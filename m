@@ -2,61 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC5CAA82FF0
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 21:03:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDD0A83053
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 21:21:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3D2310E6F0;
-	Wed,  9 Apr 2025 19:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B78D010E6F2;
+	Wed,  9 Apr 2025 19:21:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HmMb65BZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IClTU/OV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A35D110E6F0
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 19:03:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A77305C110F;
- Wed,  9 Apr 2025 19:01:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA325C4CEE2;
- Wed,  9 Apr 2025 19:03:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744225422;
- bh=5RI7XzZpLuIxdNbstAilg7SNq3t9eP/hJt/0NSSzUkc=;
- h=From:Date:Subject:To:Cc:From;
- b=HmMb65BZ9IQWL5MGSXXOF+OlAaMo1yfG1cAdxW+Er8MeO4RZPFuOZIwljgkyaxmA+
- 9JmhqCdNLUHq+UpVtoEm4CX0Hzji6iimpH/Ije9PKRlpLLUelricX6ynQbHAJ1RVc4
- uxY0mKd9BKY9J79IPgD2SnZNo7NxUmx3b2B0jK835O4Di1MnpnJ5ptIs2wezlLnnUk
- BzlFLsxhewuQor8ziukwQzMSGlQnrtvqQsWXS06gmHLQCLJjqGGA36GbYAqmuzjqhW
- YlYa1+dYO/nDHt/XpnALJAN5XyRQREeUH5gxB4EfiE9QQVQVbhodTj1uNkVN8zXAol
- eMQ5PnCFDSoTg==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Wed, 09 Apr 2025 12:03:17 -0700
-Subject: [PATCH] drm/sysfb: efidrm: Avoid clang -Wsometimes-uninitialized
- in efidrm_device_create()
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CECB310E6F2
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 19:21:33 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-736b350a22cso6478466b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 12:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744226493; x=1744831293; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=+fSnm+LAeRoIOsICdxC6XJUJVWVyIvXXXOFvA8oRabs=;
+ b=IClTU/OV/rftUY3D/hg6DizhdRt4dQt2euZT7CBDy7uV6TxTi60BCHKPXaEUBQbTWM
+ PJickmi8WrfMh4x71lewWDoO2KWcU0tl6jPvI96gbNTSsLTXMNRA2aEsuGEmMf3fpxs/
+ JU0p6FU/cN28WI5SZCXMeyG1junsR7YkkoR21GryRgvYSFUcpzza2eNpzcWtc7q3YRTe
+ G6uY7RVv0dCmJ5TpVGSWav3yaw31q7hHMfQH76ta25q1kHaJmVGigCUo4g36xvqD4+L6
+ jm8IEUuQklXcy/fZAWyZ/XYpHr8Inphi6tWclDiQxnnuORYXqeWMg3D7rvqh/WEqS2do
+ SZ3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744226493; x=1744831293;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+fSnm+LAeRoIOsICdxC6XJUJVWVyIvXXXOFvA8oRabs=;
+ b=MeMlbbAXleP3EoeilIKQsaS6d88l/mEy9L1vmB/r2AaBqT2UeBhhjK5XN0mIHdzkFL
+ tRpRppe2gHMEaSNM2Xk2AKC97xD0JmrcXNq4q0pKQn3smk06xLs/Y6SFQdEUtSnztKof
+ AOcK9FbPRXGgL4lbYJVljBcCEgPpXiCaHxUifCk7+BaztKoS208+R2a3Ania4GsyfCIG
+ rssNYhoL4VXohncbBoZxLxtbuuMjepkmrrpGw0WnTnnDIa43X/q+EchKWO6v2J4e2l24
+ D459tlDgdTCiMEffquZb4lADrBJx/E2UChR/sR7+0UtJromE4/ej/biCtToAnFEy/71a
+ YwHQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXR56hrXvF4682lxXc6Gp+g+EEy+1FHBzmXFUDe+4Efa1GuaJBmPZZPx4xQrpeG1KgHmSvqNithYZg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx8dMY7ekGLIShUtUBtLOwCs0mjoAoIRbkumshWK8m3P6h6R6qZ
+ qJH+mEsKYOUnrN3fcxJng9TsH7ygYM6+BZ3fO3y35EppVQE6eaHK
+X-Gm-Gg: ASbGncvOR4BRaNWBM/4O52V/TTe9BXCqZI3C83pTlneSJZsHwoNa++/AYeWZOlOoE7G
+ YxBIf+fjLolK8WoNVJ8bIn5vhF63jib8l/ct5oEHvnxfT8CnsIYFVRzld1cfgYkH+2tQWPmzLn3
+ JoshhqHBur4diIPbxidp07zGB38pxymK/wKq20uCA1boWb+j05Sh/bdSs89sYWnsbdwJGIZeZ6f
+ e9qLgiHfW+onBOqHT+DBumm+X3psL/9uk9KPoKPJ7fpU6N/dC1C2I/xokT3YgL42kkCX3kIRWkp
+ 0ctJS4OO/e3As1D1Q6s2KU01dYiIEHGEADybdIgerpkZ+d2jDW8XnvE19L0aHdHGWMtE
+X-Google-Smtp-Source: AGHT+IHAXQm8yqDVRx3hUkKcG0uQQDMrqQOD2SeunqXbiHMcL37CayQuCVkU18t9V7SBUxyy5kmIoQ==
+X-Received: by 2002:a05:6a20:9c89:b0:1f5:873b:3d32 with SMTP id
+ adf61e73a8af0-201695fb36dmr272504637.39.1744226492588; 
+ Wed, 09 Apr 2025 12:21:32 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-73bb1e69376sm1726443b3a.165.2025.04.09.12.21.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Apr 2025 12:21:32 -0700 (PDT)
+Date: Thu, 10 Apr 2025 03:21:21 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>, Yury Norov <yury.norov@gmail.com>
+Cc: Yury Norov <yury.norov@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dmitry.torokhov@gmail.com, mchehab@kernel.org,
+ awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, akpm@linux-foundation.org, jdelvare@suse.com,
+ alexandre.belloni@bootlin.com, pgaj@cadence.com, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, Frank.Li@nxp.com,
+ linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
+ david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v4 01/13] bitops: Change parity8() to parity_odd() with
+ u64 input and bool return type
+Message-ID: <Z/bIsT7RT1C7rGYC@visitorckw-System-Product-Name>
+References: <20250409154356.423512-1-visitorckw@gmail.com>
+ <20250409154356.423512-2-visitorckw@gmail.com>
+ <Z_anYpZw_E8ehN21@yury>
+ <Z/a7t1yATUXn11vD@visitorckw-System-Product-Name>
+ <315b4c75-a596-4509-99f7-921ebda2fed9@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250409-efidrm-avoid-uninit-screen_info-warning-v1-1-67babb19d831@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAHTE9mcC/x2N0QqDMAxFf0XyvEDt1OF+ZcgoberysHSk6gbiv
- xv2eC6ce3aopEwV7s0OShtXLmLQXhqIryAzISdj8M73rnMjUuakbwxb4YSrsPCCNSqRPFlywW9
- QG2dMg6c83CJdYw/29lEzf//SYzqOE2GYieJ5AAAA
-X-Change-ID: 20250409-efidrm-avoid-uninit-screen_info-warning-d62ef67ce3c5
-To: Thomas Zimmermann <tzimmermann@suse.de>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, llvm@lists.linux.dev, 
- patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2743; i=nathan@kernel.org;
- h=from:subject:message-id; bh=5RI7XzZpLuIxdNbstAilg7SNq3t9eP/hJt/0NSSzUkc=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDOnfjvR4imzmZP15/NzDLVcc+dcqGkSsVnLVfXOj9PsUM
- 9vsRwmiHaUsDGJcDLJiiizVj1WPGxrOOct449QkmDmsTCBDGLg4BWAik+QYGT6s0XGSv3ZG6m62
- uCQzY9z06apSVu6zK8+3xC17+3N3czrDPyvhVdniVma/bN2a57/rVni5+mqO7mdva233hMXFWU2
- T2QE=
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <315b4c75-a596-4509-99f7-921ebda2fed9@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,64 +118,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang warns (or errors with CONFIG_WERROR=y):
+On Wed, Apr 09, 2025 at 11:39:22AM -0700, Guenter Roeck wrote:
+> On 4/9/25 11:25, Kuan-Wei Chiu wrote:
+> > On Wed, Apr 09, 2025 at 12:59:14PM -0400, Yury Norov wrote:
+> > > On Wed, Apr 09, 2025 at 11:43:44PM +0800, Kuan-Wei Chiu wrote:
+> > > > Redesign the parity8() helper as parity_odd(), changing its input type
+> > > > from u8 to u64 to support broader use cases and its return type from
+> > > > int to bool to clearly reflect the function's binary output. The
+> > > > function now returns true for odd parity and false for even parity,
+> > > > making its behavior more intuitive based on the name.
+> > > > 
+> > > > Also mark the function with __attribute_const__ to enable better
+> > > > compiler optimization, as the result depends solely on its input and
+> > > > has no side effects.
+> > > > 
+> > > > While more efficient implementations may exist, further optimization is
+> > > > postponed until a use case in performance-critical paths arises.
+> > > > 
+> > > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > > > ---
+> > > >   arch/x86/kernel/bootflag.c               |  4 ++--
+> > > >   drivers/hwmon/spd5118.c                  |  2 +-
+> > > >   drivers/i3c/master/dw-i3c-master.c       |  2 +-
+> > > >   drivers/i3c/master/i3c-master-cdns.c     |  2 +-
+> > > >   drivers/i3c/master/mipi-i3c-hci/dat_v1.c |  2 +-
+> > > >   include/linux/bitops.h                   | 19 ++++++++++++-------
+> > > >   6 files changed, 18 insertions(+), 13 deletions(-)
+> > > > 
+> > > > diff --git a/arch/x86/kernel/bootflag.c b/arch/x86/kernel/bootflag.c
+> > > > index 73274d76ce16..86aae4b2bfd5 100644
+> > > > --- a/arch/x86/kernel/bootflag.c
+> > > > +++ b/arch/x86/kernel/bootflag.c
+> > > > @@ -26,7 +26,7 @@ static void __init sbf_write(u8 v)
+> > > >   	unsigned long flags;
+> > > >   	if (sbf_port != -1) {
+> > > > -		if (!parity8(v))
+> > > > +		if (!parity_odd(v))
+> 
+> What is the benefit of this change all over the place instead of
+> adding parity_odd() as new API and keeping the old one (just letting
+> it call the new API) ?
+> 
+> A simple
+> 
+> static inline int parity8(u8 val)
+> {
+> 	return parity_odd(val);
+> }
+> 
+> would have done the trick and be much less invasive.
+> 
+Yury has previously mentioned that adding multiple fixed-type parity
+functions increases his maintenance burden. IIUC, he prefers having a
+single interface in bitops.h rather than multiple ones.
 
-  drivers/gpu/drm/sysfb/efidrm.c:353:11: error: variable 'screen_base' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
-    353 |         else if (mem_flags & EFI_MEMORY_WB)
-        |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-  drivers/gpu/drm/sysfb/efidrm.c:356:7: note: uninitialized use occurs here
-    356 |         if (!screen_base)
-        |              ^~~~~~~~~~~
-  drivers/gpu/drm/sysfb/efidrm.c:353:7: note: remove the 'if' if its condition is always true
-    353 |         else if (mem_flags & EFI_MEMORY_WB)
-        |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    354 |                 screen_base = devm_memremap(&pdev->dev, mem->start, resource_size(mem),
-  drivers/gpu/drm/sysfb/efidrm.c:261:27: note: initialize the variable 'screen_base' to silence this warning
-    261 |         void __iomem *screen_base;
-        |                                  ^
-        |                                   = NULL
+He were reluctant to add three more functions like:
 
-efidrm_get_mem_flags() can only return a mask that has at least one of
-the tested values set so the else case is impossible but clang's static
-analysis runs before inlining so it cannot know that.
+static inline bool parity16(u16 val)
+{
+    return parity8(val ^ (val >> 8));
+}
 
-Initialize screen_base to NULL and add a defensive print in case
-mem_flags were ever returned without one of the four valid values.
+static inline bool parity32(u32 val)
+{
+    return parity16(val ^ (val >> 16));
+}
 
-Fixes: 32ae90c66fb6 ("drm/sysfb: Add efidrm for EFI displays")
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- drivers/gpu/drm/sysfb/efidrm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+static inline bool parity64(u64 val)
+{
+    return parity32(val ^ (val >> 32));
+}
 
-diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
-index af90064a4c04..7d820f42956b 100644
---- a/drivers/gpu/drm/sysfb/efidrm.c
-+++ b/drivers/gpu/drm/sysfb/efidrm.c
-@@ -258,7 +258,7 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
- 	struct drm_sysfb_device *sysfb;
- 	struct drm_device *dev;
- 	struct resource *mem = NULL;
--	void __iomem *screen_base;
-+	void __iomem *screen_base = NULL;
- 	struct drm_plane *primary_plane;
- 	struct drm_crtc *crtc;
- 	struct drm_encoder *encoder;
-@@ -353,6 +353,8 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
- 	else if (mem_flags & EFI_MEMORY_WB)
- 		screen_base = devm_memremap(&pdev->dev, mem->start, resource_size(mem),
- 					    MEMREMAP_WB);
-+	else
-+		drm_warn(dev, "unhandled mem_flags: 0x%llx\n", mem_flags);
- 	if (!screen_base)
- 		return ERR_PTR(-ENOMEM);
- 	iosys_map_set_vaddr_iomem(&sysfb->fb_addr, screen_base);
+But instead, we ended up with:
 
----
-base-commit: e8bf4a1bdaeadb28d13b9a2bcfd5910fda06eede
-change-id: 20250409-efidrm-avoid-uninit-screen_info-warning-d62ef67ce3c5
+static inline bool parity(u64 val)
+{
+    val ^= val >> 32;
+	val ^= val >> 16;
+	val ^= val >> 8;
+	val ^= val >> 4;
+	return (0x6996 >> (val & 0xf)) & 1;
+}
 
-Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
+static inline bool parity8(u8 val)
+{
+    return parity_odd(val);
+}
+
+But in the end, we introduced both parity(u64) and parity8(u8), which,
+IMHO, might be even more confusing than having consistent fixed-type
+helpers.
+
+Regards,
+Kuan-Wei
 
