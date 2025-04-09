@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39410A82977
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 17:09:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D30C0A82992
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 17:12:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1FB10E927;
-	Wed,  9 Apr 2025 15:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12DEF10E924;
+	Wed,  9 Apr 2025 15:12:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mbU5Wsu6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Uqd/k6WG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE63910E927
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 15:09:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E056010E924
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 15:11:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 40C9161127;
- Wed,  9 Apr 2025 15:09:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6278AC4CEE2;
- Wed,  9 Apr 2025 15:09:17 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 600B161127;
+ Wed,  9 Apr 2025 15:11:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FD55C4CEE2;
+ Wed,  9 Apr 2025 15:11:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744211357;
- bh=3yHLgwmuJxnQxVrhxLsI0chQp6YRSOz9/k/MffD4a1k=;
+ s=k20201202; t=1744211517;
+ bh=9zEvmNFlQZZmYfUY7s7s4qVdIjQmXfR0n8TD+iHvIys=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mbU5Wsu67OxBL+VkmN5Nf5GS7Tb1VYfLB3ZkPR23cnlWlvR52n1w8Ok2Sjj6erkYv
- X+MvCFcvEO6q3Ir9+IvP1vzIXmf4UGzqAKfB7CwOL26+qd+eSE7ZUDrl2GGWnla13D
- WCPu26JgFzjEPQz2dG5byWEA1vKZCrYZ5UmioeTHSLxsVejSVxIhtnZ08vjY7lGqbW
- uZTM4ig6Hv1m7nbOVRer5iFjAMLXLHCJYQTjzYHrV+qMGX3fpRkeJN8X/7Tj7gDx95
- WoFjLqlAqB8QNL+JbfAIGFh92HbqaZwe9m/zd7Fqp5kd77+bDxiGeT02yvs5bdxmdS
- xBqaM+OVl2PBQ==
-Date: Wed, 9 Apr 2025 17:09:15 +0200
+ b=Uqd/k6WGDY2YY9TkGdFJSudBsy9nQNK4bhZusAwhojB5RwFEq/RwRwntqDMjfDFLq
+ n7YxZQDPx55+eLK8hnuz/FELuyfplqqc5WOQWSBbhea6Spmsj+kQNNiv4gvL6CC4ZU
+ jg9GbZCW0jDtHOGFmEQgUKrRiR8buCsYo7OHn10kTNgwgu0GVT7U1ZBXcPqfrPlcBR
+ uq5okBHT2RQbeAFVhOAeCin9gguV7Ou+Df4MITb0aU3NTQkgbWHv7nzjbLB2r/pbIi
+ x8GJzPNlfuQBSoprLTKg/e15SYA1DEObikyKi/PcKepz5vUBacFJ90Bn8U11VvbB5b
+ 35KoK/oyM4qbA==
+Date: Wed, 9 Apr 2025 17:11:55 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -41,16 +41,16 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
  kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 07/15] drm/connector: hdmi: Use YUV420 output format
- as an RGB fallback
-Message-ID: <20250409-magnificent-skunk-of-art-689cf4@houat>
+Subject: Re: [PATCH v3 08/15] drm/tests: hdmi: Add macros to simplify EDID
+ setup
+Message-ID: <20250409-ubiquitous-amethyst-trogon-bbb3cf@houat>
 References: <20250326-hdmi-conn-yuv-v3-0-294d3ebbb4b2@collabora.com>
- <20250326-hdmi-conn-yuv-v3-7-294d3ebbb4b2@collabora.com>
+ <20250326-hdmi-conn-yuv-v3-8-294d3ebbb4b2@collabora.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="vguyqmhtxx72bryx"
+ protocol="application/pgp-signature"; boundary="5lzskk4kxc2hm5gh"
 Content-Disposition: inline
-In-Reply-To: <20250326-hdmi-conn-yuv-v3-7-294d3ebbb4b2@collabora.com>
+In-Reply-To: <20250326-hdmi-conn-yuv-v3-8-294d3ebbb4b2@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,67 +67,91 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---vguyqmhtxx72bryx
+--5lzskk4kxc2hm5gh
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 07/15] drm/connector: hdmi: Use YUV420 output format
- as an RGB fallback
+Subject: Re: [PATCH v3 08/15] drm/tests: hdmi: Add macros to simplify EDID
+ setup
 MIME-Version: 1.0
 
-On Wed, Mar 26, 2025 at 12:19:56PM +0200, Cristian Ciocaltea wrote:
-> Try to make use of YUV420 when computing the best output format and
-> RGB cannot be supported for any of the available color depths.
+On Wed, Mar 26, 2025 at 12:19:57PM +0200, Cristian Ciocaltea wrote:
+> Introduce a few macros to facilitate setting custom (i.e. non-default)
+> EDID data during connector initialization.
+>=20
+> The actual conversion to use the new helpers is handled separately.
 >=20
 > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 43 +++++++++++-----=
+------
+>  1 file changed, 21 insertions(+), 22 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
-u/drm/display/drm_hdmi_state_helper.c
-> index 6de0abb15ecb36fd4eb98725e2a3835e5e0db134..3859600c6af4a79f30858adfc=
-9f9a710dfe561a5 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -650,7 +650,17 @@ hdmi_compute_config(const struct drm_connector *conn=
-ector,
+> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
+/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> index 7ffd666753b10bc991894e238206a3c5328d0e23..bcbd146fb655f4402529e59af=
+09c99dbae7be0bf 100644
+> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> @@ -140,10 +140,12 @@ static const struct drm_connector_funcs dummy_conne=
+ctor_funcs =3D {
 > =20
->  	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
->  				      HDMI_COLORSPACE_RGB);
-> +	if (!ret)
-> +		return 0;
+>  static
+>  struct drm_atomic_helper_connector_hdmi_priv *
+> -drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
+> -					   unsigned int formats,
+> -					   unsigned int max_bpc,
+> -					   const struct drm_connector_hdmi_funcs *hdmi_funcs)
+> +connector_hdmi_init_with_edid_funcs(struct kunit *test,
+> +				    unsigned int formats,
+> +				    unsigned int max_bpc,
+> +				    const struct drm_connector_hdmi_funcs *hdmi_funcs,
+> +				    const char *edid_data,
+> +				    size_t edid_len)
+>  {
+>  	struct drm_atomic_helper_connector_hdmi_priv *priv;
+>  	struct drm_connector *conn;
+> @@ -197,30 +199,27 @@ drm_kunit_helper_connector_hdmi_init_funcs(struct k=
+unit *test,
 > =20
-> +	if (!connector->ycbcr_420_allowed) {
-> +		drm_dbg_kms(connector->dev,
-> +			    "YUV420 output format not allowed for connector.\n");
-> +		return -EINVAL;
+>  	drm_mode_config_reset(drm);
+> =20
+> +	if (edid_data && edid_len) {
+> +		ret =3D set_connector_edid(test, &priv->connector, edid_data, edid_len=
+);
+> +		KUNIT_ASSERT_GT(test, ret, 0);
 > +	}
 > +
-> +	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
-> +				      HDMI_COLORSPACE_YUV420);
->  	return ret;
+>  	return priv;
+>  }
+> =20
+> -static
+> -struct drm_atomic_helper_connector_hdmi_priv *
+> -drm_kunit_helper_connector_hdmi_init(struct kunit *test,
+> -				     unsigned int formats,
+> -				     unsigned int max_bpc)
+> -{
+> -	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> -	int ret;
+> +#define drm_kunit_helper_connector_hdmi_init_funcs(test, formats, max_bp=
+c, funcs)		\
+> +	connector_hdmi_init_with_edid_funcs(test, formats, max_bpc, funcs, NULL=
+, 0)
 
-I think I'd prefer to log a debug message there and return 0 if it
-succeeds, something like
+Again, we don't need that one. All current users would actually use
+drm_kunit_helper_connector_hdmi_init_with_edid_funcs().
 
-ret =3D hdmi_compute_format_bpc(..)
-if (ret) {
-   drm_dbg("YUV420 doesn't work").
-   return ret;
-}
+Maxime
 
-return 0;
-
---vguyqmhtxx72bryx
+--5lzskk4kxc2hm5gh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/aNmgAKCRDj7w1vZxhR
-xa7uAP9LX91dccVXaMubXB/KLOCOPWvra/2aAntMaTo7x913yQD5AUiRnB9E+hha
-elKFvmiQQvxGhCU4UnbSYq/iHzl38QI=
-=kXGJ
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/aOOgAKCRDj7w1vZxhR
+xdhZAQC2LBoDd/fH5aNs4u8Ya9lcI1PiTisit5ZjnQvPOmHlgQEAjracjEHWyXkC
+uTkpjHqU0kwHuF1xfWwfwvuEXkMgkgg=
+=Tpyq
 -----END PGP SIGNATURE-----
 
---vguyqmhtxx72bryx--
+--5lzskk4kxc2hm5gh--
