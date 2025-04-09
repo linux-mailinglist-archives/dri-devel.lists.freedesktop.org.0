@@ -2,152 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0093A81E2E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 09:22:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4496A81E4D
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 09:30:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF00310E30D;
-	Wed,  9 Apr 2025 07:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 176DC10E7EE;
+	Wed,  9 Apr 2025 07:30:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Fhc/SBTA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3YyJfi44";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Fhc/SBTA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3YyJfi44";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zxO3w5+z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53C4510E30D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 07:22:30 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 63D8721167;
- Wed,  9 Apr 2025 07:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744183349; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=GcFfC+j/ELiAvlOYoPhl8xcX9btjAI+yv8lWV45AblU=;
- b=Fhc/SBTAOmvmA+jOooTvSYaSQe8luBio0bLEWz5he84bi0yBV0GCRjyppDc1LgVtU7pi3t
- pWgB7CkDjxd/Gk0Ai13tLEMfMzalAFUdIvfIH7hzVMMdjyeN2gJD7w/lESwB1dYRHURCUz
- ChdLnsImKLka3pxKBXuPFBGV+o3uPn4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744183349;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=GcFfC+j/ELiAvlOYoPhl8xcX9btjAI+yv8lWV45AblU=;
- b=3YyJfi44tE85ab9c7EbGVJATgnAHXKow/46XbISMD5nwzTuyrCzH4iXYaZBJWyHBkUTVoQ
- LdduhNLM3Hb793DA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Fhc/SBTA";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3YyJfi44
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744183349; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=GcFfC+j/ELiAvlOYoPhl8xcX9btjAI+yv8lWV45AblU=;
- b=Fhc/SBTAOmvmA+jOooTvSYaSQe8luBio0bLEWz5he84bi0yBV0GCRjyppDc1LgVtU7pi3t
- pWgB7CkDjxd/Gk0Ai13tLEMfMzalAFUdIvfIH7hzVMMdjyeN2gJD7w/lESwB1dYRHURCUz
- ChdLnsImKLka3pxKBXuPFBGV+o3uPn4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744183349;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=GcFfC+j/ELiAvlOYoPhl8xcX9btjAI+yv8lWV45AblU=;
- b=3YyJfi44tE85ab9c7EbGVJATgnAHXKow/46XbISMD5nwzTuyrCzH4iXYaZBJWyHBkUTVoQ
- LdduhNLM3Hb793DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0CF9C13691;
- Wed,  9 Apr 2025 07:22:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 78ymATUg9mc9SQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 09 Apr 2025 07:22:29 +0000
-Message-ID: <46145e45-d230-4318-a3c8-42a1739c908d@suse.de>
-Date: Wed, 9 Apr 2025 09:22:28 +0200
-MIME-Version: 1.0
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2052.outbound.protection.outlook.com [40.107.236.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5025210E7EE;
+ Wed,  9 Apr 2025 07:29:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EFEgYl4s4635V+N4ihqdji7tuJNJY14qfoZQkeVHCQ8mzjTR7cKjIHBHB189twfrlOb5gB8Zd5DQyZ9oSbGxvoyI6zjAv1aLP9I6EAJ95cnrsI1ifEMdBKr35sTBmaxV+WUKuKECEPztR2IJSL63An7JcosPslPhgVTKXzBBPvPzsUaVuPrBHGletDThM0Pd84GfAx5afuBW7/WALWZC9HQLQMEwEAfo2aKsUKzyamGibxtB1q0OAsF2Gf4lb+3sdnf56ocbadCwMX8CX/5C9ntu6KmAcJ7Gzvtn514rtIoLFnInWsVvwyz4DDEFU74Mn1NAb1+bPBEt26ghLOvEkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N6ol8ki9ithBZEHJXS4NpsWfI0rlDRXp8wPfSrkn3eg=;
+ b=vpgaM9UhqisdU9Rq2v+dEPvQAb7/4jk4LzUh/uD69QzpeRhowp7F9bUNJhGdybEznh2UMLdk84nXoHdfAP9md3fbQossgIErWyLyDY2znGG9ieNw1fxTQoavKkphK1AQ0L8tzt5kP7VE2DBVYjL4ArYINGsSXp8XeyeBSggwFyZZ5+qAx9KCOpaF3qNZustahSWqGl9D1zV4AEKi/hzWIlZgEWleoGD7W7lztfe8YxO9YI8dRKZL5nBHundLYdm1iI/HsNq7K1AQ4xo+PbXPm4Pj0W+NF/mdDhf3uWD2TP2FWFIzoLACTY9Mplol639aAPYZcsGR9Vyif4eKpiis0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N6ol8ki9ithBZEHJXS4NpsWfI0rlDRXp8wPfSrkn3eg=;
+ b=zxO3w5+zI3PjbFVb5jao8t+X+SwOLpgxX2LCNZB1jWCHt9oXOPHaQwAOdTZcYcft8I2uZHcOdw6WcgGHb2eDXL6C3jnGu48lDj6RKNQQadD0n2kUswWeYdY3ONCE8xA2c5ui/8bywAh6yGk7ffS7pebTq9WmDlvKJ3+BIEM2Ifo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN2PR12MB4141.namprd12.prod.outlook.com (2603:10b6:208:1d5::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.22; Wed, 9 Apr
+ 2025 07:29:52 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.021; Wed, 9 Apr 2025
+ 07:29:52 +0000
+Message-ID: <437e12e2-ac0d-4a97-bd55-39ee03979526@amd.com>
+Date: Wed, 9 Apr 2025 09:29:47 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] drm/st7571-i2c: add support for Sitronix ST7571
- LCD controller
-To: Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmrmann@suse.de>
-References: <20250408-st7571-v3-0-200693efec57@gmail.com>
- <20250408-st7571-v3-2-200693efec57@gmail.com>
- <87cydn9bkx.fsf@minerva.mail-host-address-is-not-set>
- <Z_Uin2dvmbantQU4@gmail.com> <05fa4ac7-db09-401d-8680-0d71112d2239@suse.de>
- <Z_U5eGy3vLgHZmz1@gmail.com>
+Subject: Re: [lvc-project] [PATCH] drm/amdgpu: check a user-provided number of
+ BOs in list
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Fedor Pchelkin <pchelkin@ispras.ru>
+Cc: Denis Arefev <arefev@swemel.ru>, Alex Deucher
+ <alexander.deucher@amd.com>, Simona Vetter <simona@ffwll.ch>,
+ lvc-project@linuxtesting.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ David Airlie <airlied@gmail.com>
+References: <20250408091755.10074-1-arefev@swemel.ru>
+ <e6ccef21-3ca5-4b5a-b18a-3ba45859569c@amd.com>
+ <bmdour3gw4tuwqgvvw764p4ot3nnltqm4e7n3edlbtpfazvp5c@cqe5dwgc66uy>
+ <f8810b13-01d1-4615-b6e2-2e791c48b466@amd.com>
+ <qc72y52kt7vuwox4lhk42zligy5bslttselfoexse42mywtpps@ebqijs2tap2t>
+ <edc08eb4-63dd-402c-82df-af6898d499a9@amd.com>
+ <pmby7iowvxuomsbuxebttosz245j7ngw5enbl72dq675nrgvve@ugkvzeihbtut>
+ <CAHk-=whLixL8-iYt1qH0-YvEnVsYtryZaN5Da0qoBBhKsBnumw@mail.gmail.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <Z_U5eGy3vLgHZmz1@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAHk-=whLixL8-iYt1qH0-YvEnVsYtryZaN5Da0qoBBhKsBnumw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 63D8721167
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[13];
- FREEMAIL_TO(0.00)[gmail.com]; MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FREEMAIL_CC(0.00)[redhat.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,lists.freedesktop.org,vger.kernel.org,suse.de];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; TAGGED_RCPT(0.00)[dt];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,bootlin.com:url]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
+X-ClientProxiedBy: FRYP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::19)
+ To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4141:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d0ef98a-ceac-43a0-feec-08dd77385157
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TElqYzkvWHdZQ2FuZXFldFVWSE5pYnJqNGxoVW1VRzlxMEJ4WVZRZDJtRG4y?=
+ =?utf-8?B?bUp6Szhia00yY0RJRnZKMktIM3RhUXJPUW1pSDM5MjJNY2FRc1FzN0ZXMlFN?=
+ =?utf-8?B?d0E0TE1zM2RtZFFDMktJNHhwQVZVanBuNk85RzZacGQzejJFZEEvOGNWRGds?=
+ =?utf-8?B?bzBWbzRBZDNHamVDVUZFWTdMZFlSUWxzbDRjcURLMGVHeG1walg0a3daNTJq?=
+ =?utf-8?B?MUd0SzhHRTJ5RFRyVW05S1EvaS84YWFhYk9qRDh0S25xV0JLZDQzcXNERWJk?=
+ =?utf-8?B?ckV4Z0oyS1VKRElVNUh0bU1MNGR3RmZaOVNmc3BaZ0hRTW52d0tNT1RvbEtE?=
+ =?utf-8?B?Mnd5VytHbWJNSHhZazFINzRwcGM5OHBJbm15TlJoNFh6L0d0cjN5UStkbnhy?=
+ =?utf-8?B?eFVvNTh2KzZTRElibTJ0NkpNMHV0eHNkbXlDMkdraVRQdUlFeTU0VllVSFpS?=
+ =?utf-8?B?ZnlKR25vMXY0dGZKVWcwRG1sMG5XYk1PNFNnc1l6c2RxZjVZS2R1UkNjSlJP?=
+ =?utf-8?B?VUpJV1VVU2FsOHluZXRsdUJPeHgyU2dJWWNncGdaaHpjazg2Y2pFZWQvZjNE?=
+ =?utf-8?B?NlA4QXFOR3Z4SSttYllnVG15ZzEvNkFHditBZ0VabUlCSExSekZFcjdXT2dO?=
+ =?utf-8?B?UWZNMzRROGJiNXFZYzJpVGxsUjg4amJ6Z1R1NUdxYjVZN0lvTmtFVHROVkgz?=
+ =?utf-8?B?U0tiemVmTkZYSkVGbkRyTDdvc2hucGFrWGJWSHloQWR6WnpoWEJod0p5MWla?=
+ =?utf-8?B?YTFud3pvZ2pPK3hENzlyRkxQSUV3dWZyNDREUW04cHlIVGhXOXBaSWlMczE2?=
+ =?utf-8?B?NnRKbjkrTkQvUFlmYWdHSnpXc04xWTBOZFZ5aEZSaFdBTW10VTlhSG9laU1E?=
+ =?utf-8?B?QzE1VmcwdUsxR0doK1B5a3JtRXZXcjg5UmUzUm12UDA3MVRGVnBtcGNqRVdz?=
+ =?utf-8?B?Q0w4dit1WWpMK0J4K0JYUlRRaGVPTUJoalozQ3h6aEVYZG8vTmo1bXo0SmdI?=
+ =?utf-8?B?NmFOem9RRUhmYXh4UmpnV1YzSDcySnBWRGwvT2F6QlNUMTNjVXlScy9EQzl2?=
+ =?utf-8?B?TmQySXEyaUprbTRPblRaajU1TnFHOTFicDJwWjE5bnUzaHBjVGpUOXkzNmVH?=
+ =?utf-8?B?WXlOek51NmFVaVFPS2RrSUdBb1hQVUd4YTBWU0ZCODBKWjJoUU9ER3p3RnM3?=
+ =?utf-8?B?YUptT28vSEFhRXIvNzAxaDcyTVZoR3dQdUs2aktIRzNDanZ2SGxZbzYyei8r?=
+ =?utf-8?B?NWV5VG5SNXhzT05lU3VrUVFxYisybFFMcHZsazlyMWc2Tk5vM3ZRUUlVaEZM?=
+ =?utf-8?B?K09Kd3RDR2R6MzNlRk0zVVhVNDQ0RVNreXBDQXV4QWpIaE90aWt1by91bVZL?=
+ =?utf-8?B?ZFp0NUtycDd4L0xmVWVUMWhGSldaWDJTbUNYcjV5S1lJczJNelEvOWhFbmx1?=
+ =?utf-8?B?aVVTYnBEMTZDOUJXQXF6SnVtdHBvViszb3BIVEhMVFI0Ymd5bVlUNS8xSUdk?=
+ =?utf-8?B?T3M1dDBQMkVpTng5enhUVEU5aUdHUXRGZWlHWStXWVg2R21mNWFENXlvYXZP?=
+ =?utf-8?B?WGNocktxOTE5YkFQbmU0TzBMekRhZTNOWUN3OU53Zm5sQXpvelZ1dVJWM1dz?=
+ =?utf-8?B?NWpSNGJENXpObCs5NmZBK1dzMVF4SjZBc2Rwd3JrU0ErTDVyby90LytyeVhC?=
+ =?utf-8?B?azRQR3huZXBYZllBVmVuWnlkTStqZTNGZldEVmExanAxQ3pzR1F4elN5aDBq?=
+ =?utf-8?B?Z2wybFMyY3FDN1hINXBybnBqL1JkaUFYSEkwSk9RRW9sZjJKbUdDUVBUZndx?=
+ =?utf-8?B?QnR4M1dWVUZhWjQ1UzBBaTNkUDdOU2NzUWxiYWZSVDE4UFlQd1ZHMmhQbFFo?=
+ =?utf-8?B?Y0JwTWRyOFlNS3JKNXJKYjBsOHFucnNzSThOMWVaN1ZyMmJjQk9ReHFESmdq?=
+ =?utf-8?Q?+XW5kZqcCc4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Znl5QnRya3U1cFdDOEFVOWxncktvVG4za2VGQmRJaGVhRU5wR2pONXd5VHBR?=
+ =?utf-8?B?M1lHbkRGL1RnVzQwSnpzdzVWdTgyQWszQUpFdE1yNWRLcWlPNmhzSDVlTlFi?=
+ =?utf-8?B?Y2tib3g4THFCbG9mTWY4Nzl1UHJTTkNzdm1ENUJkOVFKMk9uVW9LOTVsQ0hR?=
+ =?utf-8?B?Vk8wQVc5LzkraldJbUNxL0pMdHd4VC8wVjVmQ3NOL2srRUMzNnBFV3JuR21M?=
+ =?utf-8?B?ZnoxSUdSYVJMRERMSCtBQ0FDc1o3cWxyYzV0c0Roam5JZVowMFhpMFVRK0dS?=
+ =?utf-8?B?TmlIb0g4YkptSTRkamNnL1V0a01DRXlvQ3ZhZWljWTQzTGhJZ0VjL0FYYkI2?=
+ =?utf-8?B?VlRYMjBzQ1ByQlp5YVdtZFJHdmxXblF3OGljQ1NVM1BlU1RHRTZuMnVyNGR3?=
+ =?utf-8?B?UkFiV3R6dlA5YWZRNjJOVCtGUVcvR2UzSC94OUZLdURkZ0xPZ3JlWHVMUUxa?=
+ =?utf-8?B?RTFPdnQ4ZUFBa1IzOEdtd1ZGdUMxS3NsZ2ExcERhNlQ5ZllaWDBybm14T1BM?=
+ =?utf-8?B?RTZURzZwYXpOTndodmVCQzZTZVF2UlF6eVQ5UHhRMnlIWkRCZUdMS1FDWU1C?=
+ =?utf-8?B?NS9ML1FyWEswRnp4RDBqbjFCemlZK3BXVE9UVnpxVmtaRWpOZ2trKzdSeDFh?=
+ =?utf-8?B?OUhwM2ZZSzl5dFdMSzNjRHdiU0NMSFhPTCtVZmNGS1BuVDVZa0sxTk5HTG0v?=
+ =?utf-8?B?dVNBYlJDenRLWjVWQU1kRDlSbnI2VEU0RHFEcE5FbU5adVk4U2ZYT0tIYU5l?=
+ =?utf-8?B?K3ZCSktMRTgreWdmNTFQUDhPZG13Q1ptWnp3T1QvRmFVc29NeVVFUjhiNzFs?=
+ =?utf-8?B?U05kWFZEN1Y5UDJvWnNDcGE1czlLSkZsSmZuNGpBVGV0akJpMHR4OXdwTUlw?=
+ =?utf-8?B?dExNN21Fbm8xTXVkQ3loYmRSTGNpZEJVcDNjUTVFeGRjdlltYkl6ZGhJY3hS?=
+ =?utf-8?B?ZE1sUVc4cnFwV2tvc0w3SnduL0t6aXNTNm8wMmZRY3NhRUFKUElpQlVJSmgw?=
+ =?utf-8?B?VzYvS0NyZ1loRlkrTyt3cTVvYlBsWXZTMmI5QThjakdOcjlENVg3dWRuSVJW?=
+ =?utf-8?B?b2dsV0g5MWhSNnpCYmFweitUZHBtTjIxY3loVXg4RFhNdTVha00wblZJRE5s?=
+ =?utf-8?B?dVFic0VyNCtzNGhsZ0NHaEhidmVpbGl6QXc1OUg1TGQ2K1dXTUhHVWg3RzBL?=
+ =?utf-8?B?WWxFSzJsQkFQeUVIZ25BN0UyVGVrR3Z0SHFNSmdDclFlTDRpMmp5dHNpUWl4?=
+ =?utf-8?B?NXRxQ096OUhmdis2ZklsL2pjdHdyS0xYM3VpNkptb2xhR1JFbmtRRGxINXR4?=
+ =?utf-8?B?ZitueWJMbXBLdFRPcUY3Y2hiOW5rSDVoeDJpc2h6OVhsSHVINlVRZmFWaXFh?=
+ =?utf-8?B?QmI5WXFSWFo1OGE3cFBqWFcwWVBSNlNVNkxORGVIOEdQRDk3bEUzZDVpOGRo?=
+ =?utf-8?B?R09hMXNQTFA1UUJxOWFQNFVtaTBoTFZlUk0zbDFBRG8ycVJWcHM2b1FraGp5?=
+ =?utf-8?B?cFdESStqZjUwTVg1T29BbGs3NXltS3FEYmNDQkJRWHZxZ3lCUDZ4aGJoV1ZD?=
+ =?utf-8?B?VU5lRWw0RHdxS0VtQjZvVGFoTElncWhZR3JKNUxST21nMmFNYmZOalhCYmxa?=
+ =?utf-8?B?R3grSFlrV1NwT0JXVnV4WVV3Q0o4ZVJkUW5aM2p4S29vYXJGNFIwVkVPMm4r?=
+ =?utf-8?B?ZUprbVBpSlZhL3lKTVJJNnBXd3Nrc3BlcWFSemN5VEZIRmNaYTNuL0p5TVZu?=
+ =?utf-8?B?WlFhNzVSbC9WaEtaZHlSelk3MlFRTFpiWTc4Z2hocThyWEEvN01hbk9UYlV4?=
+ =?utf-8?B?cFpsSlZpQVJaV05Qb1k5RTVmNnlqb0dhdVYrc1dSWnd6dnVZMnRuYXpaTitX?=
+ =?utf-8?B?cWVEbXVWSWdRcWY2TzhSeFVCMk1zODVFcnhMdDRSNWt2RzRpd041bTF5S216?=
+ =?utf-8?B?dVZmZ1AxYWdYZldOZ0M5amdxaS92a3phQkJlQUgzdW9zTG5mVXpqUDh5VGpB?=
+ =?utf-8?B?Y0JqNUlQYW9SNzNhRFpINEZOWVh0aTVHUDNyMVRIQXk0OXJDZnBYRUxUYU9C?=
+ =?utf-8?B?dWJhNTgzOWptZDFnb0xwQkRxbmc5RkJmSzZUaGhKQ0RuSHNLUkdHVTdVM1FY?=
+ =?utf-8?Q?2cl7xyy/ir7m28WwYcKoUHqjV?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d0ef98a-ceac-43a0-feec-08dd77385157
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 07:29:52.4242 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QnioJq8FfdoMA0IGVm2N8kkXx0Wk5D/BGmVZgS3QJrwciwK35gklh0TC/sklII37
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,71 +174,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 08.04.25 um 16:58 schrieb Marcus Folkesson:
-> Hi,
+Am 09.04.25 um 04:39 schrieb Linus Torvalds:
+> On Tue, 8 Apr 2025 at 09:07, Fedor Pchelkin <pchelkin@ispras.ru> wrote:
+>>> Linus comment is about kvmalloc(), but the code here is using
+>>> kvmalloc_array() which as far as I know is explicitly made to safely
+>>> allocate arrays with parameters provided by userspace.
+> No.
 >
-> On Tue, Apr 08, 2025 at 03:57:22PM +0200, Thomas Zimmermann wrote:
->> Hi
+> ABSOLUTELY NOTHING CAN ALLOCATE ARRAYS WITH PARAMETERS PROVIDED BY USER SPACE.
+>
+> All kvmalloc_array() does is to check for overflow on the multiplication.
+>
+> That does *not* mean that you can then just blindly take user space
+> input and pass it to kvmalloc_array().
+>
+> That could easily cause the machine to run out of memory immediately,
+> for example. Or just cause huge latency issues. Or any number of other
+> things.
+>
+>> [27651.163361] WARNING: CPU: 3 PID: 183060 at mm/util.c:657 __kvmalloc_node_noprof+0xc1/0xd0
+>> [27651.163411] CPU: 3 UID: 0 PID: 183060 Comm: a.out Not tainted 6.13.9-200.fc41.x86_64 #1
+>> [27651.163412] Hardware name: ASUS System Product Name/PRIME X670E-PRO WIFI, BIOS 3035 09/05/2024
+>> [27651.163413] RIP: 0010:__kvmalloc_node_noprof+0xc1/0xd0
+>> [27651.163424] Call Trace:
+>> That's just
 >>
->> Am 08.04.25 um 15:20 schrieb Marcus Folkesson:
->> [...]
->>>>> +static int st7571_set_pixel_format(struct st7571_device *st7571,
->>>>> +				   u32 pixel_format)
->>>>> +{
->>>>> +	switch (pixel_format) {
->>>>> +	case DRM_FORMAT_C1:
->>>>> +		return st7571_set_color_mode(st7571, ST7571_COLOR_MODE_BLACKWHITE);
->>>>> +	case DRM_FORMAT_C2:
->>>>> +		return st7571_set_color_mode(st7571, ST7571_COLOR_MODE_GRAY);
->>>>> +	default:
->>>>> +		return -EINVAL;
->>>>> +	}
->>>> These should be DRM_FORMAT_R1 and DRM_FORMAT_R2 and not C{1,2}. The former
->>>> is for displays have a single color (i.e: grey) while the latter is when a
->>>> pixel can have different color, whose values are defined by a CLUT table.
->>>>
->>> I see.
->>> Does fbdev only works with CLUT formats? I get this error when I switch
->>> to DRM_FORMAT_R{1,2}:
->>>
->>> [drm] Initialized st7571 1.0.0 for 0-003f on minor 0
->>> st7571 0-003f: [drm] format C1   little-endian (0x20203143) not supported
->>> st7571 0-003f: [drm] No compatible format found
->>> st7571 0-003f: [drm] *ERROR* fbdev: Failed to setup emulation (ret=-22)
->> For testing purposes, you can add the _R formats to the switch case at
+>>     union drm_amdgpu_bo_list bo_list;
+>>     int fd, ret;
 >>
->> https://elixir.bootlin.com/linux/v6.13.7/source/drivers/gpu/drm/drm_fb_helper.c#L1246
+>>     memset(&bo_list, 0, sizeof(bo_list));
 >>
->> and see how it goes.
-> Still no penguin (same error as above).
+>>     fd = open(DEVICE_PATH, O_RDWR);
+>>
+>>     bo_list.in.bo_number = 1 << 31;
+>>     ret = ioctl(fd, DRM_IOCTL_AMDGPU_BO_LIST, &bo_list);
+> Yes, exactly, and that's bogus code in the DRM layer to just blindly
+> trust user space.
 >
-> The problem is that drm_mode_legacy_fb_format(), which is called from
-> drm_fbdev_shmem_driver_fbdev_probe -> drm_driver_legacy_fb_format -> drm_mode_legacy_fb_format
+> User space input absolutely has to be validated for sanity.
 
-In addition to the other change, you could change the _C formats to _R 
-formats in that helper for testing.
+That's what I totally agree on. My question is rather is it better to do this in a centralized function or spread out over tons of different use cases?
 
-Best regards
-Thomas
+I mean open coding the limit checks everywhere certainly works, but as far as I can see it would be more defensive if we do that inside kvmalloc_array().
+
+Or maybe a separate function which takes a maximum as parameter?
+
+BTW we have been running into the kvmalloc() check on valid use cases as well. For example on a system with a >256TiB of system memory having a single descriptor array >4GiB is perfectly valid. It's just not valid in any possible way if you only have 8GiB in total.
+
+In the past we worked around that by switching to multiple smaller allocations or different container types, but that is actually not the most optimal way of doing it.
+
+Regards,
+Christian.
 
 >
-> Sets the pixel format DRM_FORMAT_C{1,2} when bpp is 1 or 2.
-> So I don't think it is possible to use the _R formats with fbdev.
-> But I'm not sure?
+> There's a very real reason why we have things like PATH_MAX.
 >
->> Best regards
->> Thomas
-> Best regards,
-> Marcus Folkesson
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+> Could we allocate any amount of memory for user paths, with the
+> argument that path length shouldn't be limited to some (pretty small)
+> number?
+>
+> Sure. We *could* do that.
+>
+> And that would be a huge mistake. Limiting and sanity-checking user
+> space arguments isn't just a good idea - it's an absolute requirement.
+>
+> So that kvmalloc warning exists *exactly* so that you will get a
+> warning if you do something stupid like just blindly trust user space.
+>
+> Because no, "doesn't overflow" isn't even remotely a valid limit. A
+> real limit on memory allocations - and most other things, for that
+> matter - needs to be about practical real issues, not about something
+> like  "this doesn't overflow".
+>
+>             Linus
 
