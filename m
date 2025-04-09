@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361EAA8215B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 11:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2D3A8215D
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 11:53:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8368E10E82A;
-	Wed,  9 Apr 2025 09:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A56210E82C;
+	Wed,  9 Apr 2025 09:53:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="djWdzQU3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q31xA2U4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF4310E82A
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 09:53:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20A8510E82C
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 09:53:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 01A7068432;
- Wed,  9 Apr 2025 09:53:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02D87C4CEE3;
- Wed,  9 Apr 2025 09:53:26 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id D9A8168432;
+ Wed,  9 Apr 2025 09:53:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3CA8C4CEE7;
+ Wed,  9 Apr 2025 09:53:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744192407;
- bh=SSJ8+LNI9Ymj03X2elhN3Ny3K+NdOwrpogHRolCuDig=;
+ s=k20201202; t=1744192414;
+ bh=3cQPyIkae8cWLjjEcRpQg8NmLh8Vkl6t2hjPRg3q/ZM=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=djWdzQU3aKU1sVuiGi3dARZouB6OSwbkTkV7zKyRC9t9no8iON9JZM3BeQfaJDDWx
- nB5czlqQknCOcMXUdHPEjYJ2BLXar7iKBmX5UY46pWOIyoYmLbUWLv/EcJ13Fs2PDB
- GeZu6FOcEBCXjhDES0vG4V7nz8mxHzG4aLCgH7xtd+I21s1RBEbB8+T3snZaybaCXC
- sgJRsl4wfl4KQFbTWB5cZE6vA5fzZWwplh2cCbsYKfRrOqCSByPMdwSG4d4oCwEYwq
- oiT5cnzePuL3k2Dp+VUBb/92kJcBot7ffDTUtZFiFzqHIoVFTKyjjC/bJ0WaJ7ObaT
- xZ9pawpqMdorA==
-Message-ID: <7718bcfa86013d711e209f65ee398c3d@kernel.org>
-Date: Wed, 09 Apr 2025 09:53:24 +0000
+ b=Q31xA2U4aNO/OXoCFbd/1rLSQ4CkT2fP6yI6o4fHsLS/jrb4FLDTkUgJLxeXjA5yi
+ qd7Y1Rz4PXljUDs3yEiYer5OQ4nq9POm0iAfhj28JYo0wlkS2SxyhfuRrjPgYftgK6
+ xovTGdOaSh0HU7bLNO8WyVaQXkH9ba8ox/25FOyJl+H6/NmF48D+uM3BuL+l3ExmCW
+ t7X30skUtS3AtemVMAFClqhO9StVb/2EvSZN4AZwIZoqo+VhXYVKplJ2lOqka3Rg57
+ pc9VL0Ne38kfpl3TJjSGdSSeq6JKiyUwQqKGEE7+dFEV9blDInSiPzwCIcPRwahvHs
+ 750+ZgtBG+mSA==
+Message-ID: <92a0ae4b84b47e6bb3a0cef0d051ae53@kernel.org>
+Date: Wed, 09 Apr 2025 09:53:31 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Vignesh Raman" <vignesh.raman@collabora.com>
-Subject: Re: [PATCH v2 2/2] drm/ci: Add jobs to run KUnit tests
-In-Reply-To: <20250409061543.311184-3-vignesh.raman@collabora.com>
-References: <20250409061543.311184-3-vignesh.raman@collabora.com>
+Subject: Re: [PATCH v2 1/2] drm/ci: Add jobs to validate devicetrees
+In-Reply-To: <20250409061543.311184-2-vignesh.raman@collabora.com>
+References: <20250409061543.311184-2-vignesh.raman@collabora.com>
 Cc: airlied@gmail.com, daniel@fooishbar.org, daniels@collabora.com,
  dri-devel@lists.freedesktop.org, guilherme.gallo@collabora.com,
  helen.fornazier@gmail.com, linux-kernel@vger.kernel.org, lumag@kernel.org,
@@ -60,10 +60,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 9 Apr 2025 11:45:39 +0530, Vignesh Raman wrote:
-> Add jobs to run KUnit tests using tools/testing/kunit/kunit.py tool.
+On Wed, 9 Apr 2025 11:45:38 +0530, Vignesh Raman wrote:
+> Add jobs to run dt_binding_check and dtbs_check. If warnings are seen,
+> exit with a non-zero error code while configuring them as warning in
+> the GitLab CI pipeline.
 > 
 > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> 
+> [ ... ]
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
