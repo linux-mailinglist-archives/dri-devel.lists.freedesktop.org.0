@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7228EA81C0D
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 07:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D0DA81C85
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 08:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9DE310E111;
-	Wed,  9 Apr 2025 05:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC7110E300;
+	Wed,  9 Apr 2025 06:03:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tz0oNzNh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dbe0x5TW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1748010E111;
- Wed,  9 Apr 2025 05:20:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3938310E305;
+ Wed,  9 Apr 2025 06:03:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744176055; x=1775712055;
+ t=1744178618; x=1775714618;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=qEER/RgVCOioJPbMmsKJ72fps24z+FpHP98LKMZRgy8=;
- b=Tz0oNzNhrbSsbpX9baFOciG05kkYmROvnzZGZygIOLrOBV6Xk5AnNnGp
- BOfixlSSgSs77rAjanB3uHe6VTgZiME4uD/Nfkxla63RA/LD9C7Sjcptj
- XXE5G38E2SQVjFBoRf/HWsDCfz+kIoZ5xBVkZi9NxOwgRKpl0Of20qoHF
- ThAkKqNAuvIaeDUD+/pDS6ry1pIF8zmfRZdg/8fAwUK8uREPVAUyJmTOs
- KFdtug1bcyVgI2OKxYPPYJb1kVAIe9ZrdPW4AHrqV7foBU0JRDuEsO+5k
- p8e2Ay3EgkWTUH05lqM6xLjjMXqeAkxTvv+qR9xaHF30aQOCm5yKbJhRQ Q==;
-X-CSE-ConnectionGUID: JbHaQKgoQ06MPED5X86iOQ==
-X-CSE-MsgGUID: z881i1RbQWyJ4CZQCtbNVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45348891"
-X-IronPort-AV: E=Sophos;i="6.15,199,1739865600"; d="scan'208";a="45348891"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2025 22:20:54 -0700
-X-CSE-ConnectionGUID: 5otkT78iTxWk/lUttB9mag==
-X-CSE-MsgGUID: 3fmEncnOSRSVDKK+BN7tWA==
+ bh=4xHqhPgdW8TYcTqscponCgob90BA2s/YzsyIWQJriDY=;
+ b=dbe0x5TWHyna646FJ7kEsfPWxIQp6alhgQCrgZ3rHQNoxE2Ic9y0mcrY
+ 145TTWH5kufa6z4jx7vuYuSwHEtzPu937OdLTMgLs0x6/T4F0f9uYRPF6
+ ie4w9ChvzAU9hJSL0kwfUlO5lm60Xzc1xCzdUcF2whqbCqD1vcaMRI8hL
+ SegPhEyVToIOMcmiJDGtj5EJ+9uVtmZ3/4bM+rhfq1P5rpijNFDOi8bDw
+ pQ7vMcZQta0I4v2vOJy2HEqKewK4FDmdQLvyp3gvTBoBGp92xuZ/C/4u7
+ uzIN9Or8u/Yo8v0wspQkO/kx9jw9yv/r/J4LMXOSwbA5MEUfqfE0DvomZ A==;
+X-CSE-ConnectionGUID: yt0WkK3vQBuxc96X9dwklQ==
+X-CSE-MsgGUID: 8m2Sv8B7T7Cr7/0ctIgs8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45756778"
+X-IronPort-AV: E=Sophos;i="6.15,199,1739865600"; d="scan'208";a="45756778"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2025 23:03:04 -0700
+X-CSE-ConnectionGUID: 6NCazJJkS4CXXx6fTKPOhg==
+X-CSE-MsgGUID: F1VGdALsRbGwrqJ8DRVZ1Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,199,1739865600"; d="scan'208";a="133601185"
+X-IronPort-AV: E=Sophos;i="6.15,199,1739865600"; d="scan'208";a="159463384"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
- by fmviesa004.fm.intel.com with ESMTP; 08 Apr 2025 22:20:49 -0700
+ by fmviesa001.fm.intel.com with ESMTP; 08 Apr 2025 23:02:55 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1u2Nri-0008H5-1s;
- Wed, 09 Apr 2025 05:20:46 +0000
-Date: Wed, 9 Apr 2025 13:20:45 +0800
+ (envelope-from <lkp@intel.com>) id 1u2OWT-0008Md-0p;
+ Wed, 09 Apr 2025 06:02:53 +0000
+Date: Wed, 9 Apr 2025 14:01:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: Wentao Liang <vulab@iscas.ac.cn>, harry.wentland@amd.com,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  alexander.deucher@amd.com, christian.koenig@amd.com,
  Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, hamza.mahfooz@amd.com,
- chiahsuan.chung@amd.com, sunil.khatri@amd.com, alex.hung@amd.com,
- aurabindo.pillai@amd.com, hersenxs.wu@amd.com,
- mario.limonciello@amd.com, mwen@igalia.com,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ hamza.mahfooz@amd.com, chiahsuan.chung@amd.com,
+ sunil.khatri@amd.com, alex.hung@amd.com, aurabindo.pillai@amd.com,
+ hersenxs.wu@amd.com, mario.limonciello@amd.com, mwen@igalia.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>
 Subject: Re: [PATCH v2] drm/amd/display: Add error check for avi and vendor
  infoframe setup function
-Message-ID: <202504091230.CXdkQbvK-lkp@intel.com>
+Message-ID: <202504091350.V54m3vD1-lkp@intel.com>
 References: <20250408022018.2786-1-vulab@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -92,56 +92,46 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/drm-amd-disp
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
 patch link:    https://lore.kernel.org/r/20250408022018.2786-1-vulab%40iscas.ac.cn
 patch subject: [PATCH v2] drm/amd/display: Add error check for avi and vendor infoframe setup function
-config: csky-randconfig-001-20250409 (https://download.01.org/0day-ci/archive/20250409/202504091230.CXdkQbvK-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250409/202504091230.CXdkQbvK-lkp@intel.com/reproduce)
+config: arm64-randconfig-003-20250409 (https://download.01.org/0day-ci/archive/20250409/202504091350.V54m3vD1-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250409/202504091350.V54m3vD1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504091230.CXdkQbvK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504091350.V54m3vD1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from include/drm/display/drm_dp_helper.h:27,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/os_types.h:37,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:29,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:29:
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function 'fill_stream_properties_from_drm_display_mode':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6221:42: error: passing argument 1 of '_dev_err' from incompatible pointer type [-Wincompatible-pointer-types]
-    6221 |                         dev_err(connector->dev, "Failed to setup avi infoframe: %zd\n", err);
-         |                                 ~~~~~~~~~^~~~~
-         |                                          |
-         |                                          struct drm_device *
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6221:25: note: in expansion of macro 'dev_err'
-    6221 |                         dev_err(connector->dev, "Failed to setup avi infoframe: %zd\n", err);
-         |                         ^~~~~~~
-   include/linux/dev_printk.h:86:36: note: expected 'const struct device *' but argument is of type 'struct drm_device *'
-      86 | void _dev_err(const struct device *dev, const char *fmt, ...)
-         |               ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6227:42: error: passing argument 1 of '_dev_err' from incompatible pointer type [-Wincompatible-pointer-types]
-    6227 |                         dev_err(connector->dev, "Failed to setup vendor infoframe: %zd\n", err);
-         |                                 ~~~~~~~~~^~~~~
-         |                                          |
-         |                                          struct drm_device *
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6227:25: note: in expansion of macro 'dev_err'
-    6227 |                         dev_err(connector->dev, "Failed to setup vendor infoframe: %zd\n", err);
-         |                         ^~~~~~~
-   include/linux/dev_printk.h:86:36: note: expected 'const struct device *' but argument is of type 'struct drm_device *'
-      86 | void _dev_err(const struct device *dev, const char *fmt, ...)
-         |               ~~~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6221:12: error: incompatible pointer types passing 'struct drm_device *const' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
+                           dev_err(connector->dev, "Failed to setup avi infoframe: %zd\n", err);
+                                   ^~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:44: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                     ^~~
+   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                           ^~~
+   include/linux/dev_printk.h:86:36: note: passing argument to parameter 'dev' here
+   void _dev_err(const struct device *dev, const char *fmt, ...)
+                                      ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6227:12: error: incompatible pointer types passing 'struct drm_device *const' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
+                           dev_err(connector->dev, "Failed to setup vendor infoframe: %zd\n", err);
+                                   ^~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:44: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                     ^~~
+   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                           ^~~
+   include/linux/dev_printk.h:86:36: note: passing argument to parameter 'dev' here
+   void _dev_err(const struct device *dev, const char *fmt, ...)
+                                      ^
+   2 errors generated.
 
 
-vim +/_dev_err +6221 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
+vim +6221 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
 
   6156	
   6157	static void fill_stream_properties_from_drm_display_mode(
