@@ -2,84 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309A5A8240F
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 13:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4579A8243F
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 14:07:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1241210E85D;
-	Wed,  9 Apr 2025 11:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3613310E861;
+	Wed,  9 Apr 2025 12:07:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Oeubhxy3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y8MpBv/V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7E1110E85D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 11:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744199883;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uk/K1qUkI05my6dLfwQqRsMsHASwuOx5IwtVfofHTkc=;
- b=Oeubhxy3r1N7D7QhyAL+T2VZOTu5Cz+RqB2QIbuXOQ9+nVcRIfKJSNEqqOH/gg3ozPcGEt
- AXhI0BNFOjUktocPydCzVVqqSczMOsrpZTKtYS074kqcyU7W5LyKPIY3BOzOx9Se2kAq4g
- QMtL4tOlFtkvNkZmPYmquWZQmrCVo6g=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-524-K9oSTiqLOeSj_-Ol7HQ79A-1; Wed, 09 Apr 2025 07:58:02 -0400
-X-MC-Unique: K9oSTiqLOeSj_-Ol7HQ79A-1
-X-Mimecast-MFC-AGG-ID: K9oSTiqLOeSj_-Ol7HQ79A_1744199881
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43eea5a5d80so23926245e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 04:58:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744199881; x=1744804681;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uk/K1qUkI05my6dLfwQqRsMsHASwuOx5IwtVfofHTkc=;
- b=i9v9++t9MLAQGlAtdsPgcAXPXDae91gxCHoOmGQlx4JFDolZpbn1y9jOQ6boynPnMM
- wYUXckDYtEkGk7yE0uUPtIgILqTWWsQ2gAOAdltuzxvyoLXMrJVboWdlzulzaXE8rSxa
- Px3K1u1KyV/KedsR3sfbRrNBAf2wWTzNIEm4TyTxew0BfdprevLRuFjfoc2Dea7C5VW4
- CCHjRozVKFMIQajfPMxhjm88Q3yLNgyChm0/jLHjD8c0vPdHrATR3EPAa/qU0MlOU7+T
- aUhKR03eVp4ypkoASFzjIz/yqSK07SbliXLHJCMxMwBo+ACbMJEvq6AXafNytWUUfoWV
- lTlQ==
-X-Gm-Message-State: AOJu0YzY2g5HTJGfi99lmhJUdK1Yhg5X5OheTt9dhNGZEKi5j9Jc/9+l
- ootOgENoKjQroRnOkZySX3Bxud8gmJxq4KrxYqcVN3nVfKr+eHCCttxmB6f9xl8GZhkR8BsfSsM
- F1JNQouT0MgNwia2RBKvIl86hpVLxxzTC3G2n0ItosWwekf6+WdEu/ZYvEHtIIiL+N5GTp5hBxQ
- ==
-X-Gm-Gg: ASbGncsP74oXKfZuPcmnvmngel0jjuDHUtng+xVK8jZFclo3bCw5anlQYW+4pw5XhBz
- WlU1nqD2x5wIMQ92SsZs0kxNPIQrTKCxeiqsumxO3gsuw7mu5sFHhAkq4I6tAXLGel4+LlDLuIA
- VSUo9OouhlodX49MT76ILtZw5U7Mj2BpcKoGzGs+koCp2QvCLRtJVBp2hCD66w/Zopgl8C0gSmy
- qtgeL5SvnG4pR/51RBTkY/4mQzIn+Tuc7xaNTG4eWlf8qnKkCgbjKxHHaI+btjys1g+rUVjTys/
- xVO4rcHHCp6IB2tr4vSOvKueHmZyFnPWtoaFP9sKopzgBQyZftXrBkRoa7AEA/7F+xXTNw==
-X-Received: by 2002:a05:6000:186c:b0:391:2f71:bbb3 with SMTP id
- ffacd0b85a97d-39d88564b1emr1890610f8f.46.1744199880980; 
- Wed, 09 Apr 2025 04:58:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGOpGks6YLE1rW7HT9XXsVy6xF+mgcKL+OtItny4NpDbTnnhglG4GNuy3P6AFZ9z2Y72whbTg==
-X-Received: by 2002:a05:6000:186c:b0:391:2f71:bbb3 with SMTP id
- ffacd0b85a97d-39d88564b1emr1890595f8f.46.1744199880645; 
- Wed, 09 Apr 2025 04:58:00 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43f2075a65dsm18173755e9.31.2025.04.09.04.57.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Apr 2025 04:58:00 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/3] drm/sysfb: Share helpers for integer validation
-In-Reply-To: <20250409084729.236719-3-tzimmermann@suse.de>
-References: <20250409084729.236719-1-tzimmermann@suse.de>
- <20250409084729.236719-3-tzimmermann@suse.de>
-Date: Wed, 09 Apr 2025 13:57:58 +0200
-Message-ID: <875xjdfsxl.fsf@minerva.mail-host-address-is-not-set>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC47610E860;
+ Wed,  9 Apr 2025 12:07:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id DB71BA49913;
+ Wed,  9 Apr 2025 12:01:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46BE8C4CEE3;
+ Wed,  9 Apr 2025 12:06:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744200430;
+ bh=CP4IzQPsQFU05CPteWgLrKp8oO61tr2PBS7gZ6n8ASw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Y8MpBv/VoYICVgx24E4PbAEeT/t+3drrYqVPXQj/UWOU981wSUC2trY0ul0RXZ4wd
+ MkAx9PgO5Yw+VwWeCS5mVNPUtido63L93DX1SivyY+13YYrMjDXVJojlKe034sCsIf
+ IXbbSMY6B2lgZvsRRqBcXLbdfgJpCLE9Ocio59lw0qcNczRocWkmdW6u0pMl+PVPSL
+ zLFWnsi95dTx+O1APKbqG17wJqqgfNLu7i1hb4srMezFEWlY/HbWRTVaaEuGyAUa8W
+ dfb1CSfha9y4tiKqGvgilBAPkbv3kopHt/rZkV63FdmiU8P3G8udQT6soJgCn3moIx
+ f0ru9tf/8eXIg==
+From: Philipp Stanner <phasta@kernel.org>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ Yang Wang <kevinyang.wang@amd.com>, Jesse Zhang <jesse.zhang@amd.com>,
+ Tim Huang <tim.huang@amd.com>,
+ Sathishkumar S <sathishkumar.sundararaju@amd.com>,
+ Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>,
+ Sunil Khatri <sunil.khatri@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
+ Yunxiang Li <Yunxiang.Li@amd.com>, Eric Huang <jinhuieric.huang@amd.com>,
+ Asad Kamal <asad.kamal@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Jack Xiao <Jack.Xiao@amd.com>, Friedrich Vock <friedrich.vock@gmx.de>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, lima@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: [PATCH 0/2] dma-fence: Rename dma_fence_is_signaled()
+Date: Wed,  9 Apr 2025 14:06:36 +0200
+Message-ID: <20250409120640.106408-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: j_PI8aGh8LkzVUY5jXGC9B9kn9dCXThPCwz0x9XRPnY_1744199881
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,50 +111,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Hi all,
 
-> Provide sysfb helpers for validating framebuffer integer values
-> against limits. Update drivers. If a driver did not specify a limit
-> for a certain value, use INT_MAX.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/sysfb/drm_sysfb.c        | 27 ++++++++++++++++++++++
->  drivers/gpu/drm/sysfb/drm_sysfb_helper.h |  9 ++++++++
->  drivers/gpu/drm/sysfb/efidrm.c           | 29 ++++--------------------
->  drivers/gpu/drm/sysfb/ofdrm.c            | 12 ++--------
->  drivers/gpu/drm/sysfb/simpledrm.c        | 14 ++----------
->  drivers/gpu/drm/sysfb/vesadrm.c          | 29 ++++--------------------
->  6 files changed, 48 insertions(+), 72 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sysfb/drm_sysfb.c b/drivers/gpu/drm/sysfb/drm_sysfb.c
-> index c083d21fd9cab..97547ea5e2131 100644
-> --- a/drivers/gpu/drm/sysfb/drm_sysfb.c
-> +++ b/drivers/gpu/drm/sysfb/drm_sysfb.c
-> @@ -1,8 +1,35 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  
-> +#include <linux/export.h>
-> +#include <linux/limits.h>
-> +#include <linux/minmax.h>
->  #include <linux/module.h>
->  
-> +#include <drm/drm_print.h>
-> +
->  #include "drm_sysfb_helper.h"
->  
->  MODULE_DESCRIPTION("Helpers for DRM sysfb drivers");
->  MODULE_LICENSE("GPL");
-> +
+I'm currently debugging a Nouveau issue [1] and potentially might want to
+add a function that just checks whether a fence is signaled already –
+which then would obviously be called dma_fence_is_signaled().
 
-I think the convention is to put these MODULE_* macros at the end of the file?
+In any case, I think it is reasonable to rename dma_fence_is_signaled()
+so that it becomes very, very explicit when reading code that this is a
+place where fences can get signaled.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+This series obsoletes this patch: [2]
+
+P.
+
+[1] https://lore.kernel.org/all/20250403101353.42880-2-phasta@kernel.org/
+[2] https://lore.kernel.org/all/20250408122217.61530-2-phasta@kernel.org/
+
+
+Philipp Stanner (2):
+  dma-fence: Rename dma_fence_is_signaled()
+  dma-fence: Improve docu for dma_fence_check_and_signal()
+
+ drivers/dma-buf/dma-fence-array.c             |  2 +-
+ drivers/dma-buf/dma-fence-chain.c             |  6 +--
+ drivers/dma-buf/dma-fence-unwrap.c            |  4 +-
+ drivers/dma-buf/dma-fence.c                   |  6 +--
+ drivers/dma-buf/dma-resv.c                    |  6 +--
+ drivers/dma-buf/st-dma-fence-chain.c          | 10 ++--
+ drivers/dma-buf/st-dma-fence.c                |  8 ++--
+ drivers/dma-buf/sw_sync.c                     |  2 +-
+ drivers/dma-buf/sync_file.c                   |  4 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |  2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  8 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c     |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c       |  8 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c      |  6 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c      | 10 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  6 +--
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c       |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c          |  2 +-
+ drivers/gpu/drm/drm_suballoc.c                |  6 +--
+ drivers/gpu/drm/drm_syncobj.c                 |  6 +--
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c       |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c      |  4 +-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  2 +-
+ drivers/gpu/drm/i915/i915_deps.c              |  6 +--
+ drivers/gpu/drm/i915/i915_request.c           |  6 +--
+ drivers/gpu/drm/i915/i915_sw_fence.c          |  4 +-
+ drivers/gpu/drm/i915/i915_vma.c               |  2 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c |  4 +-
+ drivers/gpu/drm/imagination/pvr_queue.c       | 10 ++--
+ drivers/gpu/drm/lima/lima_sched.c             |  4 +-
+ drivers/gpu/drm/msm/msm_gpu.c                 |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_fence.c       |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  4 +-
+ drivers/gpu/drm/qxl/qxl_release.c             |  2 +-
+ drivers/gpu/drm/scheduler/sched_entity.c      |  2 +-
+ drivers/gpu/drm/scheduler/sched_main.c        |  4 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  2 +-
+ drivers/gpu/drm/v3d/v3d_sched.c               |  4 +-
+ drivers/gpu/drm/vgem/vgem_fence.c             |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c         |  6 +--
+ drivers/gpu/drm/xe/xe_bo.c                    |  2 +-
+ drivers/gpu/drm/xe/xe_guc_submit.c            |  4 +-
+ drivers/gpu/drm/xe/xe_hw_fence.c              |  2 +-
+ drivers/gpu/drm/xe/xe_pt.c                    |  2 +-
+ drivers/gpu/drm/xe/xe_range_fence.c           |  2 +-
+ include/linux/dma-fence.h                     | 47 ++++++++++++-------
+ 51 files changed, 133 insertions(+), 120 deletions(-)
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.48.1
 
