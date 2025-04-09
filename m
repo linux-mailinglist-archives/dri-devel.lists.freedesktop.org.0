@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8ECA825C4
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 15:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 472BDA825C5
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 15:14:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5C110E8B0;
-	Wed,  9 Apr 2025 13:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37D5710E8B2;
+	Wed,  9 Apr 2025 13:14:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="j+M84xEX";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Icpa6Z9g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA8210E8AD
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 13:14:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41CA410E8AB
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 13:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744204439;
- bh=zZr6yH3bzNUKYQNohuflsUGVkNO30lMv+25F4v2pwNM=;
+ s=mail; t=1744204440;
+ bh=iEqi4D14t6E8AwloqFFSWOfiLtd7GjARxp7/cOXDtLE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j+M84xEX3H+WhAi9791YXn4QztJqDrjB0RJVzsQ0sZRZ/zUKemx6p11BLYzevVHT4
- 4n0MzXNs0DfHilQ7+zVsaWBuHLhOHwgdEsTbaNJyC5D4E4CTtJUzKZxZq1Q14oNfBN
- i2dPNBL46bMQULMouGlSMNUU3pR7tkfhJblEfvh52JJ5KG+0zbrna1Dkoi5Qf4y+V0
- s9ThNOgNaSohuxPRc/HP7A+9Aw00oAJeGluti8A7NgtS07oFllwez1U5YFR2hkwRt7
- aL+8FhbuS1svUR/mOWLjpJWpE6HAV5t3CMsXoUQl1lyW9YLq3zqsYGmkJAyLcmotXp
- NEfh6HSwIaHRw==
+ b=Icpa6Z9gNzzh+NduNfI7bqo3qeTZzFmxbrTzbEvXQlsd7uZ4Vk790rshPoun1LWW2
+ DBr8PSLo2lpGs6b5c8HBbZh0yWRlqAoANmSehFNyH5aFrex/TAv9iGKZp0t6ixNHXs
+ hhixOUkJ9DZgIEKnNiqQT/9OCdQ8JkAcbZif7xrXh18Ax0FNnEbinCLQUwF2LdR5vu
+ ysJMZ44pI/I0qyGudhHEnuR/gLZoMT6lWvFmThO7g/MOnwuXjct2Q3khnlLa6q1FiH
+ fwEfUFLfWCKUFDLbpUm9diCOy6Wy7qTvZUaWoYJOvApXufgcHiSXNm/p5RIqFGQHgx
+ 8DucueJBt7rXg==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 97A7317E0F85;
- Wed,  9 Apr 2025 15:13:57 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5012E17E0B2D;
+ Wed,  9 Apr 2025 15:13:59 +0200 (CEST)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -45,11 +45,12 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
  ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
- jason-jh.lin@mediatek.com
-Subject: [PATCH v8 22/23] drm/mediatek: mtk_hdmi_v2: Add debugfs ops and
- implement ABIST
-Date: Wed,  9 Apr 2025 15:13:17 +0200
-Message-ID: <20250409131318.108690-23-angelogioacchino.delregno@collabora.com>
+ jason-jh.lin@mediatek.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v8 23/23] drm/mediatek/hdmi: Use
+ syscon_regmap_lookup_by_phandle_args
+Date: Wed,  9 Apr 2025 15:13:18 +0200
+Message-ID: <20250409131318.108690-24-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250409131318.108690-1-angelogioacchino.delregno@collabora.com>
 References: <20250409131318.108690-1-angelogioacchino.delregno@collabora.com>
@@ -70,170 +71,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement the Automated Built-In Self-Test ABIST functionality
-provided by the HDMIv2 IP and expose it through the "hdmi_abist"
-debugfs file.
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Write "1" to this file to activate ABIST, or "0" to deactivate.
+Use syscon_regmap_lookup_by_phandle_args() which is a wrapper over
+syscon_regmap_lookup_by_phandle() combined with getting the syscon
+argument.  Except simpler code this annotates within one line that given
+phandle has arguments, so grepping for code would be easier.
 
-The ABIST functionality can be used to validate that the HDMI
-Transmitter itself works and that can output a valid image to
-the HDMI Display that is connected.
+There is also no real benefit in printing errors on missing syscon
+argument, because this is done just too late: runtime check on
+static/build-time data.  Dtschema and Devicetree bindings offer the
+static/build-time check for this already.
 
-This is especially useful when trying to rule out any possible
-issue that is related to the display pipeline, as the HDMI Tx
-is always the last component; this means that HDMI ABIST can be
-used even without prior display controller pipeline configuration.
-
-The expected output is a 100% color bar (rainbow) test pattern.
-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+[Angelo: Rebased over HDMIv2/DDCv2 series cleanups]
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi_v2.c | 123 +++++++++++++++++++++++++
- 1 file changed, 123 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-index dd10f272eabd..284d5cc0cffd 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-@@ -1188,6 +1188,128 @@ static int mtk_hdmi_v2_hdmi_write_infoframe(struct drm_bridge *bridge,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
+index 784bc05c9541..00a638a3caf4 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
+@@ -269,12 +269,9 @@ static int mtk_hdmi_get_cec_dev(struct mtk_hdmi *hdmi, struct device *dev, struc
+ 	 * MMSYS_CONFIG device and the register offset of the HDMI_SYS_CFG
+ 	 * registers it contains.
+ 	 */
+-	hdmi->sys_regmap = syscon_regmap_lookup_by_phandle(np, "mediatek,syscon-hdmi");
++	hdmi->sys_regmap = syscon_regmap_lookup_by_phandle_args(np, "mediatek,syscon-hdmi",
++								1, &hdmi->sys_offset);
+ 	if (IS_ERR(hdmi->sys_regmap))
+-		return PTR_ERR(hdmi->sys_regmap);
+-
+-	ret = of_property_read_u32_index(np, "mediatek,syscon-hdmi", 1, &hdmi->sys_offset);
+-	if (ret)
+ 		return dev_err_probe(dev, ret,
+ 				     "Failed to get system configuration registers\n");
  
-+static int mtk_hdmi_v2_set_abist(struct mtk_hdmi *hdmi, bool enable)
-+{
-+	struct drm_display_mode *mode = &hdmi->mode;
-+	int abist_format = -EINVAL;
-+	bool interlaced;
-+
-+	if (!enable) {
-+		regmap_clear_bits(hdmi->regs, TOP_CFG00, HDMI_ABIST_ENABLE);
-+		return 0;
-+	}
-+
-+	if (!mode->hdisplay || !mode->vdisplay)
-+		return -EINVAL;
-+
-+	interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
-+
-+	switch (mode->hdisplay) {
-+	case 720:
-+		if (mode->vdisplay == 480)
-+			abist_format = 2;
-+		else if (mode->vdisplay == 576)
-+			abist_format = 11;
-+		break;
-+	case 1280:
-+		if (mode->vdisplay == 720)
-+			abist_format = 3;
-+		break;
-+	case 1440:
-+		if (mode->vdisplay == 480)
-+			abist_format = interlaced ? 5 : 9;
-+		else if (mode->vdisplay == 576)
-+			abist_format = interlaced ? 14 : 18;
-+		break;
-+	case 1920:
-+		if (mode->vdisplay == 1080)
-+			abist_format = interlaced ? 4 : 10;
-+		break;
-+	case 3840:
-+		if (mode->vdisplay == 2160)
-+			abist_format = 25;
-+		break;
-+	case 4096:
-+		if (mode->vdisplay == 2160)
-+			abist_format = 26;
-+		break;
-+	default:
-+		break;
-+	}
-+	if (abist_format < 0)
-+		return abist_format;
-+
-+	regmap_update_bits(hdmi->regs, TOP_CFG00, HDMI_ABIST_VIDEO_FORMAT,
-+			   FIELD_PREP(HDMI_ABIST_VIDEO_FORMAT, abist_format));
-+	regmap_set_bits(hdmi->regs, TOP_CFG00, HDMI_ABIST_ENABLE);
-+	return 0;
-+}
-+
-+static int mtk_hdmi_v2_debug_abist_show(struct seq_file *m, void *arg)
-+{
-+	struct mtk_hdmi *hdmi = m->private;
-+	bool en;
-+	u32 val;
-+	int ret;
-+
-+	if (!hdmi)
-+		return -EINVAL;
-+
-+	ret = regmap_read(hdmi->regs, TOP_CFG00, &val);
-+	if (ret)
-+		return ret;
-+
-+	en = FIELD_GET(HDMI_ABIST_ENABLE, val);
-+
-+	seq_printf(m, "HDMI Automated Built-In Self Test: %s\n",
-+		   en ? "Enabled" : "Disabled");
-+
-+	return 0;
-+}
-+
-+static ssize_t mtk_hdmi_v2_debug_abist_write(struct file *file,
-+					     const char __user *ubuf,
-+					     size_t len, loff_t *offp)
-+{
-+	struct seq_file *m = file->private_data;
-+	int ret;
-+	u32 en;
-+
-+	if (!m || !m->private || *offp)
-+		return -EINVAL;
-+
-+	ret = kstrtouint_from_user(ubuf, len, 0, &en);
-+	if (ret)
-+		return ret;
-+
-+	if (en < 0 || en > 1)
-+		return -EINVAL;
-+
-+	mtk_hdmi_v2_set_abist((struct mtk_hdmi *)m->private, en);
-+	return len;
-+}
-+
-+static int mtk_hdmi_v2_debug_abist_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, mtk_hdmi_v2_debug_abist_show, inode->i_private);
-+}
-+
-+static const struct file_operations mtk_hdmi_debug_abist_fops = {
-+	.owner = THIS_MODULE,
-+	.open = mtk_hdmi_v2_debug_abist_open,
-+	.read = seq_read,
-+	.write = mtk_hdmi_v2_debug_abist_write,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+
-+static void mtk_hdmi_v2_debugfs_init(struct drm_bridge *bridge, struct dentry *root)
-+{
-+	struct mtk_hdmi *dpi = hdmi_ctx_from_bridge(bridge);
-+
-+	debugfs_create_file("hdmi_abist", 0640, root, dpi, &mtk_hdmi_debug_abist_fops);
-+}
-+
- static const struct drm_bridge_funcs mtk_v2_hdmi_bridge_funcs = {
- 	.attach = mtk_hdmi_v2_bridge_attach,
- 	.detach = mtk_hdmi_v2_bridge_detach,
-@@ -1207,6 +1329,7 @@ static const struct drm_bridge_funcs mtk_v2_hdmi_bridge_funcs = {
- 	.hdmi_tmds_char_rate_valid = mtk_hdmi_v2_hdmi_tmds_char_rate_valid,
- 	.hdmi_clear_infoframe = mtk_hdmi_v2_hdmi_clear_infoframe,
- 	.hdmi_write_infoframe = mtk_hdmi_v2_hdmi_write_infoframe,
-+	.debugfs_init = mtk_hdmi_v2_debugfs_init,
- };
- 
- /*
 -- 
 2.49.0
 
