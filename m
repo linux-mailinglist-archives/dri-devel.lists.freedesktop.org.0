@@ -2,101 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E398FA82452
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 14:08:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F74EA82454
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 14:08:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB8210E864;
-	Wed,  9 Apr 2025 12:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AED510E860;
+	Wed,  9 Apr 2025 12:08:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GhqxgiUk";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BzAQ/Bdu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B85610E86A;
- Wed,  9 Apr 2025 12:07:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DDEDD615EB;
- Wed,  9 Apr 2025 12:07:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3DACC4CEE7;
- Wed,  9 Apr 2025 12:07:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744200464;
- bh=FdUb0DPDYi+ttgoinI37K88fuRyaVge7JDVXiVilF7E=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GhqxgiUktLqE62NnlGbCozLGAOy1ebYKCfRTbO1C2V8isrEUvyivtHWOlIWWY3iNe
- lT7qBhQi0YUXEHd/a3nybBs+okp72WCBqbBHa/gUT5qc5stTjpZBUhmQIEvTFikt5z
- 3QEX/nurLaDWBdA3+xqEX+t36u0MD+4s/DDnE947U63BOSLACxJE4ATzBnB7162kEM
- uJVlOhBR6ng/gxrCkIJmx2DVTmwcGtpsyRWe122qGV/9UBAusoKc1mqJjzRiizRz4e
- qqynMSOHuqVH/gL+pm4QM8yBcDL9Jr5dx5FDs1H6jkyRMDbX2Cuq8465NG5c4c31Ao
- m0BWGZ8ZfmD1w==
-From: Philipp Stanner <phasta@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Zack Rusin <zack.rusin@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- Yang Wang <kevinyang.wang@amd.com>, Jesse Zhang <jesse.zhang@amd.com>,
- Tim Huang <tim.huang@amd.com>,
- Sathishkumar S <sathishkumar.sundararaju@amd.com>,
- Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>,
- Sunil Khatri <sunil.khatri@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
- Yunxiang Li <Yunxiang.Li@amd.com>, Eric Huang <jinhuieric.huang@amd.com>,
- Asad Kamal <asad.kamal@amd.com>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Jack Xiao <Jack.Xiao@amd.com>, Friedrich Vock <friedrich.vock@gmx.de>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Thomas Gleixner <tglx@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, lima@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: [PATCH 2/2] dma-fence: Improve docu for dma_fence_check_and_signal()
-Date: Wed,  9 Apr 2025 14:06:38 +0200
-Message-ID: <20250409120640.106408-4-phasta@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250409120640.106408-2-phasta@kernel.org>
-References: <20250409120640.106408-2-phasta@kernel.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15EF110E860
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 12:08:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1744200484;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kCvjuJG694/CHcqxRL6/SHd0pXzTwZPbyCr1soiBCdk=;
+ b=BzAQ/Bdux1Xr/hrD/7too0voHIg6qgwSv43FkdM95O7gjeqD90Vd1t/q4/7Ve+BM/J6I4C
+ 5RdLdv+b5ZmBfPsG7aHD9PUCD4qknraVE8yx1e2+MtiOZ7PTmG4wCWeeeSYSxTkMzKpFEl
+ xh75gOh1aos8pNggzlP3pbSo+XFFgg8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-527-26pdZ1KpPYOUAL5wqUXqdw-1; Wed, 09 Apr 2025 08:08:02 -0400
+X-MC-Unique: 26pdZ1KpPYOUAL5wqUXqdw-1
+X-Mimecast-MFC-AGG-ID: 26pdZ1KpPYOUAL5wqUXqdw_1744200482
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3913aaf1e32so3899017f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 05:08:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744200481; x=1744805281;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kCvjuJG694/CHcqxRL6/SHd0pXzTwZPbyCr1soiBCdk=;
+ b=j4e2IBsI/CDNWlotdcF9AnICJhBHV9HdT4SzkCfRR7Lh2y8Au81vlJUEB2r+5pfq3e
+ omJXFCFhrtnKlDHp22TwIjBJ1YtkCoq4qp6oPyrnI2xvnjPTyO1AUEpefjknFdLz0tq0
+ IUokAOookvJONE2jmdnBV+Ctjd2U7wJ3SO9/fZjk/tXgLRweuosqBp3ZtIPDAPrgyWmn
+ MqCC31oapOyhCf8Bc3lkWD5w3k2q4+pVAiGSobo61fik4aeYyLj54B2TPuhJmItn1ZXl
+ MJKbBMjjmmLNyQCH2/C0mzjPBTsAfdtmKK8NFDu2rmYyGzNZ+/FBSRURjH5YMXqx2aOR
+ lmEQ==
+X-Gm-Message-State: AOJu0YzvUKH+JV42ugjWu6ZTtpGRWl5KTZjK8BYOPBjmJ/idpz7ETzen
+ 5oRA24VzYLGDdWbLKbdSbwmu9OJWmCQNsQYD6Dc3SniJXKDCJXFJdSABEvcc4MU9QYKd8b4tlEA
+ Gl295pZzmV2mAqBmOOcFIPyWo+2sdPk2c1rKClkU0yfzr0eAJ8gxRA8TzX74KkZU1XyJyOCvmTg
+ ==
+X-Gm-Gg: ASbGncsCCQCXdi8IPEH4KG6hYMPmS++yOPDruDLLye8B2egm+f9I74gz8N/A7fkytKH
+ IPwQATtxovvMTvL3MalUfYSBz73PhDaa4OtaU8kMi2Id5F7j3HHmslr/d4Mm7e57oFiQv6pEXep
+ epVQkDQtxePc/HZfoyBRsAPrRmoGZilLcw5LLML5Oo7QwYz8P3HDQny0xqt7Ymp+JIcjF8e+/ir
+ FazAkvdb15EPH3p0p4Sm/rBRwsKYFfCbuXT7p+2hlvmwu7cAwago3jDtxX3qnj902qo76c0HrKL
+ asGP9QvvlJ0bgjeoO7su5JYEzh6DsYlMdqdIfNu/6mcMboQTISy+nrpTGFSZ8C+qjMqkfg==
+X-Received: by 2002:a05:6000:430e:b0:391:ccf:2d17 with SMTP id
+ ffacd0b85a97d-39d87a67bdcmr2300406f8f.0.1744200481075; 
+ Wed, 09 Apr 2025 05:08:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGecikQMGfcRWAWRQ2NOn5LtMF0T2KJVQQxrAGMhwK20jonEis8SpV3Ow8Ez+EzRJTgaFNBHA==
+X-Received: by 2002:a05:6000:430e:b0:391:ccf:2d17 with SMTP id
+ ffacd0b85a97d-39d87a67bdcmr2300386f8f.0.1744200480736; 
+ Wed, 09 Apr 2025 05:08:00 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43f233c8224sm14239295e9.22.2025.04.09.05.07.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Apr 2025 05:07:59 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 3/3] drm/sysfb: Share helpers for screen_info validation
+In-Reply-To: <20250409084729.236719-4-tzimmermann@suse.de>
+References: <20250409084729.236719-1-tzimmermann@suse.de>
+ <20250409084729.236719-4-tzimmermann@suse.de>
+Date: Wed, 09 Apr 2025 14:07:58 +0200
+Message-ID: <8734ehfsgx.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: FnygvX3akQaKCoF_b3UzJxWVmWlsJ2laG18yp_AdLtU_1744200482
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,80 +95,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The documentation of the return value of dma_fence_check_and_signal()
-and dma_fence_check_and_signal_locked() reads as if the returned boolean
-only describes whether dma_fence_signal() (or similar) has been called
-before this function call already. That's not the case, since
-dma_fence_ops.signaled() usually just checks through the sequence number
-whether the hardware is finished with a fence. That doesn't mean a
-signaling function has been called already.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Make the documentation clearer.
+> Share efidrm's and vesadrm's validation of struct screen_info in
+> shared helpers. Update the drivers.
+>
+> Most validation helpers test individual values against limits and
+> can be shared as they are. For color formats, a common helper looks
+> up the correct DRM format info from a driver-provided list of color
+> formats.
+>
+> These screen_info helpers are only available if CONFIG_SCREEN_INFO
+> has been selected, as done by efidrm and vesadrm.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Move the Return: documentation to the end, since that's the officially
-recommended docu style.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- include/linux/dma-fence.h | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
-
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index dc2ad171458b..3df370b2cc7c 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -385,14 +385,21 @@ void dma_fence_enable_sw_signaling(struct dma_fence *fence);
-  * dma_fence_check_and_signal_locked - Checks a fence and signals it if necessary
-  * @fence: the fence to check
-  *
-- * Returns true if the fence was already signaled, false if not. Since this
-- * function doesn't enable signaling, it is not guaranteed to ever return
-- * true if dma_fence_add_callback(), dma_fence_wait() or
-+ * Checks whether the fence was already signaled, and, if not, whether
-+ * &struct dma_fence_ops.signaled indicates that it should be signaled. If so,
-+ * the fence gets signaled here.
-+ *
-+ * Since this function doesn't enable signaling, it is not guaranteed to ever
-+ * return true if dma_fence_add_callback(), dma_fence_wait() or
-  * dma_fence_enable_sw_signaling() haven't been called before.
-  *
-  * This function requires &dma_fence.lock to be held.
-  *
-  * See also dma_fence_check_and_signal().
-+ *
-+ * Return: true if the fence was already signaled, or if
-+ * &struct dma_fence_ops.signaled is implemented and indicates that this fence
-+ * can be treated as signaled; false otherwise.
-  */
- static inline bool
- dma_fence_check_and_signal_locked(struct dma_fence *fence)
-@@ -412,9 +419,12 @@ dma_fence_check_and_signal_locked(struct dma_fence *fence)
-  * dma_fence_check_and_signal - Checks a fence and signals it if necessary
-  * @fence: the fence to check
-  *
-- * Returns true if the fence was already signaled, false if not. Since this
-- * function doesn't enable signaling, it is not guaranteed to ever return
-- * true if dma_fence_add_callback(), dma_fence_wait() or
-+ * Checks whether the fence was already signaled, and, if not, whether
-+ * &struct dma_fence_ops.signaled indicates that it should be signaled. If so,
-+ * the fence gets signaled here.
-+ *
-+ * Since this function doesn't enable signaling, it is not guaranteed to ever
-+ * return true if dma_fence_add_callback(), dma_fence_wait() or
-  * dma_fence_enable_sw_signaling() haven't been called before.
-  *
-  * It's recommended for seqno fences to call dma_fence_signal when the
-@@ -423,6 +433,10 @@ dma_fence_check_and_signal_locked(struct dma_fence *fence)
-  * value of this function before calling hardware-specific wait instructions.
-  *
-  * See also dma_fence_check_and_signal_locked().
-+ *
-+ * Return: true if the fence was already signaled, or if
-+ * &struct dma_fence_ops.signaled is implemented and indicates that this fence
-+ * can be treated as signaled; false otherwise.
-  */
- static inline bool
- dma_fence_check_and_signal(struct dma_fence *fence)
 -- 
-2.48.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
