@@ -2,66 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBBE2A8253C
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 14:50:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A608A82548
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 14:52:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51F0510E143;
-	Wed,  9 Apr 2025 12:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 667C910E88D;
+	Wed,  9 Apr 2025 12:51:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MnoGH7/S";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="qoq0l8CR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C18F10E143
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 12:50:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 524D15C117C;
- Wed,  9 Apr 2025 12:48:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1F78C4CEE3;
- Wed,  9 Apr 2025 12:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744203032;
- bh=/jW9B44kyqNV8gjRORD3bHRgIUAe308jn00yw2IwXDM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MnoGH7/So9vd/9bpPO03vMLSZNhWbekAYvl+BCmmbTLqGQSlJFJqS1PdM3P8y5Wyy
- yu16DR8o9W8yUb7HCTLY/WAx7vMerpZygbwYzDGFD6QyfzHi7sAzFYVNni2gxOjuLA
- nh2oLbhT54uQPNQtanuMpZEbkqyQx2bpm/8foNQEyaAl0ZegA32hKwCncxgV0d/MFj
- W3UUEG9gYWm2vYrBhZz19jSvTXA/PU6n0qvnRXatLAbwWyDpCCuI0JwJcvD02O3Rzd
- JCNLumTwG0/c3mNIXIvMwQtuJGhgODmSlZABTMFyzs7WmdY5KjjuHHmubf7rnF26iD
- VaIWwvtYKojGg==
-Date: Wed, 9 Apr 2025 18:20:21 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>
-Subject: Re: [PATCH v6 05/10] tee: implement restricted DMA-heap
-Message-ID: <Z_ZtDQQY4eouqBh8@sumit-X1>
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
- <20250305130634.1850178-6-jens.wiklander@linaro.org>
- <Z-JOPgcWlpTlskgd@sumit-X1>
- <CAHUa44GjpHT5Nqo+Ar5jNYNPV-YJQYpLTCf=7oJ1o0VjP-t0nA@mail.gmail.com>
- <Z-ucuPzwz4IqVTgb@sumit-X1>
- <CAHUa44FpsCVrbwj1=nsJVJFVJSF1kzKdWAkAMXRu6EdLrLvh8g@mail.gmail.com>
- <Z_To9V-JOKZ7ChhE@sumit-X1>
- <CAHUa44EGWuVPjoxpG-S66he=6dkvkwzxNewaGKVKXUxrO41ztg@mail.gmail.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BFC610E886;
+ Wed,  9 Apr 2025 12:51:52 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4ZXjWR652Hz9sn9;
+ Wed,  9 Apr 2025 14:51:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1744203109; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y1KOsl3bM2Nc82jWkBpwB9pBWedP0INipQprBLc0j5o=;
+ b=qoq0l8CRDL+UCLVS3PHrT3P1vR961xDbvNHjxml9bfKWX4A8AKek0gxWwmdmbupugwQeUa
+ Or+iNbsFczg2uc1qjLHcrFuRpL+GzZagbMm58iileZJozNcIGY1Wxql/PZKK+5bG8ZsWq2
+ 2YoNz9CTr+r/TtXKi8y1ULJZxxI6uQrf97iP25KM8X3lfdIHeDBuYN1kXSv4fCXzbScnTT
+ yLuadRHPxEojfM+iEAtJ0zGXkOO/SSAIQW6CFfEy729P3TxL/gTXnIHf4mkGow540KskXM
+ nrcgR++I+jzbqfsLLSFAJ5yiAQoZy2b6Yx0KmrVsiTq4Af3cCbXv1hYpqyHV5w==
+Message-ID: <73d41cd84c73b296789b654e45125bfce88e0dbf.camel@mailbox.org>
+Subject: Re: [PATCH 1/2] dma-fence: Rename dma_fence_is_signaled()
+From: Philipp Stanner <phasta@mailbox.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Philipp Stanner
+ <phasta@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, Alex
+ Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,  Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Frank Binns
+ <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, Qiang Yu
+ <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>,  Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>,  Lyude Paul <lyude@redhat.com>, Danilo
+ Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,  Steven Price
+ <steven.price@arm.com>, Dave Airlie <airlied@redhat.com>, Gerd Hoffmann
+ <kraxel@redhat.com>,  Matthew Brost <matthew.brost@intel.com>, Huang Rui
+ <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,  Melissa Wen
+ <mwen@igalia.com>, =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Zack
+ Rusin <zack.rusin@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Bas Nieuwenhuizen
+ <bas@basnieuwenhuizen.nl>,  Yang Wang <kevinyang.wang@amd.com>, Jesse Zhang
+ <jesse.zhang@amd.com>, Tim Huang <tim.huang@amd.com>,  Sathishkumar S
+ <sathishkumar.sundararaju@amd.com>, Saleemkhan Jamadar
+ <saleemkhan.jamadar@amd.com>, Sunil Khatri <sunil.khatri@amd.com>, Lijo
+ Lazar <lijo.lazar@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>, Ma Jun
+ <Jun.Ma2@amd.com>, Yunxiang Li <Yunxiang.Li@amd.com>, Eric Huang
+ <jinhuieric.huang@amd.com>, Asad Kamal <asad.kamal@amd.com>, Srinivasan
+ Shanmugam <srinivasan.shanmugam@amd.com>,  Jack Xiao <Jack.Xiao@amd.com>,
+ Friedrich Vock <friedrich.vock@gmx.de>, Michel =?ISO-8859-1?Q?D=E4nzer?=
+ <mdaenzer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, Thomas Gleixner
+ <tglx@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, Dan
+ Carpenter <dan.carpenter@linaro.org>,  linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org,  amd-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org,  intel-gfx@lists.freedesktop.org,
+ lima@lists.freedesktop.org,  linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org,  nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev,  spice-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Date: Wed, 09 Apr 2025 14:51:14 +0200
+In-Reply-To: <20250409143917.31303d22@collabora.com>
+References: <20250409120640.106408-2-phasta@kernel.org>
+ <20250409120640.106408-3-phasta@kernel.org>
+ <20250409143917.31303d22@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHUa44EGWuVPjoxpG-S66he=6dkvkwzxNewaGKVKXUxrO41ztg@mail.gmail.com>
+X-MBO-RS-META: 7iy136p8m6py4oeaepzr7ogfmahipjtt
+X-MBO-RS-ID: b1321202fe5ffc9b996
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,113 +108,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 08, 2025 at 03:28:45PM +0200, Jens Wiklander wrote:
-> On Tue, Apr 8, 2025 at 11:14 AM Sumit Garg <sumit.garg@kernel.org> wrote:
-> >
-> > On Tue, Apr 01, 2025 at 10:33:04AM +0200, Jens Wiklander wrote:
-> > > On Tue, Apr 1, 2025 at 9:58 AM Sumit Garg <sumit.garg@kernel.org> wrote:
-> > > >
-> > > > On Tue, Mar 25, 2025 at 11:55:46AM +0100, Jens Wiklander wrote:
-> > > > > Hi Sumit,
-> > > > >
-> > > >
-> > > > <snip>
-> > > >
-> > > > >
-> > > > > >
-> > > > > > > +
-> > > > > > > +#include "tee_private.h"
-> > > > > > > +
-> > > > > > > +struct tee_dma_heap {
-> > > > > > > +     struct dma_heap *heap;
-> > > > > > > +     enum tee_dma_heap_id id;
-> > > > > > > +     struct tee_rstmem_pool *pool;
-> > > > > > > +     struct tee_device *teedev;
-> > > > > > > +     /* Protects pool and teedev above */
-> > > > > > > +     struct mutex mu;
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +struct tee_heap_buffer {
-> > > > > > > +     struct tee_rstmem_pool *pool;
-> > > > > > > +     struct tee_device *teedev;
-> > > > > > > +     size_t size;
-> > > > > > > +     size_t offs;
-> > > > > > > +     struct sg_table table;
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +struct tee_heap_attachment {
-> > > > > > > +     struct sg_table table;
-> > > > > > > +     struct device *dev;
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +struct tee_rstmem_static_pool {
-> > > > > > > +     struct tee_rstmem_pool pool;
-> > > > > > > +     struct gen_pool *gen_pool;
-> > > > > > > +     phys_addr_t pa_base;
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +#if !IS_MODULE(CONFIG_TEE) && IS_ENABLED(CONFIG_DMABUF_HEAPS)
-> > > > > >
-> > > > > > Can this dependency rather be better managed via Kconfig?
-> > > > >
-> > > > > This was the easiest yet somewhat flexible solution I could find. If
-> > > > > you have something better, let's use that instead.
-> > > > >
-> > > >
-> > > > --- a/drivers/tee/optee/Kconfig
-> > > > +++ b/drivers/tee/optee/Kconfig
-> > > > @@ -5,6 +5,7 @@ config OPTEE
-> > > >         depends on HAVE_ARM_SMCCC
-> > > >         depends on MMU
-> > > >         depends on RPMB || !RPMB
-> > > > +       select DMABUF_HEAPS
-> > > >         help
-> > > >           This implements the OP-TEE Trusted Execution Environment (TEE)
-> > > >           driver.
-> > >
-> > > I wanted to avoid that since there are plenty of use cases where
-> > > DMABUF_HEAPS aren't needed.
-> >
-> > Yeah, but how the users will figure out the dependency to enable DMA
-> > heaps with TEE subsystem.
-> 
-> I hope, without too much difficulty. They are after all looking for a
-> way to allocate memory from a DMA heap.
-> 
-> > So it's better we provide a generic kernel
-> > Kconfig which enables all the default features.
-> 
-> I disagree, it should be possible to configure without DMABUF_HEAPS if desired.
+On Wed, 2025-04-09 at 14:39 +0200, Boris Brezillon wrote:
+> Hi Philipp,
+>=20
+> On Wed,=C2=A0 9 Apr 2025 14:06:37 +0200
+> Philipp Stanner <phasta@kernel.org> wrote:
+>=20
+> > dma_fence_is_signaled()'s name strongly reads as if this function
+> > were
+> > intended for checking whether a fence is already signaled. Also the
+> > boolean it returns hints at that.
+> >=20
+> > The function's behavior, however, is more complex: it can check
+> > with a
+> > driver callback whether the hardware's sequence number indicates
+> > that
+> > the fence can already be treated as signaled, although the
+> > hardware's /
+> > driver's interrupt handler has not signaled it yet. If that's the
+> > case,
+> > the function also signals the fence.
+> >=20
+> > (Presumably) this has caused a bug in Nouveau (unknown commit),
+> > where
+> > nouveau_fence_done() uses the function to check a fence, which
+> > causes a
+> > race.
+> >=20
+> > Give the function a more obvious name.
+>=20
+> This is just my personal view on this, but I find the new name just
+> as
+> confusing as the old one. It sounds like something is checked, but
+> it's
+> clear what, and then the fence is forcibly signaled like it would be
+> if
+> you call drm_fence_signal(). Of course, this clarified by the doc,
+> but
+> given the goal was to make the function name clearly reflect what it
+> does, I'm not convinced it's significantly better.
+>=20
+> Maybe dma_fence_check_hw_state_and_propagate(), though it might be
+> too long of name. Oh well, feel free to ignore this comments if a
+> majority is fine with the new name.
 
-It's hard to see a use-case for that additional compile time option. If
-you are worried about kernel size then those can be built as modules. On
-the other hand the benifit is that we avoid ifdefery and providing sane
-TEE defaults where features can be detected and enabled at runtime
-instead.
+Yoa, the name isn't perfect (the perfect name describing the whole
+behavior would be
+dma_fence_check_if_already_signaled_then_check_hardware_state_and_propa
+gate() ^^'
 
-> 
-> >
-> > > This seems to do the job:
-> > > +config TEE_DMABUF_HEAP
-> > > + bool
-> > > + depends on TEE = y && DMABUF_HEAPS
-> > >
-> > > We can only use DMABUF_HEAPS if the TEE subsystem is compiled into the kernel.
-> >
-> > Ah, I see. So we aren't exporting the DMA heaps APIs for TEE subsystem
-> > to use. We should do that such that there isn't a hard dependency to
-> > compile them into the kernel.
-> 
-> I was saving that for a later patch set as a later problem. We may
-> save some time by not doing it now.
->
+My intention here is to have the reader realize "watch out, the fence
+might get signaled here!", which is probably the most important event
+regarding fences, which can race, invoke the callbacks and so on.
 
-But I think it's not a correct way to just reuse internal APIs from DMA
-heaps subsystem without exporting them. It can be seen as a inter
-subsystem API contract breach. I hope it won't be an issue with DMA heap
-maintainers regarding export of those APIs.
+For details readers will then check the documentation.
 
--Sumit
+But I'm of course open to see if there's a majority for this or that
+name.
+
+P.
+
+
+>=20
+> Regards,
+>=20
+> Boris
+
