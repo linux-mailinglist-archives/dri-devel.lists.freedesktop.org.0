@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D14F4A82ADF
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 17:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BEAA82AE4
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 17:45:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC2010E146;
-	Wed,  9 Apr 2025 15:44:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DB0410E1A6;
+	Wed,  9 Apr 2025 15:45:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UMJB0xFu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AB12/GQu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 537F310E146
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 15:44:53 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id
- 41be03b00d2f7-afc857702d1so4243003a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 08:44:53 -0700 (PDT)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9110A10E1A6
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 15:45:03 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-2ff69365e1dso5622101a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 08:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744213493; x=1744818293; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1744213503; x=1744818303; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=v49ZwnZIj2AOJhsRco4puem3oLXi78jqbt8BbW57LpM=;
- b=UMJB0xFuh7kJkB39DBWphQuXb3xpYDlSSnfVIL3Rbso2wxFrGB6USessQVRfPsaCNR
- KnITJa85JWm0NBw2Mdq72+bIQjMVk/n6CT/NqYUSNA28h+oez1P4I17uSvGCatGNvN0g
- mYjV2OlhMk5H6oMIwP5PbiQb/jr4NHB6TU+wIYy2OdwhTV1Ql+V44OjQA4J89ocTFVPc
- lY9fqE2LT5ajuYlz6biSPjYaFf6Cg0kZ9K8pSOpzBiDq+Na+HG63qayxBacGK8c7H1Cb
- sdxc+pSpYtmcyFdZyMSfp8+CA8Jff6CiS62sRaxOe3RMNEnE18HW/zr0pLUAWswYaDtr
- VEWA==
+ bh=lU43UpH11wLCdsjhsyHst5iurlQ+ThcWcqMooUtxxjY=;
+ b=AB12/GQu7Q0uSoKNH7m3VJSKAM7DdrRn3DYuvglbL/RChqNpyKn2AP9WCDYfUYtjUR
+ S+VQ+YzJmtZGeBPvLbSxoVCZYmvGRBeUpuOpqSaiNSKlzrsvlX65iZVPsVU9BQP3V8VH
+ 0YNRj3iXTk3qX9pF1VhiKs7XIpzdD2tOWcXylLM3QdOyKyTEAIVYO5z+/XptJT0tIU1/
+ PrqlVOLydzOh7SAAE1Y6aKGhmol92Z9j9wl9y/yGfg4loFukBtY/LwJXqi5JP8dxPhk+
+ IqdnYbL/XC4Ouh5f+T8fbkkn4CVJ8S5fK9QlGHND5Rr/1BhmfcHFr5ia73RMkkKqtc+q
+ QLuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744213493; x=1744818293;
+ d=1e100.net; s=20230601; t=1744213503; x=1744818303;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=v49ZwnZIj2AOJhsRco4puem3oLXi78jqbt8BbW57LpM=;
- b=UkJOFP35mvnY/+dZdLhBJkA3ZElPOBTDwi0O7G/T7S3P8krRn7erazXOpLbtfqrd1u
- TyabWyWu0dsEYCKNWOJKHl0FiR8Bpj8oL63lmZBXe/6c4VkiEJ2vTpX2COZGyqK+gjY5
- Z2OF+R1YjzrkhNSNDPNo4Rin1rRgfsZlz7PVPUdbn6zfv5cpqqV8Cn0uOabugXPBv3Ck
- ExRkx4y7vJavX3kWLv2qx6PYqgm3N9j7HSHrB3fxWkeYJQl7C+iWCj4hghqSBoZrZXAQ
- OVtm2xHaSOj09334423lwrVW+6drDx94Af63b3uc1SaUHeGVQ8L8bxovtiRU2CSMeWvO
- cD/A==
+ bh=lU43UpH11wLCdsjhsyHst5iurlQ+ThcWcqMooUtxxjY=;
+ b=GvhN9Y5JphIJj9q34Tqjh2i4cqsczAnlqrXGD7qclVnUBPeqoLF2oxgH8OQlef7WAe
+ +2fy7UtuZDGW6ACq4SmYxTl2y1o9xYAnJhODqJV8GXE9JaScOBLtlPMQL7pfgTCi9vVE
+ hOjHSHYjg26RAvGcX1G3w/nUhLjnHp7KhvatPyelBimRbGKNdInODrFis4ENXBKsYqPD
+ 8O9ke008AUATYyRtSz6UENN4xGeuXQtOojoG4V/KVCPZ0W5Pe4Zg4mTkb3o7CVS7j0ZE
+ h54yOr4PpcDxMePa2eAqGjJpuHh9Sqbau8gglQrYtJiSLbLYrOyXTwLO9VPcJ6JiGS+H
+ lIbw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUh8AXxNR70NMRLeLAj4/h2wGhGlul7IyLJOzajKkPP1+4v7BPPbmVa68R4JzdUmBkhy9Wp6+uYXgU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVdvkYddMtyLpA37SmRNJAq0LwvEEBvcQrjldiRb0FyHsbc9En
- mkN8gl+UVl3+1kkRvWIOE7B3wE76ou2Qwr/GJ0QH9r+K8wrvuzZz
-X-Gm-Gg: ASbGnctxJh1Ehugv6XDBgUT6cib7OURls0vG6uYTC13A0Q7fOKVAwp62CNy5GPcBMVD
- m6mYn2d0DPERc96PBxcjshH6mHoJB+64IlOpfYi9h1eH3A9cJINyWyDijgRcoZjr8UYzBK4IMEA
- TKV7VYMhh2o+ILnYRGoKWLnFXJbfvrLdMp+pOjg5KoPWDvmDvDuNt23Mo6mu27s/oxCQhnw/gsA
- CVhAzVuCxEQWF6KvSUUERUNG8jTxPZrwWkz6ZjKhcCFMu4noZiLdBp0ZUhyGN4FF7BnK6aILj5/
- X2z6SVfGjyQDz38dnUuyCaMft4nttsSLWjaqiD+0iBGJn25sSCUAWtfEAdzIZu9TqwmkczkWyla
- uSJGQfA==
-X-Google-Smtp-Source: AGHT+IHDjC6NZDKGKeJbiK4hibwKJCoZJOXppnGBHSYZ9kKUia5ispG3D8M0PIfVIJ8M4eMwylwt9g==
-X-Received: by 2002:a17:90b:1f8f:b0:305:2d28:c8fd with SMTP id
- 98e67ed59e1d1-306dbc2bf43mr5380309a91.24.1744213492550; 
- Wed, 09 Apr 2025 08:44:52 -0700 (PDT)
+ AJvYcCUNlWWBlHMf3NuhrsHHNNMuxXPVJ3TeivnByZb7nlsYvlwo4v7gt1vD6470zS8vAQVnf7JKdlf7w/E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/i/p8axPEFrjmrEU4Ad1t/K92UZfblfl3r84/5LZLf1EYAYUd
+ 0XCgiMAyt2Xq18JDaOgl8gYmYsC0Jz8S/Tfsp4VIu6szibgESnnF
+X-Gm-Gg: ASbGnct+MSXfT0fs3LA8xtKF8mWVSVehy/ol1IiBBeXewdZ+6LpY5le20+CitsRfVFX
+ holRYo3fjcV7O5rkkjMshe6r8wsH4ZOby+8oNWJ1/WemWnFVAEOANQdA44ocB5NfBhBtXWdnlUX
+ O/wvgzUvywxC+1XnB8SatF93odNLGpcBFdtRPSpi+LUiZDPE4YnGi7M3lQnQmO60spgmjERKvoA
+ qrSau3jz2SUlVorjx/VWoZefUOanzzAJ+bSog/csG44bbYgPxr3fhhHSP/Rg7vUWmPzEumN+f8a
+ crA5NNH3ncifWKl1Ja8KIxDu8PSgZeUS27XJjRvpSzp5KXqfI0bZ1iboPn8a79+pjZ8ISko=
+X-Google-Smtp-Source: AGHT+IEs9q8P41yMEf/AWjN7idtRUGM7Z4tfe1JBSuODcHBz5h8hVFHXITrRQEV2h0IxkqA/pyunWg==
+X-Received: by 2002:a17:90b:4a47:b0:2ff:7b28:a51a with SMTP id
+ 98e67ed59e1d1-306dd52d43amr4827521a91.17.1744213503051; 
+ Wed, 09 Apr 2025 08:45:03 -0700 (PDT)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-306dd171991sm1952304a91.37.2025.04.09.08.44.43
+ 98e67ed59e1d1-306dd171991sm1952304a91.37.2025.04.09.08.44.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Apr 2025 08:44:52 -0700 (PDT)
+ Wed, 09 Apr 2025 08:45:02 -0700 (PDT)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -90,10 +89,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  linux-i3c@lists.infradead.org, david.laight.linux@gmail.com,
  andrew.cooper3@citrix.com, Kuan-Wei Chiu <visitorckw@gmail.com>,
  Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v4 02/13] media: media/test_drivers: Replace open-coded parity
+Subject: [PATCH v4 03/13] media: pci: cx18-av-vbi: Replace open-coded parity
  calculation with parity_odd()
-Date: Wed,  9 Apr 2025 23:43:45 +0800
-Message-Id: <20250409154356.423512-3-visitorckw@gmail.com>
+Date: Wed,  9 Apr 2025 23:43:46 +0800
+Message-Id: <20250409154356.423512-4-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250409154356.423512-1-visitorckw@gmail.com>
 References: <20250409154356.423512-1-visitorckw@gmail.com>
@@ -121,35 +120,46 @@ Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- drivers/media/test-drivers/vivid/vivid-vbi-gen.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/media/pci/cx18/cx18-av-vbi.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
-index 70a4024d461e..5e1b7b1742e4 100644
---- a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
-@@ -5,6 +5,7 @@
-  * Copyright 2014 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+diff --git a/drivers/media/pci/cx18/cx18-av-vbi.c b/drivers/media/pci/cx18/cx18-av-vbi.c
+index 65281d40c681..15b515b95956 100644
+--- a/drivers/media/pci/cx18/cx18-av-vbi.c
++++ b/drivers/media/pci/cx18/cx18-av-vbi.c
+@@ -8,6 +8,7 @@
   */
  
+ 
 +#include <linux/bitops.h>
- #include <linux/errno.h>
- #include <linux/kernel.h>
- #include <linux/ktime.h>
-@@ -165,12 +166,7 @@ static const u8 vivid_cc_sequence2[30] = {
+ #include "cx18-driver.h"
  
- static u8 calc_parity(u8 val)
- {
--	unsigned i;
--	unsigned tot = 0;
+ /*
+@@ -56,15 +57,6 @@ struct vbi_anc_data {
+ 	/* u8 fill[]; Variable number of fill bytes */
+ };
+ 
+-static int odd_parity(u8 c)
+-{
+-	c ^= (c >> 4);
+-	c ^= (c >> 2);
+-	c ^= (c >> 1);
 -
--	for (i = 0; i < 7; i++)
--		tot += (val & (1 << i)) ? 1 : 0;
--	return val | ((tot & 1) ? 0 : 0x80);
-+	return val | (parity_odd(val) ? 0 : 0x80);
- }
- 
- static void vivid_vbi_gen_set_time_of_day(u8 *packet)
+-	return c & 1;
+-}
+-
+ static int decode_vps(u8 *dst, u8 *p)
+ {
+ 	static const u8 biphase_tbl[] = {
+@@ -278,7 +270,7 @@ int cx18_av_decode_vbi_line(struct v4l2_subdev *sd,
+ 		break;
+ 	case 6:
+ 		sdid = V4L2_SLICED_CAPTION_525;
+-		err = !odd_parity(p[0]) || !odd_parity(p[1]);
++		err = !parity_odd(p[0]) || !parity_odd(p[1]);
+ 		break;
+ 	case 9:
+ 		sdid = V4L2_SLICED_VPS;
 -- 
 2.34.1
 
