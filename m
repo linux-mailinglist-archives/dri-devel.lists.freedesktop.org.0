@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC508A82ADC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 17:44:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14F4A82ADF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Apr 2025 17:44:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2218010E14E;
-	Wed,  9 Apr 2025 15:44:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC2010E146;
+	Wed,  9 Apr 2025 15:44:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lxmptkiK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UMJB0xFu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C64A10E146
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 15:44:42 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-227d6b530d8so64361045ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 08:44:42 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 537F310E146
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Apr 2025 15:44:53 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-afc857702d1so4243003a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 08:44:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744213482; x=1744818282; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1744213493; x=1744818293; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lW4oOCfCNW1Ikfi6N7oqyzQRlobsbPmX3F7QqOKxP+I=;
- b=lxmptkiKifn/mPyJI2Jk0EEUZJBGp7mlqhSwg00GLe09/C4yvSj+fmyCKXMdtw2+a+
- snYKL8dB16Ig0Ok1jSY8+HFbVCuN3iBxzDGSmmDsvEDfSB+Xxi66cPsvtfGyJymnzuPV
- j+KEUU+vBqtFiqdi7AhWCmTk2Ucxa34d4UPV8vVnJvtuCBr4aww2/gQV/PM7241pNLqS
- Lxmy/hQ3jqiIIE9HuK6gD5SVkAQBBwIUtI1mo038d/eXRIq2KCG9jnlqxO64jrfuG/EJ
- xS2jkWnI/fmSt5wNzZDNZENKfUPR7VzzsnXW0Qv45nxzfpPSlajyy4ZhOwRH+ztNXWNZ
- SPSA==
+ bh=v49ZwnZIj2AOJhsRco4puem3oLXi78jqbt8BbW57LpM=;
+ b=UMJB0xFuh7kJkB39DBWphQuXb3xpYDlSSnfVIL3Rbso2wxFrGB6USessQVRfPsaCNR
+ KnITJa85JWm0NBw2Mdq72+bIQjMVk/n6CT/NqYUSNA28h+oez1P4I17uSvGCatGNvN0g
+ mYjV2OlhMk5H6oMIwP5PbiQb/jr4NHB6TU+wIYy2OdwhTV1Ql+V44OjQA4J89ocTFVPc
+ lY9fqE2LT5ajuYlz6biSPjYaFf6Cg0kZ9K8pSOpzBiDq+Na+HG63qayxBacGK8c7H1Cb
+ sdxc+pSpYtmcyFdZyMSfp8+CA8Jff6CiS62sRaxOe3RMNEnE18HW/zr0pLUAWswYaDtr
+ VEWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744213482; x=1744818282;
+ d=1e100.net; s=20230601; t=1744213493; x=1744818293;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lW4oOCfCNW1Ikfi6N7oqyzQRlobsbPmX3F7QqOKxP+I=;
- b=dEaIU/NljSqRNH6BQNYiCQPUeyO3tIDz7f2n8bMlP4ulGtV7Xow9he+UEIzTqRfBhD
- lBbxQb6D/a8/10Wrm5AE+BH+6T8l3EvW0ICavizYjCrANMr6ClmFa5KnwIIFdBDloeFk
- lNQOQvw0+6dfAc0g0JCu/bwLiyvm2cDTJ3rdyI4FRDjPTorz4yY2DwDg7SqYaoBFzXXD
- AH/LnKKl9Acrtm7JFXSIQKDKGSHlAZfQCUWzFjSTrJR2UTlN8e7gomYlPynzEQi0jzJP
- isAAmHH3l4MLv/kf7tYG8goCyth2b3vDGKYiHzO4Q563twXmTSBTpiix+HgjDn+My6vW
- m21A==
+ bh=v49ZwnZIj2AOJhsRco4puem3oLXi78jqbt8BbW57LpM=;
+ b=UkJOFP35mvnY/+dZdLhBJkA3ZElPOBTDwi0O7G/T7S3P8krRn7erazXOpLbtfqrd1u
+ TyabWyWu0dsEYCKNWOJKHl0FiR8Bpj8oL63lmZBXe/6c4VkiEJ2vTpX2COZGyqK+gjY5
+ Z2OF+R1YjzrkhNSNDPNo4Rin1rRgfsZlz7PVPUdbn6zfv5cpqqV8Cn0uOabugXPBv3Ck
+ ExRkx4y7vJavX3kWLv2qx6PYqgm3N9j7HSHrB3fxWkeYJQl7C+iWCj4hghqSBoZrZXAQ
+ OVtm2xHaSOj09334423lwrVW+6drDx94Af63b3uc1SaUHeGVQ8L8bxovtiRU2CSMeWvO
+ cD/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUQpQIF97p2gzpV7FlX7gXWr6KNKMsPSKuCm9BCuLty4TsstbWlbvy9kWZ8otpF5WEYsAMGI1pcLr8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxa7NCrweb9B428hNjJCr/pVLs4z6g4sDAUAcFW1E7j7w9BqZ4Q
- dmPukcIwq/gXpLnF0+Xlm47TMxbLVi5XcECVwEUEmrg28DZCiGr+
-X-Gm-Gg: ASbGncvg3i3uGq3gXzSK4nOoVpE5OyPjIMONalKji4g5yfVDAaTXfaAWa686VLDgkRs
- WIhzXks7iShWLk5hb8YzKBYzxXI285WLH1YsM4EjMrGhV8VBofLNR+xkf3LztAKTPmxxeplHFJz
- msQCeD1xObhiBHLz2c7Igy0BB4BWNB7gEgSinM2RqZHu4hMBP87A1MnCE5V3v4kDAiRDWp0H32m
- dfwVt/kJ5JSdKXQBj6KdIg5XpsY5HjuJJWRSUhek2sfjLLFZtkf3SqnQH7pDlSTzLN7MMfUDvF1
- U1Y/nY0ia+spxOid7mgpijYwxgkOwIxUfbThFGnOdLleygiVFgF5CflwkH4rKes91hPVb0E=
-X-Google-Smtp-Source: AGHT+IGgg0DBuH33oW+E+873bMYyZA/oUaltEXJsqFjgXBWTSXKYJ4mXYIMoJApL4m1vTMrn1nnOpQ==
-X-Received: by 2002:a17:90a:f946:b0:2ff:4bac:6fa2 with SMTP id
- 98e67ed59e1d1-306dbbc1e1emr5446016a91.16.1744213481930; 
- Wed, 09 Apr 2025 08:44:41 -0700 (PDT)
+ AJvYcCUh8AXxNR70NMRLeLAj4/h2wGhGlul7IyLJOzajKkPP1+4v7BPPbmVa68R4JzdUmBkhy9Wp6+uYXgU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxVdvkYddMtyLpA37SmRNJAq0LwvEEBvcQrjldiRb0FyHsbc9En
+ mkN8gl+UVl3+1kkRvWIOE7B3wE76ou2Qwr/GJ0QH9r+K8wrvuzZz
+X-Gm-Gg: ASbGnctxJh1Ehugv6XDBgUT6cib7OURls0vG6uYTC13A0Q7fOKVAwp62CNy5GPcBMVD
+ m6mYn2d0DPERc96PBxcjshH6mHoJB+64IlOpfYi9h1eH3A9cJINyWyDijgRcoZjr8UYzBK4IMEA
+ TKV7VYMhh2o+ILnYRGoKWLnFXJbfvrLdMp+pOjg5KoPWDvmDvDuNt23Mo6mu27s/oxCQhnw/gsA
+ CVhAzVuCxEQWF6KvSUUERUNG8jTxPZrwWkz6ZjKhcCFMu4noZiLdBp0ZUhyGN4FF7BnK6aILj5/
+ X2z6SVfGjyQDz38dnUuyCaMft4nttsSLWjaqiD+0iBGJn25sSCUAWtfEAdzIZu9TqwmkczkWyla
+ uSJGQfA==
+X-Google-Smtp-Source: AGHT+IHDjC6NZDKGKeJbiK4hibwKJCoZJOXppnGBHSYZ9kKUia5ispG3D8M0PIfVIJ8M4eMwylwt9g==
+X-Received: by 2002:a17:90b:1f8f:b0:305:2d28:c8fd with SMTP id
+ 98e67ed59e1d1-306dbc2bf43mr5380309a91.24.1744213492550; 
+ Wed, 09 Apr 2025 08:44:52 -0700 (PDT)
 Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-306dd171991sm1952304a91.37.2025.04.09.08.44.32
+ 98e67ed59e1d1-306dd171991sm1952304a91.37.2025.04.09.08.44.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Apr 2025 08:44:41 -0700 (PDT)
+ Wed, 09 Apr 2025 08:44:52 -0700 (PDT)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
  dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
@@ -89,10 +90,10 @@ Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
  linux-i3c@lists.infradead.org, david.laight.linux@gmail.com,
  andrew.cooper3@citrix.com, Kuan-Wei Chiu <visitorckw@gmail.com>,
  Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH v4 01/13] bitops: Change parity8() to parity_odd() with u64
- input and bool return type
-Date: Wed,  9 Apr 2025 23:43:44 +0800
-Message-Id: <20250409154356.423512-2-visitorckw@gmail.com>
+Subject: [PATCH v4 02/13] media: media/test_drivers: Replace open-coded parity
+ calculation with parity_odd()
+Date: Wed,  9 Apr 2025 23:43:45 +0800
+Message-Id: <20250409154356.423512-3-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250409154356.423512-1-visitorckw@gmail.com>
 References: <20250409154356.423512-1-visitorckw@gmail.com>
@@ -113,157 +114,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Redesign the parity8() helper as parity_odd(), changing its input type
-from u8 to u64 to support broader use cases and its return type from
-int to bool to clearly reflect the function's binary output. The
-function now returns true for odd parity and false for even parity,
-making its behavior more intuitive based on the name.
-
-Also mark the function with __attribute_const__ to enable better
-compiler optimization, as the result depends solely on its input and
-has no side effects.
-
-While more efficient implementations may exist, further optimization is
-postponed until a use case in performance-critical paths arises.
+Refactor parity calculations to use the standard parity_odd() helper.
+This change eliminates redundant implementations.
 
 Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- arch/x86/kernel/bootflag.c               |  4 ++--
- drivers/hwmon/spd5118.c                  |  2 +-
- drivers/i3c/master/dw-i3c-master.c       |  2 +-
- drivers/i3c/master/i3c-master-cdns.c     |  2 +-
- drivers/i3c/master/mipi-i3c-hci/dat_v1.c |  2 +-
- include/linux/bitops.h                   | 19 ++++++++++++-------
- 6 files changed, 18 insertions(+), 13 deletions(-)
+ drivers/media/test-drivers/vivid/vivid-vbi-gen.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/kernel/bootflag.c b/arch/x86/kernel/bootflag.c
-index 73274d76ce16..86aae4b2bfd5 100644
---- a/arch/x86/kernel/bootflag.c
-+++ b/arch/x86/kernel/bootflag.c
-@@ -26,7 +26,7 @@ static void __init sbf_write(u8 v)
- 	unsigned long flags;
- 
- 	if (sbf_port != -1) {
--		if (!parity8(v))
-+		if (!parity_odd(v))
- 			v ^= SBF_PARITY;
- 
- 		printk(KERN_INFO "Simple Boot Flag at 0x%x set to 0x%x\n",
-@@ -57,7 +57,7 @@ static bool __init sbf_value_valid(u8 v)
- {
- 	if (v & SBF_RESERVED)		/* Reserved bits */
- 		return false;
--	if (!parity8(v))
-+	if (!parity_odd(v))
- 		return false;
- 
- 	return true;
-diff --git a/drivers/hwmon/spd5118.c b/drivers/hwmon/spd5118.c
-index 358152868d96..15761f2ca4e9 100644
---- a/drivers/hwmon/spd5118.c
-+++ b/drivers/hwmon/spd5118.c
-@@ -298,7 +298,7 @@ static umode_t spd5118_is_visible(const void *_data, enum hwmon_sensor_types typ
+diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+index 70a4024d461e..5e1b7b1742e4 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
++++ b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+@@ -5,6 +5,7 @@
+  * Copyright 2014 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
   */
- static bool spd5118_vendor_valid(u8 bank, u8 id)
+ 
++#include <linux/bitops.h>
+ #include <linux/errno.h>
+ #include <linux/kernel.h>
+ #include <linux/ktime.h>
+@@ -165,12 +166,7 @@ static const u8 vivid_cc_sequence2[30] = {
+ 
+ static u8 calc_parity(u8 val)
  {
--	if (parity8(bank) == 0 || parity8(id) == 0)
-+	if (!parity_odd(bank) || !parity_odd(id))
- 		return false;
- 
- 	id &= 0x7f;
-diff --git a/drivers/i3c/master/dw-i3c-master.c b/drivers/i3c/master/dw-i3c-master.c
-index 611c22b72c15..dc61d87fcd94 100644
---- a/drivers/i3c/master/dw-i3c-master.c
-+++ b/drivers/i3c/master/dw-i3c-master.c
-@@ -867,7 +867,7 @@ static int dw_i3c_master_daa(struct i3c_master_controller *m)
- 		master->devs[pos].addr = ret;
- 		last_addr = ret;
- 
--		ret |= parity8(ret) ? 0 : BIT(7);
-+		ret |= parity_odd(ret) ? 0 : BIT(7);
- 
- 		writel(DEV_ADDR_TABLE_DYNAMIC_ADDR(ret),
- 		       master->regs +
-diff --git a/drivers/i3c/master/i3c-master-cdns.c b/drivers/i3c/master/i3c-master-cdns.c
-index fd3752cea654..df14f978a388 100644
---- a/drivers/i3c/master/i3c-master-cdns.c
-+++ b/drivers/i3c/master/i3c-master-cdns.c
-@@ -889,7 +889,7 @@ static u32 prepare_rr0_dev_address(u32 addr)
- 	ret |= (addr & GENMASK(9, 7)) << 6;
- 
- 	/* RR0[0] = ~XOR(addr[6:0]) */
--	ret |= parity8(addr & 0x7f) ? 0 : BIT(0);
-+	ret |= parity_odd(addr & 0x7f) ? 0 : BIT(0);
- 
- 	return ret;
- }
-diff --git a/drivers/i3c/master/mipi-i3c-hci/dat_v1.c b/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
-index 85c4916972e4..d692a299607d 100644
---- a/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
-+++ b/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
-@@ -114,7 +114,7 @@ static void hci_dat_v1_set_dynamic_addr(struct i3c_hci *hci,
- 	dat_w0 = dat_w0_read(dat_idx);
- 	dat_w0 &= ~(DAT_0_DYNAMIC_ADDRESS | DAT_0_DYNADDR_PARITY);
- 	dat_w0 |= FIELD_PREP(DAT_0_DYNAMIC_ADDRESS, address) |
--		  (parity8(address) ? 0 : DAT_0_DYNADDR_PARITY);
-+		  (parity_odd(address) ? 0 : DAT_0_DYNADDR_PARITY);
- 	dat_w0_write(dat_idx, dat_w0);
+-	unsigned i;
+-	unsigned tot = 0;
+-
+-	for (i = 0; i < 7; i++)
+-		tot += (val & (1 << i)) ? 1 : 0;
+-	return val | ((tot & 1) ? 0 : 0x80);
++	return val | (parity_odd(val) ? 0 : 0x80);
  }
  
-diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-index c1cb53cf2f0f..7c4c8afccef1 100644
---- a/include/linux/bitops.h
-+++ b/include/linux/bitops.h
-@@ -230,35 +230,40 @@ static inline int get_count_order_long(unsigned long l)
- }
- 
- /**
-- * parity8 - get the parity of an u8 value
-- * @value: the value to be examined
-+ * parity_odd - get the parity of an u64 value
-+ * @val: the value to be examined
-  *
-- * Determine the parity of the u8 argument.
-+ * Determine the parity of the u64 argument.
-  *
-  * Returns:
-- * 0 for even parity, 1 for odd parity
-+ * false for even parity, true for odd parity
-  *
-  * Note: This function informs you about the current parity. Example to bail
-  * out when parity is odd:
-  *
-- *	if (parity8(val) == 1)
-+ *	if (parity_odd(val))
-  *		return -EBADMSG;
-  *
-  * If you need to calculate a parity bit, you need to draw the conclusion from
-  * this result yourself. Example to enforce odd parity, parity bit is bit 7:
-  *
-- *	if (parity8(val) == 0)
-+ *	if (!parity_odd(val))
-  *		val ^= BIT(7);
-  */
--static inline int parity8(u8 val)
-+#ifndef parity_odd
-+static inline __attribute_const__ bool parity_odd(u64 val)
- {
- 	/*
- 	 * One explanation of this algorithm:
- 	 * https://funloop.org/codex/problem/parity/README.html
- 	 */
-+	val ^= val >> 32;
-+	val ^= val >> 16;
-+	val ^= val >> 8;
- 	val ^= val >> 4;
- 	return (0x6996 >> (val & 0xf)) & 1;
- }
-+#endif
- 
- /**
-  * __ffs64 - find first set bit in a 64 bit word
+ static void vivid_vbi_gen_set_time_of_day(u8 *packet)
 -- 
 2.34.1
 
