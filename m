@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAADA83D8D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 10:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284ECA83D8C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 10:53:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE0710E7F8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE5C10E7EC;
 	Thu, 10 Apr 2025 08:53:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="yhL4ITJt";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="LMOo6+IC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3178B10E7EC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AECD10E7F8
  for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 08:53:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
@@ -21,31 +21,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
  References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID;
- bh=2uSi0rBX6HJS7l/ixoRnzj1B4Bl35/AdR7/AHqL8734=; b=yhL4ITJtDKiM/Z08hJ0g582CaA
- V+aKPaaMX1AnJ55IN0fFECPh00KiNKjAF5C6nQgmTj+tQhpIIoOdHghXd3/OgtwLe3GoBWjvB+hla
- p80iVC7P1YIqpXgs5OGqBccorpN+pxG8gfk9bAWia0x/XU6HlkjWCh/sW6Zk+m1HP7pAU4R1t1MPV
- nX1kRRcWSCnvTK6fsUMc3Oj4m1BI2p52eaepV/MspllkQvmh1GtkJj0Qqs0pmTzhexnTdAhjrW35q
- loU9ioxkHLEQ9qf+x0RzqldZzmMeiXuZyVP/09SvPOV2in7RJkjo6mqpYFKGXhrEDYTp25w9gJELt
- MkbVFR5w==;
+ bh=ZXCoP5L2J4BtwaEH2n2GCfyW7YWDh/4SAhqwGfBIa/Q=; b=LMOo6+ICnSo9wd/0x+KdGHWkKq
+ UgRoQTSd6ftNQ2A3885oQ20jGkdFObG4rxEVQtA2/ql8+vxJsCjYsuq5C7VsleaICi/CHRrTgvz0o
+ F/J8eT0tGLFZa/REVQbL/ko/0ScVNyQi7eCydsEc29zJBUGjBuFu/Ou5NN8A2OxEY8/7iwe7oTCP1
+ PwLUH/PUkw/EcOskWbW83yCVv4iGmroK9jbUrFJwquqoY0WXHbWxrNyhDewufFLhy2kuI3C9WXO3a
+ minoMr0ucy2l9tO62kueLB8Yvq82UiDojWW+zajgua6aqtDGaGwPjPCrOX+lqK9+aYc1uCbJBuL0r
+ 4YmpVI5A==;
 Received: from i53875b95.versanet.de ([83.135.91.149]
  helo=localhost.localdomain)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1u2nfG-00036h-JV; Thu, 10 Apr 2025 10:53:38 +0200
+ id 1u2nfH-00036h-1n; Thu, 10 Apr 2025 10:53:39 +0200
 From: Heiko Stuebner <heiko@sntech.de>
 To: Andy Yan <andyshrk@163.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- piotr.oniszczuk@gmail.com, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH] drm/rockchip: vop2: Fix interface enable/mux setting of
- DP1 on rk3588
-Date: Thu, 10 Apr 2025 10:53:27 +0200
-Message-ID: <174427520239.842175.8681778427919130994.b4-ty@sntech.de>
+Cc: Heiko Stuebner <heiko@sntech.de>, cristian.ciocaltea@collabora.com,
+ hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH v2] drm/rockchip: dw_hdmi_qp: Fix io init for
+ dw_hdmi_qp_rockchip_resume
+Date: Thu, 10 Apr 2025 10:53:28 +0200
+Message-ID: <174427520238.842175.9547277934386341429.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250312064218.524143-1-andyshrk@163.com>
-References: <20250312064218.524143-1-andyshrk@163.com>
+In-Reply-To: <20250317102757.565679-1-andyshrk@163.com>
+References: <20250317102757.565679-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -65,15 +66,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 12 Mar 2025 14:42:10 +0800, Andy Yan wrote:
-> This is a copy-paste error, which affects DP1 usage.
+On Mon, 17 Mar 2025 18:27:53 +0800, Andy Yan wrote:
+> Use cfg->ctrl_ops->io_init callback make it work for all platform.
+> And it's also gets rid of code duplication
 > 
 > 
 
 Applied, thanks!
 
-[1/1] drm/rockchip: vop2: Fix interface enable/mux setting of DP1 on rk3588
-      commit: 210db264cf87da8908c395b44170f04469009035
+[1/1] drm/rockchip: dw_hdmi_qp: Fix io init for dw_hdmi_qp_rockchip_resume
+      commit: 1d34597a1e23004c7dd0ab5f58ba1ef95fd9ded5
 
 Best regards,
 -- 
