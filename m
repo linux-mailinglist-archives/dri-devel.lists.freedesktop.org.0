@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39695A8471C
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 16:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4120A8471D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 16:59:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2392710E9E1;
-	Thu, 10 Apr 2025 14:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0862410E9E6;
+	Thu, 10 Apr 2025 14:59:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YtFqsOry";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SwbQaDah";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B590C10E9E0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 14:59:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1167110E9E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 14:59:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744297151; x=1775833151;
+ t=1744297155; x=1775833155;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Z6GgVa7+teHw13e28uu78eYJ8vhUs3VWBL9/7/SRxzQ=;
- b=YtFqsOryMskMp/UalqhkSd2fRgMw0wAYC/7MMX9Jhbv664XpZHB9xwDp
- JmhqulXXQ3FwJElfYjIpckh5zmnEbSRl4rBJHW6NwOwh7RmzBrm9XdFId
- eHNEBSVBLXwqVffzfeeFix/S5K8lB6Qj2tci0N5e/IIHsWhS3Jj6I1XT5
- 7D1SZ3EE2qdZA8AbuFAa42eriDCkxUcov+2WBYhZO6jorVBZdCIrMOIg7
- KhzLHPtfjoTiWzLwe+vfdhtgvyG79C7df46hs4V+LiH5nTFIZJI1uXM2A
- 9fEHAAkvjytsB5AfiDUB/7Lz0YvFVxcM1svCp+vOmLC8NPWnrZGAm/bI9 w==;
-X-CSE-ConnectionGUID: 64BNAogSTSuWlEWo7pQJ+Q==
-X-CSE-MsgGUID: RlHxHgksTFaXfybseBzBgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="71208118"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="71208118"
+ bh=ySA7GXGFZOZZ4YpKfk7lLGBIB5XGeGk00QsR2nkU+m8=;
+ b=SwbQaDahBfYp8+9w0uZkC6lr5o0Q5n/FXNcBUbRyx4WFkXhdI/i0a4PK
+ rcKS1/1PLrOweqtq4BmzZhDPmJ8z0SE0b0iOL4iS8lIAy4j1xS08CKdaV
+ zV3lDuICOc7eBr/sTtEfxZX6aXBnQ1BE/vG1Wht0L7Hhyrxdl9DRNXRFT
+ 363gWaACUjDg6+bI4Da7Qlior5q+6tEfmEuU9NzIkgmIqjOEd5i2388mS
+ ELInLSs+svSEsvCIB2ZeaquRLdFmuFMzjXkgSLJaM0MebahEWoO2IUgXB
+ z2J6Dpb+WRLstr2181qnWz8Y9AW73UdfaZ9Oqegi9V3B1q/TP2zCmbdkO Q==;
+X-CSE-ConnectionGUID: V/vFAcS3QCuRV1nCNfo9Kw==
+X-CSE-MsgGUID: LYNTaao6Qpubaxt4K6Iftw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="71208138"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="71208138"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2025 07:59:11 -0700
-X-CSE-ConnectionGUID: c4J4jVkKQSqUD1+W9E4Fig==
-X-CSE-MsgGUID: LLYTJHAVSa+D153i5mmY+g==
+ 10 Apr 2025 07:59:14 -0700
+X-CSE-ConnectionGUID: al5zttqSRtapjorgHNSgeQ==
+X-CSE-MsgGUID: +ykXOIbJSGm6iPY2L/ZJEQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="134101979"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="134101986"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 10 Apr 2025 07:59:09 -0700
+ by orviesa005.jf.intel.com with SMTP; 10 Apr 2025 07:59:12 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 10 Apr 2025 17:59:08 +0300
+ Thu, 10 Apr 2025 17:59:11 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jyri Sarha <jyri.sarha@iki.fi>
-Subject: [PATCH v3 1/6] drm/tilcdc: Allow build without __iowmb()
-Date: Thu, 10 Apr 2025 17:58:59 +0300
-Message-ID: <20250410145904.25550-2-ville.syrjala@linux.intel.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 2/6] drm/tilcdc: Allow build with COMPILE_TEST=y
+Date: Thu, 10 Apr 2025 17:59:00 +0300
+Message-ID: <20250410145904.25550-3-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250410145904.25550-1-ville.syrjala@linux.intel.com>
 References: <20250410145904.25550-1-ville.syrjala@linux.intel.com>
@@ -72,34 +72,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-__iowmb() isn't available on most architectures. Make
-its use optional so that the driver can be built on
-other architectures with COMPILE_TEST=y.
+Allow tilcdc to be built with COMPILE_TEST=y for greater
+coverage. Builds fine on x86/x86_64 at least.
 
-v2: Add a comment stating this is for COMPILE_TEST (Tomi)
-
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Acked-by: Jyri Sarha <jyri.sarha@iki.fi>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/tilcdc/tilcdc_regs.h | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/tilcdc/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_regs.h b/drivers/gpu/drm/tilcdc/tilcdc_regs.h
-index f90e2dc3457c..332b24327386 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_regs.h
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_regs.h
-@@ -125,7 +125,10 @@ static inline void tilcdc_write64(struct drm_device *dev, u32 reg, u64 data)
- #if defined(iowrite64) && !defined(iowrite64_is_nonatomic)
- 	iowrite64(data, addr);
- #else
-+	/* allow compilation without __iowmb() for COMPILE_TEST */
-+#ifdef __iowmb
- 	__iowmb();
-+#endif
- 	/* This compiles to strd (=64-bit write) on ARM7 */
- 	*(volatile u64 __force *)addr = __cpu_to_le64(data);
- #endif
+diff --git a/drivers/gpu/drm/tilcdc/Kconfig b/drivers/gpu/drm/tilcdc/Kconfig
+index 24f9a245ba59..c430914b1db7 100644
+--- a/drivers/gpu/drm/tilcdc/Kconfig
++++ b/drivers/gpu/drm/tilcdc/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_TILCDC
+ 	tristate "DRM Support for TI LCDC Display Controller"
+-	depends on DRM && OF && ARM
++	depends on DRM && OF && (ARM || COMPILE_TEST)
+ 	select DRM_CLIENT_SELECTION
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_DMA_HELPER
 -- 
 2.49.0
 
