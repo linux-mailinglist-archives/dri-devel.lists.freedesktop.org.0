@@ -2,97 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84DCDA8432F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 14:33:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97DCA8433A
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 14:36:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B95DA10E98E;
-	Thu, 10 Apr 2025 12:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 443F210E991;
+	Thu, 10 Apr 2025 12:35:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Nhursxx6";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zqMyrCMy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9799110E991
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744288415;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XzAKiwusa4FnfImDHjC+xF+rVFlzeZQXLdEAlRfe6aw=;
- b=Nhursxx64YOgggAnfGtw+YtLGYx3vWZ5gpdRJKuWv/Ivye/YDeeCInasG8soPWyPEUP5aa
- W83rrLQ5bFilcYQfw0AwCo1AaEyFvSpljTwyggVmvS9052Qc0ZZouifbEs2qGqOMXC5eJd
- Px2cgs/rcmr8qkr1s9fd2yLURLbG40M=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-246-y3e1bFwMMB-M1OVD8G9aIA-1; Thu, 10 Apr 2025 08:33:34 -0400
-X-MC-Unique: y3e1bFwMMB-M1OVD8G9aIA-1
-X-Mimecast-MFC-AGG-ID: y3e1bFwMMB-M1OVD8G9aIA_1744288413
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-43ced8c2eb7so6596875e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 05:33:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744288413; x=1744893213;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XzAKiwusa4FnfImDHjC+xF+rVFlzeZQXLdEAlRfe6aw=;
- b=KtGSYf3ayIDhQ7RmnLpaS6klke7vpETctAG6JTgeXIh+WvDb08l8g+00XsCagiAPUd
- iEYP5TTclns6Lkt+Nt6wL1m/a08L5Lkgqmg5VvLy7VxQ1/HsxB/AA444e4yAmOorAbLF
- WpSDv/HelMUqI1IIsHMaOuT674QRrSFe/hq63uwTXJQfA8PxII/YbvjRzlqaI5wjVARl
- gAOfdpp6otQAXRDJmizA/VrpXwWda8aaEZ3FMsLRfFEQNrelXzAJFGSpSUIwG7fyee19
- GwjGvwW8b6PY3G8vvttLJrVbSgVBJXy9Ubmy8tvltdNHGakegb2iW4mYXJWH+v5uFSYA
- Pxxg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWDMnhCoILPw/dmV/EehL0Ls3MHAw/++dJQF8/xUTkp9RNFxjm3mFBWYWQdErLEjJWONJHizpsknnU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YweAX7v5Uprqfi3OowgR6gPHCt4Tt82PdNjFjtYXHmd5t8oYwik
- Dtr4A3Fbj3LwDrWHbkNBs8inzH5yM2TavMI37dfKa1guF1DasX3HdFU1wJWchF78yNMx28iU2iV
- NzSRktQlufnJtXayOql5dsLUtWC12/sykWEL8j+F/fx04HXuJiWYZlRfQOcjypOqs+w==
-X-Gm-Gg: ASbGnctafpD+7OWzNT01ywiKq1k+URwujfw97Klv0Sk2LNnAN/0z+vC2oAWRvMqvlTK
- oUUHV2uGhY1deKBPlYfI5zZMtyH/ELX3iyEbsOYn9aWimPgOJlfi8jWdeNCieSENoDrrTLlUHq7
- V/t7egLJ8L2HlXNuQkDabswMYxuOnc2nG1LprTP9cpZVtdUWReDR0HMGsVcqx5v30Ar5bqK9iFr
- LhXdKiInhOFJPIdQtwzJLIJ+4AOcGPkjvmMDoqPAxmDhIuzDxEP/wiAchbIEB3K5vPgQqVW5B1e
- 0yprGR1Tr2ebLHRyChygIjM2ycIsgcBGZr2cLKSKrC7FhhIfUrs=
-X-Received: by 2002:a05:600c:3ac4:b0:43c:f5fe:5c26 with SMTP id
- 5b1f17b1804b1-43f2fdcd138mr22376295e9.4.1744288412624; 
- Thu, 10 Apr 2025 05:33:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH4Hg93CAtytIFwA2PdWCvdhwPGQlJQIhV6moMSLJ0JSV6AbPj1qF/4L4m/La1hkEppphCKAg==
-X-Received: by 2002:a05:600c:3ac4:b0:43c:f5fe:5c26 with SMTP id
- 5b1f17b1804b1-43f2fdcd138mr22375885e9.4.1744288411897; 
- Thu, 10 Apr 2025 05:33:31 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43f233c49f7sm49420895e9.17.2025.04.10.05.33.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Apr 2025 05:33:31 -0700 (PDT)
-Message-ID: <07b30329-b4f0-4655-87fb-3ac52f9c64ff@redhat.com>
-Date: Thu, 10 Apr 2025 14:33:26 +0200
-MIME-Version: 1.0
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2067.outbound.protection.outlook.com [40.107.220.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73C2310E991;
+ Thu, 10 Apr 2025 12:35:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=p8JtGeFQ3RNIAya+3Q/wI6or2trBS8mFzp2KNUQdjVzYHIVamMI64+9aQCU1eA35S3v4WZZ1hmS1dKbdWBIj+SKdJHrjoYC0Ev4TfkAaAFTh/q1zOBF657KgVStdL6LscUSlTiBNIIoAx9LOejdSaq9yVsWmMcRppsErgQz8+HUeqlBAdH0T9wuzOQbhrOt1XDAmeIknl1isuIYF1HvsZUlwGwCgGq6oDPXuc0J+zQqnCnYce4Xi1QkdAHRk1muIe/2JlRPSY1bVlEPcNRt3/ZvpYlVuyjKzOAvZ7Gat0SmfCeRGgiZ74TsUDaJNMoSLwDvml10GOPArzQegPw42Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W7YelMjTmq2eexOBMVm7VwCnzb7hpAoSMU+95dmYGTo=;
+ b=T41dpNxEkcenFv0Yx+pkmT1TJfIcSuJOvym1BlQ7TiFx8ci37VZpPtmazuavEfwleWsGLqYKIrrBAWFwkNIzBI0X66OrSIUJ4IPKQGPTuuj6iIHwTRIQsAJtJRX6rPyEr+yXIhDfVbdd7JiB3OZa8FCGGIUPZoQ/Dy2s1EQG0UenvPhe+571id3uLqsJzJmLaDO6qljHDx91ZsPcjt9xUusYbvF7Nn/tUA1dQdQyJFW4seb7nXBXrh4a58JNB7Mnf+vv3KAdj0uEs0XogY8GVB/6wtiiooYQuMAHCr/ZGTvjSE1IZEUR+AzGuboKILylIBZQxXS5bS0k51iyoGSubA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W7YelMjTmq2eexOBMVm7VwCnzb7hpAoSMU+95dmYGTo=;
+ b=zqMyrCMyahQ3l5z3XG/qMvYXSwv0AVRv4iiOzB58LYGCu/h5/FGBwIPJF/zj9NM0znK4pUpdHEOQ52L2KRC4N1chi8V5wWPrZxo2wojZzBWsKIIfDIvDT+JiioKdSCrVjM3G3dg4WzqFtDuGm8DxL2mXgv6fSkjTD59i5hUse0o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN2PR12MB4224.namprd12.prod.outlook.com (2603:10b6:208:1dd::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.22; Thu, 10 Apr
+ 2025 12:35:50 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.021; Thu, 10 Apr 2025
+ 12:35:50 +0000
+Message-ID: <e24e5e05-5ffd-440f-b9d9-8a0f792cc7c8@amd.com>
+Date: Thu, 10 Apr 2025 14:35:45 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] virtgpu: don't reset on shutdown
-To: "Michael S. Tsirkin" <mst@redhat.com>, linux-kernel@vger.kernel.org
-Cc: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH 1/1] drm/lima: implement the file flush callback
+To: Qiang Yu <yuq825@gmail.com>, Erico Nunes <nunes.erico@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, Eric Auger <eauger@redhat.com>
-References: <0d24e539766c9220b2380839472d1dc8739b5322.1744268995.git.mst@redhat.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <0d24e539766c9220b2380839472d1dc8739b5322.1744268995.git.mst@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: nBg0Vy6QFEfKLli1Iv-7kArTPfa1dUrdAF8Mu1wVI0Y_1744288413
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250408154637.1637082-1-nunes.erico@gmail.com>
+ <20250408154637.1637082-2-nunes.erico@gmail.com>
+ <CAKGbVbt-Cfp_D3WH3o1Y=UUQzf-sM0uikZXO1MFRxt2P72gjJg@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAKGbVbt-Cfp_D3WH3o1Y=UUQzf-sM0uikZXO1MFRxt2P72gjJg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0282.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e6::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4224:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5058f275-e260-4056-1edb-08dd782c39bb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZUc1eHcydzBJL3FqZTdFeE00cUluWlRsNWdRMzczOUFRdjJTalA5TUlhbnM1?=
+ =?utf-8?B?dm1ka25ya1N5cTNjVnh5U0hPTURaWnh6M3pOWnc5Y1lnVWRNNmlDTTB6c2NB?=
+ =?utf-8?B?QWtsZGpoYjVzL1p1QTNLbURxcWRhU1JYTjBxQXUxZUw1NE94RnIrRWYraGJ0?=
+ =?utf-8?B?WGU4OWpjeHpyTE0wd3RyN2pvdU5KMWIwSWJ3NjdFM2xycXB4LzJPK1gzS0M4?=
+ =?utf-8?B?ZGdIVU42QlE0dFNTMWNuTjJMSlpNandUNXBYVHdHZXBqbHhNZjd2OXl6a1F5?=
+ =?utf-8?B?cVFlaTVmd2tveTlrdm9BV21kV05yWklHWS94WVBvY1J5M1IxdFMzczVWSmpG?=
+ =?utf-8?B?MytzbVQvVmxBOEtlU29PMXJhVG1ob3Q0NnUya0Z6MHdmb2NPdkNJYzk1QmRv?=
+ =?utf-8?B?a2VtcTh5aStqTGpwNXRSSFJCR2p1TmcvS1pUendLSlVnWjQ4ZDhyWkxyT0hP?=
+ =?utf-8?B?b0RkcUh5aVNZR285OENNb1pQc3d5aVRSS3dROERzTmVKZFJIWTZpQTFrdnRv?=
+ =?utf-8?B?TEo3ZklNalBpekpSdU0xUEV2aHFnL0ZFMTZLM2hqbmJFeHdMVmdZeENOZVFh?=
+ =?utf-8?B?NGFscjB6QWNPeGMrYmlvZ2dxRnVJNE1WR2g4QkJjMVNWVVR6Y0owZVBEbGZh?=
+ =?utf-8?B?SzlmYWZHbHlqcG5tRk5DVitReXhLN1VNOG9Ta2RHcUhoTE9pYmpMZDdlSGxZ?=
+ =?utf-8?B?SU93NExVRWlSU0NsTWpGSDlMajZXalhRdEFQUk13Vk9lcEJmZFRCZUExUzgr?=
+ =?utf-8?B?T1VtZXh1dTVlTXJ6bmpHN3NyVDFPV0JiZ1dvc2I5RHZhY3hzelI3Y2pvTlNP?=
+ =?utf-8?B?c1Q0cjNBdGQzNW5DSEw0Q3ZEUnlITU85QjlvMWNjS09zVEhnWUh0bUNqWG40?=
+ =?utf-8?B?NWtrV0hnZ0xnTU5vcWcvOE9wMkllWkErVFlRVlNHUWtyY2tzaks4eExDMFpi?=
+ =?utf-8?B?YUFMcjBqWXIyRnlzWTEzL1hGZjZQZ1BxbktpUDJ2d2JFTHZsZzdoV2tCbDhW?=
+ =?utf-8?B?TmFSRU9GdGl0bDZqSGhmbUYrWTJJRXQvTjB4RXE0bUNFTVU0YWROU0xkM1FM?=
+ =?utf-8?B?dng3Nlp1UVVZMWw0WWhaVm9jMTZQMmpWNjlxQ1NFSlg4VFpoSE5nQzg3bkk4?=
+ =?utf-8?B?VVArbnRnTlU0MTdKVG9hdm1VREJzK29IRGxoZnNQV0Y3MmU0S1NycDJpYkhJ?=
+ =?utf-8?B?UkRPTW9wbGdyTTRKUFRKY0o1dk1LQzJlR0xnVXVEUGt6L05neUEzU2dLNFhs?=
+ =?utf-8?B?RUhqUjJUVVFnT21XN0hPL2hURW1LZkptNXpDQjEva2pYS3pEeTAwL3FIMjMy?=
+ =?utf-8?B?WGdZMGFGR1NsRm01Lzk3YkhGSG1LZ214RlllcnQycnh4UUxSbHBkZXExVWZQ?=
+ =?utf-8?B?NlJtdGI3b0tFYitTTFpCRTd6UHlreUVvZDFNUFVFR0VDaWFmNkYxclFiQWV1?=
+ =?utf-8?B?Szh3QUpvRTlYTVFwUDlJYkZGeGpqY2VJMUl1aHlYY2NyQUsyQldrN2E3Qk1S?=
+ =?utf-8?B?ZWJ1QVdBc21mVXJpNjY1OGZBTXkxV0VFQUcyVDIvY0kvbDczVVVTbzVXNGty?=
+ =?utf-8?B?dWRscFRwVEJydmszNWxxaUxFbG5hQnBYU1oybVR4MXFhSk1aKzVET2llT1pq?=
+ =?utf-8?B?RFF1T2FoU21kZ1NHSkc2VFRuM1puZVBySjJNZFN2SUw5U0FWTFY1THFhSkF0?=
+ =?utf-8?B?WTVFeENTZGU4dm1KbnFUYVFmd21yMWlySDhZV2F2NWRzMGEvOWlLZytNTDh1?=
+ =?utf-8?B?c1BWRmVQbzZmd0dzeVowZnY5a1pMdEhKZ28yaUVhT2cxL2FCZEdlNW90WnVo?=
+ =?utf-8?B?T3hIWkFJcDY1MWZVZzdtcnhqelEyNSt2YzNuZnVLaTdzRnlISWt3YzN1cEpB?=
+ =?utf-8?Q?Pd2yMPqLRCsn2?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MkRwUUthb05CNis4ZjdjNEhoa1hhaCthUXhaS0tmQkJzZ2R1emdsd2g1SFhU?=
+ =?utf-8?B?MFN0ZjhWc2xTaytHbngvU2pvZTVMeHBKWlBLTXBNNmJDMmNLY0FUdlE5Z1A2?=
+ =?utf-8?B?SUp2R05vK1B6UTVibWc2dkFjclgyOUNTcDBnTzd3ZUNzbHVzL1l0M2xpVGRn?=
+ =?utf-8?B?Q2V3VVhkNGI5Skdua3Q1YWNkQUxDSTdxaUVlYnNNNGhuejhHemRSRmdkSU03?=
+ =?utf-8?B?VlpadFRKelZCa2pBajdlZWU1SDhrM2JpN0dMR3FiUklKRDdrbmFYczZMZ244?=
+ =?utf-8?B?ckVZZStYY1VtaXRQU0t4d0sxd3VwL0NKMnNLTGI1VFF2dkZnMmRKa1l1Z1JU?=
+ =?utf-8?B?QjJ4ZGd3aGtaMkR6dm5tVnBSNk5ER3p4V0M3eFZ0MFFOa3VJTC9RSGxZSW1z?=
+ =?utf-8?B?Nm1kRFF6Y1BjVjZ3Q2crVks5eUpBT3VvSDNuTHlIRWNRZnlOTjd0ZVp4ejZT?=
+ =?utf-8?B?V0ZHK2YxU0dVUlVwTDFHRXd6THBlb1ZpZEJobW9RMzJjTlFlUHVvQjNqV25L?=
+ =?utf-8?B?eUVUbjBKUGp0bU5STmFIMXB0dm5kWDdIT0twNVVCTGsvS2lXMGJFNUdrNHRR?=
+ =?utf-8?B?ZFh5N2JtVXNqYnFub1JRWVkwZCtwRDJxakZ3TG5raGNXUGVibUNnTVJUQmhR?=
+ =?utf-8?B?RFBhbUlha1R4RzR4QldobTVyaGh4MWpsZWJhMW85Y0JWc2trUitER1ZJR2Nt?=
+ =?utf-8?B?RDhHVzA1R3RZTG1STHcvSEMzMEk4RUF2OXhQb1YvS05yVFVtTE5sTW5JMjA3?=
+ =?utf-8?B?WXhGZjFtTDVMZWNHS1hzTml3S2R4c3BoZDlLMU15SGY1dVdURXhqdzJYMDZh?=
+ =?utf-8?B?ckNudkxwWDdIYy9zaEp2SUxZTGdGQmpiTjNtb0ZqSFhwVi9lcXNRUTlTY0g5?=
+ =?utf-8?B?TWhoVXVRbk8zd0l4SnIwZ1F5ZHRoNHNtS1JUOGlrS1BtcUJsWjU4QXM0WWt5?=
+ =?utf-8?B?OFBDZjZGbWxnZXhTa1d5UEtxL2o4TmlsbzlvRjFQeGtxMk5EczMyQlFnQzlX?=
+ =?utf-8?B?aVNwejVpaENpMUQ0cTVVTTk4eFNkbEZIQ2g0dlZNOU5ZYlMwR2pEOWFEeE5w?=
+ =?utf-8?B?c1l0ck43M2crRlhpYmFtUWNERmUra0dWZDdSSHZnT3hrSjZJYUNPTFlTQkxV?=
+ =?utf-8?B?WFI5RzllbmxuQlBrT1dhUnZ6WVpLSEt1TTRuRDIwOXFuaWt6YllWeUpwSHdR?=
+ =?utf-8?B?eitFTEltNTdPRXRQRmd1Y0RsM3p1TEY2d2Z0b1o0SVRwM09XOXc4YmdWZ2ls?=
+ =?utf-8?B?S3VvYTZPek9nVVZsUXN5eGQyV01maFdENXA3UUsxdGo1RE9BbUx0MHdvQXZM?=
+ =?utf-8?B?ckZBOXArc0hiNDBIV2tWSWZ0bmoxMEpPSmNuckZGMFlCOS9GQnJGb0VVMGJX?=
+ =?utf-8?B?YlVrZTVXUzladnhaQlBIaW9ubjNCVFMwTGZKMnBDSXVRVkNjQUJnbnF1N296?=
+ =?utf-8?B?RkRPbmQ5UDA1eU5kVjY4azJQRU0vTFQ3VnlVc1ZVc3N2QlF5R3JiQUMvRStS?=
+ =?utf-8?B?MjNYSG5JOFhseFVhakZEWjNGZzVIM2U2NHllYnUxcks4bXA0c041R3poTUo1?=
+ =?utf-8?B?dDIvaEdGYnRjQVJXenZseVhjZWhQOCtSanp6TXoyQk9nZWF2VXIyb1ZrRnll?=
+ =?utf-8?B?Nm1mc0xleU1xSFRHQVVDRXBzUm5Cd2UxeHA3VjY3VTdZWmduOVBxTi9RbWFG?=
+ =?utf-8?B?M0J5VlA0VTlYVWM5bkY2TGJ6cS9uLzVzdWlVbnRsMU8yb0twZlZFVU1GQlVJ?=
+ =?utf-8?B?dnFzZmZsYkFuZUJ4S3owUFcrSTNWM3ZOeXErUjBXV21SZUhtMmZHcGdiZmpl?=
+ =?utf-8?B?Vk9YTUE5QnhtaDdLcktTS3F1NnE5am1MSE5qY2xwOXVCSG1NckJ5d0N0bmFl?=
+ =?utf-8?B?Z01KQ3lybTc5RlhlUW12VjAvaTcvU2gyWVVFMUxOTk1sc3RxbUdLWi9IcnFk?=
+ =?utf-8?B?Z1I2VGc3aWV4WUVyM3hwT1hhM2ZJRSsxYnFkUzQ1Mjg4OFQ4Yk1WU0ovY0FX?=
+ =?utf-8?B?bVd4QUFhcmdVSUd4NHJHVDlRTWdobVJETDVmcy9vZXhSd1c2eXIzUFI0cUhz?=
+ =?utf-8?B?d1h1QkJ1SllLcUI1RFFnczYwbDFCbldRL3pRNmQxamQ5WEJNVmpxSVZ1TEpi?=
+ =?utf-8?Q?WqQsPURBsv3MoyyWmth7dnHts?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5058f275-e260-4056-1edb-08dd782c39bb
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 12:35:50.0410 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tOnhuHS5kdEJgdDzavqoFK4JeKWr9MURAhwhDRj8+cOjGdKudqR2CaFVNyZi1eLK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4224
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,213 +166,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/04/2025 09:16, Michael S. Tsirkin wrote:
-> It looks like GPUs are used by panic after shutdown is invoked.
-> Thus, breaking virtio gpu in the shutdown callback is not a good idea -
-> guest hangs attempting to flush out the panics, with this warnings:
+Am 10.04.25 um 11:33 schrieb Qiang Yu:
+> On Tue, Apr 8, 2025 at 11:48 PM Erico Nunes <nunes.erico@gmail.com> wrote:
+>> With this callback implemented, a terminating application will wait for
+>> the sched entity to be flushed out to the hardware and cancel all other
+>> pending jobs before destroying its context.
+> We do flush when file release in lima_ctx_mgr_fini. Why do we wait here
+> in flush? What's the difference?
 
-I don't think drm_panic is involved. In your backtrace, the warning
-comes from virtio_gpu_queue_ctrl_sgs(), which is called by fbcon, using 
-drm fbdev emulation to draw the console.
+Waiting for submissions when you release the file descriptor is actually a bad idea since that can prevent SIGKILL from acting immediately. For example the OOM killer absolutely doesn't like that and eventually calls panic().
 
-In case of drm_panic, it is the panic variant, 
-virtio_gpu_panic_queue_ctrl_sgs() which is called.
+Flush is called either manually, on process termination or when you send a SIGTERM. This should then wait for any I/O to complete.
 
-Also the line number is for the centos-stream-9 kernel, which don't have 
-the "panic" variant of this function yet.
+The idea is now that you can then still send a SIGKILL to abort waiting for the I/O as well and so get pending GPU operations not submitted to the HW.
 
-> 
-> [   20.504464] WARNING: CPU: 0 PID: 568 at drivers/gpu/drm/virtio/virtgpu_vq.c:358 virtio_gpu_queue_ctrl_sgs+0x236/0x290 [virtio_gpu]
-> [   20.505685] Modules linked in: nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set nf_tables nfnetlink vfat fat intel_rapl_msr intel_rapl_common intel_uncore_frequency_common nfit libnvdimm kvm_intel kvm rapl iTCO_wdt iTCO_vendor_support virtio_gpu virtio_dma_buf pcspkr drm_shmem_helper i2c_i801 drm_kms_helper lpc_ich i2c_smbus virtio_balloon joydev drm fuse xfs libcrc32c ahci libahci crct10dif_pclmul crc32_pclmul crc32c_intel libata virtio_net ghash_clmulni_intel net_failover virtio_blk failover serio_raw dm_mirror dm_region_hash dm_log dm_mod
-> [   20.511847] CPU: 0 PID: 568 Comm: kworker/0:3 Kdump: loaded Tainted: G        W         -------  ---  5.14.0-578.6675_1757216455.el9.x86_64 #1
-> [   20.513157] Hardware name: Red Hat KVM/RHEL, BIOS edk2-20241117-3.el9 11/17/2024
-> [   20.513918] Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
-> [   20.514626] RIP: 0010:virtio_gpu_queue_ctrl_sgs+0x236/0x290 [virtio_gpu]
-> [   20.515332] Code: 00 00 48 85 c0 74 0c 48 8b 78 08 48 89 ee e8 51 50 00 00 65 ff 0d 42 e3 74 3f 0f 85 69 ff ff ff 0f 1f 44 00 00 e9 5f ff ff ff <0f> 0b e9 3f ff ff ff 48 83 3c 24 00 74 0e 49 8b 7f 40 48 85 ff 74
-> [   20.517272] RSP: 0018:ff34f0a8c0787ad8 EFLAGS: 00010282
-> [   20.517820] RAX: 00000000fffffffb RBX: 0000000000000000 RCX: 0000000000000820
-> [   20.518565] RDX: 0000000000000000 RSI: ff34f0a8c0787be0 RDI: ff218bef03a26300
-> [   20.519308] RBP: ff218bef03a26300 R08: 0000000000000001 R09: ff218bef07224360
-> [   20.520059] R10: 0000000000008dc0 R11: 0000000000000002 R12: ff218bef02630028
-> [   20.520806] R13: ff218bef0263fb48 R14: ff218bef00cb8000 R15: ff218bef07224360
-> [   20.521555] FS:  0000000000000000(0000) GS:ff218bef7ba00000(0000) knlGS:0000000000000000
-> [   20.522397] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   20.522996] CR2: 000055ac4f7871c0 CR3: 000000010b9f2002 CR4: 0000000000771ef0
-> [   20.523740] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [   20.524477] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
-> [   20.525223] PKRU: 55555554
-> [   20.525515] Call Trace:
-> [   20.525777]  <TASK>
-> [   20.526003]  ? show_trace_log_lvl+0x1c4/0x2df
-> [   20.526464]  ? show_trace_log_lvl+0x1c4/0x2df
-> [   20.526925]  ? virtio_gpu_queue_fenced_ctrl_buffer+0x82/0x2c0 [virtio_gpu]
-> [   20.527643]  ? virtio_gpu_queue_ctrl_sgs+0x236/0x290 [virtio_gpu]
-> [   20.528282]  ? __warn+0x7e/0xd0
-> [   20.528621]  ? virtio_gpu_queue_ctrl_sgs+0x236/0x290 [virtio_gpu]
-> [   20.529256]  ? report_bug+0x100/0x140
-> [   20.529643]  ? handle_bug+0x3c/0x70
-> [   20.530010]  ? exc_invalid_op+0x14/0x70
-> [   20.530421]  ? asm_exc_invalid_op+0x16/0x20
-> [   20.530862]  ? virtio_gpu_queue_ctrl_sgs+0x236/0x290 [virtio_gpu]
-> [   20.531506]  ? virtio_gpu_queue_ctrl_sgs+0x174/0x290 [virtio_gpu]
-> [   20.532148]  virtio_gpu_queue_fenced_ctrl_buffer+0x82/0x2c0 [virtio_gpu]
-> [   20.532843]  virtio_gpu_primary_plane_update+0x3e2/0x460 [virtio_gpu]
-> [   20.533520]  drm_atomic_helper_commit_planes+0x108/0x320 [drm_kms_helper]
-> [   20.534233]  drm_atomic_helper_commit_tail+0x45/0x80 [drm_kms_helper]
-> [   20.534914]  commit_tail+0xd2/0x130 [drm_kms_helper]
-> [   20.535446]  drm_atomic_helper_commit+0x11b/0x140 [drm_kms_helper]
-> [   20.536097]  drm_atomic_commit+0xa4/0xe0 [drm]
-> [   20.536588]  ? __pfx___drm_printfn_info+0x10/0x10 [drm]
-> [   20.537162]  drm_atomic_helper_dirtyfb+0x192/0x270 [drm_kms_helper]
-> [   20.537823]  drm_fbdev_shmem_helper_fb_dirty+0x43/0xa0 [drm_shmem_helper]
-> [   20.538536]  drm_fb_helper_damage_work+0x87/0x160 [drm_kms_helper]
-> [   20.539188]  process_one_work+0x194/0x380
-> [   20.539612]  worker_thread+0x2fe/0x410
-> [   20.540007]  ? __pfx_worker_thread+0x10/0x10
-> [   20.540456]  kthread+0xdd/0x100
-> [   20.540791]  ? __pfx_kthread+0x10/0x10
-> [   20.541190]  ret_from_fork+0x29/0x50
-> [   20.541566]  </TASK>
-> [   20.541802] ---[ end trace 0000000000000000 ]---
-> 
-> The warning is from here:
+The DRM scheduler helps doing that by providing the drm_sched_entity_flush() and drm_sched_entity_fini() functions.
 
-No, it comes from
+When there is still pending work when drm_sched_entity_fini() is called a callback to kill it is installed and the job just freed instead of executed.
 
-static int virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
-				     struct virtio_gpu_vbuffer *vbuf,
-				     struct virtio_gpu_fence *fence,
-				     int elemcnt,
-				     struct scatterlist **sgs,
-				     int outcnt,
-				     int incnt)
-> 
-> /* For drm_panic */
-> static int virtio_gpu_panic_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
->                                             struct virtio_gpu_vbuffer *vbuf,
->                                             int elemcnt,
->                                             struct scatterlist **sgs,
->                                             int outcnt,
->                                             int incnt)
-> {
->          struct virtqueue *vq = vgdev->ctrlq.vq;
->          int ret;
-> 
->          if (vgdev->has_indirect)
->                  elemcnt = 1;
-> 
->          if (vq->num_free < elemcnt)
->                  return -ENOMEM;
-> 
->          ret = virtqueue_add_sgs(vq, sgs, outcnt, incnt, vbuf, GFP_ATOMIC);
->          WARN_ON(ret);
-> 
->          vbuf->seqno = ++vgdev->ctrlq.seqno;
->          trace_virtio_gpu_cmd_queue(vq, virtio_gpu_vbuf_ctrl_hdr(vbuf), vbuf->seqno);
-> 
->          atomic_inc(&vgdev->pending_commands);
-> 
->          return 0;
-> }
-> 
-> 
-> Add an option for drivers to bypass the common break+reset handling.
-> As DRM is careful to flush/synchronize outstanding buffers, it looks like
-> GPU can just have a NOP there.
+Regards,
+Christian.
 
-So it looks like the shutdown is called in the middle of console 
-drawing, so either wait for it to finish, or let drm handle the 
-shutdown, like your patch does.
-
-> 
-> Fixes: 8bd2fa086a04 ("virtio: break and reset virtio devices on device_shutdown()")
-> Cc: Eric Auger <eauger@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
-> 
-> Can someone who knows more about DRM and shutdown please tell me if this
-> is a good idea?  Posting for testing and early feedback, completely
-> untested.
-> 
-> 
-> 
->   drivers/gpu/drm/virtio/virtgpu_drv.c | 9 +++++++++
->   drivers/virtio/virtio.c              | 6 ++++++
->   include/linux/virtio.h               | 3 +++
->   3 files changed, 18 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> index 2d88e390feb4..210464146a9c 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> @@ -128,6 +128,14 @@ static void virtio_gpu_remove(struct virtio_device *vdev)
->   	drm_dev_put(dev);
->   }
->   
-> +static void virtio_gpu_shutdown(struct virtio_device *vdev)
-> +{
-> +	/*
-> +	 * GPU is used by drm panic after shutdown.
-
-Hopefully, there are no panic on shutdown.
-
-> +	 * Do nothing here, opt out of device reset.
-> +	 */
-> +}
-> +
->   static void virtio_gpu_config_changed(struct virtio_device *vdev)
->   {
->   	struct drm_device *dev = vdev->priv;
-> @@ -162,6 +170,7 @@ static struct virtio_driver virtio_gpu_driver = {
->   	.id_table = id_table,
->   	.probe = virtio_gpu_probe,
->   	.remove = virtio_gpu_remove,
-> +	.shutdown = virtio_gpu_shutdown,
->   	.config_changed = virtio_gpu_config_changed
->   };
->   
-> diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-> index 150753c3b578..95d5d7993e5b 100644
-> --- a/drivers/virtio/virtio.c
-> +++ b/drivers/virtio/virtio.c
-> @@ -407,6 +407,12 @@ static void virtio_dev_shutdown(struct device *_d)
->   	if (!drv)
->   		return;
->   
-> +	/* If the driver has its own shutdown method, use that. */
-> +	if (drv->shutdown) {
-> +		drv->shutdown(dev);
-> +		return;
-> +	}
-> +
->   	/*
->   	 * Some devices get wedged if you kick them after they are
->   	 * reset. Mark all vqs as broken to make sure we don't.
-> diff --git a/include/linux/virtio.h b/include/linux/virtio.h
-> index 4d16c13d0df5..64cb4b04be7a 100644
-> --- a/include/linux/virtio.h
-> +++ b/include/linux/virtio.h
-> @@ -220,6 +220,8 @@ size_t virtio_max_dma_size(const struct virtio_device *vdev);
->    *    occurs.
->    * @reset_done: optional function to call after transport specific reset
->    *    operation has finished.
-> + * @shutdown: synchronize with the device on shutdown. If provided, replaces
-> + *    the virtio core implementation.
->    */
->   struct virtio_driver {
->   	struct device_driver driver;
-> @@ -237,6 +239,7 @@ struct virtio_driver {
->   	int (*restore)(struct virtio_device *dev);
->   	int (*reset_prepare)(struct virtio_device *dev);
->   	int (*reset_done)(struct virtio_device *dev);
-> +	void (*shutdown)(struct virtio_device *dev);
->   };
->   
->   #define drv_to_virtio(__drv)	container_of_const(__drv, struct virtio_driver, driver)
-
-Best regards,
-
--- 
-
-Jocelyn
+>
+>> This prevents applications with multiple contexts from running into a
+>> race condition between running tasks and context destroy when
+>> terminating.
+>>
+>> Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
+>> ---
+>>  drivers/gpu/drm/lima/lima_ctx.c | 18 ++++++++++++++++++
+>>  drivers/gpu/drm/lima/lima_ctx.h |  1 +
+>>  drivers/gpu/drm/lima/lima_drv.c | 17 ++++++++++++++++-
+>>  3 files changed, 35 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/lima/lima_ctx.c b/drivers/gpu/drm/lima/lima_ctx.c
+>> index 0e668fc1e0f9..e8fb5788ca69 100644
+>> --- a/drivers/gpu/drm/lima/lima_ctx.c
+>> +++ b/drivers/gpu/drm/lima/lima_ctx.c
+>> @@ -100,3 +100,21 @@ void lima_ctx_mgr_fini(struct lima_ctx_mgr *mgr)
+>>         xa_destroy(&mgr->handles);
+>>         mutex_destroy(&mgr->lock);
+>>  }
+>> +
+>> +long lima_ctx_mgr_flush(struct lima_ctx_mgr *mgr, long timeout)
+>> +{
+>> +       struct lima_ctx *ctx;
+>> +       unsigned long id;
+>> +
+>> +       mutex_lock(&mgr->lock);
+>> +       xa_for_each(&mgr->handles, id, ctx) {
+>> +               for (int i = 0; i < lima_pipe_num; i++) {
+>> +                       struct lima_sched_context *context = &ctx->context[i];
+>> +                       struct drm_sched_entity *entity = &context->base;
+>> +
+>> +                       timeout = drm_sched_entity_flush(entity, timeout);
+>> +               }
+>> +       }
+>> +       mutex_unlock(&mgr->lock);
+>> +       return timeout;
+>> +}
+>> diff --git a/drivers/gpu/drm/lima/lima_ctx.h b/drivers/gpu/drm/lima/lima_ctx.h
+>> index 5b1063ce968b..ff133db6ae4c 100644
+>> --- a/drivers/gpu/drm/lima/lima_ctx.h
+>> +++ b/drivers/gpu/drm/lima/lima_ctx.h
+>> @@ -30,5 +30,6 @@ struct lima_ctx *lima_ctx_get(struct lima_ctx_mgr *mgr, u32 id);
+>>  void lima_ctx_put(struct lima_ctx *ctx);
+>>  void lima_ctx_mgr_init(struct lima_ctx_mgr *mgr);
+>>  void lima_ctx_mgr_fini(struct lima_ctx_mgr *mgr);
+>> +long lima_ctx_mgr_flush(struct lima_ctx_mgr *mgr, long timeout);
+>>
+>>  #endif
+>> diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
+>> index 11ace5cebf4c..08169b0d9c28 100644
+>> --- a/drivers/gpu/drm/lima/lima_drv.c
+>> +++ b/drivers/gpu/drm/lima/lima_drv.c
+>> @@ -254,7 +254,22 @@ static const struct drm_ioctl_desc lima_drm_driver_ioctls[] = {
+>>         DRM_IOCTL_DEF_DRV(LIMA_CTX_FREE, lima_ioctl_ctx_free, DRM_RENDER_ALLOW),
+>>  };
+>>
+>> -DEFINE_DRM_GEM_FOPS(lima_drm_driver_fops);
+>> +static int lima_drm_driver_flush(struct file *filp, fl_owner_t id)
+>> +{
+>> +       struct drm_file *file = filp->private_data;
+>> +       struct lima_drm_priv *priv = file->driver_priv;
+>> +       long timeout = MAX_WAIT_SCHED_ENTITY_Q_EMPTY;
+>> +
+>> +       timeout = lima_ctx_mgr_flush(&priv->ctx_mgr, timeout);
+>> +
+>> +       return timeout >= 0 ? 0 : timeout;
+>> +}
+>> +
+>> +static const struct file_operations lima_drm_driver_fops = {
+>> +       .owner = THIS_MODULE,
+>> +       .flush = lima_drm_driver_flush,
+>> +       DRM_GEM_FOPS,
+>> +};
+>>
+>>  /*
+>>   * Changelog:
+>> --
+>> 2.49.0
+>>
 
