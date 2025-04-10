@@ -2,68 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47162A84FF2
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 00:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74147A85003
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 01:18:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E155D10E1A1;
-	Thu, 10 Apr 2025 22:59:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D08010E056;
+	Thu, 10 Apr 2025 23:18:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ci+TVmu5";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="EcebvaGE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6E1F10E056;
- Thu, 10 Apr 2025 22:59:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744325986; x=1775861986;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=DWJekeEHlQAOSl0I7z6BkwhKrpd4DubG/ZtfhB1ru+s=;
- b=ci+TVmu5KgYoXWWeik7Aj2Z6oFYPrX4uaamHtnCJJd4cJT7xlbbCYRif
- v7+FOvgvQYjP0km9xR07zkUriDt+CHN7pGVgydG8ANHqjavq16OC7ABDz
- rc0t9IJIY8NEbza5YxHmiSKuZKX30FjJDd4Jbas9xHbQWPGA+WHhyGkfO
- 1OVT1cYb5hsvilwIZhve/da2cYYLU7RPtPtJdpLVK5YN5ecGJT11e1kv8
- T+D9mX3VfJUz2shzyS6TtTim4TTONgC5Dj2DecwFUohYTMB9OrcjRSfuw
- 5WlN5GOUaDgAOPW02zBjFyxahqhpcpKf8uXGlWmAD+HDO584ykaD/O061 w==;
-X-CSE-ConnectionGUID: TUwlb6DvQ8ekufTS4U38fg==
-X-CSE-MsgGUID: Pabehw2wRPyCgzGSlCN+SA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="46008478"
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; d="scan'208";a="46008478"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2025 15:59:45 -0700
-X-CSE-ConnectionGUID: iSUdInfrSHms2h/GEpPRYg==
-X-CSE-MsgGUID: eJyZzWQHSNCXfgnD+HfgQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; d="scan'208";a="129998138"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
- by orviesa008.jf.intel.com with ESMTP; 10 Apr 2025 15:59:41 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1u30ry-000AcF-2h;
- Thu, 10 Apr 2025 22:59:38 +0000
-Date: Fri, 11 Apr 2025 06:58:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org
-Subject: Re: [PATCH 07/19] drm/gem: Pass along the format info from
- .fb_create() to drm_helper_mode_fill_fb_struct()
-Message-ID: <202504110656.rvb8s8fd-lkp@intel.com>
-References: <20250410163218.15130-8-ville.syrjala@linux.intel.com>
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87D0510E056
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 23:18:18 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ 46e09a7af769-72c172f1de1so862458a34.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 16:18:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1744327097; x=1744931897;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=m7o4HeYX6WaTzlmeSSi8f1bY+Yduv9PPLmTbKfWmhP8=;
+ b=EcebvaGE43fXUYskwdk6W/Yb0VpWI6hNRlwqGpT9nAvZGED8/+wNdKRAnuS1f4wJda
+ plIVjQFGQGa+CBbigabuMa/lL838UOglGWG87SS4Bi050H/yBucD/62vC8mJDegutqme
+ mTFxoQk2tiwnKzCjCvXW+Nkml34aGGjKVYdTw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744327097; x=1744931897;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=m7o4HeYX6WaTzlmeSSi8f1bY+Yduv9PPLmTbKfWmhP8=;
+ b=Z/ts2+dTd8MF97EBjuNQwKR8mMKRQj09H5HtjIZcbs02ZbFKuuZHqRDR7FSFlQNXqM
+ AFsRG+yH0Leu0D+igEP408fWZs7xgT8wVtsuJ9ycAsnX5t2/xQxHiQB7XgdgEWDZ+7V8
+ vb74q8PTgQESbA++U3G70elC5C+rTiqj6a8ir61Osm/oYYDtJdcwh6bWoeRGrI+cfeVA
+ Ffxo2kfeBHQVKTxiPxt0v4Z9vj4RpBtfxjlWA0u17zu4dWPdikSXRprR0Gnxg0YqF4oh
+ w/i+MZF+acfslGRw9bjwRgBSHwhbeDpGSiqbaQSqGOdo00GjvaEW/mlZxIhVbRcKq4ZM
+ mXHw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2yVJdwi04legIxo3ZOpwKWvRFeLrKb+VhSXEeCME/GrhmAly/NHONrkX6B9c5tp+UQ6+riS1z6bc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx6t717CEDKPkmqLIjgiBOdpH4avuetmR+eyq2lINBH5ssLQCXg
+ Y43anUtVnFlAU19bCLpNHj1IkDm715V+ow0QMeC7RkQfqJ9XOVJm8cJCwL0Unw==
+X-Gm-Gg: ASbGncvo9HcnwBGcRdFlQo8GGqjpwTnuEJYXPw5cjqG9lMz4yhbdnvYdN7I1TXdqRgp
+ NygBWCgSK3ZsJ5w/RsiBE2HB8b7hzVUp6OIR7DDUwR0h0rPm/VhY3h8N48px5Ylu4CfnRebOnZV
+ 0GGDXTL4k9FP7pADVvLWcmS3OELqEIXn9R8vJohhwEzWkALp7VWXvU4HFHBjL699JHBYSxCfbYT
+ sMXgR+svDFOYstDGVqe1GcQ0bPQEmm7Yb86H3nd77d0fc0bx9SOI9qBYajfAxjWWpbFVl99F+aL
+ rP0QLZiNmC+Wktdqy/CpTT4adpKUCr1eXoX+yXMqXjs1edcbdY7TTI4J2XrekBsVRndczs6FyPx
+ 038UtIA==
+X-Google-Smtp-Source: AGHT+IGbC1wsXw85uBmxjF2pv7CAg5OJIEjP2v8z4t87oHOK0L+nIyxOYnnH3/Hujsd1goBYc15ccQ==
+X-Received: by 2002:a05:6830:6812:b0:72a:13cf:4aa0 with SMTP id
+ 46e09a7af769-72e8633ccf2mr535609a34.15.1744327097191; 
+ Thu, 10 Apr 2025 16:18:17 -0700 (PDT)
+Received: from [10.211.247.102] ([216.221.25.44])
+ by smtp.gmail.com with ESMTPSA id
+ 46e09a7af769-72e73d8d3bbsm733795a34.33.2025.04.10.16.18.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Apr 2025 16:18:16 -0700 (PDT)
+Message-ID: <545081b9-84df-4ccf-bb9c-052c0bd0e5de@broadcom.com>
+Date: Thu, 10 Apr 2025 16:18:47 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250410163218.15130-8-ville.syrjala@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/vmwgfx: Update last_read_seqno under the fence
+ lock
+To: Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
+ martin.krastev@broadcom.com
+References: <20250410195508.233367-1-ian.forbes@broadcom.com>
+From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Content-Language: en-US
+In-Reply-To: <20250410195508.233367-1-ian.forbes@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,163 +90,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ville,
+On 4/10/25 12:55, Ian Forbes wrote:
+> There was a possible race in vmw_update_seqno. Because of this race it
+> was possible for last_read_seqno to go backwards. Remove this function
+> and replace it with vmw_update_fences which now sets and returns the
+> last_read_seqno while holding the fence lock. This serialization via the
+> fence lock ensures that last_read_seqno is monotonic again.
+> 
+> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c     |  2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |  1 -
+>  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |  3 +--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_fence.c   | 18 +++++++++---------
+>  drivers/gpu/drm/vmwgfx/vmwgfx_fence.h   |  2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_irq.c     | 12 +-----------
+>  6 files changed, 13 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+> index dd4ca6a9c690..8fe02131a6c4 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+> @@ -544,7 +544,7 @@ int vmw_cmd_send_fence(struct vmw_private *dev_priv, uint32_t *seqno)
+>  	cmd_fence = (struct svga_fifo_cmd_fence *) fm;
+>  	cmd_fence->fence = *seqno;
+>  	vmw_cmd_commit_flush(dev_priv, bytes);
+> -	vmw_update_seqno(dev_priv);
+> +	vmw_fences_update(dev_priv->fman);
+>  
+>  out_err:
+>  	return ret;
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> index 594af8eb04c6..6d4a68f0ae37 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> @@ -1006,7 +1006,6 @@ extern int vmw_fallback_wait(struct vmw_private *dev_priv,
+>  			     uint32_t seqno,
+>  			     bool interruptible,
+>  			     unsigned long timeout);
+> -extern void vmw_update_seqno(struct vmw_private *dev_priv);
+>  extern void vmw_seqno_waiter_add(struct vmw_private *dev_priv);
+>  extern void vmw_seqno_waiter_remove(struct vmw_private *dev_priv);
+>  extern void vmw_goal_waiter_add(struct vmw_private *dev_priv);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> index e831e324e737..90ce5372343b 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> @@ -3878,8 +3878,7 @@ vmw_execbuf_copy_fence_user(struct vmw_private *dev_priv,
+>  
+>  		fence_rep.handle = fence_handle;
+>  		fence_rep.seqno = fence->base.seqno;
+> -		vmw_update_seqno(dev_priv);
+> -		fence_rep.passed_seqno = dev_priv->last_read_seqno;
+> +		fence_rep.passed_seqno = vmw_fences_update(dev_priv->fman);
+>  	}
+>  
+>  	/*
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+> index 588d50ababf6..9d1465558839 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+> @@ -172,7 +172,7 @@ vmwgfx_wait_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+>  	wake_up_process(wait->task);
+>  }
+>  
+> -static void __vmw_fences_update(struct vmw_fence_manager *fman);
+> +static u32 __vmw_fences_update(struct vmw_fence_manager *fman);
+>  
+>  static long vmw_fence_wait(struct dma_fence *f, bool intr, signed long timeout)
+>  {
+> @@ -457,7 +457,7 @@ static bool vmw_fence_goal_check_locked(struct vmw_fence_obj *fence)
+>  	return true;
+>  }
+>  
+> -static void __vmw_fences_update(struct vmw_fence_manager *fman)
+> +static u32 __vmw_fences_update(struct vmw_fence_manager *fman)
+>  {
+>  	struct vmw_fence_obj *fence, *next_fence;
+>  	struct list_head action_list;
+> @@ -495,13 +495,16 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
+>  
+>  	if (!list_empty(&fman->cleanup_list))
+>  		(void) schedule_work(&fman->work);
+> +	return (fman->dev_priv->last_read_seqno = seqno);
+>  }
+>  
+> -void vmw_fences_update(struct vmw_fence_manager *fman)
+> +u32 vmw_fences_update(struct vmw_fence_manager *fman)
+>  {
+> +	u32 seqno;
+>  	spin_lock(&fman->lock);
+> -	__vmw_fences_update(fman);
+> +	seqno = __vmw_fences_update(fman);
+>  	spin_unlock(&fman->lock);
+> +	return seqno;
+>  }
+>  
+>  bool vmw_fence_obj_signaled(struct vmw_fence_obj *fence)
+> @@ -778,7 +781,6 @@ int vmw_fence_obj_signaled_ioctl(struct drm_device *dev, void *data,
+>  		(struct drm_vmw_fence_signaled_arg *) data;
+>  	struct ttm_base_object *base;
+>  	struct vmw_fence_obj *fence;
+> -	struct vmw_fence_manager *fman;
+>  	struct ttm_object_file *tfile = vmw_fpriv(file_priv)->tfile;
+>  	struct vmw_private *dev_priv = vmw_priv(dev);
+>  
+> @@ -787,14 +789,12 @@ int vmw_fence_obj_signaled_ioctl(struct drm_device *dev, void *data,
+>  		return PTR_ERR(base);
+>  
+>  	fence = &(container_of(base, struct vmw_user_fence, base)->fence);
+> -	fman = fman_from_fence(fence);
+>  
+>  	arg->signaled = vmw_fence_obj_signaled(fence);
+>  
+>  	arg->signaled_flags = arg->flags;
+> -	spin_lock(&fman->lock);
+> -	arg->passed_seqno = dev_priv->last_read_seqno;
+> -	spin_unlock(&fman->lock);
+> +	arg->passed_seqno = READ_ONCE(dev_priv->last_read_seqno);
+> +
 
-kernel test robot noticed the following build warnings:
+Why are is the spinlock being removed here? As far as I understand it, READ_ONCE() will prevent
+compiler optimizations that might change how the variable is read, but we would still need the
+lock to synchronize access at runtime, since we are using that lock for write access when invoking
+__vmw_fences_update(). Also, if we are using the spinlock, doesn't that make READ_ONCE() redundant?
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.15-rc1 next-20250410]
-[cannot apply to drm-exynos/exynos-drm-next tegra/for-next rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>  
+>  	ttm_base_object_unref(&base);
+>  
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+> index a7eee579c76a..10264dab5f6a 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+> @@ -86,7 +86,7 @@ vmw_fence_obj_reference(struct vmw_fence_obj *fence)
+>  	return fence;
+>  }
+>  
+> -extern void vmw_fences_update(struct vmw_fence_manager *fman);
+> +u32 vmw_fences_update(struct vmw_fence_manager *fman);
+>  
+>  extern bool vmw_fence_obj_signaled(struct vmw_fence_obj *fence);
+>  
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+> index 086e69a130d4..548ef2f86508 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+> @@ -123,16 +123,6 @@ static bool vmw_fifo_idle(struct vmw_private *dev_priv, uint32_t seqno)
+>  	return (vmw_read(dev_priv, SVGA_REG_BUSY) == 0);
+>  }
+>  
+> -void vmw_update_seqno(struct vmw_private *dev_priv)
+> -{
+> -	uint32_t seqno = vmw_fence_read(dev_priv);
+> -
+> -	if (dev_priv->last_read_seqno != seqno) {
+> -		dev_priv->last_read_seqno = seqno;
+> -		vmw_fences_update(dev_priv->fman);
+> -	}
+> -}
+> -
+>  bool vmw_seqno_passed(struct vmw_private *dev_priv,
+>  			 uint32_t seqno)
+>  {
+> @@ -141,7 +131,7 @@ bool vmw_seqno_passed(struct vmw_private *dev_priv,
+>  	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
+>  		return true;
+>  
+> -	vmw_update_seqno(dev_priv);
+> +	vmw_fences_update(dev_priv->fman);
+>  	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
+>  		return true;
+>  
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-Pass-pixel_format-modifier-to-get_format_info/20250411-005845
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250410163218.15130-8-ville.syrjala%40linux.intel.com
-patch subject: [PATCH 07/19] drm/gem: Pass along the format info from .fb_create() to drm_helper_mode_fill_fb_struct()
-config: hexagon-randconfig-001-20250411 (https://download.01.org/0day-ci/archive/20250411/202504110656.rvb8s8fd-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504110656.rvb8s8fd-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504110656.rvb8s8fd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_gem_framebuffer_helper.c:158: warning: Function parameter or struct member 'info' not described in 'drm_gem_fb_init_with_funcs'
->> drivers/gpu/drm/drm_gem_framebuffer_helper.c:233: warning: Function parameter or struct member 'info' not described in 'drm_gem_fb_create_with_funcs'
-   drivers/gpu/drm/drm_gem_framebuffer_helper.c:282: warning: Function parameter or struct member 'info' not described in 'drm_gem_fb_create'
-   drivers/gpu/drm/drm_gem_framebuffer_helper.c:321: warning: Function parameter or struct member 'info' not described in 'drm_gem_fb_create_with_dirty'
-
-
-vim +158 drivers/gpu/drm/drm_gem_framebuffer_helper.c
-
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  129  
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  130  /**
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  131   * drm_gem_fb_init_with_funcs() - Helper function for implementing
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  132   *				  &drm_mode_config_funcs.fb_create
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  133   *				  callback in cases when the driver
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  134   *				  allocates a subclass of
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  135   *				  struct drm_framebuffer
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  136   * @dev: DRM device
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  137   * @fb: framebuffer object
-2e187b2099034a Noralf Trønnes        2017-09-22  138   * @file: DRM file that holds the GEM handle(s) backing the framebuffer
-2e187b2099034a Noralf Trønnes        2017-09-22  139   * @mode_cmd: Metadata from the userspace framebuffer creation request
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  140   * @funcs: vtable to be used for the new framebuffer object
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  141   *
-dbd62e16fd53d3 Noralf Trønnes        2019-01-15  142   * This function can be used to set &drm_framebuffer_funcs for drivers that need
-dbd62e16fd53d3 Noralf Trønnes        2019-01-15  143   * custom framebuffer callbacks. Use drm_gem_fb_create() if you don't need to
-dbd62e16fd53d3 Noralf Trønnes        2019-01-15  144   * change &drm_framebuffer_funcs. The function does buffer size validation.
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  145   * The buffer size validation is for a general case, though, so users should
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  146   * pay attention to the checks being appropriate for them or, at least,
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  147   * non-conflicting.
-2e187b2099034a Noralf Trønnes        2017-09-22  148   *
-2e187b2099034a Noralf Trønnes        2017-09-22  149   * Returns:
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  150   * Zero or a negative error code.
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  151   */
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  152  int drm_gem_fb_init_with_funcs(struct drm_device *dev,
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  153  			       struct drm_framebuffer *fb,
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  154  			       struct drm_file *file,
-18613f4711126b Ville Syrjälä         2025-04-10  155  			       const struct drm_format_info *info,
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  156  			       const struct drm_mode_fb_cmd2 *mode_cmd,
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  157  			       const struct drm_framebuffer_funcs *funcs)
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13 @158  {
-279cc2e9543eb3 Thomas Zimmermann     2021-07-30  159  	struct drm_gem_object *objs[DRM_FORMAT_MAX_PLANES];
-279cc2e9543eb3 Thomas Zimmermann     2021-07-30  160  	unsigned int i;
-279cc2e9543eb3 Thomas Zimmermann     2021-07-30  161  	int ret;
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  162  
-c91acda3a380bc Maíra Canal           2023-04-12  163  	if (drm_drv_uses_atomic_modeset(dev) &&
-c91acda3a380bc Maíra Canal           2023-04-12  164  	    !drm_any_plane_has_format(dev, mode_cmd->pixel_format,
-c91acda3a380bc Maíra Canal           2023-04-12  165  				      mode_cmd->modifier[0])) {
-a8b0a7fd535fae Geert Uytterhoeven    2023-07-28  166  		drm_dbg_kms(dev, "Unsupported pixel format %p4cc / modifier 0x%llx\n",
-c91acda3a380bc Maíra Canal           2023-04-12  167  			    &mode_cmd->pixel_format, mode_cmd->modifier[0]);
-c91acda3a380bc Maíra Canal           2023-04-12  168  		return -EINVAL;
-c91acda3a380bc Maíra Canal           2023-04-12  169  	}
-c91acda3a380bc Maíra Canal           2023-04-12  170  
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  171  	for (i = 0; i < info->num_planes; i++) {
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  172  		unsigned int width = mode_cmd->width / (i ? info->hsub : 1);
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  173  		unsigned int height = mode_cmd->height / (i ? info->vsub : 1);
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  174  		unsigned int min_size;
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  175  
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  176  		objs[i] = drm_gem_object_lookup(file, mode_cmd->handles[i]);
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  177  		if (!objs[i]) {
-24f03be4aa7922 Jani Nikula           2019-12-10  178  			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  179  			ret = -ENOENT;
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  180  			goto err_gem_object_put;
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  181  		}
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  182  
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  183  		min_size = (height - 1) * mode_cmd->pitches[i]
-042bf753842ddb Alexandru Gheorghe    2018-11-01  184  			 + drm_format_info_min_pitch(info, i, width)
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  185  			 + mode_cmd->offsets[i];
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  186  
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  187  		if (objs[i]->size < min_size) {
-f7f525030854b1 Simon Ser             2021-05-03  188  			drm_dbg_kms(dev,
-f7f525030854b1 Simon Ser             2021-05-03  189  				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
-f7f525030854b1 Simon Ser             2021-05-03  190  				    objs[i]->size, min_size, i);
-be6ee102341bc4 Emil Velikov          2020-05-15  191  			drm_gem_object_put(objs[i]);
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  192  			ret = -EINVAL;
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  193  			goto err_gem_object_put;
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  194  		}
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  195  	}
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  196  
-18613f4711126b Ville Syrjälä         2025-04-10  197  	ret = drm_gem_fb_init(dev, fb, info, mode_cmd, objs, i, funcs);
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  198  	if (ret)
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  199  		goto err_gem_object_put;
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  200  
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  201  	return 0;
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  202  
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  203  err_gem_object_put:
-279cc2e9543eb3 Thomas Zimmermann     2021-07-30  204  	while (i > 0) {
-279cc2e9543eb3 Thomas Zimmermann     2021-07-30  205  		--i;
-be6ee102341bc4 Emil Velikov          2020-05-15  206  		drm_gem_object_put(objs[i]);
-279cc2e9543eb3 Thomas Zimmermann     2021-07-30  207  	}
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  208  	return ret;
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  209  }
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  210  EXPORT_SYMBOL_GPL(drm_gem_fb_init_with_funcs);
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  211  
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  212  /**
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  213   * drm_gem_fb_create_with_funcs() - Helper function for the
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  214   *                                  &drm_mode_config_funcs.fb_create
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  215   *                                  callback
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  216   * @dev: DRM device
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  217   * @file: DRM file that holds the GEM handle(s) backing the framebuffer
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  218   * @mode_cmd: Metadata from the userspace framebuffer creation request
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  219   * @funcs: vtable to be used for the new framebuffer object
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  220   *
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  221   * This function can be used to set &drm_framebuffer_funcs for drivers that need
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  222   * custom framebuffer callbacks. Use drm_gem_fb_create() if you don't need to
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  223   * change &drm_framebuffer_funcs. The function does buffer size validation.
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  224   *
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  225   * Returns:
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  226   * Pointer to a &drm_framebuffer on success or an error pointer on failure.
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  227   */
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  228  struct drm_framebuffer *
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  229  drm_gem_fb_create_with_funcs(struct drm_device *dev, struct drm_file *file,
-18613f4711126b Ville Syrjälä         2025-04-10  230  			     const struct drm_format_info *info,
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  231  			     const struct drm_mode_fb_cmd2 *mode_cmd,
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  232  			     const struct drm_framebuffer_funcs *funcs)
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11 @233  {
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  234  	struct drm_framebuffer *fb;
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  235  	int ret;
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  236  
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  237  	fb = kzalloc(sizeof(*fb), GFP_KERNEL);
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  238  	if (!fb)
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  239  		return ERR_PTR(-ENOMEM);
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  240  
-18613f4711126b Ville Syrjälä         2025-04-10  241  	ret = drm_gem_fb_init_with_funcs(dev, fb, file, info, mode_cmd, funcs);
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  242  	if (ret) {
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  243  		kfree(fb);
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  244  		return ERR_PTR(ret);
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  245  	}
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  246  
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  247  	return fb;
-f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  248  }
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  249  EXPORT_SYMBOL_GPL(drm_gem_fb_create_with_funcs);
-4c3dbb2c312c9f Noralf Trønnes        2017-08-13  250  
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Maaz Mombasawala <maaz.mombasawala@broadcom.com>
