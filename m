@@ -2,132 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965CFA83A92
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 09:16:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70440A83AA8
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 09:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D097B10E790;
-	Thu, 10 Apr 2025 07:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEA4410E78B;
+	Thu, 10 Apr 2025 07:18:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="zAesnMe/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hTT9CyR2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G0D60ttC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rn4to1af";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V3W3xpkB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C510310E790
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 07:16:42 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6648E1F385;
- Thu, 10 Apr 2025 07:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744269401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ry6hvSUeSNi6nna2kXuGgO6wVOEKFUoNiIQx2xE48z8=;
- b=zAesnMe/GnnBPNlS4hwrWtwsh1oO5frG3jDcT+hOCKE6TXLWnhR/+XqXf5fvVuC87ixgZs
- 5402w8ek88FX0+inzJ+00Rk0z/Tt0CvvATfGBGXD3A+uMA/cmy7l5aEYSPLuSE88SFiFOM
- 7Rf+FE+pYSt50sqcfpGpq48NLhJmdxQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744269401;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ry6hvSUeSNi6nna2kXuGgO6wVOEKFUoNiIQx2xE48z8=;
- b=hTT9CyR2yuuETmZlZOlFotpXGnkdm6T0N3W5BL2TrVFFmmZFwTl9RQV/vpW0BdHjOdg5w2
- T8gFTghCseEF+KBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744269400; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ry6hvSUeSNi6nna2kXuGgO6wVOEKFUoNiIQx2xE48z8=;
- b=G0D60ttCwOobF2K+UJlRauNoRXLH2TMd9dKcr3dqCgk9u/GumRw6y8tKGb7uJGOpdW3NIj
- Db3VYcBd9Tm/Hqv/MOfizyWxihpU2a/LCuUdEC2pEFERWVNl5neAQ4YHSxlyQVADO6pydM
- HdybA5xPww9WRvT6DvX7or0U4scuEwc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744269400;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ry6hvSUeSNi6nna2kXuGgO6wVOEKFUoNiIQx2xE48z8=;
- b=rn4to1afrCreBkGYli9/M9NP71JqcvpIhtDbvc0Vdcl/pmtuz4mOkLY2ydEDZ31d8GARZB
- qENU9F1FY0EGpAAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 32FBC13886;
- Thu, 10 Apr 2025 07:16:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id BH8XC1hw92ejdgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 10 Apr 2025 07:16:40 +0000
-Message-ID: <38b8ad74-584c-4d43-b062-4b52ab98bf8d@suse.de>
-Date: Thu, 10 Apr 2025 09:16:39 +0200
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17EB810E78B
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 07:18:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 414426112C;
+ Thu, 10 Apr 2025 07:17:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A43DFC4CEDD;
+ Thu, 10 Apr 2025 07:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744269487;
+ bh=RPqTnJ/QuU6c7Vz94rJS5I2gE1lvGYBFuCtJfdTNPUY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=V3W3xpkBgSMundI1nubCYRb8AJ1P3+3K7anjt2FEl2zGc6GLhDLivFOwuBlu2ZT9K
+ yvQVFxLYvyRC9bfYMzyvQdSpSRCnggFqjNidP/6giJhlycRtIvcRUESnqPXNazES0x
+ 6PgazKW8pEfbioBXbPwekhAD5jjqargS3ERa+GnOdof4kAa+4qBvIczAPKvm6rCZqM
+ cqEXghd/caoVElNrgx72mJq5Fk3/sMhZ9qNuXprAEaOTE7mp79ExNzQkpXkQzUBOz2
+ YlM6EWOB16fDdfpvb0mnbkkvhT3MJSZ/XoUH4AHFbGJnrCpqjMAYxo6yoQrLTCSt4H
+ xArG1GcxFunqg==
+Date: Thu, 10 Apr 2025 09:18:04 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 13/15] drm/tests: hdmi: Add limited range tests for
+ YUV420 mode
+Message-ID: <20250410-daffodil-toucanet-of-effort-b4dcbd@houat>
+References: <20250326-hdmi-conn-yuv-v3-0-294d3ebbb4b2@collabora.com>
+ <20250326-hdmi-conn-yuv-v3-13-294d3ebbb4b2@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sysfb: efidrm: Avoid clang -Wsometimes-uninitialized
- in efidrm_device_create()
-To: Nathan Chancellor <nathan@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
- patches@lists.linux.dev
-References: <20250409-efidrm-avoid-uninit-screen_info-warning-v1-1-67babb19d831@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250409-efidrm-avoid-uninit-screen_info-warning-v1-1-67babb19d831@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- ARC_NA(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCPT_COUNT_SEVEN(0.00)[7]; MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="iacvktpbodag7b3c"
+Content-Disposition: inline
+In-Reply-To: <20250326-hdmi-conn-yuv-v3-13-294d3ebbb4b2@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,94 +66,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-thanks for the fix.
+--iacvktpbodag7b3c
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 13/15] drm/tests: hdmi: Add limited range tests for
+ YUV420 mode
+MIME-Version: 1.0
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-with a remark below.
-
-Am 09.04.25 um 21:03 schrieb Nathan Chancellor:
-> Clang warns (or errors with CONFIG_WERROR=y):
->
->    drivers/gpu/drm/sysfb/efidrm.c:353:11: error: variable 'screen_base' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
->      353 |         else if (mem_flags & EFI_MEMORY_WB)
->          |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/gpu/drm/sysfb/efidrm.c:356:7: note: uninitialized use occurs here
->      356 |         if (!screen_base)
->          |              ^~~~~~~~~~~
->    drivers/gpu/drm/sysfb/efidrm.c:353:7: note: remove the 'if' if its condition is always true
->      353 |         else if (mem_flags & EFI_MEMORY_WB)
->          |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->      354 |                 screen_base = devm_memremap(&pdev->dev, mem->start, resource_size(mem),
->    drivers/gpu/drm/sysfb/efidrm.c:261:27: note: initialize the variable 'screen_base' to silence this warning
->      261 |         void __iomem *screen_base;
->          |                                  ^
->          |                                   = NULL
->
-> efidrm_get_mem_flags() can only return a mask that has at least one of
-> the tested values set so the else case is impossible but clang's static
-> analysis runs before inlining so it cannot know that.
-
-Right, the variable mem_flags should always be set and thus screen_info 
-should be mapped. I never got this error with gcc.
-
->
-> Initialize screen_base to NULL and add a defensive print in case
-> mem_flags were ever returned without one of the four valid values.
->
-> Fixes: 32ae90c66fb6 ("drm/sysfb: Add efidrm for EFI displays")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+On Wed, Mar 26, 2025 at 12:20:02PM +0200, Cristian Ciocaltea wrote:
+> Provide tests to verify that drm_atomic_helper_connector_hdmi_check()
+> helper behaviour when using YUV420 output format is to always set the
+> limited RGB quantization range to 'limited', no matter what the value of
+> Broadcast RGB property is.
+>=20
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
->   drivers/gpu/drm/sysfb/efidrm.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
-> index af90064a4c04..7d820f42956b 100644
-> --- a/drivers/gpu/drm/sysfb/efidrm.c
-> +++ b/drivers/gpu/drm/sysfb/efidrm.c
-> @@ -258,7 +258,7 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
->   	struct drm_sysfb_device *sysfb;
->   	struct drm_device *dev;
->   	struct resource *mem = NULL;
-> -	void __iomem *screen_base;
-> +	void __iomem *screen_base = NULL;
->   	struct drm_plane *primary_plane;
->   	struct drm_crtc *crtc;
->   	struct drm_encoder *encoder;
-> @@ -353,6 +353,8 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
->   	else if (mem_flags & EFI_MEMORY_WB)
->   		screen_base = devm_memremap(&pdev->dev, mem->start, resource_size(mem),
->   					    MEMREMAP_WB);
-> +	else
-> +		drm_warn(dev, "unhandled mem_flags: 0x%llx\n", mem_flags);
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  89 +++++++++++++++-
+>  drivers/gpu/drm/tests/drm_kunit_edid.h             | 112 +++++++++++++++=
+++++++
+>  2 files changed, 196 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
+/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> index 6897515189a0649a267196b246944efc92ace336..3fae7ccf65309a1d8a4acf12d=
+e961713b9163096 100644
+> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> @@ -731,6 +731,88 @@ static void drm_test_check_broadcast_rgb_limited_cea=
+_mode_vic_1(struct kunit *te
+>  	drm_modeset_acquire_fini(&ctx);
+>  }
+> =20
+> +/*
+> + * Test that for an HDMI connector, with an HDMI monitor, we will
+> + * get a limited RGB Quantization Range with a YUV420 mode, no
+> + * matter what the value of the Broadcast RGB property is set to.
+> + */
+> +static void drm_test_check_broadcast_rgb_cea_mode_yuv420(struct kunit *t=
+est)
+> +{
+> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +	enum drm_hdmi_broadcast_rgb broadcast_rgb;
+> +	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_connector_state *conn_state;
+> +	struct drm_atomic_state *state;
+> +	struct drm_display_mode *mode;
+> +	struct drm_connector *conn;
+> +	struct drm_device *drm;
+> +	struct drm_crtc *crtc;
+> +	int ret;
+> +
+> +	broadcast_rgb =3D *(enum drm_hdmi_broadcast_rgb *)test->param_value;
+> +
+> +	priv =3D drm_kunit_helper_connector_hdmi_init_with_edid(test,
+> +				BIT(HDMI_COLORSPACE_RGB) |
+> +				BIT(HDMI_COLORSPACE_YUV420),
+> +				8,
+> +				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
+> +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +	drm =3D &priv->drm;
+> +	crtc =3D priv->crtc;
+> +	conn =3D &priv->connector;
+> +	KUNIT_ASSERT_TRUE(test, conn->display_info.is_hdmi);
+> +
+> +	mode =3D drm_kunit_display_mode_from_cea_vic(test, drm, 95);
+> +	KUNIT_ASSERT_NOT_NULL(test, mode);
+> +
+> +	drm_modeset_acquire_init(&ctx, 0);
+> +
+> +	ret =3D drm_kunit_helper_enable_crtc_connector(test, drm,
+> +						     crtc, conn,
+> +						     mode, &ctx);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
 
+drm_kunit_helper_enable_crtc_connector() can return EDEADLK, so you need
+to handle it and restart the sequence if it happens.
 
-This message should be  something like drm_err("invalid mem_flags ..."). 
-It's really a driver bug.
+> +	state =3D drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+> +
+> +	conn_state =3D drm_atomic_get_connector_state(state, conn);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
 
-Would you send an update?
+Ditto.
 
-Best regards
-Thomas
+> +	conn_state->hdmi.broadcast_rgb =3D broadcast_rgb;
+> +
+> +	ret =3D drm_atomic_check_only(state);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	conn_state =3D drm_atomic_get_connector_state(state, conn);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
 
->   	if (!screen_base)
->   		return ERR_PTR(-ENOMEM);
->   	iosys_map_set_vaddr_iomem(&sysfb->fb_addr, screen_base);
->
-> ---
-> base-commit: e8bf4a1bdaeadb28d13b9a2bcfd5910fda06eede
-> change-id: 20250409-efidrm-avoid-uninit-screen_info-warning-d62ef67ce3c5
->
-> Best regards,
+Ditto, but I'm not sure you need drm_atomic_get_connector_state() here.
+We know at this point that the state is there and we don't need to
+allocate it anymore. drm_atomic_get_new_connector_state() will probably
+be enough, and that one can't return EDEADLK.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Maxime
 
+--iacvktpbodag7b3c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/dwqwAKCRDj7w1vZxhR
+xUVkAQDPHdzs1uf4gAreGMyea33yc+4ArZelLLVNJA9bDTX2HwD9HVrFce52lhG9
+9u/HrTLFeDQND27IlE2UDAnyjOWbfAs=
+=eWAt
+-----END PGP SIGNATURE-----
+
+--iacvktpbodag7b3c--
