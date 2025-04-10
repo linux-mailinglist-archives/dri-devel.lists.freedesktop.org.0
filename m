@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10EBEA849EE
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 18:33:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52610A849F1
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 18:33:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F95510EA33;
-	Thu, 10 Apr 2025 16:33:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 879F510EA2E;
+	Thu, 10 Apr 2025 16:33:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jL9nampm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c6hfGIyl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABBB910EA33;
- Thu, 10 Apr 2025 16:33:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55C0610EA36;
+ Thu, 10 Apr 2025 16:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744302798; x=1775838798;
+ t=1744302802; x=1775838802;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=tN8FLJpCJ2lOtxhelUmJm4/Ob6nHK2CI/3jpGng3wSM=;
- b=jL9nampmKsP/IULjQm4wqL6raf5wDz5uNokpIdSnduv5yWbRFhdVmwag
- 5/KCuZWJvZusH7KzIGLS3Eh9UxUbSztA88eJi4UEkhOK7hS9Zf0gM/50I
- s2U1jiV9ACOxKPrtY9uhv2L7VUn/UiBBnM1r6edQ6o4FrXo51pITSARvD
- sUhTL+fftHD8BvO27UHqnuedJ+3DsLLi6nmLwUhD6IHDXY1wo9kq/SOYj
- diFUOLKCBMtiDRIeVNSdPTpvNpiUsOzXFwQ2D6INZ72++uZ2ERIqXGKig
- YfUHViWb3mj+kblXxdz4Uxyqkw5fAUnKgIjw9NiCUsFIvALkuLjPDvv3w A==;
-X-CSE-ConnectionGUID: djYJPoMfSFWCJ9oPPAnn2Q==
-X-CSE-MsgGUID: w1e/WUwdR5mcmyuXbfIJ2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="57220079"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="57220079"
+ bh=0sldoFZspC7NiDwMp2/qb8crQ9ba0KUHZidEy/kF48o=;
+ b=c6hfGIyldTcrumQuQe1mfKcHCyezcUURerbKEjVuOzDR7uPZQd/0AH+v
+ BrGvW361Cv5hwUMC0vw1ins8RljrIToR7T6ruV1fZfC90bvkfHc3qk8c5
+ Ezv07HuC/JRQCiX1zUqxv2ZgSzFobaBhDsEfcV4frjjMlcgu44rXNU093
+ prRbCwJAvKeXKo1Uy+1IOTA5gR1f1KMpv2xgE9+AwtF5gTdHj5j8dGowf
+ FoAx+BEaAnpvlAPWKu1KQkYKczRvi7UotHMg/SXVTKpf+tU2VxMSQBl4f
+ JsBQAP0sl1grEVwUg9BSHtrr5Ooeyg+xOoZcL6M3W97OuiSQepvgypN6P w==;
+X-CSE-ConnectionGUID: hanyE282Rp23e2MQ0XMT6w==
+X-CSE-MsgGUID: k96TRLuQQ06Rcbp45bUx6Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="57220085"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="57220085"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2025 09:33:18 -0700
-X-CSE-ConnectionGUID: 8Qt9bjqDSFmpXQz3QAkh7g==
-X-CSE-MsgGUID: SO5BAB0LRD2I5gMwvZqOyQ==
+ 10 Apr 2025 09:33:22 -0700
+X-CSE-ConnectionGUID: N/gmerAVRDalh9xYKsiV3Q==
+X-CSE-MsgGUID: A0vcI4TITbK0m/SGiRPfCg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="134129274"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="134129318"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 10 Apr 2025 09:33:16 -0700
+ by orviesa005.jf.intel.com with SMTP; 10 Apr 2025 09:33:20 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 10 Apr 2025 19:33:14 +0300
+ Thu, 10 Apr 2025 19:33:18 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH 08/19] drm/gem/afbc: Eliminate redundant drm_get_format_info()
-Date: Thu, 10 Apr 2025 19:32:07 +0300
-Message-ID: <20250410163218.15130-9-ville.syrjala@linux.intel.com>
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org
+Subject: [PATCH 09/19] drm/amdgpu: Pass along the format info from
+ .fb_create() to drm_helper_mode_fill_fb_struct()
+Date: Thu, 10 Apr 2025 19:32:08 +0300
+Message-ID: <20250410163218.15130-10-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250410163218.15130-1-ville.syrjala@linux.intel.com>
 References: <20250410163218.15130-1-ville.syrjala@linux.intel.com>
@@ -74,111 +73,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Pass along the format info from .fb_create() to aliminate the
-redundant drm_get_format_info() calls from the afbc code.
+Plumb the format info from .fb_create() all the way to
+drm_helper_mode_fill_fb_struct() to avoid the redundant
+lookup.
 
-Cc: Sandy Huang <hjc@rock-chips.com>
-Cc: "Heiko Stübner" <heiko@sntech.de>
-Cc: Andy Yan <andy.yan@rock-chips.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_gem_framebuffer_helper.c | 18 ++++++------------
- drivers/gpu/drm/rockchip/rockchip_drm_fb.c   |  2 +-
- include/drm/drm_gem_framebuffer_helper.h     |  1 +
- 3 files changed, 8 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index 44016915c8fe..f243ea930033 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -495,13 +495,9 @@ EXPORT_SYMBOL(drm_gem_fb_end_cpu_access);
- // TODO Drop this function and replace by drm_format_info_bpp() once all
- // DRM_FORMAT_* provide proper block info in drivers/gpu/drm/drm_fourcc.c
- static __u32 drm_gem_afbc_get_bpp(struct drm_device *dev,
-+				  const struct drm_format_info *info,
- 				  const struct drm_mode_fb_cmd2 *mode_cmd)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 4cbbae543e34..2bc0d9a2509f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -1196,13 +1196,14 @@ static int amdgpu_display_get_fb_info(const struct amdgpu_framebuffer *amdgpu_fb
+ static int amdgpu_display_gem_fb_verify_and_init(struct drm_device *dev,
+ 						 struct amdgpu_framebuffer *rfb,
+ 						 struct drm_file *file_priv,
++						 const struct drm_format_info *info,
+ 						 const struct drm_mode_fb_cmd2 *mode_cmd,
+ 						 struct drm_gem_object *obj)
  {
--	const struct drm_format_info *info;
--
--	info = drm_get_format_info(dev, mode_cmd->pixel_format,
--				   mode_cmd->modifier[0]);
--
- 	switch (info->format) {
- 	case DRM_FORMAT_YUV420_8BIT:
- 		return 12;
-@@ -515,6 +511,7 @@ static __u32 drm_gem_afbc_get_bpp(struct drm_device *dev,
- }
- 
- static int drm_gem_afbc_min_size(struct drm_device *dev,
-+				 const struct drm_format_info *info,
- 				 const struct drm_mode_fb_cmd2 *mode_cmd,
- 				 struct drm_afbc_framebuffer *afbc_fb)
- {
-@@ -555,7 +552,7 @@ static int drm_gem_afbc_min_size(struct drm_device *dev,
- 	afbc_fb->aligned_height = ALIGN(mode_cmd->height, h_alignment);
- 	afbc_fb->offset = mode_cmd->offsets[0];
- 
--	bpp = drm_gem_afbc_get_bpp(dev, mode_cmd);
-+	bpp = drm_gem_afbc_get_bpp(dev, info, mode_cmd);
- 	if (!bpp) {
- 		drm_dbg_kms(dev, "Invalid AFBC bpp value: %d\n", bpp);
- 		return -EINVAL;
-@@ -577,6 +574,7 @@ static int drm_gem_afbc_min_size(struct drm_device *dev,
-  *
-  * @dev: DRM device
-  * @afbc_fb: afbc-specific framebuffer
-+ * @info: pixel format information
-  * @mode_cmd: Metadata from the userspace framebuffer creation request
-  * @afbc_fb: afbc framebuffer
-  *
-@@ -590,20 +588,16 @@ static int drm_gem_afbc_min_size(struct drm_device *dev,
-  * Zero on success or a negative error value on failure.
-  */
- int drm_gem_fb_afbc_init(struct drm_device *dev,
-+			 const struct drm_format_info *info,
- 			 const struct drm_mode_fb_cmd2 *mode_cmd,
- 			 struct drm_afbc_framebuffer *afbc_fb)
- {
--	const struct drm_format_info *info;
- 	struct drm_gem_object **objs;
  	int ret;
  
- 	objs = afbc_fb->base.obj;
--	info = drm_get_format_info(dev, mode_cmd->pixel_format,
--				   mode_cmd->modifier[0]);
--	if (!info)
--		return -EINVAL;
+ 	rfb->base.obj[0] = obj;
+-	drm_helper_mode_fill_fb_struct(dev, &rfb->base, NULL, mode_cmd);
++	drm_helper_mode_fill_fb_struct(dev, &rfb->base, info, mode_cmd);
+ 	/* Verify that the modifier is supported. */
+ 	if (!drm_any_plane_has_format(dev, mode_cmd->pixel_format,
+ 				      mode_cmd->modifier[0])) {
+@@ -1331,7 +1332,7 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
+ 	}
  
--	ret = drm_gem_afbc_min_size(dev, mode_cmd, afbc_fb);
-+	ret = drm_gem_afbc_min_size(dev, info, mode_cmd, afbc_fb);
- 	if (ret < 0)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-index 1211ca0ffa00..2a6207b7f61e 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-@@ -51,7 +51,7 @@ rockchip_fb_create(struct drm_device *dev, struct drm_file *file,
- 	if (drm_is_afbc(mode_cmd->modifier[0])) {
- 		int ret, i;
- 
--		ret = drm_gem_fb_afbc_init(dev, mode_cmd, afbc_fb);
-+		ret = drm_gem_fb_afbc_init(dev, info, mode_cmd, afbc_fb);
- 		if (ret) {
- 			struct drm_gem_object **obj = afbc_fb->base.obj;
- 
-diff --git a/include/drm/drm_gem_framebuffer_helper.h b/include/drm/drm_gem_framebuffer_helper.h
-index 971d266ab1ba..24f1fd40d553 100644
---- a/include/drm/drm_gem_framebuffer_helper.h
-+++ b/include/drm/drm_gem_framebuffer_helper.h
-@@ -52,6 +52,7 @@ void drm_gem_fb_end_cpu_access(struct drm_framebuffer *fb, enum dma_data_directi
- 	(((modifier) & AFBC_VENDOR_AND_TYPE_MASK) == DRM_FORMAT_MOD_ARM_AFBC(0))
- 
- int drm_gem_fb_afbc_init(struct drm_device *dev,
-+			 const struct drm_format_info *info,
- 			 const struct drm_mode_fb_cmd2 *mode_cmd,
- 			 struct drm_afbc_framebuffer *afbc_fb);
- 
+ 	ret = amdgpu_display_gem_fb_verify_and_init(dev, amdgpu_fb, file_priv,
+-						    mode_cmd, obj);
++						    info, mode_cmd, obj);
+ 	if (ret) {
+ 		kfree(amdgpu_fb);
+ 		drm_gem_object_put(obj);
 -- 
 2.49.0
 
