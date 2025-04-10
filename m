@@ -2,77 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B566AA8363C
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 04:10:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0CC6A8365D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 04:21:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF39210E356;
-	Thu, 10 Apr 2025 02:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF8710E358;
+	Thu, 10 Apr 2025 02:21:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=zytor.com header.i=@zytor.com header.b="oGXzMqPn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GB6AY4dQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE7710E356
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 02:10:44 +0000 (UTC)
-Received: from [IPV6:2601:646:8081:1f94:9d5:a0c2:3619:62ac]
- ([IPv6:2601:646:8081:1f94:9d5:a0c2:3619:62ac]) (authenticated bits=0)
- by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53A29YJd3849252
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
- Wed, 9 Apr 2025 19:09:34 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53A29YJd3849252
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
- s=2025032001; t=1744250985;
- bh=sYPb2HJP4fVpfYUaFUUZ0pgxUHfO2I9/b7H7IqJmj3c=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oGXzMqPnDihlvH8csOG6X1vYEL5+OkVYip8jhTPp6IM9qVTa+TE2DQN/NL7CCufbI
- W70VoP5+eXYAecjlqh+Tn7MRcWyYYPY6ri9KgXYwsAfXP39A5RG5P/1U2MrIrPxIl4
- LgNJ7p5qe7PlXd1brGtIHKI9TjgO8NyN/0p80ooXB7kFpxcUb3DSe2qpaXbL6MYH5Y
- jkbPJIJLpQn1W597tFm89pO6yOJzSzHl/UbpTIyOav94ZVlYeTk/+v6ZOvSDveTwGk
- 3WaanUXTgaBtSBGsUrLEl+lM6ukmEGPsrkHUnC15nBvJNz4rVyDO7jHqYWigKmp0ks
- M5Uu5VvWQnEFA==
-Message-ID: <e97a83a2-dabd-4dc3-b69a-840ca17d70b5@zytor.com>
-Date: Wed, 9 Apr 2025 19:09:28 -0700
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ADF910E358;
+ Thu, 10 Apr 2025 02:21:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 7843A6112C;
+ Thu, 10 Apr 2025 02:21:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1102C4CEE2;
+ Thu, 10 Apr 2025 02:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744251696;
+ bh=wrJ3YJUyBIK8cOHIhf2vdxkAWOY+2F6yP5BowSrkZRM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GB6AY4dQdlaK4h8PSq+U1CcrrimnlReKEA/kc6R6up48CyXv2NnZsCilNaJxP/9S3
+ VLjwZ1Do01zkIAFEVWmRmRjkH/R4uFhcEI2B7uLxi40bqt9QSsN2DZzFrZJ6gN/tVx
+ tvfRSVbGJkwcLbmk8G+Ypap44NtIHR1mdfGl7hBy3Y1MtNteIFm89W8rZoqgcTURfa
+ ehASmFI5Co5Har2yM0dfdoU+srDeX50ajCTS4WLgZAHXAewV2vjKwaozf9/wBTviWi
+ CJiVwO9qkk0e+7iQq8CtJfZhHG1HQsP14oWBMgpKBDST1yY0evFawyZaCiqltlcbKA
+ GIePBtoESZF1A==
+Date: Wed, 9 Apr 2025 21:21:33 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH 1/4] soc: qcom: Expose DDR data from SMEM
+Message-ID: <opohwkaqgircxxmnizlxfec6dgba65a6uvdue6dgbhwvkmmyyc@5ia2michtnns>
+References: <20250409-topic-smem_dramc-v1-0-94d505cd5593@oss.qualcomm.com>
+ <20250409-topic-smem_dramc-v1-1-94d505cd5593@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/13] Introduce parity_odd() and refactor redundant
- parity code
-To: Yury Norov <yury.norov@gmail.com>, Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
- joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
- hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, akpm@linux-foundation.org, jdelvare@suse.com,
- linux@roeck-us.net, alexandre.belloni@bootlin.com, pgaj@cadence.com,
- alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- oss-drivers@corigine.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
- bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, Frank.Li@nxp.com,
- linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
- david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
- Yu-Chun Lin <eleanor15x@gmail.com>
-References: <20250409154356.423512-1-visitorckw@gmail.com>
- <Z_amQp3gK5Dm8Qz3@yury> <Z/a5Qh/OeLT8JBS4@visitorckw-System-Product-Name>
- <Z_a9YpE46Xf8581l@yury>
-Content-Language: en-US
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <Z_a9YpE46Xf8581l@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250409-topic-smem_dramc-v1-1-94d505cd5593@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,159 +67,439 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/9/25 11:33, Yury Norov wrote:
->>>
->> I don't have a strong preference for the name, but if I had to guess
->> the return value from the function prototype, I would intuitively
->> expect an int to return "0 for even and 1 for odd," and a bool to
->> return "true for even, false for odd." I recall Jiri and Jacob shared
->> similar thoughts, which is why I felt adding _odd could provide better
->> clarity.
+On Wed, Apr 09, 2025 at 04:47:29PM +0200, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > 
-> I think they said they are convinced that parity should return 1 for
-> odd because of folding and __builtin_parity() arguments.
+> Most modern Qualcomm platforms (>= SM8150) expose information about the
+> DDR memory present on the system via SMEM.
 > 
-
-And for bool, 0 == false, and 1 == true. In fact, the *definitions* for 
-false and true in C (but not C++) is:
-
-<stdbool.h>:
-typedef _Bool bool;
-#define false	0
-#define true	1
-
-If someone wants to make more clear, it would be better to put "typedef 
-bool bit_t" in a common header, but that personally seems ridiculous to me.
-   >>>> type from u8 to u64 for broader applicability, and updates its 
-return
->>>> type from int to bool to make its usage and return semantics more
->>>> intuitive-returning true for odd parity and false for even parity. It
->>>> also adds __attribute_const__ to enable compiler optimizations.
->>>
->>> That's correct and nice, but can you support it with a bloat-o-meter's
->>> before/after and/or asm snippets? I also think it worth to be a separate
->>> patch, preferably the last patch in the series.
->>>
->> I quickly tested it with the x86 defconfig, and it appears that the
->> generated code doesn't change. I forgot who requested the addition
->> during the review process, but I initially thought it would either
->> improve the generated code or leave it unchanged without significantly
->> increasing the source code size.
+> Details from this information is used in various scenarios, such as
+> multimedia drivers configuring the hardware based on the "Highest Bank
+> address Bit" (hbb), or the list of valid frequencies in validation
+> scenarios...
 > 
-> That's what I actually expected, but was shy to guess openly. :). It's
-> hard to imagine how compiler may improve code generation in this case...
+> Add support for parsing v3-v5 version of the structs. Unforunately,
+> they are not versioned, so some elbow grease is necessary to determine
+> which one is present. See for reference:
 > 
-> This attribute is used when there's an asm block, or some non-trivial
-> function call. In this case, the function is self-consistent and makes
-> no calls. And you see, const annotation raises more questions than
-> solves problems. Let's drop it.
+> v3: https://git.codelinaro.org/clo/la/abl/tianocore/edk2/-/commit/1d11897d2cfcc7b85f28ff74c445018dbbecac7a
+> v4: https://git.codelinaro.org/clo/la/abl/tianocore/edk2/-/commit/f6e9aa549260bbc0bdcb156c2b05f48dc5963203
+> v5: https://git.codelinaro.org/clo/la/abl/tianocore/edk2/-/blob/uefi.lnx.4.0.r31-rel/QcomModulePkg/Include/Protocol/DDRDetails.h?ref_type=heads
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Ah yes; one of the quirks about gcc asm is that an asm is implicitly 
-assumed "const" (with no memory operands) or "pure" (with memory 
-operands) unless declared volatile or given an explicit "memory" clobber.
+Reviewed-by: Bjorn Andersson <andersson@kernel.org>
 
-So yes, the compiler can most definitely derive the constness from the 
-form of the function even in the variable case.
+Regards,
+Bjorn
 
-I would still like to see __builtin_parity() being used as an 
-architecture opt-in; it can, of course, also be unconditionally used in 
-the constant case.
-
-So in the end one of these two become my preferred implementation, and I 
-really don't think it is very complicated:
-
-#ifndef use_builtin_parity
-#define use_builtin_parity(x) __builtin_constant_p(x)
-#endif
-
-static inline bool parity8(u8 val)
-{
-	if (use_builtin_parity(val))
-		return __builtin_parity(val);
-	val ^= val >> 4;
-	return (0x6996 >> (val & 0xf)) & 1;
-}
-
-static inline bool parity16(u16 val)
-{
-	if (use_builtin_parity(val))
-		return __builtin_parity(val);
-	return parity8(val ^ (val >> 8));
-}
-
-static inline bool parity32(u32 val)
-{
-	if (use_builtin_parity(val))
-		return __builtin_parity(val);
-	return parity16(val ^ (val >> 16));
-}
-
-static inline bool parity64(u64 val)
-{
-	if (use_builtin_parity(val))
-		return __builtin_parityll(val);
-	return parity32(val ^ (val >> 32));
-}
-
-This means that an architecture -- in particular, x86 -- can still ask 
-to use __builtin_parity*() directly. It means that architectures on 
-which __builtin_parity*() produces bad code should either complain to 
-the gcc/clang team and have it fixed, or we can add additional mechanism 
-for them to override the implementation at that time.
-
-The alternative is to stop worrying about overengineering, and just do 
-it once and for all:
-
-#ifndef parity8
-static inline bool parity8(u8 val)
-{
-	val ^= val >> 4;
-	return (0x6996 >> (val & 0xf)) & 1;
-}
-#endif
-
-#ifndef parity16
-static inline bool parity16(u16 val)
-{
-	return parity8(val ^ (val >> 8));
-}
-#endif
-
-#ifndef parity32
-static inline bool parity32(u32 val)
-{
-	return parity16(val ^ (val >> 16));
-}
-#endif
-
-#ifndef parity64
-static inline bool parity64(u64 val)
-{
-	return parity32(val ^ (val >> 32));
-}
-#endif
-
-In either case, instead of packing the cascade into one function, make 
-good use of it.
-
-In the latter case, __builtin_constant_p() isn't necessary as it puts 
-the onus on the architecture to separate out const and non-const cases, 
-if it matters -- which it doesn't if the architecture simply wants to 
-use __builtin_parity:
-
-#define parity8(x)  ((bool) __builtin_parity((u8)(x)))
-#define parity16(x) ((bool) __builtin_parity((u16)(x)))
-#define parity32(x) ((bool) __builtin_parity((u32)(x)))
-#define parity64(x) ((bool) __builtin_parityll((u64)(x)))
-
-As stated before, I don't really see that the parity function itself 
-would be very suitable for a generic helper, but if it were to, then 
-using the "standard" macro construct for it would seem to be the better 
-option.
-
-(And I would be very much in favor of not open-coding the helper 
-everywhere but to macroize it; effectively creating a C++ template 
-equivalent. It is out of scope for this project, though.)
-
-	-hpa
-
+> ---
+>  drivers/soc/qcom/Makefile     |   3 +-
+>  drivers/soc/qcom/smem.c       |  14 ++-
+>  drivers/soc/qcom/smem.h       |   9 ++
+>  drivers/soc/qcom/smem_dramc.c | 287 ++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/soc/qcom/smem.h |   4 +
+>  5 files changed, 315 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
+> index acbca2ab5cc2a9ab3dce1ff38efd048ba2fab31e..7227f648893d047d7de8819dc159554af6a7b817 100644
+> --- a/drivers/soc/qcom/Makefile
+> +++ b/drivers/soc/qcom/Makefile
+> @@ -23,7 +23,8 @@ obj-$(CONFIG_QCOM_RPMH)		+= qcom_rpmh.o
+>  qcom_rpmh-y			+= rpmh-rsc.o
+>  qcom_rpmh-y			+= rpmh.o
+>  obj-$(CONFIG_QCOM_SMD_RPM)	+= rpm-proc.o smd-rpm.o
+> -obj-$(CONFIG_QCOM_SMEM) +=	smem.o
+> +qcom_smem-y			+= smem.o smem_dramc.o
+> +obj-$(CONFIG_QCOM_SMEM) +=	qcom_smem.o
+>  obj-$(CONFIG_QCOM_SMEM_STATE) += smem_state.o
+>  CFLAGS_smp2p.o := -I$(src)
+>  obj-$(CONFIG_QCOM_SMP2P)	+= smp2p.o
+> diff --git a/drivers/soc/qcom/smem.c b/drivers/soc/qcom/smem.c
+> index 59281970180921b76312fd5020828edced739344..cfd6a9d531d3d2438d7577be0c594d3b960bd003 100644
+> --- a/drivers/soc/qcom/smem.c
+> +++ b/drivers/soc/qcom/smem.c
+> @@ -4,6 +4,7 @@
+>   * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+>   */
+>  
+> +#include <linux/debugfs.h>
+>  #include <linux/hwspinlock.h>
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+> @@ -16,6 +17,8 @@
+>  #include <linux/soc/qcom/smem.h>
+>  #include <linux/soc/qcom/socinfo.h>
+>  
+> +#include "smem.h"
+> +
+>  /*
+>   * The Qualcomm shared memory system is a allocate only heap structure that
+>   * consists of one of more memory areas that can be accessed by the processors
+> @@ -284,6 +287,8 @@ struct qcom_smem {
+>  	struct smem_partition global_partition;
+>  	struct smem_partition partitions[SMEM_HOST_COUNT];
+>  
+> +	struct dentry *debugfs_dir;
+> +
+>  	unsigned num_regions;
+>  	struct smem_region regions[] __counted_by(num_regions);
+>  };
+> @@ -1230,17 +1235,24 @@ static int qcom_smem_probe(struct platform_device *pdev)
+>  
+>  	__smem = smem;
+>  
+> +	smem->debugfs_dir = smem_dram_parse(smem->dev);
+> +
+>  	smem->socinfo = platform_device_register_data(&pdev->dev, "qcom-socinfo",
+>  						      PLATFORM_DEVID_NONE, NULL,
+>  						      0);
+> -	if (IS_ERR(smem->socinfo))
+> +	if (IS_ERR(smem->socinfo)) {
+> +		debugfs_remove_recursive(smem->debugfs_dir);
+> +
+>  		dev_dbg(&pdev->dev, "failed to register socinfo device\n");
+> +	}
+>  
+>  	return 0;
+>  }
+>  
+>  static void qcom_smem_remove(struct platform_device *pdev)
+>  {
+> +	debugfs_remove_recursive(__smem->debugfs_dir);
+> +
+>  	platform_device_unregister(__smem->socinfo);
+>  
+>  	hwspin_lock_free(__smem->hwlock);
+> diff --git a/drivers/soc/qcom/smem.h b/drivers/soc/qcom/smem.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..8bf3f606e1ae80b7aa02b9567870f6a2681f8e5a
+> --- /dev/null
+> +++ b/drivers/soc/qcom/smem.h
+> @@ -0,0 +1,9 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __QCOM_SMEM_INTERNAL__
+> +#define __QCOM_SMEM_INTERNAL__
+> +
+> +#include <linux/device.h>
+> +
+> +struct dentry *smem_dram_parse(struct device *dev);
+> +
+> +#endif
+> diff --git a/drivers/soc/qcom/smem_dramc.c b/drivers/soc/qcom/smem_dramc.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..6ded45fd55c2ffa0924492f8042b753ec6c925cf
+> --- /dev/null
+> +++ b/drivers/soc/qcom/smem_dramc.c
+> @@ -0,0 +1,287 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/debugfs.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/soc/qcom/smem.h>
+> +#include <linux/units.h>
+> +#include <linux/soc/qcom/smem.h>
+> +
+> +#include "smem.h"
+> +
+> +#define SMEM_DDR_INFO_ID		603
+> +
+> +#define MAX_DDR_FREQ_NUM_V3		13
+> +#define MAX_DDR_FREQ_NUM_V5		14
+> +
+> +#define MAX_DDR_REGION_NUM		6
+> +#define MAX_CHAN_NUM			8
+> +#define MAX_RANK_NUM			2
+> +
+> +static struct smem_dram *__dram;
+> +
+> +enum ddr_info_version {
+> +	INFO_UNKNOWN,
+> +	INFO_V3,
+> +	INFO_V3_WITH_14_FREQS,
+> +	INFO_V4,
+> +	INFO_V5,
+> +	INFO_V5_WITH_6_REGIONS,
+> +};
+> +
+> +struct smem_dram {
+> +	unsigned long frequencies[MAX_DDR_FREQ_NUM_V5];
+> +	u32 num_frequencies;
+> +	u8 hbb;
+> +};
+> +
+> +enum ddr_type {
+> +	DDR_TYPE_NODDR = 0,
+> +	DDR_TYPE_LPDDR1 = 1,
+> +	DDR_TYPE_LPDDR2 = 2,
+> +	DDR_TYPE_PCDDR2 = 3,
+> +	DDR_TYPE_PCDDR3 = 4,
+> +	DDR_TYPE_LPDDR3 = 5,
+> +	DDR_TYPE_LPDDR4 = 6,
+> +	DDR_TYPE_LPDDR4X = 7,
+> +	DDR_TYPE_LPDDR5 = 8,
+> +	DDR_TYPE_LPDDR5X = 9,
+> +};
+> +
+> +/* The data structures below are NOT __packed on purpose! */
+> +
+> +/* Structs used across multiple versions */
+> +struct ddr_part_details {
+> +	__le16 revision_id1;
+> +	__le16 revision_id2;
+> +	__le16 width;
+> +	__le16 density;
+> +};
+> +
+> +struct ddr_freq_table {
+> +	u32 freq_khz;
+> +	u8 enabled;
+> +};
+> +
+> +/* V3 */
+> +struct ddr_freq_plan_v3 {
+> +	struct ddr_freq_table ddr_freq[MAX_DDR_FREQ_NUM_V3]; /* NOTE: some have 14 like v5 */
+> +	u8 num_ddr_freqs;
+> +	phys_addr_t clk_period_address;
+> +};
+> +
+> +struct ddr_details_v3 {
+> +	u8 manufacturer_id;
+> +	u8 device_type;
+> +	struct ddr_part_details ddr_params[MAX_CHAN_NUM];
+> +	struct ddr_freq_plan_v3 ddr_freq_tbl;
+> +	u8 num_channels;
+> +};
+> +
+> +/* V4 */
+> +struct ddr_details_v4 {
+> +	u8 manufacturer_id;
+> +	u8 device_type;
+> +	struct ddr_part_details ddr_params[MAX_CHAN_NUM];
+> +	struct ddr_freq_plan_v3 ddr_freq_tbl;
+> +	u8 num_channels;
+> +	u8 num_ranks[MAX_CHAN_NUM];
+> +	u8 highest_bank_addr_bit[MAX_CHAN_NUM][MAX_RANK_NUM];
+> +};
+> +
+> +/* V5 */
+> +struct ddr_freq_plan_v5 {
+> +	struct ddr_freq_table ddr_freq[MAX_DDR_FREQ_NUM_V5];
+> +	u8 num_ddr_freqs;
+> +	phys_addr_t clk_period_address;
+> +	u32 max_nom_ddr_freq;
+> +};
+> +
+> +struct ddr_region_v5 {
+> +	u64 start_address;
+> +	u64 size;
+> +	u64 mem_controller_address;
+> +	u32 granule_size; /* MiB */
+> +	u8  ddr_rank;
+> +#define DDR_RANK_0	BIT(0)
+> +#define DDR_RANK_1	BIT(1)
+> +	u8  segments_start_index;
+> +	u64 segments_start_offset;
+> +};
+> +
+> +struct ddr_regions_v5 {
+> +	u32 ddr_region_num; /* We expect this to always be 4 or 6 */
+> +	u64 ddr_rank0_size;
+> +	u64 ddr_rank1_size;
+> +	u64 ddr_cs0_start_addr;
+> +	u64 ddr_cs1_start_addr;
+> +	u32 highest_bank_addr_bit;
+> +	struct ddr_region_v5 ddr_region[] __counted_by(ddr_region_num);
+> +};
+> +
+> +struct ddr_details_v5 {
+> +	u8 manufacturer_id;
+> +	u8 device_type;
+> +	struct ddr_part_details ddr_params[MAX_CHAN_NUM];
+> +	struct ddr_freq_plan_v5 ddr_freq_tbl;
+> +	u8 num_channels;
+> +	struct ddr_regions_v5 ddr_regions;
+> +};
+> +
+> +/**
+> + * qcom_smem_dram_get_hbb(): Get the Highest bank address bit
+> + *
+> + * Context: Check qcom_smem_is_available() before calling this function.
+> + * Because __dram * is initialized by smem_dram_parse(), which is in turn
+> + * called from * qcom_smem_probe(), __dram will only be NULL if the data
+> + * couldn't have been found/interpreted correctly.
+> + *
+> + * If the function fails, the argument is left unmodified.
+> + *
+> + * Return: 0 on success, -ENODATA on failure.
+> + */
+> +int qcom_smem_dram_get_hbb(void)
+> +{
+> +	return __dram ? __dram->hbb : -ENODATA;
+> +}
+> +EXPORT_SYMBOL_GPL(qcom_smem_dram_get_hbb);
+> +
+> +static void smem_dram_parse_v3_data(struct smem_dram *dram, void *data, bool additional_freq_entry)
+> +{
+> +	/* This may be 13 or 14 */
+> +	int num_freq_entries = MAX_DDR_FREQ_NUM_V3;
+> +	struct ddr_details_v3 *details = data;
+> +
+> +	if (additional_freq_entry)
+> +		num_freq_entries++;
+> +
+> +	for (int i = 0; i < num_freq_entries; i++) {
+> +		struct ddr_freq_table *freq_entry = &details->ddr_freq_tbl.ddr_freq[i];
+> +
+> +		if (freq_entry->freq_khz && freq_entry->enabled)
+> +			dram->frequencies[dram->num_frequencies++] = 1000 * freq_entry->freq_khz;
+> +	}
+> +}
+> +
+> +static void smem_dram_parse_v4_data(struct smem_dram *dram, void *data)
+> +{
+> +	struct ddr_details_v4 *details = data;
+> +
+> +	/* Rank 0 channel 0 entry holds the correct value */
+> +	dram->hbb = details->highest_bank_addr_bit[0][0];
+> +
+> +	for (int i = 0; i < MAX_DDR_FREQ_NUM_V3; i++) {
+> +		struct ddr_freq_table *freq_entry = &details->ddr_freq_tbl.ddr_freq[i];
+> +
+> +		if (freq_entry->freq_khz && freq_entry->enabled)
+> +			dram->frequencies[dram->num_frequencies++] = 1000 * freq_entry->freq_khz;
+> +	}
+> +}
+> +
+> +static void smem_dram_parse_v5_data(struct smem_dram *dram, void *data)
+> +{
+> +	struct ddr_details_v5 *details = data;
+> +	struct ddr_regions_v5 *region = &details->ddr_regions;
+> +
+> +	dram->hbb = region[0].highest_bank_addr_bit;
+> +
+> +	for (int i = 0; i < MAX_DDR_FREQ_NUM_V5; i++) {
+> +		struct ddr_freq_table *freq_entry = &details->ddr_freq_tbl.ddr_freq[i];
+> +
+> +		if (freq_entry->freq_khz && freq_entry->enabled)
+> +			dram->frequencies[dram->num_frequencies++] = 1000 * freq_entry->freq_khz;
+> +	}
+> +}
+> +
+> +/* The structure contains no version field, so we have to perform some guesswork.. */
+> +static int smem_dram_infer_struct_version(size_t size)
+> +{
+> +	/* Some early versions provided less bytes of less useful data */
+> +	if (size < sizeof(struct ddr_details_v3))
+> +		return -EINVAL;
+> +	if (size == sizeof(struct ddr_details_v3))
+> +		return INFO_V3;
+> +	else if (size == sizeof(struct ddr_details_v3) + sizeof(struct ddr_freq_table))
+> +		return INFO_V3_WITH_14_FREQS;
+> +	else if (size == sizeof(struct ddr_details_v4))
+> +		return INFO_V4;
+> +	else if (size == sizeof(struct ddr_details_v5) + 4 * sizeof(struct ddr_region_v5))
+> +		return INFO_V5;
+> +	else if (size == sizeof(struct ddr_details_v5) + 6 * sizeof(struct ddr_region_v5))
+> +		return INFO_V5_WITH_6_REGIONS;
+> +
+> +	return INFO_UNKNOWN;
+> +}
+> +
+> +static int smem_dram_frequencies_show(struct seq_file *s, void *unused)
+> +{
+> +	struct smem_dram *dram = s->private;
+> +
+> +	for (int i = 0; i < dram->num_frequencies; i++)
+> +		seq_printf(s, "%lu\n", dram->frequencies[i]);
+> +
+> +	return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(smem_dram_frequencies);
+> +
+> +struct dentry *smem_dram_parse(struct device *dev)
+> +{
+> +	struct dentry *debugfs_dir;
+> +	enum ddr_info_version ver;
+> +	struct smem_dram *dram;
+> +	size_t actual_size;
+> +	void *data = NULL;
+> +
+> +	/* No need to check qcom_smem_is_available(), this func is called by the SMEM driver */
+> +	data = qcom_smem_get(QCOM_SMEM_HOST_ANY, SMEM_DDR_INFO_ID, &actual_size);
+> +	if (IS_ERR_OR_NULL(data))
+> +		return ERR_PTR(-ENODATA);
+> +
+> +	ver = smem_dram_infer_struct_version(actual_size);
+> +	if (ver < 0) {
+> +		/* Some SoCs don't provide data that's useful for us */
+> +		return ERR_PTR(-ENODATA);
+> +	} else if (ver == INFO_UNKNOWN) {
+> +		/* In other cases, we may not have added support for a newer struct revision */
+> +		pr_err("Found an unknown type of DRAM info struct (size = %zu)\n", actual_size);
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	dram = devm_kzalloc(dev, sizeof(*dram), GFP_KERNEL);
+> +	if (!dram)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	switch (ver) {
+> +	case INFO_V3:
+> +		smem_dram_parse_v3_data(dram, data, false);
+> +		break;
+> +	case INFO_V3_WITH_14_FREQS:
+> +		smem_dram_parse_v3_data(dram, data, true);
+> +		break;
+> +	case INFO_V4:
+> +		smem_dram_parse_v4_data(dram, data);
+> +		break;
+> +	case INFO_V5:
+> +	case INFO_V5_WITH_6_REGIONS:
+> +		smem_dram_parse_v5_data(dram, data);
+> +		break;
+> +	default:
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	/* Both the entry and its parent dir will be cleaned up by debugfs_remove_recursive */
+> +	debugfs_dir = debugfs_create_dir("qcom_smem", NULL);
+> +	debugfs_create_file("dram_frequencies", 0444, debugfs_dir,
+> +			    dram, &smem_dram_frequencies_fops);
+> +
+> +	/* If there was no failure so far, assign the global variable */
+> +	__dram = dram;
+> +
+> +	return debugfs_dir;
+> +}
+> diff --git a/include/linux/soc/qcom/smem.h b/include/linux/soc/qcom/smem.h
+> index f946e3beca215548ac56dbf779138d05479712f5..223cd5090a2a8d0b29be768c6a9cc76c2997bbce 100644
+> --- a/include/linux/soc/qcom/smem.h
+> +++ b/include/linux/soc/qcom/smem.h
+> @@ -2,6 +2,8 @@
+>  #ifndef __QCOM_SMEM_H__
+>  #define __QCOM_SMEM_H__
+>  
+> +#include <linux/platform_device.h>
+> +
+>  #define QCOM_SMEM_HOST_ANY -1
+>  
+>  bool qcom_smem_is_available(void);
+> @@ -17,4 +19,6 @@ int qcom_smem_get_feature_code(u32 *code);
+>  
+>  int qcom_smem_bust_hwspin_lock_by_host(unsigned int host);
+>  
+> +int qcom_smem_dram_get_hbb(void);
+> +
+>  #endif
+> 
+> -- 
+> 2.49.0
+> 
