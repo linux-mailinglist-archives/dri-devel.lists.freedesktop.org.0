@@ -2,81 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29BBAA84D5F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 21:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F652A84D7C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 21:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C228D10E13B;
-	Thu, 10 Apr 2025 19:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A60110EA73;
+	Thu, 10 Apr 2025 19:49:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="km2+W3BR";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZpC/npS2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BA7010E13B;
- Thu, 10 Apr 2025 19:44:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744314259; x=1775850259;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=bm3/8PF4xnmSSQgO/SPKCn9ZQH9WFMWfGuG8LCM47eI=;
- b=km2+W3BRfj7eb6W/dOhhdnPUwZ/qV5tmNi2EXUrwNACrAn8WBJ7W8aCt
- aBZlFuvufQQxurIeooGWLZdbJ3vwSs1kDUksMbx/jDF2k1OfxW9bnxSMQ
- 9L4Z85S0kC0DXttjTus8iEbG/FNC93U1yqhkiKInHBHYyBA6DSuMnQywV
- yqYHEfgqqkLM+Ro7FLTO1mAgQQ/Wd8xih1ldNdR/sIAKDIJUSeXd6afY/
- g5uURzrI/d2dDgVsyxqrV23W7Mi4S+y2I9pHOkuhOZIxQQtnh1qTlOQMg
- nnP5vK+Xz4kkLNkaVdcndCnAHgvIRMoiGlOOLl159MghBabO00a44PvF8 Q==;
-X-CSE-ConnectionGUID: He5cgpe9QCaHZlHim96vqA==
-X-CSE-MsgGUID: eMKz47DXSdiC7UTrhchzuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="68341408"
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; d="scan'208";a="68341408"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2025 12:44:19 -0700
-X-CSE-ConnectionGUID: ZJEymzmWQ+eyCd/EYrTOwQ==
-X-CSE-MsgGUID: G9cjUPyTRoyBY9bje9kCOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; d="scan'208";a="129960821"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
- by orviesa008.jf.intel.com with ESMTP; 10 Apr 2025 12:44:11 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1u2xon-000ATj-0b;
- Thu, 10 Apr 2025 19:44:09 +0000
-Date: Fri, 11 Apr 2025 03:43:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Liviu Dudau <liviu.dudau@arm.com>, Russell King <linux@armlinux.org.uk>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Clark <robdclark@gmail.com>,
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D192910E177
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:49:39 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53AFibE7018370
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:49:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=aNhuwxgEqLQlGdQ0sOZNsXWl
+ JqoDDoZqwpr4m2bgAv8=; b=ZpC/npS2kfZgcSJsiieah2iW9S2n+3kFAJli3xUZ
+ whp5TGslpUiPVsr4vIPkzojf5GmDVamfBFj3b/bnJPSF3DRtwYckKtsl4ZLMSs+b
+ jHLQx8rl+XchJtVaBA0gw5NEptWFXndkXcWSeggoGmpWBKLG022/bqS2deXhiRGN
+ z2v6m1Vl8ape1N5ibjcx4H5W4llmhrqbXbPL1JD9uFTgpEZwfXStfBeN2+fIBPJd
+ SnLMj+oXQSQMdRNEx1BnQ3S0rDL6g2DB+0cQSwlNAFf/gd3UGYg8yLwC+ACv8kEt
+ NGeJEc26PIAVNF/63o2zoUWkIAJEST1sOkqGIvyXb5KSVA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twtb89hd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:49:39 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7c791987cf6so261273585a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:49:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744314578; x=1744919378;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aNhuwxgEqLQlGdQ0sOZNsXWlJqoDDoZqwpr4m2bgAv8=;
+ b=uV+g5F+sXZBFhL1DfViLeLWXd0H+rWQ4MxvfRECShaAU1zKE7rkZ975gGvSKYi7ZGs
+ jOljatlkOmr5kY3fXadXkl0qCRCx0vbT1xbveSDFuR6kPHPE7w6hwBXqAqa5qj5tGWkd
+ whl5GoTa6vW9EO9lPvaMzt1KLRMrx4IXhp02XyUFGtJ6KmOEFwWRhHMkZcaKs829Bfb1
+ 7lgUGl+7iNkSsABQfRn0MK3GEf7V3y0d332GqhjRtqLCyamZ+zGHuXnCMpCXG3s6rl4g
+ 5blglBbNFlv0gPRxh5sfsV06ZIjsolYVqZvv3WrzqaafzXm0doq01dOkWUEea0ATBi9/
+ aCLA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUFyHYkrk8Zjv7dYlGdkEGGoBTqBF7Gcr/8yxCiSKxSifvr3Mtuc5fvx9t44SwHiYu7NtgbCjzScqM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyERr5SF4LiYg32cFyAUjPdRcZtOjDZyTxoUfZImjLsbM5TBd4f
+ WtC4dUYc41rkxLzFq9uDR4GEpCfelaw/qvOJdvib8z9rdGeNoXlfKsyooZiXMtvu/U/FV4gRFDQ
+ IJNIAsJZ+bIoRfmZzq/Yh6t8EaOWlCRoMLYbcyRAaCB2YYl6YmfPa03G3YUwfgmjWWPo=
+X-Gm-Gg: ASbGncvyOHObKUnJ2nWeXCSRilTjce/yRR80rm9dHyaTrBdkSzJQx7bKMuGC4Hm+2rm
+ j6Y/bS84N3Wj/+XIW1mgR+d3SLaV77CYa3Y5xaOxzkxYYSqgeb2EzhliP56Gx7WsLiRv4JT6mtK
+ 5YDK8J7/yUcIqIkE7c5eCTLhwdKcNfjtVuvFn3a4FpLxmhRlM87kPZWNuOFwH7B/nEZW71rEFUi
+ V5uSmuTX3ovkna4Fqf1vSePpFAoR1f0sFnoq0lNY5rI8KJHmt6eZCJUUQ2NKjJXoQrLw4cm67sv
+ xiE/kEK9e3sIY7pAdqxt2k+noejhdoaPg0s88jquhcxwqFGNzf/XiHM3eHnUvLmiIaCpYp4p228
+ =
+X-Received: by 2002:a05:620a:2941:b0:7c5:4711:dc51 with SMTP id
+ af79cd13be357-7c7af0f8841mr36836985a.2.1744314577842; 
+ Thu, 10 Apr 2025 12:49:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFsp+mbswefuSskvfP4MGPlMZhuL5PnvXrRuwIIXDia3tt/3yJFdDa3tlw5fgy10G42iTdrsg==
+X-Received: by 2002:a05:620a:2941:b0:7c5:4711:dc51 with SMTP id
+ af79cd13be357-7c7af0f8841mr36833885a.2.1744314577477; 
+ Thu, 10 Apr 2025 12:49:37 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30f4649d86esm5793871fa.14.2025.04.10.12.49.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Apr 2025 12:49:36 -0700 (PDT)
+Date: Thu, 10 Apr 2025 22:49:34 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <lumag@kernel.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: Re: [PATCH 02/19] drm: Pass pixel_format+modifier directly to
- drm_get_format_info()
-Message-ID: <202504110343.FEc4bNDr-lkp@intel.com>
-References: <20250410163218.15130-3-ville.syrjala@linux.intel.com>
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/4] Retrieve information about DDR from SMEM
+Message-ID: <iebl74rolk2t6xyoedy5p2e7clssh4dvxtpzerykyivrhkao4g@dbmnpia3xtxv>
+References: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250410163218.15130-3-ville.syrjala@linux.intel.com>
+In-Reply-To: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
+X-Proofpoint-GUID: cjkjGMRPf93qK6xLEIRnn__VFeVIsazE
+X-Authority-Analysis: v=2.4 cv=LLlmQIW9 c=1 sm=1 tr=0 ts=67f820d3 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=OxrDjszf_QBMMd4ylzMA:9
+ a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: cjkjGMRPf93qK6xLEIRnn__VFeVIsazE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-10_06,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0
+ clxscore=1015 mlxlogscore=851 malwarescore=0 phishscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504100143
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,67 +124,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ville,
+On Thu, Apr 10, 2025 at 07:43:43PM +0200, Konrad Dybcio wrote:
+> SMEM allows the OS to retrieve information about the DDR memory.
+> Among that information, is a semi-magic value called 'HBB', or Highest
+> Bank address Bit, which multimedia drivers (for hardware like Adreno
+> and MDSS) must retrieve in order to program the IP blocks correctly.
+> 
+> This series introduces an API to retrieve that value, uses it in the
+> aforementioned programming sequences and exposes available DDR
+> frequencies in debugfs (to e.g. pass to aoss_qmp debugfs). More
+> information can be exposed in the future, as needed.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+> Changes in v2:
+> - Avoid checking for < 0 on unsigned types
+> - Overwrite Adreno UBWC data to keep the data shared with userspace
+>   coherent with what's programmed into the hardware
+> - Call get_hbb() in msm_mdss_enable() instead of all UBWC setup
+>   branches separately
+> - Pick up Bjorn's rb on patch 1
+> - Link to v1: https://lore.kernel.org/r/20250409-topic-smem_dramc-v1-0-94d505cd5593@oss.qualcomm.com
+> 
+> ---
+> Konrad Dybcio (4):
+>       soc: qcom: Expose DDR data from SMEM
+>       drm/msm/a5xx: Get HBB dynamically, if available
+>       drm/msm/a6xx: Get HBB dynamically, if available
+>       drm/msm/mdss: Get HBB dynamically, if available
+> 
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c |  12 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c |  15 +-
+>  drivers/gpu/drm/msm/msm_mdss.c        |  30 ++--
 
-kernel test robot noticed the following build warnings:
+This misses the dpu_hw_sspp.c, which uses ubwc_config from msm_mdss.c
+(but the config isn't being updated with the acquired HBB value).
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.15-rc1 next-20250410]
-[cannot apply to drm-exynos/exynos-drm-next tegra/for-next rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I'd suggest behaving it slightly differntly: can we please have a helper
+module (in drivers/soc/qcom) which would return UBWC configuration data.
+We can start with HBB values, migrating the rest of UBWC-related flags
+one by one.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-Pass-pixel_format-modifier-to-get_format_info/20250411-005845
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250410163218.15130-3-ville.syrjala%40linux.intel.com
-patch subject: [PATCH 02/19] drm: Pass pixel_format+modifier directly to drm_get_format_info()
-config: hexagon-randconfig-001-20250411 (https://download.01.org/0day-ci/archive/20250411/202504110343.FEc4bNDr-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504110343.FEc4bNDr-lkp@intel.com/reproduce)
+Also, were you able to solve the issue of the platforms where GPU and
+MDSS disagreed upon HBB data?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504110343.FEc4bNDr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_fourcc.c:394: warning: Function parameter or struct member 'pixel_format' not described in 'drm_get_format_info'
->> drivers/gpu/drm/drm_fourcc.c:394: warning: Function parameter or struct member 'modifier' not described in 'drm_get_format_info'
->> drivers/gpu/drm/drm_fourcc.c:394: warning: Excess function parameter 'mode_cmd' description in 'drm_get_format_info'
-
-
-vim +394 drivers/gpu/drm/drm_fourcc.c
-
-84770cc24f3a51 Laurent Pinchart 2016-10-18  381  
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  382  /**
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  383   * drm_get_format_info - query information for a given framebuffer configuration
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  384   * @dev: DRM device
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  385   * @mode_cmd: metadata from the userspace fb creation request
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  386   *
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  387   * Returns:
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  388   * The instance of struct drm_format_info that describes the pixel format, or
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  389   * NULL if the format is unsupported.
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  390   */
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  391  const struct drm_format_info *
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  392  drm_get_format_info(struct drm_device *dev,
-9a77ad08811ab1 Ville Syrjälä    2025-04-10  393  		    u32 pixel_format, u64 modifier)
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21 @394  {
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  395  	const struct drm_format_info *info = NULL;
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  396  
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  397  	if (dev->mode_config.funcs->get_format_info)
-9a77ad08811ab1 Ville Syrjälä    2025-04-10  398  		info = dev->mode_config.funcs->get_format_info(pixel_format,
-9a77ad08811ab1 Ville Syrjälä    2025-04-10  399  							       modifier);
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  400  
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  401  	if (!info)
-9a77ad08811ab1 Ville Syrjälä    2025-04-10  402  		info = drm_format_info(pixel_format);
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  403  
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  404  	return info;
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  405  }
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  406  EXPORT_SYMBOL(drm_get_format_info);
-6a0f9ebfc5e753 Ville Syrjälä    2017-03-21  407  
+>  drivers/soc/qcom/Makefile             |   3 +-
+>  drivers/soc/qcom/smem.c               |  14 +-
+>  drivers/soc/qcom/smem.h               |   9 ++
+>  drivers/soc/qcom/smem_dramc.c         | 287 ++++++++++++++++++++++++++++++++++
+>  include/linux/soc/qcom/smem.h         |   4 +
+>  8 files changed, 360 insertions(+), 14 deletions(-)
+> ---
+> base-commit: 46086739de22d72319e37c37a134d32db52e1c5c
+> change-id: 20250409-topic-smem_dramc-6467187ac865
+> 
+> Best regards,
+> -- 
+> Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
