@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E611AA83E7F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 11:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2507CA83E81
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 11:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D07910E82B;
-	Thu, 10 Apr 2025 09:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A407F10E834;
+	Thu, 10 Apr 2025 09:25:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G99ccvzB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GmhViSG+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D41E510E81A;
- Thu, 10 Apr 2025 09:24:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 860D210E830;
+ Thu, 10 Apr 2025 09:24:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 65B88A49ADC;
- Thu, 10 Apr 2025 09:19:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DF2DC4CEE9;
- Thu, 10 Apr 2025 09:24:50 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2DD60A49ADB;
+ Thu, 10 Apr 2025 09:19:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C6D3C4CEEA;
+ Thu, 10 Apr 2025 09:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744277093;
- bh=3P7s4nXmSskx7iFVqJGduWVlN7qiQQvgN5d+ysuJyiI=;
+ s=k20201202; t=1744277097;
+ bh=fFdMV2U0ELCA71kU/Js1/s2xdWAGWoCmvbLagHCp6Ps=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=G99ccvzBekwF9w28ZdrT3WI90UdaES2VHm6CttD7Z3rn10sY7nJBSVjBweaIBtSBz
- du7leLWJhVQRElmAZ+QWxL6MM1c9xjK9xurwfHmTWf4rBsj4SrqH2xgHTtlAWZyc8m
- R701q5aFobVxj/Mgn244Kus6EqysQ5ITd2sT8irG140N3vX3HC2pAOTTuWxHMfshsg
- mBlu5qQIy6UZ2fNtBOwi3YTUReLyAvIVmGzdC9LflXh5eVQxd5cgvDDFITTV54rUbS
- BJkuBdN6GqLzGBeGyrRlw1xTN/hy9hz7DywZyN0CAzHcpWBGAloL5P84pp2OYRwPf+
- jhIt5jr10fNmA==
+ b=GmhViSG+psu5bFsa1vh+rEKrjVmrud1pcWUvaM07hvbfUEK0ZH+1pQOCYEYvRbjqR
+ XrOd70Kq5VGsayWgaSW+t4nP3sUK7A9PXrMUGluOvRM1beWmjJKmj6Xf4QRubGG5Os
+ jqWNJPMMqg1LYn/ftvxwTajdA+WZQ2J8l9UPPnuSl3uYqrmWVJXbJMaWKDljrLw5fL
+ nHG6o9VREB7b96AZRbMSZNfuG+zf1zE9PtumlnXx42OVDrdRJtjgqK78VLmzXC8hk1
+ KCN6HRmJyTWdrepHbUG0zAqxKq5sTBrPAD51dD2rJyaAS3wwe0BL1tANs6UQu5AqCJ
+ X3gVlSCd9cG3Q==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -39,10 +39,10 @@ To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Philipp Stanner <phasta@kernel.org>, stable@vger.kernel.org
-Subject: [PATCH 1/3] drm/nouveau: Prevent signaled fences in pending list
-Date: Thu, 10 Apr 2025 11:24:17 +0200
-Message-ID: <20250410092418.135258-3-phasta@kernel.org>
+ Philipp Stanner <phasta@kernel.org>
+Subject: [PATCH 2/3] drm/nouveau: Remove surplus if-branch
+Date: Thu, 10 Apr 2025 11:24:18 +0200
+Message-ID: <20250410092418.135258-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250410092418.135258-2-phasta@kernel.org>
 References: <20250410092418.135258-2-phasta@kernel.org>
@@ -63,45 +63,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nouveau currently relies on the assumption that dma_fences will only
-ever get signaled through nouveau_fence_signal(), which takes care of
-removing a signaled fence from the list nouveau_fence_chan.pending.
+nouveau_fence_done() contains an if-branch which checks for the
+existence of either of two fence backend ops. Those two are the only
+backend ops existing in Nouveau, however; and at least one backend ops
+must be in use for the entire driver to be able to work. The if branch
+is, therefore, surplus.
 
-This self-imposed rule is violated in nouveau_fence_done(), where
-dma_fence_is_signaled() (somewhat surprisingly, considering its name)
-can signal the fence without removing it from the list. This enables
-accesses to already signaled fences through the list, which is a bug.
+Remove the if-branch.
 
-In particular, it can race with nouveau_fence_context_kill(), which
-would then attempt to set an error code on an already signaled fence,
-which is illegal.
-
-In nouveau_fence_done(), the call to nouveau_fence_update() already
-ensures to signal all ready fences. Thus, the signaling potentially
-performed by dma_fence_is_signaled() is actually not necessary.
-
-Replace the call to dma_fence_is_signaled() with
-nouveau_fence_base_is_signaled().
-
-Cc: <stable@vger.kernel.org> # 4.10+, precise commit not to be determined
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 7cc84472cece..33535987d8ed 100644
+index 33535987d8ed..db6f4494405c 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -274,7 +274,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
- 			nvif_event_block(&fctx->event);
- 		spin_unlock_irqrestore(&fctx->lock, flags);
- 	}
--	return dma_fence_is_signaled(&fence->base);
-+	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags);
+@@ -259,21 +259,19 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+ bool
+ nouveau_fence_done(struct nouveau_fence *fence)
+ {
+-	if (fence->base.ops == &nouveau_fence_ops_legacy ||
+-	    fence->base.ops == &nouveau_fence_ops_uevent) {
+-		struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+-		struct nouveau_channel *chan;
+-		unsigned long flags;
++	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
++	struct nouveau_channel *chan;
++	unsigned long flags;
+ 
+-		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags))
+-			return true;
++	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags))
++		return true;
++
++	spin_lock_irqsave(&fctx->lock, flags);
++	chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
++	if (chan && nouveau_fence_update(chan, fctx))
++		nvif_event_block(&fctx->event);
++	spin_unlock_irqrestore(&fctx->lock, flags);
+ 
+-		spin_lock_irqsave(&fctx->lock, flags);
+-		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
+-		if (chan && nouveau_fence_update(chan, fctx))
+-			nvif_event_block(&fctx->event);
+-		spin_unlock_irqrestore(&fctx->lock, flags);
+-	}
+ 	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags);
  }
  
- static long
 -- 
 2.48.1
 
