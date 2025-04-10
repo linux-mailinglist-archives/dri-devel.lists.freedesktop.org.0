@@ -2,51 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489D2A84123
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 12:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 289EDA84158
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 13:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACF6C10E95C;
-	Thu, 10 Apr 2025 10:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCB8110E94A;
+	Thu, 10 Apr 2025 11:03:02 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="W9ThY2Sf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PP/PgZfN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W9ThY2Sf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PP/PgZfN";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BDF810E963
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 10:47:31 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id
- e9e14a558f8ab-3d5da4fb5e0so6205285ab.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 03:47:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744282047; x=1744886847;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AlTWe7lPsGw31nuXM8chVWl1bx2tUtkForMg0W0gSgk=;
- b=KobpgyTf/NOUOheDxyUnpFQB23wY5Gk9cD4qo1YnmyDj2B/MHvM+T2WKitBfmPBqvN
- y0GPTnIrJbw8GioVnrJKgl2o1dPmzpPcwqsbcWgGENEy+Lh9ZKMot8aCXe461R5WWgHS
- OQOeCeDUppK6QkO6jp0yfwXxofImok79XPzuK9bG6Gel2p/wZRvDUW/Ss+Kjk0S/+cBt
- /0XR4PB+3ILWmPbQane8WKQLF/uiYC9Na+cd5MB9tpr4u9ADsSpOJZtlafwx6myKa8mz
- ZDUc0RjZxXryj5lMD6XvCguZDvufCFKOeVdNlpab8J5nvRmbdY/9s/pZgWVTbzijJKb8
- Lcvg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVoLzaBQ/07e+xPX2xPe4bejGpg5IeHlgcooWF0Q7il55p5A7YbdZza6BX5NLbCVy4L3Yik8RivqXw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxiETBayKvIG+HVcSoVcpmZ5Dv92TCcB6xoe8m3+w76WMagl+6A
- lhRiJctkn76eNmTuDhqjzYwz5Z4Fquy1QhkmHVGP87HvoS5hOMalRGZfzREEYkJbFE2VD5FuUb8
- 1Lz8j3m6bxagRDrHV3MPEmMzoO0gmdA/VXkMZpR+rZqOFLyik2nTqjSQ=
-X-Google-Smtp-Source: AGHT+IHjlwJZZdP9uaIUa3mFoLVyCXxsGN/30yQx65nP8833D2MI5lVc6QRZxHZHUwjbdB5VTVJfQZZFFkFzmOy9nV0tTPKS766B
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5CDD10E94A
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 11:02:59 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 548811F38C;
+ Thu, 10 Apr 2025 11:02:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1744282978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=c5kQpTFo0guy0Q8KEdRexePBPFz0+YM1La0l84HRWvM=;
+ b=W9ThY2SfvjcFHStG+x1V0hOBB+icH4iYSRNYA2EzQdG+LemVoWMvmrAqc/PH/Nv8AMrpHd
+ N+yVb+SRJIw8pIDmqO0zIODHHbJZgzVxOKpp++4r0hs6CpxqzjyyRC3of2q6/oKdY/4Usb
+ TgTaP6mrvLlOQJ2xfO7DZ0ixkHajn7c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1744282978;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=c5kQpTFo0guy0Q8KEdRexePBPFz0+YM1La0l84HRWvM=;
+ b=PP/PgZfNQIoowFV3V7NNipgcatp8FV0aK54t+ho5vgjzQvUmZFRSJCJsLhaIHJh54yOpZ+
+ sNMmAqWkfBizNCDA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=W9ThY2Sf;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="PP/PgZfN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1744282978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=c5kQpTFo0guy0Q8KEdRexePBPFz0+YM1La0l84HRWvM=;
+ b=W9ThY2SfvjcFHStG+x1V0hOBB+icH4iYSRNYA2EzQdG+LemVoWMvmrAqc/PH/Nv8AMrpHd
+ N+yVb+SRJIw8pIDmqO0zIODHHbJZgzVxOKpp++4r0hs6CpxqzjyyRC3of2q6/oKdY/4Usb
+ TgTaP6mrvLlOQJ2xfO7DZ0ixkHajn7c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1744282978;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=c5kQpTFo0guy0Q8KEdRexePBPFz0+YM1La0l84HRWvM=;
+ b=PP/PgZfNQIoowFV3V7NNipgcatp8FV0aK54t+ho5vgjzQvUmZFRSJCJsLhaIHJh54yOpZ+
+ sNMmAqWkfBizNCDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2316813886;
+ Thu, 10 Apr 2025 11:02:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id jZHaBmKl92f3OQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 10 Apr 2025 11:02:58 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com,
+	sean@poorly.run,
+	patrik.r.jakobsson@gmail.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/9] drm/udl: Support adapters without vendor firmware
+ descriptor
+Date: Thu, 10 Apr 2025 12:58:57 +0200
+Message-ID: <20250410105948.25463-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:3c86:b0:3d4:36c3:7fe3 with SMTP id
- e9e14a558f8ab-3d7e46f8e7bmr21247925ab.9.1744282047171; Thu, 10 Apr 2025
- 03:47:27 -0700 (PDT)
-Date: Thu, 10 Apr 2025 03:47:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67f7a1bf.050a0220.258fea.002c.GAE@google.com>
-Subject: [syzbot] Monthly fbdev report (Apr 2025)
-From: syzbot <syzbot+list6acef4c48c6bb189b56e@syzkaller.appspotmail.com>
-To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 548811F38C
+X-Spam-Score: -1.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-1.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ FREEMAIL_TO(0.00)[redhat.com,poorly.run,gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ RCVD_COUNT_TWO(0.00)[2]; DKIM_TRACE(0.00)[suse.de:+];
+ FROM_EQ_ENVFROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[5]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,34 +118,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello fbdev maintainers/developers,
+Fallback to default values for devices without vendor firmware
+descriptor. Enables support for such devices. Since we're at it,
+improve the descriptor parser.
 
-This is a 31-day syzbot report for the fbdev subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/fbdev
+Patches 1 to 3 do some cleanups for the driver.
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 6 issues are still open and 25 have already been fixed.
+Patches 4 to 8 rewrite the parser code for the vendor firmware
+descriptor. It's now more compatible and validates the raw input
+more reliably.
 
-Some of the still happening issues:
+Patch 9 adds support for the additional devices.
 
-Ref Crashes Repro Title
-<1> 1136    Yes   KASAN: vmalloc-out-of-bounds Write in imageblit (4)
-                  https://syzkaller.appspot.com/bug?extid=c4b7aa0513823e2ea880
-<2> 42      Yes   KASAN: slab-out-of-bounds Read in fbcon_prepare_logo
-                  https://syzkaller.appspot.com/bug?extid=0c815b25cdb3678e7083
-<3> 17      Yes   KASAN: global-out-of-bounds Read in bit_putcs (3)
-                  https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
+Tested with various DisplayLink adapters, including one without
+vendor firmware descriptor.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Thomas Zimmermann (9):
+  drm/udl: Remove unused field dev from struct udl_device
+  drm/udl: Remove unused field gem_lock from struct udl_device
+  drm/udl: Improve type safety when using struct udl_device
+  drm/udl: The number of pixels is always positive
+  drm/udl: Handle errors from usb_get_descriptor()
+  drm/udl: Return error if vendor descriptor is too short
+  drm/udl: Treat vendor descriptor as u8
+  drm/udl: Validate length in vendor-descriptor parser
+  drm/udl: Support adapters without firmware descriptor
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+ drivers/gpu/drm/udl/udl_drv.c      |   6 +-
+ drivers/gpu/drm/udl/udl_drv.h      |  19 ++--
+ drivers/gpu/drm/udl/udl_main.c     | 174 +++++++++++++++++------------
+ drivers/gpu/drm/udl/udl_modeset.c  |  21 ++--
+ drivers/gpu/drm/udl/udl_transfer.c |   6 +-
+ 5 files changed, 128 insertions(+), 98 deletions(-)
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+-- 
+2.49.0
 
-You may send multiple commands in a single email message.
