@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52610A849F1
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 18:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F64A849F3
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 18:33:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 879F510EA2E;
-	Thu, 10 Apr 2025 16:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25A7E10EA2C;
+	Thu, 10 Apr 2025 16:33:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c6hfGIyl";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="muAmnTdh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C0610EA36;
- Thu, 10 Apr 2025 16:33:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF81310EA34;
+ Thu, 10 Apr 2025 16:33:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744302802; x=1775838802;
+ t=1744302805; x=1775838805;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=0sldoFZspC7NiDwMp2/qb8crQ9ba0KUHZidEy/kF48o=;
- b=c6hfGIyldTcrumQuQe1mfKcHCyezcUURerbKEjVuOzDR7uPZQd/0AH+v
- BrGvW361Cv5hwUMC0vw1ins8RljrIToR7T6ruV1fZfC90bvkfHc3qk8c5
- Ezv07HuC/JRQCiX1zUqxv2ZgSzFobaBhDsEfcV4frjjMlcgu44rXNU093
- prRbCwJAvKeXKo1Uy+1IOTA5gR1f1KMpv2xgE9+AwtF5gTdHj5j8dGowf
- FoAx+BEaAnpvlAPWKu1KQkYKczRvi7UotHMg/SXVTKpf+tU2VxMSQBl4f
- JsBQAP0sl1grEVwUg9BSHtrr5Ooeyg+xOoZcL6M3W97OuiSQepvgypN6P w==;
-X-CSE-ConnectionGUID: hanyE282Rp23e2MQ0XMT6w==
-X-CSE-MsgGUID: k96TRLuQQ06Rcbp45bUx6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="57220085"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="57220085"
+ bh=KkcimRBSJo82wgrZJ3FBObk6RbiLelUvsAr25ymjVTI=;
+ b=muAmnTdh12cn+8+5vedMmYv0ln3HjLHt83Zsj10JVAUCpGP7biGK6ykp
+ nIeg3vTzq5QuV48c7mOj3QPLEg6xziz7JSWGOkyAGYAZb57EnKCJsegi7
+ s8P47U6l2MtlGuru6oVI7M7PtjxkM3JPjmlaXJpV/HxiPYxmRasATuCe6
+ 2S+YgJRS8xcetzXfljzksAIpIQyK+W24S5aP47RdFRJ9SZVLQXILiWOXc
+ O+v25cIRx30gpyeW78TBvv+SSuQ+va86leeDchCNkIO/jUqn8APDYNgcE
+ /gcgPYeCsBSD8gbMi4YfycNVOQeGCmc0uohhJwKzP6snXd49JkgYXe7bx w==;
+X-CSE-ConnectionGUID: iCUye6Q0TvKHqyJvC9L8Dg==
+X-CSE-MsgGUID: 0KijoRpxTCKbrqv9nDN6mw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="57220091"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="57220091"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2025 09:33:22 -0700
-X-CSE-ConnectionGUID: N/gmerAVRDalh9xYKsiV3Q==
-X-CSE-MsgGUID: A0vcI4TITbK0m/SGiRPfCg==
+ 10 Apr 2025 09:33:25 -0700
+X-CSE-ConnectionGUID: fPXRtKcOQpKpLKDu344Rdw==
+X-CSE-MsgGUID: xDPTTyZ+QIegP6bYVTTDbg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="134129318"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="134129325"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 10 Apr 2025 09:33:20 -0700
+ by orviesa005.jf.intel.com with SMTP; 10 Apr 2025 09:33:23 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 10 Apr 2025 19:33:18 +0300
+ Thu, 10 Apr 2025 19:33:22 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org
-Subject: [PATCH 09/19] drm/amdgpu: Pass along the format info from
+ Russell King <linux@armlinux.org.uk>
+Subject: [PATCH 10/19] drm/armada: Pass along the format info from
  .fb_create() to drm_helper_mode_fill_fb_struct()
-Date: Thu, 10 Apr 2025 19:32:08 +0300
-Message-ID: <20250410163218.15130-10-ville.syrjala@linux.intel.com>
+Date: Thu, 10 Apr 2025 19:32:09 +0300
+Message-ID: <20250410163218.15130-11-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250410163218.15130-1-ville.syrjala@linux.intel.com>
 References: <20250410163218.15130-1-ville.syrjala@linux.intel.com>
@@ -77,42 +77,78 @@ Plumb the format info from .fb_create() all the way to
 drm_helper_mode_fill_fb_struct() to avoid the redundant
 lookup.
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
+For the fbdev case a manual drm_get_format_info() lookup
+is needed.
+
+Cc: Russell King <linux@armlinux.org.uk>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/armada/armada_fb.c    | 8 +++++---
+ drivers/gpu/drm/armada/armada_fb.h    | 1 +
+ drivers/gpu/drm/armada/armada_fbdev.c | 5 ++++-
+ 3 files changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 4cbbae543e34..2bc0d9a2509f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -1196,13 +1196,14 @@ static int amdgpu_display_get_fb_info(const struct amdgpu_framebuffer *amdgpu_fb
- static int amdgpu_display_gem_fb_verify_and_init(struct drm_device *dev,
- 						 struct amdgpu_framebuffer *rfb,
- 						 struct drm_file *file_priv,
-+						 const struct drm_format_info *info,
- 						 const struct drm_mode_fb_cmd2 *mode_cmd,
- 						 struct drm_gem_object *obj)
- {
- 	int ret;
+diff --git a/drivers/gpu/drm/armada/armada_fb.c b/drivers/gpu/drm/armada/armada_fb.c
+index 7e94ec5bd4f4..aa4289127086 100644
+--- a/drivers/gpu/drm/armada/armada_fb.c
++++ b/drivers/gpu/drm/armada/armada_fb.c
+@@ -18,7 +18,9 @@ static const struct drm_framebuffer_funcs armada_fb_funcs = {
+ };
  
- 	rfb->base.obj[0] = obj;
--	drm_helper_mode_fill_fb_struct(dev, &rfb->base, NULL, mode_cmd);
-+	drm_helper_mode_fill_fb_struct(dev, &rfb->base, info, mode_cmd);
- 	/* Verify that the modifier is supported. */
- 	if (!drm_any_plane_has_format(dev, mode_cmd->pixel_format,
- 				      mode_cmd->modifier[0])) {
-@@ -1331,7 +1332,7 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
+ struct armada_framebuffer *armada_framebuffer_create(struct drm_device *dev,
+-	const struct drm_mode_fb_cmd2 *mode, struct armada_gem_object *obj)
++						     const struct drm_format_info *info,
++						     const struct drm_mode_fb_cmd2 *mode,
++						     struct armada_gem_object *obj)
+ {
+ 	struct armada_framebuffer *dfb;
+ 	uint8_t format, config;
+@@ -64,7 +66,7 @@ struct armada_framebuffer *armada_framebuffer_create(struct drm_device *dev,
+ 	dfb->mod = config;
+ 	dfb->fb.obj[0] = &obj->obj;
+ 
+-	drm_helper_mode_fill_fb_struct(dev, &dfb->fb, NULL, mode);
++	drm_helper_mode_fill_fb_struct(dev, &dfb->fb, info, mode);
+ 
+ 	ret = drm_framebuffer_init(dev, &dfb->fb, &armada_fb_funcs);
+ 	if (ret) {
+@@ -122,7 +124,7 @@ struct drm_framebuffer *armada_fb_create(struct drm_device *dev,
+ 		goto err_unref;
  	}
  
- 	ret = amdgpu_display_gem_fb_verify_and_init(dev, amdgpu_fb, file_priv,
--						    mode_cmd, obj);
-+						    info, mode_cmd, obj);
- 	if (ret) {
- 		kfree(amdgpu_fb);
- 		drm_gem_object_put(obj);
+-	dfb = armada_framebuffer_create(dev, mode, obj);
++	dfb = armada_framebuffer_create(dev, info, mode, obj);
+ 	if (IS_ERR(dfb)) {
+ 		ret = PTR_ERR(dfb);
+ 		goto err;
+diff --git a/drivers/gpu/drm/armada/armada_fb.h b/drivers/gpu/drm/armada/armada_fb.h
+index 41ba76dd80d6..f2b990f055a2 100644
+--- a/drivers/gpu/drm/armada/armada_fb.h
++++ b/drivers/gpu/drm/armada/armada_fb.h
+@@ -17,6 +17,7 @@ struct armada_framebuffer {
+ #define drm_fb_obj(fb) drm_to_armada_gem((fb)->obj[0])
+ 
+ struct armada_framebuffer *armada_framebuffer_create(struct drm_device *,
++	const struct drm_format_info *info,
+ 	const struct drm_mode_fb_cmd2 *, struct armada_gem_object *);
+ struct drm_framebuffer *armada_fb_create(struct drm_device *dev,
+ 	struct drm_file *dfile, const struct drm_format_info *info,
+diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
+index 6ee7ce04ee71..cb53cc91bafb 100644
+--- a/drivers/gpu/drm/armada/armada_fbdev.c
++++ b/drivers/gpu/drm/armada/armada_fbdev.c
+@@ -78,7 +78,10 @@ int armada_fbdev_driver_fbdev_probe(struct drm_fb_helper *fbh,
+ 		return -ENOMEM;
+ 	}
+ 
+-	dfb = armada_framebuffer_create(dev, &mode, obj);
++	dfb = armada_framebuffer_create(dev,
++					drm_get_format_info(dev, mode.pixel_format,
++							    mode.modifier[0]),
++					&mode, obj);
+ 
+ 	/*
+ 	 * A reference is now held by the framebuffer object if
 -- 
 2.49.0
 
