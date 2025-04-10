@@ -2,63 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21EE9A8452B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 15:44:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CABA84546
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 15:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EDB210E9C6;
-	Thu, 10 Apr 2025 13:44:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D592810E9C2;
+	Thu, 10 Apr 2025 13:47:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XBIf1QGq";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="MuJzTWES";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8B4810E9C2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:44:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744292670; x=1775828670;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PcgLhjxU9wGXy0T4lTIA6CfDdvXXlZVuUwJaciUX2pk=;
- b=XBIf1QGqnlqyzQKmXcPFsdlWgX9aypmLzdxov1sv0kk9ek7WEVeyr4Lb
- rCNuYnXP+jnNzuwfRO9Pp3MjdMRNffKVPIiB1U5QaTJEqqiM3146YF4Ep
- 4qLFkteLIq+YK9593q3bpARwqSJdtoaZn6dwlwUlRVaGZMbuKxDnrhYWc
- WLhAoDfSwp398pSmqZaNr8Z3m/+OzYZqhUb5w/JGnvxLnsSmneweoVR+r
- xyfbvelSPbrw2oMUuUyIEB51bdInfoJfuLimUTqfslsE87clwnRHpAFxY
- /9i9fGMZ/nWM+rL+x1dx3jHnEvHGn6xO6niZD3ghfpdguQM1bRY59vpl4 w==;
-X-CSE-ConnectionGUID: W4dUAAn+TyWCLtWPX8L/uw==
-X-CSE-MsgGUID: 5zQDzmmLSPGLIEg0W6D5Ew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="49614788"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="49614788"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2025 06:44:28 -0700
-X-CSE-ConnectionGUID: 8iMRzOU9RQqO3t66c3pQHg==
-X-CSE-MsgGUID: AuGwZPatTSuKzfnj1rYhVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="133632857"
-Received: from kwywiol-mobl1.ger.corp.intel.com (HELO [10.245.83.152])
- ([10.245.83.152])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2025 06:44:26 -0700
-Message-ID: <9be4fc9c-979d-400f-9791-ad152e5444d2@linux.intel.com>
-Date: Thu, 10 Apr 2025 15:44:25 +0200
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
+ [95.215.58.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DC2410E9C2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:46:59 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1744292815;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9sV6wlfSmOh5YEp7VbnkVuFrtxB09pKQGnH8Qxs4uvg=;
+ b=MuJzTWESEnuSB8kpGsHa4VdOoCykSX/G14hg93u1BC7GeUoEmikdDwGzNK+fpyK6hbkDqO
+ A3H4IWStD9oQixIuuVNCuIZFZtQLfIw3H5c2bGk0Wc+prb/PiLdXr/qw9ZtAgspLJQOAFW
+ o+/C84aliusmeiRC78ZHFAjxkqVhhaU=
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Devarsh Thakkar <devarsht@ti.com>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Subject: [PATCH] drm/bridge: cdns-dsi: Fix the _atomic_check()
+Date: Thu, 10 Apr 2025 19:16:46 +0530
+Message-Id: <20250410134646.96811-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Test for imported buffers with
- drm_gem_is_imported()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maciej.falkowski@linux.intel.com, ogabbay@kernel.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20250408113247.418007-1-tzimmermann@suse.de>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250408113247.418007-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,48 +63,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next
+Use the "adjusted_mode" for the dsi configuration check, as that is the
+more appropriate display_mode for validation, and later bridge enable.
 
-On 4/8/2025 1:31 PM, Thomas Zimmermann wrote:
-> Instead of testing import_attach for imported GEM buffers, invoke
-> drm_gem_is_imported() to do the test. The helper tests the dma_buf
-> itself while import_attach is just an artifact of the import. Prepares
-> to make import_attach optional.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/accel/ivpu/ivpu_gem.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-> index 212d21ad2bbd0..e0d242d9f3e50 100644
-> --- a/drivers/accel/ivpu/ivpu_gem.c
-> +++ b/drivers/accel/ivpu/ivpu_gem.c
-> @@ -30,7 +30,7 @@ static inline void ivpu_dbg_bo(struct ivpu_device *vdev, struct ivpu_bo *bo, con
->  		 "%6s: bo %8p vpu_addr %9llx size %8zu ctx %d has_pages %d dma_mapped %d mmu_mapped %d wc %d imported %d\n",
->  		 action, bo, bo->vpu_addr, ivpu_bo_size(bo), bo->ctx ? bo->ctx->id : 0,
->  		 (bool)bo->base.pages, (bool)bo->base.sgt, bo->mmu_mapped, bo->base.map_wc,
-> -		 (bool)bo->base.base.import_attach);
-> +		 (bool)drm_gem_is_imported(&bo->base.base));
->  }
->  
->  /*
-> @@ -122,7 +122,7 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
->  		bo->ctx = NULL;
->  	}
->  
-> -	if (bo->base.base.import_attach)
-> +	if (drm_gem_is_imported(&bo->base.base))
->  		return;
->  
->  	dma_resv_lock(bo->base.base.resv, NULL);
-> @@ -461,7 +461,7 @@ static void ivpu_bo_print_info(struct ivpu_bo *bo, struct drm_printer *p)
->  	if (bo->mmu_mapped)
->  		drm_printf(p, " mmu_mapped");
->  
-> -	if (bo->base.base.import_attach)
-> +	if (drm_gem_is_imported(&bo->base.base))
->  		drm_printf(p, " imported");
->  
->  	drm_printf(p, "\n");
+Also, fix the mode_valid_check parameter from false to true, as the dsi
+configuration check is taking place during the check-phase, and the
+crtc_* mode values are not expected to be populated yet.
+
+Fixes: a53d987756ea ("drm/bridge: cdns-dsi: Move DSI mode check to _atomic_check()")
+Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+---
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+index b022dd6e6b6e..1c3fefce5fd2 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+@@ -989,10 +989,10 @@ static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
+ 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+ 	struct cdns_dsi *dsi = input_to_dsi(input);
+ 	struct cdns_dsi_bridge_state *dsi_state = to_cdns_dsi_bridge_state(bridge_state);
+-	const struct drm_display_mode *mode = &crtc_state->mode;
++	const struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+ 	struct cdns_dsi_cfg *dsi_cfg = &dsi_state->dsi_cfg;
+ 
+-	return cdns_dsi_check_conf(dsi, mode, dsi_cfg, false);
++	return cdns_dsi_check_conf(dsi, adjusted_mode, dsi_cfg, true);
+ }
+ 
+ static struct drm_bridge_state *
+
+base-commit: 0ac7ad5e352dcf18a4d42a4671f7cda69847712b
+-- 
+2.34.1
 
