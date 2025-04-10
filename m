@@ -2,73 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B93A85C97
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 14:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134CCA85C99
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 14:12:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7740710EB8B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D86110EB87;
 	Fri, 11 Apr 2025 12:12:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HVPZmD5q";
+	dkim=pass (2048-bit key; secure) header.d=martijnvandeventer.nl header.i=@martijnvandeventer.nl header.b="ESQ/pJWI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE9E10E9C7
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:46:35 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-5e614da8615so1743374a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 06:46:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744292793; x=1744897593; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=s3Tv77bW0aU9RBMscUYQTaZLK3cWTZ2jDWR8IUulQ9A=;
- b=HVPZmD5qhe9iOnYlyYd7vc4+Si/F7AC4uG0RBA93l5tLbMHvNca3rPeNW9MWfOZOOJ
- dlXOlKRv74tuDiJTcOJAGvn/4CJnZtNVPwngEEMXNd0Kf/RMXrOSDRp3DZ8Jxfwya510
- sr5fTpf2JmPBrl+xzRBLjgyBv2wPc+hbQVae+rEzFs9LPZByhrFObX923mgisoBjBztw
- inL2Vtt92+vysXQnjyiTT72WzSCkzBhYkn6VuyHP7iEyrMN7wLkD19gUtrq4tCbBzC2s
- Ig2/p+du3DjXy1/iQAX0c5nmrucn9eRq7/FRlFgMo4oRcsBOO1zLaQTNu0HPIg0TeYvu
- fyEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744292793; x=1744897593;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=s3Tv77bW0aU9RBMscUYQTaZLK3cWTZ2jDWR8IUulQ9A=;
- b=uJME6yFOmH3hbFXVb8tyGzRpDQp2ri0AVdfxu3nYzkd530iFJ1gmCS15XRHstPMBFq
- X1vIWSMGbZtW94O0nPaueMWj2vf6jGx4UnonvNXAjbH2RFQeEiyAhXoS8/f9KFKfJwlX
- 2qQnEt35viGOut89IF152vHvKgx4+8U9BmY9ybo7D82Hv8hkvcGKmLZ8CNGccYwd3zJx
- J+5awExKf/2QKC327uiC6JgQwBrrEwzxyTCd5AqIKkAxVTIh6GghgGjNIpFAL8wDQm60
- pydHoeePiHjkJeioJWNkJWRayLaxABhiycFwD9AwmdVDS7rc7PVohhFadYAyrhtZSPXi
- o56A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/1dphAw3A/k/aPrUzD16CYGrrfB2kAmUG/uZHOLHtHB+Azp8giqCy+8hj0gaCQu+n09UIvOxyi/g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx075jxSzhiH+KEVI91kgG+KjRdR8dEK+fGM+9WjKn9q/siWeAS
- DrWA1QWR6dpIwI5gDNYL9qQSNj0XFSF5gZENSl3FCGcdLXqwhG7bH7mGkstqduQkZMdzR6TROui
- W47kHB07ENOr8HHwzGIq0UkXxeG/VQ/WW
-X-Gm-Gg: ASbGncuJCzAXCj79tWXMvffCedsILDY+bv2uZsbRJflfqutIvV9FBwI9BvymczbExk1
- TZ5VHdijJ6ZTjhllvFwnPrCJ12r5zWsfmBT4LPifPUCs+9jiqFJNWCqwsvnltHaAc+THdhy/y2K
- EWGTX8WSD9IOfPUAq/Vy8ANg==
-X-Google-Smtp-Source: AGHT+IHiZFDgujiOG3UnHGeTx0KUPl+GHBXPb9fdrtmfKTuXg91n647EErsdZP3zN0Q/Y37TV62Z4t7VfBh5GpvARCI=
-X-Received: by 2002:a05:6402:268b:b0:5e5:334e:86d9 with SMTP id
- 4fb4d7f45d1cf-5f32a138efdmr2440544a12.13.1744292793246; Thu, 10 Apr 2025
- 06:46:33 -0700 (PDT)
-MIME-Version: 1.0
+X-Greylist: delayed 406 seconds by postgrey-1.36 at gabe;
+ Thu, 10 Apr 2025 18:53:50 UTC
+Received: from mail.mvand.net (mail.mvand.net [185.229.52.35])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A251510E157
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 18:53:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by mail.mvand.net (Postfix) with ESMTPSA id 34FEA1FFBE;
+ Thu, 10 Apr 2025 20:46:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=martijnvandeventer.nl; s=default; t=1744310809;
+ bh=35f6PssSUk82gUbtI8PktIZ3m65teiiSAGKD5LD8TgM=;
+ h=From:To:Cc:References:In-Reply-To:Subject:Date:From;
+ b=ESQ/pJWIaR4uTXdP/9KMB45vWyGoLXrT8WlK1orbSkbIqAHvcP9cblEE93RxWKMW7
+ pDKCBk0Wonc4PdiqukPYmRaHs+VEC7yRcT5iBukWDuc2diig4ExCA+/w3lA0fPECDe
+ 1yh8FHyhEGyuXdVguaVK0FUI3A4++JsXiUn3ujriGcNL3eQEIy2N0773GJqnK8hgrb
+ Iu6wh8XzKbBulaaIhbqokXsH2arfjT65kq4cPGm7AVIStExiJ9XpsJt4TYEwZSNTiW
+ r34hjcKsvfVLa9G3vXHymZPksKs0ma0JYE4aYXhnEDeEGfwWDgg7p1k94++TC+8ygx
+ qXSY54OVqzP8w==
+From: <linux@martijnvandeventer.nl>
+To: "'Martin Blumenstingl'" <martin.blumenstingl@googlemail.com>,
+ <linux-amlogic@lists.infradead.org>, <dri-devel@lists.freedesktop.org>
+Cc: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <jbrunet@baylibre.com>, <neil.armstrong@linaro.org>,
+ "'Furkan Kardame'" <f.kardame@manjaro.org>
 References: <20250409214422.1751825-1-martin.blumenstingl@googlemail.com>
 In-Reply-To: <20250409214422.1751825-1-martin.blumenstingl@googlemail.com>
-From: Anand Moon <linux.amoon@gmail.com>
-Date: Thu, 10 Apr 2025 19:16:16 +0530
-X-Gm-Features: ATxdqUEdXHiyPPzlQQzx8sGDVrj8q4dzBzZE7dD5ZZvqIMWxRPwWGuOzBSchz3Y
-Message-ID: <CANAwSgTp26r-xeiSDkdX21Sp3RQtfh42JV4fCgirLkHZYuGD-Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/meson: fix resource cleanup in meson_drv_bind_master()
- on error
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- jbrunet@baylibre.com, neil.armstrong@linaro.org, 
- Furkan Kardame <f.kardame@manjaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: RE: [PATCH] drm/meson: fix resource cleanup in
+ meson_drv_bind_master() on error
+Date: Thu, 10 Apr 2025 20:46:48 +0200
+Message-ID: <001d01dbaa48$ead66d10$c0834730$@martijnvandeventer.nl>
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-us
+Thread-Index: AQHanRYIlb/sWKyzPMx9MZcpgEt53rOfTIcg
 X-Mailman-Approved-At: Fri, 11 Apr 2025 12:12:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,15 +66,101 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Martin,
 
-On Thu, 10 Apr 2025 at 03:30, Martin Blumenstingl
-<martin.blumenstingl@googlemail.com> wrote:
->
+Thank you for the patch.
+
+I encountered this issue some time ago as well and had a possible fix in =
+my tree (see
+below).=20
+My apologies for not upstreaming it earlier.
+
+While my fix is not as symmetric as yours=E2=80=94I like =
+symmetry=E2=80=94it is somewhat simpler. It
+did make the assumption that only  calling component_unbind_all() was at =
+fault and the the rest of the=20
+code was correct. Therefore, calling one of the following functions:
+meson_encoder_dsi_remove()
+meson_encoder_hdmi_remove()
+meson_encoder_cvbs_remove()
+in case their counterpart was not called, should not result in any =
+issues.
+
+I just verified, and, as far as I understand, all of these functions do =
+a check to confirm
+whether the encoder was initialized before proceeding with cleanup.
+
+-----------------------------------------------------
+diff --git a/drivers/gpu/drm/meson/meson_drv.c =
+b/drivers/gpu/drm/meson/meson_drv.c
+index 81d2ee37e773..4e2d45a271c2 100644
+--- a/drivers/gpu/drm/meson/meson_drv.c
++++ b/drivers/gpu/drm/meson/meson_drv.c
+@@ -184,6 +184,7 @@ static int meson_drv_bind_master(struct device *dev, =
+bool has_components)
+        const struct meson_drm_match_data *match;
+        struct meson_drm *priv;
+        struct drm_device *drm;
++       bool do_unbind =3D false;
+        struct resource *res;
+        void __iomem *regs;
+        int ret, i;
+@@ -312,10 +313,9 @@ static int meson_drv_bind_master(struct device =
+*dev, bool has_components)
+                ret =3D component_bind_all(dev, drm);
+                if (ret) {
+                        dev_err(drm->dev, "Couldn't bind all =
+components\n");
+-                       /* Do not try to unbind */
+-                       has_components =3D false;
+                        goto exit_afbcd;
+                }
++               do_unbind =3D true;
+        }
+
+        ret =3D meson_encoder_hdmi_probe(priv);
+@@ -378,7 +378,7 @@ static int meson_drv_bind_master(struct device *dev, =
+bool has_components)
+        meson_encoder_hdmi_remove(priv);
+        meson_encoder_cvbs_remove(priv);
+
+-       if (has_components)
++       if (do_unbind)
+                component_unbind_all(dev, drm);
+
+        return ret;
+-----------------------------
+
+This patch has somewhat less code redundancy. I don=E2=80=99t have a =
+strong
+preference for either patch, so please feel free to choose whichever you =
+
+prefer.=20
+
+If you decide to go with yours, I=E2=80=99ve provided one minor comment =
+inline
+for your consideration.
+
+> -----Original Message-----
+> From: linux-amlogic <linux-amlogic-bounces@lists.infradead.org> On =
+Behalf
+> Of Martin Blumenstingl
+> Sent: Wednesday, April 9, 2025 11:44 PM
+> To: linux-amlogic@lists.infradead.org; dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org; =
+linux-arm-kernel@lists.infradead.org;
+> jbrunet@baylibre.com; neil.armstrong@linaro.org; Martin Blumenstingl
+> <martin.blumenstingl@googlemail.com>; Furkan Kardame
+> <f.kardame@manjaro.org>
+> Subject: [PATCH] drm/meson: fix resource cleanup in
+> meson_drv_bind_master() on error
+>=20
 > meson_drv_bind_master() does not free resources in the order they are
 > allocated. This can lead to crashes such as:
->     Unable to handle kernel NULL pointer dereference at virtual address 00000000000000c8
+>     Unable to handle kernel NULL pointer dereference at virtual =
+address
+> 00000000000000c8
 >     [...]
 >     Hardware name: Beelink GT-King Pro (DT)
->     pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>     pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
 >     pc : meson_dw_hdmi_unbind+0x10/0x24 [meson_dw_hdmi]
 >     lr : component_unbind+0x38/0x60
 >     [...]
@@ -131,38 +196,119 @@ On Thu, 10 Apr 2025 at 03:30, Martin Blumenstingl
 >      el0_svc+0x30/0xcc
 >      el0t_64_sync_handler+0x120/0x12c
 >      el0t_64_sync+0x190/0x194
->
+>=20
 > Clean up resources in the error path in the same order and under the
 > same conditions as they were allocated to fix this.
->
+>=20
 > Reported-by: Furkan Kardame <f.kardame@manjaro.org>
-> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> Signed-off-by: Martin Blumenstingl =
+<martin.blumenstingl@googlemail.com>
 > ---
-> This issue was reported off-list so I'm unable to provide a link to the
+> This issue was reported off-list so I'm unable to provide a link to =
+the
 > report.
->
+>=20
 > I'm not sure which Fixes tag fits best. My preference so far is
-> Fixes: 6a044642988b ("drm/meson: fix unbind path if HDMI fails to bind")
+> Fixes: 6a044642988b ("drm/meson: fix unbind path if HDMI fails to =
+bind")
 > but I'll happily take other suggestions as well.
->
-Thanks for this Fix.
+>=20
+>=20
+>  drivers/gpu/drm/meson/meson_drv.c | 31 =
++++++++++++++++++--------------
+>  1 file changed, 17 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/meson/meson_drv.c
+> b/drivers/gpu/drm/meson/meson_drv.c
+> index 81d2ee37e773..031686fd4104 100644
+> --- a/drivers/gpu/drm/meson/meson_drv.c
+> +++ b/drivers/gpu/drm/meson/meson_drv.c
+> @@ -314,35 +314,35 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+>  			dev_err(drm->dev, "Couldn't bind all
+> components\n");
+>  			/* Do not try to unbind */
+>  			has_components =3D false;
 
-Reviewed-by: Anand Moon <linux.amoon@gmail.com>
-Tested-by: Anand Moon <linux.amoon@gmail.com>
+Above two lines are no longer used, so can be removed.
 
-I have tested with the following script on AML-S905X-CC
----------
-#! /bin/bash
-set +x
+> -			goto exit_afbcd;
+> +			goto cvbs_encoder_remove;
+>  		}
+>  	}
+>=20
+>  	ret =3D meson_encoder_hdmi_probe(priv);
+>  	if (ret)
+> -		goto exit_afbcd;
+> +		goto unbind_components;
+>=20
+>  	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
+>  		ret =3D meson_encoder_dsi_probe(priv);
+>  		if (ret)
+> -			goto exit_afbcd;
+> +			goto hdmi_encoder_remove;
+>  	}
+>=20
+>  	ret =3D meson_plane_create(priv);
+>  	if (ret)
+> -		goto exit_afbcd;
+> +		goto dsi_encoder_remove;
+>=20
+>  	ret =3D meson_overlay_create(priv);
+>  	if (ret)
+> -		goto exit_afbcd;
+> +		goto dsi_encoder_remove;
+>=20
+>  	ret =3D meson_crtc_create(priv);
+>  	if (ret)
+> -		goto exit_afbcd;
+> +		goto dsi_encoder_remove;
+>=20
+>  	ret =3D request_irq(priv->vsync_irq, meson_irq, 0, =
+drm->driver->name,
+> drm);
+>  	if (ret)
+> -		goto exit_afbcd;
+> +		goto dsi_encoder_remove;
+>=20
+>  	drm_mode_config_reset(drm);
+>=20
+> @@ -360,6 +360,16 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+>=20
+>  uninstall_irq:
+>  	free_irq(priv->vsync_irq, drm);
+> +dsi_encoder_remove:
+> +	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
+> +		meson_encoder_dsi_remove(priv);
+> +hdmi_encoder_remove:
+> +	meson_encoder_hdmi_remove(priv);
+> +unbind_components:
+> +	if (has_components)
+> +		component_unbind_all(dev, drm);
+> +cvbs_encoder_remove:
+> +	meson_encoder_cvbs_remove(priv);
+>  exit_afbcd:
+>  	if (priv->afbcd.ops)
+>  		priv->afbcd.ops->exit(priv);
+> @@ -374,13 +384,6 @@ static int meson_drv_bind_master(struct device
+> *dev, bool has_components)
+>  free_drm:
+>  	drm_dev_put(drm);
+>=20
+> -	meson_encoder_dsi_remove(priv);
+> -	meson_encoder_hdmi_remove(priv);
+> -	meson_encoder_cvbs_remove(priv);
+> -
+> -	if (has_components)
+> -		component_unbind_all(dev, drm);
+> -
+>  	return ret;
+>  }
+>=20
+ --
+Best regards,
 
-cd /sys/bus/platform/drivers/meson-drm/
-for i in $(seq 1 10); do
-        echo "========================" $i
-        echo d0100000.vpu > unbind
-        /usr/bin/sleep 1
-        echo d0100000.vpu > bind
-        /usr/bin/sleep 1
-done
+Martijn
 
-Thanks
--Anand
+
