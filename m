@@ -2,66 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B1FEA85C6A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 14:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B93A85C97
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 14:12:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFAF10EB82;
-	Fri, 11 Apr 2025 12:03:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7740710EB8B;
+	Fri, 11 Apr 2025 12:12:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Exsxi78e";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HVPZmD5q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42F1F10EB82;
- Fri, 11 Apr 2025 12:03:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744372978;
- bh=eUpDlViVD6nLXrIdL4k4+RXdn7wjgFYIbTHHSNe9KXs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Exsxi78eLGS4hvftrjfHvl6rYp5PwLROOrWG9JzB8H6m1dIxAIFDDGViPGHBRDBRR
- Yf6EyS5iE75sNfC3aR2CiF6IYM5sEP/pB8yOr1hHUGq+Wv0kWwdIybOF7qKySN8GO5
- 530iQmkYw6nragY8k9My8fK/SH9qq6GCg0xsYMr4UDMTLSxAIonH9Db4UG0xkMRPhq
- 3BOsT49JnRzWJo+XQLmYWNK2vtgA/KAdy9bbRUwWDHpHkOWHBr44Of7KpyFZiYLfZZ
- g7HxtgNbAGbHtO8Jr93lxhe+oYvxwhKFuZlD38vqy+pflux8FQlCvEPUaQitF5aW+6
- UORYEeoKzjO5g==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id F002D17E0FD9;
- Fri, 11 Apr 2025 14:02:57 +0200 (CEST)
-Date: Fri, 11 Apr 2025 14:02:54 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
- =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
- lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, kernel@collabora.com,
- Faith Ekstrand <faith.ekstrand@collabora.com>
-Subject: Re: [PATCH v3 0/8] drm: Introduce sparse GEM shmem
-Message-ID: <20250411140254.042f9862@collabora.com>
-In-Reply-To: <9fd6fb8c-7dbb-467d-a759-eec852e1f006@amd.com>
-References: <20250404092634.2968115-1-boris.brezillon@collabora.com>
- <20250410164809.21109cbc@collabora.com>
- <d4ebcb9f-ca1e-40ae-bc3c-613f88552b94@amd.com>
- <20250410175349.6bf6a4ea@collabora.com>
- <d0ab2ffe-77ee-4bda-b127-8648acb71409@amd.com>
- <20250410192054.24a592a5@collabora.com> <Z_gHX5AqQkhbXOjd@blossom>
- <20250410204155.55d5cfc7@collabora.com>
- <4d47cb90-8ed4-4a69-bd91-b90ebd2c9aca@amd.com>
- <20250411103837.753cd92e@collabora.com>
- <9fd6fb8c-7dbb-467d-a759-eec852e1f006@amd.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE9E10E9C7
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:46:35 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-5e614da8615so1743374a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 06:46:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744292793; x=1744897593; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=s3Tv77bW0aU9RBMscUYQTaZLK3cWTZ2jDWR8IUulQ9A=;
+ b=HVPZmD5qhe9iOnYlyYd7vc4+Si/F7AC4uG0RBA93l5tLbMHvNca3rPeNW9MWfOZOOJ
+ dlXOlKRv74tuDiJTcOJAGvn/4CJnZtNVPwngEEMXNd0Kf/RMXrOSDRp3DZ8Jxfwya510
+ sr5fTpf2JmPBrl+xzRBLjgyBv2wPc+hbQVae+rEzFs9LPZByhrFObX923mgisoBjBztw
+ inL2Vtt92+vysXQnjyiTT72WzSCkzBhYkn6VuyHP7iEyrMN7wLkD19gUtrq4tCbBzC2s
+ Ig2/p+du3DjXy1/iQAX0c5nmrucn9eRq7/FRlFgMo4oRcsBOO1zLaQTNu0HPIg0TeYvu
+ fyEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744292793; x=1744897593;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=s3Tv77bW0aU9RBMscUYQTaZLK3cWTZ2jDWR8IUulQ9A=;
+ b=uJME6yFOmH3hbFXVb8tyGzRpDQp2ri0AVdfxu3nYzkd530iFJ1gmCS15XRHstPMBFq
+ X1vIWSMGbZtW94O0nPaueMWj2vf6jGx4UnonvNXAjbH2RFQeEiyAhXoS8/f9KFKfJwlX
+ 2qQnEt35viGOut89IF152vHvKgx4+8U9BmY9ybo7D82Hv8hkvcGKmLZ8CNGccYwd3zJx
+ J+5awExKf/2QKC327uiC6JgQwBrrEwzxyTCd5AqIKkAxVTIh6GghgGjNIpFAL8wDQm60
+ pydHoeePiHjkJeioJWNkJWRayLaxABhiycFwD9AwmdVDS7rc7PVohhFadYAyrhtZSPXi
+ o56A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/1dphAw3A/k/aPrUzD16CYGrrfB2kAmUG/uZHOLHtHB+Azp8giqCy+8hj0gaCQu+n09UIvOxyi/g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx075jxSzhiH+KEVI91kgG+KjRdR8dEK+fGM+9WjKn9q/siWeAS
+ DrWA1QWR6dpIwI5gDNYL9qQSNj0XFSF5gZENSl3FCGcdLXqwhG7bH7mGkstqduQkZMdzR6TROui
+ W47kHB07ENOr8HHwzGIq0UkXxeG/VQ/WW
+X-Gm-Gg: ASbGncuJCzAXCj79tWXMvffCedsILDY+bv2uZsbRJflfqutIvV9FBwI9BvymczbExk1
+ TZ5VHdijJ6ZTjhllvFwnPrCJ12r5zWsfmBT4LPifPUCs+9jiqFJNWCqwsvnltHaAc+THdhy/y2K
+ EWGTX8WSD9IOfPUAq/Vy8ANg==
+X-Google-Smtp-Source: AGHT+IHiZFDgujiOG3UnHGeTx0KUPl+GHBXPb9fdrtmfKTuXg91n647EErsdZP3zN0Q/Y37TV62Z4t7VfBh5GpvARCI=
+X-Received: by 2002:a05:6402:268b:b0:5e5:334e:86d9 with SMTP id
+ 4fb4d7f45d1cf-5f32a138efdmr2440544a12.13.1744292793246; Thu, 10 Apr 2025
+ 06:46:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20250409214422.1751825-1-martin.blumenstingl@googlemail.com>
+In-Reply-To: <20250409214422.1751825-1-martin.blumenstingl@googlemail.com>
+From: Anand Moon <linux.amoon@gmail.com>
+Date: Thu, 10 Apr 2025 19:16:16 +0530
+X-Gm-Features: ATxdqUEdXHiyPPzlQQzx8sGDVrj8q4dzBzZE7dD5ZZvqIMWxRPwWGuOzBSchz3Y
+Message-ID: <CANAwSgTp26r-xeiSDkdX21Sp3RQtfh42JV4fCgirLkHZYuGD-Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/meson: fix resource cleanup in meson_drv_bind_master()
+ on error
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ jbrunet@baylibre.com, neil.armstrong@linaro.org, 
+ Furkan Kardame <f.kardame@manjaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Fri, 11 Apr 2025 12:12:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,108 +85,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Apr 2025 12:55:57 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+Hi Martin,
 
-> Am 11.04.25 um 10:38 schrieb Boris Brezillon:
-> > On Fri, 11 Apr 2025 10:04:07 +0200
-> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> > =20
-> >> Am 10.04.25 um 20:41 schrieb Boris Brezillon: =20
-> >>> On Thu, 10 Apr 2025 14:01:03 -0400
-> >>> Alyssa Rosenzweig <alyssa@rosenzweig.io> wrote:
-> >>>   =20
-> >>>>>>> In Panfrost and Lima, we don't have this concept of
-> >>>>>>> "incremental rendering", so when we fail the allocation, we
-> >>>>>>> just fail the GPU job with an unhandled GPU fault.       =20
-> >>>>>> To be honest I think that this is enough to mark those two
-> >>>>>> drivers as broken.=C2=A0 It's documented that this approach is a
-> >>>>>> no-go for upstream drivers.
-> >>>>>>
-> >>>>>> How widely is that used?     =20
-> >>>>> It exists in lima and panfrost, and I wouldn't be surprised if a
-> >>>>> similar mechanism was used in other drivers for tiler-based GPUs
-> >>>>> (etnaviv, freedreno, powervr, ...), because ultimately that's
-> >>>>> how tilers work: the amount of memory needed to store per-tile
-> >>>>> primitives (and metadata) depends on what the geometry pipeline
-> >>>>> feeds the tiler with, and that can't be predicted. If you
-> >>>>> over-provision, that's memory the system won't be able to use
-> >>>>> while rendering takes place, even though only a small portion
-> >>>>> might actually be used by the GPU. If your allocation is too
-> >>>>> small, it will either trigger a GPU fault (for HW not supporting
-> >>>>> an "incremental rendering" mode) or under-perform (because
-> >>>>> flushing primitives has a huge cost on tilers).     =20
-> >>>> Yes and no.
-> >>>>
-> >>>> Although we can't allocate more memory for /this/ frame, we know
-> >>>> the required size is probably constant across its lifetime. That
-> >>>> gives a simple heuristic to manage the tiler heap efficiently
-> >>>> without allocations - even fallible ones - in the fence signal
-> >>>> path:
-> >>>>
-> >>>> * Start with a small fixed size tiler heap
-> >>>> * Try to render, let incremental rendering kick in when it's too
-> >>>> small.
-> >>>> * When cleaning up the job, check if we used incremental
-> >>>> rendering.
-> >>>> * If we did - double the size of the heap the next time we submit
-> >>>> work.
-> >>>>
-> >>>> The tiler heap still grows dynamically - it just does so over the
-> >>>> span of a couple frames. In practice that means a tiny hit to
-> >>>> startup time as we dynamically figure out the right size,
-> >>>> incurring extra flushing at the start, without needing any
-> >>>> "grow-on-page-fault" heroics.
-> >>>>
-> >>>> This should solve the problem completely for CSF/panthor. So it's
-> >>>> only hardware that architecturally cannot do incremental
-> >>>> rendering (older Mali: panfrost/lima) where we need this mess.
-> >>>> =20
-> >>> OTOH, if we need something
-> >>> for Utgard(Lima)/Midgard/Bifrost/Valhall(Panfrost), why not use
-> >>> the same thing for CSF, since CSF is arguably the sanest of all
-> >>> the HW architectures listed above: allocation can fail/be
-> >>> non-blocking, because there's a fallback to incremental rendering
-> >>> when it fails.   =20
-> >> Yeah that is a rather interesting point Alyssa noted here.
-> >>
-> >> So basically you could as well implement it like this:
-> >> 1. Userspace makes a submission.
-> >> 2. HW finds buffer is not large enough, sets and error code and
-> >> completes submission. 3. Userspace detects error, re-allocates
-> >> buffer with increased size. 4. Userspace re-submits to incremental
-> >> complete the submission. 5. Eventually repeat until fully
-> >> completed.
-> >>
-> >> That would work but is likely just not the most performant
-> >> solution. So faulting in memory on demand is basically just an
-> >> optimization and that is ok as far as I can see. =20
-> > Yeah, Alyssa's suggestion got me thinking too, and I think I can
-> > come up with a plan where we try non-blocking allocation first, and
-> > if it fails, we trigger incremental rendering, and queue a blocking
-> > heap-chunk allocation on separate workqueue, such that next time the
-> > tiler heap hits an OOM, it has a chunk (or multiple chunks) readily
-> > available if the blocking allocation completed in the meantime.
-> > That's basically what Alyssa suggested, with an optimization if the
-> > system is not under memory pressure, and without userspace being
-> > involved (so no uAPI changes). =20
->=20
-> That sounds like it most likely won't work. In an OOM situation the
-> blocking allocation would just cause more pressure to complete your
-> rendering to free up memory.
+On Thu, 10 Apr 2025 at 03:30, Martin Blumenstingl
+<martin.blumenstingl@googlemail.com> wrote:
+>
+> meson_drv_bind_master() does not free resources in the order they are
+> allocated. This can lead to crashes such as:
+>     Unable to handle kernel NULL pointer dereference at virtual address 00000000000000c8
+>     [...]
+>     Hardware name: Beelink GT-King Pro (DT)
+>     pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>     pc : meson_dw_hdmi_unbind+0x10/0x24 [meson_dw_hdmi]
+>     lr : component_unbind+0x38/0x60
+>     [...]
+>     Call trace:
+>      meson_dw_hdmi_unbind+0x10/0x24 [meson_dw_hdmi]
+>      component_unbind+0x38/0x60
+>      component_unbind_all+0xb8/0xc4
+>      meson_drv_bind_master+0x1ec/0x514 [meson_drm]
+>      meson_drv_bind+0x14/0x20 [meson_drm]
+>      try_to_bring_up_aggregate_device+0xa8/0x160
+>      __component_add+0xb8/0x1a8
+>      component_add+0x14/0x20
+>      meson_dw_hdmi_probe+0x1c/0x28 [meson_dw_hdmi]
+>      platform_probe+0x68/0xdc
+>      really_probe+0xc0/0x39c
+>      __driver_probe_device+0x7c/0x14c
+>      driver_probe_device+0x3c/0x120
+>      __driver_attach+0xc4/0x200
+>      bus_for_each_dev+0x78/0xd8
+>      driver_attach+0x24/0x30
+>      bus_add_driver+0x110/0x240
+>      driver_register+0x68/0x124
+>      __platform_driver_register+0x24/0x30
+>      meson_dw_hdmi_platform_driver_init+0x20/0x1000 [meson_dw_hdmi]
+>      do_one_initcall+0x50/0x1bc
+>      do_init_module+0x54/0x1fc
+>      load_module+0x788/0x884
+>      init_module_from_file+0x88/0xd4
+>      __arm64_sys_finit_module+0x248/0x340
+>      invoke_syscall+0x48/0x104
+>      el0_svc_common.constprop.0+0x40/0xe0
+>      do_el0_svc+0x1c/0x28
+>      el0_svc+0x30/0xcc
+>      el0t_64_sync_handler+0x120/0x12c
+>      el0t_64_sync+0x190/0x194
+>
+> Clean up resources in the error path in the same order and under the
+> same conditions as they were allocated to fix this.
+>
+> Reported-by: Furkan Kardame <f.kardame@manjaro.org>
+> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> ---
+> This issue was reported off-list so I'm unable to provide a link to the
+> report.
+>
+> I'm not sure which Fixes tag fits best. My preference so far is
+> Fixes: 6a044642988b ("drm/meson: fix unbind path if HDMI fails to bind")
+> but I'll happily take other suggestions as well.
+>
+Thanks for this Fix.
 
-Right. It could be deferred to the next job submission instead of being
-queued immediately. My point being, userspace doesn't have to know
-about it, because the kernel knows when a tiler OOM happened, and can
-flag the buffer as "probably needs more space when you have an
-opportunity to alloc more". It wouldn't be different from reporting it
-to userspace and letting userspace explicitly grow the buffer, and it
-avoids introducing a gap between old and new mesa.
+Reviewed-by: Anand Moon <linux.amoon@gmail.com>
+Tested-by: Anand Moon <linux.amoon@gmail.com>
 
->=20
-> > I guess this leaves older GPUs that don't support incremental
-> > rendering in a bad place though. =20
->=20
-> Well what's the handling there currently? Just crash when you're OOM?
+I have tested with the following script on AML-S905X-CC
+---------
+#! /bin/bash
+set +x
 
-It's "alloc(GFP_KERNEL) and crash if it fails or times out", yes.
+cd /sys/bus/platform/drivers/meson-drm/
+for i in $(seq 1 10); do
+        echo "========================" $i
+        echo d0100000.vpu > unbind
+        /usr/bin/sleep 1
+        echo d0100000.vpu > bind
+        /usr/bin/sleep 1
+done
+
+Thanks
+-Anand
