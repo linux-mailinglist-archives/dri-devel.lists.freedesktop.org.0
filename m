@@ -2,58 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FE8A83F62
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 11:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A7CA83F7E
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 11:55:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF42710E04A;
-	Thu, 10 Apr 2025 09:51:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF27A10E8B4;
+	Thu, 10 Apr 2025 09:55:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="PVDwBf/g";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="LvWwte8M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C48210E04A;
- Thu, 10 Apr 2025 09:51:23 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4ZYFSj5mmkz9rwJ;
- Thu, 10 Apr 2025 11:51:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1744278678; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SLuq5GVYUyuL/DywDcVYk39zE5PvpELZsNKYvGOD8Bs=;
- b=PVDwBf/gmmgKjY9RZKHUvxNpTH3XM4aaI71DRzXnU/vdWErUzBfQ/xalDmz71zy57o4l7T
- 1Sr8jwCgJWH5wUUd+KlWp271FSCIRXZV7cy2NpaBcQNan2Kw1rqn508laaSliT2ZgwAtry
- 6X7qm0n4uQvQxjfwzJS4DI7iBIQ3AItW5cqlvmVD59sAgM5/uywFV+kyYaca0OAhbumM4r
- ZepVZOj/D6In5J8rFtRx+0UOmaoYP3W8YBJ3VgVcM2NJ4zTptdaStEXcPATAHvVyhEiyKZ
- wmqWNm1msAPfiB70f39aZ0vXVw7kKsMvSzfjSsqmr9tctb3/X2hJ5hFDLWpFqg==
-Message-ID: <1cbb915240e5e09447ac8d04b5d2dc4165926de7.camel@mailbox.org>
-Subject: Re: [PATCH 0/3] drm/nouveau: Fix & improve nouveau_fence_done()
-From: Philipp Stanner <phasta@mailbox.org>
-To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich
- <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Sabrina Dubroca <sd@queasysnail.net>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Date: Thu, 10 Apr 2025 11:51:13 +0200
-In-Reply-To: <20250410092418.135258-2-phasta@kernel.org>
-References: <20250410092418.135258-2-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
+ [91.207.212.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0955A10E8B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 09:55:38 +0000 (UTC)
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+ by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53A62MMB009620;
+ Thu, 10 Apr 2025 10:55:17 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=dk201812; bh=fKyqre9o12bMreROiygGZcb
+ PIQU5yqupHfEAXNIX6dA=; b=LvWwte8MutisLJUsBHZChBm+98dnvWEC22cn9rV
+ eywcXLBcE4lVF7V5QTV3QxiJ+ZIjtU7RM6GtQzzgIwC3nrLomU9NmRPLend4P7sb
+ V8cWLCSIFW6PowWr1dKN3WRxus18U4UEoXOip5XOz6Dc7tyPu8/gd842eoxc2hHK
+ nInK0/dY2xaaWgpOmdcB+YNmtzb3D7HwejwP/QpmYd36Wu5XON5FD7+t21iqqbmw
+ FwZQJvDk5JQ7+u7cWYHMaM4JhDapNKEEkkScnpOa8bRtbT+vM6keuRqDMFhAYAs7
+ sUFmq55jiSI6asU9bya18ZCSnDkgq610Rb25/26QF4KS3Aw==
+Received: from hhmail05.hh.imgtec.org
+ (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 45ttssbgdy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Thu, 10 Apr 2025 10:55:17 +0100 (BST)
+Received: from
+ 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
+ (172.25.6.134) by HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 10 Apr 2025 10:55:15 +0100
+From: Matt Coster <matt.coster@imgtec.com>
+Subject: [PATCH v6 00/18] Imagination BXS-4-64 MC1 GPU support
+Date: Thu, 10 Apr 2025 10:54:59 +0100
+Message-ID: <20250410-sets-bxs-4-64-patch-v1-v6-0-eda620c5865f@imgtec.com>
 MIME-Version: 1.0
-X-MBO-RS-META: tgu3bdc6n14fz54pcg54szae1o4uch54
-X-MBO-RS-ID: e8dbf11236cea39fde8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHSV92cC/3XNwWrDMAyA4VcpPs9DtmXP3mnvMXpIZLnxoU2JQ
+ +goefe6HYOMYNDlF+jTXRSeMhfxebiLiZdc8nip4d4OgobucmKZY22hQaMCrWThucj+ViRKh/L
+ azTTIRUlEiikQWWuTqMfXiVO+veDvY+0hl3mcfl5/FvXc/pIKbIusAxI5GmDvrA/6K59PM9M7j
+ WfxNBe9cZRvOro6JkW0MaQeKO0c8+dYMAqajqmOQtOb2HMCvXdw4+i2g9WJwX9QQurQhJ1jt45
+ rOrY6jISOvfbQ/XfWdX0Awl5unt0BAAA=
+X-Change-ID: 20241021-sets-bxs-4-64-patch-v1-44cdf9cc555f
+To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>, "Vignesh
+ Raghavendra" <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ Randolph Sapp <rs@ti.com>, Darren Etheridge <detheridge@ti.com>, "Michal
+ Wilczynski" <m.wilczynski@samsung.com>, Alessio Belle
+ <alessio.belle@imgtec.com>, Alexandru Dadu <alexandru.dadu@imgtec.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Sarah Walker
+ <sarah.walker@imgtec.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7055;
+ i=matt.coster@imgtec.com; h=from:subject:message-id;
+ bh=RTNf0An7VMxVgndS725rYxfxLRqYdqvYExJhfY2QCvo=;
+ b=owGbwMvMwCFWuUfy8817WRsYT6slMaR/n9rQn7DvrXfvQpbaptyJXz68+LpRSHRj9tQVW6Zl3
+ 9q45QmDckcpC4MYB4OsmCLLjhWWK9T+qGlJ3PhVDDOHlQlkCAMXpwBMJKWUkWHOktTAg/1vVnrY
+ HNaOuGNXWS3789Cm8Oz4zc+0nl/iP/eXkWHFtIP/1crn5Kut+JMp85VvuUr/qiRN728tATNFlP3
+ PVXMAAA==
+X-Developer-Key: i=matt.coster@imgtec.com; a=openpgp;
+ fpr=05A40CFCE7269D61D97100A1747F0A9036F90DFA
+X-Originating-IP: [172.25.6.134]
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Proofpoint-ORIG-GUID: JQd1VyzDKwFkLJFb788VYR2UOgoGvMJk
+X-Authority-Analysis: v=2.4 cv=I7hlRMgg c=1 sm=1 tr=0 ts=67f79585 cx=c_pps
+ a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
+ a=UtEzwyU9vMAA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=e5mUnYsNAAAA:8
+ a=VwQbUJbxAAAA:8 a=r_1tXGB3AAAA:8
+ a=nqLAmxgFuAfZ1xXCSiEA:9 a=QEXdDO2ut3YA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=t8nPyN_e6usw4ciXM-Pk:22
+X-Proofpoint-GUID: JQd1VyzDKwFkLJFb788VYR2UOgoGvMJk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,267 +98,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-04-10 at 11:24 +0200, Philipp Stanner wrote:
-> Contains two patches improving nouveau_fence_done(), and one
-> addressing
-> an actual bug (race):
+This GPU is found in the TI AM68 family of SoCs, with initial support
+added to the k3-j721s2 devicetree and tested on a TI SK-AM68 board.
 
-Oops, that's the wrong calltrace. Here we go:
+A suitable firmware binary can currently be found in the IMG
+linux-firmware repository[1] as powervr/rogue_36.53.104.796_v1.fw.
 
-[ 85.791794] Call Trace: [ 85.791796] <TASK> [ 85.791797] ? nouveau_fence_c=
-ontext_kill (/home/imperator/linux/./include/linux/dma-fence.h:587 (discrim=
-inator 9) /home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_fence.c:94 =
-(discriminator 9)) nouveau [ 85.791874] ? __warn.cold (/home/imperator/linu=
-x/kernel/panic.c:748) [ 85.791878] ? nouveau_fence_context_kill (/home/impe=
-rator/linux/./include/linux/dma-fence.h:587 (discriminator 9) /home/imperat=
-or/linux/drivers/gpu/drm/nouveau/nouveau_fence.c:94 (discriminator 9)) nouv=
-eau [ 85.791950] ? report_bug (/home/imperator/linux/lib/bug.c:180 /home/im=
-perator/linux/lib/bug.c:219) [ 85.791953] ? handle_bug (/home/imperator/lin=
-ux/arch/x86/kernel/traps.c:260) [ 85.791956] ? exc_invalid_op (/home/impera=
-tor/linux/arch/x86/kernel/traps.c:309 (discriminator 1)) [ 85.791957] ? asm=
-_exc_invalid_op (/home/imperator/linux/./arch/x86/include/asm/idtentry.h:62=
-1) [ 85.791960] ? nouveau_fence_context_kill (/home/imperator/linux/./inclu=
-de/linux/dma-fence.h:587 (discriminator 9) /home/imperator/linux/drivers/gp=
-u/drm/nouveau/nouveau_fence.c:94 (discriminator 9)) nouveau [ 85.792028] dr=
-m_sched_fini.cold (/home/imperator/linux/./include/trace/../../drivers/gpu/=
-drm/scheduler/gpu_scheduler_trace.h:72 (discriminator 1)) gpu_sched [ 85.79=
-2033] ? drm_sched_entity_kill.part.0 (/home/imperator/linux/drivers/gpu/drm=
-/scheduler/sched_entity.c:243 (discriminator 2)) gpu_sched [ 85.792037] nou=
-veau_sched_destroy (/home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_s=
-ched.c:509 /home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_sched.c:51=
-8) nouveau [ 85.792122] nouveau_abi16_chan_fini.isra.0 (/home/imperator/lin=
-ux/drivers/gpu/drm/nouveau/nouveau_abi16.c:188) nouveau [ 85.792191] nouvea=
-u_abi16_fini (/home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_abi16.c=
-:224 (discriminator 3)) nouveau [ 85.792263] nouveau_drm_postclose (/home/i=
-mperator/linux/drivers/gpu/drm/nouveau/nouveau_drm.c:1240) nouveau [ 85.792=
-349] drm_file_free (/home/imperator/linux/drivers/gpu/drm/drm_file.c:255) [=
- 85.792353] drm_release (/home/imperator/linux/./arch/x86/include/asm/atomi=
-c.h:67 (discriminator 1) /home/imperator/linux/./include/linux/atomic/atomi=
-c-arch-fallback.h:2278 (discriminator 1) /home/imperator/linux/./include/li=
-nux/atomic/atomic-instrumented.h:1384 (discriminator 1) /home/imperator/lin=
-ux/drivers/gpu/drm/drm_file.c:428 (discriminator 1)) [ 85.792355] __fput (/=
-home/imperator/linux/fs/file_table.c:464) [ 85.792357] task_work_run (/home=
-/imperator/linux/kernel/task_work.c:227) [ 85.792360] do_exit (/home/impera=
-tor/linux/kernel/exit.c:939) [ 85.792362] do_group_exit (/home/imperator/li=
-nux/kernel/exit.c:1069) [ 85.792364] get_signal (/home/imperator/linux/kern=
-el/signal.c:3036) [ 85.792366] arch_do_signal_or_restart (/home/imperator/l=
-inux/./arch/x86/include/asm/syscall.h:38 /home/imperator/linux/arch/x86/ker=
-nel/signal.c:264 /home/imperator/linux/arch/x86/kernel/signal.c:339) [ 85.7=
-92369] syscall_exit_to_user_mode (/home/imperator/linux/kernel/entry/common=
-.c:113 /home/imperator/linux/./include/linux/entry-common.h:329 /home/imper=
-ator/linux/kernel/entry/common.c:207 /home/imperator/linux/kernel/entry/com=
-mon.c:218) [ 85.792372] do_syscall_64 (/home/imperator/linux/./arch/x86/inc=
-lude/asm/cpufeature.h:172 /home/imperator/linux/arch/x86/entry/common.c:98)=
- [ 85.792373] ? syscall_exit_to_user_mode_prepare (/home/imperator/linux/./=
-include/linux/audit.h:357 /home/imperator/linux/kernel/entry/common.c:166 /=
-home/imperator/linux/kernel/entry/common.c:200) [ 85.792376] ? syscall_exit=
-_to_user_mode (/home/imperator/linux/./arch/x86/include/asm/paravirt.h:686 =
-/home/imperator/linux/./include/linux/entry-common.h:232 /home/imperator/li=
-nux/kernel/entry/common.c:206 /home/imperator/linux/kernel/entry/common.c:2=
-18) [ 85.792377] ? do_syscall_64 (/home/imperator/linux/./arch/x86/include/=
-asm/cpufeature.h:172 /home/imperator/linux/arch/x86/entry/common.c:98) [ 85=
-.792378] entry_SYSCALL_64_after_hwframe (/home/imperator/linux/arch/x86/ent=
-ry/entry_64.S:130) [ 85.792381] RIP: 0033:0x7ff950b6af70 [ 85.792383] Code:=
- Unable to access opcode bytes at 0x7ff950b6af46. objdump: '/tmp/tmp.sfPRl5=
-k2te.o': No such file Code starting with the faulting instruction =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D [ 85.792383] RSP: 002b:00007f=
-f93cdfb6f0 EFLAGS: 00000293 ORIG_RAX: 000000000000010f [ 85.792385] RAX: ff=
-fffffffffffdfe RBX: 000055d386d61870 RCX: 00007ff950b6af70 [ 85.792386] RDX=
-: 0000000000000000 RSI: 0000000000000001 RDI: 00007ff928000b90 [ 85.792387]=
- RBP: 00007ff93cdfb740 R08: 0000000000000008 R09: 0000000000000000 [ 85.792=
-388] R10: 0000000000000000 R11: 0000000000000293 R12: 0000000000000001 [ 85=
-.792388] R13: 0000000000000000 R14: 0000000000000000 R15: 00007ff951b10b40 =
-[ 85.792390] </TASK> [ 85.792391] ---[ end trace 0000000000000000 ]---
+No new UAPI will be necessary for this platform as it is sufficiently
+similar to the already supported AXE-1-16M.
 
-By the way, for reference:
-I did try whether it could be done to have nouveau_fence_signal()
-incorporated into nouveau_fence_update() and nouveau_fence_done().
-This, however, would then cause a race with the list_del() in
-nouveau_fence_no_signaling(), WARNing because of the list poison.
+UMD support is close to being complete. We're now able to pass >99% of
+Vulkan conformance on our Mesa development branch. The compiler has been
+undergoing a significant rework needed to accomodate the BXS-4-64, as
+well as to make it more flexible to support additional Rogue GPUs going
+forward. The first part of this rework landed in Mesa in [2], and the
+next chunk is currently in review in [3].
 
-So the "solution" space is:
- * A cleanup callback on the dma_fence.
- * Keeping the current race or
- * replacing it with another race with another function.
- * Just preventing nouveau_fence_done() from signaling fences other
-   than through nouveau_fence_update/signal
+There are several dt-bindings changes at the beginning of this series.
+We expect the result to be versatile enough to handle all Imagination
+Rogue GPUs while being a strong foundation to build bindings for the
+newer Volcanic architecture (for which we're currently developing
+support).
 
-The later seems clearly like the cleanest solution to me. Alternative
-would be a work-intensive rework of all the misdesigns broken in
-nouveau_fence.c
+The DTS changes at the end of the series are marked [DO NOT MERGE]. Once
+the series is reviewed, we will request these be taken through the
+relevant tree.
 
+This version of the series depends on the following patches which exist
+in drm-misc-fixes but have not yet made it back to drm-misc-next (the
+target of this series):
 
-P.
+- 5d84783d621e ("drm/imagination: take paired job reference") [4]
+- b05e8911cb7c ("drm/imagination: fix firmware memory leaks") [5]
 
->=20
-> [=C2=A0=C2=A0 39.848463] WARNING: CPU: 21 PID: 1734 at
-> drivers/gpu/drm/nouveau/nouveau_fence.c:509
-> nouveau_fence_no_signaling+0xac/0xd0 [nouveau]
-> [=C2=A0=C2=A0 39.848551] Modules linked in: snd_seq_dummy snd_hrtimer
-> nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet
-> nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_ine
-> t nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat
-> nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set
-> nf_tables qrtr sunrpc snd_sof_pci_intel_
-> tgl snd_sof_pci_intel_cnl snd_sof_intel_hda_generic snd_sof_pci
-> snd_sof_xtensa_dsp snd_sof_intel_hda_common snd_soc_hdac_hda
-> snd_sof_intel_hda snd_sof snd_sof_utils snd
-> _soc_acpi_intel_match snd_soc_acpi snd_soc_acpi_intel_sdca_quirks
-> snd_sof_intel_hda_mlink snd_soc_sdca snd_soc_avs snd_ctl_led
-> snd_soc_hda_codec intel_rapl_msr snd_hda_
-> codec_realtek snd_hda_ext_core intel_rapl_common
-> snd_hda_codec_generic snd_soc_core snd_hda_scodec_component
-> intel_uncore_frequency intel_uncore_frequency_common snd_hd
-> a_codec_hdmi intel_ifs snd_compress i10nm_edac skx_edac_common nfit
-> snd_hda_intel snd_intel_dspcfg libnvdimm snd_hda_codec binfmt_misc
-> snd_hwdep snd_hda_core snd_seq sn
-> d_seq_device dell_wmi
-> [=C2=A0=C2=A0 39.848575]=C2=A0 dell_pc x86_pkg_temp_thermal spi_nor platf=
-orm_profile
-> sparse_keymap intel_powerclamp dax_hmem snd_pcm cxl_acpi coretemp
-> cxl_port iTCO_wdt mtd rapl intel
-> _pmc_bxt pmt_telemetry cxl_core dell_wmi_sysman pmt_class
-> iTCO_vendor_support snd_timer isst_if_mmio vfat intel_cstate
-> dell_smbios dcdbas fat dell_wmi_ddv dell_smm_hwmo
-> n dell_wmi_descriptor firmware_attributes_class wmi_bmof intel_uncore
-> einj pcspkr isst_if_mbox_pci atlantic snd isst_if_common intel_vsec
-> e1000e macsec mei_me i2c_i801=20
-> spi_intel_pci soundcore i2c_smbus spi_intel mei joydev loop nfnetlink
-> zram nouveau drm_ttm_helper ttm polyval_clmulni iaa_crypto gpu_sched
-> polyval_generic rtsx_pci_sdmm
-> c ghash_clmulni_intel i2c_algo_bit mmc_core drm_gpuvm sha512_ssse3
-> nvme drm_exec drm_display_helper sha256_ssse3 idxd sha1_ssse3 cec
-> nvme_core idxd_bus rtsx_pci nvme_au
-> th pinctrl_alderlake ip6_tables ip_tables fuse
-> [=C2=A0=C2=A0 39.848603] CPU: 21 UID: 42 PID: 1734 Comm: gnome-shell Tain=
-ted:
-> G=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 W=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 6.14.0-rc4+ #11
-> [=C2=A0=C2=A0 39.848605] Tainted: [W]=3DWARN
-> [=C2=A0=C2=A0 39.848606] Hardware name: Dell Inc. Precision 7960 Tower/01=
-G0M6,
-> BIOS 2.7.0 12/17/2024
-> [=C2=A0=C2=A0 39.848607] RIP: 0010:nouveau_fence_no_signaling+0xac/0xd0
-> [nouveau]
-> [=C2=A0=C2=A0 39.848688] Code: db 74 17 48 8d 7b 38 b8 ff ff ff ff f0 0f =
-c1 43
-> 38 83 f8 01 74 29 85 c0 7e 17 31 c0 5b 5d c3 cc cc cc cc e8 76 b2 c5
-> f0 eb 96 <0f> 0b e9 67 ff ff f
-> f be 03 00 00 00 e8 83 76 33 f1 31 c0 eb dd e8
-> [=C2=A0=C2=A0 39.848690] RSP: 0018:ff1cc1ffc5c039f0 EFLAGS: 00010046
-> [=C2=A0=C2=A0 39.848691] RAX: 0000000000000001 RBX: ff175a3b504da980 RCX:
-> ff175a3b4801e008
-> [=C2=A0=C2=A0 39.848692] RDX: ff175a3b43e7bad0 RSI: ffffffffc09d3fda RDI:
-> ff175a3b504da980
-> [=C2=A0=C2=A0 39.848693] RBP: ff175a3b504da9c0 R08: ffffffffc09e39df R09:
-> 0000000000000001
-> [=C2=A0=C2=A0 39.848694] R10: 0000000000000001 R11: 0000000000000000 R12:
-> ff175a3b6d97de00
-> [=C2=A0=C2=A0 39.848695] R13: 0000000000000246 R14: ff1cc1ffc5c03c60 R15:
-> 0000000000000001
-> [=C2=A0=C2=A0 39.848696] FS:=C2=A0 00007fc5477846c0(0000) GS:ff175a5a5028=
-0000(0000)
-> knlGS:0000000000000000
-> [=C2=A0=C2=A0 39.848698] CS:=C2=A0 0010 DS: 0000 ES: 0000 CR0: 0000000080=
-050033
-> [=C2=A0=C2=A0 39.848699] CR2: 000055cb7613d1a8 CR3: 000000012e5ce004 CR4:
-> 0000000000f71ef0
-> [=C2=A0=C2=A0 39.848700] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
-> 0000000000000000
-> [=C2=A0=C2=A0 39.848701] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7:
-> 0000000000000400
-> [=C2=A0=C2=A0 39.848702] PKRU: 55555554
-> [=C2=A0=C2=A0 39.848703] Call Trace:
-> [=C2=A0=C2=A0 39.848704]=C2=A0 <TASK>
-> [=C2=A0=C2=A0 39.848705]=C2=A0 ? nouveau_fence_no_signaling+0xac/0xd0 [no=
-uveau]
-> [=C2=A0=C2=A0 39.848782]=C2=A0 ? __warn.cold+0x93/0xfa
-> [=C2=A0=C2=A0 39.848785]=C2=A0 ? nouveau_fence_no_signaling+0xac/0xd0 [no=
-uveau]
-> [=C2=A0=C2=A0 39.848861]=C2=A0 ? report_bug+0xff/0x140
-> [=C2=A0=C2=A0 39.848863]=C2=A0 ? handle_bug+0x58/0x90
-> [=C2=A0=C2=A0 39.848865]=C2=A0 ? exc_invalid_op+0x17/0x70
-> [=C2=A0=C2=A0 39.848866]=C2=A0 ? asm_exc_invalid_op+0x1a/0x20
-> [=C2=A0=C2=A0 39.848870]=C2=A0 ? nouveau_fence_no_signaling+0xac/0xd0 [no=
-uveau]
-> [=C2=A0=C2=A0 39.848943]=C2=A0 nouveau_fence_enable_signaling+0x32/0x80 [=
-nouveau]
-> [=C2=A0=C2=A0 39.849016]=C2=A0 ? __pfx_nouveau_fence_cleanup_cb+0x10/0x10=
- [nouveau]
-> [=C2=A0=C2=A0 39.849088]=C2=A0 __dma_fence_enable_signaling+0x33/0xc0
-> [=C2=A0=C2=A0 39.849090]=C2=A0 dma_fence_add_callback+0x4b/0xd0
-> [=C2=A0=C2=A0 39.849093]=C2=A0 nouveau_fence_emit+0xa3/0x260 [nouveau]
-> [=C2=A0=C2=A0 39.849166]=C2=A0 nouveau_fence_new+0x7d/0xf0 [nouveau]
-> [=C2=A0=C2=A0 39.849242]=C2=A0 nouveau_gem_ioctl_pushbuf+0xe8f/0x1300 [no=
-uveau]
-> [=C2=A0=C2=A0 39.849338]=C2=A0 ? __pfx_nouveau_gem_ioctl_pushbuf+0x10/0x1=
-0 [nouveau]
-> [=C2=A0=C2=A0 39.849431]=C2=A0 drm_ioctl_kernel+0xad/0x100
-> [=C2=A0=C2=A0 39.849433]=C2=A0 drm_ioctl+0x288/0x550
-> [=C2=A0=C2=A0 39.849435]=C2=A0 ? __pfx_nouveau_gem_ioctl_pushbuf+0x10/0x1=
-0 [nouveau]
-> [=C2=A0=C2=A0 39.849526]=C2=A0 nouveau_drm_ioctl+0x57/0xb0 [nouveau]
-> [=C2=A0=C2=A0 39.849620]=C2=A0 __x64_sys_ioctl+0x94/0xc0
-> [=C2=A0=C2=A0 39.849621]=C2=A0 do_syscall_64+0x82/0x160
-> [=C2=A0=C2=A0 39.849623]=C2=A0 ? drm_ioctl+0x2b7/0x550
-> [=C2=A0=C2=A0 39.849625]=C2=A0 ? __pfx_nouveau_gem_ioctl_pushbuf+0x10/0x1=
-0 [nouveau]
-> [=C2=A0=C2=A0 39.849719]=C2=A0 ? ktime_get_mono_fast_ns+0x38/0xd0
-> [=C2=A0=C2=A0 39.849721]=C2=A0 ? __pm_runtime_suspend+0x69/0xc0
-> [=C2=A0=C2=A0 39.849724]=C2=A0 ? syscall_exit_to_user_mode_prepare+0x15e/=
-0x1a0
-> [=C2=A0=C2=A0 39.849726]=C2=A0 ? syscall_exit_to_user_mode+0x10/0x200
-> [=C2=A0=C2=A0 39.849729]=C2=A0 ? do_syscall_64+0x8e/0x160
-> [=C2=A0=C2=A0 39.849730]=C2=A0 ? exc_page_fault+0x7e/0x1a0
-> [=C2=A0=C2=A0 39.849733]=C2=A0 entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> [=C2=A0=C2=A0 39.849735] RIP: 0033:0x7fc5576fe0ad
-> [=C2=A0=C2=A0 39.849736] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d =
-45 10
-> c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00
-> 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28
-> 00 00 00
-> [=C2=A0=C2=A0 39.849737] RSP: 002b:00007ffc002688a0 EFLAGS: 00000246 ORIG=
-_RAX:
-> 0000000000000010
-> [=C2=A0=C2=A0 39.849739] RAX: ffffffffffffffda RBX: 000055cb74e316c0 RCX:
-> 00007fc5576fe0ad
-> [=C2=A0=C2=A0 39.849740] RDX: 00007ffc00268960 RSI: 00000000c0406481 RDI:
-> 000000000000000e
-> [=C2=A0=C2=A0 39.849741] RBP: 00007ffc002688f0 R08: 0000000000000000 R09:
-> 000055cb74e35560
-> [=C2=A0=C2=A0 39.849742] R10: 0000000000000014 R11: 0000000000000246 R12:
-> 00007ffc00268960
-> [=C2=A0=C2=A0 39.849744] R13: 00000000c0406481 R14: 000000000000000e R15:
-> 000055cb74e3cd10
-> [=C2=A0=C2=A0 39.849746]=C2=A0 </TASK>
-> [=C2=A0=C2=A0 39.849746] ---[ end trace 0000000000000000 ]---
-> [=C2=A0=C2=A0 39.849776] ------------[ cut here ]------------
->=20
->=20
-> This is the first WARN_ON() in dma_fence_set_error(), called by
-> nouveau_fence_context_kill().
->=20
-> It's rare, but it is a bug, or rather: the archetype of a race, since
-> (as Christian pointed out) nouveau_fence_update() later at some point
-> will remove the signaled fence (by signaling it again).
->=20
->=20
-> P.
->=20
->=20
-> Philipp Stanner (3):
-> =C2=A0 drm/nouveau: Prevent signaled fences in pending list
-> =C2=A0 drm/nouveau: Remove surplus if-branch
-> =C2=A0 drm/nouveau: Add helper to check base fence
->=20
-> =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.c | 32 ++++++++++++++--------=
--
-> --
-> =C2=A01 file changed, 18 insertions(+), 14 deletions(-)
->=20
+[1]: https://gitlab.freedesktop.org/imagination/linux-firmware/-/tree/powervr
+[2]: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32258
+[3]: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33998
+[4]: https://lore.kernel.org/r/20250318-ddkopsrc-1337-use-after-free-in-pvr_queue_prepare_job-v1-1-80fb30d044a6@imgtec.com
+[5]: https://lore.kernel.org/r/20250318-ddkopsrc-1339-firmware-related-memory-leak-on-module-unload-v1-1-155337c57bb4@imgtec.com
+
+---
+Changes in v6:
+- Add Krzysztof's Rb to dt-bindings changes (P1/P2)
+- Add Frank's Rb to drm/imagination changes (P3-P16)
+- Move loop variable (P13)
+- Link to v5: https://lore.kernel.org/r/20250326-sets-bxs-4-64-patch-v1-v5-0-e4c46e8280a9@imgtec.com
+
+Changes in v5:
+- Remove extraneous (and error-causing) power-domains minItems
+  constraint (P1)
+- Replace anyOf/const with enum (P2)
+- Link to v4: https://lore.kernel.org/r/20250320-sets-bxs-4-64-patch-v1-v4-0-d987cf4ca439@imgtec.com
+
+Changes in v4:
+- Update status of UMD support (cover)
+- Fix backwards compatibility of new compatible strings (P1)
+- Fix power-domains property constraints (P1/P2)
+- Fix power-domain-names property constraints (P2)
+- Only invoke pvr_device_safety_irq_clear() if has_safety_events is set
+  (P7)
+- Use pvr_vm_unmap_obj() in pvr_riscv_vm_unmap() (P14)
+- Fix formatting of pvr_riscv_fw_process() signature (P14)
+- Link to v3: https://lore.kernel.org/r/20250310-sets-bxs-4-64-patch-v1-v3-0-143b3dbef02f@imgtec.com
+
+Changes in v3:
+- Reorder some patches to ensure the proper sequencing
+- Update status of UMD support (cover)
+- Don't use more specific compatible strings when not required (P1)
+- Avoid ABI break by limiting new required properties to new compatible
+  strings (P2)
+- Move power domain changes to the patch in which they're used (P2/P5)
+- Update register definitions (P3) [Thanks, Alessio!]
+- Don't use more specific compatible strings when not required (P4)
+- Enhanced commit messages (P4)
+- Remove unnecessary example (P5)
+- Add proper fixes for threaded IRQs (P6) [Thanks, Alessio!]
+- Include fix for a separate IRQ issue (P7) [Thanks, Alessio!]
+- Don't enable firmware debug module (was P13 in v2, also in P14)
+- Change from a workaround to a regular codepath (P15)
+- Drop platform overrides framework (was P18 in v2, also in P16)
+- Mark DTS changes [DO NOT MERGE] (P17/P18)
+- Link to v2: https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1-v2-0-3fd45d9fb0cf@imgtec.com
+
+Changes in v2:
+- Clarified justification for compatible strings (P1)
+- Simplified clocks constraints (P2)
+- Simplified power-domains constraints (P3/P4)
+- Use normal reg syntax for 64-bit values (P8/P21)
+- Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1-v1-0-4ed30e865892@imgtec.com
+
+---
+Alessio Belle (3):
+      drm/imagination: Update register defs for newer GPUs
+      drm/imagination: Mask GPU IRQs in threaded handler
+      drm/imagination: Handle Rogue safety event IRQs
+
+Matt Coster (14):
+      dt-bindings: gpu: img: Future-proofing enhancements
+      dt-bindings: gpu: img: Add BXS-4-64 devicetree bindings
+      drm/imagination: Use new generic compatible string
+      drm/imagination: Add power domain control
+      drm/imagination: Remove firmware enable_reg
+      drm/imagination: Rename event_mask -> status_mask
+      drm/imagination: Make has_fixed_data_addr a value
+      drm/imagination: Use a lookup table for fw defs
+      drm/imagination: Use callbacks for fw irq handling
+      drm/imagination: Move ELF fw utils to common file
+      drm/imagination: Use cached memory with dma_coherent
+      drm/imagination: Add support for TI AM68 GPU
+      [DO NOT MERGE] arm64: dts: ti: k3-am62: New GPU binding details
+      [DO NOT MERGE] arm64: dts: ti: k3-j721s2: Add GPU node
+
+Sarah Walker (1):
+      drm/imagination: Add RISC-V firmware processor support
+
+ .../devicetree/bindings/gpu/img,powervr-rogue.yaml |  81 +++++++++-
+ arch/arm64/boot/dts/ti/k3-am62-main.dtsi           |   4 +-
+ arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi         |  12 ++
+ drivers/gpu/drm/imagination/Makefile               |   2 +
+ drivers/gpu/drm/imagination/pvr_device.c           | 126 ++++++++++++++--
+ drivers/gpu/drm/imagination/pvr_device.h           |  31 +++-
+ drivers/gpu/drm/imagination/pvr_drv.c              |  16 ++
+ drivers/gpu/drm/imagination/pvr_fw.c               |  28 +++-
+ drivers/gpu/drm/imagination/pvr_fw.h               |  85 +++++------
+ drivers/gpu/drm/imagination/pvr_fw_meta.c          |  23 +--
+ drivers/gpu/drm/imagination/pvr_fw_mips.c          |  81 ++--------
+ drivers/gpu/drm/imagination/pvr_fw_riscv.c         | 165 +++++++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_fw_startstop.c     |  17 +++
+ drivers/gpu/drm/imagination/pvr_fw_util.c          |  66 +++++++++
+ drivers/gpu/drm/imagination/pvr_gem.c              |  10 +-
+ drivers/gpu/drm/imagination/pvr_gem.h              |   6 +-
+ drivers/gpu/drm/imagination/pvr_mmu.c              |   8 +-
+ drivers/gpu/drm/imagination/pvr_power.c            | 114 ++++++++++++++
+ drivers/gpu/drm/imagination/pvr_power.h            |   3 +
+ drivers/gpu/drm/imagination/pvr_rogue_cr_defs.h    | 153 ++++++++++++++++---
+ drivers/gpu/drm/imagination/pvr_rogue_riscv.h      |  41 +++++
+ 21 files changed, 895 insertions(+), 177 deletions(-)
+---
+base-commit: 07484031a8cdc0da8edd07d00528d9ccb5543e4b
+change-id: 20241021-sets-bxs-4-64-patch-v1-44cdf9cc555f
 
