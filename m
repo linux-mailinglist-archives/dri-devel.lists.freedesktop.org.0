@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3646FA83CE5
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 10:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93343A83D1A
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 10:35:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6194B10E2AB;
-	Thu, 10 Apr 2025 08:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BF5E10E36D;
+	Thu, 10 Apr 2025 08:35:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GO5wKWLa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ODEFwvmO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85A0010E2AB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 08:29:24 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3700C10E36D
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 08:35:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 55B8A6843D;
- Thu, 10 Apr 2025 08:29:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA6D9C4CEE3;
- Thu, 10 Apr 2025 08:29:22 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4BC6FA49A20;
+ Thu, 10 Apr 2025 08:29:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D99DC4CEDD;
+ Thu, 10 Apr 2025 08:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744273763;
- bh=e3VXHpl0lUqkWM0JkHIZ/SGNVjV3U2LG+g4BuJb/R90=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=GO5wKWLa82nvIJdd2dPAfggR0j5E0KSkq1W/AgAoUphUgIjUINr2ZmRX56p7MeS2I
- xgIlnLA0nRVmtsJLKavTArpDl4hD4fxOt/IAC8obtI/n89hU45SroFbfEtah6+JvaM
- mczjWlZUyRKvf7WmCL5rPx1qNbcRxCc0+z/hsjSo5xHTOCKzzlNhWb7Z5uF6uppMy/
- IxG7pkWorY0ipv7bOLpcn3cC9zFDihjZM0v7+1TXGRz4FJVoW8xlMnDUZeCw5/fOR9
- RvQciIMj+7tDhaAmu7S75Kmpqvg7xuZZwX3VhUDNYkbfz9sNUrJ/r8QaKhxMachdWy
- ghlXTe3wM+atQ==
-Date: Thu, 10 Apr 2025 03:29:21 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ s=k20201202; t=1744274109;
+ bh=GV77dv96NUESm0ZK3z1NPQjDUbxPj//RoNnDUJ60y3k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ODEFwvmO0XWJUiowp+QdB5m0avw/lAz4EXKOf+KqWG+SWlyuT/IO3LpyA4c5Hl5lD
+ K0fs5dHYdJaQl16oQs2ljhYWaRUxBN7/2ZxJpsBFNP3Mx1+1mXe/stdDxgVi4dokQg
+ Mnu038PYre/3DQ0Rs0noUHMDG3yFfAF1vi+42I9KJJAVCHw+dhtRNewLbVE6iMd5Fo
+ XKXck7i3dT64kgSVeBIqluTzB8n3ssbBkNX1yRx1O2zCymUNIN1T+yTB1o0TH41mbX
+ nlxrN+vJK5nDCUBDhTPD/34ZTLDFfsMFAjN2yp0Rq99422e4KLyaoxff1O9aALUbmG
+ SM+BfPc0kc/4g==
+Date: Thu, 10 Apr 2025 10:35:06 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 14/15] drm/tests: hdmi: Add max TMDS rate fallback
+ tests for YUV420 mode
+Message-ID: <20250410-cyan-smilodon-of-courtesy-38766c@houat>
+References: <20250326-hdmi-conn-yuv-v3-0-294d3ebbb4b2@collabora.com>
+ <20250326-hdmi-conn-yuv-v3-14-294d3ebbb4b2@collabora.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: mripard@kernel.org, tzimmermann@suse.de, 
- dri-devel@lists.freedesktop.org, kernel@collabora.com, krzk+dt@kernel.org, 
- maarten.lankhorst@linux.intel.com, conor+dt@kernel.org, 
- linux-kernel@vger.kernel.org, pablo.sun@mediatek.com, 
- devicetree@vger.kernel.org, christophe.jaillet@wanadoo.fr, simona@ffwll.ch, 
- quic_jesszhan@quicinc.com, neil.armstrong@linaro.org, airlied@gmail.com
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250410072456.387562-2-angelogioacchino.delregno@collabora.com>
-References: <20250410072456.387562-1-angelogioacchino.delregno@collabora.com>
- <20250410072456.387562-2-angelogioacchino.delregno@collabora.com>
-Message-Id: <174427376178.2916420.18145565077503737797.robh@kernel.org>
-Subject: Re: [PATCH v3 1/3] dt-bindings: vendor-prefixes: Add Shenzhen Aoly
- Technology Co., Ltd.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="tfr4puaibfh26idy"
+Content-Disposition: inline
+In-Reply-To: <20250326-hdmi-conn-yuv-v3-14-294d3ebbb4b2@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,51 +67,399 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 10 Apr 2025 09:24:54 +0200, AngeloGioacchino Del Regno wrote:
-> Aoly is a manufacturer of LCD/IPS displays based in Shenzhen,
-> Mainland China.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+--tfr4puaibfh26idy
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 14/15] drm/tests: hdmi: Add max TMDS rate fallback
+ tests for YUV420 mode
+MIME-Version: 1.0
+
+On Wed, Mar 26, 2025 at 12:20:03PM +0200, Cristian Ciocaltea wrote:
+> Provide tests to verify drm_atomic_helper_connector_hdmi_check() helper
+> fallback behavior when using YUV420 output.
+>=20
+> Also rename drm_test_check_max_tmds_rate_{bpc|format}_fallback() to
+> better differentiate from the newly introduced *_yuv420() variants.
+>=20
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 152 +++++++++++++++=
++++++-
+>  drivers/gpu/drm/tests/drm_kunit_edid.h             | 110 +++++++++++++++
+>  2 files changed, 258 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
+/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> index 3fae7ccf65309a1d8a4acf12de961713b9163096..99bedb2d6f555b3b140256000=
+dfa7491d2a8f515 100644
+> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> @@ -1224,7 +1224,7 @@ static void drm_test_check_hdmi_funcs_reject_rate(s=
+truct kunit *test)
+>   * Then we will pick the latter, and the computed TMDS character rate
+>   * will be equal to 1.25 times the mode pixel clock.
+>   */
+> -static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
+> +static void drm_test_check_max_tmds_rate_bpc_fallback_rgb(struct kunit *=
+test)
+>  {
+>  	struct drm_atomic_helper_connector_hdmi_priv *priv;
+>  	struct drm_modeset_acquire_ctx ctx;
+> @@ -1279,6 +1279,75 @@ static void drm_test_check_max_tmds_rate_bpc_fallb=
+ack(struct kunit *test)
+>  	drm_modeset_acquire_fini(&ctx);
+>  }
+> =20
+> +/*
+> + * Test that if:
+> + * - We have an HDMI connector supporting both RGB and YUV420
 
-My bot found errors running 'make dt_binding_check' on your patch:
+I assume the monitor also supports both?
 
-yamllint warnings/errors:
+> + * - The chosen mode can be supported in YUV420 output format only
+> + * - The chosen mode has a TMDS character rate higher than the display
+> + *   supports in YUV420/12bpc
+> + * - The chosen mode has a TMDS character rate lower than the display
+> + *   supports in YUV420/10bpc.
+> + *
+> + * Then we will pick the latter, and the computed TMDS character rate
+> + * will be equal to 1.25 * 0.5 times the mode pixel clock.
+> + */
+> +static void drm_test_check_max_tmds_rate_bpc_fallback_yuv420(struct kuni=
+t *test)
+> +{
+> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_connector_state *conn_state;
+> +	struct drm_display_info *info;
+> +	struct drm_display_mode *yuv420_only_mode;
+> +	unsigned long long rate;
+> +	struct drm_connector *conn;
+> +	struct drm_device *drm;
+> +	struct drm_crtc *crtc;
+> +	int ret;
+> +
+> +	priv =3D drm_kunit_helper_connector_hdmi_init_with_edid(test,
+> +				BIT(HDMI_COLORSPACE_RGB) |
+> +				BIT(HDMI_COLORSPACE_YUV420),
+> +				12,
+> +				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
+> +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +	drm =3D &priv->drm;
+> +	crtc =3D priv->crtc;
+> +	conn =3D &priv->connector;
+> +	info =3D &conn->display_info;
+> +	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
+> +	KUNIT_ASSERT_GT(test, info->max_tmds_clock, 0);
+> +	KUNIT_ASSERT_TRUE(test, conn->ycbcr_420_allowed);
+> +
+> +	yuv420_only_mode =3D drm_kunit_display_mode_from_cea_vic(test, drm, 95);
+> +	KUNIT_ASSERT_NOT_NULL(test, yuv420_only_mode);
+> +	KUNIT_ASSERT_TRUE(test, drm_mode_is_420_only(info, yuv420_only_mode));
+> +
+> +	rate =3D drm_hdmi_compute_mode_clock(yuv420_only_mode, 12, HDMI_COLORSP=
+ACE_YUV420);
+> +	KUNIT_ASSERT_GT(test, rate, info->max_tmds_clock * 1000);
+> +
+> +	rate =3D drm_hdmi_compute_mode_clock(yuv420_only_mode, 10, HDMI_COLORSP=
+ACE_YUV420);
+> +	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
+> +
+> +	drm_modeset_acquire_init(&ctx, 0);
+> +
+> +	ret =3D drm_kunit_helper_enable_crtc_connector(test, drm,
+> +						     crtc, conn,
+> +						     yuv420_only_mode,
+> +						     &ctx);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/interrupt-controller/econet,en751221-intc.example.dtb: interrupt-controller@1fb40000 (econet,en751221-intc): 'econet,shadow-interrupts' does not match any of the regexes: '^#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gpmc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '^(pciclass|pinctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rcar_sound|rotary-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|st-spics|ts),.*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '^GEFanuc,.*', '^IBM,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-Z0-9+\\-._@]{0,63}$', '^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^abilis,.*', '^abracon,.*', '^abt,.*', '^acbel,.*', '^acelink,.*', '^acer,.*', '^acme,.*', '^actions,.*', '^active-semi,.*', '^ad,.*', '^adafruit,.*', '^adapteva,.*', '^adaptrum,.*', '^adh,.*', '^adi,.*', '^adieng,.*', '^admatec,.*', '^advantech,.*', '^a
- eroflexgaisler,.*', '^aesop,.*', '^airoha,.*', '^al,.*', '^alcatel,.*', '^aldec,.*', '^alfa-network,.*', '^allegro,.*', '^allegromicro,.*', '^alliedvision,.*', '^allo,.*', '^allwinner,.*', '^alphascale,.*', '^alps,.*', '^alt,.*', '^altr,.*', '^amarula,.*', '^amazon,.*', '^amcc,.*', '^amd,.*', '^amediatech,.*', '^amlogic,.*', '^ampere,.*', '^amphenol,.*', '^ampire,.*', '^ams,.*', '^amstaos,.*', '^analogix,.*', '^anbernic,.*', '^andestech,.*', '^anvo,.*', '^aoly,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^aptina,.*', '^arasan,.*', '^archermind,.*', '^arcom,.*', '^arctic,.*', '^arcx,.*', '^ariaboard,.*', '^aries,.*', '^arm,.*', '^armadeus,.*', '^armsom,.*', '^arrow,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,.*', '^asix,.*', '^aspeed,.*', '^asrock,.*', '^asteralabs,.*', '^asus,.*', '^atheros,.*', '^atlas,.*', '^atmel,.*', '^auo,.*', '^auvidea,.*', '^avago,.*', '^avia,.*', '^avic,.*', '^avnet,.*', '^awinic,.*', '^axentia,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^baikal,.*', '^banana
- pi,.*', '^beacon,.*', '^beagle,.*', '^belling,.*', '^bhf,.*', '^bigtreetech,.*', '^bitmain,.*', '^blaize,.*', '^blutek,.*', '^boe,.*', '^bosch,.*', '^boundary,.*', '^brcm,.*', '^broadmobi,.*', '^bsh,.*', '^bticino,.*', '^buffalo,.*', '^bur,.*', '^bytedance,.*', '^calamp,.*', '^calao,.*', '^calaosystems,.*', '^calxeda,.*', '^cameo,.*', '^canaan,.*', '^caninos,.*', '^capella,.*', '^cascoda,.*', '^catalyst,.*', '^cavium,.*', '^cct,.*', '^cdns,.*', '^cdtech,.*', '^cellwise,.*', '^ceva,.*', '^chargebyte,.*', '^checkpoint,.*', '^chefree,.*', '^chipidea,.*', '^chipone,.*', '^chipspark,.*', '^chongzhou,.*', '^chrontel,.*', '^chrp,.*', '^chunghwa,.*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*', '^cisco,.*', '^clockwork,.*', '^cloos,.*', '^cloudengines,.*', '^cnm,.*', '^cnxt,.*', '^colorfly,.*', '^compulab,.*', '^comvetia,.*', '^congatec,.*', '^coolpi,.*', '^coreriver,.*', '^corpro,.*', '^cortina,.*', '^cosmic,.*', '^crane,.*', '^creative,.*', '^crystalfontz,.*', '^csky,.*', '^csot,.*', '^csq,.*',
-  '^ctera,.*', '^ctu,.*', '^cubietech,.*', '^cudy,.*', '^cui,.*', '^cypress,.*', '^cyx,.*', '^cznic,.*', '^dallas,.*', '^dataimage,.*', '^davicom,.*', '^deepcomputing,.*', '^dell,.*', '^delta,.*', '^densitron,.*', '^denx,.*', '^devantech,.*', '^dfi,.*', '^dfrobot,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^dimonoff,.*', '^diodes,.*', '^dioo,.*', '^dlc,.*', '^dlg,.*', '^dlink,.*', '^dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.*', '^dragino,.*', '^dream,.*', '^ds,.*', '^dserve,.*', '^dynaimage,.*', '^ea,.*', '^ebang,.*', '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,.*', '^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*', '^einfochips,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '^elida,.*', '^elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*', '^emcraft,.*', '^emlid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*', '^enclustra,.*', '^endless,.*', '^ene,.*', '^energymicro,.*', '^engicam,.*', '^engleder,.*', '^ep
- cos,.*', '^epfl,.*', '^epson,.*', '^esp,.*', '^est,.*', '^ettus,.*', '^eukrea,.*', '^everest,.*', '^everspin,.*', '^evervision,.*', '^exar,.*', '^excito,.*', '^exegin,.*', '^ezchip,.*', '^facebook,.*', '^fairchild,.*', '^fairphone,.*', '^faraday,.*', '^fascontek,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.*', '^feiyang,.*', '^fii,.*', '^firefly,.*', '^focaltech,.*', '^forlinx,.*', '^freebox,.*', '^freecom,.*', '^frida,.*', '^friendlyarm,.*', '^fsl,.*', '^fujitsu,.*', '^fxtec,.*', '^galaxycore,.*', '^gameforce,.*', '^gardena,.*', '^gateway,.*', '^gateworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^gef,.*', '^gehc,.*', '^gemei,.*', '^gemtek,.*', '^genesys,.*', '^genexis,.*', '^geniatech,.*', '^giantec,.*', '^giantplus,.*', '^glinet,.*', '^globalscale,.*', '^globaltop,.*', '^gmt,.*', '^gocontroll,.*', '^goldelico,.*', '^goodix,.*', '^google,.*', '^goramo,.*', '^gplus,.*', '^grinn,.*', '^grmn,.*', '^gumstix,.*', '^gw,.*', '^hannstar,.*', '^haochuangyi,.*', '^haoyu,.*', '^hardkernel,.*'
- , '^hechuang,.*', '^hideep,.*', '^himax,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*', '^hit,.*', '^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.*', '^hoperf,.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^htc,.*', '^huawei,.*', '^hugsun,.*', '^hwacom,.*', '^hxt,.*', '^hycon,.*', '^hydis,.*', '^hynitron,.*', '^hynix,.*', '^hyundai,.*', '^i2se,.*', '^ibm,.*', '^icplus,.*', '^idt,.*', '^iei,.*', '^ifi,.*', '^ilitek,.*', '^imagis,.*', '^img,.*', '^imi,.*', '^inanbo,.*', '^incircuit,.*', '^indiedroid,.*', '^inet-tek,.*', '^infineon,.*', '^inforce,.*', '^ingenic,.*', '^ingrasys,.*', '^injoinic,.*', '^innocomm,.*', '^innolux,.*', '^inside-secure,.*', '^insignal,.*', '^inspur,.*', '^intel,.*', '^intercontrol,.*', '^invensense,.*', '^inventec,.*', '^inversepath,.*', '^iom,.*', '^irondevice,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*', '^itead,.*', '^itian,.*', '^ivo,.*', '^iwave,.*', '^jadard,.*', '^jasonic,.*', '^jdi,.*', '^jedec,.*', '^jenson,.*', '^j
- esurun,.*', '^jethome,.*', '^jianda,.*', '^jide,.*', '^joz,.*', '^kam,.*', '^karo,.*', '^keithkoep,.*', '^keymile,.*', '^khadas,.*', '^kiebackpeter,.*', '^kinetic,.*', '^kingdisplay,.*', '^kingnovel,.*', '^kionix,.*', '^kobo,.*', '^kobol,.*', '^koe,.*', '^kontron,.*', '^kosagi,.*', '^kvg,.*', '^kyo,.*', '^lacie,.*', '^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.*', '^lckfb,.*', '^lctech,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^lenovo,.*', '^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^linaro,.*', '^lincolntech,.*', '^lineartechnology,.*', '^linksprite,.*', '^linksys,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liteon,.*', '^litex,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^longcheer,.*', '^lontium,.*', '^loongmasses,.*', '^loongson,.*', '^lsi,.*', '^lunzn,.*', '^luxul,.*', '^lwn,.*', '^lxa,.*', '^m5stack,.*', '^macnica,.*', '^mantix,.*', '^mapleboard,.*', '^marantec,.*', '^marvell,.*', '^maxbotix,.*', '^maxim,.*', '^maxlinear,.*
- ', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^mediatek,.*', '^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,.*', '^mellanox,.*', '^memsensing,.*', '^memsic,.*', '^menlo,.*', '^mentor,.*', '^meraki,.*', '^merrii,.*', '^methode,.*', '^micrel,.*', '^microchip,.*', '^microcrystal,.*', '^micron,.*', '^microsoft,.*', '^microsys,.*', '^microtips,.*', '^mikroe,.*', '^mikrotik,.*', '^milkv,.*', '^miniand,.*', '^minix,.*', '^mips,.*', '^miramems,.*', '^mitsubishi,.*', '^mitsumi,.*', '^mixel,.*', '^miyoo,.*', '^mntre,.*', '^mobileye,.*', '^modtronix,.*', '^moortec,.*', '^mosaixtech,.*', '^motorcomm,.*', '^motorola,.*', '^moxa,.*', '^mpl,.*', '^mps,.*', '^mqmaker,.*', '^mrvl,.*', '^mscc,.*', '^msi,.*', '^mstar,.*', '^mti,.*', '^multi-inno,.*', '^mundoreader,.*', '^murata,.*', '^mxic,.*', '^mxicy,.*', '^myir,.*', '^national,.*', '^neardi,.*', '^nec,.*', '^neofidelity,.*', '^neonode,.*', '^netcube,.*', '^netgear,.*', '^netlogic,.*', '^netron-dy,.*', '^netronix,.*', '^netxeon,.*', '^
- neweast,.*', '^newhaven,.*', '^newvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^nintendo,.*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^nothing,.*', '^novatek,.*', '^novtech,.*', '^numonyx,.*', '^nutsboard,.*', '^nuvoton,.*', '^nvd,.*', '^nvidia,.*', '^nxp,.*', '^oceanic,.*', '^ocs,.*', '^oct,.*', '^okaya,.*', '^oki,.*', '^olimex,.*', '^olpc,.*', '^oneplus,.*', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^opalkelly,.*', '^openailab,.*', '^opencores,.*', '^openembed,.*', '^openpandora,.*', '^openrisc,.*', '^openwrt,.*', '^option,.*', '^oranth,.*', '^orisetech,.*', '^ortustech,.*', '^osddisplays,.*', '^osmc,.*', '^ouya,.*', '^overkiz,.*', '^ovti,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parade,.*', '^parallax,.*', '^pda,.*', '^pericom,.*', '^pervasive,.*', '^phicomm,.*', '^phytec,.*', '^picochip,.*', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '^plantower,.*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*', '^pocketbook,.*', '^polaroid,.*', '^po
- lyhex,.*', '^portwell,.*', '^poslab,.*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^powkiddy,.*', '^pri,.*', '^primeview,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '^pulsedlight,.*', '^purism,.*', '^puya,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi,.*', '^qiaodian,.*', '^qihua,.*', '^qishenglong,.*', '^qnap,.*', '^quanta,.*', '^radxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^raspberrypi,.*', '^raydium,.*', '^rda,.*', '^realtek,.*', '^relfor,.*', '^remarkable,.*', '^renesas,.*', '^rervision,.*', '^revotics,.*', '^rex,.*', '^richtek,.*', '^ricoh,.*', '^rikomagic,.*', '^riot,.*', '^riscv,.*', '^rockchip,.*', '^rocktech,.*', '^rohm,.*', '^ronbo,.*', '^roofull,.*', '^roseapplepi,.*', '^rve,.*', '^saef,.*', '^samsung,.*', '^samtec,.*', '^sancloud,.*', '^sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^schneider,.*', '^sciosense,.*', '^seagate,.*', '^seeed,.*', '^seirobotics,.*', '^semtech,.*', '^senseair,.*', '^sensirion,.*', '^sensortek,.*', '^sercomm,.*', '^sff,.*',
-  '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^sharp,.*', '^shift,.*', '^shimafuji,.*', '^shineworld,.*', '^shiratech,.*', '^si-en,.*', '^si-linux,.*', '^siemens,.*', '^sifive,.*', '^siflower,.*', '^sigma,.*', '^sii,.*', '^sil,.*', '^silabs,.*', '^silan,.*', '^silead,.*', '^silergy,.*', '^silex-insight,.*', '^siliconfile,.*', '^siliconmitus,.*', '^silvaco,.*', '^simtek,.*', '^sinlinx,.*', '^sinovoip,.*', '^sinowealth,.*', '^sipeed,.*', '^sirf,.*', '^sis,.*', '^sitronix,.*', '^skov,.*', '^skyworks,.*', '^smartlabs,.*', '^smartrg,.*', '^smi,.*', '^smsc,.*', '^snps,.*', '^sochip,.*', '^socionext,.*', '^solidrun,.*', '^solomon,.*', '^sony,.*', '^sophgo,.*', '^sourceparts,.*', '^spacemit,.*', '^spansion,.*', '^sparkfun,.*', '^spinalhdl,.*', '^sprd,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.*', '^st,.*', '^st-ericsson,.*', '^starfive,.*', '^starry,.*', '^startek,.*', '^starterkit,.*', '^ste,.*', '^stericsson,.*', '^storlink,.*', '^storm,.*', '^storopack,.*', '^summit,.*', '^sunchip,.*', '
- ^sundance,.*', '^sunplus,.*', '^supermicro,.*', '^swir,.*', '^syna,.*', '^synology,.*', '^synopsys,.*', '^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tcs,.*', '^tdo,.*', '^team-source-display,.*', '^technexion,.*', '^technologic,.*', '^techstar,.*', '^techwell,.*', '^teejet,.*', '^teltonika,.*', '^tempo,.*', '^terasic,.*', '^tesla,.*', '^test,.*', '^tfc,.*', '^thead,.*', '^thine,.*', '^thingyjp,.*', '^thundercomm,.*', '^thwc,.*', '^ti,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*', '^topeet,.*', '^topic,.*', '^topland,.*', '^toppoly,.*', '^topwise,.*', '^toradex,.*', '^toshiba,.*', '^toumaz,.*', '^tpk,.*', '^tplink,.*', '^tpo,.*', '^tq,.*', '^transpeed,.*', '^traverse,.*', '^tronfy,.*', '^tronsmart,.*', '^truly,.*', '^tsd,.*', '^turing,.*', '^tyan,.*', '^tyhx,.*', '^u-blox,.*', '^u-boot,.*', '^ubnt,.*', '^ucrobotics,.*', '^udoo,.*', '^ufispace,.*', '^ugoos,.*', '^uni-t,.*', '^uniwest,.*', '^upisemi,.*', '^urt,.*', '^usi,.*', '^usr,.*', '^utoo,.*', '^v3,.*', '^vaisala,.*', '^vamr
- s,.*', '^variscite,.*', '^vdl,.*', '^vertexcom,.*', '^via,.*', '^vialab,.*', '^vicor,.*', '^videostrong,.*', '^virtio,.*', '^virtual,.*', '^vishay,.*', '^visionox,.*', '^vitesse,.*', '^vivante,.*', '^vivax,.*', '^vocore,.*', '^voipac,.*', '^voltafield,.*', '^vot,.*', '^vscom,.*', '^vxt,.*', '^wacom,.*', '^wanchanglong,.*', '^wand,.*', '^waveshare,.*', '^wd,.*', '^we,.*', '^welltech,.*', '^wetek,.*', '^wexler,.*', '^whwave,.*', '^wi2wi,.*', '^widora,.*', '^wiligear,.*', '^willsemi,.*', '^winbond,.*', '^wingtech,.*', '^winlink,.*', '^winstar,.*', '^wirelesstag,.*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,.*', '^wolfvision,.*', '^x-powers,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xillybus,.*', '^xingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^xnano,.*', '^xunlong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-optoelectronics,.*', '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-toptech,.*', '^ys,.*', '^ysoft,.*', '^yuridenki,.*', '^yuzukihd,.*', '^zarlink,.*', '^
- zealz,.*', '^zeitec,.*', '^zidoo,.*', '^zii,.*', '^zinitix,.*', '^zkmagic,.*', '^zte,.*', '^zyxel,.*', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/vendor-prefixes.yaml#
+We need to handle EDEADLK
 
-doc reference errors (make refcheckdocs):
+> +
+> +	conn_state =3D conn->state;
+> +	KUNIT_ASSERT_NOT_NULL(test, conn_state);
+> +
+> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 10);
+> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_Y=
+UV420);
+> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, yuv420_only_mode=
+->clock * 625);
+> +
+> +	drm_modeset_drop_locks(&ctx);
+> +	drm_modeset_acquire_fini(&ctx);
+> +}
+> +
+>  /*
+>   * Test that if:
+>   * - We have an HDMI connector supporting both RGB and YUV422 and up to
+> @@ -1292,7 +1361,7 @@ static void drm_test_check_max_tmds_rate_bpc_fallba=
+ck(struct kunit *test)
+>   * Then we will prefer to keep the RGB format with a lower bpc over
+>   * picking YUV422.
+>   */
+> -static void drm_test_check_max_tmds_rate_format_fallback(struct kunit *t=
+est)
+> +static void drm_test_check_max_tmds_rate_format_fallback_yuv422(struct k=
+unit *test)
+>  {
+>  	struct drm_atomic_helper_connector_hdmi_priv *priv;
+>  	struct drm_modeset_acquire_ctx ctx;
+> @@ -1351,6 +1420,79 @@ static void drm_test_check_max_tmds_rate_format_fa=
+llback(struct kunit *test)
+>  	drm_modeset_acquire_fini(&ctx);
+>  }
+> =20
+> +/*
+> + * Test that if:
+> + * - We have an HDMI connector supporting both RGB and YUV420 and up to
+> + *   12 bpc
+> + * - The chosen mode has a TMDS character rate higher than the display
+> + *   supports in RGB/10bpc but lower than the display supports in
+> + *   RGB/8bpc
+> + * - The chosen mode has a TMDS character rate lower than the display
+> + *   supports in YUV420/12bpc.
+> + *
+> + * Then we will prefer to keep the RGB format with a lower bpc over
+> + * picking YUV420.
+> + */
+> +static void drm_test_check_max_tmds_rate_format_fallback_yuv420(struct k=
+unit *test)
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250410072456.387562-2-angelogioacchino.delregno@collabora.com
+Are you sure about the name here? It looks like we're not testing the
+YUV420 fallback at all?
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+> +{
+> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_connector_state *conn_state;
+> +	struct drm_display_info *info;
+> +	struct drm_display_mode *preferred;
+> +	unsigned long long rate;
+> +	struct drm_connector *conn;
+> +	struct drm_device *drm;
+> +	struct drm_crtc *crtc;
+> +	int ret;
+> +
+> +	priv =3D drm_kunit_helper_connector_hdmi_init_with_edid(test,
+> +				BIT(HDMI_COLORSPACE_RGB) |
+> +				BIT(HDMI_COLORSPACE_YUV420),
+> +				12,
+> +				test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz);
+> +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +	drm =3D &priv->drm;
+> +	crtc =3D priv->crtc;
+> +	conn =3D &priv->connector;
+> +	info =3D &conn->display_info;
+> +	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
+> +	KUNIT_ASSERT_GT(test, info->max_tmds_clock, 0);
+> +	KUNIT_ASSERT_TRUE(test, conn->ycbcr_420_allowed);
+> +
+> +	preferred =3D find_preferred_mode(conn);
+> +	KUNIT_ASSERT_NOT_NULL(test, preferred);
+> +	KUNIT_ASSERT_FALSE(test, preferred->flags & DRM_MODE_FLAG_DBLCLK);
+> +	KUNIT_ASSERT_TRUE(test, drm_mode_is_420_also(info, preferred));
+> +
+> +	rate =3D drm_hdmi_compute_mode_clock(preferred, 8, HDMI_COLORSPACE_RGB);
+> +	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
+> +
+> +	rate =3D drm_hdmi_compute_mode_clock(preferred, 10, HDMI_COLORSPACE_RGB=
+);
+> +	KUNIT_ASSERT_GT(test, rate, info->max_tmds_clock * 1000);
+> +
+> +	rate =3D drm_hdmi_compute_mode_clock(preferred, 12, HDMI_COLORSPACE_YUV=
+420);
+> +	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
+> +
+> +	drm_modeset_acquire_init(&ctx, 0);
+> +
+> +	ret =3D drm_kunit_helper_enable_crtc_connector(test, drm,
+> +						     crtc, conn,
+> +						     preferred,
+> +						     &ctx);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	conn_state =3D conn->state;
+> +	KUNIT_ASSERT_NOT_NULL(test, conn_state);
+> +
+> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 8);
+> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_R=
+GB);
+> +
+> +	drm_modeset_drop_locks(&ctx);
+> +	drm_modeset_acquire_fini(&ctx);
+> +}
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+>  /*
+>   * Test that if a driver and screen supports RGB and YUV formats, and we
+>   * try to set the VIC 1 mode, we end up with 8bpc RGB even if we could
+> @@ -1738,8 +1880,10 @@ static struct kunit_case drm_atomic_helper_connect=
+or_hdmi_check_tests[] =3D {
+>  	KUNIT_CASE(drm_test_check_broadcast_rgb_crtc_mode_not_changed),
+>  	KUNIT_CASE(drm_test_check_disable_connector),
+>  	KUNIT_CASE(drm_test_check_hdmi_funcs_reject_rate),
+> -	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback),
+> -	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback),
 
-pip3 install dtschema --upgrade
+These name changes belong in a separate patch
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+> +	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback_rgb),
+> +	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback_yuv420),
+> +	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback_yuv422),
+> +	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback_yuv420),
 
+We should also test what happens when the monitor or connector doesn't
+support YUV420, and we'd still need to fallback. In such a case, we
+should return an error.
+
+>  	KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_changed),
+>  	KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_not_changed),
+>  	KUNIT_CASE(drm_test_check_output_bpc_dvi),
+> diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tes=
+ts/drm_kunit_edid.h
+> index ff316e6114d65c96b1338cd83bc0d8d9e6e143e9..8e9086df20c690f34623d7858=
+c716032d77d0c26 100644
+> --- a/drivers/gpu/drm/tests/drm_kunit_edid.h
+> +++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
+> @@ -695,4 +695,114 @@ static const unsigned char test_edid_hdmi_1080p_rgb=
+_yuv_4k_yuv420_dc_max_200mhz[
+>  	0x00, 0x00, 0x00, 0xca
+>  };
+> =20
+> +/*
+> + * edid-decode (hex):
+> + *
+> + * 00 ff ff ff ff ff ff 00 31 d8 34 00 00 00 00 00
+> + * ff 23 01 03 80 60 36 78 0f ee 91 a3 54 4c 99 26
+> + * 0f 50 54 20 00 00 01 01 01 01 01 01 01 01 01 01
+> + * 01 01 01 01 01 01 04 74 00 30 f2 70 5a 80 b0 58
+> + * 8a 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+> + * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 18
+> + * 55 18 5e 22 00 0a 20 20 20 20 20 20 00 00 00 10
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 ce
+> + *
+> + * 02 03 27 31 41 5f 6c 03 0c 00 10 00 78 44 20 00
+> + * 00 01 03 6d d8 5d c4 01 44 80 07 00 00 00 00 00
+> + * 00 e3 0f 01 00 e1 0e 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 84
+> + *
+> + * ----------------
+> + *
+> + * Block 0, Base EDID:
+> + *   EDID Structure Version & Revision: 1.3
+> + *   Vendor & Product Identification:
+> + *     Manufacturer: LNX
+> + *     Model: 52
+> + *     Model year: 2025
+> + *   Basic Display Parameters & Features:
+> + *     Digital display
+> + *     Maximum image size: 96 cm x 54 cm
+> + *     Gamma: 2.20
+> + *     RGB color display
+> + *     Default (sRGB) color space is primary color space
+> + *     First detailed timing is the preferred timing
+> + *     Supports GTF timings within operating range
+> + *   Color Characteristics:
+> + *     Red  : 0.6396, 0.3300
+> + *     Green: 0.2998, 0.5996
+> + *     Blue : 0.1503, 0.0595
+> + *     White: 0.3125, 0.3291
+> + *   Established Timings I & II:
+> + *     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.1=
+75000 MHz
+> + *   Standard Timings: none
+> + *   Detailed Timing Descriptors:
+> + *     DTD 1:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.0000=
+00 MHz (1600 mm x 900 mm)
+> + *                  Hfront  176 Hsync  88 Hback  296 Hpol P
+> + *                  Vfront    8 Vsync  10 Vback   72 Vpol P
+> + *     Display Product Name: 'Test EDID'
+> + *     Display Range Limits:
+> + *       Monitor ranges (GTF): 24-85 Hz V, 24-94 kHz H, max dotclock 340=
+ MHz
+> + *     Dummy Descriptor:
+> + *   Extension blocks: 1
+> + * Checksum: 0xce
+> + *
+> + * ----------------
+> + *
+> + * Block 1, CTA-861 Extension Block:
+> + *   Revision: 3
+> + *   Supports YCbCr 4:4:4
+> + *   Supports YCbCr 4:2:2
+> + *   Native detailed modes: 1
+> + *   Video Data Block:
+> + *     VIC  95:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.00=
+0000 MHz
+> + *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+> + *     Source physical address: 1.0.0.0
+> + *     DC_48bit
+> + *     DC_36bit
+> + *     DC_30bit
+> + *     DC_Y444
+> + *     Maximum TMDS clock: 340 MHz
+> + *     Extended HDMI video details:
+> + *   Vendor-Specific Data Block (HDMI Forum), OUI C4-5D-D8:
+> + *     Version: 1
+> + *     Maximum TMDS Character Rate: 340 MHz
+> + *     SCDC Present
+> + *     Supports 16-bits/component Deep Color 4:2:0 Pixel Encoding
+> + *     Supports 12-bits/component Deep Color 4:2:0 Pixel Encoding
+> + *     Supports 10-bits/component Deep Color 4:2:0 Pixel Encoding
+> + *   YCbCr 4:2:0 Capability Map Data Block:
+> + *     VIC  95:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.00=
+0000 MHz
+> + *   YCbCr 4:2:0 Video Data Block:
+> + * Checksum: 0x84
+> + */
+> +static const unsigned char test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz[] =
+=3D {
+> +	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x34, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0xff, 0x23, 0x01, 0x03, 0x80, 0x60, 0x36, 0x78,
+> +	0x0f, 0xee, 0x91, 0xa3, 0x54, 0x4c, 0x99, 0x26, 0x0f, 0x50, 0x54, 0x20,
+> +	0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+> +	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x04, 0x74, 0x00, 0x30, 0xf2, 0x70,
+> +	0x5a, 0x80, 0xb0, 0x58, 0x8a, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+> +	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+> +	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x18,
+> +	0x55, 0x18, 0x5e, 0x22, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+> +	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0xce, 0x02, 0x03, 0x27, 0x31,
+> +	0x41, 0x5f, 0x6c, 0x03, 0x0c, 0x00, 0x10, 0x00, 0x78, 0x44, 0x20, 0x00,
+> +	0x00, 0x01, 0x03, 0x6d, 0xd8, 0x5d, 0xc4, 0x01, 0x44, 0x80, 0x07, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0xe3, 0x0f, 0x01, 0x00, 0xe1, 0x0e, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x84
+> +};
+
+This should be a separate patch as well, but most importantly it's
+pretty hard to know the difference with the one you introduced in a
+previous patch. We should document it better than just with edid-decode.
+Also, how did you generate it?
+
+Maxime
+
+--tfr4puaibfh26idy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/eCugAKCRDj7w1vZxhR
+xVZFAQCeRfZ9Q5P/p7t/O22wnbBJKGVrGzpWcbw/XHz7FJm4ugEA31c4K8s9gk8R
+V3WtcCG4t2OKAkCbaDN4xTq6mZ/UPgg=
+=JB7r
+-----END PGP SIGNATURE-----
+
+--tfr4puaibfh26idy--
