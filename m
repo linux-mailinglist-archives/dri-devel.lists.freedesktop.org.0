@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74474A849EA
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 18:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10EBEA849EE
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 18:33:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97E6C10EA24;
-	Thu, 10 Apr 2025 16:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F95510EA33;
+	Thu, 10 Apr 2025 16:33:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Frxfg/Ia";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jL9nampm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 816A910EA23;
- Thu, 10 Apr 2025 16:33:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABBB910EA33;
+ Thu, 10 Apr 2025 16:33:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744302794; x=1775838794;
+ t=1744302798; x=1775838798;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Sa2C75K7CTMVJhTRtB3tjcRJD+GhS151hIXgnCktYvU=;
- b=Frxfg/IapSONBp+UlLEXfqkXf9kR1e5+9Hzf3iaWGfXE6w9ce2tbWDOH
- BlIu0EYESlDvCLUvSDfQMSCJKgpm66PEQWn41KyBmt81Vinnp09QaA2IZ
- zeRxtDaWOIQycLd0FV2knydv5rvuef6D3hz6UN17bTeTTQyW6TM28C6xa
- CIZ+aqNlBeWj8kC9YYuSV+PP7/wY2a8qYLMwgckNIRirWNIrlhU/bPstZ
- FZ/DkDnxNUm3OkyDZ6yJqGO89e+v5lH0ZhSo/x81pWveRYdjJtIb7iSiB
- n+3wuBVHN6wgygFE6IJ9u8n30do/SUmGXXm9BDstDw4lsJG9Z+Mp3E4yJ g==;
-X-CSE-ConnectionGUID: yjcW0NChSt2ft53T3FpKbw==
-X-CSE-MsgGUID: 4QNJ/ApXQyqqH3uZRQK8EQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="57220070"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="57220070"
+ bh=tN8FLJpCJ2lOtxhelUmJm4/Ob6nHK2CI/3jpGng3wSM=;
+ b=jL9nampmKsP/IULjQm4wqL6raf5wDz5uNokpIdSnduv5yWbRFhdVmwag
+ 5/KCuZWJvZusH7KzIGLS3Eh9UxUbSztA88eJi4UEkhOK7hS9Zf0gM/50I
+ s2U1jiV9ACOxKPrtY9uhv2L7VUn/UiBBnM1r6edQ6o4FrXo51pITSARvD
+ sUhTL+fftHD8BvO27UHqnuedJ+3DsLLi6nmLwUhD6IHDXY1wo9kq/SOYj
+ diFUOLKCBMtiDRIeVNSdPTpvNpiUsOzXFwQ2D6INZ72++uZ2ERIqXGKig
+ YfUHViWb3mj+kblXxdz4Uxyqkw5fAUnKgIjw9NiCUsFIvALkuLjPDvv3w A==;
+X-CSE-ConnectionGUID: djYJPoMfSFWCJ9oPPAnn2Q==
+X-CSE-MsgGUID: w1e/WUwdR5mcmyuXbfIJ2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="57220079"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="57220079"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2025 09:33:14 -0700
-X-CSE-ConnectionGUID: PTWRf+9pQ3izDg2v7jHCYw==
-X-CSE-MsgGUID: MLZlESNhQt6cayGDSQeJ9Q==
+ 10 Apr 2025 09:33:18 -0700
+X-CSE-ConnectionGUID: 8Qt9bjqDSFmpXQz3QAkh7g==
+X-CSE-MsgGUID: SO5BAB0LRD2I5gMwvZqOyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="134129221"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="134129274"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orviesa005.jf.intel.com with SMTP; 10 Apr 2025 09:33:11 -0700
+ by orviesa005.jf.intel.com with SMTP; 10 Apr 2025 09:33:16 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 10 Apr 2025 19:33:09 +0300
+ Thu, 10 Apr 2025 19:33:14 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org
-Subject: [PATCH 07/19] drm/gem: Pass along the format info from .fb_create()
- to drm_helper_mode_fill_fb_struct()
-Date: Thu, 10 Apr 2025 19:32:06 +0300
-Message-ID: <20250410163218.15130-8-ville.syrjala@linux.intel.com>
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH 08/19] drm/gem/afbc: Eliminate redundant drm_get_format_info()
+Date: Thu, 10 Apr 2025 19:32:07 +0300
+Message-ID: <20250410163218.15130-9-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250410163218.15130-1-ville.syrjala@linux.intel.com>
 References: <20250410163218.15130-1-ville.syrjala@linux.intel.com>
@@ -79,170 +75,110 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
 Pass along the format info from .fb_create() to aliminate the
-redundant drm_get_format_info() calls from the gem fb code.
+redundant drm_get_format_info() calls from the afbc code.
 
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Sandy Huang <hjc@rock-chips.com>
 Cc: "Heiko Stübner" <heiko@sntech.de>
 Cc: Andy Yan <andy.yan@rock-chips.com>
-Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-Cc: virtualization@lists.linux.dev
-Cc: spice-devel@lists.freedesktop.org
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_gem_framebuffer_helper.c | 21 ++++++++------------
- drivers/gpu/drm/qxl/qxl_display.c            |  2 +-
- drivers/gpu/drm/rockchip/rockchip_drm_fb.c   |  3 ++-
- drivers/gpu/drm/xen/xen_drm_front_kms.c      |  2 +-
- include/drm/drm_gem_framebuffer_helper.h     |  2 ++
- 5 files changed, 14 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c | 18 ++++++------------
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c   |  2 +-
+ include/drm/drm_gem_framebuffer_helper.h     |  1 +
+ 3 files changed, 8 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index dc9cb6cdcfd6..44016915c8fe 100644
+index 44016915c8fe..f243ea930033 100644
 --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
 +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -67,6 +67,7 @@ EXPORT_SYMBOL_GPL(drm_gem_fb_get_obj);
- static int
- drm_gem_fb_init(struct drm_device *dev,
- 		 struct drm_framebuffer *fb,
-+		 const struct drm_format_info *info,
- 		 const struct drm_mode_fb_cmd2 *mode_cmd,
- 		 struct drm_gem_object **obj, unsigned int num_planes,
- 		 const struct drm_framebuffer_funcs *funcs)
-@@ -74,7 +75,7 @@ drm_gem_fb_init(struct drm_device *dev,
- 	unsigned int i;
- 	int ret;
- 
--	drm_helper_mode_fill_fb_struct(dev, fb, NULL, mode_cmd);
-+	drm_helper_mode_fill_fb_struct(dev, fb, info, mode_cmd);
- 
- 	for (i = 0; i < num_planes; i++)
- 		fb->obj[i] = obj[i];
-@@ -151,21 +152,14 @@ EXPORT_SYMBOL(drm_gem_fb_create_handle);
- int drm_gem_fb_init_with_funcs(struct drm_device *dev,
- 			       struct drm_framebuffer *fb,
- 			       struct drm_file *file,
-+			       const struct drm_format_info *info,
- 			       const struct drm_mode_fb_cmd2 *mode_cmd,
- 			       const struct drm_framebuffer_funcs *funcs)
+@@ -495,13 +495,9 @@ EXPORT_SYMBOL(drm_gem_fb_end_cpu_access);
+ // TODO Drop this function and replace by drm_format_info_bpp() once all
+ // DRM_FORMAT_* provide proper block info in drivers/gpu/drm/drm_fourcc.c
+ static __u32 drm_gem_afbc_get_bpp(struct drm_device *dev,
++				  const struct drm_format_info *info,
+ 				  const struct drm_mode_fb_cmd2 *mode_cmd)
  {
 -	const struct drm_format_info *info;
- 	struct drm_gem_object *objs[DRM_FORMAT_MAX_PLANES];
- 	unsigned int i;
- 	int ret;
- 
+-
 -	info = drm_get_format_info(dev, mode_cmd->pixel_format,
 -				   mode_cmd->modifier[0]);
--	if (!info) {
--		drm_dbg_kms(dev, "Failed to get FB format info\n");
--		return -EINVAL;
--	}
 -
- 	if (drm_drv_uses_atomic_modeset(dev) &&
- 	    !drm_any_plane_has_format(dev, mode_cmd->pixel_format,
- 				      mode_cmd->modifier[0])) {
-@@ -200,7 +194,7 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
- 		}
- 	}
+ 	switch (info->format) {
+ 	case DRM_FORMAT_YUV420_8BIT:
+ 		return 12;
+@@ -515,6 +511,7 @@ static __u32 drm_gem_afbc_get_bpp(struct drm_device *dev,
+ }
  
--	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
-+	ret = drm_gem_fb_init(dev, fb, info, mode_cmd, objs, i, funcs);
- 	if (ret)
- 		goto err_gem_object_put;
+ static int drm_gem_afbc_min_size(struct drm_device *dev,
++				 const struct drm_format_info *info,
+ 				 const struct drm_mode_fb_cmd2 *mode_cmd,
+ 				 struct drm_afbc_framebuffer *afbc_fb)
+ {
+@@ -555,7 +552,7 @@ static int drm_gem_afbc_min_size(struct drm_device *dev,
+ 	afbc_fb->aligned_height = ALIGN(mode_cmd->height, h_alignment);
+ 	afbc_fb->offset = mode_cmd->offsets[0];
  
-@@ -233,6 +227,7 @@ EXPORT_SYMBOL_GPL(drm_gem_fb_init_with_funcs);
+-	bpp = drm_gem_afbc_get_bpp(dev, mode_cmd);
++	bpp = drm_gem_afbc_get_bpp(dev, info, mode_cmd);
+ 	if (!bpp) {
+ 		drm_dbg_kms(dev, "Invalid AFBC bpp value: %d\n", bpp);
+ 		return -EINVAL;
+@@ -577,6 +574,7 @@ static int drm_gem_afbc_min_size(struct drm_device *dev,
+  *
+  * @dev: DRM device
+  * @afbc_fb: afbc-specific framebuffer
++ * @info: pixel format information
+  * @mode_cmd: Metadata from the userspace framebuffer creation request
+  * @afbc_fb: afbc framebuffer
+  *
+@@ -590,20 +588,16 @@ static int drm_gem_afbc_min_size(struct drm_device *dev,
+  * Zero on success or a negative error value on failure.
   */
- struct drm_framebuffer *
- drm_gem_fb_create_with_funcs(struct drm_device *dev, struct drm_file *file,
-+			     const struct drm_format_info *info,
- 			     const struct drm_mode_fb_cmd2 *mode_cmd,
- 			     const struct drm_framebuffer_funcs *funcs)
+ int drm_gem_fb_afbc_init(struct drm_device *dev,
++			 const struct drm_format_info *info,
+ 			 const struct drm_mode_fb_cmd2 *mode_cmd,
+ 			 struct drm_afbc_framebuffer *afbc_fb)
  {
-@@ -243,7 +238,7 @@ drm_gem_fb_create_with_funcs(struct drm_device *dev, struct drm_file *file,
- 	if (!fb)
- 		return ERR_PTR(-ENOMEM);
- 
--	ret = drm_gem_fb_init_with_funcs(dev, fb, file, mode_cmd, funcs);
-+	ret = drm_gem_fb_init_with_funcs(dev, fb, file, info, mode_cmd, funcs);
- 	if (ret) {
- 		kfree(fb);
- 		return ERR_PTR(ret);
-@@ -285,7 +280,7 @@ drm_gem_fb_create(struct drm_device *dev, struct drm_file *file,
- 		  const struct drm_format_info *info,
- 		  const struct drm_mode_fb_cmd2 *mode_cmd)
- {
--	return drm_gem_fb_create_with_funcs(dev, file, mode_cmd,
-+	return drm_gem_fb_create_with_funcs(dev, file, info, mode_cmd,
- 					    &drm_gem_fb_funcs);
- }
- EXPORT_SYMBOL_GPL(drm_gem_fb_create);
-@@ -324,7 +319,7 @@ drm_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
- 			     const struct drm_format_info *info,
- 			     const struct drm_mode_fb_cmd2 *mode_cmd)
- {
--	return drm_gem_fb_create_with_funcs(dev, file, mode_cmd,
-+	return drm_gem_fb_create_with_funcs(dev, file, info, mode_cmd,
- 					    &drm_gem_fb_funcs_dirtyfb);
- }
- EXPORT_SYMBOL_GPL(drm_gem_fb_create_with_dirty);
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index f7bc83f2d489..ae7e572b1b4a 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -1179,7 +1179,7 @@ qxl_user_framebuffer_create(struct drm_device *dev,
- 			    const struct drm_format_info *info,
- 			    const struct drm_mode_fb_cmd2 *mode_cmd)
- {
--	return drm_gem_fb_create_with_funcs(dev, file_priv, mode_cmd,
-+	return drm_gem_fb_create_with_funcs(dev, file_priv, info, mode_cmd,
- 					    &qxl_fb_funcs);
- }
- 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-index d46297bec5f8..1211ca0ffa00 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-@@ -40,7 +40,8 @@ rockchip_fb_create(struct drm_device *dev, struct drm_file *file,
- 	if (!afbc_fb)
- 		return ERR_PTR(-ENOMEM);
- 
--	ret = drm_gem_fb_init_with_funcs(dev, &afbc_fb->base, file, mode_cmd,
-+	ret = drm_gem_fb_init_with_funcs(dev, &afbc_fb->base,
-+					 file, info, mode_cmd,
- 					 &rockchip_drm_fb_funcs);
- 	if (ret) {
- 		kfree(afbc_fb);
-diff --git a/drivers/gpu/drm/xen/xen_drm_front_kms.c b/drivers/gpu/drm/xen/xen_drm_front_kms.c
-index a360003bee47..806ec66ee7f7 100644
---- a/drivers/gpu/drm/xen/xen_drm_front_kms.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front_kms.c
-@@ -62,7 +62,7 @@ fb_create(struct drm_device *dev, struct drm_file *filp,
- 	struct drm_gem_object *gem_obj;
+-	const struct drm_format_info *info;
+ 	struct drm_gem_object **objs;
  	int ret;
  
--	fb = drm_gem_fb_create_with_funcs(dev, filp, mode_cmd, &fb_funcs);
-+	fb = drm_gem_fb_create_with_funcs(dev, filp, info, mode_cmd, &fb_funcs);
- 	if (IS_ERR(fb))
- 		return fb;
+ 	objs = afbc_fb->base.obj;
+-	info = drm_get_format_info(dev, mode_cmd->pixel_format,
+-				   mode_cmd->modifier[0]);
+-	if (!info)
+-		return -EINVAL;
+ 
+-	ret = drm_gem_afbc_min_size(dev, mode_cmd, afbc_fb);
++	ret = drm_gem_afbc_min_size(dev, info, mode_cmd, afbc_fb);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+index 1211ca0ffa00..2a6207b7f61e 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+@@ -51,7 +51,7 @@ rockchip_fb_create(struct drm_device *dev, struct drm_file *file,
+ 	if (drm_is_afbc(mode_cmd->modifier[0])) {
+ 		int ret, i;
+ 
+-		ret = drm_gem_fb_afbc_init(dev, mode_cmd, afbc_fb);
++		ret = drm_gem_fb_afbc_init(dev, info, mode_cmd, afbc_fb);
+ 		if (ret) {
+ 			struct drm_gem_object **obj = afbc_fb->base.obj;
  
 diff --git a/include/drm/drm_gem_framebuffer_helper.h b/include/drm/drm_gem_framebuffer_helper.h
-index 4fdf9d3d1863..971d266ab1ba 100644
+index 971d266ab1ba..24f1fd40d553 100644
 --- a/include/drm/drm_gem_framebuffer_helper.h
 +++ b/include/drm/drm_gem_framebuffer_helper.h
-@@ -25,10 +25,12 @@ int drm_gem_fb_create_handle(struct drm_framebuffer *fb, struct drm_file *file,
- int drm_gem_fb_init_with_funcs(struct drm_device *dev,
- 			       struct drm_framebuffer *fb,
- 			       struct drm_file *file,
-+			       const struct drm_format_info *info,
- 			       const struct drm_mode_fb_cmd2 *mode_cmd,
- 			       const struct drm_framebuffer_funcs *funcs);
- struct drm_framebuffer *
- drm_gem_fb_create_with_funcs(struct drm_device *dev, struct drm_file *file,
-+			     const struct drm_format_info *info,
- 			     const struct drm_mode_fb_cmd2 *mode_cmd,
- 			     const struct drm_framebuffer_funcs *funcs);
- struct drm_framebuffer *
+@@ -52,6 +52,7 @@ void drm_gem_fb_end_cpu_access(struct drm_framebuffer *fb, enum dma_data_directi
+ 	(((modifier) & AFBC_VENDOR_AND_TYPE_MASK) == DRM_FORMAT_MOD_ARM_AFBC(0))
+ 
+ int drm_gem_fb_afbc_init(struct drm_device *dev,
++			 const struct drm_format_info *info,
+ 			 const struct drm_mode_fb_cmd2 *mode_cmd,
+ 			 struct drm_afbc_framebuffer *afbc_fb);
+ 
 -- 
 2.49.0
 
