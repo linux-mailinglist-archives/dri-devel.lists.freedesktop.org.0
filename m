@@ -2,46 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2112EA84441
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 15:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA445A8443F
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 15:10:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F26010E9B0;
-	Thu, 10 Apr 2025 13:10:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBC4E10E9AD;
+	Thu, 10 Apr 2025 13:10:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="B+jedoSI";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E176010E9AD
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:10:08 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7655B1063
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 06:10:05 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2C1A63F6A8
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 06:10:05 -0700 (PDT)
-Date: Thu, 10 Apr 2025 14:09:52 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 1/4] drm/panthor: Introduce BO labeling
-Message-ID: <Z_fDIECHzkJjpwDQ@e110455-lin.cambridge.arm.com>
-References: <20250409212233.2036154-1-adrian.larumbe@collabora.com>
- <20250409212233.2036154-2-adrian.larumbe@collabora.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DE1410E9B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744290606;
+ bh=K6Ue5wV2m/qSbd7Qw6QNsM6vaGiNPmLXsokcST25jhs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=B+jedoSIS5eq151IJIoIn8tTm6jENzsVM9whxlZvqCib0/o87V2J9hbQeqfhu0eSi
+ n2X+IgQjTzskuQD0Tak5g3l22F8861exmM2csGEDKgUXt67hM9z+bs8DHGImh1aA7K
+ bTQZlKeAipV4isVg5/y5O4RIf3KXmD03Sh4FpFc9hO1EnfH21YDSitMQRpLWBbvOGD
+ 80JjUGrPPUWa8ZhLMfD/IhWrlFlufFmL6OJGwAbP+0oreSl900yx2kDAQTmYOAHyYV
+ 1KOKgFewfm0xq2spyXHFzW4eTKVemfEsvIzv7vYIkx2MUvsYmOoE4dcjAlSuziAVIQ
+ BWKSby1TjLJJA==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 63EC017E0808;
+ Thu, 10 Apr 2025 15:10:06 +0200 (CEST)
+Date: Thu, 10 Apr 2025 15:10:01 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
+ =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v3 0/5] drm/panthor: Misc fixes
+Message-ID: <20250410151001.3668a295@collabora.com>
+In-Reply-To: <20250404080933.2912674-1-boris.brezillon@collabora.com>
+References: <20250404080933.2912674-1-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250409212233.2036154-2-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,140 +62,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 09, 2025 at 10:22:19PM +0100, Adrián Larumbe wrote:
-> Add a new character string Panthor BO field, and a function that allows
-> setting it from within the driver.
-> 
-> Driver takes care of freeing the string when it's replaced or no longer
-> needed at object destruction time, but allocating it is the responsibility
-> of callers.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Fri,  4 Apr 2025 10:09:28 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 39 +++++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_gem.h | 17 ++++++++++++
->  2 files changed, 56 insertions(+)
+> Hello,
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 8244a4e6c2a2..af0ac17f357f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -2,6 +2,7 @@
->  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->  /* Copyright 2023 Collabora ltd. */
->  
-> +#include <linux/cleanup.h>
->  #include <linux/dma-buf.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/err.h>
-> @@ -18,6 +19,14 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
->  	struct panthor_gem_object *bo = to_panthor_bo(obj);
->  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
->  
-> +	/*
-> +	 * Label might have been allocated with kstrdup_const(),
-> +	 * we need to take that into account when freeing the memory
-> +	 */
-> +	kfree_const(bo->label.str);
-> +
-> +	mutex_destroy(&bo->label.lock);
-> +
->  	drm_gem_free_mmap_offset(&bo->base.base);
->  	mutex_destroy(&bo->gpuva_list_lock);
->  	drm_gem_shmem_free(&bo->base);
-> @@ -196,6 +205,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
->  	obj->base.map_wc = !ptdev->coherent;
->  	mutex_init(&obj->gpuva_list_lock);
->  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
-> +	mutex_init(&obj->label.lock);
->  
->  	return &obj->base.base;
->  }
-> @@ -247,3 +257,32 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  
->  	return ret;
->  }
-> +
-> +void
-> +panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
-> +{
-> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> +	const char *old_label;
-> +
-> +	scoped_guard(mutex, &bo->label.lock) {
-> +		old_label = bo->label.str;
-> +		bo->label.str = label;
-> +	}
-> +
-> +	kfree(old_label);
-> +}
-> +
-> +void
-> +panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
-> +{
-> +	const char *str;
-> +
-> +	str = kstrdup_const(label, GFP_KERNEL);
-> +	if (!str) {
-> +		/* Failing to allocate memory for a label isn't a fatal condition */
-> +		drm_warn(bo->obj->dev, "Not enough memory to allocate BO label");
-> +		return;
-> +	}
-> +
-> +	panthor_gem_bo_set_label(bo->obj, str);
-> +}
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index 1a363bb814f4..af0d77338860 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -46,6 +46,20 @@ struct panthor_gem_object {
->  
->  	/** @flags: Combination of drm_panthor_bo_flags flags. */
->  	u32 flags;
-> +
-> +	/**
-> +	 * @label: BO tagging fields. The label can be assigned within the
-> +	 * driver itself or through a specific IOCTL.
-> +	 */
-> +	struct {
-> +		/**
-> +		 * @label.str: Pointer to NULL-terminated string,
-> +		 */
-> +		const char *str;
-> +
-> +		/** @lock.str: Protects access to the @label.str field. */
-> +		struct mutex lock;
-> +	} label;
->  };
->  
->  /**
-> @@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  			       struct panthor_vm *exclusive_vm,
->  			       u64 *size, u32 flags, uint32_t *handle);
->  
-> +void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
-> +void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
-> +
->  static inline u64
->  panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
->  {
-> -- 
-> 2.48.1
+> This is a collection of fixes for bugs found while working on adding
+> JM support to panthor. Those are not particularly tied to JM support
+> and are worth having regardless.
+> 
+> Note that the last two don't have Fixes tag because they fix issues
+> we can't really hit with the current implementation (no fault
+> handling, and no shared irq line).
+> 
+> Changelog available in each patch if you're interested.
+> 
+> Regards,
+> 
+> Boris
+> 
+> Boris Brezillon (5):
+>   drm/panthor: Fix GPU_COHERENCY_ACE[_LITE] definitions
+>   drm/panthor: Call panthor_gpu_coherency_init() after PM resume()
+>   drm/panthor: Update panthor_mmu::irq::mask when needed
+>   drm/panthor: Let IRQ handlers clear the interrupts themselves
+>   drm/panthor: Don't update MMU_INT_MASK in panthor_mmu_irq_handler()
+
+Queued to drm-misc-next.
+
+> 
+>  drivers/gpu/drm/panthor/panthor_device.c | 8 ++++----
+>  drivers/gpu/drm/panthor/panthor_device.h | 2 --
+>  drivers/gpu/drm/panthor/panthor_fw.c     | 2 ++
+>  drivers/gpu/drm/panthor/panthor_gpu.c    | 2 ++
+>  drivers/gpu/drm/panthor/panthor_mmu.c    | 9 ++++++++-
+>  drivers/gpu/drm/panthor/panthor_regs.h   | 4 ++--
+>  6 files changed, 18 insertions(+), 9 deletions(-)
 > 
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
