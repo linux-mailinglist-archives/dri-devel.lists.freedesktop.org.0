@@ -2,60 +2,227 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A1AA84481
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 15:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E30A84491
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 15:21:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF57110E0C5;
-	Thu, 10 Apr 2025 13:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0A1310E117;
+	Thu, 10 Apr 2025 13:21:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="iL5LDnZx";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="Ixojrhgw";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Ixojrhgw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35B1A10E117;
- Thu, 10 Apr 2025 13:18:50 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4ZYL464lJXz9spM;
- Thu, 10 Apr 2025 15:18:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1744291126; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Di12UIlVhobgoHnspy5XejWdRPf+a4jBs6939VP4VHc=;
- b=iL5LDnZx1NJhnTKVgRDHv2veV6OUMzQ7spDxQa2ojPeNIHnpz6hhdfOLqY7eiQweyckfSV
- gWOgOGg8Wh+v007+bsFhnhrdz+Vi54l1yu0lMvlv5AG4/soHGC9Mseonz9ZgMxrtC5UIH9
- gAuA8ecgmxPRiD+/8Cv74ahcOtAe7qEOF1dxtDtKuNkwtClBYIQ7PjxqD1/X16iJl/4KBQ
- VI1SWI5wLAfMdo8yvm1CMXUxF1WI46FUyBfD8NW8C3mM0P7hQbEoPCHnQCZC0eJ+H3I/7n
- i4aeBxIZ2NP1fHd6XwZT2U9NgUtERr+8Qvqf71/csR/NqxA6QpyEvEssuVYo0A==
-Message-ID: <c91e8331993e367c962b5e01c74966528ed16239.camel@mailbox.org>
-Subject: Re: [PATCH 0/3] drm/nouveau: Fix & improve nouveau_fence_done()
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- phasta@kernel.org, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
- <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Sabrina Dubroca <sd@queasysnail.net>, Sumit Semwal
- <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Date: Thu, 10 Apr 2025 15:18:43 +0200
-In-Reply-To: <cf4717bd-6c1d-4f3a-a0ab-ceb2170c47f2@amd.com>
-References: <20250410092418.135258-2-phasta@kernel.org>
- <1cbb915240e5e09447ac8d04b5d2dc4165926de7.camel@mailbox.org>
- <cf4717bd-6c1d-4f3a-a0ab-ceb2170c47f2@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03on2054.outbound.protection.outlook.com [40.107.104.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2CE810EA25
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:21:20 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=tAyV/VpQx1vLZ/5m6macv5stML25OGklZwj21m6Pl3CdsXaiN0e/pNAoXWLaaahh8rfESPrw9sgd4qI9rNC71wvWLG9CdeuMJd/o0ckXgahC7rb/XfyMdlopyzQ20Os6Q5rDZ8h1PF/sLNYnZDz64a5d341YnXiwkCUjoL62ufyjxzdo8NiDRLGtSElSNeCeyIKoyssVUmNYmk3+WI/Jk8YD9mv0TbpTnKeHhrzVgl8nBuOq/KEHHTtBFPCDFbs2/AGbAvmXy0N48fC3dU2AeG/qA1YjRkIy8sdj80+pHJsZb3JeqzpDWzXwkmCjP72LKh+4FLflgGlI4DTQH8QLzQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q23B/bheZJWtXRLtVMYTBaN3MDcH2jtNdnPQmKwqLHU=;
+ b=Kh74aQqouYh4yNGScXuEAP2Qo/H6wRopJzFuf5MygZIKbu0FwhwdJAp+o3bQ4n3hW8q/f/5YddwpvB8OXmTraidodaH+wU9xp4QAHldqTvn+x/X6Wh6sALvmjXlFE3J4iwlltjv6vb8emGXKKgsy3snPGM7avUkazEu4y4NWFERtuZrzpv7vQ6mHtr8JW9pVNsAWGVFBs7tzW84Dp1ar4HAHVP3e9vsXn4lf2nvPECavNPcJAPJE9Df1INh7HtRh6PzJo1Z9Ent625kSH14UruWWOiaghJeJrzw/PhW6QcjJWvD4k2I4k2BnQ01+Qx6x3svlm1QlJcSTnBd4mvS9NQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q23B/bheZJWtXRLtVMYTBaN3MDcH2jtNdnPQmKwqLHU=;
+ b=IxojrhgwQU+m8B9di03cH+btfHghpIzNd/coG3biQxA3QBS2NQZ6GtY1k3Jg7HTmL0CvbJ0KXyk6lko2EjYscoK8r3KPGnHIb5ndi8gCYG7lLsyN8ms+1irPIZ6sTrn6/CtOG21XFZH71WqFZ8xtEceZ//4G9frBBQIVF8xKtfI=
+Received: from DBBPR09CA0040.eurprd09.prod.outlook.com (2603:10a6:10:d4::28)
+ by DU5PR08MB10822.eurprd08.prod.outlook.com (2603:10a6:10:529::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.35; Thu, 10 Apr
+ 2025 13:21:14 +0000
+Received: from DB5PEPF00014B98.eurprd02.prod.outlook.com
+ (2603:10a6:10:d4:cafe::53) by DBBPR09CA0040.outlook.office365.com
+ (2603:10a6:10:d4::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8632.23 via Frontend Transport; Thu,
+ 10 Apr 2025 13:21:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5PEPF00014B98.mail.protection.outlook.com (10.167.8.165) with
+ Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8632.13
+ via Frontend Transport; Thu, 10 Apr 2025 13:21:12 +0000
+Received: ("Tessian outbound f9fef7c7dc50:v605");
+ Thu, 10 Apr 2025 13:21:12 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 28cedc2feb26c060
+X-TessianGatewayMetadata: Zl/t4WJbABHbwSA6Yo2Nb1hZG6QPNwU22cSbG8OV+OZmpGGnGSQtaCxjm8nUTALmHQ04BXH4DNnGgkUad57i7bS6xhx7i1359GkDt6037b/7mHbe1pOjbx95wyBmKJcK3QcxLzelbEqwjh4cOL892f9yO7nTYYaWMqaUz2btiec=
+X-CR-MTA-TID: 64aa7808
+Received: from L179db3970da0.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 91C69F77-D902-4BBF-9B79-6AB8E584FE1B.1; 
+ Thu, 10 Apr 2025 13:21:05 +0000
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
+ L179db3970da0.1 (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Thu, 10 Apr 2025 13:21:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=urAFwHCv9AhX4cowfW3haF1hf+VLemcYsxMFo6FDzHlHBjOHKDW3dOhKnMI8988MAQgU9lF021hVt2fGFyj3YOyqpSHKLaNmi8fGtw1iCcHQ8e+d9YAVRQE8GWyp0uI9P+Jh3S2MzZ8xKqJJlbCLU+tjvHdOvnCM3KSXXM/8TxkIGkv4lcDJ/wsechXVARkEeekf/jRstJ8J33mgmpG8J8m2fsqJ+D2weLhEsc1PFbNq9jA0pibImJwogRQzPfu3tQoQQYGQO5AktKodz4Na2cGgulkxNZvVkvS/09Y50Ey+TE3zKlGFZXPoh76+3JDIytiAf82/SufbfNf+2BNQ1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q23B/bheZJWtXRLtVMYTBaN3MDcH2jtNdnPQmKwqLHU=;
+ b=DTrkxGDnC+ERBqvfOmPjW5RW1yOusb8irX92uXLSp/0guNGD5z0Xb1HtN0nT/AHuI93CLl8T5wDxqYuQ/G+b6EEgJ5yD1E69R/xLYf+P36CzVk0QtDYc8Y+yeys7Iix88jzR1FZ5YmYLHtWDH8L9UskwSHvHOuFKkA26282LwlYbVArlwoYj9BgzXuyHhzxuUsBw4/eYciEaSRCl921reZZuq/2GXujvCiXwsRZvbM5rdap++f2AG9JcyHfJR1lK3BgXPh5hF+ZQlbWBKEMZh7tGBbCfwlYwBooiiX2hhdkqVtV5AXRsHCEKUbPrr50JpRvh77F2UwsXVErd5tOaiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q23B/bheZJWtXRLtVMYTBaN3MDcH2jtNdnPQmKwqLHU=;
+ b=IxojrhgwQU+m8B9di03cH+btfHghpIzNd/coG3biQxA3QBS2NQZ6GtY1k3Jg7HTmL0CvbJ0KXyk6lko2EjYscoK8r3KPGnHIb5ndi8gCYG7lLsyN8ms+1irPIZ6sTrn6/CtOG21XFZH71WqFZ8xtEceZ//4G9frBBQIVF8xKtfI=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
+ (2603:10a6:800:257::18) by AM8PR08MB6595.eurprd08.prod.outlook.com
+ (2603:10a6:20b:365::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.22; Thu, 10 Apr
+ 2025 13:21:01 +0000
+Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
+ ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
+ ([fe80::d594:64a:dfc:db74%5]) with mapi id 15.20.8606.033; Thu, 10 Apr 2025
+ 13:21:01 +0000
+Message-ID: <a661ba42-9393-4070-9e52-dd19df2d6880@arm.com>
+Date: Thu, 10 Apr 2025 14:20:59 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/9] drm/panthor: Make getting GPU model name simple
+ and extensible
+Content-Language: en-GB
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+References: <20250320111741.1937892-1-karunika.choo@arm.com>
+ <20250320111741.1937892-6-karunika.choo@arm.com>
+ <20250321090254.667a86cb@collabora.com>
+In-Reply-To: <20250321090254.667a86cb@collabora.com>
+From: Karunika Choo <karunika.choo@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0553.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:33b::7) To VI0PR08MB11200.eurprd08.prod.outlook.com
+ (2603:10a6:800:257::18)
 MIME-Version: 1.0
-X-MBO-RS-META: q33jtrq4heq7q7q5tm8ar8gz7i7xr7u1
-X-MBO-RS-ID: cabf72b507332c4abb0
+X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|AM8PR08MB6595:EE_|DB5PEPF00014B98:EE_|DU5PR08MB10822:EE_
+X-MS-Office365-Filtering-Correlation-Id: f699fc00-b839-41f0-225c-08dd78329080
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?bXlrTzJLSGF2YXhnajMzWWs3MjNBa3VORHMyYkxLQmFkc1NaMC93cWJoUXZI?=
+ =?utf-8?B?eGJDR1pHUWlkYk5zNXEyaGFSc1FJRThiT25sNzE5REJNSFh2OUVITlZVY1Zr?=
+ =?utf-8?B?b3lLOFNYdVAvVzBSYmxsa0htRzlBZmxVcCtxMkhJWXVzRGpjZFZlb0p2YkZQ?=
+ =?utf-8?B?N0VGQ2dQMnltQ09xTWlTc2pkQVZiUTZZeldpQXV5dFNZWjVjODRDRlNlUStT?=
+ =?utf-8?B?anBadnVXeERoTzlyWHJxNlNMNURQSm5ROXRYWFBxWCtsdW1sUVVsVWtwMlN0?=
+ =?utf-8?B?aEhtamxxaFpVV3ZmUnh1K09pcnYrRlo4SWMrRFRyODRJVnRxdldmZHR0WVZZ?=
+ =?utf-8?B?ZHp3SG1yRCt4Q3BtOXBJTVlKaVB0dUhDbS8rZGx0Q0NLQ0hPbW5DM01SSDF3?=
+ =?utf-8?B?dmFlRUF0MzZQL1B0N2lrRnZsV1NySysyWWVzcHlUenplVTVWWXNIOWF2Wmla?=
+ =?utf-8?B?cXMyVlhxaFJnNjdweTZWMWVHM1hiSzVKa3ZHSHZSdjdoSkhiV0Vwbk5QeC92?=
+ =?utf-8?B?d2JpaFVjUFBZK1FiRFNiL3VUY0ZEcy8vNXRnVUJRZE1sa3RsMnNPa0o2SW1N?=
+ =?utf-8?B?NUZjOHZkdHNHWWJYc3R5blZFeFdPaVJQNXV2M1ZGcWpjNDdhZkNlanIwaUR5?=
+ =?utf-8?B?OUc5dnNaNlAvcFJEZjN0YmkySHl6RTFNUE1yMVNXdmRlZ3ZwUGZQekprTVJ0?=
+ =?utf-8?B?dnBMYk1OUlNYMU5aK210STJreUw5bjNxUG5ob3NCWFVrZGdJWXRoM0dpaEl6?=
+ =?utf-8?B?VWxmREFxcThNT3oxSHdsQy9HWUVJRGdUVkQ5U3ZzeGpDNktja1dBVFk4alQz?=
+ =?utf-8?B?YVN1T2pNY3RXVTZNTzZWY0FEZ2ZhU2tNbWFJQ0xhUzg1TUNzdU1Ucmhnd1Ax?=
+ =?utf-8?B?VTZscFh1M2ZiOVptL3JOZ3JkZ1NTYmhyVXJQNmdYSUs1Q1I3elNudllWd3dP?=
+ =?utf-8?B?Z3NHWTNWaUY3S2s3bVNWQVUvTEszU0lRZGNkWDNDODlCVXk0cEZ1OHhLakR6?=
+ =?utf-8?B?WTNYbHVqSVJyQUUyOVlZVlNQREwwTlUrSGRLazllM0tLWnhvSENBZVJzc0Ey?=
+ =?utf-8?B?REFpZ2FiTTdTaERLUWI2MmdxVWZUcmpNa1NBQ2dOanNPenNzNkg3VkJsQTM5?=
+ =?utf-8?B?N28rWHkyME5JREZXS3FHNFlJMHBqNEgyMUM5ZCtWZEd3VHVFMGVab1FwK3RF?=
+ =?utf-8?B?NTlBSmJsbDV2N1J5NXNjbjFyVEs2NVIrZVBXdWhtTUwxclRpNnNuREpPYVJN?=
+ =?utf-8?B?NGc3WnVYMkZqWDVLZnB0ZXl1R1NXbWp6ZHUxSUhNb0dsUWpDTDd5VTg1MkpD?=
+ =?utf-8?B?RVUwZS9memZzZis0MkNhdzMxbU1xR3M0OEkzNUV3elhKeEJyMUN0TjhvSENq?=
+ =?utf-8?B?Vk8zeTRDQWxWaDM1Y2hHSlVBRkNQc1FaR3drVENmc0xua2ZBOG00bmdiTkR2?=
+ =?utf-8?B?QThWMFVBRVhsZHdoRS8yeHdsNlJsNTAxb1ozOW5zVUNqYmlzSDAwdVRQeGZJ?=
+ =?utf-8?B?UXd0ZW9JRTREd1dTTWF1QzlJc3FiYmpCSm85WnVYQmVZQjcwUHA4aloyVmxB?=
+ =?utf-8?B?MmlZOWxuSU9ybE8vS0U3VkF5WlpnK2M4dnBSbGFSWkFkTnNGa2U3N1BGbDE2?=
+ =?utf-8?B?RUNubEY4UWx2cUdNS1BkWEdXMktwVFZQTmRLMkc0V3gwRGNROXIrTEQ1WTVX?=
+ =?utf-8?B?bk4xT0liNTJNb0JaYmUyMWs2RTVoZjgwOGlJNlFCMktiQk5qaVJVcHJFY0U1?=
+ =?utf-8?B?NHVJVkpXU0ptaWxJRmx5dkl1cGVITkxLNHdrNjhETXJVWi9aSDN3eUZMVkk1?=
+ =?utf-8?B?djVFQk5oWE1tSHRHb2QxSDQ1bjZyOXU4anZCS0pHdEw3eno1d3ppOXZWWTdP?=
+ =?utf-8?B?NHgrL0UxTDBPZGxqakdLcUk1WE1SQ0g3T0k5aTY1U3dVRVFDYVR1U1dJMWgw?=
+ =?utf-8?Q?eEnEWnpat18=3D?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6595
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: ip=[2603:10a6:800:257::18];
+ domain=VI0PR08MB11200.eurprd08.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5PEPF00014B98.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 5bdbb536-db4c-4a3c-19a8-08dd783289cd
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|14060799003|82310400026|36860700013|376014|35042699022|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?alVZMko0cUNCdEhUWHVKNkxmemZwOFFBUjIwdzM1WlBha0labXhnbWlDZGxw?=
+ =?utf-8?B?Wm54eFkwNjFtbDIyY1FkcmI4VGdkMThaZ3ZuTENOZ0NTcnBEekwzRlc1WWYz?=
+ =?utf-8?B?WFJPakNWMXB0ZTlEaU5CcXQrZVdEVGI3ZVY2NnZTU21CU1ZaaUNoMDRtWWdB?=
+ =?utf-8?B?N1BQbWVFTnoxMkRxQy8yZitCN01kcG1RbGErUjJwdlByVjVqWFd6amdEbHFG?=
+ =?utf-8?B?OTNQa2RoajFXa2tFRGl5MmJjSmVaYkVoK1B6QUtzeHBqQ2FaWEJjK0xVc0lU?=
+ =?utf-8?B?SFJMUE9MZytmdFd6STlCZEtlNjR0aWtsVWtCeWNZaDlRUWI4UlBmTm5sNWt4?=
+ =?utf-8?B?WkdkaHJnWkxsSnhOL1Fob0d2dEVNU0pkQWRtTDFMZmtYQzdSQ3BEK1FPNThj?=
+ =?utf-8?B?enJ5YVREWElBcmg3aUNDQ1FRUnZwRVdiOW9pSEdReVYxSTZNcENxelhwS0R5?=
+ =?utf-8?B?R25HUkJrZzNLOXZKbU5qTkFrK3ArTmhPMFlmaHo1MEZmV01DbVdoM0l1ZmFK?=
+ =?utf-8?B?UW9EZGdHR3hRdGpiclJzVTlPTzM2Q1l1OWpCWXFkeU1XTGRicEdaOG1aSGg5?=
+ =?utf-8?B?N1hzTzNzTTd2dUN0V2dyTmc2aUN5bUxCaElxbjJwaEhOcEVQUUYrQU5NdGdZ?=
+ =?utf-8?B?c2xseFZmeVJBNFh3ZlM4bVFJaUV3alBJd3ZkNVdObXBiT25sejZ1RHF3VHNy?=
+ =?utf-8?B?eFdwVDRDQjBqWDVrSGxjdjNuT3k0emJpZzdtYko2L2Z5R1pUeUU0clBWZ0ZP?=
+ =?utf-8?B?b0liRjdFYzFsdE9YZUlrMkhVcC9ER1Nqd1o1QXBwZDFhdUZESklpZk5LZVRB?=
+ =?utf-8?B?MlFPc21oZ0ZBQmV0QkVRVkIwRVR3RVB2KzJENGlTTGJmZnBYMkgvY2l2NHpX?=
+ =?utf-8?B?S2lNV0RPdXVhVXRwRjFUTmUyenhYMy9kci9veEQ4VTNuNFNtc2Jlem5zZDFC?=
+ =?utf-8?B?SmhFZHdoVGxrek5Ccy90UGpSVTJCQTJ2WmQvNUVaTU1UMThqN1d6ZE04NkVV?=
+ =?utf-8?B?R1JYSkt5TnZhUWV0ZWhSZlpmeFNadXJqVXhrMXBEcXdtZDZIbldNbHhjSFlh?=
+ =?utf-8?B?TkRjRzNoYlNnWGpDamszbGRLUCtsMjBZT3Ayc1FzNGJWbW5RVVcyaGo5ZnE4?=
+ =?utf-8?B?QWZpTGt0NDJheEpGclNsRHdHc0RMYko0QUovaVZ0WTZwUm5aR3JqZGZzQ2lr?=
+ =?utf-8?B?U3BWSk15UUJ5NUpkYTEvVk5BVnJWQ2VveWlnblp1QjVMWTB6aGIrVUxsc05K?=
+ =?utf-8?B?Z005OHBWWlpEMk5aaHF4Z3FZOVE4Zkc3WGFGaWZKbGRLVGxFQ1g5Sjdza1VL?=
+ =?utf-8?B?UFY0RHRNbklnQXNSTXBUZHlGYUE4NG5teFdZcWlyc2o5dTdJb3RFOU5GQXlB?=
+ =?utf-8?B?STB2NWkvNlRSL3dLNW4zUDNhejFRelcwZ1NEK2piNHZSV2tSTG4ydEM0WHpR?=
+ =?utf-8?B?ekpYaENPV3lXWnJqWFBLZTRqeE11UzJUTm40emVtbjY3ZFZHMDU5YXp3VzVz?=
+ =?utf-8?B?blkzYlFTUU1TR0dnVXA3TEoybnBKbHZBVWxsRFdhcVNFV25ZZGROc0JBeExS?=
+ =?utf-8?B?bnpOWHBPMEluQUNsYnpwRnJPTUthdUxiSFgwdTdyQmIyaEtHRTNqekpSeTIv?=
+ =?utf-8?B?SmJFS0E2b0ZJdG16MUJGRVVaUFpZbllpa0hvdURhTENia1pUemhFOEVHZmpa?=
+ =?utf-8?B?cnZLeG1RazhOb0lzZkV2SmNDRkZMQkpkUXJWQWI0TzA4TXloMVRzNFAwejRP?=
+ =?utf-8?B?Um5qOG5ZZG1BdWttZ0RtYXFYOWJ5T3pRWkVRTVdMdm5QNXVzUnY4Sjhnc3Zv?=
+ =?utf-8?B?Q0hpZnU3bW93MHNGMHBiRngrem11eTN2TkRMVXRHcG5qTStJa0lzNUgzMlYz?=
+ =?utf-8?B?RWxqMTBOVFpkV293R0xJV25HWjMxR1piaGVpZDRSZ3V0RlVEVmtPbEpRNHpx?=
+ =?utf-8?B?bmFNbnhUQkUrS0ROVHpvemNaY00xUUh5R29TSjdWVytScWpuNkxha003Q0lW?=
+ =?utf-8?Q?0Fyx59yC/crqCOLAJP4/ApgJ9TBT3k=3D?=
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:64aa7808-outbound-1.mta.getcheckrecipient.com; CAT:NONE;
+ SFS:(13230040)(14060799003)(82310400026)(36860700013)(376014)(35042699022)(1800799024);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 13:21:12.4336 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f699fc00-b839-41f0-225c-08dd78329080
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: DB5PEPF00014B98.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU5PR08MB10822
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,352 +235,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-04-10 at 14:18 +0200, Christian K=C3=B6nig wrote:
-> Am 10.04.25 um 11:51 schrieb Philipp Stanner:
-> > On Thu, 2025-04-10 at 11:24 +0200, Philipp Stanner wrote:
-> > > Contains two patches improving nouveau_fence_done(), and one
-> > > addressing
-> > > an actual bug (race):
-> > Oops, that's the wrong calltrace. Here we go:
-> >=20
-> > [ 85.791794] Call Trace: [ 85.791796] <TASK> [ 85.791797] ?
-> > nouveau_fence_context_kill
-> > (/home/imperator/linux/./include/linux/dma-fence.h:587
-> > (discriminator 9)
-> > /home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_fence.c:94
-> > (discriminator 9)) nouveau [ 85.791874] ? __warn.cold
-> > (/home/imperator/linux/kernel/panic.c:748) [ 85.791878] ?
-> > nouveau_fence_context_kill
-> > (/home/imperator/linux/./include/linux/dma-fence.h:587
-> > (discriminator 9)
-> > /home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_fence.c:94
-> > (discriminator 9)) nouveau [ 85.791950] ? report_bug
-> > (/home/imperator/linux/lib/bug.c:180
-> > /home/imperator/linux/lib/bug.c:219) [ 85.791953] ? handle_bug
-> > (/home/imperator/linux/arch/x86/kernel/traps.c:260) [ 85.791956] ?
-> > exc_invalid_op (/home/imperator/linux/arch/x86/kernel/traps.c:309
-> > (discriminator 1)) [ 85.791957] ? asm_exc_invalid_op
-> > (/home/imperator/linux/./arch/x86/include/asm/idtentry.h:621) [
-> > 85.791960] ? nouveau_fence_context_kill
-> > (/home/imperator/linux/./include/linux/dma-fence.h:587
-> > (discriminator 9)
-> > /home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_fence.c:94
-> > (discriminator 9)) nouveau [ 85.792028] drm_sched_fini.cold
-> > (/home/imperator/linux/./include/trace/../../drivers/gpu/drm/schedu
-> > ler/gpu_scheduler_trace.h:72 (discriminator 1)) gpu_sched [
-> > 85.792033] ? drm_sched_entity_kill.part.0
-> > (/home/imperator/linux/drivers/gpu/drm/scheduler/sched_entity.c:243
-> > (discriminator 2)) gpu_sched [ 85.792037] nouveau_sched_destroy
-> > (/home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_sched.c:509
-> > /home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_sched.c:518)
-> > nouveau [ 85.792122] nouveau_abi16_chan_fini.isra.0
-> > (/home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_abi16.c:188)
-> > nouveau [ 85.792191] nouveau_abi16_fini
-> > (/home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_abi16.c:224
-> > (discriminator 3)) nouveau [ 85.792263] nouveau_drm_postclose
-> > (/home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_drm.c:1240)
-> > nouveau [ 85.792349] drm_file_free
-> > (/home/imperator/linux/drivers/gpu/drm/drm_file.c:255) [ 85.792353]
-> > drm_release
-> > (/home/imperator/linux/./arch/x86/include/asm/atomic.h:67
-> > (discriminator 1)
-> > /home/imperator/linux/./include/linux/atomic/atomic-arch-
-> > fallback.h:2278 (discriminator 1)
-> > /home/imperator/linux/./include/linux/atomic/atomic-
-> > instrumented.h:1384 (discriminator 1)
-> > /home/imperator/linux/drivers/gpu/drm/drm_file.c:428 (discriminator
-> > 1)) [ 85.792355] __fput (/home/imperator/linux/fs/file_table.c:464)
-> > [ 85.792357] task_work_run
-> > (/home/imperator/linux/kernel/task_work.c:227) [ 85.792360] do_exit
-> > (/home/imperator/linux/kernel/exit.c:939) [ 85.792362]
-> > do_group_exit (/home/imperator/linux/kernel/exit.c:1069) [
-> > 85.792364] get_signal (/home/imperator/linux/kernel/signal.c:3036)
-> > [ 85.792366] arch_do_signal_or_restart
-> > (/home/imperator/linux/./arch/x86/include/asm/syscall.h:38
-> > /home/imperator/linux/arch/x86/kernel/signal.c:264
-> > /home/imperator/linux/arch/x86/kernel/signal.c:339) [ 85.792369]
-> > syscall_exit_to_user_mode
-> > (/home/imperator/linux/kernel/entry/common.c:113
-> > /home/imperator/linux/./include/linux/entry-common.h:329
-> > /home/imperator/linux/kernel/entry/common.c:207
-> > /home/imperator/linux/kernel/entry/common.c:218) [ 85.792372]
-> > do_syscall_64
-> > (/home/imperator/linux/./arch/x86/include/asm/cpufeature.h:172
-> > /home/imperator/linux/arch/x86/entry/common.c:98) [ 85.792373] ?
-> > syscall_exit_to_user_mode_prepare
-> > (/home/imperator/linux/./include/linux/audit.h:357
-> > /home/imperator/linux/kernel/entry/common.c:166
-> > /home/imperator/linux/kernel/entry/common.c:200) [ 85.792376] ?
-> > syscall_exit_to_user_mode
-> > (/home/imperator/linux/./arch/x86/include/asm/paravirt.h:686
-> > /home/imperator/linux/./include/linux/entry-common.h:232
-> > /home/imperator/linux/kernel/entry/common.c:206
-> > /home/imperator/linux/kernel/entry/common.c:218) [ 85.792377] ?
-> > do_syscall_64
-> > (/home/imperator/linux/./arch/x86/include/asm/cpufeature.h:172
-> > /home/imperator/linux/arch/x86/entry/common.c:98) [ 85.792378]
-> > entry_SYSCALL_64_after_hwframe
-> > (/home/imperator/linux/arch/x86/entry/entry_64.S:130) [ 85.792381]
-> > RIP: 0033:0x7ff950b6af70 [ 85.792383] Code: Unable to access opcode
-> > bytes at 0x7ff950b6af46. objdump: '/tmp/tmp.sfPRl5k2te.o': No such
-> > file Code starting with the faulting instruction
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D [ 85.792383] R=
-SP:
-> > 002b:00007ff93cdfb6f0 EFLAGS: 00000293 ORIG_RAX: 000000000000010f [
-> > 85.792385] RAX: fffffffffffffdfe RBX: 000055d386d61870 RCX:
-> > 00007ff950b6af70 [ 85.792386] RDX: 0000000000000000 RSI:
-> > 0000000000000001 RDI: 00007ff928000b90 [ 85.792387] RBP:
-> > 00007ff93cdfb740 R08: 0000000000000008 R09: 0000000000000000 [
-> > 85.792388] R10: 0000000000000000 R11: 0000000000000293 R12:
-> > 0000000000000001 [ 85.792388] R13: 0000000000000000 R14:
-> > 0000000000000000 R15: 00007ff951b10b40 [ 85.792390] </TASK> [
-> > 85.792391] ---[ end trace 0000000000000000 ]---
->=20
-> I think I understand the problem now as well, but that backtrace is
-> completely mangled in the mail.
->=20
-> It would be nice if you could send that out again.
+On 21/03/2025 08:02, Boris Brezillon wrote:
+> On Thu, 20 Mar 2025 11:17:37 +0000
+> Karunika Choo <karunika.choo@arm.com> wrote:
+> 
+>> This patch replaces the previous panthor_model structure with a simple
+>> switch case based on the product_id, which is in the format of:
+>>         ((arch_major << 24) | product_major)
+>>
+>> This not only simplifies the comparison, but also allows extending the
+>> function to accommodate naming differences based on GPU features.
+>>
+>> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+>> ---
+>>  drivers/gpu/drm/panthor/panthor_hw.c   | 63 +++++++-------------------
+>>  drivers/gpu/drm/panthor/panthor_regs.h |  1 +
+>>  2 files changed, 18 insertions(+), 46 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
+>> index 4cc4b0d5382c..12183c04cd21 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_hw.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
+>> @@ -5,40 +5,6 @@
+>>  #include "panthor_hw.h"
+>>  #include "panthor_regs.h"
+>>  
+>> -/**
+>> - * struct panthor_model - GPU model description
+>> - */
+>> -struct panthor_model {
+>> -	/** @name: Model name. */
+>> -	const char *name;
+>> -
+>> -	/** @arch_major: Major version number of architecture. */
+>> -	u8 arch_major;
+>> -
+>> -	/** @product_major: Major version number of product. */
+>> -	u8 product_major;
+>> -};
+>> -
+>> -/**
+>> - * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
+>> - * by a combination of the major architecture version and the major product
+>> - * version.
+>> - * @_name: Name for the GPU model.
+>> - * @_arch_major: Architecture major.
+>> - * @_product_major: Product major.
+>> - */
+>> -#define GPU_MODEL(_name, _arch_major, _product_major) \
+>> -{\
+>> -	.name = __stringify(_name),				\
+>> -	.arch_major = _arch_major,				\
+>> -	.product_major = _product_major,			\
+>> -}
+>> -
+>> -static const struct panthor_model gpu_models[] = {
+>> -	GPU_MODEL(g610, 10, 7),
+>> -	{},
+>> -};
+>> -
+>>  static void arch_10_8_gpu_info_init(struct panthor_device *ptdev)
+>>  {
+>>  	unsigned int i;
+>> @@ -66,29 +32,34 @@ static void arch_10_8_gpu_info_init(struct panthor_device *ptdev)
+>>  	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
+>>  }
+>>  
+>> +static char *get_gpu_model_name(struct panthor_device *ptdev)
+>> +{
+>> +	const u32 gpu_id = ptdev->gpu_info.gpu_id;
+>> +	const u32 product_id = GPU_PROD_ID_MAKE(GPU_ARCH_MAJOR(gpu_id),
+>> +						GPU_PROD_MAJOR(gpu_id));
+>> +
+>> +	switch (product_id) {
+>> +	case GPU_PROD_ID_MAKE(10, 7):
+>> +		return "Mali-G610";
+>> +	}
+> 
+> I a big fan of these ever growing switch statements with nested
+> conditionals. Could we instead add an optional ::get_variant() callback
+> in panthor_model and have the following formatting:
+> 
+> 	"Mali-%s%s%s", model->name,
+> 		       model->get_variant ? "-" : "",
+> 		       model->get_variant ? model->get_variant() : ""
+>
 
+While that’s certainly an option, I wonder if it’s better to avoid
+additional string formatting when it’s not strictly necessary. The
+switch cases provide a straightforward GPU name without needing to
+handle conditional "-" separators or similar.
 
-I really need to install Mutt soon..
+Also, with the current approach, if a GPU is misconfigured with an
+incorrect product_major for its core count, the switch’s fallthrough
+helps ensure the correct name is still returned. A model->get_variant()
+callback wouldn’t give us that same flexibility to adjust the name based
+on such mismatches.
 
-Let's try it this way:
-https://paste.debian.net/1368679/
+Kind regards,
+Karunika Choo
 
-P.
-
->=20
-> Thanks,
-> Christian.
->=20
-> >=20
-> > By the way, for reference:
-> > I did try whether it could be done to have nouveau_fence_signal()
-> > incorporated into nouveau_fence_update() and nouveau_fence_done().
-> > This, however, would then cause a race with the list_del() in
-> > nouveau_fence_no_signaling(), WARNing because of the list poison.
-> >=20
-> > So the "solution" space is:
-> > =C2=A0* A cleanup callback on the dma_fence.
-> > =C2=A0* Keeping the current race or
-> > =C2=A0* replacing it with another race with another function.
-> > =C2=A0* Just preventing nouveau_fence_done() from signaling fences othe=
-r
-> > =C2=A0=C2=A0 than through nouveau_fence_update/signal
-> >=20
-> > The later seems clearly like the cleanest solution to me.
-> > Alternative
-> > would be a work-intensive rework of all the misdesigns broken in
-> > nouveau_fence.c
-> >=20
-> >=20
-> > P.
-> >=20
-> > > [=C2=A0=C2=A0 39.848463] WARNING: CPU: 21 PID: 1734 at
-> > > drivers/gpu/drm/nouveau/nouveau_fence.c:509
-> > > nouveau_fence_no_signaling+0xac/0xd0 [nouveau]
-> > > [=C2=A0=C2=A0 39.848551] Modules linked in: snd_seq_dummy snd_hrtimer
-> > > nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet
-> > > nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_ine
-> > > t nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat
-> > > nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set
-> > > nf_tables qrtr sunrpc snd_sof_pci_intel_
-> > > tgl snd_sof_pci_intel_cnl snd_sof_intel_hda_generic snd_sof_pci
-> > > snd_sof_xtensa_dsp snd_sof_intel_hda_common snd_soc_hdac_hda
-> > > snd_sof_intel_hda snd_sof snd_sof_utils snd
-> > > _soc_acpi_intel_match snd_soc_acpi snd_soc_acpi_intel_sdca_quirks
-> > > snd_sof_intel_hda_mlink snd_soc_sdca snd_soc_avs snd_ctl_led
-> > > snd_soc_hda_codec intel_rapl_msr snd_hda_
-> > > codec_realtek snd_hda_ext_core intel_rapl_common
-> > > snd_hda_codec_generic snd_soc_core snd_hda_scodec_component
-> > > intel_uncore_frequency intel_uncore_frequency_common snd_hd
-> > > a_codec_hdmi intel_ifs snd_compress i10nm_edac skx_edac_common
-> > > nfit
-> > > snd_hda_intel snd_intel_dspcfg libnvdimm snd_hda_codec
-> > > binfmt_misc
-> > > snd_hwdep snd_hda_core snd_seq sn
-> > > d_seq_device dell_wmi
-> > > [=C2=A0=C2=A0 39.848575]=C2=A0 dell_pc x86_pkg_temp_thermal spi_nor
-> > > platform_profile
-> > > sparse_keymap intel_powerclamp dax_hmem snd_pcm cxl_acpi coretemp
-> > > cxl_port iTCO_wdt mtd rapl intel
-> > > _pmc_bxt pmt_telemetry cxl_core dell_wmi_sysman pmt_class
-> > > iTCO_vendor_support snd_timer isst_if_mmio vfat intel_cstate
-> > > dell_smbios dcdbas fat dell_wmi_ddv dell_smm_hwmo
-> > > n dell_wmi_descriptor firmware_attributes_class wmi_bmof
-> > > intel_uncore
-> > > einj pcspkr isst_if_mbox_pci atlantic snd isst_if_common
-> > > intel_vsec
-> > > e1000e macsec mei_me i2c_i801=20
-> > > spi_intel_pci soundcore i2c_smbus spi_intel mei joydev loop
-> > > nfnetlink
-> > > zram nouveau drm_ttm_helper ttm polyval_clmulni iaa_crypto
-> > > gpu_sched
-> > > polyval_generic rtsx_pci_sdmm
-> > > c ghash_clmulni_intel i2c_algo_bit mmc_core drm_gpuvm
-> > > sha512_ssse3
-> > > nvme drm_exec drm_display_helper sha256_ssse3 idxd sha1_ssse3 cec
-> > > nvme_core idxd_bus rtsx_pci nvme_au
-> > > th pinctrl_alderlake ip6_tables ip_tables fuse
-> > > [=C2=A0=C2=A0 39.848603] CPU: 21 UID: 42 PID: 1734 Comm: gnome-shell
-> > > Tainted:
-> > > G=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 W=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 6.14.0-rc4+ #11
-> > > [=C2=A0=C2=A0 39.848605] Tainted: [W]=3DWARN
-> > > [=C2=A0=C2=A0 39.848606] Hardware name: Dell Inc. Precision 7960
-> > > Tower/01G0M6,
-> > > BIOS 2.7.0 12/17/2024
-> > > [=C2=A0=C2=A0 39.848607] RIP: 0010:nouveau_fence_no_signaling+0xac/0x=
-d0
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.848688] Code: db 74 17 48 8d 7b 38 b8 ff ff ff ff f0=
- 0f c1
-> > > 43
-> > > 38 83 f8 01 74 29 85 c0 7e 17 31 c0 5b 5d c3 cc cc cc cc e8 76 b2
-> > > c5
-> > > f0 eb 96 <0f> 0b e9 67 ff ff f
-> > > f be 03 00 00 00 e8 83 76 33 f1 31 c0 eb dd e8
-> > > [=C2=A0=C2=A0 39.848690] RSP: 0018:ff1cc1ffc5c039f0 EFLAGS: 00010046
-> > > [=C2=A0=C2=A0 39.848691] RAX: 0000000000000001 RBX: ff175a3b504da980 =
-RCX:
-> > > ff175a3b4801e008
-> > > [=C2=A0=C2=A0 39.848692] RDX: ff175a3b43e7bad0 RSI: ffffffffc09d3fda =
-RDI:
-> > > ff175a3b504da980
-> > > [=C2=A0=C2=A0 39.848693] RBP: ff175a3b504da9c0 R08: ffffffffc09e39df =
-R09:
-> > > 0000000000000001
-> > > [=C2=A0=C2=A0 39.848694] R10: 0000000000000001 R11: 0000000000000000 =
-R12:
-> > > ff175a3b6d97de00
-> > > [=C2=A0=C2=A0 39.848695] R13: 0000000000000246 R14: ff1cc1ffc5c03c60 =
-R15:
-> > > 0000000000000001
-> > > [=C2=A0=C2=A0 39.848696] FS:=C2=A0 00007fc5477846c0(0000)
-> > > GS:ff175a5a50280000(0000)
-> > > knlGS:0000000000000000
-> > > [=C2=A0=C2=A0 39.848698] CS:=C2=A0 0010 DS: 0000 ES: 0000 CR0: 000000=
-0080050033
-> > > [=C2=A0=C2=A0 39.848699] CR2: 000055cb7613d1a8 CR3: 000000012e5ce004 =
-CR4:
-> > > 0000000000f71ef0
-> > > [=C2=A0=C2=A0 39.848700] DR0: 0000000000000000 DR1: 0000000000000000 =
-DR2:
-> > > 0000000000000000
-> > > [=C2=A0=C2=A0 39.848701] DR3: 0000000000000000 DR6: 00000000fffe07f0 =
-DR7:
-> > > 0000000000000400
-> > > [=C2=A0=C2=A0 39.848702] PKRU: 55555554
-> > > [=C2=A0=C2=A0 39.848703] Call Trace:
-> > > [=C2=A0=C2=A0 39.848704]=C2=A0 <TASK>
-> > > [=C2=A0=C2=A0 39.848705]=C2=A0 ? nouveau_fence_no_signaling+0xac/0xd0=
- [nouveau]
-> > > [=C2=A0=C2=A0 39.848782]=C2=A0 ? __warn.cold+0x93/0xfa
-> > > [=C2=A0=C2=A0 39.848785]=C2=A0 ? nouveau_fence_no_signaling+0xac/0xd0=
- [nouveau]
-> > > [=C2=A0=C2=A0 39.848861]=C2=A0 ? report_bug+0xff/0x140
-> > > [=C2=A0=C2=A0 39.848863]=C2=A0 ? handle_bug+0x58/0x90
-> > > [=C2=A0=C2=A0 39.848865]=C2=A0 ? exc_invalid_op+0x17/0x70
-> > > [=C2=A0=C2=A0 39.848866]=C2=A0 ? asm_exc_invalid_op+0x1a/0x20
-> > > [=C2=A0=C2=A0 39.848870]=C2=A0 ? nouveau_fence_no_signaling+0xac/0xd0=
- [nouveau]
-> > > [=C2=A0=C2=A0 39.848943]=C2=A0 nouveau_fence_enable_signaling+0x32/0x=
-80
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.849016]=C2=A0 ? __pfx_nouveau_fence_cleanup_cb+0x10/=
-0x10
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.849088]=C2=A0 __dma_fence_enable_signaling+0x33/0xc0
-> > > [=C2=A0=C2=A0 39.849090]=C2=A0 dma_fence_add_callback+0x4b/0xd0
-> > > [=C2=A0=C2=A0 39.849093]=C2=A0 nouveau_fence_emit+0xa3/0x260 [nouveau=
-]
-> > > [=C2=A0=C2=A0 39.849166]=C2=A0 nouveau_fence_new+0x7d/0xf0 [nouveau]
-> > > [=C2=A0=C2=A0 39.849242]=C2=A0 nouveau_gem_ioctl_pushbuf+0xe8f/0x1300=
- [nouveau]
-> > > [=C2=A0=C2=A0 39.849338]=C2=A0 ? __pfx_nouveau_gem_ioctl_pushbuf+0x10=
-/0x10
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.849431]=C2=A0 drm_ioctl_kernel+0xad/0x100
-> > > [=C2=A0=C2=A0 39.849433]=C2=A0 drm_ioctl+0x288/0x550
-> > > [=C2=A0=C2=A0 39.849435]=C2=A0 ? __pfx_nouveau_gem_ioctl_pushbuf+0x10=
-/0x10
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.849526]=C2=A0 nouveau_drm_ioctl+0x57/0xb0 [nouveau]
-> > > [=C2=A0=C2=A0 39.849620]=C2=A0 __x64_sys_ioctl+0x94/0xc0
-> > > [=C2=A0=C2=A0 39.849621]=C2=A0 do_syscall_64+0x82/0x160
-> > > [=C2=A0=C2=A0 39.849623]=C2=A0 ? drm_ioctl+0x2b7/0x550
-> > > [=C2=A0=C2=A0 39.849625]=C2=A0 ? __pfx_nouveau_gem_ioctl_pushbuf+0x10=
-/0x10
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.849719]=C2=A0 ? ktime_get_mono_fast_ns+0x38/0xd0
-> > > [=C2=A0=C2=A0 39.849721]=C2=A0 ? __pm_runtime_suspend+0x69/0xc0
-> > > [=C2=A0=C2=A0 39.849724]=C2=A0 ? syscall_exit_to_user_mode_prepare+0x=
-15e/0x1a0
-> > > [=C2=A0=C2=A0 39.849726]=C2=A0 ? syscall_exit_to_user_mode+0x10/0x200
-> > > [=C2=A0=C2=A0 39.849729]=C2=A0 ? do_syscall_64+0x8e/0x160
-> > > [=C2=A0=C2=A0 39.849730]=C2=A0 ? exc_page_fault+0x7e/0x1a0
-> > > [=C2=A0=C2=A0 39.849733]=C2=A0 entry_SYSCALL_64_after_hwframe+0x76/0x=
-7e
-> > > [=C2=A0=C2=A0 39.849735] RIP: 0033:0x7fc5576fe0ad
-> > > [=C2=A0=C2=A0 39.849736] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48=
- 8d 45
-> > > 10
-> > > c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00
-> > > 00
-> > > 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25
-> > > 28
-> > > 00 00 00
-> > > [=C2=A0=C2=A0 39.849737] RSP: 002b:00007ffc002688a0 EFLAGS: 00000246
-> > > ORIG_RAX:
-> > > 0000000000000010
-> > > [=C2=A0=C2=A0 39.849739] RAX: ffffffffffffffda RBX: 000055cb74e316c0 =
-RCX:
-> > > 00007fc5576fe0ad
-> > > [=C2=A0=C2=A0 39.849740] RDX: 00007ffc00268960 RSI: 00000000c0406481 =
-RDI:
-> > > 000000000000000e
-> > > [=C2=A0=C2=A0 39.849741] RBP: 00007ffc002688f0 R08: 0000000000000000 =
-R09:
-> > > 000055cb74e35560
-> > > [=C2=A0=C2=A0 39.849742] R10: 0000000000000014 R11: 0000000000000246 =
-R12:
-> > > 00007ffc00268960
-> > > [=C2=A0=C2=A0 39.849744] R13: 00000000c0406481 R14: 000000000000000e =
-R15:
-> > > 000055cb74e3cd10
-> > > [=C2=A0=C2=A0 39.849746]=C2=A0 </TASK>
-> > > [=C2=A0=C2=A0 39.849746] ---[ end trace 0000000000000000 ]---
-> > > [=C2=A0=C2=A0 39.849776] ------------[ cut here ]------------
-> > >=20
-> > >=20
-> > > This is the first WARN_ON() in dma_fence_set_error(), called by
-> > > nouveau_fence_context_kill().
-> > >=20
-> > > It's rare, but it is a bug, or rather: the archetype of a race,
-> > > since
-> > > (as Christian pointed out) nouveau_fence_update() later at some
-> > > point
-> > > will remove the signaled fence (by signaling it again).
-> > >=20
-> > >=20
-> > > P.
-> > >=20
-> > >=20
-> > > Philipp Stanner (3):
-> > > =C2=A0 drm/nouveau: Prevent signaled fences in pending list
-> > > =C2=A0 drm/nouveau: Remove surplus if-branch
-> > > =C2=A0 drm/nouveau: Add helper to check base fence
-> > >=20
-> > > =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.c | 32 ++++++++++++++----=
--
-> > > ----
-> > > --
-> > > =C2=A01 file changed, 18 insertions(+), 14 deletions(-)
-> > >=20
->=20
+>> +
+>> +	return "(Unknown Mali GPU)";
+>> +}
+>> +
+>>  static void panthor_gpu_init_info(struct panthor_device *ptdev)
+>>  {
+>> -	const struct panthor_model *model;
+>> -	u32 arch_major, product_major;
+>> +	const char *gpu_model_name = get_gpu_model_name(ptdev);
+>>  	u32 major, minor, status;
+>>  
+>>  	ptdev->hw->ops.gpu_info_init(ptdev);
+>>  
+>> -	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
+>> -	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
+>>  	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
+>>  	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
+>>  	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
+>>  
+>> -	for (model = gpu_models; model->name; model++) {
+>> -		if (model->arch_major == arch_major &&
+>> -		    model->product_major == product_major)
+>> -			break;
+>> -	}
+>> -
+>>  	drm_info(&ptdev->base,
+>> -		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
+>> -		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
+>> +		 "%s id 0x%x major 0x%x minor 0x%x status 0x%x",
+>> +		 gpu_model_name, ptdev->gpu_info.gpu_id >> 16,
+>>  		 major, minor, status);
+>>  
+>>  	drm_info(&ptdev->base,
+>> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+>> index ba452c1dd644..d9e0769d6f1a 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_regs.h
+>> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
+>> @@ -20,6 +20,7 @@
+>>  #define   GPU_VER_STATUS(x)				((x) & GENMASK(3, 0))
+>>  
+>>  #define GPU_ARCH_ID_MAKE(major, minor, rev)		(((major) << 16) | ((minor) << 8) | (rev))
+>> +#define GPU_PROD_ID_MAKE(arch_major, prod_major)	(((arch_major) << 24) | (prod_major))
+>>  
+>>  #define GPU_L2_FEATURES					0x4
+>>  #define  GPU_L2_FEATURES_LINE_SIZE(x)			(1 << ((x) & GENMASK(7, 0)))
+> 
 
