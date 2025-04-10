@@ -2,92 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE84A839C2
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 08:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1567CA83A8E
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 09:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 686CE10E2AC;
-	Thu, 10 Apr 2025 06:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E708F10E35F;
+	Thu, 10 Apr 2025 07:16:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vFI/kyMW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mzzVly9U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com
- [209.85.160.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E993F10E2AC
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 06:49:51 +0000 (UTC)
-Received: by mail-oa1-f51.google.com with SMTP id
- 586e51a60fabf-2d0a742df27so441281fac.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Apr 2025 23:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1744267791; x=1744872591; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FpF7wEE+1cJWx9zAtKf9QlygCmnNGJM9CNsxuBDedRk=;
- b=vFI/kyMW3z0j1FPn9SY9TnYWfv1VLdHnhgci2X4MT1cS9UYG/imAXA3ViS/SclFqOa
- 6pdfwJg1iqSfW6gJL/vM+N4zz8nLYhWLzZuuldX4yjRzwl56vTlEmM36iamU9+8wluLT
- m9+fHFhibSRBupzfeGMLs0ceqeeCLsLfXTn2AIJxbpBveA4pYa7lECQ7TFnPhMkcjDD4
- naLDbqXbApVRtUrmozgMdUG6q7M9qM4GVC93wZ19DhRXf5LXlFkDFNJMpCwZrjzktb9D
- q6YAwrotBYDD273o2tgnHg37LXLRz1xc0PRktjHEnuq9jcuWvrBd3HKeRQDr7mA+7kB2
- D6cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744267791; x=1744872591;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FpF7wEE+1cJWx9zAtKf9QlygCmnNGJM9CNsxuBDedRk=;
- b=XEmv+5E3yCNT/IDmW870otjJeqwXG3LIXdl7QRdcNY7s3GjkDBInstFiHkyQCNDkmw
- o36/8YJUNC0BnJT12fhQ3IHliM/G/P1ZbjG0Xj+lWy8WrIerDiovrMl5oAT3xNf+tqSS
- Tc1JO8T38tcOw6vFxMd3lAhd0zkn6mCn5TpSpMMYiynaDYw/AhkMIJ9N2KHJj/uFzcAn
- U0uV9AJSeysve8nXdo7GRCVe2hC3Eh7c2uGOQwsbf86lGyQoA7u5Vaz0eUB+SnIA9xP/
- ZwZzQjL9mZG/pmKj6ltBDlH8v0JT7JZdqacAVhfIUp9Kw57IPXfmcU9UhXEb0wBhayAq
- 7HQQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX2r4+VYoSc0dA2oaSx69tdT1RaNmEJNh+oEiUZGBav/XjxXV2zOhSVvTEwK/EBUWs1KxfcevBOuvU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yweiz2it65LgKajN7cy9+91tINtp0L+QtoAL0m3e3h/D4OlNWBj
- ndJOtnHsoTsts4+TlWD3kRYsl7yeWR+Ppv+GIT0nlrooX2XDKF3omNNJlthRICpkSCkJ3lRlcsH
- tbO6AWYt0Vfm+NDF10pvuh5LvYM2SZYxRx2ctDQ==
-X-Gm-Gg: ASbGncutWpzAUCQdLZwh3jfXhKiKY3+L97thnJl3pQU6WVLvYpOyCnRx2Ya5GCc2l24
- W9AvGbPgDXGG/UZU1g6xVkozw++sMfqVIOErFsDy+x/F9nUei0RKwqPq2hAVCa+1GdxFCIOJ1Uq
- w+VsgKcCT04sKwVwlBEF4202A=
-X-Google-Smtp-Source: AGHT+IHI4FgOoH6eOg0ztL2Lx7hiXdosqXiiUD+d8J9IOEiCubchzZoLqMtVD0Mmvo3sJz+QQ7r84CVnm0uFw++DJDA=
-X-Received: by 2002:a05:6871:4009:b0:2c4:1b1c:42c3 with SMTP id
- 586e51a60fabf-2d0b3a2a298mr929589fac.9.1744267791101; Wed, 09 Apr 2025
- 23:49:51 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85DE910E35F
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 07:16:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744269387; x=1775805387;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=R4kkkcVVHPzCslI6+XyVJA1Y1Bm2lhw2qswzN6HQ8vk=;
+ b=mzzVly9U/bnb9BNFggVlP2+UWY7HhAD3sU01pWzN6NT1ejvbKRQlBizc
+ j+VNUfKbZSy6mWZoEQgdn9njN01ZQZ1iDbpy+XGum1FVTnttcUXDswDhq
+ 65YLm5OIoIAVcv38Dd3hWePQWVfNRE278gVyeyBEZ/Xc8Nc08fY3Lj3Qx
+ P1JERz1hua25VWBv76M3YZFQSMUo00Fv87BD1KCZUy6eKOPl6Zm1bfIgN
+ Y+y5eMF6RUHa2EaXRyLvwrNYA/XwbZBH8hI6yUBN7r6Th9Xa9ex3/c5lx
+ dIJmNjnoNqtERQdP4VlVJXfO1k6x+FnDo2n/lTr1gjVMMdDAomQWkHZTu g==;
+X-CSE-ConnectionGUID: NO1Okq8URayT5KqohF8dQQ==
+X-CSE-MsgGUID: C3a3GIE2Twe9XelJeWBDtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="49612965"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="49612965"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2025 00:16:27 -0700
+X-CSE-ConnectionGUID: AmHfHo1fRUGdHcMQwo/88g==
+X-CSE-MsgGUID: bnLX8qyeRGWb5DOIaJhyUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="133788870"
+Received: from kwywiol-mobl1.ger.corp.intel.com (HELO [10.245.83.152])
+ ([10.245.83.152])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2025 00:16:25 -0700
+Message-ID: <2435f0f1-fef4-4c7c-8584-55d5480ca245@linux.intel.com>
+Date: Thu, 10 Apr 2025 09:16:22 +0200
 MIME-Version: 1.0
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
- <20250305130634.1850178-6-jens.wiklander@linaro.org>
- <Z-JOPgcWlpTlskgd@sumit-X1>
- <CAHUa44GjpHT5Nqo+Ar5jNYNPV-YJQYpLTCf=7oJ1o0VjP-t0nA@mail.gmail.com>
- <Z-ucuPzwz4IqVTgb@sumit-X1>
- <CAHUa44FpsCVrbwj1=nsJVJFVJSF1kzKdWAkAMXRu6EdLrLvh8g@mail.gmail.com>
- <Z_To9V-JOKZ7ChhE@sumit-X1>
- <CAHUa44EGWuVPjoxpG-S66he=6dkvkwzxNewaGKVKXUxrO41ztg@mail.gmail.com>
- <Z_ZtDQQY4eouqBh8@sumit-X1>
-In-Reply-To: <Z_ZtDQQY4eouqBh8@sumit-X1>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Thu, 10 Apr 2025 08:49:39 +0200
-X-Gm-Features: ATxdqUEvXiuy3pdj5yJylN_i-qNjZAR_HHoPy2N2W57yI_8PinKhMCxfS6kRFGI
-Message-ID: <CAHUa44GFzG8dr1Kbapbjy77c-wJb4gQVVom24eLLueOK=gCq=A@mail.gmail.com>
-Subject: Re: [PATCH v6 05/10] tee: implement restricted DMA-heap
-To: Sumit Garg <sumit.garg@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, 
- Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V1] accel/amdxdna: Fix incorrect size of ERT_START_NPU
+ commands
+To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
+ quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, min.ma@amd.com, max.zhen@amd.com,
+ sonal.santan@amd.com, king.tam@amd.com
+References: <20250409210013.10854-1-lizhi.hou@amd.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20250409210013.10854-1-lizhi.hou@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,132 +75,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 9, 2025 at 2:50=E2=80=AFPM Sumit Garg <sumit.garg@kernel.org> w=
-rote:
->
-> On Tue, Apr 08, 2025 at 03:28:45PM +0200, Jens Wiklander wrote:
-> > On Tue, Apr 8, 2025 at 11:14=E2=80=AFAM Sumit Garg <sumit.garg@kernel.o=
-rg> wrote:
-> > >
-> > > On Tue, Apr 01, 2025 at 10:33:04AM +0200, Jens Wiklander wrote:
-> > > > On Tue, Apr 1, 2025 at 9:58=E2=80=AFAM Sumit Garg <sumit.garg@kerne=
-l.org> wrote:
-> > > > >
-> > > > > On Tue, Mar 25, 2025 at 11:55:46AM +0100, Jens Wiklander wrote:
-> > > > > > Hi Sumit,
-> > > > > >
-> > > > >
-> > > > > <snip>
-> > > > >
-> > > > > >
-> > > > > > >
-> > > > > > > > +
-> > > > > > > > +#include "tee_private.h"
-> > > > > > > > +
-> > > > > > > > +struct tee_dma_heap {
-> > > > > > > > +     struct dma_heap *heap;
-> > > > > > > > +     enum tee_dma_heap_id id;
-> > > > > > > > +     struct tee_rstmem_pool *pool;
-> > > > > > > > +     struct tee_device *teedev;
-> > > > > > > > +     /* Protects pool and teedev above */
-> > > > > > > > +     struct mutex mu;
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +struct tee_heap_buffer {
-> > > > > > > > +     struct tee_rstmem_pool *pool;
-> > > > > > > > +     struct tee_device *teedev;
-> > > > > > > > +     size_t size;
-> > > > > > > > +     size_t offs;
-> > > > > > > > +     struct sg_table table;
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +struct tee_heap_attachment {
-> > > > > > > > +     struct sg_table table;
-> > > > > > > > +     struct device *dev;
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +struct tee_rstmem_static_pool {
-> > > > > > > > +     struct tee_rstmem_pool pool;
-> > > > > > > > +     struct gen_pool *gen_pool;
-> > > > > > > > +     phys_addr_t pa_base;
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +#if !IS_MODULE(CONFIG_TEE) && IS_ENABLED(CONFIG_DMABUF_HEA=
-PS)
-> > > > > > >
-> > > > > > > Can this dependency rather be better managed via Kconfig?
-> > > > > >
-> > > > > > This was the easiest yet somewhat flexible solution I could fin=
-d. If
-> > > > > > you have something better, let's use that instead.
-> > > > > >
-> > > > >
-> > > > > --- a/drivers/tee/optee/Kconfig
-> > > > > +++ b/drivers/tee/optee/Kconfig
-> > > > > @@ -5,6 +5,7 @@ config OPTEE
-> > > > >         depends on HAVE_ARM_SMCCC
-> > > > >         depends on MMU
-> > > > >         depends on RPMB || !RPMB
-> > > > > +       select DMABUF_HEAPS
-> > > > >         help
-> > > > >           This implements the OP-TEE Trusted Execution Environmen=
-t (TEE)
-> > > > >           driver.
-> > > >
-> > > > I wanted to avoid that since there are plenty of use cases where
-> > > > DMABUF_HEAPS aren't needed.
-> > >
-> > > Yeah, but how the users will figure out the dependency to enable DMA
-> > > heaps with TEE subsystem.
-> >
-> > I hope, without too much difficulty. They are after all looking for a
-> > way to allocate memory from a DMA heap.
-> >
-> > > So it's better we provide a generic kernel
-> > > Kconfig which enables all the default features.
-> >
-> > I disagree, it should be possible to configure without DMABUF_HEAPS if =
-desired.
->
-> It's hard to see a use-case for that additional compile time option. If
-> you are worried about kernel size then those can be built as modules. On
-> the other hand the benifit is that we avoid ifdefery and providing sane
-> TEE defaults where features can be detected and enabled at runtime
-> instead.
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-My primary concern isn't kernel size, even if it shouldn't be
-irrelevant. It doesn't seem right to enable features that are not
-asked for casually. In this case, it's not unreasonable or unexpected
-that DMABUF_HEAPS must be explicitly enabled in the config if a heap
-interface is needed. It's the same as before this patch set.
+On 4/9/2025 11:00 PM, Lizhi Hou wrote:
+> When multiple ERT_START_NPU commands are combined in one buffer, the
+> buffer size calculation is incorrect. Also, the condition to make sure
+> the buffer size is not beyond 4K is also fixed.
+> 
+> Fixes: aac243092b70 ("accel/amdxdna: Add command execution")
+> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+> ---
+>  drivers/accel/amdxdna/aie2_message.c  |  6 +++---
+>  drivers/accel/amdxdna/aie2_msg_priv.h | 10 ++++------
+>  2 files changed, 7 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
+> index bf4219e32cc1..82412eec9a4b 100644
+> --- a/drivers/accel/amdxdna/aie2_message.c
+> +++ b/drivers/accel/amdxdna/aie2_message.c
+> @@ -525,7 +525,7 @@ aie2_cmdlist_fill_one_slot_cf(void *cmd_buf, u32 offset,
+>  	if (!payload)
+>  		return -EINVAL;
+>  
+> -	if (!slot_cf_has_space(offset, payload_len))
+> +	if (!slot_has_space(*buf, offset, payload_len))
+>  		return -ENOSPC;
+>  
+>  	buf->cu_idx = cu_idx;
+> @@ -558,7 +558,7 @@ aie2_cmdlist_fill_one_slot_dpu(void *cmd_buf, u32 offset,
+>  	if (payload_len < sizeof(*sn) || arg_sz > MAX_DPU_ARGS_SIZE)
+>  		return -EINVAL;
+>  
+> -	if (!slot_dpu_has_space(offset, arg_sz))
+> +	if (!slot_has_space(*buf, offset, arg_sz))
+>  		return -ENOSPC;
+>  
+>  	buf->inst_buf_addr = sn->buffer;
+> @@ -569,7 +569,7 @@ aie2_cmdlist_fill_one_slot_dpu(void *cmd_buf, u32 offset,
+>  	memcpy(buf->args, sn->prop_args, arg_sz);
+>  
+>  	/* Accurate buf size to hint firmware to do necessary copy */
+> -	*size += sizeof(*buf) + arg_sz;
+> +	*size = sizeof(*buf) + arg_sz;
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/accel/amdxdna/aie2_msg_priv.h b/drivers/accel/amdxdna/aie2_msg_priv.h
+> index 4e02e744b470..6df9065b13f6 100644
+> --- a/drivers/accel/amdxdna/aie2_msg_priv.h
+> +++ b/drivers/accel/amdxdna/aie2_msg_priv.h
+> @@ -319,18 +319,16 @@ struct async_event_msg_resp {
+>  } __packed;
+>  
+>  #define MAX_CHAIN_CMDBUF_SIZE SZ_4K
+> -#define slot_cf_has_space(offset, payload_size) \
+> -	(MAX_CHAIN_CMDBUF_SIZE - ((offset) + (payload_size)) > \
+> -	 offsetof(struct cmd_chain_slot_execbuf_cf, args[0]))
+> +#define slot_has_space(slot, offset, payload_size)		\
+> +	(MAX_CHAIN_CMDBUF_SIZE >= (offset) + (payload_size) +	\
+> +	 sizeof(typeof(slot)))
+> +
+>  struct cmd_chain_slot_execbuf_cf {
+>  	__u32 cu_idx;
+>  	__u32 arg_cnt;
+>  	__u32 args[] __counted_by(arg_cnt);
+>  };
+>  
+> -#define slot_dpu_has_space(offset, payload_size) \
+> -	(MAX_CHAIN_CMDBUF_SIZE - ((offset) + (payload_size)) > \
+> -	 offsetof(struct cmd_chain_slot_dpu, args[0]))
+>  struct cmd_chain_slot_dpu {
+>  	__u64 inst_buf_addr;
+>  	__u32 inst_size;
 
->
-> >
-> > >
-> > > > This seems to do the job:
-> > > > +config TEE_DMABUF_HEAP
-> > > > + bool
-> > > > + depends on TEE =3D y && DMABUF_HEAPS
-> > > >
-> > > > We can only use DMABUF_HEAPS if the TEE subsystem is compiled into =
-the kernel.
-> > >
-> > > Ah, I see. So we aren't exporting the DMA heaps APIs for TEE subsyste=
-m
-> > > to use. We should do that such that there isn't a hard dependency to
-> > > compile them into the kernel.
-> >
-> > I was saving that for a later patch set as a later problem. We may
-> > save some time by not doing it now.
-> >
->
-> But I think it's not a correct way to just reuse internal APIs from DMA
-> heaps subsystem without exporting them. It can be seen as a inter
-> subsystem API contract breach. I hope it won't be an issue with DMA heap
-> maintainers regarding export of those APIs.
-
-Fair enough. I'll add a patch in the next patch set for that. I guess
-the same goes for CMA.
-
-Cheers,
-Jens
