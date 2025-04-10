@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B58CA8407D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 12:24:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C23A84099
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 12:27:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C837410E0C3;
-	Thu, 10 Apr 2025 10:23:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4B3710E90A;
+	Thu, 10 Apr 2025 10:27:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jEMDGxLX";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OJZSN3kl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E19310E0C3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 10:23:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 242E644D0C;
- Thu, 10 Apr 2025 10:23:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BEC5C4CEE3;
- Thu, 10 Apr 2025 10:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744280633;
- bh=Tp8fVFya2sDu1gbTPaE9ZzIfUzdt0ybqaGGQcQT5y/4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jEMDGxLXxhbiuPezMF4HpoTksgTgJL7LvLWseKpFBDdxX92oygkJZC9xXHh5SAIZL
- yW0JCjXX9TbWQOMAYyVt9Wi3CEfDzKQ6aW2/PlLWKm51ubMHO2RBx3+bXg8Tde1U4k
- LgNSn15btv+B2lC5AdgT5Iv286EPCnMbE3GPdUnhcH6hHD0JtjOZBgXZrGQg8KIt9/
- +qK2RPA2v0gq10eWFB91/h9+Q46JOIN5f7h22XqVGI4Ql6MNfEBo2TH4isuu2tvQ4v
- 91iEGrwSj2oj1AzaSUqQgcUrFs7EEMx4wKYY/EMSEHT7+dthZki1pMWaFEAqbMhV3A
- DuIiGFl8vhpfg==
-Date: Thu, 10 Apr 2025 12:23:46 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Asahi Lina <lina@asahilina.net>
-Cc: Dave Airlie <airlied@gmail.com>, maarten.lankhorst@linux.intel.com,
- simona@ffwll.ch, mripard@kernel.org, tzimmermann@suse.de,
- lyude@redhat.com, acurrid@nvidia.com, daniel.almeida@collabora.com,
- j@jannau.net, ojeda@kernel.org, alex.gaynor@gmail.com,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 0/8] DRM Rust abstractions
-Message-ID: <Z_ecMl2QtAssfczJ@pollux>
-References: <20250325235522.3992-1-dakr@kernel.org>
- <32e7da7e-de32-4bc6-a751-f604da36a63f@asahilina.net>
- <Z_VXBZcBsk2k6eVN@cassiopeiae>
- <143206f6-cd97-4ef8-a4f3-f68d703903bf@asahilina.net>
- <Z_V2ZxIZxI_HiHM5@cassiopeiae>
- <ebbb4d4e-4778-434b-82d7-188f8f6152ff@asahilina.net>
- <CAPM=9ty5dNQOJUj=wtubGYGt5Kt3QeQAQ9rjM2P0dwjBUFspMw@mail.gmail.com>
- <34a4a130-98d1-4cc3-8dcf-b72b3ed36c10@asahilina.net>
- <43ec8aba-f279-422d-95d1-68daac7eaed9@asahilina.net>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A19A710E90A
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 10:27:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744280841;
+ bh=zXXMNPMlBd5Xr1/R5eNjns/e1Lpmk3psqxYqnNZU36g=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OJZSN3klTVfp3rPCfNWlYOfnomjqGGJfP0ESifLxmcSR/eUlPUhsFOhxTZ/Lcxi6d
+ FizJmUxSe4LvSjXaMVZyz6nGJelCGM9gfuw2tVGozqhwM5MUAJWS24Ct3rRdY5EnwF
+ J9SBPGF2qEgUWE3tnbTZe5wBk6EAnbRnjYUZVucYakg5+oljulU1UKASAawewhSHQA
+ x2fpT9hFsLM4V4izD6nAVVnvsGjUKbEyzGW5knQNQrWtABv5UMyXpIX5+olkKGWBmr
+ IcWj167NKd7EaEw7rq4VdQccnSlsNoLtD5I0/eBbnPlOJbZSV4klon9Ae+k4cIEuvZ
+ AOD4rDBD0455Q==
+Received: from [192.168.1.90] (unknown [82.79.138.25])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5037017E001F;
+ Thu, 10 Apr 2025 12:27:21 +0200 (CEST)
+Message-ID: <e54840a9-d699-4ffd-b4a0-77dcf344c233@collabora.com>
+Date: Thu, 10 Apr 2025 13:27:21 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <43ec8aba-f279-422d-95d1-68daac7eaed9@asahilina.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 10/15] drm/tests: hdmi: Replace open coded EDID setup
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250326-hdmi-conn-yuv-v3-0-294d3ebbb4b2@collabora.com>
+ <20250326-hdmi-conn-yuv-v3-10-294d3ebbb4b2@collabora.com>
+ <20250409-spectral-persimmon-gorilla-4827ad@houat>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20250409-spectral-persimmon-gorilla-4827ad@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,97 +68,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(Adding Sima and dri-devel back in.)
-
-On Thu, Apr 10, 2025 at 04:12:13PM +0900, Asahi Lina wrote:
+On 4/9/25 6:15 PM, Maxime Ripard wrote:
+> On Wed, Mar 26, 2025 at 12:19:59PM +0200, Cristian Ciocaltea wrote:
+>> Make use of the recently introduced macros to reduce boilerplate code
+>> around EDID setup. This also helps dropping the redundant calls to
+>> set_connector_edid().
+>>
+>> No functional changes intended.
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 220 ++++++++-------------
+>>  1 file changed, 78 insertions(+), 142 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> index 284bd9b1418a454d05c4a38263519eb8ae450090..7b2aaee5009ce58e6edf2649e2182c43ba834523 100644
+>> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> @@ -751,19 +751,15 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
+>>  	struct drm_crtc *crtc;
+>>  	int ret;
+>>  
+>> -	priv = drm_kunit_helper_connector_hdmi_init(test,
+>> -						    BIT(HDMI_COLORSPACE_RGB),
+>> -						    10);
+>> +	priv = drm_kunit_helper_connector_hdmi_init_with_edid(test,
+>> +				BIT(HDMI_COLORSPACE_RGB),
+>> +				10,
+>> +				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
+>>  	KUNIT_ASSERT_NOT_NULL(test, priv);
+>>  
+>>  	drm = &priv->drm;
+>>  	crtc = priv->crtc;
+>>  	conn = &priv->connector;
+>> -	ret = set_connector_edid(test, conn,
+>> -				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+>> -				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+>> -	KUNIT_ASSERT_GT(test, ret, 0);
+>> -
 > 
-> P.S. my analysis based on the pasted code (since everyone here and
-> everyone on Reddit is forcing me to do it) is that:
-
-First of all, you keep talking as if I would have been resisting to do any
-changes, even though I offered you to change things from the get-go.
-
-Instead of taking the offer, you decided to go with wild accusations, without
-even properly looking at things and understanding my intentions.
-
-Given that you stepped back from kernel development, making clear that you don't
-want to be bothered with it anymore (as you also repeated in this thread), I had
-to take a decision: Do I "keep" your primary authorship for commits that I
-(newly) create, commit messages I write and code that I substantially change, or
-do I account for this by changing primary authorship while still giving you
-credit.
-
-The decision I took is clearly reasonable and *nothing* about it is uncommon.
-
-I also want to point out that for patch "rust: drm: ioctl: Add DRM ioctl
-abstraction" I kept your primary authorship, since I took the patch "as is" with
-just very minor modifications.
-
-However, I understand that you prefer to have primary authorship, even if the
-code has been re-organized in new commits, moved, modified or rewritten.
-
-This really is *totally* fine for me, and I won't argue about it (even though
-one could).
-
-> The series adds around 978 lines of code. After merging some code that
-> was just moved around in the diff that Danilo posted, only 412 addition
-> lines remain in the diff. So more than 50% of the raw remaining code is
-> mine. If you exclude comments, Danilo only added 270 lines of actual
-> code (and whitespace). And of those, a good portion were just minor
-> changes and refactoring, not completely novel code (this also tracks
-> with the stat that to get to those 270 lines, 379 were removed, and much
-> of those probably pair up as minor refactorings and not outright novel
-> code).
+> Yeah, ok, nvm what I said on the previous patch, it's needed.
 > 
-> In terms of actual code added an not just lines rearranged or further
-> commented, I probably wrote at least 75% of this series. And I'm sure
-> Danilo knows this, having done the refactoring/rearranging/modification
-> work to get here.
+>>  	preferred = find_preferred_mode(conn);
+>>  	KUNIT_ASSERT_NOT_NULL(test, preferred);
+>>  
+>> @@ -830,19 +826,15 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
+>>  	struct drm_crtc *crtc;
+>>  	int ret;
+>>  
+>> -	priv = drm_kunit_helper_connector_hdmi_init(test,
+>> -						    BIT(HDMI_COLORSPACE_RGB),
+>> -						    10);
+>> +	priv = drm_kunit_helper_connector_hdmi_init_with_edid(test,
+>> +				BIT(HDMI_COLORSPACE_RGB),
+>> +				10,
+>> +				test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz);
+> 
+> Alignment is off.
 
-I do not understand what you are trying to proof here and especially why.
+Yeah, that's a compromise to get rid of a bunch of checkpatch complaints:
 
-I also do *not* agree with the above; to me it looks like it does not account
-for the cases where code has been moved *and* modified.
+  WARNING: line length of ... exceeds 100 columns
 
-Here's the full list of changes for the diff [1].
+So we ended up with the following instead:
 
-  - rewrite of drm::Device
-    - full rewrite of the abstraction using the subclassing pattern
+  CHECK: Alignment should match open parenthesis
 
-  - rework of drm::Registration
-    - this may seem like a trivial simplification (or move), but has
-      architectural implications to prevent use-after-free bugs
-      - some members (vtable) of drm::Registration need to be tied to the
-        lifetime of the drm::Device instead, *not* the drm::Registration
-    - introduce Devres
+But at least it's not a warning anymore.
 
-  - rework of drm::File
-    - switch to the Opaque<T> type
-    - fix (mutable) references to struct drm_file (which in this context is UB)
-    - restructure and rename functions to align with common kernel schemes
-
-  - rework of the GEM object abstractions
-    - switch to the Opaque<T> type
-    - fix (mutable) references to struct drm_gem_object (which in this context is UB)
-    - drop all custom reference types in favor of AlwaysRefCounted
-    - a bunch of minor changes and simplifications (e.g. IntoGEMObject trait)
-
-  - MISC
-    - write and fix lots of safety and invariant comments
-    - remove necessity for and convert 'as' casts
-    - bunch of other minor changes
-
-The sum of the above is clearly *not* minor.
-
-I really don't agree with the fact that you keep accusing me of "stealing" your
-code, which I clearly did not. Trust me, I don't need that.
-
-> Danilo: If you do not take me up on the CC-0 offer, I expect you to put
-> my name as primary author of patches 3 through 7.
-
-I offered this from the get-go, hence I will do so.
-
-However, are you sure you really want primary authorship for "rust: drm: add
-device abstraction", given that drm::Device is a full rewrite?
-
-[1] https://pastebin.com/FT4tNn5d
+Alternatively, we could maybe come up with a (very) short name for
+drm_kunit_helper_connector_hdmi_init_with_edid(), though I'm not what
+would that be :-(
