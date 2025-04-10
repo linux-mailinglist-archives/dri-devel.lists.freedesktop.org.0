@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F7FA844C6
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 15:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE96A844D8
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 15:33:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5903610E9C9;
-	Thu, 10 Apr 2025 13:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0677110E9BE;
+	Thu, 10 Apr 2025 13:33:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="m21pi5dx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VuwAVkkU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A37810E9B9
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:29:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744291780;
- bh=bq0+zzz8gpCkI2u450fNXD8guqy8VI6lmKIFlJ5A+p0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=m21pi5dxxrSSBXqvw+Lyd7FzPWHu0dX7/dlcX+47p4IGO66l6SB1QKoOMKaNlnbUR
- zT3YYOI7RlrudsfYWChxfDI0jBAS+Rql4G4oKBKcZDFBAs4iSd+lV+gk05ciJxNMgV
- e49f5OrWuWKC6NY4flQTg7zb0DT8hni0W/GsQOFONzp8tdYBLhUTsT+S5CRIEQDqVN
- WXSQKtDDxVdXaV68oTP5qblp+UezyrHwpDwO6usANbldLqF4d3NncM5hKlxceSO+i+
- Ixaf3UlAPBcCfdrLFeoGyKk09mvjM06Tpiomd3+bepcccUwd/PShLm2YIUjK8AuVt8
- SdlAShjaxYzPg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C566117E101A;
- Thu, 10 Apr 2025 15:29:39 +0200 (CEST)
-Date: Thu, 10 Apr 2025 15:29:35 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/9] drm/panthor: Use 64-bit and poll register accessors
-Message-ID: <20250410152935.25ba7255@collabora.com>
-In-Reply-To: <d8fb496d-7bb3-42ad-8af7-200f393b4a73@arm.com>
-References: <20250320111741.1937892-1-karunika.choo@arm.com>
- <20250320111741.1937892-3-karunika.choo@arm.com>
- <20250321085306.0d79ec5d@collabora.com>
- <d8fb496d-7bb3-42ad-8af7-200f393b4a73@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFD6010E9CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:33:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id CF4C668448;
+ Thu, 10 Apr 2025 13:33:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF84C4CEE8;
+ Thu, 10 Apr 2025 13:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744291996;
+ bh=Ri5yWvQENvN1t230l4xZbsz6aSW3kUIvshAHk35DaaE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VuwAVkkUQ81NiCjpJSe6/GTjRQNGLL2v9KzZqy//mQtfdcVlAh/nXCCNIn8NxuyYv
+ hvWOvdsjI1ulVxmUx6NJFttSxSNQT151ltRlOxKJfskaiKKY+wtI/vdpDOprBE2GNU
+ zm4w7MAF/66g5UGhByVVHvntNA8v8NR6kvmbMUpES33ZsvvCQo/FW4dLcdF2SYwTcB
+ 16uF5m/n4sUcdpqLjLQEVEpeHu3+f0ogAaShBLDtm1PC6TVsedIcuKNUal2uPDOSVP
+ M+cG4hCd5YfLPD8C353ikEg0F0dPP7gSdg7IRLTowjg4bA4xZNCynee/5VW+S5ESUA
+ U+63oL6CGjL1A==
+Date: Thu, 10 Apr 2025 15:33:09 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Dave Airlie <airlied@gmail.com>, maarten.lankhorst@linux.intel.com,
+ simona@ffwll.ch, mripard@kernel.org, tzimmermann@suse.de,
+ lyude@redhat.com, acurrid@nvidia.com, daniel.almeida@collabora.com,
+ j@jannau.net, ojeda@kernel.org, alex.gaynor@gmail.com,
+ boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 0/8] DRM Rust abstractions
+Message-ID: <Z_fIlXzMGj_6lmzZ@pollux>
+References: <32e7da7e-de32-4bc6-a751-f604da36a63f@asahilina.net>
+ <Z_VXBZcBsk2k6eVN@cassiopeiae>
+ <143206f6-cd97-4ef8-a4f3-f68d703903bf@asahilina.net>
+ <Z_V2ZxIZxI_HiHM5@cassiopeiae>
+ <ebbb4d4e-4778-434b-82d7-188f8f6152ff@asahilina.net>
+ <CAPM=9ty5dNQOJUj=wtubGYGt5Kt3QeQAQ9rjM2P0dwjBUFspMw@mail.gmail.com>
+ <34a4a130-98d1-4cc3-8dcf-b72b3ed36c10@asahilina.net>
+ <43ec8aba-f279-422d-95d1-68daac7eaed9@asahilina.net>
+ <Z_ecMl2QtAssfczJ@pollux>
+ <88270028-7541-4184-a118-96c182109804@asahilina.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <88270028-7541-4184-a118-96c182109804@asahilina.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,22 +72,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 9 Apr 2025 14:07:20 +0100
-Karunika Choo <karunika.choo@arm.com> wrote:
+I'm only gonna reply on the things that may be relevant for other people too. I
+don't really care about anything else.
 
-> On 21/03/2025 07:53, Boris Brezillon wrote:
-> > On Thu, 20 Mar 2025 11:17:34 +0000
-> > Karunika Choo <karunika.choo@arm.com> wrote:
-> >   
-> >> This patch updates Panthor to use the new 64-bit accessors and poll
-> >> functions.  
-> > 
-> > nit: I don't think it makes sense to dissociate the introduction of the
-> > new helpers and their use. Could we squash this patch into the previous
-> > one?  
+On Thu, Apr 10, 2025 at 09:37:39PM +0900, Asahi Lina wrote:
+> On 4/10/25 7:23 PM, Danilo Krummrich wrote:
 > 
-> It was previously requested that I split the patches into two to ease
-> review. I can merge it back into the previous one in v3.
+> Just because I stepped back doesn't mean you can't send me an email to
+> ask a question to make sure you get upstreaming my code respecting my
+> wishes for attribution.
 
-Thanks. Could we also have that submitted in a separate patch, so we
-can merge it while we're discussing the rest of the patch series?
+You send out a mail to me and other people, that you'll step back from kernel
+development and additionally told people:
+
+"Please feel free to take anything that's useful from my past patch submissions
+or the downstream branches and use it/submit it in any way."
+
+But then...
+
+> > However, I understand that you prefer to have primary authorship, even if the
+> > code has been re-organized in new commits, moved, modified or rewritten.
+> 
+> Correct.
+
+...you say this.
+
+To me this is contradictive, but I think we can agree that it is at least
+ambiguous.
+
+I suggest you to reply to your original mail and clarify this for other people
+as well.
+
+Otherwise you may see yourself in the same situation again, sooner or later.
+
+Also because this is uncommon, no one expects that. Ususally - and that includes
+me as well - people are much more worried to be misrepresented as the author of
+stuff that has changed too much from their original code.
+
+> > This really is *totally* fine for me, and I won't argue about it (even though
+> > one could).
+> 
+> Continuing to mention that "one could" and previously "even though I do
+> think my changes do justify how things are currently" means no, you are
+> not totally fine with it, and you are in fact arguing about it.
+
+No, I can be totally fine to comply with your request and still be convinced
+that what I went with was reasonable.
+
+I even had to point this out, since otherwise it can be read as if I would not
+be convinced that I did the correct and reasonable thing.
