@@ -2,52 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE59FA83E84
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 11:25:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B0FA83EB2
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 11:30:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE64E10E83D;
-	Thu, 10 Apr 2025 09:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE0110E84A;
+	Thu, 10 Apr 2025 09:30:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C5snF0yF";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="U4qt6Arr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B4DD10E838;
- Thu, 10 Apr 2025 09:25:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 06EB2A49ADF;
- Thu, 10 Apr 2025 09:19:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 101E6C4CEEE;
- Thu, 10 Apr 2025 09:24:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744277101;
- bh=wrafJtqld39LFoxCo2SLkSTX/FGJSOSUY67ueylsNZ0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C5snF0yFfuHVhKnz4fzbkr7N2cym2tQmHOziG7+aRCRCWasD+/UnDEi925ipTORDP
- Wllj9EDzOrQkfEb3kkIdAgm760RdsWjtxZuezrG57jUYgIie2Z4zE6LovCxgPMKgjD
- mGRrykuwDjycfvx0rte/JH1LoiVw+WlhSdK7dcs19SCy9UohKXvfDGRgXwoNQTOsWe
- gq2klvgoxFUBcS6EWbcNLxeYTv2J5wGCScq0/4HHaPDDPuaj8DHcnaVqeAInHaBcQh
- oR+qu6Dl0/n8tt3KC/PX+a0yyjM7pt2grisyXo05OvExoyMrD/ZIZ43z/8Z/TojS1W
- dVQqt4Guny3Bg==
-From: Philipp Stanner <phasta@kernel.org>
-To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sabrina Dubroca <sd@queasysnail.net>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH 3/3] drm/nouveau: Add helper to check base fence
-Date: Thu, 10 Apr 2025 11:24:19 +0200
-Message-ID: <20250410092418.135258-5-phasta@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250410092418.135258-2-phasta@kernel.org>
-References: <20250410092418.135258-2-phasta@kernel.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76DCC10E84A
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 09:30:47 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53A75blg018348
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 09:30:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=ZqtW7bMzYMRTd98Pj3PG0q2g
+ Dn33XGbZdcTOcs859xA=; b=U4qt6Arrts/3s5R7WCtPT72fdEBKMGz0cgUJspjF
+ yIMtE5/F01t55ETOsLgVxUrPyAn17+4r8EHp3634HwO4WCBRD+mWpiQsZEsfZ0cs
+ f/sF1dvg/hYTuhESxL6Okg7UTm896P7eDtlKWNBi2anNT9p4CUeFsoNFsUn3M3C5
+ JxuLp9Kki9+dHEHhE8+26uwpYCtAqrAXOL/egYYZ8YtdAMpMKEkMG8Q2ae4RYt7H
+ AIzfNzxZTLIFlvtsdO7iCKdrkvUNuBRqeopiuorW5GByHzk9tB6F2Fq96OiBleib
+ C1bT+I6nYmPSPTVCsx4D45bGfX/g7D0xq5qQivEQ3sOxSg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twtb6g42-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 09:30:46 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7c09f73873fso98731485a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 02:30:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744277445; x=1744882245;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZqtW7bMzYMRTd98Pj3PG0q2gDn33XGbZdcTOcs859xA=;
+ b=E7kC73J9OInHcBow6MDUsNjVJiRcQWmvdIYbip4uNDBlLJPdlvcKGLDs+kd5v/3q3P
+ LXaAxvRUEYQnxSPl5xezZNMytHyeptu7GhRebBGG+4tenLD6vrJX4e2viRTrAPsEBY3r
+ Go1VXfbWM/2Q5KsFwmbUr+kh996N//cBG6OKd3p3MPc0ym5IbQNkJh/wIDTBlHg4fBCy
+ +1BfuFGt2fkWmaJRxNGhRJjCgD6Eauiik8Q+O2FceQgzDC0bBrg8lGMQxYIosqVDVOuu
+ l4+tec7Hn60wmV0JMvgMZH3z4YuuSUPFUtlWQn7cKc5rtDVmFTYxHnqCxx718tYlkOfW
+ Rpiw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXlboV2s57v+E31cQU23Lt3MPO2C8jggbPt5AagkolQkxslFs1zhBAwZ9Kr9PUVtntn/JuUSTOsu2A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/AMZTjpguGLjZKlKeYKcBtWm4ytLdC4TeKfb455Ar5Y1qCxX6
+ PEqd3aGCbV+c4d3Cf2KSXCt6KtRx0v9kJDi5rjT6S62lysCbxMdWSrUNpFstlxLPUDQt5FPB3Ti
+ whs9PtkFh6uvicK5793aKvTetaEzjelqeCka1asE7JHUxKYOvYaA3kXroFklqMjdarDo=
+X-Gm-Gg: ASbGnct0irgi5JlXlPuv8f8gVzG4keFgnzZFfK4hQgmGmOSRZX3GaK5Z3QRS7posEBE
+ hFtBSr1ZepJ4DYSSbA3KSpa6cIYX2LpOpCDL82+aqvZJZloCsIND5H5yK/8MpgkC6hmldRBlYGN
+ XFE7fSKv+cTeev7BjtTH0KX7k2sIqp0+bqkxj4IuhR2ruXpYso7xqRvon5ITg6GG/dSMN3uOxEo
+ 8F2BiCBppsjWlJDPFZzSqmNefFK3WjDCo58U+ecf3Ay3etSo57nScQyOXa3qFPdLbDqZKmEy9J5
+ tkr5xozdTIufKw9Jxr/xOhOQh1TiQFkFDTsUeH48SHrMXJ+rxoNACebVDIaYS3wZj7+DTsknBO0
+ =
+X-Received: by 2002:a05:620a:258e:b0:7c5:a230:30ff with SMTP id
+ af79cd13be357-7c7a76cf8f5mr251331685a.47.1744277445627; 
+ Thu, 10 Apr 2025 02:30:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFVltL3h1Caq1HEBhiLFJIRZ3Hi1sFgkDZeWmfTeKtna2kWsYnZwqyGx+FPDMlvJ3YI1hI9Zw==
+X-Received: by 2002:a05:620a:258e:b0:7c5:a230:30ff with SMTP id
+ af79cd13be357-7c7a76cf8f5mr251329485a.47.1744277445295; 
+ Thu, 10 Apr 2025 02:30:45 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54d3d23880dsm91875e87.79.2025.04.10.02.30.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Apr 2025 02:30:44 -0700 (PDT)
+Date: Thu, 10 Apr 2025 12:30:42 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/bridge: anx7625: Use devm_pm_runtime_enable()
+Message-ID: <wdxowk32hratizv6xr3gqa5nab2zprgtfua2rpyupr7frd7ojh@3q7crhry46wt>
+References: <20250409093814.3977025-1-wenst@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250409093814.3977025-1-wenst@chromium.org>
+X-Proofpoint-GUID: QiWXx0leXtDe7sqNk_SUJRqi0_oneKO9
+X-Authority-Analysis: v=2.4 cv=LLlmQIW9 c=1 sm=1 tr=0 ts=67f78fc6 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8 a=Kv9FL6QeMsydgTWXVFcA:9
+ a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: QiWXx0leXtDe7sqNk_SUJRqi0_oneKO9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-10_01,2025-04-08_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0
+ clxscore=1015 mlxlogscore=756 malwarescore=0 phishscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504100071
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,59 +121,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nouveau, unfortunately, checks whether a dma_fence is already siganled
-at various different places with, at times, different methods. In
-nouveau_fence_update() it generally signals all fences the hardware is
-done with by evaluating the sequence number. That mechanism then has no
-way to tell the caller nouveau_fence_done() whether a particular fence
-is actually signaled, which is why the internal bits of the dma_fence
-get checked.
+On Wed, Apr 09, 2025 at 05:38:13PM +0800, Chen-Yu Tsai wrote:
+> The anx7625 driver is open coding what devm_pm_runtime_enable() does.
+> 
+> Switch to the common helper instead.
+> 
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+> 
 
-This can be made more readable by providing a new wrapper, which can
-then later be helpful to solve an unrelated bug.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Add nouveau_fence_base_is_signaled().
-
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- drivers/gpu/drm/nouveau/nouveau_fence.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index db6f4494405c..0d58a81b3402 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -256,6 +256,12 @@ nouveau_fence_emit(struct nouveau_fence *fence)
- 	return ret;
- }
- 
-+static inline bool
-+nouveau_fence_base_is_signaled(struct nouveau_fence *fence)
-+{
-+	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags);
-+}
-+
- bool
- nouveau_fence_done(struct nouveau_fence *fence)
- {
-@@ -263,7 +269,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
- 	struct nouveau_channel *chan;
- 	unsigned long flags;
- 
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags))
-+	if (nouveau_fence_base_is_signaled(fence))
- 		return true;
- 
- 	spin_lock_irqsave(&fctx->lock, flags);
-@@ -272,7 +278,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
- 		nvif_event_block(&fctx->event);
- 	spin_unlock_irqrestore(&fctx->lock, flags);
- 
--	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags);
-+	return nouveau_fence_base_is_signaled(fence);
- }
- 
- static long
 -- 
-2.48.1
-
+With best wishes
+Dmitry
