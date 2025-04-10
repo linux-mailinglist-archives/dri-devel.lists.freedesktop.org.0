@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3220EA84254
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 14:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D8EA84262
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 14:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76B7B10E966;
-	Thu, 10 Apr 2025 12:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D3EA10E961;
+	Thu, 10 Apr 2025 12:03:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="h04eL3i7";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U9Qe8oxo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45C1C10E966
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:00:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744286435;
- bh=KgypfoACOuD9xYQPK0dUJ2M7WGpHbH1s3oc8ogE1pOU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=h04eL3i7BdMl3SldCVQ4cjZNK9C46fTfkNJk3kXvXZcai8Zldn1+xPCRO/WNl41oX
- Pdp4Vswz5W7TT95HYhw3QjOiuoM9MmZi9ImlqpOhGHQaSIPpF16pX0BFfexFGaUCD6
- p6yyOkArcEQPyIVtI/o1ObwHCTKhsoaTttmemhnLaWUa5aTH2G62LxNt0/LbVVM4yf
- FgGBI+k3Mnf3TnmMPZAhaZWedqXkxk1qCfNVhmwzBPm7C5nEO/4BLoTAi+n8k7MbUj
- BrC46C33J6AeqFPJ0W2U6BfwoQeJtJjeRMsuP9lXir6fEeu2IxUW7jXPYRUAK48mmU
- 7FNsGb3cyDmdA==
-Received: from [192.168.1.90] (unknown [82.79.138.25])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 00C3B17E0904;
- Thu, 10 Apr 2025 14:00:34 +0200 (CEST)
-Message-ID: <8b0a8a7a-456a-487f-853e-5ec3e11129d7@collabora.com>
-Date: Thu, 10 Apr 2025 15:00:34 +0300
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D995210E961
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:03:35 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E11A982;
+ Thu, 10 Apr 2025 14:01:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1744286493;
+ bh=iJbCSY46mzwHYV1gUjq6pau5oZ40r/8OneEWbdkupqk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=U9Qe8oxo5Lgszc/DME63ZUHa9cYHD6+/7DzS/JR8sPQkCA9jnvDNwzyF5gRGv+Dno
+ PC9DJ8nv4tPTH5POxzXwDULD527ojw5tzy3B2uenbyrDGmeHX9TU1/KqGA68WBfvbC
+ BHdaKfIeqx5O42VKirRMUind6+R+ouAXLs/fZZiw=
+Date: Thu, 10 Apr 2025 15:03:03 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tarang Raval <tarang.raval@siliconsignals.io>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>
+Subject: Re: Need Help Enabling HDMI on Debix Model A
+Message-ID: <20250410120303.GA18835@pendragon.ideasonboard.com>
+References: <PN3P287MB1829E84B6B79E9C7189D7CB78BAA2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+ <20250407130257.GD3924@pendragon.ideasonboard.com>
+ <PN3P287MB1829692B4C3D5AD273CB62DE8BAA2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+ <20250409210504.GB12162@pendragon.ideasonboard.com>
+ <PN3P287MB18297239252C1032A05686558BB72@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+ <20250410110250.GB24866@pendragon.ideasonboard.com>
+ <PN3P287MB18297DA8D651F08CA323A7578BB72@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 14/15] drm/tests: hdmi: Add max TMDS rate fallback
- tests for YUV420 mode
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250326-hdmi-conn-yuv-v3-0-294d3ebbb4b2@collabora.com>
- <20250326-hdmi-conn-yuv-v3-14-294d3ebbb4b2@collabora.com>
- <20250410-cyan-smilodon-of-courtesy-38766c@houat>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20250410-cyan-smilodon-of-courtesy-38766c@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3P287MB18297DA8D651F08CA323A7578BB72@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,377 +61,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/10/25 11:35 AM, Maxime Ripard wrote:
-> On Wed, Mar 26, 2025 at 12:20:03PM +0200, Cristian Ciocaltea wrote:
->> Provide tests to verify drm_atomic_helper_connector_hdmi_check() helper
->> fallback behavior when using YUV420 output.
->>
->> Also rename drm_test_check_max_tmds_rate_{bpc|format}_fallback() to
->> better differentiate from the newly introduced *_yuv420() variants.
->>
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
->>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 152 ++++++++++++++++++++-
->>  drivers/gpu/drm/tests/drm_kunit_edid.h             | 110 +++++++++++++++
->>  2 files changed, 258 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
->> index 3fae7ccf65309a1d8a4acf12de961713b9163096..99bedb2d6f555b3b140256000dfa7491d2a8f515 100644
->> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
->> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
->> @@ -1224,7 +1224,7 @@ static void drm_test_check_hdmi_funcs_reject_rate(struct kunit *test)
->>   * Then we will pick the latter, and the computed TMDS character rate
->>   * will be equal to 1.25 times the mode pixel clock.
->>   */
->> -static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
->> +static void drm_test_check_max_tmds_rate_bpc_fallback_rgb(struct kunit *test)
->>  {
->>  	struct drm_atomic_helper_connector_hdmi_priv *priv;
->>  	struct drm_modeset_acquire_ctx ctx;
->> @@ -1279,6 +1279,75 @@ static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
->>  	drm_modeset_acquire_fini(&ctx);
->>  }
->>  
->> +/*
->> + * Test that if:
->> + * - We have an HDMI connector supporting both RGB and YUV420
+On Thu, Apr 10, 2025 at 11:33:08AM +0000, Tarang Raval wrote:
+> > On Thu, Apr 10, 2025 at 08:13:17AM +0000, Tarang Raval wrote:
+> > > > On Mon, Apr 07, 2025 at 02:06:35PM +0000, Tarang Raval wrote:
+> > > > > > On Mon, Apr 07, 2025 at 11:10:23AM +0000, Tarang Raval wrote:
+> > > > > > > Hi Laurent,
+> > > > > > >
+> > > > > > > I’m trying to bring up HDMI on the Debix Model A board using the
+> > > > > > > mainline kernel, but I’m currently facing issues.
+> > > > > > >
+> > > > > > > I saw that you tested the patch for HDMI support on this board in
+> > > > > > > mainline, so I am hoping you could help me figure out what might be
+> > > > > > > missing.
+> > > > > > >
+> > > > > > > To clarify — I'm using the prebuilt image provided by Debix, but I replaced
+> > > > > > > the kernel image and the device tree (DTS) file in the /boot directory with
+> > > > > > > ones built from the mainline kernel.
+> > > > > > >
+> > > > > > > I’ve enabled the following configurations in the kernel:
+> > > > > > > CONFIG_DRM_DISPLAY_CONNECTOR=y
+> > > > > > > CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE=y
+> > > > > > > CONFIG_DRM_IMX8MP_HDMI_PVI=y
+> > > > > > > CONFIG_DRM_IMX_LCDIF=y
+> > > > > > > CONFIG_PHY_FSL_SAMSUNG_HDMI_PHY=y
+> > > > > > >
+> > > > > > > When I boot the board, I see the following HDMI/DRM related logs:
+> > > > > > > debix@imx8mp-debix:~$ dmesg | grep -iE "drm|hdmi"
+> > > > > > > [    0.121979] /soc@0/bus@32c00000/display-bridge@32fc4000: Fixed dependency cycle(s) with /soc@0/bus@32c00000/hdmi@32fd8000
+> > > > > > > [    0.122164] /soc@0/bus@32c00000/hdmi@32fd8000: Fixed dependency cycle(s) with /soc@0/bus@32c00000/display-bridge@32fc4000
+> > > > > > > [    0.127417] /soc@0/bus@32c00000/hdmi@32fd8000: Fixed dependency cycle(s) with /hdmi-connector
+> > > > > > > [    0.127608] /hdmi-connector: Fixed dependency cycle(s) with /soc@0/bus@32c00000/hdmi@32fd8000
+> > > > > > > [    1.947962] imx8mp-dw-hdmi-tx 32fd8000.hdmi: Detected HDMI TX controller v2.13a with HDCP (SAMSUNG HDMI TX PHY)
+> > > > > > > [    1.949220] imx8mp-dw-hdmi-tx 32fd8000.hdmi: registered DesignWare HDMI I2C bus driver
+> > > > > > > [    1.956365] [drm] Initialized imx-lcdif 1.0.0 for 32fc6000.display-controller on minor 0
+> > > > > > > [    2.016601] imx-lcdif 32fc6000.display-controller: [drm] fb0: imx-lcdifdrmfb frame buffer device
+> > > > > > > [    8.380915] systemd[1]: Starting Load Kernel Module drm...
+> > > > > > >
+> > > > > > >
+> > > > > > > I also checked that the display's modeline is recognized under sysfs :
+> > > > > > >
+> > > > > > > root@imx8mp-debix:~# ls /sys/class/drm/card0-HDMI-A-1/
+> > > > > > > connector_id  dpms          modes         subsystem/
+> > > > > > > ddc/          edid          power/        uevent
+> > > > > > > device/       enabled       status
+> > > > > > >
+> > > > > > > However, there is still no HDMI output on the display. Instead,
+> > > > > > > I only see a white blinking cursor on the screen.. I'm not sure
+> > > > > > > what I'm missing.
+> > > > > > 
+> > > > > > The white blinking cursor means the display is working from the kernel
+> > > > > > point of view. What are you expecting, are you running an X server or
+> > > > > > Wayland compositor ?
+> > > > >
+> > > > > I'm expecting to see the Ubuntu desktop environment on the HDMI
+> > > > > display — just like how it appears with the original prebuilt image provided
+> > > > > by Debix. I'm running the default Ubuntu 22.04 LTS prebuilt image, and I only
+> > > > > replaced the Image and .dtb file
+> > > > >
+> > > > > I'm not explicitly launching an X server or Wayland compositor myself
+> > > > >
+> > > > > However, based on your response, I now realize that I may also need to
+> > > > > enable GPU support in the mainline device tree. Specifically, I believe I
+> > > > > need to enable the gpu2D and gpu3D nodes to allow the graphical
+> > > > > environment to start properly and render the desktop over HDMI.
+> > > > >
+> > > > > Does that sound correct, or is there anything else I should check or
+> > > > > enable?
+> > > > 
+> > > > That's a plausible explanation. The 2D GPU is probably not used by the
+> > > > compositor, but a 3D GPU could be required. I'd recommend checking the
+> > > > system logs to see why the compositor (or session manager) failed to
+> > > > start.
+> > >
+> > > I reviewed the system logs for more context regarding the failure of the
+> > > compositor (or session manager) to start.
+> > >
+> > > Here are some relevant log entries from journalctl -b -p err:
+> > >
+> > > debix@imx8mp-debix:~$ journalctl -b -p err
+> > > Hint: You are currently not seeing messages from other users and the system.
+> > >       Users in groups 'adm', 'systemd-journal' can see all messages.
+> > >       Pass -q to turn off this notice.
+> > > Apr 10 06:37:29 imx8mp-debix pulseaudio[766]: GetManagedObjects() failed: org.freedesktop.systemd1.NoSuchUnit: Unit dbus-org.bluez.serv>
+> > > Apr 10 06:37:29 imx8mp-debix systemd[757]: Failed to start Application launched by gnome-session-binary.
+> > > Apr 10 06:37:29 imx8mp-debix systemd[757]: Failed to start Application launched by gnome-session-binary.
+> > > Apr 10 06:37:30 imx8mp-debix systemd[757]: Failed to start GNOME Shell on Wayland.
+> > >
+> > > Additionally, from journalctl -b | grep -i gnome, the following lines appear to be significant:
+> > >
+> > > Apr 10 06:37:29 imx8mp-debix systemd[757]: org.gnome.Shell@x11.service: Skipped due to 'exec-condition'.
+> > > Apr 10 06:37:29 imx8mp-debix systemd[757]: Started GNOME Shell on X11.
+> > > Apr 10 06:37:30 imx8mp-debix gnome-shell[873]: Running GNOME Shell (using mutter 42.9) as a Wayland display server
+> > > Apr 10 06:37:30 imx8mp-debix gnome-shell[873]: g_hash_table_destroy: assertion 'hash_table != NULL' failed
+> > > Apr 10 06:37:30 imx8mp-debix gnome-shell[873]: Failed to open gpu '/dev/dri/card0': No suitable mode setting backend found
+> > 
+> > I don't know how gnome-shell finds the GPU, if Ubuntu ships a modified
+> > version, or possibly configuration files specific to the closed-source
+> > GPU stack shipped with the BSP kernel. It could also be that the mesa
+> > version they ship does not support the upstream kernel driver. You will
+> > have to investigate all this.
 > 
-> I assume the monitor also supports both?
-
-Yes, I will improve the comment a bit.
-
->> + * - The chosen mode can be supported in YUV420 output format only
->> + * - The chosen mode has a TMDS character rate higher than the display
->> + *   supports in YUV420/12bpc
->> + * - The chosen mode has a TMDS character rate lower than the display
->> + *   supports in YUV420/10bpc.
->> + *
->> + * Then we will pick the latter, and the computed TMDS character rate
->> + * will be equal to 1.25 * 0.5 times the mode pixel clock.
->> + */
->> +static void drm_test_check_max_tmds_rate_bpc_fallback_yuv420(struct kunit *test)
->> +{
->> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
->> +	struct drm_modeset_acquire_ctx ctx;
->> +	struct drm_connector_state *conn_state;
->> +	struct drm_display_info *info;
->> +	struct drm_display_mode *yuv420_only_mode;
->> +	unsigned long long rate;
->> +	struct drm_connector *conn;
->> +	struct drm_device *drm;
->> +	struct drm_crtc *crtc;
->> +	int ret;
->> +
->> +	priv = drm_kunit_helper_connector_hdmi_init_with_edid(test,
->> +				BIT(HDMI_COLORSPACE_RGB) |
->> +				BIT(HDMI_COLORSPACE_YUV420),
->> +				12,
->> +				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
->> +	KUNIT_ASSERT_NOT_NULL(test, priv);
->> +
->> +	drm = &priv->drm;
->> +	crtc = priv->crtc;
->> +	conn = &priv->connector;
->> +	info = &conn->display_info;
->> +	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
->> +	KUNIT_ASSERT_GT(test, info->max_tmds_clock, 0);
->> +	KUNIT_ASSERT_TRUE(test, conn->ycbcr_420_allowed);
->> +
->> +	yuv420_only_mode = drm_kunit_display_mode_from_cea_vic(test, drm, 95);
->> +	KUNIT_ASSERT_NOT_NULL(test, yuv420_only_mode);
->> +	KUNIT_ASSERT_TRUE(test, drm_mode_is_420_only(info, yuv420_only_mode));
->> +
->> +	rate = drm_hdmi_compute_mode_clock(yuv420_only_mode, 12, HDMI_COLORSPACE_YUV420);
->> +	KUNIT_ASSERT_GT(test, rate, info->max_tmds_clock * 1000);
->> +
->> +	rate = drm_hdmi_compute_mode_clock(yuv420_only_mode, 10, HDMI_COLORSPACE_YUV420);
->> +	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
->> +
->> +	drm_modeset_acquire_init(&ctx, 0);
->> +
->> +	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
->> +						     crtc, conn,
->> +						     yuv420_only_mode,
->> +						     &ctx);
->> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> I need to verify the compatibility between the kernel GPU driver (etnaviv), 
+> the Mesa library version, and GNOME Shell on my Ubuntu image, is that correct?
 > 
-> We need to handle EDEADLK
+> you're suggesting that the prebuilt Ubuntu image might be expecting a 
+> proprietary GPU driver provided by the BSP kernel is that what you meant?
 
-Yeah, that's the open disscussion in the previous patch.
+Yes, possibly. I don't know what is shipped in that image, but I know
+it's common for board vendors to ship images with customized components.
 
->> +
->> +	conn_state = conn->state;
->> +	KUNIT_ASSERT_NOT_NULL(test, conn_state);
->> +
->> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 10);
->> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_YUV420);
->> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, yuv420_only_mode->clock * 625);
->> +
->> +	drm_modeset_drop_locks(&ctx);
->> +	drm_modeset_acquire_fini(&ctx);
->> +}
->> +
->>  /*
->>   * Test that if:
->>   * - We have an HDMI connector supporting both RGB and YUV422 and up to
->> @@ -1292,7 +1361,7 @@ static void drm_test_check_max_tmds_rate_bpc_fallback(struct kunit *test)
->>   * Then we will prefer to keep the RGB format with a lower bpc over
->>   * picking YUV422.
->>   */
->> -static void drm_test_check_max_tmds_rate_format_fallback(struct kunit *test)
->> +static void drm_test_check_max_tmds_rate_format_fallback_yuv422(struct kunit *test)
->>  {
->>  	struct drm_atomic_helper_connector_hdmi_priv *priv;
->>  	struct drm_modeset_acquire_ctx ctx;
->> @@ -1351,6 +1420,79 @@ static void drm_test_check_max_tmds_rate_format_fallback(struct kunit *test)
->>  	drm_modeset_acquire_fini(&ctx);
->>  }
->>  
->> +/*
->> + * Test that if:
->> + * - We have an HDMI connector supporting both RGB and YUV420 and up to
->> + *   12 bpc
->> + * - The chosen mode has a TMDS character rate higher than the display
->> + *   supports in RGB/10bpc but lower than the display supports in
->> + *   RGB/8bpc
->> + * - The chosen mode has a TMDS character rate lower than the display
->> + *   supports in YUV420/12bpc.
->> + *
->> + * Then we will prefer to keep the RGB format with a lower bpc over
->> + * picking YUV420.
->> + */
->> +static void drm_test_check_max_tmds_rate_format_fallback_yuv420(struct kunit *test)
+> > > Apr 10 06:37:30 imx8mp-debix gnome-shell[873]: Added device '/dev/dri/card1' (imx-lcdif) using atomic mode setting.
+> > > Apr 10 06:37:30 imx8mp-debix gnome-shell[873]: Failed to setup: No GPUs with outputs found
+> > >
+> > > the GNOME Shell logs indicate that no GPUs with outputs were found but the dmesg
+> > > output suggests that the GPU is successfully probed and initialized:
+> > >
+> > > debix@imx8mp-debix:~$ dmesg | grep -i -e drm -e gpu -e galcore -e etnaviv
+> > > [    2.156784] etnaviv etnaviv: bound 38000000.gpu (ops gpu_ops)
+> > > [    2.157294] etnaviv etnaviv: bound 38008000.gpu (ops gpu_ops)
+> > > [    2.157753] etnaviv etnaviv: bound 38500000.npu (ops gpu_ops)
+> > > [    2.157852] etnaviv-gpu 38000000.gpu: model: GC7000, revision: 6204
+> > > [    2.157986] etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
+> > > [    2.158111] etnaviv-gpu 38500000.npu: model: GC8000, revision: 8002
+> > > [    2.158118] etnaviv-gpu 38500000.npu: etnaviv has been instantiated on a NPU, for which the UAPI is still experimental
+> > > [    2.158905] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
+> > > [    2.161597] [drm] Initialized imx-lcdif 1.0.0 for 32fc6000.display-controller on minor 1
+> > > [    2.161637] imx-lcdif 32fc6000.display-controller: [drm] Cannot find any crtc or sizes
+> > 
+> > This doesn't seem right. Here's the corresponding part of my boot log:
+> > 
+> > [    3.347606] imx8mp-dw-hdmi-tx 32fd8000.hdmi: Detected HDMI TX controller v2.13a with HDCP (SAMSUNG HDMI TX PHY)
+> > [    3.352436] imx8mp-dw-hdmi-tx 32fd8000.hdmi: registered DesignWare HDMI I2C bus driver
+> > [    3.378609] etnaviv etnaviv: bound 38000000.gpu (ops gpu_ops)
+> > [    3.379829] etnaviv etnaviv: bound 38008000.gpu (ops gpu_ops)
+> > [    3.381695] etnaviv etnaviv: bound 38500000.npu (ops gpu_ops)
+> > [    3.382290] etnaviv-gpu 38000000.gpu: model: GC7000, revision: 6204
+> > [    3.383178] etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
+> > [    3.383735] etnaviv-gpu 38500000.npu: model: GC8000, revision: 8002
+> > [    3.383753] etnaviv-gpu 38500000.npu: etnaviv has been instantiated on a NPU, for which the UAPI is still experimental
+> > [    3.386818] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
+> > [    3.390018] stackdepot: allocating hash table of 131072 entries via kvcalloc
+> > [    3.399113] [drm] Initialized imx-lcdif 1.0.0 for 32fc6000.display-controller on minor 1
+> > [    3.523021] Console: switching to colour frame buffer device 180x56
+> > [    3.539272] imx-lcdif 32fc6000.display-controller: [drm] fb0: imx-lcdifdrmfb frame buffer device
 > 
-> Are you sure about the name here? It looks like we're not testing the
-> YUV420 fallback at all?
-
-The name is indead missleading, the '_yuv420' suffix is mainly used to
-differentiate this test case from the above using '_yuv422' - both keep
-RGB format eventually.
-
-What about replacing '_format_fallback_' with '_bpc_fallback_ignore_' in
-both cases?  E.g.:
-
-  drm_test_check_max_tmds_rate_bpc_fallback_ignore_yuv422()
-  drm_test_check_max_tmds_rate_bpc_fallback_ignore_yuv420()
-
+> Thank you for sharing this.
 > 
->> +{
->> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
->> +	struct drm_modeset_acquire_ctx ctx;
->> +	struct drm_connector_state *conn_state;
->> +	struct drm_display_info *info;
->> +	struct drm_display_mode *preferred;
->> +	unsigned long long rate;
->> +	struct drm_connector *conn;
->> +	struct drm_device *drm;
->> +	struct drm_crtc *crtc;
->> +	int ret;
->> +
->> +	priv = drm_kunit_helper_connector_hdmi_init_with_edid(test,
->> +				BIT(HDMI_COLORSPACE_RGB) |
->> +				BIT(HDMI_COLORSPACE_YUV420),
->> +				12,
->> +				test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz);
->> +	KUNIT_ASSERT_NOT_NULL(test, priv);
->> +
->> +	drm = &priv->drm;
->> +	crtc = priv->crtc;
->> +	conn = &priv->connector;
->> +	info = &conn->display_info;
->> +	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
->> +	KUNIT_ASSERT_GT(test, info->max_tmds_clock, 0);
->> +	KUNIT_ASSERT_TRUE(test, conn->ycbcr_420_allowed);
->> +
->> +	preferred = find_preferred_mode(conn);
->> +	KUNIT_ASSERT_NOT_NULL(test, preferred);
->> +	KUNIT_ASSERT_FALSE(test, preferred->flags & DRM_MODE_FLAG_DBLCLK);
->> +	KUNIT_ASSERT_TRUE(test, drm_mode_is_420_also(info, preferred));
->> +
->> +	rate = drm_hdmi_compute_mode_clock(preferred, 8, HDMI_COLORSPACE_RGB);
->> +	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
->> +
->> +	rate = drm_hdmi_compute_mode_clock(preferred, 10, HDMI_COLORSPACE_RGB);
->> +	KUNIT_ASSERT_GT(test, rate, info->max_tmds_clock * 1000);
->> +
->> +	rate = drm_hdmi_compute_mode_clock(preferred, 12, HDMI_COLORSPACE_YUV420);
->> +	KUNIT_ASSERT_LT(test, rate, info->max_tmds_clock * 1000);
->> +
->> +	drm_modeset_acquire_init(&ctx, 0);
->> +
->> +	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
->> +						     crtc, conn,
->> +						     preferred,
->> +						     &ctx);
->> +	KUNIT_EXPECT_EQ(test, ret, 0);
->> +
->> +	conn_state = conn->state;
->> +	KUNIT_ASSERT_NOT_NULL(test, conn_state);
->> +
->> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 8);
->> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
->> +
->> +	drm_modeset_drop_locks(&ctx);
->> +	drm_modeset_acquire_fini(&ctx);
->> +}
-> 
->>  /*
->>   * Test that if a driver and screen supports RGB and YUV formats, and we
->>   * try to set the VIC 1 mode, we end up with 8bpc RGB even if we could
->> @@ -1738,8 +1880,10 @@ static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
->>  	KUNIT_CASE(drm_test_check_broadcast_rgb_crtc_mode_not_changed),
->>  	KUNIT_CASE(drm_test_check_disable_connector),
->>  	KUNIT_CASE(drm_test_check_hdmi_funcs_reject_rate),
->> -	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback),
->> -	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback),
-> 
-> These name changes belong in a separate patch
+> One last question: Is this log from the mainline kernel?
+> If so, did you apply any external patches to the GPU driver to make it work?
 
-Ack.
+Yes, that was from a v6.14-rc1 kernel. I'm compiling v6.15-rc1 now. I
+haven't applied any patch to the GPU driver.
 
->> +	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback_rgb),
->> +	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback_yuv420),
->> +	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback_yuv422),
->> +	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback_yuv420),
-> 
-> We should also test what happens when the monitor or connector doesn't
-> support YUV420, and we'd still need to fallback. In such a case, we
-> should return an error.
+> > > [   10.201152] systemd[1]: Starting Load Kernel Module drm...
+> > >
+> > > I have not yet identified a conclusive reason for GNOME Shell's failure to start.
+> > >
+> > > However, since my primary objective was to preview the camera output
+> > > on the display, I initially suspected the issue might be related to the HDMI
+> > > display, as I encountered errors while using autovideosink. After your
+> > > confirmation that the display was functioning correctly, I explored alternative
+> > > video sinks and was able to successfully achieve a working preview using
+> > > fbdevsink.
+> > >
+> > > I may revisit the GNOME Shell issue when time permits. If you have any
+> > > suggestions or insights regarding the compositor or GPU setup failure, I’d be
+> > > happy to take them into consideration.
+> > >
+> > > > > > > Could you please help me out or point me in the right direction?
+> > > > > > >
+> > > > > > > Thank you for your time.
 
-Ack.
+-- 
+Regards,
 
->>  	KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_changed),
->>  	KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_not_changed),
->>  	KUNIT_CASE(drm_test_check_output_bpc_dvi),
->> diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tests/drm_kunit_edid.h
->> index ff316e6114d65c96b1338cd83bc0d8d9e6e143e9..8e9086df20c690f34623d7858c716032d77d0c26 100644
->> --- a/drivers/gpu/drm/tests/drm_kunit_edid.h
->> +++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
->> @@ -695,4 +695,114 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz[
->>  	0x00, 0x00, 0x00, 0xca
->>  };
->>  
->> +/*
->> + * edid-decode (hex):
->> + *
->> + * 00 ff ff ff ff ff ff 00 31 d8 34 00 00 00 00 00
->> + * ff 23 01 03 80 60 36 78 0f ee 91 a3 54 4c 99 26
->> + * 0f 50 54 20 00 00 01 01 01 01 01 01 01 01 01 01
->> + * 01 01 01 01 01 01 04 74 00 30 f2 70 5a 80 b0 58
->> + * 8a 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
->> + * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 18
->> + * 55 18 5e 22 00 0a 20 20 20 20 20 20 00 00 00 10
->> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 ce
->> + *
->> + * 02 03 27 31 41 5f 6c 03 0c 00 10 00 78 44 20 00
->> + * 00 01 03 6d d8 5d c4 01 44 80 07 00 00 00 00 00
->> + * 00 e3 0f 01 00 e1 0e 00 00 00 00 00 00 00 00 00
->> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 84
->> + *
->> + * ----------------
->> + *
->> + * Block 0, Base EDID:
->> + *   EDID Structure Version & Revision: 1.3
->> + *   Vendor & Product Identification:
->> + *     Manufacturer: LNX
->> + *     Model: 52
->> + *     Model year: 2025
->> + *   Basic Display Parameters & Features:
->> + *     Digital display
->> + *     Maximum image size: 96 cm x 54 cm
->> + *     Gamma: 2.20
->> + *     RGB color display
->> + *     Default (sRGB) color space is primary color space
->> + *     First detailed timing is the preferred timing
->> + *     Supports GTF timings within operating range
->> + *   Color Characteristics:
->> + *     Red  : 0.6396, 0.3300
->> + *     Green: 0.2998, 0.5996
->> + *     Blue : 0.1503, 0.0595
->> + *     White: 0.3125, 0.3291
->> + *   Established Timings I & II:
->> + *     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
->> + *   Standard Timings: none
->> + *   Detailed Timing Descriptors:
->> + *     DTD 1:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz (1600 mm x 900 mm)
->> + *                  Hfront  176 Hsync  88 Hback  296 Hpol P
->> + *                  Vfront    8 Vsync  10 Vback   72 Vpol P
->> + *     Display Product Name: 'Test EDID'
->> + *     Display Range Limits:
->> + *       Monitor ranges (GTF): 24-85 Hz V, 24-94 kHz H, max dotclock 340 MHz
->> + *     Dummy Descriptor:
->> + *   Extension blocks: 1
->> + * Checksum: 0xce
->> + *
->> + * ----------------
->> + *
->> + * Block 1, CTA-861 Extension Block:
->> + *   Revision: 3
->> + *   Supports YCbCr 4:4:4
->> + *   Supports YCbCr 4:2:2
->> + *   Native detailed modes: 1
->> + *   Video Data Block:
->> + *     VIC  95:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
->> + *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
->> + *     Source physical address: 1.0.0.0
->> + *     DC_48bit
->> + *     DC_36bit
->> + *     DC_30bit
->> + *     DC_Y444
->> + *     Maximum TMDS clock: 340 MHz
->> + *     Extended HDMI video details:
->> + *   Vendor-Specific Data Block (HDMI Forum), OUI C4-5D-D8:
->> + *     Version: 1
->> + *     Maximum TMDS Character Rate: 340 MHz
->> + *     SCDC Present
->> + *     Supports 16-bits/component Deep Color 4:2:0 Pixel Encoding
->> + *     Supports 12-bits/component Deep Color 4:2:0 Pixel Encoding
->> + *     Supports 10-bits/component Deep Color 4:2:0 Pixel Encoding
->> + *   YCbCr 4:2:0 Capability Map Data Block:
->> + *     VIC  95:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
->> + *   YCbCr 4:2:0 Video Data Block:
->> + * Checksum: 0x84
->> + */
->> +static const unsigned char test_edid_hdmi_4k_rgb_yuv420_dc_max_340mhz[] = {
->> +	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x34, 0x00,
->> +	0x00, 0x00, 0x00, 0x00, 0xff, 0x23, 0x01, 0x03, 0x80, 0x60, 0x36, 0x78,
->> +	0x0f, 0xee, 0x91, 0xa3, 0x54, 0x4c, 0x99, 0x26, 0x0f, 0x50, 0x54, 0x20,
->> +	0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
->> +	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x04, 0x74, 0x00, 0x30, 0xf2, 0x70,
->> +	0x5a, 0x80, 0xb0, 0x58, 0x8a, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
->> +	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
->> +	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x18,
->> +	0x55, 0x18, 0x5e, 0x22, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
->> +	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0xce, 0x02, 0x03, 0x27, 0x31,
->> +	0x41, 0x5f, 0x6c, 0x03, 0x0c, 0x00, 0x10, 0x00, 0x78, 0x44, 0x20, 0x00,
->> +	0x00, 0x01, 0x03, 0x6d, 0xd8, 0x5d, 0xc4, 0x01, 0x44, 0x80, 0x07, 0x00,
->> +	0x00, 0x00, 0x00, 0x00, 0x00, 0xe3, 0x0f, 0x01, 0x00, 0xe1, 0x0e, 0x00,
->> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->> +	0x00, 0x00, 0x00, 0x84
->> +};
-> 
-> This should be a separate patch as well, but most importantly it's
-> pretty hard to know the difference with the one you introduced in a
-> previous patch. We should document it better than just with edid-decode.
-
-Ack.
-
-> Also, how did you generate it?
-
-Oh, that was a quite painful experience :-(.  Started from a full
-feature EDID (grabbed from real HW), then used wxedid to drop unneeded
-stuff up to the bare minimum (while also trying to deal with some
-crashes or unexpected behavior of the tool).  And finally raw editing
-the hex data since wxedid is currently not able to handle
-'Vendor-Specific Data Block (HDMI Forum), OUI C4-5D-D8'.
+Laurent Pinchart
