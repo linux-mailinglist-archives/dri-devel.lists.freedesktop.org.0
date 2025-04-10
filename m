@@ -2,62 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09B2A84B4F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 19:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBDBA84B5A
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 19:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B95F610E38F;
-	Thu, 10 Apr 2025 17:43:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 107A310E367;
+	Thu, 10 Apr 2025 17:44:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hWJpmd8y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OSkZG0aC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5874510E37C
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 17:43:25 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C99110E00D;
+ Thu, 10 Apr 2025 17:44:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9D4C15C6307;
- Thu, 10 Apr 2025 17:41:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD85C4CEDD;
- Thu, 10 Apr 2025 17:43:17 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B9F8BA4A9AF;
+ Thu, 10 Apr 2025 17:38:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF9EFC4CEDD;
+ Thu, 10 Apr 2025 17:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744306999;
- bh=sGm9E2uANzIVYfSNuEofrKAgkyeSsVX70Z/Yzq8fawg=;
- h=From:Date:Subject:To:Cc:From;
- b=hWJpmd8ycdtss7keQQ7nQyfRR4acb1VZPz1jeabgTUbYxvu37294IhtdmOZ0j4Vjf
- onNFVthijSJnXXFV+RUcPfCA0iQJJKOeiLkpWPFT6cmouqG5n6fJ1z9FXMMTWOSz/C
- cfi2jRElinkKNOc6WoTEIx/jogGeoUQ77HQmJ9rzQdM6lk5G4ppLwCcAtp+AvJU2Sh
- +BrsaCFU5eAhpsck4OhIAiJ6pbOfhgjHQXTFuRm0Bac5PAzNaUxWVj6JwUlku4wL+I
- rLkPxsMFMoxEWSynnjSRjv9tNyY+WW0PNMuQNjEDiYcqjqeeGgHyZQ9E6gCIfievX7
- mI7WhTSgVHydg==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Thu, 10 Apr 2025 10:43:08 -0700
-Subject: [PATCH v2] drm/sysfb: efidrm: Avoid clang
- -Wsometimes-uninitialized in efidrm_device_create()
+ s=k20201202; t=1744307040;
+ bh=kB4QNAAppV15ZuP1LMhUMLMfHgT1XEDI5J57Qvqk9A8=;
+ h=From:Subject:Date:To:Cc:From;
+ b=OSkZG0aCy0I7g5gf1twPji37giaipM088tZEfTjoFny+B0LYPsbVztsbV0F9F5DSd
+ D5lk0mw0q5jZzTf3dpBDE1M8L8E83Gba9uphMR9Uyhl/9u/aXQ7qxwovfKQsn+AbPB
+ XVTjDNulTuWjxieSeEWlH/+sRkHtGzhosXGjl3thGc6sh0ERaqq9R3Zdf7XMHTw50k
+ Jtc8rTM2KV6C0WdPkVPywC1X8TJi3+3EcANhV3URyOKLMgGlvB8cIdTBo61a5ASGjy
+ mIAu8dCFFf0NhWHbMPvBZ/a57fuFeuRSsKHEqd1BTFaI1bBcFiO0R4CVqP78GjMf/T
+ /60bFJ0CXWLgg==
+From: Konrad Dybcio <konradybcio@kernel.org>
+Subject: [PATCH v2 0/4] Retrieve information about DDR from SMEM
+Date: Thu, 10 Apr 2025 19:43:43 +0200
+Message-Id: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250410-efidrm-avoid-uninit-screen_info-warning-v2-1-b79646f58c24@kernel.org>
-X-B4-Tracking: v=1; b=H4sIACsD+GcC/5WNQQ6CMBBFr0K6dgwtAuLKexhiSjvARGnNFKuGc
- HcrN3D5XvL/W0RAJgzilC2CMVIg7xKoXSbMqN2AQDaxULkq80PeAPZkeQIdPVl4OnI0QzCM6K7
- keg8vzUkOYCuFfVUbLEwp0tuD0/K9lS5t4pHC7PmzhaP82f8bUYKEqu5018nGHgt5viE7vO89D
- 6Jd1/ULSySM5d8AAAA=
-X-Change-ID: 20250409-efidrm-avoid-uninit-screen_info-warning-d62ef67ce3c5
-To: Thomas Zimmermann <tzimmermann@suse.de>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, llvm@lists.linux.dev, 
- patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3045; i=nathan@kernel.org;
- h=from:subject:message-id; bh=sGm9E2uANzIVYfSNuEofrKAgkyeSsVX70Z/Yzq8fawg=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDOk/mE1fNZs3syYt5Jy168jMFdu8mb6taGnfoVLOZnPhr
- JuRI9/qjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRfe8Y/hfdf9h1ZObWZ2EN
- tWbB7MVbWgXPdS3fwycndGXXiQouw/eMDIs1LHbqSudM70nr1tgtrOrhVruMac0yBzXJqtBlXJM
- n8QIA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+X-B4-Tracking: v=1; b=H4sIAE8D+GcC/32NQQrCMBREr1L+2pQ0JmnryntIkZBE+8E0Nb8Wp
+ eTuxh7AzcAbmDcbkE/oCU7VBsmvSBinAuJQgR3NdPcMXWEQXCguec+WOKNlFHy4umSCZVrqtul
+ aYzutoMzm5G/43pWXofCItMT02R/W5tf+ka0N46yXTnFlnVL98RyJ6ufLPGwMoS4BQ875C7CDb
+ Uq3AAAA
+X-Change-ID: 20250409-topic-smem_dramc-6467187ac865
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1744307035; l=1906;
+ i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
+ bh=kB4QNAAppV15ZuP1LMhUMLMfHgT1XEDI5J57Qvqk9A8=;
+ b=dDP9gtMOHaECK+JRgwCAtY61jI74F1uXdY6VRPGOdFHzueFljuQ3VrToIXKhq0JJn7Qv/FAUv
+ 9xSsC+fBPIxCQe4dPn1/PeaxaPg6VtMxkeUqtDQjDWv87aGoo5kcOFL
+X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,70 +78,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang warns (or errors with CONFIG_WERROR=y):
+SMEM allows the OS to retrieve information about the DDR memory.
+Among that information, is a semi-magic value called 'HBB', or Highest
+Bank address Bit, which multimedia drivers (for hardware like Adreno
+and MDSS) must retrieve in order to program the IP blocks correctly.
 
-  drivers/gpu/drm/sysfb/efidrm.c:353:11: error: variable 'screen_base' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
-    353 |         else if (mem_flags & EFI_MEMORY_WB)
-        |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-  drivers/gpu/drm/sysfb/efidrm.c:356:7: note: uninitialized use occurs here
-    356 |         if (!screen_base)
-        |              ^~~~~~~~~~~
-  drivers/gpu/drm/sysfb/efidrm.c:353:7: note: remove the 'if' if its condition is always true
-    353 |         else if (mem_flags & EFI_MEMORY_WB)
-        |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    354 |                 screen_base = devm_memremap(&pdev->dev, mem->start, resource_size(mem),
-  drivers/gpu/drm/sysfb/efidrm.c:261:27: note: initialize the variable 'screen_base' to silence this warning
-    261 |         void __iomem *screen_base;
-        |                                  ^
-        |                                   = NULL
+This series introduces an API to retrieve that value, uses it in the
+aforementioned programming sequences and exposes available DDR
+frequencies in debugfs (to e.g. pass to aoss_qmp debugfs). More
+information can be exposed in the future, as needed.
 
-efidrm_get_mem_flags() can only return a mask that has at least one of
-the tested values set so the else case is impossible but clang's static
-analysis runs before inlining so it cannot know that.
-
-Initialize screen_base to NULL and add a defensive error message in case
-mem_flags were ever returned without one of the four valid values.
-
-Fixes: 32ae90c66fb6 ("drm/sysfb: Add efidrm for EFI displays")
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
 Changes in v2:
-- Upgrade drm_warn() to drm_err() and adjust message (Thomas).
-- Carry forward Thomas's reviewed-by.
-- Link to v1: https://lore.kernel.org/r/20250409-efidrm-avoid-uninit-screen_info-warning-v1-1-67babb19d831@kernel.org
----
- drivers/gpu/drm/sysfb/efidrm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
-index af90064a4c04..3cfd5d2cbf48 100644
---- a/drivers/gpu/drm/sysfb/efidrm.c
-+++ b/drivers/gpu/drm/sysfb/efidrm.c
-@@ -258,7 +258,7 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
- 	struct drm_sysfb_device *sysfb;
- 	struct drm_device *dev;
- 	struct resource *mem = NULL;
--	void __iomem *screen_base;
-+	void __iomem *screen_base = NULL;
- 	struct drm_plane *primary_plane;
- 	struct drm_crtc *crtc;
- 	struct drm_encoder *encoder;
-@@ -353,6 +353,8 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
- 	else if (mem_flags & EFI_MEMORY_WB)
- 		screen_base = devm_memremap(&pdev->dev, mem->start, resource_size(mem),
- 					    MEMREMAP_WB);
-+	else
-+		drm_err(dev, "invalid mem_flags: 0x%llx\n", mem_flags);
- 	if (!screen_base)
- 		return ERR_PTR(-ENOMEM);
- 	iosys_map_set_vaddr_iomem(&sysfb->fb_addr, screen_base);
+- Avoid checking for < 0 on unsigned types
+- Overwrite Adreno UBWC data to keep the data shared with userspace
+  coherent with what's programmed into the hardware
+- Call get_hbb() in msm_mdss_enable() instead of all UBWC setup
+  branches separately
+- Pick up Bjorn's rb on patch 1
+- Link to v1: https://lore.kernel.org/r/20250409-topic-smem_dramc-v1-0-94d505cd5593@oss.qualcomm.com
 
 ---
-base-commit: e8bf4a1bdaeadb28d13b9a2bcfd5910fda06eede
-change-id: 20250409-efidrm-avoid-uninit-screen_info-warning-d62ef67ce3c5
+Konrad Dybcio (4):
+      soc: qcom: Expose DDR data from SMEM
+      drm/msm/a5xx: Get HBB dynamically, if available
+      drm/msm/a6xx: Get HBB dynamically, if available
+      drm/msm/mdss: Get HBB dynamically, if available
+
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c |  12 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c |  15 +-
+ drivers/gpu/drm/msm/msm_mdss.c        |  30 ++--
+ drivers/soc/qcom/Makefile             |   3 +-
+ drivers/soc/qcom/smem.c               |  14 +-
+ drivers/soc/qcom/smem.h               |   9 ++
+ drivers/soc/qcom/smem_dramc.c         | 287 ++++++++++++++++++++++++++++++++++
+ include/linux/soc/qcom/smem.h         |   4 +
+ 8 files changed, 360 insertions(+), 14 deletions(-)
+---
+base-commit: 46086739de22d72319e37c37a134d32db52e1c5c
+change-id: 20250409-topic-smem_dramc-6467187ac865
 
 Best regards,
 -- 
-Nathan Chancellor <nathan@kernel.org>
+Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
