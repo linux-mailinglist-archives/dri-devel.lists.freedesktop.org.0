@@ -2,113 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F652A84D7C
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 21:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1F8A84D97
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 21:55:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A60110EA73;
-	Thu, 10 Apr 2025 19:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 146B110E177;
+	Thu, 10 Apr 2025 19:55:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZpC/npS2";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="ZL5JCCO1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D192910E177
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:49:39 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53AFibE7018370
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:49:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=aNhuwxgEqLQlGdQ0sOZNsXWl
- JqoDDoZqwpr4m2bgAv8=; b=ZpC/npS2kfZgcSJsiieah2iW9S2n+3kFAJli3xUZ
- whp5TGslpUiPVsr4vIPkzojf5GmDVamfBFj3b/bnJPSF3DRtwYckKtsl4ZLMSs+b
- jHLQx8rl+XchJtVaBA0gw5NEptWFXndkXcWSeggoGmpWBKLG022/bqS2deXhiRGN
- z2v6m1Vl8ape1N5ibjcx4H5W4llmhrqbXbPL1JD9uFTgpEZwfXStfBeN2+fIBPJd
- SnLMj+oXQSQMdRNEx1BnQ3S0rDL6g2DB+0cQSwlNAFf/gd3UGYg8yLwC+ACv8kEt
- NGeJEc26PIAVNF/63o2zoUWkIAJEST1sOkqGIvyXb5KSVA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twtb89hd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:49:39 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c791987cf6so261273585a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:49:39 -0700 (PDT)
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com
+ [209.85.161.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14CCA10E177
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:55:15 +0000 (UTC)
+Received: by mail-oo1-f48.google.com with SMTP id
+ 006d021491bc7-60297d7ab47so648097eaf.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:55:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1744314914; x=1744919714;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=67QpnG1IpjBF7uPUMUchb2kmvWg0+ijtiH8x0A8xvfE=;
+ b=ZL5JCCO1C8kytkciUaW13NfrfsotiipThmh7ZjgLfiIUwWOOZGSNMp249UDJELTCUO
+ WmDi58sOp8Jt8pyZBrEHNQA2O898mnntche0mXvYciTto3jK7tJA9FHELHyflIW/T0Hd
+ oI716LP9EUHKPy02k/sNiDPd9qcDOPq/H82xU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744314578; x=1744919378;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aNhuwxgEqLQlGdQ0sOZNsXWlJqoDDoZqwpr4m2bgAv8=;
- b=uV+g5F+sXZBFhL1DfViLeLWXd0H+rWQ4MxvfRECShaAU1zKE7rkZ975gGvSKYi7ZGs
- jOljatlkOmr5kY3fXadXkl0qCRCx0vbT1xbveSDFuR6kPHPE7w6hwBXqAqa5qj5tGWkd
- whl5GoTa6vW9EO9lPvaMzt1KLRMrx4IXhp02XyUFGtJ6KmOEFwWRhHMkZcaKs829Bfb1
- 7lgUGl+7iNkSsABQfRn0MK3GEf7V3y0d332GqhjRtqLCyamZ+zGHuXnCMpCXG3s6rl4g
- 5blglBbNFlv0gPRxh5sfsV06ZIjsolYVqZvv3WrzqaafzXm0doq01dOkWUEea0ATBi9/
- aCLA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUFyHYkrk8Zjv7dYlGdkEGGoBTqBF7Gcr/8yxCiSKxSifvr3Mtuc5fvx9t44SwHiYu7NtgbCjzScqM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyERr5SF4LiYg32cFyAUjPdRcZtOjDZyTxoUfZImjLsbM5TBd4f
- WtC4dUYc41rkxLzFq9uDR4GEpCfelaw/qvOJdvib8z9rdGeNoXlfKsyooZiXMtvu/U/FV4gRFDQ
- IJNIAsJZ+bIoRfmZzq/Yh6t8EaOWlCRoMLYbcyRAaCB2YYl6YmfPa03G3YUwfgmjWWPo=
-X-Gm-Gg: ASbGncvyOHObKUnJ2nWeXCSRilTjce/yRR80rm9dHyaTrBdkSzJQx7bKMuGC4Hm+2rm
- j6Y/bS84N3Wj/+XIW1mgR+d3SLaV77CYa3Y5xaOxzkxYYSqgeb2EzhliP56Gx7WsLiRv4JT6mtK
- 5YDK8J7/yUcIqIkE7c5eCTLhwdKcNfjtVuvFn3a4FpLxmhRlM87kPZWNuOFwH7B/nEZW71rEFUi
- V5uSmuTX3ovkna4Fqf1vSePpFAoR1f0sFnoq0lNY5rI8KJHmt6eZCJUUQ2NKjJXoQrLw4cm67sv
- xiE/kEK9e3sIY7pAdqxt2k+noejhdoaPg0s88jquhcxwqFGNzf/XiHM3eHnUvLmiIaCpYp4p228
- =
-X-Received: by 2002:a05:620a:2941:b0:7c5:4711:dc51 with SMTP id
- af79cd13be357-7c7af0f8841mr36836985a.2.1744314577842; 
- Thu, 10 Apr 2025 12:49:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFsp+mbswefuSskvfP4MGPlMZhuL5PnvXrRuwIIXDia3tt/3yJFdDa3tlw5fgy10G42iTdrsg==
-X-Received: by 2002:a05:620a:2941:b0:7c5:4711:dc51 with SMTP id
- af79cd13be357-7c7af0f8841mr36833885a.2.1744314577477; 
- Thu, 10 Apr 2025 12:49:37 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ d=1e100.net; s=20230601; t=1744314914; x=1744919714;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=67QpnG1IpjBF7uPUMUchb2kmvWg0+ijtiH8x0A8xvfE=;
+ b=GiBAWKETWZDAksyWwDp+Ah1gRiilNie/uKUiicxc+TPL9tbnNkxaOX8pojJ0IIfEYH
+ s1VCnXWucec68q47QTDZwstgt1hMziMJkXalsPp4Pajcc2ViV0EFIuM4kSh2loVpUxZQ
+ aQREJcf4LM+j0OQfQFLn8Wi6vNZjdiiOhUf0Z2UCZepGUri9QTixi9vhoTEc5vD+uE0L
+ EJO4SfPWcb5ueVsSVvM0mY2GwUTc88Jn5G3dQGok1hQ/1bPgdJ75R+5XmCAIeRbl26Jm
+ cBxHf3pOXos69GBw5jIxVboWkwvF5A7r4/Z5Ra4p4cyD/ZpqcZifyM5Vv84+tiICwLny
+ g3oQ==
+X-Gm-Message-State: AOJu0Yz/af0heKAeZ7n90zWdMXAQjlNxvTziuQ+ObziHpeJ8/6RygAQf
+ cm7bwB4g1cOcHPfYjXNuk8pN8+9HeuPIllUZZqqX0ncAmSfrJLE7ewPrNiYnSmCIFmz+6oMtB7X
+ /AZKuWyI2W366fhKjyda7SjWd1aHMB10pF6KQWGeKErdZKXncN5IKz1SXRekd0bST7bEdcF5EKY
+ ivaiX57ZaGkT0p7gEXBb8RfKCuvzaaLuS3v/RiS4aPtsvRO7KJ5yk7
+X-Gm-Gg: ASbGncvQGcsuwa5+7jvhtIHPcNO061YxSI2pSiD6xs7CJ0oXVCp+fm3Da1Ld+y4Zbzo
+ RAAscE3dwgzY2YUOx9bU7R2K639XEgaVgerBwK1o+GLFTYw7/RFVwf+sK13XwPFRt/MHE8DdVFD
+ 2BJErLCRMiur/AmYXjfPLIzEHBn9WxlLJjYyVsY/sdnmF0bm5SEln6haJOWmOC4MO7EDCv0ctUu
+ po2DUWrUE1UbEfX5oqA0RV/OnS4fe4uuozeN60tpKLVRkFvABiETNUC85C8I10AYZZJDGQrbTNQ
+ oz0sOFS3I89wpVk6FdZ5hZ84irkK818vClnMPA+6zssZNF2pa465KyptO6fK3c4IdEsKHWpehsU
+ lVxcowfLIfg==
+X-Google-Smtp-Source: AGHT+IEIqPFLKFKP7igEnsNRosHXRqTFN7K7NgQTciU268ZoP2hiNallsKcN3D1dM1Yz7qJAIt24Zg==
+X-Received: by 2002:a05:6820:201:b0:603:ff3c:7d5e with SMTP id
+ 006d021491bc7-6046f5915ccmr19105eaf.5.1744314914501; 
+ Thu, 10 Apr 2025 12:55:14 -0700 (PDT)
+Received: from plasma.dhcp.broadcom.net ([192.19.144.250])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30f4649d86esm5793871fa.14.2025.04.10.12.49.36
+ 006d021491bc7-6045f50eed4sm653599eaf.6.2025.04.10.12.55.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Apr 2025 12:49:36 -0700 (PDT)
-Date: Thu, 10 Apr 2025 22:49:34 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/4] Retrieve information about DDR from SMEM
-Message-ID: <iebl74rolk2t6xyoedy5p2e7clssh4dvxtpzerykyivrhkao4g@dbmnpia3xtxv>
-References: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
+ Thu, 10 Apr 2025 12:55:14 -0700 (PDT)
+From: Ian Forbes <ian.forbes@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
+ martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
+ Ian Forbes <ian.forbes@broadcom.com>
+Subject: [PATCH 1/2] drm/vmwgfx: Update last_read_seqno under the fence lock
+Date: Thu, 10 Apr 2025 14:55:06 -0500
+Message-ID: <20250410195508.233367-1-ian.forbes@broadcom.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
-X-Proofpoint-GUID: cjkjGMRPf93qK6xLEIRnn__VFeVIsazE
-X-Authority-Analysis: v=2.4 cv=LLlmQIW9 c=1 sm=1 tr=0 ts=67f820d3 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=OxrDjszf_QBMMd4ylzMA:9
- a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: cjkjGMRPf93qK6xLEIRnn__VFeVIsazE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-10_06,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- clxscore=1015 mlxlogscore=851 malwarescore=0 phishscore=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504100143
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,65 +85,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 10, 2025 at 07:43:43PM +0200, Konrad Dybcio wrote:
-> SMEM allows the OS to retrieve information about the DDR memory.
-> Among that information, is a semi-magic value called 'HBB', or Highest
-> Bank address Bit, which multimedia drivers (for hardware like Adreno
-> and MDSS) must retrieve in order to program the IP blocks correctly.
-> 
-> This series introduces an API to retrieve that value, uses it in the
-> aforementioned programming sequences and exposes available DDR
-> frequencies in debugfs (to e.g. pass to aoss_qmp debugfs). More
-> information can be exposed in the future, as needed.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
-> Changes in v2:
-> - Avoid checking for < 0 on unsigned types
-> - Overwrite Adreno UBWC data to keep the data shared with userspace
->   coherent with what's programmed into the hardware
-> - Call get_hbb() in msm_mdss_enable() instead of all UBWC setup
->   branches separately
-> - Pick up Bjorn's rb on patch 1
-> - Link to v1: https://lore.kernel.org/r/20250409-topic-smem_dramc-v1-0-94d505cd5593@oss.qualcomm.com
-> 
-> ---
-> Konrad Dybcio (4):
->       soc: qcom: Expose DDR data from SMEM
->       drm/msm/a5xx: Get HBB dynamically, if available
->       drm/msm/a6xx: Get HBB dynamically, if available
->       drm/msm/mdss: Get HBB dynamically, if available
-> 
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c |  12 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c |  15 +-
->  drivers/gpu/drm/msm/msm_mdss.c        |  30 ++--
+There was a possible race in vmw_update_seqno. Because of this race it
+was possible for last_read_seqno to go backwards. Remove this function
+and replace it with vmw_update_fences which now sets and returns the
+last_read_seqno while holding the fence lock. This serialization via the
+fence lock ensures that last_read_seqno is monotonic again.
 
-This misses the dpu_hw_sspp.c, which uses ubwc_config from msm_mdss.c
-(but the config isn't being updated with the acquired HBB value).
+Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c     |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |  1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |  3 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c   | 18 +++++++++---------
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.h   |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_irq.c     | 12 +-----------
+ 6 files changed, 13 insertions(+), 25 deletions(-)
 
-I'd suggest behaving it slightly differntly: can we please have a helper
-module (in drivers/soc/qcom) which would return UBWC configuration data.
-We can start with HBB values, migrating the rest of UBWC-related flags
-one by one.
-
-Also, were you able to solve the issue of the platforms where GPU and
-MDSS disagreed upon HBB data?
-
->  drivers/soc/qcom/Makefile             |   3 +-
->  drivers/soc/qcom/smem.c               |  14 +-
->  drivers/soc/qcom/smem.h               |   9 ++
->  drivers/soc/qcom/smem_dramc.c         | 287 ++++++++++++++++++++++++++++++++++
->  include/linux/soc/qcom/smem.h         |   4 +
->  8 files changed, 360 insertions(+), 14 deletions(-)
-> ---
-> base-commit: 46086739de22d72319e37c37a134d32db52e1c5c
-> change-id: 20250409-topic-smem_dramc-6467187ac865
-> 
-> Best regards,
-> -- 
-> Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+index dd4ca6a9c690..8fe02131a6c4 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+@@ -544,7 +544,7 @@ int vmw_cmd_send_fence(struct vmw_private *dev_priv, uint32_t *seqno)
+ 	cmd_fence = (struct svga_fifo_cmd_fence *) fm;
+ 	cmd_fence->fence = *seqno;
+ 	vmw_cmd_commit_flush(dev_priv, bytes);
+-	vmw_update_seqno(dev_priv);
++	vmw_fences_update(dev_priv->fman);
+ 
+ out_err:
+ 	return ret;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 594af8eb04c6..6d4a68f0ae37 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -1006,7 +1006,6 @@ extern int vmw_fallback_wait(struct vmw_private *dev_priv,
+ 			     uint32_t seqno,
+ 			     bool interruptible,
+ 			     unsigned long timeout);
+-extern void vmw_update_seqno(struct vmw_private *dev_priv);
+ extern void vmw_seqno_waiter_add(struct vmw_private *dev_priv);
+ extern void vmw_seqno_waiter_remove(struct vmw_private *dev_priv);
+ extern void vmw_goal_waiter_add(struct vmw_private *dev_priv);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index e831e324e737..90ce5372343b 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -3878,8 +3878,7 @@ vmw_execbuf_copy_fence_user(struct vmw_private *dev_priv,
+ 
+ 		fence_rep.handle = fence_handle;
+ 		fence_rep.seqno = fence->base.seqno;
+-		vmw_update_seqno(dev_priv);
+-		fence_rep.passed_seqno = dev_priv->last_read_seqno;
++		fence_rep.passed_seqno = vmw_fences_update(dev_priv->fman);
+ 	}
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+index 588d50ababf6..9d1465558839 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -172,7 +172,7 @@ vmwgfx_wait_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+ 	wake_up_process(wait->task);
+ }
+ 
+-static void __vmw_fences_update(struct vmw_fence_manager *fman);
++static u32 __vmw_fences_update(struct vmw_fence_manager *fman);
+ 
+ static long vmw_fence_wait(struct dma_fence *f, bool intr, signed long timeout)
+ {
+@@ -457,7 +457,7 @@ static bool vmw_fence_goal_check_locked(struct vmw_fence_obj *fence)
+ 	return true;
+ }
+ 
+-static void __vmw_fences_update(struct vmw_fence_manager *fman)
++static u32 __vmw_fences_update(struct vmw_fence_manager *fman)
+ {
+ 	struct vmw_fence_obj *fence, *next_fence;
+ 	struct list_head action_list;
+@@ -495,13 +495,16 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
+ 
+ 	if (!list_empty(&fman->cleanup_list))
+ 		(void) schedule_work(&fman->work);
++	return (fman->dev_priv->last_read_seqno = seqno);
+ }
+ 
+-void vmw_fences_update(struct vmw_fence_manager *fman)
++u32 vmw_fences_update(struct vmw_fence_manager *fman)
+ {
++	u32 seqno;
+ 	spin_lock(&fman->lock);
+-	__vmw_fences_update(fman);
++	seqno = __vmw_fences_update(fman);
+ 	spin_unlock(&fman->lock);
++	return seqno;
+ }
+ 
+ bool vmw_fence_obj_signaled(struct vmw_fence_obj *fence)
+@@ -778,7 +781,6 @@ int vmw_fence_obj_signaled_ioctl(struct drm_device *dev, void *data,
+ 		(struct drm_vmw_fence_signaled_arg *) data;
+ 	struct ttm_base_object *base;
+ 	struct vmw_fence_obj *fence;
+-	struct vmw_fence_manager *fman;
+ 	struct ttm_object_file *tfile = vmw_fpriv(file_priv)->tfile;
+ 	struct vmw_private *dev_priv = vmw_priv(dev);
+ 
+@@ -787,14 +789,12 @@ int vmw_fence_obj_signaled_ioctl(struct drm_device *dev, void *data,
+ 		return PTR_ERR(base);
+ 
+ 	fence = &(container_of(base, struct vmw_user_fence, base)->fence);
+-	fman = fman_from_fence(fence);
+ 
+ 	arg->signaled = vmw_fence_obj_signaled(fence);
+ 
+ 	arg->signaled_flags = arg->flags;
+-	spin_lock(&fman->lock);
+-	arg->passed_seqno = dev_priv->last_read_seqno;
+-	spin_unlock(&fman->lock);
++	arg->passed_seqno = READ_ONCE(dev_priv->last_read_seqno);
++
+ 
+ 	ttm_base_object_unref(&base);
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+index a7eee579c76a..10264dab5f6a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+@@ -86,7 +86,7 @@ vmw_fence_obj_reference(struct vmw_fence_obj *fence)
+ 	return fence;
+ }
+ 
+-extern void vmw_fences_update(struct vmw_fence_manager *fman);
++u32 vmw_fences_update(struct vmw_fence_manager *fman);
+ 
+ extern bool vmw_fence_obj_signaled(struct vmw_fence_obj *fence);
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+index 086e69a130d4..548ef2f86508 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+@@ -123,16 +123,6 @@ static bool vmw_fifo_idle(struct vmw_private *dev_priv, uint32_t seqno)
+ 	return (vmw_read(dev_priv, SVGA_REG_BUSY) == 0);
+ }
+ 
+-void vmw_update_seqno(struct vmw_private *dev_priv)
+-{
+-	uint32_t seqno = vmw_fence_read(dev_priv);
+-
+-	if (dev_priv->last_read_seqno != seqno) {
+-		dev_priv->last_read_seqno = seqno;
+-		vmw_fences_update(dev_priv->fman);
+-	}
+-}
+-
+ bool vmw_seqno_passed(struct vmw_private *dev_priv,
+ 			 uint32_t seqno)
+ {
+@@ -141,7 +131,7 @@ bool vmw_seqno_passed(struct vmw_private *dev_priv,
+ 	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
+ 		return true;
+ 
+-	vmw_update_seqno(dev_priv);
++	vmw_fences_update(dev_priv->fman);
+ 	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
+ 		return true;
+ 
 -- 
-With best wishes
-Dmitry
+2.49.0
+
