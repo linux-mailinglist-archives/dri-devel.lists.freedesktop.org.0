@@ -2,65 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 540B0A84881
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 17:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83ACA848A9
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 17:54:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1ED10E323;
-	Thu, 10 Apr 2025 15:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1359B10E12A;
+	Thu, 10 Apr 2025 15:54:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="VoeivUXQ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Jxfr2/bx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69F8710E12A;
- Thu, 10 Apr 2025 15:51:48 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C3C10E9F4;
+ Thu, 10 Apr 2025 15:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744300435;
+ bh=dY0taw0RnXFQe9UsxwFvQx4o/KJDdCaYJwmn/1Z0das=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Jxfr2/bxV/G+j2Cav1iotZ+MQ9fEQHfsxBmI9VosKVHPmGAuGj5fYVYUYf6z3R5TR
+ KVXNJlvmdbachkoBffcaImGOmrnPKt5SgwJWLK6jiA1TY016pOG2KaZdvbq3RpMFN8
+ BcpjxVvfPj4/bKH7+GDSE/mQRtaCrBbKQDT0iKf0ra7FzHhVXg9JpHUmNTyWlDM02+
+ gs286jTM4sGnunhSKMo+NkNE7Nr9l4CS9DluYN5oKcs35uNtKNYD33/hjreGCcmgtH
+ cbHpJNj/u7f/k64gajE6p61Wuj1d0ApexgHPpL4fxuNZsZL01ByzVTZZLE+jamk291
+ jBOUqT4o2/P4Q==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4ZYPSc0mxGz9shl;
- Thu, 10 Apr 2025 17:51:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1744300304;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S8/1bc+SSt/Lx/Up/59n5c8Pu6woNGwVv1gsX+uXOMw=;
- b=VoeivUXQ7HdrLMa0PepurFK2LL+UJ3EIaqVSNiZtIopDYhg6x7+mRpAL/TJI4Ez0qU7pac
- jfDAGctGweLk4yFrby03iwcyMX4g+s4Wl+K4gfbm3WCsiUkT86ZXOOQBD2S4ZV06VkF2wu
- 2ejAm8cihlNu+t5SO4oVxuz9T6N0iHOBh78P3qPUO6J6X+a9/n0Ui8VXho2NhR2ua+g2Ff
- ObKc5TqgDtJyhjKDRbfcI5IB5g8nRvQJgZvdlPFgQUwFA9ivuhwMP1f3J0ASGHjTujI0jw
- pGeRciSKR9W3ZB7Bncr9wPMZgGAG1a9/U+so/kw+v5ora64PUu5DXkDAcnuW7w==
-Date: Thu, 10 Apr 2025 17:51:38 +0200
-From: Anthony Ruhier <aruhier@mailbox.org>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Maya Matuszczyk <maccraft123mc@gmail.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 0/7] Support for GPU ACD feature on Adreno X1-85
-Message-ID: <dmzoooujjb4zojjlgovjt6lccxilnnc3yr4j24vj4hwpzf5ouf@e6qkdlekcsnm>
-References: <20250109-gpu-acd-v4-0-08a5efaf4a23@quicinc.com>
- <dj256lrkc4s5ylqkqdrak6a6p3v62ckkd3orsg7ykz2w6ugllg@rbfkojacklvx>
- <0d1aaba8-7736-497e-8424-84489c637914@oss.qualcomm.com>
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7B19F17E0904;
+ Thu, 10 Apr 2025 17:53:54 +0200 (CEST)
+Date: Thu, 10 Apr 2025 17:53:49 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
+ lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, kernel@collabora.com,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Faith Ekstrand
+ <faith.ekstrand@collabora.com>
+Subject: Re: [PATCH v3 0/8] drm: Introduce sparse GEM shmem
+Message-ID: <20250410175349.6bf6a4ea@collabora.com>
+In-Reply-To: <d4ebcb9f-ca1e-40ae-bc3c-613f88552b94@amd.com>
+References: <20250404092634.2968115-1-boris.brezillon@collabora.com>
+ <20250410164809.21109cbc@collabora.com>
+ <d4ebcb9f-ca1e-40ae-bc3c-613f88552b94@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d1aaba8-7736-497e-8424-84489c637914@oss.qualcomm.com>
-X-MBO-RS-META: hnpqbkrht6pxthkfq3htpiw4uki4eng8
-X-MBO-RS-ID: 74da413a3d37fd97626
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,28 +70,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Christian,
 
-Sorry I should have gave an update on this: I don't think the lockups are
-related to this patch series, the same problem happens without applying these
-patches. It seems to increase by a lot the chances that a GPU lockup happens at
-start, however, so I could use that to debug the real problem.
+On Thu, 10 Apr 2025 17:05:07 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-> What firmware files are you using? ZAP surely comes from the Windows
-> package, but what about GMU and SQE? Linux-firmware?
->
-> Specifically, please provide the GMU version which is printed to dmesg
-> on first GPU open
+> Hi Boris,
+>=20
+> thanks for looping me in. Can you also send the full patch set to me sinc=
+e I don't see that on the mailing list (yet maybe).
+>=20
+> Am 10.04.25 um 16:48 schrieb Boris Brezillon:
+> > +Christian, Alyssa and Faith, as suggested by Sima. I'll make sure to
+> > Cc you on v4, but before that, I'd like to get your opinion on the
+> > drm-gem/drm-gem-shmem changes to see if sending a v4 is actually
+> > desirable or if I should go back to the drawing board.
+> >
+> > On Fri,  4 Apr 2025 11:26:26 +0200
+> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> > =20
+> >> This patch series is a proposal for implementing sparse page allocatio=
+ns
+> >> for shmem objects. It was initially motivated by a kind of BO managed =
+by
+> >> the Panfrost/Panthor and Lima drivers, the tiler heap, which grows on
+> >> demand every time the GPU faults on a virtual address within the heap =
+BO
+> >> range. =20
+>=20
+> Oh, wait a second! GPU faults and DMA fences are usually fundamentally in=
+compatible.
+>=20
+> So stuff like filling in GEM objects on demand like you suggest here is u=
+sually seen as illegal. All resources must be pre-pinned before the submiss=
+ion.
 
-I'm using the firmwares imported from Windows, the Yoga Slim 7x is not in
-linux-firmware. I understood that the firmware files used by the Slim 7x are
-quite old, maybe it could be the problem.
+Unfortunately, that's already how it's done in lima, panfrost and
+panthor.
 
-The GMU version:
+>=20
+> Faulting is only legal when you have something like HMM, SVM or whatever =
+you call it. And then you can just use a plain shmem object to provide you =
+with backing pages.
+>=20
+> I mean we could in theory allow faulting on GEM objects as well, but we w=
+ould need to take very strict precautions on that we currently don't have a=
+s far as I know.
 
-> [drm] Loaded GMU firmware v4.3.17
+We only use this mechanism for very specific allocations: tiler memory
+whose maximum size can't be guessed upfront because tile binning is by
+nature unpredictible.
 
-Thanks
+>=20
+> So could you explain how this works in the first place?
 
---
-Anthony Ruhier
+I can explain you how this works in Panthor, yes. You get an initial
+amount of memory that the tiler can use, when it runs out of memory, it
+will first ask the system for more memory, if the allocation fails, it
+will fallback to what they call "incremental rendering", where the
+already binned primitives are flushed to the FB in order to free memory,
+and the rendering starts over from there, with the memory that has been
+freed.
+
+In Panthor, this on-demand allocation scheme is something that allows
+us to speed-up rendering when there's memory available, but we can make
+progress when that's not the case, hence the failable allocation scheme
+I'm proposing here.
+
+In Panfrost and Lima, we don't have this concept of "incremental
+rendering", so when we fail the allocation, we just fail the GPU job
+with an unhandled GPU fault. And that's how it is today, the
+alloc-on-fault mechanism is being used in at least 3 drivers, and all
+I'm trying to do here is standardize it and try to document the
+constraints that comes with this model, constraint that are currently
+being ignored. Like the fact allocations in the fault handler path
+shouldn't block so we're guaranteed to signal the job fence in finite
+time, and we don't risk a deadlock between the driver shrinker and the
+job triggering the fault.
+
+I'm well aware of the implications of what I'm proposing here, but
+ignoring the fact some drivers already violate the rules don't make them
+disappear. So I'd rather work with you and others to clearly state what
+the alloc-in-fault-path rules are, and enforce them in some helper
+functions, than pretend these ugly things don't exist. :D
+
+Regards,
+
+Boris
