@@ -2,119 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BEAA84D10
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 21:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 402C5A84D17
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 21:32:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABE6710EA56;
-	Thu, 10 Apr 2025 19:31:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9672610E399;
+	Thu, 10 Apr 2025 19:32:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gJPX7vmi";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="T3UBY8Ky";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF28210EA56
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:31:37 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53AFe64C018659
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:31:37 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE6FA10E399
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:32:17 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53AFmMEP018368
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:32:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=ds9TtaCY5KQ6iV/Yaj6mG8zs
- RfUBvQFElU18gYT4+UY=; b=gJPX7vmiC/oS5ak4DBfWZE9ixd9+ysY8osoaEgj7
- 61edvL7XVE34WQiPGOVw+HlwLzPZqN6Ovu/+GgcvyuIN5Fou8pCocDn5TO2+FidD
- Wz7LXd8COtugpdgTP6aan5mqKNwcaw6Eaf0GjmzDVgUxfoe+yUUEubsrKbMfhYqk
- clzFgiIVJUr3IQAmlTsx1vUQb+nmnE3+Z1hwaqRorXlUl16NxUFATWerVOK25eip
- ptaCjZPDZISJHQ3BhWQxySQSOkRyV0ikTUYkHsCESJy+dyEnlfFiSozQDZaSREcy
- dRWjFRFSY60uxcOGQ30oHZ8nfQ0U31bSL2qbKsBirUC5Dg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twdgra7h-1
+ :references:subject:to; s=qcppdkim1; bh=8DC/ULaxKHJNAWyjnCUleasg
+ vjglrf6X9u3PGKsISlg=; b=T3UBY8Kygit4NGggSoZNBrJdpQgE4LhTQkIRWHFg
+ xkf6jgmejro++jMKsqaEqVLrD8EfcefvdfXt7R8CsTgQu0VIHgwP9XUVc0L/aD0/
+ GvLDbuQnkZZABhrV4DRoLyVdlawi4+KUFMPLHJmLrlUXSf3EL2mzANiPQt+GA+n4
+ TwNhCwG51Pr/BeuF7va1WmCZqvTsyoed8wgPzxbb0/DFWXJRqku1RIUjRZ25o++x
+ 1slSfFKEbagMFxOEB1akI0Iu3B9RLYzD1Re0XbPEgSjZKh9mu3Cbw/Xa44irJ6NQ
+ a1R6iznbOzcM3g5eRr8sxxTZ6jMWnbbd+1hzo+ZktNZQXw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twtb88af-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:31:36 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c5bb68b386so341880185a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:31:36 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 19:32:17 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c54767e507so200160385a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:32:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744313496; x=1744918296;
+ d=1e100.net; s=20230601; t=1744313535; x=1744918335;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ds9TtaCY5KQ6iV/Yaj6mG8zsRfUBvQFElU18gYT4+UY=;
- b=NqztEb2X961g/Z2KxzmQKyWnfWQY+A+ueOa1+XJPhd/GqqmeLhL7C2Ssy6K7z3AfUY
- KVaP/d8ObEUJc91KbsK2XWzPNntTSIqfggsam9FkZsBC8Y1OMDrkjVnNIpiZfwtKynGq
- uo6YJEy9zuavCWALxJYExiWk0ZKfm4LtohiZaS0YDNxd4xH4yxbbiB/9idpHdc2as5XR
- V8cjMuwMFKgPSPsP1EVtDAD4Zu9SdzGRQ0qO9wrx4FdYPYUvUhETHKCcRbk/xrc+ki+O
- 1JHbwvPwDlRf0oymYmmgjRKD+vlkHEnFXjDthBJPwLJhJ8BLWjGejuKzGy/SlsNZnAtI
- fCQA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW9635YJzzM5Q7mUlX6Fqtclb4DSyM8PP5d9OTGq7OBL6w+ZKipa3ke7vORrqESm/atfYdGHvFzUqs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyIN9+KwvgSHfE4gU4bdkOCl5l4VkW5X19yCXkVDTB37r4eeXfW
- O7wCCWl5LnEqfToeg2B0i2RSvz3ufUBnnpa8zGqWVoyeHvDvnSaMTMT/lgDFVxmnX9HCQtBQiWj
- mSLny0jOGdTUkZRQK4NpTgti5lMN4KJd26cAei/dmXo91qjAvQ4JhF+yLTAU7yW6f2lw=
-X-Gm-Gg: ASbGnct8GTLXYTNLH3vsAhJRXhMkxilayLXvBhKP+5YaG+zg9dQEeqAQAKVITpoRQ4W
- mKG/WHvVLJe/HhoeoLwVCAeoKr2jIRLupRxu3XwJ5tAS+DMZYRgpZ5UC0yWTj5vFpQ1Xfw6vuho
- hNjWwFbHtqe0nq9LpbQ1+s0S9fJ44LdPdEIb0oomWB4/H1SL27QyIH3/V3aGD2gZ+GGexhPFjF/
- YhY0kxNuD6weCMtWJO7aNUr5xTHVjhDkk20qCHPOCZ4Tn0R5Iwnnz5kwwHJjyWx/RiB5K1t53bU
- EIIR/9QIJqN+0IGXpQ7XfQLGCtAxuJffCke15Q2EAEOqLAEA5K2Xhj9kOkmDtI7QsI2GCbHusKM
+ bh=8DC/ULaxKHJNAWyjnCUleasgvjglrf6X9u3PGKsISlg=;
+ b=ghM27UyUrm9m7BwMpECZqp5hNUmyhTqY8Z12IiWddUSomQST2bDNonCuQJJ9q5s1lM
+ Y6ks4vTPZzfve7geqHQGOMOqDZqsCL7Eo8p6wLQdMnNtA7hObgGIQu9z/53KwtaQVRRE
+ OxeMkrPqQujbxmshb/G4OTC8YeqUBJ7OLwutswn5OmYRUZ7AD6UYXvVYuCPURlFsSpiI
+ m37llFDii0K5kir4nmMAPjbGNVOGP+/ojtxJUOnrr/E0biz7QjXhFFGyzHz9trmF0Q7I
+ crXBSqwHOJM1rOQZN+Decsfbtiz2hFS6vOYLQ/Imd2GtfJlgqtOHJh2tNhUkDHJQb++a
+ T1Ig==
+X-Gm-Message-State: AOJu0YzF02i5P0eHlt2WAbj959zSaK71Oxri2FAS6c/Q8Pls2XFTtNj8
+ TBalcQLV6UtSm+/u7VKpD6ol+zvuROwZuurS3R23MWqGakJKVo4cOVncD0HIf5GGz+j3mWGQHn4
+ U+SgPsPsJ7lviRUveRQPEVQoKDKSe5wLZ2X++GdhiM1Gdc9bfwvS9VnGcMo2ihHnzGrM=
+X-Gm-Gg: ASbGncumKpwnoVqvDFdps4+UeHsblUJfGOTiXhvcYc4FzSVbS9UYwioLH4TaHWHbLvj
+ 0apoQ4FP4Uv7P7wvW/ALI0zhyomapwQDkvKfMgNhW/B561gX+3UFPympJFZW8pEb+5ZS9GBv2rM
+ /zBB98kmgFCiP6vdU/5RBiZiNMaoGa/QUTMSBHX3F1WZuNCXd16RP1TgQamCDtkodAPvM4YmYl5
+ 9UcTzYmpOzNykg7L3NagsiP/gVAnEyYMhhFDiza9ljoDAitcON6JCDf2DapRoo2NSW8sTLTvpFQ
+ c5qLLN5MKnn5S5syJvWAat423ELwz6LEUliHgp80YcWc05N2ZYx3zNoxvd63UL5iqdHE5VbIugk
  =
-X-Received: by 2002:a05:620a:439c:b0:7c5:5e69:4450 with SMTP id
- af79cd13be357-7c7af0d6384mr32376785a.17.1744313496251; 
- Thu, 10 Apr 2025 12:31:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGqctDDvkKrw5rP7GZctwMAOW52noXSrb/QQM/7LagYwEhTOr3WvKjQ5q57zE/X4Pbf9fAxcQ==
-X-Received: by 2002:a05:620a:439c:b0:7c5:5e69:4450 with SMTP id
- af79cd13be357-7c7af0d6384mr32373885a.17.1744313495965; 
- Thu, 10 Apr 2025 12:31:35 -0700 (PDT)
+X-Received: by 2002:a05:620a:468c:b0:7c7:a5f5:61be with SMTP id
+ af79cd13be357-7c7af0e2b87mr33265785a.32.1744313535713; 
+ Thu, 10 Apr 2025 12:32:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFmlVMlr0hl8Yh87KvoA7HWiOyYF1t30gdG7pSQ/S3ZJUQqhzyZ6eV3mA6i9O7Jrazwr8gRtA==
+X-Received: by 2002:a05:620a:468c:b0:7c7:a5f5:61be with SMTP id
+ af79cd13be357-7c7af0e2b87mr33261585a.32.1744313535330; 
+ Thu, 10 Apr 2025 12:32:15 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54d3d123d84sm228105e87.23.2025.04.10.12.31.33
+ 2adb3069b0e04-54d3d123259sm227317e87.15.2025.04.10.12.32.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Apr 2025 12:31:35 -0700 (PDT)
-Date: Thu, 10 Apr 2025 22:31:32 +0300
+ Thu, 10 Apr 2025 12:32:14 -0700 (PDT)
+Date: Thu, 10 Apr 2025 22:32:11 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Anthony Ruhier <aruhier@mailbox.org>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Maya Matuszczyk <maccraft123mc@gmail.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 0/7] Support for GPU ACD feature on Adreno X1-85
-Message-ID: <zns3xlyeajvxxpubzzsls5tnr7tnp4ws2dwfx4s7klzn4nslte@gpgdfjzm2s7p>
-References: <20250109-gpu-acd-v4-0-08a5efaf4a23@quicinc.com>
- <dj256lrkc4s5ylqkqdrak6a6p3v62ckkd3orsg7ykz2w6ugllg@rbfkojacklvx>
- <0d1aaba8-7736-497e-8424-84489c637914@oss.qualcomm.com>
- <dmzoooujjb4zojjlgovjt6lccxilnnc3yr4j24vj4hwpzf5ouf@e6qkdlekcsnm>
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
+ daniel@fooishbar.org, helen.fornazier@gmail.com, airlied@gmail.com,
+ simona.vetter@ffwll.ch, robdclark@gmail.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ valentine.burley@collabora.com, lumag@kernel.org,
+ quic_abhinavk@quicinc.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] drm/ci: Add jobs to validate devicetrees
+Message-ID: <hs7tgbl6f6a5ksuijoxhbmkxtjwr4phedzhlsjycf6kw3fa3wg@27ep6rsq7ok5>
+References: <20250409061543.311184-1-vignesh.raman@collabora.com>
+ <20250409061543.311184-2-vignesh.raman@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dmzoooujjb4zojjlgovjt6lccxilnnc3yr4j24vj4hwpzf5ouf@e6qkdlekcsnm>
-X-Authority-Analysis: v=2.4 cv=PJgP+eqC c=1 sm=1 tr=0 ts=67f81c98 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=ZR51km1V383oZAxlFiMA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: _RdsZOipZarlLZYDV87WdlwB_6AVpuXy
-X-Proofpoint-GUID: _RdsZOipZarlLZYDV87WdlwB_6AVpuXy
+In-Reply-To: <20250409061543.311184-2-vignesh.raman@collabora.com>
+X-Proofpoint-GUID: iBckOqLVduxb4MzfA5QOGYBI4p-gbQcl
+X-Authority-Analysis: v=2.4 cv=LLlmQIW9 c=1 sm=1 tr=0 ts=67f81cc1 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=QX4gbG5DAAAA:8 a=EUspDBNiAAAA:8 a=Y-6xsq27O-P2zhJ8F8cA:9
+ a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-ORIG-GUID: iBckOqLVduxb4MzfA5QOGYBI4p-gbQcl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-10_06,2025-04-10_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 malwarescore=0 spamscore=0
- impostorscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ impostorscore=0 bulkscore=0
+ clxscore=1015 mlxlogscore=713 malwarescore=0 phishscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2504100141
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,36 +121,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 10, 2025 at 05:51:38PM +0200, Anthony Ruhier wrote:
-> Hi,
+On Wed, Apr 09, 2025 at 11:45:38AM +0530, Vignesh Raman wrote:
+> Add jobs to run dt_binding_check and dtbs_check. If warnings are seen,
+> exit with a non-zero error code while configuring them as warning in
+> the GitLab CI pipeline.
 > 
-> Sorry I should have gave an update on this: I don't think the lockups are
-> related to this patch series, the same problem happens without applying these
-> patches. It seems to increase by a lot the chances that a GPU lockup happens at
-> start, however, so I could use that to debug the real problem.
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> ---
 > 
-> > What firmware files are you using? ZAP surely comes from the Windows
-> > package, but what about GMU and SQE? Linux-firmware?
-> >
-> > Specifically, please provide the GMU version which is printed to dmesg
-> > on first GPU open
-> 
-> I'm using the firmwares imported from Windows, the Yoga Slim 7x is not in
-> linux-firmware. I understood that the firmware files used by the Slim 7x are
-> quite old, maybe it could be the problem.
+> v2:
+>   - Use LLVM to build.
 
-Recently firmware for Yoga Slim 7x was merged to linux-firmware. Could
-you please check if this helps or not?
+Why?
 
-> 
-> The GMU version:
-> 
-> > [drm] Loaded GMU firmware v4.3.17
-> 
-> Thanks
-> 
-> --
-> Anthony Ruhier
+>
+
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
 
 -- 
 With best wishes
