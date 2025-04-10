@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A5EA84321
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 14:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65480A8432C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 14:33:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A781810E98A;
-	Thu, 10 Apr 2025 12:31:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF94010E98B;
+	Thu, 10 Apr 2025 12:33:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eWq7rglW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gKdv4iRm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D9B10E98A
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:31:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=o9HPNqR1NrKG0dCf5Dii/xKrU9j5czgEkK/PmU6NEEE=; b=eWq7rglWRHB3Dafsvs8RgV1Vtq
- KxWLMrUw7CQ5TRJlCg99+cerIZ9xD6vlOeqJMuLwK2bwGMfemDG/sUd8yV3dYRGgMUiF/1vk3PC6a
- q98289wvWL23yAmd+qiDV0t8LqUi4CW/r2UdJFjRu+DJdXDPf6M5U9S1vsJRFs2eNjqmoYb8ifahx
- akCjahrmJIusGXhysJVHZ9UbHL9oitz2OTFqVlYdoL6iJtuA3RkckW8ExmDuk9M9zfceBlWKqAQvQ
- 0jgRQlAAOL3EEVsvgfpiN4MEtQ59STnxVpI4eKZMQ5WgTwcDN6xlT3y6541kG1dmruInwIoT7cvNl
- NZZjIXBw==;
-Received: from [189.7.87.174] (helo=[192.168.0.224])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1u2r3q-00EfZn-4l; Thu, 10 Apr 2025 14:31:14 +0200
-Message-ID: <ee5cbc11-b909-4754-ab62-de9581d9785e@igalia.com>
-Date: Thu, 10 Apr 2025 09:31:08 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FCC810E98C
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:33:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744288383; x=1775824383;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=sUXnT7AzCAWYuB7NRP8HhyTBB43qiPBWKF5ffiMn7jU=;
+ b=gKdv4iRmew0lzhuc9stufHzt4bSqpJMYVTPyFEfL9XzlQC9UBLhpzEiS
+ 8XXKfePbLITDjvkwiFJdsvit1L3cNlS1/MQKOJ957nW+XnMAfqbzvwg97
+ w2oOAxvdGlOR4YSRsL4haOPMWQ5mohfJkumZKMW5xXnQ1RGyiMdBVE2NH
+ T4Rl6iTP53r4eLSobOImsqFOzS6zR0gv3rR+sIfEM6dFTjKNoKSjnI8nw
+ aLCByEJ2Agiwa9kNPNJ6Uc6NPO3ZfgQ8AYaW+p0xoXB2HYh7nQJ5JQn49
+ ZP8k9vgHoHSmV/GSZc0v3cxro1CGwHLSG49UhIVQmTknQCV+kh3lTEHHk g==;
+X-CSE-ConnectionGUID: r3HRSu2CRoWzi14js5lmDQ==
+X-CSE-MsgGUID: Q+NL29rgQ7iij3j+gjCpxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="56472304"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="56472304"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2025 05:33:02 -0700
+X-CSE-ConnectionGUID: 9tWWqaaoRSKL1fTtzWFU2g==
+X-CSE-MsgGUID: gFPjeusmTZebHr/9ZVK+oA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="128808925"
+Received: from mfalkows-mobl.ger.corp.intel.com (HELO [10.245.121.109])
+ ([10.245.121.109])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2025 05:33:00 -0700
+Message-ID: <47838624-609e-4719-ae65-a8482f1a6225@linux.intel.com>
+Date: Thu, 10 Apr 2025 14:32:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/v3d: fix client obtained from axi_ids on V3D 4.1
-To: Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
- Melissa Wen <mwen@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Emma Anholt <emma@anholt.net>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250409155504.1093400-2-jmcasanova@igalia.com>
+Subject: Re: [PATCH] accel/ivpu: Add cmdq_id to job related logs
+From: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jacek.lawrynowicz@linux.intel.com,
+ lizhi.hou@amd.com, Karol Wachowski <karol.wachowski@intel.com>
+References: <20250401155939.4049467-1-maciej.falkowski@linux.intel.com>
+ <7508a003-7a2e-4525-8466-099953e31497@oss.qualcomm.com>
+ <1de68a42-52a2-431e-8a5c-5bff746964b7@linux.intel.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250409155504.1093400-2-jmcasanova@igalia.com>
+In-Reply-To: <1de68a42-52a2-431e-8a5c-5bff746964b7@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,91 +73,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chema,
+On 4/8/2025 3:53 PM, Falkowski, Maciej wrote:
 
-On 09/04/25 12:55, Jose Maria Casanova Crespo wrote:
-> The client that causes an MMU error is expected to be reported.
-> But in the case of MMU TFU errors, a non existing client
+> On 4/4/2025 5:18 PM, Jeff Hugo wrote:
+>
+>> On 4/1/2025 9:59 AM, Maciej Falkowski wrote:
+>>> From: Karol Wachowski <karol.wachowski@intel.com>
+>>>
+>>> Add tracking of command queue ID in JOB debug message to improve
+>>> debugging capabilities.
+>>>
+>>> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+>>> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+>>
+>> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+>>
+>> When reviewing this patch, I noticed the kernel doc for struct 
+>> ivpu_job does not document cmdq_id.  I think that would cause an 
+>> error when generating the documentation.  Please address that.
+>
+> Yes, cmdq_id was added recently without according doc line and I will 
+> fix that accordingly.
+Hi Jeff,
 
-"In the case of MMU errors caused by the TFU unit, [...]"
+FYI I see more issues with current kerneldoc for our driver and I will 
+create a separate patch for these fixes.
+Thank you for pointing this out.
 
-> was being reported. This happened because  because the client
-
-There are two "because" in the sentence. Could you add an example of the
-a MMU error with a non-existing client in the commit message?
-
-> calculation was taking into account more than the bits 0-7
-> from the axi_id that were representing the client.
-> 
-> This patch masks the proper bits to do the calculation and
-> limits the returned clients to the expected axi_id ranges that
-> V3D 4.1 and 4.2 use.
-> 
-> Fixes: 38c2c7917adc ("drm/v3d: Fix and extend MMU error handling.")
-> Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
-> ---
->   drivers/gpu/drm/v3d/v3d_irq.c | 33 +++++++++++++++++++++------------
->   1 file changed, 21 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-> index 29f63f572d35..1810743ea7b8 100644
-> --- a/drivers/gpu/drm/v3d/v3d_irq.c
-> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
-> @@ -186,24 +186,33 @@ v3d_hub_irq(int irq, void *arg)
->   		u32 axi_id = V3D_READ(V3D_MMU_VIO_ID);
->   		u64 vio_addr = ((u64)V3D_READ(V3D_MMU_VIO_ADDR) <<
->   				(v3d->va_width - 32));
-> -		static const char *const v3d41_axi_ids[] = {
-> -			"L2T",
-> -			"PTB",
-> -			"PSE",
-> -			"TLB",
-> -			"CLE",
-> -			"TFU",
-> -			"MMU",
-> -			"GMP",
-> +		static const struct {
-> +			u32 begin;
-> +			u32 end;
-> +			const char *client;
-> +		} v3d41_axi_ids[] = {
-> +			{0x00, 0x20, "L2T"},
-> +			{0x20, 0x21, "PTB"},
-> +			{0x40, 0x41, "PSE"},
-> +			{0x60, 0x80, "TLB"},
-> +			{0x80, 0x88, "CLE"},
-> +			{0xA0, 0xA1, "TFU"},
-> +			{0xC0, 0xE0, "MMU"},
-> +			{0xE0, 0xE1, "GMP"},
->   		};
->   		const char *client = "?";
->   
->   		V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL));
->   
->   		if (v3d->ver >= V3D_GEN_41) {
-> -			axi_id = axi_id >> 5;
-> -			if (axi_id < ARRAY_SIZE(v3d41_axi_ids))
-> -				client = v3d41_axi_ids[axi_id];
-> +			axi_id = axi_id & 0xFF;
-> +			for (size_t i = 0; i < ARRAY_SIZE(v3d41_axi_ids); i++) {
-> +				if (axi_id >= v3d41_axi_ids[i].begin &&
-> +				    axi_id < v3d41_axi_ids[i].end) {
-> +					client = v3d41_axi_ids[i].client;
-> +					break;
-> +				}
-> +			}
->   		}
->   
->   		dev_err(v3d->drm.dev, "MMU error from client %s (%d) at 0x%llx%s%s%s\n",
-
-As we are declaring `begin` and `end` as hexadecimal numbers in the
-code, could we display AXI ID as a hexadecimal as well? Just to ease
-future debugging. You would need to change "(%d)".
-
-Please, don't forget to mention this change in the commit message of v2.
-
-Thanks for your patch!
-
-Best Regards,
-- Maíra
-
+Best regards,
+Maciej
+>
+> Best regards,
+> Maciej
+>
