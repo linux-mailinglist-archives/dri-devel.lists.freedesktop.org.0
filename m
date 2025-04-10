@@ -2,124 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C01A83E34
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 11:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3B8A83E5C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 11:21:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4982410E801;
-	Thu, 10 Apr 2025 09:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8001110E2B1;
+	Thu, 10 Apr 2025 09:21:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dBjjiOSD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VNGNo81G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 966EF10E810
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 09:16:59 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53A75Ju8018803
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 09:16:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=/NI4HaeWdHG20yTgWgvdAsga
- B/QNYBVNAVRuaUYyJe4=; b=dBjjiOSD0xzRRsCKkHFO3BiTt1gp1gMlwu7NcCea
- wn1eKWRBYcX4S3JyOJC0wP6aje1NUF6+kzFxd6C21x4cAvpEFAzQeIfd5QoWzSzO
- 4lgWxkDfuQ45s6XRLsgClUk0I8+fRoURxQQuEqQfs4O7QLpYDTdOb/3YXDCIWSmi
- LI9PdHN/uX8aaWh4PAa+CUqw9eM4ed8BrqlG3SZjm1IONcXsUtRu6pLhSL9Esbx2
- pPDvqctjuLyKN2T3NSakRTPfGep6b5FNRQr9AX8zR9vm7ezPgoliTjLovyH0E4gq
- DtL6tqINPp3Qg12idSbsT9Z6RIAxnU9Cw63V7WUis0+xVw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twdgpee3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 09:16:58 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7c5e28d0cc0so104131385a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 02:16:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744276617; x=1744881417;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/NI4HaeWdHG20yTgWgvdAsgaB/QNYBVNAVRuaUYyJe4=;
- b=DjN+olunLTjBzLYtvvdYWTBDEfXMl2PUSnKlG46RrMidb423yXhsJjZzOUl+LlJHeY
- Y10qPFjDYnbaZTL5YnOeyHU2tV3GVz/pRcNkpGbSea3DbjUDGsaV2WBr1HrxV12WHtXj
- j4feJitWMTMnuyFx4yJie9lO9DajvWfebAzUmliKw+em2m6ttQo9lIvg2mbagFR3ymrx
- 9JEItVKowyD+vyvQDOTX0RClkr/aXXHsPWL80UsuVLH0eQXs5C7ObFiamPp9Zi0gbIzy
- Cm2KaJS5AWXLKWkiZDfdhjlwjjfp2iUzzEgnEajtbg1psqjplOSmGzrjue3li4ZvdUOa
- i1lQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWotqXz10g0nUoCzqWS471SuMq+aqxcqs8ix7ht9tZYt2olioQFwusJcrA7T+rJDC9+rbTZkTNHsNE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwGTCLeG4rz7l3u2HrnzuEDN6S+aOnr77Fu6o0x+Rneid/d4g4A
- cbN8yZDDHZzW5y/4fV+EzDn9AOnlOkHrgyOgdwEj3zUUYTggmUQkDj7M8427kfR/KI5BHfUFI/r
- rB2kReha72iIA3ExHBZ9QTAMhKsXJbEe18HRa4uCIoKUNA6TtcweL63yD/TXKgsMbeTA=
-X-Gm-Gg: ASbGncv17fqPddjAipPZ1WFlOh3JzXX2WbsFWxIjz8BFqREIZNTnS580lcvdf+No8DI
- 75BpKiiFzGAdzRFeZi8GjXh2bBdoU9UUDy6c1zPumXWDMt/3lWPjDrwpam7W8Icla/O8RddH5bl
- HikJUfNEekN/UrYiThJpsOSjtf+hv5EPMBThs58mbl1bFdA9JwdNeNzz2+WbzMK4vp74Ypz1HpW
- pAE6UCIlrjsmLZKZkimroUW7dUelRhlWNt//6Adp7f07zvz+fSb8pkfm6I9moSC2dP/8rIJHVTk
- jeL+2iRgVv/+0WT9IvIGZza6EymmPXW/4z2ZYfHnUn70xLT+2TdU5tHp2ihf0ZuIrFZMaadjRUw
- =
-X-Received: by 2002:a05:620a:171e:b0:7c7:609d:d223 with SMTP id
- af79cd13be357-7c7a76bfdf6mr244708185a.42.1744276617623; 
- Thu, 10 Apr 2025 02:16:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFvugvbzG1bQhMo5tx4WT5oAVkdX9Zwn/H4ZbJ4q7g7do1hwxxuv+2Xv7nYPcjDjrokpnPXVA==
-X-Received: by 2002:a05:620a:171e:b0:7c7:609d:d223 with SMTP id
- af79cd13be357-7c7a76bfdf6mr244704485a.42.1744276617283; 
- Thu, 10 Apr 2025 02:16:57 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30f4649d812sm4115651fa.11.2025.04.10.02.16.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Apr 2025 02:16:56 -0700 (PDT)
-Date: Thu, 10 Apr 2025 12:16:54 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Ayushi Makhija <quic_amakhija@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- robdclark@gmail.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
- robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
- conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
- quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
- quic_jesszhan@quicinc.com
-Subject: Re: [PATCH v2 03/10] dt-bindings: display: msm: document DSI
- controller and phy on SA8775P
-Message-ID: <vw4qkj6wtets6dx4irslusnyz2oztjljymzzcmomqxlcphxnvd@gpxrdgzhu5xu>
-References: <20250311122445.3597100-4-quic_amakhija@quicinc.com>
- <20250312-calm-steadfast-cricket-fe9dd8@krzk-bin>
- <654d409e-2325-46e7-a064-ed9e64277e69@quicinc.com>
- <a168a473-c363-4041-8e3e-84fa44e92b10@kernel.org>
- <zpmr6cpiixyu2sj7r7oqpqsge6dcqw6xszldf7ugznmcrxqsme@efiwnggcn5qx>
- <a654d62e-502a-4a47-96c4-a44c14860e54@kernel.org>
- <767e11cd-e338-4e00-a8e7-2e15f3da84b4@oss.qualcomm.com>
- <04d90c1b-1b73-4b6a-b7fc-351754fbb16b@kernel.org>
- <bcc44dcc-8b8a-427a-9a38-8dc6d59c13e3@oss.qualcomm.com>
- <bfab7272-5a41-4072-82a8-0f7401b2affc@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E707110E2B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 09:21:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BFC105C4964;
+ Thu, 10 Apr 2025 09:19:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28655C4CEDD;
+ Thu, 10 Apr 2025 09:21:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744276883;
+ bh=1rOZ6n546c/Vow+AbiFEcm+j1AVgdBOMTM24Q9DKhyM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VNGNo81G6X5eKl1W9ENtuaAvfVGfqCwicipWmRyz/7mED+zpiD7LKiTUytvtYZFRz
+ hWvBZ5HG74rldEtBziE5uLOlKnpFN7kUe5kvebIL6hjfwErV3vnHiRxtz7F0Sp0RWc
+ 4ucFs7+psu1frE28L3uF6hpnKxIgAWHXLgReLqlbbAnSz4oS8WYc6cscfp9yK/SWlG
+ dPRD3EA79j8C70/Es+h8xGWOkxAKk6YzrJbfEEepJZB3PZ139aeCpRRxWZc31tOtIr
+ SFLkGg25pftcl4lRG/L4DiGk+sYPT7gH6B9uJuQOj0Lp9MFtBSt/9oP4Z+m41M15yO
+ WNqdn0G/Jv18g==
+Date: Thu, 10 Apr 2025 11:21:20 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 15/15] drm/tests: hdmi: Add test for unsuccessful
+ forced fallback to YUV420
+Message-ID: <20250410-singing-scarlet-carp-d136f9@houat>
+References: <20250326-hdmi-conn-yuv-v3-0-294d3ebbb4b2@collabora.com>
+ <20250326-hdmi-conn-yuv-v3-15-294d3ebbb4b2@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5ld6zqabluy4kzlv"
 Content-Disposition: inline
-In-Reply-To: <bfab7272-5a41-4072-82a8-0f7401b2affc@kernel.org>
-X-Authority-Analysis: v=2.4 cv=PJgP+eqC c=1 sm=1 tr=0 ts=67f78c8a cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=mGSTcfrgQxl9XoTJgfIA:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-ORIG-GUID: tpKX3BMqAv8En5Xiyprk3uI2J-vQYcRi
-X-Proofpoint-GUID: tpKX3BMqAv8En5Xiyprk3uI2J-vQYcRi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-10_01,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 malwarescore=0 spamscore=0
- impostorscore=0 suspectscore=0 mlxlogscore=911 bulkscore=0 mlxscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504100069
+In-Reply-To: <20250326-hdmi-conn-yuv-v3-15-294d3ebbb4b2@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,39 +66,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 10, 2025 at 08:08:17AM +0200, Krzysztof Kozlowski wrote:
-> On 09/04/2025 17:24, Dmitry Baryshkov wrote:
-> > On 09/04/2025 09:07, Krzysztof Kozlowski wrote:
-> >> On 08/04/2025 22:26, Dmitry Baryshkov wrote:
-> >>>>>>>>> +          - const: qcom,sa8775p-dsi-ctrl
-> >>>>>>>>> +          - const: qcom,mdss-dsi-ctrl
-> >>>>>>>>
-> >>>>>>>> Drop fallback
-> >>>>>>>>
-> >>>>>>>    
-> >>>>>>> Hi Krzysztof,
-> >>>>>>>
-> >>>>>>> I couldn't understand the meaning of "Drop fallback", could please elaborate it ?
-> >>>>>> Look at SM8750 example on the lists. Keep only front compatible.
-> >>>>>
-> >>>>> Why?
-> >>>>
-> >>>> To make things simpler and shorter.
-> >>>
-> >>> I'd prefer consistency. Previous platforms use qcom,mdss-dsi-ctrl.
-> >> Then you should have objected month(s) ago when Rob asked for dropping
-> >> fallback and since then we consistently drop it.
-> > 
-> > Well... It's still not merged. is it?
-> > For SM8750 it kinda makes sense, because the clock handling is different 
-> > from all other current platforms. For the existing devices... I'm not 
-> > that sure.
-> How does it differ? The clock handling does not matter - this is just
-> select of schema for the child node.
 
-Ah.... I'm sorry, I misinterpreted the email. Yes, having only a single
-compat here is perfectly fine. Please excuse me for the confusion.
+--5ld6zqabluy4kzlv
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 15/15] drm/tests: hdmi: Add test for unsuccessful
+ forced fallback to YUV420
+MIME-Version: 1.0
 
--- 
-With best wishes
-Dmitry
+Hi,
+
+On Wed, Mar 26, 2025 at 12:20:04PM +0200, Cristian Ciocaltea wrote:
+> Provide test to verify a forced fallback to YUV420 output cannot succeed
+> when driver doesn't advertise YUV420 support.
+>=20
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 46 ++++++++++++++++=
+++++++
+>  1 file changed, 46 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
+/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> index 99bedb2d6f555b3b140256000dfa7491d2a8f515..c2976b42aa2aacd2a68a871bf=
+fe97e795ca713d4 100644
+> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> @@ -1493,6 +1493,51 @@ static void drm_test_check_max_tmds_rate_format_fa=
+llback_yuv420(struct kunit *te
+>  	drm_modeset_acquire_fini(&ctx);
+>  }
+> =20
+> +/*
+> + * Test that if a driver supports only RGB, but the chosen mode can be
+> + * supported by the screen only in YUV420 output format, we end up with
+> + * an unsuccessful forced fallback attempt.
+
+What do you mean by "forced"?
+
+> + */
+> +static void drm_test_check_driver_unsupported_fallback_yuv420(struct kun=
+it *test)
+> +{
+> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
+> +	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_display_info *info;
+> +	struct drm_display_mode *yuv420_only_mode;
+> +	struct drm_connector *conn;
+> +	struct drm_device *drm;
+> +	struct drm_crtc *crtc;
+> +	int ret;
+> +
+> +	priv =3D drm_kunit_helper_connector_hdmi_init_with_edid(test,
+> +				BIT(HDMI_COLORSPACE_RGB),
+> +				12,
+> +				test_edid_hdmi_1080p_rgb_yuv_4k_yuv420_dc_max_200mhz);
+> +	KUNIT_ASSERT_NOT_NULL(test, priv);
+> +
+> +	drm =3D &priv->drm;
+> +	crtc =3D priv->crtc;
+> +	conn =3D &priv->connector;
+> +	info =3D &conn->display_info;
+> +	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
+> +	KUNIT_ASSERT_FALSE(test, conn->ycbcr_420_allowed);
+> +
+> +	yuv420_only_mode =3D drm_kunit_display_mode_from_cea_vic(test, drm, 95);
+> +	KUNIT_ASSERT_NOT_NULL(test, yuv420_only_mode);
+> +	KUNIT_ASSERT_TRUE(test, drm_mode_is_420_only(info, yuv420_only_mode));
+> +
+> +	drm_modeset_acquire_init(&ctx, 0);
+> +
+> +	ret =3D drm_kunit_helper_enable_crtc_connector(test, drm,
+> +						     crtc, conn,
+> +						     yuv420_only_mode,
+> +						     &ctx);
+> +	KUNIT_EXPECT_LT(test, ret, 0);
+
+I think that's where your current approach falls a bit short. You should
+really craft the state yourself and check the returned value of
+drm_atomic_check_only(), not rely on
+drm_kunit_helper_enable_crtc_connector() doing the right thing, when it
+doesn't really tell you :)
+
+> +	drm_modeset_drop_locks(&ctx);
+> +	drm_modeset_acquire_fini(&ctx);
+> +}
+> +
+
+We still need to do the same with a driver that supports both, but the
+monitor doesn't.
+
+Maxime
+
+--5ld6zqabluy4kzlv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/eNjwAKCRDj7w1vZxhR
+xSKiAQDkonxN60rz0JspyRR0uvsBoq64KXR4Thvx3Z/3zkrEigEA+UTBeBBhzess
+N1PNe2Ay/+jreFxiZR9K5z4jOlxhfA4=
+=JsA3
+-----END PGP SIGNATURE-----
+
+--5ld6zqabluy4kzlv--
