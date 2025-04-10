@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA04A84500
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 15:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EE9A8452B
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 15:44:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28C2810E9C4;
-	Thu, 10 Apr 2025 13:37:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EDB210E9C6;
+	Thu, 10 Apr 2025 13:44:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CHIrHXPc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XBIf1QGq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14E2D10E9C4
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:37:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744292254;
- bh=8fbIlJVnhK8RsBM3PS14Qusu49bcxi2X3XaABa1477A=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=CHIrHXPc0N0fh1kYfJmCpBO8Qcgk/pQAnQAfzsQTKa/jc32ugQidoiF7Nl+nmHRxC
- 0Ng+6Wb01l1KBF2P08bQoNrXd/9xCjqvgI5usgwV0PtfiVURMHWOMtOMNNg8JxDigL
- wC2jUmgY5nEhxGMtIZzvGDwpmgKn/f+v9tQ+huvhSbezlTDDH4o36Y/nk6FWr0MxJA
- FsUij43qSAc1YnTNS20tnwpxRZ4tYgu9YjFvzgC/Pd1XNsY3yEA4fxFIeDnh1AxWkr
- W05oA005TtIUBwmlH078jsjvHvBfImpSgJYObbx0PpuJh661QRRqUGLsgeJdump2LH
- eeDP76yk2DtAg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 250C517E017D;
- Thu, 10 Apr 2025 15:37:34 +0200 (CEST)
-Date: Thu, 10 Apr 2025 15:37:29 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/9] drm/panthor: Make getting GPU model name simple
- and extensible
-Message-ID: <20250410153729.1fb0444c@collabora.com>
-In-Reply-To: <a661ba42-9393-4070-9e52-dd19df2d6880@arm.com>
-References: <20250320111741.1937892-1-karunika.choo@arm.com>
- <20250320111741.1937892-6-karunika.choo@arm.com>
- <20250321090254.667a86cb@collabora.com>
- <a661ba42-9393-4070-9e52-dd19df2d6880@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8B4810E9C2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 13:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744292670; x=1775828670;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=PcgLhjxU9wGXy0T4lTIA6CfDdvXXlZVuUwJaciUX2pk=;
+ b=XBIf1QGqnlqyzQKmXcPFsdlWgX9aypmLzdxov1sv0kk9ek7WEVeyr4Lb
+ rCNuYnXP+jnNzuwfRO9Pp3MjdMRNffKVPIiB1U5QaTJEqqiM3146YF4Ep
+ 4qLFkteLIq+YK9593q3bpARwqSJdtoaZn6dwlwUlRVaGZMbuKxDnrhYWc
+ WLhAoDfSwp398pSmqZaNr8Z3m/+OzYZqhUb5w/JGnvxLnsSmneweoVR+r
+ xyfbvelSPbrw2oMUuUyIEB51bdInfoJfuLimUTqfslsE87clwnRHpAFxY
+ /9i9fGMZ/nWM+rL+x1dx3jHnEvHGn6xO6niZD3ghfpdguQM1bRY59vpl4 w==;
+X-CSE-ConnectionGUID: W4dUAAn+TyWCLtWPX8L/uw==
+X-CSE-MsgGUID: 5zQDzmmLSPGLIEg0W6D5Ew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="49614788"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="49614788"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2025 06:44:28 -0700
+X-CSE-ConnectionGUID: 8iMRzOU9RQqO3t66c3pQHg==
+X-CSE-MsgGUID: AuGwZPatTSuKzfnj1rYhVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; d="scan'208";a="133632857"
+Received: from kwywiol-mobl1.ger.corp.intel.com (HELO [10.245.83.152])
+ ([10.245.83.152])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2025 06:44:26 -0700
+Message-ID: <9be4fc9c-979d-400f-9791-ad152e5444d2@linux.intel.com>
+Date: Thu, 10 Apr 2025 15:44:25 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Test for imported buffers with
+ drm_gem_is_imported()
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maciej.falkowski@linux.intel.com, ogabbay@kernel.org
+Cc: dri-devel@lists.freedesktop.org
+References: <20250408113247.418007-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20250408113247.418007-1-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,113 +74,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 10 Apr 2025 14:20:59 +0100
-Karunika Choo <karunika.choo@arm.com> wrote:
+Applied to drm-misc-next
 
-> On 21/03/2025 08:02, Boris Brezillon wrote:
-> > On Thu, 20 Mar 2025 11:17:37 +0000
-> > Karunika Choo <karunika.choo@arm.com> wrote:
-> >  =20
-> >> This patch replaces the previous panthor_model structure with a simple
-> >> switch case based on the product_id, which is in the format of:
-> >>         ((arch_major << 24) | product_major)
-> >>
-> >> This not only simplifies the comparison, but also allows extending the
-> >> function to accommodate naming differences based on GPU features.
-> >>
-> >> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
-> >> ---
-> >>  drivers/gpu/drm/panthor/panthor_hw.c   | 63 +++++++-------------------
-> >>  drivers/gpu/drm/panthor/panthor_regs.h |  1 +
-> >>  2 files changed, 18 insertions(+), 46 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/pa=
-nthor/panthor_hw.c
-> >> index 4cc4b0d5382c..12183c04cd21 100644
-> >> --- a/drivers/gpu/drm/panthor/panthor_hw.c
-> >> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
-> >> @@ -5,40 +5,6 @@
-> >>  #include "panthor_hw.h"
-> >>  #include "panthor_regs.h"
-> >> =20
-> >> -/**
-> >> - * struct panthor_model - GPU model description
-> >> - */
-> >> -struct panthor_model {
-> >> -	/** @name: Model name. */
-> >> -	const char *name;
-> >> -
-> >> -	/** @arch_major: Major version number of architecture. */
-> >> -	u8 arch_major;
-> >> -
-> >> -	/** @product_major: Major version number of product. */
-> >> -	u8 product_major;
-> >> -};
-> >> -
-> >> -/**
-> >> - * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely id=
-entified
-> >> - * by a combination of the major architecture version and the major p=
-roduct
-> >> - * version.
-> >> - * @_name: Name for the GPU model.
-> >> - * @_arch_major: Architecture major.
-> >> - * @_product_major: Product major.
-> >> - */
-> >> -#define GPU_MODEL(_name, _arch_major, _product_major) \
-> >> -{\
-> >> -	.name =3D __stringify(_name),				\
-> >> -	.arch_major =3D _arch_major,				\
-> >> -	.product_major =3D _product_major,			\
-> >> -}
-> >> -
-> >> -static const struct panthor_model gpu_models[] =3D {
-> >> -	GPU_MODEL(g610, 10, 7),
-> >> -	{},
-> >> -};
-> >> -
-> >>  static void arch_10_8_gpu_info_init(struct panthor_device *ptdev)
-> >>  {
-> >>  	unsigned int i;
-> >> @@ -66,29 +32,34 @@ static void arch_10_8_gpu_info_init(struct panthor=
-_device *ptdev)
-> >>  	ptdev->gpu_info.l2_present =3D gpu_read64(ptdev, GPU_L2_PRESENT_LO);
-> >>  }
-> >> =20
-> >> +static char *get_gpu_model_name(struct panthor_device *ptdev)
-> >> +{
-> >> +	const u32 gpu_id =3D ptdev->gpu_info.gpu_id;
-> >> +	const u32 product_id =3D GPU_PROD_ID_MAKE(GPU_ARCH_MAJOR(gpu_id),
-> >> +						GPU_PROD_MAJOR(gpu_id));
-> >> +
-> >> +	switch (product_id) {
-> >> +	case GPU_PROD_ID_MAKE(10, 7):
-> >> +		return "Mali-G610";
-> >> +	} =20
-> >=20
-> > I a big fan of these ever growing switch statements with nested
-> > conditionals. Could we instead add an optional ::get_variant() callback
-> > in panthor_model and have the following formatting:
-> >=20
-> > 	"Mali-%s%s%s", model->name,
-> > 		       model->get_variant ? "-" : "",
-> > 		       model->get_variant ? model->get_variant() : ""
-> > =20
->=20
-> While that=E2=80=99s certainly an option, I wonder if it=E2=80=99s better=
- to avoid
-> additional string formatting when it=E2=80=99s not strictly necessary. The
-> switch cases provide a straightforward GPU name without needing to
-> handle conditional "-" separators or similar.
->=20
-> Also, with the current approach, if a GPU is misconfigured with an
-> incorrect product_major for its core count, the switch=E2=80=99s fallthro=
-ugh
-> helps ensure the correct name is still returned. A model->get_variant()
-> callback wouldn=E2=80=99t give us that same flexibility to adjust the nam=
-e based
-> on such mismatches.
+On 4/8/2025 1:31 PM, Thomas Zimmermann wrote:
+> Instead of testing import_attach for imported GEM buffers, invoke
+> drm_gem_is_imported() to do the test. The helper tests the dma_buf
+> itself while import_attach is just an artifact of the import. Prepares
+> to make import_attach optional.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/accel/ivpu/ivpu_gem.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+> index 212d21ad2bbd0..e0d242d9f3e50 100644
+> --- a/drivers/accel/ivpu/ivpu_gem.c
+> +++ b/drivers/accel/ivpu/ivpu_gem.c
+> @@ -30,7 +30,7 @@ static inline void ivpu_dbg_bo(struct ivpu_device *vdev, struct ivpu_bo *bo, con
+>  		 "%6s: bo %8p vpu_addr %9llx size %8zu ctx %d has_pages %d dma_mapped %d mmu_mapped %d wc %d imported %d\n",
+>  		 action, bo, bo->vpu_addr, ivpu_bo_size(bo), bo->ctx ? bo->ctx->id : 0,
+>  		 (bool)bo->base.pages, (bool)bo->base.sgt, bo->mmu_mapped, bo->base.map_wc,
+> -		 (bool)bo->base.base.import_attach);
+> +		 (bool)drm_gem_is_imported(&bo->base.base));
+>  }
+>  
+>  /*
+> @@ -122,7 +122,7 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
+>  		bo->ctx = NULL;
+>  	}
+>  
+> -	if (bo->base.base.import_attach)
+> +	if (drm_gem_is_imported(&bo->base.base))
+>  		return;
+>  
+>  	dma_resv_lock(bo->base.base.resv, NULL);
+> @@ -461,7 +461,7 @@ static void ivpu_bo_print_info(struct ivpu_bo *bo, struct drm_printer *p)
+>  	if (bo->mmu_mapped)
+>  		drm_printf(p, " mmu_mapped");
+>  
+> -	if (bo->base.base.import_attach)
+> +	if (drm_gem_is_imported(&bo->base.base))
+>  		drm_printf(p, " imported");
+>  
+>  	drm_printf(p, "\n");
 
-Fair enough. I guess we can live with this sort of switch statement for
-the name selection. Hopefully the variants are rare enough that it
-doesn't go too wild.
