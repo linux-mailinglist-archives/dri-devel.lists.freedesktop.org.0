@@ -2,60 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AD2A84342
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 14:37:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E23F9A84345
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Apr 2025 14:37:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 752F310E993;
-	Thu, 10 Apr 2025 12:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C99910E994;
+	Thu, 10 Apr 2025 12:37:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="JzcDa9w2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SySSy58/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8833410E993
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:36:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=rFnq27x4coNBtZepsly9PbTQ7APl0Mfwznlf1HossBM=; b=J
- zcDa9w2v/7924RpIAuaZDDthRZokXLPF3GAbgzFxH/hFXltPmDjL9xclwJavLX1u
- f7M7PZYDDeCM7Yu9pbFjHfchNb75+KhBgZh4CqJyzxUlt8v0FIFIF+cj51lYFVwG
- 2g2zOVJnf7r0t6KgVc3GHDmCPqnFMPWbuBNFIDSemE=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-107 (Coremail) ; Thu, 10 Apr 2025 20:36:07 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Thu, 10 Apr 2025 20:36:07 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Heiko Stuebner" <heiko.stuebner@cherry.de>
-Cc: heiko@sntech.de, andy.yan@rock-chips.com, hjc@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, dmitry.baryshkov@linaro.org,
- dianders@chromium.org, sebastian.reichel@collabora.com,
- cristian.ciocaltea@collabora.com, boris.brezillon@collabora.com,
- l.stach@pengutronix.de, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- "Damon Ding" <damon.ding@rock-chips.com>
-Subject: Re:[PATCH v8 00/13] Add eDP support for RK3588
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250310104114.2608063-1-damon.ding@rock-chips.com>
-References: <20250310104114.2608063-1-damon.ding@rock-chips.com>
-X-NTES-SC: AL_Qu2fBv6Tt00t4SafbOkfmkcVgOw9UcO5v/Qk3oZXOJF8jCHpwA4HTVlTAlzay/CDBgq2nQiHXjJ+zeFCZZJFRqM7aHKxRR/qKmeJ6RSE2yJXmA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E34610E994
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 12:37:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 2A3EA4A433;
+ Thu, 10 Apr 2025 12:37:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C55C4CEEB;
+ Thu, 10 Apr 2025 12:37:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744288627;
+ bh=siix8QxAUFHF9p1TCm1b1aqn9CeLG9tsCd6VcEJcBh0=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+ b=SySSy58/Eav1gMkPXW1S/wgI2Y22A2E5Hgn4LbjiVcp5TQESnRgdcxlpbr8nactGG
+ 1XbzKgBbeGWfWKZ5lvme8/20HzFVyD709txXtKfPdlAe/4WcxYrxEiAF6KFMGnlAia
+ G3KImgwA9/05b8dLA0QtLSW/HbRIuCoxrs4fFs7wlM1sxqbW4sskrT7F5eO4W3DxmQ
+ +aZM2McNuKOO9xCCj51jUjsYWDxKdybe8rEGmrrSg9brhWQ1lNdb+0idsMuviJcPLb
+ T1GKrt0JIU3JslAF/tgJC8Fwq/hoWrY2CMs6UV8kp0uMhfqzufzvBdv/iJVHXee65o
+ n3uJRgwSUMeXQ==
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal
+ [10.202.2.45])
+ by mailfauth.phl.internal (Postfix) with ESMTP id AB04F1200043;
+ Thu, 10 Apr 2025 08:37:05 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+ by phl-compute-05.internal (MEProxy); Thu, 10 Apr 2025 08:37:05 -0400
+X-ME-Sender: <xms:cbv3Z5s9-gGAG3dDSWX3VomfzKKEubmWVa7mSbgVScgwNG2ybcxyKw>
+ <xme:cbv3ZyeZvyecKTSujrReceM3Mn_sWrM--7k8w-pP_7rTHb9Pz4opP2nM0k31qxSoT
+ SebmWxlrVZ7cptrDBI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdekleefucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+ pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+ gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+ tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnh
+ gvlhdrohhrgheqnecuggftrfgrthhtvghrnhepjeejffetteefteekieejudeguedvgfef
+ feeitdduieekgeegfeekhfduhfelhfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomheprghrnhguodhmvghsmhhtphgruhhthhhpvghrshhonhgr
+ lhhithihqdduvdekhedujedtvdegqddvkeejtddtvdeigedqrghrnhgupeepkhgvrhhnvg
+ hlrdhorhhgsegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvdefpdhmohguvgepshhm
+ thhpohhuthdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggvpdhrtghpthhtohephh
+ gvihhkohdrshhtuhgvsghnvghrsegthhgvrhhrhidruggvpdhrtghpthhtohepughirghn
+ uggvrhhssegthhhrohhmihhumhdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffi
+ hllhdrtghhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphht
+ thhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhope
+ hnihgtkhdruggvshgruhhlnhhivghrshdolhhkmhhlsehgmhgrihhlrdgtohhmpdhrtghp
+ thhtohepjhhushhtihhnshhtihhtthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepmh
+ horhgsohesghhoohhglhgvrdgtohhm
+X-ME-Proxy: <xmx:cbv3Z8yXgQnxLe6zI6FSbEhMDhg7qo02kR0rGIHDoIV4cs-GOcmEYA>
+ <xmx:cbv3ZwNWgpeJJB32nMRE8jW4wrRNCrSdTloRJ26XBnbFQbpXUnOcYQ>
+ <xmx:cbv3Z58VzbxJbvLlmYhmKrIm31t7guCvrDThcDyR3T-JVZ6jnsnUXA>
+ <xmx:cbv3ZwWrOfavbBv_5zQw8c4RtSzPeof7iMRuwaPfuCE_ZyB2ws8lfg>
+ <xmx:cbv3Z6fgbReSz6Dtcquvnp-KhRSvf8u1B7_cDeAq0UTPSrznMl7CKjAR>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id 71F202220073; Thu, 10 Apr 2025 08:37:05 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Message-ID: <f83f9e3.ae33.1961fb35185.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: aygvCgA3f6A3u_dnnVOTAA--.29407W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hErXmf3t3Jj+QAEs9
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-ThreadId: T2c1dd8538360b27d
+Date: Thu, 10 Apr 2025 14:36:45 +0200
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Arnd Bergmann" <arnd@arndb.de>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>, 
+ "Simona Vetter" <simona@ffwll.ch>, "Nathan Chancellor" <nathan@kernel.org>,
+ "Heiko Stuebner" <heiko.stuebner@cherry.de>,
+ "Andy Yan" <andy.yan@rock-chips.com>
+Cc: "laurent.pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>,
+ "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
+ "Dmitry Baryshkov" <lumag@kernel.org>,
+ "Doug Anderson" <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Message-Id: <220ed0fb-1ccb-4371-9b5a-a99dfdc84984@app.fastmail.com>
+In-Reply-To: <30e22523-216f-41a9-b931-e90136a45378@app.fastmail.com>
+References: <20250408175116.1770876-1-arnd@kernel.org>
+ <30e22523-216f-41a9-b931-e90136a45378@app.fastmail.com>
+Subject: Re: [PATCH] drm/bridge/synopsys: avoid field overflow warning
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,49 +109,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhlbGxvIEhlaWtvLAogICBDb3VsZCB5b3UgdGFrZSB0aGlzIHNlcmllcyA/IFRoZXkgaGF2ZSBh
-bHJlYWR5IGdvdCB0aGUgbmVjZXNzYXJ5IFItQiBhbmQgQWNrLiAKSSB0aGluayBEYW1vbiBzdGls
-bCBoYXMgc29tZSBwYXRjaGVzIGZvciBjb25uZWN0b3IgZGVjb3VwbGluZy4gV2l0aCB0aGlzIHNl
-cmllcyBoYXZlIGJlZW4gbWVyZ2VkIGVhcmxpZXIuIApIaXMgbmV3IHBhdGNoZXMgY2FuIGhhdmUg
-ZmV3ZXIgZGVwZW5kZW5jaWVzLgogICAgCgpBdCAyMDI1LTAzLTEwIDE4OjQxOjAxLCAiRGFtb24g
-RGluZyIgPGRhbW9uLmRpbmdAcm9jay1jaGlwcy5jb20+IHdyb3RlOgo+UGlja2VkIGZyb206Cj5o
-dHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtcm9ja2NoaXAvbGlzdC8/
-c2VyaWVzPTkzNjkzMgo+Cj5UaGVzZSBwYXRjaHMgaGF2ZSBiZWVuIHRlc3RlZCB3aXRoIGEgMTUz
-NngyMDQ4cDYwIGVEUCBwYW5lbCBvbgo+UkszNTg4UyBFVkIxIGJvYXJkLCBhbmQgSERNSSAxMDgw
-UC80SyBkaXNwbGF5IGFsc28gaGFzIGJlZW4gdmVyaWZpZWQKPm9uIFJLMzU4OCBFVkIxIGJvYXJk
-LiBGdXJ0aGVybW9yZSwgdGhlIGVEUCBkaXNwbGF5IGhhcyBiZWVuIHJlY2hlY2tlZAo+b24gUksz
-Mzk5IHNhcHBoaXJlIGV4Y2F2YXRvciBib2FyZC4KPgo+UGF0Y2ggMX4zICAgYXJlIHByZXBhcmF0
-aW9ucyBmb3IgdGhlIFJLMzU4OCBlRFAgc3VwcG9ydCBvbiBib3RoIEFuYWxvZ2l4Cj4gICAgICAg
-ICAgICBzaWRlLgo+UGF0Y2ggNH44ICAgYXJlIHRvIHN1cHBvcnQgdG8gZ2V0IHBhbmVsIGZyb20g
-dGhlIERQIEFVWCBidXMuCj5QYXRjaCA5fjExICBhcmUgdGhlIFJLMzU4OCBBbmFsb2dpeCBEUCBk
-cml2ZXIgc3VwcG9ydC4KPlBhdGNoIDEyICAgIGlzIHRoZSBhZGRpdGlvbiBvZiBSSzM1ODggZURQ
-MCBub2RlLgo+UGF0Y2ggMTMgICAgaXMgdG8gZW5hYmxlIHRoZSBlRFAwIGRpc3BsYXkgb24gUksz
-NTg4UyBFVkIxIGJvYXJkLgo+Cj5EYW1vbiBEaW5nICgxMyk6Cj4gIGRybS9icmlkZ2U6IGFuYWxv
-Z2l4X2RwOiBBZGQgaXJxIGZsYWcgSVJRRl9OT19BVVRPRU4gaW5zdGVhZCBvZgo+ICAgIGNhbGxp
-bmcgZGlzYWJsZV9pcnEoKQo+ICBkcm0vYnJpZGdlOiBhbmFsb2dpeF9kcDogUmVtb3ZlIENPTkZJ
-R19QTSByZWxhdGVkIGNoZWNrIGluCj4gICAgYW5hbG9naXhfZHBfYmluZCgpL2FuYWxvZ2l4X2Rw
-X3VuYmluZCgpCj4gIGRybS9icmlkZ2U6IGFuYWxvZ2l4X2RwOiBBZGQgc3VwcG9ydCBmb3IgcGh5
-IGNvbmZpZ3VyYXRpb24uCj4gIGR0LWJpbmRpbmdzOiBkaXNwbGF5OiByb2NrY2hpcDogYW5hbG9n
-aXgtZHA6IEFkZCBzdXBwb3J0IHRvIGdldCBwYW5lbAo+ICAgIGZyb20gdGhlIERQIEFVWCBidXMK
-PiAgZHJtL2JyaWRnZTogYW5hbG9naXhfZHA6IFN1cHBvcnQgdG8gZ2V0ICZhbmFsb2dpeF9kcF9k
-ZXZpY2UucGxhdF9kYXRhCj4gICAgYW5kICZhbmFsb2dpeF9kcF9kZXZpY2UuYXV4Cj4gIGRybS9i
-cmlkZ2U6IGFuYWxvZ2l4X2RwOiBBZGQgc3VwcG9ydCB0byBnZXQgcGFuZWwgZnJvbSB0aGUgRFAg
-QVVYIGJ1cwo+ICBkcm0vYnJpZGdlOiBhbmFsb2dpeF9kcDogQWRkIHN1cHBvcnQgZm9yCj4gICAg
-JmRybV9kcF9hdXgud2FpdF9ocGRfYXNzZXJ0ZWQoKQo+ICBkcm0vcm9ja2NoaXA6IGFuYWxvZ2l4
-X2RwOiBBZGQgc3VwcG9ydCB0byBnZXQgcGFuZWwgZnJvbSB0aGUgRFAgQVVYCj4gICAgYnVzCj4g
-IGR0LWJpbmRpbmdzOiBkaXNwbGF5OiByb2NrY2hpcDogYW5hbG9naXgtZHA6IEFkZCBzdXBwb3J0
-IGZvciBSSzM1ODgKPiAgZHJtL2JyaWRnZTogYW5hbG9naXhfZHA6IEFkZCBzdXBwb3J0IGZvciBS
-SzM1ODgKPiAgZHJtL3JvY2tjaGlwOiBhbmFsb2dpeF9kcDogQWRkIHN1cHBvcnQgZm9yIFJLMzU4
-OAo+ICBhcm02NDogZHRzOiByb2NrY2hpcDogQWRkIGVEUDAgbm9kZSBmb3IgUkszNTg4Cj4gIGFy
-bTY0OiBkdHM6IHJvY2tjaGlwOiBFbmFibGUgZURQMCBkaXNwbGF5IG9uIFJLMzU4OFMgRVZCMSBi
-b2FyZAo+Cj4gLi4uL3JvY2tjaGlwL3JvY2tjaGlwLGFuYWxvZ2l4LWRwLnlhbWwgICAgICAgIHwg
-IDI1ICsrKystCj4gYXJjaC9hcm02NC9ib290L2R0cy9yb2NrY2hpcC9yazM1ODgtYmFzZS5kdHNp
-IHwgIDI4ICsrKysrCj4gLi4uL2Jvb3QvZHRzL3JvY2tjaGlwL3JrMzU4OHMtZXZiMS12MTAuZHRz
-ICAgIHwgIDU1ICsrKysrKysrKysKPiAuLi4vZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeF9k
-cF9jb3JlLmMgICAgfCAgODUgKysrKysrKysrLS0tLS0tCj4gLi4uL2dwdS9kcm0vYnJpZGdlL2Fu
-YWxvZ2l4L2FuYWxvZ2l4X2RwX3JlZy5jIHwgIDUyICsrKysrKysrKwo+IGRyaXZlcnMvZ3B1L2Ry
-bS9yb2NrY2hpcC9LY29uZmlnICAgICAgICAgICAgICB8ICAgMSArCj4gLi4uL2dwdS9kcm0vcm9j
-a2NoaXAvYW5hbG9naXhfZHAtcm9ja2NoaXAuYyAgIHwgMTAzICsrKysrKysrKysrKysrKystLQo+
-IGluY2x1ZGUvZHJtL2JyaWRnZS9hbmFsb2dpeF9kcC5oICAgICAgICAgICAgICB8ICAgNyArLQo+
-IDggZmlsZXMgY2hhbmdlZCwgMzEwIGluc2VydGlvbnMoKyksIDQ2IGRlbGV0aW9ucygtKQo+Cj4t
-LSAKPjIuMzQuMQo+Cg==
+On Wed, Apr 9, 2025, at 09:07, Arnd Bergmann wrote:
+> On Tue, Apr 8, 2025, at 19:51, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> clang-16 and earlier complain about what it thinks might be an out of
+>> range number:
+>>
+>> drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:348:8: error: call to 
+>> __compiletime_assert_579 declared with 'error' attribute: FIELD_PREP: 
+>> value too large for the field
+>>                      PHY_SYS_RATIO(tmp));
+>>                      ^
+>> drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:90:27: note: expanded 
+>> from macro 'PHY_SYS_RATIO'
+>>  #define PHY_SYS_RATIO(x)                FIELD_PREP(GENMASK(16, 0), x)
+>>
+>
+> I still see the same build failure in some other configurations even
+> with this patch. Please disregard this version, I'll try to come
+> up with a better one.
+
+I couldn't come up with anything that actually worked, other than
+the hack below, which just works around the compiletime error
+in FIELD_PREP(), but doesn't look like a proper fix.
+
+If anyone else has any ideas, I can test their patch.
+
+       Arnd
+
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
+index c76f5f2e74d1..8ba528462ede 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
+@@ -344,7 +344,7 @@ static void dw_mipi_dsi2_phy_ratio_cfg(struct dw_mipi_dsi2 *dsi2)
+         */
+        tmp = DIV_ROUND_CLOSEST_ULL(phy_hsclk << 16, sys_clk);
+        regmap_write(dsi2->regmap, DSI2_PHY_SYS_RATIO_MAN_CFG,
+-                    PHY_SYS_RATIO(tmp));
++                    PHY_SYS_RATIO(tmp & GENMASK(16, 0)));
+ }
+ 
+ static void dw_mipi_dsi2_lp2hs_or_hs2lp_cfg(struct dw_mipi_dsi2 *dsi2)
