@@ -2,80 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C645A84F7F
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 00:06:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5BCA84FBB
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 00:38:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A6810E1AA;
-	Thu, 10 Apr 2025 22:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE3F10E030;
+	Thu, 10 Apr 2025 22:38:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A1XbxLvv";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="gu6dthzL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
- [209.85.166.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1144310E1AA
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 22:06:42 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id
- e9e14a558f8ab-3d46fddf357so5246555ab.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 15:06:42 -0700 (PDT)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
+ [209.85.167.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2623910E030
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 22:38:30 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id
+ 5614622812f47-3fe83c8cbdbso380777b6e.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 15:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744322801; x=1744927601; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E7ICNZV18cZHr2vbkLA3GpRwRAJQKYpv6Yp1RF0PmOc=;
- b=A1XbxLvvg5UsbcivzWspYBzShTdgX43RxU3P/2PooCfmd8oNANKfpVslMPS+zsvq2F
- fSCSLzruBWCz5nQBgYpXcusvcaxgsw2YccMUpl2vtfSx7xamEjExmu+mspS3V/O/4gAs
- EWJT9D+ou1ykG4lNsYOp6rXO2o9m8j2GPKckxM6WeKIdSKDCOqrtoeT6MGXpH45FecFz
- pxGwde3wJKIBquMzx+cwyxiHIxYlZ3ZLHQfkNuOR8qI6CQagAsPrN7BM4kG38h1cUzwc
- jecrUUvsWIBnjOQEfgnKD4tycNNyA8PkatF+Xmak6FOLP6Wna6Whrt1z4YbhWrDTWJUh
- qXrg==
+ d=broadcom.com; s=google; t=1744324710; x=1744929510;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=d0P2TlwIEf9kPuxNGAbmmgQ1sJXcR7ZE6PZRogbi8YQ=;
+ b=gu6dthzLGcMDIKh7vWALgfdmlDooT7dMfRaL4AykQ06i3x8BXS9sPcWMR+QV6mWhub
+ BSDaiTKkcuk0b+7rZ8TTJ+R33coUVRp/6eNspppPiyUpb85gEL84kuEeL4fB9HKyi6aA
+ 336FtY2PRPCPcRdFqUPxI4zxNCe8iuI5cx2Zk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744322801; x=1744927601;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E7ICNZV18cZHr2vbkLA3GpRwRAJQKYpv6Yp1RF0PmOc=;
- b=EYspCSgNFp62YcV8xvDuBZGCGbii8NS9ZrqMdlCywQd1aGDOehYjJv52wCiQ3CfrSV
- JGPwvkBCahXtEak87VYI0qVSdn+ueU8TY9aY50ungQbC68KSv7nAwrx005dISo7/uKdh
- TmkSbIq2iHhXthlsULYEvHbsSgn/2pt+uFSWB76Vb+V2e32O1WyiJLaqGk8PPEwgk8Tb
- 86iDVXqwclrYpfW7zKJ32hk4PwxQfrZQ8WfBPa3/YxaDNcMKdJBC8FpDr/eupwQPD7iq
- 4BbOd7kP5D6n+HmgHMVeiA8ZOHgBLaJYqkgzHuDrith20dZEaNKPghmjxn70l6W4/7Zd
- Crlw==
+ d=1e100.net; s=20230601; t=1744324710; x=1744929510;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=d0P2TlwIEf9kPuxNGAbmmgQ1sJXcR7ZE6PZRogbi8YQ=;
+ b=HREyp2isBzRX7Fw+bm/6x+D8bJ1IJEnzcYcEeL6yO/oEL8+Fg/i6j0ArxWkY1VubLW
+ Kt2YQvXBkL0wiqTRVKnN7985qtw3uumRGARoIWBShirTmdmbLCvz6hdQpaxWkZHN6+Vi
+ nDvhIfhKePlBbqwjd6fk63DgRZIqantfXG1Ruk+tWtmu7P1HOtLoqBieY0Xqs5IF65tF
+ d2895Y3KQ7RLHw9pqD1gpOcZZIeborUnN37MmcORxDlXmc6EP9QI+TfIp6zFRtFPGFBc
+ 408QA1rhDi43o2e/YTyoA40WHt0c6G5I4cYwTTLBeCNPxVxBzMDLSXkvf7MBctpdxAdL
+ ma5Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWd76MS7ewfxPb84SCpzua8g+3ouwoY93DQqtlA7JTHSL8Hz4ZlIa9l+Q4l2oj3mq+7EjB1j90HO+A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzEvgMzgYdVg7qIHdNSpWWZT2T/369/Yg6RViQpneH3re4C390Q
- EomCpWVZnSOf9lOHOlUyo59fp/c2m20sdYy0P86DEOMJA+WDjbzUZuF8gSP8na1UmrEzAYC8SXu
- iZD4e8houyYCRxghD9FIGUjSAanI=
-X-Gm-Gg: ASbGncuFpIYhqKGCp5WU3TpH+yXF9UMKozfELAZ4vSi4MH0zIq7ok2YmOwebK/g1fO9
- M9iqhawLgGB5hiLkj4+9I9BYN27pfLgcm1fPG0Lx05Fb/Q98EafcAlO0sdG/N8v6AXD55d2GxG3
- p55BlgIr+AOk9Z6FiUzcW2bmtPSpOeNxTLWV9u+9jElETODEOHWCvmLCA6
-X-Google-Smtp-Source: AGHT+IEPRpH3UqQvP2ZHQTbc4I7CWqGnc1U/KINkDJ4Z6Yy1t8pFZOhHpeJPZSPZN4Ye+gf4xD7+v/NgFyUWDrafl80=
-X-Received: by 2002:a92:c261:0:b0:3d3:e284:afbb with SMTP id
- e9e14a558f8ab-3d7ec2276f9mr6044675ab.11.1744322801057; Thu, 10 Apr 2025
- 15:06:41 -0700 (PDT)
+ AJvYcCW9aIvhewuxYKP3Izr2rIH6WkoRPhAeRprb7bkfkgQOOFS6044wAMUAx4mAqtHkPMZHZaRXvSFhDOU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyqNwXsEhVrfO99OUGnRJ3o7qbf6S2ovrwvJuDR8bo/9uoB7HdA
+ 3+hyht7I1PIbb0XSgu1AznxfJj4ve4+Vy6IVDNQub/xUWqpa/wzWEa2ualhxpA==
+X-Gm-Gg: ASbGncvqiUY3/b4+7B/WW1d3NrCyfrrh04P1I7cAfozGi6lskpQBOMumSIIn8+rHm19
+ U+R69StMM4W0ktJRwiW4ytcoeND+ulXaf+NyVTJIfSnv+koRSnL58psyvlmfC0LnjzSQK9nU6x7
+ qLekOyqREqWwoO0QbH9wHYYLoxQZfUUV+4hFgKyee4zrFJ4njZg3tUbheOJNn7zJdNr1dI6apmv
+ AiBYuluk4D16jE3ZJb6tp5PGWHjeiHMqfJnJ+wICBNJfDo5F8wGDDnIBSKHZJq3LCPoyJ8GtoDp
+ nTkzPe+qz47tI2gZML3AxuITTAWRRlDGCO1kHFYfRDjFlfiTeiAC6MXzr9wuouXczimGkXCAlOF
+ Bw7ekgA==
+X-Google-Smtp-Source: AGHT+IEMRDnu3JsZ5Oh+YKWXMO2OihdPbNJnBnCRX1S+x+Q0j2KqbjZhaujZ04eVQGUikUJfJ/8YQw==
+X-Received: by 2002:a05:6808:1b2a:b0:3f9:8b5b:294c with SMTP id
+ 5614622812f47-400850e952emr255579b6e.31.1744324709774; 
+ Thu, 10 Apr 2025 15:38:29 -0700 (PDT)
+Received: from [10.211.247.102] ([216.221.25.44])
+ by smtp.gmail.com with ESMTPSA id
+ 5614622812f47-400762d486dsm724884b6e.24.2025.04.10.15.38.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Apr 2025 15:38:28 -0700 (PDT)
+Message-ID: <59b5fdd4-9598-423a-9fa5-174e54228bab@broadcom.com>
+Date: Thu, 10 Apr 2025 15:38:58 -0700
 MIME-Version: 1.0
-References: <c715ef30-9d91-46f3-8a0f-1039f3d25e7d@stanley.mountain>
-In-Reply-To: <c715ef30-9d91-46f3-8a0f-1039f3d25e7d@stanley.mountain>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 10 Apr 2025 15:06:28 -0700
-X-Gm-Features: ATxdqUGor6TYjFwFif4Nt2sCrEKfvSFfALNnIVB1JHLShlwtHgWuM9y-gnK_g3U
-Message-ID: <CAF6AEGshmGO0AAD3ndz-gN32r+xf2u=7gyf9aXbkZyb97AUXdA@mail.gmail.com>
-Subject: Re: [PATCH next] drm/syncobj: Fix leak in
- drm_syncobj_import_sync_file_fence()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Rob Clark <robdclark@chromium.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/vmwgfx: Update last_read_seqno under the fence
+ lock
+To: Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
+ martin.krastev@broadcom.com
+References: <20250410195508.233367-1-ian.forbes@broadcom.com>
+From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Content-Language: en-US
+In-Reply-To: <20250410195508.233367-1-ian.forbes@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,77 +90,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 10, 2025 at 9:33=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> We need to cleanup if the chain =3D dma_fence_chain_alloc() allocation
-> fails.  Now that we have multiple error returns in this function, switch
-> to using an unwind ladder for cleanup.
->
-> Fixes: c2d3a7300695 ("drm/syncobj: Extend EXPORT_SYNC_FILE for timeline s=
-yncobjs")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+On 4/10/25 12:55, Ian Forbes wrote:
+> There was a possible race in vmw_update_seqno. Because of this race it
+> was possible for last_read_seqno to go backwards. Remove this function
+> and replace it with vmw_update_fences which now sets and returns the
+> last_read_seqno while holding the fence lock. This serialization via the
+> fence lock ensures that last_read_seqno is monotonic again.
+> 
+> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
 > ---
->  drivers/gpu/drm/drm_syncobj.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.=
-c
-> index 636cd83ca29e..c136d0c772dc 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -745,21 +745,24 @@ static int drm_syncobj_import_sync_file_fence(struc=
-t drm_file *file_private,
+>  drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c     |  2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |  1 -
+>  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |  3 +--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_fence.c   | 18 +++++++++---------
+>  drivers/gpu/drm/vmwgfx/vmwgfx_fence.h   |  2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_irq.c     | 12 +-----------
+>  6 files changed, 13 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+> index dd4ca6a9c690..8fe02131a6c4 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+> @@ -544,7 +544,7 @@ int vmw_cmd_send_fence(struct vmw_private *dev_priv, uint32_t *seqno)
+>  	cmd_fence = (struct svga_fifo_cmd_fence *) fm;
+>  	cmd_fence->fence = *seqno;
+>  	vmw_cmd_commit_flush(dev_priv, bytes);
+> -	vmw_update_seqno(dev_priv);
+> +	vmw_fences_update(dev_priv->fman);
+>  
+>  out_err:
+>  	return ret;
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> index 594af8eb04c6..6d4a68f0ae37 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> @@ -1006,7 +1006,6 @@ extern int vmw_fallback_wait(struct vmw_private *dev_priv,
+>  			     uint32_t seqno,
+>  			     bool interruptible,
+>  			     unsigned long timeout);
+> -extern void vmw_update_seqno(struct vmw_private *dev_priv);
+>  extern void vmw_seqno_waiter_add(struct vmw_private *dev_priv);
+>  extern void vmw_seqno_waiter_remove(struct vmw_private *dev_priv);
+>  extern void vmw_goal_waiter_add(struct vmw_private *dev_priv);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> index e831e324e737..90ce5372343b 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> @@ -3878,8 +3878,7 @@ vmw_execbuf_copy_fence_user(struct vmw_private *dev_priv,
+>  
+>  		fence_rep.handle = fence_handle;
+>  		fence_rep.seqno = fence->base.seqno;
+> -		vmw_update_seqno(dev_priv);
+> -		fence_rep.passed_seqno = dev_priv->last_read_seqno;
+> +		fence_rep.passed_seqno = vmw_fences_update(dev_priv->fman);
+>  	}
+>  
+>  	/*
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+> index 588d50ababf6..9d1465558839 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+> @@ -172,7 +172,7 @@ vmwgfx_wait_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+>  	wake_up_process(wait->task);
+>  }
+>  
+> -static void __vmw_fences_update(struct vmw_fence_manager *fman);
+> +static u32 __vmw_fences_update(struct vmw_fence_manager *fman);
+>  
+>  static long vmw_fence_wait(struct dma_fence *f, bool intr, signed long timeout)
 >  {
->         struct dma_fence *fence =3D sync_file_get_fence(fd);
->         struct drm_syncobj *syncobj;
-> +       int ret;
->
->         if (!fence)
->                 return -EINVAL;
->
->         syncobj =3D drm_syncobj_find(file_private, handle);
->         if (!syncobj) {
-> -               dma_fence_put(fence);
-> -               return -ENOENT;
-> +               ret =3D -ENOENT;
-> +               goto err_put_fence;
->         }
->
->         if (point) {
->                 struct dma_fence_chain *chain =3D dma_fence_chain_alloc()=
-;
->
-> -               if (!chain)
-> -                       return -ENOMEM;
-> +               if (!chain) {
-> +                       ret =3D -ENOMEM;
-> +                       goto err_put_syncobj;
-> +               }
->
->                 drm_syncobj_add_point(syncobj, chain, fence, point);
->         } else {
-> @@ -769,6 +772,13 @@ static int drm_syncobj_import_sync_file_fence(struct=
- drm_file *file_private,
->         dma_fence_put(fence);
->         drm_syncobj_put(syncobj);
->         return 0;
-> +
-> +err_put_syncobj:
-> +       drm_syncobj_put(syncobj);
-> +err_put_fence:
-> +       dma_fence_put(fence);
-> +
-> +       return ret;
+> @@ -457,7 +457,7 @@ static bool vmw_fence_goal_check_locked(struct vmw_fence_obj *fence)
+>  	return true;
+>  }
+>  
+> -static void __vmw_fences_update(struct vmw_fence_manager *fman)
+> +static u32 __vmw_fences_update(struct vmw_fence_manager *fman)
+>  {
+>  	struct vmw_fence_obj *fence, *next_fence;
+>  	struct list_head action_list;
+> @@ -495,13 +495,16 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
+>  
+>  	if (!list_empty(&fman->cleanup_list))
+>  		(void) schedule_work(&fman->work);
+> +	return (fman->dev_priv->last_read_seqno = seqno);
 
-I suppose you could just initialize ret to zero and collapse the two
-return paths?  Either way,
-
-Reviewed-by: Rob Clark <robdclark@gmail.com>
+Should this be WRITE_ONCE(fman->dev_priv->last_read_seqno) = seqno ?
 
 >  }
->
->  static int drm_syncobj_export_sync_file(struct drm_file *file_private,
-> --
-> 2.47.2
->
+>  
+> -void vmw_fences_update(struct vmw_fence_manager *fman)
+> +u32 vmw_fences_update(struct vmw_fence_manager *fman)
+>  {
+> +	u32 seqno;
+>  	spin_lock(&fman->lock);
+> -	__vmw_fences_update(fman);
+> +	seqno = __vmw_fences_update(fman);
+>  	spin_unlock(&fman->lock);
+> +	return seqno;
+>  }
+>  
+>  bool vmw_fence_obj_signaled(struct vmw_fence_obj *fence)
+> @@ -778,7 +781,6 @@ int vmw_fence_obj_signaled_ioctl(struct drm_device *dev, void *data,
+>  		(struct drm_vmw_fence_signaled_arg *) data;
+>  	struct ttm_base_object *base;
+>  	struct vmw_fence_obj *fence;
+> -	struct vmw_fence_manager *fman;
+>  	struct ttm_object_file *tfile = vmw_fpriv(file_priv)->tfile;
+>  	struct vmw_private *dev_priv = vmw_priv(dev);
+>  
+> @@ -787,14 +789,12 @@ int vmw_fence_obj_signaled_ioctl(struct drm_device *dev, void *data,
+>  		return PTR_ERR(base);
+>  
+>  	fence = &(container_of(base, struct vmw_user_fence, base)->fence);
+> -	fman = fman_from_fence(fence);
+>  
+>  	arg->signaled = vmw_fence_obj_signaled(fence);
+>  
+>  	arg->signaled_flags = arg->flags;
+> -	spin_lock(&fman->lock);
+> -	arg->passed_seqno = dev_priv->last_read_seqno;
+> -	spin_unlock(&fman->lock);
+> +	arg->passed_seqno = READ_ONCE(dev_priv->last_read_seqno);
+> +
+>  
+>  	ttm_base_object_unref(&base);
+>  
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+> index a7eee579c76a..10264dab5f6a 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+> @@ -86,7 +86,7 @@ vmw_fence_obj_reference(struct vmw_fence_obj *fence)
+>  	return fence;
+>  }
+>  
+> -extern void vmw_fences_update(struct vmw_fence_manager *fman);
+> +u32 vmw_fences_update(struct vmw_fence_manager *fman);
+>  
+>  extern bool vmw_fence_obj_signaled(struct vmw_fence_obj *fence);
+>  
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+> index 086e69a130d4..548ef2f86508 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+> @@ -123,16 +123,6 @@ static bool vmw_fifo_idle(struct vmw_private *dev_priv, uint32_t seqno)
+>  	return (vmw_read(dev_priv, SVGA_REG_BUSY) == 0);
+>  }
+>  
+> -void vmw_update_seqno(struct vmw_private *dev_priv)
+> -{
+> -	uint32_t seqno = vmw_fence_read(dev_priv);
+> -
+> -	if (dev_priv->last_read_seqno != seqno) {
+> -		dev_priv->last_read_seqno = seqno;
+> -		vmw_fences_update(dev_priv->fman);
+> -	}
+> -}
+> -
+>  bool vmw_seqno_passed(struct vmw_private *dev_priv,
+>  			 uint32_t seqno)
+>  {
+> @@ -141,7 +131,7 @@ bool vmw_seqno_passed(struct vmw_private *dev_priv,
+>  	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
+>  		return true;
+>  
+> -	vmw_update_seqno(dev_priv);
+> +	vmw_fences_update(dev_priv->fman);
+>  	if (likely(dev_priv->last_read_seqno - seqno < VMW_FENCE_WRAP))
+>  		return true;
+>  
+
+
+-- 
+Maaz Mombasawala <maaz.mombasawala@broadcom.com>
