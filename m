@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927B7A85050
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 01:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623FFA85051
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 01:56:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE37D10EA8C;
-	Thu, 10 Apr 2025 23:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A895A10EA8A;
+	Thu, 10 Apr 2025 23:56:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="goMRnP2p";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jO15wlid";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F34010EA8C
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 23:56:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C1D10EA8A
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Apr 2025 23:56:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 205BB6843D;
- Thu, 10 Apr 2025 23:56:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A15BC4CEDD;
- Thu, 10 Apr 2025 23:56:32 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id D3FF368449;
+ Thu, 10 Apr 2025 23:56:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2D53C4CEDD;
+ Thu, 10 Apr 2025 23:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744329396;
- bh=5AD3tVCCnPhzivSgvNP08fMHMTPQoqboba5m88+FTW0=;
+ s=k20201202; t=1744329401;
+ bh=a0htN/ztmUF/8nrqCubtCrAnCy2d9AiGQ/Vr4/78Y2c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=goMRnP2pXvIVoXfCxbUkTVK/2EdDuk5uZ66jOCIjQ+eVW3x4J5jM7iAbQWI8psbby
- PFRhr7QRHIJ/o0dQvsPb5HVC0G4nFvMgfaF5U/S8kNfZG4m/jPSgBk3nFS4OmFThiE
- qFOgeDyP/44p7zfiCWcEooFvuhJVJ2q0FK0RCZ70iN5KaCYmpmO7MIiwkZeM9kfp+B
- mUj6uhN/NPLpKOOpk9hnWIEEyCvXMcEwyUXpTfp/eQPogBeOFUwL1ADDQE0jVCzKpI
- erKPhaLtDKP8HMR7UAK+Dgg+2MXYCwBlpZBF5ZywEw/YGqCJqdClojwZS8vLam2sl0
- aZthHtRp9QvvA==
+ b=jO15wlidyYogBPYGBYaAGSlnaxHEyVPpQ5DR154ap/5ZjitlDM4d2VS9uMgyBSpCe
+ 2BdFF6Y2G9la35mRiveihkiN26dTBTbEXEmnRd9YDIRBe98ggwipT7UFiGGcj8lvt6
+ OuThU5bdU0pmwZwEuB7UIMzdGkaa+Rn4oaJ869Ixu24aEvCT0qQE16PDs09eP89Qsg
+ AYOi4c3m6A5VED4/DylhU9++McLcq0lLpzLNN4g5vRyEO0X3Kx32SMgpwfCCBr+TLM
+ 2HseJSR9NC4u7iKtdgk+EXFzsWVRR6oWK+1Ek/WpMknwcKREXWjtifeIbs/NGXWbxu
+ 732F3aLWayxOQ==
 From: Danilo Krummrich <dakr@kernel.org>
 To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, lyude@redhat.com,
@@ -40,9 +40,9 @@ Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
  a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
  dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v2 5/8] rust: drm: add DRM driver registration
-Date: Fri, 11 Apr 2025 01:55:24 +0200
-Message-ID: <20250410235546.43736-6-dakr@kernel.org>
+Subject: [PATCH v2 6/8] rust: drm: file: Add File abstraction
+Date: Fri, 11 Apr 2025 01:55:25 +0200
+Message-ID: <20250410235546.43736-7-dakr@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250410235546.43736-1-dakr@kernel.org>
 References: <20250410235546.43736-1-dakr@kernel.org>
@@ -65,116 +65,197 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Asahi Lina <lina@asahilina.net>
 
-Implement the DRM driver `Registration`.
+A DRM File is the DRM counterpart to a kernel file structure,
+representing an open DRM file descriptor.
 
-The `Registration` structure is responsible to register and unregister a
-DRM driver. It makes use of the `Devres` container in order to allow the
-`Registration` to be owned by devres, such that it is automatically
-dropped (and the DRM driver unregistered) once the parent device is
-unbound.
+Add a Rust abstraction to allow drivers to implement their own File types
+that implement the DriverFile trait.
 
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Asahi Lina <lina@asahilina.net>
-[ Rework of drm::Registration
-    * move VTABLE to drm::Device to prevent use-after-free bugs; VTABLE
-      needs to be bound to the lifetime of drm::Device, not the
-      drm::Registration
-    * combine new() and register() to get rid of the registered boolean
-    * remove file_operations
-    * move struct drm_device creation to drm::Device
-    * introduce Devres
-    * original source archive: https://archive.is/Pl9ys
+[ Rework of drm::File
+    * switch to the Opaque<T> type
+    * fix (mutable) references to struct drm_file (which in this context
+      is UB)
+    * restructure and rename functions to align with common kernel
+      schemes
+    * write and fix safety and invariant comments
+    * remove necessity for and convert 'as' casts
+    * original source archive: https://archive.is/GH8oy
 
   - Danilo ]
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- rust/kernel/drm/driver.rs | 60 ++++++++++++++++++++++++++++++++++++++-
- rust/kernel/drm/mod.rs    |  1 +
- 2 files changed, 60 insertions(+), 1 deletion(-)
+ rust/bindings/bindings_helper.h |  1 +
+ rust/kernel/drm/device.rs       |  4 +-
+ rust/kernel/drm/driver.rs       |  3 +
+ rust/kernel/drm/file.rs         | 99 +++++++++++++++++++++++++++++++++
+ rust/kernel/drm/mod.rs          |  2 +
+ 5 files changed, 107 insertions(+), 2 deletions(-)
+ create mode 100644 rust/kernel/drm/file.rs
 
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 1dd7100c1cff..e39fb4210710 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -8,6 +8,7 @@
+ 
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
++#include <drm/drm_file.h>
+ #include <drm/drm_ioctl.h>
+ #include <kunit/test.h>
+ #include <linux/blk-mq.h>
+diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+index c5433d314409..f7d7abf83fa4 100644
+--- a/rust/kernel/drm/device.rs
++++ b/rust/kernel/drm/device.rs
+@@ -58,8 +58,8 @@ pub struct Device<T: drm::Driver> {
+ impl<T: drm::Driver> Device<T> {
+     const VTABLE: bindings::drm_driver = drm_legacy_fields! {
+         load: None,
+-        open: None, // TODO: File abstraction
+-        postclose: None, // TODO: File abstraction
++        open: Some(drm::File::<T::File>::open_callback),
++        postclose: Some(drm::File::<T::File>::postclose_callback),
+         unload: None,
+         release: None,
+         master_set: None,
 diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-index 6d09d1933d3e..96bb287eada2 100644
+index 96bb287eada2..24c2225b5d28 100644
 --- a/rust/kernel/drm/driver.rs
 +++ b/rust/kernel/drm/driver.rs
-@@ -4,7 +4,15 @@
- //!
- //! C header: [`include/linux/drm/drm_drv.h`](srctree/include/linux/drm/drm_drv.h)
+@@ -109,6 +109,9 @@ pub trait Driver {
+     /// Should be either `drm::gem::Object<T>` or `drm::gem::shmem::Object<T>`.
+     type Object: AllocImpl;
  
--use crate::{bindings, drm, str::CStr};
-+use crate::{
-+    bindings, device,
-+    devres::Devres,
-+    drm,
-+    error::{Error, Result},
-+    prelude::*,
-+    str::CStr,
-+    types::ARef,
-+};
- use macros::vtable;
- 
- /// Driver use the GEM memory manager. This should be set for all modern drivers.
-@@ -107,3 +115,53 @@ pub trait Driver {
-     /// IOCTL list. See `kernel::drm::ioctl::declare_drm_ioctls!{}`.
-     const IOCTLS: &'static [drm::ioctl::DrmIoctlDescriptor];
- }
++    /// The type used to represent a DRM File (client)
++    type File: drm::file::DriverFile;
 +
-+/// The registration type of a `drm::Device`.
+     /// Driver metadata
+     const INFO: DriverInfo;
+ 
+diff --git a/rust/kernel/drm/file.rs b/rust/kernel/drm/file.rs
+new file mode 100644
+index 000000000000..3b97728f03e0
+--- /dev/null
++++ b/rust/kernel/drm/file.rs
+@@ -0,0 +1,99 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++
++//! DRM File objects.
++//!
++//! C header: [`include/linux/drm/drm_file.h`](srctree/include/linux/drm/drm_file.h)
++
++use crate::{bindings, drm, error::Result, prelude::*, types::Opaque};
++use core::marker::PhantomData;
++use core::pin::Pin;
++
++/// Trait that must be implemented by DRM drivers to represent a DRM File (a client instance).
++pub trait DriverFile {
++    /// The parent `Driver` implementation for this `DriverFile`.
++    type Driver: drm::Driver;
++
++    /// Open a new file (called when a client opens the DRM device).
++    fn open(device: &drm::Device<Self::Driver>) -> Result<Pin<KBox<Self>>>;
++}
++
++/// An open DRM File.
 +///
-+/// Once the `Registration` structure is dropped, the device is unregistered.
-+pub struct Registration<T: Driver>(ARef<drm::Device<T>>);
++/// # Invariants
++///
++/// `self.0` is always a valid pointer to an open `struct drm_file`.
++#[repr(transparent)]
++pub struct File<T: DriverFile>(Opaque<bindings::drm_file>, PhantomData<T>);
 +
-+impl<T: Driver> Registration<T> {
-+    /// Creates a new [`Registration`] and registers it.
-+    pub fn new(drm: &drm::Device<T>, flags: usize) -> Result<Self> {
-+        // SAFETY: Safe by the invariants of `drm::Device`.
-+        let ret = unsafe { bindings::drm_dev_register(drm.as_raw(), flags) };
-+        if ret < 0 {
-+            return Err(Error::from_errno(ret));
-+        }
-+
-+        Ok(Self(drm.into()))
++impl<T: DriverFile> File<T> {
++    #[doc(hidden)]
++    /// Not intended to be called externally, except via declare_drm_ioctls!()
++    ///
++    /// # Safety
++    ///
++    /// `raw_file` must be a valid pointer to an open `struct drm_file`, opened through `T::open`.
++    pub unsafe fn as_ref<'a>(ptr: *mut bindings::drm_file) -> &'a File<T> {
++        // SAFETY: `raw_file` is valid by the safety requirements of this function.
++        unsafe { &*ptr.cast() }
 +    }
 +
-+    /// Same as [`Registration::new`}, but transfers ownership of the [`Registration`] to
-+    /// [`Devres`].
-+    pub fn new_foreign_owned(drm: &drm::Device<T>, dev: &device::Device, flags: usize) -> Result {
-+        if drm.as_ref().as_raw() != dev.as_raw() {
-+            return Err(EINVAL);
-+        }
-+
-+        let reg = Registration::<T>::new(drm, flags)?;
-+        Devres::new_foreign_owned(dev, reg, GFP_KERNEL)
++    pub(super) fn as_raw(&self) -> *mut bindings::drm_file {
++        self.0.get()
 +    }
 +
-+    /// Returns a reference to the `Device` instance for this registration.
-+    pub fn device(&self) -> &drm::Device<T> {
-+        &self.0
++    fn driver_priv(&self) -> *mut T {
++        // SAFETY: By the type invariants of `Self`, `self.as_raw()` is always valid.
++        unsafe { (*self.as_raw()).driver_priv }.cast()
++    }
++
++    /// Return a pinned reference to the driver file structure.
++    pub fn inner(&self) -> Pin<&T> {
++        // SAFETY: By the type invariant the pointer `self.as_raw()` points to a valid and opened
++        // `struct drm_file`, hence `driver_priv` has been properly initialized by `open_callback`.
++        unsafe { Pin::new_unchecked(&*(self.driver_priv())) }
++    }
++
++    /// The open callback of a `struct drm_file`.
++    pub(crate) extern "C" fn open_callback(
++        raw_dev: *mut bindings::drm_device,
++        raw_file: *mut bindings::drm_file,
++    ) -> core::ffi::c_int {
++        // SAFETY: A callback from `struct drm_driver::open` guarantees that
++        // - `raw_dev` is valid pointer to a `sturct drm_device`,
++        // - the corresponding `sturct drm_device` has been registered.
++        let drm = unsafe { drm::Device::as_ref(raw_dev) };
++
++        // SAFETY: `raw_file` valid pointer to a `struct drm_file`.
++        let file = unsafe { File::<T>::as_ref(raw_file) };
++
++        let inner = match T::open(drm) {
++            Err(e) => {
++                return e.to_errno();
++            }
++            Ok(i) => i,
++        };
++
++        // SAFETY: This pointer is treated as pinned, and the Drop guarantee is upheld in
++        // `postclose_callback()`.
++        let driver_priv = KBox::into_raw(unsafe { Pin::into_inner_unchecked(inner) });
++
++        // SAFETY: By the type invariants of `Self`, `self.as_raw()` is always valid.
++        unsafe { (*file.as_raw()).driver_priv = driver_priv.cast() };
++
++        0
++    }
++
++    /// The postclose callback of a `struct drm_file`.
++    pub(crate) extern "C" fn postclose_callback(
++        _raw_dev: *mut bindings::drm_device,
++        raw_file: *mut bindings::drm_file,
++    ) {
++        // SAFETY: This reference won't escape this function
++        let file = unsafe { File::<T>::as_ref(raw_file) };
++
++        // SAFETY: `file.driver_priv` has been created in `open_callback` through `KBox::into_raw`.
++        let _ = unsafe { KBox::from_raw(file.driver_priv()) };
 +    }
 +}
 +
-+// SAFETY: `Registration` doesn't offer any methods or access to fields when shared between
-+// threads, hence it's safe to share it.
-+unsafe impl<T: Driver> Sync for Registration<T> {}
-+
-+// SAFETY: Registration with and unregistration from the DRM subsystem can happen from any thread.
-+unsafe impl<T: Driver> Send for Registration<T> {}
-+
-+impl<T: Driver> Drop for Registration<T> {
-+    /// Removes the registration from the kernel if it has completed successfully before.
-+    fn drop(&mut self) {
-+        // SAFETY: Safe by the invariant of `ARef<drm::Device<T>>`. The existence of this
-+        // `Registration` also guarantees the this `drm::Device` is actually registered.
-+        unsafe { bindings::drm_dev_unregister(self.0.as_raw()) };
-+    }
-+}
++impl<T: DriverFile> super::private::Sealed for File<T> {}
 diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-index 967854a2083e..2d88e70ba607 100644
+index 2d88e70ba607..b36223e5bd98 100644
 --- a/rust/kernel/drm/mod.rs
 +++ b/rust/kernel/drm/mod.rs
-@@ -9,6 +9,7 @@
+@@ -4,12 +4,14 @@
+ 
+ pub mod device;
+ pub mod driver;
++pub mod file;
+ pub mod ioctl;
+ 
  pub use self::device::Device;
  pub use self::driver::Driver;
  pub use self::driver::DriverInfo;
-+pub use self::driver::Registration;
+ pub use self::driver::Registration;
++pub use self::file::File;
  
  pub(crate) mod private {
      pub trait Sealed {}
