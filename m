@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53AFAA85DD3
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 14:55:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E567A85DD9
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 14:56:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8578810EB9E;
-	Fri, 11 Apr 2025 12:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA72110EBA3;
+	Fri, 11 Apr 2025 12:56:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t+BmnKnX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BO8//cLj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33BC010EBA2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 12:55:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B6E110EBA2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 12:56:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E43D96845E;
- Fri, 11 Apr 2025 12:55:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D692C4CEE2;
- Fri, 11 Apr 2025 12:55:34 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 59E8F68461;
+ Fri, 11 Apr 2025 12:55:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E7C9C4CEE2;
+ Fri, 11 Apr 2025 12:55:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744376137;
- bh=1JVVosuEJjtVUPPGOQoV/EL2ui4efcKyx8phzWVmkg0=;
+ s=k20201202; t=1744376159;
+ bh=J8M4JFYmx01LcRK9HJDdbXvbwf2HzJiX3Z3XXtkSQr8=;
  h=From:To:Cc:Subject:Date:From;
- b=t+BmnKnXy19PvUkWOcAzg7fOKFmhUnDU3SGCoUDWktvSqKtvbdhc85WCv2NbB5Kas
- ekrTOe/NVtTDWP+OSothG7PvNErTvbyd3xa1H8+uMZ7NbwiJ6BrLs1eV9l/+6KnQHw
- SJzItaX7lT0Hmzf9WqEBVCe7+5QSsRx6ZbTPTVZSDRHIskIuNrn/HeUYUr+tFGoPa/
- w3nSpmDEXpZA9Unqzu8zLKJ2mL39xsuF4p20tWW2JM82fdQXFLXpuwyPUwuVy8U4+H
- BFIhACQ1Rs+vq3PvT0oBE0zMPahH1LuxmHXCx5UJ68gvprFhbqMbKz+pDF0ZE6uwVa
- P003fDMkZRMfw==
+ b=BO8//cLjkefWqDPBaOYYzaBs71e92+rxyxiFbhI/6h3L9sOghR9Txdhd+SmP5Xt+u
+ d+F5LUAM1gllmAdwOTybG7XaOggqi+Sd6r2IvfkdL4qny08kF/+5SU9OQ05jNl5WTt
+ BtdaIjXaLNC0xv53CxHRDBWZ/4xPPxah3fktyXJV5NuJQ1ESzbJHh7zdJGdf1BnhEm
+ S+GaK3iBO3zLyezJdKzE74bOZailuhsriasp+sPbRZrWW3REfwmvXSECP0Yr1avZf8
+ 0t8Vl/elrc7yWxWD8NgEDXBZKT4r+0VWP0lN+ZHlSL2mrLcP414MQtzuFqbqqHmbx8
+ ZlI+SAN9h7M0g==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Christian Brauner <brauner@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jocelyn Falempe <jfalempe@redhat.com>,
+To: Thomas Zimmermann <tzimmermann@suse.de>,
  Javier Martinez Canillas <javierm@redhat.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Jani Nikula <jani.nikula@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: ttm: select CONFIG_SHMEM
-Date: Fri, 11 Apr 2025 14:55:25 +0200
-Message-Id: <20250411125532.1444682-1-arnd@kernel.org>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: [PATCH] drm/efidrm: ensure screen_base is initialized
+Date: Fri, 11 Apr 2025 14:55:47 +0200
+Message-Id: <20250411125554.1453825-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -66,33 +64,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-ttm now directly calls into shmem code, which fails to build when
-that is disabled at compile time.
+clang points out that there is a code path that leads to undefined behavior:
 
-ld.lld-21: error: undefined symbol: shmem_writeout
->>> referenced by ttm_backup.c
->>>               drivers/gpu/drm/ttm/ttm_backup.o:(ttm_backup_backup_page) in archive vmlinux.a
+drivers/gpu/drm/sysfb/efidrm.c:353:11: error: variable 'screen_base' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+  353 |         else if (mem_flags & EFI_MEMORY_WB)
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-Select SHMEM here.
+Add the missing initialization.
 
-Fixes: fe75adffac33 ("ttm: Call shmem_writeout() from ttm_backup_backup_page()")
+Fixes: 32ae90c66fb6 ("drm/sysfb: Add efidrm for EFI displays")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/sysfb/efidrm.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index b3bbb3f20b2a..831bd384f1fd 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -187,6 +187,7 @@ source "drivers/gpu/drm/display/Kconfig"
- config DRM_TTM
- 	tristate
- 	depends on DRM && MMU
-+	select SHMEM
- 	help
- 	  GPU memory management subsystem for devices with multiple
- 	  GPU memory types. Will be enabled automatically if a device driver
+diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
+index af90064a4c04..85fc37c1e87a 100644
+--- a/drivers/gpu/drm/sysfb/efidrm.c
++++ b/drivers/gpu/drm/sysfb/efidrm.c
+@@ -353,6 +353,9 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
+ 	else if (mem_flags & EFI_MEMORY_WB)
+ 		screen_base = devm_memremap(&pdev->dev, mem->start, resource_size(mem),
+ 					    MEMREMAP_WB);
++	else
++		screen_base = NULL;
++
+ 	if (!screen_base)
+ 		return ERR_PTR(-ENOMEM);
+ 	iosys_map_set_vaddr_iomem(&sysfb->fb_addr, screen_base);
 -- 
 2.39.5
 
