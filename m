@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A95A861B3
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 17:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1844AA861C2
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 17:25:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E544110EBFE;
-	Fri, 11 Apr 2025 15:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C09F10EBFA;
+	Fri, 11 Apr 2025 15:25:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="I22R8dGe";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EBND34/4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF0110EBFD
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 15:23:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDCCC10EBFA
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 15:25:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744385012;
- bh=RR2MMeSwD2yV5hqd68gH2S6l/bGY9NQySA3BzLvS2dg=;
+ s=mail; t=1744385117;
+ bh=qDJuN3+lVHYYl3Lm2eiBb57L2Jk6ojBS2YiPNAfbfNc=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=I22R8dGeV/nNJKCj9FD0QfAnDzi5ij7+PEfQeqb23broyaDiuHoHVY75CP3PJKRLP
- VHrRaW2rgmgE6r5tgpVWG6Zw7a/3pE25Apx6nTa7pH7fg1GvWR98s5WdrRcXoUmYYj
- vHg2QZ3q44l/GzZUrg4whAORbqA7Fn0+/EsnOQAcxl6pffBjxNZlFlUcukaZXBTjof
- js3KiixZycFBaGS6//eEcmC/uJ3hg2xx6GE8QAJxLgN/Th0NOvYMQXgVPzRCJ8LxzT
- tBYJlSrwft/yYHscWfLPV7GM8RNR7DmW1bMXE23V2N6mc7Nj3nJhxXBDfdvX3RQKsf
- uNkNbE9TwkkGw==
+ b=EBND34/4Pn0F3OFFPMKZhoby0uOkNIenHRcMRhBmu4he59oJ06fUCFeD51rkJ2xoj
+ ybnIwbCkNDsWG/5Ts/yICJsWODUmOIH/RkOntLGbQlR9IV1e5ZRm7wydRYPzGa0ukt
+ zPx6PPqF41EFpR4nl/nvzQDctgkTX0BkLI7u/nNVZcA3r2i+VvUBglpvxp0UF45F1F
+ kiO73AS/4ZxPpM6wzNCILOtzzVFsp8JQNveQdlQseCPb4uE5Oh0nWaDMEopwDTjDOk
+ 09llFTZn3pyEY7srbaxk6lQtSm8WgJc8RCNR9T2Dv+m7iMFEcj6DAMZ0QeMHY4nWgg
+ 76PoEXavt9Wwg==
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id E1BD817E0FD9;
- Fri, 11 Apr 2025 17:23:31 +0200 (CEST)
-Date: Fri, 11 Apr 2025 17:23:26 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0FA7217E0402;
+ Fri, 11 Apr 2025 17:25:17 +0200 (CEST)
+Date: Fri, 11 Apr 2025 17:25:13 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Karunika Choo <karunika.choo@arm.com>
 Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
@@ -41,11 +41,12 @@ Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
  <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
  <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] drm/panthor: Clean up 64-bit register definitions
-Message-ID: <20250411172326.49d251e1@collabora.com>
-In-Reply-To: <20250411151140.1815435-3-karunika.choo@arm.com>
-References: <20250411151140.1815435-1-karunika.choo@arm.com>
- <20250411151140.1815435-3-karunika.choo@arm.com>
+Subject: Re: [PATCH] drm/panthor: Add 64-bit and poll register accessors
+Message-ID: <20250411172513.42f0bcc4@collabora.com>
+In-Reply-To: <6994d307-17e7-453b-b5b9-99a422f73f66@arm.com>
+References: <20250410163546.919749-1-karunika.choo@arm.com>
+ <20250410184637.5e0613d2@collabora.com>
+ <6994d307-17e7-453b-b5b9-99a422f73f66@arm.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -66,290 +67,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Apr 2025 16:11:40 +0100
+On Fri, 11 Apr 2025 16:17:56 +0100
 Karunika Choo <karunika.choo@arm.com> wrote:
 
-> With the introduction of 64-bit register accessors, the separate *_HI
-> definitions are no longer necessary. This change removes them and
-> renames the corresponding *_LO entries for cleaner and more consistent
-> register definitions.
+> On 10/04/2025 17:46, Boris Brezillon wrote:
+> > On Thu, 10 Apr 2025 17:35:46 +0100
+> > Karunika Choo <karunika.choo@arm.com> wrote:
+> >   
+> >> This patch adds 64-bit register accessors to simplify register access in
+> >> Panthor. It also adds 32-bit and 64-bit variants for read_poll_timeout.
+> >>
+> >> This patch also updates Panthor to use the new 64-bit accessors and poll
+> >> functions.
+> >>
+> >> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+> >> ---
+> >>  drivers/gpu/drm/panthor/panthor_device.h |  71 ++++++++++++
+> >>  drivers/gpu/drm/panthor/panthor_fw.c     |   9 +-
+> >>  drivers/gpu/drm/panthor/panthor_gpu.c    | 142 ++++++-----------------
+> >>  drivers/gpu/drm/panthor/panthor_mmu.c    |  34 ++----
+> >>  drivers/gpu/drm/panthor/panthor_regs.h   |   6 -
+> >>  5 files changed, 124 insertions(+), 138 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> >> index da6574021664..5028e25f5e0d 100644
+> >> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> >> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> >> @@ -428,4 +428,75 @@ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+> >>  
+> >>  extern struct workqueue_struct *panthor_cleanup_wq;
+> >>  
+> >> +static inline void gpu_write(struct panthor_device *ptdev, u32 reg, u32 data)
+> >> +{
+> >> +	writel(data, ptdev->iomem + reg);
+> >> +}
+> >> +
+> >> +static inline u32 gpu_read(struct panthor_device *ptdev, u32 reg)
+> >> +{
+> >> +	return readl(ptdev->iomem + reg);
+> >> +}
+> >> +
+> >> +static inline u32 gpu_read_relaxed(struct panthor_device *ptdev, u32 reg)
+> >> +{
+> >> +	return readl_relaxed(ptdev->iomem + reg);
+> >> +}
+> >> +
+> >> +static inline void gpu_write64(struct panthor_device *ptdev, u32 reg, u64 data)
+> >> +{
+> >> +	gpu_write(ptdev, reg, lower_32_bits(data));
+> >> +	gpu_write(ptdev, reg + 4, upper_32_bits(data));
+> >> +}
+> >> +
+> >> +static inline u64 gpu_read64(struct panthor_device *ptdev, u32 reg)
+> >> +{
+> >> +	return (gpu_read(ptdev, reg) | ((u64)gpu_read(ptdev, reg + 4) << 32));
+> >> +}
+> >> +
+> >> +static inline u64 gpu_read64_relaxed(struct panthor_device *ptdev, u32 reg)
+> >> +{
+> >> +	return (gpu_read_relaxed(ptdev, reg) |
+> >> +		((u64)gpu_read_relaxed(ptdev, reg + 4) << 32));
+> >> +}
+> >> +
+> >> +static inline u64 gpu_read64_counter(struct panthor_device *ptdev, u32 reg)
+> >> +{
+> >> +	u32 lo, hi1, hi2;
+> >> +	do {
+> >> +		hi1 = gpu_read(ptdev, reg + 4);
+> >> +		lo = gpu_read(ptdev, reg);
+> >> +		hi2 = gpu_read(ptdev, reg + 4);
+> >> +	} while (hi1 != hi2);
+> >> +	return lo | ((u64)hi2 << 32);
+> >> +}
+> >> +
+> >> +#define gpu_read_poll_timeout(dev, reg, val, cond, delay_us, timeout_us)    \
+> >> +	read_poll_timeout(gpu_read, val, cond, delay_us, timeout_us, false, \
+> >> +			  dev, reg)  
+> > 
+> > nit: can use use tabs to pad till the '\' at the end of the line so we
+> > can have a consistent formatting across these definitions?
+> >   
+> >> +
+> >> +#define gpu_read_poll_timeout_atomic(dev, reg, val, cond, delay_us,         \
+> >> +				     timeout_us)                            \
+> >> +	read_poll_timeout_atomic(gpu_read, val, cond, delay_us, timeout_us, \
+> >> +				 false, dev, reg)
+> >> +
+> >> +#define gpu_read64_poll_timeout(dev, reg, val, cond, delay_us, timeout_us)    \
+> >> +	read_poll_timeout(gpu_read64, val, cond, delay_us, timeout_us, false, \
+> >> +			  dev, reg)
+> >> +
+> >> +#define gpu_read64_poll_timeout_atomic(dev, reg, val, cond, delay_us,         \
+> >> +				       timeout_us)                            \
+> >> +	read_poll_timeout_atomic(gpu_read64, val, cond, delay_us, timeout_us, \
+> >> +				 false, dev, reg)
+> >> +
+> >> +#define gpu_read_relaxed_poll_timeout_atomic(dev, reg, val, cond, delay_us, \
+> >> +					     timeout_us)                    \
+> >> +	read_poll_timeout_atomic(gpu_read_relaxed, val, cond, delay_us,     \
+> >> +				 timeout_us, false, dev, reg)
+> >> +
+> >> +#define gpu_read64_relaxed_poll_timeout(dev, reg, val, cond, delay_us,         \
+> >> +					timeout_us)                            \
+> >> +	read_poll_timeout(gpu_read64_relaxed, val, cond, delay_us, timeout_us, \
+> >> +			  false, dev, reg)
+> >> +
+> >>  #endif
+> >> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> >> index 0f52766a3120..ecfbe0456f89 100644
+> >> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> >> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> >> @@ -1059,8 +1059,8 @@ static void panthor_fw_stop(struct panthor_device *ptdev)
+> >>  	u32 status;
+> >>  
+> >>  	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_DISABLE);
+> >> -	if (readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
+> >> -			       status == MCU_STATUS_DISABLED, 10, 100000))
+> >> +	if (gpu_read_poll_timeout(ptdev, MCU_STATUS, status,
+> >> +				  status == MCU_STATUS_DISABLED, 10, 100000))
+> >>  		drm_err(&ptdev->base, "Failed to stop MCU");
+> >>  }
+> >>  
+> >> @@ -1085,8 +1085,9 @@ void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
+> >>  
+> >>  		panthor_fw_update_reqs(glb_iface, req, GLB_HALT, GLB_HALT);
+> >>  		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
+> >> -		if (!readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
+> >> -					status == MCU_STATUS_HALT, 10, 100000)) {
+> >> +		if (!gpu_read_poll_timeout(ptdev, MCU_STATUS, status,
+> >> +					   status == MCU_STATUS_HALT, 10,
+> >> +					   100000)) {
+> >>  			ptdev->reset.fast = true;
+> >>  		} else {
+> >>  			drm_warn(&ptdev->base, "Failed to cleanly suspend MCU");
+> >> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> >> index 671049020afa..fd09f0928019 100644
+> >> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> >> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> >> @@ -108,14 +108,9 @@ static void panthor_gpu_init_info(struct panthor_device *ptdev)
+> >>  
+> >>  	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
+> >>  
+> >> -	ptdev->gpu_info.shader_present = gpu_read(ptdev, GPU_SHADER_PRESENT_LO);
+> >> -	ptdev->gpu_info.shader_present |= (u64)gpu_read(ptdev, GPU_SHADER_PRESENT_HI) << 32;
+> >> -
+> >> -	ptdev->gpu_info.tiler_present = gpu_read(ptdev, GPU_TILER_PRESENT_LO);
+> >> -	ptdev->gpu_info.tiler_present |= (u64)gpu_read(ptdev, GPU_TILER_PRESENT_HI) << 32;
+> >> -
+> >> -	ptdev->gpu_info.l2_present = gpu_read(ptdev, GPU_L2_PRESENT_LO);
+> >> -	ptdev->gpu_info.l2_present |= (u64)gpu_read(ptdev, GPU_L2_PRESENT_HI) << 32;
+> >> +	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
+> >> +	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
+> >> +	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);  
+> > 
+> > Now that we have proper 64-bit accessors, I think I would drop the
+> > _LO/_HI definitions and just go a single def per register that replaces
+> > the _LO one.  
 > 
-> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
-
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-> ---
->  drivers/gpu/drm/panthor/panthor_gpu.c  | 12 ++--
->  drivers/gpu/drm/panthor/panthor_gpu.h  | 10 +--
->  drivers/gpu/drm/panthor/panthor_mmu.c  | 16 ++---
->  drivers/gpu/drm/panthor/panthor_regs.h | 94 +++++++++-----------------
->  4 files changed, 52 insertions(+), 80 deletions(-)
+> Hello, 
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index fd09f0928019..5fc45284c712 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -108,9 +108,9 @@ static void panthor_gpu_init_info(struct panthor_device *ptdev)
->  
->  	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
->  
-> -	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
-> -	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
-> -	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
-> +	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT);
-> +	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT);
-> +	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT);
->  
->  	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
->  	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
-> @@ -147,7 +147,7 @@ static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
->  	if (status & GPU_IRQ_FAULT) {
->  		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
-> -		u64 address = gpu_read64(ptdev, GPU_FAULT_ADDR_LO);
-> +		u64 address = gpu_read64(ptdev, GPU_FAULT_ADDR);
->  
->  		drm_warn(&ptdev->base, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
->  			 fault_status, panthor_exception_name(ptdev, fault_status & 0xFF),
-> @@ -457,7 +457,7 @@ void panthor_gpu_resume(struct panthor_device *ptdev)
->   */
->  u64 panthor_gpu_read_timestamp(struct panthor_device *ptdev)
->  {
-> -	return gpu_read64_counter(ptdev, GPU_TIMESTAMP_LO);
-> +	return gpu_read64_counter(ptdev, GPU_TIMESTAMP);
->  }
->  
->  /**
-> @@ -468,5 +468,5 @@ u64 panthor_gpu_read_timestamp(struct panthor_device *ptdev)
->   */
->  u64 panthor_gpu_read_timestamp_offset(struct panthor_device *ptdev)
->  {
-> -	return gpu_read64(ptdev, GPU_TIMESTAMP_OFFSET_LO);
-> +	return gpu_read64(ptdev, GPU_TIMESTAMP_OFFSET);
->  }
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.h b/drivers/gpu/drm/panthor/panthor_gpu.h
-> index 7f6133a66127..89a0bdb2fbc5 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.h
-> @@ -30,9 +30,9 @@ int panthor_gpu_block_power_off(struct panthor_device *ptdev,
->   */
->  #define panthor_gpu_power_on(ptdev, type, mask, timeout_us) \
->  	panthor_gpu_block_power_on(ptdev, #type, \
-> -				  type ## _PWRON_LO, \
-> -				  type ## _PWRTRANS_LO, \
-> -				  type ## _READY_LO, \
-> +				  type ## _PWRON, \
-> +				  type ## _PWRTRANS, \
-> +				  type ## _READY, \
->  				  mask, timeout_us)
->  
->  /**
-> @@ -42,8 +42,8 @@ int panthor_gpu_block_power_off(struct panthor_device *ptdev,
->   */
->  #define panthor_gpu_power_off(ptdev, type, mask, timeout_us) \
->  	panthor_gpu_block_power_off(ptdev, #type, \
-> -				   type ## _PWROFF_LO, \
-> -				   type ## _PWRTRANS_LO, \
-> +				   type ## _PWROFF, \
-> +				   type ## _PWRTRANS, \
->  				   mask, timeout_us)
->  
->  int panthor_gpu_l2_power_on(struct panthor_device *ptdev);
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index a0a79f19bdea..1db4a46ddf98 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -564,7 +564,7 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
->  	region = region_width | region_start;
->  
->  	/* Lock the region that needs to be updated */
-> -	gpu_write64(ptdev, AS_LOCKADDR_LO(as_nr), region);
-> +	gpu_write64(ptdev, AS_LOCKADDR(as_nr), region);
->  	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
->  }
->  
-> @@ -614,9 +614,9 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
->  	if (ret)
->  		return ret;
->  
-> -	gpu_write64(ptdev, AS_TRANSTAB_LO(as_nr), transtab);
-> -	gpu_write64(ptdev, AS_MEMATTR_LO(as_nr), memattr);
-> -	gpu_write64(ptdev, AS_TRANSCFG_LO(as_nr), transcfg);
-> +	gpu_write64(ptdev, AS_TRANSTAB(as_nr), transtab);
-> +	gpu_write64(ptdev, AS_MEMATTR(as_nr), memattr);
-> +	gpu_write64(ptdev, AS_TRANSCFG(as_nr), transcfg);
->  
->  	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
->  }
-> @@ -629,9 +629,9 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
->  	if (ret)
->  		return ret;
->  
-> -	gpu_write64(ptdev, AS_TRANSTAB_LO(as_nr), 0);
-> -	gpu_write64(ptdev, AS_MEMATTR_LO(as_nr), 0);
-> -	gpu_write64(ptdev, AS_TRANSCFG_LO(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
-> +	gpu_write64(ptdev, AS_TRANSTAB(as_nr), 0);
-> +	gpu_write64(ptdev, AS_MEMATTR(as_nr), 0);
-> +	gpu_write64(ptdev, AS_TRANSCFG(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
->  
->  	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
->  }
-> @@ -1669,7 +1669,7 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
->  		u32 source_id;
->  
->  		fault_status = gpu_read(ptdev, AS_FAULTSTATUS(as));
-> -		addr = gpu_read64(ptdev, AS_FAULTADDRESS_LO(as));
-> +		addr = gpu_read64(ptdev, AS_FAULTADDRESS(as));
->  
->  		/* decode the fault status */
->  		exception_type = fault_status & 0xFF;
-> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-> index 6fd39a52f887..7e21d6a25dc4 100644
-> --- a/drivers/gpu/drm/panthor/panthor_regs.h
-> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
-> @@ -65,20 +65,16 @@
->  #define   GPU_STATUS_DBG_ENABLED			BIT(8)
->  
->  #define GPU_FAULT_STATUS				0x3C
-> -#define GPU_FAULT_ADDR_LO				0x40
-> -#define GPU_FAULT_ADDR_HI				0x44
-> +#define GPU_FAULT_ADDR					0x40
->  
->  #define GPU_PWR_KEY					0x50
->  #define  GPU_PWR_KEY_UNLOCK				0x2968A819
->  #define GPU_PWR_OVERRIDE0				0x54
->  #define GPU_PWR_OVERRIDE1				0x58
->  
-> -#define GPU_TIMESTAMP_OFFSET_LO				0x88
-> -#define GPU_TIMESTAMP_OFFSET_HI				0x8C
-> -#define GPU_CYCLE_COUNT_LO				0x90
-> -#define GPU_CYCLE_COUNT_HI				0x94
-> -#define GPU_TIMESTAMP_LO				0x98
-> -#define GPU_TIMESTAMP_HI				0x9C
-> +#define GPU_TIMESTAMP_OFFSET				0x88
-> +#define GPU_CYCLE_COUNT					0x90
-> +#define GPU_TIMESTAMP					0x98
->  
->  #define GPU_THREAD_MAX_THREADS				0xA0
->  #define GPU_THREAD_MAX_WORKGROUP_SIZE			0xA4
-> @@ -87,47 +83,29 @@
->  
->  #define GPU_TEXTURE_FEATURES(n)				(0xB0 + ((n) * 4))
->  
-> -#define GPU_SHADER_PRESENT_LO				0x100
-> -#define GPU_SHADER_PRESENT_HI				0x104
-> -#define GPU_TILER_PRESENT_LO				0x110
-> -#define GPU_TILER_PRESENT_HI				0x114
-> -#define GPU_L2_PRESENT_LO				0x120
-> -#define GPU_L2_PRESENT_HI				0x124
-> -
-> -#define SHADER_READY_LO					0x140
-> -#define SHADER_READY_HI					0x144
-> -#define TILER_READY_LO					0x150
-> -#define TILER_READY_HI					0x154
-> -#define L2_READY_LO					0x160
-> -#define L2_READY_HI					0x164
-> -
-> -#define SHADER_PWRON_LO					0x180
-> -#define SHADER_PWRON_HI					0x184
-> -#define TILER_PWRON_LO					0x190
-> -#define TILER_PWRON_HI					0x194
-> -#define L2_PWRON_LO					0x1A0
-> -#define L2_PWRON_HI					0x1A4
-> -
-> -#define SHADER_PWROFF_LO				0x1C0
-> -#define SHADER_PWROFF_HI				0x1C4
-> -#define TILER_PWROFF_LO					0x1D0
-> -#define TILER_PWROFF_HI					0x1D4
-> -#define L2_PWROFF_LO					0x1E0
-> -#define L2_PWROFF_HI					0x1E4
-> -
-> -#define SHADER_PWRTRANS_LO				0x200
-> -#define SHADER_PWRTRANS_HI				0x204
-> -#define TILER_PWRTRANS_LO				0x210
-> -#define TILER_PWRTRANS_HI				0x214
-> -#define L2_PWRTRANS_LO					0x220
-> -#define L2_PWRTRANS_HI					0x224
-> -
-> -#define SHADER_PWRACTIVE_LO				0x240
-> -#define SHADER_PWRACTIVE_HI				0x244
-> -#define TILER_PWRACTIVE_LO				0x250
-> -#define TILER_PWRACTIVE_HI				0x254
-> -#define L2_PWRACTIVE_LO					0x260
-> -#define L2_PWRACTIVE_HI					0x264
-> +#define GPU_SHADER_PRESENT				0x100
-> +#define GPU_TILER_PRESENT				0x110
-> +#define GPU_L2_PRESENT					0x120
-> +
-> +#define SHADER_READY					0x140
-> +#define TILER_READY					0x150
-> +#define L2_READY					0x160
-> +
-> +#define SHADER_PWRON					0x180
-> +#define TILER_PWRON					0x190
-> +#define L2_PWRON					0x1A0
-> +
-> +#define SHADER_PWROFF					0x1C0
-> +#define TILER_PWROFF					0x1D0
-> +#define L2_PWROFF					0x1E0
-> +
-> +#define SHADER_PWRTRANS					0x200
-> +#define TILER_PWRTRANS					0x210
-> +#define L2_PWRTRANS					0x220
-> +
-> +#define SHADER_PWRACTIVE				0x240
-> +#define TILER_PWRACTIVE					0x250
-> +#define L2_PWRACTIVE					0x260
->  
->  #define GPU_REVID					0x280
->  
-> @@ -170,10 +148,8 @@
->  #define MMU_AS_SHIFT					6
->  #define MMU_AS(as)					(MMU_BASE + ((as) << MMU_AS_SHIFT))
->  
-> -#define AS_TRANSTAB_LO(as)				(MMU_AS(as) + 0x0)
-> -#define AS_TRANSTAB_HI(as)				(MMU_AS(as) + 0x4)
-> -#define AS_MEMATTR_LO(as)				(MMU_AS(as) + 0x8)
-> -#define AS_MEMATTR_HI(as)				(MMU_AS(as) + 0xC)
-> +#define AS_TRANSTAB(as)					(MMU_AS(as) + 0x0)
-> +#define AS_MEMATTR(as)					(MMU_AS(as) + 0x8)
->  #define   AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL		(2 << 2)
->  #define   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(w, r)	((3 << 2) | \
->  							 ((w) ? BIT(0) : 0) | \
-> @@ -185,8 +161,7 @@
->  #define   AS_MEMATTR_AARCH64_INNER_OUTER_NC		(1 << 6)
->  #define   AS_MEMATTR_AARCH64_INNER_OUTER_WB		(2 << 6)
->  #define   AS_MEMATTR_AARCH64_FAULT			(3 << 6)
-> -#define AS_LOCKADDR_LO(as)				(MMU_AS(as) + 0x10)
-> -#define AS_LOCKADDR_HI(as)				(MMU_AS(as) + 0x14)
-> +#define AS_LOCKADDR(as)					(MMU_AS(as) + 0x10)
->  #define AS_COMMAND(as)					(MMU_AS(as) + 0x18)
->  #define   AS_COMMAND_NOP				0
->  #define   AS_COMMAND_UPDATE				1
-> @@ -201,12 +176,10 @@
->  #define  AS_FAULTSTATUS_ACCESS_TYPE_EX			(0x1 << 8)
->  #define  AS_FAULTSTATUS_ACCESS_TYPE_READ		(0x2 << 8)
->  #define  AS_FAULTSTATUS_ACCESS_TYPE_WRITE		(0x3 << 8)
-> -#define AS_FAULTADDRESS_LO(as)				(MMU_AS(as) + 0x20)
-> -#define AS_FAULTADDRESS_HI(as)				(MMU_AS(as) + 0x24)
-> +#define AS_FAULTADDRESS(as)				(MMU_AS(as) + 0x20)
->  #define AS_STATUS(as)					(MMU_AS(as) + 0x28)
->  #define   AS_STATUS_AS_ACTIVE				BIT(0)
-> -#define AS_TRANSCFG_LO(as)				(MMU_AS(as) + 0x30)
-> -#define AS_TRANSCFG_HI(as)				(MMU_AS(as) + 0x34)
-> +#define AS_TRANSCFG(as)					(MMU_AS(as) + 0x30)
->  #define   AS_TRANSCFG_ADRMODE_UNMAPPED			(1 << 0)
->  #define   AS_TRANSCFG_ADRMODE_IDENTITY			(2 << 0)
->  #define   AS_TRANSCFG_ADRMODE_AARCH64_4K		(6 << 0)
-> @@ -224,8 +197,7 @@
->  #define   AS_TRANSCFG_DISABLE_AF_FAULT			BIT(34)
->  #define   AS_TRANSCFG_WXN				BIT(35)
->  #define   AS_TRANSCFG_XREADABLE				BIT(36)
-> -#define AS_FAULTEXTRA_LO(as)				(MMU_AS(as) + 0x38)
-> -#define AS_FAULTEXTRA_HI(as)				(MMU_AS(as) + 0x3C)
-> +#define AS_FAULTEXTRA(as)				(MMU_AS(as) + 0x38)
->  
->  #define CSF_GPU_LATEST_FLUSH_ID				0x10000
->  
+> please find a link to v2 below that addresses your comments.
+> 
+> - https://lore.kernel.org/dri-devel/20250411151140.1815435-1-karunika.choo@arm.com/
 
+Looks all good now.
+
+Thanks!
+
+Boris
