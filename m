@@ -2,63 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8C6A8591C
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 12:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E44A85A12
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 12:32:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C526810EB62;
-	Fri, 11 Apr 2025 10:12:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zgi33/Cz";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2A2B10E282;
+	Fri, 11 Apr 2025 10:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3774C10EB62
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 10:12:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744366335; x=1775902335;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=5wxtcFAMSu7ftcRVNzJ+53UdONL3yb1rYnGJTQc+gP0=;
- b=Zgi33/CzcdI8r+7IGu3erKoezCEWaaVqqcf+QlofRjz6FghQo034PIW1
- fjVbRh23gJCxCwh3zXneyQjosMExvaJxeQLQWFpjiYLmi/J+1701jrEC3
- 4cwTmHRO5GiQ9Tc4nkWZWtPs3rITNAI0plpE1k4UJFVx9Nzz4Q/ezvRcR
- BC8ZK5Ro3thGNqBCd4dILu18w88pGs/uG3Q+iWfJVmoxfhqKm7hK9FS0i
- gmtrX2d+XifMCXNU+t5M+GAB6c2sQVgtQ2Ekf2VyZT+rIr1YHX5uMLb//
- Nethw2DfCwIfH3LWXx7+IU1PaMl1wShARc7kl/py7qDUMwBAzBQkP5/+k A==;
-X-CSE-ConnectionGUID: /C7M7PUlTzexIy50O2/IQA==
-X-CSE-MsgGUID: xymcTm+XTmmXTpxxcVezqg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="46053587"
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; d="scan'208";a="46053587"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2025 03:12:15 -0700
-X-CSE-ConnectionGUID: Kq4TxoqLSyK3nKbgfnkAuQ==
-X-CSE-MsgGUID: iD8nCoxZTfycjOklUKf+zA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; d="scan'208";a="129123673"
-Received: from mariuszg-mobl2.ger.corp.intel.com (HELO [10.245.113.161])
- ([10.245.113.161])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2025 03:12:14 -0700
-Message-ID: <4b03b224-77fa-4efc-ae03-71bfc8f0ba58@linux.intel.com>
-Date: Fri, 11 Apr 2025 12:12:10 +0200
+X-Greylist: delayed 600 seconds by postgrey-1.36 at gabe;
+ Fri, 11 Apr 2025 10:32:21 UTC
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
+ [95.215.58.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E403710E282
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 10:32:17 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1744366930;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=l3nM082bM78TtBWdFK27NatUNhqNWPO8Kx/xITC8UGs=;
+ b=Jlf6JtjmHab+Pw/38wjLXmIZuk+NOR+1Yoa9l3XrL+GggTfWjDJZN8wOb/284jxsdAOIbI
+ 6os2tYkniByg/JaeQYvh7XEMpoavOEfWIQ6bF6yL2S8sS7/n53iZC3hJZgF7KY/1+z4Eyu
+ Vyeg1REshTRzrcTnZ72EbSBy5C9e5SU=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: Use strscpy() instead of strscpy_pad()
+Date: Fri, 11 Apr 2025 12:22:01 +0200
+Message-ID: <20250411102202.71547-1-thorsten.blum@linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Add cmdq_id to job related logs
-To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com, lizhi.hou@amd.com,
- Karol Wachowski <karol.wachowski@intel.com>
-References: <20250401155939.4049467-1-maciej.falkowski@linux.intel.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250401155939.4049467-1-maciej.falkowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,65 +54,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-fixes
+kzalloc() already zero-initializes the destination buffers, making
+strscpy() sufficient for safely copying the names. The additional
+NUL-padding performed by strscpy_pad() is unnecessary.
 
-On 4/1/2025 5:59 PM, Maciej Falkowski wrote:
-> From: Karol Wachowski <karol.wachowski@intel.com>
-> 
-> Add tracking of command queue ID in JOB debug message to improve
-> debugging capabilities.
-> 
-> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
-> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
-> ---
->  drivers/accel/ivpu/ivpu_job.c | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-> index 004059e4f1e8..863e3cd6ace5 100644
-> --- a/drivers/accel/ivpu/ivpu_job.c
-> +++ b/drivers/accel/ivpu/ivpu_job.c
-> @@ -470,8 +470,8 @@ static void ivpu_job_destroy(struct ivpu_job *job)
->  	struct ivpu_device *vdev = job->vdev;
->  	u32 i;
->  
-> -	ivpu_dbg(vdev, JOB, "Job destroyed: id %3u ctx %2d engine %d",
-> -		 job->job_id, job->file_priv->ctx.id, job->engine_idx);
-> +	ivpu_dbg(vdev, JOB, "Job destroyed: id %3u ctx %2d cmdq_id %u engine %d",
-> +		 job->job_id, job->file_priv->ctx.id, job->cmdq_id, job->engine_idx);
->  
->  	for (i = 0; i < job->bo_count; i++)
->  		if (job->bos[i])
-> @@ -564,8 +564,8 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
->  	dma_fence_signal(job->done_fence);
->  
->  	trace_job("done", job);
-> -	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d engine %d status 0x%x\n",
-> -		 job->job_id, job->file_priv->ctx.id, job->engine_idx, job_status);
-> +	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d cmdq_id %u engine %d status 0x%x\n",
-> +		 job->job_id, job->file_priv->ctx.id, job->cmdq_id, job->engine_idx, job_status);
->  
->  	ivpu_job_destroy(job);
->  	ivpu_stop_job_timeout_detection(vdev);
-> @@ -664,8 +664,8 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority, u32 cmdq_id)
->  	}
->  
->  	trace_job("submit", job);
-> -	ivpu_dbg(vdev, JOB, "Job submitted: id %3u ctx %2d engine %d prio %d addr 0x%llx next %d\n",
-> -		 job->job_id, file_priv->ctx.id, job->engine_idx, cmdq->priority,
-> +	ivpu_dbg(vdev, JOB, "Job submitted: id %3u ctx %2d cmdq_id %u engine %d prio %d addr 0x%llx next %d\n",
-> +		 job->job_id, file_priv->ctx.id, cmdq->id, job->engine_idx, cmdq->priority,
->  		 job->cmd_buf_vpu_addr, cmdq->jobq->header.tail);
->  
->  	mutex_unlock(&file_priv->lock);
-> @@ -777,7 +777,8 @@ static int ivpu_submit(struct drm_file *file, struct ivpu_file_priv *file_priv,
->  		goto err_free_handles;
->  	}
->  
-> -	ivpu_dbg(vdev, JOB, "Submit ioctl: ctx %u buf_count %u\n", file_priv->ctx.id, buffer_count);
-> +	ivpu_dbg(vdev, JOB, "Submit ioctl: ctx %u cmdq_id %u buf_count %u\n",
-> +		 file_priv->ctx.id, cmdq_id, buffer_count);
->  
->  	job = ivpu_job_create(file_priv, engine, buffer_count);
->  	if (!job) {
+If the destination buffer has a fixed length, strscpy() automatically
+determines its size using sizeof() when the argument is omitted. This
+makes the explicit size arguments unnecessary.
+
+No functional changes intended.
+
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ drivers/gpu/drm/drm_property.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
+index 596272149a35..47f2891f3f06 100644
+--- a/drivers/gpu/drm/drm_property.c
++++ b/drivers/gpu/drm/drm_property.c
+@@ -128,7 +128,7 @@ struct drm_property *drm_property_create(struct drm_device *dev,
+ 	property->num_values = num_values;
+ 	INIT_LIST_HEAD(&property->enum_list);
+ 
+-	strscpy_pad(property->name, name, DRM_PROP_NAME_LEN);
++	strscpy(property->name, name);
+ 
+ 	list_add_tail(&property->head, &dev->mode_config.property_list);
+ 
+@@ -421,7 +421,7 @@ int drm_property_add_enum(struct drm_property *property,
+ 	if (!prop_enum)
+ 		return -ENOMEM;
+ 
+-	strscpy_pad(prop_enum->name, name, DRM_PROP_NAME_LEN);
++	strscpy(prop_enum->name, name);
+ 	prop_enum->value = value;
+ 
+ 	property->values[index] = value;
+-- 
+2.49.0
 
