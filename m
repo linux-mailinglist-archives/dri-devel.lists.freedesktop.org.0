@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB00A866E1
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 22:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B78A866E4
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 22:14:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE2610EC99;
-	Fri, 11 Apr 2025 20:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A069510EC9B;
+	Fri, 11 Apr 2025 20:14:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Pm8ZlAjH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="KaP2OuLH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 441BD10EC98;
- Fri, 11 Apr 2025 20:14:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A3510EC9B;
+ Fri, 11 Apr 2025 20:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=YiD+UP2BPtijPqBZcpQvdyudwxTdoPcV2tG5RTmnLVQ=; b=Pm8ZlAjHF1EqRuXwxYsOCiwVZF
- 0rXRqRt7g07BxSdASN2hr7Ai2p8sWNefpsSU1l/yWdHN+AI8QfK3vUWlZ81NBarqhtgh1wiifImWa
- Lgn0ALsRiTLQk9BW8vYh1CcEyPk0ijkoSUevbedmSBPOIPIBzJFx3U8VwA+LbBazt+02yA3jQPy+f
- D1cjpJMFdRsxS3qTt6W6vhoj5US4GbuJPQGuPwEhHQvO3BhMzRUNaitcIVXKovjKOd2rx+t43YRI7
- lhbFj20aRVZkBdEslLPLXLROlHTIQbc6axpfdTD+Boc31erQa+ctROgX+AIUg15xeSC/aGQ/Ef0/t
- nl2TLDcw==;
+ bh=af0YOPhxxT7oseIiamLQLUGtR5wWdlc5QpGqJ79jKxk=; b=KaP2OuLH+isAY2+k4ENpARO5U8
+ CZveCeOmksB31u/j087zdS8oiZv/3bI9mphL3v+xvnbPD7bOJvD2QhUd6bYeZkf7aWiwq8i5lo6/g
+ C3MAytQm2vkZPX7WJ8ril8iOdz20vhRG6mdSQaOOt0ThRcxS/JVD/50dZykGi4fjZme8HSwPTAHPe
+ IUAnmaL1wcNzwuSUNuXSxlVjD3MLMlUJ221+yPGr6dv4VH1F/g0hQhR5rr5B1b43DmgxQBJdXwoUJ
+ 0QcqPZbb6Y6cZfy8+mdFENFmFHld2tplG0nGxXoh9RbWUpdfHPlwCiJz322tpZtA7nrepsulfkqNl
+ HkLmknsA==;
 Received: from [189.6.35.67] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1u3Kle-00FIP5-Ak; Fri, 11 Apr 2025 22:14:26 +0200
+ id 1u3Klj-00FIP5-3M; Fri, 11 Apr 2025 22:14:31 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: Alex Hung <alex.hung@amd.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
@@ -40,10 +40,10 @@ To: Alex Hung <alex.hung@amd.com>,
  airlied@gmail.com, simona@ffwll.ch
 Cc: Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: [PATCH 09/13] drm/amd/display: add a mid-layer file to handle EDID in
- DC
-Date: Fri, 11 Apr 2025 17:08:39 -0300
-Message-ID: <20250411201333.151335-10-mwen@igalia.com>
+Subject: [PATCH 10/13] drm/amd/display: create a function to fill dc_sink with
+ edid data
+Date: Fri, 11 Apr 2025 17:08:40 -0300
+Message-ID: <20250411201333.151335-11-mwen@igalia.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250411201333.151335-1-mwen@igalia.com>
 References: <20250411201333.151335-1-mwen@igalia.com>
@@ -66,117 +66,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rodrigo Siqueira <siqueira@igalia.com>
 
-Since DC is a shared code, this commit introduces a new file to work as
-a mid-layer in DC for the edid manipulation.
+As part of the effort of stopping using raw edid, this commit move the
+copy of the edid in DC to a dedicated function that will allow the usage
+of drm_edid in the next steps.
 
 Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
-Co-developed-by: Melissa Wen <mwen@igalia.com>
+Co-developer--by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  1 +
- .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   | 19 +++++++++++++++++++
- .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   | 11 +++++++++++
- .../drm/amd/display/dc/link/link_detection.c  | 17 +++--------------
- 4 files changed, 34 insertions(+), 14 deletions(-)
- create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
- create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+ drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c      | 8 ++++++++
+ drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h      | 2 ++
+ drivers/gpu/drm/amd/display/dc/link/link_detection.c | 3 +--
+ 3 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
-index ab2a97e354da..30188bf75724 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
-@@ -38,6 +38,7 @@ AMDGPUDM = \
- 	amdgpu_dm_pp_smu.o \
- 	amdgpu_dm_psr.o \
- 	amdgpu_dm_replay.o \
-+	dc_edid.o \
- 	amdgpu_dm_wb.o
- 
- ifdef CONFIG_DRM_AMD_DC_FP
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
-new file mode 100644
-index 000000000000..fab873b091f5
---- /dev/null
+index fab873b091f5..39fcaa16a14a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
-@@ -0,0 +1,19 @@
-+// SPDX-License-Identifier: MIT
-+#include "amdgpu_dm/dc_edid.h"
-+#include "dc.h"
+@@ -17,3 +17,11 @@ bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
+        return (memcmp(old_edid->raw_edid,
+                       new_edid->raw_edid, new_edid->length) == 0);
+ }
 +
-+bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
-+			  struct dc_sink *current_sink)
++void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
++			     const void *edid,
++			     int len)
 +{
-+	struct dc_edid *old_edid = &prev_sink->dc_edid;
-+	struct dc_edid *new_edid = &current_sink->dc_edid;
-+
-+       if (old_edid->length != new_edid->length)
-+               return false;
-+
-+       if (new_edid->length == 0)
-+               return false;
-+
-+       return (memcmp(old_edid->raw_edid,
-+                      new_edid->raw_edid, new_edid->length) == 0);
++	memmove(dc_sink->dc_edid.raw_edid, (const uint8_t *) edid, len);
++	dc_sink->dc_edid.length = len;
 +}
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-new file mode 100644
-index 000000000000..7e3b1177bc8a
---- /dev/null
+index 7e3b1177bc8a..f42cd5bbc730 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: MIT */
-+
-+#ifndef __DC_EDID_H__
-+#define __DC_EDID_H__
-+
-+#include "dc.h"
-+
-+bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
-+			  struct dc_sink *current_sink);
-+
-+#endif /* __DC_EDID_H__ */
+@@ -7,5 +7,7 @@
+ 
+ bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
+ 			  struct dc_sink *current_sink);
++void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
++			     const void *edid, int len);
+ 
+ #endif /* __DC_EDID_H__ */
 diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-index 6d05ddb194c9..e748721f31e4 100644
+index e748721f31e4..978d2b4a4d29 100644
 --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
 +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-@@ -48,6 +48,8 @@
- #include "dm_helpers.h"
- #include "clk_mgr.h"
+@@ -1410,8 +1410,7 @@ struct dc_sink *link_add_remote_sink(
+ 	if (!dc_sink)
+ 		return NULL;
  
-+#include "dc_edid.h"
-+
-  // Offset DPCD 050Eh == 0x5A
- #define MST_HUB_ID_0x5A  0x5A
+-	memmove(dc_sink->dc_edid.raw_edid, (const uint8_t *) edid, len);
+-	dc_sink->dc_edid.length = len;
++	dc_edid_copy_edid_to_dc(dc_sink, edid, len);
  
-@@ -616,18 +618,6 @@ static bool detect_dp(struct dc_link *link,
- 	return true;
- }
- 
--static bool is_same_edid(struct dc_edid *old_edid, struct dc_edid *new_edid)
--{
--	if (old_edid->length != new_edid->length)
--		return false;
--
--	if (new_edid->length == 0)
--		return false;
--
--	return (memcmp(old_edid->raw_edid,
--		       new_edid->raw_edid, new_edid->length) == 0);
--}
--
- static bool wait_for_entering_dp_alt_mode(struct dc_link *link)
- {
- 
-@@ -1114,8 +1104,7 @@ static bool detect_link_and_local_sink(struct dc_link *link,
- 		// Check if edid is the same
- 		if ((prev_sink) &&
- 		    (edid_status == EDID_THE_SAME || edid_status == EDID_OK))
--			same_edid = is_same_edid(&prev_sink->dc_edid,
--						 &sink->dc_edid);
-+			same_edid = dc_edid_is_same_edid(prev_sink, sink);
- 
- 		if (sink->edid_caps.panel_patch.skip_scdc_overwrite)
- 			link->ctx->dc->debug.hdmi20_disable = true;
+ 	if (!link_add_remote_sink_helper(
+ 			link,
 -- 
 2.47.2
 
