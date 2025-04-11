@@ -2,68 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4811A86491
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 19:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E836AA86553
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 20:17:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFD4B10EC44;
-	Fri, 11 Apr 2025 17:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4898910EC51;
+	Fri, 11 Apr 2025 18:17:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hp4lgkTF";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="CrnM7K2B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94DF310EC44
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 17:22:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6E5FFA4ACBC;
- Fri, 11 Apr 2025 17:16:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 99D5EC4CEE2;
- Fri, 11 Apr 2025 17:22:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744392143;
- bh=OwUuupjd6ppxMTNlxFAWEzXqt/lV2dBlXne2MEl+yEE=;
- h=From:Date:Subject:To:Cc:Reply-To:From;
- b=Hp4lgkTF4orD504lFUgF/nynv3WBTyAhENsarLQSp0Omh2Ghzk5kBeoZ9mV5V7piU
- WnUBipeBgrCc6pfi7GE6xLPtY+qwwz+oaKNtj0PMVfd3QVL3GPkk/tQ7bNOG6uc1Ll
- CgJTWq8G3sZ7vHh/sls/6jFbduRV9KQkPIULzcH6CRO2hE94vAQvIfHUcQYtZts8+i
- 1nLCN6IALVeTkiyyHrzTSgqYUFGE96/JeFsCyIx9ehW/CiPpN/XCUsbrQsbh8IbfKe
- IXnr5H/1qE8IGgD7tKugBmz2AKzCORCuj3YRA7Y9TkMcngveF50PMQ32FIHDEMFUNk
- l5imcS9X+TK6Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 871FDC369AB;
- Fri, 11 Apr 2025 17:22:23 +0000 (UTC)
-From: =?utf-8?q?Duje_Mihanovi=C4=87_via_B4_Relay?=
- <devnull+duje.mihanovic.skole.hr@kernel.org>
-Date: Fri, 11 Apr 2025 19:22:18 +0200
-Subject: [PATCH] backlight: ktd2801: depend on GPIOLIB
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1905A10EC53
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 18:16:51 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-43cf3192f3bso23435495e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 11:16:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1744395410; x=1745000210; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=NZxkE8WxAT0tt5y2UWBTlT2UlHaYcabNRmvlvPzxNGo=;
+ b=CrnM7K2BhF2AfBNQnPSrZxmUddX9B7lzE2phSkTLM/ByB16UQNwRc4vLVZviWWLetY
+ TM/RfFbpFkVRQW5XtZDZN0Tzcgj0E7lx+Bsemj6c4YyGjcWaC2sD2+lH7lCQgh1kF+kB
+ VYHN/kXDbKZfSOL1qcF72kDDqBdLTcFkoV1dw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744395410; x=1745000210;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NZxkE8WxAT0tt5y2UWBTlT2UlHaYcabNRmvlvPzxNGo=;
+ b=stldL9tPryKN2yTuH7jjJpSuwsOSNqzL9ZjK8xzgmPS9Uuy4Ia+J32IboTnv7imsmg
+ RskuAqcHzvc6fU3rLiQSfQnwCO2n+HQhtPdF388NRkn5lvUI+FLFiB166/4bzsunqKpw
+ u7QkPfDCCsnP7XQkdz6C2CxrfnlU0ybj9vzye1Nl/+AXnKCJyxdfojte+q9+8zQ6I55K
+ Gcn7i7B8xTOzSQFyG+E0luBaMXhsStu7r0e7D8bzV5go7Kg1ILpwcOSoJg5GjZGBLI/y
+ e4vabOElDrjBJReZbVJ4A9XrmVNBTfYHtfAAId77+rhgtLFT92DN9RJ6oBGZd6vGXh3m
+ Bt7Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVkEtyPDQwDp3uiDwW3HUPXA8onGKI0IocKxXMARz1nkoCUs2I6a//KjstTFj8y1jFz96jevB7UIVk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/cfZJQTxUio6DdjaYBvER6+ar4knIxeSDcokgYxHg4InB3H3l
+ C+zCKtRYrzZmfYZq3JV3O/aD4DZPImK5ZjFxe7yEkumTGQtiFpXWStY5sSv7/L8=
+X-Gm-Gg: ASbGncuLAVJ5ZeDZQu7VN21uiPOtjUbWGMI70my03I8a1/ibaqNys7avksrt6ms8iI2
+ +u6v2TivfwFZFQnRJ+TJAmapaKwXfqzNAbHaJpxOl/fSQ/UU5nFqAtJWZaVCBTXZIEUVtN1ncmo
+ vS8Xnei33/j97CnOI1agCsDplqrPPfjuQP1AnAtzGX7ozj5HL3lyoV+XYd5cm4jkzrbIhG1+bD5
+ DkKXxoo5nKOTxysKPJRImMgMWh4MaOQx+/GjXm2cKIeB82UiB7L+4K/pB0D3iD41Kyl4UW5JQfk
+ L42TWG3zJFv2V99g2K9ZBE3BbSnRrlkSqBSkYHfxC53Ri+EPNi5r
+X-Google-Smtp-Source: AGHT+IHMfTNrWP4hQFb0GQUyG0fpyElWUI07s483secQs29wCtyhNQLUcn9eSq5r1YGymCNO0T2AEg==
+X-Received: by 2002:a05:600c:3c89:b0:43c:f44c:72a6 with SMTP id
+ 5b1f17b1804b1-43f3a929372mr35568155e9.2.1744395410124; 
+ Fri, 11 Apr 2025 11:16:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39eae979663sm2843766f8f.51.2025.04.11.11.16.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Apr 2025 11:16:49 -0700 (PDT)
+Date: Fri, 11 Apr 2025 20:16:47 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+ lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ kernel@collabora.com, Faith Ekstrand <faith.ekstrand@collabora.com>
+Subject: Re: [PATCH v3 0/8] drm: Introduce sparse GEM shmem
+Message-ID: <Z_lcj9pgunJFuj_4@phenom.ffwll.local>
+References: <20250404092634.2968115-1-boris.brezillon@collabora.com>
+ <20250410164809.21109cbc@collabora.com>
+ <d4ebcb9f-ca1e-40ae-bc3c-613f88552b94@amd.com>
+ <20250410175349.6bf6a4ea@collabora.com>
+ <d0ab2ffe-77ee-4bda-b127-8648acb71409@amd.com>
+ <20250410192054.24a592a5@collabora.com> <Z_gHX5AqQkhbXOjd@blossom>
+ <20250410204155.55d5cfc7@collabora.com>
+ <Z_kEjFjmsumfmbfM@phenom.ffwll.local> <Z_kenr95QUq9rFpt@blossom>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250411-ktd-fix-v1-1-e7425d273268@skole.hr>
-X-B4-Tracking: v=1; b=H4sIAMlP+WcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDE0ND3eySFN20zApd80TTVNMUCzNT8yQLJaDqgqJUoDDYpOjY2loAP6Y
- vb1kAAAA=
-X-Change-ID: 20250411-ktd-fix-7a5e5d8657b8
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1157;
- i=duje.mihanovic@skole.hr; s=20240706; h=from:subject:message-id;
- bh=3jhAi95ad/Pq/CAnIxFn10PecnGB9M4btMKtmLNxZjw=;
- b=owGbwMvMwCW21nBykGv/WmbG02pJDOk//c+9yV+Rt06Ib7nb1FUL2uax6eh29s5ckHS1ROldc
- ZP1dX/1jlIWBjEuBlkxRZbc/47XeD+LbN2evcwAZg4rE8gQBi5OAZiIkRPDfyfbZyuP37/vcWSO
- wPaCJP0fes1NbZ1X7lg5pszwaHz1aRojwzyjo1mC7DNEEjUZxOTzqz6XF7yPvGd6MVHQsPFbbI4
- pDwA=
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=6DFF41D60DF314B5B76BA630AD319352458FAD03
-X-Endpoint-Received: by B4 Relay for duje.mihanovic@skole.hr/20240706 with
- auth_id=191
-X-Original-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z_kenr95QUq9rFpt@blossom>
+X-Operating-System: Linux phenom 6.12.17-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,42 +99,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: duje.mihanovic@skole.hr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Duje Mihanović <duje.mihanovic@skole.hr>
+On Fri, Apr 11, 2025 at 09:52:30AM -0400, Alyssa Rosenzweig wrote:
+> > 2. Device Lost
+> > --------------
+> > 
+> > At this point we're left with no other choice than to kill the context.
+> > And userspace should be able to cope with VK_DEVICE_LOST (hopefully zink
+> > does), but it will probably not cope well with an entire strom of these
+> > just to get the first frame out.
+> > 
+> > Here comes the horrible trick:
+> > 
+> > We'll keep rendering the entire frame by just smashing one single reserve
+> > page (per context) into the pte every time there's a fault. It will result
+> > in total garbage, and we probably want to shot the context the moment the
+> > VS stages have finished, but it allows us to collect an accurate estimate
+> > of how much memory we'd have needed. We need to pass that to the vulkan
+> > driver as part of the device lost processing, so that it can keep that as
+> > the starting point for the userspace dynamic memory requirement
+> > guesstimate as a lower bound. Together with the (scaled to that
+> > requirement) gpu driver memory pool and the core mm watermarks, that
+> > should allow us to not hit a device lost again hopefully.
+> 
+> This doesn't work if vertex stages are allowed to have side effects
+> (which is required for adult-level APIs and can effectively get hit with
+> streamout on panfrost). Once you have anything involving side effects,
+> you can't replay work, there's no way to cope with that. No magic Zink
+> can do either.
 
-The ExpressWire library used by the driver depends on GPIOLIB, and by
-extension the driver does as well. This is not reflected in the driver's
-Kconfig entry, potentially causing Kconfig warnings. Fix this by adding
-the dependency.
+Yeah no attempts at reply, it's just standard gl error handling. So either
+tossing the context and reporting that through arb_robustness. Or tossing
+the context, "transparently" creating a new one and a mix of recreating
+some internal driver objects and thoughts&prayers to give the new context
+the best chances possible.
 
-Link: https://lore.kernel.org/all/5cf231e1-0bba-4595-9441-46acc5255512@infradead.org
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
- drivers/video/backlight/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+You really want all the tricks in step 1 and the quirks in 3 to make sure
+this doesn't ever happen. Or at most once per app, hopefully.
 
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index d9374d208ceebbf8b3c27976e9cb4d725939b942..37341474beb9982f7099711e5e2506081061df46 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -185,6 +185,7 @@ config BACKLIGHT_KTD253
- 
- config BACKLIGHT_KTD2801
- 	tristate "Backlight Driver for Kinetic KTD2801"
-+	depends on GPIOLIB || COMPILE_TEST
- 	select LEDS_EXPRESSWIRE
- 	help
- 	  Say Y to enable the backlight driver for the Kinetic KTD2801 1-wire
+I promised terrible after all :-P
 
----
-base-commit: 01c6df60d5d4ae00cd5c1648818744838bba7763
-change-id: 20250411-ktd-fix-7a5e5d8657b8
-
-Best regards,
+Cheers, Sima
 -- 
-Duje Mihanović <duje.mihanovic@skole.hr>
-
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
