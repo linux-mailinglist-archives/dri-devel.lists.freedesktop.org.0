@@ -2,62 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0571A85C32
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 13:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40AEA85C63
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 14:00:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE62B10E0A8;
-	Fri, 11 Apr 2025 11:49:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1873910EB7F;
+	Fri, 11 Apr 2025 12:00:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="igkt2VE8";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="cwaBQPxu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1B110E0A8
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 11:49:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 264894A4E8;
- Fri, 11 Apr 2025 11:49:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7E00C4CEE2;
- Fri, 11 Apr 2025 11:49:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744372186;
- bh=Y1jBqB8SPrhS4Y4w/rmv4NVxsWmmjHCT1zX7FJlSn8U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=igkt2VE8p0udba4TvCkKsv0xiU0tUm3e5M/XGbSLrV7UD28g8nyd/6e7DKEwO3uVf
- 1W9Z/VWJtH7C0QwvrphmcMBlMMUBzzsI8McD/PqLgPl0bytGjyx42SbTr6UaIJFVQt
- GZba/dgqwKgfGTKYKPBPgVmcs7TylcG9zE8Z07tDC061yVazw8szAHVGUaEnD82hMl
- WTJ/jmNJ/TsuHp1lvKcryh6e2YVBaQXjLrRxmL0aCG7A282RDNYQCc22L66GOI+7i3
- hn/dLsMYdhbolbmFC/lJpD+f6mzn1+LbXHIKehBxRXjrByQ0JQzRhfk7Hcr13ZMJ7K
- zh7nKFoWiPZ6g==
-Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan@kernel.org>) id 1u3CtK-000000000on-156V;
- Fri, 11 Apr 2025 13:49:51 +0200
-Date: Fri, 11 Apr 2025 13:49:50 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Christopher Obbard <christopher.obbard@linaro.org>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Rui Miguel Silva <rui.silva@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 1/3] arm64: dts: qcom: x1e80100: add epd hpd pinctrl
-Message-ID: <Z_kB3jOH04-zFnym@hovoldconsulting.com>
-References: <20250402-wip-obbardc-qcom-t14s-oled-panel-v5-0-ff33f4d0020f@linaro.org>
- <20250402-wip-obbardc-qcom-t14s-oled-panel-v5-1-ff33f4d0020f@linaro.org>
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4E1F310EB7F
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 12:00:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=Ai6KO
+ rDYRhXJ9lvg8B6jho/hJgKPY3oes6sm6uHCIVQ=; b=cwaBQPxugXqPHMuN975Hd
+ UFQNFOVGGuJZ/NgXaZ3/WIGz95Z4k5nKjTV5hGLeSjYUjHyPufr2Rwr44+3EQcEa
+ NniugkIkdMqlMREKpKmfxsig58eLbcW48Mq6Mv3iSR+8k55tMWYKRAvHDyDWPJ0O
+ zFbkzzGAhUciPngSeO79Vg=
+Received: from ProDesk.. (unknown [])
+ by gzsmtp2 (Coremail) with SMTP id PSgvCgDXnwMuBPlnWR0nAA--.27850S2;
+ Fri, 11 Apr 2025 19:59:46 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: lumag@kernel.org
+Cc: cristian.ciocaltea@collabora.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, andrzej.hajda@intel.com, dianders@chromium.org,
+ jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com,
+ maarten.lankhorst@linux.intel.com, rfoss@kernel.org, simona@ffwll.ch,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, heiko@sntech.de,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH v2] drm/bridge: dw-hdmi: Avoid including uapi headers
+Date: Fri, 11 Apr 2025 19:59:37 +0800
+Message-ID: <20250411115941.318558-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250402-wip-obbardc-qcom-t14s-oled-panel-v5-1-ff33f4d0020f@linaro.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: PSgvCgDXnwMuBPlnWR0nAA--.27850S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKr15ZFy8WF1rur1xZF48Xrb_yoWftwb_C3
+ WSvrW5JrWUCr1qyF17ZrsxZ3sF9a1UuFWxWFn5tr9xAF4kZr4YgwnrZFyUJwn8uF15KFZr
+ Wa45WFW2vrnxWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1_Ma5UUUUU==
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkAosXmf5AzIMjwACsG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,48 +61,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 02, 2025 at 03:36:32PM +0100, Christopher Obbard wrote:
-> Add edp_hpd_active pinctrl to the X1E80100 device tree.
+From: Andy Yan <andy.yan@rock-chips.com>
 
-Please squash this one with the patch adding the user.
+It is not recommended for drivers to include UAPI header
+directly.
+
+Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+
+---
+
+Changes in v2:
+- Collect R-b from Heiko.
+
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index b1cdf806b3c40..deaba3b6f9978 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -22,8 +22,8 @@
  
-> Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/x1e80100.dtsi | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> index 46b79fce92c90d969e3de48bc88e27915d1592bb..5b1b80c445404fd02e9f6e5dab207610b03ff9c5 100644
-> --- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> @@ -6389,6 +6389,11 @@ data-pins {
->  					bias-pull-up;
->  				};
->  			};
-> +
-> +			edp_hpd_active: edp-hpd-active-state {
+ #include <media/cec-notifier.h>
+ 
+-#include <uapi/linux/media-bus-format.h>
+-#include <uapi/linux/videodev2.h>
++#include <linux/media-bus-format.h>
++#include <linux/videodev2.h>
+ 
+ #include <drm/bridge/dw_hdmi.h>
+ #include <drm/display/drm_hdmi_helper.h>
+-- 
+2.43.0
 
-Please keep the nodes sorted by name.
-
-> +				pins = "gpio119";
-> +				function = "edp_hot";
-
-There is no "edp_hot" function on x1e so I wonder how this has been
-tested.
-
-As I mentioned in a comment to an earlier revision this pin has been
-configured by the firmware as "edp0_hot".
-
-Since there is also an "edp1_hot" pin, this needs to be reflected in the
-node name and label.
-
-Pin configurations really do belong in board files, but unfortunately
-this was not followed for x1e. You should still include the bias
-configuration (somewhere).
-
-> +			};
->  		};
->  
->  		stm@10002000 {
-
-Johan
