@@ -2,160 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A92CDA86559
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 20:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C48A86554
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 20:18:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F161B10EC4F;
-	Fri, 11 Apr 2025 18:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F3A10E068;
+	Fri, 11 Apr 2025 18:18:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TulBvfid";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="HLug3NOv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2074.outbound.protection.outlook.com [40.107.243.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B51D210EC4F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 18:18:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y7SDEoL0KmwTz9Td+G4IKi540vVWSndS/aOv12ebssUaH6ViKpDTwR8lOK/YWnBU8Ju/wOJylqICf8mwFiEtm2+UAAw8ZUmSscqYzzqS3T1tljlRCwmDebfR/G2WZdHQa3GrDQ/hiIP/CvIIHdjd7LX7wDCVKvFyMLwFGdssWH8Owa+Luw/g4OHX8jEQ6MKaLgrYa74OkcbliU7Iiua8bm7YXJcc0gcCPntCwqQehKrnF1mbi4I4XmmqwsiOj0hl6v2xD46ayLjmen/QmdlyhlFLYq0NymTvTwqLld59xRlHqUhQ1iQDKmFlrMVf/tPY/o6NFv3soqyPBGzLxtgRgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+I4T3pszz8GfuHAhXDohCsGqznv+cucIEcOA/Zl4IC4=;
- b=c9qekfMMGrmwlEcumDqyTrQWn4yE11pqgHlcxZV8Jc97LX3YQgSS73XY+yv5YbrGoXVzJ+z5Ds7cqX19xa464QbNduZm9hopga083dYYZyTveWEvDoa7t5vziGpPJXeMyxuwIo9Mvh1C3uHKdwEljYPrHl+OquKEAQZg5PcrhxPoELNvTbeuAiTsRZGLlaZGEKZKEkv5DGMP+XLXuu78YNyg2aOJ9KyNcXVtKoKDdUjXKTJV3Ht/IWzN+P1BoA2VgO6bmbBtUOQI7kVVMMM8RGPJobPRZ6C0b30MpSSoxQ8261HIjvwFQXZaxIYxo70fLsC3PzF55FoSUTRYUAPjxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+I4T3pszz8GfuHAhXDohCsGqznv+cucIEcOA/Zl4IC4=;
- b=TulBvfid7oRcdQTnAg5U/3qoMhivCTSzQtgTBdxByN4geDi31Q3LuRYVRHbKn35/EVYX7B5HOMuS98BK2JNRzSVdhbyhUO8nqLKtV/7ocr9vs6tdWoJ8WtlPDUbEoCrpV5HEHWbTGAUX8L7q5/mzW59CFxAVJc/M63KXLmsOHX4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH3PR12MB9193.namprd12.prod.outlook.com (2603:10b6:610:195::14)
- by DM6PR12MB4201.namprd12.prod.outlook.com (2603:10b6:5:216::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.27; Fri, 11 Apr
- 2025 18:18:30 +0000
-Received: from CH3PR12MB9193.namprd12.prod.outlook.com
- ([fe80::7818:d337:2640:e6c7]) by CH3PR12MB9193.namprd12.prod.outlook.com
- ([fe80::7818:d337:2640:e6c7%5]) with mapi id 15.20.8606.029; Fri, 11 Apr 2025
- 18:18:30 +0000
-Message-ID: <bbeb1316-55c9-2530-46bc-25a57cf293eb@amd.com>
-Date: Fri, 11 Apr 2025 23:48:16 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/3] dt-bindings: accel: add device tree for AMD PKI
- accelerator
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, krzk+dt@kernel.org,
- gregkh@linuxfoundation.org, robh@kernel.org, conor+dt@kernel.org,
- ogabbay@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- derek.kiernan@amd.com, dragan.cvetic@amd.com, arnd@arndb.de,
- praveen.jain@amd.com, harpreet.anand@amd.com, nikhil.agarwal@amd.com,
- srivatsa@csail.mit.edu, code@tyhicks.com, ptsm@linux.microsoft.com
-References: <20250409173033.2261755-1-nipun.gupta@amd.com>
- <20250410-flat-violet-bull-a2a0b7@shite>
-From: "Gupta, Nipun" <nipun.gupta@amd.com>
-In-Reply-To: <20250410-flat-violet-bull-a2a0b7@shite>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0115.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:96::14) To CH3PR12MB9193.namprd12.prod.outlook.com
- (2603:10b6:610:195::14)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7603E10E068
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 18:18:22 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-43cfb6e9031so20861435e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 11:18:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1744395501; x=1745000301; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=teocrpMIH4WLyEX2uAYMqy8z9XnLvWd4Z0esh2M67bE=;
+ b=HLug3NOvJfn4dmnGnr+uGX9k//WLQd0qkZwpLnyeZSDf0yA6X4GkYmvaKEpKtbG86j
+ AZxSWR7kxyyMqMfM/QTWVUPopOd6Wyia02ig2T4YTdRpXrksQ1dGGAEI2cGD7/IjOkLp
+ FKOREsFo5SfTrQfqZFOupRumYzzLt/hp4DiWw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744395501; x=1745000301;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=teocrpMIH4WLyEX2uAYMqy8z9XnLvWd4Z0esh2M67bE=;
+ b=UKNbsE5STEKB/iM1w2LzCl5yx+XCWPOP4MhDBDiLeNSqgOcGoVowQBRYEzXv2ufWPE
+ 6RyBoH5MpCUVIUiOApqXxBWFf6zI0CIOwRGjBCIw/oNIyL9La9JEPlnM5CPEfoGftbrr
+ DVQr/WLQCM7nD7WKsW4UHHko6lbDrPv+7PV4T39M5tnV+Wq7VIMQ71VrG3y8CH6AAG87
+ APhxl0GYIDK2T446ugqg1SdxIAC4HbEHlPmjG0J2/uA0UmNjuhf42uOScyshDZXgcHCT
+ Lf1ScRUgynptHRibDPxnWQZl/WFgrdeOZH4/y6DQhG/PV760lzeOVNCHGEyx6IjC1mPH
+ KSYg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW5jSI244vUWjmh9yN5HAlNWax+BupazKOAXyqzQ/svihFq5ayZuMofAu2pwGZ3xzafxYXGRp4E7nQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxhvXrR4PpOGtSAszpEemx+A8gPGepsRBGzgDidDpcJU54aROIm
+ 0Z2KB7fXe5W/a4Fm6lDgEs6FrQpBtJbtzpyWTgfap3UD1mxz2zMYGAWWkBvI1IM=
+X-Gm-Gg: ASbGncu9Qb0HqsIJtU22bD/3XYAaVd6K5DkJAN437W18onpxg4ouLi444yVUHPB+Jiy
+ RSjtcZxeOa5plNLj7rZAhEXGdtCODIS0XyVubtn33z/s5q22hJo3FF0eO6t7JewTrJAUbYYzIzy
+ zAvdpNfqrUKNeuaa0Xp5jNDhqxQ6zEcMRQEbgGTrqV/Kt6QaLxGZUw4W7hwX3nGvMgOrj0dhPB4
+ HUmb1K7kAtw/Bc/EF4M+Y8fA3VWzAUMN6ZrIuJqJhbaEYsH9jlVFWblh7kZfcXpaTVxfI9shFbX
+ ULOKzJkvRArZt6161tQ7Sfo8GaZY6vS44t8AkKuLJ07bRWv2eVX7
+X-Google-Smtp-Source: AGHT+IGr4CnYTMkjb1XOAiqMUjOOB+KhsCngf2/NHnTV6X7n72yUSLDL94sdY6qqnLIQmw+p8bEQLg==
+X-Received: by 2002:a05:600c:1d8f:b0:439:9424:1b70 with SMTP id
+ 5b1f17b1804b1-43f3a9afb04mr39640885e9.30.1744395500888; 
+ Fri, 11 Apr 2025 11:18:20 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43f206269c8sm98773755e9.16.2025.04.11.11.18.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Apr 2025 11:18:20 -0700 (PDT)
+Date: Fri, 11 Apr 2025 20:18:18 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+ lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ kernel@collabora.com, Faith Ekstrand <faith.ekstrand@collabora.com>
+Subject: Re: [PATCH v3 0/8] drm: Introduce sparse GEM shmem
+Message-ID: <Z_lc6pyKgyYMsDJh@phenom.ffwll.local>
+References: <20250404092634.2968115-1-boris.brezillon@collabora.com>
+ <20250410164809.21109cbc@collabora.com>
+ <d4ebcb9f-ca1e-40ae-bc3c-613f88552b94@amd.com>
+ <20250410175349.6bf6a4ea@collabora.com>
+ <d0ab2ffe-77ee-4bda-b127-8648acb71409@amd.com>
+ <20250410192054.24a592a5@collabora.com> <Z_gHX5AqQkhbXOjd@blossom>
+ <20250410204155.55d5cfc7@collabora.com>
+ <Z_kEjFjmsumfmbfM@phenom.ffwll.local>
+ <0de085c4-0940-4f7a-83b9-5c8444070fb3@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB9193:EE_|DM6PR12MB4201:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b6c5244-9726-4fa6-63d7-08dd792542e4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q1FJR2hWaEZ6bnhwWktiNE5TVGlaWEpvTVdLMzBlRUx6dHo1NGNVWHVZVTFz?=
- =?utf-8?B?V3JnMnRNdWYxWCtxaWFMcCtnb1ZMYW93NExwZHFqdmIvS3ZYQkJTejMxcFEv?=
- =?utf-8?B?Kzc3ejRyR1NSLzB6U3VydlVvdTRJRnFldjFMYmtEaVlIU3ZseDVWQ1VFRm9Z?=
- =?utf-8?B?OFM2cFplRHNINnBZYUhoeEl0OWlyNVFVZ0xBak9SdHJ5RXdQZUZHVlhPZGU1?=
- =?utf-8?B?YVIyZkVmdTNsazZUd0tlMlNuVVJxa3ZaY2pDZURhNkpUTTJrYzltY0w4UE96?=
- =?utf-8?B?VWpLNE9nQjNiSHFXekZpNXAwRXdiZVFYSnZlQ1FWQ2FRY2tCR28wcGtpR1gv?=
- =?utf-8?B?b1BHek1Tc2xJQUp4K3EwVFhNQjVHU0FCM0hOSkl5UktUdFNldHg0WjZZSk5j?=
- =?utf-8?B?Zmd6ZE5icm12WXlXektibHI5MjF6ZllNc01XUkx2UVFHRFVWS0ttVng0QUd2?=
- =?utf-8?B?azVOa21ZVHJsYmlwSkQxd01Xcnc1SzFxRVJLZEdpQTdFNE91a1F2RGJBeU9E?=
- =?utf-8?B?U0RGNkVDa1lFclN3eWpjUFFrVVpKNytsdHJCRTNwRjhvQnA2TUtTUk8zbFZY?=
- =?utf-8?B?U1Z0ZTRVM1B2bXkzZW1SYkZzeGttaFRhYVdmTVFoL29MOFBoc1RpcW0rY3Nw?=
- =?utf-8?B?Q0NPZmx0NFZOUjFKY0JTdTd2QzdlcW5xRXk3a050b2ZValdIRmdsc0lWMG8x?=
- =?utf-8?B?L0h1eVptN21PSWpiZWFLWEw3UGNBcmVzRmNNSHVpRDBxWVlVR1hKRlBXbWVp?=
- =?utf-8?B?a1dablF1b2FQWEsrUE9lVGJBbG9RYlcxbWNzTWJvVWw3clFzWWx5N0pBRDRp?=
- =?utf-8?B?bm0wbEVMYXZJRjRKZUhLeml5K1cyMnk4RFNnODRZS05xZDdqajhqckhxdjRq?=
- =?utf-8?B?TTZjY21HOGJFdUVnZ1hqczk0aTdIZlVuaC9CNU1IeDFQVWpTa3dGTExHR2Ja?=
- =?utf-8?B?NGhTNy9EN2RLbzEvbGVhTmp0Y09JalpsNUw5V3R6VWsvTXdCVDYwSTJhcVk3?=
- =?utf-8?B?SWRLZHN1eUdaMm5RS28xbnRFZXFPN3RCUTVJNnR0bnlmQytiNTVXM2o3aWhE?=
- =?utf-8?B?SFJMaSt1L1F4NENIR0RzNnZ6L0o1NGE1WlJHOWcwbTBlZ1dkMmUza1k0THVM?=
- =?utf-8?B?WCtMc0xkRkU0UWtYNDBKaW9CQmEyTThFZmpnU0VIZjZPc2hkMlZhaCtjN0dL?=
- =?utf-8?B?d1RhK2puS1JvMDlBTk9RRGVTd0tUcXpRMTRnVXY1RThiSXg3bTFCUUFOSWdU?=
- =?utf-8?B?MlNGMHg5dkVDSmU3L3hUL3dybitxcWhIVVFEZnpKb05iQTVJdVFBU2M0STBM?=
- =?utf-8?B?L1c1ZmRDMlVLRmM5dXd5YWZiZjFxUFhtaVpxK2tTRW8yeHByQlpoYlhIU3A0?=
- =?utf-8?B?VGNmWTdlcFVvMnN3TWVld243SjhBWXh4dFlFMXdDL3hWTENDS1h3b0p1c3ZD?=
- =?utf-8?B?d0dLZS83MjNKclRMc1kvRmxTZENIMzBpUmUvZkFKK3kwbXgvcVNOWTYvS0lG?=
- =?utf-8?B?SDB2aTVYTWFhRzhtRG9ZQ3ZncEZtRE9ZUTJzWCtRYVl0dm95Z09xcmlDc0Yr?=
- =?utf-8?B?SE1rS21xMHNYRXZJTU5JTldEcG81MUFhc1BVSC9wcXJEaU9XalUvWFlHMFNn?=
- =?utf-8?B?WWo4dVBSL2Q5R3NVVlBvcWYvaVlFOFN3K2p2R1p5dnFBRkhWeXRpYTZJWmRi?=
- =?utf-8?B?ZFJaYmJtR1Budk5aRXBnWDJON3FwNDJzT2I0WDUrckZvZjN5QWNEcEkvbTA0?=
- =?utf-8?B?Mmg5Q3ZMTnZaNVJtOCs0WEpVOU01dURGVW92dEFnT1dPT2pQRjNFZjNNWTRm?=
- =?utf-8?B?UmE3c0NEbXFVYXpCM2FJYUxiemN5MElDVmdoTmlLWDFKWGt0eDZqeDBiaUhM?=
- =?utf-8?B?ZkpsOUk0c3VDVzdUTU5qV0U4R2ZEOHFkTkxXY0tycEYyaDFlOUdoZFZZbERV?=
- =?utf-8?Q?A0T+TLIdgSI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB9193.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dkswYTZoTk5WbzJpRkNQeHhCTXZZSk9aeDV3KzBablJLK2xUSDBFZ05NaXl1?=
- =?utf-8?B?ME82cGdoZHJ2UTVTMVlpek5IN29UQ3crSkJPYWo1Uzk1N0dybEJyVkErdmpl?=
- =?utf-8?B?LzdNR3hCTjdDTjZ1V0lSVE5LWlB3S0NSZ0Naa09BNWRqTDBRbjV5UXVFZUcw?=
- =?utf-8?B?dnc1M0c0SFJ2K3ExSi9MbjVIcElqSXd1cFZvSWtCcWIrL3N6dk9kM2tJUUtr?=
- =?utf-8?B?SHNRd0tseDNiWWJzeWV4UmpTbVhQUzc5U1VIMC85d0hFeGowZW05S3hMZVNC?=
- =?utf-8?B?MmVSbndIektWN1VzM0VHdUMwekowbmFRSjFVb09TMGpjNnAvN3hOS1E1TUM0?=
- =?utf-8?B?VnV4NGpBaFNZNGl6Q0lubjd4NjI5R3Q1UmhOTHpvK3Zpd0dYR3VVRE5QQVE0?=
- =?utf-8?B?VUV6V1YwM1NacjFpcXJ4ek1uSzRzOTZGVmwyQll4R0ZyK2UwQWNpbHZwSGZQ?=
- =?utf-8?B?V24raStuZm5xUUZNY1gvbGlIWW0yNFp1NHgyWWV5blFQMXdJeWcvNC9FZGRH?=
- =?utf-8?B?alVzNlZQNkhHeGk5a2R1d0NJS2V2c3hlNS9RQ2RNby9OWFhuUUVBWHFqVkRN?=
- =?utf-8?B?VTBISTVjZnZEME1xcnBvT01KUEx3a0QwNERrWGVLQ2JQQ3YzRlN6ajVCWDZp?=
- =?utf-8?B?OVpwMWJpM3VTUjY3MHJ2ejdYZ21EUTRyR2xnVjNxNEdRa05NN1NjdG5qcnBj?=
- =?utf-8?B?WkZsZ0l3QWZmN3Q4WkZzcnRLeHRZY2Nyamsva3RPbmczSGxMMzhHZkxqTGp1?=
- =?utf-8?B?VkExb2FmOUtFYS9IdUkwOGNvU1JOamIzdXVDcUtCWHpZT1NYNmRxWGgvRUkz?=
- =?utf-8?B?bU9Zb3FLZmtESmJJOWt0NFhVZkl2ZVdrN2xtRlMxY0dvazlqdU9wNEUxeVFE?=
- =?utf-8?B?eXdSTFVEaU9OSDVJbHM1N0Q2QVI1c3NKa3FHTE9GNGZLSHJEMC9kN1I4Y2Rh?=
- =?utf-8?B?OUhaQ2VsL2pmc1BzVGE1UzFBeXhRYkJoNDJlTnh1VW5VMzlDT0lhU1BJcmVJ?=
- =?utf-8?B?ZExJWHdEVklSMGZ2VWhuVzUwMVQ1cDVaVEdaQTAxYnRlQnJJL3Yxd3RmZXZs?=
- =?utf-8?B?cWE2RG0xVWE5U2F3akRYSjRaS2tybG0wY0tJd2xhY2ZaK3ZKSWI2RC8zcWJ3?=
- =?utf-8?B?NnFMNE5RelJwNUNWVysyY2NCZktadnVmYkRHYjZjSDIxcmJ5Z0VnYlJDS3NF?=
- =?utf-8?B?K3FSTWw0SFp3S3l6WmMyUW1LemNyd3dKWlc1Yk9LZFRadHFFTmROTnlscmxG?=
- =?utf-8?B?aFY1eUVCN2dPNHF5bnRGQWlQaUNNUWZBTm5IQ0NkZmNUd2lMdzJZZmNaMnZY?=
- =?utf-8?B?M0lRTFdqTldrSUhYZVZMb2pWUFlQZ28waU1lS1BrSjhYcWNoSnlJWEtheXcv?=
- =?utf-8?B?Z2htNG1iMExWeGcrdEZlQzJyL1pRSGxFWm9mNG1EMXYzU1QzQlh4TjBOdmFi?=
- =?utf-8?B?TzNJT3daaWFqczlmbmg1VWErQXcyT096YXRlSEhBallPYkhKeFlnUFU5T25w?=
- =?utf-8?B?TmpWTm1oeVdNRTErQktDUGtuSmVWSHhrSGRkWEZabDdsakxkWFhCVUhLY0E5?=
- =?utf-8?B?V3FhbHZmL3RzS1dleWx2eGU3Q21HT0Z5VFl6NUQ4aktPOGJvU0dKcWNSNE9a?=
- =?utf-8?B?MUFLdXYvbmdLUE1FQ1dKeU1IVnpTcFhERUdUQkxFN2FoT1NOc1RkbmgycTlY?=
- =?utf-8?B?eTVkSFIxU01pd0plOWNtQUZiZ0xKV1NNUEZ3d0Ewc0dsdnVOcHJUTTA5a0NN?=
- =?utf-8?B?R0lFVHBmR1EzbnVPZ2ZJZXIxRnVQZkNaK2N1LytFVVZCcDNRdFlpbWo4alA4?=
- =?utf-8?B?V2Q3Y3ArYzRuV0RuYXhOVDNsK3JwamkwcmNucXk0Z1ZHR2pXMG1OVUdudTVH?=
- =?utf-8?B?NllEMzJYY0NJeGJqOGJJOXJRTUNxcUN0VEYvMWFDL2dhUGluRWZKVmFpUi9u?=
- =?utf-8?B?c2FCOTNraFZQcHZTMFk1Zzh1SEY0QVNKU3pRYklXVWl5UXdudWhRd2h2SGFD?=
- =?utf-8?B?eGNXWTkwYXlHaU5STnJsUDFIWDVhaStId0Y0b05yZlBSNWRLS3hSNU55WHpO?=
- =?utf-8?B?dVlSa2tCek9vTUhUd29OeEVPeFR5T1RtM0JuUUlCbGEvajR2SDZsZXdSSk1W?=
- =?utf-8?Q?XYY/724m+N1PXAshWzinpwJiK?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b6c5244-9726-4fa6-63d7-08dd792542e4
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9193.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2025 18:18:30.3277 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PIeYXvtUii1vdjuga+VNXcTccQOQxHQQP01oEO3V5MOD81X3u4EG+5NY2mcsijiJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4201
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0de085c4-0940-4f7a-83b9-5c8444070fb3@amd.com>
+X-Operating-System: Linux phenom 6.12.17-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,20 +105,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10-04-2025 12:59, Krzysztof Kozlowski wrote:
-> On Wed, Apr 09, 2025 at 11:00:31PM GMT, Nipun Gupta wrote:
->> +  interrupts:
->> +    maxItems: 1
->> +
+On Fri, Apr 11, 2025 at 02:50:19PM +0200, Christian König wrote:
+> Am 11.04.25 um 14:01 schrieb Simona Vetter:
+> > On Thu, Apr 10, 2025 at 08:41:55PM +0200, Boris Brezillon wrote:
+> >> On Thu, 10 Apr 2025 14:01:03 -0400
+> >> Alyssa Rosenzweig <alyssa@rosenzweig.io> wrote:
+> >>
+> >>>>>> In Panfrost and Lima, we don't have this concept of "incremental
+> >>>>>> rendering", so when we fail the allocation, we just fail the GPU job
+> >>>>>> with an unhandled GPU fault.    
+> >>>>> To be honest I think that this is enough to mark those two drivers as
+> >>>>> broken.  It's documented that this approach is a no-go for upstream
+> >>>>> drivers.
+> >>>>>
+> >>>>> How widely is that used?  
+> >>>> It exists in lima and panfrost, and I wouldn't be surprised if a similar
+> >>>> mechanism was used in other drivers for tiler-based GPUs (etnaviv,
+> >>>> freedreno, powervr, ...), because ultimately that's how tilers work:
+> >>>> the amount of memory needed to store per-tile primitives (and metadata)
+> >>>> depends on what the geometry pipeline feeds the tiler with, and that
+> >>>> can't be predicted. If you over-provision, that's memory the system won't
+> >>>> be able to use while rendering takes place, even though only a small
+> >>>> portion might actually be used by the GPU. If your allocation is too
+> >>>> small, it will either trigger a GPU fault (for HW not supporting an
+> >>>> "incremental rendering" mode) or under-perform (because flushing
+> >>>> primitives has a huge cost on tilers).  
+> >>> Yes and no.
+> >>>
+> >>> Although we can't allocate more memory for /this/ frame, we know the
+> >>> required size is probably constant across its lifetime. That gives a
+> >>> simple heuristic to manage the tiler heap efficiently without
+> >>> allocations - even fallible ones - in the fence signal path:
+> >>>
+> >>> * Start with a small fixed size tiler heap
+> >>> * Try to render, let incremental rendering kick in when it's too small.
+> >>> * When cleaning up the job, check if we used incremental rendering.
+> >>> * If we did - double the size of the heap the next time we submit work.
+> >>>
+> >>> The tiler heap still grows dynamically - it just does so over the span
+> >>> of a couple frames. In practice that means a tiny hit to startup time as
+> >>> we dynamically figure out the right size, incurring extra flushing at
+> >>> the start, without needing any "grow-on-page-fault" heroics.
+> >>>
+> >>> This should solve the problem completely for CSF/panthor. So it's only
+> >>> hardware that architecturally cannot do incremental rendering (older
+> >>> Mali: panfrost/lima) where we need this mess.
+> >> OTOH, if we need something
+> >> for Utgard(Lima)/Midgard/Bifrost/Valhall(Panfrost), why not use the same
+> >> thing for CSF, since CSF is arguably the sanest of all the HW
+> >> architectures listed above: allocation can fail/be non-blocking,
+> >> because there's a fallback to incremental rendering when it fails.
+> > So this is a really horrible idea to sort this out for panfrost hardware,
+> > which doesn't have a tiler cache flush as a fallback. It's roughly three
+> > stages:
+> >
+> > 1. A pile of clever tricks to make the chances of running out of memory
+> > really low. Most of these also make sense for panthor platforms, just as a
+> > performance optimization.
+> >
+> > 2. I terrible way to handle the unavoidable VK_DEVICE_LOST, but in a way
+> > such that the impact should be minimal. This is nasty, and we really want
+> > to avoid that for panthor.
+> >
+> > 3. Mesa quirks so that 2 doesn't actually ever happen in practice.
+> >
+> > 1. Clever tricks
+> > ----------------
+> >
+> > This is a cascade of tricks we can pull in the gpu fault handler:
+> >
+> > 1a. Allocate with GFP_NORECLAIM. We want this first because that triggers
+> >   background reclaim, and that might be enough to get us through and free
+> >   some easy caches (like clean fs cache and stuff like that which can just
+> >   be dropped).
+> >
+> > 1b Userspace needs to guesstimate a good guess for how much we'll need. I'm
+> >   hoping that between render target size and maybe counting the total
+> >   amounts of vertices we can do a decent guesstimate for many workloads.
+> >   Note that goal here is not to ensure success, but just to get the rough
+> >   ballpark. The actual starting number here should aim fairly low, so that
+> >   we avoid wasting memory since this is memory wasted on every context
+> >   (that uses a feature which needs dynamic memory allocation, which I
+> >   guess for pan* is everything, but for apple it would be more limited).
+> >
+> > 1c The kernel then keeps an additional global memory pool. Note this would
+> >   not have the same semantics as mempool.h, which is aimed GFP_NOIO
+> >   forward progress guarantees, but more as a preallocation pool. In every
+> >   CS ioctl we'll make sure the pool is filled, and we probably want to
+> >   size the pool relative to the context with the biggest dynamic memory
+> >   usage. So probably this thing needs a shrinker, so we can reclaim it
+> >   when you don't run an app with a huge buffer need on the gpu anymore.
+> >
+> >   Note that we're still not sizing this to guarantee success, but together
+> >   with the userspace heuristics it should be big enough to almost always
+> >   work out. And since it's global reserve we can afford to waste a bit
+> >   more memory on this one. We might also want to scale this pool by the
+> >   total memory available, like the watermarks core mm computes. We'll only
+> >   hang onto this memory when the gpu is in active usage, so this should be
+> >   fine.
+> >
+> >   Also the preallocation would need to happen without holding the memory
+> >   pool look, so that we can use GFP_KERNEL.
+> >
+> > Up to this point I think it's all tricks that panthor also wants to
+> > employ.
+> >
+> > 1d Next up is scratch dynamic memory. If we can assume that the memory does
+> >   not need to survive a batchbuffer (hopefully the case with vulkan render
+> >   pass) we could steal such memory from other contexts. We could even do
+> >   that for contexts which are queued but not yet running on the hardware
+> >   (might need unloading them to be doable with fw renderers like
+> >   panthor/CSF) as long as we keep such stolen dynamic memory on a separate
+> >   free list. Because if we'd entirely free this, or release it into the
+> >   memory pool we'll make things worse for these other contexts, we need to
+> >   be able to guarantee that any context can always get all the stolen
+> >   dynamic pages back before we start running it on the gpu.
+> >
+> > Since the tracking for the memory pool in 1c and the stolen memory in 1d
+> > has a bunch of tricky corner cases we probably want that as a drm helper
+> > which globally does that book-keeping for all drm/sched instances. That
+> > might even help if some NN accel thing also needs this on the same SoC.
+> >
+> > 1e Finally, if all else is lost we can try GFP_ATOMIC. This will eat into
+> >   reserve memory pools the core mm maintains. And hopefully we've spent
+> >   enough time between this step and the initial GFP_NORECLAIM that
+> >   background reclaim had a chance to free some memory, hence why all the
+> >   memory pool and memory stealing tricks should be in between.
+> >
+> > The above will need quite some tuning to make sure it works as often as
+> > possible, without wasting undue amounts of memory. It's classic memory
+> > overcommit tuning.
+> >
+> > 2. Device Lost
+> > --------------
+> >
+> > At this point we're left with no other choice than to kill the context.
+> > And userspace should be able to cope with VK_DEVICE_LOST (hopefully zink
+> > does), but it will probably not cope well with an entire strom of these
+> > just to get the first frame out.
+> >
+> > Here comes the horrible trick:
+> >
+> > We'll keep rendering the entire frame by just smashing one single reserve
+> > page (per context) into the pte every time there's a fault. It will result
+> > in total garbage, and we probably want to shot the context the moment the
+> > VS stages have finished, but it allows us to collect an accurate estimate
+> > of how much memory we'd have needed. We need to pass that to the vulkan
+> > driver as part of the device lost processing, so that it can keep that as
+> > the starting point for the userspace dynamic memory requirement
+> > guesstimate as a lower bound. Together with the (scaled to that
+> > requirement) gpu driver memory pool and the core mm watermarks, that
+> > should allow us to not hit a device lost again hopefully.
+> >
+> > I think if the CS ioctl both takes the current guesstimate from userspace,
+> > and passes back whatever the current maximum known to the kernel is (we
+> > need that anyway for the steps in stage 1 to make sense I think), then
+> > that should also work for dead context where the CS ioctl returns -EIO or
+> > something like that.
 > 
-> And the resets? I understand from previous email that there is a reset controller.
+> +1
+> 
+> It is a bit radical but as far as I can see that is the way to go.
+> 
+> Additionally I think it's a must have to have a module parameter or
+> similar to exercise this situation even without getting the whole kernel
+> into an OOM situation.
+> 
+> Fault injection to exercise fallback paths are is just mandatory for
+> stuff like that.
 
-It was not reset controller, those were register from clock controller 
-which is handled by PDI (Programmable Device Image) at boot. It was 
-mistakenly added there and was not used in the driver (in v1 as well). 
-There is a software reset in the device which is used to reset it.
+Yeah, although I'd lean towards debugfs so that an igt could nicely
+control it all and let this blow up in a very controlled way. Probably
+some bitflag to make each of the options in step 1 fail to get anything
+useful, or at least the GFP_NORECLAIM and the GFP_ATOMIC ones.
+-Sima
 
-Regards,
-Nipun
+> 
+> Regards,
+> Christian.
+> 
+> 
+> >
+> > 3. Mesa quirks
+> > --------------
+> >
+> > A database of the fixed dynamic memory requirements we get from step 2
+> > (through bug reports), so that we can avoid that mess going forward.
+> >
+> > If there's too many of those, we'll probably need to improve the
+> > guesstimation 1b if it's systematically off by too much. We might even
+> > need to store that on-disk, like shader caches, so that you get a crash
+> > once and then it should work even without an explicit mesa quirk.
+> >
+> > Documentation
+> > -------------
+> >
+> > Assuming this is not too terrible an idea and we reach some consensus, I
+> > think it'd be good to bake this into a doc patch somewhere in the
+> > dma_fence documentation. Also including Alyssa recipe for when you have
+> > hardware support for flushing partial rendering. And maybe generalized so
+> > it makes sense for the GS/streamout/... fun on apple hardware.
+> >
+> > And perhaps with a section added that points to actual code to help make
+> > this happen like the sparse bo support in this series.
+> >
+> > Cheers, Sima
+> 
+
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
