@@ -2,67 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998F2A86011
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 16:10:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A15A86075
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 16:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D1A10EBCF;
-	Fri, 11 Apr 2025 14:10:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB85810EBC9;
+	Fri, 11 Apr 2025 14:24:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="P69RrHQ+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xwvi3DiU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFD5310EBCF;
- Fri, 11 Apr 2025 14:10:36 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ZYz9P26k0z9snv;
- Fri, 11 Apr 2025 16:10:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1744380633; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KRhJW5jicPYJ3BT6+JTiDRHAzS7z/btQ3Ka6vbAdHmw=;
- b=P69RrHQ+i34M14yVUZLq7X7ujch5aOr81j3uSNqO8Y8XtZ+M0yzgk7RK2Mw/oJRCRNC+2c
- eQqlfEx+utW6E4KPuBZC+3fr/3LzB9ThFNKSfcFhj7PvqkIZ7rFZqRPKIAql9UCC6zLvT+
- tw4ULLBNqv2s5MndRfv5LyCG4QKae77nvvVx0mQH+TVOdqwktldtYNha4+N5fKoyzhj0Ys
- 5dBkzuadgSwzaZFhGmT+KGS3l3rUjPQLae0IaAnSxyQjabIGAKuN6BDAOLKnbNFWB+sMk1
- BqKtJqwl9f2OeZhxdpxffv+GLUhMNbYZuSSQTPOyJuTV3kFrQC1ccuwjFzXXUw==
-Message-ID: <1127db242503055b2e5e8d07db3aeae46cfb7a24.camel@mailbox.org>
-Subject: Re: [PATCH 1/3] drm/nouveau: Prevent signaled fences in pending list
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- phasta@kernel.org, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
- <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Sabrina Dubroca <sd@queasysnail.net>, Sumit Semwal
- <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- stable@vger.kernel.org
-Date: Fri, 11 Apr 2025 16:10:29 +0200
-In-Reply-To: <45d66ca4-5390-42e9-869a-f5f9125d05b6@amd.com>
-References: <20250410092418.135258-2-phasta@kernel.org>
- <20250410092418.135258-3-phasta@kernel.org>
- <8583665a-6886-4245-be49-fd8839cfe212@amd.com>
- <c737c89c7ce9174e349c61ab4e5712eee8946f13.camel@mailbox.org>
- <50c9530d-e274-4f89-8620-16afe0981239@amd.com>
- <1a73e5fe4350d6ee4b7d807612264eb637c4f2a9.camel@mailbox.org>
- <d3dee321cd6b70d6ca98768fbcf6f1e6134c43a1.camel@mailbox.org>
- <81a70ba6-94b1-4bb3-a0b2-9e8890f90b33@amd.com>
- <aca00cb25b813da4fd2f215829f02337f05642f3.camel@mailbox.org>
- <45d66ca4-5390-42e9-869a-f5f9125d05b6@amd.com>
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78CFE10E27A;
+ Fri, 11 Apr 2025 14:24:37 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-2ff6b9a7f91so317004a91.3; 
+ Fri, 11 Apr 2025 07:24:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744381477; x=1744986277; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZmvDAObE9KnZ7MxQaf1cosOUGUMZW3ptn6EF2w8TGFE=;
+ b=Xwvi3DiUV9AKu1E3IpaxsZkeW6uMBp3Az1VyU9dAUyR5Y1T9x9hvD7yfkY+PtQlD2a
+ 2a4FYy+pQ13eZWKirtACANON9BShnvu700DVOPtpNRWm1ohcdVUPKoyZEb+MBYJq5UqE
+ SWzXAOp75kdah5aigN7PrQ8LOtzEWUctMZv6nhNQGZkDVhUZiJ0qWzI581YgbScvX/n4
+ iKXG96Rvfr8Fx3hcWUzYwGLrUK3Hscmb7/zfSWFTuETfLr7SL8tzA85B0mZ+j6vN+JP2
+ fpgfC/pH5ivuLeMMiLbPpsaG41Q2qfS7T0EoAJ3NfN6TxSYWtBFELTDOVtl7ankp061O
+ brjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744381477; x=1744986277;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZmvDAObE9KnZ7MxQaf1cosOUGUMZW3ptn6EF2w8TGFE=;
+ b=hB3T2jSgMuYC9rCjx/8R4A9tY/xqGVbJ03T9VV3KFeFJcmKfPB3iFb34z9lx17PLTa
+ Q6z7clXHGXWyjU9dRyBTVTHvqkHKrg9zQaHJlwMyNtTGCFLB6GyKihojS6bfxBAFXrGg
+ ETk0xd3HkS1LBjJpvbhbGqduLv7t9zDgN9PyucrLb6OdaiKQ9tWZrpFszO0ZDVM0vQU0
+ DZRt1yP/KpxL3wj5P+g+196OZvxSm/q2/FM3kjMoo3VwI2+NvhReGMNkHANs3OQrNvNg
+ vpv3SbqmDW1VimhbvD72F6HY4JvKGhv1dYeMzOP8n4xr0ofbAqNSP0VSb063ZQTmde1b
+ jyvA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWReiNCO8V5uxArF+EyOfJnUb6Y0gsZwO29vtz7I4tuu+O1SL9bkfK+sWM85E0m9hOlaeIvUjM3@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy8uyOum2Qs7geSKy6+KNiomA2Zfm7H4KeoCLsDB8CkyjnBzJUO
+ VnPlE5tStQWuIPBvNzvIDJf8hTH+CI3hHJdJ4aLN6+ltCbkaGWXSzTDwfWY41WjE8khndGu97X+
+ leHdRNwBSmzITlSsmL9+aWHqU2rQ=
+X-Gm-Gg: ASbGnctNkRkzLswRj6UuufoGPLb6xAkPwfp5nrvasl8U+GMjANoSK3vXCpQpdo1mEBa
+ Aw1YlHxJyWqsqGl0TmgzZVKlvCqobXP0Kc2uJH1CCrrnH6sy5kLSyG5nS/Kr7nfFw7WQu2h5zYF
+ 0aW0vhUof8n78sldJjP4j6dg==
+X-Google-Smtp-Source: AGHT+IF8/xiqfxc74SNY+655UdZS8KB8xv4cGvNV3z2CV5ll0ko60gQXBgUzEXAIYLUJ357RKhv1zIqQbhsDS0EVOFE=
+X-Received: by 2002:a17:90b:3147:b0:2ff:4be6:c5bd with SMTP id
+ 98e67ed59e1d1-308274175f7mr1196848a91.8.1744381476603; Fri, 11 Apr 2025
+ 07:24:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250411130428.4104957-1-sunil.khatri@amd.com>
+ <20250411130428.4104957-3-sunil.khatri@amd.com>
+In-Reply-To: <20250411130428.4104957-3-sunil.khatri@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 11 Apr 2025 10:24:25 -0400
+X-Gm-Features: ATxdqUFh11dEoIlyIjZ2-Wx4KSTAk_OFwuaPZ0tT-EQkbf1dTlZq4mtc3Zdap9s
+Message-ID: <CADnq5_Oo_9YEafxTXFPCuxvtKLUKCTpfM=M1yrBR97E2vhyrpg@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] drm/amdgpu: update the error logging for more
+ information
+To: Sunil Khatri <sunil.khatri@amd.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-META: c9c4ztxjf4myurkd7ymjqraayr6dm8uq
-X-MBO-RS-ID: 57e74fcf47f15cb7df3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,267 +83,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-04-11 at 15:06 +0200, Christian K=C3=B6nig wrote:
-> Am 11.04.25 um 14:44 schrieb Philipp Stanner:
-> > On Fri, 2025-04-11 at 13:05 +0200, Christian K=C3=B6nig wrote:
-> > > =C2=A0Am 11.04.25 um 11:29 schrieb Philipp Stanner:
-> > > =C2=A0
-> > > > [SNIP]
-> > > > =C2=A0
-> > > > It could be, however, that at the same moment
-> > > > nouveau_fence_signal() is
-> > > > removing that entry, holding the appropriate lock.
-> > > >=20
-> > > > So we have a race. Again.
-> > > > =C2=A0
-> > > =C2=A0
-> > > =C2=A0Ah, yes of course. If signaled is called with or without the
-> > > lock is
-> > > actually undetermined.
-> > > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > > You see, fixing things in Nouveau is difficult :)
-> > > > It gets more difficult if you want to clean it up "properly",
-> > > > so it
-> > > > conforms to rules such as those from dma_fence.
-> > > >=20
-> > > > I have now provided two fixes that both work, but you are not
-> > > > satisfied
-> > > > with from the dma_fence-maintainer's perspective. I understand
-> > > > that,
-> > > > but please also understand that it's actually not my primary
-> > > > task
-> > > > to
-> > > > work on Nouveau. I just have to fix this bug to move on with my
-> > > > scheduler work.
-> > > > =C2=A0
-> > > =C2=A0
-> > > =C2=A0Well I'm happy with whatever solution as long as it works, but
-> > > as
-> > > far as I can see the approach with the callback simply doesn't.
-> > > =C2=A0
-> > > =C2=A0You just can't drop the fence reference for the list from the
-> > > callback.
-> > > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > > So if you have another idea, feel free to share it. But I'd
-> > > > like to
-> > > > know how we can go on here.
-> > > > =C2=A0
-> > > =C2=A0
-> > > =C2=A0Well the fence code actually works, doesn't it? The problem is
-> > > rather that setting the error throws a warning because it doesn't
-> > > expect signaled fences on the pending list.
-> > > =C2=A0
-> > > =C2=A0Maybe we should fix that instead.
-> > The fence code works as the author intended, but I would be happy
-> > if it
-> > were more explicitly documented.
-> >=20
-> > Regarding the WARN_ON: It occurs in dma_fence_set_error() because
-> > there
-> > is an attempt to set an error code on a signaled fence. I don't
-> > think
-> > that should be "fixed", it works as intended: You must not set an
-> > error
-> > code of a fence that was already signaled.
-> >=20
-> > The reason seems to be that once a fence is signaled, a third party
-> > might evaluate the error code.
->=20
-> Yeah, more or less correct. The idea is you can't declare an
-> operation as having an error after the operation has already
-> completed.
->=20
-> Because everyone will just wait for the completion and nobody checks
-> the status again after that.
->=20
-> >=20
-> > But I think this wasn't wat you meant with "fix".
->=20
-> The idea was to avoid calling dma_fence_set_error() on already
-> signaled fences. Something like this:
->=20
-> @@ -90,7 +90,7 @@ nouveau_fence_context_kill(struct
-> nouveau_fence_chan *fctx, int error)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 while (!list_empty(&fctx->pend=
-ing)) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 fence =3D list_entry(fctx->pending.next,
-> typeof(*fence), head);
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 if (error)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 if (error & !dma_fence_is_signaled_locked(&fence-
-> >base))
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_fenc=
-e_set_error(&fence->base, error);
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 if (nouveau_fence_signal(fence))
->=20
-> That would also improve the handling quite a bit since we now don't
-> set errors on fences which are already completed even if we haven't
-> realized that they are already completed yet.
->=20
-> > In any case, there must not be signaled fences in nouveau's
-> > pending-
-> > list. They must be removed immediately once they signal, and this
-> > must
-> > not race.
->=20
-> Why actually? As far as I can see the pending list is not for the
-> unsignaled fences, but rather the pending interrupt processing.
+On Fri, Apr 11, 2025 at 9:05=E2=80=AFAM Sunil Khatri <sunil.khatri@amd.com>=
+ wrote:
+>
+> add process and pid information in the userqueue error
+> logging to make it more useful in resolving the error
+> by logs.
+>
+> Sample log:
+> [   42.444297] [drm:amdgpu_userqueue_wait_for_signal [amdgpu]] *ERROR* Ti=
+med out waiting for fence f=3D000000001c74d978 for comm:Xwayland pid:3427
+> [   42.444669] [drm:amdgpu_userqueue_suspend [amdgpu]] *ERROR* Not suspen=
+ding userqueue, timeout waiting for comm:Xwayland pid:3427
+> [   42.824729] [drm:amdgpu_userqueue_wait_for_signal [amdgpu]] *ERROR* Ti=
+med out waiting for fence f=3D0000000074407d3e for comm:systemd-logind pid:=
+1058
+> [   42.825082] [drm:amdgpu_userqueue_suspend [amdgpu]] *ERROR* Not suspen=
+ding userqueue, timeout waiting for comm:systemd-logind pid:1058
+>
+> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c | 45 +++++++++++++++----
+>  1 file changed, 37 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_userqueue.c
+> index ecd49cf15b2a..5b58c41618ee 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c
+> @@ -62,12 +62,17 @@ amdgpu_userqueue_cleanup(struct amdgpu_userq_mgr *uq_=
+mgr,
+>         struct amdgpu_device *adev =3D uq_mgr->adev;
+>         const struct amdgpu_userq_funcs *uq_funcs =3D adev->userq_funcs[q=
+ueue->queue_type];
+>         struct dma_fence *f =3D queue->last_fence;
+> +       struct drm_file *file;
+> +       char proc_log[50];
+>         int ret;
+>
+>         if (f && !dma_fence_is_signaled(f)) {
+>                 ret =3D dma_fence_wait_timeout(f, true, msecs_to_jiffies(=
+100));
+>                 if (ret <=3D 0) {
+> -                       DRM_ERROR("Timed out waiting for fence f=3D%p\n",=
+ f);
+> +                       file =3D uq_mgr->file;
+> +                       drm_process_info(file, proc_log, sizeof(proc_log)=
+);
+> +                       DRM_ERROR("Timed out waiting for fence f=3D%p for=
+ %s\n",
+> +                                 f, proc_log);
 
-That's a list of fences that are "in the air", i.e., whose jobs are
-currently being processed by the hardware. Once a job is done, its
-fence must be removed.
-
->=20
-> So having signaled fences on the pending list is perfectly possible.
-
-It is possible, and that is a bug. The list is used by
-nouveau_fence_context_kill() to kill still pending jobs. It shall not
-try to kill and set error codes for fences that are already signaled.
-
-
-
-Anyways, forget about the "remove callbacks solution" it actually
-causes a MASSIVE performance regression. No idea why, AFAICS the fast
-path is only ever evaluated in nouveau_fence_done(), but maybe I missed
-something.
-
-Will re-iterate next week=E2=80=A6
-
-
-P.
-
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > > I'm running out of ideas. What I'm wondering if we couldn't
-> > > > just
-> > > > remove
-> > > > performance hacky fastpath functions such as
-> > > > nouveau_fence_is_signaled() completely. It seems redundant to
-> > > > me.
-> > > > =C2=A0
-> > > =C2=A0
-> > > =C2=A0That would work for me as well.
-> > I'll test this approach. Seems a bit like the nuclear approach, but
-> > if
-> > it works we'd at least clean up a lot of this mess.
-> >=20
-> >=20
-> > P.
-> >=20
-> >=20
-> > > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > >=20
-> > > > Or we might add locking to it, but IDK what was achieved with
-> > > > RCU
-> > > > here.
-> > > > In any case it's definitely bad that Nouveau has so many
-> > > > redundant
-> > > > and
-> > > > half-redundant mechanisms.
-> > > > =C2=A0
-> > > =C2=A0
-> > > =C2=A0Yeah, agree messing with the locks even more won't help us here=
+user drm_err() here and below so we get proper handling of multiple devices=
 .
-> > > =C2=A0
-> > > =C2=A0Regards,
-> > > =C2=A0Christian.
-> > > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > >=20
-> > > >=20
-> > > > P.
-> > > >=20
-> > > > =C2=A0
-> > > > > =C2=A0
-> > > > >=20
-> > > > > P.
-> > > > >=20
-> > > > > =C2=A0
-> > > > > > =C2=A0
-> > > > > > Regards,
-> > > > > > Christian.
-> > > > > >=20
-> > > > > > =C2=A0
-> > > > > > > =C2=A0
-> > > > > > > P.
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > =C2=A0
-> > > > > > > > =C2=A0
-> > > > > > > > Regards,
-> > > > > > > > Christian.
-> > > > > > > >=20
-> > > > > > > > =C2=A0
-> > > > > > > > > =C2=A0
-> > > > > > > > > Replace the call to dma_fence_is_signaled() with
-> > > > > > > > > nouveau_fence_base_is_signaled().
-> > > > > > > > >=20
-> > > > > > > > > Cc: <stable@vger.kernel.org> # 4.10+, precise commit
-> > > > > > > > > not
-> > > > > > > > > to
-> > > > > > > > > be
-> > > > > > > > > determined
-> > > > > > > > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > > > > > > > > ---
-> > > > > > > > > =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
-> > > > > > > > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > > > > >=20
-> > > > > > > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > > > > > > > > b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > > > > > > > > index 7cc84472cece..33535987d8ed 100644
-> > > > > > > > > --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > > > > > > > > +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > > > > > > > > @@ -274,7 +274,7 @@ nouveau_fence_done(struct
-> > > > > > > > > nouveau_fence
-> > > > > > > > > *fence)
-> > > > > > > > > =C2=A0			nvif_event_block(&fctx-
-> > > > > > > > > >event);
-> > > > > > > > > =C2=A0		spin_unlock_irqrestore(&fctx->lock,
-> > > > > > > > > flags);
-> > > > > > > > > =C2=A0	}
-> > > > > > > > > -	return dma_fence_is_signaled(&fence->base);
-> > > > > > > > > +	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> > > > > > > > > &fence-
-> > > > > > > > > =C2=A0
-> > > > > > > > > > =C2=A0
-> > > > > > > > > > base.flags);
-> > > > > > > > > > =C2=A0
-> > > > > > > > > =C2=A0
-> > > > > > > > > =C2=A0}
-> > > > > > > > > =C2=A0
-> > > > > > > > > =C2=A0static long
-> > > > > > > > > =C2=A0
-> > > > > > > > =C2=A0
-> > > > > > > =C2=A0
-> > > > > > =C2=A0
-> > > > > =C2=A0=C2=A0
-> > > > =C2=A0=C2=A0
-> > > =C2=A0
-> > > =C2=A0
->=20
 
+Alex
+
+>                         return;
+>                 }
+>         }
+> @@ -427,6 +432,8 @@ amdgpu_userqueue_resume_all(struct amdgpu_userq_mgr *=
+uq_mgr)
+>         const struct amdgpu_userq_funcs *userq_funcs;
+>         struct amdgpu_usermode_queue *queue;
+>         int queue_id;
+> +       struct drm_file *file;
+> +       char proc_log[50];
+>         int ret =3D 0;
+>
+>         /* Resume all the queues for this process */
+> @@ -435,8 +442,12 @@ amdgpu_userqueue_resume_all(struct amdgpu_userq_mgr =
+*uq_mgr)
+>                 ret =3D userq_funcs->resume(uq_mgr, queue);
+>         }
+>
+> -       if (ret)
+> -               DRM_ERROR("Failed to resume all the queue\n");
+> +       if (ret) {
+> +               file =3D uq_mgr->file;
+> +               drm_process_info(file, proc_log, sizeof(proc_log));
+> +               DRM_ERROR("Failed to resume all the queue for %s\n",
+> +                         proc_log);
+> +               }
+>         return ret;
+>  }
+>
+> @@ -585,6 +596,8 @@ amdgpu_userqueue_suspend_all(struct amdgpu_userq_mgr =
+*uq_mgr)
+>         const struct amdgpu_userq_funcs *userq_funcs;
+>         struct amdgpu_usermode_queue *queue;
+>         int queue_id;
+> +       struct drm_file *file;
+> +       char proc_log[50];
+>         int ret =3D 0;
+>
+>         /* Try to suspend all the queues in this process ctx */
+> @@ -593,8 +606,12 @@ amdgpu_userqueue_suspend_all(struct amdgpu_userq_mgr=
+ *uq_mgr)
+>                 ret +=3D userq_funcs->suspend(uq_mgr, queue);
+>         }
+>
+> -       if (ret)
+> -               DRM_ERROR("Couldn't suspend all the queues\n");
+> +       if (ret) {
+> +               file =3D uq_mgr->file;
+> +               drm_process_info(file, proc_log, sizeof(proc_log));
+> +               DRM_ERROR("Couldn't suspend all the queues for %s\n",
+> +                         proc_log);
+> +               }
+>         return ret;
+>  }
+>
+> @@ -602,6 +619,8 @@ static int
+>  amdgpu_userqueue_wait_for_signal(struct amdgpu_userq_mgr *uq_mgr)
+>  {
+>         struct amdgpu_usermode_queue *queue;
+> +       struct drm_file *file;
+> +       char proc_log[50];
+>         int queue_id, ret;
+>
+>         idr_for_each_entry(&uq_mgr->userq_idr, queue, queue_id) {
+> @@ -611,7 +630,10 @@ amdgpu_userqueue_wait_for_signal(struct amdgpu_userq=
+_mgr *uq_mgr)
+>                         continue;
+>                 ret =3D dma_fence_wait_timeout(f, true, msecs_to_jiffies(=
+100));
+>                 if (ret <=3D 0) {
+> -                       DRM_ERROR("Timed out waiting for fence f=3D%p\n",=
+ f);
+> +                       file =3D uq_mgr->file;
+> +                       drm_process_info(file, proc_log, sizeof(proc_log)=
+);
+> +                       DRM_ERROR("Timed out waiting for fence f=3D%p for=
+ %s\n",
+> +                                 f, proc_log);
+>                         return -ETIMEDOUT;
+>                 }
+>         }
+> @@ -624,19 +646,26 @@ amdgpu_userqueue_suspend(struct amdgpu_userq_mgr *u=
+q_mgr,
+>                          struct amdgpu_eviction_fence *ev_fence)
+>  {
+>         int ret;
+> +       struct drm_file *file;
+> +       char proc_log[50];
+>         struct amdgpu_fpriv *fpriv =3D uq_mgr_to_fpriv(uq_mgr);
+>         struct amdgpu_eviction_fence_mgr *evf_mgr =3D &fpriv->evf_mgr;
+>
+>         /* Wait for any pending userqueue fence work to finish */
+>         ret =3D amdgpu_userqueue_wait_for_signal(uq_mgr);
+>         if (ret) {
+> -               DRM_ERROR("Not suspending userqueue, timeout waiting for =
+work\n");
+> +               file =3D uq_mgr->file;
+> +               drm_process_info(file, proc_log, sizeof(proc_log));
+> +               DRM_ERROR("Not suspending userqueue, timeout waiting for =
+%s\n",
+> +                         proc_log);
+>                 return;
+>         }
+>
+>         ret =3D amdgpu_userqueue_suspend_all(uq_mgr);
+>         if (ret) {
+> -               DRM_ERROR("Failed to evict userqueue\n");
+> +               file =3D uq_mgr->file;
+> +               drm_process_info(file, proc_log, sizeof(proc_log));
+> +               DRM_ERROR("Failed to evict userqueue for %s\n", proc_log)=
+;
+>                 return;
+>         }
+>
+> --
+> 2.34.1
+>
