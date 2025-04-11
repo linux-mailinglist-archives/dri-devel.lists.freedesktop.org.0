@@ -2,56 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1844AA861C2
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 17:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72077A861F9
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 17:36:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C09F10EBFA;
-	Fri, 11 Apr 2025 15:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3767C10E098;
+	Fri, 11 Apr 2025 15:36:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EBND34/4";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dw2jU6Iw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDCCC10EBFA
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 15:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744385117;
- bh=qDJuN3+lVHYYl3Lm2eiBb57L2Jk6ojBS2YiPNAfbfNc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=EBND34/4Pn0F3OFFPMKZhoby0uOkNIenHRcMRhBmu4he59oJ06fUCFeD51rkJ2xoj
- ybnIwbCkNDsWG/5Ts/yICJsWODUmOIH/RkOntLGbQlR9IV1e5ZRm7wydRYPzGa0ukt
- zPx6PPqF41EFpR4nl/nvzQDctgkTX0BkLI7u/nNVZcA3r2i+VvUBglpvxp0UF45F1F
- kiO73AS/4ZxPpM6wzNCILOtzzVFsp8JQNveQdlQseCPb4uE5Oh0nWaDMEopwDTjDOk
- 09llFTZn3pyEY7srbaxk6lQtSm8WgJc8RCNR9T2Dv+m7iMFEcj6DAMZ0QeMHY4nWgg
- 76PoEXavt9Wwg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0FA7217E0402;
- Fri, 11 Apr 2025 17:25:17 +0200 (CEST)
-Date: Fri, 11 Apr 2025 17:25:13 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: Add 64-bit and poll register accessors
-Message-ID: <20250411172513.42f0bcc4@collabora.com>
-In-Reply-To: <6994d307-17e7-453b-b5b9-99a422f73f66@arm.com>
-References: <20250410163546.919749-1-karunika.choo@arm.com>
- <20250410184637.5e0613d2@collabora.com>
- <6994d307-17e7-453b-b5b9-99a422f73f66@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4133E10E098
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 15:36:12 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53BFFk8j008193
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 15:36:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ I/f0AoIahJfkhGbYsJHUxeRCAL+AbEIMXiMqEigSljY=; b=dw2jU6IwBw8HcsWv
+ V6X+RuHQho7kEjqtB9U/r2IyX0wyBhfGTQIcM1ncALCQT1bgGqfhxssnFFUe5qkz
+ +A3YxWeX5CZ3lg++aZ/2PtiLD24yg/13X6AFFgseDfXIfLJWN1ccbO0VsTYyy3hu
+ MRNqBhO1xT3PHWads/ezeOFE7Hcc/zIHZI3D1sNKZhcF0zWw9/drsjDKFGicrkMB
+ Mw03lj5S3rH5aQqebQWSHpIYOTFfZbB+p2FUcimPjruHt8G/Oo4bH9iWO7qmfg6P
+ fn9P4mVhUA0Cb3X6zRb/JLJAxWFFrzmOmG951o05WQoKGNJQBBlw805qt1eA5IUI
+ 6ucU2w==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twd0b02u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 15:36:11 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id
+ 41be03b00d2f7-b00ce246e38so2381535a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 08:36:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744385770; x=1744990570;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=I/f0AoIahJfkhGbYsJHUxeRCAL+AbEIMXiMqEigSljY=;
+ b=XvKv9JyCl5EGmbl27/imonf8B0tPffd1/wxT81Kxx/UCaFqLuxyrqPhyaokXPBiiwl
+ x/Hho6kuWGVftZs603iUhfws+fPjOEnVKoZNLjCHD6mv0G5bXJ+Z73sUbMuwTjr4vhxJ
+ iiu3Zc1CBKOl7Y7FbIP2HWXKNf/JauLTCmdeHKo/xaJOe/p3cThIEUKo2cpbivROp+D0
+ n6KdPcpmcHxnqCCFhVe8NpI95ivZDtShZBGOqLDtjVxk6rnfBrmqTcdwVXW7DGqMLzXa
+ C9suhfDN6owUVpM6c+T551HJt4fkK+mnNR8mP0f75N+XWVDIiezIpLRTMyrsMICNIJEe
+ hFPg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXbmtWBoqoRmdILrPIxL7USoF6kQJXusbJKViTKSICD6lt+b4/UHB0fadjoEH+mb4D5FBLaTxLlco4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxbmUxQdhKgSt5qvHY9LyEGqETTmi1rSgNIITBqCC58zJbVWydz
+ eGlh7lke3x7eEZk3h81X4Zi6C67YBuLqz9wicYC6nTMtQVT+/YTO4i5gGcDSzmhHwIWVvhnakVy
+ PWRIhFsLp/3Ni3EYXmpCBcU3EQ+xHb/IGPrZTw2bjjpcRjoZ9wWHVm8IinMZZ7h9FTTc=
+X-Gm-Gg: ASbGncsP5IW0yBAltYD7tWZnSZt6qu3gMBStrdEdPUeV3Qd/gzxOCXYi0iuesbfNU1D
+ R0iaupdBR+XUlhFK5BgEgi2tG+mo31OhqmBF+HIf3+HD2JaIoZ21+Fd9ajMT/6niBXpndm7onZf
+ F90TRDqCPQ8K2lH+KmhlvzJkajSiD0KGzMR2z98G/M5uhGNbrttTw0YI4MWpoA98MG87kwpg5yS
+ k5UzfBvNWlT8W625kS+8UprWo2gXEaNrfp8NMiAQbIDVD+Z4N3D0rtJT351oK21kAp5b5X/OJTH
+ KcQNRMoLp102fcUrGLi2O8NYNgxToruYqx1YFTIimZ+4WcfOth8Ny6xnfDyj3A==
+X-Received: by 2002:a17:90b:1f8c:b0:2ee:df70:1ff3 with SMTP id
+ 98e67ed59e1d1-308235930d1mr6367270a91.0.1744385769797; 
+ Fri, 11 Apr 2025 08:36:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH7jVoTk0bgA2blmCpqsRfRAq5Raa4igq+CHmM0l5hT9aUMWE7n0pyovhqVx2qrtaLDVK0K4w==
+X-Received: by 2002:a17:90b:1f8c:b0:2ee:df70:1ff3 with SMTP id
+ 98e67ed59e1d1-308235930d1mr6367230a91.0.1744385769368; 
+ Fri, 11 Apr 2025 08:36:09 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-306df07fd69sm5745231a91.17.2025.04.11.08.36.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Apr 2025 08:36:09 -0700 (PDT)
+Message-ID: <16a967fd-a787-40a5-a680-da6cf2c2def4@oss.qualcomm.com>
+Date: Fri, 11 Apr 2025 09:36:07 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/qaic: Test for imported buffers with
+ drm_gem_is_imported()
+To: Thomas Zimmermann <tzimmermann@suse.de>, quic_carlv@quicinc.com,
+ ogabbay@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20250408115237.428985-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250408115237.428985-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: t2yMPL--ynQclS0FtAQ6RQCYTpeSU1Z4
+X-Authority-Analysis: v=2.4 cv=Q4vS452a c=1 sm=1 tr=0 ts=67f936eb cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=HMLxokm-dE5sQ3OGyH8A:9
+ a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-GUID: t2yMPL--ynQclS0FtAQ6RQCYTpeSU1Z4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-11_05,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=824 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504110099
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,171 +117,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Apr 2025 16:17:56 +0100
-Karunika Choo <karunika.choo@arm.com> wrote:
-
-> On 10/04/2025 17:46, Boris Brezillon wrote:
-> > On Thu, 10 Apr 2025 17:35:46 +0100
-> > Karunika Choo <karunika.choo@arm.com> wrote:
-> >   
-> >> This patch adds 64-bit register accessors to simplify register access in
-> >> Panthor. It also adds 32-bit and 64-bit variants for read_poll_timeout.
-> >>
-> >> This patch also updates Panthor to use the new 64-bit accessors and poll
-> >> functions.
-> >>
-> >> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
-> >> ---
-> >>  drivers/gpu/drm/panthor/panthor_device.h |  71 ++++++++++++
-> >>  drivers/gpu/drm/panthor/panthor_fw.c     |   9 +-
-> >>  drivers/gpu/drm/panthor/panthor_gpu.c    | 142 ++++++-----------------
-> >>  drivers/gpu/drm/panthor/panthor_mmu.c    |  34 ++----
-> >>  drivers/gpu/drm/panthor/panthor_regs.h   |   6 -
-> >>  5 files changed, 124 insertions(+), 138 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> >> index da6574021664..5028e25f5e0d 100644
-> >> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> >> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> >> @@ -428,4 +428,75 @@ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
-> >>  
-> >>  extern struct workqueue_struct *panthor_cleanup_wq;
-> >>  
-> >> +static inline void gpu_write(struct panthor_device *ptdev, u32 reg, u32 data)
-> >> +{
-> >> +	writel(data, ptdev->iomem + reg);
-> >> +}
-> >> +
-> >> +static inline u32 gpu_read(struct panthor_device *ptdev, u32 reg)
-> >> +{
-> >> +	return readl(ptdev->iomem + reg);
-> >> +}
-> >> +
-> >> +static inline u32 gpu_read_relaxed(struct panthor_device *ptdev, u32 reg)
-> >> +{
-> >> +	return readl_relaxed(ptdev->iomem + reg);
-> >> +}
-> >> +
-> >> +static inline void gpu_write64(struct panthor_device *ptdev, u32 reg, u64 data)
-> >> +{
-> >> +	gpu_write(ptdev, reg, lower_32_bits(data));
-> >> +	gpu_write(ptdev, reg + 4, upper_32_bits(data));
-> >> +}
-> >> +
-> >> +static inline u64 gpu_read64(struct panthor_device *ptdev, u32 reg)
-> >> +{
-> >> +	return (gpu_read(ptdev, reg) | ((u64)gpu_read(ptdev, reg + 4) << 32));
-> >> +}
-> >> +
-> >> +static inline u64 gpu_read64_relaxed(struct panthor_device *ptdev, u32 reg)
-> >> +{
-> >> +	return (gpu_read_relaxed(ptdev, reg) |
-> >> +		((u64)gpu_read_relaxed(ptdev, reg + 4) << 32));
-> >> +}
-> >> +
-> >> +static inline u64 gpu_read64_counter(struct panthor_device *ptdev, u32 reg)
-> >> +{
-> >> +	u32 lo, hi1, hi2;
-> >> +	do {
-> >> +		hi1 = gpu_read(ptdev, reg + 4);
-> >> +		lo = gpu_read(ptdev, reg);
-> >> +		hi2 = gpu_read(ptdev, reg + 4);
-> >> +	} while (hi1 != hi2);
-> >> +	return lo | ((u64)hi2 << 32);
-> >> +}
-> >> +
-> >> +#define gpu_read_poll_timeout(dev, reg, val, cond, delay_us, timeout_us)    \
-> >> +	read_poll_timeout(gpu_read, val, cond, delay_us, timeout_us, false, \
-> >> +			  dev, reg)  
-> > 
-> > nit: can use use tabs to pad till the '\' at the end of the line so we
-> > can have a consistent formatting across these definitions?
-> >   
-> >> +
-> >> +#define gpu_read_poll_timeout_atomic(dev, reg, val, cond, delay_us,         \
-> >> +				     timeout_us)                            \
-> >> +	read_poll_timeout_atomic(gpu_read, val, cond, delay_us, timeout_us, \
-> >> +				 false, dev, reg)
-> >> +
-> >> +#define gpu_read64_poll_timeout(dev, reg, val, cond, delay_us, timeout_us)    \
-> >> +	read_poll_timeout(gpu_read64, val, cond, delay_us, timeout_us, false, \
-> >> +			  dev, reg)
-> >> +
-> >> +#define gpu_read64_poll_timeout_atomic(dev, reg, val, cond, delay_us,         \
-> >> +				       timeout_us)                            \
-> >> +	read_poll_timeout_atomic(gpu_read64, val, cond, delay_us, timeout_us, \
-> >> +				 false, dev, reg)
-> >> +
-> >> +#define gpu_read_relaxed_poll_timeout_atomic(dev, reg, val, cond, delay_us, \
-> >> +					     timeout_us)                    \
-> >> +	read_poll_timeout_atomic(gpu_read_relaxed, val, cond, delay_us,     \
-> >> +				 timeout_us, false, dev, reg)
-> >> +
-> >> +#define gpu_read64_relaxed_poll_timeout(dev, reg, val, cond, delay_us,         \
-> >> +					timeout_us)                            \
-> >> +	read_poll_timeout(gpu_read64_relaxed, val, cond, delay_us, timeout_us, \
-> >> +			  false, dev, reg)
-> >> +
-> >>  #endif
-> >> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> >> index 0f52766a3120..ecfbe0456f89 100644
-> >> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> >> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> >> @@ -1059,8 +1059,8 @@ static void panthor_fw_stop(struct panthor_device *ptdev)
-> >>  	u32 status;
-> >>  
-> >>  	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_DISABLE);
-> >> -	if (readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
-> >> -			       status == MCU_STATUS_DISABLED, 10, 100000))
-> >> +	if (gpu_read_poll_timeout(ptdev, MCU_STATUS, status,
-> >> +				  status == MCU_STATUS_DISABLED, 10, 100000))
-> >>  		drm_err(&ptdev->base, "Failed to stop MCU");
-> >>  }
-> >>  
-> >> @@ -1085,8 +1085,9 @@ void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
-> >>  
-> >>  		panthor_fw_update_reqs(glb_iface, req, GLB_HALT, GLB_HALT);
-> >>  		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
-> >> -		if (!readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
-> >> -					status == MCU_STATUS_HALT, 10, 100000)) {
-> >> +		if (!gpu_read_poll_timeout(ptdev, MCU_STATUS, status,
-> >> +					   status == MCU_STATUS_HALT, 10,
-> >> +					   100000)) {
-> >>  			ptdev->reset.fast = true;
-> >>  		} else {
-> >>  			drm_warn(&ptdev->base, "Failed to cleanly suspend MCU");
-> >> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> >> index 671049020afa..fd09f0928019 100644
-> >> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> >> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> >> @@ -108,14 +108,9 @@ static void panthor_gpu_init_info(struct panthor_device *ptdev)
-> >>  
-> >>  	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
-> >>  
-> >> -	ptdev->gpu_info.shader_present = gpu_read(ptdev, GPU_SHADER_PRESENT_LO);
-> >> -	ptdev->gpu_info.shader_present |= (u64)gpu_read(ptdev, GPU_SHADER_PRESENT_HI) << 32;
-> >> -
-> >> -	ptdev->gpu_info.tiler_present = gpu_read(ptdev, GPU_TILER_PRESENT_LO);
-> >> -	ptdev->gpu_info.tiler_present |= (u64)gpu_read(ptdev, GPU_TILER_PRESENT_HI) << 32;
-> >> -
-> >> -	ptdev->gpu_info.l2_present = gpu_read(ptdev, GPU_L2_PRESENT_LO);
-> >> -	ptdev->gpu_info.l2_present |= (u64)gpu_read(ptdev, GPU_L2_PRESENT_HI) << 32;
-> >> +	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
-> >> +	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
-> >> +	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);  
-> > 
-> > Now that we have proper 64-bit accessors, I think I would drop the
-> > _LO/_HI definitions and just go a single def per register that replaces
-> > the _LO one.  
+On 4/8/2025 5:52 AM, Thomas Zimmermann wrote:
+> Instead of testing import_attach for imported GEM buffers, invoke
+> drm_gem_is_imported() to do the test. The helper tests the dma_buf
+> itself while import_attach is just an artifact of the import. Prepares
+> to make import_attach optional.
 > 
-> Hello, 
-> 
-> please find a link to v2 below that addresses your comments.
-> 
-> - https://lore.kernel.org/dri-devel/20250411151140.1815435-1-karunika.choo@arm.com/
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Looks all good now.
-
-Thanks!
-
-Boris
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
