@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09D8A854BB
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 08:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD2DA854E0
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 09:02:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47F2510E07B;
-	Fri, 11 Apr 2025 06:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BA8A10EB01;
+	Fri, 11 Apr 2025 07:02:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=temperror (0-bit key; unprotected) header.d=asahilina.net header.i=@asahilina.net header.b="qIzyLriz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NspSH7k8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4A110E07B
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 06:54:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: lina@asahilina.net)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 8516C41A36;
- Fri, 11 Apr 2025 06:54:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
- s=default; t=1744354444;
- bh=ORvObUBDvUZptnQ7XIrGeR4mDqIP57xKuS6cgRYJshI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=qIzyLrizaTZhtC/G8bDSXffhMbKyim1wIPe5LB8GSRO9A7w+tXWcPwanYGfuSfSpV
- xIvgh1euLie4zr9bgA5mmc4vm1oayCFJBScHj+REHveXAP/WtQmBRggpFcs9r92WtE
- THr1/v8Lp31Qgqy0sgXiHBkkSta7UxTaFa6vE7KuAE0RrNHf9iwc6fwTQh/MjRhxRY
- tMZvxrx+nacrKhkRb4ypuB3pmHFAJBwioix/IVWXzANRXSRY99BsI6Mves1J0EiYiU
- wELK9WExvAsS3jaOAJXAeAOPIjfbIiKRfR6MIICBpQfUil5QhEc483ga2b/i7Q6OfS
- Zb7cFkpLhLwQg==
-Message-ID: <664d0f25-ac38-420f-bdf1-21ed7add726d@asahilina.net>
-Date: Fri, 11 Apr 2025 15:53:59 +0900
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B23D510EAE4;
+ Fri, 11 Apr 2025 07:02:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744354922; x=1775890922;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Ce50Klw8qTMBvZ13mLURazDTyliGqDfo02M5DDg2NjM=;
+ b=NspSH7k8C+C7eZuGFyk3xjaHstWrGrDvGmUeq+D13qZW4MLKJ5Mz2uW0
+ 4VZ4J0j2JN85Ji8C7IT0tYWWsWzMi9oVU7vUrTcmkmrCkGqjaQZn3h/7Z
+ c4veaF4uUOjzEJKFY0NzmXEQROP+g+S3hF5Ln3qLG4AIocqlhDyl8Hac5
+ jrtGowtEZSkg/AL/86CQr1oSFWTtOYI4oNjcFujjKIbzIsfv9wxut/fik
+ 17cki0TRWPD6Q52Zh35UFajazg5+mNvKF5kawMwwx+aAZBE/io9zpErCq
+ THOsx7G8si0CGQKzxPvJwavOwJrSTo5q6hrLAhAf6u//5Y4AB4OrkRnig w==;
+X-CSE-ConnectionGUID: nvZ3vhkMQYGhOFVRt12qyg==
+X-CSE-MsgGUID: zraVgs1LQHC40aZ+6WX0Eg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45786110"
+X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; d="scan'208";a="45786110"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2025 00:02:01 -0700
+X-CSE-ConnectionGUID: AAL89XJnTEGFjCvoBevqLg==
+X-CSE-MsgGUID: BnfnqPpHSeGxygHvhiY2sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; d="scan'208";a="134279582"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orviesa005.jf.intel.com with SMTP; 11 Apr 2025 00:01:58 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 11 Apr 2025 10:01:58 +0300
+Date: Fri, 11 Apr 2025 10:01:58 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH 03/19] drm: Look up the format info earlier
+Message-ID: <Z_i-Zniclef5dkUD@intel.com>
+References: <20250410163218.15130-1-ville.syrjala@linux.intel.com>
+ <20250410163218.15130-4-ville.syrjala@linux.intel.com>
+ <20250410193302.GC27834@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/8] DRM Rust abstractions
-To: Dave Airlie <airlied@gmail.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, maarten.lankhorst@linux.intel.com,
- simona@ffwll.ch, mripard@kernel.org, tzimmermann@suse.de, lyude@redhat.com,
- acurrid@nvidia.com, daniel.almeida@collabora.com, j@jannau.net,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250325235522.3992-1-dakr@kernel.org>
- <32e7da7e-de32-4bc6-a751-f604da36a63f@asahilina.net>
- <Z_VXBZcBsk2k6eVN@cassiopeiae>
- <143206f6-cd97-4ef8-a4f3-f68d703903bf@asahilina.net>
- <Z_V2ZxIZxI_HiHM5@cassiopeiae>
- <ebbb4d4e-4778-434b-82d7-188f8f6152ff@asahilina.net>
- <CAPM=9ty5dNQOJUj=wtubGYGt5Kt3QeQAQ9rjM2P0dwjBUFspMw@mail.gmail.com>
- <34a4a130-98d1-4cc3-8dcf-b72b3ed36c10@asahilina.net>
- <43ec8aba-f279-422d-95d1-68daac7eaed9@asahilina.net>
- <Z_ecMl2QtAssfczJ@pollux>
- <88270028-7541-4184-a118-96c182109804@asahilina.net>
- <CAPM=9tyXAdaota38cgeQc86teEebe9XOnBTZ+aDBZpzEBApD9A@mail.gmail.com>
-Content-Language: en-US
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <CAPM=9tyXAdaota38cgeQc86teEebe9XOnBTZ+aDBZpzEBApD9A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250410193302.GC27834@pendragon.ideasonboard.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,43 +73,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/11/25 9:43 AM, Dave Airlie wrote:
->>
->>> However, I understand that you prefer to have primary authorship, even if the
->>> code has been re-organized in new commits, moved, modified or rewritten.
->>
->> Correct.
+On Thu, Apr 10, 2025 at 10:33:02PM +0300, Laurent Pinchart wrote:
+> Hi Ville,
 > 
-> For anyone working in this area that is intending to upstream anything
-> from asahi, I think if code is rewritten completely it's probably not
-> consistent to keep the primary author. Copyright doesn't cover ideas,
-> it covers the code.
+> Thank you for the patch.
+> 
+> On Thu, Apr 10, 2025 at 07:32:02PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > Looks up the format info in already drm_internal_framebuffer_create()
+> > so that we can later pass it along to .fb_create(). Currently various
+> > drivers are doing additional lookups in their .fb_create()
+> > implementations, and these lookups are rather expensive now (given
+> > how many different pixel formats we have).
+> 
+> That's a separate issue, but would it be worth using a data structure
+> that supports more efficient lookup ?
 
-I think you're conflating two unrelated things here. Copyright has
-nothing to do with who is the primary Git author. As far as copyright is
-concerned, Danilo could submit everything as-is. Since I'm still
-mentioned as co-developer, there is no copyright issue. The primary
-author story is about FOSS etiquette, not a legal argument.
+I think the obvious solution would be to to just sort the array
+and use a binary search. Ideally we'd get the compiler to do that
+for us at build time and then get rid of the unsorted array entirely,
+but sadly we can't do that in C. The alternative of keeping the array
+sorted by hand sounds very annoying (at least without having a way
+to validate that it is correctly sorted at build time).
 
-If you "rewrite" (as in not directly copying and pasting the original)
-code while closely referencing the original and retaining some/much of
-the substance, that is still covered by copyright. This is why the
-clean-room process exists for reverse engineering, and why the Asahi
-project has rules that it does not accept code from people who have
-exposed themselves to Apple code or disassembly in most cases, and why
-both Asahi and Nouveau rely on black-box register and memory tracing for
-reverse engineering GPUs.
+> 
+> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> > ---
+> >  drivers/gpu/drm/drm_framebuffer.c | 25 +++++++++++++------------
+> >  1 file changed, 13 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+> > index 18a0267e374e..ae09ef6977b2 100644
+> > --- a/drivers/gpu/drm/drm_framebuffer.c
+> > +++ b/drivers/gpu/drm/drm_framebuffer.c
+> > @@ -153,18 +153,11 @@ int drm_mode_addfb_ioctl(struct drm_device *dev,
+> >  }
+> >  
+> >  static int framebuffer_check(struct drm_device *dev,
+> > +			     const struct drm_format_info *info,
+> >  			     const struct drm_mode_fb_cmd2 *r)
+> >  {
+> > -	const struct drm_format_info *info;
+> >  	int i;
+> >  
+> > -	/* check if the format is supported at all */
+> > -	if (!__drm_format_info(r->pixel_format)) {
+> > -		drm_dbg_kms(dev, "bad framebuffer format %p4cc\n",
+> > -			    &r->pixel_format);
+> > -		return -EINVAL;
+> > -	}
+> > -
+> >  	if (r->width == 0) {
+> >  		drm_dbg_kms(dev, "bad framebuffer width %u\n", r->width);
+> >  		return -EINVAL;
+> > @@ -175,9 +168,6 @@ static int framebuffer_check(struct drm_device *dev,
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > -	/* now let the driver pick its own format info */
+> > -	info = drm_get_format_info(dev, r->pixel_format, r->modifier[0]);
+> > -
+> >  	for (i = 0; i < info->num_planes; i++) {
+> >  		unsigned int width = drm_format_info_plane_width(info, r->width, i);
+> >  		unsigned int height = drm_format_info_plane_height(info, r->height, i);
+> > @@ -272,6 +262,7 @@ drm_internal_framebuffer_create(struct drm_device *dev,
+> >  				struct drm_file *file_priv)
+> >  {
+> >  	struct drm_mode_config *config = &dev->mode_config;
+> > +	const struct drm_format_info *info;
+> >  	struct drm_framebuffer *fb;
+> >  	int ret;
+> >  
+> > @@ -297,7 +288,17 @@ drm_internal_framebuffer_create(struct drm_device *dev,
+> >  		return ERR_PTR(-EINVAL);
+> >  	}
+> >  
+> > -	ret = framebuffer_check(dev, r);
+> > +	/* check if the format is supported at all */
+> > +	if (!__drm_format_info(r->pixel_format)) {
+> > +		drm_dbg_kms(dev, "bad framebuffer format %p4cc\n",
+> > +			    &r->pixel_format);
+> > +		return ERR_PTR(-EINVAL);
+> > +	}
+> > +
+> > +	/* now let the driver pick its own format info */
+> > +	info = drm_get_format_info(dev, r->pixel_format, r->modifier[0]);
+> > +
+> > +	ret = framebuffer_check(dev, info, r);
+> >  	if (ret)
+> >  		return ERR_PTR(ret);
+> >  
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
-If you rewrite code from scratch without referencing the original at all
-and without retaining any of the substance of the original, then of
-course, that is not a derivative work, and the author of the original
-would not have to be mentioned as author at all. This is how projects
-like Wine reimplement the Windows API.
-
-In this case, Danilo "rewrote" (I would say refactored) the Device
-abstraction. We can decide who gets to be primary author, but I don't
-think any lawyer would advise him to completely remove my attribution
-entirely, implying there is nothing left copyright by me.
-
-~~ Lina
-
+-- 
+Ville Syrjälä
+Intel
