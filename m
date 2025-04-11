@@ -2,63 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC00A85879
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 11:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6F1A8588E
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 11:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA0B10EB4E;
-	Fri, 11 Apr 2025 09:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6556910EB52;
+	Fri, 11 Apr 2025 09:58:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eQYAsdUK";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="hxOlhV7v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5F9F10EB4E
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 09:55:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744365344; x=1775901344;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=SurYcpwuYeOmvigqnlU8Yu+QyG1mkKG0f7uVw4W2JG4=;
- b=eQYAsdUKxpmyO/xs+6l9XEo3+73UqupcwKr7/IvfTVUxAYTCJxHvzwmp
- QUnatZCmkXwBx0Vrb8u+6puL7UrIVpvb2BtLAx5x3fydCTgpWiu+S7bla
- OEbr60HL/BVod6H/eudS9Q6djJWv5LZc2MqAtVaBWtahMZJKsi75TtYqX
- bfsZwD92tFTSzgbUY7/jCRi1SxsIeSFY4Rj376d0PwM2nXHk7B4Sh9+vg
- kiViiTJlhmtB1Wneeek91v4fUQT66qqST90xItavYBs0McEKe82+uvL4a
- hS3xN8i8DpSVSonv4pft6pBeMA9RxN3pH6mVD8xa00Z6xcwyVn2lqFnYl A==;
-X-CSE-ConnectionGUID: fahUkC4aQESWBQnh/yCq3g==
-X-CSE-MsgGUID: f+820wDQTjWUKz+pZ4CLNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="63311655"
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; d="scan'208";a="63311655"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2025 02:55:44 -0700
-X-CSE-ConnectionGUID: XUQ6rdFZRayMGvjUqDW1JQ==
-X-CSE-MsgGUID: uSjMFJmISfekJPTeQVZZsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; d="scan'208";a="129152254"
-Received: from mariuszg-mobl2.ger.corp.intel.com (HELO [10.245.113.161])
- ([10.245.113.161])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2025 02:55:43 -0700
-Message-ID: <b1e784fd-5718-4928-aec0-de5c46bf514b@linux.intel.com>
-Date: Fri, 11 Apr 2025 11:55:40 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0925010EB4B
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 09:58:02 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53B5KZqR008265
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 09:58:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=k+idOG9XotOwye43x+aZtsKS
+ o5apYGkMFeSNzvPXUCA=; b=hxOlhV7v6VeJG+N0YGvU0gjoBJF6Yn4aA71CxGUC
+ GYcp9uaTYZ8g29UzU0rmK5BJD5j+vDiWoU2KJQ46ld+4CGyz7s+SZabxzo5R3wSi
+ Ybv/BUA3LcQp9THEOZFRn3n3IPkjSHa5cSAkHy76P+LvG6kcHQGxPXU2Pgq8SdsP
+ jczEm4Ovqw4/QP6hK6qoqFkgUWoahjNO4yrGpR8RoiQc9caWBFo6aQ+weEa4JQ/8
+ W52HPqmzJp4os2as8dyTd1cMESCp51Z0MYBw4Gzw88QkuzRzj6Psk1EZFXXB8k4S
+ bMvgexwmkHI3S9tQw2ot1G8+Dnv3u5Wvj+/WusbdwCXL1w==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twd0a4j6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 09:58:01 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id
+ 41be03b00d2f7-af5310c1ac1so1229656a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 02:58:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744365480; x=1744970280;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=k+idOG9XotOwye43x+aZtsKSo5apYGkMFeSNzvPXUCA=;
+ b=XwLxjV2R4U38HuTRNllTvce3McXJfAZHfZuNdqqtFgGrUYvp7IUzj/7Ugw33G0z9pj
+ stVBd9E5Vvt5y2M77U6qoOjo/9SyadrymdtTATILHawdF/oB/KAJ137VgjcsZUANtxOF
+ 8SZRHQMS96JwBgvteEhvrF1DQvtnIyXiNuhL/3hetof/pp2RtbAMGgUvLA5oH8ggoBPO
+ ZyslW11OdQ0BGGKW+EdOrE+xNLZw0p3j9J+jtLPZ88PGjBOBAfbsEvOFUxvH6027Ledg
+ dNt+4mteWN6X9TiT77BkJzpFR6wO+QaiopX0+JlcZjdbN23NX3cJQV4R3sD2LOOgLfy+
+ DwUg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWOoh84eSuDj+1XiXXymT7DAS8pErYLEpIA+OKjq3j9TCs2R9LYtlkJn3NWyX7awAdSOJqGo1VqFPE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxuc88c2uJKwDCzTwT1OXeDpgKuUJfzkkadWa5daALXbYPn4bTn
+ ofVz9HUfLiofGJG/MIymUAp1a4oaG3XEAWWF9wbdyQNMpWnwyMbG1Xgpn0TGaJQrZ4n/22TECzm
+ O1pRuGRubpOq5fF+RSmVs3tfD2JPd1hynEQNv4E2d7FbuS1gjL2jum/HjoN/VCqx2y831deklGr
+ uOaKFpB4fhPFzpLg0L7VUERT4e73/NplUSasEGy60Gyg==
+X-Gm-Gg: ASbGncuqelBxEJIu90x4jS+TENcik5VvsTaj3HTwsnAVwz+aG140Yucx242nH+uNNTy
+ 7kwQz5PTbLR4QTZ7Ptb+uMoiw+qkw+0hB+yrE77WZlc1/fdbFKPZPHL6YRiclPrDRRPl1
+X-Received: by 2002:a17:90b:6ce:b0:2fe:b470:dde4 with SMTP id
+ 98e67ed59e1d1-30823670b3dmr4001695a91.12.1744365480558; 
+ Fri, 11 Apr 2025 02:58:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGI1n5Z8D5yvjCWkAaXY4/KGC/DQqzFnZDGgKLa+mNp2DTPuSUov3tYEUj2t2409SXNjrimJVcrKkNOiyzN9oY=
+X-Received: by 2002:a17:90b:6ce:b0:2fe:b470:dde4 with SMTP id
+ 98e67ed59e1d1-30823670b3dmr4001658a91.12.1744365480147; Fri, 11 Apr 2025
+ 02:58:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Update FW Boot API to version 3.28.3
-To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com, lizhi.hou@amd.com,
- Karol Wachowski <karol.wachowski@intel.com>
-References: <20250401155817.4049220-1-maciej.falkowski@linux.intel.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250401155817.4049220-1-maciej.falkowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250409-topic-smem_dramc-v1-0-94d505cd5593@oss.qualcomm.com>
+ <685e784c-3f36-4cd1-9c34-7f98c64d50f2@oss.qualcomm.com>
+ <0bec3e62-0753-4c3d-abe1-1a43356afc80@oss.qualcomm.com>
+ <e7bd2840-dd93-40dd-a1bc-4cd606a34b44@oss.qualcomm.com>
+In-Reply-To: <e7bd2840-dd93-40dd-a1bc-4cd606a34b44@oss.qualcomm.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Fri, 11 Apr 2025 12:57:48 +0300
+X-Gm-Features: ATxdqUEgh6uca37YjS4OleFpbDuXY0MPOwXUGWqzyIIRj2finACospEgxJL2mn0
+Message-ID: <CAO9ioeUeNeSxz7ADZ-BbJbhEKkszVS+SmbqaZCgTpL=csak=hg@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Retrieve information about DDR from SMEM
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-ORIG-GUID: 6fl83vOLwvh0HFTHXSH2oYk3yNycOjfw
+X-Authority-Analysis: v=2.4 cv=Q4vS452a c=1 sm=1 tr=0 ts=67f8e7a9 cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10
+ a=EUspDBNiAAAA:8 a=aDpUdPclnTHmp7_NnesA:9 a=QEXdDO2ut3YA:10
+ a=x9snwWr2DeNwDh03kgHS:22
+X-Proofpoint-GUID: 6fl83vOLwvh0HFTHXSH2oYk3yNycOjfw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-11_03,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=895 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504110062
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,202 +118,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied with updated commit message to drm-misc-fixes
+On Fri, 11 Apr 2025 at 12:49, Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+>
+> On 4/9/25 5:49 PM, Konrad Dybcio wrote:
+> > On 4/9/25 5:44 PM, Dmitry Baryshkov wrote:
+> >> On 09/04/2025 17:47, Konrad Dybcio wrote:
+> >>> SMEM allows the OS to retrieve information about the DDR memory.
+> >>> Among that information, is a semi-magic value called 'HBB', or Highest
+> >>> Bank address Bit, which multimedia drivers (for hardware like Adreno
+> >>> and MDSS) must retrieve in order to program the IP blocks correctly.
+> >>>
+> >>> This series introduces an API to retrieve that value, uses it in the
+> >>> aforementioned programming sequences and exposes available DDR
+> >>> frequencies in debugfs (to e.g. pass to aoss_qmp debugfs). More
+> >>> information can be exposed in the future, as needed.
+> >>
+> >> I know that for some platforms HBB differs between GPU and DPU (as it's being programmed currently). Is there a way to check, which values are we going to program:
+> >>
+> >> - SM6115, SM6350, SM6375 (13 vs 14)
+>
+> SM6350 has INFO_V3
+> SM6375 has INFO_V3_WITH_14_FREQS
 
-On 4/1/2025 5:58 PM, Maciej Falkowski wrote:
-> From: Karol Wachowski <karol.wachowski@intel.com>
-> 
-> This commit bumps FW Boot API to 3.28.3.
-> 
-> Use new preemption buffer size fields from FW header added to
-> firmware boot API for preemption buffers allocations,
-> if those new fields are zeroed use old values instead.
-> 
-> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
-> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
-> ---
->  drivers/accel/ivpu/ivpu_fw.c      | 14 ++++++--
->  drivers/accel/ivpu/vpu_boot_api.h | 13 ++++++--
->  drivers/accel/ivpu/vpu_jsm_api.h  | 53 +++++++++++++++++++++----------
->  3 files changed, 58 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-> index 7a1bb92d8c81..3799231b39e7 100644
-> --- a/drivers/accel/ivpu/ivpu_fw.c
-> +++ b/drivers/accel/ivpu/ivpu_fw.c
-> @@ -233,10 +233,20 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
->  	fw->dvfs_mode = 0;
->  
->  	fw->sched_mode = ivpu_fw_sched_mode_select(vdev, fw_hdr);
-> -	fw->primary_preempt_buf_size = fw_hdr->preemption_buffer_1_size;
-> -	fw->secondary_preempt_buf_size = fw_hdr->preemption_buffer_2_size;
->  	ivpu_info(vdev, "Scheduler mode: %s\n", fw->sched_mode ? "HW" : "OS");
->  
-> +	if (fw_hdr->preemption_buffer_1_max_size)
-> +		fw->primary_preempt_buf_size = fw_hdr->preemption_buffer_1_max_size;
-> +	else
-> +		fw->primary_preempt_buf_size = fw_hdr->preemption_buffer_1_size;
-> +
-> +	if (fw_hdr->preemption_buffer_2_max_size)
-> +		fw->secondary_preempt_buf_size = fw_hdr->preemption_buffer_2_max_size;
-> +	else
-> +		fw->secondary_preempt_buf_size = fw_hdr->preemption_buffer_2_size;
-> +	ivpu_dbg(vdev, FW_BOOT, "Preemption buffer sizes: primary %u, secondary %u\n",
-> +		 fw->primary_preempt_buf_size, fw->secondary_preempt_buf_size);
-> +
->  	if (fw_hdr->ro_section_start_address && !is_within_range(fw_hdr->ro_section_start_address,
->  								 fw_hdr->ro_section_size,
->  								 fw_hdr->image_load_address,
-> diff --git a/drivers/accel/ivpu/vpu_boot_api.h b/drivers/accel/ivpu/vpu_boot_api.h
-> index 908e68ea1c39..218468bbbcad 100644
-> --- a/drivers/accel/ivpu/vpu_boot_api.h
-> +++ b/drivers/accel/ivpu/vpu_boot_api.h
-> @@ -26,7 +26,7 @@
->   * Minor version changes when API backward compatibility is preserved.
->   * Resets to 0 if Major version is incremented.
->   */
-> -#define VPU_BOOT_API_VER_MINOR 26
-> +#define VPU_BOOT_API_VER_MINOR 28
->  
->  /*
->   * API header changed (field names, documentation, formatting) but API itself has not been changed
-> @@ -76,8 +76,15 @@ struct vpu_firmware_header {
->  	 * submission queue size and device capabilities.
->  	 */
->  	u32 preemption_buffer_2_size;
-> +	/*
-> +	 * Maximum preemption buffer size that the FW can use: no need for the host
-> +	 * driver to allocate more space than that specified by these fields.
-> +	 * A value of 0 means no declared limit.
-> +	 */
-> +	u32 preemption_buffer_1_max_size;
-> +	u32 preemption_buffer_2_max_size;
->  	/* Space reserved for future preemption-related fields. */
-> -	u32 preemption_reserved[6];
-> +	u32 preemption_reserved[4];
->  	/* FW image read only section start address, 4KB aligned */
->  	u64 ro_section_start_address;
->  	/* FW image read only section size, 4KB aligned */
-> @@ -134,7 +141,7 @@ enum vpu_trace_destination {
->  /*
->   * Processor bit shifts (for loggable HW components).
->   */
-> -#define VPU_TRACE_PROC_BIT_ARM	     0
-> +#define VPU_TRACE_PROC_BIT_RESERVED  0
->  #define VPU_TRACE_PROC_BIT_LRT	     1
->  #define VPU_TRACE_PROC_BIT_LNN	     2
->  #define VPU_TRACE_PROC_BIT_SHV_0     3
-> diff --git a/drivers/accel/ivpu/vpu_jsm_api.h b/drivers/accel/ivpu/vpu_jsm_api.h
-> index 7215c144158c..4b6b2b3d2583 100644
-> --- a/drivers/accel/ivpu/vpu_jsm_api.h
-> +++ b/drivers/accel/ivpu/vpu_jsm_api.h
-> @@ -22,7 +22,7 @@
->  /*
->   * Minor version changes when API backward compatibility is preserved.
->   */
-> -#define VPU_JSM_API_VER_MINOR 25
-> +#define VPU_JSM_API_VER_MINOR 29
->  
->  /*
->   * API header changed (field names, documentation, formatting) but API itself has not been changed
-> @@ -53,8 +53,7 @@
->   * Engine indexes.
->   */
->  #define VPU_ENGINE_COMPUTE 0
-> -#define VPU_ENGINE_COPY	   1
-> -#define VPU_ENGINE_NB	   2
-> +#define VPU_ENGINE_NB	   1
->  
->  /*
->   * VPU status values.
-> @@ -126,11 +125,13 @@ enum {
->  	 * When set, indicates that job queue uses native fences (as inline commands
->  	 * in job queue). Such queues may also use legacy fences (as commands in batch buffers).
->  	 * When cleared, indicates the job queue only uses legacy fences.
-> -	 * NOTE: For queues using native fences, VPU expects that all jobs in the queue
-> -	 * are immediately followed by an inline command object. This object is expected
-> -	 * to be a fence signal command in most cases, but can also be a NOP in case the host
-> -	 * does not need per-job fence signalling. Other inline commands objects can be
-> -	 * inserted between "job and inline command" pairs.
-> +	 * NOTES:
-> +	 *   1. For queues using native fences, VPU expects that all jobs in the queue
-> +	 *      are immediately followed by an inline command object. This object is expected
-> +	 *      to be a fence signal command in most cases, but can also be a NOP in case the host
-> +	 *      does not need per-job fence signalling. Other inline commands objects can be
-> +	 *      inserted between "job and inline command" pairs.
-> +	 *  2. Native fence queues are only supported on VPU 40xx onwards.
->  	 */
->  	VPU_JOB_QUEUE_FLAGS_USE_NATIVE_FENCE_MASK = (1 << 1U),
->  
-> @@ -275,6 +276,8 @@ struct vpu_inline_cmd {
->  			u64 value;
->  			/* User VA of the log buffer in which to add log entry on completion. */
->  			u64 log_buffer_va;
-> +			/* NPU private data. */
-> +			u64 npu_private_data;
->  		} fence;
->  		/* Other commands do not have a payload. */
->  		/* Payload definition for future inline commands can be inserted here. */
-> @@ -791,12 +794,22 @@ struct vpu_jsm_metric_streamer_update {
->  	/** Metric group mask that identifies metric streamer instance. */
->  	u64 metric_group_mask;
->  	/**
-> -	 * Address and size of the buffer where the VPU will write metric data. If
-> -	 * the buffer address is 0 or same as the currently used buffer the VPU will
-> -	 * continue writing metric data to the current buffer. In this case the
-> -	 * buffer size is ignored and the size of the current buffer is unchanged.
-> -	 * If the address is non-zero and differs from the current buffer address the
-> -	 * VPU will immediately switch data collection to the new buffer.
-> +	 * Address and size of the buffer where the VPU will write metric data.
-> +	 * This member dictates how the update operation should perform:
-> +	 * 1. client needs information about the number of collected samples and the
-> +	 *   amount of data written to the current buffer
-> +	 * 2. client wants to switch to a new buffer
-> +	 *
-> +	 * Case 1. is identified by the buffer address being 0 or the same as the
-> +	 * currently used buffer address. In this case the buffer size is ignored and
-> +	 * the size of the current buffer is unchanged. The VPU will return an update
-> +	 * in the vpu_jsm_metric_streamer_done structure. The internal writing position
-> +	 * into the buffer is not changed.
-> +	 *
-> +	 * Case 2. is identified by the address being non-zero and differs from the
-> +	 * current buffer address. The VPU will immediately switch data collection to
-> +	 * the new buffer. Then the VPU will return an update in the
-> +	 * vpu_jsm_metric_streamer_done structure.
->  	 */
->  	u64 buffer_addr;
->  	u64 buffer_size;
-> @@ -934,6 +947,7 @@ struct vpu_ipc_msg_payload_hws_priority_band_setup {
->  	/*
->  	 * Default quantum in 100ns units for scheduling across processes
->  	 * within a priority band
-> +	 * Minimum value supported by NPU is 1ms (10000 in 100ns units).
->  	 */
->  	u32 process_quantum[VPU_HWS_NUM_PRIORITY_BANDS];
->  	/*
-> @@ -946,8 +960,10 @@ struct vpu_ipc_msg_payload_hws_priority_band_setup {
->  	 * in situations when it's starved by the focus band.
->  	 */
->  	u32 normal_band_percentage;
-> -	/* Reserved */
-> -	u32 reserved_0;
-> +	/*
-> +	 * TDR timeout value in milliseconds. Default value of 0 meaning no timeout.
-> +	 */
-> +	u32 tdr_timeout;
->  };
->  
->  /*
-> @@ -1024,7 +1040,10 @@ struct vpu_ipc_msg_payload_hws_set_context_sched_properties {
->  	s32 in_process_priority;
->  	/* Zero padding / Reserved */
->  	u32 reserved_1;
-> -	/* Context quantum relative to other contexts of same priority in the same process */
-> +	/*
-> +	 * Context quantum relative to other contexts of same priority in the same process
-> +	 * Minimum value supported by NPU is 1ms (10000 in 100ns units).
-> +	 */
->  	u64 context_quantum;
->  	/* Grace period when preempting context of the same priority within the same process */
->  	u64 grace_period_same_priority;
+I'm not completely sure what you mean here. I pointed out that these
+platforms disagreed upon the HBB value between the DPU/msm_mdss.c and
+a6xx_gpu.c.
+In some cases (a610/SM6115 and a619/SM6350) that was intentional to
+fix screen corruption issues. I don't remember if it was the case for
+QCM2290 or not.
 
+>
+> >> - SC8180X (15 vs 16)
+>
+> So I overlooked the fact that DDR info v3 (e.g. on 8180) doesn't provide
+> the HBB value.. Need to add some more sanity checks there.
+>
+> Maybe I can think up some fallback logic based on the DDR type reported.
+>
+> >> - QCM2290 (14 vs 15)
+>
+> I don't have one on hand, could you please give it a go on your RB1?
+> I would assume both it and SM6115 also provide v3 though..
+>
+> Konrad
+
+
+
+-- 
+With best wishes
+Dmitry
