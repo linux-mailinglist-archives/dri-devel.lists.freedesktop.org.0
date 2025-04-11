@@ -2,52 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0685AA866EA
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 22:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC797A8670A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 22:27:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBBC10ECA1;
-	Fri, 11 Apr 2025 20:14:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1D3B10ECA5;
+	Fri, 11 Apr 2025 20:26:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jbJ3GdEB";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="dYp9Gff0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD02410EC9F;
- Fri, 11 Apr 2025 20:14:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=m8gbsGs53QKdVE+LfHoqxDJxPZHx8u+jvP1YMHlVLQ0=; b=jbJ3GdEBhfFNMP70XnbA0ndrAM
- riGCuyzrSc/7J7pWMypt9bAqRljRobgYU/cXmx0lp5x09T1VXIapVe636/OF1pUZjF62C14qj6/bh
- pvRlisS7AMqeyKim/n4Be03FyM6wxBOfcY1cyjW0sikfsqzCctaAwplU1a3Qq7qn89jrKny7FIRbc
- O69wEI8suohPmhKYQi0FeN8GJ7aWFYgDJUIZgrOMCuB15/1AKFfXk7/e3dzCkdzY9EQz+k85lj7Un
- WvO6K9ZK8fqU2Wr2dg3W3emm5GPJ04XhLcGr03RXs+WCDvRm6eTeQAa5O8ZyKWnSC9WyxyumBV4ZT
- KmqOd8Cg==;
-Received: from [189.6.35.67] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1u3Klx-00FIP5-6N; Fri, 11 Apr 2025 22:14:46 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: Alex Hung <alex.hung@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: [PATCH 13/13] drm/amd/display: move dc_sink from dc_edid to drm_edid
-Date: Fri, 11 Apr 2025 17:08:43 -0300
-Message-ID: <20250411201333.151335-14-mwen@igalia.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250411201333.151335-1-mwen@igalia.com>
-References: <20250411201333.151335-1-mwen@igalia.com>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8614110ECA3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 20:26:55 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-43cfe808908so14945e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 13:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1744403214; x=1745008014;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tibV02kqIfpjQzwVfkofNSdmT+dVKgEo05SoqfhJ2+8=;
+ b=dYp9Gff0QVoYJr5hCHg8dIWXCIzZ1K3SOKwUMFwjNcgESecUPBpkM40KklyS1np8B/
+ MRIrj/T0Xyu2RItxa7BRoaILDAnIstzRsMzF3lgD/tv1dGJEgAQ/puDJGLr6xI7rJCCL
+ 9MYCp1vs8bNJG1PXRU0g8kuFGkYp3yFm4/yYIvTb4fTeBPbPssziFEO6+WVKgB/4bPwf
+ TmtiTk1Kyfq8JZSO/2O/CD2INtd4E8mhGseYP5Kk+KgNrZ2cKAQ2MZxUCicmXh0xZKG1
+ Cq9qnWoZYikt6YBpcdMVUfYDTdhaoNWxcXCG42X4Alg+BJvZiPbD1/DOm52ws+EdaeRr
+ nbsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744403214; x=1745008014;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tibV02kqIfpjQzwVfkofNSdmT+dVKgEo05SoqfhJ2+8=;
+ b=lir/jI3XRICepOiz4easto0pegsIW15uPbRgnyofmsrwK3rSOBtWTSikkIUY3EqaQE
+ eAjlC2ue9ywd3ekNExbwVF4q31yYk85u5vWwFH27xtVWUyCegjaasi68abfbRRuRdJ84
+ YsHEruXB4vG+OCaZTB17WR6X9yI8sATJLbIjN1gizKuLU2gBZdSFnTLNIMPDZ5kAf9HE
+ P9Q0ALlEojPRyZrD4YWCoLCP0ZP3Jp9crwmqzUXIojfiQmqcaor4kanp2Z40TYH4Pzqy
+ qXfRmDJHfrYap1+PTxusUR3sz55yikb63oKXoXM62Johraa/Cf32dOxL5H+vBb+Ey7SW
+ P+eQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXup9h1eDzahWvluOCFw2XQ5nHdJQ9kfrJUtku2H/PMexMMo7W9T6DL8so8DihIQGfs3EGXEwFTh24=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKub/DGWT0o/C2FHRUTYMqUtk9Q6SeWvJEm/E9VxGzF+5F+KRw
+ y97hF5LryGz25tFJ1Zwot9NcGoo57FXJFJznZck8WyIMjctq6T/d+ymtfoPeRgJk948HHHdryAO
+ CaD5OXg74xkmMEAP7fbT1zPxtne5PuvdYddBB
+X-Gm-Gg: ASbGncu4zZpvfuQcTyNMxiKSOkk/o3s2MV3g6cz7gr1MpydTrqx6GeypkmjWFkLw3LG
+ 67L9V3wDG19KuHyiE+PxT+M+XenNOrAPHc4qksCYrrBWixVc7FhWHKY8/bhXi/f8T9RH3iBWMCE
+ npml/oGA1wuIYtBzmkhHv4MSgZJapMIVIsA4F/sFWP4Jm+JFQ4IWf3
+X-Google-Smtp-Source: AGHT+IEj7JSJGTMY7tzijcPBRK+tYaDhXj5RdHaw9b1MyAPSLzw+i8chIY58pDWW3sQk/9H4eba0T6NvoVrAaqx9HaU=
+X-Received: by 2002:a05:600c:4f45:b0:439:961d:fc7d with SMTP id
+ 5b1f17b1804b1-43f442c1f7dmr213215e9.6.1744403213616; Fri, 11 Apr 2025
+ 13:26:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org>
+ <20250407-dma-buf-ecc-heap-v3-2-97cdd36a5f29@kernel.org>
+In-Reply-To: <20250407-dma-buf-ecc-heap-v3-2-97cdd36a5f29@kernel.org>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Fri, 11 Apr 2025 13:26:41 -0700
+X-Gm-Features: ATxdqUE8D1XarBGmdgMHgxSKHuBHhlGqtjyEbFt80ZANN2TyM9iALZAZurHPNSM
+Message-ID: <CABdmKX0=Er-y41roEuZjGZ95YzMxt-mPd9K5982fm_eWhtX5vw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] dma-buf: heaps: Introduce a new heap for reserved
+ memory
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ Andrew Davis <afd@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,300 +93,454 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reduce direct handling of edid data by resorting to drm helpers that
-deal with this info inside drm_edid infrastructure.
+On Mon, Apr 7, 2025 at 9:29=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
+rote:
+>
+> Some reserved memory regions might have particular memory setup or
+> attributes that make them good candidates for heaps.
+>
+> Let's provide a heap type that will create a new heap for each reserved
+> memory region flagged as such.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 26 +++++++------------
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 24 +++++------------
- .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 21 +++++----------
- .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   | 26 +++++++++----------
- .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   |  1 +
- .../drm/amd/display/dc/link/link_detection.c  |  3 ++-
- 6 files changed, 40 insertions(+), 61 deletions(-)
+This patch looks good to me, but I think it'd be good to add more
+justification like you did at
+https://lore.kernel.org/all/20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@ker=
+nel.org
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 3cad6d9153f7..3598f0091551 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -68,6 +68,7 @@
- #endif
- #include "amdgpu_dm_psr.h"
- #include "amdgpu_dm_replay.h"
-+#include "dc_edid.h"
- 
- #include "ivsrcid/ivsrcid_vislands30.h"
- 
-@@ -3862,6 +3863,8 @@ void amdgpu_dm_update_connector_after_detect(
- 	 * 2. Send an event and let userspace tell us what to do
- 	 */
- 	if (sink) {
-+		const struct drm_edid *drm_edid = sink->drm_edid;
-+
- 		/*
- 		 * TODO: check if we still need the S3 mode update workaround.
- 		 * If yes, put it here.
-@@ -3873,16 +3876,15 @@ void amdgpu_dm_update_connector_after_detect(
- 
- 		aconnector->dc_sink = sink;
- 		dc_sink_retain(aconnector->dc_sink);
--		if (sink->dc_edid.length == 0) {
-+
-+		if (!drm_edid_valid(drm_edid)) {
- 			aconnector->drm_edid = NULL;
- 			hdmi_cec_unset_edid(aconnector);
- 			if (aconnector->dc_link->aux_mode) {
- 				drm_dp_cec_unset_edid(&aconnector->dm_dp_aux.aux);
- 			}
- 		} else {
--			const struct edid *edid = (const struct edid *)sink->dc_edid.raw_edid;
--
--			aconnector->drm_edid = drm_edid_alloc(edid, sink->dc_edid.length);
-+			aconnector->drm_edid = drm_edid_dup(sink->drm_edid);
- 			drm_edid_connector_update(connector, aconnector->drm_edid);
- 
- 			hdmi_cec_set_edid(aconnector);
-@@ -7523,12 +7525,8 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
- 	aconnector->drm_edid = drm_edid;
- 	/* Update emulated (virtual) sink's EDID */
- 	if (dc_em_sink && dc_link) {
--		// FIXME: Get rid of drm_edid_raw()
--		const struct edid *edid = drm_edid_raw(drm_edid);
--
- 		memset(&dc_em_sink->edid_caps, 0, sizeof(struct dc_edid_caps));
--		memmove(dc_em_sink->dc_edid.raw_edid, edid,
--			(edid->extensions + 1) * EDID_LENGTH);
-+		dc_edid_copy_edid_to_dc(dc_em_sink, drm_edid, 0);
- 		dm_helpers_parse_edid_caps(dc_link, dc_em_sink);
- 	}
- }
-@@ -7561,7 +7559,6 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
- 			.sink_signal = SIGNAL_TYPE_VIRTUAL
- 	};
- 	const struct drm_edid *drm_edid;
--	const struct edid *edid;
- 	struct i2c_adapter *ddc;
- 
- 	if (dc_link && dc_link->aux_mode)
-@@ -7581,12 +7578,9 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
- 
- 	aconnector->drm_edid = drm_edid;
- 
--	edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
--	aconnector->dc_em_sink = dc_link_add_remote_sink(
--		aconnector->dc_link,
--		(uint8_t *)edid,
--		(edid->extensions + 1) * EDID_LENGTH,
--		&init_params);
-+	aconnector->dc_em_sink = dc_link_add_remote_sink(aconnector->dc_link,
-+							 drm_edid, 0,
-+							 &init_params);
- 
- 	if (aconnector->base.force == DRM_FORCE_ON) {
- 		aconnector->dc_sink = aconnector->dc_link->local_sink ?
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 3082582c1579..c56c1e36f539 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -47,6 +47,7 @@
- #include "dm_helpers.h"
- #include "ddc_service_types.h"
- #include "clk_mgr.h"
-+#include "dc_edid.h"
- 
- static void apply_edid_quirks(struct drm_device *dev,
- 			      const struct drm_edid *drm_edid,
-@@ -101,20 +102,16 @@ enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
- 	struct amdgpu_dm_connector *aconnector = link->priv;
- 	struct drm_connector *connector = &aconnector->base;
- 	struct drm_device *dev = connector->dev;
--	struct edid *edid_buf;
--	const struct drm_edid *drm_edid;
-+	const struct drm_edid *drm_edid = sink->drm_edid;
- 	struct drm_edid_product_id product_id;
- 	struct dc_edid_caps *edid_caps = &sink->edid_caps;
- 	int sad_count;
- 	int i = 0;
- 	enum dc_edid_status result = EDID_OK;
- 
--	edid_buf = (struct edid *) &sink->dc_edid.raw_edid;
--	if (!edid_caps || !edid_buf)
-+	if (!edid_caps || !drm_edid)
- 		return EDID_BAD_INPUT;
- 
--	drm_edid = drm_edid_alloc(edid_buf, EDID_LENGTH * (edid_buf->extensions + 1));
--
- 	if (!drm_edid_valid(drm_edid))
- 		result = EDID_BAD_CHECKSUM;
- 
-@@ -137,10 +134,8 @@ enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
- 	apply_edid_quirks(dev, drm_edid, edid_caps);
- 
- 	sad_count = drm_eld_sad_count(connector->eld);
--	if (sad_count <= 0) {
--		drm_edid_free(drm_edid);
-+	if (sad_count <= 0)
- 		return result;
--	}
- 
- 	edid_caps->audio_mode_count = min(sad_count, DC_MAX_AUDIO_DESC_COUNT);
- 	for (i = 0; i < edid_caps->audio_mode_count; ++i) {
-@@ -160,8 +155,6 @@ enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
- 	else
- 		edid_caps->speaker_flags = DEFAULT_SPEAKER_LOCATION;
- 
--	drm_edid_free(drm_edid);
--
- 	return result;
- }
- 
-@@ -993,7 +986,6 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 	int retry = 3;
- 	enum dc_edid_status edid_status;
- 	const struct drm_edid *drm_edid;
--	const struct edid *edid;
- 
- 	if (link->aux_mode)
- 		ddc = &aconnector->dm_dp_aux.aux.ddc;
-@@ -1023,11 +1015,7 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 		if (!drm_edid)
- 			return EDID_NO_RESPONSE;
- 
--		edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
--		sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
--		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink->dc_edid.length);
--
--		/* We don't need the original edid anymore */
-+		sink->drm_edid = drm_edid_dup(drm_edid);
- 		drm_edid_free(drm_edid);
- 
- 		edid_status = dm_helpers_parse_edid_caps(link, sink);
-@@ -1053,6 +1041,8 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 
- 		test_response.bits.EDID_CHECKSUM_WRITE = 1;
- 
-+		// TODO: drm_edid doesn't have a helper for dp_write_dpcd yet
-+		dc_edid_copy_edid_to_sink(sink);
- 		dm_helpers_dp_write_dpcd(ctx,
- 					link,
- 					DP_TEST_EDID_CHECKSUM,
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 075e8a5be47c..e3de1526397d 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -333,12 +333,10 @@ static int dm_dp_mst_get_modes(struct drm_connector *connector)
- 					.link = aconnector->dc_link,
- 					.sink_signal = SIGNAL_TYPE_DISPLAY_PORT_MST };
- 
--				dc_sink = dc_link_add_remote_sink(
--					aconnector->dc_link,
--					NULL,
--					0,
--					&init_params);
--
-+				dc_sink = dc_link_add_remote_sink(aconnector->dc_link,
-+								  NULL,
-+								  0,
-+								  &init_params);
- 				if (!dc_sink) {
- 					DRM_ERROR("Unable to add a remote sink\n");
- 					return 0;
-@@ -371,15 +369,10 @@ static int dm_dp_mst_get_modes(struct drm_connector *connector)
- 		struct dc_sink_init_data init_params = {
- 				.link = aconnector->dc_link,
- 				.sink_signal = SIGNAL_TYPE_DISPLAY_PORT_MST };
--		const struct edid *edid;
--
--		edid = drm_edid_raw(aconnector->drm_edid); // FIXME: Get rid of drm_edid_raw()
--		dc_sink = dc_link_add_remote_sink(
--			aconnector->dc_link,
--			(uint8_t *)edid,
--			(edid->extensions + 1) * EDID_LENGTH,
--			&init_params);
- 
-+		dc_sink = dc_link_add_remote_sink(aconnector->dc_link,
-+						  aconnector->drm_edid, 0,
-+						  &init_params);
- 		if (!dc_sink) {
- 			DRM_ERROR("Unable to add a remote sink\n");
- 			return 0;
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
-index fa0f0e61f05d..b398c9c5e04f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
-@@ -6,25 +6,25 @@
- bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
- 			  struct dc_sink *current_sink)
- {
--	struct dc_edid *old_edid = &prev_sink->dc_edid;
--	struct dc_edid *new_edid = &current_sink->dc_edid;
--
--       if (old_edid->length != new_edid->length)
--               return false;
--
--       if (new_edid->length == 0)
--               return false;
--
--       return (memcmp(old_edid->raw_edid,
--                      new_edid->raw_edid, new_edid->length) == 0);
-+	return drm_edid_is_edid_eq(prev_sink->drm_edid, current_sink->drm_edid);
- }
- 
- void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
- 			     const void *edid,
- 			     int len)
- {
--	memmove(dc_sink->dc_edid.raw_edid, (const uint8_t *) edid, len);
--	dc_sink->dc_edid.length = len;
-+	dc_sink->drm_edid = drm_edid_dup((const struct drm_edid *) edid);
-+}
-+
-+void dc_edid_copy_edid_to_sink(struct dc_sink *sink)
-+{
-+	const struct edid *edid;
-+	uint32_t edid_length;
-+
-+	edid = drm_edid_raw(sink->drm_edid); // FIXME: Get rid of drm_edid_raw()
-+	edid_length = EDID_LENGTH * (edid->extensions + 1);
-+	memcpy(sink->dc_edid.raw_edid, (uint8_t *) edid, edid_length);
-+	sink->dc_edid.length = edid_length;
- }
- 
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-index 2c76768be459..a95cc6ccc743 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-@@ -9,6 +9,7 @@ bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
- 			  struct dc_sink *current_sink);
- void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
- 			     const void *edid, int len);
-+void dc_edid_copy_edid_to_sink(struct dc_sink *sink);
- void dc_edid_sink_edid_free(struct dc_sink *sink);
- 
- #endif /* __DC_EDID_H__ */
-diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-index 978d2b4a4d29..40cf1f0aa7cf 100644
---- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-@@ -1142,6 +1142,7 @@ static bool detect_link_and_local_sink(struct dc_link *link,
- 			dp_trace_init(link);
- 
- 		/* Connectivity log: detection */
-+		dc_edid_copy_edid_to_sink(sink);
- 		for (i = 0; i < sink->dc_edid.length / DC_EDID_BLOCK_SIZE; i++) {
- 			CONN_DATA_DETECT(link,
- 					 &sink->dc_edid.raw_edid[i * DC_EDID_BLOCK_SIZE],
-@@ -1424,7 +1425,7 @@ struct dc_sink *link_add_remote_sink(
- 	 * parsing fails
- 	 */
- 	if (edid_status != EDID_OK && edid_status != EDID_PARTIAL_VALID) {
--		dc_sink->dc_edid.length = 0;
-+		drm_edid_free(dc_sink->drm_edid);
- 		dm_error("Bad EDID, status%d!\n", edid_status);
- 	}
- 
--- 
-2.47.2
+> ---
+>  drivers/dma-buf/heaps/Kconfig         |   8 +
+>  drivers/dma-buf/heaps/Makefile        |   1 +
+>  drivers/dma-buf/heaps/carveout_heap.c | 360 ++++++++++++++++++++++++++++=
+++++++
+>  3 files changed, 369 insertions(+)
+>
+> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfi=
+g
+> index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..c6981d696733b4d8d0c3f6f5a=
+37d967fd6a1a4a2 100644
+> --- a/drivers/dma-buf/heaps/Kconfig
+> +++ b/drivers/dma-buf/heaps/Kconfig
+> @@ -1,5 +1,13 @@
+> +config DMABUF_HEAPS_CARVEOUT
+> +       bool "Carveout Heaps"
+> +       depends on DMABUF_HEAPS
+> +       help
+> +         Choose this option to enable the carveout dmabuf heap. The carv=
+eout
+> +         heap is backed by pages from reserved memory regions flagged as
+> +         exportable. If in doubt, say Y.
+> +
+>  config DMABUF_HEAPS_SYSTEM
+>         bool "DMA-BUF System Heap"
+>         depends on DMABUF_HEAPS
+>         help
+>           Choose this option to enable the system dmabuf heap. The system=
+ heap
+> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makef=
+ile
+> index 974467791032ffb8a7aba17b1407d9a19b3f3b44..b734647ad5c84f44910674816=
+0258e372f153df2 100644
+> --- a/drivers/dma-buf/heaps/Makefile
+> +++ b/drivers/dma-buf/heaps/Makefile
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> +obj-$(CONFIG_DMABUF_HEAPS_CARVEOUT)    +=3D carveout_heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      +=3D system_heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS_CMA)         +=3D cma_heap.o
+> diff --git a/drivers/dma-buf/heaps/carveout_heap.c b/drivers/dma-buf/heap=
+s/carveout_heap.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f7198b781ea57f4f60e554d91=
+7c9277e9a716b16
+> --- /dev/null
+> +++ b/drivers/dma-buf/heaps/carveout_heap.c
+> @@ -0,0 +1,360 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/dma-heap.h>
+> +#include <linux/genalloc.h>
+> +#include <linux/highmem.h>
+> +#include <linux/of_reserved_mem.h>
+> +
+> +struct carveout_heap_priv {
+> +       struct dma_heap *heap;
+> +       struct gen_pool *pool;
+> +};
+> +
+> +struct carveout_heap_buffer_priv {
+> +       struct mutex lock;
+> +       struct list_head attachments;
+> +
+> +       unsigned long num_pages;
+> +       struct carveout_heap_priv *heap;
+> +       dma_addr_t daddr;
+> +       void *vaddr;
+> +       unsigned int vmap_cnt;
+> +};
+> +
+> +struct carveout_heap_attachment {
+> +       struct list_head head;
+> +       struct sg_table table;
+> +
+> +       struct device *dev;
+> +       bool mapped;
+> +};
+> +
+> +static int carveout_heap_attach(struct dma_buf *buf,
+> +                               struct dma_buf_attachment *attachment)
+> +{
+> +       struct carveout_heap_buffer_priv *priv =3D buf->priv;
+> +       struct carveout_heap_attachment *a;
+> +       struct sg_table *sgt;
+> +       unsigned long len =3D priv->num_pages * PAGE_SIZE;
+> +       int ret;
+> +
+> +       a =3D kzalloc(sizeof(*a), GFP_KERNEL);
+> +       if (!a)
+> +               return -ENOMEM;
+> +       INIT_LIST_HEAD(&a->head);
+> +       a->dev =3D attachment->dev;
+> +       attachment->priv =3D a;
+> +
+> +       sgt =3D &a->table;
+> +       ret =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
+> +       if (ret)
+> +               goto err_cleanup_attach;
+> +
+> +       sg_dma_address(sgt->sgl) =3D priv->daddr;
+> +       sg_dma_len(sgt->sgl) =3D len;
+> +
+> +       mutex_lock(&priv->lock);
+> +       list_add(&a->head, &priv->attachments);
+> +       mutex_unlock(&priv->lock);
+> +
+> +       return 0;
+> +
+> +err_cleanup_attach:
+> +       kfree(a);
+> +       return ret;
+> +}
+> +
+> +static void carveout_heap_detach(struct dma_buf *dmabuf,
+> +                                struct dma_buf_attachment *attachment)
+> +{
+> +       struct carveout_heap_buffer_priv *priv =3D dmabuf->priv;
+> +       struct carveout_heap_attachment *a =3D attachment->priv;
+> +
+> +       mutex_lock(&priv->lock);
+> +       list_del(&a->head);
+> +       mutex_unlock(&priv->lock);
+> +
+> +       sg_free_table(&a->table);
+> +       kfree(a);
+> +}
+> +
+> +static struct sg_table *
+> +carveout_heap_map_dma_buf(struct dma_buf_attachment *attachment,
+> +                         enum dma_data_direction direction)
+> +{
+> +       struct carveout_heap_attachment *a =3D attachment->priv;
+> +       struct sg_table *table =3D &a->table;
+> +       int ret;
+> +
+> +       ret =3D dma_map_sgtable(a->dev, table, direction, 0);
+> +       if (ret)
+> +               return ERR_PTR(-ENOMEM);
 
+Not ERR_PTR(ret)? This is already converted to ENOMEM by
+dma_buf_map_attachment before leaving the dmabuf code, but it might be
+nice to retain the error type internally. The two existing heaps
+aren't consistent about this, and I have a slight preference to
+propagate the error here.
+
+> +
+> +       a->mapped =3D true;
+> +
+> +       return table;
+> +}
+> +
+> +static void carveout_heap_unmap_dma_buf(struct dma_buf_attachment *attac=
+hment,
+> +                                       struct sg_table *table,
+> +                                       enum dma_data_direction direction=
+)
+> +{
+> +       struct carveout_heap_attachment *a =3D attachment->priv;
+> +
+> +       a->mapped =3D false;
+> +       dma_unmap_sgtable(a->dev, table, direction, 0);
+> +}
+> +
+> +static int
+> +carveout_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+> +                                      enum dma_data_direction direction)
+> +{
+> +       struct carveout_heap_buffer_priv *priv =3D dmabuf->priv;
+> +       struct carveout_heap_attachment *a;
+> +       unsigned long len =3D priv->num_pages * PAGE_SIZE;
+> +
+> +       mutex_lock(&priv->lock);
+> +
+> +       if (priv->vmap_cnt > 0)
+> +               invalidate_kernel_vmap_range(priv->vaddr, len);
+> +
+> +       list_for_each_entry(a, &priv->attachments, head) {
+> +               if (!a->mapped)
+> +                       continue;
+> +
+> +               dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
+> +       }
+> +
+> +       mutex_unlock(&priv->lock);
+> +
+> +       return 0;
+> +}
+> +
+> +static int
+> +carveout_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+> +                                    enum dma_data_direction direction)
+> +{
+> +       struct carveout_heap_buffer_priv *priv =3D dmabuf->priv;
+> +       struct carveout_heap_attachment *a;
+> +       unsigned long len =3D priv->num_pages * PAGE_SIZE;
+> +
+> +       mutex_lock(&priv->lock);
+> +
+> +       if (priv->vmap_cnt > 0)
+> +               flush_kernel_vmap_range(priv->vaddr, len);
+> +
+> +       list_for_each_entry(a, &priv->attachments, head) {
+> +               if (!a->mapped)
+> +                       continue;
+> +
+> +               dma_sync_sgtable_for_device(a->dev, &a->table, direction)=
+;
+> +       }
+> +
+> +       mutex_unlock(&priv->lock);
+> +
+> +       return 0;
+> +}
+> +
+> +static int carveout_heap_mmap(struct dma_buf *dmabuf,
+> +                             struct vm_area_struct *vma)
+> +{
+> +       struct carveout_heap_buffer_priv *priv =3D dmabuf->priv;
+> +       unsigned long len =3D priv->num_pages * PAGE_SIZE;
+> +       struct page *page =3D virt_to_page(priv->vaddr);
+> +
+> +       return remap_pfn_range(vma, vma->vm_start, page_to_pfn(page),
+> +                              len, vma->vm_page_prot);
+> +}
+> +
+> +static int carveout_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *=
+map)
+> +{
+> +       struct carveout_heap_buffer_priv *priv =3D dmabuf->priv;
+> +
+> +       mutex_lock(&priv->lock);
+> +
+> +       iosys_map_set_vaddr(map, priv->vaddr);
+> +       priv->vmap_cnt++;
+> +
+> +       mutex_unlock(&priv->lock);
+> +
+> +       return 0;
+> +}
+> +
+> +static void carveout_heap_vunmap(struct dma_buf *dmabuf, struct iosys_ma=
+p *map)
+> +{
+> +       struct carveout_heap_buffer_priv *priv =3D dmabuf->priv;
+> +
+> +       mutex_lock(&priv->lock);
+> +
+> +       priv->vmap_cnt--;
+> +       mutex_unlock(&priv->lock);
+> +
+> +       iosys_map_clear(map);
+> +}
+> +
+> +static void carveout_heap_dma_buf_release(struct dma_buf *buf)
+> +{
+> +       struct carveout_heap_buffer_priv *buffer_priv =3D buf->priv;
+> +       struct carveout_heap_priv *heap_priv =3D buffer_priv->heap;
+> +       unsigned long len =3D buffer_priv->num_pages * PAGE_SIZE;
+> +
+> +       gen_pool_free(heap_priv->pool, (unsigned long)buffer_priv->vaddr,=
+ len);
+> +       kfree(buffer_priv);
+> +}
+> +
+> +static const struct dma_buf_ops carveout_heap_buf_ops =3D {
+> +       .attach         =3D carveout_heap_attach,
+> +       .detach         =3D carveout_heap_detach,
+> +       .map_dma_buf    =3D carveout_heap_map_dma_buf,
+> +       .unmap_dma_buf  =3D carveout_heap_unmap_dma_buf,
+> +       .begin_cpu_access       =3D carveout_heap_dma_buf_begin_cpu_acces=
+s,
+> +       .end_cpu_access =3D carveout_heap_dma_buf_end_cpu_access,
+> +       .mmap           =3D carveout_heap_mmap,
+> +       .vmap           =3D carveout_heap_vmap,
+> +       .vunmap         =3D carveout_heap_vunmap,
+> +       .release        =3D carveout_heap_dma_buf_release,
+> +};
+> +
+> +static struct dma_buf *carveout_heap_allocate(struct dma_heap *heap,
+> +                                             unsigned long len,
+> +                                             u32 fd_flags,
+> +                                             u64 heap_flags)
+> +{
+> +       struct carveout_heap_priv *heap_priv =3D dma_heap_get_drvdata(hea=
+p);
+> +       struct carveout_heap_buffer_priv *buffer_priv;
+> +       DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> +       struct dma_buf *buf;
+> +       dma_addr_t daddr;
+> +       size_t size =3D PAGE_ALIGN(len);
+
+This PAGE_ALIGN is not needed since dma_heap_buffer_alloc requires all
+heap allocations to be page aligned before this function is called.
+
+
+
+
+
+> +       void *vaddr;
+> +       int ret;
+> +
+> +       buffer_priv =3D kzalloc(sizeof(*buffer_priv), GFP_KERNEL);
+> +       if (!buffer_priv)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       INIT_LIST_HEAD(&buffer_priv->attachments);
+> +       mutex_init(&buffer_priv->lock);
+> +
+> +       vaddr =3D gen_pool_dma_zalloc(heap_priv->pool, size, &daddr);
+> +       if (!vaddr) {
+> +               ret =3D -ENOMEM;
+> +               goto err_free_buffer_priv;
+> +       }
+> +
+> +       buffer_priv->vaddr =3D vaddr;
+> +       buffer_priv->daddr =3D daddr;
+> +       buffer_priv->heap =3D heap_priv;
+> +       buffer_priv->num_pages =3D size >> PAGE_SHIFT;
+> +
+> +       /* create the dmabuf */
+> +       exp_info.exp_name =3D dma_heap_get_name(heap);
+> +       exp_info.ops =3D &carveout_heap_buf_ops;
+> +       exp_info.size =3D size;
+> +       exp_info.flags =3D fd_flags;
+> +       exp_info.priv =3D buffer_priv;
+> +
+> +       buf =3D dma_buf_export(&exp_info);
+> +       if (IS_ERR(buf)) {
+> +               ret =3D PTR_ERR(buf);
+> +               goto err_free_buffer;
+> +       }
+> +
+> +       return buf;
+> +
+> +err_free_buffer:
+> +       gen_pool_free(heap_priv->pool, (unsigned long)vaddr, len);
+> +err_free_buffer_priv:
+> +       kfree(buffer_priv);
+> +
+> +       return ERR_PTR(ret);
+> +}
+> +
+> +static const struct dma_heap_ops carveout_heap_ops =3D {
+> +       .allocate =3D carveout_heap_allocate,
+> +};
+> +
+> +static int __init carveout_heap_setup(struct device_node *node)
+> +{
+> +       struct dma_heap_export_info exp_info =3D {};
+> +       const struct reserved_mem *rmem;
+> +       struct carveout_heap_priv *priv;
+> +       struct dma_heap *heap;
+> +       struct gen_pool *pool;
+> +       void *base;
+> +       int ret;
+> +
+> +       rmem =3D of_reserved_mem_lookup(node);
+> +       if (!rmem)
+> +               return -EINVAL;
+> +
+> +       priv =3D kzalloc(sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       pool =3D gen_pool_create(PAGE_SHIFT, NUMA_NO_NODE);
+> +       if (!pool) {
+> +               ret =3D -ENOMEM;
+> +               goto err_cleanup_heap;
+> +       }
+> +       priv->pool =3D pool;
+> +
+> +       base =3D memremap(rmem->base, rmem->size, MEMREMAP_WB);
+> +       if (!base) {
+> +               ret =3D -ENOMEM;
+> +               goto err_release_mem_region;
+> +       }
+> +
+> +       ret =3D gen_pool_add_virt(pool, (unsigned long)base, rmem->base,
+> +                               rmem->size, NUMA_NO_NODE);
+> +       if (ret)
+> +               goto err_unmap;
+> +
+> +       exp_info.name =3D node->full_name;
+> +       exp_info.ops =3D &carveout_heap_ops;
+> +       exp_info.priv =3D priv;
+> +
+> +       heap =3D dma_heap_add(&exp_info);
+> +       if (IS_ERR(heap)) {
+> +               ret =3D PTR_ERR(heap);
+> +               goto err_cleanup_pool_region;
+> +       }
+> +       priv->heap =3D heap;
+> +
+> +       return 0;
+> +
+> +err_cleanup_pool_region:
+> +       gen_pool_free(pool, (unsigned long)base, rmem->size);
+> +err_unmap:
+> +       memunmap(base);
+> +err_release_mem_region:
+> +       gen_pool_destroy(pool);
+> +err_cleanup_heap:
+> +       kfree(priv);
+> +       return ret;
+> +}
+> +
+> +static int __init carveout_heap_init(void)
+> +{
+> +       struct device_node *rmem_node;
+> +       struct device_node *node;
+> +       int ret;
+> +
+> +       rmem_node =3D of_find_node_by_path("/reserved-memory");
+> +       if (!rmem_node)
+> +               return 0;
+> +
+> +       for_each_child_of_node(rmem_node, node) {
+> +               if (!of_property_read_bool(node, "export"))
+> +                       continue;
+> +
+> +               ret =3D carveout_heap_setup(node);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +module_init(carveout_heap_init);
+>
+> --
+> 2.49.0
+>
