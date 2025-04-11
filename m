@@ -2,118 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D024A858B8
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 12:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EA1A85912
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Apr 2025 12:11:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7536A10EB56;
-	Fri, 11 Apr 2025 10:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48C8910EB5C;
+	Fri, 11 Apr 2025 10:11:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FFjd0heH";
+	dkim=pass (2048-bit key; unprotected) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="DkesvRPb";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="AFKm5rGx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D75110EB55
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 10:03:12 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53B5fU0v016413
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 10:03:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- TChXZ6jQnWmn2gjeO8rx1Bx0hrnCDqPo46JM3visYYs=; b=FFjd0heHTi5a3EYd
- unZ891elrIymmhwRuD77Z8YwUdTRanoczY0QVd38q9z1pVI/YDa4uNdGPODFedym
- HU82fi8CsN/eAfFVmJP5+UED2p42tmmp7SO0BkHwwerMo1oMT7MPeHf1RHqtCtJV
- Ypmo9iQbnnh5rrhcmL9mAlsgpSTDCcc/m8Kr3/leJ7q3GAcWcTJgQp/owAXa6CcP
- mSH4kwBIIr6e4X/Mv8fQzaG9mGWcAMfor3A/SgYa1YlSw1hp6qtgtLgPYuyvvkwW
- hZg9H/AsZVo9Jf0DFbqDa0RKnWdx7aX6sGIoZDowrxHLh6MlhpzCkv2bjEUlfmj4
- eClHEg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twc1su0b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 10:03:07 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7c54734292aso46574885a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Apr 2025 03:03:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744365786; x=1744970586;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TChXZ6jQnWmn2gjeO8rx1Bx0hrnCDqPo46JM3visYYs=;
- b=bScBR7xnQbj/Ghs0EsFtcVmm0pmQjjQXUCkiEvcQHukRuPmdQ7nGETos37lRYrb2zd
- hfx7izrUy5gP/WTCyh/iDcea+BS08VZ5irVU0pNB2j+L62Y5vuZV2covqJthP90wtEW8
- izwsgsyBHejEUs9f07WEeUB4LgK3hW3SSrk0Y2AX2zLGBOtV1Ao+7UGhU79c4E7vZoQD
- 0Wj0Gs3PPuBbY7hCoUA7PZvVq1k48VnKh4RF4oexRGmAhhsBdVunrHqoNzxaQ5ExHfSO
- iccXu1dLFUBm9cHcwlLw14CSUiWclQyIodG3Kl3c/vV+FsTZznzQUmVFsVaPi2qJSRss
- i3Dg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVnk4d3UE0GJm/0V5RF2HHwSoDldgK47M06Ea92s1lG4VE6xxMKoq/jgdk7CMwu09nG0MqLhA3vNI0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyKVWKwJf+YO7FDcekj43jNNZH4s+z5yrmO+35Z4Dx5ZSVcGGXs
- 20ii4/ZvBWT/WayC7Gx3MpRFge3RWxTzvIPk2P/ZBokh1cfMoShyGRQexZPRxArNoMhjsYrY9BO
- BjXNgRHT+rzI43DuIV9rksskawanYs5W7i29QZZmrRiN0A/y6b8nlSLoQhgwWtjPb3FA=
-X-Gm-Gg: ASbGncsJF2YnbVOAYWT6tDb74F6tDeUyUZbe1R4S8ftqMZTQsaHgSeWFSdy9ksOeSOz
- 7n205M10uf/2Hq3GSEJvGHfAimqmmtUTQo6vwTWXSlbDD3Q8Jp9tSIkMZIHJr0mCiLkCekf/SmP
- oCjOCrwHif+DKyxB1s2N6kimdhSztK/+0hQgRiZBJZLB8h+yfbqIFIZNUKYyNPYQbDC3WtT60EY
- VY696eKf3DEq1e3SLSrAD1kUfqLkkrAzyXtpaGx5rDw10vlJdNzQ9VCc4w1TZW4RRPU6UUqV96y
- q89LJjqGdTosHYPApKtz8Bv8IowKDqePTSsm7rPK297StD2WcFck1AWDQhGvu4Ogbg==
-X-Received: by 2002:a05:620a:3945:b0:7c0:c024:d5 with SMTP id
- af79cd13be357-7c7af116677mr129314285a.8.1744365786430; 
- Fri, 11 Apr 2025 03:03:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGAMFmbhBPTTCvhJj0P5xFnbrJJ/hfR7pw3RAhhVJwTUi6Q679ffPasjTr0Us/aTCC0PySNjg==
-X-Received: by 2002:a05:620a:3945:b0:7c0:c024:d5 with SMTP id
- af79cd13be357-7c7af116677mr129312285a.8.1744365785908; 
- Fri, 11 Apr 2025 03:03:05 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-acaa1ccd1ebsm424629266b.140.2025.04.11.03.03.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Apr 2025 03:03:05 -0700 (PDT)
-Message-ID: <b04464b6-2ad9-4866-88e9-437e96645726@oss.qualcomm.com>
-Date: Fri, 11 Apr 2025 12:03:03 +0200
+X-Greylist: delayed 577 seconds by postgrey-1.36 at gabe;
+ Fri, 11 Apr 2025 10:11:11 UTC
+Received: from fout-a2-smtp.messagingengine.com
+ (fout-a2-smtp.messagingengine.com [103.168.172.145])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53F4D10EB5C;
+ Fri, 11 Apr 2025 10:11:09 +0000 (UTC)
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal
+ [10.202.2.43])
+ by mailfout.phl.internal (Postfix) with ESMTP id BF8911380226;
+ Fri, 11 Apr 2025 06:01:28 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-03.internal (MEProxy); Fri, 11 Apr 2025 06:01:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ invisiblethingslab.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm2; t=1744365688; x=1744452088; bh=z5cs1W8tVA
+ bJ3ZA2qMajWH2YzqXLYeH4TnXCQKM1qc8=; b=DkesvRPbaObCmJtnsaeuQhyWuE
+ jBT+v0SPalOYX2jilqnBC88s9Kpn3iKmJ0z3Ig7eYDIYd1PmwDW8ldGxpT3o+qeU
+ gZICnCYqz0pBx9EV1Q7Ya1h0tqVhUCf2kHf75wALwToRTJpflOgAQHTfLvIf89AY
+ RKKuPQ3Q6mIVJoKMM7NAk1AWF2LpRlf53Bg0PbRZcp0fS4iDhNpLEisur+bBxWSQ
+ qKXZGy6szUcI+TO5NQlQKjUOGDz7HThAz837SzRDnBFSpl72AMg8r+oIZKcoBZjp
+ ZtmNyM+NfJnQvFhm7LfN1Qm5v0DjpD6atDcaQ/DNMNtFz/0Jo7iltkwDpJJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744365688; x=
+ 1744452088; bh=z5cs1W8tVAbJ3ZA2qMajWH2YzqXLYeH4TnXCQKM1qc8=; b=A
+ FKm5rGx2BLCYEndgJ7mw3IN+L37G97Xeyaci4YKzEJ6xen2Y6XaE57Ucczz1kRnU
+ 1L82wq/s8jPk4vsMp6G2p8X4rLrHGFAphiiB4Y3hs0g0CmVlc31BeUxkHUZU8dRf
+ WGILwzfEVGNCou7acgL+VcOgkwQmJL8DPTn7dw4wog123nihpwYJm2U5vIXvLS1/
+ zYGlcHfY9qxX1oXufcEVGpzkO/Gp2QPubG06TZFraW14ADQBNhTFMM3W0LpqVfN8
+ mkqg1QCQGOaG3Y47ljRt30aWD6OUEyYsb6S7vp8AzO7UgdOnoNqbPbup6nb8stYx
+ oWCMHGXW5LzQ635kHpI5Q==
+X-ME-Sender: <xms:eOj4Z18WohOqzZh-qJlmkzeCbSsRkR8now3uvVLiJJiUCE7KntVeFQ>
+ <xme:eOj4Z5v8pkWUzauwqvKEZMar3D6uq_IUrubosCzJknM-vQMjHEJUM0HLy1ccc8X-E
+ ni4SIsyRSa0OQ>
+X-ME-Received: <xmr:eOj4ZzAoUe-SJf3YXEDsTikSMVm2w2BYN9d9l7VW-KtuoeMIiZ43A-FmMEjwEmZBzJGAnWHaishA_BRniFUk_LNw3UECHcHTfg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvudduhedvucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+ pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+ gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtgfgjgesthekredttddt
+ jeenucfhrhhomhepofgrrhgvkhcuofgrrhgtiiihkhhofihskhhiqdfikphrvggtkhhiuc
+ eomhgrrhhmrghrvghksehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomheqnecu
+ ggftrfgrthhtvghrnhephefgteevgfefgeetteefueeuvefhfeektdelhfeuffeuleefhf
+ dvgeffkefgieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
+ rhhomhepmhgrrhhmrghrvghksehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomh
+ dpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehs
+ ohihvghrsehirhhlrdhhuhdprhgtphhtthhopegusggrrhihshhhkhhovhesghhmrghilh
+ drtghomhdprhgtphhtthhopehluhhmrghgsehkvghrnhgvlhdrohhrghdprhgtphhtthho
+ pehrvghgrhgvshhsihhonhhssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoh
+ epughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgt
+ phhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+ gtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+ pdhrtghpthhtohephhguvghgohgvuggvsehrvgguhhgrthdrtghomhdprhgtphhtthhope
+ grlhgvgigrnhguvghrrdguvghutghhvghrsegrmhgurdgtohhm
+X-ME-Proxy: <xmx:eOj4Z5eozMALmK2q7WTH3Y7NW2p5xx8GWN8pEMuDFLJ0mi2F1s7-AQ>
+ <xmx:eOj4Z6M2E5C1Nn_VE7HWQ6o8uJmm9wXtXpaRTTwA_4eNQUMH7eOrBw>
+ <xmx:eOj4Z7lRb9TdtFPHrQO6x-e0jhSIgjFA_uFcvgcYaS_cA_PWhH_7Zw>
+ <xmx:eOj4Z0uT-62w59kPKHqk3P3hXEjVInJ-nq6VqMNpiEPHU0iV2RAm8w>
+ <xmx:eOj4Zz3ztczLsdEPlh51aY9pvfDh_6eqGCOVKW2rVT7VRP6SMyDLSRaI>
+Feedback-ID: i1568416f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 11 Apr 2025 06:01:26 -0400 (EDT)
+Date: Fri, 11 Apr 2025 12:01:24 +0200
+From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>
+To: Gergo Koteles <soyer@irl.hu>
+Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, regressions@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>
+Subject: Re: amdgpu_dm_connector_mode_valid regression
+Message-ID: <Z_jodBrNFdEpJRKA@mail-itl>
+References: <ed09edb167e74167a694f4854102a3de6d2f1433.camel@irl.hu>
+ <8963a409dd575e040e5f07e4ad5e9c1d26b421f2.camel@irl.hu>
+ <CALT56yPd-xfd=47xRxrCk4F3jib4Ti7kg8pRXy-gVAQpbOc=pw@mail.gmail.com>
+ <e323219b52cda1891a55d12ad77a2b34edc8688b.camel@irl.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Retrieve information about DDR from SMEM
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Konrad Dybcio <konradybcio@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-References: <20250409-topic-smem_dramc-v1-0-94d505cd5593@oss.qualcomm.com>
- <685e784c-3f36-4cd1-9c34-7f98c64d50f2@oss.qualcomm.com>
- <0bec3e62-0753-4c3d-abe1-1a43356afc80@oss.qualcomm.com>
- <e7bd2840-dd93-40dd-a1bc-4cd606a34b44@oss.qualcomm.com>
- <CAO9ioeUeNeSxz7ADZ-BbJbhEKkszVS+SmbqaZCgTpL=csak=hg@mail.gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <CAO9ioeUeNeSxz7ADZ-BbJbhEKkszVS+SmbqaZCgTpL=csak=hg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 4wxTFdVwh3mS4rB4R2jZgClpQLtSBO3m
-X-Authority-Analysis: v=2.4 cv=KtdN2XWN c=1 sm=1 tr=0 ts=67f8e8db cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=uBBskLQT7c7fgIZri1kA:9
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-GUID: 4wxTFdVwh3mS4rB4R2jZgClpQLtSBO3m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-11_03,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0
- priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0 spamscore=0
- malwarescore=0 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=991 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504110062
+Content-Type: text/plain; charset=utf-8; x-action=pgp-signed
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e323219b52cda1891a55d12ad77a2b34edc8688b.camel@irl.hu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,58 +115,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/11/25 11:57 AM, Dmitry Baryshkov wrote:
-> On Fri, 11 Apr 2025 at 12:49, Konrad Dybcio
-> <konrad.dybcio@oss.qualcomm.com> wrote:
->>
->> On 4/9/25 5:49 PM, Konrad Dybcio wrote:
->>> On 4/9/25 5:44 PM, Dmitry Baryshkov wrote:
->>>> On 09/04/2025 17:47, Konrad Dybcio wrote:
->>>>> SMEM allows the OS to retrieve information about the DDR memory.
->>>>> Among that information, is a semi-magic value called 'HBB', or Highest
->>>>> Bank address Bit, which multimedia drivers (for hardware like Adreno
->>>>> and MDSS) must retrieve in order to program the IP blocks correctly.
->>>>>
->>>>> This series introduces an API to retrieve that value, uses it in the
->>>>> aforementioned programming sequences and exposes available DDR
->>>>> frequencies in debugfs (to e.g. pass to aoss_qmp debugfs). More
->>>>> information can be exposed in the future, as needed.
->>>>
->>>> I know that for some platforms HBB differs between GPU and DPU (as it's being programmed currently). Is there a way to check, which values are we going to program:
->>>>
->>>> - SM6115, SM6350, SM6375 (13 vs 14)
->>
->> SM6350 has INFO_V3
->> SM6375 has INFO_V3_WITH_14_FREQS
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+
+Hi,
+
+On Wed, Apr 02, 2025 at 04:35:05PM +0200, Gergo Koteles wrote:
+> Hi Dmitry,
 > 
-> I'm not completely sure what you mean here. I pointed out that these
-> platforms disagreed upon the HBB value between the DPU/msm_mdss.c and
-> a6xx_gpu.c.
-> In some cases (a610/SM6115 and a619/SM6350) that was intentional to
-> fix screen corruption issues. I don't remember if it was the case for
-> QCM2290 or not.
+> But the code would start to become quite untraceable.
+> duplicate mode in amdgpu_dm_connector_mode_valid()
+> call drm_mode_set_crtcinfo() in amdgpu_dm_connector_mode_valid()
+> duplicate mode in create_stream_for_sink()
+> overwrite ctrc in decide_crtc_timing_for_drm_display_mode()
+> if crtc_clock == 0 call drm_mode_set_crtcinfo() again in
+> create_stream_for_sink() 
 
-As I said below, I couldn't get a good answer yet, as the magic value
-is not provided explicitly and I'll hopefully be able to derive it from
-the available data
-
-Konrad
+FWIW I'm affected by the same issue (on HP ProBook 445 G7, with AMD
+Ryzen 5 4500U). And the patch quoted below fixes it for me too.
 
 > 
->>
->>>> - SC8180X (15 vs 16)
->>
->> So I overlooked the fact that DDR info v3 (e.g. on 8180) doesn't provide
->> the HBB value.. Need to add some more sanity checks there.
->>
->> Maybe I can think up some fallback logic based on the DDR type reported.
->>
->>>> - QCM2290 (14 vs 15)
->>
->> I don't have one on hand, could you please give it a go on your RB1?
->> I would assume both it and SM6115 also provide v3 though..
->>
->> Konrad
+> saved_mode is never used after this, so I can't add the condition here
+>         if (recalculate_timing)
+>                 drm_mode_set_crtcinfo(&saved_mode, 0);
 > 
+> This commit is related, I think:
+> 1101185 ("drm/amd/display: fix the ability to use lower resolution
+> modes on eDP")
 > 
+> Regards,
+> Gergo
 > 
+> ---
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index bae83a129b5f..83c8c81d4015 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -6984,6 +6984,9 @@ create_stream_for_sink(struct drm_connector
+> *connector,
+>         if (recalculate_timing)
+>                 drm_mode_set_crtcinfo(&saved_mode, 0);
+>  
+> +       if (mode.crtc_clock == 0)
+> +               drm_mode_set_crtcinfo(&mode, 0);
+> +
+>         /*
+>          * If scaling is enabled and refresh rate didn't change
+>          * we copy the vic and polarities of the old timings
+> --
+
+- -- 
+Best Regards,
+Marek Marczykowski-Górecki
+Invisible Things Lab
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmf46HQACgkQ24/THMrX
+1ywBfAf/SX79WOL0Rv1cL2F/YeEUbr6b/FxZ6W+xsFCi38UxcN0PKCGalQ76jT5r
+LAyy1zPedAAdGu+JdQ8abrVfPbSXnzLUcUZNN75kGHixS1c/TqfP4L9ymZ6Z5rAB
+BUt579EkdDZlm2dZ0mxwHcdoArv7fK05Fb+l3Vd645w5MK0fmwWPesCeBaEiwG2S
+ZiuSOWcJBL0yPPzvRaVPD5FCgjjjEhQ2fZZinqhwVy1LNA6OBXQrVvNhOazFVjKq
+rQV1YLG4gCBu6TD6NaETrPMevmZmovuo7o4/6Y5vJQexhQv3eaaxE5dh/0AaWovJ
+FqW2VrxvWXz6HgOokPpfispYzpMgEQ==
+=+SPC
+-----END PGP SIGNATURE-----
