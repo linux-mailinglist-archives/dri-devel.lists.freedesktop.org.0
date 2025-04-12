@@ -2,89 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83912A86D46
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Apr 2025 15:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798E3A86DB1
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Apr 2025 16:29:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84A7310E29C;
-	Sat, 12 Apr 2025 13:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C92E10E0A4;
+	Sat, 12 Apr 2025 14:28:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GOSPD79z";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zhyGdhEo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15F5010E29C
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Apr 2025 13:21:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744464061;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cK1rC0XjXhIHTt9tiNECT2Vn+CAc7jag5l0SYJ2eGBk=;
- b=GOSPD79z0914hbHFdmjsajBGtBcInwOWUIhpballVunEWeimu/5TovkDiRLS8jlAtj6CvJ
- 7jPN/0+kbtmdylK2k/fS0ScLCvx9/UaC3P5/PYnKLkIR4kkOF8jmcoLNvapytOYy8GJGJa
- uMphlS6+ysjmg+GxQARZ6Yxs6GSTGAk=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-55-Irt9lQvUPLescAHEtfi-xg-1; Sat, 12 Apr 2025 09:21:00 -0400
-X-MC-Unique: Irt9lQvUPLescAHEtfi-xg-1
-X-Mimecast-MFC-AGG-ID: Irt9lQvUPLescAHEtfi-xg_1744464059
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-22410053005so46148155ad.1
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Apr 2025 06:21:00 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2D410E1B0
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Apr 2025 14:28:45 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-43cf3192f3bso30073005e9.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Apr 2025 07:28:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1744468124; x=1745072924; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Yug8Lg77jkFOaaSI2hhnGA0YoGthbaYjMrZs5RGYQTk=;
+ b=zhyGdhEoxqONFclnTWorn31LGd6WOJI9ant+mweJQKsXj5LzevrvsnNc2iPvjFqDkt
+ FC5cwr3zwV+QetoRVcYvo6Q7O1M4e+dUwOADqWbzgBYqzjH/AoBpbZMVqfT4UQ0HN3CX
+ 1J/ehYwKn4B+UXPqhKqQrI7awI+jKneeXm3naxK74ofz6nl0Wa/GJcgBYDZhO3HbVDD9
+ w+wvjb2o59+7BH9quHtO/BtnMQ525n5Rbhjn26DwNIQfakIoV4vIq9Y8la0pyCXakScd
+ hp4xO/K0+Nk3UoIkN5yEbF4JqSndJV5WlgdfMGvFP2Vx8LYiEOuT3O6R4KM6d4l+SUvf
+ s8Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744464059; x=1745068859;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cK1rC0XjXhIHTt9tiNECT2Vn+CAc7jag5l0SYJ2eGBk=;
- b=byoeo/Ry04c0zp7f9amCGZtqRejQKLKMOFnFrz7xfGJXeyxGF00BmmAI4i7mcodacI
- 0bOTA2rb9RI9Xi29Uh8xI1BlZ35FMaz2WBt7yfvsAaZDhSKzC4uAoebFh/6GqwXFazLd
- L8HyBJWVSb2AIQcZp1w2WAhshT4JgU8In4+XEFXokwmeO80nDUyVlHMkSRKKNevYdNfO
- N0BLNV0BY84Q81j7Uey8K5ZDkA5s6ds18bbVl9tjJqUZLNaQyDMiCQ+6LHTmj/B540Vz
- pDmj3t2vcOp1ZNYhqmIcWSiu/4v7I79egwoVxav4H5an8VvwR/oM2Nz7LS7VDTaXaDKW
- nNFw==
+ d=1e100.net; s=20230601; t=1744468124; x=1745072924;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Yug8Lg77jkFOaaSI2hhnGA0YoGthbaYjMrZs5RGYQTk=;
+ b=ilG2b7F46IJNZhBzQNHz7M0M9Ieddc4+fKOBsZqcHqrX5/TMvk+PKSGiKTtBkrejE8
+ /mgB8h2y2HPUw+7kguoGe0Dx81XMAjvAiKuDAfjRf95zCy0YQd3PBfPxJ/Mx+1qjWHg1
+ +is8LT+GBwO8gGiFpsyslhWgJhJOynv7aIGEoyFI8SjL4DyPUTmqRqV3H+4c/5r2UMOG
+ zXp2axwXM9YmYiKfrV6S3V8js3S4YbBoGdjUGaaRMylgQkXLB6/4dIDH4ScpGxnt/6z5
+ V1F5RQiF5kEjNREND4St6uescB+vbgNVTW3HKpNUNqGFGlaXTihIGtg46y6YraUEsygS
+ F7eQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVpkpzg7V+pVUmB13FBQzosP10Yk6weKHbsBpeQqJk5YpWwTQVq27PK1gsDvABh4OgstgiKBEz8uII=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwtZXs8nYCpHUZiK/1vm4fleGvoZPoDp21vSLN12c7b9GIh02sZ
- aovh0g0K7zj12u3/AGIg7TCSdyFazwuoL2LWVVEonaNQIbbbLHt8sd4KoOLM0Q/RTD6sJ9pzoy5
- rDv89xkgLaFM6SYQSClmRr3NFt574IDhqN/xWI6JSa2U13/ktNGbnP0aMOub86jtDhw==
-X-Gm-Gg: ASbGncsSxn+E07NJFzb6HIKKKVl326paQjybNIz3/mDffStEDOfKCm4DzJPJWy7u7w/
- 0R3goSX/cp1ViJemwVNxjzkix7IzuH8BZAl5VtTwEknfI+o9ZqEWIgS4ilmgmApAlJVYo0HbUV3
- u9GXiq/5mg00ty+xPnlvKKmMG0ar7t9Nmkz7QlZuPoXdEUURi83JwyyzxPJ5asnSaFSrbZqSzF6
- X0EWRQKAdX5nbU/q54GbE/V9pZwuF815UgFm/hYbIeO+HVqf7yqZtDUroARDoa0guGxDoD/WCbS
- KNExJwcUaZHs
-X-Received: by 2002:a17:902:eb8a:b0:21f:6bda:e492 with SMTP id
- d9443c01a7336-22bea4f1acamr104191705ad.35.1744464059527; 
- Sat, 12 Apr 2025 06:20:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEThxesy3Exij/NdLn+H03RMD7vSClcGR8SiZ0slO7o59/AF4Noe0XODfKIUFyC5GjjM9GJKw==
-X-Received: by 2002:a17:902:eb8a:b0:21f:6bda:e492 with SMTP id
- d9443c01a7336-22bea4f1acamr104191255ad.35.1744464059038; 
- Sat, 12 Apr 2025 06:20:59 -0700 (PDT)
-Received: from zeus.elecom ([240b:10:83a2:bd00:6e35:f2f5:2e21:ae3a])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b02a0818248sm6466199a12.9.2025.04.12.06.20.55
+ AJvYcCWmjHrFyi7JQI8MqhHuemHzucqRJO6Uj8DdH7bWkUXPRMyT/2RwN3DkiJNtVvV515kGzEeujhxd6lc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwzwVg8mfdC3GU920mWZ+eSBlvNqvut38CYjXFQF8xjuEno/3PK
+ Y1FUoSF5tA1/2vpysY4HuHhiKtcB6VjsfiF18ky4Hgi0NcgdHhlkzVLKP1AExfY=
+X-Gm-Gg: ASbGncvakanfdc1iHj9syyd3kzDi0wGLtbqhOW5h3qO3SDVAG9T4d8TtHZNATiDHgIy
+ txNhgYkSxY98v7XT7ZWPhHmoKSJjwwotMYKfjVI48lN1Rt3UvpDCVqlxXF2AWGLyklgqNlfkHFQ
+ CAYSgY9U6vyTQagG12H5pI6/2nSMNeXh8bM316ZUUZ+8dWSYDsQKG9kiJC5RZEtBqoBKnTxUGM/
+ x0OdpCteBjpK9Q9bSGE5rdCz1Sv4jPuGrf7SZE7j4QJLf8ux+qKqfI6vLSG9qTVQ+6BN7BUFt3a
+ boy1G4ZTN55+kVjgyInrTMmjYnQCJ6scB8y9zkstyUKrbdB9iIwx4/KW
+X-Google-Smtp-Source: AGHT+IH34D5glm0+0TkKdRd2QqYl+pfjKMVxmTngaZruRkPsk03mWnWy81pDX8UHh5AZeQmoxzxDVQ==
+X-Received: by 2002:a05:6000:2507:b0:390:e311:a8c7 with SMTP id
+ ffacd0b85a97d-39ea51ecbecmr5651152f8f.5.1744468123668; 
+ Sat, 12 Apr 2025 07:28:43 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-39eae96c074sm5086157f8f.28.2025.04.12.07.28.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Apr 2025 06:20:58 -0700 (PDT)
-From: Ryosuke Yasuoka <ryasuoka@redhat.com>
-To: airlied@redhat.com, kraxel@redhat.com, dmitry.osipenko@collabora.com,
- gurchetansingh@chromium.org, olvaffe@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- simona@ffwll.ch, jfalempe@redhat.com
-Cc: Ryosuke Yasuoka <ryasuoka@redhat.com>, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: Support drm_panic with non-vmapped shmem BO
-Date: Sat, 12 Apr 2025 22:20:11 +0900
-Message-ID: <20250412132012.291837-1-ryasuoka@redhat.com>
-X-Mailer: git-send-email 2.49.0
+ Sat, 12 Apr 2025 07:28:43 -0700 (PDT)
+Date: Sat, 12 Apr 2025 17:28:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: "Yadav, Arvind" <arvyadav@amd.com>
+Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Arvind Yadav <Arvind.Yadav@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH next] drm/amdgpu: Fix double free in
+ amdgpu_userq_fence_driver_alloc()
+Message-ID: <344bcc64-bf13-4726-8530-48eca7d643d1@stanley.mountain>
+References: <5ff4d367-b5bd-40ae-9529-56d08ea6c1d0@stanley.mountain>
+ <92b7d28e-6103-4c76-17dd-6ae94552a043@amd.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: H_-lcJxR0IE3099R261p4PW8VxvU4ukxUBZ-9OUtiMo_1744464059
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+In-Reply-To: <92b7d28e-6103-4c76-17dd-6ae94552a043@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,46 +97,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pass array of pages of the scanout buffer [1] to shmem BO, allowing
-drm_panic to work even if the BO is not vmapped.
+On Thu, Apr 10, 2025 at 10:29:31PM +0530, Yadav, Arvind wrote:
+> Please change this also instead of 'goto free_fence_drv' just return err.
+> 
+>         fence_drv = kzalloc(sizeof(*fence_drv), GFP_KERNEL);
+>         if (!fence_drv) {
+>                 DRM_ERROR("Failed to allocate memory for fence driver\n");
+>                 r = -ENOMEM;
+>                 goto free_fence_drv; // this should be replace by return.
+>         }
+> 
+> ~arvind
 
-[1] https://lore.kernel.org/all/20250407140138.162383-3-jfalempe@redhat.com/
+I noticed that when I was writing my patch as well.  I'm always in favor
+of direct returns, but it makes the patch confusing to add this unrelated
+cleanup...  I'll send it as a separate patch.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
----
- drivers/gpu/drm/virtio/virtgpu_plane.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index a6f5a78f436a..2ff57d559c86 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -500,11 +500,19 @@ static int virtio_drm_get_scanout_buffer(struct drm_plane *plane,
- 
- 	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
- 
--	/* Only support mapped shmem bo */
--	if (virtio_gpu_is_vram(bo) || bo->base.base.import_attach || !bo->base.vaddr)
-+	if (virtio_gpu_is_vram(bo) || bo->base.base.import_attach)
- 		return -ENODEV;
- 
--	iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
-+	if (bo->base.vaddr)
-+		iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
-+	else {
-+		struct drm_gem_shmem_object *shmem = &bo->base;
-+
-+		if (!shmem->pages)
-+			return -ENODEV;
-+		/* map scanout buffer later */
-+		sb->pages = shmem->pages;
-+	}
- 
- 	sb->format = plane->state->fb->format;
- 	sb->height = plane->state->fb->height;
-
-base-commit: e7bb7d44c3b97aea1f0e354c6499900154ac67f2
--- 
-2.49.0
+regards,
+dan carpenter
 
