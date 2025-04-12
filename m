@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E09A86BE7
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Apr 2025 11:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03AEBA86D30
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Apr 2025 15:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9191710E1C2;
-	Sat, 12 Apr 2025 09:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FFD510E110;
+	Sat, 12 Apr 2025 13:16:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="iVzE4vQU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m6KoERnm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 376 seconds by postgrey-1.36 at gabe;
- Fri, 11 Apr 2025 10:59:52 UTC
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.155.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 118B810EB6C;
- Fri, 11 Apr 2025 10:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1744369174;
- bh=NmDXTK+4Kxgs42S2SDvzBSL3QLhh5lqVdK90DWHJpMQ=;
- h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=iVzE4vQU3oWbZgV0Yc0M0Yp+b4D0PTtqV+6PvvChzV9q/15NrBmsfn8kCrguxHn17
- OBbJPpxzPmJOz7s4gtEuy5TFsGf3B7yQTo6TJ6jDEm47ojOdz1QJ2xFiOcXKnVJfVp
- YyibTs1qlsmiYj66F3bQ1UR/iOUpasqEVIoQ3S9g=
-X-QQ-mid: bizesmtp23t1744368955tc9900ee
-X-QQ-Originating-IP: E+95eiCIMfMVh6UVqQOHgjo4HzQI0WCrSHwCW4L7S7I=
-Received: from localhost.localdomain ( [113.57.152.160])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Fri, 11 Apr 2025 18:55:48 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 12124381483811632618
-EX-QQ-RecipientCnt: 10
-From: Chen Linxuan <chenlinxuan@uniontech.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Chen Linxuan <chenlinxuan@uniontech.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 4/7] drm/i915/pxp: fix undefined reference to
- `intel_pxp_gsccs_is_ready_for_sessions'
-Date: Fri, 11 Apr 2025 18:54:52 +0800
-Message-ID: <8921351F23CD8948+20250411105459.90782-4-chenlinxuan@uniontech.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250411105459.90782-1-chenlinxuan@uniontech.com>
-References: <31F42D8141CDD2D0+20250411105142.89296-1-chenlinxuan@uniontech.com>
- <20250411105459.90782-1-chenlinxuan@uniontech.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4EA10E0F3
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Apr 2025 13:16:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BB8AB5C57BF;
+ Sat, 12 Apr 2025 13:13:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 688AFC4CEE3;
+ Sat, 12 Apr 2025 13:16:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744463775;
+ bh=ooT2t/4HDi3rmfv8HHUPwediCnOQ2VSqg+dxjAIoQhg=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=m6KoERnmQRTnT6xlveWbaJaIFNSpG0ku5DPDSID2PVeZQCApVmd4dufC4AZvzwZBo
+ rm7OAjgXJZuWM77c2WfCRSXP4727I7Iy477WxRh9FY+cu7N5k6Y3B5HwAoISbl6LX1
+ zoscBCeZqdKTMgh5q6cUfwRr/60r5giKZgfB3RTzx1yyZ+T0I24cEaJ18B//+1ElKa
+ xcqXodYXSJ1kUbD8CtLUhRNYMJHEZIL13mfMuLzaQi24P8L5tOdlVY3bp35EdLFNOM
+ 4QkcpE7t+2te6tzl1YgFF1vEN93eopLuoqtUO1xKNFsRvPqROOzb/kh6seMIYnPSRd
+ jlRg4YgLHfjHQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 4D569C369AE;
+ Sat, 12 Apr 2025 13:16:15 +0000 (UTC)
+From: =?utf-8?q?J=2E_Neusch=C3=A4fer_via_B4_Relay?=
+ <devnull+j.ne.posteo.net@kernel.org>
+Subject: [PATCH v5 0/4] Freescale Enhanced Local Bus Controller (eLBC)
+ binding YAML conversion
+Date: Sat, 12 Apr 2025 15:16:01 +0200
+Message-Id: <20250412-ppcyaml-elbc-v5-0-03f0e577139f@posteo.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
-X-QQ-XMAILINFO: NRkWGnbnkwTmyhcwGdrhPHlggXz5G9kgY6MjCZLFNLFGYbQ9q66KdArH
- z0ZhSjyaTMmZItuKTLBSYdP9Rwsu2BeQap5I55i9sbdjjL6o+YhqoEiQDRW58fjBr52jZew
- Xh8/A35JpkeDMZbp0HB2wXhtJ9lDY0YNgUpIFu7mg5AhyC4ZUL+CRgzRRnRdiK8CSoXOM9U
- kvQZAq5rXrMV3m/XhonJZsrFYDQWXIj7qdc6HKzXtznZJfD18UWpORLzdLYry88PkgHi/Ph
- ekDtrZHO4XQ2fnEpSU5/bYsrM4ZT1VjdM5TjOd9A9yznuy9AlGti23SwTiAbhHTcqMObJ6c
- 0/iYm/Zlb+bi9RkMJHEHuz6Ei2HZt+s5leeRJHeuim4PQwfLHDj4vvcg41rGuhZCDxxncN1
- lTYWNGuycRJztc0ZQuDFNc1c2eIFd+e1TmL7ZBBtsKNsJOpUUarIoGqVtAODJAvbe/odlpJ
- BQriGyVMmtlkYg/iHAw3GXzb1+UH6E4Ostqkes3NbgDl2xGcHwGSJL2XD2kLvR38R0SNoTN
- gjqqRZryvWXbSOAY8ihI1dna5xbp0vIZh6e7jyAl7CGG3hZTk1JQGCfcS4IDKutsxNz/PJR
- lr20zl9lV+bC8Ei16eORd5lmMRMYMk7+AyPK9ckclARsXc3efyCsLvWiL3GjKGdcGZiUo5r
- 8sPeAkBHDWnRV9WwSoEzyOWn6coU4EbOFuIWl9dG9wOHkNkueKz6OTqkvp7ZMa7kxUf2eJk
- mSid14n1CMCk+oz6ZSTcKe3vyq7Xh8TcVGu55o/2BK2sLRX5WarIz2iybpRrWqZ+KAUhuOu
- j83WJ3fHo3iPnD2o2XjiRSxu9gDn0KlbStYIHGJZhyA+B+pX4DSeh/yY36WCFe1DJ/jdG2D
- nOwOpEmnRW+6eITZfilPRmDGQAozRlbaXyLUDV3ua3Dp/5UJPv9gvQNnh6Jogpfj0NthDay
- +V3d1A+8LooM7paJL6D2nKchstPpcRwPdg8aW8uLiv/a3xg==
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-X-QQ-RECHKSPAM: 0
-X-Mailman-Approved-At: Sat, 12 Apr 2025 09:08:43 +0000
+X-B4-Tracking: v=1; b=H4sIAJJn+mcC/12M0QqDIBhGXyX+6zlMc+Wu9h5jF5p/S2gpGrKI3
+ n0WjNEuz/dxzgIRg8UI12KBgMlG68YM4lRA26vxicSazMAoE5QxSrxvZ/UaCA66JVo3QlZlp/M
+ JWfEBO/vec/dH5t7GyYV5rye+rd/Q5RhKnFCiJEVTl0Y1vLl5Fyd05xEn2Eqp+tm85H92lW0hJ
+ OU1Y0aiOtjrun4A3zenyecAAAA=
+X-Change-ID: 20250220-ppcyaml-elbc-bb85941fb250
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Crystal Wood <oss@buserror.net>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Naveen N Rao <naveen@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Frank Li <Frank.Li@nxp.com>, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
+ =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1744463772; l=2344;
+ i=j.ne@posteo.net; s=20240329; h=from:subject:message-id;
+ bh=ooT2t/4HDi3rmfv8HHUPwediCnOQ2VSqg+dxjAIoQhg=;
+ b=l8PaOuZLZFLI6LwsdeDccOzUR5+w3wL0myBNaBkGAkjCETbCBt7yiXeoObNwacrPSy2z+vcwW
+ DeL3eMq8UnHAa+kP3OoEG0MKsMRHNlchAXiL/mnJA48QconA9bwH2yb
+X-Developer-Key: i=j.ne@posteo.net; a=ed25519;
+ pk=NIe0bK42wNaX/C4bi6ezm7NJK0IQE+8MKBm7igFMIS4=
+X-Endpoint-Received: by B4 Relay for j.ne@posteo.net/20240329 with auth_id=156
+X-Original-From: =?utf-8?q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,53 +86,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: j.ne@posteo.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On x86_64 with gcc version 13.3.0, I compile kernel with:
+This series converts the fsl,elbc binding to YAML and adds new bindings
+for related devices (particular kinds of chip on the eLBC).
 
-  make defconfig
-  ./scripts/kconfig/merge_config.sh .config <(
-    echo CONFIG_COMPILE_TEST=y
-  )
-  make KCFLAGS="-fno-inline-functions -fno-inline-small-functions -fno-inline-functions-called-once"
+For readability, the existing unit address syntax of <cs>,<offset>
+(e.g. nand@1,0) is kept. This results in a few dtc validation warnings,
+when combined with other choices in this patchset:
 
-Then I get a linker error:
+- For compatibility with existing kernels which don't explicitly probe
+  under an eLBC controller, the "simple-bus" compatible string is kept
+  on eLBC controller nodes. The validation logic requires a linear unit
+  address, though (e.g. @100000000 instead of @1,0)
 
-  ld: vmlinux.o: in function `pxp_fw_dependencies_completed':
-  kintel_pxp.c:(.text+0x95728f): undefined reference to `intel_pxp_gsccs_is_ready_for_sessions'
+The patches in this series were previously part of the following series,
+which turned out to be too large and unwieldy:
+[PATCH v2 00/12] YAML conversion of several Freescale/PowerPC DT bindings
+https://lore.kernel.org/lkml/20250207-ppcyaml-v2-0-8137b0c42526@posteo.net/
 
-Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
+Changelogs are present in the individual patches.
+
+Signed-off-by: J. Neuschäfer <j.ne@posteo.net>
 ---
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Changes in v5:
+- Rebase on v6.15-rc1
+- Add Rob Herring's reviewed-by tags to patches 1,3
+- Fix documentation reference in Documentation/devicetree/bindings/display/ssd1289fb.txt
+- Link to v4: https://lore.kernel.org/r/20250313-ppcyaml-elbc-v4-0-55903722d9ea@posteo.net
 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-index 9aae779c4da3..4969d3de2bac 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-@@ -23,6 +23,7 @@ int intel_pxp_gsccs_init(struct intel_pxp *pxp);
- 
- int intel_pxp_gsccs_create_session(struct intel_pxp *pxp, int arb_session_id);
- void intel_pxp_gsccs_end_arb_fw_session(struct intel_pxp *pxp, u32 arb_session_id);
-+bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp);
- 
- #else
- static inline void intel_pxp_gsccs_fini(struct intel_pxp *pxp)
-@@ -34,8 +35,11 @@ static inline int intel_pxp_gsccs_init(struct intel_pxp *pxp)
- 	return 0;
- }
- 
--#endif
-+static inline bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp)
-+{
-+	return false;
-+}
- 
--bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp);
-+#endif
- 
- #endif /*__INTEL_PXP_GSCCS_H__ */
+Changes in v4:
+- Reintroduce patch "dt-bindings: mtd: raw-nand-chip: Relax node name pattern"
+- Link to v3: https://lore.kernel.org/r/20250226-ppcyaml-elbc-v3-0-a90ed71da838@posteo.net
+
+---
+J. Neuschäfer (4):
+      dt-bindings: mtd: raw-nand-chip: Relax node name pattern
+      dt-bindings: memory-controllers: Add fsl,elbc-gpcm-uio
+      dt-bindings: nand: Add fsl,elbc-fcm-nand
+      dt-bindings: memory-controllers: Convert fsl,elbc to YAML
+
+ .../devicetree/bindings/display/ssd1289fb.txt      |   2 +-
+ .../memory-controllers/fsl,elbc-gpcm-uio.yaml      |  59 ++++++++
+ .../bindings/memory-controllers/fsl,elbc.yaml      | 158 +++++++++++++++++++++
+ .../devicetree/bindings/mtd/fsl,elbc-fcm-nand.yaml |  68 +++++++++
+ .../devicetree/bindings/mtd/raw-nand-chip.yaml     |   2 +-
+ .../devicetree/bindings/powerpc/fsl/lbc.txt        |  43 ------
+ 6 files changed, 287 insertions(+), 45 deletions(-)
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250220-ppcyaml-elbc-bb85941fb250
+
+Best regards,
 -- 
-2.48.1
+J. Neuschäfer <j.ne@posteo.net>
+
 
