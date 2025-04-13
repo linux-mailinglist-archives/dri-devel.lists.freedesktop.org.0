@@ -2,82 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D0FA87087
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Apr 2025 06:08:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9463AA871CF
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Apr 2025 13:24:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B70F10E074;
-	Sun, 13 Apr 2025 03:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5466210E03C;
+	Sun, 13 Apr 2025 11:24:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G+WNbTV2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JWAXH+BH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3819A10E074
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Apr 2025 03:58:48 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-7390d21bb1cso3146667b3a.2
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Apr 2025 20:58:48 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67D9710E03C
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Apr 2025 11:24:11 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-ac2bb7ca40bso652117666b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Apr 2025 04:24:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744516728; x=1745121528; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=O9FPY3HTHIj03IKmszQnH75Kpen2MmUTFxMzTsDMW6M=;
- b=G+WNbTV29V04h106Q6aDyh6wep3tEvZdrn+EECFx7Uzwx26cw8v6pOSDxnYHMPg3nO
- xDaBvxxgq4KTnyNx1rwRBbcjHQOLtC/bmj5ygYCTxMXULnnAIKjxETW7e/UGRYmvLoK1
- KTvNUyC2cozqdgSmFDTr752t18gu4M2Ak0dO9XpCNvPP0Z4xfisl8mz9cwp6yykmw9gM
- 9V5s8qLtegl1l4h7fY/QXN9GVLuLopPClxKHuWHgOybhHuBsFr3h3li8t/b7ThwF7MU7
- 18whWA60t4iiKCFACvuNVjYeG7lLiOq5VTrCJmVbOGfJjdWhorYtvSCwT9wymEIK9dSL
- Yw2g==
+ d=gmail.com; s=20230601; t=1744543450; x=1745148250; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rUTDjy7xdeVquaQ2yrizRZXgwdn38Vk2chACh8D3pZE=;
+ b=JWAXH+BH+EiIV//DzXBgEQ0i03nEtYVsoBXWSpd1GuSxgdZrW+qPsvAwNVsMouQ547
+ qqv7dT5a1r4jed6ndkFmFdfm7Sn5XW7Ua0kOHBNEOSo7cTlfH203SWgV52QRDcf8uFKi
+ xy+d/2TqBn7XwylWHcEKAOOdyde47Yd0b8Mn2LC2rkzyqrTpmpJ1XjbczEpl/GF2+sWy
+ 2neFYXsdNzAiMtdJHrE5w21HVkIXeH/puwzwVyV2RSw06+FfNq8c80SR6cOlf2Ja0vPo
+ 1l50F26HKVhCy9OTNI57GO7wsQOPu5OAwmFVBX9zC+gBPliLMER+raIKghxx29LU3jL4
+ 0rjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744516728; x=1745121528;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=O9FPY3HTHIj03IKmszQnH75Kpen2MmUTFxMzTsDMW6M=;
- b=RvZN/aGXjkls77HNT6YgDyn60nd4TNoCed/0cI5AnGDydnbmlqmOr7odVs1FKjyzIB
- 44zIFPlYgvSePV0ms3+E4R5f4eIov2EyJfslZfMFifQUT+tEgXa5gW48DMpx2cvpXJe+
- snkppoyA0ttJZnGcJgWQb+68TFZ0ewVMYAiOxIpuRgFi/0vMyhcvfGf7PjmlV5fMK4Sm
- 019nHn2SEpgFYv0MmX9Iq5KBBuHNH7k4D+UM2Zwi6DlPfPckXqMQ/Td9iDC/grFl3Ery
- L/8QC4F2Xthfu0BW0Bj+i0qfrM8VivFocAG4hdE3SlQ1RgLkhZ5/BrnyWZlkb7Hro7rR
- 0J0A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUPeWZ8kT34rwR1SdMF1FVqlfE8t+q691/gJJTA1yuq4Gtj4J6fPxXJ5oFASyghOeWeWEU1WV+bDSk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyQbvQWL7+NujasNMFBUW363vUSlG3x8Brskezmy9sWhn9t2dmC
- xiVae/ajvnsNcTemstu2Uh13G/waVkKLsqPci4u1mqGuepoSbDnA
-X-Gm-Gg: ASbGncvpANiAOXtXA1gK4ka1I0kWbTSU++m630kXASJlPBKxM2hjLA3ExBUxeuZllEX
- uu1igSg6Dxnc3KK2IqFw2lMrDP+QjYDChfTcb7n3618rCVMjRnopFhpFJLb/D8X+SMNWcfxJzvM
- IeEscRPObzEu+R7QEdwx02XvsnznAhGud6mV08EHRIXE5VGkz+FPxs5IVJT+LBslK1jG0mB8w7v
- kJvjkORPm5AtM4XjYxr0j/L4yvF1893dBjZAJerpwIPB+gat2+eUvIdNVG5dA/nfOVczIGN+fhl
- /dP4gJqcxFhLxqAs/eLOwZthQWXW4lW0ycz84DqXlAgbfg==
-X-Google-Smtp-Source: AGHT+IFNzYO6C6UkOWocKUJGaWpoXone2hlK/AtqRsIyacUkJS/m4YkRgzqmHVENHyTnTLM4yXuMAA==
-X-Received: by 2002:a05:6a20:e608:b0:1f5:7eb5:72c7 with SMTP id
- adf61e73a8af0-2017996fb78mr10954396637.29.1744516727543; 
- Sat, 12 Apr 2025 20:58:47 -0700 (PDT)
-Received: from [10.3.176.134] ([59.152.80.69])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b02a11d2bbfsm7217487a12.41.2025.04.12.20.58.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 12 Apr 2025 20:58:47 -0700 (PDT)
-Message-ID: <931e9119-4dc0-4241-843d-78241dea92a1@gmail.com>
-Date: Sun, 13 Apr 2025 09:28:41 +0530
+ d=1e100.net; s=20230601; t=1744543450; x=1745148250;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rUTDjy7xdeVquaQ2yrizRZXgwdn38Vk2chACh8D3pZE=;
+ b=bNDVHVrbtkoWYhjnCwLHJyOL7tC7EDSKXOrDqfw77xzG/4CkGzB9mRMid6GTzsO3tq
+ OywZruUuHqt3WoAqnRGICh7c+sBEPGgpM7Wl0AyIsJGDJ5h3d4L3zNUfKqM69loaRBmo
+ S/iphtAA1Dn/VWTdkc4ZnwpLo4oRklUYrOLWCOPHgXBaZrPbHAhih/1GfuDHfEXOzuvv
+ trjvnBAjWcpUGzFdsI4jv4mhJ3c6IX0GUjCMpuFSA2OL7W+hQgq3eZaOuJPnepsqaGKg
+ EHAqrr/sE1zvq8Rf2fBbgjCneeLi/V7GAm4g6F1/sfxislDkD6lclDenvyNqgBzSP5HB
+ uwfQ==
+X-Gm-Message-State: AOJu0YxwJUddIRfg2bF/aEFv2+v6/2e2iSu/WJy/x8fVIT28DsctJiA9
+ fOCGFOripmGgNrzUPQ7bKW+fRcsXdPedQC15a+ju2Cajj4TjzEv1
+X-Gm-Gg: ASbGncvqx0ZmnDzjzzshPBEZKqNz4Pu+jP67AQJ4PhqSVkNMzuM0MjN7TI1csAqamSw
+ 1Bq7OoeKTMG0AMgr1GjFqsFZyvAArAk2/h4abNSRlbTYyHg/iMg61Wzz3QSH1KGMgKWy4bgUCVR
+ qIs9mRd0Zg20Zo4Pj2oowPXXdE39qtRTD0fhJaf9fkS/03N2oGReGBcqQo6jNtB9P9U6vSV7e+0
+ T2BaJhHmnsNkxPIMIOMqTQke28SX4ap2c7TuQOKBRPlFTslgZZ5Whq8LkmlFZDGd7ybAj43C1Cu
+ 9a2fXFW7adDBHxbXc0emwKBuSDLVTZvNbWo38axhPZc=
+X-Google-Smtp-Source: AGHT+IE93UB1qoyXlQ7Rv6TpcB8vp7o9k6YIA/hmBR3invbLq9NB0l+XJsASKJhsxC36HjPlH/VLXw==
+X-Received: by 2002:a17:907:3e87:b0:abf:8f56:fe76 with SMTP id
+ a640c23a62f3a-acad34d8da8mr882386766b.25.1744543449638; 
+ Sun, 13 Apr 2025 04:24:09 -0700 (PDT)
+Received: from xeon.. ([188.163.112.51]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-acaa1cb4110sm733529766b.91.2025.04.13.04.24.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Apr 2025 04:24:09 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/4] drm: panel: add support for panels used in LG P880/P895
+Date: Sun, 13 Apr 2025 14:23:57 +0300
+Message-ID: <20250413112401.12543-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/panel: boe-bf060y8m-aj0: transition to mipi_dsi
- wrapped functions
-To: Doug Anderson <dianders@chromium.org>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, asrivats@redhat.com
-References: <20250412043006.188641-1-tejasvipin76@gmail.com>
- <CAD=FV=UrZ-t8MkH0nY+koBt8NJ3Xh-LAH_ZPirWuCroGQEFNYQ@mail.gmail.com>
-Content-Language: en-US
-From: Tejas Vipin <tejasvipin76@gmail.com>
-In-Reply-To: <CAD=FV=UrZ-t8MkH0nY+koBt8NJ3Xh-LAH_ZPirWuCroGQEFNYQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,41 +89,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add support for panels used in LG P880/P895 which are based on Renesas IC
+(not related to Renesas RISC-V architecture just the same manufacturer).
 
+Maxim Schwalm (1):
+  drm: panel: Add support for Renesas R69328 based MIPI DSI panel
 
-On 4/13/25 3:40 AM, Doug Anderson wrote:
-> Hi,
-> 
-> On Fri, Apr 11, 2025 at 9:30 PM Tejas Vipin <tejasvipin76@gmail.com> wrote:
->>
->> Changes the boe-bf060y8m-aj0 panel to use multi style functions for
->> improved error handling. Additionally the MIPI_DSI_MODE_LPM flag is set
->> after the off commands are run in boe_bf060y8m_aj0_off regardless of any
->> failures, and regulators are disabled if the boe_bf060y8m_aj0_on call in
->> boe_bf060y8m_aj0_prepare fails.
->>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
->> ---
->> Changes in v3:
->>     - Disable regulators in boe_bf060y8m_aj0_prepare if
->>       boe_bf060y8m_aj0_on fails.
->> Changes in v2:
->>     - Always set MIPI_DSI_MODE_LPM in boe_bf060y8m_aj0_off
->>
->> Link to v2: https://lore.kernel.org/all/20250331061838.167781-1-tejasvipin76@gmail.com/
->> Link to v1: https://lore.kernel.org/all/20250330151304.128417-1-tejasvipin76@gmail.com/
->> ---
->>  .../gpu/drm/panel/panel-boe-bf060y8m-aj0.c    | 109 +++++++-----------
->>  1 file changed, 41 insertions(+), 68 deletions(-)
-> 
-> As far as I can tell, your v2 and v3 are totally identical. Either I
-> messed up, or maybe you forgot to commit your changes?
->
+Svyatoslav Ryhel (3):
+  dt-bindings: display: panel: Document Renesas R61307 based DSI panel
+  drm: panel: Add support for Renesas R61307 based MIPI DSI panel
+  dt-bindings: display: panel: Document Renesas R69328 based DSI panel
 
-You're right, I'd forgotten to commit my changes. Sorry about that. I'll
-send it again.
-> -Doug
+ .../display/panel/renesas,r61307.yaml         |  93 +++++
+ .../display/panel/renesas,r69328.yaml         |  72 ++++
+ drivers/gpu/drm/panel/Kconfig                 |  26 ++
+ drivers/gpu/drm/panel/Makefile                |   2 +
+ drivers/gpu/drm/panel/panel-renesas-r61307.c  | 326 ++++++++++++++++++
+ drivers/gpu/drm/panel/panel-renesas-r69328.c  | 282 +++++++++++++++
+ 6 files changed, 801 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-renesas-r61307.c
+ create mode 100644 drivers/gpu/drm/panel/panel-renesas-r69328.c
 
 -- 
-Tejas Vipin
+2.43.0
+
