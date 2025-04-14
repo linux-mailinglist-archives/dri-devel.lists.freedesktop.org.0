@@ -2,45 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4C4A87C47
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 11:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 966CBA87C9F
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 11:59:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7973210E52F;
-	Mon, 14 Apr 2025 09:50:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF34210E51F;
+	Mon, 14 Apr 2025 09:59:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=etehtsea.me header.i=@etehtsea.me header.b="b9fJRN/G";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CE4FE10E523
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 09:50:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 491921007;
- Mon, 14 Apr 2025 02:50:07 -0700 (PDT)
-Received: from [10.57.87.24] (unknown [10.57.87.24])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 098953F66E;
- Mon, 14 Apr 2025 02:50:04 -0700 (PDT)
-Message-ID: <93a4ec41-3bd8-4485-a4fe-d0def3509b79@arm.com>
-Date: Mon, 14 Apr 2025 10:50:02 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/4] drm/panthor: Introduce BO labeling
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- "To : Boris Brezillon" <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
+X-Greylist: delayed 307 seconds by postgrey-1.36 at gabe;
+ Mon, 14 Apr 2025 09:59:12 UTC
+Received: from pv50p00im-hyfv10011601.me.com (pv50p00im-hyfv10011601.me.com
+ [17.58.6.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8A9010E51F
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 09:59:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=etehtsea.me; s=sig1;
+ bh=Ybx8WjOqXxdOPt7jZILI3TQyxAH2lerFDHqdPBDPGyI=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme;
+ b=b9fJRN/G8UE2xxLqmqQXE2YrxmbrCFA27S4njRGjhbbnIKSIpIydlaS8WBnimOrTZ
+ 7tq+yP5FZHB73dZYuqpBlDtkCPbvnp/vds+rcsVitrrdRuif2zTe9woenvAnYwSbcU
+ LluGsewjMrU0TXxWv0pl0m5URMdYmwQe9CeP8ifgT0uTxdacdZh20pYo6mYHfY4U2N
+ ycugs9vPnMc7yNtD9eKzliTD3eGMEFgBc7ssd2gE2FRtx6zVgzg6sASlFjWhyeyiS1
+ i0JXC477vFsl9K6wN/5SUpQAS9URR3GEeHb0huaaYQH5RNUHaZqWm3C+zFRv20SqdS
+ QHU/SN7VWOB1A==
+Received: from pv50p00im-hyfv10011601.me.com (pv50p00im-hyfv10011601.me.com
+ [17.58.6.43])
+ by pv50p00im-hyfv10011601.me.com (Postfix) with ESMTPS id 30A2DC80118;
+ Mon, 14 Apr 2025 09:53:52 +0000 (UTC)
+Received: from localhost (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+ by pv50p00im-hyfv10011601.me.com (Postfix) with ESMTPSA id 27735C8009F;
+ Mon, 14 Apr 2025 09:53:51 +0000 (UTC)
+From: Konstantin Shabanov <mail@etehtsea.me>
+To: Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250411150357.3308921-1-adrian.larumbe@collabora.com>
- <20250411150357.3308921-2-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250411150357.3308921-2-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Konstantin Shabanov <mail@etehtsea.me>,
+ Daniel Stone <daniel@fooishbar.org>, Dan Callaghan <djc@djc.id.au>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] (drm/rockchip) Reject AFBC for resolutions >2560x1600
+Date: Mon, 14 Apr 2025 09:53:31 +0000
+Message-ID: <20250414095332.9674-1-mail@etehtsea.me>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250402125320.21836-1-mail@etehtsea.me>
+References: <20250402125320.21836-1-mail@etehtsea.me>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 4idf3hj8_sYT2UrNeBvaZFeG976A8GMg
+X-Proofpoint-ORIG-GUID: 4idf3hj8_sYT2UrNeBvaZFeG976A8GMg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-14_03,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ clxscore=1030 bulkscore=0
+ mlxscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2504140071
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,136 +79,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrián,
+As it isn't supported by hardware. At least, RK3399 doesn't support
+it. From the datasheet[1]
+("1.2.10 Video IN/OUT", "Display Interface", p. 17):
 
-On 11/04/2025 16:03, Adrián Larumbe wrote:
-> Add a new character string Panthor BO field, and a function that allows
-> setting it from within the driver.
-> 
-> Driver takes care of freeing the string when it's replaced or no longer
-> needed at object destruction time, but allocating it is the responsibility
-> of callers.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 39 +++++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_gem.h | 17 ++++++++++++
->  2 files changed, 56 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 8244a4e6c2a2..af0ac17f357f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -2,6 +2,7 @@
->  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->  /* Copyright 2023 Collabora ltd. */
->  
-> +#include <linux/cleanup.h>
->  #include <linux/dma-buf.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/err.h>
-> @@ -18,6 +19,14 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
->  	struct panthor_gem_object *bo = to_panthor_bo(obj);
->  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
->  
-> +	/*
-> +	 * Label might have been allocated with kstrdup_const(),
-> +	 * we need to take that into account when freeing the memory
-> +	 */
-> +	kfree_const(bo->label.str);
-> +
-> +	mutex_destroy(&bo->label.lock);
-> +
->  	drm_gem_free_mmap_offset(&bo->base.base);
->  	mutex_destroy(&bo->gpuva_list_lock);
->  	drm_gem_shmem_free(&bo->base);
-> @@ -196,6 +205,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
->  	obj->base.map_wc = !ptdev->coherent;
->  	mutex_init(&obj->gpuva_list_lock);
->  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
-> +	mutex_init(&obj->label.lock);
->  
->  	return &obj->base.base;
->  }
-> @@ -247,3 +257,32 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  
->  	return ret;
->  }
-> +
-> +void
-> +panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
-> +{
-> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> +	const char *old_label;
-> +
-> +	scoped_guard(mutex, &bo->label.lock) {
-> +		old_label = bo->label.str;
-> +		bo->label.str = label;
-> +	}
-> +
-> +	kfree(old_label);
+  Support AFBC function co-operation with GPU
+    * support 2560x1600 UI
 
-Shouldn't this be kfree_const()? I suspect as things stand we can't
-trigger this bug but it's inconsistent.
+Manually tested on RockPro64 (rk3399):
+- ARM_AFBC modifier is used for 1920x1080
+- DRM_FORMAT_MOD_LINEAR modifier us used for 3840x2160
+- No noise on the screen when sway is running in 4k
+- Dynamic resolution switching works correctly in sway
 
-> +}
-> +
-> +void
-> +panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
-> +{
-> +	const char *str;
-> +
-> +	str = kstrdup_const(label, GFP_KERNEL);
-> +	if (!str) {
+Signed-off-by: Konstantin Shabanov <mail@etehtsea.me>
+Cc: Daniel Stone <daniel@fooishbar.org>
+Reported-by: Dan Callaghan <djc@djc.id.au>
+Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/7968
 
-In the next patch you permit user space to clear the label
-(args->size==0) which means label==NULL and AFAICT kstrdup_const() will
-return NULL in this case triggering this warning.
+[1]: https://opensource.rock-chips.com/images/d/d7/Rockchip_RK3399_Datasheet_V2.1-20200323.pdf
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Thanks,
-Steve
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+index dcc1f07632c3..1379bc3cd937 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+@@ -18,6 +18,8 @@
+ #include "rockchip_drm_fb.h"
+ #include "rockchip_drm_gem.h"
 
-> +		/* Failing to allocate memory for a label isn't a fatal condition */
-> +		drm_warn(bo->obj->dev, "Not enough memory to allocate BO label");
-> +		return;
-> +	}
-> +
-> +	panthor_gem_bo_set_label(bo->obj, str);
-> +}
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index 1a363bb814f4..af0d77338860 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -46,6 +46,20 @@ struct panthor_gem_object {
->  
->  	/** @flags: Combination of drm_panthor_bo_flags flags. */
->  	u32 flags;
-> +
-> +	/**
-> +	 * @label: BO tagging fields. The label can be assigned within the
-> +	 * driver itself or through a specific IOCTL.
-> +	 */
-> +	struct {
-> +		/**
-> +		 * @label.str: Pointer to NULL-terminated string,
-> +		 */
-> +		const char *str;
-> +
-> +		/** @lock.str: Protects access to the @label.str field. */
-> +		struct mutex lock;
-> +	} label;
->  };
->  
->  /**
-> @@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  			       struct panthor_vm *exclusive_vm,
->  			       u64 *size, u32 flags, uint32_t *handle);
->  
-> +void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
-> +void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
-> +
->  static inline u64
->  panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
->  {
++#define ROCKCHIP_AFBC_MAX_WIDTH		2560
++
+ static const struct drm_framebuffer_funcs rockchip_drm_fb_funcs = {
+ 	.destroy       = drm_gem_fb_destroy,
+ 	.create_handle = drm_gem_fb_create_handle,
+@@ -52,6 +54,13 @@ rockchip_fb_create(struct drm_device *dev, struct drm_file *file,
+ 	}
 
+ 	if (drm_is_afbc(mode_cmd->modifier[0])) {
++		if (mode_cmd->width > ROCKCHIP_AFBC_MAX_WIDTH) {
++			DRM_DEBUG_KMS("AFBC is not supported for the width %d (max %d)\n",
++				      mode_cmd->width,
++				      ROCKCHIP_AFBC_MAX_WIDTH);
++			return ERR_PTR(-EINVAL);
++		};
++
+ 		int ret, i;
+
+ 		ret = drm_gem_fb_afbc_init(dev, mode_cmd, afbc_fb);
+
+base-commit: e7bb7d44c3b97aea1f0e354c6499900154ac67f2
+--
+2.48.1
