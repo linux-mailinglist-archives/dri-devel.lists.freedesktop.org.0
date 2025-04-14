@@ -2,76 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F099A88208
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 15:29:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3B8A88213
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 15:30:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7912B10E5C0;
-	Mon, 14 Apr 2025 13:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F10D10E5C4;
+	Mon, 14 Apr 2025 13:30:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HBHvUoCs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YdyEmnS9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com
- [209.85.221.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D39EE10E5C0;
- Mon, 14 Apr 2025 13:29:25 +0000 (UTC)
-Received: by mail-vk1-f181.google.com with SMTP id
- 71dfb90a1353d-523f58d7322so248474e0c.1; 
- Mon, 14 Apr 2025 06:29:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744637365; x=1745242165; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gIG3nYBZANIFgu52jyjhWW3N+y09Fbww46hgtWyndUw=;
- b=HBHvUoCspV6M1mjO6Y9vhWDoNsYGn1w/JdrNwedwuf7QCj49gAZskVvnLoDbbBiETx
- xQ1YmFchlFNIdA/GC+LxHAw8qBW/t3SAXkV6IPjdkJduZRGUznPiRB7VsdvsipWtxGF1
- o7AM7b2GLicIePW+E9bbuBASee7cIZX/iMHxjs98zlPLTfqLTF341nQlhwsvVVO+rDg0
- t4ImkrAsmuINrirY433A1hPyyaCbZzGUt43voUTR9vX0kGCp7FEnxxQ+Riyln6nXeryj
- CRqMQspaogDTtzXdoDY5Gu7QjlnekpiHlcoyGbNVCzEIA4AUC3Tnzw/3rbqUgwF1DTks
- Eojg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744637365; x=1745242165;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gIG3nYBZANIFgu52jyjhWW3N+y09Fbww46hgtWyndUw=;
- b=OI3U6AudSjPcIhY7jnZND0FmNxkYR/0L0i9PoQILy+bIghkR59fvW4C2l4YWF4lzC1
- Tvizbe1k/enqYGwl7ojUfuggbacZDUSPeS3r91tGuAt7o8vhqMQrCEBUOFO0TESubtQT
- Rb0rDZ+2UlEdvkK9LPnyV0lEEqp+ZUwl1GvtVDFyt3uVdC00EqIKcFqaRaiherflrr4G
- Gq9YWitX6Hjp0ZxG8GAu5Do7aDJI8Qu17gyftuwnI7L9n2wWFn+IOCDOV4UwB63LGVy9
- O7Don4oInBu+6CCbOeuiPMzwrijXX/JPTQ6i9apft5vrm7YX8ZsYwa2G4xim953ntIMu
- WeJA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUG1btBhwincOLZk1QHLcPK2UwTlfVNXYmyen5jY9kiokC2SgwKaedJPYxnXkOFK5ADG4SUN4YB@lists.freedesktop.org,
- AJvYcCWMbp5rTqqlykesDz9w0Xfox6AdDNxKUmJVpKncbpjlNpAEiJ+k8XGFBZt+VdNQReNvM56+JF7WWjen@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwjIq2BAeef48YpWQnih0RQkxlD9qzIg/KD1SfiV1a1XVcpzaUk
- si3JXee3zWoCJ9nnaZztqpxLvEKOiA3nuMAvxh4vSgFvx0wSBnhhdg+3VHVQ0aDdi2reC12plDo
- Jte2X5tKLs0z7WYONBSXRW+s8SEY=
-X-Gm-Gg: ASbGncsZ1JZbhJHSIzZxDHxx4jPwSCuE7sgJ8YKXHa1k4f33e4DviC/975Hga8lzwlK
- tpNDlw4kVNfYSZhtmZwHA23eAcXWma2VPk/ZzEDkcETMzVYbnV7o6AjhHFu7vOKM39ZoR9W5KZX
- 8xnk5rCs+sGpXcjLfJMBE71I/uEfD+6M7v
-X-Google-Smtp-Source: AGHT+IG6g+fPMqIcko5cV+T9c+jrMKIzJVLV4IR5A3Y/Uj+5/l+H4zy3gxbLj+sMLQriAlG/2Nxbv0zeR9OXLxHkxgE=
-X-Received: by 2002:a05:6102:5e82:b0:4c3:52f:175b with SMTP id
- ada2fe7eead31-4c9e504ca1amr2508561137.6.1744637364455; Mon, 14 Apr 2025
- 06:29:24 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D3710E5C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 13:30:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2A6B3A48962;
+ Mon, 14 Apr 2025 13:24:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9674AC4CEE2;
+ Mon, 14 Apr 2025 13:30:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744637405;
+ bh=bSdjzf03N5dkH1r6wALmuE4ALtyVK39xcb0mwy/hEwI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=YdyEmnS95zF/sd+/SjXX8/WuYXIfZiGn7p5vOt0GQHcqVacfiyw+n4YitYmUi1Cd4
+ B1l/3M5xykCIrLKkpl/OKdrN+EkEhZOdJMrBJLz6wXDf6ipTuWPHCTcsiz2Uja5Xog
+ h0DyPs6xTcXbqHIiKixa+PGEEWfK0LjjRknDjZLXqM0ou5rjFQ7Sw6/V8ZbCWj67Mt
+ 46tq3Xy6dZb7MhtLpmNGtXeCC1GozlpnZV/JE9tuoRw9AJSryPIT/FboEP8dC/GLX5
+ 9uChci2tSdK/nUu7Yue3pJEm+5uSaxRxIQpMCyxGFjv67EInYj4hZf4OEuQ7R00PjP
+ nZmRgbLIfQEhw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Xiaogang Chen <xiaogang.chen@amd.com>,
+ Xiaogang Chen <Xiaogang.Chen@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sasha Levin <sashal@kernel.org>, kraxel@redhat.com,
+ vivek.kasireddy@intel.com, sumit.semwal@linaro.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 6.6 03/24] udmabuf: fix a buf size overflow issue
+ during udmabuf creation
+Date: Mon, 14 Apr 2025 09:29:36 -0400
+Message-Id: <20250414132957.680250-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250414132957.680250-1-sashal@kernel.org>
+References: <20250414132957.680250-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20250414063611.2100-1-vulab@iscas.ac.cn>
-In-Reply-To: <20250414063611.2100-1-vulab@iscas.ac.cn>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 14 Apr 2025 09:29:12 -0400
-X-Gm-Features: ATxdqUG4Qb2Ft6FqGFxR47VXph-78DAr6grKjDU9soRx-alt8lzMAqt-V5Z6ysU
-Message-ID: <CADnq5_N_-0cd69Zh3zJ0k6xEVs5N7XoJQjdZp+v_kUvqHoTVRA@mail.gmail.com>
-Subject: Re: [PATCH RESEND] drm/amd/pm/powerplay/smumgr/fiji_smumgr: Fix wrong
- return value of fiji_populate_smc_boot_level()
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: kenneth.feng@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com, 
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.87
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,92 +68,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 14, 2025 at 3:24=E2=80=AFAM Wentao Liang <vulab@iscas.ac.cn> wr=
-ote:
->
-> The return value of fiji_populate_smc_boot_level() is always 0, which
-> represent the failure of the function. The result of phm_find_boot_level(=
-)
-> should be recored and return. An error handling is also needed to
-> phm_find_boot_level() to reset the boot level when the function fails.
-> A proper implementation can be found in tonga_populate_smc_boot_level().
->
-> Fixes: dcaf3483ae46 ("drm/amd/pm/powerplay/smumgr/fiji_smumgr: Remove unu=
-sed variable 'result'")
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
-> ---
->  .../drm/amd/pm/powerplay/smumgr/fiji_smumgr.c | 23 +++++++++++++------
->  1 file changed, 16 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c b/driv=
-ers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
-> index 5e43ad2b2956..7d0cb3741b94 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
-> @@ -1600,19 +1600,28 @@ static int fiji_populate_smc_uvd_level(struct pp_=
-hwmgr *hwmgr,
->  static int fiji_populate_smc_boot_level(struct pp_hwmgr *hwmgr,
->                 struct SMU73_Discrete_DpmTable *table)
->  {
-> +       int result =3D 0;
->         struct smu7_hwmgr *data =3D (struct smu7_hwmgr *)(hwmgr->backend)=
-;
->
->         table->GraphicsBootLevel =3D 0;
->         table->MemoryBootLevel =3D 0;
->
->         /* find boot level from dpm table */
-> -       phm_find_boot_level(&(data->dpm_table.sclk_table),
-> -                           data->vbios_boot_state.sclk_bootup_value,
-> -                           (uint32_t *)&(table->GraphicsBootLevel));
-> +       result =3D phm_find_boot_level(&(data->dpm_table.sclk_table),
-> +                                    data->vbios_boot_state.sclk_bootup_v=
-alue,
-> +                                    (uint32_t *)&(table->GraphicsBootLev=
-el));
-> +       if (result) {
-> +               table->GraphicsBootLevel =3D 0;
-> +               return 0;
+From: Xiaogang Chen <xiaogang.chen@amd.com>
 
-This will skip setting the voltages later below.
+[ Upstream commit 021ba7f1babd029e714d13a6bf2571b08af96d0f ]
 
-> +       }
->
-> -       phm_find_boot_level(&(data->dpm_table.mclk_table),
-> -                           data->vbios_boot_state.mclk_bootup_value,
-> -                           (uint32_t *)&(table->MemoryBootLevel));
-> +       result =3D phm_find_boot_level(&(data->dpm_table.mclk_table),
-> +                                    data->vbios_boot_state.mclk_bootup_v=
-alue,
-> +                                    (uint32_t *)&(table->MemoryBootLevel=
-));
-> +       if (result) {
-> +               table->MemoryBootLevel =3D 0;
-> +               return 0;
+by casting size_limit_mb to u64  when calculate pglimit.
 
-Same here.
+Signed-off-by: Xiaogang Chen<Xiaogang.Chen@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250321164126.329638-1-xiaogang.chen@amd.com
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/dma-buf/udmabuf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you are intending to match the logic in
-tonga_populate_smc_boot_level(), the existing code already does that
-(minus the error message).  This change would break that.  Returning
-early may break working devices.
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index d1fcdd1f9aaed..373282beeb606 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -214,7 +214,7 @@ static long udmabuf_create(struct miscdevice *device,
+ 	if (!ubuf)
+ 		return -ENOMEM;
+ 
+-	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
++	pglimit = ((u64)size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
+ 	for (i = 0; i < head->count; i++) {
+ 		if (!IS_ALIGNED(list[i].offset, PAGE_SIZE))
+ 			goto err;
+-- 
+2.39.5
 
-Alex
-
-> +       }
->
->         table->BootVddc  =3D data->vbios_boot_state.vddc_bootup_value *
->                         VOLTAGE_SCALE;
-> @@ -1625,7 +1634,7 @@ static int fiji_populate_smc_boot_level(struct pp_h=
-wmgr *hwmgr,
->         CONVERT_FROM_HOST_TO_SMC_US(table->BootVddci);
->         CONVERT_FROM_HOST_TO_SMC_US(table->BootMVdd);
->
-> -       return 0;
-> +       return result;
->  }
->
->  static int fiji_populate_smc_initailial_state(struct pp_hwmgr *hwmgr)
-> --
-> 2.42.0.windows.2
->
