@@ -2,59 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56DDFA88596
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 16:47:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B95CA885BC
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 16:52:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EED710E5FE;
-	Mon, 14 Apr 2025 14:47:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E534910E604;
+	Mon, 14 Apr 2025 14:51:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HmfJW8uS";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="QIPaCnKG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB8CD10E60D
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 14:47:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 927CF5C475F;
- Mon, 14 Apr 2025 14:45:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6F25C4CEE2;
- Mon, 14 Apr 2025 14:47:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744642040;
- bh=h9uPxkbu37JMl9K8mq07mcmONRcYkFkLq//paRKhktE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HmfJW8uSoQQz4BSrQG43jo8P7iD2mv7jRAtmfZm/OSsbqbCwEltK7CMOdqMWTC42r
- AZR+QUG4owaz0bvILc2U6Znpyu4FbIrxtiDmB18Pr5GePh91Reja47WLefjZkDIa2p
- dB8cUtN8sZjwTYsE/a2L8f65UMn2GAFgVwGl/WswCaOEPJ7xhA14fQ/eCTkLrPHE9b
- aS9r7Skx9E0eL7b1o22vnvlJt/hn+VBphHK2vkCArE60vBUTDuzQF/niL05qJ77bUy
- vae0H5OeOjHYwwzspU3zQIpEuhlevEUKsnYw1D7LT0VQtpOJXFtmGD9hz99JjB53hF
- S4yCj/HFNIFhA==
-Date: Mon, 14 Apr 2025 16:47:17 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v5 04/11] drm/connector: unregister CEC data
-Message-ID: <20250414-hissing-auspicious-goldfish-78b9dc@houat>
-References: <20250407-drm-hdmi-connector-cec-v5-0-04809b10d206@oss.qualcomm.com>
- <20250407-drm-hdmi-connector-cec-v5-4-04809b10d206@oss.qualcomm.com>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7693510E604
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 14:51:56 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-43cf05f0c3eso31533775e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 07:51:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1744642315; x=1745247115; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=gSZhmrO93TUdbr6L9mH0WCU3mN1KrdnBBJ3IftQ+Ywc=;
+ b=QIPaCnKGgHj7kLgQbFPdT8lAeUYLD0OlY2YNTpY23SKmrOzIYwuf4go6D6Q5WYiXTR
+ eZkrJ9Adh9FYCVAqWTjuOu2CVUh2aF2da1rL5fVUad7io5QT5yJ3crzwBvntFNIxp1a3
+ dQ/YeaOj/1jEXDX9amdZNP3x4b9c+JhMtS7/Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744642315; x=1745247115;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gSZhmrO93TUdbr6L9mH0WCU3mN1KrdnBBJ3IftQ+Ywc=;
+ b=eR/ZfOVn43+kkVAbr30NL0p+SeHA654LVHPo0puJmYvJgbXWLlDWaHR5lfGTTHIPiT
+ /tPjtVBLnw9HJGh18o2GNqIf7PVrXtTDDgrXX2XfhLdmw+dKIyiqbMdMnQutOVZb7nwx
+ 5dlQmOiVAZTrzS4dm7YNfU1PFKlH7aBkobqtYaKjK5GUmK5VLSxSTh3uMnKHICFo6/ks
+ zwl+aV/RpaspdcIHx4CnZIfJE6URQPrLGj1m7YMT2uv+NSlszndh7+jcMtOsayV0jPrW
+ jSe8CBTFbtfWt90KXDJHMuHrK/U1OJoLWC5+MlU7eise4nycCF1wqczK5apvftV5bqro
+ mKYA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWbqtP+SVGkEbWQZ92RPVvVnWoK3NnE2ifUbgZcn2ZEIo2A378axP1khrfsOWNvSgmO8sEXAJl0bps=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2qq6nU83rxObPIl4jNK1cIMEhlGZUwnFBEhRigl6hhtekHlQ5
+ o+Iut4YdoNvzlDmAWDTCigQpfEfjYjY19CwL6p/0KvtWrwh0wj/jVMLRNWBlclY=
+X-Gm-Gg: ASbGncsVRfi6l/2KOiL+YQPK5QOISkm/oKi3U/rMvpqqjQw0u7yUzDeQnUdTwei9FHz
+ OJ2iHJYG8H8mPu2DJnvwy2tfBKJFyA6dg26hf4yA744qIp4HgPtqSciXZMNqTT4yDGfCbNNjW4q
+ PMzCeH0QAlCMPyakRbnM4bCMnjxC0u03euwRgU7CWi6KM8WYdwQqkdN5iwe5V7easJ85zu2Hrol
+ bS5cuyfr9f30359gthUMBwXoG5TVZ2SKRimB2hMsEo2Tquqq2iL712GH2Kp1Dvmh5z7ZVRztUKi
+ 2ixpMvPJcVQodMjeOCUJOT0fNVETrLQ8S++YXPDxUIQbfuVEJWZm
+X-Google-Smtp-Source: AGHT+IE0sWvMWYqmwuHsujfQkfR1VBy9Yt2ird1c+kgyyyXdM3c3wPxc8xHFjwSVrdDl2DnGktkT/g==
+X-Received: by 2002:a05:6000:2282:b0:399:7f2d:5d23 with SMTP id
+ ffacd0b85a97d-39ea51f578emr10775506f8f.14.1744642314779; 
+ Mon, 14 Apr 2025 07:51:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39eaf445270sm11081240f8f.81.2025.04.14.07.51.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Apr 2025 07:51:54 -0700 (PDT)
+Date: Mon, 14 Apr 2025 16:51:52 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v2] drm/doc: document front-buffer rendering
+Message-ID: <Z_0hCGs73eQsrjvx@phenom.ffwll.local>
+References: <20250414085652.43904-1-contact@emersion.fr>
+ <Z_0Nl9Z8GFoiaxTs@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="za6i6cutm7oj65z7"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250407-drm-hdmi-connector-cec-v5-4-04809b10d206@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z_0Nl9Z8GFoiaxTs@intel.com>
+X-Operating-System: Linux phenom 6.12.17-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,71 +89,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Apr 14, 2025 at 04:28:55PM +0300, Ville Syrjälä wrote:
+> On Mon, Apr 14, 2025 at 08:56:56AM +0000, Simon Ser wrote:
+> > Explain how to perform front-buffer rendering.
+> > 
+> > v2: apply Pekka's rewrite
+> > 
+> > Signed-off-by: Simon Ser <contact@emersion.fr>
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> > ---
+> >  drivers/gpu/drm/drm_blend.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> > index 6e74de833466..4e83f372ea51 100644
+> > --- a/drivers/gpu/drm/drm_blend.c
+> > +++ b/drivers/gpu/drm/drm_blend.c
+> > @@ -75,6 +75,12 @@
+> >   * 	the currently visible vertical area of the &drm_crtc.
+> >   * FB_ID:
+> >   * 	Mode object ID of the &drm_framebuffer this plane should scan out.
+> > + *
+> > + *	When a KMS client is perfoming front-buffer rendering, it should set
+> > + *	FB_ID to the same front-buffer FB on each atomic commit. This implies
+> > + *	to the driver that it needs to re-read the same FB again. Otherwise
+> > + *	drivers which do not employ continuously repeated scanout cycles might
+> > + *	not update the screen.
+> 
+> Should probably add a caveat that this needs to be a sync commit/flip.
+> The way the async flip was specified for atomic explicitly requires the
+> driver to ignore the plane when the fb doesn't change.
+> 
+> Also use dirtyfb instead if you don't want to get throttled to the
+> vrefresh rate. Tthough I think with some drivers you might get
+> throttled even with dirtyfb...
 
---za6i6cutm7oj65z7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 04/11] drm/connector: unregister CEC data
-MIME-Version: 1.0
+Half the userspace wants throttling, the other half wants it gone so
+glxgears looks better. I don't think you want to recommend the dirtyfb
+ioctl for that reason at all, because it's just a ymmv ioctl in what
+exactly you get in terms of blocking.
 
-Hi,
+It's funny.
+-Sima
 
-On Mon, Apr 07, 2025 at 06:11:01PM +0300, Dmitry Baryshkov wrote:
-> In order to make sure that CEC adapters or notifiers are unregistered
-> and CEC-related data is properly destroyed make drm_connector_cleanup()
-> call CEC's unregister() callback.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/drm_connector.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index ba08fbd973829e49ea977251c4f0fb6d96ade631..ae9c02ef9ab102db03c282468=
-3ece37cfbcd3300 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -743,6 +743,13 @@ void drm_connector_cec_phys_addr_set(struct drm_conn=
-ector *connector)
->  }
->  EXPORT_SYMBOL(drm_connector_cec_phys_addr_set);
-> =20
-> +static void drm_connector_cec_unregister(struct drm_connector *connector)
-> +{
-> +	if (connector->cec.funcs &&
-> +	    connector->cec.funcs->unregister)
-> +		connector->cec.funcs->unregister(connector);
-> +}
-> +
->  /**
->   * drm_connector_cleanup - cleans up an initialised connector
->   * @connector: connector to cleanup
-> @@ -763,6 +770,8 @@ void drm_connector_cleanup(struct drm_connector *conn=
-ector)
-> =20
->  	platform_device_unregister(connector->hdmi_audio.codec_pdev);
-> =20
-> +	drm_connector_cec_unregister(connector);
-> +
+> 
+> >   * CRTC_ID:
+> >   * 	Mode object ID of the &drm_crtc this plane should be connected to.
+> >   *
+> > -- 
+> > 2.49.0
+> > 
+> 
+> -- 
+> Ville Syrjälä
+> Intel
 
-Actually, since we know that the HDMI connector is drm-managed, why
-can't we make the call to connector->cec.funcs->unregister a drm-managed
-action registered by drm_connector_hdmi_cec_register?
-
-Maxime
-
---za6i6cutm7oj65z7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/0f9AAKCRDj7w1vZxhR
-xWeFAP9tC/rL1qz6F44OceHXYWDpiv2S2ByDvX23IObFZZIhpwD/UOyfKXhq8Wbq
-8hT9g6wj33SL7RUyMDFRtQeZMspHTgY=
-=Ha6M
------END PGP SIGNATURE-----
-
---za6i6cutm7oj65z7--
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
