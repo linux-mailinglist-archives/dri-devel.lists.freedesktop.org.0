@@ -2,46 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C8EA881E4
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 15:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1167A881E9
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 15:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25F2410E5BF;
-	Mon, 14 Apr 2025 13:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBECB10E5C1;
+	Mon, 14 Apr 2025 13:28:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Urp0phb3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WAauo3Qp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF8FB10E5BB;
- Mon, 14 Apr 2025 13:27:56 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 476AE10E542;
+ Mon, 14 Apr 2025 13:28:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CDFDA4A540;
- Mon, 14 Apr 2025 13:27:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0185CC4CEEB;
- Mon, 14 Apr 2025 13:27:54 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id D7320614BB;
+ Mon, 14 Apr 2025 13:27:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3609AC4CEE2;
+ Mon, 14 Apr 2025 13:28:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744637276;
- bh=PNaP345gDSSlxLCmwD5j7Q5zUx3k3pb511nj8ViwC28=;
+ s=k20201202; t=1744637283;
+ bh=yiCakT6a87ff4mYqOlpsOl3qr/fZmE8zhLmyzevO6Dw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Urp0phb3LQJBjCnNWZ0Rmx3qlgewZXlnRKfflWGQkjqw0gh/YKhbaZ05t6Vh1iywo
- N+EnhRaUPpE2ZMqXhwHD2dGbVntu7pwKE3gk21JG5ZtutEFP9BWYgeN40nvX08Q6x5
- QsMzDo+vzrKnqC1ybTurlFohoupT899kD6KMR8jOUVJnRPCPXlqQC59YAnWeWff+Qc
- WkXWkyQlNuhp3V0pv/v1MaZ/qr7yV7jZjwcGR73kEstnfuWYfjgkOd1AWtxAKflnPE
- POgpnusFSjXi56UMqFJ2m5bJJNgN+IeKDC0cF+Jo7u4oDM+f+xVbte/EhIaQKABuyb
- 1IKYQIM/3dGDQ==
+ b=WAauo3QpKGw0ANmL4Uv6QVNkffFnFDZP22lU4mcN2ATyS7iRe059VFqAN/O9GBGyZ
+ 1XMFLIM+k5qTpKb0Eqjc+MXaxd6lYbPESjkJUFlMxswoEOs/aEIff+98KSzAddHVNC
+ 1SKsE1oqPE3CfOIiDE79jvzI8DPMJzKtjTsCYDxuwWtKVMp9m6dDV6rWRwQML0c2vy
+ YGBJnDLEGWiN/9Mjjw6q/eIEuDHZ8oxggCTU/dCANJFTDr3mxEkQ0/jy/pPH5MWVBk
+ ejdGz28vDzZmBgoafJswwtEbb5tU5+a48VQP0Whfbt1XzdRRaSbEL6BTvsmhZvHezt
+ +yu1K+ogniHkw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Emily Deng <Emily.Deng@amd.com>, Jonathan Kim <jonathan.kim@amd.com>,
+Cc: Jay Cornwall <jay.cornwall@amd.com>, Kent Russell <kent.russell@amd.com>,
+ Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.13 13/34] drm/amdkfd: sriov doesn't support per
- queue reset
-Date: Mon, 14 Apr 2025 09:27:07 -0400
-Message-Id: <20250414132729.679254-13-sashal@kernel.org>
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ lijo.lazar@amd.com, Hawking.Zhang@amd.com, sunil.khatri@amd.com,
+ srinivasan.shanmugam@amd.com, Jesse.zhang@amd.com, linux@treblig.org,
+ zhangzekun11@huawei.com, victor.skvortsov@amd.com,
+ rajneesh.bhardwaj@amd.com, Yunxiang.Li@amd.com, tim.huang@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.13 14/34] drm/amdgpu: Increase KIQ invalidate_tlbs
+ timeout
+Date: Mon, 14 Apr 2025 09:27:08 -0400
+Message-Id: <20250414132729.679254-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250414132729.679254-1-sashal@kernel.org>
 References: <20250414132729.679254-1-sashal@kernel.org>
@@ -65,34 +69,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Emily Deng <Emily.Deng@amd.com>
+From: Jay Cornwall <jay.cornwall@amd.com>
 
-[ Upstream commit ba6d8f878d6180d4d0ed0574479fc1e232928184 ]
+[ Upstream commit 3666ed821832f42baaf25f362680dda603cde732 ]
 
-Disable per queue reset for sriov.
+KIQ invalidate_tlbs request has been seen to marginally exceed the
+configured 100 ms timeout on systems under load.
 
-Signed-off-by: Emily Deng <Emily.Deng@amd.com>
-Reviewed-by: Jonathan Kim <jonathan.kim@amd.com>
+All other KIQ requests in the driver use a 10 second timeout. Use a
+similar timeout implementation on the invalidate_tlbs path.
+
+v2: Poll once before msleep
+v3: Fix return value
+
+Signed-off-by: Jay Cornwall <jay.cornwall@amd.com>
+Cc: Kent Russell <kent.russell@amd.com>
+Reviewed-by: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c | 19 ++++++++++++++-----
+ 2 files changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-index 9476e30d6baa1..f45fb81cacd2f 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-@@ -1999,7 +1999,8 @@ static void kfd_topology_set_capabilities(struct kfd_topology_device *dev)
- 			dev->node_props.capability |=
- 				HSA_CAP_TRAP_DEBUG_PRECISE_MEMORY_OPERATIONS_SUPPORTED;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 4653a8d2823a6..d5514b5ac1239 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -352,7 +352,6 @@ enum amdgpu_kiq_irq {
+ 	AMDGPU_CP_KIQ_IRQ_DRIVER0 = 0,
+ 	AMDGPU_CP_KIQ_IRQ_LAST
+ };
+-#define SRIOV_USEC_TIMEOUT  1200000 /* wait 12 * 100ms for SRIOV */
+ #define MAX_KIQ_REG_WAIT       5000 /* in usecs, 5ms */
+ #define MAX_KIQ_REG_BAILOUT_INTERVAL   5 /* in msecs, 5ms */
+ #define MAX_KIQ_REG_TRY 1000
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+index 1c19a65e65533..ef74259c448d7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+@@ -678,12 +678,10 @@ int amdgpu_gmc_flush_gpu_tlb_pasid(struct amdgpu_device *adev, uint16_t pasid,
+ 				   uint32_t flush_type, bool all_hub,
+ 				   uint32_t inst)
+ {
+-	u32 usec_timeout = amdgpu_sriov_vf(adev) ? SRIOV_USEC_TIMEOUT :
+-		adev->usec_timeout;
+ 	struct amdgpu_ring *ring = &adev->gfx.kiq[inst].ring;
+ 	struct amdgpu_kiq *kiq = &adev->gfx.kiq[inst];
+ 	unsigned int ndw;
+-	int r;
++	int r, cnt = 0;
+ 	uint32_t seq;
  
--		dev->node_props.capability |= HSA_CAP_PER_QUEUE_RESET_SUPPORTED;
-+		if (!amdgpu_sriov_vf(dev->gpu->adev))
-+			dev->node_props.capability |= HSA_CAP_PER_QUEUE_RESET_SUPPORTED;
- 	} else {
- 		dev->node_props.debug_prop |= HSA_DBG_WATCH_ADDR_MASK_LO_BIT_GFX10 |
- 					HSA_DBG_WATCH_ADDR_MASK_HI_BIT;
+ 	/*
+@@ -740,10 +738,21 @@ int amdgpu_gmc_flush_gpu_tlb_pasid(struct amdgpu_device *adev, uint16_t pasid,
+ 
+ 		amdgpu_ring_commit(ring);
+ 		spin_unlock(&adev->gfx.kiq[inst].ring_lock);
+-		if (amdgpu_fence_wait_polling(ring, seq, usec_timeout) < 1) {
++
++		r = amdgpu_fence_wait_polling(ring, seq, MAX_KIQ_REG_WAIT);
++
++		might_sleep();
++		while (r < 1 && cnt++ < MAX_KIQ_REG_TRY &&
++		       !amdgpu_reset_pending(adev->reset_domain)) {
++			msleep(MAX_KIQ_REG_BAILOUT_INTERVAL);
++			r = amdgpu_fence_wait_polling(ring, seq, MAX_KIQ_REG_WAIT);
++		}
++
++		if (cnt > MAX_KIQ_REG_TRY) {
+ 			dev_err(adev->dev, "timeout waiting for kiq fence\n");
+ 			r = -ETIME;
+-		}
++		} else
++			r = 0;
+ 	}
+ 
+ error_unlock_reset:
 -- 
 2.39.5
 
