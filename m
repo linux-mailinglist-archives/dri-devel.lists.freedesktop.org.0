@@ -2,81 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D200A889CB
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 19:27:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE39BA88A22
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 19:44:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9647110E63B;
-	Mon, 14 Apr 2025 17:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C57CD10E093;
+	Mon, 14 Apr 2025 17:44:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aQCdkcIz";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Bm1lAKfl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
- [209.85.208.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B5A710E63B
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 17:27:20 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id
- 38308e7fff4ca-3104ddb8051so27035311fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:27:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744651639; x=1745256439; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8PS+7NrCXvFh78LgYOMEcDp3CqAjYw7INI4pqlwq6ZE=;
- b=aQCdkcIznxWPhlwdFYnQIad7S1CuZGUhezCN2DpoLG6Rajo20sw2FTgILOj9yFY6eD
- vDSMwSy41kYFvyCtiRn8CSNbeaieyATf73DxDUlJfAo7CohbmMbucDlwEL6sgznmbeMT
- dd8NY6y46BZJQwAgku6L+IZRFvfOQsSg4Mz1X0fWiHovv/QSkvxmZUwSvamdNdxSdwBq
- 2stbLL6P35LFgUFBfktBb0HfzzeM0PunPn2cWhMM9P8mVdZ1NS+ypQ0NtvP8iLOEyWEi
- 1Qm2Jag2vclIxuukeRoCT5yd769VWHObwcLk1RE4g7VrIgnkAoUM/sNoWbB9+RTNgj0v
- ShjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744651639; x=1745256439;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8PS+7NrCXvFh78LgYOMEcDp3CqAjYw7INI4pqlwq6ZE=;
- b=kA8sy0qsRg/FZmoJ8i3+b8OpGdvb3dZeR5PMzlTYXvE0yfpsgGZJWNy3yFXKljiqrS
- RBy3pW/jZqWhAeRuussdDvARd/USp/Tu5pwwZfgTZFV6gs44aiRuBzgQG8haBr25qdPA
- s+4D+nXrIVVhyQaIQDUneO/JO659544xrWEXdXLeIoWdrl7q/8xpzpuQ9uTt1R06L6/+
- G4TSaiWvqB2fwYU2D7rTvbIhb+tgc5PGYtHtJA9zjWbbAmY0Lb5OR+DYQ5KEcG12dlFK
- ITWnxu5P7+/nSCSI/c+sfKVtOlVA5syJjp+2FzqyZQtvWvlRqXsDNfMjySUUVA2R3t+R
- ZWWA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnhBk+l+J8LncphPQjVokkvlm8pAZ8ANhL/gB/bXldZW3gLJhOvuGHhKnsGigaMzO1omkPnJ8ettA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPZ4lYRt4cS4RiraD6phE57yWswZIO5yVZP4omrFADSitJcK5l
- bOn+xkRhXDSbS18IgNb5n0jvhJPvu27eGyWVNSOtCC64gknHdaee
-X-Gm-Gg: ASbGncsQUFExJwkRPSCyGzxvVfgB/9LxUZ/77wJJ/mNbuA7ZeW/FwsUwvFIt7Q4HD2v
- BBgR2BMnikzC8NeeugKsZwWXff8k0vPo6+HwY9aRs0HGz7jt+Gn23/grbvpZq/lvzFlJ0n7a+VC
- IomFQ1qpQX8+zAczR5csuISGufWgynIPrwnDPyjihC3WOgXdU8rQXOVmB+MvaxDIiGp5LXenW7C
- wqs0mJaFkP+RWMEIB8LQMa1wRWVz2LnDxfW/d7c+9zL7jUcBj2S6dluI28K1LIlD2ekHvBISW8k
- bbozkDTkrKMaj9hTGa0t+RAMfj00FF192xg8BmVKBTt1WSdXjMNXE9LCdPSJ5IXb
-X-Google-Smtp-Source: AGHT+IEp7r9YxWiM4xhC1mKgcSVKvPC/QbHZ1HUoak4rVDR6Z2EuPXqvQyBXdFtNGqAhoUvFI2vUJA==
-X-Received: by 2002:a2e:bc26:0:b0:30b:b8e6:86d7 with SMTP id
- 38308e7fff4ca-310499faea9mr45815661fa.22.1744651638296; 
- Mon, 14 Apr 2025 10:27:18 -0700 (PDT)
-Received: from PilotMainTrash.lan ([178.34.180.83])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30f464cc441sm17806061fa.35.2025.04.14.10.27.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Apr 2025 10:27:17 -0700 (PDT)
-From: Alexander Baransky <sanyapilot496@gmail.com>
-To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org
-Cc: Alexander Baransky <sanyapilot496@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] drm/panel: Add Visionox G2647FB105 panel driver
-Date: Mon, 14 Apr 2025 20:26:32 +0300
-Message-ID: <20250414172637.197792-3-sanyapilot496@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250414172637.197792-1-sanyapilot496@gmail.com>
-References: <20250414172637.197792-1-sanyapilot496@gmail.com>
+X-Greylist: delayed 2104 seconds by postgrey-1.36 at gabe;
+ Mon, 14 Apr 2025 17:44:00 UTC
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7633910E093
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 17:44:00 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53EHhkq02220803
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Apr 2025 12:43:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1744652626;
+ bh=uSa+mwmKRsBHbiI7E5dH/18NMyqtwpzqZyLK302xmvo=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=Bm1lAKflwAMgYAOCL2yVsM2jB/fBUu3cn1FssnlehWq6jbcwdnhFGtpOkaQ0gZKiy
+ tnQGJ1/oyRbco7PFdmQi19tAi/12G9iF+CFgwog6SSPDSQ6oHlzaSBUwohh+6fYcqQ
+ B51L9202lDKSXg9tvYPehbLnuSnTLVOBA906nzUc=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53EHhk8m016722
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 14 Apr 2025 12:43:46 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 14
+ Apr 2025 12:43:45 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 14 Apr 2025 12:43:45 -0500
+Received: from [10.249.42.149] ([10.249.42.149])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53EHhjq3117844;
+ Mon, 14 Apr 2025 12:43:45 -0500
+Message-ID: <b3391234-ea53-4a18-a1e3-b8a92d9dff5d@ti.com>
+Date: Mon, 14 Apr 2025 12:43:44 -0500
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] dma-buf: heaps: Introduce a new heap for reserved
+ memory
+To: "T.J. Mercier" <tjmercier@google.com>, Maxime Ripard <mripard@kernel.org>
+CC: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Mattijs Korpershoek <mkorpershoek@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>
+References: <20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org>
+ <20250407-dma-buf-ecc-heap-v3-2-97cdd36a5f29@kernel.org>
+ <CABdmKX0=Er-y41roEuZjGZ95YzMxt-mPd9K5982fm_eWhtX5vw@mail.gmail.com>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <CABdmKX0=Er-y41roEuZjGZ95YzMxt-mPd9K5982fm_eWhtX5vw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,337 +82,463 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the driver for Visionox G2647FB105 6.47" FHD Plus CMD mode AMOLED panel
-support found in:
-- Xiaomi Mi Note 10 / CC9 Pro (sm7150-xiaomi-tucana)
-- Xiaomi Mi Note 10 Lite (sm7150-xiaomi-toco)
+On 4/11/25 3:26 PM, T.J. Mercier wrote:
+> On Mon, Apr 7, 2025 at 9:29 AM Maxime Ripard <mripard@kernel.org> wrote:
+>>
+>> Some reserved memory regions might have particular memory setup or
+>> attributes that make them good candidates for heaps.
+>>
+>> Let's provide a heap type that will create a new heap for each reserved
+>> memory region flagged as such.
+>>
+>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> 
+> This patch looks good to me, but I think it'd be good to add more
+> justification like you did at
+> https://lore.kernel.org/all/20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org
+> 
+>> ---
+>>   drivers/dma-buf/heaps/Kconfig         |   8 +
+>>   drivers/dma-buf/heaps/Makefile        |   1 +
+>>   drivers/dma-buf/heaps/carveout_heap.c | 360 ++++++++++++++++++++++++++++++++++
+>>   3 files changed, 369 insertions(+)
+>>
+>> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+>> index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..c6981d696733b4d8d0c3f6f5a37d967fd6a1a4a2 100644
+>> --- a/drivers/dma-buf/heaps/Kconfig
+>> +++ b/drivers/dma-buf/heaps/Kconfig
+>> @@ -1,5 +1,13 @@
+>> +config DMABUF_HEAPS_CARVEOUT
+>> +       bool "Carveout Heaps"
+>> +       depends on DMABUF_HEAPS
+>> +       help
+>> +         Choose this option to enable the carveout dmabuf heap. The carveout
+>> +         heap is backed by pages from reserved memory regions flagged as
+>> +         exportable. If in doubt, say Y.
+>> +
+>>   config DMABUF_HEAPS_SYSTEM
+>>          bool "DMA-BUF System Heap"
+>>          depends on DMABUF_HEAPS
+>>          help
+>>            Choose this option to enable the system dmabuf heap. The system heap
+>> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
+>> index 974467791032ffb8a7aba17b1407d9a19b3f3b44..b734647ad5c84f449106748160258e372f153df2 100644
+>> --- a/drivers/dma-buf/heaps/Makefile
+>> +++ b/drivers/dma-buf/heaps/Makefile
+>> @@ -1,3 +1,4 @@
+>>   # SPDX-License-Identifier: GPL-2.0
+>> +obj-$(CONFIG_DMABUF_HEAPS_CARVEOUT)    += carveout_heap.o
+>>   obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      += system_heap.o
+>>   obj-$(CONFIG_DMABUF_HEAPS_CMA)         += cma_heap.o
+>> diff --git a/drivers/dma-buf/heaps/carveout_heap.c b/drivers/dma-buf/heaps/carveout_heap.c
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..f7198b781ea57f4f60e554d917c9277e9a716b16
+>> --- /dev/null
+>> +++ b/drivers/dma-buf/heaps/carveout_heap.c
+>> @@ -0,0 +1,360 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +#include <linux/dma-buf.h>
+>> +#include <linux/dma-heap.h>
+>> +#include <linux/genalloc.h>
+>> +#include <linux/highmem.h>
+>> +#include <linux/of_reserved_mem.h>
+>> +
+>> +struct carveout_heap_priv {
+>> +       struct dma_heap *heap;
+>> +       struct gen_pool *pool;
+>> +};
+>> +
+>> +struct carveout_heap_buffer_priv {
+>> +       struct mutex lock;
+>> +       struct list_head attachments;
+>> +
+>> +       unsigned long num_pages;
+>> +       struct carveout_heap_priv *heap;
+>> +       dma_addr_t daddr;
+>> +       void *vaddr;
+>> +       unsigned int vmap_cnt;
+>> +};
+>> +
+>> +struct carveout_heap_attachment {
+>> +       struct list_head head;
+>> +       struct sg_table table;
+>> +
+>> +       struct device *dev;
+>> +       bool mapped;
+>> +};
+>> +
+>> +static int carveout_heap_attach(struct dma_buf *buf,
+>> +                               struct dma_buf_attachment *attachment)
+>> +{
+>> +       struct carveout_heap_buffer_priv *priv = buf->priv;
+>> +       struct carveout_heap_attachment *a;
+>> +       struct sg_table *sgt;
+>> +       unsigned long len = priv->num_pages * PAGE_SIZE;
+>> +       int ret;
+>> +
+>> +       a = kzalloc(sizeof(*a), GFP_KERNEL);
+>> +       if (!a)
+>> +               return -ENOMEM;
+>> +       INIT_LIST_HEAD(&a->head);
+>> +       a->dev = attachment->dev;
+>> +       attachment->priv = a;
+>> +
+>> +       sgt = &a->table;
+>> +       ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
+>> +       if (ret)
+>> +               goto err_cleanup_attach;
+>> +
+>> +       sg_dma_address(sgt->sgl) = priv->daddr;
+>> +       sg_dma_len(sgt->sgl) = len;
+>> +
+>> +       mutex_lock(&priv->lock);
+>> +       list_add(&a->head, &priv->attachments);
+>> +       mutex_unlock(&priv->lock);
+>> +
+>> +       return 0;
+>> +
+>> +err_cleanup_attach:
+>> +       kfree(a);
+>> +       return ret;
+>> +}
+>> +
+>> +static void carveout_heap_detach(struct dma_buf *dmabuf,
+>> +                                struct dma_buf_attachment *attachment)
+>> +{
+>> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
+>> +       struct carveout_heap_attachment *a = attachment->priv;
+>> +
+>> +       mutex_lock(&priv->lock);
+>> +       list_del(&a->head);
+>> +       mutex_unlock(&priv->lock);
+>> +
+>> +       sg_free_table(&a->table);
+>> +       kfree(a);
+>> +}
+>> +
+>> +static struct sg_table *
+>> +carveout_heap_map_dma_buf(struct dma_buf_attachment *attachment,
+>> +                         enum dma_data_direction direction)
+>> +{
+>> +       struct carveout_heap_attachment *a = attachment->priv;
+>> +       struct sg_table *table = &a->table;
+>> +       int ret;
+>> +
+>> +       ret = dma_map_sgtable(a->dev, table, direction, 0);
+>> +       if (ret)
+>> +               return ERR_PTR(-ENOMEM);
+> 
+> Not ERR_PTR(ret)? This is already converted to ENOMEM by
+> dma_buf_map_attachment before leaving the dmabuf code, but it might be
+> nice to retain the error type internally. The two existing heaps
+> aren't consistent about this, and I have a slight preference to
+> propagate the error here.
+> 
+>> +
+>> +       a->mapped = true;
+>> +
+>> +       return table;
+>> +}
+>> +
+>> +static void carveout_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
+>> +                                       struct sg_table *table,
+>> +                                       enum dma_data_direction direction)
+>> +{
+>> +       struct carveout_heap_attachment *a = attachment->priv;
+>> +
+>> +       a->mapped = false;
+>> +       dma_unmap_sgtable(a->dev, table, direction, 0);
+>> +}
+>> +
+>> +static int
+>> +carveout_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+>> +                                      enum dma_data_direction direction)
+>> +{
+>> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
+>> +       struct carveout_heap_attachment *a;
+>> +       unsigned long len = priv->num_pages * PAGE_SIZE;
+>> +
+>> +       mutex_lock(&priv->lock);
+>> +
+>> +       if (priv->vmap_cnt > 0)
+>> +               invalidate_kernel_vmap_range(priv->vaddr, len);
+>> +
+>> +       list_for_each_entry(a, &priv->attachments, head) {
+>> +               if (!a->mapped)
+>> +                       continue;
+>> +
+>> +               dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
+>> +       }
+>> +
+>> +       mutex_unlock(&priv->lock);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int
+>> +carveout_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+>> +                                    enum dma_data_direction direction)
+>> +{
+>> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
+>> +       struct carveout_heap_attachment *a;
+>> +       unsigned long len = priv->num_pages * PAGE_SIZE;
+>> +
+>> +       mutex_lock(&priv->lock);
+>> +
+>> +       if (priv->vmap_cnt > 0)
+>> +               flush_kernel_vmap_range(priv->vaddr, len);
+>> +
+>> +       list_for_each_entry(a, &priv->attachments, head) {
+>> +               if (!a->mapped)
+>> +                       continue;
+>> +
+>> +               dma_sync_sgtable_for_device(a->dev, &a->table, direction);
+>> +       }
+>> +
+>> +       mutex_unlock(&priv->lock);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int carveout_heap_mmap(struct dma_buf *dmabuf,
+>> +                             struct vm_area_struct *vma)
+>> +{
+>> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
+>> +       unsigned long len = priv->num_pages * PAGE_SIZE;
+>> +       struct page *page = virt_to_page(priv->vaddr);
+>> +
+>> +       return remap_pfn_range(vma, vma->vm_start, page_to_pfn(page),
+>> +                              len, vma->vm_page_prot);
+>> +}
+>> +
+>> +static int carveout_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
+>> +{
+>> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
+>> +
+>> +       mutex_lock(&priv->lock);
+>> +
+>> +       iosys_map_set_vaddr(map, priv->vaddr);
+>> +       priv->vmap_cnt++;
+>> +
+>> +       mutex_unlock(&priv->lock);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static void carveout_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
+>> +{
+>> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
+>> +
+>> +       mutex_lock(&priv->lock);
+>> +
+>> +       priv->vmap_cnt--;
+>> +       mutex_unlock(&priv->lock);
+>> +
+>> +       iosys_map_clear(map);
+>> +}
+>> +
+>> +static void carveout_heap_dma_buf_release(struct dma_buf *buf)
+>> +{
+>> +       struct carveout_heap_buffer_priv *buffer_priv = buf->priv;
+>> +       struct carveout_heap_priv *heap_priv = buffer_priv->heap;
+>> +       unsigned long len = buffer_priv->num_pages * PAGE_SIZE;
+>> +
+>> +       gen_pool_free(heap_priv->pool, (unsigned long)buffer_priv->vaddr, len);
+>> +       kfree(buffer_priv);
+>> +}
+>> +
+>> +static const struct dma_buf_ops carveout_heap_buf_ops = {
+>> +       .attach         = carveout_heap_attach,
+>> +       .detach         = carveout_heap_detach,
+>> +       .map_dma_buf    = carveout_heap_map_dma_buf,
+>> +       .unmap_dma_buf  = carveout_heap_unmap_dma_buf,
+>> +       .begin_cpu_access       = carveout_heap_dma_buf_begin_cpu_access,
+>> +       .end_cpu_access = carveout_heap_dma_buf_end_cpu_access,
+>> +       .mmap           = carveout_heap_mmap,
+>> +       .vmap           = carveout_heap_vmap,
+>> +       .vunmap         = carveout_heap_vunmap,
+>> +       .release        = carveout_heap_dma_buf_release,
+>> +};
+>> +
+>> +static struct dma_buf *carveout_heap_allocate(struct dma_heap *heap,
+>> +                                             unsigned long len,
+>> +                                             u32 fd_flags,
+>> +                                             u64 heap_flags)
+>> +{
+>> +       struct carveout_heap_priv *heap_priv = dma_heap_get_drvdata(heap);
+>> +       struct carveout_heap_buffer_priv *buffer_priv;
+>> +       DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+>> +       struct dma_buf *buf;
+>> +       dma_addr_t daddr;
+>> +       size_t size = PAGE_ALIGN(len);
+> 
+> This PAGE_ALIGN is not needed since dma_heap_buffer_alloc requires all
+> heap allocations to be page aligned before this function is called.
+> 
+> 
+> 
+> 
+> 
+>> +       void *vaddr;
+>> +       int ret;
+>> +
+>> +       buffer_priv = kzalloc(sizeof(*buffer_priv), GFP_KERNEL);
+>> +       if (!buffer_priv)
+>> +               return ERR_PTR(-ENOMEM);
+>> +
+>> +       INIT_LIST_HEAD(&buffer_priv->attachments);
+>> +       mutex_init(&buffer_priv->lock);
+>> +
+>> +       vaddr = gen_pool_dma_zalloc(heap_priv->pool, size, &daddr);
+>> +       if (!vaddr) {
+>> +               ret = -ENOMEM;
+>> +               goto err_free_buffer_priv;
+>> +       }
+>> +
+>> +       buffer_priv->vaddr = vaddr;
+>> +       buffer_priv->daddr = daddr;
+>> +       buffer_priv->heap = heap_priv;
+>> +       buffer_priv->num_pages = size >> PAGE_SHIFT;
+>> +
+>> +       /* create the dmabuf */
+>> +       exp_info.exp_name = dma_heap_get_name(heap);
+>> +       exp_info.ops = &carveout_heap_buf_ops;
+>> +       exp_info.size = size;
+>> +       exp_info.flags = fd_flags;
+>> +       exp_info.priv = buffer_priv;
+>> +
+>> +       buf = dma_buf_export(&exp_info);
+>> +       if (IS_ERR(buf)) {
+>> +               ret = PTR_ERR(buf);
+>> +               goto err_free_buffer;
+>> +       }
+>> +
+>> +       return buf;
+>> +
+>> +err_free_buffer:
+>> +       gen_pool_free(heap_priv->pool, (unsigned long)vaddr, len);
+>> +err_free_buffer_priv:
+>> +       kfree(buffer_priv);
+>> +
+>> +       return ERR_PTR(ret);
+>> +}
+>> +
+>> +static const struct dma_heap_ops carveout_heap_ops = {
+>> +       .allocate = carveout_heap_allocate,
+>> +};
+>> +
+>> +static int __init carveout_heap_setup(struct device_node *node)
+>> +{
+>> +       struct dma_heap_export_info exp_info = {};
+>> +       const struct reserved_mem *rmem;
+>> +       struct carveout_heap_priv *priv;
+>> +       struct dma_heap *heap;
+>> +       struct gen_pool *pool;
+>> +       void *base;
+>> +       int ret;
+>> +
+>> +       rmem = of_reserved_mem_lookup(node);
+>> +       if (!rmem)
+>> +               return -EINVAL;
+>> +
+>> +       priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+>> +       if (!priv)
+>> +               return -ENOMEM;
+>> +
+>> +       pool = gen_pool_create(PAGE_SHIFT, NUMA_NO_NODE);
+>> +       if (!pool) {
+>> +               ret = -ENOMEM;
+>> +               goto err_cleanup_heap;
+>> +       }
+>> +       priv->pool = pool;
+>> +
+>> +       base = memremap(rmem->base, rmem->size, MEMREMAP_WB);
 
-Signed-off-by: Alexander Baransky <sanyapilot496@gmail.com>
----
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-visionox-g2647fb105.c | 280 ++++++++++++++++++
- 3 files changed, 290 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-visionox-g2647fb105.c
+Why add a mapping here? What if the carveout is never mapped by the CPU
+(or maybe it shouldn't be mapped for some reason). Instead you could
+make the map at map time. I do it that way in our evil vendor tree
+version of this driver for reference[0].
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index e059b06e0239..8b73f1e8bef4 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -996,6 +996,15 @@ config DRM_PANEL_TRULY_NT35597_WQXGA
- 	  Say Y here if you want to enable support for Truly NT35597 WQXGA Dual DSI
- 	  Video Mode panel
- 
-+config DRM_PANEL_VISIONOX_G2647FB105
-+	tristate "Visionox G2647FB105"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for the Visionox
-+	  G2647FB105 (2340x1080@60Hz) AMOLED DSI cmd mode panel.
-+
- config DRM_PANEL_VISIONOX_R66451
- 	tristate "Visionox R66451"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 1bb8ae46b59b..911400bca51a 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -101,6 +101,7 @@ obj-$(CONFIG_DRM_PANEL_TPO_TD028TTEC1) += panel-tpo-td028ttec1.o
- obj-$(CONFIG_DRM_PANEL_TPO_TD043MTEA1) += panel-tpo-td043mtea1.o
- obj-$(CONFIG_DRM_PANEL_TPO_TPG110) += panel-tpo-tpg110.o
- obj-$(CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA) += panel-truly-nt35597.o
-+obj-$(CONFIG_DRM_PANEL_VISIONOX_G2647FB105) += panel-visionox-g2647fb105.o
- obj-$(CONFIG_DRM_PANEL_VISIONOX_RM69299) += panel-visionox-rm69299.o
- obj-$(CONFIG_DRM_PANEL_VISIONOX_RM692E5) += panel-visionox-rm692e5.o
- obj-$(CONFIG_DRM_PANEL_VISIONOX_VTDR6130) += panel-visionox-vtdr6130.o
-diff --git a/drivers/gpu/drm/panel/panel-visionox-g2647fb105.c b/drivers/gpu/drm/panel/panel-visionox-g2647fb105.c
-new file mode 100644
-index 000000000000..413849f7b4de
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-visionox-g2647fb105.c
-@@ -0,0 +1,280 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
-+ *   Copyright (c) 2013, The Linux Foundation. All rights reserved.
-+ *   Copyright (c) 2025, Alexander Baransky <sanyapilot496@gmail.com>
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+struct visionox_g2647fb105 {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data *supplies;
-+};
-+
-+static const struct regulator_bulk_data visionox_g2647fb105_supplies[] = {
-+	{ .supply = "vdd3p3" },
-+	{ .supply = "vddio" },
-+	{ .supply = "vsn" },
-+	{ .supply = "vsp" },
-+};
-+
-+static inline
-+struct visionox_g2647fb105 *to_visionox_g2647fb105(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct visionox_g2647fb105, panel);
-+}
-+
-+static void visionox_g2647fb105_reset(struct visionox_g2647fb105 *ctx)
-+{
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	usleep_range(1000, 2000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(10000, 11000);
-+}
-+
-+static int visionox_g2647fb105_on(struct visionox_g2647fb105 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
-+
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x70, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0x40);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4d, 0x32);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0x40);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbe, 0x17);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbf, 0xbb);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc0, 0xdd);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0xff);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0xd0);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x03, 0x24);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x04, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0x00);
-+
-+	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-+	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 0x0000);
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 100);
-+
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+
-+	return dsi_ctx.accum_err;
-+}
-+
-+static int visionox_g2647fb105_off(struct visionox_g2647fb105 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
-+
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 50);
-+
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 20);
-+
-+	return dsi_ctx.accum_err;
-+}
-+
-+static int visionox_g2647fb105_prepare(struct drm_panel *panel)
-+{
-+	struct visionox_g2647fb105 *ctx = to_visionox_g2647fb105(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(visionox_g2647fb105_supplies), ctx->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+
-+	visionox_g2647fb105_reset(ctx);
-+
-+	ret = visionox_g2647fb105_on(ctx);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int visionox_g2647fb105_unprepare(struct drm_panel *panel)
-+{
-+	struct visionox_g2647fb105 *ctx = to_visionox_g2647fb105(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	ret = visionox_g2647fb105_off(ctx);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	regulator_bulk_disable(ARRAY_SIZE(visionox_g2647fb105_supplies), ctx->supplies);
-+
-+	return 0;
-+}
-+
-+static const struct drm_display_mode visionox_g2647fb105_mode = {
-+	.clock = (1080 + 28 + 4 + 36) * (2340 + 8 + 4 + 4) * 60 / 1000,
-+	.hdisplay = 1080,
-+	.hsync_start = 1080 + 28,
-+	.hsync_end = 1080 + 28 + 4,
-+	.htotal = 1080 + 28 + 4 + 36,
-+	.vdisplay = 2340,
-+	.vsync_start = 2340 + 8,
-+	.vsync_end = 2340 + 8 + 4,
-+	.vtotal = 2340 + 8 + 4 + 4,
-+	.width_mm = 69,
-+	.height_mm = 149,
-+};
-+
-+static int visionox_g2647fb105_get_modes(struct drm_panel *panel,
-+					struct drm_connector *connector)
-+{
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, &visionox_g2647fb105_mode);
-+	if (!mode)
-+		return -ENOMEM;
-+
-+	drm_mode_set_name(mode);
-+
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs visionox_g2647fb105_panel_funcs = {
-+	.prepare = visionox_g2647fb105_prepare,
-+	.unprepare = visionox_g2647fb105_unprepare,
-+	.get_modes = visionox_g2647fb105_get_modes,
-+};
-+
-+static int visionox_g2647fb105_bl_update_status(struct backlight_device *bl)
-+{
-+	struct mipi_dsi_device *dsi = bl_get_data(bl);
-+	u16 brightness = backlight_get_brightness(bl);
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
-+	if (ret < 0)
-+		return ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops visionox_g2647fb105_bl_ops = {
-+	.update_status = visionox_g2647fb105_bl_update_status,
-+};
-+
-+static struct backlight_device *
-+visionox_g2647fb105_create_backlight(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	const struct backlight_properties props = {
-+		.type = BACKLIGHT_RAW,
-+		.brightness = 1023,
-+		.max_brightness = 2047,
-+	};
-+
-+	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
-+					      &visionox_g2647fb105_bl_ops, &props);
-+}
-+
-+static int visionox_g2647fb105_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct visionox_g2647fb105 *ctx;
-+	int ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ret = devm_regulator_bulk_get_const(dev,
-+					    ARRAY_SIZE(visionox_g2647fb105_supplies),
-+					    visionox_g2647fb105_supplies,
-+					    &ctx->supplies);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to get regulators\n");
-+
-+	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ctx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-+				     "Failed to get reset-gpios\n");
-+
-+	ctx->dsi = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
-+
-+	ctx->panel.prepare_prev_first = true;
-+
-+	drm_panel_init(&ctx->panel, dev, &visionox_g2647fb105_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+	ctx->panel.prepare_prev_first = true;
-+
-+	ctx->panel.backlight = visionox_g2647fb105_create_backlight(dsi);
-+	if (IS_ERR(ctx->panel.backlight))
-+		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
-+				     "Failed to create backlight\n");
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = devm_mipi_dsi_attach(dev, dsi);
-+	if (ret < 0) {
-+		drm_panel_remove(&ctx->panel);
-+		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
-+	}
-+
-+	return 0;
-+}
-+
-+static void visionox_g2647fb105_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct visionox_g2647fb105 *ctx = mipi_dsi_get_drvdata(dsi);
-+	drm_panel_remove(&ctx->panel);
-+}
-+
-+static const struct of_device_id visionox_g2647fb105_of_match[] = {
-+	{ .compatible = "visionox,g2647fb105" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, visionox_g2647fb105_of_match);
-+
-+static struct mipi_dsi_driver visionox_g2647fb105_driver = {
-+	.probe = visionox_g2647fb105_probe,
-+	.remove = visionox_g2647fb105_remove,
-+	.driver = {
-+		.name = "panel-visionox-g2647fb105",
-+		.of_match_table = visionox_g2647fb105_of_match,
-+	},
-+};
-+module_mipi_dsi_driver(visionox_g2647fb105_driver);
-+
-+MODULE_AUTHOR("Alexander Baransky <sanyapilot496@gmail.com>");
-+MODULE_DESCRIPTION("DRM driver for Visionox G2647FB105 AMOLED DSI panel");
-+MODULE_LICENSE("GPL");
--- 
-2.49.0
+>> +       if (!base) {
+>> +               ret = -ENOMEM;
+>> +               goto err_release_mem_region;
+>> +       }
+>> +
+>> +       ret = gen_pool_add_virt(pool, (unsigned long)base, rmem->base,
+>> +                               rmem->size, NUMA_NO_NODE);
+>> +       if (ret)
+>> +               goto err_unmap;
+>> +
+>> +       exp_info.name = node->full_name;
 
+So this is the only part that concerns me. We really got the user exposed
+naming wrong with the CMA Heap IMHO (probably should have been always called
+"default_cma" or somthing, instead it changes based on how the default CMA
+area was defined).
+
+If the name of the heap is how users select the heap, it needs to be consistent.
+And naming it after the node makes the DT name into ABI. It also means it will
+change based on device, or even based on how it is created. What if this same
+reserved region is defined by ACPI instead of DT in some cases, or from kernel
+command-line, etc.. Makes for bad ABI :(
+
+Maybe in addition to the "export" property, in the DT node we have a "heap-name"
+that can be set which then defines what name is presented to userspace. At
+very least that allows us to kick the can down the road till we can figure out
+what good portable Heap names should look like.
+
+Andrew
+
+[0] https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/tree/drivers/dma-buf/heaps/carveout-heap.c?h=ti-linux-6.12.y
+
+>> +       exp_info.ops = &carveout_heap_ops;
+>> +       exp_info.priv = priv;
+>> +
+>> +       heap = dma_heap_add(&exp_info);
+>> +       if (IS_ERR(heap)) {
+>> +               ret = PTR_ERR(heap);
+>> +               goto err_cleanup_pool_region;
+>> +       }
+>> +       priv->heap = heap;
+>> +
+>> +       return 0;
+>> +
+>> +err_cleanup_pool_region:
+>> +       gen_pool_free(pool, (unsigned long)base, rmem->size);
+>> +err_unmap:
+>> +       memunmap(base);
+>> +err_release_mem_region:
+>> +       gen_pool_destroy(pool);
+>> +err_cleanup_heap:
+>> +       kfree(priv);
+>> +       return ret;
+>> +}
+>> +
+>> +static int __init carveout_heap_init(void)
+>> +{
+>> +       struct device_node *rmem_node;
+>> +       struct device_node *node;
+>> +       int ret;
+>> +
+>> +       rmem_node = of_find_node_by_path("/reserved-memory");
+>> +       if (!rmem_node)
+>> +               return 0;
+>> +
+>> +       for_each_child_of_node(rmem_node, node) {
+>> +               if (!of_property_read_bool(node, "export"))
+>> +                       continue;
+>> +
+>> +               ret = carveout_heap_setup(node);
+>> +               if (ret)
+>> +                       return ret;
+>> +       }
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +module_init(carveout_heap_init);
+>>
+>> --
+>> 2.49.0
+>>
