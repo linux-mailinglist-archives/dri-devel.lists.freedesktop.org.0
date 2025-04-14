@@ -2,94 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37EBCA87BF7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 11:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE381A87C2C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 11:49:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C098210E03F;
-	Mon, 14 Apr 2025 09:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E55A10E510;
+	Mon, 14 Apr 2025 09:49:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f2IE+SLi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TV/U5cCi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 194F710E03F;
- Mon, 14 Apr 2025 09:35:29 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-43cf0d787eeso46837125e9.3; 
- Mon, 14 Apr 2025 02:35:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744623327; x=1745228127; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1ReQI8fCjbqB0sMWedrxivkrJnzKXv16ZXvVj7cgD7w=;
- b=f2IE+SLiZpnz1DM+pC7aDPQw9P1kbdvohZjfWc2Ew5/218kl0/ehVET92Z/bxP+ntg
- zwEagH5TF3zUXbmrH1XxMwAGZdg27GRu7DF5uNxSgCssOoKrZZsHioYD0hT6JaMDmEDs
- 9igiQSYsGPHCgG0XV5/r/WkLLVP8ssxScJnOY2WTxAknv+JLDYG9mYUg/e69PRg17kBI
- Bc9EDuzAS+kHrGjlElfIN4edXT+f1TxHsvZuQ6PSc0d+jiANVv00HX7/AMUWYNP9TcG7
- NaY/WzVUOLysx7r8poha5E/h7gDwJl56MSoQSQSw3dbcEh2J/9dmOh6lsP0fT1bsXRp1
- jq/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744623327; x=1745228127;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1ReQI8fCjbqB0sMWedrxivkrJnzKXv16ZXvVj7cgD7w=;
- b=n1S85Oiru/rd2Uh9ELRXa7NOvecjU6nw9bc1TXeMFF1GJNHibb6HO034zSwM2jasYQ
- FNC4lehqpkpdaM/VDx5Cihl0BShG/E0ENevSL9/Dbn4WB/1Hk/askRIFDa+DpANGx3p0
- SO/UxqGzO1T01UY32GQSgHbTnwSq5IZHTH2x3cDM8hH85tDeUOLPhQbwRd0973krwATq
- 0wMjsQ96npaO8VtfS6OQ0jlTtgGC/YpsHnBDKzNEq9Q/zxiztuarGwlooYu0fD1CDM0C
- 8kPx+kJ5a3NixHVc9rnf6i+c+bck2eIzPxYmJV0/WBp6nDlxfh7n/cx1pkWKwmxmgzvk
- KTwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUqsRFR52zdyqlIk0sXeIMUimCgWf2MvxtRuR1o8ufgZnqwawVwAE9gFXh2jreHkDYdzd54I7or@lists.freedesktop.org,
- AJvYcCXhp/xtrkoOZtU0NoypGSBl3sabEv/fFtFbivDSYVr1+DmFkK5V9mF2NhClunDX/Y/1dlypOCMvaM/F@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxEa/9WPifuRfcQnA28VBIGqGl1kHwhn6zmKqP16QgEP2hldDVF
- em/3Vf8J5OSYqdLf1bDJP9SE+erYoPlR37xhwBg4xt2hLyyQvbyt
-X-Gm-Gg: ASbGncuIFBcMIe6J8ZJ9HsKZjRt0kK5UBMpGuU5Z8c1XROKjFVU3JHqAASzpHgVXj40
- jSVNN2XMpZZN4rraqbKm0YCMbNOL0Q+iYneqO4t4uU/XIe7iKhUQAnhZYTfP0E0/caIzNdfFxWN
- x3w4LTXtKEEcjznvj3ilnx8ZtUGtqWHNcvMNuA/CMwlIVSZCKoQQIw9aDiX8MInhlwSi41nPm31
- rrAl4O6wJfIDTRnbI7m6jifRHkRdeIzJPQ+k5fJQi6+3M0M+MrUzBU8mD4BgtkIjgZWcDCvu4pp
- ZyaGF3b0Z3eCXUxoDVPgllmDZQ6KIAIYGUT6JIVEXqwQJhSfiAs8zl+RlyUP32n9U0mN2A==
-X-Google-Smtp-Source: AGHT+IFiIGr5NntN9eiv+X0gsiCw+Hdtz7/Xb6Uz5r7mI+EQClj1RzPK0mSFcrdIvisSut9yt1ZlrA==
-X-Received: by 2002:a7b:c047:0:b0:43c:ec97:75db with SMTP id
- 5b1f17b1804b1-43f41fffc3amr55868505e9.11.1744623327064; 
- Mon, 14 Apr 2025 02:35:27 -0700 (PDT)
-Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43f2338db0dsm175261215e9.7.2025.04.14.02.35.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Apr 2025 02:35:26 -0700 (PDT)
-Message-ID: <44f0bf71-c689-46de-bfdc-e4a24b9fb921@gmail.com>
-Date: Mon, 14 Apr 2025 11:35:24 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63EB410E510;
+ Mon, 14 Apr 2025 09:49:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744624155; x=1776160155;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ndzYPRIDm/AVgAGmvgd5p3a/hBleFEOnvNJbaFIqhS0=;
+ b=TV/U5cCiSms6akoWEf9ApX6n7dZ842ebHV0sBJROpYNdHoZhL9H/1+xA
+ HW1+7OboGSnNwaMkzAPT3TbY6rdqF0+0tQegbswQ1fK5/xKuaN5hwU5uy
+ nxJZt3D+OlIVd8SBOZb4rxrulOgpITYwnl3JbbE0Z5FziIwsddVLDzr0L
+ BvcMMpiafgIm+WhlR9R+hN/TK0syPer/JLI66rHFTfCyrZoypfbqKQU+7
+ tMyTsoqAWDoPli9cpQlzZXgvfcEnJm14nfgM8kaxpYeLTt/4cDFrpRW+6
+ LjS9wPkA6pNmjzIm7nOBYuOrH4KM9TzGblyti4uofLhnnsfXKj5wWpExd w==;
+X-CSE-ConnectionGUID: VGnI7a4YTLaojedytYQvrw==
+X-CSE-MsgGUID: 0u3ZASr4QAm0VQeAPU/wkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="45222588"
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; d="scan'208";a="45222588"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2025 02:49:15 -0700
+X-CSE-ConnectionGUID: +n11DQa5QV+XqyUoJY2YtA==
+X-CSE-MsgGUID: vuGzZh5QTsiWpLUTN3ez2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; d="scan'208";a="152954810"
+Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2025 02:49:09 -0700
+From: Alexander Usyskin <alexander.usyskin@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Karthik Poosa <karthik.poosa@intel.com>
+Cc: Reuven Abliyev <reuven.abliyev@intel.com>,
+ Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Alexander Usyskin <alexander.usyskin@intel.com>
+Subject: [PATCH v8 00/12] mtd: add driver for Intel discrete graphics
+Date: Mon, 14 Apr 2025 12:37:51 +0300
+Message-ID: <20250414093803.2133463-1-alexander.usyskin@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [lvc-project] [PATCH] drm/amdgpu: check a user-provided number of
- BOs in list
-To: Fedor Pchelkin <pchelkin@ispras.ru>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Denis Arefev <arefev@swemel.ru>, Alex Deucher <alexander.deucher@amd.com>,
- Simona Vetter <simona@ffwll.ch>, lvc-project@linuxtesting.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, David Airlie <airlied@gmail.com>
-References: <e6ccef21-3ca5-4b5a-b18a-3ba45859569c@amd.com>
- <bmdour3gw4tuwqgvvw764p4ot3nnltqm4e7n3edlbtpfazvp5c@cqe5dwgc66uy>
- <f8810b13-01d1-4615-b6e2-2e791c48b466@amd.com>
- <qc72y52kt7vuwox4lhk42zligy5bslttselfoexse42mywtpps@ebqijs2tap2t>
- <edc08eb4-63dd-402c-82df-af6898d499a9@amd.com>
- <pmby7iowvxuomsbuxebttosz245j7ngw5enbl72dq675nrgvve@ugkvzeihbtut>
- <CAHk-=whLixL8-iYt1qH0-YvEnVsYtryZaN5Da0qoBBhKsBnumw@mail.gmail.com>
- <437e12e2-ac0d-4a97-bd55-39ee03979526@amd.com>
- <CAHk-=wjLQzkTTDwJ+ZdVdgNKMg958petkdsu-+m7s9UL6PVCRg@mail.gmail.com>
- <b7286f30-15ac-4803-b204-0fe6f2423f73@amd.com>
- <fgd6hrllcwj2guhr4mwzfblhausluczprlbjqhsqiqeshoq2g2@jgi4rgufn6wx>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <fgd6hrllcwj2guhr4mwzfblhausluczprlbjqhsqiqeshoq2g2@jgi4rgufn6wx>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -106,46 +80,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.04.25 um 13:31 schrieb Fedor Pchelkin:
-> On Thu, 10. Apr 11:07, Christian König wrote:
->> Am 09.04.25 um 19:27 schrieb Linus Torvalds:
->>> The VM layer allows larger allocations. But the "this is a simple
->>> allocation, choose kmalloc or vmalloc automatically based on size"
->>> helper says "you are being simple, I'm going to check your arguments
->>> are actually sane".
->>>
->>> So the drm code can easily have a function that validates the input
->>> for your specific cases, and then you (a) don't need the helper
->>> function that does the overflow protection and (b) don't want it.
->>>
->>> But it should actually validate arguments for real sanity at that
->>> point. Not just open-code kvmalloc() without the sanity check.
->> Yeah, exactly that has been proposed by driver maintainers before and we just rejected it on the subsystem maintainers level.
->>
->> For this particular use case here I will propose some hopefully high enough hard coded limit, but I can't guarantee that this will work for all use cases.
-> FWIW, the current code anyway has this limit being some sort of 4Gb, not
-> more.
->
-> The resulting calculation of `bytes` wraps at 32 bits albeit itself being
-> of type *unsigned long*.
+Add driver for access to Intel discrete graphics card
+internal NVM device.
+Expose device on auxiliary bus by i915 and Xe drivers and
+provide mtd driver to register this device with MTD framework.
 
-Yeah that is a *much* more serious bug. Thanks for pointing that out.
+This is a rewrite of "drm/i915/spi: spi access for discrete graphics"
+and "spi: add driver for Intel discrete graphics"
+series with connection to the Xe driver and splitting
+the spi driver part to separate module in mtd subsystem.
 
-This should probably be using size_t here and applying the limit to the bo_number before the calculation.
+This series intended to be pushed through drm-xe-next.
 
-And a bo_info_size which doesn't match the expected size should be rejected and not worked around like it currently is.
+V2: Replace dev_* prints with drm_* prints in drm (xe and i915) patches.
+    Enable NVM device on Battlemage HW (xe driver patch)
+    Fix overwrite register address (xe driver patch)
+    Add Rodrigo's r-b
 
-Thanks,
-Christian.
+V3: Use devm_pm_runtime_enable to simplify flow.
+    Drop print in i915 unload that was accidentally set as error.
+    Drop HAS_GSC_NVM macro in line with latest Xe changes.
+    Add more Rodrigo's r-b and Miquel's ack.
 
->
-> 	/* copy the handle array from userspace to a kernel buffer */
-> 	r = -EFAULT;
-> 	if (likely(info_size == in->bo_info_size)) {
-> 		unsigned long bytes = in->bo_number *
-> 			in->bo_info_size;
->
-> 		if (copy_from_user(info, uptr, bytes))
-> 			goto error_free;
->
+V4: Add patch that always creates mtd master device
+    and adjust mtd-intel-dg power management to use this device.
+
+V5: Fix master device creation to accomodate for devices without
+    partitions (create partitoned master in this case)
+    Rebase over latest drm-xe-next
+    Add ack's
+V6: Fix master device release (use rigth idr in release)
+    Rebase over latest drm-xe-next
+    Grammar and style fixes
+
+V7: Add patch with non-posted erase support (fix hang on BMG)
+    Rebase over latest drm-xe-next
+
+V8: Create separate partition device under master device, if requested
+    and configure parent of usual partitions to this partition.
+    Rebase over drm-tip.
+
+Abliyev, Reuven (1):
+  drm/xe/nvm: add support for non-posted erase
+
+Alexander Usyskin (11):
+  mtd: core: always create master device
+  mtd: add driver for intel graphics non-volatile memory device
+  mtd: intel-dg: implement region enumeration
+  mtd: intel-dg: implement access functions
+  mtd: intel-dg: register with mtd
+  mtd: intel-dg: align 64bit read and write
+  mtd: intel-dg: wake card on operations
+  drm/i915/nvm: add nvm device for discrete graphics
+  drm/i915/nvm: add support for access mode
+  drm/xe/nvm: add on-die non-volatile memory device
+  drm/xe/nvm: add support for access mode
+
+ MAINTAINERS                           |   7 +
+ drivers/gpu/drm/i915/Makefile         |   4 +
+ drivers/gpu/drm/i915/i915_driver.c    |   6 +
+ drivers/gpu/drm/i915/i915_drv.h       |   3 +
+ drivers/gpu/drm/i915/i915_reg.h       |   1 +
+ drivers/gpu/drm/i915/intel_nvm.c      | 115 ++++
+ drivers/gpu/drm/i915/intel_nvm.h      |  15 +
+ drivers/gpu/drm/xe/Makefile           |   1 +
+ drivers/gpu/drm/xe/regs/xe_gsc_regs.h |   4 +
+ drivers/gpu/drm/xe/xe_device.c        |   5 +
+ drivers/gpu/drm/xe/xe_device_types.h  |   6 +
+ drivers/gpu/drm/xe/xe_heci_gsc.c      |   5 +-
+ drivers/gpu/drm/xe/xe_nvm.c           | 161 +++++
+ drivers/gpu/drm/xe/xe_nvm.h           |  15 +
+ drivers/gpu/drm/xe/xe_pci.c           |   6 +
+ drivers/mtd/devices/Kconfig           |  11 +
+ drivers/mtd/devices/Makefile          |   1 +
+ drivers/mtd/devices/mtd_intel_dg.c    | 884 ++++++++++++++++++++++++++
+ drivers/mtd/mtdchar.c                 |   2 +-
+ drivers/mtd/mtdcore.c                 | 152 +++--
+ drivers/mtd/mtdcore.h                 |   2 +-
+ drivers/mtd/mtdpart.c                 |  16 +-
+ include/linux/intel_dg_nvm_aux.h      |  29 +
+ include/linux/mtd/partitions.h        |   2 +-
+ 24 files changed, 1398 insertions(+), 55 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/intel_nvm.c
+ create mode 100644 drivers/gpu/drm/i915/intel_nvm.h
+ create mode 100644 drivers/gpu/drm/xe/xe_nvm.c
+ create mode 100644 drivers/gpu/drm/xe/xe_nvm.h
+ create mode 100644 drivers/mtd/devices/mtd_intel_dg.c
+ create mode 100644 include/linux/intel_dg_nvm_aux.h
+
+-- 
+2.43.0
 
