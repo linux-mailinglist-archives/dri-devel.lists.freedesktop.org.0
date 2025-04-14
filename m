@@ -2,73 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF29BA87838
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 08:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74260A8783C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 08:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 862F010E2FD;
-	Mon, 14 Apr 2025 06:51:33 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z/g3vG5j";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1D6310E300;
+	Mon, 14 Apr 2025 06:53:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38A610E2FD
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 06:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744613492; x=1776149492;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=+Ele0F1poW+d98mRXmolJyecgMIOJ5Yg0Z0vGLasXMM=;
- b=Z/g3vG5jTgrIq4nMr7FIb9vTbJ6lW+DWutqEGpAPei7Q0pc7BZOya2je
- VR76uUar+7GHv6iRpulKN/+XoPUTeBJsTmmw3tb+QeixAk4ps5XFXpv95
- WqHCCJ9qiCCHR3zvsXsNChT47hqmzICeA0ywD20axeMrTH9JIaZ24dZvv
- PfPQXjiWQAcljD+E2khNlB11JH6eaarIjWeF0InH34l0MtIWdihjh4mI7
- eaZevKqsYogSddJEPLJ/HeKZrjvi4dceGrNPgEUgmw0rlSOiyb7cYQUJw
- A/PYSFay8FxULA3QVHoi1zU+LYI4SJmbg+idhkvSrx08t3MIiFJq6KfmX A==;
-X-CSE-ConnectionGUID: 8KbUuBSsQTi/sPmAjOHX5Q==
-X-CSE-MsgGUID: wyuBmrhuT9Cm6iBQYmCZQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46203116"
-X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; d="scan'208";a="46203116"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2025 23:51:29 -0700
-X-CSE-ConnectionGUID: g/VZw56JRP6WlA831XPG0Q==
-X-CSE-MsgGUID: TU5W4yAoRUyNfwzJ82kq7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; d="scan'208";a="130279695"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2025 23:51:16 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1u4Dey-0000000C9iZ-2r4k; Mon, 14 Apr 2025 09:51:12 +0300
-Date: Mon, 14 Apr 2025 09:51:12 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, Frank Binns <Frank.Binns@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Arnd Bergmann <arnd@arndb.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 01/10] drm/imagination: avoid unused-const-variable warning
-Message-ID: <Z_ywYNsYjuZy8v9x@smile.fi.intel.com>
-References: <20250409122131.2766719-1-arnd@kernel.org>
- <20250409122314.2848028-1-arnd@kernel.org>
- <7ae4be5c-b115-405e-aa57-caeaa206775b@imgtec.com>
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4719E10E300
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 06:53:15 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.141.245])
+ by APP-05 (Coremail) with SMTP id zQCowABHhQ3WsPxnNSvmCA--.18873S2;
+ Mon, 14 Apr 2025 14:53:12 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: obitton@habana.ai,
+	ogabbay@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
+Subject: [PATCH RESEND] habanalabs: Add error handling for
+ hl_mmu_get_hop_pte_phys_addr()
+Date: Mon, 14 Apr 2025 14:52:42 +0800
+Message-ID: <20250414065242.2150-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7ae4be5c-b115-405e-aa57-caeaa206775b@imgtec.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowABHhQ3WsPxnNSvmCA--.18873S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr4Uuw18JF4Duw15Kr47CFg_yoW8GryfpF
+ n3Kr4rXFy5Jr1UZayUtr1IvF1Yv39xWFy3K3ZFka9093s8X3s7u343W3WSvw4UArWkGan7
+ Zw1kAFs8CF18ZrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvv14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+ AVWUtwCY02Avz4vE14v_GF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+ 1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+ 14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+ IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+ 87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
+ IFyTuYvjfUb9N3UUUUU
+X-Originating-IP: [124.16.141.245]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwoMA2f8nOlFygAAsj
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,26 +61,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 10, 2025 at 11:22:05AM +0000, Matt Coster wrote:
-> On 09/04/2025 13:22, Arnd Bergmann wrote:
+In _hl_mmu_v2_hr_map(), If hl_mmu_get_hop_pte_phys_addr() fail to
+get physical address, the return address will be set as U64_MAX.
+Hence, the return value of hl_mmu_get_hop_pte_phys_addr() must
+be checked to prevent invalid address access. Add error handling
+and propagate return code to caller function to fix this issue.
 
-...
+Fixes: 8aa1e1e60553 ("habanalabs: add gaudi2 MMU support")
+Cc: stable@vger.kernel.org # v6.0+
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-> > Rather than adding more #ifdef blocks, address this by changing the
-> > existing #ifdef into equivalent IS_ENABLED() checks so gcc can see
-> > where the symbol is used but still eliminate it from the object file.
-> 
-> Possibly a silly question, but wouldn't adding __maybe_unused to
-> stid_fmts be a simpler change here?
-
-I'm not Arnd (and I just have read his answer), but I would like to add that
-__maybe_unused should be the last resort as it has more cons than more invasive
-solutions. In particular, it makes build time increase with a lot of work to
-be made at link time, and also it might hide the real bugs when somebody simply
-forgot to use it (depending on the configuration options) or so.
-
+diff --git a/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c b/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
+index 31507b2a431b..cdade07e22c5 100644
+--- a/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
++++ b/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
+@@ -253,6 +253,11 @@ static int _hl_mmu_v2_hr_map(struct hl_ctx *ctx,
+ 		hop_pte_phys_addr[i] = hl_mmu_get_hop_pte_phys_addr(ctx, mmu_prop, i,
+ 									hops_pgt_info[i]->phys_addr,
+ 									scrambled_virt_addr);
++		if (hop_pte_phys_addr[i] == U64_MAX) {
++			rc = -EINVAL;
++			goto err;
++		}
++
+ 		curr_pte = *(u64 *) (uintptr_t) hl_mmu_hr_pte_phys_to_virt(ctx, hops_pgt_info[i],
+ 							hop_pte_phys_addr[i],
+ 							ctx->hdev->asic_prop.pmmu.hop_table_size);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.42.0.windows.2
 
