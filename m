@@ -2,156 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22ED9A88AF7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 20:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF50A88BC6
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 20:53:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43BDC10E10C;
-	Mon, 14 Apr 2025 18:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0671E10E2D6;
+	Mon, 14 Apr 2025 18:53:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Bxb1xCmR";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Idjva7+N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEC6810E10C;
- Mon, 14 Apr 2025 18:24:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Hj6Ohxq07Jh5MN1qtG2fQRdukmmuwYNzM6Q0VQdtxHF857m1sCtZ4+t7CEkekTqP0RVJeYj4mThACjwA94PLDpG4iWh0zKv3SwX607KETmadB8QNwqGcM6lsTN8RzjNtCsj1VSqPGsgZAMehD655JwvU/Iyb/QKMU2fdyUqCb5Lo8+ynNWOt0kWzNT66BKQlITLG0jGSquXrDuc0WTuh3cSuaawkvSP1OQFa8u0YzDCOdD96MWBJVu/W4nXo0YDzjNbLZiQ6LkFiNISSUpzN/uKSp/cL60KdJN0yyz5g+4fQnXkV4DkisoaT8x3CHHK6tilXgMi22qJdLxRvTfb18g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hf5LCGTuLDBqLRvQLTdZvpgk/jrDtSEF+LRat8xdnKU=;
- b=eT74Q9Ptxf6W9UEdfambuW1cwULUJnWzturguiR8UgHcbLqB57zIVsHyxJys+5UrCUsyU8WmIsTI8dp5/UzuzQTPs8UiWM6LLA+lGVy75+Rrv5hBdM5hdSj1lmCLHMu165q9gjYkc7dllLM+ZtCZRfBB246Ut9dLl0X75LiJeeGmm1JuPi9RFOhqR1y23mnAkulnrLxgneUnTcS2qqM99+D3T9s05WPTgALt9wa2b6Wza858rGEmbtVoMhmBQtUxt6eXspmEqzNN5c4vE2YwpZ9g1pAT1eZlyNUsoZPVBYzXFxJL+lpaITMHFkAW2BZZDSa5tnGJymM8B3xYn2hikQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hf5LCGTuLDBqLRvQLTdZvpgk/jrDtSEF+LRat8xdnKU=;
- b=Bxb1xCmRg0XrFafYKzEcNKA+Rhj6xtz5m3mYz5oZub2Hg2W6G+XQo1jSMHN56LP24LWOG+unM5ZOxBvHzHSI8oBOWOG3+Zm2gtO3L0h0ItuPyA8ZzcfDFntPIaMUgNqYEqgLmC5bsu59RVf/UDD82zzHjMJOaalD1+ahrWTNK5Q=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by MN0PR12MB5716.namprd12.prod.outlook.com (2603:10b6:208:373::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.34; Mon, 14 Apr
- 2025 18:24:46 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.8632.035; Mon, 14 Apr 2025
- 18:24:45 +0000
-Message-ID: <d187d17f-0155-4c4c-98bd-f91e02aab5f6@amd.com>
-Date: Mon, 14 Apr 2025 13:24:43 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/13] drm/amd/display: make sure drm_edid stored in
- aconnector doesn't leak
-To: Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20250411201333.151335-1-mwen@igalia.com>
- <20250411201333.151335-2-mwen@igalia.com>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20250411201333.151335-2-mwen@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR11CA0107.namprd11.prod.outlook.com
- (2603:10b6:806:d1::22) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 925F310E302
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 18:53:24 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250414185314euoutp01eddaf3d9c8993d5d18d19e84a06e7313~2RBxm1IcZ0766407664euoutp01t
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 18:53:14 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20250414185314euoutp01eddaf3d9c8993d5d18d19e84a06e7313~2RBxm1IcZ0766407664euoutp01t
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1744656794;
+ bh=79N7YNqv9Q66PnnxS3ThNfEZmd8804r38ebjHmA2ETY=;
+ h=From:Subject:Date:To:Cc:References:From;
+ b=Idjva7+Nn4Weil9B2UJGQrGs/9r58U6WiPcViHfieAhgc43k+GdyZDAV/PNAyR2Q0
+ knHqY2olN1eeyM7lGjo6X/3uH/q/oyklZjg0IDgm/7CQTZmLIGZT4VmNMdu2ufQ76T
+ bvOLrfzAs+HZZWeac95wPZjIILEm7maFv7Fl2/is=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20250414185313eucas1p1883acb9c583cdb21212456eaeb16d4ce~2RBxJkejU3185731857eucas1p1s;
+ Mon, 14 Apr 2025 18:53:13 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id AD.8E.20821.9995DF76; Mon, 14
+ Apr 2025 19:53:13 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250414185313eucas1p1c4d13c657f3a3c3e47810955db645ca2~2RBwbyutx3185731857eucas1p1r;
+ Mon, 14 Apr 2025 18:53:13 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20250414185313eusmtrp105ea9ceb1fee2bedf389b05a4f395cba~2RBwbBi4B0705407054eusmtrp1e;
+ Mon, 14 Apr 2025 18:53:13 +0000 (GMT)
+X-AuditID: cbfec7f2-b11c470000005155-76-67fd5999daeb
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 03.64.19654.8995DF76; Mon, 14
+ Apr 2025 19:53:13 +0100 (BST)
+Received: from AMDC4942.eu.corp.samsungelectronics.net (unknown
+ [106.210.136.40]) by eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250414185311eusmtip2570ca62f1c430e3b0a5aeb600ccb1f91~2RBvQeDvV2214922149eusmtip2t;
+ Mon, 14 Apr 2025 18:53:11 +0000 (GMT)
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+Subject: [PATCH v2 0/4] Add GPU clock/reset management for TH1520 in genpd
+Date: Mon, 14 Apr 2025 20:52:54 +0200
+Message-Id: <20250414-apr_14_for_sending-v2-0-70c5af2af96c@samsung.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|MN0PR12MB5716:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6d066e05-c26f-49a6-ab58-08dd7b81a1bf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YWRtcE5SZnZFUzd6b0s5U1hmOGJzSmxOY0ZtTGVPSXpIb3pMVkcwUy8yZmJ1?=
- =?utf-8?B?S1lRV3VpQ3dNTU01MTNZWnM5OURSOXZrb21TWWF6ck5MVXZQSExpZHM5NVRs?=
- =?utf-8?B?UFBvNzRiTEozNEs0OWQzN0h1MGRJb1RlQTJsenVURU8zMW9KN3d2Mm9IcGF3?=
- =?utf-8?B?b0Y3dG03S2libVJyUG0vZWhmK2ZHbFFhNkxPVVZ5MGF3VENicXlacU52WTY3?=
- =?utf-8?B?Ti9XYmhJVWFKQzlaL1ZrUk9iTlhLVXkzbEZ3TW9IRHllL0crMW90NC9UUHhv?=
- =?utf-8?B?WTFLMmw5RUZnc2U5TzQwZTFkbTNKUVlzdTRmNnd0M1psdjB2MENvMi9EWEtV?=
- =?utf-8?B?VUIza3JiWjVSUW9HVTYvQWluZE5KTWRWQ2FKYlV5YWR3UGVUSzUxV2hpYkdK?=
- =?utf-8?B?VE5CRjNTSXNIckszcVIvS3BTbTVYRmQ5clUzZTN2Q0xwc2tERVowcm1Vc0JF?=
- =?utf-8?B?dnJuelpFeFFWNldSWTV2Qi9YWGFqSUdnTkRRUko5SkVka1I2SHY0Z29VdDd4?=
- =?utf-8?B?Skt6czhDaVI2bmpCRGV6aDE5cU1oK01nMFVlZFpyVHVDai9HN0MwSTlzSG9u?=
- =?utf-8?B?MjgzNFlCWVFKNVl2NmZURUVMcFByMjlha3Rka2VpWEFiSHF1Y2x4VStUbERs?=
- =?utf-8?B?bGRuU2d2TTNVK2d1cXNnbXdObDBISDVQWTRGd2I0L1FtM290eC9KL3lkeVFm?=
- =?utf-8?B?MTR0OVk2cEFkUVVDRW1ZQlAwU2plU1V6NUhFQ2tKaXhWY1FYdUFMR1FqRllC?=
- =?utf-8?B?ZU1xdFVUQ0J5b2xkcW9adXhXQlcyWmJxVXNDc09sTTZhclVwa3lVMUhIRWVi?=
- =?utf-8?B?Q1Z4L0JHekFQenZBRlFNRzZGMjZiSDhqb0V0SjlOSThmT2N6M01GMmhZMFZm?=
- =?utf-8?B?OWpYSGQwb2hEU1N2M1BnbkxTL1QyRlJNZWVESE83cWhodVRtVjExSmh3RzVy?=
- =?utf-8?B?T2VkdW03cUJuYW9hOGJPTlVQM1RPNjNlMVZBeEJaZHg2RDU2aXdZVzI4RWxG?=
- =?utf-8?B?RHI3M2F1cjRLcGFmekMxd3BmU2VTQTUraXBnN0FDRGFlVFR2WFNtcEZraFht?=
- =?utf-8?B?NzhCK3RTcmxlQnZiK1BQUUdpVmozOG11WmdRcUlvS2Y3WnB3ZVhEQ3FVOXVU?=
- =?utf-8?B?MjdlSGM3WkFwMXVBcTBwYk1BdzA4QlAzNFZ1S0xCWSsyS05DeklUcGlEamR5?=
- =?utf-8?B?YXAwMjkwaTBDSUxiaVFWWXhUUlB1ZlFGKzFxUTRYY211RlZmY1c5UGtONTQv?=
- =?utf-8?B?ZTlRUi8wcUVxODF0UWZJL1RCTnFUZnIvNDlCaWs2bDJRczFrbVVuME5aRmor?=
- =?utf-8?B?cjlxa3owbDlaVkhROWZpS1dsQU5zM1NEaEpyeEpmejUzL2VHYnpSS2NCZ25n?=
- =?utf-8?B?TDNRMDU2WmZYZUc3RWNmU1IxVmZmYnZhdEdjTnN2clcxNmdDYS80WUJCOUJa?=
- =?utf-8?B?bnpzeVlFQm1YTXFJM0RQWjVhSmRoOWZKdStCWGZZR3dyb3pxYzhML3VlbG1N?=
- =?utf-8?B?ck5yb2hPQnlwOWI3bzRRaU1WWWZjR0FDTVFyemhIblNmb2ZYR2FYbDZXamov?=
- =?utf-8?B?Wmt2VDBkYjRRRWVLREZmUU9aWU1iVldlUTJjeHR6UHlrTmNXcmlDbTBNeDNm?=
- =?utf-8?B?OUwrUWxRa2trSnJYSTVjR2t3U1l3QUk4aEZnejJMTkJiRjdUZGRQRE5FaE5P?=
- =?utf-8?B?V3IzU0xCcWFEMUVNSE1DL1dOS3J0TENTbHlRQlJkUjhMS3BEYU9SNnk2cFhM?=
- =?utf-8?B?bUZaWThPOCs0Rk5jSzloNy9VMTJwdCtMb1RkaWxDWnlDRUgrekxqTmNNeEU2?=
- =?utf-8?B?YWxLRS94VmlkeWIwdXhzK0ZwM1FGNVhKa1paRVJEcysyNy83U0pYRGF4SWJR?=
- =?utf-8?B?ZGZwcXl4T2tJSmNXSDRQUXliMVIza0FLOWVOWFBhQXZPOTh1MUhha3YrcFNL?=
- =?utf-8?Q?GKVJes0kE0c=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U0d2V0dVVVV3TGJUK09rbmJEYTJ4YXFXOFIxZTJ4SWJYZlhNd1FNZFUrbjkz?=
- =?utf-8?B?c2ZrTmR5V2YrYjR4ZEpkbWNaQmNGa0lYaUkvN3lQU01nQzYzRFdBa3U4UXpR?=
- =?utf-8?B?U2NqWk1YUVRPcVlyaHpMS3dPMUIvZ2k0dmFrR2NBOHRNTTRadFFpRGhXKzV3?=
- =?utf-8?B?bXhjWUFQN2ZXaWk1WWp4L3VoUExmcG9taGEzTDB6T1NCVHhsVlYrbSswZjh2?=
- =?utf-8?B?N01sZ1d0RnoxQzcvSjE3ZUNuMkJaa3Q3OS9OV3ZEdW00R2dselZRMytrZFB6?=
- =?utf-8?B?aDdFTXJCd3J1YnQwMWl0WWttLzd5VzFBQ1h2K1NCMFdpYmFnSHhVVDBPTk1y?=
- =?utf-8?B?L0VCRVlORGFRQnVKQVZvbkdxRllhRVRZNjdIdGdodDVTQ0RaQXlsZE04d3A0?=
- =?utf-8?B?Q2VMRFVKNnl1UU9pcGRrVm1ZZXRIaWw4NHZudWhxcVNJeVhSMlNyZWJrVlVZ?=
- =?utf-8?B?OXN5b3ZDUVU2c2Q5NCtJZTV6dHpST28vWGtjdWFWUDFIa3RNVEFjdlVSR3dF?=
- =?utf-8?B?bDlaSFNVQ0ExRk8zenhOWjBjUStMT2dTajlqSDhWdHpqd2MzOEd2K2xNeExB?=
- =?utf-8?B?VXJvZmgyenVUUFdwR3F1SERUR2VNalFSTmdacnhoMWEyVDVQeUNTVzN4NUpK?=
- =?utf-8?B?RUowSEx5Vm1vTWpqQllBTHhrVUdzcnJiZ2dLSmdKbmdudnZ4VmZDZ3R3UVBm?=
- =?utf-8?B?aVphMDRHTGhxVU9LZ2NDREFKbm5lS2xia2prQTFGcU9yMFRqNUs2eUpNdmFx?=
- =?utf-8?B?dTE5b0I4OUVVOWZHa2JKTFJHbWY1MVFZQUptRWtvdm5iVENqSGVXYklNdnFD?=
- =?utf-8?B?ZWhSSWRwMjUyWU9zYnBPZkpaL3doc1hHSzlqcUNiZDNFdWF4eWc1OCtKZlky?=
- =?utf-8?B?OVdVelo1Z0hxczdQRWowVHhiRHJoK2k3WldZdkJBZitLWUlyUU93d1NINWVj?=
- =?utf-8?B?MThWSjNMWTVYanlWSXZZVk54NXA2aWFKUDFPYWpFbVJscDRVSWpvd3NlY3Nu?=
- =?utf-8?B?Qm5QUWgzc1BQRnRmVUx0V2M3Z0EwaWtkOG4wR054YjJISmUwbTJGb1h2UUhh?=
- =?utf-8?B?M1Fva1JFa2dOWEVHZ2lVTnJKREdpQnFzOEpPMFdQakRUM3g0TStmSEhMcnBF?=
- =?utf-8?B?Y3draHRaWmg4Rkh3UHlmNktySXA2cUhNay9vUGkxMU10L2NQK3orbUlXRlJj?=
- =?utf-8?B?U2JIM0Z1SHVGUXNVdW43ajRReUVPNzdxRkl4MUh4cW1kdWVhWVp1L2dUa3VK?=
- =?utf-8?B?WmlySHg5eEhKckJKbEdlRFkxMDlqNzcvTmF0b3ZFUjlvci9EYXUyUG1ZMVdL?=
- =?utf-8?B?WmlvdGxtcHNuUHk2L1o3YTVyRU11K1RLeVpETkc1NjdiQXpmNGRNa0JZMmZa?=
- =?utf-8?B?a1IrMHQ5RGVUTnRCM0dFdE96Zi9ZZ1N5K3BOeVl2dVZqVnVEVXRydFRvYkxh?=
- =?utf-8?B?WGxBQXZZSG1WcWZJQ3FhOEVFVkpSSTcvTENOUExTTWdqL3l3Q01iaXlFdWtW?=
- =?utf-8?B?M05VZUY4cTZKNFZ3a0g0bjlMZ0djWnMyV3pUQjVGSXJhczZIQ09vMi95aTFQ?=
- =?utf-8?B?R2w3cjdjM2pVbzNFTTEvM3JrY3hRYkZVd3NMNDdibDY0cHlPMitjYW1reTRn?=
- =?utf-8?B?KzM3NS9tTEwrZ05UTTFRSStmUVF2Lyt0WERWa09qTlhSczNaSGhjTG12ejk4?=
- =?utf-8?B?aWVYVi9EUzQ3U2NWVEVDeVFvVkdnT3IxUEc4ekowbW5uL1VTVkhtcGswellD?=
- =?utf-8?B?UDh4TmRSY3RxT3drSnIwaVF0bCs5QkgzVkJ4WDVidXJGR0pQLzJtbllSaWt5?=
- =?utf-8?B?UGVhVE4vdzRvNWJxMHVubGRyUlRpNEgxSnF2SGVCcVhzYjVaWU5pZG5PeE93?=
- =?utf-8?B?VTBqS3FpYWg1ZCtmRndFdmlWZ0QrM3NUOURrVmZqVVlKRWRlcWdub3JjclZx?=
- =?utf-8?B?WlNZcTREWWhMWnFySkxycUxLWnIvdzJYbTVya3ZyZUVCck8xa3BGcEJLZm5Z?=
- =?utf-8?B?aTMrVXpDaWZwRzdQMEhwa0FRTWkwMjFjblJ4UVhRTElCQXdCalYzeWNIUk9n?=
- =?utf-8?B?c3JIRk9Ja3ovRzFRS1RWZU9vTVU3ZW1zZENBdEFpd2g5Q3pDNEcwVjIzOXo3?=
- =?utf-8?Q?UB7Wgy2XF1w6tW6ytWoLpSzFd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d066e05-c26f-49a6-ab58-08dd7b81a1bf
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2025 18:24:45.3621 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wcN2dNEtaSvUiegG8h6CPw6mC2TkWLuivPS3Z8+kc4XeKjMjTVCeCLQ804xmvGs/0EEvR6YbTkmXE5WwyjL6sw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5716
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIZZ/WcC/x3MQQqAIBBA0avErBPUDKurRIjZaLOxGCGC6O5Jy
+ 7f4/4GCTFhgah5gvKjQkSt020DYfU4oaKsGLXUvjTLCn+yUcfFgVzBvlJPo125UdlDWhwA1PBk
+ j3f90Xt73Aywd1PpkAAAA
+X-Change-ID: 20250414-apr_14_for_sending-5b3917817acc
+To: "Rafael J. Wysocki" <rafael@kernel.org>,  Danilo Krummrich
+ <dakr@kernel.org>, Pavel Machek <pavel@kernel.org>,  Drew Fustini
+ <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,  Fu Wei <wefu@redhat.com>, Rob
+ Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor
+ Dooley <conor+dt@kernel.org>,  Michal Wilczynski <m.wilczynski@samsung.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,  Philipp Zabel
+ <p.zabel@pengutronix.de>,  Frank Binns <frank.binns@imgtec.com>, Matt Coster
+ <matt.coster@imgtec.com>,  Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,  m.szyprowski@samsung.com
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+X-Mailer: b4 0.15-dev
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0xTVxzOuff23tKs5FLYPII4VoMbLtKygDuKcXMQvWEjQbdlssSMDu+K
+ 4+VaYeBmeKwyHpWHPMZzxc4JljEUSkdrgaXpqAxsiSKwBBAnpo7HGA9FwcdWLtv87/t93/c7
+ 3/lODh8XlZLe/KNJx1lFkixBTAoIQ89Dx/aq6Mdy6aOnEnRlWIuhHzrtGJqu+ItEGqudh8av
+ 6TE0eG+ORD/eGaDQ3c4sAv1RPU6i66ZaEi2etgJkWFSRqNk6RqGWexoMnZ1vJ9C5DhNAOXnn
+ eWhs/AqBcucycVS3VI6jp+YOCtX82U0h/UwJD9maP0Cq7jLizY1M5/16gjFWj1GM2tgPmFZd
+ HsmMDplJ5tveA8zNAhvGtJ3LYFTNPRhT9FjKzHXdIJlCvQ4wbX1fMIutm6PcPxTsPsImHE1l
+ FZI9MYK4bH02deyST1pBxR0qE2S/kA/4fEgHw77pyHwg4IvoRgAdFdcwblgCsGn5AckNiwAu
+ 3Tbi+cBtbeNUxV3gwiK6AcD6yy9zphwMztSXEi6BpF+DEw0angt70hHwof63NZ6g/WFLyQLl
+ ihbS++GwJsxFC2kP2Fs1uWbB6RfhT7O1uOtMSF8E0Fw5h3HBIbBsuRK4BC96lQdzs3vWXDhd
+ B6DF8BXBuZ6Hq6UmglsvF8CvpwzrQjjsWp3lcdgTTtn0FIc3wb5S9bonGU60L6z3/BIa1bZ1
+ HApH7Suk69o4HQBbTBKO3gsnH90iuId0hyOzHlwDd3jG8A3O0UKYmyPi3Fthufr0f6H2RgNW
+ DMTVz/SvfqZ/9f9Z9QDXgQ1sijJRziqDktjPA5WyRGVKkjwwNjmxFfzzb/ue2BY6QN3UfKAF
+ YHxgAZCPi72EgrAVuUh4RJZ+glUkf6RISWCVFuDDJ8QbhNruU3IRLZcdZ+NZ9hir+FfF+G7e
+ mdgn0shuprL1FdA7tLlEnVG4w1ns1+2YOdgfOimR/iwN1lUcAtbLu94YzXLXha+ejKn15enf
+ WVpuetcR4nfhdb+FmsG6yrrD+5QFsbqgeP/9qpzvHKnKLfGpYMJtqLAm7JZz50Hc28Pc88sD
+ avrV9I03tW7DLc/FjoQ0iN+O20GNFQdcyOqfP3k19a33nsTuEVTd9ogc3HniQHCGbxF2WLsv
+ yDBwyNfutTf9omXXx/cDRmK+/938qR1E+Qxsq/W8NNxY9qszNRdFoy79pvDo4aAYK7nkNG4x
+ 561EvG9yRlyVqNoD8xMmo9I+uxHaU5N5Puv6eG3bbk3u9jRTb9NL/lq4XCQmlHGyoG24Qin7
+ G+hP89EmBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJKsWRmVeSWpSXmKPExsVy+t/xe7ozI/+mG7THW5y4vojJYs3ec0wW
+ r6d9YLOYf+Qcq8W9S1uYLK58fc9mse7pBXaLF3sbWSxezrrHZnF51xw2i8+9Rxgttn1uYbNY
+ e+Quu8X6r/OZLBZ+3MpisWTHLkaLts5lrBZ3751gseh438BsMffLVGaL/3t2sFvMfref3WLL
+ m4msFsfXhlu07J/C4iDpsffbAhaPnbPusnv07DzD6LFpVSebx51re9g85p0M9LjffZzJY/OS
+ eo+WtceYPPr/Gni833eVzaNvyypGj82nqz0+b5IL4IvSsynKLy1JVcjILy6xVYo2tDDSM7S0
+ 0DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQy2ja0sResFG6onvaU/YGxiaxLkZODgkBE4nW
+ aS8Yuxi5OIQEljJKfO86wQaRkJG41v2SBcIWlvhzrYsNoqiFSeJO+yuwBJuAkcSD5fNZQWxh
+ AS+Jn1tugsVZBFQl1k/8xN7FyMHBK+AucX2+M0iYV0BQ4uTMJywgYWYBTYn1u/RBwswC8hLb
+ 385hBhkvIbCBUeLXhz5GiL2mElO+zwA7TkSgiU3i2/bPYEcwC8xjlPg0bwLUdaISvyfvYpnA
+ KDgLyZJZCEtmIVmygJF5FaNIamlxbnpusZFecWJucWleul5yfu4mRmAa2Xbs55YdjCtffdQ7
+ xMjEwXiIUYKDWUmEl8v5V7oQb0piZVVqUX58UWlOavEhRlOgPycyS4km5wMTWV5JvKGZgamh
+ iZmlgamlmbGSOC/blfNpQgLpiSWp2ampBalFMH1MHJxSDUyLJZT+X7lgeumn274/epuUvLuS
+ jgg9FXllH/hyfZ2eBGeZaOCVf5Z2sw5YcYqsYp+4dX/leaOJz0+dfn5jsiyTZtbMPQlugreU
+ i1/yHpo1Z8ZnueQnrmdWRmi9iOtwTTvof+2o4cZpNm80/vlv/Do1+1nZ0ouzSpyPLazewZDQ
+ KN2e+NAhW1yFq1R5Wsztd6nH76xuOPLszcK1mz/vVn7bVsARvbRHq0GzPjxXeuX2qdOC3Vcp
+ V+6QUTpRKOK3+frFPjYm76xqw5S+lxGvby7sDL4Xv9yg7f1T/e8q976/3vBWbv3X83NYjUPW
+ OckesXdnf+57YOWMDbzLf/5+vejEC4O7DmuW2728fWDr0xWWa5RYijMSDbWYi4oTAT6JRkes
+ AwAA
+X-CMS-MailID: 20250414185313eucas1p1c4d13c657f3a3c3e47810955db645ca2
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250414185313eucas1p1c4d13c657f3a3c3e47810955db645ca2
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20250414185313eucas1p1c4d13c657f3a3c3e47810955db645ca2
+References: <CGME20250414185313eucas1p1c4d13c657f3a3c3e47810955db645ca2@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,34 +137,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/11/2025 3:08 PM, Melissa Wen wrote:
-> Make sure the drm_edid container stored in aconnector is freed when
-> detroying the aconnector.
+This small patch series adds clock and reset management for the GPU in
+the T-HEAD TH1520 SoC through the generic power domain (genpd)
+framework.
 
-destroying
+The TH1520 GPU requires a special sequence involving multiple clocks and
+resets to safely bring it up. Coordinating this sequence properly is
+necessary for correct GPU operation. Following discussions on the
+mailing list with kernel maintainers [1], the recommended approach is to
+model this complexity inside a power domain driver, keeping SoC specific
+details out of the GPU driver, clock framework, and reset framework.
 
-> 
-> Fixes: 48edb2a4 ("drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid")
-> Signed-off-by: Melissa Wen <mwen@igalia.com>
+This series consists of four patches:
+- Patch 1 introduces a new dev_pm_info flag to allow device drivers
+  to detect when platform PM domains manage clocks or resets
+- Patch 2 updates the AON firmware bindings to describe the GPU clkgen
+  reset
+- Patch 3 extends the TH1520 PM domain driver to handle GPU-specific
+  clock and reset sequencing at runtime, using genpd start/stop and
+  attach/detach callbacks
+- Patch 4 updates the Imagination DRM driver to skip direct clock
+  management when platform PM ownership is detected
 
-Minor nit above.  Add to next version:
+This approach aligns with recent efforts to treat PM domains as
+SoC-specific power management drivers, as presented at OSSEU 2024 [2].
 
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 8665bd3cb75a..960bb8c62ffe 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -7397,6 +7397,8 @@ static void amdgpu_dm_connector_destroy(struct drm_connector *connector)
->   		dc_sink_release(aconnector->dc_sink);
->   	aconnector->dc_sink = NULL;
->   
-> +	drm_edid_free(aconnector->drm_edid);
-> +
->   	drm_dp_cec_unregister_connector(&aconnector->dm_dp_aux.aux);
->   	drm_connector_unregister(connector);
->   	drm_connector_cleanup(connector);
+This patchset continues the work started in bigger series [3] by moving
+the GPU initialization sequence for the TH1520 SoC into a generic PM
+domain driver, specifically handling clock and reset management as part
+of GPU bring-up.
+
+v2:
+
+Extended the series by adding two new commits:
+ - introduced a new platform_resources_managed flag in dev_pm_info along
+   with helper functions, allowing drivers to detect when clocks and resets
+   are managed by the platform
+ - updated the DRM Imagination driver to skip claiming clocks when
+   platform_resources_managed is set
+
+Split the original bindings update:
+ - the AON firmware bindings now only add the GPU clkgen reset (the GPU
+   core reset remains handled by the GPU node)
+
+Reworked the TH1520 PM domain driver to:
+ - acquire GPU clocks and reset dynamically using attach_dev/detach_dev
+   callbacks
+ - handle clkgen reset internally, while GPU core reset is obtained from
+   the consumer device node
+ - added a check to enforce that only a single device can be attached to
+   the GPU PM domain
+
+[1] - https://lore.kernel.org/all/CAPDyKFqsJaTrF0tBSY-TjpqdVt5=6aPQHYfnDebtphfRZSU=-Q@mail.gmail.com/
+[2] - https://osseu2024.sched.com/event/1ej38/the-case-for-an-soc-power-management-driver-stephen-boyd-google
+[3] - https://lore.kernel.org/all/20250219140239.1378758-1-m.wilczynski@samsung.com/
+
+---
+Michal Wilczynski (4):
+      PM: device: Introduce platform_resources_managed flag
+      dt-bindings: firmware: thead,th1520: Add resets for GPU clkgen
+      pmdomain: thead: Add GPU-specific clock and reset handling for TH1520
+      drm/imagination: Skip clocks if platform PM manages resources
+
+ .../bindings/firmware/thead,th1520-aon.yaml        |  11 ++
+ drivers/gpu/drm/imagination/pvr_device.c           |  14 +-
+ drivers/pmdomain/thead/th1520-pm-domains.c         | 199 +++++++++++++++++++++
+ include/linux/device.h                             |  11 ++
+ include/linux/pm.h                                 |   1 +
+ 5 files changed, 232 insertions(+), 4 deletions(-)
+---
+base-commit: 7c89da246c1268c8dbfc1c7f1edc55aabce45b43
+change-id: 20250414-apr_14_for_sending-5b3917817acc
+
+Best regards,
+-- 
+Michal Wilczynski <m.wilczynski@samsung.com>
 
