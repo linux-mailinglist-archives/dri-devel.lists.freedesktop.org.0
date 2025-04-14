@@ -2,57 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7085DA8821E
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 15:30:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7DCA8822E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 15:31:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D30710E5D1;
-	Mon, 14 Apr 2025 13:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C8B10E5D7;
+	Mon, 14 Apr 2025 13:31:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="brNgEwb2";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="V7fyV8Js";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA3CF10E5D1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 13:30:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id ABA68A400D4;
- Mon, 14 Apr 2025 13:25:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263F8C4CEE9;
- Mon, 14 Apr 2025 13:30:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744637453;
- bh=c5JUs1HRSEIEFfoOIVFphwrjz9S7JRsO0j+g4xWdsgk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=brNgEwb21m3ttcWoIKD/g862mlc06jmuGtwgShLpsIs7tD0Yi3Yk2iz1M2OXERDXQ
- vq4tHCXfVQZdb2LM82XpD2qNPOV0Plo9+mGkRXjxl1z7DMV0fOSrLiP6CERQCcZ3NP
- oOXHIG+tQlGVqs4HORLNZYRI4SbfQZHzJ8K4gpYOYcNbikcDM9f1n3jrmKSdiTfNUc
- YkdwXdE/oDyoXflxm0typZlkLilsg1hkP1WgkBE6418NSjeDFUwdo4tDfzoxb0EaMa
- +oqxgGxWWnW0dcOJrtGWQbaa9+K0YN/UV4bHx8lhRxNVPFjNd2HBLXjZFFY1ACBiqF
- D6mG06MS1Easg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Xiaogang Chen <xiaogang.chen@amd.com>,
- Xiaogang Chen <Xiaogang.Chen@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Sasha Levin <sashal@kernel.org>, kraxel@redhat.com,
- vivek.kasireddy@intel.com, sumit.semwal@linaro.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.1 02/17] udmabuf: fix a buf size overflow issue
- during udmabuf creation
-Date: Mon, 14 Apr 2025 09:30:33 -0400
-Message-Id: <20250414133048.680608-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250414133048.680608-1-sashal@kernel.org>
-References: <20250414133048.680608-1-sashal@kernel.org>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D67C210E5D3;
+ Mon, 14 Apr 2025 13:31:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744637468;
+ bh=6gOo4FOMZVhhngoKPJuzni4Tvmt4DnOshcJFnFNxdGY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=V7fyV8Jsmv2HRRNo8yTZpZi+/C/t1TSYscE9yxQRPohGsDzM4HeqAWwe4qnyiqY0E
+ FScbbpuzmV7iSHqbEUO8gd/N+seSItINGhfoSSP3rlJ6mDre/xtkR2CPkx6c9gOil5
+ lNy6baepyEdlbsS2jlG5M6H1C6RFUXc2Nqjkev4RNor19yKIjHy3s2q+a99/USGnSc
+ VC/5xngmNoz7P5K8GcZ3iIq7fOyMJaXNzKVXKuLAROzwY9aiHLJqzqjsIKGnTctL/4
+ /3B1aHkqobDUfz0Rd8aaYFGqfblbmYCfzEIwwbwRew3RzCUeZfBUwzNFnUVfIUeLOi
+ NcCsRuifFFdnw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7D0C917E1034;
+ Mon, 14 Apr 2025 15:31:07 +0200 (CEST)
+Date: Mon, 14 Apr 2025 15:31:01 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Steven Price <steven.price@arm.com>, Liviu
+ Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, lima@lists.freedesktop.org, Qiang Yu
+ <yuq825@gmail.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>, kernel@collabora.com, Faith Ekstrand
+ <faith.ekstrand@collabora.com>, Erik Faye-Lund
+ <erik.faye-lund@collabora.com>
+Subject: Re: [PATCH v3 0/8] drm: Introduce sparse GEM shmem
+Message-ID: <20250414153101.57d231ba@collabora.com>
+In-Reply-To: <Z_0HuzvbMV3vybWe@blossom>
+References: <20250404092634.2968115-1-boris.brezillon@collabora.com>
+ <20250410164809.21109cbc@collabora.com>
+ <d4ebcb9f-ca1e-40ae-bc3c-613f88552b94@amd.com>
+ <20250410175349.6bf6a4ea@collabora.com>
+ <d0ab2ffe-77ee-4bda-b127-8648acb71409@amd.com>
+ <20250410192054.24a592a5@collabora.com> <Z_gHX5AqQkhbXOjd@blossom>
+ <20250410204155.55d5cfc7@collabora.com>
+ <Z_kEjFjmsumfmbfM@phenom.ffwll.local>
+ <20250414132206.728eacb3@collabora.com> <Z_0HuzvbMV3vybWe@blossom>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.134
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,33 +78,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xiaogang Chen <xiaogang.chen@amd.com>
+On Mon, 14 Apr 2025 09:03:55 -0400
+Alyssa Rosenzweig <alyssa@rosenzweig.io> wrote:
 
-[ Upstream commit 021ba7f1babd029e714d13a6bf2571b08af96d0f ]
+> > Actually, CSF stands in the way of re-allocating memory to other
+> > contexts, because once we've allocated memory to a tiler heap, the FW
+> > manages this pool of chunks, and recycles them. Mesa can intercept
+> > the "returned chunks" and collect those chunks instead of re-assiging
+> > then to the tiler heap through a CS instruction (which goes thought
+> > the FW internallu), but that involves extra collaboration between the
+> > UMD, KMD and FW which we don't have at the moment. Not saying never,
+> > but I'd rather fix things gradually (first the blocking alloc in the
+> > fence-signalling path, then the optimization to share the extra mem
+> > reservation cost among contexts by returning the chunks to the global
+> > kernel pool rather than directly to the heap).
+> > 
+> > This approach should work fine with JM GPUs where the tiler heap is
+> > entirely managed by the KMD though.  
+> 
+> I really think CSF should be relying on the simple heuristics with
+> incremental-rendering, unless you can prove that's actually a
+> performance issue in practice. (On Imagination/Apple parts, it almost
+> never is and we rely entirely on this approach. It's ok - it really is.
+> For simple 2D workloads, the initial heap allocation is fine. For 3D
+> scenes, we need very few frames to get the right size. this doesn't
+> cause stutters in practice.)
 
-by casting size_limit_mb to u64  when calculate pglimit.
+Yep I agree, hence the "let's try the simple thing first and let's see
+if we actually need the more complex stuff later". My hope is that we'll
+never need it, but I hate to make definitive statements, because it
+usually bites me back when I do :P.
 
-Signed-off-by: Xiaogang Chen<Xiaogang.Chen@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250321164126.329638-1-xiaogang.chen@amd.com
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/dma-buf/udmabuf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> For JM .. yes, this discussion remains relevant of course.
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index ef99174d81ced..546bba502fbc1 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -186,7 +186,7 @@ static long udmabuf_create(struct miscdevice *device,
- 	if (!ubuf)
- 		return -ENOMEM;
- 
--	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
-+	pglimit = ((u64)size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
- 	for (i = 0; i < head->count; i++) {
- 		if (!IS_ALIGNED(list[i].offset, PAGE_SIZE))
- 			goto err;
--- 
-2.39.5
-
+I'm still trying to see if we can emulate/have incremental-rendering on
+JM hardware, so it really becomes a Lima-only issue. According to Erik,
+predicting how much heap is needed is much more predictible on Utgard
+(no indirect draws, simpler binning hierarchy, and other details he
+mentioned which I forgot).
