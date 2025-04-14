@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D1AA883E7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 16:07:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E23A88412
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 16:11:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6EBB10E5F1;
-	Mon, 14 Apr 2025 14:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04B6310E207;
+	Mon, 14 Apr 2025 14:11:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="qx9o+qWg";
+	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="vhrVMe9/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com
- [91.218.175.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25F2410E5F0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 14:07:51 +0000 (UTC)
-Date: Mon, 14 Apr 2025 10:07:43 -0400
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com
+ [95.215.58.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7433D10E207
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 14:11:45 +0000 (UTC)
+Date: Mon, 14 Apr 2025 10:11:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1744639669;
+ s=key1; t=1744639903;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=WG8Ya8Fve9d6OMW+BMmc5Uir//SNWkLbvkXAiaSTZoQ=;
- b=qx9o+qWgsrX6DxR65VjWusDFSiD7lFgXlMpghVQhsD+jcol8bZ8/eQzAZAdILMJvwLZuE9
- SwROBBC8XNaPp0516UlKxj0gHjNF4LeFFDGWbkKPqTayjCF1+mARWqSqbfHLNtdIHyitOp
- yUciKi5vq6dO3C8H5dtUN8NB1irftQpCAN1o+VyPnYX1sSNu90Gnj3iCzbyPMbdd+Q+ur6
- k6SArWOMmsaitsoZUDKlbzyn3sXx7ECpmiHQdtRq20eSEQYYc9E2XVC6pm18AODr1bAjgV
- QsHffCsgkwzxS6ihVz882db4bVBl2jfb9Kr1yNBJL0xTMt7VtXUjnr8fAhufMg==
+ bh=7FqzQMbtN46MspgzRLzfkBpN56u2tDVXmIle8ZV/dB4=;
+ b=vhrVMe9/l6Zp4NGvWtsd98JNl5b9LcyUs0kNxhmBLXVUiw/TSTassaMNnecdvnZTeYrioY
+ 0LXTHm7Pg6kFvlnAlDZO8wIHTONqdwQCOHrPzzmsXgzNefqJMcMTAy1TGXKL9S8rXCmcwU
+ pUarpuuj19L4P1kaNXwW5xfbtcHHY/kwVeiaZXlGlSy9bNgcdljYSsfXsQomkS3a9zK1qJ
+ XJyNttrPKjBd64ILaw442ek5uhc6qrTsKnP1MKtug4pkAochL5s9IbVvbgKCaAGv+mOkl0
+ h+ltgQRdmiF4LNxpg2JpjhTa8rB1iPv3jPqexKo4Zub4Y5Txpx4DmaAfZ4nQBw==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
@@ -39,14 +39,14 @@ Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
  gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
  a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
  dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 4/8] rust: drm: add device abstraction
-Message-ID: <Z_0Wr_e6_gprfmlF@blossom>
+Subject: Re: [PATCH v2 5/8] rust: drm: add DRM driver registration
+Message-ID: <Z_0Xli5G5wkRk3Z7@blossom>
 References: <20250410235546.43736-1-dakr@kernel.org>
- <20250410235546.43736-5-dakr@kernel.org>
+ <20250410235546.43736-6-dakr@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250410235546.43736-5-dakr@kernel.org>
+In-Reply-To: <20250410235546.43736-6-dakr@kernel.org>
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,13 +63,4 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> +    /// # Safety
-> +    ///
-> +    /// `ptr` must be a valid poiner to a `struct device` embedded in `Self`.
-
-pointer
-
-With that fixed, 
-
-    Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-
+Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
