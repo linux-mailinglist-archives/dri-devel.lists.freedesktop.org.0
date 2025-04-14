@@ -2,85 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56329A89984
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF86DA88C62
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 21:43:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B7110E6FD;
-	Tue, 15 Apr 2025 10:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB17E10E31D;
+	Mon, 14 Apr 2025 19:43:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VRJVZ2Qz";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="BwaxlqCf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7056210E318
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 19:21:48 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-43d0782d787so34073945e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 12:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744658507; x=1745263307; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qdnDpkLQDueaCtpgfvGpaidsvIby3mC+Wvd04T7dy5g=;
- b=VRJVZ2QzTHlPLdfVKysGGjbXlkDuiaKFU1CNv3Ij+OUiH6OHDKrx03e7JeZEqpDcHr
- M5ktZDxgKtC24otsLjPZYESKwUvRPCK/fzzxLghYbtMBP/N5iDI9wpIA7giDSByeQBjk
- 6sB9hTmx5yxmZonOBZJ8A/azQxfz3RGUVeFOkS/wNMPzZsOXg+ORNC/M+0sp+Ej+2QNr
- AaEQ/It/tQM5OUCmfDPjRSLU/IhHyma0TTQMJCHVi+y7wInKMCUl5GBHCfaF6PVl7V+m
- H4pXaD8P9vrwJ0C15jjPDjcY88NC1Mo0UM+gW/QG2H3VSszDJeaTDwh7rga4IN91vJAt
- UKwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744658507; x=1745263307;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qdnDpkLQDueaCtpgfvGpaidsvIby3mC+Wvd04T7dy5g=;
- b=WGn4cMI00yvTn12W5ve5IENbdpfxzfCe2ohiCvDbY77sKmuPXkeUdHQ8BXuK0xt+x0
- bLqijUfh/mI1p7bToAbmRKXZ62Deby9XQaCqho0mBA0NScwfFBhRjvGDfnPOQoLQkan4
- +edgzloPw72HbMrwQEbgoMAu0GLZjJr1yeZFl7UDZE7l8z+TAjzLBFOGNU82au6ad3qP
- 3vAE5VFqbJ5QQ124MQh+qAotmWExO7J9Oa8O7ueM3pK0F6iNKwn63TBVemWRrxfVWQnS
- FI9frpbNF53D9+YILQURE0Iiwhjr91aP6olzyIgcNQ5xzzcKMzNGdXax4bMuaG/hxssK
- sMqg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnl76F1s/5vOp1IvCHQ5pWe3vNcKJboR3nXnjoYGrOyktVZhlNgLkMX1YnJ2QdtRr79IlDqoe5ezU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwsQNNcquss4MQ2dgha+0Kujo2SogiR7DI+0P5pZS8IS+y/q8DH
- o71y5gkdlEkU/S9b02J99dDUsTGJtm/lBDqdD0gytCTrdg3MJRaJ
-X-Gm-Gg: ASbGnct02L1/krt4fy4AyO9zD3/QX5CReC0YqgvvyiFpv7LicVgT8UuUSNgSsQ9APSG
- xzWkl67joEv6WUsnp6tf4UzdulW77g7/m2iuOqimn5uDise/r0YHZhLYbnHlS+wKLxsUNfz7MWZ
- d8P71JULspCBnBuyKOdXHn26ULybIUGn+gPLfOGrc0zEzMYW6IwBPKX15jt/9H9f5rS53+0tFd0
- KYzWvFFh4BdmKppiQ1BrdLD8wTrZgLrJjgaaFoePtWvL6ApevRaYKqwX/AWdB9MdGXRN17IFnf8
- MMvrPuxV0TTEfFUpZ4c5PwzJPr2970mQN26fcglrl4bZu1bHhS3A3w==
-X-Google-Smtp-Source: AGHT+IHrtPJf7tJJ5VJyh1jOHcx4HFwLVSxBmFMH5rzu041anN5yYzVbiM1Y436XhCJ6X/gw2IidJQ==
-X-Received: by 2002:a05:600c:1c8e:b0:439:6118:c188 with SMTP id
- 5b1f17b1804b1-43f3a95c43amr105045055e9.19.1744658506479; 
- Mon, 14 Apr 2025 12:21:46 -0700 (PDT)
-Received: from ?IPV6:2001:871:22a:99c5::1ad1? ([2001:871:22a:99c5::1ad1])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43f206269c8sm193445625e9.16.2025.04.14.12.21.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Apr 2025 12:21:46 -0700 (PDT)
-Message-ID: <38867e79-c0e3-4bcd-bdf9-3fb5b571d51e@gmail.com>
-Date: Mon, 14 Apr 2025 21:21:42 +0200
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82B3510E31D
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 19:43:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1744659793; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=NYnh47+N5Vhhhzu4jLqQuWk9ZpietQY7sN1ScxaVTcrrmhJcwHd2tYBQtTnOHw9vwPyrskAkMY+CcBk5fIEOnBWMONYSLvfQ2JGVDp7dMsXZiB5qCxcTG8Dp0Ksed7sI7ZnNMpZ1UNiuQ1vT/yH2Por+ZS8+CZmurSJPJ1OX8V4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1744659793;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=Xh7ESEH0SRDsTTA+0VoPrwh9bXEKVfaUYrmcwXEkfOg=; 
+ b=Qf38uLw6VfsPrXWVxAxndjuPEPXit6ArSF8hUQ42r9zq2D5/xWZplW5yTBABtBHWXhKNLUvo68zswondDpqa9ZcnReaI5alrhQTuu9LvcKXpjywulgoJoL2Kn4aPMnvu8YXUn6PAym3OvK010pba+sRfoxRpZRLPwvpoALqFyvM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744659792; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=Xh7ESEH0SRDsTTA+0VoPrwh9bXEKVfaUYrmcwXEkfOg=;
+ b=BwaxlqCfLXMr58D60gn3JgKo/6P31uyvk23G+z12+RjnAky8hTQLNRN2e3s5M/1X
+ ItXsS4IgADsBxBx5LWayrJsCgqsC7LRTBGTQYEkt+SiHIAoB6L55opi5/s847HIVF/X
+ /UMdHQYaNt7XVW6chd79fTZe33z6MbE67GKmkPRc=
+Received: by mx.zohomail.com with SMTPS id 17446597917831022.0556401897062;
+ Mon, 14 Apr 2025 12:43:11 -0700 (PDT)
+Date: Mon, 14 Apr 2025 20:43:06 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v7 1/4] drm/panthor: Introduce BO labeling
+Message-ID: <ejq47pilr3phywio3oudfrqbj2a3u2j3irk7uhlwd4pz24ve2c@3pc3cbdlerqk>
+References: <20250411150357.3308921-1-adrian.larumbe@collabora.com>
+ <20250411150357.3308921-2-adrian.larumbe@collabora.com>
+ <93a4ec41-3bd8-4485-a4fe-d0def3509b79@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: `u64` by `u64` div/mod in DRM QR for arm32
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- rust-for-linux <rust-for-linux@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>,
- Linus Walleij <linus.walleij@linaro.org>
-References: <CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com>
-Content-Language: en-US, de-DE
-From: Christian Schrefl <chrisi.schrefl@gmail.com>
-In-Reply-To: <CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Tue, 15 Apr 2025 10:08:37 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <93a4ec41-3bd8-4485-a4fe-d0def3509b79@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,49 +75,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Miguel,
+Hi Steven,
 
-On 14.04.25 8:14 PM, Miguel Ojeda wrote:
-> Hi Jocelyn, Christian,
-> 
-> I started build-testing arm 32-bit within my other usual routine
-> tests, and I hit:
-> 
->     ld.lld: error: undefined symbol: __aeabi_uldivmod
->     >>> referenced by drm_panic_qr.rs:417 (drivers/gpu/drm/drm_panic_qr.rs:417)
->     >>> drivers/gpu/drm/drm_panic_qr.o:(<drm_panic_qr::SegmentIterator
-> as core::iter::traits::iterator::Iterator>::next) in archive vmlinux.a
-> 
-> which comes from both these `u64` by `u64`:
-> 
->     let out = (self.carry / pow) as u16;
->     self.carry = self.carry % pow;
-> 
-> Christian: I guess we can offer a set of `div64` functions using the C
-> ones, at least for the time being, and eventually wire the actual
-> operator with some support from upstream Rust. Or do you have
-> something else in mind? (i.e. I think you have been discussing
-> intrinsics lately)
+On 14.04.2025 10:50, Steven Price wrote:
+> Hi Adrián,
+>
+> On 11/04/2025 16:03, Adrián Larumbe wrote:
+> > Add a new character string Panthor BO field, and a function that allows
+> > setting it from within the driver.
+> >
+> > Driver takes care of freeing the string when it's replaced or no longer
+> > needed at object destruction time, but allocating it is the responsibility
+> > of callers.
+> >
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_gem.c | 39 +++++++++++++++++++++++++++
+> >  drivers/gpu/drm/panthor/panthor_gem.h | 17 ++++++++++++
+> >  2 files changed, 56 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> > index 8244a4e6c2a2..af0ac17f357f 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> > @@ -2,6 +2,7 @@
+> >  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+> >  /* Copyright 2023 Collabora ltd. */
+> >
+> > +#include <linux/cleanup.h>
+> >  #include <linux/dma-buf.h>
+> >  #include <linux/dma-mapping.h>
+> >  #include <linux/err.h>
+> > @@ -18,6 +19,14 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
+> >  	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> >  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
+> >
+> > +	/*
+> > +	 * Label might have been allocated with kstrdup_const(),
+> > +	 * we need to take that into account when freeing the memory
+> > +	 */
+> > +	kfree_const(bo->label.str);
+> > +
+> > +	mutex_destroy(&bo->label.lock);
+> > +
+> >  	drm_gem_free_mmap_offset(&bo->base.base);
+> >  	mutex_destroy(&bo->gpuva_list_lock);
+> >  	drm_gem_shmem_free(&bo->base);
+> > @@ -196,6 +205,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+> >  	obj->base.map_wc = !ptdev->coherent;
+> >  	mutex_init(&obj->gpuva_list_lock);
+> >  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+> > +	mutex_init(&obj->label.lock);
+> >
+> >  	return &obj->base.base;
+> >  }
+> > @@ -247,3 +257,32 @@ panthor_gem_create_with_handle(struct drm_file *file,
+> >
+> >  	return ret;
+> >  }
+> > +
+> > +void
+> > +panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
+> > +{
+> > +	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> > +	const char *old_label;
+> > +
+> > +	scoped_guard(mutex, &bo->label.lock) {
+> > +		old_label = bo->label.str;
+> > +		bo->label.str = label;
+> > +	}
+> > +
+> > +	kfree(old_label);
+>
+> Shouldn't this be kfree_const()? I suspect as things stand we can't
+> trigger this bug but it's inconsistent.
 
-I think using the C implementations is fine. Not sure how much the
-FFI is going to matter for performance, but it should be rare enough
-that is shouldn't matter (and hopefully we will get cross lang LTO 
-or something similar at some point).
+This could only be called either from the set_label() ioctl, in which case
+old_label could be NULL or a pointer to a string obtained from strdup(); or from
+panthor_gem_kernel_bo_set_label(). In the latter case, it could only ever be
+NULL, since we don't reassign kernel BO labels, so it'd be safe too.
 
-We could also just implement the intrinsic(s) ourselves, but then 
-the u64 divisions would be implicit which is probably undesired.
-We could also rename the intrinsics so they are only usable from 
-specific crates. 
+However I do agree that it's not consistent, and then in the future perhaps
+relabelling kernel BO's might be justified, so I'll change it to kfree_const().
 
-I think we need the opinion of the some arm people here.
+> > +}
+> > +
+> > +void
+> > +panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+> > +{
+> > +	const char *str;
+> > +
+> > +	str = kstrdup_const(label, GFP_KERNEL);
+> > +	if (!str) {
+>
+> In the next patch you permit user space to clear the label
+> (args->size==0) which means label==NULL and AFAICT kstrdup_const() will
+> return NULL in this case triggering this warning.
 
-CC Russell King and Linus Walleij.
+Kernel and UM-exposed BO's should never experience cross-labelling, so in theory
+this scenario ought to be impossible. The only way panthor_gem_kernel_bo_set_label()
+might take NULL in the 'label' argument is that someone called panthor_kernel_bo_create()
+with NULL for its name 'argument'.
 
+I think as a defensive check, I could do something as follows
 
-I'm not sure what could be done in upstream rust to help here
-and that would probably need be a very specific features for the
-kernel.
+void
+panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+{
+	const char *str;
 
+	/* We should never attempt labelling a UM-exposed GEM object */
+	if (drm_WARN_ON(bo->obj->dev, &bo->obj->handle_count > 0))
+		return;
 
-Cheers
-Chrisitan
+	if (!label)
+		return;
+
+       [...]
+}
+
+> Thanks,
+> Steve
+>
+> > +		/* Failing to allocate memory for a label isn't a fatal condition */
+> > +		drm_warn(bo->obj->dev, "Not enough memory to allocate BO label");
+> > +		return;
+> > +	}
+> > +
+> > +	panthor_gem_bo_set_label(bo->obj, str);
+> > +}
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> > index 1a363bb814f4..af0d77338860 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> > @@ -46,6 +46,20 @@ struct panthor_gem_object {
+> >
+> >  	/** @flags: Combination of drm_panthor_bo_flags flags. */
+> >  	u32 flags;
+> > +
+> > +	/**
+> > +	 * @label: BO tagging fields. The label can be assigned within the
+> > +	 * driver itself or through a specific IOCTL.
+> > +	 */
+> > +	struct {
+> > +		/**
+> > +		 * @label.str: Pointer to NULL-terminated string,
+> > +		 */
+> > +		const char *str;
+> > +
+> > +		/** @lock.str: Protects access to the @label.str field. */
+> > +		struct mutex lock;
+> > +	} label;
+> >  };
+> >
+> >  /**
+> > @@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
+> >  			       struct panthor_vm *exclusive_vm,
+> >  			       u64 *size, u32 flags, uint32_t *handle);
+> >
+> > +void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
+> > +void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
+> > +
+> >  static inline u64
+> >  panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
+> >  {
+
+Adrian Larumbe
