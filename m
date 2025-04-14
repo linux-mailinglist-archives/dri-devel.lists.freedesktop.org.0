@@ -2,49 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A962A87E69
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 13:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F3F9A87E94
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 13:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE56310E31C;
-	Mon, 14 Apr 2025 11:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A565410E576;
+	Mon, 14 Apr 2025 11:12:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PzbqJ5i5";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sx360+99";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32DC910E31C
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 11:06:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744628813;
- bh=Hmwdrg0iZvmYG9Goojwh5vjC2nIZBLeUaKF7tI+NUKQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=PzbqJ5i5GMWW6qUgY9nkvjSO6jvTnoiJ/WLjSEkmZMvBm00o9ANsTD4UBw/ebTpk1
- YgoPWhCSylQ0A8XfWMTS4XtPAW0nfm8LZGJsugV570bA/zLTQ5erWN4x3Hpq7MHKRu
- TC/YFO+UKc2FYTh6j//YdOL9LSElZTu/Mt7ZKc6zlXEGlBAU1sMdBO6eaqTDG99gXK
- ra5rWXnPbCo1Pyk9zsrdcj7nxFJUl05bXYL+WTNh0GF8Ppuo80SH7HUdjD+klaff0j
- wbKF/0+VHfRQjyiFlzGJr4EoJzVc/OIzLaTTu1nY5TtujW+owDN/qjY4d2wZKzdmN7
- DdLc0nnnKpLJQ==
-Received: from eldfell (unknown [194.136.85.206])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0EC6317E1034;
- Mon, 14 Apr 2025 13:06:53 +0200 (CEST)
-Date: Mon, 14 Apr 2025 14:06:38 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v2] drm/doc: document front-buffer rendering
-Message-ID: <20250414140638.49fa3f08@eldfell>
-In-Reply-To: <20250414085652.43904-1-contact@emersion.fr>
-References: <20250414085652.43904-1-contact@emersion.fr>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C6310E53D
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 11:12:07 +0000 (UTC)
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3E47669;
+ Mon, 14 Apr 2025 13:10:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1744629002;
+ bh=gHMU5QksJ/Xc7+zTNZNZ7MAnbRqKlzLlWprq8zYh1eg=;
+ h=From:Subject:Date:To:Cc:From;
+ b=sx360+99lfndPgFRQ3wLHmef8VVuwIMuMenVIsuJ2i9GaO0FU20OhgDDpXPtVJezp
+ PFujWSGcP/35s0NISc/PM2DODkfh6fQVs3H1BWp+KYaMG3MrK4r7FHTkxVMpRKcHy0
+ Di1LbmzbAm2TezKxk3Zpt8yKfakn999Uza4wPDDk=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 00/17] drm/bridge: cdns-dsi: Make it work a bit better
+Date: Mon, 14 Apr 2025 14:11:09 +0300
+Message-Id: <20250414-cdns-dsi-impro-v3-0-4e52551d4f07@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/EKZl4aJtLg4S0YXOe2Q2GWH";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE/t/GcC/4XQwW7DIAwG4FeJOI8IDCTQU99j2sGAsyAtSQdp1
+ Krqu4+mhx22acff0v9Z9o0VyokKOzQ3lmlLJS1zDeqlYWHE+Z14ijUzEGCEAsFDnAuPJfE0nfL
+ CVbSDj73VNkpWS6dMQ7rs4OvbM2f6PFd3fQ7ZRKXg7h6aXQXopDEAtjWdBuu45Jgxjlds/Yhrw
+ uNHms+XNtL22PCjr6WQSne6a11npfyn7rEQD8s0pfXQSFFrMWIAJ3uvZHDWBBoGQdpZCBrQBQf
+ as8cpYyrrkq/7qza53/LXVzbJBe/BQN8HM2jljykSlmX2C+bY1vW7uMG3ogX8UKAqGoVThGgI+
+ l+U+/3+BfC2A1TEAQAA
+X-Change-ID: 20250320-cdns-dsi-impro-3d8fbd7848d1
+To: Jyri Sarha <jyri.sarha@iki.fi>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jayesh Choudhary <j-choudhary@ti.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>, 
+ Devarsh Thakkar <devarsht@ti.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5088;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=gHMU5QksJ/Xc7+zTNZNZ7MAnbRqKlzLlWprq8zYh1eg=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn/O14VKnXVrLCOYUadcoG0OBS9egt7c3zYLhD0
+ EuGvOvNCrKJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ/zteAAKCRD6PaqMvJYe
+ 9foDD/9nw9+2A0AYs+7Sm4UsJUu7mjUsm6MWgClDjW2uJ8nTNlMlLD720boueovv+0lNN+/sowd
+ giSt7pdGRcMIK+aMh5p+IwpTsVf0h9xGj5SY5Ki8Y2Ln9Mqm6Z9KEh7voN9logN/dNc4s4E1KLA
+ oqa8AfWy4x09/tZPlRSVBtn9Xp2TFazGET7hP+4eaI01wqGTHwEHlEa3hXbZ6cZrMIxJm1U5G9H
+ JyyCuO2kehRq1+XmWMkyMrtRqY6dXSDakeQkI07Fnty18rCS6P3Ycpf9zAlC0Gel1gI/JeENDbZ
+ A6gEzEJ2jyXN/4SgQK8PGwf3cWrbAEPQ3QyHyOzyjlisgJz9VCM7HjIyg2Esc8lm0G9bEB7kNa9
+ 2ImLZEh5tyiSxFnWrhqDBHRlFMmqp6BCRrhmsnhQkTW/klmkTn70ARt5Qod+OrPmyez7cshV+Pg
+ 1pTkHxHZOzxFEWBZxQlL4KNSVKKMmcQQNqRejymiszOdze5Zw+h1WOCTJFrB2RtIYVRmKCrXdKI
+ kdCFOtT3j3PwSMyFyctqkEZPbgIYk+S4d2MxljKLXAwmaWZr2C7m4vpGNo+Y1Ihsc7Q8LmPkFUb
+ H6/pA15w2TfWQEwSrb6QTjgdIgADlcgPYA9XoNCAlKtIbDDCYrsEWmUJmiRdCgxTBdiZhh053gc
+ bIahoyNknCqpZqg==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,70 +89,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/EKZl4aJtLg4S0YXOe2Q2GWH
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+While trying to get the cdns-dsi to work on Toradex's AM69 Aquila
+platform, I hit multiple issues in the driver. Basicaly nothing worked
+for with the board.
 
-On Mon, 14 Apr 2025 08:56:56 +0000
-Simon Ser <contact@emersion.fr> wrote:
+This series fixes those issues. While I itch to make much larger changes
+to the cdns-dsi driver, I opted to keep this series relatively simple to
+make the fixes more clear and possibly help with backporting.
 
-> Explain how to perform front-buffer rendering.
->=20
-> v2: apply Pekka's rewrite
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> ---
->  drivers/gpu/drm/drm_blend.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> index 6e74de833466..4e83f372ea51 100644
-> --- a/drivers/gpu/drm/drm_blend.c
-> +++ b/drivers/gpu/drm/drm_blend.c
-> @@ -75,6 +75,12 @@
->   * 	the currently visible vertical area of the &drm_crtc.
->   * FB_ID:
->   * 	Mode object ID of the &drm_framebuffer this plane should scan out.
-> + *
-> + *	When a KMS client is perfoming front-buffer rendering, it should set
-> + *	FB_ID to the same front-buffer FB on each atomic commit. This implies
-> + *	to the driver that it needs to re-read the same FB again. Otherwise
-> + *	drivers which do not employ continuously repeated scanout cycles might
-> + *	not update the screen.
->   * CRTC_ID:
->   * 	Mode object ID of the &drm_crtc this plane should be connected to.
->   *
+The series also touches tidss, but those changes are not strictly
+needed, and can be merged separately. And the series also touches
+cdns-dphy, and those changes are needed.
 
-Looking good, but given the new wording is 100% mine, not sure I can
-give reviewed-by?
+This has been tested on Toradex AM69 Aquila (upstream) and AM62P Verdin
+(Toradex's BSP), with:
+- HDMI output using lontium lt8912b
+- LVDS panel (sn65dsi84 + panel-lvds)
 
-Co-authored-by maybe?
+ Tomi
 
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v3:
+- Add Aradhya's "drm/bridge: cdns-dsi: Fix the _atomic_check()" to the
+  dependencies
+- The above patch from Aradhya allowed adding "drm/bridge: cdns-dsi:
+  Drop crtc_* code", which resulted in quite large changes in the
+  commits, even if the end result doesn't really differ.
+- Reordered commits to decrease back-and-forth (e.g. fixing something in
+  a a code that will be removed in the next commits)
+- The reordering caused quite big changes in the commits (even if the
+  final end result is more or less the same), so I chose not to add
+  tested-by tags.
+- Rename 'cdns_get_dphy_pll_cfg' to 'cdns_dphy_get_pll_cfg'
+- Use div_u64() instead of div64_u64()
+- Drop "Fail if HS rate changed when validating PHY config". This was
+  too strict, as clock rounding (especially with DRM's 1kHz
+  resolution...) leads to clock rates that do not match exactly.
+  However, the rate mismatch should be fine as the commits adjust the
+  pixel clock, and the resulting differences should be so small that we
+  can't even improve the timings match by adjusting the DSI HFP, as the
+  adjustment rounds to 0.
+- Link to v2: https://lore.kernel.org/r/20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com
 
-Thanks,
-pq
+Changes in v2:
+- Change the tidss clock adjustment from mode_fixup() to atomic_check()
+- Link to v1: https://lore.kernel.org/r/20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com
 
---Sig_/EKZl4aJtLg4S0YXOe2Q2GWH
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+---
+Tomi Valkeinen (17):
+      drm/tidss: Fix missing includes and struct decls
+      drm/tidss: Use the crtc_* timings when programming the HW
+      drm/tidss: Adjust the pclk based on the HW capabilities
+      phy: cdns-dphy: Store hs_clk_rate and return it
+      phy: cdns-dphy: Remove leftover code
+      drm/bridge: cdns-dsi: Remove extra line at the end of the file
+      drm/bridge: cdns-dsi: Drop crtc_* code
+      drm/bridge: cdns-dsi: Remove broken fifo emptying check
+      drm/bridge: cdns-dsi: Drop checks that shouldn't be in .mode_valid()
+      drm/bridge: cdns-dsi: Update htotal in cdns_dsi_mode2cfg()
+      drm/bridge: cdns-dsi: Drop cdns_dsi_adjust_phy_config()
+      drm/bridge: cdns-dsi: Adjust mode to negative syncs
+      drm/bridge: cdns-dsi: Fix REG_WAKEUP_TIME value
+      drm/bridge: cdns-dsi: Use video mode and clean up cdns_dsi_mode2cfg()
+      drm/bridge: cdns-dsi: Fix event mode
+      drm/bridge: cdns-dsi: Tune adjusted_mode->clock according to dsi needs
+      drm/bridge: cdns-dsi: Don't fail on MIPI_DSI_MODE_VIDEO_BURST
 
------BEGIN PGP SIGNATURE-----
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 211 +++++++++++--------------
+ drivers/gpu/drm/tidss/tidss_crtc.c             |  25 ++-
+ drivers/gpu/drm/tidss/tidss_dispc.c            |  22 ++-
+ drivers/gpu/drm/tidss/tidss_dispc.h            |   5 +
+ drivers/gpu/drm/tidss/tidss_drv.h              |   2 +
+ drivers/gpu/drm/tidss/tidss_plane.h            |   2 +
+ drivers/gpu/drm/tidss/tidss_scale_coefs.h      |   2 +
+ drivers/phy/cadence/cdns-dphy.c                |  24 ++-
+ 8 files changed, 142 insertions(+), 151 deletions(-)
+---
+base-commit: 10646ddac2917b31c985ceff0e4982c42a9c924b
+change-id: 20250320-cdns-dsi-impro-3d8fbd7848d1
+prerequisite-message-id: 20250226155228.564289-1-aradhya.bhatia@linux.dev
+prerequisite-patch-id: 46845a8d15042dd343a29a17fc0b9d0eec2605f5
+prerequisite-patch-id: 7ce82c26cb9e18884492d2282a72ff2a760aefda
+prerequisite-patch-id: ec2071425cab81da72e0805ad92fc52731d7a24d
+prerequisite-patch-id: 32cde02288e0c36ed687f67778937a61f78b2d90
+prerequisite-patch-id: 5f302e2bead8994763699a909ad0b5501f09ed9f
+prerequisite-patch-id: 30611df6ef38c7872107d6bf6dde4504d46ab224
+prerequisite-patch-id: 99831bcaa13e25b957d83a6320f34bcec223b939
+prerequisite-patch-id: b0ad38bc6b323ceea7a1d2266b0fab8deaa6b05e
+prerequisite-patch-id: 38dbce2b9302a764be9dbdc551578f02d797dfcc
+prerequisite-patch-id: 133f8b1dab4f47d429b1924df981564ce3736233
+prerequisite-patch-id: 879c546693a53e4b72c1ee25954c894ae57a441f
+prerequisite-patch-id: 3e7edc818ac078a138f0e42e3f47fd685fffb84f
+prerequisite-patch-id: 673b9f0b1936b5a49973b71cab5d13774583de38
+prerequisite-message-id: 20250410134646.96811-1-aradhya.bhatia@linux.dev
+prerequisite-patch-id: 04f9a2440cebc87891b51d3f77996c88f7525d1c
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmf87D4ACgkQI1/ltBGq
-qqeHNA/9HKP7HaYNsiU57+z7VFcTlCsJ0D17TWmeYWX6Stv4UpKmQ0JWHtap3pFQ
-hBdc8FrsW/4pYPYKrXVZlwLE6+uRceXS1539G4vH+qkbRPTee1mWeDeDcnzrzYH2
-z5hcjcmJVFeJC5str9Kj2Byum3m/4MQqkveqy0r/s4f7cvshx/YcpYz9DlVR5kI0
-iy26TMejt65bnSydREZ/2spmEeE32wfTQMF+Yg0dtevrYrSL8/xvFZLCNNtgxNW7
-GsTL3OG8jzdEMJrGRvRbZTxP51GH/aVzcsLyMqUqv+aUyjjwETnxGcCmec0TNHhx
-KS304QqLITeEJay98mssuWKT/SMlzuK/q24ybq/1JVZi8vtOgO3N+ptSfAjCK0c4
-0nCfg4QcEJgEID+XanzHLJzkNoaGZIybnrHNvAmWi01an7y5qhD3qbFi/aOUa9ub
-MD2pXpFh9M5zp45q0eAKiGr6ZBzyHkdzqsJvaFI+zkTCW47UrxQBLqE050HrvDmm
-TWNncFTiqFln5XsNaTILocQp8tMZYsad4cWOXWZT6zfZdtsu4qBgV+kUvCANFNE5
-wuLjDfWpf424c7DfBCoIxJA5fd/Bmc+7Akji2iXDcaF5N80UUxys4RbHV/rnLRyj
-bMP5htSDK+lpCdB/IhRNf5YHQEs1CouOW4+JD2rGzmszIe8465A=
-=BxOd
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
---Sig_/EKZl4aJtLg4S0YXOe2Q2GWH--
