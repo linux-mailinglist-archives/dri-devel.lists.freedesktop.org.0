@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46F1A876BF
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 06:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254BEA876CA
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 06:17:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09F4A10E48C;
-	Mon, 14 Apr 2025 04:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CEB610E49A;
+	Mon, 14 Apr 2025 04:17:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KXomGoJf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jnpK633l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C14AE10E490;
- Mon, 14 Apr 2025 04:17:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21D6610E495;
+ Mon, 14 Apr 2025 04:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744604248; x=1776140248;
+ t=1744604250; x=1776140250;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Lo22Toj4KKjay+XfDoVD5pCKcEmUXBnz5TdYSsYLqqw=;
- b=KXomGoJfVUu5FtrbY5UgB2lWdaPIu86bgRupJBGxF2G3Z6bDW10x60Ho
- OpG1baIdLskO6vIW7EUEl6oOvR4LOMzsL7z0ETFzowgnJpk5R2ySSfDYV
- 5l5Fcfy80SzeoMBcbdmRy3y7QItJHmKt1BIYFHBhvlhzfEAf+mmmirNZw
- G89IBJ6sCXGJWEaRzcxAJekY7LLQ9d+ZYrKzTG0R9I5vtwQjFilZMQ1ok
- kYCO8jo2I+/0Tbh1cp30vL5CGXllWuWMm+cRN1AbmMfLzrM3Lb/pN6Hyj
- N2Ygnd103xcjDVpt3E82VB9q8kCJlc2yRAKksLBkrQg48HxKcFuByJh6e w==;
-X-CSE-ConnectionGUID: uzybjeuHTZiHCtwbFNbISg==
-X-CSE-MsgGUID: E8iZ4VE8QqmGYWtC9asyIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46070044"
-X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; d="scan'208";a="46070044"
+ bh=+exsHkBIQVAH7I3fzUlTAHIX4oVlF+axeoik+yas0fw=;
+ b=jnpK633l34GhYsn8td5Z3xkhsgbcPwn8ZJFp+2ZXMLwKhuSdZHWVEOM1
+ +3GDvqzw/PMxNVnTaPoKeA8slCB3y3pbnHWUpV/a01P3jdoVk5JMI+UGD
+ 3qjs4rgcPwEomUY5NEfhthaELN0FwuX7P2DSJM7RSuRKRNnfUMEjp2xfz
+ u1A5x5xL6NCF0ALO2VO5QuSV2UJVQJh5HkAIWG1Qq8ksBjlDAmUR64kgJ
+ qjHmL/ftu2akp5IsWCCQVyQuCp+EGrDjexfizdA/xuitV/bVfhs1On0CM
+ vW9YN21KgIeLPFb7ESupRxq9FDMPdtrBXIWGoEyb34lNgwcLtajBokMHY w==;
+X-CSE-ConnectionGUID: mbshlLkBS1iLyjmbcDjQgg==
+X-CSE-MsgGUID: V5yRkZZcRy2f+ZqzcYpWUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46070047"
+X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; d="scan'208";a="46070047"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2025 21:17:27 -0700
-X-CSE-ConnectionGUID: pJv8ACBBQ2anRudyBV+aWg==
-X-CSE-MsgGUID: bYr2DawVQL69QhNJNLLtpA==
+ 13 Apr 2025 21:17:30 -0700
+X-CSE-ConnectionGUID: JDbTUIqESmWhzoC3KfqfBA==
+X-CSE-MsgGUID: UBLLwKebStOb9LVWsm7Lng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; d="scan'208";a="160658094"
+X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; d="scan'208";a="160658097"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by orviesa002.jf.intel.com with ESMTP; 13 Apr 2025 21:17:26 -0700
+ by orviesa002.jf.intel.com with ESMTP; 13 Apr 2025 21:17:28 -0700
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
 Cc: ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com,
  Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [PATCH 06/13] drm/dp: Modify drm_edp_probe_state
-Date: Mon, 14 Apr 2025 09:46:30 +0530
-Message-Id: <20250414041637.128039-7-suraj.kandpal@intel.com>
+Subject: [PATCH 07/13] drm/dp: Change argument type for
+ drm_edp_backlight_set_level
+Date: Mon, 14 Apr 2025 09:46:31 +0530
+Message-Id: <20250414041637.128039-8-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250414041637.128039-1-suraj.kandpal@intel.com>
 References: <20250414041637.128039-1-suraj.kandpal@intel.com>
@@ -68,70 +69,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Modify drm_edp_probe_state to read current level from
-DP_EDP_PANEL_TARGET_LUMINANCE_VALUE. We divide it by
-1000 since the value in this register is in millinits.
+Use u32 for level variable as one may need to pass value for
+DP_EDP_PANEL_TARGET_LUMINANCE_VALUE.
+
+--v2
+-Typecase is not needed [Jani]
 
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_helper.c | 35 ++++++++++++++++++-------
- 1 file changed, 25 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
+ include/drm/display/drm_dp_helper.h     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index c58973d8c5f0..bb1242a1bf6b 100644
+index bb1242a1bf6b..c4c52fb37191 100644
 --- a/drivers/gpu/drm/display/drm_dp_helper.c
 +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -4185,7 +4185,7 @@ drm_edp_backlight_probe_state(struct drm_dp_aux *aux, struct drm_edp_backlight_i
- 			      u8 *current_mode)
+@@ -3933,7 +3933,7 @@ EXPORT_SYMBOL(drm_dp_pcon_convert_rgb_to_ycbcr);
+  * Returns: %0 on success, negative error code on failure
+  */
+ int drm_edp_backlight_set_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
+-				u16 level)
++				u32 level)
  {
  	int ret;
--	u8 buf[2];
-+	u8 buf[3];
- 	u8 mode_reg;
- 
- 	ret = drm_dp_dpcd_read_byte(aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER, &mode_reg);
-@@ -4202,17 +4202,32 @@ drm_edp_backlight_probe_state(struct drm_dp_aux *aux, struct drm_edp_backlight_i
- 	if (*current_mode == DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD) {
- 		int size = 1 + bl->lsb_reg_used;
- 
--		ret = drm_dp_dpcd_read_data(aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, buf, size);
--		if (ret < 0) {
--			drm_dbg_kms(aux->drm_dev, "%s: Failed to read backlight level: %d\n",
--				    aux->name, ret);
--			return ret;
-+		if (bl->luminance_set) {
-+			ret = drm_dp_dpcd_read_data(aux, DP_EDP_PANEL_TARGET_LUMINANCE_VALUE,
-+						    buf, sizeof(buf));
-+			if (ret < 0) {
-+				drm_dbg_kms(aux->drm_dev,
-+					    "%s: Failed to read backlight level: %d\n",
-+					    aux->name, ret);
-+				return ret;
- 		}
- 
--		if (bl->lsb_reg_used)
--			return (buf[0] << 8) | buf[1];
--		else
--			return buf[0];
-+		return (buf[0] | buf[1] << 8 | buf[2] << 16) / 1000;
-+		} else {
-+			ret = drm_dp_dpcd_read_data(aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB,
-+						    buf, size);
-+			if (ret < 0) {
-+				drm_dbg_kms(aux->drm_dev,
-+					    "%s: Failed to read backlight level: %d\n",
-+					    aux->name, ret);
-+				return ret;
-+			}
-+
-+			if (bl->lsb_reg_used)
-+				return (buf[0] << 8) | buf[1];
-+			else
-+				return buf[0];
-+		}
- 	}
- 
- 	/*
+ 	u8 buf[2] = { 0 };
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index 62be80417ded..6bce0176efd3 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -853,7 +853,7 @@ drm_edp_backlight_init(struct drm_dp_aux *aux, struct drm_edp_backlight_info *bl
+ 		       u16 driver_pwm_freq_hz, const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
+ 		       u32 *current_level, u8 *current_mode, bool need_luminance);
+ int drm_edp_backlight_set_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
+-				u16 level);
++				u32 level);
+ int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
+ 			     u16 level);
+ int drm_edp_backlight_disable(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl);
 -- 
 2.34.1
 
