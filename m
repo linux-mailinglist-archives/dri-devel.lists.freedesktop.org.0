@@ -2,45 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20314A87CB0
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 12:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65EACA87CB9
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 12:02:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6608710E534;
-	Mon, 14 Apr 2025 10:01:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B491610E528;
+	Mon, 14 Apr 2025 10:02:35 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="laOD47Zm";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CB9D610E534
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:01:36 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 360EA1007;
- Mon, 14 Apr 2025 03:01:35 -0700 (PDT)
-Received: from [10.57.87.24] (unknown [10.57.87.24])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 293E33F694;
- Mon, 14 Apr 2025 03:01:32 -0700 (PDT)
-Message-ID: <1da20229-4eca-41a0-b479-320820a27812@arm.com>
-Date: Mon, 14 Apr 2025 11:01:32 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5CE10E528
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:02:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744624949;
+ bh=5IVjsEniU2mkwuPLr2MwBLeHBzN3l2oR/G0NhuIPwWE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=laOD47Zmxk4rjRQHFaWHX4evMwumXe1rJ68+w+YsDulcljL6kePS8kEr4zmN/61LB
+ 4Dwd4PM1zICi8h7xeWvMWMz3Yoea7m75TVhLOA4LFWw3eyFPK2fcyWNgRHfXJS4JpN
+ DqT2csp5mlNBz//xCEAAAcsrSioqrUeRXWeOF1hRflyl8Ew4n0ucshdJWMD98mbHK3
+ R+hMBRB0PvX5eNmVv41udTAwK8i7CaQD+KjSk7QbUH+2zavd2CjOrOq8/ncOn+4uqb
+ EBVnPl4w/vetx3NEV/4urZ5f41Lv8Vmp26qF6ytLEIUtsrwt5OD0DKAUHSv7RsJBpQ
+ TC7wHgo9pxSEA==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E652417E0FA7;
+ Mon, 14 Apr 2025 12:02:28 +0200 (CEST)
+Date: Mon, 14 Apr 2025 12:02:25 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dmitry.osipenko@collabora.com, airlied@gmail.com, simona@ffwll.ch,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/4] drm/client: Do not pin in drm_client_buffer_vmap()
+Message-ID: <20250414120225.39d43086@collabora.com>
+In-Reply-To: <20250404132907.225803-2-tzimmermann@suse.de>
+References: <20250404132907.225803-1-tzimmermann@suse.de>
+ <20250404132907.225803-2-tzimmermann@suse.de>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/4] drm/panthor: Label all kernel BO's
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- "To : Boris Brezillon" <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250411150357.3308921-1-adrian.larumbe@collabora.com>
- <20250411150357.3308921-4-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250411150357.3308921-4-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,163 +63,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/04/2025 16:03, Adrián Larumbe wrote:
-> Kernel BO's aren't exposed to UM, so labelling them is the responsibility
-> of the driver itself. This kind of tagging will prove useful in further
-> commits when want to expose these objects through DebugFS.
+On Fri,  4 Apr 2025 15:23:31 +0200
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
+
+> Pin and vmap are two distict operations. Do not mix them.
 > 
-> Expand panthor_kernel_bo_create() interface to take a NULL-terminated
-
-NIT: s/NULL/NUL/
-
-> string. No bounds checking is done because all label strings are given
-> as statically-allocated literals, but if a more complex kernel BO naming
-> scheme with explicit memory allocation and formatting was desired in the
-> future, this would have to change.
-
-I'm not sure I follow why bounds-checking would be an issue for strings
-from the kernel. But as you state these are all literals so definitely
-not a problem.
-
+> The helper drm_client_buffer_vmap() maps the pages for fbdev-dma
+> and fbdev-shmem. In both cases, the vmap operation ensures that
+> the pages are available until the vunmap happens. And as the pages
+> in DMA or SHMEM areas cannot be moved, there is no reason to call
+> pin. Hence remove the pin call.
 > 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> Update drm_client_buffer_vunmap() accordingly.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 > ---
->  drivers/gpu/drm/panthor/panthor_fw.c    | 8 +++++---
->  drivers/gpu/drm/panthor/panthor_gem.c   | 4 +++-
->  drivers/gpu/drm/panthor/panthor_gem.h   | 2 +-
->  drivers/gpu/drm/panthor/panthor_heap.c  | 6 ++++--
->  drivers/gpu/drm/panthor/panthor_sched.c | 9 ++++++---
->  5 files changed, 19 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/drm_client.c | 22 +++++-----------------
+>  1 file changed, 5 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 0f52766a3120..a7fdc4d8020d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -449,7 +449,8 @@ panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
->  				       DRM_PANTHOR_BO_NO_MMAP,
->  				       DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  				       DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> -				       PANTHOR_VM_KERNEL_AUTO_VA);
-> +				       PANTHOR_VM_KERNEL_AUTO_VA,
-> +				       "Queue FW interface");
->  	if (IS_ERR(mem))
->  		return mem;
->  
-> @@ -481,7 +482,8 @@ panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size)
->  	return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
->  					DRM_PANTHOR_BO_NO_MMAP,
->  					DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
-> -					PANTHOR_VM_KERNEL_AUTO_VA);
-> +					PANTHOR_VM_KERNEL_AUTO_VA,
-> +					"FW suspend buffer");
->  }
->  
->  static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
-> @@ -601,7 +603,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
->  		section->mem = panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev),
->  							section_size,
->  							DRM_PANTHOR_BO_NO_MMAP,
-> -							vm_map_flags, va);
-> +							vm_map_flags, va, "FW section");
->  		if (IS_ERR(section->mem))
->  			return PTR_ERR(section->mem);
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index af0ac17f357f..3c5fc854356e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -82,7 +82,7 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->  struct panthor_kernel_bo *
->  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  			 size_t size, u32 bo_flags, u32 vm_map_flags,
-> -			 u64 gpu_va)
-> +			 u64 gpu_va, const char *name)
+> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+> index f1de7faf9fb45..154693066a127 100644
+> --- a/drivers/gpu/drm/drm_client.c
+> +++ b/drivers/gpu/drm/drm_client.c
+> @@ -303,34 +303,23 @@ EXPORT_SYMBOL(drm_client_buffer_vunmap_local);
+>   * Returns:
+>   *	0 on success, or a negative errno code otherwise.
+>   */
+> -int
+> -drm_client_buffer_vmap(struct drm_client_buffer *buffer,
+> -		       struct iosys_map *map_copy)
+> +int drm_client_buffer_vmap(struct drm_client_buffer *buffer,
+> +			   struct iosys_map *map_copy)
 >  {
->  	struct drm_gem_shmem_object *obj;
->  	struct panthor_kernel_bo *kbo;
-> @@ -106,6 +106,8 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  	kbo->obj = &obj->base;
->  	bo->flags = bo_flags;
+>  	struct drm_gem_object *gem = buffer->gem;
+>  	struct iosys_map *map = &buffer->map;
+>  	int ret;
 >  
-> +	panthor_gem_kernel_bo_set_label(kbo, name);
+>  	drm_gem_lock(gem);
+> -
+> -	ret = drm_gem_pin_locked(gem);
+> -	if (ret)
+> -		goto err_drm_gem_pin_locked;
+>  	ret = drm_gem_vmap_locked(gem, map);
+> -	if (ret)
+> -		goto err_drm_gem_vmap;
+> -
+>  	drm_gem_unlock(gem);
+>  
+> +	if (ret)
+> +		return ret;
 > +
->  	/* The system and GPU MMU page size might differ, which becomes a
->  	 * problem for FW sections that need to be mapped at explicit address
->  	 * since our PAGE_SIZE alignment might cover a VA range that's
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index beba066b4974..62aea06dbc6d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -153,7 +153,7 @@ panthor_kernel_bo_vunmap(struct panthor_kernel_bo *bo)
->  struct panthor_kernel_bo *
->  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  			 size_t size, u32 bo_flags, u32 vm_map_flags,
-> -			 u64 gpu_va);
-> +			 u64 gpu_va, const char *name);
+>  	*map_copy = *map;
 >  
->  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+>  	return 0;
+> -
+> -err_drm_gem_vmap:
+> -	drm_gem_unpin_locked(buffer->gem);
+> -err_drm_gem_pin_locked:
+> -	drm_gem_unlock(gem);
+> -	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_client_buffer_vmap);
 >  
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-> index 3bdf61c14264..d236e9ceade4 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> @@ -151,7 +151,8 @@ static int panthor_alloc_heap_chunk(struct panthor_heap_pool *pool,
->  	chunk->bo = panthor_kernel_bo_create(pool->ptdev, pool->vm, heap->chunk_size,
->  					     DRM_PANTHOR_BO_NO_MMAP,
->  					     DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
-> -					     PANTHOR_VM_KERNEL_AUTO_VA);
-> +					     PANTHOR_VM_KERNEL_AUTO_VA,
-> +					     "Tiler heap chunk");
->  	if (IS_ERR(chunk->bo)) {
->  		ret = PTR_ERR(chunk->bo);
->  		goto err_free_chunk;
-> @@ -555,7 +556,8 @@ panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
->  	pool->gpu_contexts = panthor_kernel_bo_create(ptdev, vm, bosize,
->  						      DRM_PANTHOR_BO_NO_MMAP,
->  						      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
-> -						      PANTHOR_VM_KERNEL_AUTO_VA);
-> +						      PANTHOR_VM_KERNEL_AUTO_VA,
-> +						      "Heap pool");
->  	if (IS_ERR(pool->gpu_contexts)) {
->  		ret = PTR_ERR(pool->gpu_contexts);
->  		goto err_destroy_pool;
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 446ec780eb4a..43ee57728de5 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -3332,7 +3332,8 @@ group_create_queue(struct panthor_group *group,
->  						  DRM_PANTHOR_BO_NO_MMAP,
->  						  DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  						  DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> -						  PANTHOR_VM_KERNEL_AUTO_VA);
-> +						  PANTHOR_VM_KERNEL_AUTO_VA,
-> +						  "CS ring buffer");
->  	if (IS_ERR(queue->ringbuf)) {
->  		ret = PTR_ERR(queue->ringbuf);
->  		goto err_free_queue;
-> @@ -3362,7 +3363,8 @@ group_create_queue(struct panthor_group *group,
->  					 DRM_PANTHOR_BO_NO_MMAP,
->  					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> -					 PANTHOR_VM_KERNEL_AUTO_VA);
-> +					 PANTHOR_VM_KERNEL_AUTO_VA,
-> +					 "Group job stats");
+> @@ -349,7 +338,6 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
 >  
->  	if (IS_ERR(queue->profiling.slots)) {
->  		ret = PTR_ERR(queue->profiling.slots);
-> @@ -3493,7 +3495,8 @@ int panthor_group_create(struct panthor_file *pfile,
->  						   DRM_PANTHOR_BO_NO_MMAP,
->  						   DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  						   DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> -						   PANTHOR_VM_KERNEL_AUTO_VA);
-> +						   PANTHOR_VM_KERNEL_AUTO_VA,
-> +						   "Group sync objects");
->  	if (IS_ERR(group->syncobjs)) {
->  		ret = PTR_ERR(group->syncobjs);
->  		goto err_put_group;
+>  	drm_gem_lock(gem);
+>  	drm_gem_vunmap_locked(gem, map);
+> -	drm_gem_unpin_locked(gem);
+>  	drm_gem_unlock(gem);
+>  }
+>  EXPORT_SYMBOL(drm_client_buffer_vunmap);
 
