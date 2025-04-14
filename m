@@ -2,75 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85AFA88CB0
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 22:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FFCA88CE3
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 22:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F0A710E639;
-	Mon, 14 Apr 2025 20:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03E7010E650;
+	Mon, 14 Apr 2025 20:14:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B5V5CScY";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="rdxPbLcW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9A510E639
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 20:04:20 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-3032a9c7cfeso877210a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 13:04:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744661060; x=1745265860; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zMHnsHq/OTZKiV4PYYiWLQwRz7k4SvVkH85VQAVMhEk=;
- b=B5V5CScYiF6HyupMIgsySGdMS5LNkAzdMAwOt6srsj2bpbzPj6RILcgV98GehiKcWe
- qRBAY2Ur8gcewtNhIJ7Yi/jqWEqHn5XtSlCOwu2mPut6JAxYi4hnF6Sg4+Lb5M0MC3Cl
- rR7rzT5X4GcAf+1sK/V4crDsGKqYKAehLY2VUNNd7Atxmi5ikh7ZgKQa2NmCpiX6XdGz
- 8oVrO1bwROodbSt+nsBR0DMv57GGFUZCMt5BuYvjKpZzoCrOWZD3VfA0+CGemNH3VBKG
- ioptQEOfnenSqBdsmcJ7PONx+59OpDxR/QLKW//h+iAQciC67TVYHPpj3z1uVU3bWAqt
- tdoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744661060; x=1745265860;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zMHnsHq/OTZKiV4PYYiWLQwRz7k4SvVkH85VQAVMhEk=;
- b=gdLXCIbYvgMZzM0YXDdxyWEe/TKdAI3FYogDc5AKLcQqZYhg7J77ssbdxYtuigteG2
- 61b464n005hQ6VqWascBO4d+1GQ2wWN5n92uWGQg8Y0PGlkeTsE6boOsWM0CmKSIm7Ln
- aq4QWpkVtfqAFy16TNoGnLJz8wTSxLqltYqiVd6Hz2IbkrdDoUQvhiPAiTTPRHtKA0ki
- kp2j2QRhIfARJ70+bMcyDCWtRBB2t8p2wJTntR6qZ/74+WqVVwqE7fXOT7VHV4RQdpJl
- n1m3s1kHj53dcPjxUyUqWe4g3qVnrUGPyIgBOLp6yY7I+CBdGitWsSeS2TKAbpdnvXIg
- 3u6g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWA4xooxsQtyAn7AtgNuXNNU8jV7xWOrh5+lI744f2/9jBQRTMyJJwvURY4WV1y8P2GTAFQMe5qC/4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyjFur5lhc0LVhbArBq81hFvzA5g2exf0P4tFI+nBUkjPcIdcSC
- btQV4qpVimZc0UtBXN+lIIOaSvngY1NxjEIAsyji6M1wYgQAGLJPiQrTUBLvSZrBY5FYJn4eR16
- Ti5X77eQuumRG5p2YFySh+e7pw7U=
-X-Gm-Gg: ASbGncvZDWSx9wa83B1LNGLEg5f8BGxn9Dx/6CK5G7ppnQta8SQ0wiQTHcTSkcNo9Pp
- dQpe/h0QXeEO3jJORvKhf/Ua6nEdfXWveQMp6ABpogz/8SA1M2RFrEC71JhyA6IK1Dec81AXao4
- BfHx6g03gIsNTXnUbbuCeT5g==
-X-Google-Smtp-Source: AGHT+IEIsC+csnI6Weh2OROunc3WgcgEHXLp5SfVQnPJhalUb5ZDeDIp3PEVZXXpGRp6IE4jLRwQHMQHJQ/2aNQrYNg=
-X-Received: by 2002:a17:90b:17c4:b0:2ff:7970:d2b6 with SMTP id
- 98e67ed59e1d1-3084e7660a7mr588747a91.5.1744661059013; Mon, 14 Apr 2025
- 13:04:19 -0700 (PDT)
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDEAF10E650
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 20:14:03 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53EKDr7M2255205
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Apr 2025 15:13:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1744661633;
+ bh=u4s325uvuTrWBpavXWq6UQUmHw42JVkD/r2Zx8Uy0G4=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=rdxPbLcWyTDIJ9phfExl7sbHI2mZmInXxPpoGj/wFsJkGVlvtRGloTMdtZxIBXrED
+ 7TELmyo9rNl8zsOJZBDwZhvqEeu0SIJRVV9jNqOvbbk9PLU9jZeuGLrJIyw5ATrZyM
+ KOFq5+UyrUBsVdrOplbysZE/EGNZ9W6GdmLbrMMQ=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53EKDrWo107347
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 14 Apr 2025 15:13:53 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 14
+ Apr 2025 15:13:52 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 14 Apr 2025 15:13:53 -0500
+Received: from [10.249.42.149] ([10.249.42.149])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53EKDqaS030321;
+ Mon, 14 Apr 2025 15:13:52 -0500
+Message-ID: <4c77a566-d231-43f2-ada6-a81ec6b58237@ti.com>
+Date: Mon, 14 Apr 2025 15:13:52 -0500
 MIME-Version: 1.0
-References: <CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com>
-In-Reply-To: <CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 14 Apr 2025 22:04:05 +0200
-X-Gm-Features: ATxdqUGhP1sZvMYgYKWAALlWFoszwfZM_Wql-C1K7rgS--G_42gWwTfE1HErvmc
-Message-ID: <CANiq72k0BY04QgxWUTsgDTZJmwHurtK4XKmdWrBA1qN5jKZqpw@mail.gmail.com>
-Subject: Re: `u64` by `u64` div/mod in DRM QR for arm32
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Christian Schrefl <chrisi.schrefl@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- rust-for-linux <rust-for-linux@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] uio/dma-buf: Give UIO users access to DMA addresses.
+To: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: Christoph Hellwig <hch@infradead.org>, Bastien Curutchet
+ <bastien.curutchet@bootlin.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
+References: <20250410-uio-dma-v1-0-6468ace2c786@bootlin.com>
+ <Z_yjNgY3dVnA5OVz@infradead.org> <20250414102455.03331c0f@windsurf>
+ <Z_zwZYBO5Txz6lDF@infradead.org> <20250414134831.20b04c77@windsurf>
+ <8f55367e-45c0-4280-b1ed-7ce9160c1fad@ti.com>
+ <20250414212125.4b3e6f33@windsurf>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20250414212125.4b3e6f33@windsurf>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,12 +79,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 14, 2025 at 8:14=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> operator with some support from upstream Rust. Or do you have
+On 4/14/25 2:21 PM, Thomas Petazzoni wrote:
+> Hello Andrew,
+> 
+> On Mon, 14 Apr 2025 12:08:44 -0500
+> Andrew Davis <afd@ti.com> wrote:
+> 
+>> "UIO is a broken legacy mess, so let's add more broken things
+>> to it as broken + broken => still broken, so no harm done", am I
+>> getting that right?
+> 
+> Who says UIO is a "broken legacy mess"? Only you says so. I don't see
+> any indication anywhere in the kernel tree suggesting that UIO is
+> considered a broken legacy mess.
+> 
 
-Or, probably something that makes more sense: just forbidding its use.
+I'm not saying that*, I'm pointing out your argument is that even
+though what you are trying to do is broken and unsafe, it is okay to
+do because it isn't any "more "broken and unsafe" than UIO already is."
 
-Cheers,
-Miguel
+*It is, but that is an argument to have outside of this thread :)
+
+> Keep in mind that when you're running code as root, you can load a
+> kernel module, which can do anything on the system security-wise. So
+> letting UIO expose MMIO registers of devices to userspace applications
+> running as root is not any worse than that.
+> 
+
+You can take your computer out back and shoot it too, but we shouldn't
+encourage that either :) According to the original docs, UIO was created
+to support "industrial I/O cards", think old one-off custom ISA cards by
+vendors that had no intention of ever writing a proper driver and just
+wanted to poke registers and wait on an IRQ.
+
+IMHO we shouldn't be encouraging that, and trying to modernize UIO does just
+that. It gives the impression that is how drivers should still be written.
+If you setup your FPGA card to go blink an LED, sure UIO driver it is,
+anything more complex, then writing a proper driver is the way to go.
+
+>> If your FPGA IP can do DMA then you should not be using UIO in
+>> the first place, see UIO docs:
+>>
+>>> Please note that UIO is not an universal driver interface. Devices that
+>>> are already handled well by other kernel subsystems (like networking or
+>>> serial or USB) are no candidates for an UIO driver.
+>>
+>> The DMA subsystem already handles DMA devices, so write a DMA driver.
+> 
+> My FPGA IP block is not a DMA controller that would fit the dmaengine
+> kernel subsystem. It's a weird custom device that doesn't fit in any
+> existing subsystem, and that happens to do "peripheral DMA" (i.e the IP
+> block is DMA-capable itself, without relying on a separate DMA
+> controller). So this (very valid) recommendation from the UIO
+> documentation doesn't apply to my device.
+
+Peripheral DMA is the much more common case, nothing new here. Could
+you give a hint as to what this device does that doesn't fit *any*
+current subsystem? Or are we talking a hypothetical device (which
+for the sake of argument is a valid thing to say, I'm sure with an
+FPGA card I could make something that doesn't fit any current
+framework too). Just want to know if you are trying to solve a
+specific issue or a generic issue here.
+
+Andrew
+
+> 
+> Best regards,
+> 
+> Thomas
