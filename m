@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFD1A87CF4
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 12:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 569BEA87CF7
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 12:07:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AF4210E53E;
-	Mon, 14 Apr 2025 10:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D19710E544;
+	Mon, 14 Apr 2025 10:07:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KePMNTvP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LVpAI05x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2CD10E53E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:06:32 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A006610E544
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744625193; x=1776161193;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=WhUtYdHkWiJ3gnoNVWX8jifKoqmwY7T1iy25cY9QpS4=;
- b=KePMNTvPaNSyt3nDNnm9NwsA+j1UhJE0VIh/PuPPVByjOSnIdMcLUvJN
- lKXZUEkWZNRb8ZfIOERm8UKsOxp5ZpxUQQQ3V5/FZjI5mX+42b+hhnWns
- 1oY/0mZh6XlKuOSDbgX6+n6aQncsubVQNAAozLUSLSkTj4Fwmd/bXCb05
- oxkB8z4qJqtsWy69DhycK+XPsCM/PNMiA8onDFyIKhzeLtZ9TFa8W9Bo2
- MP478/51tpAbgFVDxN9EUJ6g79WdkZM9zZGwFpH8STges8i+vuJF/a1G3
- TzMFOWNPPmFkVROAibRasEXNdNfk2iWaExwob6eLiprG+KhTmRGoPuOBz Q==;
-X-CSE-ConnectionGUID: ujR3lFAfTS2WfNOyB3CGPw==
-X-CSE-MsgGUID: +JemeMKOSoqpx0QkpHwPGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46218565"
-X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; d="scan'208";a="46218565"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2025 03:06:32 -0700
-X-CSE-ConnectionGUID: okw0FzZZQLWWb67E/6Yqdw==
-X-CSE-MsgGUID: eEDk4LnCT+K09Hr6L6GI7w==
+ t=1744625238; x=1776161238;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=ozUToj8hnQBLcBSNJc3tQrsZffoKQypZ8aQtkMPwOXI=;
+ b=LVpAI05x/R6gt00tYbj+IHAEXSgrgmqEpF5Rw1S9xL2Phrdvt61R09ev
+ Lq1oQYSwh/x9uGoUjM6a7I8qAqRQwwPfZSTjKHXeLM6/ZDMgMyxgTIVyR
+ pqKrkVhfkJG3kxJY9x2BA82bsPbQ2SmAuiGPUTJpFT72ze/iRaRNIMCaQ
+ 4BHN5IK/e91euThNprWgHctLoScpAbFhcsMPvTVPAV5PSyWBxJtmoI6Za
+ rt9Dohq2RTyK+g2e0bYjbinCkCe1uiiQ1aY8V2JzGN5CFxG4nt3WC+H2B
+ D/izYvvdgFVLWS41TFUXr5YmoH8scQNUDlQLPGUIunq8uEKFkmOTLXmJG w==;
+X-CSE-ConnectionGUID: 0VdPiIk1RC2d9kqZ3TTfdA==
+X-CSE-MsgGUID: WL9gusE3T1Ow+5GvTcaV+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="56268600"
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; d="scan'208";a="56268600"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2025 03:07:18 -0700
+X-CSE-ConnectionGUID: EFf+Dns+RL6Rgrz9PTcWjQ==
+X-CSE-MsgGUID: ZtfGCfYFQHiJcofNawjWgA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; d="scan'208";a="160731825"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.205])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2025 03:06:29 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>, Mario
- Limonciello <mario.limonciello@amd.com>, Rodrigo Siqueira
- <siqueira@igalia.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: Re: [PATCH 11/13] drm/edid: introduce a helper that compares edid
- data from two drm_edid
-In-Reply-To: <20250411201333.151335-12-mwen@igalia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250411201333.151335-1-mwen@igalia.com>
- <20250411201333.151335-12-mwen@igalia.com>
-Date: Mon, 14 Apr 2025 13:06:25 +0300
-Message-ID: <87ikn7t5um.fsf@intel.com>
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; d="scan'208";a="134531819"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2025 03:07:15 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1u4Gie-0000000CCcE-3dPa; Mon, 14 Apr 2025 13:07:12 +0300
+Date: Mon, 14 Apr 2025 13:07:12 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: "Avizrat, Yaron" <yaron.avizrat@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Oded Gabbay <ogabbay@kernel.org>, "Elbaz, Koby" <koby.elbaz@intel.com>,
+ "Sinyuk, Konstantin" <konstantin.sinyuk@intel.com>
+Subject: Re: [PATCH v3 1/1] accel/habanalabs: Switch to use %ptTs
+Message-ID: <Z_zeUAW7u8UgmEOo@smile.fi.intel.com>
+References: <20250305110126.2134307-1-andriy.shevchenko@linux.intel.com>
+ <Z-PM8oBtTPzqv-S2@smile.fi.intel.com> <87zfh86rqi.fsf@intel.com>
+ <81431521-bedf-4361-a222-0e8ec70bea69@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <81431521-bedf-4361-a222-0e8ec70bea69@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,85 +77,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Apr 2025, Melissa Wen <mwen@igalia.com> wrote:
-> AMD driver has a function used to compare if two edid are the same; this
-> is useful to some of the link detection algorithms implemented by
-> amdgpu.=C2=A0Since the amdgpu function can be helpful for other drivers, =
-this
-> commit abstracts the AMD function to make it available at the DRM level
-> by wrapping existent drm_edid_eq().
->
-> Co-developed-by: Rodrigo Siqueira <siqueira@igalia.com>
-> Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
-> Signed-off-by: Melissa Wen <mwen@igalia.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 18 ++++++++++++++++++
->  include/drm/drm_edid.h     |  2 ++
->  2 files changed, 20 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 855beafb76ff..328a25d198e5 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -7502,3 +7502,21 @@ bool drm_edid_is_digital(const struct drm_edid *dr=
-m_edid)
->  		drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL;
->  }
->  EXPORT_SYMBOL(drm_edid_is_digital);
-> +
-> +/**
-> + * drm_edid_is_edid_eq - Check if it the EDID is equal
+On Sun, Mar 30, 2025 at 02:15:50PM +0300, Avizrat, Yaron wrote:
+> 
+> On 26/03/2025 11:55, Jani Nikula wrote:
+> > On Wed, 26 Mar 2025, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> >> +Cc: Jani (sorry, forgot to add you in the first place).
+> >>
+> >> Do you think it's applicable now?
+> > Cc: Yaron, Koby, and Konstantin who are supposed to be the new
+> > maintainers for accel/habanalabs.
+> >
+> >
+> > BR,
+> > Jani.
+> 
+> Thanks for the help, We’ll verify this change in our CI/CD pipeline and update you ASAP.
 
-I think drm_edid_eq() is the better name. Please rename the static one
-to make room. Maybe make it drm_edid_eq_buf() or something, because
-that's what it really does.
+What's news, please?
 
-"Check if the EDIDs are equal"
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> + *
-> + * @drm_edid_old: old drm_edid to compare edid
-> + * @drm_edid_new: new drm_edid to compare edid
 
-Old and new are meaningless here. It's supposed to be a generic
-function. Just a/b or edid1/edid2 or something.
-
-> + *
-> + * Return true if the EDID is equal
-
-"Return true if the EDIDs are equal."
-
-> + */
-> +bool drm_edid_is_edid_eq(const struct drm_edid *drm_edid_old,
-> +			 const struct drm_edid *drm_edid_new)
-> +{
-> +	const void *old_edid =3D drm_edid_old->edid;
-> +	size_t old_edid_size =3D drm_edid_old->size;
-
-The existing drm_edid_eq() function supports the use case of either or
-both EDIDs being NULL, and returning true for two NULL EDIDs. This one
-oopses if the "old" EDID is NULL.
-
-I'm not sure you can trivially replicate that behaviour by reusing the
-existing function, though.
-
-> +
-> +	return drm_edid_eq(drm_edid_new, old_edid, old_edid_size);
-> +}
-> +EXPORT_SYMBOL(drm_edid_is_edid_eq);
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index eaac5e665892..0e062761296c 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -469,6 +469,8 @@ int drm_edid_connector_update(struct drm_connector *c=
-onnector,
->  			      const struct drm_edid *edid);
->  int drm_edid_connector_add_modes(struct drm_connector *connector);
->  bool drm_edid_is_digital(const struct drm_edid *drm_edid);
-> +bool drm_edid_is_edid_eq(const struct drm_edid *drm_edid_first,
-> +			 const struct drm_edid *drm_edid_second);
->  void drm_edid_get_product_id(const struct drm_edid *drm_edid,
->  			     struct drm_edid_product_id *id);
->  void drm_edid_print_product_id(struct drm_printer *p,
-
---=20
-Jani Nikula, Intel
