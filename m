@@ -2,48 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F11A87A36
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE25A87A37
 	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 10:25:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9E210E4CD;
-	Mon, 14 Apr 2025 08:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6AC710E4D4;
+	Mon, 14 Apr 2025 08:25:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="lvJCVR8v";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="poaIFy94";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10B0C10E4D9
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 08:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1744619089; x=1744878289;
- bh=1zT88YVcAtYblI3KeYRMymEMBDO/CkXrCqQV/Fe4xUc=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=lvJCVR8vxJVz13xXHNFLCACRJXzreltDzKj9P7AG9RcXvdhjR10x1pT6eOxW3oY1l
- x87z5FOwIgo6BtoA+pK4CJ+394pp0iXy8fam1A1K3axF5UfgSoxNgs0tXTlOBGTAN1
- mJ3OYoD3GiC3iAA9pfMzXJciYGKaDXcj2Q69I+jD9CVDv33eeUv8XsLsiVDc1ZgCRS
- HRlt0FzBFKp9y+zcXTWIqUAbMB4gt9yRHMTAh/yUWZUB5B4NfUtVYFVSCbS9HkdIKh
- i44zTw/YfBD4xfMeRGPvXElPnxIuhl4opokt8gGOeYqu6VNioeJ9lJUR+NViQ/jxD7
- Z1DqDmbGnyiFg==
-Date: Mon, 14 Apr 2025 08:24:44 +0000
-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-From: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>,
- =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- David Turner <david.turner@raspberrypi.com>
-Subject: Re: [PATCH] drm: document DRM_MODE_PAGE_FLIP_EVENT interactions with
- atomic
-Message-ID: <wKekuqyfg94IU93Ol9YIZU1bw1eBz0wva56a6US3DBfn5vBBUmvNMRWOIPUD4HL16evFO-j561hsuczkwZuU0nbHdYjOAtGvAufvoqkj1Lc=@emersion.fr>
-In-Reply-To: <20250117131543.38f0f60d@eldfell>
-References: <20250116162528.2235991-1-contact@emersion.fr>
- <20250117131543.38f0f60d@eldfell>
-Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 0aa29c0682b6bf7f6c13f38aaee5a853ffb33f96
+X-Greylist: delayed 448 seconds by postgrey-1.36 at gabe;
+ Mon, 14 Apr 2025 08:25:00 UTC
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE2210E4D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 08:25:00 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7E06943212;
+ Mon, 14 Apr 2025 08:24:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1744619097;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dMI+QJBZXFdwaOEwENZ/Wk7G4tgkYRiH7f6+ILsCAQ8=;
+ b=poaIFy94nV/ZDFtWFFz/IhlAKQTc56qy9O2lmr9DKz7Ogo7mebp9fESIlxDMuPTmfvcOWd
+ bgApjJNukM6+c9KmnIMZFunUkHpIBq8A8/JlBmY9OGhpcAcLPhWDaO4yaiNup+V+88LQiQ
+ hDohe2thkdmiOZIMn8295bCaUFivcSUjKlQFJi3lqmLakNJkIVLJ6tPfnO/jf4qZ2SKqtD
+ qXLiyDirqI+j0pzwCN/lI9Vssw81/NfShVSi5c6KU3Tj5BzWzxc66fqEc4ZlHGtGGuP/Oc
+ QUmacvOMU5r2CoawdpddXHXxcMNhsiz5X8NkL3FJZBq0E6ZhmbLjnccYOlLdXQ==
+Date: Mon, 14 Apr 2025 10:24:55 +0200
+From: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Bastien Curutchet <bastien.curutchet@bootlin.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] uio/dma-buf: Give UIO users access to DMA addresses.
+Message-ID: <20250414102455.03331c0f@windsurf>
+In-Reply-To: <Z_yjNgY3dVnA5OVz@infradead.org>
+References: <20250410-uio-dma-v1-0-6468ace2c786@bootlin.com>
+ <Z_yjNgY3dVnA5OVz@infradead.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvddttdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefvhhhomhgrshcurfgvthgriiiiohhnihcuoehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepledtgedvjeehgeetgfeufffglefhkedvfeduveeiieelteeliedtfefguefggffhnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemkeegfeegmeelfhdtleemvdektddumeefsgelmeejsggtfhemheehleehmegvfhefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemkeegfeegmeelfhdtleemvdektddumeefsgelmeejsggtfhemheehleehmegvfhefvgdphhgvlhhopeifihhnughsuhhrfhdpmhgrihhlfhhrohhmpehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepledprhgtphhtthhopehhtghhsehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepsggrshhtihgvnhdrtghurhhuthgthhgvthessghoohhtlhhinhdrtghomhdprhgtphhtthhopehsu
+ hhmihhtrdhsvghmfigrlheslhhinhgrrhhordhorhhgpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhgrrhhoqdhmmhdqshhigheslhhishhtshdrlhhinhgrrhhordhorhhg
+X-GND-Sasl: thomas.petazzoni@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,74 +71,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, January 17th, 2025 at 12:15, Pekka Paalanen <pekka.paalanen@halo=
-niitty.fi> wrote:
+Hello Christoph,
 
-> On Thu, 16 Jan 2025 16:25:35 +0000
-> Simon Ser contact@emersion.fr wrote:
->=20
-> > It's not obvious off-hand which CRTCs will get a page-flip event
-> > when using this flag in an atomic commit, because it's all
-> > implicitly implied based on the contents of the atomic commit.
-> > Document requirements for using this flag and
->=20
-> and?
+On Sun, 13 Apr 2025 22:55:02 -0700
+Christoph Hellwig <hch@infradead.org> wrote:
 
-Oops, sounds like I stopped here to write the next paragraph and forgot
-to go back and finish the sentence=E2=80=A6
+> On Thu, Apr 10, 2025 at 04:53:17PM +0200, Bastien Curutchet wrote:
+> > Hi all,
+> > 
+> > Many UIO users performing DMA from their UIO device need to access the
+> > DMA addresses of the allocated buffers. There are out-of-tree drivers
+> > that allow to do it but nothing in the mainline.  
+> 
+> In which case it does not matter at all for mainline.
 
-> > Note, because prepare_signaling() runs right after
-> > drm_atomic_set_property() calls, page-flip events are not delivered
-> > for CRTCs pulled in later by DRM core (e.g. on modeset by
-> > drm_atomic_helper_check_modeset()) or the driver (e.g. other CRTCs
-> > sharing a DP-MST connector).
-> >=20
-> > Signed-off-by: Simon Ser contact@emersion.fr
-> > Cc: Simona Vetter simona.vetter@ffwll.ch
-> > Cc: Ville Syrj=C3=A4l=C3=A4 ville.syrjala@linux.intel.com
-> > Cc: Pekka Paalanen pekka.paalanen@collabora.com
-> > Cc: David Turner david.turner@raspberrypi.com
-> > ---
-> > include/uapi/drm/drm_mode.h | 8 ++++++++
-> > 1 file changed, 8 insertions(+)
-> >=20
-> > diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> > index c082810c08a8..a122bea25593 100644
-> > --- a/include/uapi/drm/drm_mode.h
-> > +++ b/include/uapi/drm/drm_mode.h
-> > @@ -962,6 +962,14 @@ struct hdr_output_metadata {
-> > * Request that the kernel sends back a vblank event (see
-> > * struct drm_event_vblank) with the &DRM_EVENT_FLIP_COMPLETE type when =
-the
-> > * page-flip is done.
-> > + *
-> > + * When used with atomic uAPI, one event will be delivered per CRTC in=
-cluded in
-> > + * the atomic commit. A CRTC is included in an atomic commit if one of=
- its
-> > + * properties is set, or if a property is set on a connector or plane =
-linked
-> > + * via the CRTC_ID property to the CRTC. At least one CRTC must be inc=
-luded,
-> > + * and all pulled in CRTCs must be either previously or newly powered =
-on (in
-> > + * other words, a powered off CRTC which stays off cannot be included =
-in the
-> > + * atomic commit).
->=20
-> Sounds right. I imagine this doc needs to be extended when drm_colorop
-> lands, as yet another way to pull in a CRTC.
+It is impressive how "out-of-tree" triggers kernel maintainers, and
+then end up not even reading what the patch series is all about (but I
+forgive you, because it triggers me in the same way).
 
-Yeah, I suppose so.
+This patch series is NOT about adding new kernel APIs meant to be used
+by out-of-tree drivers, which of course would be bad, and we would have
+never proposed.
 
-> Wasn't this also conditional on the DRM_CAP_CRTC_IN_VBLANK_EVENT or did
-> userspace really need to count the events even without it?
+What this patch series is about is to add new user-space interface to
+extend the existing UIO subsystem. What my colleague Bastien was
+mentioning about out-of-tree drivers is that there are a LOT of
+out-of-tree drivers extending UIO to allow user-space applications to
+do DMA, and our proposal is that considering how many people need that
+and implement ugly out-of-tree drivers to solve this issue, we suggest
+the mainline kernel should have a built in solution.
 
-DRM_CAP_CRTC_IN_VBLANK_EVENT is unconditionally set to 1. It doesn't seem
-like there is any interaction between these two. So yeah, I suppose
-user-space needs to count if they are on kernel < v4.12.
+Please re-read again, and realize that we are NOT adding new kernel
+APIs for out-of-tree drivers.
 
-> Nevertheless, should there be a "see also DRM_CAP_CRTC_IN_VBLANK_EVENT"?
+> FYI the proper and safe way to do DMA from userspace is to use
+> vfio/iommufd.
 
-This sounds a bit out-of-place to me TBH. It's orthogonal to event delivery
-and it's linked from struct drm_event_vblank already.
+I am not sure how this can work in our use-case. We have a very simple
+set of IP blocks implemented in a FPGA, some of those IP blocks are
+able to perform DMA operations. The register of those IP blocks are
+mapped into a user-space application using the existing, accepted
+upstream, UIO subsystem. Some of those registers allow to program DMA
+transfers. So far, we can do all what we need, except program those DMA
+transfers. Lots of people are having the same issue, and zillions of
+ugly out-of-tree solutions flourish all over, and we're trying to see
+if we can constructively find a solution that would be acceptable
+upstream to resolve this use-case. Our platform is an old PowerPC with
+no IOMMU.
+
+Note that the safety argument doesn't hold: UIO already allows to map
+registers into user-space applications, which can already program DMA
+transfers to arbitrary locations in memory. The safety comes from the
+fact that such UIO devices are associated with permissions that the
+system administrator controls, to decide which applications are safe
+enough to be granted access to those UIO devices. Therefore, providing
+access through UIO of the physical address of well-defined DMA buffers
+properly allocated through a sane API is not reducing the safety of
+anything compared to what UIO already allows today.
+
+Best regards,
+
+Thomas
+-- 
+Thomas Petazzoni, co-owner and CEO, Bootlin
+Embedded Linux and Kernel engineering and training
+https://bootlin.com
