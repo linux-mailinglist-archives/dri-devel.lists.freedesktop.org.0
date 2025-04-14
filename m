@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D82FA8759E
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 03:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D01A875A4
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 04:01:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5A6710E442;
-	Mon, 14 Apr 2025 01:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6325210E445;
+	Mon, 14 Apr 2025 02:01:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="R3LNFO7P";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="c/Xu4uLX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m21473.qiye.163.com (mail-m21473.qiye.163.com
- [117.135.214.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5400810E442
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 01:58:34 +0000 (UTC)
+Received: from mail-m49218.qiye.163.com (mail-m49218.qiye.163.com
+ [45.254.49.218])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2858010E445
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 02:01:20 +0000 (UTC)
 Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 11bb3e4e9;
- Mon, 14 Apr 2025 09:58:28 +0800 (GMT+08:00)
-Message-ID: <641cf50c-82d9-4690-bff7-36bc7f0f954c@rock-chips.com>
-Date: Mon, 14 Apr 2025 09:58:28 +0800
+ by smtp.qiye.163.com (Hmail) with ESMTP id 11bb6fb66;
+ Mon, 14 Apr 2025 10:01:16 +0800 (GMT+08:00)
+Message-ID: <d0641e38-0d89-49ea-84c6-66707021406b@rock-chips.com>
+Date: Mon, 14 Apr 2025 10:01:16 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] drm/bridge: analogix_dp: ignore return values of
- drm_panel_* calls
+Subject: Re: [PATCH 1/7] drm/bridge: analogix_dp: drop extra calls to
+ analogix_dp_prepare_panel()
+From: Damon Ding <damon.ding@rock-chips.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250401-panel-return-void-v1-0-93e1be33dc8d@oss.qualcomm.com>
- <20250401-panel-return-void-v1-6-93e1be33dc8d@oss.qualcomm.com>
-Content-Language: en-US
 Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
  andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org,
  jernej.skrabec@gmail.com, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, rfoss@kernel.org,
  simona@ffwll.ch, tzimmermann@suse.de
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <20250401-panel-return-void-v1-6-93e1be33dc8d@oss.qualcomm.com>
+References: <20250401-panel-return-void-v1-0-93e1be33dc8d@oss.qualcomm.com>
+ <20250401-panel-return-void-v1-1-93e1be33dc8d@oss.qualcomm.com>
+ <6b662c34-7a1d-4e07-aaa7-752bc0c7575f@rock-chips.com>
+Content-Language: en-US
+In-Reply-To: <6b662c34-7a1d-4e07-aaa7-752bc0c7575f@rock-chips.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQktMQ1YfSEIYTk8ZGE1JSx1WFRQJFh
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQk5MHVYfSxlNSxpCS0NDSB9WFRQJFh
  oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
  hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a963204f70a03a3kunm11bb3e4e9
+X-HM-Tid: 0a963207885203a3kunm11bb6fb66
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mww6DBw*SzICPC4SHghJNU4a
- PzAaCz1VSlVKTE9PTkJOQktCTE1PVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFOSUpCNwY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NDI6Fxw6TTJPKC5LQj4fMiwu
+ ITMKCgtVSlVKTE9PTkJNS0xDSk1NVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFPTk1DNwY+
 DKIM-Signature: a=rsa-sha256;
- b=R3LNFO7PXe2yE11wxIkEsuLQ0mSFket7sQQu0kzw7k+gHKgX4+FMMoXpkhwF7IOuZdxbFsYhYn13Zfph2ACSHhb1v+K13QJbebkHMTNt60FXDRaem2AkCoZU9+LSLnBaWVM4HDFAAAMeNKqX/yEAmYp8RAbXFprvX4QEsm5yt7g=;
+ b=c/Xu4uLXLBJUJNlnNN5UJhUZMjA82gFdfKy6Fd3XMRmOTTC+kfB1NoJee2R7SROwXG1ag94grIt2kqdDr+0d2OUJlb3rumJJXLo+oD1dvJ80rkgwrFNKtwW1mnuSsfXGdikZWbI7+Y8wqVKkXXGT6zfh3AURHId9R/MFF1eS11U=;
  s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=9j4J4fkgVTui3/AFzsLEhhQTB84aEZmksSJuscefb9o=;
+ bh=S8Dtge/RP6NJBdGaWra/8A5/z9Ga2Syj02VicKODVGw=;
  h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,121 +69,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
-
-On 2025/4/1 13:11, Dmitry Baryshkov wrote:
-> Follow the example of other drivers and ignore return values of the
-> drm_panel_prepare() / unprepare() / enable() / disable() calls. There is
-> no possible error recovery, so the driver just logs a message.
+On 2025/4/14 9:20, Damon Ding wrote:
+> Hi Dmitry,
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->   drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 39 ++++------------------
->   1 file changed, 6 insertions(+), 33 deletions(-)
+> On 2025/4/1 13:11, Dmitry Baryshkov wrote:
+>> The analogix_dp_prepare_panel() returns immediately if there is no
+>> attached panel. Drop several calls to this function which are performed
+>> when dp->plat_data->panel is NULL.
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>> ---
+>>   drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 22 
+>> +---------------------
+>>   1 file changed, 1 insertion(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/ 
+>> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> index 
+>> 042154e2d8ccd74ac2dc27fe527e810a50e08a09..ab1cfc340aa95bbf13fe021bd33227b565a5458d 100644
+>> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> @@ -1005,17 +1005,11 @@ static int analogix_dp_get_modes(struct 
+>> drm_connector *connector)
+>>   {
+>>       struct analogix_dp_device *dp = to_dp(connector);
+>>       const struct drm_edid *drm_edid;
+>> -    int ret, num_modes = 0;
+>> +    int num_modes = 0;
+>>       if (dp->plat_data->panel) {
+>>           num_modes += drm_panel_get_modes(dp->plat_data->panel, 
+>> connector);
+>>       } else {
+>> -        ret = analogix_dp_prepare_panel(dp, true, false);
+>> -        if (ret) {
+>> -            DRM_ERROR("Failed to prepare panel (%d)\n", ret);
+>> -            return 0;
+>> -        }
+>> -
+>>           drm_edid = drm_edid_read_ddc(connector, &dp->aux.ddc);
+>>           drm_edid_connector_update(&dp->connector, drm_edid);
+>> @@ -1024,10 +1018,6 @@ static int analogix_dp_get_modes(struct 
+>> drm_connector *connector)
+>>               num_modes += drm_edid_connector_add_modes(&dp->connector);
+>>               drm_edid_free(drm_edid);
+>>           }
+>> -
+>> -        ret = analogix_dp_prepare_panel(dp, false, false);
+>> -        if (ret)
+>> -            DRM_ERROR("Failed to unprepare panel (%d)\n", ret);
+>>       }
+>>       if (dp->plat_data->get_modes)
+>> @@ -1087,19 +1077,9 @@ analogix_dp_detect(struct drm_connector 
+>> *connector, bool force)
+>>       if (dp->plat_data->panel)
+>>           return connector_status_connected;
+>> -    ret = analogix_dp_prepare_panel(dp, true, false);
+>> -    if (ret) {
+>> -        DRM_ERROR("Failed to prepare panel (%d)\n", ret);
+>> -        return connector_status_disconnected;
+>> -    }
+>> -
+>>       if (!analogix_dp_detect_hpd(dp))
+>>           status = connector_status_connected;
+>> -    ret = analogix_dp_prepare_panel(dp, false, false);
+>> -    if (ret)
+>> -        DRM_ERROR("Failed to unprepare panel (%d)\n", ret);
+>> -
+>>       return status;
+>>   }
+>>
 > 
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> index f60068011008482f7b7b2edfcab5fb1b3e9e130f..c7dffdae31877ae194fc6b0a5bf21be203f7dcc4 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> @@ -838,10 +838,7 @@ static int analogix_dp_commit(struct analogix_dp_device *dp)
->   	int ret;
->   
->   	/* Keep the panel disabled while we configure video */
-> -	if (dp->plat_data->panel) {
-> -		if (drm_panel_disable(dp->plat_data->panel))
-> -			DRM_ERROR("failed to disable the panel\n");
-> -	}
-> +	drm_panel_disable(dp->plat_data->panel);
->   
->   	ret = analogix_dp_train_link(dp);
->   	if (ret) {
-> @@ -863,13 +860,7 @@ static int analogix_dp_commit(struct analogix_dp_device *dp)
->   	}
->   
->   	/* Safe to enable the panel now */
-> -	if (dp->plat_data->panel) {
-> -		ret = drm_panel_enable(dp->plat_data->panel);
-> -		if (ret) {
-> -			DRM_ERROR("failed to enable the panel\n");
-> -			return ret;
-> -		}
-> -	}
-> +	drm_panel_enable(dp->plat_data->panel);
->   
->   	/* Check whether panel supports fast training */
->   	ret = analogix_dp_fast_link_train_detection(dp);
-> @@ -1136,7 +1127,6 @@ static void analogix_dp_bridge_atomic_pre_enable(struct drm_bridge *bridge,
->   	struct analogix_dp_device *dp = bridge->driver_private;
->   	struct drm_crtc *crtc;
->   	struct drm_crtc_state *old_crtc_state;
-> -	int ret;
->   
->   	crtc = analogix_dp_get_new_crtc(dp, old_state);
->   	if (!crtc)
-> @@ -1147,11 +1137,7 @@ static void analogix_dp_bridge_atomic_pre_enable(struct drm_bridge *bridge,
->   	if (old_crtc_state && old_crtc_state->self_refresh_active)
->   		return;
->   
-> -	if (dp->plat_data->panel) {
-> -		ret = drm_panel_prepare(dp->plat_data->panel);
-> -		if (ret)
-> -			DRM_ERROR("failed to prepare the panel ret = %d\n", ret);
-> -	}
-> +	drm_panel_prepare(dp->plat_data->panel);
->   }
->   
->   static int analogix_dp_set_bridge(struct analogix_dp_device *dp)
-> @@ -1231,17 +1217,11 @@ static void analogix_dp_bridge_atomic_enable(struct drm_bridge *bridge,
->   static void analogix_dp_bridge_disable(struct drm_bridge *bridge)
->   {
->   	struct analogix_dp_device *dp = bridge->driver_private;
-> -	int ret;
->   
->   	if (dp->dpms_mode != DRM_MODE_DPMS_ON)
->   		return;
->   
-> -	if (dp->plat_data->panel) {
-> -		if (drm_panel_disable(dp->plat_data->panel)) {
-> -			DRM_ERROR("failed to disable the panel\n");
-> -			return;
-> -		}
-> -	}
-> +	drm_panel_disable(dp->plat_data->panel);
->   
->   	disable_irq(dp->irq);
->   
-> @@ -1249,11 +1229,7 @@ static void analogix_dp_bridge_disable(struct drm_bridge *bridge)
->   
->   	pm_runtime_put_sync(dp->dev);
->   
-> -	if (dp->plat_data->panel) {
-> -		ret = drm_panel_unprepare(dp->plat_data->panel);
-> -		if (ret)
-> -			DRM_ERROR("failed to unprepare the panel ret = %d\n", ret);
-> -	}
-> +	drm_panel_unprepare(dp->plat_data->panel);
->   
->   	dp->fast_train_enable = false;
->   	dp->psr_supported = false;
-> @@ -1678,10 +1654,7 @@ void analogix_dp_unbind(struct analogix_dp_device *dp)
->   	analogix_dp_bridge_disable(dp->bridge);
->   	dp->connector.funcs->destroy(&dp->connector);
->   
-> -	if (dp->plat_data->panel) {
-> -		if (drm_panel_unprepare(dp->plat_data->panel))
-> -			DRM_ERROR("failed to turnoff the panel\n");
-> -	}
-> +	drm_panel_unprepare(dp->plat_data->panel);
->   
->   	drm_dp_aux_unregister(&dp->aux);
->   
+> With the patch series:
+> https://patchwork.kernel.org/project/linux-rockchip/list/?series=942183
 > 
-
-The patch has been verified with the eDP panel "lg,lp079qx1-sp0v" in 
-RK3588S EVB1 board.
+> When I verify this patch, there will be a small warning:
+> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1075:6: warning: 
+> unused variable 'ret' [-Wunused-variable]
+>          int ret;
+>              ^
+> 
+> It should be better to remove the unused 'ret'.
+> 
+> Best regards,
+> Damon
+> 
+> 
+> 
 
 Tested-by: Damon Ding <damon.ding@rock-chips.com>
-
-Best regards,
-Damon
 
