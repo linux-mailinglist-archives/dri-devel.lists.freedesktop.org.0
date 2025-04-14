@@ -2,99 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80DA3A87C8C
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 11:57:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59720A87CAF
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 12:01:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FEAD10E539;
-	Mon, 14 Apr 2025 09:57:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZHx+w8bl";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B12F10E520;
+	Mon, 14 Apr 2025 10:01:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C71F510E50C;
- Mon, 14 Apr 2025 09:57:08 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53E99qRt011398;
- Mon, 14 Apr 2025 09:56:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 4VHC8WYpl+uLggBA75zLhVV+Fe7u1dbbrYvZ0DxrmwE=; b=ZHx+w8blJmgNpPdx
- ZuI3JHLeJJ0EpXJT9Ql1p0pzljSctU6IqOmkcWjmvFvL0DaVexXTM/08XA6ySM5o
- 6HG3jxqUIinw+R9LFxJfIsiQrc6OmW+heO8sB77+Eromy1i4v2bJAxWJW4Cj3HcN
- ckbQYSU2r7BMkKd1v9pl7YtuUXV+rZyJOQ+qUCczugtsY0L7a2Jyut58Rn9W1iak
- YOvRUtKSc2/iq+enK+jjyQ2ovoYtw+BRn+CV2q3pHfbEXVRnMjPWtyLHX5uAjr1J
- clJV25yfr36AJRivRDT+/vO9tbJnVIsqHzlZ3R7bvHJGzJYP++Ji7hubdSa4xfWk
- b4V8Iw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yg8wc2u6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Apr 2025 09:56:54 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53E9ur1R006022
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Apr 2025 09:56:53 GMT
-Received: from [10.204.66.137] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 14 Apr
- 2025 02:56:46 -0700
-Message-ID: <bb277124-a225-450b-acfe-0acd0f94b263@quicinc.com>
-Date: Mon, 14 Apr 2025 15:26:43 +0530
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0835B10E520
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:01:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 21C3C1007;
+ Mon, 14 Apr 2025 03:01:27 -0700 (PDT)
+Received: from [10.57.87.24] (unknown [10.57.87.24])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 44AC93F694;
+ Mon, 14 Apr 2025 03:01:24 -0700 (PDT)
+Message-ID: <6d67aff0-7082-4966-acb2-d7985820b3ea@arm.com>
+Date: Mon, 14 Apr 2025 11:01:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/10] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI
- to DP bridge nodes
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: <konradybcio@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <robdclark@gmail.com>, <dmitry.baryshkov@linaro.org>,
- <sean@poorly.run>, <marijn.suijten@somainline.org>,
- <andersson@kernel.org>, <robh@kernel.org>, <robh+dt@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <andrzej.hajda@intel.com>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <quic_abhinavk@quicinc.com>,
- <quic_rajeevny@quicinc.com>, <quic_vproddut@quicinc.com>,
- <quic_jesszhan@quicinc.com>
-References: <20250404115539.1151201-1-quic_amakhija@quicinc.com>
- <20250404115539.1151201-8-quic_amakhija@quicinc.com>
- <nxnqwh2mzvnxv5ytwjsyulxr6ct6mhv3z3v6q4ojrjhhclwv2i@55nb56hnwi3y>
- <0f4eca6c-67df-4730-88b3-a277903deabc@quicinc.com>
- <wzqct2y67h6bkazxv3se77slsheaw5rspgcrcfjm7ngr5t4alw@nktpqrt5woky>
-Content-Language: en-US
-From: Ayushi Makhija <quic_amakhija@quicinc.com>
-In-Reply-To: <wzqct2y67h6bkazxv3se77slsheaw5rspgcrcfjm7ngr5t4alw@nktpqrt5woky>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Authority-Analysis: v=2.4 cv=E9TNpbdl c=1 sm=1 tr=0 ts=67fcdbe7 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=gEfo2CItAAAA:8
- a=COk6AnOGAAAA:8 a=8v7svmj6aq3A3Q3kazgA:9
- a=QEXdDO2ut3YA:10 a=sptkURWiP4Gy88Gu7hUp:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: 8Z-j7vyNj4iUSOfE710VIG7ZGQwXoleI
-X-Proofpoint-GUID: 8Z-j7vyNj4iUSOfE710VIG7ZGQwXoleI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-14_03,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- mlxscore=0 bulkscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
- suspectscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504140072
+Subject: Re: [PATCH v7 2/4] drm/panthor: Add driver IOCTL for setting BO labels
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ "To : Boris Brezillon" <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250411150357.3308921-1-adrian.larumbe@collabora.com>
+ <20250411150357.3308921-3-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250411150357.3308921-3-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,144 +56,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
-
-On 4/11/2025 1:31 AM, Dmitry Baryshkov wrote:
-> On Thu, Apr 10, 2025 at 06:37:54PM +0530, Ayushi Makhija wrote:
->> Hi Dmirity/Konard
->>
->> On 4/7/2025 1:42 AM, Dmitry Baryshkov wrote:
->>> On Fri, Apr 04, 2025 at 05:25:36PM +0530, Ayushi Makhija wrote:
->>>> Add anx7625 DSI to DP bridge device nodes.
->>>>
->>>> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
->>>> ---
->>>>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 208 ++++++++++++++++++++-
->>>>  1 file changed, 207 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->>>> index 175f8b1e3b2d..8e784ccf4138 100644
->>>> --- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->>>> +++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->>>> @@ -28,6 +28,13 @@ chosen {
->>>>  		stdout-path = "serial0:115200n8";
->>>>  	};
->>>>  
->>>> +	vph_pwr: vph-pwr-regulator {
->>>> +		compatible = "regulator-fixed";
->>>> +		regulator-name = "vph_pwr";
->>>> +		regulator-always-on;
->>>> +		regulator-boot-on;
->>>> +	};
->>>> +
->>>>  	vreg_conn_1p8: vreg_conn_1p8 {
->>>>  		compatible = "regulator-fixed";
->>>>  		regulator-name = "vreg_conn_1p8";
->>>> @@ -128,6 +135,30 @@ dp1_connector_in: endpoint {
->>>>  			};
->>>>  		};
->>>>  	};
->>>> +
->>>> +	dp-dsi0-connector {
->>>> +		compatible = "dp-connector";
->>>> +		label = "DSI0";
->>>> +		type = "full-size";
->>>> +
->>>> +		port {
->>>> +			dp_dsi0_connector_in: endpoint {
->>>> +				remote-endpoint = <&dsi2dp_bridge0_out>;
->>>> +			};
->>>> +		};
->>>> +	};
->>>> +
->>>> +	dp-dsi1-connector {
->>>> +		compatible = "dp-connector";
->>>> +		label = "DSI1";
->>>> +		type = "full-size";
->>>> +
->>>> +		port {
->>>> +			dp_dsi1_connector_in: endpoint {
->>>> +				remote-endpoint = <&dsi2dp_bridge1_out>;
->>>> +			};
->>>> +		};
->>>> +	};
->>>>  };
->>>>  
->>>>  &apps_rsc {
->>>> @@ -517,9 +548,135 @@ &i2c11 {
->>>>  
->>>>  &i2c18 {
->>>>  	clock-frequency = <400000>;
->>>> -	pinctrl-0 = <&qup_i2c18_default>;
->>>> +	pinctrl-0 = <&qup_i2c18_default>,
->>>> +		    <&io_expander_intr_active>,
->>>> +		    <&io_expander_reset_active>;
->>>
->>> These pinctrl entries should go to the IO expander itself.
->>>
->>>>  	pinctrl-names = "default";
->>>> +
->>>>  	status = "okay";
->>>> +
->>>> +	io_expander: gpio@74 {
->>>> +		compatible = "ti,tca9539";
->>>> +		reg = <0x74>;
->>>> +		interrupts-extended = <&tlmm 98 IRQ_TYPE_EDGE_BOTH>;
->>>> +		gpio-controller;
->>>> +		#gpio-cells = <2>;
->>>> +		interrupt-controller;
->>>> +		#interrupt-cells = <2>;
->>>> +
->>>> +		gpio2-hog {
->>>
->>> This needs a huuge explanation in the commit message. Otherwise I'd say
->>> these pins should likely be used by the corresponding anx bridges.
->>
->> Thanks, for the review.
->>
->> Previously, I was referring to the downstream DT and misunderstood the use of gpio-hog.
->> After reading the schematic, I realized that gpio2, gpio3, gpio10, and gpio11 are all input pins
->> to the IO expander TC9539. We have already configured gpio2 and gpio10 as interrupts in the
->> ANX7625 bridges, so the gpio-hog is not required. It is working without the gpio-hog configuration.
+On 11/04/2025 16:03, Adrián Larumbe wrote:
+> Allow UM to label a BO for which it possesses a DRM handle.
 > 
-> Please make sure that there are pinctrl entries for all pins.
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Although very minor NITs below which you can consider.
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 42 ++++++++++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_gem.h |  2 ++
+>  include/uapi/drm/panthor_drm.h        | 23 +++++++++++++++
+>  3 files changed, 66 insertions(+), 1 deletion(-)
 > 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 06fe46e32073..983b24f1236c 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1331,6 +1331,44 @@ static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *data,
+>  	return 0;
+>  }
+>  
+> +static int panthor_ioctl_bo_set_label(struct drm_device *ddev, void *data,
+> +				  struct drm_file *file)
+> +{
+> +	struct drm_panthor_bo_set_label *args = data;
+> +	struct drm_gem_object *obj;
+> +	const char *label;
+> +	int ret = 0;
+> +
+> +	obj = drm_gem_object_lookup(file, args->handle);
+> +	if (!obj)
+> +		return -ENOENT;
+> +
+> +	if (args->size && args->label) {
+> +		if (args->size > PANTHOR_BO_LABEL_MAXLEN) {
+> +			ret = -E2BIG;
+> +			goto err_label;
+> +		}
+> +
+> +		label = strndup_user(u64_to_user_ptr(args->label), args->size);
+> +		if (IS_ERR(label)) {
+> +			ret = PTR_ERR(label);
+> +			goto err_label;
+> +		}
+> +	} else if (args->size && !args->label) {
+> +		ret = -EINVAL;
+> +		goto err_label;
+> +	} else {
+> +		label = NULL;
+> +	}
+> +
+> +	panthor_gem_bo_set_label(obj, label);
+> +
+> +err_label:
+> +	drm_gem_object_put(obj);
+> +
+> +	return ret;
+> +}
+> +
+>  static int
+>  panthor_open(struct drm_device *ddev, struct drm_file *file)
+>  {
+> @@ -1400,6 +1438,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+>  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+> +	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
+>  };
+>  
+>  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+> @@ -1509,6 +1548,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+>   * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
+>   *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
+>   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+> + * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
+>   */
+>  static const struct drm_driver panthor_drm_driver = {
+>  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> @@ -1522,7 +1562,7 @@ static const struct drm_driver panthor_drm_driver = {
+>  	.name = "panthor",
+>  	.desc = "Panthor DRM driver",
+>  	.major = 1,
+> -	.minor = 3,
+> +	.minor = 4,
+>  
+>  	.gem_create_object = panthor_gem_create_object,
+>  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index af0d77338860..beba066b4974 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -13,6 +13,8 @@
+>  
+>  struct panthor_vm;
+>  
+> +#define PANTHOR_BO_LABEL_MAXLEN	PAGE_SIZE
+> +
+>  /**
+>   * struct panthor_gem_object - Driver specific GEM object.
+>   */
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index 97e2c4510e69..12b1994499a9 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -127,6 +127,9 @@ enum drm_panthor_ioctl_id {
+>  
+>  	/** @DRM_PANTHOR_TILER_HEAP_DESTROY: Destroy a tiler heap. */
+>  	DRM_PANTHOR_TILER_HEAP_DESTROY,
+> +
+> +	/** @DRM_PANTHOR_BO_SET_LABEL: Label a BO. */
+> +	DRM_PANTHOR_BO_SET_LABEL,
+>  };
+>  
+>  /**
+> @@ -977,6 +980,24 @@ struct drm_panthor_tiler_heap_destroy {
+>  	__u32 pad;
+>  };
+>  
+> +/**
+> + * struct drm_panthor_bo_set_label - Arguments passed to DRM_IOCTL_PANTHOR_BO_SET_LABEL
+> + */
+> +struct drm_panthor_bo_set_label {
+> +	/** @handle: Handle of the buffer object to label. */
+> +	__u32 handle;
+> +
+> +	/**
+> +	 * @size: Length of the label, including the NULL terminator.
+> +	 *
+> +	 * Cannot be greater than the OS page size.
+> +	 */
+> +	__u32 size;
+> +
+> +	/** @label: User pointer to a NULL-terminated string */
+> +	__u64 label;
+> +};
 
-Thanks, for the review.
+First very minor NIT:
+ * NULL is a pointer, i.e. (void*)0
+ * NUL is the ASCII code point '\0'.
+So it's a NUL-terminated string.
 
-While declaring the pinctrl entries inside the io_expander node, I am getting below error while checking the DTBS check against DT-binding.
-
-Error : /local/mnt/workspace/amakhija/linux_next_11042025/linux/arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: gpio@74: 'dsi0-int-pin-state', 'dsi1-int-pin-state' do not match any of the regexes:
-        '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+' from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
-
-        io_expander: gpio@74 {
-                compatible = "ti,tca9539";
-                reg = <0x74>;
-                interrupts-extended = <&tlmm 98 IRQ_TYPE_EDGE_BOTH>;
-                gpio-controller;
-                #gpio-cells = <2>;
-                interrupt-controller;
-                #interrupt-cells = <2>;
-
-                pinctrl-0 = <&io_expander_intr_active>,
-                            <&io_expander_reset_active>;
-                pinctrl-names = "default";
-
-                dsi0_int_pin: dsi0-int-pin-state {
-                        pins = "gpio2";
-                        input-enable;
-                        bias-disable;
-                };
-
-                dsi1_int_pin: dsi1-int-pin-state {
-                        pins = "gpio10";
-                        input-enable;
-                        bias-disable;
-                };
-
-        };
-
-I couldn't find any devicetree example of tca9539 which is using pinctrl. The gpio-pca95xx.yaml DT binding does not match with any regex of the patterns properties.
+Second NIT: We don't actually need 'size' - since the string is
+NUL-terminated we can just strndup_user(__user_pointer__, PAGE_SIZE).
+As things stand we validate that strlen(label) < size <= PAGE_SIZE -
+which is a little odd (user space might as well just pass PAGE_SIZE
+rather than calculate the actual length).
 
 Thanks,
-Ayushi
+Steve
+
+> +
+>  /**
+>   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
+>   * @__access: Access type. Must be R, W or RW.
+> @@ -1019,6 +1040,8 @@ enum {
+>  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_CREATE, tiler_heap_create),
+>  	DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY =
+>  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_DESTROY, tiler_heap_destroy),
+> +	DRM_IOCTL_PANTHOR_BO_SET_LABEL =
+> +		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
+>  };
+>  
+>  #if defined(__cplusplus)
+
