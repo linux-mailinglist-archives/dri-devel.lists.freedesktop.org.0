@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427BEA8874B
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 17:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC9FA8877B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 17:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC0610E616;
-	Mon, 14 Apr 2025 15:34:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4FFA10E622;
+	Mon, 14 Apr 2025 15:40:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m1IjtOfF";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D3F2210E616;
- Mon, 14 Apr 2025 15:34:41 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E17391007;
- Mon, 14 Apr 2025 08:34:39 -0700 (PDT)
-Received: from [10.57.87.24] (unknown [10.57.87.24])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C29873F66E;
- Mon, 14 Apr 2025 08:34:37 -0700 (PDT)
-Message-ID: <1b9b8795-5f5c-4831-ad6b-29b88f21b621@arm.com>
-Date: Mon, 14 Apr 2025 16:34:35 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A75F10E622
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 15:40:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 10A2D451E7;
+ Mon, 14 Apr 2025 15:40:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 633B9C4CEE2;
+ Mon, 14 Apr 2025 15:40:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744645248;
+ bh=5QSDn6KKf0BI/D2F5oXgxnkoaf9AduFGO5YkzxDQTRE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=m1IjtOfF2xuF5dFlNxDnCXUTbL/f8ikg62tzfw46eJhMbatuCHPm7yAYF72xF7vd3
+ sEnyrG2r7f0WZ2gijdKeXUYezJhOBDb4XN61H8IXVVXjTA5SW1HAD3sr+lcf1m+eyG
+ sGNR+gcstIvDoWGLxUPk2XoWq9cdgo/VvMqx9mN34D3GI4LzgYm24Zp0p/yflkCaNS
+ oqaUIFuMkvf1E0boe7dPeyX4F+OcLnGkXL7hHAx96JVjJ0lqaLCqKqSuQypfXedvwk
+ TqI4ekc7Y3iWoVB7J6Cc0lqFG/DmekuEoBzc079X0k1h+6ZNYXsGjvOF1Zcvz4ETAR
+ 4ts/1LvqJjh9g==
+Date: Mon, 14 Apr 2025 17:40:46 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+ Dmitry Baryshkov <lumag@kernel.org>,
+ =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+ Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 1/2] drm/bridge: documentat bridge allocation and
+ lifecycle
+Message-ID: <20250414-dangerous-stoic-lemur-5e083c@houat>
+References: <20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com>
+ <20250409-drm-bridge-alloc-doc-test-v7-1-a3ca4b97597f@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] drm: Introduce sparse GEM shmem
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, kernel@collabora.com,
- Faith Ekstrand <faith.ekstrand@collabora.com>
-References: <20250404092634.2968115-1-boris.brezillon@collabora.com>
- <20250410164809.21109cbc@collabora.com>
- <d4ebcb9f-ca1e-40ae-bc3c-613f88552b94@amd.com>
- <20250410175349.6bf6a4ea@collabora.com>
- <d0ab2ffe-77ee-4bda-b127-8648acb71409@amd.com>
- <20250410192054.24a592a5@collabora.com> <Z_gHX5AqQkhbXOjd@blossom>
- <20250410204155.55d5cfc7@collabora.com>
- <4d47cb90-8ed4-4a69-bd91-b90ebd2c9aca@amd.com>
- <20250411103837.753cd92e@collabora.com>
- <9fd6fb8c-7dbb-467d-a759-eec852e1f006@amd.com>
- <20250411140254.042f9862@collabora.com>
- <73a28f35-9576-4089-8976-07cd1aa64432@amd.com>
- <20250411150056.62cb7042@collabora.com>
- <c15cef68-bab5-4e09-89ae-52266ab1e4dd@amd.com>
- <20250411163902.1d0db9da@collabora.com>
- <20250414144714.6372738b@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250414144714.6372738b@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="7r4bubvsnjmr6bbb"
+Content-Disposition: inline
+In-Reply-To: <20250409-drm-bridge-alloc-doc-test-v7-1-a3ca4b97597f@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,91 +73,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/04/2025 13:47, Boris Brezillon wrote:
-> On Fri, 11 Apr 2025 16:39:02 +0200
-> Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> 
->> On Fri, 11 Apr 2025 15:13:26 +0200
->> Christian König <christian.koenig@amd.com> wrote:
->>
->>>>    
->>>>> Background is that you don't get a crash, nor error message, nor
->>>>> anything indicating what is happening.    
->>>> The job times out at some point, but we might get stuck in the fault
->>>> handler waiting for memory, which is pretty close to a deadlock, I
->>>> suspect.    
->>>
->>> I don't know those drivers that well, but at least for amdgpu the
->>> problem would be that the timeout handling would need to grab some of
->>> the locks the memory management is holding waiting for the timeout
->>> handling to do something....
->>>
->>> So that basically perfectly closes the circle. With a bit of lock you
->>> get a message after some time that the kernel is stuck, but since
->>> that are all sleeping locks I strongly doubt so.
->>>
->>> As immediately action please provide patches which changes those
->>> GFP_KERNEL into GFP_NOWAIT.  
->>
->> Sure, I can do that.
-> 
-> Hm, I might have been too prompt at claiming this was doable. In
-> practice, doing that might regress Lima and Panfrost in situations
-> where trying harder than GFP_NOWAIT would free up some memory. Not
-> saying this was right to use GFP_KERNEL in the first place, but some
-> expectations were set by this original mistake, so I'll probably need
-> Lima developers to vouch in for this change after they've done some
-> testing on a system under high memory pressure, and I'd need to do the
-> same kind of testing for Panfrost and ask Steve if he's okay with that
-> too.
 
-It's a tricky one. The ideal would be to teach user space how to recover
-from the memory allocation failure (even on older GPUs it's still in
-theory possible to break up the work and do incremental rendering). But
-that ship sailed long ago so this would be a regression.
+--7r4bubvsnjmr6bbb
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 1/2] drm/bridge: documentat bridge allocation and
+ lifecycle
+MIME-Version: 1.0
 
-I did consider GFP_ATOMIC as an option, but really we shouldn't be
-accessing "memory reserves" in such a situation.
+Hi,
 
-For background: In the "kbase" driver (Linux kernel driver for the
-closed source user space 'DDK' driver for Midgard/Bifrost GPUs) we had a
-"JIT memory allocator". The idea here was that if you have multiple
-renderings in flight you can attempt to share the tiler heap memory
-between them. So in this case when we can't allocate more memory and we
-know there's another tiler heap which is going to be freed by a fragment
-job that's already running, we can block knowing the memory is going to
-become available.
+On Wed, Apr 09, 2025 at 04:50:34PM +0200, Luca Ceresoli wrote:
+> Document in detail the DRM bridge allocation and refcounting process based
+> on the recently introduced devm_drm_bridge_alloc().
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-It was designed to do the same thing as CSF's incremental rendering -
-allow us to opportunistically allocate memory but not fail the rendering
-if it wasn't available.
+There's a typo in your commit title.
 
-But it was a nightmare to have any confidence of it being deadlock free
-and the implementation was frankly terrible - which is ultimately why
-CSF GPU's have this ability in hardware to perform incremental rendering
-without failing the job. But effectively this approach requires
-allocating just enough memory for one complete tiler heap while ensuring
-forward progress and opportunistically allowing extra memory to give a
-performance boost.
+> ---
+>=20
+> Changes in v7:
+>  - remove mention of "legacy mode", we now support only refcounted
+>    bridges
+>  - rename patch title from "drm/bridge: add documentation of refcounted
+>    bridges", we now support only refcounted bridges
+>=20
+> Changes in v6:
+>  - update to the new devm_drm_bridge_alloc() API
+>  - rewrite and improve various sentences for clarity
+>  - fix typos (Randy Dunlap)
+>=20
+> This patch was added in v5.
+> ---
+>  Documentation/gpu/drm-kms-helpers.rst |  6 +++
+>  drivers/gpu/drm/drm_bridge.c          | 73 +++++++++++++++++++++++++++++=
+++++++
+>  2 files changed, 79 insertions(+)
+>=20
+> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/dr=
+m-kms-helpers.rst
+> index 5139705089f200b189876a5a61bf2a935cec433a..393cd0e4cb5af3fe98674e7a9=
+6c853ffb2556c97 100644
+> --- a/Documentation/gpu/drm-kms-helpers.rst
+> +++ b/Documentation/gpu/drm-kms-helpers.rst
+> @@ -151,6 +151,12 @@ Overview
+>  .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+>     :doc: overview
+> =20
+> +Bridge allocation and lifecycle
+> +-------------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+> +   :doc: bridge lifecycle
+> +
+>  Display Driver Integration
+>  --------------------------
+> =20
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index b4c89ec01998b849018ce031c7cd84614e65e710..b7e1ad761dad52bdb2ec09d42=
+5e69ee23a18fd36 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -61,6 +61,79 @@
+>   * encoder chain.
+>   */
+> =20
+> +/**
+> + * DOC: bridge lifecycle
+> + *
+> + * In some use cases such as hot-plugging a DRM bridge device can
+> + * physically disappear and reappear at runtime. To handle such cases
+> + * without destroying and recreating the entire DRM pipeline, DRM bridge
+> + * lifetime is managed using reference counting:
 
-TLDR; I think we should try switching to GFP_NOWAIT in Panfrost and do
-some testing with memory pressure. It might be acceptable (and an
-occasional job failure is better than an occasional lock up). If it
-turns out it's too easy to trigger job failures like this then we'll
-need to rethink.
+That case doesn't exist yet, so documenting it seems a source of confusion.
 
-> For Panthor, I'm less worried, because we have the incremental rendering
-> fallback, and assuming GFP_NOWAIT tries hard enough to reclaim
-> low-hanging fruits, the perfs shouldn't suffer much more than they
-> would today with GFP_KERNEL allocations potentially delaying tiling
-> operations longer than would have been with a primitive flush.
+> + * - each &struct drm_bridge is reference counted since its allocation
+> + * - any code taking a pointer to a bridge has APIs to get a reference a=
+nd
+> + *   put it when done, to ensure the memory allocated for the bridge won=
+'t
+> + *   be deallocated while there is still a reference to it
+> + * - the driver implementing the bridge also holds a reference, but the
+> + *   allocated struct can survive the driver in case other references st=
+ill
+> + *   exist
+> + * - deallocation is done when the last put happens, dropping the refcou=
+nt
+> + *   to zero
+> + *
+> + * Usage of refcounted bridges happens in two sides: the bridge *provide=
+r*
+> + * and the bridge *consumers*. The bridge provider is the driver
+> + * implementing the bridge. The bridge consumers are all parts of the
+> + * kernel taking a &struct drm_bridge pointer, including other bridges,
+> + * encoders and the DRM core.
+> + *
+> + * For bridge **providers**, the bridge driver declares a driver-specific
+> + * struct embedding a &struct drm_bridge. E.g.::
+> + *
+> + *   struct my_bridge {
+> + *       ...
+> + *       struct drm_bridge bridge;
+> + *       ...
+> + *   };
+> + *
+> + * The driver must allocate and initialize ``struct my_bridge`` using
+> + * devm_drm_bridge_alloc(), as in this example::
+> + *
+> + *     static int my_bridge_probe(...)
+> + *     {
+> + *         struct device *dev =3D ...;
+> + *         struct my_bridge *mybr;
+> + *
+> + *         mybr =3D devm_drm_bridge_alloc(dev, struct my_bridge, bridge,=
+ &my_bridge_funcs);
+> + *         if (IS_ERR(mybr))
+> + *             return PTR_ERR(mybr);
+> + *
+> + *         // Get resources, initialize my_bridge members...
+> + *         drm_bridge_add(&mybr->bridge);
+> + *         ...
+> + *     }
+> + *
+> + *     static void my_bridge_remove(...)
+> + *     {
+> + *         struct my_bridge *mybr =3D ...;
+> + *
+> + *         drm_bridge_remove(&mybr->bridge);
+> + *         // Free resources
+> + *         // ... NO kfree here!
+> + *     }
 
-Yes for Panthor I think the approach is obvious - I believe GFP_NOWAIT
-should trigger background reclaim, so over the course of a few frames it
-should make the memory available (assuming there is sufficient 'free'
-memory). Indeed it might even give a performance boost if it stops us
-getting blocked in direct reclaim.
+This part is already documented by drm_bridge_add(), so it's not clear
+what that section brings to the table either.
 
-Thanks,
-Steve
+> + * Bridge **consumers** need to handle the case of a bridge being removed
+> + * while they have a pointer to it. As this can happen at any time, such
+> + * code can incur in use-after-free. To avoid that, consumers have to ca=
+ll
+> + * drm_bridge_get() when taking a pointer and drm_bridge_put() after they
+> + * are done using it. This will extend the allocation lifetime of the
+> + * bridge struct until the last reference has been put, potentially a lo=
+ng
+> + * time after the bridge device has been removed from the kernel.
 
+And it's kind of the same thing here. You're saying here that every
+consumer absolutely needs to call drm_bridge_get() and drm_bridge_put()
+on their pointer ...
+
+> + * Functions that return a pointer to a bridge, such as
+> + * of_drm_find_bridge(), internally call drm_bridge_get() on the bridge
+> + * they are about to return, so users using such functions to get a brid=
+ge
+> + * pointer only have to take care of calling drm_bridge_put().
+> + */
+
+=2E.. but that every function that gives you a pointer will take care of
+drm_bridge_get already and (will) document that you need to call
+drm_bridge_put ?
+
+I guess my larger question is kind of an editorial one. What do you want
+people to learn here that isn't in some function documentation already?
+At the moment, it looks like a doc that used to be useful but got kind
+of deprecated by the documentation you created on all the functions we
+merged so far, or a documentation that might be useful at some point but
+not quite yet. Either way, it's confusing.
+
+Maxime
+
+--7r4bubvsnjmr6bbb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/0sfQAKCRDj7w1vZxhR
+xaCOAP0fs5wqFsAMRRjpo4RFWiZr7coTS4MFS6msUslo7GPA6AD+JN13lmgDSnwt
+TepAz3sv0KOKOs3KvskmyqtnrgJJ5AE=
+=78Qg
+-----END PGP SIGNATURE-----
+
+--7r4bubvsnjmr6bbb--
