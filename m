@@ -2,67 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59378A88C58
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 21:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBF9A889C6
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 19:27:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D21110E318;
-	Mon, 14 Apr 2025 19:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 206B410E341;
+	Mon, 14 Apr 2025 17:27:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="k2iElssn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fACcm+I3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 126A110E318
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 19:40:31 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53EH8jj62215165
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Apr 2025 12:08:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1744650525;
- bh=6uNQ9e271FhEaPxh08oKF5aC3iophxn4ihnEasLwask=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=k2iElssnlrEJfpxE5yq0RkacWS8WecGDHg+f4CK8nh9ksgfGCPNMMU2JaJnopsruK
- 32MKJ4/luTVVwQMHhwt8ZtJlEiVAO9rd27IHr85qS0zrXre+fy6egRQ81ZcLh7iQes
- 370ctwD3wgLTwEAevQ95KrH+cMq0YUdOzap1vddw=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53EH8jKu125869
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 14 Apr 2025 12:08:45 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 14
- Apr 2025 12:08:44 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 14 Apr 2025 12:08:44 -0500
-Received: from [10.249.42.149] ([10.249.42.149])
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53EH8iHK076714;
- Mon, 14 Apr 2025 12:08:44 -0500
-Message-ID: <8f55367e-45c0-4280-b1ed-7ce9160c1fad@ti.com>
-Date: Mon, 14 Apr 2025 12:08:44 -0500
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+ [209.85.208.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9599F10E341
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 17:26:55 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id
+ 38308e7fff4ca-30bf5d7d107so39208101fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744651614; x=1745256414; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=R0Q9W/UyINLoujjybEOJmE4FHkHZ3d3gRZqNAi4IuHs=;
+ b=fACcm+I30DvNe2VDiWua3WoPwTt8fa3uo0597uKho4DWHXLolcorVnOVSemeTJIUyA
+ YCVsg3WGRywgYzgGFrastDwgMuAQjdbLgPtfMIAMPe5DD4i/Z7U6N8hMOHwphXeNonsc
+ M5VdPTgCwo9kxMctc0hiwjSh5gaaunDsWI3LCYtVUxi8SvULBp3LSAbyKkiKn4V5kSav
+ 7YTNvoGf5GGhIE5Nh4WYFSngGfScW8SgrowUnc/ToiXCbXzDDvTlw4gVMArCRhsz/CZQ
+ f8DWtvHH2Zp9h4KvPNJpuMKBZG0LnGqL42MBHjO5yHj5LJIIge2LUnG7xOdQXXJjZqBW
+ VqHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744651614; x=1745256414;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=R0Q9W/UyINLoujjybEOJmE4FHkHZ3d3gRZqNAi4IuHs=;
+ b=VsAhZQtTbiVU36etRLiTKihTkWrdYYKQ9gzfz5JCmb6wSPSnB+loeF86fTHwv/sF40
+ A1lPXcXMe2ewp7lh4XMVy84vARPbhj7XYVsIarJ0C+CXw0bU5SdvjpJeljWVU+W0m6hK
+ PyUir2qcHOstrvrzY/+9pvChWl/Z70qe+EB/iXr9Z8xTpX/SdSoblLOWyK6SsQ2k32w4
+ aN2cOxLlbs0BdmOm5JTZd80FMygoArloDNwogXkzTRHqPObaRa0S6QsNWdXvpecywK7/
+ 7gMVaqyBgO2b00xY+Sgds/Di74MZSNqL5VCscUqYRR6Omy1VyBZGTCDR7oMc0X2sAu3u
+ t9YA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUHg4pVN0/AQ0eOOTI5Pt0HM6w7nwuCK8nBvWwAs/lNq6Tn2Q/i984p1MaYMrR7YAV/Jhn7px//O4E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9Z+AHBXB1bxOpJnfK/57Lq43sHp4TehCn2DBRanla/uR8+KE8
+ 6Z2XN7aKvhUPVEfzUN8wqDBB4mGfndjXjWg/Qrk7tzOcmSB4MM6D
+X-Gm-Gg: ASbGncv/W5BrLGohIXkJ8XFbhDCZ6BpMkEzeDnCWrgZu7YaUHuA0sVEboP1kgz7c7pG
+ WFIxCIfyRNop01O+GlUh2g+Y4aQ/+MVVKjqNxFunsHIeBF3hl0jgojkP9C39C2rRGEmjVr+HkrF
+ VxtaT9uigrFga4nzQhaHbf0mRujUFXwyHVGIgSeYDZmzwNuezdDTAOnmS93xss83764y9iPEQPl
+ A4A2dkPBjBiAM82BaWyvMuBZcf9TMRSbrk5+pnaWkua2yHhnbxu3WV8mUrV9UetSP+UuHAGi4cI
+ 8qFVr0aqfViWuhFxEsO4lcjBXtWLVEkyrX8w5e9SVGBsOyGbjsPf9g==
+X-Google-Smtp-Source: AGHT+IFBUL3NrvZFbM5PiBSoVRPxqIUBIH5mBMeFKQSY+Dkpj+L+r0Dze4HH2rB7/wId7ZvW3RgEIA==
+X-Received: by 2002:a2e:9a04:0:b0:30b:f0fd:fd19 with SMTP id
+ 38308e7fff4ca-310499e1c62mr42302931fa.16.1744651613492; 
+ Mon, 14 Apr 2025 10:26:53 -0700 (PDT)
+Received: from PilotMainTrash.lan ([178.34.180.83])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30f464cc441sm17806061fa.35.2025.04.14.10.26.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Apr 2025 10:26:52 -0700 (PDT)
+From: Alexander Baransky <sanyapilot496@gmail.com>
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org
+Cc: Alexander Baransky <sanyapilot496@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] Add Visionox G2647FB105 panel support
+Date: Mon, 14 Apr 2025 20:26:30 +0300
+Message-ID: <20250414172637.197792-1-sanyapilot496@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] uio/dma-buf: Give UIO users access to DMA addresses.
-To: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Christoph Hellwig
- <hch@infradead.org>
-CC: Bastien Curutchet <bastien.curutchet@bootlin.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
-References: <20250410-uio-dma-v1-0-6468ace2c786@bootlin.com>
- <Z_yjNgY3dVnA5OVz@infradead.org> <20250414102455.03331c0f@windsurf>
- <Z_zwZYBO5Txz6lDF@infradead.org> <20250414134831.20b04c77@windsurf>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250414134831.20b04c77@windsurf>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,71 +89,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/14/25 6:48 AM, Thomas Petazzoni wrote:
-> Hello Christoph,
-> 
-> On Mon, 14 Apr 2025 04:24:21 -0700
-> Christoph Hellwig <hch@infradead.org> wrote:
-> 
->> On Mon, Apr 14, 2025 at 10:24:55AM +0200, Thomas Petazzoni wrote:
->>> What this patch series is about is to add new user-space interface to
->>> extend the existing UIO subsystem.
->>
->> Which as I explained to you is fundamentally broken and unsafe.  If you
->> need to do DMA from userspae you need to use vfio/iommufd.
-> 
-> I'm still unclear as to why it is more "broken and unsafe" than UIO
-> already is. As I already replied in this thread: UIO allows to remap
-> MMIO registers into a user-space application, which can then do
-> whatever it wants with the IP block behind those MMIO registers. If
-> this IP block supports DMA, it already means that _today_ with the
-> current UIO subsystem as it is, the user-space application can program
-> a DMA transfer to read/write to any location in memory.
-> 
-> Therefore, providing a way to cleanly allocate DMA buffers and get
-> their physical address will not make things any better or worse in
-> terms of safety.
-> 
-> The fact that it is reasonably safe is solely based on access control
-> to the UIO device, done using usual Unix permissions, and that is
-> already the case today.
-> 
->>> I am not sure how this can work in our use-case. We have a very simple
->>> set of IP blocks implemented in a FPGA, some of those IP blocks are
->>> able to perform DMA operations. The register of those IP blocks are
->>> mapped into a user-space application using the existing, accepted
->>> upstream, UIO subsystem. Some of those registers allow to program DMA
->>> transfers. So far, we can do all what we need, except program those DMA
->>> transfers. Lots of people are having the same issue, and zillions of
->>> ugly out-of-tree solutions flourish all over, and we're trying to see
->>> if we can constructively find a solution that would be acceptable
->>> upstream to resolve this use-case. Our platform is an old PowerPC with
->>> no IOMMU.
->>
->> Then your driver design can't work and you need to replace it with a
->> proper in-kernel driver.
-> 
-> See above: your point is moot because providing capabilities to
-> allocate a buffer and get its physical address so that a UIO-based
-> user-space application can do DMA transfer does not make things any
-> more unsafe than they already are.
-> 
+This patch series adds support for the Visionox G2647FB105 panel, used in:
+- Xiaomi Mi Note 10 / CC9 Pro (sm7150-xiaomi-tucana)
+- Xiaomi Mi Note 10 Lite (sm7150-xiaomi-toco)
 
-"UIO is a broken legacy mess, so let's add more broken things
-to it as broken + broken => still broken, so no harm done", am I
-getting that right?
+Testing has been done by me on sm7150-xiaomi-tucana. According to the
+downstream DTS, this driver should be fully compatible with the
+sm7150-xiaomi-toco (unfortunately not tested) without requiring any
+modifications.
 
-If your FPGA IP can do DMA then you should not be using UIO in
-the first place, see UIO docs:
+Changes in v3:
+- Don't disable regulators in visionox_g2647fb105_prepare() if
+visionox_g2647fb105_on() fails (in patch 1)
+Link to v2:
+https://lore.kernel.org/all/20250327163750.986815-1-sanyapilot496@gmail.com/
 
-> Please note that UIO is not an universal driver interface. Devices that
-> are already handled well by other kernel subsystems (like networking or
-> serial or USB) are no candidates for an UIO driver.
+Changes in v2:
+- Describe the power configuration in commit message
+(and fix the sentence style) in patch 1
+- Add Krzysztof's Reviewed-by tag to patch 1
+- Use a static const struct for supplies in patch 2
+- Fix identations in patch 2
+Link to v1:
+https://lore.kernel.org/all/20250325155756.703907-1-sanyapilot496@gmail.com/
 
-The DMA subsystem already handles DMA devices, so write a DMA driver.
+Signed-off-by: Alexander Baransky <sanyapilot496@gmail.com>
 
-Andrew
+Alexander Baransky (2):
+  dt-bindings: display: panel: Add Visionox G2647FB105
+  drm/panel: Add Visionox G2647FB105 panel driver
 
-> Best regards,
-> 
-> Thomas
+ .../display/panel/visionox,g2647fb105.yaml    |  79 +++++
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-visionox-g2647fb105.c | 280 ++++++++++++++++++
+ 4 files changed, 369 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/visionox,g2647fb105.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-visionox-g2647fb105.c
+
+-- 
+2.49.0
+
