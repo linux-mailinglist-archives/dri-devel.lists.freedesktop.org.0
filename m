@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34E6A87DBA
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 12:32:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98E2A87DCA
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 12:38:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48FFB10E54E;
-	Mon, 14 Apr 2025 10:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB6C10E0A7;
+	Mon, 14 Apr 2025 10:38:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="khTcKpHF";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="gk51CMqQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0F910E54E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:32:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1744626770; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D030110E0A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:37:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1744627070; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=lSGIxZEcRaMuMq1Xy4afMJqdxKcU169ah6yHmO4bnxWEdHSxNGjI+sUaD0N7svV3Zd6YADKFUBcliyxs3cLL6HYkofskkA2nVYUpO+eXUuA0Bplu5CJFP7wzFCstGt5B9GcSRPN3jiQmAYjwPc2Z7ALNYpVKyu3mtctDGTwzVYw=
+ b=UVyaK+btp2MtZ1kzXacaMOaU7IEVrqsVOQuZtDYrb6ugy3Rk7NOpNa7A7fuZWp2TnIz8Io+d9RqZAiAQ122t2DvqlQokyme7ebHm/o9N+gRzuks7tiKKaF/dRWRX5bIYaNmm6isA/eAldFVA7mwKVaj+Hedxhbqa9CMs0sRVZ10=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1744626770;
+ s=zohoarc; t=1744627070;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=0VetcWztW9U5rYzFVgJhmUoLggwox7+P5zRgUvI92cM=; 
- b=HIazI49MCAVVU8X71989rggT4C+/opo5rtHzASkLFb2o8T7lo5r5CpsgjyCCfJcVYi+hgtFUFmniDq2dESXCsbQlK2vRrqPNrLGYAZ1NfDYfHov40e1UFBbLE6gI9oTBbn+N1d1V3m4ZlKrlQiXMhv8fO+RCjRwn8GEpvtjKaHI=
+ bh=ilenXFQjlA7aElJbnGnksuspLa1f/EIMKeY5OUhFTRE=; 
+ b=BWRZXQv9pFncls+l+kEiG6tKQ22cRw5pHixPSVgRPGgFP+t8GV3+2aIEKF8zTLWA135lY1tg3s7Ow1woIwZ403aDx5Zek03eiWvFpHgEL63/cngVY6qgvsCNSK4LnN34TiLF/wNziVvqwBb6Vm3QE912F3aPz9CtvHvgRxVzvnE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744626770; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744627070; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
  h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=0VetcWztW9U5rYzFVgJhmUoLggwox7+P5zRgUvI92cM=;
- b=khTcKpHFOktJSqHrUe+6mh7ZaUh2P8BD7wljZ9z2MvIyPUTGm9gSMODS+hwgrzVr
- pXdTQ+E4PXSsBeBBfA33pKsd5tx5D2TDUhA50L8B4q7UugAOTUs8ZNqGobCXWLfehZM
- FISHzaiCb7xHB7apjy5OQ5YLuzEHCl+MymIDRW9U=
-Received: by mx.zohomail.com with SMTPS id 1744626768929890.98778752496;
- Mon, 14 Apr 2025 03:32:48 -0700 (PDT)
-Message-ID: <d1622c93-3d03-4328-990c-c7646f5c5e41@collabora.com>
-Date: Mon, 14 Apr 2025 13:32:45 +0300
+ bh=ilenXFQjlA7aElJbnGnksuspLa1f/EIMKeY5OUhFTRE=;
+ b=gk51CMqQdhrpRnBH2sQYAVirkobum4QgZIbC1qsCGvCNrJiBAUEq97TYQsGgWcRf
+ sYXPtZ66A5COpu1TF7cbKJHaJwWDIcxZp9mD9lFR9p82IjhC+Cl8UOoMjMWEJIRrjCy
+ eUwXg0BfeBrIPfpUtPVY+nL/SaAcpxAC75271uMo=
+Received: by mx.zohomail.com with SMTPS id 1744627058388857.7454732352876;
+ Mon, 14 Apr 2025 03:37:38 -0700 (PDT)
+Message-ID: <b0741bde-6d4d-4247-9051-9ffb811048fb@collabora.com>
+Date: Mon, 14 Apr 2025 13:37:34 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] drm/gem-vram: Un-export pin helpers
+Subject: Re: [PATCH 4/4] drm/gem: Inline drm_gem_pin() into PRIME helpers
 To: Thomas Zimmermann <tzimmermann@suse.de>, boris.brezillon@collabora.com,
  airlied@gmail.com, simona@ffwll.ch, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org
 References: <20250404132907.225803-1-tzimmermann@suse.de>
- <20250404132907.225803-4-tzimmermann@suse.de>
+ <20250404132907.225803-5-tzimmermann@suse.de>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20250404132907.225803-4-tzimmermann@suse.de>
+In-Reply-To: <20250404132907.225803-5-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
@@ -70,10 +70,19 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 4/4/25 16:23, Thomas Zimmermann wrote:
-> There are no external callers of the gem-vram pin helpers. Hence
-> unexport them.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 9b71f7a9f3f8a..498485f4501f9 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -126,7 +126,8 @@ struct drm_gem_object_funcs {
+>  	/**
+>  	 * @pin:
+>  	 *
+> -	 * Pin backing buffer in memory. Used by the drm_gem_map_attach() helper.
+> +	 * Pin backing buffer in memory, such that importers can access it.
+
+Saying `such that dma-buf importers` would make it more clear that this
+is about dma-bufs, IMO. Otherwise looks good.
 
 Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
