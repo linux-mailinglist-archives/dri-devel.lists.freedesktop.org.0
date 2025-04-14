@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8158DA87665
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 05:50:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DC0A87667
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 05:50:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C688810E459;
-	Mon, 14 Apr 2025 03:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD43910E45B;
+	Mon, 14 Apr 2025 03:50:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="eTpQGyS1";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="Fw7jx5YQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com
- (mail-francecentralazon11013011.outbound.protection.outlook.com
- [40.107.162.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C452D10E460
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 03:50:23 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com
+ (mail-westeuropeazon11010021.outbound.protection.outlook.com [52.101.69.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65A5F10E460
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 03:50:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WLnQmBByn1zXJfGWFfNSf30huXgCOFg4gmIDIb+OMz66PZqAXqGGxODs+ZBvya92JRR8UGofvsjOMEyTNpcTJxxLEivNCqtNIXnOqK9kgyaI9hwnkrQ8n9xoHTtzdZ9W++J8XHA1aDuAVRAEB6vS7DhKyCROrm47mYMHzLgi/nL1YcnvBcQkUAydK6xaktAbvLDAb50lyyONebSDFZBkzPG1RodoFBeYewNMOnRWkSCKWwuUGAyc1SLGTzKJhF83GHEhWRf4PH7tHe3fINHrmiSR6K/rBg7n5pxwu3hTtJY8Jtvvrfo0oOQcWrPT6ptT6kvC6Nx2OZK0OGTuqFLXUA==
+ b=aONHCKiZgKysVo7RPq49z9W0zu2wYh64GhUh0d2Uwot+aMhNQy1LYqFu0qkvKGgGePLQhAq01yd4q1BxDoDH9htchukqCBatyG1yncZrax3y1CzJ1bW+Un8BmUjQCRBLzJIfvVBPg5h7GpveDG0I8/dlBoCpZHWqyPXbPwbpPQiopHLbF8IMYHRWinhe9O1xBId9nuDNlP2wlEXScd2rY9xQ5a+GQxARa6j5KPkz9l+E66CLQ/QitGnOddMFrJtDL2NxXbMzr8C5nsqjjBFdxT1/f7uYckbyft+LMcr+LLg6kQZYLUt0H17dDnyHWldEMGa/83jbqRGIPLLuQKLAyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J9uOzw1oegqFipREb/XeQEr64JRFoI9TD+po4oJ9dtc=;
- b=Glmq6ubwrFp3cuXApZdmFz2ChxFyCbYoIq4FbgWB3xE3i2qB1MrL2gmIWv9B/NtFdvMTcw9ipHNqaLODdAly43wR3Bj1tuXd072FyJtHYwP48gnVVFR2n81WErBcbVAJ54jEULpEm5o8+87Vl5A2neSNVTSPoIxXftoBehmNIjs7LCsPHGxKyEjJ0g43wMA09ICAj0aODMypIZwzqgEOLSYIoXEt0xe2ZYcSAQmVMmtlhAC9RPiTNKzPD2frfVECYeXH1kQ0sOZhKqsSMnw2QadkJVEcrnDWks/ewq2WU1fmppuxEocehtvCtdDqX9WKOGAeoNdHkVnoDpE9MxvqTA==
+ bh=2WWnpkhy44GORsAcH4BvfMoZN2lBi1ZbIvaJ9rZ4Yn4=;
+ b=KV4HwAZPlVnoOC5nQTkyPDrk/qoQqpQy/uYSD+aQxn+xsvyEJvr4rcIFaQm1VaUYfi4trg5ALXGCjuEzAgBD65rvuYfFH417gV2LEY8x+NRRkexpdmrU+U/zu3A0RUItO4RDkL5ZzT8Cv+ug6+RheiWQTySXkeGZyu0aVz3TNM0cQGVMr634USizFgVrHq0R7RX7Yy8F3AdjFoFUbWme/Hv8IgkjAGCa8+m66YDNEEXXDXUnaI4yc6pUM1ghnwyGgiZCzhqxlSXDe1cbM4ylBm8Mfkd5kwOIHIPS0hStNx7il/oJlY9gTOrVYgoGDe2WNvVzQmBQOc0tYTMtws4t4g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J9uOzw1oegqFipREb/XeQEr64JRFoI9TD+po4oJ9dtc=;
- b=eTpQGyS1YpnA/5xz9YkKBQyfbbQO5Vs5XeVNrgAfrkXOzMgtNjz/TwfyY99mXly/F2vTVX1Hn0B8WMI/dw2SuPRhV4ZRQzZgztCuzvld+mw4jN+JcdDQkLcRM7llrjhEuCmlKEPJtIlqxXeyG2dG9xh0Wj5my62R/Kfv2FxF2GlVqJPPZhvTjKJM5DMU5XNYiOw0wuPLmS6TZNHbXAje2l7zo9HF1wXHbO7tsyCFGWhSg7kuN0hH0ZpVQvLfTAIFwrK/lyQPZH3tgl59HYzQ5fVzY+siPjaXdBuJSCNpSy3be8FMk76esqMPaTvhEbTrMwbRML2gkF/H/ymH+Pl7Wg==
+ bh=2WWnpkhy44GORsAcH4BvfMoZN2lBi1ZbIvaJ9rZ4Yn4=;
+ b=Fw7jx5YQzLRgNzAJMCbQ3wYvNVVzRB5KgWDEf7LmDirjiySfw2a4HOli3LOr832UuInmtQAxdAtWYO4XMZxprlkhRrI52m4/r3lxakN5AEGMwdSdHEHcbtBR7PFy6Xc4kO1nCKVXYfw7tL/ha1ijxPnKQOIiFCBeQ9Sm5G18q1zpBu7eT/5ai7fLdK7KWjcaQLIvLC6r+bXh/SO+zkcQ61oHq4zN+zwuYMLcomYZZwdkPXOaHzJ0Y92dzGSPQticu1SG9ej2eLffmhAlxeZNJoOXo1fwOV73hscWaaG5VMNugtdcMKxRgqorJoqFsOMuZLpXNd0lNePDLNEts5++yQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by GVXPR04MB9803.eurprd04.prod.outlook.com (2603:10a6:150:111::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.32; Mon, 14 Apr
- 2025 03:50:21 +0000
+ 2025 03:50:29 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%3]) with mapi id 15.20.8632.030; Mon, 14 Apr 2025
- 03:50:21 +0000
+ 03:50:28 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
@@ -54,10 +53,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  kishon@kernel.org, Frank.Li@nxp.com, lumag@kernel.org,
  aisheng.dong@nxp.com, agx@sigxcpu.org, u.kleine-koenig@baylibre.com,
  francesco@dolcini.it, dmitry.baryshkov@linaro.org
-Subject: [PATCH v9 07/19] dt-bindings: interrupt-controller: Add i.MX8qxp
- Display Controller interrupt controller
-Date: Mon, 14 Apr 2025 11:50:16 +0800
-Message-Id: <20250414035028.1561475-8-victor.liu@nxp.com>
+Subject: [PATCH v9 08/19] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller
+Date: Mon, 14 Apr 2025 11:50:17 +0800
+Message-Id: <20250414035028.1561475-9-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250414035028.1561475-1-victor.liu@nxp.com>
 References: <20250414035028.1561475-1-victor.liu@nxp.com>
@@ -69,77 +68,77 @@ X-ClientProxiedBy: SGBP274CA0017.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|GVXPR04MB9803:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4fae991c-f802-42d3-77a6-08dd7b077a8e
+X-MS-Office365-Filtering-Correlation-Id: 19d946ad-59ec-40b5-5543-08dd7b077f30
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|366016|376014|7416014|52116014|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DmLIOKhbiDQeJuiO4MAKFBa79AQMiIJ+caW3ANI13XVTRePzutDLpPexveef?=
- =?us-ascii?Q?rx+KMzYnAJ1B2XJLn37RXO/FyMwtd9e64mVCFPRNl7YpPreGLI8c2cAsSsDZ?=
- =?us-ascii?Q?0N89KiJmPAJe35yCHOj9vGYpSO6KqJOuvXD+SbZIEf7NwqHetqBxDE8AzvXV?=
- =?us-ascii?Q?Q//uqFdEsVNbzp6MeIrx1I6Smxm9mADckrvKc4hkCQ1bEI26J1cPiTXy7ypx?=
- =?us-ascii?Q?2NRREvMkmkIzuBS637FHrwkuOGmUFygRRJIf6fuj1Fdw1yepNgGU5uKa1oBa?=
- =?us-ascii?Q?x6f1Aix+mWrMKLfx0TM8aocghMgUWMiwDt8Of0w3wA8hva4KILp4siybK4yc?=
- =?us-ascii?Q?fMmex0cJp0IidX1DFbvJjjMpgjOerBOat6I3+aaEryISWMIRC3zcznmAZvxq?=
- =?us-ascii?Q?yOlTOkakmfFnmKV/6/PwLA/ksQFexKyA2BHOSPuSEjeuAWc3PoPi2wuBwEXh?=
- =?us-ascii?Q?aeLryMuHibDLcy/V1m8XxxJHolzB7tOc55AsZYZsCzYGklpVwlwoC8UQ9R+d?=
- =?us-ascii?Q?th+2bdu42PSOFjrqmJtLi1eOfg0fU0C5hJK0ISTjP6zP+LxzWu0qlTvqd8k7?=
- =?us-ascii?Q?NFDfvT77Zz4+XXQwo4ItBVfZn7TF1AGt1gnRT7byNqtFfoOoWaDlN6dqV6nq?=
- =?us-ascii?Q?/uPQRcAk0p7yah9rBgDVzrmdxlAkRTcYRNZPzvj9/kPYRApaqQJaoY2Xavrd?=
- =?us-ascii?Q?YzV6cRUYZiI6OoGJlruXR+2fnKqTEL4l3cY1BZOl2AlmeRP5yws/OjFlqO9O?=
- =?us-ascii?Q?lL9+RfYQRqP52lfsczWG5YSAvqV5UoysZJobAOwDkOvRn2lGn8GVnmhSDVSv?=
- =?us-ascii?Q?lHuIGPwy/rbkKrCdY4hhFs5YtZqHaMN1H6PtB/ycuz59VihvgiMJOAc5h5jz?=
- =?us-ascii?Q?NlxjUEOIxrcSDL1ysAf1QNydu3T28bBHAKpZF2gvEEvKPikYBLaL+i7QqX8l?=
- =?us-ascii?Q?T5KVHWyoT+MPWY/gREhp7ycVjzMt7/U34Gh61kCmb4TrZTysGliKwxqVtJrY?=
- =?us-ascii?Q?HA2DQnV1TqCUwBX2fohT1fzhn3BEtV5xSBdMIbtlQjM0au+1SnG+WK5ksB5b?=
- =?us-ascii?Q?zP/wXhhXYFY+yz5CEPJ9SGLrgK63aO41X8XJootE1ZKCvlqxy4pm4ghVeTXR?=
- =?us-ascii?Q?DRGO4a2DdchsuUSg+ZLgTxsckR2dp6tam9FgOxrvFZ3n+zeTkuMnalub8xcV?=
- =?us-ascii?Q?52VogiEcGNT9RDkJ57sQkuWf8JcMbL/UB0xZQu/8Z7lM+cStps2sJi75qu8g?=
- =?us-ascii?Q?WdgC3M9t+ELVcsFsZ6Brb08dVVCp1ldwbzBWBNuWQ9MkXIbosUAbGFbMNCQ4?=
- =?us-ascii?Q?VKlDGWu/WXr4kIcEO8qV315muLllUhKdOpfCKEFWMQ9QhOnpoOOsm3a0N+pU?=
- =?us-ascii?Q?HqBsH8yZhn6UllVVxSmvEBeXsSwkEw4ys/6QNk7OzYF1F4ieSUjJkGNi0696?=
- =?us-ascii?Q?OYuMWSuYN7g=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?O+J8fUohTxKBpAZF8AbwxhhehHAcGq59iDk2UdVVLmWI9depWN75bZKX0Ye+?=
+ =?us-ascii?Q?TaoyurCMyUSHI29DVeAAz8/ghhLDsLrsbyG4Y+aoKFnZz8Nt2n6E5kHV4JGc?=
+ =?us-ascii?Q?jnKfBkw/k5n20+q46YEtAa0FGOF5jthBYVUqgObEnAE8p1V1oW70lnYrnTAP?=
+ =?us-ascii?Q?ptm1IGUgHDXcrJlqhHO6eFkD/RG0I2U6NkhrmJJFd4LLgmdqRArY6unrOeH7?=
+ =?us-ascii?Q?ZeyCMMZcL1VN4guZd0++wBcGLS/sjq4AT5+WtZDVL+8pbfSq727/kRrMTpbq?=
+ =?us-ascii?Q?Xq+0bD4HwxUTD1StI6X7JFdOrdwib1jAxeAoi+1bbhVah4ztFPaZjfzdyz8U?=
+ =?us-ascii?Q?NDuXFjyFmdUhJrhGbbHCvNO3jhw3KLNoRRfTmV7Tl+gsHKVNd9AO0X6zNJ/+?=
+ =?us-ascii?Q?/gW47soG5K1UGgScMkr8QSXTqasg6XgfbL1fiUVqdb0Qnk9zueauO5Gy//j7?=
+ =?us-ascii?Q?swiVEBBaH0aMo83n1Sdh70PYJCGer8LKheDxsAj4DKDoJ/0QumsRTiimlzUw?=
+ =?us-ascii?Q?rqRg3UwmVEEzxGpT5EEEUkvLerPwrrzPKECPyp9hxzQNo23Wx4X2E1hmiVsH?=
+ =?us-ascii?Q?aehOksT+ofyBAabE+IulQLDi1AL6VF1rkaq880RH2fbTqV0P74aWeqaWSeAP?=
+ =?us-ascii?Q?fIV0eJV48cY7pmR83pvxAKWgdvHoACDOzgclhvJgc+pcdoI0vOiJmtMsbrkv?=
+ =?us-ascii?Q?ZhwWXYcvh1EfwrTdYYBE6PlmBJqHuvhTtZHkh7TX0jnqchrkdcTEjmFFyhOU?=
+ =?us-ascii?Q?J1WTz98OHGEMUUA62JeMeo4ujM3j8hMigpmP157Xc/Adq4CesxLZKlfPjzIq?=
+ =?us-ascii?Q?uWcswKbiuVxm5LbZP1pOnKbQTXtYyxGb3AX9vhyXmxGo1pNJjXQ0L6utNUpy?=
+ =?us-ascii?Q?omGkVz6ETcgrTEdHHVQGNU7PLEh+jlxfncAlhrZuqAkh/VRctrh04ows5b2k?=
+ =?us-ascii?Q?y967dPT/9hQE2JpMjgyz3L8ZqjTjw/0FydYGevkKYIO14gGB3azih2zLjJRA?=
+ =?us-ascii?Q?BpRniX4uFOBDaVV6mPhMHYuD7hWi8dWe+02ZAlBFCshqyZxFfL5GU8wtd8eX?=
+ =?us-ascii?Q?VscyJPRjTXk1ksCPYMJcyPZl5+rKXRmJ/ARtBx1IOB/rshw1EyctZnPyJQsk?=
+ =?us-ascii?Q?UWBm9PJkew/6p3InBvUdJIwKOWdSJvw+ZJvlKNgx+F2dVX9gJ5G2bTle6cyP?=
+ =?us-ascii?Q?QUngzVSMF0R3nDrBjQ+7WyqLyLvJL4Fj91y6aDdTqulenrCLwtRSoXWBmevA?=
+ =?us-ascii?Q?nO7HvrpRH6csHdFJe9qny63UPvIL7j6gPewSgZXR07d/jMclSe8pnQxB9WO+?=
+ =?us-ascii?Q?zNTW6cd2+7TPbxcCXl6K77BgadRfFwVE4xnQSomu9UlD/xfEV/Y9HQ+fRxxx?=
+ =?us-ascii?Q?9mz4EDMq7tlrg813OZtro4nbY9oPc+f4/nAawRfxUhQO4Xzt/g/+1SNq/EKU?=
+ =?us-ascii?Q?I2H7t+4onwY=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(376014)(7416014)(52116014)(1800799024)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tx96DfcLsY+Xdj7DrciBuz8l3fcg/gDXt+hZtzVt+UGNsfZSMIP8Njm835Q0?=
- =?us-ascii?Q?YMcQ1cuPnVfFfNlWDFz1Ce+n5M6sr3guyqzUjqNGx3URMKHdhmHcHbuBxf/J?=
- =?us-ascii?Q?Tx0KY0KORPr/gE4fJUe4qF+uVXk0MHlQA2yPmbTu2irvAoN/adeQo2LM/s0/?=
- =?us-ascii?Q?fAjLNaHSCaJOh9lsPbB87NWAIMrin/AsUSZWacUhmR8RILu4jVA5IJX++qbo?=
- =?us-ascii?Q?39a+q/i+N1uMU7DmbBKxltN8ml+4ECcgEssUJlB+WbHBqDT0bwQb+c8fmmR1?=
- =?us-ascii?Q?OgDFhUM+b0dk5rqDOWTacsKuCAJF8mTD557uTY54ynogfc5zoQgPm+CgacR8?=
- =?us-ascii?Q?sYL5sJBVy+WD1dyHPN/clObhdjYYUle8N5dYedHHY54XbuixwQOC8SE+6/ww?=
- =?us-ascii?Q?ayWDsTCpycUdySleqtxZdhnt7kqok1PKCqrJHH9z1j2ccCcb9cRP73X0Nytq?=
- =?us-ascii?Q?hxPSPzMKw4G3IQwxKaYxYP2sBUWGZUTNSKXNoy1WtG1nUyx+wXxLTvjEUE0Q?=
- =?us-ascii?Q?nNFR8TRLxayzZ2W4bh74E84OIfPwtkP0+LAFEGadwjZHJ/cfIbnTQr8Y8OxS?=
- =?us-ascii?Q?wN8rwb9efnJ722s39KnPs8WKJFZ8O7TBRoA6pNoXV3bkIOFHaYqC+uDiwJOB?=
- =?us-ascii?Q?wS92r2Dkg35orvY64zNz+m1Varl44I6i6vspcC2keJSxhBYg8KRmd8UfRaT+?=
- =?us-ascii?Q?VlKWtzVTmUrvsjNGXiWKQccTWEabN8Fi6NACeP0S4o/P/9RCHcKbDFkuKXdp?=
- =?us-ascii?Q?Qi2QC+yEPz969fmO42VO3LublJUUr81gE/C0FuqI3JhutqnU/ih44EYlpVCo?=
- =?us-ascii?Q?2SK6gWz8B1OWHGcifUf8DSMu3nrNYTKYnbEhO8nQI7xb4M2jdbwCukEpfsvk?=
- =?us-ascii?Q?y2VSil23G6UTyxKNkuWy4L+FlwMZhy+D1ZlraZiDjcEFyc8/9S8YwWDa6wqH?=
- =?us-ascii?Q?9SKQ5VC2BaXnDGJxPDp0s4VJDa6C/iGH3hjXkikb5mfYayAHUTkMUVHD1sSn?=
- =?us-ascii?Q?Y5Uguxcrfw/zOxxGOflFBhbrlZXDMiuavV5p5TdMf52Rx43B7DYRxpxhOsci?=
- =?us-ascii?Q?5nxMwNnXYJRv5DOWoBnz0rt0KkE7adD2Z+Kx8Vzy2BVhKecX1L+TzwsOrV+V?=
- =?us-ascii?Q?7G8ecbHiGscsa+FVE2bA6n9GASHh6HiquLWPspT2Ldp+iFGi5ACX0S2jVfs4?=
- =?us-ascii?Q?W6D/bCwlJYlSzZGpfMEkZ7Y53novHagWoqTS2RADlZIBgMhTQiwWQDfYKSp8?=
- =?us-ascii?Q?uwtiIGetKnXL/apfEi6pCZab34vgbEK3UwZ3m0+iPP5pwS01rVnU/XFop1la?=
- =?us-ascii?Q?tQQRfVPXHhEN86VpEeu8RKXPy/7yqRxX/GzVcEN/V7iFsDstvVmpAhu1uR1l?=
- =?us-ascii?Q?9Ls7H4cbwAVamHyb/NzXXmoU4AHQzIVQASPgA9yhXsiDUGEw3DjzVxDuXKZK?=
- =?us-ascii?Q?pFB3W8DzW0YtAKv4nnTwZIBpeWPQfTnRcbM1vpT+BUe0NtTZysn9Mj7uS/7r?=
- =?us-ascii?Q?d9Oi4PYNaEyq+hbkqZTcfd+xV/vAF5hWP4rwbkoU5yNFDs8in53g9goqhXpf?=
- =?us-ascii?Q?BGwf2foIhTQpc2KBWDnXlBLjC5C1cIQJTjAjQube?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DI4VOPjHERmV+PP7v1lHd45nuC8EDyc53TVZ04PoDWJKdquKVKNNvEOQ4Mzn?=
+ =?us-ascii?Q?x6IjRx4666kLhRwI5QD9V1deWuN6yKvaMpcTKgTnvoerBr+Q3EPGAZEOc7mo?=
+ =?us-ascii?Q?XBruhe5BdGIwmFoRjymKmN2/Hr9UhVehUdtqKsiThhSh57mAJ8frPVlGZ7m4?=
+ =?us-ascii?Q?6uTDmhbR5P6yamUVZIsvkZi3oXcD25MuDcgcbtK13/xX5XbH0p1liYW3t8fs?=
+ =?us-ascii?Q?1RR/CiZYep8eslcnp0f8cy6EUGy8bBeHvL4YNUs1ppve3sjp3kSLdFdLE7R5?=
+ =?us-ascii?Q?EMyRe5oBEu8GswYldos3jOacWneBZFPDbqRvuKRPwy7XnV/cccPCXsuuLzZP?=
+ =?us-ascii?Q?9Mrlw6z7iZz2AyZh0OaKCZEpFAi2qVo2DWwxJc37XKq91t/Rflq5KEu2eT43?=
+ =?us-ascii?Q?WwXAQOaX9mVti1OB8iVhpEIsdEKRiT+nEOwy8u1S6BGrE8F8g8ZjQm1Gh4rl?=
+ =?us-ascii?Q?YUWzwF89qGJP7fsZXFF7MzhmYTBvqMibw6GI2eF7COsL5TmBVXc6fV1Nemwg?=
+ =?us-ascii?Q?CwA+cyyvm7IZhO1lUfpF1+ifh9TXFQ2XIbGbu+Zx65EEMbN9SKvMwar33uwO?=
+ =?us-ascii?Q?fBTmwDqq6lD8r6ry4WeZuTvhJ3ARW33W4I23aKtTE7q1WgP+SYW7SJ+j8kzG?=
+ =?us-ascii?Q?Bplk/QBMjDHVTsBoTYD0uZ8LMynN7NBHimpZeVRXFO6/JV/rD5us/AW0K5I2?=
+ =?us-ascii?Q?zbynXVBqZ7VTAso5S5GXQbJjrDUGjkye6wNa7hN7EIvnAZn2hrj/iQ9VMzDv?=
+ =?us-ascii?Q?gRld8kkASDYM0mRSO55ElCRtq0h5fLdJ7zAZhf0l3UBLXwXMsjHontERjn3I?=
+ =?us-ascii?Q?7X2+KND6IlFLBFolc4H7N/19FDos/jQSrH+eVYC3rGYSvUeQlDe0Sl5iqNyB?=
+ =?us-ascii?Q?U2WnZpjpTLtTnfhQMb05GHTlN5uAtr4S3lSmC3WtCeljWHGFedH0CK0oglbE?=
+ =?us-ascii?Q?aowFAgCrgN1X/3xsA42ehsjyhs/51H6wwIo9vqnubt2O+jwUKyzd1KnUlmkg?=
+ =?us-ascii?Q?S6eTfSwsS/lvoo2uzI5u8V/MzGx3koK03bLhLUGVHMFcHAVcXmcDDxq+t5up?=
+ =?us-ascii?Q?RwANB43sTXEjfepNmpytb9ttLCws1DR1sUv3M+ANd9ALCdMtDCHN4Wo7a/1G?=
+ =?us-ascii?Q?Hah2GINErckORvCEpN87bQuvbpFf4s8xlQ2gPx/ZuekH4y6ZCWXW6wY6SVa7?=
+ =?us-ascii?Q?9VtF4cF9rYoSnpXpZR4ZvCpyvWfyDTXQ+n8QKRvudscmYH0/7NyuzYeRB/YT?=
+ =?us-ascii?Q?tj8BR9G3wFZV4NNfSyAAsFtcVBVxRFkuhVwM7xOPRhiQP543lCAuOlYIMh66?=
+ =?us-ascii?Q?Ez05LcHnPf1wT8drWIbGKcP3ScWKsyeq0H36MOuXEFK8S6/3yQ10mfecd5K5?=
+ =?us-ascii?Q?rDff1GeqRNIHJufWj5orEN4a9K7mlyNy57T/OSG8zDt43eXUx3oAzw4zrYQD?=
+ =?us-ascii?Q?3msK0GCL9tKVMnk/o60I56YgMh6l8N74QN+uKA1t91c7MQfwIr9FNeM4wjIT?=
+ =?us-ascii?Q?7UQFNwQjDjO1djFKhKqdPISz3RNQIk8Dy7ysr6AczCj7Sm3LkhiWdXYSitvj?=
+ =?us-ascii?Q?bNSy6eYhiXn+1/uqxVExEetlULiBfnmKqB08nCtp?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fae991c-f802-42d3-77a6-08dd7b077a8e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19d946ad-59ec-40b5-5543-08dd7b077f30
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2025 03:50:21.1271 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2025 03:50:28.8659 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 62Ej5M+XsB/0WrdknBhjeq5sFgbbd0TVZwU0YKzwXjuDgHmSm9NKVI43sqSkxjDK8pIDFNRHD8CdAoMXXXycoA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: BiUUnuAwnbExFQVY9Ik+4P+ZAuC7Anc1neObFQGnvoe4b01Y9gW1VJXDIxdsn3bA9tRE4H4YZ9ikquUzkSUK+A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB9803
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -156,8 +155,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i.MX8qxp Display Controller has a built-in interrupt controller to support
-Enable/Status/Preset/Clear interrupt bit.
+i.MX8qxp Display Controller(DC) is comprised of three main components that
+include a blit engine for 2D graphics accelerations, display controller for
+display output processing, as well as a command sequencer.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
@@ -166,66 +166,90 @@ v9:
 * No change.
 
 v8:
-* No change.
+* Drop instance numbers from compatible strings. This means switching back to
+  the patch in v4. So, add Rob's previous R-b tag back. (Dmitry)
 
 v7:
-* No change.
+* Drop DT alias documentations and add instance numbers to display engine
+  compatible strings. (Rob)
 
 v6:
 * No change.
 
 v5:
-* No change.
+* Document aliases.  Drop Rob's previous R-b tag. (Maxime)
 
 v4:
-* No change.
-
-v3:
 * Collect Rob's R-b tag.
 
+v3:
+* No change.
+
 v2:
-* Drop unneeded "|". (Krzysztof)
+* Drop fsl,dc-*-id DT properties from example. (Krzysztof)
+* Use generic pmu pattern property. (Krzysztof)
 
- .../fsl,imx8qxp-dc-intc.yaml                  | 318 ++++++++++++++++++
- 1 file changed, 318 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/fsl,imx8qxp-dc-intc.yaml
+ .../bindings/display/imx/fsl,imx8qxp-dc.yaml  | 236 ++++++++++++++++++
+ 1 file changed, 236 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/fsl,imx8qxp-dc-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/fsl,imx8qxp-dc-intc.yaml
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
 new file mode 100644
-index 000000000000..6985ee644a25
+index 000000000000..0a72f9f0b5fd
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/interrupt-controller/fsl,imx8qxp-dc-intc.yaml
-@@ -0,0 +1,318 @@
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
+@@ -0,0 +1,236 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/interrupt-controller/fsl,imx8qxp-dc-intc.yaml#
++$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Freescale i.MX8qxp Display Controller interrupt controller
++title: Freescale i.MX8qxp Display Controller
 +
 +description: |
-+  The Display Controller has a built-in interrupt controller with the following
-+  features for all relevant HW events:
++  The Freescale i.MX8qxp Display Controller(DC) is comprised of three main
++  components that include a blit engine for 2D graphics accelerations, display
++  controller for display output processing, as well as a command sequencer.
 +
-+  * Enable bit (mask)
-+  * Status bit (set by an HW event)
-+  * Preset bit (can be used by SW to set status)
-+  * Clear bit (used by SW to reset the status)
-+
-+  Each interrupt can be connected as IRQ (maskable) and/or NMI (non-maskable).
-+  Alternatively the un-masked trigger signals for all HW events are provided,
-+  allowing it to use a global interrupt controller instead.
-+
-+  Each interrupt can be protected against SW running in user mode. In that case,
-+  only privileged AHB access can control the interrupt status.
++                                  Display buffers              Source buffers
++                                 (AXI read master)            (AXI read master)
++                                  | .......... |                  | | |
++      +---------------------------+------------+------------------+-+-+------+
++      | Display Controller (DC)   | .......... |                  | | |      |
++      |                           |            |                  | | |      |
++      |   @@@@@@@@@@@  +----------+------------+------------+     | | |      |
++  A   |  | Command   | |          V            V            |     | | |      |
++  X <-+->| Sequencer | |    @@@@@@@@@@@@@@@@@@@@@@@@@@@@    |     V V V      |
++  I   |  | (AXI CLK) | |   |                            |   |   @@@@@@@@@@   |
++      |   @@@@@@@@@@@  |   |       Pixel Engine         |   |  |          |  |
++      |       |        |   |         (AXI CLK)          |   |  |          |  |
++      |       V        |    @@@@@@@@@@@@@@@@@@@@@@@@@@@@    |  |          |  |
++  A   |   ***********  |       |   |            |   |       |  |   Blit   |  |
++  H <-+->| Configure | |       V   V            V   V       |  |  Engine  |  |
++  B   |  | (CFG CLK) | |    00000000000      11111111111    |  | (AXI CLK)|  |
++      |   ***********  |   |  Display  |    |  Display  |   |  |          |  |
++      |                |   |  Engine   |    |  Engine   |   |  |          |  |
++      |                |   | (Disp CLK)|    | (Disp CLK)|   |  |          |  |
++      |   @@@@@@@@@@@  |    00000000000      11111111111    |   @@@@@@@@@@   |
++  I   |  |  Common   | |         |                |         |       |        |
++  R <-+--|  Control  | |         |    Display     |         |       |        |
++  Q   |  | (AXI CLK) | |         |   Controller   |         |       |        |
++      |   @@@@@@@@@@@  +------------------------------------+       |        |
++      |                          |                |       ^         |        |
++      +--------------------------+----------------+-------+---------+--------+
++              ^                  |                |       |         |
++              |                  V                V       |         V
++       Clocks & Resets        Display          Display  Panic   Destination
++                              Output0          Output1 Control    buffer
++                                                              (AXI write master)
 +
 +maintainers:
 +  - Liu Ying <victor.liu@nxp.com>
 +
 +properties:
 +  compatible:
-+    const: fsl,imx8qxp-dc-intc
++    const: fsl,imx8qxp-dc
 +
 +  reg:
 +    maxItems: 1
@@ -233,286 +257,183 @@ index 000000000000..6985ee644a25
 +  clocks:
 +    maxItems: 1
 +
-+  interrupt-controller: true
++  resets:
++    maxItems: 2
 +
-+  "#interrupt-cells":
++  reset-names:
++    items:
++      - const: axi
++      - const: cfg
++
++  power-domains:
++    maxItems: 1
++
++  "#address-cells":
 +    const: 1
 +
-+  interrupts:
-+    items:
-+      - description: store9 shadow load interrupt(blit engine)
-+      - description: store9 frame complete interrupt(blit engine)
-+      - description: store9 sequence complete interrupt(blit engine)
-+      - description:
-+          extdst0 shadow load interrupt
-+          (display controller, content stream 0)
-+      - description:
-+          extdst0 frame complete interrupt
-+          (display controller, content stream 0)
-+      - description:
-+          extdst0 sequence complete interrupt
-+          (display controller, content stream 0)
-+      - description:
-+          extdst4 shadow load interrupt
-+          (display controller, safety stream 0)
-+      - description:
-+          extdst4 frame complete interrupt
-+          (display controller, safety stream 0)
-+      - description:
-+          extdst4 sequence complete interrupt
-+          (display controller, safety stream 0)
-+      - description:
-+          extdst1 shadow load interrupt
-+          (display controller, content stream 1)
-+      - description:
-+          extdst1 frame complete interrupt
-+          (display controller, content stream 1)
-+      - description:
-+          extdst1 sequence complete interrupt
-+          (display controller, content stream 1)
-+      - description:
-+          extdst5 shadow load interrupt
-+          (display controller, safety stream 1)
-+      - description:
-+          extdst5 frame complete interrupt
-+          (display controller, safety stream 1)
-+      - description:
-+          extdst5 sequence complete interrupt
-+          (display controller, safety stream 1)
-+      - description:
-+          disengcfg0 shadow load interrupt
-+          (display controller, display stream 0)
-+      - description:
-+          disengcfg0 frame complete interrupt
-+          (display controller, display stream 0)
-+      - description:
-+          disengcfg0 sequence complete interrupt
-+          (display controller, display stream 0)
-+      - description:
-+          framegen0 programmable interrupt0
-+          (display controller, display stream 0)
-+      - description:
-+          framegen0 programmable interrupt1
-+          (display controller, display stream 0)
-+      - description:
-+          framegen0 programmable interrupt2
-+          (display controller, display stream 0)
-+      - description:
-+          framegen0 programmable interrupt3
-+          (display controller, display stream 0)
-+      - description:
-+          signature0 shadow load interrupt
-+          (display controller, display stream 0)
-+      - description:
-+          signature0 measurement valid interrupt
-+          (display controller, display stream 0)
-+      - description:
-+          signature0 error condition interrupt
-+          (display controller, display stream 0)
-+      - description:
-+          disengcfg1 shadow load interrupt
-+          (display controller, display stream 1)
-+      - description:
-+          disengcfg1 frame complete interrupt
-+          (display controller, display stream 1)
-+      - description:
-+          disengcfg1 sequence complete interrupt
-+          (display controller, display stream 1)
-+      - description:
-+          framegen1 programmable interrupt0
-+          (display controller, display stream 1)
-+      - description:
-+          framegen1 programmable interrupt1
-+          (display controller, display stream 1)
-+      - description:
-+          framegen1 programmable interrupt2
-+          (display controller, display stream 1)
-+      - description:
-+          framegen1 programmable interrupt3
-+          (display controller, display stream 1)
-+      - description:
-+          signature1 shadow load interrupt
-+          (display controller, display stream 1)
-+      - description:
-+          signature1 measurement valid interrupt
-+          (display controller, display stream 1)
-+      - description:
-+          signature1 error condition interrupt
-+          (display controller, display stream 1)
-+      - description: reserved
-+      - description:
-+          command sequencer error condition interrupt(command sequencer)
-+      - description:
-+          common control software interrupt0(common control)
-+      - description:
-+          common control software interrupt1(common control)
-+      - description:
-+          common control software interrupt2(common control)
-+      - description:
-+          common control software interrupt3(common control)
-+      - description:
-+          framegen0 synchronization status activated interrupt
-+          (display controller, safety stream 0)
-+      - description:
-+          framegen0 synchronization status deactivated interrupt
-+          (display controller, safety stream 0)
-+      - description:
-+          framegen0 synchronization status activated interrupt
-+          (display controller, content stream 0)
-+      - description:
-+          framegen0 synchronization status deactivated interrupt
-+          (display controller, content stream 0)
-+      - description:
-+          framegen1 synchronization status activated interrupt
-+          (display controller, safety stream 1)
-+      - description:
-+          framegen1 synchronization status deactivated interrupt
-+          (display controller, safety stream 1)
-+      - description:
-+          framegen1 synchronization status activated interrupt
-+          (display controller, content stream 1)
-+      - description:
-+          framegen1 synchronization status deactivated interrupt
-+          (display controller, content stream 1)
-+    minItems: 49
++  "#size-cells":
++    const: 1
 +
-+  interrupt-names:
-+    items:
-+      - const: store9_shdload
-+      - const: store9_framecomplete
-+      - const: store9_seqcomplete
-+      - const: extdst0_shdload
-+      - const: extdst0_framecomplete
-+      - const: extdst0_seqcomplete
-+      - const: extdst4_shdload
-+      - const: extdst4_framecomplete
-+      - const: extdst4_seqcomplete
-+      - const: extdst1_shdload
-+      - const: extdst1_framecomplete
-+      - const: extdst1_seqcomplete
-+      - const: extdst5_shdload
-+      - const: extdst5_framecomplete
-+      - const: extdst5_seqcomplete
-+      - const: disengcfg_shdload0
-+      - const: disengcfg_framecomplete0
-+      - const: disengcfg_seqcomplete0
-+      - const: framegen0_int0
-+      - const: framegen0_int1
-+      - const: framegen0_int2
-+      - const: framegen0_int3
-+      - const: sig0_shdload
-+      - const: sig0_valid
-+      - const: sig0_error
-+      - const: disengcfg_shdload1
-+      - const: disengcfg_framecomplete1
-+      - const: disengcfg_seqcomplete1
-+      - const: framegen1_int0
-+      - const: framegen1_int1
-+      - const: framegen1_int2
-+      - const: framegen1_int3
-+      - const: sig1_shdload
-+      - const: sig1_valid
-+      - const: sig1_error
-+      - const: reserved
-+      - const: cmdseq_error
-+      - const: comctrl_sw0
-+      - const: comctrl_sw1
-+      - const: comctrl_sw2
-+      - const: comctrl_sw3
-+      - const: framegen0_primsync_on
-+      - const: framegen0_primsync_off
-+      - const: framegen0_secsync_on
-+      - const: framegen0_secsync_off
-+      - const: framegen1_primsync_on
-+      - const: framegen1_primsync_off
-+      - const: framegen1_secsync_on
-+      - const: framegen1_secsync_off
-+    minItems: 49
++  ranges: true
++
++patternProperties:
++  "^command-sequencer@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-command-sequencer
++
++  "^display-engine@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-display-engine
++
++  "^interrupt-controller@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-intc
++
++  "^pixel-engine@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-pixel-engine
++
++  "^pmu@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-axi-performance-counter
 +
 +required:
 +  - compatible
 +  - reg
 +  - clocks
-+  - interrupt-controller
-+  - "#interrupt-cells"
-+  - interrupts
-+  - interrupt-names
++  - power-domains
++  - "#address-cells"
++  - "#size-cells"
++  - ranges
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
 +    #include <dt-bindings/clock/imx8-lpcg.h>
++    #include <dt-bindings/firmware/imx/rsrc.h>
 +
-+    interrupt-controller@56180040 {
-+        compatible = "fsl,imx8qxp-dc-intc";
-+        reg = <0x56180040 0x60>;
-+        clocks = <&dc0_lpcg IMX_LPCG_CLK_5>;
-+        interrupt-controller;
-+        interrupt-parent = <&dc0_irqsteer>;
-+        #interrupt-cells = <1>;
-+        interrupts = <448>, <449>, <450>,  <64>,
-+                      <65>,  <66>,  <67>,  <68>,
-+                      <69>,  <70>, <193>, <194>,
-+                     <195>, <196>, <197>,  <72>,
-+                      <73>,  <74>,  <75>,  <76>,
-+                      <77>,  <78>,  <79>,  <80>,
-+                      <81>, <199>, <200>, <201>,
-+                     <202>, <203>, <204>, <205>,
-+                     <206>, <207>, <208>,   <5>,
-+                       <0>,   <1>,   <2>,   <3>,
-+                       <4>,  <82>,  <83>,  <84>,
-+                      <85>, <209>, <210>, <211>,
-+                     <212>;
-+        interrupt-names = "store9_shdload",
-+                          "store9_framecomplete",
-+                          "store9_seqcomplete",
-+                          "extdst0_shdload",
-+                          "extdst0_framecomplete",
-+                          "extdst0_seqcomplete",
-+                          "extdst4_shdload",
-+                          "extdst4_framecomplete",
-+                          "extdst4_seqcomplete",
-+                          "extdst1_shdload",
-+                          "extdst1_framecomplete",
-+                          "extdst1_seqcomplete",
-+                          "extdst5_shdload",
-+                          "extdst5_framecomplete",
-+                          "extdst5_seqcomplete",
-+                          "disengcfg_shdload0",
-+                          "disengcfg_framecomplete0",
-+                          "disengcfg_seqcomplete0",
-+                          "framegen0_int0",
-+                          "framegen0_int1",
-+                          "framegen0_int2",
-+                          "framegen0_int3",
-+                          "sig0_shdload",
-+                          "sig0_valid",
-+                          "sig0_error",
-+                          "disengcfg_shdload1",
-+                          "disengcfg_framecomplete1",
-+                          "disengcfg_seqcomplete1",
-+                          "framegen1_int0",
-+                          "framegen1_int1",
-+                          "framegen1_int2",
-+                          "framegen1_int3",
-+                          "sig1_shdload",
-+                          "sig1_valid",
-+                          "sig1_error",
-+                          "reserved",
-+                          "cmdseq_error",
-+                          "comctrl_sw0",
-+                          "comctrl_sw1",
-+                          "comctrl_sw2",
-+                          "comctrl_sw3",
-+                          "framegen0_primsync_on",
-+                          "framegen0_primsync_off",
-+                          "framegen0_secsync_on",
-+                          "framegen0_secsync_off",
-+                          "framegen1_primsync_on",
-+                          "framegen1_primsync_off",
-+                          "framegen1_secsync_on",
-+                          "framegen1_secsync_off";
++    display-controller@56180000 {
++        compatible = "fsl,imx8qxp-dc";
++        reg = <0x56180000 0x40000>;
++        clocks = <&dc0_lpcg IMX_LPCG_CLK_4>;
++        power-domains = <&pd IMX_SC_R_DC_0>;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        interrupt-controller@56180040 {
++            compatible = "fsl,imx8qxp-dc-intc";
++            reg = <0x56180040 0x60>;
++            clocks = <&dc0_lpcg IMX_LPCG_CLK_5>;
++            interrupt-controller;
++            interrupt-parent = <&dc0_irqsteer>;
++            #interrupt-cells = <1>;
++            interrupts = <448>, <449>, <450>,  <64>,
++                          <65>,  <66>,  <67>,  <68>,
++                          <69>,  <70>, <193>, <194>,
++                         <195>, <196>, <197>,  <72>,
++                          <73>,  <74>,  <75>,  <76>,
++                          <77>,  <78>,  <79>,  <80>,
++                          <81>, <199>, <200>, <201>,
++                         <202>, <203>, <204>, <205>,
++                         <206>, <207>, <208>,   <5>,
++                           <0>,   <1>,   <2>,   <3>,
++                           <4>,  <82>,  <83>,  <84>,
++                          <85>, <209>, <210>, <211>,
++                         <212>;
++            interrupt-names = "store9_shdload",
++                              "store9_framecomplete",
++                              "store9_seqcomplete",
++                              "extdst0_shdload",
++                              "extdst0_framecomplete",
++                              "extdst0_seqcomplete",
++                              "extdst4_shdload",
++                              "extdst4_framecomplete",
++                              "extdst4_seqcomplete",
++                              "extdst1_shdload",
++                              "extdst1_framecomplete",
++                              "extdst1_seqcomplete",
++                              "extdst5_shdload",
++                              "extdst5_framecomplete",
++                              "extdst5_seqcomplete",
++                              "disengcfg_shdload0",
++                              "disengcfg_framecomplete0",
++                              "disengcfg_seqcomplete0",
++                              "framegen0_int0",
++                              "framegen0_int1",
++                              "framegen0_int2",
++                              "framegen0_int3",
++                              "sig0_shdload",
++                              "sig0_valid",
++                              "sig0_error",
++                              "disengcfg_shdload1",
++                              "disengcfg_framecomplete1",
++                              "disengcfg_seqcomplete1",
++                              "framegen1_int0",
++                              "framegen1_int1",
++                              "framegen1_int2",
++                              "framegen1_int3",
++                              "sig1_shdload",
++                              "sig1_valid",
++                              "sig1_error",
++                              "reserved",
++                              "cmdseq_error",
++                              "comctrl_sw0",
++                              "comctrl_sw1",
++                              "comctrl_sw2",
++                              "comctrl_sw3",
++                              "framegen0_primsync_on",
++                              "framegen0_primsync_off",
++                              "framegen0_secsync_on",
++                              "framegen0_secsync_off",
++                              "framegen1_primsync_on",
++                              "framegen1_primsync_off",
++                              "framegen1_secsync_on",
++                              "framegen1_secsync_off";
++        };
++
++        pixel-engine@56180800 {
++            compatible = "fsl,imx8qxp-dc-pixel-engine";
++            reg = <0x56180800 0xac00>;
++            clocks = <&dc0_lpcg IMX_LPCG_CLK_5>;
++            #address-cells = <1>;
++            #size-cells = <1>;
++            ranges;
++        };
++
++        display-engine@5618b400 {
++            compatible = "fsl,imx8qxp-dc-display-engine";
++            reg = <0x5618b400 0x14>, <0x5618b800 0x1c00>;
++            reg-names = "top", "cfg";
++            interrupt-parent = <&dc0_intc>;
++            interrupts = <15>, <16>, <17>;
++            interrupt-names = "shdload", "framecomplete", "seqcomplete";
++            power-domains = <&pd IMX_SC_R_DC_0_PLL_0>;
++            #address-cells = <1>;
++            #size-cells = <1>;
++            ranges;
++        };
 +    };
 -- 
 2.34.1
