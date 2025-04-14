@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59720A87CAF
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 12:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20314A87CB0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 12:01:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B12F10E520;
-	Mon, 14 Apr 2025 10:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6608710E534;
+	Mon, 14 Apr 2025 10:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0835B10E520
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:01:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id CB9D610E534
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 10:01:36 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 21C3C1007;
- Mon, 14 Apr 2025 03:01:27 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 360EA1007;
+ Mon, 14 Apr 2025 03:01:35 -0700 (PDT)
 Received: from [10.57.87.24] (unknown [10.57.87.24])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 44AC93F694;
- Mon, 14 Apr 2025 03:01:24 -0700 (PDT)
-Message-ID: <6d67aff0-7082-4966-acb2-d7985820b3ea@arm.com>
-Date: Mon, 14 Apr 2025 11:01:22 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 293E33F694;
+ Mon, 14 Apr 2025 03:01:32 -0700 (PDT)
+Message-ID: <1da20229-4eca-41a0-b479-320820a27812@arm.com>
+Date: Mon, 14 Apr 2025 11:01:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/4] drm/panthor: Add driver IOCTL for setting BO labels
+Subject: Re: [PATCH v7 3/4] drm/panthor: Label all kernel BO's
 To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
  "To : Boris Brezillon" <boris.brezillon@collabora.com>,
  Liviu Dudau <liviu.dudau@arm.com>,
@@ -35,10 +35,10 @@ Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
 References: <20250411150357.3308921-1-adrian.larumbe@collabora.com>
- <20250411150357.3308921-3-adrian.larumbe@collabora.com>
+ <20250411150357.3308921-4-adrian.larumbe@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20250411150357.3308921-3-adrian.larumbe@collabora.com>
+In-Reply-To: <20250411150357.3308921-4-adrian.larumbe@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,170 +57,162 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/04/2025 16:03, Adrián Larumbe wrote:
-> Allow UM to label a BO for which it possesses a DRM handle.
+> Kernel BO's aren't exposed to UM, so labelling them is the responsibility
+> of the driver itself. This kind of tagging will prove useful in further
+> commits when want to expose these objects through DebugFS.
+> 
+> Expand panthor_kernel_bo_create() interface to take a NULL-terminated
+
+NIT: s/NULL/NUL/
+
+> string. No bounds checking is done because all label strings are given
+> as statically-allocated literals, but if a more complex kernel BO naming
+> scheme with explicit memory allocation and formatting was desired in the
+> future, this would have to change.
+
+I'm not sure I follow why bounds-checking would be an issue for strings
+from the kernel. But as you state these are all literals so definitely
+not a problem.
+
 > 
 > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
-Although very minor NITs below which you can consider.
-
 > ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 42 ++++++++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_gem.h |  2 ++
->  include/uapi/drm/panthor_drm.h        | 23 +++++++++++++++
->  3 files changed, 66 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/panthor/panthor_fw.c    | 8 +++++---
+>  drivers/gpu/drm/panthor/panthor_gem.c   | 4 +++-
+>  drivers/gpu/drm/panthor/panthor_gem.h   | 2 +-
+>  drivers/gpu/drm/panthor/panthor_heap.c  | 6 ++++--
+>  drivers/gpu/drm/panthor/panthor_sched.c | 9 ++++++---
+>  5 files changed, 19 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 06fe46e32073..983b24f1236c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1331,6 +1331,44 @@ static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *data,
->  	return 0;
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index 0f52766a3120..a7fdc4d8020d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -449,7 +449,8 @@ panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
+>  				       DRM_PANTHOR_BO_NO_MMAP,
+>  				       DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>  				       DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> -				       PANTHOR_VM_KERNEL_AUTO_VA);
+> +				       PANTHOR_VM_KERNEL_AUTO_VA,
+> +				       "Queue FW interface");
+>  	if (IS_ERR(mem))
+>  		return mem;
+>  
+> @@ -481,7 +482,8 @@ panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size)
+>  	return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
+>  					DRM_PANTHOR_BO_NO_MMAP,
+>  					DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
+> -					PANTHOR_VM_KERNEL_AUTO_VA);
+> +					PANTHOR_VM_KERNEL_AUTO_VA,
+> +					"FW suspend buffer");
 >  }
 >  
-> +static int panthor_ioctl_bo_set_label(struct drm_device *ddev, void *data,
-> +				  struct drm_file *file)
-> +{
-> +	struct drm_panthor_bo_set_label *args = data;
-> +	struct drm_gem_object *obj;
-> +	const char *label;
-> +	int ret = 0;
-> +
-> +	obj = drm_gem_object_lookup(file, args->handle);
-> +	if (!obj)
-> +		return -ENOENT;
-> +
-> +	if (args->size && args->label) {
-> +		if (args->size > PANTHOR_BO_LABEL_MAXLEN) {
-> +			ret = -E2BIG;
-> +			goto err_label;
-> +		}
-> +
-> +		label = strndup_user(u64_to_user_ptr(args->label), args->size);
-> +		if (IS_ERR(label)) {
-> +			ret = PTR_ERR(label);
-> +			goto err_label;
-> +		}
-> +	} else if (args->size && !args->label) {
-> +		ret = -EINVAL;
-> +		goto err_label;
-> +	} else {
-> +		label = NULL;
-> +	}
-> +
-> +	panthor_gem_bo_set_label(obj, label);
-> +
-> +err_label:
-> +	drm_gem_object_put(obj);
-> +
-> +	return ret;
-> +}
-> +
->  static int
->  panthor_open(struct drm_device *ddev, struct drm_file *file)
+>  static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+> @@ -601,7 +603,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
+>  		section->mem = panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev),
+>  							section_size,
+>  							DRM_PANTHOR_BO_NO_MMAP,
+> -							vm_map_flags, va);
+> +							vm_map_flags, va, "FW section");
+>  		if (IS_ERR(section->mem))
+>  			return PTR_ERR(section->mem);
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index af0ac17f357f..3c5fc854356e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -82,7 +82,7 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
+>  struct panthor_kernel_bo *
+>  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  			 size_t size, u32 bo_flags, u32 vm_map_flags,
+> -			 u64 gpu_va)
+> +			 u64 gpu_va, const char *name)
 >  {
-> @@ -1400,6 +1438,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
->  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
->  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
->  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
->  };
+>  	struct drm_gem_shmem_object *obj;
+>  	struct panthor_kernel_bo *kbo;
+> @@ -106,6 +106,8 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  	kbo->obj = &obj->base;
+>  	bo->flags = bo_flags;
 >  
->  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
-> @@ -1509,6 +1548,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
->   * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
->   *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
->   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
-> + * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
->   */
->  static const struct drm_driver panthor_drm_driver = {
->  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-> @@ -1522,7 +1562,7 @@ static const struct drm_driver panthor_drm_driver = {
->  	.name = "panthor",
->  	.desc = "Panthor DRM driver",
->  	.major = 1,
-> -	.minor = 3,
-> +	.minor = 4,
->  
->  	.gem_create_object = panthor_gem_create_object,
->  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> +	panthor_gem_kernel_bo_set_label(kbo, name);
+> +
+>  	/* The system and GPU MMU page size might differ, which becomes a
+>  	 * problem for FW sections that need to be mapped at explicit address
+>  	 * since our PAGE_SIZE alignment might cover a VA range that's
 > diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index af0d77338860..beba066b4974 100644
+> index beba066b4974..62aea06dbc6d 100644
 > --- a/drivers/gpu/drm/panthor/panthor_gem.h
 > +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -13,6 +13,8 @@
+> @@ -153,7 +153,7 @@ panthor_kernel_bo_vunmap(struct panthor_kernel_bo *bo)
+>  struct panthor_kernel_bo *
+>  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  			 size_t size, u32 bo_flags, u32 vm_map_flags,
+> -			 u64 gpu_va);
+> +			 u64 gpu_va, const char *name);
 >  
->  struct panthor_vm;
+>  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
 >  
-> +#define PANTHOR_BO_LABEL_MAXLEN	PAGE_SIZE
-> +
->  /**
->   * struct panthor_gem_object - Driver specific GEM object.
->   */
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 97e2c4510e69..12b1994499a9 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -127,6 +127,9 @@ enum drm_panthor_ioctl_id {
+> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
+> index 3bdf61c14264..d236e9ceade4 100644
+> --- a/drivers/gpu/drm/panthor/panthor_heap.c
+> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+> @@ -151,7 +151,8 @@ static int panthor_alloc_heap_chunk(struct panthor_heap_pool *pool,
+>  	chunk->bo = panthor_kernel_bo_create(pool->ptdev, pool->vm, heap->chunk_size,
+>  					     DRM_PANTHOR_BO_NO_MMAP,
+>  					     DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
+> -					     PANTHOR_VM_KERNEL_AUTO_VA);
+> +					     PANTHOR_VM_KERNEL_AUTO_VA,
+> +					     "Tiler heap chunk");
+>  	if (IS_ERR(chunk->bo)) {
+>  		ret = PTR_ERR(chunk->bo);
+>  		goto err_free_chunk;
+> @@ -555,7 +556,8 @@ panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
+>  	pool->gpu_contexts = panthor_kernel_bo_create(ptdev, vm, bosize,
+>  						      DRM_PANTHOR_BO_NO_MMAP,
+>  						      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
+> -						      PANTHOR_VM_KERNEL_AUTO_VA);
+> +						      PANTHOR_VM_KERNEL_AUTO_VA,
+> +						      "Heap pool");
+>  	if (IS_ERR(pool->gpu_contexts)) {
+>  		ret = PTR_ERR(pool->gpu_contexts);
+>  		goto err_destroy_pool;
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 446ec780eb4a..43ee57728de5 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -3332,7 +3332,8 @@ group_create_queue(struct panthor_group *group,
+>  						  DRM_PANTHOR_BO_NO_MMAP,
+>  						  DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>  						  DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> -						  PANTHOR_VM_KERNEL_AUTO_VA);
+> +						  PANTHOR_VM_KERNEL_AUTO_VA,
+> +						  "CS ring buffer");
+>  	if (IS_ERR(queue->ringbuf)) {
+>  		ret = PTR_ERR(queue->ringbuf);
+>  		goto err_free_queue;
+> @@ -3362,7 +3363,8 @@ group_create_queue(struct panthor_group *group,
+>  					 DRM_PANTHOR_BO_NO_MMAP,
+>  					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>  					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> -					 PANTHOR_VM_KERNEL_AUTO_VA);
+> +					 PANTHOR_VM_KERNEL_AUTO_VA,
+> +					 "Group job stats");
 >  
->  	/** @DRM_PANTHOR_TILER_HEAP_DESTROY: Destroy a tiler heap. */
->  	DRM_PANTHOR_TILER_HEAP_DESTROY,
-> +
-> +	/** @DRM_PANTHOR_BO_SET_LABEL: Label a BO. */
-> +	DRM_PANTHOR_BO_SET_LABEL,
->  };
->  
->  /**
-> @@ -977,6 +980,24 @@ struct drm_panthor_tiler_heap_destroy {
->  	__u32 pad;
->  };
->  
-> +/**
-> + * struct drm_panthor_bo_set_label - Arguments passed to DRM_IOCTL_PANTHOR_BO_SET_LABEL
-> + */
-> +struct drm_panthor_bo_set_label {
-> +	/** @handle: Handle of the buffer object to label. */
-> +	__u32 handle;
-> +
-> +	/**
-> +	 * @size: Length of the label, including the NULL terminator.
-> +	 *
-> +	 * Cannot be greater than the OS page size.
-> +	 */
-> +	__u32 size;
-> +
-> +	/** @label: User pointer to a NULL-terminated string */
-> +	__u64 label;
-> +};
-
-First very minor NIT:
- * NULL is a pointer, i.e. (void*)0
- * NUL is the ASCII code point '\0'.
-So it's a NUL-terminated string.
-
-Second NIT: We don't actually need 'size' - since the string is
-NUL-terminated we can just strndup_user(__user_pointer__, PAGE_SIZE).
-As things stand we validate that strlen(label) < size <= PAGE_SIZE -
-which is a little odd (user space might as well just pass PAGE_SIZE
-rather than calculate the actual length).
-
-Thanks,
-Steve
-
-> +
->  /**
->   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
->   * @__access: Access type. Must be R, W or RW.
-> @@ -1019,6 +1040,8 @@ enum {
->  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_CREATE, tiler_heap_create),
->  	DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY =
->  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_DESTROY, tiler_heap_destroy),
-> +	DRM_IOCTL_PANTHOR_BO_SET_LABEL =
-> +		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
->  };
->  
->  #if defined(__cplusplus)
+>  	if (IS_ERR(queue->profiling.slots)) {
+>  		ret = PTR_ERR(queue->profiling.slots);
+> @@ -3493,7 +3495,8 @@ int panthor_group_create(struct panthor_file *pfile,
+>  						   DRM_PANTHOR_BO_NO_MMAP,
+>  						   DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>  						   DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+> -						   PANTHOR_VM_KERNEL_AUTO_VA);
+> +						   PANTHOR_VM_KERNEL_AUTO_VA,
+> +						   "Group sync objects");
+>  	if (IS_ERR(group->syncobjs)) {
+>  		ret = PTR_ERR(group->syncobjs);
+>  		goto err_put_group;
 
