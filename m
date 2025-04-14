@@ -2,60 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DEFA882B9
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 15:42:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB625A88323
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 15:51:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52B1610E5D3;
-	Mon, 14 Apr 2025 13:42:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0CD110E5E3;
+	Mon, 14 Apr 2025 13:51:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="KILwxyDr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="73YP5x3i";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KILwxyDr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="73YP5x3i";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com
- [91.218.175.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 264DE10E5E7
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 13:42:40 +0000 (UTC)
-Date: Mon, 14 Apr 2025 09:42:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1744638157;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QEv3ILCsdFs5Kw2gfIqsFZqWUzptLCjG1Y+4a3xtink=;
- b=k4J0SetZUpfbtm+3AmiG/N6gIM8zjSrDxG+gtRHc7IXbZ5y5xXpEszhnwk/X4037xcSYRD
- hX48SvrwZiyEPXHJeffzuxR3l83X/eop7ALhzLQTkItT+YBFXv0/8A08T44Hx9I0sL/Q+K
- LaIMmDK4foxqCBJ0ai1T6a8ORaW5EO51fe5UyrZFMVBRXIUWJAvnOzxFhvcxjfqVoDiyHs
- tQEC9MKMorq7nMpG2AVp8uqxxLLcZG3Y9NKyI9LLZt9JH3r/+J3qBgQ2NidQ2wKITmVcmg
- Xv0sbk9hZRHYuSfiIofibPyNPkYi6SZ880mkKaFLwL8SZho+4KQcIu0+6o+T8A==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- kernel@collabora.com, Faith Ekstrand <faith.ekstrand@collabora.com>,
- Erik Faye-Lund <erik.faye-lund@collabora.com>
-Subject: Re: [PATCH v3 0/8] drm: Introduce sparse GEM shmem
-Message-ID: <Z_0QyCUbaIz7TIBZ@blossom>
-References: <d4ebcb9f-ca1e-40ae-bc3c-613f88552b94@amd.com>
- <20250410175349.6bf6a4ea@collabora.com>
- <d0ab2ffe-77ee-4bda-b127-8648acb71409@amd.com>
- <20250410192054.24a592a5@collabora.com> <Z_gHX5AqQkhbXOjd@blossom>
- <20250410204155.55d5cfc7@collabora.com>
- <Z_kEjFjmsumfmbfM@phenom.ffwll.local>
- <20250414132206.728eacb3@collabora.com> <Z_0HuzvbMV3vybWe@blossom>
- <20250414153101.57d231ba@collabora.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2751010E5D9
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 13:51:28 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B5D7F1F38A;
+ Mon, 14 Apr 2025 13:51:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1744638686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=QrAWGoEWOTQW8qOhCURxzfbWAjLZ0ixi8ZlwuXvuANE=;
+ b=KILwxyDrEEXr5eNrgiuLBf9AlU3jLObGVmgh9+atLoLTNdlO5Hg8XUqRaf6aBn0icwZg7c
+ ZVnMx43njVfpzgOX0F0zkWFJDdZ6R+NVcP9Cy+kK5a/1gO0TbaokMt4cwR5WqFSTV2/FpJ
+ s+1EbXZD0FrGutWgp94lpx70dnsCT1E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1744638686;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=QrAWGoEWOTQW8qOhCURxzfbWAjLZ0ixi8ZlwuXvuANE=;
+ b=73YP5x3ioRPLACq7nVwe4kxhozrHrcl61UdaE2u4l8yGUiV35wEodavolz0z/nEOKVCG8q
+ vkEiZohrCiFDi2Cw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1744638686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=QrAWGoEWOTQW8qOhCURxzfbWAjLZ0ixi8ZlwuXvuANE=;
+ b=KILwxyDrEEXr5eNrgiuLBf9AlU3jLObGVmgh9+atLoLTNdlO5Hg8XUqRaf6aBn0icwZg7c
+ ZVnMx43njVfpzgOX0F0zkWFJDdZ6R+NVcP9Cy+kK5a/1gO0TbaokMt4cwR5WqFSTV2/FpJ
+ s+1EbXZD0FrGutWgp94lpx70dnsCT1E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1744638686;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=QrAWGoEWOTQW8qOhCURxzfbWAjLZ0ixi8ZlwuXvuANE=;
+ b=73YP5x3ioRPLACq7nVwe4kxhozrHrcl61UdaE2u4l8yGUiV35wEodavolz0z/nEOKVCG8q
+ vkEiZohrCiFDi2Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D817136A7;
+ Mon, 14 Apr 2025 13:51:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id yfpOHd4S/We6BQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 14 Apr 2025 13:51:26 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@gmail.com, simona@ffwll.ch, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Russell King <linux@armlinux.org.uk>
+Subject: [PATCH 01/11] drm/armada: Test for imported buffers with
+ drm_gem_is_imported()
+Date: Mon, 14 Apr 2025 15:48:08 +0200
+Message-ID: <20250414134821.568225-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250414153101.57d231ba@collabora.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+]; FROM_HAS_DN(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,armlinux.org.uk:email];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,kernel.org,linux.intel.com];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[7]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,8 +106,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> I'm still trying to see if we can emulate/have incremental-rendering on
-> JM hardware
+Instead of testing import_attach for imported GEM buffers, invoke
+drm_gem_is_imported() to do the test. The helper tests the dma_buf
+itself while import_attach is just an artifact of the import. Prepares
+to make import_attach optional.
 
-I guess since we don't advertise vertex shader side effects... Lol,
-maybe that could work...
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Russell King <linux@armlinux.org.uk>
+---
+ drivers/gpu/drm/armada/armada_fb.c  | 2 +-
+ drivers/gpu/drm/armada/armada_gem.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/armada/armada_fb.c b/drivers/gpu/drm/armada/armada_fb.c
+index cf2e88218dc0..67af4bd8797f 100644
+--- a/drivers/gpu/drm/armada/armada_fb.c
++++ b/drivers/gpu/drm/armada/armada_fb.c
+@@ -110,7 +110,7 @@ struct drm_framebuffer *armada_fb_create(struct drm_device *dev,
+ 		goto err;
+ 	}
+ 
+-	if (obj->obj.import_attach && !obj->sgt) {
++	if (drm_gem_is_imported(&obj->obj) && !obj->sgt) {
+ 		ret = armada_gem_map_import(obj);
+ 		if (ret)
+ 			goto err_unref;
+diff --git a/drivers/gpu/drm/armada/armada_gem.c b/drivers/gpu/drm/armada/armada_gem.c
+index 1a1680d71486..bd4209b6a893 100644
+--- a/drivers/gpu/drm/armada/armada_gem.c
++++ b/drivers/gpu/drm/armada/armada_gem.c
+@@ -63,7 +63,7 @@ void armada_gem_free_object(struct drm_gem_object *obj)
+ 			iounmap(dobj->addr);
+ 	}
+ 
+-	if (dobj->obj.import_attach) {
++	if (drm_gem_is_imported(&dobj->obj)) {
+ 		/* We only ever display imported data */
+ 		if (dobj->sgt)
+ 			dma_buf_unmap_attachment_unlocked(dobj->obj.import_attach,
+-- 
+2.49.0
+
