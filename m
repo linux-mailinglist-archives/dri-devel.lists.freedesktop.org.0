@@ -2,82 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450EAA87907
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 09:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF39A8790B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Apr 2025 09:39:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F8F10E4B6;
-	Mon, 14 Apr 2025 07:38:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B38D810E0CF;
+	Mon, 14 Apr 2025 07:38:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yQj0s259";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="N/PNEEqo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D20110E4B6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 07:38:41 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-43cf0d787eeso45627715e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 00:38:41 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D921510E0CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 07:38:58 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-39ac56756f6so3457852f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 00:38:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1744616320; x=1745221120; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1744616337; x=1745221137; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=MYNlI03NSFPCRVzjpBp2v2uGfOYgtNYlYwGUmgY2K2g=;
- b=yQj0s259x+3EwYc7FF7eHat4DbsKGFAKDGI26lmuolE/4p+uvjwJCyELxTsdvqZw05
- GNrqpzIvTR5FEWHPnrwlCdVlrETX8XVEK00iKtToxCGSpWKBoK3/dnxP9xEULVO6pS1r
- BRIAJ0Wz9XfrMJccuKthJWfxASp378zgVRFydF/rTkX+wmD1Wf5rTlcV2DTG4hzZky2+
- oUuzjVB74JNTZQ3Pbn6ViOkqhfXbmaT1CCNcNNPdyuz8R/v5fBU6vxzzIQiTC6CV3Xnu
- LSYbTX4z4SLAm5we+vxrXxKh2+saQuMuLBucbnMBirBcUSxrOKSHTyRYVef1a3qUwvIS
- FLag==
+ :reply-to; bh=1YUJUK8AE+cB0J4Fwjv+9Xlb4mSQ/w0tsb8OhE4M4K8=;
+ b=N/PNEEqoKgMKOjMvE2t8aQS66H3t9FBTysAVA7JfGbSHbDCJj3N7+4th5RgbHz1rnx
+ T+xAmZlUzPrXWo/BQvQ0VxuiQXrrwI6xniRk2jSmlLoO+my29wwo/JN/fnujCEiPz4EX
+ U3OgygtSqtHxktdj5vV6CQEv7ZPyBg1La+VSNf68p/O2YHoII0NjaQ6X/vETRcOvtJKy
+ Y5xB655xEOrn0DGcQJrbdQef0ec/b6M8WPVEW3mLgFzxIIArgneojDLGOALCdk5r4IfY
+ CcwWI9uDxopJaVK5z7c2syG30Lndl+lvHJmZWout9jugfpD33PHJR460t4iMHnJPl2Xl
+ dFOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744616320; x=1745221120;
+ d=1e100.net; s=20230601; t=1744616337; x=1745221137;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=MYNlI03NSFPCRVzjpBp2v2uGfOYgtNYlYwGUmgY2K2g=;
- b=vfxcvtn9WVfV2jMjfVLez0lOMK0PPXdguzAHqF0DKIwmPUAcrWPA2xWvH0SukNOSEW
- oYSySdXTCcsaWXUXej+I0fGUDnIyqhKe6wd0MDiXPzmFhyT1sGAwV8w57mbYEHQ8qzzC
- OaWlqFvIHnvPfeUrdzKV9fXd+e0uEM7R75OTsHCLN++PaKOAYy4pt16SLRPIi9k+L4P+
- Ic1WeXEG9zlswpIcFPUX/rnFxi3pSnWIbxde4OlvIUwUZ+IXipeiumMQMm9l/I2PhZ0l
- fywMkoeCz7n43Maqj+zwQtNBxdxb2yYeGwFL/ei9Z/bjm/bI/aGkNBsl1sA/zjT9SBsm
- ncgA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWDxGNRoSW5QjKfKGUTa86jPV7AfmUA8WRiLpc49nMmWJ+wgjGfOUIPYv8KZYLkf4IMHeyAiUsstPE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy9dsyvwTv7F9ZPVafE5v+ThDqfnvNSX0DX8oxK2Z7yddDOmHzy
- ujDAaXZgVy4FAZ6tYPcS1c4aSkzJD3sga8kKJHnE+FDNm4Msj0KWAL6ivvBvSU8=
-X-Gm-Gg: ASbGncsU7eFXtl7LPANNYNRME+3XGxietcMBGNzRB6J+3OnxzlyiBZZxQNF23uZBGIV
- dgexrQM1z3TGeM9Nz2dqW9ykBihKbt1YMVbDGeL1pszpibSsXgzC5+aLZ5JiUrGHq1NgO13FjCq
- VJ9/VtUDWjXB9rVjewSOVaonuM8beG1NAsK2qUk9oag+PeU5HYz55NQSn9Bwx/p9Z07fhyTrYY/
- xEPo42g/PYpKTBJkMrQM+TieXHLN+Z06EPspujLZt6Ak22wjNjJrB3NhuietE8v8f7gawwK5+WG
- 1KvtuARYNX1eFu6XPPM8G3ttlDc5k18z8mjsmRCMZOdema/IiBIXX/MHDPc2SCoI+GU+M47LnYL
- 1AO1m88EUbYdaWyxdPQ==
-X-Google-Smtp-Source: AGHT+IGBsTeZKgtEIA6eBsKtlhTmfJORjmAjg8djc+8TB0H998iWJMOz7OhNgNtbKdy1asdxt5v8ww==
-X-Received: by 2002:a05:600c:3848:b0:43d:988b:7732 with SMTP id
- 5b1f17b1804b1-43f3a94d9bbmr95557245e9.14.1744616319738; 
- Mon, 14 Apr 2025 00:38:39 -0700 (PDT)
+ bh=1YUJUK8AE+cB0J4Fwjv+9Xlb4mSQ/w0tsb8OhE4M4K8=;
+ b=bUZckgJnya9XWotAFO5vkYDRQD2LnHWYsXsUGlBCs5LOG6EKMwTON/2VzmTT80Lj+p
+ 37w4v3ittmRaw0OY9cdvaUwdc1VfyMbD5mqVUQ81rHx0BevTvOwdDOMQCR/I3Uyo/zKj
+ bao6KSFslTGD0o3UyTkxMBW+6+Wm7SFWRq4mJnnKaRa4Q9n3ra8Ap6nPyzwNcFAYO3Kh
+ DcY5vXUpiH3NnLa3wGZip+N4E2gzCF+7vU48bYt0WupoPdlkY/ronFiJnWUdoCUDDQO+
+ nfmD+xP9ATqPHpFi7QPotps6rbI6qcn4GR6Lg/oSxVbwZ5cNk61H+NwCyxf/UTXBc321
+ UsQA==
+X-Gm-Message-State: AOJu0YyE5PNnxiDPvSop253dZ1QkUzVmSKLQngiinzr8FghTwNJGMC4U
+ jSo3IS5XUBU/cwtNWEBkhCC1qCgFnY4HpbGk6/OWurXUuRln+Qlxl4nf/zu9SsY=
+X-Gm-Gg: ASbGncsOAQcqsqwivXcYyg5xAYeuO3tjQMgzvyzzYPuc4bCTFi6AAEPLCj9OabKAs8Y
+ JKYkNej/1xjSOuwKI9D4dAcHBG+I9C5gHFcZ3RBW+b5pYdemc9WS/ty+k3iAgOjw5FgOWtFQpkP
+ CV9nnK4q8wyNMgekWwLMqEAfWEXO9MLQqjNEay9mp1FBcmPYn5OumbF9CrkhXULryQ2BhRcJMCD
+ ouku/7aU8wO0bntoAPnYHXPD39dCZY5gnbpUaSFAGVftaC/LTPdmkjV4xV4olo/97Oo4I22mOi+
+ CRKivErnwEq7AlKtTF4X17MMLfNnj/z46hT3YcgRpr/bWwmuvMpMEnURYyPuiz3uVxHkcz8p6ma
+ DFBizlgQyOG4/WGJwbw==
+X-Google-Smtp-Source: AGHT+IEN00CGuVeGvTjeGWZNIExSe2bYWLZkw12uJCvQgEAsgQb68L2VMNOY2e3uMwjoUJbn6Vqjzw==
+X-Received: by 2002:a5d:6daa:0:b0:39c:dfa:d347 with SMTP id
+ ffacd0b85a97d-39ea51f4467mr9707081f8f.2.1744616337324; 
+ Mon, 14 Apr 2025 00:38:57 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:3d9:2080:bf8a:3473:5c13:9743?
  ([2a01:e0a:3d9:2080:bf8a:3473:5c13:9743])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43f233c49f7sm165738265e9.17.2025.04.14.00.38.38
+ ffacd0b85a97d-39eaf43cb29sm10148851f8f.76.2025.04.14.00.38.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Apr 2025 00:38:39 -0700 (PDT)
-Message-ID: <ea1af202-6349-4f1f-ae15-41a483e99c2c@linaro.org>
-Date: Mon, 14 Apr 2025 09:38:38 +0200
+ Mon, 14 Apr 2025 00:38:57 -0700 (PDT)
+Message-ID: <cd7fcaec-af16-4364-9a5d-77c5ee50bcc3@linaro.org>
+Date: Mon, 14 Apr 2025 09:38:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2] drm/bridge: dw-hdmi: Avoid including uapi headers
-To: Andy Yan <andyshrk@163.com>, lumag@kernel.org
-Cc: cristian.ciocaltea@collabora.com, mripard@kernel.org,
- andrzej.hajda@intel.com, dianders@chromium.org, jernej.skrabec@gmail.com,
- Laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
- rfoss@kernel.org, simona@ffwll.ch, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- heiko@sntech.de, Andy Yan <andy.yan@rock-chips.com>
-References: <20250411115941.318558-1-andyshrk@163.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/bridge: select DRM_KMS_HELPER for AUX_BRIDGE
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250411-aux-select-kms-v1-1-c4276f905a56@oss.qualcomm.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -104,7 +103,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20250411115941.318558-1-andyshrk@163.com>
+In-Reply-To: <20250411-aux-select-kms-v1-1-c4276f905a56@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,37 +122,34 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/04/2025 13:59, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
+On 11/04/2025 17:09, Dmitry Baryshkov wrote:
+> The aux bridge uses devm_drm_of_get_bridge() from the panel bridge (and
+> correctly selects DRM_PANEL_BRIDGE). However panel bridge is not a
+> separate module, it is compiled into the drm_kms_helper.o. Select
+> DRM_KMS_HELPER too to express this dependency.
 > 
-> It is not recommended for drivers to include UAPI header
-> directly.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>   drivers/gpu/drm/bridge/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index 09a1be234f7173bdf88e385507bbe5e5c6d583a6..b9e0ca85226a603a24f90c6879d1499f824060cb 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -16,6 +16,7 @@ config DRM_AUX_BRIDGE
+>   	tristate
+>   	depends on DRM_BRIDGE && OF
+>   	select AUXILIARY_BUS
+> +	select DRM_KMS_HELPER
+>   	select DRM_PANEL_BRIDGE
+>   	help
+>   	  Simple transparent bridge that is used by several non-DRM drivers to
 > 
 > ---
+> base-commit: 2bdde620f7f2bff2ff1cb7dc166859eaa0c78a7c
+> change-id: 20250411-aux-select-kms-086618b92d6e
 > 
-> Changes in v2:
-> - Collect R-b from Heiko.
-> 
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index b1cdf806b3c40..deaba3b6f9978 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -22,8 +22,8 @@
->   
->   #include <media/cec-notifier.h>
->   
-> -#include <uapi/linux/media-bus-format.h>
-> -#include <uapi/linux/videodev2.h>
-> +#include <linux/media-bus-format.h>
-> +#include <linux/videodev2.h>
->   
->   #include <drm/bridge/dw_hdmi.h>
->   #include <drm/display/drm_hdmi_helper.h>
+> Best regards,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
