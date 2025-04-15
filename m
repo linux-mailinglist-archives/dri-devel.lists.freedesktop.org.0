@@ -2,137 +2,200 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24543A89E54
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16239A89E5B
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:41:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 628E210E776;
-	Tue, 15 Apr 2025 12:40:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C2D010E368;
+	Tue, 15 Apr 2025 12:41:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="eOEkr2Bc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H9w309eU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yXIbe49e";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="glknqEq5";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="Sd+r9ho9";
+	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="clMFosTY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61A9B10E776
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:40:06 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DDA7F210F4;
- Tue, 15 Apr 2025 12:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744720805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jK4Eh9H6ZnAHMicDIT09c1HLtTEiBBJCncungg/b1e0=;
- b=eOEkr2Bc/8PmfTxRX/jZuED0Yov803joHTDW35rHeNHSWYeQFyYWjuH9PQsSE/BHV9jc0D
- N9tWjf02jInbtNFipWCPx4Xz4QKacMoCUqNIQUZS2RIkMCJKD8PD7pn+PsZ5pOUKEwpfGl
- OWnGx5z3BKAzjcLiJVPv/G0NYIiI3Vc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744720805;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jK4Eh9H6ZnAHMicDIT09c1HLtTEiBBJCncungg/b1e0=;
- b=H9w309eUFx4A1eXC4efgW6R7UTjm+5EOFYnt1otaKN7tckPRCI0unt8u8iwB+34DNU6hkQ
- LbhBoO0LMukMuvAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744720804; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jK4Eh9H6ZnAHMicDIT09c1HLtTEiBBJCncungg/b1e0=;
- b=yXIbe49en1VW3LQfuAeJMFmrab2uMzryCtS/Wqhv/8B4m1ZVHG8F0Czi6VUW87luQ9iDrC
- cYD77DygAn1nnkVEZKUA/cYZWtnM2N87bDeJeQRLOu+GaXqlKhFNfgXZHD0W/+wqhXX1zU
- 7ucDUPkPNJdgcwglk+Znhhlc5GCpSu0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744720804;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jK4Eh9H6ZnAHMicDIT09c1HLtTEiBBJCncungg/b1e0=;
- b=glknqEq5qjCRJh4Y74M8NllXlXOr45QI0paAtqauR1jqYBFMRMKvbjaa8LyPGBhOG7hlrk
- LKnidA4wvI+IJCBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F588137A5;
- Tue, 15 Apr 2025 12:40:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id OBCEIaRT/melFgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 15 Apr 2025 12:40:04 +0000
-Message-ID: <ddb93e8d-7716-47b3-b06c-0bf862d9c32b@suse.de>
-Date: Tue, 15 Apr 2025 14:40:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gem: Internally test import_attach for imported
- objects
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- simona@ffwll.ch, airlied@gmail.com, asrivats@redhat.com, andyshrk@163.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250415092057.63172-1-tzimmermann@suse.de>
- <e2e82102-eb9f-4eb6-8ac3-6122ed7fcf28@amd.com>
- <48ab9b82-0d26-4d7c-88b0-feab9762b128@suse.de>
- <b924ffa7-99c0-42f1-9170-069e92299021@amd.com>
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD19F10E368
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:41:52 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F7bPR8015459;
+ Tue, 15 Apr 2025 13:41:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=dk201812; bh=BbzNK8v3cn5+9nsC22zq41hUr
+ WL8ycUWG1fvEk9zuoY=; b=Sd+r9ho9nOU5vcOIvVSd5bws8e6xYExTFfCw0OExL
+ LyjOAtmZnPDCayn/Ga0k7I2uVVaDy24IJmuVGuTdMCdOMIYpRnwpI2tKta0+5vJl
+ QhUg+8U8cWBp/6+fIpTmsdjEurdWXmDEkeM9RzI+ZBF/cx++FSeB4tDU0V70SIoR
+ ESNhAKstqB4qLtcB6GPcAkOWrj3TnfieyoToMpftuax+YnD6vHFiy1H0IKFkpHEU
+ 9ZeP/FkrWWW/moDZvCixl8fgAPq9TBbo8EzP/zKdK34vTJZtlHtsJuTICdLj3Cbw
+ 7jZ4aIXFur9FcwKAM2Tmcigs2Wtk3J/H7yADu4b99hikw==
+Received: from lo0p265cu003.outbound.protection.outlook.com
+ (mail-uksouthazlp17012050.outbound.protection.outlook.com [40.93.67.50])
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 45yg8vt5u2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Apr 2025 13:41:39 +0100 (BST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UmUgS5WNVMJWhHxJbeTPrtmQvANHSzxScqaAusdG4A7yAdRfz6aYuensac5Pvub+rR1KWEgKO1yuNgAQ1qewK1AX23g9WvTm3rpfpJ/RsAiuxG8VJXE3yuCZ/Z8PXwBFajDnQCKJY8ta44GBkyu9blipxaT96LXza7qLqHiiE/VX2cTVC6XZ3nn5L+qU0+9Fk147k+R/oX/iEPsJl9cyR1DehuWgIRUH/1u5WQzqGGBse7FgZBPARtDLB8hhE/6SwBQugQuTCBWWhQF1NnmQ0IpQkJ2QbcpBWfPj2mCCcdAc8tQNSZr1gGA1FHS2uMjWWKqeHOG+y664eCLvub9m+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BbzNK8v3cn5+9nsC22zq41hUrWL8ycUWG1fvEk9zuoY=;
+ b=AENfct9B5MAsYm3Wi+MywVwZL7LpL75O7aputE/vMIDDqSxGDjOA9exXgyEx0wtDIZNnNNZWNMkrK4x8SnmnVvewzxfI3s8PGn+tF8nj7lg4evrPLTNT9OOa8i4ocg1fp8hVa3EvU64aBwN02taPS6RHOiMBU/3bTJX8tFHgqJAQwZW/GyKyeoDf0IzHZgslnv01LpvE/uouJAW+VJ5kLwVV6MZnsPKynPHL7sYIkChZa41uaqfd78XntoIPNfd3WuyLlZex1QrSYbTNXZK518aK+dfNdaJzjxlNwfyUa9grwdBxG54M6cjN61z+9kCdpCvd7REigGVQ+0po+8LRBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BbzNK8v3cn5+9nsC22zq41hUrWL8ycUWG1fvEk9zuoY=;
+ b=clMFosTYsPCh9Su4WopoCnm0hr2xfo/nJiCxKYEdA06hFPYYeI1u0Yzn9tBE/L+JZaEZOvCEmrkyzBAi42v/BaEDxv8c9VHArDs9yQ7Tu8VW3z4InRSs2IIxdhJSQmNc5ILiGahgjP6sxqS6X/5ohCg7aX914Ztvt6oaJ4y7Ts0=
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
+ LO7P265MB7762.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:414::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8655.22; Tue, 15 Apr 2025 12:41:35 +0000
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15%3]) with mapi id 15.20.8655.018; Tue, 15 Apr 2025
+ 12:41:35 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Tero
+ Kristo <kristo@kernel.org>
+CC: Frank Binns <Frank.Binns@imgtec.com>, Luigi Santivetti
+ <Luigi.Santivetti@imgtec.com>, Alessio Belle <Alessio.Belle@imgtec.com>,
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Randolph Sapp <rs@ti.com>,
+ Darren Etheridge <detheridge@ti.com>, Michal
+ Wilczynski <m.wilczynski@samsung.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH DO NOT MERGE v6 17/18] arm64: dts: ti: k3-am62: New GPU
+ binding details
+Thread-Topic: [PATCH DO NOT MERGE v6 17/18] arm64: dts: ti: k3-am62: New GPU
+ binding details
+Thread-Index: AQHbqf6zN3wXIDnun0SR8Isnm2r3GbOks3MA
+Date: Tue, 15 Apr 2025 12:41:35 +0000
+Message-ID: <f15355f7-0b95-462a-873b-cd682fc530f2@imgtec.com>
+References: <20250410-sets-bxs-4-64-patch-v1-v6-0-eda620c5865f@imgtec.com>
+ <20250410-sets-bxs-4-64-patch-v1-v6-17-eda620c5865f@imgtec.com>
+In-Reply-To: <20250410-sets-bxs-4-64-patch-v1-v6-17-eda620c5865f@imgtec.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <b924ffa7-99c0-42f1-9170-069e92299021@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[amd.com,ffwll.ch,gmail.com,redhat.com,163.com,kernel.org,linux.intel.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[11]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email, linaro.org:email, suse.de:email,
- suse.de:mid, imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CWXP265MB3397:EE_|LO7P265MB7762:EE_
+x-ms-office365-filtering-correlation-id: 2feec3e4-6cf6-4673-2f66-08dd7c1adbaa
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|7416014|4053099003|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?TVhVZkNIV29RemlOb2Rnb3NORHRTMVNCOTE4NHNnWUlsSENEcnhiYWgrUkQx?=
+ =?utf-8?B?V3h1ekV4UkRNK3pkcFRYRE82S2tQU1NGR2NhQ3BHN0x3bjFrMTg1MStaazFR?=
+ =?utf-8?B?VTJRMm53bWlFbFFVTUpZZDhuS1dmK25CN1ljbnpOa1ZqMTlWZzdIZjJFL2pB?=
+ =?utf-8?B?QXhHVTB5Y1l1ZzFzaGF5ZnpMVnprSDZPdUwwcWd1Z0N2MGliNGc2dWpZQnJa?=
+ =?utf-8?B?czZLd2EvenlKUWtlN0Rzazd3YVdmLzhza3UwejBPc0J1QXBIUGVNSG5CUHhw?=
+ =?utf-8?B?OXNmYVNvbGpWREhxUU8wRUlod2N1TlNlNXhXL3RhVXFMUHQwMVUzL2FkNmth?=
+ =?utf-8?B?N1hpYU1CQTlaaXUyK0pIMEU0ZHZacWpEeUVDOG81ZjNBd2lQYm5wS2NnTC95?=
+ =?utf-8?B?V25JLzBvVHFWZzZ4UlA5cWhEYVlSbWJKeHJzRHdVMUp1bkQyaFF4Nm5KaFRp?=
+ =?utf-8?B?eVd0L3lKN0RpcUY0Njlmb2gzcW1uK05zN3hiY0h3SUsrR3ZGcGpaTnNEMTlB?=
+ =?utf-8?B?eHR4RklKZW1NajQvZ2FZR0E4enYwa2FnOFdieTVLV1pFb1V5emFCOStDRnNC?=
+ =?utf-8?B?R0hNam0xam1kUFdZU3VFV2dyUncyemowTGswczJaMVVmOTAvS1VIZkxQVzR5?=
+ =?utf-8?B?UDF2T2dhK0JnVEJKSGNIRHZVd055dW9sY25aeS9ad29WU3F4K1BLOHBvSGly?=
+ =?utf-8?B?N2k3MzNDaXBnYXRsYlZ4K1NmemN0MWV2N0pnVDNwSW9Md2MvYW4rSDBJZ0hP?=
+ =?utf-8?B?STNYeWFlYjJmcWlhQWdoNzNieTZ3aFhWcUtBV3hodU5HYm1BbjFyRDNBSWxR?=
+ =?utf-8?B?Q0Jpb3QvRXRKTERYYVJPVkt3K2oySlZTWWJ2T0xvUVNiN3F2akdNdmFxWnNB?=
+ =?utf-8?B?Wk5wbmxyVnVxaTFLTkRjRXplV25Cd2RMVktsNjFZSGw0NlRWY2hNYytJdXlr?=
+ =?utf-8?B?cEpnU1Nwc3M3cENWYUhzUGJ3T2ZnWHpSU0gwUEFiTmo5N0h2VzNQWHJQNWti?=
+ =?utf-8?B?TWJzZ212ZFc3ZmFtQ1N3MXY1NUt0ZXc2ZmU1eFFOaTVjRlk1RTZqQnNTZ3JP?=
+ =?utf-8?B?TTJNbnZuNkZQVFJGakh1cEZxL3FiTmZFSFZPVktIUEliRzVkUFZFaGFxcTI5?=
+ =?utf-8?B?WkpGa0ZraG02WE9wOFlEY3JRR2VrbFNUY25Zbms1SFd3Nk9SYm1GcE1lRkNK?=
+ =?utf-8?B?a1FqNmZoMFp4NkR4aUphQXc2OEI0R2Q0RlJWM3BxU0d3RHFYdFhUUE8wSDhl?=
+ =?utf-8?B?TnZOZ0gvOTE4ak1sQ2ZLYmZpMFRDV2dOY2poUGJMVTg2L0VSOHVBTC96RFRF?=
+ =?utf-8?B?NHR3b0swWHVxYUcrcDBVYlFtSzN2WXdSTU9ES1V4R05LSkVlL09MOHJpNm9E?=
+ =?utf-8?B?c1VyVzhrNlJIenhsKzJXNitmaTliK3ErRmdVanBFNUVkZ1Z3N3BrNTRLc3pK?=
+ =?utf-8?B?L29qRjRoV2V3ZUJqekJta3JuSy8zVG05SXlZMlkvUkNwQ09tejZ0K2F1VEQ5?=
+ =?utf-8?B?RjcvcEY3ZlVZSWR6aEV1U0hoWlhDWSt2MStyanFwYXhVbnFKa29PaCtEbHMz?=
+ =?utf-8?B?ZWF3NTFhUFVJYm9VdzUyTnhjY2RWR1lhL1NMdGhjMGVsVXl3UFR5MnJHcjRK?=
+ =?utf-8?B?d3AxN0M3R3d5ZUc1S3dINjA1amZMeUVjcnVnNGZtQjZPdkVsK1JZTmIxR2JY?=
+ =?utf-8?B?M3M5MG1neDZBUis0TWZLSHZkMmVSM1dUS1dOU25XV1laNndsQmZBUjRKQ0JN?=
+ =?utf-8?B?MU9aZ2lkQVVDeWttTXUwVjk0UHo1N0hpOWZjM1MxY2ZMamFKaW1rZm5KVEdP?=
+ =?utf-8?B?SDBtZVBBdVIreVdsdmFkMFpZZlBBTHV6d0JZVnVOVTRSSGRwbmRET2xTVWpk?=
+ =?utf-8?B?eWdUaFZlbFBsT3RPcjlORk5oejNhM1hTNlR2azQrZXh1VThIczFCUkFBVmkr?=
+ =?utf-8?B?eU9DL2xLb3YvQVdnVzYzZm90U1J6V29WQTNDSWFxVHdybzNLcDVuSFM4aHVk?=
+ =?utf-8?Q?6s/hvay+u8/olndeftmQptWFL0K6MI=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(4053099003)(38070700018);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Y3JJZDZydk9sMVNVMDRZL3RRY3kvYXl0S2R0MFRMeWZ3TDMzQVBGcEdhKytT?=
+ =?utf-8?B?LzhGT1paVkhaWHc0QmNRSEZXRlp3R3I2NldobnpubFVLWGQ2ZkRpbXliR3lz?=
+ =?utf-8?B?LzRXcWgySlh3ZDJuZ0JUYzQvS1BXa0JCYWhnZ2hyd1BWOTNVUHl0L29EelNs?=
+ =?utf-8?B?YVQ3TlhOSWdyNDFMcEg4MUtaRmhZTSt1d1RNVXExSWJRTERPWDZ1ek50eXNt?=
+ =?utf-8?B?RVZGQmE5S0RwTjVoNDdkWngveFhFZ0xzUWRGbWRXV2hlY3Z5WjBvTjYvQ3l3?=
+ =?utf-8?B?RUpUYnZDamM1NFJ1MTBGdWo4QVVPV0I3djRsNkRKMUZuRDBmSWF6VGJ2YTFr?=
+ =?utf-8?B?ZDRhaTR2eXJzbGdmWmQ5OFY5S0ZTeDRMTHZ6Rm42VWREMWFpVCt1dGZRTWd4?=
+ =?utf-8?B?clErb1h5V2cxdlkreGhGMFNZNnZHMkpvd2ZML0NweHdYYWJhbVB4V0lVbEV4?=
+ =?utf-8?B?N1IyUTV6OEdlTnJTWTMzRGN5SXpWcitvNnpsY3BwYS9xSlNLbDNjV2xJOFlH?=
+ =?utf-8?B?TmlKeXQzdnNORytLK1JJVCs4bG5ZSEdLamlISW9iWjlUQm4yci9tcGVzbVRE?=
+ =?utf-8?B?MDk1OFlpUVFXeGJxS1dBSkp5RXEwajNoZVdSckg4RUpuOFUrVzQ1aURnUWp2?=
+ =?utf-8?B?c2IzekZXbVM2SkRaRkhXMVI0VWN3MkZmK2dPMzRaVWNKMlNwYkRnRkpnNnRS?=
+ =?utf-8?B?Nlp0Q2xsemZYUzZ4WUk1Y0MvMThocWhLdThrTDM4Tzh0b0Z2bWxKR0YvbHNS?=
+ =?utf-8?B?cmQzdFgyalFuWm92NzZDdFl5MWJoT0RIdmlJb3M4c3AwaXBtYjFiT3I4ZkJy?=
+ =?utf-8?B?amFsUjRIell2bFlXcGs2YURtWG4vZy9pNTFMWm9lOHBRR2lreTB0Z0ZsdXhY?=
+ =?utf-8?B?alByeE56Z1ZJK3hFWWk4RlVydlhOMU5IWFdCS0JHOEdoTnRKcWxzeHNpZkxj?=
+ =?utf-8?B?SmU2ZkFWQjNFUlhBRE15bER2WlVQY1JyR1ljSHhKbTFVS1laRS9UbzQwVlpK?=
+ =?utf-8?B?VmthVDR1K2NnMlpyNHBSMld5dmUwbDIwY1owNmxJTFAwdzNCNC9PMHBLcnJx?=
+ =?utf-8?B?VlFSMkhhVSs2UmRaVEJoRVl1K2FhVStWNmlabkk2Yjg3WW81N09sMlRiRnQ1?=
+ =?utf-8?B?R3hlUmtrTnRWTUMyb2JuUStCbjBSeWdmUXVROWo0MWRneEd4L0VEQnM5N3RO?=
+ =?utf-8?B?ajJSUkpSQkpsMXRGWm9BNDRTSWFWK0JXejNEQjV3NjNuYUZYLytvM0FqN2Zi?=
+ =?utf-8?B?eUREeURTVWRUZmF6dkhJc3RrRC9vbzVqUkJ6Z01DcjRxQVZMNjNQYzhHcWJa?=
+ =?utf-8?B?MjUwbXdBWHpYZFpVeXQ1Q1czNHRXMnluUWw3OVQxSjZra0h6WXM1UGdYTzJX?=
+ =?utf-8?B?ZmJmVXhjTCtoVGJXYlpPd0NqS2IyaUZwMmtYYVpyTHlVeWF2QkEzNmVxeDVP?=
+ =?utf-8?B?NktGSWJURkFRZnJZSWVGVHYxRFVxVDd4d0NJTm50SU9qOUxvV20zOFBlRHhy?=
+ =?utf-8?B?OU10WGt2MnE4WDVpTkpFbmFlZGE0YVI3eUVldVhCQnRISko2MThzS1VKZ2pw?=
+ =?utf-8?B?YkpjZXpXT0ZiSWNsOFZnbjk4NEhXWHN4YjlXRDVQYXJxMGE5Q3dpQWgvaHl2?=
+ =?utf-8?B?OWRta0pscU1qajIzbTBCTmp3a3ZxaHFMeUcxRWQxZmlHMWM2T0oyMEo3OGFa?=
+ =?utf-8?B?dUNmbDBrMkhUSjVkc3N5ZGpveHNkeXY2TmZuSXVlUTZYVFUrSkxCZVIzZTRs?=
+ =?utf-8?B?OVN3WVJJUmlNVTBINUMvTHh2SE40OGdTZElXbFQ0SHhRV2lWNXhzaDdDTUEx?=
+ =?utf-8?B?RUVXcWp1YW5EalpmWG9KakY5YmdpVFk1REtsWE9vV2ZoUWl4SjgwZ0pHVitn?=
+ =?utf-8?B?MDdGUHl3Z3V5M2E5NDc3cHdsaERmdXVzcXJzUjc5aFpMMm5EVm5hQkw0T2Mx?=
+ =?utf-8?B?REhWUUFTZGttNWdUK2VRZEdQdDJuTktuTUtZRHB2TVVjMFlraDVOanptbEZj?=
+ =?utf-8?B?czBwWVBqc290Y0pWUEZIZG1ybmIrc05raUtGN0cwOTdCelFqR3FxUHF6Nk12?=
+ =?utf-8?B?YmZ2WXRjZUk1NUJtWHJ4QVZOTHl2dzEyMHVHUWdlMXdld09PYVhoOTJ1T0Nz?=
+ =?utf-8?B?amc4cUc4QThkQ1I4WXEzK2hMRjZ2ZnJnMXBpc1VLOVp0OVFuN29sL2haRXRV?=
+ =?utf-8?B?MHc9PQ==?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------obGn4LxPcwNiOcpogGaru9JN"
+MIME-Version: 1.0
+X-OriginatorOrg: imgtec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2feec3e4-6cf6-4673-2f66-08dd7c1adbaa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2025 12:41:35.2404 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: O3bGtirjQxGJNpVw8nBuDzJMrEoJ84fCuhQhxQQPtTxt+NWYxE3Se048gfPuyuKd245Ary/aqUmCwB4yJn+q7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB7762
+X-Proofpoint-GUID: 16a0V1RLRVJyecZPOAHiwaMAvOdrrVch
+X-Authority-Analysis: v=2.4 cv=OMsn3TaB c=1 sm=1 tr=0 ts=67fe5404 cx=c_pps
+ a=dcRbu0n7HPsro7Pn5Q0Myw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=NgoYpvdbvlAA:10 a=VwQbUJbxAAAA:8 a=r_1tXGB3AAAA:8 a=iICKLq0zw37mt1Z5_6UA:9
+ a=QEXdDO2ut3YA:10 a=r0LeN75o1xWKwdVsTeoA:9 a=FfaGCDsud1wA:10
+ a=t8nPyN_e6usw4ciXM-Pk:22
+X-Proofpoint-ORIG-GUID: 16a0V1RLRVJyecZPOAHiwaMAvOdrrVch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,98 +211,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+--------------obGn4LxPcwNiOcpogGaru9JN
+Content-Type: multipart/mixed; boundary="------------q8107VUZJRzIpXMVcJwKU2tO";
+ protected-headers="v1"
+From: Matt Coster <matt.coster@imgtec.com>
+To: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tero Kristo <kristo@kernel.org>
+Cc: Frank Binns <frank.binns@imgtec.com>,
+ Luigi Santivetti <luigi.santivetti@imgtec.com>,
+ Alessio Belle <alessio.belle@imgtec.com>,
+ Alexandru Dadu <alexandru.dadu@imgtec.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Randolph Sapp <rs@ti.com>,
+ Darren Etheridge <detheridge@ti.com>,
+ Michal Wilczynski <m.wilczynski@samsung.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Message-ID: <f15355f7-0b95-462a-873b-cd682fc530f2@imgtec.com>
+Subject: Re: [PATCH DO NOT MERGE v6 17/18] arm64: dts: ti: k3-am62: New GPU
+ binding details
+References: <20250410-sets-bxs-4-64-patch-v1-v6-0-eda620c5865f@imgtec.com>
+ <20250410-sets-bxs-4-64-patch-v1-v6-17-eda620c5865f@imgtec.com>
+In-Reply-To: <20250410-sets-bxs-4-64-patch-v1-v6-17-eda620c5865f@imgtec.com>
 
-Am 15.04.25 um 14:19 schrieb Christian König:
-> Am 15.04.25 um 12:45 schrieb Thomas Zimmermann:
->> Hi
->>
->> Am 15.04.25 um 11:39 schrieb Christian König:
->>> Am 15.04.25 um 11:20 schrieb Thomas Zimmermann:
->>>> Test struct drm_gem_object.import_attach to detect imported objects
->>>> during cleanup. At that point, the imported DMA buffer might have
->>>> already been released and the dma_buf field is NULL. The object's
->>>> free callback then does a cleanup as for native objects.
->>> I don't think that this is a good idea.
->>>
->>> The DMA-buf is separately reference counted through the import attachment.
->> I understand that it's not ideal, but testing for import_attach to be set is what we currently do throughout drivers. Putting this behind an interface is already a step forward.
->>
->>>> Happens for calls to drm_mode_destroy_dumb_ioctl() that eventually
->>>> clear the dma_buf field in drm_gem_object_exported_dma_buf_free().
->>> That is for exported DMA-buf and should *NEVER* be used for imported ones.
->> Did you look at the discussion at the Closes tag? Where else could dma-buf be cleared?
-> Yeah, I've seen that. The solution is just completely wrong.
->
-> See for the export case obj->dma_buf points to the exported DMA-buf and causes a circle dependency when not set to NULL when the last handle is released.
->
-> But for the import case obj->dma_buf is actually not that relevant. Instead obj->import_attach->dma_buf should be used.
+--------------q8107VUZJRzIpXMVcJwKU2tO
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-So if I understand correctly, the tests in that helper should be done by 
-looking at import_attach->dma_buf.
+On 10/04/2025 10:55, Matt Coster wrote:
+> Use the new compatible string introduced earlier (in "dt-bindings: gpu:=
 
-The long-term goal is to make import_attach optional because its setup 
-requires a DMA-capable device.
+> img: More explicit compatible strings") and add a name to the single po=
+wer
+> domain for this GPU (introduced in "dt-bindings: gpu: img: Power domain=
 
-Best regards
-Thomas
+> details").
 
->
-> Regards,
-> Christian.
->
->> Best regards
->> Thomas
->>
->>> Regards,
->>> Christian.
->>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
->>>> Reported-by: Andy Yan <andyshrk@163.com>
->>>> Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
->>>> Tested-by: Andy Yan <andyshrk@163.com>
->>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Cc: Anusha Srivatsa <asrivats@redhat.com>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>> Cc: Maxime Ripard <mripard@kernel.org>
->>>> Cc: David Airlie <airlied@gmail.com>
->>>> Cc: Simona Vetter <simona@ffwll.ch>
->>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>>> Cc: "Christian König" <christian.koenig@amd.com>
->>>> Cc: dri-devel@lists.freedesktop.org
->>>> Cc: linux-media@vger.kernel.org
->>>> Cc: linaro-mm-sig@lists.linaro.org
->>>> ---
->>>>    include/drm/drm_gem.h | 8 +++++++-
->>>>    1 file changed, 7 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->>>> index 9b71f7a9f3f8..f09b8afcf86d 100644
->>>> --- a/include/drm/drm_gem.h
->>>> +++ b/include/drm/drm_gem.h
->>>> @@ -589,7 +589,13 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
->>>>    static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
->>>>    {
->>>>        /* The dma-buf's priv field points to the original GEM object. */
->>>> -    return obj->dma_buf && (obj->dma_buf->priv != obj);
->>>> +    return (obj->dma_buf && (obj->dma_buf->priv != obj)) ||
->>>> +           /*
->>>> +        * TODO: During object release, the dma-buf might already
->>>> +        *       be gone. For now keep testing import_attach, but
->>>> +        *       this should be removed at some point.
->>>> +        */
->>>> +           obj->import_attach;
->>>>    }
->>>>      #ifdef CONFIG_LOCKDEP
+Hi Nishanth, Vignesh & Tero,
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Now that P1-16 have landed in a DRM tree, what would be required to get
+this and the subsequent patch landed? Can they be reviewed and applied
+as-is, or would you like me to send them as a separate series?
 
+Cheers,
+Matt
+
+>=20
+> Signed-off-by: Matt Coster <matt.coster@imgtec.com>
+> ---
+> Changes in v6:
+> - None
+> - Link to v5: https://lore.kernel.org/r/20250326-sets-bxs-4-64-patch-v1=
+-v5-17-e4c46e8280a9@imgtec.com
+> Changes in v5:
+> - None
+> - Link to v4: https://lore.kernel.org/r/20250320-sets-bxs-4-64-patch-v1=
+-v4-17-d987cf4ca439@imgtec.com
+> Changes in v4:
+> - None
+> - Link to v3: https://lore.kernel.org/r/20250310-sets-bxs-4-64-patch-v1=
+-v3-17-143b3dbef02f@imgtec.com
+> Changes in v3:
+> - None
+> - Link to v2: https://lore.kernel.org/r/20241118-sets-bxs-4-64-patch-v1=
+-v2-7-3fd45d9fb0cf@imgtec.com
+> Changes in v2:
+> - None
+> - Link to v1: https://lore.kernel.org/r/20241105-sets-bxs-4-64-patch-v1=
+-v1-7-4ed30e865892@imgtec.com
+> ---
+>  arch/arm64/boot/dts/ti/k3-am62-main.dtsi | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi b/arch/arm64/boot=
+/dts/ti/k3-am62-main.dtsi
+> index 7d355aa73ea2116723735f70b9351cefcd8bc118..d17b25cae196b08d24adbe7=
+c913ccaba7eed37eb 100644
+> --- a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+> +++ b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+> @@ -691,12 +691,14 @@ ospi0: spi@fc40000 {
+>         };
+>=20
+>         gpu: gpu@fd00000 {
+> -               compatible =3D "ti,am62-gpu", "img,img-axe";
+> +               compatible =3D "ti,am62-gpu", "img,img-axe-1-16m", "img=
+,img-axe",
+> +                            "img,img-rogue";
+>                 reg =3D <0x00 0x0fd00000 0x00 0x20000>;
+>                 clocks =3D <&k3_clks 187 0>;
+>                 clock-names =3D "core";
+>                 interrupts =3D <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+>                 power-domains =3D <&k3_pds 187 TI_SCI_PD_EXCLUSIVE>;
+> +               power-domain-names =3D "a";
+>         };
+>=20
+>         cpsw3g: ethernet@8000000 {
+>=20
+> --
+> 2.49.0
+>=20
+
+
+--=20
+Matt Coster
+E: matt.coster@imgtec.com
+
+--------------q8107VUZJRzIpXMVcJwKU2tO--
+
+--------------obGn4LxPcwNiOcpogGaru9JN
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCZ/5T/gUDAAAAAAAKCRB5vBnz2d5qsK4J
+AQD9uHKMbp2KFZORVrKpjrqcHifoLXX5RN8eY6lWi45flwD/S27Ar/NFW9r+moPBdKSK9rZ4Tce+
+psIP6z6jsB1bUAo=
+=yuOt
+-----END PGP SIGNATURE-----
+
+--------------obGn4LxPcwNiOcpogGaru9JN--
