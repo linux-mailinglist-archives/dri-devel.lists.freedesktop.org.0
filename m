@@ -2,57 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EDFA8A356
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 17:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D4BA8A382
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 17:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5392410E121;
-	Tue, 15 Apr 2025 15:48:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="en8oRMBR";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E18810E7EA;
+	Tue, 15 Apr 2025 15:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C86A110E121;
- Tue, 15 Apr 2025 15:48:06 +0000 (UTC)
-Received: from [10.6.0.9] (host-88-217-226-44.customer.m-online.net
- [88.217.226.44]) (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 42CB82FC0080;
- Tue, 15 Apr 2025 17:48:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1744732085;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=maGoJBK5xCAyYyKJeZaWSsoxxkvu0jZ9O2cBTcEsb88=;
- b=en8oRMBR5Norg8huOJbddYOeOsQ78jf6SWdZjDrLdktIoGHZ9plPPZNZUoU/MOLpAb7ILk
- PzO19URATtR+p8zuHqaauVZK5zZob/RuplNAdHQo82bUZYi7EXBk/eyzCkjvpfpTQDdBH2
- 0bxlec7KsiKt7w6f6q83fOE3p0xQ+Po=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <6e4f4d23-3c5a-448f-bc0b-cf6a6e9f3d2e@tuxedocomputers.com>
-Date: Tue, 15 Apr 2025 17:48:03 +0200
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 775A810E7EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 15:59:09 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-301918a4e3bso5812899a91.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 08:59:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744732748; x=1745337548;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VQOaA84/gJX5YcmA1yI2UrffzTTDGmIxxE06BR+8a5Q=;
+ b=s2uSb65OGa4SP6TxfwXykZmgWB8TRn0QPbYEU2YbLgHi3+4SdOCD4gl1mDoMkKlhxq
+ uObtbJ+jscgx8DQh3E6Myw7qmGwstDIcq6g23u44IBwSLaOM3KkzLGgZvnkNH7ThlD/S
+ KjnITBeq1WdplTEFChoxkwNryXrn0hp8rDfB14IMDGbh3yjpgH4E5rkdympjh38ZI40s
+ yOnIHS+BMGzRNPYHgCfHiJF5hOmIjJ750k33Hj9v/fOSdBDca0kCUMpvRv5Lu35Cwxw7
+ z7bydaf6x3B6KOYFaqoSUgGePdIlql0jcVmmPEmKZitBy1wbs3/MAgtgrLLcbnr/EwWy
+ 3IXQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVLpSB9o1AcKkTIC0/w+cqV1llhRa4HGxL7sJTXHLxj6pbjMghNPayQTJ5zh7KX1M5VvaGwpbRrSxE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXdtd+yhbBnpeu8GeVI6sOjfNkN3sCALMD0BxA4A7oIpapVvv0
+ W4f8CVGdLWKl+i18m5iCitHCnkmmG1xb8/0Wb+Ukg1+W27iqsKeQ05xAoSz4
+X-Gm-Gg: ASbGncucaGTr1E0/sRxSYP0P5ea7NVSkPK/waGOnAqyQVupVkbxsd7nzz73TKP+qIsv
+ FSsEDAA3Rsiy6/l82XXEhnMQzQFHSnoBaD9fTJYgXjLrqCu7lUq/FrHI6q0MCyzRjdRLMEDH3Jx
+ MdbGCIsEPkHNl05PcFBhZ7OH51Pd1KNaLDoVHinjG+W0eAYUFoHUk/2Z0Gbd418i7QiTXQY7Gg5
+ gHtCVSJgF/jHD+mzpBuBdcpMhdBdgNjy7v3TM+Ew7G5ok10x0HwfkLwGqZWwlNIUTh5NVZajoQe
+ OpItAN19Sn/ItYcWP0phZs1r04+/HOfZxe2+WhD3eYqRTOBNpUPnJrbDQ6xulwb8NUeUhKq0MwZ
+ fvBla6Fs=
+X-Google-Smtp-Source: AGHT+IHFjFl5KRvDy63kefHaLTfW8gWE/+vUDWwkmwGsEXNHydFmksF73I6gYjT1A3Sj+P1PFgXC6g==
+X-Received: by 2002:a17:90b:520a:b0:2ff:7b28:a51c with SMTP id
+ 98e67ed59e1d1-308237855a0mr22310385a91.34.1744732748663; 
+ Tue, 15 Apr 2025 08:59:08 -0700 (PDT)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com.
+ [209.85.214.178]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-306dd17192asm13513295a91.35.2025.04.15.08.59.08
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Apr 2025 08:59:08 -0700 (PDT)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-2264aefc45dso85739285ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 08:59:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV+xJseTw8xj9aQ1cNHh+R6S4vvZppNvXS5xrB80OjTvoF/FsgpuFX4u4jnD2Kw2NHJhZkRB2YC7Fc=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:c05:b0:4c1:6feb:83aa with SMTP id
+ ada2fe7eead31-4c9e4ee9fe6mr12739669137.9.1744732271060; Tue, 15 Apr 2025
+ 08:51:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm/i915/display: Add quirk to force backlight type
- on some TUXEDO devices
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
- simona@ffwll.ch, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250411171756.142777-1-wse@tuxedocomputers.com>
- <20250411171756.142777-2-wse@tuxedocomputers.com>
- <Z_llydAABYIueYA6@intel.com>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <Z_llydAABYIueYA6@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250408200916.93793-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250408200916.93793-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250408200916.93793-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 15 Apr 2025 17:50:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWj91VbxRbb_pZ23ySbvjzzgfTgy83GXTEtC9CAS=d5Sg@mail.gmail.com>
+X-Gm-Features: ATxdqUGU1HbZIqRGMDrZbhA-dxUGjQxgUi_EpOym7TmGQkaFVWVIrulXG2lf2bU
+Message-ID: <CAMuHMdWj91VbxRbb_pZ23ySbvjzzgfTgy83GXTEtC9CAS=d5Sg@mail.gmail.com>
+Subject: Re: [PATCH v2 02/15] clk: renesas: r9a09g057: Add clock and reset
+ entries for DSI and LCDC
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,156 +105,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Prabhakar,
 
-Am 11.04.25 um 20:56 schrieb Ville Syrjälä:
-> On Fri, Apr 11, 2025 at 05:55:08PM +0200, Werner Sembach wrote:
->> The display backlight on TUXEDO DX1708 and InsanityBook 15 v1 with panels
->> AUO 12701 and AUO 12701 must be forced to INTEL_DP_AUX_BACKLIGHT_ON to be
->> able to control the brightness.
->>
->> This could already be archived via a module parameter, but this patch adds
->> a quirk to apply this by default on the mentioned device + panel
->> combinations.
-> Why aren't you fixing the VBT to be correct in the first place?
-
-I don't have access to the firmware source code and these are quite old devices 
-so I also can't request a fix from the ODM. Besides: it can be quite hard to 
-explain to the ODM what exactly the problem is if it doesn't also affect Windows.
-
-Best regards,
-
-Werner Sembach
-
+On Tue, 8 Apr 2025 at 22:09, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
->> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->> Cc: stable@vger.kernel.org
->> ---
->>   .../drm/i915/display/intel_dp_aux_backlight.c | 14 ++++++-
->>   drivers/gpu/drm/i915/display/intel_quirks.c   | 42 +++++++++++++++++++
->>   drivers/gpu/drm/i915/display/intel_quirks.h   |  1 +
->>   3 files changed, 56 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
->> index c846ef4acf5b2..0cac04c98a3e3 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
->> @@ -34,12 +34,14 @@
->>    * for some reason.
->>    */
->>   
->> +#include <drm/drm_edid.h>
->>   #include "i915_utils.h"
->>   #include "intel_backlight.h"
->>   #include "intel_display_core.h"
->>   #include "intel_display_types.h"
->>   #include "intel_dp.h"
->>   #include "intel_dp_aux_backlight.h"
->> +#include "intel_quirks.h"
->>   
->>   /*
->>    * DP AUX registers for Intel's proprietary HDR backlight interface. We define
->> @@ -607,11 +609,21 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *connector)
->>   	struct drm_device *dev = connector->base.dev;
->>   	struct intel_panel *panel = &connector->panel;
->>   	bool try_intel_interface = false, try_vesa_interface = false;
->> +	int enable_dpcd_backlight;
->> +	u32 pnl_id;
->>   
->>   	/* Check the VBT and user's module parameters to figure out which
->>   	 * interfaces to probe
->>   	 */
->> -	switch (display->params.enable_dpcd_backlight) {
->> +	enable_dpcd_backlight = display->params.enable_dpcd_backlight;
->> +	if (enable_dpcd_backlight == INTEL_DP_AUX_BACKLIGHT_AUTO &&
->> +	    intel_has_quirk(display, QUIRK_AUO_12701_21229_ENABLE_DPCD_BACKLIGHT)) {
->> +		pnl_id = drm_edid_get_panel_id(panel->fixed_edid);
->> +		if (pnl_id == drm_edid_encode_panel_id('A', 'U', 'O', 0x319d) ||
->> +		    pnl_id == drm_edid_encode_panel_id('A', 'U', 'O', 0x52ed))
->> +			enable_dpcd_backlight = INTEL_DP_AUX_BACKLIGHT_ON;
->> +	}
->> +	switch (enable_dpcd_backlight) {
->>   	case INTEL_DP_AUX_BACKLIGHT_OFF:
->>   		return -ENODEV;
->>   	case INTEL_DP_AUX_BACKLIGHT_AUTO:
->> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
->> index 8b30e9fd936e7..6f724e5712664 100644
->> --- a/drivers/gpu/drm/i915/display/intel_quirks.c
->> +++ b/drivers/gpu/drm/i915/display/intel_quirks.c
->> @@ -78,6 +78,12 @@ static void quirk_fw_sync_len(struct intel_dp *intel_dp)
->>   	drm_info(display->drm, "Applying Fast Wake sync pulse count quirk\n");
->>   }
->>   
->> +static void quirk_auo_12701_21229_enable_dpcd_backlight(struct intel_display *display)
->> +{
->> +	intel_set_quirk(display, QUIRK_AUO_12701_21229_ENABLE_DPCD_BACKLIGHT);
->> +	drm_info(display->drm, "Applying Display AUO Model 12701 and 21229 Enable DPCD Backlight quirk\n");
->> +}
->> +
->>   struct intel_quirk {
->>   	int device;
->>   	int subsystem_vendor;
->> @@ -118,6 +124,12 @@ static int intel_dmi_no_pps_backlight(const struct dmi_system_id *id)
->>   	return 1;
->>   }
->>   
->> +static int intel_dmi_auo_12701_21229_enable_dpcd_backlight(const struct dmi_system_id *id)
->> +{
->> +	DRM_INFO("Display AUO model 12701 and 21229 DPCD backlight control on %s\n", id->ident);
->> +	return 1;
->> +}
->> +
->>   static const struct intel_dmi_quirk intel_dmi_quirks[] = {
->>   	{
->>   		.dmi_id_list = &(const struct dmi_system_id[]) {
->> @@ -164,6 +176,36 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
->>   		},
->>   		.hook = quirk_no_pps_backlight_power_hook,
->>   	},
->> +	{
->> +		.dmi_id_list = &(const struct dmi_system_id[]) {
->> +			{
->> +				.callback = intel_dmi_auo_12701_21229_enable_dpcd_backlight,
->> +				.ident = "TUXEDO DX1708",
->> +				.matches = {DMI_MATCH(DMI_BOARD_NAME, "N8xEJEK"),
->> +				},
->> +			},
->> +			{
->> +				.callback = intel_dmi_auo_12701_21229_enable_dpcd_backlight,
->> +				.ident = "TUXEDO InsanityBook 15 v1",
->> +				.matches = {DMI_MATCH(DMI_BOARD_NAME, "P95_HP"),
->> +				},
->> +			},
->> +			{
->> +				.callback = intel_dmi_auo_12701_21229_enable_dpcd_backlight,
->> +				.ident = "TUXEDO InsanityBook 15 v1",
->> +				.matches = {DMI_MATCH(DMI_BOARD_NAME, "P95_HR"),
->> +				},
->> +			},
->> +			{
->> +				.callback = intel_dmi_auo_12701_21229_enable_dpcd_backlight,
->> +				.ident = "TUXEDO InsanityBook 15 v1",
->> +				.matches = {DMI_MATCH(DMI_BOARD_NAME, "P95_HP,HR,HQ"),
->> +				},
->> +			},
->> +			{ }
->> +		},
->> +		.hook = quirk_auo_12701_21229_enable_dpcd_backlight,
->> +	},
->>   };
->>   
->>   static struct intel_quirk intel_quirks[] = {
->> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.h b/drivers/gpu/drm/i915/display/intel_quirks.h
->> index cafdebda75354..38bdbd65d7efb 100644
->> --- a/drivers/gpu/drm/i915/display/intel_quirks.h
->> +++ b/drivers/gpu/drm/i915/display/intel_quirks.h
->> @@ -20,6 +20,7 @@ enum intel_quirk_id {
->>   	QUIRK_LVDS_SSC_DISABLE,
->>   	QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK,
->>   	QUIRK_FW_SYNC_LEN,
->> +	QUIRK_AUO_12701_21229_ENABLE_DPCD_BACKLIGHT,
->>   };
->>   
->>   void intel_init_quirks(struct intel_display *display);
->> -- 
->> 2.43.0
+> Add clock and reset entries for the DSI and LCDC peripherals.
+>
+> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2:
+> - No changes
+
+You did change CSDIV0_DIVCTL2 to the NO_RMW-variant...
+
+> --- a/drivers/clk/renesas/r9a09g057-cpg.c
+> +++ b/drivers/clk/renesas/r9a09g057-cpg.c
+
+> @@ -148,6 +182,12 @@ static const struct cpg_core_clk r9a09g057_core_clks[] __initconst = {
+>         DEF_SMUX(".smux2_gbe0_rxclk", CLK_SMUX2_GBE0_RXCLK, SSEL0_SELCTL3, smux2_gbe0_rxclk),
+>         DEF_SMUX(".smux2_gbe1_txclk", CLK_SMUX2_GBE1_TXCLK, SSEL1_SELCTL0, smux2_gbe1_txclk),
+>         DEF_SMUX(".smux2_gbe1_rxclk", CLK_SMUX2_GBE1_RXCLK, SSEL1_SELCTL1, smux2_gbe1_rxclk),
+> +       DEF_FIXED(".plleth_lpclk_div4", CLK_DIV_PLLETH_LPCLK, CLK_PLLETH, 1, 4),
+> +       DEF_CSDIV(".plleth_lpclk", CLK_CSDIV_PLLETH_LPCLK, CLK_DIV_PLLETH_LPCLK,
+> +                 CSDIV0_DIVCTL2, dtable_16_128),
+
+The clock names look strange to me: "plleth_lpclk_div4" sounds like it is
+"plleth_lpclk" divided by four, but that is not the case here.
+
+> +
+> +       DEF_PLLDSI_DIV(".plldsi_sdiv2", CLK_PLLDSI_SDIV2, CLK_PLLDSI,
+> +                      CSDIV1_DIVCTL2, dtable_2_32),
+>
+>         DEF_DDIV(".pllgpu_gear", CLK_PLLGPU_GEAR, CLK_PLLGPU, CDDIV3_DIVCTL1, dtable_2_64),
+>
+
+> --- a/drivers/clk/renesas/rzv2h-cpg.h
+> +++ b/drivers/clk/renesas/rzv2h-cpg.h
+
+> @@ -117,6 +118,8 @@ struct smuxed {
+>
+>  #define CSDIV0_DIVCTL0 DDIV_PACK(CPG_CSDIV0, 0, 2, CSDIV_NO_MON)
+>  #define CSDIV0_DIVCTL1 DDIV_PACK(CPG_CSDIV0, 4, 2, CSDIV_NO_MON)
+> +#define CSDIV0_DIVCTL2 DDIV_PACK_NO_RMW(CPG_CSDIV0, 8, 2, CSDIV_NO_MON)
+
+The documentation says:
+
+    DIVCTL2[3:2] is reserved.
+    When writing, read modify write is needed.
+
+So the NO_RMW-logic seems to be inverted?
+
+> +#define CSDIV1_DIVCTL2 DDIV_PACK(CPG_CSDIV1, 8, 4, CSDIV_NO_MON)
+>
+>  #define SSEL0_SELCTL2  SMUX_PACK(CPG_SSEL0, 8, 1)
+>  #define SSEL0_SELCTL3  SMUX_PACK(CPG_SSEL0, 12, 1)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
