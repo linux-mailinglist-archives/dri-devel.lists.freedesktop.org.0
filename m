@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F28A89DF3
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA94A89DF7
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:27:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0689B10E766;
-	Tue, 15 Apr 2025 12:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C10C10E768;
+	Tue, 15 Apr 2025 12:27:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Wr3wov3q";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gasNpowH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5B610E766
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:26:31 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F3099439A2;
- Tue, 15 Apr 2025 12:26:28 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 168BC10E768
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:27:02 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 92B0A1FCF2;
+ Tue, 15 Apr 2025 12:27:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744719990;
+ t=1744720021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
  bh=48hAWvtDlXq5Osg7MyAgCuPtgoxWC7X4hIYB/TMq83s=;
- b=Wr3wov3qVVg06wQgYQPUtA08CcNkCDOUQxQCuHTLmiHUCIKeNumyZBwxbekBgTkobcLvOv
- pXtPYfFaCIy/LirZ1fuBPz9HcecfY7JQaD5QXqjKGIHo8QO32Yi93FsET9CEMdpyu/pR8o
- eh0vvOevMNnfSS5WCIicDI4G5Dagc4CJOHMSnqqFfq0inKWicKHdJPeEc02U93n81/r60E
- aPxXRHFGovYjWg/qzzY5jL8N++UPf8pmSOp7XQJZD3dcG7dkeGtNX6swFX+yK3XSn7uXbf
- JXHccJwUjQP3VwmJTcEcdXcIlTP40SuI6UTrq1Qr2xpAr+mPIsYQoKN1kh5tuA==
-Message-ID: <3a7176f3-ddf2-4845-9b94-7a413c27a1c7@bootlin.com>
-Date: Tue, 15 Apr 2025 14:26:28 +0200
+ b=gasNpowHBeGSWrzcUlKR9uNS/6Q99v+exNSgM46hld/H0T1Iqi/fRmOJC10jF5JcCbv8aY
+ T5bzHshx5HE6/5TP7/UW6mQNR8yRsdgsSOqOWxuYGqQq/qvDprIQSf5c12Q+mB74du/uCu
+ dKJdQB1pZPhZA8uOGaltg6kqsrSoE3EKtU6zA/Kn99lYPn5+Njo5HrXK+SPOjUYLnXNBdh
+ NPutTq9iQNysUYR2ey3RQCOQuiwUmyqpuBf0/fG80tqxu9mDWM7FR94IZmdE10P6KPkdHm
+ nkhHHgU8rnccn0pfH7scEOkKBwXuHjWumd3Z56dWaPNR72cz75T5TidcvR2sYg==
+Message-ID: <876b7679-45fe-45aa-8019-ff73247e9961@bootlin.com>
+Date: Tue, 15 Apr 2025 14:27:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 09/16] drm/vkms: Allow to attach encoders and CRTCs via
@@ -104,7 +104,7 @@ Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefgeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepm
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefgeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepm
  hgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
