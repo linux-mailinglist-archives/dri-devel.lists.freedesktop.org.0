@@ -2,65 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F715A89BEF
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 13:20:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30885A89BFD
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 13:21:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E983310E73F;
-	Tue, 15 Apr 2025 11:20:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Vpt+WFHS";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF4510E737;
+	Tue, 15 Apr 2025 11:21:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E3010E737;
- Tue, 15 Apr 2025 11:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744715999; x=1776251999;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+LrsEG9o8xUG4bYnZEZ5vsvpdvdXLPTZz6a9USF2zj4=;
- b=Vpt+WFHSiMF+iky9fxuPxXTpfzBxrMX9UmIRJAFVVyEdIC4El/8hg2fB
- YpmTT0SfgeJFMjNZZ28c1q2co5PLpp/HSlH8DO1FFVkOrlflCsAvIc6ui
- Y/vjTOdmVgBYM9O+4AGndnkYyplIRXBHTCr+TusRdnBXiR6yt0vA0tY/1
- XmHxiJ6J24gN6l9M7jX70Vxw4IYXdzUsNXe45BQsvnpBzjRKETLMqEV2T
- oTWRidRxtoCoQQTVp5RsKdjQ9WSnI5D3WcTW6t8l/MOxCvQftG3M3lIsh
- iVNPuUZfnweTKwAt99lFHoLku/YKaRPyfKk7PVmdWJwAkV1uMFjzJylNj w==;
-X-CSE-ConnectionGUID: 7d40oG4URCW/Mid3jYEgHA==
-X-CSE-MsgGUID: WqpaY5BQQ0mBZ+WAP63Vkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="45452611"
-X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; d="scan'208";a="45452611"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2025 04:19:59 -0700
-X-CSE-ConnectionGUID: jwemSUkJQ9iBW7MGf0jPdw==
-X-CSE-MsgGUID: kVua3GnUSo2vtc99E6UM7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; d="scan'208";a="134189512"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.245.125])
- ([10.245.245.125])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2025 04:19:56 -0700
-Message-ID: <14c0b670-5eb7-46e4-955a-34bb8d1b6e11@intel.com>
-Date: Tue, 15 Apr 2025 12:19:54 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 50F3710E737
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 11:21:04 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B984415A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 04:21:01 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 395CA3F66E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 04:21:03 -0700 (PDT)
+Date: Tue, 15 Apr 2025 12:21:01 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Karunika Choo <karunika.choo@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] drm/panthor: Clean up 64-bit register definitions
+Message-ID: <Z_5BHamrP6vQCRV-@e110455-lin.cambridge.arm.com>
+References: <20250411164805.2015088-1-karunika.choo@arm.com>
+ <20250411164805.2015088-3-karunika.choo@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 4/5] drm/xe/xe_vm: Add per VM fault info
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>, intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, shuicheng.lin@intel.com,
- dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
- michal.mrozek@intel.com, raag.jadav@intel.com, john.c.harrison@intel.com,
- ivan.briano@intel.com
-References: <20250414214059.30657-1-jonathan.cavitt@intel.com>
- <20250414214059.30657-5-jonathan.cavitt@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20250414214059.30657-5-jonathan.cavitt@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250411164805.2015088-3-karunika.choo@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,325 +54,304 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/04/2025 22:40, Jonathan Cavitt wrote:
-> Add additional information to each VM so they can report up to the first
-> 50 seen faults.  Only pagefaults are saved this way currently, though in
-> the future, all faults should be tracked by the VM for future reporting.
+On Fri, Apr 11, 2025 at 05:48:05PM +0100, Karunika Choo wrote:
+> With the introduction of 64-bit register accessors, the separate *_HI
+> definitions are no longer necessary. This change removes them and
+> renames the corresponding *_LO entries for cleaner and more consistent
+> register definitions.
 > 
-> Additionally, of the pagefaults reported, only failed pagefaults are
-> saved this way, as successful pagefaults should recover silently and not
-> need to be reported to userspace.
-> 
-> v2:
-> - Free vm after use (Shuicheng)
-> - Compress pf copy logic (Shuicheng)
-> - Update fault_unsuccessful before storing (Shuicheng)
-> - Fix old struct name in comments (Shuicheng)
-> - Keep first 50 pagefaults instead of last 50 (Jianxun)
-> 
-> v3:
-> - Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
-> - Fix double-locking error (jcavitt)
-> - Assert kmemdump is successful (Shuicheng)
-> 
-> v4:
-> - Rename xe_vm.pfs to xe_vm.faults (jcavitt)
-> - Store fault data and not pagefault in xe_vm faults list (jcavitt)
-> - Store address, address type, and address precision per fault (jcavitt)
-> - Store engine class and instance data per fault (Jianxun)
-> - Add and fix kernel docs (Michal W)
-> - Properly handle kzalloc error (Michal W)
-> - s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
-> - Store fault level per fault (Micahl M)
-> 
-> v5:
-> - Store fault and access type instead of address type (Jianxun)
-> 
-> v6:
-> - Store pagefaults in non-fault-mode VMs as well (Jianxun)
-> 
-> v7:
-> - Fix kernel docs and comments (Michal W)
-> 
-> v8:
-> - Fix double-locking issue (Jianxun)
-> 
-> v9:
-> - Do not report faults from reserved engines (Jianxun)
-> 
-> v10:
-> - Remove engine class and instance (Ivan)
-> 
-> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> Suggested-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-> Cc: Jianxun Zhang <jianxun.zhang@intel.com>
-> Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
-> Cc: Michal Mzorek <michal.mzorek@intel.com>
-> Cc: Ivan Briano <ivan.briano@intel.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
 > ---
->   drivers/gpu/drm/xe/xe_gt_pagefault.c | 26 +++++++++
->   drivers/gpu/drm/xe/xe_vm.c           | 87 ++++++++++++++++++++++++++++
->   drivers/gpu/drm/xe/xe_vm.h           |  9 +++
->   drivers/gpu/drm/xe/xe_vm_types.h     | 28 +++++++++
->   4 files changed, 150 insertions(+)
+>  drivers/gpu/drm/panthor/panthor_gpu.c  | 12 ++--
+>  drivers/gpu/drm/panthor/panthor_gpu.h  | 10 +--
+>  drivers/gpu/drm/panthor/panthor_mmu.c  | 16 ++---
+>  drivers/gpu/drm/panthor/panthor_regs.h | 94 +++++++++-----------------
+>  4 files changed, 52 insertions(+), 80 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_gt_pagefault.c
-> index 0cedf089a3f2..b7ad55682de3 100644
-> --- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
-> +++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
-> @@ -345,6 +345,31 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32 *msg, u32 len)
->   	return full ? -ENOSPC : 0;
->   }
->   
-> +static void save_pagefault_to_vm(struct xe_device *xe, struct xe_gt_pagefault *pf)
-> +{
-> +	struct xe_vm *vm;
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index fd09f0928019..5fc45284c712 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -108,9 +108,9 @@ static void panthor_gpu_init_info(struct panthor_device *ptdev)
+>  
+>  	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
+>  
+> -	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
+> -	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
+> -	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
+> +	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT);
+> +	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT);
+> +	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT);
+>  
+>  	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
+>  	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
+> @@ -147,7 +147,7 @@ static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
+>  {
+>  	if (status & GPU_IRQ_FAULT) {
+>  		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
+> -		u64 address = gpu_read64(ptdev, GPU_FAULT_ADDR_LO);
+> +		u64 address = gpu_read64(ptdev, GPU_FAULT_ADDR);
+>  
+>  		drm_warn(&ptdev->base, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
+>  			 fault_status, panthor_exception_name(ptdev, fault_status & 0xFF),
+> @@ -457,7 +457,7 @@ void panthor_gpu_resume(struct panthor_device *ptdev)
+>   */
+>  u64 panthor_gpu_read_timestamp(struct panthor_device *ptdev)
+>  {
+> -	return gpu_read64_counter(ptdev, GPU_TIMESTAMP_LO);
+> +	return gpu_read64_counter(ptdev, GPU_TIMESTAMP);
+>  }
+>  
+>  /**
+> @@ -468,5 +468,5 @@ u64 panthor_gpu_read_timestamp(struct panthor_device *ptdev)
+>   */
+>  u64 panthor_gpu_read_timestamp_offset(struct panthor_device *ptdev)
+>  {
+> -	return gpu_read64(ptdev, GPU_TIMESTAMP_OFFSET_LO);
+> +	return gpu_read64(ptdev, GPU_TIMESTAMP_OFFSET);
+>  }
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.h b/drivers/gpu/drm/panthor/panthor_gpu.h
+> index 7f6133a66127..89a0bdb2fbc5 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.h
+> @@ -30,9 +30,9 @@ int panthor_gpu_block_power_off(struct panthor_device *ptdev,
+>   */
+>  #define panthor_gpu_power_on(ptdev, type, mask, timeout_us) \
+>  	panthor_gpu_block_power_on(ptdev, #type, \
+> -				  type ## _PWRON_LO, \
+> -				  type ## _PWRTRANS_LO, \
+> -				  type ## _READY_LO, \
+> +				  type ## _PWRON, \
+> +				  type ## _PWRTRANS, \
+> +				  type ## _READY, \
+>  				  mask, timeout_us)
+>  
+>  /**
+> @@ -42,8 +42,8 @@ int panthor_gpu_block_power_off(struct panthor_device *ptdev,
+>   */
+>  #define panthor_gpu_power_off(ptdev, type, mask, timeout_us) \
+>  	panthor_gpu_block_power_off(ptdev, #type, \
+> -				   type ## _PWROFF_LO, \
+> -				   type ## _PWRTRANS_LO, \
+> +				   type ## _PWROFF, \
+> +				   type ## _PWRTRANS, \
+>  				   mask, timeout_us)
+>  
+>  int panthor_gpu_l2_power_on(struct panthor_device *ptdev);
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index a0a79f19bdea..1db4a46ddf98 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -564,7 +564,7 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+>  	region = region_width | region_start;
+>  
+>  	/* Lock the region that needs to be updated */
+> -	gpu_write64(ptdev, AS_LOCKADDR_LO(as_nr), region);
+> +	gpu_write64(ptdev, AS_LOCKADDR(as_nr), region);
+>  	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
+>  }
+>  
+> @@ -614,9 +614,9 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+>  	if (ret)
+>  		return ret;
+>  
+> -	gpu_write64(ptdev, AS_TRANSTAB_LO(as_nr), transtab);
+> -	gpu_write64(ptdev, AS_MEMATTR_LO(as_nr), memattr);
+> -	gpu_write64(ptdev, AS_TRANSCFG_LO(as_nr), transcfg);
+> +	gpu_write64(ptdev, AS_TRANSTAB(as_nr), transtab);
+> +	gpu_write64(ptdev, AS_MEMATTR(as_nr), memattr);
+> +	gpu_write64(ptdev, AS_TRANSCFG(as_nr), transcfg);
+>  
+>  	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
+>  }
+> @@ -629,9 +629,9 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
+>  	if (ret)
+>  		return ret;
+>  
+> -	gpu_write64(ptdev, AS_TRANSTAB_LO(as_nr), 0);
+> -	gpu_write64(ptdev, AS_MEMATTR_LO(as_nr), 0);
+> -	gpu_write64(ptdev, AS_TRANSCFG_LO(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
+> +	gpu_write64(ptdev, AS_TRANSTAB(as_nr), 0);
+> +	gpu_write64(ptdev, AS_MEMATTR(as_nr), 0);
+> +	gpu_write64(ptdev, AS_TRANSCFG(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
+>  
+>  	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
+>  }
+> @@ -1669,7 +1669,7 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+>  		u32 source_id;
+>  
+>  		fault_status = gpu_read(ptdev, AS_FAULTSTATUS(as));
+> -		addr = gpu_read64(ptdev, AS_FAULTADDRESS_LO(as));
+> +		addr = gpu_read64(ptdev, AS_FAULTADDRESS(as));
+>  
+>  		/* decode the fault status */
+>  		exception_type = fault_status & 0xFF;
+> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+> index 6fd39a52f887..7e21d6a25dc4 100644
+> --- a/drivers/gpu/drm/panthor/panthor_regs.h
+> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
+> @@ -65,20 +65,16 @@
+>  #define   GPU_STATUS_DBG_ENABLED			BIT(8)
+>  
+>  #define GPU_FAULT_STATUS				0x3C
+> -#define GPU_FAULT_ADDR_LO				0x40
+> -#define GPU_FAULT_ADDR_HI				0x44
+> +#define GPU_FAULT_ADDR					0x40
+>  
+>  #define GPU_PWR_KEY					0x50
+>  #define  GPU_PWR_KEY_UNLOCK				0x2968A819
+>  #define GPU_PWR_OVERRIDE0				0x54
+>  #define GPU_PWR_OVERRIDE1				0x58
+>  
+> -#define GPU_TIMESTAMP_OFFSET_LO				0x88
+> -#define GPU_TIMESTAMP_OFFSET_HI				0x8C
+> -#define GPU_CYCLE_COUNT_LO				0x90
+> -#define GPU_CYCLE_COUNT_HI				0x94
+> -#define GPU_TIMESTAMP_LO				0x98
+> -#define GPU_TIMESTAMP_HI				0x9C
+> +#define GPU_TIMESTAMP_OFFSET				0x88
+> +#define GPU_CYCLE_COUNT					0x90
+> +#define GPU_TIMESTAMP					0x98
+>  
+>  #define GPU_THREAD_MAX_THREADS				0xA0
+>  #define GPU_THREAD_MAX_WORKGROUP_SIZE			0xA4
+> @@ -87,47 +83,29 @@
+>  
+>  #define GPU_TEXTURE_FEATURES(n)				(0xB0 + ((n) * 4))
+>  
+> -#define GPU_SHADER_PRESENT_LO				0x100
+> -#define GPU_SHADER_PRESENT_HI				0x104
+> -#define GPU_TILER_PRESENT_LO				0x110
+> -#define GPU_TILER_PRESENT_HI				0x114
+> -#define GPU_L2_PRESENT_LO				0x120
+> -#define GPU_L2_PRESENT_HI				0x124
+> -
+> -#define SHADER_READY_LO					0x140
+> -#define SHADER_READY_HI					0x144
+> -#define TILER_READY_LO					0x150
+> -#define TILER_READY_HI					0x154
+> -#define L2_READY_LO					0x160
+> -#define L2_READY_HI					0x164
+> -
+> -#define SHADER_PWRON_LO					0x180
+> -#define SHADER_PWRON_HI					0x184
+> -#define TILER_PWRON_LO					0x190
+> -#define TILER_PWRON_HI					0x194
+> -#define L2_PWRON_LO					0x1A0
+> -#define L2_PWRON_HI					0x1A4
+> -
+> -#define SHADER_PWROFF_LO				0x1C0
+> -#define SHADER_PWROFF_HI				0x1C4
+> -#define TILER_PWROFF_LO					0x1D0
+> -#define TILER_PWROFF_HI					0x1D4
+> -#define L2_PWROFF_LO					0x1E0
+> -#define L2_PWROFF_HI					0x1E4
+> -
+> -#define SHADER_PWRTRANS_LO				0x200
+> -#define SHADER_PWRTRANS_HI				0x204
+> -#define TILER_PWRTRANS_LO				0x210
+> -#define TILER_PWRTRANS_HI				0x214
+> -#define L2_PWRTRANS_LO					0x220
+> -#define L2_PWRTRANS_HI					0x224
+> -
+> -#define SHADER_PWRACTIVE_LO				0x240
+> -#define SHADER_PWRACTIVE_HI				0x244
+> -#define TILER_PWRACTIVE_LO				0x250
+> -#define TILER_PWRACTIVE_HI				0x254
+> -#define L2_PWRACTIVE_LO					0x260
+> -#define L2_PWRACTIVE_HI					0x264
+> +#define GPU_SHADER_PRESENT				0x100
+> +#define GPU_TILER_PRESENT				0x110
+> +#define GPU_L2_PRESENT					0x120
 > +
-> +	/*
-> +	 * Pagefault may be associated to VM that is not in fault mode.
-> +	 * Perform asid_to_vm behavior, except if vm is not in fault
-> +	 * mode, return the VM anyways.
-> +	 */
-> +	down_read(&xe->usm.lock);
-> +	vm = xa_load(&xe->usm.asid_to_vm, pf->asid);
-> +	if (vm)
-> +		xe_vm_get(vm);
-> +	else
-> +		vm = ERR_PTR(-EINVAL);
-> +	up_read(&xe->usm.lock);
+> +#define SHADER_READY					0x140
+> +#define TILER_READY					0x150
+> +#define L2_READY					0x160
 > +
-> +	if (IS_ERR(vm))
-> +		return;
+> +#define SHADER_PWRON					0x180
+> +#define TILER_PWRON					0x190
+> +#define L2_PWRON					0x1A0
 > +
-> +	xe_vm_add_fault_entry_pf(vm, pf);
+> +#define SHADER_PWROFF					0x1C0
+> +#define TILER_PWROFF					0x1D0
+> +#define L2_PWROFF					0x1E0
 > +
-> +	xe_vm_put(vm);
-> +}
+> +#define SHADER_PWRTRANS					0x200
+> +#define TILER_PWRTRANS					0x210
+> +#define L2_PWRTRANS					0x220
 > +
->   #define USM_QUEUE_MAX_RUNTIME_MS	20
->   
->   static void pf_queue_work_func(struct work_struct *w)
-> @@ -364,6 +389,7 @@ static void pf_queue_work_func(struct work_struct *w)
->   		if (unlikely(ret)) {
->   			print_pagefault(xe, &pf);
->   			pf.fault_unsuccessful = 1;
-> +			save_pagefault_to_vm(xe, &pf);
->   			drm_dbg(&xe->drm, "Fault response: Unsuccessful %d\n", ret);
->   		}
->   
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index 793f5bc393c2..1d97f4b9673f 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -27,7 +27,9 @@
->   #include "xe_device.h"
->   #include "xe_drm_client.h"
->   #include "xe_exec_queue.h"
-> +#include "xe_gt.h"
->   #include "xe_gt_pagefault.h"
-> +#include "xe_gt_pagefault_types.h"
->   #include "xe_gt_tlb_invalidation.h"
->   #include "xe_migrate.h"
->   #include "xe_pat.h"
-> @@ -778,6 +780,86 @@ int xe_vm_userptr_check_repin(struct xe_vm *vm)
->   		list_empty_careful(&vm->userptr.invalidated)) ? 0 : -EAGAIN;
->   }
->   
-> +static struct xe_hw_engine *
-> +hw_engine_lookup_class_instance(struct xe_vm *vm,
-> +				enum xe_engine_class class,
-> +				u16 instance)
-> +{
-> +	struct xe_device *xe = vm->xe;
-> +	struct xe_hw_engine *hwe;
-> +	enum xe_hw_engine_id id;
-> +	struct xe_gt *gt;
-> +	u8 gt_id;
-> +
-> +	for_each_gt(gt, xe, gt_id)
-> +		for_each_hw_engine(hwe, gt, id)
-> +			if (hwe->class == class && hwe->instance == instance)
-> +				return hwe;
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * xe_vm_add_fault_entry_pf() - Add pagefault to vm fault list
-> + * @vm: The VM.
-> + * @pf: The pagefault.
-> + *
-> + * This function takes the data from the pagefault @pf and saves it to @vm->faults.list.
-> + *
-> + * The function exits silently if the list is full, and reports a warning if the pagefault
-> + * could not be saved to the list.
-> + */
-> +void xe_vm_add_fault_entry_pf(struct xe_vm *vm, struct xe_gt_pagefault *pf)
-> +{
-> +	struct xe_vm_fault_entry *e = NULL;
-> +	struct xe_hw_engine *hwe;
-> +
-> +	/* Do not report faults on reserved engines */
-> +	hwe = hw_engine_lookup_class_instance(vm, pf->engine_class, pf->engine_instance);
-> +	if (!hwe || xe_hw_engine_is_reserved(hwe))
-> +		return;
-> +
-> +	spin_lock(&vm->faults.lock);
-> +
-> +	/*
-> +	 * Limit the number of faults in the fault list to prevent
-> +	 * memory overuse.
-> +	 */
-> +	if (vm->faults.len >= MAX_FAULTS_SAVED_PER_VM)
-> +		goto out;
-> +
-> +	e = kzalloc(sizeof(*e), GFP_KERNEL);
+> +#define SHADER_PWRACTIVE				0x240
+> +#define TILER_PWRACTIVE					0x250
+> +#define L2_PWRACTIVE					0x260
+>  
+>  #define GPU_REVID					0x280
+>  
+> @@ -170,10 +148,8 @@
+>  #define MMU_AS_SHIFT					6
+>  #define MMU_AS(as)					(MMU_BASE + ((as) << MMU_AS_SHIFT))
+>  
+> -#define AS_TRANSTAB_LO(as)				(MMU_AS(as) + 0x0)
+> -#define AS_TRANSTAB_HI(as)				(MMU_AS(as) + 0x4)
+> -#define AS_MEMATTR_LO(as)				(MMU_AS(as) + 0x8)
+> -#define AS_MEMATTR_HI(as)				(MMU_AS(as) + 0xC)
+> +#define AS_TRANSTAB(as)					(MMU_AS(as) + 0x0)
+> +#define AS_MEMATTR(as)					(MMU_AS(as) + 0x8)
+>  #define   AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL		(2 << 2)
+>  #define   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(w, r)	((3 << 2) | \
+>  							 ((w) ? BIT(0) : 0) | \
+> @@ -185,8 +161,7 @@
+>  #define   AS_MEMATTR_AARCH64_INNER_OUTER_NC		(1 << 6)
+>  #define   AS_MEMATTR_AARCH64_INNER_OUTER_WB		(2 << 6)
+>  #define   AS_MEMATTR_AARCH64_FAULT			(3 << 6)
+> -#define AS_LOCKADDR_LO(as)				(MMU_AS(as) + 0x10)
+> -#define AS_LOCKADDR_HI(as)				(MMU_AS(as) + 0x14)
+> +#define AS_LOCKADDR(as)					(MMU_AS(as) + 0x10)
+>  #define AS_COMMAND(as)					(MMU_AS(as) + 0x18)
+>  #define   AS_COMMAND_NOP				0
+>  #define   AS_COMMAND_UPDATE				1
+> @@ -201,12 +176,10 @@
+>  #define  AS_FAULTSTATUS_ACCESS_TYPE_EX			(0x1 << 8)
+>  #define  AS_FAULTSTATUS_ACCESS_TYPE_READ		(0x2 << 8)
+>  #define  AS_FAULTSTATUS_ACCESS_TYPE_WRITE		(0x3 << 8)
+> -#define AS_FAULTADDRESS_LO(as)				(MMU_AS(as) + 0x20)
+> -#define AS_FAULTADDRESS_HI(as)				(MMU_AS(as) + 0x24)
+> +#define AS_FAULTADDRESS(as)				(MMU_AS(as) + 0x20)
+>  #define AS_STATUS(as)					(MMU_AS(as) + 0x28)
+>  #define   AS_STATUS_AS_ACTIVE				BIT(0)
+> -#define AS_TRANSCFG_LO(as)				(MMU_AS(as) + 0x30)
+> -#define AS_TRANSCFG_HI(as)				(MMU_AS(as) + 0x34)
+> +#define AS_TRANSCFG(as)					(MMU_AS(as) + 0x30)
+>  #define   AS_TRANSCFG_ADRMODE_UNMAPPED			(1 << 0)
+>  #define   AS_TRANSCFG_ADRMODE_IDENTITY			(2 << 0)
+>  #define   AS_TRANSCFG_ADRMODE_AARCH64_4K		(6 << 0)
+> @@ -224,8 +197,7 @@
+>  #define   AS_TRANSCFG_DISABLE_AF_FAULT			BIT(34)
+>  #define   AS_TRANSCFG_WXN				BIT(35)
+>  #define   AS_TRANSCFG_XREADABLE				BIT(36)
+> -#define AS_FAULTEXTRA_LO(as)				(MMU_AS(as) + 0x38)
+> -#define AS_FAULTEXTRA_HI(as)				(MMU_AS(as) + 0x3C)
+> +#define AS_FAULTEXTRA(as)				(MMU_AS(as) + 0x38)
+>  
+>  #define CSF_GPU_LATEST_FLUSH_ID				0x10000
+>  
+> -- 
+> 2.47.1
+> 
 
-I think this can sleep, which is not allowed with spin_lock held. CI is 
-complaining here:
-https://intel-gfx-ci.01.org/tree/intel-xe/xe-pw-145529v19/shard-lnl-5/igt@xe_waitfence@exec_queue-reset-wait.html
-
-Is it possible to move this outside of the lock?
-
-> +	if (!e) {
-> +		drm_warn(&vm->xe->drm,
-> +			 "Could not allocate memory for fault %i!",
-> +			 vm->faults.len);
-> +		goto out;
-> +	}
-> +
-> +	e->address = pf->page_addr;
-> +	e->address_precision = 1;
-> +	e->access_type = pf->access_type;
-> +	e->fault_type = pf->fault_type;
-> +	e->fault_level = pf->fault_level;
-> +
-> +	list_add_tail(&e->list, &vm->faults.list);
-> +	vm->faults.len++;
-> +out:
-> +	spin_unlock(&vm->faults.lock);
-> +}
-> +
-> +static void xe_vm_clear_fault_entries(struct xe_vm *vm)
-> +{
-> +	struct xe_vm_fault_entry *e, *tmp;
-> +
-> +	spin_lock(&vm->faults.lock);
-> +	list_for_each_entry_safe(e, tmp, &vm->faults.list, list) {
-> +		list_del(&e->list);
-> +		kfree(e);
-> +	}
-> +	vm->faults.len = 0;
-> +	spin_unlock(&vm->faults.lock);
-> +}
-> +
->   static int xe_vma_ops_alloc(struct xe_vma_ops *vops, bool array_of_binds)
->   {
->   	int i;
-> @@ -1660,6 +1742,9 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags)
->   	init_rwsem(&vm->userptr.notifier_lock);
->   	spin_lock_init(&vm->userptr.invalidated_lock);
->   
-> +	INIT_LIST_HEAD(&vm->faults.list);
-> +	spin_lock_init(&vm->faults.lock);
-> +
->   	ttm_lru_bulk_move_init(&vm->lru_bulk_move);
->   
->   	INIT_WORK(&vm->destroy_work, vm_destroy_work_func);
-> @@ -1930,6 +2015,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)
->   	}
->   	up_write(&xe->usm.lock);
->   
-> +	xe_vm_clear_fault_entries(vm);
-> +
->   	for_each_tile(tile, xe, id)
->   		xe_range_fence_tree_fini(&vm->rftree[id]);
->   
-> diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-> index 0ef811fc2bde..9bd7e93824da 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.h
-> +++ b/drivers/gpu/drm/xe/xe_vm.h
-> @@ -12,6 +12,12 @@
->   #include "xe_map.h"
->   #include "xe_vm_types.h"
->   
-> +/**
-> + * MAX_FAULTS_SAVED_PER_VM - Maximum number of faults each vm can store before future
-> + * faults are discarded to prevent memory overuse
-> + */
-> +#define MAX_FAULTS_SAVED_PER_VM	50
-> +
->   struct drm_device;
->   struct drm_printer;
->   struct drm_file;
-> @@ -22,6 +28,7 @@ struct dma_fence;
->   
->   struct xe_exec_queue;
->   struct xe_file;
-> +struct xe_gt_pagefault;
->   struct xe_sync_entry;
->   struct xe_svm_range;
->   struct drm_exec;
-> @@ -257,6 +264,8 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma);
->   
->   int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma);
->   
-> +void xe_vm_add_fault_entry_pf(struct xe_vm *vm, struct xe_gt_pagefault *pf);
-> +
->   bool xe_vm_validate_should_retry(struct drm_exec *exec, int err, ktime_t *end);
->   
->   int xe_vm_lock_vma(struct drm_exec *exec, struct xe_vma *vma);
-> diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
-> index 84fa41b9fa20..dc47c49c25e5 100644
-> --- a/drivers/gpu/drm/xe/xe_vm_types.h
-> +++ b/drivers/gpu/drm/xe/xe_vm_types.h
-> @@ -19,6 +19,7 @@
->   #include "xe_range_fence.h"
->   
->   struct xe_bo;
-> +struct xe_pagefault;
->   struct xe_svm_range;
->   struct xe_sync_entry;
->   struct xe_user_fence;
-> @@ -142,6 +143,23 @@ struct xe_userptr_vma {
->   
->   struct xe_device;
->   
-> +/**
-> + * struct xe_vm_fault_entry - Elements of vm->faults.list
-> + * @list: link into @xe_vm.faults.list
-> + * @address: address of the fault
-> + * @address_type: type of address access that resulted in fault
-> + * @address_precision: precision of faulted address
-> + * @fault_level: fault level of the fault
-> + */
-> +struct xe_vm_fault_entry {
-> +	struct list_head list;
-> +	u64 address;
-> +	u32 address_precision;
-> +	u8 access_type;
-> +	u8 fault_type;
-> +	u8 fault_level;
-> +};
-> +
->   struct xe_vm {
->   	/** @gpuvm: base GPUVM used to track VMAs */
->   	struct drm_gpuvm gpuvm;
-> @@ -305,6 +323,16 @@ struct xe_vm {
->   		bool capture_once;
->   	} error_capture;
->   
-> +	/** @faults: List of all faults associated with this VM */
-> +	struct {
-> +		/** @faults.lock: lock protecting @faults.list */
-> +		spinlock_t lock;
-> +		/** @faults.list: list of xe_vm_fault_entry entries */
-> +		struct list_head list;
-> +		/** @faults.len: length of @faults.list */
-> +		unsigned int len;
-> +	} faults;
-> +
->   	/**
->   	 * @tlb_flush_seqno: Required TLB flush seqno for the next exec.
->   	 * protected by the vm resv.
-
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
