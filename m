@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAD7A89D93
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57BB7A89D96
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:19:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 164DB10E759;
-	Tue, 15 Apr 2025 12:19:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9240B10E75B;
+	Tue, 15 Apr 2025 12:19:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ubMczIaY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JfH7XsGA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58DDF10E0EB;
- Tue, 15 Apr 2025 12:19:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E54DE10E757;
+ Tue, 15 Apr 2025 12:19:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E5C42A49F4A;
- Tue, 15 Apr 2025 12:13:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7286AC4CEDD;
- Tue, 15 Apr 2025 12:19:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4230B5C57D9;
+ Tue, 15 Apr 2025 12:16:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85831C4CEE5;
+ Tue, 15 Apr 2025 12:19:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744719549;
- bh=ZXQ6hDhSI4430uuHaK9P1SM9exODYN0ru/5bciErF30=;
- h=From:To:Cc:Subject:Date:From;
- b=ubMczIaYX+WclUcufziZyoz5Lfa6B6XTyicQB5Tnqj8cMIHyvDq9ZEYMhPFGtK3Rk
- iaZVrUfK8dw4eIcRSyvXYCF11NMXFPn7SiHbw6lDJtoVhN4p8KCDYrHCdcZWK7wJGB
- p+qhXhsnXEn/AfoCqihsgNUAJ8Vd4xg7/YXHPBGN9P7qpwhZWvfhzGUb+lwNL6lpzv
- YnWuc2YkdXM+fGSFfJtPSL4bNqa7kG4Nwz/r+i+iU0khqTtpQIljBSIUcpTdT2nbxu
- wBkPSPa9DPu7sxGOX1rQ5p2t5iYohuRDm62+KT+PeF62xglDmKz4MChUWCPo3sP4co
- TEVqKQmVyuZoQ==
+ s=k20201202; t=1744719553;
+ bh=COvRNNF786kYGi8CjZYmPlrfxrjGI6tMrD6MDqpsP14=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=JfH7XsGAmFx5ngYrAkEkA4JmaHVN3Q3GYrKKTkmVqE+yulpJOGRvsLOkobdtTwOVS
+ uvHIr9FJU29TknobKd5XqDD+pKl3CCQPzzKUUe9E0xsAId0XOFEIshjFAAqV+XKAsR
+ 6EKtG+VarvyUJxfaVtifWWOeUScsthvHRxnzEfeEKesk3Oq+jPIPQOW6HRdjnZUgAz
+ /xaDvFrFPPr+40qGFcG+ZA64FKIuLuoSkNOkeTijdo/1og3emz7Yj9GSEklD0eynkh
+ EuQes8WKSAlKkDirHIta+vQrePOjKBHqKPVkrWXfVQbG9cLTyn9DjhogJ4K7+9KRbG
+ jaLBYOACSBWcA==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -39,11 +39,14 @@ To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v2 0/2] drm/nouveau: Don't set signaled fences' error codes
-Date: Tue, 15 Apr 2025 14:18:59 +0200
-Message-ID: <20250415121900.55719-2-phasta@kernel.org>
+ Philipp Stanner <phasta@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH v2 1/2] drm/nouveau: Fix WARN_ON in
+ nouveau_fence_context_kill()
+Date: Tue, 15 Apr 2025 14:19:00 +0200
+Message-ID: <20250415121900.55719-3-phasta@kernel.org>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250415121900.55719-2-phasta@kernel.org>
+References: <20250415121900.55719-2-phasta@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,25 +65,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes in v2:
-  - Only fix the issue by checking for a fence being signaled in
-    nouveau_fence_context_kill(), before setting the fence's error.
-    (Christian, Danilo)
-  - Drop cleanup patches. Instead, idiomaticize for-each-loops.
+Nouveau is mostly designed in a way that it's expected that fences only
+ever get signaled through nouveau_fence_signal(). However, in at least
+one other place, nouveau_fence_done(), can signal fences, too. If that
+happens (race) a signaled fence remains in the pending list for a while,
+until it gets removed by nouveau_fence_update().
 
-Was called "Fix & improve nouveau_fence_done()" before.
+Should nouveau_fence_context_kill() run in the meantime, this would be
+a bug because the function would attempt to set an error code on an
+already signaled fence.
 
-I've tested this with KASAN & kmemleak.
+Have nouveau_fence_context_kill() check for a fence being signaled.
 
-P.
+Cc: <stable@vger.kernel.org> # v5.10+
+Fixes: ea13e5abf807 ("drm/nouveau: signal pending fences when channel has been killed")
+Suggested-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Philipp Stanner (2):
-  drm/nouveau: Fix WARN_ON in nouveau_fence_context_kill()
-  drm/nouveau: nouveau_fence: Standardize list iterations
-
- drivers/gpu/drm/nouveau/nouveau_fence.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index 7622587f149e..6ded8c2b6d3b 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -90,7 +90,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
+ 	while (!list_empty(&fctx->pending)) {
+ 		fence = list_entry(fctx->pending.next, typeof(*fence), head);
+ 
+-		if (error)
++		if (error && !dma_fence_is_signaled_locked(&fence->base))
+ 			dma_fence_set_error(&fence->base, error);
+ 
+ 		if (nouveau_fence_signal(fence))
 -- 
 2.48.1
 
