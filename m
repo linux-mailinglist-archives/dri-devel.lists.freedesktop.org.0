@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9828A8970D
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 10:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C701EA89735
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 10:55:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B308E10E68E;
-	Tue, 15 Apr 2025 08:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB3E10E076;
+	Tue, 15 Apr 2025 08:55:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="gEBBl4FA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Gl2fmgtD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 854FE10E68E
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 08:46:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=XUyrXCgJQDuyuZ/7JqDMYdsANrlptNT48YT2/QR4z1M=; b=g
- EBBl4FAx5iidOdZIP8PAO9j4sgMwjcFYS/gMOdOIzLQQB75riFAGLxqI346u6d9M
- L5pwFWrq1rWFTzfQDr7biatAC1B7aJXdUzTe/hpPLPfSW1L0cA+jMnIurINSYA7u
- 8Pe27Z8SiKMtZcq1nYRtvl2SZneyCAo+NsgTeqByAQ=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-120 (Coremail) ; Tue, 15 Apr 2025 16:46:09 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Tue, 15 Apr 2025 16:46:09 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: airlied@gmail.com, simona@ffwll.ch, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
- "Sandy Huang" <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>
-Subject: Re:Re: [PATCH 05/11] drm/rockchip: Test for imported buffers with
- drm_gem_is_imported()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <4ed85ac2-481d-45e7-b8e6-b977dcbf8ef4@suse.de>
-References: <20250414134821.568225-5-tzimmermann@suse.de>
- <38d09d34.4354.196379aa560.Coremail.andyshrk@163.com>
- <c870c700-23f2-4d33-81ba-15af0797c0b7@suse.de>
- <13940fa8.67c1.196384d547f.Coremail.andyshrk@163.com>
- <4ed85ac2-481d-45e7-b8e6-b977dcbf8ef4@suse.de>
-X-NTES-SC: AL_Qu2fBvubuU8t7yafbOkfmkcVgOw9UcO5v/Qk3oZXOJF8jDLp/j0HdmVSAWfk9OO0GyOzmgmGQhZw7+16UYtfUYcQQLTG5yUTr/pZI8U8xmJwHg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3027410E076
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 08:55:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id EF19FA492A5;
+ Tue, 15 Apr 2025 08:49:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A690C4CEDD;
+ Tue, 15 Apr 2025 08:55:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744707310;
+ bh=vGvpKawwe3gI5yvFnpIT7nHbouJvN4MFyvJyYAkbBsA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Gl2fmgtD+ZSCoo67x4oHR2ZYoD3QcZhpyCGP8Scecgr+Fp/lHASgEDumO10W8Dv7O
+ 035vsmJvbj5Vg0UD6MiI5xbxLNRWG+0xtq95m2U5Nyb5W6WaMbcwSgaftRmdcwOeW6
+ EhbsZt3RYI3vrz4Q95FvtyS6Z/t1USGZrynKrZCnjbs7pM5TXTPMgDNKOncboH6VfA
+ JLRWFKbZVKfARUb+bFqM652yrz+KDihgB9912fHs0nR8W7kFQ6dOygjGDcnX/YPilC
+ ZHfvb6jjjgjsVCqqN13FHowyIaqHtc5C2UU7fs+U1STPxyOfF626j8WooeXh1jJ/KT
+ /d7UI6axfZbHQ==
+Date: Tue, 15 Apr 2025 10:55:07 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Danilo Krummrich <dakr@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Drew Fustini <drew@pdp7.com>, 
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ m.szyprowski@samsung.com, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-riscv@lists.infradead.org, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 4/4] drm/imagination: Skip clocks if platform PM
+ manages resources
+Message-ID: <20250415-poetic-magenta-cicada-9d1ee7@houat>
+References: <20250414-apr_14_for_sending-v2-0-70c5af2af96c@samsung.com>
+ <CGME20250414185317eucas1p139284a38dc4418ac90bd081c2825142a@eucas1p1.samsung.com>
+ <20250414-apr_14_for_sending-v2-4-70c5af2af96c@samsung.com>
 MIME-Version: 1.0
-Message-ID: <6d4c5335.8908.19638a09312.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: eCgvCgCXv_bRHP5nOJ2XAA--.40245W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hswXmf+FoDgcQABs4
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="dpgfk2bi35c7deux"
+Content-Disposition: inline
+In-Reply-To: <20250414-apr_14_for_sending-v2-4-70c5af2af96c@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,138 +74,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpIaSwKCuWcqCAyMDI1LTA0LTE1IDE1OjUxOjMx77yMIlRob21hcyBaaW1tZXJtYW5uIiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4g5YaZ6YGT77yaCj5IaQo+Cj5BbSAxNS4wNC4yNSB1bSAwOToxNSBz
-Y2hyaWViIEFuZHkgWWFuOgo+PiBIaSBUaG9tYXPvvIwKPj4KPj4g5ZyoIDIwMjUtMDQtMTUgMTQ6
-NTQ6MjHvvIwiVGhvbWFzIFppbW1lcm1hbm4iIDx0emltbWVybWFubkBzdXNlLmRlPiDlhpnpgZPv
-vJoKPj4+IEhpCj4+Pgo+Pj4gQW0gMTUuMDQuMjUgdW0gMDY6MDAgc2NocmllYiBBbmR5IFlhbjoK
-Pj4+PiBIaSBUaG9tYXPvvIwKPj4+Pgo+Pj4+IEF0IDIwMjUtMDQtMTQgMjE6NDg6MTIsICJUaG9t
-YXMgWmltbWVybWFubiIgPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+Pj4+PiBJbnN0ZWFk
-IG9mIHRlc3RpbmcgaW1wb3J0X2F0dGFjaCBmb3IgaW1wb3J0ZWQgR0VNIGJ1ZmZlcnMsIGludm9r
-ZQo+Pj4+PiBkcm1fZ2VtX2lzX2ltcG9ydGVkKCkgdG8gZG8gdGhlIHRlc3QuIFRoZSBoZWxwZXIg
-dGVzdHMgdGhlIGRtYV9idWYKPj4+Pj4gaXRzZWxmIHdoaWxlIGltcG9ydF9hdHRhY2ggaXMganVz
-dCBhbiBhcnRpZmFjdCBvZiB0aGUgaW1wb3J0LiBQcmVwYXJlcwo+Pj4+PiB0byBtYWtlIGltcG9y
-dF9hdHRhY2ggb3B0aW9uYWwuCj4+Pj4+Cj4+Pj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+Pj4+PiBDYzogU2FuZHkgSHVhbmcgPGhqY0By
-b2NrLWNoaXBzLmNvbT4KPj4+Pj4gQ2M6ICJIZWlrbyBTdMO8Ym5lciIgPGhlaWtvQHNudGVjaC5k
-ZT4KPj4+Pj4gQ2M6IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KPj4+Pj4gLS0t
-Cj4+Pj4+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMgfCAyICst
-Cj4+Pj4+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+Pj4+
-Pgo+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2Ry
-bV9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMKPj4+
-Pj4gaW5kZXggNjMzMGI4ODNlZmMzLi5lNDQzOTZkNDZkYzEgMTAwNjQ0Cj4+Pj4+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMKPj4+Pj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYwo+Pj4+PiBAQCAtMzMyLDcg
-KzMzMiw3IEBAIHZvaWQgcm9ja2NoaXBfZ2VtX2ZyZWVfb2JqZWN0KHN0cnVjdCBkcm1fZ2VtX29i
-amVjdCAqb2JqKQo+Pj4+PiAJc3RydWN0IHJvY2tjaGlwX2RybV9wcml2YXRlICpwcml2YXRlID0g
-ZHJtLT5kZXZfcHJpdmF0ZTsKPj4+Pj4gCXN0cnVjdCByb2NrY2hpcF9nZW1fb2JqZWN0ICpya19v
-YmogPSB0b19yb2NrY2hpcF9vYmoob2JqKTsKPj4+Pj4KPj4+Pj4gLQlpZiAob2JqLT5pbXBvcnRf
-YXR0YWNoKSB7Cj4+Pj4+ICsJaWYgKGRybV9nZW1faXNfaW1wb3J0ZWQob2JqKSkgewo+Pj4+IEFm
-dGVyIGFwcGx5aW5nIHRoaXMgcGF0Y2gsIHdoZW4gSSB0ZXN0ZWQgZ2xtYXJrMi1lczItd2F5bGFu
-ZCB1bmRlciBXZXN0b24sIHRoZSB3ZXN0b24gd291bGQgZnJlZXplLgo+Pj4+IEl0IHNlZW1zIGl0
-IGdvdG8gdGhlIGVsc2UgcGF0aC4KPj4+Pgo+Pj4+ICAgIEknbSBzdGlsbCBjb25kdWN0aW5nIGZ1
-cnRoZXIgYW5hbHlzaXMgdG8gZmlndXJlIG91dCB0aGUgZXhhY3QgY2F1c2UuCj4+PiBUaGFua3Mg
-Zm9yIHRlc3RpbmcuIFdlIHRlc3QgaWYgb2JqLT5kbWFfYnVmIGlzIHNldCBhbmQgcmVmZXJzIGJh
-Y2sgdG8KPj4+IG9iai4gT25lIG9mIHRoZXNlIGZpZWxkcyBoYXMgbGlrZWx5IGJlZW4gY2xlYXJl
-ZCBhbHJlYWR5IHRvIE5VTEwgZHVyaW5nCj4+PiB0aGUgb2JqZWN0IGNsZWFudXAuIE90aGVyIGRy
-aXZlcnMgYWxzbyBjYWxsIGRybV9nZW1faXNfaW1wb3J0ZWQoKSBpbgo+Pj4gdGhlaXIgb2JqZWN0
-IGNsZWFudXAgYW5kIEkndmUgbm90IGhlYXJkIGFib3V0IGFueSByZWdyZXNzaW9ucy4KPj4gIEZy
-b20gbXkgdGVzdCwgaXQgc2VlbXMgdGhhdCBhIGR1bWIgYnVmZmVyIG1heSBleHBvcnQgdGhlbiBp
-bXBvcnQ6Cj4+IGFuZCB0aGUgb2JqLT5kbWFfYnVmIHdpbGwgYmUgY2xlYXJlZCBhdCBkcm1fbW9k
-ZV9kZXN0cm95X2R1bWJfaW9jdGwtLT5kcm1fZ2VtX2hhbmRsZV9kZWxldGUKPj4KPj4gdGhlbiB0
-ZXN0IHdpdGggICBvYmotPmRtYV9idWYgJiYgKG9iai0+ZG1hX2J1Zi0+cHJpdiAhPSBvYmopIHdp
-bGwgYmUgZmFsc2UuCj4KPkhlcmUncyBhIHBhdGNoIGZvciB0aGUgcHJvYmxlbS4gQ291bGQgeW91
-IHBsZWFzZSB0ZXN0IGFuZCByZXBvcnQgYmFjayAKPndpdGggdGhlIHJlc3VsdHM/IFRoYW5rcyBh
-IGxvdC4KClllcywgIHRoaXMgcGF0Y2ggY2FuIG1ha2UgcGF0Y2ggMDUvMTEgd29yayByaWdodC4K
-Cgo+Cj5CZXN0IHJlZ2FyZHMKPlRob21hcwo+Cj4KPgo+Pgo+Pgo+Pgo+Pgo+Pgo+PiBbICAgMTIu
-MDI4OTQxXSBbZHJtXSBJbml0aWFsaXplZCBwYW50aG9yIDEuMy4wIGZvciBmYjAwMDAwMC5ncHUg
-b24gbWlub3IgMQo+PiBbICAgMTQuNjA2MTE0XSByb2NrY2hpcF9nZW1fZHVtYl9jcmVhdGUgd2Vz
-dG9uIG9iajogZmZmZjAwMDEwMTQ5YjAwMCBoYW5kbGU6IDEKPj4gWyAgIDE0LjYwNjE3MF0gZHJt
-X2dlbV9wcmltZV9oYW5kbGVfdG9fZG1hYnVmIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDE0OWIwMDAg
-ZG1hX2J1ZjogMHhmZmZmMDAwMTAxNDU0ODAwIGhhbmRsZTogMQo+PiBbICAgMTQuNjA2MjE3XSBk
-cm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTAyM2NkYzAwIGRt
-YV9idWY6IDB4ZmZmZjAwMDEwMTQ1NDgwMCBkbWFfYnVmLT5wcml2IGZmZmYwMDAxMDE0OWIwMDAK
-Pj4gWyAgIDE0LjY4NTUxN10gcm9ja2NoaXBfZ2VtX2R1bWJfY3JlYXRlIHdlc3RvbiBvYmo6IGZm
-ZmYwMDAxMDE0OWI0MDAgaGFuZGxlOiAyCj4+IFsgICAxNC42ODU1NjldIGRybV9nZW1fcHJpbWVf
-aGFuZGxlX3RvX2RtYWJ1ZiB3ZXN0b24gb2JqOiBmZmZmMDAwMTAxNDliNDAwIGRtYV9idWY6IDB4
-ZmZmZjAwMDEwMTQ1NDQwMCBoYW5kbGU6IDIKPj4gWyAgIDE0LjY4NTY5MV0gZHJtX2dlbV9wcmlt
-ZV9mZF90b19oYW5kbGUgd2VzdG9uIG9iajogZmZmZjAwMDEwMjNjZTYwMCBkbWFfYnVmOiAweGZm
-ZmYwMDAxMDE0NTQ0MDAgZG1hX2J1Zi0+cHJpdiBmZmZmMDAwMTAxNDliNDAwCj4+IFsgICAxNS4y
-NTUyNzddIHJvY2tjaGlwX2dlbV9kdW1iX2NyZWF0ZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTA3NTlm
-ODAwIGhhbmRsZTogMwo+PiBbICAgMTUuMjU1Mjk4XSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19k
-bWFidWYgd2VzdG9uIG9iajogZmZmZjAwMDEwNzU5ZjgwMCBkbWFfYnVmOiAweGZmZmYwMDAxMDMw
-Y2JjMDAgaGFuZGxlOiAzCj4+IFsgICAxNS4yNTUzMTddIGRybV9nZW1fcHJpbWVfZmRfdG9faGFu
-ZGxlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDM3YTMyMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTAzMGNi
-YzAwIGRtYV9idWYtPnByaXYgZmZmZjAwMDEwNzU5ZjgwMAo+PiBbICAgMTUuMzE2MzM2XSByb2Nr
-Y2hpcF9nZW1fZHVtYl9jcmVhdGUgd2VzdG9uIG9iajogZmZmZjAwMDEwNzU5ZjAwMCBoYW5kbGU6
-IDQKPj4gWyAgIDE1LjMxNjM2MF0gZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9fZG1hYnVmIHdlc3Rv
-biBvYmo6IGZmZmYwMDAxMDc1OWYwMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTAzMGNiYTAwIGhhbmRs
-ZTogNAo+PiBbICAgMTUuMzE2NDA0XSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSB3ZXN0b24g
-b2JqOiBmZmZmMDAwMTAzN2ExMDAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwMzBjYmEwMCBkbWFfYnVm
-LT5wcml2IGZmZmYwMDAxMDc1OWYwMDAKPj4gWyAgIDIwLjIwOTAwNl0gcm9ja2NoaXBfZ2VtX2R1
-bWJfY3JlYXRlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDY1ODQwMDAgaGFuZGxlOiAxCj4+IFsgICAy
-MC4yMDkwMzFdIGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZiB3ZXN0b24gb2JqOiBmZmZm
-MDAwMTA2NTg0MDAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwMTdhNzYwMCBoYW5kbGU6IDEKPj4gWyAg
-IDIwLjIwOTA0OV0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUgd2VzdG9uIG9iajogZmZmZjAw
-MDEwMTgyZmMwMCBkbWFfYnVmOiAweGZmZmYwMDAxMDE3YTc2MDAgZG1hX2J1Zi0+cHJpdiBmZmZm
-MDAwMTA2NTg0MDAwCj4+IFsgICAyMC4yMjgwMDhdIHJvY2tjaGlwX2dlbV9kdW1iX2NyZWF0ZSB3
-ZXN0b24gb2JqOiBmZmZmMDAwMTA2NTg0YzAwIGhhbmRsZTogMgo+PiBbICAgMjAuMjI4MDI5XSBk
-cm1fZ2VtX3ByaW1lX2hhbmRsZV90b19kbWFidWYgd2VzdG9uIG9iajogZmZmZjAwMDEwNjU4NGMw
-MCBkbWFfYnVmOiAweGZmZmYwMDAxMDE3YTdhMDAgaGFuZGxlOiAyCj4+IFsgICAyMC4yMjgwODFd
-IGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDVlZWMwMDAg
-ZG1hX2J1ZjogMHhmZmZmMDAwMTAxN2E3YTAwIGRtYV9idWYtPnByaXYgZmZmZjAwMDEwNjU4NGMw
-MAo+Pgo+PiBbICAgMjcuMDczMjY1XSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19kbWFidWYgZ2xt
-YXJrMi1lczItd2F5IG9iajogZmZmZjAwMDEwMzVmMGEwMCBkbWFfYnVmOiAweGZmZmYwMDAxMGEy
-NGQ1MDAgaGFuZGxlOiAxMAo+PiBbICAgMjcuMDczMzc3XSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hh
-bmRsZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTAzNWYwYTAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwYTI0
-ZDUwMCBkbWFfYnVmLT5wcml2IGZmZmYwMDAxMDM1ZjBhMDAKPj4gWyAgIDI3LjA3MzcxOF0gZHJt
-X2dlbV9wcmltZV9mZF90b19oYW5kbGUgd2VzdG9uIG9iajogZmZmZjAwMDEwNzU5ZTAwMCBkbWFf
-YnVmOiAweGZmZmYwMDAxMGEyNGQ1MDAgZG1hX2J1Zi0+cHJpdiBmZmZmMDAwMTAzNWYwYTAwCj4+
-Cj4+IFsgICAyNy4wNzUzNjNdIGRybV9nZW1faGFuZGxlX2RlbGV0ZSBnbG1hcmsyLWVzMi13YXkg
-b2JqOiBmZmZmMDAwMTAzNWYwYTAwIGhhbmRsZTogMTAKPj4gWyAgIDI3LjA3NTcxOF0gZHJtX2dl
-bV9wcmltZV9oYW5kbGVfdG9fZG1hYnVmIGdsbWFyazItZXMyLXdheSBvYmo6IGZmZmYwMDAxMjk0
-NmUwMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTBhMjRkMTAwIGhhbmRsZTogMjUKPj4gWyAgIDI3LjA3
-NTc5OV0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUgd2VzdG9uIG9iajogZmZmZjAwMDEyOTQ2
-ZTAwMCBkbWFfYnVmOiAweGZmZmYwMDAxMGEyNGQxMDAgZG1hX2J1Zi0+cHJpdiBmZmZmMDAwMTI5
-NDZlMDAwCj4+IFsgICAyNy4wNzY2MTNdIGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlIHdlc3Rv
-biBvYmo6IGZmZmYwMDAxMDc1OWRjMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTBhMjRkMTAwIGRtYV9i
-dWYtPnByaXYgZmZmZjAwMDEyOTQ2ZTAwMAo+PiBbICAgMjcuMDc5MTk1XSBkcm1fZ2VtX3ByaW1l
-X2hhbmRsZV90b19kbWFidWYgZ2xtYXJrMi1lczItd2F5IG9iajogZmZmZjAwMDEyOTQ2ZTQwMCBk
-bWFfYnVmOiAweGZmZmYwMDAxMGEyNGQwMDAgaGFuZGxlOiAxMAo+PiBbICAgMjcuMDc5MjYyXSBk
-cm1fZ2VtX2hhbmRsZV9kZWxldGUgd2VzdG9uIG9iajogZmZmZjAwMDEwNzU5ZTAwMCBoYW5kbGU6
-IDUKPj4gWyAgIDI3LjA3OTI3MV0gQ1BVOiA3IFVJRDogMCBQSUQ6IDMwOCBDb21tOiB3ZXN0b24g
-Tm90IHRhaW50ZWQgNi4xNS4wLXJjMSsgIzYxMyBQUkVFTVBUCj4+IFsgICAyNy4wNzkyNzZdIEhh
-cmR3YXJlIG5hbWU6IFJhZHhhIFJPQ0sgNUIgKERUKQo+PiBbICAgMjcuMDc5Mjc4XSBDYWxsIHRy
-YWNlOgo+PiBbICAgMjcuMDc5MjgwXSAgc2hvd19zdGFjaysweDE4LzB4MjQgKEMpCj4+IFsgICAy
-Ny4wNzkyODldICBkdW1wX3N0YWNrX2x2bCsweDc0LzB4OGMKPj4gWyAgIDI3LjA3OTI5Nl0gIGR1
-bXBfc3RhY2srMHgxOC8weDI0Cj4+IFsgICAyNy4wNzkzMDFdICBkcm1fZ2VtX29iamVjdF9oYW5k
-bGVfcHV0X3VubG9ja2VkKzB4NTgvMHgxMjgKPj4gWyAgIDI3LjA3OTMwOV0gIGRybV9nZW1faGFu
-ZGxlX2RlbGV0ZSsweGJjLzB4MTEwCj4+IFsgICAyNy4wNzkzMTRdICBkcm1fbW9kZV9kZXN0cm95
-X2R1bWJfaW9jdGwrMHgyNC8weDNjCj4+IFsgICAyNy4wNzkzMThdICBkcm1faW9jdGxfa2VybmVs
-KzB4YzAvMHgxMmMKPj4gWyAgIDI3LjA3OTMyNF0gIGRybV9pb2N0bCsweDI1Yy8weDU1Ywo+PiBb
-ICAgMjcuMDc5MzMwXSAgX19hcm02NF9zeXNfaW9jdGwrMHhiNC8weGU4Cj4+IFsgICAyNy4wNzkz
-MzVdICBpbnZva2Vfc3lzY2FsbCsweDQ4LzB4MTBjCj4+IFsgICAyNy4wNzkzNDBdICBlbDBfc3Zj
-X2NvbW1vbi5jb25zdHByb3AuMCsweDQwLzB4ZTAKPj4gWyAgIDI3LjA3OTM0Nl0gIGRvX2VsMF9z
-dmMrMHgxYy8weDI4Cj4+IFsgICAyNy4wNzkzNTFdICBlbDBfc3ZjKzB4MzAvMHhjYwo+PiBbICAg
-MjcuMDc5MzU1XSAgZWwwdF82NF9zeW5jX2hhbmRsZXIrMHgxMGMvMHgxMzgKPj4gWyAgIDI3LjA3
-OTM1OF0gIGVsMHRfNjRfc3luYysweDE5OC8weDE5Ywo+PiBbICAgMjcuMDc5MzYyXSBkcm1fZ2Vt
-X29iamVjdF9leHBvcnRlZF9kbWFfYnVmX2ZyZWUgd2VzdG9uIG9iajogZmZmZjAwMDEwNzU5ZTAw
-MCBkbWFfYnVmOiAweGZmZmYwMDAxMGEyNGQ1MDAgZG1hX2J1Zi0+cHJpdjogZmZmZjAwMDEwMzVm
-MGEwMAo+PiBbICAgMjcuMDg1Nzk3XSByb2NrY2hpcF9nZW1fZnJlZV9vYmplY3Qgd2VzdG9uIG9i
-ajogZmZmZjAwMDEwNzU5ZTAwMCBpbXBvcnQgZG1hX2J1ZjogMHgwMDAwMDAwMDAwMDAwMDAwIGRt
-YV9idWYtPnByaXY6IDAwMDAwMDAwMDAwMDAwMDAKPj4gWyAgIDI3LjA4NjA5M10gZHJtX2dlbV9o
-YW5kbGVfZGVsZXRlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDM1ZjBhMDAgaGFuZGxlOiAzNQo+PiBb
-ICAgMjcuMDg2MDk5XSBDUFU6IDcgVUlEOiAwIFBJRDogMzA4IENvbW06IHdlc3RvbiBOb3QgdGFp
-bnRlZCA2LjE1LjAtcmMxKyAjNjEzIFBSRUVNUFQKPj4gWyAgIDI3LjA4NjEwMl0gSGFyZHdhcmUg
-bmFtZTogUmFkeGEgUk9DSyA1QiAoRFQpCj4+PiBCZXN0IHJlZ2FyZHMKPj4+IFRob21hcwo+Pj4K
-Pj4+Pj4gCQlpZiAocHJpdmF0ZS0+ZG9tYWluKSB7Cj4+Pj4+IAkJCXJvY2tjaGlwX2dlbV9pb21t
-dV91bm1hcChya19vYmopOwo+Pj4+PiAJCX0gZWxzZSB7Cj4+Pj4+IC0tIAo+Pj4+PiAyLjQ5LjAK
-Pj4+IC0tIAo+Pj4gLS0KPj4+IFRob21hcyBaaW1tZXJtYW5uCj4+PiBHcmFwaGljcyBEcml2ZXIg
-RGV2ZWxvcGVyCj4+PiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPj4+IEZy
-YW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55Cj4+PiBHRjogSXZvIFRv
-dGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuCj4+PiBI
-UkIgMzY4MDkgKEFHIE51ZXJuYmVyZykKPgo+LS0gCj4tLQo+VGhvbWFzIFppbW1lcm1hbm4KPkdy
-YXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPlNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkg
-R21iSAo+RnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkKPkdGOiBJ
-dm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4K
-PkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQo=
+
+--dpgfk2bi35c7deux
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 4/4] drm/imagination: Skip clocks if platform PM
+ manages resources
+MIME-Version: 1.0
+
+On Mon, Apr 14, 2025 at 08:52:58PM +0200, Michal Wilczynski wrote:
+> Update the Imagination PVR driver to skip clock management during
+> initialization if the platform PM has indicated that it manages platform
+> resources.
+>=20
+> This is necessary for platforms like the T-HEAD TH1520, where the GPU's
+> clocks and resets are managed via a PM domain, and should not be
+> manipulated directly by the GPU driver.
+>=20
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> ---
+>  drivers/gpu/drm/imagination/pvr_device.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/i=
+magination/pvr_device.c
+> index 1704c0268589bdeb65fa6535f9ec63182b0a3e94..f40468b99cf14da418aeecde0=
+86f009695ff877c 100644
+> --- a/drivers/gpu/drm/imagination/pvr_device.c
+> +++ b/drivers/gpu/drm/imagination/pvr_device.c
+> @@ -504,10 +504,16 @@ pvr_device_init(struct pvr_device *pvr_dev)
+>  	if (err)
+>  		return err;
+> =20
+> -	/* Enable and initialize clocks required for the device to operate. */
+> -	err =3D pvr_device_clk_init(pvr_dev);
+> -	if (err)
+> -		return err;
+> +	/*
+> +	 * Only initialize clocks if they are not managed by the platform's
+> +	 * PM domain.
+> +	 */
+> +	if (!device_platform_resources_pm_managed(dev)) {
+> +		/* Enable and initialize clocks required for the device to operate. */
+> +		err =3D pvr_device_clk_init(pvr_dev);
+> +		if (err)
+> +			return err;
+> +	}
+
+So, how does that work for devfreq? I can understand the rationale for
+resets and the sys clock, but the core clock at least should really be
+handled by the driver.
+
+Maxime
+
+--dpgfk2bi35c7deux
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/4e6gAKCRDj7w1vZxhR
+xeTeAQDBOrkzTJtdQ3A1rnkjHNj0lVxM4Ty8cZ/N6If/1qYvgAD/S8+uTDIzPSNF
+nUiSeauW8K+11TmEGBs2o10AHNMK4wY=
+=lBeR
+-----END PGP SIGNATURE-----
+
+--dpgfk2bi35c7deux--
