@@ -2,91 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51EBA8B185
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 09:03:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E95DA8A79E
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 21:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5055E10E84D;
-	Wed, 16 Apr 2025 07:03:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E1A10E05A;
+	Tue, 15 Apr 2025 19:16:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=pdp7-com.20230601.gappssmtp.com header.i=@pdp7-com.20230601.gappssmtp.com header.b="Ayn6tDl9";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="Wlck606T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 881F110E123
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 18:48:12 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-7369ce5d323so4747388b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 11:48:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pdp7-com.20230601.gappssmtp.com; s=20230601; t=1744742892; x=1745347692;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=glUhvdbg6jDxSzyhesIM3rd1JyjGcrsNSGuSqUFVHug=;
- b=Ayn6tDl9WrfXFzvREHMr+QYhRcslOUImmlsN79ByKSxemCWZsds/W2DcS4xT3csefO
- LYVLrNdcvrDm7/69+F/KlpkuH6Gsi+hZw7FICZpV05QbV9bEP1AJWef466N6KQXogQ2D
- EF4UNyp9xcY5ElPgrQ+xPa6kCn3i6b9sVR8fGJ1oP3okTJnWO4rd9zN90dfIdJVEOUbt
- Wy73MvDbSkrhKh9qmPn9r1vKFxP7mICyvpPAK0z9wItGQMeXD/LpHSoAgBvos4VnVbfI
- B8eqUGqVfO4uOXiVjs0kIZg7YPJb0mdEn+z5KipaM0nN0YoLVLpAleSoCjATf7xsFNGM
- ppWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744742892; x=1745347692;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=glUhvdbg6jDxSzyhesIM3rd1JyjGcrsNSGuSqUFVHug=;
- b=Lml7DrolnyQPGuMW4CTDYoMCUrjsrF4QQAYeS+wFJKj1JuiQnvHbrdsfst5VDxXQ8W
- fMt4hMOUs9xZoSYKAHgzGUvr/fAbJeXOIigb/Uftu8KIAtiB6l88Ll3+P7KCpuUA2SUE
- eqcS/jlLrHX+QxQaHKPiv5wygqVdjMIEmC/JPXt3380JrEiVgUEtN851AeqmVgRJBHns
- L7PzlOTyW6+cN4noy2OfOXmIUvHu/9jEBB8OVjx8ZUEUniyPDcq7u9lpheQEIVns123w
- VlwqQeRHmiYRBdp5bYwGgZCIKOMNws7WrnZkI8DS9MyTbGYBM6hw2OcqGp9oiGTM/b7r
- JOiA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXewtdgSQfG2s8801Smjg2iHt0Q2IyBIXqDB3+KS6efASuYqhGDvXywB/ZJnIzLMGMzw/x96ySIr0s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyiIWHoEHuZdVSExPdMAU2lEBXwpfnKWpFSAXFv+pkgFo3ASwmX
- YL62YX4h3Cy9hoyxsK6YXB7C/eMEfDbtNR1C87lnDNODn8qKgFvjJPP+Ipr4tqI=
-X-Gm-Gg: ASbGncvWrEJTPcCq3oNgVRX7FSTyPJnQm5JJsph/crcdotxFjyIv4nQzTemcU5hu0mo
- dF5YvEXuLA8Boj8TZ5lHOv097blw2TbgTow4pTEef9XjzhFVvGA9g9d1VsxWZZwWYWoixtKN2rU
- NQcD/s8AejM5Q+7dgMi3yryhG8MYdQextmRKlSPuA/b2+4QnMKqnaXhjOmIEeUwxtBoVQf1AHRk
- iIPO8ONWxIG8Ve4hL6NwnuYQlPbrWU3KVH1EuJOFDKy32tXAQOAoebzVuRvS50Q6mYrmTlhwGpK
- ZnT5g6lTYLLMri/J9DcrFZBEd6xRl1kpeVGKlO8ROEGcvMs=
-X-Google-Smtp-Source: AGHT+IFU1A6IgDtbE+ayph1nkrk/Xkmje9tzi2mXCLVIUeRmrboHqr3jd6su6fZeet5H41nBKRVWlQ==
-X-Received: by 2002:a05:6a00:a26:b0:736:3979:369e with SMTP id
- d2e1a72fcca58-73c1f8f742emr628913b3a.9.1744742891991; 
- Tue, 15 Apr 2025 11:48:11 -0700 (PDT)
-Received: from x1 (97-120-122-6.ptld.qwest.net. [97.120.122.6])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b02a2d3a4ddsm9578290a12.49.2025.04.15.11.48.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Apr 2025 11:48:10 -0700 (PDT)
-Date: Tue, 15 Apr 2025 11:48:08 -0700
-From: Drew Fustini <drew@pdp7.com>
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, guoren@kernel.org,
- wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, ulf.hansson@linaro.org, jszhang@kernel.org,
- p.zabel@pengutronix.de, m.szyprowski@samsung.com,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v5 19/21] riscv: dts: thead: Introduce power domain nodes
- with aon firmware
-Message-ID: <Z/6p6MQDS8ZlQv5r@x1>
-References: <20250219140239.1378758-1-m.wilczynski@samsung.com>
- <CGME20250219140315eucas1p10f08d297580edd114f4c487c1fbffa8d@eucas1p1.samsung.com>
- <20250219140239.1378758-20-m.wilczynski@samsung.com>
- <Z/2+rbhsaBP0DQop@x1>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 028AD10E05A
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 19:16:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1744744553; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KeEBLqSYQcZP61Fn5nvmpnxffzoXrbnSYpG3bo0jN45nKP03jtUPQ1wMAAuQ40e5GkjdqKd0/+rRXe66pvCSSC5smzsWcV32YZyxlGMJBFrgy8oCSLWUU6blXHE4dnXm03CU1nbN/LOdsD3WxFJ16iOVNKqLWeyKtC9f53RgKNg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1744744553;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=UzjWkioBVb65gUNCBmnlaI8i+iV8X/K04q3AUfe2PqU=; 
+ b=jFa8lhpckar+99zcM+LiogmmYLCN8SXdYib24tdIp0QHo2ZRYyWtB/2UnnFR3yxCrfMBxLefwO8IRbU3Isn3YkhSUs2eiY28GQIPRio92gWSp7PkZ+Y9UAN3lZJnlssEtnoc4ZDsuMvR/bqmrjFNzd3TFOWnB/DHROyzn1o31bc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744744553; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=UzjWkioBVb65gUNCBmnlaI8i+iV8X/K04q3AUfe2PqU=;
+ b=Wlck606TN3I9zDiB8rTB0pX8HApzWXR5IeKpgkaiwmJCfMmL3mVxSIUEIzzOI59H
+ 7FUzMu4PPtymXhdcSc/gsx+aKeaHftjD2P27eWpy/HQpm3i0kfAHe2xxgELRH5jr6se
+ TVZgKA1GwgaXaADKtNsGF0wN+37C+I/vUCVKwBr4=
+Received: by mx.zohomail.com with SMTPS id 1744744550731637.6127074309752;
+ Tue, 15 Apr 2025 12:15:50 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: kernel@collabora.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v8 1/4] drm/panthor: Introduce BO labeling
+Date: Tue, 15 Apr 2025 20:15:30 +0100
+Message-ID: <20250415191539.55258-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z/2+rbhsaBP0DQop@x1>
-X-Mailman-Approved-At: Wed, 16 Apr 2025 07:03:26 +0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,61 +69,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 14, 2025 at 07:04:29PM -0700, Drew Fustini wrote:
-> On Wed, Feb 19, 2025 at 03:02:37PM +0100, Michal Wilczynski wrote:
-> > The DRM Imagination GPU requires a power-domain driver. In the T-HEAD
-> > TH1520 SoC implements power management capabilities through the E902
-> > core, which can be communicated with through the mailbox, using firmware
-> > protocol.
-> > 
-> > Add AON node, which servers as a power-domain controller.
-> > 
-> > Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> > ---
-> >  arch/riscv/boot/dts/thead/th1520.dtsi | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
-> > index 197df1f32b25..474f31576a1b 100644
-> > --- a/arch/riscv/boot/dts/thead/th1520.dtsi
-> > +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
-> > @@ -6,6 +6,7 @@
-> >  
-> >  #include <dt-bindings/interrupt-controller/irq.h>
-> >  #include <dt-bindings/clock/thead,th1520-clk-ap.h>
-> > +#include <dt-bindings/power/thead,th1520-power.h>
-> >  
-> >  / {
-> >  	compatible = "thead,th1520";
-> > @@ -229,6 +230,13 @@ stmmac_axi_config: stmmac-axi-config {
-> >  		snps,blen = <0 0 64 32 0 0 0>;
-> >  	};
-> >  
-> > +	aon: aon {
-> > +		compatible = "thead,th1520-aon";
-> > +		mboxes = <&mbox_910t 1>;
-> > +		mbox-names = "aon";
-> > +		#power-domain-cells = <1>;
-> > +	};
-> > +
-> >  	soc {
-> >  		compatible = "simple-bus";
-> >  		interrupt-parent = <&plic>;
-> > -- 
-> > 2.34.1
-> > 
-> 
-> Reviewed-by: Drew Fustini <drew@pdp7.com>
-> 
-> I tested this on top of 6.15-rc1 and found no issues.
-> 
-> -Drew
+Add a new character string Panthor BO field, and a function that allows
+setting it from within the driver.
 
-I've applied to thead-dt-for-next:
-https://github.com/pdp7/linux/commit/2bae46e3de2a64fe3a619d61b16da0c01b8df2a1
+Driver takes care of freeing the string when it's replaced or no longer
+needed at object destruction time, but allocating it is the responsibility
+of callers.
 
-Michal - are there any other dts patches that I should consider for 6.16
-PR?  I would probably send to Arnd around 6.15-rc3 or 6.15-rc4.
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ drivers/gpu/drm/panthor/panthor_gem.c | 46 +++++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_gem.h | 17 ++++++++++
+ 2 files changed, 63 insertions(+)
 
-Thanks,
-Drew
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index 8244a4e6c2a2..8dd7fa63f1ff 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -2,6 +2,7 @@
+ /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+ /* Copyright 2023 Collabora ltd. */
+ 
++#include <linux/cleanup.h>
+ #include <linux/dma-buf.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/err.h>
+@@ -18,6 +19,14 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
+ 	struct panthor_gem_object *bo = to_panthor_bo(obj);
+ 	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
+ 
++	/*
++	 * Label might have been allocated with kstrdup_const(),
++	 * we need to take that into account when freeing the memory
++	 */
++	kfree_const(bo->label.str);
++
++	mutex_destroy(&bo->label.lock);
++
+ 	drm_gem_free_mmap_offset(&bo->base.base);
+ 	mutex_destroy(&bo->gpuva_list_lock);
+ 	drm_gem_shmem_free(&bo->base);
+@@ -196,6 +205,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+ 	obj->base.map_wc = !ptdev->coherent;
+ 	mutex_init(&obj->gpuva_list_lock);
+ 	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
++	mutex_init(&obj->label.lock);
+ 
+ 	return &obj->base.base;
+ }
+@@ -247,3 +257,39 @@ panthor_gem_create_with_handle(struct drm_file *file,
+ 
+ 	return ret;
+ }
++
++void
++panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
++{
++	struct panthor_gem_object *bo = to_panthor_bo(obj);
++	const char *old_label;
++
++	scoped_guard(mutex, &bo->label.lock) {
++		old_label = bo->label.str;
++		bo->label.str = label;
++	}
++
++	kfree_const(old_label);
++}
++
++void
++panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
++{
++	const char *str;
++
++	/* We should never attempt labelling a UM-exposed GEM object */
++	if (drm_WARN_ON(bo->obj->dev, bo->obj->handle_count > 0))
++		return;
++
++	if (!label)
++		return;
++
++	str = kstrdup_const(label, GFP_KERNEL);
++	if (!str) {
++		/* Failing to allocate memory for a label isn't a fatal condition */
++		drm_warn(bo->obj->dev, "Not enough memory to allocate BO label");
++		return;
++	}
++
++	panthor_gem_bo_set_label(bo->obj, str);
++}
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index 1a363bb814f4..af0d77338860 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -46,6 +46,20 @@ struct panthor_gem_object {
+ 
+ 	/** @flags: Combination of drm_panthor_bo_flags flags. */
+ 	u32 flags;
++
++	/**
++	 * @label: BO tagging fields. The label can be assigned within the
++	 * driver itself or through a specific IOCTL.
++	 */
++	struct {
++		/**
++		 * @label.str: Pointer to NULL-terminated string,
++		 */
++		const char *str;
++
++		/** @lock.str: Protects access to the @label.str field. */
++		struct mutex lock;
++	} label;
+ };
+ 
+ /**
+@@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
+ 			       struct panthor_vm *exclusive_vm,
+ 			       u64 *size, u32 flags, uint32_t *handle);
+ 
++void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
++void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
++
+ static inline u64
+ panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
+ {
+-- 
+2.48.1
+
