@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1405CA89A9F
+	by mail.lfdr.de (Postfix) with ESMTPS id CE629A89AA0
 	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:43:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4832C10E716;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B602810E719;
 	Tue, 15 Apr 2025 10:43:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EQVcrewv";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mmNU0FJS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D79210E714
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 10:43:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF72C10E716
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 10:43:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744713831;
- bh=YD60026WL3k4FmmPWIolDuElEEMITkE45BGSa78biW8=;
+ s=mail; t=1744713833;
+ bh=Pg07ZQ5O1zZruJB7CU8fb7Z/JkcoxQzI/w2C2S5S4bY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EQVcrewvmq4SRG9MEK5IrSZFatuu09MTjPzem6QLDRqx7WppZ8Yw2WU9Ud3ePtiNG
- 1/xPY08anGqAGWpsJqFV1d1c8hleBCAGoG14kUTusLlS36pbtyjsL3+Ih9kQk6kz7a
- VcQTqiG/weBtKsAOz1EOus0XEqSIKiqnAmzD5HX0li2Kgocnug0x60T7cr3uXJOelx
- kY9Rh/Ha8H4Vc+vPYsjA2ul1BTnEkLuGOU6waE3X/0PdDT5Dwt2zXMc8RMwLW7wrZv
- E0l42F0iBOzMmqfan3yqje1zzjBpBDWCnq1kx04EjykyS0VJIiOZ6Q0ZSnWZjGzLGm
- RV0ULpP6nInsg==
+ b=mmNU0FJSReqPM8dcPMU5RkFJpOYqbM8cxbYA32Oc7qPeK0tf+0hdWjX/sLC6bq323
+ Z7u2W3ZzyZNicUTFrj0v7mDdYUNiyaGGfSMTth3oqk2IFBrMx2mNXQq1BkJFJ2FURS
+ q5qZjZzOwWFUKMluU3l0QRinaiSPLxNPu0xSiQ4q5w63COJT0gPnwbIMvh4F8UiFsS
+ 3Eo4SlV6bTLwsbW+uLCf6hCEYxyVWopnQ97HyLi24/Zo3bsXxWjJ5mP9jA6KYs00ec
+ ngey1NgEmM3XfgX49kf1eIpxIhvU5qBEu6k3TQ6xaHtq+DMktktx4ADf5nwBlXPDC0
+ 6gFk6u5QZExBA==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2A91617E35E5;
- Tue, 15 Apr 2025 12:43:50 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id DC3C217E35EB;
+ Tue, 15 Apr 2025 12:43:51 +0200 (CEST)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -46,10 +46,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
  ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
  jason-jh.lin@mediatek.com
-Subject: [PATCH v9 13/23] drm/mediatek: mtk_hdmi: Move CEC device parsing in
- new function
-Date: Tue, 15 Apr 2025 12:43:11 +0200
-Message-ID: <20250415104321.51149-14-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v9 14/23] drm/mediatek: mtk_hdmi: Move output init to
+ mtk_hdmi_register_audio_driver()
+Date: Tue, 15 Apr 2025 12:43:12 +0200
+Message-ID: <20250415104321.51149-15-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250415104321.51149-1-angelogioacchino.delregno@collabora.com>
 References: <20250415104321.51149-1-angelogioacchino.delregno@collabora.com>
@@ -70,140 +70,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the CEC device parsing logic to a new function called
-mtk_hdmi_get_cec_dev(), and move the parsing action to the end
-of mtk_hdmi_dt_parse_pdata(), allowing to remove gotos in this
-function, reducing code size and improving readability.
+In preparation for moving the common bits of this driver, merge the
+contents of mtk_hdmi_output_init in mtk_hdmi_register_audio_driver
+function to aggregate all of the initial audio setup together in
+the same function and to make it clear that all of the setup that
+is performed in mtk_hdmi_output_init is specifically related only
+to audio and not video.
 
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 77 ++++++++++++++---------------
- 1 file changed, 36 insertions(+), 41 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 27 ++++++++-------------------
+ 1 file changed, 8 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index c05db0cbafcf..01584e7b1aad 100644
+index 01584e7b1aad..b4fbd2e60089 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1357,19 +1357,10 @@ static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
- 	.edid_read = mtk_hdmi_bridge_edid_read,
- };
- 
--static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
--				   struct platform_device *pdev)
-+static int mtk_hdmi_get_cec_dev(struct mtk_hdmi *hdmi, struct device *dev, struct device_node *np)
- {
--	struct device *dev = &pdev->dev;
--	struct device_node *np = dev->of_node;
--	struct device_node *remote, *i2c_np;
- 	struct platform_device *cec_pdev;
--	struct regmap *regmap;
--	int ret;
--
--	ret = mtk_hdmi_get_all_clk(hdmi, np);
--	if (ret)
--		return dev_err_probe(dev, ret, "Failed to get clocks\n");
-+	struct device_node *cec_np;
- 
- 	/* The CEC module handles HDMI hotplug detection */
- 	cec_np = of_get_compatible_child(np->parent, "mediatek,mt8173-cec");
-@@ -1384,62 +1375,66 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
- 		return -EPROBE_DEFER;
- 	}
- 	of_node_put(cec_np);
--	hdmi->cec_dev = &cec_pdev->dev;
- 
- 	/*
- 	 * The mediatek,syscon-hdmi property contains a phandle link to the
- 	 * MMSYS_CONFIG device and the register offset of the HDMI_SYS_CFG
- 	 * registers it contains.
- 	 */
--	regmap = syscon_regmap_lookup_by_phandle_args(np, "mediatek,syscon-hdmi",
--						      1, &hdmi->sys_offset);
--	if (IS_ERR(regmap)) {
--		ret = dev_err_probe(dev, PTR_ERR(regmap),
--				    "Failed to get system configuration registers\n");
--		goto put_device;
--	}
--	hdmi->sys_regmap = regmap;
-+	hdmi->sys_regmap = syscon_regmap_lookup_by_phandle_args(np, "mediatek,syscon-hdmi",
-+								1, &hdmi->sys_offset);
-+	if (IS_ERR(hdmi->sys_regmap))
-+		return dev_err_probe(dev, PTR_ERR(hdmi->sys_regmap),
-+				     "Failed to get system configuration registers\n");
-+
-+	hdmi->cec_dev = &cec_pdev->dev;
-+	return 0;
-+}
-+
-+static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
-+				   struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np = dev->of_node;
-+	struct device_node *remote, *i2c_np;
-+	int ret;
-+
-+	ret = mtk_hdmi_get_all_clk(hdmi, np);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get clocks\n");
- 
- 	hdmi->regs = device_node_to_regmap(dev->of_node);
--	if (IS_ERR(hdmi->regs)) {
--		ret = PTR_ERR(hdmi->regs);
--		goto put_device;
--	}
-+	if (IS_ERR(hdmi->regs))
-+		return PTR_ERR(hdmi->regs);
- 
- 	remote = of_graph_get_remote_node(np, 1, 0);
--	if (!remote) {
--		ret = -EINVAL;
--		goto put_device;
--	}
-+	if (!remote)
-+		return -EINVAL;
- 
- 	if (!of_device_is_compatible(remote, "hdmi-connector")) {
- 		hdmi->next_bridge = of_drm_find_bridge(remote);
- 		if (!hdmi->next_bridge) {
- 			dev_err(dev, "Waiting for external bridge\n");
- 			of_node_put(remote);
--			ret = -EPROBE_DEFER;
--			goto put_device;
-+			return -EPROBE_DEFER;
- 		}
- 	}
- 
- 	i2c_np = of_parse_phandle(remote, "ddc-i2c-bus", 0);
- 	of_node_put(remote);
--	if (!i2c_np) {
--		ret = dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
--		goto put_device;
--	}
-+	if (!i2c_np)
-+		return dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
- 
- 	hdmi->ddc_adpt = of_find_i2c_adapter_by_node(i2c_np);
- 	of_node_put(i2c_np);
--	if (!hdmi->ddc_adpt) {
--		ret = dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by node\n");
--		goto put_device;
--	}
-+	if (!hdmi->ddc_adpt)
-+		return dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by node\n");
-+
-+	ret = mtk_hdmi_get_cec_dev(hdmi, dev, np);
-+	if (ret)
-+		return ret;
- 
+@@ -1025,20 +1025,6 @@ static int mtk_hdmi_setup_vendor_specific_infoframe(struct mtk_hdmi *hdmi,
  	return 0;
--put_device:
--	put_device(hdmi->cec_dev);
--	return ret;
  }
  
- /*
+-static int mtk_hdmi_output_init(struct mtk_hdmi *hdmi)
+-{
+-	struct hdmi_audio_param *aud_param = &hdmi->aud_param;
+-
+-	aud_param->aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
+-	aud_param->aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
+-	aud_param->aud_input_type = HDMI_AUD_INPUT_I2S;
+-	aud_param->aud_i2s_fmt = HDMI_I2S_MODE_I2S_24BIT;
+-	aud_param->aud_mclk = HDMI_AUD_MCLK_128FS;
+-	aud_param->aud_input_chan_type = HDMI_AUD_CHAN_TYPE_2_0;
+-
+-	return 0;
+-}
+-
+ static void mtk_hdmi_audio_enable(struct mtk_hdmi *hdmi)
+ {
+ 	mtk_hdmi_hw_send_aud_packet(hdmi, true);
+@@ -1611,6 +1597,7 @@ static void mtk_hdmi_unregister_audio_driver(void *data)
+ static int mtk_hdmi_register_audio_driver(struct device *dev)
+ {
+ 	struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
++	struct hdmi_audio_param *aud_param = &hdmi->aud_param;
+ 	struct hdmi_codec_pdata codec_data = {
+ 		.ops = &mtk_hdmi_audio_codec_ops,
+ 		.max_i2s_channels = 2,
+@@ -1620,6 +1607,13 @@ static int mtk_hdmi_register_audio_driver(struct device *dev)
+ 	};
+ 	int ret;
+ 
++	aud_param->aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
++	aud_param->aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
++	aud_param->aud_input_type = HDMI_AUD_INPUT_I2S;
++	aud_param->aud_i2s_fmt = HDMI_I2S_MODE_I2S_24BIT;
++	aud_param->aud_mclk = HDMI_AUD_MCLK_128FS;
++	aud_param->aud_input_chan_type = HDMI_AUD_CHAN_TYPE_2_0;
++
+ 	hdmi->audio_pdev = platform_device_register_data(dev,
+ 							 HDMI_CODEC_DRV_NAME,
+ 							 PLATFORM_DEVID_AUTO,
+@@ -1661,11 +1655,6 @@ static int mtk_hdmi_probe(struct platform_device *pdev)
+ 	mutex_init(&hdmi->update_plugged_status_lock);
+ 	platform_set_drvdata(pdev, hdmi);
+ 
+-	ret = mtk_hdmi_output_init(hdmi);
+-	if (ret)
+-		return dev_err_probe(dev, ret,
+-				     "Failed to initialize hdmi output\n");
+-
+ 	ret = mtk_hdmi_register_audio_driver(dev);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret,
 -- 
 2.49.0
 
