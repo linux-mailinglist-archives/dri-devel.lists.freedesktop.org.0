@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3FDBA89F53
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 15:23:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0977EA89F55
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 15:24:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF14810E10A;
-	Tue, 15 Apr 2025 13:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 447AF10E78E;
+	Tue, 15 Apr 2025 13:23:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="wbTneSf0";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="oN8WMgVF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com
- [91.218.175.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FAC610E10A
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 13:23:38 +0000 (UTC)
-Message-ID: <73b7af40-92e4-420f-81f1-3cd41c4a6920@linux.dev>
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com
+ [95.215.58.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B75BD10E78E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 13:23:57 +0000 (UTC)
+Message-ID: <d2816b7c-f637-4603-b2cb-d33721325fbd@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1744723416;
+ t=1744723436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6+3VXbGj0V9Ezv8q+AT06eZN7LwpyfQrVtRO6evgNd4=;
- b=wbTneSf0te0y+CPrdj7NcTSVnzzmgQfpHYz86lU4OJ3C2NrH9hGo8mlPrHerH93pEx7jeL
- nLvf8bjiNPClJ9RWSfgcpTzAOC0sQ/zcMzglfSjz+9Dl+q75Khzqc3d7kktxS2SyPiR3Fk
- ICkGA7xR3vpHAKJlFAB5iNNnr7yZKRM=
-Date: Tue, 15 Apr 2025 18:53:27 +0530
+ bh=xx83AGFMQurtRu9wIIKYXJ5FYa6n70ce8rgr2WFuiFs=;
+ b=oN8WMgVFdaECJCVq2LYkHQbHspt1tKdLftewZUx25CxeqVnMd8uos7WRz7bbKV/T9890RX
+ PLdAAuJMfImxJozTXcLSkk2Uos+Aq2tguK4jg23EBugKM0N/50hYfnxcZOS+Xzl3xOveX9
+ //KxacX6SbgztjnbLjkz28xjGJskkkw=
+Date: Tue, 15 Apr 2025 18:53:45 +0530
 MIME-Version: 1.0
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: Re: [PATCH v3 10/17] drm/bridge: cdns-dsi: Update htotal in
- cdns_dsi_mode2cfg()
+Subject: Re: [PATCH v3 12/17] drm/bridge: cdns-dsi: Adjust mode to negative
+ syncs
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Jyri Sarha <jyri.sarha@iki.fi>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -49,9 +49,9 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>,
  Devarsh Thakkar <devarsht@ti.com>
 References: <20250414-cdns-dsi-impro-v3-0-4e52551d4f07@ideasonboard.com>
- <20250414-cdns-dsi-impro-v3-10-4e52551d4f07@ideasonboard.com>
+ <20250414-cdns-dsi-impro-v3-12-4e52551d4f07@ideasonboard.com>
 Content-Language: en-US
-In-Reply-To: <20250414-cdns-dsi-impro-v3-10-4e52551d4f07@ideasonboard.com>
+In-Reply-To: <20250414-cdns-dsi-impro-v3-12-4e52551d4f07@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -73,18 +73,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 14/04/25 16:41, Tomi Valkeinen wrote:
-> cdns_dsi_mode2cfg() calculates the dsi timings, but for some reason
-> doesn't set the htotal based on those timings. It is set only later, in
-> cdns_dsi_adjust_phy_config().
+> The Cadence DSI requires negative syncs from the incoming video signal,
+> but at the moment that requirement is not expressed in any way. If the
+> crtc decides to use positive syncs, things break down.
 > 
-> As cdns_dsi_mode2cfg() is the logical place to calculate it, let's move
-> it there. Especially as the following patch will remove
-> cdns_dsi_adjust_phy_config().
+> Use the adjusted_mode in atomic_check to set the sync flags to negative
+> ones.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
 
 Reviewed-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
