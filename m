@@ -2,53 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB7BA892AF
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 06:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B240A89982
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:08:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49E7010E34F;
-	Tue, 15 Apr 2025 04:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2646B10E6F7;
+	Tue, 15 Apr 2025 10:08:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="B1xYE04Z";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Mh3nOUXE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (unknown [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id DE93810E34F
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 04:00:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=HylZjV5hauLnNMJgjoU0Ktk/cYP5GO+ujr/E1VeMjtQ=; b=B
- 1xYE04ZXsvfeOgzuJR8d8y3epOcp1mUp20qHGWl1m12nmc+kj6c+SJVs0A4923Zz
- eYSZdtjDPll5hADrFDt7jpIwY8FWu2hZmOWzElb3lThz3pPBTEmbCUajVXe5i6Z+
- x/kk7xqT3OCn0aUDYTaq1O0raMMndh/AJT0HAVaw98=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-120 (Coremail) ; Tue, 15 Apr 2025 12:00:03 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Tue, 15 Apr 2025 12:00:03 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: airlied@gmail.com, simona@ffwll.ch, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
- "Sandy Huang" <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>
-Subject: Re:[PATCH 05/11] drm/rockchip: Test for imported buffers with
- drm_gem_is_imported()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250414134821.568225-5-tzimmermann@suse.de>
-References: <20250414134821.568225-5-tzimmermann@suse.de>
-X-NTES-SC: AL_Qu2fBvqTtk4r5SmbZ+kfmkcVgOw9UcO5v/Qk3oZXOJF8jDLp/j0HdmVSAWfk9OO0GyOzmgmGQhZw7+16UYtfUYcQTiX8nz33WuI3QsDkGeITPg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B686610E04C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 05:33:18 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-2264aefc45dso75916065ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Apr 2025 22:33:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744695198; x=1745299998; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FBhMwHga0x3nRhptcyGVnSToQtpMNuAQZDbsWtn01xg=;
+ b=Mh3nOUXEMVvbcN0EATmZ6VJHcmG4+1ztVM0wkWUGY3gORec7oAL5YT83Y31fG8whxc
+ zVEip/JFrtZqsrqlzDeiREq6PeRTjr0YkYwrFjvhLzIS61TQ0GdyRXDEghJqAPgWyofW
+ GUNEzdripLPqLff8V/2Z8S7hsGDWLaYWpVCr3/YP3oVPO6HaEvlgXMfAe5O2IHUjizIV
+ UX1J5JyKR5oyNzWa6eLnXROShA6sM5KVyBYy7SEXIGbAJReaPo7Kk0TyEvKdFlp7yTZd
+ FCJ2rjZTq2C+kD9/HaRoANvw3NPSu2QHZuMYfjn5Z8ngLRzy427TxTCkoisxg5ggVwwb
+ IyPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744695198; x=1745299998;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FBhMwHga0x3nRhptcyGVnSToQtpMNuAQZDbsWtn01xg=;
+ b=iE3yaYcgI3whLfOhGmVFKljzggf8TSp2AUU2RDJ/EWsO926t2OsG12uG9LhAZaBafN
+ lBrUDPggUF/P2zweJYM1Z92WmzCakQMcT3TnCde1qxJPj4XzUYeG1NQ0rhY1dB4Pk2A7
+ yBBM8lvz9eQcaFJl2155IKNrboJ08Txyn/kGuLgUeCd5vsEfngIt3dzitmSvbNJHLi0C
+ PmRVtQPXYQASgF9H8UZhZf4qeoYvt8JKZNtUvlWVrn4dpU2TKtFShtyBNTgdDSAtYoug
+ 5uvP+TLejiLUf6y+EySAcr4ZqAft36MPoIiH/BoW7tQy0R5bybI+B7AkF+4v0WAxLmeL
+ MSDw==
+X-Gm-Message-State: AOJu0YwyL10YTUetmU+x2iceSlwUsjUDgDKPK6XjGI1rp1GfMQWJHA23
+ Rh+fGN/wzfrngRGSNlxq3kSUe1X0wyf/KjOLf0XIrnyfHlW3BxzAFJwyjw==
+X-Gm-Gg: ASbGncv8wZRtfEzKRKzfPON/fp5qhAzfNxC8PPf/K4DKrl9xxryCS9wOPmGWpiqTp2V
+ Cyit+GMTbhIv3Zn3tbZVDrYHESkntIfVrhKXnTELhvhTacihEcPKBnyBvtIVXoKzsX31Hfcy2QT
+ cXzy72VBqdg77ncGSA9mlOqP2laZmWWO1H7IOn3UUlwxnyJLCw8BNFmTz2OAyPhDye2Ek5jER4y
+ QsCkTyHaGadl9QSHzCIFeEuQbTm/g0O8LM785QPj+qEFrEZVVWWtIX0vE5dh6ImDtwrHmmHU/d1
+ sBnkli1grCBBAfYfiIZMy7UH9HdYOBr0jAATaMZxv6CFkHPKWGqUrQl5SZYIzQXQ9osSbA==
+X-Google-Smtp-Source: AGHT+IGxIhjrOUkfYOGoYjFcnCjRmkS4l3dK/X0mr1jKU4n8z7JTNveQjMzDo1cKGwotnzipQtk/yg==
+X-Received: by 2002:a17:902:db0e:b0:224:23be:c569 with SMTP id
+ d9443c01a7336-22bea4adf49mr227161555ad.22.1744695197836; 
+ Mon, 14 Apr 2025 22:33:17 -0700 (PDT)
+Received: from localhost.localdomain ([2601:647:4d7f:5948:ac16:97d3:9b61:658])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-22ac7b65a88sm108885935ad.37.2025.04.14.22.33.16
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 14 Apr 2025 22:33:17 -0700 (PDT)
+From: Russell Cloran <rcloran@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Russell Cloran <rcloran@gmail.com>
+Subject: [PATCH] drm/mipi-dbi: Fix blanking for non-16 bit formats
+Date: Mon, 14 Apr 2025 22:32:59 -0700
+Message-Id: <20250415053259.79572-1-rcloran@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 MIME-Version: 1.0
-Message-ID: <38d09d34.4354.196379aa560.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: eCgvCgAXPPPE2f1nwDyXAA--.38685W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hIwXmf92TENNAABsk
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 15 Apr 2025 10:08:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,29 +83,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpIaSBUaG9tYXPvvIwKCkF0IDIwMjUtMDQtMTQgMjE6NDg6MTIsICJUaG9tYXMgWmltbWVybWFu
-biIgPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+SW5zdGVhZCBvZiB0ZXN0aW5nIGltcG9y
-dF9hdHRhY2ggZm9yIGltcG9ydGVkIEdFTSBidWZmZXJzLCBpbnZva2UKPmRybV9nZW1faXNfaW1w
-b3J0ZWQoKSB0byBkbyB0aGUgdGVzdC4gVGhlIGhlbHBlciB0ZXN0cyB0aGUgZG1hX2J1Zgo+aXRz
-ZWxmIHdoaWxlIGltcG9ydF9hdHRhY2ggaXMganVzdCBhbiBhcnRpZmFjdCBvZiB0aGUgaW1wb3J0
-LiBQcmVwYXJlcwo+dG8gbWFrZSBpbXBvcnRfYXR0YWNoIG9wdGlvbmFsLgo+Cj5TaWduZWQtb2Zm
-LWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPkNjOiBTYW5keSBI
-dWFuZyA8aGpjQHJvY2stY2hpcHMuY29tPgo+Q2M6ICJIZWlrbyBTdMO8Ym5lciIgPGhlaWtvQHNu
-dGVjaC5kZT4KPkNjOiBBbmR5IFlhbiA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj4tLS0KPiBk
-cml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2dlbS5jIHwgMiArLQo+IDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+Cj5kaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYyBiL2RyaXZlcnMvZ3B1
-L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMKPmluZGV4IDYzMzBiODgzZWZjMy4uZTQ0
-Mzk2ZDQ2ZGMxIDEwMDY0NAo+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlw
-X2RybV9nZW0uYwo+KysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9n
-ZW0uYwo+QEAgLTMzMiw3ICszMzIsNyBAQCB2b2lkIHJvY2tjaGlwX2dlbV9mcmVlX29iamVjdChz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikKPiAJc3RydWN0IHJvY2tjaGlwX2RybV9wcml2YXRl
-ICpwcml2YXRlID0gZHJtLT5kZXZfcHJpdmF0ZTsKPiAJc3RydWN0IHJvY2tjaGlwX2dlbV9vYmpl
-Y3QgKnJrX29iaiA9IHRvX3JvY2tjaGlwX29iaihvYmopOwo+IAo+LQlpZiAob2JqLT5pbXBvcnRf
-YXR0YWNoKSB7Cj4rCWlmIChkcm1fZ2VtX2lzX2ltcG9ydGVkKG9iaikpIHsKCgpBZnRlciBhcHBs
-eWluZyB0aGlzIHBhdGNoLCB3aGVuIEkgdGVzdGVkIGdsbWFyazItZXMyLXdheWxhbmQgdW5kZXIg
-V2VzdG9uLCB0aGUgd2VzdG9uIHdvdWxkIGZyZWV6ZS4KSXQgc2VlbXMgaXQgZ290byB0aGUgZWxz
-ZSBwYXRoLgoKIEknbSBzdGlsbCBjb25kdWN0aW5nIGZ1cnRoZXIgYW5hbHlzaXMgdG8gZmlndXJl
-IG91dCB0aGUgZXhhY3QgY2F1c2UuCgo+IAkJaWYgKHByaXZhdGUtPmRvbWFpbikgewo+IAkJCXJv
-Y2tjaGlwX2dlbV9pb21tdV91bm1hcChya19vYmopOwo+IAkJfSBlbHNlIHsKPi0tIAo+Mi40OS4w
-Cg==
+On r6x2b6x2g6x2 displays not enough blank data is sent to blank the
+entire screen. When support for these displays was added, the dirty
+function was updated to handle the different amount of data, but
+blanking was not, and remained hardcoded as 2 bytes per pixel.
+
+This change applies almost the same algorithm used in the dirty function
+to the blank function, but there is no fb available at that point, and
+no concern about having to transform any data, so the dbidev pixel
+format is always used for calculating the length.
+
+Fixes: 4aebb79021f3 ("drm/mipi-dbi: Add support for DRM_FORMAT_RGB888")
+Signed-off-by: Russell Cloran <rcloran@gmail.com>
+---
+ drivers/gpu/drm/drm_mipi_dbi.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index 89e05a5bed1de..a4cd476f9b302 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -404,12 +404,16 @@ static void mipi_dbi_blank(struct mipi_dbi_dev *dbidev)
+ 	u16 height = drm->mode_config.min_height;
+ 	u16 width = drm->mode_config.min_width;
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+-	size_t len = width * height * 2;
++	const struct drm_format_info *dst_format;
++	size_t len;
+ 	int idx;
+ 
+ 	if (!drm_dev_enter(drm, &idx))
+ 		return;
+ 
++	dst_format = drm_format_info(dbidev->pixel_format);
++	len = drm_format_info_min_pitch(dst_format, 0, width) * height;
++
+ 	memset(dbidev->tx_buf, 0, len);
+ 
+ 	mipi_dbi_set_window_address(dbidev, 0, width - 1, 0, height - 1);
