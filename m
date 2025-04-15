@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B5DA89E87
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3CDCA89E8B
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:48:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7EF410E77A;
-	Tue, 15 Apr 2025 12:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A7510E100;
+	Tue, 15 Apr 2025 12:48:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="A1dsYZt2";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UnMhwj61";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DED7710E77A
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:47:38 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7B8F443B10;
- Tue, 15 Apr 2025 12:47:36 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD7C10E100
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:48:07 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C999943A0C;
+ Tue, 15 Apr 2025 12:48:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744721257;
+ t=1744721286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CR77hhjvg8b36xm+9nFR179moy1ZekzWZl1juxtEIZI=;
- b=A1dsYZt2SiQv3FoWSbx/Do7Av5GQJaSRFAAi0eCTo9LiAqaLiOZ7bT9JIZ3L3aoyC+Y9QI
- p5sNDrM9C+7pA+1LV3xKuX8vN4LSzEPJMsrlIjB15DubI+wmbFj5XQroYrLDlzlD52buc4
- 1Pv2TBwXlUlGC2KHPWyBtzGOq0V3eO0ek3hDkNY936L80YOq92ZlvpvGBoJ/ZLYYVKrdvh
- gJkSSf5AYyDG4D/I9Wmzwipx6j/Piceg0ksQJLntbtG8c+K6MCn62sQLVv9KjQvHZ6NHIM
- 7tXqLFaW1J+RDdvZqAP+pDRGFrPQIhgbb1BMujA78mXSEyaH58JmsPJOOqjXBQ==
-Message-ID: <c9935c0c-b173-4914-9976-e583de9f2a47@bootlin.com>
-Date: Tue, 15 Apr 2025 14:47:36 +0200
+ bh=NBTAN6u16sCml/bPZVMxPyD0/J+1qZXfy9mfbzxczWQ=;
+ b=UnMhwj61u1MR2FS8bGkFmkPzvx+5iOKmqapx0OGMjNGEmhzcAZ+iYvx/lBRjuEDwG5AeTr
+ sY4mUN2ot/JBTeXAsY5iVtotwy4RNxHP5ThQja0gKnrIuYdb+1Z+/UBhCkccKaRsilzLqY
+ Lt6/xkw0PDmUS3Gv1EtyDE6TmEYOAMzExFCwu3KE+tp3+MFyvRqf7/YD9HtbnvP1HP5qyK
+ jNwqUB9X8EmR3NqJSCxfoD8QLQ1z+YQ8SZHu5sw/uDE5VSD30v7aHJGbC9fwJROe1DnH5h
+ Ddq666eXdfjbAw4YWbGXLIDDyo5ukP6587Qf7M8lsjqzMn9CsU2IvBt7n1MOEA==
+Message-ID: <7480ebe0-30ac-4ef5-8c13-6e3ac0c57193@bootlin.com>
+Date: Tue, 15 Apr 2025 14:48:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 14/16] drm/vkms: Allow to configure connector status
+Subject: Re: [PATCH v4 15/16] drm/vkms: Allow to update the connector status
 To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250407081425.6420-1-jose.exposito89@gmail.com>
- <20250407081425.6420-15-jose.exposito89@gmail.com>
+ <20250407081425.6420-16-jose.exposito89@gmail.com>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -98,7 +98,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250407081425.6420-15-jose.exposito89@gmail.com>
+In-Reply-To: <20250407081425.6420-16-jose.exposito89@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
@@ -124,148 +124,74 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 07/04/2025 à 10:14, José Expósito a écrit :
-> Allow to store the connector status in vkms_config_connector and add a
-> getter and a setter functions as well a KUnit test.
-> 
-> This change only adds the configuration, the connector status is not
-> used yet.
+> Implement the drm_connector_funcs.detect() callback to update the
+> connector status by returning the status stored in the configuration.
 > 
 > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   drivers/gpu/drm/vkms/tests/vkms_config_test.c | 24 +++++++++++++++++
->   drivers/gpu/drm/vkms/vkms_config.c            |  8 ++++--
->   drivers/gpu/drm/vkms/vkms_config.h            | 26 +++++++++++++++++++
->   3 files changed, 56 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/vkms/vkms_connector.c | 28 +++++++++++++++++++++++++++
+>   drivers/gpu/drm/vkms/vkms_connector.h |  3 +++
+>   2 files changed, 31 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> index ff4566cf9925..3574a829a6ed 100644
-> --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> @@ -916,6 +916,29 @@ static void vkms_config_test_connector_get_possible_encoders(struct kunit *test)
->   	vkms_config_destroy(config);
->   }
+> diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
+> index 48b10cba322a..89fa8d9d739b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_connector.c
+> +++ b/drivers/gpu/drm/vkms/vkms_connector.c
+> @@ -5,9 +5,37 @@
+>   #include <drm/drm_managed.h>
+>   #include <drm/drm_probe_helper.h>
 >   
-> +static void vkms_config_test_connector_status(struct kunit *test)
+> +#include "vkms_config.h"
+>   #include "vkms_connector.h"
+>   
+> +static enum drm_connector_status vkms_connector_detect(struct drm_connector *connector,
+> +						       bool force)
 > +{
-> +	struct vkms_config *config;
-> +	struct vkms_config_connector *connector_cfg;
+> +	struct drm_device *dev = connector->dev;
+> +	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+> +	struct vkms_connector *vkms_connector;
 > +	enum drm_connector_status status;
+> +	struct vkms_config_connector *connector_cfg;
 > +
-> +	config = vkms_config_create("test");
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
+> +	vkms_connector = drm_connector_to_vkms_connector(connector);
 > +
-> +	connector_cfg = vkms_config_create_connector(config);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg);
+> +	/*
+> +	 * The connector configuration might not exist if its configfs directory
+> +	 * was deleted. Therefore, use the configuration if present or keep the
+> +	 * current status if we can not access it anymore.
+> +	 */
+> +	status = connector->status;
 > +
-> +	status = vkms_config_connector_get_status(connector_cfg);
-> +	KUNIT_EXPECT_EQ(test, status, connector_status_connected);
+> +	vkms_config_for_each_connector(vkmsdev->config, connector_cfg) {
+> +		if (connector_cfg->connector == vkms_connector)
+> +			status = vkms_config_connector_get_status(connector_cfg);
+> +	}
 > +
-> +	vkms_config_connector_set_status(connector_cfg,
-> +					 connector_status_disconnected);
-> +	status = vkms_config_connector_get_status(connector_cfg);
-> +	KUNIT_EXPECT_EQ(test, status, connector_status_disconnected);
-> +
-> +	vkms_config_destroy(config);
+> +	return status;
 > +}
 > +
->   static struct kunit_case vkms_config_test_cases[] = {
->   	KUNIT_CASE(vkms_config_test_empty_config),
->   	KUNIT_CASE_PARAM(vkms_config_test_default_config,
-> @@ -937,6 +960,7 @@ static struct kunit_case vkms_config_test_cases[] = {
->   	KUNIT_CASE(vkms_config_test_plane_get_possible_crtcs),
->   	KUNIT_CASE(vkms_config_test_encoder_get_possible_crtcs),
->   	KUNIT_CASE(vkms_config_test_connector_get_possible_encoders),
-> +	KUNIT_CASE(vkms_config_test_connector_status),
->   	{}
->   };
+>   static const struct drm_connector_funcs vkms_connector_funcs = {
+> +	.detect = vkms_connector_detect,
+>   	.fill_modes = drm_helper_probe_single_connector_modes,
+>   	.reset = drm_atomic_helper_connector_reset,
+>   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> diff --git a/drivers/gpu/drm/vkms/vkms_connector.h b/drivers/gpu/drm/vkms/vkms_connector.h
+> index c9149c1b7af0..90f835f70b3b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_connector.h
+> +++ b/drivers/gpu/drm/vkms/vkms_connector.h
+> @@ -5,6 +5,9 @@
 >   
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-> index a1df5659b0fb..f8394a063ecf 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.c
-> +++ b/drivers/gpu/drm/vkms/vkms_config.c
-> @@ -361,8 +361,11 @@ static int vkms_config_show(struct seq_file *m, void *data)
->   	vkms_config_for_each_encoder(vkmsdev->config, encoder_cfg)
->   		seq_puts(m, "encoder\n");
->   
-> -	vkms_config_for_each_connector(vkmsdev->config, connector_cfg)
-> -		seq_puts(m, "connector\n");
-> +	vkms_config_for_each_connector(vkmsdev->config, connector_cfg) {
-> +		seq_puts(m, "connector:\n");
-> +		seq_printf(m, "\tstatus=%d\n",
-> +			   vkms_config_connector_get_status(connector_cfg));
-> +	}
->   
->   	return 0;
->   }
-> @@ -588,6 +591,7 @@ struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *c
->   		return ERR_PTR(-ENOMEM);
->   
->   	connector_cfg->config = config;
-> +	connector_cfg->status = connector_status_connected;
->   	xa_init_flags(&connector_cfg->possible_encoders, XA_FLAGS_ALLOC);
->   
->   	list_add_tail(&connector_cfg->link, &config->connectors);
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-> index 0118e3f99706..e202b5a84ddd 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.h
-> +++ b/drivers/gpu/drm/vkms/vkms_config.h
-> @@ -7,6 +7,8 @@
->   #include <linux/types.h>
->   #include <linux/xarray.h>
->   
-> +#include <drm/drm_connector.h>
-> +
 >   #include "vkms_drv.h"
 >   
+> +#define drm_connector_to_vkms_connector(target) \
+> +	container_of(target, struct vkms_connector, base)
+> +
 >   /**
-> @@ -99,6 +101,7 @@ struct vkms_config_encoder {
+>    * struct vkms_connector - VKMS custom type wrapping around the DRM connector
 >    *
->    * @link: Link to the others connector in vkms_config
->    * @config: The vkms_config this connector belongs to
-> + * @status: Status (connected, disconnected...) of the connector
->    * @possible_encoders: Array of encoders that can be used with this connector
->    * @connector: Internal usage. This pointer should never be considered as valid.
->    *             It can be used to store a temporary reference to a VKMS connector
-> @@ -109,6 +112,7 @@ struct vkms_config_connector {
->   	struct list_head link;
->   	struct vkms_config *config;
->   
-> +	enum drm_connector_status status;
->   	struct xarray possible_encoders;
->   
->   	/* Internal usage */
-> @@ -434,4 +438,26 @@ int __must_check vkms_config_connector_attach_encoder(struct vkms_config_connect
->   void vkms_config_connector_detach_encoder(struct vkms_config_connector *connector_cfg,
->   					  struct vkms_config_encoder *encoder_cfg);
->   
-> +/**
-> + * vkms_config_connector_get_status() - Return the status of the connector
-> + * @connector_cfg: Connector to get the status from
-> + */
-> +static inline enum drm_connector_status
-> +vkms_config_connector_get_status(struct vkms_config_connector *connector_cfg)
-> +{
-> +	return connector_cfg->status;
-> +}
-> +
-> +/**
-> + * vkms_config_crtc_set_writeback() - If a writeback connector will be created
-> + * @crtc_cfg: Target CRTC
-> + * @writeback: Enable or disable the writeback connector
-> + */
-> +static inline void
-> +vkms_config_connector_set_status(struct vkms_config_connector *connector_cfg,
-> +				 enum drm_connector_status status)
-> +{
-> +	connector_cfg->status = status;
-> +}
-> +
->   #endif /* _VKMS_CONFIG_H_ */
-
-I think we should have a way to fire a hot
 
 -- 
 Louis Chauvet, Bootlin
