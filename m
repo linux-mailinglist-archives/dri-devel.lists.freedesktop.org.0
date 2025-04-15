@@ -2,135 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D5AA89E91
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E367DA89E93
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3C810E77D;
-	Tue, 15 Apr 2025 12:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E6C910E77E;
+	Tue, 15 Apr 2025 12:51:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="R8bG9lHN";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sAJwcvdN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E270510E77D
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:50:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744721433;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=c5aGJd6gGys4y4yhW/3sEXMhbTbG/RttbuWB1PxTwu8=;
- b=R8bG9lHNkC+rhtEz7F/QEXWHLnFzl16D3KJdpvhxS7wKxjexm+e57RNclBGvnRLb+QI3vK
- uv9/HIeslT4GV87Z0SO6e+Y1U4bXznxppPpcQnXCuhMvTB3QsFO1Jq+C01+sv6z3vbysVs
- MgfX3WEwylU3A+XWyzxFxBP5pNCRzpo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-646-0VoPaFarM-a8p6lEujFuPg-1; Tue, 15 Apr 2025 08:50:30 -0400
-X-MC-Unique: 0VoPaFarM-a8p6lEujFuPg-1
-X-Mimecast-MFC-AGG-ID: 0VoPaFarM-a8p6lEujFuPg_1744721429
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43ceb011ea5so32605705e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 05:50:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744721429; x=1745326229;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=c5aGJd6gGys4y4yhW/3sEXMhbTbG/RttbuWB1PxTwu8=;
- b=hM9/2jOp9yZE9584OKtI2vpl/bfbshoieXa6dED1dq+Z3C7cWvVibu+usTCytnHE85
- gyC6ZoI9YAW15nF+0afmlZ2Vlji484livsZoXXL3vCR+BxyIp82tSjKTDZrlbMFze5cP
- 72g91ryt8jfhs51+BH9cDXQR2wQfS/JCsj06OhWNRsXrGFRpxBZhVAFBBfBJHy/guNzq
- ZThafpiTnJzsnyx8cGgnZiOuljHKOPM9PwCNBuBH3DCjq2wTXIEXu5CaK8s3uCsuTISN
- ZaJTDCdMctEt422hceUZ+iQVHY7fzm3D27v7hJ0QyNQcdX5mG+I3vfb9KQNAASURVgxN
- fVhQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVUPSJcP8CAns9jLGJ5zmwmPTze+J4NtpwkK1QgndpmWpn2PLyfS0rXRaOg0CSgj8BomQFyPC/B+oA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyYJJ5I2EttNcThOwZZFEiLqijIZq1KBSdA6Xvd820ksVxNbybU
- fFR26blUX0HANaujxAzDnRgZ7ecjcsw6Uv034CxGBPfXBH9iLRw/LuP6HyfduZd3TEcwwir6FWF
- KkPFdSwKyf80zQHDcm1vUEXS1whUQttZ0cgIT90aV4tvuQJKtgNpgy2tmltJV+rNAVQ==
-X-Gm-Gg: ASbGncv+QN/+VnA6GJP8hReB2dl1EoYpfMgO2udHZaiZYN/ljGH4U39AO2aupMhEd2G
- PAxDCib9f8/nsXmtgx8a0vCfzYqMOojRL0amBlm9I3Pp6vaL9Kz3VEyP0SBSnme3lZOLPRU4Q6M
- 2tH9eUPKzIK12RqYjorQFisyj5Z1h22MtZF3xFAGg1TUD7Z6kJ2dwuV1odnBCFunrKvf7pggANa
- MYPZW4Pp+MJ+yjrqJT2ouujtIzEDEIg4ZOJzGsTgZOyoyvJzrdIJs9JpS+660ESyxzYtUC12yic
- vGvqlEeSscUQEpL0
-X-Received: by 2002:a05:600c:1c03:b0:43d:8ea:8d80 with SMTP id
- 5b1f17b1804b1-43f3a927654mr121649015e9.5.1744721428668; 
- Tue, 15 Apr 2025 05:50:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFj25pgSIsqBjfz6Y9sBggCmIl9HsWKNdepNwC3fzn1uQR3G6mU8S+L8arQ4hueY0XNNLoU1A==
-X-Received: by 2002:a05:600c:1c03:b0:43d:8ea:8d80 with SMTP id
- 5b1f17b1804b1-43f3a927654mr121648805e9.5.1744721428360; 
- Tue, 15 Apr 2025 05:50:28 -0700 (PDT)
-Received: from [192.168.10.48] ([176.206.109.83])
- by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43f23572c43sm213085085e9.25.2025.04.15.05.50.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Apr 2025 05:50:27 -0700 (PDT)
-Message-ID: <5e0754a2-ba4e-454b-99cb-57c4ae99d020@redhat.com>
-Date: Tue, 15 Apr 2025 14:50:26 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16DB210E77E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:50:59 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B8A4594;
+ Tue, 15 Apr 2025 14:48:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1744721329;
+ bh=Mursr+mXRJ61S7yZTZIMA8wv9y94Iw6ktDfq/wtIO28=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=sAJwcvdN6H3p7ZNyMVNJsec5yIw9MV49F/NPqqsmUz/B9Xr3PG2UhiaFLc6CILt4Q
+ cR924VICbMCrsZtv8IXVPvnzxHx9offN/D7YZa7RITyYbCJq3pf90wVhi/JYDeFry9
+ XTjsWrkPI5rb9exJKj2kp8cRuXofVHXGoHb6Mmi0=
+Message-ID: <c0b2e2cb-eb31-4b49-a28b-295c0389de89@ideasonboard.com>
+Date: Tue, 15 Apr 2025 15:50:46 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: `u64` by `u64` div/mod in DRM QR for arm32
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- "Russell King (Oracle)" <linux@armlinux.org.uk>,
- Christian Schrefl <chrisi.schrefl@gmail.com>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>,
- rust-for-linux <rust-for-linux@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linus Walleij <linus.walleij@linaro.org>
-References: <CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com>
- <38867e79-c0e3-4bcd-bdf9-3fb5b571d51e@gmail.com>
- <Z_1mEHnzYjhz0Ldz@shell.armlinux.org.uk>
- <1a03b57c-1b5f-405a-a22a-89cc82138c55@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Autocrypt: addr=pbonzini@redhat.com; keydata=
- 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
-In-Reply-To: <1a03b57c-1b5f-405a-a22a-89cc82138c55@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: -V8M6MnHYHJdJQklogRr46xZj1kwSwRNDI7rkyse-Lw_1744721429
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v3 1/2] dt-bindings: drm/bridge: Add no-hpd property
+To: Doug Anderson <dianders@chromium.org>
+Cc: Dmitry Baryshkov <lumag@kernel.org>, Harikrishna Shenoy
+ <a0512644@ti.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Harikrishna Shenoy <h-shenoy@ti.com>,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ jani.nikula@intel.com, j-choudhary@ti.com, sui.jingfeng@linux.dev,
+ viro@zeniv.linux.org.uk, r-ravikumar@ti.com, sjakhade@cadence.com,
+ yamonkar@cadence.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250205115025.3133487-1-h-shenoy@ti.com>
+ <20250205115025.3133487-2-h-shenoy@ti.com>
+ <efd89cf8-2f83-44fd-8bdf-aa348d4d9659@kernel.org>
+ <h24gpx6cxm4s6gzcunjnswubtvqask5dewi3udulmntsuieklm@w3pw4ig3t7gm>
+ <de0cb22d-d251-4b0b-8fc7-e8b5a891a527@ti.com>
+ <vfg6hlkzmqahbswgyctzuuzcdm2aend6wmo3uci4qs74jasjtc@3hlox276hazj>
+ <673e79bc-53c9-4772-ad18-8c00e4036905@ideasonboard.com>
+ <CAD=FV=W45V-AZdbo4MBfZ-A9M4vf42Lda82s8iUoW5azVwM0hA@mail.gmail.com>
 Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <CAD=FV=W45V-AZdbo4MBfZ-A9M4vf42Lda82s8iUoW5azVwM0hA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,94 +116,227 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/15/25 11:14, Jocelyn Falempe wrote:
-> For this case, the u64 divisor "pow" is a power of 10, so can have only 
-> a limited number of values. (17, and 9 of them can be used as u32).
-> Normally when the divisor is known at build time the compiler can 
-> replace the division by a multiplication and some bit shift.
+Hi,
+
+On 18/03/2025 21:51, Doug Anderson wrote:
+> Hi,
 > 
-> so for 32bits machine, the match can be rewritten with constants, a bit 
-> like this:
+> On Tue, Mar 18, 2025 at 8:50 AM Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+>>
+>> Hi,
+>>
+>> On 12/03/2025 14:52, Dmitry Baryshkov wrote:
+>>> On Wed, Mar 12, 2025 at 11:56:41AM +0530, Harikrishna Shenoy wrote:
+>>>>
+>>>>
+>>>> On 05/02/25 19:03, Dmitry Baryshkov wrote:
+>>>>> On Wed, Feb 05, 2025 at 12:52:52PM +0100, Krzysztof Kozlowski wrote:
+>>>>>> On 05/02/2025 12:50, Harikrishna Shenoy wrote:
+>>>>>>> From: Rahul T R <r-ravikumar@ti.com>
+>>>>>>>
+>>>>>>> The mhdp bridge can work without its HPD pin hooked up to the connector,
+>>>>>>> but the current bridge driver throws an error when hpd line is not
+>>>>>>> connected to the connector. For such cases, we need an indication for
+>>>>>>> no-hpd, using which we can bypass the hpd detection and instead use the
+>>>>>>> auxiliary channels connected to the DP connector to confirm the
+>>>>>>> connection.
+>>>>>>> So add no-hpd property to the bindings, to disable hpd when not
+>>>>>>> connected or unusable due to DP0-HPD not connected to correct HPD
+>>>>>>> pin on SOC like in case of J721S2.
+>>>>>>>
+>>>>>>> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+>>>>>>
+>>>>>> Why are you sending over and over the same? You already got feedback.
+>>>>>> Then you send v2. You got the same feedback.
+>>>>>>
+>>>>>> Now you send v3?
+>>>>>>
+>>>>>> So the same feedback, but this time: NAK
+> 
+> I only spent a few minutes on it, but I couldn't find a v2. If there's
+> a link I'm happy to read it, but otherwise all my comments below are
+> without any context from prior verisons...
 
-If you add bindings to mul_u64_u64_shr from include/linux/math64.h, you 
-can include the constants yourself:
+There was a link in the intro letter, although it seems to point to a 
+reply to the v2 thread... Here's v2 intro letter:
 
-pub struct MagicMul {
-     mult: u64,
-     shift: u32,
-}
+https://lore.kernel.org/all/20230405142440.191939-1-j-choudhary@ti.com/
 
-// Computed using the algorithm from Hacker's Delight, 2nd ed.
-const DIV10: [MagicMul; 19] = [
-     MagicMul { mult: 0x1, shift: 0 },
-     MagicMul { mult: 0x6666666666666667u64, shift: 66 },
-     MagicMul { mult: 0xA3D70A3D70A3D70Bu64, shift: 70 },
-     MagicMul { mult: 0x20C49BA5E353F7CFu64, shift: 71 },
-     MagicMul { mult: 0x346DC5D63886594Bu64, shift: 75 },
-     MagicMul { mult: 0x29F16B11C6D1E109u64, shift: 78 },
-     MagicMul { mult: 0x431BDE82D7B634DBu64, shift: 82 },
-     MagicMul { mult: 0xD6BF94D5E57A42BDu64, shift: 87 },
-     MagicMul { mult: 0x55E63B88C230E77Fu64, shift: 89 },
-     MagicMul { mult: 0x112E0BE826D694B3u64, shift: 90 },
-     MagicMul { mult: 0x036F9BFB3AF7B757u64, shift: 91 },
-     MagicMul { mult: 0x00AFEBFF0BCB24ABu64, shift: 92 },
-     MagicMul { mult: 0x232F33025BD42233u64, shift: 101 },
-     MagicMul { mult: 0x384B84D092ED0385u64, shift: 105 },
-     MagicMul { mult: 0x0B424DC35095CD81u64, shift: 106 },
-     MagicMul { mult: 0x480EBE7B9D58566Du64, shift: 112 },
-     MagicMul { mult: 0x39A5652FB1137857u64, shift: 115 },
-     MagicMul { mult: 0x5C3BD5191B525A25u64, shift: 119 },
-     MagicMul { mult: 0x12725DD1D243ABA1u64, shift: 120 },
-];
+>>>>> Krzysztof's email forced me to take a look at the actual boards that you
+>>>>> are trying to enable. I couldn't stop by notice that the HPD signal
+>>>>> _is_ connected to a GPIO pin. Please stop hacking the bridge driver and
+>>>>> use the tools that are already provided to you: add the HPD pin to the
+>>>>> dp-controller device node. And then fix any possible issues coming from
+>>>>> the bridge driver not being able to handle HPD signals being delivered
+>>>>> by the DRM framework via the .hpd_notify() callback.
+>>>>>
+>>>>> TL;DR: also a NAK from my side, add HPD gpio to dp-controller.
+>>>>>
+>>>> We tried implementing a interrupt based HPD functionality as HPD signal is
+>>>> connected to GPIO0_18 pin, we were able to get interrupt based HPD working
+>>>> however to route this signal to SoC we are loosing audio capability due to
+>>>> MUX conflict. Due to board level limitations to
+>>>> route the signal to SoC, we will not be able to support interrupt
+>>>> based HPD and polling seems a possible way without loosing on audio
+>>>> capability.
+>>>
+>>> Still NAK for the no-hpd property. HPD pin is a requirement for
+>>> DisplayPort to work, as it is used e.g. for the 'attention' IRQs being
+>>> sent by the DP sink. I'm not sure what kind of idea you HW engineers had
+>>> in mind.
+>>
+>> It's true that for normal DP functionality the HPD is required, but
+>> afaik DP works "fine" without HPD too. This is not the first board that
+>> has DP connector, but doesn't have HPD, that I have seen or worked on.
+>> Polling can be used for the IRQs too.
+> 
+> I have less familiarity with DP than with eDP, but from what I know
+> I'd agree with Tomi here that it would probably work "fine" by some
+> definition of "fine". As Dmitry says, the "attention" IRQ wouldn't
+> work, but as I understand it that's not really part of the normal flow
+> of using DP. As evidence, some people have made "ti-sn65dsi86" (which
+> is supposed to be for eDP only) work with DP. While the ti-sn65dsi86
+> hardware _does_ support HPD, because of the forced (slow) debouncing
+> it turned out not to be terribly useful for eDP and we designed our
+> boards to route HPD to a GPIO. ...and because of that nobody ever
+> wrote the code to handle the "attention" IRQ. Apparently people are
+> still using this bridge w/ some success on DP monitors.
+> 
+> 
+>> For eDP HPD is optional, and some of the cases I've worked with involved
+>> a chip intended for eDP, but used with a full DP connector, and no HPD.
+> 
+> I definitely agree. The eDP spec explicitly states that HPD is
+> optional even though it's also documented to be an "attention" IRQ
+> there. We've hooked up large numbers of eDP panels and the lack of the
+> attention IRQ wasn't a problem.
+> 
+> 
+>> However, in this particular case the DP chip supports full DP, so it's
+>> just a board design error.
+>>
+>> My question is, is J721s2 EVM something that's used widely? Or is it a
+>> rare board? If it's a rare one, maybe there's no point in solving this
+>> in upstream? But if it's widely used, I don't see why we wouldn't
+>> support it in upstream. The HW is broken, but we need to live with it.
+>>
+>> Another question is, if eDP support is added to the cdns-mhdp driver,
+>> and used with a panel that doesn't have an HPD, how would that code look
+>> like? If that would be solved with a "no-hpd" property, identical to the
+>> one proposed in this series, then... There's even less reason to not
+>> support this.
+>>
+>> Disclaimer: I didn't study the schematics, and I haven't thought or
+>> looked at how eDP is implemented in other drm drivers.
+> 
+> I spent lots of time working through this on ti-sn65dsi86. How it
+> works today (and how it's documented in the bindings) is that it's
+> possible to specify "no-hpd" on both the eDP panel node and on the
+> bridge chip. They mean different things.
 
-const fn div10(val: u64, exp: u32) -> u64 {
-     let MagicMul { mult, shift } = DIV10[exp as usize];
-     mul_u64_u64_shr(val, mult, shift)
-}
+As this text covers only eDP with Panel, I'll fill in some lines here 
+about DP and HDMI connectors. I think we need to consider all the cases.
 
-#[test]
-fn test_div10() {
-     assert_eq!(div10(12345678, 0), 12345678);
-     assert_eq!(div10(12345678, 1), 1234567);
-     assert_eq!(div10(12345678, 2), 123456);
-     assert_eq!(div10(12345678, 3), 12345);
-     assert_eq!(div10(12345678, 4), 1234);
-     assert_eq!(div10(12345678, 5), 123);
-     assert_eq!(div10(12345678, 6), 12);
-     assert_eq!(div10(12345678, 7), 1);
+> The HPD-related properties that can be specified on the panel are
+> a) <nothing> - HPD hooked up to the bridge
+> b) no-hpd - HPD isn't hooked up at all
+> c) hpd-gpios - HPD is hooked up to a GPIO
 
-     assert_eq!(div10(9876543298765432, 8), 98765432);
-     assert_eq!(div10(9876543298765432, 9), 9876543);
-     assert_eq!(div10(9876543298765432, 10), 987654);
-     assert_eq!(div10(9876543298765432, 11), 98765);
-     assert_eq!(div10(9876543298765432, 12), 9876);
-     assert_eq!(div10(9876543298765432, 13), 987);
-     assert_eq!(div10(9876543298765432, 14), 98);
-     assert_eq!(div10(9876543298765432, 15), 9);
+For DP and HDMI connectors (dp-connector.yaml, hdmi-connector.yaml) we 
+have only 'hpd-gpios'. There hasn't been need for no-hpd.
 
-     assert_eq!(div10(12349876543298765432, 16), 1234);
-     assert_eq!(div10(12349876543298765432, 17), 123);
-     assert_eq!(div10(12349876543298765432, 18), 12);
-}
+> The HPD-related properties that can be specified on ti-sn65dsi86 are:
+> a) <nothing> - HPD is hooked up to the bridge
+> b) no-hpd - HPD is not hooked up to the bridge
 
+More generally speaking (also with HDMI), I think this is device 
+specific. E.g. TFP410 doesn't have any kind of HPD support, so 'no-hpd' 
+flag doesn't make sense. That said, probably most of the chips do have 
+HPD support, and no-hpd is needed.
 
-I tried the test in userspace with this implementation of the
-function:
+> NOTE: The "ti-sn65dsi86" controller needs to be programmed to ignore
+> its HPD line if HPD isn't hooked up. IIRC the hardware itself will not
+> transfer things over the AUX bus unless you either tell the controller
+> to ignore HPD or HPD is asserted.
+> 
+> 
+> Here are the combinations:
+> 
+> 1. Panel has no HPD-related properties, ti-sn65dsi86 has no
+> HPD-related properties
+> 
+> HPD is assumed to be hooked up to the dedicated HPD pin on the bridge.
+> Panel driver queries the bridge driver to know the status of HPD. In
+> Linux today ti-sn65dsi86 doesn't really implement this and the bridge
+> chip just has a big, fixed, non-optimized delay that tries to account
+> for the max delay any panel could need.
 
-#![feature(bigint_helper_methods)]
-const fn mul_u64_u64_shr(m: u64, n: u64, s: u32) -> u64 {
-     let (a, b) = m.widening_mul(n);
-     if s == 0 {
-         a
-     } else if s < 64 {
-         (a >> s) | (b << 64 - s)
-     } else {
-         b >> (s - 64)
-     }
-}
+For the connector case, I don't think there's any assumption about HPD 
+in this scenario. The connector does not handle the HPD, and it's up to 
+the bridge to decide if it does something about it or not.
 
+> 2. Panel has "hpd-gpios", ti-sn65dsi86 has no HPD-related properties
+> 
+> In theory, I guess this would say that HPD goes _both_ to a GPIO and
+> to the HPD of the bridge. Maybe handy if the bridge doesn't provide a
+> "debounced" signal but still wants HPD hooked up to get the
+> "attention" IRQ?
 
-HTH,
+Both the bridge and the panel handling HPD doesn't sound good to me...
+For the connector case, this case would mean that the connector driver 
+handles the HPD, and the bridge doesn't. If the bridge has HPD support, 
+I think it would make sense to disable it with 'no-hpd' property (i.e. 
+this would then be case 5).
 
-Paolo
+> 3. Panel has "no-hpd", ti-sn65dsi86 has no HPD-related properties
+> 
+> Doesn't really make sense. Says that panel should delay the max amount
+> but there's no good reason to do this if HPD is hooked up on
+> ti-sn65dsi86.
+
+The connectors don't have no-hpd, so this doesn't apply there.
+
+> 4. Panel has no HPD-related properties, ti-sn65dsi86 has "no-hpd"
+> 
+> Doesn't really make sense. Says that the panel should assume the
+> bridge has HPD hooked up but then the bridge doesn't.
+
+For connectors, this would just mean no HPD at all connected (i.e. the 
+case discussed in this series).
+
+> 5. Panel has "hpd-gpios", ti-sn65dsi86 has "no-hpd"
+> 
+> This is the sc7180-trogdor config. Says the panel should use the GPIO
+> to read HPD for power sequencing purposes. Tells us that HPD is not
+> hooked up to the bridge chip so we should program the bridge chip to
+> ignore HPD.
+
+For the connector case, this would be the same as 2, except the bridge 
+requires disabling the HPD support via a property.
+
+> 6. Panel has "no-hpd", ti-sn65dsi86 has "no-hpd"
+> 
+> Says HPD is just not hooked up at all. panel-edp will delay for
+> "hpd-absent-delay-ms". Bridge chip should be programmed to tell the
+> hardware to ignore the HPD signal.
+
+For connectors, this would be the same as 4.
+
+> How we got there was fairly organic and quite a long time ago, but it
+> all sorta makes sense even if it is a bit convoluted.
+
+I think it makes sense, and is quite similar for connectors.
+
+Going back to this series, I think the no-hpd property makes sense to 
+solve the TI issue.
+
+However, my question about "is this needed in upstream" is still 
+unanswered. If these boards are widely available, let's add this. If 
+there are just a few boards here and there, with customers who anyway 
+use TI BSP kernel, and the next revision of the board has the issue 
+fixed, maybe it's not worth it? This change doesn't exactly make the 
+driver cleaner or easier to maintain =).
+
+  Tomi
 
