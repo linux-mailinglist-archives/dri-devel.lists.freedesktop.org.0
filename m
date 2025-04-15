@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC261A89DE5
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:24:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADA9A89DEB
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:25:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31E9D10E767;
-	Tue, 15 Apr 2025 12:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6177210E765;
+	Tue, 15 Apr 2025 12:25:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gKHCSGrn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DlTwwDmA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E977810E766
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:24:11 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 259504390D;
- Tue, 15 Apr 2025 12:24:09 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5671910E765
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:25:12 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0BE991FCEA;
+ Tue, 15 Apr 2025 12:25:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744719850;
+ t=1744719911;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JKWTr4r9wCjFtSd2B2VCTIscAppmbhHanfOeEHW9Nxk=;
- b=gKHCSGrntzEnocHamgulbss+eDVBlcp1a3Cd9uoUObdti6gxJ54zwICUVNABhz/sCgv7wn
- ofb3SiYrPZYPoQXzPaWJpbbwTp8XJfMTZDWyuGvy09Ycnow5JQFk6ZvXwQcIcMnn2zVh71
- cn7nH28ZPf6U9Iu0s6Nb/nnlMGFORUlr4KAB1lmvWf6bfZ37UTIHAxxxVaCIz0MrpLT46Y
- DyWrBw3mX20TjNpOsSDQGrt7/ECOyTZybFUkr/fNsLXHCazO4FHpORNSZuX+5Wlx4mWj86
- 6AnSM0lE29kFL/UyylKgs/UsVQhIi2c0WQueLTGIarNpbfECJSjE/jn47u5Aeg==
-Message-ID: <5ea615d0-8bd7-44eb-9fdb-146b8bbc736f@bootlin.com>
-Date: Tue, 15 Apr 2025 14:24:08 +0200
+ bh=5zbsJtJ2mKitArKTofvNZRG20FFldBj0l0sAwAsdSJY=;
+ b=DlTwwDmAMFOnZXSXVddGecFGrGqCQdfwzor2xuUWBvFasDRHb1cyGm8dm8JSRBH6B0E/WL
+ qowvrdrxeXmGSu5pmurjua/O/GOmNeTaXAqORg4KzXRe6dGOquWn6SqaNJG0uZrG1mkr0H
+ hHIDrXv4qXekGIyNfliVBQmZEYT/iOSIsi0WV7goUQNcds5rrsl5t8KCiCW5AA9AnmdfXW
+ ZhZwmBn4oHAE2ryimG/P+1UYWIMzhooIr2Aq5H8nO+c/+qZ2PRx5Vc05GFLR+IyPR9/jIL
+ vAxjN4rZwSyvtLY5PU8nh40CANcIvOeryySUacD1HngPUsCDgLr/RRLDVBbfSw==
+Message-ID: <c3a5b20d-44cf-44c4-a28b-0f39007439d3@bootlin.com>
+Date: Tue, 15 Apr 2025 14:25:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/16] drm/vkms: Allow to attach planes and CRTCs via
- configfs
+Subject: Re: [PATCH v4 08/16] drm/vkms: Allow to configure multiple encoders
+ via configfs
 To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250407081425.6420-1-jose.exposito89@gmail.com>
- <20250407081425.6420-8-jose.exposito89@gmail.com>
+ <20250407081425.6420-9-jose.exposito89@gmail.com>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -99,12 +99,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250407081425.6420-8-jose.exposito89@gmail.com>
+In-Reply-To: <20250407081425.6420-9-jose.exposito89@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefgeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepm
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefgeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepm
  hgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,8 +127,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Le 07/04/2025 à 10:14, José Expósito a écrit :
 > From: Louis Chauvet <louis.chauvet@bootlin.com>
 > 
-> Create a default subgroup at /config/vkms/planes/plane/possible_crtcs
-> that will contain symbolic links to the possible CRTCs for the plane.
+> Create a default subgroup at /config/vkms/encoders to allow to create as
+> many encoders as required.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
@@ -136,132 +136,174 @@ Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > Co-developed-by: José Expósito <jose.exposito89@gmail.com>
 > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 > ---
->   Documentation/gpu/vkms.rst           |  9 +++++
->   drivers/gpu/drm/vkms/vkms_configfs.c | 58 ++++++++++++++++++++++++++++
->   2 files changed, 67 insertions(+)
+>   Documentation/gpu/vkms.rst           |  6 ++
+>   drivers/gpu/drm/vkms/vkms_configfs.c | 87 ++++++++++++++++++++++++++++
+>   2 files changed, 93 insertions(+)
 > 
 > diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index abe7a0f5a4ab..13b96837a266 100644
+> index 13b96837a266..e24767448775 100644
 > --- a/Documentation/gpu/vkms.rst
 > +++ b/Documentation/gpu/vkms.rst
-> @@ -98,6 +98,14 @@ CRTCs have 1 configurable attribute:
+> @@ -76,6 +76,7 @@ And directories are created for each configurable item of the display pipeline::
+>     tree /config/vkms/my-vkms
+>     ├── crtcs
+>     ├── enabled
+> +  ├── encoders
+>     └── planes
+>   
+>   To add items to the display pipeline, create one or more directories under the
+> @@ -98,6 +99,10 @@ CRTCs have 1 configurable attribute:
 >   
 >   - writeback: Enable or disable writeback connector support by writing 1 or 0
 >   
-> +To finish the configuration, link the different pipeline items::
+> +Next, create one or more encoders::
 > +
-> +  sudo ln -s /config/vkms/my-vkms/crtcs/crtc0 /config/vkms/my-vkms/planes/plane0/possible_crtcs
+> +  sudo mkdir /config/vkms/my-vkms/encoders/encoder0
 > +
-> +Since at least one primary plane is required, make sure to set the right type::
-> +
-> +  echo "1" | sudo tee /config/vkms/my-vkms/planes/plane0/type
-> +
->   Once you are done configuring the VKMS instance, enable it::
+>   To finish the configuration, link the different pipeline items::
 >   
->     echo "1" | sudo tee /config/vkms/my-vkms/enabled
-> @@ -108,6 +116,7 @@ Finally, you can remove the VKMS instance disabling it::
->   
->   And removing the top level directory and its subdirectories::
->   
-> +  sudo rm /config/vkms/my-vkms/planes/*/possible_crtcs/*
+>     sudo ln -s /config/vkms/my-vkms/crtcs/crtc0 /config/vkms/my-vkms/planes/plane0/possible_crtcs
+> @@ -119,6 +124,7 @@ And removing the top level directory and its subdirectories::
+>     sudo rm /config/vkms/my-vkms/planes/*/possible_crtcs/*
 >     sudo rmdir /config/vkms/my-vkms/planes/*
 >     sudo rmdir /config/vkms/my-vkms/crtcs/*
+> +  sudo rmdir /config/vkms/my-vkms/encoders/*
 >     sudo rmdir /config/vkms/my-vkms
+>   
+>   Testing With IGT
 > diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index e9f445043268..2cf97c2b6203 100644
+> index 2cf97c2b6203..0df86e63570a 100644
 > --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 > +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -38,11 +38,13 @@ struct vkms_configfs_device {
->    *
->    * @group: Top level configuration group that represents a plane.
->    * Initialized when a new directory is created under "/config/vkms/planes"
-> + * @possible_crtcs_group: Default subgroup of @group at "plane/possible_crtcs"
->    * @dev: The vkms_configfs_device this plane belongs to
->    * @config: Configuration of the VKMS plane
->    */
->   struct vkms_configfs_plane {
+> @@ -18,6 +18,7 @@ static bool is_configfs_registered;
+>    * Initialized when a new directory is created under "/config/vkms/"
+>    * @planes_group: Default subgroup of @group at "/config/vkms/planes"
+>    * @crtcs_group: Default subgroup of @group at "/config/vkms/crtcs"
+> + * @encoders_group: Default subgroup of @group at "/config/vkms/encoders"
+>    * @lock: Lock used to project concurrent access to the configuration attributes
+>    * @config: Protected by @lock. Configuration of the VKMS device
+>    * @enabled: Protected by @lock. The device is created or destroyed when this
+> @@ -27,6 +28,7 @@ struct vkms_configfs_device {
 >   	struct config_group group;
-> +	struct config_group possible_crtcs_group;
->   	struct vkms_configfs_device *dev;
->   	struct vkms_config_plane *config;
->   };
-> @@ -71,6 +73,10 @@ struct vkms_configfs_crtc {
->   #define plane_item_to_vkms_configfs_plane(item) \
->   	container_of(to_config_group((item)), struct vkms_configfs_plane, group)
+>   	struct config_group planes_group;
+>   	struct config_group crtcs_group;
+> +	struct config_group encoders_group;
 >   
-> +#define plane_possible_crtcs_item_to_vkms_configfs_plane(item) \
-> +	container_of(to_config_group((item)), struct vkms_configfs_plane, \
-> +		     possible_crtcs_group)
+>   	struct mutex lock;
+>   	struct vkms_config *config;
+> @@ -63,6 +65,20 @@ struct vkms_configfs_crtc {
+>   	struct vkms_config_crtc *config;
+>   };
+>   
+> +/**
+> + * struct vkms_configfs_encoder - Configfs representation of a encoder
+> + *
+> + * @group: Top level configuration group that represents a encoder.
+> + * Initialized when a new directory is created under "/config/vkms/encoders"
+> + * @dev: The vkms_configfs_device this encoder belongs to
+> + * @config: Configuration of the VKMS encoder
+> + */
+> +struct vkms_configfs_encoder {
+> +	struct config_group group;
+> +	struct vkms_configfs_device *dev;
+> +	struct vkms_config_encoder *config;
+> +};
 > +
+>   #define device_item_to_vkms_configfs_device(item) \
+>   	container_of(to_config_group((item)), struct vkms_configfs_device, \
+>   		     group)
+> @@ -80,6 +96,10 @@ struct vkms_configfs_crtc {
 >   #define crtc_item_to_vkms_configfs_crtc(item) \
 >   	container_of(to_config_group((item)), struct vkms_configfs_crtc, group)
 >   
-> @@ -178,6 +184,52 @@ static const struct config_item_type crtc_group_type = {
+> +#define encoder_item_to_vkms_configfs_encoder(item) \
+> +	container_of(to_config_group((item)), struct vkms_configfs_encoder, \
+> +		     group)
+> +
+>   static ssize_t crtc_writeback_show(struct config_item *item, char *page)
+>   {
+>   	struct vkms_configfs_crtc *crtc;
+> @@ -344,6 +364,69 @@ static const struct config_item_type plane_group_type = {
 >   	.ct_owner	= THIS_MODULE,
 >   };
 >   
-> +static int plane_possible_crtcs_allow_link(struct config_item *src,
-> +					   struct config_item *target)
+> +static void encoder_release(struct config_item *item)
 > +{
-> +	struct vkms_configfs_plane *plane;
-> +	struct vkms_configfs_crtc *crtc;
-> +	int ret;
+> +	struct vkms_configfs_encoder *encoder;
+> +	struct mutex *lock;
 > +
-> +	if (target->ci_type != &crtc_item_type)
-> +		return -EINVAL;
+> +	encoder = encoder_item_to_vkms_configfs_encoder(item);
+> +	lock = &encoder->dev->lock;
 > +
-> +	plane = plane_possible_crtcs_item_to_vkms_configfs_plane(src);
-> +	crtc = crtc_item_to_vkms_configfs_crtc(target);
-> +
-> +	scoped_guard(mutex, &plane->dev->lock) {
-> +		if (plane->dev->enabled)
-> +			return -EBUSY;
-> +
-> +		ret = vkms_config_plane_attach_crtc(plane->config, crtc->config);
+> +	scoped_guard(mutex, lock) {
+> +		vkms_config_destroy_encoder(encoder->dev->config, encoder->config);
+> +		kfree(encoder);
 > +	}
-> +
-> +	return ret;
 > +}
 > +
-> +static void plane_possible_crtcs_drop_link(struct config_item *src,
-> +					   struct config_item *target)
-> +{
-> +	struct vkms_configfs_plane *plane;
-> +	struct vkms_configfs_crtc *crtc;
-> +
-> +	plane = plane_possible_crtcs_item_to_vkms_configfs_plane(src);
-> +	crtc = crtc_item_to_vkms_configfs_crtc(target);
-> +
-> +	scoped_guard(mutex, &plane->dev->lock)
-> +		vkms_config_plane_detach_crtc(plane->config, crtc->config);
-> +}
-> +
-> +static struct configfs_item_operations plane_possible_crtcs_item_operations = {
-> +	.allow_link	= plane_possible_crtcs_allow_link,
-> +	.drop_link	= plane_possible_crtcs_drop_link,
+> +static struct configfs_item_operations encoder_item_operations = {
+> +	.release	= &encoder_release,
 > +};
 > +
-> +static const struct config_item_type plane_possible_crtcs_group_type = {
-> +	.ct_item_ops	= &plane_possible_crtcs_item_operations,
+> +static const struct config_item_type encoder_item_type = {
+> +	.ct_item_ops	= &encoder_item_operations,
 > +	.ct_owner	= THIS_MODULE,
 > +};
 > +
->   static ssize_t plane_type_show(struct config_item *item, char *page)
->   {
->   	struct vkms_configfs_plane *plane;
-> @@ -272,6 +324,12 @@ static struct config_group *make_plane_group(struct config_group *group,
->   		}
->   
->   		config_group_init_type_name(&plane->group, name, &plane_item_type);
+> +static struct config_group *make_encoder_group(struct config_group *group,
+> +					       const char *name)
+> +{
+> +	struct vkms_configfs_device *dev;
+> +	struct vkms_configfs_encoder *encoder;
 > +
-> +		config_group_init_type_name(&plane->possible_crtcs_group,
-> +					    "possible_crtcs",
-> +					    &plane_possible_crtcs_group_type);
-> +		configfs_add_default_group(&plane->possible_crtcs_group,
-> +					   &plane->group);
->   	}
+> +	dev = child_group_to_vkms_configfs_device(group);
+> +
+> +	scoped_guard(mutex, &dev->lock) {
+> +		if (dev->enabled)
+> +			return ERR_PTR(-EBUSY);
+> +
+> +		encoder = kzalloc(sizeof(*encoder), GFP_KERNEL);
+> +		if (!encoder)
+> +			return ERR_PTR(-ENOMEM);
+> +
+> +		encoder->dev = dev;
+> +
+> +		encoder->config = vkms_config_create_encoder(dev->config);
+> +		if (IS_ERR(encoder->config)) {
+> +			kfree(encoder);
+> +			return ERR_CAST(encoder->config);
+> +		}
+> +
+> +		config_group_init_type_name(&encoder->group, name,
+> +					    &encoder_item_type);
+> +	}
+> +
+> +	return &encoder->group;
+> +}
+> +
+> +static struct configfs_group_operations encoders_group_operations = {
+> +	.make_group	= &make_encoder_group,
+> +};
+> +
+> +static const struct config_item_type encoder_group_type = {
+> +	.ct_group_ops	= &encoders_group_operations,
+> +	.ct_owner	= THIS_MODULE,
+> +};
+> +
+>   static ssize_t device_enabled_show(struct config_item *item, char *page)
+>   {
+>   	struct vkms_configfs_device *dev;
+> @@ -447,6 +530,10 @@ static struct config_group *make_device_group(struct config_group *group,
+>   				    &crtc_group_type);
+>   	configfs_add_default_group(&dev->crtcs_group, &dev->group);
 >   
->   	return &plane->group;
+> +	config_group_init_type_name(&dev->encoders_group, "encoders",
+> +				    &encoder_group_type);
+> +	configfs_add_default_group(&dev->encoders_group, &dev->group);
+> +
+>   	return &dev->group;
+>   }
+>   
 
 -- 
 Louis Chauvet, Bootlin
