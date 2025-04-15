@@ -2,80 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E3CA895EC
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 10:02:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C918BA895F7
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 10:03:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 781A610E674;
-	Tue, 15 Apr 2025 08:02:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1422510E676;
+	Tue, 15 Apr 2025 08:03:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jRyoas2/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Skp41ukG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4782110E674
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 08:02:09 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-30effbfaf61so57200151fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 01:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1744704127; x=1745308927; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oEP9rni+HPtFUecXYpSc7d877m22l1NQuJbMRjFTHY4=;
- b=jRyoas2/MoXluNWi13+IF40t9AeTE30rCbK+OQpN3EFt5yuypBTkWqY5dSuE1azAvd
- nhmprCxGssw6SKeGWD6KtmI51AENqoX+VELoG4m5XumqKsgqa4Up8ZCeNx7Sp0oufoR7
- wJ8jVv8qGRyRdRnhfUDq1SsPInFmaVYl5a065jPAyIJLSvJsPh1otxiHrttnWQQkU/Aa
- 7WpvHfkV0eBqRON57jlAlJkQ1n0GV9KACNrvbo9OleYxeSdOMTX2FQnYqZ5amAbAdNWB
- xcX2fLNgLYmogD//Ipt3H9nkhGrkzfyHMj5nWMxzzgL98vGyNZR8tB9xo2kOVMN+s1Gb
- oR8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744704127; x=1745308927;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oEP9rni+HPtFUecXYpSc7d877m22l1NQuJbMRjFTHY4=;
- b=Nf1XV7xg9nBLucs6zxjR3/W8AhpNd1OCfUIMOKZ4oZYeR37CrD5p/8+ds3OGQ+QRhu
- fnz/Lc4EF5VXJMm26UnDqU8QGOkc19MfESXxAxQ9k6TpzGluPdKDsszstPRmZ64sdsUT
- 9Nz4asnBK2HabEo21raQSMnX6BxIGQW9bSlLHPeb0CP6rEy+cnFJkmujxmUaCuZ7TZP5
- qDkBnN8pR1KmnYXiuJuBkaLzMd77Ul6wIPdXEorCW1lkC1TA/yENHmlYckypYJyKSMIb
- 9XUavpsHInEsyngvrRaRgsSTrF/FgK8YYKV/ozsaPdBgYG+RV2pd+zUKenYERz2OdJ8j
- McmQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUSN27bkgL0vpEqQFS8CwKMmv7qmyeu77a2nLXmQcoVSRrwD4Fu6gCnVvBZb/0OHGSkpPFsxa87aio=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwOpxKfob/rz+UlZEd7cDOqGN8sZDPT4sq3qIxJWWlsy1W0VGCp
- 7y1UR1P9np8eUTew2W776DbOpSaZRujhaJcVf3hR+7LeODo1m2KZLcidAbnQFez/fN9CPX48n4J
- kxpk0OSgbrBg/22bFuzR3WeY4JXlCrGen4jrITg==
-X-Gm-Gg: ASbGncu+xwWEvXqNG2iCYJsC8cqw/2PUKqBGce8Yw0jUJODj16+nGWsFB6mCm2+weMP
- TH34x4QiaTmTsqEQ/suLtgcwo2QSS3u9Da30fo7l28xrIOJ8kBlWk2MKMvA6r6pXMnk/1/igi8I
- 2rzjU4lDdgr7MZiUnstrfmDg==
-X-Google-Smtp-Source: AGHT+IGvwutFyLX9Bb5seSiQwkJQ59W66bNTBlQIEGpJEd0Q/se9VhKkzK0oCbRzEiZy9LcBhbBGbivtcnsPVljK2/0=
-X-Received: by 2002:a2e:7214:0:b0:30b:e73e:e472 with SMTP id
- 38308e7fff4ca-31071ce6ee2mr6688871fa.14.1744704127547; Tue, 15 Apr 2025
- 01:02:07 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81DBC10E676
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 08:03:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 71EBE5C110F;
+ Tue, 15 Apr 2025 08:01:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38771C4CEE9;
+ Tue, 15 Apr 2025 08:03:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744704216;
+ bh=ttOQPAQ/Uc62DAVNnKwV0MrGQwvtrfTUwUz94ORRQxY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Skp41ukGS21uqruwNSsKX5SSSHZPte6khx3xyyCjscAlcdmn+/Wk0CA+LklWoTErQ
+ B1xPpV1tROha86foWNGJVywgxryZnCU1u3BDhva/u0fEONjaZb1jbB8NY5AcieJ3g/
+ C2PYSg/9gHAsy3A3hTuxUQYw5Tb86naqGlhB2iip7iTvkosRhMKKBzaS1FW/hsCFpz
+ GNfXGY725uaML0Yh01ofwAmulff9MvvnrI4GFOqag3scCXwInvwcghgxWGnAyGEOee
+ 3VN6ifaS1VbgkUB0XHIkN90DK+WQtilKCBoaGb7KhrqifadpQkTBytTv4gy1zoCQQR
+ YSgLFP9w2kJuA==
+Message-ID: <2ab6de54-ca06-407c-a95f-d86c7b8fd7e0@kernel.org>
+Date: Tue, 15 Apr 2025 10:03:31 +0200
 MIME-Version: 1.0
-References: <20250401-b4-drm-panel-mass-driver-convert-v1-0-cdd7615e1f93@redhat.com>
- <20250401-b4-drm-panel-mass-driver-convert-v1-2-cdd7615e1f93@redhat.com>
-In-Reply-To: <20250401-b4-drm-panel-mass-driver-convert-v1-2-cdd7615e1f93@redhat.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 15 Apr 2025 10:01:55 +0200
-X-Gm-Features: ATxdqUEOaEBEBYE-tkHN1WoFieXREPv4a0_F4MeFEiy73pmQAz2OT6XbexJWBW0
-Message-ID: <CACRpkdZg-MNFc4k2g+j0QfBjzD4a3scmjOKtRBSr4_FtFYuCTA@mail.gmail.com>
-Subject: Re: [PATCH 02/10] panel/arm-versatile: Use the refcounted allocation
- in place of devm_kzalloc()
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] dt-bindings: display: Add Sitronix ST7571 LCD
+ Controller
+To: Marcus Folkesson <marcus.folkesson@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Joel Selvaraj <jo@jsfamily.in>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250415-st7571-v4-0-8b5c9be8bae7@gmail.com>
+ <20250415-st7571-v4-1-8b5c9be8bae7@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250415-st7571-v4-1-8b5c9be8bae7@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,15 +109,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 1, 2025 at 7:05=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.com=
-> wrote:
+On 15/04/2025 07:58, Marcus Folkesson wrote:
+> Sitronix ST7571 is a dot matrix LCD controller supporting
+> both 4bit grayscale and monochrome LCDs.
+> 
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
 
-> Move to using the new API devm_drm_panel_alloc() to allocate the
-> panel.
->
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij
+Best regards,
+Krzysztof
