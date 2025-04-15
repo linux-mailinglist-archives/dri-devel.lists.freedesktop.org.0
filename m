@@ -2,55 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A279A894A5
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 09:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCF1A894CC
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 09:21:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 689A010E2A6;
-	Tue, 15 Apr 2025 07:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 823FC10E0F8;
+	Tue, 15 Apr 2025 07:21:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="AUL84RoX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uuEtssGh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8BD6010E669
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 07:15:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=o1GHkbK7G3JViuw275IMAy/MkYZsR9StdttRJvUhi4Y=; b=A
- UL84RoXvZuYWtGV7cd7sCmIrjCumbmLML+pbZ/RRxI0jCIddMKcAKmV8BNPXw9iz
- 83XTJ0uE1YHxN9bVG+g6YKxq1l8hJ85HBjI2zvR2dwPa6/rPDRPVWhZpl9KJj/mq
- z8bAX6k01gonnAS/EwfXrLVrKdsuY0Z8eC1v0+hxBU=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-120 (Coremail) ; Tue, 15 Apr 2025 15:15:14 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Tue, 15 Apr 2025 15:15:14 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: airlied@gmail.com, simona@ffwll.ch, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
- "Sandy Huang" <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>
-Subject: Re:Re: [PATCH 05/11] drm/rockchip: Test for imported buffers with
- drm_gem_is_imported()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <c870c700-23f2-4d33-81ba-15af0797c0b7@suse.de>
-References: <20250414134821.568225-5-tzimmermann@suse.de>
- <38d09d34.4354.196379aa560.Coremail.andyshrk@163.com>
- <c870c700-23f2-4d33-81ba-15af0797c0b7@suse.de>
-X-NTES-SC: AL_Qu2fBvubvksq4iGfZekfmkcVgOw9UcO5v/Qk3oZXOJF8jDLp/j0HdmVSAWfk9OO0GyOzmgmGQhZw7+16UYtfUYcQ3FprtTMrEY9jlgtqnf60AA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD06B10E0F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 07:21:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 9557044B70;
+ Tue, 15 Apr 2025 07:21:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94DDDC4CEE9;
+ Tue, 15 Apr 2025 07:21:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744701691;
+ bh=ppCh1rXKzyooyLzB8X2IQ2Oju9H3qJQ74QV/enWha4E=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=uuEtssGhD3d79YbN1rycbVffJyVi1oCudolVNpDRqTH2EoaHV+W4jC0ApwH/N8cmP
+ 1pyR/yBu94ec4p4W3AVE56vhOdEdeBf2/Qxae0Ar7kriY13Bl3qwtaAmLgBQWbtCf6
+ 5G3rQT6Bc7fIRuZSQ7gba9bnaLBnbycriCXOHCf/hLSdxcIYCgfC2PFb/SpGJc6jkK
+ yYR9rmaE6AtHXBRAU2IpyweaefZs8oHQZBZmTSFIvnN7grYrHvmIurVBnASRaWUy2+
+ ekcfm7NeJGuueJuqxC7xftkO8uBAuctu99UAlMdrENm3sWGvBu+ChMshO3CB4hvHL0
+ Rhn9Rkx4zV6LQ==
+Message-ID: <b64511fa-a8e3-450e-aa4c-f47181314f76@kernel.org>
+Date: Tue, 15 Apr 2025 09:21:24 +0200
 MIME-Version: 1.0
-Message-ID: <13940fa8.67c1.196384d547f.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: eCgvCgDX_POCB_5nTm+XAA--.39732W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hswXmf+Ayqm7AABsc
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/3] Add support for Sitronix ST7571 LCD controller
+To: Marcus Folkesson <marcus.folkesson@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmrmann@suse.de>
+References: <20250415-st7571-v4-0-8b5c9be8bae7@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250415-st7571-v4-0-8b5c9be8bae7@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,123 +107,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIFRob21hc++8jAoK5ZyoIDIwMjUtMDQtMTUgMTQ6NTQ6MjHvvIwiVGhvbWFzIFppbW1lcm1h
-bm4iIDx0emltbWVybWFubkBzdXNlLmRlPiDlhpnpgZPvvJoKPkhpCj4KPkFtIDE1LjA0LjI1IHVt
-IDA2OjAwIHNjaHJpZWIgQW5keSBZYW46Cj4+Cj4+IEhpIFRob21hc++8jAo+Pgo+PiBBdCAyMDI1
-LTA0LTE0IDIxOjQ4OjEyLCAiVGhvbWFzIFppbW1lcm1hbm4iIDx0emltbWVybWFubkBzdXNlLmRl
-PiB3cm90ZToKPj4+IEluc3RlYWQgb2YgdGVzdGluZyBpbXBvcnRfYXR0YWNoIGZvciBpbXBvcnRl
-ZCBHRU0gYnVmZmVycywgaW52b2tlCj4+PiBkcm1fZ2VtX2lzX2ltcG9ydGVkKCkgdG8gZG8gdGhl
-IHRlc3QuIFRoZSBoZWxwZXIgdGVzdHMgdGhlIGRtYV9idWYKPj4+IGl0c2VsZiB3aGlsZSBpbXBv
-cnRfYXR0YWNoIGlzIGp1c3QgYW4gYXJ0aWZhY3Qgb2YgdGhlIGltcG9ydC4gUHJlcGFyZXMKPj4+
-IHRvIG1ha2UgaW1wb3J0X2F0dGFjaCBvcHRpb25hbC4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBU
-aG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPj4+IENjOiBTYW5keSBIdWFu
-ZyA8aGpjQHJvY2stY2hpcHMuY29tPgo+Pj4gQ2M6ICJIZWlrbyBTdMO8Ym5lciIgPGhlaWtvQHNu
-dGVjaC5kZT4KPj4+IENjOiBBbmR5IFlhbiA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj4+PiAt
-LS0KPj4+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMgfCAyICst
-Cj4+PiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPj4+Cj4+
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0u
-YyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMKPj4+IGluZGV4
-IDYzMzBiODgzZWZjMy4uZTQ0Mzk2ZDQ2ZGMxIDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYwo+Pj4gQEAgLTMzMiw3ICszMzIsNyBAQCB2b2lk
-IHJvY2tjaGlwX2dlbV9mcmVlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikKPj4+
-IAlzdHJ1Y3Qgcm9ja2NoaXBfZHJtX3ByaXZhdGUgKnByaXZhdGUgPSBkcm0tPmRldl9wcml2YXRl
-Owo+Pj4gCXN0cnVjdCByb2NrY2hpcF9nZW1fb2JqZWN0ICpya19vYmogPSB0b19yb2NrY2hpcF9v
-Ymoob2JqKTsKPj4+Cj4+PiAtCWlmIChvYmotPmltcG9ydF9hdHRhY2gpIHsKPj4+ICsJaWYgKGRy
-bV9nZW1faXNfaW1wb3J0ZWQob2JqKSkgewo+Pgo+PiBBZnRlciBhcHBseWluZyB0aGlzIHBhdGNo
-LCB3aGVuIEkgdGVzdGVkIGdsbWFyazItZXMyLXdheWxhbmQgdW5kZXIgV2VzdG9uLCB0aGUgd2Vz
-dG9uIHdvdWxkIGZyZWV6ZS4KPj4gSXQgc2VlbXMgaXQgZ290byB0aGUgZWxzZSBwYXRoLgo+Pgo+
-PiAgIEknbSBzdGlsbCBjb25kdWN0aW5nIGZ1cnRoZXIgYW5hbHlzaXMgdG8gZmlndXJlIG91dCB0
-aGUgZXhhY3QgY2F1c2UuCj4KPlRoYW5rcyBmb3IgdGVzdGluZy4gV2UgdGVzdCBpZiBvYmotPmRt
-YV9idWYgaXMgc2V0IGFuZCByZWZlcnMgYmFjayB0byAKPm9iai4gT25lIG9mIHRoZXNlIGZpZWxk
-cyBoYXMgbGlrZWx5IGJlZW4gY2xlYXJlZCBhbHJlYWR5IHRvIE5VTEwgZHVyaW5nIAo+dGhlIG9i
-amVjdCBjbGVhbnVwLiBPdGhlciBkcml2ZXJzIGFsc28gY2FsbCBkcm1fZ2VtX2lzX2ltcG9ydGVk
-KCkgaW4gCj50aGVpciBvYmplY3QgY2xlYW51cCBhbmQgSSd2ZSBub3QgaGVhcmQgYWJvdXQgYW55
-IHJlZ3Jlc3Npb25zLgoKRnJvbSBteSB0ZXN0LCBpdCBzZWVtcyB0aGF0IGEgZHVtYiBidWZmZXIg
-bWF5IGV4cG9ydCB0aGVuIGltcG9ydDoKYW5kIHRoZSBvYmotPmRtYV9idWYgd2lsbCBiZSBjbGVh
-cmVkIGF0IGRybV9tb2RlX2Rlc3Ryb3lfZHVtYl9pb2N0bC0tPmRybV9nZW1faGFuZGxlX2RlbGV0
-ZQoKdGhlbiB0ZXN0IHdpdGggICBvYmotPmRtYV9idWYgJiYgKG9iai0+ZG1hX2J1Zi0+cHJpdiAh
-PSBvYmopIHdpbGwgYmUgZmFsc2UuCgoKCgoKWyAgIDEyLjAyODk0MV0gW2RybV0gSW5pdGlhbGl6
-ZWQgcGFudGhvciAxLjMuMCBmb3IgZmIwMDAwMDAuZ3B1IG9uIG1pbm9yIDEKWyAgIDE0LjYwNjEx
-NF0gcm9ja2NoaXBfZ2VtX2R1bWJfY3JlYXRlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDE0OWIwMDAg
-aGFuZGxlOiAxClsgICAxNC42MDYxNzBdIGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZiB3
-ZXN0b24gb2JqOiBmZmZmMDAwMTAxNDliMDAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwMTQ1NDgwMCBo
-YW5kbGU6IDEKWyAgIDE0LjYwNjIxN10gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUgd2VzdG9u
-IG9iajogZmZmZjAwMDEwMjNjZGMwMCBkbWFfYnVmOiAweGZmZmYwMDAxMDE0NTQ4MDAgZG1hX2J1
-Zi0+cHJpdiBmZmZmMDAwMTAxNDliMDAwClsgICAxNC42ODU1MTddIHJvY2tjaGlwX2dlbV9kdW1i
-X2NyZWF0ZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTAxNDliNDAwIGhhbmRsZTogMgpbICAgMTQuNjg1
-NTY5XSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19kbWFidWYgd2VzdG9uIG9iajogZmZmZjAwMDEw
-MTQ5YjQwMCBkbWFfYnVmOiAweGZmZmYwMDAxMDE0NTQ0MDAgaGFuZGxlOiAyClsgICAxNC42ODU2
-OTFdIGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDIzY2U2
-MDAgZG1hX2J1ZjogMHhmZmZmMDAwMTAxNDU0NDAwIGRtYV9idWYtPnByaXYgZmZmZjAwMDEwMTQ5
-YjQwMApbICAgMTUuMjU1Mjc3XSByb2NrY2hpcF9nZW1fZHVtYl9jcmVhdGUgd2VzdG9uIG9iajog
-ZmZmZjAwMDEwNzU5ZjgwMCBoYW5kbGU6IDMKWyAgIDE1LjI1NTI5OF0gZHJtX2dlbV9wcmltZV9o
-YW5kbGVfdG9fZG1hYnVmIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDc1OWY4MDAgZG1hX2J1ZjogMHhm
-ZmZmMDAwMTAzMGNiYzAwIGhhbmRsZTogMwpbICAgMTUuMjU1MzE3XSBkcm1fZ2VtX3ByaW1lX2Zk
-X3RvX2hhbmRsZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTAzN2EzMjAwIGRtYV9idWY6IDB4ZmZmZjAw
-MDEwMzBjYmMwMCBkbWFfYnVmLT5wcml2IGZmZmYwMDAxMDc1OWY4MDAKWyAgIDE1LjMxNjMzNl0g
-cm9ja2NoaXBfZ2VtX2R1bWJfY3JlYXRlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDc1OWYwMDAgaGFu
-ZGxlOiA0ClsgICAxNS4zMTYzNjBdIGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZiB3ZXN0
-b24gb2JqOiBmZmZmMDAwMTA3NTlmMDAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwMzBjYmEwMCBoYW5k
-bGU6IDQKWyAgIDE1LjMxNjQwNF0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUgd2VzdG9uIG9i
-ajogZmZmZjAwMDEwMzdhMTAwMCBkbWFfYnVmOiAweGZmZmYwMDAxMDMwY2JhMDAgZG1hX2J1Zi0+
-cHJpdiBmZmZmMDAwMTA3NTlmMDAwClsgICAyMC4yMDkwMDZdIHJvY2tjaGlwX2dlbV9kdW1iX2Ny
-ZWF0ZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTA2NTg0MDAwIGhhbmRsZTogMQpbICAgMjAuMjA5MDMx
-XSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19kbWFidWYgd2VzdG9uIG9iajogZmZmZjAwMDEwNjU4
-NDAwMCBkbWFfYnVmOiAweGZmZmYwMDAxMDE3YTc2MDAgaGFuZGxlOiAxClsgICAyMC4yMDkwNDld
-IGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDE4MmZjMDAg
-ZG1hX2J1ZjogMHhmZmZmMDAwMTAxN2E3NjAwIGRtYV9idWYtPnByaXYgZmZmZjAwMDEwNjU4NDAw
-MApbICAgMjAuMjI4MDA4XSByb2NrY2hpcF9nZW1fZHVtYl9jcmVhdGUgd2VzdG9uIG9iajogZmZm
-ZjAwMDEwNjU4NGMwMCBoYW5kbGU6IDIKWyAgIDIwLjIyODAyOV0gZHJtX2dlbV9wcmltZV9oYW5k
-bGVfdG9fZG1hYnVmIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDY1ODRjMDAgZG1hX2J1ZjogMHhmZmZm
-MDAwMTAxN2E3YTAwIGhhbmRsZTogMgpbICAgMjAuMjI4MDgxXSBkcm1fZ2VtX3ByaW1lX2ZkX3Rv
-X2hhbmRsZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTA1ZWVjMDAwIGRtYV9idWY6IDB4ZmZmZjAwMDEw
-MTdhN2EwMCBkbWFfYnVmLT5wcml2IGZmZmYwMDAxMDY1ODRjMDAKClsgICAyNy4wNzMyNjVdIGRy
-bV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZiBnbG1hcmsyLWVzMi13YXkgb2JqOiBmZmZmMDAw
-MTAzNWYwYTAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwYTI0ZDUwMCBoYW5kbGU6IDEwClsgICAyNy4w
-NzMzNzddIGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDM1
-ZjBhMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTBhMjRkNTAwIGRtYV9idWYtPnByaXYgZmZmZjAwMDEw
-MzVmMGEwMApbICAgMjcuMDczNzE4XSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSB3ZXN0b24g
-b2JqOiBmZmZmMDAwMTA3NTllMDAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwYTI0ZDUwMCBkbWFfYnVm
-LT5wcml2IGZmZmYwMDAxMDM1ZjBhMDAKClsgICAyNy4wNzUzNjNdIGRybV9nZW1faGFuZGxlX2Rl
-bGV0ZSBnbG1hcmsyLWVzMi13YXkgb2JqOiBmZmZmMDAwMTAzNWYwYTAwIGhhbmRsZTogMTAKWyAg
-IDI3LjA3NTcxOF0gZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9fZG1hYnVmIGdsbWFyazItZXMyLXdh
-eSBvYmo6IGZmZmYwMDAxMjk0NmUwMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTBhMjRkMTAwIGhhbmRs
-ZTogMjUKWyAgIDI3LjA3NTc5OV0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUgd2VzdG9uIG9i
-ajogZmZmZjAwMDEyOTQ2ZTAwMCBkbWFfYnVmOiAweGZmZmYwMDAxMGEyNGQxMDAgZG1hX2J1Zi0+
-cHJpdiBmZmZmMDAwMTI5NDZlMDAwClsgICAyNy4wNzY2MTNdIGRybV9nZW1fcHJpbWVfZmRfdG9f
-aGFuZGxlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDc1OWRjMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTBh
-MjRkMTAwIGRtYV9idWYtPnByaXYgZmZmZjAwMDEyOTQ2ZTAwMApbICAgMjcuMDc5MTk1XSBkcm1f
-Z2VtX3ByaW1lX2hhbmRsZV90b19kbWFidWYgZ2xtYXJrMi1lczItd2F5IG9iajogZmZmZjAwMDEy
-OTQ2ZTQwMCBkbWFfYnVmOiAweGZmZmYwMDAxMGEyNGQwMDAgaGFuZGxlOiAxMApbICAgMjcuMDc5
-MjYyXSBkcm1fZ2VtX2hhbmRsZV9kZWxldGUgd2VzdG9uIG9iajogZmZmZjAwMDEwNzU5ZTAwMCBo
-YW5kbGU6IDUKWyAgIDI3LjA3OTI3MV0gQ1BVOiA3IFVJRDogMCBQSUQ6IDMwOCBDb21tOiB3ZXN0
-b24gTm90IHRhaW50ZWQgNi4xNS4wLXJjMSsgIzYxMyBQUkVFTVBUIApbICAgMjcuMDc5Mjc2XSBI
-YXJkd2FyZSBuYW1lOiBSYWR4YSBST0NLIDVCIChEVCkKWyAgIDI3LjA3OTI3OF0gQ2FsbCB0cmFj
-ZToKWyAgIDI3LjA3OTI4MF0gIHNob3dfc3RhY2srMHgxOC8weDI0IChDKQpbICAgMjcuMDc5Mjg5
-XSAgZHVtcF9zdGFja19sdmwrMHg3NC8weDhjClsgICAyNy4wNzkyOTZdICBkdW1wX3N0YWNrKzB4
-MTgvMHgyNApbICAgMjcuMDc5MzAxXSAgZHJtX2dlbV9vYmplY3RfaGFuZGxlX3B1dF91bmxvY2tl
-ZCsweDU4LzB4MTI4ClsgICAyNy4wNzkzMDldICBkcm1fZ2VtX2hhbmRsZV9kZWxldGUrMHhiYy8w
-eDExMApbICAgMjcuMDc5MzE0XSAgZHJtX21vZGVfZGVzdHJveV9kdW1iX2lvY3RsKzB4MjQvMHgz
-YwpbICAgMjcuMDc5MzE4XSAgZHJtX2lvY3RsX2tlcm5lbCsweGMwLzB4MTJjClsgICAyNy4wNzkz
-MjRdICBkcm1faW9jdGwrMHgyNWMvMHg1NWMKWyAgIDI3LjA3OTMzMF0gIF9fYXJtNjRfc3lzX2lv
-Y3RsKzB4YjQvMHhlOApbICAgMjcuMDc5MzM1XSAgaW52b2tlX3N5c2NhbGwrMHg0OC8weDEwYwpb
-ICAgMjcuMDc5MzQwXSAgZWwwX3N2Y19jb21tb24uY29uc3Rwcm9wLjArMHg0MC8weGUwClsgICAy
-Ny4wNzkzNDZdICBkb19lbDBfc3ZjKzB4MWMvMHgyOApbICAgMjcuMDc5MzUxXSAgZWwwX3N2Yysw
-eDMwLzB4Y2MKWyAgIDI3LjA3OTM1NV0gIGVsMHRfNjRfc3luY19oYW5kbGVyKzB4MTBjLzB4MTM4
-ClsgICAyNy4wNzkzNThdICBlbDB0XzY0X3N5bmMrMHgxOTgvMHgxOWMKWyAgIDI3LjA3OTM2Ml0g
-ZHJtX2dlbV9vYmplY3RfZXhwb3J0ZWRfZG1hX2J1Zl9mcmVlIHdlc3RvbiBvYmo6IGZmZmYwMDAx
-MDc1OWUwMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTBhMjRkNTAwIGRtYV9idWYtPnByaXY6IGZmZmYw
-MDAxMDM1ZjBhMDAKWyAgIDI3LjA4NTc5N10gcm9ja2NoaXBfZ2VtX2ZyZWVfb2JqZWN0IHdlc3Rv
-biBvYmo6IGZmZmYwMDAxMDc1OWUwMDAgaW1wb3J0IGRtYV9idWY6IDB4MDAwMDAwMDAwMDAwMDAw
-MCBkbWFfYnVmLT5wcml2OiAwMDAwMDAwMDAwMDAwMDAwClsgICAyNy4wODYwOTNdIGRybV9nZW1f
-aGFuZGxlX2RlbGV0ZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTAzNWYwYTAwIGhhbmRsZTogMzUKWyAg
-IDI3LjA4NjA5OV0gQ1BVOiA3IFVJRDogMCBQSUQ6IDMwOCBDb21tOiB3ZXN0b24gTm90IHRhaW50
-ZWQgNi4xNS4wLXJjMSsgIzYxMyBQUkVFTVBUIApbICAgMjcuMDg2MTAyXSBIYXJkd2FyZSBuYW1l
-OiBSYWR4YSBST0NLIDVCIChEVCkKPgo+QmVzdCByZWdhcmRzCj5UaG9tYXMKPgo+Pgo+Pj4gCQlp
-ZiAocHJpdmF0ZS0+ZG9tYWluKSB7Cj4+PiAJCQlyb2NrY2hpcF9nZW1faW9tbXVfdW5tYXAocmtf
-b2JqKTsKPj4+IAkJfSBlbHNlIHsKPj4+IC0tIAo+Pj4gMi40OS4wCj4KPi0tIAo+LS0KPlRob21h
-cyBaaW1tZXJtYW5uCj5HcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj5TVVNFIFNvZnR3YXJlIFNv
-bHV0aW9ucyBHZXJtYW55IEdtYkgKPkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJn
-LCBHZXJtYW55Cj5HRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwg
-Qm91ZGllbiBNb2VybWFuCj5IUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykK
+On 15/04/2025 07:58, Marcus Folkesson wrote:
+> This series add support for the ST7571 LCD Controller.
+> It is a 4 gray scale dot matrix LCD controller that supports several
+> interfaces such as SPI, I2C and a 8bit parallell port.
+> The controlelr supports both monochrome and grayscale displays.
+> 
+> This driver only supports the I2C interface, but all common parts could
+> easily be put into a common file to be used with other interfaces.
+> I only have I2C to test with.
+> 
+> The device is a little defiant, it tends to NAK some commands, but all
+> commands takes effect, hence the I2C_M_IGNORE_NAK flag.
+> 
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
+> Changes in v4:
+> - (dt-binding) Add sitronix,grayscale property
+Mention that this is the reason of dropping Review.
+
+Best regards,
+Krzysztof
