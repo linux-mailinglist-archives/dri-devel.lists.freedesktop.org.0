@@ -2,59 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D24AFA8A7A1
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 21:16:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FD9A8A7B3
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 21:21:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E887A10E37D;
-	Tue, 15 Apr 2025 19:16:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8860410E157;
+	Tue, 15 Apr 2025 19:21:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="c3MPuJj7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RfayyldT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D2D010E37C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 19:16:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1744744569; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=jIx/hQPlI9naOuEN2w9nWt+sDRe1p00O1CoGQjnuDL8Ny+FL2Em0Ds+ih8259Io+jN3TSxkz9EoTZNmWktFH1bjGVd/3hJ44UGqnwM6HA24DuJmxGte8rSIYN4k2CzesqZ5sIk/vBN5+b1268Gmr3y1kDOEQ/AH34HhhBh2B8H4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1744744569;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=RB+6VwPlFco2XShowQzQ5YIEKg1jbjAFPOl51DJy2gg=; 
- b=hiE2MLjNPOp97s0zKffOAUKTRfCwlSMpqEEaV/LRUFl9O97YZ+cHDsDuspmf12sEqZEhGVIFzBuyGJEfzqNjMYbzE1QBSOY+mHfSEMfHwygxIb0b4I59UM6fHS7z7ETio73jm/XWkkoOhuvwDXIE5O5QB+mXZzvPyGqeTxBWttY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744744569; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=RB+6VwPlFco2XShowQzQ5YIEKg1jbjAFPOl51DJy2gg=;
- b=c3MPuJj7ZeFz7P8jLMHVsNc3WsaRIJoZgBl5ntl5j7jspr8jBVpFgcERMJ3Lb/1C
- Iv7hIiDZf8I4RZ8s54gUzAoozLfs8uf+GGUrMBPmoVZxxJsWNbPSssw7CzIpQ+MagTI
- e84Ax4swon1c9xCYJNaxOFdxBCz8GJDfW6lXciUQ=
-Received: by mx.zohomail.com with SMTPS id 1744744567531821.8147122118951;
- Tue, 15 Apr 2025 12:16:07 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v8 0/4] Panthor BO tagging and GEMS debug display
-Date: Tue, 15 Apr 2025 20:15:34 +0100
-Message-ID: <20250415191539.55258-5-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250415191539.55258-1-adrian.larumbe@collabora.com>
-References: <20250415191539.55258-1-adrian.larumbe@collabora.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A50B10E157
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 19:21:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E493843724;
+ Tue, 15 Apr 2025 19:21:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21CA2C4CEE7;
+ Tue, 15 Apr 2025 19:21:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744744878;
+ bh=F5rxfM3HBLUV9EsAxVV/S4HyqTLHIQEFX/F0OYm1roM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=RfayyldTLQ3AiSG7wBs1u9VQtB/NvlkiJtFzyWd6WUieFliywLuEfjixuHf+XenBH
+ eJnbSdi/jbumAr6s5a/MhlWehWvSYp+387pYWgPN4U4qwZ5LCDCSKsFBqrVM13ZJmD
+ YVuEhK99NnCc1sGFcnWlenwQPPIwFeQ9Ow9P7aNubQ0hs/NiijrRRvLtAaGkSb3JqS
+ oLvqUfH6K8BupI/Qt2vhFeZx2FI+r7bRkzZx+bKLT6LVaLocvXoYE7muU7SwY5svjW
+ VjI5T0M+tQ5/YsGlPvAGSkZ1fzHZdcBj/KID0+d5vB2bTuBdfly74lUYM5tnUFabwi
+ 5Do/PGAIN0fUw==
+From: Mario Limonciello <superm1@kernel.org>
+To: mario.limonciello@amd.com, lee@kernel.org, danielt@kernel.org,
+ jingoohan1@gmail.com
+Cc: Lennart Poettering <lennart@poettering.net>,
+ richard.purdie@linuxfoundation.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] docs: backlight: Clarify `actual_brightness`
+Date: Tue, 15 Apr 2025 14:20:59 -0500
+Message-ID: <20250415192101.2033518-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,71 +56,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series is aimed at providing UM with detailed memory profiling
-information in debug builds. It is achieved through a device-wide list of
-DRM GEM objects, and also implementing the ability to label BO's from UM
-through a new IOCTL.
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-The new debugfs file shows a list of driver DRM GEM objects in tabular mode.
-To visualise it, cat sudo cat /sys/kernel/debug/dri/*.gpu/gems.
-To test this functionality from UM, please refer to this Mesa patch series:
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34224
+Currently userspace software systemd treats `brightness` and
+`actual_brightness` identically due to a bug found in an out of tree
+driver.
 
-Discussion of previous revision of this patch series can be found at:
-https://lore.kernel.org/dri-devel/20250411150357.3308921-1-adrian.larumbe@collabora.com/
+This however causes problems for in-tree drivers that use brightness
+to report user requested `brightness` and `actual_brightness` to report
+what the hardware actually has programmed.
 
-Changelog:
-v8:
- - Renamed NULL to NUL in comments describing NUL-terminated strings
- - Removed 'size' parameter from labelling ioctl() as max length can be
-   handled by the kernel itself
- - Made sure to use kfree_const() everywhere labels are freed
- - Replaced maximum label size with numerical constant rather than page size
- - Added some warnings and checks in kernel BO labelling function
+Clarify the documentation to match the behavior described in commit
+6ca017658b1f9 ("[PATCH] backlight: Backlight Class Improvements").
 
-v7:
- - Improved formating of DebugFS GEM's status and usage flags
- - Deleted some spurious white spaces
- - Renamed usage flags setting function
+Cc: Lee Jones <lee@kernel.org>
+Cc: Lennart Poettering <lennart@poettering.net>
+Cc: richard.purdie@linuxfoundation.org
+Link: https://github.com/systemd/systemd/pull/36881
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+v2:
+ * Add more explanation
+---
+ Documentation/ABI/stable/sysfs-class-backlight | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-v6:
- - Replaced some mutex calls with scoped guards
- - Documented data size limits in the label ioctl
- - Simplified GEMS status flags treatment (Panthor doesn't use madvise)
- - Fixed some array size and string bugs
- - Improved the naming of GEM status and usage flags to reflect their meaning
- - Improved the formatting of the output table
+diff --git a/Documentation/ABI/stable/sysfs-class-backlight b/Documentation/ABI/stable/sysfs-class-backlight
+index 6102d6bebdf9a..40b8c46b95b28 100644
+--- a/Documentation/ABI/stable/sysfs-class-backlight
++++ b/Documentation/ABI/stable/sysfs-class-backlight
+@@ -26,7 +26,12 @@ Date:		March 2006
+ KernelVersion:	2.6.17
+ Contact:	Richard Purdie <rpurdie@rpsys.net>
+ Description:
+-		Show the actual brightness by querying the hardware.
++		Show the actual brightness by querying the hardware. Due
++		to implementation differences in hardware this may not
++		match the value in 'brightness'. For example some hardware
++		may treat blanking differently or have custom power saving
++		features. Userspace should generally use the values in
++		'brightness' to make decisions.
+ Users:		HAL
+ 
+ What:		/sys/class/backlight/<backlight>/max_brightness
+-- 
+2.43.0
 
-v5:
- - Kept case and naming of kernel BO's consistent
- - Increased the driver minor after new ioctl
- - Now adds BO to debugfs GEMs list at GEM object creation time
- - No longer try to hide BO creator's name when it's a workqueue or modprobe
- - Reworked the procedure for printing GEM state and kernel BO flags
- - Turned kernel BO flags and GEM state flags into bit enums
- - Wait until BO state is marked as initialied for debugfs display
-
-v4:
- - Labelled all kernel BO's, not just heap chunks.
- - Refactored DebugGFs GEMs list handling functions
- - Added debugfs GEMS node mask to tell different kinds of BO's
-
-Adrián Larumbe (4):
-  drm/panthor: Introduce BO labeling
-  drm/panthor: Add driver IOCTL for setting BO labels
-  drm/panthor: Label all kernel BO's
-  drm/panthor: show device-wide list of DRM GEM objects over DebugFS
-
- drivers/gpu/drm/panthor/panthor_device.c |   5 +
- drivers/gpu/drm/panthor/panthor_device.h |  11 ++
- drivers/gpu/drm/panthor/panthor_drv.c    |  90 ++++++++-
- drivers/gpu/drm/panthor/panthor_fw.c     |   8 +-
- drivers/gpu/drm/panthor/panthor_gem.c    | 233 ++++++++++++++++++++++-
- drivers/gpu/drm/panthor/panthor_gem.h    |  80 +++++++-
- drivers/gpu/drm/panthor/panthor_heap.c   |   6 +-
- drivers/gpu/drm/panthor/panthor_sched.c  |   9 +-
- include/uapi/drm/panthor_drm.h           |  20 ++
- 9 files changed, 451 insertions(+), 11 deletions(-)
-
---
-2.48.1
