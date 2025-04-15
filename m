@@ -2,50 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B33A8A391
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 18:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5047CA8A3C8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 18:13:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1216D10E7EC;
-	Tue, 15 Apr 2025 16:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE4FF10E12A;
+	Tue, 15 Apr 2025 16:13:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ui7ufRea";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Iwf/xepf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C778310E7EC
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 16:02:42 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F35B710E12A
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 16:13:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DD73A5C587E;
- Tue, 15 Apr 2025 16:00:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4240C4CEEB;
- Tue, 15 Apr 2025 16:02:37 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id A2DFDA49F7F;
+ Tue, 15 Apr 2025 16:08:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 382BAC4CEEB;
+ Tue, 15 Apr 2025 16:13:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744732958;
- bh=xYa5Lnluzzq1XF7Fg3wlxoInTdc1bHVBlw4ZuU5aC5o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Ui7ufReajCs8Nqo/0Btxjg6riJmM4AzFgBXnbUsTJZW2EAoUI++wY04hW+5B0vebP
- peGQ3RxQeDFY2pL2WZM1AO9ULG65sarGtM0Cu75IFDMRQHXm0vcfgUCJJAKVloB8C6
- hzLeceI7VsGuQZQyy6LmY+ni18R1hOSi9DCOkTQP1R1iYazC8ZRausYONXYduWdSOW
- Qd7bhjYvpJhtoOlcnAql5KQCvDghFsGCcSykxnFwBHOLFNNJcAfgdMRDB/++66XGCU
- 2yRfBx69dGMTB8AoEvM4CZDQmmef9z6Xll9tYtqSdARhlNJEx7YGV5ShRh0mcXw+SK
- JZ0PFZVCPT18w==
-Message-ID: <9663cf9b-6cb6-45b2-9e93-aaf73dec0155@kernel.org>
-Date: Tue, 15 Apr 2025 11:02:36 -0500
+ s=k20201202; t=1744733631;
+ bh=1jFrBy0lzqpyUKpmfkbxvJvV2QeeBiFeu/gLSlD6DXw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Iwf/xepfn8XdaQPkl3OXO2pziEP0MlRo4kLwGSJsiPog0Lg5Q1zc16D6DMGJwuihR
+ wFxPHaCtVDUNGtTLwsWTrCyK5ML3+2kHLLu+hLOI9049UI/1wvm6ANh7f1RkqDDqZE
+ sfK6i25rKsc+rZPzOJjQiMNZCqS9qAsXy/ekUZsqbaFi5M/YNucILhk7ZNjcpj8xhR
+ cTpu1IqsMZdWOGrrLhNg9KBwOnjf8is+U1vUkxZI9HftXGggDq4mt6mtnKRdxCOmja
+ JYxKuYVHbxzBtX6yyWjjBDmrCV6qBEG+qekX20hC4nqmB77hh3oQmv7Pech6xvsaet
+ 8MiIM487OnzWg==
+Date: Tue, 15 Apr 2025 17:13:37 +0100
+From: Simon Horman <horms@kernel.org>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+ joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org,
+ awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, yury.norov@gmail.com,
+ akpm@linux-foundation.org, jdelvare@suse.com, linux@roeck-us.net,
+ alexandre.belloni@bootlin.com, pgaj@cadence.com, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, Frank.Li@nxp.com,
+ linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
+ david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v4 09/13] wifi: brcm80211: Replace open-coded parity
+ calculation with parity_odd()
+Message-ID: <20250415161337.GZ395307@horms.kernel.org>
+References: <20250409154356.423512-1-visitorckw@gmail.com>
+ <20250409154356.423512-10-visitorckw@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: backlight: Clarify `actual_brightness`
-To: Lee Jones <lee@kernel.org>
-Cc: mario.limonciello@amd.com, danielt@kernel.org, jingoohan1@gmail.com,
- Lennart Poettering <lennart@poettering.net>,
- richard.purdie@linuxfoundation.org, dri-devel@lists.freedesktop.org
-References: <20250408192729.4091391-1-superm1@kernel.org>
- <20250415155319.GZ372032@google.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250415155319.GZ372032@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250409154356.423512-10-visitorckw@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,66 +86,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/15/2025 10:53 AM, Lee Jones wrote:
-> On Tue, 08 Apr 2025, Mario Limonciello wrote:
+On Wed, Apr 09, 2025 at 11:43:52PM +0800, Kuan-Wei Chiu wrote:
+> Refactor parity calculations to use the standard parity_odd() helper.
+> This change eliminates redundant implementations.
 > 
->> From: Mario Limonciello <mario.limonciello@amd.com>
->>
->> Currently userspace software systemd treats `brightness` and
->> `actual_brightness` identically due to a bug found in an out of tree
->> driver.
->>
->> This however causes problems for in-tree drivers that use brightness
->> to report user requested `brightness` and `actual_brightness` to report
->> what the hardware actually has programmed.
->>
->> Clarify the documentation to match the behavior described in commit
->> 6ca017658b1f9 ("[PATCH] backlight: Backlight Class Improvements").
->>
->> Cc: Lennart Poettering <lennart@poettering.net>
->> Cc: richard.purdie@linuxfoundation.org
->> Link: https://github.com/systemd/systemd/pull/36881
->> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->> ---
->>   Documentation/ABI/stable/sysfs-class-backlight | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/ABI/stable/sysfs-class-backlight b/Documentation/ABI/stable/sysfs-class-backlight
->> index 6102d6bebdf9a..909cacde85041 100644
->> --- a/Documentation/ABI/stable/sysfs-class-backlight
->> +++ b/Documentation/ABI/stable/sysfs-class-backlight
->> @@ -26,7 +26,9 @@ Date:		March 2006
->>   KernelVersion:	2.6.17
->>   Contact:	Richard Purdie <rpurdie@rpsys.net>
->>   Description:
->> -		Show the actual brightness by querying the hardware.
->> +		Show the actual brightness by querying the hardware. This
->> +		takes into account other factors besides the value programmed
->> +		for 'brightness' and may not match the value in 'brightness'.
+> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> Acked-by: Arend van Spriel <arend.vanspriel@broadcom.com>
+> ---
+>  .../wireless/broadcom/brcm80211/brcmsmac/dma.c | 18 ++----------------
+>  1 file changed, 2 insertions(+), 16 deletions(-)
 > 
-> Which factors?  Under what circumstances may the values not match?
+> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmsmac/dma.c b/drivers/net/wireless/broadcom/brcm80211/brcmsmac/dma.c
+> index 80c35027787a..5d7500ee2d3b 100644
+> --- a/drivers/net/wireless/broadcom/brcm80211/brcmsmac/dma.c
+> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmsmac/dma.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/delay.h>
+>  #include <linux/pci.h>
+> +#include <linux/bitops.h>
+>  #include <net/cfg80211.h>
+>  #include <net/mac80211.h>
+>  
+> @@ -283,24 +284,9 @@ struct dma_info {
+>  	bool aligndesc_4k;
+>  };
+>  
+> -/* Check for odd number of 1's */
+> -static u32 parity32(__le32 data)
+> -{
+> -	/* no swap needed for counting 1's */
+> -	u32 par_data = *(u32 *)&data;
+> -
+> -	par_data ^= par_data >> 16;
+> -	par_data ^= par_data >> 8;
+> -	par_data ^= par_data >> 4;
+> -	par_data ^= par_data >> 2;
+> -	par_data ^= par_data >> 1;
+> -
+> -	return par_data & 1;
+> -}
+> -
+>  static bool dma64_dd_parity(struct dma64desc *dd)
+>  {
+> -	return parity32(dd->addrlow ^ dd->addrhigh ^ dd->ctrl1 ^ dd->ctrl2);
+> +	return parity_odd(dd->addrlow ^ dd->addrhigh ^ dd->ctrl1 ^ dd->ctrl2);
+>  }
 
-Is this question for your background or are you saying these should be 
-enumerated here in the documentation?
+parity32 expected a little-endian integer as it's argument
+while parity_odd expects a host byte order value.
 
-Richard Purdie mentioned:
+I realise that the existing code just casts-away the endianness
+annotation, but this patch adds a Sparse warning.
 
-"The challenge back then was that things like framebuffer blanking would 
-turn off the backlight but the single brightness attribute was 
-implemented inconsistently. Some drivers would report no backlight when 
-blanking was active, some would report the value stored in brightness. 
-This had multiple issues"
+ .../brcmsmac/dma.c:289:66: warning: incorrect type in argument 1 (different base types)
+ .../brcmsmac/dma.c:289:66:    expected unsigned long long [usertype] val
+ .../brcmsmac/dma.c:289:66:    got restricted __le32
 
-For AMD the two cases that can cause this on amdgpu are Custom 
-brightness curves and Adaptive Backlight Management (ABM).
-
-
+>  
+>  /* descriptor bumping functions */
+> -- 
+> 2.34.1
 > 
->>   Users:		HAL
->>   
->>   What:		/sys/class/backlight/<backlight>/max_brightness
->> -- 
->> 2.43.0
->>
 > 
-
