@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B65A89962
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2AD8A89969
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:06:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E64BA10E6F0;
-	Tue, 15 Apr 2025 10:06:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B19E510E6F6;
+	Tue, 15 Apr 2025 10:06:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="X8tuwUWJ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KCq2l9VB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CCD510E6EE;
- Tue, 15 Apr 2025 10:06:30 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0F53E439E9;
- Tue, 15 Apr 2025 10:06:27 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC4AD10E6F7;
+ Tue, 15 Apr 2025 10:06:39 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EA21F43981;
+ Tue, 15 Apr 2025 10:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744711589;
+ t=1744711598;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NKqidbGSwpOxZvh1rH07LyR7X54QUhrDF7xJu6lCfLY=;
- b=X8tuwUWJzEQhWeaoYQjVWalkq9oM3nhikjNPZ1ojp4oSjImVzOiio0GGwlY1VmiG08qmtT
- BK5wtizMAsqhNwbHRKjcdAxDe+yFkEnAsIvxPTiV8R7hnQDW7CuyqVLNDpQCZKLgBWr1R0
- rgoE3WFfWqQEKF/uCORbxr+fl4FhM/ePUvt01OdtwMKfpIsQWwQD+84KBj7qvqWPINhkpM
- WonnUg7RZikQAI2CY94D5opi9OXljFLOu8NYRYtH/OvYjQ84uQ60BuOSRLujLnaEGsFIFQ
- 7/i8dHI5n+ZhUOdD50+bcqRNEbTx6V1WkcQcsphKvpq2MJ/JATWFV42kWYSxhg==
-Message-ID: <cb9fc7d1-9533-495b-83e1-6950bdd45e85@bootlin.com>
-Date: Tue, 15 Apr 2025 12:06:27 +0200
+ bh=gyefS2qsicS2WeYEx2KUc4cRIS7+s7AsX0vNGF7mzds=;
+ b=KCq2l9VBizQUOddDZPnf73tnZwzkwcNtQ4r1V5Z4SAlCrpGqEgU6k0a7K6ZqXSwJL48W+7
+ JBQHbhUVSNjzWmw0U2tGOUDBBbdv9hsI8+hW0C1S71wi+7nB087zWAFJiEYx2hYM3naTd0
+ Ob8HAk5eAK7wm/x1pLLtgEQMrPQ566Izl5DXqBjwqSHq6uSxAT4gTYKuqCIrCz8SsB6Vc4
+ ue1O9e0QVZFl22Qo+CO2McXtHa0mG1h6vVN0y5SFGT3WYTZ8uSnA4eyJ6mNz3UqxuIQe4q
+ zvAZgpm9TnLT4PrOyxbGqpKbzfk2E9SctAmlUfdX1tGuRXBXSYR6mbm9erWYxQ==
+Message-ID: <b21778f9-dd78-495a-80ad-979c6718072f@bootlin.com>
+Date: Tue, 15 Apr 2025 12:06:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v3 26/54] dyndbg: change __dynamic_func_call_cls* macros
- into expressions
+Subject: Re: [PATCH v3 29/54] docs/dyndbg: add classmap info to howto
 To: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org, linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
- jani.nikula@intel.com, ville.syrjala@linux.intel.com
+ jani.nikula@intel.com, ville.syrjala@linux.intel.com,
+ linux-doc@vger.kernel.org
 References: <20250402174156.1246171-1-jim.cromie@gmail.com>
- <20250402174156.1246171-27-jim.cromie@gmail.com>
+ <20250402174156.1246171-30-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,12 +100,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250402174156.1246171-27-jim.cromie@gmail.com>
+In-Reply-To: <20250402174156.1246171-30-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhin
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhin
  hhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,67 +126,145 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 02/04/2025 à 19:41, Jim Cromie a écrit :
-> The Xe driver's XE_IOCTL_DBG macro calls drm_dbg() from inside an if
-> (expression).  This breaks when CONFIG_DRM_USE_DYNAMIC_DEBUG=y because
-> the invoked macro has a do-while-0 wrapper.
+> Describe the 3 API macros providing dynamic_debug's classmaps
 > 
->     if (cond && (drm_dbg("expr-form"),1)) {
->        ... do some more stuff
->     }
+> DYNDBG_CLASSMAP_DEFINE - create & export a classmap
+> DYNDBG_CLASSMAP_USE    - refer to exported map
+> DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
+> DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
 > 
-> Fix for this usage by changing __dynamic_func_call_cls{,_no_desc}
-> macros into expressions, by replacing the do-while-0s with a ({ })
-> wrapper.  In the common usage, the trailing ';' converts the
-> expression into a statement.
+> TBD: some of this might be over-specification, or just over-talked.
 > 
->     drm_dbg("statement form");
+> NB: The _DEFINE & _USE model makes the user dependent on the definer,
+> just like EXPORT_SYMBOL(__drm_debug) already does.
 > 
+> cc: linux-doc@vger.kernel.org
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 > ---
-> ---
->   include/linux/dynamic_debug.h | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
+> v3- rework protection around PARAM
 > 
-> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-> index ce221a702f84..2d87cca27544 100644
-> --- a/include/linux/dynamic_debug.h
-> +++ b/include/linux/dynamic_debug.h
-> @@ -337,20 +337,20 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
->    * (|_cls):	adds in _DPRINT_CLASS_DFLT as needed
->    * (|_no_desc):	former gets callsite descriptor as 1st arg (for prdbgs)
->    */
-> -#define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {	\
-> -	DEFINE_DYNAMIC_DEBUG_METADATA_CLS((id), cls, fmt);	\
-> +#define __dynamic_func_call_cls(id, cls, fmt, func, ...) ({	\
-> +	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);	\
+> v0.5 adjustments per Randy Dunlap
+> v0.7 checkpatch fixes
+> v0.8 more
+> v0.9 rewords
+> 
+> fixup-howto
+> ---
+>   .../admin-guide/dynamic-debug-howto.rst       | 93 +++++++++++++++++++
+>   1 file changed, 93 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+> index 1ceadf4f28f9..5eb4ae3b2f27 100644
+> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> @@ -394,3 +394,96 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
+>   For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
+>   its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+>   in case ``prefix_str`` is built dynamically.
+> +
+> +Dynamic Debug classmaps
+> +=======================
+> +
+> +The "class" keyword selects prdbgs based on author supplied,
+> +domain-oriented names.  This complements the nested-scope keywords:
+> +module, file, function, line.
+> +
+> +The main difference from the others: classes must be named to be
+> +changed.  This protects them from generic overwrite:
+> +
+> +  # IOW this cannot undo any DRM.debug settings
+> +  :#> ddcmd -p
 
-You remove the protection around id here.
+Can you also clarify this in the Controlling dynamic debug Behaviour? At 
+least something like "Some printk may not be affected by >control 
+because of classmaps, see Dynamic Debug classmaps for more information".
 
->   	if (DYNAMIC_DEBUG_BRANCH(id))				\
-> -		func(&id, ##__VA_ARGS__);			\
-> -} while (0)
-> +		func(&(id), ##__VA_ARGS__);			\
+Or maybe integrate this section just after/inside Controlling dynamic 
+debug Behaviour. So a user is not surprised if his command does not have 
+the expected effect.
 
-But you add the protection here.
+> +
+> +This protection is needed in order to honor the ABI, settings done
+> +there must be respected:
+> +
+> +  :#> echo 0x1ff > /sys/module/drm/parameters/debug
+> +
+> +So each class must be enabled individually (no wildcards):
+> +
+> +  :#> ddcmd class DRM_UT_CORE +p
+> +  :#> ddcmd class DRM_UT_KMS +p
+> +  # or more selectively
+> +  :#> ddcmd class DRM_UT_CORE module drm +p
+> +
+> +That makes direct >control wordy and annoying, but it is a secondary
+> +interface; it is not intended to replace the ABI, just slide in
+> +underneath and reimplement it.
+> +
+> +However, since the param is the ABI, if a classmap DEFINEr doesn't
+> +also add a _CLASSMAP_PARAM, there is no ABI, and no protection is
+> +needed.  In that case, class'd prdbgs would be enabled/disabled by
+> +legacy (class-less) queries.
 
-I think in macro it is better to be defensive, so I expect to have () 
-everywhere (except places where it breaks the compilation).
+Very clear, thanks!
 
-> +})
->   #define __dynamic_func_call(id, fmt, func, ...)				\
->   	__dynamic_func_call_cls(id, _DPRINTK_CLASS_DFLT, fmt,		\
->   				func, ##__VA_ARGS__)
->   
-> -#define __dynamic_func_call_cls_no_desc(id, cls, fmt, func, ...) do {	\
-> +#define __dynamic_func_call_cls_no_desc(id, cls, fmt, func, ...) ({	\
->   	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);		\
->   	if (DYNAMIC_DEBUG_BRANCH(id))					\
->   		func(__VA_ARGS__);					\
-> -} while (0)
-> +})
->   #define __dynamic_func_call_no_desc(id, fmt, func, ...)			\
->   	__dynamic_func_call_cls_no_desc(id, _DPRINTK_CLASS_DFLT,	\
->   					fmt, func, ##__VA_ARGS__)
+> +
+> +Dynamic Debug Classmap API
+> +==========================
+> +
+> +DRM.debug is built upon:
+> +  ABI in /sys/module/drm/parameters/debug
+> +      the bits set all DRM_UT_* together
+> +  ~23 categorized api macros: drm_dbg_<T>()
+> +      all calling drm_{,dev}dbg(DRM_UT_*, ....)
+> +  ~5000 calls to the api macros across drivers/gpu/drm/*
+> +
+> +The const short ints are good for optimizing compilers; a primary
+> +classmaps design goal was to preserve those opporunities for
+> +optimization.  So basically .classid === category.
+> +
+> +Then we use the drm_categories DRM_UT_* enum for both the classnames
+> +(stringified enum symbols) and their numeric values.
+> +
+> +Its expected that future users will also use an enum-defined
+> +categorization scheme like DRM's, and dyndbg can be adapted under them
+> +similarly.
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_DEFINE(var,type,_base,classnames) - this maps
+> +classnames (a list of strings) onto class-ids consecutively, starting
+> +at _base, it also maps the names onto CLASSMAP_PARAM bits 0..N.
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_USE(var) - modules call this to refer to the
+> +var _DEFINEd elsewhere (and exported).
+> +
+> +Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
+> +dyndbg to update those classes.  "class FOO" queries are validated
+> +against the classes, this finds the classid to alter; classes are not
+> +directly selectable by their classid.
+> +
+> +There are 2 types of classmaps:
+> +
+> + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
+> + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
+> +refers to a DEFINEd classmap, and associates it to the param's
+> +data-store.  This state is then applied to DEFINEr and USEr modules
+> +when they're modprobed.
+> +
+> +The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
+> +amongst the contained classnames; all classes are independent in the
+> +control parser itself; there is no implied meaning in names like "V4".
+> +
+> +Modules or module-groups (drm & drivers) can define multiple
+> +classmaps, as long as they (all the classmaps) share the limited 0..62
+> +per-module-group _class_id range, without overlap.  If a module
+> +encounters a conflict between 2 classmaps its USEing, we can extend
+> +the _USE macro with an offset to allow avoiding the conflicting range.
+> +
+> +``#define DEBUG`` will enable all pr_debugs in scope, including any
+> +class'd ones.  This won't be reflected in the PARAM readback value,
+> +but the class'd pr_debug callsites can be forced off by toggling the
+> +classmap-kparam all-on then all-off.
 
 -- 
 Louis Chauvet, Bootlin
