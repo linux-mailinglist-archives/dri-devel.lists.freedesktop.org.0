@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADA9A89DEB
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F28A89DF3
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:26:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6177210E765;
-	Tue, 15 Apr 2025 12:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0689B10E766;
+	Tue, 15 Apr 2025 12:26:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DlTwwDmA";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Wr3wov3q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5671910E765
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:25:12 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0BE991FCEA;
- Tue, 15 Apr 2025 12:25:09 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5B610E766
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:26:31 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F3099439A2;
+ Tue, 15 Apr 2025 12:26:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744719911;
+ t=1744719990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5zbsJtJ2mKitArKTofvNZRG20FFldBj0l0sAwAsdSJY=;
- b=DlTwwDmAMFOnZXSXVddGecFGrGqCQdfwzor2xuUWBvFasDRHb1cyGm8dm8JSRBH6B0E/WL
- qowvrdrxeXmGSu5pmurjua/O/GOmNeTaXAqORg4KzXRe6dGOquWn6SqaNJG0uZrG1mkr0H
- hHIDrXv4qXekGIyNfliVBQmZEYT/iOSIsi0WV7goUQNcds5rrsl5t8KCiCW5AA9AnmdfXW
- ZhZwmBn4oHAE2ryimG/P+1UYWIMzhooIr2Aq5H8nO+c/+qZ2PRx5Vc05GFLR+IyPR9/jIL
- vAxjN4rZwSyvtLY5PU8nh40CANcIvOeryySUacD1HngPUsCDgLr/RRLDVBbfSw==
-Message-ID: <c3a5b20d-44cf-44c4-a28b-0f39007439d3@bootlin.com>
-Date: Tue, 15 Apr 2025 14:25:09 +0200
+ bh=48hAWvtDlXq5Osg7MyAgCuPtgoxWC7X4hIYB/TMq83s=;
+ b=Wr3wov3qVVg06wQgYQPUtA08CcNkCDOUQxQCuHTLmiHUCIKeNumyZBwxbekBgTkobcLvOv
+ pXtPYfFaCIy/LirZ1fuBPz9HcecfY7JQaD5QXqjKGIHo8QO32Yi93FsET9CEMdpyu/pR8o
+ eh0vvOevMNnfSS5WCIicDI4G5Dagc4CJOHMSnqqFfq0inKWicKHdJPeEc02U93n81/r60E
+ aPxXRHFGovYjWg/qzzY5jL8N++UPf8pmSOp7XQJZD3dcG7dkeGtNX6swFX+yK3XSn7uXbf
+ JXHccJwUjQP3VwmJTcEcdXcIlTP40SuI6UTrq1Qr2xpAr+mPIsYQoKN1kh5tuA==
+Message-ID: <3a7176f3-ddf2-4845-9b94-7a413c27a1c7@bootlin.com>
+Date: Tue, 15 Apr 2025 14:26:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/16] drm/vkms: Allow to configure multiple encoders
- via configfs
+Subject: Re: [PATCH v4 09/16] drm/vkms: Allow to attach encoders and CRTCs via
+ configfs
 To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250407081425.6420-1-jose.exposito89@gmail.com>
- <20250407081425.6420-9-jose.exposito89@gmail.com>
+ <20250407081425.6420-10-jose.exposito89@gmail.com>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -99,7 +99,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250407081425.6420-9-jose.exposito89@gmail.com>
+In-Reply-To: <20250407081425.6420-10-jose.exposito89@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
@@ -127,8 +127,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Le 07/04/2025 à 10:14, José Expósito a écrit :
 > From: Louis Chauvet <louis.chauvet@bootlin.com>
 > 
-> Create a default subgroup at /config/vkms/encoders to allow to create as
-> many encoders as required.
+> Create a default subgroup at
+> /config/vkms/encoders/encoder/possible_crtcs that will contain symbolic
+> links to the possible CRTCs for the encoder.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
@@ -136,174 +137,125 @@ Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > Co-developed-by: José Expósito <jose.exposito89@gmail.com>
 > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 > ---
->   Documentation/gpu/vkms.rst           |  6 ++
->   drivers/gpu/drm/vkms/vkms_configfs.c | 87 ++++++++++++++++++++++++++++
->   2 files changed, 93 insertions(+)
+>   Documentation/gpu/vkms.rst           |  2 +
+>   drivers/gpu/drm/vkms/vkms_configfs.c | 58 ++++++++++++++++++++++++++++
+>   2 files changed, 60 insertions(+)
 > 
 > diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index 13b96837a266..e24767448775 100644
+> index e24767448775..650dbfa76f59 100644
 > --- a/Documentation/gpu/vkms.rst
 > +++ b/Documentation/gpu/vkms.rst
-> @@ -76,6 +76,7 @@ And directories are created for each configurable item of the display pipeline::
->     tree /config/vkms/my-vkms
->     ├── crtcs
->     ├── enabled
-> +  ├── encoders
->     └── planes
->   
->   To add items to the display pipeline, create one or more directories under the
-> @@ -98,6 +99,10 @@ CRTCs have 1 configurable attribute:
->   
->   - writeback: Enable or disable writeback connector support by writing 1 or 0
->   
-> +Next, create one or more encoders::
-> +
-> +  sudo mkdir /config/vkms/my-vkms/encoders/encoder0
-> +
+> @@ -106,6 +106,7 @@ Next, create one or more encoders::
 >   To finish the configuration, link the different pipeline items::
 >   
 >     sudo ln -s /config/vkms/my-vkms/crtcs/crtc0 /config/vkms/my-vkms/planes/plane0/possible_crtcs
-> @@ -119,6 +124,7 @@ And removing the top level directory and its subdirectories::
+> +  sudo ln -s /config/vkms/my-vkms/crtcs/crtc0 /config/vkms/my-vkms/encoders/encoder0/possible_crtcs
+>   
+>   Since at least one primary plane is required, make sure to set the right type::
+>   
+> @@ -122,6 +123,7 @@ Finally, you can remove the VKMS instance disabling it::
+>   And removing the top level directory and its subdirectories::
+>   
 >     sudo rm /config/vkms/my-vkms/planes/*/possible_crtcs/*
+> +  sudo rm /config/vkms/my-vkms/encoders/*/possible_crtcs/*
 >     sudo rmdir /config/vkms/my-vkms/planes/*
 >     sudo rmdir /config/vkms/my-vkms/crtcs/*
-> +  sudo rmdir /config/vkms/my-vkms/encoders/*
->     sudo rmdir /config/vkms/my-vkms
->   
->   Testing With IGT
+>     sudo rmdir /config/vkms/my-vkms/encoders/*
 > diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index 2cf97c2b6203..0df86e63570a 100644
+> index 0df86e63570a..7de601e39d2b 100644
 > --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 > +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -18,6 +18,7 @@ static bool is_configfs_registered;
->    * Initialized when a new directory is created under "/config/vkms/"
->    * @planes_group: Default subgroup of @group at "/config/vkms/planes"
->    * @crtcs_group: Default subgroup of @group at "/config/vkms/crtcs"
-> + * @encoders_group: Default subgroup of @group at "/config/vkms/encoders"
->    * @lock: Lock used to project concurrent access to the configuration attributes
->    * @config: Protected by @lock. Configuration of the VKMS device
->    * @enabled: Protected by @lock. The device is created or destroyed when this
-> @@ -27,6 +28,7 @@ struct vkms_configfs_device {
+> @@ -70,11 +70,13 @@ struct vkms_configfs_crtc {
+>    *
+>    * @group: Top level configuration group that represents a encoder.
+>    * Initialized when a new directory is created under "/config/vkms/encoders"
+> + * @possible_crtcs_group: Default subgroup of @group at "encoder/possible_crtcs"
+>    * @dev: The vkms_configfs_device this encoder belongs to
+>    * @config: Configuration of the VKMS encoder
+>    */
+>   struct vkms_configfs_encoder {
 >   	struct config_group group;
->   	struct config_group planes_group;
->   	struct config_group crtcs_group;
-> +	struct config_group encoders_group;
->   
->   	struct mutex lock;
->   	struct vkms_config *config;
-> @@ -63,6 +65,20 @@ struct vkms_configfs_crtc {
->   	struct vkms_config_crtc *config;
+> +	struct config_group possible_crtcs_group;
+>   	struct vkms_configfs_device *dev;
+>   	struct vkms_config_encoder *config;
 >   };
->   
-> +/**
-> + * struct vkms_configfs_encoder - Configfs representation of a encoder
-> + *
-> + * @group: Top level configuration group that represents a encoder.
-> + * Initialized when a new directory is created under "/config/vkms/encoders"
-> + * @dev: The vkms_configfs_device this encoder belongs to
-> + * @config: Configuration of the VKMS encoder
-> + */
-> +struct vkms_configfs_encoder {
-> +	struct config_group group;
-> +	struct vkms_configfs_device *dev;
-> +	struct vkms_config_encoder *config;
-> +};
-> +
->   #define device_item_to_vkms_configfs_device(item) \
->   	container_of(to_config_group((item)), struct vkms_configfs_device, \
+> @@ -100,6 +102,10 @@ struct vkms_configfs_encoder {
+>   	container_of(to_config_group((item)), struct vkms_configfs_encoder, \
 >   		     group)
-> @@ -80,6 +96,10 @@ struct vkms_configfs_crtc {
->   #define crtc_item_to_vkms_configfs_crtc(item) \
->   	container_of(to_config_group((item)), struct vkms_configfs_crtc, group)
 >   
-> +#define encoder_item_to_vkms_configfs_encoder(item) \
+> +#define encoder_possible_crtcs_item_to_vkms_configfs_encoder(item) \
 > +	container_of(to_config_group((item)), struct vkms_configfs_encoder, \
-> +		     group)
+> +		     possible_crtcs_group)
 > +
 >   static ssize_t crtc_writeback_show(struct config_item *item, char *page)
 >   {
 >   	struct vkms_configfs_crtc *crtc;
-> @@ -344,6 +364,69 @@ static const struct config_item_type plane_group_type = {
+> @@ -364,6 +370,52 @@ static const struct config_item_type plane_group_type = {
 >   	.ct_owner	= THIS_MODULE,
 >   };
 >   
-> +static void encoder_release(struct config_item *item)
+> +static int encoder_possible_crtcs_allow_link(struct config_item *src,
+> +					     struct config_item *target)
 > +{
 > +	struct vkms_configfs_encoder *encoder;
-> +	struct mutex *lock;
+> +	struct vkms_configfs_crtc *crtc;
+> +	int ret;
 > +
-> +	encoder = encoder_item_to_vkms_configfs_encoder(item);
-> +	lock = &encoder->dev->lock;
+> +	if (target->ci_type != &crtc_item_type)
+> +		return -EINVAL;
 > +
-> +	scoped_guard(mutex, lock) {
-> +		vkms_config_destroy_encoder(encoder->dev->config, encoder->config);
-> +		kfree(encoder);
+> +	encoder = encoder_possible_crtcs_item_to_vkms_configfs_encoder(src);
+> +	crtc = crtc_item_to_vkms_configfs_crtc(target);
+> +
+> +	scoped_guard(mutex, &encoder->dev->lock) {
+> +		if (encoder->dev->enabled)
+> +			return -EBUSY;
+> +
+> +		ret = vkms_config_encoder_attach_crtc(encoder->config, crtc->config);
 > +	}
+> +
+> +	return ret;
 > +}
 > +
-> +static struct configfs_item_operations encoder_item_operations = {
-> +	.release	= &encoder_release,
+> +static void encoder_possible_crtcs_drop_link(struct config_item *src,
+> +					     struct config_item *target)
+> +{
+> +	struct vkms_configfs_encoder *encoder;
+> +	struct vkms_configfs_crtc *crtc;
+> +
+> +	encoder = encoder_possible_crtcs_item_to_vkms_configfs_encoder(src);
+> +	crtc = crtc_item_to_vkms_configfs_crtc(target);
+> +
+> +	scoped_guard(mutex, &encoder->dev->lock)
+> +		vkms_config_encoder_detach_crtc(encoder->config, crtc->config);
+> +}
+> +
+> +static struct configfs_item_operations encoder_possible_crtcs_item_operations = {
+> +	.allow_link	= encoder_possible_crtcs_allow_link,
+> +	.drop_link	= encoder_possible_crtcs_drop_link,
 > +};
 > +
-> +static const struct config_item_type encoder_item_type = {
-> +	.ct_item_ops	= &encoder_item_operations,
+> +static const struct config_item_type encoder_possible_crtcs_group_type = {
+> +	.ct_item_ops	= &encoder_possible_crtcs_item_operations,
 > +	.ct_owner	= THIS_MODULE,
 > +};
 > +
-> +static struct config_group *make_encoder_group(struct config_group *group,
-> +					       const char *name)
-> +{
-> +	struct vkms_configfs_device *dev;
-> +	struct vkms_configfs_encoder *encoder;
-> +
-> +	dev = child_group_to_vkms_configfs_device(group);
-> +
-> +	scoped_guard(mutex, &dev->lock) {
-> +		if (dev->enabled)
-> +			return ERR_PTR(-EBUSY);
-> +
-> +		encoder = kzalloc(sizeof(*encoder), GFP_KERNEL);
-> +		if (!encoder)
-> +			return ERR_PTR(-ENOMEM);
-> +
-> +		encoder->dev = dev;
-> +
-> +		encoder->config = vkms_config_create_encoder(dev->config);
-> +		if (IS_ERR(encoder->config)) {
-> +			kfree(encoder);
-> +			return ERR_CAST(encoder->config);
-> +		}
-> +
-> +		config_group_init_type_name(&encoder->group, name,
-> +					    &encoder_item_type);
-> +	}
-> +
-> +	return &encoder->group;
-> +}
-> +
-> +static struct configfs_group_operations encoders_group_operations = {
-> +	.make_group	= &make_encoder_group,
-> +};
-> +
-> +static const struct config_item_type encoder_group_type = {
-> +	.ct_group_ops	= &encoders_group_operations,
-> +	.ct_owner	= THIS_MODULE,
-> +};
-> +
->   static ssize_t device_enabled_show(struct config_item *item, char *page)
+>   static void encoder_release(struct config_item *item)
 >   {
->   	struct vkms_configfs_device *dev;
-> @@ -447,6 +530,10 @@ static struct config_group *make_device_group(struct config_group *group,
->   				    &crtc_group_type);
->   	configfs_add_default_group(&dev->crtcs_group, &dev->group);
+>   	struct vkms_configfs_encoder *encoder;
+> @@ -413,6 +465,12 @@ static struct config_group *make_encoder_group(struct config_group *group,
 >   
-> +	config_group_init_type_name(&dev->encoders_group, "encoders",
-> +				    &encoder_group_type);
-> +	configfs_add_default_group(&dev->encoders_group, &dev->group);
+>   		config_group_init_type_name(&encoder->group, name,
+>   					    &encoder_item_type);
 > +
->   	return &dev->group;
->   }
+> +		config_group_init_type_name(&encoder->possible_crtcs_group,
+> +					    "possible_crtcs",
+> +					    &encoder_possible_crtcs_group_type);
+> +		configfs_add_default_group(&encoder->possible_crtcs_group,
+> +					   &encoder->group);
+>   	}
 >   
+>   	return &encoder->group;
 
 -- 
 Louis Chauvet, Bootlin
