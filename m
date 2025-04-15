@@ -2,43 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30885A89BFD
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 13:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BF8A89C10
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 13:22:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF4510E737;
-	Tue, 15 Apr 2025 11:21:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27EF310E741;
+	Tue, 15 Apr 2025 11:22:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ooxYWGBm";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 50F3710E737
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 11:21:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B984415A1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 04:21:01 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 395CA3F66E
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 04:21:03 -0700 (PDT)
-Date: Tue, 15 Apr 2025 12:21:01 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] drm/panthor: Clean up 64-bit register definitions
-Message-ID: <Z_5BHamrP6vQCRV-@e110455-lin.cambridge.arm.com>
-References: <20250411164805.2015088-1-karunika.choo@arm.com>
- <20250411164805.2015088-3-karunika.choo@arm.com>
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 411AE10E741
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 11:22:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 76FBA42E80;
+ Tue, 15 Apr 2025 11:22:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1744716138;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ce+IwTEn7RCz08YVwGx43PTtcD7P4z3APrNV2Hlmmdg=;
+ b=ooxYWGBmWQNpY8qBkAG1tL/PsuZ2teXqEGAWxLkB3Q3noYAroVXepTsE0n9AgXge8bvwqx
+ dLS9WfdG5SUS1H12jr6l7Kvoo78E8R/6KgOC/2PwJYXCe21qTcOdKVYZdJSbkC5EhR/5tp
+ EPoIAvZ5tYkGdMx3+veHsLrAmxiWHK2PLifjwidYrsHDjVB2IYuQYEUf8zwoHoqt9foCiG
+ Wa7vZoHKYqS1ESuAR2TI7gjef2zRTNIQlqJ0JxpiK/i8jamlO/50Zr3ip7cq0GlLcDqol3
+ PE9TGkRwGELh93o5aXhOi5Ibb96VwQiXEmZGHj+dlhhim6iSGg1P7wHnK0BldQ==
+Date: Tue, 15 Apr 2025 13:22:14 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Anusha Srivatsa
+ <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, Dmitry
+ Baryshkov <lumag@kernel.org>, =?UTF-8?B?SGVydsOp?= Codina
+ <herve.codina@bootlin.com>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] drm/tests: bridge: add a KUnit test for
+ devm_drm_bridge_alloc()
+Message-ID: <20250415132214.19b1a4ff@booty>
+In-Reply-To: <20250414-misty-hungry-woodlouse-dbbd64@houat>
+References: <20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com>
+ <20250409-drm-bridge-alloc-doc-test-v7-2-a3ca4b97597f@bootlin.com>
+ <20250414-misty-hungry-woodlouse-dbbd64@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250411164805.2015088-3-karunika.choo@arm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdeffeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdeljeejuddvudetffdtudelfedugfduledtueffuedufefgudegkeegtdeihedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvuddprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhto
+ hepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,304 +77,212 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 11, 2025 at 05:48:05PM +0100, Karunika Choo wrote:
-> With the introduction of 64-bit register accessors, the separate *_HI
-> definitions are no longer necessary. This change removes them and
-> renames the corresponding *_LO entries for cleaner and more consistent
-> register definitions.
-> 
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+Hi Maxime,
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+thanks for the careful review.
 
-Best regards,
-Liviu
+On Mon, 14 Apr 2025 17:49:16 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
 
-> ---
->  drivers/gpu/drm/panthor/panthor_gpu.c  | 12 ++--
->  drivers/gpu/drm/panthor/panthor_gpu.h  | 10 +--
->  drivers/gpu/drm/panthor/panthor_mmu.c  | 16 ++---
->  drivers/gpu/drm/panthor/panthor_regs.h | 94 +++++++++-----------------
->  4 files changed, 52 insertions(+), 80 deletions(-)
+> Hi,
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index fd09f0928019..5fc45284c712 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -108,9 +108,9 @@ static void panthor_gpu_init_info(struct panthor_device *ptdev)
->  
->  	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
->  
-> -	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
-> -	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
-> -	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
-> +	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT);
-> +	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT);
-> +	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT);
->  
->  	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
->  	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
-> @@ -147,7 +147,7 @@ static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
->  	if (status & GPU_IRQ_FAULT) {
->  		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
-> -		u64 address = gpu_read64(ptdev, GPU_FAULT_ADDR_LO);
-> +		u64 address = gpu_read64(ptdev, GPU_FAULT_ADDR);
->  
->  		drm_warn(&ptdev->base, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
->  			 fault_status, panthor_exception_name(ptdev, fault_status & 0xFF),
-> @@ -457,7 +457,7 @@ void panthor_gpu_resume(struct panthor_device *ptdev)
->   */
->  u64 panthor_gpu_read_timestamp(struct panthor_device *ptdev)
->  {
-> -	return gpu_read64_counter(ptdev, GPU_TIMESTAMP_LO);
-> +	return gpu_read64_counter(ptdev, GPU_TIMESTAMP);
->  }
->  
->  /**
-> @@ -468,5 +468,5 @@ u64 panthor_gpu_read_timestamp(struct panthor_device *ptdev)
->   */
->  u64 panthor_gpu_read_timestamp_offset(struct panthor_device *ptdev)
->  {
-> -	return gpu_read64(ptdev, GPU_TIMESTAMP_OFFSET_LO);
-> +	return gpu_read64(ptdev, GPU_TIMESTAMP_OFFSET);
->  }
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.h b/drivers/gpu/drm/panthor/panthor_gpu.h
-> index 7f6133a66127..89a0bdb2fbc5 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.h
-> @@ -30,9 +30,9 @@ int panthor_gpu_block_power_off(struct panthor_device *ptdev,
->   */
->  #define panthor_gpu_power_on(ptdev, type, mask, timeout_us) \
->  	panthor_gpu_block_power_on(ptdev, #type, \
-> -				  type ## _PWRON_LO, \
-> -				  type ## _PWRTRANS_LO, \
-> -				  type ## _READY_LO, \
-> +				  type ## _PWRON, \
-> +				  type ## _PWRTRANS, \
-> +				  type ## _READY, \
->  				  mask, timeout_us)
->  
->  /**
-> @@ -42,8 +42,8 @@ int panthor_gpu_block_power_off(struct panthor_device *ptdev,
->   */
->  #define panthor_gpu_power_off(ptdev, type, mask, timeout_us) \
->  	panthor_gpu_block_power_off(ptdev, #type, \
-> -				   type ## _PWROFF_LO, \
-> -				   type ## _PWRTRANS_LO, \
-> +				   type ## _PWROFF, \
-> +				   type ## _PWRTRANS, \
->  				   mask, timeout_us)
->  
->  int panthor_gpu_l2_power_on(struct panthor_device *ptdev);
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index a0a79f19bdea..1db4a46ddf98 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -564,7 +564,7 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
->  	region = region_width | region_start;
->  
->  	/* Lock the region that needs to be updated */
-> -	gpu_write64(ptdev, AS_LOCKADDR_LO(as_nr), region);
-> +	gpu_write64(ptdev, AS_LOCKADDR(as_nr), region);
->  	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
->  }
->  
-> @@ -614,9 +614,9 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
->  	if (ret)
->  		return ret;
->  
-> -	gpu_write64(ptdev, AS_TRANSTAB_LO(as_nr), transtab);
-> -	gpu_write64(ptdev, AS_MEMATTR_LO(as_nr), memattr);
-> -	gpu_write64(ptdev, AS_TRANSCFG_LO(as_nr), transcfg);
-> +	gpu_write64(ptdev, AS_TRANSTAB(as_nr), transtab);
-> +	gpu_write64(ptdev, AS_MEMATTR(as_nr), memattr);
-> +	gpu_write64(ptdev, AS_TRANSCFG(as_nr), transcfg);
->  
->  	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
->  }
-> @@ -629,9 +629,9 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
->  	if (ret)
->  		return ret;
->  
-> -	gpu_write64(ptdev, AS_TRANSTAB_LO(as_nr), 0);
-> -	gpu_write64(ptdev, AS_MEMATTR_LO(as_nr), 0);
-> -	gpu_write64(ptdev, AS_TRANSCFG_LO(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
-> +	gpu_write64(ptdev, AS_TRANSTAB(as_nr), 0);
-> +	gpu_write64(ptdev, AS_MEMATTR(as_nr), 0);
-> +	gpu_write64(ptdev, AS_TRANSCFG(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
->  
->  	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
->  }
-> @@ -1669,7 +1669,7 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
->  		u32 source_id;
->  
->  		fault_status = gpu_read(ptdev, AS_FAULTSTATUS(as));
-> -		addr = gpu_read64(ptdev, AS_FAULTADDRESS_LO(as));
-> +		addr = gpu_read64(ptdev, AS_FAULTADDRESS(as));
->  
->  		/* decode the fault status */
->  		exception_type = fault_status & 0xFF;
-> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-> index 6fd39a52f887..7e21d6a25dc4 100644
-> --- a/drivers/gpu/drm/panthor/panthor_regs.h
-> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
-> @@ -65,20 +65,16 @@
->  #define   GPU_STATUS_DBG_ENABLED			BIT(8)
->  
->  #define GPU_FAULT_STATUS				0x3C
-> -#define GPU_FAULT_ADDR_LO				0x40
-> -#define GPU_FAULT_ADDR_HI				0x44
-> +#define GPU_FAULT_ADDR					0x40
->  
->  #define GPU_PWR_KEY					0x50
->  #define  GPU_PWR_KEY_UNLOCK				0x2968A819
->  #define GPU_PWR_OVERRIDE0				0x54
->  #define GPU_PWR_OVERRIDE1				0x58
->  
-> -#define GPU_TIMESTAMP_OFFSET_LO				0x88
-> -#define GPU_TIMESTAMP_OFFSET_HI				0x8C
-> -#define GPU_CYCLE_COUNT_LO				0x90
-> -#define GPU_CYCLE_COUNT_HI				0x94
-> -#define GPU_TIMESTAMP_LO				0x98
-> -#define GPU_TIMESTAMP_HI				0x9C
-> +#define GPU_TIMESTAMP_OFFSET				0x88
-> +#define GPU_CYCLE_COUNT					0x90
-> +#define GPU_TIMESTAMP					0x98
->  
->  #define GPU_THREAD_MAX_THREADS				0xA0
->  #define GPU_THREAD_MAX_WORKGROUP_SIZE			0xA4
-> @@ -87,47 +83,29 @@
->  
->  #define GPU_TEXTURE_FEATURES(n)				(0xB0 + ((n) * 4))
->  
-> -#define GPU_SHADER_PRESENT_LO				0x100
-> -#define GPU_SHADER_PRESENT_HI				0x104
-> -#define GPU_TILER_PRESENT_LO				0x110
-> -#define GPU_TILER_PRESENT_HI				0x114
-> -#define GPU_L2_PRESENT_LO				0x120
-> -#define GPU_L2_PRESENT_HI				0x124
-> -
-> -#define SHADER_READY_LO					0x140
-> -#define SHADER_READY_HI					0x144
-> -#define TILER_READY_LO					0x150
-> -#define TILER_READY_HI					0x154
-> -#define L2_READY_LO					0x160
-> -#define L2_READY_HI					0x164
-> -
-> -#define SHADER_PWRON_LO					0x180
-> -#define SHADER_PWRON_HI					0x184
-> -#define TILER_PWRON_LO					0x190
-> -#define TILER_PWRON_HI					0x194
-> -#define L2_PWRON_LO					0x1A0
-> -#define L2_PWRON_HI					0x1A4
-> -
-> -#define SHADER_PWROFF_LO				0x1C0
-> -#define SHADER_PWROFF_HI				0x1C4
-> -#define TILER_PWROFF_LO					0x1D0
-> -#define TILER_PWROFF_HI					0x1D4
-> -#define L2_PWROFF_LO					0x1E0
-> -#define L2_PWROFF_HI					0x1E4
-> -
-> -#define SHADER_PWRTRANS_LO				0x200
-> -#define SHADER_PWRTRANS_HI				0x204
-> -#define TILER_PWRTRANS_LO				0x210
-> -#define TILER_PWRTRANS_HI				0x214
-> -#define L2_PWRTRANS_LO					0x220
-> -#define L2_PWRTRANS_HI					0x224
-> -
-> -#define SHADER_PWRACTIVE_LO				0x240
-> -#define SHADER_PWRACTIVE_HI				0x244
-> -#define TILER_PWRACTIVE_LO				0x250
-> -#define TILER_PWRACTIVE_HI				0x254
-> -#define L2_PWRACTIVE_LO					0x260
-> -#define L2_PWRACTIVE_HI					0x264
-> +#define GPU_SHADER_PRESENT				0x100
-> +#define GPU_TILER_PRESENT				0x110
-> +#define GPU_L2_PRESENT					0x120
-> +
-> +#define SHADER_READY					0x140
-> +#define TILER_READY					0x150
-> +#define L2_READY					0x160
-> +
-> +#define SHADER_PWRON					0x180
-> +#define TILER_PWRON					0x190
-> +#define L2_PWRON					0x1A0
-> +
-> +#define SHADER_PWROFF					0x1C0
-> +#define TILER_PWROFF					0x1D0
-> +#define L2_PWROFF					0x1E0
-> +
-> +#define SHADER_PWRTRANS					0x200
-> +#define TILER_PWRTRANS					0x210
-> +#define L2_PWRTRANS					0x220
-> +
-> +#define SHADER_PWRACTIVE				0x240
-> +#define TILER_PWRACTIVE					0x250
-> +#define L2_PWRACTIVE					0x260
->  
->  #define GPU_REVID					0x280
->  
-> @@ -170,10 +148,8 @@
->  #define MMU_AS_SHIFT					6
->  #define MMU_AS(as)					(MMU_BASE + ((as) << MMU_AS_SHIFT))
->  
-> -#define AS_TRANSTAB_LO(as)				(MMU_AS(as) + 0x0)
-> -#define AS_TRANSTAB_HI(as)				(MMU_AS(as) + 0x4)
-> -#define AS_MEMATTR_LO(as)				(MMU_AS(as) + 0x8)
-> -#define AS_MEMATTR_HI(as)				(MMU_AS(as) + 0xC)
-> +#define AS_TRANSTAB(as)					(MMU_AS(as) + 0x0)
-> +#define AS_MEMATTR(as)					(MMU_AS(as) + 0x8)
->  #define   AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL		(2 << 2)
->  #define   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(w, r)	((3 << 2) | \
->  							 ((w) ? BIT(0) : 0) | \
-> @@ -185,8 +161,7 @@
->  #define   AS_MEMATTR_AARCH64_INNER_OUTER_NC		(1 << 6)
->  #define   AS_MEMATTR_AARCH64_INNER_OUTER_WB		(2 << 6)
->  #define   AS_MEMATTR_AARCH64_FAULT			(3 << 6)
-> -#define AS_LOCKADDR_LO(as)				(MMU_AS(as) + 0x10)
-> -#define AS_LOCKADDR_HI(as)				(MMU_AS(as) + 0x14)
-> +#define AS_LOCKADDR(as)					(MMU_AS(as) + 0x10)
->  #define AS_COMMAND(as)					(MMU_AS(as) + 0x18)
->  #define   AS_COMMAND_NOP				0
->  #define   AS_COMMAND_UPDATE				1
-> @@ -201,12 +176,10 @@
->  #define  AS_FAULTSTATUS_ACCESS_TYPE_EX			(0x1 << 8)
->  #define  AS_FAULTSTATUS_ACCESS_TYPE_READ		(0x2 << 8)
->  #define  AS_FAULTSTATUS_ACCESS_TYPE_WRITE		(0x3 << 8)
-> -#define AS_FAULTADDRESS_LO(as)				(MMU_AS(as) + 0x20)
-> -#define AS_FAULTADDRESS_HI(as)				(MMU_AS(as) + 0x24)
-> +#define AS_FAULTADDRESS(as)				(MMU_AS(as) + 0x20)
->  #define AS_STATUS(as)					(MMU_AS(as) + 0x28)
->  #define   AS_STATUS_AS_ACTIVE				BIT(0)
-> -#define AS_TRANSCFG_LO(as)				(MMU_AS(as) + 0x30)
-> -#define AS_TRANSCFG_HI(as)				(MMU_AS(as) + 0x34)
-> +#define AS_TRANSCFG(as)					(MMU_AS(as) + 0x30)
->  #define   AS_TRANSCFG_ADRMODE_UNMAPPED			(1 << 0)
->  #define   AS_TRANSCFG_ADRMODE_IDENTITY			(2 << 0)
->  #define   AS_TRANSCFG_ADRMODE_AARCH64_4K		(6 << 0)
-> @@ -224,8 +197,7 @@
->  #define   AS_TRANSCFG_DISABLE_AF_FAULT			BIT(34)
->  #define   AS_TRANSCFG_WXN				BIT(35)
->  #define   AS_TRANSCFG_XREADABLE				BIT(36)
-> -#define AS_FAULTEXTRA_LO(as)				(MMU_AS(as) + 0x38)
-> -#define AS_FAULTEXTRA_HI(as)				(MMU_AS(as) + 0x3C)
-> +#define AS_FAULTEXTRA(as)				(MMU_AS(as) + 0x38)
->  
->  #define CSF_GPU_LATEST_FLUSH_ID				0x10000
->  
-> -- 
-> 2.47.1
+> On Wed, Apr 09, 2025 at 04:50:35PM +0200, Luca Ceresoli wrote:
+> > Add a basic KUnit test for the newly introduced drm_bridge_alloc().
+> > 
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > 
+> > ---
+> > 
+> > Changed in v7:
+> >  - rebase on current drm-misc-next, which now has a drm_bridge_test.c file
+> >  - cleanup commit message
+> > 
+> > Changed in v6:
+> >  - update to new devm_drm_bridge_alloc() API
+> >  - remove drm_test_drm_bridge_put test, not straightforward to write with
+> >    the new API and the current notification mechanism
+> >  - do not allocate a drm_device: a bridge is allocated without one
+> >  - rename some identifiers for easier code reading
+> > 
+> > This patch was added in v5.
+> > ---
+> >  drivers/gpu/drm/tests/drm_bridge_test.c | 60 +++++++++++++++++++++++++++++++++
+> >  1 file changed, 60 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/tests/drm_bridge_test.c
+> > index ff88ec2e911c9cc9a718483f09d4c764f45f991a..87fb64744b67f0780457a546aba77ba945a0ce67 100644
+> > --- a/drivers/gpu/drm/tests/drm_bridge_test.c
+> > +++ b/drivers/gpu/drm/tests/drm_bridge_test.c
+> > @@ -8,6 +8,7 @@
+> >  #include <drm/drm_bridge_helper.h>
+> >  #include <drm/drm_kunit_helpers.h>
+> >  
+> > +#include <kunit/device.h>
+> >  #include <kunit/test.h>
+> >  
+> >  struct drm_bridge_init_priv {
+> > @@ -407,11 +408,70 @@ static struct kunit_suite drm_bridge_helper_reset_crtc_test_suite = {
+> >  	.test_cases = drm_bridge_helper_reset_crtc_tests,
+> >  };
+> >  
+> > +struct drm_bridge_alloc_test_ctx {
+> > +	struct device *dev;
+> > +};  
 > 
+> You don't need a struct there then, you can just pass the device pointer.
+
+Indeed!
+
+> > +/*
+> > + * Mimick the typical struct defined by a bridge driver, which embeds a
+> > + * bridge plus other fields.
+> > + */
+> > +struct dummy_drm_bridge {
+> > +	int dummy; // ensure we test non-zero @bridge offset
+> > +	struct drm_bridge bridge;
+> > +};  
+> 
+> drm_bridge_init_priv gives you that already.
+
+On one hand, that's true. On the other hand, looking at
+drm_bridge_init_priv I noticed it is allocating a bridge without using
+devm_drm_bridge_alloc(). This should be converted, like all bridge
+alloctions.
+
+So I think the we first need to update drm_bridge_test.c to allocate
+the bridge using devm_drm_bridge_alloc(), along with the needed changes
+to the kunit helpers.
+
+One way would be allocating the entire drm_bridge_init_priv using
+devm_drm_bridge_alloc(), but that does not look like a correct design
+and after reading the helpers code I'm not even sure it would be doable.
+
+Instead I think we need to change struct drm_bridge_init_priv
+to embed a pointer to (a modified version of) struct dummy_drm_bridge:
+
+ struct drm_bridge_init_priv {
+         struct drm_device drm;
+         struct drm_plane *plane;
+         struct drm_crtc *crtc;
+         struct drm_encoder encoder;
+-        struct drm_bridge bridge;
++        struct dummy_drm_bridge *test_bridge;
+         struct drm_connector *connector;
+         unsigned int enable_count;
+         unsigned int disable_count;
+ };
+
+So that devm_drm_bridge_alloc() can allocate the new test_bridge
+dynamically:
+
+ priv->test_bridge =
+   devm_drm_bridge_alloc(..., struct dummy_drm_bridge, bridge, ...);
+
+Do you think this would be the correct approach?
+
+> > +static const struct drm_bridge_funcs drm_bridge_dummy_funcs = {
+> > +};
+> > +
+> > +static int drm_test_bridge_alloc_init(struct kunit *test)
+> > +{
+> > +	struct drm_bridge_alloc_test_ctx *ctx;
+> > +
+> > +	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+> > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+> > +
+> > +	ctx->dev = kunit_device_register(test, "drm-bridge-dev");
+> > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dev);
+> > +
+> > +	test->priv = ctx;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/*
+> > + * Test that the allocation and initialization of a bridge works as
+> > + * expected and doesn't report any error.
+> > + */
+> > +static void drm_test_drm_bridge_alloc(struct kunit *test)
+> > +{
+> > +	struct drm_bridge_alloc_test_ctx *ctx = test->priv;
+> > +	struct dummy_drm_bridge *dummy;
+> > +
+> > +	dummy = devm_drm_bridge_alloc(ctx->dev, struct dummy_drm_bridge, bridge,
+> > +				      &drm_bridge_dummy_funcs);
+> > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy);  
+> 
+> Why did you need the dummy value in dummy_drm_bridge if you're not using
+> it?
+
+To ensure we test non-zero @bridge offset. Say there is a bug in the
+pointer math, e.g. 'bridge = container - offset' instead of 'bridge =
+container + offset'. That would not be caught if @bridge is the first
+field in the struct.
+
+Does this look like a good reason to keep it?
+
+> We'd need a couple more tests, in particular some to make sure the
+> bridge pointer is properly cleaned up when the device goes away, but not
+> when we have called drm_bridge_get pointer on it, etc.
+
+It would surely be useful, and there was one in the initial patch I
+sent ([0], search for "destroyed"). Then I removed it because the code
+changed, there is no callback anymore, so no place where this can be
+tested.
+
+I'd be glad to re-add such a check but I don't see how it could be
+implemented in a clean, non-invasive way.
+
+The only way that comes to mind is be that the kunit test does not call
+drm_bridge_put() but rather a kunit-specific reimplementation that
+passes a reimplementation of __drm_bridge_free() which does the
+accounting. Quick draft (note the added "_test" infix):
+
+struct dummy_drm_bridge {
+        struct drm_bridge_init_priv *test_priv;
+        struct drm_bridge bridge;
+};
+
+// reimplemented version of __drm_bridge_free
+static void __drm_test_bridge_free(struct kref *kref)
+{
+        struct drm_bridge *bridge = container_of(kref, struct drm_bridge, refcount);
+	struct dummy_drm_bridge *dummy = bridge->container;
+	
+	dummy->text_priv->destroyed = true;
+        kfree(bridge->container);
+}
+
+// reimplemented version of drm_bridge_put
+void drm_test_bridge_put(struct drm_bridge *bridge)
+{
+        if (bridge)
+                kref_put(&bridge->refcount, __drm_test_bridge_free);
+}
+
+My concern with this idea is that it is not testing the actual
+drm_bridge.c code, but a different implementation. Even more, if the
+functions in drm_bridge.c will change, the ones in drm_bridge_test.c
+might be forgotten, thus we'd end up in testing code that is different
+from the code actually used.
+
+Another way would be adding an optional .destroy a callback in struct
+drm_bridge_funcs that is called in __drm_bridge_free(), and only the
+kunit test code implements it. Maybe looks cleaner, but it would be
+invasive on code that all bridges use. We had discussed a different
+idea of .destroy callback in the past, for different reasons, and it
+was not solving the problem we had in that case. So kunit would be the
+only user for the foreseeable future.
+
+You opinion about these ideas? Can you suggest a better way to implement
+such a test, that is clean and not needing to change drm_bridge_put()
+and related functions?
+
+Luca
+
+[0] https://lore.kernel.org/all/20241231-hotplug-drm-bridge-v5-5-173065a1ece1@bootlin.com/
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
