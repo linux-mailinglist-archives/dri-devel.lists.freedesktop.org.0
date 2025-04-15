@@ -2,79 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD63A89AB7
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29A4A89AB9
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:45:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD3110E71C;
-	Tue, 15 Apr 2025 10:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25D3C10E735;
+	Tue, 15 Apr 2025 10:45:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LvgwWRBy";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cZAnh3Gf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mWnBbZ0v";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cZAnh3Gf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mWnBbZ0v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B826F10E71C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 10:44:55 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-39149bccb69so5272384f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 03:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1744713894; x=1745318694; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fdo8dneaizrUoQYs0r04kTs5qLNomw+odVlo3gYg1Fw=;
- b=LvgwWRByd5kfb6fsU3zBt9+geIRB8MNYpgB1lSeHqqdzze7+IbUz3Jt95QrdCufyJ5
- H/6KBi9UNyh+7U9+zdc4ZR3bt8UICh5DSm/wQge1HST/zt3+6K9T9zuvy+wtqiFPYoZm
- I3nZjolxyqnRVtoxV8MB1xmXJQu/5Q7m1ZRwN3slBSxuCHp2bpm7ME15FRvVsebi+M68
- 3RzJfibrfvCNLtkHAyfrrApscms711C/JprAHXME+xAGwc23wjjafL3ra0TevcI94nqg
- XGm6ZUNuAJUlILKMJoqeqW4SSDDhTcG8vywCcFZd80eYUrFXnG+d46fdBNdK4Kjr2iS6
- O/aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744713894; x=1745318694;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fdo8dneaizrUoQYs0r04kTs5qLNomw+odVlo3gYg1Fw=;
- b=m2qm5bODq4q29s4TUlt33djOTr+EKUQqY6VbgvM5foul4Qo0ag1LghohVihjv+2O5b
- tsNotm9GHELyHJW+xMiSy1PnwnE6esHcc5pr7S5V7N9dP1iP+Q0K+R5rK8TgtnXv6wkb
- 3RahahbC745Zjh6/SvoFuzNzfVAz5XkEOxugFw6XNETz3i54EQ3FqxB78W9TSvthWZgM
- 9l53NBGumnS+WSruodHEQEt/OPvAcNuyTNla+NBXh53OHVyQrQmY7bHbWxt1CF+UtCYE
- A+mbN/IpSSUMI2vzU+GF68f/FZTZkmhCL85F6r8+dkgl1Rw/U2ghZG49xo4ExcGY37NZ
- sb2g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQM3w4LqueW9BEiurD5BFqIGGZUrOte/fjLHRMjUP70OF+EV4z2kN2UToAYO9hTPhDl6BNK2Zvo64=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbpNvp5VoyPnWhbHP/6PSRDbnM24kEe3wquY238mN/rjt/j8Yb
- S4UGAXNSgBpUHulkpMQ9XQ3KzoiguqxdqqWR7nTu/YR8zwMzdVPC7eBbjNSK+uk=
-X-Gm-Gg: ASbGnctOxXl30CuioPImEJDvqp7AJO3NDnEKhBt0x2aFAm1zjWCd/oJjKZTA2Log4I/
- QufyyapWooQyR0LkmTXHV1doTtmsjhHJouze9A1bvCNyVjj/zLGEcOrpEQphEnhcqLGHJEb6ezV
- x2QTAzL1iPtVPGl68xY/rCC5qizSC5JzIZzT/Kc7Gfcz9g0dXRYBIGtZKkitiWJVxBomv5Ddh0G
- CMP6KmEmVqYAuM9tIYouOECtmTEmNFItLrsarIaYu5RbJJjNHgdpUCSmqdNpQTtms25nm3STt3x
- KXXKRiFCoRlUpO4oHvfXFfToIiGgbLpTpKjfpLGEWpnCbvXj20ze1chu
-X-Google-Smtp-Source: AGHT+IGc9RW10knIr3MFj1Pzt4vKOq0H3enobQU/zlnoeN7SKpLX1yrOkCKkuW4z4l4oMeg39rDQgQ==
-X-Received: by 2002:a05:6000:2403:b0:39c:30fd:ca7 with SMTP id
- ffacd0b85a97d-39ea51d10a1mr13006863f8f.7.1744713894209; 
- Tue, 15 Apr 2025 03:44:54 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-39eae977a7fsm13703803f8f.45.2025.04.15.03.44.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Apr 2025 03:44:53 -0700 (PDT)
-Date: Tue, 15 Apr 2025 13:44:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Eric Huang <jinhuieric.huang@amd.com>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Kent Russell <kent.russell@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH next] drm/amdkfd: Fix kfd_smi_event_process()
-Message-ID: <Z_44oq-aSZOsvxTN@stanley.mountain>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B87D110E729
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 10:45:06 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 27A201F38D;
+ Tue, 15 Apr 2025 10:45:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1744713905; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=GlMI7c7nbRs2faWdLeH0LEv4pweuvkoAbWOgYD9dM9k=;
+ b=cZAnh3Gfws0Wb0vy/AHolcFf9wJsE25+vpB9wtDzdF8k/M6WKfKgUicH+gRRpPxjsnjy+U
+ VbqRTxR3hoO4FJ1OOKQYh0EI0UqK4QIzDRbTvAyOO6DvqbCJU1eBRyKlSKXTsjA3SM25hG
+ wb14jIihkzms3C2/XWvmE3iO6vFJwmA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1744713905;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=GlMI7c7nbRs2faWdLeH0LEv4pweuvkoAbWOgYD9dM9k=;
+ b=mWnBbZ0v7Y62EAxkawHQoIEYZEk7J6/BEiNqRl9OECxbnBckdooM2YuDG31eHlxi7BEUK/
+ 4tiTLYA5NUvjDyCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1744713905; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=GlMI7c7nbRs2faWdLeH0LEv4pweuvkoAbWOgYD9dM9k=;
+ b=cZAnh3Gfws0Wb0vy/AHolcFf9wJsE25+vpB9wtDzdF8k/M6WKfKgUicH+gRRpPxjsnjy+U
+ VbqRTxR3hoO4FJ1OOKQYh0EI0UqK4QIzDRbTvAyOO6DvqbCJU1eBRyKlSKXTsjA3SM25hG
+ wb14jIihkzms3C2/XWvmE3iO6vFJwmA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1744713905;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=GlMI7c7nbRs2faWdLeH0LEv4pweuvkoAbWOgYD9dM9k=;
+ b=mWnBbZ0v7Y62EAxkawHQoIEYZEk7J6/BEiNqRl9OECxbnBckdooM2YuDG31eHlxi7BEUK/
+ 4tiTLYA5NUvjDyCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB46C137A5;
+ Tue, 15 Apr 2025 10:45:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 0ALDL7A4/meebwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 15 Apr 2025 10:45:04 +0000
+Message-ID: <48ab9b82-0d26-4d7c-88b0-feab9762b128@suse.de>
+Date: Tue, 15 Apr 2025 12:45:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/gem: Internally test import_attach for imported
+ objects
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ simona@ffwll.ch, airlied@gmail.com, asrivats@redhat.com, andyshrk@163.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250415092057.63172-1-tzimmermann@suse.de>
+ <e2e82102-eb9f-4eb6-8ac3-6122ed7fcf28@amd.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <e2e82102-eb9f-4eb6-8ac3-6122ed7fcf28@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[amd.com,ffwll.ch,gmail.com,redhat.com,163.com,kernel.org,linux.intel.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[11]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email,
+ lists.freedesktop.org:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,28 +146,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The "pdd->drm_priv" NULL check is reversed so it will lead to a NULL
-dereference on the next line.
+Hi
 
-Fixes: 4172b556fd5b ("drm/amdkfd: add smi events for process start and end")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Am 15.04.25 um 11:39 schrieb Christian König:
+> Am 15.04.25 um 11:20 schrieb Thomas Zimmermann:
+>> Test struct drm_gem_object.import_attach to detect imported objects
+>> during cleanup. At that point, the imported DMA buffer might have
+>> already been released and the dma_buf field is NULL. The object's
+>> free callback then does a cleanup as for native objects.
+> I don't think that this is a good idea.
+>
+> The DMA-buf is separately reference counted through the import attachment.
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-index 727a4ce29fe6..c27fd7aec1c3 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-@@ -350,7 +350,7 @@ void kfd_smi_event_process(struct kfd_process_device *pdd, bool start)
- 	struct amdgpu_task_info *task_info;
- 	struct amdgpu_vm *avm;
- 
--	if (pdd->drm_priv)
-+	if (!pdd->drm_priv)
- 		return;
- 
- 	avm = drm_priv_to_vm(pdd->drm_priv);
+I understand that it's not ideal, but testing for import_attach to be 
+set is what we currently do throughout drivers. Putting this behind an 
+interface is already a step forward.
+
+>
+>> Happens for calls to drm_mode_destroy_dumb_ioctl() that eventually
+>> clear the dma_buf field in drm_gem_object_exported_dma_buf_free().
+> That is for exported DMA-buf and should *NEVER* be used for imported ones.
+
+Did you look at the discussion at the Closes tag? Where else could 
+dma-buf be cleared?
+
+Best regards
+Thomas
+
+>
+> Regards,
+> Christian.
+>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
+>> Reported-by: Andy Yan <andyshrk@163.com>
+>> Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
+>> Tested-by: Andy Yan <andyshrk@163.com>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Anusha Srivatsa <asrivats@redhat.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>> Cc: "Christian König" <christian.koenig@amd.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linux-media@vger.kernel.org
+>> Cc: linaro-mm-sig@lists.linaro.org
+>> ---
+>>   include/drm/drm_gem.h | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+>> index 9b71f7a9f3f8..f09b8afcf86d 100644
+>> --- a/include/drm/drm_gem.h
+>> +++ b/include/drm/drm_gem.h
+>> @@ -589,7 +589,13 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
+>>   static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
+>>   {
+>>   	/* The dma-buf's priv field points to the original GEM object. */
+>> -	return obj->dma_buf && (obj->dma_buf->priv != obj);
+>> +	return (obj->dma_buf && (obj->dma_buf->priv != obj)) ||
+>> +	       /*
+>> +		* TODO: During object release, the dma-buf might already
+>> +		*       be gone. For now keep testing import_attach, but
+>> +		*       this should be removed at some point.
+>> +		*/
+>> +	       obj->import_attach;
+>>   }
+>>   
+>>   #ifdef CONFIG_LOCKDEP
+
 -- 
-2.47.2
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
