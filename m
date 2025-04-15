@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCF1A894CC
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 09:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE17DA894D6
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 09:22:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823FC10E0F8;
-	Tue, 15 Apr 2025 07:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13CD010E66C;
+	Tue, 15 Apr 2025 07:22:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uuEtssGh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R/H49rnO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD06B10E0F8
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 07:21:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD4C10E66C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 07:22:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9557044B70;
- Tue, 15 Apr 2025 07:21:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94DDDC4CEE9;
- Tue, 15 Apr 2025 07:21:28 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 70565444E4;
+ Tue, 15 Apr 2025 07:22:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8C25C4CEDD;
+ Tue, 15 Apr 2025 07:22:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744701691;
- bh=ppCh1rXKzyooyLzB8X2IQ2Oju9H3qJQ74QV/enWha4E=;
+ s=k20201202; t=1744701756;
+ bh=gGQsWopTglD7RnUawVXrkYWdyJ6cqm+d3Pz6GO0PWzg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=uuEtssGhD3d79YbN1rycbVffJyVi1oCudolVNpDRqTH2EoaHV+W4jC0ApwH/N8cmP
- 1pyR/yBu94ec4p4W3AVE56vhOdEdeBf2/Qxae0Ar7kriY13Bl3qwtaAmLgBQWbtCf6
- 5G3rQT6Bc7fIRuZSQ7gba9bnaLBnbycriCXOHCf/hLSdxcIYCgfC2PFb/SpGJc6jkK
- yYR9rmaE6AtHXBRAU2IpyweaefZs8oHQZBZmTSFIvnN7grYrHvmIurVBnASRaWUy2+
- ekcfm7NeJGuueJuqxC7xftkO8uBAuctu99UAlMdrENm3sWGvBu+ChMshO3CB4hvHL0
- Rhn9Rkx4zV6LQ==
-Message-ID: <b64511fa-a8e3-450e-aa4c-f47181314f76@kernel.org>
-Date: Tue, 15 Apr 2025 09:21:24 +0200
+ b=R/H49rnO9Kw2/IsuHlA312swOiymOEkf07Vek+JFqtLuQv9nIu9V/djb84rD92wdu
+ NyjmwTzoOLeNjKdpTjWURdQtpypRIrOFGMCthQwF6DJPqYhkLsWiaaf7ir5cR/7Tus
+ tziDED3TQOSegRItb7jiHPQErlM8c8pUM5k1dTCLEKSmINsV/oi1W0qhURqJeElRTU
+ adPicK7KjU5bRU3ve1NZkeN2TzDvC5KRzP4gQId4uRD47T+uoWmSg+hWF1luMryIQa
+ 4FJa2zCuNRu57p/ijED5AN7grmYnlrftSqXRWWNVhmv9SZHkqACYpu/V8c/1jf4n9h
+ SHnSt4gKPqaBQ==
+Message-ID: <c82085a7-c725-4a26-82c1-817dac508916@kernel.org>
+Date: Tue, 15 Apr 2025 09:22:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/3] Add support for Sitronix ST7571 LCD controller
+Subject: Re: [PATCH v4 1/3] dt-bindings: display: Add Sitronix ST7571 LCD
+ Controller
 To: Marcus Folkesson <marcus.folkesson@gmail.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -42,8 +43,9 @@ To: Marcus Folkesson <marcus.folkesson@gmail.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmrmann@suse.de>
+ linux-kernel@vger.kernel.org
 References: <20250415-st7571-v4-0-8b5c9be8bae7@gmail.com>
+ <20250415-st7571-v4-1-8b5c9be8bae7@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,7 +91,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250415-st7571-v4-0-8b5c9be8bae7@gmail.com>
+In-Reply-To: <20250415-st7571-v4-1-8b5c9be8bae7@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,23 +110,32 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 15/04/2025 07:58, Marcus Folkesson wrote:
-> This series add support for the ST7571 LCD Controller.
-> It is a 4 gray scale dot matrix LCD controller that supports several
-> interfaces such as SPI, I2C and a 8bit parallell port.
-> The controlelr supports both monochrome and grayscale displays.
-> 
-> This driver only supports the I2C interface, but all common parts could
-> easily be put into a common file to be used with other interfaces.
-> I only have I2C to test with.
-> 
-> The device is a little defiant, it tends to NAK some commands, but all
-> commands takes effect, hence the I2C_M_IGNORE_NAK flag.
-> 
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> ---
-> Changes in v4:
-> - (dt-binding) Add sitronix,grayscale property
-Mention that this is the reason of dropping Review.
+> +title: Sitronix ST7571 Display Controller
+> +
+> +maintainers:
+> +  - Marcus Folkesson <marcus.folkesson@gmail.com>
+> +
+> +description:
+> +  Sitronix ST7571 is a driver and controller for 4-level gray
+> +  scale and monochrome dot matrix LCD panels.
+> +
+> +allOf:
+> +  - $ref: panel/panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: sitronix,st7571
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  sitronix,grayscale:
+> +    type: boolean
+> +    description:
+> +      Display supports 4-level grayscale.
+
+That's fully deducible from compatible, no? Or does it depend on actual
+panel, but then what else depends on the panel?
 
 Best regards,
 Krzysztof
