@@ -2,70 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F148A89BC3
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 13:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B55AA89BDC
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 13:19:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56A510E73A;
-	Tue, 15 Apr 2025 11:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB47610E733;
+	Tue, 15 Apr 2025 11:18:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ga/Jhs0R";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Jd3Kwp5s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B354D10E73A
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 11:16:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744715802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kXgMou/l/Hcg5M+ECqP6mWwiyHOFu0lEK+Kiw7ZYzGM=;
- b=ga/Jhs0R3C7+eY9Jm2LSdP91ZI8s4NXkGkuo25pNQ6Tfp57m+zM5TD7CEWIBj5I90H6sVL
- ptzYuNbcprHKYcAylBQT4TiVtSqm4UH0p5LEvbTPrk/J4bJrnNeodzHhe08JDbPR0cFy6j
- Ru06OQ4MUTtaEG5cxopZAi2U0TuE5v0=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-97-_YdZTtXoNc-uIJIP4uXnbw-1; Tue,
- 15 Apr 2025 07:16:38 -0400
-X-MC-Unique: _YdZTtXoNc-uIJIP4uXnbw-1
-X-Mimecast-MFC-AGG-ID: _YdZTtXoNc-uIJIP4uXnbw_1744715796
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11CCB10E051
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 11:18:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744715929;
+ bh=PzeVNojLN0VWbLXMYNgkx11qPGQ2I2ZvHwogcSpv50k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Jd3Kwp5smFzcvLDwXbhwKzkUkJ23AjUmDXcvvHov+zuDnt6DE3OtzpuZjmHU/Jajo
+ X5RYhYv1FQ8d8Q7eKeuz1hFRc8BKeQeLrrmyRQTXab+Dm/RTr7ekI5NWS0/VP2L8RJ
+ yrK/xzrLn6nIkpVFIYT2k2ASekxkgIUu4Z6yT7HypWKARe7gl65JBjF/3adkprTJod
+ fvRXptOrqCDtKmVMQ/9zKyN99pwODbp70aR7vFvNkn3/aR/sUh/M/jJnqgt0mH4ppl
+ 0M0eAJ5xh/5bLv1wgWHy8LlB8bbdYXE/4fkZULXCuXagGy9XshXri7dNcqj/5Q4zNi
+ i4MUEUdoH1r6w==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 01192180025F; Tue, 15 Apr 2025 11:16:36 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.44.32.216])
- by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id CC78B1801766; Tue, 15 Apr 2025 11:16:34 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3B22D18000A3; Tue, 15 Apr 2025 13:16:32 +0200 (CEST)
-Date: Tue, 15 Apr 2025 13:16:32 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Eric Auger <eric.auger@redhat.com>, 
- Eric Auger <eauger@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>, 
- David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Simona Vetter <simona@ffwll.ch>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, 
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH v2] virtgpu: don't reset on shutdown
-Message-ID: <ge6675q3ahypfncrwbiodtcjnoftuza6ele5fhre3jmdeifsez@yy53fbwoulgo>
-References: <8490dbeb6f79ed039e6c11d121002618972538a3.1744293540.git.mst@redhat.com>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A1F6217E0B2D;
+ Tue, 15 Apr 2025 13:18:49 +0200 (CEST)
+Date: Tue, 15 Apr 2025 13:18:42 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
+ =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH] drm/panthor: Enforce DRM_PANTHOR_BO_NO_MMAP
+Message-ID: <20250415131842.1f678004@collabora.com>
+In-Reply-To: <20250415105710.1490623-1-boris.brezillon@collabora.com>
+References: <20250415105710.1490623-1-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8490dbeb6f79ed039e6c11d121002618972538a3.1744293540.git.mst@redhat.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,17 +62,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+On Tue, 15 Apr 2025 12:57:10 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-> +static void virtio_gpu_shutdown(struct virtio_device *vdev)
-> +{
-> +	/*
-> +	 * drm does its own synchronization on shutdown.
-> +	 * Do nothing here, opt out of device reset.
-> +	 */
+> Right now the DRM_PANTHOR_BO_NO_MMAP flag is ignored by
+> panthor_ioctl_bo_mmap_offset(), meaning BOs with this flag set can
+> still be mmap-ed.
+> 
+> Fortunately, this bug only impacts user BOs, because kernel BOs are not
+> exposed to userspace (they don't have a BO handle), so they can't
+> be mmap-ed anyway. Given all user BOs setting this flag are private
+> anyway (not shareable), there's no potential data leak.
+> 
+> Fixes: 4bdca1150792 ("drm/panthor: Add the driver frontend block")
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 15d8e2bcf6ad..1499df07f512 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -940,6 +940,7 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
+>  					struct drm_file *file)
+>  {
+>  	struct drm_panthor_bo_mmap_offset *args = data;
+> +	struct panthor_gem_object *bo;
+>  	struct drm_gem_object *obj;
+>  	int ret;
+>  
+> @@ -950,6 +951,10 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
+>  	if (!obj)
+>  		return -ENOENT;
+>  
+> +	bo = to_panthor_bo(obj);
+> +	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
+> +		return -EINVAL;
 
-I think a call to 'drm_dev_unplug()' is what you need here.
+Maybe it should be EPERM instead of EINVAL here.
 
-take care,
-  Gerd
+> +
+>  	ret = drm_gem_create_mmap_offset(obj);
+>  	if (ret)
+>  		goto out;
 
