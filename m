@@ -2,112 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E25A8996E
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:06:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66940A89976
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:07:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA2B10E6F4;
-	Tue, 15 Apr 2025 10:06:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4DD10E6F3;
+	Tue, 15 Apr 2025 10:07:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="LWa03Lgb";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Btw3uUip";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45CF610E6EB;
- Tue, 15 Apr 2025 10:06:47 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4F6F2439F5;
- Tue, 15 Apr 2025 10:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744711606;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JTcEJokCnQRkRvD85b3lXKMpxaknoI3Zivb4ARRNh38=;
- b=LWa03LgbjYPHHPl92b6S+Yt2SFiiIN3uupq7ruRUtjY1g1SLgu2l8sDvDffRsrxOkq6PLa
- jFMMcF34L5vET93aEB+f/M0pFjZLQoGu0AQjWk4A0BK0lSwZY/e815tVlkk8yUthfTbzBj
- fuP5MOUE1O5daDosDWiRLVNSJw042X1D+gQW6j7okjxTnWh+8NbXCy5lRfPFFLSFSM5CJB
- LTPDq90FZ+xDinkFgjNV1Nt6BB5zj/AAp0rWZ/fIXlo3ZOPzTeK/W8c7EOH/RJEeDg8Jtw
- cQV2ZZ5sE/1K04voPUaa5o6TGknM6cbbfK9JnzjCaL5v2cx//Wm54IBXzQC2YA==
-Message-ID: <84e37f6f-47f7-481f-96eb-11b8dd79b3df@bootlin.com>
-Date: Tue, 15 Apr 2025 12:06:44 +0200
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2053.outbound.protection.outlook.com [40.107.93.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1711C10E6F3;
+ Tue, 15 Apr 2025 10:07:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nPGXbEBU+OpmjgN5qSakZXulvHhhSm3TEApQmJo6hfbgahUuImF2QI0+RbCz/d2vw1O8IuSt8tKh84686EIrLhb6+D1vB+niHUEJbl9tCbND1/fhCOrS/HkaD86nXGbM2//yQlxWBAbJFAwyleNqcMa2hltkH/p+PayEJYc3YKrcCZAs0CssaBLU34SOUftcTZz74Sz8AOyua48MOjcdD8uEw+CGdczTfKi0wFGYLuTkvvRBozIDRUEhwccxTU9/w/lHnKwmm7XaY4XFr4+gg0On5B/KfY5ck0pwR1+isLfXh6Y5PqGBLU8GMOM7Ytf6Kq7yUDNgtzHwJMwLPAPu9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F0f7BD1rXGdnsJf7b9dayGBLbrpSZm2mOt+BBd8US+A=;
+ b=EW3mVux7Cm+wpGv4l8Lx33GNsVHNepYFNB8JfHPwy465XmRRqM28TvTgiNIv1Mt7ncBPg3bUpYxzB2E+dhnBnJUl4f3TE2TDamMFh9MJQREqO3OeTP/cyWlWqsRIY+j8tFbD7otG/5/3IDq66JccyMzgpwrtIUEChauTYxtywul4X9L7YZHySF6aWTK8Iw1R9IARpHc6DkY18Ly0PW5+9gqYGWjdN+hO6FCUq0k/UpHUVvXh3U3WIFLpeJqT0uVhQXhWPdjdp5lC9Fb4Qq+wWdzD3ePThzxkph9EVE9Y/EYaX3YUUIhmlDInIYi7WlXVoLhelNFnWuAHAS+1/Gyg6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F0f7BD1rXGdnsJf7b9dayGBLbrpSZm2mOt+BBd8US+A=;
+ b=Btw3uUipPIWio1Ay8N0NLiUO4zHKrGzobaO0rDnYtz3byyJbouWNo7VTiEQ4G1Bk21Du7ThwLYVIzaASjoeM1gn9e/qMNK/YXmqNYQ4c6SIEjpIax2DP6sZmE7Mb3qcOlC/gk29XkH/Q7x8SED7tPbT/0cIz6xUNTK+HgRdoI5Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from LV2PR12MB5776.namprd12.prod.outlook.com (2603:10b6:408:178::10)
+ by BL1PR12MB5946.namprd12.prod.outlook.com (2603:10b6:208:399::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.35; Tue, 15 Apr
+ 2025 10:07:28 +0000
+Received: from LV2PR12MB5776.namprd12.prod.outlook.com
+ ([fe80::6628:31a5:4bbe:ffec]) by LV2PR12MB5776.namprd12.prod.outlook.com
+ ([fe80::6628:31a5:4bbe:ffec%3]) with mapi id 15.20.8632.035; Tue, 15 Apr 2025
+ 10:07:28 +0000
+Message-ID: <b2a38118-ae71-4f3c-9506-3294dca81523@amd.com>
+Date: Tue, 15 Apr 2025 15:37:14 +0530
 User-Agent: Mozilla Thunderbird
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v3 27/54] dyndbg: drop "protection" of class'd pr_debugs
- from legacy queries
-To: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
- gregkh@linuxfoundation.org, ukaszb@chromium.org, linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
- jani.nikula@intel.com, ville.syrjala@linux.intel.com
-References: <20250402174156.1246171-1-jim.cromie@gmail.com>
- <20250402174156.1246171-28-jim.cromie@gmail.com>
+Subject: Re: [PATCH v1 1/3] drm: function to get process name and pid
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org,
+ "Pelloux-prayer, Pierre-eric" <Pierre-eric.Pelloux-prayer@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20250411130428.4104957-1-sunil.khatri@amd.com>
+ <c2ef0925-14ad-4eff-9972-53406ec01f0a@gmail.com>
+ <7b3fe17a-3446-462d-8614-c31a1d47a67f@igalia.com>
 Content-Language: en-US
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250402174156.1246171-28-jim.cromie@gmail.com>
+From: "Khatri, Sunil" <sukhatri@amd.com>
+In-Reply-To: <7b3fe17a-3446-462d-8614-c31a1d47a67f@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhin
- hhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
-X-GND-Sasl: louis.chauvet@bootlin.com
+X-ClientProxiedBy: PN3PR01CA0022.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:97::23) To DM4PR12MB5771.namprd12.prod.outlook.com
+ (2603:10b6:8:62::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5776:EE_|BL1PR12MB5946:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8d88178-d25f-4ff6-ceed-08dd7c055385
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Rkp3R2R5ay9ST2gvZ2JrS1JJd1RqQndXM1pDb0lKVWhTbkxMRlovemtYelAw?=
+ =?utf-8?B?M0FNMW1qbEh1azF5Zy9lUTMxS3Y4M2NrdHREalJiTzMxU25lQThHNVFwQWtF?=
+ =?utf-8?B?R29tc1FZdEVBT3hyc0xhL1Q2MnpPNEpSSCtqaE9JeG1LcUltODFjNHJscmls?=
+ =?utf-8?B?N2Nya1N5SlltRkdEZ2ovODEwRUdWejRsZXBVOE1GaXhwZUFxRlJveURMc3R5?=
+ =?utf-8?B?VGF5VmFocDdzTmhHcHdSeit0TCs5OUdMR3dXTGE3UDBReXAxSENtcnlHTDBO?=
+ =?utf-8?B?cHVZb1kwVEdjY3pxQXhMZDR0dGVFQk9QRjNqSWxCVWdQTWZodC9LcktVdldZ?=
+ =?utf-8?B?NVlPd2pQaDFSNHlrQjh3c2wzbmtrNlBycHBRS1Y2WXlJdWRiTlJoc0NXdDUx?=
+ =?utf-8?B?U1ZzWTNrendBV2hPdHNDdlQvN2hLV2tPQm9aVFI3QTk4SFYrZGNsVFpQVnlq?=
+ =?utf-8?B?VnlXWHJqeWpQeVkvVGV0bUozTHpqYm45L0YyUHlsZFdxK0dUUkpSemgwQ09r?=
+ =?utf-8?B?WTVDemY1WlhJMjVVb0ROTW5wdmo5WjcxQW4rLzJtcU84VUx5dHZIQkZxbThn?=
+ =?utf-8?B?MzZIWE01Qk84a2VBWHlxWTN4NWhmZWl0dkRrTXZaVVYyT2tBd0hISC9mU1dj?=
+ =?utf-8?B?VkpsTVAxUTU3RmpnZFZvTVRjcGtIU3k4MG04M3dYUi9VNW00YTkxWFpQOFVa?=
+ =?utf-8?B?L1JLK1g0Y2VuNnNiamVYYk1ySlNWd2hPSzZla2ZDNTF6YW9xblNLNnVRUUZD?=
+ =?utf-8?B?VG1ReXBrcDBUUythOTBkMnN6emQxamNhejRaSWx0V3oyd2Qzd2k4Tk9WSGps?=
+ =?utf-8?B?ZDRPRzdmUjhVYXFxRnN0c1VveEpybjBrd09HQWJBdVR3R04rc1VlTXo0Z1NW?=
+ =?utf-8?B?OUl1MVF5bktSTmtya3pIc1l2cFB3OVRHUC9BQVh5aDdTalpUYmZta0V6R0FV?=
+ =?utf-8?B?R2xKL0h4SExzRENrbGg0bWdaUHcrM2QzK2hrZVo2Zm4rWkhBekt1blpBRXBJ?=
+ =?utf-8?B?d1NwTGt6RTdOVHhlaXlVaVNndWdKTEU1RERFTkUzM09VZmRwL2xMakJIMVRv?=
+ =?utf-8?B?WnpweG96UzV6SlVBVFQzdHhzODZjNWZNbVFWdFdJSlcxZTBNWGlYUzZXUG94?=
+ =?utf-8?B?NmFRcUFZaW5qbXlieDd2TFQ1YjlpNzYrNUJ3UWI0WmtoeGg2eWZSWXJtWVNl?=
+ =?utf-8?B?RE1jelp4RzdFWHV5cmw0eDFudHFMRXd5Z2xNTTVIRnFrblU3UitqRG5aVE9H?=
+ =?utf-8?B?VTNGNko1QVdUM21KeG80MWFkUFAySzVEb0Q3L1hsVHpNVkxyMHdXT3pPVUlU?=
+ =?utf-8?B?UnJ3OEV4MC9vVSs5b3lmdE5uR1FUL3AydG4wcWpuc0N3anJXSXJrTDBSSVE0?=
+ =?utf-8?B?VHM3RFZpTnNlbEgzQnNGcm5rVGJGeWJIaWF2N2wxc20wMjFxdEdwOGV6dUJV?=
+ =?utf-8?B?SGN3SE5FNGRxQzhHZDd4akU0RVhOdCtQQmRKM3dtSnQwSlhiVHNmdUZTSTZM?=
+ =?utf-8?B?dkJ4UVJuNHZqVjlWRDQ5WHptQU5rajhJalVPMnplSnh1bURmQTlYc2lTVkZn?=
+ =?utf-8?B?OFMxNE51eWVuK0xKMkpSV2JRcDFmNCtGYWZLaE4zVk0rNlF0UktIK2NLQ0JT?=
+ =?utf-8?B?RGtvb0pxZjQwemhkSnd3UEdKbzNuaHMra1BJc2grRUwzL3QwVXZSMlF4TVNL?=
+ =?utf-8?B?a1M3Y1RNTEtkMzlSektuaUVmaTZKclEvNnJTbnNPYmhWdlhqdmNEelc2RURm?=
+ =?utf-8?B?RWxRZlRmNTgvWlV0WmRWQTYyZmFRNnpoUXBoT0I0OXdlUEx0MEJQM3JWZUNh?=
+ =?utf-8?B?Z2h5d3JFazVGYzlLbnRxVGdaWXhwYXk1cWNJUFp2bkZYbnBrVFdQc29FVGM0?=
+ =?utf-8?B?Qm50bk0ycU5sVDZqSnN5OGdKVGY5cnZyK1Uva1NBQ0x0S3RrbXNyQURwRG9M?=
+ =?utf-8?Q?Opdh+rVp9wI=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5776.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlFHSFhHc1YrQldmdG1QUzhETUs2azdsci8zNFRrbWcvNnVIME9jcTQvMzB4?=
+ =?utf-8?B?QXJ4QXcvZnNZQ29OdTI1NkUxTnIranVLb1dBM2VacW1XNTJ6cmhaOW9YNVhS?=
+ =?utf-8?B?cVNjZ1l0VUV3ODUvd2x3WGtWUWFHTFFrc3l0T1hURlArNVlpWVVzVy9KbGFU?=
+ =?utf-8?B?MkNCc1kwZ3ZLdEVBSlFaZmV1Qm56OU9oeEY1L1pVTHM4YWxmb251blFVL1VV?=
+ =?utf-8?B?a2l1d0FsdmhIK3dTVlJ6ME9yVFV1V29ldTlTS0RJWkhZZmJ4VXZpZ1N5Kzlz?=
+ =?utf-8?B?S2g5Q05nYll3KzNWbDFxd0FyTndlaXlQSDN4Q2dvajMzYU91TWVhNXJpWVYv?=
+ =?utf-8?B?RXJ1dGZic1dLSTV3SVI3NlBtNC9xd0g3ZURDYlIrdU5GSnFNNHVWUXgweVNP?=
+ =?utf-8?B?OGdGRkYvUGtVTkIzaGF1T044ck1IMEFvSklUbm1aZkNiUXBiUVY3L2EwTmRY?=
+ =?utf-8?B?WjdHQW5KU2tZVTNGeWk1Q3laNEtFdkxMYkZHWXNQRlhPc3NsWTZpTXdOYUIx?=
+ =?utf-8?B?emtCVXl2Yk4yT0hxYnBQYmdXSVVxOVFZODVDVklUczhFZTBLQUFRUWRmOVFm?=
+ =?utf-8?B?TWpXNHFTMkVKUFdsaXU3SkE4R2RzVnRSVWJWcENidEI2aHh0OElTNUhnMEdt?=
+ =?utf-8?B?ZmJPNjNHaExhN0FEcFdYSEt0a2I4SjNKN01rOFU2UXkvTlJzeHhOdU5VZXVz?=
+ =?utf-8?B?TkZyVjBJc3dDdjg2OFJjRmZtNmlSTU9vaDV4U1ViaGMwalgvQU1pK2U2VEM4?=
+ =?utf-8?B?QmY0aTNkOFBGT0tiNmdRTmpiM2ZjSG9CMkY1b21rV0VEOVpmWFc0UllYT1F4?=
+ =?utf-8?B?eksvRzJjcU83eUdHdFZCa0h4NDJtWWxVQ2dyanlKcUk1N2UrVmhaV3pPUWZL?=
+ =?utf-8?B?WDdTNUdLd3hyZEx2YXNBaWU2cUgvaEt4RnM4R1l4RGhHa1JPb3dUVjZPSXFJ?=
+ =?utf-8?B?RE9uRUxoZStENUU0Zm5OTXJhZkxWZ0FjS2lMSTY0ek8zSk9jRms3TWNXeXNt?=
+ =?utf-8?B?eFVmOGVSWE4wUnphOHdRcm1COVFqMGROTkJENHNtbDBhY0pQeks4YkdTaENV?=
+ =?utf-8?B?THp5RUFjeFlwU1NiZ0liN1NHTlhUbDFOVzBIa1BDcHpEMVl4SmtBNzBJQXBL?=
+ =?utf-8?B?aDZZTTMyQ1JWWUQwWldYSm9vT1ZqNThyeDBNVDY1ZEVOQVBiM3lXblozSTNR?=
+ =?utf-8?B?dEoraHlabkFBbjJlUmFUSXRMQ2NvSEFBNUQrU3dFbGhKcjk5b0YwYUtLOWdu?=
+ =?utf-8?B?WVluQmpxZnUzTFJsU2h4TmhnVVF6OXhxeXgwdjZRN25LZDRFMlNqRTZzRHEx?=
+ =?utf-8?B?eW04eWU1RUdkRlIwVjJNNkgxUGRlMTZJOEgwUEFSQW9qMWlKOWNkNFFRUHY1?=
+ =?utf-8?B?bHJoRjN3TzY2b2hhMkZ1MDhoOTNsOFlFZmNGVTNNL0d3K3NaMW4yU2Y0M0VM?=
+ =?utf-8?B?SmZLTkY5cXk3ZExqUzcwSGd5dHgrUG0rdnhsVTgwWUZRRWEvajlPSFkxTzA4?=
+ =?utf-8?B?QUFOdVhPTkRhMEE2bGYvcUt3NlhIMkI5Z3VLZ3phZjUxY1ZraXl2bmNVcEgv?=
+ =?utf-8?B?azRLb1NENUNHSGRneld5bGh4RVY2TlM5bWtmTVdLQjlzMFI4WEprRTdQRkRI?=
+ =?utf-8?B?UDlYZ3FBUk5GeExCLzNXbG9BRzRCa2VRQ25XMno5K09hSW0zOGkxVWl2U3Zo?=
+ =?utf-8?B?UTl6SlZEenJOdHpQc1RsbjhLMFdUL09KL1ZLRi9nMHBWK1BkMXFnaFJHU0o0?=
+ =?utf-8?B?VE5sWmZwSkNhN1BGdXMxemNEV3lKR01zM2xoMWxKY3l1MU0xMHI1eFYzamN5?=
+ =?utf-8?B?WktMNTNsZ1BxaVhEbFc1anVTZkNiSUNVTUJNcUQrdU8vaitpY09hMDFlYXZa?=
+ =?utf-8?B?VFVHT2lVSHR6d1ZhMzVsa0x2ajJkWEFqZnFZNkZWR0hIRkw0bGhvMWZjN0NK?=
+ =?utf-8?B?akdGK0ZQQ1V5bnc5ZWZjaEJMSEYrZ252M1hsSGQyRjlBQzRwOFFnaEZJdkgx?=
+ =?utf-8?B?RmlzZ0V0NTR1WWVDeTM1b3lSOXNtSm40ODBxbGY1Y0J1YXJEV3R1RHArd2J2?=
+ =?utf-8?B?dnpmRU1xR3JVOFQxK1BRT1Q1MU82d243ZFZONDRVTi9IazVjQmZOblhUUjBM?=
+ =?utf-8?Q?GQDN2DoZXEhOVRcs5zq1qDbwU?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8d88178-d25f-4ff6-ceed-08dd7c055385
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5771.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2025 10:07:28.6969 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ar6ZKmNnZuRd2yHGaMWVjvaJa8/5v18ySinwOdT1lGdg2hbOz0ARoO8AxJ8eQ4GOkGBqmZizZ6UnOJ+4RHoJaA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5946
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,143 +169,119 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-Le 02/04/2025 à 19:41, Jim Cromie a écrit :
-> Current classmap code protects class'd pr_debugs from unintended
-> changes by "legacy" unclassed queries:
-> 
->    # this doesn't disable all of DRM_UT_* categories
->    echo "-p" > /proc/dynamic_debug/control
-> 
->    # name the class to change it - protective but tedious
->    echo "class DRM_UT_CORE +p" > /proc/dynamic_debug/control
-> 
->    # or do it the (old school) subsystem way
->    echo 1 > /sys/module/drm/parameters/debug
-> 
-> This "name the class to change it" behavior gave a modicum of
-> protection to classmap users (ie DRM) so their debug settings aren't
-> trivially and unintentionally altered underneath them.
-> 
-> And by "symmetry", if they're not picked by "class FOO", then they're
-> excluded from adjustment.  This allowed all previously conceived
-> queries to work the way they always had; ie select the same set of
-> pr_debugs, despite the inclusion of whole new classes of pr_debugs.
-> 
-> That had 2 downsides:
-> 
-> 1. "name the class to change it" means that every class must be
-> individually modified, quickly becoming long-winded and tedious to
-> adjust all the classes in a map via >control.
-> 
-> 2. It made the class keyword special in some sense; the other keywords
-> skip only on explicit mismatch, otherwise the code falls thru to
-> adjust the pr-debug site.
-> 
-> So this patch reverts to the traditional view, it drops protection of
-> classes from default/legacy queries.
-> 
-> But it also refactors the skip/continue choice to allow the module
-> defining the classmap to protect its classes from unintended
-> alterations by legacy/class-less queries.
-> 
-> Next:
-> 
-> Author choice: use of DYNAMIC_DEBUG_CLASSMAP_PARAM() means they want
-> the drm.debug style control point.  We should presume they want it to
-> reflect whats set underneath, with only "class FOO" qualified queries
-> changing the callsites beneath.
-
-This explanation is way better, thanks a lot! It is way easier to 
-understand this protection.
-
-I continue to think that this "protect its classes from unintended 
-alterations" is not a good user api. But it is not a blocking point for 
-me, so I would like to get the point of view from other people (mainly 
-from DRM, they are the first users).
-
-With or without this modification:
-
-Acked-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
-> CC: jbaron@akamai.com
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> --
-> v3- s/slctd_/selected_/
->      pitch the PARAM control of protection.
-> ---
->   lib/dynamic_debug.c | 31 +++++++++++++++++++++++--------
->   1 file changed, 23 insertions(+), 8 deletions(-)
-> 
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index 7a60088a1b5c..54f462cf41b0 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -197,6 +197,17 @@ ddebug_find_valid_class(struct _ddebug_info const *di, const char *query_class,
->   	return NULL;
->   }
->   
-> +/*
-> + * classmaps-v1 protected classes from changes by legacy commands
-> + * (those selecting _DPRINTK_CLASS_DFLT by omission), v2 undoes that
-> + * special treatment.  State so explicitly.  Later we could give
-> + * modules the choice to protect their classes or to keep v2 behavior.
-> + */
-> +static inline bool ddebug_client_module_protects_classes(const struct ddebug_table *dt)
-> +{
-> +	return false;
-> +}
-> +
->   /*
->    * Search the tables for _ddebug's which match the given `query' and
->    * apply the `flags' and `mask' to them.  Returns number of matching
-> @@ -211,7 +222,7 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
->   	unsigned int nfound = 0;
->   	struct flagsbuf fbuf, nbuf;
->   	struct _ddebug_class_map *map = NULL;
-> -	int valid_class;
-> +	int selected_class;
->   
->   	/* search for matching ddebugs */
->   	mutex_lock(&ddebug_lock);
-> @@ -224,21 +235,25 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
->   
->   		if (query->class_string) {
->   			map = ddebug_find_valid_class(&dt->info, query->class_string,
-> -						      &valid_class);
-> +						      &selected_class);
->   			if (!map)
->   				continue;
->   		} else {
-> -			/* constrain query, do not touch class'd callsites */
-> -			valid_class = _DPRINTK_CLASS_DFLT;
-> +			selected_class = _DPRINTK_CLASS_DFLT;
->   		}
->   
->   		for (i = 0; i < dt->info.descs.len; i++) {
->   			struct _ddebug *dp = &dt->info.descs.start[i];
->   
-> -			/* match site against query-class */
-> -			if (dp->class_id != valid_class)
-> -				continue;
-> -
-> +			if (dp->class_id != selected_class) {
-> +				if (query->class_string)
-> +					/* site.class != given class */
-> +					continue;
-> +				/* legacy query, class'd site */
-> +				else if (ddebug_client_module_protects_classes(dt))
-> +					continue;
-> +				/* allow change on class'd pr_debug */
-> +			}
->   			/* match against the source filename */
->   			if (query->filename &&
->   			    !match_wildcard(query->filename, dp->filename) &&
-
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
-
+On 4/15/2025 2:14 PM, Tvrtko Ursulin wrote:
+>
+> On 14/04/2025 18:58, Christian König wrote:
+>> Adding Pierre-eric and Tvrtko as well.
+>
+> Thanks!
+>
+>> Am 11.04.25 um 15:04 schrieb Sunil Khatri:
+>>> Add helper function which get the process information for
+>>> the drm_file and updates the user provided character buffer
+>>> with the information of process name and pid as a string.
+>>>
+>>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_file.c | 30 ++++++++++++++++++++++++++++++
+>>>   include/drm/drm_file.h     |  1 +
+>>>   2 files changed, 31 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+>>> index cb5f22f5bbb6..4434258d21b5 100644
+>>> --- a/drivers/gpu/drm/drm_file.c
+>>> +++ b/drivers/gpu/drm/drm_file.c
+>>> @@ -965,6 +965,36 @@ void drm_show_fdinfo(struct seq_file *m, struct 
+>>> file *f)
+>>>   }
+>>>   EXPORT_SYMBOL(drm_show_fdinfo);
+>>>   +/**
+>>> + * drm_process_info - Fill info string with process name and pid
+>>> + * @file_priv: context of interest for process name and pid
+>>> + * @proc_info: user char ptr to write the string to
+>>> + * @buff_size: size of the buffer passed for the string
+>>> + *
+>>> + * This update the user provided buffer with process
+>>> + * name and pid information for @file_priv
+>>> + */
+>>> +void drm_process_info(struct drm_file *file_priv, char *proc_info, 
+>>> size_t buff_size)
+>>> +{
+>>> +    struct task_struct *task;
+>>> +    struct pid *pid;
+>>> +    struct drm_device *dev = file_priv->minor->dev;
+>>> +
+>>> +    if (!proc_info) {
+>>> +        drm_err(dev, "Invalid user buffer\n");
+>
+> I'd replace this with drm_WARN_ON_ONCE.
+> This sounds fine, will update with warn once in next version.
+>
+> Another thing I would consider is avoiding the need for stack space by 
+> exporting a logging helper instead. Something like (from patch 3/3):
+>
+> drm_file_err(uq_mgr->file, "Timed out waiting for fence %p\n", f);
+>
+> Which would output the client name info as a prefix or something.
+I guess here we are making a generic function and nothing specific to 
+the driver or a feature like uq_manager. this is supposed to be a common 
+helper function for all drm clients
+and based on drm_file. With respect to the user i guess the 
+driver/feature specific information can we placed in the caller itself 
+and thats upto the user.
+>
+> Especially attractive if you add client name.
+>
+> Also while here, is %p for the fence is useful? FWIW in the tracing 
+> series we are going for %llu:%llu (context:seqno).
+> To be frank i dont see the fence ptr to be very useful as they are 
+> being reused too and we do see same fence ptr again too. but this we 
+> could improve later. I will push a new patch series for this with the 
+> comments taken into.
+Regards
+Sunil Khatri
+>
+> Regards,
+>
+> Tvrtko
+>
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    rcu_read_lock();
+>>> +    pid = rcu_dereference(file_priv->pid);
+>>> +    task = pid_task(pid, PIDTYPE_TGID);
+>>> +    if (task)
+>>> +        snprintf(proc_info, buff_size, "comm:%s pid:%d", 
+>>> task->comm, task->pid);
+>>
+>> Looks good in general, but I think people would like to see the 
+>> optional client name here as well.
+>>
+>> It's rather useful to have for native context.
+>>
+>> Regards,
+>> Christian.
+>>
+>>> +
+>>> +    rcu_read_unlock();
+>>> +}
+>>> +EXPORT_SYMBOL(drm_process_info);
+>>> +
+>>>   /**
+>>>    * mock_drm_getfile - Create a new struct file for the drm device
+>>>    * @minor: drm minor to wrap (e.g. #drm_device.primary)
+>>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+>>> index f0ef32e9fa5e..c01b34936968 100644
+>>> --- a/include/drm/drm_file.h
+>>> +++ b/include/drm/drm_file.h
+>>> @@ -501,6 +501,7 @@ void drm_print_memory_stats(struct drm_printer *p,
+>>>     void drm_show_memory_stats(struct drm_printer *p, struct 
+>>> drm_file *file);
+>>>   void drm_show_fdinfo(struct seq_file *m, struct file *f);
+>>> +void drm_process_info(struct drm_file *file_priv, char *proc_info, 
+>>> size_t buff_size);
+>>>     struct file *mock_drm_getfile(struct drm_minor *minor, unsigned 
+>>> int flags);
+>>
+>
