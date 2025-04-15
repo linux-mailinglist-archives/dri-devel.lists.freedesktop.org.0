@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71367A89D35
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6795A89D82
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 14:18:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43E1D10E754;
-	Tue, 15 Apr 2025 12:11:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 456B810E0D3;
+	Tue, 15 Apr 2025 12:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HtDwYh2R";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ehx0T4wW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
  [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BBB010E754
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:11:29 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2BEFD43188;
- Tue, 15 Apr 2025 12:11:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC44C10E0D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 12:18:03 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E31B94385B;
+ Tue, 15 Apr 2025 12:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744719088;
+ t=1744719482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wogwm+y8KhkdBC4XpbA9Fzej9m150UHJnI17oS5BjQ4=;
- b=HtDwYh2RYPyjUHDMca3yANbCr4C2+Za2rW47z1CegRtyiuxFMB2SSVB/+u5tqhZwQ9FFO6
- jEJ7eWyqQZZgnAHTjPli+LKTjuNyF2XjMEIwx+97HubD6PzS7Tq5nEJ4oPshs7MdDDX1Cu
- UrgGG7HISrxbBQ0o+27/mi/nacxzZu+86Pcl4RjnJakVHvKT5GpIOvhZWKwp2ww/CZ46mt
- 9PgpDx0/N5maWgo+QBE1nKGNA9EoX5h1ZabVsMgJBYEBB2/hGsJ/gATXxXc47u3DQRjhYI
- gtch8evZ/tss/ucps/mhpenNpGXzXrVbrd8532OKf6Fe37Z7cU4gAq1J0ummxw==
-Message-ID: <eb5c43d2-4a7d-43e2-873f-79980c1a48f4@bootlin.com>
-Date: Tue, 15 Apr 2025 14:11:24 +0200
+ bh=VOGYRaeBdiQqBh4ZC4X/70JOvvT4r9gZtTU+5Lgek70=;
+ b=ehx0T4wWsKP3UTiv5OnacP+zSZAezlp1JEt/46+V5UqKMlp+ouocCbZV5wCn2W9YCoJRcF
+ qefA3JBaj8R7n1FE7JzB0IIvb3Ekbv+Z8UqHP4X+XU31hJL8n7B0cXTKmuu0PNrqlRXoGP
+ 8RL9PhPc5mJ0Cvrw+ve/C6zQhnvzqwCUvJoIkDfR3adv6ndp98jz2e9GJ7lF2MI/NzYgxs
+ g9PurXTnmIr2a0SLxxYQ8rcMWsoPeJ4EYSMM7fnEhaUgxsJXvdLfhzTMMHaZjqRLzSGq2u
+ Mbmbt2ZXDKRPKcTRx0WRfw2Yp1dZRqn9lUHT1kcjsT8aVxDes9fcSnnmxW6cUQ==
+Message-ID: <dc4c0e0d-3bd5-458a-bf47-5875de4e88ab@bootlin.com>
+Date: Tue, 15 Apr 2025 14:18:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/16] drm/vkms: Allow to configure multiple CRTCs via
- configfs
+Subject: Re: [PATCH v4 06/16] drm/vkms: Allow to configure CRTC writeback
+ support via configfs
 To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250407081425.6420-1-jose.exposito89@gmail.com>
- <20250407081425.6420-6-jose.exposito89@gmail.com>
+ <20250407081425.6420-7-jose.exposito89@gmail.com>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -99,12 +99,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250407081425.6420-6-jose.exposito89@gmail.com>
+In-Reply-To: <20250407081425.6420-7-jose.exposito89@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefgeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepm
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefgeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepm
  hgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,8 +127,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Le 07/04/2025 à 10:14, José Expósito a écrit :
 > From: Louis Chauvet <louis.chauvet@bootlin.com>
 > 
-> Create a default subgroup at /config/vkms/crtcs to allow to create as
-> many CRTCs as required.
+> When a CRTC is created, add a `writeback` file to allow to enable or
+> disable writeback connector support
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
@@ -136,165 +136,85 @@ Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > Co-developed-by: José Expósito <jose.exposito89@gmail.com>
 > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 > ---
->   Documentation/gpu/vkms.rst           |  6 ++
->   drivers/gpu/drm/vkms/vkms_configfs.c | 85 ++++++++++++++++++++++++++++
->   2 files changed, 91 insertions(+)
+>   Documentation/gpu/vkms.rst           |  4 +++
+>   drivers/gpu/drm/vkms/vkms_configfs.c | 42 ++++++++++++++++++++++++++++
+>   2 files changed, 46 insertions(+)
 > 
 > diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index a87e0925bebb..e0699603ef53 100644
+> index e0699603ef53..abe7a0f5a4ab 100644
 > --- a/Documentation/gpu/vkms.rst
 > +++ b/Documentation/gpu/vkms.rst
-> @@ -74,6 +74,7 @@ By default, the instance is disabled::
->   And directories are created for each configurable item of the display pipeline::
+> @@ -94,6 +94,10 @@ Continue by creating one or more CRTCs::
 >   
->     tree /config/vkms/my-vkms
-> +  ├── crtcs
->     ├── enabled
->     └── planes
+>     sudo mkdir /config/vkms/my-vkms/crtcs/crtc0
 >   
-> @@ -89,6 +90,10 @@ Planes have 1 configurable attribute:
->   - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
->     exposed by the "type" property of a plane)
->   
-> +Continue by creating one or more CRTCs::
+> +CRTCs have 1 configurable attribute:
 > +
-> +  sudo mkdir /config/vkms/my-vkms/crtcs/crtc0
+> +- writeback: Enable or disable writeback connector support by writing 1 or 0
 > +
 >   Once you are done configuring the VKMS instance, enable it::
 >   
 >     echo "1" | sudo tee /config/vkms/my-vkms/enabled
-> @@ -100,6 +105,7 @@ Finally, you can remove the VKMS instance disabling it::
->   And removing the top level directory and its subdirectories::
->   
->     sudo rmdir /config/vkms/my-vkms/planes/*
-> +  sudo rmdir /config/vkms/my-vkms/crtcs/*
->     sudo rmdir /config/vkms/my-vkms
->   
->   Testing With IGT
 > diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index 398755127759..62a82366791d 100644
+> index 62a82366791d..e9f445043268 100644
 > --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 > +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -17,6 +17,7 @@ static bool is_configfs_registered;
->    * @group: Top level configuration group that represents a VKMS device.
->    * Initialized when a new directory is created under "/config/vkms/"
->    * @planes_group: Default subgroup of @group at "/config/vkms/planes"
-> + * @crtcs_group: Default subgroup of @group at "/config/vkms/crtcs"
->    * @lock: Lock used to project concurrent access to the configuration attributes
->    * @config: Protected by @lock. Configuration of the VKMS device
->    * @enabled: Protected by @lock. The device is created or destroyed when this
-> @@ -25,6 +26,7 @@ static bool is_configfs_registered;
->   struct vkms_configfs_device {
->   	struct config_group group;
->   	struct config_group planes_group;
-> +	struct config_group crtcs_group;
+> @@ -74,6 +74,47 @@ struct vkms_configfs_crtc {
+>   #define crtc_item_to_vkms_configfs_crtc(item) \
+>   	container_of(to_config_group((item)), struct vkms_configfs_crtc, group)
 >   
->   	struct mutex lock;
->   	struct vkms_config *config;
-> @@ -45,6 +47,20 @@ struct vkms_configfs_plane {
->   	struct vkms_config_plane *config;
->   };
->   
-> +/**
-> + * struct vkms_configfs_crtc - Configfs representation of a CRTC
-> + *
-> + * @group: Top level configuration group that represents a CRTC.
-> + * Initialized when a new directory is created under "/config/vkms/crtcs"
-> + * @dev: The vkms_configfs_device this CRTC belongs to
-> + * @config: Configuration of the VKMS CRTC
-> + */
-> +struct vkms_configfs_crtc {
-> +	struct config_group group;
-> +	struct vkms_configfs_device *dev;
-> +	struct vkms_config_crtc *config;
-> +};
-> +
->   #define device_item_to_vkms_configfs_device(item) \
->   	container_of(to_config_group((item)), struct vkms_configfs_device, \
->   		     group)
-> @@ -55,6 +71,71 @@ struct vkms_configfs_plane {
->   #define plane_item_to_vkms_configfs_plane(item) \
->   	container_of(to_config_group((item)), struct vkms_configfs_plane, group)
->   
-> +#define crtc_item_to_vkms_configfs_crtc(item) \
-> +	container_of(to_config_group((item)), struct vkms_configfs_crtc, group)
-> +
-> +static void crtc_release(struct config_item *item)
+> +static ssize_t crtc_writeback_show(struct config_item *item, char *page)
 > +{
 > +	struct vkms_configfs_crtc *crtc;
-> +	struct mutex *lock;
+> +	bool writeback;
 > +
 > +	crtc = crtc_item_to_vkms_configfs_crtc(item);
-> +	lock = &crtc->dev->lock;
 > +
-> +	scoped_guard(mutex, lock) {
-> +		vkms_config_destroy_crtc(crtc->dev->config, crtc->config);
-> +		kfree(crtc);
-> +	}
+> +	scoped_guard(mutex, &crtc->dev->lock)
+> +		writeback = vkms_config_crtc_get_writeback(crtc->config);
+> +
+> +	return sprintf(page, "%d\n", writeback);
 > +}
 > +
-> +static struct configfs_item_operations crtc_item_operations = {
-> +	.release	= &crtc_release,
-> +};
-> +
-> +static const struct config_item_type crtc_item_type = {
-> +	.ct_item_ops	= &crtc_item_operations,
-> +	.ct_owner	= THIS_MODULE,
-> +};
-> +
-> +static struct config_group *make_crtc_group(struct config_group *group,
-> +					    const char *name)
+> +static ssize_t crtc_writeback_store(struct config_item *item, const char *page,
+> +				    size_t count)
 > +{
-> +	struct vkms_configfs_device *dev;
 > +	struct vkms_configfs_crtc *crtc;
+> +	bool writeback;
 > +
-> +	dev = child_group_to_vkms_configfs_device(group);
+> +	crtc = crtc_item_to_vkms_configfs_crtc(item);
 > +
-> +	scoped_guard(mutex, &dev->lock) {
-> +		if (dev->enabled)
-> +			return ERR_PTR(-EBUSY);
+> +	if (kstrtobool(page, &writeback))
+> +		return -EINVAL;
 > +
-> +		crtc = kzalloc(sizeof(*crtc), GFP_KERNEL);
-> +		if (!crtc)
-> +			return ERR_PTR(-ENOMEM);
+> +	scoped_guard(mutex, &crtc->dev->lock) {
+> +		if (crtc->dev->enabled)
+> +			return -EBUSY;
 > +
-> +		crtc->dev = dev;
-> +
-> +		crtc->config = vkms_config_create_crtc(dev->config);
-> +		if (IS_ERR(crtc->config)) {
-> +			kfree(crtc);
-> +			return ERR_CAST(crtc->config);
-> +		}
-> +
-> +		config_group_init_type_name(&crtc->group, name, &crtc_item_type);
+> +		vkms_config_crtc_set_writeback(crtc->config, writeback);
 > +	}
 > +
-> +	return &crtc->group;
+> +	return (ssize_t)count;
 > +}
 > +
-> +static struct configfs_group_operations crtcs_group_operations = {
-> +	.make_group	= &make_crtc_group,
+> +CONFIGFS_ATTR(crtc_, writeback);
+> +
+> +static struct configfs_attribute *crtc_item_attrs[] = {
+> +	&crtc_attr_writeback,
+> +	NULL,
 > +};
 > +
-> +static const struct config_item_type crtc_group_type = {
-> +	.ct_group_ops	= &crtcs_group_operations,
-> +	.ct_owner	= THIS_MODULE,
-> +};
-> +
->   static ssize_t plane_type_show(struct config_item *item, char *page)
+>   static void crtc_release(struct config_item *item)
 >   {
->   	struct vkms_configfs_plane *plane;
-> @@ -262,6 +343,10 @@ static struct config_group *make_device_group(struct config_group *group,
->   				    &plane_group_type);
->   	configfs_add_default_group(&dev->planes_group, &dev->group);
+>   	struct vkms_configfs_crtc *crtc;
+> @@ -93,6 +134,7 @@ static struct configfs_item_operations crtc_item_operations = {
+>   };
 >   
-> +	config_group_init_type_name(&dev->crtcs_group, "crtcs",
-> +				    &crtc_group_type);
-> +	configfs_add_default_group(&dev->crtcs_group, &dev->group);
-> +
->   	return &dev->group;
->   }
->   
+>   static const struct config_item_type crtc_item_type = {
+> +	.ct_attrs	= crtc_item_attrs,
+>   	.ct_item_ops	= &crtc_item_operations,
+>   	.ct_owner	= THIS_MODULE,
+>   };
 
 -- 
 Louis Chauvet, Bootlin
