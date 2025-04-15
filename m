@@ -2,158 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8650AA8975E
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 11:03:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D56AA89761
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 11:03:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D4EC10E690;
-	Tue, 15 Apr 2025 09:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12B8E10E2AB;
+	Tue, 15 Apr 2025 09:03:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LaaKi+6L";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="He+BI3s0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2069.outbound.protection.outlook.com [40.107.237.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63A7A10E690
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 09:03:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HPxrGfwX+kfiBkNhH3ADsV+TYED26MGVBQ6YupXa73HxG6Txz4Z3rvEPGxWO+S8u/YO1541g6WKhv0NkXgRLS1R5iOj/B0ZStRVu8h+7G5FWifnyCupHG3Z9rP+yEEZ4ySEzgLz8yrPxLRxOx2dLfboakT0h6CXbrkCO56MlCrMee/qmSebZbG19z1aH02XlH0a6dgFAl9kDw23yGDe4UpDfD3PV9HyvE8AuoE+8oKJeTVnIs+u2sEY2TknUmzkJoB3PWFfDjjDZdzqYOiPRwrWi4Yts1TjRvhvLUZ3+b0g4FDCIqx6G3skzOJTEXAZj5WSdKf4nBx3ifn1yAoTjRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cPui5XTIbJxAqfJUuvtVo0pM5WZSfhQ29CX9ENnXIh4=;
- b=gZkBm9DDfpysVdetsa45YqsnzSswkRzjV3jc3vuSD0ecyoRzmnWhvFyCXPW5HgB82CrGdLe8ccK/843SWODdKFQu+GEUc6puykZ6bIa0NCU/Q2M8WOMlDXEcaayGxwPKhenYUpUgiC3VrqN1E1CI4Y8IsKQWxT45TkSVejRFHiPbY+kruEAcZIr8jbUwuOWVfC3/5Tm0O6ghAGvOclkpns1HgjCayCavl/lgmLqPHmDbTgtM1ENQ6uOY24AlK9ZuedG3QVKt6yPfrT1pTeUeQVYm8ilVJ0CwVTPFTfWVqVCjusLC3TBs+cCnikQEVC1xo0HmGnMM2+WjhKeMEw6epA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cPui5XTIbJxAqfJUuvtVo0pM5WZSfhQ29CX9ENnXIh4=;
- b=LaaKi+6LbALtHanedG0xxkN7e2yhRiP0DUP0//7dFaPuRBUwl1N+Nc1pLZYD/TXkEXU4ar/T0tNxSD6OsqBhyNI0Qq76YpLPm+aq1T2A7fR4C3KbtfZrMlERLA60IMdqR4o3y5ZNQeRFL7BIPZz4E5ZCoAdMWSSTaFKppCSJvcI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB8071.namprd12.prod.outlook.com (2603:10b6:8:df::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8632.33; Tue, 15 Apr 2025 09:03:12 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.025; Tue, 15 Apr 2025
- 09:03:12 +0000
-Message-ID: <1d94316f-3336-4d40-bd18-e4703c7037e8@amd.com>
-Date: Tue, 15 Apr 2025 11:03:04 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Replace CONFIG_DMABUF_SYSFS_STATS with BPF
-To: "T.J. Mercier" <tjmercier@google.com>, sumit.semwal@linaro.org,
- ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, skhan@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-doc@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, android-mm@google.com, simona@ffwll.ch,
- corbet@lwn.net, eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
- jolsa@kernel.org, mykolal@fb.com
-References: <20250414225227.3642618-1-tjmercier@google.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250414225227.3642618-1-tjmercier@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0066.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::17) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9B210E69D
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 09:03:28 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F8tIPG031756
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 09:03:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Pi9W8xDLtFpfMCtDZ/I2qyKiiqpdZeuFsiGXpdMBpHo=; b=He+BI3s0YJ/2TUMV
+ oO9+aMBAxYo42PxqQhuOKQS4YVmQsPePdK6np0q78+1xWiMYBGAxccIZWVDprg8B
+ Of0CfjQ1HxM00+9Uq3pful9EjN/89iSsaU62QX093+sjJQJvRGTAl3ZqXwC1Y/3o
+ UsAPGEdyrDDVKmRg+HJP0MHuSmLqhd0UyLwzy6nksJcZoLkWG3YTm6obWFZBU1OU
+ dDWTfcfUpoN2V8nbNTgJPPz4X5qH0M14vOaaT4rQlJRX+dRtvBfeiqYx2TAQVedw
+ XJLio7UJrQEVyFcByKZXmprkM5ZNvyx5iK9E7mkUlVIOXnyb9heMvMofoouFzyX5
+ 13Kg3w==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yfs17edv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 09:03:27 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c5c82c6d72so962463285a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 02:03:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744707806; x=1745312606;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pi9W8xDLtFpfMCtDZ/I2qyKiiqpdZeuFsiGXpdMBpHo=;
+ b=nocG4ClB4LzQW5LNpGJAQPW8gXIvY4Avrbu9GKqxfCQXIDEDAxqmGS+WHz/n2UexF4
+ hJ/KQ3rc02EpaXH9cH0ttavgMTyadJFGp4n/stncvse9lwt5R63k00ui064wUONQN1y1
+ PuC7pa/BDqZFzTFlhcq3ua8d9k34ZVB2vtyu+1Wmk8sovJJohSEL0dTiHhroKmPomjth
+ OAxrZGMDxpe5g+gyhjxA93MB6vf05s4S+3vnKDZXK/2X9DRayOmYS3Cgy9jngUbltmD0
+ DCFRmvQja284VCao707WAKWG0mnO/HQPIn4Z4Awo5Cdjjmmd6lLKsUfOMoXS8aF3VyI8
+ hbIA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWnn5uGzo3L8fApbr1x6Nn3oJl70TD3RZVHfl8nV2nz2OfEml5RgJECbLCK6RnfUOYlSa7ywIzpbWA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWJl5zF0BvGgKQ9C8M9ykOhBFnpMVrB/qHRSY0rou+29qivTZk
+ 2o97l9NtDPyyARl+RkOCnKBAhvRDnDPm7cTekBNddKrHHZ8r0g7hxkb+f1qp5yIBjJUa+SrTKkk
+ sMZ/nmhTC1jZjwdznT+JhKkEAdSPSgENJ8VPpQ8n0O7DAvnLcJ1RYWH/nCTIeFR1s4rQ=
+X-Gm-Gg: ASbGncu13DS3PKBS5VAWESkuQ3WI3+ENOoMswpoLKOWa+l5zxbPKRbwt8opCZDPpFKL
+ ekj9F6wyX+pQATiQVNxOIjdkdzNwa9djPLld8igfXQSS6b2VlUjYSH5JTIVUkCWM9cqKp90tXk9
+ A5E5d3bpOxG0dDYCKYncX1RXxrpe2tnlpM6hwzO8ZILckgJKymygD5M1zlRPrKDuOhSE6np8V8k
+ 11rJD3fMYU42D/TGNXTyhg6KbOo0DqMyLI/5q7cywg+lsGuUjpsaTqRVyo/tKjjzJw7VB/Sgorm
+ ZfYRmYdD+JI3InQV4hxoYXsDhbWenaxEQxUqD0lBgNg7Xok6lj0hsfJhWBLrhInNkqquD4VsCls
+ U4ba0pWLJ3dGvnncNVC+lYd1ZB4WPzgiFOOQplfs8ZFiZTmth1cs2yL9Io3ms
+X-Received: by 2002:a05:620a:44d1:b0:7c5:55be:7bff with SMTP id
+ af79cd13be357-7c7af114905mr2363266285a.43.1744707806622; 
+ Tue, 15 Apr 2025 02:03:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHmALGO/49j9P1UWM4GcEnINXzH+/qaxVWP9A1Xi4UfCFAuKfFmnRfD3FeJ10ZTTxf0ZPZJwQ==
+X-Received: by 2002:a05:620a:44d1:b0:7c5:55be:7bff with SMTP id
+ af79cd13be357-7c7af114905mr2363262685a.43.1744707806221; 
+ Tue, 15 Apr 2025 02:03:26 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:aa:77bc:64e0:30e4:f6ff:5bd?
+ (2001-14bb-aa-77bc-64e0-30e4-f6ff-5bd.rev.dnainternet.fi.
+ [2001:14bb:aa:77bc:64e0:30e4:f6ff:5bd])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54d3d520389sm1358576e87.251.2025.04.15.02.03.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Apr 2025 02:03:25 -0700 (PDT)
+Message-ID: <f59c0ab6-2391-4712-a3d5-18e67f538d4f@oss.qualcomm.com>
+Date: Tue, 15 Apr 2025 12:03:23 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB8071:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7c7e4921-ec18-4153-580d-08dd7bfc5974
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eXVjZlZBaGhySFlLQWwzMldKWmNHVUI2YVNmcjR2bWJjR00rVEhpSVUxakVW?=
- =?utf-8?B?RTJobW1PQ0lSSDdtbDBZWmk5dldadExNNzNDNFc3b3pqYU9qWEZwTlNUaHFa?=
- =?utf-8?B?OHdxOWJMSzc4NTNOQytYOFZ2eW93RDhuK21IM3BvQ3JPZ1daKzhVSUNRcmhI?=
- =?utf-8?B?eGFkWUhtQjc4MUhPSHQ1dDYxbUM2ZXJnRlU1NE4wZ2FaVGw2cGozS1UvNFhw?=
- =?utf-8?B?TnhTdWZzK3VIZFJ5UEJtSTgxbkJXbElSUStRcEYvY1ZaeHZqaEtKK3lkSmJB?=
- =?utf-8?B?R0p6UUZrcm9qQ1hqNGU2dzRrV0xsWlM1a25YbktGUlNraGNlYVJVcHpvcmZC?=
- =?utf-8?B?Qi9VbFVwRldDRmt3RnZXNEJnVi9xRkxnV0FQUzdkQWs1dHVWRy9GckNtQmdC?=
- =?utf-8?B?Ujk4ZUs2ZVo5Vyt3R0tPNE9Hd3ErSEZqQjFjVkdaUWpFWmNQbnhidFl5SHFB?=
- =?utf-8?B?OS9oRTJDaDhMUWgzaDlJdC9yZ3Q3TWo0V2tmcHhDYnVQcENXa21NQ1NidE9F?=
- =?utf-8?B?WGVTMThzd3c2bjRCVFVUUHEwQ1A2bTlRVWZrV0gxRS94NFc5Tlh4QVYxRkNh?=
- =?utf-8?B?Q1d0ODlYUDRSZDB0dStPNE5MTWxwYTE4QjVYMk1kUU1OcGFiZnpnek8yb3pU?=
- =?utf-8?B?elNQSGdzekd1ZllBU29DclAzNjFiclZWSXBBZ0diLzFwS0QzM04rSXVBK2pz?=
- =?utf-8?B?eVNPUUNQY2Y5K0tXWmU0ZG1obVF2SktlR0dLd0lKS093UERmY0NlNjlsSGJq?=
- =?utf-8?B?MklDaHVsbWNha3hWenlkMUt1RWtGeU5vaWdUQ0szbkRXSUxPOWppVy85ZlpM?=
- =?utf-8?B?VWFYUEl4M1dEOTIya1hjSmhQaGhwUVRCYUY4eHhLbjA0SU9CNi9aaGlORjc3?=
- =?utf-8?B?Um1VektjQVlObFJaOWVpTFdqY08zNlU5NUNmYjJEbTV5R0EwVDV2SUxqUWtZ?=
- =?utf-8?B?ZGcxSEdOb01MSFFSWTVoZndHME1GUWtLb0tTRUZqc09DN2xWRFdqK3Q4V0tH?=
- =?utf-8?B?RmZwRG5QN1VzbjdoNzRLc09nWDRuQ29SbVV5cGMvb1ppNHllVlEzSGo0Z08y?=
- =?utf-8?B?ZVFPaE9sYlhaVDI4SGV3YjNRemtEL2ZZT3RKZElxTndYaGprZW9aWlh3UDdB?=
- =?utf-8?B?S01yTlNyUElub1JORGljc0ovRm1oUGtVK2NzazczckFYeFFiaW9RZGp5dlVx?=
- =?utf-8?B?Q0tqMkJWT0Z3dmM3Rml1VTh6YVBtczRKVFFoNnF5dUxRbWYva2VFM2JUTzRR?=
- =?utf-8?B?Tno3SDU3UGwwU3ZUWnhuMEsvd3F4Umt6Q2RRbTZOY25aTFhndGRnMWQ0bWVI?=
- =?utf-8?B?NXUybjFSZG8yMWE5dnd0a285UFhIWEZ3eEExSnRXbkg2MHZTakhvb212UFNO?=
- =?utf-8?B?VTRmRVUreVRvZXgvS01hV3ZjdENrQlFHUm81a1JWZk1iMjBwQmRiR2JKaEpH?=
- =?utf-8?B?NGYyZ0tJeEt3eDdQM3ljWXdBWU9GMGc0K292UWFCWFpXYnY4bHBaaml4UDBw?=
- =?utf-8?B?WUwyckJRK3l4cmJpK2h1OWNscVB1cFdTSnpPa2IzeU1CRkxVV00rN2lYTVlV?=
- =?utf-8?B?RWJhQ0FXVVAvT2xEM2FMVGkzb1k2akxjalF3ZUMxOHdVTjlEU1VvM3dNaXI3?=
- =?utf-8?B?UkV0eDRySEJOOGV4TUZad3V6Tmp1OVRrbjlDSHpxcVdFeWUxNTc1UFo1MkEz?=
- =?utf-8?B?K0VRUmZYZ0RXdjBkNkZFRmdLOEgzS2VRV2ZEeWZnSVpjL3VzKzZEY3hRTlFt?=
- =?utf-8?B?Q0tlWkZjOEVWRnE5MEpYNk5EQ09GUzJhWFh6a1BTcldHOFJSMUE0cjlqMVNX?=
- =?utf-8?B?bTV4c0RhK3BHcGwvUUZSTXRxZlhGS3JMdVBZUHFRU25vZi8zbEVuUjgxT2Z1?=
- =?utf-8?B?Vm0wa0FnZkdWZjNsejArOUtUNVhQSGR5bUxGaEEzY3ZyRituT21yVWk4MDJj?=
- =?utf-8?Q?PLYDg9vXDiE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V1Frc3hScnVPZkJ1Zmw2a1JZdHlmQXN2ZUg5RkZDaWhIUUlXRDBYWmE1c1dv?=
- =?utf-8?B?SUtib2tqdDNnTFZlK2NUT0VTYURaT1JWRTRjdm8vQmR3eWhpZTNlNHNQY3lJ?=
- =?utf-8?B?RmUzQlRhMTBQRjNzV010QUszR1pRcDVrSW1GS0dUdktSZWhnMFk4bXhvU2Va?=
- =?utf-8?B?MnQ5YzFGKzkwUEp0UU1FbFAvbE9KQmRtWVZIalhOMlVwNnBKQjNiblc1YjVC?=
- =?utf-8?B?Tm5aNnpXZzlISTV3Y0hDOUZOTU9EVWF0dllCcGRxMitQM0xZaWJncFhFanZ4?=
- =?utf-8?B?NTEwMXdkOHl3RTRyQkxKZFpJZW1yWGRuaURMNk5PVGpCTzdXSWRoWCsyNTY4?=
- =?utf-8?B?d3dPMFJuQ28vaHp3TGRqN0tMQS8wSDNJN1ZPTXVVdGJERDY5QWJZYjVleGRL?=
- =?utf-8?B?cGNIZkFidkViT0xOV1BzdWdqcFgxbUJKcG5PUEdXeFlDWm43dmtGRFdtUll5?=
- =?utf-8?B?NmsrR3JVOEJ6WmlLREp5c0JjY2VzUjZkVkc4MDBmdkh1TTVucXBiZ3NiT2c0?=
- =?utf-8?B?ZFQvQjVMNDFtSlJJenR6eUdaU0tYN1hUNWxLdnVFcElNM3lSNVplcmJEWklN?=
- =?utf-8?B?S1hMWFBwRmZja2UrU3V2NVZEZ3ViME1ZT0g1SmZBemVwMUErb2l5VXo4MmxB?=
- =?utf-8?B?OXBQRDVtNUVta05FSFdSYzc4WTBMRnYwWUZYZHNWbm1UMzFtYVZWK2ErSGlm?=
- =?utf-8?B?RjlKcjNWckoyL0YzNFNVL2wyRTNEUlQ0L1hmVFdQZ0ZDRXQ1V2RIVEtMY0Nk?=
- =?utf-8?B?QXZjZDJuNWxFT0JtMUxEb0M5NzZXOWRQbndTU1ZVWjBCbDlnVzIzaFBuTmVh?=
- =?utf-8?B?VFpnc0gyVFQ3bHdEWkgreU9lNHphVUxjVENMamZUZTh4MHRpRThzTHpkVVFO?=
- =?utf-8?B?UHBHelB4SjJ4Ymg0MXlnS0RJMWt6N1NGNWxBclV5RmdsTVcrZ1poUmRwVVJN?=
- =?utf-8?B?MkJHOEpGUjNtZFdYVjRMd0NPUTJPNE9uQjFPUnc3NytCalppOXJhdnJlc1Y3?=
- =?utf-8?B?VWlkUlZPYVVYeUhkRW9qR2p5YXltaFpwanRPRXBDMk5VeGk4QXZFY0tiUVBF?=
- =?utf-8?B?bEVkOWxHZE9GUVVweUtIV1FuclpxaFpxM2lwQTdVb3N0SnFLaUFOeFNvam1j?=
- =?utf-8?B?a3Fia0VRUzVXNEVvZGJ4S00yYlpJRVVXMzlxa25TcGZFWnoreWE1M2JXY0hk?=
- =?utf-8?B?cjBPblY5SEtTU3owUUt2ZmtBN240UisyL0diSUgvcEZiVTJKdm1ZNk1KclJi?=
- =?utf-8?B?dWdlanJDLysrSVZ5UDJRT2RUaHU2OTlqVTk2Z3grb3F3QkhhTFVpcU0vQVJF?=
- =?utf-8?B?di9Oemo0TUk1dUFsZEdaOFg2T3JDUThtdG84ejMvb1phNWNvNmlpN0tDbFhT?=
- =?utf-8?B?ZXhBcnAxcjRBVlJQWnp3WFBRVW0yak1EKzQrbStrNDlmYXpoY3BJQ004aHFK?=
- =?utf-8?B?dnZYd3M3WjRJRDc3THdLMldDNE9yNlVCY1lNNjByekJNdjNONFlQbzNuN1dR?=
- =?utf-8?B?TVhidGEyZ2R3dmhoNmx0TjhCWGt2aEVJQ2JUbjRoTDl5VUtSU2ppWURMb2tm?=
- =?utf-8?B?WWdmdks0TkhLNVRJVWQ3ODdPODR2T0FHZktDcEdsN3Q5bnRpWUU1NUcrVmpi?=
- =?utf-8?B?STA5S2Z5dEVCVnJmMm12MGtXa3JuQTRqVVJwa1ZoRUx4Tzl2MUpaVlB5bUFT?=
- =?utf-8?B?M2pwcE1FQ2JOTGMwVVRETUZsblBWNXQrOStFTjk3YVhGR1g5WmMydXdkdWhT?=
- =?utf-8?B?eVcrSVVrZXhCVCtvQkpiNWZ1NTZSMVl3MzMxV1dxU2VsblEvWHAwUm9PYU54?=
- =?utf-8?B?VmwvTkN5UUdZRFJjL1pLeUJrS2YvYUZJSUprMHFKU3F3NDl6Q3NLZEh1TzEy?=
- =?utf-8?B?K2hEcVdwc05zQ0N0dFNBQ3kwYUsvV2R1R0szdy9TVFBwdi92Yk52bTRRc3cz?=
- =?utf-8?B?TEpubW1XeDZqdWUxc0VvL3k2bENUNHRKUDB2dlZkODJHbTVhaENhNDFMS29Z?=
- =?utf-8?B?aEMyZWphUnlKNnZrUEpHeGdZcEhDN3I3amljaFBpNWNOZ0hCOU52OXp2bnNt?=
- =?utf-8?B?UEVycTFQRyttS1RCVUs2dUYxK3M5WjhVUTM3TkFZWmRtZDJpdEEra2JmZWRI?=
- =?utf-8?Q?BSzE=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c7e4921-ec18-4153-580d-08dd7bfc5974
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2025 09:03:12.0694 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AhgzVhF1olvEdjW++nUblWRVZ0acSOOLDH0dIPpwjk5MI5Yn+IR+oLZY7O2YybQj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8071
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 04/11] drm/connector: unregister CEC data
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <lumag@kernel.org>
+References: <20250407-drm-hdmi-connector-cec-v5-0-04809b10d206@oss.qualcomm.com>
+ <20250407-drm-hdmi-connector-cec-v5-4-04809b10d206@oss.qualcomm.com>
+ <20250414-hissing-auspicious-goldfish-78b9dc@houat>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250414-hissing-auspicious-goldfish-78b9dc@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=P9I6hjAu c=1 sm=1 tr=0 ts=67fe20df cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=0wzSBSrXEAkDLt2uI0EA:9
+ a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: 1bpl34mZt4a2C6te75XssifzgzNOjGiC
+X-Proofpoint-ORIG-GUID: 1bpl34mZt4a2C6te75XssifzgzNOjGiC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-15_04,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ clxscore=1015 bulkscore=0 impostorscore=0 phishscore=0 suspectscore=0
+ mlxscore=0 spamscore=0 malwarescore=0 adultscore=0 priorityscore=1501
+ mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504150062
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,80 +132,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.04.25 um 00:52 schrieb T.J. Mercier:
-> Until CONFIG_DMABUF_SYSFS_STATS was added [1] it was only possible to
-> perform per-buffer accounting with debugfs which is not suitable for
-> production environments. Eventually we discovered the overhead with
-> per-buffer sysfs file creation/removal was significantly impacting
-> allocation and free times, and exacerbated kernfs lock contention. [2]
-> dma_buf_stats_setup() is responsible for 39% of single-page buffer
-> creation duration, or 74% of single-page dma_buf_export() duration when
-> stressing dmabuf allocations and frees.
->
-> I prototyped a change from per-buffer to per-exporter statistics with a
-> RCU protected list of exporter allocations that accommodates most (but
-> not all) of our use-cases and avoids almost all of the sysfs overhead.
-> While that adds less overhead than per-buffer sysfs, and less even than
-> the maintenance of the dmabuf debugfs_list, it's still *additional*
-> overhead on top of the debugfs_list and doesn't give us per-buffer info.
->
-> This series uses the existing dmabuf debugfs_list to implement a BPF
-> dmabuf iterator, which adds no overhead to buffer allocation/free and
-> provides per-buffer info.
+On 14/04/2025 17:47, Maxime Ripard wrote:
+> Hi,
+> 
+> On Mon, Apr 07, 2025 at 06:11:01PM +0300, Dmitry Baryshkov wrote:
+>> In order to make sure that CEC adapters or notifiers are unregistered
+>> and CEC-related data is properly destroyed make drm_connector_cleanup()
+>> call CEC's unregister() callback.
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>> ---
+>>   drivers/gpu/drm/drm_connector.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>> index ba08fbd973829e49ea977251c4f0fb6d96ade631..ae9c02ef9ab102db03c2824683ece37cfbcd3300 100644
+>> --- a/drivers/gpu/drm/drm_connector.c
+>> +++ b/drivers/gpu/drm/drm_connector.c
+>> @@ -743,6 +743,13 @@ void drm_connector_cec_phys_addr_set(struct drm_connector *connector)
+>>   }
+>>   EXPORT_SYMBOL(drm_connector_cec_phys_addr_set);
+>>   
+>> +static void drm_connector_cec_unregister(struct drm_connector *connector)
+>> +{
+>> +	if (connector->cec.funcs &&
+>> +	    connector->cec.funcs->unregister)
+>> +		connector->cec.funcs->unregister(connector);
+>> +}
+>> +
+>>   /**
+>>    * drm_connector_cleanup - cleans up an initialised connector
+>>    * @connector: connector to cleanup
+>> @@ -763,6 +770,8 @@ void drm_connector_cleanup(struct drm_connector *connector)
+>>   
+>>   	platform_device_unregister(connector->hdmi_audio.codec_pdev);
+>>   
+>> +	drm_connector_cec_unregister(connector);
+>> +
+> 
+> Actually, since we know that the HDMI connector is drm-managed, why
+> can't we make the call to connector->cec.funcs->unregister a drm-managed
+> action registered by drm_connector_hdmi_cec_register?
 
-Really interesting suggestion. I was expecting something like cgroups, but bpf is certainly an option as well.
+I haven't settled yet in my mind whether we can/should also use this 
+infrastructure for drm_dp_cec management. So, at this point, I'd prefer 
+to keep a non-managed unregister function. Once we settle on something 
+for drm_dp_cec, we can switch to drmm.
 
-How do you then use bpf to account the buffers? E.g. are you interacting with cgroups or have sysfs procedure to expose the list or how does that work?
-
-Additional to that why using DMA-buf for accounting in the first place? See DMA-buf is for sharing buffers and only a minimal fraction of buffers usually need to get shared. Everything else is just massive overhead.
-
-> While the kernel must have CONFIG_DEBUG_FS for
-> the dmabuf_iter to be available, debugfs does not need to be mounted.
-> The BPF program loaded by userspace that extracts per-buffer information
-> gets to define its own interface which avoids the lack of ABI stability
-> with debugfs (even if it were mounted).
-
-I think we can make the buffer list independent of CONFIG_DEBUG_FS.
-
-> As this is a replacement for our use of CONFIG_DMABUF_SYSFS_STATS, the
-> last patch is a RFC for removing it from the kernel. Please see my
-> suggestion there regarding the timeline for that.
-
-Oh, yes please!
-
-Regards,
-Christian.
-
->
-> [1] https://lore.kernel.org/linux-media/20201210044400.1080308-1-hridya@google.com/
-> [2] https://lore.kernel.org/all/20220516171315.2400578-1-tjmercier@google.com/
->
-> T.J. Mercier (4):
->   dma-buf: Rename and expose debugfs symbols
->   bpf: Add dmabuf iterator
->   selftests/bpf: Add test for dmabuf_iter
->   RFC: dma-buf: Remove DMA-BUF statistics
->
->  .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  24 ---
->  Documentation/driver-api/dma-buf.rst          |   5 -
->  drivers/dma-buf/Kconfig                       |  15 --
->  drivers/dma-buf/Makefile                      |   1 -
->  drivers/dma-buf/dma-buf-sysfs-stats.c         | 202 ------------------
->  drivers/dma-buf/dma-buf-sysfs-stats.h         |  35 ---
->  drivers/dma-buf/dma-buf.c                     |  40 +---
->  include/linux/btf_ids.h                       |   1 +
->  include/linux/dma-buf.h                       |   6 +
->  kernel/bpf/Makefile                           |   3 +
->  kernel/bpf/dmabuf_iter.c                      | 130 +++++++++++
->  tools/testing/selftests/bpf/config            |   1 +
->  .../selftests/bpf/prog_tests/dmabuf_iter.c    | 116 ++++++++++
->  .../testing/selftests/bpf/progs/dmabuf_iter.c |  31 +++
->  14 files changed, 299 insertions(+), 311 deletions(-)
->  delete mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
->  delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
->  delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
->  create mode 100644 kernel/bpf/dmabuf_iter.c
->  create mode 100644 tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
->  create mode 100644 tools/testing/selftests/bpf/progs/dmabuf_iter.c
->
-
+-- 
+With best wishes
+Dmitry
