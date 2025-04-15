@@ -2,76 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43053A89B27
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:53:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C8FA89B43
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:57:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68BAB10E70A;
-	Tue, 15 Apr 2025 10:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0285310E727;
+	Tue, 15 Apr 2025 10:57:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="kJ5OmgFf";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="A+hUZpp6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
- [209.85.222.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA95F10E72C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 10:53:36 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id
- af79cd13be357-7c592764e24so497537885a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 03:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1744714416; x=1745319216;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kZf1ZEYX5fxpBbDQPKXX9zzx3tbglVu+Q3fypBy+V+8=;
- b=kJ5OmgFfRnv0pLT2z0vVPINtkMi+QmK2fswQLd/qC99kwNAl1QFUN1jG0hfNaLphgJ
- Tkse/0zRZn00ZCpjHJ4c/eTf9Y+HfSrWik+3Vm4m29PPGiDaaON4XnHWnxL+BX9L7I2m
- TN0O/XonVWEDpMqmT5a5c4w6Ahg8LtamUin1AvAUWJA/P2rpFy5AswKGQ0sUMjK8/ybt
- n5B+FvO6W4QVbKnRdnROHZchSnSnC0tpJvB3eEVvVlCotrWDukhBU2PsVc9h/0IQUikV
- gDoM974jYKUjdfzRyktwhIt1PpM7x54aDi7y+MUpcZ5KTKiF+uHujVbEYu/vZ/xwqceD
- hJog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744714416; x=1745319216;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kZf1ZEYX5fxpBbDQPKXX9zzx3tbglVu+Q3fypBy+V+8=;
- b=WRGEauaj+SuLxrGYOqHowL8hAoIG5AHRn1LI6Lf3kp4MgRVZY/+nihSVOLJSrx6KeS
- 8r7ES3CPNz277AX1zvEUUc6dEXBaDNJ2xb/gLmc1NG8SmvmdTeJsaF2upsTBkfOFubYg
- ykwTmo7Q07Brb4IX7iSLy/kItl0muFRD1xBYqS2aI5lnRO0iOIKUcOVAf2YW/qHUt5Y0
- iM/+i1CtMvMQd4FMGvSatsRmcIeGpivGMPqQLnmJVDV2Pf61y3cIQoZnchM87mGpb1Sm
- NCjeTxoQBNOyPkEQ+X61d9KPNfgmAeo3AoraPCn0YFwLajholameVJW03JyRGTqNcVdo
- njaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsWPt7ER1L7XjtZUamgoW7qKyw2uZ0JFpqJRZ54y5TAtaiZAaA3Mtb1IiBhdfTOvugJEQHm5ipbDs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGp/qltYGixO7sLvT1HCOCRDruobyyNmESlpM8lBvKWk5BL/yt
- NNjmwD0UK20Jk+kC1K1P0u3VTCjuOYJnnOimnaS6foW7kRMp1La43wm4v5oXFBF6LaMrsuWca1N
- loGEzYM1Yr2ePzuygOBZCkvXaHCeQIELOOjuOHw==
-X-Gm-Gg: ASbGncuLG74swwQ1if1tu42qy6ryic4OLouwfF7xOmzE0o+LIGM08yJPZ4V4pAKydyy
- yAciSUOvj2zRcF27Vl23ipx6Y+vSZc8yfk47VAoVZsdSSl5l1dY+nrns0d/Tjjj6ya4d5CF7nHp
- NK81wMN4W5OoPSxZJfCiY=
-X-Google-Smtp-Source: AGHT+IGNrT9fUDqJ/9DuuJ2/HUSXoa5nodR0ekZpYETxpsIYH3/ZSUn/GijzRIn7b9vK5nnHDs5jd9c2PP6HClsjBzc=
-X-Received: by 2002:a05:620a:44ca:b0:7c3:ca29:c87e with SMTP id
- af79cd13be357-7c81e00a390mr444244185a.21.1744714415911; Tue, 15 Apr 2025
- 03:53:35 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4312C10E727
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 10:57:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744714632;
+ bh=jNy645rK7tvBtHdrNuaws/6Xofk4AZmF/RjYXQ94dVQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=A+hUZpp69vHbGhHjymgba6Ulm2TwTDNRJF4RNbkK8WfoRGhVZVgsV1pVAUEud4I6W
+ zGNh9I70NXopjLOyRaPY9NrPsIEhLXtjgHD2EnmoFQ2Xhfw7rKl2nIfVLLSLPwYdiG
+ G0B5fFi1J8maqHyIyzKB7AKxXvo5iH71/nuHjm1BmKNMK/rj+dYoPdyCKJsBlDuVa8
+ juL7EVkBiftoPrQyoVitSCWPPUs6k9Z9nmiHnahmdEkZ4qo9VivPjA5PE3g80DRoSI
+ yxJuU9hqQKY5Pj1ph8hqZADKhZXYlj3U+M8hEZB9TTpy566THbkUadhBiyS8V6bsUV
+ lLAXdowZkXPOg==
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7867A17E03B6;
+ Tue, 15 Apr 2025 12:57:12 +0200 (CEST)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+	kernel@collabora.com
+Subject: [PATCH] drm/panthor: Enforce DRM_PANTHOR_BO_NO_MMAP
+Date: Tue, 15 Apr 2025 12:57:10 +0200
+Message-ID: <20250415105710.1490623-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250116162528.2235991-1-contact@emersion.fr>
- <20250117131543.38f0f60d@eldfell>
- <wKekuqyfg94IU93Ol9YIZU1bw1eBz0wva56a6US3DBfn5vBBUmvNMRWOIPUD4HL16evFO-j561hsuczkwZuU0nbHdYjOAtGvAufvoqkj1Lc=@emersion.fr>
-In-Reply-To: <wKekuqyfg94IU93Ol9YIZU1bw1eBz0wva56a6US3DBfn5vBBUmvNMRWOIPUD4HL16evFO-j561hsuczkwZuU0nbHdYjOAtGvAufvoqkj1Lc=@emersion.fr>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 15 Apr 2025 11:53:23 +0100
-X-Gm-Features: ATxdqUG22r4ZcbObR9mKZUIe0bDEjShdYMBeI6E0FtN3v0_HsxnKQQK54tzEaEs
-Message-ID: <CAPj87rOh0ByYnFZFGg3V0MSvyoOyHigaxv_uKg3KB5XSrUnNKA@mail.gmail.com>
-Subject: Re: [PATCH] drm: document DRM_MODE_PAGE_FLIP_EVENT interactions with
- atomic
-To: Simon Ser <contact@emersion.fr>
-Cc: Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
- dri-devel@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- David Turner <david.turner@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,29 +60,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 14 Apr 2025 at 09:24, Simon Ser <contact@emersion.fr> wrote:
-> On Friday, January 17th, 2025 at 12:15, Pekka Paalanen <pekka.paalanen@haloniitty.fi> wrote:
-> > Wasn't this also conditional on the DRM_CAP_CRTC_IN_VBLANK_EVENT or did
-> > userspace really need to count the events even without it?
->
-> DRM_CAP_CRTC_IN_VBLANK_EVENT is unconditionally set to 1. It doesn't seem
-> like there is any interaction between these two. So yeah, I suppose
-> user-space needs to count if they are on kernel < v4.12.
->
-> > Nevertheless, should there be a "see also DRM_CAP_CRTC_IN_VBLANK_EVENT"?
->
-> This sounds a bit out-of-place to me TBH. It's orthogonal to event delivery
-> and it's linked from struct drm_event_vblank already.
+Right now the DRM_PANTHOR_BO_NO_MMAP flag is ignored by
+panthor_ioctl_bo_mmap_offset(), meaning BOs with this flag set can
+still be mmap-ed.
 
-Right. One completion event will be delivered per CRTC in any case.
-It's just that *cough* someone forgot to include the CRTC ID in the
-event in the version of atomic support that first landed, so you get n
-events which each refer to _a_ CRTC, but userspace has no idea which.
+Fortunately, this bug only impacts user BOs, because kernel BOs are not
+exposed to userspace (they don't have a BO handle), so they can't
+be mmap-ed anyway. Given all user BOs setting this flag are private
+anyway (not shareable), there's no potential data leak.
 
-I don't think we need to refer too much to the caps. Realistically, I
-suspect everyone who ever tried to use a kernel which didn't have the
-CRTC ID in the completion event with atomic userspace is in this
-thread, apart from Maarten.
+Fixes: 4bdca1150792 ("drm/panthor: Add the driver frontend block")
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ drivers/gpu/drm/panthor/panthor_drv.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Cheers,
-Daniel
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index 15d8e2bcf6ad..1499df07f512 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -940,6 +940,7 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
+ 					struct drm_file *file)
+ {
+ 	struct drm_panthor_bo_mmap_offset *args = data;
++	struct panthor_gem_object *bo;
+ 	struct drm_gem_object *obj;
+ 	int ret;
+ 
+@@ -950,6 +951,10 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
+ 	if (!obj)
+ 		return -ENOENT;
+ 
++	bo = to_panthor_bo(obj);
++	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
++		return -EINVAL;
++
+ 	ret = drm_gem_create_mmap_offset(obj);
+ 	if (ret)
+ 		goto out;
+-- 
+2.49.0
+
