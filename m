@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA32CA89948
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270A8A8994E
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:04:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11AED10E6E6;
-	Tue, 15 Apr 2025 10:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 552BB10E6E4;
+	Tue, 15 Apr 2025 10:04:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="AtdAWynL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="H3Kf3fsg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9884A10E6E0;
- Tue, 15 Apr 2025 10:03:16 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C41784340A;
- Tue, 15 Apr 2025 10:03:14 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3282510E6E0;
+ Tue, 15 Apr 2025 10:04:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5C89543976;
+ Tue, 15 Apr 2025 10:04:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744711395;
+ t=1744711452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Mkgv5P5oujCF82RDG23zyyVZwGfjxvIhJv7AYDyBKwE=;
- b=AtdAWynLUu7NAPM4OqlO0Nm8cFB2FSqSLH2mjLNRkN08nmxx/BuGmiWyI0W7nkpa2w2TOB
- M0FQynuwwopCaM31bOmAfmZdKGrK0HAg153Q03/myAC2uXCEiZvSTQXM2PWrndJCSLacEU
- Or/RRnrCIVrPcjf/Y7ureS6WIlwWBqAJVH2CeZFEByMnX3++4YSJWK76umrvJRMdwxtHbR
- 0Y2YHWGnfvGeFHbIOGllFYghrf3wdBW6kFzazTv8kCNlQWasQKPWBX8nbVyFnXxsplHbGL
- LejunrRvNtoJBsSV3tlJDjrWWa02NHLLbymh66eOWtUmd8d/K9wT6gBPfQeRIA==
-Message-ID: <6d778610-7e4a-4ec9-8db3-945ea3886ea2@bootlin.com>
-Date: Tue, 15 Apr 2025 12:03:14 +0200
+ bh=qRMj/vsNMapHzG2QjUA1gZ5fCL3N0onkPIcJxPeTsHk=;
+ b=H3Kf3fsg5HmuTUNQcwGBhAIAvnm/Swx5fxQANvdySDlOVQrnXLSrlFXIbGRS5VOLIk2Blc
+ SHu4AI7PUmD8TOGrlzY315oc3VMZV8TPelV2yeBOdcIhcZI3FNSovi48KpLC3CogBx32Q4
+ 1tkAjtSpkJaNmXKr3XsoxePnYeWFEWsDoWVKJyHqzMWOaMSywF/+f1Pszipf+PU1mn/fXV
+ 079/Y4V2mXtHTO+TFUpE+6glW4lLoSAPqYzDd2SbEwEl9yy3nKDq4gQsNnfTIYqflGy3o1
+ s3yAOHWZnN5e48POESUKqn+ZEmXbl3R6QOl3HU2cH/dKsNEiuBd9l55BUSHL0w==
+Message-ID: <428d9ffb-70bb-42f3-bf4e-416cfd90f88c@bootlin.com>
+Date: Tue, 15 Apr 2025 12:04:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v3 19/54] dyndbg: detect class_id reservation conflicts
+Subject: Re: [PATCH v3 20/54] dyndbg: check DYNAMIC_DEBUG_CLASSMAP_DEFINE args
+ at compile-time
 To: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org, linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -43,7 +44,7 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250402174156.1246171-1-jim.cromie@gmail.com>
- <20250402174156.1246171-20-jim.cromie@gmail.com>
+ <20250402174156.1246171-21-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -99,12 +100,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250402174156.1246171-20-jim.cromie@gmail.com>
+In-Reply-To: <20250402174156.1246171-21-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhin
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhin
  hhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -125,111 +126,90 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 02/04/2025 à 19:41, Jim Cromie a écrit :
-> If a module _DEFINEs + _USEs 2 or more classmaps, it must devise them
-> to share the per-module 0..62 class-id space; ie their respective
-> base,+length reservations cannot overlap.
+> Add __DYNAMIC_DEBUG_CLASSMAP_CHECK to implement the following
+> arg-checks at compile-time:
 > 
-> To detect conflicts at modprobe, add ddebug_class_range_overlap(),
-> call it from ddebug_add_module(), and WARN and return -EINVAL when
-> they're detected.
+> 	0 <= _base < 63
+> 	class_names is not empty
+> 	class_names[0] is a string
+
+I don't see where this is checked, did I miss something?
+
+> 	(class_names.length + _base) < 63
 > 
-> test_dynamic_debug.c:
-> 
-> If built with -DFORCE_CLASSID_CONFLICT, the test-modules get 2 bad
-> DYNDBG_CLASS_DEFINE declarations, into parent and the _submod.  These
-> conflict with one of the good ones in the parent (D2_CORE..etc),
-> causing the modprobe(s) to warn
+> These compile-time checks will prevent several misuses; 4 such
+> examples are added to test_dynamic_debug_submod.ko, and will fail
+> compilation if -DDD_MACRO_ARGCHECK is added to cflags.  This wouldn't
+> be a useful CONFIG_ item, since it breaks the build.
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
 > ---
-> ---
->   lib/dynamic_debug.c      | 29 +++++++++++++++++++++++++++++
->   lib/test_dynamic_debug.c |  8 ++++++++
->   2 files changed, 37 insertions(+)
+> v3- $macro_name =~ s/DYNDBG/DYNAMIC_DEBUG/
 > 
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index 53e261dbf81e..56b503af0b31 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -1267,6 +1267,22 @@ static void ddebug_apply_class_users(const struct _ddebug_info *di)
->   	(_dst)->info._vec.len = nc;					\
->   })
+> prev-
+> - split static-asserts to __DYNDBG_CLASSMAP_CHECK
+> - move __DYNDBG_CLASSMAP_CHECK above kdoc for DYNDBG_CLASSMAP_DEFINE
+>    silences kernel-doc warnings
+> ---
+>   include/linux/dynamic_debug.h |  9 +++++++++
+>   lib/test_dynamic_debug.c      | 11 +++++++++++
+>   2 files changed, 20 insertions(+)
+> 
+> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+> index 9af825c84e70..4941ef2adb46 100644
+> --- a/include/linux/dynamic_debug.h
+> +++ b/include/linux/dynamic_debug.h
+> @@ -99,6 +99,14 @@ struct _ddebug_class_map {
+>   	enum ddebug_class_map_type map_type;
+>   };
 >   
-> +static int __maybe_unused
-> +ddebug_class_range_overlap(struct _ddebug_class_map *cm,
-> +			   u64 *reserved_ids)
-> +{
-> +	u64 range = (((1ULL << cm->length) - 1) << cm->base);
+> +#define __DYNAMIC_DEBUG_CLASSMAP_CHECK(_clnames, _base)			\
+> +	static_assert(((_base) >= 0 && (_base) < _DPRINTK_CLASS_DFLT),	\
+> +		      "_base must be in 0..62");			\
+> +	static_assert(ARRAY_SIZE(_clnames) > 0,				\
+> +		      "classnames array size must be > 0");		\
+> +	static_assert((ARRAY_SIZE(_clnames) + (_base)) < _DPRINTK_CLASS_DFLT, \
+> +		      "_base + classnames.length exceeds range")
 > +
-> +	if (range & *reserved_ids) {
-> +		pr_err("[%d..%d] on %s conflicts with %llx\n", cm->base,
-> +		       cm->base + cm->length - 1, cm->class_names[0],
-> +		       *reserved_ids);
-> +		return -EINVAL;
-> +	}
-> +	*reserved_ids |= range;
-> +	return 0;
-> +}
-> +
->   /*
->    * Allocate a new ddebug_table for the given module
->    * and add it to the global list.
-> @@ -1276,6 +1292,7 @@ static int ddebug_add_module(struct _ddebug_info *di)
->   	struct ddebug_table *dt;
->   	struct _ddebug_class_map *cm;
->   	struct _ddebug_class_user *cli;
-> +	u64 reserved_ids = 0;
->   	int i;
->   
->   	if (!di->descs.len)
-> @@ -1301,6 +1318,13 @@ static int ddebug_add_module(struct _ddebug_info *di)
->   	dd_mark_vector_subrange(i, dt, cm, di, maps);
->   	dd_mark_vector_subrange(i, dt, cli, di, users);
->   
-> +	for_subvec(i, cm, &dt->info, maps)
-> +		if (ddebug_class_range_overlap(cm, &reserved_ids))
-> +			goto cleanup;
-> +	for_subvec(i, cli, &dt->info, users)
-> +		if (ddebug_class_range_overlap(cli->map, &reserved_ids))
-> +			goto cleanup;
-> +
->   	if (dt->info.maps.len)
->   		ddebug_apply_class_maps(&dt->info);
->   
-> @@ -1313,6 +1337,11 @@ static int ddebug_add_module(struct _ddebug_info *di)
->   
->   	vpr_info("%3u debug prints in module %s\n", di->descs.len, di->mod_name);
->   	return 0;
-> +cleanup:
-> +	WARN_ONCE("dyndbg multi-classmap conflict in %s\n", di->mod_name);
-> +	kfree(dt);
-> +	return -EINVAL;
-> +
->   }
->   
->   /* helper for ddebug_dyndbg_(boot|module)_param_cb */
+>   /**
+>    * DYNAMIC_DEBUG_CLASSMAP_DEFINE - define debug classes used by a module.
+>    * @_var:   name of the classmap, exported for other modules coordinated use.
+> @@ -112,6 +120,7 @@ struct _ddebug_class_map {
+>    */
+>   #define DYNAMIC_DEBUG_CLASSMAP_DEFINE(_var, _mapty, _base, ...)		\
+>   	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
+
+Or maybe it was already enforced by this, but in this case the commit 
+message contains too much checks.
+
+> +	__DYNAMIC_DEBUG_CLASSMAP_CHECK(_var##_classnames, (_base));	\
+>   	extern struct _ddebug_class_map _var;				\
+>   	struct _ddebug_class_map __aligned(8) __used			\
+>   		__section("__dyndbg_class_maps") _var = {		\
 > diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
-> index 1070107f74f1..e42916b08fd4 100644
+> index e42916b08fd4..9f9e3fddd7e6 100644
 > --- a/lib/test_dynamic_debug.c
 > +++ b/lib/test_dynamic_debug.c
-> @@ -128,6 +128,14 @@ DYNAMIC_DEBUG_CLASSMAP_DEFINE(map_level_num, DD_CLASS_TYPE_LEVEL_NUM,
->   DYNAMIC_DEBUG_CLASSMAP_PARAM(disjoint_bits, p);
->   DYNAMIC_DEBUG_CLASSMAP_PARAM(level_num, p);
+> @@ -146,8 +146,19 @@ DYNDBG_CLASSMAP_DEFINE(classid_range_conflict, 0, D2_CORE + 1, "D3_CORE");
+>   DYNAMIC_DEBUG_CLASSMAP_USE(map_disjoint_bits);
+>   DYNAMIC_DEBUG_CLASSMAP_USE(map_level_num);
 >   
-> +#ifdef FORCE_CLASSID_CONFLICT
+> +#if defined(DD_MACRO_ARGCHECK)
 > +/*
-> + * Enable with -Dflag on compile to test overlapping class-id range
-> + * detection.  This should warn on modprobes.
+> + * Exersize compile-time arg-checks in DYNDBG_CLASSMAP_DEFINE.
+> + * These will break compilation.
 > + */
-> +DYNDBG_CLASSMAP_DEFINE(classid_range_conflict, 0, D2_CORE + 1, "D3_CORE");
-> +#endif
-> +
->   #else /* TEST_DYNAMIC_DEBUG_SUBMOD */
+> +DYNDBG_CLASSMAP_DEFINE(fail_base_neg, 0, -1, "NEGATIVE_BASE_ARG");
+> +DYNDBG_CLASSMAP_DEFINE(fail_base_big, 0, 100, "TOOBIG_BASE_ARG");
+> +DYNDBG_CLASSMAP_DEFINE(fail_str_type, 0, 0, 1 /* not a string */);
+> +DYNDBG_CLASSMAP_DEFINE(fail_emptyclass, 0, 0 /* ,empty */);
+>   #endif
 >   
->   /*
+> +#endif /* TEST_DYNAMIC_DEBUG_SUBMOD */
+> +
+>   /* stand-in for all pr_debug etc */
+>   #define prdbg(SYM) __pr_debug_cls(SYM, #SYM " msg\n")
+>   
 
 -- 
 Louis Chauvet, Bootlin
