@@ -2,167 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD97A899BE
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2647A89A0A
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:28:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8B5F10E011;
-	Tue, 15 Apr 2025 10:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B38B10E6FF;
+	Tue, 15 Apr 2025 10:28:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hmHtfo7n";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jbqEAdwc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2844310E011;
- Tue, 15 Apr 2025 10:20:12 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A29510E6FA;
+ Tue, 15 Apr 2025 10:28:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744712412; x=1776248412;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- in-reply-to:mime-version;
- bh=6JnyBeep9PfceCahYLMzYYzub61SUU3NVXOOl5QquY4=;
- b=hmHtfo7nyIxX58nG2aUaV8CK8MJo0UhNhrD1CQukTwF1Lnjo4KzBFyvD
- 4cWPVePGXmfz/zXabJ7Jm9qiM1OE/bBI4J117hYPsBR2vzQojOn3LURoH
- sy2oEI04AMDQkXlO1ocHIlUjSUIcNfNJRsb7UDfZ4mbZdeVpgget3LleR
- JSL69Bew7M9np1T3iDT1YYS7i63Z78uVsZzIYdJHIgRIqlcDufRlf8yd0
- 5S1J9FZHEpc+N5j0b1p9pWvu7196zgLBhmwtWQ8c4MxNlXiXhCE+l5gdv
- pXw524b0W8CGKsuap75CDp1rgX8HwCHI32iJMdEkZP3gtx5hr9OWquLZT Q==;
-X-CSE-ConnectionGUID: mYC1GnUSQsaae30vJ3U0lA==
-X-CSE-MsgGUID: 1cKlkJaORZWfkCp/ObImig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="45927395"
-X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; d="scan'208";a="45927395"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2025 03:20:12 -0700
-X-CSE-ConnectionGUID: mEVJOVQOQ4SWn6e2t8fHyA==
-X-CSE-MsgGUID: thIQBwCsSN66eUcXl7uIlw==
+ t=1744712915; x=1776248915;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=UnLDAYhq4FCqVA17Fl+xw5KGB7T338dtEXQgFTGwdwI=;
+ b=jbqEAdwcA9ERUW2ByVAF3gGGGgrpG2y0orrdSuC6/fV1PvLaLuj2FQwb
+ d8tVMQ0F0vJz1hrMEIN0arbLe0uIc3A2e8VZADUHmXB8rDZt75nHoXcvN
+ Zn7CWZgSvy86oZwSo2Xr0sWkHdfF2WwXdapkngkCeynEK4N8nYRPv9hme
+ RH/GfGkGLFplpgdA+HVVMLWJcEO5LJ+Fb8P/1Pk2PWeS0aX8ffx/lgKw2
+ fGN4mqAJmgZJ8+GAamWcw41nu/uEXqKz+6HBff9XVJnjmKL4nnGpeMLqn
+ rKpO5V2XDS7AdbvCvymomeIvQMl3YO9a8q2sZaOtGQEm89r9k4WDsfERN w==;
+X-CSE-ConnectionGUID: 6IeR5tsIRiGIKkWJtgqCAA==
+X-CSE-MsgGUID: tr2sZig7RaWElyOTXKMTsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="50015943"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; d="scan'208";a="50015943"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2025 03:28:35 -0700
+X-CSE-ConnectionGUID: m4ptm9INSeGmg6VZX+vuqg==
+X-CSE-MsgGUID: zs7kdG2BTw2PwunMwxgEdQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; d="scan'208";a="131061207"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2025 03:20:12 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Tue, 15 Apr 2025 03:20:11 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 15 Apr 2025 03:20:11 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.42) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 15 Apr 2025 03:20:10 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d0uaoMwPrD2O5JfCsn/qzkVzq4B7sUrMsZbJl+9e82saOQvrGpfK32U2jG+PCjmWw1sHQPdskcndCNrH9jkX8iaGOlRXQ6i+hc5EXnTRsSFydPaQsDiolUT4lcMshUlf1mik2PhzcEnvgMSS6eo9Xdy+qhjckQqHR6bU4QZxDwUSEyoE2odrMZ19lMfWQ85g59WxP6mUS0WuOXYnDsztloXRep3ceOlX7fOCIcBY9Bv5hEvnSHdNMIQn2YP+lGAY3yc/F5vsIwDYLlGVOflcGpY1ShLonLba0eog8achusLIi1lWC62k0bKPOzUbhQyNJjlCDPH7Gu33VBP5biSwxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4r312qpy3I1ShpZnZk6ZZL2l1p9l+Nncpjphw3dwLiQ=;
- b=rL6j/mmwHZgwnmuxgnxccwl1vCs4xN4v2pIxGkkKiabGNohCNMMrZPgPmmqXYKElItbzd/Q1lyAlp2z2sDSdVrYwMRyeUWRjVX4ClrLqFkTigo3MJQMvJRCDIimJXtIqjo70G07oByU/GZ/ErLIRWwb2dAoNRek8XxePdLHxNzPrzeiTndGCmiC7tMPpvLwIBbqhjjYspvYkzZgACUIDusvcWCuiOI6602q/rNCg1Y7vIVKb9HbJlVHY1ExQB2t33rVaTpmC59/vd79tlZAa6YZuiTI/SNlY5vlgnEKnxC4CbuhictHdei8ggKJqtoMWXUmLtTE7/oGQ4HXjY+3fBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
- by MN2PR11MB4552.namprd11.prod.outlook.com (2603:10b6:208:263::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.34; Tue, 15 Apr
- 2025 10:20:08 +0000
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::8900:d137:e757:ac9f%5]) with mapi id 15.20.8632.036; Tue, 15 Apr 2025
- 10:20:08 +0000
-Date: Tue, 15 Apr 2025 13:20:10 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Arun R Murthy <arun.r.murthy@intel.com>
-CC: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <vinod.govindapillai@intel.com>
-Subject: Re: [PATCH v2 1/3] drm/display/dp: Export fn to calculate link
- symbol cycles
-Message-ID: <Z_4y2sa2V3kxmxcp@ideak-desk.fi.intel.com>
-References: <20250415-hblank-v2-0-1a23e9d97360@intel.com>
- <20250415-hblank-v2-1-1a23e9d97360@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250415-hblank-v2-1-1a23e9d97360@intel.com>
-X-ClientProxiedBy: DBBPR09CA0047.eurprd09.prod.outlook.com
- (2603:10a6:10:d4::35) To SJ0PR11MB4845.namprd11.prod.outlook.com
- (2603:10b6:a03:2d1::10)
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; d="scan'208";a="129935770"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+ by fmviesa006.fm.intel.com with ESMTP; 15 Apr 2025 03:28:31 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1u4dWn-000FdG-0G;
+ Tue, 15 Apr 2025 10:28:29 +0000
+Date: Tue, 15 Apr 2025 18:28:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, Jani Nikula <jani.nikula@linux.intel.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+Subject: Re: [PATCH 07/13] drm/amd/display: simplify
+ dm_helpers_parse_edid_caps signature
+Message-ID: <202504151833.9WxWkFzM-lkp@intel.com>
+References: <20250411201333.151335-8-mwen@igalia.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|MN2PR11MB4552:EE_
-X-MS-Office365-Filtering-Correlation-Id: fca01d3e-7a8b-4038-98ee-08dd7c0718bf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?D2yyinWpx9GvtjyV0m5y6nDeLVukz813CWXp9gTv/XZLK+vfHG531+cLk8Tb?=
- =?us-ascii?Q?DzZwY0mZySm/2fVRawMf07ODPxn6sitEJYbYARc+DYoOOLDFvdOieDopnlbI?=
- =?us-ascii?Q?YDiRBpRAWwwuUdr5zT1koDNs8FTX8TdEH4b3ImBJdDx9vDJgBPEZk1Fjz7je?=
- =?us-ascii?Q?q7k5KYP6BdQgnFvfHJ1vJvf14bDMri7F0FFf5ZzHMTb3rXjrsuQjF3cRZ3N+?=
- =?us-ascii?Q?uPgLVOqEM2e+u75dR3qdm5mgQdSeWOkYzPYPOMHkv+OswpSzVJZezZ/dIBlQ?=
- =?us-ascii?Q?SUqh5Ewhkd8C60OQ/XtCkwqTyTX7v6sQ9p94qAcRWXMW5ZQDjTFJZ4mgOqLY?=
- =?us-ascii?Q?oxD4Iag3nevEETjBmUMK2q5N5aH/uMlJquXD0T5DyKciwCx1bL0rijTGLHRY?=
- =?us-ascii?Q?TeKCEs0JXHUn+moNGjo6PlJHDzx2UKA1nJ2HpbGUoe8H45MAs1giv2qzJYo7?=
- =?us-ascii?Q?0OMDppJOQznsPh35U69o3JprAh69CtE71eGi/sQeqTkOeCpdrSdluJolg+2z?=
- =?us-ascii?Q?eoQSc+tQI5uwod1sA4Ybkdhvb6dpqD5dIs3vy9Oxx5xkwTijr2ufDYyA3/Wf?=
- =?us-ascii?Q?mCDaJZf58cvGGadLbBUnKKZ41vYwQNQIffc0QPomIBTQTR54YmfrbDrnREGC?=
- =?us-ascii?Q?ieE4zVZYN8l4Z3ggFy+3CuB8m3+tKDoaXiAS2ehzC8J53ylbf3xX8bZdn9zO?=
- =?us-ascii?Q?kZyS3u2h5nusTWerRfnGVdYyODcyHzkNgwbGIqBwCrWXq8ScMAutZojpC93D?=
- =?us-ascii?Q?iCgWjXsUzSQyokVuEQhoQuZTOO0/MQ94cQwxByPTh2ixg1cITl3aYpvVXsH/?=
- =?us-ascii?Q?DOWnTcQQP2aCUygkQ0KjwLVvJ0TBWWB9a6wAIt23oJZwN09NwXXOqBVINCSK?=
- =?us-ascii?Q?iA7cf2L7Mc3qTCiEnkUKZrN1617EgAlL3lR6xOUQ8zv9q0Yln26fzGVkH+DJ?=
- =?us-ascii?Q?UgQuhnDYicjZTcwd709hDrWWbuSOfN9yBfdlwhE9MIJ3GdYnA+1cO7uX232y?=
- =?us-ascii?Q?WBGr781nEDkb2t+uWUwGK4DB5Trewjj7wntXD2CmGDX/KeTAiQPilN9bxTmt?=
- =?us-ascii?Q?xne4IpmvL2aswg9FHW0NoE+aBbTj8nVOKU23+4VDwf+BUG4kxB7L0RUs5W6u?=
- =?us-ascii?Q?NwvoQK/1RhWqvg8wGecqk9AoWLowaFI+kFWT3P3aDix3BQoTne23GiDS3NJB?=
- =?us-ascii?Q?eJA7+RIMo5bPvxzvEmA4j5zJyc7bejjYzRJIPVvd0ehofzefe/wRDAlQHcwF?=
- =?us-ascii?Q?5G1mKTNAp5AeHCiGKPW7Rc4m2spkBHs13NdyZy4nD+ObUnAM1DeeBntiqGDB?=
- =?us-ascii?Q?R8iRk8V2DmfNx4YZ2ouUxLe+hrRxDQfp6OAiPDbQkyQcNMHHADZIv//HugxF?=
- =?us-ascii?Q?HNSCrJB4WUqXjPBKXlQdNiAqXGCdQCNSJY2A4UlNkfZpY4wgrkkcWsQpgu8s?=
- =?us-ascii?Q?VtctsnAdcoE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TLuK4MQup1Wrgvx0JCxDar/+WVq+WwM7jmmMOAeiNyENQCFBuCvd2mVTnkZZ?=
- =?us-ascii?Q?mOU15TuQ58PhMyEbJ9t1me2deAS+EOmSjlrAS2OUn3ukhV3iP8stvpDEFbA3?=
- =?us-ascii?Q?rNgkrv68rGV0GHqDrb5656xxKa6lu9PMgmLoj+cUWmT1mhgxL8zZK2v1W+mx?=
- =?us-ascii?Q?UseUlpOSwMq84x0MSNeOnUV0+nDLh7AHS9Sd2gdi7O50GH+5lh1rjRzyp8Aa?=
- =?us-ascii?Q?YbLjZ/3n8dQDuezAu5wRP2CubFQ/Q9gD+P4lmXnTvgfyEWRnqMljoSvBo2vr?=
- =?us-ascii?Q?C1Jcci1agO/KAiW2Z9NRgPc2kICCDFp31rEi5BdFHtfUHbNysFNtw6KbHDu5?=
- =?us-ascii?Q?kyTjhHtvUWxwnxt+fEkqf1j3MI5wmPVYTwiIW/+YS8kZeRDffAe7FkFSrH2K?=
- =?us-ascii?Q?Sro+8GLXLCxeZDjcWSlNXMB/HLcUzCllLqqBR6BQKGd+9h6MEM8F1BBXwhe9?=
- =?us-ascii?Q?lLx6jbIMEN2RKXXX3SZCupamthXzHM0Mo6L4yQHsSLArFlpShfYfvO9jSzf+?=
- =?us-ascii?Q?P24pqkVGgn8sWbKI/wOB3N0sPi4Xcl/o6ilTRr43/3DC15qu/gaWC8B1p0qg?=
- =?us-ascii?Q?38BtqxngkzBvmB/U7oP/36vXObXC6cd579Z3OxQIM46fScKbuWqwhcW8OFIs?=
- =?us-ascii?Q?NAWun0jHbuBiNq4dbzkRyKR5i4/9MQ5iG+EBWRpdJieI0OhPkGEx4N+5+HqH?=
- =?us-ascii?Q?xx1KHg7uhZgXGcw2H51o1SW9992DifTF8qnJxkGjXpaoVFiyDtB21weWfWQ/?=
- =?us-ascii?Q?t5m1MwlU2q6l3qT6cConrEm9/wCXdteWpuHDrhnMHSm2SJXwfpY2RJMGwjfg?=
- =?us-ascii?Q?jz0ICNqUQXd1gUTSkgA4oRJATAVtUjBL8ZivVgtOa/4mUMCJ6aKzFEPN7xNL?=
- =?us-ascii?Q?Drvx0lcngq6PxlbyuJHEgQDixB5Xb1Tu+ldwqbiVvlghq2zUGp/RBvtZH3+C?=
- =?us-ascii?Q?MECG96jYAOL7lbCN1RA/u1sHPb2SH0phPu+sNXPRub0K5tlVHDtnO8ggudhR?=
- =?us-ascii?Q?L7pMHfXOB2DDz61rAIcRuZWqahc4e0N+2hIF3xbh4dEEHrZ+yckd+vHVvqvr?=
- =?us-ascii?Q?7yvpTAZL7xs+kJx/qWgzstqLKM9GVAtHXUheKANADZ8PoBWUA5RoSqvug2Lr?=
- =?us-ascii?Q?Dz7zTNXhirVXwhL0Mhut17u7sGAZHExnUeiwh05FpOuCnsc76OKD0NnVf8uC?=
- =?us-ascii?Q?R+AmuJjs63Nlfl7uHV4nGA6j8tNd8QC+/H+K4tPtD0PCSf87FJwJYUCDAsQb?=
- =?us-ascii?Q?8BxlgPUg5wRZoewimKDkMISf+Aw+859k0lRWfwjmhreoRlHnRcsRccrQIiSA?=
- =?us-ascii?Q?Byx//LqYHdyFmm08rYfAKHIoifXFkphEsfnVt/v5EwccKn+ex6TxrvxbiHeb?=
- =?us-ascii?Q?zgUSFCH1gOM6e5uNXW+juhQdBolVSE6PtQWzMdkQGsCKO8x+AqHb3PBTKauk?=
- =?us-ascii?Q?m8Gx+pu/jAAx0hAi3kQwEkrHYI7s/G26I+SfBbQoyp0fI3b3QQBjWa7RNc2S?=
- =?us-ascii?Q?vNhnmzbvKhAr5GusJerbWpEhEDOxNO4PCCJZciRj65wjOVzzMNZoJOFzzd58?=
- =?us-ascii?Q?UHpYOTtgiM4taXyZ3R5vgwPYEVs7QXh1CwKv9o0w?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fca01d3e-7a8b-4038-98ee-08dd7c0718bf
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2025 10:20:08.0884 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cNXwIwicP8EqcRD9aDpmNi1s74UUDnL7MQp8PR15t71owwzGx4uSA6GeRY+TGEeGyLfiQ4Dpb5LkV5KTx71s7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4552
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250411201333.151335-8-mwen@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,131 +73,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 15, 2025 at 01:25:07PM +0530, Arun R Murthy wrote:
-> Unify the function to calculate the link symbol cycles for both dsc and
-> non-dsc case and export the function so that it can be used in the
-> respective platform display drivers for other calculations.
-> 
-> v2: unify the fn for both dsc and non-dsc case (Imre)
-> 
-> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 47 ++++++++++++++++-----------------
->  include/drm/display/drm_dp_helper.h     |  3 +++
->  2 files changed, 26 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index 57828f2b7b5a0582ca4a6f2a9be2d5909fe8ad24..1a5ff9ba6505f312ee41eb3bcc8b53d318411c03 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -4393,25 +4393,30 @@ EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
->  #endif
->  
->  /* See DP Standard v2.1 2.6.4.4.1.1, 2.8.4.4, 2.8.7 */
-> -static int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-> -				     int symbol_size, bool is_mst)
-> +/**
-> + * drm_dp_link_symbol_cycles - calculate the link symbol count
-> + * @lane_coount: DP link lane count
-> + * @pixels: horizontal active pixels
-> + * @bpp_x16: bits per pixel in .4 binary fixed format
-> + * @symbol_size: DP symbol size
-> + * @is_mst: is mst or sst
-> + * @slice_count: number of slices
-> + *
-> + * Calculate the link symbol cycles for both dsc and non dsc case and
-> + * return the count.
-> + */
-> +int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-> +			      int symbol_size, bool is_mst, int slice_count)
->  {
-> -	int cycles = DIV_ROUND_UP(pixels * bpp_x16, 16 * symbol_size * lane_count);
-> +	int pix = slice_count ? DIV_ROUND_UP(pixels, slice_count) : pixels;
-> +	int cycles = DIV_ROUND_UP(pix * bpp_x16, 16 * symbol_size * lane_count);
->  	int align = is_mst ? 4 / lane_count : 1;
-> +	int slice_data_cycles = ALIGN(cycles, align);
->  
-> -	return ALIGN(cycles, align);
-> -}
-> -
-> -static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
-> -					 int bpp_x16, int symbol_size, bool is_mst)
-> -{
-> -	int slice_pixels = DIV_ROUND_UP(pixels, slice_count);
-> -	int slice_data_cycles = drm_dp_link_symbol_cycles(lane_count, slice_pixels,
-> -							  bpp_x16, symbol_size, is_mst);
-> -	int slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
-> -
-> -	return slice_count * (slice_data_cycles + slice_eoc_cycles);
-> +	return slice_count ? (slice_count * (slice_data_cycles + align)) :
-> +			     slice_data_cycles;
+Hi Melissa,
 
-I'd like to preserve in the code what the DSC EOC cycles are and the way
-the data symbol cycles are calculated could be kept as-is. So could
-you instead do the following, renaming drm_dp_link_symbol_cycles() to
-drm_dp_link_data_symbol_cycles()?:
+kernel test robot noticed the following build warnings:
 
--static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
--                                        int bpp_x16, int symbol_size, bool is_mst)
-int drm_dp_link_symbol_cycles(int lane_count, int pixels, int dsc_slice_count,
-+                             int bpp_x16, int symbol_size, bool is_mst)
- {
-+       int slice_count = dsc_slice_count ? : 1;
-        int slice_pixels = DIV_ROUND_UP(pixels, slice_count);
--       int slice_data_cycles = drm_dp_link_symbol_cycles(lane_count, slice_pixels,
--                                                         bpp_x16, symbol_size, is_mst);
--       int slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
-+       int slice_data_cycles = drm_dp_link_data_symbol_cycles(lane_count, slice_pixels,
-+                                                              bpp_x16, symbol_size, is_mst);
-+       int slice_eoc_cycles = 0;
-+
-+       if (dsc_slice_count)
-+               slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
- 
-        return slice_count * (slice_data_cycles + slice_eoc_cycles);
- }
+[auto build test WARNING on amd-pstate/linux-next]
+[also build test WARNING on amd-pstate/bleeding-edge linus/master v6.15-rc2 next-20250415]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->  }
-> +EXPORT_SYMBOL(drm_dp_link_symbol_cycles);
->  
->  /**
->   * drm_dp_bw_overhead - Calculate the BW overhead of a DP link stream
-> @@ -4486,15 +4491,9 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
->  	WARN_ON((flags & DRM_DP_BW_OVERHEAD_UHBR) &&
->  		(flags & DRM_DP_BW_OVERHEAD_FEC));
->  
-> -	if (flags & DRM_DP_BW_OVERHEAD_DSC)
-> -		symbol_cycles = drm_dp_link_dsc_symbol_cycles(lane_count, hactive,
-> -							      dsc_slice_count,
-> -							      bpp_x16, symbol_size,
-> -							      is_mst);
-> -	else
-> -		symbol_cycles = drm_dp_link_symbol_cycles(lane_count, hactive,
-> -							  bpp_x16, symbol_size,
-> -							  is_mst);
-> +	symbol_cycles = drm_dp_link_symbol_cycles(lane_count, hactive,
-> +						  bpp_x16, symbol_size,
-> +						  is_mst, dsc_slice_count);
->  
->  	return DIV_ROUND_UP_ULL(mul_u32_u32(symbol_cycles * symbol_size * lane_count,
->  					    overhead * 16),
-> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> index d9614e2c89397536f44bb7258e894628ae1dccc9..22ae37e7870f1008acfc980a9b46d8dea1fbbe10 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -972,4 +972,7 @@ int drm_dp_max_dprx_data_rate(int max_link_rate, int max_lanes);
->  
->  ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc, struct dp_sdp *sdp);
->  
-> +int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-> +			      int symbol_size, bool is_mst, int slice_count);
-> +
->  #endif /* _DRM_DP_HELPER_H_ */
-> 
-> -- 
-> 2.25.1
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Melissa-Wen/drm-amd-display-make-sure-drm_edid-stored-in-aconnector-doesn-t-leak/20250414-132618
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+patch link:    https://lore.kernel.org/r/20250411201333.151335-8-mwen%40igalia.com
+patch subject: [PATCH 07/13] drm/amd/display: simplify dm_helpers_parse_edid_caps signature
+config: powerpc-randconfig-003-20250415 (https://download.01.org/0day-ci/archive/20250415/202504151833.9WxWkFzM-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504151833.9WxWkFzM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504151833.9WxWkFzM-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:100: warning: Function parameter or struct member 'sink' not described in 'dm_helpers_parse_edid_caps'
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:100: warning: Excess function parameter 'edid' description in 'dm_helpers_parse_edid_caps'
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:100: warning: Excess function parameter 'edid_caps' description in 'dm_helpers_parse_edid_caps'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+   Selected by [y]:
+   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
+
+
+vim +100 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c
+
+613a7956deb3b1 Aurabindo Pillai     2023-06-12   87  
+027ec1819a19f7 Melissa Wen          2025-04-11   88  #define AMDGPU_ELD_DISPLAY_NAME_SIZE_IN_CHARS 13
+f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   89  /**
+f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   90   * dm_helpers_parse_edid_caps() - Parse edid caps
+4562236b3bc0a2 Harry Wentland       2017-09-12   91   *
+f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   92   * @link: current detected link
+4562236b3bc0a2 Harry Wentland       2017-09-12   93   * @edid:	[in] pointer to edid
+f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   94   * @edid_caps:	[in] pointer to edid caps
+f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   95   *
+f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   96   * Return: void
+f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   97   */
+cce130cc696979 Melissa Wen          2025-04-11   98  enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
+cce130cc696979 Melissa Wen          2025-04-11   99  					       struct dc_sink *sink)
+4562236b3bc0a2 Harry Wentland       2017-09-12 @100  {
+3c021931023a30 Claudio Suarez       2021-10-17  101  	struct amdgpu_dm_connector *aconnector = link->priv;
+3c021931023a30 Claudio Suarez       2021-10-17  102  	struct drm_connector *connector = &aconnector->base;
+41b830476009f5 Aurabindo Pillai     2025-02-24  103  	struct drm_device *dev = connector->dev;
+cce130cc696979 Melissa Wen          2025-04-11  104  	struct edid *edid_buf;
+66c33284fbf286 Melissa Wen          2025-04-11  105  	const struct drm_edid *drm_edid;
+23abb3407f98d7 Melissa Wen          2025-04-11  106  	struct drm_edid_product_id product_id;
+cce130cc696979 Melissa Wen          2025-04-11  107  	struct dc_edid_caps *edid_caps = &sink->edid_caps;
+8e9dfe0e0f1915 Melissa Wen          2025-04-11  108  	int sad_count;
+4562236b3bc0a2 Harry Wentland       2017-09-12  109  	int i = 0;
+4562236b3bc0a2 Harry Wentland       2017-09-12  110  	enum dc_edid_status result = EDID_OK;
+4562236b3bc0a2 Harry Wentland       2017-09-12  111  
+cce130cc696979 Melissa Wen          2025-04-11  112  	edid_buf = (struct edid *) &sink->dc_edid.raw_edid;
+cce130cc696979 Melissa Wen          2025-04-11  113  	if (!edid_caps || !edid_buf)
+4562236b3bc0a2 Harry Wentland       2017-09-12  114  		return EDID_BAD_INPUT;
+4562236b3bc0a2 Harry Wentland       2017-09-12  115  
+66c33284fbf286 Melissa Wen          2025-04-11  116  	drm_edid = drm_edid_alloc(edid_buf, EDID_LENGTH * (edid_buf->extensions + 1));
+66c33284fbf286 Melissa Wen          2025-04-11  117  
+66c33284fbf286 Melissa Wen          2025-04-11  118  	if (!drm_edid_valid(drm_edid))
+4562236b3bc0a2 Harry Wentland       2017-09-12  119  		result = EDID_BAD_CHECKSUM;
+4562236b3bc0a2 Harry Wentland       2017-09-12  120  
+66c33284fbf286 Melissa Wen          2025-04-11  121  	drm_edid_connector_update(connector, drm_edid);
+23abb3407f98d7 Melissa Wen          2025-04-11  122  	drm_edid_get_product_id(drm_edid, &product_id);
+23abb3407f98d7 Melissa Wen          2025-04-11  123  
+23abb3407f98d7 Melissa Wen          2025-04-11  124  	edid_caps->manufacturer_id = le16_to_cpu(product_id.manufacturer_name);
+23abb3407f98d7 Melissa Wen          2025-04-11  125  	edid_caps->product_id = le16_to_cpu(product_id.product_code);
+23abb3407f98d7 Melissa Wen          2025-04-11  126  	edid_caps->serial_number = le32_to_cpu(product_id.serial_number);
+23abb3407f98d7 Melissa Wen          2025-04-11  127  	edid_caps->manufacture_week = product_id.week_of_manufacture;
+23abb3407f98d7 Melissa Wen          2025-04-11  128  	edid_caps->manufacture_year = product_id.year_of_manufacture;
+4562236b3bc0a2 Harry Wentland       2017-09-12  129  
+027ec1819a19f7 Melissa Wen          2025-04-11  130  	memset(edid_caps->display_name, 0, AUDIO_INFO_DISPLAY_NAME_SIZE_IN_CHARS);
+027ec1819a19f7 Melissa Wen          2025-04-11  131  	memcpy(edid_caps->display_name,
+027ec1819a19f7 Melissa Wen          2025-04-11  132  	       &connector->eld[DRM_ELD_MONITOR_NAME_STRING],
+027ec1819a19f7 Melissa Wen          2025-04-11  133  	       AMDGPU_ELD_DISPLAY_NAME_SIZE_IN_CHARS);
+4562236b3bc0a2 Harry Wentland       2017-09-12  134  
+3c021931023a30 Claudio Suarez       2021-10-17  135  	edid_caps->edid_hdmi = connector->display_info.is_hdmi;
+4562236b3bc0a2 Harry Wentland       2017-09-12  136  
+24baf0ebdb9d17 Melissa Wen          2025-04-11  137  	apply_edid_quirks(dev, drm_edid, edid_caps);
+b7cdccc6a84956 Ryan Lin             2024-02-28  138  
+66c33284fbf286 Melissa Wen          2025-04-11  139  	sad_count = drm_eld_sad_count(connector->eld);
+66c33284fbf286 Melissa Wen          2025-04-11  140  	if (sad_count <= 0) {
+66c33284fbf286 Melissa Wen          2025-04-11  141  		drm_edid_free(drm_edid);
+4562236b3bc0a2 Harry Wentland       2017-09-12  142  		return result;
+66c33284fbf286 Melissa Wen          2025-04-11  143  	}
+4562236b3bc0a2 Harry Wentland       2017-09-12  144  
+1347b15d5e8e16 Srinivasan Shanmugam 2023-08-13  145  	edid_caps->audio_mode_count = min(sad_count, DC_MAX_AUDIO_DESC_COUNT);
+4562236b3bc0a2 Harry Wentland       2017-09-12  146  	for (i = 0; i < edid_caps->audio_mode_count; ++i) {
+66c33284fbf286 Melissa Wen          2025-04-11  147  		struct cea_sad sad;
+66c33284fbf286 Melissa Wen          2025-04-11  148  
+66c33284fbf286 Melissa Wen          2025-04-11  149  		if (drm_eld_sad_get(connector->eld, i, &sad) < 0)
+66c33284fbf286 Melissa Wen          2025-04-11  150  			continue;
+4562236b3bc0a2 Harry Wentland       2017-09-12  151  
+66c33284fbf286 Melissa Wen          2025-04-11  152  		edid_caps->audio_modes[i].format_code = sad.format;
+66c33284fbf286 Melissa Wen          2025-04-11  153  		edid_caps->audio_modes[i].channel_count = sad.channels + 1;
+66c33284fbf286 Melissa Wen          2025-04-11  154  		edid_caps->audio_modes[i].sample_rate = sad.freq;
+66c33284fbf286 Melissa Wen          2025-04-11  155  		edid_caps->audio_modes[i].sample_size = sad.byte2;
+4562236b3bc0a2 Harry Wentland       2017-09-12  156  	}
+4562236b3bc0a2 Harry Wentland       2017-09-12  157  
+8e9dfe0e0f1915 Melissa Wen          2025-04-11  158  	if (connector->eld[DRM_ELD_SPEAKER])
+8e9dfe0e0f1915 Melissa Wen          2025-04-11  159  		edid_caps->speaker_flags = connector->eld[DRM_ELD_SPEAKER];
+4562236b3bc0a2 Harry Wentland       2017-09-12  160  	else
+4562236b3bc0a2 Harry Wentland       2017-09-12  161  		edid_caps->speaker_flags = DEFAULT_SPEAKER_LOCATION;
+4562236b3bc0a2 Harry Wentland       2017-09-12  162  
+66c33284fbf286 Melissa Wen          2025-04-11  163  	drm_edid_free(drm_edid);
+4562236b3bc0a2 Harry Wentland       2017-09-12  164  
+4562236b3bc0a2 Harry Wentland       2017-09-12  165  	return result;
+4562236b3bc0a2 Harry Wentland       2017-09-12  166  }
+4562236b3bc0a2 Harry Wentland       2017-09-12  167  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
