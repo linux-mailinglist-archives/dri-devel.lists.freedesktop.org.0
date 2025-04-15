@@ -2,111 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5162AA89F05
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 15:10:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8823EA89F0A
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 15:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9A5F10E784;
-	Tue, 15 Apr 2025 13:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D92D010E785;
+	Tue, 15 Apr 2025 13:10:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gDatSwNK";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="IcALcOjh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D396F10E784
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 13:10:42 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-43d0618746bso42900935e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 06:10:41 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9797010E785
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 13:10:57 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-43cf848528aso46092815e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 06:10:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1744722640; x=1745327440;
- darn=lists.freedesktop.org; 
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=zs7KnnfZKLyJy3tHcV0Bgj/q4jqUjfal2AfLl4HBPO0=;
- b=gDatSwNK0sMUFuc6hoG4yERq41SvnATNnv7slfwu4ellu/0PnZHx5OI1eQwgdY+ewO
- E/DcLQgR/LOTJZjvCTI872MnC/VWOehjOG6H/lYxXMUhPeMYeWsSKtEnMt842SDpxt5T
- nEbKucJ4QhJTymfwf5BtHzoNrESyv+XbOIm/0g1M7Ande7OFMmerxOm33SR81gfqOgfU
- bOuDsvQs0tPm9ZOeP2pVcmoaYsndo/f2h163JKkwk1uhdVRz7oedqS/op0Ilk7Cg6SrB
- PNF2gHA11go/kahg7+fXRsQTGn/5vS8i7SNAoNoND/04/BEWT6XxAZ3NLPAtH30Z62DY
- EbuA==
+ d=ffwll.ch; s=google; t=1744722656; x=1745327456; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=BeBKJsxdsFRDlkMvWf+IkTqfIZxOxoG2HFQhP0mrG6A=;
+ b=IcALcOjhLdhD2PoEm7BUND1bratnT+8HRk4CBoJ9V7tVhZWH9EFnDB3ioan3mstIMC
+ Rl5/NvPvEVwM2u1drrofh0TvQWGAOWqLBS02lHaZeAbRGcsnpOrt3zwsTTvDn9V3ukN0
+ MAfR8EaeJzazqM9adoIjvB2m4JKz49x27tV7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744722640; x=1745327440;
- h=mime-version:message-id:date:user-agent:references:in-reply-to
- :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zs7KnnfZKLyJy3tHcV0Bgj/q4jqUjfal2AfLl4HBPO0=;
- b=NCUvn1BlecNF+OHvIaudP6rdmsFzu0ldFKdVv/PKGjPKC1csPwokRgF8c3XDwDKkD1
- LnewZGv5VHJmbaAREyYOXz77NyvXPX0Qk/wY96+4YZssGfxkWDdfjo2WUpKljMHF5Ay1
- x3TV/l40SrJcA8m90sEWauXsS50ttCZENwPIc8I9lRdrhbJeRAwWpYTXQNIrIw31k8eG
- f/A8MJ1g2+mslImjLizkaDQSUYQXHjyBSWK37Q5dxOeaDcG8afv9CcUsNjc8YspYPvpd
- YZs2bFAsJudmLEHnxLDIzdSdcR28blw/3n95w8Q9pUlqbjMgt7wJjC/c4eYLobQO1Jqh
- mB7g==
+ d=1e100.net; s=20230601; t=1744722656; x=1745327456;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BeBKJsxdsFRDlkMvWf+IkTqfIZxOxoG2HFQhP0mrG6A=;
+ b=Mw0nhWA68MslkocPQ8EJcs/Ef3/225lJtdLrWrGvJowRMtR5n8h9JIX8SrNj6fqm9f
+ KibWCJpBulz9obsLGPLbOGpY37a2BJMdjIRaykm1KJtw9aZOgOcq0r/L3wfMQk7MWNKR
+ 3m1nrnrbXiX28C6mrqHS5k+1OgJypXe/lnBsOvVuFU3U18bAVEzPziVZRzKRT500+el9
+ ALEB8+oZ9td6Hd6wZ2y5rre/Rzki/uANpJTdTBdlSXt4SkxZlhf3o/TnybXU5RyhIlQk
+ BDz8SCnCWpsyY+b5WNZKPElFhteHzJA56qXJH48LhaM+LQHt0EwLDhmKm0/jMWxquWIm
+ 3lIQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUuRu/Z2/UaF4c5H8iYRkEs9qtv//qLipYk/l1q/LH3q8uNH1K+sRBHX24xaMLNx78kZfEFKLTdnkM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxsEOAbgER9ouGSmm2o8W8GLMc5JUWiS3GohLGH+6NmIXYXhBDj
- g4j/dJm0MxwPHuqccDSOo1aRnFySRHV2hZanP8XaQZc/tvABr5Y4YCV6gs+QPl4=
-X-Gm-Gg: ASbGncsaiKMIdgZLRimX52F7FgPIlQt2K71MYGDNOa+ZsCjNOVDAx4dZwBHedIfh3UU
- +ktjGz81lcptVsJnRdkg6iK3RUO+zaqOsdJwc5w0GZPGCaS2yYP8n1uyQfe13J5Z2KlL36+3ZAr
- GN0Yhh9cNhR4kT/BMgPvlB6WrTsPg99Cd/LyX5vleaBrUt2uDndr8ea4powA+Yxhjlt2KgJGWqN
- JMELhy5k7HN+/Rx0cUBB+FfG3bWNqUctqyWeMXoBQY7QvvguP+3OKyiuta5tjuvKyFtlzN+0Duw
- Pnwuo74lVysBI8vMvPTeJsCBbdVcDQTwnw818Y8=
-X-Google-Smtp-Source: AGHT+IGLzdEuk1QDPXYsF98Ye9BX9xDuqaq1bbiDW34OCl+7dp6Go4ivXszBVPBh1MuXNgGiw13DfA==
-X-Received: by 2002:a7b:ce16:0:b0:43c:fabf:9146 with SMTP id
- 5b1f17b1804b1-43f4aafa80dmr77256645e9.17.1744722640535; 
- Tue, 15 Apr 2025 06:10:40 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:357f:4855:d5d:eccb])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-43f233a2c46sm208119145e9.13.2025.04.15.06.10.39
+ AJvYcCVWhrY7OhfB5QnuveeCWhB2ICjuickafxvW+yGkpoNYxvK4k1bd9eKYI/GE9jFIC+0z4n6kGL28/NM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwMOUoL004KBegjm9tDwgb54GFN+23g8YrFiPsQ0tMCnP73Nj74
+ S08zcLBPswolZaE+p1qzVQ1L8rqxxAyZ8FHu5T74cXgwNyNM6UnjyYbhvd9n8YE=
+X-Gm-Gg: ASbGncs76C8tLSe7rJo9ZhETN+hdoUtGQUFZH4Ds+eQx4qy0t22D4CF7sYCNJaRxPpO
+ AIM1YA8HztNgCiI2eyZcWPhgKWLOX1cThpdLZMJZBYP7pmbCQsXjEiNvc8sAdJ+vmswOrVFh9rO
+ QuKjnLkN8J79WkShN4OJCRrBpN9yDKY8RR20tGHw+VldsO9NjWM0sUCDzJaljbLDIuJWaclg0d2
+ MKOJG2dKj/0oeYnD0125Vu+HrbMe7Wd+nVcGoaosgnrNdQXoUKr7nK0io7WzJ3aNLAc1A7KaOcX
+ CPeLqTS2VIEpcKscQLuvseP6OEHdc2sj1dl8Z1PxxalWVa8VDuxi
+X-Google-Smtp-Source: AGHT+IH8bfspMLulM47LnkzN+N5h/di9riH+6UFGuNsynasbDT1EWe+urvrobwPqUm2lk0qjV1vE+g==
+X-Received: by 2002:a05:6000:4285:b0:39a:c80b:8288 with SMTP id
+ ffacd0b85a97d-39ea5211c47mr12246486f8f.33.1744722655688; 
+ Tue, 15 Apr 2025 06:10:55 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39eae96403dsm13920688f8f.4.2025.04.15.06.10.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Apr 2025 06:10:39 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dave Ertman <david.m.ertman@intel.com>,  Ira Weiny
- <ira.weiny@intel.com>,  "Rafael J. Wysocki" <rafael@kernel.org>,  Stephen
- Boyd <sboyd@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,  Danilo Krummrich
- <dakr@kernel.org>,  Conor Dooley <conor.dooley@microchip.com>,  Daire
- McNamara <daire.mcnamara@microchip.com>,  Philipp Zabel
- <p.zabel@pengutronix.de>,  Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,  Neil Armstrong
- <neil.armstrong@linaro.org>,  Robert Foss <rfoss@kernel.org>,  Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>,  Jonas Karlman
- <jonas@kwiboo.se>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>,  David
- Airlie <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Hans de
- Goede <hdegoede@redhat.com>,  Ilpo =?utf-8?Q?J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>,  Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>,  Vladimir Kondratiev
- <vladimir.kondratiev@mobileye.com>,  Gregory CLEMENT
- <gregory.clement@bootlin.com>,  =?utf-8?Q?Th=C3=A9o?= Lebrun
- <theo.lebrun@bootlin.com>,
- Michael Turquette <mturquette@baylibre.com>,  Abel Vesa
- <abelvesa@kernel.org>,  Peng Fan <peng.fan@nxp.com>,  Shawn Guo
- <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
- <festevam@gmail.com>,  Kevin Hilman <khilman@baylibre.com>,  Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-kernel@vger.kernel.org,  linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org,  platform-driver-x86@vger.kernel.org,
- linux-mips@vger.kernel.org,  linux-clk@vger.kernel.org,
- imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH v4 1/8] driver core: auxiliary bus: add device creation
- helpers
-In-Reply-To: <2025041508-remix-plasma-cd47@gregkh> (Greg Kroah-Hartman's
- message of "Tue, 15 Apr 2025 14:59:30 +0200")
-References: <20250218-aux-device-create-helper-v4-0-c3d7dfdea2e6@baylibre.com>
- <20250218-aux-device-create-helper-v4-1-c3d7dfdea2e6@baylibre.com>
- <2025021938-swan-facedown-e96a@gregkh>
- <1jecxtwpr4.fsf@starbuckisacylon.baylibre.com>
- <2025041508-remix-plasma-cd47@gregkh>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Tue, 15 Apr 2025 15:10:38 +0200
-Message-ID: <1j8qo1woxd.fsf@starbuckisacylon.baylibre.com>
+ Tue, 15 Apr 2025 06:10:55 -0700 (PDT)
+Date: Tue, 15 Apr 2025 15:10:53 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+ airlied@gmail.com, asrivats@redhat.com, andyshrk@163.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] drm/gem: Internally test import_attach for imported
+ objects
+Message-ID: <Z_5a3ckZiY-fINNW@phenom.ffwll.local>
+References: <20250415092057.63172-1-tzimmermann@suse.de>
+ <e2e82102-eb9f-4eb6-8ac3-6122ed7fcf28@amd.com>
+ <48ab9b82-0d26-4d7c-88b0-feab9762b128@suse.de>
+ <b924ffa7-99c0-42f1-9170-069e92299021@amd.com>
+ <ddb93e8d-7716-47b3-b06c-0bf862d9c32b@suse.de>
+ <ac0aba3d-ec77-4f6b-9ac1-f6077519f30d@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ac0aba3d-ec77-4f6b-9ac1-f6077519f30d@amd.com>
+X-Operating-System: Linux phenom 6.12.17-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,40 +97,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 15 Apr 2025 at 14:59, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+On Tue, Apr 15, 2025 at 02:52:54PM +0200, Christian König wrote:
+> Am 15.04.25 um 14:40 schrieb Thomas Zimmermann:
+> > Hi
+> >
+> > Am 15.04.25 um 14:19 schrieb Christian König:
+> >> Am 15.04.25 um 12:45 schrieb Thomas Zimmermann:
+> >>> Hi
+> >>>
+> >>> Am 15.04.25 um 11:39 schrieb Christian König:
+> >>>> Am 15.04.25 um 11:20 schrieb Thomas Zimmermann:
+> >>>>> Test struct drm_gem_object.import_attach to detect imported objects
+> >>>>> during cleanup. At that point, the imported DMA buffer might have
+> >>>>> already been released and the dma_buf field is NULL. The object's
+> >>>>> free callback then does a cleanup as for native objects.
+> >>>> I don't think that this is a good idea.
+> >>>>
+> >>>> The DMA-buf is separately reference counted through the import attachment.
+> >>> I understand that it's not ideal, but testing for import_attach to be set is what we currently do throughout drivers. Putting this behind an interface is already a step forward.
+> >>>
+> >>>>> Happens for calls to drm_mode_destroy_dumb_ioctl() that eventually
+> >>>>> clear the dma_buf field in drm_gem_object_exported_dma_buf_free().
+> >>>> That is for exported DMA-buf and should *NEVER* be used for imported ones.
+> >>> Did you look at the discussion at the Closes tag? Where else could dma-buf be cleared?
+> >> Yeah, I've seen that. The solution is just completely wrong.
+> >>
+> >> See for the export case obj->dma_buf points to the exported DMA-buf and causes a circle dependency when not set to NULL when the last handle is released.
+> >>
+> >> But for the import case obj->dma_buf is actually not that relevant. Instead obj->import_attach->dma_buf should be used.
+> >
+> > So if I understand correctly, the tests in that helper should be done by looking at import_attach->dma_buf.
+> 
+> At least in theory yes. IIRC we also set obj->dma_buf to the same value
+> as import_attach->dma_buf for convenient so that code doesn't need to
+> check both.
 
-> On Tue, Apr 15, 2025 at 02:52:47PM +0200, Jerome Brunet wrote:
->> On Wed 19 Feb 2025 at 15:20, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
->> 
->> > On Tue, Feb 18, 2025 at 08:29:46PM +0100, Jerome Brunet wrote:
->> >> Add helper functions to create a device on the auxiliary bus.
->> >> 
->> >> This is meant for fairly simple usage of the auxiliary bus, to avoid having
->> >> the same code repeated in the different drivers.
->> >> 
->> >> Suggested-by: Stephen Boyd <sboyd@kernel.org>
->> >> Cc: Arnd Bergmann <arnd@arndb.de>
->> >> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
->> >
->> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> 
->> Hey Greg,
->> 
->> Do you need me to do something else on this topic ?
->
-> I don't know what tree it is going through, do you?  If you want me to
-> take in the driver-core tree, just let me know.
+Uh, given that we already have a confusion between in the importer and
+exporter cases I think it'd be better to more strictly separate them than
+to mix them up even more for convenience. We need more clarity here
+instead.
 
-For patch #1, I think driver-core would be appropriate, unless there is
-something more specific for the auxiliary device support ?
+> But it can be that obj->dma_buf is already NULL while the import
+> attachment is still in the process of being cleaned up. So there are a
+> couple of cases where we have to look at obj->import_attach->dma_buf.
 
-I'll wait for this sink into an rc1, then resubmit the different driver
-changes to the appropriate tree, no rush.
+Yeah this sounds better imo.
 
->
-> thanks,
->
-> greg k-h
+> > The long-term goal is to make import_attach optional because its setup requires a DMA-capable device.
+> 
+> HUI WHAT?
+> 
+> Dmitry and I put quite some effort into being able to create an import_attach without the requirement to have a DMA-capable device.
+> 
+> The last puzzle piece of that landed a month ago in the form of this patch here:
+> 
+> commit b72f66f22c0e39ae6684c43fead774c13db24e73
+> Author: Christian König <christian.koenig@amd.com>
+> Date:   Tue Feb 11 17:20:53 2025 +0100
+> 
+>     dma-buf: drop caching of sg_tables
+>     
+>     That was purely for the transition from static to dynamic dma-buf
+>     handling and can be removed again now.
+>     
+>     Signed-off-by: Christian König <christian.koenig@amd.com>
+>     Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+>     Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>     Link: https://patchwork.freedesktop.org/patch/msgid/20250211163109.12200-5-christian.koenig@amd.com
+> 
+> When you don't create an import attachment the exporter wouldn't know that his buffer is actually used which is usually a quite bad idea.
+
+This is im entirely unrelated because ...
+
+> This is for devices who only want to do a vmap of the buffer, isn't it?
+
+... it's for the vmap only case, where you might not even have a struct
+device. Or definitely not a reasonable one, like maybe a faux_bus device
+or some device on a bus that really doesn't do dma (e.g. spi or i2c), and
+where hence dma_buf_map_attachment is just something you never ever want
+to do.
+
+I think we might want to transform obj->import_attach into a union or
+tagged pointer or something like that, which can cover both cases. And
+maybe a drm_gem_bo_imported_dma_buf() helper that gives you the dma_buf no
+matter what if it's imported, or NULL if it's allocated on that
+drm_device?
+
+Cheers, Sima
+
+> 
+> Regards,
+> Christian.
+> 
+> >
+> > Best regards
+> > Thomas
+> >
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>> Best regards
+> >>> Thomas
+> >>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+> >>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>>> Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
+> >>>>> Reported-by: Andy Yan <andyshrk@163.com>
+> >>>>> Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
+> >>>>> Tested-by: Andy Yan <andyshrk@163.com>
+> >>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>>> Cc: Anusha Srivatsa <asrivats@redhat.com>
+> >>>>> Cc: Christian König <christian.koenig@amd.com>
+> >>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> >>>>> Cc: Maxime Ripard <mripard@kernel.org>
+> >>>>> Cc: David Airlie <airlied@gmail.com>
+> >>>>> Cc: Simona Vetter <simona@ffwll.ch>
+> >>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> >>>>> Cc: "Christian König" <christian.koenig@amd.com>
+> >>>>> Cc: dri-devel@lists.freedesktop.org
+> >>>>> Cc: linux-media@vger.kernel.org
+> >>>>> Cc: linaro-mm-sig@lists.linaro.org
+> >>>>> ---
+> >>>>>    include/drm/drm_gem.h | 8 +++++++-
+> >>>>>    1 file changed, 7 insertions(+), 1 deletion(-)
+> >>>>>
+> >>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> >>>>> index 9b71f7a9f3f8..f09b8afcf86d 100644
+> >>>>> --- a/include/drm/drm_gem.h
+> >>>>> +++ b/include/drm/drm_gem.h
+> >>>>> @@ -589,7 +589,13 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
+> >>>>>    static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
+> >>>>>    {
+> >>>>>        /* The dma-buf's priv field points to the original GEM object. */
+> >>>>> -    return obj->dma_buf && (obj->dma_buf->priv != obj);
+> >>>>> +    return (obj->dma_buf && (obj->dma_buf->priv != obj)) ||
+> >>>>> +           /*
+> >>>>> +        * TODO: During object release, the dma-buf might already
+> >>>>> +        *       be gone. For now keep testing import_attach, but
+> >>>>> +        *       this should be removed at some point.
+> >>>>> +        */
+> >>>>> +           obj->import_attach;
+> >>>>>    }
+> >>>>>      #ifdef CONFIG_LOCKDEP
+> >
+> 
 
 -- 
-Jerome
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
