@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B72A8990B
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 11:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 496B6A89910
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 11:59:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0D9F10E6D1;
-	Tue, 15 Apr 2025 09:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CB5310E6C3;
+	Tue, 15 Apr 2025 09:59:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="i01EilHj";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="l3eKuaKo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
  [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDDDF10E6C3;
- Tue, 15 Apr 2025 09:59:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6852E43181;
- Tue, 15 Apr 2025 09:59:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9191A10E6B0;
+ Tue, 15 Apr 2025 09:59:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4CF4C43839;
+ Tue, 15 Apr 2025 09:59:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744711181;
+ t=1744711186;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=svNZRlkR5QJPPa57kD7dCs4pSl7L3Z314PM3/ynuEEQ=;
- b=i01EilHj5Vay4UQ9cuB/V49JaSYOuedtwTl4jvEU/vAclwF+vvbfehTudQGS4xMC5XNmKx
- Iug9X4EJhnx+FCoFd6SXq1FlFwqB9pGeAu0qxafqWIg4gY4RGZvS6j1inZ+G6BGQw1XKTn
- Ewl8eZ8x2d+Wqg6qyjReUWuOh9OcxWW2gV3TSfrKZ4j6NsVCqWHrib3474DMPjRhEM654B
- g3Uxr/KLI9CRAPjjBLc5AnK1R9dO3YSZjH2iABiJkD4NVfj7d8WtpGX7XkDyYJMlnU1XeL
- pbQPYKsQY6CNBj72a93AMFE8fdpLy8LUYwFL/P+5V2mTQFCULi6hViIoo6qrJQ==
-Message-ID: <a49419ac-75a5-44f0-a0d6-3e02cd8ff288@bootlin.com>
-Date: Tue, 15 Apr 2025 11:59:36 +0200
+ bh=nDzl6sfhgX13fsKaHa7mZM1ZoeRvXGOlhNXOXjPupWA=;
+ b=l3eKuaKoYq8B7YOoofIDpOUEGCVw7K8Uy+sAjVi3Rtxv5sIrCANybDgDfdK9syI0LWLn2c
+ pGHB1EoVTA+MbWfnPXGMthOz6NF67kdp5vf3XNxgDKNB56WK5ah7rlyobq4krYb7xpYABb
+ 5F1pfgiRoVFUYemvoB2kaNyZ+lsCNCx6aGaBJHUcLoiCrNVWv2R2HUybPyL1++nxPFh6Xu
+ 8grljM0WhCauSnE09yWPHAEP3oM11ixIioHEkbymOQxX6O0GxB63ogXdRwznQXg3SdU4dg
+ 6djzHC8fxHnb7CPhZKzLR7cJEz33mavZQPq+kbXH+tFPgYpi6fXnNZuErJgbGQ==
+Message-ID: <f03f2b5d-721a-46cb-9909-53037436e452@bootlin.com>
+Date: Tue, 15 Apr 2025 11:59:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v3 02/54] docs/dyndbg: update examples \012 to \n
+Subject: Re: [PATCH v3 11/54] dyndbg: replace classmap list with a vector
 To: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org, linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -43,7 +43,7 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250402174156.1246171-1-jim.cromie@gmail.com>
- <20250402174156.1246171-3-jim.cromie@gmail.com>
+ <20250402174156.1246171-12-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -99,12 +99,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250402174156.1246171-3-jim.cromie@gmail.com>
+In-Reply-To: <20250402174156.1246171-12-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhin
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhin
  hhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -125,66 +125,189 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 02/04/2025 à 19:41, Jim Cromie a écrit :
-> commit 47ea6f99d06e ("dyndbg: use ESCAPE_SPACE for cat control")
-> changed the control-file to display format strings with "\n" rather
-> than "\012".  Update the docs to match the new reality.
-
-Hi,
-
-I don't know what is the process for dyndbg and how much review you 
-need, but what are your thoughts on applying 02..09 as soon it is 
-possible to reduce the size of the series?
-
-Thanks,
-Louis Chauvet
-
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Tested-by: Louis Chauvet<louis.chauvet@bootlin.com>
-> ---
-> -v2 fix missed \012's
-> ---
->   .../admin-guide/dynamic-debug-howto.rst       | 20 +++++++++----------
->   1 file changed, 10 insertions(+), 10 deletions(-)
+> Classmaps are stored in an elf section/array, but currently are
+> individually list-linked onto dyndbg's per-module ddebug_table for
+> operation. This is unnecessary.
 > 
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> index 7c036590cd07..4ac18c0a1d95 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -38,12 +38,12 @@ You can view the currently configured behaviour in the *prdbg* catalog::
+> Just like dyndbg's descriptors, classes are packed in compile order;
+> so even with many builtin modules employing multiple classmaps, each
+> modules' maps are packed contiguously, and can be treated as a
+> array-start-address & array-length.
+> 
+> So this drops the whole list building operation done in
+> ddebug_attach_module_classes(), and removes the list-head members.
+> The "select-by-modname" condition is reused to find the start,end of
+> the subrange.
+> 
+> NOTE: This "filter-by-modname" on classmaps should really be done in
+> ddebug_add_module(1); ie at least one step closer to ddebug_init(2),
+> which already splits up pr-debug descriptors into subranges by
+> modname, then calls (1) on each.  (2) knows nothing of classmaps
+> currently, and doesn't need to.  For now, just add comment.
+> 
+> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> ---
+> v3- drop __outvar as promising magic it doesnt have
+> ---
+>   include/linux/dynamic_debug.h |  1 -
+>   lib/dynamic_debug.c           | 62 ++++++++++++++++++-----------------
+>   2 files changed, 32 insertions(+), 31 deletions(-)
+> 
+> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+> index ac199293d203..e458d4b838ac 100644
+> --- a/include/linux/dynamic_debug.h
+> +++ b/include/linux/dynamic_debug.h
+> @@ -83,7 +83,6 @@ enum class_map_type {
+>   };
 >   
->     :#> head -n7 /proc/dynamic_debug/control
->     # filename:lineno [module]function flags format
-> -  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\012
-> -  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\012"
-> -  init/main.c:1424 [main]run_init_process =_ "  with arguments:\012"
-> -  init/main.c:1426 [main]run_init_process =_ "    %s\012"
-> -  init/main.c:1427 [main]run_init_process =_ "  with environment:\012"
-> -  init/main.c:1429 [main]run_init_process =_ "    %s\012"
-> +  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\n"
-> +  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\n"
-> +  init/main.c:1424 [main]run_init_process =_ "  with arguments:\n"
-> +  init/main.c:1426 [main]run_init_process =_ "    %s\n"
-> +  init/main.c:1427 [main]run_init_process =_ "  with environment:\n"
-> +  init/main.c:1429 [main]run_init_process =_ "    %s\n"
+>   struct ddebug_class_map {
+> -	struct list_head link;
+>   	struct module *mod;
+>   	const char *mod_name;	/* needed for builtins */
+>   	const char **class_names;
+> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> index 621e04b1f28c..85b8d32742ec 100644
+> --- a/lib/dynamic_debug.c
+> +++ b/lib/dynamic_debug.c
+> @@ -45,10 +45,11 @@ extern struct ddebug_class_map __start___dyndbg_classes[];
+>   extern struct ddebug_class_map __stop___dyndbg_classes[];
 >   
->   The 3rd space-delimited column shows the current flags, preceded by
->   a ``=`` for easy use with grep/cut. ``=p`` shows enabled callsites.
-> @@ -59,10 +59,10 @@ query/commands to the control file.  Example::
+>   struct ddebug_table {
+> -	struct list_head link, maps;
+> +	struct list_head link;
+>   	const char *mod_name;
+> -	unsigned int num_ddebugs;
+>   	struct _ddebug *ddebugs;
+> +	struct ddebug_class_map *classes;
+> +	unsigned int num_ddebugs, num_classes;
+>   };
 >   
->     :#> ddcmd '-p; module main func run* +p'
->     :#> grep =p /proc/dynamic_debug/control
-> -  init/main.c:1424 [main]run_init_process =p "  with arguments:\012"
-> -  init/main.c:1426 [main]run_init_process =p "    %s\012"
-> -  init/main.c:1427 [main]run_init_process =p "  with environment:\012"
-> -  init/main.c:1429 [main]run_init_process =p "    %s\012"
-> +  init/main.c:1424 [main]run_init_process =p "  with arguments:\n"
-> +  init/main.c:1426 [main]run_init_process =p "    %s\n"
-> +  init/main.c:1427 [main]run_init_process =p "  with environment:\n"
-> +  init/main.c:1429 [main]run_init_process =p "    %s\n"
+>   struct ddebug_query {
+> @@ -148,12 +149,13 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
+>   }
 >   
->   Error messages go to console/syslog::
+>   static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table const *dt,
+> -							  const char *class_string, int *class_id)
+> +							const char *class_string,
+> +							int *class_id)
+>   {
+>   	struct ddebug_class_map *map;
+> -	int idx;
+> +	int i, idx;
 >   
+> -	list_for_each_entry(map, &dt->maps, link) {
+> +	for (map = dt->classes, i = 0; i < dt->num_classes; i++, map++) {
+>   		idx = match_string(map->class_names, map->length, class_string);
+>   		if (idx >= 0) {
+>   			*class_id = idx + map->base;
+> @@ -164,7 +166,6 @@ static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table cons
+>   	return NULL;
+>   }
+>   
+> -#define __outvar /* filled by callee */
+>   /*
+>    * Search the tables for _ddebug's which match the given `query' and
+>    * apply the `flags' and `mask' to them.  Returns number of matching
+> @@ -180,7 +181,7 @@ static int ddebug_change(const struct ddebug_query *query,
+>   	unsigned int nfound = 0;
+>   	struct flagsbuf fbuf, nbuf;
+>   	struct ddebug_class_map *map = NULL;
+> -	int __outvar valid_class;
+> +	int valid_class;
+>   
+>   	/* search for matching ddebugs */
+>   	mutex_lock(&ddebug_lock);
+> @@ -1122,9 +1123,10 @@ static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
+>   
+>   static const char *ddebug_class_name(struct ddebug_iter *iter, struct _ddebug *dp)
+>   {
+> -	struct ddebug_class_map *map;
+> +	struct ddebug_class_map *map = iter->table->classes;
+> +	int i, nc = iter->table->num_classes;
+>   
+> -	list_for_each_entry(map, &iter->table->maps, link)
+> +	for (i = 0; i < nc; i++, map++)
+>   		if (class_in_range(dp->class_id, map))
+>   			return map->class_names[dp->class_id - map->base];
+>   
+> @@ -1208,30 +1210,31 @@ static const struct proc_ops proc_fops = {
+>   	.proc_write = ddebug_proc_write
+>   };
+>   
+> -static void ddebug_attach_module_classes(struct ddebug_table *dt,
+> -					 struct ddebug_class_map *classes,
+> -					 int num_classes)
+> +static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug_info *di)
+>   {
+>   	struct ddebug_class_map *cm;
+> -	int i, j, ct = 0;
+> +	int i, nc = 0;
+>   
+> -	for (cm = classes, i = 0; i < num_classes; i++, cm++) {
+> +	/*
+> +	 * Find this module's classmaps in a subrange/wholerange of
+> +	 * the builtin/modular classmap vector/section.  Save the start
+> +	 * and length of the subrange at its edges.
+> +	 */
+> +	for (cm = di->classes, i = 0; i < di->num_classes; i++, cm++) {
+>   
+>   		if (!strcmp(cm->mod_name, dt->mod_name)) {
+> -
+> -			v2pr_info("class[%d]: module:%s base:%d len:%d ty:%d\n", i,
+> -				  cm->mod_name, cm->base, cm->length, cm->map_type);
+> -
+> -			for (j = 0; j < cm->length; j++)
+> -				v3pr_info(" %d: %d %s\n", j + cm->base, j,
+> -					  cm->class_names[j]);
+> -
+> -			list_add(&cm->link, &dt->maps);
+> -			ct++;
+> +			if (!nc) {
+> +				v2pr_info("start subrange, class[%d]: module:%s base:%d len:%d ty:%d\n",
+> +					  i, cm->mod_name, cm->base, cm->length, cm->map_type);
+
+I think the log change belongs to patch 08 (reduce verbose/debug clutter).
+
+With or without this:
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
+> +				dt->classes = cm;
+> +			}
+> +			nc++;
+>   		}
+>   	}
+> -	if (ct)
+> -		vpr_info("module:%s attached %d classes\n", dt->mod_name, ct);
+> +	if (nc) {
+> +		dt->num_classes = nc;
+> +		vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
+> +	}
+>   }
+>   
+>   /*
+> @@ -1263,10 +1266,9 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+>   	dt->num_ddebugs = di->num_descs;
+>   
+>   	INIT_LIST_HEAD(&dt->link);
+> -	INIT_LIST_HEAD(&dt->maps);
+>   
+>   	if (di->classes && di->num_classes)
+> -		ddebug_attach_module_classes(dt, di->classes, di->num_classes);
+> +		ddebug_attach_module_classes(dt, di);
+>   
+>   	mutex_lock(&ddebug_lock);
+>   	list_add_tail(&dt->link, &ddebug_tables);
+> @@ -1379,8 +1381,8 @@ static void ddebug_remove_all_tables(void)
+>   	mutex_lock(&ddebug_lock);
+>   	while (!list_empty(&ddebug_tables)) {
+>   		struct ddebug_table *dt = list_entry(ddebug_tables.next,
+> -						      struct ddebug_table,
+> -						      link);
+> +						     struct ddebug_table,
+> +						     link);
+>   		ddebug_table_free(dt);
+>   	}
+>   	mutex_unlock(&ddebug_lock);
 
 -- 
 Louis Chauvet, Bootlin
