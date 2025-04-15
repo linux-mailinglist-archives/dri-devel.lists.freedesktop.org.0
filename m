@@ -2,81 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E58A8A914
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 22:17:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87547A8A999
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 22:51:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9612810E385;
-	Tue, 15 Apr 2025 20:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30EE710E156;
+	Tue, 15 Apr 2025 20:51:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TyDFvOIt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fHb9VT/F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
- [209.85.128.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 795AF10E385;
- Tue, 15 Apr 2025 20:17:35 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-7040ac93c29so61983197b3.3; 
- Tue, 15 Apr 2025 13:17:35 -0700 (PDT)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3890D10E156
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 20:51:14 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id
+ 6a1803df08f44-6f0c30a1cf8so68030236d6.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 13:51:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744748254; x=1745353054; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=T2f4lqBJ3KU4xN2C63AmFZML3WVt9PkuM4udxa8upYQ=;
- b=TyDFvOItHgQ6PIePchxvq++seiVfSRa8d7sGKdjjCNaPBwKn41viTQQZyRGExw5+1+
- inJO5ol5Dl0xn7mRvSbpL0UWBckjChJJaj/z1z8alJ1oOhLiMis3BwCdZTBlbk1U8fLr
- voE0HXSz1nQKlQSGglLwjkc14XYGEwwhM1y+lYBI5CcezqlRlPtV5ulg6GeS7F/CDMJY
- U8pnJSWvV7VcgsrPULmzwbNuG94NbW9aP59SiZuRGPXM0mN4mKxrIAuY3uHnesCeVkRV
- 24gnnDSJvJW2BHooLJwX8JB7iq6evzbLfEQt0V/Vle5iyXyqfGpZfvcVIejFQkrkoX3J
- l/mA==
+ d=gmail.com; s=20230601; t=1744750273; x=1745355073; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:subject:cc:to:from:date:feedback-id
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q0tQ00eLs4Tm633P+iqIgo5YfEEsfyJPoQay6prk03E=;
+ b=fHb9VT/F7io+S4djidjo88oFIUDpIz0iTT5U4i7EsqgpbOg8Azh1Ykv+n1EtiTRkVo
+ aHbTpLnynWSoow0RlphrhBGRYcqPKp/gvU+MoX9clqSdlNkQB++2t3gpUTHYC7pzNqp6
+ JNapfZVBO5kLpIXsPlGKpCIEAdKYtWKnbxbKGGwcQqubFX53CBH37Ac2Q6PiEaURjBII
+ 0eqjb2MqmuKy2fXItmJB/zx0ZojcatugpQqFqTbjglH4G29d4u+D1CBVLY44ErKPOd1N
+ 5TdgvKUO2GmX5GXc8/WfdJyGhGuYcRpmj2NyhPem3ChBRbkheHV+9GM64QTuab53Qy6w
+ FYGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744748254; x=1745353054;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T2f4lqBJ3KU4xN2C63AmFZML3WVt9PkuM4udxa8upYQ=;
- b=pxORBRsxeriHXsGdER+v57PVFXRjZtjEacZiBav9UVjxj6dntP2kLYwqOh9HMgajm7
- 2RYaw0iWV0xBvONyWGvnSzqbvWIRXrsc/7IbUzYPjCo4quX8fD0U73xQ48E3xZtJy0nO
- gR+w8+SWA1GlSKJZifkAHV9L117LftPqA2gtAhIcIyqjk2CnzsI9GTBLb6g0V/51++Km
- 3hravM+Zyd/NOHf8hLaYyHbN3FK9HFzKQtjFKXSudsosTc4b3PfMyHt/fI2PsZSUuEWJ
- QfdWxFJo/IJ+LlgKfCdXX1Kz0WgxCY7QGWGfYRHiq7C+1/YwFfVa/HFtr5gv2Wkqnsxw
- EfLw==
+ d=1e100.net; s=20230601; t=1744750273; x=1745355073;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:subject:cc:to:from:date:feedback-id
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Q0tQ00eLs4Tm633P+iqIgo5YfEEsfyJPoQay6prk03E=;
+ b=HxXjXSgN60PIaZf/+4DF8sNmxiI0XGMTADvTFBj/xibPJMuCDzQxUwrHxUAKvbgrbt
+ D7e7+2ax0RVUhbr2oTerFzPUxu3QrjGFvibnAN9foQDDRjQwGOBFpE9WISG8AexBSYT9
+ JW0R8nuvF3AnGg/FGPzaE7r00IhW093weuywwUsODzS23HPo4iyzBeSr1JHRobmqm4Kg
+ bpjCMfofd2tgjeoGrwmAYETPeEQ0re1oElne+W3k40eYYtNp1GztaTGeShgrFFEJp/mZ
+ nWP610REjkGYjS5JpEmHAznOl6q+Uwz41kqJy7rKGk39pzail43in8SaaPie1HQ+lSO4
+ iSug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV2BzGdPN/1QkCnGGrkE6NJg2el53BwUIr20VQwmXpoHBtRHKpCc6jj4qu4P+D06COtfwYUVd0EcpYEJwuyGw==@lists.freedesktop.org,
- AJvYcCV4g1BPhLdrfxfKt8lTYn6j/gVZsT4mfV6qI+1zCLuQXrwQWi3TATwvJcpdzqFgdhmbqscGqsKh@lists.freedesktop.org,
- AJvYcCVVk3Isvcf1pWoThEltZFYGKGiMZ6sJ9xyFYw6OEKUotmGMLwqbL4jlJS4n2K8c6l47Ez2I6ESKEAXF@lists.freedesktop.org,
- AJvYcCX5U1D26KF3fHzM1WUI/GsphSocpkjykwRmYnrFPeEdaFA1DHBGgUwKZBMV2veUPmMwY/VVwmS2xsMR@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzqNXsqSOIVOLXAFlhA9eiAGLKN2v0bBs/vYdkSpnhB+NjX4tKs
- m0mFuAu843yrXj7uYJmEUeHk8KQeVV5tV75HBKowfoS+Xp38ZWLcsfoKuOoPfSpcJDfijRQ9t1Z
- nVro7NWUDGpNlRC6mEa3w0AtLut4=
-X-Gm-Gg: ASbGncven1SvycU7Qo2MtsXFNszPkV0gSBOI8Q5pUKNVo8hy9OcnjedWo6G0ple3MhN
- Qk2+fEgDyyTIl39htCyPC0FwdKapoOX4RtLr9i5DdM/Mq/Fdt4LBvnt4bWK064keZFr8t8C3Isq
- bKhhXW/4So/mG4PCQ5DHQ1FUCKBZ8/8kA=
-X-Google-Smtp-Source: AGHT+IHASz86QMUepPNXOhocPuVmLHD9gr+x/9kxgl75W95uEZj+zDqeKUtyT5YmfO9onCBuAwS9eq00pIaqEmsXvA4=
-X-Received: by 2002:a05:690c:4491:b0:702:5927:cf74 with SMTP id
- 00721157ae682-706aca34f9emr12312777b3.0.1744748254431; Tue, 15 Apr 2025
- 13:17:34 -0700 (PDT)
+ AJvYcCWYNUiizaXBc/xEDu+fi/hlBfhAsklup4wst10zpAVLTFUNCtff9Jx+fWROFTy6LTe/FUtRLrXOac4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyqg8WunxEvWAUG+OPcWKJ9N6cAio7FgI/uUpqIXemCgeQyT9Wq
+ jpFdsxiEjuKDGYVKr/tUakzLypX5PAHpdm7LKn9oyXCCm9xuSLMV
+X-Gm-Gg: ASbGncvfFSfDjEW1bHa7bwv5OTC/hBgQqam1X1Mnhxx8czyS5tKehjng0JzYXuGkPs6
+ RZhPCsZyW8Vf14urkYNzyMGY5HXpCgGKz3Qy5HoS5a/u8BXr26/qF6eICq4T3heftpTpkl/Z/Rp
+ 20z9aOHicclznerqAdYF5o6bm5udG+OyeEPBAUQBv6iq5t+mL9ov08cZ3uzPk9RawKiKexeTZhR
+ 8VCdtiwN3CIK+15Ht08yv2+DCjfkufycoaGrzftZQJ0OKxobhsRc9Fzx2EyC2PKIa7l4+UFl7eX
+ KHnCIJzDB6yvbfHGjZkfft5w7t1l/sQHDwvhcfIMAefNqZ3BTwRLXRXXBNoVwaSabRqVaO4Ne8F
+ LR3mCNclWDYam4BU0J67LdC46/A6QjMk=
+X-Google-Smtp-Source: AGHT+IE1dCcR96vlLkQXzQT/eFHlRGeTTVVl5g6zbx9Rg8qrLjTfCEPFy9rO4Jl8bAnKBfMwWo/c5A==
+X-Received: by 2002:a05:6214:238b:b0:6e8:fc05:aa23 with SMTP id
+ 6a1803df08f44-6f2ad849efamr13993126d6.3.1744750273501; 
+ Tue, 15 Apr 2025 13:51:13 -0700 (PDT)
+Received: from fauth-a2-smtp.messagingengine.com
+ (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6f29427ede1sm54651296d6.68.2025.04.15.13.51.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Apr 2025 13:51:13 -0700 (PDT)
+Message-ID: <67fec6c1.0c0a0220.f907e.c6dd@mx.google.com>
+X-Google-Original-Message-ID: <Z_7GvFc4nNc6CflX@winterfell.>
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal
+ [10.202.2.41])
+ by mailfauth.phl.internal (Postfix) with ESMTP id D6518120006A;
+ Tue, 15 Apr 2025 16:51:11 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-01.internal (MEProxy); Tue, 15 Apr 2025 16:51:11 -0400
+X-ME-Sender: <xms:v8b-ZwSpeeMWS-AgOReIxu212BJqnnL3IWn6oRc050tdsemAyDXCsA>
+ <xme:v8b-Z9yqTLhPtZwgT79r-lFQ8w4fAPKNhnQ5ppgRXAIXlxCed2Vy6S8qJoEFEgYwj
+ LsJjbfV3DXCkOIZRg>
+X-ME-Received: <xmr:v8b-Z92_VpxSpx99qWuk85VVZBAhwkzOia9W81q9OF1Vo5CszxM9W2DEs3k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdeggeelucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+ pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+ gvnhhtshculddquddttddmnegoufhushhpvggtthffohhmrghinhculdegledmnecujfgu
+ rhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeeuohhquhhnuc
+ fhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrthht
+ vghrnhephffgheetjeegieduheelieeujefhgfegtdefgedtteejveetjeeugfehueekff
+ ejnecuffhomhgrihhnpehgihhthhhusgdrihhopdhkvghrnhgvlhdrohhrghdpihgushdr
+ rghsnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
+ hoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieeg
+ qddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigi
+ hmvgdrnhgrmhgvpdhnsggprhgtphhtthhopeegjedpmhhouggvpehsmhhtphhouhhtpdhr
+ tghpthhtohepthgrmhhirhgusehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrshgrhh
+ hirhhohieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgv
+ lhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtth
+ hopegrlhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhih
+ sehgrghrhihguhhordhnvghtpdhrtghpthhtohepsghjohhrnhefpghghhesphhrohhtoh
+ hnmhgrihhlrdgtohhmpdhrtghpthhtohepsggvnhhnohdrlhhoshhsihhnsehprhhothho
+ nhdrmhgvpdhrtghpthhtoheprgdrhhhinhgusghorhhgsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:v8b-Z0Cr70trTNBX-anqf51yRU3N8WDn8qOJFNRvZ7lpdqHPkC3FNQ>
+ <xmx:v8b-Z5guK0RN-dfE70nWF85kSlzQ4S0XYzF6b7nKdlvnAyY_QcfmXw>
+ <xmx:v8b-ZwoDRhdajbxAMI6eokapqoCceE19AubRD3dPMzWsRwZl7QHAbQ>
+ <xmx:v8b-Z8jYX7sLlzb_GxXi6MUD9MEewlysZn-977joyUwMeTpZadBETQ>
+ <xmx:v8b-ZwTKozWWpgzl1E2O9D5hLYHTSeM3J9b0S-ksk4pMmJ3RLiaZgxpO>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Apr 2025 16:51:11 -0400 (EDT)
+Date: Tue, 15 Apr 2025 13:51:08 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,	Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Frederic Weisbecker <frederic@kernel.org>,	Lyude Paul <lyude@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
+ linux-block@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v8 6/6] rust: enable `clippy::ref_as_ptr` lint
+References: <20250409-ptr-as-ptr-v8-0-3738061534ef@gmail.com>
+ <20250409-ptr-as-ptr-v8-6-3738061534ef@gmail.com>
+ <67fe9975.c80a0220.1b5785.66e7@mx.google.com>
+ <CAJ-ks9mzyfvsxkyud_wLXfhLD_zP95bivCQ9i2aC-3ea=Y7+0A@mail.gmail.com>
+ <67fea2d6.050a0220.8fa7f.6690@mx.google.com>
+ <CAJ-ks9=G1ajyT8gwLHyvHW09Z2gG=Geg7LDS6iyRyqx_wyp5Sg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20250402174156.1246171-1-jim.cromie@gmail.com>
- <20250402174156.1246171-24-jim.cromie@gmail.com>
- <d97fa4de-ee0c-4bee-9cf2-cd3a343e3439@bootlin.com>
-In-Reply-To: <d97fa4de-ee0c-4bee-9cf2-cd3a343e3439@bootlin.com>
-From: jim.cromie@gmail.com
-Date: Tue, 15 Apr 2025 14:17:07 -0600
-X-Gm-Features: ATxdqUH2ijE33CYVEiEjLWi5zzDtsvJCrFygD06lZ-2beemv0ZLcXrrrFfEANFE
-Message-ID: <CAJfuBxxR9GZwRmVCuu=at2RUXT_pUWHrG4V61G+WjQSKJnh2Fg@mail.gmail.com>
-Subject: Re: [PATCH v3 23/54] dyndbg: treat comma as a token separator
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch, 
- tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com, 
- ville.syrjala@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ-ks9=G1ajyT8gwLHyvHW09Z2gG=Geg7LDS6iyRyqx_wyp5Sg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,199 +165,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 15, 2025 at 4:05=E2=80=AFAM Louis Chauvet <louis.chauvet@bootli=
-n.com> wrote:
->
->
->
-> Le 02/04/2025 =C3=A0 19:41, Jim Cromie a =C3=A9crit :
-> > Treat comma as a token terminator, just like a space.  This allows a
-> > user to avoid quoting hassles when spaces are otherwise needed:
+On Tue, Apr 15, 2025 at 04:10:01PM -0400, Tamir Duberstein wrote:
+> On Tue, Apr 15, 2025 at 2:18 PM Boqun Feng <boqun.feng@gmail.com> wrote:
 > >
-> >   :#> modprobe drm dyndbg=3Dclass,DRM_UT_CORE,+p\;class,DRM_UT_KMS,+p
+> > On Tue, Apr 15, 2025 at 01:58:41PM -0400, Tamir Duberstein wrote:
+> > > Hi Boqun, thanks for having a look!
+> > >
+> > > On Tue, Apr 15, 2025 at 1:37 PM Boqun Feng <boqun.feng@gmail.com> wrote:
+> > > >
+> > > > On Wed, Apr 09, 2025 at 10:47:23AM -0400, Tamir Duberstein wrote:
+> > > > > In Rust 1.78.0, Clippy introduced the `ref_as_ptr` lint [1]:
+> > > > >
+> > > > > > Using `as` casts may result in silently changing mutability or type.
+> > > > >
+> > > > > While this doesn't eliminate unchecked `as` conversions, it makes such
+> > > > > conversions easier to scrutinize.  It also has the slight benefit of
+> > > > > removing a degree of freedom on which to bikeshed. Thus apply the
+> > > > > changes and enable the lint -- no functional change intended.
+> > > > >
+> > > > > Link: https://rust-lang.github.io/rust-clippy/master/index.html#ref_as_ptr [1]
+> > > > > Suggested-by: Benno Lossin <benno.lossin@proton.me>
+> > > > > Link: https://lore.kernel.org/all/D8PGG7NTWB6U.3SS3A5LN4XWMN@proton.me/
+> > > > > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> > > > > ---
+> > > > >  Makefile                 |  1 +
+> > > > >  rust/bindings/lib.rs     |  1 +
+> > > > >  rust/kernel/device_id.rs |  3 ++-
+> > > > >  rust/kernel/fs/file.rs   |  3 ++-
+> > > > >  rust/kernel/str.rs       |  6 ++++--
+> > > > >  rust/kernel/uaccess.rs   | 10 ++++------
+> > > > >  rust/uapi/lib.rs         |  1 +
+> > > > >  7 files changed, 15 insertions(+), 10 deletions(-)
+> > > > >
+> > > > > diff --git a/Makefile b/Makefile
+> > > > > index eb5a942241a2..2a16e02f26db 100644
+> > > > > --- a/Makefile
+> > > > > +++ b/Makefile
+> > > > > @@ -485,6 +485,7 @@ export rust_common_flags := --edition=2021 \
+> > > > >                           -Wclippy::no_mangle_with_rust_abi \
+> > > > >                           -Wclippy::ptr_as_ptr \
+> > > > >                           -Wclippy::ptr_cast_constness \
+> > > > > +                         -Wclippy::ref_as_ptr \
+> > > > >                           -Wclippy::undocumented_unsafe_blocks \
+> > > > >                           -Wclippy::unnecessary_safety_comment \
+> > > > >                           -Wclippy::unnecessary_safety_doc \
+> > > > > diff --git a/rust/bindings/lib.rs b/rust/bindings/lib.rs
+> > > > > index b105a0d899cc..2b69016070c6 100644
+> > > > > --- a/rust/bindings/lib.rs
+> > > > > +++ b/rust/bindings/lib.rs
+> > > > > @@ -27,6 +27,7 @@
+> > > > >  #[allow(dead_code)]
+> > > > >  #[allow(clippy::cast_lossless)]
+> > > > >  #[allow(clippy::ptr_as_ptr)]
+> > > > > +#[allow(clippy::ref_as_ptr)]
+> > > > >  #[allow(clippy::undocumented_unsafe_blocks)]
+> > > > >  mod bindings_raw {
+> > > > >      // Manual definition for blocklisted types.
+> > > > > diff --git a/rust/kernel/device_id.rs b/rust/kernel/device_id.rs
+> > > > > index 4063f09d76d9..37cc03d1df4c 100644
+> > > > > --- a/rust/kernel/device_id.rs
+> > > > > +++ b/rust/kernel/device_id.rs
+> > > > > @@ -136,7 +136,8 @@ impl<T: RawDeviceId, U, const N: usize> IdTable<T, U> for IdArray<T, U, N> {
+> > > > >      fn as_ptr(&self) -> *const T::RawType {
+> > > > >          // This cannot be `self.ids.as_ptr()`, as the return pointer must have correct provenance
+> > > > >          // to access the sentinel.
+> > > > > -        (self as *const Self).cast()
+> > > > > +        let this: *const Self = self;
+> > > >
+> > > > Hmm.. so this lint usually just requires to use a let statement instead
+> > > > of as expression when casting a reference to a pointer? Not 100%
+> > > > convinced this results into better code TBH..
+> > >
+> > > The rationale is in the lint description and quoted in the commit
+> > > message: "Using `as` casts may result in silently changing mutability
+> > > or type.".
+> > >
 > >
-> > or as a boot arg:
+> > Could you show me how you can silently change the mutability or type? A
+> > simple try like below doesn't compile:
 > >
-> >   drm.dyndbg=3Dclass,DRM_UT_CORE,+p  # todo: support multi-query here
-> >
-> > Given the many ways a boot-line +args can be assembled and then passed
-> > in/down/around shell based tools, this may allow side-stepping all
-> > sorts of quoting hassles thru those layers.
-> >
-> > existing query format:
-> >
-> >   modprobe test_dynamic_debug dyndbg=3D"class D2_CORE +p"
-> >
-> > new format:
-> >
-> >   modprobe test_dynamic_debug dyndbg=3Dclass,D2_CORE,+p
-> >
-> > ALSO
-> >
-> > selftests-dyndbg: add comma_terminator_tests
-> >
-> > New fn validates parsing and effect of queries using combinations of
-> > commas and spaces to delimit the tokens.
-> >
-> > It manipulates pr-debugs in builtin module/params, so might have deps
-> > I havent foreseen on odd configurations.
-> >
-> > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> > Co-developed-by: =C5=81ukasz Bartosik <ukaszb@chromium.org>
-> > Signed-off-by: =C5=81ukasz Bartosik <ukaszb@chromium.org>
-> > ---
-> > - skip comma tests if no builtins
-> > -v3 squash in tests and doc
-> > ---
-> >   .../admin-guide/dynamic-debug-howto.rst       |  9 +++++---
-> >   lib/dynamic_debug.c                           | 17 +++++++++++----
-> >   .../dynamic_debug/dyndbg_selftest.sh          | 21 ++++++++++++++++++=
--
-> >   3 files changed, 39 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Docume=
-ntation/admin-guide/dynamic-debug-howto.rst
-> > index 63a511f2337b..e2dbb5d9b314 100644
-> > --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> > +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> > @@ -78,11 +78,12 @@ Command Language Reference
-> >   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> >
-> >   At the basic lexical level, a command is a sequence of words separate=
-d
-> > -by spaces or tabs.  So these are all equivalent::
-> > +by spaces, tabs, or commas.  So these are all equivalent::
-> >
-> >     :#> ddcmd file svcsock.c line 1603 +p
-> >     :#> ddcmd "file svcsock.c line 1603 +p"
-> >     :#> ddcmd '  file   svcsock.c     line  1603 +p  '
-> > +  :#> ddcmd file,svcsock.c,line,1603,+p
-> >
-> >   Command submissions are bounded by a write() system call.
-> >   Multiple commands can be written together, separated by ``;`` or ``\n=
-``::
-> > @@ -167,9 +168,11 @@ module
-> >       The given string is compared against the module name
-> >       of each callsite.  The module name is the string as
-> >       seen in ``lsmod``, i.e. without the directory or the ``.ko``
-> > -    suffix and with ``-`` changed to ``_``.  Examples::
-> > +    suffix and with ``-`` changed to ``_``.
-> >
-> > -     module sunrpc
-> > +    Examples::
-> > +
-> > +     module,sunrpc   # with ',' as token separator
-> >       module nfsd
-> >       module drm*     # both drm, drm_kms_helper
-> >
-> > diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> > index 0d603caadef8..5737f1b4eba8 100644
-> > --- a/lib/dynamic_debug.c
-> > +++ b/lib/dynamic_debug.c
-> > @@ -299,6 +299,14 @@ static int ddebug_change(const struct ddebug_query=
- *query, struct flag_settings
-> >       return nfound;
-> >   }
-> >
-> > +static char *skip_spaces_and_commas(const char *str)
-> > +{
-> > +     str =3D skip_spaces(str);
-> > +     while (*str =3D=3D ',')
-> > +             str =3D skip_spaces(++str);
-> > +     return (char *)str;
-> > +}
-> > +
-> >   /*
-> >    * Split the buffer `buf' into space-separated words.
-> >    * Handles simple " and ' quoting, i.e. without nested,
-> > @@ -312,8 +320,8 @@ static int ddebug_tokenize(char *buf, char *words[]=
-, int maxwords)
-> >       while (*buf) {
-> >               char *end;
-> >
-> > -             /* Skip leading whitespace */
-> > -             buf =3D skip_spaces(buf);
-> > +             /* Skip leading whitespace and comma */
-> > +             buf =3D skip_spaces_and_commas(buf);
-> >               if (!*buf)
-> >                       break;  /* oh, it was trailing whitespace */
-> >               if (*buf =3D=3D '#')
-> > @@ -329,7 +337,7 @@ static int ddebug_tokenize(char *buf, char *words[]=
-, int maxwords)
-> >                               return -EINVAL; /* unclosed quote */
-> >                       }
-> >               } else {
-> > -                     for (end =3D buf; *end && !isspace(*end); end++)
-> > +                     for (end =3D buf; *end && !isspace(*end) && *end =
-!=3D ','; end++)
-> >                               ;
->
-> Why don't you use the skip_spaces_and_commas here?
+> >         let x = &42;
+> >         let ptr = x as *mut i32; // <- error
+> >         let another_ptr = x as *const i64; // <- error
+> 
+> I think the point is that the meaning of an `as` cast can change when
+> the type of `x` changes, which can happen at a distance. The example
 
-yes, thx. I will.
+So my example shows that you can only use `as` to convert a `&T` into a
+`*const T`, no matter how far it happens, and..
 
->
-> >                       if (end =3D=3D buf) {
-> >                               pr_err("parse err after word:%d=3D%s\n", =
-nwords,
-> > @@ -601,7 +609,8 @@ static int ddebug_exec_queries(char *query, const c=
-har *modname)
-> >               if (split)
-> >                       *split++ =3D '\0';
-> >
-> > -             query =3D skip_spaces(query);
-> > +             query =3D skip_spaces_and_commas(query);
-> > +
-> >               if (!query || !*query || *query =3D=3D '#')
-> >                       continue;
-> >
-> > diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b=
-/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> > index 465fad3f392c..c7bf521f36ee 100755
-> > --- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> > +++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-> > @@ -216,7 +216,7 @@ function check_err_msg() {
-> >   function basic_tests {
-> >       echo -e "${GREEN}# BASIC_TESTS ${NC}"
-> >       if [ $LACK_DD_BUILTIN -eq 1 ]; then
-> > -     echo "SKIP"
-> > +     echo "SKIP - test requires params, which is a builtin module"
-> >       return
-> >       fi
-> >       ddcmd =3D_ # zero everything
-> > @@ -238,8 +238,27 @@ EOF
-> >       ddcmd =3D_
-> >   }
-> >
-> > +function comma_terminator_tests {
-> > +    echo -e "${GREEN}# COMMA_TERMINATOR_TESTS ${NC}"
-> > +    if [ $LACK_DD_BUILTIN -eq 1 ]; then
-> > +     echo "SKIP - test requires params, which is a builtin module"
-> > +     return
-> > +    fi
-> > +    # try combos of spaces & commas
-> > +    check_match_ct '\[params\]' 4 -r
-> > +    ddcmd module,params,=3D_           # commas as spaces
-> > +    ddcmd module,params,+mpf         # turn on module's pr-debugs
-> > +    check_match_ct =3Dpmf 4
-> > +    ddcmd ,module ,, ,  params, -p
-> > +    check_match_ct =3Dmf 4
-> > +    ddcmd " , module ,,, ,  params, -m"      #
-> > +    check_match_ct =3Df 4
-> > +    ddcmd =3D_
-> > +}
-> > +
-> >   tests_list=3D(
-> >       basic_tests
-> > +    comma_terminator_tests
-> >   )
-> >
-> >   # Run tests
->
-> --
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
+> shown in the clippy docs uses `as _`, which is where you get into real
+> trouble.
+> 
+
+... no matter whether `as _` is used or not. Of course once you have a
+`*const T`, using `as` can change it to a different type or mutability,
+but that's a different problem. Your argument still lacks convincing
+evidences or examples showing this is a real trouble. For example, if
+you have a `x` of type `&i32`, and do a `x as _` somewhere, you will
+have a compiler error once compilers infers a type that is not `*const
+i32` for `_`. If your argument being it's better do the
+reference-to-pointer conversion explicitly, then that makes some sense,
+but I still don't think we need to do it globablly.
+
+> > also from the link document you shared, looks like the suggestion is to
+> > use core::ptr::from_{ref,mut}(), was this ever considered?
+> 
+> I considered it, but I thought it was ugly. We don't have a linter to
+> enforce it, so I'd be surprised if people reached for it.
+> 
+
+I think avoiding the extra line of `let` is a win, also I don't get why
+you feel it's *ugly*: having the extra `let` line is ugly to me ;-)
+
+Regards,
+Boqun
+
+[...]
