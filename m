@@ -2,59 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCA4A89AAD
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD63A89AB7
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA50A10E71D;
-	Tue, 15 Apr 2025 10:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD3110E71C;
+	Tue, 15 Apr 2025 10:44:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="H0GcVP4N";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LvgwWRBy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D52110E720
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 10:44:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744713848;
- bh=xh7Jj9EwZ14z10Z5YmH2kybmKZ8PUNlCUMcMfNXz5ow=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H0GcVP4NzvA1Xb/LixrkEuPOh9lBAgvyY+YWlLvxVXJdSASm7CzedyjhX+ZMiFVzV
- KDYppK/mxYep+iSKfSrJBLXJD/wqcE566DwkwMwqNOmiLwkaW4UA32w+saCGVRwiLN
- 7l88q2RwRRrRLQbAD8TFGaZ9hGbIog/AuZiEzw1I74hiNVW9ngFCGFMrXtmSx8kCWk
- iSfV+OX6i2TpTNriz3kSl9rBQ+1rh2E62ZdxIgjCg3fr3+X7KJFqkPBLxeXbWkdPqt
- W9dRNMLBWW1a+dY7iKMHvWGZAkwn/xDA0yuzm/f1oLEzVtR296ggt0W1PJpG3+BNcc
- q93y/0RhL4VZw==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 5BC0017E35E5;
- Tue, 15 Apr 2025 12:44:07 +0200 (CEST)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- ck.hu@mediatek.com, jitao.shi@mediatek.com, jie.qiu@mediatek.com,
- junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
- ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
- jason-jh.lin@mediatek.com
-Subject: [PATCH v9 23/23] drm/mediatek: mtk_hdmi_v2: Add debugfs ops and
- implement ABIST
-Date: Tue, 15 Apr 2025 12:43:21 +0200
-Message-ID: <20250415104321.51149-24-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250415104321.51149-1-angelogioacchino.delregno@collabora.com>
-References: <20250415104321.51149-1-angelogioacchino.delregno@collabora.com>
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B826F10E71C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 10:44:55 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-39149bccb69so5272384f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 03:44:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1744713894; x=1745318694; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fdo8dneaizrUoQYs0r04kTs5qLNomw+odVlo3gYg1Fw=;
+ b=LvgwWRByd5kfb6fsU3zBt9+geIRB8MNYpgB1lSeHqqdzze7+IbUz3Jt95QrdCufyJ5
+ H/6KBi9UNyh+7U9+zdc4ZR3bt8UICh5DSm/wQge1HST/zt3+6K9T9zuvy+wtqiFPYoZm
+ I3nZjolxyqnRVtoxV8MB1xmXJQu/5Q7m1ZRwN3slBSxuCHp2bpm7ME15FRvVsebi+M68
+ 3RzJfibrfvCNLtkHAyfrrApscms711C/JprAHXME+xAGwc23wjjafL3ra0TevcI94nqg
+ XGm6ZUNuAJUlILKMJoqeqW4SSDDhTcG8vywCcFZd80eYUrFXnG+d46fdBNdK4Kjr2iS6
+ O/aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744713894; x=1745318694;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fdo8dneaizrUoQYs0r04kTs5qLNomw+odVlo3gYg1Fw=;
+ b=m2qm5bODq4q29s4TUlt33djOTr+EKUQqY6VbgvM5foul4Qo0ag1LghohVihjv+2O5b
+ tsNotm9GHELyHJW+xMiSy1PnwnE6esHcc5pr7S5V7N9dP1iP+Q0K+R5rK8TgtnXv6wkb
+ 3RahahbC745Zjh6/SvoFuzNzfVAz5XkEOxugFw6XNETz3i54EQ3FqxB78W9TSvthWZgM
+ 9l53NBGumnS+WSruodHEQEt/OPvAcNuyTNla+NBXh53OHVyQrQmY7bHbWxt1CF+UtCYE
+ A+mbN/IpSSUMI2vzU+GF68f/FZTZkmhCL85F6r8+dkgl1Rw/U2ghZG49xo4ExcGY37NZ
+ sb2g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVQM3w4LqueW9BEiurD5BFqIGGZUrOte/fjLHRMjUP70OF+EV4z2kN2UToAYO9hTPhDl6BNK2Zvo64=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxbpNvp5VoyPnWhbHP/6PSRDbnM24kEe3wquY238mN/rjt/j8Yb
+ S4UGAXNSgBpUHulkpMQ9XQ3KzoiguqxdqqWR7nTu/YR8zwMzdVPC7eBbjNSK+uk=
+X-Gm-Gg: ASbGnctOxXl30CuioPImEJDvqp7AJO3NDnEKhBt0x2aFAm1zjWCd/oJjKZTA2Log4I/
+ QufyyapWooQyR0LkmTXHV1doTtmsjhHJouze9A1bvCNyVjj/zLGEcOrpEQphEnhcqLGHJEb6ezV
+ x2QTAzL1iPtVPGl68xY/rCC5qizSC5JzIZzT/Kc7Gfcz9g0dXRYBIGtZKkitiWJVxBomv5Ddh0G
+ CMP6KmEmVqYAuM9tIYouOECtmTEmNFItLrsarIaYu5RbJJjNHgdpUCSmqdNpQTtms25nm3STt3x
+ KXXKRiFCoRlUpO4oHvfXFfToIiGgbLpTpKjfpLGEWpnCbvXj20ze1chu
+X-Google-Smtp-Source: AGHT+IGc9RW10knIr3MFj1Pzt4vKOq0H3enobQU/zlnoeN7SKpLX1yrOkCKkuW4z4l4oMeg39rDQgQ==
+X-Received: by 2002:a05:6000:2403:b0:39c:30fd:ca7 with SMTP id
+ ffacd0b85a97d-39ea51d10a1mr13006863f8f.7.1744713894209; 
+ Tue, 15 Apr 2025 03:44:54 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-39eae977a7fsm13703803f8f.45.2025.04.15.03.44.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Apr 2025 03:44:53 -0700 (PDT)
+Date: Tue, 15 Apr 2025 13:44:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Eric Huang <jinhuieric.huang@amd.com>
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Kent Russell <kent.russell@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH next] drm/amdkfd: Fix kfd_smi_event_process()
+Message-ID: <Z_44oq-aSZOsvxTN@stanley.mountain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,169 +90,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement the Automated Built-In Self-Test ABIST functionality
-provided by the HDMIv2 IP and expose it through the "hdmi_abist"
-debugfs file.
+The "pdd->drm_priv" NULL check is reversed so it will lead to a NULL
+dereference on the next line.
 
-Write "1" to this file to activate ABIST, or "0" to deactivate.
-
-The ABIST functionality can be used to validate that the HDMI
-Transmitter itself works and that can output a valid image to
-the HDMI Display that is connected.
-
-This is especially useful when trying to rule out any possible
-issue that is related to the display pipeline, as the HDMI Tx
-is always the last component; this means that HDMI ABIST can be
-used even without prior display controller pipeline configuration.
-
-The expected output is a 100% color bar (rainbow) test pattern.
-
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Fixes: 4172b556fd5b ("drm/amdkfd: add smi events for process start and end")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi_v2.c | 123 +++++++++++++++++++++++++
- 1 file changed, 123 insertions(+)
+ drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-index dd10f272eabd..284d5cc0cffd 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-@@ -1188,6 +1188,128 @@ static int mtk_hdmi_v2_hdmi_write_infoframe(struct drm_bridge *bridge,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+index 727a4ce29fe6..c27fd7aec1c3 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+@@ -350,7 +350,7 @@ void kfd_smi_event_process(struct kfd_process_device *pdd, bool start)
+ 	struct amdgpu_task_info *task_info;
+ 	struct amdgpu_vm *avm;
  
-+static int mtk_hdmi_v2_set_abist(struct mtk_hdmi *hdmi, bool enable)
-+{
-+	struct drm_display_mode *mode = &hdmi->mode;
-+	int abist_format = -EINVAL;
-+	bool interlaced;
-+
-+	if (!enable) {
-+		regmap_clear_bits(hdmi->regs, TOP_CFG00, HDMI_ABIST_ENABLE);
-+		return 0;
-+	}
-+
-+	if (!mode->hdisplay || !mode->vdisplay)
-+		return -EINVAL;
-+
-+	interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
-+
-+	switch (mode->hdisplay) {
-+	case 720:
-+		if (mode->vdisplay == 480)
-+			abist_format = 2;
-+		else if (mode->vdisplay == 576)
-+			abist_format = 11;
-+		break;
-+	case 1280:
-+		if (mode->vdisplay == 720)
-+			abist_format = 3;
-+		break;
-+	case 1440:
-+		if (mode->vdisplay == 480)
-+			abist_format = interlaced ? 5 : 9;
-+		else if (mode->vdisplay == 576)
-+			abist_format = interlaced ? 14 : 18;
-+		break;
-+	case 1920:
-+		if (mode->vdisplay == 1080)
-+			abist_format = interlaced ? 4 : 10;
-+		break;
-+	case 3840:
-+		if (mode->vdisplay == 2160)
-+			abist_format = 25;
-+		break;
-+	case 4096:
-+		if (mode->vdisplay == 2160)
-+			abist_format = 26;
-+		break;
-+	default:
-+		break;
-+	}
-+	if (abist_format < 0)
-+		return abist_format;
-+
-+	regmap_update_bits(hdmi->regs, TOP_CFG00, HDMI_ABIST_VIDEO_FORMAT,
-+			   FIELD_PREP(HDMI_ABIST_VIDEO_FORMAT, abist_format));
-+	regmap_set_bits(hdmi->regs, TOP_CFG00, HDMI_ABIST_ENABLE);
-+	return 0;
-+}
-+
-+static int mtk_hdmi_v2_debug_abist_show(struct seq_file *m, void *arg)
-+{
-+	struct mtk_hdmi *hdmi = m->private;
-+	bool en;
-+	u32 val;
-+	int ret;
-+
-+	if (!hdmi)
-+		return -EINVAL;
-+
-+	ret = regmap_read(hdmi->regs, TOP_CFG00, &val);
-+	if (ret)
-+		return ret;
-+
-+	en = FIELD_GET(HDMI_ABIST_ENABLE, val);
-+
-+	seq_printf(m, "HDMI Automated Built-In Self Test: %s\n",
-+		   en ? "Enabled" : "Disabled");
-+
-+	return 0;
-+}
-+
-+static ssize_t mtk_hdmi_v2_debug_abist_write(struct file *file,
-+					     const char __user *ubuf,
-+					     size_t len, loff_t *offp)
-+{
-+	struct seq_file *m = file->private_data;
-+	int ret;
-+	u32 en;
-+
-+	if (!m || !m->private || *offp)
-+		return -EINVAL;
-+
-+	ret = kstrtouint_from_user(ubuf, len, 0, &en);
-+	if (ret)
-+		return ret;
-+
-+	if (en < 0 || en > 1)
-+		return -EINVAL;
-+
-+	mtk_hdmi_v2_set_abist((struct mtk_hdmi *)m->private, en);
-+	return len;
-+}
-+
-+static int mtk_hdmi_v2_debug_abist_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, mtk_hdmi_v2_debug_abist_show, inode->i_private);
-+}
-+
-+static const struct file_operations mtk_hdmi_debug_abist_fops = {
-+	.owner = THIS_MODULE,
-+	.open = mtk_hdmi_v2_debug_abist_open,
-+	.read = seq_read,
-+	.write = mtk_hdmi_v2_debug_abist_write,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+
-+static void mtk_hdmi_v2_debugfs_init(struct drm_bridge *bridge, struct dentry *root)
-+{
-+	struct mtk_hdmi *dpi = hdmi_ctx_from_bridge(bridge);
-+
-+	debugfs_create_file("hdmi_abist", 0640, root, dpi, &mtk_hdmi_debug_abist_fops);
-+}
-+
- static const struct drm_bridge_funcs mtk_v2_hdmi_bridge_funcs = {
- 	.attach = mtk_hdmi_v2_bridge_attach,
- 	.detach = mtk_hdmi_v2_bridge_detach,
-@@ -1207,6 +1329,7 @@ static const struct drm_bridge_funcs mtk_v2_hdmi_bridge_funcs = {
- 	.hdmi_tmds_char_rate_valid = mtk_hdmi_v2_hdmi_tmds_char_rate_valid,
- 	.hdmi_clear_infoframe = mtk_hdmi_v2_hdmi_clear_infoframe,
- 	.hdmi_write_infoframe = mtk_hdmi_v2_hdmi_write_infoframe,
-+	.debugfs_init = mtk_hdmi_v2_debugfs_init,
- };
+-	if (pdd->drm_priv)
++	if (!pdd->drm_priv)
+ 		return;
  
- /*
+ 	avm = drm_priv_to_vm(pdd->drm_priv);
 -- 
-2.49.0
+2.47.2
 
