@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD9CA89955
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51EB8A8995A
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:05:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ACF410E6E7;
-	Tue, 15 Apr 2025 10:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EDA110E6DF;
+	Tue, 15 Apr 2025 10:05:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JG5IDBlF";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MpnBc7dR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B42FD10E6D9;
- Tue, 15 Apr 2025 10:04:57 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5F62A439F4;
- Tue, 15 Apr 2025 10:04:49 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 725A210E6E8;
+ Tue, 15 Apr 2025 10:05:01 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2DB2943AED;
+ Tue, 15 Apr 2025 10:04:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744711490;
+ t=1744711500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=I6CuYOy4GYD9zvxjmy1AmmC0UZSDHwFw2g2dzby+uok=;
- b=JG5IDBlFGFtDc0RDyZMChwk3/RLnHofyEUA1XksZ29g7VSG8Kq60SRuIqLE/Bcsny//IVl
- 63JQk2tD3ZOvZbyja+4ZokJJZ5e5OaBqDLDcYd5q+w17PAOZLXIfBzgpCUYfLXnIRUhpxa
- YqBE8g8YqP84aWlsVdMzqTsPWw2yp1F2NHcwXQcvK+uorUffIxhkWMB68jJKExhd/PKh7K
- zNSezpK+sfOYvCdTdXnJFlKJN2XqOByQOvYTY67frWqOhL/02FAfOmlqirHF3YSN4nLnRW
- SRJVVUw8quCzwAVfYqAn2jeMI5SVavKm23ueXTmUzyvP9UeXLt2l5Az9IDWimw==
-Message-ID: <948a48a8-10c4-4440-b905-a1db669a31ba@bootlin.com>
-Date: Tue, 15 Apr 2025 12:04:49 +0200
+ bh=pqfNmGm6mpE9gcU7XWCSScG6BHeEmtIJ6Pq3PRYB6+Q=;
+ b=MpnBc7dRkgmR8n8EwLeFa4sH9d6cr8e7f4q9ji60Xw3zKXWDRJrnpl3nQnlg0TRi/HqJaV
+ zoLprT6uPxpRNnGMUWr+1l08qBPTrnOaJyF6AMyuVTG1ku/70e9U3dNjSEG3GBFmoQN2aG
+ gVIRk2siIGys1/7gf/E7xc5gWrT3HePMegOVCvMEhg3uOtOQwotou4zr7yyB/dO0uGELBr
+ GIKGtIlZT5IW9ja3t1NoPUKDA65ubh2sU3dFYNdx8TQGwfSBqccynefAg1NHEig+P5Nghx
+ erRyUhnBrZd8xDsRvifradYx5lGjVF9kgoqj0mVAIw0S4zpjbHp0CUDX5f8Wlg==
+Message-ID: <d97fa4de-ee0c-4bee-9cf2-cd3a343e3439@bootlin.com>
+Date: Tue, 15 Apr 2025 12:04:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v3 21/54] dyndbg-test: change do_prints testpoint to
- accept a loopct
+Subject: Re: [PATCH v3 23/54] dyndbg: treat comma as a token separator
 To: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org, linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -44,7 +43,7 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250402174156.1246171-1-jim.cromie@gmail.com>
- <20250402174156.1246171-22-jim.cromie@gmail.com>
+ <20250402174156.1246171-24-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,12 +99,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250402174156.1246171-22-jim.cromie@gmail.com>
+In-Reply-To: <20250402174156.1246171-24-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhin
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhin
  hhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,95 +125,174 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 02/04/2025 à 19:41, Jim Cromie a écrit :
-> echo 1000 > /sys/module/test_dynamic_debug/parameters/do_prints
+> Treat comma as a token terminator, just like a space.  This allows a
+> user to avoid quoting hassles when spaces are otherwise needed:
 > 
-> This allows its use as a scriptable load generator, to generate
-> dynamic-prefix-emits for flag combinations vs undecorated messages.
-> This will make it easy to assess the cost of the prefixing.
+>   :#> modprobe drm dyndbg=class,DRM_UT_CORE,+p\;class,DRM_UT_KMS,+p
 > 
-> Reading the ./do_prints node also prints messages (once) to the-log.
+> or as a boot arg:
 > 
-> NB: the count is clamped to 10000, chosen to be notice able, but not
-> annoying, and not enough to accidentally flood the logs.
+>   drm.dyndbg=class,DRM_UT_CORE,+p  # todo: support multi-query here
+> 
+> Given the many ways a boot-line +args can be assembled and then passed
+> in/down/around shell based tools, this may allow side-stepping all
+> sorts of quoting hassles thru those layers.
+> 
+> existing query format:
+> 
+>   modprobe test_dynamic_debug dyndbg="class D2_CORE +p"
+> 
+> new format:
+> 
+>   modprobe test_dynamic_debug dyndbg=class,D2_CORE,+p
+> 
+> ALSO
+> 
+> selftests-dyndbg: add comma_terminator_tests
+> 
+> New fn validates parsing and effect of queries using combinations of
+> commas and spaces to delimit the tokens.
+> 
+> It manipulates pr-debugs in builtin module/params, so might have deps
+> I havent foreseen on odd configurations.
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
-I think this could be in a separate series / merged independently to 
-reduce the size of this series.
-
+> Co-developed-by: Łukasz Bartosik <ukaszb@chromium.org>
+> Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
 > ---
->   lib/test_dynamic_debug.c | 37 ++++++++++++++++++++++++++-----------
->   1 file changed, 26 insertions(+), 11 deletions(-)
+> - skip comma tests if no builtins
+> -v3 squash in tests and doc
+> ---
+>   .../admin-guide/dynamic-debug-howto.rst       |  9 +++++---
+>   lib/dynamic_debug.c                           | 17 +++++++++++----
+>   .../dynamic_debug/dyndbg_selftest.sh          | 21 ++++++++++++++++++-
+>   3 files changed, 39 insertions(+), 8 deletions(-)
 > 
-> diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
-> index 9f9e3fddd7e6..4a3d2612ef60 100644
-> --- a/lib/test_dynamic_debug.c
-> +++ b/lib/test_dynamic_debug.c
-> @@ -29,18 +29,30 @@
+> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+> index 63a511f2337b..e2dbb5d9b314 100644
+> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> @@ -78,11 +78,12 @@ Command Language Reference
+>   ==========================
 >   
->   #include <linux/module.h>
+>   At the basic lexical level, a command is a sequence of words separated
+> -by spaces or tabs.  So these are all equivalent::
+> +by spaces, tabs, or commas.  So these are all equivalent::
 >   
-> -/* re-gen output by reading or writing sysfs node: do_prints */
-> -
-> -static void do_prints(void); /* device under test */
-> +/* re-trigger debug output by reading or writing sysfs node: do_prints */
-> +#define PRINT_CLAMP 10000
-> +static void do_prints(unsigned int); /* device under test */
->   static int param_set_do_prints(const char *instr, const struct kernel_param *kp)
->   {
-> -	do_prints();
-> +	int rc;
-> +	unsigned int ct;
+>     :#> ddcmd file svcsock.c line 1603 +p
+>     :#> ddcmd "file svcsock.c line 1603 +p"
+>     :#> ddcmd '  file   svcsock.c     line  1603 +p  '
+> +  :#> ddcmd file,svcsock.c,line,1603,+p
+>   
+>   Command submissions are bounded by a write() system call.
+>   Multiple commands can be written together, separated by ``;`` or ``\n``::
+> @@ -167,9 +168,11 @@ module
+>       The given string is compared against the module name
+>       of each callsite.  The module name is the string as
+>       seen in ``lsmod``, i.e. without the directory or the ``.ko``
+> -    suffix and with ``-`` changed to ``_``.  Examples::
+> +    suffix and with ``-`` changed to ``_``.
+>   
+> -	module sunrpc
+> +    Examples::
 > +
-> +	rc = kstrtouint(instr, 0, &ct);
-> +	if (rc) {
-> +		pr_err("expecting numeric input, using 1 instead\n");
-> +		ct = 1;
-> +	}
-> +	if (ct > PRINT_CLAMP) {
-> +		ct = PRINT_CLAMP;
-> +		pr_info("clamping print-count to %d\n", ct);
-> +	}
-> +	do_prints(ct);
->   	return 0;
->   }
->   static int param_get_do_prints(char *buffer, const struct kernel_param *kp)
->   {
-> -	do_prints();
-> -	return scnprintf(buffer, PAGE_SIZE, "did do_prints\n");
-> +	do_prints(1);
-> +	return scnprintf(buffer, PAGE_SIZE, "did 1 do_prints\n");
->   }
->   static const struct kernel_param_ops param_ops_do_prints = {
->   	.set = param_set_do_prints,
-> @@ -191,17 +203,20 @@ static void do_levels(void)
->   	prdbg(V7);
+> +	module,sunrpc	# with ',' as token separator
+>   	module nfsd
+>   	module drm*	# both drm, drm_kms_helper
+>   
+> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> index 0d603caadef8..5737f1b4eba8 100644
+> --- a/lib/dynamic_debug.c
+> +++ b/lib/dynamic_debug.c
+> @@ -299,6 +299,14 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
+>   	return nfound;
 >   }
 >   
-> -static void do_prints(void)
-> +static void do_prints(unsigned int ct)
->   {
-> -	pr_debug("do_prints:\n");
-> -	do_cats();
-> -	do_levels();
-> +	/* maybe clamp this */
-> +	pr_debug("do-prints %d times:\n", ct);
-> +	for (; ct; ct--) {
-> +		do_cats();
-> +		do_levels();
-> +	}
+> +static char *skip_spaces_and_commas(const char *str)
+> +{
+> +	str = skip_spaces(str);
+> +	while (*str == ',')
+> +		str = skip_spaces(++str);
+> +	return (char *)str;
+> +}
+> +
+>   /*
+>    * Split the buffer `buf' into space-separated words.
+>    * Handles simple " and ' quoting, i.e. without nested,
+> @@ -312,8 +320,8 @@ static int ddebug_tokenize(char *buf, char *words[], int maxwords)
+>   	while (*buf) {
+>   		char *end;
+>   
+> -		/* Skip leading whitespace */
+> -		buf = skip_spaces(buf);
+> +		/* Skip leading whitespace and comma */
+> +		buf = skip_spaces_and_commas(buf);
+>   		if (!*buf)
+>   			break;	/* oh, it was trailing whitespace */
+>   		if (*buf == '#')
+> @@ -329,7 +337,7 @@ static int ddebug_tokenize(char *buf, char *words[], int maxwords)
+>   				return -EINVAL;	/* unclosed quote */
+>   			}
+>   		} else {
+> -			for (end = buf; *end && !isspace(*end); end++)
+> +			for (end = buf; *end && !isspace(*end) && *end != ','; end++)
+>   				;
+
+Why don't you use the skip_spaces_and_commas here?
+
+>   			if (end == buf) {
+>   				pr_err("parse err after word:%d=%s\n", nwords,
+> @@ -601,7 +609,8 @@ static int ddebug_exec_queries(char *query, const char *modname)
+>   		if (split)
+>   			*split++ = '\0';
+>   
+> -		query = skip_spaces(query);
+> +		query = skip_spaces_and_commas(query);
+> +
+>   		if (!query || !*query || *query == '#')
+>   			continue;
+>   
+> diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+> index 465fad3f392c..c7bf521f36ee 100755
+> --- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+> +++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+> @@ -216,7 +216,7 @@ function check_err_msg() {
+>   function basic_tests {
+>       echo -e "${GREEN}# BASIC_TESTS ${NC}"
+>       if [ $LACK_DD_BUILTIN -eq 1 ]; then
+> -	echo "SKIP"
+> +	echo "SKIP - test requires params, which is a builtin module"
+>   	return
+>       fi
+>       ddcmd =_ # zero everything
+> @@ -238,8 +238,27 @@ EOF
+>       ddcmd =_
 >   }
 >   
->   static int __init test_dynamic_debug_init(void)
->   {
->   	pr_debug("init start\n");
-> -	do_prints();
-> +	do_prints(1);
->   	pr_debug("init done\n");
->   	return 0;
->   }
+> +function comma_terminator_tests {
+> +    echo -e "${GREEN}# COMMA_TERMINATOR_TESTS ${NC}"
+> +    if [ $LACK_DD_BUILTIN -eq 1 ]; then
+> +	echo "SKIP - test requires params, which is a builtin module"
+> +	return
+> +    fi
+> +    # try combos of spaces & commas
+> +    check_match_ct '\[params\]' 4 -r
+> +    ddcmd module,params,=_		# commas as spaces
+> +    ddcmd module,params,+mpf		# turn on module's pr-debugs
+> +    check_match_ct =pmf 4
+> +    ddcmd ,module ,, ,  params, -p
+> +    check_match_ct =mf 4
+> +    ddcmd " , module ,,, ,  params, -m"	#
+> +    check_match_ct =f 4
+> +    ddcmd =_
+> +}
+> +
+>   tests_list=(
+>       basic_tests
+> +    comma_terminator_tests
+>   )
+>   
+>   # Run tests
 
 -- 
 Louis Chauvet, Bootlin
