@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC3BA8A03F
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 15:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D652A8A041
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 15:55:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 943CE10E798;
-	Tue, 15 Apr 2025 13:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A3BF10E7A7;
+	Tue, 15 Apr 2025 13:55:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Y7PIHt3T";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QyA+MeXU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6599A10E798
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 13:55:50 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EF27B43B62;
- Tue, 15 Apr 2025 13:55:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E8610E79C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 13:55:51 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4627243B6F;
+ Tue, 15 Apr 2025 13:55:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744725349;
+ t=1744725350;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vltx8mX8ESD4Izg3jWX1FdzqFZybnTpIrj/T6kwhbj4=;
- b=Y7PIHt3TdvglBtvpaf71cuytlUfvac/z1WF3tpqrQf+0fRmcq7Al7CCupeBl+okgYFsmqH
- 4tO+r0QA+rfegpOj0M4adti30DXuFD0pRWnuH3TD3AKLy8WMkHgTYMkQUXYr/HELSAUH4E
- s9/IhI/yulLeSNXZzYecrAYZWcd+2BmgjSAI+tv+yLPeRWw0eWCBQuaJuP31V7t/dUj2Tv
- VG9vb2TSvnU6rIDJ7dxF9aRkAv4n8l5fzZXK5L3bTSarzGsX0Gj9t74YaM2nfyxHGpP7HI
- kecFSkSWc5KdFT79HKkKdujixSnVYracvJinT9tuCXpCscn2+SvN56zKGHafqg==
+ bh=BFStFxiSNP6zsD+AVy+GK0+VsuHYEAh+UshoPL2W+PI=;
+ b=QyA+MeXUWnp6pEbxl3KxBSTOmW/PF64EFp3sxeHIQg28FvjU5GmPxdKEuWkV6aWJ9jP3yQ
+ jYuZ4ELlj0Q4sFAnyLBX1cmgyibhWLmxv6OLxJ+Sy6IqJAhmBkR3/eJU3Phmqbfw4Azf4a
+ TaiK5KJZZeFgNlVx3qipAva/f3sbhDWsOllFjzWzAw6cL+SzlzTu+xrQhHzFCU9UWJQSsl
+ NBUwpwkBgA9oNHFRd/S5vei7DFxfpYw+SnReYu0hAtFCUSwwqQj52eR2U/rMocqZCySYwB
+ njKuaWqibkPLNmhSOvIioVLf/jCP0vArB2Wk2m5mbZJKCu7Sknv/p/6WpSpepw==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 15 Apr 2025 15:55:38 +0200
-Subject: [PATCH v18 7/8] drm/vkms: Add how to run the Kunit tests
+Date: Tue, 15 Apr 2025 15:55:39 +0200
+Subject: [PATCH v18 8/8] drm/vkms: Add support for DRM_FORMAT_R*
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250415-yuv-v18-7-f2918f71ec4b@bootlin.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250415-yuv-v18-8-f2918f71ec4b@bootlin.com>
 References: <20250415-yuv-v18-0-f2918f71ec4b@bootlin.com>
 In-Reply-To: <20250415-yuv-v18-0-f2918f71ec4b@bootlin.com>
 To: Melissa Wen <melissa.srw@gmail.com>, 
@@ -54,30 +54,29 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
  nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
  Louis Chauvet <louis.chauvet@bootlin.com>, 
- =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>, 
  Pekka Paalanen <pekka.paalanen@collabora.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1230;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6382;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=YGppOmZ08w7cdLZ6VCQdJA6v437CNcrpfGrTCIG4Hjw=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBn/mVYl7A5OdU5wgLFgyJqo3WRwjpjBtmyRzIeF
- DTRv82maMmJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ/5lWAAKCRAgrS7GWxAs
- 4sVcEACT01B7kphm74TDymnMyKEpMCa9bKQPZte1wJeWHiY7H9cgAS8xT9rhnERo2sDe/GzI3D5
- MN9bXVJ60rTo2XK14CNwaEf5BRWzpmtF9YrgqIcx90bB288yAgz6FwaKqOwhH8EAwXvj0yXO5KT
- mPqUG0qjJDSiJ7YmAWjXdNaIpeT/86M9sSf2KXZxVwaX/fLMBJpmvwhn6AHsuGn5EG2kWTD9gCM
- xXQ/mv88CxmhAQ/fSrAETbrmxEGLOinaLCxwNt+jOecr7dIO12W++lYSU1JMtGBVRU3l9fK8BvF
- 7jhDq8vj0QCnzqB6zOcfMx00E/cXXHhrVB13t/MdrPwvCF9qEZgh7vOLBh809FeFM72vipaU9De
- U5LfMTuAQZT25Yc+wMYATzN5MGTXaBCNqFoonfd/BTvnuHQEQLlS+aIXoZlaHXop1xJRLW+SzR+
- 5hn8cZG4Vb99ikWhtVTX8YrsAi268SuiXkneHfOrnrCBaPUBNlO+H9IxVHfXryroipPQKhLUs7I
- WQG17CqbnqNOmOXZYqvIESSenQYhrDab1fTTFh5g3KMiEvPTbI+a8lmfcmxHJgfESFVviczAvcq
- QKrM5LCp3OzuTDh46Szvrq86zlQv3FX2YUAGFR3DTOHb1+U0hC/7Rp399clCnuBKOf9YI/cE+sw
- ENBQvcl5xu8eshg==
+ bh=iKOzetAfZReJAcdUlG7eolu/4x+NwgMFpiXfDMB5C4Q=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBn/mVYv2iqDg6txz2cwAxi/bCFgY45fKWYaRKZz
+ xn1pnJ1Rr+JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ/5lWAAKCRAgrS7GWxAs
+ 4vSPD/9MwtqczyZh/kFcUBOQLE97zHN6nmDGsazBH8w50PP3EJyXrROwLqlp/t0k3duE1ZsFCcm
+ 1RHaxkpuGy1SFKHB04vRay5PzGmrkhXH2jOn4WTjvVGsla6XNsVbhYyNxDFXD5/WvvzP9kzBmv1
+ PFSbl6IpcW3CTYwAAjYBtNWu5rhgzICQq5IFt8cHq1stGI5YMWj+nUYjDB45SWMl1q9JM7QP4ef
+ aO3q2W0U1Z8Affekm2zw63+pCo50tSfopufqkv+2mc48NJhclLJDdPAM9sjCd/XkwQZuGFQicku
+ 2AcuFIrQ6zul2ZcQZ4jI7fD7oXx1JHEZ+tD3UNZ6EY0P06rLT/azr/Lb6V1/czhJs8OM8driO6Z
+ Tzj3lcXFY1mjWLRsj6PQWJeckdxpQ2rx8IOSGUef+Ux+/4xZazwDM3+ZPmdEF7OWHJtOf+u7YPN
+ 7A3+uCe6y9PwlR38M93c2oJTQNbSTZKNez2nBdO9ARL7Es0bnrFNQ9wx25PCIfiZK0bxM2rANu7
+ +Ja1Xu2nTgx38hzE7wsF+u4/Vw6bNz624xKRHCKUhPC4pWud+0jLO9HQC+Qzjk/UgJJcfsVEzFe
+ qg9M1icqGham9nfWNdQArUbTRNPfTs4JGwjTH6xdARQzBIorHdd+ZdGBzduO9R7vrUfWJldcBoo
+ 7/TeqSDQ9XsDHeA==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeelfeffhfffhfeukefhvdeftdejhfevfefhffffheeiffelieejkeehvdettdffveenucffohhmrghinheprhhsthdrthhonecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludejvddrudekrddtrddungdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedviedprhgtphhtthhopehsihhmohhnrgdrvhgvthhtvghrsehffhiflhhlrdgthhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhgrihhrrggtrghnrghlsehrihhsvghuphdrn
- hgvthdprhgtphhtthhopehnihgtohhlvghjrgguvgihvggvsehgohhoghhlvgdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgrrhgthhgvuhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedvgfefgfehtefghfffteffgfehfeetledtvdduueeifedvtdeltdeuheejleeftdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludejvddrudekrddtrddungdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopehsihhmohhnrgdrvhgvthhtvghrsehffhiflhhlrdgthhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhgrihhrrggtrghnrghlsehrihhsv
+ ghuphdrnhgvthdprhgtphhtthhopehnihgtohhlvghjrgguvgihvggvsehgohhoghhlvgdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgrrhgthhgvuhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvg
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,40 +93,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arthur Grillo <arthurgrillo@riseup.net>
+This add the support for:
+- R1/R2/R4/R8
 
-Now that we have KUnit tests, add instructions on how to run them.
+R1 format was tested with [1] and [2].
 
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+[1]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
+[2]: https://lore.kernel.org/igt-dev/20240306-b4-kms_tests-v1-0-8fe451efd2ac@bootlin.com/
+
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/gpu/vkms.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/vkms/vkms_formats.c | 110 +++++++++++++++++++++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_plane.c   |   4 ++
+ 2 files changed, 113 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 88e0913ca33a..8a8b1002931f 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -89,6 +89,17 @@ You can also run subtests if you do not want to run the entire test::
-   sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
-   sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index 9972780f3fa9..6d0227c6635a 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -249,6 +249,16 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
+ 	return out_pixel;
+ }
  
-+Testing With KUnit
-+==================
++static struct pixel_argb_u16 argb_u16_from_gray8(u8 gray)
++{
++	return argb_u16_from_u8888(255, gray, gray, gray);
++}
 +
-+KUnit (Kernel unit testing framework) provides a common framework for unit tests
-+within the Linux kernel.
-+More information in ../dev-tools/kunit/index.rst .
++static struct pixel_argb_u16 argb_u16_from_grayu16(u16 gray)
++{
++	return argb_u16_from_u16161616(0xFFFF, gray, gray, gray);
++}
 +
-+To run the VKMS KUnit tests::
-+
-+  tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/vkms/tests
-+
- TODO
- ====
+ VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
+ 							    const struct conversion_matrix *matrix)
+ {
+@@ -286,7 +296,7 @@ EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
+  * The following functions are read_line function for each pixel format supported by VKMS.
+  *
+  * They read a line starting at the point @x_start,@y_start following the @direction. The result
+- * is stored in @out_pixel and in the format ARGB16161616.
++ * is stored in @out_pixel and in a 64 bits format, see struct pixel_argb_u16.
+  *
+  * These functions are very repetitive, but the innermost pixel loops must be kept inside these
+  * functions for performance reasons. Some benchmarking was done in [1] where having the innermost
+@@ -295,6 +305,96 @@ EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
+  * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
+  */
  
++static void Rx_read_line(const struct vkms_plane_state *plane, int x_start,
++			 int y_start, enum pixel_read_direction direction, int count,
++			 struct pixel_argb_u16 out_pixel[])
++{
++	struct pixel_argb_u16 *end = out_pixel + count;
++	int bits_per_pixel = drm_format_info_bpp(plane->frame_info->fb->format, 0);
++	u8 *src_pixels;
++	int rem_x, rem_y;
++
++	WARN_ONCE(drm_format_info_block_height(plane->frame_info->fb->format, 0) != 1,
++		  "%s() only support formats with block_h == 1", __func__);
++
++	packed_pixels_addr(plane->frame_info, x_start, y_start, 0, &src_pixels, &rem_x, &rem_y);
++	int bit_offset = (8 - bits_per_pixel) - rem_x * bits_per_pixel;
++	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
++	int mask = (0x1 << bits_per_pixel) - 1;
++	int lum_per_level = 0xFFFF / mask;
++
++	if (direction == READ_LEFT_TO_RIGHT || direction == READ_RIGHT_TO_LEFT) {
++		int restart_bit_offset;
++		int step_bit_offset;
++
++		if (direction == READ_LEFT_TO_RIGHT) {
++			restart_bit_offset = 8 - bits_per_pixel;
++			step_bit_offset = -bits_per_pixel;
++		} else {
++			restart_bit_offset = 0;
++			step_bit_offset = bits_per_pixel;
++		}
++
++		while (out_pixel < end) {
++			u8 val = ((*src_pixels) >> bit_offset) & mask;
++
++			*out_pixel = argb_u16_from_grayu16((int)val * lum_per_level);
++
++			bit_offset += step_bit_offset;
++			if (bit_offset < 0 || 8 <= bit_offset) {
++				bit_offset = restart_bit_offset;
++				src_pixels += step;
++			}
++			out_pixel += 1;
++		}
++	} else if (direction == READ_TOP_TO_BOTTOM || direction == READ_BOTTOM_TO_TOP) {
++		while (out_pixel < end) {
++			u8 val = (*src_pixels >> bit_offset) & mask;
++			*out_pixel = argb_u16_from_grayu16((int)val * lum_per_level);
++			src_pixels += step;
++			out_pixel += 1;
++		}
++	}
++}
++
++static void R1_read_line(const struct vkms_plane_state *plane, int x_start,
++			 int y_start, enum pixel_read_direction direction, int count,
++			 struct pixel_argb_u16 out_pixel[])
++{
++	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
++}
++
++static void R2_read_line(const struct vkms_plane_state *plane, int x_start,
++			 int y_start, enum pixel_read_direction direction, int count,
++			 struct pixel_argb_u16 out_pixel[])
++{
++	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
++}
++
++static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
++			 int y_start, enum pixel_read_direction direction, int count,
++			 struct pixel_argb_u16 out_pixel[])
++{
++	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
++}
++
++static void R8_read_line(const struct vkms_plane_state *plane, int x_start,
++			 int y_start, enum pixel_read_direction direction, int count,
++			 struct pixel_argb_u16 out_pixel[])
++{
++	struct pixel_argb_u16 *end = out_pixel + count;
++	u8 *src_pixels;
++	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
++
++	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
++
++	while (out_pixel < end) {
++		*out_pixel = argb_u16_from_gray8(*src_pixels);
++		src_pixels += step;
++		out_pixel += 1;
++	}
++}
++
+ static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
+ 			       enum pixel_read_direction direction, int count,
+ 			       struct pixel_argb_u16 out_pixel[])
+@@ -636,6 +736,14 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+ 	case DRM_FORMAT_YVU422:
+ 	case DRM_FORMAT_YVU444:
+ 		return &planar_yuv_read_line;
++	case DRM_FORMAT_R1:
++		return &R1_read_line;
++	case DRM_FORMAT_R2:
++		return &R2_read_line;
++	case DRM_FORMAT_R4:
++		return &R4_read_line;
++	case DRM_FORMAT_R8:
++		return &R8_read_line;
+ 	default:
+ 		/*
+ 		 * This is a bug in vkms_plane_atomic_check(). All the supported
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index fbfbe424e558..e3fdd161d0f0 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -31,6 +31,10 @@ static const u32 vkms_formats[] = {
+ 	DRM_FORMAT_YVU420,
+ 	DRM_FORMAT_YVU422,
+ 	DRM_FORMAT_YVU444,
++	DRM_FORMAT_R1,
++	DRM_FORMAT_R2,
++	DRM_FORMAT_R4,
++	DRM_FORMAT_R8,
+ };
+ 
+ static struct drm_plane_state *
 
 -- 
 2.49.0
