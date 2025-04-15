@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5770A89AAB
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:44:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46482A89AA8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:44:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A862B10E725;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 570E810E722;
 	Tue, 15 Apr 2025 10:44:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lppZmGp5";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="B8IBB8PS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1375110E71E
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 10:44:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C39CC10E71E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 10:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744713843;
- bh=/Ysfme4bhURYgPvgEn2XsQA7zWDU59MfSw1pYgrGJXM=;
+ s=mail; t=1744713845;
+ bh=a91+q+20hy0NODEIDCf468pEbhhoKhEbHoR3+M0KwbE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lppZmGp5omx1dfkI1fWUCeX+ROZjpaEGbNy7mfRuBc/+a2dXQiWWBDdR9e+eTUMgn
- OkvAJnqgNz4RExfTasasoQNZY41pyZhh/nHVFvLy2UlAM+yyPbHBl4dBQ8CJ+NMLjL
- WqFuMZuB3T9+QIZgtCkmtpGk2eImseETzwswnYMaU4DeEeA1l/wqRz8AT0yHqf9GE2
- 3r1Dq3QK0x2srzFwZpZ1VxLY1wv53Rj32XoKyF9B5gcWdtSh6LOs/4TR9oSxPAV+W8
- iEHfBc16umipS69N+O16wU2TeAbE7pOZ1oRkas0cqSe6K6cva+UyZMX7KNBccXlHRB
- rsTMhB1Oongpg==
+ b=B8IBB8PSD6tv37+sGw2GaVj06lmR8S7OdnHoLX7wrGawQz31qaIAgrFAaOl0waVvP
+ Snyodm8roOGQjm80u+fsFx5XPndAPIJ15WUEvwh1wyIzLQHEM+03iFO445edwj+KcU
+ ZYVxbmg/x7dXh3NehVoYSS1jV7qMrZqS8URlMJn4Lp4fv9TPSVcnn0fnv9uHfIs346
+ 3OZAfkyRKpDBMva7XKowBk2wn13wZVnmDo7rcWIRTUB43nWCAWCTGTdjQ2mUE0qZwJ
+ Rp+vxGuqz+Y5K/qBx4/U8HpO5rYuLUV0jFtmdGkqLG9bGIU98ce+kPzJ+Hg16EbAiW
+ hj+pyohmM9F0A==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3354717E153D;
- Tue, 15 Apr 2025 12:44:02 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E2C7B17E09B5;
+ Tue, 15 Apr 2025 12:44:03 +0200 (CEST)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -46,10 +46,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
  ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
  jason-jh.lin@mediatek.com
-Subject: [PATCH v9 20/23] drm/mediatek: mtk_hdmi_common: Add OP_HDMI if helper
- funcs assigned
-Date: Tue, 15 Apr 2025 12:43:18 +0200
-Message-ID: <20250415104321.51149-21-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v9 21/23] drm/mediatek: mtk_hdmi_common: Add var to enable
+ interlaced modes
+Date: Tue, 15 Apr 2025 12:43:19 +0200
+Message-ID: <20250415104321.51149-22-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250415104321.51149-1-angelogioacchino.delregno@collabora.com>
 References: <20250415104321.51149-1-angelogioacchino.delregno@collabora.com>
@@ -70,46 +70,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for adding the HDMI TX v2 driver, and to allow
-a future modernization of the HDMI v1 one, perform changes
-that enable the usage of the HDMI Helpers provided by DRM.
-
-Check if the HDMI driver provides the function pointers to
-hdmi_{clear,write}_infoframe used by the HDMI Helper API and,
-if present, add DRM_BRIDGE_OP_HDMI to the drm_bridge ops,
-enabling the drm API to register the bridge as HDMI and to use
-the HDMI Helper functions.
-
-If the hdmi_{write,clear}_infoframe pointers are not assigned,
-vendor and product strings and HDMI helpers will not be used,
-hence this commit brings no functional changes to drivers that
-have not been refactored to use the new helpers.
-
-This also means that, in the current state, there is effectively
-no functional change to mtk_hdmi and its other components.
+Add an interlace_allowed bool member to struct mtk_hdmi_ver_conf
+which will be used to signal whether interlaced modes are supported
+by the bridge (in our case, the HDMI IP), and enable it for HDMIv2.
 
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 1 +
+ drivers/gpu/drm/mediatek/mtk_hdmi_common.h | 1 +
+ 2 files changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-index 93003a39708e..b6043d99be7e 100644
+index b6043d99be7e..dc59f46b790c 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-@@ -406,6 +406,11 @@ struct mtk_hdmi *mtk_hdmi_common_probe(struct platform_device *pdev)
- 	hdmi->bridge.of_node = pdev->dev.of_node;
- 	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
- 			 | DRM_BRIDGE_OP_HPD;
-+
-+	if (ver_conf->bridge_funcs->hdmi_write_infoframe &&
-+	    ver_conf->bridge_funcs->hdmi_clear_infoframe)
-+		hdmi->bridge.ops |= DRM_BRIDGE_OP_HDMI;
-+
- 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+@@ -415,6 +415,7 @@ struct mtk_hdmi *mtk_hdmi_common_probe(struct platform_device *pdev)
  	hdmi->bridge.ddc = hdmi->ddc_adpt;
  	hdmi->bridge.vendor = "MediaTek";
+ 	hdmi->bridge.product = "On-Chip HDMI";
++	hdmi->bridge.interlace_allowed = ver_conf->interlace_allowed;
+ 
+ 	ret = devm_drm_bridge_add(dev, &hdmi->bridge);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.h b/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
+index d3de8afff40f..38d1bdf4c77e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.h
+@@ -131,6 +131,7 @@ struct mtk_hdmi_ver_conf {
+ 	const struct hdmi_codec_ops *codec_ops;
+ 	const char * const *mtk_hdmi_clock_names;
+ 	int num_clocks;
++	bool interlace_allowed;
+ };
+ 
+ struct mtk_hdmi_conf {
 -- 
 2.49.0
 
