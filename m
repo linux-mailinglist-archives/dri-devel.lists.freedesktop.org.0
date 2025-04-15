@@ -2,88 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D38A89983
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A279A894A5
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 09:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01E6410E04A;
-	Tue, 15 Apr 2025 10:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 689A010E2A6;
+	Tue, 15 Apr 2025 07:15:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fml6yQ8Y";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="AUL84RoX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87E6810E2A5
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 07:02:24 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-ac2af2f15d1so675464766b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 00:02:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744700543; x=1745305343; darn=lists.freedesktop.org;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=2ga1nUM6HtoCk8hWLrk5yxmK9z4M0Ju2AYWLWZGQEvw=;
- b=fml6yQ8YKjvn271tNRHSrXw0u08IRlvd8EjnNG9Eyq0dIf1LHKynhTIQtoxapPCo3I
- oYYo5r7eTwYErQF/qdA1R8nuM7HbRisTW1Av+kKGKVILldFItBwKm6wSpOIbA/bwYvlY
- Lp3s5QZEB9guyY+QFnml7o2zbic9VQWwiMlZsOFPrEXuVboZ/XG31TAQm+Mdbo7Xzef6
- o+fneR9GfWHBb08lhhmUKppdkN5IA5M5x0za6DiyxjI2dMzlnu9RAcR9QD/FgDUFwTRL
- 7G7jDS20yIzzqk4p1pdCYnfDhZB9H4ffaeXkCVacGvG6p6vrLq70PQN8ub/sDs2n8E2M
- UuOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744700543; x=1745305343;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2ga1nUM6HtoCk8hWLrk5yxmK9z4M0Ju2AYWLWZGQEvw=;
- b=WzPg0z9fD3TlV+bbuOA2esbymu8KN8ElHcoiboed16tb30il6sl90SUhbtVUyErhg3
- bw3a0mP7/NFwUAddvqBcwcx0Crq+eWtc1mEtYib0mXKXXGJHnbjiVYNJqRdGRNxMz4k/
- opR4key+0cYhmkp9Yz7+KR706OPCTsQLNfSctvh14eCA6XN4ATWdMgtTNYCcOLMcnUU2
- j9Ce9RSdmI71SATNcVrynirvfzKT1iZMxjaNrU3oj8UWHzMWYSoW6H/UqPzSqCJt7+g4
- SN0csLQ1T7xeGMqDYewGuOInSkFGHNv+xuTzo9+5n+g1mXaMVcU+dPa4UUwNegiAS+bg
- AtSg==
-X-Gm-Message-State: AOJu0YxQp4mnA1qD1ex0T8MIzhBn8aAUOdf2EgWCzU1hc6F3Cd73Vuoq
- fBC3+J2WkVCY0TmosnsxX/iqVrMhzbbzmsA98F0aoR4jFAeC8A3s
-X-Gm-Gg: ASbGncuRhOvnZjZLfuUvOR4bf3NoWRNT++l/EttNLCDERa77TLdTZVluRAI3pb6MJ6Y
- MZTM0QlmiTDzH67w1DD+bDh7hMiIDD7AMUkJL6QeXw3Zm8qOTYdlb6bwiF/v7ttZdtsxbiV+Nn3
- xN7n84svfSUckUlFGoBD7BFCX/Bxhu0TZUyDt64V379MMxiKDXziMcfmqm6iCLAQV/yBLB89jD3
- iQCppWbxkcYKYAr8YGfHBV7BArHHpiE42DpEZCTkxu6UEHI9b2GRLAAmj8KcVd5mDOXbZkhl5PV
- FohoXiuklNG0KTMS5VKo5IYiH/noEsc6vwTxvEpwwMr8QE9mYtRK8WTUaXEv7eGkP03fVkIYHbq
- w8G7hi//F1mHyeylAQg==
-X-Google-Smtp-Source: AGHT+IFb/WvyaRMShqXmEGsLHBs2VTsKNp0rNR0kfAcGtsbKVyXl57PvKN1tBQlqoyjWIvu4rRgAGw==
-X-Received: by 2002:a17:907:3fa2:b0:ac7:edc4:3d42 with SMTP id
- a640c23a62f3a-acad349a039mr1313249166b.24.1744700542673; 
- Tue, 15 Apr 2025 00:02:22 -0700 (PDT)
-Received: from dominikat-nb.corp.toradex.com (31-10-206-125.static.upc.ch.
- [31.10.206.125]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-acaa1c0227bsm1035369466b.82.2025.04.15.00.02.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Apr 2025 00:02:22 -0700 (PDT)
-Message-ID: <cb035f597291488e45d36c3b37a0559d6c80ea26.camel@gmail.com>
-Subject: Re: [PATCH v3 00/17] drm/bridge: cdns-dsi: Make it work a bit better
-From: Parth Panchoil <parth105105@gmail.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
- <jyri.sarha@iki.fi>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,  Simona Vetter
- <simona@ffwll.ch>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>,  Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,  Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jayesh
- Choudhary <j-choudhary@ti.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>, 
- Aradhya Bhatia <aradhya.bhatia@linux.dev>, Devarsh Thakkar <devarsht@ti.com>
-Date: Tue, 15 Apr 2025 09:02:20 +0200
-In-Reply-To: <20250414-cdns-dsi-impro-v3-0-4e52551d4f07@ideasonboard.com>
-References: <20250414-cdns-dsi-impro-v3-0-4e52551d4f07@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8BD6010E669
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 07:15:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=o1GHkbK7G3JViuw275IMAy/MkYZsR9StdttRJvUhi4Y=; b=A
+ UL84RoXvZuYWtGV7cd7sCmIrjCumbmLML+pbZ/RRxI0jCIddMKcAKmV8BNPXw9iz
+ 83XTJ0uE1YHxN9bVG+g6YKxq1l8hJ85HBjI2zvR2dwPa6/rPDRPVWhZpl9KJj/mq
+ z8bAX6k01gonnAS/EwfXrLVrKdsuY0Z8eC1v0+hxBU=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-120 (Coremail) ; Tue, 15 Apr 2025 15:15:14 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Tue, 15 Apr 2025 15:15:14 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>
+Cc: airlied@gmail.com, simona@ffwll.ch, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
+ "Sandy Huang" <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ "Andy Yan" <andy.yan@rock-chips.com>
+Subject: Re:Re: [PATCH 05/11] drm/rockchip: Test for imported buffers with
+ drm_gem_is_imported()
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <c870c700-23f2-4d33-81ba-15af0797c0b7@suse.de>
+References: <20250414134821.568225-5-tzimmermann@suse.de>
+ <38d09d34.4354.196379aa560.Coremail.andyshrk@163.com>
+ <c870c700-23f2-4d33-81ba-15af0797c0b7@suse.de>
+X-NTES-SC: AL_Qu2fBvubvksq4iGfZekfmkcVgOw9UcO5v/Qk3oZXOJF8jDLp/j0HdmVSAWfk9OO0GyOzmgmGQhZw7+16UYtfUYcQ3FprtTMrEY9jlgtqnf60AA==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 15 Apr 2025 10:08:37 +0000
+Message-ID: <13940fa8.67c1.196384d547f.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: eCgvCgDX_POCB_5nTm+XAA--.39732W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hswXmf+Ayqm7AABsc
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,149 +66,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-04-14 at 14:11 +0300, Tomi Valkeinen wrote:
-> While trying to get the cdns-dsi to work on Toradex's AM69 Aquila
-> platform, I hit multiple issues in the driver. Basicaly nothing
-> worked
-> for with the board.
->=20
-> This series fixes those issues. While I itch to make much larger
-> changes
-> to the cdns-dsi driver, I opted to keep this series relatively simple
-> to
-> make the fixes more clear and possibly help with backporting.
->=20
-> The series also touches tidss, but those changes are not strictly
-> needed, and can be merged separately. And the series also touches
-> cdns-dphy, and those changes are needed.
->=20
-> This has been tested on Toradex AM69 Aquila (upstream) and AM62P
-> Verdin
-> (Toradex's BSP), with:
-> - HDMI output using lontium lt8912b
-> - LVDS panel (sn65dsi84 + panel-lvds)
->=20
-> =C2=A0Tomi
->=20
->=20
-(For the entire series)
-
-Tested-by: Parth Pancholi <parth.pancholi@toradex.com>
-
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> Changes in v3:
-> - Add Aradhya's "drm/bridge: cdns-dsi: Fix the _atomic_check()" to
-> the
-> =C2=A0 dependencies
-> - The above patch from Aradhya allowed adding "drm/bridge: cdns-dsi:
-> =C2=A0 Drop crtc_* code", which resulted in quite large changes in the
-> =C2=A0 commits, even if the end result doesn't really differ.
-> - Reordered commits to decrease back-and-forth (e.g. fixing something
-> in
-> =C2=A0 a a code that will be removed in the next commits)
-> - The reordering caused quite big changes in the commits (even if the
-> =C2=A0 final end result is more or less the same), so I chose not to add
-> =C2=A0 tested-by tags.
-> - Rename 'cdns_get_dphy_pll_cfg' to 'cdns_dphy_get_pll_cfg'
-> - Use div_u64() instead of div64_u64()
-> - Drop "Fail if HS rate changed when validating PHY config". This was
-> =C2=A0 too strict, as clock rounding (especially with DRM's 1kHz
-> =C2=A0 resolution...) leads to clock rates that do not match exactly.
-> =C2=A0 However, the rate mismatch should be fine as the commits adjust th=
-e
-> =C2=A0 pixel clock, and the resulting differences should be so small that
-> we
-> =C2=A0 can't even improve the timings match by adjusting the DSI HFP, as
-> the
-> =C2=A0 adjustment rounds to 0.
-> - Link to v2:
-> https://lore.kernel.org/r/20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideas=
-onboard.com
->=20
-> Changes in v2:
-> - Change the tidss clock adjustment from mode_fixup() to
-> atomic_check()
-> - Link to v1:
-> https://lore.kernel.org/r/20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideas=
-onboard.com
->=20
-> ---
-> Tomi Valkeinen (17):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/tidss: Fix missing includes and struct=
- decls
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/tidss: Use the crtc_* timings when pro=
-gramming the HW
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/tidss: Adjust the pclk based on the HW=
- capabilities
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 phy: cdns-dphy: Store hs_clk_rate and retu=
-rn it
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 phy: cdns-dphy: Remove leftover code
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Remove extra line at=
- the end of the file
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Drop crtc_* code
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Remove broken fifo e=
-mptying check
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Drop checks that sho=
-uldn't be in
-> .mode_valid()
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Update htotal in cdn=
-s_dsi_mode2cfg()
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Drop cdns_dsi_adjust=
-_phy_config()
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Adjust mode to negat=
-ive syncs
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Fix REG_WAKEUP_TIME =
-value
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Use video mode and c=
-lean up
-> cdns_dsi_mode2cfg()
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Fix event mode
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Tune adjusted_mode->=
-clock according to
-> dsi needs
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/bridge: cdns-dsi: Don't fail on MIPI_D=
-SI_MODE_VIDEO_BURST
->=20
-> =C2=A0drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 211 +++++++++++---=
--
-> ----------
-> =C2=A0drivers/gpu/drm/tidss/tidss_crtc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 25 ++-
-> =C2=A0drivers/gpu/drm/tidss/tidss_dispc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 22 ++-
-> =C2=A0drivers/gpu/drm/tidss/tidss_dispc.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +
-> =C2=A0drivers/gpu/drm/tidss/tidss_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> =C2=A0drivers/gpu/drm/tidss/tidss_plane.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> =C2=A0drivers/gpu/drm/tidss/tidss_scale_coefs.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0=C2=A0 2 +
-> =C2=A0drivers/phy/cadence/cdns-dphy.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 24 ++-
-> =C2=A08 files changed, 142 insertions(+), 151 deletions(-)
-> ---
-> base-commit: 10646ddac2917b31c985ceff0e4982c42a9c924b
-> change-id: 20250320-cdns-dsi-impro-3d8fbd7848d1
-> prerequisite-message-id:
-> 20250226155228.564289-1-aradhya.bhatia@linux.dev
-> prerequisite-patch-id: 46845a8d15042dd343a29a17fc0b9d0eec2605f5
-> prerequisite-patch-id: 7ce82c26cb9e18884492d2282a72ff2a760aefda
-> prerequisite-patch-id: ec2071425cab81da72e0805ad92fc52731d7a24d
-> prerequisite-patch-id: 32cde02288e0c36ed687f67778937a61f78b2d90
-> prerequisite-patch-id: 5f302e2bead8994763699a909ad0b5501f09ed9f
-> prerequisite-patch-id: 30611df6ef38c7872107d6bf6dde4504d46ab224
-> prerequisite-patch-id: 99831bcaa13e25b957d83a6320f34bcec223b939
-> prerequisite-patch-id: b0ad38bc6b323ceea7a1d2266b0fab8deaa6b05e
-> prerequisite-patch-id: 38dbce2b9302a764be9dbdc551578f02d797dfcc
-> prerequisite-patch-id: 133f8b1dab4f47d429b1924df981564ce3736233
-> prerequisite-patch-id: 879c546693a53e4b72c1ee25954c894ae57a441f
-> prerequisite-patch-id: 3e7edc818ac078a138f0e42e3f47fd685fffb84f
-> prerequisite-patch-id: 673b9f0b1936b5a49973b71cab5d13774583de38
-> prerequisite-message-id:
-> 20250410134646.96811-1-aradhya.bhatia@linux.dev
-> prerequisite-patch-id: 04f9a2440cebc87891b51d3f77996c88f7525d1c
->=20
-> Best regards,
-
+CkhpIFRob21hc++8jAoK5ZyoIDIwMjUtMDQtMTUgMTQ6NTQ6MjHvvIwiVGhvbWFzIFppbW1lcm1h
+bm4iIDx0emltbWVybWFubkBzdXNlLmRlPiDlhpnpgZPvvJoKPkhpCj4KPkFtIDE1LjA0LjI1IHVt
+IDA2OjAwIHNjaHJpZWIgQW5keSBZYW46Cj4+Cj4+IEhpIFRob21hc++8jAo+Pgo+PiBBdCAyMDI1
+LTA0LTE0IDIxOjQ4OjEyLCAiVGhvbWFzIFppbW1lcm1hbm4iIDx0emltbWVybWFubkBzdXNlLmRl
+PiB3cm90ZToKPj4+IEluc3RlYWQgb2YgdGVzdGluZyBpbXBvcnRfYXR0YWNoIGZvciBpbXBvcnRl
+ZCBHRU0gYnVmZmVycywgaW52b2tlCj4+PiBkcm1fZ2VtX2lzX2ltcG9ydGVkKCkgdG8gZG8gdGhl
+IHRlc3QuIFRoZSBoZWxwZXIgdGVzdHMgdGhlIGRtYV9idWYKPj4+IGl0c2VsZiB3aGlsZSBpbXBv
+cnRfYXR0YWNoIGlzIGp1c3QgYW4gYXJ0aWZhY3Qgb2YgdGhlIGltcG9ydC4gUHJlcGFyZXMKPj4+
+IHRvIG1ha2UgaW1wb3J0X2F0dGFjaCBvcHRpb25hbC4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBU
+aG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPj4+IENjOiBTYW5keSBIdWFu
+ZyA8aGpjQHJvY2stY2hpcHMuY29tPgo+Pj4gQ2M6ICJIZWlrbyBTdMO8Ym5lciIgPGhlaWtvQHNu
+dGVjaC5kZT4KPj4+IENjOiBBbmR5IFlhbiA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj4+PiAt
+LS0KPj4+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMgfCAyICst
+Cj4+PiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPj4+Cj4+
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0u
+YyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMKPj4+IGluZGV4
+IDYzMzBiODgzZWZjMy4uZTQ0Mzk2ZDQ2ZGMxIDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYwo+Pj4gQEAgLTMzMiw3ICszMzIsNyBAQCB2b2lk
+IHJvY2tjaGlwX2dlbV9mcmVlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikKPj4+
+IAlzdHJ1Y3Qgcm9ja2NoaXBfZHJtX3ByaXZhdGUgKnByaXZhdGUgPSBkcm0tPmRldl9wcml2YXRl
+Owo+Pj4gCXN0cnVjdCByb2NrY2hpcF9nZW1fb2JqZWN0ICpya19vYmogPSB0b19yb2NrY2hpcF9v
+Ymoob2JqKTsKPj4+Cj4+PiAtCWlmIChvYmotPmltcG9ydF9hdHRhY2gpIHsKPj4+ICsJaWYgKGRy
+bV9nZW1faXNfaW1wb3J0ZWQob2JqKSkgewo+Pgo+PiBBZnRlciBhcHBseWluZyB0aGlzIHBhdGNo
+LCB3aGVuIEkgdGVzdGVkIGdsbWFyazItZXMyLXdheWxhbmQgdW5kZXIgV2VzdG9uLCB0aGUgd2Vz
+dG9uIHdvdWxkIGZyZWV6ZS4KPj4gSXQgc2VlbXMgaXQgZ290byB0aGUgZWxzZSBwYXRoLgo+Pgo+
+PiAgIEknbSBzdGlsbCBjb25kdWN0aW5nIGZ1cnRoZXIgYW5hbHlzaXMgdG8gZmlndXJlIG91dCB0
+aGUgZXhhY3QgY2F1c2UuCj4KPlRoYW5rcyBmb3IgdGVzdGluZy4gV2UgdGVzdCBpZiBvYmotPmRt
+YV9idWYgaXMgc2V0IGFuZCByZWZlcnMgYmFjayB0byAKPm9iai4gT25lIG9mIHRoZXNlIGZpZWxk
+cyBoYXMgbGlrZWx5IGJlZW4gY2xlYXJlZCBhbHJlYWR5IHRvIE5VTEwgZHVyaW5nIAo+dGhlIG9i
+amVjdCBjbGVhbnVwLiBPdGhlciBkcml2ZXJzIGFsc28gY2FsbCBkcm1fZ2VtX2lzX2ltcG9ydGVk
+KCkgaW4gCj50aGVpciBvYmplY3QgY2xlYW51cCBhbmQgSSd2ZSBub3QgaGVhcmQgYWJvdXQgYW55
+IHJlZ3Jlc3Npb25zLgoKRnJvbSBteSB0ZXN0LCBpdCBzZWVtcyB0aGF0IGEgZHVtYiBidWZmZXIg
+bWF5IGV4cG9ydCB0aGVuIGltcG9ydDoKYW5kIHRoZSBvYmotPmRtYV9idWYgd2lsbCBiZSBjbGVh
+cmVkIGF0IGRybV9tb2RlX2Rlc3Ryb3lfZHVtYl9pb2N0bC0tPmRybV9nZW1faGFuZGxlX2RlbGV0
+ZQoKdGhlbiB0ZXN0IHdpdGggICBvYmotPmRtYV9idWYgJiYgKG9iai0+ZG1hX2J1Zi0+cHJpdiAh
+PSBvYmopIHdpbGwgYmUgZmFsc2UuCgoKCgoKWyAgIDEyLjAyODk0MV0gW2RybV0gSW5pdGlhbGl6
+ZWQgcGFudGhvciAxLjMuMCBmb3IgZmIwMDAwMDAuZ3B1IG9uIG1pbm9yIDEKWyAgIDE0LjYwNjEx
+NF0gcm9ja2NoaXBfZ2VtX2R1bWJfY3JlYXRlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDE0OWIwMDAg
+aGFuZGxlOiAxClsgICAxNC42MDYxNzBdIGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZiB3
+ZXN0b24gb2JqOiBmZmZmMDAwMTAxNDliMDAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwMTQ1NDgwMCBo
+YW5kbGU6IDEKWyAgIDE0LjYwNjIxN10gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUgd2VzdG9u
+IG9iajogZmZmZjAwMDEwMjNjZGMwMCBkbWFfYnVmOiAweGZmZmYwMDAxMDE0NTQ4MDAgZG1hX2J1
+Zi0+cHJpdiBmZmZmMDAwMTAxNDliMDAwClsgICAxNC42ODU1MTddIHJvY2tjaGlwX2dlbV9kdW1i
+X2NyZWF0ZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTAxNDliNDAwIGhhbmRsZTogMgpbICAgMTQuNjg1
+NTY5XSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19kbWFidWYgd2VzdG9uIG9iajogZmZmZjAwMDEw
+MTQ5YjQwMCBkbWFfYnVmOiAweGZmZmYwMDAxMDE0NTQ0MDAgaGFuZGxlOiAyClsgICAxNC42ODU2
+OTFdIGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDIzY2U2
+MDAgZG1hX2J1ZjogMHhmZmZmMDAwMTAxNDU0NDAwIGRtYV9idWYtPnByaXYgZmZmZjAwMDEwMTQ5
+YjQwMApbICAgMTUuMjU1Mjc3XSByb2NrY2hpcF9nZW1fZHVtYl9jcmVhdGUgd2VzdG9uIG9iajog
+ZmZmZjAwMDEwNzU5ZjgwMCBoYW5kbGU6IDMKWyAgIDE1LjI1NTI5OF0gZHJtX2dlbV9wcmltZV9o
+YW5kbGVfdG9fZG1hYnVmIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDc1OWY4MDAgZG1hX2J1ZjogMHhm
+ZmZmMDAwMTAzMGNiYzAwIGhhbmRsZTogMwpbICAgMTUuMjU1MzE3XSBkcm1fZ2VtX3ByaW1lX2Zk
+X3RvX2hhbmRsZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTAzN2EzMjAwIGRtYV9idWY6IDB4ZmZmZjAw
+MDEwMzBjYmMwMCBkbWFfYnVmLT5wcml2IGZmZmYwMDAxMDc1OWY4MDAKWyAgIDE1LjMxNjMzNl0g
+cm9ja2NoaXBfZ2VtX2R1bWJfY3JlYXRlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDc1OWYwMDAgaGFu
+ZGxlOiA0ClsgICAxNS4zMTYzNjBdIGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZiB3ZXN0
+b24gb2JqOiBmZmZmMDAwMTA3NTlmMDAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwMzBjYmEwMCBoYW5k
+bGU6IDQKWyAgIDE1LjMxNjQwNF0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUgd2VzdG9uIG9i
+ajogZmZmZjAwMDEwMzdhMTAwMCBkbWFfYnVmOiAweGZmZmYwMDAxMDMwY2JhMDAgZG1hX2J1Zi0+
+cHJpdiBmZmZmMDAwMTA3NTlmMDAwClsgICAyMC4yMDkwMDZdIHJvY2tjaGlwX2dlbV9kdW1iX2Ny
+ZWF0ZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTA2NTg0MDAwIGhhbmRsZTogMQpbICAgMjAuMjA5MDMx
+XSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19kbWFidWYgd2VzdG9uIG9iajogZmZmZjAwMDEwNjU4
+NDAwMCBkbWFfYnVmOiAweGZmZmYwMDAxMDE3YTc2MDAgaGFuZGxlOiAxClsgICAyMC4yMDkwNDld
+IGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDE4MmZjMDAg
+ZG1hX2J1ZjogMHhmZmZmMDAwMTAxN2E3NjAwIGRtYV9idWYtPnByaXYgZmZmZjAwMDEwNjU4NDAw
+MApbICAgMjAuMjI4MDA4XSByb2NrY2hpcF9nZW1fZHVtYl9jcmVhdGUgd2VzdG9uIG9iajogZmZm
+ZjAwMDEwNjU4NGMwMCBoYW5kbGU6IDIKWyAgIDIwLjIyODAyOV0gZHJtX2dlbV9wcmltZV9oYW5k
+bGVfdG9fZG1hYnVmIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDY1ODRjMDAgZG1hX2J1ZjogMHhmZmZm
+MDAwMTAxN2E3YTAwIGhhbmRsZTogMgpbICAgMjAuMjI4MDgxXSBkcm1fZ2VtX3ByaW1lX2ZkX3Rv
+X2hhbmRsZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTA1ZWVjMDAwIGRtYV9idWY6IDB4ZmZmZjAwMDEw
+MTdhN2EwMCBkbWFfYnVmLT5wcml2IGZmZmYwMDAxMDY1ODRjMDAKClsgICAyNy4wNzMyNjVdIGRy
+bV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZiBnbG1hcmsyLWVzMi13YXkgb2JqOiBmZmZmMDAw
+MTAzNWYwYTAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwYTI0ZDUwMCBoYW5kbGU6IDEwClsgICAyNy4w
+NzMzNzddIGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDM1
+ZjBhMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTBhMjRkNTAwIGRtYV9idWYtPnByaXYgZmZmZjAwMDEw
+MzVmMGEwMApbICAgMjcuMDczNzE4XSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSB3ZXN0b24g
+b2JqOiBmZmZmMDAwMTA3NTllMDAwIGRtYV9idWY6IDB4ZmZmZjAwMDEwYTI0ZDUwMCBkbWFfYnVm
+LT5wcml2IGZmZmYwMDAxMDM1ZjBhMDAKClsgICAyNy4wNzUzNjNdIGRybV9nZW1faGFuZGxlX2Rl
+bGV0ZSBnbG1hcmsyLWVzMi13YXkgb2JqOiBmZmZmMDAwMTAzNWYwYTAwIGhhbmRsZTogMTAKWyAg
+IDI3LjA3NTcxOF0gZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9fZG1hYnVmIGdsbWFyazItZXMyLXdh
+eSBvYmo6IGZmZmYwMDAxMjk0NmUwMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTBhMjRkMTAwIGhhbmRs
+ZTogMjUKWyAgIDI3LjA3NTc5OV0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUgd2VzdG9uIG9i
+ajogZmZmZjAwMDEyOTQ2ZTAwMCBkbWFfYnVmOiAweGZmZmYwMDAxMGEyNGQxMDAgZG1hX2J1Zi0+
+cHJpdiBmZmZmMDAwMTI5NDZlMDAwClsgICAyNy4wNzY2MTNdIGRybV9nZW1fcHJpbWVfZmRfdG9f
+aGFuZGxlIHdlc3RvbiBvYmo6IGZmZmYwMDAxMDc1OWRjMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTBh
+MjRkMTAwIGRtYV9idWYtPnByaXYgZmZmZjAwMDEyOTQ2ZTAwMApbICAgMjcuMDc5MTk1XSBkcm1f
+Z2VtX3ByaW1lX2hhbmRsZV90b19kbWFidWYgZ2xtYXJrMi1lczItd2F5IG9iajogZmZmZjAwMDEy
+OTQ2ZTQwMCBkbWFfYnVmOiAweGZmZmYwMDAxMGEyNGQwMDAgaGFuZGxlOiAxMApbICAgMjcuMDc5
+MjYyXSBkcm1fZ2VtX2hhbmRsZV9kZWxldGUgd2VzdG9uIG9iajogZmZmZjAwMDEwNzU5ZTAwMCBo
+YW5kbGU6IDUKWyAgIDI3LjA3OTI3MV0gQ1BVOiA3IFVJRDogMCBQSUQ6IDMwOCBDb21tOiB3ZXN0
+b24gTm90IHRhaW50ZWQgNi4xNS4wLXJjMSsgIzYxMyBQUkVFTVBUIApbICAgMjcuMDc5Mjc2XSBI
+YXJkd2FyZSBuYW1lOiBSYWR4YSBST0NLIDVCIChEVCkKWyAgIDI3LjA3OTI3OF0gQ2FsbCB0cmFj
+ZToKWyAgIDI3LjA3OTI4MF0gIHNob3dfc3RhY2srMHgxOC8weDI0IChDKQpbICAgMjcuMDc5Mjg5
+XSAgZHVtcF9zdGFja19sdmwrMHg3NC8weDhjClsgICAyNy4wNzkyOTZdICBkdW1wX3N0YWNrKzB4
+MTgvMHgyNApbICAgMjcuMDc5MzAxXSAgZHJtX2dlbV9vYmplY3RfaGFuZGxlX3B1dF91bmxvY2tl
+ZCsweDU4LzB4MTI4ClsgICAyNy4wNzkzMDldICBkcm1fZ2VtX2hhbmRsZV9kZWxldGUrMHhiYy8w
+eDExMApbICAgMjcuMDc5MzE0XSAgZHJtX21vZGVfZGVzdHJveV9kdW1iX2lvY3RsKzB4MjQvMHgz
+YwpbICAgMjcuMDc5MzE4XSAgZHJtX2lvY3RsX2tlcm5lbCsweGMwLzB4MTJjClsgICAyNy4wNzkz
+MjRdICBkcm1faW9jdGwrMHgyNWMvMHg1NWMKWyAgIDI3LjA3OTMzMF0gIF9fYXJtNjRfc3lzX2lv
+Y3RsKzB4YjQvMHhlOApbICAgMjcuMDc5MzM1XSAgaW52b2tlX3N5c2NhbGwrMHg0OC8weDEwYwpb
+ICAgMjcuMDc5MzQwXSAgZWwwX3N2Y19jb21tb24uY29uc3Rwcm9wLjArMHg0MC8weGUwClsgICAy
+Ny4wNzkzNDZdICBkb19lbDBfc3ZjKzB4MWMvMHgyOApbICAgMjcuMDc5MzUxXSAgZWwwX3N2Yysw
+eDMwLzB4Y2MKWyAgIDI3LjA3OTM1NV0gIGVsMHRfNjRfc3luY19oYW5kbGVyKzB4MTBjLzB4MTM4
+ClsgICAyNy4wNzkzNThdICBlbDB0XzY0X3N5bmMrMHgxOTgvMHgxOWMKWyAgIDI3LjA3OTM2Ml0g
+ZHJtX2dlbV9vYmplY3RfZXhwb3J0ZWRfZG1hX2J1Zl9mcmVlIHdlc3RvbiBvYmo6IGZmZmYwMDAx
+MDc1OWUwMDAgZG1hX2J1ZjogMHhmZmZmMDAwMTBhMjRkNTAwIGRtYV9idWYtPnByaXY6IGZmZmYw
+MDAxMDM1ZjBhMDAKWyAgIDI3LjA4NTc5N10gcm9ja2NoaXBfZ2VtX2ZyZWVfb2JqZWN0IHdlc3Rv
+biBvYmo6IGZmZmYwMDAxMDc1OWUwMDAgaW1wb3J0IGRtYV9idWY6IDB4MDAwMDAwMDAwMDAwMDAw
+MCBkbWFfYnVmLT5wcml2OiAwMDAwMDAwMDAwMDAwMDAwClsgICAyNy4wODYwOTNdIGRybV9nZW1f
+aGFuZGxlX2RlbGV0ZSB3ZXN0b24gb2JqOiBmZmZmMDAwMTAzNWYwYTAwIGhhbmRsZTogMzUKWyAg
+IDI3LjA4NjA5OV0gQ1BVOiA3IFVJRDogMCBQSUQ6IDMwOCBDb21tOiB3ZXN0b24gTm90IHRhaW50
+ZWQgNi4xNS4wLXJjMSsgIzYxMyBQUkVFTVBUIApbICAgMjcuMDg2MTAyXSBIYXJkd2FyZSBuYW1l
+OiBSYWR4YSBST0NLIDVCIChEVCkKPgo+QmVzdCByZWdhcmRzCj5UaG9tYXMKPgo+Pgo+Pj4gCQlp
+ZiAocHJpdmF0ZS0+ZG9tYWluKSB7Cj4+PiAJCQlyb2NrY2hpcF9nZW1faW9tbXVfdW5tYXAocmtf
+b2JqKTsKPj4+IAkJfSBlbHNlIHsKPj4+IC0tIAo+Pj4gMi40OS4wCj4KPi0tIAo+LS0KPlRob21h
+cyBaaW1tZXJtYW5uCj5HcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj5TVVNFIFNvZnR3YXJlIFNv
+bHV0aW9ucyBHZXJtYW55IEdtYkgKPkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJn
+LCBHZXJtYW55Cj5HRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwg
+Qm91ZGllbiBNb2VybWFuCj5IUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykK
