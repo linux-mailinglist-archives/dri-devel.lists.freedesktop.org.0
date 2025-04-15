@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466F4A8991F
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD5EA89925
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 12:00:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC9E10E6CA;
-	Tue, 15 Apr 2025 10:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11E0410E6DA;
+	Tue, 15 Apr 2025 10:00:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Db8HbscZ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RmTH0K/9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3369410E6C5;
- Tue, 15 Apr 2025 10:00:26 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7F7B843AFA;
- Tue, 15 Apr 2025 10:00:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49F5E10E6D4;
+ Tue, 15 Apr 2025 10:00:29 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 23E6D43AF2;
+ Tue, 15 Apr 2025 10:00:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744711224;
+ t=1744711228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VQCW+DcwV6PfF6zEzWKgCXY0KWKETQHVDD2EqoZ8/JA=;
- b=Db8HbscZaC76nK1Sx5aUkuruoE4sCjfl0RmOEKpptDj7WKLkJL/t7iSlpaOvd+eysFoMR/
- EyBcWUPUYrRA7AzSK9qFaDyCbU+OQxgEDhh38K+SPfTjnDMyX04XGM9F8rgy5tVV5skb1S
- dBUvZ35n/GwA+OkSMZhVFdibZcFCQ0ukN9h5diA+SBlAOTTvbmB16SsUhwa+rZr2SbTQXM
- eeQm/Q7aN206dfXX/RQcxkMt07zXtSTk7VbliDdhL/VUarWm+dr6euN1rGszr6GsSPeGPc
- n/QkFOz64g3E1MGP8eaXKSjEUysN/8DFDSQ0hCEUDiSJAG6ityrklizhKQeuZg==
-Message-ID: <27c139cb-17d2-46c6-b265-f3925a8ca066@bootlin.com>
-Date: Tue, 15 Apr 2025 12:00:18 +0200
+ bh=rlaClBmCmBLwCZm6YVAUmeD91RdPJsbZ2JO8wrzA3C4=;
+ b=RmTH0K/9bCW1YXMqUwrl0FKipSt4YznT+2LgUFyqlYIqE5AxqQog3WhZB9faAHvuMOusfL
+ crq8jXl1OWk/Iaz7TohcR/ECVJJcQEdaK1YsDlB9fRySyP457yuBzcjRAY0sNKUW1aZnw6
+ nVo+jkCLe0iUCxLc19Z63rqh6kXxmz8nWccvgP3WGS+QUtcb7h4n47nhUHaYR8qzE1tDC+
+ 3esQNfR9+UH8j+RkLAeB9SV79IzsVRrKkHib7g7WOmJtbFCxZ5l6j5U2iF5GY9gKzVutzU
+ UkWVnG7g00rcSWUlXAisjlQZaMMznU19G7qexs+AJaxgHn7Ne3kbE2Tx8M45ig==
+Message-ID: <0651f220-274c-4a2e-8f05-4a844389f979@bootlin.com>
+Date: Tue, 15 Apr 2025 12:00:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v3 53/54] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG
- un-BROKEN
+Subject: Re: [PATCH v3 14/54] dyndbg: hoist classmap-filter-by-modname up to
+ ddebug_add_module
 To: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org, linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
@@ -44,7 +44,7 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com
 References: <20250402174156.1246171-1-jim.cromie@gmail.com>
- <20250402174156.1246171-54-jim.cromie@gmail.com>
+ <20250402174156.1246171-15-jim.cromie@gmail.com>
 Content-Language: en-US
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -100,13 +100,13 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250402174156.1246171-54-jim.cromie@gmail.com>
+In-Reply-To: <20250402174156.1246171-15-jim.cromie@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedtgfekvdegueeileetieekleevgfekgeeihfduuddtueeikeejhfekteelhedtkeenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiu
- hhmrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhgrshiisgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhin
+ hhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,41 +126,119 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 02/04/2025 à 19:41, Jim Cromie a écrit :
-> Time for some thorough CI.
+> The body of ddebug_attach_module_classes() is dominated by a
+> code-block that finds the contiguous subrange of classmaps matching on
+> modname, and saves it into the ddebug_table's info record.
 > 
-> Also, the previous 18 patches could perhaps be replaced by a single
-> invocation of DYNDBG_CLASSMAP_USE, from a C-file linked into all drm
-> drivers & helpers.  I didn't find such a file, nor a drm-client
-> linkage item in the Makefile.
+> Implement this block in a macro to accommodate different component
+> vectors in the "box" (as named in the for_subvec macro).
+> 
+> And hoist its invocation out of ddebug_attach_module_classes() up into
+> ddebug_add_module().  This moves the filtering step up closer to
+> dynamic_debug_init(), which effectively does the same for builtin
+> pr_debug descriptors; segmenting them into subranges by modname.
 > 
 > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
-Since [1] this patch does not apply on drm-misc-next, but the fix is 
-easy, just move the change to the correct file.
-
-[1]: 
-https://patchwork.freedesktop.org/patch/msgid/20250324092633.49746-2-tvrtko.ursulin@igalia.com
-
 > ---
->   drivers/gpu/drm/Kconfig | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>   lib/dynamic_debug.c | 56 ++++++++++++++++++++++++++-------------------
+>   1 file changed, 32 insertions(+), 24 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index fbef3f471bd0..c7d6adbe17eb 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -53,8 +53,7 @@ config DRM_DEBUG_MM
+> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> index 104cf8abdf33..046c4ffb38f8 100644
+> --- a/lib/dynamic_debug.c
+> +++ b/lib/dynamic_debug.c
+> @@ -161,8 +161,8 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
+>   }
 >   
->   config DRM_USE_DYNAMIC_DEBUG
->   	bool "use dynamic debug to implement drm.debug"
-> -	default n
-> -	depends on BROKEN
-> +	default y
->   	depends on DRM
->   	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
->   	depends on JUMP_LABEL
+>   static struct _ddebug_class_map *ddebug_find_valid_class(struct ddebug_table const *dt,
+> -							const char *class_string,
+> -							int *class_id)
+> +							 const char *class_string,
+> +							 int *class_id)
+>   {
+>   	struct _ddebug_class_map *map;
+>   	int i, idx;
+> @@ -1224,30 +1224,34 @@ static const struct proc_ops proc_fops = {
+>   
+>   static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug_info *di)
+>   {
+> -	struct _ddebug_class_map *cm;
+> -	int i, nc = 0;
+> -
+> -	/*
+> -	 * Find this module's classmaps in a subrange/wholerange of
+> -	 * the builtin/modular classmap vector/section.  Save the start
+> -	 * and length of the subrange at its edges.
+> -	 */
+> -	for_subvec(i, cm, di, maps) {
+> -		if (!strcmp(cm->mod_name, dt->mod_name)) {
+> -			if (!nc) {
+> -				v2pr_info("start subrange, class[%d]: module:%s base:%d len:%d ty:%d\n",
+> -					  i, cm->mod_name, cm->base, cm->length, cm->map_type);
+> -				dt->info.maps.start = cm;
+> -			}
+> -			nc++;
+> -		}
+> -	}
+> -	if (nc) {
+> -		dt->info.maps.len = nc;
+> -		vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
+> -	}
+> +	vpr_info("module:%s attached %d classes\n", dt->mod_name, dt->info.maps.len);
+>   }
+>   
+> +/*
+> + * Walk the @_box->@_vec member, over @_vec.start[0..len], and find
+> + * the contiguous subrange of elements matching on ->mod_name.  Copy
+> + * the subrange into @_dst.  This depends on vars defd by caller.
+> + *
+> + * @_i:   caller provided counter var, init'd by macro
+> + * @_sp:  cursor into @_vec.
+> + * @_box: contains member named @_vec
+> + * @_vec: an array-ref, with: .start .len fields.
+> + * @_dst: an array-ref: to remember the module's subrange
+
+_dst must contains a member info which contains a member named @_vec. 
+Can you specify this in the documentation?
+
+Nitpick: Can you use the same order in documentation and macro definition?
+
+> + */
+> +#define dd_mark_vector_subrange(_i, _dst, _sp, _box, _vec) ({		\
+> +	int nc = 0;							\
+> +	for_subvec(_i, _sp, _box, _vec) {				\
+> +		if (!strcmp((_sp)->mod_name, (_dst)->mod_name)) {	\
+> +			if (!nc++)					\
+> +				(_dst)->info._vec.start = (_sp);	\
+> +		} else {						\
+> +			if (nc)						\
+> +				break; /* end of consecutive matches */ \
+> +		}							\
+> +	}								\
+> +	(_dst)->info._vec.len = nc;					\
+> +})
+> +
+>   /*
+>    * Allocate a new ddebug_table for the given module
+>    * and add it to the global list.
+> @@ -1255,6 +1259,8 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug
+>   static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+>   {
+>   	struct ddebug_table *dt;
+> +	struct _ddebug_class_map *cm;
+> +	int i;
+>   
+>   	if (!di->descs.len)
+>   		return 0;
+> @@ -1277,6 +1283,8 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+>   
+>   	INIT_LIST_HEAD(&dt->link);
+>   
+> +	dd_mark_vector_subrange(i, dt, cm, di, maps);
+> +
+>   	if (di->maps.len)
+>   		ddebug_attach_module_classes(dt, di);
+>   
 
 -- 
 Louis Chauvet, Bootlin
