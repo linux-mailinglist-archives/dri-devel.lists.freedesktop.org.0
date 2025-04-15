@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A942DA8A043
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 15:56:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00EE3A8A040
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Apr 2025 15:55:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1D0810E79D;
-	Tue, 15 Apr 2025 13:56:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4B0110E79C;
+	Tue, 15 Apr 2025 13:55:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ame845Xa";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="h16p2gHX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57CCE10E798
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 13:55:46 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DE3F043396;
- Tue, 15 Apr 2025 13:55:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A752A10E798
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 13:55:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3BCC543B34;
+ Tue, 15 Apr 2025 13:55:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1744725345;
+ t=1744725346;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dR9yWEIRRHJ25nlTr1+EBuKO+fo6LUQvlyPhe1j7Leo=;
- b=ame845Xa4/vDWc4kquMFbyAF8HPoAiTehqvTt3LK2TVfasIxeQvAS1kKmgIhYBoLgkC/qz
- bl2N4dazjzWjROjDxpXSTCmJ7pfWOPonukuaQJ5LEPL9VjiPoYaqCF3LKfPrLAPyQxIc1i
- PGe4/uCJyuSXBuua2pCPG6n9PoyPUBLM4+X1wiNpDExqvmbFJ6Z4xR4xXiI6gOH7vVlnx+
- WFqBpMe2kJDq77A82/f+/lHHDtiVdDgkawfOel76DEF9BJgGhwfEzVLvHPnWtHMXGf4qpT
- GFK72PCnDMUBsPXrGS3/BZObQX3Y93rD6nEpX33EZG2bqcnr3ctosoWLNmgdPg==
+ bh=W/kxBS+R7AatRUaACkLiwnROBm8TvWT/gTUSAyzoqDo=;
+ b=h16p2gHXzQNCgSJWhxKwugqErCfuCWAkC3D6bYeYUDthSR67fOdbo8Lpo3iH9Zkza+XdQF
+ i8ALEVLE0cfwfFtPUEftAgz8/AcqcJv7nKcwS8LGu/ArWZbnUPhS3VWy4xlvkDxn4eLQFo
+ WknukgwzaPEmO/XyGDPsjtacRi8AWqTQvh1gfeiL7+ITMJfx1fN2Jx1GTJZIwrtJ3/cHh0
+ e7FNOWzX+nDL0NHpOWvU5yY4qeB77QT/iWfUyQ6CxwK250iWPzqRRhf9v1rd+xHN2mYCci
+ uSPOL8/n/uzPgrixwXcIEndnwDDgkqgbHDnUXCifw7N2lUNrshTebHBsCvOyAA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 15 Apr 2025 15:55:35 +0200
-Subject: [PATCH v18 4/8] drm/vkms: Drop YUV formats TODO
+Date: Tue, 15 Apr 2025 15:55:36 +0200
+Subject: [PATCH v18 5/8] drm: Export symbols to use in tests
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250415-yuv-v18-4-f2918f71ec4b@bootlin.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250415-yuv-v18-5-f2918f71ec4b@bootlin.com>
 References: <20250415-yuv-v18-0-f2918f71ec4b@bootlin.com>
 In-Reply-To: <20250415-yuv-v18-0-f2918f71ec4b@bootlin.com>
 To: Melissa Wen <melissa.srw@gmail.com>, 
@@ -54,29 +54,29 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
  nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
  Louis Chauvet <louis.chauvet@bootlin.com>, 
- Pekka Paalanen <pekka.paalanen@collabora.com>
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=966;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1321;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=BFg9CaGVVOEbb1ePvX1HYTdy4iQZcBj7S0puGrXjR1k=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBn/mVXOr+3zUszbJLtfrrZ8RU3BoIYbd/+f4aAB
- hRTI6cUiZCJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ/5lVwAKCRAgrS7GWxAs
- 4qTDD/9Ah96YxbrCb8edvPFzeVvvYh4SIfCdr/nc+m34kdvysv/1KtrdYMbVQHpE/p6ALGDaYB9
- yF2FrxO87r0dTmFw+vDN2lnp+IViq+yZYhOA/R8v4xitsNP0zN1Y5lPjExvQskLq0oYWE5ojLy+
- ycD6+msj0VwsNdKyb5Bxu3nFEihWZnxXAF6fvTwN5csn+S5aXV/DYiBW6e61Jrva7Kt8hkBa4G/
- FBpNRof5KM+k6C8+mkgLxyAbVKi6NPEzoLFryynmL14MJBmnBYTMgmf2t/ySOrSdX4zS/ccSn+l
- SyYd2O75WTyZ+Cdalax6UWmi6yU5PKK4BrrW8fwvQ0YE9Y1qz2X/79ymuW0stiI+hWHTwH4vBUA
- O0ckhGR6ljHijcN96pWV/kuVUTrFVYco2UTjTvHU1oVz1yFuRLn9V7VPARwFDoJUtX1qK4zIgPk
- UdMBiEB830UcPvNlF0FoVVcBYxT7N8xULjQKoj+in15HyUKFVWQsG2Ecq+Q+OKfM9UL6YmJKMSn
- YpxiBKysFEXQmckVJ978DJV2zHZIDOIy9FzZaJKOyvOFX4eoE8Y8a/+2745GwsgkNO+0QvL2xxk
- i77gaICWKMQrlhc4oYhlywb/oRh9H5ik9U+SN5+OHsfnXE1cmN7B8e7cr0eiHGqydt7gLOOORlw
- Td/64rTBEGhG3XA==
+ bh=oFZEeYV9E7SVwSiSnD5a6fJUQNr5BRcYxn1NNJcKmJ4=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBn/mVXzaq5d/Otd49/nUx4n0o1bpU0gEVJfJEwj
+ FqvNibXQw+JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ/5lVwAKCRAgrS7GWxAs
+ 4vsUD/9vxX/9vJRhKpWbEDP+E1LsjZiq8xrofY3+sO5G1fxynS8kq84NTPo2ObielE7V1c1Smpq
+ kskPPd+pAFd3NSwih7qfVh0Cr3lBRpwDbLRvIhmJz9FoSyFBtAvHV8oHJOIbZrsNeV575Mz5rK9
+ lxY0gvB5HODEQ0I0uNK8xccWP9i6ULvPdJAtXcj46j4NQE/X5xYqpgE3kKVzsY15o/CZf0lwSNL
+ bNScNtSuMCD6OHQ+xHkLpxNYReQWYKIKiezToECms++1bEp8TRm/ACLlLZho+Hlajfp62fviuoh
+ Uyb4aTqClrZ4QIMFdnYyvxt7RefHw5BPEa92Eemp2mgh1HkslRZIO9nivw5L0ATrtoLKHPZEKKt
+ cZzzYsIne+Xy14YLDG79BkJU4URt3qSmrTYC1XOV2Z2NuoaQEOLz5sWmwlOQt1QuTsFJJ/mtXeQ
+ Hl3jTW+/LCtVzlgKM3G4VmMEh36hXXUzYbBmMaqfFPYqn6axExnxIdWvrRZ9dLPOGGYO8c94H4K
+ X3mzG4wcoySsJbMc+Cp2CXz2hT95wC0B2EX4dSdiK99/vm0qieWf7xX2UoaOsgD7w7cTjwMyBb+
+ t/vDDZ9JWnVNpH1YlLscS7Vm/MnoXQV5x5nA+gGzY+XZ2xBQ+qNQS9a7r8xijQYdjux3s/6Ox9B
+ 7v/wdyDw9WAU5ow==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehtdejtddtteeiiefgleejkeetteevhfdukeegleffjeehgeeivefhgeduffdvvdenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgdujedvrddukedrtddrudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtohepshhimhhonhgrrdhvvghtthgvrhesfhhffihllhdrtghhpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehmrghirhgrtggrnhgrlhesrhhishgvuhhprdhnvghtpdhrtghpthhtohepnhhitghol
- hgvjhgruggvhigvvgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmrghrtghhvghusehgohhoghhlvgdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggv
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedtieevieduhedttdfgtefhuddufeffudetkeegveeuteduveehheeivedttddtkeenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgdujedvrddukedrtddrudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtohepshhimhhonhgrrdhvvghtthgvrhesfhhffihllhdrtghhpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehmrghirhgrtggrnhgrlhesrhhishgvuhhprdhnvghtpdhrtghpthhtohepnhhitghol
+ hgvjhgruggvhigvvgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmrghrtghhvghusehgohhoghhlvgdrtghomhdprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhm
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,33 +93,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arthur Grillo <arthurgrillo@riseup.net>
+The functions drm_get_color_encoding_name and drm_get_color_range_name
+are useful for clarifying test results. Therefore, export them so they
+can be used in tests built as modules.
 
-VKMS has support for YUV formats now. Remove the task from the TODO
-list.
-
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Reviewed-by: José Expósito <jose.exposito89@gmail.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/gpu/vkms.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_color_mgmt.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index ba04ac7c2167..88e0913ca33a 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -122,8 +122,8 @@ There's lots of plane features we could add support for:
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index 3969dc548cff..b73a998352d1 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -28,6 +28,7 @@
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_print.h>
++#include <kunit/visibility.h>
  
- - Scaling.
+ #include "drm_crtc_internal.h"
  
--- Additional buffer formats, especially YUV formats for video like NV12.
--  Low/high bpp RGB formats would also be interesting.
-+- Additional buffer formats. Low/high bpp RGB formats would be interesting
-+  [Good to get started].
+@@ -494,6 +495,7 @@ const char *drm_get_color_encoding_name(enum drm_color_encoding encoding)
  
- - Async updates (currently only possible on cursor plane using the legacy
-   cursor api).
+ 	return color_encoding_name[encoding];
+ }
++EXPORT_SYMBOL_IF_KUNIT(drm_get_color_encoding_name);
+ 
+ /**
+  * drm_get_color_range_name - return a string for color range
+@@ -509,6 +511,7 @@ const char *drm_get_color_range_name(enum drm_color_range range)
+ 
+ 	return color_range_name[range];
+ }
++EXPORT_SYMBOL_IF_KUNIT(drm_get_color_range_name);
+ 
+ /**
+  * drm_plane_create_color_properties - color encoding related plane properties
 
 -- 
 2.49.0
