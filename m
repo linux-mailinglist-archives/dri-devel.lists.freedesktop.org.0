@@ -2,161 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF6DA8B7BD
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 13:34:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20798A8B7C5
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 13:40:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45F0C10E09F;
-	Wed, 16 Apr 2025 11:34:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC89010E8D3;
+	Wed, 16 Apr 2025 11:40:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="puiDoXJn";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="H61Hgze5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2074.outbound.protection.outlook.com [40.107.223.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9727710E09F
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 11:34:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MrhDan/DWjgb/p9kcVLJfEbC6K0kF7fwNm2qFOLIen9QtW3BZlhmB5B1hmY6LbZMqAJZBMulUAYyAUnoCwGq2Vy2xwqmTAG/S75r3TbZmuBpcGKdbKyND0hVUsSQW/I7Y2Kv3UbI6R8eUIgo/1dIwxH7o+WMfgzgrU8XR3fYk6SRQfBRCMuLPEEGkHt9DrhrScoKBnCODY9BuaEltisz8YNfZnZEaoudYxnzlXCCNdE4r9OYuXNSzUN8NhNcskJftGbklAHg/omnG8KeLD8Jwg7jGe9/6JiPoa2SsbS1WpTruPlK1EzGiaAksdiHQZZPUG7mcElzyoU+cm00Bu3JGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fKypGie2LB3bL/62Lmj75G7QabkXPZ+fYHxNEvcderk=;
- b=RC+bEJxCvc7FBEiLzbR/Cv2oINyZEFNFFqGriFgTpvsEIQm5aZw55OEHusY8L9KcOvrnhmgzjkK/j0hlRhbb51oLnkx8z4cNBRrYk1VBxkB25qBWLYySYBjiZPIDqzu4u4Fy11FQ3LxyAQssPnubTiRguK9sQtybmhgmmxtgTgEENFt2QsBXUcWOTQwqctM7lqzVsnQ/ukdtYSb4W948focfZO8atUr8IjYQ03JAaAJiHAa9bMmzK0VhDWvb5dZs99/1JjHVpYp/Q8Okxl245c5oqSxxqYqSnZ++xljLamESQL7KYc47C1SNAwP8vMvP3OuD8WV+9DWkN+CMMFVPjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fKypGie2LB3bL/62Lmj75G7QabkXPZ+fYHxNEvcderk=;
- b=puiDoXJnF0lh/BHzrtxVqrxjb7kSHl0POwjlkUzZ3uKkKL1UNvtcY8ahlEr/TmjUJuU+p0Ux1Pn0/L3vJwaA0BYE7N0yD9XKfVpHuZtmGS1I6eE282q9M2Ovob2ymKiJ+PEv5poaosqmfLoLyiNEpM43o8GR4gS9XYdU7Rnx0pE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB8816.namprd12.prod.outlook.com (2603:10b6:8:14f::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.33; Wed, 16 Apr
- 2025 11:34:41 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.025; Wed, 16 Apr 2025
- 11:34:40 +0000
-Message-ID: <536596bf-8f5b-462b-add7-a203b6cd1e46@amd.com>
-Date: Wed, 16 Apr 2025 13:34:34 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: heaps: Set allocation orders for larger page
- sizes
-To: Juan Yescas <jyescas@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Cc: baohua@kernel.org, dmitry.osipenko@collabora.com,
- jaewon31.kim@samsung.com, Guangming.Cao@mediatek.com, surenb@google.com,
- kaleshsingh@google.com
-References: <20250415171954.3970818-1-jyescas@google.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250415171954.3970818-1-jyescas@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0407.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d0::16) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAE9C10E8D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 11:40:19 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250416114017euoutp02682a590618e8007e07082e976eeac798~2yaVnMnMr0481404814euoutp02S
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 11:40:17 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250416114017euoutp02682a590618e8007e07082e976eeac798~2yaVnMnMr0481404814euoutp02S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1744803617;
+ bh=iOkOVT8MZOfj07enU9xlf2VRxKNwm4FnBqFYN8+mP38=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=H61Hgze5bsWiXUDEhCP9qk7plZqbYybFrRDuOaki+xRNR4tlXnED4xj6My5jnm6Aa
+ EN2k0iBvPt3DGBgD3AEw8lwEXLhDdCnMKAO3En4fQIEJwIMPdypkNWO8Bygn+rTkVw
+ Sin3fLhkR45xM8rrYbFrJQWpS3/7TyFsCET6viqk=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20250416114017eucas1p214e415a9c51977ab5661c72e5380aabc~2yaVRTdZH0471104711eucas1p2S;
+ Wed, 16 Apr 2025 11:40:17 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 49.4E.20397.1279FF76; Wed, 16
+ Apr 2025 12:40:17 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250416114016eucas1p1d5d662177196380940a4bbca0a68bb15~2yaUmqB071098910989eucas1p1Q;
+ Wed, 16 Apr 2025 11:40:16 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20250416114016eusmtrp21a7c9a3c416a8cc033c5b0ec9bdf518c~2yaUkpMPe1096310963eusmtrp2s;
+ Wed, 16 Apr 2025 11:40:16 +0000 (GMT)
+X-AuditID: cbfec7f5-ed1d670000004fad-a6-67ff97212e29
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 09.16.19654.0279FF76; Wed, 16
+ Apr 2025 12:40:16 +0100 (BST)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250416114015eusmtip14313da5dadc3c50b0ad139c80a4d9581~2yaTc4QMD0718907189eusmtip1o;
+ Wed, 16 Apr 2025 11:40:15 +0000 (GMT)
+Message-ID: <fe445d04-b488-4f11-a14d-9dfda07e3e88@samsung.com>
+Date: Wed, 16 Apr 2025 13:40:15 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB8816:EE_
-X-MS-Office365-Filtering-Correlation-Id: d57cf645-35bd-4a45-71f7-08dd7cdaad37
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|1800799024|376014|366016|921020|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WjJQV3VJL2xnTWx3YzNVTkhCbTBxTUM0Q1VhZkFqUUJRV2ZNVkhIVU85UUJN?=
- =?utf-8?B?RXVXQzZNZHllVFA4c0ZLeHVnaWtsaXAybnBSNk55cUNIUDdpQWw0Q3BoN0Uy?=
- =?utf-8?B?UDMvUVNFNy9qejRiT3U3V1Exb1dPb2lTVjdmcVZxZ3gzemk4dGV0SmNDYmdV?=
- =?utf-8?B?YWEyUVNFSStFNVZXVlB2T3p2b0V0bjBXOU91anRrbXUwT0RrMW9xOGs1VXVE?=
- =?utf-8?B?WVVQTnI5MlEwOEh0bzJLaWQ2bzVZbU9XbFByeWI0V3lIUFhrMDlRbkhDNTV0?=
- =?utf-8?B?eHNhY1V2SExoR09TTzNSSzVXaWxBbTU2YTR4RE5VRnA1ZjJSWWFJcFVoNlhN?=
- =?utf-8?B?d3dqSWFkNjI2YTB3RmhRSlhzRXpMN3hnSjZpcGNwZnRKd3o0YlBlMHdrbS9n?=
- =?utf-8?B?MjBiYzYzUTU2MVZNaUlkdFh4T25hR2grQWdlMFJjWGRIU2VTUllIZ011bEg5?=
- =?utf-8?B?OEJoR3hWY0pWTGRoajdxZnkzTFFwN0ptN0JsWDdvN29pQ2NmWHFqN1EwVEhQ?=
- =?utf-8?B?TFBzaVgvenZWbzNyQVJSUU1IUU1Oc0dJdVh2THBjT1Y5b05RS3o4RmpxUlBP?=
- =?utf-8?B?ZFhxV1RkM3FBdW96NUMzNFFBb2ZFMThmdnZZNGFGOGMzaEdGdG5ETTZyT2c0?=
- =?utf-8?B?TTREdVpSQ2hjUGRpMG1FMmpWb2VPTHFheU4ydUM3OEhJaGVoUHgvMnBTcTJ4?=
- =?utf-8?B?NEtKWWlFZzlsVEoyZWdIdU83cUpZUGd6RFY4UFg1b1BMc0V0TC9ob2svZHJn?=
- =?utf-8?B?NmpqNHplMXJXV2h4T0cwWXhJelRBZ2VtQXN5RFF5UFhWK0VnbFprZitoRVRC?=
- =?utf-8?B?cmFGWVVPSDJnSjU3UTBXWFhFOE5sK0hLdzVkT2FnbTJQbThXdFhsOWxyTnN2?=
- =?utf-8?B?R2c1bndDdU0xZ2cwSndyY0VQR2srdzZTVTg5S0dYVUMveGNuQks3THlVM01I?=
- =?utf-8?B?emVmeXVMUUhzbGh5eVdURGp0Qm1BOG05VEJOUFFRRGRibXM3UkNWZXI4Tlps?=
- =?utf-8?B?QkVHZk9GdDF3cjZscGJOdEY3cTNjK01ScVJpcjB4amd4NG5ONC9TNkxWZXVO?=
- =?utf-8?B?ZnJiTHVoRU9KeTk3VmZRWmJZd2dwRnZUVlRUT0cxZWdONDBRbVpkRUJuRlg1?=
- =?utf-8?B?c0ROM2ZrcmhlaHYzcXJKRzZTUUN6eVFOdCtlODM1RUlGVzBLRG5kTnJLS1o0?=
- =?utf-8?B?MG16SXhPWGRMOXNoMlNoa0hTNGJ6SHZPY0swbmNjeHhMZm80cW1nbmJBTCtP?=
- =?utf-8?B?b1BVbkRSK3FQS1ZwUUxWM2wrbm9OckxCOE1wNFloallTSkliRW1BRndmVDNM?=
- =?utf-8?B?aFZjZDNXTlhUaHJISTdMdVpocm1CRy9EWitBT3l2cVkvUVVXbnJ2aE9McEJX?=
- =?utf-8?B?NksrZFlHcDZaRVhhRWQxd3paYXRCcEFlaVZKL2JUWERJQlovbUFXQzZBdURF?=
- =?utf-8?B?bHMzYWlmMkZqK0xmckVhQVh4V054R3BaYW10cmpPSlFXcjZLZHIvTGhaTFph?=
- =?utf-8?B?TUVidStGNEJZaW9CbkUvVHk3OTlob2ozcEw3dkhKY01WRnQzWTFxNmRiWldy?=
- =?utf-8?B?RkI2UWpKTzVVMjJjVjN6a09vQXI5YTJlUWZtaFFhYlBSMnB2ZGorQ295MHA2?=
- =?utf-8?B?LzZ1bnM1ZkRwZ3h5ZzNLUlh5emRDcGUzZzVQb2JLVlJpUlcrMW45cGVRaHpN?=
- =?utf-8?B?MCtubEZLMi9MSnZJMDVKSlcxODlBaHk2Tzl0czNuVWFPWlFaQ1JmZjNBdG4r?=
- =?utf-8?B?OExoTVNhQzNxL2hFUU5lQmJqVXY3NUEwVXdLblh3MVdxc1J0cW1VN2JvOVNB?=
- =?utf-8?B?TDhnWGNvZ0xFR3lkWW8rcDZhV2RQS3dPbUg0Rk5NNG9iVTZraFlwOE5kMUk4?=
- =?utf-8?B?R2FLVWlob1VlVlZaMno0T2FUdGFWbXFBME5nbCs4c0hMelBCREVvR2NsSVFQ?=
- =?utf-8?B?emM5Y1FBcmp6WGJENzRtT2c3YU9NT0JMbXU0WHhTNHNWMUlUbHQyOEhnaU1p?=
- =?utf-8?B?eW10ZzRCNzJRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(366016)(921020)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Sy9uR2ZvdkwxZjkxU1JDaE5ZWmFORy94MFF3dHRXMDBKU2xKZHhVN3ptNFh4?=
- =?utf-8?B?bEdOV2pXeEhnbmRpcWYvRDdJVjZGdXNIaUdEeUJHdHptRS9PSVlxNS9hUlU0?=
- =?utf-8?B?OHBxUlc2QTNWb0hKY2FmZTJIWkpkdFVKaXVGNUJ5QXN3UnBnTmNER0R3OFpT?=
- =?utf-8?B?SEZMV1picUkyNDFhd3lJenFHakR3dkV2MTRpZjRvNUVGK01DMFBNRXF6NGdU?=
- =?utf-8?B?a1BEMmp3QUU0NWlBTHpFMVljM1NESEY4NzAzWnVyOW5aOUtnOTdUYlUrQmtD?=
- =?utf-8?B?djFLaWFJM2tvZUQwMWF0M2xvSUhwUmU1SnRXUkVuK1RWZ1luUmFUTFFRZ2xy?=
- =?utf-8?B?Q3Q3M2ZObFQ5NzBXOEtWVzYvSFZ6cGxwSTNDeitCQ29jRHU2bjRHZmI1Qmhz?=
- =?utf-8?B?OCswSmYvdnlzTXo1VlEvNExwS0JjSUlVcTBlYjc4T1NuU05VMjhoaDEzYjV1?=
- =?utf-8?B?dFZkNk13U1ZlNnRvTUZnQzFONDR3Z3FNSzR6c2s4dWExbndWcVhZM1M1WFM2?=
- =?utf-8?B?aVNoWlpRYkFDRDV1Q2hoMTNRRnA3N3RSYlp6cW42dWJXMWFjWGdyU3lEU2w1?=
- =?utf-8?B?aitRa09jb2JUai9Ca2s2SFZsajFYeS9FNHo3V1pOQ2dwL2FsZ0pkY1E0eUVU?=
- =?utf-8?B?RUFsbE8xeUdtZWdibTdwbXNmVGN5V0J3b1RGUEJ0R3V3bzd3Uy92Wi84QUUy?=
- =?utf-8?B?OXFwMEt6ZDNGK0ZUNFVBZlJaTzJvbDZlL2twcGhJeGVhbk5nQnFSanBRL2NN?=
- =?utf-8?B?V1BLcDF6Z3dRLzRNbG1KdEtlR3VJMThyOTY0U3I4R2dGSWFtdm9BS0xHbkdj?=
- =?utf-8?B?M0g3dnlVQmdkWEdjNkpoY0ZXQmRvby81TlpaY1JtZUk3dHQ0WDQ1dHdZN1ZJ?=
- =?utf-8?B?WkRza25rZTZPdDlOYXZ2K2h4T0tpdXNHN1ZuMWZJNmQzcjVBbEYzYjFmRWhT?=
- =?utf-8?B?QzBxcktaRnZjQXBLMGc1aVMzaHQ1WU15a3NiaStHMDlMSkI3aXFkeWpCTnZl?=
- =?utf-8?B?T0J2WU50bWJmRG4yR05qOWpGUExMQ0FUaDhGbWRTcmQyNjZnVlFxZW9VSVFz?=
- =?utf-8?B?dFhmVVBQOFdIUnRQRUlVM3haVCtocU00dlBnSUZRc2RWeFdUeGZtbUszbUY0?=
- =?utf-8?B?bytma2lhblUvM2xVU2N3dUQzL2hNWVl6MXFOK0VtYVg4a0lqSUcyL3o0L0o3?=
- =?utf-8?B?ODFycVFIQkJDanVjeU5nN09ER0tFcmhHMW9hTDE4WExqclBlSEJCSE80TWEx?=
- =?utf-8?B?cll1czhxS2xKd3Z1WXNEeU9EcEd3WHZlQk15NjllVE9Pa1FxdnBvT3l3OUNX?=
- =?utf-8?B?OWJkN2dBWmVXOEVGV095N25Zb3NRTjFheUJhcFVha0F2NlUzelFxT2gxTTk1?=
- =?utf-8?B?UXlubFV2NFM0VVFHZWl0Y0o3dytnVlVUYVFOTVl1UDRocHYvT3VodVNYUG12?=
- =?utf-8?B?ejVvZTV3djNYQytKVTQ4NWkxYTVFdVBNNXBzamh1WVFwRElDWkFnbHRGQ015?=
- =?utf-8?B?WHJMN3FsbzBRWjBQRngzU3JsdkV5aGZhQVMzRVJwQ0d2WE1WbURsZnMwMU85?=
- =?utf-8?B?NGt3OGlLMlJXR0xOcTA4OHhoM1dIOTRLQkxoUDE1YjM1c3loZGYvT3ZtN052?=
- =?utf-8?B?MVNOcDA0SVpuUS9aaWVybzlUNGV3U0w0ODJKWlgza1NCNlBqSDU0cVp4Ti8z?=
- =?utf-8?B?VVd2VFVCS3BEeE5kbzVjdnpMNXc4WUQrcXowSGV5UzBPcnBMMDF4MGVIUkE4?=
- =?utf-8?B?dWhYczFxcVJPczUvTGhNdlhQWjZwajNKQndERWEra2FmTWJCVWovTXY0OVJN?=
- =?utf-8?B?MGFOaE5wSkdhcEJJZWhyd1JidC9OQ1FGYldRMmNyT2lSUElWWm5DUXNOc1Fq?=
- =?utf-8?B?bmhQelhQejl1bytVS1ZTSDlRUXBQSVdDRnNyUjUrcmE4akpyTVhCVjhTYkc1?=
- =?utf-8?B?Q0pHVG8rMHNDaDBsdk9lQUZwL2JXYW5yaWpjR2JVYmVCNkJPN1ZCQUdXYkU3?=
- =?utf-8?B?R1gxWE1QYytIOW9OaHZSS3l4VkZVRndwUThYKysxT010Q29QUWJWYmJUMGtI?=
- =?utf-8?B?eVNPR0xHNXJ0OG1FeW1MOHBFamlQbGFRUVhqb2xpYWpDK1B4VVpRQ1lIRGwv?=
- =?utf-8?Q?kXGaM4Nse7eWHYfjjyBrwYKm1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d57cf645-35bd-4a45-71f7-08dd7cdaad37
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2025 11:34:40.8946 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hRZKUxjHabdHiZAA441as4fqBQ1/qKnO3QUJmaVeRmWQCSM4+xygXcRw0GDtS9nJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8816
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] dt-bindings: firmware: thead,th1520: Add resets
+ for GPU clkgen
+To: Conor Dooley <conor@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Pavel Machek <pavel@kernel.org>, Drew Fustini
+ <drew@pdp7.com>, Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, Matt
+ Coster <matt.coster@imgtec.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, m.szyprowski@samsung.com,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Language: en-US
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <20250415-tycoon-naming-20ba5a55c469@spud>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTVxjGc+69vb1UIZfC5BQWKyxjc8uwoJsn2YbDuO2abJn6D5khcZ3e
+ 1EZKWQvINuOYMKUIEywIFqHFKB+dFYZtpQ1tJyKt6dahYxX5FIdOq4AM3dBAmeXqxn/P+5zf
+ ed/nPTkULqwjYyl5Vg6rypJmJpACwtrz+Nc34qsXZBLDmAh5rp3E0BmHD0MtVUYS3Tv2gET6
+ bh8PjVw1Y6jv0RSJzt7q5aM7jm8JdFc3QqLf7CdINFPWDZB1pohEpu5hPmqYthDoVIcdoIOa
+ Rh4aHvEQqHiqAEd1D6twtNDZwUe1ky4+Mt+v4CG3KR0VuSqJ90SM428Dwdh0w3ym1PYzYNqN
+ GpIZ8neSTP3lrczoYTfGnDv1DVNk6sGYI/MSZsr5O8l8bzYC5pz3a2amfeWWiO2Cd3axmfI8
+ VrUm9TPB7tPWQ7zs+3H5+q7MAtCyogSEUZBeBzUltVgJEFBCuhlA/2wPzhUPAXTeLMdDlJCe
+ AVCrZZ7f+OOHcR4HNQEYHLtIcsUEgJq2KiJEhdOpcLT4MQhpgn4Z2m4F+ZwfCS8fH19kXqDF
+ cHSg5qlPUVF0BjQG9obsaPol2GfSgVBPnB4kYWOxdpHH6Rg4MK7HQpqkU+CNJj0vpMPo9XDW
+ dxZwjBgWWmoXV4B0gwB6Dl8ludiboMd8Bed0FAy4zXxOvwgXbFxTSCvhDctfz5h90Fbqfqbf
+ hkO+J2QoKE6vhq32NZydBp0H+hfzQzoC9k9EchEi4FFrNc7Z4bD4oJCjE2FVadl/Q33NVqwc
+ JOiWPIpuyZK6Jcvo/p9rAIQRxLC5aoWMVa/NYvcmqaUKdW6WLGmnUtEOnv5gb9D9qAM0B6aT
+ ugBGgS4AKTwhOty3PigThu+SfvkVq1LuUOVmsuouEEcRCTHhJ13fyYS0TJrD7mHZbFb1/BSj
+ wmILMHmnx3p+U+vtmYLESNd+sFr4T6RRMZAbn3fJK5m+rtbvI4/PX7MpN9xZVkfPLUuRvFoZ
+ e89SvcfZ9sD14xl9ouXTKx8UReT21ASTxd4G+Zwxdl1cIENEbWDEH15Ku96aN3HEsTmd9X9+
+ fiFN0uuqMNTY34xyRDsDfb+k9uK35Yr9a4+aa8vmK5WyYyU7g7Z+w4XZlVK2KcX00Y6MVVu8
+ oo0BZdvWQJh9c/b2A/XJRj95aLDeb9C89f7r6fjdyULjcpP24qqKj4V/DsVv7JzDn5h1KfIV
+ F5ZP/uTc9u4Jd4V8m9b4SSMUCE6/4isn8kWF+TeHW1iqoewL8UCOoW1wLIFQ75Ymv4ar1NJ/
+ ARmwujQwBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAKsWRmVeSWpSXmKPExsVy+t/xu7oK0/+nGzw6pWVx4voiJos1e88x
+ WaycuorN4vW0D2wW84+cY7W4d2kLk8WVr+/ZLNY9vcBu8WJvI4vFy1n32Cwu75rDZvG59wij
+ xbbPLWwWa4/cZbdY+HEri8WSHbsYLdo6l7Fa3L13gsWi430Ds8XcL1OZLf7v2cFuMfvdfnaL
+ LW8mslocXxtu0bJ/CouDpMfebwtYPHbOusvu0bPzDKPHplWdbB53ru1h85h3MtDjfvdxJo/N
+ S+o9WtYeY/Lo/2vg8X7fVTaPvi2rGD02n672+LxJLoAvSs+mKL+0JFUhI7+4xFYp2tDCSM/Q
+ 0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS9j6bZ21oI30hXzD+U0MK4U62Lk5JAQMJF4
+ vPoJaxcjF4eQwFJGiRct61khEjIS17pfskDYwhJ/rnWxQRS9ZpTYuPciE0iCV8BO4n7HT0YQ
+ m0VAVWLn03/sEHFBiZMzn4A1iwrIS9y/NQMozsEhLBAjsepVOUhYREBZ4sraWYwgM5kF7rJJ
+ zP75jQliQRuTxPVru8GuYBYQl7j1ZD7YMjYBI4kHy+eDxTkFzCV+nFvHCDKUWUBdYv08IYhy
+ eYnmrbOZJzAKzUJyxiwkk2YhdMxC0rGAkWUVo0hqaXFuem6xkV5xYm5xaV66XnJ+7iZGYNLZ
+ duznlh2MK1991DvEyMTBeIhRgoNZSYT3nPm/dCHelMTKqtSi/Pii0pzU4kOMpsCgmMgsJZqc
+ D0x7eSXxhmYGpoYmZpYGppZmxkrivGxXzqcJCaQnlqRmp6YWpBbB9DFxcEo1MPkvPrVvrm/R
+ Uns380g9VTeJhKiZZk7VV57NOBN3bqvM6zyvjOTA45dvShoU8D58MuVNbpLHzva9V5gfqt+v
+ WiFm0bmTz6bZI+eHmsuVhf8qpmjkGJx4V8V1gbv4ucfe/0nn86w8rdK0P5Vaz2hae3ad7D7b
+ L/9ZvL6b7zQK6RDxE/fvuBoiFlJ84u6NRx+2rchX1OAW0YjaPj/txYp6tSe3FnBNy9P1s/iU
+ qXVcrbI4dcvVqGW7HDmF3uewt62Ps64RT8mdV7v1xk6N/5pNz+Uf8ifxrIh+/8Hza5DYxjcq
+ bjL9x9yyQyet2Oy81fHL5c29c1IrWQ782K7tp6ygabcn1SrljWeG2aGLaVyvlFiKMxINtZiL
+ ihMB7u4zXMMDAAA=
+X-CMS-MailID: 20250416114016eucas1p1d5d662177196380940a4bbca0a68bb15
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250414185315eucas1p1fae2d6250bfd30b12bb084e197c02948
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20250414185315eucas1p1fae2d6250bfd30b12bb084e197c02948
+References: <20250414-apr_14_for_sending-v2-0-70c5af2af96c@samsung.com>
+ <CGME20250414185315eucas1p1fae2d6250bfd30b12bb084e197c02948@eucas1p1.samsung.com>
+ <20250414-apr_14_for_sending-v2-2-70c5af2af96c@samsung.com>
+ <20250415-tycoon-naming-20ba5a55c469@spud>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,50 +141,95 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Am 15.04.25 um 19:19 schrieb Juan Yescas:
-> This change sets the allocation orders for the different page sizes
-> (4k, 16k, 64k) based on PAGE_SHIFT. Before this change, the orders
-> for large page sizes were calculated incorrectly, this caused system
-> heap to allocate from 2% to 4% more memory on 16KiB page size kernels.
->
-> This change was tested on 4k/16k page size kernels.
->
-> Signed-off-by: Juan Yescas <jyescas@google.com>
-> ---
->  drivers/dma-buf/heaps/system_heap.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 26d5dc89ea16..54674c02dcb4 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -50,8 +50,15 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
->   * to match with the sizes often found in IOMMUs. Using order 4 pages instead
->   * of order 0 pages can significantly improve the performance of many IOMMUs
->   * by reducing TLB pressure and time spent updating page tables.
-> + *
-> + * Note: When the order is 0, the minimum allocation is PAGE_SIZE. The possible
-> + * page sizes for ARM devices could be 4K, 16K and 64K.
->   */
-> -static const unsigned int orders[] = {8, 4, 0};
-> +#define ORDER_1M (20 - PAGE_SHIFT)
-> +#define ORDER_64K (16 - PAGE_SHIFT)
-> +#define ORDER_FOR_PAGE_SIZE (0)
-> +static const unsigned int orders[] = {ORDER_1M, ORDER_64K, ORDER_FOR_PAGE_SIZE};
-> +#
+On 4/15/25 18:38, Conor Dooley wrote:
+> On Mon, Apr 14, 2025 at 08:52:56PM +0200, Michal Wilczynski wrote:
+>> Extend the TH1520 AON firmware bindings to describe the GPU clkgen reset
+>> line, required for proper GPU clock and reset sequencing.
+>>
+>> The T-HEAD TH1520 GPU requires coordinated management of two clocks
+>> (core and sys) and two resets (GPU core reset and GPU clkgen
+>> reset).  Only the clkgen reset is exposed at the AON level, to support
+>> SoC-specific initialization handled through a generic PM domain. The GPU
+>> core reset remains described in the GPU device node, as from the GPU
+>> driver's perspective, there is only a single reset line [1].
+>>
+>> This follows upstream maintainers' recommendations [2] to abstract
+>> SoC specific details into the PM domain layer rather than exposing them
+>> to drivers directly.
+>>
+>> [1] - https://lore.kernel.org/all/816db99d-7088-4c1a-af03-b9a825ac09dc@imgtec.com/
+>> [2] - https://lore.kernel.org/all/38d9650fc11a674c8b689d6bab937acf@kernel.org/
+>>
+>> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+>> ---
+>>  .../devicetree/bindings/firmware/thead,th1520-aon.yaml        | 11 +++++++++++
+>>  1 file changed, 11 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml b/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+>> index bbc183200400de7aadbb21fea21911f6f4227b09..6ea3029c222df9ba6ea7d423b92ba248cfb02cc0 100644
+>> --- a/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+>> +++ b/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+>> @@ -32,6 +32,13 @@ properties:
+>>      items:
+>>        - const: aon
+>>  
+>> +  resets:
+>> +    maxItems: 1
+>> +
+>> +  reset-names:
+>> +    items:
+>> +      - const: gpu-clkgen
+>> +
+>>    "#power-domain-cells":
+>>      const: 1
+>>  
+>> @@ -39,6 +46,8 @@ required:
+>>    - compatible
+>>    - mboxes
+>>    - mbox-names
+>> +  - resets
+>> +  - reset-names
+> 
+> Given these are new required properties, have you made sure in the
+> driver that their absence will not cause problems with older
+> devicetrees? I took a brief look at the driver, and it _looked_ like you
+> were failing if they were not there? It was a brief look though, tbf.
 
-Good catch, but I think the defines are just overkill.
+Hi Conor,
 
-What you should do instead is to subtract page shift when using the array.
+Good point — but in this case, the devicetrees compatible with the
+driver haven’t been merged upstream yet. In fact, the TH1520 PM domains
+driver currently doesn’t even compile against mainline, since the
+required commit [1] didn’t make it into 6.15.
 
-Apart from that using 1M, 64K and then falling back to 4K just sounds random to me. We have especially pushed back on 64K more than once because it is actually not beneficial in almost all cases.
+That said, Drew has queued the DT changes for the next release [2], and
+you’ve queued [1], so assuming this series lands in 6.16, there won’t be
+any older devicetrees to support. As a result, I haven’t added a
+fallback path in the driver for missing properties.
 
-I suggest to fix the code in system_heap_allocate to not over allocate instead and just try the available orders like TTM does. This has proven to be working architecture independent.
+If, however this series doesn’t make it in for 6.16, then yes — we’d
+need to revisit the driver and add a failure safe path for cases where
+these properties aren’t present.
 
-Regards,
-Christian.
+Thanks,
+Michał
 
->  #define NUM_ORDERS ARRAY_SIZE(orders)
->  
->  static struct sg_table *dup_sg_table(struct sg_table *table)
+[1] - https://lore.kernel.org/all/20250407-synergy-staff-b1cec90ffe72@spud/
+[2] - https://lore.kernel.org/all/Z%2F6p6MQDS8ZlQv5r@x1/
 
+> 
+>>    - "#power-domain-cells"
+>>  
+>>  additionalProperties: false
+>> @@ -49,5 +58,7 @@ examples:
+>>          compatible = "thead,th1520-aon";
+>>          mboxes = <&mbox_910t 1>;
+>>          mbox-names = "aon";
+>> +        resets = <&rst 0>;
+>> +        reset-names = "gpu-clkgen";
+>>          #power-domain-cells = <1>;
+>>      };
+>>
+>> -- 
+>> 2.34.1
+>>
