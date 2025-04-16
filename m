@@ -2,47 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA256A9072B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 17:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF7CA90744
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 17:04:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37C6910E95D;
-	Wed, 16 Apr 2025 15:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE48310E962;
+	Wed, 16 Apr 2025 15:04:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hxcVJEuw";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CF8E210E95D
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 15:01:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 497501595;
- Wed, 16 Apr 2025 08:01:49 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 124A63F66E;
- Wed, 16 Apr 2025 08:01:48 -0700 (PDT)
-Date: Wed, 16 Apr 2025 16:01:46 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Boris
- Brezillon <boris.brezillon@collabora.com>, Steven Price
- <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 2/5] pmdomain: sunxi: add H6 PRCM PPU driver
-Message-ID: <20250416160146.5338e791@donnerap.manchester.arm.com>
-In-Reply-To: <CAPDyKFqne4VLemkkgS948whoNm4pOdvp_CCJ4SSBJOBzt9k2Nw@mail.gmail.com>
-References: <20250221005802.11001-1-andre.przywara@arm.com>
- <20250221005802.11001-3-andre.przywara@arm.com>
- <CAPDyKFqne4VLemkkgS948whoNm4pOdvp_CCJ4SSBJOBzt9k2Nw@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84E4310E95C;
+ Wed, 16 Apr 2025 15:04:17 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-3032a9c7cfeso1245242a91.1; 
+ Wed, 16 Apr 2025 08:04:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744815857; x=1745420657; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MVFtqQNk5rkPP5VSi8xT3sOzTBsKiZnfpOajhh4Y93U=;
+ b=hxcVJEuwJtomkqwKP8W9lD419VAebfUZGGeAGK28lCIP4ropcCIc3y5hfCplt0QApE
+ x2MW4eb3ny00xsOhcqtTZSsIsSNUtcTv33NOq/pQiH/oS+UArm6fKj1cw9OPzuqpC4FU
+ CGei7YYqbSXTj2xWPeCaTFY7NUNGZe7DkWvHXuY2d/3bnKwsuh4dJL42NCU8RI/Ok+Hj
+ n9DMnfU+btEntM95ygBFeybrcMPP/+qX/nM5W5AnispCzcwumY9SOINgGzxi3JJ0r1rX
+ XeH7hyuYISXK5x3yr/0W4lzRniykUT4pLYcFrEpQz9VsYPUrWjaX885ZxV0mZy4lLltN
+ 0/Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744815857; x=1745420657;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MVFtqQNk5rkPP5VSi8xT3sOzTBsKiZnfpOajhh4Y93U=;
+ b=waXMQcl0DobBA8Qysq1RpIQzqk+ozkZxMpevSYeweTLxgsKx4depJPRDXkoNprl62M
+ QaNm4gUsUpwThVL+tMPeLc/RaneMZw7f0QeDzOsBhPmD5CiRCf+w198v/e3S5AkLaFnu
+ ZgVxU40H6QWUDamo85SE4QT/WhswTxGSRAJFl0cOBV/urXfY3mce73rIpOeBLh4sZrpa
+ D8AbHWdShe4HGPIIRvaabOBYvXw/m5LAz29vGlxY8orG3itvRguj3mf6Y/ma3ruD28hF
+ OYBqNQ+/jgmoCXCtPrfa5PhEPJ6YnMaxBy4iErjOBcHwQKue8eTySgwPJ1i8vOgH8Rw3
+ o7SQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVUHOdNyxSLeN7mlEqOdRWfhr4nZspwzbgRXRWYFSSZbTvKgBKqqBjMgvqYq1tJI81UWb958VJo@lists.freedesktop.org,
+ AJvYcCWW+2UYPmuLl3yjeKAAUUWuPuy+ucILGBGUpWg0O1Bp8pd/WqFnAqBEvGV7moIzS21oLXAcW5E94U9i@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWseQyD53pmHMVTOiPvZ9qemz3AAmO7wFj1eOVNi64le7XFIyk
+ rKU9be1UEVyXHTZfSQ43Bb5vSgfJjI83WgIcnlsJXhM51ddw/rPr9geEAa29FXQoaWr6FE6UUu7
+ ic48w3R3gp+E6cwN/nNMrJ0rOJSk=
+X-Gm-Gg: ASbGncscfpq8KcSigjIyTGKcF8zGEVEdiqfJnMEy/mjFY9E2jxxjK6cx8+nNdnXcB96
+ meTRBapMeV4LyNc3f9dcpiOXQORzrFPW6ykPsdAVc5s5+jGj4+8Gh/d+l5DCFUsWQaHfhLfk/jx
+ n6pfUfAhVmk7JAECy5A/pRA1PAi8ZVPcMj
+X-Google-Smtp-Source: AGHT+IGyfxnt/aNFxXm8FZac7BhXF4m820MtTk5Qy0SGVUawuMIbjEGblrp/5GK7oCsMVC9lWrRKZepGO5Ypf/O3GMc=
+X-Received: by 2002:a17:90b:384c:b0:306:b6ae:4d7a with SMTP id
+ 98e67ed59e1d1-30864165e44mr1146372a91.3.1744815856672; Wed, 16 Apr 2025
+ 08:04:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <Z678TNhCbTk363Tw@kspp>
+ <864c7dd5-0deb-4adb-a1cf-c8a809514d7e@embeddedor.com>
+ <217b00f5-d03d-4624-9ba9-d838199ef7b9@embeddedor.com>
+In-Reply-To: <217b00f5-d03d-4624-9ba9-d838199ef7b9@embeddedor.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 16 Apr 2025 11:04:04 -0400
+X-Gm-Features: ATxdqUGn4UAwWKO9rc3w4V2DzzsBrEKuE_v_1b78ZJI7oY5ijYXBcUz8pBjEKwc
+Message-ID: <CADnq5_M5Jv4A5CXAKY2Qd-dhrfmecnauRtVY_ghSsut7i=KNww@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/pm: Avoid multiple
+ -Wflex-array-member-not-at-end warnings
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Kenneth Feng <kenneth.feng@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+ Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,290 +94,206 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Feb 2025 23:43:29 +0100
-Ulf Hansson <ulf.hansson@linaro.org> wrote:
+Can you resend, I can't seem to find the original emails.
+Additionally, all of the NISLANDS structures are unused in amdgpu, so
+those could be removed.
 
-Hi Ulf,
-
-sorry for the delay, I actually changed to code according to your comments
-back then already, just now find time to come back to this.
-
-> On Fri, 21 Feb 2025 at 02:00, Andre Przywara <andre.przywara@arm.com> wrote:
+Alex
+On Wed, Apr 16, 2025 at 12:48=E2=80=AFAM Gustavo A. R. Silva
+<gustavo@embeddedor.com> wrote:
+>
+> Hi all,
+>
+> Friendly ping (second one): who can take this patch, please? =F0=9F=99=82
+>
+> Thanks!
+> -Gustavo
+>
+> On 11/03/25 02:10, Gustavo A. R. Silva wrote:
+> > Hi all,
 > >
-> > The Allwinner Power Reset Clock Management (RPCM) block contains a few
-> > bits that control some power domains. The most prominent one is the one
-> > for the Mali GPU. On the Allwinner H6 this domain is enabled at reset, so
-> > we didn't care about it so far, but the H616 defaults to it being disabled.
+> > Friendly ping: who can take this, please? :)
 > >
-> > Add a power domain driver for those bits. Some BSP code snippets and
-> > some spare documentation describe three bits, slightly different between
-> > the H6 and H616, so add three power domains for each SoC, connected to
-> > their compatible string.
-> >
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  drivers/pmdomain/sunxi/Kconfig              |  10 +
-> >  drivers/pmdomain/sunxi/Makefile             |   1 +
-> >  drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c | 191 ++++++++++++++++++++
-> >  3 files changed, 202 insertions(+)
-> >  create mode 100644 drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c
-> >
-> > diff --git a/drivers/pmdomain/sunxi/Kconfig b/drivers/pmdomain/sunxi/Kconfig
-> > index 17781bf8d86d7..43eecb3ea9819 100644
-> > --- a/drivers/pmdomain/sunxi/Kconfig
-> > +++ b/drivers/pmdomain/sunxi/Kconfig
-> > @@ -8,3 +8,13 @@ config SUN20I_PPU
-> >         help
-> >           Say y to enable the PPU power domain driver. This saves power
-> >           when certain peripherals, such as the video engine, are idle.
-> > +
-> > +config SUN50I_H6_PRCM_PPU
-> > +       tristate "Allwinner H6 PRCM power domain driver"
-> > +       depends on ARCH_SUNXI || COMPILE_TEST
-> > +       depends on PM
-> > +       select PM_GENERIC_DOMAINS
-> > +       help
-> > +         Say y to enable the Allwinner H6/H616 PRCM power domain driver.
-> > +         This is required to enable the Mali GPU in the H616 SoC, it is
-> > +         optional for the H6.
-> > diff --git a/drivers/pmdomain/sunxi/Makefile b/drivers/pmdomain/sunxi/Makefile
-> > index ec1d7a2fb21db..c1343e1237599 100644
-> > --- a/drivers/pmdomain/sunxi/Makefile
-> > +++ b/drivers/pmdomain/sunxi/Makefile
-> > @@ -1,2 +1,3 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  obj-$(CONFIG_SUN20I_PPU)               += sun20i-ppu.o
-> > +obj-$(CONFIG_SUN50I_H6_PRCM_PPU)       += sun50i-h6-prcm-ppu.o
-> > diff --git a/drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c b/drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c
-> > new file mode 100644
-> > index 0000000000000..1c6b0c78b222d
-> > --- /dev/null
-> > +++ b/drivers/pmdomain/sunxi/sun50i-h6-prcm-ppu.c
-> > @@ -0,0 +1,191 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright (C) Arm Ltd. 2024
-> > + *
-> > + * Allwinner H6/H616 PRCM power domain driver.
-> > + * This covers a few registers inside the PRCM (Power Reset Clock Management)
-> > + * block that control some power rails, most prominently for the Mali GPU.
-> > + */
-> > +
-> > +#include <linux/bitfield.h>
-> > +#include <linux/clk.h>
-> > +#include <linux/io.h>
-> > +#include <linux/iopoll.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_domain.h>
-> > +#include <linux/reset.h>
-> > +
-> > +/*
-> > + * The PRCM block covers multiple devices, starting with some clocks,
-> > + * then followed by the power rails.
-> > + * The clocks are covered by a different driver, so this driver's MMIO range
-> > + * starts later in the PRCM MMIO frame, not at the beginning of it.
-> > + * To keep the register offsets consistent with other PRCM documentation,
-> > + * express the registers relative to the beginning of the whole PRCM, and
-> > + * subtract the PPU offset this driver is bound to.
-> > + */
-> > +#define PD_H6_PPU_OFFSET               0x250
-> > +#define PD_H6_VDD_SYS_REG              0x250
-> > +#define PD_H616_ANA_VDD_GATE                   BIT(4)
-> > +#define PD_H6_CPUS_VDD_GATE                    BIT(3)
-> > +#define PD_H6_AVCC_VDD_GATE                    BIT(2)
-> > +#define PD_H6_GPU_REG                  0x254
-> > +#define PD_H6_GPU_GATE                         BIT(0)
-> > +
-> > +struct sun50i_h6_ppu_pd {
-> > +       struct generic_pm_domain        genpd;
-> > +       void __iomem                    *reg;
-> > +       u32                             gate_mask;
-> > +       bool                            negated;
-> > +};
-> > +
-> > +#define FLAG_PPU_ALWAYS_ON     BIT(0)
-> > +#define FLAG_PPU_NEGATED       BIT(1)
-> > +
-> > +struct sun50i_h6_ppu_desc {
-> > +       const char *name;
-> > +       u32 offset;
-> > +       u32 mask;
-> > +       unsigned int flags;
-> > +};
-> > +
-> > +struct sun50i_h6_ppu_desc sun50i_h6_ppus[] = {
-> > +       { "AVCC", PD_H6_VDD_SYS_REG, PD_H6_AVCC_VDD_GATE },
-> > +       { "CPUS", PD_H6_VDD_SYS_REG, PD_H6_CPUS_VDD_GATE },
-> > +       { "GPU", PD_H6_GPU_REG, PD_H6_GPU_GATE },
-> > +       {}
-> > +};  
-> 
-> I suggest we define a new struct (perhaps sun50_domain_data!?) that
-> has a struct sun50i_h6_ppu_desc* member along with a size_t member to
-> keep the number of the domains, set by using ARRAY_SIZE().
-> 
-> In this way we don't need the additional NULL domain at the end - and
-> we can also avoid looping through the array during probe  to count
-> them.
-
-OK, I implemented it that way, indeed removes the need for the extra
-iteration of all entries.
-
-> > +
-> > +struct sun50i_h6_ppu_desc sun50i_h616_ppus[] = {
-> > +       { "PLL", PD_H6_VDD_SYS_REG, PD_H6_AVCC_VDD_GATE,
-> > +               FLAG_PPU_ALWAYS_ON | FLAG_PPU_NEGATED },
-> > +       { "ANA", PD_H6_VDD_SYS_REG, PD_H616_ANA_VDD_GATE, FLAG_PPU_ALWAYS_ON },
-> > +       { "GPU", PD_H6_GPU_REG, PD_H6_GPU_GATE, FLAG_PPU_NEGATED },
-> > +       {}
-> > +};
-> > +#define to_sun50i_h6_ppu_pd(_genpd) \
-> > +       container_of(_genpd, struct sun50i_h6_ppu_pd, genpd)
-> > +
-> > +static bool sun50i_h6_ppu_power_status(const struct sun50i_h6_ppu_pd *pd)
-> > +{
-> > +       bool bit = readl(pd->reg) & pd->gate_mask;
-> > +
-> > +       return bit ^ pd->negated;
-> > +}
-> > +
-> > +static int sun50i_h6_ppu_pd_set_power(const struct sun50i_h6_ppu_pd *pd,
-> > +                                     bool set_bit)
-> > +{
-> > +       u32 reg = readl(pd->reg);
-> > +
-> > +       if (set_bit)
-> > +               writel(reg | pd->gate_mask, pd->reg);
-> > +       else
-> > +               writel(reg & ~pd->gate_mask, pd->reg);
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int sun50i_h6_ppu_pd_power_on(struct generic_pm_domain *genpd)
-> > +{
-> > +       const struct sun50i_h6_ppu_pd *pd = to_sun50i_h6_ppu_pd(genpd);
-> > +
-> > +       return sun50i_h6_ppu_pd_set_power(pd, !pd->negated);
-> > +}
-> > +
-> > +static int sun50i_h6_ppu_pd_power_off(struct generic_pm_domain *genpd)
-> > +{
-> > +       const struct sun50i_h6_ppu_pd *pd = to_sun50i_h6_ppu_pd(genpd);
-> > +
-> > +       return sun50i_h6_ppu_pd_set_power(pd, pd->negated);
-> > +}
-> > +
-> > +static int sun50i_h6_ppu_probe(struct platform_device *pdev)
-> > +{
-> > +       struct device *dev = &pdev->dev;
-> > +       struct genpd_onecell_data *ppu;
-> > +       struct sun50i_h6_ppu_pd *pds;
-> > +       const struct sun50i_h6_ppu_desc *desc;
-> > +       void __iomem *base;
-> > +       int ret, i, count;
-> > +
-> > +       desc = of_device_get_match_data(dev);
-> > +       if (!desc)
-> > +               return -EINVAL;
-> > +
-> > +       for (count = 0; desc[count].name; count++)
-> > +               ;
-> > +
-> > +       pds = devm_kcalloc(dev, count, sizeof(*pds), GFP_KERNEL);
-> > +       if (!pds)
-> > +               return -ENOMEM;
-> > +
-> > +       ppu = devm_kzalloc(dev, sizeof(*ppu), GFP_KERNEL);
-> > +       if (!ppu)
-> > +               return -ENOMEM;
-> > +
-> > +       ppu->num_domains = count;
-> > +       ppu->domains = devm_kcalloc(dev, count, sizeof(*ppu->domains),
-> > +                                   GFP_KERNEL);
-> > +       if (!ppu->domains)
-> > +               return -ENOMEM;
-> > +
-> > +       platform_set_drvdata(pdev, ppu);
-> > +
-> > +       base = devm_platform_ioremap_resource(pdev, 0);
-> > +       if (IS_ERR(base))
-> > +               return PTR_ERR(base);
-> > +
-> > +       for (i = 0; i < count; i++) {
-> > +               struct sun50i_h6_ppu_pd *pd = &pds[i];
-> > +
-> > +               pd->genpd.name          = desc[i].name;
-> > +               pd->genpd.power_off     = sun50i_h6_ppu_pd_power_off;
-> > +               pd->genpd.power_on      = sun50i_h6_ppu_pd_power_on;
-> > +               if (desc[i].flags & FLAG_PPU_ALWAYS_ON)
-> > +                       pd->genpd.flags = GENPD_FLAG_ALWAYS_ON;
-> > +               pd->negated             = !!(desc[i].flags & FLAG_PPU_NEGATED);
-> > +               pd->reg                 = base + desc[i].offset - PD_H6_PPU_OFFSET;
-> > +               pd->gate_mask           = desc[i].mask;
-> > +
-> > +               ret = pm_genpd_init(&pd->genpd, NULL,
-> > +                                   !sun50i_h6_ppu_power_status(pd));
-> > +               if (ret) {
-> > +                       dev_warn(dev, "Failed to add GPU power domain: %d\n", ret);
-> > +                       return ret;
-> > +               }
-> > +               ppu->domains[i] = &pd->genpd;
-> > +       }
-> > +
-> > +       ret = of_genpd_add_provider_onecell(dev->of_node, ppu);
-> > +       if (ret)
-> > +               dev_warn(dev, "Failed to add provider: %d\n", ret);  
-> 
-> If of_genpd_add_provider_onecell() fails, shouldn't we remove the
-> genpds in the error path?
-
-Ah, good point, I was put off by the name "init" in pm_genpd_init(), but I
-see that it does an allocation in there, so would need to be paired with
-the remove on the error path.
-I also added a goto to deal with a failed init in the middle of the loop
-above, so that it cleans up the already registered genpds.
-I tested this lightly by faking an error return for the 3rd
-pm_genpd_init() call, and seeing the other genpds being cleaned up.
-
-So thanks for your comments and the heads up, v2 incoming.
-
-Cheers,
-Andre
-
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static const struct of_device_id sun50i_h6_ppu_of_match[] = {
-> > +       { .compatible   = "allwinner,sun50i-h6-prcm-ppu",
-> > +         .data         = &sun50i_h6_ppus },
-> > +       { .compatible   = "allwinner,sun50i-h616-prcm-ppu",
-> > +         .data         = &sun50i_h616_ppus },
-> > +       { }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, sun50i_h6_ppu_of_match);
-> > +
-> > +static struct platform_driver sun50i_h6_ppu_driver = {
-> > +       .probe  = sun50i_h6_ppu_probe,
-> > +       .driver = {
-> > +               .name                   = "sun50i-h6-prcm-ppu",
-> > +               .of_match_table         = sun50i_h6_ppu_of_match,
-> > +               /* Power domains cannot be removed while they are in use. */
-> > +               .suppress_bind_attrs    = true,
-> > +       },
-> > +};
-> > +module_platform_driver(sun50i_h6_ppu_driver);
-> > +
-> > +MODULE_AUTHOR("Andre Przywara <andre.przywara@arm.com>");
-> > +MODULE_DESCRIPTION("Allwinner H6 PRCM power domain driver");
-> > +MODULE_LICENSE("GPL");
+> > Thanks!
 > > --
-> > 2.46.3
-> >  
-> 
-> Kind regards
-> Uffe
-
+> > Gustavo
+> >
+> > On 14/02/25 18:48, Gustavo A. R. Silva wrote:
+> >> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+> >> getting ready to enable it, globally.
+> >>
+> >> So, in order to avoid ending up with a flexible-array member in the
+> >> middle of other structs, we use the `struct_group_tagged()` helper
+> >> to create a new tagged `struct NISLANDS_SMC_SWSTATE_HDR` (and `struct
+> >> SISLANDS_SMC_SWSTATE_HDR`). This structures group together all the
+> >> members of the flexible `struct NISLANDS_SMC_SWSTATE` (and `struct
+> >> SISLANDS_SMC_SWSTATE`) except the flexible array.
+> >>
+> >> As a result, the array is effectively separated from the rest of the
+> >> members without modifying the memory layout of the flexible structure.
+> >> We then change the type of the middle struct members currently causing
+> >> trouble from `struct NISLANDS_SMC_SWSTATE` to `struct
+> >> NISLANDS_SMC_SWSTATE_HDR` (and from `struct SISLANDS_SMC_SWSTATE` to
+> >> `struct SISLANDS_SMC_SWSTATE_HDR`).
+> >>
+> >> We also want to ensure that when new members need to be added to the
+> >> flexible structure, they are always included within the newly created
+> >> tagged struct. For this, we use `static_assert()`. This ensures that
+> >> the memory layout for both the flexible structure and the new tagged
+> >> struct is the same after any changes.
+> >>
+> >> This approach avoids having to implement `struct NISLANDS_SMC_SWSTATE_=
+HDR`
+> >> (and `struct SISLANDS_SMC_SWSTATE_HDR`) as a completely separate struc=
+ture,
+> >> thus preventing having to maintain two independent but basically ident=
+ical
+> >> structures, closing the door to potential bugs in the future.
+> >>
+> >> We also use `container_of()` whenever we need to retrieve a pointer to
+> >> the flexible structure, through which we can access the flexible-array
+> >> member, if necessary.
+> >>
+> >> So, with this changes, fix the following warnings:
+> >>
+> >> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/sislands_smc.h:218:49: war=
+ning: structure containing a flexible array member is not at the end of ano=
+ther
+> >> structure [-Wflex-array-member-not-at-end]
+> >> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:819:41: warning: =
+structure containing a flexible array member is not at the end of another s=
+tructure [-
+> >> Wflex-array-member-not-at-end]
+> >> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:818:41: warning: =
+structure containing a flexible array member is not at the end of another s=
+tructure [-
+> >> Wflex-array-member-not-at-end]
+> >> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:817:41: warning: =
+structure containing a flexible array member is not at the end of another s=
+tructure [-
+> >> Wflex-array-member-not-at-end]
+> >> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:816:41: warning: =
+structure containing a flexible array member is not at the end of another s=
+tructure [-
+> >> Wflex-array-member-not-at-end]
+> >>
+> >> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> >> ---
+> >>   drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c    |  7 ++++--
+> >>   drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h    | 23 +++++++++++------=
+--
+> >>   .../gpu/drm/amd/pm/legacy-dpm/sislands_smc.h  | 15 ++++++++----
+> >>   3 files changed, 29 insertions(+), 16 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c b/drivers/gpu/=
+drm/amd/pm/legacy-dpm/si_dpm.c
+> >> index a87dcf0974bc..2c9d473d122f 100644
+> >> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> >> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> >> @@ -5234,7 +5234,8 @@ static int si_init_smc_table(struct amdgpu_devic=
+e *adev)
+> >>       table->driverState.flags =3D table->initialState.flags;
+> >>       table->driverState.levelCount =3D table->initialState.levelCount=
+;
+> >> -    table->driverState.levels[0] =3D table->initialState.level;
+> >> +    container_of(&table->driverState, SISLANDS_SMC_SWSTATE, __hdr)->l=
+evels[0] =3D
+> >> +                                table->initialState.level;
+> >>       ret =3D si_do_program_memory_timing_parameters(adev, amdgpu_boot=
+_state,
+> >>                                SISLANDS_INITIAL_STATE_ARB_INDEX);
+> >> @@ -5755,7 +5756,9 @@ static int si_upload_sw_state(struct amdgpu_devi=
+ce *adev,
+> >>       int ret;
+> >>       u32 address =3D si_pi->state_table_start +
+> >>           offsetof(SISLANDS_SMC_STATETABLE, driverState);
+> >> -    SISLANDS_SMC_SWSTATE *smc_state =3D &si_pi->smc_statetable.driver=
+State;
+> >> +    SISLANDS_SMC_SWSTATE *smc_state =3D
+> >> +        container_of(&si_pi->smc_statetable.driverState,
+> >> +                 SISLANDS_SMC_SWSTATE, __hdr);
+> >>       size_t state_size =3D struct_size(smc_state, levels,
+> >>                       new_state->performance_level_count);
+> >>       memset(smc_state, 0, state_size);
+> >> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h b/drivers/gpu/=
+drm/amd/pm/legacy-dpm/si_dpm.h
+> >> index 11cb7874a6bb..62530f89ebdf 100644
+> >> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h
+> >> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h
+> >> @@ -784,12 +784,17 @@ typedef struct NISLANDS_SMC_HW_PERFORMANCE_LEVEL=
+ NISLANDS_SMC_HW_PERFORMANCE_LEV
+> >>   struct NISLANDS_SMC_SWSTATE
+> >>   {
+> >> -    uint8_t                             flags;
+> >> -    uint8_t                             levelCount;
+> >> -    uint8_t                             padding2;
+> >> -    uint8_t                             padding3;
+> >> -    NISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
+> >> +    /* New members MUST be added within the struct_group() macro belo=
+w. */
+> >> +    struct_group_tagged(NISLANDS_SMC_SWSTATE_HDR, __hdr,
+> >> +        uint8_t                             flags;
+> >> +        uint8_t                             levelCount;
+> >> +        uint8_t                             padding2;
+> >> +        uint8_t                             padding3;
+> >> +    );
+> >> +    NISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
+> >>   };
+> >> +static_assert(offsetof(struct NISLANDS_SMC_SWSTATE, levels) =3D=3D si=
+zeof(struct NISLANDS_SMC_SWSTATE_HDR),
+> >> +          "struct member likely outside of struct_group_tagged()");
+> >>   typedef struct NISLANDS_SMC_SWSTATE NISLANDS_SMC_SWSTATE;
+> >> @@ -813,10 +818,10 @@ struct NISLANDS_SMC_STATETABLE
+> >>       uint32_t                            lowSMIO[NISLANDS_MAX_NO_VREG=
+_STEPS];
+> >>       NISLANDS_SMC_VOLTAGEMASKTABLE       voltageMaskTable;
+> >>       PP_NIslands_DPM2Parameters          dpm2Params;
+> >> -    NISLANDS_SMC_SWSTATE                initialState;
+> >> -    NISLANDS_SMC_SWSTATE                ACPIState;
+> >> -    NISLANDS_SMC_SWSTATE                ULVState;
+> >> -    NISLANDS_SMC_SWSTATE                driverState;
+> >> +    struct NISLANDS_SMC_SWSTATE_HDR        initialState;
+> >> +    struct NISLANDS_SMC_SWSTATE_HDR        ACPIState;
+> >> +    struct NISLANDS_SMC_SWSTATE_HDR        ULVState;
+> >> +    struct NISLANDS_SMC_SWSTATE_HDR        driverState;
+> >>       NISLANDS_SMC_HW_PERFORMANCE_LEVEL   dpmLevels[NISLANDS_MAX_SMC_P=
+ERFORMANCE_LEVELS_PER_SWSTATE - 1];
+> >>   };
+> >> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h b/driver=
+s/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
+> >> index 90ec411c5029..1711e3e35e80 100644
+> >> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
+> >> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
+> >> @@ -172,12 +172,17 @@ struct SISLANDS_SMC_HW_PERFORMANCE_LEVEL {
+> >>   typedef struct SISLANDS_SMC_HW_PERFORMANCE_LEVEL SISLANDS_SMC_HW_PER=
+FORMANCE_LEVEL;
+> >>   struct SISLANDS_SMC_SWSTATE {
+> >> -    uint8_t                             flags;
+> >> -    uint8_t                             levelCount;
+> >> -    uint8_t                             padding2;
+> >> -    uint8_t                             padding3;
+> >> +    /* New members MUST be added within the struct_group() macro belo=
+w. */
+> >> +    struct_group_tagged(SISLANDS_SMC_SWSTATE_HDR, __hdr,
+> >> +        uint8_t                             flags;
+> >> +        uint8_t                             levelCount;
+> >> +        uint8_t                             padding2;
+> >> +        uint8_t                             padding3;
+> >> +    );
+> >>       SISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
+> >>   };
+> >> +static_assert(offsetof(struct SISLANDS_SMC_SWSTATE, levels) =3D=3D si=
+zeof(struct SISLANDS_SMC_SWSTATE_HDR),
+> >> +          "struct member likely outside of struct_group_tagged()");
+> >>   typedef struct SISLANDS_SMC_SWSTATE SISLANDS_SMC_SWSTATE;
+> >> @@ -215,7 +220,7 @@ struct SISLANDS_SMC_STATETABLE {
+> >>       struct SISLANDS_SMC_SWSTATE_SINGLE    initialState;
+> >>       struct SISLANDS_SMC_SWSTATE_SINGLE    ACPIState;
+> >>       struct SISLANDS_SMC_SWSTATE_SINGLE    ULVState;
+> >> -    SISLANDS_SMC_SWSTATE            driverState;
+> >> +    struct SISLANDS_SMC_SWSTATE_HDR        driverState;
+> >>       SISLANDS_SMC_HW_PERFORMANCE_LEVEL    dpmLevels[SISLANDS_MAX_SMC_=
+PERFORMANCE_LEVELS_PER_SWSTATE];
+> >>   };
+> >
+>
