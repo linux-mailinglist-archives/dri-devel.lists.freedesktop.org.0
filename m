@@ -2,144 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EDC8A8B19E
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 09:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D46CA8B1B3
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 09:07:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6934B10E84F;
-	Wed, 16 Apr 2025 07:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B38A10E854;
+	Wed, 16 Apr 2025 07:07:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="iwLEriaE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lbmYAwG8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iwLEriaE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lbmYAwG8";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VuVgYL3T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79D1D10E84F
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 07:05:41 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0895F211A3;
- Wed, 16 Apr 2025 07:05:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744787140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xJ8BtjRc+iHzWexbG7wncjMlO/viTf1Hhzh8lNLLRe0=;
- b=iwLEriaE+z7idt1FYvVztJnGn77K9uNhQszIIGKv+EE3ARHuTiBIiNEgPbAPYEfm8lrcVf
- MkdjhutBIkjrVoLelq5jla0iZi7b/gU+0CE4iyjozvDJ5lrbgi+MsJkxewRKI5sZOys6gx
- LGlliIi8eFC0SRaLVye9+oLxBB77tYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744787140;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xJ8BtjRc+iHzWexbG7wncjMlO/viTf1Hhzh8lNLLRe0=;
- b=lbmYAwG8f28evF1iA6LmnT72fWcn+ttaHfyJV+Y/IXL3SQohcw6zg62AqMme4xbga8texS
- z3jtQXU73olf6BBA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iwLEriaE;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lbmYAwG8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744787140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xJ8BtjRc+iHzWexbG7wncjMlO/viTf1Hhzh8lNLLRe0=;
- b=iwLEriaE+z7idt1FYvVztJnGn77K9uNhQszIIGKv+EE3ARHuTiBIiNEgPbAPYEfm8lrcVf
- MkdjhutBIkjrVoLelq5jla0iZi7b/gU+0CE4iyjozvDJ5lrbgi+MsJkxewRKI5sZOys6gx
- LGlliIi8eFC0SRaLVye9+oLxBB77tYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744787140;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xJ8BtjRc+iHzWexbG7wncjMlO/viTf1Hhzh8lNLLRe0=;
- b=lbmYAwG8f28evF1iA6LmnT72fWcn+ttaHfyJV+Y/IXL3SQohcw6zg62AqMme4xbga8texS
- z3jtQXU73olf6BBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A6AD213976;
- Wed, 16 Apr 2025 07:05:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id LmbjJsNW/2fTRQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 16 Apr 2025 07:05:39 +0000
-Message-ID: <82de8253-7be6-40ed-b4a7-c840b3b46362@suse.de>
-Date: Wed, 16 Apr 2025 09:05:39 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF7710E850;
+ Wed, 16 Apr 2025 07:07:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=dMRiJm2KJYp44dVClTZBKYCG1IgyRQDRM15b0tYnjm0=; b=VuVgYL3TARMvPPSOvnBzgYTq/x
+ dLTkXVF0Bv1Vb/dDxUfYRS56Pea0/mrAhQlwb8ALtiVOyj4rlYc2un8V1fk7peFRD64zNUodCco05
+ Sfzw52vyaUhy4F3w98n2igQxkl1LKAQQCz0xd2qPWvlIzTBOCjzRpivGvNKUt6CUI6Qf+9X9JNFhH
+ U8TLRHCS1+XEi7SHstxfOIp7SgKP1eW+aILkZVlzK/roT04b0fDCGCqdJfr8yuCZ6Covw5zi5ZV0A
+ t/MiExysEoAW9PBDhEeaD4Lrfu/2BS4TCQhb45CeQzNE/iVFVZOpUkOyQ7O+fTNFphLmt9J4bXp+W
+ Du6F2uGg==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1u4wrn-00HGaN-3H; Wed, 16 Apr 2025 09:07:27 +0200
+Message-ID: <830a2b61-8965-4193-98de-d462a641737f@igalia.com>
+Date: Wed, 16 Apr 2025 08:07:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/virtio: Support drm_panic with non-vmapped shmem BO
-To: Ryosuke Yasuoka <ryasuoka@redhat.com>, airlied@redhat.com,
- kraxel@redhat.com, dmitry.osipenko@collabora.com,
- gurchetansingh@chromium.org, olvaffe@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch,
- jfalempe@redhat.com
-Cc: virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250412132012.291837-1-ryasuoka@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250412132012.291837-1-ryasuoka@redhat.com>
+Subject: Re: [PATCH v3 1/4] drm: add function drm_file_err to print proc
+ information too
+To: Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+References: <20250415184318.2465197-1-sunil.khatri@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250415184318.2465197-1-sunil.khatri@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 0895F211A3
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_TWELVE(0.00)[13];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FREEMAIL_TO(0.00)[redhat.com,collabora.com,chromium.org,gmail.com,linux.intel.com,kernel.org,ffwll.ch];
- ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,63 +64,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 12.04.25 um 15:20 schrieb Ryosuke Yasuoka:
-> Pass array of pages of the scanout buffer [1] to shmem BO, allowing
-> drm_panic to work even if the BO is not vmapped.
->
-> [1] https://lore.kernel.org/all/20250407140138.162383-3-jfalempe@redhat.com/
->
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+On 15/04/2025 19:43, Sunil Khatri wrote:
+> Add a drm helper function which get the process information for
+> the drm_file and append the process information using the existing
+> drm_err.
+> 
+> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
 > ---
->   drivers/gpu/drm/virtio/virtgpu_plane.c | 14 +++++++++++---
->   1 file changed, 11 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-> index a6f5a78f436a..2ff57d559c86 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-> @@ -500,11 +500,19 @@ static int virtio_drm_get_scanout_buffer(struct drm_plane *plane,
+>   include/drm/drm_file.h | 40 ++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 40 insertions(+)
+> 
+> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> index 94d365b22505..e329299a2b2c 100644
+> --- a/include/drm/drm_file.h
+> +++ b/include/drm/drm_file.h
+> @@ -37,6 +37,7 @@
+>   #include <uapi/drm/drm.h>
 >   
->   	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
+>   #include <drm/drm_prime.h>
+> +#include <drm/drm_print.h>
 >   
-> -	/* Only support mapped shmem bo */
-> -	if (virtio_gpu_is_vram(bo) || bo->base.base.import_attach || !bo->base.vaddr)
-> +	if (virtio_gpu_is_vram(bo) || bo->base.base.import_attach)
-
-Please adopt drm_gem_is_imported() instead of testing import_attach 
-directly. The helper is available in v6.15-rc1 and later.
-
-Best regards
-Thomas
-
->   		return -ENODEV;
+>   struct dma_fence;
+>   struct drm_file;
+> @@ -446,6 +447,45 @@ static inline bool drm_is_accel_client(const struct drm_file *file_priv)
+>   	return file_priv->minor->type == DRM_MINOR_ACCEL;
+>   }
 >   
-> -	iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
-> +	if (bo->base.vaddr)
-> +		iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
-> +	else {
-> +		struct drm_gem_shmem_object *shmem = &bo->base;
+> +/**
+> + * drm_file_err - Fill info string with process name and pid
+> + * @file_priv: context of interest for process name and pid
+> + * @fmt: prinf() like format string
+> + *
+> + * This update the user provided buffer with process
+> + * name and pid information for @file_priv
+> + */
+> +__printf(2, 3)
+> +static inline void drm_file_err(struct drm_file *file_priv, const char *fmt, ...)
+> +{
+> +	struct task_struct *task;
+> +	struct pid *pid;
+> +	struct drm_device *dev = file_priv->minor->dev;
+> +	char new_fmt[256];
+> +	char final_fmt[512];
+> +	va_list args;
 > +
-> +		if (!shmem->pages)
-> +			return -ENODEV;
-> +		/* map scanout buffer later */
-> +		sb->pages = shmem->pages;
-> +	}
->   
->   	sb->format = plane->state->fb->format;
->   	sb->height = plane->state->fb->height;
->
-> base-commit: e7bb7d44c3b97aea1f0e354c6499900154ac67f2
+> +	mutex_lock(&file_priv->client_name_lock);
+> +	rcu_read_lock();
+> +	pid = rcu_dereference(file_priv->pid);
+> +	task = pid_task(pid, PIDTYPE_TGID);
+> +
+> +	if (drm_WARN_ON_ONCE(dev, !task))
+> +		return;
+> +
+> +	snprintf(new_fmt, sizeof(new_fmt), "proc:%s pid:%d client_name:%s %s",
+> +		task->comm, task->pid, file_priv->client_name ?: "Unset", fmt);
+> +
+> +	va_start(args, fmt);
+> +	vsnprintf(final_fmt, sizeof(final_fmt), new_fmt, args);
+> +
+> +	drm_err(dev, "%s", final_fmt);
+> +	va_end(args);
+> +
+> +	rcu_read_unlock();
+> +	mutex_unlock(&file_priv->client_name_lock);
+> +}
+> +
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+I was hoping something primitive could be enough. With no temporary 
+stack space required. Primitive on the level of (but simplified for 
+illustration purpose):
+
+#define some_err(_file, _fmt, ...) \
+	drm_err(dev, "client-%s: " _fmt, (_this)->client_name, ##__VA_ARGS__)
+
+Am I missing something or that would work?
+
+Regards,
+
+Tvrtko
+
+>   void drm_file_update_pid(struct drm_file *);
+>   
+>   struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigned int minor_id);
 
