@@ -2,93 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3F2A8B54D
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 11:28:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125B0A8B553
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 11:29:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87F8510E8A8;
-	Wed, 16 Apr 2025 09:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DDF710E8AE;
+	Wed, 16 Apr 2025 09:29:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vHNJGM1/";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com
- [209.85.221.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2100C10E8A8
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 09:28:37 +0000 (UTC)
-Received: by mail-vk1-f180.google.com with SMTP id
- 71dfb90a1353d-52617ceae0dso1863020e0c.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 02:28:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744795715; x=1745400515;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=g4vscTFMlRO2bqnOkEDCqxlIR5FOdxqQklMvAsU4H6Q=;
- b=boxRzTvH9caIPhsxUxEpM2A0MhxIMdzKIlPTKdvFEykqhrVieypmF7/VyZvo4Rxl4i
- J2bZLvSdzfzU1dUBJuVl/44safoW+Us5pKTYTiC7zqP4mJELcgSirtkB1nnBB1vO9dfe
- hr88xlTuE+ADNcBv/Ngeb5COFu2xigVNVsmF6BqwWNOl3/yJcq5TL4B/u7r4ydL1VPq2
- YdGKSgP7aFQCol9TXk0N4wDPHH5yVqr+aqMzjUT/9VRnSfSTqu3V2DM8wRpldzdndVWJ
- +WES0udR7PNfo+Ik3vGa+GWbzo3NmHIKwsdU46h5X2/h78Ywn3mDmvudIgdK2+ppzvme
- 475g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWWorSHLsdh/2+t+FhmugZQLCG4mSOsYm3DbE9okqL4+hlE7zf3RJf9jjHqcyigO8MBaX0+lPswRgI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9IByCR3brLXWrCr/wGBzIigd0Ov3w98Yhe1voaF9TBCUWnl+E
- tlsqXLGvmENLVqJUyshNVLn0gNNw0rkcWB2RdJiDCMmvK4aQvz4I8dqZyc+e
-X-Gm-Gg: ASbGncugzVghu/0gGMt6L1R6aZxstprGI7O8zeigk+a0UZLUMWNTECa4txr8vkqvA3e
- kP8/ZPmKTDWCttcmHa3esQ9FKb1YvrjuKelNwvF0RwzUQocZte4hNsa2lVzAZef1/KaREC2f039
- hzAn+w6eMegj+s8s2X/zTy20AHUk9FeA4wR1iIFoaIbbX7jOzAhJL/aiXPZ967KYK9+3Eb2QKcD
- sZXIxqsJVWZOCGlhcFFB67ZArS+dUMabk1DhBKW5tAExjhhZ5ZcBll0EXUuhgj0GsdDUdS2zeQv
- jKCDpEqq3TzvlZVPwu1rHgC2/5LZ2XoV1KzOxnfMbGtJwob6dqLV7Bk6rdCKH0ZsvxuDJDLb5JR
- R1VUIssE=
-X-Google-Smtp-Source: AGHT+IFRNd/QKwLICVIKeV5jGcoUe7m9QwIyS/9RZOS8fYDtCmj57Uht95hAei1/B1bP2IeMGfogLw==
-X-Received: by 2002:a05:6122:2a13:b0:529:d7e:d13f with SMTP id
- 71dfb90a1353d-5290e1c84a3mr417389e0c.9.1744795715124; 
- Wed, 16 Apr 2025 02:28:35 -0700 (PDT)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com.
- [209.85.221.180]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-527abe8e6fasm3170665e0c.36.2025.04.16.02.28.34
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Apr 2025 02:28:34 -0700 (PDT)
-Received: by mail-vk1-f180.google.com with SMTP id
- 71dfb90a1353d-523de5611a3so2496247e0c.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 02:28:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVGmHqz54UKZbIOwz8QD7X0wYpuUbgY3QxoH2uvNwS3x7RRRJd2R+5QsMyn78Lcy8HVAMmvG6uYrJw=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:5e8:b0:4c1:c10d:cf65 with SMTP id
- ada2fe7eead31-4cb592f320amr282769137.25.1744795714375; Wed, 16 Apr 2025
- 02:28:34 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC6110E8AE;
+ Wed, 16 Apr 2025 09:29:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 3460361567;
+ Wed, 16 Apr 2025 09:29:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DBF2C4CEE2;
+ Wed, 16 Apr 2025 09:29:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744795768;
+ bh=xKc8QblkN9uJFFCNL6TIKz3YjB59ygJkZnOM9Cdts/Q=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=vHNJGM1//ojqqTbQ3yiTbcMZDv4Ur+nBc2qkNjLe8xRQ4EYJ9LkW9VsCKmY3nlM/q
+ XBl/0dy2GDg5Qvej2MThYk/7hDAS/cotGKHYpwC4ANvaxkov7B12fAE/GJf3/VgqBs
+ UO0v4W1HVWqO26xOLT7BQJbSyCT0MihHG3jlPmul2oKOoo2cJ5Or3CrNvjQGd6SgVA
+ cEyDA3KbYnwdud9rXx5bgNwiP1SGhOmP7n/p22oUVjAHRMX3dmEG63USPagIeZ6e68
+ PBK2hW+TZzaMrKBnHQ4Jxy8V8hHLF5d0JKYWYaXZf/+n43hq5r/heHpZMjikVUkjFH
+ MMJSP7sAXZ77A==
+Date: Wed, 16 Apr 2025 17:29:01 +0800
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Andy Shevchenko <andriy.shevchenko@intel.com>, David
+ Airlie <airlied@gmail.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Masahiro Yamada
+ <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>, Nathan
+ Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
+Message-ID: <20250416172901.60104103@sal.lan>
+In-Reply-To: <20250416171917.0985c0eb@sal.lan>
+References: <cover.1744789777.git.mchehab+huawei@kernel.org>
+ <4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
+ <87tt6opks7.fsf@intel.com> <20250416171917.0985c0eb@sal.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20250408200916.93793-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250408200916.93793-16-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250408200916.93793-16-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 16 Apr 2025 11:28:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVbcOvfW6YqW6S77J7htaJqWkeoGEhjkAWXvG5Fo1FMhA@mail.gmail.com>
-X-Gm-Features: ATxdqUHCOHToO8zh97LKtpyDEutN_FL_Sxg_dBqYsVTr46pKfBBTHGJphFzPmgw
-Message-ID: <CAMuHMdVbcOvfW6YqW6S77J7htaJqWkeoGEhjkAWXvG5Fo1FMhA@mail.gmail.com>
-Subject: Re: [PATCH v2 15/15] drm: renesas: rz-du: mipi_dsi: Add support for
- RZ/V2H(P) SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,58 +70,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar, Fabrizio,
+Em Wed, 16 Apr 2025 17:19:17 +0800
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-On Tue, 8 Apr 2025 at 22:09, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add DSI support for Renesas RZ/V2H(P) SoC.
->
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Em Wed, 16 Apr 2025 11:34:16 +0300
+> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+> 
+> > On Wed, 16 Apr 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > > As reported by Andy, kernel-doc.py is creating a __pycache__
+> > > directory at build time.
+> > >
+> > > Disable creation of __pycache__ for the libraries used by
+> > > kernel-doc.py, when excecuted via the build system or via
+> > > scripts/find-unused-docs.sh.
+> > >
+> > > Reported-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> > > Closes: https://lore.kernel.org/linux-doc/Z_zYXAJcTD-c3xTe@black.fi.intel.com/
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > > ---
+> > >  drivers/gpu/drm/Makefile      | 2 +-
+> > >  drivers/gpu/drm/i915/Makefile | 2 +-
+> > >  include/drm/Makefile          | 2 +-
+> > >  scripts/Makefile.build        | 2 +-
+> > >  scripts/find-unused-docs.sh   | 2 +-
+> > >  5 files changed, 5 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> > > index ed54a546bbe2..d21d0cd2c752 100644
+> > > --- a/drivers/gpu/drm/Makefile
+> > > +++ b/drivers/gpu/drm/Makefile
+> > > @@ -236,7 +236,7 @@ always-$(CONFIG_DRM_HEADER_TEST) += \
+> > >  quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
+> > >        cmd_hdrtest = \
+> > >  		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
+> > > -		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
+> > > +		 PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \  
+> > 
+> > KERNELDOC is not set here.
+> 
+> > 
+> > /bin/sh: 1: -none: not found
+> 
+> Weird. This is set on Documentation/Makefile:
+> 
+> 	$ grep KERNELDOC Documentation/Makefile 
+> 	KERNELDOC       = $(srctree)/scripts/kernel-doc.py
+> 	...
+> 
+> drivers/gpu/drm/Makefile should be able to see this variable there...
 
-Thanks for your patch!
+I suspect that the building system tries to confine variables to
+sub-directories, so maybe one solution would be to move it to the
+main makefile.
 
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -70,6 +80,18 @@ struct rzg2l_mipi_dsi {
->         unsigned int num_data_lanes;
->         unsigned int lanes;
->         unsigned long mode_flags;
-> +
-> +       struct rzv2h_dsi_mode_calc mode_calc;
-> +       struct rzv2h_plldsi_parameters dsi_parameters;
-> +};
-> +
-> +static const struct rzv2h_plldsi_div_limits rzv2h_plldsi_div_limits = {
-> +       .m = { .min = 64, .max = 1023 },
+could you please check if this patch solves the issue?
 
-.max = 533?
+[PATCH] Makefile: move KERNELDOC macro to the main Makefile
 
-> +       .p = { .min = 1, .max = 4 },
-> +       .s = { .min = 0, .max = 5 },
+As kernel-doc script is used not only on Documentation, but
+also on scripts and drivers/drm Makefiles, move it to the
+main makefile, as otherwise sub-makefiles may not have it.
 
-.max = 6?
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-> +       .k = { .min = -32768, .max = 32767 },
-> +       .csdiv = { .min = 1, .max = 1 },
-> +       .fvco = { .min = 1050 * MEGA, .max = 2100 * MEGA }
->  };
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index c022b97c487e..7a2069e87dbd 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -60,7 +60,6 @@ endif #HAVE_LATEXMK
+ # Internal variables.
+ PAPEROPT_a4     = -D latex_paper_size=a4
+ PAPEROPT_letter = -D latex_paper_size=letter
+-KERNELDOC       = $(srctree)/scripts/kernel-doc.py
+ KERNELDOC_CONF  = -D kerneldoc_srctree=$(srctree) -D kerneldoc_bin=$(KERNELDOC)
+ ALLSPHINXOPTS   =  $(KERNELDOC_CONF) $(PAPEROPT_$(PAPER)) $(SPHINXOPTS)
+ ifneq ($(wildcard $(srctree)/.config),)
+diff --git a/Makefile b/Makefile
+index 38689a0c3605..c8e46f0c1f63 100644
+--- a/Makefile
++++ b/Makefile
+@@ -458,6 +458,8 @@ endif
+ HOSTRUSTC = rustc
+ HOSTPKG_CONFIG	= pkg-config
+ 
++KERNELDOC       = $(srctree)/scripts/kernel-doc.py
++
+ KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+ 			 -O2 -fomit-frame-pointer -std=gnu11
+ KBUILD_USERCFLAGS  := $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
 
-Summarized: why do these values differ from the ones in the declaration
-macro RZV2H_CPG_PLL_DSI_LIMITS(), i.e. why can't you use the latter?
 
->
->  static inline struct rzg2l_mipi_dsi *
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
