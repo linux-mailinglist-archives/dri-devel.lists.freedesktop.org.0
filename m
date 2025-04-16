@@ -2,109 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DDDA90F79
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 01:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB95A90FC2
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 01:40:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5E4210E086;
-	Wed, 16 Apr 2025 23:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D605D10E9E3;
+	Wed, 16 Apr 2025 23:40:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CsqrQAXT";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="kCEkynKr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 108F510E086
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:20:56 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53GKxwYJ003628
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:20:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=O+bay3u8UkUVUh3z4kt+jJUd
- J2Y3Kg04YyWU0gm+6Mc=; b=CsqrQAXTNSS7hFeXDgqLDm2NwS456itAL6Lf+0FU
- H1+oESwd+4CmlAEVCkNpbdgtB1Qmr9ndpC/wx0H+sw49/ak4SN9ISyPwTy9JyQei
- ToVBZqQoqvnS+MIvLrxETEiNhtSCjw+ZqnnNWxfM9u2w6d2Y34uRC5h0BL4Ru8zV
- a0549cC8O3REmpKAFZspuvMBEEMoUk8x61DFoHXMk11Sbp2iwohsxpchydXxp/DO
- u3xnw+9mhp1rgscNr5z1KMXoY7CNcbGxyh0b59xGgbILfvIfSDbthbmTAxlGRMKy
- usikbt+TUAW3gmO94+t2jRNYfK/MXKm7YzSSb4S8LkpScg==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4628rva9y0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:20:55 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6e916df0d5dso4499036d6.2
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 16:20:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744845654; x=1745450454;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E41A10E9E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:40:38 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-43cfe808908so27975e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 16:40:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1744846835; x=1745451635;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=O+bay3u8UkUVUh3z4kt+jJUdJ2Y3Kg04YyWU0gm+6Mc=;
- b=ND6MMyINf7YoZ+mnChIdaxpW2m8v/bO3fIGrhnbWtYuTWXQrN4SXfHqIvviLP7KUEN
- dFJYrYCoya2q8U8ZPyDbzK9Bzfv4gWjYUdI5AS/f05zf+1ZsfTR1eByJAZJGRozEmMzN
- fHM+3e7YVtPI/vULozVEEOpJG7D8/RNe0bLkHes/r5lfWye6ubV/nPcZVAQ6T1drYsC1
- 9O/F/SHO+BpicnXxgt58CwVHB9ZJqNKutwB5m/RsCSXs4sAEWBD1ZB5ERs6fZEQ7E0Nt
- s6kuDXqAAHMzAKFcbdJJoRxwawY+4AKOziiNCpWmRNMuzfRGIfRZ8Lwe+zxtFqV+97xW
- Vu+w==
-X-Gm-Message-State: AOJu0Yy3rtA+ieephTE8pfweBpGmPkkBGEdkSdjwNghQe2/tIZo+BL8+
- Sw2cZdcie1OqAuZ0GKd9vZnPLgaRQ4LfQgM1EVzqQR+3TG6x/S08KOAmH1ZaSv1Cjic83PMEjhe
- WpnaarD5L4HhxDzUfTmR1z59p8hhqvzFDCvCcikYI+MktnX6Ei4RMEdhZnokpCoqUvIo=
-X-Gm-Gg: ASbGncvnjWv4ParUxi4xA9cEA9M1MxNOnoHaxNR14/WBHJcrFA0ZVcVaeAbQDkLa7nH
- isIUpOVctYuWXdHWoi3rqhyqeWgzCwYZRKJVX7JNxGdNHMI0POq6sXFa6bzsM9TUCW0InONDeSp
- GVnCN4/4HP97XqwgfOg+JVse4lEseVfYBDFS1ASSJTPra04BL0y2HGDc89aTtnu2hzjwP8oFN2C
- O29ZqgmBu781768jz2UgcjaRMJibfkoD1+BbDBoK1sxfJgaD9h+rzcC+cUL8b3TR4fHx1r4Nsb0
- 7Bd7WktJqBH+peECnk9yF5u8iT8ZMpK5sSYohut+1ywV6wWFUbhV61tFg2yJsPhxDNenFBbS7sM
- =
-X-Received: by 2002:a05:6214:20a2:b0:6e8:f65a:67bd with SMTP id
- 6a1803df08f44-6f2b2f3e4ffmr54592276d6.11.1744845654042; 
- Wed, 16 Apr 2025 16:20:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHBAA9vrfbsRJNy3z4MIqCYUoUGx8TD8fWhZnK3l2Nt2B+kFTS0IhIbhX4Oxt4YB0i74q0tEA==
-X-Received: by 2002:a05:6214:20a2:b0:6e8:f65a:67bd with SMTP id
- 6a1803df08f44-6f2b2f3e4ffmr54591936d6.11.1744845653574; 
- Wed, 16 Apr 2025 16:20:53 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54d3d520389sm1784976e87.251.2025.04.16.16.20.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Apr 2025 16:20:51 -0700 (PDT)
-Date: Thu, 17 Apr 2025 02:20:50 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 08/34] drm/msm: Remove vram carveout support
-Message-ID: <q2tzc2cvzfu7hirxcd6l6vi7veynqdopdg2myjbjkzbslcu5bi@52pmnd3thdil>
-References: <20250319145425.51935-1-robdclark@gmail.com>
- <20250319145425.51935-9-robdclark@gmail.com>
+ bh=6Mxjt3rihuzILbcLl043WrZ7HaX9/u729SBhzDpJcjw=;
+ b=kCEkynKrmI1hZyxfmW42/FSqcmDr+SURRosLEOpFIipmKTZk5BRkfPMf8LAYF0KVNW
+ 7pJcWIi5nv8eYrg4X7ePftJ1FpXWkfxtd3sQeMdkW+3nzZj4s7T7BbJg7ACVleFBhox9
+ hj589V8VQj49paYiIXblIhqnsjrVtM2CHUDy/TkMSzfI+kb6FzS1IiNLYLXExJay6ht9
+ CCTN9DPBdNEJhkWi2Mmr9dqVx9K5wyYHfGPqY8siet+itPETQZ/sULBAHkuyeML6vdYF
+ RQLY46vAXOuPAUnqEZh5p1Sfv7el9GVHRYUdlzte0Zza2LX7iNVzTdbcVRQUIY19sL3Y
+ PZaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744846835; x=1745451635;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6Mxjt3rihuzILbcLl043WrZ7HaX9/u729SBhzDpJcjw=;
+ b=eBXNGBPVsX1sst9SenAOtI4O1XuizdzksER7PjxeAvTS1h4UFhjIwSRt7LlnvVZCSx
+ LtRudwL8mcXxmjRrC6002UBl9Nnjk9TbzT01FY0iUAdvW+0fEmUdc9s5bbiya5TI+1EL
+ V3f0r7cHkuNMw8iKUiLdXLcreeFBLVogLZvBIOzxYCL5L96u+47ppL+MhF2sBG4c93Md
+ hiFsRNHD6cbGwWwvDu25/SnQZap9kur0pqGJaOU+f+jFeJa6i8pgIlkEdFrLasp/jhw7
+ aV3zRiFoUG2wo15EJUcIG1aGoU8hVfGzIusVg+3IKMHYt9Estmh4ftmO1TISgr43V+wp
+ +QUw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVv1I2c0Rfc9pEH+8r4MVp4sE37pJlj9aXtUer0tfqnEHR85ljgp2W3OLhpLWvxuhZD3NKSbxGDnoQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTfylHD2VkLjKYxRHuNnbu1nvi503dcqJ8ovTjCgzYXB9AIhe8
+ jzo9hvljj3MlGZQLuT+DHl0jy2BYp+0kzMCPz+Iwy8omf2hMv/3vj3I6itpQUO/VZjc/dODIK2L
+ lB74h/I7ev93lVKlYnKNlWhG9tm+xHskd0xxd
+X-Gm-Gg: ASbGncv6hRGUqzBBM8Wzn0o9pPBhFoXiJPgs2qbEogQ5r9eMMYGYlOxSkPTdT93f3m2
+ Vs6k144bPH5FSek2iR1Y+TaepoR4CEy7yhneos1vx/i1wMAgsOsbHQ95r9kUWcxkYHCt/qS1W+1
+ C3yu/O/dy0TX5VxRJSGce2DpvTnjF1gQPQtqLDsCOBobIp7DGmdhU=
+X-Google-Smtp-Source: AGHT+IHYwzghKbnTQryW+DgZnRoQaoVXvuuAUTPz6qIMWx+I2V7QXqmb5/BgPuRKmM0AahWplsMUsAlWl25L3C8nIj0=
+X-Received: by 2002:a05:600c:1910:b0:43d:409c:6142 with SMTP id
+ 5b1f17b1804b1-44062a3eddamr573455e9.0.1744846834549; Wed, 16 Apr 2025
+ 16:40:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250319145425.51935-9-robdclark@gmail.com>
-X-Proofpoint-ORIG-GUID: mv_n5I8n3Q1Ixz_mUJMgRu2312FJYx8X
-X-Authority-Analysis: v=2.4 cv=RbSQC0tv c=1 sm=1 tr=0 ts=68003b57 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=cm27Pg_UAAAA:8 a=9D-VRocS9j12M_ZVpNYA:9 a=CjuIK1q_8ugA:10
- a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-GUID: mv_n5I8n3Q1Ixz_mUJMgRu2312FJYx8X
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-16_09,2025-04-15_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 adultscore=0 impostorscore=0 clxscore=1015 bulkscore=0
- phishscore=0 priorityscore=1501 spamscore=0 mlxscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504160187
+References: <20250414225227.3642618-1-tjmercier@google.com>
+ <20250414225227.3642618-3-tjmercier@google.com>
+ <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
+ <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
+ <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
+In-Reply-To: <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 16 Apr 2025 16:40:22 -0700
+X-Gm-Features: ATxdqUFLZu_g7cAHhskZ0L5MamFR6bpu5Vd8u8TDIC07BpRPPZAKqsf2Wefu0qw
+Message-ID: <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
+Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
+To: Song Liu <song@kernel.org>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+ daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+ skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+ simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+ jolsa@kernel.org, mykolal@fb.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,33 +95,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 19, 2025 at 07:52:20AM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> It is standing in the way of drm_gpuvm / VM_BIND support.  Not to
-> mention frequently broken and rarely tested.  And I think only needed
-> for a 10yr old not quite upstream SoC (msm8974).
+On Wed, Apr 16, 2025 at 4:08=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+>
+> On Wed, Apr 16, 2025 at 3:51=E2=80=AFPM T.J. Mercier <tjmercier@google.co=
+m> wrote:
+> [...]
+> > >
+> > > IIUC, the iterator simply traverses elements in a linked list. I feel=
+ it is
+> > > an overkill to implement a new BPF iterator for it.
+> >
+> > Like other BPF iterators such as kmem_cache_iter or task_iter.
+> > Cgroup_iter iterates trees instead of lists. This is iterating over
+> > kernel objects just like the docs say, "A BPF iterator is a type of
+> > BPF program that allows users to iterate over specific types of kernel
+> > objects". More complicated iteration should not be a requirement here.
+> >
+> > > Maybe we simply
+> > > use debugging tools like crash or drgn for this? The access with
+> > > these tools will not be protected by the mutex. But from my personal
+> > > experience, this is not a big issue for user space debugging tools.
+> >
+> > drgn is *way* too slow, and even if it weren't the dependencies for
+> > running it aren't available. crash needs debug symbols which also
+> > aren't available on user builds. This is not just for manual
+> > debugging, it's for reporting memory use in production. Or anything
+> > else someone might care to extract like attachment info or refcounts.
+>
+> Could you please share more information about the use cases and
+> the time constraint here, and why drgn is too slow. Is most of the delay
+> comes from parsing DWARF? This is mostly for my curiosity, because
+> I have been thinking about using drgn to do some monitoring in
+> production.
+>
+> Thanks,
+> Song
 
-Well... MSM8974 is quite upstream, but anyway, let's drop it. Maybe
-somebody will write an IOMMU driver.
+These RunCommands have 10 second timeouts for example. It's rare that
+I see them get exceeded but it happens occasionally.:
+https://cs.android.com/android/platform/superproject/main/+/main:frameworks=
+/native/cmds/dumpstate/dumpstate.cpp;drc=3D98bdc04b7658fde0a99403fc052d1d18=
+e7d48ea6;l=3D2008
 
-> 
-> Maybe we can add support back in later, but I'm doubtful.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a2xx_gpu.c      |   6 +-
->  drivers/gpu/drm/msm/adreno/a3xx_gpu.c      |  13 +-
->  drivers/gpu/drm/msm/adreno/a4xx_gpu.c      |  13 +-
->  drivers/gpu/drm/msm/adreno/adreno_device.c |   4 -
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |   1 -
->  drivers/gpu/drm/msm/msm_drv.c              | 117 +-----------------
->  drivers/gpu/drm/msm/msm_drv.h              |  11 --
->  drivers/gpu/drm/msm/msm_gem.c              | 131 ++-------------------
->  drivers/gpu/drm/msm/msm_gem.h              |   5 -
->  drivers/gpu/drm/msm/msm_gem_submit.c       |   5 -
->  10 files changed, 19 insertions(+), 287 deletions(-)
+The last time I used drgn (admittedly back in 2023) it took over a
+minute to iterate through less than 200 cgroups. I'm not sure what the
+root cause of the slowness was, but I'd expect the DWARF processing to
+be done up-front once and the slowness I experienced was not just at
+startup. Eventually I switched over to tracefs for that issue, which
+we still use for some telemetry.
 
--- 
-With best wishes
-Dmitry
+Other uses are by statsd for telemetry, memory reporting on app kills
+or death, and for "dumpsys meminfo".
+
+Thanks,
+T.J.
