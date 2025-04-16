@@ -2,152 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B317AA90A9B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 19:58:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE29A90AAC
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 20:00:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 091AC10E98E;
-	Wed, 16 Apr 2025 17:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD4810E991;
+	Wed, 16 Apr 2025 18:00:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bhWeDBUu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cPUs/7SD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
- [209.85.222.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 494FF10E98E
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 17:58:53 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id
- af79cd13be357-7c5c815f8efso643929385a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 10:58:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744826332; x=1745431132; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:subject:cc:to:from:date:feedback-id
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=Xw162kgFschDiIV5cGynK2BOAJTwtOVScNTTzDVE1U8=;
- b=bhWeDBUunY7jP3pWcXfn7wSciZk6Ry3nO/MtXKmu6MTvNvKf6/fA0PJHubqCwcBTJh
- GDIuIi71ITrQAuVFXHzcwydk87qh/KcEX6GCPNTM2A+kMUtl+mj/B3T+EtRmoAjBzA1K
- o3VPa6ZXMhvhIeCKkIUyAkwUMQg5WGueedeQUhlURfcaVu4HRLRG19ke6bVlORb+r1dZ
- qFIdfiqGHmzrCYKtiV9Z/5n8xKDDkYwfmR6gdNwKXd2fNmYrutAKJevAxkOLjFpUqhQi
- HdzDrREft0Cg9vZwqjQQCeM8tHmFlJiKpCRRQ0N1SgnL8ndr5suxcK/H7QtHxLoSpUP7
- n60g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744826332; x=1745431132;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:subject:cc:to:from:date:feedback-id
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Xw162kgFschDiIV5cGynK2BOAJTwtOVScNTTzDVE1U8=;
- b=Zk+dqaIx5S20kCsrjkB9OcQQMEwK8dWxg1War7vBwL7NNwmMV1aFCdcGwsXuRtCC/F
- 0P2uKJY4/5m/XMc+EAnePiU8T7H8On8yd5m3Ihzo/RBQsdBS2Lw0A/qasge5e5SOn3cL
- NtIShEc5pKi/mqqpo8bjMVyBzRCIYFD3refpBzzVg0qK8WXgF0IuWwtUFNVQne1GpvS0
- HuUIuqzwBlrD/Zrp2lMSm9obaZRZWZbN6gzXZFvHmpIFXCf0OYicvcta+NoHOpESfpaM
- CvKXJiwvOVApV0DowQgwZ96H0dmfgRZ/PdF+RUa/tZlxPgUpoEtsFTeFBaLjMB0+aoZd
- LqUg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHwSp8UrGQpkK8QZP5jnifRaS7/f/+6FfFddiv5wo9VQ4HNSnyJrU/JUiJ6n/FVOQn6F1ip8+j17Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1nmRzrVQX12JJZFXve+0etuTJ078CMpRN1cYxP8Ah32vqyA29
- C8hVVr/V+0Wxxl5iEoJgvRx7CojEv7BDcCO0GLBCxKFWezRtKwOy
-X-Gm-Gg: ASbGnct29obD7yLbVjynwQpIP96Tx28U2/KDmB4QVP1GgekWwJOt0aDxtyw62gCykzL
- GuUmx1ZgA0iSnv0SdyLML/gklIaxDo2iT0VZfNAdNcBqO1pnuH/GhpFHq6r0ussvWNEfpdR7/Ht
- hG3yLfwrTmCMrKmp7n++FUy6fznsy/u6iWZRlk5lHFW+eNvimz1FehzWfR0TJaqgd513jpsxB/o
- S5JUVoTRRYyjbTPAQZ+A6X2QtHOM7y6J1WwDM2u03iLGwx4gAn5uMf6WkIK5/VDEAI0ZNUOmMB2
- ZtjkcQhS1TWGuW9vO7J8rzxQOySC7t7hbCpI9qDESyaWJrhoj7NhDil5aiBYdKkhUXlmBe1+hCf
- N4Pq8ZnUe7qPHgXgu1rq+MpJ0uLFq15I=
-X-Google-Smtp-Source: AGHT+IG2xgMUSPM66Q42gFKXA+8KAt65yWia1nfFwf2fIYwzoFAy7Rqdy1Qgw0W9zJEn9qMHB/aQBQ==
-X-Received: by 2002:a05:620a:318f:b0:7c5:a513:1fd2 with SMTP id
- af79cd13be357-7c918fce4c8mr432709285a.6.1744826332212; 
- Wed, 16 Apr 2025 10:58:52 -0700 (PDT)
-Received: from fauth-a2-smtp.messagingengine.com
- (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7c7a8a0dc9fsm1083506885a.96.2025.04.16.10.58.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Apr 2025 10:58:51 -0700 (PDT)
-Message-ID: <67ffefdb.e90a0220.61a9e.ae40@mx.google.com>
-X-Google-Original-Message-ID: <Z__v2fIvInI7C5po@winterfell.>
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal
- [10.202.2.43])
- by mailfauth.phl.internal (Postfix) with ESMTP id C82631200043;
- Wed, 16 Apr 2025 13:58:50 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-03.internal (MEProxy); Wed, 16 Apr 2025 13:58:50 -0400
-X-ME-Sender: <xms:2u__Z-6e9bwRfBqXn5ZV5KAPHX2Erzyf2g9lCPuzWusdcJVI92JRyQ>
- <xme:2u__Z36bvFCsweDpyolBa0bQ1sjrqLNn_EADA-OlYnY0YPOLBn4A_CbOC0Iu_6BkE
- 9dYeox8dGIx2g735w>
-X-ME-Received: <xmr:2u__Z9fAiWc4vPjhZzUtI2Of0WLaEHNUYVAgVs94XRZGi9JwR07HuAXTOw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdejtdefucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
- pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
- gvnhhtshculddquddttddmnegoufhushhpvggtthffohhmrghinhculdegledmnecujfgu
- rhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeeuohhquhhnuc
- fhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrthht
- vghrnhepkeekheeuudefgeelfedthfduheehkeellefhleegveeljeduheeufeelkeejie
- egnecuffhomhgrihhnpehgihhthhhusgdrihhopdhkvghrnhgvlhdrohhrghenucevlhhu
- shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvg
- hsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheeh
- hedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
- dpnhgspghrtghpthhtohepgeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeht
- rghmihhrugesghhmrghilhdrtghomhdprhgtphhtthhopehmrghsrghhihhrohihsehkvg
- hrnhgvlhdrohhrghdprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhr
- tghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrd
- hgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhopehgrghrhiesghgrrhihghhu
- ohdrnhgvthdprhgtphhtthhopegsjhhorhhnfegpghhhsehprhhothhonhhmrghilhdrtg
- homhdprhgtphhtthhopegsvghnnhhordhlohhsshhinhesphhrohhtohhnrdhmvgdprhgt
- phhtthhopegrrdhhihhnuggsohhrgheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:2u__Z7Kx_1V_DGAuo7rklz4-YXbV9iH6ZLmsAEXvUKvN65NZ_gXY_A>
- <xmx:2u__ZyJZ4L9Rw_LxO7hsWD8QSr-EAsu1YlQLSWQ5wRvqPcAvOWsBPQ>
- <xmx:2u__Z8wb2Wq1I1vj43mGXf3hSkxSiNKUMtFUY0H_8DLETvV3GsyL3Q>
- <xmx:2u__Z2KvF4iMjtFKev_1qUqJlGoO2GUd2iZaEbJY2NRkmC-t818okA>
- <xmx:2u__Z5aFsOy6LALo_VQ9BGXCOVtcyZn2dgILL7wK0bjLLbI-qFf-__Ot>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Apr 2025 13:58:50 -0400 (EDT)
-Date: Wed, 16 Apr 2025 10:58:49 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,	Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@google.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Frederic Weisbecker <frederic@kernel.org>,	Lyude Paul <lyude@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
- linux-block@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v9 6/6] rust: enable `clippy::ref_as_ptr` lint
-References: <20250416-ptr-as-ptr-v9-0-18ec29b1b1f3@gmail.com>
- <20250416-ptr-as-ptr-v9-6-18ec29b1b1f3@gmail.com>
- <67ffee16.c80a0220.1dbd15.c3ad@mx.google.com>
- <CAJ-ks9n-5Gkp61ODfBbf3==fYp1AbexANLZaQpsGj_mj1WRfkA@mail.gmail.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBE1810E98A;
+ Wed, 16 Apr 2025 18:00:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id ED428A4A40C;
+ Wed, 16 Apr 2025 17:55:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6E7CC4CEE2;
+ Wed, 16 Apr 2025 18:00:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744826446;
+ bh=SJY0xG1DrlZDBeIQmUalS9GpwgIa3ejXcZ6rQbeRQtY=;
+ h=Date:From:To:Cc:Subject:From;
+ b=cPUs/7SDgeiM0HerpNhmtjeKguIPd24msJJ+OoUVpI5Lf0fu53ldSmmleu5CyF1b7
+ x4EQX4drBvPa95+a7mnx6zF7ODs+HXvY35mqHNw4IhlHtCrML2g/+5cKCxtvWfYYF7
+ 8yT9fMJ6NKQjyqJAplFZRM12GeK0WX5GlEIX0wkaxnwlH8291ky9nWrIG5P/k42KBZ
+ zTJMz1nexk4QIopQ9yFSLhghFwYJZkrc7LXL/cCcYVCz5lE470veypc3LfpoVJRMSE
+ k/Yd7mfKb6MMsDS5NKVBfc+4k+h+4jrEE5p6L+Nja2/8Kok9ZmPxiYcCJp66Yu1Hr3
+ PbbcKOUgU9GJA==
+Date: Wed, 16 Apr 2025 12:00:42 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hardening@vger.kernel.org, Kees Cook <kees@kernel.org>
+Subject: [PATCH v2][next] drm/nouveau: chan: Avoid
+ -Wflex-array-member-not-at-end warnings
+Message-ID: <Z__wSgHK5_lHw8x9@kspp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ-ks9n-5Gkp61ODfBbf3==fYp1AbexANLZaQpsGj_mj1WRfkA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,33 +59,224 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 16, 2025 at 01:53:34PM -0400, Tamir Duberstein wrote:
-> On Wed, Apr 16, 2025 at 1:51 PM Boqun Feng <boqun.feng@gmail.com> wrote:
-> >
-> > On Wed, Apr 16, 2025 at 01:36:10PM -0400, Tamir Duberstein wrote:
-> > > In Rust 1.78.0, Clippy introduced the `ref_as_ptr` lint [1]:
-> > >
-> > > > Using `as` casts may result in silently changing mutability or type.
-> > >
-> > > While this doesn't eliminate unchecked `as` conversions, it makes such
-> > > conversions easier to scrutinize.  It also has the slight benefit of
-> > > removing a degree of freedom on which to bikeshed. Thus apply the
-> > > changes and enable the lint -- no functional change intended.
-> > >
-> > > Link: https://rust-lang.github.io/rust-clippy/master/index.html#ref_as_ptr [1]
-> > > Suggested-by: Benno Lossin <benno.lossin@proton.me>
-> > > Link: https://lore.kernel.org/all/D8PGG7NTWB6U.3SS3A5LN4XWMN@proton.me/
-> > > Reviewed-by: Benno Lossin <benno.lossin@proton.me>
-> > > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-> >
-> > Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
-> >
-> > Thanks!
-> 
-> Thank you! I updated the earlier patches as well.
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-Yeah, those look good to me in a quick look, I do plan to take a deep
-look and provide Reviewed-bys later.
+Use the `DEFINE_RAW_FLEX()` helper for a few on-stack definitions
+of a flexible structure where the size of the flexible-array member
+is known at compile-time, and refactor the rest of the code,
+accordingly.
 
-Regards,
-Boqun
+So, with these changes, fix the following warnings:
+
+drivers/gpu/drm/nouveau/nouveau_chan.c:274:37: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+drivers/gpu/drm/nouveau/nouveau_chan.c:371:46: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+drivers/gpu/drm/nouveau/nouveau_chan.c:524:42: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+Changes in v2:
+ - Use __member_size() instead of __struct_size() to get the
+   compile-time size of the flexible array.
+
+v1:
+ - Link: https://lore.kernel.org/linux-hardening/Z-67Hm9uHEJs0RGw@kspp/
+
+ drivers/gpu/drm/nouveau/nouveau_chan.c | 114 ++++++++++++-------------
+ 1 file changed, 55 insertions(+), 59 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
+index cd659b9fd1d9..1286a664f688 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_chan.c
++++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
+@@ -270,10 +270,7 @@ nouveau_channel_ctor(struct nouveau_cli *cli, bool priv, u64 runm,
+ 		{    NV03_CHANNEL_DMA     , 0 },
+ 		{}
+ 	};
+-	struct {
+-		struct nvif_chan_v0 chan;
+-		char name[TASK_COMM_LEN+16];
+-	} args;
++	DEFINE_RAW_FLEX(struct nvif_chan_v0, args, name, TASK_COMM_LEN + 16);
+ 	struct nvif_device *device = &cli->device;
+ 	struct nouveau_channel *chan;
+ 	const u64 plength = 0x10000;
+@@ -298,28 +295,28 @@ nouveau_channel_ctor(struct nouveau_cli *cli, bool priv, u64 runm,
+ 		return ret;
+ 
+ 	/* create channel object */
+-	args.chan.version = 0;
+-	args.chan.namelen = sizeof(args.name);
+-	args.chan.runlist = __ffs64(runm);
+-	args.chan.runq = 0;
+-	args.chan.priv = priv;
+-	args.chan.devm = BIT(0);
++	args->version = 0;
++	args->namelen = __member_size(args->name);
++	args->runlist = __ffs64(runm);
++	args->runq = 0;
++	args->priv = priv;
++	args->devm = BIT(0);
+ 	if (hosts[cid].oclass < NV50_CHANNEL_GPFIFO) {
+-		args.chan.vmm = 0;
+-		args.chan.ctxdma = nvif_handle(&chan->push.ctxdma);
+-		args.chan.offset = chan->push.addr;
+-		args.chan.length = 0;
++		args->vmm = 0;
++		args->ctxdma = nvif_handle(&chan->push.ctxdma);
++		args->offset = chan->push.addr;
++		args->length = 0;
+ 	} else {
+-		args.chan.vmm = nvif_handle(&chan->vmm->vmm.object);
++		args->vmm = nvif_handle(&chan->vmm->vmm.object);
+ 		if (hosts[cid].oclass < FERMI_CHANNEL_GPFIFO)
+-			args.chan.ctxdma = nvif_handle(&chan->push.ctxdma);
++			args->ctxdma = nvif_handle(&chan->push.ctxdma);
+ 		else
+-			args.chan.ctxdma = 0;
+-		args.chan.offset = ioffset + chan->push.addr;
+-		args.chan.length = ilength;
++			args->ctxdma = 0;
++		args->offset = ioffset + chan->push.addr;
++		args->length = ilength;
+ 	}
+-	args.chan.huserd = 0;
+-	args.chan.ouserd = 0;
++	args->huserd = 0;
++	args->ouserd = 0;
+ 
+ 	/* allocate userd */
+ 	if (hosts[cid].oclass >= VOLTA_CHANNEL_GPFIFO_A) {
+@@ -329,27 +326,28 @@ nouveau_channel_ctor(struct nouveau_cli *cli, bool priv, u64 runm,
+ 		if (ret)
+ 			return ret;
+ 
+-		args.chan.huserd = nvif_handle(&chan->mem_userd.object);
+-		args.chan.ouserd = 0;
++		args->huserd = nvif_handle(&chan->mem_userd.object);
++		args->ouserd = 0;
+ 
+ 		chan->userd = &chan->mem_userd.object;
+ 	} else {
+ 		chan->userd = &chan->user;
+ 	}
+ 
+-	snprintf(args.name, sizeof(args.name), "%s[%d]", current->comm, task_pid_nr(current));
++	snprintf(args->name, __member_size(args->name), "%s[%d]",
++		 current->comm, task_pid_nr(current));
+ 
+ 	ret = nvif_object_ctor(&device->object, "abi16ChanUser", 0, hosts[cid].oclass,
+-			       &args, sizeof(args), &chan->user);
++			       args, __struct_size(args), &chan->user);
+ 	if (ret) {
+ 		nouveau_channel_del(pchan);
+ 		return ret;
+ 	}
+ 
+-	chan->runlist = args.chan.runlist;
+-	chan->chid = args.chan.chid;
+-	chan->inst = args.chan.inst;
+-	chan->token = args.chan.token;
++	chan->runlist = args->runlist;
++	chan->chid = args->chid;
++	chan->inst = args->inst;
++	chan->token = args->token;
+ 	return 0;
+ }
+ 
+@@ -367,17 +365,17 @@ nouveau_channel_init(struct nouveau_channel *chan, u32 vram, u32 gart)
+ 		return ret;
+ 
+ 	if (chan->user.oclass >= FERMI_CHANNEL_GPFIFO) {
+-		struct {
+-			struct nvif_event_v0 base;
+-			struct nvif_chan_event_v0 host;
+-		} args;
++		DEFINE_RAW_FLEX(struct nvif_event_v0, args, data,
++				sizeof(struct nvif_chan_event_v0));
++		struct nvif_chan_event_v0 *host =
++				(struct nvif_chan_event_v0 *)args->data;
+ 
+-		args.host.version = 0;
+-		args.host.type = NVIF_CHAN_EVENT_V0_KILLED;
++		host->version = 0;
++		host->type = NVIF_CHAN_EVENT_V0_KILLED;
+ 
+ 		ret = nvif_event_ctor(&chan->user, "abi16ChanKilled", chan->chid,
+ 				      nouveau_channel_killed, false,
+-				      &args.base, sizeof(args), &chan->kill);
++				      args, __struct_size(args), &chan->kill);
+ 		if (ret == 0)
+ 			ret = nvif_event_allow(&chan->kill);
+ 		if (ret) {
+@@ -520,46 +518,44 @@ nouveau_channels_fini(struct nouveau_drm *drm)
+ int
+ nouveau_channels_init(struct nouveau_drm *drm)
+ {
+-	struct {
+-		struct nv_device_info_v1 m;
+-		struct {
+-			struct nv_device_info_v1_data channels;
+-			struct nv_device_info_v1_data runlists;
+-		} v;
+-	} args = {
+-		.m.version = 1,
+-		.m.count = sizeof(args.v) / sizeof(args.v.channels),
+-		.v.channels.mthd = NV_DEVICE_HOST_CHANNELS,
+-		.v.runlists.mthd = NV_DEVICE_HOST_RUNLISTS,
+-	};
++	DEFINE_RAW_FLEX(struct nv_device_info_v1, args, data, 2);
++	struct nv_device_info_v1_data *channels = &args->data[0];
++	struct nv_device_info_v1_data *runlists = &args->data[1];
+ 	struct nvif_object *device = &drm->client.device.object;
+ 	int ret, i;
+ 
+-	ret = nvif_object_mthd(device, NV_DEVICE_V0_INFO, &args, sizeof(args));
++	args->version = 1;
++	args->count = __member_size(args->data) / sizeof(*args->data);
++	channels->mthd = NV_DEVICE_HOST_CHANNELS;
++	runlists->mthd = NV_DEVICE_HOST_RUNLISTS;
++
++	ret = nvif_object_mthd(device, NV_DEVICE_V0_INFO, args,
++			       __struct_size(args));
+ 	if (ret ||
+-	    args.v.runlists.mthd == NV_DEVICE_INFO_INVALID || !args.v.runlists.data ||
+-	    args.v.channels.mthd == NV_DEVICE_INFO_INVALID)
++	    runlists->mthd == NV_DEVICE_INFO_INVALID || !runlists->data ||
++	    channels->mthd == NV_DEVICE_INFO_INVALID)
+ 		return -ENODEV;
+ 
+-	drm->chan_nr = drm->chan_total = args.v.channels.data;
+-	drm->runl_nr = fls64(args.v.runlists.data);
++	drm->chan_nr = drm->chan_total = channels->data;
++	drm->runl_nr = fls64(runlists->data);
+ 	drm->runl = kcalloc(drm->runl_nr, sizeof(*drm->runl), GFP_KERNEL);
+ 	if (!drm->runl)
+ 		return -ENOMEM;
+ 
+ 	if (drm->chan_nr == 0) {
+ 		for (i = 0; i < drm->runl_nr; i++) {
+-			if (!(args.v.runlists.data & BIT(i)))
++			if (!(runlists->data & BIT(i)))
+ 				continue;
+ 
+-			args.v.channels.mthd = NV_DEVICE_HOST_RUNLIST_CHANNELS;
+-			args.v.channels.data = i;
++			channels->mthd = NV_DEVICE_HOST_RUNLIST_CHANNELS;
++			channels->data = i;
+ 
+-			ret = nvif_object_mthd(device, NV_DEVICE_V0_INFO, &args, sizeof(args));
+-			if (ret || args.v.channels.mthd == NV_DEVICE_INFO_INVALID)
++			ret = nvif_object_mthd(device, NV_DEVICE_V0_INFO, args,
++					       __struct_size(args));
++			if (ret || channels->mthd == NV_DEVICE_INFO_INVALID)
+ 				return -ENODEV;
+ 
+-			drm->runl[i].chan_nr = args.v.channels.data;
++			drm->runl[i].chan_nr = channels->data;
+ 			drm->runl[i].chan_id_base = drm->chan_total;
+ 			drm->runl[i].context_base = dma_fence_context_alloc(drm->runl[i].chan_nr);
+ 
+-- 
+2.43.0
+
