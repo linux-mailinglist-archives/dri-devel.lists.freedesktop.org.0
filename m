@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D109A8B2A7
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 09:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F28FA8B2A8
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 09:51:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC89C10E878;
-	Wed, 16 Apr 2025 07:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 617AC10E874;
+	Wed, 16 Apr 2025 07:51:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G6aFIr2B";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cyLvQTm+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54D6B10E878;
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94D0C10E878;
  Wed, 16 Apr 2025 07:51:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id F27E861567;
- Wed, 16 Apr 2025 07:51:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 301EFC4CEEE;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 35154A4864F;
+ Wed, 16 Apr 2025 07:46:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD74C4CEED;
  Wed, 16 Apr 2025 07:51:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1744789899;
- bh=lGDsvclGfqqnI4NDqwWIMifw2HNoNXwomoYGArbLBu4=;
- h=From:To:Cc:Subject:Date:From;
- b=G6aFIr2BZXuMv3uDIP61j9l+U5bH+K8WQ7DkFwFVsfrSvIExheZYiWdcaSg067E74
- gnoujMQq52AExugsQplVvpEC13rUvsIi5Dlc5dzJHIOunrZ74OYwpbMKcRpdOOiUqd
- 8y0kpUbV8ybJsDIEJup9I+A/FehTvNnc7afz9LHT7RT2AcaSBFgpVf8/l+v4lDO1dw
- G+ZbNwdQ//oAKSO1sLnF04U3gMwr+JQM7XfMgu6Iu6AfxvLzZDNxC14sImMt4B1i6W
- XSNGL9G5Zh9mCctIrUkCZmuAcHHEgT8EDwYChuL/8g7tGe+ZSzV1LUxEOanEkWl563
- tUhXSE8T8xYBQ==
+ bh=IJzLGDXtTM+PrRhEz5In0Xb0/7YHoI2xCi4o5wcrZTw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=cyLvQTm+pzsnxbY35S6JaKKSaR2UPJgvZv/dKbFXV3igOqejN5Q8+3gtTtzLk6GMD
+ x2Q5XamQNNlwugvHCUCo6erSaBtUBFu+x8rlo8izrRoVxdQoLrtZYB49gHqYiwo8LE
+ j1TFyNPhhCaqac0bvh9JlHwtR2jLZ6bPR3z4EqEj8xVTgX92gC/qHWxPhb8017qb+X
+ EcsWwa9MY6kB1aWJoWgh+EabpLbn6cfDirGaUg7OuR+SSx61wUqRNTxw5OkV52AiVo
+ +g7vO+BXEemZQGacc2wEEVvhu7rNRfzWN7OuIZij6FPyVIHnSY+PB31N/j3hhECHvH
+ aKEsibRbLN8dw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
- (envelope-from <mchehab@kernel.org>) id 1u4xY7-00000002m3C-0eDL;
+ (envelope-from <mchehab@kernel.org>) id 1u4xY7-00000002m3F-0mef;
  Wed, 16 Apr 2025 15:51:11 +0800
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
  Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-kernel@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@intel.com>,
+ "Andy Shevchenko" <andriy.shevchenko@intel.com>,
  David Airlie <airlied@gmail.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -49,11 +48,14 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Tvrtko Ursulin <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH v3 0/2] Don't create Python bytecode when building the kernel
-Date: Wed, 16 Apr 2025 15:51:03 +0800
-Message-ID: <cover.1744789777.git.mchehab+huawei@kernel.org>
+ intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
+Date: Wed, 16 Apr 2025 15:51:04 +0800
+Message-ID: <4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1744789777.git.mchehab+huawei@kernel.org>
+References: <cover.1744789777.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,38 +73,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+As reported by Andy, kernel-doc.py is creating a __pycache__
+directory at build time.
 
-As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
-when W=1. Due to Python's normal behavior, its JIT compiler will create
-a bytecode and store it under scripts/lib/*/__pycache__. 
+Disable creation of __pycache__ for the libraries used by
+kernel-doc.py, when excecuted via the build system or via
+scripts/find-unused-docs.sh.
 
-As one may be using O= and even having the sources on a read-only mount
-point, disable its creation during build time.
-
-This only solves half of the issue though, as one may be manually running
-the script by hand, without asking Python to not store any bytecode.
-This should be OK, but afterwards, git status will list the __pycache__ as
-not committed. To prevent that, add *.pyc to .gitignore.
-
+Reported-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Closes: https://lore.kernel.org/linux-doc/Z_zYXAJcTD-c3xTe@black.fi.intel.com/
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
-
-v3:
- - changed the order of PYTHONDONTBYTECODE;
- - patched also scripts/Makefile
-
-Mauro Carvalho Chehab (2):
-  scripts/kernel-doc.py: don't create *.pyc files
-  .gitignore: ignore Python compiled bytecode
-
- .gitignore                    | 1 +
  drivers/gpu/drm/Makefile      | 2 +-
  drivers/gpu/drm/i915/Makefile | 2 +-
  include/drm/Makefile          | 2 +-
  scripts/Makefile.build        | 2 +-
  scripts/find-unused-docs.sh   | 2 +-
- 6 files changed, 6 insertions(+), 5 deletions(-)
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index ed54a546bbe2..d21d0cd2c752 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -236,7 +236,7 @@ always-$(CONFIG_DRM_HEADER_TEST) += \
+ quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
+       cmd_hdrtest = \
+ 		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
+-		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
++		 PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
+ 		touch $@
+ 
+ $(obj)/%.hdrtest: $(src)/%.h FORCE
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index ed05b131ed3a..ab6b89a163e7 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -408,7 +408,7 @@ obj-$(CONFIG_DRM_I915_GVT_KVMGT) += kvmgt.o
+ #
+ # Enable locally for CONFIG_DRM_I915_WERROR=y. See also scripts/Makefile.build
+ ifdef CONFIG_DRM_I915_WERROR
+-    cmd_checkdoc = $(srctree)/scripts/kernel-doc -none -Werror $<
++    cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none -Werror $<
+ endif
+ 
+ # header test
+diff --git a/include/drm/Makefile b/include/drm/Makefile
+index a7bd15d2803e..1df6962556ef 100644
+--- a/include/drm/Makefile
++++ b/include/drm/Makefile
+@@ -11,7 +11,7 @@ always-$(CONFIG_DRM_HEADER_TEST) += \
+ quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
+       cmd_hdrtest = \
+ 		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
+-		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
++		PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
+ 		touch $@
+ 
+ $(obj)/%.hdrtest: $(src)/%.h FORCE
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 13dcd86e74ca..884dc86ce04e 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -83,7 +83,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
+ endif
+ 
+ ifneq ($(KBUILD_EXTRA_WARN),)
+-  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $(KDOCFLAGS) \
++  cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(KDOCFLAGS) \
+         $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
+         $<
+ endif
+diff --git a/scripts/find-unused-docs.sh b/scripts/find-unused-docs.sh
+index ee6a50e33aba..d6d397fbf917 100755
+--- a/scripts/find-unused-docs.sh
++++ b/scripts/find-unused-docs.sh
+@@ -54,7 +54,7 @@ for file in `find $1 -name '*.c'`; do
+ 	if [[ ${FILES_INCLUDED[$file]+_} ]]; then
+ 	continue;
+ 	fi
+-	str=$(scripts/kernel-doc -export "$file" 2>/dev/null)
++	str=$(PYTHONDONTWRITEBYTECODE=1 scripts/kernel-doc -export "$file" 2>/dev/null)
+ 	if [[ -n "$str" ]]; then
+ 	echo "$file"
+ 	fi
 -- 
 2.49.0
-
 
