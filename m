@@ -2,37 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11FEA90464
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 15:32:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C6FA90466
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 15:32:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B42410E917;
-	Wed, 16 Apr 2025 13:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74A8E10E911;
+	Wed, 16 Apr 2025 13:32:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mHR7EuuW";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B0C510E911;
- Wed, 16 Apr 2025 13:32:06 +0000 (UTC)
-Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
- 53GDVlkk862065; Wed, 16 Apr 2025 19:01:47 +0530
-Received: (from sunil@localhost)
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 53GDVlVx862064;
- Wed, 16 Apr 2025 19:01:47 +0530
-From: Sunil Khatri <sunil.khatri@amd.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Sunil Khatri <sunil.khatri@amd.com>
-Subject: [PATCH v4 5/5] drm/amdgpu: change DRM_DBG_DRIVER to drm_dbg_driver
-Date: Wed, 16 Apr 2025 19:01:44 +0530
-Message-Id: <20250416133144.862023-5-sunil.khatri@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250416133144.862023-1-sunil.khatri@amd.com>
-References: <20250416133144.862023-1-sunil.khatri@amd.com>
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D60F810E918
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 13:32:14 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-5493b5bc6e8so7921586e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 06:32:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744810333; x=1745415133; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=r+D5+uNrYNcwYfX/ZNFoFaIyUI3jWBOn1hJYAwymFvk=;
+ b=mHR7EuuWHUiBETjF0yQ3DbyD5mVrr9LlzPLY6S0O5F/oDDuSOqxddggC7PkM0BD7i8
+ wdHsBV+VCqSQWuoTDlRx+xdr2wAaNXn4jRPVZ0lMiYTbZEAVfsuQ4DpmWhRknc4YpEV+
+ GzJIDXfxdRzUJndxidgDC6VVrG0tuxgp957AWXa34sC5qQHuJ+LVXCs9Xoxbg8HzZqXQ
+ wgbh7XAaVClJdnjcfPAxcGawNeJNxYKewNeNHVU3MGFYiX+zbu+NQODWn5QZpW6NLzWC
+ C51LsBA+3XdeItD6x1xfquQJAYygyxcuvymplkp/ENsUbkmoVDxANbx4reWLFYjAmCha
+ 9s+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744810333; x=1745415133;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=r+D5+uNrYNcwYfX/ZNFoFaIyUI3jWBOn1hJYAwymFvk=;
+ b=gePyBocNG0UwJMzD5zIoVLvTduT23TWm/39dRUtyuQec86jx1cUVMJQ7hOwwuA/W9m
+ DCqyNLaDImHBzCqT3fDg0/LHa90BG3YuEPn/GbIxyXytRwAlhe9HqZy5lfNTd4yqZ0+6
+ z3DmF1Ufk/4L6sr0cmP92J21n9RxbaJhaq7R0M0HG+Ak/aEs0e4T2hkTm4KBJbFQC3Ql
+ pDpdJ991Ogdk4vQQFcQo0bLNneb6PVCxNVj0SaaVxRGcRm2sKtezVlVv0E8O/bjH9bxq
+ oWIzj4GZQy5bT3GAZ+pwGGUazDxBFQsYG7p3vI6S+qXTo4UfzVxMfMe79V13ZyU5fhZp
+ WYuA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW1akpoGxJht3eSBRpQj+2GH9QjX3uoadvBnwCTTLUJnqLiNWhZdrJURPT2Wnxs2BZFU6GOY9HuaKw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwmFl44onAOoihBrqcErNAY7t4gpFS2w3KWS8gARY7r0m8jkwSs
+ C0GFRhn0NkZTkJVHV5kGU1OEfOcjJCDPgV81JwdT9ZjlHRyjPyfmtRcwoKPjkb2dUfGMB+lRT6/
+ Tw2Cv5Q/Cf9bTLh2fRe2qETZvbyM=
+X-Gm-Gg: ASbGncvwOpW/7M6TkJ9Zbe5NhmrTsG5PWll2kklnUDVy6t3t+0whyX7fuUjyEhNFvMs
+ Tu/oBy4DzZr7Efqyns2Edh3cvMseVSA11SFlDrPAHCEva7QlHXdRhHzDhGwBbqcq1KYQkBR65na
+ d5VjvO3lOr2o8XRxYF4DNSupqmh2EyKImHXFQaXf7mS+6bDVRYkzNQ0Q==
+X-Google-Smtp-Source: AGHT+IGJlLh5tPWD0pehjZiHE4BQl013ZBsrUn9c+BlrxY+5HyM4uF2C42/ZlKMfRWd4Vow+1rZG0XuE3PSxUqbNUzE=
+X-Received: by 2002:a05:6512:3b10:b0:549:38eb:d690 with SMTP id
+ 2adb3069b0e04-54d64ae6c83mr634627e87.36.1744810332489; Wed, 16 Apr 2025
+ 06:32:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAOMZO5Dw9O_8E72ZsQhm7j+PX9XQfj9_w-WrkzaxczyyCGndVA@mail.gmail.com>
+ <b24d22a3-5206-4738-8ccb-2f2ec8ec9194@suse.de>
+In-Reply-To: <b24d22a3-5206-4738-8ccb-2f2ec8ec9194@suse.de>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 16 Apr 2025 10:31:59 -0300
+X-Gm-Features: ATxdqUGPf4SxOMtsLBI_bIEnlDRWL-IZsGY2ABTI7UPaK2B98xGJpQt0bxXxy-8
+Message-ID: <CAOMZO5Do5NsigXiTguY8gHjV=yX_fDnRkU3=2XOPe0TyyD03vw@mail.gmail.com>
+Subject: Re: Reggression caused by "drm/fb-helper: Don't use the preferred
+ depth for the BPP default"
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,47 +85,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-update the functions in amdgpu_userqueues.c from
-DRM_DBG_DRIVER to drm_dbg_driver so multi gpu instance
-can be logged in.
+Hi Thomas,
 
-Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+On Wed, Apr 16, 2025 at 3:41=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c
-index 4957c7b04fe8..f78cc0bc2d48 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c
-@@ -225,7 +225,7 @@ amdgpu_userqueue_get_doorbell_index(struct amdgpu_userq_mgr *uq_mgr,
- 
- 	index = amdgpu_doorbell_index_on_bar(uq_mgr->adev, db_obj->obj,
- 					     db_info->doorbell_offset, db_size);
--	DRM_DEBUG_DRIVER("[Usermode queues] doorbell index=%lld\n", index);
-+	drm_dev_dbg(adev_to_drm(adev), "[Usermode queues] doorbell index=%lld\n", index);
- 	amdgpu_bo_unreserve(db_obj->obj);
- 	return index;
- 
-@@ -252,7 +252,7 @@ amdgpu_userqueue_destroy(struct drm_file *filp, int queue_id)
- 
- 	queue = amdgpu_userqueue_find(uq_mgr, queue_id);
- 	if (!queue) {
--		DRM_DEBUG_DRIVER("Invalid queue id to destroy\n");
-+		drm_dbg_driver(adev_to_drm(adev), "Invalid queue id to destroy\n");
- 		mutex_unlock(&uq_mgr->userq_mutex);
- 		return -EINVAL;
- 	}
-@@ -416,7 +416,8 @@ int amdgpu_userq_ioctl(struct drm_device *dev, void *data,
- 		break;
- 
- 	default:
--		DRM_DEBUG_DRIVER("Invalid user queue op specified: %d\n", args->in.op);
-+		drm_dbg_driver(adev_to_drm(adev), "Invalid user queue op specified: %d\n",
-+			       args->in.op);
- 		return -EINVAL;
- 	}
- 
--- 
-2.34.1
+> The proper fix would patch the driver to support 32-bit correctly. It
+> looks like the panel only supports 16 bpp and 24 bpp, so format
+> conversion would be required.
+>
+> For an easier fix, you can replace drm_client_setup() at [1] with
+> drm_client_setup_with_fourcc() and pass DRM_FORMAT_RGB565 as the second
+> argument.
 
+Your suggestion works, and I have just sent a patch.
+
+Thanks a lot for your help!
