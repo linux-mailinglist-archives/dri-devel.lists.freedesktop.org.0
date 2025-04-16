@@ -2,71 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9289BA914FD
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 09:22:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23176A91507
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 09:22:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3D510EA21;
-	Thu, 17 Apr 2025 07:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AFF010EA51;
+	Thu, 17 Apr 2025 07:22:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49B3910E8D5;
- Wed, 16 Apr 2025 11:44:03 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id
- 41be03b00d2f7-7fd35b301bdso7386413a12.2; 
- Wed, 16 Apr 2025 04:44:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744803843; x=1745408643; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=AZEe1RfOvu1q7GUgcepVbmiSBnsNo8L/yZQuZJXUvpo=;
- b=hKTrvxQgvJG+9mDBHGfVU5MFEjkxbaTsRtqLavM3apmGU/8a0628ncW6HXXnPWCD+2
- VLfg/FS/nuETaZRDGibNKTVGnTws2LKpbTMbHcgXJQLZs28l3mSeY9xw2e/TKZO/w8EB
- x6/9PVGKMrH2zviICJARd11mJNiObO7oZ5zWvqE9k4UXKalrAseNkdCjntAvNtPnlmyW
- 4j5yTxlJ7e2t9bobh92O05OlWeEkQQ09FnjKnqiL9UG8+6lvMAR7OYOwso3kyG2hvD03
- Uos/9/x/ujftsCU3FkKLvzbyw3kTHa7ndyyiZk7QAgaUrmXZ6nsG9N1kSmm6wcKU2ejU
- x4tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744803843; x=1745408643;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AZEe1RfOvu1q7GUgcepVbmiSBnsNo8L/yZQuZJXUvpo=;
- b=wP4m7ejgfSjLrXZjUZFZqfUwk6w7FWSYPKSagFrpbcKX77qPCPQPlVtUyOjRL4mWgn
- OMc+5Ewv60qZwofzdvsYOnyaAWOTfqkfFkPV8SeBTu9KGhsir5tAZ5wnzJ4yQuQKF46U
- RDcIyMg4/r6c3sCkFie1qqW5jKLmzMps1q2ayI/NTQEl3/mOW/DQ5pESd/NnHE4BGUZ9
- m8IueJoV/ilVomVAjzHBT5A02VT/q9Vz/YsqqGApbKouU+MiVF/O/2wp2BGfK9yFBJq5
- M6A0iBXepJtPRjeiOd0Cm7NjNB0OcXoPnJedzZ94bHBpzWRt0O3VZVVSCUXLVSgjuyT6
- WSvA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUIu8+kOrjKJnbdN4djHGvOBO+4GynyzTdZyhIUyjr5y/UA9lD5fn/JAho71eUpNFDRLs31ZFE4xFJm@lists.freedesktop.org,
- AJvYcCVTRHo66GpSo2cPQ8tdkotDQXvs5ArvrgcDj7Kuv9bMBgrtCRC7e8JSE4JNOvD9Khwd7eQMdRbe@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwX+5s/7nq293XPPtNGhugJMnrGj4/6AR52xI9h0Gub81vdZ1HP
- nuqsZw5ksXeaNXX/LCuRczTcVaPsWMYfVLVW1F2QIp2yaGoJr9rrGzCV5lyH+ljEmMEcH7hqTRo
- kZHyTc89EVGdEkhQ/Tqydjqyg7g==
-X-Gm-Gg: ASbGncsPpBGy7tDcXb7hVAmwVk8M3jrDBB+DkhwhRCA67Qp51qxsisx1GDFXSr2KGct
- 5NgvzlFtLo6jnqJTfWIMyj9CQre4n47j9y0y+t5ic31nl16kA0D19gbS0I5GudrNIWJdE6A9kCO
- k9TeLMfuIdV+h4lTcGWaYXC5DXuEG7/Ep7vj/7g2hxQQ4zrdXmsthEE9M=
-X-Google-Smtp-Source: AGHT+IHRzDwjfA3VhiXoJ9w7CvBGnZUfl1D3wlF7cVjsZnBUO1T3cpj1g1gCRyxquxD7cm2X4+bYulvm0qakj3Q2+Fc=
-X-Received: by 2002:a17:90b:1f92:b0:2ee:ad18:b309 with SMTP id
- 98e67ed59e1d1-30863d1de84mr2289142a91.3.1744803842763; Wed, 16 Apr 2025
- 04:44:02 -0700 (PDT)
+X-Greylist: delayed 1120 seconds by postgrey-1.36 at gabe;
+ Wed, 16 Apr 2025 15:41:46 UTC
+Received: from animx.eu.org (tn-76-7-174-50.sta.embarqhsd.net [76.7.174.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B51210E0F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 15:41:46 +0000 (UTC)
+Received: from wakko by animx.eu.org with local id 1u54bA-0002oe-I5;
+ Wed, 16 Apr 2025 11:22:48 -0400
+Date: Wed, 16 Apr 2025 11:22:48 -0400
+From: Wakko Warner <wakko@animx.eu.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: airlied@redhat.com, jfalempe@redhat.com,
+ dri-devel@lists.freedesktop.org, ???????????? <afmerlord@gmail.com>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] drm/mgag200: Fix value in <VBLKSTR> register
+Message-ID: <Z//LSBwuoc6Hf3zG@animx.eu.org>
+References: <20250416083847.51764-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20250416072825.3790-1-ujwal.kundur@gmail.com>
- <241a9bbb-6d59-4c24-8e18-a0acebc6f536@amd.com>
-In-Reply-To: <241a9bbb-6d59-4c24-8e18-a0acebc6f536@amd.com>
-From: Ujwal Kundur <ujwal.kundur@gmail.com>
-Date: Wed, 16 Apr 2025 17:13:50 +0530
-X-Gm-Features: ATxdqUHlTjwJQjfOZfGM2sNeVWakgF2t5Ff-hXQ0-Ap1ykAmMwP7TjWL6pmkSIw
-Message-ID: <CALkFLLLKT=4LD_YFJdq8QdzybknRQW+W3P-3GnJzT1eoYuGg8A@mail.gmail.com>
-Subject: Re: [PATCH RFC] drm/amdgpu: Block userspace mapping of IO
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: alexander.deucher@amd.com, airlied@gmail.com, simona@ffwll.ch, 
- lijo.lazar@amd.com, sunil.khatri@amd.com, Hawking.Zhang@amd.com, 
- Jun.Ma2@amd.com, Yunxiang.Li@amd.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250416083847.51764-1-tzimmermann@suse.de>
 X-Mailman-Approved-At: Thu, 17 Apr 2025 07:22:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,13 +45,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for your response.
+Thomas Zimmermann wrote:
+> Fix an off-by-one error when setting the vblanking start in
+> <VBLKSTR>. Commit d6460bd52c27 ("drm/mgag200: Add dedicated
+> variables for blanking fields") switched the value from
+> crtc_vdisplay to crtc_vblank_start, which DRM helpers copy
+> from the former. The commit missed to subtract one though.
 
-> Hui what? Why do you think that grabbing a reference to an interrupt would block userspace mapping of IO registers?
+Applied to 6.14.2.  BMC and external monitor works as expected.
 
-It looks like I am missing a lot of pieces to do this, I'll try again
-once I have a better understanding.
+Thank you.
 
-Sorry about that and thanks again for your time.
-
---- Ujwal.
+> Reported-by: Wakko Warner <wakko@animx.eu.org>
+> Closes: https://lore.kernel.org/dri-devel/CAMwc25rKPKooaSp85zDq2eh-9q4UPZD=RqSDBRp1fAagDnmRmA@mail.gmail.com/
+> Reported-by: ???????????? <afmerlord@gmail.com>
+> Closes: https://lore.kernel.org/all/5b193b75-40b1-4342-a16a-ae9fc62f245a@gmail.com/
+> Closes: https://bbs.archlinux.org/viewtopic.php?id=303819
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: d6460bd52c27 ("drm/mgag200: Add dedicated variables for blanking fields")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v6.12+
+> ---
+>  drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> index fb71658c3117..6067d08aeee3 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -223,7 +223,7 @@ void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mod
+>  	vsyncstr = mode->crtc_vsync_start - 1;
+>  	vsyncend = mode->crtc_vsync_end - 1;
+>  	vtotal = mode->crtc_vtotal - 2;
+> -	vblkstr = mode->crtc_vblank_start;
+> +	vblkstr = mode->crtc_vblank_start - 1;
+>  	vblkend = vtotal + 1;
+>  
+>  	linecomp = vdispend;
+> -- 
+> 2.49.0
+> 
+-- 
+ Microsoft has beaten Volkswagen's world record.  Volkswagen only created 22
+ million bugs.
