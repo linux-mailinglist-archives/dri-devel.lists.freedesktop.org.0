@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A42A90DDC
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 23:37:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC526A90DDF
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 23:40:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CA5210E9CA;
-	Wed, 16 Apr 2025 21:36:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 227CD10E0F4;
+	Wed, 16 Apr 2025 21:40:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iaFSDHO5";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="QfgBui5L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AEAB10E0F4;
- Wed, 16 Apr 2025 21:36:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744839416; x=1776375416;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=QmNRGpKlvOiEQAxYO1XoHGZbAo7iPW7/pY78efc+J4Q=;
- b=iaFSDHO5Bueqw3wVpHBpDSFkP+NDLnuPDg14EJhuor9nycZsfmv0+PDZ
- gpu8sfkb4gYc3QTABhfTfjsoRlmQpBhi+l5HRV2J1nytTWKZIi/g5ujFH
- QpWE9V4ogL/Qzii2WsxnMU9FuKSoCjRSovIsFjOXmtDDmxMxCU0cj+ins
- lOeZbtL8s/mW+4zxrjOXyRJx4KWgUUIYdw475zSyGk7Qk9CVGQBRrO1ZN
- FBBC/jYMynKwiAA3beEyor7ZN3E8d7j19f8LH/sTv7kGlomNTcXu5iAW5
- 3p8HUww0oUa+tJY0/CxCa2iDnjFRR5RUCCkpubdf4tVXEBJcpdJlep5tc g==;
-X-CSE-ConnectionGUID: 4x2yE7s6Q6aV7YEfuzRr5A==
-X-CSE-MsgGUID: X8GXtblfR+Os4iOigAoGCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="50057064"
-X-IronPort-AV: E=Sophos;i="6.15,217,1739865600"; d="scan'208";a="50057064"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2025 14:36:48 -0700
-X-CSE-ConnectionGUID: r9vXPw9gQPmQfDipdL2Zew==
-X-CSE-MsgGUID: ng6rmngPQ/udT8Kskv5d0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,217,1739865600"; d="scan'208";a="161564303"
-Received: from dprybysh-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.246.139])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2025 14:36:46 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, Egor
- Vorontsov <sdoregor@sdore.me>
-Subject: Re: [RESEND 0/2] drm/edid: more displayid timing parsing and cleanups
-In-Reply-To: <cover.1744708239.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1744708239.git.jani.nikula@intel.com>
-Date: Thu, 17 Apr 2025 00:36:43 +0300
-Message-ID: <87ikn3pz4k.fsf@intel.com>
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B4CB10E0F4;
+ Wed, 16 Apr 2025 21:40:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=JW71Yrm63KAFDznLeuHzMNkNic4k+DAdb4uxGi95x7o=; b=QfgBui5Lt/jYbwOhChwnQ3eyuS
+ jPBPseu++95pDBQtGD7MWZtl5vghAroyGSsVmRVO+WRtQY3vz1dUlSHnLi2V4rnBEk0Y91GCnE0Np
+ 8haDT6AtAzM1ciBi9R/umilQcnJYrhiPAYuI0IjkhbYoYySLcBu6jDyvXIpcWWQNXoxGlR0SolAlo
+ d95jLXEt9kp5glBOe1vyzVh9muf5oKcCvTB3HeEHSJJwR+Lgt1ROfC97VTe7v+v7nTPx28sn3ar5q
+ pZcIUVkVo+shd4yMl/JyiCLcGfbSplwAmejt9YSFhIlZoRAUYnd6G7rU0czxIxjZ5pgDbSLB2G30m
+ rekY60Aw==;
+Received: from [50.39.124.201] (helo=[192.168.254.17])
+ by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
+ id 1u5AUZ-0000000ABCe-19tR; Wed, 16 Apr 2025 21:40:26 +0000
+Message-ID: <0e5ac6ff-12ea-4a95-9849-b5e102de4f97@infradead.org>
+Date: Wed, 16 Apr 2025 14:40:19 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: linux-next: Tree for Apr 16 (drivers/gpu/drm/xe/xe_vsec.o)
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20250416162556.3191a75e@canb.auug.org.au>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250416162556.3191a75e@canb.auug.org.au>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,26 +61,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Apr 2025, Jani Nikula <jani.nikula@intel.com> wrote:
-> Resend of Egor's patches [1].
->
-> [1] https://lore.kernel.org/r/20250214110643.506740-1-sdoregor@sdore.me
->
-> Cc: Egor Vorontsov <sdoregor@sdore.me>
->
-> Egor Vorontsov (2):
->   drm/edid: Implement DisplayID Type IX & X timing blocks parsing
->   drm/edid: Refactor DisplayID timing block structs
 
-Thanks for the patches, and the patience, pushed to drm-misc-next.
 
-BR,
-Jani.
+On 4/15/25 11:25 PM, Stephen Rothwell wrote:
+> Hi all,
+> 
+> News: there will be no linux-next releases this coming Friday or Monday
+> or next Friday.
+> 
+> Changes since 20250415:
+> 
 
->
->  drivers/gpu/drm/drm_displayid_internal.h | 31 +++++---
->  drivers/gpu/drm/drm_edid.c               | 91 ++++++++++++++++++++----
->  2 files changed, 99 insertions(+), 23 deletions(-)
+on x86_64:
+
+ld: drivers/gpu/drm/xe/xe_vsec.o: in function `xe_vsec_init':
+xe_vsec.c:(.text+0x21a): undefined reference to `intel_vsec_register'
+
+
+(Yes, this is a known issue so this report is just a reminder since it has
+been some time since the other reports.)
+
 
 -- 
-Jani Nikula, Intel
+~Randy
+
