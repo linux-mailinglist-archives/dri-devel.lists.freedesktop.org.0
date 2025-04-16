@@ -2,108 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C53A90F37
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 01:12:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 165FCA90F3D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 01:16:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1085C10E9E6;
-	Wed, 16 Apr 2025 23:12:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEBAD10E9E5;
+	Wed, 16 Apr 2025 23:16:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aMfnBcr5";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Hin1Ww5f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AA0210E9E3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:11:59 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53GM0uTG021789
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:11:58 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3140410E9E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:16:38 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53GMmugn020857
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:16:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=10e9Gm2RPGDf+oQLDehdobGU
- Daa+U5XpyPoSez3rMCg=; b=aMfnBcr5HCNeSj3J1sOS2UQQrEYYtqAMgtbc13hx
- jrEzDtXXg3gWz6c/NrKgCvfKPZC2j40txojwvXbjEsizncb4L6qY7gHYOdZljgfm
- SDw/HUs5kAQzeCZNC0oL8XFZxP8y3Y2iw0HGEYU7EFtcAmQvW6NPsjiIAos6Q9eO
- fOS8ohEQ2RuImLrQiioMaGRH2satLxtF6m2T3A1aiE6aOiAfx17EnuKzOiZ0QPqh
- Q+ygy9ShgjRD6CMklNGkOG02z3NTVTLxKLg8hsSvIEbtSMdVq0RssXiYgLWsJA47
- hTnkCKFIcnkZw+N1zW4hPf0/+9Tkv1duW6l+RAx3s/Slng==
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=7EAt3UluOmXSwF8L74aTCf
+ gjll3Ii4qSJWllOyJC/BE=; b=Hin1Ww5fU3tuk8qieRv8MC9Avy+XtKOu4AWA/c
+ +y4dZQw90tnBs5u7VluPzn/AGwjki6lxmfvBlqDjXDRt3jj/ZVQIe7VqtcxfVTEm
+ fwiHPLrA7cq4WaQ2M9pZY4uVqrLa+azBmToDuiaL/BGlSf9sxZSce1HHR9KJfCvb
+ qMoXK5haxPSWfB8PJLiQRtX1JzHYG7kyRtUuLez2kP9hRQR0iEc8ioq2XALsZVxT
+ pFMQilSq8hhsAkb8ogHKOOcK5WToZ2tD6KZulktDFud9E258R5uBO+2RaIMT/I+R
+ SQ7AFZhYEcdgicSU5Pwl+FkNLZS3ufK7vYaXI36uUGw0mwCw==
 Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
  [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yf69w0vj-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yg8wn1d0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:11:58 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:16:37 +0000 (GMT)
 Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6e8f6443ed5so21121436d6.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 16:11:58 -0700 (PDT)
+ 6a1803df08f44-6f0e2d30ab4so4564136d6.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 16:16:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744845117; x=1745449917;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=10e9Gm2RPGDf+oQLDehdobGUDaa+U5XpyPoSez3rMCg=;
- b=Iihg3f3UNoQDCst+7zubb3jeM2oHbQ8hJ5FD3JZ2DA8dRhdM3sXDFHuPStTVWsbrrQ
- u32cTnAb6QULlNPz6PK40eb7WHYGzFcT8zS5RAJgVMlcoiUXkuigQ/icQ6j7Jfv4fq1I
- AVxUCpUGHPAcDiCYrmxbg62Kte+2O6BIKwoiq6iab6yXEp1PDF6yoXzHsXKAxRYrkPGG
- R1k7nCDgZyVYJeJbYxomuQj9Zg/D/j3SuI2sU1bhy3p6QU+mUJaNXOAJbmcT2aiEks6B
- 4OlKJjwWDyMVyAjYYs36rv44gjeV+Kdcyubk5RZ+8NwUsR0gBY4FcWH9xLIYHK81hSPc
- TAnA==
-X-Gm-Message-State: AOJu0Yxp0OO4/T19zCV77L766y6v7UPEhkTVEvvJnr/2EX3RdaGGrFH3
- NAU19entvclOe5iJLiZupJDek2G1D2tHS2uSrI23ETzJIxoi5EmWUgRRpU2pblViIEHprVPs8gf
- FjCV/Wrqvb4Ht+HLzJEU5aKjz9j+aBK3De6YnpgddmzwFreDb4Z6UyWTzvTS8M1YitSU=
-X-Gm-Gg: ASbGnct87GhP/am/mtDXl9pOKe9Nzf9ZIt6h3WORwIcssEeSZgBNu51bHM4NWgcDIL4
- UgPMgG2bDp1YZCDVgp6ZjmMb0VRWE50BBq35DtAypmmVipO1ZeuBIX6V+WtZhVLGaQzeC33rQIZ
- 8Zw4Oirzc+HdcjBACd6kRIoULAY64LYo8xR9ejcCVdvrKKAsXOWLstvaGXJXMB2ENhoizYPvZZy
- 3/7X+5vjCLKnhoQf8edpbmzZDc07i1ZgpBMHaaUtWtYUUONuBsW+/DsS4WCKG6OJbz150dyLk3I
- KuM4byMeIKDHRHNyWa9JqDPr7uEhH45Zin1M0JeLueqm9itJfaGfGUiWTQzkI4R/7Gv5B07+CIM
- =
-X-Received: by 2002:a05:6214:226f:b0:6e6:9b86:85d0 with SMTP id
- 6a1803df08f44-6f2ba665fecmr13701456d6.8.1744845117441; 
- Wed, 16 Apr 2025 16:11:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGgAiezriok5YJFlEPY56geiSrXUHE9y3nHh405AYuoPCKrzUZwk1oQwHN9lCS5j+H7KnD9zQ==
-X-Received: by 2002:a05:6214:226f:b0:6e6:9b86:85d0 with SMTP id
- 6a1803df08f44-6f2ba665fecmr13701116d6.8.1744845117120; 
- Wed, 16 Apr 2025 16:11:57 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ d=1e100.net; s=20230601; t=1744845396; x=1745450196;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7EAt3UluOmXSwF8L74aTCfgjll3Ii4qSJWllOyJC/BE=;
+ b=FJi4N94tyWIT5INFeZON9tX9bNnJ5MhgvR7yRkyCa0TflciQH0ib/pXUiosfndAm+n
+ R0PpeobIx/ZewU+Mp/JCjgo2OCk1IDqLoFbg1S7eO7smRPXwnWaYaTPGncKPavjHup37
+ wGIeLkgXjHkFNnpRhfJKuhwdbeMLL1o/NvoU2iEToGULPg/im391R+G82rPfm6N0vPOf
+ 97HuV3oYliwDSbSHFZEfP5NI0pF1z+q+MYoC2Xq7WZOXkxyZcDtyK2HVIbzU4wFriqTX
+ we8yfkR08yxIyi7jm3CY0TkTwOphXGOgYVqpu7Wo2oeN6JNRmgDr/jOVX6mkqG5pjtQb
+ FsLQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXicftS1ovAICw4OYCXfubiQs7g/Yfxe2A6hX5cRJXJE3cbxVY9qJi5r4RSfHNCkc2p5G0BAQsTuRU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyeotAt2gNRigt1dVpYxiPlCg/pnvFXh7Gn/6j8M/qGziEgI4ID
+ oOkw2ui+XoraNrtyF8e7czl4DLokNT0a+VsJp19xb+v0vZfdWC1tLhdTowppq1mqydO/lwzeC33
+ 1M1hJzCos9EJiEPdgQACgSRrc0N24vnGh0s8r1CsDL9Bhdovi/yofmfsPjiWzPPeQ2kU=
+X-Gm-Gg: ASbGncuii3GhSJDPiCdknxkbpfGA75wH3iFl5b5QfVC7uTAfIzKfExb3pqLv5y0auiR
+ ZcLi/0ZWOpEBaq6W163z98qy40mGJS6lEidicGBWyKV28o9aM8UvkOH3HUB0QtUaACodV0jxn4U
+ vC5bP0gbmlweBDUiOy/rPGYgP1fxh31g5YCs6e8ClqFxIvUoVVGbGkUvG3mFo2CUj6kaSzg7FDh
+ koqzTwf31BfZoe2Pk51QScWnQB0y9TC1512Ur+T5/aSpzPUucZLS8D/PrNXW6ydQ6/Vq4Y4l2Ur
+ +/QlIs13UDax6mhbWBvXFu4n40sgzF8ftMeO26Z2ZvGyRqK5hQPLa0ROcNwjm/0PT7V4p7TKulx
+ XLMlCn75KsQjuKoEwvT7rqev7
+X-Received: by 2002:a05:6214:1c81:b0:6f0:e2d4:51fe with SMTP id
+ 6a1803df08f44-6f2b2f8bf21mr53086746d6.26.1744845396294; 
+ Wed, 16 Apr 2025 16:16:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFa9CyYlPHR76U+wpIbjfz5+zG+tcMEvdR/pJVUtUtnG9kDhHh1koGxcXHC08b08rCC56n7JA==
+X-Received: by 2002:a05:6214:1c81:b0:6f0:e2d4:51fe with SMTP id
+ 6a1803df08f44-6f2b2f8bf21mr53086286d6.26.1744845395916; 
+ Wed, 16 Apr 2025 16:16:35 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30f464e9f2dsm25270101fa.53.2025.04.16.16.11.55
+ 38308e7fff4ca-30f4649d79esm26062181fa.15.2025.04.16.16.16.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Apr 2025 16:11:56 -0700 (PDT)
-Date: Thu, 17 Apr 2025 02:11:54 +0300
+ Wed, 16 Apr 2025 16:16:34 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
+Subject: [PATCH v4 00/10] drm/msm: add support for SAR2130P
+Date: Thu, 17 Apr 2025 02:16:30 +0300
+Message-Id: <20250417-sar2130p-display-v4-0-b91dd8a21b1a@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE46AGgC/3XOwW6DMAwG4FdBOS/McULFeup7VDuEYNpIQGico
+ lYV774UDtuBXSz9lv3ZL8EUPbE4Fi8Rafbsw5iD+SiEu9rxQtK3OQsErEBDLdlGVBom2Xqeevu
+ UDRxAda6jRoPIa1Okzj9W8vy95Ui3e5bT1hSNZZIuDINPx2KkR/ocLCeK4j1+9ZxCfK4PzWqd/
+ //2rCRI1RqnoTO6Rjz1frQxlCFeVm3GP4IyOwJmQavOmgrQ1hWcAnN5u9v+/WCZy+boX8eoasf
+ R2TlgvtEo9wWod5xlWX4A/W19XXABAAA=
+X-Change-ID: 20250308-sar2130p-display-b0601fcfeb30
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 05/34] drm/msm: Rename msm_file_private -> msm_context
-Message-ID: <lb4to65g2xr3ryzhhabrejau3h6b7impchrlcfpv7bogme33r4@5b5gdqldk5h2>
-References: <20250319145425.51935-1-robdclark@gmail.com>
- <20250319145425.51935-6-robdclark@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250319145425.51935-6-robdclark@gmail.com>
-X-Proofpoint-GUID: fMcZqlj1pspglDW9xWKGtYHzhlFBtiab
-X-Authority-Analysis: v=2.4 cv=JNc7s9Kb c=1 sm=1 tr=0 ts=6800393e cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8 a=OUvj5yb-mTn8qsDSrQoA:9
- a=CjuIK1q_8ugA:10 a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-ORIG-GUID: fMcZqlj1pspglDW9xWKGtYHzhlFBtiab
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, Bjorn Andersson <andersson@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2920;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=re5I34eZqbzRiPw/4I6ROijC5iSjI9aW4YjhD8I8qjo=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoADpQt6QnxuHUxftotWk2OlvAZiO1lHUeLTtbz
+ n0gHNKPi8GJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaAA6UAAKCRCLPIo+Aiko
+ 1dneB/oDKs/x/qXBDu4zM/App/txTQOV1RDcSPyDhFpjDNAaDhm9YKy6/fss2ciMM3oNbTQe7xj
+ GLa4DZwyzaXI1oJAeBXrN6sPh6kiGCTbS8q6mFiQWhjixbX8YrxZ4JZxqsfIZhX8fyEMXanGDMG
+ G2Z+QL+twxDFsWQRvysKw7usWWOuG2O1aA0I0DvO4NPTyZvXczJuD//vbmZ0JfaLi2tZWv8LRaJ
+ ssuXHlM8asP13rn2xUgBcjmZmL8aHS3rtvA6clhZR8ILjBpH3T8cch6WbKZsWUGtgYQpgFLLaLM
+ cYlVbQIqPoOmO/2MSAKJ4kr94yvlBCO6uXdH54p8ZMDHAQ2p
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Authority-Analysis: v=2.4 cv=E9TNpbdl c=1 sm=1 tr=0 ts=68003a55 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=hvGiVLgBQ5XhCkBqgSwA:9 a=QEXdDO2ut3YA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: 1_YgOb1M96M0dOKATKZQMwvzX81Vi1dV
+X-Proofpoint-GUID: 1_YgOb1M96M0dOKATKZQMwvzX81Vi1dV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-16_09,2025-04-15_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- suspectscore=0 mlxlogscore=838 lowpriorityscore=0 bulkscore=0
- impostorscore=0 clxscore=1015 phishscore=0 adultscore=0 priorityscore=1501
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ malwarescore=0 adultscore=0
+ mlxscore=0 bulkscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2504160186
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -120,27 +152,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 19, 2025 at 07:52:17AM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> This is a more descriptive name.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  2 +-
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  6 ++--
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h |  4 +--
->  drivers/gpu/drm/msm/msm_drv.c           | 14 ++++-----
->  drivers/gpu/drm/msm/msm_gem.c           |  2 +-
->  drivers/gpu/drm/msm/msm_gem_submit.c    |  2 +-
->  drivers/gpu/drm/msm/msm_gpu.c           |  4 +--
->  drivers/gpu/drm/msm/msm_gpu.h           | 39 ++++++++++++-------------
->  drivers/gpu/drm/msm/msm_submitqueue.c   | 27 +++++++++--------
->  9 files changed, 49 insertions(+), 51 deletions(-)
-> 
+Add support for the Mobile Display SubSystem (MDSS) device present on
+the Qualcomm SAR2130P platform. The MDSS device is similar to SM8550, it
+features two MIPI DSI controllers, two MIPI DSI PHYs and one DisplayPort
+controller.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Note, due to the technical limitations DP controller wasn't completely
+evaluated.
 
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+Changes in v4:
+- Changed MDP->EBI interconnect to QCOM_ICC_TAG_ALWAYS (Konrad)
+- Link to v3: https://lore.kernel.org/r/20250415-sar2130p-display-v3-0-62314b1c9023@oss.qualcomm.com
+
+Changes in v3:
+- Use defines for DSI PHY clock indices (Konrad)
+- Increas VBIF region size of 0x3000 (Konrad)
+- Link to v2: https://lore.kernel.org/r/20250314-sar2130p-display-v2-0-31fa4502a850@oss.qualcomm.com
+
+Changes in v2:
+- In MDSS schema switched from list items to contains: (Krzyztof)
+- In MDSS schema dropped extra empty lines (Krzysztof)
+- Fixed .ubwc_bank_spread in msm_mdss. (LKP)
+- Link to v1: https://lore.kernel.org/r/20250308-sar2130p-display-v1-0-1d4c30f43822@linaro.org
+
+---
+Dmitry Baryshkov (10):
+      dt-bindings: display/msm: dp-controller: describe SAR2130P
+      dt-bindings: display/msm: dsi-controller-main: describe SAR2130P
+      dt-bindings: display/msm: dsi-phy-7nm: describe SAR2130P
+      dt-bindings: display/msm: qcom,sc7280-dpu: describe SAR2130P
+      dt-bindings: display/msm: Add Qualcomm SAR2130P
+      drm/msm/mdss: add SAR2130P device configuration
+      drm/msm/dsi/phy: add configuration for SAR2130P
+      drm/msm/dpu: add catalog entry for SAR2130P
+      iommu/arm-smmu-qcom: Add SAR2130P MDSS compatible
+      arm64: dts: qcom: sar2130p: add display nodes
+
+ .../bindings/display/msm/dp-controller.yaml        |   1 +
+ .../bindings/display/msm/dsi-controller-main.yaml  |   2 +
+ .../bindings/display/msm/dsi-phy-7nm.yaml          |   1 +
+ .../bindings/display/msm/qcom,sar2130p-mdss.yaml   | 439 +++++++++++++++++++++
+ .../bindings/display/msm/qcom,sc7280-dpu.yaml      |   1 +
+ arch/arm64/boot/dts/qcom/sar2130p.dtsi             | 395 ++++++++++++++++++
+ .../drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h   | 434 ++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |  23 ++
+ drivers/gpu/drm/msm/msm_mdss.c                     |  11 +
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c         |   1 +
+ 15 files changed, 1314 insertions(+), 1 deletion(-)
+---
+base-commit: 5b37f7bfff3b1582c34be8fb23968b226db71ebd
+change-id: 20250308-sar2130p-display-b0601fcfeb30
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
