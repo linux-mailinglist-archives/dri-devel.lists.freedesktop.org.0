@@ -2,155 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE44A8ABDE
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 01:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CA9A8ACBB
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 02:30:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5618C10E395;
-	Tue, 15 Apr 2025 23:11:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDB4D10E030;
+	Wed, 16 Apr 2025 00:30:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WrooOdwE";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=embeddedor.com header.i=@embeddedor.com header.b="ZOv3TV2n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B625E10E395
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 23:11:26 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id
- 6a1803df08f44-6e8f6970326so58750006d6.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 16:11:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744758686; x=1745363486; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:feedback-id:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dKLRk0brjDNifaxxsd7Y9Fb9L/syicRgQ50i2EOVxk4=;
- b=WrooOdwElhTT51QmbzUGEjj6LZQkLR6742heOsFWjAoyxON5DubwkW1C9YseobQXsM
- qpV8bTh3cQQxTJJuEUDIqbCA4L4OxwwXPJkBk+aSJERiuDEcDQVJ4vEZGUm/88okM3FO
- Lw7pikmsb+IbeLJ9eIGRcMK/Y+/zMq4ujQvgNJLDKa0T5HHWLK2ogK8R/O2drbrDwyc2
- iBfYPrtiMDgKfkmfU5jS+iywBYakWpJ3chhsglf1cmI0tUitwIXzTwH8vQhifQwFuXjX
- XywbUdMkdhFg5UWtT8JW9IsoXuEi9IN1REIQSBHXwd4O+KugIQVeAJtGVEgthRn2eY+X
- ZX7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744758686; x=1745363486;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:feedback-id:message-id:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dKLRk0brjDNifaxxsd7Y9Fb9L/syicRgQ50i2EOVxk4=;
- b=nkWTEFCVCguEr+aOU+qBC086oNGGAhw47R95wuv56PPLkY8EYalbJo58DwFsPwIcMW
- ezxLQSJkNxhDHlXL+CY5r4c+zAZISQvBmQhW3FmQBZX9CqjjP0e2vs3vb2uTor3eLvN/
- Ad/TNeXxS1USBVZWxvVGS5WftuMwo3//CjgNbAYlOjBsdI8kzM/uUsVUdRcEYDRfPvAu
- i0SsAatFAaL+BVu31Z0bgajw7O1WCBuuPTBIZtRkionHQIxqH/dBG214l3xV5S5N/JN/
- POoInt7LqUtfuafKN9FB107k9fjEQdL2O12KswxBSMmu4bXn1rN7PegHiF7pICtGIhxC
- SNHA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlFacUrCHvXk44DQd/Hd9BySAjU+raeVfg5T8AVh3uWk2t0P936Ofs4qIug8GD7Yj0TKK16OhzdlQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyfJp8gXe1HAbz+qSvch9sbXwCS0stOXLXhq4BCt1+B5u59l3GJ
- X8Flq2tvKgNw7vTUF6cnGu0UgWr8MkW77xW/YIx2QJOAs+9ccRiR
-X-Gm-Gg: ASbGncsHLlbJPAMpuc4XHMbyWw+JabR+piMl0FK7hFKELNFxSKyGL1afP//156O8Oj7
- a4GlYpa50WhjNBEqKRq70fg8FL6hIpE3ULQfnEqkfL9GkflqO2xgUw5P67mJbHf2oxRtE2vPVgQ
- d9VV7eo+knXdb2WzZ3cpf306FrNtrcaN6fxzTChCBdUjmtGywMs8qPb1UW0EA6QSnio2YggJG5y
- 7QPd4soy7V4ytKaHS1YSoym1P6z+rfD5fPv2sUWE7xbhdGudDeTYsRuVp3sJ/gK/ec/qLmQYdTc
- jMyikYVWTqh9ydTtTcqzH3OwCnUBQ2NbQZ5w1en4eWt8rudxqGfeDPiTk/g4SS8cRgqCXhUyrgY
- yFuVzizDITQ/CqKZiZQZkU9DxNPhxx1o=
-X-Google-Smtp-Source: AGHT+IFETheEP+xJhRNM1qZxIYPDxwWrcrPYC6B9CbiGQ1KKBk3+QdK0VZBgDiYVn1tco1xRTl5+1w==
-X-Received: by 2002:a05:6214:1307:b0:6d8:99cf:d2db with SMTP id
- 6a1803df08f44-6f2ad9cbc1cmr23831046d6.38.1744758685601; 
- Tue, 15 Apr 2025 16:11:25 -0700 (PDT)
-Received: from fauth-a2-smtp.messagingengine.com
- (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6f0de95fa03sm107097036d6.8.2025.04.15.16.11.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Apr 2025 16:11:25 -0700 (PDT)
-Message-ID: <67fee79d.050a0220.3c9498.bc23@mx.google.com>
-X-Google-Original-Message-ID: <Z_7nmZxgQgdnm4JB@winterfell.>
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal
- [10.202.2.41])
- by mailfauth.phl.internal (Postfix) with ESMTP id 20E271200043;
- Tue, 15 Apr 2025 19:11:24 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-01.internal (MEProxy); Tue, 15 Apr 2025 19:11:24 -0400
-X-ME-Sender: <xms:nOf-Z6UDAdpnclVKCUfuXlUT7xZJhQHxa1dnwUsoRcSjQm30zBXuLQ>
- <xme:nOf-Z2nnxnX-_Ij-A7N0FCBF0eDRrWbwJvHn6GJuP-MZZEESZzNh9r3ewFNyYeGF6
- afBMgSeaPMenyMolA>
-X-ME-Received: <xmr:nOf-Z-Y1xTO27wuhgzWJC5Si6Bp5mYdfOvvM417aDr9nRd13erD5_2O7RSA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdegjeejucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
- pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
- gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddt
- vdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrih
- hlrdgtohhmqeenucggtffrrghtthgvrhhnpeehudfgudffffetuedtvdehueevledvhfel
- leeivedtgeeuhfegueevieduffeivdenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgr
- lhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppe
- hgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepgeejpdhm
- ohguvgepshhmthhpohhuthdprhgtphhtthhopehtrghmihhrugesghhmrghilhdrtghomh
- dprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphhtthho
- pehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrh
- hnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghilhdrtgho
- mhdprhgtphhtthhopehgrghrhiesghgrrhihghhuohdrnhgvthdprhgtphhtthhopegsjh
- horhhnfegpghhhsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopegsvghnnhho
- rdhlohhsshhinhesphhrohhtohhnrdhmvgdprhgtphhtthhopegrrdhhihhnuggsohhrgh
- eskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:nOf-ZxUDUKJJw3gmIqhuJ5y6d3EH6fSycZ8K1NDgJuuF1VT5kOWrpg>
- <xmx:nOf-Z0nydUhHJhu79epg3_0X0HbvWM9t8YjqixNvAj3x-HizuhdPyw>
- <xmx:nOf-Z2dbGPx55Mdho92Hf4sfcnBm9fbUszd7OJKLAiOGRx0BRb3SuQ>
- <xmx:nOf-Z2EGD0AdYD-E8v6eUS3p430M-l-WUTowU7PEhhm39z8EOjBi5w>
- <xmx:nOf-ZymqPc77udtVs7tC7u-E90mY3EYFJ-5O06XqK_nFkZnpDiCheWSX>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 15 Apr 2025 19:11:23 -0400 (EDT)
-Date: Tue, 15 Apr 2025 16:11:21 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,	Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@google.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Frederic Weisbecker <frederic@kernel.org>,	Lyude Paul <lyude@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
- linux-block@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v8 6/6] rust: enable `clippy::ref_as_ptr` lint
-References: <20250409-ptr-as-ptr-v8-0-3738061534ef@gmail.com>
- <20250409-ptr-as-ptr-v8-6-3738061534ef@gmail.com>
- <67fe9975.c80a0220.1b5785.66e7@mx.google.com>
- <CAJ-ks9mzyfvsxkyud_wLXfhLD_zP95bivCQ9i2aC-3ea=Y7+0A@mail.gmail.com>
- <67fea2d6.050a0220.8fa7f.6690@mx.google.com>
- <CAJ-ks9=G1ajyT8gwLHyvHW09Z2gG=Geg7LDS6iyRyqx_wyp5Sg@mail.gmail.com>
- <67fec6c1.0c0a0220.f907e.c6dd@mx.google.com>
- <CAJ-ks9mZ4qqRwQTWyGYgPy9kf3=od=zbvX67ELVgctU0t6qHuQ@mail.gmail.com>
- <67fee5a9.050a0220.25fe78.76d2@mx.google.com>
- <CAJ-ks9ni3iVY-PwUVdhxah325ovU5CWw=gfR+dhfPLGwDra8pQ@mail.gmail.com>
+Received: from omta38.uswest2.a.cloudfilter.net
+ (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 374C110E030
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 00:30:38 +0000 (UTC)
+Received: from eig-obgw-6005a.ext.cloudfilter.net ([10.0.30.201])
+ by cmsmtp with ESMTPS
+ id 4lUxuJvn5Afjw4qffuCU2v; Wed, 16 Apr 2025 00:30:31 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
+ id 4qfeulTY5Z6h14qfeuwHUE; Wed, 16 Apr 2025 00:30:30 +0000
+X-Authority-Analysis: v=2.4 cv=ergUzZpX c=1 sm=1 tr=0 ts=67fefa26
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=B3fuDwYyW55wTQKIj88FGw==:17
+ a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
+ a=UN1T-_8jpz6L_PNgig8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=Xt_RvD8W3m28Mn_h3AK8:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=oKBjP8juYoC9d3TnLW3yOOR8GjWDwl8kbWpULuM2oic=; b=ZOv3TV2nYLymDuavxSj0Plctwq
+ cl+gt/u9mnaX9R+CgiRs/33/m3ra+AjnxHukcNnk2YrHM6/hXfTsu6V+3OG/OaTvOQ03fP0CGy3AD
+ OvXhqNwFtnInRtk78ljEiM0tWzvUysYI+0M7xSuxJhrH7hFd2JKAVi5EwoAEX5zbSinEulAPeZqWh
+ sDVzgh05jTDi9sfyqfHOUvOAn314Xbx0eH0G9OSeEOPrsaxrDDRnuq9pLYw/9NxiMiPpQtIUJeMV5
+ ovMswtsbAyrAvsX3HNk/ihoZfZj+zI6f96ss1JmZ9EPsN+cu5B+dagInndCHoAVVpnMslRlxOl0TB
+ ZIFK4Xmg==;
+Received: from [201.172.174.147] (port=43583 helo=[192.168.15.14])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.98.1)
+ (envelope-from <gustavo@embeddedor.com>) id 1u4qfc-00000001dP6-3MLK;
+ Tue, 15 Apr 2025 19:30:29 -0500
+Message-ID: <217b00f5-d03d-4624-9ba9-d838199ef7b9@embeddedor.com>
+Date: Tue, 15 Apr 2025 18:30:20 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJ-ks9ni3iVY-PwUVdhxah325ovU5CWw=gfR+dhfPLGwDra8pQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] drm/amd/pm: Avoid multiple
+ -Wflex-array-member-not-at-end warnings
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Kenneth Feng <kenneth.feng@amd.com>, Alex Deucher
+ <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>
+References: <Z678TNhCbTk363Tw@kspp>
+ <864c7dd5-0deb-4adb-a1cf-c8a809514d7e@embeddedor.com>
+Content-Language: en-US
+In-Reply-To: <864c7dd5-0deb-4adb-a1cf-c8a809514d7e@embeddedor.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.172.174.147
+X-Source-L: No
+X-Exim-ID: 1u4qfc-00000001dP6-3MLK
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.15.14]) [201.172.174.147]:43583
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 23
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfMqzB2jdncMFr3UqOYYWsnz10Sj1Gf2hBNcekySGqy/XzaL31i4MiYBA6OjHmEmyJV4HmTehsX5m2pMCGK0eeBU46MhaxG5mVeNacjaRTMqgwH9UDepN
+ z8qYqMZkaDtA+55uNsWPlEzKDASL3xOZyi1Ww2rMVF4F6av+TkRvFQCMmuLOerE0aVl5UaKgVVl6hoNVjioDztPxJA9J0aF2RQBxaad2DRnqCnWvlMyOdU+0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,38 +100,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 15, 2025 at 07:08:42PM -0400, Tamir Duberstein wrote:
-[...]
-> > > >
-> > > > > > also from the link document you shared, looks like the suggestion is to
-> > > > > > use core::ptr::from_{ref,mut}(), was this ever considered?
-> > > > >
-> > > > > I considered it, but I thought it was ugly. We don't have a linter to
-> > > > > enforce it, so I'd be surprised if people reached for it.
-> > > > >
-> > > >
-> > > > I think avoiding the extra line of `let` is a win, also I don't get why
-> > > > you feel it's *ugly*: having the extra `let` line is ugly to me ;-)
-> > >
-> > > I admit it's subjective, so I'm happy to change it. But I've never
-> > > seen that syntax used, and we lack enforcement for either one, so I
-> > > don't find much value in arguing over this.
-> > >
-> >
-> > If the original code use "as" for conversion purposes, I think it's good
-> > to be consistent and using from_ref() or from_mut(): they are just
-> > bullet-proof version of conversions, and having a separate let statement
-> > looks like a distraction to me. If for new code, and the author has a
-> > reason for let statement, then it's fine.
+Hi all,
+
+Friendly ping (second one): who can take this patch, please? 🙂
+
+Thanks!
+-Gustavo
+
+On 11/03/25 02:10, Gustavo A. R. Silva wrote:
+> Hi all,
 > 
-> Fine by me. I'll change the let statements to those methods on the next spin.
+> Friendly ping: who can take this, please? :)
+> 
+> Thanks!
+> -- 
+> Gustavo
+> 
+> On 14/02/25 18:48, Gustavo A. R. Silva wrote:
+>> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+>> getting ready to enable it, globally.
+>>
+>> So, in order to avoid ending up with a flexible-array member in the
+>> middle of other structs, we use the `struct_group_tagged()` helper
+>> to create a new tagged `struct NISLANDS_SMC_SWSTATE_HDR` (and `struct
+>> SISLANDS_SMC_SWSTATE_HDR`). This structures group together all the
+>> members of the flexible `struct NISLANDS_SMC_SWSTATE` (and `struct
+>> SISLANDS_SMC_SWSTATE`) except the flexible array.
+>>
+>> As a result, the array is effectively separated from the rest of the
+>> members without modifying the memory layout of the flexible structure.
+>> We then change the type of the middle struct members currently causing
+>> trouble from `struct NISLANDS_SMC_SWSTATE` to `struct
+>> NISLANDS_SMC_SWSTATE_HDR` (and from `struct SISLANDS_SMC_SWSTATE` to
+>> `struct SISLANDS_SMC_SWSTATE_HDR`).
+>>
+>> We also want to ensure that when new members need to be added to the
+>> flexible structure, they are always included within the newly created
+>> tagged struct. For this, we use `static_assert()`. This ensures that
+>> the memory layout for both the flexible structure and the new tagged
+>> struct is the same after any changes.
+>>
+>> This approach avoids having to implement `struct NISLANDS_SMC_SWSTATE_HDR`
+>> (and `struct SISLANDS_SMC_SWSTATE_HDR`) as a completely separate structure,
+>> thus preventing having to maintain two independent but basically identical
+>> structures, closing the door to potential bugs in the future.
+>>
+>> We also use `container_of()` whenever we need to retrieve a pointer to
+>> the flexible structure, through which we can access the flexible-array
+>> member, if necessary.
+>>
+>> So, with this changes, fix the following warnings:
+>>
+>> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/sislands_smc.h:218:49: warning: structure containing a flexible array member is not at the end of another 
+>> structure [-Wflex-array-member-not-at-end]
+>> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:819:41: warning: structure containing a flexible array member is not at the end of another structure [- 
+>> Wflex-array-member-not-at-end]
+>> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:818:41: warning: structure containing a flexible array member is not at the end of another structure [- 
+>> Wflex-array-member-not-at-end]
+>> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:817:41: warning: structure containing a flexible array member is not at the end of another structure [- 
+>> Wflex-array-member-not-at-end]
+>> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.h:816:41: warning: structure containing a flexible array member is not at the end of another structure [- 
+>> Wflex-array-member-not-at-end]
+>>
+>> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+>> ---
+>>   drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c    |  7 ++++--
+>>   drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h    | 23 +++++++++++--------
+>>   .../gpu/drm/amd/pm/legacy-dpm/sislands_smc.h  | 15 ++++++++----
+>>   3 files changed, 29 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+>> index a87dcf0974bc..2c9d473d122f 100644
+>> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+>> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+>> @@ -5234,7 +5234,8 @@ static int si_init_smc_table(struct amdgpu_device *adev)
+>>       table->driverState.flags = table->initialState.flags;
+>>       table->driverState.levelCount = table->initialState.levelCount;
+>> -    table->driverState.levels[0] = table->initialState.level;
+>> +    container_of(&table->driverState, SISLANDS_SMC_SWSTATE, __hdr)->levels[0] =
+>> +                                table->initialState.level;
+>>       ret = si_do_program_memory_timing_parameters(adev, amdgpu_boot_state,
+>>                                SISLANDS_INITIAL_STATE_ARB_INDEX);
+>> @@ -5755,7 +5756,9 @@ static int si_upload_sw_state(struct amdgpu_device *adev,
+>>       int ret;
+>>       u32 address = si_pi->state_table_start +
+>>           offsetof(SISLANDS_SMC_STATETABLE, driverState);
+>> -    SISLANDS_SMC_SWSTATE *smc_state = &si_pi->smc_statetable.driverState;
+>> +    SISLANDS_SMC_SWSTATE *smc_state =
+>> +        container_of(&si_pi->smc_statetable.driverState,
+>> +                 SISLANDS_SMC_SWSTATE, __hdr);
+>>       size_t state_size = struct_size(smc_state, levels,
+>>                       new_state->performance_level_count);
+>>       memset(smc_state, 0, state_size);
+>> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h
+>> index 11cb7874a6bb..62530f89ebdf 100644
+>> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h
+>> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.h
+>> @@ -784,12 +784,17 @@ typedef struct NISLANDS_SMC_HW_PERFORMANCE_LEVEL NISLANDS_SMC_HW_PERFORMANCE_LEV
+>>   struct NISLANDS_SMC_SWSTATE
+>>   {
+>> -    uint8_t                             flags;
+>> -    uint8_t                             levelCount;
+>> -    uint8_t                             padding2;
+>> -    uint8_t                             padding3;
+>> -    NISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
+>> +    /* New members MUST be added within the struct_group() macro below. */
+>> +    struct_group_tagged(NISLANDS_SMC_SWSTATE_HDR, __hdr,
+>> +        uint8_t                             flags;
+>> +        uint8_t                             levelCount;
+>> +        uint8_t                             padding2;
+>> +        uint8_t                             padding3;
+>> +    );
+>> +    NISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
+>>   };
+>> +static_assert(offsetof(struct NISLANDS_SMC_SWSTATE, levels) == sizeof(struct NISLANDS_SMC_SWSTATE_HDR),
+>> +          "struct member likely outside of struct_group_tagged()");
+>>   typedef struct NISLANDS_SMC_SWSTATE NISLANDS_SMC_SWSTATE;
+>> @@ -813,10 +818,10 @@ struct NISLANDS_SMC_STATETABLE
+>>       uint32_t                            lowSMIO[NISLANDS_MAX_NO_VREG_STEPS];
+>>       NISLANDS_SMC_VOLTAGEMASKTABLE       voltageMaskTable;
+>>       PP_NIslands_DPM2Parameters          dpm2Params;
+>> -    NISLANDS_SMC_SWSTATE                initialState;
+>> -    NISLANDS_SMC_SWSTATE                ACPIState;
+>> -    NISLANDS_SMC_SWSTATE                ULVState;
+>> -    NISLANDS_SMC_SWSTATE                driverState;
+>> +    struct NISLANDS_SMC_SWSTATE_HDR        initialState;
+>> +    struct NISLANDS_SMC_SWSTATE_HDR        ACPIState;
+>> +    struct NISLANDS_SMC_SWSTATE_HDR        ULVState;
+>> +    struct NISLANDS_SMC_SWSTATE_HDR        driverState;
+>>       NISLANDS_SMC_HW_PERFORMANCE_LEVEL   dpmLevels[NISLANDS_MAX_SMC_PERFORMANCE_LEVELS_PER_SWSTATE - 1];
+>>   };
+>> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h b/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
+>> index 90ec411c5029..1711e3e35e80 100644
+>> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
+>> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
+>> @@ -172,12 +172,17 @@ struct SISLANDS_SMC_HW_PERFORMANCE_LEVEL {
+>>   typedef struct SISLANDS_SMC_HW_PERFORMANCE_LEVEL SISLANDS_SMC_HW_PERFORMANCE_LEVEL;
+>>   struct SISLANDS_SMC_SWSTATE {
+>> -    uint8_t                             flags;
+>> -    uint8_t                             levelCount;
+>> -    uint8_t                             padding2;
+>> -    uint8_t                             padding3;
+>> +    /* New members MUST be added within the struct_group() macro below. */
+>> +    struct_group_tagged(SISLANDS_SMC_SWSTATE_HDR, __hdr,
+>> +        uint8_t                             flags;
+>> +        uint8_t                             levelCount;
+>> +        uint8_t                             padding2;
+>> +        uint8_t                             padding3;
+>> +    );
+>>       SISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
+>>   };
+>> +static_assert(offsetof(struct SISLANDS_SMC_SWSTATE, levels) == sizeof(struct SISLANDS_SMC_SWSTATE_HDR),
+>> +          "struct member likely outside of struct_group_tagged()");
+>>   typedef struct SISLANDS_SMC_SWSTATE SISLANDS_SMC_SWSTATE;
+>> @@ -215,7 +220,7 @@ struct SISLANDS_SMC_STATETABLE {
+>>       struct SISLANDS_SMC_SWSTATE_SINGLE    initialState;
+>>       struct SISLANDS_SMC_SWSTATE_SINGLE    ACPIState;
+>>       struct SISLANDS_SMC_SWSTATE_SINGLE    ULVState;
+>> -    SISLANDS_SMC_SWSTATE            driverState;
+>> +    struct SISLANDS_SMC_SWSTATE_HDR        driverState;
+>>       SISLANDS_SMC_HW_PERFORMANCE_LEVEL    dpmLevels[SISLANDS_MAX_SMC_PERFORMANCE_LEVELS_PER_SWSTATE];
+>>   };
 > 
 
-Thanks! There are a few instances in the early patches as well,
-appreciate it if you can change them as well.
-
-Regards,
-Boqun
-
-> Thanks for your feedback.
-> Tamir
