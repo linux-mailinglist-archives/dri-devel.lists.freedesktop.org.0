@@ -2,71 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6B4A90458
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 15:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97943A90461
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 15:32:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F318A10E90A;
-	Wed, 16 Apr 2025 13:30:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EmWBVaNO";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9125010E914;
+	Wed, 16 Apr 2025 13:32:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1A5310E90A
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 13:30:55 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-227c7e57da2so60284265ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 06:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744810255; x=1745415055; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LbNSVDiFHwq8rNV000t7lz6vq0av5GqGVYbhsOdiyA8=;
- b=EmWBVaNOM9y+EW92GIwe0iA1MjPByZyQBlU7OO1g0hJYYKhrIRHyarzkkO2L1IGG8Z
- N7R6LvyBCwDqbWFoxz4j0dZFtuS/5ZKOV7UItaAWz/AoTNcr9BqssOsVg4phY75LwLit
- iKrK853Tt8S9qdIHa1FcI1mOzcKD6DHh8LRtN4wPqiej8JMGPX8Lr7+7AgbU7/L7zXNA
- pIlLOmIFUMKjmpAAQVL8K8Lp2AdfA7Tdg3GoeXpC7+eNltDqzvI8ftkhrSGSVNBDpge5
- kxz5QajkdMkEHA387cyBYv2IB/ZsO9G+t27rAWs9j3tMuH2LXpl5Y6VjV+wslsXo6Y2b
- H3OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744810255; x=1745415055;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LbNSVDiFHwq8rNV000t7lz6vq0av5GqGVYbhsOdiyA8=;
- b=hbPk5mapnRiJnT53TzkZyU5F49HHoWwm4rpDaxr1RaBjQ4N73Ru3VxkvR+jyDgcrZc
- APN7+vFpZoGQZ6WNja4W0/ogdtM591nI3FMNnR0Pdj1sWPZ74x9JaaU89wLwoSK5nPZ1
- RCeOMtcQJGuh9ug96BgOpphRFtBCa2JMVdmij36M0OZ1MsH0L6C616hquAyySIomFpJ5
- YhhRqbXy1QMDZmr6c3QqkMvoc6W9/R3ouHVom8ctaIbAOLbg1HLL88YzNLQmiF7FHdzH
- J+HmoCzk7zeMxez4VDhMVzruy1/r1k8jbDg9tWmcUkEYtrcma1YRMDjTmsEK/fUwJ+Qb
- fduA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUS2Vgiba6GKzYdCB5Thl4aqu/OtudxrKV25VrcYeCz3LDF1RinHdyIwPQREu6fmeqFoqMYWAaQybE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzEKVYYJwJ2u//YFMVa6tWwbw5YalFCEE8m8KPlIKBWcBufswqj
- udyh0OwhQvnvjvrTNMwe4oZnxakWiGHbDtbReFAZanKXwKzFuPM5
-X-Gm-Gg: ASbGnct8/Co8tbxYuPA9G0r/vbnUgwSwr2GoUdmnjlDC5zsLZZ9wSBFT4gkC0EWTRuQ
- mGCHugA0RuB8rqkP13IJoZdnSZKatyMkbIstd2KTPPUqaADO6fx/mbEwsNWbBn8IdkFpuzAj1U4
- x9iwrs50ct5Dmh1WUlhdKog16j4sAlfIBousqTwovamIiUyZL4J0JYwveYZBd4qngx4KT49YkLq
- aRsRVW9MPmU+yw4Rt45eiFd6XhEXZO+KHwvPKxYp2SJaXkCWYAZnr2eqZmdkquLY+MzyY4a+5Vs
- elJr2aLfuKO1OuxXLTJYgdbHeVk+GWg2SnoHhZmrLFoV0nWfBpiNE5U=
-X-Google-Smtp-Source: AGHT+IG2vRfsCnm5TZSplWPRtz1ywxgjh6sWoTQEfUxv6dxNNa3rWkx78FM/tF2HIadzSJ6G6zfqcw==
-X-Received: by 2002:a17:90b:5444:b0:2ee:f80c:6889 with SMTP id
- 98e67ed59e1d1-3086417cdf7mr3401623a91.33.1744810254931; 
- Wed, 16 Apr 2025 06:30:54 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:1040:3dd1:1e14:adfc])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-308611f458dsm1525061a91.19.2025.04.16.06.30.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Apr 2025 06:30:54 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: noralf@tronnes.org
-Cc: tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- Fabio Estevam <festevam@denx.de>, stable@vger.kernel.org
-Subject: [PATCH] drm/tiny: panel-mipi-dbi: Pass drm_client_setup_with_fourcc()
-Date: Wed, 16 Apr 2025 10:30:48 -0300
-Message-Id: <20250416133048.2316297-1-festevam@gmail.com>
+Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09AD910E90F;
+ Wed, 16 Apr 2025 13:32:06 +0000 (UTC)
+Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
+ 53GDVksV862045; Wed, 16 Apr 2025 19:01:47 +0530
+Received: (from sunil@localhost)
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 53GDVjnt862044;
+ Wed, 16 Apr 2025 19:01:45 +0530
+From: Sunil Khatri <sunil.khatri@amd.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Sunil Khatri <sunil.khatri@amd.com>
+Subject: [PATCH v4 1/5] drm: add macro drm_file_err to print process info
+Date: Wed, 16 Apr 2025 19:01:40 +0530
+Message-Id: <20250416133144.862023-1-sunil.khatri@amd.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -85,42 +46,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabio Estevam <festevam@denx.de>
+Add a drm helper macro which append the process information for
+the drm_file over drm_err.
 
-Since commit 559358282e5b ("drm/fb-helper: Don't use the preferred depth
-for the BPP default") an RGB565 CFAF240320X display no longer works
-correctly: the colors are wrong and the content appears twice on the
-screen, side by side.
-
-The reason for the regression is that bits per pixel is now 32 instead
-of 16 in the fb-helper driver.
-
-Fix this problem by passing drm_client_setup_with_fourcc() with the correct
-format depending on the bits per pixel information.
-
-Cc: stable@vger.kernel.org
-Fixes: 559358282e5b ("drm/fb-helper: Don't use the preferred depth for the BPP default")
-Signed-off-by: Fabio Estevam <festevam@denx.de>
+Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
 ---
- drivers/gpu/drm/tiny/panel-mipi-dbi.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ include/drm/drm_file.h | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-index 0460ecaef4bd..23914a9f7fd3 100644
---- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-+++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-@@ -390,7 +390,10 @@ static int panel_mipi_dbi_spi_probe(struct spi_device *spi)
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index 94d365b22505..5ae5ad1048fb 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -37,6 +37,7 @@
+ #include <uapi/drm/drm.h>
  
- 	spi_set_drvdata(spi, drm);
+ #include <drm/drm_prime.h>
++#include <drm/drm_print.h>
  
--	drm_client_setup(drm, NULL);
-+	if (bpp == 16)
-+		drm_client_setup_with_fourcc(drm, DRM_FORMAT_RGB565);
-+	else
-+		drm_client_setup_with_fourcc(drm, DRM_FORMAT_RGB888);
- 
- 	return 0;
+ struct dma_fence;
+ struct drm_file;
+@@ -446,6 +447,46 @@ static inline bool drm_is_accel_client(const struct drm_file *file_priv)
+ 	return file_priv->minor->type == DRM_MINOR_ACCEL;
  }
+ 
++static struct task_struct *drm_task_lock(struct drm_file *file_priv)
++					__attribute__((__maybe_unused));
++static struct task_struct *drm_task_lock(struct drm_file *file_priv)
++{
++	struct task_struct *task;
++	struct pid *pid;
++
++	mutex_lock(&file_priv->client_name_lock);
++	rcu_read_lock();
++	pid = rcu_dereference(file_priv->pid);
++	task = pid_task(pid, PIDTYPE_TGID);
++	return task;
++}
++
++static void drm_task_unlock(struct drm_file *file_priv) __attribute__((__maybe_unused));
++static void drm_task_unlock(struct drm_file *file_priv)
++{
++	rcu_read_unlock();
++	mutex_unlock(&file_priv->client_name_lock);
++}
++/**
++ * drm_file_err - Fill info string with process name and pid
++ * @file_priv: context of interest for process name and pid
++ * @fmt: prinf() like format string
++ *
++ * This update the user provided buffer with process
++ * name and pid information for @file_priv
++ */
++#define drm_file_err(file_priv, fmt, ...)						\
++	do {										\
++		struct task_struct *task;						\
++		struct drm_device *dev = file_priv->minor->dev;				\
++											\
++		task = drm_task_lock(file_priv);					\
++		drm_err(dev, "comm: %s pid: %d client: %s " fmt,			\
++			task ? task->comm : "", task ? task->pid : 0,			\
++			file_priv->client_name ?: "Unset", ##__VA_ARGS__);		\
++		drm_task_unlock(file_priv);						\
++	} while (0)
++
+ void drm_file_update_pid(struct drm_file *);
+ 
+ struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigned int minor_id);
 -- 
 2.34.1
 
