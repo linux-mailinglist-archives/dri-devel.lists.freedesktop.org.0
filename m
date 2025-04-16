@@ -2,80 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBF6A8ADA2
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 03:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6E2A8ADB2
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 03:53:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED44D10E396;
-	Wed, 16 Apr 2025 01:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 260D110E80A;
+	Wed, 16 Apr 2025 01:53:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YCcpgkhx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MTz0j5eA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FE7D10E396
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 01:46:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744767981;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bAux2x29rzru79GAnli/9y6p/hjt91wz4YpqymUDDzs=;
- b=YCcpgkhxRY5AFzBwsw2pzXg/FvjkkUDF+3bvmecmDNEKEB1zpV1sCSYWDSXK8zrPMi5GSe
- 5d2IBVZnUeqDnc62ytwFSYJUvzjgyww7Hrs00a7gDIxnnvHQ/2IQzE9/e1Jz6qf7t5ocZr
- sY3OjOVAsk7tHJr3rG+KAHTfspVUuo0=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-4PMbG3AQNI2ggeHMJJi8XA-1; Tue, 15 Apr 2025 21:46:19 -0400
-X-MC-Unique: 4PMbG3AQNI2ggeHMJJi8XA-1
-X-Mimecast-MFC-AGG-ID: 4PMbG3AQNI2ggeHMJJi8XA_1744767979
-Received: by mail-pg1-f198.google.com with SMTP id
- 41be03b00d2f7-af91ea9e885so5168047a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 18:46:19 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7800510E80A;
+ Wed, 16 Apr 2025 01:53:35 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-5e5c9662131so9596805a12.3; 
+ Tue, 15 Apr 2025 18:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744768411; x=1745373211; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e19ozdcE7IbomEf30Wwf0grmgEk+1M/Dzc+QxYejxr8=;
+ b=MTz0j5eAw7Umi/3Z1RbCtoCf40IcnC4U2Ao9qdJCFLy2JUM3czs8T3pCXrHw7TLLhq
+ 8834KWlAJx4Y1m140ECqPD2Nx9bt4SDHD/U8PQI38I3WzLo3HuJoWPJ5LsPbZF3DD1HG
+ Mu9aD8D3Z3y6/B2xV6nZuHlwcKzRU0W/hlud38KvyunuNc2gSsSV05SAErwMmifZa9DO
+ 1x+fzDZcBGhx7EYDYhWMjd69DsMzl5sZz6p0dKXw9s2xArbfu0n/kkD1ohteyA113oY6
+ 11r4rGJZmMBXgywQLSVxQPKOwTSLpZez1dwVqp+RGiV2ENeJT7L3NtsMsa94aUzSNXQC
+ m60w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744767979; x=1745372779;
+ d=1e100.net; s=20230601; t=1744768411; x=1745373211;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bAux2x29rzru79GAnli/9y6p/hjt91wz4YpqymUDDzs=;
- b=C2NNMt82EH6MMnlrzbVp3qXWMSGXAWl1awVpSs7W5DAI/BeQ4JOT7sA5G0KbJLYONl
- BDqVjkPYWLZBtxQqlm6xjA4pttwBCwHVT7IQPQdr35bcajWmvJoPfVQEHGgguWbCXPAG
- 5x2sja9Ks1v2bzIV4hjlzFmi0cLibl6AIrXUgOzN5twgZX0t4jRtH7TAg0g1PHuyehlt
- hVO9s79aqqZLF7nWp5I4UUiQjxrgYbZ03f+Cva46pZbkNopOQCEudesI6E2H3ix3E0CE
- uvSjJEcOvKgUOtxYCXLRClXsqN2TTwvXA63/T7vK+4jq39pCADVxs/4ooCPEQTjExGYi
- tD4w==
+ bh=e19ozdcE7IbomEf30Wwf0grmgEk+1M/Dzc+QxYejxr8=;
+ b=s81HRrJ31kGMI7lCHeqLMujUK+EdZyk6AijZKEObJh2x0M3JwYx45oYcYXy7WLkeUD
+ WiUGY/V9HAhysvXLb/pvmRSRXfNt4jtk7fsX9UK40sqqxa5tQScCJOATkV3HJOq19MtK
+ xkOucwU4GTARddjbhXJpcoV3W+ZTQqKNbkqPuHro/aB9Ll2GACRL5d444XRuDek5ElYC
+ sG+SKvES1qIRwPxYG6b6mM8+vQlq3SdMYGxN7q9JYi7xqn/9UUGTxxUDJYFwd6AcZacC
+ BiVSbWHW+ulmTHiUD7OcCMqZ6drCGxMAYcsFYU7eLPgmuZSiTG7LFCLOAD/0FbvPkq2m
+ 7pHg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW193PgshAv4079QkeUZLMF2Jw7FdzB/IoKyhs1s23fdMpQU/8dLCRy+0QnjTtD+w5kq9c/1X+KZS8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+ul/eEecx/OGZQvMbMdJ5Me4lAgb+dLkQos4zpmCgMLcQX80Y
- xy7k9u1R3anK5GFe1+9T9Lplb7FPMDWMqpRckbkwsvVeorPc/MRIil8EqhmyS+iZPzNU1bY6MWH
- blzjMvOdJy+GaNqi0oRXMfjedeANr3KyALO59Pt4MSVw2O2YNjDxa049LWdScscte/TevryCJiW
- MMEFQTDBgqJumGncRJ0HhhI+2oh5tv1FPpen0cw+0N
-X-Gm-Gg: ASbGncvNpPrKfuzpoAL2TUp6RG+fr2USeCQdjE3GDaeYBezA4KqQKekAPcc7IsnS/lE
- VmiN9lECsOM18pFoTD9hcSG243sQxaWq0LTAIPL1+NvlzwVkl4vN5eNpxjPwpFx0N7aE=
-X-Received: by 2002:a17:90b:264d:b0:2ee:aed6:9ec2 with SMTP id
- 98e67ed59e1d1-3085eeb4675mr2220915a91.14.1744767978878; 
- Tue, 15 Apr 2025 18:46:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGVAUDYX1fc9zo3gyEt8qqe/RuhMfN8ThzDds91F5a1f+kZ++CgF1OWTJE4cpzcWzli2Hyns3BIdFo4trIBp14=
-X-Received: by 2002:a17:90b:264d:b0:2ee:aed6:9ec2 with SMTP id
- 98e67ed59e1d1-3085eeb4675mr2220892a91.14.1744767978471; Tue, 15 Apr 2025
- 18:46:18 -0700 (PDT)
+ AJvYcCUF4bScf9EhLbE2cSAkOG5EcS9sqdNYd+VMkDOayHo8VCeXY1wnM4+DybzI+CqHTf1E7/Q56A==@lists.freedesktop.org,
+ AJvYcCW3tbrdhstMuqrFKSaWH3oxflpIrXYTy1USCMNMfkI9xNq/bSdqQ2HZqonL6uLVKs6jkeFNPQLQUBY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwmoWd3Hue+uZdDEL5YTQ97efS3Obsq72jY1A5A+QEd7q/RnzOV
+ L9B5PG2PM4Ew8bdO7WdH3NEd8bOZBEW6cQInF6x7d7IHcGRdA6iRzRAuQ6AW47GY4tYMmD32/hW
+ Xwej3CnzA8AmjMxG7Cd4ZIoOQF+E=
+X-Gm-Gg: ASbGncv2MtYzJUUro6L4g/d8JTi6hETpsXfuifer8vcgtmhn8NR5hmNfDbszgYo74Oq
+ Fl7s9hOTbKXiZfYinR+5VrReMYUGIA/LN5Nvn5qOZKYge94GtOJxyDu9etY+jfOAfCqcdTXbC6R
+ CfL3gpV1FRA3O1mUZty1pMlD8=
+X-Google-Smtp-Source: AGHT+IGD3Qp6FIzJC9ll2LBqkwWJICeLoFZCjvLcF/uO1E3BlzXIrfgQuO3jDutGwzfoa8eIeGzozE7QKJP6L09YJ8w=
+X-Received: by 2002:a05:6402:2548:b0:5e7:b092:3114 with SMTP id
+ 4fb4d7f45d1cf-5f4b720e400mr12006a12.9.1744768411372; Tue, 15 Apr 2025
+ 18:53:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <Z/anHRAx3SQWr+h8@animx.eu.org> <Z/2pzDAplsZz8AVd@animx.eu.org>
-In-Reply-To: <Z/2pzDAplsZz8AVd@animx.eu.org>
-From: David Airlie <airlied@redhat.com>
-Date: Wed, 16 Apr 2025 11:46:06 +1000
-X-Gm-Features: ATxdqUGaR9ylaT4IMINZhWP69BAL6dWZUQv6Kz0vm82yhI7-yxIZA-d8PtCceR0
-Message-ID: <CAMwc25rKPKooaSp85zDq2eh-9q4UPZD=RqSDBRp1fAagDnmRmA@mail.gmail.com>
-Subject: Re: MGA G200 issue in 6.12 and up
-To: Wakko Warner <wakko@animx.eu.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: x-knH-E5RMKK_Xb8Z5MTmScE4e34d88c6AoE4xTp2KA_1744767979
-X-Mimecast-Originator: redhat.com
+References: <20250408154637.1637082-1-nunes.erico@gmail.com>
+ <20250408154637.1637082-2-nunes.erico@gmail.com>
+ <CAKGbVbt-Cfp_D3WH3o1Y=UUQzf-sM0uikZXO1MFRxt2P72gjJg@mail.gmail.com>
+ <e24e5e05-5ffd-440f-b9d9-8a0f792cc7c8@amd.com>
+ <CAKGbVbthUxOxtZ+baT=vrNE1u6fzN48K1G5dtZBqfTBc7jEuYA@mail.gmail.com>
+ <0f43ad99-27f6-4c1c-915f-2b7163195f07@amd.com>
+ <CAK4VdL38fkraY2sujHCVnuhLJ8pQ4f-MejUcfsFTbdxusys3Kg@mail.gmail.com>
+In-Reply-To: <CAK4VdL38fkraY2sujHCVnuhLJ8pQ4f-MejUcfsFTbdxusys3Kg@mail.gmail.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Wed, 16 Apr 2025 09:53:19 +0800
+X-Gm-Features: ATxdqUHz59yqYDYZeJV48fS7GlYJXdTkuU_VYZn0rvFkG6wJAO1neOoLyfWt3zU
+Message-ID: <CAKGbVbttU7Ru7-AuB-+sLCUZRvb8nmGZAE-mwq0WU7-3p=VA=w@mail.gmail.com>
+Subject: Re: [PATCH 1/1] drm/lima: implement the file flush callback
+To: Erico Nunes <nunes.erico@gmail.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,51 +95,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-adding some people
+On Mon, Apr 14, 2025 at 9:19=E2=80=AFPM Erico Nunes <nunes.erico@gmail.com>=
+ wrote:
+>
+> On Thu, Apr 10, 2025 at 4:04=E2=80=AFPM Christian K=C3=B6nig
+> <christian.koenig@amd.com> wrote:
+> >
+> > Am 10.04.25 um 15:56 schrieb Qiang Yu:
+> > >>>> This prevents applications with multiple contexts from running int=
+o a
+> > >>>> race condition between running tasks and context destroy when
+> > >>>> terminating.
+> > >>>>
+> > > If implementing flush callback fix the problem, it must not be when S=
+IGKILL.
+> >
+> > SIGKILL also calls flush (again eventually), but we can detect that in =
+the scheduler code.
+> >
+> > See the code and comment in drm_sched_entity_flush(). We could potentia=
+lly improve the comment cause it's not 100% correct, but it should work und=
+er all cases.
+> >
+> > > Could you describe the problem and how this fix solves it? As I don't=
+ understand
+> > > how the above difference could fix a race bug.
+> >
+> > That was the point I wasn't sure about either. It should *not* fix any =
+race, it's just gives a nicer SIGKILL experience.
+>
+> Thanks for this feedback. So as mentioned in the initial letter, I'm
+> also trying to understand if this is the correct fix.
+>
+> This problem is unfortunately not trivial to reproduce, there is only
+> one application which can reproduce this so far and it is a
+> complicated one with multiple contexts and relatively lenghty jobs.
+> What I observed so far is that as it is right now, a context might be
+> destroyed while a job is running (e.g. by killing the application at
+> the right time), and a context destroy appears to release buffers that
+> are still being used by the running job which is what causes the read
+> faults.
 
-On Tue, Apr 15, 2025 at 10:35=E2=80=AFAM Wakko Warner <wakko@animx.eu.org> =
-wrote:
->
-> I found the fix that works for me.  See below.
->
-> Wakko Warner wrote:
-> > I decided to upgrade to 6.14 on a system with a Matrox G200 onboard vga
-> > (supermicro X9SCL).
-> >
-> > I use this system via the BMC.  When the mgag200 driver loads, the bmc
-> > screen flashes between no signal and the screen.  The rate seems to be =
-about
-> > 1 second no signal and 1 second with signal.
-> >
-> > 6.12 and 6.13 both have this problem.
-> >
-> > 6.11 does not have this problem.
-> >
-> > I have a monitor plugged into the vga port and it doesn't have this pro=
-blem
-> > on any of the kernels I've tried.  Only the remote connection through t=
-he bmc
-> > has this problem.  I have booted the system with and with out the monit=
-or
-> > plugged in, it does not appear to make a difference.
->
-> I found a thread on arch linux forums
-> (https://bbs.archlinux.org/viewtopic.php?id=3D303819) where the op has th=
-e
-> same issue.  He bisected and came up with the bad commit.
-> That commit is
-> d6460bd52c27fde97d6a73e3d9c7a8d747fbaa3e drm/mgag200: Add dedicated varia=
-bles
-> for blanking fields
->
-> I searched this commit and manually reverted it from my vanilla 6.14 and =
-it
-> works fine.  No blinking in the BMC remote console and the external VGA
-> works fine as well.
->
-> --
->  Microsoft has beaten Volkswagen's world record.  Volkswagen only created=
- 22
->  million bugs.
->
+Free buffer in context destroy when job running is the bug, we should
+dig into it how it happens. And if multiple context play a key role.
 
+> This added flush made it so that the jobs always finish before the
+> context destroy gets called, which prevents the issue for this
+> application in my attempts. But I suppose it might also just be that
+> it had some more time to finish now. If this is not the correct fix
+> then there might be some more missing synchronization between running
+> job and context destroy in lima?
+>
+I'm afraid this patch does not fix the root cause, we should find out
+the root cause first. This patch could be added as SIGKILL improvement
+later.
+
+> Thanks
+>
+> Erico
