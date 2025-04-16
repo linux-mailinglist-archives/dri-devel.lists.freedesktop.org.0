@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99801A90D7F
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 22:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E54A90D85
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 22:59:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4B2410E130;
-	Wed, 16 Apr 2025 20:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA3D10E9BA;
+	Wed, 16 Apr 2025 20:59:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="C+RKc3Cy";
+	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="O/8oRwAH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com
- [91.218.175.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EED010E130
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 20:58:35 +0000 (UTC)
-Date: Wed, 16 Apr 2025 16:58:18 -0400
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
+ [91.218.175.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A1D610E9BA
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 20:59:27 +0000 (UTC)
+Date: Wed, 16 Apr 2025 16:59:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1744837105;
+ s=key1; t=1744837164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NdQpuGRR10gNQcv5XLfg3fsBASs65X0pcBvFcqE6/LE=;
- b=C+RKc3Cyt6ZV+BMa/0RtEY3HqPur3LQD8icOfxhuqQNLmhiWx3NvihKurNpw43u2uaf4Xw
- NqZX232XuZSMvk+OuXQRr/2Nbk5hGswcUFoIUiOUFfxc5zAakPfvgKw2ExzSPn7fJiBP4g
- s70w5NOHg2Bk3kuIL8+8K+tXNkykG7NRg1LuSkuHmVndwDWfs9aoxkFL6S6m/kdQr3Zrbt
- b+rn2NS5kD9zlu6hWjVc2GdisDQNm1shJpAkri7KLLYlG58UUDx067YidANCT4JZ1EPd5r
- Pi8nH4z/yOGKXOTNWGq6KaMA9QJ9UpkRMVNuotQbxRLzhEUQU6AgLla7zbBCcw==
+ bh=TvaLv2QNdfX5fSfGS64EBI+Z7WBX+FDFB//I+E9KN9I=;
+ b=O/8oRwAHgPlyXtr3Pq/S4J2Zpf7RVhm1pjkM2X2NgnNlY7UCKk0OTOSFa8dlrIvOigv+3M
+ EF56EJcREr1Mn/jIzudPxAWg9GZfyamDWyh57vYLwmoJv0D4EkFyehGc3syoA+z6WwK4mM
+ 0ZFyYgWh6UIKiw89MeBjfZe1xCrJhBnZDyaoEsIphvVcYMODPzaLAc5ohdKeGM1w7B4mra
+ 3F2/kDejYT+eXf46sXzQ1NUzi3V3m4LObmQCsipma5hbC9z1J7H4xDuyKrulZFhhUUzufT
+ IZw0tRKMbdrnQG3qju6y//Lfm9tx+8ptsJ5n7JBK6m5V2LD3HXL0Oz0U8+b3Dw==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
@@ -40,14 +41,16 @@ Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
  Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <lumag@kernel.org>,
  dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] drm: adp: Handle drm_crtc_vblank_get() errors
-Message-ID: <aAAZ6iIUtYcfpcdm@blossom>
+Subject: Re: [PATCH 3/4] drm: adp: Enable vblank interrupts in crtc's
+ .atomic_enable
+Message-ID: <aAAaJ_6Y4VXRC3q-@blossom>
 References: <20250416-drm_adp_fixes-v1-0-772699f13293@jannau.net>
- <20250416-drm_adp_fixes-v1-2-772699f13293@jannau.net>
+ <20250416-drm_adp_fixes-v1-3-772699f13293@jannau.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250416-drm_adp_fixes-v1-2-772699f13293@jannau.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250416-drm_adp_fixes-v1-3-772699f13293@jannau.net>
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,28 +67,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> -	spin_lock_irqsave(&crtc->dev->event_lock, flags);
->  	if (crtc->state->event) {
-> -		drm_crtc_vblank_get(crtc);
-> -		adp->event = crtc->state->event;
-> +		spin_lock_irqsave(&crtc->dev->event_lock, flags);
-> +
-> +		if (drm_crtc_vblank_get(crtc) != 0)
-> +			drm_crtc_send_vblank_event(crtc, crtc->state->event);
-> +		else
-> +			adp->event = crtc->state->event;
-> +
-> +		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
->  	}
->  	crtc->state->event = NULL;
-> -	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-Kind of confused about
-
->  	crtc->state->event = NULL;
-
-now being out of the lock. Should we set to NULL in the if, since
-if we don't take the if, we know event is already NULL? Or should we
-hold the lock for the whole time, the way the code did before your
-change? I'm not sure between the two, but the in-between here smells
-wrong.
+Le Wed , Apr 16, 2025 at 10:25:29PM +0200, Janne Grunau via B4 Relay a écrit :
+> From: Janne Grunau <j@jannau.net>
+> 
+> Calling drm_crtc_vblank_on() drm_crtc_helper_funcs' atomic_enable is
+> expected to enable vblank interrupts. It may have been avoided here to
+> due to drm_crtc_vblank_get()'s error behavior after
+> drm_crtc_vblank_reset(). With that fixed in the preceding change the
+> driver can call drm_crtc_vblank_on() from adp_crtc_atomic_enable().
+> 
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  drivers/gpu/drm/adp/adp_drv.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
+> index 27119acac92238858d58a690eb4196dbb2ae0c1a..c6238fb059342eebafddd53650a499fea0079dea 100644
+> --- a/drivers/gpu/drm/adp/adp_drv.c
+> +++ b/drivers/gpu/drm/adp/adp_drv.c
+> @@ -288,6 +288,7 @@ static void adp_crtc_atomic_enable(struct drm_crtc *crtc,
+>  	writel(BIT(0), adp->be + ADBE_BLEND_EN3);
+>  	writel(BIT(0), adp->be + ADBE_BLEND_BYPASS);
+>  	writel(BIT(0), adp->be + ADBE_BLEND_EN4);
+> +	drm_crtc_vblank_on(crtc);
+>  }
+>  
+>  static void adp_crtc_atomic_disable(struct drm_crtc *crtc,
+> @@ -517,8 +518,7 @@ static int adp_drm_bind(struct device *dev)
+>  	struct adp_drv_private *adp = to_adp(drm);
+>  	int err;
+>  
+> -	adp_disable_vblank(adp);
+> -	writel(ADP_CTRL_FIFO_ON | ADP_CTRL_VBLANK_ON, adp->fe + ADP_CTRL);
+> +	writel(ADP_CTRL_FIFO_ON, adp->fe + ADP_CTRL);
+>  
+>  	adp->next_bridge = drmm_of_get_bridge(&adp->drm, dev->of_node, 0, 0);
+>  	if (IS_ERR(adp->next_bridge)) {
+> 
+> -- 
+> 2.49.0
+> 
+> 
