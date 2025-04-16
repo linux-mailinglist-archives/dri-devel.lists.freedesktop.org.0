@@ -2,115 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133EEA8B91D
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 14:31:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6D2A8B9A1
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 14:54:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B5610E089;
-	Wed, 16 Apr 2025 12:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26D6E10E8EC;
+	Wed, 16 Apr 2025 12:54:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VrRiyVBy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XgxN7RF6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD09F10E089;
- Wed, 16 Apr 2025 12:31:47 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0841D21;
- Wed, 16 Apr 2025 14:29:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1744806583;
- bh=UaYSwtDIOR2KEFn7Bxifq9gF3Xa/uzc4yutRRCguLc0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VrRiyVBy3dHHM9xMgih7iENisph7dICEf+Mz9mPyQSdyc2vBKgn4heu7T8Ndpq5GK
- P3LNuPe/FuGXnqQ1oXaiHlFZFRSRqE+BW7ZAoBxyF8WLCzpwat9H8kFyxWSUGwSEwO
- nbIsrZGOa7CI4yG2HJGiJ9Zl19t6H5MuEw0XTn4s=
-Message-ID: <6b699329-8ed4-4be6-81bb-17b4bf800d34@ideasonboard.com>
-Date: Wed, 16 Apr 2025 15:31:41 +0300
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 458CF10E8EC
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 12:54:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D6894A4971A
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 12:48:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA6B6C4CEED
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 12:54:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744808056;
+ bh=comiGzp0yJ4uJILmejSmpCuv8WNkCrKJ9fiuAA5Eobw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=XgxN7RF6ckFVEbhTn4I+sUZDqecs+mp3hGbLLci+Upkk2MPH7CIQvlQFKOyjI4/3P
+ nGB24udzu5O62ORPQlrRwyyGveOHGDOrMF38yJfdtVsFhOZ8wLNu7luUFZqyLvsVOU
+ 6lkI1ew3WMP9j5VUysZEDaKWSUyImO63a14HdAbC+GHfk49ZspnHGRcdMvil/jTsjP
+ AZ7OhS/a8bSP43LawW46zSOqSlkawiBkad4nxwPsBjJNhSIhgv5X0vLfdE2iz3QE7X
+ NxVajwcnP/1YaLNgnD5Yuc9Y3/EqUo2z2Mp5X+QRlMaVXqeEVUsZwUaB+eRqr6L+Lv
+ P8iQx/wPt2Kow==
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-ac2af2f15d1so861895866b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 05:54:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUBf4rwvyxSytgRfmVfQrVZ/GOftrG4OcM1R7I0a2ygIZtDYGa6T44ZzV76Ab8um3AZeDM3PIWrzps=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyzfmGDR9t+mRXJncnrCps/FS2F0WE6z54Wtx//TXvU5yYPmAZR
+ hn0VqyIkyYSSsWqyaAxNoChmn2ULZhbUh07iUDzotIksn0tWPot5ZgFj/tvtlMJ9F6kpkWd7Q2U
+ di3w1jtadlkay/VV7wuI3OYM37w==
+X-Google-Smtp-Source: AGHT+IHKUgTFGckVUkYUIXHvq2dBr0rCYxoZR8dZi86QjoaRiJl8+SbX5WOjSc7+LpPbHbXBjdpbz7ajUIvfSATF50o=
+X-Received: by 2002:a17:907:2da5:b0:ac4:751:5f16 with SMTP id
+ a640c23a62f3a-acb429e409fmr172840366b.30.1744808055323; Wed, 16 Apr 2025
+ 05:54:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 29/34] drm: zynqmp_dp: convert to devm_drm_bridge_alloc()
- API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Anusha Srivatsa <asrivats@redhat.com>,
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
- =?UTF-8?Q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>,
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Michal Simek <michal.simek@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
- <20250407-drm-bridge-convert-to-alloc-api-v1-29-42113ff8d9c0@bootlin.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-29-42113ff8d9c0@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241218105320.38980-1-angelogioacchino.delregno@collabora.com>
+ <174470268964.14740.2655102858243748239.b4-ty@collabora.com>
+In-Reply-To: <174470268964.14740.2655102858243748239.b4-ty@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 16 Apr 2025 07:54:03 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKZN6PxsThZtcCBLaLKgC2Dd1kxfgWhK6RK8DxY6_2X0g@mail.gmail.com>
+X-Gm-Features: ATxdqUFMIZ7R44fK-lMlhaa-MPGGZB7R6M_caVCgAn6SeZBUMV0t64nOdSZ5Dr4
+Message-ID: <CAL_JsqKZN6PxsThZtcCBLaLKgC2Dd1kxfgWhK6RK8DxY6_2X0g@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] MediaTek MT8188 MDP3 Enablement
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ mchehab@kernel.org, matthias.bgg@gmail.com, moudy.ho@mediatek.com, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ kernel@collabora.com, sebastian.fricke@collabora.com, 
+ macpaul.lin@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,58 +79,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Apr 15, 2025 at 2:38=E2=80=AFAM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> On Wed, 18 Dec 2024 11:53:17 +0100, AngeloGioacchino Del Regno wrote:
+> > This series adds the necessary bindings and devicetree nodes to enable
+> > the entire Multimedia Data Path 3 (MDP3) macro-block, found in MediaTek=
+'s
+> > MT8188 SoC.
+> >
+> > This was tested on a MediaTek Genio 700 EVK board.
+> >
+> > AngeloGioacchino Del Regno (3):
+> >   dt-bindings: display: mediatek: Add compatibles for MT8188 MDP3
+> >   dt-bindings: media: mediatek: mdp3: Add compatibles for MT8188 MDP3
+> >   arm64: dts: mediatek: mt8188: Add all Multimedia Data Path 3 nodes
+> >
+> > [...]
+>
+> Applied to v6.15-next/dts64, thanks!
+>
+> [1/3] dt-bindings: display: mediatek: Add compatibles for MT8188 MDP3
+>       commit: 2971de063fa56c18b2720ab19bdebca23cd96471
+> [2/3] dt-bindings: media: mediatek: mdp3: Add compatibles for MT8188 MDP3
+>       commit: cfb00dfa1b778a8037faf6973cca226e5ad4f45a
+> [3/3] arm64: dts: mediatek: mt8188: Add all Multimedia Data Path 3 nodes
+>       commit: f0935480253ede5405045a4e733f4476343cbb91
 
-On 07/04/2025 17:23, Luca Ceresoli wrote:
-> This is the new API for allocating DRM bridges.
-> 
-> This driver has a peculiar structure. zynqmp_dpsub.c is the actual driver,
-> which delegates to a submodule (zynqmp_dp.c) the allocation of a
-> sub-structure embedding the drm_bridge and its initialization, however it
-> does not delegate the drm_bridge_add(). Hence, following carefully the code
-> flow, it is correct to change the allocation function and .funcs assignment
-> in the submodule, while the drm_bridge_add() is not in that submodule.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> ---
-> 
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Michal Simek <michal.simek@amd.com>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->   drivers/gpu/drm/xlnx/zynqmp_dp.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index 11d2415fb5a1f7fad03421898331289f2295d68b..de22b6457a78a7a2110f9f308d0b5a8700544010 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -2439,9 +2439,9 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
->   	struct zynqmp_dp *dp;
->   	int ret;
->   
-> -	dp = kzalloc(sizeof(*dp), GFP_KERNEL);
-> -	if (!dp)
-> -		return -ENOMEM;
-> +	dp = devm_drm_bridge_alloc(&pdev->dev, struct zynqmp_dp, bridge, &zynqmp_dp_bridge_funcs);
-> +	if (IS_ERR(dp))
-> +		return PTR_ERR(dp);
->   
->   	dp->dev = &pdev->dev;
->   	dp->dpsub = dpsub;
-> @@ -2488,7 +2488,6 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
->   
->   	/* Initialize the bridge. */
->   	bridge = &dp->bridge;
-> -	bridge->funcs = &zynqmp_dp_bridge_funcs;
->   	bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
->   		    | DRM_BRIDGE_OP_HPD;
->   	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
-> 
+A couple of warnings added with this:
 
-To add to my last mail, this clearly cannot be right, as it changes 
-kzalloc call to devm_* call, without removing the kfree()s...
-
-  Tomi
-
+     33 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+     33 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match
+any of the regexes: 'pinctrl-[0-9]+'
+     33 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any
+of the regexes: 'pinctrl-[0-9]+'
+     33 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required pro=
+perty
+     33 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional
+failed, one must be fixed:
+     33 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any
+of the regexes: 'pinctrl-[0-9]+'
+     33 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any
+of the regexes: 'pinctrl-[0-9]+'
+     33 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one
+must be fixed:
+     33 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one
+must be fixed:
+     11 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any
+of the regexes: 'pinctrl-[0-9]+'
+     11 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one
+must be fixed:
+     11 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+      8 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 12], [46, 186],
+[46, 191]] is too long
+      8 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 10], [46, 186],
+[46, 191]] is too long
+      8 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 12], [45, 186],
+[45, 191]] is too long
+      8 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 10], [45, 186],
+[45, 191]] is too long
+      8 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185],
+[46, 190], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42],
+[49, 8]] is too long
+      8 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185],
+[45, 190], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42],
+[48, 8]] is too long
+      4 (mediatek,mt8188-mdp3-rsz): clocks: [[51, 24], [51, 25]] is too lon=
+g
+      4 (mediatek,mt8188-mdp3-rsz): clocks: [[51, 20], [51, 21]] is too lon=
+g
+      4 (mediatek,mt8188-mdp3-rsz): clocks: [[50, 24], [50, 25]] is too lon=
+g
+      4 (mediatek,mt8188-mdp3-rsz): clocks: [[50, 20], [50, 21]] is too lon=
+g
+      4 (mediatek,mt8188-mdp3-rdma): power-domains: [[67, 15], [67,
+20]] is too long
+      4 (mediatek,mt8188-mdp3-rdma): power-domains: [[66, 15], [66,
+20]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): mboxes: [[121, 13, 1], [121, 14,
+1], [121, 16, 1], [121, 21, 1]] is too short
+      2 (mediatek,mt8188-mdp3-rdma): mboxes: [[120, 13, 1], [120, 14,
+1], [120, 16, 1], [120, 21, 1]] is too short
+      2 (mediatek,mt8188-mdp3-rdma): mboxes: [[119, 13, 1], [119, 14,
+1], [119, 16, 1], [119, 21, 1]] is too short
+      2 (mediatek,mt8188-mdp3-rdma): mboxes: [[118, 13, 1], [118, 14,
+1], [118, 16, 1], [118, 21, 1]] is too short
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[132, 164], [132, 166]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[131, 164], [131, 166]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[130, 164], [130, 166]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[129, 164], [129, 166]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[122, 192], [122, 194]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[122, 128], [122, 131]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[121, 192], [121, 194]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[121, 128], [121, 131]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[120, 192], [120, 194]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[120, 128], [120, 131]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[119, 192], [119, 194]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): iommus: [[119, 128], [119, 131]]
+is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[44, 12], [39, 186],
+[39, 191]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[44, 10], [39, 186],
+[39, 191]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 24], [39, 185],
+[39, 190], [42, 4], [42, 41], [42, 42], [42, 7], [44, 41], [44, 42],
+[42, 8]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 12], [37, 186],
+[37, 191]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 10], [37, 186],
+[37, 191]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[40, 24], [37, 185],
+[37, 190], [40, 4], [40, 41], [40, 42], [40, 7], [42, 41], [42, 42],
+[40, 8]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[38, 12], [34, 186],
+[34, 191]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[38, 10], [34, 186],
+[34, 191]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 24], [39, 185],
+[39, 190], [42, 4], [42, 41], [42, 42], [42, 7], [44, 41], [44, 42],
+[42, 8]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 12], [37, 186],
+[37, 191]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 10], [37, 186],
+[37, 191]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[40, 24], [37, 185],
+[37, 190], [40, 4], [40, 41], [40, 42], [40, 7], [42, 41], [42, 42],
+[40, 8]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[38, 12], [34, 186],
+[34, 191]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[38, 10], [34, 186],
+[34, 191]] is too long
+      2 (mediatek,mt8188-mdp3-rdma): clocks: [[36, 24], [34, 185],
+[34, 190], [36, 4], [36, 41], [36, 42], [36, 7], [38, 41], [38, 42],
+[36, 8]] is too long
+      1 (mediatek,mt8188-mdp3-rsz): clocks: [[44, 24], [44, 25]] is too lon=
+g
+      1 (mediatek,mt8188-mdp3-rsz): clocks: [[44, 20], [44, 21]] is too lon=
+g
+      1 (mediatek,mt8188-mdp3-rsz): clocks: [[42, 24], [42, 25]] is too lon=
+g
+      1 (mediatek,mt8188-mdp3-rsz): clocks: [[42, 20], [42, 21]] is too lon=
+g
+      1 (mediatek,mt8188-mdp3-rsz): clocks: [[38, 24], [38, 25]] is too lon=
+g
+      1 (mediatek,mt8188-mdp3-rsz): clocks: [[38, 20], [38, 21]] is too lon=
+g
+      1 (mediatek,mt8188-mdp3-rdma): power-domains: [[60, 15], [60,
+20]] is too long
+      1 (mediatek,mt8188-mdp3-rdma): power-domains: [[58, 15], [58,
+20]] is too long
+      1 (mediatek,mt8188-mdp3-rdma): power-domains: [[54, 15], [54,
+20]] is too long
+      1 (mediatek,mt8188-mdp3-rdma): mboxes: [[92, 13, 1], [92, 14,
+1], [92, 16, 1], [92, 21, 1]] is too short
+      1 (mediatek,mt8188-mdp3-rdma): mboxes: [[130, 13, 1], [130, 14,
+1], [130, 16, 1], [130, 21, 1]] is too short
+      1 (mediatek,mt8188-mdp3-rdma): mboxes: [[128, 13, 1], [128, 14,
+1], [128, 16, 1], [128, 21, 1]] is too short
+      1 (mediatek,mt8188-mdp3-rdma): iommus: [[93, 192], [93, 194]] is too =
+long
+      1 (mediatek,mt8188-mdp3-rdma): iommus: [[93, 128], [93, 131]] is too =
+long
+      1 (mediatek,mt8188-mdp3-rdma): iommus: [[141, 164], [141, 166]]
+is too long
+      1 (mediatek,mt8188-mdp3-rdma): iommus: [[139, 164], [139, 166]]
+is too long
+      1 (mediatek,mt8188-mdp3-rdma): iommus: [[131, 192], [131, 194]]
+is too long
+      1 (mediatek,mt8188-mdp3-rdma): iommus: [[131, 128], [131, 131]]
+is too long
+      1 (mediatek,mt8188-mdp3-rdma): iommus: [[129, 192], [129, 194]]
+is too long
+      1 (mediatek,mt8188-mdp3-rdma): iommus: [[129, 128], [129, 131]]
+is too long
+      1 (mediatek,mt8188-mdp3-rdma): iommus: [[103, 164], [103, 166]]
+is too long
