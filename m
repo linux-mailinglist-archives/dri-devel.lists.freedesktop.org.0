@@ -2,131 +2,210 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330B9A90929
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 18:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8C0A90966
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 18:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0108210E070;
-	Wed, 16 Apr 2025 16:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CAF310E296;
+	Wed, 16 Apr 2025 16:54:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VuhR9Glj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lx+jL9ek";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dXTfJT1T";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uBn9yeFS";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="ghEDRtDI";
+	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="cVJQGm8z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC1CE10E070
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 16:43:21 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 55E8C1F6E6;
- Wed, 16 Apr 2025 16:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744821799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sH6tqkuIbVmMnGLObyM7CPuPJs33hqGUofGqwo3vqGI=;
- b=VuhR9Glj05Oy0YiwdkfEQ/R5uOYOtaOP2KWB89fJQaToYwEb4m9rl+Vta83IWWpX64PZIu
- DeHlpa25iqx7uXA+0O9pCXttmEbjXPyGrPuWR54PqfTTtDPZiODQP/Dm5hh3ezpZrBmYdn
- 7GT5R3ygnuaFdsj2fijW/TWJ3PFVK3A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744821799;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sH6tqkuIbVmMnGLObyM7CPuPJs33hqGUofGqwo3vqGI=;
- b=Lx+jL9ekyZOcG3bs/HFyXxMSY4KG2rhLukbYlcqf3fJ3/iV5MWuZB5DAd+JgIgMwli2Eft
- 2hONRF+TDeMXuJBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1744821798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sH6tqkuIbVmMnGLObyM7CPuPJs33hqGUofGqwo3vqGI=;
- b=dXTfJT1TQmg0EP7zsjz6cHQOcZs5K1pv9W5QT4g+1nUILlBJE4Dn31lP7pS4onL0JpoJol
- Mse0pcjKOXai9W0RfDjtUNIJYrVrEDqfSQjUOa7oQ9lFr3M9av6oa+1rFSZpfDMAdIRxGj
- QFdbJm2yS9/2dBZ6HcztxurmUStJVkU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1744821798;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sH6tqkuIbVmMnGLObyM7CPuPJs33hqGUofGqwo3vqGI=;
- b=uBn9yeFSfW5rchVg3xttM6i5WmZIqregT0iNKWRLA/qu6jwGOwwQpiCTmbODDBGATanfyh
- 0giJk30eg+TxSJCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28AF7139A1;
- Wed, 16 Apr 2025 16:43:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id sgCRCCbe/2dRdQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 16 Apr 2025 16:43:18 +0000
-Message-ID: <568a359c-e096-4486-84b3-95b37b2de7a6@suse.de>
-Date: Wed, 16 Apr 2025 18:43:17 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mgag200: Fix value in <VBLKSTR> register
-To: Wakko Warner <wakko@animx.eu.org>
-Cc: airlied@redhat.com, jfalempe@redhat.com, dri-devel@lists.freedesktop.org, 
- ???????????? <afmerlord@gmail.com>, stable@vger.kernel.org
-References: <20250416083847.51764-1-tzimmermann@suse.de>
- <Z//LSBwuoc6Hf3zG@animx.eu.org>
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A358F10E296
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 16:54:03 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G5YQBs010904;
+ Wed, 16 Apr 2025 17:53:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=dk201812; bh=49BH7xOs4LVPR15l2kb5S20/s
+ V6Wk5mgmoSRz7WpJ7s=; b=ghEDRtDI2FeVioetzkQpw1XWhMUYdIPda2xuBlTnd
+ ZRecAZya5u7/yHFle5nlrV0tvyICqFtRbu6IPW1hnEI39OuynKWtqVmXg9O/kM26
+ jIy+RVLWFFTBu7sfM9xKqnSkk2FpD+TZlGlUmGjr+k9PkXpUpZaoGzXrWgYkJQuz
+ wRi0EZcEDVvuJz9aqshe8doSrDa4PMJOqvZchnqE9jB+ajXJeZEGWkhwAQMrIZ9J
+ gIJaG8x/0r6kVxNAM3eFiTsjbEFaI+i7Tjyalch52Rol520s16QWUQtqiCcW2JmI
+ 9TEZ8IfDtkLoUbXquUxgGc2svWu/UyyIACVcWXydr6z5A==
+Received: from cwxp265cu008.outbound.protection.outlook.com
+ (mail-ukwestazlp17010007.outbound.protection.outlook.com [40.93.68.7])
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 461y2mgmtm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Apr 2025 17:53:35 +0100 (BST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xqB9r9aM5kdKAyP/J6M+Xfz5wedbw1yhP7oCrgTnNLuWsVgvR1XXRftyIcdnSKCNhmET2KqtoMZ6lG5V8TQHV93tXr7no+v0u2VDKZgRxRNm+yEnOIKIFL+tSZ6NN5+3IGk3yzOLXsFWYcsw+TRVBB2RiNlVTKfer420VfiQdfwIfh9myHxg8cP6C1FdmWGINkzITIqTTZpVAScnpRd1HnruqKQqAj/3zuEeYV7ElT/IVQkLOQvt0VOuAGMmhrMc037PhyOEyEkhmv207NqJzXe1XGMJ5w8U5W8Br5jAaa4gV0nS9GrxBVUBHeYvHjOkHoZGDHRBrh1nSkf0+ejzXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=49BH7xOs4LVPR15l2kb5S20/sV6Wk5mgmoSRz7WpJ7s=;
+ b=c/YUg1ausbvFxgyVPO0sB1JWHa9yjz03pBKO/mW695XwK4ihtgOhZ3jNTUmqE3870duuQ9gXW056lQDT/PFLuO0+yS3OLASnsAXDyW9AyXSnH7UNr1KoXpRzfDVwgCv4CLOkvfcWHVu7NyI+qg4ejZ8bItiyueCgqaDgUCpaA/9+JOEvEU3B2Es4rBlrkyhf7VVm4KltRmxJB2PFmRGbgMo8whfgxl61pxnHlXxa6FubFFIeQS5hiE/q2eRnx7cakJiU+IensXm+DpuSAD/GxVElGJQiiaDRT3L4AUK7XpNioHXbGGsT2bT7s/vu3dnE9Q5A+7CnRJ7llxkmnjLttw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=49BH7xOs4LVPR15l2kb5S20/sV6Wk5mgmoSRz7WpJ7s=;
+ b=cVJQGm8zF0lxnOS8LXCudui7gP01t2FnD3wbWWpOcTpSx2qM62YmE/XNGs8nk23mQxsRoj0hm46lIsdFx3VqZLwFSgjrl0U4Nrb0a6rDkvfoBFrmOBrlzQQRL8WgDP1HEI6cGdMiPRn733aSrXJ0oxR5u8DU8clQkId4LGw/iyc=
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
+ CWLP265MB6321.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1e7::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8655.20; Wed, 16 Apr 2025 16:53:31 +0000
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15%3]) with mapi id 15.20.8655.018; Wed, 16 Apr 2025
+ 16:53:31 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+CC: Frank Binns <Frank.Binns@imgtec.com>, "p.zabel@pengutronix.de"
+ <p.zabel@pengutronix.de>, "m.szyprowski@samsung.com"
+ <m.szyprowski@samsung.com>, "linux-clk@vger.kernel.org"
+ <linux-clk@vger.kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "mripard@kernel.org" <mripard@kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ "jszhang@kernel.org" <jszhang@kernel.org>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>, "guoren@kernel.org"
+ <guoren@kernel.org>, "maarten.lankhorst@linux.intel.com"
+ <maarten.lankhorst@linux.intel.com>, "wefu@redhat.com" <wefu@redhat.com>,
+ "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>, "drew@pdp7.com"
+ <drew@pdp7.com>, "robh@kernel.org" <robh@kernel.org>, "sboyd@kernel.org"
+ <sboyd@kernel.org>, "mturquette@baylibre.com" <mturquette@baylibre.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>
+Subject: Re: [PATCH v5 13/21] drm/imagination: Add reset controller support
+ for GPU initialization
+Thread-Topic: [PATCH v5 13/21] drm/imagination: Add reset controller support
+ for GPU initialization
+Thread-Index: AQHbrvAVnfhhX9uovES9h5ibMx9gpQ==
+Date: Wed, 16 Apr 2025 16:53:31 +0000
+Message-ID: <c74db6a7-146b-4937-974d-2110b587f662@imgtec.com>
+References: <20250219140239.1378758-1-m.wilczynski@samsung.com>
+ <CGME20250219140306eucas1p19ba425ddb1e499ef1014b1665be9de8e@eucas1p1.samsung.com>
+ <20250219140239.1378758-14-m.wilczynski@samsung.com>
+ <60914de9-f507-4099-be53-ea1fc282c537@samsung.com>
+In-Reply-To: <60914de9-f507-4099-be53-ea1fc282c537@samsung.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <Z//LSBwuoc6Hf3zG@animx.eu.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[redhat.com,lists.freedesktop.org,gmail.com,vger.kernel.org]; 
- RCPT_COUNT_FIVE(0.00)[6]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CWXP265MB3397:EE_|CWLP265MB6321:EE_
+x-ms-office365-filtering-correlation-id: 5a8bcd83-aef0-4940-8ca8-08dd7d0737fc
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|38070700018|4053099003; 
+x-microsoft-antispam-message-info: =?utf-8?B?OVVLeDMxVHVuU3dPVjdpeGxNdnNCd29yZ3pHQXh6OUxNTndjaDhvM1NLWk5z?=
+ =?utf-8?B?Rzh3ZU85VUdCNDJ4NWNBQ0toM2xpNi81amJsZkFUNmJPa08rTVlzeFh6cFgw?=
+ =?utf-8?B?SHpxSXd0em4xK3ExZ29HbndPUHMvT1RSY1ovZWs1ZCtVdDFPa3B5TzFjOU9F?=
+ =?utf-8?B?QTNGR0g3d3UvNjNsc29NV0VtWG9TeUhxMnJJMHd4MmhwMGlwNkJ1MDgrMEt5?=
+ =?utf-8?B?YWx4TVRpNFpzaURINGpLSFVqUkxqL3RyQmJMbU9hNlZhUGZwUlMwM0ZPTWw3?=
+ =?utf-8?B?WkdxdFNtZXJRNkI2dUxleTB0RHpJMzNQc29lOU9iRWZuTU43Z3FNZ1U3U1Vm?=
+ =?utf-8?B?VjZKb2x3a2tMZ1hPbm1pakMvWU45L1BHUEJRbTlIajJzdnlaeVZhMHdaRmFy?=
+ =?utf-8?B?YzBJNVNwanl4NFFqQmZnQU5DaHJvd3QvV1p1RDYxSS9SajNjWldUNmNuVmlX?=
+ =?utf-8?B?VkhldmxhenEzZ3NwMmRyRU5zYVdQVUMzNytBSnNObFpqQzlVak1tcXFzN0Y3?=
+ =?utf-8?B?RmhlQmdDaTA2L3RERFRPS1RWL2NMVHJMbVorRlhBb2FJR3dqaDB3SVpoWkR2?=
+ =?utf-8?B?MHJ6cXZMeWp1aEFGaHdkOHFHb1IvZGI0QTV1M2crdWpiVStyU3l3UVZVa0Ur?=
+ =?utf-8?B?djdTYnlEVWlPWENUTitBWVhqYlpZMkJCUUNycnhiWEtobWVkRlR0TVI3N3pN?=
+ =?utf-8?B?OHRzQTJVQmoyUG95NWdETmFSTW9TeXM4YkpvV1AvQ3RndkQ4bkQzWGpTbzFM?=
+ =?utf-8?B?NGU1NUJWV0p0a0E4bmh3VG9ORU5mUUJsNFkwRm40Ky9QVVRCSkx5WkJmVEdm?=
+ =?utf-8?B?SWZGZzFUcFFPWmcyRzVMaUVKK1NCZmN3eE5aa2IvbFpScjVITlRvb1kvbFJp?=
+ =?utf-8?B?RVQ4MFZOVkc5RXpwbHU4akd5QmRiZ0JtQmFSWE5lRmRQdi9WemtpbTR6UTdY?=
+ =?utf-8?B?SjNHL2UzWVlEQmc2WXNEeHdYNFpuTzNjT3RaUi9mYWtKMGhTVDc4SW5INkRM?=
+ =?utf-8?B?Q0V2V2dWdnc4UFMwRDNsUVFkQnVsVm1yKzNYUFErc205M0p0U2FHcjlGNEN4?=
+ =?utf-8?B?SHNyT005TGFxblI2RC9VNFVqWSs1Ny83ekZGMFNQUXJEcEs4eWhzYnd1V3pY?=
+ =?utf-8?B?SEtNT05ub0tNaTQzYUM0TWh2WDFuRDcxWUJINno5d2lzRXlPSDFlNnlBdzJy?=
+ =?utf-8?B?NU5EN21Hd25nVDVPelUvWnR1bGJMNFk5Qy9LMDlWS3JqQis5VGZWazlrQWlH?=
+ =?utf-8?B?TWYvREM0UGs2bnYyclJHNFhPM1dJbXhLeXdRWXViZkhXNE0zamEyeTVwOUlJ?=
+ =?utf-8?B?OGlvU0RzQjdhWFhtOXFzdGJ0UGtrUHhSYWVFaWdNcGlMZEVnRGhsLzZ2Q3pT?=
+ =?utf-8?B?N1ZGblovUmJVVjA2WW5oUkZLUEVxcDNZL3dQTVhPNTdCaGh1QkVoS3NYdGVE?=
+ =?utf-8?B?RVRiYlZVanpWL0tLR1ZjS1BQNmwvSHlqNHZvNitVMFBVVlFSRWh1bVNRVWEx?=
+ =?utf-8?B?bG82eVNTTG1MODA2RkFZSmdObDR4WS9JNGp2T0VsRjVqcW9JOXE4c1laalpr?=
+ =?utf-8?B?b1hrWG90ekdIVC9sVU9rNXcyWDNrVVJoUFg0bUFFTnMyVGFzdjV4dlZMQ1RO?=
+ =?utf-8?B?YUptbXc2Y09UMUcvL1kzNWpFNS9zTCtwUFo0eHVmNlNLeXJyd3BsaEIyQWlJ?=
+ =?utf-8?B?T042SHZWMldRZUlUc1A1a0cvWkp0TytTZWJKZVhwSmpON2Z3anNTL3hLTm15?=
+ =?utf-8?B?RmozaWVyKy9CQkYwaHIzSEgxWXRaQnBaSGJTZTFwNnlLemVXY2pBV29TVldz?=
+ =?utf-8?B?aXArK0labUE3SmtHaXhtdTNIdFZqUzhFWVZBNGZKejM3UllwM0F3ZGdvdkMx?=
+ =?utf-8?B?ZmU2WDl5TFVVL0FzczFGL0V4QjAyZ2pCZTBmNTJYYXIzUytNeGZUVUl2SVhE?=
+ =?utf-8?B?VG9FZUpZdExIRm13aTBGS0JFQkV1dlZnNGgwYUZpemdlWk10KzY2SVFPZlFv?=
+ =?utf-8?Q?4GnpHom2pKX4+IWTOzlpz9ZRaD/OF4=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700018)(4053099003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TWhkTzN0WHdDTTg5YlpSVVNiOVNvMWlWSGVUQmUzaHBURUlUZGFVMVYzOFFq?=
+ =?utf-8?B?WFRoVVQyZGRoQ2xEV0REdVh4cmpwUnpPQ2ZxVGhDUytEVnZkRDNMNWI5bFB2?=
+ =?utf-8?B?OEZpQ2tpOVBhOFVQZFhMcDBma2R1UzQrYlZjWFlvTGk1Z2RxNTYyTkZMQUxi?=
+ =?utf-8?B?U1RUT01CZ0dHMFNVUnFSOVFsVFFXMWcrYmFPaG1qMkMwQ2N1Mm9UdGJTYVlX?=
+ =?utf-8?B?R2tITGVYTXZMYVU5bnF0NEZadWFFQzRCZ1RVZ3ZVSHMxMFZwdE05RkN4YzlZ?=
+ =?utf-8?B?UVIvQm5aUzB4Q3k3TjZ3R0dNUENXU0laZDVnMzM1dXFuMCtFUmdZZ3NXUEND?=
+ =?utf-8?B?czFoM2FBSDhBeUt6MHkvVDJiY1Uya2JuOWZvV2dEYlNUZmkxUm9SVVE5RkJW?=
+ =?utf-8?B?bXI4WG56M1pwWlJ2eGg4MTc3aUwvSW00QWZBZHhEcHhQLytCcm54eWpxam9I?=
+ =?utf-8?B?bUpFU0UzK1hwL3QveXR3S0Y1djNOejRHVm5ibHFGVlRvQXVESm94clJiZ2R4?=
+ =?utf-8?B?L3A3MUJnM01qOENRdmUrbzdYUTVJSlBOZGpqSms0QzRhLzJjekxlYlNqZUJK?=
+ =?utf-8?B?a3pWKzlMMnNMeFgzOHpwdlJER2ZtbWhaS2ZueUpJRFZLeTgrbkdXVXBGUnVJ?=
+ =?utf-8?B?ZmkxUm9tblhGSjJMMmRadVo2OEUvSnE2QVJYRy93bzRvVkhlSUtoN1c4dTBZ?=
+ =?utf-8?B?Zk1Ob3lUeWdxK2NoR1BKQWxxRnhjMGhxbXFNVksrQUxLUmUvQkwxbitqblls?=
+ =?utf-8?B?cHFUcGRtVi9OKyswVnF2QnNScmU5eVRpbE1UaHJJbWgrUzdKL2VUdkJnSTVY?=
+ =?utf-8?B?SEtWUmsxcEw1bXZXeHRNbHVibi8wdnNWbWw4ZHV2azRYYVdRWWo2MkpzTytq?=
+ =?utf-8?B?R2tPLzVPNVlPeS9Cc0VTSTVWUzk4cWpBZXhDUEFnUkEzY3UxeWFrZTZwVHJZ?=
+ =?utf-8?B?bnlub2hBQ3pKQ2xzM3RBYU9UWEI1M01KN0tIbVZIdkI5Q0dvdEtRSzZ3Vm5S?=
+ =?utf-8?B?QzVDaUVaSEF0UDdqZWpmeUYxN0RMZjIxSklxSVdqM2gvYmFybGgzdEFFTi9r?=
+ =?utf-8?B?Rmo0V1VLQlA4MjlURTF1RkNsaXNlZzlKMFVCckhkT2txNlJBejVMM3JQbU5P?=
+ =?utf-8?B?NDZDcHloNWtiOXlDWHQ2eTlHQnF1ejdGVUFmaXBoUWR0bUZtUUxQMmlHSHZ1?=
+ =?utf-8?B?d1RsMDFuUHdFRFJUMldLQVlPWnpVYWpCWGdtdXVpamoxeXZZNjFDTXgzaWhU?=
+ =?utf-8?B?SzMzdWVhRHpqelZHVkRGbHBRUnVvVitNNHZZMWp0bUhFSGZNWmhJQnJMRlg5?=
+ =?utf-8?B?Y1pRYVIrY3BhQU1RdlI3TzRRZ0NVMzZsSmhOaXFHcG9URWlPbXdRV3ZIeElX?=
+ =?utf-8?B?NmhFUFR5QmRXN2hKTThhT0pRRWJ6MCtXNWpPV05PNVl0RzdiUldwMmJ3VTdn?=
+ =?utf-8?B?cmx6ZHNDV0dYUjlVS2pzSnFKZkU2Y3dIUnlpaUtIMzBpZ2hHTGE0c2tKMVNG?=
+ =?utf-8?B?VVFGU3ZmMnpISkFBSU5Kb2xkVkRkVmZYRXIvTWtwY3B5NXV3NDBUS2N3TXF5?=
+ =?utf-8?B?NXhrVldWUVhnM0JiNzRTMjZFblhOOWdqK0o5MDFNendsN0tWeWlCSk1vRThM?=
+ =?utf-8?B?aGJQOWFQNitpMEVwWVZiWDFXVy9USlZoWmhBYVo5ZnFVRnFwUXpvdDZuODNW?=
+ =?utf-8?B?WXpDN0dQajBiTGQyajBjK0RuSnRvYmcyMnhrUlVBSENOY0hOWkVSVTRWeHZa?=
+ =?utf-8?B?MG8wWDdQbjhPSGpISS9GYnRKQWlSZGxJZXh6WGV3N2JxcEZOWWdDanhyS3lB?=
+ =?utf-8?B?ZmxNcUhpcWhsbEZtU2ZObE9waFQ1WVczSjdZSGlMcjk4YnVVZW50Skhrc1di?=
+ =?utf-8?B?NGxEb2htdmRWS3NoR0htUmN1RHJ0MmlYakdDQWpSYVZUUFV0VC9KT0E1eDNw?=
+ =?utf-8?B?c0JDWk1UM3czUUdxOTArZ0JFYTRtWEJ3Mk9sL2NuSHgzYkNtMUt3Z2cwR2M4?=
+ =?utf-8?B?SEpOQ01rYmZSc2dBNW5Eb1dkQ1dOVW1BclluMHZTanEyOUcwZzRHSTFkbzFt?=
+ =?utf-8?B?NWpJSFdKRXNJMDJlSWJ2d0Z1UmpFR3dVUmxYTHdpNFB1Z1VqM1oxeGswVnBZ?=
+ =?utf-8?B?WnlKQUJ5S2hnOUlWSlAvT0NIck9hR3RtUVJPaWZETDY1RnVKWTdkS0RPVDUz?=
+ =?utf-8?B?OXc9PQ==?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------3bbxVraumoGi2fJRQ3W4IyqC"
+MIME-Version: 1.0
+X-OriginatorOrg: imgtec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a8bcd83-aef0-4940-8ca8-08dd7d0737fc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2025 16:53:31.3518 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dCJlh8BsQNgI5xUDAMaCGFEYLS8AVJu+UcbnsnMKw4uIOeTjw/UVr3j2Aicj4HfFxnavqyKGnJh9aYaetBTN7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6321
+X-Authority-Analysis: v=2.4 cv=LbU86ifi c=1 sm=1 tr=0 ts=67ffe090 cx=c_pps
+ a=NemD1F2luIWN0MFc5Cn7GA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=NgoYpvdbvlAA:10 a=hD80L64hAAAA:8 a=r_1tXGB3AAAA:8 a=HeIl7KPV_oWCO7BD_oYA:9
+ a=QEXdDO2ut3YA:10 a=yvwrtV5x0iyCBtp8CqIA:9 a=FfaGCDsud1wA:10
+ a=t8nPyN_e6usw4ciXM-Pk:22
+X-Proofpoint-GUID: mKPNdfxSzvEJDvha3RZYXcfW6bZOWSx3
+X-Proofpoint-ORIG-GUID: mKPNdfxSzvEJDvha3RZYXcfW6bZOWSx3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,64 +221,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+--------------3bbxVraumoGi2fJRQ3W4IyqC
+Content-Type: multipart/mixed; boundary="------------LpNi1Hs9Dq38QRgXf0Ws2hpK";
+ protected-headers="v1"
+From: Matt Coster <matt.coster@imgtec.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: frank.binns@imgtec.com, p.zabel@pengutronix.de, m.szyprowski@samsung.com,
+ linux-clk@vger.kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ mripard@kernel.org, linux-kernel@vger.kernel.org, tzimmermann@suse.de,
+ linux-riscv@lists.infradead.org, airlied@gmail.com, simona@ffwll.ch,
+ aou@eecs.berkeley.edu, dri-devel@lists.freedesktop.org,
+ ulf.hansson@linaro.org, linux-pm@vger.kernel.org, jszhang@kernel.org,
+ palmer@dabbelt.com, guoren@kernel.org, maarten.lankhorst@linux.intel.com,
+ wefu@redhat.com, paul.walmsley@sifive.com, jassisinghbrar@gmail.com,
+ drew@pdp7.com, robh@kernel.org, sboyd@kernel.org, mturquette@baylibre.com,
+ krzk+dt@kernel.org
+Message-ID: <c74db6a7-146b-4937-974d-2110b587f662@imgtec.com>
+Subject: Re: [PATCH v5 13/21] drm/imagination: Add reset controller support
+ for GPU initialization
+References: <20250219140239.1378758-1-m.wilczynski@samsung.com>
+ <CGME20250219140306eucas1p19ba425ddb1e499ef1014b1665be9de8e@eucas1p1.samsung.com>
+ <20250219140239.1378758-14-m.wilczynski@samsung.com>
+ <60914de9-f507-4099-be53-ea1fc282c537@samsung.com>
+In-Reply-To: <60914de9-f507-4099-be53-ea1fc282c537@samsung.com>
 
-Am 16.04.25 um 17:22 schrieb Wakko Warner:
-> Thomas Zimmermann wrote:
->> Fix an off-by-one error when setting the vblanking start in
->> <VBLKSTR>. Commit d6460bd52c27 ("drm/mgag200: Add dedicated
->> variables for blanking fields") switched the value from
->> crtc_vdisplay to crtc_vblank_start, which DRM helpers copy
->> from the former. The commit missed to subtract one though.
-> Applied to 6.14.2.  BMC and external monitor works as expected.
+--------------LpNi1Hs9Dq38QRgXf0Ws2hpK
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Great. Thanks for testing. Can I add your Tested-by tag to the commit?
-
-Best regards
-Thomas
-
->
-> Thank you.
->
->> Reported-by: Wakko Warner <wakko@animx.eu.org>
->> Closes: https://lore.kernel.org/dri-devel/CAMwc25rKPKooaSp85zDq2eh-9q4UPZD=RqSDBRp1fAagDnmRmA@mail.gmail.com/
->> Reported-by: ???????????? <afmerlord@gmail.com>
->> Closes: https://lore.kernel.org/all/5b193b75-40b1-4342-a16a-ae9fc62f245a@gmail.com/
->> Closes: https://bbs.archlinux.org/viewtopic.php?id=303819
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Fixes: d6460bd52c27 ("drm/mgag200: Add dedicated variables for blanking fields")
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Jocelyn Falempe <jfalempe@redhat.com>
->> Cc: Dave Airlie <airlied@redhat.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: <stable@vger.kernel.org> # v6.12+
+On 16/04/2025 15:25, Michal Wilczynski wrote:
+> On 2/19/25 15:02, Michal Wilczynski wrote:
+>> All IMG Rogue GPUs include a reset line that participates in the
+>> power-up sequence. On some SoCs (e.g., T-Head TH1520 and Banana Pi
+>> BPI-F3), this reset line is exposed and must be driven explicitly to
+>> ensure proper initialization.  On others, such as the currently
+>> supported TI SoC, the reset logic is handled in hardware or firmware
+>> without exposing the line directly. In platforms where the reset line =
+is
+>> externally accessible, if it is not driven correctly, the GPU may rema=
+in
+>> in an undefined state, leading to instability or performance issues.
+>>
+>> This commit adds a dedicated reset controller to the drm/imagination
+>> driver.  By managing the reset line (where applicable) as part of norm=
+al
+>> GPU bring-up, the driver ensures reliable initialization across
+>> platforms regardless of whether the reset is controlled externally or
+>> handled internally.
+>>
+>> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 >> ---
->>   drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>  drivers/gpu/drm/imagination/pvr_device.c | 21 +++++++++++++++++++++
+>>  drivers/gpu/drm/imagination/pvr_device.h |  9 +++++++++
+>>  drivers/gpu/drm/imagination/pvr_power.c  | 22 +++++++++++++++++++++-
+>>  3 files changed, 51 insertions(+), 1 deletion(-)
 >>
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> index fb71658c3117..6067d08aeee3 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> @@ -223,7 +223,7 @@ void mgag200_set_mode_regs(struct mga_device *mdev, const struct drm_display_mod
->>   	vsyncstr = mode->crtc_vsync_start - 1;
->>   	vsyncend = mode->crtc_vsync_end - 1;
->>   	vtotal = mode->crtc_vtotal - 2;
->> -	vblkstr = mode->crtc_vblank_start;
->> +	vblkstr = mode->crtc_vblank_start - 1;
->>   	vblkend = vtotal + 1;
->>   
->>   	linecomp = vdispend;
->> -- 
->> 2.49.0
->>
+>=20
+> Hi Matt,
+>=20
+> This commit, along with the corresponding change in the DT bindings,
+> doesn=E2=80=99t appear to conflict with the work you're doing for Rogue=
+ series
+> enablement.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Agreed, it still applies cleanly on top of drm-misc-next after we landed
+the BXS series.
 
+>=20
+> Would you prefer if I re-send them as a mini-series so you can consider=
+
+> picking them up for the next kernel release?
+
+That would be ideal, thank you!
+
+Cheers,
+Matt
+
+>=20
+> Regards,
+> Micha=C5=82
+
+
+--=20
+Matt Coster
+E: matt.coster@imgtec.com
+
+--------------LpNi1Hs9Dq38QRgXf0Ws2hpK--
+
+--------------3bbxVraumoGi2fJRQ3W4IyqC
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCZ//giwUDAAAAAAAKCRB5vBnz2d5qsJQX
+AQCIH3DDZLfQgm47Y2OoZWbKPy9xpV7MMB8qQEzDe0wnrQEAu7V4VWYaezrbJWvCy/FNmr7GJ4ru
+JSNTbJfgJozbtgg=
+=cpD4
+-----END PGP SIGNATURE-----
+
+--------------3bbxVraumoGi2fJRQ3W4IyqC--
