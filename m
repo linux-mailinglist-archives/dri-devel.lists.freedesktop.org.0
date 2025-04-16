@@ -2,125 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC05FA8B78B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 13:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB77A8B790
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 13:23:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7FF510E25B;
-	Wed, 16 Apr 2025 11:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C274810E8D2;
+	Wed, 16 Apr 2025 11:23:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="AxZYzZ9Y";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="luNGIPrm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ABA910E25B
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 11:22:39 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250416112234euoutp02f60747d86316ba0bcdcca2a35073cfbe~2yK3c7G1A1616716167euoutp02P
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 11:22:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250416112234euoutp02f60747d86316ba0bcdcca2a35073cfbe~2yK3c7G1A1616716167euoutp02P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1744802554;
- bh=o/JZlQdMxe3Mo96yx/aJSrBGKnbJT9wWiAHIxzblxxQ=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=AxZYzZ9YXRriyj+u6GV4T3daSjhmA0EkHr+2pGi+tfWsfBsq2pZhGIK/ULw+DhMq6
- WelXZ4Yw6GGYMWhiB+3LytLiq05iA/y9IQNJkbmT8/ZuYC+azzKxiU8uE+Ivy5ZqM/
- Z50NBO+4FcKoxg26bq8P2y3ZX0/8RqwKEIy7s9Dc=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20250416112234eucas1p208c7db55a031e7309e207c39b3fd2822~2yK2-DgQC2586025860eucas1p2f;
- Wed, 16 Apr 2025 11:22:34 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id F4.96.20821.AF29FF76; Wed, 16
- Apr 2025 12:22:34 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250416112233eucas1p10bb8e43a0c391392501d48c7dace23b6~2yK2YMxp11951519515eucas1p1y;
- Wed, 16 Apr 2025 11:22:33 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20250416112233eusmtrp10af3df9bf1f76b1c37a2f539cc012007~2yK2XMO-p2331123311eusmtrp1F;
- Wed, 16 Apr 2025 11:22:33 +0000 (GMT)
-X-AuditID: cbfec7f2-b11c470000005155-43-67ff92fa36dd
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id E0.19.19920.9F29FF76; Wed, 16
- Apr 2025 12:22:33 +0100 (BST)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250416112232eusmtip2f05b1e8bb84da2e08f38a19a071633bc~2yK1D-LF52910429104eusmtip2i;
- Wed, 16 Apr 2025 11:22:32 +0000 (GMT)
-Message-ID: <02e21251-5c02-420d-81f2-d6f241e0212d@samsung.com>
-Date: Wed, 16 Apr 2025 13:22:31 +0200
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2066.outbound.protection.outlook.com [40.107.93.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC8810E8C8;
+ Wed, 16 Apr 2025 11:22:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OgR8VBWXRb8Rf7Wu2g3TmLEusw37fBu4pJf65ELXGtT4JaMzaDsT8H50EMTsgXlLkX1CayMIwIDfkY2Y70M5Hx8DMdBVvVUgL86xKFdKBhPIvAJhfdecK6ESIzQJi3PIrx9WbWGNGxuileOqA5FySttFQfUeF6B1e+Zt3OnrDbGotEDXE1Xlg7nZKCvLQWwLvkWN/QnrU013Fe+bf7o29FAZu2OTAjuanclX6HwKdPDsJ/LapSrEjAJCZfK7muhBwfmXRHd/RzUVWCRo6ffkPeRGhmF87zSiW+HH5E/XI9lEzbPs9g79r2q8SApRTb3INPPIe5y2Ps2G5aUER4kbfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GlW1Ta75iXQsI8SehotsLWgmRaY7fNMLskldVauWSr8=;
+ b=lp+mf1H/gdSFPCxYnDENTBR81lYNCU8nBVp8QgNqE7lhTxjyoZ9E96dI4rBAtpIkcgDHEmHQPUyHMOza1FIauPRdlw/HehiMOEkzKjrUTCV0Q9cD+gdsD/g7yJk83NTQhooHNPSexC+al3iL73BEs106hrgz9yqJKdphh1gLNnebrCIGgqLBvcuB8TSlXopvvf9qBvD96Ul8WJlPXdZNLg4BecEJp4mU/Lg5QQ1Tr1wYdEiVtJgdSfG3ETG3AQXAKw/rdwQ2/VBj0+tdyfvXOslsdcQRoIf9aFp6kSbGWs6B6iX+cZf/UqJqNAJqTx0cv03gzM9UMUnh59N5cuDJEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GlW1Ta75iXQsI8SehotsLWgmRaY7fNMLskldVauWSr8=;
+ b=luNGIPrmlLiS3mgqTO8T9S9NrbP3AJemyBdVzhRwQCBr359SQmksT488dokEfnXdi5LCrcCfnOILHAQQYHfTLMLd4kqJUPmPSU47j1bNGzp/CymPgJK7MeqIJFiMAx7ybgVr1c9ELKEpc+F5LSEm1qtrV+2kKhRthqaFeIuwCk8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ0PR12MB6925.namprd12.prod.outlook.com (2603:10b6:a03:483::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.32; Wed, 16 Apr
+ 2025 11:22:48 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.025; Wed, 16 Apr 2025
+ 11:22:48 +0000
+Message-ID: <4c41cd5c-db65-4de4-bcc8-4d3e80998af3@amd.com>
+Date: Wed, 16 Apr 2025 13:22:44 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 19/21] riscv: dts: thead: Introduce power domain
- nodes with aon firmware
-To: Drew Fustini <drew@pdp7.com>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, guoren@kernel.org, wefu@redhat.com,
- jassisinghbrar@gmail.com, paul.walmsley@sifive.com, palmer@dabbelt.com,
- aou@eecs.berkeley.edu, frank.binns@imgtec.com, matt.coster@imgtec.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, ulf.hansson@linaro.org,
- jszhang@kernel.org, p.zabel@pengutronix.de, m.szyprowski@samsung.com,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] drm: add function drm_file_err to print proc
+ information too
+To: "Khatri, Sunil" <sukhatri@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+References: <20250415184318.2465197-1-sunil.khatri@amd.com>
+ <830a2b61-8965-4193-98de-d462a641737f@igalia.com>
+ <2047d128-5c3a-4f9f-a55d-3188fe7ea3c3@amd.com>
 Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <Z/6p6MQDS8ZlQv5r@x1>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <2047d128-5c3a-4f9f-a55d-3188fe7ea3c3@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTVxzHOffe3luaFa7F0TOHkVwdiW4DBBNOtsXANrJrTDaIkiUmTBu5
- KQYKrhVRgwECdODKUB5xa+d4zEnHBgRWKq08HFTKa50C41EeugQXS3jIq51s0tFet/Hf5/s7
- 3/N75RwhLmkjdwnPpJ3jlGmyVIYUEcaeZ7Y3N0rd8nDXHRL1jtVgqOUvLYV+bLdhqNJiE6CZ
- IQOGRtaXSNTw+D6FnrTnEmhUf4NCeT2NJHJoZ0i0rJkRoGHz1yRaLbYAZFzNJ1G9ZZpC1cst
- BLrZagZIXXRLgB70x6LpmV4COYY1OFJr/ZG7rZVCm6NNBNItdlLIMH9NgKz1H6P8znIieje7
- NF5AsfMOB8F2F65RbLuzimBN2mmK1ZgGAdtcV0SyU6NtJPtNXzz78HMrxv50M5vNr+/B2JLn
- 4exSx28k+4WhDrBDeWNUnOSE6J0kLvXMeU4ZdviUKHmu4Hf8bI30woIrOQc0BVwBQiGkD0HL
- vb1XgEgoofUA6tXrJC/WAJyf68B5sQrgqDpvS/h6b2wOfUfwB7UAfrtupXixAKDLfg/zuMT0
- Ydi7VEp5mKBfg39OVgn4+A7Y99Us4eGX6T3wof1LryeAlsEJg4n08E46GNr0Q5gnKU7/IICW
- u6vepDgthfbZSi+TdAR8VFvpTepLM/CXTTfJe/bAvBadt29I94mgursI4/t+H9YuLJA8B8A5
- q4HiOQgOlGkIntPho5aVF3NmQZPG+oLfhlO2DdKzMZzeDxvNYXw4Bo4NPCb4RfrB8YUdfAt+
- sNR4HefDYliolvDuEFihKf6vqE1vxK4CRrttK9ptQ2q3DaP9v24VIOqAlMtQKeSc6mAalxmq
- kilUGWny0NPpimaw9cAHNq0rreDG3HJoF8CEoAtAIc7sFNuiNuUScZLs4iVOmX5SmZHKqbrA
- q0KCkYprOgvkElouO8elcNxZTvnvKSb03ZWD7dtdduF0QnD0XZFuv2ImMFxbOYjr4sP8EtOY
- TyNDxvVqc4zoiN45uH75wfNjny0fr451RpX02liyIcZdPet71d2peK980hEi8LmYUozFJdzO
- ynMpExXR5pSJA1zy1leCU9mZ6r8DmWlpU8do1NGRjhMoN+kD86EPHR8FWqqC/hg2hV5/K9M/
- y9n/bqBPiU+b72JN+RP7MZ1fd9ea4RpTXTZZsXIprux25J37G8m/Vmh/jjipiMb2EgmvvNEo
- 72WEOcEN3z81jlS5LrsI/2ehT4+IFhW1roSIyET7J68XCir7T0XFjsXPBzXlDkz0NQ/1hMe5
- fc47bXZ1Rja1cuslhlAlyw4ewJUq2T8MHt+WTwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPKsWRmVeSWpSXmKPExsVy+t/xe7o/J/1PN7iyW9LixPVFTBZbf89i
- t1iz9xyTxfwj51gt7l3awmRx5et7Not1Ty+wW7zY28hicW3FXHaL5mPr2SxezrrHZvGx5x6r
- xeVdc9gsPvceYbTY9rmFzWLtkbvsFgs/bmWxWLJjF6NFW+cyVouLp1wt7t47wWLx8nIPs0Xb
- LH6L/3t2sFv8u7aRxWL2u/3sFlveTGS1OL423KJl/xQWB1mP9zda2T3evHzJ4nG44wu7x95v
- C1g8ds66y+7Rs/MMo8emVZ1sHneu7WHzmHcy0ON+93Emj81L6j1a1h5j8uj/a+Dxft9VNo++
- LasYPS41X2cPEIrSsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcks
- Sy3St0vQy3jV+pC5YJF4xdvvGQ2MG4W7GDk5JARMJP5dWsrSxcjFISSwlFHi4cHr7BAJGYlr
- 3S9ZIGxhiT/Xutggil4zStyc+o0RJMErYCdx4v0ksAYWAVWJH7cXsELEBSVOznwC1iwqIC9x
- /9YMsBphgUSJaWsgFogIKEicW3GJCWQos8BqVonlX+8yQmz4wSixbMNFJpAqZgFxiVtP5oPZ
- bAJGEg+WzwfbwCmgJHH233+gkziAatQl1s8TgiiXl2jeOpt5AqPQLCR3zEIyaRZCxywkHQsY
- WVYxiqSWFuem5xYb6hUn5haX5qXrJefnbmIEpqxtx35u3sE479VHvUOMTByMhxglOJiVRHjP
- mf9LF+JNSaysSi3Kjy8qzUktPsRoCgyLicxSosn5wKSZVxJvaGZgamhiZmlgamlmrCTO63b5
- fJqQQHpiSWp2ampBahFMHxMHp1QDU0yFxBpPd1M2P87bZtd0FQ/M7J0y6WHS4T6e8DSV630v
- 98e8v6f+cOWxs79Y7u1tWPBpcmVsXs2lhfIvzBtmbQm+EDLJMS+2+RV31qTLLc8uv2i8rjzH
- VjQydgrLWqlFb2cf2S0poHlBVuBtlO5PkR/nDzXZJax8vFdt2ZnzlgFaL8p/MGnFaj75z9Zo
- W/JBtjLk8T+Lk9+eLuP/GuKap1S17HT0G+bO0+1fuw9tKxcwm8JhMtlPR1rwE49uyppiG1nD
- I9GaAYmnTJsZnNZWf/ix+cR6hi270tbHd6i3/WOeIhq3USb/yJc9rcnSbFXzNykeM9Nme9no
- b13ZO7t0to7eUqZVbWV7ZK2XSOelKbEUZyQaajEXFScCAHoYScPiAwAA
-X-CMS-MailID: 20250416112233eucas1p10bb8e43a0c391392501d48c7dace23b6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250219140315eucas1p10f08d297580edd114f4c487c1fbffa8d
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20250219140315eucas1p10f08d297580edd114f4c487c1fbffa8d
-References: <20250219140239.1378758-1-m.wilczynski@samsung.com>
- <CGME20250219140315eucas1p10f08d297580edd114f4c487c1fbffa8d@eucas1p1.samsung.com>
- <20250219140239.1378758-20-m.wilczynski@samsung.com> <Z/2+rbhsaBP0DQop@x1>
- <Z/6p6MQDS8ZlQv5r@x1>
+X-ClientProxiedBy: FR2P281CA0132.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9e::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB6925:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a300c8b-c5a5-48ae-fe4c-08dd7cd9048d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q3dwNDNYaGt3VHp0am9VTkxEbVVtcHJDb01pRnBmWXBrWVVRSzVBMlpiQ2Fp?=
+ =?utf-8?B?Vm82TXRjdERBa0xvTVBkZDJvTkFqZFF5anFTNytOamR2dFJmMUxBQmNkT0lr?=
+ =?utf-8?B?Slp0VWJ6MGhUZzlFQmYxc0lPY200OXJUUlB3a3IvS1ZtSXd0WEZQQzhsdU4z?=
+ =?utf-8?B?emxTUnE3L2RpUmhYTHIwN0RtNFRpU3F0SFVDWFluRGNDWStwbXE4aGQzSXla?=
+ =?utf-8?B?dFc0cis2WVlxWVczdFRhYmFhUytoTHg4SU5URHg3cmdBOUQ0a1hRSWx2U2Mz?=
+ =?utf-8?B?aFY2MTF0ZzIwdVVNL3NKenRXVHlaYktoVklGUXlUR1QwK3RCQ2V3eHJwaW16?=
+ =?utf-8?B?VVczajlGejNHWEwyV1dqb1Q0Zm91eFNYZ1RHeWZXdXU0aFJkbkg4aE0yRDFX?=
+ =?utf-8?B?bzErcHNtdmhnRjJjUHZZQ2RTeDQ2VnRKWmZCb1RuaUNNQk5wWTk1b2lpTVNn?=
+ =?utf-8?B?d1gxNE96SUxINzBPTHEzTzlwTGJRSVF1aElpV1dtTlN0SVZlUVZuTTNGT1lF?=
+ =?utf-8?B?UWp3a3FJZ3JjbERQSHEwU0c4MVdBQ1d1T3BCZjFzMzhETms2WEhja3RzbUFH?=
+ =?utf-8?B?U0hMbDFMUzJVbE93UENJM0lmUzBkR09TbFUzNS9ka3NvemZaWHpMV0tYR1BX?=
+ =?utf-8?B?TlVMMHo5R2VhQXB2eTEwQlBFcW9CV2wzeVNiUHY3WE1mbUN5UGdCVytTZy96?=
+ =?utf-8?B?SVh1c1pmV1k3NFI1b3Bxb0RGejI5WDNzNXErVzdrbGN2U3l6MnI4aGg1RFBC?=
+ =?utf-8?B?OXJBcVB3L1hWK0lwUVZQRWVFYVEzT2U4a3l2TFk3UzZaREQwWDg5NFhoaC9H?=
+ =?utf-8?B?cW5lMXBjWHhlTGRLdnNkRkNVN1ZFdmw3TmwvcythajRucjErSGhScXIzL3BZ?=
+ =?utf-8?B?QXJpeWNJazBBTE92UFE3b21vNms4SmNDOFN2MUJjL0lUajIvNnNzelp0RjhC?=
+ =?utf-8?B?TFZBdVh4aVFtTFVwd2lZSU9ZWVRZb0d3ZGpqeEl1b0hUN003MXJDZGUxeTha?=
+ =?utf-8?B?a0U3QTlTRWFlc0dQd3R6QWdmMEhzaU5zaExCNk9Cd1hyNG5CNGszZEFOVk9D?=
+ =?utf-8?B?SWNLNWs4RUx5VDBMS3ZHQVRDano2VVJLeFYvdWxLUkxIbW04eUNsSzFrN3M0?=
+ =?utf-8?B?SThFNWtwanNwc2VkckVFWGNJZXhOMGVEQjNKOXhoMlZvRXhYcWxibU1pUVhv?=
+ =?utf-8?B?WUpsOWpoYkNMYk1HWngvWURpaEV2K1ZiSU5yZlRXQUNwdTRqeEVkUjUyN0FM?=
+ =?utf-8?B?eUwycElhcjc3ZTJRcXNRTmxHMUU3c1dpVlNBSmh2WEx5RzM3SWYyQmgxTEEw?=
+ =?utf-8?B?c1dISVZjZEV0YUR3OFJDNXVtVDc4V0EwN3lGMDlCZW5BaFhRR3RsWnRGR2Zh?=
+ =?utf-8?B?d21pTDNLZjBuSmd1ZTZmMndSK05CY1VCWEJSbmltYjRDQTRqM045MlJUNjhv?=
+ =?utf-8?B?RUwzaDIwcHB0VmF2bys3cVM5TnVLZTJHY1huMXRtRWtQSStyRHdFWUtJamdK?=
+ =?utf-8?B?dXlXR1JHdmp5d1pjQURBVTBHTHhSbFZub2FTcHNuQWtUZWx3UkQrZVh1OGlo?=
+ =?utf-8?B?K3hFNSs2ajVtTVl4ZmJIcFcwZFdkWWlzaWlZLzdVRXNWaUV1S0hHOWV0Q2ZN?=
+ =?utf-8?B?Z1FOZmZ3Nms4SUczd3UyeGxMekFIK1hrN3ZkNlJNN1pPMGNBaktETnU4Z1NZ?=
+ =?utf-8?B?ZXp3aU85czRRNGVPTnd4eDdIS0xiNTMwdHhvM0krYWhuV1hyMlo5Q3paa0Q5?=
+ =?utf-8?B?aUJxek1BNkNyN21RY1ZRajRUV1VHUFROZnZvcFRLcjlCdUJuSnM5bituUUlX?=
+ =?utf-8?B?aTR4R2tWbkkxeit4Z3VNbnFmZG1CVm9mS3NIeS8rTFZ1L3RJQ1hwQlpuTWNM?=
+ =?utf-8?B?N0lRL0tsWVFtTzg0dlZyK1lXUFVBSHhjWndZMTMwMGRuaURIK1hvSENhRUJT?=
+ =?utf-8?Q?7CcGERAhyp8=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UnM2d0ErZkd2U1BKRllWK1NGVWJrU3ZCdjNGT1N3a1BzcHE2THY2VDRLK2pm?=
+ =?utf-8?B?NjZ1MVpFcmtWdHRXSVRhNDhIUUpkWHlvejZWdklvck4reEVSMHU5L1Z5d1Vq?=
+ =?utf-8?B?Tm9DUHZJOUJwc1gvM3VhaUJLNGtYdnptVmpqZ0t0K25Va3hxZGtKSmgxWUd5?=
+ =?utf-8?B?dE5xaERCbEZZUWdNb2ZvcXIvM250eDM5U0p0M2R2RVZyN0d6S0I0T1NuMk9k?=
+ =?utf-8?B?OUxXSGFITUpiMWZwTS9sWEs2K1U3MmV1NjBkc0ZPck5ka05FVjdJZk0rVlJH?=
+ =?utf-8?B?QXRWekNTUjBaVUVFM2Z5WkJxTXp5VVVraDVhdkduMVh6Z05Qb0I1ZGlHUTZX?=
+ =?utf-8?B?aDBDQ01HQk9adE5YWWdpWGhLUXZ5TGxQSWhvMHFteHc3WnpFRGxHYXdiV0Rk?=
+ =?utf-8?B?VGpISXdDVmVJd1FEdlVNdGxKRnM2bkhUK2hXYVZ1S3QvcDcyS0x6MTJmNFRN?=
+ =?utf-8?B?b2tGd1JpaTVJbkFUNlJ5NEtSRFBBWHRHOXJNZEFWM1hYNFV4QThHKzVQdXVJ?=
+ =?utf-8?B?VmVaNzJUT2ltcW1qUUdCVUwydDBUOWZ0b1VqTVByQU81U1VuU0U3MmpXV2xX?=
+ =?utf-8?B?Zmx3QUozSG10US8raFhTMkRZODNCbEwySEdTTzg1TGc3MzYwSGl3eGR5YmlS?=
+ =?utf-8?B?a2k4MFhPQmRLRzVZU25XejBmancwdkZ2dEJIUFlmekJDYWpMVzJoTjN2L01h?=
+ =?utf-8?B?OFh1MllGZGpudUlVbXdvMTlEd1JNRkgxVFNSZTZuMUtjVkdIaTlha3BlUzB3?=
+ =?utf-8?B?M1JTSEYwQ0dWQXRWbER4OUpPSDAzWndId3lZUTdaN0QyNU0xRElQWERLQ3Nw?=
+ =?utf-8?B?YS9USWtzTnRhY01uWFJOaGR2akkrVXB6SUh1b3lNNkJKaUp6NHZJSFNkeXZt?=
+ =?utf-8?B?WjEwcjVwMURRN1pFbzFSaXpQQmR4aitvMjVCa1NIUEtIS2VGdWJrRUQzaHlv?=
+ =?utf-8?B?b25EWUNhTG1zN0MzWEE0RlNlZUtSdngrZklpMGh1MWI1cjdFUHhZQ1dWcmVn?=
+ =?utf-8?B?RHpZRTJjeDlPTEdRcE5xVjlreElXU2lZWXVvZkRUUnVlY3BMb0xBdzh4ZC92?=
+ =?utf-8?B?RVpGbXRXamdyL1NMMkszY05LVElSMG40TWFUVkswd3lyc1k3MzJ2UEFDbnIr?=
+ =?utf-8?B?UmV6eUwzRHJtVklPdTFUSnhIc3dLQXY4OGR3bitHK0FIaklNYTd1TGRmdCs5?=
+ =?utf-8?B?S3RRek5zRGxiZ3kvelRVVkErcGVoZXp4RlBCQkEyYnZiUHRhQk1sYmF1Slps?=
+ =?utf-8?B?SFlndXowZzlvWFVpelRnSHRCL25veWtBalhWZmpWKzRmWis1NDEvcVB1QVRL?=
+ =?utf-8?B?ektuQ1dZYUZDTXBiVzJyakxxd1VoL0ozYU9mb3hJZzY5LzVKV1VvWnIyT0E3?=
+ =?utf-8?B?YWJOaE5NYUp4aHRpak9tb2xJb085d01uSVVzS1FwNnkvSzBrVDdVM3ZPSCsv?=
+ =?utf-8?B?QkZ5S1ptYnZaSGxyTUVOOHN5MFBPTEkvT013aUlmeXJuU0drNytJNlRybTRr?=
+ =?utf-8?B?SER0WERPaVkvNzF5UGZoQVpxazEwQUtyZy9GSWRkZkJNUVF4Q2RKYkY4cWd1?=
+ =?utf-8?B?ZjNSeFh6UmNRQ0xwUWVQbjBPdzBlWHpLYk1FNnhkUEpDaUo4ejNIMFg4ZGxL?=
+ =?utf-8?B?cUNEdS9GK0R1WlFpSW1SYUVFUmZWRStGT1VlQlpDMG9oKzlMby9yaTN4U3FI?=
+ =?utf-8?B?N1F2ak1vT21Rc2gyQUNFSUpsbWcrQ3gxaG1nb09sVTZZMHhpMmJTRXhMYnNl?=
+ =?utf-8?B?TXYrZTZrRzBGVVpkYm95Vjk3Vmhjdk1XcHVJTS9NY3MxRzZoMzJNcGNWKzNY?=
+ =?utf-8?B?c29UTjA3TXE0UGNXdFh2RmxqRVBxeWVuWmJMbkdOUkt2RHB5SHYwSU1MRlda?=
+ =?utf-8?B?M0RMVTlUNWJLM3RueDJscHBXWWNWbGFTdEpDcUxGcHZOcVV2N3lDbmU4b0ZK?=
+ =?utf-8?B?MmFIYzBwd2ZTaXRhWCtWUVZjNVJyMXZIbTlYcUNuQ2puRGMwekJRQ3EvRUEw?=
+ =?utf-8?B?QU5zQ0FUNFJQVmtiTGdJTVpEeVFXMU9wdUcwUFRkcENSM25PdG1jQk5nOE4r?=
+ =?utf-8?B?c0pvb2FSRzBkRWlLWkQ4R1FtcGE0VUhMcGZ4YmdFWDJxeC9SS3hmQzVZbHFC?=
+ =?utf-8?Q?lCq/tJXtexkuqZLRVbwVicK8H?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a300c8b-c5a5-48ae-fe4c-08dd7cd9048d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2025 11:22:48.5225 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hM0+mZnc7FHM5BQDvYdb3q7JKIln8BM+Fhm3z4voGagZZP/IuKcWh7Q5L7OFRCFa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6925
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,85 +168,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/15/25 20:48, Drew Fustini wrote:
-> On Mon, Apr 14, 2025 at 07:04:29PM -0700, Drew Fustini wrote:
->> On Wed, Feb 19, 2025 at 03:02:37PM +0100, Michal Wilczynski wrote:
->>> The DRM Imagination GPU requires a power-domain driver. In the T-HEAD
->>> TH1520 SoC implements power management capabilities through the E902
->>> core, which can be communicated with through the mailbox, using firmware
->>> protocol.
->>>
->>> Add AON node, which servers as a power-domain controller.
->>>
->>> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
->>> ---
->>>  arch/riscv/boot/dts/thead/th1520.dtsi | 8 ++++++++
->>>  1 file changed, 8 insertions(+)
->>>
->>> diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
->>> index 197df1f32b25..474f31576a1b 100644
->>> --- a/arch/riscv/boot/dts/thead/th1520.dtsi
->>> +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
->>> @@ -6,6 +6,7 @@
->>>  
->>>  #include <dt-bindings/interrupt-controller/irq.h>
->>>  #include <dt-bindings/clock/thead,th1520-clk-ap.h>
->>> +#include <dt-bindings/power/thead,th1520-power.h>
->>>  
->>>  / {
->>>  	compatible = "thead,th1520";
->>> @@ -229,6 +230,13 @@ stmmac_axi_config: stmmac-axi-config {
->>>  		snps,blen = <0 0 64 32 0 0 0>;
->>>  	};
->>>  
->>> +	aon: aon {
->>> +		compatible = "thead,th1520-aon";
->>> +		mboxes = <&mbox_910t 1>;
->>> +		mbox-names = "aon";
->>> +		#power-domain-cells = <1>;
->>> +	};
+Am 16.04.25 um 10:39 schrieb Khatri, Sunil:
+>
+> On 4/16/2025 12:37 PM, Tvrtko Ursulin wrote:
+>>
+>> On 15/04/2025 19:43, Sunil Khatri wrote:
+>>> [SNIP]
 >>> +
->>>  	soc {
->>>  		compatible = "simple-bus";
->>>  		interrupt-parent = <&plic>;
->>> -- 
->>> 2.34.1
->>>
 >>
->> Reviewed-by: Drew Fustini <drew@pdp7.com>
+>> I was hoping something primitive could be enough. With no temporary stack space required. Primitive on the level of (but simplified for illustration purpose):
 >>
->> I tested this on top of 6.15-rc1 and found no issues.
+>> #define some_err(_file, _fmt, ...) \
+>>     drm_err(dev, "client-%s: " _fmt, (_this)->client_name, ##__VA_ARGS__)
+> I also thought of doing it similarly but that dint work. There was lot of code to get the process name and pid along with client_name too. So ##__VA_ARGS__ dont work as soon as its a function and not macro.
+> Also drm_err gave me errors and this is the way i find it not complaining. new_fmt is a string directly anymore and hence need to %s to pass but then the drm_err complain too many args for args to pass. So i have to combine new_fmt and args in one to get final_fmt and atleast functionally it worked.
+>
+> Yesterday even i though that i would be as simple as adding a macro.
+
+It's a bit tricky, but I think that is doable.
+
+You need something like this here:
+
+#define drm_file_err(file, fmt, ...)
+    do {
+        struct task_struct *task = drm_file_lock_pid(file);
+
+        drm_err(file->dev, "task: %s pid: %d client: %s" fmt, task, file->pid, ##__VA_ARGS_);
+        drm_file_unlock_pid(file);
+    } while (0);
+
+You then just need to implement drm_file_lock_pid (maybe come up with a better name) to grab the mutex and take the RCU read lock.
+
+Christian.
+
 >>
->> -Drew
-> 
-> I've applied to thead-dt-for-next:
-> https://protect2.fireeye.com/v1/url?k=2f3b741b-4eb0613b-2f3aff54-74fe485fb347-beeac007773a982c&q=1&e=eb6b4dda-c02a-4e0a-831a-a28d0489f6c3&u=https%3A%2F%2Fgithub.com%2Fpdp7%2Flinux%2Fcommit%2F2bae46e3de2a64fe3a619d61b16da0c01b8df2a1
-> 
-> Michal - are there any other dts patches that I should consider for 6.16
-> PR?  I would probably send to Arnd around 6.15-rc3 or 6.15-rc4.
+>> Am I missing something or that would work?
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>   void drm_file_update_pid(struct drm_file *);
+>>>     struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigned int minor_id);
+>>
 
-Thanks for the heads-up.
-
-I think the reset DT node would be a good candidate for inclusion [1].
-Depending on how the clock series evolves, we might also consider this
-commit without the reset part [2]. Similarly, if the PM series lands in
-time, we may want to update the aon node to include the reset [3].
-
-To avoid any last-minute issues, I can send a separate DT-only series
-that includes all relevant patches targeting the next release. Just give
-me a heads-up a few days before your PR, and I’ll make sure everything
-is ready.
-
-Best regards,
-Michał
-
-[1] - https://lore.kernel.org/all/20250219140239.1378758-21-m.wilczynski@samsung.com/
-[2] - https://lore.kernel.org/all/20250219140239.1378758-19-m.wilczynski@samsung.com/
-[3] - https://lore.kernel.org/all/20250414-apr_14_for_sending-v2-2-70c5af2af96c@samsung.com/
-
-> 
-> Thanks,
-> Drew
-> 
