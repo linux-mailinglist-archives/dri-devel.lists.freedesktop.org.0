@@ -2,75 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD3DA8B5C1
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 11:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79078A8B628
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 11:57:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EEC310E8BC;
-	Wed, 16 Apr 2025 09:41:39 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m9Xr+Qzd";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39C5410E03B;
+	Wed, 16 Apr 2025 09:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49D1010E8B9;
- Wed, 16 Apr 2025 09:41:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744796497; x=1776332497;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=AoNhNoPjPMwVxdK0S/wXtvG9FCv+5FT+NuSD7HNXUqM=;
- b=m9Xr+Qzdo6WFCyFKG/CrYJGHhaVNikoFWbmY6BBckBkKjbI8Dylt2ApB
- nY43pDds4fxrZLtHTfvaUb+Ly1AjDgiaohJQHZ7Qlu1qMsXXeyC3pQ+FK
- UtbRQLHQRgfGsOUyJsErUMPnLeHjwLUY1fniSln59fTGBWObVwTbd9ELI
- D5nJfneFkt2aWvgmWDUKw1otwwk9bwfC+vTMJvhT0g22oQ5wwGOODNANE
- yrJUenizkAiBJHebSCm0oxGidEnOK/gtsquY8IbvS8FrKCyOpSRr4vp0V
- wBnq/LWBTdDf599BqphrXJ+cicL1kDCP/RcHPLU1+ozLMeO92D9UdLqx7 A==;
-X-CSE-ConnectionGUID: ydjgwS8yRIi48ongaVa2WQ==
-X-CSE-MsgGUID: XgDapbD+QXKXSKnoeGx8og==
-X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="46469868"
-X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; d="scan'208";a="46469868"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2025 02:41:37 -0700
-X-CSE-ConnectionGUID: lPbXkUJqTEGp/PB5o3PQ1Q==
-X-CSE-MsgGUID: 0SlJYQCHRKiaWMv6fQqysA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; d="scan'208";a="134494528"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2025 02:41:32 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
- (envelope-from <andriy.shevchenko@intel.com>)
- id 1u4zGr-0000000CoME-2iHK; Wed, 16 Apr 2025 12:41:29 +0300
-Date: Wed, 16 Apr 2025 12:41:29 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
-Message-ID: <Z_97SbBwVp29MNzL@smile.fi.intel.com>
-References: <cover.1744789777.git.mchehab+huawei@kernel.org>
- <4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
- <87tt6opks7.fsf@intel.com> <20250416171917.0985c0eb@sal.lan>
- <20250416172901.60104103@sal.lan> <20250416173811.71c3c345@sal.lan>
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
+ [209.85.222.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63E2110E03B
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 09:57:42 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id
+ a1e0cc1a2514c-86c29c0acdfso2321618241.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 02:57:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744797461; x=1745402261;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ho208Ls7afq1DaxglhBlsTxce9BflgAJatinG20gBNk=;
+ b=Og5j3nFO+e7OKnRaFJwedK6bXGAn85vklm2fBdUsTHNUpPW4mgnSxHk4QpNy1dnWHG
+ 00bCdPa40k3ZyJMEISf9e/YHrrXtRYBqkdekn9kz2JcMyc6H0eWqzNdetuA5WgGvSsC1
+ GEdKIdWapprc9Tt8lRqD5qlKeSasZp5rN8WPjqNTTx6wXuw+DtWs7HUGAz5v6hMGW/A3
+ CF53wWnht28Lpc1MTRcByudXCxVMLt+AWQach8z6jqOKTHWAh4SkE/3tiwzOoZeTJ0al
+ DY5B2j3FHEW2LEQDi/NaXL+lJxycm+XZ56MWH1/6gqROYus4UFE3Ss4dqIA4OrS9Jt9b
+ Kgqg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXGntR+5m/kniYLCu18gkPL1e7SpEWhXEDwfuMvcESSNArN3QMfPtnegmowWSuIq3LYqd2oXephnkw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxdUhrD2+g4y9Xxd1+BroS7oWq9HCEe01gBJtnnj4gVblYWIWxt
+ fYDFz3vpcsEhfFzLXOykEW7T9b5P9FTIJ+mBIalmFRlTtl7KOSpqA4z7Et6y
+X-Gm-Gg: ASbGncv0Q2Vn4M+9d2MWzdRyErY15qkwes8nCalBOJhhTfAbe1hnnmHQZ6DPR90I5v1
+ O5tsg9kfsDGZ4dSPam4z2ISp1z2qf6sD5o98PDvycu5ihAgfYjtahc8zKlQkW/vI8yReh22wFQ/
+ VlfID2Z4grDW5u/JKPuRtHUIihJsEHp3CdtaCA8NMCao+xRnhGZLvxSzYnsY3hZ/5+NSL1iAH4+
+ RUQ8tJ+TiXKF982TsNYzTyp8dGuNS8WOyHEHGoaWFd+Mx8hr/4pLkJR4kreKD/zHhF/yy5vE0Vp
+ Z0pGZb/8jGz7yw1hqh1Kkg9Xh8AYPWyz31SrvLpFmFIMAZBG0kxSWxZ/3sZUtUC8LLYZZLkQ2Uv
+ mkyw=
+X-Google-Smtp-Source: AGHT+IFaJZrVxGdCZHq2JcJ/KLqf+sYy7MVXpxVsedbI0JZRVOM4Bcszagj9GPxTI9sIcTvCfoXudw==
+X-Received: by 2002:a67:f0cc:0:b0:4c1:8c7d:44ce with SMTP id
+ ada2fe7eead31-4cb591ba77amr307607137.1.1744797460784; 
+ Wed, 16 Apr 2025 02:57:40 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com.
+ [209.85.222.45]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-4c9c98ee4dcsm3004241137.30.2025.04.16.02.57.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Apr 2025 02:57:40 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id
+ a1e0cc1a2514c-86c29c0acdfso2321611241.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 02:57:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWY30bYrPugJm9GGN0k4w4J47tR71QHrYfFPNmmyiF9t+FBLdo585EUiWz8ITt3i2s8dkLDhgwCfnI=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:5e8f:b0:4bd:3519:44be with SMTP id
+ ada2fe7eead31-4cb5921580emr265747137.15.1744797460341; Wed, 16 Apr 2025
+ 02:57:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250416173811.71c3c345@sal.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250402131142.1270701-1-tommaso.merciai.xr@bp.renesas.com>
+ <20250402131142.1270701-3-tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20250402131142.1270701-3-tommaso.merciai.xr@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 16 Apr 2025 11:57:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX3W5N=__6CpyoQ6DAumoS=8p6Zcwbsn2H6e9PYKsn=dw@mail.gmail.com>
+X-Gm-Features: ATxdqUFRQ2wAxnSiubYaAZxSXiLAOnqb_ba0SYhUbUDUQXOzs-nV2UVFXRENq8U
+Message-ID: <CAMuHMdX3W5N=__6CpyoQ6DAumoS=8p6Zcwbsn2H6e9PYKsn=dw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] dt-bindings: gpu: mali-bifrost: Add compatible for
+ RZ/G3E SoC
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+ biju.das.jz@bp.renesas.com, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,21 +95,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 16, 2025 at 05:38:11PM +0800, Mauro Carvalho Chehab wrote:
-> Em Wed, 16 Apr 2025 17:29:01 +0800
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+On Wed, 2 Apr 2025 at 15:12, Tommaso Merciai
+<tommaso.merciai.xr@bp.renesas.com> wrote:
+> Add a compatible string for the Renesas RZ/G3E SoC variants that
+> include a Mali-G52 GPU. These variants share the same restrictions on
+> interrupts, clocks, and power domains as the RZ/G2L SoC, so extend
+> the existing schema validation accordingly.
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> Heh, trying to quickly write a patch before calling it a day is
-> usually not a good idea ;-)
-> 
-> I'll send a fix tomorrow.
+Gr{oetje,eeting}s,
 
-Take your time, we still have a couple or so weeks to address this.
-
--- 
-With Best Regards,
-Andy Shevchenko
+                        Geert
 
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
