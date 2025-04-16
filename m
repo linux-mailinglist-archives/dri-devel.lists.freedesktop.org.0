@@ -2,57 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB1BA8B083
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 08:40:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFECA8B085
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 08:40:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3196810E838;
-	Wed, 16 Apr 2025 06:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68AB810E83C;
+	Wed, 16 Apr 2025 06:40:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Q5t3UaES";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AX61dhHd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AECBB10E838
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 06:40:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1744785632; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=eTmXj77VL8/6yJFN1+igkgQ3sPq2W2Tmbj68wO8ykoK2L0nx+xZPdMQWOmIw710urIf1I/zxGQv5HIrpWF+c1rqwTfm7/o7Zbrb9CWUa/J3FuA8dkV9FUk02YdtcJcjX0iyPyKS0DwrOtTPbldIq/IY93UWlOjx7KRuoBrqwsLg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1744785632;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=uffOwbW3LdAp26GtV2I4IhwpSE1us9PuCoxMk1couMw=; 
- b=nyklYvpJ9mpz07gSxfU5835vL29AHjy53iQD3aFWFgffeGVheUItqrhrUbEvTNUgENhAxkzAp2m3K5sZC2DiObrgDSnmaxFufUbw4Ul4AiNGtLJP+pAZbF0PUnLDQgkjv6SonMZZKRPHq4ODhYkCu8grCYxJ8MPKN1s5JKeu/KQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744785632; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=uffOwbW3LdAp26GtV2I4IhwpSE1us9PuCoxMk1couMw=;
- b=Q5t3UaESd3qcGE4lwHsQMFxn2bfXUuoWD/bhC6KreVEyy2n2Aof0GVf8H2tPdJKn
- xkOm8s9BWCdvoTEyvTSIMkOfEC9g6LHxVsKxY7ET1rv7Wl2fd6pxDrHD6h0lz55oKLr
- LbZApORwtXUqrwDwh6zj5wmUA+ocUnq7gvq+wxZc=
-Received: by mx.zohomail.com with SMTPS id 1744785630740791.2279724986317;
- Tue, 15 Apr 2025 23:40:30 -0700 (PDT)
-Message-ID: <1589ec2d-1e25-4be8-a715-afa5704f61fb@collabora.com>
-Date: Wed, 16 Apr 2025 09:40:28 +0300
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7385210E83C
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 06:40:55 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-39129fc51f8so5548199f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Apr 2025 23:40:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744785653; x=1745390453; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aEmFT6yWrmKehIQNMRlgRGvQtqeeYxSOMZxf9NCxgf8=;
+ b=AX61dhHd6am6+e0gex4NJh1O8qIHaLnA/81nfTPj/euNIoQ3myqjSQjaSIKPCd4fmg
+ yp9GEOtYwNDSMqa/vGCgmecRRGRpD474Hl006qlaznptp2R+SFhYSIjGAYNU2S3SHeI8
+ sG6/aRlLcuc9JoZsb7rjke9RkBA8FX94hiePP8nU3qkq8F7Nb8O3m4s+JTq+rJ9T4yTG
+ QVsvkoR0iq1uHFYBC0TX3olhf1Ob+7pTpDIM3Q70FhMigJL0vxKVUTcNroyrJCYnkLHd
+ nO1Q7cOaeoxwsGYJnThKYFQfJm6/tehfs1csbSz+WdYQ6V0ih4rjgSRtbD5E7+Wkr7O2
+ LqYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744785653; x=1745390453;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aEmFT6yWrmKehIQNMRlgRGvQtqeeYxSOMZxf9NCxgf8=;
+ b=OUiG2YoF1HrFvsegWifIrqd+guswcQ3JbOnCTECd5uoi2sNaC9SVHB55vL7iM/F7iB
+ ii+IatZaY+qu1cGbZmu6EhSlbMa5B1sZEGgArrk8KS4gYXbZD7ok6/vD9qhuKgtGQ9ZE
+ hB/44zDOOjDWAFdOOxVodlT9Haph2JkY4jP40X/SiXriiVaF3zWH/ndxjJkpmUEIz/9X
+ 4MxQg/Sv+8IQOtJdH+wSM9FY2FFzV3M/HAHFWP0ZEUPqFANMHRVChU4wRmVLFHQ0pTem
+ 8lucN5AM0YoCtWxUZ36A0FIbOWXFpAwq56IOfADlAApqTmgD24i3HvvQ/k1izrQdYYen
+ FPHQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUl8CcQ+ZWJIeThV180f/JqYegLlaEttljrAXe7GB5gOhUCCQdkamu30mCy7fpVmNrvOGgiml1iKx4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzTxEnFKX75gjoWqPue6rCKZiVky9aBe2/3pXctlJZ4guXHcmgu
+ c+AR+BqICVxE/7BBHNkpbNBot5G8Yt8BPB1y6BdZ7VUFvXwcFz6IWuqbVfo6pdx29ON6sHOMWnT
+ Op2tjPabqlkjNbVwtHzF/eRNiBp8=
+X-Gm-Gg: ASbGncsFp3bhj3i13Xk4Ef4rStY3lGecUBcrzalWLGBQvUEZe/PCv06+pIW23b8bNPK
+ qmVABhYHhul6kURDb0Z8SjYNDo+gHFWNorc1v5YXEo3riSpqlvZsRgbqK5VStt7xM+YRr6fSTva
+ IRU/VDfFkGimi7K1UJip4f7H4=
+X-Google-Smtp-Source: AGHT+IG0GGjuLd2A2XpZtlHWtwnocPmbMlMmUK/NP5KwDhbBkAedNMcbby0dBOXrWK5djTbre5W/xlcioRBEZZNuSR4=
+X-Received: by 2002:a05:6000:400d:b0:39c:13f5:dba0 with SMTP id
+ ffacd0b85a97d-39ee5b16172mr618349f8f.13.1744785652710; Tue, 15 Apr 2025
+ 23:40:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/virtio: Use dma_buf from GEM object instance
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- gurchetansingh@chromium.org, olvaffe@gmail.com
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
-References: <20250414131507.566072-1-tzimmermann@suse.de>
- <20250414131507.566072-3-tzimmermann@suse.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250414131507.566072-3-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+References: <20250413112401.12543-1-clamor95@gmail.com>
+ <20250413112401.12543-2-clamor95@gmail.com>
+ <20250415215521.GA885658-robh@kernel.org>
+In-Reply-To: <20250415215521.GA885658-robh@kernel.org>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Wed, 16 Apr 2025 09:40:41 +0300
+X-Gm-Features: ATxdqUFN7UzyJuMMMzD1rwSyh7qBfatQVvF-TSiE9ixKB6cKNshecrhpPqTjrCQ
+Message-ID: <CAPVz0n0qTUqt+JEy0R4-=jJLgVRcNwwe0k2jTd=hcLxSoAFG_g@mail.gmail.com>
+Subject: Re: [PATCH v1 1/4] dt-bindings: display: panel: Document Renesas
+ R61307 based DSI panel
+To: Rob Herring <robh@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,42 +93,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/14/25 16:12, Thomas Zimmermann wrote:
-> Avoid dereferencing struct drm_gem_object.import_attach for the
-> imported dma-buf. The dma_buf field in the GEM object instance refers
-> to the same buffer. Prepares to make import_attach optional.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_prime.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> index ce49282198cb..1118a0250279 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> @@ -204,16 +204,15 @@ static void virtgpu_dma_buf_free_obj(struct drm_gem_object *obj)
->  {
->  	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
->  	struct virtio_gpu_device *vgdev = obj->dev->dev_private;
-> -	struct dma_buf_attachment *attach = obj->import_attach;
->  
->  	if (drm_gem_is_imported(obj)) {
-> -		struct dma_buf *dmabuf = attach->dmabuf;
-> +		struct dma_buf *dmabuf = obj->dma_buf;
->  
->  		dma_resv_lock(dmabuf->resv, NULL);
->  		virtgpu_dma_buf_unmap(bo);
->  		dma_resv_unlock(dmabuf->resv);
->  
-> -		dma_buf_detach(dmabuf, attach);
-> +		dma_buf_detach(dmabuf, obj->import_attach);
->  		dma_buf_put(dmabuf);
->  	}
->  
+=D1=81=D1=80, 16 =D0=BA=D0=B2=D1=96=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 00:5=
+5 Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Sun, Apr 13, 2025 at 02:23:58PM +0300, Svyatoslav Ryhel wrote:
+> > R61307 is liquid crystal driver for high-definition amorphous silicon
+> > (a-Si) panels and is ideal for tablets and smartphones.
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  .../display/panel/renesas,r61307.yaml         | 93 +++++++++++++++++++
+> >  1 file changed, 93 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/panel/ren=
+esas,r61307.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/panel/renesas,r6=
+1307.yaml b/Documentation/devicetree/bindings/display/panel/renesas,r61307.=
+yaml
+> > new file mode 100644
+> > index 000000000000..a98d2d2e02d2
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/panel/renesas,r61307.ya=
+ml
+> > @@ -0,0 +1,93 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/panel/renesas,r61307.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas R61307 based DSI Display Panel
+> > +
+> > +maintainers:
+> > +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> > +
+> > +description:
+> > +  The Renesas R61307 is a generic DSI Panel IC used to control LCD pan=
+els.
+> > +
+> > +allOf:
+> > +  - $ref: panel-common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +        # KOE/HITACHI TX13D100VM0EAA 5.0" XGA TFT LCD panel
+> > +      - hit,tx13d100vm0eaa
+> > +      - koe,tx13d100vm0eaa
+>
+> Usuually when the display IC is known, there's a fallback compatible for
+> it. Then 'renesas' vendor prefix on the properties makes more sense.
+>
 
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Acknowledged, thank you.
 
--- 
-Best regards,
-Dmitry
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  vcc-supply:
+> > +    description: Regulator for main power supply.
+> > +
+> > +  iovcc-supply:
+> > +    description: Regulator for 1.8V IO power supply.
+> > +
+> > +  backlight: true
+> > +
+> > +  renesas,gamma:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description:
+> > +      0 - disabled
+> > +      1-3 - gamma setting A presets
+> > +    enum: [0, 1, 2, 3]
+> > +
+> > +  renesas,inversion:
+> > +    type: boolean
+> > +    description: switch between line and column inversion. The line
+> > +      inversion is set by default.
+>
+> The property name is odd since there's always some sort of
+> inversion. Perhaps renesas,column-inversion?
+>
+
+Acknowledged, thank you.
+
+> > +
+> > +  renesas,contrast:
+> > +    type: boolean
+> > +    description: digital contrast adjustment
+>
+> I would have expected contrast to be more than boolean. Is this
+> something any a-Si panel would support or somehow Renesas specific?
+>
+
+ATM there is only one known set of commands regards digital contrast
+adjustment and it application is optional, hence bool. However, panel
+which my device uses refuses to work properly without this
+configuration applied. Since there is no specific programming guide
+regards this IC I cannot say for sure if this is panel specific or a
+Renesas IC feature. When/if there will be any additional data
+available this property can by adjusted or dropped.
+
+> > +
+> > +  reset-gpios: true
+> > +  port: true
+> > +
+> > +required:
+> > +  - compatible
+> > +  - port
+> > +  - backlight
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    dsi {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        panel@1 {
+> > +            compatible =3D "koe,tx13d100vm0eaa";
+> > +            reg =3D <1>;
+> > +
+> > +            reset-gpios =3D <&gpio 176 GPIO_ACTIVE_LOW>;
+> > +
+> > +            renesas,gamma =3D <3>;
+> > +            renesas,inversion;
+> > +            renesas,contrast;
+> > +
+> > +            vcc-supply =3D <&vcc_3v0_lcd>;
+> > +            iovcc-supply =3D <&iovcc_1v8_lcd>;
+> > +
+> > +            backlight =3D <&backlight>;
+> > +
+> > +            port {
+> > +                panel_in: endpoint {
+> > +                    remote-endpoint =3D <&dsi_out>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+> > --
+> > 2.43.0
+> >
