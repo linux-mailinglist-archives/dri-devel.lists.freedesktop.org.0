@@ -2,74 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173ECA90F1B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 01:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3F1A90F2B
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 01:09:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5857110E9DE;
-	Wed, 16 Apr 2025 23:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDF6C10E182;
+	Wed, 16 Apr 2025 23:09:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QPWyAUv6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kw8p+6vc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60B9210E9DC;
- Wed, 16 Apr 2025 23:03:41 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-2ff6b9a7f91so12293a91.3; 
- Wed, 16 Apr 2025 16:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744844621; x=1745449421; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7Ostym3POn+tDwNxEX6WFaI9UEXuL1OpvkJqy+12mMU=;
- b=QPWyAUv6eChZo6paN6cU1uxGjhyFWkuekaEkVZg5dyp8bhx9SsX/Eaj1lxKEP6AMWQ
- UpzUyyAn/oJP+/n8YTW7KiBP1eEwe/hGiOc898ennyOvqwLd79pmiB4Jk2ATZnzPfl/G
- tvJcYD+KHNb2sMbraYghQQymHkLk93QBLhya70f36XwmoniXbMBJwN/3Q9TYXsRPWmxZ
- Vgyw58Ud/yyRUvRG3QuYDFtUfamgHccnJ2IMp3tDkyQKBLaN8jN9TUY1VrDkv4OX3glp
- SKMB+2pKGhVzsBG7UY6IbLRSt3GRHpHadoIUCwD5Sd8bTQVn2GPDhwUn6AyhdgvBjfT0
- NXlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744844621; x=1745449421;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7Ostym3POn+tDwNxEX6WFaI9UEXuL1OpvkJqy+12mMU=;
- b=DAZAwmW8SyLfxZQVCySQWz8Tlo9txI/qvsVGK8N7zPnPKAyUaDx185ttlTZVIW18PC
- ygDUyUyEm0H27yeliULeaOcP7BoqOtovDQpL9SMGDR9IKWLoBbBScfvjSdNzKaMdjnc7
- qD1qOmSNCmgdZEokvtUAexgkFbxVsij599oN4oCw4fGRQd9ffFJ6/yZp4iUbKc3c0whZ
- cC/SNEAuyN4CF92upJQP6988PSWFuPJHATt5soX+xFpX5fzlms7jSGdM7T/oBwVFK287
- AQCyNhzr5H+Gv7FpnQLPL20VADree/c/2CmdrgoA49fERZBBsFVewspadMgMdymAOOxH
- /9hg==
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C6C010E182
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:08:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 0EFBBA4A860
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:03:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1291EC4CEEA
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 23:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744844938;
+ bh=wd1IBgg6IH1wIFugFyWcIertHrlNLO32GnVoMQLkSk8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=kw8p+6vclJXjKXxiCYPIes9gZX3alA8uhiel69rMMv+GIP+qz+uJTt5h1SgUpzzDE
+ o7An4BOKQClkv1yIYhAi7sVmo2XMblJ4q6wu7uE3ivEWi+CX6SIdvHdxB65DlPXQDk
+ VpqeY2ynSVg78TUJoOFWnTjb/xHq1MSbqpys2KKa5BU9NFBkPDDO2+zgdWkBHrmSaR
+ YlAMGVTKOx/QlJFLoqu18jznc1DGcxaMpbWo7UH4ubjKBKNeT7xBACZ3qnlTLskbq2
+ Q9GObPOGy0i2B+1WWaF02e8ZBLVsJUgZ+8nT7CU6jVtEClGJXJtkxQsH8ZdxBZ2EMW
+ xjo2xWeHH3SdA==
+Received: by mail-qk1-f180.google.com with SMTP id
+ af79cd13be357-7c5e1b40f68so14203085a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 16:08:58 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCW5LWr9H6OAh33S2nN0Q/rOcsacsSmaGNpHIcRjLKvF1A97+SFZvkVPVfxIvhTjx/ng62mFbmGJ@lists.freedesktop.org,
- AJvYcCWAMPfuyshCJ+mZ62rlxBizSYVUopE/aJK6EiGJZ11pJdZZbMU+dLV/7lEB7i9HjHXAEfXek8QRbUQk@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+cB2r7jEA11/zZxjE6nn0zg4dbJHk1Dq5ysvnsnRxMT9qBMnW
- +f0kHP3ERPCHfvj3+NZugEmM46cHyXz9wR/8/3zN9aKsr/w6lg6Eqp5XrRN8tEIuA5i5e6swbSY
- eELsaGNoFf9gt3at/J6mQm1s+EvI=
-X-Gm-Gg: ASbGnct5tfduzDW930Jx57IlzRtPnCO/HkEJiYv5TlaTpQHA16euedSXNI/SN+BqPHi
- DNmmG+1ULFWOxnyZhgyp+IhxglYBV7mz2WxGW1telTZZ2MsCAepyeoyeibrI7PTIk5FO7eSv+Cs
- ZAS277ga1tIeYinm8TOHYVVQ==
-X-Google-Smtp-Source: AGHT+IGOa4ocvRVCkDGhjbMq5SnR6XGbXrF8fWNqy1Gcvl7Bod2DV/rnRUCjS0bbLl2ieDH4Z8PBfpXOigf0ACktqxw=
-X-Received: by 2002:a17:90b:4d10:b0:301:ba2b:3bc6 with SMTP id
- 98e67ed59e1d1-3086eff2e34mr352727a91.7.1744844620624; Wed, 16 Apr 2025
- 16:03:40 -0700 (PDT)
+ AJvYcCXYpKko1+eKBum0oF2aE3IkOLhsOQhfB173fpLN3xH3veB2vql0iFbnCYXoUQQ6qtYu8CoVJ++ND7w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzrKsxaCb6N6YJyFCW0xCXg7HWb15n9l/eOGbJuxbgEWcF724Vl
+ qIVABoNd/r+0vHVtvZ88WXMO8g5spqFKMqQFsiy/rDLBfB/KpRuOXCoz5xBPLQhQjjmEV/YCIlO
+ koEd9dtJfqvY3kwFpOoOdEUFFYc4=
+X-Google-Smtp-Source: AGHT+IHWgsmg0r3kgSF5MEKuJ5L71ycj0wBS7HloLVITIcp/00ImA6inZqQ+8pwrlQqjny2Dy1k8gWo3S+omu6vD/NU=
+X-Received: by 2002:a05:620a:2585:b0:7c7:a606:5983 with SMTP id
+ af79cd13be357-7c918fce4bdmr546964585a.1.1744844937231; Wed, 16 Apr 2025
+ 16:08:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250415100813.3071-1-vulab@iscas.ac.cn>
-In-Reply-To: <20250415100813.3071-1-vulab@iscas.ac.cn>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 16 Apr 2025 19:03:28 -0400
-X-Gm-Features: ATxdqUEd4OqKI8joWPatylhXv_zR-usWlc3-Ve2lxUTvKTVa6YjnRqrkdZVOOlE
-Message-ID: <CADnq5_NiW9EmhEDCC1R=g7Q+DjjRxQGmQv6rLPk_9RZo3O=pfw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amd/pm/powerplay/smumgr/fiji_smumgr: Add error
- check in fiji_populate_smc_boot_level()
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: kenneth.feng@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com, 
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20250414225227.3642618-1-tjmercier@google.com>
+ <20250414225227.3642618-3-tjmercier@google.com>
+ <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
+ <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
+In-Reply-To: <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Wed, 16 Apr 2025 16:08:45 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
+X-Gm-Features: ATxdqUGXvprakmHZkoWk7DGzVzqbToydQxzYVEiON_q8fHz2r4Qn3y9LJI3zuo8
+Message-ID: <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+ daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+ skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+ simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+ jolsa@kernel.org, mykolal@fb.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,85 +81,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 15, 2025 at 6:23=E2=80=AFAM Wentao Liang <vulab@iscas.ac.cn> wr=
-ote:
+On Wed, Apr 16, 2025 at 3:51=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
+ wrote:
+[...]
+> >
+> > IIUC, the iterator simply traverses elements in a linked list. I feel i=
+t is
+> > an overkill to implement a new BPF iterator for it.
 >
-> The return value of fiji_populate_smc_boot_level() is needs to be checked=
-.
-> An error handling is also needed to phm_find_boot_level() to reset the
-> boot level when the function fails. A proper implementation can be found
-> in tonga_populate_smc_boot_level().
+> Like other BPF iterators such as kmem_cache_iter or task_iter.
+> Cgroup_iter iterates trees instead of lists. This is iterating over
+> kernel objects just like the docs say, "A BPF iterator is a type of
+> BPF program that allows users to iterate over specific types of kernel
+> objects". More complicated iteration should not be a requirement here.
 >
-> Fixes: dcaf3483ae46 ("drm/amd/pm/powerplay/smumgr/fiji_smumgr: Remove unu=
-sed variable 'result'")
-> Cc: stable@vger.kernel.org # v5.11+
+> > Maybe we simply
+> > use debugging tools like crash or drgn for this? The access with
+> > these tools will not be protected by the mutex. But from my personal
+> > experience, this is not a big issue for user space debugging tools.
+>
+> drgn is *way* too slow, and even if it weren't the dependencies for
+> running it aren't available. crash needs debug symbols which also
+> aren't available on user builds. This is not just for manual
+> debugging, it's for reporting memory use in production. Or anything
+> else someone might care to extract like attachment info or refcounts.
 
-I don't know that this is a fix per se so I don't think stable is appropria=
-te.
+Could you please share more information about the use cases and
+the time constraint here, and why drgn is too slow. Is most of the delay
+comes from parsing DWARF? This is mostly for my curiosity, because
+I have been thinking about using drgn to do some monitoring in
+production.
 
-This is probably ok, but TBH, I don't really remember how the pptables
-were set up on these old chips and whether changing the current
-behavior would actually fix or break anything.  I'd be more inclined
-to just leave the logic as is lest something break.
-
-
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
-> ---
-> v2: Fix error code.
->
->  .../drm/amd/pm/powerplay/smumgr/fiji_smumgr.c | 23 ++++++++++++++-----
->  1 file changed, 17 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c b/driv=
-ers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
-> index 5e43ad2b2956..78ba22f249b2 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
-> @@ -1600,19 +1600,30 @@ static int fiji_populate_smc_uvd_level(struct pp_=
-hwmgr *hwmgr,
->  static int fiji_populate_smc_boot_level(struct pp_hwmgr *hwmgr,
->                 struct SMU73_Discrete_DpmTable *table)
->  {
-> +       int result =3D 0;
->         struct smu7_hwmgr *data =3D (struct smu7_hwmgr *)(hwmgr->backend)=
-;
->
->         table->GraphicsBootLevel =3D 0;
->         table->MemoryBootLevel =3D 0;
->
->         /* find boot level from dpm table */
-> -       phm_find_boot_level(&(data->dpm_table.sclk_table),
-> -                           data->vbios_boot_state.sclk_bootup_value,
-> -                           (uint32_t *)&(table->GraphicsBootLevel));
-> +       result =3D phm_find_boot_level(&(data->dpm_table.sclk_table),
-> +                                    data->vbios_boot_state.sclk_bootup_v=
-alue,
-> +                                    (uint32_t *)&(table->GraphicsBootLev=
-el));
-> +       if (result !=3D 0) {
-> +               table->GraphicsBootLevel =3D 0;
-> +               pr_err("VBIOS did not find boot engine clock value in dep=
-endency table. Using Graphics DPM level 0!\n");
-> +               result =3D 0;
-> +       }
->
-> -       phm_find_boot_level(&(data->dpm_table.mclk_table),
-> -                           data->vbios_boot_state.mclk_bootup_value,
-> -                           (uint32_t *)&(table->MemoryBootLevel));
-> +       result =3D phm_find_boot_level(&(data->dpm_table.mclk_table),
-> +                                    data->vbios_boot_state.mclk_bootup_v=
-alue,
-> +                                    (uint32_t *)&(table->MemoryBootLevel=
-));
-> +       if (result !=3D 0) {
-> +               table->MemoryBootLevel =3D 0;
-> +               pr_err("VBIOS did not find boot engine clock value in dep=
-endency table. Using Memory DPM level 0!\n");
-> +               result =3D 0;
-> +       }
->
->         table->BootVddc  =3D data->vbios_boot_state.vddc_bootup_value *
->                         VOLTAGE_SCALE;
-> --
-> 2.42.0.windows.2
->
+Thanks,
+Song
