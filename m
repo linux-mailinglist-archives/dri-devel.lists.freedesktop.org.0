@@ -2,38 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334B9A8B579
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 11:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D885A8B586
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 11:36:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC6710E8AA;
-	Wed, 16 Apr 2025 09:34:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71C6F10E8B0;
+	Wed, 16 Apr 2025 09:36:16 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dCWjcyn8";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B9DE10E8AA
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 09:34:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id F1AD261567;
- Wed, 16 Apr 2025 09:33:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13589C4CEE9;
- Wed, 16 Apr 2025 09:34:07 +0000 (UTC)
-Date: Wed, 16 Apr 2025 10:34:05 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D90010E8B1;
+ Wed, 16 Apr 2025 09:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744796175; x=1776332175;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=SgispnRGiERs1+W7dul4dADQxU06rFDdSLdU3q+mB2I=;
+ b=dCWjcyn8unZsayboNJCe+BoNpmDmrwMNroKUlsVLK1NY7UJKyLtIlVnE
+ bFG0UugOSih2cnFl6P4Bo+3nB12lR766vQwtGWdNk3cSJuLvRrgITyKrH
+ 6gdCQcssJSnXIhDIWXJ0KT6Uo50uG3S07qevJdCPDW5itFrRPnCecRcLB
+ rzd+V3WfKg2JGjUddNVeceoos5dvpREHJD+FpHbWtvfyAZB0j9USvzTbj
+ scEosn5d3HmwnYKAyR4HsmSRF3neA8ucLPdorYMSLxloVATMaFlQYsGYr
+ w4wjJBvbcRJly9vxnemXTyfyqYXrRhTlXwRiVeQ1obfyXArAhvMy1XGX6 Q==;
+X-CSE-ConnectionGUID: 4rTGyhHnQfi8pTdKUCkReg==
+X-CSE-MsgGUID: UlNlJ4bOS8qGb/isnZ+Lqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="46496632"
+X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; d="scan'208";a="46496632"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2025 02:36:15 -0700
+X-CSE-ConnectionGUID: mTkNxxr4Qca0mpnG0U7HTg==
+X-CSE-MsgGUID: pmEeVo+zTE+6jbTbe8oO7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; d="scan'208";a="130360013"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2025 02:36:10 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+ (envelope-from <andriy.shevchenko@intel.com>)
+ id 1u4zBe-0000000CoGG-4B1K; Wed, 16 Apr 2025 12:36:06 +0300
+Date: Wed, 16 Apr 2025 12:36:06 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2] drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()
-Message-ID: <Z_95jWM2YMTGy3pi@arm.com>
-References: <20250220132537.2834168-1-mripard@kernel.org>
+ Masahiro Yamada <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
+Message-ID: <Z_96BpMMOzcotJqI@smile.fi.intel.com>
+References: <cover.1744789777.git.mchehab+huawei@kernel.org>
+ <4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
+ <87tt6opks7.fsf@intel.com> <20250416171917.0985c0eb@sal.lan>
+ <20250416172901.60104103@sal.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250220132537.2834168-1-mripard@kernel.org>
+In-Reply-To: <20250416172901.60104103@sal.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,108 +86,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Wed, Apr 16, 2025 at 05:29:01PM +0800, Mauro Carvalho Chehab wrote:
+> Em Wed, 16 Apr 2025 17:19:17 +0800
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> > Em Wed, 16 Apr 2025 11:34:16 +0300
+> > Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+> > > On Wed, 16 Apr 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-On Thu, Feb 20, 2025 at 02:25:37PM +0100, Maxime Ripard wrote:
-> lockdep complains when a lock is released in a separate thread the
-> lock is taken in, and it turns out that kunit does run its actions in a
-> separate thread than the test ran in.
+...
+
+> > > >  quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
+> > > >        cmd_hdrtest = \
+> > > >  		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
+> > > > -		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
+> > > > +		 PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \  
+> > > 
+> > > KERNELDOC is not set here.
+> > 
+> > > 
+> > > /bin/sh: 1: -none: not found
+> > 
+> > Weird. This is set on Documentation/Makefile:
+> > 
+> > 	$ grep KERNELDOC Documentation/Makefile 
+> > 	KERNELDOC       = $(srctree)/scripts/kernel-doc.py
+> > 	...
+> > 
+> > drivers/gpu/drm/Makefile should be able to see this variable there...
 > 
-> This means that drm_kunit_helper_acquire_ctx_alloc() just cannot work as
-> it's supposed to, so let's just get rid of it.
+> I suspect that the building system tries to confine variables to
+> sub-directories, so maybe one solution would be to move it to the
+> main makefile.
 > 
-> Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> could you please check if this patch solves the issue?
+> 
+> [PATCH] Makefile: move KERNELDOC macro to the main Makefile
+> 
+> As kernel-doc script is used not only on Documentation, but
+> also on scripts and drivers/drm Makefiles, move it to the
+> main makefile, as otherwise sub-makefiles may not have it.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index c022b97c487e..7a2069e87dbd 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -60,7 +60,6 @@ endif #HAVE_LATEXMK
+>  # Internal variables.
+>  PAPEROPT_a4     = -D latex_paper_size=a4
+>  PAPEROPT_letter = -D latex_paper_size=letter
+> -KERNELDOC       = $(srctree)/scripts/kernel-doc.py
+>  KERNELDOC_CONF  = -D kerneldoc_srctree=$(srctree) -D kerneldoc_bin=$(KERNELDOC)
 
-My scripts for running all possible kunit tests (under arm64 qemu)
-started failing with 6.15-rc1. I bisected it to commit 30188df0c387
-("drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()"). No idea
-whether it fails on other architectures but it's fairly easy to
-reproduce on arm64. Starting from defconfig, enable CONFIG_KUNIT=m and
-CONFIG_DRM_VC4_KUNIT_TEST=m, build the kernel with gcc. Once a prompt is
-reached, "modprobe vc4" and the most noticeable thing is the kernel
-panic with stack protector enabled (by default on arm64):
+In this case the _CONF makes sense to move together as they are coupled
+semantically.
 
-  Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: drm_vc4_test_pv_muxing+0x2a4/0x2a4 [vc4]
-  CPU: 14 UID: 0 PID: 311 Comm: kunit_try_catch Tainted: G        W        N  6.15.0-rc2 #1 PREEMPT
-  Tainted: [W]=WARN, [N]=TEST
-  Hardware name: QEMU KVM Virtual Machine, BIOS 2024.08-4 10/25/2024
-  Call trace:
-   show_stack+0x18/0x24 (C)
-   dump_stack_lvl+0x60/0x80
-   dump_stack+0x18/0x24
-   panic+0x168/0x360
-   __ktime_get_real_seconds+0x0/0x20
-   vc4_test_pv_muxing_gen_params+0x0/0x94 [vc4]
-   kunit_try_run_case+0x6c/0x160 [kunit]
-   kunit_generic_run_threadfn_adapter+0x28/0x4c [kunit]
-   kthread+0x12c/0x204
-   ret_from_fork+0x10/0x20
-  SMP: stopping secondary CPUs
-  Kernel Offset: 0x431a85f00000 from 0xffff800080000000
-  PHYS_OFFSET: 0xfff0e8f3c0000000
-  CPU features: 0x0002,00000268,01002640,82004203
-  Memory Limit: none
-  ---[ end Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: drm_vc4_test_pv_muxing+0x2a4/0x2a4 [vc4] ]---
-
-Scrolling through the log, I also get a lot of warnings before the
-panic:
-
-  WARNING: CPU: 14 PID: 311 at drivers/gpu/drm/drm_modeset_lock.c:296 drm_modeset_lock+0xbc/0xfc [drm]
-  Modules linked in: vc4 snd_soc_hdmi_codec drm_kunit_helpers drm_exec cec drm_display_helper drm_client_lib drm_dma_helper kunit drm_kms_helper drm backlight dm_mod ip_tables x_tables ipv6
-  CPU: 14 UID: 0 PID: 311 Comm: kunit_try_catch Tainted: G        W        N  6.15.0-rc2 #1 PREEMPT
-  Tainted: [W]=WARN, [N]=TEST
-  Hardware name: QEMU KVM Virtual Machine, BIOS 2024.08-4 10/25/2024
-  pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-  pc : drm_modeset_lock+0xbc/0xfc [drm]
-  lr : drm_atomic_get_private_obj_state+0x78/0x180 [drm]
-  sp : ffff800080b0bbd0
-  x29: ffff800080b0bbd0 x28: 0000000000000004 x27: ffff170d4829a480
-  x26: ffff170d42968000 x25: ffff170d4829a480 x24: ffff170d40eaf540
-  x23: 0000000000000038 x22: ffff170d42964400 x21: ffff170d4829a480
-  x20: ffff170d42968958 x19: ffff800080b0bd58 x18: 00000000ffffffff
-  x17: 0000000000000000 x16: ffffc31b065888a0 x15: 0000000000000000
-  x14: 0000000000000040 x13: 01e0000002800280 x12: 0000000000000000
-  x11: 0000000000000000 x10: 000001e001e001e0 x9 : 0000000000000020
-  x8 : ffff170d40b70148 x7 : 0000000000000021 x6 : 0000000000000fdf
-  x5 : 0000000000000fdf x4 : 0000000000000004 x3 : ffff170d429688f0
-  x2 : ffff170d40eaf540 x1 : 0000000000000000 x0 : ffff800080b0be10
-  Call trace:
-   drm_modeset_lock+0xbc/0xfc [drm] (P)
-   drm_atomic_get_private_obj_state+0x78/0x180 [drm]
-   vc4_atomic_check+0x47c/0x754 [vc4]
-   drm_atomic_check_only+0x4d4/0x914 [drm]
-   drm_vc4_test_pv_muxing+0xe0/0x2a4 [vc4]
-   kunit_try_run_case+0x6c/0x160 [kunit]
-   kunit_generic_run_threadfn_adapter+0x28/0x4c [kunit]
-   kthread+0x12c/0x204
-   ret_from_fork+0x10/0x20
-
-Reverting the above commit makes these go away. I did not have time to
-look deeper, I thought I'd report it here first.
-
-The panic is with gcc 14.2.0 from Debian unstable. I tried with gcc
-12.2.0 in Debian stable and I don't get the stack protector panic, only
-the lock warnings.
-
-With clang 14 and 19, I get NULL pointer dereferences with this call
-trace (decoded):
-
-  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
-  [...]
-  drm_modeset_lock (include/linux/list.h:153 include/linux/list.h:169 drivers/gpu/drm/drm_modeset_lock.c:318 drivers/gpu/drm/drm_modeset_lock.c:396) drm (P)
-  drm_atomic_get_connector_state (drm.mod.c:?) drm
-  vc4_mock_atomic_add_output (drivers/gpu/drm/vc4/tests/vc4_mock_output.c:?) vc4
-  drm_vc4_test_pv_muxing (drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c:688) vc4
-  kunit_try_run_case (lib/kunit/test.c:400) kunit
-  kunit_generic_run_threadfn_adapter (lib/kunit/try-catch.c:31) kunit
-  kthread (kernel/kthread.c:466)
-  ret_from_fork (arch/arm64/kernel/entry.S:863)
-
-I can run more tests if you'd like, decode the stack traces.
-
-Thanks.
+>  ALLSPHINXOPTS   =  $(KERNELDOC_CONF) $(PAPEROPT_$(PAPER)) $(SPHINXOPTS)
+>  ifneq ($(wildcard $(srctree)/.config),)
+> diff --git a/Makefile b/Makefile
+> index 38689a0c3605..c8e46f0c1f63 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -458,6 +458,8 @@ endif
+>  HOSTRUSTC = rustc
+>  HOSTPKG_CONFIG	= pkg-config
+>  
+> +KERNELDOC       = $(srctree)/scripts/kernel-doc.py
+> +
+>  KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+>  			 -O2 -fomit-frame-pointer -std=gnu11
+>  KBUILD_USERCFLAGS  := $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
 
 -- 
-Catalin
+With Best Regards,
+Andy Shevchenko
+
+
