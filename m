@@ -2,74 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614B4A9080A
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 17:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10F1A90876
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 18:15:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C841710E288;
-	Wed, 16 Apr 2025 15:53:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC6610E098;
+	Wed, 16 Apr 2025 16:15:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XjuklmSS";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="FDBJK4PE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2267410E098;
- Wed, 16 Apr 2025 15:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744818831;
- bh=d3ascWmgwCjDdKF7Rv9hEXGBvid3nn8R25VA7/of4y4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=XjuklmSSMWb8f2alezh08Ldt4g5rqxjf+AGgxjjfS+XdbULbosf7K+5q3PCNa9o/O
- VWR5434Qe28ts0CgMO9yBRz8fkAbztcmutusB5/3/Q2CPfLo8WL0d3vncfIA4pAnNc
- 1YP/Y2gpPoIh5r/Yr4RtlxIyBOCEMTgQXu1qykGbj0zYfvSC4dT8IZyuKqODb9L2S7
- y14bWLLOT0QRyPt9cbIMcC92YXtaZWUPc/EluF09PQuHXytZj5oakmggsHzVLNzxpj
- Y2kvpLlkrzaczg2j6DyM+6ittdt97IVInZqWmPnMcvw+RLkOT15KnEVP6yqaJCjXC7
- wOv4hmJwpoO4A==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9F7A117E0062;
- Wed, 16 Apr 2025 17:53:50 +0200 (CEST)
-Date: Wed, 16 Apr 2025 17:53:45 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Alyssa
- Rosenzweig <alyssa@rosenzweig.io>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
- lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, kernel@collabora.com,
- Faith Ekstrand <faith.ekstrand@collabora.com>
-Subject: Re: [PATCH v3 0/8] drm: Introduce sparse GEM shmem
-Message-ID: <20250416175345.4a25abef@collabora.com>
-In-Reply-To: <3c85fd64-2e09-49ca-af45-fd4fcf3c0d7a@arm.com>
-References: <20250404092634.2968115-1-boris.brezillon@collabora.com>
- <20250410164809.21109cbc@collabora.com>
- <d4ebcb9f-ca1e-40ae-bc3c-613f88552b94@amd.com>
- <20250410175349.6bf6a4ea@collabora.com>
- <d0ab2ffe-77ee-4bda-b127-8648acb71409@amd.com>
- <20250410192054.24a592a5@collabora.com> <Z_gHX5AqQkhbXOjd@blossom>
- <20250410204155.55d5cfc7@collabora.com>
- <4d47cb90-8ed4-4a69-bd91-b90ebd2c9aca@amd.com>
- <20250411103837.753cd92e@collabora.com>
- <9fd6fb8c-7dbb-467d-a759-eec852e1f006@amd.com>
- <20250411140254.042f9862@collabora.com>
- <73a28f35-9576-4089-8976-07cd1aa64432@amd.com>
- <20250411150056.62cb7042@collabora.com>
- <c15cef68-bab5-4e09-89ae-52266ab1e4dd@amd.com>
- <20250411163902.1d0db9da@collabora.com>
- <20250414144714.6372738b@collabora.com>
- <1b9b8795-5f5c-4831-ad6b-29b88f21b621@arm.com>
- <20250415114747.5f65db54@collabora.com>
- <3c85fd64-2e09-49ca-af45-fd4fcf3c0d7a@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38BEA10E098
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 16:14:56 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id
+ d2e1a72fcca58-7376dd56f8fso8821855b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 09:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1744820094; x=1745424894;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=93lYrXJcXYYRNRseEFWo6L1+f89BOQ0v4i7jBvitfWo=;
+ b=FDBJK4PEQMbvPqoF2H9neUmDZ2xiwTtBDbC8Dg7zqF2pZmy6g+1S6KNq/cj9al/5SY
+ saASwLMdJDoPbFcAH/MPgSKnhel+GMHRg5uZw9gBcuXopG6XsxJ7faFl70xMr2Xjp/A+
+ 0rmOLf+v8GdQMzARlBC7yCrQDn5RtH+rXHne0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744820094; x=1745424894;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=93lYrXJcXYYRNRseEFWo6L1+f89BOQ0v4i7jBvitfWo=;
+ b=YvjUgiDVP2dAvztVf0Fbi+UZUqcSq6gdJ0e8zYDLz1+RNgKTfYlM+hn4IKqbnWkCcT
+ PFInojQSIiIdRcQW1aOTu96crK8423akW1TvqPL3hKDEOLqmJuJmnicAn372VM74cchs
+ OZjFGnKg4OfLEIFcRBVT+/P0ABcS1TOHxA4ceB1LV+XxFlunHOKskBV8t3e0RuAWFBXX
+ c9t1Oiqv5HLPqt1I5EQ5yiqnitZOGRczw8pCkrx5AXR8SryjD/bxRp73ThrVNDMIDDOh
+ hN/JoGTBv5HHLF63DrOAR/08nuClj0ukQUpRnAb/mb1Y8k1OgNjZ9XBREuVBNUBZTKyL
+ EyUg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0uIfMqSZSFDQBDIItSG9/CiLhfaisDCerfqcQ0vIBxd8aHMgcf4ahlVusfYvDMxvN+tEWRD9jZvs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDegncMBN+SfMo9tGpYIPhOgvXGbCJ+mUhWrdjt3aiM2azWWQn
+ tTs+/kcNQH4oN0yephKL9UP6aosv5WjFEUgzcv+9d1QJI0kmw3I1gHFEXnO8vlSlEon9iFsVzeE
+ =
+X-Gm-Gg: ASbGncuXsVitwR3cscjuwvbivADgwGphSuQo6+w31Cd65Ose3Ems9l8h/FzWOfC/hWP
+ 4uYlgGDuhja5vjJafzPKyERIxY9DpuqGMIxZnnYexoNn5nrzUnSh3+csrTb65j6BhQNSk3Rkws9
+ YkIaiN9ix8qW6JNgoZzB0kACjnUFsNvIUacpmVt1glv6efDh7V3NLcz3LWoXoxz+9oxT+U9F4hY
+ tdQRNJl3+gH9CBJosvY42If0Mxy4MXsKJk+zLuTOPPMTDtL2wPlVQnQewX89pYcsnAp2bS3w4OW
+ jbS6cp1pyIhk0C4QYvgwW+i7VUdgjHqOGHErLX+SAeIdtCxmSzLYtJejRewCD9bd5zr5/yyWUEw
+ K+AiqdJO9
+X-Google-Smtp-Source: AGHT+IHBbnSKW12RcHr6dYdEEcxe30jRNdy2B01sRlDNOru1ZmnUKAGJEJAXJoHvZ0XV+XlaBGgYHA==
+X-Received: by 2002:a05:6a00:3cc2:b0:730:97a6:f04 with SMTP id
+ d2e1a72fcca58-73c266e73d9mr3381944b3a.7.1744820094127; 
+ Wed, 16 Apr 2025 09:14:54 -0700 (PDT)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com.
+ [209.85.215.173]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-73bd230da35sm10953414b3a.131.2025.04.16.09.14.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Apr 2025 09:14:51 -0700 (PDT)
+Received: by mail-pg1-f173.google.com with SMTP id
+ 41be03b00d2f7-af9a7717163so7209856a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 09:14:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUR85+Kmma3cyMywv/QIPdpOZa80o1gMi01E0xL4l0c8Gf7MqfBYO1tJ0VfhUDsjGKvNuBBDVJt49w=@lists.freedesktop.org
+X-Received: by 2002:a17:90b:2e10:b0:2ee:e945:5355 with SMTP id
+ 98e67ed59e1d1-30863f30453mr3359259a91.19.1744820090455; Wed, 16 Apr 2025
+ 09:14:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250413035959.255842-1-tejasvipin76@gmail.com>
+In-Reply-To: <20250413035959.255842-1-tejasvipin76@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 16 Apr 2025 09:14:38 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WaX8s2aPi3V8SfHd0i=+9kMbF83dnO-e7P6CZQ8-iEAA@mail.gmail.com>
+X-Gm-Features: ATxdqUFM_zF8N6Cjd3iCDu5vqV251aCLSHWtDUzz5VJNje7onq9bV0FbWP6jAQQ
+Message-ID: <CAD=FV=WaX8s2aPi3V8SfHd0i=+9kMbF83dnO-e7P6CZQ8-iEAA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/panel: boe-bf060y8m-aj0: transition to mipi_dsi
+ wrapped functions
+To: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, asrivats@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,209 +102,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 16 Apr 2025 16:16:05 +0100
-Steven Price <steven.price@arm.com> wrote:
+Hi,
 
-> On 15/04/2025 10:47, Boris Brezillon wrote:
-> > On Mon, 14 Apr 2025 16:34:35 +0100
-> > Steven Price <steven.price@arm.com> wrote:
-> >  =20
-> >> On 14/04/2025 13:47, Boris Brezillon wrote: =20
-> >>> On Fri, 11 Apr 2025 16:39:02 +0200
-> >>> Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> >>>    =20
-> >>>> On Fri, 11 Apr 2025 15:13:26 +0200
-> >>>> Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> >>>>   =20
-> >>>>>>       =20
-> >>>>>>> Background is that you don't get a crash, nor error message, nor
-> >>>>>>> anything indicating what is happening.       =20
-> >>>>>> The job times out at some point, but we might get stuck in the fau=
-lt
-> >>>>>> handler waiting for memory, which is pretty close to a deadlock, I
-> >>>>>> suspect.       =20
-> >>>>>
-> >>>>> I don't know those drivers that well, but at least for amdgpu the
-> >>>>> problem would be that the timeout handling would need to grab some =
-of
-> >>>>> the locks the memory management is holding waiting for the timeout
-> >>>>> handling to do something....
-> >>>>>
-> >>>>> So that basically perfectly closes the circle. With a bit of lock y=
-ou
-> >>>>> get a message after some time that the kernel is stuck, but since
-> >>>>> that are all sleeping locks I strongly doubt so.
-> >>>>>
-> >>>>> As immediately action please provide patches which changes those
-> >>>>> GFP_KERNEL into GFP_NOWAIT.     =20
-> >>>>
-> >>>> Sure, I can do that.   =20
-> >>>
-> >>> Hm, I might have been too prompt at claiming this was doable. In
-> >>> practice, doing that might regress Lima and Panfrost in situations
-> >>> where trying harder than GFP_NOWAIT would free up some memory. Not
-> >>> saying this was right to use GFP_KERNEL in the first place, but some
-> >>> expectations were set by this original mistake, so I'll probably need
-> >>> Lima developers to vouch in for this change after they've done some
-> >>> testing on a system under high memory pressure, and I'd need to do the
-> >>> same kind of testing for Panfrost and ask Steve if he's okay with that
-> >>> too.   =20
-> >>
-> >> It's a tricky one. The ideal would be to teach user space how to recov=
-er
-> >> from the memory allocation failure (even on older GPUs it's still in
-> >> theory possible to break up the work and do incremental rendering). But
-> >> that ship sailed long ago so this would be a regression.
-> >>
-> >> I did consider GFP_ATOMIC as an option, but really we shouldn't be
-> >> accessing "memory reserves" in such a situation.
-> >>
-> >> For background: In the "kbase" driver (Linux kernel driver for the
-> >> closed source user space 'DDK' driver for Midgard/Bifrost GPUs) we had=
- a
-> >> "JIT memory allocator". The idea here was that if you have multiple
-> >> renderings in flight you can attempt to share the tiler heap memory
-> >> between them. So in this case when we can't allocate more memory and we
-> >> know there's another tiler heap which is going to be freed by a fragme=
-nt
-> >> job that's already running, we can block knowing the memory is going to
-> >> become available.
-> >>
-> >> It was designed to do the same thing as CSF's incremental rendering -
-> >> allow us to opportunistically allocate memory but not fail the renderi=
-ng
-> >> if it wasn't available.
-> >>
-> >> But it was a nightmare to have any confidence of it being deadlock free
-> >> and the implementation was frankly terrible - which is ultimately why
-> >> CSF GPU's have this ability in hardware to perform incremental renderi=
-ng
-> >> without failing the job. But effectively this approach requires
-> >> allocating just enough memory for one complete tiler heap while ensuri=
-ng
-> >> forward progress and opportunistically allowing extra memory to give a
-> >> performance boost.
-> >>
-> >> TLDR; I think we should try switching to GFP_NOWAIT in Panfrost and do
-> >> some testing with memory pressure. It might be acceptable (and an
-> >> occasional job failure is better than an occasional lock up). If it
-> >> turns out it's too easy to trigger job failures like this then we'll
-> >> need to rethink. =20
-> >=20
-> > I thought about this incremental-rendering-on-JM thing during the past
-> > few days, and I'd like to run one idea through you if you don't mind.
-> > What if we tried to implement incremental rendering the way it's done
-> > for CSF, that is, when we get a fault on a tiler heap object we: =20
->=20
-> CSF adds the ability for the command stream to make decisions between
-> 'jobs'. kbase has the concept of 'soft jobs' allowing the kernel to do
-> actions between jobs. I fear to make this work we'd need something
-> similar - see below.
->=20
-> > 1. flush caches on the tiler heap range (with a FLUSH_MEM command on the
-> >    faulty AS), such that any primitive data that have been queued so far
-> >    get pushed to the memory =20
->=20
-> So I'm not entirely sure whether you are proposing doing this on the
-> back of a MMU fault or not. Doing a FLUSH_MEM while the tiler is waiting
-> for a memory fault to be resolved is unlikely to work (it won't flush
-> the tiler's internal caches). The tiler is a very complex beast and has
-> some elaborate caches. We don't support soft-stopping tiler jobs (they
-> just run to completion) because the H/W guys could never figure out how
-> to safely stop the tiler - so I very much doubt we can deal with the
-> half-completed state of the tiler.
->=20
-> > 2. use a different AS for an IR (Increment Rendering) fragment job that
-> >    have been provided by the UMD at submission time, just like the
-> >    CSF backend of the UMD registers an exception handler for tiler OOMs
-> >    at the moment. =20
->=20
-> It's an interesting idea - I worry about internal deadlocks within the
-> GPU. There's some magic which ties vertex processing and the tiler
-> together, and I'm not sure whether a hung tiler job could lead to hung
-> vertex tasks on the shader cores. But it's possible my worries are
-> unfounded.
->=20
-> >    Make it so this IR fragment job chain is queued immediately after the
-> >    currently running fragment job (if any). This IR fragment job should
-> >    consume all the primitives written so far and push the result to a
-> >    framebuffer. There's a bit of patching to do on the final
-> >    fragment job chain, because the FB preload setup will differ if
-> >    IR took place, but that should be doable with simple WRITE_VALUE jobs
-> >    turning NULL jobs into FRAGMENT jobs (or the other way around)
-> >    such that they get skipped/activated depending on whether IR took
-> >    place or not. =20
->=20
-> You're probably more of an expert than me on that part - it certainly
-> sounds plausible.
->=20
-> > 3. collect pages covering consumed primitives and make the heap range
-> >    covering those consumed pages fault on further accesses (basically
-> >    iommu->unmap() the section we collected pages from). We probably
-> >    need to keep a couple pages around the top/bottom tiler heap
-> >    pointers, because some partially written primitives might be crossing
-> >    a heap chunk boundary, but assuming our heap has more than 4 chunks
-> >    available (which we can ensure at tiler heap allocation time), we
-> >    should be good. =20
->=20
-> I'm not sure if it's sufficient to keep the last 'n' chunks. But at
-> least in theory it should be possible to identify chunks that are still
-> active.
->=20
-> > 4. use one of the collected pages to satisfy the growing request, and
-> >    acknowledge the fault on the faulty AS. We can pick from the pool
-> >    of collected pages to satisfy new growing requests until it's
-> >    depleted again.
-> >=20
-> > 5. repeat steps 1-4 until all primitives are flushed. =20
->=20
-> Running the IR fragment jobs from part way through the tiler heap on
-> subsequent renderings could be tricky - I'm not sure if we have a way of
-> doing that?
->=20
-> > 6. reset the tiler heap mapping by doing an iommu->unmap() on the whole
-> >    heap BO range, and collect all the pages that were previously
-> >    allocated to the heap such that the next allocation can be satisfied
-> >    immediately
-> >=20
-> > Of course, this only works if primitives are added to the list only
-> > when they are fully written (that is, all data for the primitive has
-> > been written, and the primitive can be consumed by the fragment job
-> > without hazards). =20
->=20
-> Yeah, the hardware certainly wasn't designed for this ;)
->=20
-> The H/W designers approach is simple:
->=20
->  1. Submit vertex/tiler job with small tiler heap
->=20
->  2. Job fails with OUT_OF_MEMORY, capture index of last completed vertex
->     which is written to the job descriptor
->=20
->  3. Submit fragment job to incrementally render.
->=20
->  4. Submit new vertex/tiler job using the index captured in step 2.
->=20
->  5. Loop back to 2.
->=20
-> The problem from an implementation point of view is either you give up
-> on fences (bounce back to user space between each step), or you need
-> start writing job descriptors in the kernel.
->=20
-> Clearly one option is to go the whole hog and have something looking
-> like the CSF firmware running in the kernel. It's not a popular option
-> though! ;)
->=20
-> > Just to be clear, this is a long term plan to try and fix this on JM
-> > HW, and given the changes it involves (UMD needs to be taught about IR
-> > on JM), we'll still need the GFP_NOWAIT fix for the time being. =20
->=20
-> Agreed, and I like the ingenuity of it - but having seen the H/W team
-> give up on soft-stopping the tiler I'm not convinced it will work
-> leaving the tiler waiting on an MMU fault.
+On Sat, Apr 12, 2025 at 9:00=E2=80=AFPM Tejas Vipin <tejasvipin76@gmail.com=
+> wrote:
+>
+> Changes the boe-bf060y8m-aj0 panel to use multi style functions for
+> improved error handling. Additionally the MIPI_DSI_MODE_LPM flag is set
+> after the off commands are run in boe_bf060y8m_aj0_off regardless of any
+> failures, and regulators are disabled if the boe_bf060y8m_aj0_on call in
+> boe_bf060y8m_aj0_prepare fails.
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> ---
+> Changes in v3:
+>     - Disable regulators in boe_bf060y8m_aj0_prepare if
+>       boe_bf060y8m_aj0_on fails.
+> Changes in v2:
+>     - Always set MIPI_DSI_MODE_LPM in boe_bf060y8m_aj0_off
+>
+> Link to v2: https://lore.kernel.org/all/20250331061838.167781-1-tejasvipi=
+n76@gmail.com/
+> Link to v1: https://lore.kernel.org/all/20250330151304.128417-1-tejasvipi=
+n76@gmail.com/
+> ---
+>  .../gpu/drm/panel/panel-boe-bf060y8m-aj0.c    | 114 +++++++-----------
+>  1 file changed, 44 insertions(+), 70 deletions(-)
 
-Yeah, looking at the answers you gave, it doesn't sounds like this is
-going to work, but thanks for taking the time to look at my crazy idea
-:-).
+Pushed to drm-misc-next.
 
-Boris
+[1/1] drm/panel: boe-bf060y8m-aj0: transition to mipi_dsi wrapped functions
+      commit: 734b6f10506c726dc6be23e0ba63ab0310580aa6
