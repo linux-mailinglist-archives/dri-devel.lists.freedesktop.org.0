@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F3E8A8B079
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 08:40:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB1BA8B083
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 08:40:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ECA010E221;
-	Wed, 16 Apr 2025 06:39:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3196810E838;
+	Wed, 16 Apr 2025 06:40:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="WxL/T7L3";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Q5t3UaES";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3CF10E221
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 06:39:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1744785585; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AECBB10E838
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 06:40:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1744785632; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=bt2CWvj64KWcWSE++d+xgGjEUvh0qiR5be8lRv3/tEblZZJhMz+JQnH4ptcSUMG7EHtsLeXPoObAG7Krdd3iSGkNBPfDqYmj9kufkgrnPcydcWDovKlPL7/kYur6xAkGzIQBG6Au1SJkE9cvueBXqgpzrKyuWwxs6MmTCK439Zs=
+ b=eTmXj77VL8/6yJFN1+igkgQ3sPq2W2Tmbj68wO8ykoK2L0nx+xZPdMQWOmIw710urIf1I/zxGQv5HIrpWF+c1rqwTfm7/o7Zbrb9CWUa/J3FuA8dkV9FUk02YdtcJcjX0iyPyKS0DwrOtTPbldIq/IY93UWlOjx7KRuoBrqwsLg=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1744785585;
+ s=zohoarc; t=1744785632;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=U5r6UGX9U8OpHABbRYUo1I7CyHAcCaMHqioe6LVZ+R8=; 
- b=HKa+pQ3IJqxg4NCzNrt7wC4kl0LsR303wQ1ummMbQyJ4y/nSDccWTX/dnxcC5v0MEWLnu/5pXZPtRzlelrhOHy2lE91qVI/Q8Xrqem3Tbw+asdks23IfevthdFnnJptFgudG2dv0ckXUTc8EC774TiWY/U0rI/goRXOHVao0l7A=
+ bh=uffOwbW3LdAp26GtV2I4IhwpSE1us9PuCoxMk1couMw=; 
+ b=nyklYvpJ9mpz07gSxfU5835vL29AHjy53iQD3aFWFgffeGVheUItqrhrUbEvTNUgENhAxkzAp2m3K5sZC2DiObrgDSnmaxFufUbw4Ul4AiNGtLJP+pAZbF0PUnLDQgkjv6SonMZZKRPHq4ODhYkCu8grCYxJ8MPKN1s5JKeu/KQ=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744785585; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744785632; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
  h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=U5r6UGX9U8OpHABbRYUo1I7CyHAcCaMHqioe6LVZ+R8=;
- b=WxL/T7L3lMN5IDjN6cYpX92CH3wrrdfwR+x13V5DppV7gZ0GaQf/KDdMdMvnNpx7
- QGsroN0Ceh/H7iPEZfvVByFp9ogFCFL4S2nWzhBEvN7gkGTk8meutwkuVpb4VwDQbCS
- 7HwmxnvqWWWF5mgCL3ApaRbjVg2+Bexneo7xLHFY=
-Received: by mx.zohomail.com with SMTPS id 1744785582031375.09536033309575;
- Tue, 15 Apr 2025 23:39:42 -0700 (PDT)
-Message-ID: <2bf23739-c2cf-492e-86ec-f3e56321192b@collabora.com>
-Date: Wed, 16 Apr 2025 09:39:38 +0300
+ bh=uffOwbW3LdAp26GtV2I4IhwpSE1us9PuCoxMk1couMw=;
+ b=Q5t3UaESd3qcGE4lwHsQMFxn2bfXUuoWD/bhC6KreVEyy2n2Aof0GVf8H2tPdJKn
+ xkOm8s9BWCdvoTEyvTSIMkOfEC9g6LHxVsKxY7ET1rv7Wl2fd6pxDrHD6h0lz55oKLr
+ LbZApORwtXUqrwDwh6zj5wmUA+ocUnq7gvq+wxZc=
+Received: by mx.zohomail.com with SMTPS id 1744785630740791.2279724986317;
+ Tue, 15 Apr 2025 23:40:30 -0700 (PDT)
+Message-ID: <1589ec2d-1e25-4be8-a715-afa5704f61fb@collabora.com>
+Date: Wed, 16 Apr 2025 09:40:28 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/virtio: Test for imported buffers with
- drm_gem_is_imported()
+Subject: Re: [PATCH 2/2] drm/virtio: Use dma_buf from GEM object instance
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  gurchetansingh@chromium.org, olvaffe@gmail.com
 Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
 References: <20250414131507.566072-1-tzimmermann@suse.de>
- <20250414131507.566072-2-tzimmermann@suse.de>
+ <20250414131507.566072-3-tzimmermann@suse.de>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20250414131507.566072-2-tzimmermann@suse.de>
+In-Reply-To: <20250414131507.566072-3-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
@@ -70,16 +69,38 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 4/14/25 16:12, Thomas Zimmermann wrote:
-> Instead of testing import_attach for imported GEM buffers, invoke
-> drm_gem_is_imported() to do the test. The helper tests the dma_buf
-> itself while import_attach is just an artifact of the import. Prepares
-> to make import_attach optional.
+> Avoid dereferencing struct drm_gem_object.import_attach for the
+> imported dma-buf. The dma_buf field in the GEM object instance refers
+> to the same buffer. Prepares to make import_attach optional.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/virtio/virtgpu_plane.c | 8 ++++----
->  drivers/gpu/drm/virtio/virtgpu_prime.c | 2 +-
->  2 files changed, 5 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/virtio/virtgpu_prime.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
+> index ce49282198cb..1118a0250279 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
+> @@ -204,16 +204,15 @@ static void virtgpu_dma_buf_free_obj(struct drm_gem_object *obj)
+>  {
+>  	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+>  	struct virtio_gpu_device *vgdev = obj->dev->dev_private;
+> -	struct dma_buf_attachment *attach = obj->import_attach;
+>  
+>  	if (drm_gem_is_imported(obj)) {
+> -		struct dma_buf *dmabuf = attach->dmabuf;
+> +		struct dma_buf *dmabuf = obj->dma_buf;
+>  
+>  		dma_resv_lock(dmabuf->resv, NULL);
+>  		virtgpu_dma_buf_unmap(bo);
+>  		dma_resv_unlock(dmabuf->resv);
+>  
+> -		dma_buf_detach(dmabuf, attach);
+> +		dma_buf_detach(dmabuf, obj->import_attach);
+>  		dma_buf_put(dmabuf);
+>  	}
+>  
 
 Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
