@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4016DA90D71
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 22:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99801A90D7F
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 22:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88EFA10E178;
-	Wed, 16 Apr 2025 20:56:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4B2410E130;
+	Wed, 16 Apr 2025 20:58:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="xL7afhCp";
+	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="C+RKc3Cy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
- [95.215.58.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F400710E178
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 20:56:12 +0000 (UTC)
-Date: Wed, 16 Apr 2025 16:56:06 -0400
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com
+ [91.218.175.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EED010E130
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 20:58:35 +0000 (UTC)
+Date: Wed, 16 Apr 2025 16:58:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1744836970;
+ s=key1; t=1744837105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vhVnOH0k9VWx9UfNNrD0I3JDKG9V0vMTdWVPEm7S7DM=;
- b=xL7afhCp98Q2ZuziuNCpCfub0SSIPQgn+hiZUhGyNtaUET3vccINgLsoVhqZE/5UqWuuQV
- wwbQnH6xjqQNGC9fZbaIBc0EaHHe+1bUt8k5APdyRrho24I87n0/AP1cBwyzf8tvgQSSfd
- SpR0KtR5jBfb9+KyTU7O0TtOrkjd8DbwAYCphygGaqGH6c+uHCL3eDeo7N5WGm5A1KTf60
- +Zn8RWvJX7QCea7bHKuuPKBQ3Ty5rrwglhy8vGgUTmFKvVNuLVqZoMIPc7gJs1P8FRSynp
- gtUxw40wx0H4VE18lXamqqcJQAIN1CQKqhPrHeA6oDMG7fMZg0skUp6kegHAHg==
+ bh=NdQpuGRR10gNQcv5XLfg3fsBASs65X0pcBvFcqE6/LE=;
+ b=C+RKc3Cyt6ZV+BMa/0RtEY3HqPur3LQD8icOfxhuqQNLmhiWx3NvihKurNpw43u2uaf4Xw
+ NqZX232XuZSMvk+OuXQRr/2Nbk5hGswcUFoIUiOUFfxc5zAakPfvgKw2ExzSPn7fJiBP4g
+ s70w5NOHg2Bk3kuIL8+8K+tXNkykG7NRg1LuSkuHmVndwDWfs9aoxkFL6S6m/kdQr3Zrbt
+ b+rn2NS5kD9zlu6hWjVc2GdisDQNm1shJpAkri7KLLYlG58UUDx067YidANCT4JZ1EPd5r
+ Pi8nH4z/yOGKXOTNWGq6KaMA9QJ9UpkRMVNuotQbxRLzhEUQU6AgLla7zbBCcw==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
@@ -41,16 +40,14 @@ Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
  Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <lumag@kernel.org>,
  dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] drm: adp: Use spin_lock_irqsave for drm device
- event_lock
-Message-ID: <aAAZZjM5rA1_ON0e@blossom>
+Subject: Re: [PATCH 2/4] drm: adp: Handle drm_crtc_vblank_get() errors
+Message-ID: <aAAZ6iIUtYcfpcdm@blossom>
 References: <20250416-drm_adp_fixes-v1-0-772699f13293@jannau.net>
- <20250416-drm_adp_fixes-v1-1-772699f13293@jannau.net>
+ <20250416-drm_adp_fixes-v1-2-772699f13293@jannau.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250416-drm_adp_fixes-v1-1-772699f13293@jannau.net>
+In-Reply-To: <20250416-drm_adp_fixes-v1-2-772699f13293@jannau.net>
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,50 +64,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-
-Le Wed , Apr 16, 2025 at 10:25:27PM +0200, Janne Grunau via B4 Relay a écrit :
-> From: Janne Grunau <j@jannau.net>
-> 
-> The lock is used in the interrupt handler so use spin_lock_irqsave to
-> disable interrupts and avoid deadlocks with the irq handler.
-> 
-> Fixes: 332122eba628 ("drm: adp: Add Apple Display Pipe driver")
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
->  drivers/gpu/drm/adp/adp_drv.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-> index c98c647f981d5383149647126762a5cdec8f4e4b..157298a8ff42b95275411dd4a7a0c70780fd86fd 100644
-> --- a/drivers/gpu/drm/adp/adp_drv.c
-> +++ b/drivers/gpu/drm/adp/adp_drv.c
-> @@ -310,6 +310,7 @@ static void adp_crtc_atomic_flush(struct drm_crtc *crtc,
->  				  struct drm_atomic_state *state)
->  {
->  	u32 frame_num = 1;
-> +	unsigned long flags;
->  	struct adp_drv_private *adp = crtc_to_adp(crtc);
->  	struct drm_crtc_state *new_state = drm_atomic_get_new_crtc_state(state, crtc);
->  	u64 new_size = ALIGN(new_state->mode.hdisplay *
-> @@ -330,13 +331,13 @@ static void adp_crtc_atomic_flush(struct drm_crtc *crtc,
->  	}
->  	writel(ADBE_FIFO_SYNC | frame_num, adp->be + ADBE_FIFO);
->  	//FIXME: use adbe flush interrupt
-> -	spin_lock_irq(&crtc->dev->event_lock);
-> +	spin_lock_irqsave(&crtc->dev->event_lock, flags);
+> -	spin_lock_irqsave(&crtc->dev->event_lock, flags);
 >  	if (crtc->state->event) {
->  		drm_crtc_vblank_get(crtc);
->  		adp->event = crtc->state->event;
+> -		drm_crtc_vblank_get(crtc);
+> -		adp->event = crtc->state->event;
+> +		spin_lock_irqsave(&crtc->dev->event_lock, flags);
+> +
+> +		if (drm_crtc_vblank_get(crtc) != 0)
+> +			drm_crtc_send_vblank_event(crtc, crtc->state->event);
+> +		else
+> +			adp->event = crtc->state->event;
+> +
+> +		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
 >  	}
 >  	crtc->state->event = NULL;
-> -	spin_unlock_irq(&crtc->dev->event_lock);
-> +	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
->  }
->  
->  static const struct drm_crtc_funcs adp_crtc_funcs = {
-> 
-> -- 
-> 2.49.0
-> 
-> 
+> -	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+
+Kind of confused about
+
+>  	crtc->state->event = NULL;
+
+now being out of the lock. Should we set to NULL in the if, since
+if we don't take the if, we know event is already NULL? Or should we
+hold the lock for the whole time, the way the code did before your
+change? I'm not sure between the two, but the in-between here smells
+wrong.
