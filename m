@@ -2,67 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B00A90D15
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 22:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2217A90D27
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 22:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB4910E9B4;
-	Wed, 16 Apr 2025 20:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DCE510E9B3;
+	Wed, 16 Apr 2025 20:29:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PeqIWRIa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kGEOJyqU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0B6310E9B3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 20:25:43 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0924510E9B3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 20:29:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id EA34245132;
- Wed, 16 Apr 2025 20:25:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DAE29C4CEF3;
- Wed, 16 Apr 2025 20:25:38 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id F3FB45C3FBA;
+ Wed, 16 Apr 2025 20:26:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2CCC4CEE2;
+ Wed, 16 Apr 2025 20:29:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744835138;
- bh=LNADAl1i2ULx0yyUSwQ5RvXlcx3dXJGSMk0iDCEXnfU=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=PeqIWRIaDz8O1MSEl2EgJxhGAGB9dsDYpg552P4oJnJYM5bGvpufg+2MRUD/dRNNR
- ZXLsEWcabvmagMoAOeYR3u0HL8YCovPm9agtP3+vRdHmzJDRJj11bMKXy3YAtH6t1x
- N8REp6Jy8hFd+L3l1Y9Y4xmznSS1C9QgroFGiT1pm4GaSS/oSWRhVbwkl22/MkXW9I
- CQsobxveXLL2HG3vHsY24tVruWgJT5ofcBZkP+yIXnvpjJqanX2DYzvCoO/gIMr6ib
- KDH/srsWAnTqOVAMWVZZPaWpqEIP3zCKdbve9Mb8+fLQYMrut+gzaDUwwErQv2abUd
- RR+uqb62d4X2A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id CCE0CC369CA;
- Wed, 16 Apr 2025 20:25:38 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Wed, 16 Apr 2025 22:25:30 +0200
-Subject: [PATCH 4/4] drm: adp: Remove pointless irq_lock spin lock
+ s=k20201202; t=1744835340;
+ bh=olh5zWLQlvOARfiL6LVnt5POpCWHhONm64CLOfODiW0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kGEOJyqUM5d2bCDOWGpshoNxJ9AClt18sbuP7WSDiM1mHLyp705IDkRH3yQMShBc+
+ ehDMrPSxtD2+sqMvioXwVThNoc+BM72vBjWrVy9uYQqb8CqEpfgWopsrzgK6btTsjk
+ VwJfIjamecPeMMbCycLEKJnqazdVdsbIdngwPW1+auI/GLLDFR8qghKQIiKTffUAHE
+ VKCqKiRbfvEFkl6cx6xB6EpC3Tjrt2trcoNLzQGnLg9ddLnd9xKNbjp9PeLzEGpGOH
+ ns2ttCTEpibfcO2mawSsD+m8NLrOQzAgdyuZXRxFFvefC7Cv0ntsBxHOPGo6vz+xTF
+ g2vXKldiG6/sA==
+Date: Wed, 16 Apr 2025 15:28:58 -0500
+From: Rob Herring <robh@kernel.org>
+To: "A. Sverdlin" <alexander.sverdlin@siemens.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: backlight: add TI LP8864/LP8866
+ LED-backlight drivers
+Message-ID: <20250416202858.GA3838008-robh@kernel.org>
+References: <20241218210829.73191-1-alexander.sverdlin@siemens.com>
+ <20241218210829.73191-2-alexander.sverdlin@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250416-drm_adp_fixes-v1-4-772699f13293@jannau.net>
-References: <20250416-drm_adp_fixes-v1-0-772699f13293@jannau.net>
-In-Reply-To: <20250416-drm_adp_fixes-v1-0-772699f13293@jannau.net>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Neal Gompa <neal@gompa.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1378; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=FUzS4Io0jKsTruJ2+cLIE2QaahlUUifrrGYTPm7rskw=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhgwGIXt2+xOdv/rO73ozlU3oAc/HH88WJhrZXl5/aEP6f
- 7syrtQDHaUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACZSMpvhf+h1noaaYzts+l3D
- Eh6LTxQKDNy8wTJ/ihhvknCX7ZbWe4wME6TPfHn3V6jRUWvrBOcN207eDxKWv/Q5p5KhO+mkSVg
- IIwA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
-X-Original-From: Janne Grunau <j@jannau.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241218210829.73191-2-alexander.sverdlin@siemens.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,60 +60,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: j@jannau.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Janne Grunau <j@jannau.net>
+On Wed, Dec 18, 2024 at 10:08:26PM +0100, A. Sverdlin wrote:
+> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> 
+> Add bindings for Texas Instruments' LP8864/LP8866 LED-backlight drivers.
+> Note that multiple channels in these models are used for load-balancing and
+> brightness is controlled gobally, so from a user perspective it's only one
+> LED.
+> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> ---
+> v5: no changes
+> v4: no changes
+> v3: no changes
+> v2: ti,8860 has been decoupled from this series and converted to YAML separately
+> 
+>  .../bindings/leds/backlight/ti,lp8864.yaml    | 80 +++++++++++++++++++
+>  1 file changed, 80 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
 
-Interrupt handlers run with interrupts disabled so it is not necessary
-to protect them against reentrancy.
+Applied as it seems this was missed by Lee.
 
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- drivers/gpu/drm/adp/adp_drv.c | 6 ------
- 1 file changed, 6 deletions(-)
+In the future, you can resend without my ack/review tag and ask me to 
+apply if something gets missed.
 
-diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-index c6238fb059342eebafddd53650a499fea0079dea..abb42f57fe5984a8f0f4be7081fb6803866b5d5b 100644
---- a/drivers/gpu/drm/adp/adp_drv.c
-+++ b/drivers/gpu/drm/adp/adp_drv.c
-@@ -121,7 +121,6 @@ struct adp_drv_private {
- 	dma_addr_t mask_iova;
- 	int be_irq;
- 	int fe_irq;
--	spinlock_t irq_lock;
- 	struct drm_pending_vblank_event *event;
- };
- 
-@@ -488,8 +487,6 @@ static irqreturn_t adp_fe_irq(int irq, void *arg)
- 	u32 int_status;
- 	u32 int_ctl;
- 
--	spin_lock(&adp->irq_lock);
--
- 	int_status = readl(adp->fe + ADP_INT_STATUS);
- 	if (int_status & ADP_INT_STATUS_VBLANK) {
- 		drm_crtc_handle_vblank(&adp->crtc);
-@@ -507,7 +504,6 @@ static irqreturn_t adp_fe_irq(int irq, void *arg)
- 
- 	writel(int_status, adp->fe + ADP_INT_STATUS);
- 
--	spin_unlock(&adp->irq_lock);
- 
- 	return IRQ_HANDLED;
- }
-@@ -572,8 +568,6 @@ static int adp_probe(struct platform_device *pdev)
- 	if (IS_ERR(adp))
- 		return PTR_ERR(adp);
- 
--	spin_lock_init(&adp->irq_lock);
--
- 	dev_set_drvdata(&pdev->dev, &adp->drm);
- 
- 	err = adp_parse_of(pdev, adp);
-
--- 
-2.49.0
-
-
+Rob
