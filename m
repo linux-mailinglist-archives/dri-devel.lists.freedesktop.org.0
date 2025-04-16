@@ -2,157 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045B8A8B652
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 12:01:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE454A8B678
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Apr 2025 12:11:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA7E810E3BB;
-	Wed, 16 Apr 2025 10:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F71C10E8C0;
+	Wed, 16 Apr 2025 10:11:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="tNdGe/t0";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="I5PRx6nJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2049.outbound.protection.outlook.com [40.107.93.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79C7010E3BB;
- Wed, 16 Apr 2025 10:01:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fuAhaLdgtgGBZgdVpeTKGOE+y5ez98rIJ99kjKidjbEgAXYOQJugBld+vauVHXK6YfclMEtFa/X+P31HUCSrBq1WLZxvVeIOQ8yX3Tv6ViMOeIKvP4wdevTnJl2jZl9HJISVA91k8RTvBEQREaaOo6DJwjrtmnpEq/AD/awrSVoDx8MHbaGe5BcZsCOp6CTOxavYHqII6lEwLlyznU8ZyAUs4kmGOrI3m/1ejhjMC3rKUzxZwjXD2uJ2MHIszL4/FTZrjCTdcBQ6SwGW8VQajw2TxN05o0R6zpRn1BsOQfl8lQ/m8y72d/KG6H4FdQZQOWmrqCidmbrXqCydDATWFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mzl5Y6XWARiKybjhFux4cK1FaV8rNsJAn8NrtzApw/Y=;
- b=UCA66E3fLc7Vi5wNGb/zI+v8JtGzbwhhF2F+9udKxzYKMKjdxmqyH+xaAbJAOtK6JpOqc0p9I+kvEgAkUYBxcEOuENH0XFmZQv80u42NsnnxdNZoBvvxuguY0vUdBPn6mmhhRzCQXAKkSJdCabpGebw67chBceiS6S4R7bvbJ7leeli7EDme2p/EfTlx4KtPilVPFu2+3sguqsUu+wVoAis9p0QXeTLApdZIwxXiEFuLJMcnl2kSlS5fSigvmxRxrrLhpYa/br7H+MYDDxasV+wPMHCX9pAdoOADfRuiA8TUQiCdvLu5ouKhBgMLhKVYlT0cGJDC7c1OTEOKxnsjnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mzl5Y6XWARiKybjhFux4cK1FaV8rNsJAn8NrtzApw/Y=;
- b=tNdGe/t0wmil1s7Bg3N/qiqIjQ9uSgrYZdJGTWRlLXrDkToo/RGyN4FNWHh1O8X8KqiS4aMJxLljm3A0wlakHW+wTjK3wwIZlLBcI38nWmYfrlpStSdE8MkGbuaAEKs8cuOJ8gnzq4EpbSZxbP6TG2sJ12byGyXAIS5XFc1/WeU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com (2603:10b6:208:390::15)
- by CH2PR12MB4070.namprd12.prod.outlook.com (2603:10b6:610:ae::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.32; Wed, 16 Apr
- 2025 10:01:33 +0000
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::2b0e:7fc3:1d21:5d2e]) by BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::2b0e:7fc3:1d21:5d2e%3]) with mapi id 15.20.8655.021; Wed, 16 Apr 2025
- 10:01:33 +0000
-Message-ID: <ec6f48cc-9776-4912-b746-ee18edb3536b@amd.com>
-Date: Wed, 16 Apr 2025 15:31:27 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] drm/amdgpu: use drm_file_err in logging to also
- dump process information
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-References: <20250415184318.2465197-1-sunil.khatri@amd.com>
- <20250415184318.2465197-3-sunil.khatri@amd.com>
- <34b082d4-b320-4eb3-8b36-fb63ffca3730@igalia.com>
-Content-Language: en-US
-From: "Khatri, Sunil" <sukhatri@amd.com>
-In-Reply-To: <34b082d4-b320-4eb3-8b36-fb63ffca3730@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0009.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:95::17) To BL1PR12MB5753.namprd12.prod.outlook.com
- (2603:10b6:208:390::15)
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.155.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 666C810E8C0;
+ Wed, 16 Apr 2025 10:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+ s=onoh2408; t=1744798273;
+ bh=K5EIWptPNf+bD6TCzDb13Bmy9OoJJigove2+9RXxBVM=;
+ h=MIME-Version:From:Date:Message-ID:Subject:To;
+ b=I5PRx6nJoic27KYtAOcNbeMau9M/QTdcBt7xmfH5ako/cgUC2H3IsFU2sj4nP3+5X
+ pI85FHYuDR854/7UC5qs4ejtGX6JNoR6NjFzwMNkGC6+kmR7Cpz+zqCmwymnNt+nOX
+ bO72Wn9uf8zCXzP05N/FDfDcDUJp3oH8rxfMBdmM=
+X-QQ-mid: izesmtp27t1744798177t37bdd6e0
+X-QQ-Originating-IP: c6bMcLBaknpeJudSLgcfGNCr5kNfv09wQR1rbeFJkZ8=
+Received: from mail-yb1-f175.google.com ( [209.85.219.175])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Wed, 16 Apr 2025 18:09:35 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 4125910165612876229
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-e573136107bso5785999276.3; 
+ Wed, 16 Apr 2025 03:09:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/LM/DkVFTE3MbvWNKRov/o/+v+DtY75SJxbPhBkWXzghOqrm/Lo3Sv1bHP6DXrGd5aW5GlNa6xcbJ@lists.freedesktop.org,
+ AJvYcCX8rJ6i9kBAf+RuQ6L+hjZ9OvSX4AxNJo0M+xtCzPPUJ0B9tEQFbvqO/1Rj/NpFABpnRm5hwxJ/DSU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YznJ7XZb2bakRe25csQs3tajm7rNNTBGFRCfCXVLxFX6dOxNDjf
+ Pr1orojJjv+iWku27QriXJhMvgVspYJZ4dcLoqz3t9/vJ92MW6ChdU4B+ntRSZrrYfYFbu/R+ME
+ dbTpAwa72R5NomsXGctIRbfrjn3o=
+X-Google-Smtp-Source: AGHT+IFxOQerwyXR4s01cKj1FQCmW5mZBGS8EUkxg2eBy2yn8PQm4fMpJOhxMxu+WrXOTx3w5ulHOeUcX04b8xnFFTA=
+X-Received: by 2002:a05:6902:2b8a:b0:e6d:eb74:272 with SMTP id
+ 3f1490d57ef6-e7275967af8mr1257382276.22.1744798174393; Wed, 16 Apr 2025
+ 03:09:34 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5753:EE_|CH2PR12MB4070:EE_
-X-MS-Office365-Filtering-Correlation-Id: 193aecad-16ad-4520-6262-08dd7ccdaa9e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?K25iWEJ1aWFQdzcwdkhvajV3NkZzYkxqb0gxSGxTZE9Xd29VUFZFTGdoeDRm?=
- =?utf-8?B?UU9hVks2VVRYMGc0Ukp4T1l3UEFRUjlvakVkbjJPY2ppTjlFa2lHakRDVm1p?=
- =?utf-8?B?Q1M3d1Y4QkluNStCZWNwY2ZBQnkrR3ErUVVBcllscmhUR041bVFZanlJVnpr?=
- =?utf-8?B?SjZlcWVmY0xWUktlYzNrMm1qd0xlNXhwaGo2cis0RUFVa2t3eGlyeFJYL2Rj?=
- =?utf-8?B?bU1GZnJXZGIvMmpwQ25aU1daK21zSldnWDhUNUFteTlOWVoxWmtrS2pMSHA4?=
- =?utf-8?B?SXlaQWlQb0RsaCtkQnVRMHZoRkhPbzdPU1gxUmlyRTlrZXAxWElqNnhWdUFn?=
- =?utf-8?B?cDFaamY5M213U2ZrZG45MW9DVmUxREFRemZHQ20vU0ZyTWU2QngvS2RFbW1i?=
- =?utf-8?B?RXB2WnNaYWxSOVNiN0ZlbkJ0R3FEUHhvV1pkb2MxbjU4TE9yTjFTcjdEcDM1?=
- =?utf-8?B?dkRMQWlmTmgrSWlrL1VweFE4ZUxtOUw4eDhlSktHS1RpUlVPczVPZ2RGM0xI?=
- =?utf-8?B?ODNnZXBHVVhsb1piNFFiM2pwa1ppcGJVUExUMzV6dSt3bHdNbVV5MW82eUgx?=
- =?utf-8?B?ZkFLNWRnYkRrWUlGdFRycUlvTnhSRTRuRVkzSjJtS1JpYlVtL2dVVkNHcnkx?=
- =?utf-8?B?Mng0bjF6YnBKc1FMejF0RzI0Z0c0SjVvZmJNQU5UYWpTTXl0aSt5ak5jK2N4?=
- =?utf-8?B?YW9oc2lTVnpIUG8wNFl1K0NDVUM2eUVxeUlNL3Rib2FGWWY2M3FGd0JsaEJ2?=
- =?utf-8?B?c1owS1NqSlV4VkR3cmFiR2dtQWR6dWJNU3FkSVA2NWJZWDVkMUNodGdDM1c1?=
- =?utf-8?B?SGdQQldQTHpncDNlRDg3cVhsODdzVmlxbEhML1VHbTlqZ1BkSDdqeS94VUt5?=
- =?utf-8?B?ZVRZNkdNelVBM0hSSUZKTU1ZaG5zakVSTXVMZzZNaFlvN3FXMXdqWXViMGNT?=
- =?utf-8?B?YjlzMDlvZG5RZEhGT20zWEl5QUhpeVpqTFdUcFdBRzNEWVFlUEE2NFAyNXdq?=
- =?utf-8?B?bkNIbWtpMFIxTHZlNFVhUktTSER0MkROU1pxNEV1Yzg2Sy9lNWl6ZTFBcEJh?=
- =?utf-8?B?NGtSRGpXaXUyaGtvWlZGOFlLSzhOMGhIWEpnNXJqTTkrYUFKTjJOV3ZVQkxk?=
- =?utf-8?B?ck9odnY2b2FxdW1BSXJ6d25XNGdZMjUzNFdxTVNEZGpSN09ZcEd4a210SFlO?=
- =?utf-8?B?d2c3T2xMRFBiRnZXWnB0ZHY4VU9RVmluOTdKT2lnQWg0NE50dkZXeFBTcCtY?=
- =?utf-8?B?V0sxbnhQcUxSWFFxaGV1TlpFT2RGY0hnRGRrV2lnVGZjR3E0NVJPWU5QZ256?=
- =?utf-8?B?bk9CNjNwakRxbS9OUmM2T3hOSzBKYXYxNnNrYW13L29SMTFlZ3pxN2t1Rjdh?=
- =?utf-8?B?ek83UnQ3QUNXVTFaTU5uWS96am9TMiswS0F0bEdhcVhPZDV2b1B5REhSMnIy?=
- =?utf-8?B?MmM1VXZGZHRjaWZiazdiM3Rwei80UmUvMUFSUmV1Ulp3ZFFaK1BIUllwZC9C?=
- =?utf-8?B?N3laN2Z2c2JTUlRZWHhKNWd3RmQ3VXcySXdHYjZCd2h2ZnN1WkRZekhjMVZ5?=
- =?utf-8?B?Q040RzJ2QkZ2MmZDKzdXN3hVcWlST1BZQU8rMjdqbFVQd3RNWUtFdXBrODRV?=
- =?utf-8?B?TXJNS05qdWFYVnpOaEVuWFpma010YWNlMzBadzdTa2xlbi81eEMwNFE5SUk3?=
- =?utf-8?B?aU9DUkRwMnFITW9NSmh1RkhjenRFY2x6NThCM1kyZTdCUGFNMXFJK0F3S3FQ?=
- =?utf-8?B?b2tkekNMSHNqV29YbkJ3a1JxUnFCa0EzK1lBc1dRcHQ4ck1ycC8yUFBwaEN5?=
- =?utf-8?B?NWRmYVNwYU1qQStmQzZ6NzlHbkw4S01OM2pRdjlsR1FDbnRxSVJzNmhVNDBT?=
- =?utf-8?B?cElWNlJVNDdYRUhFYmxUYndRcVNkKzEyTnB5RitKMHNpNmoyWE5WNzJUclpW?=
- =?utf-8?Q?GjLqhNXunMg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TjhoR01ZeFZFdmRHOHRJUUdXTytRTjgwZHdGNVg1Y3MrSDI0ZHd5WVVsS3d2?=
- =?utf-8?B?UXFsaFkrYXM0T2VGREgzenUzTloxdk16Yno5NVVma0R2RjNzbGRWMUVla08x?=
- =?utf-8?B?UlcvcUlqZGpTY3hhT21RMXhBZHExcDlLeituTHhsZ0VvRVpDS0kvRW90MGta?=
- =?utf-8?B?TXpDdGczU2NZOUNlY2RsVHhTQlFlbFVFbUhqb01TSnd1OFhVaHRsQzNjY2Ny?=
- =?utf-8?B?RmYzREI5WUE2YTJlSzlyb21ZUFgrVDI5Tks5NmxBM2x0bmNLdXdXa1lSbktN?=
- =?utf-8?B?V0YwUlF0by9kZWpqenc0Vlh1SDV4Z0RFTGNwK1RpTHYzajZmZWVGOWlKTC9G?=
- =?utf-8?B?MS9zOW9qUFQ5RFd5WDRlbjlEdWRTc2JqY09lOEhjeDd4YjcycjdXVHBqT2FO?=
- =?utf-8?B?WFNpMEZwSE1QOFJjZmNXajljMXhBQnlnMWh1QUpIdWV3OGU2QlloUTZJUWZZ?=
- =?utf-8?B?VVlpZ2FtemhqYjA2OTBGY2k2ckY0a2dCUGIwUVc3aTBkZ2NDY3N3d1VUR3Nn?=
- =?utf-8?B?RmtrODhIMDg4TEppOGdCN2daNFRlS0ZNUDVTMGkydXowK05La1c5amxLZU1X?=
- =?utf-8?B?cWJpcjUraUZqbTFDaCt3T1YraE4xcGZJVGo0cXlSbERhQ05BSkxYS2VCejM5?=
- =?utf-8?B?VjV5OEJ6M1licVdYSldPT28rZHp4dnVRYXQ2ZDhBelRTeENwTEtkemlTb0NO?=
- =?utf-8?B?NGM0cEJ3UjVtQWhQeEF5M3pWVFdVWmIzSjFxRWlIdUhleW4rUFBlZERqT2Jo?=
- =?utf-8?B?VEc4cWpQOTl1N09IL09jWldWQVlMd2JmYk1UUENhbE1aeklJMVovQ1ByenNK?=
- =?utf-8?B?V3BySERwWGJValRZZitzaFhBcURhMkIybWlYdk5nWXBYS3IxUm83NXZKdE4r?=
- =?utf-8?B?bG4yYWw0OC9QTENDalZmZmsrYmo3dDRlWHhhVjFaby9Pd1VRb3doekFXK0pK?=
- =?utf-8?B?dnlwOEJjQ09TMG5nV2RiSGF1NGd0bUpUVmNCMjUzYTdpdHJWNjFoVE5FUkJh?=
- =?utf-8?B?SHIvYVJjb1hvLzdXNlhXOGg5YjYzOEJpUi84emRMSmxTSHoyb1FNNHB4UUdV?=
- =?utf-8?B?TEQ1aXVxL0Jtd0V1UXJ1VUsxVWN5aXZtR1g2aTgxeVNHUmFFRVNuRkpoa1JK?=
- =?utf-8?B?bUZITHFKVkdnc2V2cU8vMkc4MXdkU0ViWmxLMjBUL3FOV21aMktzUVJWYTcr?=
- =?utf-8?B?NStZc0M2Zm9SYzAzVnBJQVNEejRWUDd5MzgyQnk2SEpTWGl6RWVBSldsSEZi?=
- =?utf-8?B?Q1k2eWRyS1JPSW9XTzFYNU54TTl4dDMxQXRBRGh0RlJvZ0FHaE1yQllTQVR2?=
- =?utf-8?B?WU9JWC9UQUxteGpFVFpGZG1PRTdFK1FPMDlGUTZ5aDR0WFVBR091VENNYkZG?=
- =?utf-8?B?aHhTaUVuUlJUNzluUUNuUDRaSWJqdE1FOTJLeWEzYkdHZTBRNzYxSnAwSUEr?=
- =?utf-8?B?VmV2U1IwamcrNENvdENvdGNiZ2txU0JMSU1BbGpzVFRpcDNiL1pSMWoybS9G?=
- =?utf-8?B?U2dsSzZKcUVnbVVEaTJqWmdJcUh3QWhwRDlQaFBQd0E5UXkrbDZONlBZZE16?=
- =?utf-8?B?YjBYSGhlUTFRaFQ2ZUlCNTlIcENwZ1Z6ak5ZY3pPUnRBZ1IrM0xITWxUVFl1?=
- =?utf-8?B?ZlEvV2M4QVhldVZROE55cVdUb0NVWE5RSm5GZUJVN3N3cUpKTXhKU0o1QXNw?=
- =?utf-8?B?S3VhZmxZNmFZQnRaK01lKzJzQUhJc1B6aElMYW1uR01RbVJqd2k0RUdOVGg1?=
- =?utf-8?B?OVdRa09rM01xRUhleEZmWGVIaEwrdzhhRERpQU4vN1hCbHlQS1FuSW0xQlRB?=
- =?utf-8?B?SXNkenA0R3hiSndnWDdBd1V6YjBmeTBWYjJoTGJnMFdtdTZRTzVRNEEwbjNk?=
- =?utf-8?B?cnhJZFpldlI2dTEvRlRucm1aMUh4b2JhZGJzL0RIOXUwcVk4ZWRSVm5oS2xp?=
- =?utf-8?B?elozTzM0ampDRWRISk0rYWFPWGNVc0ZZY1lFRGRyRmZ4S29lWU5WMk04TFAw?=
- =?utf-8?B?SEJVZjE1Q1BPTFkyV2FmQXR0N1NoSlJBdDZGbFE2RS9mdWxSRmRNK0ZmVmww?=
- =?utf-8?B?QWw4SlZvN2pBTlBucnhSM1JxR2UvdmtnbFBxaVAwV1FOMnFEWmJ4dmx3RWp1?=
- =?utf-8?Q?hlOgYJFgwPrqxSW8+iSubWLov?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 193aecad-16ad-4520-6262-08dd7ccdaa9e
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5753.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2025 10:01:33.3416 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UHxPOqDXe5PmmQj1qRPrJ2N3LupE8Sw3slF82RexruIGrVRC5fjleOK9sEcazTRZop0JbSonVLSOOOSetNKcmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4070
+References: <E9B8B40E39453E89+20250411105306.89756-1-chenlinxuan@uniontech.com>
+ <20250416044827.GA24153@lst.de>
+In-Reply-To: <20250416044827.GA24153@lst.de>
+From: Chen Linxuan <chenlinxuan@uniontech.com>
+Date: Wed, 16 Apr 2025 18:09:22 +0800
+X-Gmail-Original-Message-ID: <45D187D71349584D+CAC1kPDPYiUKqRmqW=hzOyGudvUXcwxo0kgDU_j40+t7rYHsU-g@mail.gmail.com>
+X-Gm-Features: ATxdqUHphIIrq227AoMvNzUOdxFn7upg3kfvytoiynDmEPipLLJsDaFiQeVe_To
+Message-ID: <CAC1kPDPYiUKqRmqW=hzOyGudvUXcwxo0kgDU_j40+t7rYHsU-g@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/7] kernel-hacking: introduce CONFIG_NO_AUTO_INLINE
+To: Christoph Hellwig <hch@lst.de>
+Cc: Chen Linxuan <chenlinxuan@uniontech.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, 
+ Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Chengchang Tang <tangchengchang@huawei.com>, 
+ Junxian Huang <huangjunxian6@hisilicon.com>, Leon Romanovsky <leon@kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Sagi Grimberg <sagi@grimberg.me>, Yishai Hadas <yishaih@nvidia.com>, 
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Kevin Tian <kevin.tian@intel.com>, 
+ Alex Williamson <alex.williamson@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, 
+ Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org, 
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ kvm@vger.kernel.org, virtualization@lists.linux.dev, linux-mm@kvack.org, 
+ llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-QQ-SENDSIZE: 520
+Feedback-ID: izesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-QQ-XMAILINFO: M94I2jolx1v3dFgSFVksbdON838YK1CwXxyiTMLXiOOQ3BG+Ld0EgNkS
+ v4Ibj5OkTyj27cxOrUChG4T3BlKWSdHzGEqApIHb64x73AEFZrT0aZReJAxgLOLZN/X6rQx
+ ce1HnL9H9ZhG3US3Cr0tw8FntQwW6TNAOFzU5ly6x7BDS83ZWbn3XQ5934KUT9jLTn7n7SD
+ zIHdmLe8UF8cxWVMgKxIRH13oo5DGNgAwT+9Bn/i4OX3b2yj6YcBI/2yimv4vr6r1mGYD5E
+ PiyZTRpJe7HKfCENdxOQ5PQIa51mrjEf8PzvsPRhSlWhOutFc1yODn8rC24I5Ge1jhwW4Cn
+ iHGZobUi9IwrfDj+adzYxwr7UgwTJO+vF4xEbX9ItMiU5+HExmSms6GShhKq95p12dfxP0y
+ tsTa+3uKeLgdxiZ76VjwM7jfH5DkhiHgmIDC7L7mDGTaFdvL/rgUIV1FR5VT1uPr7YWFfcg
+ GdqWah5YMmjkBvVovv74HDcrttOXypD+bmYP2OyYJzCJkPV6+fKb1HRcENaNQO10JoereAN
+ 6l7ObMHsXB/YVCQmmHHNhTsxJjmNS8qkfFgnCLgB69KnEUJJ2oan44IbnkqNR+5U8kREqqh
+ aF3+voGybKKYIzidF6QH3D/rfh7yBiFvZgN/AbURHGWVKtcED4SZn/3AzEJzLCYjcYaxVNB
+ 0umc/ki2TAeCVJ8nJQQVaCbsVKHvJugNit9wn26UVTegBS9dMxrZ9kaTtl7i1JTHx1PMPG+
+ 5DW1qvcyAJkrAjPItesKj7ZGVHpUJZn1B8+xlDOugYueikVRwkOd7YQ8qtWYXpcM9VGsbM1
+ ea8MFiRCR7yZ7w23d8y650zv4wPeIoIvOLuQ8AAWUcAk0viZfSG+O9jL+83nyCuJALd6a5l
+ DQmsVMT3u2EJ/+XXgEPYVUuVdyzC6jDkZDflVIqBT+eGZnFMCS7ZKiYxVouIV7raB/fs/Ms
+ iFkDGfYvyaoX557uOLhaiYDE0Z2bDOgtR4BCrm81KdnkMYjDoxl4Z+0KMEKRbwbfn4OT+PS
+ 0QyzLw5x47hCZhA4pbOULDZwQC5+XOSI9Hy77ag0zoJWJ/Hrc47twcHTzBTOkabmbP+rkjX
+ kNshwjJEfB1
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,130 +117,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Sorry for the mistake, v2 has been send:
 
-On 4/16/2025 12:56 PM, Tvrtko Ursulin wrote:
->
-> On 15/04/2025 19:43, Sunil Khatri wrote:
->> add process and pid information in the userqueue error
->> logging to make it more useful in resolving the error
->> by logs.
->>
->> Sample log:
->> [   42.444297] [drm:amdgpu_userqueue_wait_for_signal [amdgpu]] 
->> *ERROR* Timed out waiting for fence f=000000001c74d978 for 
->> comm:Xwayland pid:3427
->> [   42.444669] [drm:amdgpu_userqueue_suspend [amdgpu]] *ERROR* Not 
->> suspending userqueue, timeout waiting for comm:Xwayland pid:3427
->> [   42.824729] [drm:amdgpu_userqueue_wait_for_signal [amdgpu]] 
->> *ERROR* Timed out waiting for fence f=0000000074407d3e for 
->> comm:systemd-logind pid:1058
->> [   42.825082] [drm:amdgpu_userqueue_suspend [amdgpu]] *ERROR* Not 
->> suspending userqueue, timeout waiting for comm:systemd-logind pid:1058
->>
->> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c | 14 ++++++++------
->>   1 file changed, 8 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c
->> index 1867520ba258..05c1ee27a319 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.c
->> @@ -43,7 +43,7 @@ amdgpu_userqueue_cleanup(struct amdgpu_userq_mgr 
->> *uq_mgr,
->>       if (f && !dma_fence_is_signaled(f)) {
->>           ret = dma_fence_wait_timeout(f, true, msecs_to_jiffies(100));
->>           if (ret <= 0) {
->> -            DRM_ERROR("Timed out waiting for fence f=%p\n", f);
->> +            drm_file_err(uq_mgr->file, "Timed out waiting for fence 
->> f=%p\n", f);
->
-> You decided to leave %p after all?
-
-Yes we are printing the fence ptr here to see which fence is timing out. 
-Anyways right now intention of this patch is to add additional process 
-information along with existing information like fence here.
-
-regards
-Sunil
-
->
->>               return;
->>           }
->>       }
->> @@ -440,7 +440,8 @@ amdgpu_userqueue_resume_all(struct 
->> amdgpu_userq_mgr *uq_mgr)
->>       }
->>         if (ret)
->> -        DRM_ERROR("Failed to map all the queues\n");
->> +        drm_file_err(uq_mgr->file, "Failed to map all the queue\n");
->
-> You lost the plural by accident.
-Yes i will add 's'. Noted.
->
-I am also not sure "all the queues" makes sense in this context versus 
-"all queues" but it's inconsequential really.
-Regards
-Sunil
-> Yes it all queues from a uq_mgr.
->> +
->>       return ret;
->>   }
->>   @@ -598,7 +599,8 @@ amdgpu_userqueue_suspend_all(struct 
->> amdgpu_userq_mgr *uq_mgr)
->>       }
->>         if (ret)
->> -        DRM_ERROR("Couldn't unmap all the queues\n");
->> +        drm_file_err(uq_mgr->file, "Couldn't unmap all the queues\n");
->> +
->>       return ret;
->>   }
->>   @@ -615,7 +617,7 @@ amdgpu_userqueue_wait_for_signal(struct 
->> amdgpu_userq_mgr *uq_mgr)
->>               continue;
->>           ret = dma_fence_wait_timeout(f, true, msecs_to_jiffies(100));
->>           if (ret <= 0) {
->> -            DRM_ERROR("Timed out waiting for fence f=%p\n", f);
->> +            drm_file_err(uq_mgr->file, "Timed out waiting for fence 
->> f=%p\n", f);
->>               return -ETIMEDOUT;
->>           }
->>       }
->> @@ -634,13 +636,13 @@ amdgpu_userqueue_suspend(struct 
->> amdgpu_userq_mgr *uq_mgr,
->>       /* Wait for any pending userqueue fence work to finish */
->>       ret = amdgpu_userqueue_wait_for_signal(uq_mgr);
->>       if (ret) {
->> -        DRM_ERROR("Not suspending userqueue, timeout waiting for 
->> work\n");
->> +        drm_file_err(uq_mgr->file, "Not suspending userqueue, 
->> timeout waiting\n");
->>           return;
->>       }
->>         ret = amdgpu_userqueue_suspend_all(uq_mgr);
->>       if (ret) {
->> -        DRM_ERROR("Failed to evict userqueue\n");
->> +        drm_file_err(uq_mgr->file, "Failed to evict userqueue\n");
->>           return;
->
-> It is pre-existing but strikes me as odd that failure to 
-> amdgpu_userqueue_suspend_all() logs a failure to *evict* instead of 
-> suspend (as the previous log does). Anyway, I did not look at the 
-> surrounding code so just thinking out loud.
-
-Yes suspend failed as all the fences were not evicted and thats why 
-suspend failed. Anyways there are already alex patches which will change 
-this to unmap as a code reorganisation for suspend/resume is in pipeline.
-
-regards
-
-Sunil
-
->
-> Regards,
->
-> Tvrtko
->
->>       }
->
+https://lore.kernel.org/all/20250416-noautoinline-v2-0-e69a2717530f@uniontech.com/
