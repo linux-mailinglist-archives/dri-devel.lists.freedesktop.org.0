@@ -2,54 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2658A9182A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 11:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5EEA91838
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 11:44:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31C8B10EA7F;
-	Thu, 17 Apr 2025 09:40:37 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="umGet/Ui";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD0010E1A3;
+	Thu, 17 Apr 2025 09:44:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27E2C10E1A3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 09:40:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EBAE9A4B282;
- Thu, 17 Apr 2025 09:35:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE450C4CEE4;
- Thu, 17 Apr 2025 09:40:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744882829;
- bh=xVWJwK7dduWtiwYoiIb/scMBtR0de7McYRps8TtEQ2U=;
- h=From:To:Cc:Subject:Date:From;
- b=umGet/Ui/9PCBXwRwBEw3wqvFN7JZ2eo/gJ2V5LztwFpWtvOgNB4TggLi9KntCeBJ
- zY9q2n9mBB2T3zkyyYIiAlQRxEelNXG6FzyvinLU0d1He9TxH/mqGJejF18KkiWaCw
- 8tWUlsNswGJ55H10KDYBoZCBaatBvXZjR/IFkcpxRLkZSPrKy9zL/KjSVNfHzx2JSZ
- DHgJ08nhH5rz2nGLCSAQqAF/e8iY9x8bKPM7lXs1hiAShKaAuV7vU95AWYWXuWkJKI
- b82wmIP6EBKZ0KDWH9/V5qlNe07HXdXgKmEMsXMUoMsCgf78B/XyLYl2lKa7DLavBk
- DmPVeXcM1g2Zw==
-From: Philipp Stanner <phasta@kernel.org>
-To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>, Arnd Bergmann <arnd@kernel.org>,
- Jani Nikula <jani.nikula@intel.com>,
- Niklas Schnelle <schnelle@linux.ibm.com>,
- Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
- Philipp Stanner <phasta@kernel.org>
-Cc: virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/cirrus: Use non-hybrid PCI devres API
-Date: Thu, 17 Apr 2025 11:40:10 +0200
-Message-ID: <20250417094009.29297-2-phasta@kernel.org>
-X-Mailer: git-send-email 2.48.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3713610E1A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 09:44:27 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 56BE71516;
+ Thu, 17 Apr 2025 02:44:23 -0700 (PDT)
+Received: from [10.1.37.32] (e122027.cambridge.arm.com [10.1.37.32])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB9C53F59E;
+ Thu, 17 Apr 2025 02:44:24 -0700 (PDT)
+Message-ID: <d8f078b9-2240-46b5-9115-b0cc0223780b@arm.com>
+Date: Thu, 17 Apr 2025 10:44:22 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/panthor: Don't create a file offset for NO_MMAP BOs
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
+References: <20250417093247.3455096-1-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250417093247.3455096-1-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,35 +48,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cirrus enables its PCI device with pcim_enable_device(). This,
-implicitly, switches the function pci_request_regions() into managed
-mode, where it becomes a devres function.
+On 17/04/2025 10:32, Boris Brezillon wrote:
+> Right now the DRM_PANTHOR_BO_NO_MMAP flag is ignored by
+> panthor_ioctl_bo_mmap_offset(), meaning BOs with this flag set can
+> have a file offset but can't be mapped anyway, because
+> panthor_gem_mmap() will filter them out.
+> 
+> If we error out at mmap_offset creation time, we can get rid of
+> panthor_gem_mmap() and call drm_gem_shmem_object_mmap directly, and
+> we get rid of this inconsistency of having an mmap offset for a
+> BO that can never be mmap-ed.
+> 
+> Changes in v2:
+> - Get rid of panthor_gem_mmap()
+> - Get rid of the Fixes tag and adjust the commit message accordingly
+> - Return ENOPERM instead of EINVAL
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-The PCI subsystem wants to remove this hybrid nature from its
-interfaces. To do so, users of the aforementioned combination of
-functions must be ported to non-hybrid functions.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-Replace the call to sometimes-managed pci_request_regions() with one to
-the always-managed pcim_request_all_regions().
-
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- drivers/gpu/drm/tiny/cirrus-qemu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/tiny/cirrus-qemu.c b/drivers/gpu/drm/tiny/cirrus-qemu.c
-index 52ec1e4ea9e5..1ff678e26aa1 100644
---- a/drivers/gpu/drm/tiny/cirrus-qemu.c
-+++ b/drivers/gpu/drm/tiny/cirrus-qemu.c
-@@ -681,7 +681,7 @@ static int cirrus_pci_probe(struct pci_dev *pdev,
- 	if (ret)
- 		return ret;
- 
--	ret = pci_request_regions(pdev, DRIVER_NAME);
-+	ret = pcim_request_all_regions(pdev, DRIVER_NAME);
- 	if (ret)
- 		return ret;
- 
--- 
-2.48.1
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c |  5 +++++
+>  drivers/gpu/drm/panthor/panthor_gem.c | 13 +------------
+>  2 files changed, 6 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 06fe46e32073..7cd131af340d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -940,6 +940,7 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
+>  					struct drm_file *file)
+>  {
+>  	struct drm_panthor_bo_mmap_offset *args = data;
+> +	struct panthor_gem_object *bo;
+>  	struct drm_gem_object *obj;
+>  	int ret;
+>  
+> @@ -950,6 +951,10 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
+>  	if (!obj)
+>  		return -ENOENT;
+>  
+> +	bo = to_panthor_bo(obj);
+> +	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
+> +		return -EPERM;
+> +
+>  	ret = drm_gem_create_mmap_offset(obj);
+>  	if (ret)
+>  		goto out;
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index fd014ccc3bfc..22d78cef9c66 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -129,17 +129,6 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  	return ERR_PTR(ret);
+>  }
+>  
+> -static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+> -{
+> -	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> -
+> -	/* Don't allow mmap on objects that have the NO_MMAP flag set. */
+> -	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
+> -		return -EINVAL;
+> -
+> -	return drm_gem_shmem_object_mmap(obj, vma);
+> -}
+> -
+>  static struct dma_buf *
+>  panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
+>  {
+> @@ -169,7 +158,7 @@ static const struct drm_gem_object_funcs panthor_gem_funcs = {
+>  	.get_sg_table = drm_gem_shmem_object_get_sg_table,
+>  	.vmap = drm_gem_shmem_object_vmap,
+>  	.vunmap = drm_gem_shmem_object_vunmap,
+> -	.mmap = panthor_gem_mmap,
+> +	.mmap = drm_gem_shmem_object_mmap,
+>  	.status = panthor_gem_status,
+>  	.export = panthor_gem_prime_export,
+>  	.vm_ops = &drm_gem_shmem_vm_ops,
 
