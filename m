@@ -2,63 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689CBA91AED
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 13:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01601A91AF3
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 13:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F68D10EACD;
-	Thu, 17 Apr 2025 11:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C261810EACF;
+	Thu, 17 Apr 2025 11:31:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c95j4e0g";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="CQFMEmKN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9452F10EAC8;
- Thu, 17 Apr 2025 11:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744889421; x=1776425421;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=Ia5pniwOSwFh5dgBNgloPIn51o0KZZavQZZVK5ASOJ8=;
- b=c95j4e0gKvu3bNjFYmmgHa28flRrZmwpxgeCr3ptzPm6dzXfLk4Gxd2D
- ZwP2MFdJsKx8JpZaIRA3anV6lCWnioMW6+PaPwgnlziaqdpOl09W1SXmk
- XJX0q7Hu9A77TKFMrLvEPOj+h8josDO2xQgujTgaGKuTP7kDpSRcrTK0v
- HeVu1ux2ayFShvtx90VV36QAvLDEIUSQqiZaEC2cnJW8Y4hnS8ZppgffY
- NDOSRsYwbj6BAT1RPZxN+yffu63OZwkk61+iyCb6YPkS3mZwFYDushw4V
- x2eY5iFroyD97uo0sneviIt3kPqJfCpHnyiFoQ0rFggxsSxCUSdssTzn8 g==;
-X-CSE-ConnectionGUID: pa0UX9EiS7COYXf7P7Frwg==
-X-CSE-MsgGUID: Dp74CWLeTF6JD1lraz4ioA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46603459"
-X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; d="scan'208";a="46603459"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2025 04:30:21 -0700
-X-CSE-ConnectionGUID: fAFNzLb0SI2UJ3qWlEqT8g==
-X-CSE-MsgGUID: eKCu/6VsTmquYF/fP3kREw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; d="scan'208";a="130541223"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2025 04:30:19 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, Sunil Khatri
- <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>, Pierre-Eric Pelloux-Prayer
- <pierre-eric.pelloux-prayer@amd.com>
-Subject: Re: [PATCH v6 1/5] drm: add macro drm_file_err to print process info
-In-Reply-To: <2ec09b8a-25f3-484c-b81c-f6478d9743cd@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250417091355.2240384-1-sunil.khatri@amd.com>
- <874iynp1uw.fsf@intel.com> <05d7ba43-28ff-4c76-9b63-782b8df0f9f6@amd.com>
- <871ptroxkl.fsf@intel.com> <2ec09b8a-25f3-484c-b81c-f6478d9743cd@amd.com>
-Date: Thu, 17 Apr 2025 14:30:15 +0300
-Message-ID: <87tt6nnhyw.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389BA10EAC8;
+ Thu, 17 Apr 2025 11:31:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=sf8qyFrE9a2v6zsDPeRPeCF7ykO7mhZ7QhDJa1W8NmU=; b=CQFMEmKN+D1wn4s14YuxDiUFZM
+ xOmifCQmVWyltb9pb5wlQWW2/dzTFRl1FjxU0R4HGKc3EQWRV4ady7b+cv9wRQimgXkQredTLA+7t
+ 8C75v2iYGUAky8auvDRXsJuqLfq/CQmoQC3cP3pcJyHZdc6D6m1u85RoU5Qx86voD1hHMr+txMOgy
+ 4ZOMfLGU44Mf/0xNsHPYX3h3cNoVN1yoNLaRPrJLmwc1rTWGPpYHBxAoWwNqQr3P6f7eOdOsOlgZv
+ MNow2rxU3Cwi4rZtOtj048o4QlcqHL0VzsdgjHpVvXxZ/cutZnfjLWJl8EiOZ5wzxDk4LdoKMnQZZ
+ L0oPn5VA==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1u5NSi-000mlv-EW; Thu, 17 Apr 2025 13:31:20 +0200
+Message-ID: <dd96e4fb-ba21-40d3-9c53-3e8d4f7bbc86@igalia.com>
+Date: Thu, 17 Apr 2025 12:31:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/ttm: fix the warning for hit_low and evict_low
+To: Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+References: <20250417093409.2242506-1-sunil.khatri@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250417093409.2242506-1-sunil.khatri@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,138 +63,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Apr 2025, Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> Am 17.04.25 um 13:07 schrieb Jani Nikula:
->> On Thu, 17 Apr 2025, Christian K=C3=B6nig <christian.koenig@amd.com> wro=
-te:
->>> Am 17.04.25 um 11:35 schrieb Jani Nikula:
->>>> On Thu, 17 Apr 2025, Sunil Khatri <sunil.khatri@amd.com> wrote:
->>>>> Add a drm helper macro which append the process information for
->>>>> the drm_file over drm_err.
->>>>>
->>>>> v5: change to macro from function (Christian Koenig)
->>>>>     add helper functions for lock/unlock (Christian Koenig)
->>>>>
->>>>> v6: remove __maybe_unused and make function inline (Jani Nikula)
->>>>>     remove drm_print.h
->>>> I guess I gave all kinds of comments, but in the end my conclusion was:
->>>> why does *any* of this have to be static inline or macros? Make
->>>> drm_file_err() a regular function and hide the implementation inside
->>>> drm_file.c. That's the cleanest approach IMO.
->>> That won't work. The macro is necessary to concatenate the format strin=
-gs.
->> I think you can handle them using struct va_format and %pV.
->
-> Oh, really good point! I wasn't aware that this functionality exists.
->
-> Going to discuss that with Sunil internally.
 
-Please see the completely untested patch below for a starting point.
+On 17/04/2025 10:34, Sunil Khatri wrote:
+> fix the below warning messages:
+> ttm/ttm_bo.c:1098: warning: Function parameter or struct member 'hit_low' not described in 'ttm_bo_swapout_walk'
+> ttm/ttm_bo.c:1098: warning: Function parameter or struct member 'evict_low' not described in 'ttm_bo_swapout_walk'
+> 
+> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 95b86003c50d..33fefdcc6323 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -1093,7 +1093,8 @@ struct ttm_bo_swapout_walk {
+>   	struct ttm_lru_walk walk;
+>   	/** @gfp_flags: The gfp flags to use for ttm_tt_swapout() */
+>   	gfp_t gfp_flags;
+> -
+> +	/** @hit_low: flag to mark low */
+> +	/** @evict_low:  flag for low eviction */
+>   	bool hit_low, evict_low;
+>   };
+>   
 
-BR,
-Jani.
+Hm, could you check if you could copy and adapt more detailed comments 
+from struct ttm_bo_evict_walk?
 
+	/** @try_low: Whether we should attempt to evict BO's with low 
+watermark threshold */
+	bool try_low;
+	/** @hit_low: If we cannot evict a bo when @try_low is false (first 
+pass) */
+	bool hit_low;
+};
 
+Regards,
 
-From 55968ab339467c5b6e12ceb157ecbaf62eaa6082 Mon Sep 17 00:00:00 2001
-From: Sunil Khatri <sunil.khatri@amd.com>
-Date: Thu, 17 Apr 2025 14:43:51 +0530
-Subject: [PATCH] drm: add macro drm_file_err to print process info
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Esp=
-oo
-Cc: Jani Nikula <jani.nikula@intel.com>
+Tvrtko
 
-Add a drm helper macro which append the process information for
-the drm_file over drm_err.
-
-v5: change to macro from function (Christian Koenig)
-    add helper functions for lock/unlock (Christian Koenig)
-
-v6: remove __maybe_unused and make function inline (Jani Nikula)
-    remove drm_print.h
-
-Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_file.c | 45 ++++++++++++++++++++++++++++++++++++++
- include/drm/drm_file.h     |  3 +++
- 2 files changed, 48 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index c299cd94d3f7..dea954f57890 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -1025,3 +1025,48 @@ struct file *mock_drm_getfile(struct drm_minor *mino=
-r, unsigned int flags)
- 	return file;
- }
- EXPORT_SYMBOL_FOR_TESTS_ONLY(mock_drm_getfile);
-+
-+static struct task_struct *drm_task_lock(struct drm_file *file_priv)
-+{
-+	struct task_struct *task;
-+	struct pid *pid;
-+
-+	mutex_lock(&file_priv->client_name_lock);
-+	rcu_read_lock();
-+	pid =3D rcu_dereference(file_priv->pid);
-+	task =3D pid_task(pid, PIDTYPE_TGID);
-+
-+	return task;
-+}
-+
-+static void drm_task_unlock(struct drm_file *file_priv)
-+{
-+	rcu_read_unlock();
-+	mutex_unlock(&file_priv->client_name_lock);
-+}
-+/**
-+ * drm_file_err - Fill info string with process name and pid
-+ * @file_priv: context of interest for process name and pid
-+ * @format: printf() like format string
-+ *
-+ * This update the user provided buffer with process
-+ * name and pid information for @file_priv
-+ */
-+void drm_file_err(struct drm_file *file_priv, const char *format, ...)
-+{
-+	struct drm_device *dev =3D file_priv->minor->dev;
-+	struct task_struct *task;
-+	struct va_format vaf;
-+	va_list args;
-+
-+	va_start(args, format);
-+	vaf.fmt =3D format;
-+	vaf.va =3D &args;
-+
-+	task =3D drm_task_lock(file_priv);
-+	drm_err(dev, "comm: %s pid: %d client: %s %pV",
-+		task ? task->comm : "", task ? task->pid : 0,
-+		file_priv->client_name ?: "Unset", &vaf);
-+	drm_task_unlock(file_priv);
-+}
-+EXPORT_SYMBOL(drm_file_err);
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 94d365b22505..ceb08a67f0b7 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -446,6 +446,9 @@ static inline bool drm_is_accel_client(const struct drm=
-_file *file_priv)
- 	return file_priv->minor->type =3D=3D DRM_MINOR_ACCEL;
- }
-=20
-+__printf(2, 3)
-+void drm_file_err(struct drm_file *file_priv, const char *format, ...);
-+
- void drm_file_update_pid(struct drm_file *);
-=20
- struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigned int=
- minor_id);
---=20
-2.39.5
-
-
-
-
---=20
-Jani Nikula, Intel
