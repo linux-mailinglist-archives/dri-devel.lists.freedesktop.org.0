@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB63A91ACE
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 13:27:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689CBA91AED
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 13:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA77D10EACB;
-	Thu, 17 Apr 2025 11:27:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F68D10EACD;
+	Thu, 17 Apr 2025 11:30:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="K47WesQY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c95j4e0g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5521110EABD;
- Thu, 17 Apr 2025 11:27:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=m/7PFydCEc2cZqSSU1AuQ2J36xZLv3+FkoNbKaaeGj4=; b=K47WesQYhwNtLulRh8JWWEZpT3
- p543PrdOuRmvUtpC5s4B/QylNakqkKZFYzenYDKgzg7UfwspTCXs6+3lZUEqw8gfr4t+g1eD4bQm+
- tmiskSzxz//9oj1DZfIlBpgmWLCwU+7GGtx6MxUfsarejvkYq4aKdhYN3q1alix4r3DD6TZReDc/h
- NFkyfdwKvrKy4m/hVqA1RiFJ0xncu+b8I9x2PJD7j5+einpRpvmwpDh5BiAyjZh9jLRZhPY7UUlZJ
- 0JE9JAuuiS1aLQNhg3YvtFSB9rJLgpMcqnPiJP9q1M3U3nwlpKs+4MNERjpWJbG8niAVAhD29OMHE
- R1HNyBaw==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1u5NP0-000mgU-4r; Thu, 17 Apr 2025 13:27:30 +0200
-Message-ID: <3ac34c84-fd84-4598-96e1-239418b7109f@igalia.com>
-Date: Thu, 17 Apr 2025 12:27:29 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9452F10EAC8;
+ Thu, 17 Apr 2025 11:30:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744889421; x=1776425421;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=Ia5pniwOSwFh5dgBNgloPIn51o0KZZavQZZVK5ASOJ8=;
+ b=c95j4e0gKvu3bNjFYmmgHa28flRrZmwpxgeCr3ptzPm6dzXfLk4Gxd2D
+ ZwP2MFdJsKx8JpZaIRA3anV6lCWnioMW6+PaPwgnlziaqdpOl09W1SXmk
+ XJX0q7Hu9A77TKFMrLvEPOj+h8josDO2xQgujTgaGKuTP7kDpSRcrTK0v
+ HeVu1ux2ayFShvtx90VV36QAvLDEIUSQqiZaEC2cnJW8Y4hnS8ZppgffY
+ NDOSRsYwbj6BAT1RPZxN+yffu63OZwkk61+iyCb6YPkS3mZwFYDushw4V
+ x2eY5iFroyD97uo0sneviIt3kPqJfCpHnyiFoQ0rFggxsSxCUSdssTzn8 g==;
+X-CSE-ConnectionGUID: pa0UX9EiS7COYXf7P7Frwg==
+X-CSE-MsgGUID: Dp74CWLeTF6JD1lraz4ioA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46603459"
+X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; d="scan'208";a="46603459"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2025 04:30:21 -0700
+X-CSE-ConnectionGUID: fAFNzLb0SI2UJ3qWlEqT8g==
+X-CSE-MsgGUID: eKCu/6VsTmquYF/fP3kREw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; d="scan'208";a="130541223"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2025 04:30:19 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, Sunil Khatri
+ <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, Pierre-Eric Pelloux-Prayer
+ <pierre-eric.pelloux-prayer@amd.com>
+Subject: Re: [PATCH v6 1/5] drm: add macro drm_file_err to print process info
+In-Reply-To: <2ec09b8a-25f3-484c-b81c-f6478d9743cd@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250417091355.2240384-1-sunil.khatri@amd.com>
+ <874iynp1uw.fsf@intel.com> <05d7ba43-28ff-4c76-9b63-782b8df0f9f6@amd.com>
+ <871ptroxkl.fsf@intel.com> <2ec09b8a-25f3-484c-b81c-f6478d9743cd@amd.com>
+Date: Thu, 17 Apr 2025 14:30:15 +0300
+Message-ID: <87tt6nnhyw.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] drm/sched: Warn if pending list is not empty
-To: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250407152239.34429-2-phasta@kernel.org>
- <20250407152239.34429-5-phasta@kernel.org>
- <9607e5a54b8c5041dc7fc134425cc36c0c70b5f3.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <9607e5a54b8c5041dc7fc134425cc36c0c70b5f3.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,123 +74,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 17 Apr 2025, Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> Am 17.04.25 um 13:07 schrieb Jani Nikula:
+>> On Thu, 17 Apr 2025, Christian K=C3=B6nig <christian.koenig@amd.com> wro=
+te:
+>>> Am 17.04.25 um 11:35 schrieb Jani Nikula:
+>>>> On Thu, 17 Apr 2025, Sunil Khatri <sunil.khatri@amd.com> wrote:
+>>>>> Add a drm helper macro which append the process information for
+>>>>> the drm_file over drm_err.
+>>>>>
+>>>>> v5: change to macro from function (Christian Koenig)
+>>>>>     add helper functions for lock/unlock (Christian Koenig)
+>>>>>
+>>>>> v6: remove __maybe_unused and make function inline (Jani Nikula)
+>>>>>     remove drm_print.h
+>>>> I guess I gave all kinds of comments, but in the end my conclusion was:
+>>>> why does *any* of this have to be static inline or macros? Make
+>>>> drm_file_err() a regular function and hide the implementation inside
+>>>> drm_file.c. That's the cleanest approach IMO.
+>>> That won't work. The macro is necessary to concatenate the format strin=
+gs.
+>> I think you can handle them using struct va_format and %pV.
+>
+> Oh, really good point! I wasn't aware that this functionality exists.
+>
+> Going to discuss that with Sunil internally.
 
-On 17/04/2025 08:45, Philipp Stanner wrote:
-> On Mon, 2025-04-07 at 17:22 +0200, Philipp Stanner wrote:
->> drm_sched_fini() can leak jobs under certain circumstances.
->>
->> Warn if that happens.
->>
->> Signed-off-by: Philipp Stanner <phasta@kernel.org>
->> ---
->>   drivers/gpu/drm/scheduler/sched_main.c | 4 ++++
-> 
-> I hear a lot of amazed silence for this series ^_^
-> 
-> If there's no major pushback, my intention is to pull this in once the
-> blocking Nouveau-bug has been fixed (by pulling my patch).
+Please see the completely untested patch below for a starting point.
 
-It was on my todo list to read it but failed to get to it due various 
-reasons.
+BR,
+Jani.
 
-I only managed to skim over it it and am not quite convinced. But 
-because I did not have time to think about it very much my feedback at 
-this point is not very deep.
 
-On the high level I understand for nouveau the series is "net zero", 
-right? No leaks before, no leaks after. What about other drivers? Which 
-ones have known leaks which could be addressed by them implementing this 
-new callback?
 
-Presumably you would document the callback should only be implemented by 
-drivers which are 100% sure the clean up can always reliably done? 
-Otherwise unkillable process on stuck hardware or drivers with not good 
-enough reset support can still happen. (Which would be worse than a leak 
-on shutdown.)
+From 55968ab339467c5b6e12ceb157ecbaf62eaa6082 Mon Sep 17 00:00:00 2001
+From: Sunil Khatri <sunil.khatri@amd.com>
+Date: Thu, 17 Apr 2025 14:43:51 +0530
+Subject: [PATCH] drm: add macro drm_file_err to print process info
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Esp=
+oo
+Cc: Jani Nikula <jani.nikula@intel.com>
 
-Have you thought about any observable effects from the userspace point 
-of view? For example something if which now works, such as submitting a 
-job which writes to a shared buffer and then exiting could stop working 
-after the callback is implemented? I don't see it, because it would be 
-unreliable even today (timing dependent whether job is in the queue or 
-scheduled at exit time) so just thinking out loud.
+Add a drm helper macro which append the process information for
+the drm_file over drm_err.
 
-Also, since the cover letter mentions job reference counting was one 
-idea that was discarded another related problem is about the lifetimes. 
-I think it would be good to discuss potentially reference counting 
-"everything" because for instance today I can crash the kernel trivially 
-with the xe driver*. Probably other drivers too.
+v5: change to macro from function (Christian Koenig)
+    add helper functions for lock/unlock (Christian Koenig)
 
-Problem exactly is that jobs can outlive the entities and the scheduler, 
-while some userspace may have a dma fence reference to the job via sync 
-file. This new callback would not solve it for xe, but if everything 
-required was reference counted it would.
+v6: remove __maybe_unused and make function inline (Jani Nikula)
+    remove drm_print.h
 
-Back to the series.
+Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/drm_file.c | 45 ++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_file.h     |  3 +++
+ 2 files changed, 48 insertions(+)
 
-On the design level it feels like it adds too much state machine and 
-makes things hard to follow/maintain. It would be nice to find a 
-solutiuon where we end up with less state machine and not more.
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index c299cd94d3f7..dea954f57890 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -1025,3 +1025,48 @@ struct file *mock_drm_getfile(struct drm_minor *mino=
+r, unsigned int flags)
+ 	return file;
+ }
+ EXPORT_SYMBOL_FOR_TESTS_ONLY(mock_drm_getfile);
++
++static struct task_struct *drm_task_lock(struct drm_file *file_priv)
++{
++	struct task_struct *task;
++	struct pid *pid;
++
++	mutex_lock(&file_priv->client_name_lock);
++	rcu_read_lock();
++	pid =3D rcu_dereference(file_priv->pid);
++	task =3D pid_task(pid, PIDTYPE_TGID);
++
++	return task;
++}
++
++static void drm_task_unlock(struct drm_file *file_priv)
++{
++	rcu_read_unlock();
++	mutex_unlock(&file_priv->client_name_lock);
++}
++/**
++ * drm_file_err - Fill info string with process name and pid
++ * @file_priv: context of interest for process name and pid
++ * @format: printf() like format string
++ *
++ * This update the user provided buffer with process
++ * name and pid information for @file_priv
++ */
++void drm_file_err(struct drm_file *file_priv, const char *format, ...)
++{
++	struct drm_device *dev =3D file_priv->minor->dev;
++	struct task_struct *task;
++	struct va_format vaf;
++	va_list args;
++
++	va_start(args, format);
++	vaf.fmt =3D format;
++	vaf.va =3D &args;
++
++	task =3D drm_task_lock(file_priv);
++	drm_err(dev, "comm: %s pid: %d client: %s %pV",
++		task ? task->comm : "", task ? task->pid : 0,
++		file_priv->client_name ?: "Unset", &vaf);
++	drm_task_unlock(file_priv);
++}
++EXPORT_SYMBOL(drm_file_err);
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index 94d365b22505..ceb08a67f0b7 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -446,6 +446,9 @@ static inline bool drm_is_accel_client(const struct drm=
+_file *file_priv)
+ 	return file_priv->minor->type =3D=3D DRM_MINOR_ACCEL;
+ }
+=20
++__printf(2, 3)
++void drm_file_err(struct drm_file *file_priv, const char *format, ...);
++
+ void drm_file_update_pid(struct drm_file *);
+=20
+ struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigned int=
+ minor_id);
+--=20
+2.39.5
 
-On the low level there are some patch ordering and naming, spelling and 
-other small improvements to be made.
 
-But as said at the start, I would need to set aside more time to provide 
-better comments and/or ideas.
 
-*)
-https://patchwork.freedesktop.org/patch/642709/?series=146211&rev=2
 
-> In the mean time, let me review my own stuff:
-> 
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->> b/drivers/gpu/drm/scheduler/sched_main.c
->> index 6b72278c4b72..ae3152beca14 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -1465,6 +1465,10 @@ void drm_sched_fini(struct drm_gpu_scheduler
->> *sched)
->>   	sched->ready = false;
->>   	kfree(sched->sched_rq);
->>   	sched->sched_rq = NULL;
->> +
->> +	if (!list_empty(&sched->pending_list))
->> +		dev_err(sched->dev, "%s: Tearing down scheduler
->> while jobs are pending!\n",
->> +			__func__);
-
-It isn't fair to add this error since it would out of the blue start 
-firing for everyone expect nouveau, no? Regardless if there is a leak or 
-not.
-
-> 
-> The "%s" here will be removed since dev_err() alreday prints the
-> function name.
-
-It does? But anyway, function name is redundant and irrelevant and 
-should not be logged IMO. I would rather prefer we replaced sched->dev 
-with sched->drm so could use drm loggers for clarity throughout.
-
-> I find this dev_err() print more useful than the stack a WARN_ON prints
-> (telling you about invalid_asm_exec_op or stuff like that).
-> 
-> Plus, I guess the places where drivers call drm_sched_fini() are very
-> well defined and known, so a callstack wouldn't really be useful in the
-> first place.
-
-Agreed.
-
-Regards,
-
-Tvrtko
-
-> 
-> P.
-> 
->>   }
->>   EXPORT_SYMBOL(drm_sched_fini);
->>   
-> 
-
+--=20
+Jani Nikula, Intel
