@@ -2,65 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB1AA91248
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 06:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E23A91281
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 07:03:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F9710E0D6;
-	Thu, 17 Apr 2025 04:40:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0BB10EA2C;
+	Thu, 17 Apr 2025 04:57:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=etehtsea.me header.i=@etehtsea.me header.b="vhp8GUSL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jOzRgPEl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 604 seconds by postgrey-1.36 at gabe;
- Thu, 17 Apr 2025 04:40:39 UTC
-Received: from outbound.pv.icloud.com
- (p-west1-cluster4-host8-snip4-1.eps.apple.com [57.103.65.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5AF10E0D6
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 04:40:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=etehtsea.me; s=sig1;
- bh=s8Ze0YrAsRvM56Guf/YtrV37Q0EOqSVlsBXfjoOyn44=;
- h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme;
- b=vhp8GUSLBS9mDgmUKnWpMptHb4zydL8N8Q+yPOxVFS09PTXCud15z3gPBzO3dX0tR
- D4wVQlPUv8ekGnXXgWTPArmYE6P2Y6kszaQHor1oci2Z/C9hnySBVEzGfLk3hBNe8q
- AC/QsW4+2F4JhMYw+Eu6KJIeJMpHTfz0x62ti+hy4zjPqqwxNXEXVpiReEFhK15o4j
- FkDWrllt0iUyfxzUfxKthOgXrLhnmgvdJb0pxbfuuzh5af/kGWDmqem406WC+lW6rJ
- GNjjuiW/KPBzFldVR55+nCT0DHzALxy5khBU+U60TmdYsBtoB0PkifETVNBABr2GmB
- EmaixC3zjIU5Q==
-Received: from localhost (pv-asmtp-me-k8s.p00.prod.me.com [17.56.9.36])
- by outbound.pv.icloud.com (Postfix) with ESMTPSA id CF1A418000AF;
- Thu, 17 Apr 2025 04:21:18 +0000 (UTC)
-From: Konstantin Shabanov <mail@etehtsea.me>
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Konstantin Shabanov <mail@etehtsea.me>,
- Daniel Stone <daniel@fooishbar.org>, Andy Yan <andyshrk@163.com>,
- Dan Callaghan <djc@djc.id.au>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/rockchip: Disable AFBC for res >2560 on rk3399
-Date: Thu, 17 Apr 2025 04:20:08 +0000
-Message-ID: <20250417042008.28536-1-mail@etehtsea.me>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250414095332.9674-1-mail@etehtsea.me>
-References: <20250414095332.9674-1-mail@etehtsea.me>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6AB310EA2C
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 04:56:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id BF790A4986F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 04:51:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 598B2C4CEEF
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 04:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744865814;
+ bh=tmm+QbmYJM9NZANVpptZlZJKOk0h1i4DjoknpPROUPw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=jOzRgPElQp93kazf5N8ZLE36wCfnQfc/BSR1PlnioJ+7xdRk/0WpJnnsRx/Qdnl3o
+ QpoKwWCrQbBa35QDzAuN8O+WySYMdVszRRxxefobklHRgptRnAr9N/cvTItH5K3/bU
+ PUkAcpByBZVvHhFqutwjajJg9UDcRXKrLsMR+SAhss/UbgROw+hEjVgK9P3oNEOeHl
+ hqFVia1DUWziQGWUlU7f5L5+aDdBCeCUV1fRR3b/1zRVuKM0erDMlzF+WnAOL9rswi
+ 1fOlEWuqztK1v1I1R/zYPiqzRkkTfVsS31CyQqcwepARS0SyFv13Gals0JpgopaI0u
+ q9VAL+9UW8ARA==
+Received: by mail-qt1-f172.google.com with SMTP id
+ d75a77b69052e-47663aeff1bso4087981cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 21:56:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXxutGL05g+8LgE2AUBPNw6AQPbo4hBtCnWCiZ44hK2jRuTlsqOGm8RPrc8HcMcUHEKeCAJd5/GziQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyv/5hqa3w8wja6FV9cCXz6n6ppzUOKuRI1rk+7aN2v+IuW5DUE
+ s97f/3a9Aq8Odds/GpfhkF3fGwa/j6WiKH2HAZoYmDCcrA6ehGmYzAZOyOXD26Rm7d19/aLFBNm
+ yITSj6y8p9vOuHT2q08CLyvLguIk=
+X-Google-Smtp-Source: AGHT+IFj9gpXjOfNBYbsZP+Vn5QpEwyj6N1RuCl0FwfJ9EBQ3/JCBLMKfIVXQXchSLXzLc6c/p6NnT4JZBn0Ik2MUXE=
+X-Received: by 2002:a05:622a:650:b0:474:db2f:bd32 with SMTP id
+ d75a77b69052e-47ad810c870mr59493241cf.38.1744865813457; Wed, 16 Apr 2025
+ 21:56:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: MXRK0RV78ZYYop4SgACsYfnc7XchLLpL
-X-Proofpoint-ORIG-GUID: MXRK0RV78ZYYop4SgACsYfnc7XchLLpL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-17_01,2025-04-15_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- suspectscore=0
- mlxlogscore=999 clxscore=1030 spamscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2504170032
+References: <20250414225227.3642618-1-tjmercier@google.com>
+ <20250414225227.3642618-3-tjmercier@google.com>
+ <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
+ <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
+ <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
+ <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
+ <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com>
+ <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
+In-Reply-To: <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Wed, 16 Apr 2025 21:56:42 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
+X-Gm-Features: ATxdqUEk4T3fY6FmmJQdbVRkM42dn04Z_qBTtTJMviwnBymsHkeSKzqSCEwNWdE
+Message-ID: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+ daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+ skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+ simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+ jolsa@kernel.org, mykolal@fb.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,78 +85,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As it isn't supported by hardware. At least, RK3399 doesn't support
-it. From the datasheet[1]
-("1.2.10 Video IN/OUT", "Display Interface", p. 17):
+On Wed, Apr 16, 2025 at 7:09=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
+ wrote:
+>
+> On Wed, Apr 16, 2025 at 6:26=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+[...]
+> >
+> > Here is another rookie question, it appears to me there is a file descr=
+iptor
+> > associated with each DMA buffer, can we achieve the same goal with
+> > a task-file iterator?
+>
+> That would find almost all of them, but not the kernel-only
+> allocations. (kernel_rss in the dmabuf_dump output I attached earlier.
+> If there's a leak, it's likely to show up in kernel_rss because some
+> driver forgot to release its reference(s).) Also wouldn't that be a
+> ton more iterations since we'd have to visit every FD to find the
+> small portion that are dmabufs? I'm not actually sure if buffers that
+> have been mapped, and then have had their file descriptors closed
+> would show up in task_struct->files; if not I think that would mean
+> scanning both files and vmas for each task.
 
-  Support AFBC function co-operation with GPU
-    * support 2560x1600 UI
+I don't think scanning all FDs to find a small portion of specific FDs
+is a real issue. We have a tool that scans all FDs in the system and
+only dump data for perf_event FDs. I think it should be easy to
+prototype a tool by scanning all files and all vmas. If that turns out
+to be very slow, which I highly doubt will be, we can try other
+approaches.
 
-Manually tested on RockPro64 (rk3399):
-- ARM_AFBC modifier is used for 1920x1080
-- DRM_FORMAT_MOD_LINEAR modifier us used for 3840x2160
-- No noise on the screen when sway is running in 4k
-- Dynamic resolution switching works correctly in sway
+OTOH, I am wondering whether we can build a more generic iterator
+for a list of objects. Adding a iterator for each important kernel lists
+seems not scalable in the long term.
 
-Signed-off-by: Konstantin Shabanov <mail@etehtsea.me>
-Cc: Daniel Stone <daniel@fooishbar.org>
-Cc: Andy Yan <andyshrk@163.com>
-Reported-by: Dan Callaghan <djc@djc.id.au>
-Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/7968
-
-[1]: https://opensource.rock-chips.com/images/d/d7/Rockchip_RK3399_Datasheet_V2.1-20200323.pdf
----
-V2 -> V3: Run check only on rk3399
-V1 -> V2: Move the check to the fb_create callback
-
-Hi Andy and Daniel!
-Thank you for the review!
-
-Best wishes,
-Konstantin
-
- drivers/gpu/drm/rockchip/rockchip_drm_fb.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-index dcc1f07632c3..6ca757f80a30 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-@@ -5,6 +5,7 @@
-  */
-
- #include <linux/kernel.h>
-+#include <linux/of.h>
-
- #include <drm/drm.h>
- #include <drm/drm_atomic.h>
-@@ -17,6 +18,9 @@
- #include "rockchip_drm_drv.h"
- #include "rockchip_drm_fb.h"
- #include "rockchip_drm_gem.h"
-+#include "rockchip_drm_vop.h"
-+
-+#define RK3399_AFBC_MAX_WIDTH		2560
-
- static const struct drm_framebuffer_funcs rockchip_drm_fb_funcs = {
- 	.destroy       = drm_gem_fb_destroy,
-@@ -52,6 +56,15 @@ rockchip_fb_create(struct drm_device *dev, struct drm_file *file,
- 	}
-
- 	if (drm_is_afbc(mode_cmd->modifier[0])) {
-+		if (of_machine_is_compatible("rockchip,rk3399")) {
-+			if (mode_cmd->width > RK3399_AFBC_MAX_WIDTH) {
-+				DRM_DEBUG_KMS("AFBC is not supported for the width %d (max %d)\n",
-+					      mode_cmd->width,
-+					      RK3399_AFBC_MAX_WIDTH);
-+				return ERR_PTR(-EINVAL);
-+			};
-+		}
-+
- 		int ret, i;
-
- 		ret = drm_gem_fb_afbc_init(dev, mode_cmd, afbc_fb);
-
-base-commit: 4890d68db651562ea80250f2c93205a5c0327a6a
---
-2.48.1
+Thanks,
+Song
