@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0ACA918F9
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 12:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9D2A9192E
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 12:21:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19C7A10EA87;
-	Thu, 17 Apr 2025 10:16:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7443210EA9B;
+	Thu, 17 Apr 2025 10:21:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AkMk+1Sq";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dfQKQB43";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 623AA10EA87
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 10:16:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744884958;
- bh=KaFbT2y75wQCpnjdD8pO/AdOtEhqFUmgseXs/CwLJDM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=AkMk+1SqwJDhYf3wl1KhokOkifx9oxphFKkiLsL73Qauj2JyHevVEk0xI9vR0bzI3
- BnPqMjcIrZ2dxfiXXdppQC7JnGZ0zPQhhpsDQVBN48ksToKnVVysv3RkYreuZvn3aH
- ffXgU5Lvn62WSwgAUXfJLpWQKUrT6O34Aav75xEC6X4WnooYK8LeJrVdzVtzCS3Jla
- 7JT4RmVvXRWztnUV/hbjfU+SSiTL/amkRsxBi6ysxacMGhGtmJWvezXmqsRoHdgwLG
- mn4P/liDCIlj1WHke4rUV70gf7n7GRMTmQ23EruU0bXbSnzk25t937NYyUw2WA97/9
- yzvj6j+HilYfA==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9C36717E08E3;
- Thu, 17 Apr 2025 12:15:58 +0200 (CEST)
-Date: Thu, 17 Apr 2025 12:15:54 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v2] drm/panthor: Don't create a file offset for NO_MMAP BOs
-Message-ID: <20250417121554.5a9ca8ff@collabora.com>
-In-Reply-To: <4b14aba4-b9e6-436e-9027-4a3f6a6c7daf@intel.com>
-References: <20250417093247.3455096-1-boris.brezillon@collabora.com>
- <4b14aba4-b9e6-436e-9027-4a3f6a6c7daf@intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2644610E1AC;
+ Thu, 17 Apr 2025 10:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=4gAAAy4MiWKbvXuC03x5Dl8ITPPu7sxbi1HdD0YXLjQ=; b=dfQKQB43YA4WzWMoVonPkfeL0N
+ rcWOvhYoPhPT3sCp+1sWpcNnTpM96rng26y53jKJyNILNYycmzkUtoMtp7Mm53jeq2YxCbiymNwZH
+ rSsKhYQYgUpqi0UOXIkTGrenKu/Qs+yzVU37I6iB/37csghjeuFxT/I411vK9FN28UFcr9JtHJYJq
+ V6kYbdPusHk7KQVvsOSL3KSUEADl4Pk/JP2wq/aCIMlZWzxd2AkoNBGvlz/12YNllv+fvSTNKgaYF
+ Ddnj2wrlZb5aN/DwaHBfW+MZ3gz6a+Mr9RDtxqAvlRFJSVhKYM7j2OeiTdklgdZpYKWgBsiYXYysO
+ /IGOWzvw==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1u5MNK-000lXj-Cw; Thu, 17 Apr 2025 12:21:42 +0200
+Message-ID: <deb4892a-0480-4f5c-b063-1bb03e7cb0e6@igalia.com>
+Date: Thu, 17 Apr 2025 11:21:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/sched: fix the warning in drm_sched_job_done
+To: Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+References: <20250417100139.2814393-1-sunil.khatri@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250417100139.2814393-1-sunil.khatri@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,90 +63,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Apr 2025 10:53:23 +0100
-Matthew Auld <matthew.auld@intel.com> wrote:
 
-> On 17/04/2025 10:32, Boris Brezillon wrote:
-> > Right now the DRM_PANTHOR_BO_NO_MMAP flag is ignored by
-> > panthor_ioctl_bo_mmap_offset(), meaning BOs with this flag set can
-> > have a file offset but can't be mapped anyway, because
-> > panthor_gem_mmap() will filter them out.
-> > 
-> > If we error out at mmap_offset creation time, we can get rid of
-> > panthor_gem_mmap() and call drm_gem_shmem_object_mmap directly, and
-> > we get rid of this inconsistency of having an mmap offset for a
-> > BO that can never be mmap-ed.
-> > 
-> > Changes in v2:
-> > - Get rid of panthor_gem_mmap()
-> > - Get rid of the Fixes tag and adjust the commit message accordingly
-> > - Return ENOPERM instead of EINVAL
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >   drivers/gpu/drm/panthor/panthor_drv.c |  5 +++++
-> >   drivers/gpu/drm/panthor/panthor_gem.c | 13 +------------
-> >   2 files changed, 6 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> > index 06fe46e32073..7cd131af340d 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> > @@ -940,6 +940,7 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
-> >   					struct drm_file *file)
-> >   {
-> >   	struct drm_panthor_bo_mmap_offset *args = data;
-> > +	struct panthor_gem_object *bo;
-> >   	struct drm_gem_object *obj;
-> >   	int ret;
-> >   
-> > @@ -950,6 +951,10 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
-> >   	if (!obj)
-> >   		return -ENOENT;
-> >   
-> > +	bo = to_panthor_bo(obj);
-> > +	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
-> > +		return -EPERM;  
+On 17/04/2025 11:01, Sunil Khatri wrote:
+> Fix the below warning.
+> scheduler/sched_main.c:397: warning: Function parameter or struct member 'result' not described in 'drm_sched_job_done'
 > 
-> Just a drive-by-comment: are we not leaking the bo ref here?
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index bfea608a7106..3c03dfdda966 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -390,6 +390,7 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+>   /**
+>    * drm_sched_job_done - complete a job
+>    * @s_job: pointer to the job which is done
+> + * @result: error code for dma fence for schedular
 
-We certainly are, good catch!
+SchedulEr ;)
 
-> 
-> > +
-> >   	ret = drm_gem_create_mmap_offset(obj);
-> >   	if (ret)
-> >   		goto out;
-> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> > index fd014ccc3bfc..22d78cef9c66 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> > @@ -129,17 +129,6 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> >   	return ERR_PTR(ret);
-> >   }
-> >   
-> > -static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-> > -{
-> > -	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> > -
-> > -	/* Don't allow mmap on objects that have the NO_MMAP flag set. */
-> > -	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
-> > -		return -EINVAL;
-> > -
-> > -	return drm_gem_shmem_object_mmap(obj, vma);
-> > -}
-> > -
-> >   static struct dma_buf *
-> >   panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
-> >   {
-> > @@ -169,7 +158,7 @@ static const struct drm_gem_object_funcs panthor_gem_funcs = {
-> >   	.get_sg_table = drm_gem_shmem_object_get_sg_table,
-> >   	.vmap = drm_gem_shmem_object_vmap,
-> >   	.vunmap = drm_gem_shmem_object_vunmap,
-> > -	.mmap = panthor_gem_mmap,
-> > +	.mmap = drm_gem_shmem_object_mmap,
-> >   	.status = panthor_gem_status,
-> >   	.export = panthor_gem_prime_export,
-> >   	.vm_ops = &drm_gem_shmem_vm_ops,  
-> 
+Regards,
+
+Tvrtko
+
+>    *
+>    * Finish the job's fence and wake up the worker thread.
+>    */
 
