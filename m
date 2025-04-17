@@ -2,155 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD531A92005
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 16:42:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AC5A92011
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 16:46:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35F6B10EB2A;
-	Thu, 17 Apr 2025 14:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0444510EB2C;
+	Thu, 17 Apr 2025 14:46:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="B9W1Orku";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="F1M+9tFz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com
- (mail-westeuropeazon11010066.outbound.protection.outlook.com [52.101.69.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5622110EB2A
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 14:42:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oFavQrnA9ll/PX14FW3NZxG7wf5RlsmH8NjgiKmBepWrsdieFC6Q2mYX9jXN0IUkidMFiQluiVi8QM6ceLhHEKOROOuCjCqZ8QSVLbGrSQF5vdaZWyLFs7ro3CKBPSDfcTVf/DZF8CHFFsfANJgjDxcIzSzF0BEChHjveZ/TZ3DI4IECB+Ylfl+q5OQ59UEdHTzWKurF9Y/za5A7XAD56yOd41nyBYLEG7OBSy2hdEk+e/wTwQYFqA8E19Oif8nV1ehlkgj/jAGf1MSbbR6BqCnJGJ8maQJ7Bk5jHZzZkyqVsQsIwVnvjthvhzldDYpkVXCLrdWdq31ghXWvOU9EcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LaEOGlFLZQrTH2gqMCrfUiTV0a1+E2CyVJtnEbyufJM=;
- b=SzOVr/1IB9+AFGmJPeLjXADoELGYQOMd1LLS5lZlhlmUohiaoTM6wrp5LTaZv4TuCP5TjRwPyqi/VBbr3BsoU/J1sgczJLQVFfjoJvX1M/2NIJA1PdW3nje9Qib1ofJlv1+i8JLV120UF2ytKmMOCc+MQlg1lH7mdJ6DqLACRk92vnKIOAuUa0o0GHQe1WtwJrGq3BWqL0EXrQxrP33wOtmiBpDs2Dspl6zjiFHGNP8SyaXZa855eiIWaEpo3/YQPD/yHCiU/+IYggG1QzgfoA32SkIpEKyMK0KAgIHZDs5PwW+/3Wu0pbaizvi31NO3mHxHVF2CEOPPbuxqEk5l1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LaEOGlFLZQrTH2gqMCrfUiTV0a1+E2CyVJtnEbyufJM=;
- b=B9W1OrkuoxMXB0jpBlAZ6XMordxX4bZNMZHdKUN2hsRZJT/y3z7UU/lAXobmxenSp1I3ThkMRzzx/ZNLFk1qF/kix9IdyZmy5k5AztFvnZn04eS0Z1meR3JwVjUNGT6Eee8Tfe0PYomAYCBn098+4BXsZyYc1FsqFDnPqfNprZkreG3HSjAALVHTaYJwFYElN/OOJHsA7j3W+3Clsftr/yiMCDnJvXNbkLiLJr8h7d3c6lJYP4kpkr41aKtUmBtFDXcPYWSL22qCUTLGl7GVr6XRw9uy+mmeSQ8crWawC41JXppUW0oBA4ROqkf1qIloN3A5VQ39B9NrPEY2s6LAxg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by PAXPR04MB8752.eurprd04.prod.outlook.com (2603:10a6:102:20e::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.36; Thu, 17 Apr
- 2025 14:42:39 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.8632.035; Thu, 17 Apr 2025
- 14:42:39 +0000
-Date: Thu, 17 Apr 2025 10:42:29 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- "open list:DRM DRIVERS FOR FREESCALE IMX 5/6"
- <dri-devel@lists.freedesktop.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, 
- "open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, 
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/1] dt-bindings: display: imx: convert ldb.txt to yaml
- format
-Message-ID: <aAETVRHVBFN+nF5O@lizhi-Precision-Tower-5810>
-References: <20250416211929.3502902-1-Frank.Li@nxp.com>
- <2987529.e9J7NaK4W3@steina-w>
-Content-Type: text/plain; charset=iso-8859-1
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0856210EB2C
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 14:46:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1744901179; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=YFfUG6uIqhnhmct9lBt9T7/2MMwCqYMdpk7yl1vYCIb3AGBMQmgQev6y6FZCYwdclCnDAbB+I5109tOfSb0ICbqQwp64+YG7o3s5dJAXrLKn4iwHJStoaoyuJeOtaj5zgUrkuGCu/Ox23tLGtOzsrzAXTDz9crlA0YcAwmW2B/w=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1744901179;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=Qn7SXHzO/FxqlEsus4Fr/kAaHFsjsYYO5SoEfUi1JsM=; 
+ b=KWJ9ABJlcm5+LySqPgWU6EeWUyGP0lU8jGIyVXlE/Lh8Te8n3Jy11dhmnQpfxnrlxK7QHRQz84k99yrKcDlP7Wn2Fc2ErXBJnQB1DS09EWR1/Lo0WqR4mYQsiG+9igAuc9YITDw299de67HjVJKNZ566nlwrl5yoTTjI1JEQMRk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744901179; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=Qn7SXHzO/FxqlEsus4Fr/kAaHFsjsYYO5SoEfUi1JsM=;
+ b=F1M+9tFzETHCBzNfXV7mcUVAzN5L0UzXjY1vd0k3UjZEC6IGBYO1ourBhSGRKaQa
+ TmYiIn6u+sq+8NU7EPXx90bAy5wZT9618HiSlK6JFsTjxiIHT76gQ3eMS7iBWTLqlUN
+ WGaUFv/I5aRu17IRh39renX4smAuZuHdp8x6+66Q=
+Received: by mx.zohomail.com with SMTPS id 174490117729883.39896065559583;
+ Thu, 17 Apr 2025 07:46:17 -0700 (PDT)
+Date: Thu, 17 Apr 2025 15:46:12 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v8 4/4] drm/panthor: show device-wide list of DRM GEM
+ objects over DebugFS
+Message-ID: <sel7vspg4xzjb3wrp2zn5m5yjpzu6ajxxhdyll5u5twqojlmbz@lyz4lv3q67ye>
+References: <20250415191539.55258-1-adrian.larumbe@collabora.com>
+ <20250415191539.55258-4-adrian.larumbe@collabora.com>
+ <8dc50ecd-d43a-4556-9c61-f58bb3a8dde2@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2987529.e9J7NaK4W3@steina-w>
-X-ClientProxiedBy: SJ0PR05CA0069.namprd05.prod.outlook.com
- (2603:10b6:a03:332::14) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PAXPR04MB8752:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc2a5966-0984-4232-f19c-08dd7dbe1a3f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|52116014|7416014|376014|1800799024|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?P7iuuxKEbOeqVMlDwIvOiMUIFt7r+PeCdKOzHUs0AjusnnjJiW2UMrtGFb?=
- =?iso-8859-1?Q?Ye3RFtOQzrdlW8ZmIgcMd/j6z9BGq9JuE1EGQ97IRx+n5k7SjVcQzbuHIe?=
- =?iso-8859-1?Q?yKHFAJdTi9rI3jn6Qa6yTQlpOO/NzdDEqgGARAQWPGQeLhQkb8iTA0wJj5?=
- =?iso-8859-1?Q?sFjnJolOnfE5AiVJy6uaHS/R9APGLR8NkvJik9ewvzYvR/vrG3tkXUmw97?=
- =?iso-8859-1?Q?KS26J+oEtJXp+7oUqvCeQLslCI4KmGQOZWohp7ozFvROvS+Lc+6j2Dy/Vu?=
- =?iso-8859-1?Q?7db9jkfbfVKoD2AcU5Pv8mScYxXhlKFw38u8P9lDNGXKcV3q34Hg2eA1Go?=
- =?iso-8859-1?Q?zvtBEJ4vGxD6uD+6mNozygcEBbW3Cr5F+7ASMpfmuBTaBmkCpkRXimhnAh?=
- =?iso-8859-1?Q?rfX/gLGmbvDzh5GB0vS98wjE0HZ570/xDFcwlhSpenpI4t6M09wxxVGLpt?=
- =?iso-8859-1?Q?R349bzjgK09kdJ3vW5QE7ZuopSvs5Tg0RKIqeqDhuB+cxzVBdy7BOmJ0vF?=
- =?iso-8859-1?Q?9hCp2AF9mGpdcCrJEROY5ycqDgiu1XDrPgTmFsfOfJ7BAihGOjRWpTEKJj?=
- =?iso-8859-1?Q?i9RtpszhZA1d/WiIIAom0oawn79QlEDFXPinHw2HQQ+hZEKYpBkuPsP6lN?=
- =?iso-8859-1?Q?BFPBeY9TVuFZKh1p0VcOGDDqigrXyEEIZWegDcvuD+Ag3YjRduKgwfFrkZ?=
- =?iso-8859-1?Q?eYZUap6GMud4s8oxBSaNahkOa0LShZov/4WZXMcJC42Wqaye+B8vqOb/BH?=
- =?iso-8859-1?Q?07MR5ySHSV+y5vFNqmyKqfAQsDdaVsaIMGienokoyaCFgy1amjq0afF8ex?=
- =?iso-8859-1?Q?Vw86RYQOb0lqeUXvcTZg+RldLqKKEDwtlYrqBnrXCsB5ESbJplxFyGqryU?=
- =?iso-8859-1?Q?oJMm0gvQiSfeZLJk/CHteZ9aKKD2JTkVUzMtZ3w1vHQn8Oac7dpBLwdKYe?=
- =?iso-8859-1?Q?i07aAtb3wtcmBwFN3//sIXqnOwmx5VWxwbEpp69E1cZGvIcSJcwCF9Glfv?=
- =?iso-8859-1?Q?o8N1583NSmfWI5BUcSjJshq0tzl2YXrsQgdFycl2Bbh5+/Wpc8HQgAskg2?=
- =?iso-8859-1?Q?eK6/kK7kFBqfjqpqDBvCU10d1a0Hh49YhwbA460Lq3tWRe+4dyoXRjtCed?=
- =?iso-8859-1?Q?EoXH2cGvfq130Mjowu9PHbZkHzEyzdOaycAb+X931p9lQmHQtIrJC8KXk5?=
- =?iso-8859-1?Q?7nsCcmkGap8njt7MeclG0UzT32DjY1kfBoSi1jR9LFbA8hT7for83rJZUt?=
- =?iso-8859-1?Q?wwO6yqlgC3Hg7DyBDbGx2q5XIO5aOINl32DyO/DRvX+kE70/9Z6kM5SsAc?=
- =?iso-8859-1?Q?nIcy5YgpkA7y/I0OPgd/gKApJMbrSc7hd0zdi6hMhfiRLyiKRg2RMNWeVT?=
- =?iso-8859-1?Q?87jfAmEoNbzJPptKI/95Y+76b0JU80fGV/nfK+nmPV8UbgZk6Nw8dBBo4b?=
- =?iso-8859-1?Q?jkWwkh37Jdj6iwoeMWpVC61TGkdSMCIc80x+0GVc7u/7zO93enYUKpbgfC?=
- =?iso-8859-1?Q?Y=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(52116014)(7416014)(376014)(1800799024)(366016)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?gJCYcT0e+WcE66EeODElASBR2OFcz+4mjFpCyKf6ykDubvYhxI7cFriQX0?=
- =?iso-8859-1?Q?kpvIq3J/+wjlAraKILQxqTLq0NzFzKQlHqXpTYu8GotAWtZT/yUQAJZyPJ?=
- =?iso-8859-1?Q?z1q3VeEErNr8atvl/FtMZ8/bD0jgO6fznoo4PngRWUpXfX6Jtuld9ZZriI?=
- =?iso-8859-1?Q?fCaYMWqx8dW9enPUkBkcohyJ5PMKKaZpARZrjGAoQm9T7h/41y1oYn52Z2?=
- =?iso-8859-1?Q?m/NKaZcxO3a/U62qjcubLxpErHIix+kbTQmvre2X+4z36RYc4B2kpsGB9x?=
- =?iso-8859-1?Q?SFIqQJkmxq3Bc5hnAQZ/Qc+wEvfuURwioTB9Ya75WwqcdT9GKL3oos+PlE?=
- =?iso-8859-1?Q?g1Hlxj+gS8Umdv8My5AH29owAVadFOcUmET8+TK8oDXPjulJaOOiXqeY8e?=
- =?iso-8859-1?Q?QXsDOsrRtuTw4NHgHBF7GPUM+CIS+hv0ZIhvv/WF7UK4KpVVWBCugfPKHI?=
- =?iso-8859-1?Q?z0rDxGtQqjdrJ93Ygyj0VPVtM6utEduffdEjUPZLspNz6Y6U4CeaQ1etoL?=
- =?iso-8859-1?Q?FacSqVqfa2LiQzCW2IjBo0XisIvV/JkQu4dF3yOX6DbQpw/At8/3309x0F?=
- =?iso-8859-1?Q?+V59wVkHUqpdB1V1vwdeok0w1R7/GVVg/h2fG2LUHrG2NRq1/B8u2RKFWY?=
- =?iso-8859-1?Q?SQbfqhLjXvfphhOM68oPDESgskZciAdpdHWEAbECrY/S/1qfpqmrZPzmGT?=
- =?iso-8859-1?Q?OUQc/ZbXmfEMGK5pMxs5i1PPZBE60mTHYT8zNdacG9clUuZLq633mdmQxS?=
- =?iso-8859-1?Q?h18auO0Opc+fKlib3sUfy8BS3JTCWa2TJROYE98Ie+gfOhGYP9Nwzimxd1?=
- =?iso-8859-1?Q?bS5x02NDbpsYudqAIS0u+Ms+ku/1Jn0IqkCRlQbpvR0TQA70Epb+8WjOmQ?=
- =?iso-8859-1?Q?j68uw4myrHA0zrUMmiIAbMVo7DPpGSYgKt8nHs4SNOpl/lS/x3VijAGFW5?=
- =?iso-8859-1?Q?oDMp3TxO+Avy8qDVsZMUVdtOy6z1unabNm5MEwCtcaJ/hnteFD4gTa/ukr?=
- =?iso-8859-1?Q?WOVLzcF07zV+e55wHbXjMdfsTepFtezbe6c9QNMAkPzkTRFKVakVHl6IKi?=
- =?iso-8859-1?Q?Th2VygvODDSBrIghju5rxxXd6to97VYHO4sUZGyc82Zpd8HVym7/f3NmF2?=
- =?iso-8859-1?Q?DOjZRjHKsRdyBdlo4gtFt4dIYe/nzI185aT4slx91rSJYQxLX8X9mTDK4b?=
- =?iso-8859-1?Q?8pOkA80Q5aTToNVazlLo1hD+Oan9HyBRnMtRiX1QUP0Q0SUE3LQp+Cc2l4?=
- =?iso-8859-1?Q?Jv3QhXCR9owE2YZ1qHCfWIOGrA6J2AB9vjhWAs3Js2j+IU+2CWl6DGCMAK?=
- =?iso-8859-1?Q?MT8otaNPfeZei4kcU8eQ024xX5weZ1QZ/Ii6tmq9RbvMWDPRqHj1LYCN/J?=
- =?iso-8859-1?Q?l66jQSP+DqhxzWGof9Xj5+j8+diWO/FTcciuaWaCgJs3EXpNVCJgyEFFhZ?=
- =?iso-8859-1?Q?Fd3x2XRIt7QNam4NktaYGeSVAo3rs7yXsdpviCqTZHRNTnU06qB3DBkNVW?=
- =?iso-8859-1?Q?MeCcdzSr0vBPeY4+8oRSGwwGMv4/ADFNlV+ressKkcX9LSjAjIe5+lluu7?=
- =?iso-8859-1?Q?PgnAeWVLd1Q2uHbidYR2x2OK07la7QJKqemHFBMBWIppnORk2X7AgN7mOC?=
- =?iso-8859-1?Q?NPlACSYyVfkbs=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc2a5966-0984-4232-f19c-08dd7dbe1a3f
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2025 14:42:39.7264 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7bmSd2VpT2j0NigQ1ASavACTR1Dy1GZX0yBA+L134o0BODkIMDWBBcWNRReXw8DB8IiSWNIXsWoqvypy3FFa4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8752
+In-Reply-To: <8dc50ecd-d43a-4556-9c61-f58bb3a8dde2@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,405 +76,449 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 17, 2025 at 08:37:49AM +0200, Alexander Stein wrote:
-> Am Mittwoch, 16. April 2025, 23:19:27 CEST schrieb Frank Li:
-> > Convert ldb.txt to yaml format.
+Hi Steve,
+
+On 17.04.2025 15:25, Steven Price wrote:
+> On 15/04/2025 20:15, Adri√°n Larumbe wrote:
+> > Add a device DebugFS file that displays a complete list of all the DRM
+> > GEM objects that are exposed to UM through a DRM handle.
 > >
-> > Additional changes
-> > - fix clock-names order to match existed dts file.
-> > - remove lvds-panel and iomuxc-gpr node in examples.
-> > - fsl,imx6q-ldb fail back to fsl,imx53-ldb.
+> > Since leaking object identifiers that might belong to a different NS is
+> > inadmissible, this functionality is only made available in debug builds
+> > with DEBUGFS support enabled.
 > >
-> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > File format is that of a table, with each entry displaying a variety of
+> > fields with information about each GEM object.
+> >
+> > Each GEM object entry in the file displays the following information
+> > fields: Client PID, BO's global name, reference count, BO virtual size,
+> > BO resize size, VM address in its DRM-managed range, BO label and a GEM
+> > state flags.
+> >
+> > There's also a usage flags field for the type of BO, which tells us
+> > whether it's a kernel BO and/or mapped onto the FW's address space.
+> >
+> > Signed-off-by: Adri√°n Larumbe <adrian.larumbe@collabora.com>
+> > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+>
+> Although I feel I have to point out the table output is much wider than
+> it needs to be. I'd personally like it if some of the columns were made
+> narrower. But I guess the idea is this is going to be read by a script
+> anyway.
+
+In a previous revision, table format was a lot tighter, but Boris
+pointed out the number of BO flags might increase in the future, so in
+order to save ourselves some headache form having to reformat
+everything, it was best to give those fields some extra padding even if
+that means BO label spans over the usual screen width.
+
+> Thanks,
+> Steve
+>
 > > ---
-> >  .../bindings/display/imx/fsl,imx6q-ldb.yaml   | 182 ++++++++++++++++++
-> >  .../devicetree/bindings/display/imx/ldb.txt   | 146 --------------
-> >  2 files changed, 182 insertions(+), 146 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx6q-ldb.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/display/imx/ldb.txt
+> >  drivers/gpu/drm/panthor/panthor_device.c |   5 +
+> >  drivers/gpu/drm/panthor/panthor_device.h |  11 ++
+> >  drivers/gpu/drm/panthor/panthor_drv.c    |  26 ++++
+> >  drivers/gpu/drm/panthor/panthor_gem.c    | 182 +++++++++++++++++++++++
+> >  drivers/gpu/drm/panthor/panthor_gem.h    |  59 ++++++++
+> >  5 files changed, 283 insertions(+)
 > >
-> > diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6q-ldb.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6q-ldb.yaml
-> > new file mode 100644
-> > index 0000000000000..7edd5f28b1372
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6q-ldb.yaml
-> > @@ -0,0 +1,182 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/imx/fsl,imx6q-ldb.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Freescale LVDS Display Bridge (ldb)
-> > +
-> > +description:
-> > +  The LVDS Display Bridge device tree node contains up to two lvds-channel
-> > +  nodes describing each of the two LVDS encoder channels of the bridge.
-> > +
-> > +maintainers:
-> > +  - Frank Li <Frank.Li@nxp.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - enum:
-> > +          - fsl,imx53-ldb
-> > +      - items:
-> > +          - const: fsl,imx6q-ldb
-> > +          - const: fsl,imx53-ldb
->
-> My DT bindings foo is not that great, but I would have expected something like this:
-> oneOf:
->   - items:
->       - const: fsl,imx53-ldb
-
-enum is correct. if new single compatible string abc added
-
-    - item;
-        - const: fsl,imx53-ldb
-        - const: abc
-
-    that means, we have to use two compatible string compatible = "fsl,imx53-ldb",
-"abc".
-
-    but here
-    - enum:
-        - fsl,imx53-ldb
-        - abc
-
-means only need compatible = "abc"
-
->   - items:
->       - enum:
->           - fsl,imx6q-ldb
-
-Okay! this is little better when need add new compatible string, only need
-one line change.
-
-Frank
->       - const: fsl,imx53-ldb
->
-> Best regards,
-> Alexander
->
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  '#address-cells':
-> > +    const: 1
-> > +
-> > +  '#size-cells':
-> > +    const: 0
-> > +
-> > +  gpr:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description:
-> > +      The phandle points to the iomuxc-gpr region containing the LVDS
-> > +      control register.
-> > +
-> > +  clocks:
-> > +    minItems: 6
-> > +    maxItems: 8
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: di0_pll
-> > +      - const: di1_pll
-> > +      - const: di0_sel
-> > +      - const: di1_sel
-> > +      - const: di0
-> > +      - const: di1
-> > +      - const: di2_sel
-> > +      - const: di3_sel
-> > +    minItems: 6
-> > +
-> > +  fsl,dual-channel:
-> > +    $ref: /schemas/types.yaml#/definitions/flag
-> > +    description:
-> > +      if it exists, only LVDS channel 0 should
-> > +      be configured - one input will be distributed on both outputs in dual
-> > +      channel mode
-> > +
-> > +patternProperties:
-> > +  '^lvds-channel@[0-1]$':
-> > +    type: object
-> > +    description:
-> > +      Each LVDS Channel has to contain either an of graph link to a panel device node
-> > +      or a display-timings node that describes the video timings for the connected
-> > +      LVDS display as well as the fsl,data-mapping and fsl,data-width properties.
-> > +
-> > +    properties:
-> > +      reg:
-> > +        maxItems: 1
-> > +
-> > +      '#address-cells':
-> > +        const: 1
-> > +
-> > +      '#size-cells':
-> > +        const: 0
-> > +
-> > +      display-timings:
-> > +        $ref: /schemas/display/panel/display-timings.yaml#
-> > +
-> > +      fsl,data-mapping:
-> > +        enum:
-> > +          - spwg
-> > +          - jeida
-> > +
-> > +      fsl,data-width:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > +        description: should be <18> or <24>
-> > +        enum:
-> > +          - 18
-> > +          - 24
-> > +
-> > +    patternProperties:
-> > +      '^port@[0-4]$':
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description:
-> > +          On i.MX5, the internal two-input-multiplexer is used. Due to hardware
-> > +          limitations, only one input port (port@[0,1]) can be used for each channel
-> > +          (lvds-channel@[0,1], respectively).
-> > +          On i.MX6, there should be four input ports (port@[0-3]) that correspond
-> > +          to the four LVDS multiplexer inputs.
-> > +          A single output port (port@2 on i.MX5, port@4 on i.MX6) must be connected
-> > +          to a panel input port. Optionally, the output port can be left out if
-> > +          display-timings are used instead.
-> > +
-> > +    additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - gpr
-> > +  - clocks
-> > +  - clock-names
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/imx5-clock.h>
-> > +
-> > +    ldb@53fa8008 {
-> > +        compatible = "fsl,imx53-ldb";
-> > +        reg = <0x53fa8008 0x4>;
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +        gpr = <&gpr>;
-> > +        clocks = <&clks IMX5_CLK_LDB_DI0_SEL>,
-> > +                 <&clks IMX5_CLK_LDB_DI1_SEL>,
-> > +                 <&clks IMX5_CLK_IPU_DI0_SEL>,
-> > +                 <&clks IMX5_CLK_IPU_DI1_SEL>,
-> > +                 <&clks IMX5_CLK_LDB_DI0_GATE>,
-> > +                 <&clks IMX5_CLK_LDB_DI1_GATE>;
-> > +        clock-names = "di0_pll", "di1_pll",
-> > +                      "di0_sel", "di1_sel",
-> > +                      "di0", "di1";
-> > +
-> > +        /* Using an of-graph endpoint link to connect the panel */
-> > +        lvds-channel@0 {
-> > +                reg = <0>;
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +
-> > +                port@0 {
-> > +                    reg = <0>;
-> > +
-> > +                    endpoint {
-> > +                        remote-endpoint = <&ipu_di0_lvds0>;
-> > +                    };
-> > +                };
-> > +
-> > +                port@2 {
-> > +                    reg = <2>;
-> > +
-> > +                    endpoint {
-> > +                        remote-endpoint = <&panel_in>;
-> > +                    };
-> > +               };
-> > +        };
-> > +
-> > +        /* Using display-timings and fsl,data-mapping/width instead */
-> > +        lvds-channel@1 {
-> > +                reg = <1>;
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +                fsl,data-mapping = "spwg";
-> > +                fsl,data-width = <24>;
-> > +
-> > +                display-timings {/* ... */
-> > +                };
-> > +
-> > +                port@1 {
-> > +                     reg = <1>;
-> > +
-> > +                     endpoint {
-> > +                         remote-endpoint = <&ipu_di1_lvds1>;
-> > +                     };
-> > +                };
-> > +        };
-> > +    };
-> > diff --git a/Documentation/devicetree/bindings/display/imx/ldb.txt b/Documentation/devicetree/bindings/display/imx/ldb.txt
-> > deleted file mode 100644
-> > index 03653a291b549..0000000000000
-> > --- a/Documentation/devicetree/bindings/display/imx/ldb.txt
-> > +++ /dev/null
-> > @@ -1,146 +0,0 @@
-> > -Device-Tree bindings for LVDS Display Bridge (ldb)
-> > -
-> > -LVDS Display Bridge
-> > -===================
-> > -
-> > -The LVDS Display Bridge device tree node contains up to two lvds-channel
-> > -nodes describing each of the two LVDS encoder channels of the bridge.
-> > -
-> > -Required properties:
-> > - - #address-cells : should be <1>
-> > - - #size-cells : should be <0>
-> > - - compatible : should be "fsl,imx53-ldb" or "fsl,imx6q-ldb".
-> > -                Both LDB versions are similar, but i.MX6 has an additional
-> > -                multiplexer in the front to select any of the four IPU display
-> > -                interfaces as input for each LVDS channel.
-> > - - gpr : should be <&gpr> on i.MX53 and i.MX6q.
-> > -         The phandle points to the iomuxc-gpr region containing the LVDS
-> > -         control register.
-> > -- clocks, clock-names : phandles to the LDB divider and selector clocks and to
-> > -                        the display interface selector clocks, as described in
-> > -                        Documentation/devicetree/bindings/clock/clock-bindings.txt
-> > -        The following clocks are expected on i.MX53:
-> > -                "di0_pll" - LDB LVDS channel 0 mux
-> > -                "di1_pll" - LDB LVDS channel 1 mux
-> > -                "di0" - LDB LVDS channel 0 gate
-> > -                "di1" - LDB LVDS channel 1 gate
-> > -                "di0_sel" - IPU1 DI0 mux
-> > -                "di1_sel" - IPU1 DI1 mux
-> > -        On i.MX6q the following additional clocks are needed:
-> > -                "di2_sel" - IPU2 DI0 mux
-> > -                "di3_sel" - IPU2 DI1 mux
-> > -        The needed clock numbers for each are documented in
-> > -        Documentation/devicetree/bindings/clock/imx5-clock.yaml, and in
-> > -        Documentation/devicetree/bindings/clock/imx6q-clock.yaml.
-> > -
-> > -Optional properties:
-> > - - pinctrl-names : should be "default" on i.MX53, not used on i.MX6q
-> > - - pinctrl-0 : a phandle pointing to LVDS pin settings on i.MX53,
-> > -               not used on i.MX6q
-> > - - fsl,dual-channel : boolean. if it exists, only LVDS channel 0 should
-> > -   be configured - one input will be distributed on both outputs in dual
-> > -   channel mode
-> > -
-> > -LVDS Channel
-> > -============
-> > -
-> > -Each LVDS Channel has to contain either an of graph link to a panel device node
-> > -or a display-timings node that describes the video timings for the connected
-> > -LVDS display as well as the fsl,data-mapping and fsl,data-width properties.
-> > -
-> > -Required properties:
-> > - - reg : should be <0> or <1>
-> > - - port: Input and output port nodes with endpoint definitions as defined in
-> > -   Documentation/devicetree/bindings/graph.txt.
-> > -   On i.MX5, the internal two-input-multiplexer is used. Due to hardware
-> > -   limitations, only one input port (port@[0,1]) can be used for each channel
-> > -   (lvds-channel@[0,1], respectively).
-> > -   On i.MX6, there should be four input ports (port@[0-3]) that correspond
-> > -   to the four LVDS multiplexer inputs.
-> > -   A single output port (port@2 on i.MX5, port@4 on i.MX6) must be connected
-> > -   to a panel input port. Optionally, the output port can be left out if
-> > -   display-timings are used instead.
-> > -
-> > -Optional properties (required if display-timings are used):
-> > - - display-timings : A node that describes the display timings as defined in
-> > -   Documentation/devicetree/bindings/display/panel/display-timing.txt.
-> > - - fsl,data-mapping : should be "spwg" or "jeida"
-> > -                      This describes how the color bits are laid out in the
-> > -                      serialized LVDS signal.
-> > - - fsl,data-width : should be <18> or <24>
-> > -
-> > -example:
-> > -
-> > -gpr: iomuxc-gpr@53fa8000 {
-> > -	/* ... */
-> > -};
-> > -
-> > -ldb: ldb@53fa8008 {
-> > -	#address-cells = <1>;
-> > -	#size-cells = <0>;
-> > -	compatible = "fsl,imx53-ldb";
-> > -	gpr = <&gpr>;
-> > -	clocks = <&clks IMX5_CLK_LDB_DI0_SEL>,
-> > -		 <&clks IMX5_CLK_LDB_DI1_SEL>,
-> > -		 <&clks IMX5_CLK_IPU_DI0_SEL>,
-> > -		 <&clks IMX5_CLK_IPU_DI1_SEL>,
-> > -		 <&clks IMX5_CLK_LDB_DI0_GATE>,
-> > -		 <&clks IMX5_CLK_LDB_DI1_GATE>;
-> > -	clock-names = "di0_pll", "di1_pll",
-> > -		      "di0_sel", "di1_sel",
-> > -		      "di0", "di1";
-> > -
-> > -	/* Using an of-graph endpoint link to connect the panel */
-> > -	lvds-channel@0 {
-> > -		#address-cells = <1>;
-> > -		#size-cells = <0>;
-> > -		reg = <0>;
-> > -
-> > -		port@0 {
-> > -			reg = <0>;
-> > -
-> > -			lvds0_in: endpoint {
-> > -				remote-endpoint = <&ipu_di0_lvds0>;
-> > -			};
-> > -		};
-> > -
-> > -		port@2 {
-> > -			reg = <2>;
-> > -
-> > -			lvds0_out: endpoint {
-> > -				remote-endpoint = <&panel_in>;
-> > -			};
-> > -		};
-> > -	};
-> > -
-> > -	/* Using display-timings and fsl,data-mapping/width instead */
-> > -	lvds-channel@1 {
-> > -		#address-cells = <1>;
-> > -		#size-cells = <0>;
-> > -		reg = <1>;
-> > -		fsl,data-mapping = "spwg";
-> > -		fsl,data-width = <24>;
-> > -
-> > -		display-timings {
-> > -			/* ... */
-> > -		};
-> > -
-> > -		port@1 {
-> > -			reg = <1>;
-> > -
-> > -			lvds1_in: endpoint {
-> > -				remote-endpoint = <&ipu_di1_lvds1>;
-> > -			};
-> > -		};
-> > -	};
-> > -};
-> > -
-> > -panel: lvds-panel {
-> > -	/* ... */
-> > -
-> > -	port {
-> > -		panel_in: endpoint {
-> > -			remote-endpoint = <&lvds0_out>;
-> > -		};
-> > -	};
-> > -};
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> > index a9da1d1eeb70..b776e1a2e4f3 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> > @@ -184,6 +184,11 @@ int panthor_device_init(struct panthor_device *ptdev)
+> >  	if (ret)
+> >  		return ret;
 > >
->
->
-> --
-> TQ-Systems GmbH | M¸hlstraﬂe 2, Gut Delling | 82229 Seefeld, Germany
-> Amtsgericht M¸nchen, HRB 105018
-> Gesch‰ftsf¸hrer: Detlef Schneider, R¸diger Stahl, Stefan Schneider
-> http://www.tq-group.com/
->
->
+> > +#ifdef CONFIG_DEBUG_FS
+> > +	drmm_mutex_init(&ptdev->base, &ptdev->gems.lock);
+> > +	INIT_LIST_HEAD(&ptdev->gems.node);
+> > +#endif
+> > +
+> >  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+> >  	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
+> >  	if (!p)
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > index da6574021664..86206a961b38 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > @@ -205,6 +205,17 @@ struct panthor_device {
+> >
+> >  	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
+> >  	unsigned long fast_rate;
+> > +
+> > +#ifdef CONFIG_DEBUG_FS
+> > +	/** @gems: Device-wide list of GEM objects owned by at least one file. */
+> > +	struct {
+> > +		/** @gems.lock: Protects the device-wide list of GEM objects. */
+> > +		struct mutex lock;
+> > +
+> > +		/** @node: Used to keep track of all the device's DRM objects */
+> > +		struct list_head node;
+> > +	} gems;
+> > +#endif
+> >  };
+> >
+> >  struct panthor_gpu_usage {
+> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> > index 7660627cafa1..13f0b045c5fd 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> > @@ -1557,9 +1557,35 @@ static const struct file_operations panthor_drm_driver_fops = {
+> >  };
+> >
+> >  #ifdef CONFIG_DEBUG_FS
+> > +static int panthor_gems_show(struct seq_file *m, void *data)
+> > +{
+> > +	struct drm_info_node *node = m->private;
+> > +	struct drm_device *dev = node->minor->dev;
+> > +	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
+> > +
+> > +	panthor_gem_debugfs_print_bos(ptdev, m);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +
+> > +static struct drm_info_list panthor_debugfs_list[] = {
+> > +	{"gems", panthor_gems_show, 0, NULL},
+> > +};
+> > +
+> > +static int panthor_gems_debugfs_init(struct drm_minor *minor)
+> > +{
+> > +	drm_debugfs_create_files(panthor_debugfs_list,
+> > +				 ARRAY_SIZE(panthor_debugfs_list),
+> > +				 minor->debugfs_root, minor);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static void panthor_debugfs_init(struct drm_minor *minor)
+> >  {
+> >  	panthor_mmu_debugfs_init(minor);
+> > +	panthor_gems_debugfs_init(minor);
+> >  }
+> >  #endif
+> >
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> > index 3f4ab5a2f2ae..1e3409c05891 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> > @@ -11,14 +11,51 @@
+> >  #include <drm/panthor_drm.h>
+> >
+> >  #include "panthor_device.h"
+> > +#include "panthor_fw.h"
+> >  #include "panthor_gem.h"
+> >  #include "panthor_mmu.h"
+> >
+> > +#ifdef CONFIG_DEBUG_FS
+> > +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+> > +				       struct panthor_gem_object *bo)
+> > +{
+> > +	INIT_LIST_HEAD(&bo->debugfs.node);
+> > +
+> > +	bo->debugfs.creator.tgid = current->group_leader->pid;
+> > +	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
+> > +
+> > +	mutex_lock(&ptdev->gems.lock);
+> > +	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
+> > +	mutex_unlock(&ptdev->gems.lock);
+> > +}
+> > +
+> > +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
+> > +{
+> > +	struct panthor_device *ptdev = container_of(bo->base.base.dev,
+> > +						    struct panthor_device, base);
+> > +
+> > +	if (list_empty(&bo->debugfs.node))
+> > +		return;
+> > +
+> > +	mutex_lock(&ptdev->gems.lock);
+> > +	list_del_init(&bo->debugfs.node);
+> > +	mutex_unlock(&ptdev->gems.lock);
+> > +}
+> > +
+> > +#else
+> > +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+> > +				       struct panthor_gem_object *bo)
+> > +{}
+> > +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
+> > +#endif
+> > +
+> >  static void panthor_gem_free_object(struct drm_gem_object *obj)
+> >  {
+> >  	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> >  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
+> >
+> > +	panthor_gem_debugfs_bo_rm(bo);
+> > +
+> >  	/*
+> >  	 * Label might have been allocated with kstrdup_const(),
+> >  	 * we need to take that into account when freeing the memory
+> > @@ -88,6 +125,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+> >  	struct drm_gem_shmem_object *obj;
+> >  	struct panthor_kernel_bo *kbo;
+> >  	struct panthor_gem_object *bo;
+> > +	u32 debug_flags = PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL;
+> >  	int ret;
+> >
+> >  	if (drm_WARN_ON(&ptdev->base, !vm))
+> > @@ -107,7 +145,11 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+> >  	kbo->obj = &obj->base;
+> >  	bo->flags = bo_flags;
+> >
+> > +	if (vm == panthor_fw_vm(ptdev))
+> > +		debug_flags |= PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED;
+> > +
+> >  	panthor_gem_kernel_bo_set_label(kbo, name);
+> > +	panthor_gem_debugfs_set_usage_flags(to_panthor_bo(kbo->obj), debug_flags);
+> >
+> >  	/* The system and GPU MMU page size might differ, which becomes a
+> >  	 * problem for FW sections that need to be mapped at explicit address
+> > @@ -210,6 +252,8 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+> >  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+> >  	mutex_init(&obj->label.lock);
+> >
+> > +	panthor_gem_debugfs_bo_add(ptdev, obj);
+> > +
+> >  	return &obj->base.base;
+> >  }
+> >
+> > @@ -258,6 +302,12 @@ panthor_gem_create_with_handle(struct drm_file *file,
+> >  	/* drop reference from allocate - handle holds it now. */
+> >  	drm_gem_object_put(&shmem->base);
+> >
+> > +	/*
+> > +	 * No explicit flags are needed in the call below, since the
+> > +	 * function internally sets the INITIALIZED bit for us.
+> > +	 */
+> > +	panthor_gem_debugfs_set_usage_flags(bo, 0);
+> > +
+> >  	return ret;
+> >  }
+> >
+> > @@ -296,3 +346,135 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+> >
+> >  	panthor_gem_bo_set_label(bo->obj, str);
+> >  }
+> > +
+> > +#ifdef CONFIG_DEBUG_FS
+> > +static void
+> > +panthor_gem_debugfs_format_flags(char flags_str[], int flags_len,
+> > +				 const char * const names[], u32 name_count,
+> > +				 u32 flags)
+> > +{
+> > +	bool first = true;
+> > +	int offset = 0;
+> > +
+> > +#define ACC_FLAGS(...) \
+> > +	({ \
+> > +		offset += snprintf(flags_str + offset, flags_len - offset, ##__VA_ARGS__); \
+> > +		if (offset == flags_len) \
+> > +			return; \
+> > +	})
+> > +
+> > +	ACC_FLAGS("%c", '(');
+> > +
+> > +	if (!flags)
+> > +		ACC_FLAGS("%s", "none");
+> > +
+> > +	while (flags) {
+> > +		u32 bit = fls(flags) - 1;
+> > +		u32 idx = bit + 1;
+> > +
+> > +		if (!first)
+> > +			ACC_FLAGS("%s", ",");
+> > +
+> > +		if (idx < name_count && names[idx])
+> > +			ACC_FLAGS("%s", names[idx]);
+> > +
+> > +		first = false;
+> > +		flags &= ~BIT(bit);
+> > +	}
+> > +
+> > +	ACC_FLAGS("%c", ')');
+> > +
+> > +#undef ACC_FLAGS
+> > +}
+> > +
+> > +struct gem_size_totals {
+> > +	size_t size;
+> > +	size_t resident;
+> > +	size_t reclaimable;
+> > +};
+> > +
+> > +static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+> > +					 struct seq_file *m,
+> > +					 struct gem_size_totals *totals)
+> > +{
+> > +	unsigned int refcount = kref_read(&bo->base.base.refcount);
+> > +	char creator_info[32] = {};
+> > +	size_t resident_size;
+> > +	char gem_state_str[64] = {};
+> > +	char gem_usage_str[64] = {};
+> > +	u32 gem_usage_flags = bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
+> > +	u32 gem_state_flags = 0;
+> > +
+> > +	static const char * const gem_state_flags_names[] = {
+> > +		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED] = "imported",
+> > +		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED] = "exported",
+> > +	};
+> > +
+> > +	static const char * const gem_usage_flags_names[] = {
+> > +		[PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL] = "kernel",
+> > +		[PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED] = "fw-mapped",
+> > +	};
+> > +
+> > +	/* Skip BOs being destroyed. */
+> > +	if (!refcount)
+> > +		return;
+> > +
+> > +	resident_size = bo->base.pages != NULL ? bo->base.base.size : 0;
+> > +
+> > +	snprintf(creator_info, sizeof(creator_info),
+> > +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
+> > +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
+> > +		   creator_info,
+> > +		   bo->base.base.name,
+> > +		   refcount,
+> > +		   bo->base.base.size,
+> > +		   resident_size,
+> > +		   drm_vma_node_start(&bo->base.base.vma_node));
+> > +
+> > +	if (bo->base.base.import_attach != NULL)
+> > +		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
+> > +	if (bo->base.base.dma_buf != NULL)
+> > +		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
+> > +
+> > +	panthor_gem_debugfs_format_flags(gem_state_str, sizeof(gem_state_str),
+> > +					 gem_state_flags_names, ARRAY_SIZE(gem_state_flags_names),
+> > +					 gem_state_flags);
+> > +	panthor_gem_debugfs_format_flags(gem_usage_str, sizeof(gem_usage_str),
+> > +					 gem_usage_flags_names, ARRAY_SIZE(gem_usage_flags_names),
+> > +					 gem_usage_flags);
+> > +
+> > +	seq_printf(m, "%-64s%-64s", gem_state_str, gem_usage_str);
+> > +
+> > +	scoped_guard(mutex, &bo->label.lock) {
+> > +		seq_printf(m, "%s", bo->label.str ? : "");
+> > +	}
+> > +
+> > +	seq_puts(m, "\n");
+> > +
+> > +	totals->size += bo->base.base.size;
+> > +	totals->resident += resident_size;
+> > +	if (bo->base.madv > 0)
+> > +		totals->reclaimable += resident_size;
+> > +}
+> > +
+> > +void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+> > +				   struct seq_file *m)
+> > +{
+> > +	struct gem_size_totals totals = {0};
+> > +	struct panthor_gem_object *bo;
+> > +
+> > +	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset     state                                                           usage                                                           label\n");
+> > +	seq_puts(m, "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+> > +
+> > +	scoped_guard(mutex, &ptdev->gems.lock) {
+> > +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+> > +			if (bo->debugfs.flags & PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED)
+> > +				panthor_gem_debugfs_bo_print(bo, m, &totals);
+> > +		}
+> > +	}
+> > +
+> > +	seq_puts(m, "=====================================================================================================================================================================================================================================================\n");
+> > +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
+> > +		   totals.size, totals.resident, totals.reclaimable);
+> > +}
+> > +#endif
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> > index 3c09af568e47..94b244f0540e 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> > @@ -15,6 +15,48 @@ struct panthor_vm;
+> >
+> >  #define PANTHOR_BO_LABEL_MAXLEN	4096
+> >
+> > +enum panthor_debugfs_gem_state_flags {
+> > +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported. */
+> > +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED = BIT(0),
+> > +
+> > +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported. */
+> > +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED = BIT(1),
+> > +};
+> > +
+> > +enum panthor_debugfs_gem_usage_flags {
+> > +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL: BO is for kernel use only. */
+> > +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL = BIT(0),
+> > +
+> > +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED: BO is mapped on the FW VM. */
+> > +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED = BIT(1),
+> > +
+> > +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED: BO is ready for DebugFS display. */
+> > +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED = BIT(31),
+> > +};
+> > +
+> > +/**
+> > + * struct panthor_gem_debugfs - GEM object's DebugFS list information
+> > + */
+> > +struct panthor_gem_debugfs {
+> > +	/**
+> > +	 * @node: Node used to insert the object in the device-wide list of
+> > +	 * GEM objects, to display information about it through a DebugFS file.
+> > +	 */
+> > +	struct list_head node;
+> > +
+> > +	/** @creator: Information about the UM process which created the GEM. */
+> > +	struct {
+> > +		/** @creator.process_name: Group leader name in owning thread's process */
+> > +		char process_name[TASK_COMM_LEN];
+> > +
+> > +		/** @creator.tgid: PID of the thread's group leader within its process */
+> > +		pid_t tgid;
+> > +	} creator;
+> > +
+> > +	/** @flags: Combination of panthor_debugfs_gem_usage_flags flags */
+> > +	u32 flags;
+> > +};
+> > +
+> >  /**
+> >   * struct panthor_gem_object - Driver specific GEM object.
+> >   */
+> > @@ -62,6 +104,10 @@ struct panthor_gem_object {
+> >  		/** @lock.str: Protects access to the @label.str field. */
+> >  		struct mutex lock;
+> >  	} label;
+> > +
+> > +#ifdef CONFIG_DEBUG_FS
+> > +	struct panthor_gem_debugfs debugfs;
+> > +#endif
+> >  };
+> >
+> >  /**
+> > @@ -157,4 +203,17 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+> >
+> >  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+> >
+> > +#ifdef CONFIG_DEBUG_FS
+> > +void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+> > +				   struct seq_file *m);
+> > +static inline void
+> > +panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags)
+> > +{
+> > +	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
+> > +}
+> > +
+> > +#else
+> > +void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {};
+> > +#endif
+> > +
+> >  #endif /* __PANTHOR_GEM_H__ */
+
+Adrian Larumbe
