@@ -2,91 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28D9A914E4
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 09:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B21A914E7
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 09:18:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CAC210EA10;
-	Thu, 17 Apr 2025 07:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FA7B10E183;
+	Thu, 17 Apr 2025 07:18:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fastmail.com header.i=@fastmail.com header.b="sTJPLq9E";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="MMtesaQG";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="l+98n7hi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-a3-smtp.messagingengine.com
- (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B83BE10E174;
- Thu, 17 Apr 2025 07:17:16 +0000 (UTC)
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal
- [10.202.2.47])
- by mailfhigh.phl.internal (Postfix) with ESMTP id 073E61140278;
- Thu, 17 Apr 2025 03:17:16 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-07.internal (MEProxy); Thu, 17 Apr 2025 03:17:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
- :to; s=fm2; t=1744874236; x=1744960636; bh=wBa+/RP16JDDqe808w2hJ
- uVvdiTrgtxeTmMlzvStV40=; b=sTJPLq9EtFyiOR4jh9Rcwu/sSeYkK5XrEQPW5
- 4hHAYPA5xkjEanQfsd2CoqCVj7EMYrM9tNSnDCtntJFLdTHLjHnCY1nUA441Si7p
- uPTp0rDsha6+YV1ctisiOeQT0k/dvU+RyuePoOsZkig07IEwAgUSQeYJv2dHpaod
- nBKl0ItL7935QhDwwdZefu2IPRX5+px89zxwZy4j8rklip3RzovdszH40go2em01
- 4qao95oJ6TRZQfxwlcPuisCtGbzun9j/mUYUjyp3mPh80l6jbclE5wqMhIgoz9pA
- ZiMquZmNyUt6hjYZg4DxfGC/FrxB1b8V+a0xP+E+7Jypve49w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1744874236; x=1744960636; bh=wBa+/RP16JDDqe808w2hJuVvdiTrgtxeTmM
- lzvStV40=; b=MMtesaQGcRLx3hon9ZpbVrMnILd5aBNxTbbvlRB9EKKPPLAUouh
- c91kAppzMrAORAix9afQilU6hcVITGKZbH48nXo+3diDzNpoqi9khXU3D/MTests
- 4I5DGqD2igFD5FNhefcjFxWt0aUa+1ieVFbYqq34yyBGrN52iDV5Mwy+Ae9I8lh1
- T8a+p13pOZjBeGha/jRdXrF+JAoelwpQuatVP5UJSPc9h4nWAImfacYYA5sCPwcs
- uPKbodx2iQ6UVOkikyo1IqREr3C/8h/jBnlDi6GKobTOHidUT6ckDCwh5lh3UnUe
- UXy8ROjuTqPi1W5nm57WqiptBpFiRj8JrgQ==
-X-ME-Sender: <xms:-6oAaOLpkqsSZ2XLcuN2jZwDvojpScVm40lXc2QI3LJRbbxuPRadww>
- <xme:-6oAaGK9_Ot3rnBFcCtnEMEZydmLTkhZtITZbYAQSM_ZY7BrMipCzmap0ZkBX3dls
- GeoqEi238I-EpLrbbU>
-X-ME-Received: <xmr:-6oAaOsGexYkveryPSvf6CZ8w81n1cAFgTFmQj1C1zzLbV2DNtmq83oyB5v4xSbnqijpvCHkKyvgJ32hTk6DgakEwuUb3YRo0laZAgEvMXbh37Ok>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdekieegucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
- pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
- evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflrghmvghsucfhlhhofigvrhhs
- uceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrg
- htthgvrhhnpefhvefgkeeiuddtudfhgefgiedvuefhhedtffejtddtfeekieefieejveet
- hfegheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- gsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthht
- ohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhrghrrhihrdifvghnth
- hlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdr
- tghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpth
- htoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthho
- pegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrih
- hrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhl
- rdgthhdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorh
- hgpdhrtghpthhtohepsgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:-6oAaDaAIIqhQK6lC0RXWX-Ww1pDfVeX8g3OnObQZDTFxlLH-o5UkA>
- <xmx:-6oAaFbfEkU2-AU4rA09x-Zzru4ZA27NApGGFp796YRFrCgwAntg9A>
- <xmx:-6oAaPD33lWzknQ5nWrUblnOVnSZM0L9w4KEc_IFU0cBikNatq0lNw>
- <xmx:-6oAaLbCjgbp4gvjasV9x4PgjzQsQLShLaAatajtAxMtb2LbtoK6Fg>
- <xmx:-6oAaIuldu4uXwnS9pfYzkSC2MVzVvXSjeM5DTolbYwg31e6iJ873JGs>
-Feedback-ID: ibd7e4881:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Apr 2025 03:17:13 -0400 (EDT)
-From: James Flowers <bold.zone2373@fastmail.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, skhan@linuxfoundation.org
-Cc: James Flowers <bold.zone2373@fastmail.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] drm/amd/display: adds kernel-doc comment for
- dc_stream_remove_writeback()
-Date: Thu, 17 Apr 2025 00:16:19 -0700
-Message-ID: <20250417071655.4794-1-bold.zone2373@fastmail.com>
-X-Mailer: git-send-email 2.49.0
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ACFA10E07E;
+ Thu, 17 Apr 2025 07:18:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=phiY14deJRI6a3x3lcvFEsIivtjBgBUNrrzrJMy7L4k=; b=l+98n7hizFNvJVcikT8dAmWdEL
+ 9EgniV8ASWyX5G4XinPabRXRsZ0dyrZBSUYqAxyuM9gM98x8GgbEQz+jx/Nbe73zGI0LoLRTLFxiF
+ l3aSuMMTQrFtWQ1eaojWgO/NSOhnDEsMo6sSdWY9Djx4iVdmqE37JnBDS07Y5oZ8urKYy85iMhO1z
+ KDldgm9oeybFPEX7Fdh5b+XvrEuBApknG3MPuEiRRlQhRMolScdnqFYcaI/cBAvlTWKbIytNTR7MG
+ v/FXuN0EdxhKS0Y11XU+zs4yp+6LOJKQu3/a+cbY58FmCIQOcKF/S9crs2pGtTroDfiIRlBHf0GIP
+ wNa3YR9g==;
+Received: from [194.136.85.206] (port=35442 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.98.1)
+ (envelope-from <pekka.paalanen@haloniitty.fi>)
+ id 1u5JVl-000000002m3-3lhC; Thu, 17 Apr 2025 10:18:13 +0300
+Date: Thu, 17 Apr 2025 10:18:06 +0300
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: "Shankar, Uma" <uma.shankar@intel.com>
+Cc: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Kandpal, Suraj" <suraj.kandpal@intel.com>, "harry.wentland@amd.com"
+ <harry.wentland@amd.com>, "alex.hung@amd.com" <alex.hung@amd.com>, "Vetter,
+ Simona" <simona.vetter@intel.com>, "airlied@gmail.com" <airlied@gmail.com>
+Subject: Re: [PATCH v8 01/14] drm: Define histogram structures exposed to user
+Message-ID: <20250417101806.08df0731@eldfell>
+In-Reply-To: <DM4PR11MB63600B85A21E03A5E6938652F4BC2@DM4PR11MB6360.namprd11.prod.outlook.com>
+References: <20250128-dpst-v8-0-871b94d777f8@intel.com>
+ <20250128-dpst-v8-1-871b94d777f8@intel.com>
+ <20250217120808.708b9b4d@eldfell>
+ <c423efcb-5ab8-41c2-af0a-621007c6175d@intel.com>
+ <20250218181819.11ca41ab@eldfell>
+ <cd095fd7-3043-402a-9e21-c0c85c53f8e3@intel.com>
+ <20250220175047.412ee8d4@eldfell>
+ <95a3e35d-2c5e-4861-b7bf-f38815a44e14@intel.com>
+ <20250303112010.469b9685@eldfell>
+ <IA0PR11MB7307CCBB82AF958121A6B3A9BAD92@IA0PR11MB7307.namprd11.prod.outlook.com>
+ <20250320112309.1d9c3e09@eldfell>
+ <IA0PR11MB73070374E14C44DA1C7EDFA3BAA62@IA0PR11MB7307.namprd11.prod.outlook.com>
+ <20250327105925.1e9e8609@eldfell>
+ <IA0PR11MB7307082B787829CA3569F25FBAA02@IA0PR11MB7307.namprd11.prod.outlook.com>
+ <DM4PR11MB63600B85A21E03A5E6938652F4BC2@DM4PR11MB6360.namprd11.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/vewU.i/mKCy.1/0LU/QAvb9";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,32 +91,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds a kernel-doc for externally linked dc_stream_remove_writeback() function.
+--Sig_/vewU.i/mKCy.1/0LU/QAvb9
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Thu, 17 Apr 2025 06:31:21 +0000
+"Shankar, Uma" <uma.shankar@intel.com> wrote:
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-index 0478dd856d8c..060ee6c3fc2e 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-@@ -552,6 +552,14 @@ bool dc_stream_fc_disable_writeback(struct dc *dc,
- 	return true;
- }
- 
-+/**
-+ * dc_stream_remove_writeback() - Disables writeback and removes writeback info.
-+ * @dc: Display core control structure.
-+ * @stream: Display core stream state.
-+ * @dwb_pipe_inst: Display writeback pipe.
-+ *
-+ * Return: returns true on success, false otherwise. 
-+ */
- bool dc_stream_remove_writeback(struct dc *dc,
- 		struct dc_stream_state *stream,
- 		uint32_t dwb_pipe_inst)
--- 
-2.49.0
+> > -----Original Message-----
+> > From: Intel-xe <intel-xe-bounces@lists.freedesktop.org> On Behalf Of Mu=
+rthy,
+> > Arun R
+> > Sent: Friday, March 28, 2025 10:36 AM
+> > To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+> > Cc: intel-xe@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; dr=
+i-
+> > devel@lists.freedesktop.org; Kandpal, Suraj <suraj.kandpal@intel.com>;
+> > harry.wentland@amd.com; alex.hung@amd.com; Vetter, Simona
+> > <simona.vetter@intel.com>; airlied@gmail.com
+> > Subject: RE: [PATCH v8 01/14] drm: Define histogram structures exposed =
+to user
+> >  =20
+> > > On Wed, 26 Mar 2025 06:03:27 +0000
+> > > "Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
+> > > =20
+> > > > > On Wed, 19 Mar 2025 12:08:15 +0000 "Murthy, Arun R"
+> > > > > <arun.r.murthy@intel.com> wrote:
+> > > > > =20
+> > > > > > > On Mon, 3 Mar 2025 13:23:42 +0530 "Murthy, Arun R"
+> > > > > > > <arun.r.murthy@intel.com> wrote:
+> > > > > > > =20
+> > > > > > > > On 20-02-2025 21:20, Pekka Paalanen wrote: =20
+> > > > > > > > > On Wed, 19 Feb 2025 09:28:51 +0530 "Murthy, Arun R"
+> > > > > > > > > <arun.r.murthy@intel.com> wrote: =20
+> > > > >
+> > > > > ...
+> > > > > =20
+> > > > > > > > Hi Pekka,
+> > > > > > > > Sorry got getting back late on this.
+> > > > > > > > I totally agree that the UAPI should not be any hardware
+> > > > > > > > specific and have taken care to get rid of such if any.
+> > > > > > > > Here we are just exposing the histogram data and what point
+> > > > > > > > is the histogram generated is out of the scope. =20
+> > > > > > >
+> > > > > > > It's not out of scope. Understanding exactly at what point the
+> > > > > > > histogram is generated in the KMS pixel pipeline is paramount
+> > > > > > > to being able to use the results correctly - how it relates to
+> > > > > > > the =20
+> > > framebuffers' =20
+> > > > > > > contents and KMS pixel pipeline configuration.
+> > > > > > > =20
+> > > > > >
+> > > > > > While working around this comment, it looks to be quite
+> > > > > > challenging to address this comment and agree that this will
+> > > > > > have to be addressed and is important for the user to know at
+> > > > > > which point in the pixel pipeline configuration the histogram i=
+s generated.
+> > > > > > I can think of 2 options on addressing this.
+> > > > > >
+> > > > > > 1.  Have this documented in the driver. Since this can vary on
+> > > > > > each vendor hardware, can have this documented in the drivers or
+> > > > > > ReST =20
+> > > document. =20
+> > > > > > =20
+> > > > >
+> > > > > Hi Arun,
+> > > > >
+> > > > > this is not acceptable in KMS, because it requires userspace to
+> > > > > have code that depends on the hardware revision or identity. When
+> > > > > new hardware appears, it will not be enough to update the drivers,
+> > > > > one will also need to update userspace. There currently is no
+> > > > > userspace "standard KMS library" to abstract all drivers further,
+> > > > > like there is libcamera =20
+> > > and Mesa. =20
+> > > > > =20
+> > > > > > 2. Maybe have a bitmapping like we have it for histogram_mode.
+> > > > > > Define user readable macros for that.
+> > > > > > Ex: CC1_DEGAMMA_HIST_CC2
+> > > > > > In this case histogram is between the two color conversion
+> > > > > > hardware block in the pixel pipeline.
+> > > > > > This macro will have to be defined on need basis and define a
+> > > > > > u32 variable for this bit manipulation. =20
+> > > > >
+> > > > > This one still has problems in that some hardware may not have all
+> > > > > the non- HIST elements or not in the same order. It's a better
+> > > > > abstraction than option 1, but it's still weak.
+> > > > >
+> > > > > I can see one solid solution, but it won't be usable for quite
+> > > > > some time I
+> > > > > suppose:
+> > > > >
+> > > > > https://lore.kernel.org/dri-devel/20241220043410.416867-5-
+> > > > > alex.hung@amd.com/
+> > > > >
+> > > > > The current work on the color pipelines UAPI is concentrated on
+> > > > > the per-plane operations. The idea is that once those are hashed
+> > > > > out, the same design is applied to CRTCs as well, deprecating all
+> > > > > existing CRTC color processing properties. A histogram processing
+> > > > > element could be exposed as a colorop object, and its position in
+> > > > > a CRTC color pipeline represents the point where the histogram is=
+ collected.
+> > > > >
+> > > > > That would be the best possible UAPI design on current knowledge
+> > > > > in my opinion.
+> > > > > =20
+> > > > Yes this would be the best design, but looking into the timeline for
+> > > > this CRTC color pipeline can we proceed with this as in interim sol=
+ution.
+> > > > Once we have the CRTC color pipeline in drm, will rebase this
+> > > > histogram to make use of the pipeline.
+> > > > We can also take up the crtc color pipeline and will also start
+> > > > contributing to get things faster but since there is not timeline
+> > > > defined for that activity, would it be viable to go ahead with
+> > > > option2 as in =20
+> > > interim solution?
+> > >
+> > > Hi Arun,
+> > >
+> > > I think that's something the DRM maintainers should chime in on. =20
+>=20
+> As a first step, I think we can expose the Histogram through the property.
+> We can later hook this into the crtc color pipeline once we implement it.
 
+Do you mean upstreamed as well?
+
+How is that different from the original proposal here that I raised
+concerns about?
+
+
+Thanks,
+pq
+
+> A userspace implementation showing end to end benefit of the feature and
+> usecase would be needed. Hope this is ok and no strong objection to this
+> approach.
+>=20
+> Regards,
+> Uma Shankar
+>=20
+
+--Sig_/vewU.i/mKCy.1/0LU/QAvb9
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmgAqy4ACgkQI1/ltBGq
+qqc05hAAlCyVGG6Blf7aoJ4zP8yF+qJdkerJ3oay1W1UswtiJM4ybgKG7MZVC62v
+UJviC9JquTffmdNGgsr+mG6HY11PiZL5pKgd9GzYvunra6w4OcwHayQm0qHgsC/V
+NOLLn9LubtvMPZSslHgy65REDwiou9SfJMkMJ26qSB+vU9880/+1wbrnW/8T9QNm
+EWzQK+N4ZXdqNQVhjYxGFyb7vd/PAPpZU7+p95bG/zSvHELIQYnsvyHKcZOM2opt
+ejXuUGb+VqzsSx3OzEOQNgZfGSs9lghiI0kZOdxjXPJJiIQMPK6p+X0gTEtCU/67
+MaAWnpyGffbAIfvGqBY1qzHlllUvr9dB4vj8vK6Vav1z5Yiuw7DwUhjBMJrpxKH2
+xDw/vXqgLQbEIWhRP6QONRNK7bRcnHFL7q4qnDpRJTsoza3xuYdx2Ex1pWxB6LNA
+ZnopN1/zAxi1Ey3BAcZ905O9242D+ocY1NL0CdVtT3JSnaO81onPSS3ugzjiFQzj
+4Bebacd8fUsm8fHo9R5FfOM1970uPjTfpEhaEBGoFHApHyYfKxGLjuwX+2pIPbwu
+A04l7Uwi1pm2UoBBryNkFrpG6p8WMUeK2Xz1p32Wri4I6WRUTnsfH7OWDzscBwCU
+8ExSo3vYHxnL3sHQUSea9QsGGBhFiS/F5f5Vd+wDjZoMyXc2EqA=
+=m/Q5
+-----END PGP SIGNATURE-----
+
+--Sig_/vewU.i/mKCy.1/0LU/QAvb9--
