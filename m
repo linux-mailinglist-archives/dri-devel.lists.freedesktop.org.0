@@ -2,85 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD087A921DA
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 17:43:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A841A921D8
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 17:43:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03AF810EB54;
-	Thu, 17 Apr 2025 15:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B80FE10EB53;
+	Thu, 17 Apr 2025 15:43:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="H/Yso4P6";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="H8jCLoQg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A60210EB52
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 15:43:15 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4394a823036so1483915e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 08:43:15 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A65F10EB53
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 15:43:16 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-39ee57c0b8cso965972f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 08:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1744904594; x=1745509394; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1744904595; x=1745509395; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kiy6O1+ukmiBCdmursvfIZ1ixOUonC4Bg5yCWPYc6cs=;
- b=H/Yso4P6lmQex5C3Idd2uyUlZlZB640n13wMB35OSGgbMTtkplqtyeXg76H53L+DxS
- KdOrpNp0GpcLmRn1X50x2fFJfviff5GRdzfGCtbq9TdTP/AUrszOdNAm38yU9HIkTNc0
- eYcHu7xiFi4Ej2MevyK1lo0fbK4A6YLwK9lV/lbV217rbClW8MUCJH1vWA8ks+/TSauH
- G4DodEhH9jXQAr6JM4nykFtYSWpG1AYiKI9m/yTWBgBBjibSK+/QIpxCzFJK8Z1SzjTb
- aKCuO1zQXuFu/RQDNolMCOF4sAcGOFZO4SjGAqryt0xrbo/n5wDzaKRVcK3gk1uPrRS0
- prpg==
+ bh=nS+iMVPzLszyvK1ef5pz0a8ecHJhiCbYxQ8pLZG1LMM=;
+ b=H8jCLoQgMgZaomvXtvlGYaE/O0j03dM7M4GMlAelBeFRg3qn1RWR/fsIoD53UbLOIa
+ X7E15k+uI6/rRA7vGd38NER/JwS2lk+mX+Ynk5tig+wvSa2mCwVB7+zOkBO+0XAGF/h6
+ iknkLhmQ8BrCliNwmAWv8sk2ILO+dMXCtosSIHdAas25Axdc+Y2467NbIL+KNu2xMbfG
+ eAcNNOnIL/CCRPvXQl6FDILk10Eq/n7/H6o3VW3URg1VHc2y/4efqthoaiqUy87fgj7N
+ bglt7M9+ibKrMs226kvVGtDUTi/DCig3fAv4T5GN7HXlrqaAoEeeHeDIPlXtmNRnl6/h
+ b+5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744904594; x=1745509394;
+ d=1e100.net; s=20230601; t=1744904595; x=1745509395;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kiy6O1+ukmiBCdmursvfIZ1ixOUonC4Bg5yCWPYc6cs=;
- b=BSEMJZo9U4k4FCOOPaHoBsOcaJMADqgCvD2P8eJYQs4/KcvDAPxyYE0h+KgK/4gtbQ
- Nq5P0FblVouw6HUoK+njKuNT0ze7YO52cKi0ZuQKb/o2hi1rL+M7DbQUvFhziiXGgybc
- /Js6/exB6UctkzDwJxNJ1H6hc6NpmvkO1u3Liq5P33069gtfOMKnTve9hoBEQlfo1AVr
- EnMqAdEhJCZgM9sgH+C+S9KtlUWCNZvbiY/YxmdgsRI9dVQeN0w1Ak45XkEUXjQ33SY3
- BE8EXjEGK1l7VLjWOkY0Giw0pTD2ecisXl2iWQ/wzrgPxNev+oLuHUWk2otzOXFvasbz
- MbYg==
+ bh=nS+iMVPzLszyvK1ef5pz0a8ecHJhiCbYxQ8pLZG1LMM=;
+ b=p0lvAoIWJGqyYTNV7P0Bxf0ZeqVzQH8PUdq6Nk3t8/jRbMrHl/Vfkon8CXb4wc+vMx
+ 3bu6OTQAEqZQ6ZP3egZIFdZhHcV+aPgQEAjufxoW1SKqCxfHgTfVblvUSqGo2ZPOuHEz
+ 9dryU9EnZPIlNkeadBEEeuyQqaPTTErG0jx1ETazNtWGeYUSejXlOQWGTEvW1qPy2br6
+ 4xQb2TqemvHwXgBjgreJhlQM1CXPvhemjeUPcUQHCLICBwkgs3ePYuqzQRWBA3kZRD1d
+ DRWz6oLWo7VucaHmQh9n1ur25lKiVwUr1XkDzLyrZS07CJagggN//+r1hTko9okOR3AO
+ tjIQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXBWUQQjfNBu7oqRgD97sTimNVH+Anv+Q4YL+hHlbnCeEN2HfQegrl9SoJQo/VC7VtqdOLNVDKzmaI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUWv4usSkHDM3Ahj3clfRGCRAtNhlXutMscKKnQFlcFqgDYFBT
- 8uTdHyqRnRkaA6aczFvmdOdVSEfEKy+mXJqsY/hPG2GBGC6D+h9eQEDw5ZjgGfI=
-X-Gm-Gg: ASbGncsBIdzJU0NaPfX2eaokA7x0BZri82/3L9p9SPCGFSy/lm9AmiolFBJfx9hRr61
- 18Yn2C8RaV7xqLmNuF5gjEXQj1qUXqtIsYGT8FNOlr6jj1Bgfa3FvCMBphmbtuIgHzRHYQ3irG1
- iIvew98XBNPYGOW2dG6GJySEj3mhNU9L0X2u4AAdTHCLi6W94hkK9ZZZsJpdpTvrzFfPnPnyqX7
- Bl+PaFU56VJoP434N6UYSJHCqNoaV6LOb2wgxWEtlOtTB35wZInM1E5vj+yipW4SxBstzFWjL7x
- aCxxrDIJa5g/xNOk+74zUwTtZNwCvhwdrY9wgz7AgoxYmFh66giaW0ocR7tJwQ==
-X-Google-Smtp-Source: AGHT+IGul/ExpZp37TdPvsaZIQLJkYja32KQl4f188bFltaB6kMTGBke5KI4F7K8YdebH3KDbIM3SQ==
-X-Received: by 2002:a5d:59ae:0:b0:39e:dbee:f644 with SMTP id
- ffacd0b85a97d-39ee5b8954amr5771154f8f.46.1744904593983; 
- Thu, 17 Apr 2025 08:43:13 -0700 (PDT)
+ AJvYcCXW/VUn2uf3e8AN/64sOm5PDolVijnDzTeUpVDQhK4DsUkEhk+L6zD+oUl2kdruUiJSlDXEMqjkpWo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyd5mkpPdy7wkmc0JtUklTRfahJlWgvfXEA/0JLndjn5m7sEhGi
+ +a+U14SamxFodKIylYH/+c5cUjeeqBHCA2Q1K9rJIWyUjBpHxFgPpBmkTOh981U=
+X-Gm-Gg: ASbGnctSPFOKrS/IayjKNWnj8j421jkgFonUXpTGXe4JPYsEPvckW6gIgT6hx8kfsTv
+ a5kds3M8oC19/CC00bE39Ppf24U23pnBasBN/cKgiI0IsDNpZx7iGomJhDNnJ0hM2WL2nMLtQSt
+ z0zj+xzuWdi/+ieT1Tugz9/5EPyfkuuuOT3ntuH0C+UDQiMW/HUDTNQR5g1J7OpJkvZVQCbedyZ
+ eYyGRqnFqkEr8qjTvGP0ZDWuPBxStDTqpzv9WmBZh1SAOiImp96vD88e33P/oczMHNjTEOlJI4K
+ KhDuRyK5YzYEPzVH4oT+kaXN26aiQeG1H6eMdfsVaMZ9fEU5edBcnn8UrZgpvg==
+X-Google-Smtp-Source: AGHT+IGryh9t6uhy66lrT8gQ3EODPyMha/2rPVIOWr8w58yUILTFXYIOWehquSJJiWUu1ku4BKDX9w==
+X-Received: by 2002:a05:6000:2505:b0:39a:c9fe:f069 with SMTP id
+ ffacd0b85a97d-39ee5b373d3mr5516764f8f.30.1744904594884; 
+ Thu, 17 Apr 2025 08:43:14 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39eaf44577dsm20773640f8f.94.2025.04.17.08.43.13
+ ffacd0b85a97d-39eaf44577dsm20773640f8f.94.2025.04.17.08.43.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Apr 2025 08:43:13 -0700 (PDT)
+ Thu, 17 Apr 2025 08:43:14 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- "Pu, Hui" <Hui.Pu@gehealthcare.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Conor Dooley <conor.dooley@microchip.com>, stable@vger.kernel.org
-In-Reply-To: <20250411-tianma-p0700wxf1mbaa-v3-0-acbefe9ea669@bootlin.com>
-References: <20250411-tianma-p0700wxf1mbaa-v3-0-acbefe9ea669@bootlin.com>
-Subject: Re: [PATCH v3 0/3] drm/panel: simple: add Tianma P0700WXF1MBAA and
- improve Tianma TM070JDHG34-00
-Message-Id: <174490459305.1152288.16433755651449379930.b4-ty@linaro.org>
-Date: Thu, 17 Apr 2025 17:43:13 +0200
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: quic_jesszhan@quicinc.com, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel@collabora.com, pablo.sun@mediatek.com, 
+ christophe.jaillet@wanadoo.fr
+In-Reply-To: <20250414082918.30298-1-angelogioacchino.delregno@collabora.com>
+References: <20250414082918.30298-1-angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v4 0/3] Add driver for Himax HX8279 DriverIC panels
+Message-Id: <174490459408.1152288.4538582198698733279.b4-ty@linaro.org>
+Date: Thu, 17 Apr 2025 17:43:14 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -102,20 +95,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, 11 Apr 2025 21:19:43 +0200, Luca Ceresoli wrote:
-> This short series adds power on/off timings to the Tianma TM070JDHG34-00
-> panel and adds support for the the Tianma P0700WXF1MBAA panel.
+On Mon, 14 Apr 2025 10:29:15 +0200, AngeloGioacchino Del Regno wrote:
+> Changes in v4:
+>  - Changed hx8279_set_page() and all other utilities to void (Neil)
+>  - Changed hx8279_{on,prepare,unprepare}() to return dsi_ctx.accum_err (Neil)
+>  - Switched to devm_drm_panel_alloc() as suggested (Neil)
 > 
+> Changes in v3:
+>  - Added support for setting digital gamma parameters and validity check
+>  - Added support for setting analog gamma parameters
+>  - Changed gout_{l,r} to a structure and added a description
+>  - Fixed DSI LPM/HS setting in prepare/unprepare callbacks
+>  - Remove forced panel off in probe function as that was simply
+>    useless
+>  - Renamed function hx8279_check_config to hx8279_check_params
+>    as that is actually checking multiple parameters and not just
+>    basic DDIC configuration
+>  - Moved the GMUX and GOA validation to their own functions to
+>    improve readability
 > 
+> [...]
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-[1/3] dt-bindings: display: simple: Add Tianma P0700WXF1MBAA panel
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/12ad686ffdf51920000e7353351b163f3851c474
-[2/3] drm/panel: simple: Tianma TM070JDHG34-00: add delays
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/716c75afd83c837f14042309126e838de040658b
-[3/3] drm/panel: simple: add Tianma P0700WXF1MBAA panel
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/178ac975357e9563ff09d95a9142a0c451480f67
+[1/3] dt-bindings: vendor-prefixes: Add Shenzhen Aoly Technology Co., Ltd.
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a1958a56e52c87aea94c5cb0c08fe61ede929e7c
+[2/3] dt-bindings: display: panel: Add Himax HX8279/HX8279-D DDIC panels
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a424c93db7ea8ffd18c6c170501bb898abf05932
+[3/3] drm: panel: Add driver for Himax HX8279 DDIC panels
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/38d42c261389985e8dd4739dbd97e2dc855e8dd0
 
 -- 
 Neil
