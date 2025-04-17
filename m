@@ -2,54 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E524A91BFB
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 14:27:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C01AA91C3F
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 14:32:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2B010EAE3;
-	Thu, 17 Apr 2025 12:26:58 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Krgqvkxt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29B9E10E2D1;
+	Thu, 17 Apr 2025 12:32:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC41D10E2D1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 12:26:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744892812;
- bh=ojopRztzKPVRCLLKy8aV8hgS574nLCWJ9ltF38ifVnE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Krgqvkxt5D06ccgRe31XlRADcAHPrGxn2CBjFE+0N5YtTi0fLkEdSaU6xXILXudH4
- Ot0/xVy3Irz95IQ6FQ+UeriOAuyVCjxRgCw29fbakHWFu6ZHpLkUDZHYpJaAdRoOQ3
- OkFkHCRznQiJJnC2MH5KYznR6Lx6n+iukJtmC5FHJEih/tCrndkLU4rT0QnlHqsEig
- WTICPf3PG3wq3wC2JtcVBIooN40T07TQmTDLbxL7W20XeNM6wccQo6JkOjbOGoaCNK
- k0PjY0/T7rsWa+oDxNSLCWWb3dfJzDqz+itEElKYQRh67ymdnH8MVTo00riBzhDPiy
- 93iYm1zfqTpcw==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id E19E217E0F66;
- Thu, 17 Apr 2025 14:26:51 +0200 (CEST)
-Date: Thu, 17 Apr 2025 14:26:47 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 2/4] drm/panthor: Add driver IOCTL for setting BO labels
-Message-ID: <20250417142647.5d287244@collabora.com>
-In-Reply-To: <20250415191539.55258-2-adrian.larumbe@collabora.com>
-References: <20250415191539.55258-1-adrian.larumbe@collabora.com>
- <20250415191539.55258-2-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF9710E063;
+ Thu, 17 Apr 2025 12:32:27 +0000 (UTC)
+Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
+ 53HCW3WT4002376; Thu, 17 Apr 2025 18:02:03 +0530
+Received: (from sunil@localhost)
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 53HCW0aM4002375;
+ Thu, 17 Apr 2025 18:02:00 +0530
+From: Sunil Khatri <sunil.khatri@amd.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Sunil Khatri <sunil.khatri@amd.com>
+Subject: [PATCH V6 1/5] drm: add drm_file_err function to add process info
+Date: Thu, 17 Apr 2025 18:01:51 +0530
+Message-Id: <20250417123155.4002358-1-sunil.khatri@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,45 +47,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Apr 2025 20:15:31 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+Add a drm helper function which append the process information for
+the drm_file over drm_err formated output.
 
-> +/**
-> + * struct drm_panthor_bo_set_label - Arguments passed to DRM_IOCTL_PANTH=
-OR_BO_SET_LABEL
-> + */
-> +struct drm_panthor_bo_set_label {
-> +	/** @handle: Handle of the buffer object to label. */
-> +	__u32 handle;
-> +
+v5: change to macro from function (Christian Koenig)
+    add helper functions for lock/unlock (Christian Koenig)
 
-Funny that this one pops up just after I fixed a missing-padding-field
-issue in panthor_drm.h. We really need to tool based on pahole to
-detect those before merging.
+v6: remove __maybe_unused and make function inline (Jani Nikula)
+    remove drm_print.h
 
-TLDR;
+v7: Use va_format and %pV to concatenate fmt and vargs (Jani Nikula)
 
-	/**  @pad: MBZ. */
-	__u32 pad;
+Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+---
+ drivers/gpu/drm/drm_file.c | 34 ++++++++++++++++++++++++++++++++++
+ include/drm/drm_file.h     |  3 +++
+ 2 files changed, 37 insertions(+)
 
-> +	/**
-> +	 * @label: User pointer to a NUL-terminated string
-> +	 *
-> +	 * Length cannot be greater than 4096
-> +	 */
-> +	__u64 label;
-> +};
-> +
->  /**
->   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
->   * @__access: Access type. Must be R, W or RW.
-> @@ -1019,6 +1037,8 @@ enum {
->  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_CREATE, tiler_heap_create),
->  	DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY =3D
->  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_DESTROY, tiler_heap_destroy),
-> +	DRM_IOCTL_PANTHOR_BO_SET_LABEL =3D
-> +		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
->  };
-> =20
->  #if defined(__cplusplus)
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index c299cd94d3f7..7e64d84d4e2d 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -986,6 +986,40 @@ void drm_show_fdinfo(struct seq_file *m, struct file *f)
+ }
+ EXPORT_SYMBOL(drm_show_fdinfo);
+ 
++/**
++ * drm_file_err - Fill info string with process name and pid
++ * @file_priv: context of interest for process name and pid
++ * @fmt: prinf() like format string
++ *
++ * This update the user provided buffer with process
++ * name and pid information for @file_priv
++ */
++void drm_file_err(struct drm_file *file_priv, const char *fmt, ...)
++{
++	struct task_struct *task;
++	struct pid *pid;
++	struct drm_device *dev = file_priv->minor->dev;
++	va_list args;
++	struct va_format vaf;
++
++	va_start(args, fmt);
++	vaf.fmt = fmt;
++	vaf.va = &args;
++
++	mutex_lock(&file_priv->client_name_lock);
++	rcu_read_lock();
++	pid = rcu_dereference(file_priv->pid);
++	task = pid_task(pid, PIDTYPE_TGID);
++
++	drm_err(dev, "comm: %s pid: %d client: %s %pV", task ? task->comm : "",
++		task ? task->pid : 0, file_priv->client_name ?: "Unset", &vaf);
++
++	va_end(args);
++	rcu_read_unlock();
++	mutex_unlock(&file_priv->client_name_lock);
++}
++EXPORT_SYMBOL(drm_file_err);
++
+ /**
+  * mock_drm_getfile - Create a new struct file for the drm device
+  * @minor: drm minor to wrap (e.g. #drm_device.primary)
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index 94d365b22505..5c3b2aa3e69d 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -446,6 +446,9 @@ static inline bool drm_is_accel_client(const struct drm_file *file_priv)
+ 	return file_priv->minor->type == DRM_MINOR_ACCEL;
+ }
+ 
++__printf(2, 3)
++void drm_file_err(struct drm_file *file_priv, const char *fmt, ...);
++
+ void drm_file_update_pid(struct drm_file *);
+ 
+ struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigned int minor_id);
+-- 
+2.34.1
 
