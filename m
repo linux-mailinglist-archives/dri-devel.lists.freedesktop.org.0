@@ -2,35 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C66A9193F
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 12:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4605CA9193D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 12:24:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53D1910EA9A;
-	Thu, 17 Apr 2025 10:24:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D7910EA84;
+	Thu, 17 Apr 2025 10:24:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 196F210EA8C;
- Thu, 17 Apr 2025 10:24:43 +0000 (UTC)
-Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
- 53HAOVXS2828566; Thu, 17 Apr 2025 15:54:31 +0530
-Received: (from sunil@localhost)
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 53HAOVni2828565;
- Thu, 17 Apr 2025 15:54:31 +0530
-From: Sunil Khatri <sunil.khatri@amd.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Sunil Khatri <sunil.khatri@amd.com>
-Subject: [PATCH v2] drm/sched: fix the warning in drm_sched_job_done
-Date: Thu, 17 Apr 2025 15:54:30 +0530
-Message-Id: <20250417102430.2828552-1-sunil.khatri@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C028D10EA84
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 10:24:36 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B710D1515;
+ Thu, 17 Apr 2025 03:24:33 -0700 (PDT)
+Received: from [10.1.37.32] (e122027.cambridge.arm.com [10.1.37.32])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED5453F694;
+ Thu, 17 Apr 2025 03:24:34 -0700 (PDT)
+Message-ID: <b25491fc-122c-4b6c-981a-703147d2f7d8@arm.com>
+Date: Thu, 17 Apr 2025 11:24:32 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/panthor: Fix missing explicit padding in
+ drm_panthor_gpu_info
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
+References: <20250417100503.3478405-1-boris.brezillon@collabora.com>
+ <20250417100503.3478405-2-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250417100503.3478405-2-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,27 +50,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the below warning.
-scheduler/sched_main.c:397: warning: Function parameter or struct member 'result' not described in 'drm_sched_job_done'
+On 17/04/2025 11:05, Boris Brezillon wrote:
+> drm_panthor_gpu_info::shader_present is currently automatically offset
+> by 4 byte to meet Arm's 32-bit/64-bit field alignment rules, but those
+> constraints don't stand on 32-bit x86 and cause a mismatch when running
+> an x86 binary in a user emulated environment like FEX. It's also
+> generally agreed that uAPIs should explicitly pad their struct fields,
+> which we originally intended to do, but a mistake slipped through during
+> the submission process, leading drm_panthor_gpu_info::shader_present to
+> be misaligned.
+> 
+> This uAPI change doesn't break any of the existing users of panthor
+> which are either arm32 or arm64 where the 64-bit alignment of
+> u64 fields is already enforced a the compiler level.
+> 
+> Fixes: 0f25e493a246 ("drm/panthor: Add uAPI")
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  include/uapi/drm/panthor_drm.h | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index 97e2c4510e69..1379a2d4548c 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -293,6 +293,18 @@ struct drm_panthor_gpu_info {
+>  	/** @as_present: Bitmask encoding the number of address-space exposed by the MMU. */
+>  	__u32 as_present;
+>  
+> +	/**
+> +	 * @garbage: Unused field that's not even zero-checked.
+> +	 *
+> +	 * This originates from a missing padding that leaked in the initial driver submission
+> +	 * and was only found when testing the driver in a 32-bit x86 environment, where
+> +	 * u64 field alignment rules are relaxed compared to aarch32.
+> +	 *
+> +	 * This field can't be repurposed, because it's never been checked by the driver and
+> +	 * userspace is not guaranteed to zero it out.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 1 +
- 1 file changed, 1 insertion(+)
+Why would user space be providing this structure? This is meant to be
+provided from the kernel to user space, and (fingers-crossed) we've been
+zeroing the padding even though not explicitly? (rather than leaking
+some kernel data).
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index bfea608a7106..5cd29e92b133 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -390,6 +390,7 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
- /**
-  * drm_sched_job_done - complete a job
-  * @s_job: pointer to the job which is done
-+ * @result: error code for dma fence for scheduler
-  *
-  * Finish the job's fence and wake up the worker thread.
-  */
--- 
-2.34.1
+Other than the comment - yes this is a uAPI mistake we should fix.
+
+I'm not sure how much we care about historic x86 uAPI but it also should
+be possible to identify an old x86 client using the x86 padding because
+the structure will be too short. But my preference would be to say "it's
+always been broken on x86" and therefore there's no regression.
+
+Thanks,
+Steve
+
+> +	 */
+> +	__u32 garbage;
+> +
+>  	/** @shader_present: Bitmask encoding the shader cores exposed by the GPU. */
+>  	__u64 shader_present;
+>  
 
