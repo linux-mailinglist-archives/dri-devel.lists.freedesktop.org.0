@@ -2,88 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E790A9222E
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 18:05:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B458CA92243
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 18:08:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3556610EB60;
-	Thu, 17 Apr 2025 16:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3896210EB63;
+	Thu, 17 Apr 2025 16:08:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="RnjmoZ1N";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="f68hHFSV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F33E10EB60
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 16:05:04 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-43cfe808908so81245e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 09:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1744905903; x=1745510703;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W8qDOiyv1h4pWlH3g88O7C4xDqIzRDAqgGgkiAByMFA=;
- b=RnjmoZ1NGDiAnC0OMzq2OiiXmjj8zmYa2xBmcQFA/9K0hRmTNFKKUSkE8ocfaSGTZL
- KsjIj83xC9tktpASxAgMeBi6wChUrW71aEH/0z3ErprjkPFqlO3FgPO4s/HJ6hAgnv8A
- xb23TB8SCAsLj8RgHfACMdQQ8a7dhKyuMAroYYXRe3JmhMJA9OPyobbCNbOWv2NmuNLe
- vZ0J7DU9469M/ekAm8+FeUEFKDGLgQqiXFJMKlag6cLg/m2tPF1k/UVL/nhDs810xOH/
- bMwVR1hWwc7jg/3hC0CCIxl30CLsIhMuiF3WCQ6pMoL2u3Y39j7a39f7/5DHG0vYhqqv
- GMwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744905903; x=1745510703;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W8qDOiyv1h4pWlH3g88O7C4xDqIzRDAqgGgkiAByMFA=;
- b=fsZKlmuX+Xttta3zw855FB3D3oxCwif+ZeFx9yyH4G+25SBOYXKHPb5107onrJigD8
- Uj5tCRIWwK0heR22brnIFWSG7yOSzr4UFu8JCXrni6VqlXaI6Rh0sBtZce3JJauwUtLM
- oTQl74FS8LgCpm/Wmz/zd8gcfmvWZlYVPoDYso2dr6Anzp7ziN2DT+FM8/aegV2NGMwa
- NkaYCwaE8SESUzzLEGiCVJr71BUP/LDEq+UqkzfH+VcXqOkMwIt5ZcylHcW3DRWM2HZk
- 2etBfyhuG0bDnM2BnjZ9r5iROUtS6QxZEt4XDysQv1m6cGdba+xB9EvaigoSRMPweC/f
- HtCQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVcSEbvaPKyCPXgf7G6yD3U4xwwfusK4DMn3hGHWP8lXU5cQsfUss4uyXDrWV1FFakXg2WCgcWGcL4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy9pDQOSx+a3wDUiMMDyvRutKcGMaTl8150meV3ryXGZ+RdV0gt
- fEV4o347HVdowPEIioNSGAiNbNDZFTvKHFROcxEn0wZ7U3dOqPUULTbE6BK5OOj11UsrcRpzrgB
- jRpByZ0ML1mHdqDAzDvznbBBn2ZZM5ASFG3RR
-X-Gm-Gg: ASbGnct40gzzJ3NJktTZGphZ4xCJL24OTGP/lJAVKf3sm1f2/9FFQP57J/3p49snefq
- AXpzyL3ZDtTVNfDJSVuydIWy4+krcZO8k90rY9S7OZYFW14AtSe9LobKlLsZtWu9vVPJHAe2jAY
- yPiCCcvmDsW50RjaATKb6iZQbFPALsuUIAutld9N0+YZOSS4O8juU=
-X-Google-Smtp-Source: AGHT+IHPxO/HoUoGfRA0x5PPvATzdMA6UAFEJv1oRfObulb1rUcdqwGzvQUiketg6T4NXeqjA4RD4Ot7mU9EPOGp8HE=
-X-Received: by 2002:a05:600c:1c1e:b0:439:7fc2:c7ad with SMTP id
- 5b1f17b1804b1-44063d6fe78mr983735e9.7.1744905902735; Thu, 17 Apr 2025
- 09:05:02 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6980A10EB5F;
+ Thu, 17 Apr 2025 16:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=guOC1EANmX1Zli2zwBi3sAECd7mZ2rkKhzb5e/7yiwM=; b=f68hHFSVUmeemdwLH+XOWRg5NS
+ 3rbqxpcIHat6AG8FT/e4kp4SywBoRq0B2Qt5ql2Wx3ESLFEGmgDn5kuhlUfxrxXsDxk4xWRYLf6T3
+ 8YmmDtXf3cuTEQqWkMP3NyzOquKp6irgscQlQQA9RtNuvndxdlttL8HrwF05MQJ1OF7x4knqPhPvo
+ o0inba+0+lQFN16MfvCVbFIh+dkU6a0BEoJwopj0/qmO8JXxWEB2YjIAoZMRrpd6rF3werQIg8YWC
+ pU/U9w/Bmyjm1Vz37CLm3lDk/00EU9KjLRxp0yPJcQsfqS75m24Xcya4aNnAfsW09UaSrZQXsJOIr
+ XSHIbtLQ==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1u5Rmf-000sOK-H7; Thu, 17 Apr 2025 18:08:13 +0200
+Message-ID: <0e8313dc-b1bb-4ce7-b5b7-b8b3e027adb7@igalia.com>
+Date: Thu, 17 Apr 2025 17:08:12 +0100
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com>
- <20250414225227.3642618-3-tjmercier@google.com>
- <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
- <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
- <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
- <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
- <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com>
- <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
- <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
-In-Reply-To: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 17 Apr 2025 09:04:48 -0700
-X-Gm-Features: ATxdqUG71xXjeNh_Y--IqcHwHgbok8UYG45JYmWjM55y53LlzggibWtxWiJMWb4
-Message-ID: <CABdmKX0P1tpa-jxzN1_TCyk6Cw6drYM+KRZQ5YQcjNOBFtOFJw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: Song Liu <song@kernel.org>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
- skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
- simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
- jolsa@kernel.org, mykolal@fb.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] drm/sched: Warn if pending list is not empty
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250407152239.34429-2-phasta@kernel.org>
+ <20250407152239.34429-5-phasta@kernel.org>
+ <9607e5a54b8c5041dc7fc134425cc36c0c70b5f3.camel@mailbox.org>
+ <3ac34c84-fd84-4598-96e1-239418b7109f@igalia.com> <aADv4ivXZoJpEA7k@pollux>
+ <83758ca7-8ece-433e-b904-3d21690ead23@igalia.com>
+ <aAEUwjzZ9w9xlKRY@cassiopeiae>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <aAEUwjzZ9w9xlKRY@cassiopeiae>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,43 +72,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 16, 2025 at 9:56=E2=80=AFPM Song Liu <song@kernel.org> wrote:
->
-> On Wed, Apr 16, 2025 at 7:09=E2=80=AFPM T.J. Mercier <tjmercier@google.co=
-m> wrote:
-> >
-> > On Wed, Apr 16, 2025 at 6:26=E2=80=AFPM Song Liu <song@kernel.org> wrot=
-e:
-> [...]
-> > >
-> > > Here is another rookie question, it appears to me there is a file des=
-criptor
-> > > associated with each DMA buffer, can we achieve the same goal with
-> > > a task-file iterator?
-> >
-> > That would find almost all of them, but not the kernel-only
-> > allocations. (kernel_rss in the dmabuf_dump output I attached earlier.
-> > If there's a leak, it's likely to show up in kernel_rss because some
-> > driver forgot to release its reference(s).) Also wouldn't that be a
-> > ton more iterations since we'd have to visit every FD to find the
-> > small portion that are dmabufs? I'm not actually sure if buffers that
-> > have been mapped, and then have had their file descriptors closed
-> > would show up in task_struct->files; if not I think that would mean
-> > scanning both files and vmas for each task.
->
-> I don't think scanning all FDs to find a small portion of specific FDs
-> is a real issue. We have a tool that scans all FDs in the system and
-> only dump data for perf_event FDs. I think it should be easy to
-> prototype a tool by scanning all files and all vmas. If that turns out
-> to be very slow, which I highly doubt will be, we can try other
-> approaches.
 
-But this will not find *all* the buffers, and that defeats the purpose
-of having the iterator.
+On 17/04/2025 15:48, Danilo Krummrich wrote:
+> On Thu, Apr 17, 2025 at 03:20:44PM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 17/04/2025 13:11, Danilo Krummrich wrote:
+>>> On Thu, Apr 17, 2025 at 12:27:29PM +0100, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 17/04/2025 08:45, Philipp Stanner wrote:
+>>>>> On Mon, 2025-04-07 at 17:22 +0200, Philipp Stanner wrote:
+>>>>
+>>>> Problem exactly is that jobs can outlive the entities and the scheduler,
+>>>> while some userspace may have a dma fence reference to the job via sync
+>>>> file. This new callback would not solve it for xe, but if everything
+>>>> required was reference counted it would.
+>>>
+>>> I think you're mixing up the job and the dma_fence here, if a job outlives the
+>>> scheduler, it clearly is a bug, always has been.
+>>>
+>>> AFAIK, Xe reference counts it's driver specific job structures *and* the driver
+>>> specific scheduler structure, such that drm_sched_fini() won't be called before
+>>> all jobs have finished.
+>>
+>> Yes, sorry, dma fence. But it is not enough to postpone drm_sched_fini until
+>> the job is not finished. Problem is exported dma fence holds the pointer to
+>> drm_sched_fence (and so oopses in drm_sched_fence_get_timeline_name on
+>> fence->sched->name) *after* job had finished and driver was free to tear
+>> everything down.
+> 
+> Well, that's a bug in drm_sched_fence then and independent from the other topic.
+> Once the finished fence in a struct drm_sched_fence has been signaled it must
+> live independent of the scheduler.
+> 
+> The lifetime of the drm_sched_fence is entirely independent from the scheduler
+> itself, as you correctly point out.
 
-> OTOH, I am wondering whether we can build a more generic iterator
-> for a list of objects. Adding a iterator for each important kernel lists
-> seems not scalable in the long term.
+Connection (re. independent or not) I made was *if* drm_sched would be 
+reference counted, would that satisfy both the requirement to keep 
+working drm_sched_fence_get_timeline_name and to allow a different 
+flavour of the memory leak fix.
 
-I think the wide variety of differences in locking for different
-objects would make this difficult to do in a generic way.
+I agree drm_sched_fence_get_timeline_name can also be fixed by removing 
+the fence->sched dereference and losing the (pretty) name. Historically 
+there has been a lot of trouble with those names so maybe that would be 
+acceptable.
+
+Revoking s_fence->sched on job completion as an alternative does not 
+sound feasible.
+
+To further complicate matters, I suspect rmmod gpu-sched.ko is also 
+something which would break exported fences since that would remove the 
+fence ops. But that is solvable by module_get/put().
+
+> Starting to reference count things to keep the whole scheduler etc. alive as
+> long as the drm_sched_fence lives is not the correct solution.
+
+To catch up on why if you could dig out the links to past discussions it 
+would be helpful.
+
+I repeat how there is a lot of attractiveness to reference counting. 
+Already mentioned memory leak, s_fence oops, and also not having to 
+clear job->entity could be useful for things like tracking per entity 
+submission stats (imagine CFS like scheduling, generic scheduling DRM 
+cgroup controller). So it would be good for me to hear what pitfalls 
+were identified in this space.
+
+>>> Multiple solutions have been discussed already, e.g. just wait for the pending
+>>> list to be empty, reference count the scheduler for every pending job. Those all
+>>> had significant downsides, which I don't see with this proposal.
+>>>
+>>> I'm all for better ideas though -- what do you propose?
+>>
+>> I think we need to brainstorm both issues and see if there is a solution
+>> which solves them both, with bonus points for being elegant.
+> 
+> The problems are not related. As mentioned above, once signaled a
+> drm_sched_fence must not depend on the scheduler any longer.
+> 
+>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>> index 6b72278c4b72..ae3152beca14 100644
+>>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>> @@ -1465,6 +1465,10 @@ void drm_sched_fini(struct drm_gpu_scheduler
+>>>>>> *sched)
+>>>>>>     	sched->ready = false;
+>>>>>>     	kfree(sched->sched_rq);
+>>>>>>     	sched->sched_rq = NULL;
+>>>>>> +
+>>>>>> +	if (!list_empty(&sched->pending_list))
+>>>>>> +		dev_err(sched->dev, "%s: Tearing down scheduler
+>>>>>> while jobs are pending!\n",
+>>>>>> +			__func__);
+>>>>
+>>>> It isn't fair to add this error since it would out of the blue start firing
+>>>> for everyone expect nouveau, no? Regardless if there is a leak or not.
+>>>
+>>> I think it is pretty fair to warn when detecting a guaranteed bug, no?
+>>>
+>>> If drm_sched_fini() is call while jobs are still on the pending_list, they won't
+>>> ever be freed, because all workqueues are stopped.
+>>
+>> Is it a guaranteed bug for drivers are aware of the drm_sched_fini()
+>> limitation and are cleaning up upon themselves?
+> 
+> How could a driver clean up on itself (unless the driver holds its own list of
+> pending jobs)?
+> 
+> Once a job is in flight (i.e. it's on the pending_list) we must guarantee that
+> free_job() is called by the scheduler, which it can't do if we call
+> drm_sched_fini() before the pending_list is empty.
+> 
+>> In other words if you apply the series up to here would it trigger for
+>> nouveau?
+> 
+> No, because nouveau does something very stupid, i.e. replicate the pending_list.
+
+Ah okay I see it now, it waits for all jobs to finish before calling 
+drm_sched_fini(). For some reason I did not think it was doing that 
+given the cover letter starts with how that is a big no-no.
+
+>> Reportedly it triggers for the mock scheduler which also has no
+>> leak.
+> 
+> That sounds impossible. How do you ensure you do *not* leak memory when you tear
+> down the scheduler while it still has pending jobs? Or in other words, who calls
+> free_job() if not the scheduler itself?
+
+Well the cover letter says it triggers so it is possible. :)
+
+Mock scheduler also tracks the pending jobs itself, but different from 
+nouveau it does not wait for jobs to finish and free worker to process 
+them all, but having stopped the "hw" backend it cancels them and calls 
+the free_job vfunc directly.
+
+Going back to the topic of this series, if we go with a solution along 
+the lines of the proposed, I wonder if it would be doable without 
+mandating that drivers keep a list parallel to pending_list. Instead 
+have a vfunc DRM scheduler would call to cancel job at a time from *its* 
+pending list. It would go nicely together with prepare/run/timedout/free.
+
+Would it allow getting rid of the new state machinery and just 
+cancelling and freeing in one go directly from drm_sched_fini()?
+
+Regards,
+
+Tvrtko
+
+>> Also, I asked in my initial reply if we have a list of which of the current
+>> drivers suffer from memory leaks. Is it all or some etc.
+> 
+> Not all, but quite some I think. The last time I looked (which is about a year
+> ago) amdgpu for instance could leak memory when you unbind the driver while
+> enough jobs are in flight.
+
