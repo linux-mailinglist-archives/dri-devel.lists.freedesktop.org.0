@@ -2,49 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE37A91BC9
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 14:19:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF381A91BCD
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 14:21:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC61810E249;
-	Thu, 17 Apr 2025 12:19:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PK3pGzNO";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12F1B10E1DB;
+	Thu, 17 Apr 2025 12:21:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC83310E249
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 12:19:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744892385;
- bh=P3X86vjmSGtIwoPGl4c87x6WEomEyZndrwBvZQXnM5o=;
- h=From:To:Cc:Subject:Date:From;
- b=PK3pGzNOo9SMFRn09CgMYIv9H2wRnxztygzy2MCRRdEw5zeUpT1XAVjOinzbXdjVa
- T9mWCRvM+M8xW0JULp2SLGeqdaLMiPB8jjNpSKqQD+gSHmAFrWH7jXEp92aV232thz
- /MyCK79Gq+G7BICBJJJAe26cbvpitLeByKNTGkYvZpGH2N6Y5MqbVAN+AcBNyq2y/0
- t6c3AoG/RpOS7HJeslraJ1Bae3crSH+SgtUwKoJAbR4RvBu1HbtnuibX21aaLs5zDj
- L3tdAJzjuRtNHxMGqf9EPmjGxperEu7dTGBogwdumVk/WoNA79agWpmu+kaTmqYJjm
- izDCnk4WHozfg==
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4187217E0CA7;
- Thu, 17 Apr 2025 14:19:45 +0200 (CEST)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
-	kernel@collabora.com
-Subject: [PATCH v3] drm/panthor: Don't create a file offset for NO_MMAP BOs
-Date: Thu, 17 Apr 2025 14:19:42 +0200
-Message-ID: <20250417121942.3574111-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.49.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 67B4E10E1DB
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 12:21:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 774571515
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 05:21:26 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B242A3F694
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 05:21:28 -0700 (PDT)
+Date: Thu, 17 Apr 2025 13:21:17 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 1/4] drm/panthor: Introduce BO labeling
+Message-ID: <aADyPXxNOHHoE-9U@e110455-lin.cambridge.arm.com>
+References: <20250415191539.55258-1-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250415191539.55258-1-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,89 +53,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Right now the DRM_PANTHOR_BO_NO_MMAP flag is ignored by
-panthor_ioctl_bo_mmap_offset(), meaning BOs with this flag set can
-have a file offset but can't be mapped anyway, because
-panthor_gem_mmap() will filter them out.
+On Tue, Apr 15, 2025 at 08:15:30PM +0100, Adrián Larumbe wrote:
+> Add a new character string Panthor BO field, and a function that allows
+> setting it from within the driver.
+> 
+> Driver takes care of freeing the string when it's replaced or no longer
+> needed at object destruction time, but allocating it is the responsibility
+> of callers.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-If we error out at mmap_offset creation time, we can get rid of
-panthor_gem_mmap() and call drm_gem_shmem_object_mmap directly, and
-we get rid of this inconsistency of having an mmap offset for a
-BO that can never be mmap-ed.
-
-Changes in v2:
-- Get rid of panthor_gem_mmap()
-- Get rid of the Fixes tag and adjust the commit message accordingly
-- Return ENOPERM instead of EINVAL
-
-Changes in v3:
-- Don't leak the BO ref
-- Add R-bs
-
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
----
- drivers/gpu/drm/panthor/panthor_drv.c |  7 +++++++
- drivers/gpu/drm/panthor/panthor_gem.c | 13 +------------
- 2 files changed, 8 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 06fe46e32073..4d4a52a033f6 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -940,6 +940,7 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
- 					struct drm_file *file)
- {
- 	struct drm_panthor_bo_mmap_offset *args = data;
-+	struct panthor_gem_object *bo;
- 	struct drm_gem_object *obj;
- 	int ret;
- 
-@@ -950,6 +951,12 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
- 	if (!obj)
- 		return -ENOENT;
- 
-+	bo = to_panthor_bo(obj);
-+	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP) {
-+		ret = -EPERM;
-+		goto out;
-+	}
-+
- 	ret = drm_gem_create_mmap_offset(obj);
- 	if (ret)
- 		goto out;
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index fd014ccc3bfc..22d78cef9c66 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -129,17 +129,6 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
- 	return ERR_PTR(ret);
- }
- 
--static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
--{
--	struct panthor_gem_object *bo = to_panthor_bo(obj);
--
--	/* Don't allow mmap on objects that have the NO_MMAP flag set. */
--	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
--		return -EINVAL;
--
--	return drm_gem_shmem_object_mmap(obj, vma);
--}
--
- static struct dma_buf *
- panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
- {
-@@ -169,7 +158,7 @@ static const struct drm_gem_object_funcs panthor_gem_funcs = {
- 	.get_sg_table = drm_gem_shmem_object_get_sg_table,
- 	.vmap = drm_gem_shmem_object_vmap,
- 	.vunmap = drm_gem_shmem_object_vunmap,
--	.mmap = panthor_gem_mmap,
-+	.mmap = drm_gem_shmem_object_mmap,
- 	.status = panthor_gem_status,
- 	.export = panthor_gem_prime_export,
- 	.vm_ops = &drm_gem_shmem_vm_ops,
+Best regards,
+Liviu
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_gem.c | 46 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h | 17 ++++++++++
+>  2 files changed, 63 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index 8244a4e6c2a2..8dd7fa63f1ff 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -2,6 +2,7 @@
+>  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+>  /* Copyright 2023 Collabora ltd. */
+>  
+> +#include <linux/cleanup.h>
+>  #include <linux/dma-buf.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/err.h>
+> @@ -18,6 +19,14 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
+>  	struct panthor_gem_object *bo = to_panthor_bo(obj);
+>  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
+>  
+> +	/*
+> +	 * Label might have been allocated with kstrdup_const(),
+> +	 * we need to take that into account when freeing the memory
+> +	 */
+> +	kfree_const(bo->label.str);
+> +
+> +	mutex_destroy(&bo->label.lock);
+> +
+>  	drm_gem_free_mmap_offset(&bo->base.base);
+>  	mutex_destroy(&bo->gpuva_list_lock);
+>  	drm_gem_shmem_free(&bo->base);
+> @@ -196,6 +205,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+>  	obj->base.map_wc = !ptdev->coherent;
+>  	mutex_init(&obj->gpuva_list_lock);
+>  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+> +	mutex_init(&obj->label.lock);
+>  
+>  	return &obj->base.base;
+>  }
+> @@ -247,3 +257,39 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  
+>  	return ret;
+>  }
+> +
+> +void
+> +panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
+> +{
+> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> +	const char *old_label;
+> +
+> +	scoped_guard(mutex, &bo->label.lock) {
+> +		old_label = bo->label.str;
+> +		bo->label.str = label;
+> +	}
+> +
+> +	kfree_const(old_label);
+> +}
+> +
+> +void
+> +panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+> +{
+> +	const char *str;
+> +
+> +	/* We should never attempt labelling a UM-exposed GEM object */
+> +	if (drm_WARN_ON(bo->obj->dev, bo->obj->handle_count > 0))
+> +		return;
+> +
+> +	if (!label)
+> +		return;
+> +
+> +	str = kstrdup_const(label, GFP_KERNEL);
+> +	if (!str) {
+> +		/* Failing to allocate memory for a label isn't a fatal condition */
+> +		drm_warn(bo->obj->dev, "Not enough memory to allocate BO label");
+> +		return;
+> +	}
+> +
+> +	panthor_gem_bo_set_label(bo->obj, str);
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index 1a363bb814f4..af0d77338860 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -46,6 +46,20 @@ struct panthor_gem_object {
+>  
+>  	/** @flags: Combination of drm_panthor_bo_flags flags. */
+>  	u32 flags;
+> +
+> +	/**
+> +	 * @label: BO tagging fields. The label can be assigned within the
+> +	 * driver itself or through a specific IOCTL.
+> +	 */
+> +	struct {
+> +		/**
+> +		 * @label.str: Pointer to NULL-terminated string,
+> +		 */
+> +		const char *str;
+> +
+> +		/** @lock.str: Protects access to the @label.str field. */
+> +		struct mutex lock;
+> +	} label;
+>  };
+>  
+>  /**
+> @@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  			       struct panthor_vm *exclusive_vm,
+>  			       u64 *size, u32 flags, uint32_t *handle);
+>  
+> +void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
+> +void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
+> +
+>  static inline u64
+>  panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
+>  {
+> -- 
+> 2.48.1
+> 
+
 -- 
-2.49.0
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
