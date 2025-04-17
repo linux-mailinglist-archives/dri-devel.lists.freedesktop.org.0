@@ -2,86 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36338A914FF
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C8CA91500
 	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 09:22:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EFB510EA40;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9535710EA42;
 	Thu, 17 Apr 2025 07:22:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TRaKsiDy";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WuScEjDS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D21B10E0F0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 22:05:09 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-39c1ef4ae3aso97651f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 15:05:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744841105; x=1745445905; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oHayVKFFsJNmr2sjJkndFwEOAkhvbxML2QrMhdj9R5Y=;
- b=TRaKsiDy0gpqLgfMyVKSKeZOb56BSJKvGH9KOiGBx3cxzcr07bacx4h0FvypHxxZO6
- swlxwQhzg7JSrxl4KVswPWI43RTmLaP/hnR453r1ARQDKQ2S4h1vCRDS/eiYRyM6T002
- afxsvgwGuAt7CyZSFTSLPsnIUqqwerNN7eJlYs94cGOWzGIA5TJWfgTLCOeiWzgVvXMZ
- ffqrNILmqnXSPMsCaQNVeeNoEmAVghI+JyU+o4muqN6ZzMRc+6vJLQ11x96NRrvQ/EU/
- L25WB3uIa/5v6NVu+e4yymjuEcYdNEJnfeCvrFR7X4wxlm4IWtmua7AW54BJZbpb08Iu
- cCrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744841105; x=1745445905;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oHayVKFFsJNmr2sjJkndFwEOAkhvbxML2QrMhdj9R5Y=;
- b=GB8gKUBUoYu1cUj73ORC+SzFOiesUJ6hjJVami/w8CvqexPW3oXIjBlhWoW8dtd2fL
- pN0SZyqqH93Ke0+okttgLrkjt+sb1aZXtGClG64SSBnZGQF9RvHpivcwAoYzQUUkM02Y
- xTSHbcZZirXGegtjTpu+X+eyBV1bLok9AbsjA1HPPrwYRB9mdGq7PX7OrAYRSZ/Tizll
- zyFUolU9ULSKzLu/0L9V86FFAprstIVYpZjWdfFht6opHZ15naLWsoDOI4HQHByTRDM+
- LH3Rase+82in5lp1+f2TNCywSYPtAhPgZ9e7uZ1d/g42WtZSCQSfJxAbgwe9DL+X1ExD
- nJgw==
-X-Gm-Message-State: AOJu0YyRiE7ti8CWs93IX1YkpOXBvmzC5evqHlvyhnKvnW4Zwrw7HgMA
- t4pLnOI2ToEv/GIclwqQHKSpI42ki2o2rtfIsd9o0hCQU0ek2aWL
-X-Gm-Gg: ASbGncsL39CKSttvKRsb8FHtvE1JuMUxLLSrWqBFmqzQBnL0T+wC6Kpi9lKb2jpW9i2
- NnRioJtf6r8At5vwbqsfUiQ3D0MUOi9dsFZxYP0C9hqcF/0dbVfL4bg4Q9Jqy/HuUbPtjCZRIR+
- c7jxQW1Xh/CXbs1HjJnJPC44qL59va1aWhLc4JRnCV4HIc/0hF/C93rm7g1qZ2BHAva5II4az/0
- kYMnyHvcRlihW2m5IksnMeerhyjdJ+S+MWvidxYezLz0mOO087qsUFQACX188UcMTf9X+zGWiOj
- j+g7BtCCYHixUbUjDnCpN4KAEb4p/e77D0RunrH0LY6TT/zA2cMhhw==
-X-Google-Smtp-Source: AGHT+IGC46S4S5h4Q5ailbC5feqlplYAzWogcdOjZfAGKxveTGmXYrJirUpLbhifwMOyo43pOFOhPw==
-X-Received: by 2002:a05:6000:2509:b0:38d:ba8e:7327 with SMTP id
- ffacd0b85a97d-39eea37a7b1mr334295f8f.8.1744841105179; 
- Wed, 16 Apr 2025 15:05:05 -0700 (PDT)
-Received: from ?IPV6:2001:871:22a:99c5::1ad1? ([2001:871:22a:99c5::1ad1])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39eaf43ce3bsm18546012f8f.66.2025.04.16.15.05.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Apr 2025 15:05:04 -0700 (PDT)
-Message-ID: <f801975c-a796-417c-a7b2-be493b32068f@gmail.com>
-Date: Thu, 17 Apr 2025 00:05:01 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A01310EA4C;
+ Thu, 17 Apr 2025 05:39:35 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53GLhdE2025365;
+ Thu, 17 Apr 2025 05:39:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=cSAigVRjMpLefxqx9easbtJsL6E6cmsPGx6
+ 8qktXvVs=; b=WuScEjDSGEP0UAeBMl9HhvyQAFGoktiyzTLcDkoFEavh5bUQlBv
+ 0YGcuj5LlbB1+OQflnPH4cYkKJL9cc8/jeBvKK/6pKN/REeLZBGKBjAqKSBWltUg
+ LKmJErUbfESDRRSZ7rP54ItlqcanXuk2vJbdnfAK1wPicNwnp9aAr/2kvAgktFqS
+ 75xcAeeNGVu2NcSTsamMCPXuAeiwdct4jv7DRLy0u4sgGc0JKKiEIjxjJBb1czlL
+ 2IoHlfz3fjxIiFyNNbVdvp2Pxi87vqoxcSYZ4RIiJQ9K/8hMEgudBR7J6vrq6QTM
+ WgUC6N6M9QTrKw2fNpXsTfw9tSSVjtE6eRA==
+Received: from apblrppmta02.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ydvjdyq7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Apr 2025 05:39:19 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 53H5cX6I023614; 
+ Thu, 17 Apr 2025 05:39:15 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 462f5dnug8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Apr 2025 05:39:15 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 53H5dEB7023906;
+ Thu, 17 Apr 2025 05:39:14 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-amakhija-hyd.qualcomm.com
+ [10.213.99.91])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 53H5dEj6023902
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Apr 2025 05:39:14 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4090850)
+ id 9E96358F; Thu, 17 Apr 2025 11:09:13 +0530 (+0530)
+From: Ayushi Makhija <amakhija@qti.qualcomm.com>
+To: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Ayushi Makhija <quic_amakhija@quicinc.com>, robdclark@gmail.com,
+ dmitry.baryshkov@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
+ robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
+ quic_jesszhan@quicinc.com
+Subject: [PATCH v4 00/11] Add DSI display support for SA8775P target
+Date: Thu, 17 Apr 2025 11:08:58 +0530
+Message-Id: <20250417053909.1051416-1-amakhija@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panic: use `///` for private items too
-To: Miguel Ojeda <ojeda@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alex Gaynor <alex.gaynor@gmail.com>, Jocelyn Falempe <jfalempe@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev
-References: <20250416122106.2554208-1-ojeda@kernel.org>
-Content-Language: en-US, de-DE
-From: Christian Schrefl <chrisi.schrefl@gmail.com>
-In-Reply-To: <20250416122106.2554208-1-ojeda@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=ZIrXmW7b c=1 sm=1 tr=0 ts=68009407 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
+ a=dOa0ubpHghBcgs2qjvoA:9 a=cvBusfyB2V15izCimMoJ:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 8J7XzjFIiRJkaK70sfjGFgY4ub-5pL0g
+X-Proofpoint-ORIG-GUID: 8J7XzjFIiRJkaK70sfjGFgY4ub-5pL0g
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-17_01,2025-04-15_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0
+ clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0 mlxlogscore=999
+ spamscore=0 impostorscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504170042
 X-Mailman-Approved-At: Thu, 17 Apr 2025 07:22:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,16 +110,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16.04.25 2:21 PM, Miguel Ojeda wrote:
-> `///` should still be used for private items [1]. Some of the items in
-> this file do so already, so do it for a few other clear candidates in
-> the file.
-> 
-> Link: https://lore.kernel.org/rust-for-linux/20250416112454.2503872-1-ojeda@kernel.org/ [1]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
-> Not sure if you would consider it a fix, but please feel free to add Fixes: etc.
-> if so. Thanks!
-> 
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
 
-Reviewed-by: Christian Schrefl <chrisi.schrefl@gmail.com>
+This series enables the support for DSI to DP bridge ports
+(labled as DSI0 and DSI1) of the Qualcomm's SA8775P Ride platform.
+
+SA8775P SoC has DSI controller v2.5.1 and DSI PHY v4.2.
+The Ride platform is having ANX7625 DSI to DP bridge chip from Analogix.
+
+---
+This patch depends on following series:
+https://lore.kernel.org/linux-arm-msm/20250127-dts-qcom-dsi-phy-clocks-v1-0-9d8ddbcb1c7f@linaro.org/
+(ARM / arm64: dts: qcom: Use the header with DSI phy clock IDs)
+
+Changes in v4: Fixed review comments from Dmirty, Krzysztof and konard
+    - Add only single compatible string in dsi ctrl pattern properties
+      in patch 3. [Krzysztof/Dmitry]
+    - Move the io_expander RESET and INTR pinctrls from i2c18 node to
+      io_expander node in patch 7. [Dmitry]
+    - Remove the gpio-hogs from io_expander node, as we are already
+      configuring them under anx7625 bridge nodes. [Dmitry/Konard]
+    - Updated the commit message based on hpd_enable() and
+      hpd_disabled() recommendation in patch 8. [Dmitry]
+    - Split the patch 9 of vesrion 3 into two separate patches. [Dmirty]
+    - Updated the commit message and commit text in patch 9 and 
+      patch 10.
+    - Link to v3 : https://lore.kernel.org/all/20250404115539.1151201-1-quic_amakhija@quicinc.com/
+
+Changes in v3: Fixed review comments from Dmitry and Krzysztof
+    - Added qcom,sa8775p-dsi-ctrl compatible based on the set of clocks
+      which are associated with it in patch 2. [Krzysztof]
+    - Drop the blank line and add contains instead of items in pattern
+      properties of dsi ctrl and phy in patch 3. [Krzysztof]
+    - Updated the node name from anx7625@58 to bridge@58 for anx7625
+      dsi-dp bridge in patch 7. [Dmitry/Krzysztof]
+    - Updated endpoint label name for input output ports of analogix bridge chip in patch 7. 
+    - Check the DP or eDP confiuration based on the aux node in patch 9. [Dmitry]
+    - Link to v2 : https://lore.kernel.org/all/20250311122445.3597100-1-quic_amakhija@quicinc.com/
+
+Changes in v2: Fixed review comments from Rob, konard, Dmitry and Krzysztof
+    - Added additionalProperities in dsi and phy patternProperties in patch 3. [Rob's bot]
+    - Updated example in qcom,sa8775p-mdss.yaml of patch 3:
+        - Added port1 and port2 inside mdss0 ports.
+        - Renamed dsi ports from mdss_dsi0_in to mdss0_dsi0_in and mdss_dsi1_in to mdss0_dsi1_in.
+    - Updated the init load value for vdds supply of DSI PHY from
+      150000uA to 48000uA as per chipset power grid in patch 4. [Dmitry]
+    - Updated the init load value for vdda supply for DSI ctrl
+      from 30100uA to 8300uA as per chipset power grid in patch 5.[Dmitry]
+    - Rebase the series to use the header with DSI phy clock IDs to make code more
+      readable in patch 6. [konard]
+    - Added the interrupts-extended in patch 7. [konard]
+    - Fixed the warning from DT checker against DT binding in patch 7. [Krzysztof]
+    - Changed the connector node name from dsi0-connector to dp-dsi0-connector and dsi1-connector to dp-dsi1-connector
+      respectively in patch 7. [Dmitry]
+    - Added the vph_pwr for anx7625 vdda10, vdds18 and vdda33 supply to fix the warnings from DT checker in
+      patch 7. [Rob's bot]
+    - Addressed device tree comments in patch 7. [Konard]
+    - Squash the DT patch 8 into DT patch 7. [Dmitry]
+    - Added hpd_enable() and hpd_disable() bridge funcs in patch 9. [Dmitry]
+    - Update hpd detection bridge op flags logic based on eDP connector in patch 10. [Dmitry]
+    - Link to v1 : https://lore.kernel.org/linux-arm-msm/20250225121824.3869719-1-quic_amakhija@quicinc.com/
+---
+
+Ayushi Makhija (11):
+  dt-bindings: display: msm-dsi-phy-7nm: document the SA8775P DSI PHY
+  dt-bindings: msm: dsi-controller-main: document the SA8775P DSI CTRL
+  dt-bindings: display: msm: document DSI controller and phy on SA8775P
+  drm/msm/dsi: add DSI PHY configuration on SA8775P
+  drm/msm/dsi: add DSI support for SA8775P
+  arm64: dts: qcom: sa8775p: add Display Serial Interface device nodes
+  arm64: dts: qcom: sa8775p-ride: add anx7625 DSI to DP bridge nodes
+  drm/bridge: anx7625: enable HPD interrupts
+  drm/bridge: anx7625: fix drm_bridge ops flags to support hot-plugging
+  drm/bridge: anx7625: fix anx7625_sink_detect() to return correct hpd
+    status
+  drm/bridge: anx7625: change the gpiod_set_value API
+
+ .../display/msm/dsi-controller-main.yaml      |   2 +
+ .../bindings/display/msm/dsi-phy-7nm.yaml     |   1 +
+ .../display/msm/qcom,sa8775p-mdss.yaml        | 181 ++++++++++++++++-
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi    | 180 +++++++++++++++++
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi         | 186 +++++++++++++++++-
+ drivers/gpu/drm/bridge/analogix/anx7625.c     |  34 +++-
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c             |  18 ++
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h             |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     |  27 +++
+ 11 files changed, 621 insertions(+), 12 deletions(-)
+
+-- 
+2.34.1
+
