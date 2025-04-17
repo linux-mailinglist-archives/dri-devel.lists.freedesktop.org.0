@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C2EA91769
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 11:14:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4007EA9176D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 11:14:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F13A910EA5F;
-	Thu, 17 Apr 2025 09:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A401210EA66;
+	Thu, 17 Apr 2025 09:14:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9BAE10EA66;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9F2F10EA68;
  Thu, 17 Apr 2025 09:14:16 +0000 (UTC)
 Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
  by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
- 53H9Dwni2240402; Thu, 17 Apr 2025 14:43:58 +0530
+ 53H9DxZc2240407; Thu, 17 Apr 2025 14:43:59 +0530
 Received: (from sunil@localhost)
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 53H9DvpR2240401;
- Thu, 17 Apr 2025 14:43:57 +0530
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 53H9DxiA2240406;
+ Thu, 17 Apr 2025 14:43:59 +0530
 From: Sunil Khatri <sunil.khatri@amd.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Cc: Alex Deucher <alexander.deucher@amd.com>,
@@ -26,10 +26,12 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Sunil Khatri <sunil.khatri@amd.com>
-Subject: [PATCH v6 1/5] drm: add macro drm_file_err to print process info
-Date: Thu, 17 Apr 2025 14:43:51 +0530
-Message-Id: <20250417091355.2240384-1-sunil.khatri@amd.com>
+Subject: [PATCH v6 2/5] drm/amdgpu: add drm_file reference in userq_mgr
+Date: Thu, 17 Apr 2025 14:43:52 +0530
+Message-Id: <20250417091355.2240384-2-sunil.khatri@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250417091355.2240384-1-sunil.khatri@amd.com>
+References: <20250417091355.2240384-1-sunil.khatri@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,68 +49,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a drm helper macro which append the process information for
-the drm_file over drm_err.
+drm_file will be used in usermode queues code to
+enable better process information in logging and hence
+add drm_file part of the userq_mgr struct.
 
-v5: change to macro from function (Christian Koenig)
-    add helper functions for lock/unlock (Christian Koenig)
-
-v6: remove __maybe_unused and make function inline (Jani Nikula)
-    remove drm_print.h
+update the drm_file pointer in userq_mgr for each
+amdgpu_driver_open_kms.
 
 Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
 ---
- include/drm/drm_file.h | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       | 1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 94d365b22505..856b38e996c7 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -446,6 +446,43 @@ static inline bool drm_is_accel_client(const struct drm_file *file_priv)
- 	return file_priv->minor->type == DRM_MINOR_ACCEL;
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index 3d319687c1c9..3de3071d66ee 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -1436,6 +1436,7 @@ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
  
-+static inline struct task_struct *drm_task_lock(struct drm_file *file_priv)
-+{
-+	struct task_struct *task;
-+	struct pid *pid;
-+
-+	mutex_lock(&file_priv->client_name_lock);
-+	rcu_read_lock();
-+	pid = rcu_dereference(file_priv->pid);
-+	task = pid_task(pid, PIDTYPE_TGID);
-+	return task;
-+}
-+
-+static inline void drm_task_unlock(struct drm_file *file_priv)
-+{
-+	rcu_read_unlock();
-+	mutex_unlock(&file_priv->client_name_lock);
-+}
-+/**
-+ * drm_file_err - Fill info string with process name and pid
-+ * @file_priv: context of interest for process name and pid
-+ * @fmt: prinf() like format string
-+ *
-+ * This update the user provided buffer with process
-+ * name and pid information for @file_priv
-+ */
-+#define drm_file_err(file_priv, fmt, ...)						\
-+	do {										\
-+		struct task_struct *task;						\
-+		struct drm_device *dev = file_priv->minor->dev;				\
-+											\
-+		task = drm_task_lock(file_priv);					\
-+		drm_err(dev, "comm: %s pid: %d client: %s " fmt,			\
-+			task ? task->comm : "", task ? task->pid : 0,			\
-+			file_priv->client_name ?: "Unset", ##__VA_ARGS__);		\
-+		drm_task_unlock(file_priv);						\
-+	} while (0)
-+
- void drm_file_update_pid(struct drm_file *);
+ 	amdgpu_ctx_mgr_init(&fpriv->ctx_mgr, adev);
  
- struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigned int minor_id);
++	fpriv->userq_mgr.file = file_priv;
+ 	r = amdgpu_userq_mgr_init(&fpriv->userq_mgr, adev);
+ 	if (r)
+ 		DRM_WARN("Can't setup usermode queues, use legacy workload submission only\n");
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.h
+index 381b9c6f0573..fe51a45f7ee4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.h
+@@ -77,6 +77,7 @@ struct amdgpu_userq_mgr {
+ 	struct amdgpu_device		*adev;
+ 	struct delayed_work		resume_work;
+ 	struct list_head		list;
++	struct drm_file			*file;
+ };
+ 
+ struct amdgpu_db_info {
 -- 
 2.34.1
 
