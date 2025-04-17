@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE683A91BAE
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 14:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B86A91BBF
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 14:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCE310EAE5;
-	Thu, 17 Apr 2025 12:11:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B30F10EADD;
+	Thu, 17 Apr 2025 12:16:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ToO2INEx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="irRV+nvK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F17A10EAE2;
- Thu, 17 Apr 2025 12:11:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CA737435C3;
- Thu, 17 Apr 2025 12:11:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36B37C4CEEB;
- Thu, 17 Apr 2025 12:11:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744891879;
- bh=lqW4ZV78PUpIZxRhUo4K3BhUomPvUbJnWCbvg/1/2mM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ToO2INExwNl4kqty7krMMoCPBGRlj/hMpq8XYSGBqp39URfrfTNAm7q7c4n3ExSkT
- kHUS0TEDN6T7ZEFGZ/ZyotiENfGtZq9N4R2UpdDMSBS0QIQUZV1FyMV1/ZltUizB0/
- mvIo7DFwCuaiCe+0nC9YdiAJqb6RTFcUSG6gUUOkBq7E+Y1iyFu7CCL0K+uVvu+KVf
- F0KRXW7z3aRlk5N4oEkoPRi8VlDm2MVNCvN6eZYcPkk6eK+0cwSclcFlxOQHS6fAQH
- htA0sJd+km5QULpJQvyCf30aBnZr73lfuts/WxQfv1Rxco5QFqpADv1c24hYWwzljW
- llfSIOSsi/ICA==
-Date: Thu, 17 Apr 2025 14:11:14 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] drm/sched: Warn if pending list is not empty
-Message-ID: <aADv4ivXZoJpEA7k@pollux>
-References: <20250407152239.34429-2-phasta@kernel.org>
- <20250407152239.34429-5-phasta@kernel.org>
- <9607e5a54b8c5041dc7fc134425cc36c0c70b5f3.camel@mailbox.org>
- <3ac34c84-fd84-4598-96e1-239418b7109f@igalia.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0235110EADD
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 12:16:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744892175;
+ bh=VFOFVGAIZWtOBIaS9qPTzE3BaYOMAoIRkTPMg9N7cpc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=irRV+nvKVxcyxsLj1D8SCCROrGv3XGcGH4Zc2cpjOi1FHjzb2QHRT/EEaM8vsL5kW
+ n/ZvkkG012Wgzqr5lSqV0w1Po65qxKLB4Fvzq+bIUXtchbBUru2dwHVcrqDTxAsNPv
+ RDz1ipHcgii2O8eWWKL5S8yIDQ8GItGd3wPmBN4ryzgjLgPyTjyGI2ID6+viiDQ8xk
+ j33maWBipXodfsHIkzcdq8lLd3Zkw5/KDTBDdlex+Jqz8b3IFA1QxrR9Sm/hz9kau4
+ dt4CGOxdzzbAUNymWtVP0tt6444kNjysyO+ALXIWXpjyl5Cg/j4pQVyu7m9rkpwj6G
+ MIo7+Tm9ZIOtg==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4CC8217E0FA5;
+ Thu, 17 Apr 2025 14:16:15 +0200 (CEST)
+Date: Thu, 17 Apr 2025 14:16:11 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Steven Price <steven.price@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com
+Subject: Re: [PATCH 2/2] drm/panthor: Fix the user MMIO offset logic for
+ emulators
+Message-ID: <20250417141611.32033ff0@collabora.com>
+In-Reply-To: <aADm7dDHm2oOWKCA@e110455-lin.cambridge.arm.com>
+References: <20250417100503.3478405-1-boris.brezillon@collabora.com>
+ <20250417100503.3478405-3-boris.brezillon@collabora.com>
+ <a7c6a9e3-1217-4dea-9b51-96d9962e0630@arm.com>
+ <aADm7dDHm2oOWKCA@e110455-lin.cambridge.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3ac34c84-fd84-4598-96e1-239418b7109f@igalia.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,58 +66,265 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 17, 2025 at 12:27:29PM +0100, Tvrtko Ursulin wrote:
-> 
-> On 17/04/2025 08:45, Philipp Stanner wrote:
-> > On Mon, 2025-04-07 at 17:22 +0200, Philipp Stanner wrote:
-> 
-> Problem exactly is that jobs can outlive the entities and the scheduler,
-> while some userspace may have a dma fence reference to the job via sync
-> file. This new callback would not solve it for xe, but if everything
-> required was reference counted it would.
+On Thu, 17 Apr 2025 12:33:01 +0100
+Liviu Dudau <liviu.dudau@arm.com> wrote:
 
-I think you're mixing up the job and the dma_fence here, if a job outlives the
-scheduler, it clearly is a bug, always has been.
-
-AFAIK, Xe reference counts it's driver specific job structures *and* the driver
-specific scheduler structure, such that drm_sched_fini() won't be called before
-all jobs have finished.
-
-The reference counting solution, however, potentially creates subsequent
-lifetime problems, which I think have been discussed already in a different
-thread already. Philipp can probably link in the corresponding discussion.
-
-> On the design level it feels like it adds too much state machine and makes
-> things hard to follow/maintain. It would be nice to find a solutiuon where
-> we end up with less state machine and not more.
-
-Multiple solutions have been discussed already, e.g. just wait for the pending
-list to be empty, reference count the scheduler for every pending job. Those all
-had significant downsides, which I don't see with this proposal.
-
-I'm all for better ideas though -- what do you propose?
-
-> 
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > index 6b72278c4b72..ae3152beca14 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > @@ -1465,6 +1465,10 @@ void drm_sched_fini(struct drm_gpu_scheduler
-> > > *sched)
-> > >   	sched->ready = false;
-> > >   	kfree(sched->sched_rq);
-> > >   	sched->sched_rq = NULL;
+> On Thu, Apr 17, 2025 at 11:41:18AM +0100, Steven Price wrote:
+> > On 17/04/2025 11:05, Boris Brezillon wrote:  
+> > > Currently, we pick the MMIO offset based on the size of the pgoff_t
+> > > type seen by the process that manipulates the FD, such that a 32-bit
+> > > process can always map the user MMIO ranges. But this approach doesn't
+> > > work well for emulators like FEX, where the emulator is a 64-bit binary
+> > > which might be executing 32-bit code. In that case, the kernel thinks
+> > > it's the 64-bit process and assumes DRM_PANTHOR_USER_MMIO_OFFSET_64BIT
+> > > is in use, but the UMD library expects DRM_PANTHOR_USER_MMIO_OFFSET_32BIT,
+> > > because it can't mmap() anything above the pgoff_t size.  
+> > 
+> > I'm not a fan of the FEX behaviour here. I know I won't be popular, but
+> > can FEX not just handle this difference internally?
+> >   
+> > > In order to solve that, we need a way to explicitly set the user MMIO
+> > > offset from the UMD, such that the kernel doesn't have to guess it
+> > > from the TIF_32BIT flag set on user thread. We keep the old behavior
+> > > if DRM_PANTHOR_SET_USER_MMIO_OFFSET is never called.  
+> > 
+> > Although I agree this is probably a better uAPI that we should have had
+> > from the beginning (hindsight and all that!).
+> >   
+> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > ---
+> > >  drivers/gpu/drm/panthor/panthor_device.h | 18 +++++++
+> > >  drivers/gpu/drm/panthor/panthor_drv.c    | 60 +++++++++++++++++++-----
+> > >  include/uapi/drm/panthor_drm.h           | 32 +++++++++++++
+> > >  3 files changed, 97 insertions(+), 13 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > > index 4c27b6d85f46..b97aba89132a 100644
+> > > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > > @@ -10,6 +10,7 @@
+> > >  #include <linux/io-pgtable.h>
+> > >  #include <linux/regulator/consumer.h>
+> > >  #include <linux/pm_runtime.h>
+> > > +#include <linux/rwsem.h>
+> > >  #include <linux/sched.h>
+> > >  #include <linux/spinlock.h>
+> > >  
+> > > @@ -219,6 +220,23 @@ struct panthor_file {
+> > >  	/** @ptdev: Device attached to this file. */
+> > >  	struct panthor_device *ptdev;
+> > >  
+> > > +	/** @user_mmio: User MMIO related fields. */
+> > > +	struct {
+> > > +		/** @offset: Offset used for user MMIO mappings. */
+> > > +		u64 offset;
 > > > +
-> > > +	if (!list_empty(&sched->pending_list))
-> > > +		dev_err(sched->dev, "%s: Tearing down scheduler
-> > > while jobs are pending!\n",
-> > > +			__func__);
+> > > +		/**
+> > > +		 * @offset_immutable: True if the user MMIO offset became immutable.
+> > > +		 *
+> > > +		 * Set to true after the first mmap() targeting a page in the user MMIO range.
+> > > +		 * After this point, the user MMIO offset can't be changed.
+> > > +		 */
+> > > +		bool offset_immutable;  
+> > 
+> > Do we need this complexity? Does it really matter if user space confuses
+> > itself by changing the offsets?
+> >   
+> > > +
+> > > +		/** @offset_lock: Lock used to protect offset changes. */
+> > > +		struct rw_semaphore offset_lock;  
+> > 
+> > Equally the lock seems slightly overkill - AFAICT user space can only
+> > harm itself.
+> >   
+> > > +	} user_mmio;
+> > > +
+> > >  	/** @vms: VM pool attached to this file. */
+> > >  	struct panthor_vm_pool *vms;
+> > >  
+> > > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> > > index 7cd131af340d..6a8931492536 100644
+> > > --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> > > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> > > @@ -1336,6 +1336,29 @@ static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *data,
+> > >  	return 0;
+> > >  }
+> > >  
+> > > +static int panthor_ioctl_set_user_mmio_offset(struct drm_device *ddev,
+> > > +					      void *data, struct drm_file *file)
+> > > +{
+> > > +	struct drm_panthor_set_user_mmio_offset *args = data;
+> > > +	struct panthor_file *pfile = file->driver_priv;
+> > > +	int ret;
+> > > +
+> > > +	if (args->offset != DRM_PANTHOR_USER_MMIO_OFFSET_32BIT &&
+> > > +	    args->offset != DRM_PANTHOR_USER_MMIO_OFFSET_64BIT)
+> > > +		return -EINVAL;  
+> > 
+> > Note we're not preventing a 32 bit client requesting to use 64 bit
+> > offsets here.
+> >   
+> > > +
+> > > +	down_write(&pfile->user_mmio.offset_lock);
+> > > +	if (pfile->user_mmio.offset_immutable) {
+> > > +		ret = pfile->user_mmio.offset != args->offset ? -EINVAL : 0;
+> > > +	} else {
+> > > +		pfile->user_mmio.offset = args->offset;
+> > > +		ret = 0;
+> > > +	}
+> > > +	up_write(&pfile->user_mmio.offset_lock);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > >  static int
+> > >  panthor_open(struct drm_device *ddev, struct drm_file *file)
+> > >  {
+> > > @@ -1353,6 +1376,19 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
+> > >  	}
+> > >  
+> > >  	pfile->ptdev = ptdev;
+> > > +	init_rwsem(&pfile->user_mmio.offset_lock);
+> > > +	pfile->user_mmio.offset = DRM_PANTHOR_USER_MMIO_OFFSET;
+> > > +
+> > > +#ifdef CONFIG_ARM64
+> > > +	/*
+> > > +	 * With 32-bit systems being limited by the 32-bit representation of
+> > > +	 * mmap2's pgoffset field, we need to make the MMIO offset arch
+> > > +	 * specific.
+> > > +	 */
+> > > +	if (test_tsk_thread_flag(current, TIF_32BIT))
+> > > +		pfile->user_mmio.offset = DRM_PANTHOR_USER_MMIO_OFFSET_32BIT;
+> > > +#endif
+> > > +
+> > >  
+> > >  	ret = panthor_vm_pool_create(pfile);
+> > >  	if (ret)
+> > > @@ -1405,6 +1441,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+> > >  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
+> > >  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
+> > >  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+> > > +	PANTHOR_IOCTL(SET_USER_MMIO_OFFSET, set_user_mmio_offset, DRM_RENDER_ALLOW),
+> > >  };
+> > >  
+> > >  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+> > > @@ -1418,20 +1455,16 @@ static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+> > >  	if (!drm_dev_enter(file->minor->dev, &cookie))
+> > >  		return -ENODEV;
+> > >  
+> > > -#ifdef CONFIG_ARM64
+> > > -	/*
+> > > -	 * With 32-bit systems being limited by the 32-bit representation of
+> > > -	 * mmap2's pgoffset field, we need to make the MMIO offset arch
+> > > -	 * specific. This converts a user MMIO offset into something the kernel
+> > > -	 * driver understands.
+> > > -	 */
+> > > -	if (test_tsk_thread_flag(current, TIF_32BIT) &&
+> > > -	    offset >= DRM_PANTHOR_USER_MMIO_OFFSET_32BIT) {
+> > > -		offset += DRM_PANTHOR_USER_MMIO_OFFSET_64BIT -
+> > > -			  DRM_PANTHOR_USER_MMIO_OFFSET_32BIT;
+> > > +	/* Adjust the user MMIO to match the offset used kernel side. */
+> > > +	down_read(&pfile->user_mmio.offset_lock);
+> > > +	if (offset >= pfile->user_mmio.offset &&
+> > > +	    pfile->user_mmio.offset != DRM_PANTHOR_USER_MMIO_OFFSET) {
+> > > +		offset -= pfile->user_mmio.offset;
+> > > +		offset += DRM_PANTHOR_USER_MMIO_OFFSET;
+> > >  		vma->vm_pgoff = offset >> PAGE_SHIFT;
+> > > +		pfile->user_mmio.offset_immutable = true;
+> > >  	}
+> > > -#endif
+> > > +	up_read(&pfile->user_mmio.offset_lock);  
+> > 
+> > I can't help feeling we can just simplify this to:
+> > 
+> > 	u64 mmio_offset = pfile->user_mmio.offset;
+> > 
+> > 	if (offset >= mmio_offset) {
+> > 		offset -= mmio_offset;
+> > 		offset += DRM_PANTHOR_USER_MMIO_OFFSET;
+> > 		vma->vm_pgoff = offset >> PAGE_SHIFT;
+> > 
+> > 		ret = panthor_device_mmap_io(ptdev, vma);
+> > 	} else {
+> > 		ret = drm_gem_mmap(filp, vma);
+> > 	}
+> > 
+> > Or even go further and push the offset calculations into
+> > panthor_device_mmap_io().
+> >   
+> > >  
+> > >  	if (offset >= DRM_PANTHOR_USER_MMIO_OFFSET)
+> > >  		ret = panthor_device_mmap_io(ptdev, vma);
+> > > @@ -1514,6 +1547,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+> > >   * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
+> > >   *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
+> > >   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+> > > + * - 1.4 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
+> > >   */
+> > >  static const struct drm_driver panthor_drm_driver = {
+> > >  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> > > @@ -1527,7 +1561,7 @@ static const struct drm_driver panthor_drm_driver = {
+> > >  	.name = "panthor",
+> > >  	.desc = "Panthor DRM driver",
+> > >  	.major = 1,
+> > > -	.minor = 3,
+> > > +	.minor = 4,
+> > >  
+> > >  	.gem_create_object = panthor_gem_create_object,
+> > >  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> > > diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> > > index 1379a2d4548c..2a16ca86113c 100644
+> > > --- a/include/uapi/drm/panthor_drm.h
+> > > +++ b/include/uapi/drm/panthor_drm.h
+> > > @@ -127,6 +127,20 @@ enum drm_panthor_ioctl_id {
+> > >  
+> > >  	/** @DRM_PANTHOR_TILER_HEAP_DESTROY: Destroy a tiler heap. */
+> > >  	DRM_PANTHOR_TILER_HEAP_DESTROY,
+> > > +
+> > > +	/**
+> > > +	 * @DRM_PANTHOR_SET_USER_MMIO_OFFSET: Set the offset to use as the user MMIO offset.
+> > > +	 *
+> > > +	 * The default behavior is to pick the MMIO offset based on the size of the pgoff_t
+> > > +	 * type seen by the process that manipulates the FD, such that a 32-bit process can
+> > > +	 * always map the user MMIO ranges. But this approach doesn't work well for emulators
+> > > +	 * like FEX, where the emulator is an 64-bit binary which might be executing 32-bit
+> > > +	 * code. In that case, the kernel thinks it's the 64-bit process and assumes
+> > > +	 * DRM_PANTHOR_USER_MMIO_OFFSET_64BIT is in use, but the UMD library expects
+> > > +	 * DRM_PANTHOR_USER_MMIO_OFFSET_32BIT, because it can't mmap() anything above the
+> > > +	 * pgoff_t size.
+> > > +	 */
+> > > +	DRM_PANTHOR_SET_USER_MMIO_OFFSET,
+> > >  };
+> > >  
+> > >  /**
+> > > @@ -989,6 +1003,22 @@ struct drm_panthor_tiler_heap_destroy {
+> > >  	__u32 pad;
+> > >  };
+> > >  
+> > > +/**
+> > > + * struct drm_panthor_set_user_mmio_offset - Arguments passed to
+> > > + * DRM_IOCTL_PANTHOR_SET_USER_MMIO_OFFSET
+> > > + */
+> > > +struct drm_panthor_set_user_mmio_offset {
+> > > +	/**
+> > > +	 * @offset: User MMIO offset to use.
+> > > +	 *
+> > > +	 * Must be either DRM_PANTHOR_USER_MMIO_OFFSET_32BIT or
+> > > +	 * DRM_PANTHOR_USER_MMIO_OFFSET_64BIT. The common use case is to pass
+> > > +	 * DRM_PANTHOR_USER_MMIO_OFFSET which picks the right value based on the size of
+> > > +	 * pgoff_t (AKA unsigned long).  
+> > 
+> > "The common use case" is not to call this ioctl ;) Although if we were
+> > designing this uAPI from scratch I'd just say require user space to
+> > decide where it wants the MMIO region and not have two offsets to choose
+> > from.  
 > 
-> It isn't fair to add this error since it would out of the blue start firing
-> for everyone expect nouveau, no? Regardless if there is a leak or not.
+> I have to say that I'm with Steve here. Can we not actually change the IOCTL to userspace
+> passing an offset mask so that we can restrict the offset range? We don't need all the
+> locking or to let the user space decide the offsets.
 
-I think it is pretty fair to warn when detecting a guaranteed bug, no?
-
-If drm_sched_fini() is call while jobs are still on the pending_list, they won't
-ever be freed, because all workqueues are stopped.
+For the reasons explained in my reply to Steve, I think I'd prefer to
+have very restrictive constraints first and relax them once we have a
+need for random MMIO offsets. I mean, once that need arises, we'll
+have to update userspace binaries anyway, and bumping the KMD version
+is pretty trivial, so, better safe than sorry.
