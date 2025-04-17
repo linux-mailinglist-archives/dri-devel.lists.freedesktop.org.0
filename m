@@ -2,126 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549EEA91A35
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 13:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A435A91A42
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 13:13:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A005C10EAB5;
-	Thu, 17 Apr 2025 11:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9B1A10EAB7;
+	Thu, 17 Apr 2025 11:13:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="adcDkBd6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IDX41WZ3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89DB310EAB5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 11:12:57 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53H5lG25007060
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 11:12:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- qxLfze/zTU8C+QNrMs305310NbgxbagwueNtXuKqL/E=; b=adcDkBd6wQd9KwXu
- Y5qcUyfKvzgCP77H6O5zK0SV93bKBEX5htjINmUWG/bw9UlxjHHMf1diagE82Jl+
- nzmjGhh4kFl1k7kNcMa1PoD7Ep3nos1gibHRpcBjOztQSAKz3iT2SXW6ebuCwVxO
- 4i6d6K8fuAERCOiGwVYnJa4+QoRJCLd/aGFnaoQx267Dvyqercxlb5PsZlWC6r9R
- 16fND/5wGGvmnZ1sIFuJS81Ai6iYr3MO8tJyPcfiPd3JfZq9E0+c1d5qRRQWrBef
- qxnTBx/crw9bXR+CCdw51hD/5G68rnzn/9ygQ24oemKZ7nbFx754P58AIIR7jRU/
- JegZiw==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yfs1ejt2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 11:12:56 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6ead1d6fd54so764126d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 04:12:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744888376; x=1745493176;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qxLfze/zTU8C+QNrMs305310NbgxbagwueNtXuKqL/E=;
- b=sfhUx4EU3EPHIDEMWzOv63pdbd9VmhUgji3W462CGOQDlk7C8Rn+xhFsM/FahTItKz
- 5alse0/3oL3yTNCeiztvDAjP14az2c74GE+3fOfRRu7FOKxvuMfOfE0Ze+Z/02CboXdv
- 6EZbpwgvhyYuoXtwlQgFduyspih9L5rlV6mMFzD9AJD8CuZ/gUJr2YC0aerfPAlmMIMP
- 7WIlNpvxkLuGkckFOYbXKqF9xnmN3YODMt4mnAsCgwVpc/wKuDTC3M71gZSzTnXdiBx4
- cgZJfvwLrrX8MuryaLvIBms8GZbKLzEPNM7OzdYssxW6M29BM9npfH8dCihagXJpIEe4
- 2pGQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVUCqw/yX/OPT/Enym4+ixfA9YuDGMCb0l/XIxic8mIUQ61wRgd8pVY2jdSdJ7GUit7Yjm4+XOd3ns=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxpn/cuM9SnQH5tX8FE9ipTUILtq/D4Vl/81Dha+zq9uwB0ffo5
- elVtwfYsI4fFB6F1Lk1t77/Y7K/j/LIb01UZL4XwQNWjTcPdbkXShgVgBsaq4ufXPPCzaskDteQ
- lZ2m00zhyUGEwRr1GGNTxU2ay4P9cwEUtY6QXiG6bfWQrHjLM5XJWfLyRWdIXCYw/S5k=
-X-Gm-Gg: ASbGncsi1ehm1v53+4dy9vh/TiOX+8LSVkU1kUw0cOGwoHlIv7cCkPLDubVpRkF0aIf
- ieNbjC1Z00vj2sXOm8I8moiGBlE7ElwCffNBGKyQH6FVZAn3HeAhd4hzc4cllL+BTyzMfnK9j/N
- xlmNwkD0jY1e0kG2Sz0dSkQCH7tu97BTYznFG1YMiIMwqOpt3lTjI9oMfgkX8OCikq7JTs/6EYK
- Nsiut0Rp7GC86UEdtiuzzFBdd5vg79q5w6cSz2a0pj9/2wlKnkstC/Z7x/wU0RZtdyNabh20vfF
- fUuJZItCRFZaq9Tz0XuDFhgcO6mENluDj/AqQURQ/r4uPRvMCty0yymitjvpPbdNyg==
-X-Received: by 2002:a05:622a:19a0:b0:474:e7de:8595 with SMTP id
- d75a77b69052e-47ad8159564mr27695181cf.14.1744888375730; 
- Thu, 17 Apr 2025 04:12:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGPBxjpffnmkirnLBBB0Y2hOG9UcPArMHvszmAnlUI030yse54CdKoXRd2cuVM3FD9w0+N0bA==
-X-Received: by 2002:a05:622a:19a0:b0:474:e7de:8595 with SMTP id
- d75a77b69052e-47ad8159564mr27694831cf.14.1744888375327; 
- Thu, 17 Apr 2025 04:12:55 -0700 (PDT)
-Received: from [192.168.65.58] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5f36f527df0sm10099976a12.71.2025.04.17.04.12.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Apr 2025 04:12:54 -0700 (PDT)
-Message-ID: <7b559f03-f131-435e-95de-b5faee37b4d5@oss.qualcomm.com>
-Date: Thu, 17 Apr 2025 13:12:50 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5752289561;
+ Thu, 17 Apr 2025 11:13:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744888432; x=1776424432;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=7mY1oDuryG5y47OJmbiO/a4gF6YKJB/+dShqhOIZ+04=;
+ b=IDX41WZ3haXXHJOvNLiSuT/Fa0w4kkg1671kJiyToAAE8qW1quBesH7E
+ MEc3GTuojqclC+zG5nNs2isUr3s1zL37wq56ukL+f3zwZlj2BTaOoHXzb
+ dyXbTlL0dMi1VMc3Djz1uJJwAAWHi86Ozyao0rO3GqnGZ2ugd/dJmCDTp
+ q7YZGmAekxmmtKp8inQJniFzlvi6GRLfohH/2MUZTSyOVs48CQibB8f2p
+ IZDq3sRPdOQ+8qkdhu8FHl+DpHi1E+/oLbsdEIZpeYldJn3+UBEspqi1j
+ XJ7KltVww4sSEwbf59s+MSdcf5VYucHnS4kfaFqq5HIDW/NPaxve63Vgh g==;
+X-CSE-ConnectionGUID: 6u2ukQA7QQS+FINsEXGSoQ==
+X-CSE-MsgGUID: x7oWcGCvTXCgvZ78DN4ZMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46393551"
+X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; d="scan'208";a="46393551"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2025 04:13:51 -0700
+X-CSE-ConnectionGUID: WCgtyayWRhOVR5zzkd6Z6A==
+X-CSE-MsgGUID: 43uBXVQ6TXmcpIKpDhkunQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; d="scan'208";a="134874272"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2025 04:13:48 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Khatri, Sunil" <sukhatri@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6n?=
+ =?utf-8?Q?ig?=
+ <christian.koenig@amd.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: Re: [PATCH v4 1/5] drm: add macro drm_file_err to print process info
+In-Reply-To: <d239b8bb-c154-482c-b37e-0cdaeb6ca7ab@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250416133144.862023-1-sunil.khatri@amd.com>
+ <87lds0p4jh.fsf@intel.com> <d239b8bb-c154-482c-b37e-0cdaeb6ca7ab@amd.com>
+Date: Thu, 17 Apr 2025 14:13:45 +0300
+Message-ID: <87y0vzniqe.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/10] dt-bindings: display/msm: dp-controller:
- describe SAR2130P
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Jonathan Marek <jonathan@marek.ca>, Bjorn Andersson <andersson@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Konrad Dybcio <konradybcio@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20250417-sar2130p-display-v4-0-b91dd8a21b1a@oss.qualcomm.com>
- <20250417-sar2130p-display-v4-1-b91dd8a21b1a@oss.qualcomm.com>
- <20250417-arboreal-turkey-of-acumen-e1e3da@shite>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250417-arboreal-turkey-of-acumen-e1e3da@shite>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=P9I6hjAu c=1 sm=1 tr=0 ts=6800e238 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8
- a=hUMovHauaXhaw1qFzIsA:9 a=QEXdDO2ut3YA:10
- a=iYH6xdkBrDN1Jqds4HTS:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: _pgCTjxusn6-nOyS0vMUoq3Cx2PPGVQl
-X-Proofpoint-ORIG-GUID: _pgCTjxusn6-nOyS0vMUoq3Cx2PPGVQl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-17_03,2025-04-15_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- clxscore=1015 bulkscore=0 impostorscore=0 phishscore=0 suspectscore=0
- mlxscore=0 spamscore=0 malwarescore=0 adultscore=0 priorityscore=1501
- mlxlogscore=837 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504170084
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,17 +73,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/17/25 8:03 AM, Krzysztof Kozlowski wrote:
-> On Thu, Apr 17, 2025 at 02:16:31AM GMT, Dmitry Baryshkov wrote:
->> From: Dmitry Baryshkov <lumag@kernel.org>
+On Thu, 17 Apr 2025, "Khatri, Sunil" <sukhatri@amd.com> wrote:
+> On 4/16/2025 7:55 PM, Jani Nikula wrote:
+>> On Wed, 16 Apr 2025, Sunil Khatri<sunil.khatri@amd.com> wrote:
+>>> Add a drm helper macro which append the process information for
+>>> the drm_file over drm_err.
+>>>
+>>> Signed-off-by: Sunil Khatri<sunil.khatri@amd.com>
+>>> ---
+>>>   include/drm/drm_file.h | 41 +++++++++++++++++++++++++++++++++++++++++
+>>>   1 file changed, 41 insertions(+)
+>>>
+>>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+>>> index 94d365b22505..5ae5ad1048fb 100644
+>>> --- a/include/drm/drm_file.h
+>>> +++ b/include/drm/drm_file.h
+>>> @@ -37,6 +37,7 @@
+>>>   #include <uapi/drm/drm.h>
+>>>=20=20=20
+>>>   #include <drm/drm_prime.h>
+>>> +#include <drm/drm_print.h>
+>> Not a fan of including drm_print.h everywhere that drm_file.h is
+>> included. We've been trying to get rid of this, and go the other
+>> way. It's really hard to manage dependencies when everything ends up
+>> including everything.
 >>
->> Describe DisplayPort controller present on Qualcomm SAR2130P platform.
+>>>=20=20=20
+>>>   struct dma_fence;
+>>>   struct drm_file;
+>>> @@ -446,6 +447,46 @@ static inline bool drm_is_accel_client(const struc=
+t drm_file *file_priv)
+>>>   	return file_priv->minor->type =3D=3D DRM_MINOR_ACCEL;
+>>>   }
+>>>=20=20=20
+>>> +static struct task_struct *drm_task_lock(struct drm_file *file_priv)
+>>> +					__attribute__((__maybe_unused));
+>> inline is the keyword you're missing here, and that's why you've had to
+>> add maybe unused...
 >>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Addresses do not match. You re-authored the commit, so now everywhere is
-> mess.
+>>> +static struct task_struct *drm_task_lock(struct drm_file *file_priv)
+>>> +{
+>>> +	struct task_struct *task;
+>>> +	struct pid *pid;
+>>> +
+>>> +	mutex_lock(&file_priv->client_name_lock);
+>>> +	rcu_read_lock();
+>>> +	pid =3D rcu_dereference(file_priv->pid);
+>>> +	task =3D pid_task(pid, PIDTYPE_TGID);
+>>> +	return task;
+>>> +}
+>>> +
+>>> +static void drm_task_unlock(struct drm_file *file_priv) __attribute__(=
+(__maybe_unused));
+>>> +static void drm_task_unlock(struct drm_file *file_priv)
+>>> +{
+>>> +	rcu_read_unlock();
+>>> +	mutex_unlock(&file_priv->client_name_lock);
+>>> +}
+>> ...but *why* are you inlining these? To make this header self-contained,
+>> I think you'd need to add maybe sched.h, pid.h, rcupdate.h, mutex.h, or
+>> something. I consider static inlines actively harmful if they force you
+>> to pull in a lot of other headers.
+>
+> Code readability and easy maintenance is the key to make these as=20
+> inline.
 
-It's git's fault with replacing the linaro address based on .mailmap
+Oh, quite the opposite. Static inlines are a maintenance nightmare.
 
-Konrad
+BR,
+Jani.
+
+
+> Also we are=C2=A0 keeping the logic function which gets the task with=20
+> locks in separate function then actually
+>
+> passing that in the drm_err as string.
+>
+>>
+>>> +/**
+>>> + * drm_file_err - Fill info string with process name and pid
+>>> + * @file_priv: context of interest for process name and pid
+>>> + * @fmt: prinf() like format string
+>>> + *
+>>> + * This update the user provided buffer with process
+>>> + * name and pid information for @file_priv
+>>> + */
+>>> +#define drm_file_err(file_priv, fmt, ...)						\
+>>> +	do {										\
+>>> +		struct task_struct *task;						\
+>>> +		struct drm_device *dev =3D file_priv->minor->dev;				\
+>>> +											\
+>>> +		task =3D drm_task_lock(file_priv);					\
+>>> +		drm_err(dev, "comm: %s pid: %d client: %s " fmt,			\
+>>> +			task ? task->comm : "", task ? task->pid : 0,			\
+>>> +			file_priv->client_name ?: "Unset", ##__VA_ARGS__);		\
+>>> +		drm_task_unlock(file_priv);						\
+>>> +	} while (0)
+>>> +
+>> For that matter, why is *this* inline? For debugs it makes a little more
+>> sense when it adds the function, but drm_err() doesn't.
+>>
+>> Make all of these real functions, no need to include drm_print.h, and
+>> everything is better.
+>>
+> Only reason of hacing drm_file_err as a macro as the variadic fmt and=20
+> args are not possible to pass without using local variables to make=20
+> strings of fmt and args separately and with macro to macro they Are=20
+> passed cleanly and no local variables needed. you can check V3 i guess=20
+> where this whole was an function only.
+>
+> Regards Sunil Khatri
+>
+>> BR,
+>> Jani.
+>>
+>>>   void drm_file_update_pid(struct drm_file *);
+>>>=20=20=20
+>>>   struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigne=
+d int minor_id);
+
+--=20
+Jani Nikula, Intel
