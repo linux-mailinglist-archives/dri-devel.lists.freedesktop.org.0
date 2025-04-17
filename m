@@ -2,154 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4CEA9204C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 16:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295F1A9205D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 16:58:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 836B210EB3E;
-	Thu, 17 Apr 2025 14:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB08910EB40;
+	Thu, 17 Apr 2025 14:58:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GbQWFnrV";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="m3IyPNV5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C2E310EB3C;
- Thu, 17 Apr 2025 14:53:56 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (mail-am6eur05on2076.outbound.protection.outlook.com [40.107.22.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D54110EB3F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 14:58:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XjYiAAnlLlLIDHkSS7hX5fOdNuPSGMbFtYZLrwLp98rr0FVYm7rQeO87VVCaQEsVF8WIC/RP92Ejj7yBkEg9MDUm4G7ccGsAxoMD+5+cKKt532JiivRBXamG/xX8ice06YAA4Fu/oKwiuRaQaDg9vb3QWi+Qe/CVausMIDQuzNbIEUZ6K6DdyTPSulChb9b+8PhtRNOzzYI5oIt2sdolRwhbFZ9lzxKcss2FWs31ZxZGInG2hxSPTcpy2fVGfjH7MFzu/ikBTu0jbbrqux7XqJUkY0fJ/eLBBYNJrMqNaEjcJJnodHzF621Y2HUbQxw/pYUqxeDVTW+krBehneVawA==
+ b=NQuJvKZ9a5E0hffIOheAMTi/OXx06k6/Y674cXfRBnYE2ZfRxzWGDUeQHUXqKBCGkPlL0ngFk2m/9dnuvhBpqK67L2Q2YWoDfX/TsN4EpU5ES174xKQKD+tJK+oaszpGhrvHlVQkobi2ZSvyZWWotGQCQD6TUDDiWhpKXdCVe7FsXqxvSz5RGpyOIH4uxE/1LZ7wjqW5nKExOrRif7waxza58fP5gbVlREQruIMKZIS76IOMYwhSvRSCwY5/4kkIbNVeJGRmfMhFT3ETy0B07eiR9ThbKlQ75k7+BqeZICxBzq+U2rHZOWXEtQIgrqDPLhOGzjRvS1P9EHffjU8igQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r38BuB1Rx2DioecpC2zEYq22FQPjf+hLYUtHN6pDPMQ=;
- b=Z/CSr+vU8M7hCeMRBKdPq6+JWRLY9rPUmPjWfwSuhin3cKtTOH56tI6awC89Zg/AUyqlOcdNStMK0KpWoGNibg9KC6Z3UGV7n7pGmOEQQJqj0ioaNlOyz24zvQzl5eZVY6O7nUE3JcB9UPG5fWoqZzYlwrhRZMrQawuLv3ZCw5F1Arq4i/xCy/Q08Xi8cE2cZiRCXS5fEaR6xNmSNbbGR0GZdkwmos2SB+CRd1r2idYvqZa+IYsU62vfAPEMbR/MkPyI7CUJG6ycnvDlnTAZDJOznPYHyPhhfLd0ZwTHxuqjgj4InpDt8wJS4YjzuSbxvbkFhgDGQkboQLyaDE0dOg==
+ bh=q84IkEPMpqSOBlm5UmYmQLhggw7ll6HBtAnErTlTk2c=;
+ b=MlJeEQojxZJVBIlHp7sO7Rc8lU5Yfw7nJ3+aoZdPYkIXn4/T9j0Cx6oo8Ve6XY55mxGNYfNQmCHBNfMvBI2XrO+w1g4AbrmvcLuSRjbqwzjugWajtth1oHywK6h0b7y62hemf6XoRPx271dlRWz6GJt87yhNWDrIyZUFnOpZvuEEzs3M9FA8ualBK2Vl4Vjy3XRfec1EkWYGZszYm6SvywYMvz9SgzWj6Xtr7px6FSLZqxxza7inCzZltHjnvUxKDf14wgYsrmkkN6+sLgb/6Lfi4vkBA3lzZ246VeAkfhcX1hcGfQC/OsKbu/G1V6/kqDEa7LfLrT0E9rq7WdzTLw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r38BuB1Rx2DioecpC2zEYq22FQPjf+hLYUtHN6pDPMQ=;
- b=GbQWFnrVYw8J/fHuiq0B0+VSYqzT91Yn2zzl0gKHNHvu4EQ7gDNcsSd7JtNa/+W30sGDFYlPR69TVacEJqnlVkTuK7q8vK29V1gK5Juw7xhqWfV1wJTd//DBp2Lbq31mdBkOYABwSijfbK3YpDiJZELujjdRmygZTnSMT/698wU=
+ bh=q84IkEPMpqSOBlm5UmYmQLhggw7ll6HBtAnErTlTk2c=;
+ b=m3IyPNV5T+5SRjiA9LL+pqVsF1B3FlgzWmyFMEjQz8M0m7wB0yYv+xl/uppfANYm1cAGWHTlxaViP678x9tW5m0sHcbVX+pIywGPXKWG7jzw5g3mK5FVJoH4QYbZ0s7Dx+BaokJNI6JlwjeSsuflqjYPOvw3ZnKMjRro5jQVqwbfLtsProrM88fxqwHa05A1MIoNwkD3P/5ToMzVALPk5iSxlBvjcaEWn5y/mdMSBrq4IF/EGUVpuEpWtzl2RoWf4OP7gba/YdofOSVm5AfrvHUDgihVdlFZkRTCUaBe2onOaBN/OWbYQvcMXFeUmAmwW2fHyDPL91cXL8YZaZM70A==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com (2603:10b6:208:390::15)
- by LV8PR12MB9406.namprd12.prod.outlook.com (2603:10b6:408:20b::20)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by PA1PR04MB10603.eurprd04.prod.outlook.com (2603:10a6:102:484::8)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.29; Thu, 17 Apr
- 2025 14:53:52 +0000
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::2b0e:7fc3:1d21:5d2e]) by BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::2b0e:7fc3:1d21:5d2e%3]) with mapi id 15.20.8655.021; Thu, 17 Apr 2025
- 14:53:52 +0000
-Message-ID: <dff16a84-fa65-427a-a734-6147a555de83@amd.com>
-Date: Thu, 17 Apr 2025 20:23:47 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V6 1/5] drm: add drm_file_err function to add process info
-To: Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-References: <20250417123155.4002358-1-sunil.khatri@amd.com>
-Content-Language: en-US
-From: "Khatri, Sunil" <sukhatri@amd.com>
-In-Reply-To: <20250417123155.4002358-1-sunil.khatri@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0230.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:eb::15) To BL1PR12MB5753.namprd12.prod.outlook.com
- (2603:10b6:208:390::15)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.28; Thu, 17 Apr
+ 2025 14:58:02 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.8632.035; Thu, 17 Apr 2025
+ 14:58:01 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR FREESCALE IMX 5/6), 
+ devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE
+ BINDINGS), 
+ imx@lists.linux.dev (open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE),
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX / MXC
+ ARM ARCHITECTURE), linux-kernel@vger.kernel.org (open list)
+Cc: imx@lists.linux.dev
+Subject: [PATCH v2 1/1] dt-bindings: display: imx: convert ldb.txt to yaml
+ format
+Date: Thu, 17 Apr 2025 10:57:41 -0400
+Message-Id: <20250417145742.3568572-1-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PH7PR10CA0003.namprd10.prod.outlook.com
+ (2603:10b6:510:23d::24) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5753:EE_|LV8PR12MB9406:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5be06e0-2d2f-4efc-7b5b-08dd7dbfab60
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PA1PR04MB10603:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1ee0f721-77e4-4c2b-476b-08dd7dc03f85
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WEl2YjBwRS81eVdYZU0rc3J2cVdFaGluV3BZdlhDNGM2aUFMcXFVdysrUUlD?=
- =?utf-8?B?NmNrc3VrQ2RJS3VtZ0lXTTNrcGpudmErTmlmSllZNG5CMDc2Tm82ZkhFY0V3?=
- =?utf-8?B?NGs3Mi94QVFMeXAzV2FMV1E1VW1LL3c5eFc3L0gxR3gyWmFuaFprRTN3cmVX?=
- =?utf-8?B?ZS8vRGtSZ3dUeHNJZTNoNHZlelZYbTlnbldlS2RCR2V0NHB1K3JNQVg3K1R5?=
- =?utf-8?B?UmFJQVFzYVdzcU9NbFpGYngzcGN6cFNHS1FpejBFNWlOTGRkajJHL2FQczFn?=
- =?utf-8?B?b0s3dE56RHc3aHduNU52WWdORytGbzdGRWRBUmJSQUlGazBIRlBDTDFOQzRH?=
- =?utf-8?B?MXE0bmwwODQrTG1jQlF3dGVRaXowWGxFWWFyZzVmN21EN3FIRFNjcGswd01T?=
- =?utf-8?B?WXNBektUN0JGZkozNjduUHNDVHByY3ZaTzRzMnMrcGh3bWZ0UDBGVlNpbkhO?=
- =?utf-8?B?YWpvYnVyVmtIUWJGaU1xOFh0TG1TVHNLTjFWbmVNcE9YTWRrZHNsdlhQZWJ6?=
- =?utf-8?B?UUhMRXZjN29ONUoyYzlqSzJ2bWxnaUVUYzMvMXUwV25DZlFiNnE5ZktSZDh0?=
- =?utf-8?B?S0NCWVRRc2hTME5kTHo5TkpkMm9UdHZQcDVFK1pnUHptaWlYVFcrM2hzLzhn?=
- =?utf-8?B?encvR2NOcGZyNGJhTEgyYkdMK0VTUWMvQzBaMFA5Z29DVGx4dVkxN3N2WjNi?=
- =?utf-8?B?ZHZhdEVTMmFyR3VLNlR3VXlLZWcvWGwwTldmaFh5MENlbm5sNDZLWFdlazRn?=
- =?utf-8?B?RWtVOTMxNDJ1UDNrQjhCSStRV1BDcERhVlhqYnFlN0dyMWphQnFPaUhvNjBs?=
- =?utf-8?B?UHV2K3FyUFYzY1gxRFRsR00vT2RhRHhmZ25LdjJHQ2Z3Rkg5S3h4c0dVVitm?=
- =?utf-8?B?NlRFbDBTdVE0SmpZQlhHdkFieC9sdXo5Rk1mVTV4T3JhdFlzVmVRaG5LdmtI?=
- =?utf-8?B?V1dVRkExN3YwNytFTzllYmFBWGtIYkFKZDNpQkxCSlBqVHowSWxUSTZrVWVv?=
- =?utf-8?B?OXN1QzFCWkhlZ3V4ZW9ZNGtkTXNEcW8vSzVqZHBlUG10Lys5RmFIQnhTWUt5?=
- =?utf-8?B?aHNlSzZPUURLL1ZGdlB5U0J3c2M5c0xqOXZPU3Y1SWdpem1CNFNJYUVOcFE3?=
- =?utf-8?B?YVVYQ08xZzJRTm5TNm9OaTI0SUVvNm5ObnYydkVoblUyejFiMmlNQ3EveHdE?=
- =?utf-8?B?dWtMTXdPKzVFR1U4V1JaQXR0cVZLeVpJMW5WdEZoMVZJcVVodjBhbjZhRXZ6?=
- =?utf-8?B?Qm93dE05Z1l4d1JHSkgzY3RKa09yb2I1QUdLVUxsOU91KzIyMDR6eFY1WklT?=
- =?utf-8?B?OWdTSzE3S3RGQXZMQnFOQWVLVmNjRTVsN1U3ZzZoN1lhUktHdVFRRkZLb1g2?=
- =?utf-8?B?MDVNaWRtQ0EyWUNuY3dEZUhwN01wNENKTU9VWW8wUjF0TWxJNXArWEQxMDcy?=
- =?utf-8?B?OERsUHFPZmxlRHNnYjd3K1lGeGNTOVJ3MFR3SWcyNVlzTVZZRHhLUDBNYUtF?=
- =?utf-8?B?YVIxOVBxMmlpcFJSYm9WKzFrV1JORmVTeHBLVE1wVU94UnlQSExsS2djZ0s4?=
- =?utf-8?B?c0lGVXdSR04vVHcweUJWTFkrcjZKRHVnZ2JERFhXM1NYWTM2RmpGK2t1bUxV?=
- =?utf-8?B?TXlTWElmQjFDV0hQVUV1ZXRKVm5wUnF2TWNseDRiRUovNWs2UjV4UldCNDBi?=
- =?utf-8?B?a2NCVWpxblJPd3I0VG9IdWxFOFNoS2FpOGhiS0hnWVdQbjdzS3ZkYjlRRW9u?=
- =?utf-8?B?NlkydnJ2VzVyVmU4TWZ0U1h3NHNUWlpKcEhCUGo0clRUd04xVTVEOVVtODNh?=
- =?utf-8?B?dWM3MGNSZjlTWmFzd1lGclJKWnJkQWF1QVZOZUZ3ZWdKMmJrNnhiSlNUdXlp?=
- =?utf-8?B?Q1dUOXhLYjhhYnZ2NDFuZ2NFZTBmOUZ5eGRsTU1rMTZyM3I4bzJuUExTVWZv?=
- =?utf-8?Q?JzX865kP1GQ=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|52116014|376014|1800799024|366016|921020|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?aXKL57rnm/9j+DEULveSwslXJzr0a6y6qHAhDXJfIB9VUU5ZIo92IbWCrxrq?=
+ =?us-ascii?Q?Yc1azda/P6VHXXLZFao0WSxyKLqSsLzeGp3DiNcatgsS9emO36I5pwyCL1bD?=
+ =?us-ascii?Q?98IooiV6L3Q6piFcsQfUmbMiQnvPhZX2rv/iuWA753utmmEvosGqsNklKi/J?=
+ =?us-ascii?Q?6QNshPVpjoRtI/nURxGmbtQTb2lSgyNzSpGQEV5Zal6fBBg6acMkqCvrODGU?=
+ =?us-ascii?Q?TUqH9E43yq7+h4PtRTQB1avOK0+Lb08HTvdmYR5Wn/+iJmYxCd3kSYqWS+Ul?=
+ =?us-ascii?Q?ZgcYippQFVeXqpnpSncZE7mcc6ujrrSv6WWDg0ROvx7Ks9soYtyOj5rFCzkt?=
+ =?us-ascii?Q?WuaGARmk9GrHN1eoJUVHQZ9yoAhPgbT5jEVyrcB39GXFc0WaxzN5wEHvM8JQ?=
+ =?us-ascii?Q?KG2jLtsKC3iQDmw7lA9rocClUestYgrOeEz67zLfmeHzPyeTnJmeIDy4oksb?=
+ =?us-ascii?Q?Wx9Ebm5FBm4+qdQKW0gvjAaD2/w9XapZE66QQPONiHVgSI0ZNW4oQpTXRFw2?=
+ =?us-ascii?Q?OQsao2ZUFmQCsez0dbvLxNB4oMIXM4JuftfpKC/WGhWX9fz1TMXomW8tEMJJ?=
+ =?us-ascii?Q?Q97PR/JU4zIcjr8hrfF1iJ8Dxf9f5rst2nTj+pvG1/niNk7nvCzH7PpcSYyO?=
+ =?us-ascii?Q?LvyxrF2OK3FMyvvtda8FPEudYqK/JOueaDTRG99ExNUzI3wEgPQ/dKzmgN0C?=
+ =?us-ascii?Q?x819Hu1eHh7tou6C52Q2jjXdX8KD3Q/rw+RazLCqt9xnvYKGNMwrBty08fPo?=
+ =?us-ascii?Q?DpdlBJywzzVS3qLy+XMcSyTtSm5F4Drld4hixgBnSfUHquCRKHyImEgfznBF?=
+ =?us-ascii?Q?njlSL/Ef4J5u2rKz9jq0+UXA5GVhW+LR5GhRMeGVqKzL1HbVtLgfK+/tMgxu?=
+ =?us-ascii?Q?buhrm+A9B6Aww9QiZMaB014OPq+a+RArGHgtwr9tEgMnG8S7MUJ7VP0oeG7Z?=
+ =?us-ascii?Q?AO/UrUZOwLoSycl6fjBLSeBwsWrx1JRF4yyvpvaQvBCYk2eMu8NQFBjK3/cL?=
+ =?us-ascii?Q?NcEhjJcQiLHrHlmZ+AvdNsnfMuXPhuq61jHupomI5zVBTgQLt0R0+Y1EISwW?=
+ =?us-ascii?Q?O4+M7LVp0sZjH+9xOdDONX+jBq6t8CpV04jGQ/YNfLfm7JD3kcloyd+veTtI?=
+ =?us-ascii?Q?ObibH9ApK7ZR99c+QhsYexgSD9QcJ6z8+WVeciSVJecsCyjA/POBeZ6rj+6U?=
+ =?us-ascii?Q?Zsb4i/lfmfrRndUPGBia/6gmm996P9E5l+J4Yu9d57t7z+S/0v3tqvKGavnv?=
+ =?us-ascii?Q?SEJ5J0MhC8H5dcC4VnMnYMAlEAvHE0ouajpqRNgLcHf+zQ85CSjO/lLrpvqe?=
+ =?us-ascii?Q?/4ZXRIJC7JeHHfOMwnTecNC/gcJCO0L1a2ttKNyxKowYCcL38tKctQIgflak?=
+ =?us-ascii?Q?bgu0HCqr1whm1NCjJUVpKxqNAZTuklzvxU8lV8xFFzk7GV2kWO78f1o7D86T?=
+ =?us-ascii?Q?LTHVajm2bCY=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(52116014)(376014)(1800799024)(366016)(921020)(38350700014);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1ptUUYrTGE3QzBYdnhFVzR0VHkxYjN0ZVJZR1dIQ3dVckJmOEV6ZmFSbTk0?=
- =?utf-8?B?Smxad1hpRGdOOW1CM1B0WDZXR0Z1Ti9xbDYvTWpXQUthcmU1Wnc4bnpTUDlB?=
- =?utf-8?B?d0E4OExyTVMwSHh5SXR2cnZMRFljMSs2RzEvb3VlZzExeGZIOG5mT0daSkhl?=
- =?utf-8?B?b2JaK2IvclFTY2U5RkpoUWtPYmg1cnI0VUFZVkxCOWprbUprNVc1cnJ5WURY?=
- =?utf-8?B?bTdvb1lUUzNwQk8xcU9oOSt0bDdFTHNHbXNRbTBjZlZ5OE5mSVVtamxKQTFm?=
- =?utf-8?B?QlRPaGZlMTFHZzhOcnJYYUZJcTBjUjViQWpsRktCbmtLRHNNRUJEYVRGZVFD?=
- =?utf-8?B?ZDIzZyt4UGp4ZnR6OGRYNTF6anpWbTY0TU1VdklzZ0R0c01takF1NWlBeHJq?=
- =?utf-8?B?M24zd3A4TGxLeENmbC9CVGlwM1pEaFYzckQ2cU4wWW1jZUxMSTZERXdzblY5?=
- =?utf-8?B?RUlDVkUzaUFYNlJzM2ZMei9wUndQenZ4T2Fmb0RDVWc0KzhBb1V0TWp5RDl1?=
- =?utf-8?B?WVZsR2g3czNsVWJMQlBNM0diUjhpYWljVVNUNTdXV2F4N1pEMFVoZFZlTzRL?=
- =?utf-8?B?cVV2YWpFS01uNDR6cS83Yk15UitDTlo1cGJGczF4MDhpQnlhY2xWemVud3Jk?=
- =?utf-8?B?bUE3MFNDdWk3Rm55UitNT0VhTDkreW1ER1FRL0d6akFCZmdvYWVKREFYM1VK?=
- =?utf-8?B?TjUzeVlwdDNNaTJKTkZiUUZzRDB1czNud3V4SmVqQlA0MG9PbGdIdGZkdHVX?=
- =?utf-8?B?cXA1eXV2WUUxZ0t1Z005ZTl3SnU3UzdqZDZHVjhWQzNWY2kyMGdwY2ZQejZt?=
- =?utf-8?B?cHhYOFppQkxnOUI2SHNnUnlXWDJMZDZzYmxnSGV4WGViYUREWG00MXFFbkxo?=
- =?utf-8?B?dlpYYzFHeFhiTU12V3h3RFcvdWlmNGo5SENTQ3BXL05lblZIWTM5TTFCZ3JL?=
- =?utf-8?B?ZUpQU1Zlc3gvTjJhWUhJOU9LMkp3Y2swTVhkSWRkVE41NmNhdEwvcjI4aU1R?=
- =?utf-8?B?eWVkUUpTRDlvd0ExTDM4U3BWdTk4UGpLdkFOZ3hmNWNleDEyNUF2UE91YVRY?=
- =?utf-8?B?UVBxWG8rR3pRaDhmUzRLYy9acDdXeUw5RFJPd0x3eldBRjBSMkZHa2hXdkdh?=
- =?utf-8?B?RWc2dHZpRU9Vc2R5TElQNGp2RmlqMUFmTmtZMEpiYWNVNkRTUU5HcmlCWVBQ?=
- =?utf-8?B?UVlrcm1NQ0haQnkrRG9HcjVYU0g0am1Qc00rc3dMckkrQU5wbUpKWU9KZG5p?=
- =?utf-8?B?REdscTl6NFUvZDhTQmphR1FOWC9qU0c0RTEvbElKQkgrQ1pZVFkwUURVUU1L?=
- =?utf-8?B?QVZHdGRSaHNoNkhiNGR2MnlNaTQ2NmhFNmFtRHRvaWY3T3YvRGdDRzNPenM3?=
- =?utf-8?B?d3JTeVlKUTFjdmVVckdWc29MZXhFNnE0NEpFQmxBdWFEMWdxa29kVVd4QzRE?=
- =?utf-8?B?ZisrNFNrT3lvRkdRUkViSmlua3NhNE0xa0Z0UWJuVUJaU1ZHVjV4U1ZqU2JD?=
- =?utf-8?B?OTFoSXYvcHpyR3RFVW1hbTRqNHFUdElIS3llUmxnSkFhL05rSG1UMFQwaVh3?=
- =?utf-8?B?cFhhY2NKMFlZWXJycGwvVWlLTC9qcDlmREMrVlo0d3creDNUdzhDT3k1NUtu?=
- =?utf-8?B?bk1KQ1FySEVzQi81RmdvdWpwOStqazlEdXJjMXlsTjBsTW4weVk4RjNtblpW?=
- =?utf-8?B?Tk9IT01zOTVDT3dYNnRGZ1ByMlRjU3R1YXBxS2d3azh3SGZIaHY5ZTJLQ1lV?=
- =?utf-8?B?Y29zZDdEUTJDVzVXbjVrcUdEYUFBa2RqZ0kzZHFEVHpmNVpvRlR2QzNlcGp1?=
- =?utf-8?B?aGJ0d2ZBMEN5cDRGU2daemdEZ0pUQUd5V1ZIWXRnZjVieEl6NGZvUmxQSjdM?=
- =?utf-8?B?UW9EUWxRcjNOV3pMelZxOVdkaDIxSGo0aXFvcEEyV1ovRGxGRGhxQWJMSmdn?=
- =?utf-8?B?d2d3blhoa05BeHpoaEFmRkNZTHM4UTc0YWowVG91VzhrSTd1L0JIRGZLK21U?=
- =?utf-8?B?R3RGSkx4OGdhdVFUL05CYnIzNm8xS2U1WDc0L0VBb0FGbW4wNVBIZ3FZWU5i?=
- =?utf-8?B?K055ZmJCVG13ekNnQ0VGTVdkVEUyeUZRTFNrbFd3ZGV1MGZ4UlMvUkJGL0xB?=
- =?utf-8?Q?ecvIfx4SprxnXCUKPQ5jivqo9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5be06e0-2d2f-4efc-7b5b-08dd7dbfab60
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5753.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?k8gAkKZVSIYit0d7P2TLw+ps5+wImqiGVggPuJ74DVjmVOXptuKYU4cq2yBI?=
+ =?us-ascii?Q?k+XPdWS2R/OPZK2HdduMhy1ukhv1Wx0ptmkayr+KVizSUcJx5UGSevgwZyQK?=
+ =?us-ascii?Q?14anDpSB6lglWpofAhiQAs9H4CHqV/IwJXsLr4M1/r/P4AGFVKO6tDm087jA?=
+ =?us-ascii?Q?scaKg0q2JWI9aFsS0/iH9fVakV4UgCKsRviW43vDgroXgtPTyn05RRpSYyt6?=
+ =?us-ascii?Q?QthGWenVgZ3rnOaQCri1u9dN9dv6s7FL1ZMXhi76pveWOgsEuz4MLafdtLOR?=
+ =?us-ascii?Q?aHwFn594qTjglg3lI+22uT0OreKyrPxRgS7NJskfTA9KRsY6CnyvEWpwRDzE?=
+ =?us-ascii?Q?obkn7xKmiw1XpQ19Fk5rfaNnqFWiiLYIy6Aq7UqMasUlLOdHaDIooapBDBSm?=
+ =?us-ascii?Q?eIK5gYv9VwZAnPPDFaZBdOWd4oek9yv1ktH57tSLmjzisjNfiBoWQz8gNX4b?=
+ =?us-ascii?Q?2mhqeo7Z0q8782EBOijto+N8gCeSPrFvTvRBeXOHMkHsHUdqw06w/J5v8SfV?=
+ =?us-ascii?Q?spAX8BLk5XAsW7jHrYmIhWQ058U6ePT3+IVzWjb4XVEANgSKd3nsgW776zss?=
+ =?us-ascii?Q?MnuFObv3FoCaMGJROjyAeFl2q7YnJy9G2xb7Pk3KFx4VY3zyixTIkndhiPIL?=
+ =?us-ascii?Q?mHEirxzfeRw2BlSBgoNyq5ZtMYGu9pyrNJg+3OmjtvEcLSKoJYkBJpQ88Dmr?=
+ =?us-ascii?Q?M+jO0fmxEYUJ/d+j6SdWCwi3Tx19uHi/D6Ll+yVGXxTBAom9QmoGImwnWSKd?=
+ =?us-ascii?Q?ycqgsbrNXJlmf8qc0D5aeyLaSEexyvW1TzVsM4GuCH/jCZ9ZSHree4D9eOsE?=
+ =?us-ascii?Q?ce/bbqpTGH0d/9/f88RV6LA+WBFXYlUFarkq4xw7GlBzihNcoXNRIcAbS5rN?=
+ =?us-ascii?Q?SrXn/ulCCx6NXzuWjIob4EeR0YPH+/WXwkipwSCA88CVcj/Gq85YP40OZIqL?=
+ =?us-ascii?Q?ZfK5juKrQrMw/E7JxX8cmmYCt7zyGJcHjwHp9Ktboe8sFIChmJ1o5MNzkbIo?=
+ =?us-ascii?Q?FU94PMUnzrNX7iyTFw7NJ3FkVtTZ2kEx872Jd6VADMhhEB+Uo2WY28OGa1ki?=
+ =?us-ascii?Q?FAFonjKt5L6ZHqmq78MIDhOIiUq+/5gskyD1/O/U+TYpirKpvF66myO36hve?=
+ =?us-ascii?Q?h4pDZ/+b8lGl+ZQk7+Gi7hp5wFdlLHy+nlOjdOYoosQ2WNxkM080icFYWRrd?=
+ =?us-ascii?Q?j3FiI9bw1BB4uhScow34uc0kzp2GedlSuGdSOncGaCDZuDzrd7npcEyRIj8B?=
+ =?us-ascii?Q?5Uzo6Oe9q5BhlRwmMXv0YRH7tZVx936VQy3HxnMWlLMHR0G539QgUkkDBGX2?=
+ =?us-ascii?Q?2eRcH+M/vx8xgEJHvaB2KJDEwsJ3IFGVN/1Uhm2shbIPi8evX2izBaYHpyMm?=
+ =?us-ascii?Q?Q3nf6NSv15mKf2sReAeDE7KSsldnmYtuRwPz32ZrYf+I2BhfZbuS7S3pFTLc?=
+ =?us-ascii?Q?OxiNVfMQXnFNWQMLKDFhanZWIUCZkBm1yTBDw+dxob/jjAPLX54/ZdUOks+5?=
+ =?us-ascii?Q?S/Yu7CiYSRpQ7wnUusgtCFOzJHju811v9Lj0lvwmgYELMehx9l5EhL7JBPvG?=
+ =?us-ascii?Q?NwGjJ7rm6fsHblqp8YE=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ee0f721-77e4-4c2b-476b-08dd7dc03f85
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2025 14:53:52.7118 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2025 14:58:01.3742 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Foy7evMuQyqnbE32KkbR0q/pBd25jLDVKaYQCu/F4kXmdw6uNIY9Ak85ZKm+aI4HoobTLruRhO297sMmKB5Qnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9406
+X-MS-Exchange-CrossTenant-UserPrincipalName: XM2Bg6L8svV2ZYZXugM4lHfoOUufrmfQVAvBbVAJcdmpdby855s6mG2pu0OJn5NDbCl0Oy6fZuuLjnd3VpQLWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10603
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,90 +159,380 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For rest of the patches which are part of the amdgpu tree will push 
-incorporating changes as shared by @Tvrtko Ursulin 
-<tvrtko.ursulin@igalia.com> once drm change is merged.
+Convert ldb.txt to yaml format.
 
-Thanks a lot all for the reviews.
+Additional changes
+- fix clock-names order to match existed dts file.
+- remove lvds-panel and iomuxc-gpr node in examples.
+- fsl,imx6q-ldb fail back to fsl,imx53-ldb.
+- add fsl,panel property to match existed dts.
 
-Regards
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+change from v1 to v2
+- use oneof in clock-names. imx6dl use imx6q-ldb comaptible string, but
+the clock-names is the same as imx53. To reduce dts impact, use oneof to
+allow two group clock-names list
+- fix typo pannel
+---
+ .../bindings/display/imx/fsl,imx6q-ldb.yaml   | 194 ++++++++++++++++++
+ .../devicetree/bindings/display/imx/ldb.txt   | 146 -------------
+ 2 files changed, 194 insertions(+), 146 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx6q-ldb.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/imx/ldb.txt
 
-Sunil Khatri
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6q-ldb.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6q-ldb.yaml
+new file mode 100644
+index 0000000000000..0f0a229956b78
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6q-ldb.yaml
+@@ -0,0 +1,194 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/imx/fsl,imx6q-ldb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale LVDS Display Bridge (ldb)
++
++description:
++  The LVDS Display Bridge device tree node contains up to two lvds-channel
++  nodes describing each of the two LVDS encoder channels of the bridge.
++
++maintainers:
++  - Frank Li <Frank.Li@nxp.com>
++
++properties:
++  compatible:
++    oneOf:
++      - enum:
++          - fsl,imx53-ldb
++      - items:
++          - enum:
++              - fsl,imx6q-ldb
++          - const: fsl,imx53-ldb
++
++  reg:
++    maxItems: 1
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++  gpr:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      The phandle points to the iomuxc-gpr region containing the LVDS
++      control register.
++
++  clocks:
++    minItems: 6
++    maxItems: 8
++
++  clock-names:
++    oneOf:
++      - items:
++          - const: di0_pll
++          - const: di1_pll
++          - const: di0_sel
++          - const: di1_sel
++          - const: di0
++          - const: di1
++      - items:
++          - const: di0_pll
++          - const: di1_pll
++          - const: di0_sel
++          - const: di1_sel
++          - const: di2_sel
++          - const: di3_sel
++          - const: di0
++          - const: di1
++
++  fsl,dual-channel:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description:
++      if it exists, only LVDS channel 0 should
++      be configured - one input will be distributed on both outputs in dual
++      channel mode
++
++patternProperties:
++  '^lvds-channel@[0-1]$':
++    type: object
++    description:
++      Each LVDS Channel has to contain either an of graph link to a panel device node
++      or a display-timings node that describes the video timings for the connected
++      LVDS display as well as the fsl,data-mapping and fsl,data-width properties.
++
++    properties:
++      reg:
++        maxItems: 1
++
++      '#address-cells':
++        const: 1
++
++      '#size-cells':
++        const: 0
++
++      display-timings:
++        $ref: /schemas/display/panel/display-timings.yaml#
++
++      fsl,data-mapping:
++        enum:
++          - spwg
++          - jeida
++
++      fsl,data-width:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description: should be <18> or <24>
++        enum:
++          - 18
++          - 24
++
++      fsl,panel:
++        $ref: /schemas/types.yaml#/definitions/phandle
++        description: phandle to lcd panel
++
++    patternProperties:
++      '^port@[0-4]$':
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          On i.MX5, the internal two-input-multiplexer is used. Due to hardware
++          limitations, only one input port (port@[0,1]) can be used for each channel
++          (lvds-channel@[0,1], respectively).
++          On i.MX6, there should be four input ports (port@[0-3]) that correspond
++          to the four LVDS multiplexer inputs.
++          A single output port (port@2 on i.MX5, port@4 on i.MX6) must be connected
++          to a panel input port. Optionally, the output port can be left out if
++          display-timings are used instead.
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - gpr
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx5-clock.h>
++
++    ldb@53fa8008 {
++        compatible = "fsl,imx53-ldb";
++        reg = <0x53fa8008 0x4>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++        gpr = <&gpr>;
++        clocks = <&clks IMX5_CLK_LDB_DI0_SEL>,
++                 <&clks IMX5_CLK_LDB_DI1_SEL>,
++                 <&clks IMX5_CLK_IPU_DI0_SEL>,
++                 <&clks IMX5_CLK_IPU_DI1_SEL>,
++                 <&clks IMX5_CLK_LDB_DI0_GATE>,
++                 <&clks IMX5_CLK_LDB_DI1_GATE>;
++        clock-names = "di0_pll", "di1_pll",
++                      "di0_sel", "di1_sel",
++                      "di0", "di1";
++
++        /* Using an of-graph endpoint link to connect the panel */
++        lvds-channel@0 {
++                reg = <0>;
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++
++                    endpoint {
++                        remote-endpoint = <&ipu_di0_lvds0>;
++                    };
++                };
++
++                port@2 {
++                    reg = <2>;
++
++                    endpoint {
++                        remote-endpoint = <&panel_in>;
++                    };
++               };
++        };
++
++        /* Using display-timings and fsl,data-mapping/width instead */
++        lvds-channel@1 {
++                reg = <1>;
++                #address-cells = <1>;
++                #size-cells = <0>;
++                fsl,data-mapping = "spwg";
++                fsl,data-width = <24>;
++
++                display-timings {/* ... */
++                };
++
++                port@1 {
++                     reg = <1>;
++
++                     endpoint {
++                         remote-endpoint = <&ipu_di1_lvds1>;
++                     };
++                };
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/display/imx/ldb.txt b/Documentation/devicetree/bindings/display/imx/ldb.txt
+deleted file mode 100644
+index 03653a291b549..0000000000000
+--- a/Documentation/devicetree/bindings/display/imx/ldb.txt
++++ /dev/null
+@@ -1,146 +0,0 @@
+-Device-Tree bindings for LVDS Display Bridge (ldb)
+-
+-LVDS Display Bridge
+-===================
+-
+-The LVDS Display Bridge device tree node contains up to two lvds-channel
+-nodes describing each of the two LVDS encoder channels of the bridge.
+-
+-Required properties:
+- - #address-cells : should be <1>
+- - #size-cells : should be <0>
+- - compatible : should be "fsl,imx53-ldb" or "fsl,imx6q-ldb".
+-                Both LDB versions are similar, but i.MX6 has an additional
+-                multiplexer in the front to select any of the four IPU display
+-                interfaces as input for each LVDS channel.
+- - gpr : should be <&gpr> on i.MX53 and i.MX6q.
+-         The phandle points to the iomuxc-gpr region containing the LVDS
+-         control register.
+-- clocks, clock-names : phandles to the LDB divider and selector clocks and to
+-                        the display interface selector clocks, as described in
+-                        Documentation/devicetree/bindings/clock/clock-bindings.txt
+-        The following clocks are expected on i.MX53:
+-                "di0_pll" - LDB LVDS channel 0 mux
+-                "di1_pll" - LDB LVDS channel 1 mux
+-                "di0" - LDB LVDS channel 0 gate
+-                "di1" - LDB LVDS channel 1 gate
+-                "di0_sel" - IPU1 DI0 mux
+-                "di1_sel" - IPU1 DI1 mux
+-        On i.MX6q the following additional clocks are needed:
+-                "di2_sel" - IPU2 DI0 mux
+-                "di3_sel" - IPU2 DI1 mux
+-        The needed clock numbers for each are documented in
+-        Documentation/devicetree/bindings/clock/imx5-clock.yaml, and in
+-        Documentation/devicetree/bindings/clock/imx6q-clock.yaml.
+-
+-Optional properties:
+- - pinctrl-names : should be "default" on i.MX53, not used on i.MX6q
+- - pinctrl-0 : a phandle pointing to LVDS pin settings on i.MX53,
+-               not used on i.MX6q
+- - fsl,dual-channel : boolean. if it exists, only LVDS channel 0 should
+-   be configured - one input will be distributed on both outputs in dual
+-   channel mode
+-
+-LVDS Channel
+-============
+-
+-Each LVDS Channel has to contain either an of graph link to a panel device node
+-or a display-timings node that describes the video timings for the connected
+-LVDS display as well as the fsl,data-mapping and fsl,data-width properties.
+-
+-Required properties:
+- - reg : should be <0> or <1>
+- - port: Input and output port nodes with endpoint definitions as defined in
+-   Documentation/devicetree/bindings/graph.txt.
+-   On i.MX5, the internal two-input-multiplexer is used. Due to hardware
+-   limitations, only one input port (port@[0,1]) can be used for each channel
+-   (lvds-channel@[0,1], respectively).
+-   On i.MX6, there should be four input ports (port@[0-3]) that correspond
+-   to the four LVDS multiplexer inputs.
+-   A single output port (port@2 on i.MX5, port@4 on i.MX6) must be connected
+-   to a panel input port. Optionally, the output port can be left out if
+-   display-timings are used instead.
+-
+-Optional properties (required if display-timings are used):
+- - display-timings : A node that describes the display timings as defined in
+-   Documentation/devicetree/bindings/display/panel/display-timing.txt.
+- - fsl,data-mapping : should be "spwg" or "jeida"
+-                      This describes how the color bits are laid out in the
+-                      serialized LVDS signal.
+- - fsl,data-width : should be <18> or <24>
+-
+-example:
+-
+-gpr: iomuxc-gpr@53fa8000 {
+-	/* ... */
+-};
+-
+-ldb: ldb@53fa8008 {
+-	#address-cells = <1>;
+-	#size-cells = <0>;
+-	compatible = "fsl,imx53-ldb";
+-	gpr = <&gpr>;
+-	clocks = <&clks IMX5_CLK_LDB_DI0_SEL>,
+-		 <&clks IMX5_CLK_LDB_DI1_SEL>,
+-		 <&clks IMX5_CLK_IPU_DI0_SEL>,
+-		 <&clks IMX5_CLK_IPU_DI1_SEL>,
+-		 <&clks IMX5_CLK_LDB_DI0_GATE>,
+-		 <&clks IMX5_CLK_LDB_DI1_GATE>;
+-	clock-names = "di0_pll", "di1_pll",
+-		      "di0_sel", "di1_sel",
+-		      "di0", "di1";
+-
+-	/* Using an of-graph endpoint link to connect the panel */
+-	lvds-channel@0 {
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reg = <0>;
+-
+-		port@0 {
+-			reg = <0>;
+-
+-			lvds0_in: endpoint {
+-				remote-endpoint = <&ipu_di0_lvds0>;
+-			};
+-		};
+-
+-		port@2 {
+-			reg = <2>;
+-
+-			lvds0_out: endpoint {
+-				remote-endpoint = <&panel_in>;
+-			};
+-		};
+-	};
+-
+-	/* Using display-timings and fsl,data-mapping/width instead */
+-	lvds-channel@1 {
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reg = <1>;
+-		fsl,data-mapping = "spwg";
+-		fsl,data-width = <24>;
+-
+-		display-timings {
+-			/* ... */
+-		};
+-
+-		port@1 {
+-			reg = <1>;
+-
+-			lvds1_in: endpoint {
+-				remote-endpoint = <&ipu_di1_lvds1>;
+-			};
+-		};
+-	};
+-};
+-
+-panel: lvds-panel {
+-	/* ... */
+-
+-	port {
+-		panel_in: endpoint {
+-			remote-endpoint = <&lvds0_out>;
+-		};
+-	};
+-};
+-- 
+2.34.1
 
-On 4/17/2025 6:01 PM, Sunil Khatri wrote:
-> Add a drm helper function which append the process information for
-> the drm_file over drm_err formated output.
->
-> v5: change to macro from function (Christian Koenig)
->      add helper functions for lock/unlock (Christian Koenig)
->
-> v6: remove __maybe_unused and make function inline (Jani Nikula)
->      remove drm_print.h
->
-> v7: Use va_format and %pV to concatenate fmt and vargs (Jani Nikula)
->
-> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
-> ---
->   drivers/gpu/drm/drm_file.c | 34 ++++++++++++++++++++++++++++++++++
->   include/drm/drm_file.h     |  3 +++
->   2 files changed, 37 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index c299cd94d3f7..7e64d84d4e2d 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -986,6 +986,40 @@ void drm_show_fdinfo(struct seq_file *m, struct file *f)
->   }
->   EXPORT_SYMBOL(drm_show_fdinfo);
->   
-> +/**
-> + * drm_file_err - Fill info string with process name and pid
-> + * @file_priv: context of interest for process name and pid
-> + * @fmt: prinf() like format string
-> + *
-> + * This update the user provided buffer with process
-> + * name and pid information for @file_priv
-> + */
-> +void drm_file_err(struct drm_file *file_priv, const char *fmt, ...)
-> +{
-> +	struct task_struct *task;
-> +	struct pid *pid;
-> +	struct drm_device *dev = file_priv->minor->dev;
-> +	va_list args;
-> +	struct va_format vaf;
-> +
-> +	va_start(args, fmt);
-> +	vaf.fmt = fmt;
-> +	vaf.va = &args;
-> +
-> +	mutex_lock(&file_priv->client_name_lock);
-> +	rcu_read_lock();
-> +	pid = rcu_dereference(file_priv->pid);
-> +	task = pid_task(pid, PIDTYPE_TGID);
-> +
-> +	drm_err(dev, "comm: %s pid: %d client: %s %pV", task ? task->comm : "",
-> +		task ? task->pid : 0, file_priv->client_name ?: "Unset", &vaf);
-> +
-> +	va_end(args);
-> +	rcu_read_unlock();
-> +	mutex_unlock(&file_priv->client_name_lock);
-> +}
-> +EXPORT_SYMBOL(drm_file_err);
-> +
->   /**
->    * mock_drm_getfile - Create a new struct file for the drm device
->    * @minor: drm minor to wrap (e.g. #drm_device.primary)
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 94d365b22505..5c3b2aa3e69d 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -446,6 +446,9 @@ static inline bool drm_is_accel_client(const struct drm_file *file_priv)
->   	return file_priv->minor->type == DRM_MINOR_ACCEL;
->   }
->   
-> +__printf(2, 3)
-> +void drm_file_err(struct drm_file *file_priv, const char *fmt, ...);
-> +
->   void drm_file_update_pid(struct drm_file *);
->   
->   struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigned int minor_id);
