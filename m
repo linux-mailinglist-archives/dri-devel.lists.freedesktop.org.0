@@ -2,74 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6F2A92C40
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 22:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2EEAA92C4B
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 22:30:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D723D10E3BA;
-	Thu, 17 Apr 2025 20:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4925310E3BE;
+	Thu, 17 Apr 2025 20:30:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N6W+nuAg";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="wMBD/RdB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B91C10E3BA
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 20:26:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 990B45C5918
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 20:24:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 537DDC4CEE7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 20:26:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744921583;
- bh=MSIoVWYIYAa+sUrhLyrq1Kjxud8OtJpQnV0I5LjBO3c=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=N6W+nuAgF8wmxKr9Z/HKX+7tNCeuSss8zKQJLTwMz+IlsS4t7ZGGhILI/OR6ppTfq
- l60y43C66mjR1XBnTy6Tvsl+Enal2NTF4guNNvdWNaeI98/J8uSl3BW6KKuDieWcY3
- AOFRjW4JSrXy4KVbSNAIGZW0hwTlRJwCN93DnuiaaPgHG6Omn0WuFNn+Txuf3Fcb5e
- OMdtwBBITtFF4V7zQlc5VKa+f6flSy3a2n2Ap2A0cQNfLB8TjfZtxMphcDH8BUTlCx
- Hzzg1UQzL/VnNePd/2jGcqXSq2xM5tEpwLtEEJI51FY05tI8qQ19ovPSQ2TpKjclGk
- IM98KcsvSEaUQ==
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-22423adf751so16164765ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 13:26:23 -0700 (PDT)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E15210E3BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 20:30:20 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id
+ d75a77b69052e-47681dba807so71741cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 13:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1744921816; x=1745526616;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KSYCQlCdJRvaCsoVa8PuzWUQ/r1Df/jdHAjvC1U2+0s=;
+ b=wMBD/RdBOBdC5nL/HvIZgdCCI2MhXkAWvTYWO3n1I6tbBMjqyHCYP5Qe55Nx4irrLn
+ llrcd0xLW5Y+JnUEZi7J68QMzcuBIn4I7m4ua+AsbtEX+s94Ube+RzbLEn8Q82kv+KLm
+ e/2/B2chdPqL/WnvYcyAWuJdFnRGsoRAQagw5gYAzgK9ImWZcMlCXHP1p4u1ht1IE2Ou
+ uZtPR06ZUCv0Fy9o87F6BA1fYafyaHNfTpDTVLgwJfIdWKSaHfMpffu8ZjLaVo+9qA6H
+ OjNRyz3uPUC+jjEiY6dZnBNHN/pDdZHGd6n/aFLnal3OgbbHvas2i1I08jnpOdBYWQTw
+ QqFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744921816; x=1745526616;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KSYCQlCdJRvaCsoVa8PuzWUQ/r1Df/jdHAjvC1U2+0s=;
+ b=ft/N5ojwNCLrNF402ALRTMX2YnmCfMZovfiIPGvRoiS/PU7Zargf7LwPPWP8DuIED9
+ ULAvoeK4fT9HElEPC2x/1WukwPKeXIWzMZ6koUjw1m2inhEDUb8B9Pu7/Wf1Fb3KW8zi
+ ztWhvgnpJkSQqr0j+oEtZSejDXEWRJPNHTuVPlyrrjpc+JPZZdN32GJzgCsx1fKxEMeA
+ T5SQe+Bod0o3ks5uOeYlZhq9KkUPSM6KGFZjAOqtBat4FMIYfhsKRtDtQ4gFhyldHKZZ
+ hvecPi9i/8eMjAee/ajzJICfIRYnsMXbxk8k3/4q1A/SqjF+ATdQVgjY9SMkQRScLyj3
+ I90A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3qqPhW9TG9QKBxkL8OPKrOI0kJnzCLNg3ILB10xsYXbSrXe7WPGzDGlAUOyW9W8zU37Lm+VP2WGI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxv0bfGjI4UQ4N3Wl4cu8fnwCk5hwcGHTZfNB6IebxEMlwr1KFx
- UKDHYWskjdzd5GiPzhzga0XQ3mA9rmXyuzjn1829U1dYWWhZ2NZqQIWdHcs/PMn9sQwnwT+qHe2
- T/+9v1aY4P3RlkjCrih0c6yqlgcs=
-X-Google-Smtp-Source: AGHT+IFIdrqkfQ2yDNhbz/9FblYuTge4nV1XL6JmTPE16v3aMPcbe2NW0UpaM5bS7OK2a90u3v9z9kEDj0ljXDeJmJ8=
-X-Received: by 2002:a17:902:e5ca:b0:220:c911:3f60 with SMTP id
- d9443c01a7336-22c536283ffmr3670365ad.47.1744921582932; Thu, 17 Apr 2025
- 13:26:22 -0700 (PDT)
+ AJvYcCUf6SWkzMw5IqYuIYhUmMxklP3Zj3ODLTkpSmgiRA3meO5LBV6Z1mUOG5Omvl1z5zDoB13ZB4ps9/4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxqfnZDYmvBqBp2zVQAZuQxe9PuWNAS4tNjsktDsqGSsR39yyAI
+ F9Vg5GZd48kh7bNANenVme3Ip2xQAAWwWlWEWPl9vD+dqHfeLF5cNQmYJy97n0W57m4E0Kodstq
+ hzwJPE7j9Uvew/Qsngd/U3VL7u5ycljcuxa0X
+X-Gm-Gg: ASbGncuFEDz4eRy8lj1UGlBgzEg72YEyvKHnad89YfyYQWbk0rHxrIOBinDnC8WgqE9
+ QfGniGqQIwHnDzQP1aMwHEo1NLE5IDSLfB7MRDyKa6s2N50N7uLdfKsseQNCtLTKgJBDUV1mC4h
+ 7hVgt73pJEzrcBJnkNB/quFFZr3cKy5sZTttIvLI9oJc79as/nlkjX
+X-Google-Smtp-Source: AGHT+IEX2UtNOppZD3tHg7Ft0MDhrbQphb7UixP6vmBL/AgRj7UjnQUm4ayBLDq7gljiyyLvRT6k/CWMaevWIuA7DlE=
+X-Received: by 2002:a05:622a:1a18:b0:477:1f86:178c with SMTP id
+ d75a77b69052e-47aeb26fddbmr899271cf.26.1744921815900; Thu, 17 Apr 2025
+ 13:30:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com>
- <20250414225227.3642618-3-tjmercier@google.com>
- <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
- <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
- <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
- <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
- <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com>
- <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
- <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
- <CABdmKX0P1tpa-jxzN1_TCyk6Cw6drYM+KRZQ5YQcjNOBFtOFJw@mail.gmail.com>
-In-Reply-To: <CABdmKX0P1tpa-jxzN1_TCyk6Cw6drYM+KRZQ5YQcjNOBFtOFJw@mail.gmail.com>
-From: Song Liu <song@kernel.org>
-Date: Thu, 17 Apr 2025 13:26:10 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW5bgBNu6zY0rn7ZH4VK54nruryU4bS4LrDDsxnCfqQicQ@mail.gmail.com>
-X-Gm-Features: ATxdqUGujoL1qIc8Dt7pK8kwCaaGN6jWIU0L4gFL9hmFjqYOACzGGnezHayKk80
-Message-ID: <CAPhsuW5bgBNu6zY0rn7ZH4VK54nruryU4bS4LrDDsxnCfqQicQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
- skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
- simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
- jolsa@kernel.org, mykolal@fb.com
+References: <20250415171954.3970818-1-jyescas@google.com>
+ <536596bf-8f5b-462b-add7-a203b6cd1e46@amd.com>
+ <CAJDx_rjrAgJiyOV2KcTYp574w=9mjNQ5jY3VYdG12mMuroVQ9Q@mail.gmail.com>
+ <21cbda3a-1997-4ac0-ad5d-6e6d447fc11c@amd.com>
+In-Reply-To: <21cbda3a-1997-4ac0-ad5d-6e6d447fc11c@amd.com>
+From: Juan Yescas <jyescas@google.com>
+Date: Thu, 17 Apr 2025 13:30:04 -0700
+X-Gm-Features: ATxdqUFqpr3SUaYyrcoHC1l0zJVY8cIEh8mxRUqzXl69R4ekay5l-uDxnSIYlUw
+Message-ID: <CAJDx_rjY_myNpTm0XzA0sPn54GKzN1W_qZ8HEOhCBy9An-3ZkA@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: heaps: Set allocation orders for larger page
+ sizes
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, baohua@kernel.org, 
+ dmitry.osipenko@collabora.com, jaewon31.kim@samsung.com, 
+ Guangming.Cao@mediatek.com, surenb@google.com, kaleshsingh@google.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,59 +95,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 17, 2025 at 9:05=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
- wrote:
+On Thu, Apr 17, 2025 at 1:06=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> On Wed, Apr 16, 2025 at 9:56=E2=80=AFPM Song Liu <song@kernel.org> wrote:
-> >
-> > On Wed, Apr 16, 2025 at 7:09=E2=80=AFPM T.J. Mercier <tjmercier@google.=
-com> wrote:
-> > >
-> > > On Wed, Apr 16, 2025 at 6:26=E2=80=AFPM Song Liu <song@kernel.org> wr=
-ote:
-> > [...]
-> > > >
-> > > > Here is another rookie question, it appears to me there is a file d=
-escriptor
-> > > > associated with each DMA buffer, can we achieve the same goal with
-> > > > a task-file iterator?
-> > >
-> > > That would find almost all of them, but not the kernel-only
-> > > allocations. (kernel_rss in the dmabuf_dump output I attached earlier=
+> Am 16.04.25 um 23:51 schrieb Juan Yescas:
+>
+> On Wed, Apr 16, 2025 at 4:34=E2=80=AFAM Christian K=C3=B6nig
+> <christian.koenig@amd.com> wrote:
+>
+>
+> Am 15.04.25 um 19:19 schrieb Juan Yescas:
+>
+> This change sets the allocation orders for the different page sizes
+> (4k, 16k, 64k) based on PAGE_SHIFT. Before this change, the orders
+> for large page sizes were calculated incorrectly, this caused system
+> heap to allocate from 2% to 4% more memory on 16KiB page size kernels.
+>
+> This change was tested on 4k/16k page size kernels.
+>
+> Signed-off-by: Juan Yescas <jyescas@google.com>
+> ---
+>  drivers/dma-buf/heaps/system_heap.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/=
+system_heap.c
+> index 26d5dc89ea16..54674c02dcb4 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -50,8 +50,15 @@ static gfp_t order_flags[] =3D {HIGH_ORDER_GFP, HIGH_O=
+RDER_GFP, LOW_ORDER_GFP};
+>   * to match with the sizes often found in IOMMUs. Using order 4 pages in=
+stead
+>   * of order 0 pages can significantly improve the performance of many IO=
+MMUs
+>   * by reducing TLB pressure and time spent updating page tables.
+> + *
+> + * Note: When the order is 0, the minimum allocation is PAGE_SIZE. The p=
+ossible
+> + * page sizes for ARM devices could be 4K, 16K and 64K.
+>   */
+> -static const unsigned int orders[] =3D {8, 4, 0};
+> +#define ORDER_1M (20 - PAGE_SHIFT)
+> +#define ORDER_64K (16 - PAGE_SHIFT)
+> +#define ORDER_FOR_PAGE_SIZE (0)
+> +static const unsigned int orders[] =3D {ORDER_1M, ORDER_64K, ORDER_FOR_P=
+AGE_SIZE};
+> +#
+>
+> Good catch, but I think the defines are just overkill.
+>
+> What you should do instead is to subtract page shift when using the array=
 .
-> > > If there's a leak, it's likely to show up in kernel_rss because some
-> > > driver forgot to release its reference(s).) Also wouldn't that be a
-> > > ton more iterations since we'd have to visit every FD to find the
-> > > small portion that are dmabufs? I'm not actually sure if buffers that
-> > > have been mapped, and then have had their file descriptors closed
-> > > would show up in task_struct->files; if not I think that would mean
-> > > scanning both files and vmas for each task.
-> >
-> > I don't think scanning all FDs to find a small portion of specific FDs
-> > is a real issue. We have a tool that scans all FDs in the system and
-> > only dump data for perf_event FDs. I think it should be easy to
-> > prototype a tool by scanning all files and all vmas. If that turns out
-> > to be very slow, which I highly doubt will be, we can try other
-> > approaches.
 >
-> But this will not find *all* the buffers, and that defeats the purpose
-> of having the iterator.
-
-Do you mean this approach cannot get kernel only allocations? If
-that's the case, we probably do need a separate iterator. I am
-interested in other folks thoughts on this.
-
-> > OTOH, I am wondering whether we can build a more generic iterator
-> > for a list of objects. Adding a iterator for each important kernel list=
-s
-> > seems not scalable in the long term.
+> There are several occurrences of orders in the file and I think it is
+> better to do the calculations up front in the array. Would you be ok
+> if we get rid of the defines as per your suggestion and make the
+> calculations during the definition of the array. Something like this:
 >
-> I think the wide variety of differences in locking for different
-> objects would make this difficult to do in a generic way.
+> static const unsigned int orders[] =3D {20 - PAGE_SHIFT, 16 - PAGE_SHIFT,=
+ 0};
+>
+>
+> Yeah that totally works for me as well. Just make sure that a code commen=
+t nearby explains why 20, 16 and 0.
+>
 
-Agreed it is not easy to build a generic solution. But with the
-help from BTF, we can probably build something that covers
-a large number of use cases.
+Thanks, the changes were added in the [PATCH v3].
 
-Thanks,
-Song
+> Apart from that using 1M, 64K and then falling back to 4K just sounds ran=
+dom to me. We have especially pushed back on 64K more than once because it =
+is actually not beneficial in almost all cases.
+>
+> In the hardware where the driver is used, the 64K is beneficial for:
+>
+> Arm SMMUv3 (4KB granule size):
+>            64KB (contiguous bit groups 16 4KB pages)
+>
+> SysMMU benefits from 64KB (=E2=80=9Clarge=E2=80=9D page) on 4k/16k page s=
+izes.
+>
+>
+> Question could this HW also work with pages larger than 64K? (I strongly =
+expect yes).
+>
+
+Yes, if the page sizes in the SMMUv3 are:
+      - 4k, we can have 2MiB pages
+     - 16k, we can have 32MiB pages
+
+> I suggest to fix the code in system_heap_allocate to not over allocate in=
+stead and just try the available orders like TTM does. This has proven to b=
+e working architecture independent.
+>
+> Do you mean to have an implementation similar to __ttm_pool_alloc()?
+>
+>
+> Yeah something like that.
+>
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/drivers/gpu/drm/ttm/ttm_pool.c?h=3Dv6.15-rc2#n728
+>
+> If that is the case, we can try the change, run some benchmarks and
+> submit the patch if we see positive results.
+>
+>
+> Could be that this doesn't matter for your platform, but it's minimal ext=
+ra overhead asking for larger chunks first and it just avoids fragmenting e=
+verything into 64K chunks.
+>
+> That is kind of important since the code in DMA-heaps should be platform =
+neutral if possible.
+
+I agree, I'll make the change in another patch.
+
+Thanks
+Juan
+
+>
+> Regards,
+> Christian.
+>
+>
+> Thanks
+> Juan
+>
+> Regards,
+> Christian.
+>
+>  #define NUM_ORDERS ARRAY_SIZE(orders)
+>
+>  static struct sg_table *dup_sg_table(struct sg_table *table)
+>
+>
