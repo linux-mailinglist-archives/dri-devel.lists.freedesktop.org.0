@@ -2,61 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D95BA92366
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 19:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F81A9238A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 19:13:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5058410E322;
-	Thu, 17 Apr 2025 17:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 111F810E2F1;
+	Thu, 17 Apr 2025 17:13:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YA5/xeZZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dFs9w35O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7DF210E2DD;
- Thu, 17 Apr 2025 17:07:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D164A43C7F;
- Thu, 17 Apr 2025 17:07:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A2DEC4CEE4;
- Thu, 17 Apr 2025 17:07:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744909625;
- bh=EFjpkODMkZIdidodBceqMj7D4h17MMcop8/qwhk6s1E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YA5/xeZZXHwHkBlSQAWyyZiGi5Av43Isb+49QyyCyBOmjA/8bZ+OtGifWSRgg9403
- 6UCX199+mJi69dpjZtn1q/2Tb+Ohz2V0TPakO24AfAXTb4SMc++fhuJcuNZODDQ/zL
- 5kJOcfOjRvubVUKHTgSRQ5fa6TVOiKlRPGdecPWtIMcpGeU6F8DshCexgBm0hcYh3P
- ScAfzp1OApuwfk9nqu3xivAzWbqDleTfCBRVNc9z/F74EX/PnKxcxXTQbG4GrYVfy6
- 6cr3Jt++dOgVIgbX0IQWV0sTZhWm2MV1hw9HMzbjMmY1CxclR8GD1H5jNYe/prqKK2
- 8bzPNyQmtiLLQ==
-Date: Thu, 17 Apr 2025 19:07:00 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 237DE89C0D
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 17:13:00 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id
+ af79cd13be357-7c5c815f8efso86466685a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 10:13:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744909979; x=1745514779; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:feedback-id:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MalP9T0FOVBPSQ7hdLh//NHSp0ARkV8JPukt1uR1PUg=;
+ b=dFs9w35ONztQv+U9WBMEaeb3z48WQm79uR9YiVnsmZi+B0X6lw9r+HhRaGHwOL8gTQ
+ QEco+M7QER5bmfLh1YhEJCXu+a7KjAhLOtVeoP3iyXaDlanHcg7argeShwxiUHqAtmIr
+ 88qVNhlyGDdAH5Bjqo8ERw6UYhivp0Ef7ldejQQTczBJ5Fm7zt3KInDxsm2O4qsYaZQ2
+ MtsUm/MNbjYk703ADf0wSFQEeRKTExw363nERgm/BmVNAA9nV0B5DwjhZm6BDc3ejOSd
+ 7NZf9v7gSN08AGM9+DSB93AEz/lyPsX/f9Q+AAGXRT+LhT3+bVcOdKLVx0WS47OETmHB
+ uhDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744909979; x=1745514779;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:feedback-id:message-id:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MalP9T0FOVBPSQ7hdLh//NHSp0ARkV8JPukt1uR1PUg=;
+ b=w4lTsoE7U45HSL45M+nsIsa4k+1a0xBOsiqlEazXy4SUeJ4xatMo829yuMwtd7nSyU
+ Il/EFC4UP8zO4pcnpPHVvXuo6VNTnH+Pcocd6Vr03QYLRMT/gE+xOf+lp9M6onegQKR5
+ q8CyzbYGWsC9cYe7CxqwQQrwSZdTIKfLzLwDwS9n9aoPqxvCjRrnvf3OMOeT4kDwuhAR
+ qFqlhftQ45iZ3Nw841C9XkuKaZeSPVSiGy8weNm5VmnpK24dDM1JVtlvbH3OKKktI6lF
+ QqSfkwvnmegPB59CdCEV+Zld0adX13l+iTTNCUFWmpt/ZbGsex3DATrBd7AAxAmEI9Uu
+ l6ug==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU5cDdFGZ6MoLt68xZTFwrVQDuVEi32TgygCe5Sm1+TMtn9aA6fwdwBDdXQPyTumN8J2KQ+zHE6jko=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyfAmbxQILgTxACG9m2ShznlqHLd0W4ciqqTFP6kkVuwDePZyZP
+ e2NXhRCCt8dad7oHqvqKx/UTTrzAL3fjRIvnOqs6NYZyHj1kdwTDL64/yg==
+X-Gm-Gg: ASbGncuo3VwnpgHxg6tQ/OzIuwoA28ARnrdkVulGoXl2uHJq0lKbJOLgzM7R9nwLVOF
+ Jg2msx645NniMAVAorCFH/YHki3fg793DYVFC3no2GNnStnKbIoolskcCuMuRs39QImFREjm8G0
+ kD2kCYQ0eI6Xj8A9/9euRtWmiNZWiVoLvn2taFSlz5yW80rUNH7x9se29wbtnxIO1Tf1J5PEMqg
+ NbRQuUYvWdxRIbJHMuA52mZl5qhLnG1jqVPH2P1tVbBtMkSTYtIJKgTCY0yTsgOm+CuFC5NNqVw
+ iTe1YtlJ+c7A8T8oWzDIRBFRsaRrkQzKi4wViIdBbvejreQajBimvG16LaIv9lQJgp+dDmLF78A
+ lH1TPYlgcjOUTFDAtWIurJk+nYPCOWdw=
+X-Google-Smtp-Source: AGHT+IE1U46a7zOOtONq+QwBpax7Ahpds1E61gFA8qmT13V9WuNjWi2ccq8I+2TPW5mk2fqOlsESrw==
+X-Received: by 2002:a05:620a:2409:b0:7c5:cdb5:271b with SMTP id
+ af79cd13be357-7c918fec2d8mr831126785a.15.1744909979301; 
+ Thu, 17 Apr 2025 10:12:59 -0700 (PDT)
+Received: from fauth-a2-smtp.messagingengine.com
+ (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7c925a8d2bfsm12902585a.28.2025.04.17.10.12.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Apr 2025 10:12:58 -0700 (PDT)
+Message-ID: <6801369a.050a0220.2b2efe.0e72@mx.google.com>
+X-Google-Original-Message-ID: <aAE2lwwjI9Csr7Kq@winterfell.>
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal
+ [10.202.2.46])
+ by mailfauth.phl.internal (Postfix) with ESMTP id A85251200043;
+ Thu, 17 Apr 2025 13:12:57 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-06.internal (MEProxy); Thu, 17 Apr 2025 13:12:57 -0400
+X-ME-Sender: <xms:mTYBaKtPCX7hTJAXfh3Cy_qkehcb4j40eAV_zC-gJRP9srDYf0yGrw>
+ <xme:mTYBaPepJAsVpiQG0hAtgDrwnJZtShi6JOXMb13sfHgmD6jaupfXdsj1kd_B06aXE
+ UYozOVcM-GE8TOHAQ>
+X-ME-Received: <xmr:mTYBaFygZIhapB2yIA8EpcA9kTa7jOq8q2HtCt2e3PYuqyG3bdPJvIMuJB5itw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdelkeefucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+ pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+ gvnhhtshculddquddttddmnegoufhushhpvggtthffohhmrghinhculdegledmnecujfgu
+ rhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcuhf
+ gvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtthgv
+ rhhnpeekjefgudefhfeigffghfdtheeggfdtuddvkeejleffheeufeffteetvefgfeeuje
+ enucffohhmrghinhepghhithhhuhgsrdhiohenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrsh
+ honhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghn
+ gheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepge
+ ejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehtrghmihhrugesghhmrghilhdr
+ tghomhdprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtph
+ htthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurges
+ khgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghilh
+ drtghomhdprhgtphhtthhopehgrghrhiesghgrrhihghhuohdrnhgvthdprhgtphhtthho
+ pegsjhhorhhnfegpghhhsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopegsvg
+ hnnhhordhlohhsshhinhesphhrohhtohhnrdhmvgdprhgtphhtthhopegrrdhhihhnuggs
+ ohhrgheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:mTYBaFNbnly-XmcLgzboyy0blulaxf0g_gvx5OspvUJihMB5uzMr3A>
+ <xmx:mTYBaK84QRzrqbAEIeK_fit7VpwxMszuiY6oBiljD6osiizhHtkHhA>
+ <xmx:mTYBaNX47CQC2l341GOfs0S74VKiJamzlrjNck9b-e-ERxjmbDuOtw>
+ <xmx:mTYBaDfibi2GAvOragNKXULPCEIkgES2H3JOaJeBZwW64PWC01KaMA>
+ <xmx:mTYBaEeI2DwRz__Rqild4X0j7hF0LYyp_jEGBEtNDHFCuDTOSLYyo8y9>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 17 Apr 2025 13:12:56 -0400 (EDT)
+Date: Thu, 17 Apr 2025 10:12:55 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,	Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] drm/sched: Warn if pending list is not empty
-Message-ID: <aAE1NL-OyDbnJfss@cassiopeiae>
-References: <20250407152239.34429-2-phasta@kernel.org>
- <20250407152239.34429-5-phasta@kernel.org>
- <9607e5a54b8c5041dc7fc134425cc36c0c70b5f3.camel@mailbox.org>
- <3ac34c84-fd84-4598-96e1-239418b7109f@igalia.com>
- <aADv4ivXZoJpEA7k@pollux>
- <83758ca7-8ece-433e-b904-3d21690ead23@igalia.com>
- <aAEUwjzZ9w9xlKRY@cassiopeiae>
- <0e8313dc-b1bb-4ce7-b5b7-b8b3e027adb7@igalia.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Frederic Weisbecker <frederic@kernel.org>,	Lyude Paul <lyude@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
+ linux-block@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v9 2/6] rust: enable `clippy::ptr_cast_constness` lint
+References: <20250416-ptr-as-ptr-v9-0-18ec29b1b1f3@gmail.com>
+ <20250416-ptr-as-ptr-v9-2-18ec29b1b1f3@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0e8313dc-b1bb-4ce7-b5b7-b8b3e027adb7@igalia.com>
+In-Reply-To: <20250416-ptr-as-ptr-v9-2-18ec29b1b1f3@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,100 +159,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 17, 2025 at 05:08:12PM +0100, Tvrtko Ursulin wrote:
-> To catch up on why if you could dig out the links to past discussions it
-> would be helpful.
-
-I can't look it up currently, sorry. That's why I said Philipp will loop you in
-once he's back. :)
-
-> I repeat how there is a lot of attractiveness to reference counting. Already
-> mentioned memory leak, s_fence oops, and also not having to clear
-> job->entity could be useful for things like tracking per entity submission
-> stats (imagine CFS like scheduling, generic scheduling DRM cgroup
-> controller). So it would be good for me to hear what pitfalls were
-> identified in this space.
-
-<snip>
-
-> > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > index 6b72278c4b72..ae3152beca14 100644
-> > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > @@ -1465,6 +1465,10 @@ void drm_sched_fini(struct drm_gpu_scheduler
-> > > > > > > *sched)
-> > > > > > >     	sched->ready = false;
-> > > > > > >     	kfree(sched->sched_rq);
-> > > > > > >     	sched->sched_rq = NULL;
-> > > > > > > +
-> > > > > > > +	if (!list_empty(&sched->pending_list))
-> > > > > > > +		dev_err(sched->dev, "%s: Tearing down scheduler
-> > > > > > > while jobs are pending!\n",
-> > > > > > > +			__func__);
-> > > > > 
-> > > > > It isn't fair to add this error since it would out of the blue start firing
-> > > > > for everyone expect nouveau, no? Regardless if there is a leak or not.
-> > > > 
-> > > > I think it is pretty fair to warn when detecting a guaranteed bug, no?
-> > > > 
-> > > > If drm_sched_fini() is call while jobs are still on the pending_list, they won't
-> > > > ever be freed, because all workqueues are stopped.
-> > > 
-> > > Is it a guaranteed bug for drivers are aware of the drm_sched_fini()
-> > > limitation and are cleaning up upon themselves?
-> > 
-> > How could a driver clean up on itself (unless the driver holds its own list of
-> > pending jobs)?
-> > 
-> > Once a job is in flight (i.e. it's on the pending_list) we must guarantee that
-> > free_job() is called by the scheduler, which it can't do if we call
-> > drm_sched_fini() before the pending_list is empty.
-> > 
-> > > In other words if you apply the series up to here would it trigger for
-> > > nouveau?
-> > 
-> > No, because nouveau does something very stupid, i.e. replicate the pending_list.
+On Wed, Apr 16, 2025 at 01:36:06PM -0400, Tamir Duberstein wrote:
+> In Rust 1.72.0, Clippy introduced the `ptr_cast_constness` lint [1]:
 > 
-> Ah okay I see it now, it waits for all jobs to finish before calling
-> drm_sched_fini(). For some reason I did not think it was doing that given
-> the cover letter starts with how that is a big no-no.
+> > Though `as` casts between raw pointers are not terrible,
+> > `pointer::cast_mut` and `pointer::cast_const` are safer because they
+> > cannot accidentally cast the pointer to another type.
 > 
-> > > Reportedly it triggers for the mock scheduler which also has no
-> > > leak.
-> > 
-> > That sounds impossible. How do you ensure you do *not* leak memory when you tear
-> > down the scheduler while it still has pending jobs? Or in other words, who calls
-> > free_job() if not the scheduler itself?
+> There are only 2 affected sites:
+> - `*mut T as *const U as *mut U` becomes `(*mut T).cast()`
+> - `&self as *const Self as *mut Self` becomes
+>   `core::ptr::from_ref(self).cast_mut()`.
 > 
-> Well the cover letter says it triggers so it is possible. :)
+> Apply these changes and enable the lint -- no functional change
+> intended.
+> 
+> Link: https://rust-lang.github.io/rust-clippy/master/index.html#ptr_cast_constness [1]
+> Reviewed-by: Benno Lossin <benno.lossin@proton.me>
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> ---
+>  Makefile                        | 1 +
+>  rust/kernel/block/mq/request.rs | 4 ++--
+>  rust/kernel/dma.rs              | 2 +-
+>  3 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 5d2931344490..7b85b2a8d371 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -481,6 +481,7 @@ export rust_common_flags := --edition=2021 \
+>  			    -Aclippy::needless_lifetimes \
+>  			    -Wclippy::no_mangle_with_rust_abi \
+>  			    -Wclippy::ptr_as_ptr \
+> +			    -Wclippy::ptr_cast_constness \
+>  			    -Wclippy::undocumented_unsafe_blocks \
+>  			    -Wclippy::unnecessary_safety_comment \
+>  			    -Wclippy::unnecessary_safety_doc \
+> diff --git a/rust/kernel/block/mq/request.rs b/rust/kernel/block/mq/request.rs
+> index 4a5b7ec914ef..af5c9ac94f36 100644
+> --- a/rust/kernel/block/mq/request.rs
+> +++ b/rust/kernel/block/mq/request.rs
+> @@ -69,7 +69,7 @@ pub(crate) unsafe fn aref_from_raw(ptr: *mut bindings::request) -> ARef<Self> {
+>          // INVARIANT: By the safety requirements of this function, invariants are upheld.
+>          // SAFETY: By the safety requirement of this function, we own a
+>          // reference count that we can pass to `ARef`.
+> -        unsafe { ARef::from_raw(NonNull::new_unchecked(ptr as *const Self as *mut Self)) }
+> +        unsafe { ARef::from_raw(NonNull::new_unchecked(ptr.cast())) }
+>      }
+>  
+>      /// Notify the block layer that a request is going to be processed now.
+> @@ -155,7 +155,7 @@ pub(crate) fn wrapper_ref(&self) -> &RequestDataWrapper {
+>          // the private data associated with this request is initialized and
+>          // valid. The existence of `&self` guarantees that the private data is
+>          // valid as a shared reference.
+> -        unsafe { Self::wrapper_ptr(self as *const Self as *mut Self).as_ref() }
+> +        unsafe { Self::wrapper_ptr(core::ptr::from_ref(self).cast_mut()).as_ref() }
+>      }
+>  }
+>  
+> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+> index f395d1a6fe48..43ecf3c2e860 100644
+> --- a/rust/kernel/dma.rs
+> +++ b/rust/kernel/dma.rs
+> @@ -186,7 +186,7 @@ pub fn alloc_attrs(
+>              dev: dev.into(),
+>              dma_handle,
+>              count,
+> -            cpu_addr: ret.cast(),
+> +            cpu_addr: ret.cast::<T>(),
 
-I mean it should be impossible to have jobs on the pending_list when calling
-drm_sched_fini(), but not have memory leaks, unless you let the driver do weird
-things, such as peeking into implementation details of the scheduler, etc.
+Is this change necessary? The rest looks good to me.
 
-> Mock scheduler also tracks the pending jobs itself, but different from
-> nouveau it does not wait for jobs to finish and free worker to process them
-> all, but having stopped the "hw" backend it cancels them and calls the
-> free_job vfunc directly.
+Regards,
+Boqun
 
-That seems very wrong to me. This is exactly what I mean with the driver peeks
-into implementation details.
-
-If the API of a component requires to know about and modify internals of the
-component, it's pretty much broken and must be fixed.
-
-> Going back to the topic of this series, if we go with a solution along the
-> lines of the proposed, I wonder if it would be doable without mandating that
-> drivers keep a list parallel to pending_list. Instead have a vfunc DRM
-> scheduler would call to cancel job at a time from *its* pending list. It
-> would go nicely together with prepare/run/timedout/free.
-
-That's pretty much what this series does, no? With the new callback the driver
-is supposed to kill the corresponding fence context, which signals all
-associated fences and hence the pending list will clear subsequently.
-
-> Would it allow getting rid of the new state machinery and just cancelling
-> and freeing in one go directly from drm_sched_fini()?
-
-Again, I think that's what it does, unless I misunderstand you.
+>              dma_attrs,
+>          })
+>      }
+> 
+> -- 
+> 2.49.0
+> 
