@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A435A91A42
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 13:13:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91817A91A74
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 13:18:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9B1A10EAB7;
-	Thu, 17 Apr 2025 11:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E145D10E2B2;
+	Thu, 17 Apr 2025 11:18:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IDX41WZ3";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HqsxTzDR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5752289561;
- Thu, 17 Apr 2025 11:13:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1744888432; x=1776424432;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=7mY1oDuryG5y47OJmbiO/a4gF6YKJB/+dShqhOIZ+04=;
- b=IDX41WZ3haXXHJOvNLiSuT/Fa0w4kkg1671kJiyToAAE8qW1quBesH7E
- MEc3GTuojqclC+zG5nNs2isUr3s1zL37wq56ukL+f3zwZlj2BTaOoHXzb
- dyXbTlL0dMi1VMc3Djz1uJJwAAWHi86Ozyao0rO3GqnGZ2ugd/dJmCDTp
- q7YZGmAekxmmtKp8inQJniFzlvi6GRLfohH/2MUZTSyOVs48CQibB8f2p
- IZDq3sRPdOQ+8qkdhu8FHl+DpHi1E+/oLbsdEIZpeYldJn3+UBEspqi1j
- XJ7KltVww4sSEwbf59s+MSdcf5VYucHnS4kfaFqq5HIDW/NPaxve63Vgh g==;
-X-CSE-ConnectionGUID: 6u2ukQA7QQS+FINsEXGSoQ==
-X-CSE-MsgGUID: x7oWcGCvTXCgvZ78DN4ZMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46393551"
-X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; d="scan'208";a="46393551"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2025 04:13:51 -0700
-X-CSE-ConnectionGUID: WCgtyayWRhOVR5zzkd6Z6A==
-X-CSE-MsgGUID: 43uBXVQ6TXmcpIKpDhkunQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; d="scan'208";a="134874272"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2025 04:13:48 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Khatri, Sunil" <sukhatri@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6n?=
- =?utf-8?Q?ig?=
- <christian.koenig@amd.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: Re: [PATCH v4 1/5] drm: add macro drm_file_err to print process info
-In-Reply-To: <d239b8bb-c154-482c-b37e-0cdaeb6ca7ab@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250416133144.862023-1-sunil.khatri@amd.com>
- <87lds0p4jh.fsf@intel.com> <d239b8bb-c154-482c-b37e-0cdaeb6ca7ab@amd.com>
-Date: Thu, 17 Apr 2025 14:13:45 +0300
-Message-ID: <87y0vzniqe.fsf@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7840310EAD5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 11:18:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744888686;
+ bh=pIx30SYmPcLMwjnOJCXjCtiSvSinRAlBsyynbG/px7I=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=HqsxTzDR/J9DfS2czs/FsVn3vHsQxvSZvFO/OO1Wb7UVrQluMPKWsFjEPsMfCSG24
+ SYZIxGMxbatIxvPH0B3fcUx4TYq0qiG4Xnim+9BHnlGQg0fnAvcmz/a6E3+ocQzts4
+ EK/ilN109yBxzxYZ77mXF908jSIjhud6Rlt42B5UQN3aTDnTdcCN1SJ5AVfrwud9zT
+ BYerv8erU8M7NaROUrYZKNlznoiFIxLaaf2EBRnY125ge83HgTdN61M3w5npCmdN2A
+ hl+9hXUAYoOmSLnpAyNUoyrVve5A4ZjR//WZfJD4eg3QnyHOUt3VIy4OOd6qmIghc2
+ BvOut837N1FGQ==
+Received: from eldfell (unknown [194.136.85.206])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 800EF17E0702;
+ Thu, 17 Apr 2025 13:18:05 +0200 (CEST)
+Date: Thu, 17 Apr 2025 14:17:42 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, rdunlap@infradead.org, arthurgrillo@riseup.net,
+ Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, Rodrigo
+ Siqueira <siqueira@igalia.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v18 1/8] drm/vkms: Document pixel_argb_u16
+Message-ID: <20250417141742.13f5ef5b@eldfell>
+In-Reply-To: <20250415-yuv-v18-1-f2918f71ec4b@bootlin.com>
+References: <20250415-yuv-v18-0-f2918f71ec4b@bootlin.com>
+ <20250415-yuv-v18-1-f2918f71ec4b@bootlin.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/nveQePa.E8Kg=XOOwz44OOU";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,124 +71,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Apr 2025, "Khatri, Sunil" <sukhatri@amd.com> wrote:
-> On 4/16/2025 7:55 PM, Jani Nikula wrote:
->> On Wed, 16 Apr 2025, Sunil Khatri<sunil.khatri@amd.com> wrote:
->>> Add a drm helper macro which append the process information for
->>> the drm_file over drm_err.
->>>
->>> Signed-off-by: Sunil Khatri<sunil.khatri@amd.com>
->>> ---
->>>   include/drm/drm_file.h | 41 +++++++++++++++++++++++++++++++++++++++++
->>>   1 file changed, 41 insertions(+)
->>>
->>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->>> index 94d365b22505..5ae5ad1048fb 100644
->>> --- a/include/drm/drm_file.h
->>> +++ b/include/drm/drm_file.h
->>> @@ -37,6 +37,7 @@
->>>   #include <uapi/drm/drm.h>
->>>=20=20=20
->>>   #include <drm/drm_prime.h>
->>> +#include <drm/drm_print.h>
->> Not a fan of including drm_print.h everywhere that drm_file.h is
->> included. We've been trying to get rid of this, and go the other
->> way. It's really hard to manage dependencies when everything ends up
->> including everything.
->>
->>>=20=20=20
->>>   struct dma_fence;
->>>   struct drm_file;
->>> @@ -446,6 +447,46 @@ static inline bool drm_is_accel_client(const struc=
-t drm_file *file_priv)
->>>   	return file_priv->minor->type =3D=3D DRM_MINOR_ACCEL;
->>>   }
->>>=20=20=20
->>> +static struct task_struct *drm_task_lock(struct drm_file *file_priv)
->>> +					__attribute__((__maybe_unused));
->> inline is the keyword you're missing here, and that's why you've had to
->> add maybe unused...
->>
->>> +static struct task_struct *drm_task_lock(struct drm_file *file_priv)
->>> +{
->>> +	struct task_struct *task;
->>> +	struct pid *pid;
->>> +
->>> +	mutex_lock(&file_priv->client_name_lock);
->>> +	rcu_read_lock();
->>> +	pid =3D rcu_dereference(file_priv->pid);
->>> +	task =3D pid_task(pid, PIDTYPE_TGID);
->>> +	return task;
->>> +}
->>> +
->>> +static void drm_task_unlock(struct drm_file *file_priv) __attribute__(=
-(__maybe_unused));
->>> +static void drm_task_unlock(struct drm_file *file_priv)
->>> +{
->>> +	rcu_read_unlock();
->>> +	mutex_unlock(&file_priv->client_name_lock);
->>> +}
->> ...but *why* are you inlining these? To make this header self-contained,
->> I think you'd need to add maybe sched.h, pid.h, rcupdate.h, mutex.h, or
->> something. I consider static inlines actively harmful if they force you
->> to pull in a lot of other headers.
->
-> Code readability and easy maintenance is the key to make these as=20
-> inline.
+--Sig_/nveQePa.E8Kg=XOOwz44OOU
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Oh, quite the opposite. Static inlines are a maintenance nightmare.
+On Tue, 15 Apr 2025 15:55:32 +0200
+Louis Chauvet <louis.chauvet@bootlin.com> wrote:
 
-BR,
-Jani.
+> The meaning of each member of the structure was not specified. To clarify
+> the format used and the reason behind those choices, add some
+> documentation.
+>=20
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_drv.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
+drv.h
+> index a74a7fc3a056..3b7b46dd026f 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -45,6 +45,23 @@ struct vkms_frame_info {
+>  	unsigned int rotation;
+>  };
+> =20
+> +/**
+> + * struct pixel_argb_u16 - Internal representation of a pixel color.
+> + * @a: Alpha component value, stored in 16 bits, without padding, using
+> + *     machine endianness
+> + * @r: Red component value, stored in 16 bits, without padding, using
+> + *     machine endianness
+> + * @g: Green component value, stored in 16 bits, without padding, using
+> + *     machine endianness
+> + * @b: Blue component value, stored in 16 bits, without padding, using
+> + *     machine endianness
+> + *
+> + * The goal of this structure is to keep enough precision to ensure
+> + * correct composition results in VKMS and simplifying color
+> + * manipulation by splitting each component into its own field.
+> + * Caution: the byte ordering of this structure is machine-dependent,
+> + * you can't cast it directly to AR48 or xR48.
+> + */
+>  struct pixel_argb_u16 {
+>  	u16 a, r, g, b;
+>  };
+>=20
+
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+(re-sent through a different address due issues on my side)
 
 
-> Also we are=C2=A0 keeping the logic function which gets the task with=20
-> locks in separate function then actually
->
-> passing that in the drm_err as string.
->
->>
->>> +/**
->>> + * drm_file_err - Fill info string with process name and pid
->>> + * @file_priv: context of interest for process name and pid
->>> + * @fmt: prinf() like format string
->>> + *
->>> + * This update the user provided buffer with process
->>> + * name and pid information for @file_priv
->>> + */
->>> +#define drm_file_err(file_priv, fmt, ...)						\
->>> +	do {										\
->>> +		struct task_struct *task;						\
->>> +		struct drm_device *dev =3D file_priv->minor->dev;				\
->>> +											\
->>> +		task =3D drm_task_lock(file_priv);					\
->>> +		drm_err(dev, "comm: %s pid: %d client: %s " fmt,			\
->>> +			task ? task->comm : "", task ? task->pid : 0,			\
->>> +			file_priv->client_name ?: "Unset", ##__VA_ARGS__);		\
->>> +		drm_task_unlock(file_priv);						\
->>> +	} while (0)
->>> +
->> For that matter, why is *this* inline? For debugs it makes a little more
->> sense when it adds the function, but drm_err() doesn't.
->>
->> Make all of these real functions, no need to include drm_print.h, and
->> everything is better.
->>
-> Only reason of hacing drm_file_err as a macro as the variadic fmt and=20
-> args are not possible to pass without using local variables to make=20
-> strings of fmt and args separately and with macro to macro they Are=20
-> passed cleanly and no local variables needed. you can check V3 i guess=20
-> where this whole was an function only.
->
-> Regards Sunil Khatri
->
->> BR,
->> Jani.
->>
->>>   void drm_file_update_pid(struct drm_file *);
->>>=20=20=20
->>>   struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigne=
-d int minor_id);
+Thanks,
+pq
 
---=20
-Jani Nikula, Intel
+--Sig_/nveQePa.E8Kg=XOOwz44OOU
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmgA41YACgkQI1/ltBGq
+qqcfxA/+OXLBuBSJvoooK+lerZpTOF2iJfnkCPol8TAjAV80M3WTeB5xpwR4tTTT
+X9AfjBb1fGGLrZLjecePmWR0WASrPxs6uv7EKGKQM9rh46mBlYw5q4P4S+oKEqkm
+IqStqCS7CPOmsXZ37l9eCnFXNOJLrkxRsus4R1oTpKYVPfV7Ieo3ZkTtVvo1+npY
+gmntW4FMU6j8Y8V2fGdrKz25C6fKpHMJZOczJCGWHYlbPZdwW5JrV39bQ74Ek/1i
+w45m8gKwHtDcg2mi/QfVVeNQl/PKWTCpPEcmJ/H3+K4Rhrp5uRfQsIXJwPZ1khZP
+DPINt1cIjpaO80e2Pw678PILxizzp8AkQgXBdY3+QCM8xkRiztZB74HU6aO93h4/
++Lxr25ZbDKWiubolZsviVSngk+C+VWO1wnhRhNgKwXqZbLTPPvKd6FJ37AhOVyj+
+tWJW+ZWzuOHswXcED0nH6lYL3DDdIJp9aBOy7kAmcqCqZW9FumjVD2QADHDTJoVx
+LeJCEXsDkxDagMZvX1tYNGUrqyWo9vZsV9ZAmHdi5d9vSaY+fADJ1UGLVXalkCEt
+VAyEv/qj1lDyFEaP8BEKtGPa2sySA6CDvq3qy8La9edDQW73VjGV53m5p2sVUmk1
+J0Hy9QNRCJynt/jJUsK2ClPhjlw4ceasvDl5sl+LnfCkkJNioP0=
+=ZyjJ
+-----END PGP SIGNATURE-----
+
+--Sig_/nveQePa.E8Kg=XOOwz44OOU--
