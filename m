@@ -2,59 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16249A92026
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 16:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F033AA9202A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 16:49:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B44710E0E8;
-	Thu, 17 Apr 2025 14:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B2B10EB35;
+	Thu, 17 Apr 2025 14:49:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BaMbbMiV";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="p0lDC4Zv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 879F510E0E8;
- Thu, 17 Apr 2025 14:48:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CAA446112E;
- Thu, 17 Apr 2025 14:48:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1C73C4CEE4;
- Thu, 17 Apr 2025 14:48:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744901320;
- bh=RI/pNBGOBuU1tex11uln3ZwTbH6w91FDPPlShMn6CMY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BaMbbMiVO72PWqE+wuhllqZfSj1/11mbYrcY3ytogNL6BTf/uS27sNzpQw6FUvXUn
- ou3fGk/g+RImiLZEXMgEQOxRUMIARQFUnNQ/qUhO4wEkPjyTuFAD1HtPqimfzmmmNO
- l5jkFSHRA1uGhwy5hrZbpWyf/1s1YbQ3oviafPEOCBO6l+HPioi/cccK4EyhIuJ5Mf
- AHr4YhvXN8snAD4m4nL6CdexEBU8MPFm8yb4RUgMD1YKA/TZy9tJA/0Q06EQtbfkmh
- BYgG41G7daMyrjKi9cBQE/X3RELHy00IpjV8US1lNmsNntENQjPwjkbIJYENOo7Avf
- rfS4hnN/PlwCw==
-Date: Thu, 17 Apr 2025 16:48:34 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] drm/sched: Warn if pending list is not empty
-Message-ID: <aAEUwjzZ9w9xlKRY@cassiopeiae>
-References: <20250407152239.34429-2-phasta@kernel.org>
- <20250407152239.34429-5-phasta@kernel.org>
- <9607e5a54b8c5041dc7fc134425cc36c0c70b5f3.camel@mailbox.org>
- <3ac34c84-fd84-4598-96e1-239418b7109f@igalia.com>
- <aADv4ivXZoJpEA7k@pollux>
- <83758ca7-8ece-433e-b904-3d21690ead23@igalia.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F45910EB34
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 14:49:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1744901350;
+ bh=BDAQg8KrxI89aDARPl6MuUm4d50VDQaYxKVXiIMA1eg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=p0lDC4ZvYNVBuU9zfTt/+fQCr+7ueJTSIAB0o/dC3dUsmvqJIybPn5x76a6z1zRIR
+ A81OXMgCFW18cUsILScs/3ahdEepkzDzU0A49p7a4x9G1ekHAFjadSGFpfGNnAP+/8
+ LOC+opHCm55aGHEx2xKZp7/mGN/to6snmlrHihXlyjHTcuMiJqxzI3nYGp5VRd67da
+ EUAOqFf/VGZEZ7S+Hmt0WDuM7sPFj6YP2hciwxphwQkSKn5DshRI0fOaTRsVfjx4kX
+ 0EJghQFNhQI5bX87Pbe4IBAu36qfrx+3dSPgZWP3ZVhIx89tIzDvVty8CawRMyNMun
+ ZoOCO1ugFZDjg==
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id BAA0B17E00F0;
+ Thu, 17 Apr 2025 16:49:09 +0200 (CEST)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+	kernel@collabora.com
+Subject: [PATCH v2 0/2] drm/panthor: Fix panthor+FEX-Emu
+Date: Thu, 17 Apr 2025 16:49:05 +0200
+Message-ID: <20250417144907.3679831-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <83758ca7-8ece-433e-b904-3d21690ead23@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,103 +60,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 17, 2025 at 03:20:44PM +0100, Tvrtko Ursulin wrote:
-> 
-> On 17/04/2025 13:11, Danilo Krummrich wrote:
-> > On Thu, Apr 17, 2025 at 12:27:29PM +0100, Tvrtko Ursulin wrote:
-> > > 
-> > > On 17/04/2025 08:45, Philipp Stanner wrote:
-> > > > On Mon, 2025-04-07 at 17:22 +0200, Philipp Stanner wrote:
-> > > 
-> > > Problem exactly is that jobs can outlive the entities and the scheduler,
-> > > while some userspace may have a dma fence reference to the job via sync
-> > > file. This new callback would not solve it for xe, but if everything
-> > > required was reference counted it would.
-> > 
-> > I think you're mixing up the job and the dma_fence here, if a job outlives the
-> > scheduler, it clearly is a bug, always has been.
-> > 
-> > AFAIK, Xe reference counts it's driver specific job structures *and* the driver
-> > specific scheduler structure, such that drm_sched_fini() won't be called before
-> > all jobs have finished.
-> 
-> Yes, sorry, dma fence. But it is not enough to postpone drm_sched_fini until
-> the job is not finished. Problem is exported dma fence holds the pointer to
-> drm_sched_fence (and so oopses in drm_sched_fence_get_timeline_name on
-> fence->sched->name) *after* job had finished and driver was free to tear
-> everything down.
+Hello,
 
-Well, that's a bug in drm_sched_fence then and independent from the other topic.
-Once the finished fence in a struct drm_sched_fence has been signaled it must
-live independent of the scheduler.
+This is an attempt a couple bugs exposed by FEX-Emu. The first one
+is pretty trivial and should be uncontroversial, since it's just
+a missing padding field in one of our uAPI structs. We are getting
+away with it on arm32 because of the alignment rules provided by
+the Arm ABI, but x86 has relaxed constraints for u64 fields, and
+this bug is definitely hit when running a 32-bit x86 mesa binary
+under FEX Emu.
 
-The lifetime of the drm_sched_fence is entirely independent from the scheduler
-itself, as you correctly point out.
+The second fix is addressing a problem we have because FEX-Emu is
+an aarch64 process executing 32-bit x86 code, meaning the check
+we do on the is-32bit-task check we do to figure out the MMIO
+offset seen by the user won't work. In order to fix that, we add
+an ioctl to let the user explicitly set this offset. The offset
+can only be set early on, if no MMIO range has been mapped before.
 
-Starting to reference count things to keep the whole scheduler etc. alive as
-long as the drm_sched_fence lives is not the correct solution.
+With those, and the mesa MR at [1], I managed to run a 32-bit x86
+glmark2 through FEX without using the host mesa (if we were to use
+the thunked mesa lib, both the kernel and mesa would use
+MMIO_OFFSET_64BIT, and the problem doesn't exist anymore).
 
-> > Multiple solutions have been discussed already, e.g. just wait for the pending
-> > list to be empty, reference count the scheduler for every pending job. Those all
-> > had significant downsides, which I don't see with this proposal.
-> > 
-> > I'm all for better ideas though -- what do you propose?
-> 
-> I think we need to brainstorm both issues and see if there is a solution
-> which solves them both, with bonus points for being elegant.
+Regards,
 
-The problems are not related. As mentioned above, once signaled a
-drm_sched_fence must not depend on the scheduler any longer.
+Boris
 
-> > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > index 6b72278c4b72..ae3152beca14 100644
-> > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > @@ -1465,6 +1465,10 @@ void drm_sched_fini(struct drm_gpu_scheduler
-> > > > > *sched)
-> > > > >    	sched->ready = false;
-> > > > >    	kfree(sched->sched_rq);
-> > > > >    	sched->sched_rq = NULL;
-> > > > > +
-> > > > > +	if (!list_empty(&sched->pending_list))
-> > > > > +		dev_err(sched->dev, "%s: Tearing down scheduler
-> > > > > while jobs are pending!\n",
-> > > > > +			__func__);
-> > > 
-> > > It isn't fair to add this error since it would out of the blue start firing
-> > > for everyone expect nouveau, no? Regardless if there is a leak or not.
-> > 
-> > I think it is pretty fair to warn when detecting a guaranteed bug, no?
-> > 
-> > If drm_sched_fini() is call while jobs are still on the pending_list, they won't
-> > ever be freed, because all workqueues are stopped.
-> 
-> Is it a guaranteed bug for drivers are aware of the drm_sched_fini()
-> limitation and are cleaning up upon themselves?
+Changes in v2:
+- Simplify the logic in patch2 to have a lockless solution that's
+  still safe for what we need
 
-How could a driver clean up on itself (unless the driver holds its own list of
-pending jobs)?
+[1]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34573
 
-Once a job is in flight (i.e. it's on the pending_list) we must guarantee that
-free_job() is called by the scheduler, which it can't do if we call
-drm_sched_fini() before the pending_list is empty.
+Boris Brezillon (2):
+  drm/panthor: Add missing explicit padding in drm_panthor_gpu_info
+  drm/panthor: Fix the user MMIO offset logic for emulators
 
-> In other words if you apply the series up to here would it trigger for
-> nouveau?
+ drivers/gpu/drm/panthor/panthor_device.h | 18 ++++++++
+ drivers/gpu/drm/panthor/panthor_drv.c    | 56 +++++++++++++++++-------
+ include/uapi/drm/panthor_drm.h           | 41 +++++++++++++++++
+ 3 files changed, 99 insertions(+), 16 deletions(-)
 
-No, because nouveau does something very stupid, i.e. replicate the pending_list.
+-- 
+2.49.0
 
-> Reportedly it triggers for the mock scheduler which also has no
-> leak.
-
-That sounds impossible. How do you ensure you do *not* leak memory when you tear
-down the scheduler while it still has pending jobs? Or in other words, who calls
-free_job() if not the scheduler itself?
-
-> Also, I asked in my initial reply if we have a list of which of the current
-> drivers suffer from memory leaks. Is it all or some etc.
-
-Not all, but quite some I think. The last time I looked (which is about a year
-ago) amdgpu for instance could leak memory when you unbind the driver while
-enough jobs are in flight.
