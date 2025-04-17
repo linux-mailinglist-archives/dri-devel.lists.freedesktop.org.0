@@ -2,74 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E23A91281
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 07:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C82A91339
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 07:47:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0BB10EA2C;
-	Thu, 17 Apr 2025 04:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73C8410E97A;
+	Thu, 17 Apr 2025 05:46:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jOzRgPEl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IVwKHJv7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6AB310EA2C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 04:56:56 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A46510E97A;
+ Thu, 17 Apr 2025 05:46:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id BF790A4986F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 04:51:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 598B2C4CEEF
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 04:56:54 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id B06AA6842A;
+ Thu, 17 Apr 2025 05:46:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11E06C4CEE4;
+ Thu, 17 Apr 2025 05:46:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744865814;
- bh=tmm+QbmYJM9NZANVpptZlZJKOk0h1i4DjoknpPROUPw=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=jOzRgPElQp93kazf5N8ZLE36wCfnQfc/BSR1PlnioJ+7xdRk/0WpJnnsRx/Qdnl3o
- QpoKwWCrQbBa35QDzAuN8O+WySYMdVszRRxxefobklHRgptRnAr9N/cvTItH5K3/bU
- PUkAcpByBZVvHhFqutwjajJg9UDcRXKrLsMR+SAhss/UbgROw+hEjVgK9P3oNEOeHl
- hqFVia1DUWziQGWUlU7f5L5+aDdBCeCUV1fRR3b/1zRVuKM0erDMlzF+WnAOL9rswi
- 1fOlEWuqztK1v1I1R/zYPiqzRkkTfVsS31CyQqcwepARS0SyFv13Gals0JpgopaI0u
- q9VAL+9UW8ARA==
-Received: by mail-qt1-f172.google.com with SMTP id
- d75a77b69052e-47663aeff1bso4087981cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Apr 2025 21:56:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXxutGL05g+8LgE2AUBPNw6AQPbo4hBtCnWCiZ44hK2jRuTlsqOGm8RPrc8HcMcUHEKeCAJd5/GziQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyv/5hqa3w8wja6FV9cCXz6n6ppzUOKuRI1rk+7aN2v+IuW5DUE
- s97f/3a9Aq8Odds/GpfhkF3fGwa/j6WiKH2HAZoYmDCcrA6ehGmYzAZOyOXD26Rm7d19/aLFBNm
- yITSj6y8p9vOuHT2q08CLyvLguIk=
-X-Google-Smtp-Source: AGHT+IFj9gpXjOfNBYbsZP+Vn5QpEwyj6N1RuCl0FwfJ9EBQ3/JCBLMKfIVXQXchSLXzLc6c/p6NnT4JZBn0Ik2MUXE=
-X-Received: by 2002:a05:622a:650:b0:474:db2f:bd32 with SMTP id
- d75a77b69052e-47ad810c870mr59493241cf.38.1744865813457; Wed, 16 Apr 2025
- 21:56:53 -0700 (PDT)
+ s=k20201202; t=1744868811;
+ bh=w+Fw8NVAHUYrbrF2QdmSIueeFjlxwKqtyaXHc3p/lLA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IVwKHJv77n9ud6ICAau+0RNSnlXkz/ZNaoZgcKqgTWhL6RCaInGFTpKMMBURKWtm4
+ AmK8ByNzCvLMWQdU0mpA3eiPha3gJoTeRACaiNNmAygB4NH9FMudtj1jGbZDO3ADiB
+ Lxs9CTzS8T3xdiYmqM8rk37j60G1m14SftrVhdqbgcbiDHrY3XA01phZI0ppXMwtkg
+ Iaq/DupNqE1l5zdWgV9NlTvsz0caXZPpjmMO3qVPgT7QWHIG8vXwpxbKzKt2hzRtbB
+ k7+MruJAl8anp/e+SnFajn0FzFl3g40csVCVRsSYU4ORgfGc6fVKpuXJOQ9KYaYFnA
+ 3FOkQuO6nMZXA==
+Message-ID: <7dc797c3-36d4-4477-a0c6-2a8c84ef1f11@kernel.org>
+Date: Thu, 17 Apr 2025 07:46:44 +0200
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com>
- <20250414225227.3642618-3-tjmercier@google.com>
- <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
- <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
- <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
- <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
- <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com>
- <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
-In-Reply-To: <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
-From: Song Liu <song@kernel.org>
-Date: Wed, 16 Apr 2025 21:56:42 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
-X-Gm-Features: ATxdqUEk4T3fY6FmmJQdbVRkM42dn04Z_qBTtTJMviwnBymsHkeSKzqSCEwNWdE
-Message-ID: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
- skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
- simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
- jolsa@kernel.org, mykolal@fb.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/11] dt-bindings: display: msm: document DSI
+ controller and phy on SA8775P
+To: Ayushi Makhija <amakhija@qti.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Ayushi Makhija <quic_amakhija@quicinc.com>, robdclark@gmail.com,
+ dmitry.baryshkov@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
+ robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
+ quic_jesszhan@quicinc.com
+References: <20250417053909.1051416-1-amakhija@qti.qualcomm.com>
+ <20250417053909.1051416-4-amakhija@qti.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250417053909.1051416-4-amakhija@qti.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,37 +114,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 16, 2025 at 7:09=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
- wrote:
->
-> On Wed, Apr 16, 2025 at 6:26=E2=80=AFPM Song Liu <song@kernel.org> wrote:
-[...]
-> >
-> > Here is another rookie question, it appears to me there is a file descr=
-iptor
-> > associated with each DMA buffer, can we achieve the same goal with
-> > a task-file iterator?
->
-> That would find almost all of them, but not the kernel-only
-> allocations. (kernel_rss in the dmabuf_dump output I attached earlier.
-> If there's a leak, it's likely to show up in kernel_rss because some
-> driver forgot to release its reference(s).) Also wouldn't that be a
-> ton more iterations since we'd have to visit every FD to find the
-> small portion that are dmabufs? I'm not actually sure if buffers that
-> have been mapped, and then have had their file descriptors closed
-> would show up in task_struct->files; if not I think that would mean
-> scanning both files and vmas for each task.
+On 17/04/2025 07:39, Ayushi Makhija wrote:
+> From: Ayushi Makhija <quic_amakhija@quicinc.com>
+> 
+> Document DSI controller and phy on SA8775P platform.
+> 
+> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
 
-I don't think scanning all FDs to find a small portion of specific FDs
-is a real issue. We have a tool that scans all FDs in the system and
-only dump data for perf_event FDs. I think it should be easy to
-prototype a tool by scanning all files and all vmas. If that turns out
-to be very slow, which I highly doubt will be, we can try other
-approaches.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-OTOH, I am wondering whether we can build a more generic iterator
-for a list of objects. Adding a iterator for each important kernel lists
-seems not scalable in the long term.
-
-Thanks,
-Song
+Best regards,
+Krzysztof
