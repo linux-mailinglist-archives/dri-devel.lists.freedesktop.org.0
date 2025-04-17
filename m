@@ -2,71 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4310A91690
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 10:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7EFA916A0
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Apr 2025 10:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB5310E28F;
-	Thu, 17 Apr 2025 08:38:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDB010EA58;
+	Thu, 17 Apr 2025 08:40:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="FbEkHgJq";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RMTT8VTU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lL0EVKsH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OZaq160E";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cc7dlgZw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E33F410E28F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 08:38:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=vfkQR8RmeVBACYHQDoFaf/rNFZ28qvsQUmCIhcTbncY=; b=FbEkHgJq72Xk4x4fpExao3EZpK
- uH0p43RjTNm32vg9GpN9VNgS/3H/CAgcMv7oYs2vgw4yuOwIaROqm1ywlhKvaVeSP10TxGdh6jbxj
- r2rYJu3PrE2d4Tb7XilZPrJfQE1aR7HMMqJjopLUY/WTbziYR28W17ZMLtNNdn/d84zqPE3V0a6LD
- uqXBZ/KwVTkn61NNuFLcF5I4LVc7a9aWFQBv70rJeygjMejfZjrnalbP3BlarK3es659zqISGYsyr
- im4TYza4htwW95hzvQdd+o5UfRmbNcCnnqER90VlgzRyzQgvRtAW96eH4RRaPrzYUOqBAVqzqkpfx
- 6CvuyyGA==;
-Received: from [194.136.85.206] (port=44006 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.98.1)
- (envelope-from <pekka.paalanen@haloniitty.fi>)
- id 1u5KlW-000000006Bz-0Pv4; Thu, 17 Apr 2025 11:38:34 +0300
-Date: Thu, 17 Apr 2025 11:38:27 +0300
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, rdunlap@infradead.org, arthurgrillo@riseup.net,
- Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, Rodrigo
- Siqueira <siqueira@igalia.com>, Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v18 1/8] drm/vkms: Document pixel_argb_u16
-Message-ID: <20250417113827.7c69631a@eldfell>
-In-Reply-To: <20250415-yuv-v18-1-f2918f71ec4b@bootlin.com>
-References: <20250415-yuv-v18-0-f2918f71ec4b@bootlin.com>
- <20250415-yuv-v18-1-f2918f71ec4b@bootlin.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCC4510EA58
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Apr 2025 08:40:47 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F28242118B;
+ Thu, 17 Apr 2025 08:40:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1744879246; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SV5u2/M8Z6y5dbn5rBzkGqTSD9IpeWunNphmbx+tkcU=;
+ b=RMTT8VTUcK3AZ9dM1Jbmku+gT0HB7v8Id4uTLwUGfiG5DR/aoXV7tUq0BGC1w9lGp2m5T9
+ 3Kq3LQwOW5EwN7CN7kkhZkDd+FdnzBI+1Ixmc+X7DoDiQIuTw/Bzs2g3xxNKZloSZpdBJE
+ gU4tCZRrpozWA0NquzR2JjW/HWuLNTk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1744879246;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SV5u2/M8Z6y5dbn5rBzkGqTSD9IpeWunNphmbx+tkcU=;
+ b=lL0EVKsHRhww64yI2COwRJn8XjjsqWMEBJ+gLIdGazrpycRPmlGNjFr506I50NQBEDKFo2
+ D9JnIgU+A12eK5Bg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OZaq160E;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cc7dlgZw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1744879245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SV5u2/M8Z6y5dbn5rBzkGqTSD9IpeWunNphmbx+tkcU=;
+ b=OZaq160ErPMGEw1SJaEwma1nHO+iopl5MnOzAVyFYpjApFNzIrqocfrjgond8zn/fEheSM
+ Zzw7NaYgXfKWKzM1tZPqesh/kJ83jMKYYVXIPQn9TLybX96KdmDpeZOOdhJAMdxa8I4zsV
+ JCRMunwmuFndAkVllWW+1pSskn1FgS4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1744879245;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SV5u2/M8Z6y5dbn5rBzkGqTSD9IpeWunNphmbx+tkcU=;
+ b=cc7dlgZwdnNJkmNFcoybtkPuzUrFLwtuIRoYA0r4hu/PE20Mg3DpJ5+fjsja64/EaeVVwi
+ xCAeRmeaeI4/xTAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 88C7C1388F;
+ Thu, 17 Apr 2025 08:40:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id h/4JIIy+AGgrZgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 17 Apr 2025 08:40:44 +0000
+Date: Thu, 17 Apr 2025 10:40:43 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20250417084043.GA365738@linux.fritz.box>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/jzgf=84qHh/HA3ewyHp0VfJ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: F28242118B
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ ARC_NA(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ RCPT_COUNT_TWELVE(0.00)[16];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ MISSING_XM_UA(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo, suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,78 +128,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/jzgf=84qHh/HA3ewyHp0VfJ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Dave, Sima,
 
-On Tue, 15 Apr 2025 15:55:32 +0200
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+this is the weekly PR of drm-misc-fixes.
 
-> The meaning of each member of the structure was not specified. To clarify
-> the format used and the reason behind those choices, add some
-> documentation.
->=20
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_drv.h | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index a74a7fc3a056..3b7b46dd026f 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -45,6 +45,23 @@ struct vkms_frame_info {
->  	unsigned int rotation;
->  };
-> =20
-> +/**
-> + * struct pixel_argb_u16 - Internal representation of a pixel color.
-> + * @a: Alpha component value, stored in 16 bits, without padding, using
-> + *     machine endianness
-> + * @r: Red component value, stored in 16 bits, without padding, using
-> + *     machine endianness
-> + * @g: Green component value, stored in 16 bits, without padding, using
-> + *     machine endianness
-> + * @b: Blue component value, stored in 16 bits, without padding, using
-> + *     machine endianness
-> + *
-> + * The goal of this structure is to keep enough precision to ensure
-> + * correct composition results in VKMS and simplifying color
-> + * manipulation by splitting each component into its own field.
-> + * Caution: the byte ordering of this structure is machine-dependent,
-> + * you can't cast it directly to AR48 or xR48.
-> + */
->  struct pixel_argb_u16 {
->  	u16 a, r, g, b;
->  };
->=20
+Best regards
+Thomas
 
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+drm-misc-fixes-2025-04-17:
+Short summary of fixes pull:
 
+dma-buf:
+- Correctly decrement refcounter on errors
 
-Thanks,
-pq
+gem:
+- Fix test for imported buffers
 
---Sig_/jzgf=84qHh/HA3ewyHp0VfJ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+ivpu:
+- Fix debugging
+- Fixes to frequency
+- Support firmware API 3.28.3
+- Flush jobs upon reset
 
------BEGIN PGP SIGNATURE-----
+mgag200:
+- Set vblank start to correct values
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmgAvgMACgkQI1/ltBGq
-qqfYEQ/9HwV+VLsSdbGlDhk4ejPGt3Zh3ZdAIsaFj+2Z3BWdmhhhuH9TOOs6ye0U
-DB1zaGhAFNdmrRYs1bB43MkBNCXTxnBWl+Bah4w7p1VpUeRAggNpaLJiYvrQAQCA
-asD47WDDhiIhHUjT0aVb4Qy7K9o2J3Bbks3Al/OsLdb0twT7KtEb5NAp3klZpFtv
-cUkeNHB5vA4EuVg1//JeQC0sr1SQZeLXeM7YAxc5QS9Xu3afgm6RAMDJvozLGtLX
-1RXNCNUXv31cYa+C0HEt8TcpstNrmYD+q5y1r5THJzqzp+elV2P/laPg+rB+nH6m
-JOHAljF+P7PeMfLLeiA/gdZxTAiJLziODbGhAu3cN4gCkjFm+9F60i8znpc0qA6B
-L4kenehoZ83niUlHRlbDoc8yb3VLJlfILfDmqNVAchV+kgA5DnLyWl+PlQFPLN40
-6r9l7zgXaFozbpRtTR5jNnMUdlUm0mWC7v83StSFuukiyv1051pLdkEUW1i5IEhM
-FSbX8NSiQnDYUWgGqLf2HFP03DoqQdgDfcXo9hUQcjajgoOJK9/xfyAV3sGSl+Kq
-WTR9052jqEh6ABkMy6qR6BA2gl7XHRl5OUuVyf4/CuzbFAVuXm4bigQZJx+CDe5E
-NvO2cKpW/PB+2Ic+RCVKneC3UOxcuBzV4vH0N0epI3uSEXY+sww=
-=S4YC
------END PGP SIGNATURE-----
+v3d:
+- Fix Indirect Dispatch
+The following changes since commit 1d34597a1e23004c7dd0ab5f58ba1ef95fd9ded5:
 
---Sig_/jzgf=84qHh/HA3ewyHp0VfJ--
+  drm/rockchip: dw_hdmi_qp: Fix io init for dw_hdmi_qp_rockchip_resume (2025-04-10 10:51:06 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-04-17
+
+for you to fetch changes up to 76c332d119f9048c6e16b52359f401510f18b2ff:
+
+  drm/mgag200: Fix value in <VBLKSTR> register (2025-04-17 09:56:28 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+dma-buf:
+- Correctly decrement refcounter on errors
+
+gem:
+- Fix test for imported buffers
+
+ivpu:
+- Fix debugging
+- Fixes to frequency
+- Support firmware API 3.28.3
+- Flush jobs upon reset
+
+mgag200:
+- Set vblank start to correct values
+
+v3d:
+- Fix Indirect Dispatch
+
+----------------------------------------------------------------
+Andrzej Kacprowski (2):
+      accel/ivpu: Fix the NPU's DPU frequency calculation
+      accel/ivpu: Show NPU frequency in sysfs
+
+Dan Carpenter (1):
+      dma-buf/sw_sync: Decrement refcount on error in sw_sync_ioctl_get_deadline()
+
+Karol Wachowski (2):
+      accel/ivpu: Update FW Boot API to version 3.28.3
+      accel/ivpu: Add cmdq_id to job related logs
+
+Maciej Falkowski (1):
+      accel/ivpu: Flush pending jobs of device's workqueues
+
+Maíra Canal (1):
+      drm/v3d: Fix Indirect Dispatch configuration for V3D 7.1.6 and later
+
+Thomas Zimmermann (2):
+      drm/gem: Internally test import_attach for imported objects
+      drm/mgag200: Fix value in <VBLKSTR> register
+
+ drivers/accel/ivpu/ivpu_drv.c          |  10 +--
+ drivers/accel/ivpu/ivpu_fw.c           |  17 ++++-
+ drivers/accel/ivpu/ivpu_hw.h           |  16 ++--
+ drivers/accel/ivpu/ivpu_hw_btrs.c      | 134 ++++++++++++++++-----------------
+ drivers/accel/ivpu/ivpu_hw_btrs.h      |   7 +-
+ drivers/accel/ivpu/ivpu_job.c          |  15 ++--
+ drivers/accel/ivpu/ivpu_sysfs.c        |  49 +++++++++++-
+ drivers/accel/ivpu/vpu_boot_api.h      |  13 +++-
+ drivers/accel/ivpu/vpu_jsm_api.h       |  53 ++++++++-----
+ drivers/dma-buf/sw_sync.c              |  19 +++--
+ drivers/gpu/drm/mgag200/mgag200_mode.c |   2 +-
+ drivers/gpu/drm/v3d/v3d_sched.c        |  16 +++-
+ include/drm/drm_gem.h                  |   3 +-
+ include/uapi/drm/ivpu_accel.h          |   4 +-
+ 14 files changed, 226 insertions(+), 132 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
