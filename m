@@ -2,50 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA1FA93BD6
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 19:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1720A93BBB
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 19:14:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 563A010E238;
-	Fri, 18 Apr 2025 17:17:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0FD810E21D;
+	Fri, 18 Apr 2025 17:14:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="D/5dyZLX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o3mhSmBh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 586 seconds by postgrey-1.36 at gabe;
- Fri, 18 Apr 2025 17:17:12 UTC
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14E2A10E238
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 17:17:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 69D3610273DBF; 
- Fri, 18 Apr 2025 19:07:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1744996036; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- in-reply-to:references; bh=CY3ybeEvZswn7mTzJEo870uU1YtFroIwRrSUBzp5+v0=;
- b=D/5dyZLXHPrXzHpWT4ABFOWkh6sluYURfX7f2u8rkqFUrONd5tplGzJ+DMlLx+3LbBctVT
- BHu5lKRc+CEFJ345J9lnXrregcz5YxGZlqh1p2FyVhyCKSDPV3HsWUlqzn3xNf7YFAhbxo
- YEhu8w2fVyeazJmWW+F/GK+AKA/BhPGNYj/A9rIE/K8LcCAHS1qxD4zDmdTDs3uzU6iOFW
- 8/YPNQD93G1kSUzwmSkl0UWJX7mnDS5PQDGot/iqnjYO1dDmRC31Rg/Jz2P0YM+XUTySgZ
- FJyhU0C8ql8OHN4VsI3KE4oT4bZlZySOCUbaom+Ult6gxc4N8z4P90ozoUF2Vg==
-Date: Fri, 18 Apr 2025 19:07:10 +0200
-From: Pavel Machek <pavel@denx.de>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Leonid Arapov <arapovl839@gmail.com>, Helge Deller <deller@gmx.de>,
- krzysztof.kozlowski@linaro.org, u.kleine-koenig@baylibre.com,
- linux@treblig.org, linux-omap@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH AUTOSEL 5.10 8/8] fbdev: omapfb: Add 'plane' value check
-Message-ID: <aAKGvh0fdMZPT9Jd@duo.ucw.cz>
-References: <20250403192031.2682315-1-sashal@kernel.org>
- <20250403192031.2682315-8-sashal@kernel.org>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52DCA10E228;
+ Fri, 18 Apr 2025 17:14:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 59EBE4A5DC;
+ Fri, 18 Apr 2025 17:14:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54A84C4CEEE;
+ Fri, 18 Apr 2025 17:14:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744996442;
+ bh=By9Z3/GOKSo9jX2bX288pITAL8QKbK/wJaL2Y5toa+E=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=o3mhSmBhtFASWfZ2KgiYlj9LA0feGsF/AkkLLSTsVzOjwzhRui6ckoIjUD0clMiXV
+ fVcpDewtRdZ2lQFbgsE5oAR1OjzVmZlAFoj2c1i8KWqlNlIzfcKumjn1KNwnNTowBV
+ Mq8LrA+ihQjZuvb9Caac8zjHo/CEev2NA9mmovs/RUMVqb4XPwApFXqofzpVcmaYdC
+ gw5a571GjZkGK8y3YELHQSSQsa6wDJvz1svYHuIV7o8sStTmIVhTqxqf52kc0ve+MA
+ LM8/8lJEHe68SlMLEUBw5i6+ag3mnDP02Q93nP1fj1EhJWA0WuZtK1Bi/15McraAHq
+ oDPIZqZRwM6LQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+ id DF494CE0F4D; Fri, 18 Apr 2025 10:14:01 -0700 (PDT)
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: kernel-team@meta.com, Andrew Morton <akpm@linux-foundation.org>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Mateusz Guzik <mjguzik@gmail.com>,
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jon Pan-Doh <pandoh@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Karolina Stolarek <karolina.stolarek@oracle.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 ratelimit 04/14] drm/i915: Avoid open-coded use of
+ ratelimit_state structure's ->missed field
+Date: Fri, 18 Apr 2025 10:13:49 -0700
+Message-Id: <20250418171359.1187719-4-paulmck@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <4edcefb0-cdbd-4422-8a08-ffc091de158e@paulmck-laptop>
+References: <4edcefb0-cdbd-4422-8a08-ffc091de158e@paulmck-laptop>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="ZBo/N4CwvGP6QfRI"
-Content-Disposition: inline
-In-Reply-To: <20250403192031.2682315-8-sashal@kernel.org>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,71 +72,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The i915_oa_stream_destroy() function directly accesses the
+ratelimit_state structure's ->missed field, which work, but which also
+makes it more difficult to change this field.  Therefore, make use of
+the ratelimit_state_get_miss() function instead of directly accessing
+the ->missed field.
 
---ZBo/N4CwvGP6QfRI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: <intel-gfx@lists.freedesktop.org>
+Cc: <dri-devel@lists.freedesktop.org>
+---
+ drivers/gpu/drm/i915/i915_perf.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Hi!
+diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+index de0b413600a15..1658f1246c6fa 100644
+--- a/drivers/gpu/drm/i915/i915_perf.c
++++ b/drivers/gpu/drm/i915/i915_perf.c
+@@ -1666,6 +1666,7 @@ static void i915_oa_stream_destroy(struct i915_perf_stream *stream)
+ 	struct i915_perf *perf = stream->perf;
+ 	struct intel_gt *gt = stream->engine->gt;
+ 	struct i915_perf_group *g = stream->engine->oa_group;
++	int m;
+ 
+ 	if (WARN_ON(stream != g->exclusive_stream))
+ 		return;
+@@ -1690,10 +1691,9 @@ static void i915_oa_stream_destroy(struct i915_perf_stream *stream)
+ 	free_oa_configs(stream);
+ 	free_noa_wait(stream);
+ 
+-	if (perf->spurious_report_rs.missed) {
+-		gt_notice(gt, "%d spurious OA report notices suppressed due to ratelimiting\n",
+-			  perf->spurious_report_rs.missed);
+-	}
++	m = ratelimit_state_get_miss(&perf->spurious_report_rs);
++	if (m)
++		gt_notice(gt, "%d spurious OA report notices suppressed due to ratelimiting\n", m);
+ }
+ 
+ static void gen7_init_oa_buffer(struct i915_perf_stream *stream)
+-- 
+2.40.1
 
-> Function dispc_ovl_setup is not intended to work with the value OMAP_DSS_=
-WB
-> of the enum parameter plane.
->=20
-> The value of this parameter is initialized in dss_init_overlays and in the
-> current state of the code it cannot take this value so it's not a real
-> problem.
->=20
-> For the purposes of defensive coding it wouldn't be superfluous to check
-> the parameter value, because some functions down the call stack process
-> this value correctly and some not.
->=20
-> For example, in dispc_ovl_setup_global_alpha it may lead to buffer
-> overflow.
->=20
-> Add check for this value.
->=20
-> Found by Linux Verification Center (linuxtesting.org) with SVACE static
-> analysis tool.
-
-As changelog explains, this is robustness, not really a bug fix. We
-should not need it in -stable. (Or maybe rules file should be updated,
-because noone seems to be following this rule).
-
-Best regards,
-								Pavel
-							=09
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dispc.c
-> @@ -2751,9 +2751,13 @@ int dispc_ovl_setup(enum omap_plane plane, const s=
-truct omap_overlay_info *oi,
->  		bool mem_to_mem)
->  {
->  	int r;
-> -	enum omap_overlay_caps caps =3D dss_feat_get_overlay_caps(plane);
-> +	enum omap_overlay_caps caps;
->  	enum omap_channel channel;
-> =20
-> +	if (plane =3D=3D OMAP_DSS_WB)
-> +		return -EINVAL;
-> +
-> +	caps =3D dss_feat_get_overlay_caps(plane);
->  	channel =3D dispc_ovl_get_channel_out(plane);
-> =20
->  	DSSDBG("dispc_ovl_setup %d, pa %pad, pa_uv %pad, sw %d, %d,%d, %dx%d ->"
-
---=20
-DENX Software Engineering GmbH,        Managing Director: Erika Unter
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-
---ZBo/N4CwvGP6QfRI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaAKGvgAKCRAw5/Bqldv6
-8k5AAKCQX8B0UtiYfqSSUIgj9Cciyl+X/ACgtg4ARUVHHH5jlNdHfPqoc3tE+/Y=
-=SFK+
------END PGP SIGNATURE-----
-
---ZBo/N4CwvGP6QfRI--
