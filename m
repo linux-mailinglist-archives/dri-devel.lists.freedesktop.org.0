@@ -2,42 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA826A934A8
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 10:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A09C3A934C8
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 10:43:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8D510E41D;
-	Fri, 18 Apr 2025 08:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6D4610E0A6;
+	Fri, 18 Apr 2025 08:43:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=swemel.ru header.i=@swemel.ru header.b="Zlm/WRwQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nOf/wvse";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DCC410E41D;
- Fri, 18 Apr 2025 08:31:36 +0000 (UTC)
-From: Denis Arefev <arefev@swemel.ru>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
- t=1744965090;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9Fkkq5isjGMmYO0XquNBWOmOM8h/DO8YafFqbHxC1G8=;
- b=Zlm/WRwQZgiQoeAvLcqEuRclvt0sHh5uh1ff0FcCW1gt3wshdcWkDH373Y/SOJM65upjvy
- aUho3Bb8UsT3uPJjALO/f5wHORbP48iGKaYd+p13s+jA4BX4iYGXAn69S7cakwkC5qohHy
- xok9Lp/LgYjLM/Q53dce59tKgagRVzs=
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Chunming Zhou <david1.zhou@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org, stable@vger.kernel.org
-Subject: [PATCH v2] drm/amdgpu: check a user-provided number of BOs in list
-Date: Fri, 18 Apr 2025 11:31:27 +0300
-Message-ID: <20250418083129.9739-1-arefev@swemel.ru>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B18110E0A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 08:43:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id D4B6461137;
+ Fri, 18 Apr 2025 08:43:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 371CAC4CEE2;
+ Fri, 18 Apr 2025 08:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1744965805;
+ bh=lmorddFDclvs7FCXPtABeuLvxJT51WRtU07RGNBL0bE=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=nOf/wvse+bmFozGioOWKP21tl7DRKepWw6PCaF1qQKe/+xv/z6YSRSNllixlAsOIq
+ +w2lqk8savQ4Nq0xyiqEjEPuIsXCjeTtggebh4N4aPfxR3wV85fEkcd2LGdNsTWM3z
+ ZNL5apMZ8V9PPkNiBClAmmN3HGXukpej4z8dvan0SRHaeMiiYVqqNV0GLdw4JoTep6
+ pNkeo4j+05K64mYBeOrfKeiqorDhJyadXLXF+E4syr2xJpvM64eNXh8BY5P3ZFnjuD
+ bS9QpT9vzB1ltBk40lPc93FN8g3S3fqVRqSxw9C24QGbSPYJ9NrmNjIBleFhMEdPGU
+ fZxxtd8m+2p7Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 26E45C369AB;
+ Fri, 18 Apr 2025 08:43:25 +0000 (UTC)
+From: =?utf-8?q?Duje_Mihanovi=C4=87_via_B4_Relay?=
+ <devnull+duje.mihanovic.skole.hr@kernel.org>
+Date: Fri, 18 Apr 2025 10:43:22 +0200
+Subject: [PATCH v2] backlight: ktd2801: depend on GPIOLIB
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20250418-ktd-fix-v2-1-cf3d19bafc9e@skole.hr>
+X-B4-Tracking: v=1; b=H4sIAKkQAmgC/2WMQQrCMBAAv1L27EqzNk3w5D+kh2pWs1SakpSgl
+ Pzd2KvHGYbZIHEUTnBuNoicJUmYK9Chgbsf5yejuMpALem2Uwqn1eFD3mhGzdrZXpubhVovkav
+ eT9ehspe0hvjZx1n97P8jK1TIpiPtyJyot5c0hRcffYShlPIFEY6HN50AAAA=
+X-Change-ID: 20250411-ktd-fix-7a5e5d8657b8
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Cc: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1451;
+ i=duje.mihanovic@skole.hr; s=20240706; h=from:subject:message-id;
+ bh=NvkEKW66oVkFED6cl1L9OEBr+ZdxEWUqxuIzm2YmzSg=;
+ b=owGbwMvMwCW21nBykGv/WmbG02pJDBlMAmvM9CdPb+m7JZzJc36l/CX7loglnypbg2edbVi5o
+ 1iaJ+xTRykLgxgXg6yYIkvuf8drvJ9Ftm7PXmYAM4eVCWQIAxenAExkUhEjw5fgD3Hzz0zc8MLo
+ gWtc3Zd6Zra5ec9b9pWYbhY+WLi5ZTvDX4kC5SNTFrFKbpFLqiif6btkr6KWmuOhaRyi+akfKnp
+ usQAA
+X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
+ fpr=6DFF41D60DF314B5B76BA630AD319352458FAD03
+X-Endpoint-Received: by B4 Relay for duje.mihanovic@skole.hr/20240706 with
+ auth_id=191
+X-Original-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,40 +76,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: duje.mihanovic@skole.hr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The user can set any value to the variable ‘bo_number’, via the ioctl
-command DRM_IOCTL_AMDGPU_BO_LIST. This will affect the arithmetic
-expression ‘in->bo_number * in->bo_info_size’, which is prone to
-overflow. Add a valid value check.
+From: Duje Mihanović <duje.mihanovic@skole.hr>
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+The ExpressWire library used by the driver depends on GPIOLIB, and by
+extension the driver does as well. This is not reflected in the driver's
+Kconfig entry, potentially causing Kconfig warnings. Fix this by adding
+the dependency.
 
-Fixes: 964d0fbf6301 ("drm/amdgpu: Allow to create BO lists in CS ioctl v3")
-Cc: stable@vger.kernel.org
-Signed-off-by: Denis Arefev <arefev@swemel.ru>
+Closes: https://lore.kernel.org/all/5cf231e1-0bba-4595-9441-46acc5255512@infradead.org
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 ---
-V1 -> V2:
-Set a reasonable limit 'USHRT_MAX' for 'bo_number' it as Christian König <christian.koenig@amd.com> suggested
+Changes in v2:
+- s/Link/Closes
+- Pull Randy's tags
+- Link to v1: https://lore.kernel.org/r/20250411-ktd-fix-v1-1-e7425d273268@skole.hr
+---
+ drivers/video/backlight/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c
-index 702f6610d024..85f7ee1e085d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c
-@@ -189,6 +189,9 @@ int amdgpu_bo_create_list_entry_array(struct drm_amdgpu_bo_list_in *in,
- 	struct drm_amdgpu_bo_list_entry *info;
- 	int r;
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index d9374d208ceebbf8b3c27976e9cb4d725939b942..37341474beb9982f7099711e5e2506081061df46 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -185,6 +185,7 @@ config BACKLIGHT_KTD253
  
-+	if (!in->bo_number || in->bo_number > USHRT_MAX)
-+		return -EINVAL;
-+
- 	info = kvmalloc_array(in->bo_number, info_size, GFP_KERNEL);
- 	if (!info)
- 		return -ENOMEM;
+ config BACKLIGHT_KTD2801
+ 	tristate "Backlight Driver for Kinetic KTD2801"
++	depends on GPIOLIB || COMPILE_TEST
+ 	select LEDS_EXPRESSWIRE
+ 	help
+ 	  Say Y to enable the backlight driver for the Kinetic KTD2801 1-wire
+
+---
+base-commit: 01c6df60d5d4ae00cd5c1648818744838bba7763
+change-id: 20250411-ktd-fix-7a5e5d8657b8
+
+Best regards,
 -- 
-2.43.0
+Duje Mihanović <duje.mihanovic@skole.hr>
+
 
