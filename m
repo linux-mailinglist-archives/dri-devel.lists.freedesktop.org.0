@@ -2,69 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF74A93FD7
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 00:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39010A9404B
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 01:31:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C148B10E1C1;
-	Fri, 18 Apr 2025 22:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC4CE10E3A5;
+	Fri, 18 Apr 2025 23:30:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eRATzOqU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RWRQPEPp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
- [209.85.166.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0A4110E1C1;
- Fri, 18 Apr 2025 22:18:04 +0000 (UTC)
-Received: by mail-io1-f49.google.com with SMTP id
- ca18e2360f4ac-85db3475637so97386739f.1; 
- Fri, 18 Apr 2025 15:18:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745014683; x=1745619483; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=RS1FSpT2MlnZ7LD4PcV6/Q3ZAeJ8XPNoKk60igAHuvQ=;
- b=eRATzOqU+uyDFb6mtS6Z5D1Wu2qt5Nljr6S//RQJDTVzB1JTys4Gj+/gfdt1rkkyWg
- dDqrO/9tlhvn76NOwbiK7841gmOXqxT+BLwDSfmE+2rn4wgPZOdEz3X/pC/S3tTkPVBO
- 7B8eO0mjPxc3HiDsqI8Sm6FT6bsmi0Yuzlvvw5Ytx/tlrSrRHTSL9FNNKdRnl+AHF63E
- ualk7tA7y+H8+rhCNUs2q/UWdwDoRTrUAuNkgnvcRUUiQX3/spGLIBWeiH7jEL/Fmf/U
- BjDPMqQK01dvp3aYeXIenu8yb2X+ih+Pk2KSA/MSAA+x9A5fjmD85V3zkwK6gdQ2JMIW
- uI7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745014683; x=1745619483;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RS1FSpT2MlnZ7LD4PcV6/Q3ZAeJ8XPNoKk60igAHuvQ=;
- b=wifvR4QJQ7aPBqqimX+WcKOWYIhV8hXrEwk+OZJZ322+rj8FcSj2SL2EzI7mEPNgcc
- SYBbAGKY3hTT74cwBRa78w+xEYpZ9MmJrVDBm3qc/1VCLoBkDYEtjCJVpT9NDZE5hdho
- AOH66uy4u/UB+wmoNAUUtUSlHY3XKE7Du9zbvC9dA41aY0Dvte3UX/0rICFaGJFjio5s
- Z4i9JdMRNQz3kii46WKz3HVxL8L7VdboGBcdA/gs8bG4KZh5vMDMYTkkkDcnx2MOepqi
- ksiA0EpNTGqztC3ltQgWYCk0a2RvVHtqR1Jf7kK8FuAERnTrucQ3qg5WM0Y1d9dT7xQI
- vnfQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXzmFoFc1M+xDWyOxj88b+GPSi0uRCI4iK2yAIwWXR/KKAoGkCeKauggDxqzGXhqgJwZZWAsdAAFCw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0xxqzyuEBdd6r+2M0pw/OFplqx+/NxJoKA+iconAr7fBl/Qy1
- 4Ppal+u7J9SCxHPsJAKln4y0iwVPLd94RLwcuESlkfFh+ow6+XCgGiUlRxYPjoN2bliWRHUOfvU
- hINmXjH3lKf1xGYn1JbYLblrnHkE=
-X-Gm-Gg: ASbGnctQj8FDZUaifKo5sP0M6aalcllX+DTTdeFTS/X7EB2TPX2XmtkioccHr6xAVt8
- VY8KzUynVJjEGgOe8aysJdz7w0gPiIOT+PLQN9FNtzGox2OOgDzes75yOVFsaqL763/ssAaatVM
- 0DONQe6Mw4RXaK3PvopGHwRTOVpktwRGhBOGuiUUznVr6Wrps6LpJ+QPBx
-X-Google-Smtp-Source: AGHT+IEfUxsOUwDFYpKLoaEmUzZ5X3ueiW+fXEta1tk63WYohjmHx0iZcS/k63/0pUUlXY5jfKd05JxFjQ17rgsUXqg=
-X-Received: by 2002:a05:6e02:174c:b0:3d6:d838:8b93 with SMTP id
- e9e14a558f8ab-3d8bf27aca2mr33660785ab.7.1745014683628; Fri, 18 Apr 2025
- 15:18:03 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 897D210E2D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 23:30:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745019057; x=1776555057;
+ h=from:to:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=I2JVM/XEx+ZeQrKYQQTHILcGV267L26tWQ6mtJazd9Q=;
+ b=RWRQPEPpwjs70hyH3jE/+jCtFgYqWDVOqZL9EvXThJ64ZL2jzkuSVdbh
+ EY0DayWwzFxcD2UAkrLV1y3z6gcb+e5JpnhWpyMP2KWeuN3RjGyuIIFtX
+ TWXBqBWN7Wz5W8E4wP7qN7VUC6nu39WNAmojQly3Bel8XVDoDLZBeBlRA
+ g7TNb0/YcbhenKO2MfvfBaJISYZysUW1gKFv7mbTthXwI0hmBycs1SqLr
+ m8RninaoVDDU/IqcCZje+yA0akxUAhbtwklKcEcRRwGRRjPlS8dnM0ltz
+ KHv44mzuIRMlBYn17YQ21wXU3a+oF4QQEeRkpDHzJOGKmCVxswbPWJl97 g==;
+X-CSE-ConnectionGUID: yVfyPe7HQcSatxIZ1z9sAg==
+X-CSE-MsgGUID: FKZuPnNzQHaPrUWFx3JIrg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="58033862"
+X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; d="scan'208";a="58033862"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2025 16:30:57 -0700
+X-CSE-ConnectionGUID: X2PJxYjxQwKpC06HejDuvA==
+X-CSE-MsgGUID: eitAB/gTSw2mHtQ5QVlpCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; d="scan'208";a="168436930"
+Received: from dongwonk-z390-aorus-ultra.fm.intel.com ([10.105.129.124])
+ by orviesa001.jf.intel.com with ESMTP; 18 Apr 2025 16:30:57 -0700
+From: dongwon.kim@intel.com
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH 0/2] Virtio-GPU suspend and resume
+Date: Fri, 18 Apr 2025 16:29:47 -0700
+Message-Id: <20250418232949.1032604-1-dongwon.kim@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 18 Apr 2025 15:17:52 -0700
-X-Gm-Features: ATxdqUFZ_tO0K7cdxfy-S6NFR2m3x7fcs4Yr_m40G6w-4lUTP8wPeq_iH8w8-U8
-Message-ID: <CAF6AEGtVKXEVdzUzFWmQE8JmK3nx_hp+ynOd-5j3vnfcU-sgOA@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2025-04-18 for v6.15-rc3
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,64 +63,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+From: Dongwon Kim <dongwon.kim@intel.com>
 
-A few fixes for v6.15, as described below.
+This patch series introduces a freeze and restore mechanism for
+the virtio-gpu driver:
 
-The following changes since commit 83ee6d2ec52f1378f3473ee8657d559bebdbda44:
+First patch adds `virtgpu_freeze` and `virtgpu_restore` functions.
+These functions handle the deletion of virtio queues before suspension and
+their recreation during the restoration process.
 
-  dt-bindings: display/msm: dsi-controller-main: Add missing minItems
-(2025-03-08 03:06:00 +0200)
+Second patch implements a mechanism for restoring `virtio_gpu_object` instances.
+This is necessary because the host (QEMU) deletes all associated resources during
+the virtio-gpu reset, which occurs as part of the restoration process.
 
-are available in the Git repository at:
+These changes ensure that the virtio-gpu driver can properly handle suspend and
+resume scenarios without resource loss.
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2025-04-18
+Dongwon Kim (2):
+  drm/virtio: Freeze and restore hooks to support suspend and resume
+  drm/virtio: Implement save and restore for virtio_gpu_objects
 
-for you to fetch changes up to 9d78f02503227d3554d26cf8ca73276105c98f3e:
+ drivers/gpu/drm/virtio/virtgpu_drv.c    | 59 +++++++++++++++++++++-
+ drivers/gpu/drm/virtio/virtgpu_drv.h    | 11 +++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c    | 24 ++++++---
+ drivers/gpu/drm/virtio/virtgpu_object.c | 65 +++++++++++++++++++++++++
+ 4 files changed, 152 insertions(+), 7 deletions(-)
 
-  drm/msm/a6xx+: Don't let IB_SIZE overflow (2025-04-18 15:15:24 -0700)
+-- 
+2.34.1
 
-----------------------------------------------------------------
-Fixes for v6.15-rc3
-
-Display:
-- Fix to call dpu_plane_atomic_check_pipe() for both SSPPs in
-  case of multi-rect
-- Fix to validate plane_state pointer before using it in
-  dpu_plane_virtual_atomic_check()
-- Fix to make sure dereferencing dpu_encoder_phys happens after
-  making sure it is valid in _dpu_encoder_trigger_start()
-- Remove the remaining intr_tear_rd_ptr which we initialized
-  to -1 because NO_IRQ indices start from 0 now
-
-GPU:
-- Fix IB_SIZE overflow
-
-----------------------------------------------------------------
-Chenyuan Yang (1):
-      drm/msm/dpu: Fix error pointers in dpu_plane_virtual_atomic_check
-
-Dmitry Baryshkov (1):
-      drm/msm/dpu: drop rogue intr_tear_rd_ptr values
-
-Jun Nie (1):
-      drm/msm/dpu: check every pipe per capability
-
-Qasim Ijaz (1):
-      drm/msm/dpu: reorder pointer operations after sanity checks to
-avoid NULL deref
-
-Rob Clark (1):
-      drm/msm/a6xx+: Don't let IB_SIZE overflow
-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  8 +--
- .../drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h   |  2 -
- .../drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h   |  1 -
- .../drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h   |  3 -
- .../drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h    |  4 --
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h |  3 -
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h |  2 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          | 74 ++++++++++++----------
- .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  7 ++
- 10 files changed, 53 insertions(+), 55 deletions(-)
