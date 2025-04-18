@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD1BA94049
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 01:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6459DA9404A
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 01:31:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE5410E2D4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8677410E2DA;
 	Fri, 18 Apr 2025 23:30:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NA86FLm4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CqV/hGLL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A638F10E2DA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C380D10E2D4
  for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 23:30:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1745019057; x=1776555057;
  h=from:to:subject:date:message-id:in-reply-to:references:
  mime-version:content-transfer-encoding;
- bh=3RPBGxkm/NWiGcr5hjmNuVGAwF1VifoJ9GnAqI0H2lM=;
- b=NA86FLm4p3vBq/B7l46gM3afFd/7TA0X1PzrtFTakPrwcFl+WQNcvVdM
- N1Oqx6CxePQGTigTggBgmILxNN71lHw+MKeJTQfsoJdsUfJWfOX4KqZEL
- UCmwqX89oZreq0pN8AMcG0KMpO2f6GMb/ZFLMkq9Tv4yiZ/qa6tDqlyUM
- w3l7RaoMuvN7FBavuefrHcS4qzdkjY95Wkee2Pty+yhbOXGKMF96odTEs
- bdyTytwPTpY06sJZkOWickJ2OgR+JkaI8L3wPEyIxS5DTWSaDlU9e5Qwz
- 1erY1x6WvwA/XlfYrsmt1XYgWgwBB3RuPIN0xtYzw1AlwsaraocvSFcx2 g==;
-X-CSE-ConnectionGUID: gHVhiC/9Q3+AOHod4MRkAQ==
-X-CSE-MsgGUID: +GnfWWb1RAG2i9HBLMgdVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="58033863"
-X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; d="scan'208";a="58033863"
+ bh=Br14ASXZGRMOy8RkrWdhVSfjsvPA8RUTxztEfTU0nqI=;
+ b=CqV/hGLLJnvmP8/m/a10DfhqmUH3Xr3gtUIiy55N6RMQHdhy+uk8sRpH
+ 9SgBlCqYBdxZH8bbKEqUP0TOHATVZfs5lLDy9HqKWuuT8Q94Ug9K3LilQ
+ TNbR3ISfdbySb577qp3f5nbeW6Ax91YY5RpoQVtP4xbHJ9ATfO5vJ0NHw
+ YWSgg2AbDpF0H9huycCu4V1sDFWhyqZCcwl8P9yLajAl21kKmZQeKh1F7
+ wPY33Q1A/g0+AqeJ/qU4eozXg10vUyeJHcA9XBC6Ae6WJcsP3ZhaDClV3
+ VqkpQLz6LTVnnffBxmfL8+eTEhvxu0HAD8ZHeoGJ79ABrBxyKHFb+mTbs Q==;
+X-CSE-ConnectionGUID: lmzcg3JzSi2Y5QHSpA00Jg==
+X-CSE-MsgGUID: e+KsO1UJTtKZem7Q3FjNJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="58033864"
+X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; d="scan'208";a="58033864"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Apr 2025 16:30:57 -0700
-X-CSE-ConnectionGUID: cb5qRUOARDOVz8UKt8L1Rg==
-X-CSE-MsgGUID: oTFphjBkTHChvA01msLfLQ==
+X-CSE-ConnectionGUID: VSnnNxrZTgWZdeWieJA7xg==
+X-CSE-MsgGUID: 0/7RyWzeRSSQTnL2rbYymg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; d="scan'208";a="168436931"
+X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; d="scan'208";a="168436932"
 Received: from dongwonk-z390-aorus-ultra.fm.intel.com ([10.105.129.124])
  by orviesa001.jf.intel.com with ESMTP; 18 Apr 2025 16:30:57 -0700
 From: dongwon.kim@intel.com
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 1/2] drm/virtio: Freeze and restore hooks to support
- suspend and resume
-Date: Fri, 18 Apr 2025 16:29:48 -0700
-Message-Id: <20250418232949.1032604-2-dongwon.kim@intel.com>
+Subject: [RFC PATCH 2/2] drm/virtio: Implement save and restore for
+ virtio_gpu_objects
+Date: Fri, 18 Apr 2025 16:29:49 -0700
+Message-Id: <20250418232949.1032604-3-dongwon.kim@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250418232949.1032604-1-dongwon.kim@intel.com>
 References: <20250418232949.1032604-1-dongwon.kim@intel.com>
@@ -68,152 +68,190 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dongwon Kim <dongwon.kim@intel.com>
 
-virtio device needs to delete before VM suspend happens
-then reinitialize all virtqueues again upon resume
+Host KVM/QEMU loses all graphics resources submitted by the guest OS
+upon resumption from sleep or hibernation. This results in invalid
+resource errors when the guest OS attempts to interact with the host
+regarding those resources.
+
+To address this issue, the virtio-gpu driver now resubmits all existing
+resources upon resumption. A linked list has been introduced to maintain
+references to all created `virtio_gpu_object` instances and their parameters.
+
+Whenever a new object is created and sent to the host, it is added to this
+list. During the `.resume` function, all backed-up objects are re-sent to
+the host using the 'create resource' virtio GPU command, ensuring the
+resources are restored seamlessly.
 
 Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
 Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.c | 53 +++++++++++++++++++++++++++-
- drivers/gpu/drm/virtio/virtgpu_drv.h |  1 +
- drivers/gpu/drm/virtio/virtgpu_kms.c | 23 ++++++++----
- 3 files changed, 70 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.c    |  6 +++
+ drivers/gpu/drm/virtio/virtgpu_drv.h    | 10 ++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c    |  1 +
+ drivers/gpu/drm/virtio/virtgpu_object.c | 65 +++++++++++++++++++++++++
+ 4 files changed, 82 insertions(+)
 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index 2d88e390feb4..1c0e47447cc0 100644
+index 1c0e47447cc0..8267b6d61b22 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -155,6 +155,53 @@ static unsigned int features[] = {
- 	VIRTIO_GPU_F_RESOURCE_BLOB,
- 	VIRTIO_GPU_F_CONTEXT_INIT,
- };
-+
-+#ifdef CONFIG_PM_SLEEP
-+static int virtgpu_freeze(struct virtio_device *vdev)
-+{
-+	struct drm_device *dev = vdev->priv;
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	int error;
-+
-+	error = drm_mode_config_helper_suspend(dev);
-+	if (error) {
-+		DRM_ERROR("suspend error %d\n", error);
-+		return error;
-+	}
-+
-+	flush_work(&vgdev->obj_free_work);
-+	flush_work(&vgdev->ctrlq.dequeue_work);
-+	flush_work(&vgdev->cursorq.dequeue_work);
-+	flush_work(&vgdev->config_changed_work);
-+	vdev->config->del_vqs(vdev);
-+
-+	return 0;
-+}
-+
-+static int virtgpu_restore(struct virtio_device *vdev)
-+{
-+	struct drm_device *dev = vdev->priv;
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	int error;
-+
-+	error = virtio_gpu_find_vqs(vgdev);
-+	if (error) {
-+		DRM_ERROR("failed to find virt queues\n");
-+		return error;
-+	}
-+
-+	virtio_device_ready(vdev);
-+
-+	error = drm_mode_config_helper_resume(dev);
-+	if (error) {
-+		DRM_ERROR("resume error %d\n", error);
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+#endif
-+
- static struct virtio_driver virtio_gpu_driver = {
- 	.feature_table = features,
- 	.feature_table_size = ARRAY_SIZE(features),
-@@ -162,7 +209,11 @@ static struct virtio_driver virtio_gpu_driver = {
- 	.id_table = id_table,
- 	.probe = virtio_gpu_probe,
- 	.remove = virtio_gpu_remove,
--	.config_changed = virtio_gpu_config_changed
-+	.config_changed = virtio_gpu_config_changed,
-+#ifdef CONFIG_PM_SLEEP
-+	.freeze = virtgpu_freeze,
-+	.restore = virtgpu_restore,
-+#endif
- };
+@@ -192,6 +192,12 @@ static int virtgpu_restore(struct virtio_device *vdev)
  
- static int __init virtio_gpu_driver_init(void)
+ 	virtio_device_ready(vdev);
+ 
++	error = virtio_gpu_object_restore_all(vgdev);
++	if (error) {
++		DRM_ERROR("Failed to recover objects\n");
++		return error;
++	}
++
+ 	error = drm_mode_config_helper_resume(dev);
+ 	if (error) {
+ 		DRM_ERROR("resume error %d\n", error);
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index f17660a71a3e..1279f998c8e0 100644
+index 1279f998c8e0..55f836378237 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -300,6 +300,7 @@ void virtio_gpu_deinit(struct drm_device *dev);
- void virtio_gpu_release(struct drm_device *dev);
- int virtio_gpu_driver_open(struct drm_device *dev, struct drm_file *file);
- void virtio_gpu_driver_postclose(struct drm_device *dev, struct drm_file *file);
-+int virtio_gpu_find_vqs(struct virtio_gpu_device *vgdev);
+@@ -126,6 +126,12 @@ struct virtio_gpu_object_array {
+ 	struct drm_gem_object *objs[] __counted_by(total);
+ };
  
- /* virtgpu_gem.c */
- int virtio_gpu_gem_object_open(struct drm_gem_object *obj,
++struct virtio_gpu_object_restore {
++	struct virtio_gpu_object *bo;
++	struct virtio_gpu_object_params params;
++	struct list_head node;
++};
++
+ struct virtio_gpu_vbuffer;
+ struct virtio_gpu_device;
+ 
+@@ -265,6 +271,7 @@ struct virtio_gpu_device {
+ 	struct work_struct obj_free_work;
+ 	spinlock_t obj_free_lock;
+ 	struct list_head obj_free_list;
++	struct list_head obj_restore;
+ 
+ 	struct virtio_gpu_drv_capset *capsets;
+ 	uint32_t num_capsets;
+@@ -479,6 +486,9 @@ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo);
+ 
+ int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev,
+ 			       uint32_t *resid);
++
++int virtio_gpu_object_restore_all(struct virtio_gpu_device *vgdev);
++
+ /* virtgpu_prime.c */
+ int virtio_gpu_resource_assign_uuid(struct virtio_gpu_device *vgdev,
+ 				    struct virtio_gpu_object *bo);
 diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 7dfb2006c561..6c1af77ea083 100644
+index 6c1af77ea083..17d182737910 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -114,15 +114,28 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
- 	vgdev->num_capsets = num_capsets;
+@@ -162,6 +162,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 	vgdev->fence_drv.context = dma_fence_context_alloc(1);
+ 	spin_lock_init(&vgdev->fence_drv.lock);
+ 	INIT_LIST_HEAD(&vgdev->fence_drv.fences);
++	INIT_LIST_HEAD(&vgdev->obj_restore);
+ 	INIT_LIST_HEAD(&vgdev->cap_cache);
+ 	INIT_WORK(&vgdev->config_changed_work,
+ 		  virtio_gpu_config_changed_work_func);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 5517cff8715c..05c07c874c26 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -61,6 +61,38 @@ static void virtio_gpu_resource_id_put(struct virtio_gpu_device *vgdev, uint32_t
+ 	}
  }
  
--int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
-+int virtio_gpu_find_vqs(struct virtio_gpu_device *vgdev)
- {
- 	struct virtqueue_info vqs_info[] = {
- 		{ "control", virtio_gpu_ctrl_ack },
- 		{ "cursor", virtio_gpu_cursor_ack },
- 	};
--	struct virtio_gpu_device *vgdev;
--	/* this will expand later */
- 	struct virtqueue *vqs[2];
-+	int ret;
++static void virtio_gpu_object_add_restore_list(struct virtio_gpu_device *vgdev,
++					       struct virtio_gpu_object *bo,
++					       struct virtio_gpu_object_params *params)
++{
++	struct virtio_gpu_object_restore *new;
 +
-+	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, vqs_info, NULL);
-+	if (ret)
-+		return ret;
++	new = kvmalloc(sizeof(*new), GFP_KERNEL);
++	if (!new) {
++		DRM_ERROR("Fail to allocate virtio_gpu_object_restore");
++		return;
++	}
 +
-+	vgdev->ctrlq.vq = vqs[0];
-+	vgdev->cursorq.vq = vqs[1];
++	new->bo = bo;
++	memcpy(&new->params, params, sizeof(*params));
 +
-+	return 0;
++	list_add_tail(&new->node, &vgdev->obj_restore);
 +}
 +
-+int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
++static void virtio_gpu_object_del_restore_list(struct virtio_gpu_device *vgdev,
++					       struct virtio_gpu_object *bo)
 +{
-+	struct virtio_gpu_device *vgdev;
- 	u32 num_scanouts, num_capsets;
- 	int ret = 0;
- 
-@@ -206,13 +219,11 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	DRM_INFO("features: %ccontext_init\n",
- 		 vgdev->has_context_init ? '+' : '-');
- 
--	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, vqs_info, NULL);
-+	ret = virtio_gpu_find_vqs(vgdev);
- 	if (ret) {
- 		DRM_ERROR("failed to find virt queues\n");
- 		goto err_vqs;
++	struct virtio_gpu_object_restore *curr, *tmp;
++
++	list_for_each_entry_safe(curr, tmp, &vgdev->obj_restore, node) {
++		if (bo == curr->bo) {
++			list_del(&curr->node);
++			kvfree(curr);
++			break;
++		}
++	}
++}
++
+ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+ {
+ 	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
+@@ -84,6 +116,7 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+ 		drm_gem_object_release(&bo->base.base);
+ 		kfree(bo);
  	}
--	vgdev->ctrlq.vq = vqs[0];
--	vgdev->cursorq.vq = vqs[1];
- 	ret = virtio_gpu_alloc_vbufs(vgdev);
- 	if (ret) {
- 		DRM_ERROR("failed to alloc vbufs\n");
++	virtio_gpu_object_del_restore_list(vgdev, bo);
+ }
+ 
+ static void virtio_gpu_free_object(struct drm_gem_object *obj)
+@@ -257,8 +290,11 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 					       objs, fence);
+ 		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+ 	}
++	/* add submitted object to restore list */
++	virtio_gpu_object_add_restore_list(vgdev, bo, params);
+ 
+ 	*bo_ptr = bo;
++
+ 	return 0;
+ 
+ err_put_objs:
+@@ -271,3 +307,32 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 	drm_gem_shmem_free(shmem_obj);
+ 	return ret;
+ }
++
++int virtio_gpu_object_restore_all(struct virtio_gpu_device *vgdev)
++{
++	struct virtio_gpu_object_restore *curr, *tmp;
++	struct virtio_gpu_mem_entry *ents;
++	unsigned int nents;
++	int ret;
++
++	list_for_each_entry_safe(curr, tmp, &vgdev->obj_restore, node) {
++		ret = virtio_gpu_object_shmem_init(vgdev, curr->bo, &ents, &nents);
++		if (ret)
++			break;
++
++		if (curr->params.blob) {
++			virtio_gpu_cmd_resource_create_blob(vgdev, curr->bo, &curr->params,
++							    ents, nents);
++		} else if (curr->params.virgl) {
++			virtio_gpu_cmd_resource_create_3d(vgdev, curr->bo, &curr->params,
++							  NULL, NULL);
++			virtio_gpu_object_attach(vgdev, curr->bo, ents, nents);
++		} else {
++			virtio_gpu_cmd_create_resource(vgdev, curr->bo, &curr->params,
++						       NULL, NULL);
++			virtio_gpu_object_attach(vgdev, curr->bo, ents, nents);
++		}
++	}
++
++	return ret;
++}
 -- 
 2.34.1
 
