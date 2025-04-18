@@ -2,88 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7ABA92F0F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 03:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D85A92FE8
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 04:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5D610E3ED;
-	Fri, 18 Apr 2025 01:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3F1310E3F2;
+	Fri, 18 Apr 2025 02:27:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XcOQJsfR";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="kbILgY+M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB7E10E3EC;
- Fri, 18 Apr 2025 01:10:49 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id
- d2e1a72fcca58-736abdac347so92758b3a.2; 
- Thu, 17 Apr 2025 18:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744938649; x=1745543449; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Kat+yfTKYwZ6k+JAfYuf2ANUkCsrf1mfMFdkVb9Kwho=;
- b=XcOQJsfR3xrOpemdKXtQQ0sJHxXKxiRO/F9dIq6GA/vWYL7SyxEsRZ5Qil2Tha8DTg
- FwhKrgK5VloobcVmH2bn/P72JLELExjxEcxLo/eqBQ7L0kvdXTfjupoyWpLetbXNsEBm
- MjQfqw+8uLlHqgJXysGQmJU10jYUJJnKQXjKW9Y4DzGpf6pJHzNSp4/SYE+cJGGnpMc3
- XXa2cmwmYG7vv6I2tMNJsZS0HjLBEwy6LmP/e1Wtw0jLRZtBCVMmIyyMK4BlV9AHMCM6
- jx+YpVoGEo5YOY+ZBh4ExzH6tWkraSqRUyrxDP4QfgnMWQOo6O3WQ+EP5m6Ikx3wT723
- SlSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744938649; x=1745543449;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Kat+yfTKYwZ6k+JAfYuf2ANUkCsrf1mfMFdkVb9Kwho=;
- b=MSng2EPPGeHz8/8kcS0wP0n+7pehGh1FuogczCuY2sJn2qPFbiE0moC7yMgUmafwLk
- EnxOPSKsxTq0jAgOf7yI5A8+3fYMHBRGyvwzysJSriOvwiDYwbPEu+W5SrZ0TNSY6Fpy
- DjOroitBmBTJ4LUaMOQrjXtD9cJJH3NUG8Xdqh0XyteVisPaFWyJaUUJBvo5hEYs33Oa
- B3xgE+n6C6ffoLYEoLvOaIv9QX2CAs/bLHAZlf1Si8lkSEzP2LLJaPtLU3Pd+GySXidd
- /bOEoHwcmVDtNmO0eJ4Vfrr5MsxJ8oMdt0TxZmd5fkhlgs0wb/CnkBTmRidSmp9DU8cW
- Vn2A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqnSu8wx4hr2k5w0tuepdlqJrsum8YCBx5YgqY1aAltw15Gnff7cXXBIrI5paI0RUHRSxoDwwA7Vw=@lists.freedesktop.org,
- AJvYcCWtbW4bLOCCHsxQwhUBbuUzJppXB1APYoTJ7I+xdPNq3O/HvtX8n9b52DTzDsJ8HIaM8BPvj4Vl/P3y@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxQiz+A4xO+fClhGFS5LPwCAZYx4RUqoc6ShlCEwcAdwnUA76+w
- MCwcCnse6ttw+ACeiAarNSMRP7L2xnvsphrhzwRsHD6ap3ftoETXRiRn821FAV3RFXIJ8+DWXTA
- Te/siTiFy8MlwBcU8wcIficnLBo4=
-X-Gm-Gg: ASbGnctYFuM9BSj1r0sRO+0/NDAwsU0P7aSaAhWV9AkuA6wk0AB9XmCG7EuihuNuumB
- YfKzpTzWnvW+j/L69Ez8XJAUTozI9RB6nCTmYNnEYphgtcfAWzeT/Khvr4gXrzs4kXdGN8nfxb1
- WqmQ/jx6DFhN5T4jv4ZWZLEA==
-X-Google-Smtp-Source: AGHT+IGVHe0CCUPFVQsJ0aWOZEwqj7UP7h6CJNGT/eTYTOOCB4kGqLoEA94LehtUfpsVsP2AsVFwTQjFQjgmIYvl7i0=
-X-Received: by 2002:aa7:8895:0:b0:737:6589:81e5 with SMTP id
- d2e1a72fcca58-73dc1448873mr446887b3a.2.1744938648737; Thu, 17 Apr 2025
- 18:10:48 -0700 (PDT)
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F29610E3EC
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 02:27:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1744943244; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=khle9Ogawcy5ada/SwZnZxBze4+S52dBtlWsHkDYZv2gz6WUGM5rBm/9N4Qo6VglyTHb4gSK+8LLWOQqW0qfj+VEbsiqympc3RbyUL8krZZm49MvFnio58c3imUosEFApbj9nlfiXxFrOSaSRVKSVXX45BNevgbp6akirWUJG/c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1744943244;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=TQPTgMoUAR+BoJNeRF06tjYDRUpnz5ufGvKzA/xFyhg=; 
+ b=MStWYdP/kwzFPS7hij5D0hFlY2jF3iSS4Eg7/+mQ2DcgNeIRYQiqr4BTbEOFIANZUKgmdESGNQc+gp4R1xywIDCdoIlySxApubrVLcZhs1DmvjwWUvX6l6ajolDwqfsMACf55ppbjYp3EXCWMws9mlaOPYDex5bDnlCNl8pXc1A=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744943244; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=TQPTgMoUAR+BoJNeRF06tjYDRUpnz5ufGvKzA/xFyhg=;
+ b=kbILgY+M5HgP30sHXD8gcXdQCqjmulcvnv/ATEWKD+GmZKKb4GuJ76hGVU1dL8Sj
+ SEmYkn6FLqkUNOuyET/frX88eWsFCuf0rX4JvcFSP+K723z8jF8SA7UrLc9frT1z7YF
+ i8WRuSRqwWPba9AbL4TZcF4qhaPKW2zGQCkpVr6o=
+Received: by mx.zohomail.com with SMTPS id 1744943241859385.99319994207747;
+ Thu, 17 Apr 2025 19:27:21 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Subject: [PATCH v9 0/4] Panthor BO tagging and GEMS debug display
+Date: Fri, 18 Apr 2025 03:27:03 +0100
+Message-ID: <20250418022710.74749-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-References: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
- <20250410-topic-smem_dramc-v2-3-dead15264714@oss.qualcomm.com>
- <20911703-ab4e-4eb2-8611-294730a06d2f@quicinc.com>
- <CACu1E7HDmQXDNtEQCXpHXsOKPCOgrWgo+_kcgizo9Mp1ntjDbA@mail.gmail.com>
- <1282bf58-e431-4a07-97e5-628437e7ce5f@quicinc.com>
-In-Reply-To: <1282bf58-e431-4a07-97e5-628437e7ce5f@quicinc.com>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Thu, 17 Apr 2025 21:10:37 -0400
-X-Gm-Features: ATxdqUGYdy5x4IIY0W9fkNUkfoD5MMd7bZ37IvqDV_dB3fjGQ5gkqQcuScdMKCc
-Message-ID: <CACu1E7GwMCt6+JJQGgSvJObTMMWYLPd69owyFo7S=sxu_EEsUw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] drm/msm/a6xx: Get HBB dynamically, if available
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Konrad Dybcio <konradybcio@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov <lumag@kernel.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, linux-hardening@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>, freedreno@lists.freedesktop.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,152 +64,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 17, 2025, 1:50=E2=80=AFPM Akhil P Oommen <quic_akhilpo@quicinc.=
-com> wrote:
->
-> On 4/17/2025 9:02 PM, Connor Abbott wrote:
-> > On Thu, Apr 17, 2025 at 3:45=E2=80=AFAM Akhil P Oommen <quic_akhilpo@qu=
-icinc.com> wrote:
-> >>
-> >> On 4/10/2025 11:13 PM, Konrad Dybcio wrote:
-> >>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >>>
-> >>> The Highest Bank address Bit value can change based on memory type us=
-ed.
-> >>>
-> >>> Attempt to retrieve it dynamically, and fall back to a reasonable
-> >>> default (the one used prior to this change) on error.
-> >>>
-> >>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >>> ---
-> >>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 15 ++++++++++++++-
-> >>>  1 file changed, 14 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/=
-msm/adreno/a6xx_gpu.c
-> >>> index 06465bc2d0b4b128cddfcfcaf1fe4252632b6777..a6232b382bd16319f20ae=
-5f8f5e57f38ecc62d9f 100644
-> >>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >>> @@ -13,6 +13,7 @@
-> >>>  #include <linux/firmware/qcom/qcom_scm.h>
-> >>>  #include <linux/pm_domain.h>
-> >>>  #include <linux/soc/qcom/llcc-qcom.h>
-> >>> +#include <linux/soc/qcom/smem.h>
-> >>>
-> >>>  #define GPU_PAS_ID 13
-> >>>
-> >>> @@ -587,6 +588,8 @@ static void a6xx_set_cp_protect(struct msm_gpu *g=
-pu)
-> >>>
-> >>>  static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
-> >>>  {
-> >>> +     int hbb;
-> >>> +
-> >>>       gpu->ubwc_config.rgb565_predicator =3D 0;
-> >>>       gpu->ubwc_config.uavflagprd_inv =3D 0;
-> >>>       gpu->ubwc_config.min_acc_len =3D 0;
-> >>> @@ -635,7 +638,6 @@ static void a6xx_calc_ubwc_config(struct adreno_g=
-pu *gpu)
-> >>>           adreno_is_a690(gpu) ||
-> >>>           adreno_is_a730(gpu) ||
-> >>>           adreno_is_a740_family(gpu)) {
-> >>> -             /* TODO: get ddr type from bootloader and use 2 for LPD=
-DR4 */
-> >>>               gpu->ubwc_config.highest_bank_bit =3D 16;
-> >>>               gpu->ubwc_config.amsbc =3D 1;
-> >>>               gpu->ubwc_config.rgb565_predicator =3D 1;
-> >>> @@ -664,6 +666,13 @@ static void a6xx_calc_ubwc_config(struct adreno_=
-gpu *gpu)
-> >>>               gpu->ubwc_config.highest_bank_bit =3D 14;
-> >>>               gpu->ubwc_config.min_acc_len =3D 1;
-> >>>       }
-> >>> +
-> >>> +     /* Attempt to retrieve the data from SMEM, keep the above defau=
-lts in case of error */
-> >>> +     hbb =3D qcom_smem_dram_get_hbb();
-> >>> +     if (hbb < 0)
-> >>> +             return;
-> >>> +
-> >>> +     gpu->ubwc_config.highest_bank_bit =3D hbb;
-> >>
-> >> I am worried about blindly relying on SMEM data directly for HBB for
-> >> legacy chipsets. There is no guarantee it is accurate on every chipset
-> >> and every version of firmware. Also, until recently, this value was
-> >> hardcoded in Mesa which matched the value in KMD.
-> >
-> > To be clear about this, from the moment we introduced host image
-> > copies in Mesa we added support for querying the HBB from the kernel,
-> > explicitly so that we could do what this series does without Mesa ever
-> > breaking. Mesa will never assume the HBB unless the kernel is too old
-> > to support querying it. So don't let Mesa be the thing that stops us
-> > here.
->
-> Thanks for clarifying about Mesa. I still don't trust a data source that
-> is unused in production.
+This patch series is aimed at providing UM with detailed memory profiling
+information in debug builds. It is achieved through a device-wide list of
+DRM GEM objects, and also implementing the ability to label BO's from UM
+through a new IOCTL.
 
-Fair enough, I'm not going to argue with that part. Just wanted to
-clear up any confusion about Mesa.
+The new debugfs file shows a list of driver DRM GEM objects in tabular mode.
+To visualise it, cat sudo cat /sys/kernel/debug/dri/*.gpu/gems.
+To test this functionality from UM, please refer to this Mesa patch series:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34224
 
-Although, IIRC kgsl did set different values for a650 depending on
-memory type... do you know what source that used?
+Discussion of previous revision of this patch series can be found at:
+https://lore.kernel.org/dri-devel/20250415191539.55258-5-adrian.larumbe@collabora.com/
 
->
-> I have a related question about HBB. Blob driver doesn't support
-> host_image_copy, but it still use HBB configuration. I was under the
-> impression this was required for UMD for compression related
-> configurations. Is that not true for turnip/freedreno?
->
-> -Akhil.
+Changelog:
+v9:
+ - Added padding field to uAPI BO label ioctl struct
+ - Simplified copying and bounds checking of label in ioctl function
 
-AFAIK the HBB (as well as other UBWC config parameters) doesn't have
-any impact on layout configuration, so the UMD can ignore it except
-when it's doing CPU texture uploads/downloads. We certainly do in
-freedreno/turnip. You'd have to ask that team what they use HBB for,
-but my best guess is that the GLES driver uses it for CPU texture
-uploads sometimes. That is, the GLES driver might be using
-functionality similar to host_image_copy "under the hood". It's
-something we'd probably want for freedreno too.
+v8:
+ - Renamed NULL to NUL in comments describing NUL-terminated strings
+ - Removed 'size' parameter from labelling ioctl() as max length can be
+   handled by the kernel itself
+ - Made sure to use kfree_const() everywhere labels are freed
+ - Replaced maximum label size with numerical constant rather than page size
+ - Added some warnings and checks in kernel BO labelling function
 
-Connor
+v7:
+ - Improved formating of DebugFS GEM's status and usage flags
+ - Deleted some spurious white spaces
+ - Renamed usage flags setting function
 
->
-> >
-> > Connor
-> >
-> >> So it is better to
-> >> make this opt in, for newer chipsets or those which somebody can verif=
-y.
-> >> We can invert this logic to something like this:
-> >>
-> >> if (!gpu->ubwc_config.highest_bank_bit)
-> >>     gpu->ubwc_config.highest_bank_bit =3D qcom_smem_dram_get_hbb();
-> >>
-> >>>  }
-> >>>
-> >>>  static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
-> >>> @@ -2467,6 +2476,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_devic=
-e *dev)
-> >>>       bool is_a7xx;
-> >>>       int ret;
-> >>>
-> >>> +     /* We need data from SMEM to retrieve HBB in calc_ubwc_config()=
- */
-> >>> +     if (!qcom_smem_is_available())
-> >>> +             return ERR_PTR(-EPROBE_DEFER);
-> >>> +
-> >>
-> >> We should add "depends on QCOM_SMEM" to Kconfig. Is SMEM device presen=
-t
-> >> in all Qcom SoC devicetrees? I wonder if there is a scenario where the=
-re
-> >> might be an infinite EPROBE_DEFER here.
-> >>
-> >> -Akhil.
-> >>
-> >>>       a6xx_gpu =3D kzalloc(sizeof(*a6xx_gpu), GFP_KERNEL);
-> >>>       if (!a6xx_gpu)
-> >>>               return ERR_PTR(-ENOMEM);
-> >>>
-> >>
->
+v6:
+ - Replaced some mutex calls with scoped guards
+ - Documented data size limits in the label ioctl
+ - Simplified GEMS status flags treatment (Panthor doesn't use madvise)
+ - Fixed some array size and string bugs
+ - Improved the naming of GEM status and usage flags to reflect their meaning
+ - Improved the formatting of the output table
+
+v5:
+ - Kept case and naming of kernel BO's consistent
+ - Increased the driver minor after new ioctl
+ - Now adds BO to debugfs GEMs list at GEM object creation time
+ - No longer try to hide BO creator's name when it's a workqueue or modprobe
+ - Reworked the procedure for printing GEM state and kernel BO flags
+ - Turned kernel BO flags and GEM state flags into bit enums
+ - Wait until BO state is marked as initialied for debugfs display
+
+v4:
+ - Labelled all kernel BO's, not just heap chunks.
+ - Refactored DebugGFs GEMs list handling functions
+ - Added debugfs GEMS node mask to tell different kinds of BO's
+
+Adrián Larumbe (4):
+  drm/panthor: Introduce BO labeling
+  drm/panthor: Add driver IOCTL for setting BO labels
+  drm/panthor: Label all kernel BO's
+  drm/panthor: show device-wide list of DRM GEM objects over DebugFS
+
+ drivers/gpu/drm/panthor/panthor_device.c |   5 +
+ drivers/gpu/drm/panthor/panthor_device.h |  11 ++
+ drivers/gpu/drm/panthor/panthor_drv.c    |  90 ++++++++-
+ drivers/gpu/drm/panthor/panthor_fw.c     |   8 +-
+ drivers/gpu/drm/panthor/panthor_gem.c    | 233 ++++++++++++++++++++++-
+ drivers/gpu/drm/panthor/panthor_gem.h    |  80 +++++++-
+ drivers/gpu/drm/panthor/panthor_heap.c   |   6 +-
+ drivers/gpu/drm/panthor/panthor_sched.c  |   9 +-
+ include/uapi/drm/panthor_drm.h           |  20 ++
+ 9 files changed, 451 insertions(+), 11 deletions(-)
+
+--
+2.48.1
