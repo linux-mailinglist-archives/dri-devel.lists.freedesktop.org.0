@@ -2,77 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A3CA9378B
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 15:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F6C7A93797
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 15:07:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16D2F10E1BE;
-	Fri, 18 Apr 2025 13:00:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9309610EBA4;
+	Fri, 18 Apr 2025 13:07:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d7WZhDdj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VzGQkfUG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82B9A10E1BE;
- Fri, 18 Apr 2025 13:00:06 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-223fd44daf8so3353945ad.2; 
- Fri, 18 Apr 2025 06:00:06 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB07110E081
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 13:07:08 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-43cfba466b2so18476335e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 06:07:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744981206; x=1745586006; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=l8JNtE4WoAq9/1lxNRUODtbBYrROtMNzFv6IeY4kWjg=;
- b=d7WZhDdjFqCx0rOvAlYReebiZsHhuaslTUEAIy0xTnjCyvDe6DodBv48K7UvaPVdPp
- 5tJOVIlaRW5/19ggNZpUrVjSmoXz5/4SaCliEbGKp5dogz9GXEAHaqhASTnQzbA4SBIk
- Dg+akh3JXDZv4JN447oksjEgL8AJQTP2cBqiHIY3HhCj/Fw8SthaLIAkfzFIhHosWSt8
- n1OHppgObSehjs9ch1XEXbWdk0c6MeQO+mSWVYDAyowOUdkaKmKcHb+W7zTE6I1VqR7p
- sE1N/L98RZ/g5Rk+6RFasvyl5TeH3WwhB+pkp2JD1DVDj7y2WNOxgwDOjXztcGaSlfja
- S5DQ==
+ d=gmail.com; s=20230601; t=1744981627; x=1745586427; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fPmaDVcyCN8xn5x/2E/HujSFy+Zs3h3dzceOeOvtskU=;
+ b=VzGQkfUGN0rEaldXWCAQ5b9PkEviKY+sjSB69NnOs64pXcqH/VoP05Gar9XA6vSEhB
+ Ert09z8bDm47YTzjHn84nHfDHBb0ve9yUO08Tj7WRY7rdy8bqNKrH8JioGoKVzp6gQuU
+ OnXHxLwM6Gpv7qz/JpFsKU8SQYLyHjVygauYkw5fdaiNF9nKp243vCgn+Qbu8o2JFO0d
+ iLd+ziGaAQpWx+iQaoddJav3rJbSvEX23AC+hcVxWW/rWwzOiVICDln8/1PMk5epdgux
+ rTS/UpuyXbuZjGgQJJ7SkhSSJkH6Bxq823mU/jBLUaiqIM1x1cv//rUNwag1hoKAq12k
+ EVxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744981206; x=1745586006;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=l8JNtE4WoAq9/1lxNRUODtbBYrROtMNzFv6IeY4kWjg=;
- b=cSfmnwc7hPhj6jecz48jw7bJBi1TSVG3l0suIRPdDiWgpDLWrsqNYquM3x8apbGhq5
- qzIf9ILXUe00f2uEFAFSK1h2pLhO8qFomhsAVhYVhFQgr4m6pBeuxaONWmcQ5Iy2mImc
- DGZy4UBMLbNPLfKDDNOyJ6+CIG7SfAlx2HZeUvsmcs+G3ujEJptBV5uNDRRL7cdrnyQp
- Y3YSscfL2LRy8lCoc3R+G+e63U32OGGkAUw4zItzNXWkXgjU3YkQyPaqHc9u0/f7u5Xm
- f9MPlXkovMKKWM5rSVaA6e83m+mumulNSYG1Ql9pbgi3u8DHzV0olSTXykD5QY3lmekr
- LN0w==
+ d=1e100.net; s=20230601; t=1744981627; x=1745586427;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fPmaDVcyCN8xn5x/2E/HujSFy+Zs3h3dzceOeOvtskU=;
+ b=YY3QIl7ssacIRs7zludwJyR0tmxQAzaqLIXlIkCnAl5KbpyuUdVsGMc5pWhgkcMNE1
+ ZW+k+qQ/v9bxmOM+Fzt9oXQhS+2Ki5vQiorht1aZ2SdbucrVWXLXbW671LNBtpMd7uFE
+ /WCWHz7asObl85Y6J7W4/29OevzpszHkDp5QAB0ET1B3HeF+LwIaZLm3/QwF2V7vQLIe
+ PCmea5gSmrj+7VlqbqUsPhcpx/fA6cgohxmmktmaxmDwD9Kp2mNBDM+8mXqnrv8wc5ib
+ 0EEmtNZ595NiDEwrBfD6jxWI1j0xGvyTptDMDlWdKmYY0ImO+0PdqyYYqvxKBxL6yByd
+ hn8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU9BdEja63O0hAnxY1887y9p1D0yk9a1F+/zXmazydhDJNj4QDPFggJhqLiZpxtxhJdM6iveZp4TtVC@lists.freedesktop.org,
- AJvYcCX+lzBnjYP0kokvv5Lf+q4hAs1zKKdPkI6wNkTrkyY5RHCxiIuw+TsJHuERGbF/9KtaOtHCU5Wn@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAACLOBQZMPnx3VI6D6nxO33C/Rlu/VP+IwQIla0gEeYDGfyy5
- Fqlp5OtIzKVoRQD7XQLgrHvo9z4sPmDzsgoz/wlfwxw5bCbGg8LdEiaFSVz5ybksS+w8zMpCup8
- mal17PYj2cszXYDnryERZKntPAbppFA==
-X-Gm-Gg: ASbGnctv/AjNk3MWxNWw5EP+/B9h5CTTZqENDVIFzQ8c0qlLdsrNzHVZnBm+kbsY/Ld
- VnUmAMSNDrXcPnahfdx/XFCXdchAFg463Goi+b2aDAhixa7iV+Tm++fvSox3s0klsW/hdVzA6TC
- NEcsWDrpq1bob6bn4i3ujcJw==
-X-Google-Smtp-Source: AGHT+IGXaicF/YetTuwq7s8eBQVZCstjIo+yxIkShv38GuaKB72IC1mUOGVgw6U2wfXMrWNvIRt5K3Celpi0igA/0l4=
-X-Received: by 2002:a17:902:cecf:b0:21d:cdb7:876c with SMTP id
- d9443c01a7336-22c5356dcdemr15485185ad.3.1744981205862; Fri, 18 Apr 2025
- 06:00:05 -0700 (PDT)
+ AJvYcCVMzJVnDSU3MncKbD03kAwQnuN8yyWNOjoeZIgN0yAYlpeaAM4eIIhi1b/0ROMpFl44J0ZUwUhK59w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWu2v+BI0Fc8l/J9jqt+r0bJyrRrSFB949R8ISeK3TLMVvsJf8
+ hKY6SpfJqMiCdawB0KjoNyyhhTCp26Jsl219c2Z9ehI+tbp4dplY
+X-Gm-Gg: ASbGncvB2EN8NLDd9LjLWrh743hm/1uxq4ZvbmuG3Sh6rKMNsdCGpkpBdLhX1xooUuR
+ VqjccGI1jxyetZwMa9B/IebuohqT1Vmsy/2T1X0sUkpLHC5JB4sRLtUtbn9t3Lv6yv2nynfsWwh
+ FGuDBy3kOzLiISelmyZ1vZAiEvd8XVLjztT8/WMtPi0xBiDbeVMrA+EJrCZdNNp96fJIRzYDLUb
+ o/QDpZwS35J5CntxJrxifvt0UY4hvbNGCwF9M4pomCMISCvSx6cd9y59FSPMvoKv8gCW/kSVrVN
+ gDGKTnL2cfAG9mPHmuGhbnyIeqd6kxGSzCLGBY1RZw==
+X-Google-Smtp-Source: AGHT+IExMbsAQz7Mwc12HiLkpWeb7K2O1dS/WK/atDtpdKNgEq1aIQw+33yHgxXO3RSHnYFs46ICbA==
+X-Received: by 2002:a05:600c:1547:b0:43c:e481:3353 with SMTP id
+ 5b1f17b1804b1-4406ababea3mr21349975e9.17.1744981626906; 
+ Fri, 18 Apr 2025 06:07:06 -0700 (PDT)
+Received: from localhost ([194.120.133.58])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-39efa4330d8sm2796501f8f.33.2025.04.18.06.07.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Apr 2025 06:07:06 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/exynos: Fix spelling mistake "enqueu" -> "enqueue"
+Date: Fri, 18 Apr 2025 14:07:00 +0100
+Message-ID: <20250418130700.540590-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250418002117.130612-1-linux@treblig.org>
- <20250418002117.130612-3-linux@treblig.org>
- <ab85b3c9-46cc-4148-9de5-dcaabea130ea@wanadoo.fr>
-In-Reply-To: <ab85b3c9-46cc-4148-9de5-dcaabea130ea@wanadoo.fr>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 18 Apr 2025 08:59:54 -0400
-X-Gm-Features: ATxdqUEolXit984ANdGjgXNbP2P1Sp8M7f-qILNT6MUa_IQPkkR459ABsXKExIs
-Message-ID: <CADnq5_MrEQ2XGbNho6xd9Um0R6kEEpZBeu0e-97o6-D=juD0gw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm/radeon: Remove unused radeon_doorbell_free
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux@treblig.org, alexander.deucher@amd.com, harry.wentland@amd.com, 
- sunpeng.li@amd.com, siqueira@igalia.com, christian.koenig@amd.com, 
- airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,78 +91,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 18, 2025 at 2:18=E2=80=AFAM Christophe JAILLET
-<christophe.jaillet@wanadoo.fr> wrote:
->
-> Le 18/04/2025 =C3=A0 02:21, linux@treblig.org a =C3=A9crit :
-> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> >
-> > radeon_doorbell_free() was added in 2013 by
-> > commit 75efdee11b5d ("drm/radeon: implement simple doorbell page
-> > allocator")
-> > but never used.
->
-> Hi,
->
-> I think than instead of being removed, it should be used in the error
-> handling path of cik_init() and in cik_fini().
+There is a spelling mistake in a DRM_DEV_DEBUG_KMS message. Fix it.
 
-Yes, ideally.  Care to make a patch to fix that?
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/exynos/exynos_drm_fimc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
+index b150cfd92f6e..09e33a26caaf 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
+@@ -908,7 +908,7 @@ static void fimc_dst_set_buf_seq(struct fimc_context *ctx, u32 buf_id,
+ 	u32 buf_num;
+ 	u32 cfg;
+ 
+-	DRM_DEV_DEBUG_KMS(ctx->dev, "buf_id[%d]enqueu[%d]\n", buf_id, enqueue);
++	DRM_DEV_DEBUG_KMS(ctx->dev, "buf_id[%d]enqueue[%d]\n", buf_id, enqueue);
+ 
+ 	spin_lock_irqsave(&ctx->lock, flags);
+ 
+-- 
+2.49.0
 
-Alex
-
->
-> CJ
->
-> >
-> > Remove it.
-> >
-> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> > ---
-> >   drivers/gpu/drm/radeon/radeon.h        |  1 -
-> >   drivers/gpu/drm/radeon/radeon_device.c | 14 --------------
-> >   2 files changed, 15 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/r=
-adeon.h
-> > index 8605c074d9f7..58111fdf520d 100644
-> > --- a/drivers/gpu/drm/radeon/radeon.h
-> > +++ b/drivers/gpu/drm/radeon/radeon.h
-> > @@ -686,7 +686,6 @@ struct radeon_doorbell {
-> >   };
-> >
-> >   int radeon_doorbell_get(struct radeon_device *rdev, u32 *page);
-> > -void radeon_doorbell_free(struct radeon_device *rdev, u32 doorbell);
-> >
-> >   /*
-> >    * IRQS.
-> > diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/r=
-adeon/radeon_device.c
-> > index bbd39348a7ab..4127ffb4bb6f 100644
-> > --- a/drivers/gpu/drm/radeon/radeon_device.c
-> > +++ b/drivers/gpu/drm/radeon/radeon_device.c
-> > @@ -392,20 +392,6 @@ int radeon_doorbell_get(struct radeon_device *rdev=
-, u32 *doorbell)
-> >       }
-> >   }
-> >
-> > -/**
-> > - * radeon_doorbell_free - Free a doorbell entry
-> > - *
-> > - * @rdev: radeon_device pointer
-> > - * @doorbell: doorbell index
-> > - *
-> > - * Free a doorbell allocated for use by the driver (all asics)
-> > - */
-> > -void radeon_doorbell_free(struct radeon_device *rdev, u32 doorbell)
-> > -{
-> > -     if (doorbell < rdev->doorbell.num_doorbells)
-> > -             __clear_bit(doorbell, rdev->doorbell.used);
-> > -}
-> > -
-> >   /*
-> >    * radeon_wb_*()
-> >    * Writeback is the method by which the GPU updates special pages
->
