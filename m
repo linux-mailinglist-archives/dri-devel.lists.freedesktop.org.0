@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA6DA92EBC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 02:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0B3A92EBD
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 02:21:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04AB210E3DD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EBC210E3E0;
 	Fri, 18 Apr 2025 00:21:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="Cfl1PH6V";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="V+mlFev/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78F910E1E9;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC5E410E3DC;
  Fri, 18 Apr 2025 00:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=BecQJkrNlQ3akqTLtmWZkyczre6xMs/aCGibLOPB01w=; b=Cfl1PH6VxrumXzxO
- FIJ7mklfUDbioGEtV/c74t5Kh0ODglK+4khCKmzxcSRuQgejcLuwvef8X8JbH+UOEbMr5ETgBxATX
- kXYwbx4QiNiFtIXbFa/TOAFxT7Z9EiYeYvaC8ru/4vyMPof/wHsB1+Ha8VXow+Fv27I6areuggdrw
- tsYYmnA6tTnPEJUHG0lfzaYf9QVIMumpQjqz5ampkkbcDVI/qJoY22Y4PV6G59sTY0Ha7jlufCRhw
- RI6zwZi6KqP2/Nt6LvRQmh4fcuz/Hkb/tQarPZvxdjdhAhzi7x5H9TaqPN5bm1XSCiTuTu79nJ98Q
- 26rQzRn9klPVN058HQ==;
+ :Subject; bh=JWaJuUILM6oT7h2bYPl+DblVz8tBnX1vWlKCjgjjAiI=; b=V+mlFev/tQR08iOt
+ l4CHM4vKVEMrkXqOh2LgHoGlWXhrsa9FG8dwd8w50J8XFH+v8EecLBppSTSdX3UNf8Cp0tEK6yf0e
+ 1j/3UsGTJQ1A04qYIHloInUmqAP2npzINkVUf815D+dTxtf5coLSoo1FnmBNBeR+LjUbnLzYh/3l5
+ Ls51VlQ/FHZh/7hUApoiXS9pnbekLxXzuaRMkKbSbqavvtC4DJ1906AWpN/pJgsTOnCB8sYNPWWJu
+ leSkJsX6a/dxNn9yszezGavztYO6LfLwY7Mp2ZhLtzI2NMp0SUQ0uKZwskcCOzTHrvBg1ZS+STVxS
+ T+1Kk2T381FUQM68tA==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1u5ZTs-00CPl8-0H;
+ (envelope-from <linux@treblig.org>) id 1u5ZTs-00CPl8-20;
  Fri, 18 Apr 2025 00:21:20 +0000
 From: linux@treblig.org
 To: alexander.deucher@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
@@ -34,9 +34,9 @@ To: alexander.deucher@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
 Cc: airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 3/4] drm/radeon: Remove unused radeon_fence_wait_any
-Date: Fri, 18 Apr 2025 01:21:16 +0100
-Message-ID: <20250418002117.130612-4-linux@treblig.org>
+Subject: [PATCH 4/4] drm/amd/display: Remove unused *vbios_smu_set_dprefclk
+Date: Fri, 18 Apr 2025 01:21:17 +0100
+Message-ID: <20250418002117.130612-5-linux@treblig.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250418002117.130612-1-linux@treblig.org>
 References: <20250418002117.130612-1-linux@treblig.org>
@@ -59,85 +59,93 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-radeon_fence_wait_any() last use was removed in 2023's
-commit 254986e324ad ("drm/radeon: Use the drm suballocation manager
-implementation.")
+rn_vbios_smu_set_dprefclk() was added in 2019 by
+commit 4edb6fc91878 ("drm/amd/display: Add Renoir clock manager")
+rv1_vbios_smu_set_dprefclk() was also added in 2019 by
+commit dc88b4a684d2 ("drm/amd/display: make clk mgr soc specific")
 
-Remove it.
+neither have been used.
+
+Remove them.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- drivers/gpu/drm/radeon/radeon.h       |  3 --
- drivers/gpu/drm/radeon/radeon_fence.c | 42 ---------------------------
- 2 files changed, 45 deletions(-)
+ .../dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c       | 14 --------------
+ .../dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.h       |  1 -
+ .../dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c        | 14 --------------
+ .../dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h        |  1 -
+ 4 files changed, 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-index 58111fdf520d..53f6378b6db6 100644
---- a/drivers/gpu/drm/radeon/radeon.h
-+++ b/drivers/gpu/drm/radeon/radeon.h
-@@ -394,9 +394,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool interruptible, l
- int radeon_fence_wait(struct radeon_fence *fence, bool interruptible);
- int radeon_fence_wait_next(struct radeon_device *rdev, int ring);
- int radeon_fence_wait_empty(struct radeon_device *rdev, int ring);
--int radeon_fence_wait_any(struct radeon_device *rdev,
--			  struct radeon_fence **fences,
--			  bool intr);
- struct radeon_fence *radeon_fence_ref(struct radeon_fence *fence);
- void radeon_fence_unref(struct radeon_fence **fence);
- unsigned radeon_fence_count_emitted(struct radeon_device *rdev, int ring);
-diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
-index 8ff4f18b51a9..5b5b54e876d4 100644
---- a/drivers/gpu/drm/radeon/radeon_fence.c
-+++ b/drivers/gpu/drm/radeon/radeon_fence.c
-@@ -574,48 +574,6 @@ int radeon_fence_wait(struct radeon_fence *fence, bool intr)
- 		return r;
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c
+index 19897fa52e7e..d82a52319088 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c
+@@ -142,17 +142,3 @@ int rv1_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int requested_di
+ 
+ 	return actual_dispclk_set_mhz * 1000;
+ }
+-
+-int rv1_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr)
+-{
+-	int actual_dprefclk_set_mhz = -1;
+-
+-	actual_dprefclk_set_mhz = rv1_vbios_smu_send_msg_with_param(
+-			clk_mgr,
+-			VBIOSSMC_MSG_SetDprefclkFreq,
+-			khz_to_mhz_ceil(clk_mgr->base.dprefclk_khz));
+-
+-	/* TODO: add code for programing DP DTO, currently this is down by command table */
+-
+-	return actual_dprefclk_set_mhz * 1000;
+-}
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.h
+index 083cb3158859..81d7c912549c 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.h
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.h
+@@ -27,6 +27,5 @@
+ #define DAL_DC_DCN10_RV1_CLK_MGR_VBIOS_SMU_H_
+ 
+ int rv1_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int requested_dispclk_khz);
+-int rv1_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr);
+ 
+ #endif /* DAL_DC_DCN10_RV1_CLK_MGR_VBIOS_SMU_H_ */
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c
+index 23b390245b5d..5a633333dbb5 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c
+@@ -164,20 +164,6 @@ int rn_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int requested_dis
+ 	return actual_dispclk_set_mhz * 1000;
  }
  
--/**
-- * radeon_fence_wait_any - wait for a fence to signal on any ring
-- *
-- * @rdev: radeon device pointer
-- * @fences: radeon fence object(s)
-- * @intr: use interruptable sleep
-- *
-- * Wait for any requested fence to signal (all asics).  Fence
-- * array is indexed by ring id.  @intr selects whether to use
-- * interruptable (true) or non-interruptable (false) sleep when
-- * waiting for the fences. Used by the suballocator.
-- * Returns 0 if any fence has passed, error for all other cases.
-- */
--int radeon_fence_wait_any(struct radeon_device *rdev,
--			  struct radeon_fence **fences,
--			  bool intr)
+-int rn_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr)
 -{
--	uint64_t seq[RADEON_NUM_RINGS];
--	unsigned int i, num_rings = 0;
--	long r;
+-	int actual_dprefclk_set_mhz = -1;
 -
--	for (i = 0; i < RADEON_NUM_RINGS; ++i) {
--		seq[i] = 0;
+-	actual_dprefclk_set_mhz = rn_vbios_smu_send_msg_with_param(
+-			clk_mgr,
+-			VBIOSSMC_MSG_SetDprefclkFreq,
+-			khz_to_mhz_ceil(clk_mgr->base.dprefclk_khz));
 -
--		if (!fences[i])
--			continue;
+-	/* TODO: add code for programing DP DTO, currently this is down by command table */
 -
--		seq[i] = fences[i]->seq;
--		++num_rings;
--	}
--
--	/* nothing to wait for ? */
--	if (num_rings == 0)
--		return -ENOENT;
--
--	r = radeon_fence_wait_seq_timeout(rdev, seq, intr, MAX_SCHEDULE_TIMEOUT);
--	if (r < 0)
--		return r;
--
--	return 0;
+-	return actual_dprefclk_set_mhz * 1000;
 -}
 -
- /**
-  * radeon_fence_wait_next - wait for the next fence to signal
-  *
+ int rn_vbios_smu_set_hard_min_dcfclk(struct clk_mgr_internal *clk_mgr, int requested_dcfclk_khz)
+ {
+ 	int actual_dcfclk_set_mhz = -1;
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h
+index 1ce19d875358..f76fad87f0e1 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h
+@@ -30,7 +30,6 @@ enum dcn_pwr_state;
+ 
+ int rn_vbios_smu_get_smu_version(struct clk_mgr_internal *clk_mgr);
+ int rn_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int requested_dispclk_khz);
+-int rn_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr);
+ int rn_vbios_smu_set_hard_min_dcfclk(struct clk_mgr_internal *clk_mgr, int requested_dcfclk_khz);
+ int rn_vbios_smu_set_min_deep_sleep_dcfclk(struct clk_mgr_internal *clk_mgr, int requested_min_ds_dcfclk_khz);
+ void rn_vbios_smu_set_phyclk(struct clk_mgr_internal *clk_mgr, int requested_phyclk_khz);
 -- 
 2.49.0
 
