@@ -2,69 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34439A93B4F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 18:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD8FA93B43
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 18:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86B1010E21C;
-	Fri, 18 Apr 2025 16:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E30F110E227;
+	Fri, 18 Apr 2025 16:50:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Wh5NbyQr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SoarnBQB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE3B810E21C
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 16:51:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1744995076;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9Jc22vPjDGeO+zr+AJ2vzRyryOfSK27EryZ/lo0anPI=;
- b=Wh5NbyQr+/tK8y/3U/SYE3KJ5D0/cwhORguWg/0NbfVGA+VJ47KK/lOy1ibcxd2e0c5TIE
- sixkEy6F8TL7oMbjcL84UY892PmgdOTyPfC273ugXp5b3gQZ5xDiaIbYqvLmSk3yh7PlAR
- 5+sn14IeYNfFrFbnDoN8YIW1TLyJNZ0=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-562-J4wB9MzXMvi_sdC6eLbTQw-1; Fri,
- 18 Apr 2025 12:51:12 -0400
-X-MC-Unique: J4wB9MzXMvi_sdC6eLbTQw-1
-X-Mimecast-MFC-AGG-ID: J4wB9MzXMvi_sdC6eLbTQw_1744995070
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id DE98B1800370; Fri, 18 Apr 2025 16:51:09 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.45.226.83])
- by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id AA7701800D9E; Fri, 18 Apr 2025 16:51:03 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Miguel Ojeda <ojeda@kernel.org>,
- Christian Schrefl <chrisi.schrefl@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
- Paolo Bonzini <pbonzini@redhat.com>,
- rust-for-linux <rust-for-linux@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
+ [209.85.222.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96BAC10E21D
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 16:50:03 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id
+ af79cd13be357-7c559b3eb0bso126475485a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 09:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744995002; x=1745599802; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:feedback-id:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wqsq8yPJja9MfMcD3tAjoUAZlgKfMc3FNlCDKzyz/mQ=;
+ b=SoarnBQBzzHuKTBO46Fcq+Q6uPM5o43PMfBPtFGBN2aTB6elcsvDTkfu+y/CRR2Jya
+ maIOWuiupe82aYUjmhdUXBdXAiIwkv7L2wOZU6z0UYWhJaBH3E0IszE1IRs8YLWwhutd
+ zoL9oysUadbhOmP23KP3IG2CnS+QPuHBqelB/t6IRjrBkJGbm2hb03jaLXb52gPC2jh5
+ VLa8PgFQdDerjXyrkc6pwcjVN2xNjAFWkywGQ6QBb5zCe4KQ6vw/OwTgbYXe/QlIAgIu
+ XyRt6NO3K6EkwvYv4l24+V0A+rzgL/uHUJMG+dIS8tezWiSFbaHchk93HByAIxL7x+eq
+ 7U3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744995002; x=1745599802;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:feedback-id:message-id:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wqsq8yPJja9MfMcD3tAjoUAZlgKfMc3FNlCDKzyz/mQ=;
+ b=j7Dp5U2EFpPqvi1bBpEDC6U0nZnCKjxrQyxCarb11eAvE/t0L7bZcGT0t+nxlZuDQH
+ C7xLNi0TOOpgnT9Hkfywvb+tjXxWaBYb+zDWGs1OuWrXH2GiItA7Le2ycVSwp6/GrM5n
+ RdZQ/Dekd8VaBHQ2poPpPE+WpMcLtZtdLoxSWM1ncidV9GTcK4lpcMqWKYMB1X0xCXUP
+ CEyIPOYktBrpj347e11mli7oNqhSYOgLyLNWBENHB21uTsxJ2PxlaoPpEgGfn6gltJ89
+ 5S0SsQUDndemcPJscCwTnTksvF5q//oCIwGac/qvDUFxwMEShROXZC91rWj6BI+6ai40
+ RuAQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWLJCtVnvE8f3/JrqTSVYl3bb4BXXJMfY4u9/Ji9WUScvcGcOG49Izwp/h/uuOxwFhxe0eP4qdYHhM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgV+npD9LvK8a8k4AUul0/c0Ps/iTpzooy3ZdK1LcK9l0xTlom
+ BTQ2M3uLf/56HycIyF1jZiJGjWdBLw4f4Xf/DqFSR3dsj0amhsfH
+X-Gm-Gg: ASbGnctVDOxpbnFfOKqnuK7p6Cx1gx8CR2uoD3r8E50UTKIyRR9PPD+CjM0S46c/xw1
+ WlLfrStGH6dnFpjpS/3mv83yTZY1sdEGzcII4TD7numtvdkNWWvyGBlLMdUydV2GNOLIdCQHO1P
+ Bij/hR7sFKF7vfIGA7VS464aWuNDiMJqyzOtd/BkKVuY56M/7h7VXYGcpf2V8NRgCxBY8I773QQ
+ d7acHawrz6CYBO7yHF0xBr6NWwREIy9eZE+cW+q7Upu+KM1yXm2Tt8vpfCX5kDqRuAvmiZfrqwz
+ 3njX7NPaBXIzQwZWObaJzgDhDBFcULKy5Ex6+gxmsyC2gC+AIfFQZdlaGLvgt57v5LLBqtFs2yh
+ Ay9b19iO/iuJYVbyj9w7HGOSHrmmsv1WyeSsontCHNw==
+X-Google-Smtp-Source: AGHT+IGjqTF4f9smmVkb3wgWaIXUFVJ5bhyDcAmk4QFxgPcVtKxPUq6oNVaI94PfU1W5J6bp6Dym2A==
+X-Received: by 2002:a05:620a:4112:b0:7c5:9b93:8f64 with SMTP id
+ af79cd13be357-7c92800f4ccmr542294585a.37.1744995001792; 
+ Fri, 18 Apr 2025 09:50:01 -0700 (PDT)
+Received: from fauth-a1-smtp.messagingengine.com
+ (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7c925ac5018sm124259085a.52.2025.04.18.09.50.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Apr 2025 09:50:01 -0700 (PDT)
+Message-ID: <680282b9.050a0220.3b746a.5cf9@mx.google.com>
+X-Google-Original-Message-ID: <aAKCtQe8o73FA8db@winterfell.>
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal
+ [10.202.2.42])
+ by mailfauth.phl.internal (Postfix) with ESMTP id 0E13C1200043;
+ Fri, 18 Apr 2025 12:50:00 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-02.internal (MEProxy); Fri, 18 Apr 2025 12:50:00 -0400
+X-ME-Sender: <xms:t4ICaPrgLkWEbH6GWhTGPaFLVQbWrWOHlfTfkbUonj_YAvDMD-KU1Q>
+ <xme:t4ICaJqChA3dlMw71yhy8csoqqK5Y4iLQ0Z62MWQRL5LWGE5fFQMMMJHqxl4-Vp_7
+ SP1XzVYBXxDcpDtJg>
+X-ME-Received: <xmr:t4ICaMNPGrgxWdPMVCQLF2Mu2gBYuu6YOb47AYWzWqRWmLPK1aR1dgLJ-C0K0Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvfedvieejucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+ pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+ gvnhhtshculddquddttddmnegoufhushhpvggtthffohhmrghinhculdegledmnecujfgu
+ rhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcuhf
+ gvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtthgv
+ rhhnpeekjefgudefhfeigffghfdtheeggfdtuddvkeejleffheeufeffteetvefgfeeuje
+ enucffohhmrghinhepghhithhhuhgsrdhiohenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrsh
+ honhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghn
+ gheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepge
+ ejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehtrghmihhrugesghhmrghilhdr
+ tghomhdprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtph
+ htthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurges
+ khgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghilh
+ drtghomhdprhgtphhtthhopehgrghrhiesghgrrhihghhuohdrnhgvthdprhgtphhtthho
+ pegsjhhorhhnfegpghhhsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopegsvg
+ hnnhhordhlohhsshhinhesphhrohhtohhnrdhmvgdprhgtphhtthhopegrrdhhihhnuggs
+ ohhrgheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:t4ICaC6UhO1CZnKjR6Ik-hzIl3GtGbvNVc1I-IDE4qls3LYxm5xgUQ>
+ <xmx:t4ICaO4vQPmAJgA9EQ9e4E1UXeaGRebhXTNU3grxc_kkgAjUxFqXfg>
+ <xmx:t4ICaKjYst-8W_IjfguRa7uGthyObF8qia3gL-YVcCE_LCjZovMezA>
+ <xmx:t4ICaA7BSsupuce3_SqR3OsmGrEA4G9TNiV4jY5WZn2qvcS_4fm5JQ>
+ <xmx:uIICaNKT393DPp0R4GPwnosQuFP000EMpmjxlybcE0RtxwLUKggyEoYo>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 18 Apr 2025 12:49:59 -0400 (EDT)
+Date: Fri, 18 Apr 2025 09:49:57 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,	Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH] drm/panic: Use a decimal fifo to avoid u64 by u64 divide
-Date: Fri, 18 Apr 2025 18:48:16 +0200
-Message-ID: <20250418165059.560503-1-jfalempe@redhat.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Frederic Weisbecker <frederic@kernel.org>,	Lyude Paul <lyude@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
+ linux-block@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v10 2/6] rust: enable `clippy::ptr_cast_constness` lint
+References: <20250418-ptr-as-ptr-v10-0-3d63d27907aa@gmail.com>
+ <20250418-ptr-as-ptr-v10-2-3d63d27907aa@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: PU2Lcyf4VkcDkb8i0bkQKUQUBsuKvjehZEukLcUEhC8_1744995070
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250418-ptr-as-ptr-v10-2-3d63d27907aa@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,120 +159,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 32bits ARM, u64/u64 is not supported [1], so change the algorithm
-to use a simple fifo with decimal digits as u8 instead.
-This is slower but should compile on all architecture.
+On Fri, Apr 18, 2025 at 11:37:18AM -0400, Tamir Duberstein wrote:
+> In Rust 1.72.0, Clippy introduced the `ptr_cast_constness` lint [1]:
+> 
+> > Though `as` casts between raw pointers are not terrible,
+> > `pointer::cast_mut` and `pointer::cast_const` are safer because they
+> > cannot accidentally cast the pointer to another type.
+> 
+> There are only 2 affected sites:
+> - `*mut T as *const U as *mut U` becomes `(*mut T).cast()`
+> - `&self as *const Self as *mut Self` becomes
+>   `core::ptr::from_ref(self).cast_mut()`.
+> 
+> Apply these changes and enable the lint -- no functional change
+> intended.
+> 
+> Link: https://rust-lang.github.io/rust-clippy/master/index.html#ptr_cast_constness [1]
+> Reviewed-by: Benno Lossin <benno.lossin@proton.me>
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 
-Link: https://lore.kernel.org/dri-devel/CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com/ [1]
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/drm_panic_qr.rs | 71 ++++++++++++++++++++++-----------
- 1 file changed, 48 insertions(+), 23 deletions(-)
+Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
 
-diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-index 6025a705530e..dd55b1cb764d 100644
---- a/drivers/gpu/drm/drm_panic_qr.rs
-+++ b/drivers/gpu/drm/drm_panic_qr.rs
-@@ -366,8 +366,48 @@ fn iter(&self) -> SegmentIterator<'_> {
-         SegmentIterator {
-             segment: self,
-             offset: 0,
--            carry: 0,
--            carry_len: 0,
-+            decfifo: Default::default(),
-+        }
-+    }
-+}
-+
-+/// Max fifo size is 17 (max push) + 2 (max remaining)
-+const MAX_FIFO_SIZE: usize = 19;
-+
-+/// A simple Decimal digit FIFO
-+#[derive(Default)]
-+struct DecFifo {
-+    decimals: [u8; MAX_FIFO_SIZE],
-+    len: usize,
-+}
-+
-+impl DecFifo {
-+    fn push(&mut self, data: u64, len: usize) {
-+        let mut chunk = data;
-+        for i in (0..self.len).rev() {
-+            self.decimals[i + len] = self.decimals[i];
-+        }
-+        for i in 0..len {
-+            self.decimals[i] = (chunk % 10) as u8;
-+            chunk /= 10;
-+        }
-+        self.len += len;
-+    }
-+
-+    /// Pop 3 decimal digits from the FIFO
-+    fn pop3(&mut self) -> Option<(u16, usize)> {
-+        if self.len == 0 {
-+            None
-+        } else {
-+            let poplen = 3.min(self.len);
-+            self.len -= poplen;
-+            let mut out = 0;
-+            let mut exp = 1;
-+            for i in 0..poplen {
-+                out += self.decimals[self.len + i] as u16 * exp;
-+                exp *= 10;
-+            }
-+            Some((out, NUM_CHARS_BITS[poplen]))
-         }
-     }
- }
-@@ -375,8 +415,7 @@ fn iter(&self) -> SegmentIterator<'_> {
- struct SegmentIterator<'a> {
-     segment: &'a Segment<'a>,
-     offset: usize,
--    carry: u64,
--    carry_len: usize,
-+    decfifo: DecFifo,
- }
- 
- impl Iterator for SegmentIterator<'_> {
-@@ -394,31 +433,17 @@ fn next(&mut self) -> Option<Self::Item> {
-                 }
-             }
-             Segment::Numeric(data) => {
--                if self.carry_len < 3 && self.offset < data.len() {
--                    // If there are less than 3 decimal digits in the carry,
--                    // take the next 7 bytes of input, and add them to the carry.
-+                if self.decfifo.len < 3 && self.offset < data.len() {
-+                    // If there are less than 3 decimal digits in the fifo,
-+                    // take the next 7 bytes of input, and push them to the fifo.
-                     let mut buf = [0u8; 8];
-                     let len = 7.min(data.len() - self.offset);
-                     buf[..len].copy_from_slice(&data[self.offset..self.offset + len]);
-                     let chunk = u64::from_le_bytes(buf);
--                    let pow = u64::pow(10, BYTES_TO_DIGITS[len] as u32);
--                    self.carry = chunk + self.carry * pow;
-+                    self.decfifo.push(chunk, BYTES_TO_DIGITS[len]);
-                     self.offset += len;
--                    self.carry_len += BYTES_TO_DIGITS[len];
--                }
--                match self.carry_len {
--                    0 => None,
--                    len => {
--                        // take the next 3 decimal digits of the carry
--                        // and return 10bits of numeric data.
--                        let out_len = 3.min(len);
--                        self.carry_len -= out_len;
--                        let pow = u64::pow(10, self.carry_len as u32);
--                        let out = (self.carry / pow) as u16;
--                        self.carry %= pow;
--                        Some((out, NUM_CHARS_BITS[out_len]))
--                    }
-                 }
-+                self.decfifo.pop3()
-             }
-         }
-     }
+Regards,
+Boqun
 
-base-commit: 74757ad1c105c8fc00b4cac0b7918fe3262cdb18
--- 
-2.49.0
-
+> ---
+>  Makefile                        | 1 +
+>  rust/kernel/block/mq/request.rs | 4 ++--
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 5d2931344490..7b85b2a8d371 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -481,6 +481,7 @@ export rust_common_flags := --edition=2021 \
+>  			    -Aclippy::needless_lifetimes \
+>  			    -Wclippy::no_mangle_with_rust_abi \
+>  			    -Wclippy::ptr_as_ptr \
+> +			    -Wclippy::ptr_cast_constness \
+>  			    -Wclippy::undocumented_unsafe_blocks \
+>  			    -Wclippy::unnecessary_safety_comment \
+>  			    -Wclippy::unnecessary_safety_doc \
+> diff --git a/rust/kernel/block/mq/request.rs b/rust/kernel/block/mq/request.rs
+> index 4a5b7ec914ef..af5c9ac94f36 100644
+> --- a/rust/kernel/block/mq/request.rs
+> +++ b/rust/kernel/block/mq/request.rs
+> @@ -69,7 +69,7 @@ pub(crate) unsafe fn aref_from_raw(ptr: *mut bindings::request) -> ARef<Self> {
+>          // INVARIANT: By the safety requirements of this function, invariants are upheld.
+>          // SAFETY: By the safety requirement of this function, we own a
+>          // reference count that we can pass to `ARef`.
+> -        unsafe { ARef::from_raw(NonNull::new_unchecked(ptr as *const Self as *mut Self)) }
+> +        unsafe { ARef::from_raw(NonNull::new_unchecked(ptr.cast())) }
+>      }
+>  
+>      /// Notify the block layer that a request is going to be processed now.
+> @@ -155,7 +155,7 @@ pub(crate) fn wrapper_ref(&self) -> &RequestDataWrapper {
+>          // the private data associated with this request is initialized and
+>          // valid. The existence of `&self` guarantees that the private data is
+>          // valid as a shared reference.
+> -        unsafe { Self::wrapper_ptr(self as *const Self as *mut Self).as_ref() }
+> +        unsafe { Self::wrapper_ptr(core::ptr::from_ref(self).cast_mut()).as_ref() }
+>      }
+>  }
+>  
+> 
+> -- 
+> 2.49.0
+> 
