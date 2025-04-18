@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3334A93DAD
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 20:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C7AA93DA8
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 20:47:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A02E10E3C5;
-	Fri, 18 Apr 2025 18:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA79F10E3AB;
+	Fri, 18 Apr 2025 18:47:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JFsyLDxL";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OJTklh9N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE8910E261
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 18:47:12 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-3914bc3e01aso1327722f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 11:47:11 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F1A310E275
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 18:47:13 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-43cf3192f3bso20299045e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 11:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745002030; x=1745606830; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1745002032; x=1745606832; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JA4Gzqui520XvKDgLFTWbJLAfJxRvucBmm1a9C+IgC8=;
- b=JFsyLDxLwlPz1gdMUWe4GAOIz5GdJb76U1aoyn/z0Xt9kGSFa4I5NDZ2URfyXihBzA
- kjfcWWMv4TapZOfFKRLuuOjKOTTwhQtdIw5NATImvcSzI5/36JyUBmpGOMlvAWuYPT2Q
- nEDDXB2PiL64WfQXOJd1FzFJKVWoHuCc6bC27I4Wrgu1PlNOFsa16VVUOosq44uZqQyx
- RXF45hloQE78b9nntfBcEL6DWmd0LnpSbAkCZTFJWbZTQPIEjPxcycD9im8RK83fPeZv
- v9PhfRkLjUAaSzU81OHOjPl4YzhgQJ+L0YfcgNwi7MzioJ913wmialqLYMJTC0sEwu0x
- MDoA==
+ bh=kZNBBcR2M8Y/5VP20+u5ALNuftmnVQQo1BWxYc8E9fQ=;
+ b=OJTklh9NXAwYpVbbBDmcZ/HcLp6OfZNLZsSGMhypThJ+bF+1B71Owh1IyhCNNJXT1u
+ HV9fvojPkLrcTqKzJsGRh9OLBQWxXYpn9/kHfcPEe0q3Slfd4SDQvd09hEA3xJW/FV67
+ jc6xfOIJATqVj/E61x+nj6uD29wk8L7ACm9rhCe5wMgcyDSp0zAH0/mlenRaPNxXqcha
+ SvuEUr8hj/xniM2uIlQSvPGZx1UYldE/sJjbTK4nTPbhiMF3kiNbmxuLCnNwhQ6TEQCB
+ zvBeoxqcCeqozb5+R+CW7AaZunCu9bDViewX2G1DHOqPh2LLLe/YSaH5NzgSEN/L6/GA
+ 4nuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745002030; x=1745606830;
+ d=1e100.net; s=20230601; t=1745002032; x=1745606832;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JA4Gzqui520XvKDgLFTWbJLAfJxRvucBmm1a9C+IgC8=;
- b=bi8ptMR0rOxrFwYOzZnqaQo5pRN0vMjh5x6CimVfBIBdM6eYB3i2g8yTorwOucgkwZ
- ap/CWJUkA3giswblSUCxVNKs9REW0g2syBgetCBbXtgiT32mW5by+CMp4YI2NZ498tOR
- rxxKx2DQb1td0eCtj0okElFmGpXgo9bwlZ6V/oRmWaP8mKaMEvbL7rmpj46LrrXso2AS
- n8SLj7/e6QqUBkhiQDNpljYEEeG8fQMqoi44eJ/JlbNJ1JQ4JUjmACkqjeJf4tKEfau8
- moUebQdmhbIxn8IMDzBXJj50XwdvnGS6YSzrhuvi7QGUVv6KgTZULr4aCslQFQU00Ivs
- kw7Q==
-X-Gm-Message-State: AOJu0Yz9CKjKka/4Fzz7B/mnPUWOhGnw54+TGemUl6dW8K9p6nlNIbSl
- kNNtPohq0D3BE+dZDo1ud+uhNt7BW4VzpILhd80xsY6kMEaNQziN
-X-Gm-Gg: ASbGnct9dukB4I36J4z27FUOZ2W5UfYOHtL+wrTAQDto+T/9BZyCKsCcxqANureD/b7
- iVp3IDoi/j2NfAF/SX54NU5g904fXjNpoaZF4n8F+gKDT/hro3t9gbY8OjKRecc1gzKm3oEhW4G
- 94E/2gPVTJcfAo7C0RK3XsKpEZEst/PTEsvv6Mhsgdck9Hul5QKBEGbzJ9XLy+zceQRdsNMqZ/G
- ObOaK2LFYvpIyaTXrqHFBqN5iAHIAWmnqD6ZSYNFtgwfhg09VCGDPouWV3SHK2dcQtLwPVe8mWO
- m+0FBI55YvE1f9Cw3QPkRLNyzNqn2F+FHD5XvHC9nidBO2sotfUaXC+azNNciXnkhg==
-X-Google-Smtp-Source: AGHT+IG79+Xzgm+XZga2TyIMFd6/uqPiEpAEqn9ilP5gPzSy9wE1lxpvKq79sxI9ZGAXxADMR+n3TQ==
-X-Received: by 2002:a05:6000:178d:b0:39c:c64e:cf58 with SMTP id
- ffacd0b85a97d-39efbaf20ccmr2872071f8f.55.1745002030471; 
- Fri, 18 Apr 2025 11:47:10 -0700 (PDT)
+ bh=kZNBBcR2M8Y/5VP20+u5ALNuftmnVQQo1BWxYc8E9fQ=;
+ b=EyOThdT/FBmmi/RsXktBSgUarUCAKtlc59iYNf9wDesC5Qus4T0IiYz6xc3teYWv7w
+ KmSWuTDtmyBb2gjcJfopZogM+B2QaSEuMoxXjvMzjkTsEBM4G9ewIPDgdZE699r/H2DE
+ a1m8IdcW9q8y1fk0Xc8RBBpNTICt3BB5EDoUl1g6kRQMJrd/U0mzm0AOVw/+I0zqltf/
+ teRFCjpx40msDWiInMLdAl9uYnXAdFXElo6jAiFoUbSPzDLL5YxrWOZHe31o6ipmfkof
+ OILMt58I8QQGVHsdC6s3S/54T4WLGWjKj5cyql0M04TW4sbHQfz6+Api8R4fmAf9Dapv
+ i1Ng==
+X-Gm-Message-State: AOJu0YziGWlUz2bYP9hSdfqnSdG1zr0aywWSNWdM+y1Ylp4N3XAIksGO
+ ctOJ+5lpitWHvIhrvjjftMPxHc03seacAlcLidJ8HASXx6wUN+Jz
+X-Gm-Gg: ASbGncsWZqzBEl7ZurjPkZkaDHZj910zvSczKiVplSPBnTZoxTXipAfNUc3Y2R5cKH6
+ aQRZRZJysI496/bth9g13aQfGmGW8RNQMrZp6XFwHObMHuEWldI7SYuge/vkNORHP1K6tCoy/tq
+ 4D8Skjyq50P5tvuLSj7mFYwdLdIxPiGT+U3eDhIL6UpnXfGviIlgMUE16kIJxuoYzDqKA5AgQUM
+ VOaLcOV4zjDZuEhvmeJ5GDbILl1+4D05MgGSLptKXEloQfgNJBa2Pfdzl/cDmEM2mmhaBLM5/Yf
+ Ega7ngh11+4zHuY1SO6Fx8cIg5GaHov0fFLjd43i1akhbSi3mngkNa7koOX3hSeB/w==
+X-Google-Smtp-Source: AGHT+IFfw7ZnSqeRFrgYbx7UP4/0/xBnRaa4Kr11SsYoKPv+VoyqssOKgGovJp9wgMdTTWAUrP1fiQ==
+X-Received: by 2002:a05:600c:1e15:b0:43d:82c:2b23 with SMTP id
+ 5b1f17b1804b1-4406abfaae3mr27038495e9.23.1745002031599; 
+ Fri, 18 Apr 2025 11:47:11 -0700 (PDT)
 Received: from iku.Home ([2a06:5906:61b:2d00:36cb:c641:13d7:bd3d])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39efa4931b8sm3404336f8f.80.2025.04.18.11.47.09
+ ffacd0b85a97d-39efa4931b8sm3404336f8f.80.2025.04.18.11.47.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Apr 2025 11:47:09 -0700 (PDT)
+ Fri, 18 Apr 2025 11:47:11 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -81,10 +81,10 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 03/15] dt-bindings: display: renesas,
- rzg2l-du: Add support for RZ/V2H(P) SoC
-Date: Fri, 18 Apr 2025 19:46:46 +0100
-Message-ID: <20250418184658.456398-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 04/15] dt-bindings: display: bridge: renesas,
+ dsi: Add support for RZ/V2H(P) SoC
+Date: Fri, 18 Apr 2025 19:46:47 +0100
+Message-ID: <20250418184658.456398-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250418184658.456398-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250418184658.456398-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -107,74 +107,179 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The DU block on the RZ/V2H(P) SoC is identical to the one found on the
-RZ/G2L SoC. However, it only supports the DSI interface, whereas the
-RZ/G2L supports both DSI and DPI interfaces.
+The MIPI DSI interface on the RZ/V2H(P) SoC is nearly identical to that of
+the RZ/G2L SoC. While the LINK registers are the same for both SoCs, the
+D-PHY registers differ. Additionally, the number of resets for DSI on
+RZ/V2H(P) is two compared to three on the RZ/G2L.
 
-Due to this difference, a SoC-specific compatible string
-'renesas,r9a09g057-du' is added for the RZ/V2H(P) SoC.
+To accommodate these differences, a SoC-specific
+`renesas,r9a09g057-mipi-dsi` compatible string has been added for the
+RZ/V2H(P) SoC.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
 v2->v3:
-- Collected reviewed tag from Krzysztof
+- No changes
 
 v1->v2:
-- Kept the sort order for schema validation
-- Added  `port@1: false` for RZ/V2H(P) SoC
+- Added enum for RZ/V2H as suggested by Krzysztof as the list
+  will grow in the future (while adding RZ/G3E SoC).
+- Added Reviewed-by tag from Krzysztof.
 ---
- .../bindings/display/renesas,rzg2l-du.yaml    | 23 ++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ .../bindings/display/bridge/renesas,dsi.yaml  | 116 +++++++++++++-----
+ 1 file changed, 87 insertions(+), 29 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-index 95e3d5e74b87..1e32d14b6edb 100644
---- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-+++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-@@ -20,6 +20,7 @@ properties:
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+index e08c24633926..5980df2b389b 100644
+--- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+@@ -14,16 +14,17 @@ description: |
+   RZ/G2L alike family of SoC's. The encoder can operate in DSI mode, with
+   up to four data lanes.
+ 
+-allOf:
+-  - $ref: /schemas/display/dsi-controller.yaml#
+-
+ properties:
+   compatible:
+-    items:
++    oneOf:
        - enum:
-           - renesas,r9a07g043u-du # RZ/G2UL
-           - renesas,r9a07g044-du # RZ/G2{L,LC}
-+          - renesas,r9a09g057-du # RZ/V2H(P)
-       - items:
-           - enum:
-               - renesas,r9a07g054-du    # RZ/V2L
-@@ -101,7 +102,12 @@ allOf:
- 
-           required:
-             - port@0
--    else:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a07g044-du
-+    then:
-       properties:
-         ports:
-           properties:
-@@ -113,6 +119,21 @@ allOf:
-           required:
-             - port@0
-             - port@1
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a09g057-du
-+    then:
-+      properties:
-+        ports:
-+          properties:
-+            port@0:
-+              description: DSI
-+            port@1: false
+-          - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
+-          - renesas,r9a07g054-mipi-dsi # RZ/V2L
+-      - const: renesas,rzg2l-mipi-dsi
++          - renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
 +
-+          required:
-+            - port@0
++      - items:
++          - enum:
++              - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
++              - renesas,r9a07g054-mipi-dsi # RZ/V2L
++          - const: renesas,rzg2l-mipi-dsi
  
+   reg:
+     maxItems: 1
+@@ -49,34 +50,56 @@ properties:
+       - const: debug
+ 
+   clocks:
+-    items:
+-      - description: DSI D-PHY PLL multiplied clock
+-      - description: DSI D-PHY system clock
+-      - description: DSI AXI bus clock
+-      - description: DSI Register access clock
+-      - description: DSI Video clock
+-      - description: DSI D-PHY Escape mode transmit clock
++    oneOf:
++      - items:
++          - description: DSI D-PHY PLL multiplied clock
++          - description: DSI D-PHY system clock
++          - description: DSI AXI bus clock
++          - description: DSI Register access clock
++          - description: DSI Video clock
++          - description: DSI D-PHY Escape mode transmit clock
++      - items:
++          - description: DSI D-PHY PLL multiplied clock
++          - description: DSI AXI bus clock
++          - description: DSI Register access clock
++          - description: DSI Video clock
++          - description: DSI D-PHY Escape mode transmit clock
+ 
+   clock-names:
+-    items:
+-      - const: pllclk
+-      - const: sysclk
+-      - const: aclk
+-      - const: pclk
+-      - const: vclk
+-      - const: lpclk
++    oneOf:
++      - items:
++          - const: pllclk
++          - const: sysclk
++          - const: aclk
++          - const: pclk
++          - const: vclk
++          - const: lpclk
++      - items:
++          - const: pllclk
++          - const: aclk
++          - const: pclk
++          - const: vclk
++          - const: lpclk
+ 
+   resets:
+-    items:
+-      - description: MIPI_DSI_CMN_RSTB
+-      - description: MIPI_DSI_ARESET_N
+-      - description: MIPI_DSI_PRESET_N
++    oneOf:
++      - items:
++          - description: MIPI_DSI_CMN_RSTB
++          - description: MIPI_DSI_ARESET_N
++          - description: MIPI_DSI_PRESET_N
++      - items:
++          - description: MIPI_DSI_ARESET_N
++          - description: MIPI_DSI_PRESET_N
+ 
+   reset-names:
+-    items:
+-      - const: rst
+-      - const: arst
+-      - const: prst
++    oneOf:
++      - items:
++          - const: rst
++          - const: arst
++          - const: prst
++      - items:
++          - const: arst
++          - const: prst
+ 
+   power-domains:
+     maxItems: 1
+@@ -130,6 +153,41 @@ required:
+ 
+ additionalProperties: false
+ 
++allOf:
++  - $ref: ../dsi-controller.yaml#
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,r9a09g057-mipi-dsi
++    then:
++      properties:
++        clocks:
++          maxItems: 5
++
++        clock-names:
++          maxItems: 5
++
++        resets:
++          maxItems: 2
++
++        reset-names:
++          maxItems: 2
++    else:
++      properties:
++        clocks:
++          minItems: 6
++
++        clock-names:
++          minItems: 6
++
++        resets:
++          minItems: 3
++
++        reset-names:
++          minItems: 3
++
  examples:
-   # RZ/G2L DU
+   - |
+     #include <dt-bindings/clock/r9a07g044-cpg.h>
 -- 
 2.49.0
 
