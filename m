@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FB6A931A8
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 07:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 773EEA93244
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 08:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 023E910E074;
-	Fri, 18 Apr 2025 05:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D1310E1D0;
+	Fri, 18 Apr 2025 06:48:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="dtVNp0qP";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="kVCqLO7J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr
- [80.12.242.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F34C10E074
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 05:52:38 +0000 (UTC)
-Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
- id 5edwul0TZtvMG5ee0uVAiY; Fri, 18 Apr 2025 07:52:11 +0200
+Received: from smtp.smtpout.orange.fr (smtp-65.smtpout.orange.fr
+ [80.12.242.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F188210E1D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 06:48:38 +0000 (UTC)
+Received: from localhost.localdomain ([90.11.132.44])
+ by smtp.orange.fr with ESMTPA
+ id 5fWXuGf243t2y5fWauMqHj; Fri, 18 Apr 2025 08:48:35 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1744955531;
- bh=beKcvPKn4gWz14KY1u+Jl21S7uykusGB6oklth52zpc=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=dtVNp0qP4EdAppUn1VjXkQGHWgp1+kHydnwG6wE4eS1tejUL0hoAsq30zKK+mvZg9
- Uy6eMhS/xyu72Noti/dG3GzLqBx4bRtSyIdky0rw2qj4Tb1BfX6wh5iSScW1KurKcT
- JgWQzR7N1tLJH0b+O1TH0JC/OBBz+mpIfUNpLVdMjI8sHihgBhpg/kUCsSgsvPx0xp
- WchdA0ow1RLxSmJdHIMyGUeMWCyB4+V9rHxXtM4nhTI3Woz0bfWWykmw7tMxUminke
- LfqKcBmYOlDP76FAxHl+/fQYcXQJTJ0oNAKNpUWF1MXBkU/QPf7vDZfoAseI5G+7id
- nZ60afh9PqtnA==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Fri, 18 Apr 2025 07:52:11 +0200
+ s=t20230301; t=1744958915;
+ bh=mUzUYESnOtbixZ8+Khj60v3lZVxQS/Ceo6x8BU3JvB8=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version;
+ b=kVCqLO7Jh5F/y2eNTmtidrrI/CkZmZp13K/rFMd0m0VyIOL68hYqyRZoWRyhwdMOt
+ WA0xOB5GVBqyGo7Uz+FyN8yHaN7b5svSZ/VbVdiRr6VN1uUFtKwoW8aNiN8txg63Ra
+ Ufd2qDd/Vy8FzMm6MbRlTvxJ0nJmZpDCgikcpYIRG75cS3boa1uD4l7Hy+RBI5QR3N
+ jXLfSbtDW4jIWu7j2E3mipGgu95d0rJDPpkTsoD3Yi14Nwux/YIXlUDm1bUTGhi8YO
+ PndvrzZPbC9A977Crh37M3298rOKHVuQvPHqNT+YepWT6ZelmFKZhr9KRs6xQQN83Y
+ G5Q7XulKH4lEA==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 18 Apr 2025 08:48:35 +0200
 X-ME-IP: 90.11.132.44
-Message-ID: <ab85b3c9-46cc-4148-9de5-dcaabea130ea@wanadoo.fr>
-Date: Fri, 18 Apr 2025 07:52:27 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] drm/radeon: Remove unused radeon_doorbell_free
-To: linux@treblig.org, alexander.deucher@amd.com, harry.wentland@amd.com,
- sunpeng.li@amd.com, siqueira@igalia.com, christian.koenig@amd.com
-Cc: airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250418002117.130612-1-linux@treblig.org>
- <20250418002117.130612-3-linux@treblig.org>
-Content-Language: en-US, fr-FR
 From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20250418002117.130612-3-linux@treblig.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/bridge: lt9611uxc: Fix an error handling path in
+ lt9611uxc_probe()
+Date: Fri, 18 Apr 2025 08:48:16 +0200
+Message-ID: <f167608e392c6b4d7d7f6e45e3c21878feb60cbd.1744958833.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,65 +69,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 18/04/2025 à 02:21, linux@treblig.org a écrit :
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> radeon_doorbell_free() was added in 2013 by
-> commit 75efdee11b5d ("drm/radeon: implement simple doorbell page
-> allocator")
-> but never used.
+If lt9611uxc_audio_init() fails, some resources still need to be released
+before returning the error code.
 
-Hi,
+Use the existing error handling path.
 
-I think than instead of being removed, it should be used in the error 
-handling path of cik_init() and in cik_fini().
+Fixes: 0cbbd5b1a012 ("drm: bridge: add support for lontium LT9611UXC bridge")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Compile tested only.
 
-CJ
+Changes in v2:
+  - Add R-b tag
+  - Sync with latest -next
 
-> 
-> Remove it.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->   drivers/gpu/drm/radeon/radeon.h        |  1 -
->   drivers/gpu/drm/radeon/radeon_device.c | 14 --------------
->   2 files changed, 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-> index 8605c074d9f7..58111fdf520d 100644
-> --- a/drivers/gpu/drm/radeon/radeon.h
-> +++ b/drivers/gpu/drm/radeon/radeon.h
-> @@ -686,7 +686,6 @@ struct radeon_doorbell {
->   };
->   
->   int radeon_doorbell_get(struct radeon_device *rdev, u32 *page);
-> -void radeon_doorbell_free(struct radeon_device *rdev, u32 doorbell);
->   
->   /*
->    * IRQS.
-> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-> index bbd39348a7ab..4127ffb4bb6f 100644
-> --- a/drivers/gpu/drm/radeon/radeon_device.c
-> +++ b/drivers/gpu/drm/radeon/radeon_device.c
-> @@ -392,20 +392,6 @@ int radeon_doorbell_get(struct radeon_device *rdev, u32 *doorbell)
->   	}
->   }
->   
-> -/**
-> - * radeon_doorbell_free - Free a doorbell entry
-> - *
-> - * @rdev: radeon_device pointer
-> - * @doorbell: doorbell index
-> - *
-> - * Free a doorbell allocated for use by the driver (all asics)
-> - */
-> -void radeon_doorbell_free(struct radeon_device *rdev, u32 doorbell)
-> -{
-> -	if (doorbell < rdev->doorbell.num_doorbells)
-> -		__clear_bit(doorbell, rdev->doorbell.used);
-> -}
-> -
->   /*
->    * radeon_wb_*()
->    * Writeback is the method by which the GPU updates special pages
+v1: https://lore.kernel.org/all/e09122722190d052cee792a9246c274510f3b928.1710618660.git.christophe.jaillet@wanadoo.fr/
+(this is ~1 year old, but was never applied)
+---
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index f4c3ff1fdc69..f6e714feeea5 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -880,7 +880,11 @@ static int lt9611uxc_probe(struct i2c_client *client)
+ 		}
+ 	}
+ 
+-	return lt9611uxc_audio_init(dev, lt9611uxc);
++	ret = lt9611uxc_audio_init(dev, lt9611uxc);
++	if (ret)
++		goto err_remove_bridge;
++
++	return 0;
+ 
+ err_remove_bridge:
+ 	free_irq(client->irq, lt9611uxc);
+-- 
+2.49.0
 
