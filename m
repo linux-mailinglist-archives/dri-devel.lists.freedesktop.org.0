@@ -2,74 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05551A937E5
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 15:26:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75792A9384B
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 16:10:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5FE10E1FA;
-	Fri, 18 Apr 2025 13:25:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0FB210EBAC;
+	Fri, 18 Apr 2025 14:10:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SNW26AgR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cUgWJpEy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 372CC10E1FA;
- Fri, 18 Apr 2025 13:25:44 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-2240ff0bd6eso2703515ad.0; 
- Fri, 18 Apr 2025 06:25:44 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7E2610EBB1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 14:10:51 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-39c1ef4ae3aso1217415f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 07:10:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744982743; x=1745587543; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1744985450; x=1745590250; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nyC6qiVT+u6rR7PgNOginiie1BVxcpXDs4+aZTBzC9Y=;
- b=SNW26AgRWPDN7jEjaP2Jfuy4CKhgDCJVlQUoWX37oOnBSnazunYu2WfUZ1dASbpN66
- N5ussMNcTUfWxEqCMbMvSWyfOGkZAaQssfzGRmdexyWSfFFS1egciYRbs2XPSs0ymFH0
- xGtubC49k7r2qNtWqZ6yoBX3kgGlvRsMA2sXx0KoXirOH/FBOYaj9bMOnJxeWYj7UMXF
- FZzQ0C7UmEcMh+p3ggMq4JSlCm2gq6K1WmZ9i/IrshxaMT8w5QjqBHl58y/FSbHqk0f9
- pq0REYBkN5s0xFTVUnBLvE2ElP7n3QXedOFKMdldfQzUj2mAiPSxQ8oG3gwGxqdkjY26
- K53Q==
+ bh=/+4iqs0h57Kp8/rbjBz5taHDUwf5MhBA1y6Qwn3HIfw=;
+ b=cUgWJpEyln5pyD62fh3YpD4jvMXBYhDued/DJGbQANzWQ3t09wZSySNzTyBhYYdsas
+ Gj0Y9mbqia1AmbVLHnUuU1Kg2MavyQw4H+1+A0Dh3vY1dFjeVuuLcBdRXAZnqbb29vRo
+ qwJA6gNhXV7bVZyHdvvXwij8U4TWSs4i7v8lzu+LHRn1Am0jjDkxwtGi3BhdxUViBNaW
+ jlii5kN1bDi6/uN1gY3t75zt77q8KOjvaheEtwGrzHmJXbXXeAkVeKqlJvS6isfhDv2j
+ RP/758bn4i6hY+v2IPbyGBAraI5bdMguHmzOUD5QKApS6AzYN+RkHFNv2O4yF/oqqxR3
+ YPFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744982743; x=1745587543;
+ d=1e100.net; s=20230601; t=1744985450; x=1745590250;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nyC6qiVT+u6rR7PgNOginiie1BVxcpXDs4+aZTBzC9Y=;
- b=Qm4QjS5vh4seSeRhkfe2q+JMYcVA2Fb1D5OY6+i4qWPB32DFKQ8LJ4EfthwCCgsH7M
- w+ZYaJSf1vy8abYEhooI6OQIBmdkwdUsS7Nsqh4YLmVvWrnfJo4bguZmkGX/PD5V8WLS
- iv4WzKwLJ7keccHBIfTMa26NylTQMGcxLhOACrmc8fQluDLUf59KYqOAwx1VWRaS+b8b
- VxVWBI6sE+sEJyHjZxTLLjsm1xtUalWssr4p6rC38jkZTbJ4YA+O/QEFHkjqJGiXwNPq
- iK4P1pojTPXC/GGpZdPH0ls8XH2oXYAYQxhdKsjzI/AV8avZiKOEC30bjXcEf8+yshIe
- kdNA==
+ bh=/+4iqs0h57Kp8/rbjBz5taHDUwf5MhBA1y6Qwn3HIfw=;
+ b=JCohxD7YMmOv+umS6Ip+pMzwBYFOuDIvd4vklTH+dmsd+8E7dqA0utKVkDBakUb3g+
+ 1XBKSJS6cAJPQN4m4pE0xK0H2Vg/ROHg9tNDKgDti8ka34zsFCH4SsBvZCJY6VOJSYK4
+ LUBRmLDvWPStmKsG2/05Kh4JIMxxIg5/VGu6mH+Xy3G4pyy6v+v66EU4gZCtULx6kaJC
+ UWmHKhWTbaRkMP/J1tN1AqV4bDihVPogdaCb5Vyn8Hf7sfHXpt1XFbuzm5skxjCCMrSR
+ YtKRfRpnGPPSjNEbd1QXlrlOsxWCAUaZBpkNyHEBYfj36ueTgaMkREmh6rNBeNaYwe+V
+ OWSQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUxA1L3qSSZX82vxxfAr3xElJZ48371etSvejw8yK4JhD4uGClyZuWyHXqBlOTz+PX+mifDZ7yp@lists.freedesktop.org,
- AJvYcCVG+qPisDObSwhgRcsbUpBeQANqnkKpVDr9rmWKmKsrnCV+QwyiPtW/RCAJ8q+H+Tv6uxLjAxlkMoe+@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxSGvGLPKfsY7URMN1koFEgktNv6alJbNStZnyOzIrXVtIgPC6F
- Bi/Q8nDto8EDIookQIkp8yYpT8+ubwV0FxUuD/xOqCkIupie3aceykMzObDLN+uN3a05/3T9KY4
- TTmHeq7IGWR7zd0P2h1NMhmLFIbU=
-X-Gm-Gg: ASbGncuQWtEBwRRt4dTKAylH1ylB268tOnQbPk8VKrgUed/LoIc2rR2WpTCW+/nKEAy
- Xl+rvA1/8APfMqypFrzO71yeBUmZOqtmwwlU+jvz03dDBnSjFyTZ0CJb22qoLnoL1kG9mxgon/L
- V2eqnxsFmFD6AsYesfX+wQ0g==
-X-Google-Smtp-Source: AGHT+IEkg5l32NGk3QoxdJcXn0CidWWNtFY5WaOURIUpxvd0XNAJikgTjGRg3HBLp/wS28RhXBbDrZYprx9XXbEdsWo=
-X-Received: by 2002:a17:902:fc46:b0:21f:3e2d:7d43 with SMTP id
- d9443c01a7336-22c5361fd79mr16154295ad.13.1744982743399; Fri, 18 Apr 2025
- 06:25:43 -0700 (PDT)
+ AJvYcCW04Q7BS0aIFcFyVAJKWaIXD8jfo8Llo3liABUxa5DWhN6LZYnRZy2XAcyXxPvxrS1pDxnVhd784KM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzlnKbQpCQyPUTkUdesuajLRQP8h6NouManauIOkAqkmdTGEw9f
+ 2SYPjEqtYKooQOsO+Gfh9/2RozI8nSGUkcMHAQahb2r0UYovn1Hjwbj+S5lHMIZJirSVvrrsics
+ H4mlFx2W61B+Tu0RMo2NdYINuV9M=
+X-Gm-Gg: ASbGncshXjeJSccnlJFffcd5KFZ5+PxYLBlPruwLP1jSvDpsOJeVM4H58jTqSQJQFo+
+ bRgCdIWsSzRxBAtocnoa+jKqvdpXsU7XXpOLlTBl0UXN4Geeyc9Gy3t90BIrzdZx24m55I41PHL
+ f0vY3uOxUomLNlhxsYP0PftOMjXHe2+3SNUSKFkK1rH2lDviXMDJPfZrkiLTNQVR8vFw==
+X-Google-Smtp-Source: AGHT+IHl9tpgA/X6cm1KcAI4eONzkSnegsGij5ld5XhyA6vN+eGT7ytBy/PX8eLr/WPj2yiqupDHgYfSrkeaXPBrFCE=
+X-Received: by 2002:a05:6000:2481:b0:390:e535:8750 with SMTP id
+ ffacd0b85a97d-39efbd60d22mr2430124f8f.9.1744985449778; Fri, 18 Apr 2025
+ 07:10:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250418002117.130612-1-linux@treblig.org>
- <20250418002117.130612-5-linux@treblig.org>
-In-Reply-To: <20250418002117.130612-5-linux@treblig.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 18 Apr 2025 09:25:31 -0400
-X-Gm-Features: ATxdqUFslTsaOCqwA3wvaxSTpSZ6IN0_tcLcXqKz9RibnGUgvP0nVR7xs914qb8
-Message-ID: <CADnq5_PWLjCAfPx_2K+r=tuwf=+dN4iP1-OnyfP8mgXsR1Ting@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm/amd/display: Remove unused *vbios_smu_set_dprefclk
-To: linux@treblig.org
-Cc: alexander.deucher@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com, 
- siqueira@igalia.com, christian.koenig@amd.com, airlied@gmail.com, 
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250408200916.93793-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250408200916.93793-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdVjVEVh+dHKG_afZwyqsXwHj2FR7enHNrfuE9HJ0ELjEA@mail.gmail.com>
+In-Reply-To: <CAMuHMdVjVEVh+dHKG_afZwyqsXwHj2FR7enHNrfuE9HJ0ELjEA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 18 Apr 2025 15:10:23 +0100
+X-Gm-Features: ATxdqUGhurULd5jkQDU7jJeZchOr269Y4azGw9tpFZslMsIVw--s37FvGHYrIio
+Message-ID: <CA+V-a8uLA0urp8hPkUmHqNyH=n1Z2fkMnroc3qw=gq06kHUWfQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/15] clk: renesas: rzv2h-cpg: Add support for DSI
+ clocks
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,121 +104,342 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied patches 1, 3, 4.  Thanks!
+Hi Geert,
 
-On Thu, Apr 17, 2025 at 8:28=E2=80=AFPM <linux@treblig.org> wrote:
+Thank you for the review.
+
+On Wed, Apr 16, 2025 at 10:27=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> Hi Prabhakar, Fabrizio,
 >
-> rn_vbios_smu_set_dprefclk() was added in 2019 by
-> commit 4edb6fc91878 ("drm/amd/display: Add Renoir clock manager")
-> rv1_vbios_smu_set_dprefclk() was also added in 2019 by
-> commit dc88b4a684d2 ("drm/amd/display: make clk mgr soc specific")
+> Thanks for your patch!
 >
-> neither have been used.
+> On Tue, 8 Apr 2025 at 22:09, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add support for PLLDSI and PLLDSI divider clocks.
+> >
+> > The `renesas-rzv2h-dsi.h` header file is added to share the PLL divider
+> > algorithm between the CPG and DSI drivers.
 >
-> Remove them.
+> Please explain here why the DSI driver needs access to this algorithm.
 >
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  .../dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c       | 14 --------------
->  .../dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.h       |  1 -
->  .../dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c        | 14 --------------
->  .../dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h        |  1 -
->  4 files changed, 30 deletions(-)
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbi=
-os_smu.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_s=
-mu.c
-> index 19897fa52e7e..d82a52319088 100644
-> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.=
-c
-> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.=
-c
-> @@ -142,17 +142,3 @@ int rv1_vbios_smu_set_dispclk(struct clk_mgr_interna=
-l *clk_mgr, int requested_di
+> > --- a/drivers/clk/renesas/rzv2h-cpg.c
+> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
 >
->         return actual_dispclk_set_mhz * 1000;
->  }
-> -
-> -int rv1_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr)
-> -{
-> -       int actual_dprefclk_set_mhz =3D -1;
-> -
-> -       actual_dprefclk_set_mhz =3D rv1_vbios_smu_send_msg_with_param(
-> -                       clk_mgr,
-> -                       VBIOSSMC_MSG_SetDprefclkFreq,
-> -                       khz_to_mhz_ceil(clk_mgr->base.dprefclk_khz));
-> -
-> -       /* TODO: add code for programing DP DTO, currently this is down b=
-y command table */
-> -
-> -       return actual_dprefclk_set_mhz * 1000;
-> -}
-> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbi=
-os_smu.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_s=
-mu.h
-> index 083cb3158859..81d7c912549c 100644
-> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.=
-h
-> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.=
-h
-> @@ -27,6 +27,5 @@
->  #define DAL_DC_DCN10_RV1_CLK_MGR_VBIOS_SMU_H_
+> > @@ -196,6 +225,253 @@ static int rzv2h_cpg_pll_clk_enable(struct clk_hw=
+ *hw)
+> >         return ret;
+> >  }
+> >
+> > +static unsigned long rzv2h_cpg_plldsi_div_recalc_rate(struct clk_hw *h=
+w,
+> > +                                                     unsigned long par=
+ent_rate)
+> > +{
+> > +       struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +       struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +       struct ddiv ddiv =3D dsi_div->ddiv;
+> > +       u32 div;
+> > +
+> > +       div =3D readl(priv->base + ddiv.offset);
+> > +       div >>=3D ddiv.shift;
+> > +       div &=3D ((2 << ddiv.width) - 1);
 >
->  int rv1_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int requ=
-ested_dispclk_khz);
-> -int rv1_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr);
+> Shouldn't that "2" be "1"?
+> GENMASK(ddiv.width - 1, 0), or even better: clk_div_mask(ddiv.width).
 >
->  #endif /* DAL_DC_DCN10_RV1_CLK_MGR_VBIOS_SMU_H_ */
-> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbio=
-s_smu.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu=
-.c
-> index 23b390245b5d..5a633333dbb5 100644
-> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c
-> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c
-> @@ -164,20 +164,6 @@ int rn_vbios_smu_set_dispclk(struct clk_mgr_internal=
- *clk_mgr, int requested_dis
->         return actual_dispclk_set_mhz * 1000;
->  }
+Agreed, I'll switch to clk_div_mask(ddiv.width)
+
+> > +
+> > +       div =3D dsi_div->dtable[div].div;
+> > +
+> > +       return DIV_ROUND_CLOSEST_ULL(parent_rate, div);
+> > +}
+> > +
+> > +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
+> > +                                              struct clk_rate_request =
+*req)
+> > +{
+> > +       struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +       struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +       struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_=
+div_parameters;
+> > +       unsigned long long rate_mhz;
 >
-> -int rn_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr)
-> -{
-> -       int actual_dprefclk_set_mhz =3D -1;
-> -
-> -       actual_dprefclk_set_mhz =3D rn_vbios_smu_send_msg_with_param(
-> -                       clk_mgr,
-> -                       VBIOSSMC_MSG_SetDprefclkFreq,
-> -                       khz_to_mhz_ceil(clk_mgr->base.dprefclk_khz));
-> -
-> -       /* TODO: add code for programing DP DTO, currently this is down b=
-y command table */
-> -
-> -       return actual_dprefclk_set_mhz * 1000;
-> -}
-> -
->  int rn_vbios_smu_set_hard_min_dcfclk(struct clk_mgr_internal *clk_mgr, i=
-nt requested_dcfclk_khz)
->  {
->         int actual_dcfclk_set_mhz =3D -1;
-> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbio=
-s_smu.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu=
-.h
-> index 1ce19d875358..f76fad87f0e1 100644
-> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h
-> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h
-> @@ -30,7 +30,6 @@ enum dcn_pwr_state;
+> u64?
+OK.
+
+> Please use "millihz" instead of "mhz" everywhere, so it becomes very
+> clear this is really "mHz" and not "MHz".
 >
->  int rn_vbios_smu_get_smu_version(struct clk_mgr_internal *clk_mgr);
->  int rn_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int reque=
-sted_dispclk_khz);
-> -int rn_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr);
->  int rn_vbios_smu_set_hard_min_dcfclk(struct clk_mgr_internal *clk_mgr, i=
-nt requested_dcfclk_khz);
->  int rn_vbios_smu_set_min_deep_sleep_dcfclk(struct clk_mgr_internal *clk_=
-mgr, int requested_min_ds_dcfclk_khz);
->  void rn_vbios_smu_set_phyclk(struct clk_mgr_internal *clk_mgr, int reque=
-sted_phyclk_khz);
-> --
-> 2.49.0
+OK.
+
+> > +
+> > +       /*
+> > +        * Adjust the requested clock rate (`req->rate`) to ensure it f=
+alls within
+> > +        * the supported range of 5.44 MHz to 187.5 MHz.
+> > +        */
+> > +       req->rate =3D clamp(req->rate, 5440000UL, 187500000UL);
+> > +
+> > +       rate_mhz =3D req->rate * MILLI * 1ULL;
+> > +       if (rate_mhz =3D=3D dsi_dividers->error_mhz + dsi_dividers->fre=
+q_mhz)
+> > +               goto exit_determine_rate;
+> > +
+> > +       if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
+> > +                                                dsi_dividers, rate_mhz=
+)) {
+> > +               dev_err(priv->dev,
+> > +                       "failed to determine rate for req->rate: %lu\n"=
+,
+> > +                       req->rate);
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +exit_determine_rate:
+> > +       req->best_parent_rate =3D req->rate * dsi_dividers->csdiv;
+> > +
+> > +       return 0;
+> > +};
+> > +
+> > +static int rzv2h_cpg_plldsi_div_set_rate(struct clk_hw *hw,
+> > +                                        unsigned long rate,
+> > +                                        unsigned long parent_rate)
+> > +{
+> > +       struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +       struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +       struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_=
+div_parameters;
+> > +       struct ddiv ddiv =3D dsi_div->ddiv;
+> > +       const struct clk_div_table *clkt;
+> > +       u32 reg, shift, div;
+> > +
+> > +       div =3D dsi_dividers->csdiv;
+> > +       for (clkt =3D dsi_div->dtable; clkt->div; clkt++) {
+> > +               if (clkt->div =3D=3D div)
+> > +                       break;
+> > +       }
+> > +
+> > +       if (!clkt->div && !clkt->val)
+> > +               return -EINVAL;
 >
+> No need to check clkt->dev.
+>
+I'll drop this check and use a bool flag to determine if a div is found.
+
+> > +
+> > +       shift =3D ddiv.shift;
+> > +       reg =3D readl(priv->base + ddiv.offset);
+> > +       reg &=3D ~(GENMASK(shift + ddiv.width, shift));
+> > +
+> > +       writel(reg | (clkt->val << shift) |
+> > +              DDIV_DIVCTL_WEN(shift), priv->base + ddiv.offset);
+> > +
+> > +       return 0;
+>
+> This function is very similar to the existing rzv2h_ddiv_set_rate().
+> If you can't re-use it as-is, please consider factoring out the common
+> part, or at least follow the same style of RMW-operation.
+>
+Ok, I'll follow the same RMW operation.
+
+> > +};
+>
+>
+> > +static long rzv2h_cpg_plldsi_round_rate(struct clk_hw *hw,
+> > +                                       unsigned long rate,
+> > +                                       unsigned long *parent_rate)
+> > +{
+> > +       return clamp(rate, 25000000UL, 375000000UL);
+>
+> This only rounds rates outside the range from 25 to 375 MHz.
+> What about rates between 25 and 375 MHz?
+>
+> > +}
+> > +
+> > +static unsigned long rzv2h_cpg_plldsi_clk_recalc_rate(struct clk_hw *h=
+w,
+> > +                                                     unsigned long par=
+ent_rate)
+> > +{
+> > +       struct pll_clk *pll_clk =3D to_pll(hw);
+> > +       struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
+> > +       unsigned int val1, val2;
+> > +       u64 rate;
+> > +
+> > +       val1 =3D readl(priv->base + CPG_PLL_CLK1(pll_clk->pll.offset));
+> > +       val2 =3D readl(priv->base + CPG_PLL_CLK2(pll_clk->pll.offset));
+> > +
+> > +       rate =3D mul_u64_u32_shr(parent_rate, (CPG_PLL_CLK1_MDIV(val1) =
+<< 16) +
+> > +                              CPG_PLL_CLK1_KDIV(val1), 16 + CPG_PLL_CL=
+K2_SDIV(val2));
+> > +
+> > +       return DIV_ROUND_CLOSEST_ULL(rate, CPG_PLL_CLK1_PDIV(val1));
+>
+> Can't you just reuse the existing rzv2h_cpg_pll_clk_recalc_rate()?
+>
+Agreed.
+
+> > +}
+> > +
+> > +static int rzv2h_cpg_plldsi_set_rate(struct clk_hw *hw,
+> > +                                    unsigned long rate,
+> > +                                    unsigned long parent_rate)
+> > +{
+> > +       struct pll_clk *pll_clk =3D to_pll(hw);
+> > +       struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
+> > +       struct rzv2h_plldsi_parameters *dsi_dividers;
+> > +       struct pll pll =3D pll_clk->pll;
+> > +       u16 offset =3D pll.offset;
+> > +       u32 val;
+> > +       int ret;
+> > +
+> > +       /* Put PLL into standby mode */
+> > +       writel(CPG_PLL_STBY_RESETB_WEN, priv->base + CPG_PLL_STBY(offse=
+t));
+> > +       ret =3D readl_poll_timeout_atomic(priv->base + CPG_PLL_MON(offs=
+et),
+> > +                                       val, !(val & CPG_PLL_MON_LOCK),
+> > +                                       100, 2000);
+> > +       if (ret) {
+> > +               dev_err(priv->dev, "Failed to put PLLDSI into standby m=
+ode");
+> > +               return ret;
+> > +       }
+> > +
+> > +       dsi_dividers =3D &priv->plldsi_div_parameters;
+> > +       /* Output clock setting 1 */
+> > +       writel((dsi_dividers->k << 16) | (dsi_dividers->m << 6) | (dsi_=
+dividers->p),
+> > +              priv->base + CPG_PLL_CLK1(offset));
+> > +
+> > +       /* Output clock setting 2 */
+> > +       val =3D readl(priv->base + CPG_PLL_CLK2(offset));
+> > +       writel((val & ~GENMASK(2, 0)) | dsi_dividers->s,
+> > +              priv->base + CPG_PLL_CLK2(offset));
+> > +
+> > +       /* Put PLL to normal mode */
+> > +       writel(CPG_PLL_STBY_RESETB_WEN | CPG_PLL_STBY_RESETB,
+> > +              priv->base + CPG_PLL_STBY(offset));
+> > +
+> > +       /* PLL normal mode transition, output clock stability check */
+> > +       ret =3D readl_poll_timeout_atomic(priv->base + CPG_PLL_MON(offs=
+et),
+> > +                                       val, (val & CPG_PLL_MON_LOCK),
+> > +                                       100, 2000);
+> > +       if (ret) {
+> > +               dev_err(priv->dev, "Failed to put PLLDSI into normal mo=
+de");
+> > +               return ret;
+> > +       }
+> > +
+> > +       return 0;
+>
+> This function could be reused for non-DSI PLLs?
+>
+Yes it could be reused, I'll rename this to rzv2h_cpg_pll_set_rate().
+
+> > +};
+> > +
+> > +static const struct clk_ops rzv2h_cpg_plldsi_ops =3D {
+> > +       .recalc_rate =3D rzv2h_cpg_plldsi_clk_recalc_rate,
+> > +       .round_rate =3D rzv2h_cpg_plldsi_round_rate,
+> > +       .set_rate =3D rzv2h_cpg_plldsi_set_rate,
+> > +};
+> > +
+> > +static struct clk * __init
+> > +rzv2h_cpg_plldsi_clk_register(const struct cpg_core_clk *core,
+> > +                             struct rzv2h_cpg_priv *priv)
+> > +{
+> > +       void __iomem *base =3D priv->base;
+> > +       struct device *dev =3D priv->dev;
+> > +       struct clk_init_data init;
+> > +       const struct clk *parent;
+> > +       const char *parent_name;
+> > +       struct pll_clk *pll_clk;
+> > +       int ret;
+> > +
+> > +       parent =3D priv->clks[core->parent];
+> > +       if (IS_ERR(parent))
+> > +               return ERR_CAST(parent);
+> > +
+> > +       pll_clk =3D devm_kzalloc(dev, sizeof(*pll_clk), GFP_KERNEL);
+> > +       if (!pll_clk)
+> > +               return ERR_PTR(-ENOMEM);
+> > +
+> > +       parent_name =3D __clk_get_name(parent);
+> > +       init.name =3D core->name;
+> > +       init.ops =3D &rzv2h_cpg_plldsi_ops;
+> > +       init.flags =3D 0;
+> > +       init.parent_names =3D &parent_name;
+> > +       init.num_parents =3D 1;
+> > +
+> > +       pll_clk->hw.init =3D &init;
+> > +       pll_clk->pll =3D core->cfg.pll;
+> > +       pll_clk->base =3D base;
+> > +       pll_clk->priv =3D priv;
+> > +
+> > +       /* Disable SSC and turn on PLL clock when init */
+> > +       writel(CPG_PLL_STBY_RESETB_WEN | CPG_PLL_STBY_RESETB |
+> > +              CPG_PLL_STBY_SSCGEN_WEN, base + CPG_PLL_STBY(pll_clk->pl=
+l.offset));
+>
+> Apart from the three lines above, this function does the same as the
+> existing rzv2h_cpg_pll_clk_register().  Merge/reuse?
+>
+Agreed, I'll reuse this function and introduce a bool flag to turn on the P=
+LL.
+
+> > +
+> > +       ret =3D devm_clk_hw_register(dev, &pll_clk->hw);
+> > +       if (ret)
+> > +               return ERR_PTR(ret);
+> > +
+> > +       return pll_clk->hw.clk;
+> > +}
+> > +
+> >  static unsigned long rzv2h_cpg_pll_clk_recalc_rate(struct clk_hw *hw,
+> >                                                    unsigned long parent=
+_rate)
+> >  {
+>
+> > --- /dev/null
+> > +++ b/include/linux/clk/renesas-rzv2h-dsi.h
+> > @@ -0,0 +1,207 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Renesas RZ/V2H(P) DSI CPG helper
+> > + *
+> > + * Copyright (C) 2025 Renesas Electronics Corp.
+> > + */
+>
+> Missing include guard.
+>
+Ouch, Ill add one.
+
+> > +
+> > +#include <linux/limits.h>
+> > +#include <linux/math.h>
+> > +#include <linux/math64.h>
+> > +#include <linux/units.h>
+> > +
+> > +#define OSC_CLK_IN_MEGA                (24 * MEGA)
+> > +
+> > +struct rzv2h_plldsi_div_limits {
+>
+> This structure looks applicable to all RZ/V2H PLLs, so perhaps drop the
+> "dsi" part from the name?
+>
+Agreed.
+
+Cheers,
+Prabhakar
