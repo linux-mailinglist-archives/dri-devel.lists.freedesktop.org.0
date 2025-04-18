@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29311A93676
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 13:23:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B01A93673
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 13:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE4B10E10F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0133510E066;
 	Fri, 18 Apr 2025 11:23:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="DySKQtJL";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="VrknImwW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A80F10E066
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 898AC10EB8B
  for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 11:23:01 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250418112259euoutp013626c02b3d1920a7ed6ec56395b17291~3ZdzA8NtX2567425674euoutp01_
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 11:22:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250418112259euoutp013626c02b3d1920a7ed6ec56395b17291~3ZdzA8NtX2567425674euoutp01_
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250418112300euoutp02eff2a0a70c0363d018cf73660accc6f4~3Zdzx_tu50702707027euoutp02k
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 11:23:00 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250418112300euoutp02eff2a0a70c0363d018cf73660accc6f4~3Zdzx_tu50702707027euoutp02k
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1744975379;
- bh=ZOC3KnBcOzae7WQU4KMIVqJoLn7EUTSmtgD/622dHGo=;
+ s=mail20170921; t=1744975380;
+ bh=MPodoGkYgD+LDDjpcK9QQWYlA+NIEGfrgZ+qS1XcPAU=;
  h=From:Date:Subject:In-Reply-To:To:Cc:References:From;
- b=DySKQtJL7rHS8UtBfDsyQY6s8rTIhFSr+Ycr+wjOXPcZaVFOJfpACUs7QRQM5ZINK
- F67M/oqFNd6+rwztUQkHS3SD6WheLeJoraTtne00/xOyTysrABnpT6y1ESbOOTLbNV
- L7jlIWb4ivqd/VMLaDaxioC34uO4UkPNGBVDuwms=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20250418112259eucas1p28e48a553570ac9612d2f4a7645c0b89f~3ZdynUtNP2066920669eucas1p24;
+ b=VrknImwWzYK/oZuXjFzTl+K7cNa1l4rZJhsdu8w3NY1pwA0f+KwFoH35hxLsfAJQv
+ cp0pj/igi68r32dED6RQP1jcn11fpgO+TSI4vXc7HFBWKgJRtTzzXwPwW2NUN6JjLX
+ t8kjEzQKkmo3QzbfVPSkFG3S096D9CqaRQuUkbmw=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20250418112259eucas1p1a6626dd8eac8b929bc3ffe28ec9d3974~3ZdzS6BU60672806728eucas1p1J;
  Fri, 18 Apr 2025 11:22:59 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 9A.25.20409.21632086; Fri, 18
- Apr 2025 12:22:58 +0100 (BST)
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id B3.80.20397.31632086; Fri, 18
+ Apr 2025 12:22:59 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250418112258eucas1p22817a5693654e02016bcdc79068ed9e0~3ZdyK2mU40304303043eucas1p2h;
- Fri, 18 Apr 2025 11:22:58 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250418112259eucas1p14c8a04007b0e279b8e134db9e1502d7c~3Zdy0pq2o1923119231eucas1p1H;
+ Fri, 18 Apr 2025 11:22:59 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20250418112258eusmtrp1e5caad80908c5cf0fef28d13db641597~3ZdyKElRx2607526075eusmtrp1o;
- Fri, 18 Apr 2025 11:22:58 +0000 (GMT)
-X-AuditID: cbfec7f4-c39fa70000004fb9-12-680236120e15
+ 20250418112259eusmtrp1c4563c242c38fbb0d4aafc9845af9d96~3Zdy0BbFg2607526075eusmtrp1r;
+ Fri, 18 Apr 2025 11:22:59 +0000 (GMT)
+X-AuditID: cbfec7f5-e59c770000004fad-d7-680236137e23
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 18.3D.19920.21632086; Fri, 18
- Apr 2025 12:22:58 +0100 (BST)
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id A5.98.19654.31632086; Fri, 18
+ Apr 2025 12:22:59 +0100 (BST)
 Received: from AMDC4942.eu.corp.samsungelectronics.net (unknown
  [106.210.136.40]) by eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250418112257eusmtip28247fec2aab8af8277a856d94b010572~3ZdxYwxVJ3259732597eusmtip2W;
- Fri, 18 Apr 2025 11:22:57 +0000 (GMT)
+ 20250418112258eusmtip296f42d06655dda5479fe46c400db9487~3ZdyF1NmM1751317513eusmtip2C;
+ Fri, 18 Apr 2025 11:22:58 +0000 (GMT)
 From: Michal Wilczynski <m.wilczynski@samsung.com>
-Date: Fri, 18 Apr 2025 13:22:48 +0200
-Subject: [PATCH v6 1/2] dt-bindings: gpu: Add 'resets' property for GPU
- initialization
+Date: Fri, 18 Apr 2025 13:22:49 +0200
+Subject: [PATCH v6 2/2] drm/imagination: Add reset controller support for
+ GPU initialization
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250418-apr_18_reset_img-v6-1-85a06757b698@samsung.com>
+Message-Id: <20250418-apr_18_reset_img-v6-2-85a06757b698@samsung.com>
 In-Reply-To: <20250418-apr_18_reset_img-v6-0-85a06757b698@samsung.com>
 To: Frank Binns <frank.binns@imgtec.com>,  Matt Coster
  <matt.coster@imgtec.com>, David Airlie <airlied@gmail.com>,  Simona Vetter
@@ -68,53 +68,50 @@ To: Frank Binns <frank.binns@imgtec.com>,  Matt Coster
  Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
  Marek Szyprowski <m.szyprowski@samsung.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,  Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>,  Michal Wilczynski
- <m.wilczynski@samsung.com>
+ linux-kernel@vger.kernel.org, Michal Wilczynski <m.wilczynski@samsung.com>
 X-Mailer: b4 0.15-dev
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPKsWRmVeSWpSXmKPExsWy7djPc7pCZkwZBssum1ucuL6IyWLN3nNM
- FvOPnGO1uPL1PZvFuqcX2C1ezrrHZrH39VZ2i8u75rBZrD1yl91i/df5TBYLP25lsViyYxej
- RVvnMlaLu/dOsFj837OD3WL2u/3sFlveTGR1EPTY+20Bi8fOWXfZPXp2nmH02LSqk83jzrU9
- bB7zTgZ63O8+zuTR/9fAo2/LKkaPzaerPT5vkgvgjuKySUnNySxLLdK3S+DK+HLpL2PBPo6K
- CT8bGBsY57B3MXJySAiYSLQ8/MHSxcjFISSwglHi4coHzBDOF0aJExdmM0I4nxklds+fxwjT
- 8m/LF1aIxHJGiUNPnrJBOG1MEvMWr2QFqWITMJJ4sHw+mM0ioCqxZOEEsIXCAhESP95fYgOx
- eQUEJU7OfMICYjMLyEtsfzuHGSLuKnHv12Gwek4BN4lJN5+xgywQEXjJLHFh3RKwm5gFTjJK
- LOw6DHWTqMTvybvA3pAQOMwp8f7rdaiEi8SqKf9ZIWxhiVfHt0D9LSNxenIPC4SdL/Fg6ydm
- CLtGYmfPcSjbWuLOuV9Ap3IAbdOUWL9LH8SUEHCUeHNPDsLkk7jxVhDifj6JSdumM0OEeSU6
- 2oQgZqhJTO3phdt5bsU2JgjbQ2LprgPMExgVZyGFxCykkJiFsHYBI/MqRvHU0uLc9NRio7zU
- cr3ixNzi0rx0veT83E2MwDR4+t/xLzsYl7/6qHeIkYmD8RCjBAezkgjvdB2mDCHelMTKqtSi
- /Pii0pzU4kOM0hwsSuK8i/a3pgsJpCeWpGanphakFsFkmTg4pRqYHI9IT97cr/5P4LDjjIP9
- zW/95nPJCGW8uhEms+fm/j/9yZ8VzsuskZ567PPmqQ6yQkX7NnlNEpj5tWs3g2FT/u9P8ZuD
- ZQ/djDguvSWo48EB/zTBwxmLppmskHA16uTlt0+st7652FP7p9Nlh2zmOJX0jf9P8Cnwrdt2
- Jdchpj/lpMG3NE/rwLyyVc9f7Vy7s05Du/i51N5Pz7hzLVIDBfiXlNa9WqMWX1Htqcx84vmJ
- sIodMfPUZvxK5GHocru1tijUZJXm7uYDxz8mKNya2bo3fea3yEDlb1Kn9jK/nC37XFeUXeTV
- 8qNbW54Z9DH+zDESUpRxe6l7PFZX9dD9pSz9/nfFNaw6yjf/Sb6oxFKckWioxVxUnAgAvwaq
- 0PIDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCIsWRmVeSWpSXmKPExsVy+t/xe7pCZkwZBq9/SFqcuL6IyWLN3nNM
- FvOPnGO1uPL1PZvFuqcX2C1ezrrHZrH39VZ2i8u75rBZrD1yl91i/df5TBYLP25lsViyYxej
- RVvnMlaLu/dOsFj837OD3WL2u/3sFlveTGR1EPTY+20Bi8fOWXfZPXp2nmH02LSqk83jzrU9
- bB7zTgZ63O8+zuTR/9fAo2/LKkaPzaerPT5vkgvgjtKzKcovLUlVyMgvLrFVija0MNIztLTQ
- MzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DL+HLpL2PBPo6KCT8bGBsY57B3MXJySAiYSPzb
- 8oW1i5GLQ0hgKaPErK2XWCESMhLXul+yQNjCEn+udbFBFLUwSdxf8BMswSZgJPFg+XywBhYB
- VYklCyeATRUWiJD48f4SG4jNKyAocXLmE6B6Dg5mAU2J9bv0QcLMAvIS29/OYYYocZW49+sw
- O0iJEJD9dmMtSJhTwE1i0s1n7CBrRQTeMEusfPCNEcRhFjjFKDFh6lWoD0Qlfk/exTKBUXAW
- knWzENbNQrJuASPzKkaR1NLi3PTcYkO94sTc4tK8dL3k/NxNjMDo3nbs5+YdjPNefdQ7xMjE
- wXiIUYKDWUmEd7oOU4YQb0piZVVqUX58UWlOavEhRlOglycyS4km5wPTS15JvKGZgamhiZml
- gamlmbGSOK/b5fNpQgLpiSWp2ampBalFMH1MHJxSDUzlv+K3KL7e0lsdeG1e+FaBy8sFjmi7
- usy+pLHtenoCe+Tv2AZJ7te7dW8tNi3MPnzozuPLzZwrrc7KuLnp6j7+/cs+tGXt7TTrDY/5
- NvTWSnae8L13jt9iw8JzXi7NlbkvGXRmNs97WhbXk/p7v2bG9uybgoYNtgfOqMVMVpm1Tvlt
- r6j9DherIP4HQTcXWMz8VbfEpLpWbKeg3RvORZVs6+NWcyZ3PLzw/exHLdWSmyJzDp71r/m8
- q3zDtg/vvu7flOycbVnJ8kZ+46Y1FypFhThM7WKU/jicV31XomlYFeNiyLvNZnPZGpkv27R+
- 2h68uL5N4qbljYkWvht7Vee8uV8yS3c3a+vG29vY529RYinOSDTUYi4qTgQA6D+foXcDAAA=
-X-CMS-MailID: 20250418112258eucas1p22817a5693654e02016bcdc79068ed9e0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMKsWRmVeSWpSXmKPExsWy7djPc7rCZkwZBvMOalicuL6IyWLN3nNM
+ FvOPnGO1uPL1PZvFuqcX2C1ezrrHZnF51xw2i7VH7rJbrP86n8li4cetLBZLduxitGjrXMZq
+ cffeCRaL/3t2sFvMfref3WLLm4msDgIee78tYPHYOesuu0fPzjOMHptWdbJ5zDsZ6HG/+ziT
+ R/9fA4++LasYPTafrvb4vEkugCuKyyYlNSezLLVI3y6BK2POzsesBW/UKxraz7M0MC5Q7GLk
+ 5JAQMJHon3uGrYuRi0NIYAWjxKx7O5khnC+MEkvmHmIEqRIS+Mwo8e9AKEzHjU0TGCGKljNK
+ rNv2mhXCaWOSOLX/NxNIFZuAkcSD5fNZQWwWAVWJ/XPfsIHYwgJxEisnHWMGsXkFBCVOznzC
+ AmIzC8hLbH87ByruKjFzTy/YZk4BN4lJN5+xgywQEXjJLHFh3RKw1cwCvYwSt/++Z4O4SVTi
+ 9+RdLBD2dk6Jwx+AJnEA2S4SrWucIcLCEq+Ob2GHsGUkTk/ugSrPl3iw9RMzhF0jsbPnOJRt
+ LXHn3C82kDHMApoS63fpQ4QdJa6fvMEIMZ1P4sZbQYjz+SQmbZsOtZRXoqNNCKJaTWJqTy/c
+ 0nMrtjFB2B4Sr7sWM05gVJyFFBCzkAJiFsLeBYzMqxjFU0uLc9NTi43zUsv1ihNzi0vz0vWS
+ 83M3MQLT3el/x7/uYFzx6qPeIUYmDsZDjBIczEoivNN1mDKEeFMSK6tSi/Lji0pzUosPMUpz
+ sCiJ8y7a35ouJJCeWJKanZpakFoEk2Xi4JRqYGKWdN/9R6aopvjZ3vkHeeq10+YF/bVYpF8X
+ 7zK3qNbzw86qCPfbD9k+nrzgEbbz5bHyvzWdPG0inbyTfaXXtXdLna8IY2N3Pf7W9Fmo/a+J
+ obcXrzHZr/VIOKeLVb5+4rJJq523tdYdvSWk+XO20tElga7B3yqsd+n92fzN9MibzM8iF22T
+ v3ee4Hwwy43P5dqaGYErvvFwB19WuMbn+2Bb7LVTe14ft3eSDZ21TvXWjlR/h2sZPlfmPFyx
+ dtlc2w18Gw8w6l02m78ttklH72zJjXx9013uJwrPzQk5wr/unIbxF58tjzoLl6x61/xrnWCP
+ +g3215oBjzbOuFm47Ki8spnykadZL/J/ra746fZEiaU4I9FQi7moOBEAbqK8vuYDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrFIsWRmVeSWpSXmKPExsVy+t/xe7rCZkwZBisfcVqcuL6IyWLN3nNM
+ FvOPnGO1uPL1PZvFuqcX2C1ezrrHZnF51xw2i7VH7rJbrP86n8li4cetLBZLduxitGjrXMZq
+ cffeCRaL/3t2sFvMfref3WLLm4msDgIee78tYPHYOesuu0fPzjOMHptWdbJ5zDsZ6HG/+ziT
+ R/9fA4++LasYPTafrvb4vEkugCtKz6Yov7QkVSEjv7jEVina0MJIz9DSQs/IxFLP0Ng81srI
+ VEnfziYlNSezLLVI3y5BL2POzsesBW/UKxraz7M0MC5Q7GLk5JAQMJG4sWkCYxcjF4eQwFJG
+ iQc/brBBJGQkrnW/ZIGwhSX+XOtigyhqYZI4++QQE0iCTcBI4sHy+awgNouAqsT+uW/AmoUF
+ 4iRWTjrGDGLzCghKnJz5BGgQBwezgKbE+l36IGFmAXmJ7W/nQJW4Sszc08sIUiIEZL/dWAsS
+ 5hRwk5h08xk7yFoRgTfMEisffAM7lFmgj1Gi/dRqJojjRCV+T97FMoFRcBaSdbMQ1s1Csm4B
+ I/MqRpHU0uLc9NxiI73ixNzi0rx0veT83E2MwEjeduznlh2MK1991DvEyMTBeIhRgoNZSYR3
+ ug5ThhBvSmJlVWpRfnxRaU5q8SFGU6CXJzJLiSbnA1NJXkm8oZmBqaGJmaWBqaWZsZI4L9uV
+ 82lCAumJJanZqakFqUUwfUwcnFINTPv15zuLy57QWWp29/PJtUat37xMO3a9CN7rMtV60ru+
+ o/v/9i470H9kx+8VYm0VZi2T1kmwhe6+wGL240bGjxtZvEsidqgdaDa8wnj9L4P+t91blH/1
+ K7/IS7iiuyEnKk7jaIb00s3Trbw783g2WcpdPZ80/S5jVnShXceNLwtnd4Y/mfb3heJugX8z
+ ehnLvOYK3rV3OxvVZih+vCJl1byffN+X6W1pu/Mos+9O5733su35b8JmLYnyc9ZSTBZtS50Q
+ Vv1IOqnhxcrFhXEfP/H+++U1w1CB+/7E1W/8ty/pYK24q8bZmle0VlXk/5U9zeel7/D8W/Zh
+ ecqFxpt7+VlyRV/EaliefBjYfPOn9XIlluKMREMt5qLiRAAs+EdWbQMAAA==
+X-CMS-MailID: 20250418112259eucas1p14c8a04007b0e279b8e134db9e1502d7c
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250418112258eucas1p22817a5693654e02016bcdc79068ed9e0
+X-RootMTR: 20250418112259eucas1p14c8a04007b0e279b8e134db9e1502d7c
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20250418112258eucas1p22817a5693654e02016bcdc79068ed9e0
+X-CMS-RootMailID: 20250418112259eucas1p14c8a04007b0e279b8e134db9e1502d7c
 References: <20250418-apr_18_reset_img-v6-0-85a06757b698@samsung.com>
- <CGME20250418112258eucas1p22817a5693654e02016bcdc79068ed9e0@eucas1p2.samsung.com>
+ <CGME20250418112259eucas1p14c8a04007b0e279b8e134db9e1502d7c@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,31 +130,147 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 All IMG Rogue GPUs include a reset line that participates in the
 power-up sequence. On some SoCs (e.g., T-Head TH1520 and Banana Pi
 BPI-F3), this reset line is exposed and must be driven explicitly to
-ensure proper initialization.
+ensure proper initialization.  On others, such as the currently
+supported TI SoC, the reset logic is handled in hardware or firmware
+without exposing the line directly. In platforms where the reset line is
+externally accessible, if it is not driven correctly, the GPU may remain
+in an undefined state, leading to instability or performance issues.
 
-To support this, add a 'resets' property to the GPU device tree
-bindings.
+This commit adds a dedicated reset controller to the drm/imagination
+driver.  By managing the reset line (where applicable) as part of normal
+GPU bring-up, the driver ensures reliable initialization across
+platforms regardless of whether the reset is controlled externally or
+handled internally.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 ---
- Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/imagination/pvr_device.c | 21 +++++++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_device.h |  9 +++++++++
+ drivers/gpu/drm/imagination/pvr_power.c  | 22 +++++++++++++++++++++-
+ 3 files changed, 51 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index 256e252f8087fa0d6081f771a01601d34b66fe19..bb607d4b1e072dacd184bf2782cacddf550580e4 100644
---- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -37,6 +37,9 @@ properties:
-   power-domains:
-     maxItems: 1
+diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
+index 1704c0268589bdeb65fa6535f9ec63182b0a3e94..ef73e95157eeb127f3d7543d77f82242d01a2d43 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.c
++++ b/drivers/gpu/drm/imagination/pvr_device.c
+@@ -25,6 +25,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
++#include <linux/reset.h>
+ #include <linux/slab.h>
+ #include <linux/stddef.h>
+ #include <linux/types.h>
+@@ -120,6 +121,21 @@ static int pvr_device_clk_init(struct pvr_device *pvr_dev)
+ 	return 0;
+ }
  
-+  resets:
-+    maxItems: 1
++static int pvr_device_reset_init(struct pvr_device *pvr_dev)
++{
++	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
++	struct reset_control *reset;
 +
- required:
-   - compatible
-   - reg
++	reset = devm_reset_control_get_optional_exclusive(drm_dev->dev, NULL);
++	if (IS_ERR(reset))
++		return dev_err_probe(drm_dev->dev, PTR_ERR(reset),
++				     "failed to get gpu reset line\n");
++
++	pvr_dev->reset = reset;
++
++	return 0;
++}
++
+ /**
+  * pvr_device_process_active_queues() - Process all queue related events.
+  * @pvr_dev: PowerVR device to check
+@@ -509,6 +525,11 @@ pvr_device_init(struct pvr_device *pvr_dev)
+ 	if (err)
+ 		return err;
+ 
++	/* Get the reset line for the GPU */
++	err = pvr_device_reset_init(pvr_dev);
++	if (err)
++		return err;
++
+ 	/* Explicitly power the GPU so we can access control registers before the FW is booted. */
+ 	err = pm_runtime_resume_and_get(dev);
+ 	if (err)
+diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+index 6d0dfacb677b46a880f37f419dfa7b67c68fe63d..f6576c08111c86f2a771dfe99b5518795b6aead7 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.h
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -131,6 +131,15 @@ struct pvr_device {
+ 	 */
+ 	struct clk *mem_clk;
+ 
++	/**
++	 * @reset: Optional reset line.
++	 *
++	 * This may be used on some platforms to provide a reset line that needs to be de-asserted
++	 * after power-up procedure. It would also need to be asserted after the power-down
++	 * procedure.
++	 */
++	struct reset_control *reset;
++
+ 	/** @irq: IRQ number. */
+ 	int irq;
+ 
+diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
+index ba7816fd28ec77e6ca5ce408302a413ce1afeb6e..5944645bf1b2f5ba6c954a841d85d043db171c4b 100644
+--- a/drivers/gpu/drm/imagination/pvr_power.c
++++ b/drivers/gpu/drm/imagination/pvr_power.c
+@@ -15,6 +15,7 @@
+ #include <linux/mutex.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
++#include <linux/reset.h>
+ #include <linux/timer.h>
+ #include <linux/types.h>
+ #include <linux/workqueue.h>
+@@ -252,6 +253,8 @@ pvr_power_device_suspend(struct device *dev)
+ 	clk_disable_unprepare(pvr_dev->sys_clk);
+ 	clk_disable_unprepare(pvr_dev->core_clk);
+ 
++	err = reset_control_assert(pvr_dev->reset);
++
+ err_drm_dev_exit:
+ 	drm_dev_exit(idx);
+ 
+@@ -282,16 +285,33 @@ pvr_power_device_resume(struct device *dev)
+ 	if (err)
+ 		goto err_sys_clk_disable;
+ 
++	/*
++	 * According to the hardware manual, a delay of at least 32 clock
++	 * cycles is required between de-asserting the clkgen reset and
++	 * de-asserting the GPU reset. Assuming a worst-case scenario with
++	 * a very high GPU clock frequency, a delay of 1 microsecond is
++	 * sufficient to ensure this requirement is met across all
++	 * feasible GPU clock speeds.
++	 */
++	udelay(1);
++
++	err = reset_control_deassert(pvr_dev->reset);
++	if (err)
++		goto err_mem_clk_disable;
++
+ 	if (pvr_dev->fw_dev.booted) {
+ 		err = pvr_power_fw_enable(pvr_dev);
+ 		if (err)
+-			goto err_mem_clk_disable;
++			goto err_reset_assert;
+ 	}
+ 
+ 	drm_dev_exit(idx);
+ 
+ 	return 0;
+ 
++err_reset_assert:
++	reset_control_assert(pvr_dev->reset);
++
+ err_mem_clk_disable:
+ 	clk_disable_unprepare(pvr_dev->mem_clk);
+ 
 
 -- 
 2.34.1
