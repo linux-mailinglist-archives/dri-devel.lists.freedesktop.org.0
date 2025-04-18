@@ -2,62 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5B0A93BBF
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 19:14:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A505A93C9B
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 20:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0AAE10E233;
-	Fri, 18 Apr 2025 17:14:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40A7F10E245;
+	Fri, 18 Apr 2025 18:13:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lnvfy0p2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ePEFyP2g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57C7610E231;
- Fri, 18 Apr 2025 17:14:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B6914A4B577;
- Fri, 18 Apr 2025 17:08:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6707DC4CEF3;
- Fri, 18 Apr 2025 17:14:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1744996442;
- bh=OZmjqaYou2hOWVgwSLN1prGm2SZUlosb+4HXW4GaF/s=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lnvfy0p2QOMF7gsoDLe3MV10TIIRdiZCaTWZzcqt8sOh+iFB7VU3UQNMfzYkk3LKj
- WCXFCPMaCWZUGhIK6W0OoUuVfApXNaER0yt6pOIQ0E0P3niqeAO2w5qfc3kQ4OIZOt
- jnqRxMOtiDmSPYVZ8aXK+bDGo86NzcIaQmmj/2YDW6B4DFPaVJ7VhjPuLDrqrZbDW9
- PgwntmM117DGIqmHuZ3ZkddPfpa7n4oT73b9+vNy/aCNNlWz3oFhiP6p0jc5+Qwhk4
- wINXj47NC05MDQJIRJpvKnL+WtzajVq6rHpxi81qxO7N9B448ya/3NCwXwJl0N+amy
- T0FiOeZsq5d8w==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
- id E25EDCE11D5; Fri, 18 Apr 2025 10:14:01 -0700 (PDT)
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: linux-kernel@vger.kernel.org
-Cc: kernel-team@meta.com, Andrew Morton <akpm@linux-foundation.org>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Mateusz Guzik <mjguzik@gmail.com>,
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- John Ogness <john.ogness@linutronix.de>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jon Pan-Doh <pandoh@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Karolina Stolarek <karolina.stolarek@oracle.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, kernel test robot <lkp@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Kenneth Feng <kenneth.feng@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 ratelimit 05/14] drm/amd/pm: Avoid open-coded use of
- ratelimit_state structure's internals
-Date: Fri, 18 Apr 2025 10:13:50 -0700
-Message-Id: <20250418171359.1187719-5-paulmck@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <4edcefb0-cdbd-4422-8a08-ffc091de158e@paulmck-laptop>
-References: <4edcefb0-cdbd-4422-8a08-ffc091de158e@paulmck-laptop>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 730B810E23F;
+ Fri, 18 Apr 2025 18:13:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1744999984; x=1776535984;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=QmVNNm0yCXUzgegJjSuzQSEat+pAuOJqxBaJs9whs1k=;
+ b=ePEFyP2gVbIzrwgCfKg/eppAeRk42OM86JRHYLesaMHnM7NjsqKJJhGT
+ floRlfeRo2JOsyDHDAgOro0P/Yx1OC9x86hvSwzNubm+fZFT+03YRnokv
+ pdOnGmXohZWkQGNzXe/rc6QmAq/cPOWG/lZxizoyEByPMYpmaP9Olt/nv
+ r8J949eGsf59Th4ZZIgw1V5mwNa4a2+fSCCv/SFOPZtd+oGHgfqe9HuDU
+ lCJ6/Lxu3Iq/abdKAXJv31ayeRd8myO4UwlTEza3L1/TzMaze64sVflfq
+ mARQQhFeo28YnA74DFJRY309u/+dPc7D2afF9vfd89FMun97ibNiWIe6D g==;
+X-CSE-ConnectionGUID: ceyWP6orRM+4YijHaBoqFQ==
+X-CSE-MsgGUID: BkCOSy/FQeSxA7gR9YicDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="57296080"
+X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; d="scan'208";a="57296080"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2025 11:13:02 -0700
+X-CSE-ConnectionGUID: /IqsmET/QzyMnsLY4JUGdg==
+X-CSE-MsgGUID: i6LVBPnvQBGrpL7TnOsFdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; d="scan'208";a="131041341"
+Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
+ by fmviesa006.fm.intel.com with ESMTP; 18 Apr 2025 11:12:57 -0700
+Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1u5qCt-0003Ax-12;
+ Fri, 18 Apr 2025 18:12:55 +0000
+Date: Sat, 19 Apr 2025 02:12:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@intel.com>,
+ David Airlie <airlied@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
+Message-ID: <202504190154.lSj16P1a-lkp@intel.com>
+References: <4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,63 +85,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The amdgpu_set_thermal_throttling_logging() function directly accesses
-the ratelimit_state structure's ->missed field, which work, but which
-also makes it more difficult to change this field.  Therefore, make
-use of the ratelimit_state_reset_miss() function instead of directly
-accessing the ->missed field.
+Hi Mauro,
 
-Nevertheless, open-coded use of ->burst and ->interval is still permitted,
-for example, for runtime sysfs adjustment of these fields.
+kernel test robot noticed the following build errors:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202503180826.EiekA1MB-lkp@intel.com/
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Cc: Kenneth Feng <kenneth.feng@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Xinhui Pan <Xinhui.Pan@amd.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: <amd-gfx@lists.freedesktop.org>
-Cc: <dri-devel@lists.freedesktop.org>
----
- drivers/gpu/drm/amd/pm/amdgpu_pm.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+[auto build test ERROR on lwn/docs-next]
+[also build test ERROR on drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.15-rc2 next-20250417]
+[cannot apply to masahiroy-kbuild/for-next masahiroy-kbuild/fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-index 922def51685b0..d533c79f7e215 100644
---- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-@@ -1606,7 +1606,6 @@ static ssize_t amdgpu_set_thermal_throttling_logging(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	long throttling_logging_interval;
--	unsigned long flags;
- 	int ret = 0;
- 
- 	ret = kstrtol(buf, 0, &throttling_logging_interval);
-@@ -1617,18 +1616,12 @@ static ssize_t amdgpu_set_thermal_throttling_logging(struct device *dev,
- 		return -EINVAL;
- 
- 	if (throttling_logging_interval > 0) {
--		raw_spin_lock_irqsave(&adev->throttling_logging_rs.lock, flags);
- 		/*
- 		 * Reset the ratelimit timer internals.
- 		 * This can effectively restart the timer.
- 		 */
--		adev->throttling_logging_rs.interval =
--			(throttling_logging_interval - 1) * HZ;
--		adev->throttling_logging_rs.begin = 0;
--		adev->throttling_logging_rs.printed = 0;
--		adev->throttling_logging_rs.missed = 0;
--		raw_spin_unlock_irqrestore(&adev->throttling_logging_rs.lock, flags);
--
-+		ratelimit_state_reset_interval(&adev->throttling_logging_rs,
-+					       (throttling_logging_interval - 1) * HZ);
- 		atomic_set(&adev->throttling_logging_enabled, 1);
- 	} else {
- 		atomic_set(&adev->throttling_logging_enabled, 0);
+url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/scripts-kernel-doc-py-don-t-create-pyc-files/20250416-155336
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab%2Bhuawei%40kernel.org
+patch subject: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250419/202504190154.lSj16P1a-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504190154.lSj16P1a-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504190154.lSj16P1a-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> /bin/bash: line 1: -none: command not found
+
 -- 
-2.40.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
