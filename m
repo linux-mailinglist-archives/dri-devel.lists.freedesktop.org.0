@@ -2,80 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD8FA93B43
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 18:50:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E345A93B55
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 18:53:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E30F110E227;
-	Fri, 18 Apr 2025 16:50:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E215210E08C;
+	Fri, 18 Apr 2025 16:53:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SoarnBQB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Srbd1CQw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96BAC10E21D
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 16:50:03 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-7c559b3eb0bso126475485a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 09:50:03 -0700 (PDT)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BEAE10E08C
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 16:53:00 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id
+ af79cd13be357-7c5b8d13f73so211622285a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 09:53:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744995002; x=1745599802; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1744995180; x=1745599980; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:subject:cc
  :to:from:date:feedback-id:message-id:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wqsq8yPJja9MfMcD3tAjoUAZlgKfMc3FNlCDKzyz/mQ=;
- b=SoarnBQBzzHuKTBO46Fcq+Q6uPM5o43PMfBPtFGBN2aTB6elcsvDTkfu+y/CRR2Jya
- maIOWuiupe82aYUjmhdUXBdXAiIwkv7L2wOZU6z0UYWhJaBH3E0IszE1IRs8YLWwhutd
- zoL9oysUadbhOmP23KP3IG2CnS+QPuHBqelB/t6IRjrBkJGbm2hb03jaLXb52gPC2jh5
- VLa8PgFQdDerjXyrkc6pwcjVN2xNjAFWkywGQ6QBb5zCe4KQ6vw/OwTgbYXe/QlIAgIu
- XyRt6NO3K6EkwvYv4l24+V0A+rzgL/uHUJMG+dIS8tezWiSFbaHchk93HByAIxL7x+eq
- 7U3w==
+ bh=oNw7DSuc1b1b/tQR7WjbohbZojv201rKGbihKbhU4NY=;
+ b=Srbd1CQwLJJRknKHoZzwEz529G1Pf1pmzUMyI93bAKGcZqxVVKKudceHQ4wDH9eJBu
+ oHvnmc0J3L57/vvloz7u6o/jldQ3YJAyCkeEhLbili/akaUPuEYSwmOqQga0lqUQ4HA+
+ tf456LUU37ZMjTqpfstNcww1y6Iv/TPF4FIc7IRpw55EFwh/hYFBiGvDOs0TuwjXip2w
+ 9SxHY/IdPNvOpCf0m5JhM6KhdWiMaH0JfD5COiNkbAcwFmbbreC+JqDcmuD5NE/ukVMh
+ 9g5I0Qm9vwxDoDYywtzfKgZMNxNm7F6k4Vu5JMMx7ILYuy3NhyQB85uVFPS1K/o2C57z
+ 3ELQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744995002; x=1745599802;
+ d=1e100.net; s=20230601; t=1744995180; x=1745599980;
  h=in-reply-to:content-disposition:mime-version:references:subject:cc
  :to:from:date:feedback-id:message-id:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wqsq8yPJja9MfMcD3tAjoUAZlgKfMc3FNlCDKzyz/mQ=;
- b=j7Dp5U2EFpPqvi1bBpEDC6U0nZnCKjxrQyxCarb11eAvE/t0L7bZcGT0t+nxlZuDQH
- C7xLNi0TOOpgnT9Hkfywvb+tjXxWaBYb+zDWGs1OuWrXH2GiItA7Le2ycVSwp6/GrM5n
- RdZQ/Dekd8VaBHQ2poPpPE+WpMcLtZtdLoxSWM1ncidV9GTcK4lpcMqWKYMB1X0xCXUP
- CEyIPOYktBrpj347e11mli7oNqhSYOgLyLNWBENHB21uTsxJ2PxlaoPpEgGfn6gltJ89
- 5S0SsQUDndemcPJscCwTnTksvF5q//oCIwGac/qvDUFxwMEShROXZC91rWj6BI+6ai40
- RuAQ==
+ bh=oNw7DSuc1b1b/tQR7WjbohbZojv201rKGbihKbhU4NY=;
+ b=Wi6dPsU71gWsk+AyfJp90wkC0yuJiUnAOaiMnQIExIixF7dWEzFqW0k22fn4Ufrfe7
+ iZPPuGkLuGFR3TMKk/GBKYEEVh3eVZqGfCGrfxXRgxkm+5uWCBWieqYk2tzF8TscYmRc
+ pMfd2A/yKi4RrIh5t+bydrVj0lpFrcNCoMvvTx97ouDwSclCOHhaEua6nx5+3b0hsNUM
+ 81IHFm3P9lUIQn4trMzXPvPe6XFIPjdwkl/4QMt6NTOX6gbZoagqqRx+/Ky4k7q/JOIe
+ /Tx/NYgNuoDUB+VccDPDNss9mBGyCyK+MbeZ1A0/5yJ7/KHew7dnl5s8/QoZ1a9iVc6m
+ /agg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWLJCtVnvE8f3/JrqTSVYl3bb4BXXJMfY4u9/Ji9WUScvcGcOG49Izwp/h/uuOxwFhxe0eP4qdYHhM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwgV+npD9LvK8a8k4AUul0/c0Ps/iTpzooy3ZdK1LcK9l0xTlom
- BTQ2M3uLf/56HycIyF1jZiJGjWdBLw4f4Xf/DqFSR3dsj0amhsfH
-X-Gm-Gg: ASbGnctVDOxpbnFfOKqnuK7p6Cx1gx8CR2uoD3r8E50UTKIyRR9PPD+CjM0S46c/xw1
- WlLfrStGH6dnFpjpS/3mv83yTZY1sdEGzcII4TD7numtvdkNWWvyGBlLMdUydV2GNOLIdCQHO1P
- Bij/hR7sFKF7vfIGA7VS464aWuNDiMJqyzOtd/BkKVuY56M/7h7VXYGcpf2V8NRgCxBY8I773QQ
- d7acHawrz6CYBO7yHF0xBr6NWwREIy9eZE+cW+q7Upu+KM1yXm2Tt8vpfCX5kDqRuAvmiZfrqwz
- 3njX7NPaBXIzQwZWObaJzgDhDBFcULKy5Ex6+gxmsyC2gC+AIfFQZdlaGLvgt57v5LLBqtFs2yh
- Ay9b19iO/iuJYVbyj9w7HGOSHrmmsv1WyeSsontCHNw==
-X-Google-Smtp-Source: AGHT+IGjqTF4f9smmVkb3wgWaIXUFVJ5bhyDcAmk4QFxgPcVtKxPUq6oNVaI94PfU1W5J6bp6Dym2A==
-X-Received: by 2002:a05:620a:4112:b0:7c5:9b93:8f64 with SMTP id
- af79cd13be357-7c92800f4ccmr542294585a.37.1744995001792; 
- Fri, 18 Apr 2025 09:50:01 -0700 (PDT)
+ AJvYcCUgD8088Fcd6mFz41z1DIpZDVfhse9CTEJVOnGGT/a+uJJ4VF9ihBEKAo19F5hsw1rKbzrpRbJL5T8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxse8IGUNvFxBhqNG7x8MMhR7Q/f0CQPDQYym9iqYXKqHhSXcsf
+ JLptXvT1gGnYazmh1kACsAAQrkbUSzdLRB4eLYkUZ4kpZVlIYPdT
+X-Gm-Gg: ASbGncs86PkITVSOtIuwP3pUKNoopxR5q/c7W2JvgH/UXFbE5tklULyC4MKQFq3boJ8
+ IHXGMqQnTZfpQjhfk9dprDYfXQytb30ft+lfIuiDlSVqMTHprbGWAIgxVUzcv1c9xNigRsGAWiN
+ GTnY2uMMj8bh9Cs0V9Hzy7JElCuOhDG8+tBxtXpGUadd5CWvXwuqid8km1DF8MLBGQnRv30IrJy
+ cEPcXVapygyz1Sc13brnbKg6G5HPSPraCceo2dak9kb40UO7O7T4SqI4su0nNTPseUQ4yVT2EjD
+ Rs7n7JkC3tfItmoZv8xlFHQyjVrwyySgDkxqAvRajTEmgmPXjxc62iNzXN/fPRudR0Tk6SJAWN2
+ fVpYbhT3MO2DsIu68l4nUFlr1j9pGC5U=
+X-Google-Smtp-Source: AGHT+IEb3fceJw+dZWVtEoGjTerF7JyoRkbAClnyB6MVaGC4XY7lcq4tKGDfYC7mQk5UEncSaslEvw==
+X-Received: by 2002:a05:620a:3902:b0:7c7:766d:9b00 with SMTP id
+ af79cd13be357-7c928038e23mr627309985a.36.1744995179616; 
+ Fri, 18 Apr 2025 09:52:59 -0700 (PDT)
 Received: from fauth-a1-smtp.messagingengine.com
  (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7c925ac5018sm124259085a.52.2025.04.18.09.50.00
+ af79cd13be357-7c925ac2f27sm124748885a.54.2025.04.18.09.52.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Apr 2025 09:50:01 -0700 (PDT)
-Message-ID: <680282b9.050a0220.3b746a.5cf9@mx.google.com>
-X-Google-Original-Message-ID: <aAKCtQe8o73FA8db@winterfell.>
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal
- [10.202.2.42])
- by mailfauth.phl.internal (Postfix) with ESMTP id 0E13C1200043;
- Fri, 18 Apr 2025 12:50:00 -0400 (EDT)
+ Fri, 18 Apr 2025 09:52:59 -0700 (PDT)
+Message-ID: <6802836b.050a0220.8ee39.6127@mx.google.com>
+X-Google-Original-Message-ID: <aAKDZ5kSMjxy9QnW@winterfell.>
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal
+ [10.202.2.48])
+ by mailfauth.phl.internal (Postfix) with ESMTP id 186311200043;
+ Fri, 18 Apr 2025 12:52:58 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-02.internal (MEProxy); Fri, 18 Apr 2025 12:50:00 -0400
-X-ME-Sender: <xms:t4ICaPrgLkWEbH6GWhTGPaFLVQbWrWOHlfTfkbUonj_YAvDMD-KU1Q>
- <xme:t4ICaJqChA3dlMw71yhy8csoqqK5Y4iLQ0Z62MWQRL5LWGE5fFQMMMJHqxl4-Vp_7
- SP1XzVYBXxDcpDtJg>
-X-ME-Received: <xmr:t4ICaMNPGrgxWdPMVCQLF2Mu2gBYuu6YOb47AYWzWqRWmLPK1aR1dgLJ-C0K0Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvfedvieejucetufdoteggodetrf
+ by phl-compute-08.internal (MEProxy); Fri, 18 Apr 2025 12:52:58 -0400
+X-ME-Sender: <xms:aYMCaGiBRtaR8iknc_xskLJOB8VTs9S1W9JyC1JU5TD15hae7tojww>
+ <xme:aYMCaHClHlgvfEQkHBvmPT2XfNzxJ7wQjwiOGyoT5xa_fr2CiCyhLN2A9Sq8HQb6V
+ A0NEQ-pZuPxMzSkXg>
+X-ME-Received: <xmr:aYMCaOFoT6jyQnGwjLer67uY_MehMXt3Kbe1St3HwspL8N-0cmqDyy0S7euXPg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvfedvieekucetufdoteggodetrf
  dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
  pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
  gvnhhtshculddquddttddmnegoufhushhpvggtthffohhmrghinhculdegledmnecujfgu
@@ -94,15 +94,15 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvfedvieejucetufdote
  pegsjhhorhhnfegpghhhsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopegsvg
  hnnhhordhlohhsshhinhesphhrohhtohhnrdhmvgdprhgtphhtthhopegrrdhhihhnuggs
  ohhrgheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:t4ICaC6UhO1CZnKjR6Ik-hzIl3GtGbvNVc1I-IDE4qls3LYxm5xgUQ>
- <xmx:t4ICaO4vQPmAJgA9EQ9e4E1UXeaGRebhXTNU3grxc_kkgAjUxFqXfg>
- <xmx:t4ICaKjYst-8W_IjfguRa7uGthyObF8qia3gL-YVcCE_LCjZovMezA>
- <xmx:t4ICaA7BSsupuce3_SqR3OsmGrEA4G9TNiV4jY5WZn2qvcS_4fm5JQ>
- <xmx:uIICaNKT393DPp0R4GPwnosQuFP000EMpmjxlybcE0RtxwLUKggyEoYo>
+X-ME-Proxy: <xmx:aYMCaPQ5WRQi4ezG9Qk-AFmdDJ__dW_PwpYgl2ZGnixoi8EAPax18A>
+ <xmx:aoMCaDypQhXfoYJdrJ0ZnhgWHOI7v4f6mVFK3ihH5qz7ixHDOWvp3Q>
+ <xmx:aoMCaN6SpH1uY9ZEyhvuonCLQxvKZcFOF3PzFrbkvJY_DtPrWwpkWQ>
+ <xmx:aoMCaAyOS7aoe6ja6OTwTIyHlmPV5JvenWFRBpp2TkM5RdSUgjVhCA>
+ <xmx:aoMCaPgPi-PlrwmNI9mBfcB5Aez3ipK3r0ILVf4aeJraWrdbLNrGh0KC>
 Feedback-ID: iad51458e:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 18 Apr 2025 12:49:59 -0400 (EDT)
-Date: Fri, 18 Apr 2025 09:49:57 -0700
+ 18 Apr 2025 12:52:57 -0400 (EDT)
+Date: Fri, 18 Apr 2025 09:52:55 -0700
 From: Boqun Feng <boqun.feng@gmail.com>
 To: Tamir Duberstein <tamird@gmail.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
@@ -137,13 +137,13 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>,
  kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
  linux-block@vger.kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v10 2/6] rust: enable `clippy::ptr_cast_constness` lint
+Subject: Re: [PATCH v10 4/6] rust: enable `clippy::as_underscore` lint
 References: <20250418-ptr-as-ptr-v10-0-3d63d27907aa@gmail.com>
- <20250418-ptr-as-ptr-v10-2-3d63d27907aa@gmail.com>
+ <20250418-ptr-as-ptr-v10-4-3d63d27907aa@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250418-ptr-as-ptr-v10-2-3d63d27907aa@gmail.com>
+In-Reply-To: <20250418-ptr-as-ptr-v10-4-3d63d27907aa@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,70 +159,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 18, 2025 at 11:37:18AM -0400, Tamir Duberstein wrote:
-> In Rust 1.72.0, Clippy introduced the `ptr_cast_constness` lint [1]:
+On Fri, Apr 18, 2025 at 11:37:20AM -0400, Tamir Duberstein wrote:
+> In Rust 1.63.0, Clippy introduced the `as_underscore` lint [1]:
 > 
-> > Though `as` casts between raw pointers are not terrible,
-> > `pointer::cast_mut` and `pointer::cast_const` are safer because they
-> > cannot accidentally cast the pointer to another type.
+> > The conversion might include lossy conversion or a dangerous cast that
+> > might go undetected due to the type being inferred.
+> >
+> > The lint is allowed by default as using `_` is less wordy than always
+> > specifying the type.
 > 
-> There are only 2 affected sites:
-> - `*mut T as *const U as *mut U` becomes `(*mut T).cast()`
-> - `&self as *const Self as *mut Self` becomes
->   `core::ptr::from_ref(self).cast_mut()`.
+> Always specifying the type is especially helpful in function call
+> contexts where the inferred type may change at a distance. Specifying
+> the type also allows Clippy to spot more cases of `useless_conversion`.
 > 
-> Apply these changes and enable the lint -- no functional change
-> intended.
+> The primary downside is the need to specify the type in trivial getters.
+> There are 4 such functions: 3 have become slightly less ergonomic, 1 was
+> revealed to be a `useless_conversion`.
 > 
-> Link: https://rust-lang.github.io/rust-clippy/master/index.html#ptr_cast_constness [1]
+> While this doesn't eliminate unchecked `as` conversions, it makes such
+> conversions easier to scrutinize.  It also has the slight benefit of
+> removing a degree of freedom on which to bikeshed. Thus apply the
+> changes and enable the lint -- no functional change intended.
+> 
+> Link: https://rust-lang.github.io/rust-clippy/master/index.html#as_underscore [1]
 > Reviewed-by: Benno Lossin <benno.lossin@proton.me>
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 
 Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
 
 Regards,
 Boqun
 
-> ---
->  Makefile                        | 1 +
->  rust/kernel/block/mq/request.rs | 4 ++--
->  2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 5d2931344490..7b85b2a8d371 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -481,6 +481,7 @@ export rust_common_flags := --edition=2021 \
->  			    -Aclippy::needless_lifetimes \
->  			    -Wclippy::no_mangle_with_rust_abi \
->  			    -Wclippy::ptr_as_ptr \
-> +			    -Wclippy::ptr_cast_constness \
->  			    -Wclippy::undocumented_unsafe_blocks \
->  			    -Wclippy::unnecessary_safety_comment \
->  			    -Wclippy::unnecessary_safety_doc \
-> diff --git a/rust/kernel/block/mq/request.rs b/rust/kernel/block/mq/request.rs
-> index 4a5b7ec914ef..af5c9ac94f36 100644
-> --- a/rust/kernel/block/mq/request.rs
-> +++ b/rust/kernel/block/mq/request.rs
-> @@ -69,7 +69,7 @@ pub(crate) unsafe fn aref_from_raw(ptr: *mut bindings::request) -> ARef<Self> {
->          // INVARIANT: By the safety requirements of this function, invariants are upheld.
->          // SAFETY: By the safety requirement of this function, we own a
->          // reference count that we can pass to `ARef`.
-> -        unsafe { ARef::from_raw(NonNull::new_unchecked(ptr as *const Self as *mut Self)) }
-> +        unsafe { ARef::from_raw(NonNull::new_unchecked(ptr.cast())) }
->      }
->  
->      /// Notify the block layer that a request is going to be processed now.
-> @@ -155,7 +155,7 @@ pub(crate) fn wrapper_ref(&self) -> &RequestDataWrapper {
->          // the private data associated with this request is initialized and
->          // valid. The existence of `&self` guarantees that the private data is
->          // valid as a shared reference.
-> -        unsafe { Self::wrapper_ptr(self as *const Self as *mut Self).as_ref() }
-> +        unsafe { Self::wrapper_ptr(core::ptr::from_ref(self).cast_mut()).as_ref() }
->      }
->  }
->  
-> 
-> -- 
-> 2.49.0
-> 
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+[...]
