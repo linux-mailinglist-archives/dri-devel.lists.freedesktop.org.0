@@ -2,65 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2374A94821
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 17:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A60A94879
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 19:31:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A42510E129;
-	Sun, 20 Apr 2025 15:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A25710E0A1;
+	Sun, 20 Apr 2025 17:31:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="DtceAKp4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BxEnbQge";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB8A210E129;
- Sun, 20 Apr 2025 15:13:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
- t=1745161986; bh=g+dFWsKlFgRyW7EJ6jXOHtRDeV6k2WDLr4sAplzSxuM=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=DtceAKp4Vml5x+eUFlqMyIugUitYrmhTeX7RrDQDofKyCsPhB5RJtXIKYnLYILMWK
- gt3GhuZX6oXpszuY5prwuX9CGkjiDNcdwJuycabOYgWgNGlWpTZyTGFJnqeAHOudO9
- Ed9E6l8V5iZHf5ySgNODwSDpgb8Sqq/VRWxL3zuY=
-From: Luca Weiss <luca@lucaweiss.eu>
-Date: Sun, 20 Apr 2025 17:12:44 +0200
-Subject: [PATCH v2 2/2] arm64: dts: qcom: msm8953: Add interconnects
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FEE110EB97
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 13:38:24 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-22c50beb0d5so2184435ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 06:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744983504; x=1745588304; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:from:in-reply-to:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gPTcC0Qo0IfweDpTBHJVf2QO3zsuTW+Lm6WypoA0fRY=;
+ b=BxEnbQgeuwU5Owne8pG42O6lPgmAnbTCMQrECFQ49x4gorTo8CpRa9pe+x4H2SVecD
+ HwrYRW9JI8x9C4EolmQk8syS8K6YOj2zOypiu9oGsqP7LK3tZVyHz+Il/FKHswdL63XG
+ eqqn9NHLT4s2dydWEJHy+cdFqZIRjyt5xGDNbTCroulxyIitXKvkIvg1RY3sFMuwc++6
+ HVDZpDXgAvmgkJXHiSzgXCEAjxsBzLPz7ZDJYTyn/nA8NMtCHZjkN+2bd5A8itPy8iDJ
+ q0mDfgNl66kVZtwPyitv8PHUBjwf44QM5b5kjtgLt7O8nNGZa+TRJq6aMxaUeFtRLB9A
+ DRvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744983504; x=1745588304;
+ h=content-transfer-encoding:from:in-reply-to:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gPTcC0Qo0IfweDpTBHJVf2QO3zsuTW+Lm6WypoA0fRY=;
+ b=SThqd2D8JVoLOhGdV2eG+ojKd109sXXb0UyP++ssmM3wJ4dnbq9c8PZsUy9Kn4q52N
+ JyDwh0eRCsEdT2QOEaihwuh+V96wRG7WYxqIPcq1ODTOQ0SsJgRmeRIOqKENJyQzv1xP
+ KnpX7tJ0I1ozz3LH/CPtqTj79gJXRPEfHkg1DSmW7gOhD/vc0FJmAR89aWod5+0GXVvC
+ 3H/DtKhoL3IdEcL9Cv5suLKDAG6bwPQ+dSiChh6KNwLO6AwVnMUyP22vPAQHExWb0krb
+ 2okf3WOUywsJhlt8RHFlJ0X2TDGCOT0FyO/5rQ3YD/gFngd2nb+EDy2vcnW1ho0FuEXb
+ dg0Q==
+X-Gm-Message-State: AOJu0YzVnFp1Wmk3a8izkeMR+kNVdBqeVCwCUE7BHj4a8G2cEqInVz5e
+ 6yAcyuaL6rh0h/8NRCkTeH2FYNIt4hjW9suUOASOF93T8hjW3e6z
+X-Gm-Gg: ASbGncsZ4zHpGjD5fsva5KvIDdNcCJwY8MdrYqdAhYkueLgeBzP7EcCBiqjbA2WWyH3
+ O2gSamoO308wWVTGlSj3CYkODCwRQo/4ZEiR58MvWzbyty/U/hEC3aaGB5Kw+snJlIt1Jgar1/7
+ Jx6VOY4KlaKyc7zoALKWRq1n6y1zsd8aC6wU0szChHWcLXxbeIua/VUgiUY3G6LxgAaBHRSoGgC
+ Y+nA1sRar4pbNVr2A0Xy7vDTTwyhxlfbR4M0j0hQSyAkbC0/HL5J+W9bUNbUXXdm6qfVf4TJgAK
+ KNIAzPrGJ5uxjNiMFHlBJR3OWlk9ehMNoR0+mbuLs/NhLpTa4vzi9GxpwgVnbvpmaTnsbyZ/C/m
+ GJgskTyXreyhEGlcYOuQ4nWIVYg==
+X-Google-Smtp-Source: AGHT+IEYryzzRgr0FcDDUzJNYZVMf5qL5xMbHqFRL9xrVSNiBPnB48rP0O+OYmAEiF3wFKWEMbeD2w==
+X-Received: by 2002:a17:902:d4cc:b0:215:a57e:88d6 with SMTP id
+ d9443c01a7336-22c530bc997mr14523115ad.0.1744983503877; 
+ Fri, 18 Apr 2025 06:38:23 -0700 (PDT)
+Received: from ?IPV6:2406:3400:21b:310:2ef0:5dff:fe09:98db?
+ ([2406:3400:21b:310:2ef0:5dff:fe09:98db])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-22c50bdb1d2sm16663205ad.25.2025.04.18.06.38.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Apr 2025 06:38:23 -0700 (PDT)
+Message-ID: <417a77f3-8532-4528-9c3d-89671d1e6177@gmail.com>
+Date: Fri, 18 Apr 2025 23:38:16 +1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/panfrost: reorder pd/clk/rst sequence
+To: Philippe Simons <simons.philippe@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
+ =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+References: <20250403055210.54486-1-simons.philippe@gmail.com>
+ <20250403055210.54486-4-simons.philippe@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20250403055210.54486-4-simons.philippe@gmail.com>
+From: John Williams <porschemad911@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250420-msm8953-interconnect-v2-2-828715dcb674@lucaweiss.eu>
-References: <20250420-msm8953-interconnect-v2-0-828715dcb674@lucaweiss.eu>
-In-Reply-To: <20250420-msm8953-interconnect-v2-0-828715dcb674@lucaweiss.eu>
-To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Vladimir Lypak <vladimir.lypak@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Luca Weiss <luca@lucaweiss.eu>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8701; i=luca@lucaweiss.eu;
- h=from:subject:message-id; bh=AsEYTmF1t9X+NWEy7gCDSqCCG1OMc8UYvim11gW4/gU=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBoBQ78JP+55thzNMNxM6+SHI634C3J7hGgPnHNq
- y37KGIih3CJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCaAUO/AAKCRBy2EO4nU3X
- VkhaEACVTmcE3fK1p6fp92QH5iugi0PXX1BeBkMaUTp7lUJbthWrbK32cphjXgmywtQxOded8b7
- wclSH48AQ51UwnhXbc4RZXCNQ37S/c97pU4o+dOrLEjrGh+dEklwGmO05SerP5eAAuV8g2Jd47V
- FURcAwNiDvBeDWdiHQHsMrrll0wR89BEdDPlKahNQ44jDEjt/h1Zy26mOBaStR5LM3N0Z87OaVa
- C8fvuuViauTNWCtd7XELh9lB4dK+WEERNJz8QAAwKFfTz69nrQBBXQFcZeyQAEMfLjEicRObnOJ
- N5r7z4+BuuQ5N97MP70v5E7Es+fQsIdljLOTs8pceuuUmRjoEELCmFgOaiOyo2uza5zw9wK0toc
- DrBN7IX9ttT9IJAAizvN4Fr2y86q0bOgk4hBKnQjcbwBXk91hc1xoy4jazLQavf+qbRJrGfyfrG
- 35kiR58k8ZVGXIgiZePgkfZ8MItDehmJcySxFs2vaYqN6oqNOCEm5nUaNSJFsx/mmH13c6EKYHX
- J+TQtXVJiHWAtGBZN0VixayFjWDrxzM4LaO01LRUHvFmDtfL6Io1Ptkps2vgUbSn2FmhZ64wYqz
- Jq0KCKQSBH5jYq7hNYKH/1rXazLo1kaxtp5x6vCiguf/OD6XpRQNZu7PuQ3eOTphA9fEu0bBOai
- Unb7zxIDS4jDvuQ==
-X-Developer-Key: i=luca@lucaweiss.eu; a=openpgp;
- fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
+X-Mailman-Approved-At: Sun, 20 Apr 2025 17:31:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,290 +99,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vladimir Lypak <vladimir.lypak@gmail.com>
+I have regression tested this patch on the following devices:
 
-Add the nodes for the bimc, pcnoc, snoc and snoc_mm. And wire up the
-interconnects where applicable.
+Powkiddy RGB10X - Rockchip RK3326 (Mali G31)
 
-Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
-[luca: Prepare patch for upstream submission]
-Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
----
- arch/arm64/boot/dts/qcom/msm8953.dtsi | 101 ++++++++++++++++++++++++++++++++++
- 1 file changed, 101 insertions(+)
+Powkiddy RGB20 Pro - Rockchip RK3566 (Mali G52)
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8953.dtsi b/arch/arm64/boot/dts/qcom/msm8953.dtsi
-index 6f5e6c407194d16682d1e6401fd4d10f3b73c195..155efb093ff863f2068ba4b2a7fbb5336174ef83 100644
---- a/arch/arm64/boot/dts/qcom/msm8953.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8953.dtsi
-@@ -4,6 +4,8 @@
- #include <dt-bindings/clock/qcom,gcc-msm8953.h>
- #include <dt-bindings/clock/qcom,rpmcc.h>
- #include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interconnect/qcom,msm8953.h>
-+#include <dt-bindings/interconnect/qcom,rpm-icc.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/power/qcom-rpmpd.h>
- #include <dt-bindings/soc/qcom,apr.h>
-@@ -44,6 +46,8 @@ cpu0: cpu@0 {
- 			reg = <0x0>;
- 			enable-method = "psci";
- 			capacity-dmips-mhz = <1024>;
-+			interconnects = <&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &bimc SLV_EBI RPM_ACTIVE_TAG>;
- 			next-level-cache = <&l2_0>;
- 			#cooling-cells = <2>;
- 		};
-@@ -54,6 +58,8 @@ cpu1: cpu@1 {
- 			reg = <0x1>;
- 			enable-method = "psci";
- 			capacity-dmips-mhz = <1024>;
-+			interconnects = <&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &bimc SLV_EBI RPM_ACTIVE_TAG>;
- 			next-level-cache = <&l2_0>;
- 			#cooling-cells = <2>;
- 		};
-@@ -64,6 +70,8 @@ cpu2: cpu@2 {
- 			reg = <0x2>;
- 			enable-method = "psci";
- 			capacity-dmips-mhz = <1024>;
-+			interconnects = <&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &bimc SLV_EBI RPM_ACTIVE_TAG>;
- 			next-level-cache = <&l2_0>;
- 			#cooling-cells = <2>;
- 		};
-@@ -74,6 +82,8 @@ cpu3: cpu@3 {
- 			reg = <0x3>;
- 			enable-method = "psci";
- 			capacity-dmips-mhz = <1024>;
-+			interconnects = <&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &bimc SLV_EBI RPM_ACTIVE_TAG>;
- 			next-level-cache = <&l2_0>;
- 			#cooling-cells = <2>;
- 		};
-@@ -84,6 +94,8 @@ cpu4: cpu@100 {
- 			reg = <0x100>;
- 			enable-method = "psci";
- 			capacity-dmips-mhz = <1024>;
-+			interconnects = <&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &bimc SLV_EBI RPM_ACTIVE_TAG>;
- 			next-level-cache = <&l2_1>;
- 			#cooling-cells = <2>;
- 		};
-@@ -94,6 +106,8 @@ cpu5: cpu@101 {
- 			reg = <0x101>;
- 			enable-method = "psci";
- 			capacity-dmips-mhz = <1024>;
-+			interconnects = <&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &bimc SLV_EBI RPM_ACTIVE_TAG>;
- 			next-level-cache = <&l2_1>;
- 			#cooling-cells = <2>;
- 		};
-@@ -104,6 +118,8 @@ cpu6: cpu@102 {
- 			reg = <0x102>;
- 			enable-method = "psci";
- 			capacity-dmips-mhz = <1024>;
-+			interconnects = <&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &bimc SLV_EBI RPM_ACTIVE_TAG>;
- 			next-level-cache = <&l2_1>;
- 			#cooling-cells = <2>;
- 		};
-@@ -114,6 +130,8 @@ cpu7: cpu@103 {
- 			reg = <0x103>;
- 			enable-method = "psci";
- 			capacity-dmips-mhz = <1024>;
-+			interconnects = <&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &bimc SLV_EBI RPM_ACTIVE_TAG>;
- 			next-level-cache = <&l2_1>;
- 			#cooling-cells = <2>;
- 		};
-@@ -470,6 +488,13 @@ rng@e3000 {
- 			clock-names = "core";
- 		};
- 
-+		bimc: interconnect@400000 {
-+			compatible = "qcom,msm8953-bimc";
-+			reg = <0x00400000 0x5a000>;
-+
-+			#interconnect-cells = <2>;
-+		};
-+
- 		tsens0: thermal-sensor@4a9000 {
- 			compatible = "qcom,msm8953-tsens", "qcom,tsens-v2";
- 			reg = <0x004a9000 0x1000>, /* TM */
-@@ -486,6 +511,29 @@ restart@4ab000 {
- 			reg = <0x004ab000 0x4>;
- 		};
- 
-+		pcnoc: interconnect@500000 {
-+			compatible = "qcom,msm8953-pcnoc";
-+			reg = <0x00500000 0x12080>;
-+
-+			clocks = <&gcc GCC_PCNOC_USB3_AXI_CLK>;
-+			clock-names = "pcnoc_usb3_axi";
-+
-+			#interconnect-cells = <2>;
-+		};
-+
-+		snoc: interconnect@580000 {
-+			compatible = "qcom,msm8953-snoc";
-+			reg = <0x00580000 0x16080>;
-+
-+			#interconnect-cells = <2>;
-+
-+			snoc_mm: interconnect-snoc {
-+				compatible = "qcom,msm8953-snoc-mm";
-+
-+				#interconnect-cells = <2>;
-+			};
-+		};
-+
- 		tlmm: pinctrl@1000000 {
- 			compatible = "qcom,msm8953-pinctrl";
- 			reg = <0x01000000 0x300000>;
-@@ -849,6 +897,13 @@ mdss: display-subsystem@1a00000 {
- 			interrupt-controller;
- 			#interrupt-cells = <1>;
- 
-+			interconnects = <&snoc_mm MAS_MDP RPM_ALWAYS_TAG
-+					 &bimc SLV_EBI RPM_ALWAYS_TAG>,
-+					<&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &pcnoc SLV_DISP_SS_CFG RPM_ACTIVE_TAG>;
-+			interconnect-names = "mdp0-mem",
-+					     "cpu-cfg";
-+
- 			clocks = <&gcc GCC_MDSS_AHB_CLK>,
- 				 <&gcc GCC_MDSS_AXI_CLK>,
- 				 <&gcc GCC_MDSS_VSYNC_CLK>,
-@@ -1065,6 +1120,11 @@ gpu: gpu@1c00000 {
- 				      "alwayson";
- 			power-domains = <&gcc OXILI_GX_GDSC>;
- 
-+			interconnects = <&bimc MAS_OXILI RPM_ALWAYS_TAG
-+					 &bimc SLV_EBI RPM_ALWAYS_TAG>,
-+					<&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &pcnoc SLV_GPU_CFG RPM_ACTIVE_TAG>;
-+
- 			iommus = <&gpu_iommu 0>;
- 			operating-points-v2 = <&gpu_opp_table>;
- 
-@@ -1302,6 +1362,13 @@ usb3: usb@70f8800 {
- 					  <&gcc GCC_USB30_MASTER_CLK>;
- 			assigned-clock-rates = <19200000>, <133330000>;
- 
-+			interconnects = <&pcnoc MAS_USB3 RPM_ALWAYS_TAG
-+					 &bimc SLV_EBI RPM_ALWAYS_TAG>,
-+					<&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &pcnoc SLV_USB3 RPM_ACTIVE_TAG>;
-+			interconnect-names = "usb-ddr",
-+					     "apps-usb";
-+
- 			power-domains = <&gcc USB30_GDSC>;
- 
- 			qcom,select-utmi-as-pipe-clk;
-@@ -1354,6 +1421,13 @@ sdhc_1: mmc@7824900 {
- 				 <&rpmcc RPM_SMD_XO_CLK_SRC>;
- 			clock-names = "iface", "core", "xo";
- 
-+			interconnects = <&pcnoc MAS_SDCC_1 RPM_ALWAYS_TAG
-+					 &bimc SLV_EBI RPM_ALWAYS_TAG>,
-+					<&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &pcnoc SLV_SDCC_1 RPM_ACTIVE_TAG>;
-+			interconnect-names = "sdhc-ddr",
-+					     "cpu-sdhc";
-+
- 			power-domains = <&rpmpd MSM8953_VDDCX>;
- 			operating-points-v2 = <&sdhc1_opp_table>;
- 
-@@ -1374,26 +1448,36 @@ sdhc1_opp_table: opp-table-sdhc1 {
- 
- 				opp-25000000 {
- 					opp-hz = /bits/ 64 <25000000>;
-+					opp-peak-kBps = <200000>, <100000>;
-+					opp-avg-kBps = <65360>, <32768>;
- 					required-opps = <&rpmpd_opp_low_svs>;
- 				};
- 
- 				opp-50000000 {
- 					opp-hz = /bits/ 64 <50000000>;
-+					opp-peak-kBps = <400000>, <200000>;
-+					opp-avg-kBps = <130718>, <65360>;
- 					required-opps = <&rpmpd_opp_svs>;
- 				};
- 
- 				opp-100000000 {
- 					opp-hz = /bits/ 64 <100000000>;
-+					opp-peak-kBps = <400000>, <400000>;
-+					opp-avg-kBps = <130718>, <65360>;
- 					required-opps = <&rpmpd_opp_svs>;
- 				};
- 
- 				opp-192000000 {
- 					opp-hz = /bits/ 64 <192000000>;
-+					opp-peak-kBps = <800000>, <600000>;
-+					opp-avg-kBps = <261438>, <130718>;
- 					required-opps = <&rpmpd_opp_nom>;
- 				};
- 
- 				opp-384000000 {
- 					opp-hz = /bits/ 64 <384000000>;
-+					opp-peak-kBps = <800000>, <800000>;
-+					opp-avg-kBps = <261438>, <300000>;
- 					required-opps = <&rpmpd_opp_nom>;
- 				};
- 			};
-@@ -1414,6 +1498,13 @@ sdhc_2: mmc@7864900 {
- 				 <&rpmcc RPM_SMD_XO_CLK_SRC>;
- 			clock-names = "iface", "core", "xo";
- 
-+			interconnects = <&pcnoc MAS_SDCC_2 RPM_ALWAYS_TAG
-+					 &bimc SLV_EBI RPM_ALWAYS_TAG>,
-+					<&bimc MAS_APPS_PROC RPM_ACTIVE_TAG
-+					 &pcnoc SLV_SDCC_2 RPM_ACTIVE_TAG>;
-+			interconnect-names = "sdhc-ddr",
-+					     "cpu-sdhc";
-+
- 			power-domains = <&rpmpd MSM8953_VDDCX>;
- 			operating-points-v2 = <&sdhc2_opp_table>;
- 
-@@ -1430,26 +1521,36 @@ sdhc2_opp_table: opp-table-sdhc2 {
- 
- 				opp-25000000 {
- 					opp-hz = /bits/ 64 <25000000>;
-+					opp-peak-kBps = <200000>, <100000>;
-+					opp-avg-kBps = <65360>, <32768>;
- 					required-opps = <&rpmpd_opp_low_svs>;
- 				};
- 
- 				opp-50000000 {
- 					opp-hz = /bits/ 64 <50000000>;
-+					opp-peak-kBps = <400000>, <400000>;
-+					opp-avg-kBps = <130718>, <65360>;
- 					required-opps = <&rpmpd_opp_svs>;
- 				};
- 
- 				opp-100000000 {
- 					opp-hz = /bits/ 64 <100000000>;
-+					opp-peak-kBps = <800000>, <400000>;
-+					opp-avg-kBps = <130718>, <130718>;
- 					required-opps = <&rpmpd_opp_svs>;
- 				};
- 
- 				opp-177770000 {
- 					opp-hz = /bits/ 64 <177770000>;
-+					opp-peak-kBps = <600000>, <600000>;
-+					opp-avg-kBps = <261438>, <130718>;
- 					required-opps = <&rpmpd_opp_nom>;
- 				};
- 
- 				opp-200000000 {
- 					opp-hz = /bits/ 64 <200000000>;
-+					opp-peak-kBps = <800000>, <800000>;
-+					opp-avg-kBps = <261438>, <130718>;
- 					required-opps = <&rpmpd_opp_nom>;
- 				};
- 			};
+Odroid Go Ultra - Amlogic S922X (Mali G52)
 
--- 
-2.49.0
+Gameforce ACE - Rockchip RK3588S (Mali G610)
 
+No regressions found during cold boot or with wake after sleep.
+
+Tested-by: John Williams <porschemad911@gmail.com>
+
+On 3/4/25 16:52, Philippe Simons wrote:
+> According to Mali manuals, the powerup sequence should be
+> enable pd, asserting the reset then enabling the clock and
+> the reverse for powerdown.
+>
+> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
+> ---
+>   drivers/gpu/drm/panfrost/panfrost_device.c | 38 +++++++++++-----------
+>   1 file changed, 19 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index 93d48e97ce10..5d35076b2e6d 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -209,10 +209,20 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+>   
+>   	spin_lock_init(&pfdev->cycle_counter.lock);
+>   
+> +	err = panfrost_pm_domain_init(pfdev);
+> +	if (err)
+> +		return err;
+> +
+> +	err = panfrost_reset_init(pfdev);
+> +	if (err) {
+> +		dev_err(pfdev->dev, "reset init failed %d\n", err);
+> +		goto out_pm_domain;
+> +	}
+> +
+>   	err = panfrost_clk_init(pfdev);
+>   	if (err) {
+>   		dev_err(pfdev->dev, "clk init failed %d\n", err);
+> -		return err;
+> +		goto out_reset;
+>   	}
+>   
+>   	err = panfrost_devfreq_init(pfdev);
+> @@ -229,25 +239,15 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+>   			goto out_devfreq;
+>   	}
+>   
+> -	err = panfrost_reset_init(pfdev);
+> -	if (err) {
+> -		dev_err(pfdev->dev, "reset init failed %d\n", err);
+> -		goto out_regulator;
+> -	}
+> -
+> -	err = panfrost_pm_domain_init(pfdev);
+> -	if (err)
+> -		goto out_reset;
+> -
+>   	pfdev->iomem = devm_platform_ioremap_resource(pfdev->pdev, 0);
+>   	if (IS_ERR(pfdev->iomem)) {
+>   		err = PTR_ERR(pfdev->iomem);
+> -		goto out_pm_domain;
+> +		goto out_regulator;
+>   	}
+>   
+>   	err = panfrost_gpu_init(pfdev);
+>   	if (err)
+> -		goto out_pm_domain;
+> +		goto out_regulator;
+>   
+>   	err = panfrost_mmu_init(pfdev);
+>   	if (err)
+> @@ -268,16 +268,16 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+>   	panfrost_mmu_fini(pfdev);
+>   out_gpu:
+>   	panfrost_gpu_fini(pfdev);
+> -out_pm_domain:
+> -	panfrost_pm_domain_fini(pfdev);
+> -out_reset:
+> -	panfrost_reset_fini(pfdev);
+>   out_regulator:
+>   	panfrost_regulator_fini(pfdev);
+>   out_devfreq:
+>   	panfrost_devfreq_fini(pfdev);
+>   out_clk:
+>   	panfrost_clk_fini(pfdev);
+> +out_reset:
+> +	panfrost_reset_fini(pfdev);
+> +out_pm_domain:
+> +	panfrost_pm_domain_fini(pfdev);
+>   	return err;
+>   }
+>   
+> @@ -287,11 +287,11 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
+>   	panfrost_job_fini(pfdev);
+>   	panfrost_mmu_fini(pfdev);
+>   	panfrost_gpu_fini(pfdev);
+> -	panfrost_pm_domain_fini(pfdev);
+> -	panfrost_reset_fini(pfdev);
+>   	panfrost_devfreq_fini(pfdev);
+>   	panfrost_regulator_fini(pfdev);
+>   	panfrost_clk_fini(pfdev);
+> +	panfrost_reset_fini(pfdev);
+> +	panfrost_pm_domain_fini(pfdev);
+>   }
+>   
+>   #define PANFROST_EXCEPTION(id) \
