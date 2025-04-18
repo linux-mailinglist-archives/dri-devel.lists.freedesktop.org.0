@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E097AA93B2E
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 18:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE190A93B2C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 18:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DD2B88EA1;
-	Fri, 18 Apr 2025 16:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D29010E22D;
+	Fri, 18 Apr 2025 16:42:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TOBo4mqN";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="hN6DalVX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4BA10E22D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80F3010E22D
  for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 16:42:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=oSHBJ91QJdAKIu4mBt0Ub8AELWeuizLkr8G7yPzChl4=; b=TOBo4mqNRrRks7IKKiu6Jripg3
- 45P+egdgvxDYGzR40imb7hSJYoIgl9XwXDvy9ZOaBjvDrfdAtZcgqecQn/pgBmB0vbAdQ+6N4khAx
- EZ20r1KcUlqD3R+2kZjWL+Jv6JWpY6e1ciOD3u1vynYj9xTNdBtXRdFksm3RiqJhLGXs4YWEMacrQ
- z+fwVB2vpNjyPcEDLbqo1DtDiCajZ0OBsjDs5enf3F2D286sjQymCGsa3EBtb7DUANnJeADLbWPUa
- SIqrvYZvyIUOEFUpooKiT5n0jyz1F2T+cQgWXjRuvCfoE6Gq2Lh4kpY++dmosHEwzlno/nY/sHEp5
- HAbT7Y4w==;
+ bh=xLAK2xXuZaAsgmHtoJ/XCuqujdUf3BOf63ZnuLjhSW4=; b=hN6DalVXtLwZcqRM5bk645weBw
+ kR2OPHBFXwhr2Yozl07+z3lazhPQxbhjzq77spydzpCsQGL+ENuTEXYQUb45gYtfbBKLfynoG4SY4
+ oWl9aPPAiduCeKV6dtZ8N9knQsyY91akhyXPDEpyijYcQr7DbcnapX2eJEUEZu1J5/w/b1eqw974C
+ pM3JJMvR3xrKqRWXd369lodseMWBDRsEGtGbXsDVlxrKBnE4eO4k1vIqGPsgrw7zXCll9M+cZYdZ1
+ eRTretr4C60X4FsFTgBzz6u6I3ee6rz/czsvaZl0KPjjjv9C51BcVZOIC10arFDhlGAVmpmChlXd/
+ kEUziTxg==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1u5onn-001Hbp-Vz; Fri, 18 Apr 2025 18:42:56 +0200
+ id 1u5ono-001Hbt-NR; Fri, 18 Apr 2025 18:42:56 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
@@ -40,10 +40,9 @@ Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  Matthew Brost <matthew.brost@intel.com>,
  Philipp Stanner <phasta@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [RFC 1/4] sync_file: Weakly paper over one use-after-free resulting
- race
-Date: Fri, 18 Apr 2025 17:42:43 +0100
-Message-ID: <20250418164246.72426-2-tvrtko.ursulin@igalia.com>
+Subject: [RFC 2/4] dma-fence: Slightly safer dma_fence_set_deadline
+Date: Fri, 18 Apr 2025 17:42:44 +0100
+Message-ID: <20250418164246.72426-3-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250418164246.72426-1-tvrtko.ursulin@igalia.com>
 References: <20250418164246.72426-1-tvrtko.ursulin@igalia.com>
@@ -65,50 +64,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Xe and probably some other drivers can tear down the internal state
-referenced by exported sync file fence which then causes a null pointer
-derefences on accessing said fence.
-
-This is somewhat related to DRM scheduler design where sched fence is
-supposed to be allowed to outlive the scheduler instance itself, in which
-case either the fence->ops, or just the timeline name may go away and the
-fact driver has no real visibility if someone had converted the syncobj
-into sync file in the meantime.
-
-Bug can be triggered easily from IGT:
-
- [IGT] xe_sync_file: starting subtest sync_file_race
- ==================================================================
- BUG: KASAN: slab-use-after-free in drm_sched_fence_get_timeline_name+0xa1/0xb0 [gpu_sched]
- Read of size 8 at addr ffff888126726020 by task xe_sync_file/2931
- ...
- Call Trace:
-  <TASK>
-  kasan_report+0xeb/0x130
-  drm_sched_fence_get_timeline_name+0xa1/0xb0 [gpu_sched]
-  sync_file_ioctl+0x3cb/0xb00
- ...
- Allocated by task 2931:
-  __kmalloc_cache_noprof+0x1c2/0x410
-  guc_exec_queue_init+0x1a8/0x1240 [xe]
-  xe_exec_queue_create+0xe72/0x13b0 [xe]
-  xe_exec_queue_create_ioctl+0x10d9/0x1770 [xe]
-  drm_ioctl_kernel+0x179/0x300
-  drm_ioctl+0x58f/0xcf0
-  xe_drm_ioctl+0xe8/0x140 [xe]
- ...
- Freed by task 1689:
-  kfree+0x106/0x3e0
-  __guc_exec_queue_fini_async+0x144/0x2d0 [xe]
-  process_one_work+0x610/0xdf0
-  worker_thread+0x7c8/0x14b0
-
-This patch papers over it weakly by guarding one entry points with the
-signaled check. Race is still there just the window is smaller.
-
-As an alternative we could remove the timeline description from sched
-fence altogether, but the name is unfortunately not the only route to
-disaster. There is also the dma fence deadline setting ioctl.
+Similar to the previous patch lets precede the fence->ops dereference with
+the signaled check. This reduces the window to hit the race where sync
+file can get into a signaled DRM scheduler fence which was left "dangling"
+after the driver had potentially torn down the corresponding internal
+state.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: Christian König <christian.koenig@amd.com>
@@ -118,63 +78,22 @@ Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Philipp Stanner <phasta@kernel.org>
 Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
 ---
- drivers/dma-buf/sync_file.c | 29 ++++++++++++++++++++++++-----
- 1 file changed, 24 insertions(+), 5 deletions(-)
+ drivers/dma-buf/dma-fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-index d9b1c1b2a72b..cfaa7b5d325e 100644
---- a/drivers/dma-buf/sync_file.c
-+++ b/drivers/dma-buf/sync_file.c
-@@ -116,6 +116,9 @@ struct dma_fence *sync_file_get_fence(int fd)
- }
- EXPORT_SYMBOL(sync_file_get_fence);
- 
-+const char *sync_fence_signaled_obj_name = "signaled-timeline";
-+const char *sync_fence_signaled_driver_name = "signaled-driver";
-+
- /**
-  * sync_file_get_name - get the name of the sync_file
-  * @sync_file:		sync_file to get the fence from
-@@ -136,11 +139,18 @@ char *sync_file_get_name(struct sync_file *sync_file, char *buf, int len)
- 	} else {
- 		struct dma_fence *fence = sync_file->fence;
- 
--		snprintf(buf, len, "%s-%s%llu-%lld",
--			 fence->ops->get_driver_name(fence),
--			 fence->ops->get_timeline_name(fence),
--			 fence->context,
--			 fence->seqno);
-+		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+			snprintf(buf, len, "%s-%s%llu-%lld",
-+				 sync_fence_signaled_driver_name,
-+				 sync_fence_signaled_obj_name,
-+				 fence->context,
-+				 fence->seqno);
-+		else
-+			snprintf(buf, len, "%s-%s%llu-%lld",
-+				 fence->ops->get_driver_name(fence),
-+				 fence->ops->get_timeline_name(fence),
-+				 fence->context,
-+				 fence->seqno);
- 	}
- 
- 	return buf;
-@@ -262,6 +272,15 @@ static long sync_file_ioctl_merge(struct sync_file *sync_file,
- static int sync_fill_fence_info(struct dma_fence *fence,
- 				 struct sync_fence_info *info)
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index f0cdd3e99d36..b3f085a65910 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -968,7 +968,7 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+  */
+ void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
  {
-+	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
-+		info->status = fence->error ?: 1;
-+		info->timestamp_ns = ktime_to_ns(dma_fence_timestamp(fence));
-+		strscpy(info->obj_name, sync_fence_signaled_obj_name);
-+		strscpy(info->driver_name, sync_fence_signaled_driver_name);
-+
-+		return info->status;
-+	}
-+
- 	strscpy(info->obj_name, fence->ops->get_timeline_name(fence),
- 		sizeof(info->obj_name));
- 	strscpy(info->driver_name, fence->ops->get_driver_name(fence),
+-	if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
++	if (!dma_fence_is_signaled(fence) && fence->ops->set_deadline)
+ 		fence->ops->set_deadline(fence, deadline);
+ }
+ EXPORT_SYMBOL(dma_fence_set_deadline);
 -- 
 2.48.0
 
