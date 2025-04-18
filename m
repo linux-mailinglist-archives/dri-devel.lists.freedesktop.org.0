@@ -2,112 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1D0A937DA
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 15:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05551A937E5
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 15:26:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9F3410E037;
-	Fri, 18 Apr 2025 13:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5FE10E1FA;
+	Fri, 18 Apr 2025 13:25:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="e6K+BDil";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SNW26AgR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D05FE10E037
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 13:22:41 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-39c0dfba946so1169687f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 06:22:41 -0700 (PDT)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 372CC10E1FA;
+ Fri, 18 Apr 2025 13:25:44 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-2240ff0bd6eso2703515ad.0; 
+ Fri, 18 Apr 2025 06:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1744982560; x=1745587360; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=3nPNAmpQ4uOlcUbj8tZpDHE6nlLkjo04jE6tZHQGka8=;
- b=e6K+BDil/twuwFGHk5yHhffmTSpvrHuL9yds/fiDtwf8cVNhNvwU4DuM01+d8uRDe/
- eYJ41G4+/9U+xfFhmGUpqgsuXr3PG/ovR4hbsBjcJ0U18fRPkCgxZue3q9lXD0sh2v5T
- u7KpyG06gocfYDErOu6+FPXP8nPsqT0Tt6O34nrJq0Y2BDT6BxMXg5726hJEg8m3ZM7E
- yadmrUxS6g6BCap0bhm05d9F+gTMx00Hdauj9YqX+E9Hdevx5M8hY5BbrU0tws+bKx//
- hinWajQYDD0Rqc3i2QYTw3ATTkMRUBvHds0bJAQf6/6kKuRuK63UYiBPRM0eLoJJlJqi
- LQZw==
+ d=gmail.com; s=20230601; t=1744982743; x=1745587543; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nyC6qiVT+u6rR7PgNOginiie1BVxcpXDs4+aZTBzC9Y=;
+ b=SNW26AgRWPDN7jEjaP2Jfuy4CKhgDCJVlQUoWX37oOnBSnazunYu2WfUZ1dASbpN66
+ N5ussMNcTUfWxEqCMbMvSWyfOGkZAaQssfzGRmdexyWSfFFS1egciYRbs2XPSs0ymFH0
+ xGtubC49k7r2qNtWqZ6yoBX3kgGlvRsMA2sXx0KoXirOH/FBOYaj9bMOnJxeWYj7UMXF
+ FZzQ0C7UmEcMh+p3ggMq4JSlCm2gq6K1WmZ9i/IrshxaMT8w5QjqBHl58y/FSbHqk0f9
+ pq0REYBkN5s0xFTVUnBLvE2ElP7n3QXedOFKMdldfQzUj2mAiPSxQ8oG3gwGxqdkjY26
+ K53Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744982560; x=1745587360;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=3nPNAmpQ4uOlcUbj8tZpDHE6nlLkjo04jE6tZHQGka8=;
- b=cExqA8oq5WkF8nEETuc/WXJr7baf0NUtGQO4UONglu/U4C0Hitm4Us94EDWUMM0mic
- RPABLSaiwliC+9APC6wo8CMLcTLdM/d5zEIqTJumVvoLVUlyWzFh+TlsyzpT8ZVYt9hN
- 5yUMPqj5l0iueebs5VmYyy7/3Vnc64qp4RFmJ3FhBnVPzOuqWzzLuJKfyk4MGTTi14Mk
- q9ksdI1N0WjNFHwGJXMxrF13B7hKVk8BWjBPocuHrkVKii60kvddSi7iNJUDjZJPI8bz
- lLnn14/QiN4dEK95WUN7p0qztlYFwIhfgeJ2TrJ0crJTogQM8UYgVgAg0ZQk6AS2oZr/
- 62DA==
-X-Gm-Message-State: AOJu0Yx3n83dAEnwyb/bQ9uTzApMwuAikQA8OXrsDJrgVTgTzJTonCy7
- zij/QdIF8bvHFckHd93kAFf9TS2kiTzdBd+OETJqiHvSPJRrbZ+uiKC4FWKlSfg=
-X-Gm-Gg: ASbGncsx+Y1vvlhhM6yUTiHHN58lTtONRRRXlPJliLDZsfKPS3iX6Iw8l/dc5wLmBKt
- HLM+eEkh6WpcUnRh93oP2Zda/7hyjQM6usGLLb5bgu+hlBszYy9TFN90lGbA77R36D5s9nURFg3
- SwTzyLwfYnuI9jZkI2LFqcL9zqxbMiOexrrbS9VTfstJ6OqsDNHBebv+DkNQWY16lpZOd1rauvw
- pTJflnwCkYlHxiv2/ElMovEDAlD9DrQowZBx7/9AqQ+LpdN2Vgax2XsQVcnJbfuOMbeHwbJAWEL
- 2HWaAgXx6h8P8J1qB3box9hjbY+PfCMlnfAHsS17obFaiOZOmzdea/iTarvs8PkG8M4jXt1sTXF
- XRTjprukCR09p3GDEkw==
-X-Google-Smtp-Source: AGHT+IFNOOW2oODeAWlVCfKeEYLmpeo6ibOMwXQlsAWVEng9c5Elbns2WJGlRXKAds6lbZMvMnC3UA==
-X-Received: by 2002:a05:6000:188d:b0:39c:1424:2827 with SMTP id
- ffacd0b85a97d-39efba4657amr2309409f8f.15.1744982560266; 
- Fri, 18 Apr 2025 06:22:40 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:f8ba:7c24:7066:d010?
- ([2a01:e0a:3d9:2080:f8ba:7c24:7066:d010])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39efa4a498csm2697352f8f.85.2025.04.18.06.22.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Apr 2025 06:22:39 -0700 (PDT)
-Message-ID: <107cd28d-bdb4-4b59-83e4-4b85dce97290@linaro.org>
-Date: Fri, 18 Apr 2025 15:22:39 +0200
+ d=1e100.net; s=20230601; t=1744982743; x=1745587543;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nyC6qiVT+u6rR7PgNOginiie1BVxcpXDs4+aZTBzC9Y=;
+ b=Qm4QjS5vh4seSeRhkfe2q+JMYcVA2Fb1D5OY6+i4qWPB32DFKQ8LJ4EfthwCCgsH7M
+ w+ZYaJSf1vy8abYEhooI6OQIBmdkwdUsS7Nsqh4YLmVvWrnfJo4bguZmkGX/PD5V8WLS
+ iv4WzKwLJ7keccHBIfTMa26NylTQMGcxLhOACrmc8fQluDLUf59KYqOAwx1VWRaS+b8b
+ VxVWBI6sE+sEJyHjZxTLLjsm1xtUalWssr4p6rC38jkZTbJ4YA+O/QEFHkjqJGiXwNPq
+ iK4P1pojTPXC/GGpZdPH0ls8XH2oXYAYQxhdKsjzI/AV8avZiKOEC30bjXcEf8+yshIe
+ kdNA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUxA1L3qSSZX82vxxfAr3xElJZ48371etSvejw8yK4JhD4uGClyZuWyHXqBlOTz+PX+mifDZ7yp@lists.freedesktop.org,
+ AJvYcCVG+qPisDObSwhgRcsbUpBeQANqnkKpVDr9rmWKmKsrnCV+QwyiPtW/RCAJ8q+H+Tv6uxLjAxlkMoe+@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxSGvGLPKfsY7URMN1koFEgktNv6alJbNStZnyOzIrXVtIgPC6F
+ Bi/Q8nDto8EDIookQIkp8yYpT8+ubwV0FxUuD/xOqCkIupie3aceykMzObDLN+uN3a05/3T9KY4
+ TTmHeq7IGWR7zd0P2h1NMhmLFIbU=
+X-Gm-Gg: ASbGncuQWtEBwRRt4dTKAylH1ylB268tOnQbPk8VKrgUed/LoIc2rR2WpTCW+/nKEAy
+ Xl+rvA1/8APfMqypFrzO71yeBUmZOqtmwwlU+jvz03dDBnSjFyTZ0CJb22qoLnoL1kG9mxgon/L
+ V2eqnxsFmFD6AsYesfX+wQ0g==
+X-Google-Smtp-Source: AGHT+IEkg5l32NGk3QoxdJcXn0CidWWNtFY5WaOURIUpxvd0XNAJikgTjGRg3HBLp/wS28RhXBbDrZYprx9XXbEdsWo=
+X-Received: by 2002:a17:902:fc46:b0:21f:3e2d:7d43 with SMTP id
+ d9443c01a7336-22c5361fd79mr16154295ad.13.1744982743399; Fri, 18 Apr 2025
+ 06:25:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 0/7] drm/panel: make prepare / enable / disable /
- unprepare return void
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250401-panel-return-void-v1-0-93e1be33dc8d@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250401-panel-return-void-v1-0-93e1be33dc8d@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250418002117.130612-1-linux@treblig.org>
+ <20250418002117.130612-5-linux@treblig.org>
+In-Reply-To: <20250418002117.130612-5-linux@treblig.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 18 Apr 2025 09:25:31 -0400
+X-Gm-Features: ATxdqUFslTsaOCqwA3wvaxSTpSZ6IN0_tcLcXqKz9RibnGUgvP0nVR7xs914qb8
+Message-ID: <CADnq5_PWLjCAfPx_2K+r=tuwf=+dN4iP1-OnyfP8mgXsR1Ting@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm/amd/display: Remove unused *vbios_smu_set_dprefclk
+To: linux@treblig.org
+Cc: alexander.deucher@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com, 
+ siqueira@igalia.com, christian.koenig@amd.com, airlied@gmail.com, 
+ simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,41 +84,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/04/2025 07:11, Dmitry Baryshkov wrote:
-> While it makes sense for panel callbacks to be able to return an error,
-> the state-management functions from drm_panel API are usually called
-> from atomic callbacks, which can not fails and must return void. Make
-> drm_panel_prepare(), drm_panel_enable(), drm_panel_disable() and
-> drm_panel_unprepare() follow the same calling convention and return
-> void.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
-> Dmitry Baryshkov (7):
->        drm/bridge: analogix_dp: drop extra calls to analogix_dp_prepare_panel()
->        drm/bridge: analogix_dp: drop unused argument to analogix_dp_prepare_panel()
->        drm/bridge: analogic_dp: drop panel_is_modeset
->        drm/bridge: analogic_dp: drop panel_lock
->        drm/bridge: analogix_dp: inline analogix_dp_prepare_panel()
->        drm/bridge: analogix_dp: ignore return values of drm_panel_* calls
->        drm/panel: make prepare/enable and disable/unprepare calls return void
-> 
->   drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 107 ++-------------------
->   drivers/gpu/drm/bridge/analogix/analogix_dp_core.h |   3 -
->   drivers/gpu/drm/drm_panel.c                        |  54 ++++-------
->   drivers/gpu/drm/panel/panel-newvision-nv3051d.c    |   9 +-
->   include/drm/drm_panel.h                            |   8 +-
->   5 files changed, 33 insertions(+), 148 deletions(-)
-> ---
-> base-commit: bfb20a655848a9088e3e9ae24b1dcce1bbf016c2
-> change-id: 20250401-panel-return-void-d461c71ebd35
-> 
-> Best regards,
+Applied patches 1, 3, 4.  Thanks!
 
-I think you can respin with the warning fix on patch 1 and then apply
-
-Neil
+On Thu, Apr 17, 2025 at 8:28=E2=80=AFPM <linux@treblig.org> wrote:
+>
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>
+> rn_vbios_smu_set_dprefclk() was added in 2019 by
+> commit 4edb6fc91878 ("drm/amd/display: Add Renoir clock manager")
+> rv1_vbios_smu_set_dprefclk() was also added in 2019 by
+> commit dc88b4a684d2 ("drm/amd/display: make clk mgr soc specific")
+>
+> neither have been used.
+>
+> Remove them.
+>
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> ---
+>  .../dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c       | 14 --------------
+>  .../dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.h       |  1 -
+>  .../dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c        | 14 --------------
+>  .../dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h        |  1 -
+>  4 files changed, 30 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbi=
+os_smu.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_s=
+mu.c
+> index 19897fa52e7e..d82a52319088 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.=
+c
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.=
+c
+> @@ -142,17 +142,3 @@ int rv1_vbios_smu_set_dispclk(struct clk_mgr_interna=
+l *clk_mgr, int requested_di
+>
+>         return actual_dispclk_set_mhz * 1000;
+>  }
+> -
+> -int rv1_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr)
+> -{
+> -       int actual_dprefclk_set_mhz =3D -1;
+> -
+> -       actual_dprefclk_set_mhz =3D rv1_vbios_smu_send_msg_with_param(
+> -                       clk_mgr,
+> -                       VBIOSSMC_MSG_SetDprefclkFreq,
+> -                       khz_to_mhz_ceil(clk_mgr->base.dprefclk_khz));
+> -
+> -       /* TODO: add code for programing DP DTO, currently this is down b=
+y command table */
+> -
+> -       return actual_dprefclk_set_mhz * 1000;
+> -}
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbi=
+os_smu.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_s=
+mu.h
+> index 083cb3158859..81d7c912549c 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.=
+h
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.=
+h
+> @@ -27,6 +27,5 @@
+>  #define DAL_DC_DCN10_RV1_CLK_MGR_VBIOS_SMU_H_
+>
+>  int rv1_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int requ=
+ested_dispclk_khz);
+> -int rv1_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr);
+>
+>  #endif /* DAL_DC_DCN10_RV1_CLK_MGR_VBIOS_SMU_H_ */
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbio=
+s_smu.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu=
+.c
+> index 23b390245b5d..5a633333dbb5 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c
+> @@ -164,20 +164,6 @@ int rn_vbios_smu_set_dispclk(struct clk_mgr_internal=
+ *clk_mgr, int requested_dis
+>         return actual_dispclk_set_mhz * 1000;
+>  }
+>
+> -int rn_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr)
+> -{
+> -       int actual_dprefclk_set_mhz =3D -1;
+> -
+> -       actual_dprefclk_set_mhz =3D rn_vbios_smu_send_msg_with_param(
+> -                       clk_mgr,
+> -                       VBIOSSMC_MSG_SetDprefclkFreq,
+> -                       khz_to_mhz_ceil(clk_mgr->base.dprefclk_khz));
+> -
+> -       /* TODO: add code for programing DP DTO, currently this is down b=
+y command table */
+> -
+> -       return actual_dprefclk_set_mhz * 1000;
+> -}
+> -
+>  int rn_vbios_smu_set_hard_min_dcfclk(struct clk_mgr_internal *clk_mgr, i=
+nt requested_dcfclk_khz)
+>  {
+>         int actual_dcfclk_set_mhz =3D -1;
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbio=
+s_smu.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu=
+.h
+> index 1ce19d875358..f76fad87f0e1 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.h
+> @@ -30,7 +30,6 @@ enum dcn_pwr_state;
+>
+>  int rn_vbios_smu_get_smu_version(struct clk_mgr_internal *clk_mgr);
+>  int rn_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int reque=
+sted_dispclk_khz);
+> -int rn_vbios_smu_set_dprefclk(struct clk_mgr_internal *clk_mgr);
+>  int rn_vbios_smu_set_hard_min_dcfclk(struct clk_mgr_internal *clk_mgr, i=
+nt requested_dcfclk_khz);
+>  int rn_vbios_smu_set_min_deep_sleep_dcfclk(struct clk_mgr_internal *clk_=
+mgr, int requested_min_ds_dcfclk_khz);
+>  void rn_vbios_smu_set_phyclk(struct clk_mgr_internal *clk_mgr, int reque=
+sted_phyclk_khz);
+> --
+> 2.49.0
+>
