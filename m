@@ -2,57 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F21A93705
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 14:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA8EA93779
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 14:51:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95ABB10E1F8;
-	Fri, 18 Apr 2025 12:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB9610EB9B;
+	Fri, 18 Apr 2025 12:51:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gtGwRXtu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IkPTTj0E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BCD310E1B6;
- Fri, 18 Apr 2025 12:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744979134;
- bh=zESi1/5Iowum4HMzC0MXfKM52OY5fevv4qgQ1xweDm4=;
- h=From:To:Cc:Subject:Date:From;
- b=gtGwRXtuK36uwbCj8Btek1hRgf1XYfrk3AVyKzo+OVO+uN5/ay1gwFWX3fG83l2Qy
- cIlHPXYcwQfGqclynMMSlLjCCr3DZaxqkbXhJEQOXMPxq71pWGgKgEdTgd+CGLSTKw
- Tc9WtKGhvUfh+qWgWLowB2FoyiwcTsM5cRotx+hfXyG+qEZoVCiv2mWYfckof27rKH
- GKCnfl1wdOsh/mhTHJWAAEIriLeZ9M/H0umxzoSm4ESISILih9rQmcwCQTde5T8+/R
- sjAT2YAKV6KSXyg4sSZx+TFmslvpY48MjHTiNQy88VqvSbvmiqwR5EONipsYZShGKU
- Xq1AF9RetivBA==
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B1F9017E08E3;
- Fri, 18 Apr 2025 14:25:33 +0200 (CEST)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Christian Koenig <christian.koenig@amd.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
-Subject: [PATCH] drm/doc: Start documenting aspects specific to tile-based
- renderers
-Date: Fri, 18 Apr 2025 14:25:24 +0200
-Message-ID: <20250418122524.410448-1-boris.brezillon@collabora.com>
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9053710E20A
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 12:51:43 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-39c31e4c3e5so1232087f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 05:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744980702; x=1745585502; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fSI7eAOwKER7UtUiex4GHzeLYi9Hq3SA4vwSh7WcZHw=;
+ b=IkPTTj0EuogTGPlvBThBwfD5tUzYkypWASvM/WCTqnC3ur08pms1eyiP4oOw5829Yj
+ A1CgUm++MZO9GkZjY5lJSkIWeEGAkqIGTj/P9EnnOH9CirLwCd9IWzA2fY1GnGBrBJ4k
+ V+wrcGYGJ9ef/QhLxsKswxQv7OQq/M0ycMuRVBbV/rKrU/27IS22JvMVj2xZfZ0YSpWE
+ rC4JV8twT7O2Bx0/nuA6gINfW2cSLR6FqzCb4gusUgy9OTJE34e58q0Gk81sopF+dZvg
+ 5puy59woGpi5B+ddRUfG4N9lpcKJFzyZOqB+pTZxFauZN0eOoCpO7X0LENufj/j2GeD7
+ TmRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744980702; x=1745585502;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fSI7eAOwKER7UtUiex4GHzeLYi9Hq3SA4vwSh7WcZHw=;
+ b=NukVSQrrBlFdB/B2arC/ioOMg+N6HwkCE96b3pwACLQvSOgzix/mBAV5cwd2wOOluN
+ qdCYXCHZeyhIpkhjKs0EVoqKmwKrd5LueurCalh7XzM3xJWrfnVHJH+7enmf7tnu7uY3
+ pMLElTZhUzTNSyfeYEIgP8CVvJ6ZoS1/X3SJeSwBeTHxLX0SUvKIFEQkNO8BR1/Pzkpe
+ FY3a28fsHJiYJYNQSDahc6F8JIKSLVFlxxfkg6KruyguFSO2rYR+KHQstSwyDNqMma5N
+ E6+qzmkJ+ak0XYw+UGzXyrqcnAW9Yo4hdY0BbhMiKXLVJplqLbKHdBpGY4VdD7/OXUVU
+ 5IKQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUCNn4IghQ8zn4pxikgEyelCcKJJfwijOY4d5XUnZPG2QSHM0hdAAHL8lWutbp+K9ePpLadu0wyDxg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywn8hgdtrfNjS7NgcZNzxj4Y4Fsk9cgAgP64l9k3JgcTNqyqpWK
+ F8u4FJVfljmaX2k0jDZW9ARUs1xHqS/TzSG3Afjzr7433MvEeTB4
+X-Gm-Gg: ASbGncssI9yp4U4x8Y29P3dSmzw/bMH1TmN7pjhXXa2c8ac4Dw6oaNu/FRvaa4/n2/G
+ iM6GeXUVRxnVJXf341h3J5zgFOEzZXNRKzuriAn4NVi+Fd85x2jbw6fFN89SanVsON9c5GdLcce
+ PcbkyaRmVDbVnnksV1/CdeRaiZEg7dkYMu/OygK9l3zIfBzoKZ7j8hh2lkcMNKCPxHWlIiNBrbA
+ Mt3pokQyBB+S7OO7adEjzY3d1ix1biSc7CPXFaTx8p10kSwXLaCPRR5YYujfuW55iK9dnDX8OYO
+ /BQI+xtnxDRO9D50DfHwNtwXb7zcs2PU651N7HIsZg==
+X-Google-Smtp-Source: AGHT+IGRLN4xXyDof+aLmH9LIsvIdtLHzEudvt2mvZiXNlcTq7vBl8qMI8mV10llHh3CBdT7Fc0KOQ==
+X-Received: by 2002:a05:6000:2283:b0:390:d6ab:6c49 with SMTP id
+ ffacd0b85a97d-39efba6ba65mr2283592f8f.35.1744980701688; 
+ Fri, 18 Apr 2025 05:51:41 -0700 (PDT)
+Received: from localhost ([194.120.133.58])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-39efa433133sm2656282f8f.28.2025.04.18.05.51.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Apr 2025 05:51:41 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Helge Deller <deller@gmx.de>, Colin Ian King <colin.i.king@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] fbdev/carminefb: Fix spelling mistake of
+ CARMINE_TOTAL_DIPLAY_MEM
+Date: Fri, 18 Apr 2025 13:51:35 +0100
+Message-ID: <20250418125135.539908-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,242 +88,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tile-based GPUs come with a set of constraints that are not present
-when immediate rendering is used. This new document tries to explain
-the differences between tile/immediate rendering, the problems that
-come with tilers, and how we plan to address them.
+There is a spelling mistake in macro CARMINE_TOTAL_DIPLAY_MEM. Fix it.
 
-This is just a started point, this document will be updated with new
-materials as we refine the libraries we add to help deal with
-tilers, and have more drivers converted to follow the rules listed
-here.
-
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- Documentation/gpu/drm-tile-based-renderer.rst | 201 ++++++++++++++++++
- Documentation/gpu/index.rst                   |   1 +
- 2 files changed, 202 insertions(+)
- create mode 100644 Documentation/gpu/drm-tile-based-renderer.rst
+ drivers/video/fbdev/carminefb.c | 8 ++++----
+ drivers/video/fbdev/carminefb.h | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/gpu/drm-tile-based-renderer.rst b/Documentation/gpu/drm-tile-based-renderer.rst
-new file mode 100644
-index 000000000000..19b56b9476fc
---- /dev/null
-+++ b/Documentation/gpu/drm-tile-based-renderer.rst
-@@ -0,0 +1,201 @@
-+==================================================
-+Infrastructure and tricks for tile-based renderers
-+==================================================
-+
-+All lot of embedded GPUs are using tile-based rendering instead of immediate
-+rendering. This mode of rendering has various implications that we try to
-+document here along with some hints about how to deal with some of the
-+problems that surface with tile-based renderers.
-+
-+The main idea behind tile-based rendering is to batch processing of nearby
-+pixels during the fragment shading phase to limit the traffic on the memory
-+bus by making optimal use of the various caches present in the GPU. Unlike
-+immediate rendering, where primitives generated by the geometry stages of
-+the pipeline are directly consumed by the fragment stage, tilers have to
-+record primitives in bins that are somehow attached to tiles (the
-+granularity of the tile being GPU-specific). This data is usually stored
-+in memory, and pulled back when the fragment stage is executed.
-+
-+This approach has several issues that most drivers need to handle somehow,
-+sometimes with a bit of help from the hardware.
-+
-+Issues at hand
-+==============
-+
-+Tiler memory
-+------------
-+
-+The amount of memory needed to store primitives data and metadata is hard
-+to guess ahead of time, because it depends on various parameters that are
-+not in control of the UMD (UserMode Driver). Here is a non-exhaustive list
-+of things that may complicate the calculation of the memory needed to store
-+primitive information:
-+
-+- Primitives distribution across tiles is hard to guess: the binning process
-+  is about assigning each primitive to the set tiles it covers. The more tiles
-+  being covered the more memory is needed to record those. We can estimate
-+  the worst case scenario by assuming all primitives will cover all tiles but
-+  this will lead to over-allocation most of the time, which is not good
-+- Indirect draws: the number of vertices comes from a GPU buffer that might
-+  be filled by previous GPU compute jobs. This means we only know the number
-+  of vertices when the GPU executes the draw, and thus can't guess how much
-+  memory will be needed for those and allocate a GPU buffer that's big enough
-+  to hold those
-+- Complex geometry pipelines: if you throw geometry/tesselation/mesh shaders
-+  it gets even trickier to guess the number of primitives from the number
-+  of vertices passed to the vertex shader.
-+
-+For all these reasons, the tiler usually allocates memory dynamically, but
-+DRM has not been designed with this use case in mind. Drivers will address
-+these problems differently based on the functionality provided by their
-+hardware, but all of them almost certainly have to deal with this somehow.
-+
-+The easy solution is to statically allocate a huge buffer to pick from when
-+tiler memory is needed, and fail the rendering when this buffer is depleted.
-+Some drivers try to be smarter to avoid reserving a lot of memory upfront.
-+Instead, they start with an almost empty buffer and progressively populate it
-+when the GPU faults on an address sitting in the tiler buffer range. This
-+works okay most of the time but it falls short when the system is under
-+memory pressure, because the memory request is not guaranteed to be satisfied.
-+In that case, the driver either fails the rendering, or, if the hardware
-+allows it, it tries to flush the primitives that have been processed and
-+triggers a fragment job that will consume those primitives and free up some
-+memory to be recycled and make further progress on the tiling step. This is
-+usually referred as partial/incremental rendering (it might have other names).
-+
-+Compute based emulation of geometry stages
-+------------------------------------------
-+
-+More and more hardware vendors don't bother providing hardware support for
-+geometry/tesselation/mesh stages, since those can be emulated with compute
-+shaders. But the same problem we have with tiler memory exists with those
-+intermediate compute-emulated stages, because transient data shared between
-+stages need to be stored in memory for the next stage to consume, and this
-+bubbles up until the tiling stage is reached, because ultimately, what the
-+tiling stage will need to process is a set of vertices it can turn into
-+primitives, like would happen if the application had emulated the geometry,
-+tesselation or mesh stages with compute.
-+
-+Unlike tiling, where the hardware can provide a fallback to recycle memory,
-+there is no way the intermediate primitives can be flushed up to the framebuffer,
-+because it's a purely software emulation here. This being said, the same
-+"start small, grow on-demand" can be applied to avoid over-allocating memory
-+upfront.
-+
-+On-demand memory allocation
-+---------------------------
-+
-+As explained in previous sections, on-demand allocation is a central piece
-+of tile-based renderer if we don't want to over-allocate, which is bad for
-+integrated GPUs who share their memory with the rest of the system.
-+
-+The problem with on-demand allocation is that suddenly, GPU accesses can
-+fail on OOM, and the DRM components (drm_gpu_scheduler and drm_gem mostly)
-+were not designed for that. Those are assuming that buffers memory is
-+populated at job submission time, and will stay around for the job lifetime.
-+If a GPU fault happens, it's the user fault, and the context can be flagged
-+unusable. On-demand allocation is usually implemented as allocation-on-fault,
-+and the dma_fence contract prevents us from blocking on allocations in that
-+path (GPU fault handlers are in the dma-fence signalling path). So now we
-+have GPU allocations that will be satisfied most of the time, but can fail
-+occasionally. And this is not great, because an allocation failure might
-+kill the user GPU context (VK_DEVICE_LOST in Vulkan terms), without the
-+application having dong anything wrong. So, we need something that makes those
-+allocation failures rare enough that most users won't experience them, and
-+we need a fallback for when this happens to try to avoid them on the next
-+user attempt to submit a graphics job.
-+
-+The plan
-+========
-+
-+On-demand allocation rules
-+--------------------------
-+
-+First of all, all allocations happening in the fault handler path must
-+be using GFP_NOWAIT. With this flag, low-hanging fruit can be picked
-+(clean FS cache will be flushed for instance), but an error will be
-+returned if no memory is readily available. GFP_NOWAIT will also trigger
-+background reclaim to hopefully free-up some memory for our future
-+requests.
-+
-+How to deal with allocation failures
-+------------------------------------
-+
-+The first trick here is to try to guess approximately how much memory
-+will be needed, and force-populate on-demand buffers with that amount
-+of memory when the job is started. It's not about guessing the worst
-+case scenario here, but more the most likely case, probably with a
-+reasonable margin, so that the job is likely to succeed when this amount
-+of memory is provided by the KMD.
-+
-+The second trick to try to avoid over-allocation, even with this
-+sub-optimistic estimate, is to have a shared pool of memory that can be
-+used by all GPU contexts when they need tiler/geometry memory. This
-+implies returning chunks to this pool at some point, so other contexts
-+can re-use those. Details about what this global memory pool implementation
-+would look like is currently undefined, but it needs to be filled to
-+guarantee that pre-allocation requests for on-demand buffers used by a
-+GPU job can be satisfied in the fault handler path.
-+
-+As a last resort, we can try to allocate with GFP_ATOMIC if everything
-+else fails, but this is a dangerous game, because we would be stealing
-+memory from the atomic reserve, so it's not entirely clear if this is
-+better than failing the job at this point.
-+
-+Ideas on how to make allocation failures decrease over time
-+-----------------------------------------------------------
-+
-+When an on-demand allocation fails and the hardware doesn't have a
-+flush-primitives fallback, we usually can't do much apart from failing the
-+whole job. But it's important to try to avoid future allocation failures
-+when the application creates a new context. There's no clear path for
-+how to guess the actual size to force-populate on the next attempt. One
-+option is to have a simple heuristics, like double the current resident size,
-+but this has the downside of potentially taking a few attempts before reaching
-+the stability point. Another option is to repeatedly map a dummy page at the
-+fault addresses, so we can get a sense of how much memory was needed for this
-+particular job.
-+
-+Once userspace gets an idea of what the application needs, it should force
-+this to be the minimum populated size on the next context creation. For GL
-+drivers, the UMD is in control of the context recreation, so it can easily
-+record the next buffer size to use. For Vulkan applications, something should
-+be recorded to track that, maybe in the form of some implicit dri-conf
-+database that can overload the explicit dri-conf.
-+
-+Various implementation details have been discussed
-+`here <https://lore.kernel.org/dri-devel/Z_kEjFjmsumfmbfM@phenom.ffwll.local/>`_
-+but nothing has been decided yet.
-+
-+DRM infrastructure changes for tile-based renderers
-+===================================================
-+
-+As seen in previous sections, allocation for tile-based GPUs can be tricky,
-+so we really want to add as much facility as we can, and document how these
-+helpers must be used. This section tries to list the various components and
-+how we expect them to work.
-+
-+GEM SHMEM sparse backing
-+------------------------
-+
-+On-demand allocation is not something the GEM layer has been designed for.
-+The idea is to extend the existing GEM and GEM SHMEM helpers to cover the
-+concept of sparse backing.
-+
-+A solution has been proposed
-+`here<https://lore.kernel.org/dri-devel/20250404092634.2968115-1-boris.brezillon@collabora.com/>`_
-+
-+Fault injection mechanism
-+-------------------------
-+
-+In order to easily test/validate the on-demand allocation logic, we need
-+a way to fake GPU faults and trigger on-demand allocation. We also need
-+to fake allocation failures are various points.
-+
-+This part is likely to be driver specific, and should probably involve
-+new debugfs knobs.
-+
-+Global memory pool for on-demand allocation
-+-------------------------------------------
-+
-+TBD.
-diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-index 7dcb15850afd..186917524854 100644
---- a/Documentation/gpu/index.rst
-+++ b/Documentation/gpu/index.rst
-@@ -14,6 +14,7 @@ GPU Driver Developer's Guide
-    driver-uapi
-    drm-client
-    drm-compute
-+   drm-tile-based-renderer
-    drivers
-    backlight
-    vga-switcheroo
+diff --git a/drivers/video/fbdev/carminefb.c b/drivers/video/fbdev/carminefb.c
+index e56065cdba97..2bdd67595891 100644
+--- a/drivers/video/fbdev/carminefb.c
++++ b/drivers/video/fbdev/carminefb.c
+@@ -649,13 +649,13 @@ static int carminefb_probe(struct pci_dev *dev, const struct pci_device_id *ent)
+ 	 * is required for that largest resolution to avoid remaps at run
+ 	 * time
+ 	 */
+-	if (carminefb_fix.smem_len > CARMINE_TOTAL_DIPLAY_MEM)
+-		carminefb_fix.smem_len = CARMINE_TOTAL_DIPLAY_MEM;
++	if (carminefb_fix.smem_len > CARMINE_TOTAL_DISPLAY_MEM)
++		carminefb_fix.smem_len = CARMINE_TOTAL_DISPLAY_MEM;
+ 
+-	else if (carminefb_fix.smem_len < CARMINE_TOTAL_DIPLAY_MEM) {
++	else if (carminefb_fix.smem_len < CARMINE_TOTAL_DISPLAY_MEM) {
+ 		printk(KERN_ERR "carminefb: Memory bar is only %d bytes, %d "
+ 				"are required.", carminefb_fix.smem_len,
+-				CARMINE_TOTAL_DIPLAY_MEM);
++				CARMINE_TOTAL_DISPLAY_MEM);
+ 		goto err_unmap_vregs;
+ 	}
+ 
+diff --git a/drivers/video/fbdev/carminefb.h b/drivers/video/fbdev/carminefb.h
+index 297688eba469..c9825481d96b 100644
+--- a/drivers/video/fbdev/carminefb.h
++++ b/drivers/video/fbdev/carminefb.h
+@@ -7,7 +7,7 @@
+ 
+ #define MAX_DISPLAY	2
+ #define CARMINE_DISPLAY_MEM	(800 * 600 * 4)
+-#define CARMINE_TOTAL_DIPLAY_MEM	(CARMINE_DISPLAY_MEM * MAX_DISPLAY)
++#define CARMINE_TOTAL_DISPLAY_MEM	(CARMINE_DISPLAY_MEM * MAX_DISPLAY)
+ 
+ #define CARMINE_USE_DISPLAY0	(1 << 0)
+ #define CARMINE_USE_DISPLAY1	(1 << 1)
 -- 
 2.49.0
 
