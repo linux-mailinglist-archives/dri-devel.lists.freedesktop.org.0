@@ -2,94 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC37A9359A
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 11:52:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CB3A93675
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 13:23:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D360610EB6E;
-	Fri, 18 Apr 2025 09:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0145010EB8B;
+	Fri, 18 Apr 2025 11:23:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cLpiG6bb";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Agx7h2pJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D8110E209
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 09:51:57 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-43cf257158fso11802185e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 02:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744969916; x=1745574716; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LTriGcJf1+d2mqFYAg9DFYbIx+5WzZgXxQPOJC5ixQk=;
- b=cLpiG6bbTugtzCIZRkv6LlowVUd0mDfTwzdSnHjB1AcfuW9jRz+ETwEdTFiXekGTAK
- QK6hD1StHYrcqGnVgI4VM6J2BPPlqjglwDuG2MVNlgX810491jTOZhOOh+ACLHcrNLN0
- fhsSD7yCe6CvjzKwtCNqTfry+/e0MpCH73WfKD3+icaMMuHxh/hXPlQ9ZcoByB/wy3Zn
- DWjzYbeya55M9YeV5Taus73YTn9U1hRRggZiK/du0rgrEpN4s4Z9LfVqpsi1d27YfEJG
- 8kudvt72QrKSQkKOWDs6+0pybW/bNuN5tkquxTj6qazH4ahofTO60yuh8iWqsJ60jBWv
- 4tpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744969916; x=1745574716;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LTriGcJf1+d2mqFYAg9DFYbIx+5WzZgXxQPOJC5ixQk=;
- b=Y0dZtmJf5yQ11qR2NEirKCCTspn+CB9HOZRPNAP9C/yS3SogCGCY9rkN2tIYYULCGO
- Q3TrbKmJmy/SdZdiVFeSlmE4lh++R8M1mcV1alXR277kwC7Y65bmWLYVM00S2gQKsCaX
- zO4eYFk531YMAPF4c5gFUETZaisDQ5mU0+vcUatT4Tjsl7TEP3BGUPnOg5TkP9snKtm1
- MrBRcQWzSKLz4r93K7xxtkk9jmwDIoxZaFa33bMmSABJAcRu75EO4K0AG4q5rxcQA8gE
- qUSjN0Vlrl0xgI5FfjdUE3KDro7azDRDvkf+DZ4PNV42fklZ1keuCYsGyqa8ZmpUj/xG
- wS/Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX3xhcvxliXm72R+Ek9tPssnA1q+44FbYcigXMLH/OVynEs3akqt8PXcZ0+ji6oNa6KoRxZw0jqjIU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJa9Y1gD3PmDyy410uGv/CEmdlQ/x22luDe8lTa5b+0Jp1oXHi
- 08QJnNaFqUBwcHGDoE46Vd1+0RkWqA4VAGkeop9FouK3xKm4U6yMDU2YRe+QW1fKIDXjBXGpK1w
- ykyMlkHTYxHESoF3F772wa2vMq8o=
-X-Gm-Gg: ASbGncvP8FhO3WXSnVOxrZJetDIrBDmz8F8HgTKEGilPQsaBxWFKMvMfHQEjMaYD4Is
- VF66cwz6ALElVih4arXwUjVb0HQblW+yNHNG6h1Coo1O/rY2HmxOF8J/mF6sm8d7i+oN2XIGC4i
- YCEX4cYn3NR1J6y7KpC6G7G08QxBFOL2TwNRGdNsr2aHQR8fQcNeXC3hTp/ho2G2Kwxw==
-X-Google-Smtp-Source: AGHT+IH+R0wDsPZxpttzWIBTizKL16OUAhkIs8Ybf3Z1XefroUvyq7u8MBaLKEnIreBCTXJI7j1Hi4bmT3L3IR1EI3Q=
-X-Received: by 2002:a05:6000:40ce:b0:39e:cbd2:9211 with SMTP id
- ffacd0b85a97d-39efbaf70b4mr1420004f8f.55.1744969915990; Fri, 18 Apr 2025
- 02:51:55 -0700 (PDT)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9FE10E10F
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 11:23:01 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250418112259euoutp028d0965319d4d5de12b9468479238a3bc~3Zdy0ZyoS0864108641euoutp022
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 11:22:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250418112259euoutp028d0965319d4d5de12b9468479238a3bc~3Zdy0ZyoS0864108641euoutp022
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1744975379;
+ bh=yzaBvKzzEWWyLTE1pyTYFM8f6ViBLwOiNdNueDjhZzg=;
+ h=From:Subject:Date:To:Cc:References:From;
+ b=Agx7h2pJRQjZPeRRRAb5stJUq58TRl+E6MIK+pVqgQZpqZ0xstoDmn7OiV5wpjac0
+ HDWaCN3g3E57aKJan17328BYFgcAe09HbXT0W4DLN03TDxsUBiDg/W6asWn3E8G07N
+ tBYD7PUU2GWBxcR52lU401cT72wQtjcyRD9gLKDI=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20250418112258eucas1p22468c70dfc2f1313fb1427ee76939b89~3ZdycMMLE1933319333eucas1p2D;
+ Fri, 18 Apr 2025 11:22:58 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 9E.AE.20821.21632086; Fri, 18
+ Apr 2025 12:22:58 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250418112258eucas1p28186b27890dbed4cbc05b2ddd8f94327~3ZdxtNRXh0304303043eucas1p2g;
+ Fri, 18 Apr 2025 11:22:58 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20250418112257eusmtrp1343528e483703d9339388d0e6e724f8a~3Zdxde5Rp2607526075eusmtrp1m;
+ Fri, 18 Apr 2025 11:22:57 +0000 (GMT)
+X-AuditID: cbfec7f2-b11c470000005155-d7-6802361210da
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 41.98.19654.11632086; Fri, 18
+ Apr 2025 12:22:57 +0100 (BST)
+Received: from AMDC4942.eu.corp.samsungelectronics.net (unknown
+ [106.210.136.40]) by eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250418112256eusmtip237aa76492b51754773f723e760e428c2~3ZdwrNQwu3259732597eusmtip2V;
+ Fri, 18 Apr 2025 11:22:56 +0000 (GMT)
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+Subject: [PATCH v6 0/2] Add optional reset for the drm/imagination driver
+Date: Fri, 18 Apr 2025 13:22:47 +0200
+Message-Id: <20250418-apr_18_reset_img-v6-0-85a06757b698@samsung.com>
 MIME-Version: 1.0
-References: <20250408200916.93793-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250408200916.93793-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdW9WhKeMyKfdiLWmLC8mabNe-4ROW5uCZhx6z503GE0Ug@mail.gmail.com>
-In-Reply-To: <CAMuHMdW9WhKeMyKfdiLWmLC8mabNe-4ROW5uCZhx6z503GE0Ug@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 18 Apr 2025 10:51:29 +0100
-X-Gm-Features: ATxdqUGJ33rQ0RpZLlTvPOwYpzkjsOoa22XiNfmq9rKmqKxtHcumo8VUIXPTNAE
-Message-ID: <CA+V-a8tCtVQA3DnzKMy+4gZDwZqhg29E0H+7cS0YojFkQ2Os_g@mail.gmail.com>
-Subject: Re: [PATCH v2 01/15] clk: renesas: rzv2h-cpg: Add support for DSI
- clocks
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAc2AmgC/x3MTQqAIBBA4avIrBNUMqyrREg/k82ikjEikO6et
+ PwW72VIyIQJOpGB8aZE51HQVALmbTwCSlqKwShjVa2dHCN77TxjwsvTHuSklWmdU9YsCCWLjCs
+ 9/7If3vcDMSsFS2IAAAA=
+X-Change-ID: 20250418-apr_18_reset_img-b102988052de
+To: Frank Binns <frank.binns@imgtec.com>,  Matt Coster
+ <matt.coster@imgtec.com>, David Airlie <airlied@gmail.com>,  Simona Vetter
+ <simona@ffwll.ch>,  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>,  Michal Wilczynski
+ <m.wilczynski@samsung.com>
+X-Mailer: b4 0.15-dev
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHKsWRmVeSWpSXmKPExsWy7djPc7pCZkwZBp8valicuL6IyWLN3nNM
+ FvOPnGO1uPL1PZvFuqcX2C1ezrrHZrH39VZ2i8u75rBZrD1yl91i/df5TBYLP25lsViyYxej
+ RVvnMlaLu/dOsFj837OD3WL2u/3sFlveTGR1EPTY+20Bi8fOWXfZPXp2nmH02LSqk83jzrU9
+ bB7zTgZ63O8+zuTR/9fAo2/LKkaPzaerPT5vkgvgjuKySUnNySxLLdK3S+DK+P/TsmCacMXW
+ r23MDYx3+bsYOTkkBEwk1j39ytTFyMUhJLCCUeL++bOsEM4XRonZMx6yglQJCXxmlLjxVRqm
+ 4+LnTSwQRcsZJV5uuQjltDFJ3Dk/jRmkik3ASOLB8vlg3cICnhKH1u8Bsjk4WARUJea/0gUJ
+ 8wq4SuydfZ0RwhaUODnzCQuIzSwgL7H97RxmkJkSAhsYJZbemMQOsdlYYkfjU7DzRAReMktc
+ WLeEEcRhFjjJKLGw6zAjRJWoxO/Ju1gg2g9zSnxYcIsZIuEiseLxJ6hRwhKvjm+BsmUkTk/u
+ YYGw8yUebP0EVV8jsbPnOJRtLXHn3C82kBeYBTQl1u/Shwg7Suz5voUFJCwhwCdx460gxAd8
+ EpO2TWeGCPNKdLQJQVSrSUzt6YVbem7FNqYJjEqzkPw/C8n/sxB2LWBkXsUonlpanJueWmyY
+ l1quV5yYW1yal66XnJ+7iRGYBE//O/5pB+PcVx/1DjEycTAeYpTgYFYS4Z2uw5QhxJuSWFmV
+ WpQfX1Sak1p8iFGag0VJnHfR/tZ0IYH0xJLU7NTUgtQimCwTB6dUA5Or4mI1RQ8dwaWF/Qvz
+ dxvZtr79uGTui+6TWU/DpyRN3xEfX5kZffYk041bO3fd//VnwXvBp6uWeiwODVz0psPkzjr3
+ E79ST8dI/LM5d6Qv8pTu2/y5WVvM5uq8fHZD/Lrew56tnKG/F7s/kn7DGHNgTx+n6zw3vcPB
+ ywTW7VnU6ZKW6K4w19fDpWSi1qKWlJUCV2sszCbueadtnbDreM2yYI0EBrWW4657udi2bZ7P
+ 4fBTVLFk747Hk6SlnfO4qt6eUbk6a/7fpp+ZkTYcVn/f3Jdn9zqVeH/BsmtNf5ULUhl+v84L
+ ez7DeId0HttU7xvheeW/K5f6B03xOnTy3hzt17o10yaGv9uY/vzzvKAwJZbijERDLeai4kQA
+ wR8/zfEDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsVy+t/xe7qCZkwZBgtna1qcuL6IyWLN3nNM
+ FvOPnGO1uPL1PZvFuqcX2C1ezrrHZrH39VZ2i8u75rBZrD1yl91i/df5TBYLP25lsViyYxej
+ RVvnMlaLu/dOsFj837OD3WL2u/3sFlveTGR1EPTY+20Bi8fOWXfZPXp2nmH02LSqk83jzrU9
+ bB7zTgZ63O8+zuTR/9fAo2/LKkaPzaerPT5vkgvgjtKzKcovLUlVyMgvLrFVija0MNIztLTQ
+ MzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DL+P/TsmCacMXWr23MDYx3+bsYOTkkBEwkLn7e
+ xNLFyMUhJLCUUWJ/z3oWiISMxLXul1C2sMSfa11sILaQQAuTRP85bxCbTcBI4sHy+awgtrCA
+ p8Sh9XuAbA4OFgFVifmvdEHCvAKuEntnX2eEsAUlTs58wgJSwiygKbF+lz5ImFlAXmL72znM
+ ICdICGxglNiy/h4zxFpjiR2NT1lBEiICb5glVj74xgjiMAucYpSYMPUqO0SVqMTvybtYJjAK
+ zkKyZBbCkllIlixgZF7FKJJaWpybnltspFecmFtcmpeul5yfu4kRGNvbjv3csoNx5auPeocY
+ mTgYDzFKcDArifBO12HKEOJNSaysSi3Kjy8qzUktPsRoCvTnRGYp0eR8YHLJK4k3NDMwNTQx
+ szQwtTQzVhLnZbtyPk1IID2xJDU7NbUgtQimj4mDU6qBqeNc3oHF33R0N+hYczO5WYRUGDEo
+ 3nr2b4m0o3XDot+cLQ6H2A6v33eJ+2ud8/fwiKYdjB8WdymJuLlf01KJ2/LhXK5VUPHp37zv
+ rFmufW1hnNa14MwE5guTn05oOH7BrOy1/oafC0rUb6gdO2635Nfzh58rHNmeCT+2V3PUdSi5
+ F66ZdNTc+XD8uvdnwic9lCloCdeJa/ZJNChYsS6x79Ntk4k9dhb9WUXB6rY+0llzLOz39kSV
+ cljtKpWZ9UevMKL3E+eRDScal2ZZK5Srn7NIj2tWtRG73NDzfNr1yEUHFx3IZJx1/ljpWyep
+ y9M/C9v4s79puxn8jLHdU3BvzBXRGY7XJ/xZlXiwdTa/EktxRqKhFnNRcSIAMWuHpXYDAAA=
+X-CMS-MailID: 20250418112258eucas1p28186b27890dbed4cbc05b2ddd8f94327
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250418112258eucas1p28186b27890dbed4cbc05b2ddd8f94327
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20250418112258eucas1p28186b27890dbed4cbc05b2ddd8f94327
+References: <CGME20250418112258eucas1p28186b27890dbed4cbc05b2ddd8f94327@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,170 +131,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+This patch series introduces and documents optional reset support for
+the drm/imagination driver. While developed as part of a larger effort
+to enable the Imagination BXM-4-64 GPU upstream, these patches can merge
+independently.
 
-Thank you for the review.
+During the upstreaming process, we discovered that the T-HEAD TH1520 SoC
+requires custom code to manage resets and clocks from the power-domain
+driver [1]. Nevertheless, adding this reset capability is necessary, as
+the GPU Device Tree node would own the reset control and would manage it
+for boards like BPI-F3 that don't have custom requirements for handling
+clocks and resets during their startup sequence.
 
-On Tue, Apr 15, 2025 at 4:57=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, 8 Apr 2025 at 22:09, Prabhakar <prabhakar.csengg@gmail.com> wrote=
-:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Add support for PLLDSI and PLLDSI divider clocks.
-> >
-> > The `renesas-rzv2h-dsi.h` header file is added to share the PLL divider
-> > algorithm between the CPG and DSI drivers.
-> >
-> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/clk/renesas/rzv2h-cpg.c
-> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
-> > @@ -196,6 +225,253 @@ static int rzv2h_cpg_pll_clk_enable(struct clk_hw=
- *hw)
-> >         return ret;
-> >  }
-> >
-> > +static unsigned long rzv2h_cpg_plldsi_div_recalc_rate(struct clk_hw *h=
-w,
-> > +                                                     unsigned long par=
-ent_rate)
-> > +{
-> > +       struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
-> > +       struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
-> > +       struct ddiv ddiv =3D dsi_div->ddiv;
-> > +       u32 div;
-> > +
-> > +       div =3D readl(priv->base + ddiv.offset);
-> > +       div >>=3D ddiv.shift;
-> > +       div &=3D ((2 << ddiv.width) - 1);
-> > +
-> > +       div =3D dsi_div->dtable[div].div;
-> > +
-> > +       return DIV_ROUND_CLOSEST_ULL(parent_rate, div);
-> > +}
-> > +
-> > +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
-> > +                                              struct clk_rate_request =
-*req)
-> > +{
-> > +       struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
-> > +       struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
-> > +       struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_=
-div_parameters;
-> > +       unsigned long long rate_mhz;
-> > +
-> > +       /*
-> > +        * Adjust the requested clock rate (`req->rate`) to ensure it f=
-alls within
-> > +        * the supported range of 5.44 MHz to 187.5 MHz.
-> > +        */
-> > +       req->rate =3D clamp(req->rate, 5440000UL, 187500000UL);
-> > +
-> > +       rate_mhz =3D req->rate * MILLI * 1ULL;
->
-> The first multiplication overflows on 32-bit systems.
-> Probably you wanted to use mul_u32_u32() instead?
->
-Ok, I'll switch to mul_u32_u32() .
+For more context, please see the cover letter for the larger series [2].
 
-> More review later, I fell too deep in the wrong rabbit hole ("mhz !=3D
-> megaHertz"), again...
->
-After fixing the review comments on this I'll send out a v3 with this
-change, so that its easier to review.
+[1] - https://lore.kernel.org/all/20250414-apr_14_for_sending-v2-0-70c5af2af96c@samsung.com/
+[2] - https://lore.kernel.org/all/20250219140239.1378758-1-m.wilczynski@samsung.com/
 
-> > --- /dev/null
-> > +++ b/include/linux/clk/renesas-rzv2h-dsi.h
-> > @@ -0,0 +1,207 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Renesas RZ/V2H(P) DSI CPG helper
-> > + *
-> > + * Copyright (C) 2025 Renesas Electronics Corp.
-> > + */
-> > +
-> > +#include <linux/limits.h>
-> > +#include <linux/math.h>
-> > +#include <linux/math64.h>
-> > +#include <linux/units.h>
-> > +
-> > +#define OSC_CLK_IN_MEGA                (24 * MEGA)
-> > +
-> > +struct rzv2h_plldsi_div_limits {
-> > +       struct {
-> > +               u64 min;
-> > +               u64 max;
->
-> u32 should be sufficient?
->
-Agreed.
+This series is versioned to maintain continuity with the bigger patchset
+it is a subseries of. Please find below changelog for the
+drm/imagination reset part:
 
-> > +       } fvco;
-> > +
-> > +       struct {
-> > +               u16 min;
-> > +               u16 max;
-> > +       } m;
-> > +
-> > +       struct {
-> > +               u8 min;
-> > +               u8 max;
-> > +       } p;
-> > +
-> > +       struct {
-> > +               u8 min;
-> > +               u8 max;
-> > +       } s;
-> > +
-> > +       struct {
-> > +               s16 min;
-> > +               s16 max;
-> > +       } k;
-> > +
-> > +       struct {
-> > +               u8 min;
-> > +               u8 max;
-> > +       } csdiv;
-> > +};
-> > +
-> > +struct rzv2h_plldsi_parameters {
-> > +       u64 freq_mhz;
-> > +       s64 error_mhz;
-> > +       u16 m;
-> > +       s16 k;
-> > +       u8 csdiv;
-> > +       u8 p;
-> > +       u8 s;
-> > +};
-> > +
-> > +#define RZV2H_CPG_PLL_DSI_LIMITS(name)                                =
- \
-> > +       static const struct rzv2h_plldsi_div_limits (name) =3D {       =
-   \
-> > +               .m =3D { .min =3D 64, .max =3D 533 },                  =
-       \
-> > +               .p =3D { .min =3D 1, .max =3D 4 },                     =
-       \
-> > +               .s =3D { .min =3D 0, .max =3D 6 },                     =
-       \
-> > +               .k =3D { .min =3D -32768, .max =3D 32767 },            =
-       \
-> > +               .csdiv =3D { .min =3D 2, .max =3D 32 },                =
-       \
-> > +               .fvco =3D { .min =3D 1600 * MEGA, .max =3D 3200 * MEGA =
-}      \
->
-> Please initialize the members in declaration order.
->
-Ok.
+v6:
+ - no changes, just a re-send, bumping version to avoid confusion
 
-Cheers,
-Prabhakar
+v5:
+ - moved the recommended 1 microsecond delay after de-asserting GPU
+   reset to the Imagination driver itself 
+
+v4:
+ - reverted reset-cells configuration to single cell as in v2
+ - addressed minor implementation issues in the DRM/Imagination reset driver
+
+v3:
+ - refactored reset driver to use zero cells
+
+v2:
+ - updated the drm/imagination driver to act as a reset controller
+   consumer. While this patchset is focused on the LPI4A board, the
+   reset controller is designed to be useful for other boards, such as the
+   BPI-3F, which also require a reset sequence after power-up.
+
+---
+Michal Wilczynski (2):
+      dt-bindings: gpu: Add 'resets' property for GPU initialization
+      drm/imagination: Add reset controller support for GPU initialization
+
+ .../devicetree/bindings/gpu/img,powervr-rogue.yaml |  3 +++
+ drivers/gpu/drm/imagination/pvr_device.c           | 21 +++++++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_device.h           |  9 +++++++++
+ drivers/gpu/drm/imagination/pvr_power.c            | 22 +++++++++++++++++++++-
+ 4 files changed, 54 insertions(+), 1 deletion(-)
+---
+base-commit: fc96b232f8e7c0a6c282f47726b2ff6a5fb341d2
+change-id: 20250418-apr_18_reset_img-b102988052de
+
+Best regards,
+-- 
+Michal Wilczynski <m.wilczynski@samsung.com>
+
