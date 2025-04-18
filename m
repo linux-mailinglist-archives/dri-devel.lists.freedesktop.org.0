@@ -2,82 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC27A9399C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 17:28:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D48EA939A3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 17:29:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6959410E219;
-	Fri, 18 Apr 2025 15:28:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BDEE10E21E;
+	Fri, 18 Apr 2025 15:29:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ACYhsWIH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KREEHdgY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B5B510E219
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 15:28:02 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53I2g9EV014784;
- Fri, 18 Apr 2025 15:27:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA98510E21E
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 15:29:13 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53IF6BGk005236
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 15:29:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7q3NZYm/y/kmIzfJ+BWVhXq7DYINCCPsGZUSKpcwx7M=; b=ACYhsWIH5dao7eGx
- DJMEpFtJtHf1Xme+Hkl6CZaDSWEtS4XMdy/AlTuujsJF985/2grZBcVgV4iWOsB5
- 1Dj4hJ39meXz/bx4NBeByJjyH9Y/HzrTFvKkutbSyaR2HY67vwn5vNNnDqX3C56Z
- NI4p/xt5IoPOwJgVmrQ0beWRi5OPK/NRB/sbX6edeT1CxUfcDE007YnVwVlP2/C7
- VR2sI1P44IuENhQ3NQkeZK5QfoPXKMjt6Lgvjqy4LySrMkEYPkpgvI54wh095oxJ
- 6LfvbUFP3p51RNDMdE8mmRw95QQMuzbNbqWPuzWXFO6hyRBx2uZAiLr5L657bQUC
- ra87vg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygd6tcv5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Apr 2025 15:27:57 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53IFRuKI007425
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Apr 2025 15:27:56 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 18 Apr
- 2025 08:27:55 -0700
-Message-ID: <c6b4aaad-aa5f-4f46-948f-de150dfc60fe@quicinc.com>
-Date: Fri, 18 Apr 2025 09:27:55 -0600
+ zpqSELpT+sKl72wUzcnbK3z05Oav+dEdjR1RRNA97O0=; b=KREEHdgYS1wzV4/U
+ pKNiWsGl/Vx4xmSZ4M1zBShgoXmi8jYlCPjFKzpZJFW9xVi7yM+9GPxnk1RYT0w2
+ Jk3vHUarD2Tmnj+ZhjkdC3be6XdaAmkoAT7qCBhDcXBM4Hhryn9EuiOjAC9SOmeT
+ dIgmo/8yMJ1xlj4YYUdOtoSbByxakTyxcrCmRMYTe1VXr8zW/K8OaDH+cYSl5UI4
+ YQawhJumfx0P1Rx59XuZvEpLyh1gG2H18BDfUo9x6McVo+reNQYsuBXeEYcblbUd
+ aBmxw3VFs00FRL86ITxscH8ZzwCMjd4XMH2og1SZ0gJyC5fAq4pOXecCpYn8LTh2
+ BqpdfQ==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yf6a2a1f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 15:29:12 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-227ed471999so18635775ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 08:29:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744990151; x=1745594951;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zpqSELpT+sKl72wUzcnbK3z05Oav+dEdjR1RRNA97O0=;
+ b=eynzl58CFbhD6eEgBe8rRKUoVLIv1KfdIFKtqh3rhIct50PVRw0rg3MYxXsp2GBFG4
+ 6fcIrio2Bkn8t+K0rTN38dFBwEL+RrE288xSFN7mv1HxSrZ2lkhzgDFBUrC7F/EKFDHn
+ JZt/KcYWSsKGk7ymyBHJLZjquyszI/K9ETW2/0EErnrv6uW74hLZQCFbZwlZb4GjIZzM
+ dano2l/Z8GSq2cwPSoKY9xdg0++RMDuzSDcjaPLebqESf3ckpGSAoboqSXjIsydzp+Ht
+ 1tk811bGo9yPNa2nr281EdxsrPVVnKPXV4mfmZsFTDfjs5o59HzVUhvrjr0g4eilf6vX
+ ju3A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXjgPrVQos5Ex9VlUi4x1O+PlcelTDed+hDSKSvWOvYfRhqw/+HO4GlgEz0oGX1sTpX+/XLoXSnIY0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxAmdk2A0PxpJM8sELLlggvgmj8w+rJ7O5GM46XWO+I0Htvy18y
+ XFpNgCubzyYHfuvN9VmdqTlr1wMC5IG2zqFenTTfgJwiDX9AqiZ38FCa6b6YuVWqWnHnEqr6GtJ
+ eb2RU8yqQ6hBFzkbQC3V0Pr40CWDLTOcfwbo2/9Pj0eKsCC10/ws6e/MGqLf5Yiae3OI=
+X-Gm-Gg: ASbGnctKfeRJARIQXGno5Skd6dOf78qrDFGGjCikRdWXFmAT0DcNaPKzmFSj6J5Uo6z
+ Poc2XdAKAQzYkQb3puDrt4t7V3eQ+5M9s5IVM8hQ8Da95R5Vr7PG+HKJsqQZOi+heldEWxuYC9R
+ OF/nMV+mpsR3WKZh4ZvNUypXUUWRZebNEmENQQtZ+hXUUfwybtnlvzRE7DZUoIzLfl0whTMHSgR
+ uk1mQiYKUfEBJsyBwFoklr/pOfVhrlqzxVM17GMKMWJr7PNqQpJNcAPbl8KesK029JLUVXONqd1
+ ZkarvhkWzscR9/7tseTG45YxisQPOZijngvSHOeyY2xsB587+OqtS2Y8X3QcDw==
+X-Received: by 2002:a17:903:947:b0:223:517c:bfa1 with SMTP id
+ d9443c01a7336-22c5360c7admr54577275ad.38.1744990151388; 
+ Fri, 18 Apr 2025 08:29:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFjAHXyd1nYzGAb3RhFK+EGxDwI+LzxnDHJpHuyZTtGuUtva7SHVi56Mr6UDL7qM4+EiFoFfA==
+X-Received: by 2002:a17:903:947:b0:223:517c:bfa1 with SMTP id
+ d9443c01a7336-22c5360c7admr54576995ad.38.1744990151086; 
+ Fri, 18 Apr 2025 08:29:11 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-73dbfa588b9sm1736146b3a.117.2025.04.18.08.29.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Apr 2025 08:29:10 -0700 (PDT)
+Message-ID: <70f4992c-a47e-4ffb-8664-0ffe35dfd368@oss.qualcomm.com>
+Date: Fri, 18 Apr 2025 09:29:09 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Implement heartbeat-based TDR mechanism
+Subject: Re: [PATCH] accel/ivpu: Correct DCT interrupt handling
 To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>, <jacek.lawrynowicz@linux.intel.com>,
- <lizhi.hou@amd.com>, Karol Wachowski <karol.wachowski@intel.com>
-References: <20250416102555.384526-1-maciej.falkowski@linux.intel.com>
+ dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jacek.lawrynowicz@linux.intel.com,
+ lizhi.hou@amd.com, Karol Wachowski <karol.wachowski@intel.com>
+References: <20250416102616.384577-1-maciej.falkowski@linux.intel.com>
 Content-Language: en-US
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20250416102555.384526-1-maciej.falkowski@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250416102616.384577-1-maciej.falkowski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: rnPQTzd6StFzADzeAaZLj0zC0F6E1b6r
-X-Proofpoint-GUID: rnPQTzd6StFzADzeAaZLj0zC0F6E1b6r
-X-Authority-Analysis: v=2.4 cv=ANaQCy7k c=1 sm=1 tr=0 ts=68026f7d cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=QyXUC8HyAAAA:8
- a=IRmo4Fqx3i6jFQ_zk6YA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: FwMr7bBGkzrh1kIm4g_nT9XpwoZ4kb9Q
+X-Authority-Analysis: v=2.4 cv=JNc7s9Kb c=1 sm=1 tr=0 ts=68026fc8 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8
+ a=uXqb3UxHCVRvgswKmfcA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-ORIG-GUID: FwMr7bBGkzrh1kIm4g_nT9XpwoZ4kb9Q
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-18_05,2025-04-17_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- mlxlogscore=637 suspectscore=0 clxscore=1011 lowpriorityscore=0
- phishscore=0 impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ mlxscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=917 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 clxscore=1015 phishscore=0 adultscore=0 priorityscore=1501
+ spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
  adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2504180114
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,18 +118,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/16/2025 4:25 AM, Maciej Falkowski wrote:
+On 4/16/2025 4:26 AM, Maciej Falkowski wrote:
 > From: Karol Wachowski <karol.wachowski@intel.com>
 > 
-> Introduce a heartbeat-based Timeout Detection and Recovery (TDR) mechanism.
-> The enhancement aims to improve the reliability of device hang detection by
-> monitoring heartbeat updates.
+> Fix improper use of dct_active_percent field in DCT interrupt handler
+> causing DCT to never get enabled. Set dct_active_percent internally before
+> IPC to ensure correct driver value even if IPC fails.
+> Set default DCT value to 30 accordingly to HW architecture specification.
 > 
-> Each progressing inference will update heartbeat counter allowing driver to
-> monitor its progression. Limit maximum number of reschedules when heartbeat
-> indicates progression to 30.
+> Fixes: a19bffb10c46 ("accel/ivpu: Implement DCT handling")
+> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
+> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 
-Code looks good.  However, why 30?  This would artificially limit how 
-long a job could run, no?
-
--Jeff
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
