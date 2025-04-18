@@ -2,99 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9EEA93A3D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 18:00:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90AB1A93A9E
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 18:20:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A879D10E205;
-	Fri, 18 Apr 2025 16:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2A9210E073;
+	Fri, 18 Apr 2025 16:20:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MYpZQYTZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CVb/7bg0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9C2F10E073;
- Fri, 18 Apr 2025 16:00:51 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53I29ajq015622;
- Fri, 18 Apr 2025 16:00:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- t4P8qTI9W92yKZd3YS7eACSbQ9BmpgerT/KFIqAOVOs=; b=MYpZQYTZgiHi+kMx
- u0X1apBqOiCG8nO71CWW1d/Y2Plz2tZy2nJ7i5f8zyEwWSsZD2AyD68cBZ7r1ThF
- FQSbs94hNrbiLDShPxZMR7cZzO/j+HoR4jBJ6hAtNd+Sb6Q+z+sTH4rCQqz1ATWS
- WTNrDntvvujVKvqIw/LfiSqpRIKjavNH4sL5SW6edrcG/KYkLrcfNlpRkUc5V+nd
- 5fZwASEEjhYW/JFpfSIPKjlLqRA5pjzkJfEb296mqbFkyDvHp2WPsfmhjntIvhu4
- 3BoxbNK57Vu8r3WuLUhQHuDaAQwPtNZtQXP+PdES+uo/ZkMg4H1KGEcYJCBFyRSe
- iQ4Z1g==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ydhqjjnr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Apr 2025 16:00:43 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53IG0eYo012830
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Apr 2025 16:00:40 GMT
-Received: from [10.216.6.49] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 18 Apr
- 2025 09:00:34 -0700
-Message-ID: <16845de2-a40a-4e3d-b3aa-c91e7072b57f@quicinc.com>
-Date: Fri, 18 Apr 2025 21:30:31 +0530
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2527E10E073
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 16:20:17 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-39c1efc457bso1207325f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 09:20:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1744993216; x=1745598016; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lg2nEDrkhUSorPX1TF01jndQPRc7b/tFFfdzWj6Yd3c=;
+ b=CVb/7bg0tkg5HRtnqnj90NVqEYrreg2yb4IORhw32qfvE/sjpP3Zmwwbk8nKSX9HCY
+ rR8U1PCmM2Y1RRW4ZJvXQnD7knZAhZh96V8qQ7OCUYZA/bIhkIY2Y7RrKcQ75/peSGSg
+ rE9owcq928kNiW4fyQET/tT6CuaZfziPtR0Ok1WYVkVJ/2tvlWH49yFRmYQxiptVIjtC
+ tHAtrqE/3O9m3Jhe5kdL6Z/MtSCAgFAcoqycrlHKQ7DcmzXR2J+CyT1/CRIL/Xl8LOWU
+ RMIQzk1+r9s1l79I7gn4UQTUl5GfUAaMw5cfgzBwA4z1PrZxusxl/1yaS/32D4VkWswi
+ xUFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1744993216; x=1745598016;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lg2nEDrkhUSorPX1TF01jndQPRc7b/tFFfdzWj6Yd3c=;
+ b=XQbd7KtHPlCEO9Gy93DlXm0zlFf0rPeuIA29r+t+QGsNBqN0OWJOkDDGtB+kkJuIeU
+ +RUG1eD4upwZWE7DFe9f6KfIHPsh7XQsHihNqY6nLOCwX6Y5kQhoTsEOICvb21dC4y5e
+ Pod92ayzEpoNXn6dSW3AE4N13fq6fHIhhPcc95hIkID8/Im8GohphH0FZkvt9r7OyPLu
+ jasXaik4nU683ZEXdfN5TrA6KglKpWVMsOsli9TG/ai15Q2SJrJ5geUY1XxJrC53yGox
+ wChFInLvsaMbjasBWAF8XGmosVN+1d3l6ftIAwroE1gyGsM/ayZpplUE3rA+MRQ+i7I+
+ 4rcg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9pVNiocTxRO8SznZ8gxtcuQRN8O27OU6lsRTQ6/ef3dKn7tmxle92oeYwha4BhnDlSSAa0fO5IEk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxpfKdBteXmb/IGn4iY0lXjYMg8DPHwBTjtnzyDXrHkNQWb8Ns7
+ UYq1Uxyw6dmmCLqHPlL5Uww240jJKj8hb+IaBq8QvK4PirVnoP/84w77Le2mXZXYEopLKTu9miq
+ 1zY56bwvZjFh2dexA63Qa7gtG/vY=
+X-Gm-Gg: ASbGnctOPnpS7pxSPp4KxewtByIw01NXxKzFCftHKvP/f9tDpI3xCrb4lJP5pEGVT1e
+ 2iIpUtddOa5hven1GkyU07IfWp2bmDpGUnopZY3T9PBDwk583WYgR19ZypTNv9PjLwToMleVERX
+ iQWIex7C+xv5W1xUP0wte3mboax2IxbApcjj7sL4UmROYn+sfxgRQ0mCo=
+X-Google-Smtp-Source: AGHT+IEV8nQTdx71bXcsntH0008bnHpQrtXie8jNHCgnnEl5r+L0tBJL/zzaH6f3dMSiz8NUoJhMEwSZKKUKtHX5/lU=
+X-Received: by 2002:a05:6000:2913:b0:39e:f641:c43 with SMTP id
+ ffacd0b85a97d-39efbaf689bmr2593076f8f.53.1744993215679; Fri, 18 Apr 2025
+ 09:20:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] drm/msm/a6xx: Get HBB dynamically, if available
-To: Connor Abbott <cwabbott0@gmail.com>
-CC: Konrad Dybcio <konradybcio@kernel.org>, Bjorn Andersson
- <andersson@kernel.org>, Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov
- <lumag@kernel.org>, Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, linux-arm-msm
- <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, "Konrad
- Dybcio" <konrad.dybcio@oss.qualcomm.com>
-References: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
- <20250410-topic-smem_dramc-v2-3-dead15264714@oss.qualcomm.com>
- <20911703-ab4e-4eb2-8611-294730a06d2f@quicinc.com>
- <CACu1E7HDmQXDNtEQCXpHXsOKPCOgrWgo+_kcgizo9Mp1ntjDbA@mail.gmail.com>
- <1282bf58-e431-4a07-97e5-628437e7ce5f@quicinc.com>
- <CACu1E7GwMCt6+JJQGgSvJObTMMWYLPd69owyFo7S=sxu_EEsUw@mail.gmail.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <CACu1E7GwMCt6+JJQGgSvJObTMMWYLPd69owyFo7S=sxu_EEsUw@mail.gmail.com>
+References: <20250408200916.93793-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250408200916.93793-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdVjVEVh+dHKG_afZwyqsXwHj2FR7enHNrfuE9HJ0ELjEA@mail.gmail.com>
+In-Reply-To: <CAMuHMdVjVEVh+dHKG_afZwyqsXwHj2FR7enHNrfuE9HJ0ELjEA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 18 Apr 2025 17:19:49 +0100
+X-Gm-Features: ATxdqUEv6B6wG3-yJDLbiPWcjxc0fko3GJZ2QYvMG7cMut2VaxrivVkJC_7m9sY
+Message-ID: <CA+V-a8sqpv=Gbj+TDgkayx9ya_YfYQ=-v0-9J+GDEjHzyWEbJg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/15] clk: renesas: rzv2h-cpg: Add support for DSI
+ clocks
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: _qd9NIJaLQ9PKC5G9nd_VG7w_yJINPQS
-X-Authority-Analysis: v=2.4 cv=C7DpyRP+ c=1 sm=1 tr=0 ts=6802772b cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8
- a=EUspDBNiAAAA:8 a=0G8C8MxnwnXpGjqQjtcA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: _qd9NIJaLQ9PKC5G9nd_VG7w_yJINPQS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-18_05,2025-04-17_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- priorityscore=1501 suspectscore=0 clxscore=1015 spamscore=0 bulkscore=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504180119
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,145 +104,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/18/2025 6:40 AM, Connor Abbott wrote:
-> On Thu, Apr 17, 2025, 1:50 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>
->> On 4/17/2025 9:02 PM, Connor Abbott wrote:
->>> On Thu, Apr 17, 2025 at 3:45 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>>>
->>>> On 4/10/2025 11:13 PM, Konrad Dybcio wrote:
->>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>>>
->>>>> The Highest Bank address Bit value can change based on memory type used.
->>>>>
->>>>> Attempt to retrieve it dynamically, and fall back to a reasonable
->>>>> default (the one used prior to this change) on error.
->>>>>
->>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>>> ---
->>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 15 ++++++++++++++-
->>>>>  1 file changed, 14 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>> index 06465bc2d0b4b128cddfcfcaf1fe4252632b6777..a6232b382bd16319f20ae5f8f5e57f38ecc62d9f 100644
->>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>> @@ -13,6 +13,7 @@
->>>>>  #include <linux/firmware/qcom/qcom_scm.h>
->>>>>  #include <linux/pm_domain.h>
->>>>>  #include <linux/soc/qcom/llcc-qcom.h>
->>>>> +#include <linux/soc/qcom/smem.h>
->>>>>
->>>>>  #define GPU_PAS_ID 13
->>>>>
->>>>> @@ -587,6 +588,8 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
->>>>>
->>>>>  static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
->>>>>  {
->>>>> +     int hbb;
->>>>> +
->>>>>       gpu->ubwc_config.rgb565_predicator = 0;
->>>>>       gpu->ubwc_config.uavflagprd_inv = 0;
->>>>>       gpu->ubwc_config.min_acc_len = 0;
->>>>> @@ -635,7 +638,6 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
->>>>>           adreno_is_a690(gpu) ||
->>>>>           adreno_is_a730(gpu) ||
->>>>>           adreno_is_a740_family(gpu)) {
->>>>> -             /* TODO: get ddr type from bootloader and use 2 for LPDDR4 */
->>>>>               gpu->ubwc_config.highest_bank_bit = 16;
->>>>>               gpu->ubwc_config.amsbc = 1;
->>>>>               gpu->ubwc_config.rgb565_predicator = 1;
->>>>> @@ -664,6 +666,13 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
->>>>>               gpu->ubwc_config.highest_bank_bit = 14;
->>>>>               gpu->ubwc_config.min_acc_len = 1;
->>>>>       }
->>>>> +
->>>>> +     /* Attempt to retrieve the data from SMEM, keep the above defaults in case of error */
->>>>> +     hbb = qcom_smem_dram_get_hbb();
->>>>> +     if (hbb < 0)
->>>>> +             return;
->>>>> +
->>>>> +     gpu->ubwc_config.highest_bank_bit = hbb;
->>>>
->>>> I am worried about blindly relying on SMEM data directly for HBB for
->>>> legacy chipsets. There is no guarantee it is accurate on every chipset
->>>> and every version of firmware. Also, until recently, this value was
->>>> hardcoded in Mesa which matched the value in KMD.
->>>
->>> To be clear about this, from the moment we introduced host image
->>> copies in Mesa we added support for querying the HBB from the kernel,
->>> explicitly so that we could do what this series does without Mesa ever
->>> breaking. Mesa will never assume the HBB unless the kernel is too old
->>> to support querying it. So don't let Mesa be the thing that stops us
->>> here.
->>
->> Thanks for clarifying about Mesa. I still don't trust a data source that
->> is unused in production.
-> 
-> Fair enough, I'm not going to argue with that part. Just wanted to
-> clear up any confusion about Mesa.
-> 
-> Although, IIRC kgsl did set different values for a650 depending on
-> memory type... do you know what source that used?
+Hi Geert,
 
-KGSL relies on an undocumented devicetree node populated by bootloader
-to detect ddrtype and calculates the HBB value based on that.
+On Wed, Apr 16, 2025 at 10:27=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar, Fabrizio,
+>
+> Thanks for your patch!
+>
+> On Tue, 8 Apr 2025 at 22:09, Prabhakar <prabhakar.csengg@gmail.com> wrote=
+:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add support for PLLDSI and PLLDSI divider clocks.
+> >
+> > The `renesas-rzv2h-dsi.h` header file is added to share the PLL divider
+> > algorithm between the CPG and DSI drivers.
+>
+> Please explain here why the DSI driver needs access to this algorithm.
+>
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> > --- a/drivers/clk/renesas/rzv2h-cpg.c
+> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
+>
+> > @@ -196,6 +225,253 @@ static int rzv2h_cpg_pll_clk_enable(struct clk_hw=
+ *hw)
+> >         return ret;
+> >  }
+> >
+> > +static unsigned long rzv2h_cpg_plldsi_div_recalc_rate(struct clk_hw *h=
+w,
+> > +                                                     unsigned long par=
+ent_rate)
+> > +{
+> > +       struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +       struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +       struct ddiv ddiv =3D dsi_div->ddiv;
+> > +       u32 div;
+> > +
+> > +       div =3D readl(priv->base + ddiv.offset);
+> > +       div >>=3D ddiv.shift;
+> > +       div &=3D ((2 << ddiv.width) - 1);
+>
+> Shouldn't that "2" be "1"?
+> GENMASK(ddiv.width - 1, 0), or even better: clk_div_mask(ddiv.width).
+>
+> > +
+> > +       div =3D dsi_div->dtable[div].div;
+> > +
+> > +       return DIV_ROUND_CLOSEST_ULL(parent_rate, div);
+> > +}
+> > +
+> > +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
+> > +                                              struct clk_rate_request =
+*req)
+> > +{
+> > +       struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +       struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +       struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_=
+div_parameters;
+> > +       unsigned long long rate_mhz;
+>
+> u64?
+> Please use "millihz" instead of "mhz" everywhere, so it becomes very
+> clear this is really "mHz" and not "MHz".
+>
+> > +
+> > +       /*
+> > +        * Adjust the requested clock rate (`req->rate`) to ensure it f=
+alls within
+> > +        * the supported range of 5.44 MHz to 187.5 MHz.
+> > +        */
+> > +       req->rate =3D clamp(req->rate, 5440000UL, 187500000UL);
+> > +
+> > +       rate_mhz =3D req->rate * MILLI * 1ULL;
+> > +       if (rate_mhz =3D=3D dsi_dividers->error_mhz + dsi_dividers->fre=
+q_mhz)
+> > +               goto exit_determine_rate;
+> > +
+> > +       if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
+> > +                                                dsi_dividers, rate_mhz=
+)) {
+> > +               dev_err(priv->dev,
+> > +                       "failed to determine rate for req->rate: %lu\n"=
+,
+> > +                       req->rate);
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +exit_determine_rate:
+> > +       req->best_parent_rate =3D req->rate * dsi_dividers->csdiv;
+> > +
+> > +       return 0;
+> > +};
+> > +
+> > +static int rzv2h_cpg_plldsi_div_set_rate(struct clk_hw *hw,
+> > +                                        unsigned long rate,
+> > +                                        unsigned long parent_rate)
+> > +{
+> > +       struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +       struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +       struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_=
+div_parameters;
+> > +       struct ddiv ddiv =3D dsi_div->ddiv;
+> > +       const struct clk_div_table *clkt;
+> > +       u32 reg, shift, div;
+> > +
+> > +       div =3D dsi_dividers->csdiv;
+> > +       for (clkt =3D dsi_div->dtable; clkt->div; clkt++) {
+> > +               if (clkt->div =3D=3D div)
+> > +                       break;
+> > +       }
+> > +
+> > +       if (!clkt->div && !clkt->val)
+> > +               return -EINVAL;
+>
+> No need to check clkt->dev.
+>
+> > +
+> > +       shift =3D ddiv.shift;
+> > +       reg =3D readl(priv->base + ddiv.offset);
+> > +       reg &=3D ~(GENMASK(shift + ddiv.width, shift));
+> > +
+> > +       writel(reg | (clkt->val << shift) |
+> > +              DDIV_DIVCTL_WEN(shift), priv->base + ddiv.offset);
+> > +
+> > +       return 0;
+>
+> This function is very similar to the existing rzv2h_ddiv_set_rate().
+> If you can't re-use it as-is, please consider factoring out the common
+> part, or at least follow the same style of RMW-operation.
+>
+> > +};
+>
+>
+> > +static long rzv2h_cpg_plldsi_round_rate(struct clk_hw *hw,
+> > +                                       unsigned long rate,
+> > +                                       unsigned long *parent_rate)
+> > +{
+> > +       return clamp(rate, 25000000UL, 375000000UL);
+>
+> This only rounds rates outside the range from 25 to 375 MHz.
+> What about rates between 25 and 375 MHz?
+>
+My intention was to clamp it and let the PLL DSI DIV determine_rate
+handle rejecting the rates if they dont get best dividers. Let's take
+this discussion to v3.
 
--Akhil.
-
-> 
->>
->> I have a related question about HBB. Blob driver doesn't support
->> host_image_copy, but it still use HBB configuration. I was under the
->> impression this was required for UMD for compression related
->> configurations. Is that not true for turnip/freedreno?
->>
->> -Akhil.
-> 
-> AFAIK the HBB (as well as other UBWC config parameters) doesn't have
-> any impact on layout configuration, so the UMD can ignore it except
-> when it's doing CPU texture uploads/downloads. We certainly do in
-> freedreno/turnip. You'd have to ask that team what they use HBB for,
-> but my best guess is that the GLES driver uses it for CPU texture
-> uploads sometimes. That is, the GLES driver might be using
-> functionality similar to host_image_copy "under the hood". It's
-> something we'd probably want for freedreno too.
-> 
-> Connor
-> 
->>
->>>
->>> Connor
->>>
->>>> So it is better to
->>>> make this opt in, for newer chipsets or those which somebody can verify.
->>>> We can invert this logic to something like this:
->>>>
->>>> if (!gpu->ubwc_config.highest_bank_bit)
->>>>     gpu->ubwc_config.highest_bank_bit = qcom_smem_dram_get_hbb();
->>>>
->>>>>  }
->>>>>
->>>>>  static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
->>>>> @@ -2467,6 +2476,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->>>>>       bool is_a7xx;
->>>>>       int ret;
->>>>>
->>>>> +     /* We need data from SMEM to retrieve HBB in calc_ubwc_config() */
->>>>> +     if (!qcom_smem_is_available())
->>>>> +             return ERR_PTR(-EPROBE_DEFER);
->>>>> +
->>>>
->>>> We should add "depends on QCOM_SMEM" to Kconfig. Is SMEM device present
->>>> in all Qcom SoC devicetrees? I wonder if there is a scenario where there
->>>> might be an infinite EPROBE_DEFER here.
->>>>
->>>> -Akhil.
->>>>
->>>>>       a6xx_gpu = kzalloc(sizeof(*a6xx_gpu), GFP_KERNEL);
->>>>>       if (!a6xx_gpu)
->>>>>               return ERR_PTR(-ENOMEM);
->>>>>
->>>>
->>
-
+Cheers,
+Prabhakar
