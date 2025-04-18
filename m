@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3314FA93424
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 10:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161E5A93429
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 10:06:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33D710E00E;
-	Fri, 18 Apr 2025 08:05:05 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WrUezZM/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AAE110E422;
+	Fri, 18 Apr 2025 08:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E53DC10E00E
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 08:05:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1744963499;
- bh=51VVbUPvsi11hGxYnn3P1u8zo52LPozBe43N+e9Y/WA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=WrUezZM/A1MhnO0l6vDsxXGcplIXIAInqPErdjLDT/dylasF3u5UzKzN3H1BvCkdJ
- aND6n5qqdc9iEZG/NVsCsiNOF7MDYzy6hHnBsGr+Gklk/2sr2BqtTKpcS0PC9cIcxQ
- nJIPdrVYnxtJa4UyutWZeFq3M9mFtKI8oW5x7Drcoetdv+LD1dqorwvObuJGUab2+l
- pDh2LZNo6QOymIe2mHT/l7scpa/UKn8R28uXM5fsud4y5idmY8Uv5HRk6TO+qE3sJv
- dBIZLmUrq9wj9yTWeEWRSuCiHOu6fM945ToWufn7AZ61bgb6601Q48e0JP2B7mF+hT
- ZUSwl+QipwPZA==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 958DC17E08E3;
- Fri, 18 Apr 2025 10:04:58 +0200 (CEST)
-Date: Fri, 18 Apr 2025 10:04:54 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, Liviu Dudau <liviu.dudau@arm.com>, Steven Price
- <steven.price@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v9 4/4] drm/panthor: show device-wide list of DRM GEM
- objects over DebugFS
-Message-ID: <20250418100454.788c9586@collabora.com>
-In-Reply-To: <20250418022710.74749-5-adrian.larumbe@collabora.com>
-References: <20250418022710.74749-1-adrian.larumbe@collabora.com>
- <20250418022710.74749-5-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+X-Greylist: delayed 307 seconds by postgrey-1.36 at gabe;
+ Fri, 18 Apr 2025 06:05:48 UTC
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFAC310E1DE;
+ Fri, 18 Apr 2025 06:05:48 +0000 (UTC)
+X-UUID: 69f96d841c1a11f0a216b1d71e6e1362-20250418
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45, REQID:4624039c-d6ef-4ecf-8c0a-aaaa1beb80d0, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6493067, CLOUDID:b712aa31f8a859ac46bd1d6ff95763ca,
+ BulkI
+ D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:nil,UR
+ L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+ PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 69f96d841c1a11f0a216b1d71e6e1362-20250418
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+ (envelope-from <liujiajia@kylinos.cn>) (Generic MTA)
+ with ESMTP id 982102950; Fri, 18 Apr 2025 14:00:22 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id DA2A4E028EA0;
+ Fri, 18 Apr 2025 14:00:21 +0800 (CST)
+X-ns-mid: postfix-6801EA75-73491675
+Received: from kylin.lan (unknown [172.25.120.81])
+ by mail.kylinos.cn (NSMail) with ESMTPA id 52697E028EA0;
+ Fri, 18 Apr 2025 14:00:19 +0800 (CST)
+From: Jiajia Liu <liujiajia@kylinos.cn>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Nemesa Garg <nemesa.garg@intel.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Nitin Gote <nitin.r.gote@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jiajia Liu <liujiajia@kylinos.cn>
+Subject: [PATCH] drm/i915/pch: fix warning for coffeelake on SunrisePoint PCH
+Date: Fri, 18 Apr 2025 14:00:06 +0800
+Message-Id: <20250418060006.807216-1-liujiajia@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Fri, 18 Apr 2025 08:06:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,136 +72,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 18 Apr 2025 03:27:07 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+i915/pch reports a warning on a mini PC which has a CoffeeLake-S GT2
+[UHD Graphics 630] [8086:3e92] and an ISA bridge - H110 LPC Controller
+[8086:a143].
 
-> +#ifdef CONFIG_DEBUG_FS
-> +static void
-> +panthor_gem_debugfs_format_flags(char flags_str[], int flags_len,
-> +				 const char * const names[], u32 name_count,
-> +				 u32 flags)
-> +{
-> +	bool first =3D true;
-> +	int offset =3D 0;
-> +
-> +#define ACC_FLAGS(...) \
-> +	({ \
-> +		offset +=3D snprintf(flags_str + offset, flags_len - offset, ##__VA_AR=
-GS__); \
-> +		if (offset =3D=3D flags_len) \
-> +			return; \
-> +	})
+[3.490423] i915 0000:00:02.0: [drm] Found coffeelake (device ID 3e92) int=
+egrated display version 9.00 stepping N/A
+[3.507160] ------------[ cut here ]------------
+[3.523341] i915 0000:00:02.0: [drm] drm_WARN_ON(!IS_PLATFORM(dev_priv, IN=
+TEL_SKYLAKE) && !IS_PLATFORM(dev_priv, INTEL_KABYLAKE))
+[3.523356] WARNING: CPU: 5 PID: 199 at drivers/gpu/drm/i915/soc/intel_pch=
+.c:92 intel_pch_type+0x1c3/0xe10 [i915]
+[3.709685] CPU: 5 UID: 0 PID: 199 Comm: systemd-udevd Not tainted 6.15.0-=
+rc2-up-fc96b232f8e7 #1 PREEMPT(voluntary)
 
-I tried applying, but checkpatch complains with:
+Signed-off-by: Jiajia Liu <liujiajia@kylinos.cn>
+---
+ drivers/gpu/drm/i915/soc/intel_pch.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
--:225: WARNING:MACRO_WITH_FLOW_CONTROL: Macros with flow control statements=
- should be avoided
-#225: FILE: drivers/gpu/drm/panthor/panthor_gem.c:359:
-+#define ACC_FLAGS(...) \
-+	({ \
-+		offset +=3D snprintf(flags_str + offset, flags_len - offset, ##__VA_ARGS=
-__); \
-+		if (offset =3D=3D flags_len) \
-+			return; \
-+	})
+diff --git a/drivers/gpu/drm/i915/soc/intel_pch.c b/drivers/gpu/drm/i915/=
+soc/intel_pch.c
+index 82dc7fbd1a3e..011bc9757e9b 100644
+--- a/drivers/gpu/drm/i915/soc/intel_pch.c
++++ b/drivers/gpu/drm/i915/soc/intel_pch.c
+@@ -90,7 +90,8 @@ intel_pch_type(const struct drm_i915_private *dev_priv,=
+ unsigned short id)
+ 	case INTEL_PCH_SPT_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found SunrisePoint PCH\n");
+ 		drm_WARN_ON(&dev_priv->drm,
+-			    !IS_SKYLAKE(dev_priv) && !IS_KABYLAKE(dev_priv));
++			    !IS_SKYLAKE(dev_priv) && !IS_KABYLAKE(dev_priv) &&
++			    !IS_COFFEELAKE(dev_priv));
+ 		return PCH_SPT;
+ 	case INTEL_PCH_SPT_LP_DEVICE_ID_TYPE:
+ 		drm_dbg_kms(&dev_priv->drm, "Found SunrisePoint LP PCH\n");
+--=20
+2.25.1
 
-and now I'm wondering why we even need to return early? Oh, and the
-check looks suspicious to: snprintf() returns the number of chars
-that would have been written if the destination was big enough, so
-the offset will actually be greater than flags_len if the formatted
-string doesn't fit.
-
-There are a few other formatting issues reported by checkpatch
---strict BTW.
-
-Unfortunately this led me to have a second look at these bits
-and I have a few more comments, sorry about that :-/.
-
-> +
-> +	ACC_FLAGS("%c", '(');
-
-Now that flags have their own columns, I'm not sure it makes sense
-surround them with parenthesis. That's even weird if we start running
-out of space, because there would be an open '(', a few flags,
-the last one being truncated, and no closing ')'. The other thing
-that's bothering me is the fact we don't know when not all flags
-have been displayed because of lack of space.
-
-
-> +
-> +	if (!flags)
-> +		ACC_FLAGS("%s", "none");
-> +
-> +	while (flags) {
-> +		u32 bit =3D fls(flags) - 1;
-
-I would probably print flags in bit position order, so ffs()
-instead of fls().
-
-> +		u32 idx =3D bit + 1;
-
-Why do you have a "+ 1" here? Feels like an off-by-one error to
-me.
-
-> +
-> +		if (!first)
-> +			ACC_FLAGS("%s", ",");
-> +
-> +		if (idx < name_count && names[idx])
-> +			ACC_FLAGS("%s", names[idx]);
-> +
-> +		first =3D false;
-> +		flags &=3D ~BIT(bit);
-> +	}
-> +
-> +	ACC_FLAGS("%c", ')');
-> +
-> +#undef ACC_FLAGS
-> +}
-
-How about something like that:
-
-static void
-panthor_gem_debugfs_format_flags(char *flags_str, u32 flags_str_len,
-                                 const char * const flag_names[],
-                                 u32 flag_name_count, u32 flags)
-{
-	int offset =3D 0;
-
-	if (!flags) {
-        	snprintf(flags_str, flags_str_len, "%s", "none");
-		return;
-	}
-
-	while (flags) {
-		const char *flag_name =3D "?";
-		u32 flag =3D ffs(flags) - 1;
-		int new_offset =3D offset;
-
-		flags &=3D ~BIT(flag);
-
-		if (flag < flag_name_count && flag_names[flag])
-			flag_name =3D flag_names[flag];
-
-		/* Print as much as we can. */
-		new_offset +=3D snprintf(flags_str + offset, flags_str_len - offset,
-				       "%s%s", offset ? "," : "", flag_name);
-
-		/* If we have flags remaining, check that we have enough space for
-		 * the "...".
-		 */
-		if (flags)
-			new_offset +=3D strlen(",...");
-
-		/* If we overflowed, replace what we've written by "..." and
-		 * bail out.
-		 */
-		if (new_offset > flags_str_len) {
-			snprintf(flags_str + offset, flags_str_len - offset,
-				 "%s...", offset ? "," : "");
-			return;
-		}
-
-		offset =3D new_offset;
-        }
-}
