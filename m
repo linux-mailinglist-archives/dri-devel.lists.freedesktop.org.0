@@ -2,90 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839CAA9398F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 17:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC27A9399C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 17:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37F1810E199;
-	Fri, 18 Apr 2025 15:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6959410E219;
+	Fri, 18 Apr 2025 15:28:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="JANgcoMy";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ACYhsWIH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
- [209.85.160.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A6010E199
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 15:25:38 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id
- d75a77b69052e-47681dba807so294271cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 08:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1744989938; x=1745594738;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KLMQ/sPbd3/qPx9kvWI7kwA5vqce0csvK2YZ+gn9jtw=;
- b=JANgcoMy7a9DpuAFz0n8wLPnDxulfBowRsQYamDTWHfiurcOkBwmeQioK2XMRvnEIw
- 4PlPKsZs4sEMYJI/aPONLGEde2EBfsGEREnD6GpW8yPQmyQfM4jcXT9VSieD74lRJsfI
- 3PuiCBmwDwfR2IlZeNgA47tZaZfcvBgQDiia+22kEZ99mmMCwuQWGKFUZZUSmY7q0+m5
- 5nRW3c2vHPgmnmzzrg47CtbwpAmUTs6zVqpD4XM2hg2q7dYk/PftTxg1c+40L0JnczBX
- MWU4apjn7FI+5baE/b/IVXFf/sFWTCoDzPoUzRPyyB8VbgbjpC5kvlXKfM6yUoUIHuxC
- pGag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744989938; x=1745594738;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KLMQ/sPbd3/qPx9kvWI7kwA5vqce0csvK2YZ+gn9jtw=;
- b=V8KzWzLz1UbUZ81Q6Xbm+piYMi7lLgLVo5A8UjzeDwwMAT85cjXih4E1BhHE6hB/zq
- OVQl22eUoSlw6V79GNJOUI6huQiDs8WK6NwHkLpvWOtuE99+N6PbTzPUwIDorw8E6Fsf
- WRMzCHKKQ9bOB+63020h6384Ef5mH6ZjkZ4qFNI9aaAsw2MunUK3JLy9lgLRHufP2DZM
- QA4EDf0ZSTbdVnVgQr56zGZFM/5uOtIfbGQYoS0GyTcKDCg6ctKS60Oa9ABQ36zblS9e
- YN4SZ6E5cLCd/irTeTdxh+zENcMqoIT2j9rbNGhweJ72/DlinZAz4ib4gNN3B3JQht82
- YfNQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUtKEBwVyGe+aK0REmJLxm5Q2UyYISzs5E6TaN4G5/nQATza8ZYjlgxhlvAGUCCouE5UyZ9Q3hrrZw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyeGZOZJDQV18QlVksq0+EMLHKvl97oVv/sDf8UvwzIGmeqxy07
- 8YSNB3SpeUG0N/fJZkxrlwYuebZGLTxe9cuL2fBK+EhDT0YV4lTvK6Vk8HXDwdF+3x/0ihZdZ7H
- SEoe9MOKX1/NCTXLefOSKRxh8TXNHYDD9kMRt
-X-Gm-Gg: ASbGncv0FBgw/cBEhBbATRNB0rfTgXWQ025rXQlDis657Qxnq+S0XCVxcMEwsPp3yJY
- 65juzVIRY25M1stwqSZJFvCPKQvtZm2fdDhBJGY5UHyAWPEGh7DndEuTUd0SEkMtb5KxgzMxfTK
- Db9kIgTyc3KVaaKnzfg8Z3
-X-Google-Smtp-Source: AGHT+IG8hFCpUPixQxkgnzGIXz1u9OtkRLiT9un/wX7YdVEX+ucM013ElGjUErTcY8lmL4vrTIPIJfqi3eMA/XDrm6c=
-X-Received: by 2002:a05:622a:24f:b0:477:63b7:3523 with SMTP id
- d75a77b69052e-47aeb10f6a4mr3977681cf.4.1744989937094; Fri, 18 Apr 2025
- 08:25:37 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B5B510E219
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 15:28:02 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53I2g9EV014784;
+ Fri, 18 Apr 2025 15:27:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 7q3NZYm/y/kmIzfJ+BWVhXq7DYINCCPsGZUSKpcwx7M=; b=ACYhsWIH5dao7eGx
+ DJMEpFtJtHf1Xme+Hkl6CZaDSWEtS4XMdy/AlTuujsJF985/2grZBcVgV4iWOsB5
+ 1Dj4hJ39meXz/bx4NBeByJjyH9Y/HzrTFvKkutbSyaR2HY67vwn5vNNnDqX3C56Z
+ NI4p/xt5IoPOwJgVmrQ0beWRi5OPK/NRB/sbX6edeT1CxUfcDE007YnVwVlP2/C7
+ VR2sI1P44IuENhQ3NQkeZK5QfoPXKMjt6Lgvjqy4LySrMkEYPkpgvI54wh095oxJ
+ 6LfvbUFP3p51RNDMdE8mmRw95QQMuzbNbqWPuzWXFO6hyRBx2uZAiLr5L657bQUC
+ ra87vg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygd6tcv5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Apr 2025 15:27:57 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53IFRuKI007425
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 18 Apr 2025 15:27:56 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 18 Apr
+ 2025 08:27:55 -0700
+Message-ID: <c6b4aaad-aa5f-4f46-948f-de150dfc60fe@quicinc.com>
+Date: Fri, 18 Apr 2025 09:27:55 -0600
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com>
- <20250414225227.3642618-3-tjmercier@google.com>
- <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
- <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
- <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
- <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
- <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com>
- <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
- <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
- <CABdmKX0P1tpa-jxzN1_TCyk6Cw6drYM+KRZQ5YQcjNOBFtOFJw@mail.gmail.com>
- <CAPhsuW5bgBNu6zY0rn7ZH4VK54nruryU4bS4LrDDsxnCfqQicQ@mail.gmail.com>
-In-Reply-To: <CAPhsuW5bgBNu6zY0rn7ZH4VK54nruryU4bS4LrDDsxnCfqQicQ@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Fri, 18 Apr 2025 08:25:18 -0700
-X-Gm-Features: ATxdqUFe9V2DPeKz_fCeXdwNGaeIYNCwZNnBebHg8eIdjjPIFTp9wITPuXs7j_A
-Message-ID: <CABdmKX3XaVFJEQRav1COi7_1rkMsx1ZhrJoGLB_wtywZ0O-jug@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: Song Liu <song@kernel.org>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
- skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
- simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
- jolsa@kernel.org, mykolal@fb.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Implement heartbeat-based TDR mechanism
+To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <oded.gabbay@gmail.com>, <jacek.lawrynowicz@linux.intel.com>,
+ <lizhi.hou@amd.com>, Karol Wachowski <karol.wachowski@intel.com>
+References: <20250416102555.384526-1-maciej.falkowski@linux.intel.com>
+Content-Language: en-US
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20250416102555.384526-1-maciej.falkowski@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: rnPQTzd6StFzADzeAaZLj0zC0F6E1b6r
+X-Proofpoint-GUID: rnPQTzd6StFzADzeAaZLj0zC0F6E1b6r
+X-Authority-Analysis: v=2.4 cv=ANaQCy7k c=1 sm=1 tr=0 ts=68026f7d cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=QyXUC8HyAAAA:8
+ a=IRmo4Fqx3i6jFQ_zk6YA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-18_05,2025-04-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ mlxlogscore=637 suspectscore=0 clxscore=1011 lowpriorityscore=0
+ phishscore=0 impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504180114
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,70 +95,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 17, 2025 at 1:26=E2=80=AFPM Song Liu <song@kernel.org> wrote:
->
-> On Thu, Apr 17, 2025 at 9:05=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
-m> wrote:
-> >
-> > On Wed, Apr 16, 2025 at 9:56=E2=80=AFPM Song Liu <song@kernel.org> wrot=
-e:
-> > >
-> > > On Wed, Apr 16, 2025 at 7:09=E2=80=AFPM T.J. Mercier <tjmercier@googl=
-e.com> wrote:
-> > > >
-> > > > On Wed, Apr 16, 2025 at 6:26=E2=80=AFPM Song Liu <song@kernel.org> =
-wrote:
-> > > [...]
-> > > > >
-> > > > > Here is another rookie question, it appears to me there is a file=
- descriptor
-> > > > > associated with each DMA buffer, can we achieve the same goal wit=
-h
-> > > > > a task-file iterator?
-> > > >
-> > > > That would find almost all of them, but not the kernel-only
-> > > > allocations. (kernel_rss in the dmabuf_dump output I attached earli=
-er.
-> > > > If there's a leak, it's likely to show up in kernel_rss because som=
-e
-> > > > driver forgot to release its reference(s).) Also wouldn't that be a
-> > > > ton more iterations since we'd have to visit every FD to find the
-> > > > small portion that are dmabufs? I'm not actually sure if buffers th=
-at
-> > > > have been mapped, and then have had their file descriptors closed
-> > > > would show up in task_struct->files; if not I think that would mean
-> > > > scanning both files and vmas for each task.
-> > >
-> > > I don't think scanning all FDs to find a small portion of specific FD=
-s
-> > > is a real issue. We have a tool that scans all FDs in the system and
-> > > only dump data for perf_event FDs. I think it should be easy to
-> > > prototype a tool by scanning all files and all vmas. If that turns ou=
-t
-> > > to be very slow, which I highly doubt will be, we can try other
-> > > approaches.
-> >
-> > But this will not find *all* the buffers, and that defeats the purpose
-> > of having the iterator.
->
-> Do you mean this approach cannot get kernel only allocations? If
-> that's the case, we probably do need a separate iterator. I am
-> interested in other folks thoughts on this.
+On 4/16/2025 4:25 AM, Maciej Falkowski wrote:
+> From: Karol Wachowski <karol.wachowski@intel.com>
+> 
+> Introduce a heartbeat-based Timeout Detection and Recovery (TDR) mechanism.
+> The enhancement aims to improve the reliability of device hang detection by
+> monitoring heartbeat updates.
+> 
+> Each progressing inference will update heartbeat counter allowing driver to
+> monitor its progression. Limit maximum number of reschedules when heartbeat
+> indicates progression to 30.
 
-Correct.
+Code looks good.  However, why 30?  This would artificially limit how 
+long a job could run, no?
 
-> > > OTOH, I am wondering whether we can build a more generic iterator
-> > > for a list of objects. Adding a iterator for each important kernel li=
-sts
-> > > seems not scalable in the long term.
-> >
-> > I think the wide variety of differences in locking for different
-> > objects would make this difficult to do in a generic way.
->
-> Agreed it is not easy to build a generic solution. But with the
-> help from BTF, we can probably build something that covers
-> a large number of use cases.
-
-I'm curious what this would look like. I guess a good test would be to
-see if anything would work for some subset of the already existing
-iterators.
+-Jeff
