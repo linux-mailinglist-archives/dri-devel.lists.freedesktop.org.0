@@ -2,80 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2443DA93CB5
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 20:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39847A93CDE
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Apr 2025 20:35:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93B5210E257;
-	Fri, 18 Apr 2025 18:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0DF910E250;
+	Fri, 18 Apr 2025 18:34:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZJFE1Rm1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WxjJEyfM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3D5110E257
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 18:21:39 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-736b98acaadso2142107b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 11:21:39 -0700 (PDT)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB7210E250;
+ Fri, 18 Apr 2025 18:34:42 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-22c33ac23edso24077505ad.0; 
+ Fri, 18 Apr 2025 11:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745000499; x=1745605299; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1745001282; x=1745606082; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8kS9LLNgYY9RzFfrzH68SeW5jhMvExMO5jq7yXv/Swg=;
- b=ZJFE1Rm1TYP2n6HYp6KfsuuxnjkS97MWTUU/lzVltJqVpaixzUWOXlPy8rdjDXZhN3
- TNJU6AONBubKvrQoW0g1ojlEF/IVrv30pze4VATTSbrXA+GUC/eJjUDF6dlwm9dOB8Wq
- W2H6r98bOtX0DntX45z5wosrXXh9NvxgwWwrQicRk7rGxpc176y3W5hhhMkPqJTzquga
- RIndi4bAALBotEVrThuGSGfF5I/FAM5ZzZQ6mroGG99YwQmkwjYx1EPTarEdZ90m1qG3
- pGlnQ6KtLfsy9SxJoM3s/Sq3wXHEy86s5y8ZoridNN86j1HbKvUTzM/ZfQmp+4Al7g62
- C6Zg==
+ bh=GEL5hwj4ZcKmQgInqqPjANGqLqKJKFxTEKIu2C+lufU=;
+ b=WxjJEyfMNJT4uRpWWMf2Nglp2aTiWwUshr+Nhq+W3JhjprHonkiCk44RHB6fHgi4gh
+ c6yuSk+5FcYk1gqlMPjl4GaVqm3l4101birlMxSzi7BBPVpS9CYaedw650SX70XP9u8g
+ PMjSTp+SscMwQ9isAERuvGQwV4fDJFHD8TP9XRYlYtJLvbIOWBcya06y2o3vMU4e8q9g
+ nhlV+1RgmEPxtbcyk7lS5F1WfkrfCMbEPEir48WC2SGthFJ/vkYlJFsCSXR+Rr0cvkPm
+ q+psHY2LTGCv7jJupx2bBB74gIEGl6GzC8WRnCdd6N2TJFEiKlyhYc0SlnqTYKewSxWD
+ WjIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745000499; x=1745605299;
+ d=1e100.net; s=20230601; t=1745001282; x=1745606082;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8kS9LLNgYY9RzFfrzH68SeW5jhMvExMO5jq7yXv/Swg=;
- b=MxinenH5DFqJrWooFBElz18Lhatyv9aZI/p7KWX0aax5wxwtedtRcUKzlcuPNaGZwC
- FXFC3Ky8XK33y5lXbqh9WY8N7BeWsoAw1HSjTcIy4Pu6GqxSUKV7A+b4+xs0ilVB2YCh
- XFowsaGhosUarO82IpnsWAMngOVhIgvlR1m8f/m7UDwUPW5s47PkSxGggUxxfc63zlAf
- w9fZ/JfYJraHlGbtDB5nH768JT1f05PAouz0XH7AwetN8p+H8u+efj+iGKxQKxDAURkk
- OIncNpcjTylWRPwwsF4246eZUi5HGAuDyjKY0cpj6iBgGrLV+dcAZABcD41tabhffqvu
- 8/yQ==
+ bh=GEL5hwj4ZcKmQgInqqPjANGqLqKJKFxTEKIu2C+lufU=;
+ b=R/HWoXzBRwWXXWv6bXEJ+7yJTN4enw2ejloYTqXjUoCjG//83AdNyWdEEPha2o9XbL
+ KTXym6z8WvwH/jSqLFJHp7rCaTC6fZbknLiHSU7UzwE7w40RbkOPx7QwTNv3WIqn+yYY
+ SX/qac6nzlzYO5w1ycDawOquNSzOZ+hzeoW9aaqkTPvIBpP2xLjWVCcXdbauMe3OR11Q
+ XUMEMFgaudbcKRuJ+gPWqxGAXoKliAgt/UZrnffEclbXk1Vz2RfZ+8EOUtn4K5TDOIq8
+ y4UbpwM/Dax0hRWW4Z0aWbsB5vCvf0nOK70oUUMuiVulnbhzifiYZryyWh81ZW2mZCSh
+ 59cA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV5TKHkA7k8yV6ZW+5ufGmisR6be22MaFfS8ctkUkgtVRG8AVL+LZ302YcWfJK4EB24fowjRgdMdw8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyXEwdeb6LjlMzsQpWUrBqcMk+RCOZharNmWOAqUPIx58Ab/jWh
- GzHp9I9YWVuDPcpFxl52sRyQ1MXQ3ujuSPPwv0aUhbLE4ehHPumz
-X-Gm-Gg: ASbGnctAWJgLRMprLNjGJpLDYsrn7DgPANj/aVKlnq2G/s1nvXhcHleq/4/oXZnz2jB
- 2lp6sMLyYb3e4rQfFG10AnybuBcBS/yXsqAwdgWe6mqrMpBlcsbvaZF3DbC2xKwVk0mKaOxxAZJ
- NY2gOUyhI2viQmhnoeajNG47gLWjpIv7FL7GuF9bIvL2WmvO36TqxFfExnb1aL9aAZlLEDDK2r6
- iTPT4y97gfZfSDvWQJlHa8IaTwdnAvICuG9FioGWyuGywjYvOYeAwfusb5jcVDuUyLqGvWt+FM9
- 7W/Xz6u/b+0HGBp4AkUhmqAhIfZFnVrHchfahbw=
-X-Google-Smtp-Source: AGHT+IFRC9j6wJeAYD2mwF+2keu5K1ZF/SaRY/zWPxP4EBLUKFqAOPsnj41Veel0R8nXbo7wP6uWWw==
-X-Received: by 2002:a05:6a20:158f:b0:1f0:e706:1370 with SMTP id
- adf61e73a8af0-203cbd59cb0mr6805648637.35.1745000499288; 
- Fri, 18 Apr 2025 11:21:39 -0700 (PDT)
+ AJvYcCVNEEbROW1J3PSXRJpRiXgO7rC1ezpu0LM4jItk0DBAaMc5DATCBpvvaPYn70xeF9R2ZqkKt4kQM+0=@lists.freedesktop.org,
+ AJvYcCWVgz+KIjChvvhu+hJ3PIAYJKjWrmwlCFgU4wAjS1ossUq5QwbJICL3stDWl07P+En5EN4l9WtN6ECj@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yztkp7hB8PkCAxNkHTh6VdJ17B/jMtfD3811mFpcK1TqXm9pkeh
+ +sgRrU4lY55WhWxf5iXwJScbN7XqPpaeY1OMgsoEod0WLa+X4qK8
+X-Gm-Gg: ASbGncsxAaFjmqibLNHHjkYp56cqKo6twS0ouxnSaztcVlaHn6NXwX8mv0dsm413cFb
+ z/f06Rb3+YFFDF8ztR4QLK0hmS+rhvXHvdC1TTfGviLkXFq2zZC1OvS5hAQCip4UQ6yIP7p8rZ7
+ JkWZsiWtM8mAmsChrkCIcjQ4UXEsDhuGosJPUDNYHsPAV98p8wwB8xc6eSlxsAbGtUWrDZIEKLu
+ YLUr/SEalu06wCooyhikMjCInnaLJWSkukmrUujXneSz8e/PK4T4FYpTwkrZm4i55Xqg+3pH/QU
+ 5tEoy7ab/f6S+uP5phWdizhICf9MRDAjsIC691o=
+X-Google-Smtp-Source: AGHT+IGAg/lnXCq2oW7mJKwA03rXOp9bjmqxNymxHwT8OBsAUwilnAGzFjMlghfXVPNRrh8L2LFXNg==
+X-Received: by 2002:a17:90b:1f8c:b0:2ff:5ed8:83d0 with SMTP id
+ 98e67ed59e1d1-3087bb631d7mr5824623a91.16.1745001281749; 
+ Fri, 18 Apr 2025 11:34:41 -0700 (PDT)
 Received: from nuvole.. ([144.202.86.13]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b0db13a3e63sm1684024a12.29.2025.04.18.11.21.31
+ 98e67ed59e1d1-3087dee325bsm1774222a91.9.2025.04.18.11.34.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Apr 2025 11:21:38 -0700 (PDT)
+ Fri, 18 Apr 2025 11:34:41 -0700 (PDT)
 From: Pengyu Luo <mitltlatltl@gmail.com>
-To: daniel@riscstar.com
-Cc: conor+dt@kernel.org, danielt@kernel.org, deller@gmx.de,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jingoohan1@gmail.com, krzk+dt@kernel.org, lee@kernel.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, lujianhua000@gmail.com, mitltlatltl@gmail.com,
- pavel@kernel.org, robh@kernel.org
-Subject: Re: [PATCH 2/4] backlight: ktz8866: add slave handler
-Date: Sat, 19 Apr 2025 02:19:09 +0800
-Message-ID: <20250418181927.208018-1-mitltlatltl@gmail.com>
+To: jun.nie@linaro.org
+Cc: airlied@gmail.com, dmitry.baryshkov@linaro.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, quic_abhinavk@quicinc.com,
+ quic_jesszhan@quicinc.com, robdclark@gmail.com, sean@poorly.run,
+ simona@ffwll.ch
+Subject: Re: [PATCH v8 00/15] drm/msm/dpu: Support quad pipe with dual-DSI
+Date: Sat, 19 Apr 2025 02:32:36 +0800
+Message-ID: <20250418183236.209236-1-mitltlatltl@gmail.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <Z_P9AEGq2sBYShgv@aspen.lan>
-References: <Z_P9AEGq2sBYShgv@aspen.lan>
+In-Reply-To: <20250303-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v8-0-eb5df105c807@linaro.org>
+References: <20250303-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v8-0-eb5df105c807@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,43 +92,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 8, 2025 at 12:27 AM Daniel Thompson <daniel@riscstar.com> wrote:
-> On Mon, Apr 07, 2025 at 05:51:17PM +0800, Pengyu Luo wrote:
-> > Kinetic ktz8866, found in many android devices, nowadays, some oem use
-> > dual ktz8866 to support a larger panel and  higher brightness, original
-> > driver would only handle half backlight region on these devices,
-> > registering it twice is unreasonable, so adding the slave handler to
-> > support it.
-> 
-> Is there anything unique about KTZ8866 that allows it to be used like
-> this? I think it would be better to add support for secondary backlight
-> controllers into the backlight framework, rather than having to
-> implement driver specific hacks for every backlight controller that
-> appears in a primary/secondary configuration.
-> 
+On Mon, 03 Mar 2025 23:14:29 +0800 Jun Nie <jun.nie@linaro.org> wrote:
+> 2 or more SSPPs and dual-DSI interface are need for super wide panel.
+> And 4 DSC are preferred for power optimal in this case due to width
+> limitation of SSPP and MDP clock rate constrain. This patch set
+> extends number of pipes to 4 and revise related mixer blending logic
+> to support quad pipe. All these changes depends on the virtual plane
+> feature to split a super wide drm plane horizontally into 2 or more sub
+> clip. Thus DMA of multiple SSPPs can share the effort of fetching the
+> whole drm plane.
+>
+> The first pipe pair co-work with the first mixer pair to cover the left
+> half of screen and 2nd pair of pipes and mixers are for the right half
+> of screen. If a plane is only for the right half of screen, only one
+> or two of pipes in the 2nd pipe pair are valid, and no SSPP or mixer is
+> assinged for invalid pipe.
+>
+> For those panel that does not require quad-pipe, only 1 or 2 pipes in
+> the 1st pipe pair will be used. There is no concept of right half of
+> screen.
+>
+> For legacy non virtual plane mode, the first 1 or 2 pipes are used for
+> the single SSPP and its multi-rect mode.
+>
+> To test bonded DSI on SM8650, the 5 patches for active-CTL improvement
+> are needed:
+> https://gitlab.freedesktop.org/lumag/msm/-/commits/dpu-4k?ref_type=heads
+>
 
-According to my understanding, if I add the new api to backlight framework,
-with a minimal modification, then I either do A or do B(I doubt it is my
-fixed mindset)
+[...]
 
-A:
-Tied two devices, registering the primary and the secondary device during
-one probe, to do that, I access another KTZ8866 when probing. Those hack
-is still here, that doesn't seem to help.
+> base-commit: b44251a8c179381b9f3ed3aa49be04fe1d516903
 
-B:
-Uncoupled, probing separately, the later one is registered as the
-secondary one. Brightness control is a little uncoupled, there are two
-sysfs, I doubt if userspace programs will write brightness to two
-devices. Then we need synchronization, write primary => write primary
-and write secondary, viceversa.
-
-> Also, the kernel seeks to avoid adding new instances of master/slave
-> terminology. See the coding style doc for suggested alternatives:
-> https://www.kernel.org/doc/html/latest/process/coding-style.html#naming
-> 
-
-Agree.
+Hi, Jun. The display of my sm8650 device requires 4:4:2(lm, dsc, intf)
+topology, I want to test this series, these patches can't be applied to
+the latest linux-next tree, and I can't find the commit id in linux-next
+or msm-next. Where can I fetch the tree?
 
 Best wishes,
 Pengyu
