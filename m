@@ -2,79 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0608A9487C
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 19:31:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C610A9487D
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 19:31:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6F4710E323;
-	Sun, 20 Apr 2025 17:31:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C11210E32F;
+	Sun, 20 Apr 2025 17:31:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZjC1vZYX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cul4MKBS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18E6410E067;
- Sat, 19 Apr 2025 12:40:14 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-39c1efc4577so1533350f8f.0; 
- Sat, 19 Apr 2025 05:40:14 -0700 (PDT)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F99310E147
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 16:47:53 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-7394945d37eso2250727b3a.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 09:47:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745066413; x=1745671213; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NFkUoIalnF11ld77bLxt7fgP6SNTAES2GfYghBL6rQU=;
- b=ZjC1vZYXKvqnbb5rE1fLswO+PZjToGL73SCKrFPXWa9uivdagfa898rD7RwknQQItx
- 1vtF3tc9grEoJBRLDAtSs+Lxg2BpVZvf+2scnFJSYZvj5H31IzqawukmHRB5vB70DNp2
- RGxqfQjy0clAioq9Xfl/73044oFskNj4wdG8MexZ+TzJ3a5ZeOJldMDI4Ocjaf2PVyjk
- 2vq8GhLzGHpwSApfYeoLodlji0X5ol0FB4vt1xEXeCSEqLlPggWYBstmly7+z6h6tFOd
- 2+4bv9yRf+hJDYC7/0Tv//o86ObE7nCa3uchN2y/KhBksqsjib4aPbJiaZcSLVgIbeOo
- xEAA==
+ d=gmail.com; s=20230601; t=1745081271; x=1745686071; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gc6CmYXidkzPLNB0SO00YEXOEa7ICBVRjIrdnfdrG0E=;
+ b=cul4MKBSLXFvQOAxAv/bXFyO0iJbe2QZIQTAUudLO5tHmR84kN8uyEJPdt0jZCUVQd
+ V/HaewZmdgDESTkGc4UqfNa+yKuqKlBcZuROOtAkQhh+nD2Kq1RjRc4mI9tblCBUmiKX
+ TR//tDRop/C6BYkZD/WU+6zKsQ72cqVJubWHm8kFwwO1d2lb+Hvl9sNjlIH0mtUcYmxr
+ IrvTzs7zqQIGhIrECM7Qm1tMJ8ryukip07hOlLLeg17kFmRhFqDaST2lkhe/WTQ3JHVc
+ oUC3l45fMROl2bDNlaYk3YavpqdrvqI7mjT5J7HSryn25oNKIZmV+cMERNY1Tgqgl81j
+ 4j9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745066413; x=1745671213;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NFkUoIalnF11ld77bLxt7fgP6SNTAES2GfYghBL6rQU=;
- b=Hb/vVv+thuGNLdk0MbjjKDnWd5QapL6U5FRGlsm5nHGSwLHgYnhU+OgV+t4X3iRg5S
- edixexxfSvLeCwIpy0H/jnffIpAp3rB510QJ2FVkQJIN/6eTpcDgjviDEhSyBC03Glay
- 58tgIHevl3XeKMrOGArJHk0ir6gCISzoF2xEG2RnVoUCQ/T7moMV8TP3z5aDn50oK5su
- +lYdIE1Q9i5dvjsZr1GaqVTKTAsQoQIXx/EZjS2IdxCpEl5EHM858iT4y3Mpy+/7Z5tF
- 37EWhxv/UrlEFnEAjlQGPJp/y+juNJjRzW0+TbY/N/fETpTrvT75tjlh4zfCeww43HVc
- Bmdg==
+ d=1e100.net; s=20230601; t=1745081271; x=1745686071;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gc6CmYXidkzPLNB0SO00YEXOEa7ICBVRjIrdnfdrG0E=;
+ b=XhKgKSTlzey12A/4Tjwd8LHI5Cu7Jj7HzxwTTLuXP5jX5t5Uap6rDJZTfAUNzl3bjM
+ T5IWFNhCfZz8BhD5H2pRvhi8x3gbkVz0+7ySJgPj3yP3Ccz6gPuDV5ovnuxeZqwwJ0VE
+ gGy7FhTGQVnVYXgl2CS51mo/gH3kx2NOBDPDYyLiwGzTVNIW7SYMlSZV09+6HWy82jwd
+ f9+jP/FUeGwEIrz8wed73+QB1qQPpCJiwlWT82d+WbaRjzY3gU646eWJwWZRHN279J/R
+ no/heEz0EjVB44gMWqXQmQ8mEJVu+bMrmjZBg30s04XsyVjSy0OVKox1IO59Y+ASAbE/
+ Kkug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4wPRIPq2vWLta9SgxL7j9yVPV7IQD2u95EHXw7nFb6VhB4kEnVNsfXs/9b0DhlTVjItDgkxWN@lists.freedesktop.org,
- AJvYcCUoGd3hkgCwIhpRZFCacLr2dDUfyj5dxKWjC9ZpDzXsJb5vH0wxViQ+EbyUc45S/KfFVXN2izEqzkzH@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxYdGTW5bWGtnInAymr2uhM/yRfqi7XDTzoa24pSoNkbnT65Nht
- mJ8Rt49gc46pVgbyFZn+ppW6ovwpuxN8GZmwTOxnoLxBDf0rqt1v
-X-Gm-Gg: ASbGncuqA54lMI3X22WqlPC/JggbokzQvF1DNyid9WC0CDuzNwSRVh6Tq409156/8xb
- ZwuyQmqhKZz/qQMqFDz9o29ziBsiVJ2FEPph6uC1DsBXv2kYiiqv5xpbYTHoOcVs6Ot3sp9snlY
- 4tMmdj7XcoR/jTdaFQrTCwnAfzLJWsnbb6BqixA1C81BsYYefpLwpB4eaasQjwFx/D/Ej3+kVFM
- QnKiTu5ttdQEMdAJe3iC5JchN0kiQ+DvMaKUpFTL0vDKL2Cud9zjb9a7IioTbIyngJW/4s7fJzq
- pngDO2m4bVTo7BkGqhuqKIMmBBOfb9+F8Y08ZEtiw/3sSKnUi4U=
-X-Google-Smtp-Source: AGHT+IFboMiS1OBXG31n80CyHp6JDhmg/N+nheK2n0bl8jjO9adfQrgtg8IV8w1jkzVYvN4ECODmcQ==
-X-Received: by 2002:a05:6000:4606:b0:39e:e698:b661 with SMTP id
- ffacd0b85a97d-39efba80464mr4001990f8f.32.1745066412769; 
- Sat, 19 Apr 2025 05:40:12 -0700 (PDT)
-Received: from localhost.localdomain ([46.10.223.24])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39efa4a4f06sm5808353f8f.92.2025.04.19.05.40.11
+ AJvYcCWbfkgVLqtue4DAH2Aayw2YsqMLDAG1TrQWwB2viGx0jykcUUgOZT238Swxyp+RKbinwBtrst37LpE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwWHbETuf99qfDAhj5QiEbZdz/uO+rdLaGc2sM/UBSCNATPRVBX
+ ogTht/Zge+7d5xGZPokop6RJ3/IktzH4Ab+mGVY0jKnZmWe4NkLSL/Gm3SfVziYFzjXZ
+X-Gm-Gg: ASbGncskIZwYSlg7NK2+gQHQIw5rH0wei/hTX7Y+fSn0wixv84RYvBzcmu6slE2EbXk
+ 5hGDsz09CZahdHk/rLXJBFUq6AdHKM2srSeu5HMqSdmJAnEe2iOEz3d3LPJDPt+lGfzz0O+H9XK
+ ACSZFCjZM4vKegPXWZeH5fe9DLirWOUnebxXIsHBP2Z/Pvom61yKMi3tiF4iBKAW23a03t3eKG1
+ gWWUc9hhbCxa2t5qNBbNoXp5iRYeVikYd+QbwitmlBrNW/+JrrtEY90gqEXtaQ+hTxuwuRDwuOC
+ otbjC7MB3nsOXQ8NQ+3DE8Ga1BUAKkgJMBDfSrjT286o/XH2NA==
+X-Google-Smtp-Source: AGHT+IE196NOTtBedrqto5+VyN6Q2bVQflAXIVFzTCK7aHTA5hvuR7r83bs7gc5R54Ihg852juLtBQ==
+X-Received: by 2002:a05:6a00:4484:b0:736:5725:59b4 with SMTP id
+ d2e1a72fcca58-73dc14439f4mr7604376b3a.3.1745081270817; 
+ Sat, 19 Apr 2025 09:47:50 -0700 (PDT)
+Received: from 10.0.2.15 ([112.19.146.144]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-73dbfaea91asm3497987b3a.167.2025.04.19.09.47.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Apr 2025 05:40:12 -0700 (PDT)
-Date: Sat, 19 Apr 2025 15:40:09 +0300
-From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com, 
- airlied@gmail.com, simona@ffwll.ch, aurabindo.pillai@amd.com,
- marek.olsak@amd.com, 
- roman.li@amd.com, make24@iscas.ac.cn, jfalempe@redhat.com, ivlipski@amd.com, 
- karthi.kandasamy@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd: Replace calls to kmalloc()+memcpy()+free(old) with
- krealloc()
-Message-ID: <bgwysgwai2p4d564s5pod5xw2q27r6egqkkiycjt6v5xtwnpwi@jh5ogfr75rfi>
+ Sat, 19 Apr 2025 09:47:50 -0700 (PDT)
+From: Jiangyong Wang <wjy.scu@gmail.com>
+To: yaron.avizrat@intel.com
+Cc: obitton@habana.ai, ogabbay@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, trivial@kernel.org,
+ Jiangyong Wang <wjy.scu@gmail.com>
+Subject: [PATCH] accel/habanalabs:fix typos found in command_submission.c
+Date: Sun, 20 Apr 2025 00:44:31 +0800
+Message-Id: <20250419164431.2393-1-wjy.scu@gmail.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 20 Apr 2025 17:31:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,35 +86,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Possibly gets rid of some redundant calls to memcpy.
+Fix typos found in drivers/accel/habanalabs/common/command_submission.c.
 
-Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+Signed-off-by: Jiangyong Wang <wjy.scu@gmail.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/accel/habanalabs/common/command_submission.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index 56bc2644e492..7ffd0d8f9897 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -146,7 +146,7 @@ static void amdgpu_dm_plane_add_modifier(uint64_t **mods, uint64_t *size, uint64
+diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
+index 59823e3c3..c9c61687d 100644
+--- a/drivers/accel/habanalabs/common/command_submission.c
++++ b/drivers/accel/habanalabs/common/command_submission.c
+@@ -1786,7 +1786,7 @@ static int hl_cs_ctx_switch(struct hl_fpriv *hpriv, union hl_cs_args *args,
+ }
  
- 	if (*cap - *size < 1) {
- 		uint64_t new_cap = *cap * 2;
--		uint64_t *new_mods = kmalloc(new_cap * sizeof(uint64_t), GFP_KERNEL);
-+		uint64_t *new_mods = krealloc(*mods, new_cap * sizeof(uint64_t), GFP_KERNEL);
- 
- 		if (!new_mods) {
- 			kfree(*mods);
-@@ -154,8 +154,6 @@ static void amdgpu_dm_plane_add_modifier(uint64_t **mods, uint64_t *size, uint64
- 			return;
- 		}
- 
--		memcpy(new_mods, *mods, sizeof(uint64_t) * *size);
--		kfree(*mods);
- 		*mods = new_mods;
- 		*cap = new_cap;
- 	}
+ /*
+- * hl_cs_signal_sob_wraparound_handler: handle SOB value wrapaound case.
++ * hl_cs_signal_sob_wraparound_handler: handle SOB value wraparound case.
+  * if the SOB value reaches the max value move to the other SOB reserved
+  * to the queue.
+  * @hdev: pointer to device structure
 -- 
-2.49.0
+2.39.3
 
