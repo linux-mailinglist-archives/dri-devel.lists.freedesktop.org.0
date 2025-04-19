@@ -2,74 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB08A94219
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 09:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB29A9421C
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 09:28:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A929C10E2EB;
-	Sat, 19 Apr 2025 07:20:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95F5D10E22B;
+	Sat, 19 Apr 2025 07:28:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FaQomLQl";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="VltwcdrH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 217C810E22B
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 07:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745047211; x=1776583211;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=LCM9rcBiQnj8FfSNnDAtZd+MbtyPlq5KB3By1/gIDRI=;
- b=FaQomLQlJRxSq9N+JPFEfhckqSOoY23u3/+N2SKEhLC2q8M4BhUloTQU
- CVSowcGLv6b/ZIpNru5Tt/TjeKHOPZaQf6d7/LSOjeEyQcfrvFP3OjUvh
- pwuLA64KKo5Ifo1gkmrAET4lbTFrtc7+P+ESh8Cs9sFCP3J886QBXrHGt
- cs3qw7hMX6xs7p+UwDESKor39TCwPsLpSAMykYCYsI0OgGdXRHJQQuzhf
- 1kc24aVpXt3GY1xCzYujVNVtzm2pEWrlhUvbN2SykSN1no/89Y8vgVcgg
- Q+W1KOBXhkyHSlqtAPLCUjAdFkz6LcESO3Abv34Jg3pfTkeAW2rsciLDV Q==;
-X-CSE-ConnectionGUID: kIWYQaPURyOzbm4j4Z2jGg==
-X-CSE-MsgGUID: KSlvqZBbSxKfMKtNUCgmUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="34282310"
-X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; d="scan'208";a="34282310"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2025 00:20:08 -0700
-X-CSE-ConnectionGUID: eV3b6fYpTTWiRJQ+acA7Vg==
-X-CSE-MsgGUID: EKqWrkPHRKuPxYfGpv6kyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; d="scan'208";a="132179622"
-Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
- by fmviesa009.fm.intel.com with ESMTP; 19 Apr 2025 00:20:02 -0700
-Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1u62UZ-0003gD-2g;
- Sat, 19 Apr 2025 07:19:59 +0000
-Date: Sat, 19 Apr 2025 15:19:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bincai Liu <bincai.liu@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
+Received: from OS0P286CU010.outbound.protection.outlook.com
+ (mail-japanwestazon11011041.outbound.protection.outlook.com [40.107.74.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD72D10E22B
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 07:28:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kEw6IpAxXDY7sxGW8G9uTJChBnNgCi7mLK15Y9Gb3/0u6XavcTsclvRAnN3AUWjdwW9LUE0OWwUVezIL9t1m78Vlrzs1zVrljkvCbU+qYHrtFhnGYSb8xl/Dh0HznjbM0vy5hRanLbDFZO7wpiYP/xLvT1NDfILmCYsu/JV84dF8WUJjq3cqLRXOZz/1DRoafTjAxxS3T320VmjK1qkP2/ohbjYXShkwp0rwFDzFwnL4frL+Lli59c0cXAWzDoeHYNc+VOPH7I4zmOIY6xx5QGt3xxdUR4YUXQSZpNMZgCiUS2zbPGe7b3x/h0pw976WwPdgPlMXySY56AlPtSjDNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iaCAf8COAn96tT2qDvSe3DaIfhRNGLts9yxu9aiNfrA=;
+ b=J/tTq6i+RYj0W+8VVmpP1Das5jBctf/dzWrPwM5f06ZJScslahSifjOOc9EGt34GQcmAX+9ySByX/HLRcc9zykidtHTT14L+/8lYyJ1A0bq+D7fRml9asiYY6xRWUpQAc58IMWM+MN/T/tvaF1nJ2GsJ4nzDgNrW2scOQPfy+F+TK4kG//RCjW2BLRA31fjtUAEDLN3rDlV/O+3nFn/GWyiI9UYGfrdIFMDLBnWMTY6Jkjyk/YiWEzQyeSE+1+IeqmHGx2efoyMbLhEWVSNb7dY8pB3Qh78n9JgawqlN06FNtZjl6OFOB/z6+H/udlxcstJuRiklJl+4uWk8BmaWgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iaCAf8COAn96tT2qDvSe3DaIfhRNGLts9yxu9aiNfrA=;
+ b=VltwcdrHYw0R32miE2tkk6/t7zLc4emB8ltr2HSouFjBRnXu1e3UIBX0FOi6rAoZM1rXUWQa82AdOnqOu5s9XrKTWCSgbfj6eIWLpXCwppXw07xF/S06FI9VphcHPQpg6RhVxeXVNzx7+LwhGX2mcS/Jkg70M3fdbhknPqaUF0Y=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYAPR01MB6412.jpnprd01.prod.outlook.com (2603:1096:400:a0::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.32; Sat, 19 Apr
+ 2025 07:28:20 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8655.022; Sat, 19 Apr 2025
+ 07:28:15 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, Robert
+ Foss <rfoss@kernel.org>, laurent.pinchart
+ <laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Jitao shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- Bincai Liu <bincai.liu@mediatek.com>
-Subject: Re: [PATCH 3/5] drm/mediatek: Add dvo driver for mt8196
-Message-ID: <202504191551.u0FJoQ3O-lkp@intel.com>
-References: <20250418065313.8972-4-bincai.liu@mediatek.com>
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, Fabrizio Castro
+ <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v3 15/15] drm: renesas: rz-du: mipi_dsi: Add support for
+ RZ/V2H(P) SoC
+Thread-Topic: [PATCH v3 15/15] drm: renesas: rz-du: mipi_dsi: Add support for
+ RZ/V2H(P) SoC
+Thread-Index: AQHbsJJZpskYsPIDCUSFmsNedDvOibOqlv0Q
+Date: Sat, 19 Apr 2025 07:28:15 +0000
+Message-ID: <TY3PR01MB113469966D8B9B58EE4E2D88B86BE2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20250418184658.456398-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250418184658.456398-16-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250418184658.456398-16-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYAPR01MB6412:EE_
+x-ms-office365-filtering-correlation-id: 429b980f-7a66-4322-6022-08dd7f13bfbd
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|38070700018|921020; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?BLu+OrdiwkFjaWfmdFu4ohJW5hgO3Y9hl5frSvfPPPc0t00Vz1EfzOEpb0HJ?=
+ =?us-ascii?Q?fiZUEgFouEO6tmxOZiuyXR9DTrAGgTG1WEGQn8c3FcGdNLzcTeowf+CaEfjF?=
+ =?us-ascii?Q?7Dmm+y9M0RA3Obq4mWCLw7sCmMhaPmzfHm/R26Y61CoMuOMKlRUiY84p5Swj?=
+ =?us-ascii?Q?z4lf+LxLEpZD3rT8RPLu2VjCyZXuL2ZBvz6d1CRy5q5Y+aBfP/UDu38xtlx/?=
+ =?us-ascii?Q?UbdQX/2EbCtdB4Mr3cIBM8xSOxClAfwlTaf1NrHAir+TTJFW088/d3qrqy+F?=
+ =?us-ascii?Q?D+RbHOWHB1Y99CTR2GhrenKcOo5T58mgjd1sY9I5lM6LgZ+KBnFPLZx9e6X6?=
+ =?us-ascii?Q?Y05EyD2l8ab3aAAnYwBqA7Au++W6YCpg6icHWPOZlPuk6jqe8B3zHYsMtOm5?=
+ =?us-ascii?Q?lzh2pWFdPbc+JePoPGYgn1CQefMwZrNQEG3UgszxZz8c3376gp1APTHfekek?=
+ =?us-ascii?Q?RAbrAcO9/v2rbMwokNTAvwNPIsfM26Mi2DjHSLyxacXfsz1R/NV/U/yT/9Iy?=
+ =?us-ascii?Q?bfy90oByHAzfF/g+Gf037B8swn61f1bDpvGJkkWOR+AZdlqZTt7i1tambVX7?=
+ =?us-ascii?Q?AmEQrfHgkDGPFvIIimIWeyDJYk/SYU0RLqzh5P7z+6C8SqjHuNmA14l8n0/8?=
+ =?us-ascii?Q?LrM8k8J78JbPG8obrkGMo+Hdh7kupw98MVB3YPSdfKg8uLfD/c8jKMkq3CAF?=
+ =?us-ascii?Q?f7Bim9DPxWT/0pSOunPfBSZTLJg7SVma0qwXC31vpJl7vEInQ/L6TRJtYqh/?=
+ =?us-ascii?Q?covybxjVeMP2uHdfWFMAr5lqYHJ8uI1FnYlfqfNDw3N4HdK27QP82+k/+miz?=
+ =?us-ascii?Q?GPP2OYc4MvZuQ/lkHv7Lv2IMkJ/xuxzYP+bTmMRTjyhQE4j5wI/AJgacAOVM?=
+ =?us-ascii?Q?Vct239LOqqkIjCUTOrAvy/XvioBPU9ZDfHbAnuHx/c8P9fmI9gbKkO+G9Fuz?=
+ =?us-ascii?Q?xl/afRHW5SSE+OoypJCgoXXjOlrRxNN5RtAhPP7l/V4NG0vRWzYvgn7TXDFa?=
+ =?us-ascii?Q?aGHEohbZUbW2wn7zcvV88R/mVWrLsJ6BZ2H0Pr8fNdtJbgj0PjR3PpknlDPr?=
+ =?us-ascii?Q?3FFRRynHCGTOC4XmmS4VcCGD7G8hXsdiS1umNuhu4pRgeA0yN6yftNNzoahN?=
+ =?us-ascii?Q?rZqV6HuJzU6y5dAISDmjeqZx74wakaTcrpkhCB96gntKiFevI1wPBii0H6dg?=
+ =?us-ascii?Q?wybIycpqxxRW3ekNTFXXHau2NTgyULERAnP1UfzVmgOnANqEUyI7gW4kfpum?=
+ =?us-ascii?Q?q+zSlg1UoQoarmQJyzD9Qd0T2KC/AYIoeE6HR319w/DcaLLImM2OQsHzVtau?=
+ =?us-ascii?Q?Kv6T6b+pluJKkv86JYfSSI7GFhzo+7GLDHjxmf4X2Gc8gycTIu5ELN77K5Ys?=
+ =?us-ascii?Q?x5LXz+uGQIYDAqY8LJGtjKN5u/Z2ADRBEAGfbMvWs/drekccpjwCfiE5IysB?=
+ =?us-ascii?Q?wTJz9KRlnbSzZTeXr3CbAHz3hr0tVGvi?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018)(921020);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?wY4f4SWG0wwfidw555Iruup8QIw9+A5s1pPM8sGwp4WBh9eYbpH22TwtsTcX?=
+ =?us-ascii?Q?CQqreskUeu3sUqFG4UJlEZrSEB1yz0C9XdYzX0zn5C7LmFEFBlvbRBJB+xQc?=
+ =?us-ascii?Q?gzsdX5KFkvIHSpwr/3CAOeX+XtHqx40GdRESZXYrw3gGxt3QKH6lpOlv/xDL?=
+ =?us-ascii?Q?N9DyyYJmgOj9pOI7fWcQCp+aXBp1+shD5+0Gfelt5b/LMulP1rF8U4HdOkHY?=
+ =?us-ascii?Q?ri8MZk4Ed3+LCx2o0w91qvLNFMn6oGYmN6mRRLXOtAPMRGyliEr1neI1Cmcc?=
+ =?us-ascii?Q?MFUJ4MOECpcV+g0lHnIiWrEu5kUcOUTSEMcm1oYr2Ooqwk3t1CUJh1HYFI68?=
+ =?us-ascii?Q?/yPp5dYNay9bjxGp+fN7KP20pRXh92QiN3nvNwH30X3j4n6ML6SwLA0K2Ekz?=
+ =?us-ascii?Q?kgF5h3+wx9Krqy8St/RhY0e2pesOy+Xdkibqhph3JyM9h+v6/b+TFiMFbdR/?=
+ =?us-ascii?Q?bL49Ekn7ReXyUpZoVkQqSWSDDejVGlQJHz5SZTSPeDB0bey0thOK4KUrug2H?=
+ =?us-ascii?Q?uNgIghaJHqDEepcXY8HHkQH8PzvJOAEEPzCJF0tIBzNglavHfDN6Iupeyu/5?=
+ =?us-ascii?Q?UKZH1NPGsA8IPj9n36u+vEcxx8BgDJ9XwcU5Wv4mgeZyXeAiOhA9ZYMVxl9y?=
+ =?us-ascii?Q?xEBWse1fxzgjPY11HXihh7SWhvIE8hDm3z2F71jSvvZfRZSumzj33nFxhEhC?=
+ =?us-ascii?Q?m3oK/6mf2yaJ0CvjfYt4+TkIGnoOTX6zHnxXvossa6JD5/FuGczmU4oXp7Bk?=
+ =?us-ascii?Q?80gEGJF/JXWcf8+zmS1yzSF63BkNfGGgKzPwkEk+5tnefb/wRz5UZ16LhHUY?=
+ =?us-ascii?Q?eS186Q49g5LoBH+bkbisjakVZeyoDKOox+fBN1tEyf36l8OeAWExxKnXvfW+?=
+ =?us-ascii?Q?tdvSiNZDLj3Z7yeuI7IlRJfMARlIMf9j0xAZifpWfEBpnxA9xj8eWEM+AFSI?=
+ =?us-ascii?Q?Zp3VGUkAVA7PzFoGlbGrzupDuecj9nG2QSwASnaHc3bpI/uVN6BKp6KHn7Aj?=
+ =?us-ascii?Q?hKn+oerijIejUYXnUdq843vXtMtHAQwJTv3XpY9EfjXqe1pSSlDIMTTcNtdg?=
+ =?us-ascii?Q?lhN0DNMdzpGQLY+4oxyQeetim4JbAnA86fGT289U++kZy+ePwlHiMQq1GiLp?=
+ =?us-ascii?Q?y6kJCKMOzaRhIe07azhI4QExOkqKnfsL4q674WORgFkiwvv37AlAOXnBrZ0w?=
+ =?us-ascii?Q?9H5v4gMVOPtHETCtx3TkHJRtXdfZgokFS+le0ZbWpcD65jxc32fAG2fmmFq3?=
+ =?us-ascii?Q?ddQceK5kjIIGdHCtZdCZ5oqLI//m5pfgKZIgT/Wvj1qqOKXsEJQeP6Evpzh5?=
+ =?us-ascii?Q?VEs4u92mO15C/FC9/TdKuJOA/0K7tsdwfVTIYAYiw4zdK9mtEAcAonoIgVEh?=
+ =?us-ascii?Q?ckMHKj1EJtyYPmK7iapd9tAkEmhmI0T8dTgjtSQqfMvi88JhhVO0hV8uaApS?=
+ =?us-ascii?Q?PVNLiS/i2l8xMjO3CvdkLcsAK70jIwcr2pLrSTLZUTjfqtwxmfe9xWwLEkpX?=
+ =?us-ascii?Q?EYIsPWfk4OWXHVDoN91ONURJ7lTWS11awaCkNAdxS7/1acF6DADqW22hh8Jq?=
+ =?us-ascii?Q?kPEWe18YZ4pj+P77H8sAW10Z7mAB7DgpFwhpOUCoISs02QXbrQAaSW2Hj29t?=
+ =?us-ascii?Q?Ww=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250418065313.8972-4-bincai.liu@mediatek.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 429b980f-7a66-4322-6022-08dd7f13bfbd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2025 07:28:15.4169 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: b2Lzdv7tZNMWPmcV4QONCxrnsFnokb78cfkPIlACrNIOlUypCEW0KQOdHODL+FUAhweCnQbSNP+IYs2FL7SjtA9/wNoMHVHZqvLdjhrY2uw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6412
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,89 +170,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bincai,
+Hi Prabhakar,
 
-kernel test robot noticed the following build errors:
+Thanks for the patch.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on pza/reset/next linus/master v6.15-rc2 next-20250417]
-[cannot apply to pza/imx-drm/next drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> -----Original Message-----
+> From: Prabhakar <prabhakar.csengg@gmail.com>
+> Sent: 18 April 2025 19:47
+> Subject: [PATCH v3 15/15] drm: renesas: rz-du: mipi_dsi: Add support for =
+RZ/V2H(P) SoC
+>=20
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Add DSI support for Renesas RZ/V2H(P) SoC.
+>=20
+> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3:
+> - Simplifed V2H DSI timings array to save space
+> - Switched to use fsleep() instead of udelay()
+>=20
+> v1->v2:
+> - Dropped unused macros
+> - Added missing LPCLK flag to rzvv2h info
+> ---
+>  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 344 ++++++++++++++++++
+>  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
+>  2 files changed, 378 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu=
+/drm/renesas/rz-
+> du/rzg2l_mipi_dsi.c
+> index 133a8f306d47..a957b6c5f28d 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2022 Renesas Electronics Corporation
+>   */
+>  #include <linux/clk.h>
+> +#include <linux/clk/renesas-rzv2h-dsi.h>
+>  #include <linux/delay.h>
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+> @@ -32,6 +33,9 @@
+>  #define RZ_MIPI_DSI_FEATURE_16BPP	BIT(1)
+>  #define RZ_MIPI_DSI_FEATURE_LPCLK	BIT(2)
+>=20
+> +#define RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA	(80 * MEGA)
+> +#define RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA	(1500 * MEGA)
+> +
+>  struct rzg2l_mipi_dsi;
+>=20
+>  struct rzg2l_mipi_dsi_hw_info {
+> @@ -42,6 +46,7 @@ struct rzg2l_mipi_dsi_hw_info {
+>  			      u64 *hsfreq_millihz);
+>  	unsigned int (*dphy_mode_clk_check)(struct rzg2l_mipi_dsi *dsi,
+>  					    unsigned long mode_freq);
+> +	const struct rzv2h_pll_div_limits *cpg_dsi_limits;
+>  	u32 phy_reg_offset;
+>  	u32 link_reg_offset;
+>  	unsigned long max_dclk;
+> @@ -49,6 +54,11 @@ struct rzg2l_mipi_dsi_hw_info {
+>  	u8 features;
+>  };
+>=20
+> +struct rzv2h_dsi_mode_calc {
+> +	unsigned long mode_freq;
+> +	u64 mode_freq_hz;
+> +};
+> +
+>  struct rzg2l_mipi_dsi {
+>  	struct device *dev;
+>  	void __iomem *mmio;
+> @@ -70,6 +80,18 @@ struct rzg2l_mipi_dsi {
+>  	unsigned int num_data_lanes;
+>  	unsigned int lanes;
+>  	unsigned long mode_flags;
+> +
+> +	struct rzv2h_dsi_mode_calc mode_calc;
+> +	struct rzv2h_plldsi_parameters dsi_parameters; };
+> +
+> +static const struct rzv2h_pll_div_limits rzv2h_plldsi_div_limits =3D {
+> +	.fvco =3D { .min =3D 1050 * MEGA, .max =3D 2100 * MEGA },
+> +	.m =3D { .min =3D 64, .max =3D 1023 },
+> +	.p =3D { .min =3D 1, .max =3D 4 },
+> +	.s =3D { .min =3D 0, .max =3D 5 },
+> +	.k =3D { .min =3D -32768, .max =3D 32767 },
+> +	.csdiv =3D { .min =3D 1, .max =3D 1 },
+>  };
+>=20
+>  static inline struct rzg2l_mipi_dsi *
+> @@ -186,6 +208,155 @@ static const struct rzg2l_mipi_dsi_timings rzg2l_mi=
+pi_dsi_global_timings[] =3D {
+>  	},
+>  };
+>=20
+> +struct rzv2h_mipi_dsi_timings {
+> +	const u8 *hsfreq;
+> +	u8 len;
+> +	u8 start_index;
+> +};
+> +
+> +enum {
+> +	TCLKPRPRCTL,
+> +	TCLKZEROCTL,
+> +	TCLKPOSTCTL,
+> +	TCLKTRAILCTL,
+> +	THSPRPRCTL,
+> +	THSZEROCTL,
+> +	THSTRAILCTL,
+> +	TLPXCTL,
+> +	THSEXITCTL,
+> +};
+> +
+> +static const u8 tclkprprctl[] =3D {
+> +	15, 26, 37, 47, 58, 69, 79, 90, 101, 111, 122, 133, 143, 150, };
+> +
+> +static const u8 tclkzeroctl[] =3D {
+> +	9, 11, 13, 15, 18, 21, 23, 24, 25, 27, 29, 31, 34, 36, 38,
+> +	41, 43, 45, 47, 50, 52, 54, 57, 59, 61, 63, 66, 68, 70, 73,
+> +	75, 77, 79, 82, 84, 86, 89, 91, 93, 95, 98, 100, 102, 105,
+> +	107, 109, 111, 114, 116, 118, 121, 123, 125, 127, 130, 132,
+> +	134, 137, 139, 141, 143, 146, 148, 150, };
+> +
+> +static const u8 tclkpostctl[] =3D {
+> +	8, 21, 34, 48, 61, 74, 88, 101, 114, 128, 141, 150, };
+> +
+> +static const u8 tclktrailctl[] =3D {
+> +	14, 25, 37, 48, 59, 71, 82, 94, 105, 117, 128, 139, 150, };
+> +
+> +static const u8 thsprprctl[] =3D {
+> +	11, 19, 29, 40, 50, 61, 72, 82, 93, 103, 114, 125, 135, 146, 150, };
+> +
+> +static const u8 thszeroctl[] =3D {
+> +	18, 24, 29, 35, 40, 46, 51, 57, 62, 68, 73, 79, 84, 90,
+> +	95, 101, 106, 112, 117, 123, 128, 134, 139, 145, 150, };
+> +
+> +static const u8 thstrailctl[] =3D {
+> +	10, 21, 32, 42, 53, 64, 75, 85, 96, 107, 118, 128, 139, 150, };
+> +
+> +static const u8 tlpxctl[] =3D {
+> +	13, 26, 39, 53, 66, 79, 93, 106, 119, 133, 146,	150,
+> +};
+> +
+> +static const u8 thsexitctl[] =3D {
+> +	15, 23, 31, 39, 47, 55, 63, 71, 79, 87,
+> +	95, 103, 111, 119, 127, 135, 143, 150, };
+> +
+> +static const struct rzv2h_mipi_dsi_timings rzv2h_dsi_timings_tables[] =
+=3D {
+> +	[TCLKPRPRCTL] =3D {
+> +		.hsfreq =3D tclkprprctl,
+> +		.len =3D ARRAY_SIZE(tclkprprctl),
+> +		.start_index =3D 0,
+> +	},
+> +	[TCLKZEROCTL] =3D {
+> +		.hsfreq =3D tclkzeroctl,
+> +		.len =3D ARRAY_SIZE(tclkzeroctl),
+> +		.start_index =3D 2,
+> +	},
+> +	[TCLKPOSTCTL] =3D {
+> +		.hsfreq =3D tclkpostctl,
+> +		.len =3D ARRAY_SIZE(tclkpostctl),
+> +		.start_index =3D 6,
+> +	},
+> +	[TCLKTRAILCTL] =3D {
+> +		.hsfreq =3D tclktrailctl,
+> +		.len =3D ARRAY_SIZE(tclktrailctl),
+> +		.start_index =3D 1,
+> +	},
+> +	[THSPRPRCTL] =3D {
+> +		.hsfreq =3D thsprprctl,
+> +		.len =3D ARRAY_SIZE(thsprprctl),
+> +		.start_index =3D 0,
+> +	},
+> +	[THSZEROCTL] =3D {
+> +		.hsfreq =3D thszeroctl,
+> +		.len =3D ARRAY_SIZE(thszeroctl),
+> +		.start_index =3D 0,
+> +	},
+> +	[THSTRAILCTL] =3D {
+> +		.hsfreq =3D thstrailctl,
+> +		.len =3D ARRAY_SIZE(thstrailctl),
+> +		.start_index =3D 3,
+> +	},
+> +	[TLPXCTL] =3D {
+> +		.hsfreq =3D tlpxctl,
+> +		.len =3D ARRAY_SIZE(tlpxctl),
+> +		.start_index =3D 0,
+> +	},
+> +	[THSEXITCTL] =3D {
+> +		.hsfreq =3D thsexitctl,
+> +		.len =3D ARRAY_SIZE(thsexitctl),
+> +		.start_index =3D 1,
+> +	},
+> +};
+> +
+> +static u16 rzv2h_dphy_find_ulpsexit(unsigned long freq) {
+> +	const unsigned long hsfreq[] =3D {
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bincai-Liu/dt-bindings-eDP-mediatek-add-eDP-yaml-for-mt8196/20250418-145911
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250418065313.8972-4-bincai.liu%40mediatek.com
-patch subject: [PATCH 3/5] drm/mediatek: Add dvo driver for mt8196
-config: i386-buildonly-randconfig-006-20250419 (https://download.01.org/0day-ci/archive/20250419/202504191551.u0FJoQ3O-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504191551.u0FJoQ3O-lkp@intel.com/reproduce)
+Please don't populate the read-only const array offsets on the stack
+but instead make it static, see [1] and [2]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504191551.u0FJoQ3O-lkp@intel.com/
+[1]
+https://lkml.iu.edu/2201.1/00608.html
+[2]
+https://patchwork.ozlabs.org/project/intel-wired-lan/patch/20250317144606.4=
+78431-1-colin.i.king@gmail.com/
 
-All errors (new ones prefixed by >>):
+> +		1953125UL,
+> +		3906250UL,
+> +		7812500UL,
+> +		15625000UL,
+> +	};
+> +	const u16 ulpsexit[] =3D {49, 98, 195, 391};
 
->> drivers/gpu/drm/mediatek/mtk_ddp_comp.c:476:3: error: use of undeclared identifier 'DDP_COMPONENT_DVO0'
-     476 |         [DDP_COMPONENT_DVO0]            = { MTK_DVO,                    0, &ddp_dpi },
-         |          ^
-   1 error generated.
+Same here.
+
+Cheers,
+Biju
 
 
-vim +/DDP_COMPONENT_DVO0 +476 drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-
-   456	
-   457	static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_DRM_ID_MAX] = {
-   458		[DDP_COMPONENT_AAL0]		= { MTK_DISP_AAL,		0, &ddp_aal },
-   459		[DDP_COMPONENT_AAL1]		= { MTK_DISP_AAL,		1, &ddp_aal },
-   460		[DDP_COMPONENT_BLS]		= { MTK_DISP_BLS,		0, NULL },
-   461		[DDP_COMPONENT_CCORR]		= { MTK_DISP_CCORR,		0, &ddp_ccorr },
-   462		[DDP_COMPONENT_COLOR0]		= { MTK_DISP_COLOR,		0, &ddp_color },
-   463		[DDP_COMPONENT_COLOR1]		= { MTK_DISP_COLOR,		1, &ddp_color },
-   464		[DDP_COMPONENT_DITHER0]		= { MTK_DISP_DITHER,		0, &ddp_dither },
-   465		[DDP_COMPONENT_DP_INTF0]	= { MTK_DP_INTF,		0, &ddp_dpi },
-   466		[DDP_COMPONENT_DP_INTF1]	= { MTK_DP_INTF,		1, &ddp_dpi },
-   467		[DDP_COMPONENT_DPI0]		= { MTK_DPI,			0, &ddp_dpi },
-   468		[DDP_COMPONENT_DPI1]		= { MTK_DPI,			1, &ddp_dpi },
-   469		[DDP_COMPONENT_DRM_OVL_ADAPTOR]	= { MTK_DISP_OVL_ADAPTOR,	0, &ddp_ovl_adaptor },
-   470		[DDP_COMPONENT_DSC0]		= { MTK_DISP_DSC,		0, &ddp_dsc },
-   471		[DDP_COMPONENT_DSC1]		= { MTK_DISP_DSC,		1, &ddp_dsc },
-   472		[DDP_COMPONENT_DSI0]		= { MTK_DSI,			0, &ddp_dsi },
-   473		[DDP_COMPONENT_DSI1]		= { MTK_DSI,			1, &ddp_dsi },
-   474		[DDP_COMPONENT_DSI2]		= { MTK_DSI,			2, &ddp_dsi },
-   475		[DDP_COMPONENT_DSI3]		= { MTK_DSI,			3, &ddp_dsi },
- > 476		[DDP_COMPONENT_DVO0]            = { MTK_DVO,                    0, &ddp_dpi },
-   477		[DDP_COMPONENT_GAMMA]		= { MTK_DISP_GAMMA,		0, &ddp_gamma },
-   478		[DDP_COMPONENT_MERGE0]		= { MTK_DISP_MERGE,		0, &ddp_merge },
-   479		[DDP_COMPONENT_MERGE1]		= { MTK_DISP_MERGE,		1, &ddp_merge },
-   480		[DDP_COMPONENT_MERGE2]		= { MTK_DISP_MERGE,		2, &ddp_merge },
-   481		[DDP_COMPONENT_MERGE3]		= { MTK_DISP_MERGE,		3, &ddp_merge },
-   482		[DDP_COMPONENT_MERGE4]		= { MTK_DISP_MERGE,		4, &ddp_merge },
-   483		[DDP_COMPONENT_MERGE5]		= { MTK_DISP_MERGE,		5, &ddp_merge },
-   484		[DDP_COMPONENT_OD0]		= { MTK_DISP_OD,		0, &ddp_od },
-   485		[DDP_COMPONENT_OD1]		= { MTK_DISP_OD,		1, &ddp_od },
-   486		[DDP_COMPONENT_OVL0]		= { MTK_DISP_OVL,		0, &ddp_ovl },
-   487		[DDP_COMPONENT_OVL1]		= { MTK_DISP_OVL,		1, &ddp_ovl },
-   488		[DDP_COMPONENT_OVL_2L0]		= { MTK_DISP_OVL_2L,		0, &ddp_ovl },
-   489		[DDP_COMPONENT_OVL_2L1]		= { MTK_DISP_OVL_2L,		1, &ddp_ovl },
-   490		[DDP_COMPONENT_OVL_2L2]		= { MTK_DISP_OVL_2L,		2, &ddp_ovl },
-   491		[DDP_COMPONENT_POSTMASK0]	= { MTK_DISP_POSTMASK,		0, &ddp_postmask },
-   492		[DDP_COMPONENT_PWM0]		= { MTK_DISP_PWM,		0, NULL },
-   493		[DDP_COMPONENT_PWM1]		= { MTK_DISP_PWM,		1, NULL },
-   494		[DDP_COMPONENT_PWM2]		= { MTK_DISP_PWM,		2, NULL },
-   495		[DDP_COMPONENT_RDMA0]		= { MTK_DISP_RDMA,		0, &ddp_rdma },
-   496		[DDP_COMPONENT_RDMA1]		= { MTK_DISP_RDMA,		1, &ddp_rdma },
-   497		[DDP_COMPONENT_RDMA2]		= { MTK_DISP_RDMA,		2, &ddp_rdma },
-   498		[DDP_COMPONENT_RDMA4]		= { MTK_DISP_RDMA,		4, &ddp_rdma },
-   499		[DDP_COMPONENT_UFOE]		= { MTK_DISP_UFOE,		0, &ddp_ufoe },
-   500		[DDP_COMPONENT_WDMA0]		= { MTK_DISP_WDMA,		0, NULL },
-   501		[DDP_COMPONENT_WDMA1]		= { MTK_DISP_WDMA,		1, NULL },
-   502	};
-   503	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
