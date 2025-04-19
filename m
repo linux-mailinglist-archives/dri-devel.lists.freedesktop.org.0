@@ -2,54 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3A2A94099
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 02:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3834A94188
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 06:12:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFF4510E42C;
-	Sat, 19 Apr 2025 00:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE91610E0AA;
+	Sat, 19 Apr 2025 04:12:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="SaoEBfSd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GUSyKArZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98DBA10E42C
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 00:28:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1745022474; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=oJAhbTXoACYteGjHBZB2vy9K4+51sSPUmAX/+wawcppt1A6SU5CfR/S4ss9Iz6Oz8kczyh3ZaHsNSaAFjeu+tGYUR/WEhSk+HFpg2IcjRLGnFMaKfjvJxzG5uPASz+PLeXyJ+/AsJ7aOpD8lChBwjt+c35kMLvq/HQJi/AxPe+A=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1745022474;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=RCEg+tiniA1L+1xM0EYi+ZzP+1I/NSumCNkA/KFSiwE=; 
- b=Xsf64jDRDS6NgDciMvyAXfzFQK4phn/d+pl8UUBS+1N8a1ofk9Yq/4D6Bfjzanan57ArQeKA37n9DGYajcfLGY5qySh4sSc9g+Ln9IxafHEdnPWu3v9dffhPnuQGhqvlZ50UgTN3QzC59Wjx3A8QJhUu89IGHpHBJclUTbZ0dG8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745022474; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=RCEg+tiniA1L+1xM0EYi+ZzP+1I/NSumCNkA/KFSiwE=;
- b=SaoEBfSdyW5FGFXamT+bV+O2QlHG8xVr8XPeHPBBGrbXgnNhlze6TkzZ7XZi1va6
- xnda9TNUp4prnmmHCTSldBhcHir6FW+7hHTw5x7c3vbtqCx6UZmfdUlkTugAmFcodD0
- 878gj5pc8BOVHUeubS3w6cZFdNtq9pncSkYOBz/c=
-Received: by mx.zohomail.com with SMTPS id 1745022472630866.7297232600243;
- Fri, 18 Apr 2025 17:27:52 -0700 (PDT)
-Date: Sat, 19 Apr 2025 01:27:49 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v3] drm/panthor: Don't create a file offset for NO_MMAP BOs
-Message-ID: <fjcougtr3w6yeajbgbxwi4g6ejktqt2ozpg4c72zivtzylomqj@7ep7bnskfue2>
-References: <20250417121942.3574111-1-boris.brezillon@collabora.com>
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A98FB10E0AA
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 04:12:40 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-2279915e06eso27535525ad.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 21:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1745035960; x=1745640760; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZZvnVk9w6yGuNWt59s2Db1Arxy5v2qXsVKEQIIzTYpU=;
+ b=GUSyKArZou5QAlJTXDdhfSQ/UzvyV9Fp5MW5srCHZNzCXhUvYbjS3mJvZ2WS9s6e7R
+ ONjGaNK15TX4D3Lp4deUMhe7QD0t8/wawWNq12/E2iOmVj5q24d/k6Ac2YLleDYANd/7
+ ySBRQBEKlrjbGU3D3I5fK909Qi9BuYZ6qVZgxo33Nu6uf2JzRt+TWAqP17KPkfoXKT3C
+ 4+/mgvAR623zClexpfKStiT2IrI0r2fa6nfUyhyfCl9XyoY/Dw2cWvy4IBDLwx/ypwlU
+ 49UGBpM9Fm1XiEHpgv4wSuw5Qco7GqzmWUJ2IFu/1GvdwsMFs417KbppWIOdgQpEMMEg
+ Duag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745035960; x=1745640760;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZZvnVk9w6yGuNWt59s2Db1Arxy5v2qXsVKEQIIzTYpU=;
+ b=UPksgr5H/J/NcyVfyrEGSSoYyThHqicrT4jggQMkj6M5vdoLrwKfFS+f7CfIt7NXny
+ S6r1f/pVYjsUoP2QhGoBAmS2VPZCVbxjAxlsstUMy07vA90Jrhhyet27p62c/Mey8p6V
+ eSM3lZ4/cBWf5caGNswxBL/TMSLLsceAE/GUOaXIs/Z7HtTtvj+9kAN7jtR3hahkkctO
+ 2IRg4Bb9GRFYUa7yuGLYQH1V7OD4QQ0QUBOUPH63q5yGreF1QLmzV596QKX/KWLsToce
+ GmauOcBXjSLPFVj2OO3mEGvPh93KCGyjhNeE9Psq9PXaF3XAXmVrjxOXsNK8K/28h9PB
+ mG0w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWI0GD3WEd/+lBjqzT8hLIasLYzTV662GfapJkKncKclrqeU0X4zu3an40t2c8e2WQ6iOfeKS3lvYE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwGPCPhObMr9Hu3YuZO9O2q1GkKRaru0alkXyG+6ix5ou1f2e4Z
+ K9v2azL5sM/qVz3u1TIDJCi/xRiW0bjAcKCHYM0fzJk9++RibHUm
+X-Gm-Gg: ASbGncuAYbPX+jRZvu7FlqYq4OcflrJqbSUUcS9KqgTqDm8pYwq0XqKPVqdiNfLiODV
+ 9r955ZSIQi9LEckiIEAu4DjuUAajd9Iqlas58ymGVgBrcQcQIGqH10qbmXOoOISNQ78UCXMiIj/
+ RZPntTay5GuRt++iErakvNPA6fLrxZWz65HF0/bE17LrLUoEFJhb5kkDSuA4RdLaW2B26ynHRN7
+ Hh0q0121zwJQ7P/uSHZ5YGHx5D0LrPFRzonr5oIXCEoLsJrMAM4KljRh7vCGXI7ZCsytrYKzrK2
+ 7UKmiZwgFkcbnwT97BJV3hYn43+6qrj4xpDPAumdCld3Efsz9GB0AK7tpOJfCz2FnuOKCA==
+X-Google-Smtp-Source: AGHT+IGwMo4ReNpXdTE8WKn1QspdsWtTHSomuqPi0h8tFrfjU98YYuC87TGC37M9S6wAFSx9zae/KQ==
+X-Received: by 2002:a17:903:22d0:b0:223:66bc:f1de with SMTP id
+ d9443c01a7336-22c5359e919mr76202315ad.21.1745035960131; 
+ Fri, 18 Apr 2025 21:12:40 -0700 (PDT)
+Received: from distilledx.SRMIST.EDU.IN ([59.152.80.69])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-22c50bde283sm25296545ad.6.2025.04.18.21.12.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Apr 2025 21:12:39 -0700 (PDT)
+From: Tejas Vipin <tejasvipin76@gmail.com>
+To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ asrivats@redhat.com, Tejas Vipin <tejasvipin76@gmail.com>
+Subject: [PATCH 0/2] Transition remaining mipi_dsi_dcs_write_seq commands and
+ remove it
+Date: Sat, 19 Apr 2025 09:42:08 +0530
+Message-ID: <20250419041210.515517-1-tejasvipin76@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250417121942.3574111-1-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,95 +88,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.04.2025 14:19, Boris Brezillon wrote:
-> Right now the DRM_PANTHOR_BO_NO_MMAP flag is ignored by
-> panthor_ioctl_bo_mmap_offset(), meaning BOs with this flag set can
-> have a file offset but can't be mapped anyway, because
-> panthor_gem_mmap() will filter them out.
->
-> If we error out at mmap_offset creation time, we can get rid of
-> panthor_gem_mmap() and call drm_gem_shmem_object_mmap directly, and
-> we get rid of this inconsistency of having an mmap offset for a
-> BO that can never be mmap-ed.
->
-> Changes in v2:
-> - Get rid of panthor_gem_mmap()
-> - Get rid of the Fixes tag and adjust the commit message accordingly
-> - Return ENOPERM instead of EINVAL
->
-> Changes in v3:
-> - Don't leak the BO ref
-> - Add R-bs
->
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+panel-samsung-sofef00 is the last remaining user of
+mipi_dsi_dcs_write_seq, so mipi_dsi_dcs_write_seq can be removed after
+the panel has been changed to use mipi_dsi_*_multi functions.
 
-Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Tejas Vipin (2):
+  drm/panel: panel-samsung-sofef00: transition to mipi_dsi wrapped
+    functions
+  drm/mipi-dsi: Remove mipi_dsi_dcs_write_seq
 
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c |  7 +++++++
->  drivers/gpu/drm/panthor/panthor_gem.c | 13 +------------
->  2 files changed, 8 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 06fe46e32073..4d4a52a033f6 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -940,6 +940,7 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
->  					struct drm_file *file)
->  {
->  	struct drm_panthor_bo_mmap_offset *args = data;
-> +	struct panthor_gem_object *bo;
->  	struct drm_gem_object *obj;
->  	int ret;
->
-> @@ -950,6 +951,12 @@ static int panthor_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
->  	if (!obj)
->  		return -ENOENT;
->
-> +	bo = to_panthor_bo(obj);
-> +	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP) {
-> +		ret = -EPERM;
-> +		goto out;
-> +	}
-> +
->  	ret = drm_gem_create_mmap_offset(obj);
->  	if (ret)
->  		goto out;
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index fd014ccc3bfc..22d78cef9c66 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -129,17 +129,6 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  	return ERR_PTR(ret);
->  }
->
-> -static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-> -{
-> -	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> -
-> -	/* Don't allow mmap on objects that have the NO_MMAP flag set. */
-> -	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
-> -		return -EINVAL;
-> -
-> -	return drm_gem_shmem_object_mmap(obj, vma);
-> -}
-> -
->  static struct dma_buf *
->  panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
->  {
-> @@ -169,7 +158,7 @@ static const struct drm_gem_object_funcs panthor_gem_funcs = {
->  	.get_sg_table = drm_gem_shmem_object_get_sg_table,
->  	.vmap = drm_gem_shmem_object_vmap,
->  	.vunmap = drm_gem_shmem_object_vunmap,
-> -	.mmap = panthor_gem_mmap,
-> +	.mmap = drm_gem_shmem_object_mmap,
->  	.status = panthor_gem_status,
->  	.export = panthor_gem_prime_export,
->  	.vm_ops = &drm_gem_shmem_vm_ops,
-> --
-> 2.49.0
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c | 70 ++++++-------------
+ include/drm/drm_mipi_dsi.h                    | 22 ------
+ 2 files changed, 21 insertions(+), 71 deletions(-)
 
+-- 
+2.49.0
 
-Adrian Larumbe
