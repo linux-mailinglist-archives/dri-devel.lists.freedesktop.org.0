@@ -2,72 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C610A9487D
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 19:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A14A9487A
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 19:31:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C11210E32F;
-	Sun, 20 Apr 2025 17:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6182510E036;
+	Sun, 20 Apr 2025 17:31:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cul4MKBS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mw8woiHW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F99310E147
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 16:47:53 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7394945d37eso2250727b3a.3
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 09:47:53 -0700 (PDT)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E11410E127;
+ Sat, 19 Apr 2025 17:47:27 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ 46e09a7af769-72ec926e828so797848a34.0; 
+ Sat, 19 Apr 2025 10:47:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745081271; x=1745686071; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1745084846; x=1745689646; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=gc6CmYXidkzPLNB0SO00YEXOEa7ICBVRjIrdnfdrG0E=;
- b=cul4MKBSLXFvQOAxAv/bXFyO0iJbe2QZIQTAUudLO5tHmR84kN8uyEJPdt0jZCUVQd
- V/HaewZmdgDESTkGc4UqfNa+yKuqKlBcZuROOtAkQhh+nD2Kq1RjRc4mI9tblCBUmiKX
- TR//tDRop/C6BYkZD/WU+6zKsQ72cqVJubWHm8kFwwO1d2lb+Hvl9sNjlIH0mtUcYmxr
- IrvTzs7zqQIGhIrECM7Qm1tMJ8ryukip07hOlLLeg17kFmRhFqDaST2lkhe/WTQ3JHVc
- oUC3l45fMROl2bDNlaYk3YavpqdrvqI7mjT5J7HSryn25oNKIZmV+cMERNY1Tgqgl81j
- 4j9g==
+ bh=l9p/9GPno78DZ3qtYAcJxFBAogUfeTY9SwXa+83U50I=;
+ b=mw8woiHWQHz95USCEEf8SjQvbBJUXhnf7y0gVuNut9sh4PNqFfEVkMJhbiXpd2R1Vb
+ HXAaxrT7v3uqwRGX0zyztOwnIJKlo54HjDB7LjijXXfxd9y/C1jFpeO4UaeCU2RQPiDW
+ AxFw0PFa5+V4uEcpCf7H3EjubiU0qz5yIpdwxuH0xCqBJESBE1CuliOUV+yE+8kvLvf/
+ SDPyGIu2UxwH83yKW0TPc42MtA8dPoyv/4dDq9ok8Q0rZy6F+njz0NH6k4YGyHWVqL3Y
+ wOGN6xH42HnIbScvh/V4NHC+RKZH8AYPRfV6BmjiSi8Rhs8RNiyRC/WeiUKqxhTvqpWT
+ 0BNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745081271; x=1745686071;
+ d=1e100.net; s=20230601; t=1745084846; x=1745689646;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=gc6CmYXidkzPLNB0SO00YEXOEa7ICBVRjIrdnfdrG0E=;
- b=XhKgKSTlzey12A/4Tjwd8LHI5Cu7Jj7HzxwTTLuXP5jX5t5Uap6rDJZTfAUNzl3bjM
- T5IWFNhCfZz8BhD5H2pRvhi8x3gbkVz0+7ySJgPj3yP3Ccz6gPuDV5ovnuxeZqwwJ0VE
- gGy7FhTGQVnVYXgl2CS51mo/gH3kx2NOBDPDYyLiwGzTVNIW7SYMlSZV09+6HWy82jwd
- f9+jP/FUeGwEIrz8wed73+QB1qQPpCJiwlWT82d+WbaRjzY3gU646eWJwWZRHN279J/R
- no/heEz0EjVB44gMWqXQmQ8mEJVu+bMrmjZBg30s04XsyVjSy0OVKox1IO59Y+ASAbE/
- Kkug==
+ bh=l9p/9GPno78DZ3qtYAcJxFBAogUfeTY9SwXa+83U50I=;
+ b=SqiYm53IXbIEw45PGXCCxIb3+6onYE2S6I/y5vZaPoUjJzy5saqLLw5rXx7DV5ULrc
+ ts8WEojGKMiCk9oXpz2BHRHz5ezoAf379POCqJDvPsyL3sb8sgsLFSX/M45OuaO+bxi2
+ lm2OGgJS2l1BA5J38fDYHJ3LBT8cUXbBycrZMYfr53/0VlPsJsDj0QCVpL+8jHwymfe/
+ BDt6KN4YUEh+5Hp5/HvYzRLnR+PR4Hy0slHLg38w/A/s1uITJv4ZM+1yye1Jpzhmix+p
+ F87Ky8/s/WzxLpmlnTaZ5+m/4DFwsw9TXUtIJ5gM6+BE72BriXRAmEJ6aeFZqzaEran3
+ Kegg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWbfkgVLqtue4DAH2Aayw2YsqMLDAG1TrQWwB2viGx0jykcUUgOZT238Swxyp+RKbinwBtrst37LpE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwWHbETuf99qfDAhj5QiEbZdz/uO+rdLaGc2sM/UBSCNATPRVBX
- ogTht/Zge+7d5xGZPokop6RJ3/IktzH4Ab+mGVY0jKnZmWe4NkLSL/Gm3SfVziYFzjXZ
-X-Gm-Gg: ASbGncskIZwYSlg7NK2+gQHQIw5rH0wei/hTX7Y+fSn0wixv84RYvBzcmu6slE2EbXk
- 5hGDsz09CZahdHk/rLXJBFUq6AdHKM2srSeu5HMqSdmJAnEe2iOEz3d3LPJDPt+lGfzz0O+H9XK
- ACSZFCjZM4vKegPXWZeH5fe9DLirWOUnebxXIsHBP2Z/Pvom61yKMi3tiF4iBKAW23a03t3eKG1
- gWWUc9hhbCxa2t5qNBbNoXp5iRYeVikYd+QbwitmlBrNW/+JrrtEY90gqEXtaQ+hTxuwuRDwuOC
- otbjC7MB3nsOXQ8NQ+3DE8Ga1BUAKkgJMBDfSrjT286o/XH2NA==
-X-Google-Smtp-Source: AGHT+IE196NOTtBedrqto5+VyN6Q2bVQflAXIVFzTCK7aHTA5hvuR7r83bs7gc5R54Ihg852juLtBQ==
-X-Received: by 2002:a05:6a00:4484:b0:736:5725:59b4 with SMTP id
- d2e1a72fcca58-73dc14439f4mr7604376b3a.3.1745081270817; 
- Sat, 19 Apr 2025 09:47:50 -0700 (PDT)
-Received: from 10.0.2.15 ([112.19.146.144]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-73dbfaea91asm3497987b3a.167.2025.04.19.09.47.48
+ AJvYcCUvSEDzHYyq/RW++6BEFS47xGguh00nBJTcEB4zSemCjMdr3kzvKGJMZAEG7/1SHZPZYjwY66Hgqpio@lists.freedesktop.org,
+ AJvYcCWRA/eu5rcY1vTsHaHJ6m0mB/uJ9tCE+xc8QePv5WcMRake2vOc5DObPHFqkb/AVzX9pOGVlazV@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyqhIFFrJEvvl0R3/Wz/hUIBSQC3RVmqVaC+5pSfWkYQyF/eXfX
+ AFz15ckmU71+OHJTQeKxSGipi5pZqBILLTV3cvglDvYzbFrM0I0Q
+X-Gm-Gg: ASbGncsWshwLuyNYfQT+t0IKUCxcNqAxW72J4uaQnRvApwZT/Fxa2fgSnDg+3Tkxgm+
+ i2JZBaOtAKPZwUji8mYa09GKP8CZ/NB152TMKZScK6GKS+5vVRNpCf5/oScD3A5tKN2U82SIy8V
+ aFirSBdmf1/MXqUccoQ+92geFlqIV19BRnFOCe5vfuSNLibPQLXuOsf66BEE3XOyPat2dA7hAzZ
+ vVIxl+UsozWTS37E8+ZTOMdmh7ZZn/QFpx4MgB3iZ//VoS4a2cFZKQY+vHj036NYlrHT0HUiS9e
+ 5mATvwMfakOp8p0I1fFj4OP3FaD1bPvZiMEcu1/WNf6XpVSbb4PijvJfC8xsO8tq3w==
+X-Google-Smtp-Source: AGHT+IH7fN/A8iC5n1j7ocQhspXTJ6+h7siteXgS4p4hgqZk5bAH4bdltKLh7cf5EfIBHx46fSjAIg==
+X-Received: by 2002:a05:6830:3696:b0:72a:327:eed3 with SMTP id
+ 46e09a7af769-730061fb6d7mr4115147a34.5.1745084846232; 
+ Sat, 19 Apr 2025 10:47:26 -0700 (PDT)
+Received: from c65201v1.fyre.ibm.com ([170.225.223.22])
+ by smtp.gmail.com with ESMTPSA id
+ 46e09a7af769-730047af85bsm773268a34.19.2025.04.19.10.47.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Apr 2025 09:47:50 -0700 (PDT)
-From: Jiangyong Wang <wjy.scu@gmail.com>
-To: yaron.avizrat@intel.com
-Cc: obitton@habana.ai, ogabbay@kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, trivial@kernel.org,
- Jiangyong Wang <wjy.scu@gmail.com>
-Subject: [PATCH] accel/habanalabs:fix typos found in command_submission.c
-Date: Sun, 20 Apr 2025 00:44:31 +0800
-Message-Id: <20250419164431.2393-1-wjy.scu@gmail.com>
-X-Mailer: git-send-email 2.39.3
+ Sat, 19 Apr 2025 10:47:25 -0700 (PDT)
+From: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, sunil.khatri@amd.com, mario.limonciello@amd.com,
+ aurabindo.pillai@amd.com
+Cc: boyuan.zhang@amd.com, sunpeng.li@amd.com, dominik.kaszewski@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+Subject: [PATCH] drm: Fix for kernel doc warning
+Date: Sat, 19 Apr 2025 10:46:08 -0700
+Message-ID: <20250419174608.20993-1-chelsyratnawat2001@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 20 Apr 2025 17:31:13 +0000
@@ -86,26 +91,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix typos found in drivers/accel/habanalabs/common/command_submission.c.
+Added colon in kernel-doc comment to fix the warning.
 
-Signed-off-by: Jiangyong Wang <wjy.scu@gmail.com>
+drivers/gpu/drm/amd/include/amd_shared.h:369: warning: Incorrect use of kernel-doc format:          * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
+
+Signed-off-by: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
 ---
- drivers/accel/habanalabs/common/command_submission.c | 2 +-
+ drivers/gpu/drm/amd/include/amd_shared.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
-index 59823e3c3..c9c61687d 100644
---- a/drivers/accel/habanalabs/common/command_submission.c
-+++ b/drivers/accel/habanalabs/common/command_submission.c
-@@ -1786,7 +1786,7 @@ static int hl_cs_ctx_switch(struct hl_fpriv *hpriv, union hl_cs_args *args,
- }
+diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
+index 4c95b885d1d0..c8eccee9b023 100644
+--- a/drivers/gpu/drm/amd/include/amd_shared.h
++++ b/drivers/gpu/drm/amd/include/amd_shared.h
+@@ -366,7 +366,7 @@ enum DC_DEBUG_MASK {
+ 	DC_HDCP_LC_FORCE_FW_ENABLE = 0x80000,
  
- /*
-- * hl_cs_signal_sob_wraparound_handler: handle SOB value wrapaound case.
-+ * hl_cs_signal_sob_wraparound_handler: handle SOB value wraparound case.
-  * if the SOB value reaches the max value move to the other SOB reserved
-  * to the queue.
-  * @hdev: pointer to device structure
+ 	/**
+-	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
++	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK: If set, upon HDCP Locality Check FW
+ 	 * path failure, retry using legacy SW path.
+ 	 */
+ 	DC_HDCP_LC_ENABLE_SW_FALLBACK = 0x100000,
 -- 
-2.39.3
+2.43.0
 
