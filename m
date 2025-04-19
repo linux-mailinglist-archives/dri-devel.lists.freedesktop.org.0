@@ -2,87 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A60A94879
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 19:31:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0608A9487C
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 19:31:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A25710E0A1;
-	Sun, 20 Apr 2025 17:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F4710E323;
+	Sun, 20 Apr 2025 17:31:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BxEnbQge";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZjC1vZYX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FEE110EB97
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 13:38:24 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-22c50beb0d5so2184435ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 06:38:24 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18E6410E067;
+ Sat, 19 Apr 2025 12:40:14 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-39c1efc4577so1533350f8f.0; 
+ Sat, 19 Apr 2025 05:40:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1744983504; x=1745588304; darn=lists.freedesktop.org;
- h=content-transfer-encoding:from:in-reply-to:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20230601; t=1745066413; x=1745671213; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=gPTcC0Qo0IfweDpTBHJVf2QO3zsuTW+Lm6WypoA0fRY=;
- b=BxEnbQgeuwU5Owne8pG42O6lPgmAnbTCMQrECFQ49x4gorTo8CpRa9pe+x4H2SVecD
- HwrYRW9JI8x9C4EolmQk8syS8K6YOj2zOypiu9oGsqP7LK3tZVyHz+Il/FKHswdL63XG
- eqqn9NHLT4s2dydWEJHy+cdFqZIRjyt5xGDNbTCroulxyIitXKvkIvg1RY3sFMuwc++6
- HVDZpDXgAvmgkJXHiSzgXCEAjxsBzLPz7ZDJYTyn/nA8NMtCHZjkN+2bd5A8itPy8iDJ
- q0mDfgNl66kVZtwPyitv8PHUBjwf44QM5b5kjtgLt7O8nNGZa+TRJq6aMxaUeFtRLB9A
- DRvw==
+ bh=NFkUoIalnF11ld77bLxt7fgP6SNTAES2GfYghBL6rQU=;
+ b=ZjC1vZYXKvqnbb5rE1fLswO+PZjToGL73SCKrFPXWa9uivdagfa898rD7RwknQQItx
+ 1vtF3tc9grEoJBRLDAtSs+Lxg2BpVZvf+2scnFJSYZvj5H31IzqawukmHRB5vB70DNp2
+ RGxqfQjy0clAioq9Xfl/73044oFskNj4wdG8MexZ+TzJ3a5ZeOJldMDI4Ocjaf2PVyjk
+ 2vq8GhLzGHpwSApfYeoLodlji0X5ol0FB4vt1xEXeCSEqLlPggWYBstmly7+z6h6tFOd
+ 2+4bv9yRf+hJDYC7/0Tv//o86ObE7nCa3uchN2y/KhBksqsjib4aPbJiaZcSLVgIbeOo
+ xEAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1744983504; x=1745588304;
- h=content-transfer-encoding:from:in-reply-to:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1745066413; x=1745671213;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gPTcC0Qo0IfweDpTBHJVf2QO3zsuTW+Lm6WypoA0fRY=;
- b=SThqd2D8JVoLOhGdV2eG+ojKd109sXXb0UyP++ssmM3wJ4dnbq9c8PZsUy9Kn4q52N
- JyDwh0eRCsEdT2QOEaihwuh+V96wRG7WYxqIPcq1ODTOQ0SsJgRmeRIOqKENJyQzv1xP
- KnpX7tJ0I1ozz3LH/CPtqTj79gJXRPEfHkg1DSmW7gOhD/vc0FJmAR89aWod5+0GXVvC
- 3H/DtKhoL3IdEcL9Cv5suLKDAG6bwPQ+dSiChh6KNwLO6AwVnMUyP22vPAQHExWb0krb
- 2okf3WOUywsJhlt8RHFlJ0X2TDGCOT0FyO/5rQ3YD/gFngd2nb+EDy2vcnW1ho0FuEXb
- dg0Q==
-X-Gm-Message-State: AOJu0YzVnFp1Wmk3a8izkeMR+kNVdBqeVCwCUE7BHj4a8G2cEqInVz5e
- 6yAcyuaL6rh0h/8NRCkTeH2FYNIt4hjW9suUOASOF93T8hjW3e6z
-X-Gm-Gg: ASbGncsZ4zHpGjD5fsva5KvIDdNcCJwY8MdrYqdAhYkueLgeBzP7EcCBiqjbA2WWyH3
- O2gSamoO308wWVTGlSj3CYkODCwRQo/4ZEiR58MvWzbyty/U/hEC3aaGB5Kw+snJlIt1Jgar1/7
- Jx6VOY4KlaKyc7zoALKWRq1n6y1zsd8aC6wU0szChHWcLXxbeIua/VUgiUY3G6LxgAaBHRSoGgC
- Y+nA1sRar4pbNVr2A0Xy7vDTTwyhxlfbR4M0j0hQSyAkbC0/HL5J+W9bUNbUXXdm6qfVf4TJgAK
- KNIAzPrGJ5uxjNiMFHlBJR3OWlk9ehMNoR0+mbuLs/NhLpTa4vzi9GxpwgVnbvpmaTnsbyZ/C/m
- GJgskTyXreyhEGlcYOuQ4nWIVYg==
-X-Google-Smtp-Source: AGHT+IEYryzzRgr0FcDDUzJNYZVMf5qL5xMbHqFRL9xrVSNiBPnB48rP0O+OYmAEiF3wFKWEMbeD2w==
-X-Received: by 2002:a17:902:d4cc:b0:215:a57e:88d6 with SMTP id
- d9443c01a7336-22c530bc997mr14523115ad.0.1744983503877; 
- Fri, 18 Apr 2025 06:38:23 -0700 (PDT)
-Received: from ?IPV6:2406:3400:21b:310:2ef0:5dff:fe09:98db?
- ([2406:3400:21b:310:2ef0:5dff:fe09:98db])
+ bh=NFkUoIalnF11ld77bLxt7fgP6SNTAES2GfYghBL6rQU=;
+ b=Hb/vVv+thuGNLdk0MbjjKDnWd5QapL6U5FRGlsm5nHGSwLHgYnhU+OgV+t4X3iRg5S
+ edixexxfSvLeCwIpy0H/jnffIpAp3rB510QJ2FVkQJIN/6eTpcDgjviDEhSyBC03Glay
+ 58tgIHevl3XeKMrOGArJHk0ir6gCISzoF2xEG2RnVoUCQ/T7moMV8TP3z5aDn50oK5su
+ +lYdIE1Q9i5dvjsZr1GaqVTKTAsQoQIXx/EZjS2IdxCpEl5EHM858iT4y3Mpy+/7Z5tF
+ 37EWhxv/UrlEFnEAjlQGPJp/y+juNJjRzW0+TbY/N/fETpTrvT75tjlh4zfCeww43HVc
+ Bmdg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4wPRIPq2vWLta9SgxL7j9yVPV7IQD2u95EHXw7nFb6VhB4kEnVNsfXs/9b0DhlTVjItDgkxWN@lists.freedesktop.org,
+ AJvYcCUoGd3hkgCwIhpRZFCacLr2dDUfyj5dxKWjC9ZpDzXsJb5vH0wxViQ+EbyUc45S/KfFVXN2izEqzkzH@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYdGTW5bWGtnInAymr2uhM/yRfqi7XDTzoa24pSoNkbnT65Nht
+ mJ8Rt49gc46pVgbyFZn+ppW6ovwpuxN8GZmwTOxnoLxBDf0rqt1v
+X-Gm-Gg: ASbGncuqA54lMI3X22WqlPC/JggbokzQvF1DNyid9WC0CDuzNwSRVh6Tq409156/8xb
+ ZwuyQmqhKZz/qQMqFDz9o29ziBsiVJ2FEPph6uC1DsBXv2kYiiqv5xpbYTHoOcVs6Ot3sp9snlY
+ 4tMmdj7XcoR/jTdaFQrTCwnAfzLJWsnbb6BqixA1C81BsYYefpLwpB4eaasQjwFx/D/Ej3+kVFM
+ QnKiTu5ttdQEMdAJe3iC5JchN0kiQ+DvMaKUpFTL0vDKL2Cud9zjb9a7IioTbIyngJW/4s7fJzq
+ pngDO2m4bVTo7BkGqhuqKIMmBBOfb9+F8Y08ZEtiw/3sSKnUi4U=
+X-Google-Smtp-Source: AGHT+IFboMiS1OBXG31n80CyHp6JDhmg/N+nheK2n0bl8jjO9adfQrgtg8IV8w1jkzVYvN4ECODmcQ==
+X-Received: by 2002:a05:6000:4606:b0:39e:e698:b661 with SMTP id
+ ffacd0b85a97d-39efba80464mr4001990f8f.32.1745066412769; 
+ Sat, 19 Apr 2025 05:40:12 -0700 (PDT)
+Received: from localhost.localdomain ([46.10.223.24])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22c50bdb1d2sm16663205ad.25.2025.04.18.06.38.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Apr 2025 06:38:23 -0700 (PDT)
-Message-ID: <417a77f3-8532-4528-9c3d-89671d1e6177@gmail.com>
-Date: Fri, 18 Apr 2025 23:38:16 +1000
+ ffacd0b85a97d-39efa4a4f06sm5808353f8f.92.2025.04.19.05.40.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 19 Apr 2025 05:40:12 -0700 (PDT)
+Date: Sat, 19 Apr 2025 15:40:09 +0300
+From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com, 
+ airlied@gmail.com, simona@ffwll.ch, aurabindo.pillai@amd.com,
+ marek.olsak@amd.com, 
+ roman.li@amd.com, make24@iscas.ac.cn, jfalempe@redhat.com, ivlipski@amd.com, 
+ karthi.kandasamy@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd: Replace calls to kmalloc()+memcpy()+free(old) with
+ krealloc()
+Message-ID: <bgwysgwai2p4d564s5pod5xw2q27r6egqkkiycjt6v5xtwnpwi@jh5ogfr75rfi>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/panfrost: reorder pd/clk/rst sequence
-To: Philippe Simons <simons.philippe@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
- =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Philipp Zabel <p.zabel@pengutronix.de>
-References: <20250403055210.54486-1-simons.philippe@gmail.com>
- <20250403055210.54486-4-simons.philippe@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20250403055210.54486-4-simons.philippe@gmail.com>
-From: John Williams <porschemad911@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Mailman-Approved-At: Sun, 20 Apr 2025 17:31:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,116 +91,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I have regression tested this patch on the following devices:
+Possibly gets rid of some redundant calls to memcpy.
 
-Powkiddy RGB10X - Rockchip RK3326 (Mali G31)
+Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Powkiddy RGB20 Pro - Rockchip RK3566 (Mali G52)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index 56bc2644e492..7ffd0d8f9897 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -146,7 +146,7 @@ static void amdgpu_dm_plane_add_modifier(uint64_t **mods, uint64_t *size, uint64
+ 
+ 	if (*cap - *size < 1) {
+ 		uint64_t new_cap = *cap * 2;
+-		uint64_t *new_mods = kmalloc(new_cap * sizeof(uint64_t), GFP_KERNEL);
++		uint64_t *new_mods = krealloc(*mods, new_cap * sizeof(uint64_t), GFP_KERNEL);
+ 
+ 		if (!new_mods) {
+ 			kfree(*mods);
+@@ -154,8 +154,6 @@ static void amdgpu_dm_plane_add_modifier(uint64_t **mods, uint64_t *size, uint64
+ 			return;
+ 		}
+ 
+-		memcpy(new_mods, *mods, sizeof(uint64_t) * *size);
+-		kfree(*mods);
+ 		*mods = new_mods;
+ 		*cap = new_cap;
+ 	}
+-- 
+2.49.0
 
-Odroid Go Ultra - Amlogic S922X (Mali G52)
-
-Gameforce ACE - Rockchip RK3588S (Mali G610)
-
-No regressions found during cold boot or with wake after sleep.
-
-Tested-by: John Williams <porschemad911@gmail.com>
-
-On 3/4/25 16:52, Philippe Simons wrote:
-> According to Mali manuals, the powerup sequence should be
-> enable pd, asserting the reset then enabling the clock and
-> the reverse for powerdown.
->
-> Signed-off-by: Philippe Simons <simons.philippe@gmail.com>
-> ---
->   drivers/gpu/drm/panfrost/panfrost_device.c | 38 +++++++++++-----------
->   1 file changed, 19 insertions(+), 19 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index 93d48e97ce10..5d35076b2e6d 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -209,10 +209,20 @@ int panfrost_device_init(struct panfrost_device *pfdev)
->   
->   	spin_lock_init(&pfdev->cycle_counter.lock);
->   
-> +	err = panfrost_pm_domain_init(pfdev);
-> +	if (err)
-> +		return err;
-> +
-> +	err = panfrost_reset_init(pfdev);
-> +	if (err) {
-> +		dev_err(pfdev->dev, "reset init failed %d\n", err);
-> +		goto out_pm_domain;
-> +	}
-> +
->   	err = panfrost_clk_init(pfdev);
->   	if (err) {
->   		dev_err(pfdev->dev, "clk init failed %d\n", err);
-> -		return err;
-> +		goto out_reset;
->   	}
->   
->   	err = panfrost_devfreq_init(pfdev);
-> @@ -229,25 +239,15 @@ int panfrost_device_init(struct panfrost_device *pfdev)
->   			goto out_devfreq;
->   	}
->   
-> -	err = panfrost_reset_init(pfdev);
-> -	if (err) {
-> -		dev_err(pfdev->dev, "reset init failed %d\n", err);
-> -		goto out_regulator;
-> -	}
-> -
-> -	err = panfrost_pm_domain_init(pfdev);
-> -	if (err)
-> -		goto out_reset;
-> -
->   	pfdev->iomem = devm_platform_ioremap_resource(pfdev->pdev, 0);
->   	if (IS_ERR(pfdev->iomem)) {
->   		err = PTR_ERR(pfdev->iomem);
-> -		goto out_pm_domain;
-> +		goto out_regulator;
->   	}
->   
->   	err = panfrost_gpu_init(pfdev);
->   	if (err)
-> -		goto out_pm_domain;
-> +		goto out_regulator;
->   
->   	err = panfrost_mmu_init(pfdev);
->   	if (err)
-> @@ -268,16 +268,16 @@ int panfrost_device_init(struct panfrost_device *pfdev)
->   	panfrost_mmu_fini(pfdev);
->   out_gpu:
->   	panfrost_gpu_fini(pfdev);
-> -out_pm_domain:
-> -	panfrost_pm_domain_fini(pfdev);
-> -out_reset:
-> -	panfrost_reset_fini(pfdev);
->   out_regulator:
->   	panfrost_regulator_fini(pfdev);
->   out_devfreq:
->   	panfrost_devfreq_fini(pfdev);
->   out_clk:
->   	panfrost_clk_fini(pfdev);
-> +out_reset:
-> +	panfrost_reset_fini(pfdev);
-> +out_pm_domain:
-> +	panfrost_pm_domain_fini(pfdev);
->   	return err;
->   }
->   
-> @@ -287,11 +287,11 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
->   	panfrost_job_fini(pfdev);
->   	panfrost_mmu_fini(pfdev);
->   	panfrost_gpu_fini(pfdev);
-> -	panfrost_pm_domain_fini(pfdev);
-> -	panfrost_reset_fini(pfdev);
->   	panfrost_devfreq_fini(pfdev);
->   	panfrost_regulator_fini(pfdev);
->   	panfrost_clk_fini(pfdev);
-> +	panfrost_reset_fini(pfdev);
-> +	panfrost_pm_domain_fini(pfdev);
->   }
->   
->   #define PANFROST_EXCEPTION(id) \
