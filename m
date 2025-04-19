@@ -2,68 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375F5A941B5
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 07:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB08A94219
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 09:28:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA2A310E240;
-	Sat, 19 Apr 2025 05:20:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A929C10E2EB;
+	Sat, 19 Apr 2025 07:20:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OCE7l7Uz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FaQomLQl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D1D710E240
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 05:20:01 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-5f4b7211badso3623753a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Apr 2025 22:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745040000; x=1745644800; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Q4qy193G/yKAzPZrbZZI+4C7rTMR6HHOb2/qcaQ+evw=;
- b=OCE7l7Uz/qOTzIggxYrPF92y81IIbrI7xQ+xkHD9N0ztuHVZ0o5quZxkJE0Uv56pLZ
- mfqOgUCUDqLTK/3mn02eMg5IrCTnaX3ki0sSewljnDNdog3FzfQNsbvW21tGGSFcykrv
- dAu1pnagM09vX10FBBLxXGArFN+uzvqDfhFzNOAG4epMeyl+GbIi+aiojsVKTtpvPl7l
- bxRt2t9OBkmSSOKXQr/yyB24zZlVepItv/pPr+AfzIg9KaUBD1T2VOIOR1J+avBh/jyj
- rm29yzWqU4dME3n7Dls/xd+jxKU8J0/zQgIjL4XFGDFkBTveMjsRvDGYnQVeVFNJxNY2
- vJ8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745040000; x=1745644800;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Q4qy193G/yKAzPZrbZZI+4C7rTMR6HHOb2/qcaQ+evw=;
- b=Xkul6cKamHvcYWqMURfe4PDNonw0bdhOQLJhEcuTV7AmUMlLiZF9a+fH9zgkkpySlp
- 0M4T9R8OQt4HXgEAxvXykTvh8Gx156wTyHRvG2SZwogfdmj+4WznPZ9Qkrk8okEmd6H1
- BgxRK34wOdzawzaYfCoZbgvyhga336SfB8qedjuXCl1WDJltC1mlK9FGHjF7dAfFiSyu
- e/Ax72UXqJI9W8WUU7YYpKeQUbSy4qYkrBL/YFMnqNvvor8GfRUlswVkMHctVrWOXi80
- eFaYOdbtOc7SJ0j+b+JyCDv7xy6s0CLMZ52BtWlK6kt+t/9V2jf4kWsVUjMYlFOKG9Jq
- jXwA==
-X-Gm-Message-State: AOJu0YyY5g7dNixj6pbi+Cbxu9AniUQaJj+z1NIKmv7f8gF41LyUPJha
- VmPtbWpeM37se38y9nRCGWu/E7VHSboHBTqMi6bZrHrnwHUh7FH+qEBMPHd6t6m6/RbTE1qzJtF
- czTnsjRy9tPpZhKfGBBYbFG4cHjbw0XVG
-X-Gm-Gg: ASbGnctfDc3OwcEsWyuIuT7ZfD669J/YqsHg516bx6AnqUAe56/3hd+XMzZ5ajc7H8Z
- vwbO6f+X35C5pYmmeYZFV8QVcpnn08cMf0xuQS/iXT/5hN9Am/CuzsAn8Dkniiu/b8eSn4C/Brn
- d0PzD5uyNGmqQ//swR2GgqqnV4P/3dZ8w=
-X-Google-Smtp-Source: AGHT+IGX+H7blyO9O2IZIcMf/GbMEebHGvi3KDEWr5ty1K8Chcjwt7Xp7VuXDZRGe702QXmsX2Ex+rOJAFL7miwCGgM=
-X-Received: by 2002:a17:907:d8e:b0:acb:30a9:8361 with SMTP id
- a640c23a62f3a-acb74db5f78mr411309466b.40.1745039999365; Fri, 18 Apr 2025
- 22:19:59 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 217C810E22B
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 07:20:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745047211; x=1776583211;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=LCM9rcBiQnj8FfSNnDAtZd+MbtyPlq5KB3By1/gIDRI=;
+ b=FaQomLQlJRxSq9N+JPFEfhckqSOoY23u3/+N2SKEhLC2q8M4BhUloTQU
+ CVSowcGLv6b/ZIpNru5Tt/TjeKHOPZaQf6d7/LSOjeEyQcfrvFP3OjUvh
+ pwuLA64KKo5Ifo1gkmrAET4lbTFrtc7+P+ESh8Cs9sFCP3J886QBXrHGt
+ cs3qw7hMX6xs7p+UwDESKor39TCwPsLpSAMykYCYsI0OgGdXRHJQQuzhf
+ 1kc24aVpXt3GY1xCzYujVNVtzm2pEWrlhUvbN2SykSN1no/89Y8vgVcgg
+ Q+W1KOBXhkyHSlqtAPLCUjAdFkz6LcESO3Abv34Jg3pfTkeAW2rsciLDV Q==;
+X-CSE-ConnectionGUID: kIWYQaPURyOzbm4j4Z2jGg==
+X-CSE-MsgGUID: KSlvqZBbSxKfMKtNUCgmUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="34282310"
+X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; d="scan'208";a="34282310"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2025 00:20:08 -0700
+X-CSE-ConnectionGUID: eV3b6fYpTTWiRJQ+acA7Vg==
+X-CSE-MsgGUID: EKqWrkPHRKuPxYfGpv6kyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; d="scan'208";a="132179622"
+Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
+ by fmviesa009.fm.intel.com with ESMTP; 19 Apr 2025 00:20:02 -0700
+Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1u62UZ-0003gD-2g;
+ Sat, 19 Apr 2025 07:19:59 +0000
+Date: Sat, 19 Apr 2025 15:19:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bincai Liu <bincai.liu@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Jitao shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+ Bincai Liu <bincai.liu@mediatek.com>
+Subject: Re: [PATCH 3/5] drm/mediatek: Add dvo driver for mt8196
+Message-ID: <202504191551.u0FJoQ3O-lkp@intel.com>
+References: <20250418065313.8972-4-bincai.liu@mediatek.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 19 Apr 2025 15:19:47 +1000
-X-Gm-Features: ATxdqUE4L_w9F4cg0enA_0ANZpRSqXBY-u7vHQckr6-wKOW5jOmco9XtqJDmklg
-Message-ID: <CAPM=9tz_TQb0KRXAzverESVSPD1Ap5D=oZhab4tvYJ-XrwN0cQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.15-rc3
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250418065313.8972-4-bincai.liu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,262 +85,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Bincai,
 
-Easter rc3 pull request, fixes in all the usuals, amdgpu, xe, msm,
-with some i915/ivpu/mgag200/v3d fixes, then a couple of bits in
-dma-buf/gem.
+kernel test robot noticed the following build errors:
 
-Hopefully has no easter eggs in it,
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on pza/reset/next linus/master v6.15-rc2 next-20250417]
+[cannot apply to pza/imx-drm/next drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Regards,
-Dave.
+url:    https://github.com/intel-lab-lkp/linux/commits/Bincai-Liu/dt-bindings-eDP-mediatek-add-eDP-yaml-for-mt8196/20250418-145911
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250418065313.8972-4-bincai.liu%40mediatek.com
+patch subject: [PATCH 3/5] drm/mediatek: Add dvo driver for mt8196
+config: i386-buildonly-randconfig-006-20250419 (https://download.01.org/0day-ci/archive/20250419/202504191551.u0FJoQ3O-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504191551.u0FJoQ3O-lkp@intel.com/reproduce)
 
-drm-fixes-2025-04-19:
-drm fixes for 6.15-rc3
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504191551.u0FJoQ3O-lkp@intel.com/
 
-dma-buf:
-- Correctly decrement refcounter on errors
+All errors (new ones prefixed by >>):
 
-gem:
-- Fix test for imported buffers
+>> drivers/gpu/drm/mediatek/mtk_ddp_comp.c:476:3: error: use of undeclared identifier 'DDP_COMPONENT_DVO0'
+     476 |         [DDP_COMPONENT_DVO0]            = { MTK_DVO,                    0, &ddp_dpi },
+         |          ^
+   1 error generated.
 
-amdgpu:
-- Cleaner shader sysfs fix
-- Suspend fix
-- Fix doorbell free ordering
-- Video caps fix
-- DML2 memory allocation optimization
-- HDP fix
 
-i915:
-- Fix DP DSC configurations that require 3 DSC engines per pipe
+vim +/DDP_COMPONENT_DVO0 +476 drivers/gpu/drm/mediatek/mtk_ddp_comp.c
 
-xe:
-- Fix LRC address being written too late for GuC
-- Fix notifier vs folio deadlock
-- Fix race betwen dma_buf unmap and vram eviction
-- Fix debugfs handling PXP terminations unconditionally
+   456	
+   457	static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_DRM_ID_MAX] = {
+   458		[DDP_COMPONENT_AAL0]		= { MTK_DISP_AAL,		0, &ddp_aal },
+   459		[DDP_COMPONENT_AAL1]		= { MTK_DISP_AAL,		1, &ddp_aal },
+   460		[DDP_COMPONENT_BLS]		= { MTK_DISP_BLS,		0, NULL },
+   461		[DDP_COMPONENT_CCORR]		= { MTK_DISP_CCORR,		0, &ddp_ccorr },
+   462		[DDP_COMPONENT_COLOR0]		= { MTK_DISP_COLOR,		0, &ddp_color },
+   463		[DDP_COMPONENT_COLOR1]		= { MTK_DISP_COLOR,		1, &ddp_color },
+   464		[DDP_COMPONENT_DITHER0]		= { MTK_DISP_DITHER,		0, &ddp_dither },
+   465		[DDP_COMPONENT_DP_INTF0]	= { MTK_DP_INTF,		0, &ddp_dpi },
+   466		[DDP_COMPONENT_DP_INTF1]	= { MTK_DP_INTF,		1, &ddp_dpi },
+   467		[DDP_COMPONENT_DPI0]		= { MTK_DPI,			0, &ddp_dpi },
+   468		[DDP_COMPONENT_DPI1]		= { MTK_DPI,			1, &ddp_dpi },
+   469		[DDP_COMPONENT_DRM_OVL_ADAPTOR]	= { MTK_DISP_OVL_ADAPTOR,	0, &ddp_ovl_adaptor },
+   470		[DDP_COMPONENT_DSC0]		= { MTK_DISP_DSC,		0, &ddp_dsc },
+   471		[DDP_COMPONENT_DSC1]		= { MTK_DISP_DSC,		1, &ddp_dsc },
+   472		[DDP_COMPONENT_DSI0]		= { MTK_DSI,			0, &ddp_dsi },
+   473		[DDP_COMPONENT_DSI1]		= { MTK_DSI,			1, &ddp_dsi },
+   474		[DDP_COMPONENT_DSI2]		= { MTK_DSI,			2, &ddp_dsi },
+   475		[DDP_COMPONENT_DSI3]		= { MTK_DSI,			3, &ddp_dsi },
+ > 476		[DDP_COMPONENT_DVO0]            = { MTK_DVO,                    0, &ddp_dpi },
+   477		[DDP_COMPONENT_GAMMA]		= { MTK_DISP_GAMMA,		0, &ddp_gamma },
+   478		[DDP_COMPONENT_MERGE0]		= { MTK_DISP_MERGE,		0, &ddp_merge },
+   479		[DDP_COMPONENT_MERGE1]		= { MTK_DISP_MERGE,		1, &ddp_merge },
+   480		[DDP_COMPONENT_MERGE2]		= { MTK_DISP_MERGE,		2, &ddp_merge },
+   481		[DDP_COMPONENT_MERGE3]		= { MTK_DISP_MERGE,		3, &ddp_merge },
+   482		[DDP_COMPONENT_MERGE4]		= { MTK_DISP_MERGE,		4, &ddp_merge },
+   483		[DDP_COMPONENT_MERGE5]		= { MTK_DISP_MERGE,		5, &ddp_merge },
+   484		[DDP_COMPONENT_OD0]		= { MTK_DISP_OD,		0, &ddp_od },
+   485		[DDP_COMPONENT_OD1]		= { MTK_DISP_OD,		1, &ddp_od },
+   486		[DDP_COMPONENT_OVL0]		= { MTK_DISP_OVL,		0, &ddp_ovl },
+   487		[DDP_COMPONENT_OVL1]		= { MTK_DISP_OVL,		1, &ddp_ovl },
+   488		[DDP_COMPONENT_OVL_2L0]		= { MTK_DISP_OVL_2L,		0, &ddp_ovl },
+   489		[DDP_COMPONENT_OVL_2L1]		= { MTK_DISP_OVL_2L,		1, &ddp_ovl },
+   490		[DDP_COMPONENT_OVL_2L2]		= { MTK_DISP_OVL_2L,		2, &ddp_ovl },
+   491		[DDP_COMPONENT_POSTMASK0]	= { MTK_DISP_POSTMASK,		0, &ddp_postmask },
+   492		[DDP_COMPONENT_PWM0]		= { MTK_DISP_PWM,		0, NULL },
+   493		[DDP_COMPONENT_PWM1]		= { MTK_DISP_PWM,		1, NULL },
+   494		[DDP_COMPONENT_PWM2]		= { MTK_DISP_PWM,		2, NULL },
+   495		[DDP_COMPONENT_RDMA0]		= { MTK_DISP_RDMA,		0, &ddp_rdma },
+   496		[DDP_COMPONENT_RDMA1]		= { MTK_DISP_RDMA,		1, &ddp_rdma },
+   497		[DDP_COMPONENT_RDMA2]		= { MTK_DISP_RDMA,		2, &ddp_rdma },
+   498		[DDP_COMPONENT_RDMA4]		= { MTK_DISP_RDMA,		4, &ddp_rdma },
+   499		[DDP_COMPONENT_UFOE]		= { MTK_DISP_UFOE,		0, &ddp_ufoe },
+   500		[DDP_COMPONENT_WDMA0]		= { MTK_DISP_WDMA,		0, NULL },
+   501		[DDP_COMPONENT_WDMA1]		= { MTK_DISP_WDMA,		1, NULL },
+   502	};
+   503	
 
-msm:
-- Display:
-  - Fix to call dpu_plane_atomic_check_pipe() for both SSPPs in
-    case of multi-rect
-  - Fix to validate plane_state pointer before using it in
-    dpu_plane_virtual_atomic_check()
-  - Fix to make sure dereferencing dpu_encoder_phys happens after
-    making sure it is valid in _dpu_encoder_trigger_start()
-  - Remove the remaining intr_tear_rd_ptr which we initialized
-    to -1 because NO_IRQ indices start from 0 now
-- GPU:
-  - Fix IB_SIZE overflow
-
-ivpu:
-- Fix debugging
-- Fixes to frequency
-- Support firmware API 3.28.3
-- Flush jobs upon reset
-
-mgag200:
-- Set vblank start to correct values
-
-v3d:
-- Fix Indirect Dispatch
-The following changes since commit 8ffd015db85fea3e15a77027fda6c02ced4d2444=
-:
-
-  Linux 6.15-rc2 (2025-04-13 11:54:49 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-04-19
-
-for you to fetch changes up to 0467145fab3b3a7a1efd221722310fe32329b3da:
-
-  Merge tag 'drm-msm-fixes-2025-04-18' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes (2025-04-19
-15:09:29 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.15-rc3
-
-dma-buf:
-- Correctly decrement refcounter on errors
-
-gem:
-- Fix test for imported buffers
-
-amdgpu:
-- Cleaner shader sysfs fix
-- Suspend fix
-- Fix doorbell free ordering
-- Video caps fix
-- DML2 memory allocation optimization
-- HDP fix
-
-i915:
-- Fix DP DSC configurations that require 3 DSC engines per pipe
-
-xe:
-- Fix LRC address being written too late for GuC
-- Fix notifier vs folio deadlock
-- Fix race betwen dma_buf unmap and vram eviction
-- Fix debugfs handling PXP terminations unconditionally
-
-msm:
-- Display:
-  - Fix to call dpu_plane_atomic_check_pipe() for both SSPPs in
-    case of multi-rect
-  - Fix to validate plane_state pointer before using it in
-    dpu_plane_virtual_atomic_check()
-  - Fix to make sure dereferencing dpu_encoder_phys happens after
-    making sure it is valid in _dpu_encoder_trigger_start()
-  - Remove the remaining intr_tear_rd_ptr which we initialized
-    to -1 because NO_IRQ indices start from 0 now
-- GPU:
-  - Fix IB_SIZE overflow
-
-ivpu:
-- Fix debugging
-- Fixes to frequency
-- Support firmware API 3.28.3
-- Flush jobs upon reset
-
-mgag200:
-- Set vblank start to correct values
-
-v3d:
-- Fix Indirect Dispatch
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amd/display/dml2: use vzalloc rather than kzalloc
-
-Andrzej Kacprowski (2):
-      accel/ivpu: Fix the NPU's DPU frequency calculation
-      accel/ivpu: Show NPU frequency in sysfs
-
-Ankit Nautiyal (2):
-      drm/i915/display: Add macro for checking 3 DSC engines
-      drm/i915/dp: Check for HAS_DSC_3ENGINES while configuring DSC slices
-
-Chenyuan Yang (1):
-      drm/msm/dpu: Fix error pointers in dpu_plane_virtual_atomic_check
-
-Christian K=C3=B6nig (1):
-      drm/amdgpu: use a dummy owner for sysfs triggered cleaner shaders v4
-
-Dan Carpenter (1):
-      dma-buf/sw_sync: Decrement refcount on error in
-sw_sync_ioctl_get_deadline()
-
-Daniele Ceraolo Spurio (1):
-      drm/xe/pxp: do not queue unneeded terminations from debugfs
-
-Dave Airlie (5):
-      Merge tag 'amd-drm-fixes-6.15-2025-04-16' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2025-04-17' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'drm-misc-fixes-2025-04-17' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2025-04-18' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-      Merge tag 'drm-msm-fixes-2025-04-18' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes
-
-David Rosca (1):
-      drm/amdgpu: Add back JPEG to video caps for carrizo and newer
-
-Dmitry Baryshkov (1):
-      drm/msm/dpu: drop rogue intr_tear_rd_ptr values
-
-Jun Nie (1):
-      drm/msm/dpu: check every pipe per capability
-
-Karol Wachowski (2):
-      accel/ivpu: Update FW Boot API to version 3.28.3
-      accel/ivpu: Add cmdq_id to job related logs
-
-Lijo Lazar (1):
-      drm/amdgpu: Use the right function for hdp flush
-
-Lucas De Marchi (1):
-      drm/xe: Set LRC addresses before guc load
-
-Maciej Falkowski (1):
-      accel/ivpu: Flush pending jobs of device's workqueues
-
-Mario Limonciello (1):
-      drm/amd: Forbid suspending into non-default suspend states
-
-Matthew Auld (2):
-      drm/xe/userptr: fix notifier vs folio deadlock
-      drm/xe/dma_buf: stop relying on placement in unmap
-
-Ma=C3=ADra Canal (1):
-      drm/v3d: Fix Indirect Dispatch configuration for V3D 7.1.6 and later
-
-Qasim Ijaz (1):
-      drm/msm/dpu: reorder pointer operations after sanity checks to
-avoid NULL deref
-
-Rob Clark (1):
-      drm/msm/a6xx+: Don't let IB_SIZE overflow
-
-Thomas Zimmermann (2):
-      drm/gem: Internally test import_attach for imported objects
-      drm/mgag200: Fix value in <VBLKSTR> register
-
-ZhenGuo Yin (1):
-      drm/amdgpu: fix warning of drm_mm_clean
-
- drivers/accel/ivpu/ivpu_drv.c                      |  10 +-
- drivers/accel/ivpu/ivpu_fw.c                       |  17 ++-
- drivers/accel/ivpu/ivpu_hw.h                       |  16 +--
- drivers/accel/ivpu/ivpu_hw_btrs.c                  | 134 ++++++++++-------=
-----
- drivers/accel/ivpu/ivpu_hw_btrs.h                  |   7 +-
- drivers/accel/ivpu/ivpu_job.c                      |  15 +--
- drivers/accel/ivpu/ivpu_sysfs.c                    |  49 +++++++-
- drivers/accel/ivpu/vpu_boot_api.h                  |  13 +-
- drivers/accel/ivpu/vpu_jsm_api.h                   |  53 +++++---
- drivers/dma-buf/sw_sync.c                          |  19 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  14 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |  14 ++-
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |   8 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  12 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c             |   6 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |   4 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |   4 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c             |   4 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |   2 +-
- drivers/gpu/drm/amd/amdgpu/psp_v11_0.c             |   2 +-
- drivers/gpu/drm/amd/amdgpu/psp_v13_0.c             |   2 +-
- drivers/gpu/drm/amd/amdgpu/psp_v14_0.c             |   2 +-
- drivers/gpu/drm/amd/amdgpu/vi.c                    |   7 ++
- .../drm/amd/display/dc/dml2/dml21/dml21_wrapper.c  |  11 +-
- drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.c |   6 +-
- .../gpu/drm/i915/display/intel_display_device.h    |   1 +
- drivers/gpu/drm/i915/display/intel_dp.c            |   7 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c             |   2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |   8 +-
- .../drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h   |   2 -
- .../drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h   |   1 -
- .../drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h   |   3 -
- .../drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h    |   4 -
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h |   3 -
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h |   2 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |   4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  74 ++++++------
- .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |   7 ++
- drivers/gpu/drm/v3d/v3d_sched.c                    |  16 ++-
- drivers/gpu/drm/xe/xe_dma_buf.c                    |   5 +-
- drivers/gpu/drm/xe/xe_guc_ads.c                    |  75 +++++++-----
- drivers/gpu/drm/xe/xe_hmm.c                        |  24 ----
- drivers/gpu/drm/xe/xe_pxp_debugfs.c                |  13 +-
- include/drm/drm_gem.h                              |   3 +-
- include/uapi/drm/ivpu_accel.h                      |   4 +-
- 47 files changed, 407 insertions(+), 285 deletions(-)
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
