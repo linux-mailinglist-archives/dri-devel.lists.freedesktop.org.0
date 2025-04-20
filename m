@@ -2,89 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BFD1A947C0
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 14:20:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12BE6A947BA
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 14:20:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 291AA10E312;
-	Sun, 20 Apr 2025 12:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C6C010E31B;
+	Sun, 20 Apr 2025 12:20:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="b9p1xcdZ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZKNTWKg/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8675710E2AE
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Apr 2025 12:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1745151638;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PVA+hnFYhm0mZbXMkfXZGu1NJd1kB7+txfbwzU2JSfM=;
- b=b9p1xcdZ1/gG4r5IuuDj2UHj5ziPtsiI1VYI2QFas6nfc1mAZaUsDHXrSFTxDiiYuEW6pY
- 20fEG6Sp+uCt26azsY4bh9Bkr1KlaTBO9ntq7TtcORFDUQf/KXe/1XVhqWPtZxBdxmDmbB
- 2mIfhQmR3Q2fTV9CrkT0q5No54ZUkmk=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-590-RIujqEFVO8-BEPe3X-2lXg-1; Sun, 20 Apr 2025 08:20:36 -0400
-X-MC-Unique: RIujqEFVO8-BEPe3X-2lXg-1
-X-Mimecast-MFC-AGG-ID: RIujqEFVO8-BEPe3X-2lXg_1745151636
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-af9b25da540so1798747a12.2
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Apr 2025 05:20:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745151635; x=1745756435;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PVA+hnFYhm0mZbXMkfXZGu1NJd1kB7+txfbwzU2JSfM=;
- b=w4FaqifqJ/FCEZVAWP9/u1qVTseOTWzvne6cywH6gQWbw4a/az2UEeekmH8s5i/DA7
- wt7ZwehXIwgmWYsEk+Gn4h3JgrNFFs8YHU3Y2ZOmnFE0lTnph1a2zrQYhy1FK04WetIP
- MInoSIMuraIyWfcPhRzbG0szDdRf5TGmX2laO0VNnPGyrvNc8Ohovt6XjhImUkEciE3N
- fGrCp2FtUV2Q5ntqHNl1fyZscRhkrHJwYeiirLg5iAAqTcA+Nz/opruj3dfo+iWlINsx
- dCX1NLf8SWeMM35VzGwfU5p5xpllA2rcWZqsScKntRDHF+3OYrp40qgrIXG4XRHfyL1F
- Mbng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUo+hAM7qoDUCKDVSGvzH8OYT9mOSsipoi91MY0uVUK2//+xStv8n9bDMuKKGcPGE09aQh2RgxBa9k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw4pxegxNirFaqFC9/qCw2UCikuSeyR8s3uQ6peWDURkDValhKf
- 0f2Cbwq864DqLJJJcMyzW6YQL3iXSsoaZZPHxUnEe1cx+2tS4KxdoYEi0Q2+T8uY+NV76Ep+Uba
- OJzgq+9TKvXHf432YKrWTlnKA4R8vtuo2NbsTEuOk5lx+Eb7BBccIBBLHrtduTkoAhg==
-X-Gm-Gg: ASbGnctNZnmuRxsPyQwkVitezoVjD5m5dLrWerqfSv8CFjjwfKgBw6djqhKMVRj9fw0
- 6iE1KsSp/wbToQ2igy54Q8GPCZAcojwqOb+6n3qBHZrcJx+Ob0eA77h3xI8BT86F6eTexiFh7EQ
- Cxl7vd705h/H5cX5RkrRS3xo1e/pW/T4zaIv8a4Sr2oYaJ1754GmNNTJLBvVD6c/ub6gjV1hcPJ
- bOdJAIYYMF1HUSjZ5x1/X6fqkbawxB5RUNLN9tKvBD8HTMa8b+hKCBa5oZ9TehQTwx5trboFm0N
- 41ugoZkVjIN1
-X-Received: by 2002:a17:902:f643:b0:21f:7880:8472 with SMTP id
- d9443c01a7336-22c53607720mr150489315ad.35.1745151635575; 
- Sun, 20 Apr 2025 05:20:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH59HygyrR1b3g9oQn9ho711+vyY8u+CP/T6vo/KmS10uhru55tsapleIueUiYDlFrxaRTpVA==
-X-Received: by 2002:a17:902:f643:b0:21f:7880:8472 with SMTP id
- d9443c01a7336-22c53607720mr150488965ad.35.1745151635187; 
- Sun, 20 Apr 2025 05:20:35 -0700 (PDT)
-Received: from zeus.elecom ([240b:10:83a2:bd00:6e35:f2f5:2e21:ae3a])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22c50ecdc9csm46929035ad.165.2025.04.20.05.20.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Apr 2025 05:20:34 -0700 (PDT)
-From: Ryosuke Yasuoka <ryasuoka@redhat.com>
-To: drawat.floss@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, jfalempe@redhat.com
-Cc: Ryosuke Yasuoka <ryasuoka@redhat.com>, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH drm-next] drm/hyperv: Replace simple-KMS with regular atomic
- helpers
-Date: Sun, 20 Apr 2025 21:19:43 +0900
-Message-ID: <20250420121945.573915-1-ryasuoka@redhat.com>
-X-Mailer: git-send-email 2.49.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2042.outbound.protection.outlook.com [40.107.223.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA3B010E302;
+ Sun, 20 Apr 2025 12:20:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VHBwyCLvzJhrqUpd8ZiWjmBAJT1gmQH3lAm7ycJSZpoTqhy26dB+3WwVvXtEpvu6xpD3AkryKbNeu17ku9TfHR8R5us58xbmJ6mjrdAvngOYWSnUU6lKhtaVEmGJVM/lkoIGJnIrPLo4ntdjKevBqK6PC1MGwMDfuCyxEVZIJhYI5faNY+OsgopUZDMaQeTXybODpGquSOk3z2BCV94CCMDwBaZduRkPpMJWzymsy+OferM6eFk+X7ncjeJKKg5wNOHOxC3H0bH6+dOJLVGRHXfjrWrqJNu0embATKkSQ5GgBn3dxPT04sBWHMtqtb74KqhsS84ZLFsGGYZHO3r5Sg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U5FJr6TqC+thTrSaiMokRQlX+sdQC8KOP+HSJriL4kk=;
+ b=FSseXgK2USfUJRwodil0q5I30kwm8ZG7/zxBJlU6eFqwz1r5qSmsORviin+j/bXbjhVlhhU8M9y1qFD8E85bATXzQYdLf3HDvBx5BjuUWAQc4eS4MN/dPuddrbB56P0dzU5nAUCcQ0f9PIUvjsMVtBpublefskWBnkjxJ8/B31PbG6ErzNYrCyn79VKashibp7IojtCHQQT6CGQr9Psk2TMYLbiJCQRVnmYz+4e9n/hfB8MvOh8uftR+wnzF5n8h8Su6Ncfmxx7wa2QKXD4fwQsADXPqC3ImrL/HZ2sE1jBEm+8jeVt3Bd6qUfYyo90HNm3ac+gWMg9tjZ0rWGlBfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U5FJr6TqC+thTrSaiMokRQlX+sdQC8KOP+HSJriL4kk=;
+ b=ZKNTWKg/fn05QKNC56L2d5Qwg1VWEjH7zgRxdAAtzzw9Crj4zvEfzXsrebpIDslyQJPrAsbf9Qnvz23wSaRrO1l1ScWPHZwEbdZobLlW6zfRQr+dID3sX6b3R0umaXsDcfOtp7cauVDOS2Jbgw9sSM5RSJ5VDgc5d7xVrSh4iI+Y5kNKq68s30QGfVgGNbBbe/R5Ccmdszp7g95pFps1QmG35Ww8AMibDUPh7meVGXSeBx5PnApgWVIGYFgHJ4uhAss9/kdlFOuGVk/anAjVdvYMxtLIAH0YzWtvRgaWt/9Td2ROjN53qpozFwpWPt4BfX37CliZ5OFB6pXmrwiMoA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by PH7PR12MB9175.namprd12.prod.outlook.com (2603:10b6:510:2e6::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.33; Sun, 20 Apr
+ 2025 12:20:30 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8655.025; Sun, 20 Apr 2025
+ 12:20:30 +0000
+From: Alexandre Courbot <acourbot@nvidia.com>
+Date: Sun, 20 Apr 2025 21:19:44 +0900
+Subject: [PATCH 12/16] gpu: nova-core: firmware: add ucode descriptor used
+ by FWSEC-FRTS
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250420-nova-frts-v1-12-ecd1cca23963@nvidia.com>
+References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
+In-Reply-To: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: OSTP286CA0071.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:604:226::20) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: x7cfeJ1GeECXxHvgMxTJJ6sJD_cvYC5zgvCFwBsbAjU_1745151636
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB9175:EE_
+X-MS-Office365-Filtering-Correlation-Id: 187154e3-1564-4ebd-d0bd-08dd8005bdc6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|10070799003|1800799024|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?R1piczJKV2JPZUdtWnJuZHB3M3hIcmRDeEd1ZjhWS0thdm54QzdDWXl2K011?=
+ =?utf-8?B?a3haL3JTOWNKVmV6V25VS255aHhUNzBVZjk4RWswWi8xNDJUOHZvanJJaHB6?=
+ =?utf-8?B?dDcrRXoyS0lZUHlNWXhRNEVWYXBRQ0hWby9VNGJpWkxKYVdFQXdSRkV5T25w?=
+ =?utf-8?B?Z3pZMjNRRGZWbEZTOTJyWkNid05QS3ltVVlQMEFMWjNCNGdLeEJGU1ZtMUVr?=
+ =?utf-8?B?eE1xZFlHcHk4OVV4WkVOdVRBV0FnOEJHcUd4RDdZb05UUlY0cmZQb3V6KzNP?=
+ =?utf-8?B?Q1VmbDk1RFhMdzRzUkZ2NVlEVUp6eElsRldzd0prWGhNRUU0c1hjWkJudlI0?=
+ =?utf-8?B?MWowTlg5VDlEclVNQWJZclVkRE5WeGxzM1RWZjc4dWNhcGU2ZC9rV3VvQmlL?=
+ =?utf-8?B?cWwxVW5Yd2thODJGMyttbTdTVmpnZmN5blFhNHEzMXh5Z2JyRXpSbUdEdldL?=
+ =?utf-8?B?MUdvYUErdzI4T1BOQ3h6ckZxQ0RHd2dBNE9SM3FSWXMyTzJSSW44aFRLV2Uy?=
+ =?utf-8?B?NExQVlhLVTFzUk9MNU90YzJqdlhXdDQ4ZzlWS2FuQ2JEb1Jqc1l5SGVnV2Vz?=
+ =?utf-8?B?ODFFWWN5NHRwRTNneWRPOS9DNEYxSmJ2enN2Qm9XVlZudHpEaWI4SjN6NkFI?=
+ =?utf-8?B?aFliVHBzVTdKOWl6R1ppQXBJOGN6TTNudWMvcFFpa3dIdS9oK1JoVUE1Y2Zh?=
+ =?utf-8?B?K0gzaktyekM0b3RRZGEvOElNZ2h6SXFpdm5JeW45aWNqVzArc3grN05mL2VE?=
+ =?utf-8?B?U0U0OVB1cXo2WjZkQm9YaGk0U20zNm9TbEhJbHhqQUZ6WWI3eUtUN2ErVkVL?=
+ =?utf-8?B?eVBjci9xNEN1anhpZ2l0ZkJ5TUxoTXFhS2JBMW01UEgxZVZuUWx0VmlmWmxu?=
+ =?utf-8?B?bGxXR1JtbVVWcG03RE5qdlhUbjVoVXc0ZUZlZm83d3M0YVNzQW9WOUEwOHdl?=
+ =?utf-8?B?Sll2b0MyazdxYTJnQzhrTVo4V1kweDl0OG1raFI4NGFRVUFocXlCRXkyazJr?=
+ =?utf-8?B?aUxDdTcxZzB6bUIzQUZFc3FkT2duNUFJdERuT0hMWkk5RWNlWENoeVVVaUJD?=
+ =?utf-8?B?eS9Tcjg0SUxvNldLb2pYbk5DVndwdG9MZ3E5a2dIVVd1R3NiZ0wyRDZOODBN?=
+ =?utf-8?B?OUIvK3F2a0l0dnhZTjV3Z29vdkFNRFBPc1QycGwyOS9PT2JsZnUwcEhBV01r?=
+ =?utf-8?B?cFhqenFTNEo4dGRqVWF0K1hZN0h5QnV3SFJQTVlpcm05VVhEUlhaMDI3Z2pU?=
+ =?utf-8?B?dEVmYmNMSXhvUFJOOHFtZHYwNVA1RmNPRm1nTGdHd1pkS2RaZjFKK1F3RFMy?=
+ =?utf-8?B?SElldURSSnNEbHl4K25uVFpNam16bVBsd21OMEI3eXIxV2p1eEtidHZjbGZv?=
+ =?utf-8?B?aVM2MlRkWjdHbFNSOVBwSGZoTmhWQm40b2FZV0s3b2QwOWw4MmY2WDRHQ1Nm?=
+ =?utf-8?B?WldtTWMvcTVoRkFkeG1XTmdBSjRIUFdhaHZ0Q2dGTnFvOXpjMmxyQTlZZ3pT?=
+ =?utf-8?B?WkgzODA4WTZKakl1aWZtK3NVMGdZNFNXU3pNMDUvcEYyb1dmTStmWUFHUUhn?=
+ =?utf-8?B?M3hwa3o4dGNJWHExeFZmWm85NHl4eDErOEowRFhmazZZTmFUemZBZEZ2ZDNJ?=
+ =?utf-8?B?bFZ4b3pPKzdlYjczYVNlclNjRFpVREQraS9lUTR2UUh0R0UzS0VNaGJkbnNZ?=
+ =?utf-8?B?eHNFbUtRYlgrTjlGR0JUQjRsZi9rVEwwSGN4R003WU5VWlBKclNxSXVjaGJa?=
+ =?utf-8?B?TUUzQzVZM0NtRWdySHp6TW5rVEV6TWU1TWVSTTNwbXFrUGRCK3lFa3F3OHZD?=
+ =?utf-8?B?My9UZ21DekVmblc1b0VHZkxhcGFTVEhNbFIxN216dTV6Nzl3MmxVaFMvQUU2?=
+ =?utf-8?B?cDFqSkkrcEFHVjRNVHpxTkh0dFllNllUbEdrQjRvQmdDTWhKK0srN2IvTUFM?=
+ =?utf-8?B?Q0I5amkvOFByNldGS2cyd21wK0Z4YTdMcGdRdDRrbVlsaHAvaitGb1Urcytz?=
+ =?utf-8?B?dXJiUU4yNUV3PT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(10070799003)(1800799024)(366016)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ODU5b2Mrd2VsMVl6eTNsU1RKZmVmaVhzVUJnMmtYUThqR1FQem13ZS9EYWEv?=
+ =?utf-8?B?RHVGZS8xblJoUjBiOEE0QlZwSGJNWGJuZFVLK0xBNVlnaXIzWm1CQnI5aE9v?=
+ =?utf-8?B?N29vS2pnOHA2VStFZklnNXd5bldrN21FZFhBVWk2SERVSExvZ0prMWRaUmw4?=
+ =?utf-8?B?dFFMQVc3YmVQMGpiOWd6Yzh6UVREZVdpd3c4SDRFTWJSMDJiMGEycVdYcEJz?=
+ =?utf-8?B?RExXQzc2aFVFUUNnL1pkWDZJYUsyazJ0Zmo4ZlpUWldVVlFlcm9NaEhRYTNj?=
+ =?utf-8?B?dy9GRFQ3SEwrQzROV0VSNXBmWkNGaGh0cDNmL0xYdGNZSGt4Um95bWFLK2Z4?=
+ =?utf-8?B?bytMalV6NEtoYTRpdWsvam4xeklxWHJhVzlZTUozdDBqY2lieWJnMkN1QmpF?=
+ =?utf-8?B?c3NrdFFuZEtFcnZjMGxDTmsyeEs5RU4zSlR0YzArTXEwd1ZNaDBJTTZIUm1R?=
+ =?utf-8?B?SWZFNmo2U0kxUTdpU1hJMmVEVHg5citJQzdkQU5kVjZLcFN6blIwK2Q3L3lk?=
+ =?utf-8?B?Qk9YT1JyRFdFV2s2OVErdUp5VkRDQ2h1WENzWEErVDRtTXROaGx2Ymd4SE9Y?=
+ =?utf-8?B?eUlBSVN3NmxKbi9YSzQ0UTR4eHdTKzBmL2VyMG9GM0hYWUY5eXJzamhERkVZ?=
+ =?utf-8?B?elhYeUNFcWlkbFU1S1k3VlExM2Rrcjl1UnlqRHBpUUJFb09KNkdmUGxMZDd6?=
+ =?utf-8?B?VzhzUFFKUHpXbmFhWGNheGpoSWpOWUZ3bmRORTFOMm5qekJVQUxLclM4V3c1?=
+ =?utf-8?B?TlVGRXBpUWo2SkdVV01WdVdUMjBPQkIxdGdEUHg5MVo5eHhyd3VwNWVxdk1S?=
+ =?utf-8?B?WDRjTjNhaENrdXJWYktseVRKN1o4b2JWUFhwdHVrRnQyRERPWDlxTzJnN1U0?=
+ =?utf-8?B?aitwdzRrWGNnY3UrS2VldlpEM3AxWitiTDRvMlBBOHNWYjFnOGY1eVNFamhu?=
+ =?utf-8?B?UlBlNmhyWkdWZDdzQmY0bjRzTVpaL2QyUG40ZUJJNDdodGlxb1hqRXVXNTZ5?=
+ =?utf-8?B?ZGs2YmxvRFhaQWYvMzJMQ0RVNlo2NXRVdENLOUJoZ0Eya2JIYmdOTWUza0o1?=
+ =?utf-8?B?RG1XeVBzTFpYTEJYeHlTNTRYQldHZ1cxSDBaKzE3ZE8wQ0hVRWFwZ2F0bEVa?=
+ =?utf-8?B?TnVleDZBRTkwKytnMlN2Z0hoR3U2R0UyOXBTTDdTVmpHOVhiSlJvb1hCT01r?=
+ =?utf-8?B?OERLWHJKcnA3dDVxQjI0SHRtaWYvdHNBS2pUY3ZPRzdJeUxjZ25PZ3ZlTW05?=
+ =?utf-8?B?TlMwcXpBL01jaW4wZzlIVDMwT2JJd0xSNUM3VDdQT25ZTkFpS05JSzkzYmp1?=
+ =?utf-8?B?OXBRNVM2cmRnbFdWRHltektSc0NXNWpxaEdXa2JyVlU2dTlxL2loVzVyRkxv?=
+ =?utf-8?B?cXVoUHg0cW1EVDEwYnFUWm4zWFZOMjJsT2VBZVBncmF5dy82WWNZY0dab3gw?=
+ =?utf-8?B?Z3hKd2dsZEdIaDhsdUt0U01XSFEweGhIRTV6OFhzMjN2UG9tM0ZYRW0rMjYz?=
+ =?utf-8?B?a1FpQlo5QnBONU91a0lzMXZIcEloTVpiWU5SZDA0dFozZ0Q4dXUzNVgvclpN?=
+ =?utf-8?B?cnBjOHBMbjhPZk9McGpmMjk2TzRtUFF3WWVHckUvV0xZT0dBRmJPdG44Z0Zq?=
+ =?utf-8?B?K0VWTnQyYms0Mll0bHU2VWhIYkxob1lBRVA0OXhHcVZESXVLa3BRa1lJb05i?=
+ =?utf-8?B?bTZSem1TVUJSVW9BWXFBK2FmL2ViWVF2cTdzZklPT3hMNml4dkt4ejdNY0V6?=
+ =?utf-8?B?UlcxeE5HdWpYRGJKUklRQnRkbURyWVc5THpQSERSMGFLSFV6d3ZmSHdCRW5J?=
+ =?utf-8?B?d05KTVkvbTdZdVVTRlRxR2c3NzZaK1ZZVmg1czYvNlVkeERDNWNneFlxODdy?=
+ =?utf-8?B?MWhiVWdmQkRmSEVrM3RZWG44TmxLSEV1c0xpNkRqTGFZOFBGU01lUXJtZVRO?=
+ =?utf-8?B?OFdSRHhQWGYxbnVNV3FsUmZTMzVqazNEaU5ROGVxWXhLVXlaR3ZQT2lISVhu?=
+ =?utf-8?B?Mmd0b1JwVCt5M3kvYmVsK3MySDhndjN5NTgxODIwemF0bFhSUkt3bmJkZHVp?=
+ =?utf-8?B?QXNsZ3FpUE5nY0Ftc0FVWUV6T3orS3lUamZ5clhGWG8xWHpiR25kVW1ITWIx?=
+ =?utf-8?B?aVAwajJlanRYeVN3V3JtU3l6VVp1NTlrbVl4ZlZkZmtGajVCWnlJM3ZiRHZi?=
+ =?utf-8?Q?4MrGJJmpZPSxnMPVVDNs0frIf8cARqcq4kvcayIdhklE?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 187154e3-1564-4ebd-d0bd-08dd8005bdc6
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2025 12:20:30.4730 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zGnfzIRjSiPfPh3pACH2uepttDQSXcBVOL9+BMR21PIi6wQAyxutSATQ/cK1O8Ylb/nC3LVByERxWXJSN3xeUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,269 +179,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop simple-KMS in favor of regular atomic helpers to make the code more
-modular. The simple-KMS helper mix up plane and CRTC state, so it is
-obsolete and should go away [1]. Since it just split the simple-pipe
-funtions into per-plane and per-CRTC, no functional changes is expected.
+FWSEC-FRTS is the first firmware we need to run on the GSP falcon in
+order to initiate the GSP boot process. Introduce the structure that
+describes it.
 
-[1] https://lore.kernel.org/lkml/dae5089d-e214-4518-b927-5c4149babad8@suse.de/
-
-Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
- drivers/gpu/drm/hyperv/hyperv_drm.h         |   4 +-
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 168 ++++++++++++++++----
- 2 files changed, 139 insertions(+), 33 deletions(-)
+ drivers/gpu/nova-core/firmware.rs | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm.h b/drivers/gpu/drm/hyperv/hyperv_drm.h
-index d2d8582b36df..9e776112c03e 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm.h
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm.h
-@@ -11,7 +11,9 @@
- struct hyperv_drm_device {
- 	/* drm */
- 	struct drm_device dev;
--	struct drm_simple_display_pipe pipe;
-+	struct drm_plane plane;
-+	struct drm_crtc crtc;
-+	struct drm_encoder encoder;
- 	struct drm_connector connector;
- 
- 	/* mode */
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index 6c6b57298797..c273c093b491 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/hyperv.h>
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
-@@ -15,7 +16,7 @@
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_simple_kms_helper.h>
-+#include <drm/drm_plane.h>
- 
- #include "hyperv_drm.h"
- 
-@@ -98,12 +99,47 @@ static int hyperv_check_size(struct hyperv_drm_device *hv, int w, int h,
- 	return 0;
+diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
+index 9bad7a86382af7917b3dce7bf3087d0002bd5971..4ef5ba934b9d255635aa9a902e1d3a732d6e5568 100644
+--- a/drivers/gpu/nova-core/firmware.rs
++++ b/drivers/gpu/nova-core/firmware.rs
+@@ -43,6 +43,34 @@ pub(crate) fn new(
+     }
  }
  
--static void hyperv_pipe_enable(struct drm_simple_display_pipe *pipe,
--			       struct drm_crtc_state *crtc_state,
--			       struct drm_plane_state *plane_state)
-+static const uint32_t hyperv_formats[] = {
-+	DRM_FORMAT_XRGB8888,
-+};
-+
-+static const uint64_t hyperv_modifiers[] = {
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID
-+};
-+
-+static enum drm_mode_status
-+hyperv_crtc_helper_mode_valid(struct drm_crtc *crtc,
-+			      const struct drm_display_mode *mode)
-+{
-+	return MODE_OK;
++/// Structure used to describe some firmwares, notable fwsec-frts.
++#[allow(dead_code)]
++#[repr(C)]
++#[derive(Debug, Clone)]
++pub(crate) struct FalconUCodeDescV3 {
++    pub(crate) hdr: u32,
++    pub(crate) stored_size: u32,
++    pub(crate) pkc_data_offset: u32,
++    pub(crate) interface_offset: u32,
++    pub(crate) imem_phys_base: u32,
++    pub(crate) imem_load_size: u32,
++    pub(crate) imem_virt_base: u32,
++    pub(crate) dmem_phys_base: u32,
++    pub(crate) dmem_load_size: u32,
++    pub(crate) engine_id_mask: u16,
++    pub(crate) ucode_id: u8,
++    pub(crate) signature_count: u8,
++    pub(crate) signature_versions: u16,
++    _reserved: u16,
 +}
 +
-+static int hyperv_crtc_helper_atomic_check(struct drm_crtc *crtc,
-+					   struct drm_atomic_state *state)
- {
--	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
-+	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	int ret;
-+
-+	if (!crtc_state->enable)
-+		goto out;
-+
-+	ret = drm_atomic_helper_check_crtc_primary_plane(crtc_state);
-+	if (ret)
-+		return ret;
-+
-+out:
-+	return drm_atomic_add_affected_planes(state, crtc);
++#[allow(dead_code)]
++impl FalconUCodeDescV3 {
++    pub(crate) fn size(&self) -> usize {
++        ((self.hdr & 0xffff0000) >> 16) as usize
++    }
 +}
 +
-+static void hyperv_crtc_helper_atomic_enable(struct drm_crtc *crtc,
-+					     struct drm_atomic_state *state)
-+{
-+	struct hyperv_drm_device *hv = to_hv(crtc->dev);
-+	struct drm_plane *plane = &hv->plane;
-+	struct drm_plane_state *plane_state = plane->state;
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	struct drm_crtc_state *crtc_state = crtc->state;
+ pub(crate) struct ModInfoBuilder<const N: usize>(firmware::ModInfoBuilder<N>);
  
- 	hyperv_hide_hw_ptr(hv->hdev);
- 	hyperv_update_situation(hv->hdev, 1,  hv->screen_depth,
-@@ -113,12 +149,48 @@ static void hyperv_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	hyperv_blit_to_vram_fullscreen(plane_state->fb, &shadow_plane_state->data[0]);
- }
- 
--static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
--			     struct drm_plane_state *plane_state,
--			     struct drm_crtc_state *crtc_state)
-+static void hyperv_crtc_helper_atomic_disable(struct drm_crtc *crtc,
-+					      struct drm_atomic_state *state)
-+{ }
-+
-+static const struct drm_crtc_helper_funcs hyperv_crtc_helper_funcs = {
-+	.mode_valid = hyperv_crtc_helper_mode_valid,
-+	.atomic_check = hyperv_crtc_helper_atomic_check,
-+	.atomic_enable = hyperv_crtc_helper_atomic_enable,
-+	.atomic_disable = hyperv_crtc_helper_atomic_disable,
-+};
-+
-+static const struct drm_crtc_funcs hyperv_crtc_funcs = {
-+	.reset = drm_atomic_helper_crtc_reset,
-+	.destroy = drm_crtc_cleanup,
-+	.set_config = drm_atomic_helper_set_config,
-+	.page_flip = drm_atomic_helper_page_flip,
-+	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-+};
-+
-+static int hyperv_plane_atomic_check(struct drm_plane *plane,
-+				     struct drm_atomic_state *state)
- {
--	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct hyperv_drm_device *hv = to_hv(plane->dev);
- 	struct drm_framebuffer *fb = plane_state->fb;
-+	struct drm_crtc *crtc = plane_state->crtc;
-+	struct drm_crtc_state *crtc_state = NULL;
-+	int ret;
-+
-+	if (crtc)
-+		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+
-+	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
-+						  DRM_PLANE_NO_SCALING,
-+						  DRM_PLANE_NO_SCALING,
-+						  false, false);
-+	if (ret)
-+		return ret;
-+
-+	if (!plane_state->visible)
-+		return 0;
- 
- 	if (fb->format->format != DRM_FORMAT_XRGB8888)
- 		return -EINVAL;
-@@ -132,51 +204,83 @@ static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
- 	return 0;
- }
- 
--static void hyperv_pipe_update(struct drm_simple_display_pipe *pipe,
--			       struct drm_plane_state *old_state)
-+static void hyperv_plane_atomic_update(struct drm_plane *plane,
-+						      struct drm_atomic_state *old_state)
- {
--	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
--	struct drm_plane_state *state = pipe->plane.state;
-+	struct drm_plane_state *old_pstate = drm_atomic_get_old_plane_state(old_state, plane);
-+	struct hyperv_drm_device *hv = to_hv(plane->dev);
-+	struct drm_plane_state *state = plane->state;
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
- 	struct drm_rect rect;
- 
--	if (drm_atomic_helper_damage_merged(old_state, state, &rect)) {
-+	if (drm_atomic_helper_damage_merged(old_pstate, state, &rect)) {
- 		hyperv_blit_to_vram_rect(state->fb, &shadow_plane_state->data[0], &rect);
- 		hyperv_update_dirt(hv->hdev, &rect);
- 	}
- }
- 
--static const struct drm_simple_display_pipe_funcs hyperv_pipe_funcs = {
--	.enable	= hyperv_pipe_enable,
--	.check = hyperv_pipe_check,
--	.update	= hyperv_pipe_update,
--	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
-+static bool hyperv_format_mod_supported(struct drm_plane *plane,
-+					uint32_t format, uint64_t modifier)
-+{
-+	return modifier == DRM_FORMAT_MOD_LINEAR;
-+}
-+
-+static const struct drm_plane_helper_funcs hyperv_plane_helper_funcs = {
-+	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-+	.atomic_check = hyperv_plane_atomic_check,
-+	.atomic_update = hyperv_plane_atomic_update,
- };
- 
--static const uint32_t hyperv_formats[] = {
--	DRM_FORMAT_XRGB8888,
-+static const struct drm_plane_funcs hyperv_plane_funcs = {
-+	.update_plane		= drm_atomic_helper_update_plane,
-+	.disable_plane		= drm_atomic_helper_disable_plane,
-+	.destroy		= drm_plane_cleanup,
-+	.format_mod_supported   = hyperv_format_mod_supported,
-+	DRM_GEM_SHADOW_PLANE_FUNCS,
- };
- 
--static const uint64_t hyperv_modifiers[] = {
--	DRM_FORMAT_MOD_LINEAR,
--	DRM_FORMAT_MOD_INVALID
-+static const struct drm_encoder_funcs hyperv_drm_simple_encoder_funcs_cleanup = {
-+	.destroy = drm_encoder_cleanup,
- };
- 
- static inline int hyperv_pipe_init(struct hyperv_drm_device *hv)
- {
-+	struct drm_device *dev = &hv->dev;
-+	struct drm_encoder *encoder = &hv->encoder;
-+	struct drm_plane *plane = &hv->plane;
-+	struct drm_crtc *crtc = &hv->crtc;
-+	struct drm_connector *connector = &hv->connector;
- 	int ret;
- 
--	ret = drm_simple_display_pipe_init(&hv->dev,
--					   &hv->pipe,
--					   &hyperv_pipe_funcs,
--					   hyperv_formats,
--					   ARRAY_SIZE(hyperv_formats),
--					   hyperv_modifiers,
--					   &hv->connector);
-+	drm_plane_helper_add(plane, &hyperv_plane_helper_funcs);
-+	ret = drm_universal_plane_init(dev, plane, 0,
-+				       &hyperv_plane_funcs,
-+				       hyperv_formats, ARRAY_SIZE(hyperv_formats),
-+				       hyperv_modifiers,
-+				       DRM_PLANE_TYPE_PRIMARY, NULL);
-+	if (ret)
-+		return ret;
-+
-+	drm_crtc_helper_add(crtc, &hyperv_crtc_helper_funcs);
-+	ret = drm_crtc_init_with_planes(dev, crtc, plane, NULL,
-+					&hyperv_crtc_funcs, NULL);
-+	if (ret)
-+		return ret;
-+
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+	ret = drm_encoder_init(dev, encoder,
-+			       &hyperv_drm_simple_encoder_funcs_cleanup,
-+			       DRM_MODE_ENCODER_NONE, NULL);
-+
-+	if (ret || !connector)
-+		return ret;
-+
-+	ret = drm_connector_attach_encoder(connector, encoder);
-+
- 	if (ret)
- 		return ret;
- 
--	drm_plane_enable_fb_damage_clips(&hv->pipe.plane);
-+	drm_plane_enable_fb_damage_clips(&hv->plane);
- 
- 	return 0;
- }
+ impl<const N: usize> ModInfoBuilder<N> {
 
-base-commit: b60301774a8fe6c30b14a95104ec099290a2e904
 -- 
 2.49.0
 
