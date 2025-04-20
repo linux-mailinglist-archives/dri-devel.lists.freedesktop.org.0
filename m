@@ -2,77 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8B1A9487E
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 19:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516B1A948AB
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 20:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1090510E335;
-	Sun, 20 Apr 2025 17:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12B1110E124;
+	Sun, 20 Apr 2025 18:02:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e9NEeBOF";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="G3LdSFbm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 449B810E25D
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Apr 2025 00:34:46 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-30c091b54aaso27661921fa.3
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 17:34:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745109284; x=1745714084; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aCVfNP1UFzhQHU+UziS/1aMy/BtD5fPkaaRh6L2J8Tk=;
- b=e9NEeBOFxirB50UuZXkX7cKTDXSsU0HXVQk4ih5SJDdXvU4ebqOzZFgE7+2zy04GfZ
- d6oQrN9rfLpeL89xHx+8T3YoX+7bpbZKR3oe7IDnrPqY6baUj9Ux+jMPluGyCQ9p+gWO
- fDkoBBYe9PhyAzBNThS32cWkfoTt8SWPfrkIPmLnCvsrS5oE6Sknlc03MKvz9Nu+SdjB
- Zr9MNn7CsZvv0PffkmMqflq7Y2BVGfL9IRw7+Tht/4UEYdfYyGlosnzQtbWbeMqoXBxH
- kiUbTed7MIWEvZFqhYditTqvZHfjri8nHArJUDITRiMZA58czUE0zBvyif08KH4EZgKP
- VQDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745109284; x=1745714084;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aCVfNP1UFzhQHU+UziS/1aMy/BtD5fPkaaRh6L2J8Tk=;
- b=M+z3Q/UEMHlJJicO3NagL2f4dZkXqbxC/swit7InfUTKtCA51Zo9yiEAp9LoBd5MbL
- P6oYUp0NVSpKr0hoUbq3619Q2d59fZZXJXkvKZTi6okuVP8JT3iABIzDER7w+HiLYPBj
- CB090wSBGAWrT/0U8PIBA1w/GGFBffQVSvaKOsp5Sp+r1gKPwOQZ+jgdv7FFT/eLQ2fC
- WSq24K7N3mktWzQ0BWFetkD58RYG7QVYsFz+vIkW+0JNrddIX+vmUZsTBR6lSirLjz6l
- jwkKjIboRR9QPvro4jLFaeaH2GenHP2ovk85D2DlmTxiERulR8SvdKcM8XVszDS3c/IQ
- XVuA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW5Ny+PZyw+Fcl9I8nTgh0m8z3m/9RiRBV2tcLuHw3wM/I9np51PddIbrP81LfbgPIRvBR0x0lDkI8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YytX57JnMAKX6nUn8K3oDHu83PYt39ndRp9aki3UeYQ7SnGFqhy
- pdnEfhwv0M7bjfoWsrzU6afNEXX9+qTf564rAcXZWLr6uwZEJdqpbdj/0Ry57twf9ZZkLn+NQOZ
- atS1og9r6ig1iFGvbP67k+xZwYew=
-X-Gm-Gg: ASbGncva5w0XwkBq9xbBPEX0ZIjGb2lCYYVD07sUvQfUykST9jub985XDm4NcRcY3TF
- 7a7cRRIOpr1P+w7xjcMExgMVtPcZz6y+/Ht1tsJaGOiJ2pQlCiCwNAE4QAhPnMTqKXXIC3THIDA
- Zvf9kqb6HifI5BEn0QWmBG+A==
-X-Google-Smtp-Source: AGHT+IGnBT9PQ5jEYh6DumXMG4qyl8frndd6pk/C2KijCK3Ra++k3C4hOaeGs7Q5Y+TzsQlcujBhFcQSpRKFZqunwH8=
-X-Received: by 2002:a2e:a90c:0:b0:30b:c5e7:6e61 with SMTP id
- 38308e7fff4ca-31090502c67mr21744281fa.20.1745109284149; Sat, 19 Apr 2025
- 17:34:44 -0700 (PDT)
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com
+ [95.215.58.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D30610E124
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Apr 2025 18:02:19 +0000 (UTC)
+Message-ID: <7de0229a-192f-4d0f-8add-1a50c58f367b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1745172135;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RNV6mUL9LuZCuP3+4baaG3zrGHMcnuMfKZ/AN4GnbKw=;
+ b=G3LdSFbmjhexJplLYkrlHdZCRR6rbQ908yzpsyib+g+rZDekzmZPhjbketatQVm/t7w71A
+ T0vRpJv5Iha9iMHLzDGcSLOlItDceSAMK8ny6VeQa138XUSXfukckdMHQttcp+sb9QsbTG
+ mkB+ZPJuOZuSgxkQEN3gVmx4wASutqA=
+Date: Sun, 20 Apr 2025 23:31:15 +0530
 MIME-Version: 1.0
-References: <20250419-tegra-drm-primary-v1-1-b91054fb413f@gmail.com>
-In-Reply-To: <20250419-tegra-drm-primary-v1-1-b91054fb413f@gmail.com>
-From: Aaron Kling <webgeek1234@gmail.com>
-Date: Sat, 19 Apr 2025 19:34:31 -0500
-X-Gm-Features: ATxdqUElBbV3bALOk2EQDcBsKfIDN7TbdtaDRssMJYfP5UjTo9xKypEXMgLxsUY
-Message-ID: <CALHNRZ83pcXT_7r4B-ZB-m9rP9vM0n+HzeCJkXvAFsdLch5-pg@mail.gmail.com>
-Subject: Re: [PATCH] drm/tegra: Assign plane type before registration
-To: webgeek1234@gmail.com
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Thierry Reding <treding@nvidia.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Sun, 20 Apr 2025 17:31:13 +0000
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Subject: Re: [PATCH v3 16/17] drm/bridge: cdns-dsi: Tune adjusted_mode->clock
+ according to dsi needs
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>,
+ Devarsh Thakkar <devarsht@ti.com>
+References: <20250414-cdns-dsi-impro-v3-0-4e52551d4f07@ideasonboard.com>
+ <20250414-cdns-dsi-impro-v3-16-4e52551d4f07@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20250414-cdns-dsi-impro-v3-16-4e52551d4f07@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,124 +70,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 19, 2025 at 7:30=E2=80=AFPM Aaron Kling via B4 Relay
-<devnull+webgeek1234.gmail.com@kernel.org> wrote:
->
-> From: Thierry Reding <treding@nvidia.com>
->
-> Changes to a plane's type after it has been registered aren't propagated
-> to userspace automatically. This could possibly be achieved by updating
-> the property, but since we can already determine which type this should
-> be before the registration, passing in the right type from the start is
-> a much better solution.
->
-> Suggested-by: Aaron Kling <webgeek1234@gmail.com>
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> Cc: stable@vger.kernel.org
+Hi Tomi,
+
+On 14/04/25 16:41, Tomi Valkeinen wrote:
+> The driver currently expects the pixel clock and the HS clock to be
+> compatible, but the DPHY PLL doesn't give very finely grained rates.
+> This often leads to the situation where the pipeline just fails, as the
+> resulting HS clock is just too off.
+> 
+> We could change the driver to do a better job on adjusting the DSI
+> blanking values, hopefully getting a working pipeline even if the pclk
+> and HS clocks are not exactly compatible. But that is a bigger work.
+> 
+> What we can do easily is to see in .atomic_check() what HS clock rate we
+> can get, based on the pixel clock rate, and then convert the HS clock
+> rate back to pixel clock rate and ask that rate from the crtc. If the
+> crtc has a good PLL (which is the case for TI K3 SoCs), this will fix
+> any issues wrt. the clock rates.
+> 
+> If the crtc cannot provide the requested clock, well, we're no worse off
+> with this patch than what we have at the moment.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
-> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
-> ---
->  drivers/gpu/drm/tegra/dc.c  | 12 ++++++++----
->  drivers/gpu/drm/tegra/hub.c |  4 ++--
->  drivers/gpu/drm/tegra/hub.h |  3 ++-
->  3 files changed, 12 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-> index 798507a8ae56d6789feb95dccdd23b2e63d9c148..56f12dbcee3e93ff5e4804e5f=
-e9b23f160073ebf 100644
-> --- a/drivers/gpu/drm/tegra/dc.c
-> +++ b/drivers/gpu/drm/tegra/dc.c
-> @@ -1321,10 +1321,16 @@ static struct drm_plane *tegra_dc_add_shared_plan=
-es(struct drm_device *drm,
->                 if (wgrp->dc =3D=3D dc->pipe) {
->                         for (j =3D 0; j < wgrp->num_windows; j++) {
->                                 unsigned int index =3D wgrp->windows[j];
-> +                               enum drm_plane_type type;
+>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 37 ++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index 63031379459e..165df5d595b8 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -908,6 +908,28 @@ static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
+>  	return input_fmts;
+>  }
+>  
+> +static long cdns_dsi_round_pclk(struct cdns_dsi *dsi, unsigned long pclk)
+> +{
+> +	struct cdns_dsi_output *output = &dsi->output;
+> +	unsigned int nlanes = output->dev->lanes;
+> +	union phy_configure_opts phy_opts = { 0 };
+> +	u32 bitspp;
+> +	int ret;
 > +
-> +                               if (primary)
-> +                                       type =3D DRM_PLANE_TYPE_OVERLAY;
-> +                               else
-> +                                       type =3D DRM_PLANE_TYPE_PRIMARY;
->
->                                 plane =3D tegra_shared_plane_create(drm, =
-dc,
->                                                                   wgrp->i=
-ndex,
-> -                                                                 index);
-> +                                                                 index, =
-type);
->                                 if (IS_ERR(plane))
->                                         return plane;
->
-> @@ -1332,10 +1338,8 @@ static struct drm_plane *tegra_dc_add_shared_plane=
-s(struct drm_device *drm,
->                                  * Choose the first shared plane owned by=
- this
->                                  * head as the primary plane.
->                                  */
-> -                               if (!primary) {
-> -                                       plane->type =3D DRM_PLANE_TYPE_PR=
-IMARY;
-> +                               if (!primary)
->                                         primary =3D plane;
-> -                               }
->                         }
->                 }
->         }
-> diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
-> index fa6140fc37fb16df4b150e5ae9d8148f8f446cd7..8f779f23dc0904d38b14d3f3a=
-928a07fc9e601ad 100644
-> --- a/drivers/gpu/drm/tegra/hub.c
-> +++ b/drivers/gpu/drm/tegra/hub.c
-> @@ -755,9 +755,9 @@ static const struct drm_plane_helper_funcs tegra_shar=
-ed_plane_helper_funcs =3D {
->  struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
->                                             struct tegra_dc *dc,
->                                             unsigned int wgrp,
-> -                                           unsigned int index)
-> +                                           unsigned int index,
-> +                                           enum drm_plane_type type)
->  {
-> -       enum drm_plane_type type =3D DRM_PLANE_TYPE_OVERLAY;
->         struct tegra_drm *tegra =3D drm->dev_private;
->         struct tegra_display_hub *hub =3D tegra->hub;
->         struct tegra_shared_plane *plane;
-> diff --git a/drivers/gpu/drm/tegra/hub.h b/drivers/gpu/drm/tegra/hub.h
-> index 23c4b2115ed1e36e8d2d6ed614a6ead97eb4c441..a66f18c4facc9df96ea8b9f54=
-239b52f06536d12 100644
-> --- a/drivers/gpu/drm/tegra/hub.h
-> +++ b/drivers/gpu/drm/tegra/hub.h
-> @@ -80,7 +80,8 @@ void tegra_display_hub_cleanup(struct tegra_display_hub=
- *hub);
->  struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
->                                             struct tegra_dc *dc,
->                                             unsigned int wgrp,
-> -                                           unsigned int index);
-> +                                           unsigned int index,
-> +                                           enum drm_plane_type type);
->
->  int tegra_display_hub_atomic_check(struct drm_device *drm,
->                                    struct drm_atomic_state *state);
->
-> ---
-> base-commit: 119009db267415049182774196e3cce9e13b52ef
-> change-id: 20250419-tegra-drm-primary-ce47febefdaf
->
-> Best regards,
-> --
-> Aaron Kling <webgeek1234@gmail.com>
->
->
+> +	bitspp = mipi_dsi_pixel_format_to_bpp(output->dev->format);
+> +
+> +	ret = phy_mipi_dphy_get_default_config(pclk, bitspp, nlanes,
+> +					       &phy_opts.mipi_dphy);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = phy_validate(dsi->dphy, PHY_MODE_MIPI_DPHY, 0, &phy_opts);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return div_u64((u64)phy_opts.mipi_dphy.hs_clk_rate * nlanes, bitspp);
+> +}
+> +
+>  static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
+>  					struct drm_bridge_state *bridge_state,
+>  					struct drm_crtc_state *crtc_state,
+> @@ -919,11 +941,26 @@ static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
+>  	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+>  	struct cdns_dsi_cfg *dsi_cfg = &dsi_state->dsi_cfg;
+>  	struct videomode vm;
+> +	long pclk;
+>  
+>  	/* cdns-dsi requires negative syncs */
+>  	adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+>  	adjusted_mode->flags |= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC;
+>  
+> +	/*
+> +	 * The DPHY PLL has quite a coarsely grained clock rate options. See
+> +	 * what hsclk rate we can achieve based on the pixel clock, convert it
+> +	 * back to pixel clock, set that to the adjusted_mode->clock. This is
+> +	 * all in hopes that the CRTC will be able to provide us the requested
+> +	 * clock, as otherwise the DPI and DSI clocks will be out of sync.
+> +	 */
+> +
+> +	pclk = cdns_dsi_round_pclk(dsi, adjusted_mode->clock * 1000);
+> +	if (pclk < 0)
+> +		return (int)pclk;
+> +
+> +	adjusted_mode->clock = pclk / 1000;
+> +
+>  	drm_display_mode_to_videomode(adjusted_mode, &vm);
+>  
+>  	return cdns_dsi_check_conf(dsi, &vm, dsi_cfg);
 
-This patch was being discussed on the tegra-drm freedesktop issue
-tracker [0], but movement there has stopped. I'm submitting the change
-here in hopes of getting it moving again.
+I think at this point cdns_dsi_check_conf is really only creating a
+dsi_cfg (from the video-mode) so that it can later be used, and then
+running phy_mipi_dphy_get_default_config(), and phy_validate(), both of
+which have nothing to do with the freshly made dsi_cfg.
 
-The stable cc is intended to get this picked back to 6.12 at least.
-But as far as I know, this bug has existed as long as Tegra186 support
-in tegra-drm has.
+If there is no benefit in running both the latter functions again after
+cdns_dsi_round_pclk() runs them, then perhaps we can just drop the
+cdns_dsi_check_conf() altogether in favor of cdns_dsi_mode2cfg() being
+called from .atomic_check()?
 
-Sincerely,
-Aaron Kling
 
-[0] https://gitlab.freedesktop.org/drm/tegra/-/issues/3
+Furthermore, I understand updating the adjusted_mode->clock might help
+the CRTC to use a pixel clock that's more in-tune with the _actual_
+hs_clk_rate that is going to be generated. But, I am worried that it'll
+cause a delta from the intended fps from the CRTC's end because the
+timings aren't adjusted in accordance with the pixel-clock.
+
+Perhaps, along with pixel-clock, we can update the dsi_htotal and
+dpi_htotal both too, to
+
+new_dsi_htotal = (hs_clk_rate * #lanes) / (dpi_votal * fps * 8)
+new_dpi_htotal = (hs_clk_rate * #lanes) / (dpi_vtotal * fps * bitspp).
+
+And then, the respective front-porches can too get updated accordingly.
+
+
+--
+Regards
+Aradhya
