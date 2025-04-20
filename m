@@ -2,67 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CBCA946D0
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 08:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B47A94760
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 11:48:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 006F710E002;
-	Sun, 20 Apr 2025 06:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74BFC10E010;
+	Sun, 20 Apr 2025 09:32:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.b="SfuMBaqC";
+	dkim=pass (1024-bit key; unprotected) header.d=ispras.ru header.i=@ispras.ru header.b="AS5dK+IK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from abb.hmeau.com (unknown [144.6.53.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 060EF10E002
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Apr 2025 06:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com; 
- s=formenos;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=8yBRXEpl/zJ2DC6+BgwWilj/xw5IQ+a0xstsD+P+cM0=; b=SfuMBaqCsK502ZPFFK7FlC6u7N
- 9lKYLN7KvkrCS54daxBdS6M20Lk0jdHWpT2aYdDZFoAJ22FipPZCbbJq22aca4QORUBCpn5L5BD8b
- 7U70QCi3ZnWit1QzA+SKI9Zgof0Wza9Jl+8CjCwvBk794kVM7FBiJJmYWBWr/1+fjCoQXW0rpwkIy
- NCAlpJYacjC+W/wOBefRSNw84iUsETtUKT5ZLQUukNLpI8BfqAZvl6uyBkofvWTIFZxJ25JhMEwcO
- P3aI5xtOGGzQPuOc0xAMDJnmI/H0ForWRdtO5y7RcdYLbPARZr1WDlieT0Z+0Vwig2yulJSvW8TdD
- hTSfO6Mg==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
- by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
- id 1u6OKa-00H6Gs-0J; Sun, 20 Apr 2025 14:39:09 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation);
- Sun, 20 Apr 2025 14:39:08 +0800
-Date: Sun, 20 Apr 2025 14:39:08 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: "Gupta, Nipun" <nipun.gupta@amd.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, davem@davemloft.net,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, krzk+dt@kernel.org,
- gregkh@linuxfoundation.org, robh@kernel.org, conor+dt@kernel.org,
- ogabbay@kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, derek.kiernan@amd.com, dragan.cvetic@amd.com,
- arnd@arndb.de, praveen.jain@amd.com, harpreet.anand@amd.com,
- nikhil.agarwal@amd.com, srivatsa@csail.mit.edu, code@tyhicks.com,
- ptsm@linux.microsoft.com, linux-crypto@vger.kernel.org,
- David Howells <dhowells@redhat.com>, Lukas Wunner <lukas@wunner.de>,
- Ignat Korchagin <ignat@cloudflare.com>, keyrings@vger.kernel.org,
- Stephan =?iso-8859-1?Q?M=FCller?= <smueller@chronox.de>
-Subject: Re: [PATCH v2 2/3] accel/amdpk: add driver for AMD PKI accelerator
-Message-ID: <aASWjGNpn1QZYgZb@gondor.apana.org.au>
-References: <20250409173033.2261755-1-nipun.gupta@amd.com>
- <20250409173033.2261755-2-nipun.gupta@amd.com>
- <20250410-sly-inventive-squirrel-ddecbc@shite>
- <bf851be7-74a5-8f9d-375b-b617691b6765@amd.com>
- <Z_imAnYu1hGRb8An@gondor.apana.org.au>
- <4f365fae-aae2-a0df-e8e9-268b536378b1@amd.com>
- <Z_nAo7UpzBqeXLbA@gondor.apana.org.au>
- <5f49d271-fdf3-3b52-664a-3f576bc3c61e@amd.com>
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 639B310E010
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Apr 2025 09:32:29 +0000 (UTC)
+Received: from localhost (unknown [10.10.165.8])
+ by mail.ispras.ru (Postfix) with ESMTPSA id ABE754076726;
+ Sun, 20 Apr 2025 09:32:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru ABE754076726
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1745141546;
+ bh=fWQY42eWCmlkXVWhry1af/CWnxEZndFo/0hIOaKShAU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=AS5dK+IKYudFHNvytmLk+fqj7yxTBZjUdVJCcuHfpJwstkabClzSTiwtPwAfKq/Ni
+ 1uTL0d3nV+qGrUEpkz09E1oWlkkcgtdcDsX8bZzKHIUDIwRKpfFhQISndwdTZ2QQpQ
+ +kYUP272fI7LfR9Y2z3cZgPezv/ClCT/kEpObEJA=
+Date: Sun, 20 Apr 2025 12:32:26 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ linux@martijnvandeventer.nl, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com,
+ neil.armstrong@linaro.org, Furkan Kardame <f.kardame@manjaro.org>,
+ Anastasia Belova <abelova@astralinux.ru>
+Subject: Re: [PATCH] drm/meson: fix resource cleanup in
+ meson_drv_bind_master() on error
+Message-ID: <mpoae5tfugsnvdyv5yzmiifr242mc62gouqqvql7ucjtdxo7b2@7y4plckbcdbn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5f49d271-fdf3-3b52-664a-3f576bc3c61e@amd.com>
+In-Reply-To: <20250409214422.1751825-1-martin.blumenstingl@googlemail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,29 +56,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 17, 2025 at 09:02:15PM +0530, Gupta, Nipun wrote:
->
-> Thanks for pointing out to the C file, but as these these system calls can
-> support only synchronous operations, precludes their use for asynchronous
-> operations. In the TLS handshakes, where multiple connections occur
-> simultaneously, asynchronous operations are beneficial. OpenSSL ASYNC
-> support can very well utilizes the asynchronous operations while
-> establishing multiple TLS connections.
+Martin Blumenstingl wrote:
+> @@ -360,6 +360,16 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+>  
+>  uninstall_irq:
+>  	free_irq(priv->vsync_irq, drm);
+> +dsi_encoder_remove:
+> +	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
+> +		meson_encoder_dsi_remove(priv);
+> +hdmi_encoder_remove:
+> +	meson_encoder_hdmi_remove(priv);
+> +unbind_components:
+> +	if (has_components)
+> +		component_unbind_all(dev, drm);
 
-In that case we should extend af_alg to support akcipher algorithms.
+As 6a044642988b ("drm/meson: fix unbind path if HDMI fails to bind")
+states, it seems invalid to call component_unbind_all() before
+drm_dev_put(). Wouldn't this patch reintroduce the problem here?
 
-Having every crypto driver make up its own user-space PKI interface
-is not scalable.
+In that sense the diff proposed by Martijn <linux@martijnvandeventer.nl>
+behaves more correctly.
 
-I held back on adding akcipher to af_alg because it would lead to
-the freezing of our akcipher API.  But it's time to do this.
 
-Being the first user of such an interface, could you please post
-your OpenSSL patches as well so that we can look at what's actually
-needed?
+I've also found this thread [1] with another error path fixing patch. It
+was suggested to improve that fix with managed drm device [2] interfaces but
+AFAICS using devm_drm_dev_alloc() will reintroduce the problem mentioned
+in 6a044642988b, too.
 
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+I think [1] should be applied as well with Martijn's patch?
+
+[1]: https://lore.kernel.org/dri-devel/20240809124725.17956-1-abelova@astralinux.ru/T/#u
+[2]: https://lore.kernel.org/dri-devel/20240828110421.14956-1-abelova@astralinux.ru/T/#u
+
+
+Thanks!
+
+> +cvbs_encoder_remove:
+> +	meson_encoder_cvbs_remove(priv);
+>  exit_afbcd:
+>  	if (priv->afbcd.ops)
+>  		priv->afbcd.ops->exit(priv);
+> @@ -374,13 +384,6 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+>  free_drm:
+>  	drm_dev_put(drm);
+>  
+> -	meson_encoder_dsi_remove(priv);
+> -	meson_encoder_hdmi_remove(priv);
+> -	meson_encoder_cvbs_remove(priv);
+> -
+> -	if (has_components)
+> -		component_unbind_all(dev, drm);
+> -
+>  	return ret;
+>  }
+>  
+> -- 
+> 2.49.0
