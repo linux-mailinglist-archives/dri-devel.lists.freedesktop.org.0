@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D59DFA947C2
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 14:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D71A947C4
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 14:20:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC1AF10E310;
-	Sun, 20 Apr 2025 12:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B8F10E32C;
+	Sun, 20 Apr 2025 12:20:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZN5nFo5/";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="BigI8zzt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2046.outbound.protection.outlook.com [40.107.223.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C942210E2FC;
- Sun, 20 Apr 2025 12:20:45 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2058.outbound.protection.outlook.com [40.107.220.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70E2B10E32C;
+ Sun, 20 Apr 2025 12:20:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kSoB4StNdYj386GKxEmLQ8f7g2JPLpgxrmua/XvKT6kYqwkWSwZjLhZS9IQ+nSZ8SYGszAN3RukBWE9BHfSVFnRAOy39pS1Bnpi0BTFO6uNqS2EDoKiHrrXqTPSy/qa49V90o0Xf/HK0exB8yKHFD4MRhMedNsNApGSbS0fNjhmbhGNB1X6bT94PjfGjJo733zFhh93yUoEIfGLn8ewhJJg/NwVUhDLeQLdz69jeKHlm8gDr8NK0r/GAY1SzkRSy2DsKnMqIi7/mXmt8cgWnW/7dMXZp4CSM7zZ0Nt9DLcGkHtGsZqwj86T9hZMGY+5rXxcAG+Ae+cUG+HCf6j2PIQ==
+ b=pWynV7RaRyi6DXhrZ7aGNkUl/Krs2S+UuoqRk8xO2o6SWrphi0HbNwFcnIjMfV/OhN07C6nfi+v6k3HP/H1/Ap0o16meqNXl3Qy/pgVDeCsndHYU2Cq97maUIF+vOrJZDfpjtPIs+PlxQ/uz7/yH7q45KuwNRX/TGLuB4tvISQ8AFVPL6j0nHDL5ubAQRXw/3llMjkDTAOTz5VA6ztaNCmE7xI8hVe553TCT1LwKPeaWq2UEkAjqpGORjVySZ8RpmE9LpugHr6OMEF0+d6YvibR2U25lwNAi9e8lJIgB/RZFMbxlkJTzE10vHW9r2qaScpDWDfUe87bQ24fYoquTqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hN88YFcCx31BSE/TsxSIP/6L65x6qlW15t23yO2gZ1k=;
- b=kZ2mHjdaEsRgLPzj2Jc+dpwwQ5rVcmvHVmCn2bOA7iezXaYCcVzISjtdHrFp5CJFVZPGW9NBUbur9ax+vzt4Al9qGa4ce+Ya0gDbOAKgZH5vYhBvNG23RoLcwLzxawkWBACFu2FDV9O38NNk52h5kRH2uNyX9VYKm/FCiR24I0v4Drpr5VNHh2T2PwTeI2TFMxg/4jiWj9lIG58P+9dcjUIVKaV39zNA/vfiOkzTtDDyjKToE7u01lH8dwR0G0GKDNY6dNKzI87e5mwsNs7kAl+/nlckXmPGzxLe/q9i+Vj3M2urzFUTtedS7AqbYLrvsRfKc4UaqmwiIMqTvgjS+g==
+ bh=5q1DLsbggUy6nA/vvuMo6CHEN/wFF6JGXvl3n2fdKTQ=;
+ b=HH0WEg+FGJ1isDpJU232vh8MxFWxFwmPy0Q1B8Sfu/piHMOk3ift0Vp7+NpJXwnmnFhGpIb6yd018UAACK3nPyFlqLbztBE8P2s5DwIM5T2GQy19vybYOX+NGou8DSVEblhqAAtVIJ2+iZJXDbXaPoepYnfJc6QfW45/KWNIllrIK/q0WNBWHfPH3+V5WLlldSR7PGCicEO2bJl86pvu1pfn5myaJ+9LhEWuEOssNu+RuA6uqmp6CYEdra1B8b8SpfR0PN3+vyPq/02GmVi6GDlUreQdTvCybUHFf/2GRbtTvjjKNo2z38fv+wvQmJrbdlvrbAkoV9VEnEq8d04aDQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hN88YFcCx31BSE/TsxSIP/6L65x6qlW15t23yO2gZ1k=;
- b=ZN5nFo5/BY9XVmykvr/KJ5zTGZu41I+WEeSTQME8boKZOnPZufdc9M6STz16qb091Retd9uKekujOkjhvu3Coe/BALp/qlZOxKfepcXClGob1nfEqLzh+3csDQdX0Mc/367QiCIhGuw5TEFl45+v7sAL+zMbzcUEykpGIXIh3OEpvrcN0GhreFNU2IjLS2TH6cep/emDSz6wIoKMYVDWRsF8+3+MFKazqrXwsAoXenHBzk/WyqMgBS/xIu5s3loqNM8MtmPqMOiTi7fqY1EbqCpVgkG8LTQnPc9opsXOmXXtuq1TQbzewyhoKEiBJ8tDBgPJ7hEsOdoVrf6by/NXKA==
+ bh=5q1DLsbggUy6nA/vvuMo6CHEN/wFF6JGXvl3n2fdKTQ=;
+ b=BigI8zztAv/9EBTCqNXQG+vvFE51e2mK/Du6VTfvas5T0xW6ohzTO8mL/8zTqKrBFaoUW2DPJvxIckjgZRFNZSyNzxY7rGwQmfcSDnQueV5u1JGRFJUerGgMNc9fyRXVWnOtWLGEYPoeNBkPmDv586iz2rSwroJapiEXusXmkvObBRXtU/ohNgGm7dFUxLj3GNMDkRVj6DYp2TSMqjrfyX/VaM8atXatLpR/3npB2vurbkEWnZd60tI2jYeDmHslcuu4sjIdxKX99Qj5d+geFypatmW/w+izZ8NPa8yF4x560Iy95c+jfkGDA+LR9TYPxLhMSWXF7QjaPFkSMvO11g==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
  by PH7PR12MB9175.namprd12.prod.outlook.com (2603:10b6:510:2e6::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.33; Sun, 20 Apr
- 2025 12:20:43 +0000
+ 2025 12:20:45 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8655.025; Sun, 20 Apr 2025
- 12:20:43 +0000
+ 12:20:45 +0000
 From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Sun, 20 Apr 2025 21:19:47 +0900
-Subject: [PATCH 15/16] gpu: nova-core: extract FWSEC from BIOS and patch it
- to run FWSEC-FRTS
+Date: Sun, 20 Apr 2025 21:19:48 +0900
+Subject: [PATCH 16/16] gpu: nova-core: load and run FWSEC-FRTS
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250420-nova-frts-v1-15-ecd1cca23963@nvidia.com>
+Message-Id: <20250420-nova-frts-v1-16-ecd1cca23963@nvidia.com>
 References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
 In-Reply-To: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -67,102 +66,102 @@ Cc: John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
  rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>
 X-Mailer: b4 0.14.2
-X-ClientProxiedBy: OS3P286CA0088.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:604:1f6::19) To CH2PR12MB3990.namprd12.prod.outlook.com
+X-ClientProxiedBy: TYCP286CA0073.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31a::18) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB9175:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e86d1d3-beba-4281-1d69-08dd8005c52b
+X-MS-Office365-Filtering-Correlation-Id: a8c0cba1-4a35-4986-41e9-08dd8005c6e6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|7416014|376014|10070799003|1800799024|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M3Z0N0RwcnBrZ1RCK0VWZjQ1SUVJbi9UV3h2aGpMSnVqOXVQcmJQRGU3V3ZQ?=
- =?utf-8?B?MGN5T1RmUkl0dUMvWXptL3ZrVk1DNzA2aVEycnk3M3NNL2p1YTR6aVZuaXhi?=
- =?utf-8?B?R1JTZkJNZFVvUmdzSUxRT3duTis3M2trQ2pMV200elRrNDJ4Vko4ZmZHUEt3?=
- =?utf-8?B?akFCQ29IaGduNFhOL0RnM3VhNGFZMjlYZTNrOFo1dTRpTWZ4dWJnU0dPUHRQ?=
- =?utf-8?B?WFd6VmY2Vy90Mmxpa1JKWllmQXRoVmxhbmhHUHpmMEV0ZW5PNnZHTEIxbmdE?=
- =?utf-8?B?ZzN2bWxRVHhuLzBwRmhiUVlnZ3pYNFpLRzRHZVU4UzNCaFdQYWNReXd6L21K?=
- =?utf-8?B?Ym4xMHUwSEdLYklmeDVJcU5zc1hUYmlFZ2hORHNyYVgxMmRHckt2dnFoaXRU?=
- =?utf-8?B?QjZyU1g5TTg2UVczOVJ0c3IreWJuMi90Nm9WV1lOWVljcHFqUmcveUgzd29G?=
- =?utf-8?B?dG5GTmRCMTh0V29idzVuUXFFbzZWNXZJSmwxTDk1MFlRVEswQmg0RmtNdVc2?=
- =?utf-8?B?aXJDZG5aWjNDYm45WFFWczlzMHM1YmJrTm5yc21QQTY4d3lBZFR3Tk40TVAv?=
- =?utf-8?B?K3R1Sm1UYzFJQ0hjWWdiQjdzam9KU00rRDY4ZWRsTXFFbjArcTZHWjZ3UDBV?=
- =?utf-8?B?MkJVdEpDQVhvaXcrQ1pmRjlkNFJvNGxDanpVeFIxdjYzZGl0QXNIblJqbXY4?=
- =?utf-8?B?NXFQbmFzK3RuS0k3SFFVSFh6UUhDa1lENEhjcmpPZFdqQUJQeG1tbjVrVmUz?=
- =?utf-8?B?Q2JzZHJ3aUE4eGc0dXUxd0pxcmkyMmRweDlhVnFSK2Z3T3ZzV21TSkhxVS9B?=
- =?utf-8?B?cW5kZjBTK2dIemdCejlzM0dzNGd6alhsdXRaVHRCNXplVE9SODVOZjJGL215?=
- =?utf-8?B?TVlvRGNnVk82L0dhbElvL2pxQWxoUHpGS05oSlFkNk5VTE9zUUpzZlVjNU4x?=
- =?utf-8?B?UlA2QzhjeGxGWDZCUklldkVDZ3IrSDZRRWljYzZ0UVdyM0k3cm5Qb2RBOXZI?=
- =?utf-8?B?cTA0QjB5ZnNsb2RObUtBTDZ6SVF6OHdubmRzTWovQXk1Q2ovdm1OZ0hYYWJu?=
- =?utf-8?B?akxNZ3Y2MTA5Tys1Yk9KbUc4S3JWbW9nZWJ5NGtvTFdzYzVubjNDNTFuMldT?=
- =?utf-8?B?UE5KT0cxOVRQMEJiU0RXTnJMZlRaQmVQQUUrMjRTWGJjcDFvYjUrMzZPbjJE?=
- =?utf-8?B?TjFVL3dNY01abWNVajhyWCtXSG1Ta0pIVnVmRGhteWZ2ZTRtZkV2cWNzaG81?=
- =?utf-8?B?Z202cmhScFVRY2dYeDRhNjNQbG5PTUp6dU51Mjc5MndSMXAyUm5PZkRFcjRx?=
- =?utf-8?B?WEgzcktPUVJsSWRrUjVmaVlGcDFlWllZMEdmNXVWalZRRE9ZUDNXMTY0T1ky?=
- =?utf-8?B?T3BJUUpwMEhocGM2bHdpd3F3UEE5UkNQb001d3lhOVQ2K3dpZW1kdDA3MUZU?=
- =?utf-8?B?MWxlOGxwMjVrSE0yeFAxM2ZlOTlIMm01Y0t2WXNLcDcranlrdWhNekFHK1dG?=
- =?utf-8?B?NWxydVFmNCtSbEFOemRYV25uNHE5SUZubVNGaU8yUWhHOHlFZWg2SkNYak05?=
- =?utf-8?B?eStvbU42Z2RSRDI0bWNkdHM1cTVocjl1VGZQWUJ6MUx4ckdBaHV1WWlpZlUx?=
- =?utf-8?B?bldTazRrZHBpeWQ0c0hKWmhaQ21aRmpHYWVyaDNUT3d2ZnMrRFJMM1RNQ1No?=
- =?utf-8?B?Rmw5TlpIZFRadi9lbk1BSGJTU3ZxK3l4ZXlrUlFLTTI1YzR1SCtWK3NIVGtB?=
- =?utf-8?B?MXphblBUS3NWUWpNRDEyTlRvakJqVlFuSEtPRzZtdnRTdU1Yb0FibkJNcWxp?=
- =?utf-8?B?Y3VRY2VBUHZiWnhESFB5SHBMRXJ4OUlqblFVbEZ4TSthRE1pVktPZU1kc041?=
- =?utf-8?B?OUFVMWM4YjdLUTZrYzFQYnY1NjVXQnhyeFpxUTJVY2l3Qm9CMXlzN2ppV2RV?=
- =?utf-8?B?Vzh4cnBLNDdWdDNrQVhQdnhrT0laSXNBWG1yZC9vMUNqbXM0elhxTXlKcDdL?=
- =?utf-8?B?L250UVNWM1d3PT0=?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SzFFSmhqOXRQSlY5NHp1R0M3N0I2YldMTnJ4dUFSTWZYOUNwVjhFRnd6MGJF?=
+ =?utf-8?B?SVVGQU8wVWR5akF1aWVxdmNpS1lkd3QyQ2F5cVVHWmtsVjNMWXBXUnAzZGhC?=
+ =?utf-8?B?d1FGSGdqbXU3M1JlT1BGWFBUMjYyeTlBZGFBaFh0ZUJxY1N1cXdqVlF4WkQy?=
+ =?utf-8?B?WVJ2UERKV1p3RXFHR3UzMnlPNmdHTkFPam1ZNFpwY1FwU2c1cXhPdDFCWGU1?=
+ =?utf-8?B?MmF2UlJpR2N4d0pSTFI3YldUbFRsdE5YT1J0ejh4VzlabEpFUUFnQThZcGdt?=
+ =?utf-8?B?UTRJRkFwRWVtZXByaUpqTy90VWx6MVpTUk1JTWFrK0J4RnNCa0ZlZ3UxNUlH?=
+ =?utf-8?B?TUJHQWowQ0JiRktLdWJPSlphckpkc0xveUpCeURLa0ZyRXpSS00yb0JEd0F0?=
+ =?utf-8?B?NGVZckVwMTVYWExIMXVhVWJZemgyNjlYVHV4SWhMQ0FxenAxU2ZUakRLbEtm?=
+ =?utf-8?B?MHhsWitRNHZjbjZSS0F3N2YwbHhuVExiT21vOXI4WU95THdtZi9nWUVBVFM4?=
+ =?utf-8?B?Y25WbG9kMjJjb1JVLzdDMjk2UzB0YnkxdWYxRlNzUGYwTWZWV29RK3VZM1pI?=
+ =?utf-8?B?YWVPNGV2Rk5xU2MyVERQR3UxY3NoMndhc2FSN0FWbDhQcVJZeGJmSkZZc2xO?=
+ =?utf-8?B?alJRZ1JOME9vWitRWmMyOUxYWVV6WlhybUdwOXlYeHJqVGorTTdaUldRN3oy?=
+ =?utf-8?B?bHJha05BTmxmWmptZG5QdWFndFdyZlowUkRsYUMvSDRadE1XbGUwSERNbG5t?=
+ =?utf-8?B?Z205YkxKR2h2b3UydjkvQ2RiSkxESTVBU1llSndGaGZNR25Ma0ErSHMvWDFh?=
+ =?utf-8?B?ODNucm9nTkZ0TVVpRzJxZlNQRCtLbmFmR3FZakN3OE9RNVpKendDYjF2Tm84?=
+ =?utf-8?B?ZHJ1d1kxU1VSS3dGUG5BelZMU2RwWkhreWF3Qm10eWpwa3pvelA1M1FRWHM4?=
+ =?utf-8?B?bGtaOWxwODFLaitqaCtLbXp4Q1hSY0RNU2V2eGMva01mMVdjbEdBRkp0S0J5?=
+ =?utf-8?B?dlJFNng2QWh0UmIzMzNsR0VUandBbUtjelBnUlh5NjNxamRHL3FMVDF3c1c0?=
+ =?utf-8?B?VTBmK3NUKzRjTjluY241Ukg4aTFJc1EzMDY4L09QekhXY296bnpRMHJ0aFBD?=
+ =?utf-8?B?T08vQzJvbFU3d3NVSVBySU1FM21UOWh4UEtMaXFjOUpaQTNnKzVPeGdoV1VP?=
+ =?utf-8?B?R285bk5BT3VMM3lsM1N6VEovbzBXY1ZkYk43V2I4TzVkbVJNbTJtM3R6c0dL?=
+ =?utf-8?B?NEJvNURVaUduTDB3UUdYeG9jc0hjZzRtaW9zOTRZVks1NTVkQ1p0YkNtTElp?=
+ =?utf-8?B?N1ZGT24rdEIxNFNDVXpqRGlEbS9IRSsvVzhacHdTYmtYYTdBR1ZMdzZqR1pY?=
+ =?utf-8?B?d2FBdTFMeFI1VWhSb0lCZkVqKzJPTjI2ZUY4Wm9Cd0NQUG11SnBVQ2xsVVlZ?=
+ =?utf-8?B?KzNmTHBCY1dQYWdrTU5pQU54NUJaOXN4T2FselhiVEx5enFjVEQ4YU5MUEta?=
+ =?utf-8?B?Rzgza0FtQjQvbEdpaGlydHdOYmJSQm5jd0NjeFMvMmtaaWlhRm5nUGpvMEJH?=
+ =?utf-8?B?Q1FWOGxRaEIxcFV5UEEzanlHdmdMNXBvaE1QL2NJNVZUeEZtelVWRVBBenlm?=
+ =?utf-8?B?ZE1LVUc0R0RReHB4TnhhcG8zQTZCMTdkWXRUUmI5eUducnNMVisrVGZlVWJr?=
+ =?utf-8?B?TndwK3JqaFZiWXl1YlMzcWUxak9hdjc3Rk5INGU5eDNRQUJlUm9XVEZpZ1ZQ?=
+ =?utf-8?B?TEs5d2NxYTB1bWs0TUFFUmI5YjNOWDIyc1haeW9iQmxtRlRFS2w3WU5EZnlW?=
+ =?utf-8?B?NUh3N216MVZiUkF3blMvdWttbVF1a0pvVXcwMmoxOHFYZ0ZNZmUrSjlpTmlE?=
+ =?utf-8?B?TFA4RHdGUUYxM2xFTi94dHNPY2hFYkNJem1xSzMzNi9icmhhN0YxMVpuMEpl?=
+ =?utf-8?B?Y2VQdjNRbUZVOWNVcXU1d29FeU5wcU9hUExLTGJhNlRoaTRTckhCbmNZU0J6?=
+ =?utf-8?B?SGdMaG9TSU9nPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(376014)(10070799003)(1800799024)(366016)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YjJLLzJwY29UblV0TGVrU3lRVGY1ZldJc3QrSGQ5RGtCWnY2R3pSclVDQktz?=
- =?utf-8?B?YUNTTlNoYlpTemlFeTZWam1BOWpJYThzZmk4a3FsMTdBbVozSnpKdks3MWdK?=
- =?utf-8?B?cEVHN3Q2bGdNb3dud2FBb1cxQjZKazJ5Y3RhZUV1WURkM01IeXNORGtFaTZ6?=
- =?utf-8?B?OG9WVTFyRGZ2VzhtYUlVbjFWMXMzN2xTUTY5OUZOcm5LeDNqa1IzcEQ2R0FS?=
- =?utf-8?B?UWpSVmtESGdtOHNHOFU1bm41YXRWaHk0dlRTZWRlTXhvb3UyM2pkVCtseGc1?=
- =?utf-8?B?UmJqbXBTNks5bU41bWlkWWFRdVVFdGlHb09NQXQvNEFHSzJsTUNGOHpRWXZ4?=
- =?utf-8?B?MmwwNDFqNmdUMGU3dFZlMURGQlBlY0ZQUncxR2tuaGVoRENTV0pKQzltWXNx?=
- =?utf-8?B?dERPYjhDcnNDdnRwNWZHdzdHWC85UXRDd0dIcE1IeVZVQUo2Y2dLSGRWQnpr?=
- =?utf-8?B?YmZuTmR2NFNCQTQ2N3RKRXVBQmJpbEtoR1pleXdhSDI3Ui9GSkVqT3Q1bHFm?=
- =?utf-8?B?Z081am9aNmgyaElCcTBNVjlGQXhFNHNyYVBydEkwRkN5NTlXK0ZwNVF3N2ty?=
- =?utf-8?B?WkIwZTErR01pVm5uUFlSNko4VHU4NmYzdTg0MzUwV2NJblRTVnBkY1hsa2sx?=
- =?utf-8?B?Vk00cEJSd1I3czNMNXZkZkNvUnZqTjB1RnkxUXlhYmNhUTVyOXY3ZmtreEtm?=
- =?utf-8?B?QnlwZXdxQkU0dDNjOU10K0Z1V3JERmVJRGU0K3Bva0s1NFFmbmVLV1pDaUJm?=
- =?utf-8?B?bzdIdUdBMSsremNZOWlmeXN5aGZ5YXcrNXZFY20vbkZ0K2ZEYXR4QjMrd2px?=
- =?utf-8?B?TEs4azZ5dVVWT0RQdGRtZHRhaVB5OUpzZjZ2VTB6ckRhbDZuOEFWc0tCMFdD?=
- =?utf-8?B?cy9PRmY1ekpCYWw1WWtGSWhSQy9LTzA4MHF0eXhsZ2UxZExyUFd5R0l3OUVL?=
- =?utf-8?B?Y2FVNGVNSE9aYVBWM0FIQUpNU2pRN3JlQnFuSmxKbk5DSDJIU1cyMWJLOXUy?=
- =?utf-8?B?c0FzNWE4bEREWmR5RGVBWklaUmIydUQwbUJ1b3hYOG40Wm9PQnpTek1oY3dx?=
- =?utf-8?B?eXpPUllVK1I3MXh3cFRYZ1FudXJWbDhJQlh2UTBSenRFR0VOVTluYkpCT2tE?=
- =?utf-8?B?VkhWcnBjNjNka21OYTBNY1AyMjlnQ3EvTlQvMGl1NlNkS2JUNlQ2cXpiV1ZJ?=
- =?utf-8?B?VTE0TklYeXRhclJDUk9KMTc2L2xobkVYbWpITERxN1VmMm1xcmcrcGUzbTdR?=
- =?utf-8?B?T2hCTTZZVkZ6NmFIT2F0cno1Y1JjU0N1UXp3VFVlb2ZuZFlyaXAzNlg5aFI2?=
- =?utf-8?B?d2FBUHJVYU5SbG1qbHVmQ3Z2SVExUjNBQ0VHdGpCeWJiSDdkdElvRzlCeC9G?=
- =?utf-8?B?SU5LQ24vcVhUa2w5K2x6MURHU2R0N09xM3BSN3lQSjBNdmRFZzIwL0J5Ukpy?=
- =?utf-8?B?NHM0a2J1RSs1ZTVpaDRRdHlhTWFjNFdFRFFaVkRUL3ljVmZTWlJuR3EyNlRZ?=
- =?utf-8?B?K05wN0N1S2VmcjRrbzNkZGJ5QmlqUUZEc0w5aURCZ21LOWR5OVNsc2xsREVu?=
- =?utf-8?B?aitOb1pLL1JqRjZFMWRCNlc0bisxRStTekRpZmxrVHVIUGZNdWdnV2M5dENl?=
- =?utf-8?B?SE1zZWFsQ2FHU2t0ZHlDWW5ucXVrZE41eEF3S3dlbXlvZkNTSXFQcjRXc29N?=
- =?utf-8?B?QzR4OU9NaW9acU9oR2UyV0xiYjQvK1Z5NHZ2TGdaMWZhOTF4cUIyRkloYjEz?=
- =?utf-8?B?eDdidkJPMExGazFJMG1vdXJiemNXRlZENktpVitjZndOYU5CZCt3ZmxHZjl0?=
- =?utf-8?B?SG81blpKblBYanZEOS9yUForZ3FMcU5iZ1NLL2NQeTMwWXZsQnZhc2EvMzlx?=
- =?utf-8?B?S0E4RXdBN2IvUVl3UDlCc1YzaFpCSFFIOEx6MEtNY1IyVExyT2pFYWFnRkI0?=
- =?utf-8?B?TWVqWlM2RXRpbnk0aGlBa3piSmkrZWtjR3BXeDdkeWZlekVLcjF2TzRTQzI5?=
- =?utf-8?B?SjFlQWJlN1NnTUtvRmJvMm82Z0RtQTRMcU5VMEdzcDc4bXMrbFV5WXJiZ3U0?=
- =?utf-8?B?T0tDcGtVU2dNbVRyYm9xcXB1QjYvUjJ1alZmYXlSOWh6UWFGcW1scUpCUUdO?=
- =?utf-8?B?Skk4ZzUwZVd4OXBIVEhFZi9tMktNeXVha1BUOGJJcS9hMXpLanc5cWlZNE5B?=
- =?utf-8?Q?Cn8EItmasnt0aeHg8qimE3KsqoeaV529Jg0fXihjBwLs?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YmVqZjlVaUxFU3dmV0wrVW50bnhWejIvNDlUaXlxWklMVEVBcnFlR3BpT29s?=
+ =?utf-8?B?ZnpoQ1E2cXh6NDh1QUdTdDhCUUhia1AxNGxVZVd1dmNoQnRrclNtbTI2emox?=
+ =?utf-8?B?OTR2ZUlhQ21naERjVmEreW9QeDJrOEUzRWFIaFNuUUZ4aXRFbTNlQm05TXpB?=
+ =?utf-8?B?dTBqNHg4d0ZrYmNuQjlVM1RsanNhT3lRajRwdGtDY0xXcTVGalpNWUlBOTFZ?=
+ =?utf-8?B?TzV5WnN4bWlkb0ZnZ2FJTmYxMmZmMktFRHlhdUxKRVoxMTlJSFpEKzYxUXZM?=
+ =?utf-8?B?VVFpNGlkUFRXcnFJeml0TkZtM1dQM0xGRmRGZCt4M1ZlaHRpZWc5Z3hpSnJO?=
+ =?utf-8?B?bzVtdDZyWUlTYkkxQkhjRFFvSE0yK1VOdXA3allHb0RsYjdFUzF6RUJaMWgz?=
+ =?utf-8?B?ZG1lRVNGbUI2cm8vQzlqSFROaCtpUWlEM0twTys0d3U1ZlNFSGFtM2Ewa1dJ?=
+ =?utf-8?B?T0lOeSs2anhaYmx3YXZNQTlROEh0UXdHek82R2s4NTFyOS8wNzhqaUdRM1hZ?=
+ =?utf-8?B?dHJyZ1l1YmxHdjNzQ2NQMTcrMXpqNzNVcEJYNDlnbWpscXhZeGtEWS9RYks5?=
+ =?utf-8?B?RTdiYlEzTU1kbkgzcU5McStRaVpHNEFhL1VUSVh0OFBORlZWbkpwK1RYM3ZS?=
+ =?utf-8?B?Z3BlUHJmaGtSdDVleE9ZTFRBTVc5OENIN09YbUZlaTN4NEtrcUpjZ2QwWHF0?=
+ =?utf-8?B?MTZubExoRzJXRC92TXNrRXIyZDJLWitqa3hTWU1waGRhSDUzUXZzdVcvRXQ2?=
+ =?utf-8?B?RGM4Z2ZOVzRTb1pLOUpVdlVCVi9nZEppSUs0VXJLZ25uMUJVWjFqTzgyZkV4?=
+ =?utf-8?B?dDNjTGhVeXl2Y2pRTnNjdEtZNWgxM0tHL1NMYzQrUDFLNFF3eG4xWFNxWGNt?=
+ =?utf-8?B?R2JpS2xibzBkU3hZVTVuQWVicWs1V29naC9zMUc3NVh1Nld5RWhjcTJGMito?=
+ =?utf-8?B?c3o1NTVtT2hHbzZWQ3RZWVBuWDdGKzJ4UUo0MWhHQnZRT2JIVHhUU3pWUTc3?=
+ =?utf-8?B?NldrS21sOHV5UzE2aDdFNEh2UUhLSmpYKzJyRXFVOGJhd3FkQzEzZUtkZmtI?=
+ =?utf-8?B?R2xvQUhGWXZRdTdSZkJQQlZxNUozWno4bGs5TjNIS3FUNU9lZm9kc0JWdStB?=
+ =?utf-8?B?TklraVhIbDBIUHE4NjNsTWNwT1RDMitiL2lVbU5uMWkzK3c2WmRmTCtCNVNY?=
+ =?utf-8?B?OFk5M210SW1DQ1o5b1NnZU5oaXVGSm54dTF1M3hTekdrSmhoUnpKaENJWHZI?=
+ =?utf-8?B?NXo3NUV4ZUd3N1dqbWE0NTg1d0s4ZDBQdC8yc3dMWVMrQjQrT1NkS0o1dDVm?=
+ =?utf-8?B?bzIxVEtWVkJaM2swM0FSQVZsSEVhNVdGblRyQ0V6WThWRy9QUG9nTWcxMVY2?=
+ =?utf-8?B?UXcycVg5bGxxMkhWMGkvTXN6UDdOckRkek9IckczOU9NQ2dYY0lpVjNKSlJj?=
+ =?utf-8?B?c2pzUWIvampDWnJQVTFkUlFuOHg4ejFVbFRJcVE4Q1BlZzlXcnAwZk83SjdO?=
+ =?utf-8?B?dFhMaHMxbkd2SkY3eitHNjNoTjVsMTUyd0l5ZDJvWEJZS3RTRU8zYis0NW9S?=
+ =?utf-8?B?VzVGV3hnRWtNbVlxekJGWjNOWEVOL1pMZlBXNkFQeWtOSWo5TUZjdS9FNU1S?=
+ =?utf-8?B?MVFwL0pPbkswMTVXUUxzaVR6NlhJUC9MdzhHSnRhWlBhbmQvQVpOL1F6QWI2?=
+ =?utf-8?B?QzBMUEpXZWcyNWFBZUtYSFpYWC94ZnZGT2E2TlRMSlpEaW1HN3FnWlpKTlpZ?=
+ =?utf-8?B?dW5lL1J0L0laVGQ4ekl1bUxwa0xYNzE0dHROcGlEQlFYNHZpYVRHTXpTNW1H?=
+ =?utf-8?B?S014QjN2MXpES1dGVFFyQ0hHbVBMbXhkcUMwRmd2N1lzTDd3MHNHVEdENlVM?=
+ =?utf-8?B?RFVsQlIyUng2UGhpdHVsSzYrNmlHLy92L1ZGMTEyRis0OFZlcVdwa29obWFC?=
+ =?utf-8?B?VllnL0Y4MlM5SmpIYVYzOTNiSGpibmYrckpaRDR0WGV5S3Z3RlgrZmFpcVBx?=
+ =?utf-8?B?MWh5WVkrRmQ4RHVrZks0aWtzdjVjVDFVRVBvR0JwZEg4eGtJY0lZVjh5K3dN?=
+ =?utf-8?B?OTRLMmdqQS8zblpYVGZ1dDhvZll0dC9wWVlFZi9RVVNtc2x6WGRYcUVWa1pS?=
+ =?utf-8?B?Q3h2VElheXBYTGVpcTR1TGpBc091TDZHd1kzdGNEZGhnMTI3N3p5ZDYwYmxp?=
+ =?utf-8?Q?7PLWZt7l6no4NYMgHkOMAsmtt4WT0bmxVqG3SKmnZSB8?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e86d1d3-beba-4281-1d69-08dd8005c52b
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8c0cba1-4a35-4986-41e9-08dd8005c6e6
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2025 12:20:43.0318 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2025 12:20:45.7727 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ELx6rgJoeYia++3n/enmGms0MRtrNURBl5kmQZ7DvE1Q+cyty/uffUvD89cf2IDUadTc6FYAL1Gwl778ErIBog==
+X-MS-Exchange-CrossTenant-UserPrincipalName: aWxVIBl2U/ADWBLwDJiL4O07JkWnylEwB+9OkiYgYAXuAqFEe/xa2lQP52OdDe9BXk1FvcP2hpqcICyNqRA3UA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -179,453 +178,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The FWSEC firmware needs to be extracted from the VBIOS and patched with
-the desired command, as well as the right signature. Do this so we are
-ready to load and run this firmware into the GSP falcon and create the
-FRTS region.
+With all the required pieces in place, load FWSEC-FRTS onto the GSP
+falcon, run it, and check that it completed successfully by carving out
+the WPR2 region out of framebuffer memory.
 
 Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
- drivers/gpu/nova-core/firmware.rs       |  22 ++-
- drivers/gpu/nova-core/firmware/fwsec.rs | 340 ++++++++++++++++++++++++++++++++
- drivers/gpu/nova-core/gpu.rs            |  18 +-
- 3 files changed, 378 insertions(+), 2 deletions(-)
+ drivers/gpu/nova-core/falcon.rs |  3 ---
+ drivers/gpu/nova-core/gpu.rs    | 59 ++++++++++++++++++++++++++++++++++++++++-
+ drivers/gpu/nova-core/regs.rs   | 15 +++++++++++
+ drivers/gpu/nova-core/vbios.rs  |  3 ---
+ 4 files changed, 73 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
-index 58c0513d49e9a0cef36917c8e2b25c414f6fc596..010763afdd74e92a4380d739a17319e05781007f 100644
---- a/drivers/gpu/nova-core/firmware.rs
-+++ b/drivers/gpu/nova-core/firmware.rs
-@@ -8,9 +8,14 @@
- use kernel::prelude::*;
- use kernel::str::CString;
+diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
+index 71f374445ff3277eac628e183942c79f557366d5..f90bb739cb9864d88e3427c7ec76953c69ec2c67 100644
+--- a/drivers/gpu/nova-core/falcon.rs
++++ b/drivers/gpu/nova-core/falcon.rs
+@@ -2,9 +2,6 @@
  
-+use crate::dma::DmaObject;
- use crate::gpu;
- use crate::gpu::Chipset;
+ //! Falcon microprocessor base support
  
-+pub(crate) mod fwsec;
-+
-+pub(crate) const FIRMWARE_VERSION: &'static str = "535.113.01";
-+
- /// Structure encapsulating the firmware blobs required for the GPU to operate.
- #[expect(dead_code)]
- pub(crate) struct Firmware {
-@@ -69,10 +74,25 @@ pub(crate) fn size(&self) -> usize {
-     }
- }
- 
-+/// Patch the `ucode_dma` firmware at offset `sig_base_img` with `signature`.
-+fn patch_signature(ucode_dma: &mut DmaObject, signature: &[u8], sig_base_img: usize) -> Result<()> {
-+    if sig_base_img + signature.len() > ucode_dma.len {
-+        return Err(ERANGE);
-+    }
-+
-+    // SAFETY: we are the only user of this object, so there cannot be any race.
-+    let dst = unsafe { ucode_dma.dma.start_ptr_mut().offset(sig_base_img as isize) };
-+
-+    // SAFETY: `signature` and `dst` are valid, properly aligned, and do not overlap.
-+    unsafe { core::ptr::copy_nonoverlapping(signature.as_ptr(), dst, signature.len()) };
-+
-+    Ok(())
-+}
-+
- pub(crate) struct ModInfoBuilder<const N: usize>(firmware::ModInfoBuilder<N>);
- 
- impl<const N: usize> ModInfoBuilder<N> {
--    const VERSION: &'static str = "535.113.01";
-+    const VERSION: &'static str = FIRMWARE_VERSION;
- 
-     const fn make_entry_file(self, chipset: &str, fw: &str) -> Self {
-         ModInfoBuilder(
-diff --git a/drivers/gpu/nova-core/firmware/fwsec.rs b/drivers/gpu/nova-core/firmware/fwsec.rs
-new file mode 100644
-index 0000000000000000000000000000000000000000..664319d1d31c9727bb830100641c53b5d914be5a
---- /dev/null
-+++ b/drivers/gpu/nova-core/firmware/fwsec.rs
-@@ -0,0 +1,340 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! FWSEC is a High Secure firmware that is extracted from the BIOS and performs the first step of
-+//! the GSP startup by creating the WPR2 memory region and copying critical areas of the VBIOS into
-+//! it after authenticating them, ensuring they haven't been tampered with. It runs on the GSP
-+//! falcon.
-+//!
-+//! Before being run, it needs to be patched in two areas:
-+//!
-+//! - The command to be run, as this firmware can perform several tasks ;
-+//! - The ucode signature, so the GSP falcon can run FWSEC in HS mode.
-+
-+use core::alloc::Layout;
-+
-+use kernel::bindings;
-+use kernel::device::{self, Device};
-+use kernel::devres::Devres;
-+use kernel::prelude::*;
-+use kernel::transmute::FromBytes;
-+
-+use crate::dma::DmaObject;
-+use crate::driver::Bar0;
-+use crate::falcon::gsp::Gsp;
-+use crate::falcon::{Falcon, FalconBromParams, FalconFirmware, FalconLoadTarget};
-+use crate::firmware::FalconUCodeDescV3;
-+use crate::vbios::Vbios;
-+
-+const NVFW_FALCON_APPIF_ID_DMEMMAPPER: u32 = 0x4;
-+
-+#[repr(C)]
-+#[derive(Debug)]
-+struct FalconAppifHdrV1 {
-+    ver: u8,
-+    hdr: u8,
-+    len: u8,
-+    cnt: u8,
-+}
-+// SAFETY: any byte sequence is valid for this struct.
-+unsafe impl FromBytes for FalconAppifHdrV1 {}
-+
-+#[repr(C, packed)]
-+#[derive(Debug)]
-+struct FalconAppifV1 {
-+    id: u32,
-+    dmem_base: u32,
-+}
-+// SAFETY: any byte sequence is valid for this struct.
-+unsafe impl FromBytes for FalconAppifV1 {}
-+
-+#[derive(Debug)]
-+#[repr(C, packed)]
-+struct FalconAppifDmemmapperV3 {
-+    signature: u32,
-+    version: u16,
-+    size: u16,
-+    cmd_in_buffer_offset: u32,
-+    cmd_in_buffer_size: u32,
-+    cmd_out_buffer_offset: u32,
-+    cmd_out_buffer_size: u32,
-+    nvf_img_data_buffer_offset: u32,
-+    nvf_img_data_buffer_size: u32,
-+    printf_buffer_hdr: u32,
-+    ucode_build_time_stamp: u32,
-+    ucode_signature: u32,
-+    init_cmd: u32,
-+    ucode_feature: u32,
-+    ucode_cmd_mask0: u32,
-+    ucode_cmd_mask1: u32,
-+    multi_tgt_tbl: u32,
-+}
-+// SAFETY: any byte sequence is valid for this struct.
-+unsafe impl FromBytes for FalconAppifDmemmapperV3 {}
-+
-+#[derive(Debug)]
-+#[repr(C, packed)]
-+struct ReadVbios {
-+    ver: u32,
-+    hdr: u32,
-+    addr: u64,
-+    size: u32,
-+    flags: u32,
-+}
-+// SAFETY: any byte sequence is valid for this struct.
-+unsafe impl FromBytes for ReadVbios {}
-+
-+#[derive(Debug)]
-+#[repr(C, packed)]
-+struct FrtsRegion {
-+    ver: u32,
-+    hdr: u32,
-+    addr: u32,
-+    size: u32,
-+    ftype: u32,
-+}
-+// SAFETY: any byte sequence is valid for this struct.
-+unsafe impl FromBytes for FrtsRegion {}
-+
-+const NVFW_FRTS_CMD_REGION_TYPE_FB: u32 = 2;
-+
-+#[repr(C, packed)]
-+struct FrtsCmd {
-+    read_vbios: ReadVbios,
-+    frts_region: FrtsRegion,
-+}
-+// SAFETY: any byte sequence is valid for this struct.
-+unsafe impl FromBytes for FrtsCmd {}
-+
-+const NVFW_FALCON_APPIF_DMEMMAPPER_CMD_FRTS: u32 = 0x15;
-+const NVFW_FALCON_APPIF_DMEMMAPPER_CMD_SB: u32 = 0x19;
-+
-+/// Command for the [`FwsecFirmware`] to execute.
-+pub(crate) enum FwsecCommand {
-+    /// Asks [`FwsecFirmware`] to carve out the WPR2 area and place a verified copy of the VBIOS
-+    /// image into it.
-+    Frts { frts_addr: u64, frts_size: u64 },
-+    /// Asks [`FwsecFirmware`] to load pre-OS apps on the PMU.
-+    #[allow(dead_code)]
-+    Sb,
-+}
-+
-+/// Reinterpret the area starting from `offset` in `fw` as an instance of `T` (which must implement
-+/// [`FromBytes`]) and return a reference to it.
-+///
-+/// # Safety
-+///
-+/// Callers must ensure that the region of memory returned is not written for as long as the
-+/// returned reference is alive.
-+unsafe fn transmute<'a, 'b, T: Sized + FromBytes>(
-+    fw: &'a DmaObject,
-+    offset: usize,
-+) -> Result<&'b T> {
-+    if offset + core::mem::size_of::<T>() > fw.len {
-+        return Err(ERANGE);
-+    }
-+    if (fw.dma.start_ptr() as usize + offset) % core::mem::align_of::<T>() != 0 {
-+        return Err(EINVAL);
-+    }
-+
-+    // SAFETY: we have checked that the pointer is properly aligned that its pointed memory is
-+    // large enough the contains an instance of `T`, which implements `FromBytes`.
-+    Ok(unsafe { &*(fw.dma.start_ptr().offset(offset as isize) as *const T) })
-+}
-+
-+/// Reinterpret the area starting from `offset` in `fw` as a mutable instance of `T` (which must
-+/// implement [`FromBytes`]) and return a reference to it.
-+///
-+/// # Safety
-+///
-+/// Callers must ensure that the region of memory returned is not read or written for as long as
-+/// the returned reference is alive.
-+unsafe fn transmute_mut<'a, 'b, T: Sized + FromBytes>(
-+    fw: &'a mut DmaObject,
-+    offset: usize,
-+) -> Result<&'b mut T> {
-+    if offset + core::mem::size_of::<T>() > fw.len {
-+        return Err(ERANGE);
-+    }
-+    if (fw.dma.start_ptr_mut() as usize + offset) % core::mem::align_of::<T>() != 0 {
-+        return Err(EINVAL);
-+    }
-+
-+    // SAFETY: we have checked that the pointer is properly aligned that its pointed memory is
-+    // large enough the contains an instance of `T`, which implements `FromBytes`.
-+    Ok(unsafe { &mut *(fw.dma.start_ptr_mut().offset(offset as isize) as *mut T) })
-+}
-+
-+/// Patch the Fwsec firmware image in `fw` to run the command `cmd`.
-+fn patch_command(fw: &mut DmaObject, v3_desc: &FalconUCodeDescV3, cmd: FwsecCommand) -> Result<()> {
-+    let hdr_offset = (v3_desc.imem_load_size + v3_desc.interface_offset) as usize;
-+    let hdr: &FalconAppifHdrV1 = unsafe { transmute(fw, hdr_offset) }?;
-+
-+    if hdr.ver != 1 {
-+        return Err(EINVAL);
-+    }
-+
-+    // Find the DMEM mapper section in the firmware.
-+    for i in 0..hdr.cnt as usize {
-+        let app: &FalconAppifV1 =
-+            unsafe { transmute(fw, hdr_offset + hdr.hdr as usize + i * hdr.len as usize) }?;
-+
-+        if app.id != NVFW_FALCON_APPIF_ID_DMEMMAPPER {
-+            continue;
-+        }
-+
-+        let dmem_mapper: &mut FalconAppifDmemmapperV3 =
-+            unsafe { transmute_mut(fw, (v3_desc.imem_load_size + app.dmem_base) as usize) }?;
-+
-+        let frts_cmd: &mut FrtsCmd = unsafe {
-+            transmute_mut(
-+                fw,
-+                (v3_desc.imem_load_size + dmem_mapper.cmd_in_buffer_offset) as usize,
-+            )
-+        }?;
-+
-+        frts_cmd.read_vbios = ReadVbios {
-+            ver: 1,
-+            hdr: core::mem::size_of::<ReadVbios>() as u32,
-+            addr: 0,
-+            size: 0,
-+            flags: 2,
-+        };
-+
-+        dmem_mapper.init_cmd = match cmd {
-+            FwsecCommand::Frts {
-+                frts_addr,
-+                frts_size,
-+            } => {
-+                frts_cmd.frts_region = FrtsRegion {
-+                    ver: 1,
-+                    hdr: core::mem::size_of::<FrtsRegion>() as u32,
-+                    addr: (frts_addr >> 12) as u32,
-+                    size: (frts_size >> 12) as u32,
-+                    ftype: NVFW_FRTS_CMD_REGION_TYPE_FB,
-+                };
-+
-+                NVFW_FALCON_APPIF_DMEMMAPPER_CMD_FRTS
-+            }
-+            FwsecCommand::Sb => NVFW_FALCON_APPIF_DMEMMAPPER_CMD_SB,
-+        };
-+
-+        // Return early as we found and patched the DMEMMAPPER region.
-+        return Ok(());
-+    }
-+
-+    Err(ENOTSUPP)
-+}
-+
-+/// Firmware extracted from the VBIOS and responsible for e.g. carving out the WPR2 region as the
-+/// first step of the GSP bootflow.
-+pub(crate) struct FwsecFirmware {
-+    desc: FalconUCodeDescV3,
-+    ucode: DmaObject,
-+}
-+
-+impl FalconFirmware for FwsecFirmware {
-+    type Target = Gsp;
-+
-+    fn dma_handle(&self) -> bindings::dma_addr_t {
-+        self.ucode.dma.dma_handle()
-+    }
-+
-+    fn imem_load(&self) -> FalconLoadTarget {
-+        FalconLoadTarget {
-+            src_start: 0,
-+            dst_start: self.desc.imem_phys_base,
-+            len: self.desc.imem_load_size,
-+        }
-+    }
-+
-+    fn dmem_load(&self) -> FalconLoadTarget {
-+        FalconLoadTarget {
-+            src_start: self.desc.imem_load_size,
-+            dst_start: self.desc.dmem_phys_base,
-+            len: Layout::from_size_align(self.desc.dmem_load_size as usize, 256)
-+                // Cannot panic, as 256 is non-zero and a power of 2.
-+                .unwrap()
-+                .pad_to_align()
-+                .size() as u32,
-+        }
-+    }
-+
-+    fn brom_params(&self) -> FalconBromParams {
-+        FalconBromParams {
-+            pkc_data_offset: self.desc.pkc_data_offset,
-+            engine_id_mask: self.desc.engine_id_mask,
-+            ucode_id: self.desc.ucode_id,
-+        }
-+    }
-+
-+    fn boot_addr(&self) -> u32 {
-+        0
-+    }
-+}
-+
-+impl FwsecFirmware {
-+    /// Extract the Fwsec firmware from `bios` and patch it to run with the `cmd` command.
-+    pub(crate) fn new(
-+        falcon: &Falcon<Gsp>,
-+        pdev: &Device<device::Bound>,
-+        bar: &Devres<Bar0>,
-+        bios: &Vbios,
-+        cmd: FwsecCommand,
-+    ) -> Result<Self> {
-+        let v3_desc = bios.fwsec_header()?;
-+        let ucode = bios.fwsec_ucode()?;
-+
-+        let mut ucode_dma = DmaObject::from_data(pdev, ucode, "fwsec-frts")?;
-+        patch_command(&mut ucode_dma, v3_desc, cmd)?;
-+
-+        const SIG_SIZE: usize = 96 * 4;
-+        let signatures = bios.fwsec_sigs()?;
-+        let sig_base_img = (v3_desc.imem_load_size + v3_desc.pkc_data_offset) as usize;
-+
-+        if v3_desc.signature_count != 0 {
-+            // Patch signature.
-+            let mut sig_fuse_version = v3_desc.signature_versions as u32;
-+            pr_debug!("sig_fuse_version: {}\n", sig_fuse_version);
-+            let reg_fuse_version = falcon.hal.get_signature_reg_fuse_version(
-+                bar,
-+                v3_desc.engine_id_mask,
-+                v3_desc.ucode_id,
-+            )?;
-+            let idx = {
-+                let mut reg_fuse_version = 1 << reg_fuse_version;
-+                pr_debug!("reg_fuse_version: {:#x}\n", reg_fuse_version);
-+                if (reg_fuse_version & sig_fuse_version) == 0 {
-+                    pr_warn!(
-+                        "no matching signature: {:#x} {:#x}\n",
-+                        reg_fuse_version,
-+                        v3_desc.signature_versions
-+                    );
-+                    return Err(EINVAL);
-+                }
-+
-+                let mut idx = 0;
-+                while (reg_fuse_version & sig_fuse_version & 1) == 0 {
-+                    idx += sig_fuse_version & 1;
-+                    reg_fuse_version >>= 1;
-+                    sig_fuse_version >>= 1;
-+
-+                    if reg_fuse_version == 0 || sig_fuse_version == 0 {
-+                        return Err(EINVAL);
-+                    }
-+                }
-+
-+                idx
-+            };
-+
-+            pr_debug!("patching signature with idx {}\n", idx);
-+            let signature_start = idx as usize * SIG_SIZE;
-+            let signature = &signatures[signature_start..signature_start + SIG_SIZE];
-+            super::patch_signature(&mut ucode_dma, signature, sig_base_img)?;
-+        }
-+
-+        Ok(FwsecFirmware {
-+            desc: v3_desc.clone(),
-+            ucode: ucode_dma,
-+        })
-+    }
-+}
+-// To be removed when all code is used.
+-#![allow(dead_code)]
+-
+ use core::hint::unreachable_unchecked;
+ use core::time::Duration;
+ use hal::FalconHal;
 diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index b43d1fc6bba15ffd76d564eccdb9e2afe239a3a4..5d15a99f8d1eec3c2e1f6d119eb521361733c709 100644
+index 5d15a99f8d1eec3c2e1f6d119eb521361733c709..4d03a0b11b6411e22a652183e975f6889446ed46 100644
 --- a/drivers/gpu/nova-core/gpu.rs
 +++ b/drivers/gpu/nova-core/gpu.rs
-@@ -7,6 +7,7 @@
- use crate::driver::Bar0;
- use crate::falcon::gsp::GspFalcon;
- use crate::falcon::sec2::Sec2Falcon;
-+use crate::firmware::fwsec::{FwsecCommand, FwsecFirmware};
- use crate::firmware::Firmware;
- use crate::gsp::fb::FbLayout;
- use crate::regs;
-@@ -185,7 +186,11 @@ pub(crate) fn new(
-         bar: Devres<Bar0>,
-     ) -> Result<impl PinInit<Self>> {
-         let spec = Spec::new(&bar)?;
--        let fw = Firmware::new(pdev.as_ref(), spec.chipset, "535.113.01")?;
-+        let fw = Firmware::new(
-+            pdev.as_ref(),
-+            spec.chipset,
-+            crate::firmware::FIRMWARE_VERSION,
-+        )?;
- 
-         dev_info!(
-             pdev.as_ref(),
-@@ -245,6 +250,17 @@ pub(crate) fn new(
+@@ -250,7 +250,7 @@ pub(crate) fn new(
          let fb_layout = FbLayout::new(spec.chipset, &bar)?;
          dev_dbg!(pdev.as_ref(), "{:#x?}\n", fb_layout);
  
-+        let _fwsec_frts = FwsecFirmware::new(
-+            &gsp_falcon,
-+            pdev.as_ref(),
-+            &bar,
-+            &bios,
-+            FwsecCommand::Frts {
-+                frts_addr: fb_layout.frts.start,
-+                frts_size: fb_layout.frts.end - fb_layout.frts.start,
-+            },
-+        )?;
+-        let _fwsec_frts = FwsecFirmware::new(
++        let fwsec_frts = FwsecFirmware::new(
+             &gsp_falcon,
+             pdev.as_ref(),
+             &bar,
+@@ -261,6 +261,63 @@ pub(crate) fn new(
+             },
+         )?;
+ 
++        // Check that the WPR2 region does not already exists - if it does, the GPU needs to be
++        // reset.
++        if with_bar!(bar, |b| regs::PfbPriMmuWpr2AddrHi::read(b).hi_val())? != 0 {
++            dev_err!(
++                pdev.as_ref(),
++                "WPR2 region already exists - GPU needs to be reset to proceed\n"
++            );
++            return Err(EBUSY);
++        }
++
++        // Reset falcon, load FWSEC-FRTS, and run it.
++        gsp_falcon.reset(&bar, &timer)?;
++        gsp_falcon.dma_load(&bar, &timer, &fwsec_frts)?;
++        let (mbox0, _) = gsp_falcon.boot(&bar, &timer, Some(0), None)?;
++        if mbox0 != 0 {
++            dev_err!(pdev.as_ref(), "FWSEC firmware returned error {}\n", mbox0);
++            return Err(EINVAL);
++        }
++
++        // SCRATCH_E contains FWSEC-FRTS' error code, if any.
++        let frts_status = with_bar!(bar, |b| regs::PbusSwScratche::read(b).frts_err_code())?;
++        if frts_status != 0 {
++            dev_err!(
++                pdev.as_ref(),
++                "FWSEC-FRTS returned with error code {:#x}",
++                frts_status
++            );
++            return Err(EINVAL);
++        }
++
++        // Check the WPR2 has been created as we requested.
++        let (wpr2_lo, wpr2_hi) = with_bar!(bar, |b| {
++            (
++                (regs::PfbPriMmuWpr2AddrLo::read(b).lo_val() as u64) << 12,
++                (regs::PfbPriMmuWpr2AddrHi::read(b).hi_val() as u64) << 12,
++            )
++        })?;
++        if wpr2_hi == 0 {
++            dev_err!(
++                pdev.as_ref(),
++                "WPR2 region not created after running FWSEC-FRTS\n"
++            );
++
++            return Err(ENOTTY);
++        } else if wpr2_lo != fb_layout.frts.start {
++            dev_err!(
++                pdev.as_ref(),
++                "WPR2 region created at unexpected address {:#x} ; expected {:#x}\n",
++                wpr2_lo,
++                fb_layout.frts.start,
++            );
++            return Err(EINVAL);
++        }
++
++        dev_info!(pdev.as_ref(), "WPR2: {:#x}-{:#x}\n", wpr2_lo, wpr2_hi);
++        dev_info!(pdev.as_ref(), "GPU instance built\n");
 +
          Ok(pin_init!(Self {
              spec,
              bar,
+diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
+index 3954542fdd77debd8f96d111ddd231d72dbf5b5a..eae5b7c13155d2da39f47661024ae52390e04366 100644
+--- a/drivers/gpu/nova-core/regs.rs
++++ b/drivers/gpu/nova-core/regs.rs
+@@ -18,6 +18,13 @@
+     28:20   chipset => try_into Chipset, "chipset model"
+ );
+ 
++/* PBUS */
++
++register!(PbusSwScratche@0x00001438;
++    15:0    sb_err_code => as u16;
++    31:16   frts_err_code => as u16;
++);
++
+ /* PTIMER */
+ 
+ register!(PtimerTime0@0x00009400;
+@@ -44,6 +51,14 @@
+     30:30   ecc_mode_enabled => as_bit bool;
+ );
+ 
++register!(PfbPriMmuWpr2AddrLo@0x001fa824;
++    31:4    lo_val => as u32
++);
++
++register!(PfbPriMmuWpr2AddrHi@0x001fa828;
++    31:4    hi_val => as u32
++);
++
+ /* GC6 */
+ 
+ register!(Pgc6AonSecureScratchGroup05PrivLevelMask@0x00118128;
+diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
+index 534107b708cab0eb8d0accf7daa5718edf030358..74735c083d472ce955d6d3afaabd46a8d354c792 100644
+--- a/drivers/gpu/nova-core/vbios.rs
++++ b/drivers/gpu/nova-core/vbios.rs
+@@ -1,8 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
+-// To be removed when all code is used.
+-#![allow(dead_code)]
+-
+ //! VBIOS extraction and parsing.
+ 
+ use crate::driver::Bar0;
 
 -- 
 2.49.0
