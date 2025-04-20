@@ -2,76 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9AEA94577
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Apr 2025 23:32:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94821A9460E
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Apr 2025 02:30:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D442710E00B;
-	Sat, 19 Apr 2025 21:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C75310E1B4;
+	Sun, 20 Apr 2025 00:30:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="ehZTyR9n";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gqJbf+De";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0C3710E00B
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 21:32:38 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-227c7e57da2so26040475ad.0
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Apr 2025 14:32:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1745098358; x=1745703158;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NOpxvDT2hzdXC/Lk44TDPK4RjDKnxL5gg9PE5JOWs0E=;
- b=ehZTyR9nLLFxOmLhSpHLhKbOSjT8dS9FhkJioXVk6kwND6b7kJxWak+pry6vINDr6d
- 80yLfRsbC+CLc4KMrgOkvd3k7mjTxEnxggc0mx0IcbHzt0LrkPnWJb6JrpZrWxM7mkUe
- 7rcNUH4pSzdjdEBkt2bvJfb3IO2tKLd3eK0BE5c1A9WHuNRYCTEcupgP8hUFuVgRwyDs
- t7ALo6GxVGzH2JhVy7ZSeyVI9+KkFK2TFtnkDM/W9ag3Z03vqaG2dQ/8GluHjNaBCN2U
- WDmMr8kDeYCm17MnciPnsnp8zbFMHfWEwvs7nmrYyN4w1KSNUzgwTtu1001sZP5dZXeg
- 6sbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745098358; x=1745703158;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NOpxvDT2hzdXC/Lk44TDPK4RjDKnxL5gg9PE5JOWs0E=;
- b=hZJyxdNsoteARpKLC5XX5VygpcJJXs6/6eO0nYATb056dj9Tq4Db0iIIlvbp9irP6L
- V73E3H6ZlrbROSaMWASckIe636iWW+U8HY03L7CMIgvr+vs0L5N6v/AmGZu3VtGqtzfm
- ryyJw/b2HBqa8aPN5mYbUwXxgnnwn+rOwLR1MukUFlzlHh8JbsOWuHaNF28C/LxE5Omb
- dGZTJ8ANSAZ5ajc7dLSknEgV8Cc3ZuQnzphCSg/34KskTA1tQsunPe6W+tAyFevlzrxS
- ZTbAN56pbIiW/laLGSgOxIh6pXHO6jxmQt+FgYmQvCug1Cigjg2anGarqOPghK71ojlW
- y39A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV/kqfkQC0rmXs/mKFjNsQiZ9wGbxqKDwCsle/4Y/Y6SW7O3pcfl0RAWbFsSLXMCX9nF4ebEjIdspE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxxcuAwbAnIk9PX7+Sak2R1kLag7GUqYoUAO4k/Vhk6An0SFF+b
- yq1ePAyJyN/xJxcFisHMwkWBiMx527oDlIzx1YCodWz8dO8AC6toXCvGzztLtpn5B/ra7/Ttebe
- JyO+QyGgDhfafo8q66HBfGNUC4qL12SUw
-X-Gm-Gg: ASbGncv2v0j0CfM1/EHFF1f1P23ps2OcZTVxlWQfNEEQZdoFEgL0rZpZEHQctTHnRoo
- GEbe+HYrOA/ZjwQRZ1SoHvfS7ZQ1nyQOyFm6s5yebcO2CKFoZExn9WQ2Aj/vpjNKfHjuybwdxWc
- sOF2dxxSUi8+tWKer9o/AD/YBX3kk17b/iGRw/
-X-Google-Smtp-Source: AGHT+IGLlR8UcPQM775uZfby4awG21f1XTwAj2dFL/MhOfyAEZBG0daUZpkUnTjuqdZFSKrcnfs7NqueiXGk5h+tOx0=
-X-Received: by 2002:a17:903:98f:b0:224:f12:3746 with SMTP id
- d9443c01a7336-22c535aca10mr96258145ad.30.1745098358068; Sat, 19 Apr 2025
- 14:32:38 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92F1410E1B4
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Apr 2025 00:30:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 7D422A48609;
+ Sun, 20 Apr 2025 00:24:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 59682C4CEE7;
+ Sun, 20 Apr 2025 00:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745109012;
+ bh=lFsiqVIeYeqhHXcEjTCFxaRVC5Dt8c2tiWMgb1QT3HA=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=gqJbf+DeUMUSRzjCItVwNpi8nQdXP0CMVX5fSfnEMKSHvv/+a1NB64gMjtkIH3Tq+
+ WNmUtx8I5WGXswas34sIAmMTitqfGTU8WhKU1zmE3LsmCXQlGRO9Fl0X1pkEcdCB9t
+ Y80a2XV0jL40C7jLrh+/t+gc4vCbeC+wTW/W2YfDYr5sSa4yM2yPTBcofszzZH6Fjp
+ DMRHyYgS5CRVzR5x6gM4MgPALwUxwLuueo+D88p8dUxzUZe2EMJzlgKUt0hjxLshgI
+ dpMlKo6wkX0LApxf/EP292sOBBPMsIlS6P09wA7r+DqlMZGJHb08AjhP729ihRyCH9
+ R1FHIc2s2o1jw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 4D51DC369CF;
+ Sun, 20 Apr 2025 00:30:12 +0000 (UTC)
+From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
+Date: Sat, 19 Apr 2025 19:30:02 -0500
+Subject: [PATCH] drm/tegra: Assign plane type before registration
 MIME-Version: 1.0
-References: <20250409214422.1751825-1-martin.blumenstingl@googlemail.com>
- <001d01dbaa48$ead66d10$c0834730$@martijnvandeventer.nl>
-In-Reply-To: <001d01dbaa48$ead66d10$c0834730$@martijnvandeventer.nl>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sat, 19 Apr 2025 23:32:27 +0200
-X-Gm-Features: ATxdqUEyKysz5d6KQERLrTW5mLuoTSOc_4gWR0BkMuxJYXGSMde_moYAT3tKcVQ
-Message-ID: <CAFBinCDtMG1qKM9aax7RBpN+dw7c5MVOoTrX+PzXF1QQBOg_Lg@mail.gmail.com>
-Subject: Re: [PATCH] drm/meson: fix resource cleanup in meson_drv_bind_master()
- on error
-To: linux@martijnvandeventer.nl, neil.armstrong@linaro.org
-Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- jbrunet@baylibre.com, Furkan Kardame <f.kardame@manjaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250419-tegra-drm-primary-v1-1-b91054fb413f@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAlABGgC/x3MOwqAMBBF0a3I1A5EUUS3IhbRvOgUfpiIKJK9G
+ yxPce9LASoI1GUvKS4Jsm8JRZ7RtNhtBotLptKUtamKlk/MatnpyofKavXhCVXjMcI76yl1h8L
+ L/T/7IcYPfS/jYGMAAAA=
+X-Change-ID: 20250419-tegra-drm-primary-ce47febefdaf
+To: Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Thierry Reding <treding@nvidia.com>, 
+ Aaron Kling <webgeek1234@gmail.com>, stable@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745109011; l=3395;
+ i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
+ bh=2G8UkSlgwDeChFlfMMABWHEAXMgLzztWjpyaOPbKpVg=;
+ b=5SgytgEJbkPisD/RHBHH6irE+mqOTQ2Ld0kkRR7fsi+WTpG1T6fpPWy5RZKmNCanrOc94c8fx
+ G/84KB4qIX9CHhOZagae0TMnmaUU7Qvy9Eb2UPx5Y/LUL8lFNeRhTUk
+X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
+ pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
+X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
+ auth_id=342
+X-Original-From: Aaron Kling <webgeek1234@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,61 +74,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: webgeek1234@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Martijn, Hi Neil,
+From: Thierry Reding <treding@nvidia.com>
 
-On Thu, Apr 10, 2025 at 8:46=E2=80=AFPM <linux@martijnvandeventer.nl> wrote=
-:
->
-> Hi Martin,
->
-> Thank you for the patch.
->
-> I encountered this issue some time ago as well and had a possible fix in =
-my tree (see
-> below).
-> My apologies for not upstreaming it earlier.
-No worries, we're all busy with both, offline and online life ;-)
+Changes to a plane's type after it has been registered aren't propagated
+to userspace automatically. This could possibly be achieved by updating
+the property, but since we can already determine which type this should
+be before the registration, passing in the right type from the start is
+a much better solution.
 
-> While my fix is not as symmetric as yours=E2=80=94I like symmetry=E2=80=
-=94it is somewhat simpler. It
-> did make the assumption that only  calling component_unbind_all() was at =
-fault and the the rest of the
-> code was correct. Therefore, calling one of the following functions:
-> meson_encoder_dsi_remove()
-> meson_encoder_hdmi_remove()
-> meson_encoder_cvbs_remove()
-> in case their counterpart was not called, should not result in any issues=
-.
->
-> I just verified, and, as far as I understand, all of these functions do a=
- check to confirm
-> whether the encoder was initialized before proceeding with cleanup.
-Yep, that seems to be the case right now.
-Neil, would you like Martijn's more simple approach with a Fixes tag
-and backport that?
-Then I'd send my patch as a small cleanup which doesn't have to be
-backported. Otherwise I'd spin a v2 with a fix for the issue that
-Martijn found (and including Anand's Reviewed/Tested-by)?
+Suggested-by: Aaron Kling <webgeek1234@gmail.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Cc: stable@vger.kernel.org
+---
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+---
+ drivers/gpu/drm/tegra/dc.c  | 12 ++++++++----
+ drivers/gpu/drm/tegra/hub.c |  4 ++--
+ drivers/gpu/drm/tegra/hub.h |  3 ++-
+ 3 files changed, 12 insertions(+), 7 deletions(-)
 
-[...]
-> > diff --git a/drivers/gpu/drm/meson/meson_drv.c
-> > b/drivers/gpu/drm/meson/meson_drv.c
-> > index 81d2ee37e773..031686fd4104 100644
-> > --- a/drivers/gpu/drm/meson/meson_drv.c
-> > +++ b/drivers/gpu/drm/meson/meson_drv.c
-> > @@ -314,35 +314,35 @@ static int meson_drv_bind_master(struct device
-> > *dev, bool has_components)
-> >                       dev_err(drm->dev, "Couldn't bind all
-> > components\n");
-> >                       /* Do not try to unbind */
-> >                       has_components =3D false;
->
-> Above two lines are no longer used, so can be removed.
-Well spotted, thank you!
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 798507a8ae56d6789feb95dccdd23b2e63d9c148..56f12dbcee3e93ff5e4804e5fe9b23f160073ebf 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -1321,10 +1321,16 @@ static struct drm_plane *tegra_dc_add_shared_planes(struct drm_device *drm,
+ 		if (wgrp->dc == dc->pipe) {
+ 			for (j = 0; j < wgrp->num_windows; j++) {
+ 				unsigned int index = wgrp->windows[j];
++				enum drm_plane_type type;
++
++				if (primary)
++					type = DRM_PLANE_TYPE_OVERLAY;
++				else
++					type = DRM_PLANE_TYPE_PRIMARY;
+ 
+ 				plane = tegra_shared_plane_create(drm, dc,
+ 								  wgrp->index,
+-								  index);
++								  index, type);
+ 				if (IS_ERR(plane))
+ 					return plane;
+ 
+@@ -1332,10 +1338,8 @@ static struct drm_plane *tegra_dc_add_shared_planes(struct drm_device *drm,
+ 				 * Choose the first shared plane owned by this
+ 				 * head as the primary plane.
+ 				 */
+-				if (!primary) {
+-					plane->type = DRM_PLANE_TYPE_PRIMARY;
++				if (!primary)
+ 					primary = plane;
+-				}
+ 			}
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+index fa6140fc37fb16df4b150e5ae9d8148f8f446cd7..8f779f23dc0904d38b14d3f3a928a07fc9e601ad 100644
+--- a/drivers/gpu/drm/tegra/hub.c
++++ b/drivers/gpu/drm/tegra/hub.c
+@@ -755,9 +755,9 @@ static const struct drm_plane_helper_funcs tegra_shared_plane_helper_funcs = {
+ struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
+ 					    struct tegra_dc *dc,
+ 					    unsigned int wgrp,
+-					    unsigned int index)
++					    unsigned int index,
++					    enum drm_plane_type type)
+ {
+-	enum drm_plane_type type = DRM_PLANE_TYPE_OVERLAY;
+ 	struct tegra_drm *tegra = drm->dev_private;
+ 	struct tegra_display_hub *hub = tegra->hub;
+ 	struct tegra_shared_plane *plane;
+diff --git a/drivers/gpu/drm/tegra/hub.h b/drivers/gpu/drm/tegra/hub.h
+index 23c4b2115ed1e36e8d2d6ed614a6ead97eb4c441..a66f18c4facc9df96ea8b9f54239b52f06536d12 100644
+--- a/drivers/gpu/drm/tegra/hub.h
++++ b/drivers/gpu/drm/tegra/hub.h
+@@ -80,7 +80,8 @@ void tegra_display_hub_cleanup(struct tegra_display_hub *hub);
+ struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
+ 					    struct tegra_dc *dc,
+ 					    unsigned int wgrp,
+-					    unsigned int index);
++					    unsigned int index,
++					    enum drm_plane_type type);
+ 
+ int tegra_display_hub_atomic_check(struct drm_device *drm,
+ 				   struct drm_atomic_state *state);
 
+---
+base-commit: 119009db267415049182774196e3cce9e13b52ef
+change-id: 20250419-tegra-drm-primary-ce47febefdaf
 
 Best regards,
-Martin
+-- 
+Aaron Kling <webgeek1234@gmail.com>
+
+
