@@ -2,78 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED870A9572D
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Apr 2025 22:18:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C077A95764
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Apr 2025 22:34:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15CA310E4AC;
-	Mon, 21 Apr 2025 20:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49DE810E4AE;
+	Mon, 21 Apr 2025 20:33:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="KfPy02tO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KKQAwAG2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7D9F10E4A5;
- Mon, 21 Apr 2025 20:18:43 +0000 (UTC)
-Received: from [192.168.183.162] (254C2769.nat.pool.telekom.hu [37.76.39.105])
- by mail.mainlining.org (Postfix) with ESMTPSA id A60EBBBB09;
- Mon, 21 Apr 2025 20:18:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
- s=psm; t=1745266721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dvAZ7WHxT1ib3U22U7YzaEM5wJPBeAMgcRsnmo/EFiw=;
- b=KfPy02tOIt2WezpTLGBdI2HW25sRJ4gaf5/5JSG6nTYJ7N20uuLTfeYo0fFY+xqlrh4x6m
- AkshjGrn23I+FkygkLohQ07V3kG4ALv3AdKp9aW1YIsCOev89fcgngWASRTzUJMii+ZTrM
- H8BEYSJRlzAsWAJi5M0lCN2sqoqSAB53KPwsejIRsxMW0LvpWPNLBT3tyRM6Cx7Ab4K9kL
- y0WMYr08k99dN+MjRjoU0fjXh6WRErLN3lc2Eq9PM60PYHQqGbaWPPWQt80p4AQkiOLdjR
- EdBztwPQPPhB2qc+c4o1qDD7YBGuDw5AqLb9lre8Lh2C6Sx23JknlFmIUgOVgA==
-From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
- <barnabas.czeman@mainlining.org>
-Date: Mon, 21 Apr 2025 22:18:27 +0200
-Subject: [PATCH v5 5/5] arm64: dts: qcom: Add Xiaomi Redmi 3S
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 412AF10E4A3;
+ Mon, 21 Apr 2025 20:33:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745267636; x=1776803636;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Htuq3vgV1NOruce1mVWG7dljeIjK2dTIDvvNkEKwAUI=;
+ b=KKQAwAG2f2HmXMQ0dAqyOrmaKKUD4w0XXjbzNSMBnIVKdTDq1Cdilp7F
+ 81Utop5P/DKvxgH9Esaq7vFWXYgZhXb8+wGBlBDcBokmDtlrukEruR/k+
+ C/r7Y2zsG7UcsGhYQG05kaohQ4dZAe8sDEa4PPuNaS0pL9rX+9x1JmOiq
+ lGB5QxFsqITxFLp1QPENekL0Ogkov+SIUhjgZ8L5vTlmO21QCgxWgEVwi
+ P1ozDN1Cs0q1W+VX5JO39U+gtCQg1yoa1GE5uvF1Qk0/MwgN2JPMQc2Ur
+ HI+VvVEpGPMV74Tl8lj6QtsixulIjX6aAqsSs3avmtf3FwXzeLkHZYEEl A==;
+X-CSE-ConnectionGUID: L5LiLtGKRj6j2aSaFGbd2g==
+X-CSE-MsgGUID: di4GrO21QSWwByoOdnN2LQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="57471152"
+X-IronPort-AV: E=Sophos;i="6.15,229,1739865600"; d="scan'208";a="57471152"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2025 13:33:53 -0700
+X-CSE-ConnectionGUID: IMn9A+1vQ4O2aEdloJGscg==
+X-CSE-MsgGUID: w6fk3Z4cQtKTFBBODl5lWA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,229,1739865600"; d="scan'208";a="132343355"
+Received: from dut4440lnl.fm.intel.com ([10.105.10.70])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2025 13:33:53 -0700
+From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
+ joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
+ jianxun.zhang@intel.com, shuicheng.lin@intel.com,
+ dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
+ michal.mrozek@intel.com, raag.jadav@intel.com, john.c.harrison@intel.com,
+ ivan.briano@intel.com, matthew.auld@intel.com
+Subject: [PATCH v20 0/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Date: Mon, 21 Apr 2025 20:33:47 +0000
+Message-ID: <20250421203353.64900-1-jonathan.cavitt@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250421-msm8937-v5-5-bf9879ef14d9@mainlining.org>
-References: <20250421-msm8937-v5-0-bf9879ef14d9@mainlining.org>
-In-Reply-To: <20250421-msm8937-v5-0-bf9879ef14d9@mainlining.org>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>, 
- =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, 
- Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Konrad Dybcio <konradybcio@kernel.org>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Adam Skladowski <a_skl39@protonmail.com>, 
- Sireesh Kodali <sireeshkodali@protonmail.com>, 
- Srinivas Kandagatla <srini@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, iommu@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- linux@mainlining.org, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745266705; l=9557;
- i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=JDB54FoTLeLwyo470fOwKknJanfkTVUJo3AeUpSczaU=;
- b=zHB9MNa3HZvJuqqpLqFLsCa1PDmyqfxeI4jSjiWHNHbycN7oc6nSxjyZPtoR27dNWV/QbZRzx
- dB73PoUDMFSD6NvOgGBKyYpXdhbzPJXRz5tgfl1X2/1s7e4gyRd3Ikq
-X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
- pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,414 +70,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add initial support for Xiaomi Redmi 3S (land).
+Add additional information to each VM so they can report up to the first
+50 seen faults.  Only pagefaults are saved this way currently, though in
+the future, all faults should be tracked by the VM for future reporting.
 
-Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
----
- arch/arm64/boot/dts/qcom/Makefile                |   1 +
- arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts | 381 +++++++++++++++++++++++
- 2 files changed, 382 insertions(+)
+Additionally, of the pagefaults reported, only failed pagefaults are
+saved this way, as successful pagefaults should recover silently and not
+need to be reported to userspace.
 
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index adb4d026bcc4b24d73de92e204db8d525b0770e6..8c101d07e78fb2d9837ecca84cc53005f9265506 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -64,6 +64,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-wingtech-wt88047.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-yiming-uz801v3.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8917-xiaomi-riva.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8929-wingtech-wt82918hd.dtb
-+dtb-$(CONFIG_ARCH_QCOM)	+= msm8937-xiaomi-land.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8939-huawei-kiwi.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8939-longcheer-l9100.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8939-samsung-a7.dtb
-diff --git a/arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts b/arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts
-new file mode 100644
-index 0000000000000000000000000000000000000000..91837ff940f1b6b13a9ef519519f471a7a4cdac0
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts
-@@ -0,0 +1,381 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (c) 2024, Barnabas Czeman
-+ */
-+/dts-v1/;
-+
-+#include <dt-bindings/arm/qcom,ids.h>
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/leds/common.h>
-+
-+#include "msm8937.dtsi"
-+#include "pm8937.dtsi"
-+#include "pmi8950.dtsi"
-+
-+/delete-node/ &qseecom_mem;
-+
-+/ {
-+	model = "Xiaomi Redmi 3S (land)";
-+	compatible = "xiaomi,land", "qcom,msm8937";
-+	chassis-type = "handset";
-+
-+	qcom,msm-id = <QCOM_ID_MSM8937 0x0>;
-+	qcom,board-id = <0x1000b 1>, <0x2000b 1>;
-+
-+	aliases {
-+		mmc0 = &sdhc_1;
-+		mmc1 = &sdhc_2;
-+	};
-+
-+	battery: battery {
-+		compatible = "simple-battery";
-+
-+		charge-full-design-microamp-hours = <4100000>;
-+		constant-charge-current-max-microamp = <1000000>;
-+		voltage-min-design-microvolt = <3400000>;
-+		voltage-max-design-microvolt = <4400000>;
-+	};
-+
-+	chosen {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		stdout-path = "framebuffer0";
-+
-+		framebuffer0: framebuffer@8dd01000 {
-+			compatible = "simple-framebuffer";
-+			reg = <0x0 0x8dd01000 0x0 (720 * 1280 * 3)>;
-+			width = <720>;
-+			height = <1280>;
-+			stride = <(720 * 3)>;
-+			format = "r8g8b8";
-+
-+			clocks = <&gcc GCC_MDSS_AHB_CLK>,
-+				 <&gcc GCC_MDSS_AXI_CLK>,
-+				 <&gcc GCC_MDSS_VSYNC_CLK>,
-+				 <&gcc GCC_MDSS_MDP_CLK>,
-+				 <&gcc GCC_MDSS_BYTE0_CLK>,
-+				 <&gcc GCC_MDSS_PCLK0_CLK>,
-+				 <&gcc GCC_MDSS_ESC0_CLK>;
-+			power-domains = <&gcc MDSS_GDSC>;
-+		};
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		pinctrl-0 = <&gpio_keys_default>;
-+		pinctrl-names = "default";
-+
-+		key-volup {
-+			label = "Volume Up";
-+			linux,code = <KEY_VOLUMEUP>;
-+			gpios = <&tlmm 91 GPIO_ACTIVE_LOW>;
-+			debounce-interval = <15>;
-+		};
-+	};
-+
-+	irled {
-+		compatible = "gpio-ir-tx";
-+		gpios = <&tlmm 45 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	reserved-memory {
-+		reserved@84a00000 {
-+			reg = <0x0 0x84a00000 0x0 0x1900000>;
-+			no-map;
-+		};
-+
-+		framebuffer: memory@8dd01000 {
-+			reg = <0x0 0x8dd01000 0x0 (720 * 1280 * 3)>;
-+			no-map;
-+		};
-+	};
-+
-+	vph_pwr: vph-pwr-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vph_pwr";
-+		regulator-min-microvolt = <3700000>;
-+		regulator-max-microvolt = <3700000>;
-+		regulator-always-on;
-+		regulator-boot-on;
-+	};
-+};
-+
-+&blsp1_i2c2 {
-+	status = "okay";
-+
-+	led-controller@45 {
-+		compatible = "awinic,aw2013";
-+		reg = <0x45>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		vcc-supply = <&pm8937_l10>;
-+		vio-supply = <&pm8937_l5>;
-+
-+		led@0 {
-+			reg = <0>;
-+			function = LED_FUNCTION_STATUS;
-+			led-max-microamp = <5000>;
-+			color = <LED_COLOR_ID_RED>;
-+		};
-+
-+		led@1 {
-+			reg = <1>;
-+			function = LED_FUNCTION_STATUS;
-+			led-max-microamp = <5000>;
-+			color = <LED_COLOR_ID_GREEN>;
-+		};
-+
-+		led@2 {
-+			reg = <2>;
-+			function = LED_FUNCTION_STATUS;
-+			led-max-microamp = <5000>;
-+			color = <LED_COLOR_ID_BLUE>;
-+		};
-+	};
-+};
-+
-+&blsp1_i2c3 {
-+	status = "okay";
-+
-+	touchscreen@3e {
-+		compatible = "edt,edt-ft5306";
-+		reg = <0x3e>;
-+
-+		interrupts-extended = <&tlmm 65 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&tlmm 64 GPIO_ACTIVE_LOW>;
-+		vcc-supply = <&pm8937_l10>;
-+		iovcc-supply = <&pm8937_l5>;
-+
-+		pinctrl-0 = <&tsp_int_rst_default>;
-+		pinctrl-names = "default";
-+
-+		touchscreen-size-x = <720>;
-+		touchscreen-size-y = <1280>;
-+	};
-+};
-+
-+&pm8937_resin {
-+	linux,code = <KEY_VOLUMEDOWN>;
-+
-+	status = "okay";
-+};
-+
-+&pm8937_spmi_regulators {
-+	/* APC */
-+	pm8937_s5: s5 {
-+		regulator-min-microvolt = <1050000>;
-+		regulator-max-microvolt = <1350000>;
-+		regulator-always-on;
-+		regulator-boot-on;
-+	};
-+};
-+
-+&pmi8950_wled {
-+	qcom,num-strings = <2>;
-+	qcom,external-pfet;
-+	qcom,current-limit-microamp = <20000>;
-+	qcom,ovp-millivolt = <29600>;
-+
-+	status = "okay";
-+};
-+
-+&rpm_requests {
-+	regulators-0 {
-+		compatible = "qcom,rpm-pm8937-regulators";
-+
-+		vdd_s1-supply = <&vph_pwr>;
-+		vdd_s2-supply = <&vph_pwr>;
-+		vdd_s3-supply = <&vph_pwr>;
-+		vdd_s4-supply = <&vph_pwr>;
-+
-+		vdd_l1_l19-supply = <&pm8937_s3>;
-+		vdd_l2_l23-supply = <&pm8937_s3>;
-+		vdd_l3-supply = <&pm8937_s3>;
-+		vdd_l4_l5_l6_l7_l16-supply = <&pm8937_s4>;
-+		vdd_l8_l11_l12_l17_l22-supply = <&vph_pwr>;
-+		vdd_l9_l10_l13_l14_l15_l18-supply = <&vph_pwr>;
-+
-+		pm8937_s1: s1 {
-+			regulator-min-microvolt = <1000000>;
-+			regulator-max-microvolt = <1225000>;
-+		};
-+
-+		pm8937_s3: s3 {
-+			regulator-min-microvolt = <1300000>;
-+			regulator-max-microvolt = <1300000>;
-+		};
-+
-+		pm8937_s4: s4 {
-+			regulator-min-microvolt = <2050000>;
-+			regulator-max-microvolt = <2050000>;
-+		};
-+
-+		pm8937_l2: l2 {
-+			regulator-min-microvolt = <1200000>;
-+			regulator-max-microvolt = <1200000>;
-+		};
-+
-+		pm8937_l5: l5 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+		};
-+
-+		pm8937_l6: l6 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+		};
-+
-+		pm8937_l7: l7 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+		};
-+
-+		pm8937_l8: l8 {
-+			regulator-min-microvolt = <2850000>;
-+			regulator-max-microvolt = <2900000>;
-+		};
-+
-+		pm8937_l9: l9 {
-+			regulator-min-microvolt = <3000000>;
-+			regulator-max-microvolt = <3300000>;
-+		};
-+
-+		pm8937_l10: l10 {
-+			regulator-min-microvolt = <2800000>;
-+			regulator-max-microvolt = <3000000>;
-+		};
-+
-+		pm8937_l11: l11 {
-+			regulator-min-microvolt = <2950000>;
-+			regulator-max-microvolt = <2950000>;
-+			regulator-allow-set-load;
-+			regulator-system-load = <200000>;
-+		};
-+
-+		pm8937_l12: l12 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <2950000>;
-+		};
-+
-+		pm8937_l13: l13 {
-+			regulator-min-microvolt = <3075000>;
-+			regulator-max-microvolt = <3075000>;
-+		};
-+
-+		pm8937_l14: l14 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <3300000>;
-+		};
-+
-+		pm8937_l15: l15 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <3300000>;
-+		};
-+
-+		pm8937_l16: l16 {
-+			regulator-min-microvolt = <1800000>;
-+			regulator-max-microvolt = <1800000>;
-+		};
-+
-+		pm8937_l17: l17 {
-+			regulator-min-microvolt = <2800000>;
-+			regulator-max-microvolt = <2900000>;
-+		};
-+
-+		pm8937_l19: l19 {
-+			regulator-min-microvolt = <1225000>;
-+			regulator-max-microvolt = <1350000>;
-+		};
-+
-+		pm8937_l22: l22 {
-+			regulator-min-microvolt = <2800000>;
-+			regulator-max-microvolt = <2800000>;
-+		};
-+
-+		pm8937_l23: l23 {
-+			regulator-min-microvolt = <1200000>;
-+			regulator-max-microvolt = <1200000>;
-+		};
-+	};
-+};
-+
-+&sdc2_cmd_default {
-+	drive-strength = <12>;
-+};
-+
-+&sdc2_data_default {
-+	drive-strength = <12>;
-+};
-+
-+&sdhc_1 {
-+	vmmc-supply = <&pm8937_l8>;
-+	vqmmc-supply = <&pm8937_l5>;
-+
-+	status = "okay";
-+};
-+
-+&sdhc_2 {
-+	cd-gpios = <&tlmm 67 GPIO_ACTIVE_LOW>;
-+	vmmc-supply = <&pm8937_l11>;
-+	vqmmc-supply = <&pm8937_l12>;
-+	pinctrl-0 = <&sdc2_default &sdc2_cd_default>;
-+	pinctrl-1 = <&sdc2_sleep &sdc2_cd_default>;
-+	pinctrl-names = "default", "sleep";
-+
-+	status = "okay";
-+};
-+
-+&sleep_clk {
-+	clock-frequency = <32768>;
-+};
-+
-+&tlmm {
-+	gpio-reserved-ranges = <0 4>, <20 4>;
-+
-+	gpio_keys_default: gpio-keys-default-state {
-+		pins = "gpio91";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+
-+	sdc2_cd_default: sdc2-cd-default-state {
-+		pins = "gpio67";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-disable;
-+	};
-+
-+	tsp_int_rst_default: tsp-int-rst-default-state {
-+		pins = "gpio64", "gpio65";
-+		function = "gpio";
-+		drive-strength = <8>;
-+		bias-pull-up;
-+	};
-+};
-+
-+&wcnss {
-+	vddpx-supply = <&pm8937_l5>;
-+
-+	status = "okay";
-+};
-+
-+&wcnss_iris {
-+	compatible = "qcom,wcn3620";
-+	vddxo-supply = <&pm8937_l7>;
-+	vddrfa-supply = <&pm8937_l19>;
-+	vddpa-supply = <&pm8937_l9>;
-+	vdddig-supply = <&pm8937_l5>;
-+};
-+
-+&wcnss_mem {
-+	status = "okay";
-+};
-+
-+&xo_board {
-+	clock-frequency = <19200000>;
-+};
+To allow userspace to access these faults, a new ioctl -
+xe_vm_get_property_ioct - was created.
+
+v2: (Matt Brost)
+- Break full ban list request into a separate property.
+- Reformat drm_xe_vm_get_property struct.
+- Remove need for drm_xe_faults helper struct.
+- Separate data pointer and scalar return value in ioctl.
+- Get address type on pagefault report and save it to the pagefault.
+- Correctly reject writes to read-only VMAs.
+- Miscellaneous formatting fixes.
+
+v3: (Matt Brost)
+- Only allow querying of failed pagefaults
+
+v4:
+- Remove unnecessary size parameter from helper function, as it
+  is a property of the arguments. (jcavitt)
+- Remove unnecessary copy_from_user (Jainxun)
+- Set address_precision to 1 (Jainxun)
+- Report max size instead of dynamic size for memory allocation
+  purposes.  Total memory usage is reported separately.
+
+v5:
+- Return int from xe_vm_get_property_size (Shuicheng)
+- Fix memory leak (Shuicheng)
+- Remove unnecessary size variable (jcavitt)
+
+v6:
+- Free vm after use (Shuicheng)
+- Compress pf copy logic (Shuicheng)
+- Update fault_unsuccessful before storing (Shuicheng)
+- Fix old struct name in comments (Shuicheng)
+- Keep first 50 pagefaults instead of last 50 (Jianxun)
+- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
+
+v7:
+- Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
+- Fix double-locking error (jcavitt)
+- Assert kmemdump is successful (Shuicheng)
+- Repair and move fill_faults break condition (Dan Carpenter)
+- Free vm after use (jcavitt)
+- Combine assertions (jcavitt)
+- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+- Remove return mask from fill_faults, as return is already -EFAULT or 0
+  (jcavitt)
+
+v8:
+- Revert back to using drm_xe_vm_get_property_ioctl
+- s/Migrate/Move (Michal)
+- s/xe_pagefault/xe_gt_pagefault (Michal)
+- Create new header file, xe_gt_pagefault_types.h (Michal)
+- Add and fix kernel docs (Michal)
+- Rename xe_vm.pfs to xe_vm.faults (jcavitt)
+- Store fault data and not pagefault in xe_vm faults list (jcavitt)
+- Store address, address type, and address precision per fault (jcavitt)
+- Store engine class and instance data per fault (Jianxun)
+- Properly handle kzalloc error (Michal W)
+- s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
+- Store fault level per fault (Micahl M)
+- Apply better copy_to_user logic (jcavitt)
+
+v9:
+- More kernel doc fixes (Michal W, Jianxun)
+- Better error handling (jcavitt)
+
+v10:
+- Convert enums to defines in regs folder (Michal W)
+- Move xe_guc_pagefault_desc to regs folder (Michal W)
+- Future-proof size logic for zero-size properties (jcavitt)
+- Replace address type extern with access type (Jianxun)
+- Add fault type to xe_drm_fault (Jianxun)
+
+v11:
+- Remove unnecessary switch case logic (Raag)
+- Compress size get, size validation, and property fill functions into a
+  single helper function (jcavitt)
+- Assert valid size (jcavitt)
+- Store pagefaults in non-fault-mode VMs as well (Jianxun)
+
+v12:
+- Remove unnecessary else condition
+- Correct backwards helper function size logic (jcavitt)
+- Fix kernel docs and comments (Michal W)
+
+v13:
+- Move xe and user engine class mapping arrays to header (John H)
+
+v14:
+- Fix double locking issue (Jianxun)
+- Use size_t instead of int (Raag)
+- Remove unnecessary includes (jcavitt)
+
+v15:
+- Do not report faults from reserved engines (Jianxun)
+
+v16:
+- Remove engine class and instance (Ivan)
+
+v17:
+- Map access type, fault type, and fault level to user macros (Matt
+  Brost, Ivan)
+
+v18:
+- Add uAPI merge request to this cover letter
+
+v19:
+- Perform kzalloc outside of lock (Auld)
+
+v20:
+- Fix inconsistent use of whitespace in defines
+
+uAPI: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32987
+Signed-off-by: Jonathan Cavitt <joanthan.cavitt@intel.com>
+Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Zhang Jianxun <jianxun.zhang@intel.com>
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+Cc: Michal Mrozek <michal.mrozek@intel.com>
+Cc: Raag Jadav <raag.jadav@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+Cc: Ivan Briano <ivan.briano@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+
+Jonathan Cavitt (5):
+  drm/xe/xe_gt_pagefault: Disallow writes to read-only VMAs
+  drm/xe/xe_gt_pagefault: Move pagefault struct to header
+  drm/xe/uapi: Define drm_xe_vm_get_property
+  drm/xe/xe_vm: Add per VM fault info
+  drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+
+ drivers/gpu/drm/xe/regs/xe_pagefault_desc.h |  49 +++++
+ drivers/gpu/drm/xe/xe_device.c              |   3 +
+ drivers/gpu/drm/xe/xe_gt_pagefault.c        |  72 +++----
+ drivers/gpu/drm/xe/xe_gt_pagefault_types.h  |  42 +++++
+ drivers/gpu/drm/xe/xe_guc_fwif.h            |  28 ---
+ drivers/gpu/drm/xe/xe_vm.c                  | 197 ++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_vm.h                  |  11 ++
+ drivers/gpu/drm/xe/xe_vm_types.h            |  28 +++
+ include/uapi/drm/xe_drm.h                   |  86 +++++++++
+ 9 files changed, 455 insertions(+), 61 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/regs/xe_pagefault_desc.h
+ create mode 100644 drivers/gpu/drm/xe/xe_gt_pagefault_types.h
 
 -- 
-2.49.0
+2.43.0
 
