@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E9AA94A88
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Apr 2025 03:47:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C888A94AA9
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Apr 2025 04:12:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B574910E1A1;
-	Mon, 21 Apr 2025 01:47:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEB6110E09C;
+	Mon, 21 Apr 2025 02:12:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A9sbPhpq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DW95nkfb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0163E10E1A1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 01:47:27 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD36C10E09C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 02:12:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 51C224A541
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 01:47:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 95F60C4CEE2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 01:47:22 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C103B5C4A66
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 02:09:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 77D6FC4CEED
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 02:11:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745200042;
- bh=p+bEU+P7S1f9wt9RIR4bNp17KBDjxZ4D5U/yUpn19JE=;
- h=From:To:Subject:Date:From;
- b=A9sbPhpq0ErL6HpuXhQz/Kb1T9Eu7TO1S849kEBtf8eoDH0AJeBhfKT0bCQrlEfNl
- SvgPz+lPONSMFnAYQB2TjHXH1ZyTEFduxNOL+Eam0847jj2UBVCa33P82DRek5cmCd
- 0cXQjGqCjBaO0IYYYm6b7KFJtPmTqCdR1hvX8H6LzIEG2UXH5kdMLZ8oSU6mDAdi1f
- 79XYlVnHH4Y0gITQU/vtn2FQwoAUBy9wlciY/Eyb41wqEhTEsnCQF8CCG19EbgiVsi
- s+nDNHESueTzB1OA9tSfzK/Qscxb+0qH3+wtgPE+YVZrSB06WFYx1QTzgkALdOEhHF
- xyfLDr1qgcYJQ==
+ s=k20201202; t=1745201509;
+ bh=DulM6440nbelSUAN+lX6qJuZ4WRjmAAk89OyJuf6drc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=DW95nkfbwsgyynuTA+JLFVdXdOE5suB2Qm6Z5J9UhGW1JRFiOKlyUxnHnYwTZE6P8
+ iZHN4WiiACDDGIjmw847Bp0RoPXZNuwvUUHUXqhdUjllJiEtRcjuqIeZFD6sf0zLBA
+ F8mo67n3VVMIJZBtIhdSCU/gCvE73lvnMjbtHjUY8+Xh+indfjn+wOpiMbMpx3jHJ4
+ 5l7kMUXtISfiOn1q+cK3gxhzUCHvTlzhKhMu+q4733fK8Fq8LGZSO2rKJvAcyQjhRa
+ oIKr9/RfOZsK4/XlmNpO2sir3wmJV+hGWH4QUrLxs/LCbA700/uaTJM5Ge5SS/435p
+ 6apsMXI2i4X7g==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8FBFDC41612; Mon, 21 Apr 2025 01:47:22 +0000 (UTC)
+ from userid 48) id 5C172C41616; Mon, 21 Apr 2025 02:11:49 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220041] New: Frequent freezes in amdgpu with 6.14.3 kernel.
-Date: Mon, 21 Apr 2025 01:47:22 +0000
+Subject: [Bug 220041] Frequent freezes in amdgpu with 6.14.3 kernel.
+Date: Mon, 21 Apr 2025 02:11:49 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -50,10 +50,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-220041-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220041-2300-p7879xb8UC@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220041-2300@https.bugzilla.kernel.org/>
+References: <bug-220041-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -76,29 +76,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220041
 
-            Bug ID: 220041
-           Summary: Frequent freezes in amdgpu with 6.14.3 kernel.
-           Product: Drivers
-           Version: 2.5
-          Hardware: AMD
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: arichter1337@gmail.com
-        Regression: No
+--- Comment #1 from Alan Richter (arichter1337@gmail.com) ---
+I should have mentioned:
 
-While playing GOG DOOM 2016, the game has very frequent freezes when using =
-the
-6.14.3 kernel, 6.14.1 and 6.14.2 do not have this issue.=20=20
+APU: AMD Ryzen AI 9 HX 370 w/ Radeon 890M
 
-The message "[drm] Fence fallback timer expired on ring comp_1.1.1" appears
-from "dmesg".=20=20
-
-Kernel 6.14.3, mesa 25.0.4, firmware 20250311.  Distribution Mageia cauldro=
-n.
+Hardware: Beelink SER9
 
 --=20
 You may reply to this email to add a comment.
