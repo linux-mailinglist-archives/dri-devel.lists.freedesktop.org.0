@@ -2,57 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E295AA94E41
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Apr 2025 10:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBF4A94E9F
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Apr 2025 11:27:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7D010E34D;
-	Mon, 21 Apr 2025 08:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C438E10E252;
+	Mon, 21 Apr 2025 09:27:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zqKyKhhg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CT1km82+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF1510E34D
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 08:49:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E9080437FE;
- Mon, 21 Apr 2025 08:49:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC7F7C4CEE4;
- Mon, 21 Apr 2025 08:49:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1745225348;
- bh=6eovJpBKe/AFxgf0YskJ7sCQHIJkYg2Tnl2f/E+C84I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=zqKyKhhg/4IP1vHpd13S+HQK7or5cw7aNlYWOfbWqNUfTiJpSYt/mi2sd8wv88zxk
- YFNZ5MDVtpjrwTVwyUvawtWIXvK6nv3tl9REDdWZkn2N6/TrCnOK1tkdTiG1t0ScnI
- 8xNs49D/Cvz8oUL7Nh0zdadzm7evyv2OcfbX9iEw=
-Date: Mon, 21 Apr 2025 10:49:05 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Deepika Singh <quic_dsi@quicinc.com>
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dmitry.baryshkov@oss.qualcomm.com, srinivas.kandagatla@linaro.org,
- linux-arm-msm@vger.kernel.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, arnd@arndb.de
-Subject: Re: [PATCH v1 4/4] misc: fastrpc: Add debugfs support for fastrpc
-Message-ID: <2025042125-kebab-faceplate-aa9d@gregkh>
-References: <c3b285b0-33d1-4bfa-b8ab-6783ff5ed78d@quicinc.com>
- <cn7pqvhw4x4y7s5hbgzjpvyjnw4g6hoyepic4jai7x2fjdenxr@ikr4hkorbuwb>
- <365c4709-b421-4af8-b521-a195630242de@quicinc.com>
- <nsaq3zungvyhuikz35arvxmle2fovxh422jpyqxuleh57ufqnk@bekeh7qr7y76>
- <697e90db-6ecc-44ac-af86-6c7f910fc902@quicinc.com>
- <CAA8EJppbptPryu_O3G3YAapHT=Ai+MAdA38FtSU=YvWb+mqa1g@mail.gmail.com>
- <e1c23027-94c3-4fdf-b842-b154179aa2b8@oss.qualcomm.com>
- <a3addff2-1ee6-45aa-ac2c-693ffe804948@quicinc.com>
- <2025041534-subdivide-upward-1eca@gregkh>
- <20e60deb-f1f3-4f96-a454-9cb9d8cc7c1d@quicinc.com>
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC84A10E34E
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 08:59:14 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-73bf5aa95e7so3344731b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 01:59:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1745225953; x=1745830753; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hdfyYcjWGTOdu/UCbalSGgUhj6rHypbD9RyxJsRcQ6c=;
+ b=CT1km82+5/sz6C+P4AeLY8nsprwybU+Z6859WBKks3zsfaDihtEbKCekIzshbtljNE
+ TP1a6FndPY3IcYkkTTAsKf2qqB0m60C4l17fKy8mu/rTvERMUkBzqhnaqjX7kfGeDzP4
+ XJ5HFhXm2F4fEMp9fSzBl28rYKlesOaoAi6NMM4OJ73MpHbBbmFbynhQXByHir0VdY53
+ l38ao/exCB5P/JE9olp61GuCeZKrM4DpNrnLkTTyy8PcqfGlq1gkGheOEVQamtj6z/0z
+ +3DhmiOTubAiICKP/dWWBVVWumZoXSSNJ6v16ev4UFkALd7F2C8E3xJs923IYuYkoCtY
+ Pl6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745225953; x=1745830753;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hdfyYcjWGTOdu/UCbalSGgUhj6rHypbD9RyxJsRcQ6c=;
+ b=BE0dFKPRVVien1ySm2BHaR8JJFoOSqA8P90lz4fAwMRo0UbR3mERvlGsKQo3+iaRj7
+ Ah5nPLuhpLI9w523x1ZyI9mbOGSglK1+0AkMY2GVIPgYf3Uxue/TIRKoY1YpSAJIpZQi
+ ch0ParVY+iDiTABaViY9jbiWwE8XfrpyhWnHPsdQI5nqvyrp6J2KfVRPL6uy6g3DNKOB
+ P3D8eAf/qo2lQHgS3m/JksIFeSHeK7nqe0rIUs8RjHKRuq7S264re1llx3RL9wXzoJmR
+ FImAHSsll4u9fMXStZq8cl+JBzkVDHEzSXAAEA0skq2kXTyEj1EPPgSy8Dd1/PiO/tgI
+ +nGQ==
+X-Gm-Message-State: AOJu0YyCaV9MZD7N1+f++XYuNCKqfi0Ze0WNXb1n+bfoKF1w8jmAeplG
+ QbrYhd1pubqkablV8j975jf5kas7w+jplJfdnjw0OAzjxFzmczsu
+X-Gm-Gg: ASbGncspewN2n24bIYnoTpTjMfSESpi4HwcHedYjYvMacjQTfMHWD009SoD1Q0FjbBx
+ m4ZiU+cGQEjT4XOjlQsd+g8Jg37sIa8hpwJI9DCkgyKFZww/zKO9DgRBQZWivXnwlm8innKQfTe
+ FcJpk2B3QMP80vw9a3YBFAWdnnEelKDpJD48B6OqLz8GMBMKSHmNwcFbSt/4M6jh6yB0lE/5Lig
+ f7YggMFlg4F2y93DkQLYauw8e1MMs7g/2jjq9jV+sBpGtb61sptSanMHxdMASHDz9iRNBVU9dRl
+ Izp+ej1KBfPne+Htq+s7pvTzjhlbvvfws37Vom+ucbo5LyXpsK1Mj3wyt/s=
+X-Google-Smtp-Source: AGHT+IEdexOf33Nc2LGLtrfxZIzDjmw8YeKrnPWNGs7WB2LGvu8CfsnuMSErAkh78OcSgvv7kP9FlQ==
+X-Received: by 2002:a05:6a00:39aa:b0:736:ab49:d56 with SMTP id
+ d2e1a72fcca58-73dc1453877mr15139537b3a.1.1745225953312; 
+ Mon, 21 Apr 2025 01:59:13 -0700 (PDT)
+Received: from localhost.localdomain ([115.99.204.184])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-73dbf8beb0dsm6082879b3a.33.2025.04.21.01.59.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Apr 2025 01:59:12 -0700 (PDT)
+From: Jagath Jog J <jagathjog1996@gmail.com>
+To: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, mcanal@igalia.com, maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jagathjog1996@gmail.com
+Subject: [RFC 0/1] drm/mipi-dbi: Use drm_device for debugfs, drop drm_minor
+Date: Mon, 21 Apr 2025 14:29:06 +0530
+Message-Id: <20250421085907.24972-1-jagathjog1996@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20e60deb-f1f3-4f96-a454-9cb9d8cc7c1d@quicinc.com>
+X-Mailman-Approved-At: Mon, 21 Apr 2025 09:27:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,157 +85,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 21, 2025 at 01:51:09PM +0530, Deepika Singh wrote:
-> 
-> 
-> On 4/15/2025 6:47 PM, Greg KH wrote:
-> > On Mon, Apr 14, 2025 at 12:41:47PM +0530, Deepika Singh wrote:
-> > > 
-> > > 
-> > > On 4/11/2025 1:55 PM, Ekansh Gupta wrote:
-> > > > 
-> > > > 
-> > > > On 12/3/2024 5:27 PM, Dmitry Baryshkov wrote:
-> > > > > On Tue, 3 Dec 2024 at 07:22, Ekansh Gupta <quic_ekangupt@quicinc.com> wrote:
-> > > > > > 
-> > > > > > 
-> > > > > > On 12/2/2024 6:18 PM, Dmitry Baryshkov wrote:
-> > > > > > > On Mon, Dec 02, 2024 at 03:27:43PM +0530, Ekansh Gupta wrote:
-> > > > > > > > On 11/22/2024 12:23 AM, Dmitry Baryshkov wrote:
-> > > > > > > > > On Thu, Nov 21, 2024 at 12:12:17PM +0530, Ekansh Gupta wrote:
-> > > > > > > > > > On 11/18/2024 7:32 PM, Greg KH wrote:
-> > > > > > > > > > > On Mon, Nov 18, 2024 at 02:10:46PM +0530, Ekansh Gupta wrote:
-> > > > > > > > > > > > Add changes to support debugfs. The fastrpc directory will be
-> > > > > > > > > > > > created which will carry debugfs files for all fastrpc processes.
-> > > > > > > > > > > > The information of fastrpc user and channel contexts are getting
-> > > > > > > > > > > > captured as part of this change.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
-> > > > > > > > > > > > ---
-> > > > > > > > > > > >    drivers/misc/fastrpc/Makefile        |   3 +-
-> > > > > > > > > > > >    drivers/misc/fastrpc/fastrpc_debug.c | 156 +++++++++++++++++++++++++++
-> > > > > > > > > > > >    drivers/misc/fastrpc/fastrpc_debug.h |  31 ++++++
-> > > > > > > > > > > >    drivers/misc/fastrpc/fastrpc_main.c  |  18 +++-
-> > > > > > > > > > > >    4 files changed, 205 insertions(+), 3 deletions(-)
-> > > > > > > > > > > >    create mode 100644 drivers/misc/fastrpc/fastrpc_debug.c
-> > > > > > > > > > > >    create mode 100644 drivers/misc/fastrpc/fastrpc_debug.h
-> > > > > > > > > > > > 
-> > > > > > > > > > > > diff --git a/drivers/misc/fastrpc/Makefile b/drivers/misc/fastrpc/Makefile
-> > > > > > > > > > > > index 020d30789a80..4ff6b64166ae 100644
-> > > > > > > > > > > > --- a/drivers/misc/fastrpc/Makefile
-> > > > > > > > > > > > +++ b/drivers/misc/fastrpc/Makefile
-> > > > > > > > > > > > @@ -1,3 +1,4 @@
-> > > > > > > > > > > >    # SPDX-License-Identifier: GPL-2.0
-> > > > > > > > > > > >    obj-$(CONFIG_QCOM_FASTRPC)      += fastrpc.o
-> > > > > > > > > > > > -fastrpc-objs    := fastrpc_main.o
-> > > > > > > > > > > > \ No newline at end of file
-> > > > > > > > > > > > +fastrpc-objs    := fastrpc_main.o \
-> > > > > > > > > > > > +                fastrpc_debug.o
-> > > > > > > > > > > Only build this file if debugfs is enabled.
-> > > > > > > > > > > 
-> > > > > > > > > > > And again, "debug.c"?
-> > > > > > > > > > I'll add change to build this only if debugfs is enabled. Going forward I have plans to add
-> > > > > > > > > > few more debug specific changes, maybe then I'll need to change the build rules again.
-> > > > > > > > > > > > diff --git a/drivers/misc/fastrpc/fastrpc_debug.c b/drivers/misc/fastrpc/fastrpc_debug.c
-> > > > > > > > > > > > new file mode 100644
-> > > > > > > > > > > > index 000000000000..cdb4fc6845a8
-> > > > > > > > > > > > --- /dev/null
-> > > > > > > > > > > > +++ b/drivers/misc/fastrpc/fastrpc_debug.c
-> > > > > > > > > > > > @@ -0,0 +1,156 @@
-> > > > > > > > > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > > > > > > > > +// Copyright (c) 2024 Qualcomm Innovation Center.
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +#include <linux/debugfs.h>
-> > > > > > > > > > > > +#include <linux/seq_file.h>
-> > > > > > > > > > > > +#include "fastrpc_shared.h"
-> > > > > > > > > > > > +#include "fastrpc_debug.h"
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +#ifdef CONFIG_DEBUG_FS
-> > > > > > > > > > > Please put the #ifdef in the .h file, not in the .c file.
-> > > > > > > > > > Ack
-> > > > > > > > > > > > +void fastrpc_create_user_debugfs(struct fastrpc_user *fl)
-> > > > > > > > > > > > +{
-> > > > > > > > > > > > +        char cur_comm[TASK_COMM_LEN];
-> > > > > > > > > > > > +        int domain_id, size;
-> > > > > > > > > > > > +        char *debugfs_buf;
-> > > > > > > > > > > > +        struct dentry *debugfs_dir = fl->cctx->debugfs_dir;
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +        memcpy(cur_comm, current->comm, TASK_COMM_LEN);
-> > > > > > > > > > > > +        cur_comm[TASK_COMM_LEN-1] = '\0';
-> > > > > > > > > > > > +        if (debugfs_dir != NULL) {
-> > > > > > > > > > > > +                domain_id = fl->cctx->domain_id;
-> > > > > > > > > > > > +                size = snprintf(NULL, 0, "%.10s_%d_%d_%d", cur_comm,
-> > > > > > > > > > > > +                                current->pid, fl->tgid, domain_id) + 1;
-> > > > > > > > > > > > +                debugfs_buf = kzalloc(size, GFP_KERNEL);
-> > > > > > > > > > > > +                if (debugfs_buf == NULL)
-> > > > > > > > > > > > +                        return;
-> > > > > > > > > > > > +                /*
-> > > > > > > > > > > > +                 * Use HLOS process name, HLOS PID, fastrpc user TGID,
-> > > > > > > > > > > > +                 * domain_id in debugfs filename to create unique file name
-> > > > > > > > > > > > +                 */
-> > > > > > > > > > > > +                snprintf(debugfs_buf, size, "%.10s_%d_%d_%d",
-> > > > > > > > > > > > +                        cur_comm, current->pid, fl->tgid, domain_id);
-> > > > > > > > > > > > +                fl->debugfs_file = debugfs_create_file(debugfs_buf, 0644,
-> > > > > > > > > > > > +                                debugfs_dir, fl, &fastrpc_debugfs_fops);
-> > > > > > > > > > > Why are you saving the debugfs file?  What do you need to do with it
-> > > > > > > > > > > that you can't just delete the whole directory, or look up the name
-> > > > > > > > > > > again in the future when removing it?
-> > > > > > > > > > fl structure is specific to a process using fastrpc driver. The reason to save
-> > > > > > > > > > this debugfs file is to delete is when the process releases fastrpc device.
-> > > > > > > > > > If the file is not deleted, it might flood multiple files in debugfs directory.
-> > > > > > > > > > 
-> > > > > > > > > > As part of this change, only the file that is getting created by a process is
-> > > > > > > > > > getting removed when process is releasing device and I don't think we
-> > > > > > > > > > can clean up the whole directory at this point.
-> > > > > > > > > My 2c: it might be better to create a single file that conains
-> > > > > > > > > information for all the processes instead of that. Or use fdinfo data to
-> > > > > > > > > export process / FD information to userspace.
-> > > > > > > > Thanks for your review. The reason of not having single file for all processes is that
-> > > > > > > > I can run 100s of iteration for any process(say calculator) and every time the properties
-> > > > > > > > of the process can differ(like buffer, session etc.). For this reason, I'm creating and
-> > > > > > > > deleting the debugfs files for every process run.
-> > > > > > > > 
-> > > > > > > > Do you see any advantage of using fdinfo over debugfs? I'm not sure if we can add all
-> > > > > > > > the information(like in debugfs) here.
-> > > > > > > Which information is actually useful / interesting for application
-> > > > > > > developers? If not for the fdinfo, I might still vote for a single file
-> > > > > > > rather than a pile of per-process data.
-> > > Let’s say I am trying to do debugfs read when 10+ or more sessions are
-> > > active per channel, then for pushing data of nth process in a single file, I
-> > > would have to wait for n-1 processes, by that time process data might get
-> > > changed. How do you suggest handling this?
-> > 
-> > I suggest you NEVER use debugfs for anything that you care about this
-> > type of thing for.
-> > 
-> > debugfs is for debugging.  Don't expect to rely on it for anything
-> > relating to performance, and many/most systems don't even have it
-> > enabled.  It also can NOT be used for anything that actually is a real
-> > functionality of the system, and MUST work properly if it is not enabled
-> > or a failure happens with the creation of a debugfs file.
-> > 
-> > So why would this even be an issue, as surely you aren't expecting that
-> > debugfs be the main api for your driver, right?  :)
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> I am not going to rely on debugfs for anything related to performance or
-> real functionality. It would be used for debugging alone. Concern here is if
-> i push all processes data to one file, then data might get updated by the
-> time nth process's data is pushed and I might not get get correct data for
-> nth process.
+This patch updates the MIPI DBI driver to use drm_device.debugfs_root
+instead of drm_minor for creating debugfs files. The debugfs setup is now
+done earlier in probe(), before drm_dev_register(), and the drivers can
+avoid using the .debugfs_init callback.
 
-But why would you care?  This is just debugging code, you should NEVER
-make any action based on the output of a debugfs file.  This is all just
-for your convience in working on the kernel code only.  If you have any
-tool that relies on it, or requires performance issues with it, that is
-flat out wrong.
+This is an initial version, and only a few drivers are updated for now.
 
-Remember, the code can, and MUST, work just fine if debugfs is not
-enabled in the kernel at all as that is how the majority of Linux
-systems in the world are configured (for good reason).
+I noticed that some newer drivers or patches still use
+drm_debugfs_create_files(), which relies on drm_minor. I was wondering if
+there is a specific reason for this, or if there's a plan to switch to
+drm_debugfs_add_files? I can send patches to update more drivers if
+that helps.
 
-thanks,
+This patch helps move toward the debugfs cleanup task listed here:
+https://docs.kernel.org/gpu/todo.html#clean-up-the-debugfs-support
 
-greg k-h
+Looking forward to your feedback.
+
+Jagath Jog J (1):
+  drm/mipi-dbi: Use drm_device for debugfs, drop drm_minor and
+    .debugfs_init
+
+ drivers/gpu/drm/drm_mipi_dbi.c        | 8 ++++----
+ drivers/gpu/drm/tiny/ili9163.c        | 3 ++-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c | 3 ++-
+ include/drm/drm_mipi_dbi.h            | 4 ++--
+ 4 files changed, 10 insertions(+), 8 deletions(-)
+
+-- 
+2.20.1
+
