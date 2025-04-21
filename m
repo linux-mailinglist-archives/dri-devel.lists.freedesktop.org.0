@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C888A94AA9
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Apr 2025 04:12:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3304EA94B64
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Apr 2025 05:10:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEB6110E09C;
-	Mon, 21 Apr 2025 02:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 671E410E295;
+	Mon, 21 Apr 2025 03:09:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DW95nkfb";
+	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="ZhqEXXby";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD36C10E09C
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 02:12:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C103B5C4A66
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 02:09:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 77D6FC4CEED
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Apr 2025 02:11:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745201509;
- bh=DulM6440nbelSUAN+lX6qJuZ4WRjmAAk89OyJuf6drc=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=DW95nkfbwsgyynuTA+JLFVdXdOE5suB2Qm6Z5J9UhGW1JRFiOKlyUxnHnYwTZE6P8
- iZHN4WiiACDDGIjmw847Bp0RoPXZNuwvUUHUXqhdUjllJiEtRcjuqIeZFD6sf0zLBA
- F8mo67n3VVMIJZBtIhdSCU/gCvE73lvnMjbtHjUY8+Xh+indfjn+wOpiMbMpx3jHJ4
- 5l7kMUXtISfiOn1q+cK3gxhzUCHvTlzhKhMu+q4733fK8Fq8LGZSO2rKJvAcyQjhRa
- oIKr9/RfOZsK4/XlmNpO2sir3wmJV+hGWH4QUrLxs/LCbA700/uaTJM5Ge5SS/435p
- 6apsMXI2i4X7g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 5C172C41616; Mon, 21 Apr 2025 02:11:49 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220041] Frequent freezes in amdgpu with 6.14.3 kernel.
-Date: Mon, 21 Apr 2025 02:11:49 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: arichter1337@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220041-2300-p7879xb8UC@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220041-2300@https.bugzilla.kernel.org/>
-References: <bug-220041-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail.mainlining.org (unknown [5.75.144.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE4B310E1CF;
+ Mon, 21 Apr 2025 03:09:45 +0000 (UTC)
+Received: from [192.168.183.162] (254C255A.nat.pool.telekom.hu [37.76.37.90])
+ by mail.mainlining.org (Postfix) with ESMTPSA id C66E2BBAD3;
+ Mon, 21 Apr 2025 03:09:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
+ s=psm; t=1745204966;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=upc2Z9fNOesc767S0bVo32jvZMookaLGNX2YH6V7peE=;
+ b=ZhqEXXbyiKMc568CgSt9qOAEbmV1gJxaCuiqa9Jk+6EdjHnquXp4+/2XSMjkjRwy33XJ2u
+ JcF/0mOp1vM2nVQYlZJS3CfkDYhV5Eaj/xNHeyjjPXGiTRMy9Ht3ZkHBASXiVghJNEkQiG
+ 3IgqWbtnThvpGNGCJqx7LvAFKMpM6IJbPsk5UL5VCMwh00Ocg3eJCpai6cnLeMULDD1ITc
+ btBiPL9Dkc6JJflNiyEUSC1sCxmLaNnGwXS+Ij0DxUVhzxZQKSqHh9q4sXH/lQGYnkiZKd
+ GsfBCaL62i12flaTQxEcnMHyzuqfNFObid1HuuW0Oo0Bg6FRUcj7WkSb9NubxA==
+From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
+ <barnabas.czeman@mainlining.org>
+Subject: [PATCH 0/3] Document clocks of Adreno 505/506/510
+Date: Mon, 21 Apr 2025 05:09:20 +0200
+Message-Id: <20250421-a5xx-schema-v1-0-7d96b889322a@mainlining.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOC2BWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDEyND3UTTigrd4uSM1NxE3UTLJDMTy6RkixTTVCWgjoKi1LTMCrBp0bG
+ 1tQDv0iQJXQAAAA==
+X-Change-ID: 20250421-a5xx-schema-a9b649bc8d5e
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745204964; l=835;
+ i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
+ bh=udvxFOdL1d8Pc5hkXWwwmhNUJU7Z9gB45D344Dqsgnc=;
+ b=XQxscjx86DEwyCIYjFi0UMlJYf0J5p1deNHt1PhSjkWian1grQ0/X8Y+zsx5bySwCVGH+QtFS
+ 2TaSeA8qtV5A4E47uFPxz2Z8qm7OkXXOYdaQelGORsHYaG5nYMdpz/x
+X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
+ pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,17 +78,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220041
+This patch set documents Adreno 505/506/510 clocks
+with the missing alwayson clock and enforce their order.
 
---- Comment #1 from Alan Richter (arichter1337@gmail.com) ---
-I should have mentioned:
+Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+---
+Barnabás Czémán (3):
+      dt-bindings: display/msm/gpu: Document clocks of Adreno 505/506/510
+      arm64: dts: qcom: msm8953: sort adreno clocks
+      arm64: dts: qcom: msm8976: sort adreno clocks
 
-APU: AMD Ryzen AI 9 HX 370 w/ Radeon 890M
+ .../devicetree/bindings/display/msm/gpu.yaml       | 83 +++++++++++++++++++++-
+ arch/arm64/boot/dts/qcom/msm8953.dtsi              | 16 ++---
+ arch/arm64/boot/dts/qcom/msm8976.dtsi              | 12 ++--
+ 3 files changed, 96 insertions(+), 15 deletions(-)
+---
+base-commit: bc8aa6cdadcc00862f2b5720e5de2e17f696a081
+change-id: 20250421-a5xx-schema-a9b649bc8d5e
 
-Hardware: Beelink SER9
+Best regards,
+-- 
+Barnabás Czémán <barnabas.czeman@mainlining.org>
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
