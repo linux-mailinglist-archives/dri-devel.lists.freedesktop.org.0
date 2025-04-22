@@ -2,54 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF838A9700D
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 17:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0E0A97020
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 17:12:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAB6510E5F1;
-	Tue, 22 Apr 2025 15:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6519E10E5F4;
+	Tue, 22 Apr 2025 15:12:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="FviSz07a";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="uxtvGSfP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lxJgAQOU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ASIBmVs/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="43eDrcyH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7197C10E5F1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 15:11:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sZHpYjW/YWe/3+KOb83I8AMfir2P1LURRr5CFHVKNxA=; b=FviSz07as3zzj1u6gIifi2u5RZ
- EOCdrbQ3zKS2b0vbC3C+0hGYbpmz3+98UHjcpkQUHnVnV0fa0a6NS9XahXraYOF62UiNw2+9JiwUs
- 7HcHAnvqNVUqZ7CpAqZgK6x5YMJ6FJchqEDb93zSbmDBuCGhfaacz8t9L8O428Jv1MMsnr/9BrVnS
- zOjuaLZUS9DTPlh+crP0d9e5peT58cmZYRkXrSYJjYyhnz+IWeUNHGGuphjGU+ZVZKHSeJngU8RwB
- 1FdbjysArLjDB4Nc3uDSxqGVCZr/0AEu40Wp9KguDNPCswPRQL6tLnR7q/iF+FwzuUD/98jwEv792
- xhk/xlKA==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1u7FH1-006UsQ-Hj; Tue, 22 Apr 2025 17:10:59 +0200
-Message-ID: <9b3e27d6-724f-4fca-8214-3a3bd7053995@igalia.com>
-Date: Tue, 22 Apr 2025 16:10:58 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: AW: [PATCH] drm/fdinfo: Protect against driver unbind
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9679B10E5ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 15:12:14 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AD4D11F454;
+ Tue, 22 Apr 2025 15:12:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1745334733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=ARFh+efzKLBEbwoAcUmtDw/ut3jfy7HQ1HfMCmi7Dts=;
+ b=uxtvGSfPadlbBzSn2F1nZOi6LDMSpKrqZtucFAlFhOdpVjXiqefti6Blf/cOm1CxOeQ8Iz
+ p7+05UNSsDqpuaZn4rydVMiIwngh2IRUrre0//9fZ+Ay9VlJS9u2gOb/duw4+0XOmGQX7p
+ I0R85qpQdJyeNYSZ5ZDk2Bl4/q+Y/1Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1745334733;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=ARFh+efzKLBEbwoAcUmtDw/ut3jfy7HQ1HfMCmi7Dts=;
+ b=lxJgAQOUwkX2DWWERU5LoiOBgLHib6/iQc2AkZglvR6xmmEMX+kvDlW4tHdq09ATXJ/mGi
+ 7xw6axbwktIFkVBA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ASIBmVs/";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=43eDrcyH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1745334732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=ARFh+efzKLBEbwoAcUmtDw/ut3jfy7HQ1HfMCmi7Dts=;
+ b=ASIBmVs/+IVdmuleLzzYmtiqb+ZeVjm375xUXlqE6rlc8gbwNCsZKlQd/dtch51yUeo5H2
+ U0kB7beM7svhqJ7XeQADr6aDnjPjZiz+xwvQbAgE08YqmpjynGINyyIyMoNaDV47PCLeOZ
+ VjFsEkvIjgNRRuz2IgJYOm1cqFfVRs8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1745334732;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=ARFh+efzKLBEbwoAcUmtDw/ut3jfy7HQ1HfMCmi7Dts=;
+ b=43eDrcyHVP57QUR7Vuxn3Y0XWQ1/FkeYTdr5AvFIKNCg57MhxvT8CbsjE3s1gXLDiXgxiq
+ iXdxPtiQ1gBdFPDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A82E137CF;
+ Tue, 22 Apr 2025 15:12:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id kKKhIMuxB2gbWgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 22 Apr 2025 15:12:11 +0000
+Date: Tue, 22 Apr 2025 17:12:09 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-References: <20250418162512.72324-1-tvrtko.ursulin@igalia.com>
- <PH7PR12MB5685C40A8B0058293A9A8AE783BB2@PH7PR12MB5685.namprd12.prod.outlook.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <PH7PR12MB5685C40A8B0058293A9A8AE783BB2@PH7PR12MB5685.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20250422151209.GA24823@2a02-2454-fd5e-fd00-5cc9-93f1-8e9a-df9b.dyn6.pyur.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Rspamd-Queue-Id: AD4D11F454
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; MIME_TRACE(0.00)[0:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ MISSING_XM_UA(0.00)[];
+ ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, gitlab.freedesktop.org:url,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo,
+ 2a02-2454-fd5e-fd00-5cc9-93f1-8e9a-df9b.dyn6.pyur.net:mid]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,76 +129,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave, Sima,
 
-On 22/04/2025 10:20, Koenig, Christian wrote:
-> [AMD Official Use Only - AMD Internal Distribution Only]
-> 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+a bit earlier than usual, this is the PR for drm-misc-fixes for
+this week.
 
-Thanks!
+Best regards
+Thomas
 
-I could also add:
+drm-misc-fixes-2025-04-22:
+Short summary of fixes pull:
 
-Fixes: 3f09a0cd4ea3 ("drm: Add common fdinfo helper")
-Cc: <stable@vger.kernel.org> # v6.5+
+meson:
+- Fix VCLK calculation
 
-With a disclaimer that the problem predates the common helper. Not sure 
-if it is worth it for such an edge case.
+panel:
+- jd9365a: Fix reset polarity
+The following changes since commit 76c332d119f9048c6e16b52359f401510f18b2ff:
 
-I was planning to merge to drm-misc-next, but if I add the stable tag it 
-would be drm-misc-fixes right?
+  drm/mgag200: Fix value in <VBLKSTR> register (2025-04-17 09:56:28 +0200)
 
-Regards,
+are available in the Git repository at:
 
-Tvrtko
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-04-22
 
-> ________________________________________
-> Von: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Gesendet: Freitag, 18. April 2025 18:25
-> An: dri-devel@lists.freedesktop.org
-> Cc: kernel-dev@igalia.com; Tvrtko Ursulin; Koenig, Christian; Lucas De Marchi; Rodrigo Vivi; Umesh Nerlige Ramappa
-> Betreff: [PATCH] drm/fdinfo: Protect against driver unbind
-> 
-> If we unbind a driver from the PCI device with an active DRM client,
-> subsequent read of the fdinfo data associated with the file descriptor in
-> question will not end well.
-> 
-> Protect the path with a drm_dev_enter/exit() pair.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-> ---
->   drivers/gpu/drm/drm_file.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index c299cd94d3f7..cf2463090d3a 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -964,6 +964,10 @@ void drm_show_fdinfo(struct seq_file *m, struct file *f)
->          struct drm_file *file = f->private_data;
->          struct drm_device *dev = file->minor->dev;
->          struct drm_printer p = drm_seq_file_printer(m);
-> +       int idx;
-> +
-> +       if (!drm_dev_enter(dev, &idx))
-> +               return;
-> 
->          drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
->          drm_printf(&p, "drm-client-id:\t%llu\n", file->client_id);
-> @@ -983,6 +987,8 @@ void drm_show_fdinfo(struct seq_file *m, struct file *f)
-> 
->          if (dev->driver->show_fdinfo)
->                  dev->driver->show_fdinfo(&p, file);
-> +
-> +       drm_dev_exit(idx);
->   }
->   EXPORT_SYMBOL(drm_show_fdinfo);
-> 
-> --
-> 2.48.0
-> 
+for you to fetch changes up to 095c8e61f4c71cd4630ee11a82e82cc341b38464:
 
+  drm: panel: jd9365da: fix reset signal polarity in unprepare (2025-04-22 09:42:04 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+meson:
+- Fix VCLK calculation
+
+panel:
+- jd9365a: Fix reset polarity
+
+----------------------------------------------------------------
+Christian Hewitt (1):
+      Revert "drm/meson: vclk: fix calculation of 59.94 fractional rates"
+
+Hugo Villeneuve (1):
+      drm: panel: jd9365da: fix reset signal polarity in unprepare
+
+Martin Blumenstingl (1):
+      drm/meson: use unsigned long long / Hz for frequency types
+
+ drivers/gpu/drm/meson/meson_drv.c                |   2 +-
+ drivers/gpu/drm/meson/meson_drv.h                |   2 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c       |  29 ++--
+ drivers/gpu/drm/meson/meson_vclk.c               | 195 ++++++++++++-----------
+ drivers/gpu/drm/meson/meson_vclk.h               |  13 +-
+ drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c |   4 +-
+ 6 files changed, 128 insertions(+), 117 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
