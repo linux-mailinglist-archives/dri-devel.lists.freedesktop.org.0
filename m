@@ -2,153 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F41EA963B7
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 11:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF6FA96403
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 11:20:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3D0010E1ED;
-	Tue, 22 Apr 2025 09:12:37 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="KGLvupC+";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F9310E196;
+	Tue, 22 Apr 2025 09:20:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2079.outbound.protection.outlook.com [40.107.212.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD8E910E1ED;
- Tue, 22 Apr 2025 09:12:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=osqx38F4DCtBj+IAkloYePCXkn7BZRvs0l4PMAJ6HpLio1oaE/LoaOjYVOTSPnQtWwQArKtTy9EpBmPig/Eee389xKG6pNJoe7zBahysTkAlP+AC8CIHP70E4sD5Y2pe+izgbyZdxE5Nf5PrtwcUHFBz8xuL5QxZyM+lXDVoLZ6bHIVxvpVN3J3UvBBl/UFmgo9FgzjeW03ax1pYxBOVjoB2FLqpFEQtv66axtcyoD/SLIFiD+ZUa/OXW6YlMSt6RUYRCInF1tz1x5vz2bFwbC06IcOo7dwe58aOX4cYNDaPZzkBahW7OHnW2LqXdRXTB+lla9xyF6WBbusyCYYJig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2S55NNficpjntQzktwxVJuT+hHzSuvdFbTblclRC0Bo=;
- b=rlk+S0ikVb6I8f7/HItWK/oUw3q+brKc/fMyO2fC67JHZMvLbVcDyB25YeVEKtVwFZqcR5pEm3vrB5mDshhGleAdnoJRLxKdM9kwxhi9zp3ukj2e6Xou3D2A+5nrOZ5kY5w9rtC2g371/P94lVbOJVgk/iVS7+jtStC+tjWTv1FlyNPqeN2kUFudJbwQWZei4PePyRicemd8ev+cADSpfCfn4O/5m3ouholSYJmG41GHzr+6xt8kSGCrQsPQCBe2m0CIg1nzzSe0tfnxqhdPliPn/Ta9uIR5no1oGM2G7hECzOkwllMfPc56HgHFztW8LgslsEE683QUp2yuocSSHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2S55NNficpjntQzktwxVJuT+hHzSuvdFbTblclRC0Bo=;
- b=KGLvupC+grh1cdWYqZ6PLQTvrLQI9xWTHg3leTS2T1lLNHwawliuv0i7ye3LWXMY5vLFue2eQJAQYuRuUw0sm+eL6fQevAshda/E2O+cjMHY8l7bXK6cRdU046RaMki+/+c31UV5wH9oQuBVe/zltB1bulmXkDbMdVppUf3SPgc=
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS7PR12MB5864.namprd12.prod.outlook.com (2603:10b6:8:7b::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.36; Tue, 22 Apr
- 2025 09:12:25 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.8655.025; Tue, 22 Apr 2025
- 09:12:24 +0000
-From: "Koenig, Christian" <Christian.Koenig@amd.com>
-To: Denis Arefev <arefev@swemel.ru>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>
-CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrey
- Grodzovsky <andrey.grodzovsky@amd.com>, Chunming Zhou <david1.zhou@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: AW: [PATCH v2] drm/amdgpu: check a user-provided number of BOs in list
-Thread-Topic: [PATCH v2] drm/amdgpu: check a user-provided number of BOs in
- list
-Thread-Index: AQHbsDxNKPvfxs51gU+r8uYxJ9vWc7OvbLgo
-Date: Tue, 22 Apr 2025 09:12:24 +0000
-Message-ID: <PH7PR12MB56852EECD78C11BD15157AF383BB2@PH7PR12MB5685.namprd12.prod.outlook.com>
-References: <20250418083129.9739-1-arefev@swemel.ru>
-In-Reply-To: <20250418083129.9739-1-arefev@swemel.ru>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=True;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-04-22T09:12:24.464Z;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
- Internal Distribution
- Only; MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=0;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard; 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR12MB5685:EE_|DS7PR12MB5864:EE_
-x-ms-office365-filtering-correlation-id: 28b0ee06-81fe-44df-f2e4-08dd817dcbe9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?Windows-1252?Q?Gjlfr+K+eQFN5CYgou1B7RT2sqjjJXo5IlDETzyNhF05Bwwpx5WKNbeQ?=
- =?Windows-1252?Q?leoyk4A6vaS6J1yjymw6TnKDcg0HkAPLUo35r+AfKggVw7bvjR+kz6PU?=
- =?Windows-1252?Q?rkCmVCSOsdvs5uK0LebSVOdqTLKrDpEW0M900NEJurwBr4aXvyxx5Y4l?=
- =?Windows-1252?Q?8Wn3sRPz4Yojv2yor8aFBILLDSgkqCU0DIJQQqvGSipIExloyZjW54PW?=
- =?Windows-1252?Q?Wdhbupl00GqAWSjzcNDKYJVp5BVcHoyxvOKvDyXVAd67hEqjoVnyah5u?=
- =?Windows-1252?Q?P3sn9mcCzdhRJOj+hvm4cwtIrvDJ/0hCcmYYJVWyr2R6TgvDVH4LbmAv?=
- =?Windows-1252?Q?tMuXveLE+zGlLEoYVzwXxuQsMCCg+DhZioFdr7INPhieDMUfzpIPgYPf?=
- =?Windows-1252?Q?qOiuCH/XsHwbGFReG5pUuW/D5jcMncLOppB6U4pWiVME0SUBI8QvNYF3?=
- =?Windows-1252?Q?qh3xOTvdKSiUp8ptqtcOzzLjcwYoeDnIAkBMBXGkNLz2JL/yS724vX0h?=
- =?Windows-1252?Q?NAO1HH4UFLiCD+GSp5+dnSgBQikLYwW9qcdS5ot4wr7cqqSXvVLa6/fz?=
- =?Windows-1252?Q?PuDGs9BJLXrqhUYwq8aBJhDQFjyN7un578ymGpv1xQ7S5TlIOa5EyVyw?=
- =?Windows-1252?Q?8malmRlI/LMJdQFnvOtYaS9ghrJ7LRfHcDZ1j3YfbjocHoB88SMa6vP/?=
- =?Windows-1252?Q?IARTPaopBXjnnpwYEQaPPi0jtJSmhVoTg8OD1MjnSHL6Sx//LDMy8sPn?=
- =?Windows-1252?Q?uUlElzLYq3KtYAmTajep7DuM+kH6SkT6FakXL3JzaGFqu7U5IzOOXhur?=
- =?Windows-1252?Q?evS9bM41DRAGTBD7lqiVQRLV2ZKiddkzlPesVC9y6Xl9yxbBFK9DDbhm?=
- =?Windows-1252?Q?A4qK3hRIxhNQ5PFMlhHmdWoxlaSiikhlfVBzCGnE7KPgADJCvMk6Sd0B?=
- =?Windows-1252?Q?YIj4hHHGxix13Capj8mdMx/f4+J07VrjRx5Vr7Oa8F+4ZNZSLmFkuSbj?=
- =?Windows-1252?Q?+MCbQbotkH++vc0sGY3fFiOjk5ANV/gpmb7vorDzTNf0KeHwtA8H+fX2?=
- =?Windows-1252?Q?c/XTNOqRKvgQFJaW5rqy2WGmV6KZiyUZw/r+zvJdthMRYginoJGs79Tr?=
- =?Windows-1252?Q?7dd9imrouPhCIGBdwZL7Gvxp17pKquL2MgF1me9TTopyOn4wa+YS1dRw?=
- =?Windows-1252?Q?EluOkke80KGxw8URiQ/77gFAeZvyMFuJG0MaLnBkDT8ZTVqLhCL2HplR?=
- =?Windows-1252?Q?j0ZyIrqlxjq9h3YU0M+Rcg4kV976c/Hd5oCEBndHPxsxMwno7vQeCYhh?=
- =?Windows-1252?Q?I+YN0gPVeSwpOTg0zuZDNsrHdT6U91lS0L0Izj+9i+qlKGsZpQe0zXH3?=
- =?Windows-1252?Q?79p1wsMeiS/v3HeDe5tY3LStLRAOeyS3MxiLys1DMpNdb0hmaQRuHuys?=
- =?Windows-1252?Q?H0IoRiqeRetWmlIoA/Dcw5TVDdYGGz7OH3obCJDVTBxIg/WamtRghlVs?=
- =?Windows-1252?Q?Q42dsCGTxclSYjGsjw0RtNASSkbcD5/mGnrlPukSXw7V/PDaGkmC1QeV?=
- =?Windows-1252?Q?oEUjUCe2c65ZT1xGo3MIJMO/xF1h6ghLMit3RQ=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?alXhHlw3VTdQyCniZQZGbus1ob0Qk1yEYZ8vgD019wPHOpb3Rt1Z3yo2?=
- =?Windows-1252?Q?IhyVFHOvZRx8JATk786W5IgBbKFvegvMYvpJ2x4QquUIgjPntqnMLLuR?=
- =?Windows-1252?Q?2dDrtvMfY1dqiDV4793A903urYc7dk1jNI6SSuUc12OQaXKdfr4qFsou?=
- =?Windows-1252?Q?tkKVY0ckOzs40/K8XQ8Z9DoU5cuZ1VL97xpeuAJVfKzpBzd2jN4/dztz?=
- =?Windows-1252?Q?cDw7Khj6AEndDL8zrzBelgY/y2dtYi5ekfLJrk/QxbR9PXhDw95GNibi?=
- =?Windows-1252?Q?bzUkz4RyIXzKZvCeQkeH2UiOIDLB62+fPRpUax+11aZcyjDMqMNSpMEs?=
- =?Windows-1252?Q?JH9HjhsO7gU56ptcn2Coy5mxo2H7JVIytzGEkQu340NsIPQHnn0sx0KB?=
- =?Windows-1252?Q?NmICYNcMUNtbe5XBi5I4/Y2PNm/3jbLr5Vlv+XfxX7d0k+FlIcsY04Uv?=
- =?Windows-1252?Q?ACX7lk3iBN8CbgymwZfF91cxZMY9//g93CAzZnLpzUw7xlF45z8hkE78?=
- =?Windows-1252?Q?fBgGFLN1xHQb77ZXucpkW6SZ6QhGGiy52jsk0qqPV3FUxgu963AUEGgm?=
- =?Windows-1252?Q?Bra+9IkotENFbDEvqsC4R/acPIiYI1OWBvETH07Buf1J0LV42s0RJQte?=
- =?Windows-1252?Q?fbVzgF7WtzszZaE0/3l2gzpqtSCWbyCo0FsWaqtH5MMzgcu85sxpvI53?=
- =?Windows-1252?Q?7aKmwHWWvfZwe5N9z6YIKyUIHClY8BmZAFLMya+twRv8NdctBm0HlTTt?=
- =?Windows-1252?Q?FMyqG1csBjij5jQ/9rMYGoSOe7DwX5xIpeCgkfad9A8+GXTbMfll5ZNw?=
- =?Windows-1252?Q?MAs4helZkU6Puz/EJmt9jbWLqxxdn3/WDf8zsv0ADS3wuYXp7lZFtJEh?=
- =?Windows-1252?Q?qUP/vp5Rs7ZSLSSxvChaLJ6SxjWx7rIoy9Phfwv+AYgYjvVfTXVgFvU+?=
- =?Windows-1252?Q?2C/rlS9cl9x1aka6sZ17eG4PmmxwAzJVwtde1i3yu9zc3zp9q+JcXKOX?=
- =?Windows-1252?Q?7JltZpKzZWxXkdbk+ln0FC0M5gwjkHoVdRPSycmSs5VWb6rOR1f0yX4+?=
- =?Windows-1252?Q?7NToHvGfym+MwbZOYMXOpvuvsHK+F66/4ms6EGE5nezsK7IbONr4M44D?=
- =?Windows-1252?Q?BcSQHGAqDPf06uzDLqTHZwDGE4gQY1WSHM+3iPVgrMUrWryPkapioTCm?=
- =?Windows-1252?Q?5HQ7vx2HpTZ7bEdX/TXt4vOinYcntnkOS9YErWorr+7JMboBBbfFj25P?=
- =?Windows-1252?Q?SDbMZqH3C1bSRowJxnDqn2LlFhXYVL++DxiAO3xpjTK9N/G0J3NqsJKU?=
- =?Windows-1252?Q?fVxrbnW/61fMYEM32Cqv3+Mf3OOqOYEGypeTaQJb8FW/RVz0qbN3MPvz?=
- =?Windows-1252?Q?Z3lW8r3DGdZ6OLff+JZagvcH7vgPkAcJ7SJu9Afa6UmdvxUFhvl3zFe5?=
- =?Windows-1252?Q?gQL8mM4OrSqwU6vsvekE1xVyXFTLeC7DAx67tEUW9iAblM0GMbS4jfD7?=
- =?Windows-1252?Q?L9VYFqLJcZSmThn2sqtIpYpR8zC/Nazr256XaAJnf9SLJbmztYk22FCr?=
- =?Windows-1252?Q?r8cDunZji39CrsvhMUHTjAbUqxBIBYwfyYi75OSVbX2XDcTCxtp7ucHt?=
- =?Windows-1252?Q?cNol4EOdEOesdyoLhcRtJGfZa8NaVCrAj0eREzjIhu0Bbf29MG4mWt3G?=
- =?Windows-1252?Q?QbuFg/PcQVM=3D?=
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E29CF10E196
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 09:20:17 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 31D02152B
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 02:20:13 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3000A3F5A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 02:20:17 -0700 (PDT)
+Date: Tue, 22 Apr 2025 10:20:13 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>,
+ =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v2 2/2] drm/panthor: Fix the user MMIO offset logic for
+ emulators
+Message-ID: <aAdfTYLff2vZYprn@e110455-lin.cambridge.arm.com>
+References: <20250417144907.3679831-1-boris.brezillon@collabora.com>
+ <20250417144907.3679831-3-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28b0ee06-81fe-44df-f2e4-08dd817dcbe9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2025 09:12:24.8176 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8fmH2RGHyRoBjg1JKxWwWXqje+3hh71ID2W5KTFEH4BNTNj9Bp07PcNPKIcVvf4R
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5864
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250417144907.3679831-3-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,54 +50,266 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - AMD Internal Distribution Only]
+On Thu, Apr 17, 2025 at 04:49:07PM +0200, Boris Brezillon wrote:
+> Currently, we pick the MMIO offset based on the size of the pgoff_t
+> type seen by the process that manipulates the FD, such that a 32-bit
+> process can always map the user MMIO ranges. But this approach doesn't
+> work well for emulators like FEX, where the emulator is a 64-bit binary
+> which might be executing 32-bit code. In that case, the kernel thinks
+> it's the 64-bit process and assumes DRM_PANTHOR_USER_MMIO_OFFSET_64BIT
+> is in use, but the UMD library expects DRM_PANTHOR_USER_MMIO_OFFSET_32BIT,
+> because it can't mmap() anything above the pgoff_t size.
+> 
+> In order to solve that, we need a way to explicitly set the user MMIO
+> offset from the UMD, such that the kernel doesn't have to guess it
+> from the TIF_32BIT flag set on user thread. We keep the old behavior
+> if DRM_PANTHOR_SET_USER_MMIO_OFFSET is never called.
+> 
+> Changes:
+> - Drop the lock/immutable fields and allow SET_USER_MMIO_OFFSET
+>   requests to race with mmap() requests
+> - Don't do the is_user_mmio_offset test twice in panthor_mmap()
+> - Improve the uAPI docs
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.h | 18 ++++++++
+>  drivers/gpu/drm/panthor/panthor_drv.c    | 56 +++++++++++++++++-------
+>  include/uapi/drm/panthor_drm.h           | 38 ++++++++++++++++
+>  3 files changed, 96 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index 4c27b6d85f46..6d8c2d5042f2 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -219,6 +219,24 @@ struct panthor_file {
+>  	/** @ptdev: Device attached to this file. */
+>  	struct panthor_device *ptdev;
+>  
+> +	/** @user_mmio: User MMIO related fields. */
+> +	struct {
+> +		/**
+> +		 * @offset: Offset used for user MMIO mappings.
+> +		 *
+> +		 * This offset should not be used to check the type of mapping
+> +		 * except in panthor_mmap(). After that point, MMIO mapping
+> +		 * offsets have been adjusted to match
+> +		 * DRM_PANTHOR_USER_MMIO_OFFSET and this macro should be used
 
-Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
+Small nit: "that" macro, rather than "this". Given that comment starts with "This offset"
+I was expecting some other local macro.
 
-________________________________________
-Von: Denis Arefev <arefev@swemel.ru>
-Gesendet: Freitag, 18. April 2025 10:31
-An: Deucher, Alexander
-Cc: Koenig, Christian; David Airlie; Simona Vetter; Andrey Grodzovsky; Chun=
-ming Zhou; amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; =
-linux-kernel@vger.kernel.org; lvc-project@linuxtesting.org; stable@vger.ker=
-nel.org
-Betreff: [PATCH v2] drm/amdgpu: check a user-provided number of BOs in list
+> +		 * instead.
+> +		 * Make sure this rule is followed at all times, because
+> +		 * userspace is in control of the offset, and can change the
+> +		 * value behind out back, potentially leading to erronous
 
-The user can set any value to the variable =91bo_number=92, via the ioctl
-command DRM_IOCTL_AMDGPU_BO_LIST. This will affect the arithmetic
-expression =91in->bo_number * in->bo_info_size=92, which is prone to
-overflow. Add a valid value check.
+s/out/our/, s/erronous/erroneous/
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> +		 * branching happening in kernel space.
 
-Fixes: 964d0fbf6301 ("drm/amdgpu: Allow to create BO lists in CS ioctl v3")
-Cc: stable@vger.kernel.org
-Signed-off-by: Denis Arefev <arefev@swemel.ru>
----
-V1 -> V2:
-Set a reasonable limit 'USHRT_MAX' for 'bo_number' it as Christian K=F6nig =
-<christian.koenig@amd.com> suggested
+Is "potentially" here still valid if someone follows the rule? Maybe
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c | 3 +++
- 1 file changed, 3 insertions(+)
+s/back, potentially leading/back. Otherwise it can lead/   ?
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_bo_list.c
-index 702f6610d024..85f7ee1e085d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c
-@@ -189,6 +189,9 @@ int amdgpu_bo_create_list_entry_array(struct drm_amdgpu=
-_bo_list_in *in,
-        struct drm_amdgpu_bo_list_entry *info;
-        int r;
+Otherwise, LGTM!
 
-+       if (!in->bo_number || in->bo_number > USHRT_MAX)
-+               return -EINVAL;
-+
-        info =3D kvmalloc_array(in->bo_number, info_size, GFP_KERNEL);
-        if (!info)
-                return -ENOMEM;
---
-2.43.0
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
+Best regards,
+Liviu
+
+> +		 */
+> +		u64 offset;
+> +	} user_mmio;
+> +
+>  	/** @vms: VM pool attached to this file. */
+>  	struct panthor_vm_pool *vms;
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 4d4a52a033f6..aedef2bfa7ac 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1338,6 +1338,20 @@ static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *data,
+>  	return 0;
+>  }
+>  
+> +static int panthor_ioctl_set_user_mmio_offset(struct drm_device *ddev,
+> +					      void *data, struct drm_file *file)
+> +{
+> +	struct drm_panthor_set_user_mmio_offset *args = data;
+> +	struct panthor_file *pfile = file->driver_priv;
+> +
+> +	if (args->offset != DRM_PANTHOR_USER_MMIO_OFFSET_32BIT &&
+> +	    args->offset != DRM_PANTHOR_USER_MMIO_OFFSET_64BIT)
+> +		return -EINVAL;
+> +
+> +	WRITE_ONCE(pfile->user_mmio.offset, args->offset);
+> +	return 0;
+> +}
+> +
+>  static int
+>  panthor_open(struct drm_device *ddev, struct drm_file *file)
+>  {
+> @@ -1355,6 +1369,18 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
+>  	}
+>  
+>  	pfile->ptdev = ptdev;
+> +	pfile->user_mmio.offset = DRM_PANTHOR_USER_MMIO_OFFSET;
+> +
+> +#ifdef CONFIG_ARM64
+> +	/*
+> +	 * With 32-bit systems being limited by the 32-bit representation of
+> +	 * mmap2's pgoffset field, we need to make the MMIO offset arch
+> +	 * specific.
+> +	 */
+> +	if (test_tsk_thread_flag(current, TIF_32BIT))
+> +		pfile->user_mmio.offset = DRM_PANTHOR_USER_MMIO_OFFSET_32BIT;
+> +#endif
+> +
+>  
+>  	ret = panthor_vm_pool_create(pfile);
+>  	if (ret)
+> @@ -1407,6 +1433,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+>  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+> +	PANTHOR_IOCTL(SET_USER_MMIO_OFFSET, set_user_mmio_offset, DRM_RENDER_ALLOW),
+>  };
+>  
+>  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+> @@ -1415,30 +1442,26 @@ static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+>  	struct panthor_file *pfile = file->driver_priv;
+>  	struct panthor_device *ptdev = pfile->ptdev;
+>  	u64 offset = (u64)vma->vm_pgoff << PAGE_SHIFT;
+> +	u64 user_mmio_offset;
+>  	int ret, cookie;
+>  
+>  	if (!drm_dev_enter(file->minor->dev, &cookie))
+>  		return -ENODEV;
+>  
+> -#ifdef CONFIG_ARM64
+> -	/*
+> -	 * With 32-bit systems being limited by the 32-bit representation of
+> -	 * mmap2's pgoffset field, we need to make the MMIO offset arch
+> -	 * specific. This converts a user MMIO offset into something the kernel
+> -	 * driver understands.
+> +	/* Adjust the user MMIO offset to match the offset used kernel side.
+> +	 * We use a local variable with a READ_ONCE() here to make sure
+> +	 * the user_mmio_offset we use for the is_user_mmio_mapping() check
+> +	 * hasn't changed when we do the offset adjustment.
+>  	 */
+> -	if (test_tsk_thread_flag(current, TIF_32BIT) &&
+> -	    offset >= DRM_PANTHOR_USER_MMIO_OFFSET_32BIT) {
+> -		offset += DRM_PANTHOR_USER_MMIO_OFFSET_64BIT -
+> -			  DRM_PANTHOR_USER_MMIO_OFFSET_32BIT;
+> +	user_mmio_offset = READ_ONCE(pfile->user_mmio.offset);
+> +	if (offset >= user_mmio_offset) {
+> +		offset -= user_mmio_offset;
+> +		offset += DRM_PANTHOR_USER_MMIO_OFFSET;
+>  		vma->vm_pgoff = offset >> PAGE_SHIFT;
+> -	}
+> -#endif
+> -
+> -	if (offset >= DRM_PANTHOR_USER_MMIO_OFFSET)
+>  		ret = panthor_device_mmap_io(ptdev, vma);
+> -	else
+> +	} else {
+>  		ret = drm_gem_mmap(filp, vma);
+> +	}
+>  
+>  	drm_dev_exit(cookie);
+>  	return ret;
+> @@ -1516,6 +1539,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+>   * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
+>   *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
+>   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+> + * - 1.4 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
+>   */
+>  static const struct drm_driver panthor_drm_driver = {
+>  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> @@ -1529,7 +1553,7 @@ static const struct drm_driver panthor_drm_driver = {
+>  	.name = "panthor",
+>  	.desc = "Panthor DRM driver",
+>  	.major = 1,
+> -	.minor = 3,
+> +	.minor = 4,
+>  
+>  	.gem_create_object = panthor_gem_create_object,
+>  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index dbb907eae443..1d1282f2c9fa 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -127,6 +127,20 @@ enum drm_panthor_ioctl_id {
+>  
+>  	/** @DRM_PANTHOR_TILER_HEAP_DESTROY: Destroy a tiler heap. */
+>  	DRM_PANTHOR_TILER_HEAP_DESTROY,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_SET_USER_MMIO_OFFSET: Set the offset to use as the user MMIO offset.
+> +	 *
+> +	 * The default behavior is to pick the MMIO offset based on the size of the pgoff_t
+> +	 * type seen by the process that manipulates the FD, such that a 32-bit process can
+> +	 * always map the user MMIO ranges. But this approach doesn't work well for emulators
+> +	 * like FEX, where the emulator is an 64-bit binary which might be executing 32-bit
+> +	 * code. In that case, the kernel thinks it's the 64-bit process and assumes
+> +	 * DRM_PANTHOR_USER_MMIO_OFFSET_64BIT is in use, but the UMD library expects
+> +	 * DRM_PANTHOR_USER_MMIO_OFFSET_32BIT, because it can't mmap() anything above the
+> +	 * pgoff_t size.
+> +	 */
+> +	DRM_PANTHOR_SET_USER_MMIO_OFFSET,
+>  };
+>  
+>  /**
+> @@ -980,6 +994,28 @@ struct drm_panthor_tiler_heap_destroy {
+>  	__u32 pad;
+>  };
+>  
+> +/**
+> + * struct drm_panthor_set_user_mmio_offset - Arguments passed to
+> + * DRM_IOCTL_PANTHOR_SET_USER_MMIO_OFFSET
+> + *
+> + * This ioctl is only really useful if you want to support userspace
+> + * CPU emulation environments where the size of an unsigned long differs
+> + * between the host and the guest architectures.
+> + */
+> +struct drm_panthor_set_user_mmio_offset {
+> +	/**
+> +	 * @offset: User MMIO offset to use.
+> +	 *
+> +	 * Must be either DRM_PANTHOR_USER_MMIO_OFFSET_32BIT or
+> +	 * DRM_PANTHOR_USER_MMIO_OFFSET_64BIT.
+> +	 *
+> +	 * Use DRM_PANTHOR_USER_MMIO_OFFSET (which selects OFFSET_32BIT or
+> +	 * OFFSET_64BIT based on the size of an unsigned long) unless you
+> +	 * have a very good reason to overrule this decision.
+> +	 */
+> +	__u64 offset;
+> +};
+> +
+>  /**
+>   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
+>   * @__access: Access type. Must be R, W or RW.
+> @@ -1022,6 +1058,8 @@ enum {
+>  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_CREATE, tiler_heap_create),
+>  	DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY =
+>  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_DESTROY, tiler_heap_destroy),
+> +	DRM_IOCTL_PANTHOR_SET_USER_MMIO_OFFSET =
+> +		DRM_IOCTL_PANTHOR(WR, SET_USER_MMIO_OFFSET, set_user_mmio_offset),
+>  };
+>  
+>  #if defined(__cplusplus)
+> -- 
+> 2.49.0
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
