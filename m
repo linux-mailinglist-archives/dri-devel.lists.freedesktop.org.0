@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2B0A96F4E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 16:53:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44629A96F6A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 16:56:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D40E10E5C5;
-	Tue, 22 Apr 2025 14:53:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D52CB10E5EC;
+	Tue, 22 Apr 2025 14:56:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RUX/PHzi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sp4msGdI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1292610E2A9;
- Tue, 22 Apr 2025 14:53:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70D7110E5EB;
+ Tue, 22 Apr 2025 14:56:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 78CE05C0F2C;
- Tue, 22 Apr 2025 14:50:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 976CEC4CEE9;
- Tue, 22 Apr 2025 14:52:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DA2355C5C38;
+ Tue, 22 Apr 2025 14:54:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D9ABC4CEE9;
+ Tue, 22 Apr 2025 14:56:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745333579;
- bh=018saJNBRs7zemO9fzSOBQxHo1poUiqtBOtAUljjlY4=;
+ s=k20201202; t=1745333791;
+ bh=E+U3qa/+M2Msx+raT0FohxtswXCiQETa1u6IufUDpnI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RUX/PHzinyM9Br2ohsV5psWHr9HC30mW4Qfvv0nJlSi/a8EoPfm59C+m58wvtX1e8
- iBpR+fxYxQITB6uIRouvyd40V6zf6X5no5959gFexwuy1k7KY4xKidKnOsogmRP2jG
- dK6+kodnftT/o4Yn4apZC7fKIX9gRMZ9blNUqAkZjVaeGHLP5Z6wkjuFMUxidsB2Ns
- 3VLudYWHplEtA48QEQBhn/wycwXaXkOTCFzES4dRCu4+Fr0tro5Nv/9oB7UYA1G19h
- 8by4A+JPsBOJNEbg80DHrihnJAl42rGL641kOQKBtLjwtbT6dzT0lqAOlbAAjr3RGL
- Z6AJRZ7Da57vQ==
-Date: Tue, 22 Apr 2025 16:52:54 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: phasta@kernel.org
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] drm/sched: Warn if pending list is not empty
-Message-ID: <aAetRm3Sbp9vzamg@cassiopeiae>
-References: <aAEUwjzZ9w9xlKRY@cassiopeiae>
- <0e8313dc-b1bb-4ce7-b5b7-b8b3e027adb7@igalia.com>
- <0bfa746ca37de1813db22e518ffb259648d29e02.camel@mailbox.org>
- <5a5d4a33-2f7b-46e4-8707-7445ac3de376@igalia.com>
- <aAd54jUwBwgc-_g2@cassiopeiae>
- <d3c0f721-2d19-4a1c-a086-33e8d6bd7be6@igalia.com>
- <aAeMVtdkrAoMrmVk@cassiopeiae>
- <52574769-2120-41a1-b5dc-50a42da5dca6@igalia.com>
- <aAeiwZ2j2PhEwhVh@cassiopeiae>
- <f0ae2d411c21e799491244fe49880a4acca32918.camel@mailbox.org>
+ b=sp4msGdId7YV9KRqV+TxMuXT+ifIpgqbBjEy4Bob00MC8M4GFlRG1+OD5ehMy9hAI
+ cyGf4b6sQvnpv8mreGunbdnto751CiK06pNeh5fJtEnbSC1etcsty9AW1LuwFPi6RV
+ VkJzJ6y+eV4iF18JPgGzbQJIsmRWvkVH6amawh/E4KDSmpP0u/iBwLFRFBQpc+M3pm
+ nPgSC08Mi6ww+ijP9F2eeKzIMeQKofkTkdJzT/3ACJsz7G8x54hT9oVG9w/Av2zQT6
+ IGs7Bj7953K3ZkA3LbyQpxEZadQShSF+z6D3XhfHrkw/OfQ1TJ8jPy6oLYCa178jNy
+ Z9a+k00nW1Jgw==
+Date: Tue, 22 Apr 2025 07:56:28 -0700
+From: Kees Cook <kees@kernel.org>
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jesse Zhang <jesse.zhang@amd.com>,
+ Tim Huang <Tim.Huang@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Alexander Richards <electrodeyt@gmail.com>,
+ Lijo Lazar <lijo.lazar@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Al Viro <viro@zeniv.linux.org.uk>, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] drm/amdgpu/atom: Work around vbios NULL offset false
+ positive
+Message-ID: <202504220755.179FD11DAD@keescook>
+References: <20250421215833.work.924-kees@kernel.org>
+ <CADnq5_MbGS+DBRZhQccqP-o50vvv6uiT31msefRTw5bMydAAKg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f0ae2d411c21e799491244fe49880a4acca32918.camel@mailbox.org>
+In-Reply-To: <CADnq5_MbGS+DBRZhQccqP-o50vvv6uiT31msefRTw5bMydAAKg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,91 +71,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 22, 2025 at 04:16:48PM +0200, Philipp Stanner wrote:
-> On Tue, 2025-04-22 at 16:08 +0200, Danilo Krummrich wrote:
-> > On Tue, Apr 22, 2025 at 02:39:21PM +0100, Tvrtko Ursulin wrote:
+On Tue, Apr 22, 2025 at 09:22:26AM -0400, Alex Deucher wrote:
+> On Mon, Apr 21, 2025 at 5:59â€¯PM Kees Cook <kees@kernel.org> wrote:
+> >
+> > GCC really does not want to consider NULL (or near-NULL) addresses as
+> > valid, so calculations based off of NULL end up getting range-tracked into
+> > being an offset wthin a 0 byte array. It gets especially mad about this:
+> >
+> >                 if (vbios_str == NULL)
+> >                         vbios_str += sizeof(BIOS_ATOM_PREFIX) - 1;
+> >         ...
+> >         if (vbios_str != NULL && *vbios_str == 0)
+> >                 vbios_str++;
+> >
+> > It sees this as being "sizeof(BIOS_ATOM_PREFIX) - 1" byte offset from
+> > NULL, when building with -Warray-bounds (and the coming
+> > -fdiagnostic-details flag):
+> >
+> > In function 'atom_get_vbios_pn',
+> >     inlined from 'amdgpu_atom_parse' at drivers/gpu/drm/amd/amdgpu/atom.c:1553:2:
+> > drivers/gpu/drm/amd/amdgpu/atom.c:1447:34: error: array subscript 0 is outside array bounds of 'unsigned char[0]' [-Werror=array-bounds=]
+> >  1447 |         if (vbios_str != NULL && *vbios_str == 0)
+> >       |                                  ^~~~~~~~~~
+> >   'amdgpu_atom_parse': events 1-2
+> >  1444 |                 if (vbios_str == NULL)
+> >       |                    ^
+> >       |                    |
+> >       |                    (1) when the condition is evaluated to true
+> > ......
+> >  1447 |         if (vbios_str != NULL && *vbios_str == 0)
+> >       |                                  ~~~~~~~~~~
+> >       |                                  |
+> >       |                                  (2) out of array bounds here
+> > In function 'amdgpu_atom_parse':
+> > cc1: note: source object is likely at address zero
+> >
+> > As there isn't a sane way to convince it otherwise, hide vbios_str from
+> > GCC's optimizer to avoid the warning so we can get closer to enabling
+> > -Warray-bounds globally.
+> >
+> > Signed-off-by: Kees Cook <kees@kernel.org>
 > 
-> > > Sorry I don't see the argument for the claim it is relying on the
-> > > internals
-> > > with the re-positioned drm_sched_fini call. In that case it is
-> > > fully
-> > > compliant with:
-> > > 
-> > > /**
-> > >  * drm_sched_fini - Destroy a gpu scheduler
-> > >  *
-> > >  * @sched: scheduler instance
-> > >  *
-> > >  * Tears down and cleans up the scheduler.
-> > >  *
-> > >  * This stops submission of new jobs to the hardware through
-> > >  * drm_sched_backend_ops.run_job(). Consequently,
-> > > drm_sched_backend_ops.free_job()
-> > >  * will not be called for all jobs still in
-> > > drm_gpu_scheduler.pending_list.
-> > >  * There is no solution for this currently. Thus, it is up to the
-> > > driver to
-> > > make
-> > >  * sure that:
-> > >  *
-> > >  *  a) drm_sched_fini() is only called after for all submitted jobs
-> > >  *     drm_sched_backend_ops.free_job() has been called or that
-> > >  *  b) the jobs for which drm_sched_backend_ops.free_job() has not
-> > > been
-> > > called
-> > >  *
-> > >  * FIXME: Take care of the above problem and prevent this function
-> > > from
-> > > leaking
-> > >  * the jobs in drm_gpu_scheduler.pending_list under any
-> > > circumstances.
-> > > 
-> > > ^^^ recommended solution b).
-> > 
-> > This has been introduced recently with commit baf4afc58314
-> > ("drm/sched: Improve
-> > teardown documentation") and I do not agree with this. The scheduler
-> > should
-> > *not* make any promises about implementation details to enable
-> > drivers to abuse
-> > their knowledge about component internals.
-> > 
-> > This makes the problem *worse* as it encourages drivers to rely on
-> > implementation details, making maintainability of the scheduler even
-> > worse.
-> > 
-> > For instance, what if I change the scheduler implementation, such
-> > that for every
-> > entry in the pending_list the scheduler allocates another internal
-> > object for
-> > ${something}? Then drivers would already fall apart leaking those
-> > internal
-> > objects.
-> > 
-> > Now, obviously that's pretty unlikely, but I assume you get the idea.
-> > 
-> > The b) paragraph in drm_sched_fini() should be removed for the given
-> > reasons.
-> > 
-> > AFAICS, since the introduction of this commit, driver implementations
-> > haven't
-> > changed in this regard, hence we should be good.
-> > 
-> > So, for me this doesn't change the fact that every driver
-> > implementation that
-> > just stops the scheduler at an arbitrary point of time and tries to
-> > clean things
-> > up manually relying on knowledge about component internals is broken.
-> 
-> To elaborate on that, this documentation has been written so that we at
-> least have *some* documentation about the problem, instead of just
-> letting new drivers run into the knife.
-> 
-> The commit explicitly introduced the FIXME, marking those two hacky
-> workarounds as undesirable.
-> 
-> But back then we couldn't fix the problem quickly, so it was either
-> document the issue at least a bit, or leave it completely undocumented.
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-Agreed, but b) really sounds like an invitation (or even justification) for
-doing the wrong thing, let's removed it.
+Thanks!
+
+> Do you want me to pick this up, or do you want to take this through
+> some other tree?
+
+Whatever is easier for you. I'm happy to carry it if you'd like. :)
+There's no rush on these -- it's been a long road to getting
+-Warray-bounds enabled. ;)
+
+-- 
+Kees Cook
