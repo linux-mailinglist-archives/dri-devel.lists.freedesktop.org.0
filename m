@@ -2,53 +2,174 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB52A96690
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 12:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0B2A96695
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 12:55:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 797F110E584;
-	Tue, 22 Apr 2025 10:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC3410E557;
+	Tue, 22 Apr 2025 10:55:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="FvwUOSiQ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LNa2CsCE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C4E110E591
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 10:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=QMv3RLhDfFl18cOjQk7j4nbAHXZcRym9duwcmihoqlg=; b=FvwUOSiQrKTqG0sFKXd/A49kCM
- nHhw0qJRzSFIG/och1+NQwTCyftwHiIOPj/jB7dMEcPvB/HFpwSmhotZhm9womu1+F9U+Zz8G1lIc
- NJfngb0ElcgCE0nbOo7McqpbJ13isn7FTZjEAxWdzxRQVZkpzQWOb0vP6hM9UwlTkot+y2Zw72qn3
- bQgFOp5kKhTZ0rUtG4XxHFpfVJCq0FePeDMr1FLsHW88+MBHcuY5Q8n5IicbrNE9dWNMmolzhHalF
- ePnI/IXVZoKWHO73lfr7zoXCOjwv1eEsYy1Ku67RVX7T0Ob4/87aXs5yds06/3OPjNq9mx+6JCLV4
- 0v7mV/XQ==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1u7BGD-006P9q-2Q; Tue, 22 Apr 2025 12:53:53 +0200
-Message-ID: <c083b678-72b2-43ab-9252-e91b88e06bc7@igalia.com>
-Date: Tue, 22 Apr 2025 11:53:52 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] drm/sched: Allow drivers to register for pending list
- cleanup
-To: phasta@kernel.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20250418113211.69956-1-tvrtko.ursulin@igalia.com>
- <72c759df0988d48ae64c749927969168369837bc.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <72c759df0988d48ae64c749927969168369837bc.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97CD810E1A7;
+ Tue, 22 Apr 2025 10:55:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745319323; x=1776855323;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=rwLK0flfZoBR4+CVL16rUBqL7n1zk0fjlO0RNkRcey0=;
+ b=LNa2CsCESv2hfDF+fGgjLE+8q7xNLoYYpEQimRrlazTIaMsnODDPn1o9
+ rCUgGBWBwELl46KEcrWOXEqcbrhL9Y2eRK41anspGLgb0UgJWLepXzwNw
+ yAk5WVqAapUubi56NGZ5JNOx1s+VgrZYsz20zZqQaKCwaFlu0SdvhcJcf
+ FITwmCeTmlvKWUmziYQJETbz6pzyt4sIuHb/EtMECG0yOc+vvejZ8SvpY
+ mnzWw8+CNx5pAf3gCm/1X8koPH2cmwwAHWB7yShkcXZ77hs2vIK96H6LP
+ TeHcYZcuQRS3HNKxByjRRxo7C82265UWhGLve0rPwfpcjMKQ/4BGs5rSE Q==;
+X-CSE-ConnectionGUID: LYiHkQ6ZQXq3IxXgC5oZyg==
+X-CSE-MsgGUID: vZvPm9BjRjC/o/kxIZa3mw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="57060350"
+X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; d="scan'208";a="57060350"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2025 03:54:21 -0700
+X-CSE-ConnectionGUID: V4WJdiKQT8ajioY63vLIEQ==
+X-CSE-MsgGUID: GoJvUUr8TXKZgxFR9r4xSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; d="scan'208";a="136851935"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2025 03:54:21 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Tue, 22 Apr 2025 03:54:19 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Tue, 22 Apr 2025 03:54:19 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 22 Apr 2025 03:54:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y9ynMxP6H3NTNY+XiZdxMB0iwPwksB2zA/Id0RIVvh5sz+AzxRaUbccw2Hwyi2/4VuW0jypjlLB+jz5ZBXydpaheQXRcMojeUxZkzhs7jWr2f/zC8r7XEv3x5xA3myqfpKmdm7WnTjIejboI2pxueMiwFDbCfrugdyEZ2z8MUsQiVjkcMSh8vIdUMuVfJz3Du46f1hB4fS+IGEOGea6Fsi7oF9JyTS0QFa2aX7qGXerwDA81t6SY+n4bXXVJm54GDH1JOcWz9CrWYU182dOIDLhJqPscvU6LVhTwT1surDAbOZPe5qWEj/O5xKjgaLy5jOqj3eE1NRC0eSsdcbMysA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WSBxSP0S3gRNzIKq4Z7F/TMTjNWCpI2BX7BHssnQRIM=;
+ b=P2iDPvee6ax7IO43ZY7JplAr68GoapEGXfmBCacX4HdxRs4jFgudscs4DY6pOTEYGb9KADoWqFjPVshv8xOuEyTJ1wga1aOjzCWFbZuJVt+Aqozk/YJCPAe3Sw+QUJmgCKiYzPtlmfaaajNkYqsklFBfZ1aWz7gR24NPkJXHMyQziwBpeCw6PvXTpx7Ey3942ecX8+bFdw/iY/gAQP+PCjbCryYy9Zfo3fZsI7og4sMzedcjyNtiPJcSPAWxboozEY510iEYN6YU+g1vS5P1Z4S3Dyc8RIZMxn2Qspk8HVvN4m9ZO1Q/msh4aCv36bpJ8waeTy6LlMUnuK83X9rgag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by CY5PR11MB6186.namprd11.prod.outlook.com (2603:10b6:930:26::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Tue, 22 Apr
+ 2025 10:54:03 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%5]) with mapi id 15.20.8655.033; Tue, 22 Apr 2025
+ 10:54:03 +0000
+Date: Tue, 22 Apr 2025 13:54:06 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+CC: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "Govindapillai, Vinod" <vinod.govindapillai@intel.com>
+Subject: Re: [PATCH v3 1/3] drm/display/dp: Export fn to calculate link
+ symbol cycles
+Message-ID: <aAd1Tm1T2_kDeKtz@ideak-desk.fi.intel.com>
+References: <20250417-hblank-v3-0-d3387df7efce@intel.com>
+ <20250417-hblank-v3-1-d3387df7efce@intel.com>
+ <SN7PR11MB675003796B6C9B181A696175E3BB2@SN7PR11MB6750.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <SN7PR11MB675003796B6C9B181A696175E3BB2@SN7PR11MB6750.namprd11.prod.outlook.com>
+X-ClientProxiedBy: DUZP191CA0001.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:4f9::24) To SJ0PR11MB4845.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d1::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|CY5PR11MB6186:EE_
+X-MS-Office365-Filtering-Correlation-Id: c93c3e4c-b6da-4c05-5e89-08dd818bfe70
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?fQYj+x1VsW01T+XyMeYj/iYdKhwl9HzCYJxts2RwAXXIdzmMgMn706DLe6?=
+ =?iso-8859-1?Q?unHINaOEuPaLvUrxDRdlF1pwDZty/g8A5C4shvCGjrfimxqAon6A5pa5+U?=
+ =?iso-8859-1?Q?RGl0Sne71d5vAYo8wx3LPrRTcUMbIZLGfCUCJqxw3iE4vqNZjsuMmj9dGO?=
+ =?iso-8859-1?Q?uBb/yDf2Mk7CtnCMOZpkK/mEESXJARTWjoxOR4gikFV1fL/I00++OAT3R6?=
+ =?iso-8859-1?Q?nRFWqOvCiMgvkFdZ9NH038XpcsxpvDstnsCqlyNIvv+GO0HJTsiBRUx05h?=
+ =?iso-8859-1?Q?2aqwEl31kQ1txIhLjgv29tkF3nr6giQejYOSorsgrSZDOvZ8SLogSTKW2Y?=
+ =?iso-8859-1?Q?sOOL08kSDqkgVBVepPN0+GJRTEooT2C6fIPSDB/9ADTZk9OZ3/dEkKrUAr?=
+ =?iso-8859-1?Q?vVv4bv4qfH6Oe6Azku6AbHsXA13qy2cGNGEtTJlN+dJ++6BykbBck0SHsZ?=
+ =?iso-8859-1?Q?P3zFhdEhOnOIoqPk6do/vosBiK30XD6Gxl1hDVW7Burh0ld4Ikb/voYBgw?=
+ =?iso-8859-1?Q?LP6oDq0PjdSNX8kZwiOi6QfS3P33PHoDOaazE8VntVlRj4VfPIEZSndf/2?=
+ =?iso-8859-1?Q?0ztpJChPtZEiXCLU94ZIS0FVtOcn1afoUx3dRuBDiAjYGL65y96iW4phGd?=
+ =?iso-8859-1?Q?P4CXhD/LecmdtJD0o//aplJMyj9DL7HqlPhusQkE32jGz2bNZozxPhJv6x?=
+ =?iso-8859-1?Q?Fp6VgjZ173mCHT5XdhcdQjZk59jTL0aaO4jhDIGw/hKmpjZjXarSqC/IOa?=
+ =?iso-8859-1?Q?0hJeM84Kgi4ZkzImL7HhXQqjCvZeVeI9opRpuA6vIqktywQhLUBmYSiDm1?=
+ =?iso-8859-1?Q?zlPevmoyvc6mvGSRvE+RyhaCvOMReYLfP6p/4QS+8bbw/JYsmOaPqmer+b?=
+ =?iso-8859-1?Q?sKpV4WQftO6KIvAveNeVbn3YB/KQCILqljVR5Zv021v+UMYXkUHAQG0FkP?=
+ =?iso-8859-1?Q?Ghcoh7x/KH6NJUFcSeK+MKaUnHy1B9qtJAiRtXqxv2aG9jvVaw7dqZ0jPo?=
+ =?iso-8859-1?Q?qC4bIgFk16tuZ+OFzoXDnimkJigbrLuWu15Mo+EbfYRvxDgPpesIApJ84I?=
+ =?iso-8859-1?Q?lMHF41TSRoNd4DfzEWIpwiSDsRsQM7tEdLU9QFfmcwtN4hBYMYkqvcWltZ?=
+ =?iso-8859-1?Q?yAJJSCvVAu7hFJpHS6QGCpqrueAT6jnhVfUNaadDKda3FYASsjJvVkYqSZ?=
+ =?iso-8859-1?Q?dQfQPkE/F+yDo78opAnEw545zCbeGA610zmuvnNFYdsyA20xv1CwJgRNbB?=
+ =?iso-8859-1?Q?HPe41VUwiGsirWFljuQ0fpheemYQsaPXsKvKkmQljjENhqHOprwZ7KLib2?=
+ =?iso-8859-1?Q?3ZOJoL+h6quAFUJeblA9/h+P8ImLAAKDkcaoUiVHV0FzxvMdeaEIOfVXSB?=
+ =?iso-8859-1?Q?OMyb+DI6RtoiCio68NdUg7ES3ksBl9eNhmem84YA/ygb5zh9NoNW/1QpCT?=
+ =?iso-8859-1?Q?iaSb4PPmIP1E4cV+CgvmwM6ECqAiQIiMe9xfjQnct7ik1CtL+h08qu9IXU?=
+ =?iso-8859-1?Q?KCzGDGzCQtVv797BNM307q?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?ZmNyAE+ZAnp7pwd6jrjDUzlxgKZRiCGFmcFMj7dKfZXccUUdZmzTMTgtIR?=
+ =?iso-8859-1?Q?a59bjaTeZ53I+43RwhnADiskTIOZhhzowJTX4wvIcTzsyGxN0UShmZpcWF?=
+ =?iso-8859-1?Q?mHdRE4Bo0RvT6q3Q30qhNVX5+v2/LUH4Wxz3Ox+dBWk5rA87MybZngi6BH?=
+ =?iso-8859-1?Q?gL/CddWKmktAsz3Utz9XHOj6v5zDSLoPBwvX3PgnkyxRWzyFbaPIbc3LBa?=
+ =?iso-8859-1?Q?fkclG0IZxjxIe3iiGI0fuYXyiU0DWbxqsZ9Tli52498xoMVhlm9MwA2aPL?=
+ =?iso-8859-1?Q?7wvQ8bGe1YbN7LJCi2sT4hJcAjkjP9FIlTyj+rlvB1js9Z1u6OjLBhTvT0?=
+ =?iso-8859-1?Q?rtoDO8dXVcUWObCzHBHiWGRdlqW5QhFpdrWxgUa/C2Pccl5cfvrHPnm8Gf?=
+ =?iso-8859-1?Q?W08jrmSoRlTFcuQ3aTHKiv/TcFuwgiGejNFluIEbXCtc2/UASzB7Vx1CjE?=
+ =?iso-8859-1?Q?x1knwzny8NmKa9zq4HPPVCZU+UILOQUvbpEXG4mPbdeR4fzrkaWo6vaiSh?=
+ =?iso-8859-1?Q?5U/ts2KlXyVJEI+pydEJLp27AoDP3Mb1Q13PccgciYF2IIPeq9hoa1PZGS?=
+ =?iso-8859-1?Q?VwadNZVk6OqsDtAMurRXw6ANrf4YLh98+oZI1KsH0eSTDkvMc7xz/aiQ5s?=
+ =?iso-8859-1?Q?LVcXkBZEfaqopC8P27USmfgTN+kC+a3Rr3Gcl4qbXD2GDVkGrlFfL5fSFu?=
+ =?iso-8859-1?Q?NBdY1KJQdYzW02meBV8xltBREbcRWdRml1KbBn4KxK/ksxyipFALcUNM6M?=
+ =?iso-8859-1?Q?UGWrAeR6+0tKzwsOkW6bMxXdtWeOs8tIh/A6CAA7jQIC0SUcHkPBgpxyzD?=
+ =?iso-8859-1?Q?uEwPCOuxh83IoGM47pQ3w4RX3lJzeH5g9QaHeDLRMEVE8yFeX+24rw8Pgf?=
+ =?iso-8859-1?Q?rG3x2t0FNGsRTbzXelJBfGn7tqEvGmMJWGnUvkNeVSJrh3bO3r4sx+4lLY?=
+ =?iso-8859-1?Q?IMGTFDfhgCNH9cKqtO9sjzucLpc96p2Qjmp2qlSXBPRXvKHsgXE9yZST4X?=
+ =?iso-8859-1?Q?S7gzObCPaLSwU3c+Y8Kfz6en5u4X07J/oAqgJPopLbMrdVHtuJ0ceT9bIV?=
+ =?iso-8859-1?Q?WHI1fGrcxUlr19eVke44iLQEFHy2xeyGJAJUIbbeJXZWnfozugbZy1Vs5o?=
+ =?iso-8859-1?Q?YT5jYHq8I8zHkFAa6LfpqIzGIHNq+f33MaFXpwff7Z26viIvy6/3oVYNyw?=
+ =?iso-8859-1?Q?2R7BL6fDF0IRY4AeYxQLUHyjikTj4js0dtmhDDxfqbLGMUo556/X4dAdeF?=
+ =?iso-8859-1?Q?kmvCmMmCAGzvq7Lv5jZUNz8CKfMEF6LYjAsK/Ns1/ocqMFZB4dLZIGiIb8?=
+ =?iso-8859-1?Q?lMNKNbggM2TcIXldOqDiX0wM6CNpYmHal06JJMzqR6UINj8kzCyEJ7ptMG?=
+ =?iso-8859-1?Q?Ij3U1PZRG0IFmvHBuUdWr/bjr8EKjhYb5vfh7OD8DSSy9qkFpGto+MbnHx?=
+ =?iso-8859-1?Q?4vAi3uWZioLk/iR4LREvCcy9Qun0a+QIGgCMVoQVxlzlv12L2GN4RkMADk?=
+ =?iso-8859-1?Q?Dlm4cyMR8vF6pIE/E16UfAPWLxlvAfqdonx+2d8EE3ThPo0gvdL2GT4Y+1?=
+ =?iso-8859-1?Q?QNULw+SNEDumoOvwr5HK4g8p2liyn6Spfin0dHyQa47EhNp7PL6i9kJx0w?=
+ =?iso-8859-1?Q?UB97vQcqQtzcyIS6q+KvazrhUJL/batL4S?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c93c3e4c-b6da-4c05-5e89-08dd818bfe70
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 10:54:03.2208 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g7Kj9p7UVe8LiW2p1vPdfHrYARv7XmbdKNVb0RgkwqfrrDkVF7KNiH+JWaMM/bnPysOF1UtONKLo5t/b5gObrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6186
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,391 +182,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Apr 22, 2025 at 08:03:52AM +0300, Kandpal, Suraj wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Arun R
+> > Murthy
+> > Sent: Thursday, April 17, 2025 4:22 PM
+> > To: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; intel-
+> > xe@lists.freedesktop.org
+> > Cc: Govindapillai, Vinod <vinod.govindapillai@intel.com>; Deak, Imre
+> > <imre.deak@intel.com>; Murthy, Arun R <arun.r.murthy@intel.com>
+> > Subject: [PATCH v3 1/3] drm/display/dp: Export fn to calculate link symbol
+> > cycles
+> > 
+> > Unify the function to calculate the link symbol cycles for both dsc and non-dsc
+> > case and export the function so that it can be used in the respective platform
+> > display drivers for other calculations.
+> > 
+> > v2: unify the fn for both dsc and non-dsc case (Imre)
+> > v3: rename drm_dp_link_symbol_cycles to drm_dp_link_data_symbol_cycles
+> >     retain slice_eoc_cycles as is (Imre)
+> > 
+> > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> > ---
+> >  drivers/gpu/drm/display/drm_dp_helper.c | 53 +++++++++++++++++--------------
+> > --
+> >  include/drm/display/drm_dp_helper.h     |  2 ++
+> >  2 files changed, 29 insertions(+), 26 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c
+> > b/drivers/gpu/drm/display/drm_dp_helper.c
+> > index
+> > 57828f2b7b5a0582ca4a6f2a9be2d5909fe8ad24..5ce8ccc3310fb71b39ea5f74c4
+> > 022474c180f727 100644
+> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> > @@ -4392,26 +4392,33 @@ EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
+> > 
+> >  #endif
+> > 
+> > -/* See DP Standard v2.1 2.6.4.4.1.1, 2.8.4.4, 2.8.7 */ -static int
+> > drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
+> > -				     int symbol_size, bool is_mst)
+> > -{
+> > -	int cycles = DIV_ROUND_UP(pixels * bpp_x16, 16 * symbol_size *
+> > lane_count);
+> > -	int align = is_mst ? 4 / lane_count : 1;
+> > -
+> > -	return ALIGN(cycles, align);
+> > -}
+> > -
+> > -static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int
+> > slice_count,
+> > -					 int bpp_x16, int symbol_size, bool
+> > is_mst)
+> > -{
+> > -	int slice_pixels = DIV_ROUND_UP(pixels, slice_count);
+> > -	int slice_data_cycles = drm_dp_link_symbol_cycles(lane_count,
+> > slice_pixels,
+> > -							  bpp_x16,
+> > symbol_size, is_mst);
+> > +/**
+> > + * drm_dp_link_data_symbol_cycles - calculate the link symbol count
+> > + * @lane_coount: DP link lane count
+>  
+> Typo "lane_count"
+> 
+> > + * @pixels: horizontal active pixels
+> > + * @bpp_x16: bits per pixel in .4 binary fixed format
+> > + * @symbol_size: DP symbol size
+> > + * @is_mst: is mst or sst
+> > + * @slice_count: number of slices
+> > + *
+> > + * Calculate the link symbol cycles for both dsc and non dsc case and
+> > + * return the count.
+> 
+> Lets add the DP spec to be referred seems like it was missed
+> 
+> > + */
+> > +int drm_dp_link_data_symbol_cycles(int lane_count, int pixels, int bpp_x16,
+> > +				   int symbol_size, bool is_mst, int slice_count)
+> > {
+> > +	int slice_pixels = slice_count ? DIV_ROUND_UP(pixels, slice_count) :
+> > +					 pixels;
+> > +	int cycles = DIV_ROUND_UP(slice_pixels * bpp_x16,
+> > +				  (6 * symbol_size * lane_count));
+> 
+> Shouldn't this be 16
+> Also one thing I see which was there previously to while calculating is we ignore the two ceils 
+> Inside the function and merge it into a single div_round_up which may bring as slight variation in calculation
+> For example for non dsc case
+> Spec says
+> HACT_LL_SYM_CYC_CNT
+> = CEIL(CEIL(HACT_WIDTH / 4) � PIX_BPP / SYMBOL_SIZE)
+> HACT_ML_SYM_CYC_CNT
+> = HACT_LL_SYM_CYC_CNT � 4 / PHY_LANE_CNT
+> 
+> But we do
+> DIV_ROUND_UP(slice_pixels * bpp_x16,	  (6 * symbol_size * lane_count));
 
-On 22/04/2025 06:43, Philipp Stanner wrote:
-> On Fri, 2025-04-18 at 12:32 +0100, Tvrtko Ursulin wrote:
->> Quick sketch idea for an alternative to
->> https://lore.kernel.org/dri-devel/20250407152239.34429-2-phasta@kernel.org/
->> .
->>
->> It is possible it achieves the same effect but with less code and not
->> further growing the internal state machine. The callback it adds is
->> also
->> aligned in spirit (prototype) with other drm_sched_backend_ops
->> callbacks.
->>
->> The new callback is ->cancel_job(job) which is called after
->> drm_sched_fini() stops the workqueue for all jobs in the
->> pending_list.
->> After which, instead of waiting on the free worker to free jobs one
->> by
->> one, all are freed directly.
->>
->> As a demonstration we can remove the driver specific cleanup code
->> from the
->> mock scheduler. (End result tested for no memory leaks or crashes.)
->>
->> Please check if I am missed some gotcha etc. And if nouveau can by
->> made to
->> use it.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <phasta@kernel.org>
->> ---
->>   drivers/gpu/drm/scheduler/sched_main.c        | 33 ++++----
->>   .../gpu/drm/scheduler/tests/mock_scheduler.c  | 76 ++++++++---------
->> --
->>   drivers/gpu/drm/scheduler/tests/sched_tests.h |  6 +-
->>   drivers/gpu/drm/scheduler/tests/tests_basic.c |  1 +
->>   include/drm/gpu_scheduler.h                   | 20 +++++
->>   5 files changed, 77 insertions(+), 59 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->> b/drivers/gpu/drm/scheduler/sched_main.c
->> index 829579c41c6b..6be11befef68 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -1349,25 +1349,23 @@ int drm_sched_init(struct drm_gpu_scheduler
->> *sched, const struct drm_sched_init_
->>   EXPORT_SYMBOL(drm_sched_init);
->>   
->>   /**
->> - * drm_sched_fini - Destroy a gpu scheduler
->> + * drm_sched_fini - Tear down and clean up the scheduler
->>    *
->>    * @sched: scheduler instance
->>    *
->> - * Tears down and cleans up the scheduler.
->> + * In the process of tear down and cleanup this stops submission of
->> new jobs to
->> + * the hardware through drm_sched_backend_ops.run_job(), as well as
->> freeing of
->> + * completed jobs via drm_sched_backend_ops.free_job().
->>    *
->> - * This stops submission of new jobs to the hardware through
->> - * drm_sched_backend_ops.run_job(). Consequently,
->> drm_sched_backend_ops.free_job()
->> - * will not be called for all jobs still in
->> drm_gpu_scheduler.pending_list.
->> - * There is no solution for this currently. Thus, it is up to the
->> driver to make
->> - * sure that:
->> + * If the driver does not implement
->> drm_sched_backend_ops.cleanup_job(), which
->> + * is recommended, drm_sched_backend_ops.free_job() will not be
->> called for all
->> + * jobs still in drm_gpu_scheduler.pending_list. In this case it is
->> up to the
->> + * driver to make sure that:
->>    *
->> - *  a) drm_sched_fini() is only called after for all submitted jobs
->> - *     drm_sched_backend_ops.free_job() has been called or that
->> - *  b) the jobs for which drm_sched_backend_ops.free_job() has not
->> been called
->> + *  a) Drm_sched_fini() is only called after for all submitted jobs
->> + *     drm_sched_backend_ops.free_job() has been called or that;
->> + *  b) The jobs for which drm_sched_backend_ops.free_job() has not
->> been called
->>    *     after drm_sched_fini() ran are freed manually.
->> - *
->> - * FIXME: Take care of the above problem and prevent this function
->> from leaking
->> - * the jobs in drm_gpu_scheduler.pending_list under any
->> circumstances.
->>    */
->>   void drm_sched_fini(struct drm_gpu_scheduler *sched)
->>   {
->> @@ -1397,6 +1395,15 @@ void drm_sched_fini(struct drm_gpu_scheduler
->> *sched)
->>   	/* Confirm no work left behind accessing device structures
->> */
->>   	cancel_delayed_work_sync(&sched->work_tdr);
->>   
->> +	if (sched->ops->cancel_job) {
->> +		struct drm_sched_job *job;
->> +
->> +		list_for_each_entry_reverse(job, &sched-
->>> pending_list, list) {
->> +			sched->ops->cancel_job(job);
->> +			sched->ops->free_job(job);
->> +		}
->> +	}
->> +
->>   	if (sched->own_submit_wq)
->>   		destroy_workqueue(sched->submit_wq);
->>   	sched->ready = false;
->> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->> b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->> index f999c8859cf7..3c6be5ca26db 100644
->> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->> @@ -63,7 +63,7 @@ static void drm_mock_sched_job_complete(struct
->> drm_mock_sched_job *job)
->>   	lockdep_assert_held(&sched->lock);
->>   
->>   	job->flags |= DRM_MOCK_SCHED_JOB_DONE;
->> -	list_move_tail(&job->link, &sched->done_list);
->> +	list_del(&job->link);
->>   	dma_fence_signal(&job->hw_fence);
->>   	complete(&job->done);
->>   }
->> @@ -200,29 +200,49 @@ static struct dma_fence
->> *mock_sched_run_job(struct drm_sched_job *sched_job)
->>   	return &job->hw_fence;
->>   }
->>   
->> +static void mock_sched_cancel_job(struct drm_sched_job *sched_job)
->> +{
->> +	struct drm_mock_scheduler *sched =
->> +		drm_sched_to_mock_sched(sched_job->sched);
->> +	struct drm_mock_sched_job *job =
->> drm_sched_job_to_mock_job(sched_job);
->> +
->> +	hrtimer_cancel(&job->timer);
->> +
->> +	spin_lock_irq(&sched->lock);
->> +	spin_lock(&job->lock);
->> +	if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
->> +		job->flags |= DRM_MOCK_SCHED_JOB_CANCELED;
->> +		list_del(&job->link);
->> +		dma_fence_set_error(&job->hw_fence, -ECANCELED);
->> +		dma_fence_signal_locked(&job->hw_fence);
->> +		complete(&job->done);
->> +	}
->> +	spin_unlock(&job->lock);
->> +	spin_unlock_irq(&sched->lock);
->> +}
->> +
->>   static enum drm_gpu_sched_stat
->>   mock_sched_timedout_job(struct drm_sched_job *sched_job)
->>   {
->> +	struct drm_mock_scheduler *sched =
->> +		drm_sched_to_mock_sched(sched_job->sched);
->>   	struct drm_mock_sched_job *job =
->> drm_sched_job_to_mock_job(sched_job);
->>   
->> +	spin_lock_irq(&sched->lock);
->>   	job->flags |= DRM_MOCK_SCHED_JOB_TIMEDOUT;
->> +	list_del(&job->link);
->> +	dma_fence_set_error(&job->hw_fence, -ETIMEDOUT);
->> +	dma_fence_signal(&job->hw_fence);
->> +	spin_unlock_irq(&sched->lock);
->>   
->>   	return DRM_GPU_SCHED_STAT_NOMINAL;
->>   }
->>   
->> -static void mock_sched_free_job(struct drm_sched_job *sched_job)
->> +void drm_mock_sched_job_free(struct drm_sched_job *sched_job)
->>   {
->> -	struct drm_mock_scheduler *sched =
->> -			drm_sched_to_mock_sched(sched_job->sched);
->>   	struct drm_mock_sched_job *job =
->> drm_sched_job_to_mock_job(sched_job);
->> -	unsigned long flags;
->>   
->> -	/* Remove from the scheduler done list. */
->> -	spin_lock_irqsave(&sched->lock, flags);
->> -	list_del(&job->link);
->> -	spin_unlock_irqrestore(&sched->lock, flags);
->>   	dma_fence_put(&job->hw_fence);
->> -
->>   	drm_sched_job_cleanup(sched_job);
->>   
->>   	/* Mock job itself is freed by the kunit framework. */
->> @@ -230,8 +250,9 @@ static void mock_sched_free_job(struct
->> drm_sched_job *sched_job)
->>   
->>   static const struct drm_sched_backend_ops drm_mock_scheduler_ops = {
->>   	.run_job = mock_sched_run_job,
->> +	.cancel_job = mock_sched_cancel_job,
->>   	.timedout_job = mock_sched_timedout_job,
->> -	.free_job = mock_sched_free_job
->> +	.free_job = drm_mock_sched_job_free
->>   };
->>   
->>   /**
->> @@ -265,7 +286,6 @@ struct drm_mock_scheduler
->> *drm_mock_sched_new(struct kunit *test, long timeout)
->>   	sched->hw_timeline.context = dma_fence_context_alloc(1);
->>   	atomic_set(&sched->hw_timeline.next_seqno, 0);
->>   	INIT_LIST_HEAD(&sched->job_list);
->> -	INIT_LIST_HEAD(&sched->done_list);
->>   	spin_lock_init(&sched->lock);
->>   
->>   	return sched;
->> @@ -280,38 +300,6 @@ struct drm_mock_scheduler
->> *drm_mock_sched_new(struct kunit *test, long timeout)
->>    */
->>   void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
->>   {
->> -	struct drm_mock_sched_job *job, *next;
->> -	unsigned long flags;
->> -	LIST_HEAD(list);
->> -
->> -	drm_sched_wqueue_stop(&sched->base);
->> -
->> -	/* Force complete all unfinished jobs. */
->> -	spin_lock_irqsave(&sched->lock, flags);
->> -	list_for_each_entry_safe(job, next, &sched->job_list, link)
->> -		list_move_tail(&job->link, &list);
->> -	spin_unlock_irqrestore(&sched->lock, flags);
->> -
->> -	list_for_each_entry(job, &list, link)
->> -		hrtimer_cancel(&job->timer);
->> -
->> -	spin_lock_irqsave(&sched->lock, flags);
->> -	list_for_each_entry_safe(job, next, &list, link)
->> -		drm_mock_sched_job_complete(job);
->> -	spin_unlock_irqrestore(&sched->lock, flags);
->> -
->> -	/*
->> -	 * Free completed jobs and jobs not yet processed by the DRM
->> scheduler
->> -	 * free worker.
->> -	 */
->> -	spin_lock_irqsave(&sched->lock, flags);
->> -	list_for_each_entry_safe(job, next, &sched->done_list, link)
->> -		list_move_tail(&job->link, &list);
->> -	spin_unlock_irqrestore(&sched->lock, flags);
->> -
->> -	list_for_each_entry_safe(job, next, &list, link)
->> -		mock_sched_free_job(&job->base);
->> -
->>   	drm_sched_fini(&sched->base);
->>   }
->>   
->> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h
->> b/drivers/gpu/drm/scheduler/tests/sched_tests.h
->> index 27caf8285fb7..7b4e09ad6858 100644
->> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
->> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
->> @@ -49,7 +49,6 @@ struct drm_mock_scheduler {
->>   
->>   	spinlock_t		lock;
->>   	struct list_head	job_list;
->> -	struct list_head	done_list;
->>   
->>   	struct {
->>   		u64		context;
->> @@ -97,7 +96,8 @@ struct drm_mock_sched_job {
->>   	struct completion	done;
->>   
->>   #define DRM_MOCK_SCHED_JOB_DONE		0x1
->> -#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x2
->> +#define DRM_MOCK_SCHED_JOB_CANCELED	0x2
->> +#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x4
->>   	unsigned long		flags;
->>   
->>   	struct list_head	link;
->> @@ -146,6 +146,8 @@ struct drm_mock_sched_job *
->>   drm_mock_sched_job_new(struct kunit *test,
->>   		       struct drm_mock_sched_entity *entity);
->>   
->> +void drm_mock_sched_job_free(struct drm_sched_job *sched_job);
->> +
->>   /**
->>    * drm_mock_sched_job_submit - Arm and submit a job in one go
->>    *
->> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> b/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> index 7230057e0594..968b3046745f 100644
->> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> @@ -241,6 +241,7 @@ static void drm_sched_basic_timeout(struct kunit
->> *test)
->>   			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
->>   			DRM_MOCK_SCHED_JOB_TIMEDOUT);
->>   
->> +	drm_mock_sched_job_free(&job->base);
->>   	drm_mock_sched_entity_free(entity);
->>   }
->>   
->> diff --git a/include/drm/gpu_scheduler.h
->> b/include/drm/gpu_scheduler.h
->> index 1a7e377d4cbb..0bcbc3ce8188 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -503,6 +503,26 @@ struct drm_sched_backend_ops {
->>   	 */
->>   	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job
->> *sched_job);
->>   
->> +	/**
->> +	 * @cancel_job: Called during pending job cleanup on
->> scheduler destroy
->> +	 *
->> +	 * @sched_job: The job to cancel
->> +	 *
->> +	 * Called from drm_sched_fini() for every job on the
->> +	 * &drm_sched.pending_list after scheduler workqueues have
->> been stopped
->> +	 * in drm_sched_fini().
->> +	 *
->> +	 * Job should either be allowed to finish or revoked from
->> the backend
->> +	 * and signaled with an appropriate fence errno (-
->> ECANCELED). After the
->> +	 * callback returns scheduler will call
->> +	 * &drm_sched_backend_ops.free_job() after which scheduler
->> teardown will
->> +	 * proceed.
->> +	 *
->> +	 * Callback is optional but recommended for avoiding memory
->> leaks after
->> +	 * scheduler tear down.
->> +	 */
->> +	void (*cancel_job)(struct drm_sched_job *sched_job);
-> 
-> 
-> Tvrtko, sorry but this looks absolutely like a reimplementation of my
-> fix, the sole difference being that the callback has a different name.
-> 
-> Everything else is the same, even the check for the callback.
-> 
-> The only difference I might be able to see (if I try really hard) is
-> that you don't kill the entire fence context, but cancel job-by-job.
-> 
-> But let's look at it, what does it "kill the fence context" mean? It
-> means that all fences belonging to the context have to be signaled with
-> an error – precisely what you and I do, but with different names.
-> 
-> So I really don't get why you send this patch after I literally spend
-> months figuring this path forward out.
+and we align this to 4 / lane_count. So the code does what the DP
+standard describes.
 
-After I read your series and understood what it is trying to solve, 
-exchanged a few emails with Danilo, it felt it would be easier to 
-propose an alternative in code rather than in words. I thought I 
-explained the motivation in the cover letter. Maybe not well enough.
-
-Let me try and re-summarise:
-
-  * It is *way* less code - no new flags no new state machine, no new 
-waitqueues.
-
-  * New callback is aligned with the other callbacks. It works on jobs 
-(as all others), does not add new terminology into the API and it does 
-not *mandate* drivers *must* keep internal lists. Any way to cancel a 
-job and scheduler core is happy.
-
-Regards,
-
-Tvrtko
-
+> Which translates to 
+> CEIL( (HACT_WIDTH* BPP*4)/(16 *SYMBOL_SIZE *LANECOUNT))
 > 
-> P.
-> 
-> 
-> 
->> +
->>   	/**
->>            * @free_job: Called once the job's finished fence has been
->> signaled
->>            * and it's time to clean it up.
-> 
+> Which does not seem to match the calculation exactly as what was said in the spec
+> Lets have an intermediate ll_symbol_cycle variable too should make the calculations
+> More clearer and precise according to me.
+>
+> Also for dsc case lets have chunk size instead of reusing slice pixels.
 
+Let's not add now other changes besides the original request of one
+thing, that is to make drm_dp_link_symbol_cycles() handle both the
+DSC and non-DSC cases without changing the calculation, see [1]. That
+corresponds to the diff I added in [2].
+
+[1] https://lore.kernel.org/all/Z_UvdB05S0sPbs6l@ideak-desk.fi.intel.com
+[2] https://lore.kernel.org/all/aAdiU3K5EV6Oq81a@ideak-desk.fi.intel.com
+
+> Regards,
+> Suraj Kandpal
+> 
+> > +	int slice_data_cycles = ALIGN(cycles, is_mst ? (4 / lane_count) : 1);
+> >  	int slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
+> > 
+> > -	return slice_count * (slice_data_cycles + slice_eoc_cycles);
+> > +	return slice_count ? (slice_count *
+> > +			      (slice_data_cycles + slice_eoc_cycles)) :
+> > +			      slice_data_cycles;
+> >  }
+> > +EXPORT_SYMBOL(drm_dp_link_data_symbol_cycles);
+> > 
+> >  /**
+> >   * drm_dp_bw_overhead - Calculate the BW overhead of a DP link stream @@
+> > -4486,15 +4493,9 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
+> >  	WARN_ON((flags & DRM_DP_BW_OVERHEAD_UHBR) &&
+> >  		(flags & DRM_DP_BW_OVERHEAD_FEC));
+> > 
+> > -	if (flags & DRM_DP_BW_OVERHEAD_DSC)
+> > -		symbol_cycles = drm_dp_link_dsc_symbol_cycles(lane_count,
+> > hactive,
+> > -							      dsc_slice_count,
+> > -							      bpp_x16,
+> > symbol_size,
+> > -							      is_mst);
+> > -	else
+> > -		symbol_cycles = drm_dp_link_symbol_cycles(lane_count,
+> > hactive,
+> > -							  bpp_x16,
+> > symbol_size,
+> > -							  is_mst);
+> > +	symbol_cycles = drm_dp_link_data_symbol_cycles(lane_count,
+> > hactive,
+> > +						       bpp_x16, symbol_size,
+> > +						       is_mst, dsc_slice_count);
+> > 
+> >  	return DIV_ROUND_UP_ULL(mul_u32_u32(symbol_cycles *
+> > symbol_size * lane_count,
+> >  					    overhead * 16),
+> > diff --git a/include/drm/display/drm_dp_helper.h
+> > b/include/drm/display/drm_dp_helper.h
+> > index
+> > d9614e2c89397536f44bb7258e894628ae1dccc9..98bbbe98e5bc0ce0f9cdf513b
+> > 2c5ea90bb5caffb 100644
+> > --- a/include/drm/display/drm_dp_helper.h
+> > +++ b/include/drm/display/drm_dp_helper.h
+> > @@ -971,5 +971,7 @@ int drm_dp_bw_channel_coding_efficiency(bool
+> > is_uhbr);  int drm_dp_max_dprx_data_rate(int max_link_rate, int max_lanes);
+> > 
+> >  ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc, struct
+> > dp_sdp *sdp);
+> > +int drm_dp_link_data_symbol_cycles(int lane_count, int pixels, int bpp_x16,
+> > +				   int symbol_size, bool is_mst, int slice_count);
+> > 
+> >  #endif /* _DRM_DP_HELPER_H_ */
+> > 
+> > --
+> > 2.25.1
+> 
