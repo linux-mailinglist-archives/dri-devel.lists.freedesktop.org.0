@@ -2,155 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E979DA9613E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 10:25:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20156A96189
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 10:30:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3BD210E07E;
-	Tue, 22 Apr 2025 08:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5321A10E174;
+	Tue, 22 Apr 2025 08:30:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ugv71S/j";
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="JNSlZw1l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2077.outbound.protection.outlook.com [40.107.223.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B24DF10E07E
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 08:24:58 +0000 (UTC)
+Received: from MA0PR01CU012.outbound.protection.outlook.com
+ (mail-southindiaazolkn19011037.outbound.protection.outlook.com
+ [52.103.67.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42A6910E174
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 08:30:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VnjJ+YT/Ey1XbDPiQLNSvtihikkZAy5OUiARVpsOWm0R6LYM77JuBgUzc8MuzuZCYqne957HBsRyUYp20DBqX8vOVSKEcE9+Qh1ZtWdfYSae879GpD5qTz/ZY1tOCNwaE1oMwZwE/OjEHPr1Mx34QcVMiDuTyO95h+9ZKDAz0a9qXMD+AyLqGbr4dqY4cXhpeQ3fgF83QOGec7mAunJ1E/k2GIhCpfSLe4p3tOyLM+SdZNJwJv6S3/0WkdIkotY7gUGofgK9z+4X1aOuGC9WJr+T8SFiVayp9U0iAHqbqNGENBPbD9dspOQJb3kyZJf4v8gOFpSCr5M0Z826hkjBZQ==
+ b=t3dGkOCIeoRxsF62+NwjWqiUJ1SnhBR38ZplLtdH3Wit0TT9gTJ8okT6BIiD3NioaVId/NGWUKCwTsW5mCM9fDTWNvkdPZpLKzI+VFO847KzzP4TvZcx00KrXalkayschIEi/wZgWhZrlzX3LWAhUSv12BQ+fEnHoF5XsbPN7lyfQ44/a2xV3ziULhPwkRDOybwNGvNQx5gMYBMNMcDbWlz63zpDIqgQFo5L9RHY2m+i6/ML9NBIKAwQf8EgMqLBq4ZZXPtnHMGt3uejoQ8GtrCmxvpqWHhw1+Qd5WKiTPvgsdHg5MxzhPoGkpKJL68oBsfK+2tj693e/rYImTrHlA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nGIfBsoBmTE35RvPCoxDuaKU5iOM51w+3iI61XMIWjY=;
- b=QBxwpg+NeOLYXDnBisnc4tAICSsG6lKgsliqaFVuwlLnKshHVQ60ZH1Ae9paqCuPog6JNU8mo4TGnFfjcD1d+f6LfQ/5eLN1XAJOWZ+Vw/INCZNUfO96sKR4qSitpcqLtu5BBEuDMEV6frh7LZm/CHp0Z2fXASWU8juSI2ysMnNAa3YIF6bF9BPmIuRd6godWTU5EOp6TPpHs53HCYrJMH1I+z0Z3lfGU5tRGM6encvNJKR4GQ6fVlwO+rj8ToN9iHNiBb8wORA5KDNKtrzg5qIFsVKWtvSZ+0W4lfB0Bkxj7m6xT1LBuE84e5uQRaJ9rZTPCkKne3w3FoVygvgHmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=e4MVuYhk59MIDXtBDW7oQHPIQ3QFj9hh2GXnA329RJE=;
+ b=pSFMUOzUo0iYrJaEiQ+mAPbVYAE4JcLfBFl4kzjO+oNvE+JlZuAi0xtIOVttKFKdUJCysCtJE0PBLJTJplVjNsFwnEY0v6W6k+4CMzbfQet0QGoa4uWKeP9Et+gzlM5gGSG4JOKbWeQxJZG1/KsjeSMawQWGQxhKLr7G7BSK+x8QrLiDzAANnVAoeuaRSX8VIdUR/VGesXM/XhgaEvU8XNevKPoPPys5W/GoFdAbtgvhqCrC1RLLSsKjBMO/CbEHVuUbb/9ZnYSg/+8QGHeXbZl4xLV9v4qULoVnHs8B1qpGxstmpTAl+BwK4aG40NMeHV1aPK6fg12XGdCXlFr4lA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nGIfBsoBmTE35RvPCoxDuaKU5iOM51w+3iI61XMIWjY=;
- b=ugv71S/jzqV6/s7jj5fxbX14kL5ly0pMu9ItosfhatpFI7JViWShL23C7b+2n9IUH/5AsP5v3nGhqFKBQ+XQer+43cINKJCs2Kass9qgirUmAPixfn7JoWJTSvQbbZcUj3iswETmGNfMkYvmdAxoiKUQDM+SkSe5TlGztEIw5W0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY5PR12MB6576.namprd12.prod.outlook.com (2603:10b6:930:40::12)
+ bh=e4MVuYhk59MIDXtBDW7oQHPIQ3QFj9hh2GXnA329RJE=;
+ b=JNSlZw1lWW4f+HeS2ef52p3FurfUklXBLkX2XHj0UHa1Wl5RKTjXZDpRhCv8g9zV9x5esVBwSuARmpRmDqxU2m9+Puj9rygOa62djtDArykuYTjhRQOwFfPva14JfC0iagIpHLeRKVZ+CptUI6MZEH6hBhl/b2vwPrEFf39lr9rLZAEsc8qvfF7pR9FPKYcfd234gFqwqEdbSM1q4x8BQOGlHeTrXTTY8bgkaCsHCuLQGC5o5CwnXZLa4RdL1z3rtNt//RSI4EANZMQG3XQ5zTaPYDx3ULLd/+yshc7QIRaPd0RfJwen1Sip3RZ9k1SXgQvElOTEJTdyLnel/TGHCQ==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by PN2PPFCAA8F9158.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c04:1::5a8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.22; Tue, 22 Apr
- 2025 08:24:53 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.8655.025; Tue, 22 Apr 2025
- 08:24:53 +0000
-Message-ID: <a4f72149-70a0-4bbe-bdcc-70384c152f83@amd.com>
-Date: Tue, 22 Apr 2025 10:24:45 +0200
+ 2025 08:30:03 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8655.031; Tue, 22 Apr 2025
+ 08:30:03 +0000
+Message-ID: <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Date: Tue, 22 Apr 2025 13:59:57 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: system_heap: No separate allocation for
- attachment sg_tables
-To: "T.J. Mercier" <tjmercier@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20250417180943.1559755-1-tjmercier@google.com>
+Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Hector Martin <marcan@marcan.st>
+Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
+ airlied@redhat.com, Simona Vetter <simona@ffwll.ch>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
+ lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>
+References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250417180943.1559755-1-tjmercier@google.com>
+From: Aditya Garg <gargaditya08@live.com>
+In-Reply-To: <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0206.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ad::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0180.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:be::17) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:f7::14)
+X-Microsoft-Original-Message-ID: <a511caca-ce0f-4a1a-81dc-c2faf7caa563@live.com>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6576:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1cbdf9a4-ea69-48b9-d909-08dd81772845
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WUhCb3pMd3BNTXFKMDV0eUg2OXhVZzFHbmRNSHJuWkkxdEc5dnlKQ0liWmE4?=
- =?utf-8?B?R1VXWTNCVTd1SnY0UUVZYUoxVVBCMnZXaDljWkw2enJ3b3dqRVo3QlZMRVlj?=
- =?utf-8?B?L1pLZEVrbHBFV0FUVGxSL1JleUROV25KdDFpOThZbDlYbEozNzQweU5XemNs?=
- =?utf-8?B?eitzNWNCUnJ5aWxwQk5TVUQ2UkhhRHpKWGRkSk1zbmZMcVQ0ZDlLSGxOZ2dq?=
- =?utf-8?B?b2F3MUVBTDJXYjRHbDlNRmYzVUdhYWFEbk5jNzVlYTROdnFNNmxzK1ptSE5s?=
- =?utf-8?B?cktNRzlnei9xSTdDNW9nWUhkL3ZVSStYZ0lKSTZHZERpdTA3OE5wclZZakZR?=
- =?utf-8?B?Tld0blhPMHVUVFlwOEljSmpXUGRTc3Zkc2NUS2xsVTF2OVdGU3BsWG8yc3pZ?=
- =?utf-8?B?aVYzMEFOQUNOVmlEeWhSZmpPQUZET0lMRHVoclAva3E3YzZqd3IvR3hxNytH?=
- =?utf-8?B?YjQ4bElJWEtXT3o0MmJUYXVoblYwbkVGNFZVR3BkTTRnaHF3aXJlNTNMalFh?=
- =?utf-8?B?NmlFKzk4WUVYazNMMXlTWTNvYm9EQi9GUjRzTE03bUZKR1V0WGR6d29EaEQ1?=
- =?utf-8?B?ZnpmRGYrWjZsbWZZODNoR3RzZVpMUW1BbW84WTRnUGt6QUkzc0NvZmtBMks2?=
- =?utf-8?B?VlJWb2VCYkErTFd1N3Uycm0zZ0VVU0ZmRzVtWVFyRElOeEZtYjBxemg2Z3M4?=
- =?utf-8?B?Vm4vRndPT3pDZ3l2WEkwdExMcU1jR1BjSkhTNU5BcDdjT1hYTUZCVmZxVTB4?=
- =?utf-8?B?dDlNanRya3NtL2RyRHhYT3pNcU9tTld6K2QxVjZWYk0wU1djS3Q0YndpZXFk?=
- =?utf-8?B?T3gvTHNnQmNkaVZ5VEIwZGd6eHFlc2wyanhuaHBtK1J1RkVObXZJMks0S2Jv?=
- =?utf-8?B?eWdRN2plcTNWeEFTR0tSS1VoQXVXVTZNb1ZXZkZjN3BtM2VzRUdFMDhIOGRO?=
- =?utf-8?B?UVpsQmNLeDBzbGRqcXlET3pUOUFLTmgvU1BYT083dlF2WDg1ZHBwU1RZVUJD?=
- =?utf-8?B?N2YyRGp0TkhZaWlTeWNpNlJyZlRQQ1ZiWmRaTnhjZmdBY0w1dzdiYnNOQWJu?=
- =?utf-8?B?czRKVmdEdmwzQWdGQTRKTWp1VFZRUjlwR1JtK0hncWJzT3Y4dWJkbTNNeUh6?=
- =?utf-8?B?Z0I5bVJLUS91czFTTU9zY2owZXh0NVJxZjJyYmVGZGpGSXQrZ3UyR1pMMmts?=
- =?utf-8?B?QVNtTHpJM0xGMTlTNDU4bFdHRUMyNEhBTDByNkdvaGlyZUp3cW95MUZaeVRZ?=
- =?utf-8?B?U0d3UTZDREp5Y1o3YkVaRTdDOVQ0aE9pbGwySmdIako0M1EvYTFMbnZCTjgz?=
- =?utf-8?B?VnAzU01LajdjR1Z2QngwOG1TSEU5NmJHRUVpdSs2cFFSUHI5T2dISTNOd3dr?=
- =?utf-8?B?Y2FtU1FHQWlTVlNuM2Y3WHl5WmFmdEo2U1B1YkhySnFVQVVPZFl5MWg3Zk41?=
- =?utf-8?B?TldvUU9vUXZqZG4xUndXQ2ZsVjZuYmQ3Q0tPRFhOZjBYMTlpcldkc1hxeXZH?=
- =?utf-8?B?RngzTEErWnd6YVFYU2FIS3pmK3lmRTdSdlNYYkhUY3hLRm1lNkU5M1VPVUFa?=
- =?utf-8?B?bkR6Nm42TmdMZVFOZ0x0TVFIbC9wTjRaQTVickFDWTVEWDh6Q1ptbkdMTmM1?=
- =?utf-8?B?WWo2SzBTdFRHSkNqMmtCbmZMeEU4VFVyUVN4QzRTYXVWeldJb1M0SVQvZzlG?=
- =?utf-8?B?Q2h6OW9UdmZzbTJzbU9CdDNZcUtTRHBsN29ScWpkNEpQOEs3V0ZJci9xdlFY?=
- =?utf-8?B?eExLNXBma2tUYmVwb3Z0MXh6ajdocENidzUyS0xrcWFNenZSem5SdWpCYTRC?=
- =?utf-8?B?SS8xdjczdytTTmFOY0RvOEI0dlFMRDBzMWpPR1RUalplellDZEJYaC96U2lW?=
- =?utf-8?B?d2NZd0ZJL1dPMzcwMXo1L01xRThRV2VKV2NBWVRXdjRqWEtwU29yc1ZTZ2w2?=
- =?utf-8?Q?2TAdnz/rqC8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN2PPFCAA8F9158:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f4f6130-76a3-4370-d188-08dd8177e116
+X-Microsoft-Antispam: BCL:0;
+ ARA:14566002|6090799003|5072599009|8060799006|15080799006|7092599003|461199028|19110799003|3412199025|440099028;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?azFHNDN4bUZTL3BRcWEwdkhQYys3MGc3ckpXUjNPSDR1eDdPNCtGZ0hmQmRv?=
+ =?utf-8?B?M0twVE5wdWtYSGY0QitYbmRmMWVxa09EZnpBeW4rcStJV0JmWFk4ZzVwbjYy?=
+ =?utf-8?B?S2FlWDEyTndXZTJWb0gza2hyMjZlbVNHNS9Ic09IOW9HbS9tUER6NUR4Tlkw?=
+ =?utf-8?B?WkQwTUtUUVBwdEZRclRBaS9xVXU0YWMyVnZ0N0NsOHplbFl1TElyaURFdFUy?=
+ =?utf-8?B?UnJuKzJZdEoxejMvOTdTZ0Vsd2VWUkF5Und0YnVQWTlHbXgyRGJseTJzY1lN?=
+ =?utf-8?B?bzlMeUtuazAyUEltYXFZbzNnK3huWERPZHgrR1A0dk1pNG9VQzhvMnFQeFQy?=
+ =?utf-8?B?dUx1SEg1WG1aRFZMOTc2RXRyZklwMDBqWEpoVjdJdjNPOTVVcVpnbWd2a3RK?=
+ =?utf-8?B?cjhYazgxdlZhNEpocjJhTHFnZmx6SXRTeEdSTTUxU0xQUjRScXJnZmJFUUxG?=
+ =?utf-8?B?eVZjOVVQc2F1anFMaERqd003Q0hSZlZDeWNmOUN6RTF4dWJISW52dGJtZmJt?=
+ =?utf-8?B?YkxNR1RKUTVSeG5aSHdzTkVMT0loQmZMc2JVNWNqcnNTd0RXcWY5UmtUeVRo?=
+ =?utf-8?B?dmgyak1oWmI2K3N6MFF6d2JFWHNzWXdtTDVMRjB3M1lMeW50RWpseFZZanJy?=
+ =?utf-8?B?Ri9LaHNsUzJhOXlmeFAzMUFsQU50Q2dYaU5abkFCWTNONnNubUk1ODRJRy93?=
+ =?utf-8?B?MGdwWE1uazV3TytZVjFjam1YajhsakMybzhOVmM3VW5UR1dZV21sUzRQenUr?=
+ =?utf-8?B?eE9aZVNkVEY1TWxIRWNmN2VnS2RMY0svVnZBYXlHQnlQYnFzUUVxb0VoQVBq?=
+ =?utf-8?B?VWtGV1BYTktSdjZwNUNhUkRLT0hmWTVjcG5rd3hEQ0JYMHNwcVROeDNId1cw?=
+ =?utf-8?B?M0xXRnlwNXlKb1lIZEFoOWxtSG9uMG5zSVdJREplVmZaU1J4S2RoYXVrQXdN?=
+ =?utf-8?B?aC9XaWdFSVk3QXFBMGRranNUWnROaTNDSUZrUEdNZDFlOC85a2VSeU4xaXVV?=
+ =?utf-8?B?Zlk3YXlQQXBaZ01yNjBRQUMrT3BtZnIzcWNCUUdRTzRXTDFRYnN0ZmtocGMx?=
+ =?utf-8?B?dEVPcjNTQXlNSEoyUjJab2svQ3hTbm5kdmgwc0p0T1ZPVEs2TyszZUpXZEU4?=
+ =?utf-8?B?bndTSG8vVG9SV2JzWTVsWWdHRWR2djBFajB1K2ZhaHRvMkZsMExBM2hOa1lK?=
+ =?utf-8?B?RGhkemE1ZXNYUXBOSEpDcGwzTmZsN25neGFyTXk2RGFoWFJ1TUh3dTJQdkRN?=
+ =?utf-8?B?ZEd1RzdjUkplMUM5TCttS1l3MUE2MzBHU3BOVTYxcmhjMHdLWld0eEllbHdn?=
+ =?utf-8?B?Q0diWW9UdEdWODVVcXhkY1dQcDlqajN0andaZ3VrZWNlR0lrTDZvcmVpWmd6?=
+ =?utf-8?B?QWxJRHR5NUxLd3duNXZRM1JEM2phY093Q003QzRLNnlkbnpXOFNkU3RFNWpE?=
+ =?utf-8?B?WnIrQ2VBWlZ3R3Uwa2lNUWR5T0YzNHorZXFvSFpvNm9sTTdtV2pJRGZRNUM5?=
+ =?utf-8?B?Z2lLSTNuLzJUZDUzZHBRWm9YU1QwSjRWUE8wRGhHT0FVelZTSVYvQjlQOXJC?=
+ =?utf-8?B?NTZaUT09?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cmFjeE1oSjdEOHBHNkNPQTRNcUUwNW9yRW12VCtsVU9Scmp6TFAxcEtJdWZn?=
- =?utf-8?B?ck5sZGJ4SFNOdHphMUFsNW9hRUllUjFMcUp2d3dDb0ROcEJURDBWMG11ak16?=
- =?utf-8?B?TC9jeUZnWnRlaXBFb1EwUGlWSlpMeHg5ZXIyMGFhQjZnMzZlclVUYTA4cVF6?=
- =?utf-8?B?V0VzZ3gzZ2JaVEk5S2c0S0h6bHcxdUI5OGxPMTdlQUxsR3lJN2FDRkZHQ0c3?=
- =?utf-8?B?cGNRdzh0Wnoxdi9XOStlblg4QlltaStGbHVFR0RldERsZDFNL2c3R095NXpP?=
- =?utf-8?B?VFVhNXd1YjRMb25TYUdHUWJCQnZ0elgwNVdYalVQbFlDc3cyU3ovSlhJaVdl?=
- =?utf-8?B?SUs4OFNnWUpaYmZQVi95UnFPMVFsdlRGM3I0bjdSUFVvV2JDQXB4VTFTb3cw?=
- =?utf-8?B?cTgySlhuMWZ5MjVCRnlaa2VneUd1WmxZQk9ad1Q5bGpaa08vS3BxeldxLzB0?=
- =?utf-8?B?bWlXdk9ROE53UjcyU3laZ2xlMU14YnR5Yld0V1AxQzFRVlpGZWRnMWJsOUI0?=
- =?utf-8?B?T2ZwWGJubFVidm1scDhDcU9zNDVxa054MzlHbm9hQjhRRlBBSDlHdXA1UHZP?=
- =?utf-8?B?ZHgyQU9FaERIcnp1L3VodUE4dlMyN09zbldCRnFxc2xpR0J1QXhUbDE5Z1Yr?=
- =?utf-8?B?MGNVcndFVHFGMFBFMHhtMWZmL0Y5QisrK1d5U0xNSDE3Z1BsN1ZGc1cxMm1F?=
- =?utf-8?B?R3JzRUJINk1EcWp1Yk8ycWFXS2d0U0VIM2pmYTM0bDJZamUvYUMvWTExUC9Q?=
- =?utf-8?B?dlFGNnFpaW5FaTZOMHBPQ3l3SzRtQXFIc2RFNEhnamxBSkVoVW1XT0srTFQz?=
- =?utf-8?B?V0pDamZnUVUxQ2JWVlY5cnFZOGh2TW03NThHdk53cG5UQjhMNUVqaWJjVmd3?=
- =?utf-8?B?cXczNDlhUDR1eFJWek12Nmw1bEY1ZmpmdG5ZcVNsTDI4SDVjQml4Z2JrTzlu?=
- =?utf-8?B?OGZxRlJEaVpFYytFSmpPaERJaEU4bGRoc3haSmtPOG82dW5ra3BiOVEzNzZy?=
- =?utf-8?B?SWp5S25CR2I2RC9FN3c0MHl0QWZDdFBoUVUrVDc5U2NNK3RuRkxNT3JwWlp3?=
- =?utf-8?B?WWorVFlxR2V5cERxd3VibzBFeFpXdkRrSWRmY1Z0TjJ4WWRrT0JWTndnclFm?=
- =?utf-8?B?ZU9QTWxCZXp0YVVkK1JOUk9CakduZGtRQWhZZmIzOFA1bkpLZXJzVGpGVGE2?=
- =?utf-8?B?S3pubVRYUzNDVUFTR0o5bmpuL2pheUpWN1FQa2dIWk5GeU93a09jZFNjaXhG?=
- =?utf-8?B?RjBhOG56alVPZEtvMkNEdzlYdUdaVm8zSXV6UWVRTThKMHZTRVpVSVVaMGdG?=
- =?utf-8?B?TkM4UWUycERRSXl2TkwxbWhBWUNFaXZESTJzV3dkY1hMQW1GMVpMZFFSa2R6?=
- =?utf-8?B?d3pHV3ViK0dlc2ZPaStPc3BjeVlaOGkweElQZkpFNW54eFZ2NGhjTjNma1dF?=
- =?utf-8?B?Z1RXL3ZRTmdwbVdHVE1uNWplYk9mWVdnb2JSUnc5dkxRd3IzdE40OUt2SE5k?=
- =?utf-8?B?TzJvSU9RZVlGL2xjRnJUUW9VSnArcDM1TGJkbStYYmpHVUFhNVRxazdFclJ3?=
- =?utf-8?B?YUcxUzJNbk5wak11T2VxeWNJSVZFSXpsNkdnWVVQY3Q0YzBSb3huc0ZiZU1B?=
- =?utf-8?B?czRLRWdjZERrV1RZOXhBN3NkZEdlOXk4MSt3SHdJK0pDL0hnekluZkxldjVR?=
- =?utf-8?B?QlQ0aE1uTjJtSmlTcWxObU1nQ0IrZlNKVUtXTjF6Y28vNHVLcnhHeVZRcG9E?=
- =?utf-8?B?cXBjU1g1TnVXT2FoVlJ3bXBTRURpeUluTmdxRXZBRnluZEVkYXYzcldWMnZD?=
- =?utf-8?B?UDBMNjRMMW0yWXZTU1pDcncwbmN0c05LOXBBTVpmV1dKY2drVE5idkhDTmxE?=
- =?utf-8?B?UDJlcGJNbWVsTEo4aHJIV0h4R2haSjFMcFJpakxGbFJrRmlJUUFRMGxYM3RW?=
- =?utf-8?B?RmhtT0pmTzE3bFNScSs0UjRSTHlqanZhRjEwUCtsRnRxUDAzWjVoeTBWMHBo?=
- =?utf-8?B?UExTak54YjdhRHRET3E1anpGcEtUbVZYek1ldGx1ZFk0T3JNR2J0ZC9oTW9n?=
- =?utf-8?B?ZDFraUtqS3pFYjJWUFJkUnpyVFVaYnVCdkRydTlKS1lwcnFOOVBrNGU3bFhG?=
- =?utf-8?Q?9RCtbJaQdPoEzPPF5W1xNSkqh?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1cbdf9a4-ea69-48b9-d909-08dd81772845
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUZhTnlsdDJFclRuYnE5NkZvVHNhcVBucDlOSGNRQkc3bE5hR0pNRmRyUTdG?=
+ =?utf-8?B?NjRUVUVNTEVPak5md3F5NTZWaEE1MXUzZ2lva09mOFY5RFdtYS9VRldrWDli?=
+ =?utf-8?B?QmIzTkx0UVR0RFJIVG8ycG8vcWJkY3d6WXhHbHdOSzRudUlNc2RHbWdkSHU4?=
+ =?utf-8?B?WUZGRkZweHNPWnBwVmFERS9SZkJzanFDQXkraUdVZEJFVEVyTlhOV01VeFN0?=
+ =?utf-8?B?K3BqVXh4dElGMDdEQXdiaUlaemRRLzNlcG1UbUpEZU0vY3N0cFVLTjBTVlJr?=
+ =?utf-8?B?ZXRRV3RmYWNPbWtlR2pHTVhpMXluM0owVnFSMk94ZHNCRklLcXBrS2Y5ZkVJ?=
+ =?utf-8?B?UnNKeElSekk5TXdRUGdSZFpSNXliVG9WNTVkZFB2OWYxUkNacXloc1JoZlEx?=
+ =?utf-8?B?aGxxY1ZPWFRTd0JJWVZ6THRvUjM5RlFDbW41c3UrdndmaGpQZjE5ejlMMTJD?=
+ =?utf-8?B?MW1XV1phVFQvVHR3TjA0UTdOeUhtdWhlTUtWQ2NSSzFVeFI0UjdhQkZZcWho?=
+ =?utf-8?B?VVBQTjZFTHpjR0NxMjk3OVkrNXpkdGxZcFYxQ0lsNjZQZHllTW9UTitwR3Z2?=
+ =?utf-8?B?aEVabDVFcDdteFhhTDkzZHlSSzBaS29XNWhuWGR1ODhseFo0N0lIQjY0ODhY?=
+ =?utf-8?B?MnhXYkd5U1VlR2xFR2JUclBtY3Y5M1hjcXNlNzErdlo2M0VxeUorVDhTSUdO?=
+ =?utf-8?B?Q1RpWnhldHRtZy94a3BDNFRvTVQyT3plQzY1aVg3a0ttakdoV1VUMmJkVngw?=
+ =?utf-8?B?SFF2ellJQzZNZmRiMStJSGZOSDhkaVFXeVFPVWw2WU1qM21YV0xyNXRlS1Nk?=
+ =?utf-8?B?cFdtSmVsL2IxczlwTWgrYmt6dGtrOVNlVWJOZElLTXN0Zm85Q1VCZHFsQjR5?=
+ =?utf-8?B?a0JrUGE4UjBhNTZFeU9IYzJLRHc5TC85SHg5Wkc3K0t1L1pTZzRXSU5EYytT?=
+ =?utf-8?B?WEZmV0Y1Nk1ZbmZCWU1Lc1hRTzlWTnlTNzZvUmZRYTJ5aXFiU3dhckhEZWZT?=
+ =?utf-8?B?dG5aYnhVbU05c1VPYVZPQmJsYjRNc05uTzdycTRoaUZlT3BIbjhJT2JLQllL?=
+ =?utf-8?B?SkswWEVzU3FKNTlWS3ltS0hkYW81akpkOVZ4WHYxWUVxQ1d3ZVNzSFJEZDNY?=
+ =?utf-8?B?ZkNoQ2l0cjRNaWZ3eDBkVFJZSDM4aXZwTjd6Z2ZDUzNRRzhVWkRpekxxN21E?=
+ =?utf-8?B?aWxMSjJIM05JR0UvbFNTeGJwRUZ4b0J0enkxcDUwWFFNSFYvS1l3cEU0eGxx?=
+ =?utf-8?B?RjVQUk1yNnduN09zb1N3L01rSURyZjR0My9qSVJ2c1dBZXlaWGVXNEN5bEhj?=
+ =?utf-8?B?TE9XK21QUFNhTERMV2ZDeGgrOVRXMy9aMGJYbnN3cHFHRXEvWG5pbkh6NkZ5?=
+ =?utf-8?B?aHVLQ1ZaeXlEMHd0NTBrSklNOGpCbEpwd29OREovVDVKRzFDR0FyM2RwQktq?=
+ =?utf-8?B?SEtvNnhORUdIT2EvWm10QUQ1ZWVPVzRRVlM4Z1NhcWV2c29ZZ3NKWDY3R1pz?=
+ =?utf-8?B?Y0x4Z0RmKzdYV1p5bjg1b1JDY0k4YUREcUdlQld0WW9pUm11eTVCR2dneFhs?=
+ =?utf-8?B?dFpRbXc5MUJZenBVZ3Q3d1pLbjB3NXVkalpCcThQZDFqSDBWbjdpdjRDY3p5?=
+ =?utf-8?B?YU1KYjJHY0dkSkdPTmQ1bzB6TjZPb0Nra0NORys3bDFLY3Q4c0wzWXdwSitS?=
+ =?utf-8?B?ZVI2WmhQK0pCUTNUNW1TcUJwY05FdDdxaUQ0ZkxoY0sySGMzTUtzd3NQdGU4?=
+ =?utf-8?Q?RLnyT5v6Y4F/FsSCw44dL1maWSPPbZqpceurztn?=
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f4f6130-76a3-4370-d188-08dd8177e116
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 08:24:53.6090 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 08:30:03.6232 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q5Rn4J4rMn0/brI9iDZKRvpriH3gBgBnclQUnHC4WvFMtIALAnb0yCJlIdisL713
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6576
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PPFCAA8F9158
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,138 +160,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 17.04.25 um 20:09 schrieb T.J. Mercier:
-> struct dma_heap_attachment is a separate allocation from the struct
-> sg_table it contains, but there is no reason for this. Let's use the
-> slab allocator just once instead of twice for dma_heap_attachment.
->
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
 
-I'm not *that* expert for this code, but looks totally reasonable to me.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+On 22-04-2025 01:37 pm, Geert Uytterhoeven wrote:
+> Hi Aditya, Hector,
+> 
+> On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
+>> From: Hector Martin <marcan@marcan.st>
+>>
+>> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
+>> it's useful to be able to print generic 4-character codes formatted as
+>> an integer. Extend it to add format specifiers for printing generic
+>> 32-bit FourCCs with various endian semantics:
+>>
+>> %p4ch   Host byte order
+>> %p4cn   Network byte order
+>> %p4cl   Little-endian
+>> %p4cb   Big-endian
+>>
+>> The endianness determines how bytes are interpreted as a u32, and the
+>> FourCC is then always printed MSByte-first (this is the opposite of
+>> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
+>> allow printing LSByte-first FourCCs stored in host endian order
+>> (other than the hex form being in character order, not the integer
+>> value).
+>>
+>> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> Reviewed-by: Petr Mladek <pmladek@suse.com>
+>> Tested-by: Petr Mladek <pmladek@suse.com>
+>> Signed-off-by: Hector Martin <marcan@marcan.st>
+>> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> 
+> Thanks for your patch, which is now commit 1938479b2720ebc0
+> ("lib/vsprintf: Add support for generic FourCCs by extending %p4cc")
+> in drm-misc-next/
+> 
+>> --- a/Documentation/core-api/printk-formats.rst
+>> +++ b/Documentation/core-api/printk-formats.rst
+>> @@ -648,6 +648,38 @@ Examples::
+>>         %p4cc   Y10  little-endian (0x20303159)
+>>         %p4cc   NV12 big-endian (0xb231564e)
+>>
+>> +Generic FourCC code
+>> +-------------------
+>> +
+>> +::
+>> +       %p4c[hnlb]      gP00 (0x67503030)
+>> +
+>> +Print a generic FourCC code, as both ASCII characters and its numerical
+>> +value as hexadecimal.
+>> +
+>> +The generic FourCC code is always printed in the big-endian format,
+>> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+>> +
+>> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
+>> +endianness is used to load the stored bytes. The data might be interpreted
+>> +using the host byte order, network byte order, little-endian, or big-endian.
+>> +
+>> +Passed by reference.
+>> +
+>> +Examples for a little-endian machine, given &(u32)0x67503030::
+>> +
+>> +       %p4ch   gP00 (0x67503030)
+>> +       %p4cn   00Pg (0x30305067)
+>> +       %p4cl   gP00 (0x67503030)
+>> +       %p4cb   00Pg (0x30305067)
+>> +
+>> +Examples for a big-endian machine, given &(u32)0x67503030::
+>> +
+>> +       %p4ch   gP00 (0x67503030)
+>> +       %p4cn   00Pg (0x30305067)
+> 
+> This doesn't look right to me, as network byte order is big endian?
+> Note that I didn't check the code.
 
-Let me know if I should push that to drm-misc-next.
+Originally, it was %p4cr (reverse-endian), but on the request of the maintainers, it was changed to %p4cn.
 
-Regards,
-Christian.
+So here network means reverse of host, not strictly big-endian.
 
-> ---
->  drivers/dma-buf/heaps/system_heap.c | 43 ++++++++++++-----------------
->  1 file changed, 17 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 26d5dc89ea16..bee10c400cf0 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -35,7 +35,7 @@ struct system_heap_buffer {
->  
->  struct dma_heap_attachment {
->  	struct device *dev;
-> -	struct sg_table *table;
-> +	struct sg_table table;
->  	struct list_head list;
->  	bool mapped;
->  };
-> @@ -54,29 +54,22 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
->  static const unsigned int orders[] = {8, 4, 0};
->  #define NUM_ORDERS ARRAY_SIZE(orders)
->  
-> -static struct sg_table *dup_sg_table(struct sg_table *table)
-> +static int dup_sg_table(struct sg_table *from, struct sg_table *to)
->  {
-> -	struct sg_table *new_table;
-> -	int ret, i;
->  	struct scatterlist *sg, *new_sg;
-> +	int ret, i;
->  
-> -	new_table = kzalloc(sizeof(*new_table), GFP_KERNEL);
-> -	if (!new_table)
-> -		return ERR_PTR(-ENOMEM);
-> -
-> -	ret = sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
-> -	if (ret) {
-> -		kfree(new_table);
-> -		return ERR_PTR(-ENOMEM);
-> -	}
-> +	ret = sg_alloc_table(to, from->orig_nents, GFP_KERNEL);
-> +	if (ret)
-> +		return ret;
->  
-> -	new_sg = new_table->sgl;
-> -	for_each_sgtable_sg(table, sg, i) {
-> +	new_sg = to->sgl;
-> +	for_each_sgtable_sg(from, sg, i) {
->  		sg_set_page(new_sg, sg_page(sg), sg->length, sg->offset);
->  		new_sg = sg_next(new_sg);
->  	}
->  
-> -	return new_table;
-> +	return 0;
->  }
->  
->  static int system_heap_attach(struct dma_buf *dmabuf,
-> @@ -84,19 +77,18 @@ static int system_heap_attach(struct dma_buf *dmabuf,
->  {
->  	struct system_heap_buffer *buffer = dmabuf->priv;
->  	struct dma_heap_attachment *a;
-> -	struct sg_table *table;
-> +	int ret;
->  
->  	a = kzalloc(sizeof(*a), GFP_KERNEL);
->  	if (!a)
->  		return -ENOMEM;
->  
-> -	table = dup_sg_table(&buffer->sg_table);
-> -	if (IS_ERR(table)) {
-> +	ret = dup_sg_table(&buffer->sg_table, &a->table);
-> +	if (ret) {
->  		kfree(a);
-> -		return -ENOMEM;
-> +		return ret;
->  	}
->  
-> -	a->table = table;
->  	a->dev = attachment->dev;
->  	INIT_LIST_HEAD(&a->list);
->  	a->mapped = false;
-> @@ -120,8 +112,7 @@ static void system_heap_detach(struct dma_buf *dmabuf,
->  	list_del(&a->list);
->  	mutex_unlock(&buffer->lock);
->  
-> -	sg_free_table(a->table);
-> -	kfree(a->table);
-> +	sg_free_table(&a->table);
->  	kfree(a);
->  }
->  
-> @@ -129,7 +120,7 @@ static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attac
->  						enum dma_data_direction direction)
->  {
->  	struct dma_heap_attachment *a = attachment->priv;
-> -	struct sg_table *table = a->table;
-> +	struct sg_table *table = &a->table;
->  	int ret;
->  
->  	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-> @@ -164,7 +155,7 @@ static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
->  	list_for_each_entry(a, &buffer->attachments, list) {
->  		if (!a->mapped)
->  			continue;
-> -		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
-> +		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
->  	}
->  	mutex_unlock(&buffer->lock);
->  
-> @@ -185,7 +176,7 @@ static int system_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
->  	list_for_each_entry(a, &buffer->attachments, list) {
->  		if (!a->mapped)
->  			continue;
-> -		dma_sync_sgtable_for_device(a->dev, a->table, direction);
-> +		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
->  	}
->  	mutex_unlock(&buffer->lock);
->  
->
-> base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
+> 
+>> +       %p4cl   00Pg (0x30305067)
+>> +       %p4cb   gP00 (0x67503030)
+>> +
+>>  Rust
+>>  ----
+>>
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
