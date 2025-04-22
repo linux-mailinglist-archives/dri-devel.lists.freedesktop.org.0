@@ -2,97 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7383FA95EBE
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 08:58:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8B8A95ED1
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:03:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56A5B10E17B;
-	Tue, 22 Apr 2025 06:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1330210E505;
+	Tue, 22 Apr 2025 07:03:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jgxllVWd";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="M6ad6/r9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C36E810E17B;
- Tue, 22 Apr 2025 06:58:41 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53M4Oohx019535;
- Tue, 22 Apr 2025 06:58:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ZmNhp6IS4qDHzzExCOLDgWRkIsbXzXs/M/jKX/6Spns=; b=jgxllVWd1gWzzvIT
- NiwQOBOqNldOXHhGhrYh4oZa26K2B5XoPZI19+vEzHO5fK0FRNjnP2PbDClAvqYX
- M1TZ5EencLowilJR2uxbi15ZdbPLuNv5qd8XpH6Mmz2QQgO/khfMQZ1OWeXU37dv
- iz6Dzo1tF3pVUSNH7eS4DKcclZmhOSMeHvChRvbDVLk98TuncPzVcUZ7W6VWai6s
- HZtpRBGzI8StiqoWm5tVUYmBh5tf8rf5qe6w3Bj5AUFFaAdePe+Yo5St6Mi+5cR+
- Y3ASoECGPFxSCYFBONmsgf4Rf3TzbPizXnoElhjo8XJgJXNjV39YC8srUTt4hvl9
- 7SymOQ==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46454bpc94-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 22 Apr 2025 06:58:31 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53M6wU1B002047
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 22 Apr 2025 06:58:30 GMT
-Received: from [10.206.97.61] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 21 Apr
- 2025 23:58:23 -0700
-Message-ID: <d77353b0-94e6-4461-bd34-44c8cb80eb07@quicinc.com>
-Date: Tue, 22 Apr 2025 12:28:20 +0530
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 532B110E505
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:03:10 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-39ac9aea656so5991410f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 00:03:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1745305389; x=1745910189; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=+EW9WOjwKhGKY0mSAGuVe1/yMsQLEVZGpaUvajrqIQo=;
+ b=M6ad6/r9T5yCE4rzGPUf/TIbRgSEfr4FYJ7IE41YbBLBwoUaGG6SMyMPQsOFsshz5O
+ SKJKMjD6rg1TchJyhvqOyDN68M4B4BilUOupm0H8bLKmVuOnJBOVxxGKJlX98KTYq0Jn
+ ysLkZsgtJx0pARz12SL6JVZEtpHUETGWJbOWZYOrZJn7CtEsPK5jn0EU3Yucf5X17HBn
+ AQOZwhIDFvLYMxW97Fov3Urv9o0zPksVnK1ZhW/uakQlZuqqc6TqkUKXy0bO9bvSfBBL
+ U8tQWN9zoXoq6Ix1uPn3X9hfx4iQiKa3+SWAoblmW9wyeICNHNAst7VtlEQRNlyKAd0y
+ jL/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745305389; x=1745910189;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=+EW9WOjwKhGKY0mSAGuVe1/yMsQLEVZGpaUvajrqIQo=;
+ b=g88zUfCWI/cE175KKvtb45at3SpuieFAdSE5dI0MDQoT9CXVv8ROU9Y7w9aNxpQZp8
+ 8AhKei7BqstJSHa/vONemQXM80bWnrFpiokLgywc4Im0Bsc4oG7uP0osQB8qnhOzsmwD
+ BC1ZmCU273zvt1gn7XKZ2imfjh641WtIrUL70rx6zlv8Sk6j9gF477PlSGTGdeHmOYPX
+ +2wdTWL0xjM3qeUZf7+a1pDcs6ihu/3uuh9KsPNHUKesf2vu17SAsjfFNLHRpWgLv6KG
+ rYfY8bJRbJbcGI7EbP51w6E0S3z0jPTRXa1AO8sCy01P2MyAD/EwekGF6qfnG6SHe7FX
+ WdRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/cPkPHBfhAfz9yvqK6yjWFZV4Esuk987fRnXFcm30cjO/4sRRfxbdCIL3SjWJ2gh3ALWANd5hpWI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9bbZESQU6wz5bSinwgacWz6hSi5BmnmpljagijNU7ECm5Kz/e
+ lM4QY9QkZpZQIr/4PkoTh53eZDqAfwwk2k7tpzJfMFY8WZcg9iT6g2cSsJ3punA=
+X-Gm-Gg: ASbGnctTtwLpwH8yK7Bpiud2EBTrQW3YLEjH8orwx46HrgS+Bj4Oqgg1a6M/18zMZLL
+ EvGuXdQCgR44BYYHqElnKsjhktw7CblmQJe24NgbkK1iUeS/9HMj5Ng/BxKnm9h4g/1Lfvp+yC5
+ FO5XqV4YZ9QlzfMortG6NUQjWRFIlLeYcUh0PEDvKD7jzQIpCgZT5KkHNpPk9krlk4+koCvh90R
+ JgybwmOrRXptVeFVa5R5TOnwTQEIbaBUZo2ZVUyjDEhOR4zBOwNscKmB2hidPmdvO8CtQj7nlJV
+ lK3N3t+7Qj6lVPBaZhQAISey+N+p6xaZj8cE0042E7DRbB3n8QXM+Z9FDvPcsa7qtYZbjsXEUHN
+ SDaWXqVtDQ4ug+ZPNHA==
+X-Google-Smtp-Source: AGHT+IE3A44CHRZT4LFqIN9Z4MWfOqywDl3gBVdthcSxAs8gC51/XERlOdOoQsF0+0M1L1XTm+SLEQ==
+X-Received: by 2002:a5d:6da6:0:b0:39e:cbd2:9129 with SMTP id
+ ffacd0b85a97d-39efba2acd7mr10294748f8f.10.1745305388778; 
+ Tue, 22 Apr 2025 00:03:08 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:b137:7670:8eb9:746f?
+ ([2a01:e0a:3d9:2080:b137:7670:8eb9:746f])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39efa4a4c37sm14496017f8f.98.2025.04.22.00.03.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Apr 2025 00:03:08 -0700 (PDT)
+Message-ID: <b88bfe5a-9256-4de0-822b-b22d74dfdec0@linaro.org>
+Date: Tue, 22 Apr 2025 09:03:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/11] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI
- to DP bridge nodes
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Ayushi Makhija
- <amakhija@qti.qualcomm.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <marijn.suijten@somainline.org>,
- <andersson@kernel.org>, <robh@kernel.org>, <robh+dt@kernel.org>,
- <krzk+dt@kernel.org>, <konradybcio@kernel.org>, <conor+dt@kernel.org>,
- <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <quic_abhinavk@quicinc.com>, <quic_rajeevny@quicinc.com>,
- <quic_vproddut@quicinc.com>, <quic_jesszhan@quicinc.com>
-References: <20250417053909.1051416-1-amakhija@qti.qualcomm.com>
- <20250417053909.1051416-8-amakhija@qti.qualcomm.com>
- <qnhfnxvdsgnw5jh4xxaqz3p2x67qcrr7kn3vwdnyz5huchdtzy@aagflznjrvly>
-Content-Language: en-US
-From: Ayushi Makhija <quic_amakhija@quicinc.com>
-In-Reply-To: <qnhfnxvdsgnw5jh4xxaqz3p2x67qcrr7kn3vwdnyz5huchdtzy@aagflznjrvly>
-Content-Type: text/plain; charset="UTF-8"
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH RFC v2 0/2] drm/meson: vclk: revert and re-fix vclk
+ calculations
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
+Cc: christianshewitt@gmail.com, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250421201300.778955-1-martin.blumenstingl@googlemail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250421201300.778955-1-martin.blumenstingl@googlemail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Authority-Analysis: v=2.4 cv=cdrSrmDM c=1 sm=1 tr=0 ts=68073e17 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8
- a=174sz1Ju-uvedw1KsVAA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: 90qiLFkghPTaMIsNlUuo9KD-nYnuIL4g
-X-Proofpoint-GUID: 90qiLFkghPTaMIsNlUuo9KD-nYnuIL4g
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-22_03,2025-04-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- phishscore=0 adultscore=0 mlxlogscore=999 malwarescore=0 clxscore=1015
- spamscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504220052
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,111 +117,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/17/2025 4:10 PM, Dmitry Baryshkov wrote:
-> On Thu, Apr 17, 2025 at 11:09:05AM +0530, Ayushi Makhija wrote:
->> From: Ayushi Makhija <quic_amakhija@quicinc.com>
->>
->> Add anx7625 DSI to DP bridge device nodes.
->>
->> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
->> ---
->>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 180 +++++++++++++++++++++
->>  1 file changed, 180 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->> index 175f8b1e3b2d..d5b2dabe927d 100644
->> --- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->> @@ -28,6 +28,13 @@ chosen {
->>  		stdout-path = "serial0:115200n8";
->>  	};
->>  
->> +	vph_pwr: vph-pwr-regulator {
->> +		compatible = "regulator-fixed";
->> +		regulator-name = "vph_pwr";
->> +		regulator-always-on;
->> +		regulator-boot-on;
->> +	};
->> +
->>  	vreg_conn_1p8: vreg_conn_1p8 {
->>  		compatible = "regulator-fixed";
->>  		regulator-name = "vreg_conn_1p8";
->> @@ -128,6 +135,30 @@ dp1_connector_in: endpoint {
->>  			};
->>  		};
->>  	};
->> +
->> +	dp-dsi0-connector {
->> +		compatible = "dp-connector";
->> +		label = "DSI0";
->> +		type = "full-size";
->> +
->> +		port {
->> +			dp_dsi0_connector_in: endpoint {
->> +				remote-endpoint = <&dsi2dp_bridge0_out>;
->> +			};
->> +		};
->> +	};
->> +
->> +	dp-dsi1-connector {
->> +		compatible = "dp-connector";
->> +		label = "DSI1";
->> +		type = "full-size";
->> +
->> +		port {
->> +			dp_dsi1_connector_in: endpoint {
->> +				remote-endpoint = <&dsi2dp_bridge1_out>;
->> +			};
->> +		};
->> +	};
->>  };
->>  
->>  &apps_rsc {
->> @@ -519,7 +550,107 @@ &i2c18 {
->>  	clock-frequency = <400000>;
->>  	pinctrl-0 = <&qup_i2c18_default>;
->>  	pinctrl-names = "default";
->> +
->>  	status = "okay";
->> +
->> +	io_expander: gpio@74 {
->> +		compatible = "ti,tca9539";
->> +		reg = <0x74>;
->> +		interrupts-extended = <&tlmm 98 IRQ_TYPE_EDGE_BOTH>;
->> +		gpio-controller;
->> +		#gpio-cells = <2>;
->> +		interrupt-controller;
->> +		#interrupt-cells = <2>;
+On 21/04/2025 22:12, Martin Blumenstingl wrote:
+> This is a successor of a previous patchset by Christian [0]
 > 
-> No reset-gpios? Is the expander being used by something else so that we
-> don't want it to be reset during the bootup?
+> Patch 1 reverts a previous fix for loss of HDMI sync when playing YUV420
+> @ 59.94 media. The patch does resolve a calculation issue. It also makes
+> all fractional rates invalid which is a bigger problem.
 > 
-Hi Dmitry,
-
-Please, ignore the previous reply.
-
-This io_expander is used by anx7625 bridge only. I have defined the gpio in pinctrl setting and so far it was helping out indirectly to bring io_expander out
-of the reset. The reset-gpios is optional for tca9539, because of which the io_expander driver didn't throw an error and I never realize that I should add this property.
-
-I tested by adding the reset-gpios entry and it's working fine. I will update in the next patchset.
-
-+ reset-gpios = <&tlmm 97 GPIO_ACTIVE_LOW>; 
-
-Thanks again, for pointing it out.
-
-Thanks,
-Ayushi
-
->> +
->> +		pinctrl-0 = <&io_expander_intr_active>,
->> +			    <&io_expander_reset_active>;
->> +		pinctrl-names = "default";
->> +	};
->> +
+> Patch 2 changes the whole drm/meson driver to use Hz as unit for clocks/
+> frequencies. And importantly it uses the relevant 64-bit maths helpers so
+> the code can still be compiled using for 32-bit ARM.
+> Maxime previously suggested using drm_hdmi_compute_mode_clock(). That's
+> still something to implement with future patches.
 > 
-> The rest LGTM
+> Neil, I'd like to hear your feedback on this approach.
+> 
+> 
+> [0] https://lore.kernel.org/linux-amlogic/20250110074458.3624094-1-christianshewitt@gmail.com/
+> 
+> 
+> Christian Hewitt (1):
+>    Revert "drm/meson: vclk: fix calculation of 59.94 fractional rates"
+> 
+> Martin Blumenstingl (1):
+>    drm/meson: use unsigned long long / Hz for frequency types
+> 
+>   drivers/gpu/drm/meson/meson_drv.c          |   2 +-
+>   drivers/gpu/drm/meson/meson_drv.h          |   2 +-
+>   drivers/gpu/drm/meson/meson_encoder_hdmi.c |  29 +--
+>   drivers/gpu/drm/meson/meson_vclk.c         | 195 +++++++++++----------
+>   drivers/gpu/drm/meson/meson_vclk.h         |  13 +-
+>   5 files changed, 126 insertions(+), 115 deletions(-)
 > 
 
+Thanks for re-spinning, will apply.
+
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+Thanks !
