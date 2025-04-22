@@ -2,90 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A4EA979BD
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 23:52:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3F8A979C2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 23:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40E0E10E3D0;
-	Tue, 22 Apr 2025 21:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5D210E639;
+	Tue, 22 Apr 2025 21:53:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="K+W40PZu";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JfMYrW3t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 226D810E63B
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 21:52:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D3B10E639
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 21:53:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1745358725;
+ s=mimecast20190719; t=1745358804;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=joxllWRMo1gVbEqeWtbqHWjwqROo+sski2Q8YGooCfY=;
- b=K+W40PZuILXux7cxYSbDBAV0XkWUo47lJQmOYzVYlebmi4ffFL6N9p9/KySuw2BVUcfiQI
- BxAsy42yy42BOnba+hKjCUeEL+tMLVmD9/hRx+4eh2k1qaWltqWajxrXdaUZ1oHZUtRy5t
- Pup7G08Lu/Ufg7ntPRcgk3KZqU4ZJZY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HKxVbFAIC1yknAhgK3/yzjYTFKqGKsqga8pDfwFWc/Y=;
+ b=JfMYrW3tbMTc5XeNkBN11Kh3GBS9udp824JZos5EFcFTHJje3FYGWvXScQj3WnkVArONop
+ Eck63vPOOozUotmKgT2ZQyEAlB12NCCCt9Rg+M/MQDLYsILs6TTGVTlyyGm7/oqa/nVWoK
+ TxRfsQ9oTtjsuRReJrkHW32QuiQjDOs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-187-4R7knz00OKOhSJLbVUhqMQ-1; Tue, 22 Apr 2025 17:52:03 -0400
-X-MC-Unique: 4R7knz00OKOhSJLbVUhqMQ-1
-X-Mimecast-MFC-AGG-ID: 4R7knz00OKOhSJLbVUhqMQ_1745358721
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43d5ca7c86aso31377895e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 14:52:02 -0700 (PDT)
+ us-mta-93-MPfY5wMiOgObldtUFVF1Vg-1; Tue, 22 Apr 2025 17:53:22 -0400
+X-MC-Unique: MPfY5wMiOgObldtUFVF1Vg-1
+X-Mimecast-MFC-AGG-ID: MPfY5wMiOgObldtUFVF1Vg_1745358801
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-43d209dc2d3so29578115e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 14:53:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745358721; x=1745963521;
+ d=1e100.net; s=20230601; t=1745358801; x=1745963601;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=joxllWRMo1gVbEqeWtbqHWjwqROo+sski2Q8YGooCfY=;
- b=HGycU8T+3jyvow0a6lEjxc48E32PjqiqOc3GUexGGDIUG8/GGfGJjycVY3nufhgw88
- DcJX5LaYoWu4NGoqJq+t9LuwwgnYkqxUSO2EOG/biXcKiFGcEqyJK403Fd7qHja60iN/
- AxLyh1fyKTEGLuBs6iRbhadBjXmoxcxOQdT28MUbejhTMLCR4Dv5vhhXgB32EvUDl6u1
- FgDAuiiVFHNpYu3gZjhNIasFhpmEL6HIkQewqX4m5FP0b+yX9tpnesUSzaqu3VZo4Ray
- qePnp946JygRkai5/qWi3ez4ISeS2eauH0q2Mv7S2eMWniIRIDFy8c8/E2dO+gzgkYEV
- 5c5w==
+ bh=HKxVbFAIC1yknAhgK3/yzjYTFKqGKsqga8pDfwFWc/Y=;
+ b=GuAYTj+c8M8CM4yKkyMlH7zr+9ebuEOQaFI5UuRVLyXrxhH4IKG9gCZ2LR9/05nsbB
+ Ne0MQtm7c/eINtuvdPjNs8mpwS8vLW5DtqPMOpe6i62pd2/nxSNoQtacqZtmBGFgW7Ya
+ 3AEWEamrf8ETP9f5vMEWhQTPwFAUUrMYc6PTYWcokfmh1ONQqvO+0nZAu6pmkyWJTUS+
+ 8euOmjoOvvAvPqaPUYL1K738dD8bX1Qa3XifqFZfYL5MIGeil9OG1uMklitB7QkDS5VV
+ 0VOa42NqUISNim1DiyV9Frq22ZHCzZOqFGt0QhCv0NGRciGXn6QOcAEaapPf1/4R5g+S
+ j44w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWa8F3TgibKz6WZmlKA6car/gJiHkgWfDERbeQ/v8IHvtAfmF9/Y+1nnEz0liz7UoyCfon7uhg5YDA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxgdF8XOwa2O1mpyA+mlrXOH9OqhO0/ubZUqnRAJ1fzfU4tbfuC
- twAmXc593CBEgGlBrRtDMmOpRH2GBIhgu6ZV62pFYasI4fDkU2xJi2NfSIb1/Cz/jXH0hz5hHlZ
- a/LX86XLmr9vHpn7QZ+ThzFlLr8eafsGWvPX3zI6VgguiXyEcqaN3YhuVypygpGWMIA==
-X-Gm-Gg: ASbGncus9t0TlfHxksKnQrDnLnacPvoFyIWS22KrY2UxjP7XDEctBZFa4CCxgJ+jluZ
- 4uduTXzvpNsHIPvBUujaPsoD5PMvtSNrXfFi3PWz4t9ErKRqMEbRAqZ0l92FwMTKHIWYUvV3Za0
- JIKkYYqOlMmOmIiAHHTHIiytmXjVNnmbsg0MtKRBhSDgVZpb2w35meEqSRRHDeYbu78UZTPn+64
- lYPYl8ZnifCWk1KperhULpOXLWPaak+I5lHCcpBhw8S4hDLwEGRhvbe8SJb0xrhtBNEKJUWsfzM
- YA6/Gr3IsRaqXtokmeEApy6+0OkksptwZ1svMoPTe45ufYMQMTiwbnu4XPR5TcLDZi1Amw==
-X-Received: by 2002:a05:600c:154d:b0:43c:f4b3:b094 with SMTP id
- 5b1f17b1804b1-4406ab7a726mr134798675e9.6.1745358720932; 
- Tue, 22 Apr 2025 14:52:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGTLxTsyxpVT4t0zbtQAWUyHdf9Zx7V24YbCZxhwIqhnPj4RWkalHudFTrHtJPVsV+GXVwc/g==
-X-Received: by 2002:a05:600c:154d:b0:43c:f4b3:b094 with SMTP id
- 5b1f17b1804b1-4406ab7a726mr134798515e9.6.1745358720531; 
- Tue, 22 Apr 2025 14:52:00 -0700 (PDT)
+ AJvYcCUBGq+3A1W39ZumuhUAEZWUrq6dZsesmZamjg2E81TKgIsGKmiaHUTiii8zGsmkRvuoUMFFIGDnP9k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyUX3AwpY8O3m2ASlhveGjB53VL9DRb9vvh8+cZKE3IfXiAwFWC
+ cblXs/6duxYfCjBDDp8W0dRpa12DbZ1BieZ6OA5kDO3FdQ91Pmy6tR0jSY4iX30Pnpzq0BhmU61
+ 8BmzKX7halUYTVPra+1+NbBa0sybN8VG+YIc6bDCCakQX7sWz9N0+RMG1kC4bIsnXEA==
+X-Gm-Gg: ASbGncsuNkfFSpuk0pv26MmvsW6DEOAJLdEqI4An4m8P2Fz8e0mbh2AMHLgoDc8xYOr
+ x4VJmDQTqaCrSnwuipY2NpX4RjXH4IP0fEmPmbYBXJCM6oVePOXJzx+BlgbPFC2wH2+iRgpgJCi
+ wGoHb1ko/uFby3UfQshs80rqBVt9OdvaS8oTIiTyWAqMIxoNhTn7wPEhzQj7g9HsQc/L8PoqY51
+ bfQo9BjKUqVAbWDppKSqTgvFzu+oPCEcFKIWtDFWngdZ29L6GkYuX5adeoGjaByc2Tw0QxcNW2z
+ gAb0IYv2Q5PEazCtp6qKvZ3tY4HB9jS6ZH5IQQNGCFDXb88UjHQZb+aqkZffanncGchApQ==
+X-Received: by 2002:a05:600c:1990:b0:43c:f8fc:f686 with SMTP id
+ 5b1f17b1804b1-4406ab6ce61mr150643015e9.3.1745358801545; 
+ Tue, 22 Apr 2025 14:53:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH6/idgdqte5+5OvTZ+lLVQQaqX56tOylPaDJQn0XXifg71bVlGLn6SvNsLKI5H+jbjTtpPIA==
+X-Received: by 2002:a05:600c:1990:b0:43c:f8fc:f686 with SMTP id
+ 5b1f17b1804b1-4406ab6ce61mr150642815e9.3.1745358801185; 
+ Tue, 22 Apr 2025 14:53:21 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-44092d37332sm2604005e9.30.2025.04.22.14.51.59
+ 5b1f17b1804b1-44092d23099sm2637005e9.13.2025.04.22.14.53.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Apr 2025 14:52:00 -0700 (PDT)
+ Tue, 22 Apr 2025 14:53:20 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Philipp Stanner <phasta@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Arnd Bergmann <arnd@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- Niklas Schnelle <schnelle@linux.ibm.com>, Jeff Johnson
- <jeff.johnson@oss.qualcomm.com>, Philipp Stanner <phasta@kernel.org>
-Cc: virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/cirrus: Use non-hybrid PCI devres API
-In-Reply-To: <20250417094009.29297-2-phasta@kernel.org>
-References: <20250417094009.29297-2-phasta@kernel.org>
-Date: Tue, 22 Apr 2025 23:51:58 +0200
-Message-ID: <87frhzc1a9.fsf@minerva.mail-host-address-is-not-set>
+To: Fabio Estevam <festevam@gmail.com>, simona@ffwll.ch
+Cc: airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, noralf@tronnes.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, Fabio Estevam <festevam@denx.de>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v2] drm/tiny: panel-mipi-dbi: Use
+ drm_client_setup_with_fourcc()
+In-Reply-To: <20250417103458.2496790-1-festevam@gmail.com>
+References: <20250417103458.2496790-1-festevam@gmail.com>
+Date: Tue, 22 Apr 2025 23:53:19 +0200
+Message-ID: <87cyd3c180.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: FGfzj4RCSVqt-gWpkySma7KNMwq-A29_19Fpy6MWiYA_1745358721
+X-Mimecast-MFC-PROC-ID: _Rt72tmIkz71IZmJ5lrd0W5ifqHoaZRCJuucW0Rraz0_1745358801
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,22 +99,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Philipp Stanner <phasta@kernel.org> writes:
+Fabio Estevam <festevam@gmail.com> writes:
 
-Hello Philipp,
+Hello Fabio,
 
-> cirrus enables its PCI device with pcim_enable_device(). This,
-> implicitly, switches the function pci_request_regions() into managed
-> mode, where it becomes a devres function.
+> From: Fabio Estevam <festevam@denx.de>
 >
-> The PCI subsystem wants to remove this hybrid nature from its
-> interfaces. To do so, users of the aforementioned combination of
-> functions must be ported to non-hybrid functions.
+> Since commit 559358282e5b ("drm/fb-helper: Don't use the preferred depth
+> for the BPP default"), RGB565 displays such as the CFAF240320X no longer
+> render correctly: colors are distorted and the content is shown twice
+> horizontally.
 >
-> Replace the call to sometimes-managed pci_request_regions() with one to
-> the always-managed pcim_request_all_regions().
+> This regression is due to the fbdev emulation layer defaulting to 32 bits
+> per pixel, whereas the display expects 16 bpp (RGB565). As a result, the
+> framebuffer data is incorrectly interpreted by the panel.
 >
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> Fix the issue by calling drm_client_setup_with_fourcc() with a format
+> explicitly selected based on the display's bits-per-pixel value. For 16
+> bpp, use DRM_FORMAT_RGB565; for other values, fall back to the previous
+> behavior. This ensures that the allocated framebuffer format matches the
+> hardware expectations, avoiding color and layout corruption.
+>
+> Tested on a CFAF240320X display with an RGB565 configuration, confirming
+> correct colors and layout after applying this patch.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 559358282e5b ("drm/fb-helper: Don't use the preferred depth for the BPP default")
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
