@@ -2,117 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801CAA97962
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 23:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98CAA9794E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 23:41:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1DA010E63A;
-	Tue, 22 Apr 2025 21:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 451AF10E635;
+	Tue, 22 Apr 2025 21:41:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="eSeQtPnp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WGEcD0+0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from send174.i.mail.ru (send174.i.mail.ru [95.163.59.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCD3A10E63A
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 21:42:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
- ; s=mailru;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:To:Cc:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
- X-Cloud-Ids:Disposition-Notification-To;
- bh=AihJLKVZXaR+g5VYMa9Q+hKTKxPRcUhhhd8yuHNB8cY=; t=1745358149; x=1745448149; 
- b=eSeQtPnpKQInkpXpHfzEaxFGQ3x/x30IF8yVPn+Rbng1imMuZhMs+eXO5EfWFi2aCP08hjHUUoQ
- 8hGjv9Sgwk/oFf98J5IASbhWHLFlROC5gZBQbSercPTOSSBfcGHKnxgF5TUVzJTUb7xEkggHEDsGl
- u40Ad/RojP5W8WfTOlI=;
-Received: by exim-smtp-77d8cdf77b-wlhm8 with esmtpa (envelope-from
- <danila@jiaxyga.com>)
- id 1u7LNk-00000000BOp-2PUS; Wed, 23 Apr 2025 00:42:21 +0300
-From: Danila Tikhonov <danila@jiaxyga.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Rajendra Nayak <quic_rjendra@quicinc.com>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Amit Kucheria <amitk@kernel.org>,
- Thara Gopinath <thara.gopinath@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Wesley Cheng <quic_wcheng@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
- Lee Jones <lee@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Alex Elder <elder@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>,
- Bart Van Assche <bvanassche@acm.org>, Andy Gross <agross@kernel.org>,
- Srinivas Kandagatla <srini@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Georgi Djakov <djakov@kernel.org>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
- Sibi Sankar <quic_sibis@quicinc.com>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Imran Shaik <quic_imrashai@quicinc.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Kees Cook <kees@kernel.org>,
- Tony Luck <tony.luck@intel.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- David Wronek <david@mainlining.org>, Jens Reidel <adrian@mainlining.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org, linux-scsi@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
- linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org, linux@mainlining.org,
- ~postmarketos/upstreaming@lists.sr.ht, Danila Tikhonov <danila@jiaxyga.com>
-Subject: [PATCH 32/33] dt-bindings: display: panel: samsung,
- ams581vf01: Add google, sunfish
-Date: Wed, 23 Apr 2025 00:31:36 +0300
-Message-ID: <20250422213137.80366-16-danila@jiaxyga.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250422213137.80366-1-danila@jiaxyga.com>
-References: <20250422213137.80366-1-danila@jiaxyga.com>
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1C010E635
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 21:41:30 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-43ce70f9afbso49278625e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 14:41:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1745358089; x=1745962889; darn=lists.freedesktop.org;
+ h=autocrypt:subject:from:cc:to:content-language:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=CdpsBpDWdxMBBvIM8tPsAm81m0X2FgTrOU07T3tJZx4=;
+ b=WGEcD0+0zyQfdQ1wIfDBzxLCH6LbTYaGIqi3ZoEMRwsQpFyZhSj18ejSrVUmcRRFGI
+ Yn10CsUx60qmGcVZXv710h6WVohXBrUevbWxBS6HPJaQQwuGxzJvApa0Iwqb8iiJYCkh
+ oOnfwm7kDcjYfkmL+StOy+KhOG1dKGRydEmTOBkygOi+c4BAChgISDmE+17/TEgKPUdP
+ 9/bnZ6Ncwx/1XqJy7HS7VOjLZTLspceQQKzk1vF41w3MJGVY5hObdbBV+TV8A6vITAG8
+ xUl17tEGt4k48ywMgJ21z5RDWs72HH2TumDeKYhZaPAsqnYLhxFqKT4mRtd6xJoEV/Jo
+ 4MNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745358089; x=1745962889;
+ h=autocrypt:subject:from:cc:to:content-language:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=CdpsBpDWdxMBBvIM8tPsAm81m0X2FgTrOU07T3tJZx4=;
+ b=hG2kOC7r89otSCI5mjENzgdJF+GOF5GNV0Qwrnm1zAdSYEWUk0537GpPA/nJcCF8Ma
+ I9KAgtyvDiVaqAa3ZGhcmeDwCCraGSm/3gTaY8Mnj4zhSm7npt2/0L3yeoY2pPRofrHb
+ G6SYpp/ofFk2Ee7KU6I+NRAbGjDW9Yj6G02hSorDN7S8BjEk8g1FpLLZNUF7K/qZeuyZ
+ eMsGvLcOFc2YgtweNr+v/4J9WS2CsVZGh541D3ebE1moQSUoOPWRQUSOSlYRs/Cw4N0I
+ 6ATYUZiuPH9t9srRiMgWsCMFpEiOXzmndZWKUq5FBgy6EJsBUtpaDqFbSpo4n5xZb/di
+ XJdA==
+X-Gm-Message-State: AOJu0Yx2PUy4Vsopn8Oo0GWy9cUZfkYdzi4O/gTfTITN0bpn/6o3Z1oB
+ HwpwS29u5RIunfzr74s5AXTSaTKVHfckY9o3AN/DD/dWQIK163YU
+X-Gm-Gg: ASbGncu1sRcHMk5NiSyK4p3GV7peN7Kd/NejJ59cFbsH9W6YbrORm9yaUEJvy0mKxCg
+ yZWP3u1ZCm5/afA+VC0ke4x+rLrMgjSNMpRtzwxCKldZNjViLcHNjZWQLx/WWdGNkVoKA72JfK7
+ gT1tdi7wDY045z9j+kL3RJVH2lW/ImMWVJETfxzuaFOgorS8RgXyjme58OZiml+d7YvB2/4Qrki
+ JBsOV3pnlzcHPHtFrrk0KxyUKSiwbbTZJbRkTFPs7ezyWHWaesXTTVkgCYeRJwP2gIAllN4Km3Z
+ SsVroE2mXD4Y+KiL99rD2ZoAo0Lk4cS+AlAxEhtcNzPXo+FWCA==
+X-Google-Smtp-Source: AGHT+IHQVD0tIfkPN74yp5c4f2oJLeNnumF3FWo3PgQxDk2Ugmmb39SXChQKZpo1gDy2JzECsRQb1Q==
+X-Received: by 2002:a05:600c:8508:b0:43c:fe15:41cb with SMTP id
+ 5b1f17b1804b1-4406aba4af7mr178019315e9.15.1745358088581; 
+ Tue, 22 Apr 2025 14:41:28 -0700 (PDT)
+Received: from [192.168.1.248] ([194.120.133.58])
+ by smtp.googlemail.com with ESMTPSA id
+ 5b1f17b1804b1-44092d369f1sm2256155e9.29.2025.04.22.14.41.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Apr 2025 14:41:27 -0700 (PDT)
+Message-ID: <5369c64b-ba14-481c-8156-62a2efa5f447@gmail.com>
+Date: Tue, 22 Apr 2025 22:41:20 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: exim-smtp-77d8cdf77b-wlhm8;
- auth=pass smtp.auth=danila@jiaxyga.com
- smtp.mailfrom=danila@jiaxyga.com
-X-Mailru-Src: smtp
-X-4EC0790: 10
-X-7564579A: B8F34718100C35BD
-X-77F55803: 4F1203BC0FB41BD985535D2C87FE65BBCEB406D2985502DE651E0E6CBA378FA300894C459B0CD1B966146D042DC94A8533594132A326AF8BDEDEA41B171FD621DC93281C933D57C0750FC9643A608EC1
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE72F22E6DC541F75D9EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637ECAF4C2CEE0D0B2F8638F802B75D45FF914D58D5BE9E6BC1A93B80C6DEB9DEE97C6FB206A91F05B2B3B1E2A3A8D0B81E2E070BE324C7D3C4555B88E1619BAF87F6B57BC7E64490618DEB871D839B73339E8FC8737B5C22495FF0BFC5AEE34BE6CC7F00164DA146DAFE8445B8C89999729449624AB7ADAF37F6B57BC7E64490611E7FA7ABCAF51C92176DF2183F8FC7C0B27420F9988F54058941B15DA834481F9449624AB7ADAF37BA3038C0950A5D3613377AFFFEAFD269176DF2183F8FC7C0430B4546ECB778427B076A6E789B0E97A8DF7F3B2552694AD5FFEEA1DED7F25D49FD398EE364050F0AC5B80A05675ACD3DBBCB839D0549ACB3661434B16C20ACC84D3B47A649675FE827F84554CEF5019E625A9149C048EE33AC447995A7AD182BEBFE083D3B9BA73A03B725D353964B2FFDA4F57982C5F435872C767BF85DA227C277FBC8AE2E8BDC0F6C5B2EEF3D0C75ECD9A6C639B01B4E70A05D1297E1BBCB5012B2E24CD356
-X-C1DE0DAB: 0D63561A33F958A5F3A4C20AE1BFF6545002B1117B3ED696B2A5708A05F1492B1E49B01306B5E3AD823CB91A9FED034534781492E4B8EEAD09122B91796FF21FC79554A2A72441328621D336A7BC284946AD531847A6065A535571D14F44ED41
-X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF3FED46C3ACD6F73ED3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFAA096278F38FCC1E60FD1892EF2B9ABA211CBC885786DCA12845D3CC6C9FBDE6ACCA692FBCDC96C268A835CA8743990B2177CD1772E9538CD59B53E1D0EAB01270436F0DEE694E65EFF8118B638B08AA02C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu53w8ahmwBjZKM/YPHZyZHvz5uv+WouB9+ObcCpyrx6l7KImUglyhkEat/+ysWwi0gdhEs0JGjl6ggRWTy1haxBpVdbIX1nthFXMZebaIdHP2ghjoIc/363UZI6Kf1ptIMVS+uSU+BUhgv2gKwfCjEhao=
-X-Mailru-Sender: 9EB879F2C80682A0D0AE6A344B45275F728288CFF7AFD822CC811723C208B4178CE2F44239217BC4F426582E0103707E2C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@collabora.com,
+ "Richard_j_nixon@hotmail.com" <Richard_j_nixon@hotmail.com>
+From: "Colin King (gmail)" <colin.i.king@gmail.com>
+Subject: re: drm: panel: Add driver for Himax HX8279 DDIC panels
+Autocrypt: addr=colin.i.king@gmail.com; keydata=
+ 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
+ FVPMkxl2UyaayDvhrO9kNXvl1SKCpdzCMQ==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------HW6FEBicTQyXxGu8zSYeoTOq"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,33 +131,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This panel is used in Google Pixel 4a (google,sunfish). Document the
-corresponding string.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------HW6FEBicTQyXxGu8zSYeoTOq
+Content-Type: multipart/mixed; boundary="------------N3ZcnUoSP2zg08nWWTSKJgQN";
+ protected-headers="v1"
+From: "Colin King (gmail)" <colin.i.king@gmail.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@collabora.com,
+ "Richard_j_nixon@hotmail.com" <Richard_j_nixon@hotmail.com>
+Message-ID: <5369c64b-ba14-481c-8156-62a2efa5f447@gmail.com>
+Subject: re: drm: panel: Add driver for Himax HX8279 DDIC panels
 
-Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
----
- .../bindings/display/panel/samsung,ams581vf01.yaml        | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+--------------N3ZcnUoSP2zg08nWWTSKJgQN
+Content-Type: multipart/mixed; boundary="------------075VCYFG3sx02irjB7RB8IlG"
 
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,ams581vf01.yaml b/Documentation/devicetree/bindings/display/panel/samsung,ams581vf01.yaml
-index 70dff9c0ef2b..a3a1de32d8be 100644
---- a/Documentation/devicetree/bindings/display/panel/samsung,ams581vf01.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,ams581vf01.yaml
-@@ -17,7 +17,13 @@ allOf:
- 
- properties:
-   compatible:
--    const: samsung,ams581vf01
-+    oneOf:
-+      - enum:
-+          - samsung,ams581vf01
-+      - items:
-+          - enum:
-+              - google,ams581vf01-sunfish
-+          - const: samsung,ams581vf01
- 
-   reg:
-     maxItems: 1
--- 
-2.49.0
+--------------075VCYFG3sx02irjB7RB8IlG
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGksDQoNCnN0YXRpYyBhbmFseXNpcyBvbiB0b2RheSdzIGxpbnV4LW5leHQgaGFzIGZvdW5k
+IHR3byBpc3N1ZXMgd2l0aCB0aGUgDQpmb2xsb3dpbmcgY29tbWl0Og0KDQpjb21taXQgMzhk
+NDJjMjYxMzg5OTg1ZThkZDQ3MzlkYmQ5N2UyZGM4NTVlOGRkMA0KQXV0aG9yOiBBbmdlbG9H
+aW9hY2NoaW5vIERlbCBSZWdubyA8YW5nZWxvZ2lvYWNjaGluby5kZWxyZWdub0Bjb2xsYWJv
+cmEuY29tPg0KRGF0ZTogICBNb24gQXByIDE0IDEwOjI5OjE4IDIwMjUgKzAyMDANCg0KICAg
+ICBkcm06IHBhbmVsOiBBZGQgZHJpdmVyIGZvciBIaW1heCBIWDgyNzkgRERJQyBwYW5lbHMN
+Cg0KDQpJbiB0aGUgZm9sbG93aW5nIGNvZGUsIGJvb2xlYW4gdmFyaWFibGVzIGdvYV9vZGRf
+dmFsaWQgYW5kIA0KZ29hX2V2ZW5fdmFsaWQgYXJlIG5vdCBpbml0aWFsaXplZC4gVGhleSBh
+cmUgb25seSBiZWluZyBzZXQgKHRvIGZhbHNlKSANCm9uIHRoZSBudW1femVybyBpZiBzdGF0
+ZW1lbnRzOg0KDQpzdGF0aWMgaW50IGh4ODI3OV9jaGVja19nb2FfY29uZmlnKHN0cnVjdCBo
+eDgyNzkgKmh4LCBzdHJ1Y3QgZGV2aWNlICpkZXYpDQp7DQogICAgICAgICBjb25zdCBzdHJ1
+Y3QgaHg4Mjc5X3BhbmVsX2Rlc2MgKmRlc2MgPSBoeC0+ZGVzYzsNCiAgICAgICAgIGJvb2wg
+Z29hX29kZF92YWxpZCwgZ29hX2V2ZW5fdmFsaWQ7DQogICAgICAgICBpbnQgaSwgbnVtX3pl
+cm8sIG51bV9jbHIgPSAwOw0KDQogICAgICAgICAvKiBVcCB0byA0IHplcm8gdmFsdWVzIGlz
+IGEgdmFsaWQgY29uZmlndXJhdGlvbi4gQ2hlY2sgdGhlbSBhbGwuICovDQogICAgICAgICBu
+dW1femVybyA9IDE7DQogICAgICAgICBmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRShkZXNj
+LT5nb2Ffb2RkX3RpbWluZyk7IGkrKykgew0KICAgICAgICAgICAgICAgICBpZiAoZGVzYy0+
+Z29hX29kZF90aW1pbmdbaV0pDQogICAgICAgICAgICAgICAgICAgICAgICAgbnVtX3plcm8r
+KzsNCiAgICAgICAgIH0NCg0KICAgICAgICAgaWYgKG51bV96ZXJvID09IEFSUkFZX1NJWkUo
+ZGVzYy0+Z29hX29kZF90aW1pbmcpKQ0KICAgICAgICAgICAgICAgICBnb2Ffb2RkX3ZhbGlk
+ID0gZmFsc2U7DQoNCiAgICAgICAgIC8qIFVwIHRvIDMgemVyb2VzIGlzIGEgdmFsaWQgY29u
+ZmlnLiBDaGVjayB0aGVtIGFsbC4gKi8NCiAgICAgICAgIG51bV96ZXJvID0gMTsNCiAgICAg
+ICAgIGZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKGRlc2MtPmdvYV9ldmVuX3RpbWluZyk7
+IGkrKykgew0KICAgICAgICAgICAgICAgICBpZiAoZGVzYy0+Z29hX2V2ZW5fdGltaW5nW2ld
+KQ0KICAgICAgICAgICAgICAgICAgICAgICAgIG51bV96ZXJvKys7DQogICAgICAgICB9DQoN
+CiAgICAgICAgIGlmIChudW1femVybyA9PSBBUlJBWV9TSVpFKGRlc2MtPmdvYV9ldmVuX3Rp
+bWluZykpDQogICAgICAgICAgICAgICAgIGdvYV9ldmVuX3ZhbGlkID0gZmFsc2U7DQoNCg0K
+YW5kIHNvIHRoZSBmb2xsb3dpbmcgdHdvIGNoZWNrcyBvbiB0aGUgYm9vbGVhbiB2YXJpYWJs
+ZXMgaXMgb24gDQpwb3RlbnRpYWxseSB1bmluaXRpYWxpemVkIHZhbHVlczoNCg0KICAgICAg
+ICAgLyogUHJvZ3JhbW1pbmcgb25lIHdpdGhvdXQgdGhlIG90aGVyIHdvdWxkIG1ha2Ugbm8g
+c2Vuc2UhICovDQogICAgICAgICBpZiAoZ29hX29kZF92YWxpZCAhPSBnb2FfZXZlbl92YWxp
+ZCkNCiAgICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQoNCiAgICAgICAgIC8qIFdl
+IGtub3cgdGhhdCBib3RoIGFyZSBlaXRoZXIgdHJ1ZSBvciBmYWxzZSBub3csIGNoZWNrIGp1
+c3QgDQpvbmUgKi8NCiAgICAgICAgIGlmICghZ29hX29kZF92YWxpZCkNCiAgICAgICAgICAg
+ICAgICAgaHgtPnNraXBfZ29hX3RpbWluZyA9IHRydWU7DQoNCg0KQ29saW4NCg==
+--------------075VCYFG3sx02irjB7RB8IlG
+Content-Type: application/pgp-keys; name="OpenPGP_0x68C287DFC6A80226.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x68C287DFC6A80226.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsFNBE6TJCgBEACo6nMNvy06zNKj5tiwDsXXS+LhT+LwtEsy9EnraKYXAf2xwazc
+ICSjX06efanlyhB0figzQO0n/tP7BcfMVNG7n1+DC71mSyRK1ZERcG1523ajvdZO
+xbBCTvTitYOy3bjs+LXKqeVMhK3mRvdTjjmVpWnWqJ1LL+Hn12ysDVVfkbtuIm2N
+oaSEC8Ae8LSSyCMecd22d9PnLR4UeFgrWEkQsqROq6ZDJT9pBLGe1ZS0pVGhkRyB
+P9GP65oPev39SmfAx9R92SYJygCy0pPvBMWKvEZS/7bpetPNx6l2xu9UvwoeEbpz
+UvH26PHO3DDAv0ynJugPCoxlGPVf3zcfGQxy3otydNTWkP6Wh3Q85m+AlifgKZud
+jZLrO6c+fAw/jFu1UMjNuyhgShtFU7NvEzL3RqzFf9O1qM2muj83IeFQ1FZ65QAi
+CdTa3npz1vHc7N4uEQBUxyXgXfCI+A5yDnjHwzU0Y3RYS52TA3nfa08yLGPLTf5w
+yAREkFYou20vh5vRvPASoXx6auVf1MuxokDShVhxLpryBnlKCobs4voxN54BUO7m
+zuERXN8kadsxGFzItAyfKYzEiJrpUB1yhm78AecDyiPlMjl99xXk0zs9lcKriaBy
+VUv/NsyJFQj/kmdxox3XHi9K29kopFszm1tFiDwCFr/xumbZcMY17Yi2bQARAQAB
+zSdDb2xpbiBJYW4gS2luZyA8Y29saW4uaS5raW5nQGdtYWlsLmNvbT7CwZEEEwEI
+ADsCGwMFCwkIBwMFFQoJCAsFFgIDAQACHgECF4AWIQRwYtqk8AG5xmFnAM9owoff
+xqgCJgUCY8GcawIZAQAKCRBowoffxqgCJtd/EACIWcaxfVt/MH4qqo5ELsjCFPVp
++RhVpQDWy8v9Np2YbTcZ4AY2Zj4Pq/HrZ3F/Bh02v85C6mNv8BDTKev6Qcq3BYw0
+iqw6/xLNvRcSFHM81mQI9xtnAWIWfI9k5hpX19QooPIIP3GOMdMc1uRUGTxTgTFA
+AsAswRY3kMzo6k7arQnUs9zbiZ9SmS43qWOIxzGnvneekHHDAcomc/oho7kgj6rK
+p/f9qRrhForkgVQwdj6iBlW934yRXzeFVF3wr7Lk5GQNIEkJiNQPZs54ojBS/Kx6
+3UTLT1HgOp6UY9RPEi9wubmUR+J6YjLRZMr5PCcA86EYmRoysnnJ8Q/SlBVD8npp
+GVEcuvrbH3MBfhmwOPDc3RyLkEtKfSTB92k1hsmRkx9zkyuUzhcSnqQnpWGJD+xt
+KHvcHRT7Uxaa+SDwUDM36BjkyVcZQy8c+Is2jA55uwNgPpiA7n82pTeT+FRGd+7i
+CLQHaryu6FO6DNDv09RbPBjIiC/q814aeKJaSILP1ld9/PEBrLPdm+6lG6OKOt9D
+DV6jPmfR96FydjxcmI1cgZVgPomSxv2JB1erOggB8rmX4hhWYsVQl1AXZs3LdEpJ
+6clmCPspn/ufZxHslgR9/WR1EvPMQc8XtssF55p8ehRIcVSXDRcMFr3ZuqMTXcL6
+8YbDmv5OGS95O1Gs4c0iQ29saW4gS2luZyA8Y29saW4ua2luZ0B1YnVudHUuY29t
+PsLBdwQTAQgAIQUCTwq47wIbAwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgAAKCRBo
+woffxqgCJo1bD/4gPIQ0Muy5TGHqTQ/bSiQ9oWjS5rAQvsrsVwcm2Ka7Uo8LzG8e
+grZrYieJxn3Qc22b98TiT6/5+sMa3XxhxBZ9FvALve175NPOz+2pQsAV88tR5NWk
+5YSzhrpzi7+klkWEVAB71hKFZcT0qNlDSeg9NXfbXOyCVNPDJQJfrtOPEuutuRuU
+hrXziaRchqmlhmszKZGHWybmPWnDQEAJdRs2Twwsi68WgScqapqd1vq2+5vWqzUT
+JcoHrxVOnlBq0e0IlbrpkxnmxhfQ+tx/Sw9BP9RITgOEFh6tf7uwly6/aqNWMgFL
+WACArNMMkWyOsFj8ouSMjk4lglT96ksVeCUfKqvCYRhMMUuXxAe+q/lxsXC+6qok
+Jlcd25I5U+hZ52pz3A+0bDDgIDXKXn7VbKooJxTwN1x2g3nsOLffXn/sCsIoslO4
+6nbr0rfGpi1YqeXcTdU2Cqlj2riBy9xNgCiCrqrGfX7VCdzVwpQHyNxBzzGG6JOm
+9OJ2UlpgbbSh6/GJFReW+I62mzC5VaAoPgxmH38g0mA8MvRT7yVpLep331F3Inmq
+4nkpRxLd39dgj6ejjkfMhWVpSEmCnQ/Tw81z/ZCWExFp6+3Q933hGSvifTecKQlO
+x736wORwjjCYH/A3H7HK4/R9kKfL2xKzD+42ejmGqQjleTGUulue8JRtpM1AQ29s
+aW4gSWFuIEtpbmcgKEludGVsIENvbGluIElhbiBLaW5nIGtleSkgPGNvbGluLmtp
+bmdAaW50ZWwuY29tPsLBjgQTAQgAOBYhBHBi2qTwAbnGYWcAz2jCh9/GqAImBQJn
+MiLBAhsDBQsJCAcDBRUKCQgLBRYCAwEAAh4BAheAAAoJEGjCh9/GqAImQ0oP/AqO
+rA08X6XKBdfSCNnqPDdjtvfQhzsO+1FYnuQmyJcXu6h07OmAdwDmN720lUT/gXVn
+w0st3/1DqQSepHx0xRLMF7vHcH1AgicSLnS/YMBhpoBLck582FlBcHbKpyJPH/7S
+iM5BAso0SpLwLzQsBNWZxl8tK8oqdX0KjmpxhyDUYlNCrCvxaFKuFDi9PmHOKghb
+vdH9Zuagi9lM54GMrT9IfKsVmstzmF2jiFaRpuZWxNbsbxzUSPjXoYP+HguZhuNV
+BwndS/atKIr8hm6W+ruAyHfne892VXE1sZlJbGE3N8gdi03aMQ+TIx5VLJfttudC
+t0eFc50eYrmJ1U41flK68L2D+lw5b9M1+jD82CaPwvC/jY45Qd3NWbX8klnPUDT+
+0foYLeBnu3ugKhpOnr4EFOmYDRn2nghRlsXnCKPovZHPD/3/iKU5G+CicRLv5ted
+Y19zU0jX0o7gRTA95uny3NBKt93J6VsYMI+5IUd/1v2Guhdoz++rde+qYeZB/NJf
+4H/L9og019l/6W5lS2j2F5Q6W+m0nf8vmF/xLHCu3V5tjpYFIFc3GkTV1J3G6479
+4azfYKMNKbw6g+wbp3ZL/7K+HmEtE85ZY1msDobly8lZOLUck/qXVcw2KaMJSV11
+ewlc+PQZJfgzfJlZZQM/sS5YTQBj8CGvjB6z+h5hzsFNBE6TJCgBEADF+hz+c0qF
+0R58DwiM8M/PopzFu5ietBpl0jUzglaKhMZKKW7lAr4pzeE4PgJ4ZwQd0dSkx63h
+RqM963Fe35iXrreglpwZxgbbGluRJpoeoGWzuUpXE6Ze0A2nICFLk79aYHsFRwnK
+yol9M0AyZHCvBXi1HAdj17iXerCYN/ZILD5SO0dDiQl570/1Rp3d1z0l16DuCnK+
+X3I7GT8Z9B3WAr6KCRiP0Grvopjxwkj4Z191mP/auf1qpWPXEAPLVAvu5oM7dlTI
+xX7dYa6fwlcm1uobZvmtXeDEuHJ3TkbFgRHrZwuh50GMLguG1QjhIPXlzE7/PBQs
+zh5zGxPj8cR81txs6K/0GGRnIrPhCIlOoTU8L+BenxZF31uutdScHw1EAgB6AsRd
+wdd8a9AR+XdhHGzQel8kGyBp4MA7508ih0L9+MBPuCrSsccjwV9+mfsTszrbZosI
+hVpBaeHNrUMphwFe9HbGUwQeS6tOr+pybOtNUHeiJ5aU3Npo3eZkWVGePP2O4vr8
+rjVQ1xZMIWA18xUaLTvVSarV7/IqjLb0uMTz6Ng7SceqjsgxO4J35pPOCG8gy85T
+md5NKe46K1xGsNG2zzfXQ6cNkofUyQFGVbLCtdfQyWV7+dgUnOnPhrTKpFfJ5lnW
+pLpze0LfyW03CpWx9x4yMlwcvIFw2hLaOQARAQABwsFfBBgBCAAJBQJOkyQoAhsM
+AAoJEGjCh9/GqAImeJYP/jdppMeb7AZnLGVXd8rN7CLBtfMOkXCWaOUhjMRAY7dV
+IMiF1iPZc6SgiiMSsdG7JJhMjMuLTxA0kX2Z6P0+6dZlO4bDOKMIv4nNGhgSj9Nu
+SKJPRiyiXKKD/wNnPXVFdBZsoHnEXGyAFGnidu4KLUJIiSm4tHJdoMk0ZaJSmwt0
+dtytuC1IWH8eIaVo/Ah6FxCaznRzvGNFx+9Ofcc7+aMZ15dkg9XagOuiDZ1/r6Vu
+Ew9ovnkDT4H5BAsysxo/qykX4XQ2RQSY/P3td9WNLeXLvt1aJNRcwcIEKgZ5AO3Y
+QbEJt1dEfCU7TAKiRpsjnC/iQiQHGt2IvNci8oZmM3EQEi7yZqD07A6dpGTnRq9O
+Q7fGhj0SS99yZvooH3fBIHA2LRuvhfDAgTrpbU0wLvkAIo0T2b9SoRCV8FEpHvR2
+b86NbTU5WN4eqZQbAbnxC7tJp6kLx2Zn2uQMvfXRfnS9R1jaetvpk3h7F+r/RAAh
++EvgsPUNaiRJRRLvf9bxTQZhmNrw79eIFNsRIktniLyomJf2+WPOUECzh1lfLqe9
+yiuUKv+m5uAalXdayhiPbp/JHs1EDRgSq3tiirOsKrh/KMpwz/22qGMRBjFwYBhf
+6ozgujmPlO5DVFtzfwOydzNlXTky7t4VU8yTGXZTJprIO+Gs72Q1e+XVIoKl3MIx
+=3DQKm6
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------075VCYFG3sx02irjB7RB8IlG--
+
+--------------N3ZcnUoSP2zg08nWWTSKJgQN--
+
+--------------HW6FEBicTQyXxGu8zSYeoTOq
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEcGLapPABucZhZwDPaMKH38aoAiYFAmgIDQEFAwAAAAAACgkQaMKH38aoAiaK
+bQ/+Lf3XZD7U7g7oSad8C4m0KFGC2osXPSdA4eTAOsnWXNvMJQIe/2juSzSz4Ius023wFWEOe4m0
+vOzvEInM6l2UQrUOhLH2XhP1C5LpJpIUuq4tjgt0QDSJNRMOgz/PfqAIUaFdRiMCEBtEKupS8Wyu
+0x21EKgek3jCWENpVmvC/fKPR8/+hN224ACxBfOFxaC5Woc9p700lHITEB8M+74Jccoqw3qMnjsW
+hAF0LV12XhX/Se9KIGnlfkCu992exi5qgBgClALKQok9gAecZ5x86fR2/WuVIX+p054skA/tEgdv
+t76Uk0x9gIHQnFiUKAQsP8+CXjQLBi0RURXmaU5VI6/UIqs49jSOdrsCUtLq7WW8//H0PJY2WbXy
+fBIUmhp4Z85IXOZO0jqyEDM+0CwioKd4n1kaYJ4LtTzObooBpwP/WzzGg9UPmU92Tak1/BIhGWp5
+CVIm2IOapKVKcDVYE8vpnm2EFwMP8bcN8bNxNMlJheaNOcbWpRaGbExeiPokSDcjNJ6FVVje9rs6
+44uGWyVdHBV1fQTlGItjWZYjoHNNpqVXvj0pvJjCoG0M/QlJpDJz3Fvy64zAQZmAjGQcsuUaXBbh
+e2Yae+Vpnnxt+4fRv3j7YuD5pNFSz4tiHIVKtQgzqRjJtot613kavQa64q/qtXWzRhXDqdVaKaCL
+9tM=
+=9cRm
+-----END PGP SIGNATURE-----
+
+--------------HW6FEBicTQyXxGu8zSYeoTOq--
