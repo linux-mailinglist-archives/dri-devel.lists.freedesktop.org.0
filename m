@@ -2,69 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6584A96D4E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 15:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8966A96D54
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 15:46:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AAA010E5B4;
-	Tue, 22 Apr 2025 13:46:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E6C10E5B5;
+	Tue, 22 Apr 2025 13:46:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="qYnrR6L4";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="MfhS2bfU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9D1610E5B4;
- Tue, 22 Apr 2025 13:46:30 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Zhk6V0g4dz9slY;
- Tue, 22 Apr 2025 15:46:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1745329586; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X4UNsOaOx56cRcgj+HnW0PnHBzc2Fijk7TfEsF4nX2A=;
- b=qYnrR6L44OXGqvGRGYAoFmZyiltnTXOjXAfwE3MP2Suqkco5KJtUV0HS3c0mRYg5QCy3c7
- kDqLTx5qZnLXx+h1PCpRmRkkm4O5gMwIkjlJnkli1tRUqy7zGmlepPxffJBw+81rJqRfjf
- 7hNngGEHokvrSeksYNMoX0HEjqM9MCmt30sX2oj368wmfQ4eyAb6eWFVh9VCrlCyMnTN9c
- s+UETjdHirJu9gKjQMdUYwj4mdkGM727o+FKUd8Vv2kv/rJu0YK9fGR8LUuYReWKjgCbOz
- SN6REaOd9kkaJnYakziWjzDZm1yC7HbxkOYAY/xyk5rBRt2BuUNvtcGqR9fyoA==
-Message-ID: <e8459da01e0c76242544b88768fd3a58e75073d5.camel@mailbox.org>
-Subject: Re: [PATCH 3/5] drm/sched: Warn if pending list is not empty
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Danilo Krummrich
- <dakr@kernel.org>
-Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew Brost
- <matthew.brost@intel.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org,  linux-kernel@vger.kernel.org
-Date: Tue, 22 Apr 2025 15:46:21 +0200
-In-Reply-To: <52574769-2120-41a1-b5dc-50a42da5dca6@igalia.com>
-References: <9607e5a54b8c5041dc7fc134425cc36c0c70b5f3.camel@mailbox.org>
- <3ac34c84-fd84-4598-96e1-239418b7109f@igalia.com> <aADv4ivXZoJpEA7k@pollux>
- <83758ca7-8ece-433e-b904-3d21690ead23@igalia.com>
- <aAEUwjzZ9w9xlKRY@cassiopeiae>
- <0e8313dc-b1bb-4ce7-b5b7-b8b3e027adb7@igalia.com>
- <0bfa746ca37de1813db22e518ffb259648d29e02.camel@mailbox.org>
- <5a5d4a33-2f7b-46e4-8707-7445ac3de376@igalia.com>
- <aAd54jUwBwgc-_g2@cassiopeiae>
- <d3c0f721-2d19-4a1c-a086-33e8d6bd7be6@igalia.com>
- <aAeMVtdkrAoMrmVk@cassiopeiae>
- <52574769-2120-41a1-b5dc-50a42da5dca6@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2060.outbound.protection.outlook.com [40.107.244.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B77AC10E5B5;
+ Tue, 22 Apr 2025 13:46:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WPGtYEB8d9p3RAm27HVl+Bp2rQWxcFe42CebL9/uVzPBPVqFq6nAWaQvR4nlnQFiXBOqcggL405ibXNOKd5f1XPyg+LK1UhRwdJUl/WgnhqVkCn5HmOR7LUAxdVivvRluPVF+yyWbvIgAbM2U28ArU72CndwoG+/W+M2KH141WGi7k8pSqS13RsrFanMAv6VmHDjC/5g6006L2nvH5PK1OqQ7dltpcSvEafnabQyCtwTc4XyLEEoCMcT4hEQAu58oaqzBTazpKJjE2u2PR68MOMyUR9zjmlEsUU4Ginoh5onCxLEGXufdk4PdTBvqUUHJri1yqRb7Hc3Z0IN/XYD9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O8de03LeTQ+AHF0P1rB250RSTAbXeujfow3zEkl1vJ0=;
+ b=blrHdyRfZON0U5TH9G9nsCrv4Ovl7IY1OVCY7ySzCDHpofbHUmCjnE1s4St2uoABmbW+J60V/t0QTj55Lk4sfFmrmI/S3wFz5pa60urN45n6gp3RgVQEkSuc0Hb8Gk/eOGF0rykhfpHVjx6ksX7teU3TGLGO5D3njYOivmrAIpm8MhTOecIXipbi7eVbX5UXMd7opdzCjL+uCKayAXz81th5KXdis7jvky6shP/Z7B0ik+tuf38VjQt5AISlNytkr0pt75izb5wKz58KQlO692LOhnVh2nGgrJpsofYQvbKlSfuFHlqR6DXhUfirE9nDpGYjYznCgm5l+czfbo5Z3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O8de03LeTQ+AHF0P1rB250RSTAbXeujfow3zEkl1vJ0=;
+ b=MfhS2bfU8yryuqjXkm++AJfPEprXl7/CBl7z5TjweB8cQ/7SCrrSYjsCk3VKFhxg6m5YD2HuzWFqTPg+m7dpXsz07mhEmMP3ZH886293DhM26q+whbCC1tIOwgW4avtNm9DGMxbzbkocgzwdtcwjTc9NL1j5D9oLpr57ypvXJ0CvNtcERUn9baCNHC4diSVM0q8Xpgiz/oH7nUV6I+uad1uOpZDi074KZEErRRRe9zXB/M9RLHJF0FVdOdOM/QJ8d0Fto8fkxvRjuWkAVU3yXC819bKGL/2xZ2K2aDbRkrOxjEyebt8hpKOsCTjqpVNmHNrtyLYtxxdlaKOUmdm8/A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by CY5PR12MB6552.namprd12.prod.outlook.com (2603:10b6:930:40::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Tue, 22 Apr
+ 2025 13:46:53 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%6]) with mapi id 15.20.8655.033; Tue, 22 Apr 2025
+ 13:46:53 +0000
+Message-ID: <108225ba-5d8c-459b-97aa-6b57affd5b87@nvidia.com>
+Date: Tue, 22 Apr 2025 09:46:48 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/16] gpu: nova-core: wait for GFW_BOOT completion
+To: Alexandre Courbot <acourbot@nvidia.com>, Danilo Krummrich <dakr@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, John Hubbard <jhubbard@nvidia.com>,
+ Ben Skeggs <bskeggs@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
+ <20250420-nova-frts-v1-8-ecd1cca23963@nvidia.com>
+ <64d869aa-587f-49c6-8626-d2085441bb3b@nvidia.com>
+ <aAd9ZlV5_qokiFYn@cassiopeiae> <D9D6UCL4PMJY.1MBEFIIHWT5F5@nvidia.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <D9D6UCL4PMJY.1MBEFIIHWT5F5@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR15CA0035.namprd15.prod.outlook.com
+ (2603:10b6:208:1b4::48) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
-X-MBO-RS-ID: a0e588faec0dee86da0
-X-MBO-RS-META: qbfize4p6ohzmmp9m5gy8daaugrp4pek
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|CY5PR12MB6552:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3fb6a9a-669f-4871-2674-08dd81a42380
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y1RDM1FPSy9IZFNtcjkyeHd5Z0k3UVV5aEtJZENCc21pMTFXUVhGNjExWmpv?=
+ =?utf-8?B?RStrdW1oZHNiQkw3cTFqcFBPUU5QOEJtcE5nN2gyeFRuQ0k2TEQrNHZIaVEy?=
+ =?utf-8?B?c29zWThUUVJaci9HaVY4MDFwZ1VsZllLSjNNZE9sRmFWQ0ZQNm5VZjdpMDFT?=
+ =?utf-8?B?Mzc3YlpIUFlrRXU5MjVyWWVtZlNtMHBNdEJPemNjN2VPSS9jYW12RXNzUXY3?=
+ =?utf-8?B?cmx4Zlo2TnJ5bFNnQTkvOUFwTFRRNXZBOXY2Wmw2N3BhTGFVMDhJUlkyclRZ?=
+ =?utf-8?B?Q2dMeE5RV1FEVGhFSGIxZXRVVHJHcEl6YWpwK296dHZvNUlscVRjZjBFcG5N?=
+ =?utf-8?B?c2t3dTc4eWNKbmRDeUZvWjhwd0M0VS94Wm9wSGlRSXR0Vzc2ekVYUTJVRzEx?=
+ =?utf-8?B?UGVMK2Q3cmFOZUgwVnRaS1M5YXdUVW1TQzg5cXpVSWdoN0FabWR1MnJGNXNx?=
+ =?utf-8?B?WWwySFhLekplZWtRM2RnWjltbnZaZlVycDFTbndEMGxSSnMzNlU5eVlyOHVY?=
+ =?utf-8?B?VDdPQjhOb0t3VEFLbUNOREVEZlZUV2lpZndrYWVVaHpGUEVhMXhSbThpdTV1?=
+ =?utf-8?B?RDYraGQrYk55ODhKRTFZRS9jSzFMc1NBMVc2WFdLVFNCcXdPcm1EdEhMRkRo?=
+ =?utf-8?B?SEE0QTYyWmQ4UXlzTXVWRlhCcEVpeFlnbkFyc0pJMm5ZZFpDMUFvNGsrc0Fj?=
+ =?utf-8?B?K216K01RSmtuazk5eHZXYktudTdHdFUrcXBhWG15ckpadXN4VDFaM2JlaFJp?=
+ =?utf-8?B?RUJxWml6UGJ6c2VJME93S3QvNnZpNGhRdGFybjcrNWJ3VGNZZUhuNVM5ZDVx?=
+ =?utf-8?B?ajhKWU1HUDNlZFhkZ0xLOGFMQUxkRG5XY0Q5L1dGbmJrVnZoazZNN2FhNjRX?=
+ =?utf-8?B?WlV0Ni9VSHhTOERmeU4yOXNDTXF5bUI2eVcrRXFuWmdLSENxZUdlditYMk5E?=
+ =?utf-8?B?SXRJQTRXUFdBaGVILzkyVFA4MUhwKzNEbVE1TDBNVzRwSDg1YldLdmNXeFp0?=
+ =?utf-8?B?Z0orSjd5MlJiT1BTYzh5emNlYm5VTk5pQnRXTmJoc1JNM3NuamxDV2RqejNo?=
+ =?utf-8?B?VTJsWHFUVk9pbXNOMUUvQ0JidDNWSEZBWGl5OEU0MUdDbnE2MG1WYTRScU8r?=
+ =?utf-8?B?cmVpbWV1c1JNM3JGcm1uWmZGZm16S2FYNFYvREt1ZWlOZ3FBMGFLUDNEVUxX?=
+ =?utf-8?B?ZFhFVDJrbWtLbHhKdDRxL2VQOVdrQnpQRExNSVphWmN5WjNMWkl1elNjWTFq?=
+ =?utf-8?B?U3hoeFQrSVQrWkZDaTNZV0ZTV1p3MFo4Z2Y0UHdzNHZFY3BrdElZZHhURHR2?=
+ =?utf-8?B?L21zRkZNSms5am95QWIzdVQrOUFuS2pmSWhISlNkZWVMNjZLL3J1VU04WUVE?=
+ =?utf-8?B?M1lyZE1WKy80bEhGQmxvcENXLzMvS3JCNzNoTnBzUTNpZjVtakhOZ0ZGbHpo?=
+ =?utf-8?B?NmQvRW1QQUxOYlZzbkFwcTlyek1GSGxIU1N4b0dMRWRoYzk1NTBHbmpaTFpB?=
+ =?utf-8?B?RmdkQy9NdXlOdzNzL0RrdkE2V3JBalBkemFGbXNURDVVR2FvaGNCUDlOWXFD?=
+ =?utf-8?B?OW9NYUxlcjVHZkowelp4OFozQWFnUEN2NnY0L203TWhhbUcvYlNMZC9hVVRR?=
+ =?utf-8?B?aXM2OGVQY2tCRjVnZWx0SHpnODZ5b2t3eWt1UFdsdE01RFVvMEtpTnpqeFhX?=
+ =?utf-8?B?NGJaSmpZQTg4V3cxbVhqVGZ4a09EcnZsY0V4V3dRTXh6bmpEQWhQYXlzeE9u?=
+ =?utf-8?B?eG1PSDBJRGoyc1JtY2ZaN1NvTXY2alNtNGxOV3kwb29UZEJZRjZ1N1c5bVlz?=
+ =?utf-8?B?QVFhU2hER3FyRGpJdjNyVUdFVlRScS9sbGw1S01CcjM3Z1U5WHptWFpkTzRV?=
+ =?utf-8?B?RFRpaEF0UVpObXhWU25XY0hnMzhYZnAvbnhnY3o3Y3pQZGE2Rkt3ZEUwa2Rp?=
+ =?utf-8?Q?c/xD1SHCV5A=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjN3MzBVeHRMYThuZUs2T2pra1o1Zk1SL3FKL3BzU3ZjL25lbTFjOEVqdk8w?=
+ =?utf-8?B?WUZkY2pNajFBbi9QNXVCbzA3YU1VZlBRQksyQitxb3Z2OVlvR1dTeWdHZWpt?=
+ =?utf-8?B?RFVIc1BoNnBLdVN6TFlhclVCRFUzczZDMFoyeGRNNnI0Qm9QcDNsMFlnbFIz?=
+ =?utf-8?B?Q3QyZU43eUZBRVI2Q1hOUmdUR0dTQVJjWkFCUDBvc0dNUGtUZHg5aU5QYkc4?=
+ =?utf-8?B?MThJcy9NblY0elNubW1ZdnZJZW1sU2JqNVBXTTJnaFpRM0ZxWlZRVjZkdi8z?=
+ =?utf-8?B?eVQvVk4wTUdibXVoL0huVFhiRThwS0MrWmhKZklWRDJCM2k2dzdVNDR0V1ZS?=
+ =?utf-8?B?RnVVZHpibER1UmJwcFlINXM3NjFmZzAzdHNjd1NqNGZZUDZGV1dFSUdmRXRm?=
+ =?utf-8?B?am1xL3JEVXp2Q3gvK3EwR04rUW1meTd3WExWNk1hSmwrM2JsOSthcmlNUlds?=
+ =?utf-8?B?VXFiUitFT0cxTG9ac2RBV3hMSDdpYmVmclZmYkc5UTVvMEVYakNRK292QXJU?=
+ =?utf-8?B?Y3poRkd4dVNVVngxQW1JMGZHeVk2Q0JBd3piNUM5bFNvcTBUeDlyWXB3QXlk?=
+ =?utf-8?B?RGV0b2NWQjgxWXU2LzBvN1VXaDJGWG1VWGZJKzVPM1pHVWgxZW04amcxQlF4?=
+ =?utf-8?B?YzVDWXJHNG5Od3ZDVUtRb1RNcjZ5dlJrTWwxMll6TTNXWFhVSHl5SURIZW41?=
+ =?utf-8?B?dWVkd0J4aDkzVHRPQ2FEK1pUUnVRVFlhd0Vua3dBZDdEZ25Db2R6eExWNUZk?=
+ =?utf-8?B?eE9DcTBOWm1mblUvK2tFNVRRK3FPZVV3NE5TMEp6U2FiazFIRUdFdXlrZ25Q?=
+ =?utf-8?B?SkIvOEVGSENlV2QvRUxFYXRHUUhjakNnU25PQU1kNGNITEE1VURzdUN6Z0dl?=
+ =?utf-8?B?c3RiYnI2V0sxV25hVXpjQXJzeHlSaFVOM0VaZ25SckRvc05UTzZXU1N5UW9H?=
+ =?utf-8?B?ekZvOFVmOEl3Q3hWdFlKS1BDc01sNWpjY2tYdHFMNCs4SG9YWmc4NFFkbW5t?=
+ =?utf-8?B?THJBT3ZNU2ZJVVdVQ0hzTElQWGtlQmdMOHRpNzhoYWF2VHpqK0NXdFMyak1P?=
+ =?utf-8?B?Q1BodG9BY29nb0pzM2V3YXd5NzdUQXBPOWNyTUR6cXNQNWg2Q3UxaFhsVm9U?=
+ =?utf-8?B?NFR4T0JtRytiTG1KRjVlODZDN2k2VmRtVTM2NXgvVmxNemNDRnhtVlNmbDNB?=
+ =?utf-8?B?ZFhwa1N4QkV2RUN2T3dmQ09qYjZ2M1BhcmlOS241am0zYm9zNHYyUndvMGVi?=
+ =?utf-8?B?bTBWSHJGUEVSckxxK1E4VWwyWHN2KzRhU2Ixd0prcm9PUjNLaEVRQ0hRZGNq?=
+ =?utf-8?B?dCtlVW1iU0NMMnpYVXFEemVxRGlyUFE0MEUxK2cvd3Bnc2NiZ3doMUpOV1hh?=
+ =?utf-8?B?UkdDUDZ5UGRTY2duRXM2REdlTVlyc09EdU1FYXpCamJMNTN6THlhVU02SXVT?=
+ =?utf-8?B?NWUzVzVFdC9Tc3NpcnpSR1pHLzZuME9ndUt0bGdRazVrV0R3MmZBNmZVc1d2?=
+ =?utf-8?B?TkJRS2dzOEFlcTJRQjMxTnY3SlhtWXJjZE9FOURSaU4reHZKVXBFSXBNMDRL?=
+ =?utf-8?B?aVdVSGwwdWcwRWdNVXhjNHdJV0UydVgybnIveUFjcVBKZGtoNXJVc3ZFUEFN?=
+ =?utf-8?B?aUJlbHN3b0s1bUNhaThTZEtvWjRFSndGTnVhUk9tOVp6VzhKcjhSRDR3SkFE?=
+ =?utf-8?B?WUxJL1FlaFkvOE1qWDBpZTZ3MGhDbkFieVJUODJkL3U3UkJxTDhSd1E1V1p5?=
+ =?utf-8?B?bWlEOGlhbUd5bFJSRmladndUUU5TRHJxMXIzNzVYbDZueUhzMnRZYVB3REt0?=
+ =?utf-8?B?WnJnOUtEbllyVmNsbEpiaTMrWGp4SWYvVUtKZTFQVWZ6TW9NNis0MElZNXZ6?=
+ =?utf-8?B?SkEyVERrQUdhTEwrZkRkRjMxT2xvbzRrbFd3c21OMGhUbEtwMitweEZ6M1JU?=
+ =?utf-8?B?a3lla0N6OERnQkV3Ny95dXZLWS9WYVdsSXRDb0dxd2pFcFUwOFlXTG1OUWpi?=
+ =?utf-8?B?SHBhS3RKamc4QUZUOENvU1kxMFRPNEYwS0loZlo4UnljZ2IvMmdJU05samJJ?=
+ =?utf-8?B?c01yRWNPTEJ3dmdBR3QzbEtVWTlqYTF5ZW5TSHBmdmFHdno1MDB1WGhiYStY?=
+ =?utf-8?Q?b0za1vm897LTwxQvMvVR3CfqG?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3fb6a9a-669f-4871-2674-08dd81a42380
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 13:46:52.9326 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aIsDnysBjOYxuyhCylbCzhthwBzmrJzIQZmn1gprJ6Nox0MkQPwKCAgsJ3MT5Q07lqvOrbLYqPbPK7VJyBhJiA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6552
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,219 +175,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-04-22 at 14:39 +0100, Tvrtko Ursulin wrote:
->=20
-> On 22/04/2025 13:32, Danilo Krummrich wrote:
-> > On Tue, Apr 22, 2025 at 01:07:47PM +0100, Tvrtko Ursulin wrote:
-> > >=20
-> > > On 22/04/2025 12:13, Danilo Krummrich wrote:
-> > > > On Tue, Apr 22, 2025 at 11:39:11AM +0100, Tvrtko Ursulin wrote:
-> > > > > Question I raised is if there are other drivers which manage
-> > > > > to clean up
-> > > > > everything correctly (like the mock scheduler does), but
-> > > > > trigger that
-> > > > > warning. Maybe there are not and maybe mock scheduler is the
-> > > > > only false
-> > > > > positive.
-> > > >=20
-> > > > So far the scheduler simply does not give any guideline on how
-> > > > to address the
-> > > > problem, hence every driver simply does something (or nothing,
-> > > > effectively
-> > > > ignoring the problem). This is what we want to fix.
-> > > >=20
-> > > > The mock scheduler keeps it's own list of pending jobs and on
-> > > > tear down stops
-> > > > the scheduler's workqueues, traverses it's own list and
-> > > > eventually frees the
-> > > > pending jobs without updating the scheduler's internal pending
-> > > > list.
-> > > >=20
-> > > > So yes, it does avoid memory leaks, but it also leaves the
-> > > > schedulers internal
-> > > > structures with an invalid state, i.e. the pending list of the
-> > > > scheduler has
-> > > > pointers to already freed memory.
-> > > >=20
-> > > > What if the drm_sched_fini() starts touching the pending list?
-> > > > Then you'd end up
-> > > > with UAF bugs with this implementation. We cannot invalidate
-> > > > the schedulers
-> > > > internal structures and yet call scheduler functions - e.g.
-> > > > drm_sched_fini() -
-> > > > subsequently.
-> > > >=20
-> > > > Hence, the current implementation of the mock scheduler is
-> > > > fundamentally flawed.
-> > > > And so would be *every* driver that still has entries within
-> > > > the scheduler's
-> > > > pending list.
-> > > >=20
-> > > > This is not a false positive, it already caught a real bug --
-> > > > in the mock
-> > > > scheduler.
-> > >=20
-> > > To avoid furher splitting hairs on whether real bugs need to be
-> > > able to
-> > > manifest or not, lets move past this with a conclusion that there
-> > > are two
-> > > potential things to do here:
-> >=20
-> > This is not about splitting hairs, it is about understanding that
-> > abusing
-> > knowledge about internals of a component to clean things up is
-> > *never* valid.
-> >=20
-> > > First one is to either send separately or include in this series
-> > > something
-> > > like:
-> > >=20
-> > > diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > index f999c8859cf7..7c4df0e890ac 100644
-> > > --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > @@ -300,6 +300,8 @@ void drm_mock_sched_fini(struct
-> > > drm_mock_scheduler
-> > > *sched)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_mock_sched_job_complete(job);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock_irqresto=
-re(&sched->lock, flags);
-> > >=20
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_fini(&sched->base);
-> > > +
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Free complet=
-ed jobs and jobs not yet processed by the
-> > > DRM
-> > > scheduler
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * free worker.
-> > > @@ -311,8 +313,6 @@ void drm_mock_sched_fini(struct
-> > > drm_mock_scheduler
-> > > *sched)
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 list_for_each_entry_=
-safe(job, next, &list, link)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 mock_sched_free_job(&job->base);
-> > > -
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_fini(&sched->base);
-> > > =C2=A0 }
-> > >=20
-> > > =C2=A0 /**
-> > >=20
-> > > That should satisfy the requirement to "clear" memory about to be
-> > > freed and
-> > > be 100% compliant with drm_sched_fini() kerneldoc (guideline b).
-> > >=20
-> > > But the new warning from 3/5 here will still be there AFAICT and
-> > > would you
-> > > then agree it is a false positive?
-> >=20
-> > No, I do not agree.
-> >=20
-> > Even if a driver does what you describe it is not the correct thing
-> > to do and
-> > having a warning call it out makes sense.
-> >=20
-> > This way of cleaning things up entirely relies on knowing specific
-> > scheduler
-> > internals, which if changed, may fall apart.
-> >=20
-> > > Secondly, the series should modify all drivers (including the
-> > > unit tests)
-> > > which are known to trigger this false positive.
-> >=20
-> > Again, there are no false positives. It is the scheduler that needs
-> > to call
-> > free_job() and other potential cleanups. You can't just stop the
-> > scheduler,
-> > leave it in an intermediate state and try to clean it up by hand
-> > relying on
-> > knowledge about internals.
->=20
-> Sorry I don't see the argument for the claim it is relying on the=20
-> internals with the re-positioned drm_sched_fini call. In that case it
-> is=20
-> fully compliant with:
->=20
-> /**
-> =C2=A0 * drm_sched_fini - Destroy a gpu scheduler
-> =C2=A0 *
-> =C2=A0 * @sched: scheduler instance
-> =C2=A0 *
-> =C2=A0 * Tears down and cleans up the scheduler.
-> =C2=A0 *
-> =C2=A0 * This stops submission of new jobs to the hardware through
-> =C2=A0 * drm_sched_backend_ops.run_job(). Consequently,=20
-> drm_sched_backend_ops.free_job()
-> =C2=A0 * will not be called for all jobs still in
-> drm_gpu_scheduler.pending_list.
-> =C2=A0 * There is no solution for this currently. Thus, it is up to the=
-=20
-> driver to make
-> =C2=A0 * sure that:
-> =C2=A0 *
-> =C2=A0 *=C2=A0 a) drm_sched_fini() is only called after for all submitted=
- jobs
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_backend_ops.free_job() has bee=
-n called or that
-> =C2=A0 *=C2=A0 b) the jobs for which drm_sched_backend_ops.free_job() has=
- not
-> been=20
-> called
-> =C2=A0 *
-> =C2=A0 * FIXME: Take care of the above problem and prevent this function
-> from=20
-> leaking
-> =C2=A0 * the jobs in drm_gpu_scheduler.pending_list under any
-> circumstances.
->=20
-> ^^^ recommended solution b).
->=20
-> > Consequently, when the pending list isn't empty when
-> > drm_sched_fini() is called,
-> > it *always* is a bug.
->=20
-> I am simply arguing that a quick audit of the drivers should be done
-> to=20
-> see that the dev_err is not added for drivers which clean up in=20
-> compliance with drm_sched_fini() kerneldoc.
->=20
-> Starting to log errors from those would be adding work for many
-> people=20
-> in the bug handling chain. Sure you can say lets add the dev_err and=20
-> then we don't have to look into the code base, just wait for bug
-> reports=20
-> to come our way. That works too (on some level) but lets please state
-> the intent clearly and explicitly.
+On 4/22/2025 9:06 AM, Alexandre Courbot wrote:
+> On Tue Apr 22, 2025 at 8:28 PM JST, Danilo Krummrich wrote:
+>> On Mon, Apr 21, 2025 at 05:45:33PM -0400, Joel Fernandes wrote:
+>>> On 4/20/2025 8:19 AM, Alexandre Courbot wrote:
+>>>> diff --git a/drivers/gpu/nova-core/devinit.rs b/drivers/gpu/nova-core/devinit.rs
+>>>> new file mode 100644
+>>>> index 0000000000000000000000000000000000000000..ee5685aff845aa97d6b0fbe9528df9a7ba274b2c
+>>>> --- /dev/null
+>>>> +++ b/drivers/gpu/nova-core/devinit.rs
+>>>> @@ -0,0 +1,40 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +
+>>>> +//! Methods for device initialization.
+>>>
+>>> Let us clarify what devinit means.
+>>>
+>>> devinit is a sequence of register read/writes after reset that performs tasks
+>>> such as:
+>>> 1. Programming VRAM memory controller timings.
+>>> 2. Power sequencing.
+>>> 3. Clock and PLL configuration.
+>>> 4. Thermal management.
+>>> 5. Performs VRAM memory scrubbing (ECC initialization) - on some GPUs, it scrubs
+>>> only part of memory and then kicks of 'async scrubbing'.
+>>>
+>>> devinit itself is a 'script' which is interpreted by the PMU microcontroller of
+>>> of the GPU by an interpreter program.
+>>>
+>>> Note that devinit also needs to run during suspend/resume at runtime.
+>>
+>> Thanks for writing this up. I fully agree that those things have to be
+>> documented.
 
-Well, yes, that exactly is my intention.
+Thanks.
 
-All driver's must currently ensure in some custom way that a) all
-fences get signaled and b) that the scheduler had time to call
-free_job() for all jobs in pending_list.
+>>> I talked with Alex and I could add a new patch on top of this patch to add these
+>>> clarifying 'doc' comments as well. I will commit them to my git branch and send
+>>> on top of this as needed, but Alex can feel free to decide to squash them as well.
+>>
+>> Fine with both, whatever you guys prefer.
+> 
+> If that works with you, I will put Joel's patches improving the
+> documentation right after mines adding the code in the next revision. I
+> know this ideally should be a single patch, but researching this stuff
+> (and producing a proper writeup) is quite involved and a separate kind
+> of task from the quickly-translate-code-while-peeking-at-OpenRM work
+> that I did. 
 
-If there is anyone in-tree currently who has len(pending_list) > 0
-after drm_sched_fini() ran that are clearly memory leaks that need to
-be fixed.
+From my side, this makes sense to me.
 
-And, thus, firing the warning for all those drivers is appropriate.
+>>>> +
+>>>> +use kernel::bindings;
+>>>> +use kernel::devres::Devres;
+>>>> +use kernel::prelude::*;
+>>>> +
+>>>> +use crate::driver::Bar0;
+>>>> +use crate::regs;
+>>>> +
+>>>> +/// Wait for devinit FW completion.
+>>>> +///
+>>>> +/// Upon reset, the GPU runs some firmware code to setup its core parameters. Most of the GPU is
+>>>> +/// considered unusable until this step is completed, so it must be waited on very early during
+>>>> +/// driver initialization.
+>>>> +pub(crate) fn wait_gfw_boot_completion(bar: &Devres<Bar0>) -> Result<()> {
+>>>
+>>> To reduce acronym soup, we can clarify gfw means 'GPU firmware', it is a broad
+>>> term used for VBIOS ROM components several of which execute before the driver
+>>> loads. Perhaps that part of comment can be 'the GPU firmware (gfw) code'.
+>>
+>> Yes, we should absolutely explain acronyms as well as use consistent and defined
+>> terminology when referring to things.
+>>
+>> I think we should put both into Documentation/gpu/nova/ and add the
+>> corresponding pointers in the code.
+> 
+> SGTM.
 
-I think it's unlikely to happen though. The hardware schedulers rarely
-call drm_sched_fini(), and the firmware schedulers would have memory
-leaks so large that they are likely to have been discovered by now.
+Ack.
 
-P.
+>>> I find this Rust convention for camel casing long constants very unreadable and
+>>> troubling: Pgc6AonSecureScratchGroup05. I think we should relax this requirement
+>>> for sake of readability. Could the Rust community / maintainers provide some input?
+>>>
+>>> Apart from readability, it also makes searching for the same register name a
+>>> nightmare with other code bases written in C.
+>>>
+>>> Couple of ideas discussed:
+>>>
+>>> 1. May be have a macro that converts
+>>> REG(NV_PGC6_AON_SECURE_SCRATCH_GROUP_05_PRIV_LEVEL_MASK) ->
+>>> regs::Pgc6AonSecureScratchGroup05 ?
+>>> But not sure what it takes on the rust side to implement a macro like that.
+>>>
+>>> 2. Adding doc comments both in regs.rs during defining the register, and
+>>> possibly at the caller site. This still does address the issue fully.
+>>
+>> If that addresses your concern, it sounds totally reasonable to me.
+> 
+> Sorry, I'm having trouble understanding what you guys are agreeing on.
+> :)
+> 
+> The most radical option would be to define the registers directly as
+> capital snake-case (NV_PGC6_...), basically a 1:1 match with OpenRM.
+> This would be the easiest way to cross-reference, but goes against the
+> Rust naming conventions. If we go all the way, this also means the field
+> accessors would be capital snake-case, unless we figure out a smart
+> macro to work this around...
 
->=20
-> Regards,
->=20
-> Tvrtko
->=20
+I think the accessors can still be lower case, because we can do something like:
+
+pgc6_reg = NV_PGC6_AON_SECURE_SCRATCH_GROUP_05_PRIV_LEVEL_MASK;
+
+pgc6_reg.field_accessor();
+
+?
+
+Since rust convention already allows capital snake-case for statics and
+constants, I think we should aim for this exception for Nova register defs
+before discussing other options (i.e. directly replacing the definition of the
+register from camel case to capital snake case) as is consistent with Nouveau,
+Open RM etc. I think it will make things so much easier (and probably less
+error-prone and maintainable) such as translation of GSP headers to Rust, string
+search across Nouveau, Open RM repositories etc.
+
+Thoughts?
+
+thanks,
+
+ - Joel
+
+
+
 
