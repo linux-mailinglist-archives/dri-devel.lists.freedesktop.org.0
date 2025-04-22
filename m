@@ -2,80 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59227A9659F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 12:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54353A965BB
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 12:20:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6EF010E1BB;
-	Tue, 22 Apr 2025 10:16:26 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PJmtq8bG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE3A10E19F;
+	Tue, 22 Apr 2025 10:20:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B33D710E1BB
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 10:16:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745316986; x=1776852986;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=wWjKBX2zeekrjYxCeQgtVm5V/GoHtzZQlT8JVvJNDWk=;
- b=PJmtq8bGCja3G5VPd96LQFIi1PAaj5jo6fd+DVKjchWYEBeSNLpE7lc3
- z5ME8ba/PWvTg6ijdAJ4ojZfASnPU55VsvwTEnI6zpmmgm0k6tUjVUTP1
- hFhRCbr+mPtRbMAVIqaIBmtaKjMiv9bf4VS1ITpMPX+bh/edk3mdBaYqE
- UfWAaxU3JEu/ZAUJgWslZacj4kQ+ksLNvhqz+SYsND6RNVTm+QkbfX9RG
- yZS6oPgd4OvhTVvLraHZ4QRhKUA8eXWZ+/GQ2T7XUkcE6TIQtZexOJ41G
- fX86OB6KRKsZPUk6Ie3tuYjZYdOjw2u81z9DfonABeVcrEwuBxzzhqOaw Q==;
-X-CSE-ConnectionGUID: jfI+ca90RfCd49YBex3Z6Q==
-X-CSE-MsgGUID: Toa16lyFQBuK1aPYDoo00w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="58244147"
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; d="scan'208";a="58244147"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2025 03:16:25 -0700
-X-CSE-ConnectionGUID: wGdjKXAeT1SkyB2PVG1zzA==
-X-CSE-MsgGUID: 97t2Opq9TX+hchHBw8+i/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; d="scan'208";a="132513185"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2025 03:16:19 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1u7Afm-0000000EhIi-3puL; Tue, 22 Apr 2025 13:16:14 +0300
-Date: Tue, 22 Apr 2025 13:16:14 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>,
- alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
- Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
- Aun-Ali Zaidi <admin@kodeit.net>,
- Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
- Simona Vetter <simona@ffwll.ch>, Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
- joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
- Kees Cook <kees@kernel.org>, tamird@gmail.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- netdev <netdev@vger.kernel.org>
-Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <aAdsbgx53ZbdvB6p@smile.fi.intel.com>
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
+ [209.85.222.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388AA10E19F
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 10:20:53 +0000 (UTC)
+Received: by mail-ua1-f54.google.com with SMTP id
+ a1e0cc1a2514c-873a2ba6f7cso1691720241.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 03:20:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745317251; x=1745922051;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ohxPhiK6YcJP8Y4tA22q1xDQLWt1Qweo8WFh3HJlJLE=;
+ b=Fctf41gNVWz49q8Aw/du1TeTPbxiCxwY26t07RRSdjk/lDhr++rUs3w7fJ8oL5y1Mo
+ Ba/zcCETYOWxmXTtO3UjDr5Jvp2SYiM3RF+EAGygbIWWSM9szzwa7Vb4QDs2bYOf7mSs
+ knYFrKfuC5XaL7SM+mwu5cC60sv8fEJWBuArD4PW9tPU85SVrWJAfiyAMHb2UXAwqnlk
+ VY2Gq79yj4EPo6mZZh2vum2snSNEzajkGq43SlU/WpSsexoE1BfwYYL2n2lPNQI9ovdu
+ 0nNmXPp4nJZ2HwUyllQcOQO0W02e1ea6CBmxYxPpyqBBWxTqW1R3dmoNOvd+W22ezgPX
+ z7Bw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWSriudcTC2v4j3F5DYJrmZdTrW2nSEnGzoRcuzoL9Xt3AcymcIes57impihK0lnKQNK5mA40SDqmY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTosrQiqr0Gl9h1eDYfVSOI7/ZSINKP5rTSgCem8Bc2pX4Oa9A
+ Qc4eaeymtAE3W9aKddgFI/Wzp1O2e0kd4sO+5lIIKTaP6ApHn0SAg/KeeYtG
+X-Gm-Gg: ASbGncsiBM2H5H00D1xhpPpVNiOya0AhFxI1kQjrBe5k/dBPrG12oejEqwys32IsFVi
+ kK48MtJOZIR7TBiMOkUR8ZCieM0VP8ucTcVson7lDGf/C4YhWzfxmj3xQUwoGXYrblsoIBfNnmN
+ 0N+0p/PMTC2fOqMvNDm8gdwkKbczYJZtGSq8gl3MNpe3dw08B6aM7EPT4qCoB+oFg+MaHzSTCuL
+ EsayQ+n1cEVOH0mbVfFIE2jgKxfwjcps6BZrSZTqYAkmg9WLXW19dxRu1EULKcF0FC8q4cFgLFo
+ fqzEVTvG6IqOhQjnLu7JvHHGZyv9T6ucrnF3Tv/1Fy7aDCnya7bl/tnke5cX5JXUAIUPJRAthrv
+ Ztv4=
+X-Google-Smtp-Source: AGHT+IErqzYg4cJiQnZHHzExPFajbSLqktpF+LDKexNCxKQxtJbMqRplzGbeu5XA+o0axQJ+1GKo7Q==
+X-Received: by 2002:a05:6102:3b04:b0:4c3:6393:83f4 with SMTP id
+ ada2fe7eead31-4cb800d7de2mr8593339137.2.1745317251257; 
+ Tue, 22 Apr 2025 03:20:51 -0700 (PDT)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com.
+ [209.85.222.53]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-4cb7dd7be00sm2135679137.6.2025.04.22.03.20.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Apr 2025 03:20:51 -0700 (PDT)
+Received: by mail-ua1-f53.google.com with SMTP id
+ a1e0cc1a2514c-86f9c719d63so1604798241.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 03:20:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVxmhOby2MXizFUhoniP/Vjp5axRJ+77rj2iirfhrpRmkF77X8wkdz03r0AiUcOQopz5rn5Pxd10HA=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:1173:b0:4c4:f128:3abb with SMTP id
+ ada2fe7eead31-4cb8026372bmr8785686137.25.1745317250910; Tue, 22 Apr 2025
+ 03:20:50 -0700 (PDT)
+MIME-Version: 1.0
 References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
  <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
  <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
- <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+ <aAdrkxhHaEpdl05d@smile.fi.intel.com>
+In-Reply-To: <aAdrkxhHaEpdl05d@smile.fi.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 22 Apr 2025 12:20:38 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVu33wTjgAHUXdaLFvgnCqMzXGZkcc7i4iug0QP=-WkLA@mail.gmail.com>
+X-Gm-Features: ATxdqUENa0qwyfrGVHcZ3QDmHbGb5nSiuKchVuCF7S-gHUHHmDPBWDnwpEhdUFQ
+Message-ID: <CAMuHMdVu33wTjgAHUXdaLFvgnCqMzXGZkcc7i4iug0QP=-WkLA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>,
+ alyssa@rosenzweig.io, 
+ Petr Mladek <pmladek@suse.com>, Sven Peter <sven@svenpeter.dev>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Aun-Ali Zaidi <admin@kodeit.net>, 
+ Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
+ Simona Vetter <simona@ffwll.ch>, Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com, joe@perches.com, 
+ dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, 
+ tamird@gmail.com, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ Asahi Linux Mailing List <asahi@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,41 +99,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 22, 2025 at 10:43:59AM +0200, Geert Uytterhoeven wrote:
-> On Tue, 22 Apr 2025 at 10:30, Aditya Garg <gargaditya08@live.com> wrote:
-> > On 22-04-2025 01:37 pm, Geert Uytterhoeven wrote:
-> > > On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
+Hi Andy,
 
-...
+On Tue, 22 Apr 2025 at 12:12, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> On Tue, Apr 22, 2025 at 10:07:33AM +0200, Geert Uytterhoeven wrote:
+> > On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
+>
+> ...
+>
+> > > +Generic FourCC code
+> > > +-------------------
+> > > +
+> > > +::
+> > > +       %p4c[hnlb]      gP00 (0x67503030)
+> > > +
+> > > +Print a generic FourCC code, as both ASCII characters and its numerical
+> > > +value as hexadecimal.
+> > > +
+> > > +The generic FourCC code is always printed in the big-endian format,
+> > > +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+> > > +
+> > > +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
+> > > +endianness is used to load the stored bytes. The data might be interpreted
+> > > +using the host byte order, network byte order, little-endian, or big-endian.
+> > > +
+> > > +Passed by reference.
+> > > +
+> > > +Examples for a little-endian machine, given &(u32)0x67503030::
+> > > +
+> > > +       %p4ch   gP00 (0x67503030)
+> > > +       %p4cn   00Pg (0x30305067)
+> > > +       %p4cl   gP00 (0x67503030)
+> > > +       %p4cb   00Pg (0x30305067)
+> > > +
+> > > +Examples for a big-endian machine, given &(u32)0x67503030::
+> > > +
+> > > +       %p4ch   gP00 (0x67503030)
+> > > +       %p4cn   00Pg (0x30305067)
+> >
+> > This doesn't look right to me, as network byte order is big endian?
+> > Note that I didn't check the code.
+>
+> Yes, network is big endian and this seems right to me. What is the confusion?
 
-> > Originally, it was %p4cr (reverse-endian), but on the request of the
-> > maintainers, it was changed to %p4cn.
-> 
-> Ah, I found it[1]:
-> 
-> | so, it needs more information that this mimics htonl() / ntohl() for
-> networking.
-> 
-> IMHO this does not mimic htonl(), as htonl() is a no-op on big-endian.
-> while %p4ch and %p4cl yield different results on big-endian.
-> 
-> > So here network means reverse of host, not strictly big-endian.
-> 
-> Please don't call it "network byte order" if that does not have the same
-> meaning as in the network subsystem.
-> 
-> Personally, I like "%p4r" (reverse) more...
-> (and "%p4ch" might mean human-readable ;-)
+On a big-endian machine, it should print 0x67503030, like the host
+or explicit big-endian output.
 
-It will confuse the reader. h/r is not very established pair. If you really
-wont see h/n, better to drop them completely for now then. Because I'm against
-h/r pair.
+> > > +       %p4cl   00Pg (0x30305067)
+> > > +       %p4cb   gP00 (0x67503030)
 
-> [1] https://lore.kernel.org/all/Z8B6DwcRbV-8D8GB@smile.fi.intel.com
+Gr{oetje,eeting}s,
 
+                        Geert
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
