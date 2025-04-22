@@ -2,78 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC45A95F7A
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74004A95F91
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:35:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 175D710E00C;
-	Tue, 22 Apr 2025 07:32:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nHpod3zp";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A60AC10E0F6;
+	Tue, 22 Apr 2025 07:35:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2CFA10E00C
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:32:33 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-39c1efbefc6so2826422f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 00:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1745307152; x=1745911952; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1gFPbHcslBrShPBfeniLTCdmwDJynv5JMNyf9loIAkY=;
- b=nHpod3zpZYLwjx2QtqomaldXpandBXETmBf0s1BLtiKx2YBRMJrXILcEQdfbHRqqoT
- 0wovGUmchmkEy1ylF5FSIZbG+Wkfw4SPgDSw7IEtK+DNIhQVQbH1am9vVtaFdXY65A0+
- H50VkyaO7pR3gPrHgiGHFuiGmCBNpHRTAoib+4W96P3epArUCbjmQa4TLuis0iQqjt2j
- jSK9yL68AWIBlhBfdBWFv2gMnBV3ZTgg6V5DePaNnZ+AY6NWFZfnNfwxbJurHv6jSdly
- YmiuZUYcwObAVfa6kwd9CEcJvb9x62+WVEewPes/OcN37p0jktvWBr7IHCyKg1dT4X70
- btKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745307152; x=1745911952;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1gFPbHcslBrShPBfeniLTCdmwDJynv5JMNyf9loIAkY=;
- b=deit31vhGmTmJ6YDlaqJ3Rq8pvOOJssibPEWeeUkkW41Xym3Mq3OBZR6j9OIpNlp3a
- bdSsFY6w0Tyz3L/khHTEB2QeorQxlMce+ZX2nRv8nJDLo1WYkSQNOoQC6Dlxs8/CgLMq
- DMERS2n4GHbXjob74fQLJrbNtBMC+i3jjqQDtZ0L1W89AQ3gOHBREu6doYk2jfdAnpJo
- 8vxPuyJ/GpWZv7/XWJrZHGTx6Gt8IGxr0L0Y7kf/YqDBwsMGl1MtVyG+Tjm+t+YAxMbE
- MxWWrJ2iUKy04a4MRme9pJJ1IGWX7kAxxoD9PibV9muhwtEmeZxlFM7dVqU0m/tvS7XE
- 4EuQ==
-X-Gm-Message-State: AOJu0Yzc4K3/OazwD273tck9WgGq0iAZBDSMmY1qFDMXQoCLH68pirz0
- LCpfc01Jmw8i+f7Pjq72xMzQyNQPQA3G5yW7QWMLLDvV2QETq2IpPOpWyWB3pj0=
-X-Gm-Gg: ASbGncs/RuPaoN5MaFKRp3sf3fnWd2KeygHpOsAejW9FVIZftiEhcUtgM/VpXxE7eqw
- Cbu17uVDBiougiKJri1GUhtPSclSVnz4gVxNuImeuacdMNLYtpp0kBOK7fPm7OY/UJxMzy9o3+r
- 7UyXc7rLrGTVr1wk2DdkpIrhmvTv12GPqrq/RBq+iL7JtWXY9Mus8Hedoc3lavvA5N3oKkoGy5B
- iifSC6Z4SL/GcIls3ffAZpjx8uk1Lj37PX3/hNED9H7P/tC8LcDiY28FICjonvqzpxQdkesfM01
- n/TOU19Xzazb9eLv/VbCpw70vTF4CLmIOKgdod1H1q+xo3rI9zvfLnDmg9TfIQ==
-X-Google-Smtp-Source: AGHT+IFclT1+OQXEDIxxx/AMqrjY/N1Yvy1xLXDrMHQkl58h0kU69MTBU2hwvhAytgvH99PcAzfK0g==
-X-Received: by 2002:a5d:648c:0:b0:39c:1f02:449f with SMTP id
- ffacd0b85a97d-39efba26220mr11676730f8f.2.1745307152441; 
- Tue, 22 Apr 2025 00:32:32 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39efa43c079sm14450855f8f.50.2025.04.22.00.32.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Apr 2025 00:32:32 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: christianshewitt@gmail.com, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250421201300.778955-1-martin.blumenstingl@googlemail.com>
-References: <20250421201300.778955-1-martin.blumenstingl@googlemail.com>
-Subject: Re: [PATCH RFC v2 0/2] drm/meson: vclk: revert and re-fix vclk
- calculations
-Message-Id: <174530715197.2805907.16376775353354108716.b4-ty@linaro.org>
-Date: Tue, 22 Apr 2025 09:32:31 +0200
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F8C10E0F6;
+ Tue, 22 Apr 2025 07:35:49 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.141.245])
+ by APP-03 (Coremail) with SMTP id rQCowAC3XTrRRgdog0EWCw--.49890S2;
+ Tue, 22 Apr 2025 15:35:46 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, YiPeng.Chai@amd.com, tao.zhou1@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
+ stable@vger.kernel.org
+Subject: [PATCH RESEND] drm/amdgpu: Remove redundant return value checks for
+ amdgpu_ras_error_data_init
+Date: Tue, 22 Apr 2025 15:35:05 +0800
+Message-ID: <20250422073505.2378-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: rQCowAC3XTrRRgdog0EWCw--.49890S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxuw17Xw4UZrW7Xw4fXrW3Awb_yoWxJrW7pF
+ WrJw1DZryUZFnrJrykAFyDuasIyw1SvFy8KF40ya4I93W5CrW5XF1rtw40q3ZrKr4DCwsI
+ vrWDW3yUWF1qvF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+ 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+ zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+ 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+ CwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+ nIWIevJa73UjIFyTuYvjfU52NtDUUUU
+X-Originating-IP: [124.16.141.245]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAcAA2gHKIV6OwABsK
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,30 +62,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The function amdgpu_ras_error_data_init() always returns 0, making its
+return value checks redundant. This patch changes its return type to
+void and removes all unnecessary checks in the callers.
 
-On Mon, 21 Apr 2025 22:12:58 +0200, Martin Blumenstingl wrote:
-> This is a successor of a previous patchset by Christian [0]
-> 
-> Patch 1 reverts a previous fix for loss of HDMI sync when playing YUV420
-> @ 59.94 media. The patch does resolve a calculation issue. It also makes
-> all fractional rates invalid which is a bigger problem.
-> 
-> Patch 2 changes the whole drm/meson driver to use Hz as unit for clocks/
-> frequencies. And importantly it uses the relevant 64-bit maths helpers so
-> the code can still be compiled using for 32-bit ARM.
-> Maxime previously suggested using drm_hdmi_compute_mode_clock(). That's
-> still something to implement with future patches.
-> 
-> [...]
+This simplifies the code and avoids confusion about the function's
+behavior. Additionally, this change keeps the usage consistent with
+amdgpu_ras_do_page_retirement(), which also does not check the return
+value.
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
+Fixes: 5b1270beb380 ("drm/amdgpu: add ras_err_info to identify RAS error source")
+Cc: stable@vger.kernel.org # 6.7+
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 19 +++++--------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_umc.c |  8 ++------
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c  |  3 +--
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_9.c  |  3 +--
+ 5 files changed, 10 insertions(+), 25 deletions(-)
 
-[1/2] Revert "drm/meson: vclk: fix calculation of 59.94 fractional rates"
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/f37bb5486ea536c1d61df89feeaeff3f84f0b560
-[2/2] drm/meson: use unsigned long long / Hz for frequency types
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1017560164b6bbcbc93579266926e6e96675262a
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+index 4c9fa24dd972..aef1b2b713a2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -182,9 +182,7 @@ static int amdgpu_reserve_page_direct(struct amdgpu_device *adev, uint64_t addre
+ 		return 0;
+ 	}
+ 
+-	ret = amdgpu_ras_error_data_init(&err_data);
+-	if (ret)
+-		return ret;
++	amdgpu_ras_error_data_init(&err_data);
+ 
+ 	memset(&err_rec, 0x0, sizeof(struct eeprom_table_record));
+ 	err_data.err_addr = &err_rec;
+@@ -687,8 +685,7 @@ static struct ras_manager *amdgpu_ras_create_obj(struct amdgpu_device *adev,
+ 	if (alive_obj(obj))
+ 		return NULL;
+ 
+-	if (amdgpu_ras_error_data_init(&obj->err_data))
+-		return NULL;
++	amdgpu_ras_error_data_init(&obj->err_data)
+ 
+ 	obj->head = *head;
+ 	obj->adev = adev;
+@@ -1428,9 +1425,7 @@ static int amdgpu_ras_query_error_status_with_event(struct amdgpu_device *adev,
+ 	if (!obj)
+ 		return -EINVAL;
+ 
+-	ret = amdgpu_ras_error_data_init(&err_data);
+-	if (ret)
+-		return ret;
++	amdgpu_ras_error_data_init(&err_data);
+ 
+ 	if (!amdgpu_ras_get_error_query_mode(adev, &error_query_mode))
+ 		return -EINVAL;
+@@ -2255,9 +2250,7 @@ static void amdgpu_ras_interrupt_umc_handler(struct ras_manager *obj,
+ 	if (!data->cb)
+ 		return;
+ 
+-	ret = amdgpu_ras_error_data_init(&err_data);
+-	if (ret)
+-		return;
++	amdgpu_ras_error_data_init(&err_data);
+ 
+ 	/* Let IP handle its data, maybe we need get the output
+ 	 * from the callback to update the error type/count, etc
+@@ -4623,13 +4616,11 @@ void amdgpu_ras_inst_reset_ras_error_count(struct amdgpu_device *adev,
+ 	}
+ }
+ 
+-int amdgpu_ras_error_data_init(struct ras_err_data *err_data)
++void amdgpu_ras_error_data_init(struct ras_err_data *err_data)
+ {
+ 	memset(err_data, 0, sizeof(*err_data));
+ 
+ 	INIT_LIST_HEAD(&err_data->err_node_list);
+-
+-	return 0;
+ }
+ 
+ static void amdgpu_ras_error_node_release(struct ras_err_node *err_node)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h
+index 6db772ecfee4..5f88e70fbf5c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h
+@@ -931,7 +931,7 @@ void amdgpu_ras_inst_reset_ras_error_count(struct amdgpu_device *adev,
+ 					   uint32_t reg_list_size,
+ 					   uint32_t instance);
+ 
+-int amdgpu_ras_error_data_init(struct ras_err_data *err_data);
++void amdgpu_ras_error_data_init(struct ras_err_data *err_data);
+ void amdgpu_ras_error_data_fini(struct ras_err_data *err_data);
+ int amdgpu_ras_error_statistic_ce_count(struct ras_err_data *err_data,
+ 					struct amdgpu_smuio_mcm_config_info *mcm_info,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_umc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_umc.c
+index 896f3609b0ee..5de6e332c2cd 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_umc.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_umc.c
+@@ -52,9 +52,7 @@ int amdgpu_umc_page_retirement_mca(struct amdgpu_device *adev,
+ 	struct ras_err_data err_data;
+ 	int ret;
+ 
+-	ret = amdgpu_ras_error_data_init(&err_data);
+-	if (ret)
+-		return ret;
++	amdgpu_ras_error_data_init(&err_data);
+ 
+ 	err_data.err_addr =
+ 		kcalloc(adev->umc.max_ras_err_cnt_per_query,
+@@ -230,9 +228,7 @@ int amdgpu_umc_pasid_poison_handler(struct amdgpu_device *adev,
+ 			};
+ 			struct ras_manager *obj = amdgpu_ras_find_obj(adev, &head);
+ 
+-			ret = amdgpu_ras_error_data_init(&err_data);
+-			if (ret)
+-				return ret;
++			amdgpu_ras_error_data_init(&err_data);
+ 
+ 			ret = amdgpu_umc_do_page_retirement(adev, &err_data, NULL, reset);
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c b/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
+index a26a9be58eac..d4bdfe280c88 100644
+--- a/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
++++ b/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
+@@ -364,8 +364,7 @@ static void nbio_v7_4_handle_ras_controller_intr_no_bifring(struct amdgpu_device
+ 	struct ras_err_data err_data;
+ 	struct amdgpu_ras *ras = amdgpu_ras_get_context(adev);
+ 
+-	if (amdgpu_ras_error_data_init(&err_data))
+-		return;
++	amdgpu_ras_error_data_init(&err_data);
+ 
+ 	if (adev->asic_type == CHIP_ALDEBARAN)
+ 		bif_doorbell_intr_cntl = RREG32_SOC15(NBIO, 0, mmBIF_DOORBELL_INT_CNTL_ALDE);
+diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v7_9.c b/drivers/gpu/drm/amd/amdgpu/nbio_v7_9.c
+index 8a0a63ac88d2..c79ed1adf681 100644
+--- a/drivers/gpu/drm/amd/amdgpu/nbio_v7_9.c
++++ b/drivers/gpu/drm/amd/amdgpu/nbio_v7_9.c
+@@ -537,8 +537,7 @@ static void nbio_v7_9_handle_ras_controller_intr_no_bifring(struct amdgpu_device
+ 	struct ras_err_data err_data;
+ 	struct amdgpu_ras *ras = amdgpu_ras_get_context(adev);
+ 
+-	if (amdgpu_ras_error_data_init(&err_data))
+-		return;
++	amdgpu_ras_error_data_init(&err_data);
+ 
+ 	bif_doorbell_intr_cntl = RREG32_SOC15(NBIO, 0, regBIF_BX0_BIF_DOORBELL_INT_CNTL);
+ 
 -- 
-Neil
+2.42.0.windows.2
 
