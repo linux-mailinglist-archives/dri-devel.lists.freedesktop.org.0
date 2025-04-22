@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13297A95E32
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 08:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47453A95E4B
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 08:36:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A24F410E4FF;
-	Tue, 22 Apr 2025 06:31:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2225A10E500;
+	Tue, 22 Apr 2025 06:36:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yGakkHde";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Czb5DZdQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17EE110E4FF
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 06:31:24 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D82CF10E500
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 06:36:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7C23461166;
- Tue, 22 Apr 2025 06:30:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78B64C4CEE9;
- Tue, 22 Apr 2025 06:31:18 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id BA2E049DCB;
+ Tue, 22 Apr 2025 06:35:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCE6CC4CEE9;
+ Tue, 22 Apr 2025 06:35:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1745303478;
- bh=tZzXEJJxqBvocIrjK/CqjBhsE4HmjODVexI28fsdeks=;
+ s=korg; t=1745303758;
+ bh=AaAHG3QqXQPEtn3hWkvhmsxIU1pVrBgM0LPmCiPafYw=;
  h=Subject:To:Cc:From:Date:From;
- b=yGakkHdeziPm6N0e4viyNkCxPazucazBTLLau4eBe3YYhroJucbzXgSnvxGXM7MTy
- GaNMsR2gOJnTJiNVxqg/3KR+oq4wU04BLqifSe7Ka0G03rfm7tA58jKxv66QO986k4
- tSVMi70ARvkBDRykg8ZXiF3e7OhunqBlmWLKat8M=
+ b=Czb5DZdQC+6RP0HQIX0D6uxqP9ZGq6GQpzr59GGEr3FwOgMsKOtx7S6LSOcnqQdlX
+ prXG3e72I0atTrooHyPKwZ/VLSXuiowgeB+Wibaw9oo4JyoNV65UcyJBgKRUDTig1L
+ E2N38t8gOrpUfuKrOLR/iZiDzK3b23zRye4Dgla4=
 Subject: Patch "drm/mgag200: Fix value in <VBLKSTR> register" has been added
- to the 6.14-stable tree
+ to the 6.12-stable tree
 To: afmerlord@gmail.com, airlied@redhat.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, jfalempe@redhat.com, tzimmermann@suse.de,
  wakko@animx.eu.org
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Tue, 22 Apr 2025 08:30:33 +0200
-Message-ID: <2025042233-prowling-humbly-e1a3@gregkh>
+Date: Tue, 22 Apr 2025 08:35:11 +0200
+Message-ID: <2025042211-outright-passenger-820b@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/mgag200: Fix value in <VBLKSTR> register
 
-to the 6.14-stable tree which can be found at:
+to the 6.12-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-mgag200-fix-value-in-vblkstr-register.patch
-and it can be found in the queue-6.14 subdirectory.
+and it can be found in the queue-6.12 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -125,5 +125,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.14/drm-mgag200-fix-value-in-vblkstr-register.patch
-queue-6.14/drm-ast-fix-ast_dp-connection-status.patch
+queue-6.12/drm-mgag200-fix-value-in-vblkstr-register.patch
+queue-6.12/drm-ast-fix-ast_dp-connection-status.patch
