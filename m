@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEADA97328
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 18:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02769A97327
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 18:56:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A09D10E601;
-	Tue, 22 Apr 2025 16:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5EE10E5FF;
+	Tue, 22 Apr 2025 16:56:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Mv+7owKN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NEveHKWb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E12EC10E5E6;
- Tue, 22 Apr 2025 16:56:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33CD710E5E8;
+ Tue, 22 Apr 2025 16:56:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1745340965; x=1776876965;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=XPyp+VSUMHj8QkQdWEbER9eupyYH904t1BLbcRP6i3s=;
- b=Mv+7owKNWjZzlWCHJ/mYOAOWuz1+Qs6+HM71q7xJojy9I0PN/kzjpMHu
- d9ES7OsLe/PjEvAoBHOz/9ub1jaGiKWQqWLuPBCtWh8aRzA7u3eC1mGaq
- kEYp0lrpBVqaf2Wlp0OwcNRd97L2m1qPyKdDpXOBBegulPfmIr5SbTInl
- A2H+6MMYVxefpSzufgfjKSR3mmBJuSwh//inQcYOoH6mXga0LZbrUBW47
- FY7/VoNR7borXLvBwqqP5/ONwCfcatABqMtByEQQugozF00P+E4XX1QTF
- BaAyjtebn6LtnBMH1atCgNl/+pS5kd1alN69aZ/cqCrBiVk1uhMNGlHVM w==;
-X-CSE-ConnectionGUID: jAC87b3iTOySlje5rSTpPQ==
-X-CSE-MsgGUID: nd6PH+PjRZ6eKs/uQxwBcA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="46613163"
-X-IronPort-AV: E=Sophos;i="6.15,231,1739865600"; d="scan'208";a="46613163"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=RqhIwtTJeClTjfgAL8LYmGbBgtd/XO3rNXokU/CPL9g=;
+ b=NEveHKWbieJg3EsqOmMh9k7PhndxABOlPOLYh5nzb6rl6FCcOqeYNjpI
+ 5RjKDK9X40gNAmMXIbZzGCM1yve73NyLSMLPS77LFaeUYsTNhdts3hP4L
+ qvDdGaKse78ylEbBQ9dAWGO5uILfYevTu0ejQzscV3EyrA+uozbFfhhaA
+ /httPUslOEx4hSHZ4zPS//l3RRZzV3ZOI3th4tFSz2HrlHrAG0s85mfQn
+ EWXRswt8ZYUNLvDGp1F8GcjBf9wprLMOgyr9OynXO2K0dvqlhVZ2g93Hw
+ 4tJElxFLgJD780NxyNwfXTVCmDul4KFhyyM9SgT7Oc1wuH472k+UJ24De w==;
+X-CSE-ConnectionGUID: rESUft5gQcKW93LpmyiS5A==
+X-CSE-MsgGUID: P3mNVENfQuyvCHZLRLqCPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="46613165"
+X-IronPort-AV: E=Sophos;i="6.15,231,1739865600"; d="scan'208";a="46613165"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Apr 2025 09:56:04 -0700
-X-CSE-ConnectionGUID: qIZeKq8XQnmFiGUinH/b+A==
-X-CSE-MsgGUID: 1hZbguTmRsqg8VfSLEWc4w==
+X-CSE-ConnectionGUID: yQPW12w8ScqAFD4q/iEzyA==
+X-CSE-MsgGUID: qGv8R8GNTIuH5RowvNb4FA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,231,1739865600"; d="scan'208";a="136855392"
+X-IronPort-AV: E=Sophos;i="6.15,231,1739865600"; d="scan'208";a="136855398"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Apr 2025 09:56:04 -0700
@@ -45,10 +45,12 @@ From: Matthew Brost <matthew.brost@intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, thomas.hellstrom@linux.intel.com,
  himal.prasad.ghimiray@intel.com
-Subject: [PATCH v3 0/5] Enable SVM atomics in Xe / GPU SVM
-Date: Tue, 22 Apr 2025 09:57:18 -0700
-Message-Id: <20250422165723.584286-1-matthew.brost@intel.com>
+Subject: [PATCH v3 1/5] drm/gpusvm: Introduce devmem_only flag for allocation
+Date: Tue, 22 Apr 2025 09:57:19 -0700
+Message-Id: <20250422165723.584286-2-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250422165723.584286-1-matthew.brost@intel.com>
+References: <20250422165723.584286-1-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,32 +68,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Minimal set of patches to enable compute UMD SVM atomics.
+From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
 
-Collaboration with Himal.
+This commit adds a new flag, devmem_only, to the drm_gpusvm structure. The
+purpose of this flag is to ensure that the get_pages function allocates
+memory exclusively from the device's memory. If the allocation from
+device memory fails, the function will return an -EFAULT error.
 
-Matt
+v3:
+ - s/vram_only/devmem_only/
 
-Himal Prasad Ghimiray (1):
-  drm/gpusvm: Introduce devmem_only flag for allocation
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+---
+ drivers/gpu/drm/drm_gpusvm.c | 5 +++++
+ include/drm/drm_gpusvm.h     | 2 ++
+ 2 files changed, 7 insertions(+)
 
-Matthew Brost (4):
-  drm/xe: Strict migration policy for atomic SVM faults
-  drm/gpusvm: Add timeslicing support to GPU SVM
-  drm/xe: Timeslice GPU on atomic SVM fault
-  drm/xe: Add atomic_svm_timeslice_ms debugfs entry
-
- drivers/gpu/drm/drm_gpusvm.c         | 14 +++++
- drivers/gpu/drm/xe/xe_debugfs.c      | 38 ++++++++++++
- drivers/gpu/drm/xe/xe_device.c       |  1 +
- drivers/gpu/drm/xe/xe_device_types.h |  3 +
- drivers/gpu/drm/xe/xe_module.c       |  3 -
- drivers/gpu/drm/xe/xe_module.h       |  1 -
- drivers/gpu/drm/xe/xe_svm.c          | 93 +++++++++++++++++++++-------
- drivers/gpu/drm/xe/xe_svm.h          |  5 --
- include/drm/drm_gpusvm.h             |  7 +++
- 9 files changed, 132 insertions(+), 33 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
+index 38431e8360e7..edf107809d20 100644
+--- a/drivers/gpu/drm/drm_gpusvm.c
++++ b/drivers/gpu/drm/drm_gpusvm.c
+@@ -1454,6 +1454,11 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
+ 				goto err_unmap;
+ 			}
+ 
++			if (ctx->devmem_only) {
++				err = -EFAULT;
++				goto err_unmap;
++			}
++
+ 			addr = dma_map_page(gpusvm->drm->dev,
+ 					    page, 0,
+ 					    PAGE_SIZE << order,
+diff --git a/include/drm/drm_gpusvm.h b/include/drm/drm_gpusvm.h
+index df120b4d1f83..9fd25fc880a4 100644
+--- a/include/drm/drm_gpusvm.h
++++ b/include/drm/drm_gpusvm.h
+@@ -286,6 +286,7 @@ struct drm_gpusvm {
+  * @in_notifier: entering from a MMU notifier
+  * @read_only: operating on read-only memory
+  * @devmem_possible: possible to use device memory
++ * @devmem_only: use only device memory
+  *
+  * Context that is DRM GPUSVM is operating in (i.e. user arguments).
+  */
+@@ -294,6 +295,7 @@ struct drm_gpusvm_ctx {
+ 	unsigned int in_notifier :1;
+ 	unsigned int read_only :1;
+ 	unsigned int devmem_possible :1;
++	unsigned int devmem_only :1;
+ };
+ 
+ int drm_gpusvm_init(struct drm_gpusvm *gpusvm,
 -- 
 2.34.1
 
