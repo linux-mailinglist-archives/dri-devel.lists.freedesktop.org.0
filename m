@@ -2,115 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67942A95F99
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:37:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5625BA95FA5
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:38:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F2FD10E15B;
-	Tue, 22 Apr 2025 07:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1965B10E181;
+	Tue, 22 Apr 2025 07:38:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SzLXWiOk";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nN7oFrMR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE39610E15B
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:37:06 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-43690d4605dso38530105e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 00:37:06 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FEF510E181
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:38:50 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-3a064a3e143so70341f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 00:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1745307424; x=1745912224; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=kUrrVHq/ZBK5ekax/PEJ1pXaon+z63IEgJE1VUWtPYI=;
- b=SzLXWiOkBDQLWHNMaUnqJ3WSgXJpa15KEdZcv77ccxgZOnSoLSHcOlP5tqDIgYqiqH
- DgClnenp3aviZKyfq27CS3uS7mcKaegR8uA86LjYHCuXbZjRcGfVssBJij9XQ2aPifNQ
- 4HQG4xl+oi82J1ufRn5mTQ5/CxS4xQ6I4LAHk69FqWUqkLrNNaDvUC5fuatxd6sTCgFM
- YbmGgiNTgDJJ+oBTpm5w8pXUhNT+IOZiPfzoN1bxMf41J21ggXF/Tai9rLI38i5n9FQS
- 918Vvju3iGT4nhMUFquI3rVA8cUODKKZwgcdcI201Z7ip/0jYdXCY7CqE/QzMuT+y+CR
- AEuw==
+ d=linaro.org; s=google; t=1745307529; x=1745912329; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oVMMGMfgUXdmB0Rj0WANJNXEPV7LIhyKRwGDEdU8v2Q=;
+ b=nN7oFrMRTA5ephWl4wG7HinqOKg070S/pn/EsUqFXNcXUsaHJ+Txo3yCtKznCu0eh/
+ p0LcOl5fT/fAH4+K/kXPJN3tDZqf502tHlEpoO7uCrrN3B17jrv/H3CND1cV9x6HvDKm
+ y23V/sYFgBEhkxO9vCckMsGXTv7zrKWWotd3oeBye8yKZpHpkT2OmLi+nCcoOygpzOgs
+ +0EIEsu4gLu3yUzcALPqsdahfPmKOUe/uqX0XhaeL6TsprgmSIprQRmIZn54FOHbOh+5
+ u/wIi/E6vuXcHrJ58W2ONlFmpETtdrEto8qgIeHMgmDC0/gmAC6uqW+pm7F4+3D2tpPc
+ PWHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745307424; x=1745912224;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=kUrrVHq/ZBK5ekax/PEJ1pXaon+z63IEgJE1VUWtPYI=;
- b=CFZoO1rrX/B2/al6Fg4PD2c0AWs48bLX5R0eHX6BYLfAGW6R1kco3laEO0WYyg0tmu
- low8vw0KxIV81KPp/0pf5cuKY/yy/5QOgZaMLHXt7E6n4NueWVRo0tzDoRCU9puWXI5d
- 0S9k2zemYzgkEr/4qnIG6Vnc+WQCd/ybteqFWU+hLo8383LDDvVdExGH9nkWe6qyOxv8
- o+1iA4C1Hwzv4oC0mLf689eKQDuFcSA+FT9bbXmwkJqhQRcdl08BWcWGPSriBwpH7iS8
- XQ9+ds6iCVtSaAN5tl1rqquuOYn58PaVtuKyI66WkgSw30dOhODVA7nTzk+ba+0wMhts
- HMXw==
+ d=1e100.net; s=20230601; t=1745307529; x=1745912329;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oVMMGMfgUXdmB0Rj0WANJNXEPV7LIhyKRwGDEdU8v2Q=;
+ b=g0+nn+aBC5UdBCANsvFwrrmLrhGrbpBPw1xnZKHpgS/911XafXYuQw2z3pcuo4k/X7
+ qAIpL3lALwtBddUgcNkoopEIjLndNaSIWVn38mUijoSlsEqYNN6+Tj6NAK0ZO3zi//1Q
+ F6nlV/UP1OhsAo/UCZ2sAf4X/aP3cisKhDAB/MOmxExkV5kh5QSWOz154MG0KSOziUbR
+ I2+QoamiqSNWrLAnZ+ueKMBYP5XxCIuEx0smSYIoctdjLUuX/9awtbjhqTT5tgBfhNHb
+ BBk07ohXRHbuBszXrDK/OuRwpPwoTmVIJo6tG3QLBKS1RBTWKHLXCt4c+nbyAZSVVtVK
+ 7kYA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWyQm3ooIyHhJGgwXMEPwHAwcdSOVgHqR82Sq3ib+Vyv/P52coQcl9vb1GmtJXD/7qdK2XyphXXQqk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx38s/x5Fhyw22nfVoJa+/KOcHGsWRqw0Skyi+uUmo0V6zj1mQS
- iGip/W7aXPaMACgaPceeY89kLMunW9hmDgmsION3dtfJUoLJmrKTNsKIGowX1Zs=
-X-Gm-Gg: ASbGncuKDBWMTD7vR7Oe1eGISQ6fakm6ybaSESYz4lSRFGgg16l/qOlfh6H2Sd31rKu
- HVom5uF1EpV8IOM24lUL3jFc+6LcbnTsFDHm7cWRsjSfoNVJpa/0Fa5Q9WPtCot474IrXcCVEFd
- V376E0MGUieb/EzbBTnmeo+nKEAwjj1N2OpN7YNEaaUDG5ksirczxSpkzIa/jQufR1v3df8LDHR
- 8HaISZVndBraCcWB8sPqB4wzdJc8p1VSOvpEdYfuW+2o4Vpe/n0cDqEKOa5i4UzFbqo+Xjk/JOu
- M8GZtSJ9vBNsXfmG/W6hthkZnkVvgqOxXwY1haw9vSkJz06DH/dIddiXogek2TOY50Tq0vOTJc0
- 2daUfvwqhduZ1JR/LwQ==
-X-Google-Smtp-Source: AGHT+IGso4dABw4cs3fgHi8irDW9ZqoJpIBb6x5x5lb1dz6I2it3QInwrgMPc2vZyS0ImCdphiPnkg==
-X-Received: by 2002:a5d:64ae:0:b0:391:2d97:7d0e with SMTP id
- ffacd0b85a97d-39efbae0795mr10423116f8f.42.1745307424555; 
- Tue, 22 Apr 2025 00:37:04 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:b137:7670:8eb9:746f?
- ([2a01:e0a:3d9:2080:b137:7670:8eb9:746f])
+ AJvYcCVSp1rUjP1pPoY7FFQIgsit5VSefO4j7FhKJgeT7BdBEIBwxNL8sB4sGJzQZafBn5iLNBq69UvD6xY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywg/PPoIi+2+jDEXuppMRH00uoefqV4tSnU1AIwxn2gJVzATRN7
+ ELFrHJ+jWJHb8Ddoaqz4mbfevbMffn+u2LW9N9vtb4NKk/7buI7MnSs6yG3y2u4=
+X-Gm-Gg: ASbGncvVwdK8G8Wy76mWfnxY/2bMpNsB9OfxkzxStZxR4BDcluzI1iIR0QU++Sjrwcr
+ KJ6LT1ygv/JLQMu0geqtubwkmQ/B5uJWhwgIrLCC2GiAj8w1QTfjRi/YizvhrtGmwreinhrglBq
+ gxdwgJ8X5Aj5LMPiWVJa39ViCvWt2RbXddOypgmgJdj2m4sPok2U5LnXt/qUVq2Au80Es0AeUO/
+ Xhl7OIhNQ5eHGLybDZ4FHGOkiew/oV2Fc69j3JyYMWbICw+7DAUqgpVOC22PyiOOdE1dKmcX20l
+ gqA608nfu1Y03/s1EpiNSY7O03mSO0Rz8kaKgp/ggE94DzXVI7VPyWYfsEgU0w==
+X-Google-Smtp-Source: AGHT+IGbeBQWRwaG2m6asWCEaYAvSZ4R6pE85vu6K4eY1q3+0LoQ37s73egNVq4Bc9Ij+D9CGjhy6Q==
+X-Received: by 2002:a05:6000:2905:b0:390:f460:77b0 with SMTP id
+ ffacd0b85a97d-39efba5bfe5mr10738632f8f.26.1745307528651; 
+ Tue, 22 Apr 2025 00:38:48 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4408c7cfcabsm7042405e9.0.2025.04.22.00.37.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Apr 2025 00:37:04 -0700 (PDT)
-Message-ID: <664fc9fb-aeed-4f45-8e4a-20bbba791d1e@linaro.org>
-Date: Tue, 22 Apr 2025 09:37:03 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+ 5b1f17b1804b1-4406d5cf3a7sm163029115e9.32.2025.04.22.00.38.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Apr 2025 00:38:48 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm: panel: jd9365da: fix reset signal polarity in
- unprepare
-To: Hugo Villeneuve <hugo@hugovil.com>, Jagan Teki <jagan@edgeble.ai>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Linus Walleij <linus.walleij@linaro.org>,
- Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250417195507.778731-1-hugo@hugovil.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250417195507.778731-1-hugo@hugovil.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ Tejas Vipin <tejasvipin76@gmail.com>
+Cc: quic_jesszhan@quicinc.com, dianders@chromium.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ asrivats@redhat.com
+In-Reply-To: <20250419041210.515517-1-tejasvipin76@gmail.com>
+References: <20250419041210.515517-1-tejasvipin76@gmail.com>
+Subject: Re: [PATCH 0/2] Transition remaining mipi_dsi_dcs_write_seq
+ commands and remove it
+Message-Id: <174530752803.2829662.5162219952732867940.b4-ty@linaro.org>
+Date: Tue, 22 Apr 2025 09:38:48 +0200
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,53 +90,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/04/2025 21:55, Hugo Villeneuve wrote:
-> From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> 
-> commit a8972d5a49b4 ("drm: panel: jd9365da-h3: fix reset signal polarity")
-> fixed reset signal polarity in jadard_dsi_probe() and jadard_prepare().
-> 
-> It was not done in jadard_unprepare() because of an incorrect assumption
-> about reset line handling in power off mode. After looking into the
-> datasheet, it now appears that before disabling regulators, the reset line
-> is deasserted first, and if reset_before_power_off_vcioo is true, then the
-> reset line is asserted.
-> 
-> Fix reset polarity by inverting gpiod_set_value() second argument in
-> in jadard_unprepare().
-> 
-> Fixes: 6b818c533dd8 ("drm: panel: Add Jadard JD9365DA-H3 DSI panel")
-> Fixes: 2b976ad760dc ("drm/panel: jd9365da: Support for kd101ne3-40ti MIPI-DSI panel")
-> Fixes: a8972d5a49b4 ("drm: panel: jd9365da-h3: fix reset signal polarity")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> ---
->   drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> index 7d68a8acfe2ea..eb0f8373258c3 100644
-> --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> @@ -129,11 +129,11 @@ static int jadard_unprepare(struct drm_panel *panel)
->   {
->   	struct jadard *jadard = panel_to_jadard(panel);
->   
-> -	gpiod_set_value(jadard->reset, 1);
-> +	gpiod_set_value(jadard->reset, 0);
->   	msleep(120);
->   
->   	if (jadard->desc->reset_before_power_off_vcioo) {
-> -		gpiod_set_value(jadard->reset, 0);
-> +		gpiod_set_value(jadard->reset, 1);
->   
->   		usleep_range(1000, 2000);
->   	}
-> 
-> base-commit: 7adf8b1afc14832de099f9e178f08f91dc0dd6d0
+Hi,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On Sat, 19 Apr 2025 09:42:08 +0530, Tejas Vipin wrote:
+> panel-samsung-sofef00 is the last remaining user of
+> mipi_dsi_dcs_write_seq, so mipi_dsi_dcs_write_seq can be removed after
+> the panel has been changed to use mipi_dsi_*_multi functions.
+> 
+> Tejas Vipin (2):
+>   drm/panel: panel-samsung-sofef00: transition to mipi_dsi wrapped
+>     functions
+>   drm/mipi-dsi: Remove mipi_dsi_dcs_write_seq
+> 
+> [...]
+
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+
+[1/2] drm/panel: panel-samsung-sofef00: transition to mipi_dsi wrapped functions
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/d6a4da523deba1814a45a593c271c32efedc39f3
+[2/2] drm/mipi-dsi: Remove mipi_dsi_dcs_write_seq
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/61a0fc33b8538169eb30365b1598eaf33895c34f
+
+-- 
+Neil
+
