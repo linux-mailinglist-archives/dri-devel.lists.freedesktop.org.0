@@ -2,124 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CE5A97A5D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 00:21:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E98A97A64
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 00:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D569C10E062;
-	Tue, 22 Apr 2025 22:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A93F10E63C;
+	Tue, 22 Apr 2025 22:23:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YHWN2RQt";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="OJKQaMEs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A02F010E062
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 22:21:49 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53MKpVrZ025922
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 22:21:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- QFVnrpWb050fxv5AMU0KXMBJxaS68SUI9iug+FP01ew=; b=YHWN2RQtHNBMCJyD
- EYzx9fM5u9uwFTy6s+Nsav9rJpeYHPqbqLNF7mlqS8ucurabTU06FST6MJo02txz
- MdFM1bpQuAsNBtrvW1gb3XcfpvWr+owKEZzFUX2FudDC7Ko+eWpsfosaX1/RXAa/
- IcawMPcfhbAQlDw4eF44JMjm6Hcrfe2zaNo/Pp8RoeN6gAp1gfOgL6KoNa4SBf5r
- rf9IkTd5oMZjDlSEDUUHR2u3Tho0wQGH8VZmdrSX7Sw3O7UX6HND7Bmvwgyjc4tl
- ysJLLbLMA1WBH18a52TlT9DZYKEgX5zysNd8kbTIw88XuK+i5yjfuQ7FYO4g5EPu
- 1Q+tYA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh3g5fx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 22:21:48 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c5750ca8b2so809600885a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 15:21:48 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D94510E63C
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 22:23:04 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-30bef9b04adso52807101fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 15:23:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1745360583; x=1745965383;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e2uRwWrb8ebhkycf61ed5XHbka2o5yaZh1hlxBkjDhc=;
+ b=OJKQaMEsHQrsUxNUeCnx6143YS3R9Wx/SZnPnGop9SiBUQE5f+cF1BgYq97RSulPP4
+ RPPlHy+VhLF3UiCxpzNjR7J8LeOSf8LZFFDB5anWY9nFqsC8ayUgy/ejCQPwCR1dZVsU
+ HxqoxobVpINVQ9b+pXRjthGdE0EYIgfcX8EVWinq7pW43fuQbVbickv5guTzPH82oT+Y
+ 6susH7lo6iqgPqQIzt4g/dEvMYeFRrvZt3cZ3yUpAiTnp8Dbh8ewHOMjQomq4HuWyWnM
+ mwiVFUdkwdPYbqeuv6WM9r/Z08Oo59jvDaLaNSFw6V+t/gytV1ScxidbvCViIsVE+HGe
+ rTHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745360508; x=1745965308;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1745360583; x=1745965383;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QFVnrpWb050fxv5AMU0KXMBJxaS68SUI9iug+FP01ew=;
- b=DY0oqagMtQsGEEOqGD/3Rioi9ho1yDmqH+Riq39yAIyumO7YoLfk+a1DJ7bWlUEI0B
- tXXssQbWdwQSLNOtt4y0gcZCqf/PZFmkrEuYZQZsL5OnxjGS/1U5A4BkyA3YKtZV3I/g
- MHXtfVsEWTnIUmmdazaIR/a6ouqPfnGbjjQjGlwYe1o//Gkx+rEqMUIGnUBY6/hOpuWB
- DcUQ6HILZVgVDKZ+/yj1dOzf+6BE+nf4ob6Pz70YC/TVqf/LQq8Hfqf0RdsalXXDlQzn
- zELBfrQSgMGns8n9dtdF1FetsAMiZFrUskmsHkUNZ2geZpH7xLQz3ECwSC/Px5nvR7ao
- bOHw==
+ bh=e2uRwWrb8ebhkycf61ed5XHbka2o5yaZh1hlxBkjDhc=;
+ b=K8okar38G9+Q4b5/AdZfIED7cuF8ULeeW4443oMd+CvfLtDGUpb1JivskgQSf5TLVs
+ 5XZx//mEjYSNqAtkSUoSuNyOlUSIFKjaCcANW0VP61X0QRFt4+kER3rkrTu4EZJJzMgX
+ 45hPQ4Ow3ySqm4+xv/qo2j1y2mHxLv10nxhoB84pWtmWdGwikkRd9MTNMz7ycGMV7CGP
+ YxlWbd1/A+Uc++jZXwYtk0ve+Tg0UTl81oAdSMyx9qRbM9w+MqN274kZ82IIVWJb/FZl
+ gQ2tu9xw8N/uoW3XafoRiEo6Y61zm9YMbeUjo2a+Ue9QEhs0iN/9phvEoIBfgsh89P8/
+ eIew==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUVQrEZXEx2eFfsmT/+OME5Bdw7RZcais+VMN9+5LoX4rlcpQCTaUU5VhiLqWA9T0KPkd8calh/moM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDwHcdiNhQ+XU7+V+3Hta8g1A8BoIfvkY8d5xQXLZwf3dGoO6J
- v48qydEcYxoIgGaWT+GzJ4uYdmA0qwfa9l3unv0WgudpMJF9tYAonW19zpCamcLgUalLkyJnrmr
- OfNsn3jbUcwLUWhAGCKonSoUEyYaoTsm+3Teblf7xjm4zkBzy5liDwc/wM+VeB/++uWM=
-X-Gm-Gg: ASbGncsDAlPL1uhUQdFtWlrlmUtty5w/iqYA/NblxwUOSo1nfJnfLZItBzyU3dcubfZ
- D2wQhH1LMVk9ZopQ639wT53GV9yHeTIiMKxz+tTA65NqXmra8A5+p8FtypzcmEGFM2+/AyUR4dq
- oM2t88ndzSTWmNUoIJH691oXFfzdRyxR7T8zUaDBailCPcQQ4GWzhIbs6IznwNEowsb+XvcXlCT
- hQXoF5AtLt4qZvc/Da6rb88D3ONHP03/9hmFY3jhQLy3UoH+cJ1OaHK+IBUeJOhuCP9WFr2Pe/g
- X+AVOH4uX9ZEF2XiCIgnrtqcEzCS7P9fs7kKkIP3qzs3+1Fv3m9BgbogE5Hv1W/wg820P8OzvJA
- JgXqHVEtCklVhEPcb1cUdI1hT
-X-Received: by 2002:a05:620a:2586:b0:7c5:96b4:f5e5 with SMTP id
- af79cd13be357-7c927f849a9mr2413025885a.13.1745360507821; 
- Tue, 22 Apr 2025 15:21:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHOiwKU9TBLfD8mAj6HNCGwIQ6VsntnnuJ4wlLR80zdOsb9Oy9RmdN6FhXt95pYuyHYSfsmlg==
-X-Received: by 2002:a05:620a:2586:b0:7c5:96b4:f5e5 with SMTP id
- af79cd13be357-7c927f849a9mr2413022085a.13.1745360507403; 
- Tue, 22 Apr 2025 15:21:47 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-31090822ecdsm16630271fa.85.2025.04.22.15.21.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Apr 2025 15:21:46 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/bridge: lt9611uxc: Fix an error handling path in
- lt9611uxc_probe()
-Date: Wed, 23 Apr 2025 01:21:45 +0300
-Message-Id: <174536050030.3678509.7013496889543262628.b4-ty@oss.qualcomm.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <f167608e392c6b4d7d7f6e45e3c21878feb60cbd.1744958833.git.christophe.jaillet@wanadoo.fr>
-References: <f167608e392c6b4d7d7f6e45e3c21878feb60cbd.1744958833.git.christophe.jaillet@wanadoo.fr>
+ AJvYcCXOofPBNDKxD7jU5PaF9dmmbhbOz0jiUi4mvlI1dQTiPURsHmYgZog0yXG4bKwzQwr1v/csVZwIbPc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7O8oYohyGFQWEAsUrAdx1vnIppTIwODUTjt3ERwUJYcGFtnBK
+ ZmLF+tG0YrVRGLBjT6CbRdr708JRCO2mdSDwskfMU6Po/kinejFDcIOZ24L+Xg6pkbHxSPGhmyP
+ BISM2pVztZ7xw+EH3rWgjDmlpNHZnxdDqhxY=
+X-Gm-Gg: ASbGncujKI+9x8PRKgkHWUD6+B6qpGtv2vZJdGGcPlAKrLKaThSilPXF00486fvfMzY
+ qJ1qjvF9Hwr4kULVQnSV8fPa1CbQM02zDaXSJ9zldCg7kpID4MqEL5DnySkDKNu7cIkB7y6Ypco
+ dwHOoLV7CQgwuy9YSnnq3sOJq8gh5QFqeErij1/FRl2ykfUYKH0KO1txEDyXhy
+X-Google-Smtp-Source: AGHT+IGrB/MiyfMTsIh+vYbWS/FNQhnUERjXD1nH9PAly6Ako+aVzVIOOf/PQlHpqWj+hJ7n2hzR9xaSmnbnValKnS0=
+X-Received: by 2002:a2e:bea1:0:b0:30b:f24a:651a with SMTP id
+ 38308e7fff4ca-310904c626dmr45311251fa.5.1745360582583; Tue, 22 Apr 2025
+ 15:23:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: tpyPt0jCI60plIuJICPMMEBCYwTqszUZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIyMDE2NyBTYWx0ZWRfX3dgLFUa37gxa
- VMq1bWiza7DvaniMDndsjkOc+3vQEOl0TQ/vtCfUg6EeP2EXdf9SRLSbaCk0mEexiNd1x1x+Dvd
- G4bV/YWhOjf4A+uJ8BLWh8NuN5OqyyQWh6UVLgdWgHTPcNxIEUn5XuunyFqdTTlt3rtCDXEFpjC
- x/tFUHXeAWptTN9nFLq/DeHMqzTc+q0IApzSEIKbcjRe37yM/dAFC5jRNauJHwRKGoapu83wsp5
- yHY+b9+/4/vn7PVUtpLvUpmnKiNdFNYiKcHqamopJQ1CSxZ6Mh0YdEgCc88AbRRS0vOct1J611D
- 7e1Ygzaib3QMPmjFNqLHa3zSqdIBLNunzfSYwueM147Ys3nHgph/+4pvOsfL72wDD1J1AKjbNrx
- TF1aROd794TOLsbSNSl6+MwObKq9kdGZTW/l09yXpReKOS0wr59SDsif71KrdcMHA8n1WW6o
-X-Authority-Analysis: v=2.4 cv=ELgG00ZC c=1 sm=1 tr=0 ts=6808167c cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=Epe2dFrVDL3RtkqF-aAA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: tpyPt0jCI60plIuJICPMMEBCYwTqszUZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-22_10,2025-04-22_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- malwarescore=0 clxscore=1015 bulkscore=0 phishscore=0 spamscore=0
- mlxscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504220167
+References: <20250422191939.555963-1-jkangas@redhat.com>
+ <20250422191939.555963-2-jkangas@redhat.com>
+In-Reply-To: <20250422191939.555963-2-jkangas@redhat.com>
+From: John Stultz <jstultz@google.com>
+Date: Tue, 22 Apr 2025 15:22:50 -0700
+X-Gm-Features: ATxdqUFD0eE26rdQ7w42uNdNNlbQHNUlvuTnoRS4o--E4bvf8dH1hzjOR3S0oaE
+Message-ID: <CANDhNCpqSeSUkV2QvgLW3JY+Tsf_UOBjBrn4vBkYf+dvbtq2wQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dma-buf: heaps: Parameterize heap name in
+ __add_cma_heap()
+To: Jared Kangas <jkangas@redhat.com>
+Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, 
+ Brian.Starkey@arm.com, tjmercier@google.com, christian.koenig@amd.com, 
+ mripard@kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,20 +89,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Apr 22, 2025 at 12:19=E2=80=AFPM Jared Kangas <jkangas@redhat.com> =
+wrote:
+>
+> Prepare for the introduction of a fixed-name CMA heap by replacing the
+> unused void pointer parameter in __add_cma_heap() with the heap name.
+>
+> Signed-off-by: Jared Kangas <jkangas@redhat.com>
 
-On Fri, 18 Apr 2025 08:48:16 +0200, Christophe JAILLET wrote:
-> If lt9611uxc_audio_init() fails, some resources still need to be released
-> before returning the error code.
-> 
-> Use the existing error handling path.
-> 
-> 
+Thanks so much for taking this effort on. Looks good to me!
 
-Applied, thanks!
-
-[1/1] drm/bridge: lt9611uxc: Fix an error handling path in lt9611uxc_probe()
-      commit: b848cd418aebdb313364b4843f41fae82281a823
-
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Acked-by: John Stultz <jstultz@google.com>
