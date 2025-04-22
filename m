@@ -2,113 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353CBA96D8E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 15:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68831A96DEF
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 16:08:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3E7C10E0F5;
-	Tue, 22 Apr 2025 13:57:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33AC210E5B8;
+	Tue, 22 Apr 2025 14:08:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aVuA1Nzg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gRp8LA9o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF7510E0F5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 13:56:56 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53MCfYj3011228
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 13:56:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- hLX41ewAvawIzUNIg9oBBsNHTXaw2xrMEYTyVLovArI=; b=aVuA1NzguAoM93ku
- CIhcHBgukCzA6WsaKWpWm7zTDDaQU5hJxp/00tiSdcemHjFlZnphNdXwd02k1a39
- 1zfQrHXLhRvG0QvoNGzT3tW2OHMaNd/WbQJzOJCJmP2MCD6YsA5JGCFFLy4j8Fij
- fFdR4th1s4BeY3ZdfYhQF1htr/ZnlHJIA2Q7AtZfyzCEbHqh3+vFOKjO3IURu9I7
- 9ds1jJ8gCevsnOqoEyLAkJnk52GvsL4w0MqNqN8H2KnghKFA9pQDmCii8SsLGA+n
- 5rWhXrtMsT+j1+WW4X/bSFhVA8m0EgHn/375M/6aCTNhRstl41LYWKIenJbmqdeS
- MoXbPw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46450pfjfx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 13:56:53 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c09f73873fso789926985a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 06:56:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745330212; x=1745935012;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hLX41ewAvawIzUNIg9oBBsNHTXaw2xrMEYTyVLovArI=;
- b=X0Mdrsz579KRyY+J9bk1esNb1CK6dWtSNaKubQuDnimzqceHpE+tdaLGNlG5y4xr3m
- q+uSQeFMKVJ/zAyTeMLxGpnTmlarrRoK6TRmY1ZGcUWfB+EYwj/rZKx21FUnQyw2iQ+O
- BNp6RApcIhbzIozRCwjtpCoNAi01NitGckpLIv/I7YthQQnfRSqcCwOsWG2qYRNat9O1
- CfJ+OdYE2cw+9JVLqg5v0aoOVa+/tuTKqXsHVMvJpq/Ixh/RaXwH+S+7NgGbt9Sx92Fm
- gO/raPQq6CtRp8/FCXfL3RFauB7a4ALcrYFOql8B9eIsWcyEi4QekFqfcQbenkEO03wC
- 395Q==
-X-Gm-Message-State: AOJu0Yw8lgaCW5mU18OHjEpROXMnENeQHmigetCk2WjfO4Q2qS5eHGgB
- UT3DD3896ncdkvSYqTtUU7ogq5k5bNjO4VEt5YbWtbIOEOrAcekNGeNYDXvao06dZ8zoXsPnA5Z
- BL9/bRSsAqrzw9yE7IhTvL2JdBfaLz6Vl7tkt1RZtgvHt00se7YZNjtQD2WFnoJ1/HYg=
-X-Gm-Gg: ASbGncttiW7ROl3lFhRyv4lWYLXNaWK+dg21sbdyTukaU0fGR+mAJgq5nBTEYlmNjCC
- tLVB7gNkCCQxCOuYvq/6OgN3tR9A2NNDEZeqdjIkpWPdogHklGbaooDWOO4lAUoxyAeOWHqF4DJ
- JYLcGaTeTJpchvXZxeMf3q6wJRRrSf8rFneiZR/i04pa3JBa/ugTpQmKzVzDGHTNVRZZGrloE6d
- xPiGU9gylzF2WZWGyHywMi4l6SjAods+Gnu8wP9AQbrVH7ZlxSLTQKlhWSNrg2KwwiP9FV0ayvt
- xKJQCF59Q7oQXdj4enx4vL7AgbqPWKOvLndzYy+mP8pGDAHokOz1EFMhdEJDNygAiRmoEdq+x3E
- =
-X-Received: by 2002:a05:620a:28c4:b0:7c5:48b8:b4ac with SMTP id
- af79cd13be357-7c927fb6519mr2112159685a.34.1745330211897; 
- Tue, 22 Apr 2025 06:56:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG0qRpkyBUKjUrD4kvThn3Y16KvvVTGoT6HNmzOB78uuI6p3Y6JljxDMeJUkjZNidRJE5DCFA==
-X-Received: by 2002:a05:620a:28c4:b0:7c5:48b8:b4ac with SMTP id
- af79cd13be357-7c927fb6519mr2112156085a.34.1745330211573; 
- Tue, 22 Apr 2025 06:56:51 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-310907829f1sm13930421fa.24.2025.04.22.06.56.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Apr 2025 06:56:50 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0D4610E5B8;
+ Tue, 22 Apr 2025 14:08:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 43F234A7F6;
+ Tue, 22 Apr 2025 14:08:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0ED7C4CEEC;
+ Tue, 22 Apr 2025 14:08:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745330886;
+ bh=uWfX0ErRug4zOOOQ6zXCSlswe2nijkFFt5NPEHGiwds=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gRp8LA9ocamWlKaIvygZzF5AlszGxiUspDVw2pzTJF1iaRABvfqOZw0biDF83onqt
+ naUFG0GXRxP0Yrv+jCrreRem3AB1yDSac3gHnCnZ5RKB7d/aEwhMqYxJ/lxpE/tVX+
+ +ysfrjW2BCPR7dPOCbE3J21X8o95Ta0i8fy0UG6EHHxRGTHLin3AOmqABe4OCz7r/c
+ 6jOzDM9Dp7sIj2CjhO0LIvg9V+U18dIyDbCL4o6yFtyLnPvvCgobAej/uZZyODl3LE
+ EdD87EgFV9otCJm90IyiYIX/JOC0SiqZnHNbMM3/VzeRYXUx0aJDnLobV2wfjntdHG
+ hC6wshZMDO1UA==
+Date: Tue, 22 Apr 2025 16:08:01 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250401-panel-return-void-v1-0-93e1be33dc8d@oss.qualcomm.com>
-References: <20250401-panel-return-void-v1-0-93e1be33dc8d@oss.qualcomm.com>
-Subject: Re: [PATCH 0/7] drm/panel: make prepare / enable / disable /
- unprepare return void
-Message-Id: <174533021057.807756.14047991918333049362.b4-ty@oss.qualcomm.com>
-Date: Tue, 22 Apr 2025 16:56:50 +0300
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] drm/sched: Warn if pending list is not empty
+Message-ID: <aAeiwZ2j2PhEwhVh@cassiopeiae>
+References: <aADv4ivXZoJpEA7k@pollux>
+ <83758ca7-8ece-433e-b904-3d21690ead23@igalia.com>
+ <aAEUwjzZ9w9xlKRY@cassiopeiae>
+ <0e8313dc-b1bb-4ce7-b5b7-b8b3e027adb7@igalia.com>
+ <0bfa746ca37de1813db22e518ffb259648d29e02.camel@mailbox.org>
+ <5a5d4a33-2f7b-46e4-8707-7445ac3de376@igalia.com>
+ <aAd54jUwBwgc-_g2@cassiopeiae>
+ <d3c0f721-2d19-4a1c-a086-33e8d6bd7be6@igalia.com>
+ <aAeMVtdkrAoMrmVk@cassiopeiae>
+ <52574769-2120-41a1-b5dc-50a42da5dca6@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Authority-Analysis: v=2.4 cv=Hd0UTjE8 c=1 sm=1 tr=0 ts=6807a025 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=XR8D0OoHHMoA:10 a=8AvdZQ4tI53xHl701REA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: _AUNLJZ4cYpBdixdUYxdSxxytffPL_FS
-X-Proofpoint-ORIG-GUID: _AUNLJZ4cYpBdixdUYxdSxxytffPL_FS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-22_06,2025-04-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- adultscore=0 mlxlogscore=880 phishscore=0 clxscore=1015 spamscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504220105
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <52574769-2120-41a1-b5dc-50a42da5dca6@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,36 +73,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 01 Apr 2025 08:11:32 +0300, Dmitry Baryshkov wrote:
-> While it makes sense for panel callbacks to be able to return an error,
-> the state-management functions from drm_panel API are usually called
-> from atomic callbacks, which can not fails and must return void. Make
-> drm_panel_prepare(), drm_panel_enable(), drm_panel_disable() and
-> drm_panel_unprepare() follow the same calling convention and return
-> void.
+On Tue, Apr 22, 2025 at 02:39:21PM +0100, Tvrtko Ursulin wrote:
 > 
-> [...]
+> On 22/04/2025 13:32, Danilo Krummrich wrote:
+> > On Tue, Apr 22, 2025 at 01:07:47PM +0100, Tvrtko Ursulin wrote:
+> > > 
+> > > On 22/04/2025 12:13, Danilo Krummrich wrote:
+> > > > On Tue, Apr 22, 2025 at 11:39:11AM +0100, Tvrtko Ursulin wrote:
+> > > > > Question I raised is if there are other drivers which manage to clean up
+> > > > > everything correctly (like the mock scheduler does), but trigger that
+> > > > > warning. Maybe there are not and maybe mock scheduler is the only false
+> > > > > positive.
+> > > > 
+> > > > So far the scheduler simply does not give any guideline on how to address the
+> > > > problem, hence every driver simply does something (or nothing, effectively
+> > > > ignoring the problem). This is what we want to fix.
+> > > > 
+> > > > The mock scheduler keeps it's own list of pending jobs and on tear down stops
+> > > > the scheduler's workqueues, traverses it's own list and eventually frees the
+> > > > pending jobs without updating the scheduler's internal pending list.
+> > > > 
+> > > > So yes, it does avoid memory leaks, but it also leaves the schedulers internal
+> > > > structures with an invalid state, i.e. the pending list of the scheduler has
+> > > > pointers to already freed memory.
+> > > > 
+> > > > What if the drm_sched_fini() starts touching the pending list? Then you'd end up
+> > > > with UAF bugs with this implementation. We cannot invalidate the schedulers
+> > > > internal structures and yet call scheduler functions - e.g. drm_sched_fini() -
+> > > > subsequently.
+> > > > 
+> > > > Hence, the current implementation of the mock scheduler is fundamentally flawed.
+> > > > And so would be *every* driver that still has entries within the scheduler's
+> > > > pending list.
+> > > > 
+> > > > This is not a false positive, it already caught a real bug -- in the mock
+> > > > scheduler.
+> > > 
+> > > To avoid furher splitting hairs on whether real bugs need to be able to
+> > > manifest or not, lets move past this with a conclusion that there are two
+> > > potential things to do here:
+> > 
+> > This is not about splitting hairs, it is about understanding that abusing
+> > knowledge about internals of a component to clean things up is *never* valid.
+> > 
+> > > First one is to either send separately or include in this series something
+> > > like:
+> > > 
+> > > diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > index f999c8859cf7..7c4df0e890ac 100644
+> > > --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > @@ -300,6 +300,8 @@ void drm_mock_sched_fini(struct drm_mock_scheduler
+> > > *sched)
+> > >                  drm_mock_sched_job_complete(job);
+> > >          spin_unlock_irqrestore(&sched->lock, flags);
+> > > 
+> > > +       drm_sched_fini(&sched->base);
+> > > +
+> > >          /*
+> > >           * Free completed jobs and jobs not yet processed by the DRM
+> > > scheduler
+> > >           * free worker.
+> > > @@ -311,8 +313,6 @@ void drm_mock_sched_fini(struct drm_mock_scheduler
+> > > *sched)
+> > > 
+> > >          list_for_each_entry_safe(job, next, &list, link)
+> > >                  mock_sched_free_job(&job->base);
+> > > -
+> > > -       drm_sched_fini(&sched->base);
+> > >   }
+> > > 
+> > >   /**
+> > > 
+> > > That should satisfy the requirement to "clear" memory about to be freed and
+> > > be 100% compliant with drm_sched_fini() kerneldoc (guideline b).
+> > > 
+> > > But the new warning from 3/5 here will still be there AFAICT and would you
+> > > then agree it is a false positive?
+> > 
+> > No, I do not agree.
+> > 
+> > Even if a driver does what you describe it is not the correct thing to do and
+> > having a warning call it out makes sense.
+> > 
+> > This way of cleaning things up entirely relies on knowing specific scheduler
+> > internals, which if changed, may fall apart.
+> > 
+> > > Secondly, the series should modify all drivers (including the unit tests)
+> > > which are known to trigger this false positive.
+> > 
+> > Again, there are no false positives. It is the scheduler that needs to call
+> > free_job() and other potential cleanups. You can't just stop the scheduler,
+> > leave it in an intermediate state and try to clean it up by hand relying on
+> > knowledge about internals.
+> 
+> Sorry I don't see the argument for the claim it is relying on the internals
+> with the re-positioned drm_sched_fini call. In that case it is fully
+> compliant with:
+> 
+> /**
+>  * drm_sched_fini - Destroy a gpu scheduler
+>  *
+>  * @sched: scheduler instance
+>  *
+>  * Tears down and cleans up the scheduler.
+>  *
+>  * This stops submission of new jobs to the hardware through
+>  * drm_sched_backend_ops.run_job(). Consequently,
+> drm_sched_backend_ops.free_job()
+>  * will not be called for all jobs still in drm_gpu_scheduler.pending_list.
+>  * There is no solution for this currently. Thus, it is up to the driver to
+> make
+>  * sure that:
+>  *
+>  *  a) drm_sched_fini() is only called after for all submitted jobs
+>  *     drm_sched_backend_ops.free_job() has been called or that
+>  *  b) the jobs for which drm_sched_backend_ops.free_job() has not been
+> called
+>  *
+>  * FIXME: Take care of the above problem and prevent this function from
+> leaking
+>  * the jobs in drm_gpu_scheduler.pending_list under any circumstances.
+> 
+> ^^^ recommended solution b).
 
-Applied to drm-misc-next, thanks!
+This has been introduced recently with commit baf4afc58314 ("drm/sched: Improve
+teardown documentation") and I do not agree with this. The scheduler should
+*not* make any promises about implementation details to enable drivers to abuse
+their knowledge about component internals.
 
-[1/7] drm/bridge: analogix_dp: drop extra calls to analogix_dp_prepare_panel()
-      commit: b65cbfe0e1d8bcb74dbeb221d423dd926f326d05
-[2/7] drm/bridge: analogix_dp: drop unused argument to analogix_dp_prepare_panel()
-      commit: 0ce432e18c932a7fd219b9c2bf1db623fb0f7840
-[3/7] drm/bridge: analogic_dp: drop panel_is_modeset
-      commit: 4fc72e1fc46b0dca74c1f8c94091e524ad5b9fdb
-[4/7] drm/bridge: analogic_dp: drop panel_lock
-      commit: 62ca1c3a146c73f8b8a381bf4461a82951defb8b
-[5/7] drm/bridge: analogix_dp: inline analogix_dp_prepare_panel()
-      commit: d5f34ca5df7c0ae075fdfeba20edd6f81c792554
-[6/7] drm/bridge: analogix_dp: ignore return values of drm_panel_* calls
-      commit: 58a71d2bf103550f809987e16d8c1949be719040
-[7/7] drm/panel: make prepare/enable and disable/unprepare calls return void
-      commit: dcbd5dcc956e2331414fd7020b4655df08deeb87
+This makes the problem *worse* as it encourages drivers to rely on
+implementation details, making maintainability of the scheduler even worse.
 
-Best regards,
--- 
-With best wishes
-Dmitry
+For instance, what if I change the scheduler implementation, such that for every
+entry in the pending_list the scheduler allocates another internal object for
+${something}? Then drivers would already fall apart leaking those internal
+objects.
 
+Now, obviously that's pretty unlikely, but I assume you get the idea.
 
+The b) paragraph in drm_sched_fini() should be removed for the given reasons.
+
+AFAICS, since the introduction of this commit, driver implementations haven't
+changed in this regard, hence we should be good.
+
+So, for me this doesn't change the fact that every driver implementation that
+just stops the scheduler at an arbitrary point of time and tries to clean things
+up manually relying on knowledge about component internals is broken.
+
+However, this doesn't mean we can't do a brief audit.
+
+- Danilo
