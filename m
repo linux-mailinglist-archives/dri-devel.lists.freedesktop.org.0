@@ -2,80 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8B8A95ED1
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A02A95ED4
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:04:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1330210E505;
-	Tue, 22 Apr 2025 07:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 922EA10E506;
+	Tue, 22 Apr 2025 07:04:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="M6ad6/r9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KsyFe9Np";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 532B110E505
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:03:10 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-39ac9aea656so5991410f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 00:03:10 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D8710E506
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:04:28 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-39c0e0bc733so3803991f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 00:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1745305389; x=1745910189; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1745305466; x=1745910266; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=+EW9WOjwKhGKY0mSAGuVe1/yMsQLEVZGpaUvajrqIQo=;
- b=M6ad6/r9T5yCE4rzGPUf/TIbRgSEfr4FYJ7IE41YbBLBwoUaGG6SMyMPQsOFsshz5O
- SKJKMjD6rg1TchJyhvqOyDN68M4B4BilUOupm0H8bLKmVuOnJBOVxxGKJlX98KTYq0Jn
- ysLkZsgtJx0pARz12SL6JVZEtpHUETGWJbOWZYOrZJn7CtEsPK5jn0EU3Yucf5X17HBn
- AQOZwhIDFvLYMxW97Fov3Urv9o0zPksVnK1ZhW/uakQlZuqqc6TqkUKXy0bO9bvSfBBL
- U8tQWN9zoXoq6Ix1uPn3X9hfx4iQiKa3+SWAoblmW9wyeICNHNAst7VtlEQRNlyKAd0y
- jL/Q==
+ :reply-to; bh=wzM974Yzx+mV/73ACAfnDK08ZhM1GnJt3GkSr1YkrHU=;
+ b=KsyFe9NpPJfFG4K3nNFzXuXw0m4x8ndLAbIBuTzz7HeSzxGZ85RixtGRkAll+W1yYq
+ VTpzvpP9K3RJUMrvjvOrK61SWK+eqdd4bvIoKsCjqGceH3sCmV1VlE3IUPD5yKkzwk0m
+ mvcUn1hTPRJoVYTMqw9R0rURES2of8mPNt5L4xnosL6LVQ4oc8YUUDW+wIo4B00kkX9/
+ saHUtKxjCxIXK4/RIuk1eVDEeUZdZv3eGg9v5jv/EFK/6azp1zn2nqdCj+CdF1+OQZpO
+ Buin7D2rtIv62W/4TXYXZCPKbYCE02pmGEnGEck9/frf8uU9+WIY1lKUCT8HjdvDrVSZ
+ WIOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745305389; x=1745910189;
+ d=1e100.net; s=20230601; t=1745305466; x=1745910266;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=+EW9WOjwKhGKY0mSAGuVe1/yMsQLEVZGpaUvajrqIQo=;
- b=g88zUfCWI/cE175KKvtb45at3SpuieFAdSE5dI0MDQoT9CXVv8ROU9Y7w9aNxpQZp8
- 8AhKei7BqstJSHa/vONemQXM80bWnrFpiokLgywc4Im0Bsc4oG7uP0osQB8qnhOzsmwD
- BC1ZmCU273zvt1gn7XKZ2imfjh641WtIrUL70rx6zlv8Sk6j9gF477PlSGTGdeHmOYPX
- +2wdTWL0xjM3qeUZf7+a1pDcs6ihu/3uuh9KsPNHUKesf2vu17SAsjfFNLHRpWgLv6KG
- rYfY8bJRbJbcGI7EbP51w6E0S3z0jPTRXa1AO8sCy01P2MyAD/EwekGF6qfnG6SHe7FX
- WdRw==
+ bh=wzM974Yzx+mV/73ACAfnDK08ZhM1GnJt3GkSr1YkrHU=;
+ b=by1s+po36QJG7OgR+Y6b7p3OYeS29zZbhEe82HoZl/IvhCtl0YO+AVdynMYrVU5NkL
+ g01lTU1qXdd5AHps+2F61690l7igLuEeYxOmbU2bkzDJFLJ8cufF+bwYNbwnJLZvZPvT
+ tHhUl2D0zoy8z6izGmtQKKffY+NO9I2M6RHxh/WdmoPTpuap1tLzD+/evrk8m+7nnyRl
+ Oi19LWpZDW2cHNhkPvaHuwzRcfaTh1hg+y+Em1hp0aMwA37pu0xLHNpz0HFBUY7zrpP1
+ KRAFHAZnzFH1HWtRUbcLRgP/rMozj9dzw+/xi1z7aDMm3fFtjmez6ZseY9kLlxBzk8eR
+ rMFQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX/cPkPHBfhAfz9yvqK6yjWFZV4Esuk987fRnXFcm30cjO/4sRRfxbdCIL3SjWJ2gh3ALWANd5hpWI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw9bbZESQU6wz5bSinwgacWz6hSi5BmnmpljagijNU7ECm5Kz/e
- lM4QY9QkZpZQIr/4PkoTh53eZDqAfwwk2k7tpzJfMFY8WZcg9iT6g2cSsJ3punA=
-X-Gm-Gg: ASbGnctTtwLpwH8yK7Bpiud2EBTrQW3YLEjH8orwx46HrgS+Bj4Oqgg1a6M/18zMZLL
- EvGuXdQCgR44BYYHqElnKsjhktw7CblmQJe24NgbkK1iUeS/9HMj5Ng/BxKnm9h4g/1Lfvp+yC5
- FO5XqV4YZ9QlzfMortG6NUQjWRFIlLeYcUh0PEDvKD7jzQIpCgZT5KkHNpPk9krlk4+koCvh90R
- JgybwmOrRXptVeFVa5R5TOnwTQEIbaBUZo2ZVUyjDEhOR4zBOwNscKmB2hidPmdvO8CtQj7nlJV
- lK3N3t+7Qj6lVPBaZhQAISey+N+p6xaZj8cE0042E7DRbB3n8QXM+Z9FDvPcsa7qtYZbjsXEUHN
- SDaWXqVtDQ4ug+ZPNHA==
-X-Google-Smtp-Source: AGHT+IE3A44CHRZT4LFqIN9Z4MWfOqywDl3gBVdthcSxAs8gC51/XERlOdOoQsF0+0M1L1XTm+SLEQ==
-X-Received: by 2002:a5d:6da6:0:b0:39e:cbd2:9129 with SMTP id
- ffacd0b85a97d-39efba2acd7mr10294748f8f.10.1745305388778; 
- Tue, 22 Apr 2025 00:03:08 -0700 (PDT)
+ AJvYcCWerfv/ql4vgjLPVlmbbnRZpAfv51CiwKbG/sVlT/CPpqtrTq869QEcV5D+86g2dsaBZoNIvi2DmQM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxgzN6rD4ugot01J15En5M9MVlh+JL+7H1FTo1GR8ZyuBMSATxl
+ eWacJ//oNcxcWy/81c9C7qR+5QEdueQr7aBq1cCbQSYXSPG8dDh60HRs/7rRQPM=
+X-Gm-Gg: ASbGncvF1aZI/89BMCyN9EZHNaVbLJWWUB6u0CLq+K9/3MoDDDkJ1snpoPHQecuurle
+ bNLALKNCbxzJx2XCVSD5SlVZWLdvD/AUmDis7+ILA0q862bAK5zy51USzd67dpm0OLCBg5pBoyn
+ zuFeWtNbgq+wCoAXAqOPNjsEIB3mCo5Kit5zFoVQRp+qBasCz6TlcA+QER6CLrErYyr3AEmX8HR
+ fRct7Rpzw9yNc2lrKEnU1szjgX19loxPcy6UMIeHIJKosngitn55zEDppx/y6G9XlSjVPhVCyQI
+ tEIulRxXhP/5bgI1lS5Qtwn5RAMNwZ4EnxZsKAEmkJmbqb/JYRxPCJ0OqvAGqS6j7lxZbKIcwS/
+ YjcwvCO01vpy2fZVp3YY6GDftCYtB
+X-Google-Smtp-Source: AGHT+IFkoSeVngdhH4gWhO7gH9R1jUTNRyHvXAKvr6AmKds7Pokhh7kLUhAv02Z1AP3MT8O8IomR5w==
+X-Received: by 2002:a05:6000:4a03:b0:390:e1e0:1300 with SMTP id
+ ffacd0b85a97d-39efba8a4demr11868054f8f.33.1745305466576; 
+ Tue, 22 Apr 2025 00:04:26 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:3d9:2080:b137:7670:8eb9:746f?
  ([2a01:e0a:3d9:2080:b137:7670:8eb9:746f])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39efa4a4c37sm14496017f8f.98.2025.04.22.00.03.08
+ ffacd0b85a97d-39efa43d006sm14361970f8f.56.2025.04.22.00.04.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Apr 2025 00:03:08 -0700 (PDT)
-Message-ID: <b88bfe5a-9256-4de0-822b-b22d74dfdec0@linaro.org>
-Date: Tue, 22 Apr 2025 09:03:04 +0200
+ Tue, 22 Apr 2025 00:04:26 -0700 (PDT)
+Message-ID: <09b7c34d-82c7-40fc-bb51-38d0fd925d38@linaro.org>
+Date: Tue, 22 Apr 2025 09:04:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: neil.armstrong@linaro.org
-Subject: Re: [PATCH RFC v2 0/2] drm/meson: vclk: revert and re-fix vclk
- calculations
+Subject: Re: [PATCH] drm/meson: fix resource cleanup in
+ meson_drv_bind_master() on error
 To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
-Cc: christianshewitt@gmail.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250421201300.778955-1-martin.blumenstingl@googlemail.com>
+ linux@martijnvandeventer.nl
+Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ jbrunet@baylibre.com, Furkan Kardame <f.kardame@manjaro.org>
+References: <20250409214422.1751825-1-martin.blumenstingl@googlemail.com>
+ <001d01dbaa48$ead66d10$c0834730$@martijnvandeventer.nl>
+ <CAFBinCDtMG1qKM9aax7RBpN+dw7c5MVOoTrX+PzXF1QQBOg_Lg@mail.gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -102,9 +105,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20250421201300.778955-1-martin.blumenstingl@googlemail.com>
+In-Reply-To: <CAFBinCDtMG1qKM9aax7RBpN+dw7c5MVOoTrX+PzXF1QQBOg_Lg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,41 +124,60 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/04/2025 22:12, Martin Blumenstingl wrote:
-> This is a successor of a previous patchset by Christian [0]
+On 19/04/2025 23:32, Martin Blumenstingl wrote:
+> Hi Martijn, Hi Neil,
 > 
-> Patch 1 reverts a previous fix for loss of HDMI sync when playing YUV420
-> @ 59.94 media. The patch does resolve a calculation issue. It also makes
-> all fractional rates invalid which is a bigger problem.
+> On Thu, Apr 10, 2025 at 8:46 PM <linux@martijnvandeventer.nl> wrote:
+>>
+>> Hi Martin,
+>>
+>> Thank you for the patch.
+>>
+>> I encountered this issue some time ago as well and had a possible fix in my tree (see
+>> below).
+>> My apologies for not upstreaming it earlier.
+> No worries, we're all busy with both, offline and online life ;-)
 > 
-> Patch 2 changes the whole drm/meson driver to use Hz as unit for clocks/
-> frequencies. And importantly it uses the relevant 64-bit maths helpers so
-> the code can still be compiled using for 32-bit ARM.
-> Maxime previously suggested using drm_hdmi_compute_mode_clock(). That's
-> still something to implement with future patches.
-> 
-> Neil, I'd like to hear your feedback on this approach.
-> 
-> 
-> [0] https://lore.kernel.org/linux-amlogic/20250110074458.3624094-1-christianshewitt@gmail.com/
-> 
-> 
-> Christian Hewitt (1):
->    Revert "drm/meson: vclk: fix calculation of 59.94 fractional rates"
-> 
-> Martin Blumenstingl (1):
->    drm/meson: use unsigned long long / Hz for frequency types
-> 
->   drivers/gpu/drm/meson/meson_drv.c          |   2 +-
->   drivers/gpu/drm/meson/meson_drv.h          |   2 +-
->   drivers/gpu/drm/meson/meson_encoder_hdmi.c |  29 +--
->   drivers/gpu/drm/meson/meson_vclk.c         | 195 +++++++++++----------
->   drivers/gpu/drm/meson/meson_vclk.h         |  13 +-
->   5 files changed, 126 insertions(+), 115 deletions(-)
-> 
+>> While my fix is not as symmetric as yours—I like symmetry—it is somewhat simpler. It
+>> did make the assumption that only  calling component_unbind_all() was at fault and the the rest of the
+>> code was correct. Therefore, calling one of the following functions:
+>> meson_encoder_dsi_remove()
+>> meson_encoder_hdmi_remove()
+>> meson_encoder_cvbs_remove()
+>> in case their counterpart was not called, should not result in any issues.
+>>
+>> I just verified, and, as far as I understand, all of these functions do a check to confirm
+>> whether the encoder was initialized before proceeding with cleanup.
+> Yep, that seems to be the case right now.
+> Neil, would you like Martijn's more simple approach with a Fixes tag
+> and backport that?
+> Then I'd send my patch as a small cleanup which doesn't have to be
+> backported. Otherwise I'd spin a v2 with a fix for the issue that
+> Martijn found (and including Anand's Reviewed/Tested-by)?
 
-Thanks for re-spinning, will apply.
+Please send a follow-up, I'll apply this one today.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Thanks,
+Neil
 
-Thanks !
+> 
+> [...]
+>>> diff --git a/drivers/gpu/drm/meson/meson_drv.c
+>>> b/drivers/gpu/drm/meson/meson_drv.c
+>>> index 81d2ee37e773..031686fd4104 100644
+>>> --- a/drivers/gpu/drm/meson/meson_drv.c
+>>> +++ b/drivers/gpu/drm/meson/meson_drv.c
+>>> @@ -314,35 +314,35 @@ static int meson_drv_bind_master(struct device
+>>> *dev, bool has_components)
+>>>                        dev_err(drm->dev, "Couldn't bind all
+>>> components\n");
+>>>                        /* Do not try to unbind */
+>>>                        has_components = false;
+>>
+>> Above two lines are no longer used, so can be removed.
+> Well spotted, thank you!
+> 
+> 
+> Best regards,
+> Martin
+
