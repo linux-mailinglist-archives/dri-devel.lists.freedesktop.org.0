@@ -2,113 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E247A95F34
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC63A95F39
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:24:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DDDB10E189;
-	Tue, 22 Apr 2025 07:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4CB910E50E;
+	Tue, 22 Apr 2025 07:24:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QtqCcUle";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Qhr9alVo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p/K+BZiH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qhr9alVo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p/K+BZiH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D81AC10E189
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:23:36 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-39c30d9085aso3489251f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 00:23:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1745306615; x=1745911415; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:from:subject:reply-to:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=lH46hfoNIJY5qCmuJzlF3d7GkHG348kgpWLaJA6DDWM=;
- b=QtqCcUlefigD+MlI1jVs5sb6YsRknV27hf7uwxM5E7ITmpj9A91c7WwW5gAA5Px+6H
- 5pHjM2la2goGJlhb0HDEIB9Av7sw5YsqNYkuksT1Itk+eLznJSJ2A35P6pfiOXdja6ku
- /xGMYY2tSAtYa48FtrOdKjUYq1Wc74mx/n3tfR8uU0oAMw+q+TgooI5ALU6rhvTrwYAG
- uq3ZFEk31ffHQGo5eGQ4k8D/KGd9TqOcOxjcNaEnlzAjBdqXEWu1K2MeWHB6HDxeE38V
- XJqftCQV3cK+T6ijqrAWLu6GsF6qD2n7Bmpn34lUSA9P5QfCYbEbwMXa7cIlvJCvv3+f
- sGDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745306615; x=1745911415;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:from:subject:reply-to:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=lH46hfoNIJY5qCmuJzlF3d7GkHG348kgpWLaJA6DDWM=;
- b=EG74a5kVYcyvFFXABG+uY1BaFm6jpBbfILh4BPjmeQpKgUrA7jhCuD9n9A6j6y0+7M
- xUy/6iDzdRP2nHhGtcbj9KEDWKQWcXj0jm99iKJURQh/X2sHDwqJBKQr3PZh8th8a5Vf
- gt2eOO4Yc/rqibz7UBODzEAK8VlSFPcvJmlN0npZmEimNhziVbV5aNO9ht7gpgPPO4e/
- 8PfQq80RfrLAhtIW+XlMFn8NYTtwDg9Mj5l+H8ItFJfERiSzpmbMQGotPRaencPTlYj8
- QO0UVY1qD/8omK4Getl2VGOVNQmSuQsuv3IPENcC3tE8iJvJySyT5LGPJg/DDOURmO8W
- 64Cg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVfbLjSXJHFJjZA4G+SEH7tLSNM9ArfYZtXSqEK77bVsR2C2EMbJshqZ6kpZolLPDCQYlkdmpqEoeQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YybmESll5CFO5AKNCJe/CH34giZVRXURS/tZPGtlpm80/HCVVrk
- 0DGkm9zO41FDcU3SoW6MNHhUKq02lO8jIRbud+QYeVLulmAL6t7noRhBLGCk+fQ=
-X-Gm-Gg: ASbGncvhgr/AcFefLaEyf0X1fnkIN7RIXmSSJGScXYn1LgKJxysTV1EAXgnZ4hIlLaE
- lR+cAJ/Vx3M+jR67lc8dcvjlVeeQff1FuM8ZWhiiGJORWn0CoIASbVe2ET0CBYWNHIky3vK0jhB
- f/kQpF0MSP1oJlEDvJp8a/GYKS4TTMZqeqoUtrNaPPWzZ52j3PX0Zk1qY2KOMQigW4rgqW9EhIP
- 3OecE6FcbmhvrMpar2RnZ8Fj6L0fZk6/URwqvxJ+YEYSPdD3MHUcVyXANKkwF4LxvZfTBlTJs8S
- p0/TXbSnUnn6IG3mGqfswvbXtceEaeZBNBiJP2BTCSk+cwvyYS6tUU/81t0OdnFre/yHHTlLH+K
- wMh5Ez4fiyY4z4QuELA==
-X-Google-Smtp-Source: AGHT+IGywozzMisXwYOT/E5KYtUsJDT/HnunTc8XE7Knara8DcfAQ+yJD6UJRsAe6X3X6bs1me8xhw==
-X-Received: by 2002:a5d:5f4c:0:b0:39e:f89b:85d3 with SMTP id
- ffacd0b85a97d-39efb9538afmr11846283f8f.0.1745306615026; 
- Tue, 22 Apr 2025 00:23:35 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:b137:7670:8eb9:746f?
- ([2a01:e0a:3d9:2080:b137:7670:8eb9:746f])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-39efa43bf20sm13981589f8f.48.2025.04.22.00.23.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Apr 2025 00:23:34 -0700 (PDT)
-Message-ID: <7c7b3e81-bc46-417b-a3f4-2d48f2d3638d@linaro.org>
-Date: Tue, 22 Apr 2025 09:23:34 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9B0510E50D
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:24:14 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3F4EC211BA;
+ Tue, 22 Apr 2025 07:24:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1745306653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OMo2VbQ2Qe+I4d8hPvijc2UJmmN0itSMU39itky7avc=;
+ b=Qhr9alVocG4DKX9nPlYRes2fiOz5O92QRLT3LiQXU1+Rf3G05gtU4OG5FoVCVMfbwrOIoJ
+ JRdTHaWwwyuDDX9KY69Rr2qRRM1xlr1+YGa1WNTo++M4i6aNQt0hWF6zkIT1sXOnIX9x/J
+ 1IpN1esiG1Tqqbn8BRld6TEscGD1jQY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1745306653;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OMo2VbQ2Qe+I4d8hPvijc2UJmmN0itSMU39itky7avc=;
+ b=p/K+BZiHgX4/5NqTyTNBuo1x+0Ij8G3oM0SSUvFoXZ5vn52x80v0DP/9amnhl/Tr+BlN6p
+ 8N6yB4G4k6GmouAg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Qhr9alVo;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="p/K+BZiH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1745306653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OMo2VbQ2Qe+I4d8hPvijc2UJmmN0itSMU39itky7avc=;
+ b=Qhr9alVocG4DKX9nPlYRes2fiOz5O92QRLT3LiQXU1+Rf3G05gtU4OG5FoVCVMfbwrOIoJ
+ JRdTHaWwwyuDDX9KY69Rr2qRRM1xlr1+YGa1WNTo++M4i6aNQt0hWF6zkIT1sXOnIX9x/J
+ 1IpN1esiG1Tqqbn8BRld6TEscGD1jQY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1745306653;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OMo2VbQ2Qe+I4d8hPvijc2UJmmN0itSMU39itky7avc=;
+ b=p/K+BZiHgX4/5NqTyTNBuo1x+0Ij8G3oM0SSUvFoXZ5vn52x80v0DP/9amnhl/Tr+BlN6p
+ 8N6yB4G4k6GmouAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E7BFF139D5;
+ Tue, 22 Apr 2025 07:24:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id L+g5NxxEB2jEOAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 22 Apr 2025 07:24:12 +0000
+Message-ID: <a974def2-ee85-4caf-83bc-fa59116fc292@suse.de>
+Date: Tue, 22 Apr 2025 09:24:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/meson: fix resource cleanup in
- meson_drv_bind_master() on error
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux@martijnvandeventer.nl
-Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- jbrunet@baylibre.com, Furkan Kardame <f.kardame@manjaro.org>
-References: <20250409214422.1751825-1-martin.blumenstingl@googlemail.com>
- <001d01dbaa48$ead66d10$c0834730$@martijnvandeventer.nl>
- <CAFBinCDtMG1qKM9aax7RBpN+dw7c5MVOoTrX+PzXF1QQBOg_Lg@mail.gmail.com>
- <09b7c34d-82c7-40fc-bb51-38d0fd925d38@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <09b7c34d-82c7-40fc-bb51-38d0fd925d38@linaro.org>
+Subject: Re: [PATCH drm-next] drm/hyperv: Replace simple-KMS with regular
+ atomic helpers
+To: Ryosuke Yasuoka <ryasuoka@redhat.com>, drawat.floss@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, jfalempe@redhat.com
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20250420121945.573915-1-ryasuoka@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250420121945.573915-1-ryasuoka@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 3F4EC211BA
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[redhat.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ TAGGED_RCPT(0.00)[]; RCPT_COUNT_SEVEN(0.00)[10];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:dkim, suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,74 +149,329 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/04/2025 09:04, neil.armstrong@linaro.org wrote:
-> On 19/04/2025 23:32, Martin Blumenstingl wrote:
->> Hi Martijn, Hi Neil,
->>
->> On Thu, Apr 10, 2025 at 8:46 PM <linux@martijnvandeventer.nl> wrote:
->>>
->>> Hi Martin,
->>>
->>> Thank you for the patch.
->>>
->>> I encountered this issue some time ago as well and had a possible fix in my tree (see
->>> below).
->>> My apologies for not upstreaming it earlier.
->> No worries, we're all busy with both, offline and online life ;-)
->>
->>> While my fix is not as symmetric as yours—I like symmetry—it is somewhat simpler. It
->>> did make the assumption that only  calling component_unbind_all() was at fault and the the rest of the
->>> code was correct. Therefore, calling one of the following functions:
->>> meson_encoder_dsi_remove()
->>> meson_encoder_hdmi_remove()
->>> meson_encoder_cvbs_remove()
->>> in case their counterpart was not called, should not result in any issues.
->>>
->>> I just verified, and, as far as I understand, all of these functions do a check to confirm
->>> whether the encoder was initialized before proceeding with cleanup.
->> Yep, that seems to be the case right now.
->> Neil, would you like Martijn's more simple approach with a Fixes tag
->> and backport that?
->> Then I'd send my patch as a small cleanup which doesn't have to be
->> backported. Otherwise I'd spin a v2 with a fix for the issue that
->> Martijn found (and including Anand's Reviewed/Tested-by)?
-> 
-> Please send a follow-up, I'll apply this one today.
-> 
+Hi
 
-Yeah finally please split this in two:
-- patch 1 that can be backported
-- patch 2 remaining changes
+Am 20.04.25 um 14:19 schrieb Ryosuke Yasuoka:
+> Drop simple-KMS in favor of regular atomic helpers to make the code more
+> modular. The simple-KMS helper mix up plane and CRTC state, so it is
+> obsolete and should go away [1]. Since it just split the simple-pipe
+> funtions into per-plane and per-CRTC, no functional changes is expected.
+>
+> [1] https://lore.kernel.org/lkml/dae5089d-e214-4518-b927-5c4149babad8@suse.de/
+>
+> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
 
-Thanks,
-Neil
+I cannot test, but thanks for doing this. Comments below.
 
-> Thanks,
-> Neil
-> 
->>
->> [...]
->>>> diff --git a/drivers/gpu/drm/meson/meson_drv.c
->>>> b/drivers/gpu/drm/meson/meson_drv.c
->>>> index 81d2ee37e773..031686fd4104 100644
->>>> --- a/drivers/gpu/drm/meson/meson_drv.c
->>>> +++ b/drivers/gpu/drm/meson/meson_drv.c
->>>> @@ -314,35 +314,35 @@ static int meson_drv_bind_master(struct device
->>>> *dev, bool has_components)
->>>>                        dev_err(drm->dev, "Couldn't bind all
->>>> components\n");
->>>>                        /* Do not try to unbind */
->>>>                        has_components = false;
->>>
->>> Above two lines are no longer used, so can be removed.
->> Well spotted, thank you!
->>
->>
->> Best regards,
->> Martin
-> 
+> ---
+>   drivers/gpu/drm/hyperv/hyperv_drm.h         |   4 +-
+>   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 168 ++++++++++++++++----
+>   2 files changed, 139 insertions(+), 33 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm.h b/drivers/gpu/drm/hyperv/hyperv_drm.h
+> index d2d8582b36df..9e776112c03e 100644
+> --- a/drivers/gpu/drm/hyperv/hyperv_drm.h
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm.h
+> @@ -11,7 +11,9 @@
+>   struct hyperv_drm_device {
+>   	/* drm */
+>   	struct drm_device dev;
+> -	struct drm_simple_display_pipe pipe;
+> +	struct drm_plane plane;
+> +	struct drm_crtc crtc;
+> +	struct drm_encoder encoder;
+>   	struct drm_connector connector;
+>   
+>   	/* mode */
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> index 6c6b57298797..c273c093b491 100644
+> --- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> @@ -5,6 +5,7 @@
+>   
+>   #include <linux/hyperv.h>
+>   
+> +#include <drm/drm_atomic.h>
+>   #include <drm/drm_damage_helper.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_edid.h>
+> @@ -15,7 +16,7 @@
+>   #include <drm/drm_gem_framebuffer_helper.h>
+>   #include <drm/drm_gem_shmem_helper.h>
+>   #include <drm/drm_probe_helper.h>
+> -#include <drm/drm_simple_kms_helper.h>
+> +#include <drm/drm_plane.h>
+>   
+>   #include "hyperv_drm.h"
+>   
+> @@ -98,12 +99,47 @@ static int hyperv_check_size(struct hyperv_drm_device *hv, int w, int h,
+>   	return 0;
+>   }
+>   
+> -static void hyperv_pipe_enable(struct drm_simple_display_pipe *pipe,
+> -			       struct drm_crtc_state *crtc_state,
+> -			       struct drm_plane_state *plane_state)
+> +static const uint32_t hyperv_formats[] = {
+> +	DRM_FORMAT_XRGB8888,
+> +};
+> +
+> +static const uint64_t hyperv_modifiers[] = {
+> +	DRM_FORMAT_MOD_LINEAR,
+> +	DRM_FORMAT_MOD_INVALID
+> +};
+> +
+
+> +static enum drm_mode_status
+> +hyperv_crtc_helper_mode_valid(struct drm_crtc *crtc,
+> +			      const struct drm_display_mode *mode)
+> +{
+> +	return MODE_OK;
+> +}
+
+This helper should not be necessary.
+
+> +
+> +static int hyperv_crtc_helper_atomic_check(struct drm_crtc *crtc,
+> +					   struct drm_atomic_state *state)
+>   {
+> -	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
+> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+> +	int ret;
+> +
+> +	if (!crtc_state->enable)
+> +		goto out;
+> +
+> +	ret = drm_atomic_helper_check_crtc_primary_plane(crtc_state);
+> +	if (ret)
+> +		return ret;
+> +
+> +out:
+
+> +	return drm_atomic_add_affected_planes(state, crtc);
+
+IIRC this function call was only required to work around an issue in the 
+simple-kms helpers. It's not necessary if you use the regular interface 
+and should be removed.
+
+> +}
+> +
+> +static void hyperv_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+> +					     struct drm_atomic_state *state)
+> +{
+> +	struct hyperv_drm_device *hv = to_hv(crtc->dev);
+> +	struct drm_plane *plane = &hv->plane;
+> +	struct drm_plane_state *plane_state = plane->state;
+>   	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+> +	struct drm_crtc_state *crtc_state = crtc->state;
+>   
+>   	hyperv_hide_hw_ptr(hv->hdev);
+
+>   	hyperv_update_situation(hv->hdev, 1,  hv->screen_depth,
+
+This looks more like something to do in the plane's atomic_enable, but 
+it's OK for now.
+
+> @@ -113,12 +149,48 @@ static void hyperv_pipe_enable(struct drm_simple_display_pipe *pipe,
+>   	hyperv_blit_to_vram_fullscreen(plane_state->fb, &shadow_plane_state->data[0]);
+
+I think this can be removed. Blit'ing is for planes and the plane 
+already does it it's atomic_update. Doing this here as well is another 
+artifact of the simple-kms helpers.
+
+>   }
+>   
+> -static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
+> -			     struct drm_plane_state *plane_state,
+> -			     struct drm_crtc_state *crtc_state)
+> +static void hyperv_crtc_helper_atomic_disable(struct drm_crtc *crtc,
+> +					      struct drm_atomic_state *state)
+> +{ }
+> +
+> +static const struct drm_crtc_helper_funcs hyperv_crtc_helper_funcs = {
+> +	.mode_valid = hyperv_crtc_helper_mode_valid,
+> +	.atomic_check = hyperv_crtc_helper_atomic_check,
+> +	.atomic_enable = hyperv_crtc_helper_atomic_enable,
+> +	.atomic_disable = hyperv_crtc_helper_atomic_disable,
+> +};
+> +
+> +static const struct drm_crtc_funcs hyperv_crtc_funcs = {
+> +	.reset = drm_atomic_helper_crtc_reset,
+> +	.destroy = drm_crtc_cleanup,
+> +	.set_config = drm_atomic_helper_set_config,
+> +	.page_flip = drm_atomic_helper_page_flip,
+> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+> +};
+> +
+> +static int hyperv_plane_atomic_check(struct drm_plane *plane,
+> +				     struct drm_atomic_state *state)
+>   {
+> -	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
+> +	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
+> +	struct hyperv_drm_device *hv = to_hv(plane->dev);
+>   	struct drm_framebuffer *fb = plane_state->fb;
+> +	struct drm_crtc *crtc = plane_state->crtc;
+> +	struct drm_crtc_state *crtc_state = NULL;
+> +	int ret;
+> +
+> +	if (crtc)
+> +		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+> +
+> +	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
+> +						  DRM_PLANE_NO_SCALING,
+> +						  DRM_PLANE_NO_SCALING,
+> +						  false, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!plane_state->visible)
+> +		return 0;
+>   
+
+>   	if (fb->format->format != DRM_FORMAT_XRGB8888)
+>   		return -EINVAL;
+
+Our DRM core should have done this test already.
+
+> @@ -132,51 +204,83 @@ static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
+>   	return 0;
+>   }
+>   
+> -static void hyperv_pipe_update(struct drm_simple_display_pipe *pipe,
+> -			       struct drm_plane_state *old_state)
+> +static void hyperv_plane_atomic_update(struct drm_plane *plane,
+> +						      struct drm_atomic_state *old_state)
+>   {
+> -	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
+> -	struct drm_plane_state *state = pipe->plane.state;
+> +	struct drm_plane_state *old_pstate = drm_atomic_get_old_plane_state(old_state, plane);
+> +	struct hyperv_drm_device *hv = to_hv(plane->dev);
+> +	struct drm_plane_state *state = plane->state;
+>   	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
+>   	struct drm_rect rect;
+>   
+> -	if (drm_atomic_helper_damage_merged(old_state, state, &rect)) {
+> +	if (drm_atomic_helper_damage_merged(old_pstate, state, &rect)) {
+>   		hyperv_blit_to_vram_rect(state->fb, &shadow_plane_state->data[0], &rect);
+>   		hyperv_update_dirt(hv->hdev, &rect);
+>   	}
+>   }
+>   
+> -static const struct drm_simple_display_pipe_funcs hyperv_pipe_funcs = {
+> -	.enable	= hyperv_pipe_enable,
+> -	.check = hyperv_pipe_check,
+> -	.update	= hyperv_pipe_update,
+> -	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
+
+> +static bool hyperv_format_mod_supported(struct drm_plane *plane,
+> +					uint32_t format, uint64_t modifier)
+> +{
+> +	return modifier == DRM_FORMAT_MOD_LINEAR;
+> +}
+
+This helper is probably not necessary either.
+
+> +
+> +static const struct drm_plane_helper_funcs hyperv_plane_helper_funcs = {
+> +	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+> +	.atomic_check = hyperv_plane_atomic_check,
+> +	.atomic_update = hyperv_plane_atomic_update,
+>   };
+>   
+> -static const uint32_t hyperv_formats[] = {
+> -	DRM_FORMAT_XRGB8888,
+> +static const struct drm_plane_funcs hyperv_plane_funcs = {
+> +	.update_plane		= drm_atomic_helper_update_plane,
+> +	.disable_plane		= drm_atomic_helper_disable_plane,
+> +	.destroy		= drm_plane_cleanup,
+> +	.format_mod_supported   = hyperv_format_mod_supported,
+> +	DRM_GEM_SHADOW_PLANE_FUNCS,
+>   };
+>   
+> -static const uint64_t hyperv_modifiers[] = {
+> -	DRM_FORMAT_MOD_LINEAR,
+> -	DRM_FORMAT_MOD_INVALID
+> +static const struct drm_encoder_funcs hyperv_drm_simple_encoder_funcs_cleanup = {
+> +	.destroy = drm_encoder_cleanup,
+>   };
+>   
+>   static inline int hyperv_pipe_init(struct hyperv_drm_device *hv)
+>   {
+> +	struct drm_device *dev = &hv->dev;
+> +	struct drm_encoder *encoder = &hv->encoder;
+> +	struct drm_plane *plane = &hv->plane;
+> +	struct drm_crtc *crtc = &hv->crtc;
+> +	struct drm_connector *connector = &hv->connector;
+>   	int ret;
+>   
+> -	ret = drm_simple_display_pipe_init(&hv->dev,
+> -					   &hv->pipe,
+> -					   &hyperv_pipe_funcs,
+> -					   hyperv_formats,
+> -					   ARRAY_SIZE(hyperv_formats),
+> -					   hyperv_modifiers,
+> -					   &hv->connector);
+> +	drm_plane_helper_add(plane, &hyperv_plane_helper_funcs);
+
+Rather call drm_universal_plane_init() first and then add the helper funcs.
+
+> +	ret = drm_universal_plane_init(dev, plane, 0,
+> +				       &hyperv_plane_funcs,
+> +				       hyperv_formats, ARRAY_SIZE(hyperv_formats),
+> +				       hyperv_modifiers,
+> +				       DRM_PLANE_TYPE_PRIMARY, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_crtc_helper_add(crtc, &hyperv_crtc_helper_funcs);
+> +	ret = drm_crtc_init_with_planes(dev, crtc, plane, NULL,
+> +					&hyperv_crtc_funcs, NULL);
+
+Same ordering nit as with the plane.
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> +	ret = drm_encoder_init(dev, encoder,
+> +			       &hyperv_drm_simple_encoder_funcs_cleanup,
+> +			       DRM_MODE_ENCODER_NONE, NULL);
+> +
+> +	if (ret || !connector)
+> +		return ret;
+
+Connector init happens elsewhere, but you can inline hyperv_conn_init() 
+right here.
+
+> +
+> +	ret = drm_connector_attach_encoder(connector, encoder);
+> +
+>   	if (ret)
+>   		return ret;
+>   
+> -	drm_plane_enable_fb_damage_clips(&hv->pipe.plane);
+> +	drm_plane_enable_fb_damage_clips(&hv->plane);
+
+This is a plane function you can move it close to the plane init.
+
+Best regards
+Thomas
+
+>   
+>   	return 0;
+>   }
+>
+> base-commit: b60301774a8fe6c30b14a95104ec099290a2e904
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
