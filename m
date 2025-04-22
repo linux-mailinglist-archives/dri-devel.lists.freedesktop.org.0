@@ -2,47 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42876A979AF
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 23:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD41A979BB
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 23:51:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C410510E3BE;
-	Tue, 22 Apr 2025 21:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D9610E3C6;
+	Tue, 22 Apr 2025 21:51:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FcrQXoBn";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="O8ztjYqZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6AB210E3BE
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 21:47:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 758B1614E0;
- Tue, 22 Apr 2025 21:46:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 451DBC4CEE9;
- Tue, 22 Apr 2025 21:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745358433;
- bh=RPojC3b1nEKZhf0p4kkS9DaOsT5aYr010F373zcdvwA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=FcrQXoBnsiYdtAHICcGnYrZR32ZHOHqmCEv0xTKizpCD7unfxt4Yn4CuFV3u9Iq62
- tAtIwwDtA9R6tpADG7ZzPMkKldbT/diHNIRNSmt05n9KmvpNWVzv0w1XhnCKaauuwg
- xQ7xxNW7lq4wZWKqx1/+Y5aiFzGNtq8ggf5nWB2pdlcjKGnKnVtBjDSpJ7r7E8ZsYA
- 0qckIK47D4DzXJbt3PEl3X5SmlRLNT/+9szkUQWyW16L5n1yVnCO1cKDsGswSS9VJl
- jctj/u1y4JOueiyZD8sW65AAxdr9u65SlsUVOJek+LlkKSWIWPx4fJC/Zi1jYgLSVh
- wl8p0NFG2e47g==
-Date: Tue, 22 Apr 2025 16:47:11 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: javierm@redhat.com, iivanov@suse.de, tiwai@suse.de, bhelgaas@google.com,
- dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH v2] video: screen_info: Relocate framebuffers behind PCI
- bridges
-Message-ID: <20250422214711.GA385826@bhelgaas>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 644D010E3C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 21:51:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1745358662;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s1/IDzJNwKu9ird3fpx4gSzjCeLeBaq8w8B6OkdB/Zw=;
+ b=O8ztjYqZn7Dq/MsV7gop/W+m8c0MZ/ikFT9yZ0ZTpETKITzYruj7B9Vls4Mo2Yb3uSespD
+ ofc85YFLGH6i+/2aR+HKj2EGWkgu4+Kzqel5XN6H+SaH/dk/6qmAcChASVsSa2LnaQkJlk
+ 6jDVq+/I4WHdyw0z4EceMTt+sLmfvo4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-382-dp5n48eQNBSnuqDeZrp2Sg-1; Tue, 22 Apr 2025 17:51:00 -0400
+X-MC-Unique: dp5n48eQNBSnuqDeZrp2Sg-1
+X-Mimecast-MFC-AGG-ID: dp5n48eQNBSnuqDeZrp2Sg_1745358660
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3912e4e2033so1741568f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 14:51:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745358659; x=1745963459;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=s1/IDzJNwKu9ird3fpx4gSzjCeLeBaq8w8B6OkdB/Zw=;
+ b=R7DpUDv8OFMY70m0E4CKOek+K737J5e3B8VhyzpObKWiLjku2Epi5JYGex9CaoOc6C
+ bFKixHlGLjfBUWH6kioLMcjUwDOfEeRxmiQHBdiMPnkUOyi458vAIoIx3WmZAOl7P45X
+ sPLg1khvCFse+ljizEqE307qVnr9unEczeeNtMEnyK7B8UXP94QuF9Pc/JvFUvzMZ04d
+ GpFnsLVcSP+ufJJw8k+m9KuDLTBb+xHurY3KWs2wxgpUn6u4v/mxR+SLuUtjj/oEjtsk
+ l54GkglxUDyqCm78Wjo5m14zYrHFfD0/QYMduhUB6b6c3ENOmNvRcKxZwgUlx+TPNyq/
+ sBTg==
+X-Gm-Message-State: AOJu0YzFCOw0Wz9j/y6tg3/WXbNqLA0MeSdeN+UkNBO5XfVa+KWeP0t0
+ d0ANDUiVct/5I/vz0pUJEPWLpqhDyBKaK47FEDJYceWD3kc4BOMm26TVYaR96pd1XeXWI+EhnjU
+ zJR+xfwihu8iRSzmcDZI4QJakmQpHUA/nC8x+FIQcWL+lzfkMTEceCSC7puQqKJpdmA==
+X-Gm-Gg: ASbGncsYG9i+ztO8DdjztkO7ExbgwxEfGaHu5Fm0vvEIIKrKUy1co1wD/soBUiVE8bj
+ 1REZ5ySx8YQHfa/Q3wJEk+cYzPFGfgOx8tAipcCD6WC5eAVuNzs2/x2dIm1+Pq7eYrAEGYDQags
+ ghdlH/ScgHT2n7X3ohJIY85CEO6XTITtC04bz7z9PcML/ZNtPw+cUoHHDlZvEyGhihlIPs0d0nc
+ 1W81Mwom4Aj0ggntVk0F1vmv3gAhSSkJ3QmpB10eZ+S2tFSfY25A/USZa1ijKMfDyu7mP/CrzNn
+ eTAbwWLa42VglrHXreISSBpCH/fc182THWTHQwtWtiI9HWDrobuU8Oeyj9ub0o/E/wVU1Q==
+X-Received: by 2002:a05:6000:4310:b0:391:4189:d28d with SMTP id
+ ffacd0b85a97d-39efba6c0d3mr11525093f8f.34.1745358659706; 
+ Tue, 22 Apr 2025 14:50:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFvQa7VnBYSPz5ieTPf8xaFFrtEIeqU3LTi5lgcJyNHMvngJBWDCobliaFl6EizYRrF/Sw9Ww==
+X-Received: by 2002:a05:6000:4310:b0:391:4189:d28d with SMTP id
+ ffacd0b85a97d-39efba6c0d3mr11525085f8f.34.1745358659393; 
+ Tue, 22 Apr 2025 14:50:59 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39efa4a4d67sm16699401f8f.94.2025.04.22.14.50.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Apr 2025 14:50:58 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, iivanov@suse.de
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org, "open list:PCI
+ SUBSYSTEM" <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH] video: screen_info: Update framebuffers behind PCI bridges
+In-Reply-To: <527b7ebd-0a34-4fe0-82fb-9cdd6126e38e@suse.de>
+References: <20250417072751.10125-1-tzimmermann@suse.de>
+ <527b7ebd-0a34-4fe0-82fb-9cdd6126e38e@suse.de>
+Date: Tue, 22 Apr 2025 23:50:57 +0200
+Message-ID: <87ikmvc1by.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250422075056.12989-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: KDBW8tsc6SwR_w5tNY7cSO_LG88oacT5G1ePXv_k7JM_1745358660
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,148 +95,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 22, 2025 at 09:49:57AM +0200, Thomas Zimmermann wrote:
-> Apply bridge window offsets to screen_info framebuffers during
-> relocation. Fixes invalid access to I/O memory.
-> 
-> Resources behind a PCI bridge can be located at a certain offset
-> in the kernel's I/O range. The framebuffer memory range stored in
-> screen_info refers to the offset as seen during boot (essentialy 0).
-> During boot up, the kernel may assign a different memory offset to
-> the bridge device and thereby relocating the framebuffer address of
-> the PCI graphics device as seen by the kernel. The information in
-> screen_info must be updated as well.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-I can't see the bug report below, so I'm not sure what's happening
-here.  Apparently the platform is one where PCI bus addresses are not
-identical to CPU physical addresses.  On such platforms, the PCI host
-bridge applies an offset between CPU and PCI addresses.  There are
-several systems like that, but I'm not aware of any that change that
-CPU->PCI bus address offset at runtime.
+Hello Thomas,
 
-So I suspect the problem is not that the kernel has assigned a
-different offset.  I think it's more likely that the hardware or
-firmware has determined the offset before the kernel starts, and this
-code just doesn't account for that.
+> cc'ing PCI devs
+>
+> Am 17.04.25 um 09:27 schrieb Thomas Zimmermann:
+>> Apply bridge window offsets to screen_info framebuffers during
+>> relocation. Fixes invalid access to I/O memory.
+>>
+>> Resources behind a PCI bridge can be located at a certain offset
+>> in the kernel's I/O range. The framebuffer memory range stored in
+>> screen_info refers to the offset as seen during boot (essentialy 0).
+>> During boot up, the kernel may assign a different memory offset to
+>> the bridge device and thereby relocating the framebuffer address of
+>> the PCI graphics device as seen by the kernel. The information in
+>> screen_info must be updated as well.
+>>
+>> The helper pcibios_bus_to_resource() performs the relocation of
+>> the screen_info resource. The result now matches the I/O-memory
+>> resource of the PCI graphics device. As before, we store away the
+>> information necessary to update the information in screen_info.
+>>
+>> Commit 78aa89d1dfba ("firmware/sysfb: Update screen_info for relocated
+>> EFI framebuffers") added the code for updating screen_info. It is
+>> based on similar functionality that pre-existed in efifb. But efifb
+>> did not handle bridges correctly, so the problem presumably exists
+>> only on newer systems.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Reported-by: Tested-by: "Ivan T. Ivanov" <iivanov@suse.de>
+>> Closes: https://bugzilla.suse.com/show_bug.cgi?id=1240696
+>> Tested-by: Tested-by: "Ivan T. Ivanov" <iivanov@suse.de>
+>> Fixes: 78aa89d1dfba ("firmware/sysfb: Update screen_info for relocated EFI framebuffers")
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: <stable@vger.kernel.org> # v6.9+
+>> ---
 
-I don't know what "stored in screen_info" means.  Most of the
-addresses filled in by screen_info_resources() are hard-coded bus
-addresses specified by PCI and VGA specs.  These are not just offsets
-"seen during boot"; these are legacy addresses that are not
-programmable via usual PCI BARs.  They're hard-wired into VGA devices,
-so if we use the VGA frame buffer at 0xA0000, the 0xA0000 address must
-appear on the PCI bus.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-VIDEO_TYPE_VLFB and VIDEO_TYPE_EFI are exceptions; I don't know how
-they work, but if they return addresses from firmware, I would expect 
-them to be PCI bus addresses as well.
+-- 
+Best regards,
 
-> The helper pcibios_bus_to_resource() performs the relocation of
-> the screen_info resource. The result now matches the I/O-memory
-> resource of the PCI graphics device. As before, we store away the
-> information necessary to update the information in screen_info.
-> 
-> Commit 78aa89d1dfba ("firmware/sysfb: Update screen_info for relocated
-> EFI framebuffers") added the code for updating screen_info. It is
-> based on similar functionality that pre-existed in efifb. Efifb uses
-> a pointer to the PCI resource, while the newer code does a memcpy of
-> the region. Hence efifb sees any updates to the PCI resource and avoids
-> the issue.
-> 
-> v2:
-> - Fixed tags (Takashi, Ivan)
-> - Updated information on efifb
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: "Ivan T. Ivanov" <iivanov@suse.de>
-> Closes: https://bugzilla.suse.com/show_bug.cgi?id=1240696
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-This bug isn't public.  Can it be made public?  Or even better, a
-report at https://bugzilla.kernel.org?
-
-s/essentialy/essentially/
-
-> Tested-by: "Ivan T. Ivanov" <iivanov@suse.de>
-> Fixes: 78aa89d1dfba ("firmware/sysfb: Update screen_info for relocated EFI framebuffers")
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.9+
-> ---
->  drivers/video/screen_info_pci.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/video/screen_info_pci.c b/drivers/video/screen_info_pci.c
-> index 6c5833517141..c46c75dc3fae 100644
-> --- a/drivers/video/screen_info_pci.c
-> +++ b/drivers/video/screen_info_pci.c
-> @@ -8,7 +8,7 @@
->  static struct pci_dev *screen_info_lfb_pdev;
->  static size_t screen_info_lfb_bar;
->  static resource_size_t screen_info_lfb_offset;
-> -static struct resource screen_info_lfb_res = DEFINE_RES_MEM(0, 0);
-> +static struct pci_bus_region screen_info_lfb_region;
->  
->  static bool __screen_info_relocation_is_valid(const struct screen_info *si, struct resource *pr)
->  {
-> @@ -31,7 +31,7 @@ void screen_info_apply_fixups(void)
->  	if (screen_info_lfb_pdev) {
->  		struct resource *pr = &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
->  
-> -		if (pr->start != screen_info_lfb_res.start) {
-> +		if (pr->start != screen_info_lfb_region.start) {
->  			if (__screen_info_relocation_is_valid(si, pr)) {
->  				/*
->  				 * Only update base if we have an actual
-> @@ -69,10 +69,21 @@ static void screen_info_fixup_lfb(struct pci_dev *pdev)
->  
->  	for (i = 0; i < numres; ++i) {
->  		struct resource *r = &res[i];
-> +		struct pci_bus_region bus_region = {
-> +			.start = r->start,
-> +			.end = r->end,
-> +		};
-
-screen_info_resources() above fills in "struct resource res[]", but
-that's not quite right.  A struct resource contains CPU addresses, and
-screen_info_resources() fills in PCI bus addresses (0xa0000, etc).
-
-struct pci_bus_region is meant to hold PCI bus addresses, so this
-assignment gets them back where they should be.
-
->  		const struct resource *pr;
->  
->  		if (!(r->flags & IORESOURCE_MEM))
->  			continue;
-> +
-> +		/*
-> +		 * Translate the address to resource if the framebuffer
-> +		 * is behind a PCI bridge.
-> +		 */
-> +		pcibios_bus_to_resource(pdev->bus, r, &bus_region);
-
-And this converts the PCI bus addresses to CPU addresses, so this
-makes sense.
-
-The comment might be a little misleading, though.  When PCI bus
-addresses are different from CPU addresses, it's because the PCI host
-bridge has applied an offset.  This only happens at the host bridge,
-never at a PCI-PCI bridge (which is what "PCI bridge" usually means).
-
-The commit log and comments could maybe be clarified, but this all
-looks to me like it's doing the right thing in spite of abusing the
-use of struct resource.
-
->  		pr = pci_find_resource(pdev, r);
->  		if (!pr)
->  			continue;
-> @@ -85,7 +96,7 @@ static void screen_info_fixup_lfb(struct pci_dev *pdev)
->  		screen_info_lfb_pdev = pdev;
->  		screen_info_lfb_bar = pr - pdev->resource;
->  		screen_info_lfb_offset = r->start - pr->start;
-> -		memcpy(&screen_info_lfb_res, r, sizeof(screen_info_lfb_res));
-> +		memcpy(&screen_info_lfb_region, &bus_region, sizeof(screen_info_lfb_region));
->  	}
->  }
->  DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_ANY_ID, PCI_ANY_ID, PCI_BASE_CLASS_DISPLAY, 16,
-> -- 
-> 2.49.0
-> 
