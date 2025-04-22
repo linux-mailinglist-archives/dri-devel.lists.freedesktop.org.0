@@ -2,86 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52416A95FC4
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E95CA95FCD
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 09:47:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB62410E091;
-	Tue, 22 Apr 2025 07:44:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2537310E514;
+	Tue, 22 Apr 2025 07:47:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UcVGO1Pv";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="CR8KgOZU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFB9D10E514
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:44:51 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-43cf06eabdaso46279935e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 00:44:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1745307890; x=1745912690; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WgK3a7wLnoljW2o1N7kchVd14A0Rfs+vpaS3Ag30LgM=;
- b=UcVGO1PvBdeGG7NVL6baY4zBoj2ExbEe7hqAR9NAMX1HbQYxWGmFOdtdns5MjaxYEt
- iypnxA2BsJo9QoF1GVdbYjvzq/kIGimIENoBnoQ5A4Ku5bqFQgQ6r5tOYyBkP2O7Ncbc
- hqqocpjnm6vLGQdFcnQhTf5T+X/XXpsyWvKCLKqzP14P+is6PaFUbG0Uf30lKwVIhj3Q
- xNncoqLeUfDWicoFKkBGC5wVkZko83xFoGK9Kg7CU+7EtMUNw0/00s7xTBaOW16d2cBj
- qPNZNd+u11bmcXWI/4YkCRtmtQTYozpbBE1HXp1DGec5V7yGnE7T4Ky/nMvEliSVxwp9
- S39w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745307890; x=1745912690;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WgK3a7wLnoljW2o1N7kchVd14A0Rfs+vpaS3Ag30LgM=;
- b=QCfEMWGwytsIF0SocnCV6w5PNp0ccRvSa3XZhRtpV6aHiVCC4llNTul66aZ9yyN4cG
- ZMwrE2ulMjWG1dfs8k+fhA1DpEaGPaiGhTGYoFlEA3mq5SwvZyduuDWHhiFt8Vy1DxLa
- Yloyg06k/MnmyabJ3xLkTQMrsNnlH3YP24Ez00IqivMp4hzdAgSDOnXLRjM5FbATq5GN
- fU+P1bpKdnPUqjXql+KgO1iyH07SW+izZVmaE+jg6XzGN7j0amoUmuWnDHlkXTxbAyML
- hu14+wPAKKq+E3C32NFm9R7JUd3tQj53K1F023CQSxRpacURLFs7G+vgaxjYKVrwoBlo
- btsw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCULLBjcfJo7SgDSeu7+C7GSL1XBrPaRnQVn/Ikw6MWyTNpcNSdKkpzEOxIs2BVoYxZVa5O+6FzKP/o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx6gUROkP/Sa5hwmp+cdgSzaHzB8Z2te7xWLCRyyKJnNZ+Yem5F
- NrGgqA1MGaeEGazT4wWo6FESQviK6OF9ox+Gq54JN38tOjwCbS0I6K6r2DYCiDE=
-X-Gm-Gg: ASbGncvmKQnFYRydDgoDIIGCm+eFgMNQYTnySlMjNFK0wuLdgSyCKzcn/GuGrjmKsl5
- Qc4Vawl9P6e14rGLto1q4cMMRlBXcaUCdTu7ncbesdo+sGYKTfImxJrowrs/n1IEvHJvecoFrge
- FDMMm6+5T+H8fYrTu9e3k8qx13g5mVDSHVQD1PKXWEhpzXVoR4nKatSKRMy38MF3irSdXhSxg6K
- rzP6PhsQPxBSYBrfUN6omV1k+gBhYqCojGF+a66ImI6jfLN4+K5nhMynIPAHQ/Y2hRYtCOjxhtS
- XQg4GxN5oWjirynQQlTwjEnvhNyBFYaVlIMKuRfrMbAZ7m1lDYlfB7+1RJXKVg==
-X-Google-Smtp-Source: AGHT+IGLlnDAxBOPlwHZaIDg6mBq4R6Kpd8YZK+9dm41VFGVOnrsjJ4xvgJsjjZwn8EYlnSwLGHSqg==
-X-Received: by 2002:a05:600c:4708:b0:43d:300f:fa4a with SMTP id
- 5b1f17b1804b1-4406ab97c6cmr118259525e9.12.1745307890356; 
- Tue, 22 Apr 2025 00:44:50 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4406d5a9e38sm166628775e9.2.2025.04.22.00.44.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Apr 2025 00:44:50 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Jagan Teki <jagan@edgeble.ai>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>, 
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, 
- Hugo Villeneuve <hugo@hugovil.com>
-Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250417195507.778731-1-hugo@hugovil.com>
-References: <20250417195507.778731-1-hugo@hugovil.com>
-Subject: Re: [PATCH] drm: panel: jd9365da: fix reset signal polarity in
- unprepare
-Message-Id: <174530788965.2868524.14547275141165599808.b4-ty@linaro.org>
-Date: Tue, 22 Apr 2025 09:44:49 +0200
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A72110E514
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:47:40 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250422074737euoutp024e2a3468fed4ad8e0835ea270275e808~4lG5vvuPz2778427784euoutp02H
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 07:47:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250422074737euoutp024e2a3468fed4ad8e0835ea270275e808~4lG5vvuPz2778427784euoutp02H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1745308057;
+ bh=YhGFLkEzKgz+GfyN4OdYyuMG4I+CyiVDnG8UcSjurlI=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=CR8KgOZUrftR9/Eqo4u0/5IySoaChZq+JpkQg/Y5g60SlY35JuhD4tImWkpqj6N8f
+ sdTxik2CqHBYBNHgAORBVan/z23C051OkWAlXzl2DM273g6WgEVfxTAB93Sk/AF14T
+ t+Mqc2JfBTC27GyPmmbxcDSI3qW8lq4cAgmk2lRA=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20250422074736eucas1p26785e0aa606a0551d57b635f9f7cb724~4lG5EMJ6s0798107981eucas1p2P;
+ Tue, 22 Apr 2025 07:47:36 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 57.65.06072.89947086; Tue, 22
+ Apr 2025 08:47:36 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250422074736eucas1p229d8a46d24bc2b62fba4835f225d34cc~4lG4cllm00585305853eucas1p2Z;
+ Tue, 22 Apr 2025 07:47:36 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20250422074736eusmtrp25d4f37e4a76d45889912395ff4e4d1f6~4lG4brYS01493814938eusmtrp2h;
+ Tue, 22 Apr 2025 07:47:36 +0000 (GMT)
+X-AuditID: cbfec7f5-7f7fe700000017b8-f9-680749984146
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 3D.78.19920.89947086; Tue, 22
+ Apr 2025 08:47:36 +0100 (BST)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250422074734eusmtip23ed507b3f619e62e76af9e5cdabc81a4~4lG3Mfp3_1123511235eusmtip20;
+ Tue, 22 Apr 2025 07:47:34 +0000 (GMT)
+Message-ID: <81e53e3a-5873-44c7-9070-5596021daa42@samsung.com>
+Date: Tue, 22 Apr 2025 09:47:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 20/21] riscv: dts: thead: Introduce reset controller
+ node
+To: Drew Fustini <drew@pdp7.com>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, guoren@kernel.org, wefu@redhat.com,
+ jassisinghbrar@gmail.com, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, frank.binns@imgtec.com, matt.coster@imgtec.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, ulf.hansson@linaro.org,
+ jszhang@kernel.org, p.zabel@pengutronix.de, m.szyprowski@samsung.com,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+Content-Language: en-US
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <aAP1BW3RmMb/Irya@x1>
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTVxjHc25v773tLF4KhCOTuBRfoslA3D6cAXO66LxsixFiWELcsBnX
+ 4sZrC3MsQ0FeBKnAxAUpTLAQ6IroJgUpo4NUUoqMOwcIRGkhE5fBBCyIhBfpKBc3vv2e//M/
+ z1sOJZCaCB/qdHwyq4yXx8oIMd5kWeDevBpKxux9NroHWQe1GGpc0pDohonDUEUHJ0T2XgOG
+ +uemCXTzyX0S/W3KwNGA7gcSZVpuEWhcYyeQQ20Xor6WcgLNXuoAqGk2i0D1HTYSXXc04qi6
+ uQWgnLwaIfrj3mFks1txNN6nFqAczWbkbG0m0crAzzgqm2ojkeHpd0LUWf8Jymq7gh/wZaaH
+ sknm6fg4ztzNfU4ypheVOGPU2EhGbfwNMLf1eQQzPNBKMNe6wpiR/E6Maag+x2TVWzCm8OVe
+ ZvrXBwRTYNADpjdzkDwmjRSHRLOxp79ilQH7T4pjfhzIJRO76a8n8yLTQavkIhBRkH4bnrdk
+ EheBmJLSOgC5SquAD54DmGvWknwwC+Cyfkrw6kn65Zl1Vy2AZueNddckgDnL5WsuCb0fFuX3
+ Ahfj9A74uKpjXXeHXaVjuIu96G1w5OFV0sUedDh85PxlTfek34CcrhdzFRXQdULY0T6LuRIC
+ 2hs+HKtYY4LeB0drK4QuFtEyWDs0D3jPNnhnsnxtPEh3iWG2th/wcx+CdVnFQp494ESngeR5
+ K3Qa+aKQToCjjTPre34LjerOdQ6Gw9zi6pmo1Qa74a2WAF4+CH+vLgMuGdJucGjSnR/BDV5u
+ KhHwsgTm5kh59074vfrSf005XRNWBGSaDVfRbFhSs2EZzf99KwGuB95siipOwareimfP+Kvk
+ caqUeIX/5wlxt8HqD+9e6ZxrBroJh78ZYBQwA0gJZJ6SxQ/IGKkkWp76DatMiFKmxLIqM3id
+ wmXeEm1btkJKK+TJ7Jcsm8gqX2UxSuSTjqUXPLYc/zN08/zHh5MWj2CiuffCSs+x6hoYdX3H
+ iLJq+mZttDWYUqT5v2MOXzGKPJoKkxzWGT9lj5u76cLUrrRGR0g6WTfRnursfm1h+wlb0O6z
+ RZ9tOmgq5E5FcTa0FPrP1EK7Ma0q+eX9XXORx4NNJ3XzDaKjrDRDlPHXdrzoTNHZxIiawaEt
+ +e/7Ej2c3yOzJdJKBx5xnrqrfTLeUNcTmPJpyYOgyX6rZt6yEhSxLzXsxJZi8c5qqyAu5MWU
+ b/By65WAytDw2jx1WJKnhwIRY5vchxv77F4lX7xbeuFDr6VrW4/95DcfoT90/kC04SOfO719
+ xUZ5exn7rOBeWPhRGa6KkQfuEShV8n8BLph1sFAEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPKsWRmVeSWpSXmKPExsVy+t/xe7ozPNkzDH6d5LQ4cX0Rk8XW37PY
+ LdbsPcdkMf/IOVaLe5e2MFlc+fqezWLd0wvsFi/2NrJYXFsxl92i+dh6NouXs+6xWXzsucdq
+ cXnXHDaLz71HGC22fW5hs1h75C67xcKPW1ksluzYxWjR1rmM1eLiKVeLu/dOsFi8vNzDbNE2
+ i9/i/54d7Bb/rm1ksZj9bj+7xZY3E1ktjq8Nt2jZP4XFQdbj/Y1Wdo83L1+yeBzu+MLusffb
+ AhaPnbPusnv07DzD6LFpVSebx51re9g85p0M9LjffZzJY/OSeo+WtceYPPr/Gni833eVzaNv
+ yypGj0vN19kDhKL0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLL
+ Uov07RL0MlZe62AvOC1Q8bYzqoFxD28XIyeHhICJRMOkT8xdjFwcQgJLGSXOz21mhEjISFzr
+ fskCYQtL/LnWxQZR9JpR4mzPdrAiXgE7iQndl8BsFgFViceLjzBDxAUlTs58AtYsKiAvcf/W
+ DHYQW1ggSOL2/91gcREBBYlzKy4xgQxlFljNKrH8611GiA0PGCU+73vAClLFLCAucevJfCYQ
+ m03ASOLB8vlgcU4BJYnlN74DNXAA1ahLrJ8nBFEuL7H97RzmCYxCs5DcMQvJpFkIHbOQdCxg
+ ZFnFKJJaWpybnltsqFecmFtcmpeul5yfu4kRmLK2Hfu5eQfjvFcf9Q4xMnEwHmKU4GBWEuH9
+ 5caeIcSbklhZlVqUH19UmpNafIjRFBgWE5mlRJPzgUkzryTe0MzA1NDEzNLA1NLMWEmc1+3y
+ +TQhgfTEktTs1NSC1CKYPiYOTqkGpsyl17LvrjOo49vy7/j3PQ/+JHi9XtFQLyr2wdr9adcq
+ xgNPf8w+7bH0EsvSidofU4MXXPJJNrnusYlJrzFdW8rwtWcmW5nRj7W+LuzKiRuvZ0j0He9X
+ nnxxV+qr8C1nz6eskTpV+KXj5pVXzK9v/JX98C0sUXlReamww0krn/yKcvftCxQl/16Wf/Mg
+ Ty/AqZzx+c8mjjSvw13NnTqT3gkvbDV2Xcl97zxL0D5nhVTNf7Y5yz44/WfecKv7REXesjlJ
+ y+f9/8ttwsZw+Mwddo/XThOTHzpfYL3Aka7SoaK241xZpe7efbdOtjDFZDkYl+m8P+NcuzpK
+ Trft/Kzrxy02tdqk5nsnbxY1eNHjpsRSnJFoqMVcVJwIAGzRxpviAwAA
+X-CMS-MailID: 20250422074736eucas1p229d8a46d24bc2b62fba4835f225d34cc
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250219140316eucas1p29a76023868946f090f261bf78d5103e3
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20250219140316eucas1p29a76023868946f090f261bf78d5103e3
+References: <20250219140239.1378758-1-m.wilczynski@samsung.com>
+ <CGME20250219140316eucas1p29a76023868946f090f261bf78d5103e3@eucas1p2.samsung.com>
+ <20250219140239.1378758-21-m.wilczynski@samsung.com> <aAP1BW3RmMb/Irya@x1>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,25 +135,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Thu, 17 Apr 2025 15:55:06 -0400, Hugo Villeneuve wrote:
-> commit a8972d5a49b4 ("drm: panel: jd9365da-h3: fix reset signal polarity")
-> fixed reset signal polarity in jadard_dsi_probe() and jadard_prepare().
+
+On 4/19/25 21:09, Drew Fustini wrote:
+> On Wed, Feb 19, 2025 at 03:02:38PM +0100, Michal Wilczynski wrote:
+>> T-HEAD TH1520 SoC requires to put the GPU out of the reset state as part
+>> of the power-up sequence.
+>>
+>> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+>> ---
+>>  arch/riscv/boot/dts/thead/th1520.dtsi | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>>
+>> diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
+>> index 474f31576a1b..6b34aab4b455 100644
+>> --- a/arch/riscv/boot/dts/thead/th1520.dtsi
+>> +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
+>> @@ -7,6 +7,7 @@
+>>  #include <dt-bindings/interrupt-controller/irq.h>
+>>  #include <dt-bindings/clock/thead,th1520-clk-ap.h>
+>>  #include <dt-bindings/power/thead,th1520-power.h>
+>> +#include <dt-bindings/reset/thead,th1520-reset.h>
 > 
-> It was not done in jadard_unprepare() because of an incorrect assumption
-> about reset line handling in power off mode. After looking into the
-> datasheet, it now appears that before disabling regulators, the reset line
-> is deasserted first, and if reset_before_power_off_vcioo is true, then the
-> reset line is asserted.
+> Are you okay if I omit this hunk? My thead-dt-for-next branch is based
+> on 6.15-rc1 but thead,th1520-reset.h only exists in next until the merge
+> window.
+
+Yeah, I'm not exactly sure how to coordinate such stuff, obviosuly it
+would be best if this chunk would make it to the 6.16, but if you think
+it would be problematic then omit it, no problem.
+
+I will then update this patch series v3 [1] to gracefully handle lack of
+reset, as the 6.16 will not contain the required reset line for sure.
+
+[1] - https://lore.kernel.org/all/20250414-apr_14_for_sending-v2-2-70c5af2af96c@samsung.com/
+
 > 
-> [...]
+>>  
+>>  / {
+>>  	compatible = "thead,th1520";
+>> @@ -497,6 +498,12 @@ clk: clock-controller@ffef010000 {
+>>  			#clock-cells = <1>;
+>>  		};
+>>  
+>> +		rst: reset-controller@ffef528000 {
+>> +			compatible = "thead,th1520-reset";
+>> +			reg = <0xff 0xef528000 0x0 0x4f>;
+>> +			#reset-cells = <1>;
+>> +		};
+>> +
+>>  		clk_vo: clock-controller@ffef528050 {
+>>  			compatible = "thead,th1520-clk-vo";
+>>  			reg = <0xff 0xef528050 0x0 0xfb0>;
+>> -- 
+>> 2.34.1
+>>
+> 
+> With the above caveat:
+> 
+> Reviewed-by: Drew Fustini <drew@pdp7.com>
+> 
+> 
+> -Drew
+> 
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
-
-[1/1] drm: panel: jd9365da: fix reset signal polarity in unprepare
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/095c8e61f4c71cd4630ee11a82e82cc341b38464
-
+Best regards,
 -- 
-Neil
-
+Michal Wilczynski <m.wilczynski@samsung.com>
