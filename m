@@ -2,94 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CE1A961BE
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 10:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4128A961F5
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 10:38:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC95310E521;
-	Tue, 22 Apr 2025 08:33:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 539C710E53A;
+	Tue, 22 Apr 2025 08:38:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bWY6EAlg";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LoZ4M0qV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0296710E521
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 08:33:03 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-39ee5ac4321so5161639f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 01:33:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745310781; x=1745915581; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2ZrrpM7xmaXFZQ+/SXFVYsimm2TyRYqB/Z0dg/A+VpU=;
- b=bWY6EAlgs1XLBa/v2Gv5g6B1MFL43q15T5YjUC8MsIhgDgLe/lk2yTRXTHsIWnHUjR
- mv30jH4aWLqw8Tk+buZPqGaC1Hr1D1/tCpAhAgWcfdpaFp6ubqQyG339EUnZsgp8SWym
- MvKaJRAbLUbOcevT+MD4RfH+NY1M1ZPpMDjLkglsquvEl8VnnPIpesmcGf6NC+cW+kM6
- hY8+4LMke3ksYRf+89VuYIjfXwNT0jwum6ezS1asJLa28wJok6SgRur2p1egnHae5oG+
- pRBqHDyqMS2l+80w5odMIeBkwGgfONWRV6kLTLFTV0P038bpFnJh7CXkU4zHQ24pNDTB
- 7Ndw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745310781; x=1745915581;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2ZrrpM7xmaXFZQ+/SXFVYsimm2TyRYqB/Z0dg/A+VpU=;
- b=lxyUZ5xuxRkWPLr+R6k5pP+lYXz/wke5PIPh3m01MOcUUp1Y2j44zJJxId5KtiuQyx
- k5S+CK4n6QLASSNiCvp/zxxwVYsYinb9gn8PCrBuAcsXTkZMBxvAVC4qgFXBhfHNSWtJ
- Qkld2BOsYpecjg6woKsqwffZAM/5TiwlRx63aOqynkML/WGS3vpKJz7tMUlOImgetDXb
- 0MG91rlEJdUa3kDnLcvoYVljPRnMc1o7HwhVLz/X8eY4xLBdWErJ2cCeTRpVPAmjDca7
- /8mTmeAKufPM0mlqPsAIwGcu2DWi9ULjDvh9HDFeuO3MwnsB8c5usTsbDXyXp2ja+93Q
- zmtw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWI78VrHUsmuAV0mM65XgtfOJLzBtFtPp5/GK1nB/Y2cl26q2TgtGyE+Q0Iqlbhp2zcU4HosZxGoCU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyN9IyiH3DfF+VKhJk7seJN+lVzeOzBtEX/A+aa0n3VRcxW7Cwd
- W0AEK51dTAUWnA8BlpjjhQMUtR6SdIxCSC5eTySC4/KilHCpVUXPiSFTkAG1X1C8Tx1lDgO3klz
- pBhRFpR/6wVukOdESylTqTxW96lM=
-X-Gm-Gg: ASbGnct1yBvvpmrAw4RJyIItdLIeIkRVkzbBQ919Xt9FQEGzy8zMEkDRBhuy6gCJSI4
- ELCrbWfpCpbRgHEeUB+LOquOMPnDgkjqjQV2KdWjA50NRyys/aMSR/D94fp7JUKukXlvQtQ+A/y
- Jr/bXe64Oa7rhMimyyv44tUA==
-X-Google-Smtp-Source: AGHT+IEXOe6suiljYgzibwSICtoy2N7LW7RDRaL42CSjqJljavFvoroFeiYFJ76gWjGbmigKz6X5Cr7/yBkTmQ0eASU=
-X-Received: by 2002:a5d:6d81:0:b0:391:2e31:c7e1 with SMTP id
- ffacd0b85a97d-39efba2cb05mr8325459f8f.4.1745310781278; Tue, 22 Apr 2025
- 01:33:01 -0700 (PDT)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2053.outbound.protection.outlook.com [40.107.93.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E12F10E18C;
+ Tue, 22 Apr 2025 08:38:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yjLV6CM3he3tS7+97o/m5gLhN/UFLmXxwgT15lGXiTLiPkv0Yesy/lU3ss1rFGwjP4ff2vzqIfezB/Zt4BO4AVUW1Rh57u31k8pM1Pj9ZErTzm7SLDb58ZzOVL9lVFPBmoTD9gCTTqAvKwnDPoFsuRMCSe3csTBZ7V2e3QKHeNn67InnLsL+mKd09EvCZOrg5mtEprc2nLvfAP+KfrkGMwcZ7IZQG5uP2dx1JeuM6J8iB+jaWJSWAX3PqJd/SfWS1V/1ACTYXY57DLbWNMRyrRz21AXdpNMUdG59bnqqwXZXp7qo6P1XCfqQZ+iRTbZ4uib8SMAB6LDa3k32wXjmKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lXkgf87z5er8dXjtNHH/HRWg9l5PNb6Uzfdv9xtBQ0A=;
+ b=n14vn0i63fsDup5VcEkSPgQL1YNvTXBOXCecRInHQK6u3VV5Geui8h9KIK2U2jRom6XECt01VU28clEQTSKSApLEDS0xF2iDR3iI5NGROc9XN3rChQRTbO+7m1Gv0hv7hLEelj6lstKESOdqNOCtrllTLsOc5+z65GZuCy0cYYIk3Xc6n0dXz4fgsZzGprEdb99hE0Zjfm6WH8ixiEedHl51j0jIzYq67HM2/aA3pCO+xEvDBzf7VIhxNryVp9CWKquko15r7JMunTJfwSP/Qi4kjvdbeC/VX2W807gW+urvx/bMv6jmD8bvVN3j2mdyLTZu+c/ifNOylqpwBkVtTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lXkgf87z5er8dXjtNHH/HRWg9l5PNb6Uzfdv9xtBQ0A=;
+ b=LoZ4M0qVDVYI7TS9YxJkaUfTpIAZgiDUkXm9PXW0GjClMWuI/PiK5UMvfXeBbqmtEh0C7dpsR1rVT4bqOARGhpr2Fd0gH1T3lips5h8BgRIVMUrzXYxCcZEo7ulEFtn+2ayVUGOFF5hM6UKcCFlEx7oOLktF7JDg+UEUdTZgaUo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN6PR12MB8489.namprd12.prod.outlook.com (2603:10b6:208:474::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.22; Tue, 22 Apr
+ 2025 08:38:05 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.8655.025; Tue, 22 Apr 2025
+ 08:38:04 +0000
+Message-ID: <4714e132-e875-4a16-b94b-0d5af0418b7f@amd.com>
+Date: Tue, 22 Apr 2025 10:37:58 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V8 2/5] drm/amdgpu: add drm_file reference in userq_mgr
+To: Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+References: <20250417161042.120981-1-sunil.khatri@amd.com>
+ <20250417161042.120981-2-sunil.khatri@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250417161042.120981-2-sunil.khatri@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0099.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cb::17) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20250418184658.456398-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250418184658.456398-16-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <TY3PR01MB113469966D8B9B58EE4E2D88B86BE2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB113469966D8B9B58EE4E2D88B86BE2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 22 Apr 2025 09:32:35 +0100
-X-Gm-Features: ATxdqUFRgp4IF189KWfub3eewi-n5UlmDRcR_Er9P2ARmB-V2ohPlk40gW-sZrA
-Message-ID: <CA+V-a8vMLUnZiJZjj0mu_DGSmZ5F_a0_U_SpmEaVxqL+ZqGrOA@mail.gmail.com>
-Subject: Re: [PATCH v3 15/15] drm: renesas: rz-du: mipi_dsi: Add support for
- RZ/V2H(P) SoC
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN6PR12MB8489:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a484a90-5ff7-4223-a8aa-08dd8178ffbf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MWtLOExOWGYxTnFjbHh0R1JsM0lZRkkvT3FHbVUwQ3YyWkkwWnhTS1JtZ282?=
+ =?utf-8?B?a0tnSzViU3pzcUk2UGQ4S0I3VVp1TFcveXNNN2gwU25tOUxlcFRuaXhlcWdY?=
+ =?utf-8?B?V3hrMTVIdTlBL29PbkJ5aVYwSFZiejEzMmZFMEZ4THpoZEVac003djFzMnBl?=
+ =?utf-8?B?TCtBeWJnUU5XNllHVFUrbm15dWQ4ZUZlbG8yWkp5Qk4xWkV1VnlZV3hrWm5G?=
+ =?utf-8?B?cUYrWUErVmVpTmc1V1d2YnhLeTRTcjlRM1lTYUwyWmd3OFVIRlJlZFZEbFBk?=
+ =?utf-8?B?QlhrUmV2MGZobzlSRHoyYkhTUGJMR3JTODZkcGN4dGU4NHpPQjBxWGdCM1VE?=
+ =?utf-8?B?QW1ueGVlTS9ITE45aE1GaERaelVlNEp0bFIzc0t5aXoyc3A3NUVUeUNqR1VQ?=
+ =?utf-8?B?NEN3UXIyandjcndhVldxTzE0NnFTbDFFTTBMVUFuazdYYW01bXdUY2krYVI5?=
+ =?utf-8?B?NjZubWw3d3FvWkVOWUdmVmxxM3REd2Z6UEw5MFVyZFp4N3pWZ2NKYzUxd0ds?=
+ =?utf-8?B?S1pJRUhabmRHOGM3UDdZRnlucVZDL01IZCtlbFJkWjlGcEpsU055QndVa2M2?=
+ =?utf-8?B?a0cxbjA1VXZjZkcyY3cxb1NQazRUOW5CMldFL0N0ZmovSnBPNGxYMjZRVTBL?=
+ =?utf-8?B?L1ZWb2RGZytKdmFlL3c0dkRSNnBNMlFRcngreVc3Mk1CUWtXMzVFTDBMYlRw?=
+ =?utf-8?B?MXJhT3dQV3RYbE02Nk0raUY4Zk95K08zQ05ZZ1VyM1lHK0Z5VW9PTmg0aFQr?=
+ =?utf-8?B?dUoyWmdtVUpGQjZKMTN2VE9GT0tvRUJ4NGZFb00vOHVuczR5M0dlaWtqV1Qw?=
+ =?utf-8?B?NnpPczdqVklGZUZaNnJNMDdxU1Q4ZjVSTERUT2Z2SXFYMXIrTnBLM3h6VVkw?=
+ =?utf-8?B?Qmh5azZ2MC9DcVhHT1VnRERpelpodUEzUGQwY3lXZHVFY2ZMUjlUMGRIVHFw?=
+ =?utf-8?B?MDBuN241cmZtdUtUUW1wUmJDUGJWOHF0T1E0a0VzWGNkQkVyWHVJWU01RXdV?=
+ =?utf-8?B?czdVNVdnVmxwNlovT2tJdTU4MVNjeklLd01pdlNGZzRwU0lVaHhIUy9velZl?=
+ =?utf-8?B?S1ltNGRhM2p6ckhNckFQZW1GTDBxREJxaEFHT0R3SzYzZUZWR1FTbngrTjl6?=
+ =?utf-8?B?Y2puc1FEcUVKYm1IYXArQnVNQ0NsV2ovT3lxOHNmSkdUNFZzcVMzeXg0NGJB?=
+ =?utf-8?B?cnBqSlF3QzIveFZJY1hrNUExVTJWOVhEMlhWenhteGJYcUs0TzRVYjc5NjJZ?=
+ =?utf-8?B?eXJXQ0IxcDE5VjdZakZ5Um04dU1TNzhGSmpzWUR0NmFwUXJrNnowemZSNG5r?=
+ =?utf-8?B?TGhXQ2Zwa3RVcGI2SlZSZ0lZcjVrbVNUckRxUkp5cnlXNFV0bk54ejdtdFlL?=
+ =?utf-8?B?WDlnbGEyMVVPcHp2Q05TZnlsSXZ2V0kzTVFoZGM0T0tvUWU4WTVPRkFHRHBh?=
+ =?utf-8?B?bFZndWY5cVBuSWFDRmg3elF2aGw5UitmK0w5bFdodVVjMlVDZ0FKejRaTUVu?=
+ =?utf-8?B?UnBoUjRkcTBFOThYR2hqbmg2RVlrWUhCaUZxY3I3cUJOaHdqTUdweWxTVUVx?=
+ =?utf-8?B?Z0U5aXc1eG5KcEZlaEhkNlJJMjU5TDVxZlRRVGRFNmhzUGNWQVkyQzRIdUJs?=
+ =?utf-8?B?TXR4eFBkWFZFeTdmY2U3YVNHY2JlcUVmU21mSVE4ZEhFY0dKV2k4QmFqcnpD?=
+ =?utf-8?B?c1ZhbmhJdGdvSndYZHQrTGJ6K2MyN09iblF4N3VFWDg2UW9kZzdNaXdlbWdm?=
+ =?utf-8?B?UG13R1ZpYU04REpPTXlLZmdOWFdjZEZ0RUdUbGp5RmxKMHNCUFV0YkVhcjNi?=
+ =?utf-8?B?Q2pydmJySGFpWW9SUmIrTmsxOHcycjFVT3VIT1hKTGxRSDY0VDU4d1ozdFBP?=
+ =?utf-8?B?SmIzOW9rM2pyTmhNS3hEalgxM0UraHU3SmQvU3pFbFdJb0NPbU9oaDduZUpX?=
+ =?utf-8?Q?np8scjp7srM=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGVaVEg1Nm1tSFhaaFZWdEV1b2J1aExiZjhaVFN5bFlzeExsclB0YWdUb2RW?=
+ =?utf-8?B?N2ZDVEZYS2VmUXhCcUlLam8vUEk0MEhPNWN6cmQ4Zy9UTG9LYldJMnRyUnpM?=
+ =?utf-8?B?cWZuSUIxbFpQOHFQYkJUV0pRYmFsYURodEVIZlFnQWpaSVAyUTJvdU1OR25N?=
+ =?utf-8?B?RktKblprcnJWeVlsSmR3eWM5UVRPS1BhQitzMExtQmx6WHlvajBNTTRpWUxX?=
+ =?utf-8?B?SE1VT0xwcEJERFNrN0lqY1k3ckJxWkUyZ2FKV2dCcXZUdjlidTl1WDR3RldH?=
+ =?utf-8?B?U0syQXQ1UDM5SDl6Y3lwK1Y3WG11ZEpodFdEQ3daN0xORTQyUlB2REFOaUEv?=
+ =?utf-8?B?MTZSTnFRcllYV0FvbkFtK2Q5YVp6NzZRUVNsMlpTZ1hrcFdFQmxpNkViMDFL?=
+ =?utf-8?B?TWIxNWZlVlhreDJJMEhtUXJ4VHhjeHhPUnhyK0liUlFTNjhHRTNXaEdFdjlN?=
+ =?utf-8?B?cUJxQ0pPZ1laQVlPdEFjbFM1emhjc1FpcHBHbzdrZU9ENGFEZ0c5RzZWc29K?=
+ =?utf-8?B?VyswbUpxUjNtMkZCRkNBVTVuczBUc3VGMHdxVTA1ckdvRXNMT3NJenNCZ1Uz?=
+ =?utf-8?B?ek40U1FGQ3BTUS9Icnc2Qm12TW94aktpM3RjZmhBdU55dEtGNkJndFhSN005?=
+ =?utf-8?B?cVV0NlpkaUxMOC9qOG9PU3VBRG5yTm5pUEJCenV6ZlpiQnhnOUYwd0pwdzlY?=
+ =?utf-8?B?bVVYd2NvN2VvWmNWVzl3enRxWkVOaHpGeGpJWG9wMUdFUUEyTFZtWnR5Mmg3?=
+ =?utf-8?B?NEQ4eUUzUmgrczcvTDVKUGlJNklvRm5sbWdrRG5EQlhJMEl0aEgwbjlsMFpL?=
+ =?utf-8?B?OER3a2NyU3pkVjR1VzVveGFOUmdUeVVuUXRsaG1vOUpSRkt0K25rSGdZdmFI?=
+ =?utf-8?B?YUE3VGdFKyt1T3pSa3FvdUM2TmMwWE1iQjhMVWptUEo4VWVSMmFYNTRXbHYx?=
+ =?utf-8?B?UE0yeFFMMlgvOEN3SnZKZHZKbjdUMjVxQXZEMmJqZlIvelFBWlRrV2dqbko3?=
+ =?utf-8?B?SDNnbURyUjlXZms5cURhdnpaay9WRzZLc2xVQzlzcDJIMlo2WEwxbmJmRmxl?=
+ =?utf-8?B?K3JHSWdMZFU4cHEvRXhMZG1PMFVzMHl4Z3VJYW41Y2dPdTkxdlNCOXdiMXpC?=
+ =?utf-8?B?QTFxcXRlSnBMZ25wa2s2a3N1TXFla3MrZVgvT3AxS01HWlVQY1VvNm9ITEhZ?=
+ =?utf-8?B?Nm5odjBxM05ocDZoa2txMnRRbFFSUFRZR1FCRlEwNWlSMGY3dlg3MWJxQjhY?=
+ =?utf-8?B?Rnk5YU9Oc0Q1K3gwU3FnMDZZc20xTE5id2ZHQVVRZ1Z2Q20yUXhIcnhDVDNC?=
+ =?utf-8?B?M0xsL0lDRHJyV2VLQ0Z6ejJHc2JabGtWVDBiOWRZei9GTWFnUXZ0REVZR1pk?=
+ =?utf-8?B?eWdUUHFmb2c3YzlqOWl5RXdHTmw0RG1qR2xDcmxtaENyeVRhZ2YrTmNMdzMy?=
+ =?utf-8?B?WTBxTEplanZwS01lQ1Nsd05ERHMraDY1a2RWYXVaZ09FVjg2V0s0WVNrbi9l?=
+ =?utf-8?B?TFNKVDdaUmpFUiszTURoY1Nmak1iaXNCV1R1YUFheWpIUTZlTDRxSWZVTEU0?=
+ =?utf-8?B?YUZZMCtPcXp6eksrcGNEQzcyZHBZV3EwNHIza3EzbGpBUFRIYTdTUnNiTGVw?=
+ =?utf-8?B?WWpIZGZwTnd6Y2dTZmhQZHJvU3gvWXArZDVRUVVUYnFCdGlwZ29UZlVEdGFm?=
+ =?utf-8?B?Q3dmZFFyY3B1Rmc5bFNGZUhUZFpPMyt1SWVKdlBEV1h0aVFBUHZLRm5WalhJ?=
+ =?utf-8?B?c1ZOQjVzeWNaYkx6dHd5TEJiZWp6L1NYTjc3V2hrL0oya1Nja29DejdsdG5T?=
+ =?utf-8?B?UjB1YXVMYWZ4d0lyWDlwL2VHd0hWV3cva1djSEtEVE1JTE1FdWhOdC8wT25j?=
+ =?utf-8?B?SThNcTl5eHZ5VDkrRkoybTlqTU4xYjRicXFaQ1QxRWxzdHZjc3VZem1MSUVl?=
+ =?utf-8?B?OTlXa2JOYXlhMVpoR3ppQVpSOEQ1WUpmbVVJdVZ5NHFxMHVIRytrMVUrRU1H?=
+ =?utf-8?B?SDFzUXEwcXNocG5RNnNPRks3RVowNWVVdDFPUlcwU1J3ZEpoY0VhS1hRbUtX?=
+ =?utf-8?B?M014SzRSdXJ6MUJjZGlqN0tKV0x5M1V6TWlzY3NIblJrM0FTdjNYMTlwOEV6?=
+ =?utf-8?Q?SFCeInAMvoLawZNOqU4pzevUd?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a484a90-5ff7-4223-a8aa-08dd8178ffbf
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 08:38:04.7091 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qQ/xYoaNjAEOIEPpd9HUAbH+HiVp8AH1dY9Vs6ZsaZ+QIIlPJjztZhqG/ierLf9P
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8489
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,225 +165,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Am 17.04.25 um 18:10 schrieb Sunil Khatri:
+> drm_file will be used in usermode queues code to
+> enable better process information in logging and hence
+> add drm_file part of the userq_mgr struct.
+>
+> update the drm_file pointer in userq_mgr for each
+> amdgpu_driver_open_kms.
+>
+> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       | 1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.h | 1 +
+>  2 files changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index 3d319687c1c9..3de3071d66ee 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -1436,6 +1436,7 @@ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
+>  
+>  	amdgpu_ctx_mgr_init(&fpriv->ctx_mgr, adev);
+>  
+> +	fpriv->userq_mgr.file = file_priv;
+>  	r = amdgpu_userq_mgr_init(&fpriv->userq_mgr, adev);
 
-Thank you for the review.
+It would be cleaner to give that as parameter to amdgpu_userq_mgr_init() I think.
 
-On Sat, Apr 19, 2025 at 8:28=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for the patch.
->
-> > -----Original Message-----
-> > From: Prabhakar <prabhakar.csengg@gmail.com>
-> > Sent: 18 April 2025 19:47
-> > Subject: [PATCH v3 15/15] drm: renesas: rz-du: mipi_dsi: Add support fo=
-r RZ/V2H(P) SoC
-> >
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Add DSI support for Renesas RZ/V2H(P) SoC.
-> >
-> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v2->v3:
-> > - Simplifed V2H DSI timings array to save space
-> > - Switched to use fsleep() instead of udelay()
-> >
-> > v1->v2:
-> > - Dropped unused macros
-> > - Added missing LPCLK flag to rzvv2h info
-> > ---
-> >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 344 ++++++++++++++++++
-> >  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
-> >  2 files changed, 378 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/g=
-pu/drm/renesas/rz-
-> > du/rzg2l_mipi_dsi.c
-> > index 133a8f306d47..a957b6c5f28d 100644
-> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> > @@ -5,6 +5,7 @@
-> >   * Copyright (C) 2022 Renesas Electronics Corporation
-> >   */
-> >  #include <linux/clk.h>
-> > +#include <linux/clk/renesas-rzv2h-dsi.h>
-> >  #include <linux/delay.h>
-> >  #include <linux/io.h>
-> >  #include <linux/iopoll.h>
-> > @@ -32,6 +33,9 @@
-> >  #define RZ_MIPI_DSI_FEATURE_16BPP    BIT(1)
-> >  #define RZ_MIPI_DSI_FEATURE_LPCLK    BIT(2)
-> >
-> > +#define RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA     (80 * MEGA)
-> > +#define RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA     (1500 * MEGA)
-> > +
-> >  struct rzg2l_mipi_dsi;
-> >
-> >  struct rzg2l_mipi_dsi_hw_info {
-> > @@ -42,6 +46,7 @@ struct rzg2l_mipi_dsi_hw_info {
-> >                             u64 *hsfreq_millihz);
-> >       unsigned int (*dphy_mode_clk_check)(struct rzg2l_mipi_dsi *dsi,
-> >                                           unsigned long mode_freq);
-> > +     const struct rzv2h_pll_div_limits *cpg_dsi_limits;
-> >       u32 phy_reg_offset;
-> >       u32 link_reg_offset;
-> >       unsigned long max_dclk;
-> > @@ -49,6 +54,11 @@ struct rzg2l_mipi_dsi_hw_info {
-> >       u8 features;
-> >  };
-> >
-> > +struct rzv2h_dsi_mode_calc {
-> > +     unsigned long mode_freq;
-> > +     u64 mode_freq_hz;
-> > +};
-> > +
-> >  struct rzg2l_mipi_dsi {
-> >       struct device *dev;
-> >       void __iomem *mmio;
-> > @@ -70,6 +80,18 @@ struct rzg2l_mipi_dsi {
-> >       unsigned int num_data_lanes;
-> >       unsigned int lanes;
-> >       unsigned long mode_flags;
-> > +
-> > +     struct rzv2h_dsi_mode_calc mode_calc;
-> > +     struct rzv2h_plldsi_parameters dsi_parameters; };
-> > +
-> > +static const struct rzv2h_pll_div_limits rzv2h_plldsi_div_limits =3D {
-> > +     .fvco =3D { .min =3D 1050 * MEGA, .max =3D 2100 * MEGA },
-> > +     .m =3D { .min =3D 64, .max =3D 1023 },
-> > +     .p =3D { .min =3D 1, .max =3D 4 },
-> > +     .s =3D { .min =3D 0, .max =3D 5 },
-> > +     .k =3D { .min =3D -32768, .max =3D 32767 },
-> > +     .csdiv =3D { .min =3D 1, .max =3D 1 },
-> >  };
-> >
-> >  static inline struct rzg2l_mipi_dsi *
-> > @@ -186,6 +208,155 @@ static const struct rzg2l_mipi_dsi_timings rzg2l_=
-mipi_dsi_global_timings[] =3D {
-> >       },
-> >  };
-> >
-> > +struct rzv2h_mipi_dsi_timings {
-> > +     const u8 *hsfreq;
-> > +     u8 len;
-> > +     u8 start_index;
-> > +};
-> > +
-> > +enum {
-> > +     TCLKPRPRCTL,
-> > +     TCLKZEROCTL,
-> > +     TCLKPOSTCTL,
-> > +     TCLKTRAILCTL,
-> > +     THSPRPRCTL,
-> > +     THSZEROCTL,
-> > +     THSTRAILCTL,
-> > +     TLPXCTL,
-> > +     THSEXITCTL,
-> > +};
-> > +
-> > +static const u8 tclkprprctl[] =3D {
-> > +     15, 26, 37, 47, 58, 69, 79, 90, 101, 111, 122, 133, 143, 150, };
-> > +
-> > +static const u8 tclkzeroctl[] =3D {
-> > +     9, 11, 13, 15, 18, 21, 23, 24, 25, 27, 29, 31, 34, 36, 38,
-> > +     41, 43, 45, 47, 50, 52, 54, 57, 59, 61, 63, 66, 68, 70, 73,
-> > +     75, 77, 79, 82, 84, 86, 89, 91, 93, 95, 98, 100, 102, 105,
-> > +     107, 109, 111, 114, 116, 118, 121, 123, 125, 127, 130, 132,
-> > +     134, 137, 139, 141, 143, 146, 148, 150, };
-> > +
-> > +static const u8 tclkpostctl[] =3D {
-> > +     8, 21, 34, 48, 61, 74, 88, 101, 114, 128, 141, 150, };
-> > +
-> > +static const u8 tclktrailctl[] =3D {
-> > +     14, 25, 37, 48, 59, 71, 82, 94, 105, 117, 128, 139, 150, };
-> > +
-> > +static const u8 thsprprctl[] =3D {
-> > +     11, 19, 29, 40, 50, 61, 72, 82, 93, 103, 114, 125, 135, 146, 150,=
- };
-> > +
-> > +static const u8 thszeroctl[] =3D {
-> > +     18, 24, 29, 35, 40, 46, 51, 57, 62, 68, 73, 79, 84, 90,
-> > +     95, 101, 106, 112, 117, 123, 128, 134, 139, 145, 150, };
-> > +
-> > +static const u8 thstrailctl[] =3D {
-> > +     10, 21, 32, 42, 53, 64, 75, 85, 96, 107, 118, 128, 139, 150, };
-> > +
-> > +static const u8 tlpxctl[] =3D {
-> > +     13, 26, 39, 53, 66, 79, 93, 106, 119, 133, 146, 150,
-> > +};
-> > +
-> > +static const u8 thsexitctl[] =3D {
-> > +     15, 23, 31, 39, 47, 55, 63, 71, 79, 87,
-> > +     95, 103, 111, 119, 127, 135, 143, 150, };
-> > +
-> > +static const struct rzv2h_mipi_dsi_timings rzv2h_dsi_timings_tables[] =
-=3D {
-> > +     [TCLKPRPRCTL] =3D {
-> > +             .hsfreq =3D tclkprprctl,
-> > +             .len =3D ARRAY_SIZE(tclkprprctl),
-> > +             .start_index =3D 0,
-> > +     },
-> > +     [TCLKZEROCTL] =3D {
-> > +             .hsfreq =3D tclkzeroctl,
-> > +             .len =3D ARRAY_SIZE(tclkzeroctl),
-> > +             .start_index =3D 2,
-> > +     },
-> > +     [TCLKPOSTCTL] =3D {
-> > +             .hsfreq =3D tclkpostctl,
-> > +             .len =3D ARRAY_SIZE(tclkpostctl),
-> > +             .start_index =3D 6,
-> > +     },
-> > +     [TCLKTRAILCTL] =3D {
-> > +             .hsfreq =3D tclktrailctl,
-> > +             .len =3D ARRAY_SIZE(tclktrailctl),
-> > +             .start_index =3D 1,
-> > +     },
-> > +     [THSPRPRCTL] =3D {
-> > +             .hsfreq =3D thsprprctl,
-> > +             .len =3D ARRAY_SIZE(thsprprctl),
-> > +             .start_index =3D 0,
-> > +     },
-> > +     [THSZEROCTL] =3D {
-> > +             .hsfreq =3D thszeroctl,
-> > +             .len =3D ARRAY_SIZE(thszeroctl),
-> > +             .start_index =3D 0,
-> > +     },
-> > +     [THSTRAILCTL] =3D {
-> > +             .hsfreq =3D thstrailctl,
-> > +             .len =3D ARRAY_SIZE(thstrailctl),
-> > +             .start_index =3D 3,
-> > +     },
-> > +     [TLPXCTL] =3D {
-> > +             .hsfreq =3D tlpxctl,
-> > +             .len =3D ARRAY_SIZE(tlpxctl),
-> > +             .start_index =3D 0,
-> > +     },
-> > +     [THSEXITCTL] =3D {
-> > +             .hsfreq =3D thsexitctl,
-> > +             .len =3D ARRAY_SIZE(thsexitctl),
-> > +             .start_index =3D 1,
-> > +     },
-> > +};
-> > +
-> > +static u16 rzv2h_dphy_find_ulpsexit(unsigned long freq) {
-> > +     const unsigned long hsfreq[] =3D {
->
-> Please don't populate the read-only const array offsets on the stack
-> but instead make it static, see [1] and [2]
->
-Ok, I'll make it static in the next version.
+Apart from that Reviewed-by: Christian König <christian.koenig@amd.com>
 
-> [1]
-> https://lkml.iu.edu/2201.1/00608.html
-> [2]
-> https://patchwork.ozlabs.org/project/intel-wired-lan/patch/20250317144606=
-.478431-1-colin.i.king@gmail.com/
->
-Cheers,
-Prabhakar
+Regards,
+Christian.
+
+>  	if (r)
+>  		DRM_WARN("Can't setup usermode queues, use legacy workload submission only\n");
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.h
+> index b2da513b3d02..29c1360d8c8c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userqueue.h
+> @@ -79,6 +79,7 @@ struct amdgpu_userq_mgr {
+>  	struct amdgpu_device		*adev;
+>  	struct delayed_work		resume_work;
+>  	struct list_head		list;
+> +	struct drm_file			*file;
+>  };
+>  
+>  struct amdgpu_db_info {
+
