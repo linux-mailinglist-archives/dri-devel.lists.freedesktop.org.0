@@ -2,167 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81050A9647A
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 11:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A33CA964B4
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 11:41:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C408510E559;
-	Tue, 22 Apr 2025 09:34:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nFWplkH8";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49E5D10E1EA;
+	Tue, 22 Apr 2025 09:41:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B351C10E554;
- Tue, 22 Apr 2025 09:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745314442; x=1776850442;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- in-reply-to:mime-version;
- bh=Ap36ei89wwyuTFEJGMKZdGy+glDzxJ+ODD1sgpBlnh8=;
- b=nFWplkH8eht5aUY+kzsugYgiq2mowDp2e/UzfM5XPpZ3kYutFlsY30nH
- +K+MtgPTI4gEDjgs5pNyjQd12Y4iTPq+FPoiQH/zUWi2+gsfgi23PGkqZ
- ej1YKz5kwGxyVKRN5jo9B9+fcc34UCs1F8+1DRDb7qTASqbnl1uG++jgo
- V/Mc3E5qjJGwpZ7Nqam0Enndjk3S2KCf7UlMY2EhDVCwqou2GRaPkd3TD
- /A4sNvyvfulqpuGMD18O9i35jZLJtbegYo7uFBHoYrq5FNvrYJvSSnZuX
- OnkHSh4X079WB7CeOvO54TM6Y9OSp1UBEH36yZk9zqwj68ex17y/XxfY2 Q==;
-X-CSE-ConnectionGUID: 4aACIod9T1CnfIVAsVYpEQ==
-X-CSE-MsgGUID: 6kfS8h1GQJCNu8eOF0ewvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="57846707"
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; d="scan'208";a="57846707"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2025 02:34:00 -0700
-X-CSE-ConnectionGUID: KJSprvdqRSiFKoRM2nS9xA==
-X-CSE-MsgGUID: PjMeQhDrRr6Dw6mVUGVl9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; d="scan'208";a="137118873"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2025 02:34:00 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Tue, 22 Apr 2025 02:33:59 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 22 Apr 2025 02:33:59 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.46) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 22 Apr 2025 02:33:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eOnJyzxukBofJejaqbmXuQgUP/Xcm89bkHELLFBiXEYrNCXTdF7EVesmdi8xe37juRFV7Nb6TyUIOOIg+sHdPaXs3K+I5jZVjh/wqp4L482B+mNwprDputUj9XgwgWKrGbzbMPKqy03b3NzYJ8oj5SqPH2E2LRaKEgSxcpMo96NDECE1+SkNXviW1nMiJeqV5Kx+A8I0KuWss5fXohil4vIINAdgz9VGjCX+iaNHwnZBs2kWRJf2HE8Dre6bGpudwJkci2K2fgbrbdCSAurNyidjempz9PxLDuRnfkFoTUrY0JTMF/oaNKb1q+PERuCbuN59/A/MqUh1n4xmGqggDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mk0OsrR+66Y7La1xB6Y6nPvFvkGEi0JRatDDmr8oSIA=;
- b=kZdPLGStLE2tRYx6jLvIs97ICvLGGDIvg+OvCnH6vtiIfdhQt5rY8E+1hdzwzZLAyF0He1af0DmU0WM8quMnovmHD+To9DeYM3gTmwsLux/5fD6Uo+N7qEKiWuwBTAxeHVemJXSLgeaJihQrKbw//LyXJWR8i2SyI3omAnzsya0yKjvUvV7OQ+ab9mzhp8KtSAZDxvTQaER+fPCZrRDojrwi/5khEETAAAclExeHG6CzhhubQjbWJA2w4ClmWhZYmG+UoYkfeKpUK6wqP/TlSwV0K8PG2r7ghM8cf//tUTtouQwTOHjMJKr5TSUwflU7CU7hXrzUsdc0zFMpL+QyUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
- by CH3PR11MB8096.namprd11.prod.outlook.com (2603:10b6:610:155::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Tue, 22 Apr
- 2025 09:33:04 +0000
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::8900:d137:e757:ac9f%5]) with mapi id 15.20.8655.033; Tue, 22 Apr 2025
- 09:33:03 +0000
-Date: Tue, 22 Apr 2025 12:33:07 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Arun R Murthy <arun.r.murthy@intel.com>
-CC: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <vinod.govindapillai@intel.com>
-Subject: Re: [PATCH v3 1/3] drm/display/dp: Export fn to calculate link
- symbol cycles
-Message-ID: <aAdiU3K5EV6Oq81a@ideak-desk.fi.intel.com>
-References: <20250417-hblank-v3-0-d3387df7efce@intel.com>
- <20250417-hblank-v3-1-d3387df7efce@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250417-hblank-v3-1-d3387df7efce@intel.com>
-X-ClientProxiedBy: DB8PR04CA0017.eurprd04.prod.outlook.com
- (2603:10a6:10:110::27) To SJ0PR11MB4845.namprd11.prod.outlook.com
- (2603:10b6:a03:2d1::10)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
+ [209.85.222.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ECD610E1EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 09:41:46 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id
+ a1e0cc1a2514c-86715793b1fso1722064241.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 02:41:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745314903; x=1745919703;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HtDPN0f0mJZSQySCDGpLuMV+cPQyuwPvJZF9dRzKPOc=;
+ b=TGV774Z1GimuxM2xktl/M2bTu8Zszl0xNECjrEaigyh6bsGB/6C+Qlzzbr0TNWkMkr
+ BVzf/nmdJPVVWU5YB2yL4gJNVbl2HlakgDJDviUwP6mfXQSluGNKujXpsmN/qFY83m+z
+ 11Dtgh6ckIcl6fWUwR+sx7ubVVkyNeyPStF/pyoKhjp1qGFUstkPqtIzzYciKdeIVxv7
+ hJIVjji76qIFYkZhV3nrEZS8KEFZREH1E6ERUBSFPGvV59Fdx1+Yl8FM+/iWx6q6BwN8
+ zqBO3Y987YVf954cWZY3p5o8QB9X2NVMAyl7qTqyM/qxa1uX4umtIAXf7gI2svqdazg0
+ /84A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX96iO7P5y6TKfmrebg7NHIr/LW+Up7O5rV9kWOij09wjLajFQ+Y8VUWj4lfEGh4TOJd2+4TttVFuc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx43qRIS//T713IyhX6ZjRroU1f5KFXiSfg3l639IDGbhnDP0yV
+ Rw8cTXtz3SWRjUaYNUi2MfH3yIBacj+r823nIXeMIQNL9BPrB9YO4nB+0tQj
+X-Gm-Gg: ASbGncvF+2IUB6NAX364RJtMItIZM/LyyIvP2UOkS4sGQYk+cQAdW9XPd2ba+j1+faX
+ Q2OFwkrD4RyB762sZTShD9nl83bN1csH1fFuggbhsNIL7pkw2zMhXkpwhm4dexa6iLhhGYYH/N8
+ BoQhfUDrrTKm7+Be2hsXPoHrMSndt3V8yLEacIsk4GLih47cbjVz/YYVp434MxFQZWP9GvqsY5l
+ N37pvV67h5jPp1o7g06TKRF67TzsUg1in9ERtId928DwCrr95eSWImHtQCybA0x6jtWR/eCEWYe
+ qltyozS6WXo5LEB4q49wZVCTnjEJTN5c3BCDN84nxKfYCphHZeyqnMiCxqzrM6wDm4dKjtVU8o1
+ fC6hfNFg=
+X-Google-Smtp-Source: AGHT+IEZtI8dsM7m0AoWJi7DV6SkpO5lwub1QXMuH1OoMkLA9I7BCB9o/yWajY9MJ7SdDr9OaVnpYA==
+X-Received: by 2002:a05:6102:5616:b0:4bb:e14a:944b with SMTP id
+ ada2fe7eead31-4cb801d00f6mr7399640137.20.1745314902913; 
+ Tue, 22 Apr 2025 02:41:42 -0700 (PDT)
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com.
+ [209.85.221.173]) by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-8776468ca4csm2239897241.15.2025.04.22.02.41.41
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Apr 2025 02:41:42 -0700 (PDT)
+Received: by mail-vk1-f173.google.com with SMTP id
+ 71dfb90a1353d-523d8c024dfso1877818e0c.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 02:41:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWCAevN+vnlGyS2JZlDPwXdt4xKxOGtMWtNNNtgHBXWa0GqFlq+ozdgqu5P9EQ6C/mUJ02KAaNfWbc=@lists.freedesktop.org
+X-Received: by 2002:a05:6122:da3:b0:523:e9d2:404d with SMTP id
+ 71dfb90a1353d-52925508a15mr11639393e0c.11.1745314901637; Tue, 22 Apr 2025
+ 02:41:41 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|CH3PR11MB8096:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6cc35bf-4808-4180-934a-08dd8180ae19
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HCMLKcHb73ukgXOJ7/wC9S6aPTsnBbqVoijuf4704/b+ODToZxVl0TTaw1Nv?=
- =?us-ascii?Q?rNsbXfFPxYc11v1eKsSJzfyFr3VlN4MoQ9RHRfUxa7prM7jGGqtVOMVmMpxR?=
- =?us-ascii?Q?FbB2j7cz8Nfd1d3+svw2wxxQSbdXCLsCQRLwly8STutE68OWUExEmtEy9gU1?=
- =?us-ascii?Q?DULwyERIVLq987rvPm6g4680AeIGW/V4PYMOLG10IF+DiSiDzr3Hl8W5pcWp?=
- =?us-ascii?Q?dgxsnCKm+YNLFTJSM/3KepxcsWSOjuMt+7/xAgM559+qNUfbvtiBNssuhLX4?=
- =?us-ascii?Q?G+YbAg7wDEx4pikFcsflqP2lS2s3Dl1m2CPpPPTm8u6WmSlFOEjkIo1k/YrH?=
- =?us-ascii?Q?wJb9DSTnTCzhT03ybYhWRuA4iPgzgGwpNpNb1R/oaqTtX54gPaSD+u1ONWMu?=
- =?us-ascii?Q?vTFyl84pSOpZxHNzXQOVGcGhCClHb/kzWrX3kmIVMBnJceSfs5xXgG1+Hb9p?=
- =?us-ascii?Q?HShY9dfp+iBBEBNui5nmUr2vlIgTDUrRFR7qzjk+MkfQHJi8q03ky6GDM4Mt?=
- =?us-ascii?Q?7LPKx+F+CBApVPmrgQ4YO1tT4vOKwXqPloVbZD/jknvH3IzfIH74OW6sAx+1?=
- =?us-ascii?Q?NwYonPadsgIjrEFfLt1dyhRcTemIQqrn7jYLgDeT/SDazU18n64PxhhEGlHG?=
- =?us-ascii?Q?2lXzFq1dGgf57pEcTXO+N+NRB3lP2RLlz5h1dCfYK+hOEVPjoHyVooU9dLu6?=
- =?us-ascii?Q?gaptxszYQKMNQiId0j26UyrI4i4TYPsFpNUORkH2hlkCPgh2kUS/hD4SU1xb?=
- =?us-ascii?Q?KsD9v8gtmHnV1x2jtdDfbBUNHRBFW036mV4kwnMZLN8ZQ6KdpG5WzPlQTOsk?=
- =?us-ascii?Q?qKrYQISg4o2G8yz1LQI90wR05SUdpdLM6e2qrzw9WG73+vT8zHfQ78DOw2kq?=
- =?us-ascii?Q?MjSaJ3Bz5t5Etww59oeiQ7De5PIQQ8DEY0lFp+1asES7xR/ikyHAFWk6LcAZ?=
- =?us-ascii?Q?EQD7gpAdp+CQRamLIITrzl5ttSRAmquAalW92D9im88WKtkLjb7vc7sZZHcR?=
- =?us-ascii?Q?AxVFSJp7u6QJwDWrb5vUre0vRbLtwCydw7fqHN1LRtjfj8XQ7sUehOg12XmZ?=
- =?us-ascii?Q?sJFoSjhd+WJp+DFO3PJP9XEIYCcaPUVQW27IVcX2mZW0zlAhUJkWjRiq/wkD?=
- =?us-ascii?Q?bYRFsHOSMVTelNtpWAGuotiZoaOakVqPgDUJX/V9QzkaNYxJnIuGWo2PRgrQ?=
- =?us-ascii?Q?q96q/KubRasO0vdKT7mD42mrQ62EfLFs28oVcvPoltj3EEWxRYUlFNJQYWpW?=
- =?us-ascii?Q?HvhjNQqNUNwjc+29V49nVZxQOQvkxHR3eMxYJkXiyCfCvo1E1p1Ue14tg/O3?=
- =?us-ascii?Q?tj/0f0ctXt6YyJ52b9ZaeSGttBLpZkEjVeOwHk3nQwgcymupM8ywmf+RVioQ?=
- =?us-ascii?Q?gE9AERZc/+4XnOYbvt+VBkzoeljXBj0tPv55/fx/I3PXs+nJyC3FJwZyYtfC?=
- =?us-ascii?Q?95SMsjJv3nk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qf6Pne+5b90/u+erxfdNgBE53lYwz7a43yTIRw5+NWyvtaX37W8gOKs8Q2Z2?=
- =?us-ascii?Q?GvoibPLPboidWGoEhV1orQhQYkivWi5tt5XfnTYLXMw3nkeNYUq7jwBv1muz?=
- =?us-ascii?Q?x9/yizAfdKPp4pqjs+sXyYFe4yFQsBUqKoPQ0i3B60yg5LgJClq4fAEPUdZI?=
- =?us-ascii?Q?CBvs4LKIKojURVvKIVH5uKdYdqJDYtxD5Z+xgzp2SvzXXf6je+poyUYAjKSw?=
- =?us-ascii?Q?qbBDm0Cf2AXOVDpHRfHucgft1lz0vmhP1Q7PvhhThBRNDXfBDNSzMQ38+nxK?=
- =?us-ascii?Q?ADo6DuU1hvWzcGOOsO0yeoi5QITBuafAg0p7I7tPq3GIY/CZ6ZnQY0tij0RC?=
- =?us-ascii?Q?IgihAm0ab64ZpwYu9d6frYKyHIO5SgLFysTCRnmLID31VVrtvkHY3vajAyhl?=
- =?us-ascii?Q?Ubs16JAYjaZB1Wguhx8/5nj36u0HNwMg3ZFjAHB9uEGnz+xQLQCb7eW8tBsu?=
- =?us-ascii?Q?zsGwoWsxaDw9HpNjeZuscRsn6e+VqRkltVcM7d9JjPbO6Bo9orL/1ZbF22oc?=
- =?us-ascii?Q?7TqOPYhHiAA7X8wd/I2icxbSskjwSQQfcTddyyQDMwF7vToZ5+y14t44OfAk?=
- =?us-ascii?Q?fedCZGmKG60GziBCoXOxrIar+8C3MF5MfgqWMmD3ZKEDaGs0araH7boGZMla?=
- =?us-ascii?Q?HazjCGljQHiRnn/4TOsdk/J6hckyIg8q7jyj8fQIUnx4CoNubxEx9/crcRnU?=
- =?us-ascii?Q?9Fz9flDW0YmmJosoNx4MOZaS6XxTY7edjobq2oYlwkVqqyO9tM283IJh8LX+?=
- =?us-ascii?Q?+Srak0/ARmarV/jnS9aHh1GWxQPBL/2kyvoZQhyWId4FXp1wxBP+y74i62Nb?=
- =?us-ascii?Q?4lifEwH0KhMr47Au1ahcZdZrJa2JxxSWOyKz9bQ5az3k3HajbOxZ1AjCvRT1?=
- =?us-ascii?Q?GIHvt6yq/OfQraViL/UHa6aaekgmMfflrjNFpGLVTUsVJuwlALybXEIkwWgc?=
- =?us-ascii?Q?OKE4WxUXFvFeuVkdb0XBxkUoI6tQxaoAJHaC2oKKzdWokJtEdgHdKB8jSflC?=
- =?us-ascii?Q?DvLn2pPZSjnMewuylQgkJ7jAe4+u97GFEQZ0/lTVD3YEhf/sxAF/tnR5SMhH?=
- =?us-ascii?Q?5aZ/qty2yAIaE+xIsFysF+cfsxcL5ui7E+R+eRuLqaal3fYOSX/ir69e2peV?=
- =?us-ascii?Q?LO2MvGMbk1xyeLzSmbfrA/DrkSMO/mHkqEFF1tJBrYjokG5b6Nugcm6KNMGZ?=
- =?us-ascii?Q?8uqKenUsSKqLkM1Tp5Zhsb19UC8TBCmKvcyhxXWNUEov/NEM4+R0v62Yt0SA?=
- =?us-ascii?Q?1peaXoTmEY8T833pOO667w5PCfhaw8bhV1UB+ewjZ4ytj7u8+tbctOtQZOwW?=
- =?us-ascii?Q?OPtJf7lcbPVwIFS1ijbX3VrOURYNHLA/p5ZFBgLPmhl4FMvKZqYhyjPa+5Ey?=
- =?us-ascii?Q?n5o53TrM+FVTSHk9b1PSpmCYStaV5ZddeLLUF/Hd8OyFdUrw1qGqMlJ8c7Zz?=
- =?us-ascii?Q?YJExoh6rkvuqz4QipKBap+qiGPLBkzEaMU5uhaPLQVpYDbrHJ9RaIjsO+Bdb?=
- =?us-ascii?Q?mFPA22El6ThDrzd3rIvgKb6UxxL5dJgY3L2rgcuba7UJQLL8DFj/ug+8LvYz?=
- =?us-ascii?Q?m41neGvKm/CxEAQMJpn2UW08rs7qq8bA5FkNR66A?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6cc35bf-4808-4180-934a-08dd8180ae19
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 09:33:03.6865 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Pm5btpy2AF9wBE4M36xZK45a+0V92d0fDG6LL8oQtZlDaw+AHKrJ1kYEppU+vRoU1WBrGsFayzWpZVhNh1iClA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8096
-X-OriginatorOrg: intel.com
+References: <20250327112009.6b4dc430@eldfell>
+ <b5cf15a4-7c65-4718-9c39-a4c86179ba4c@ideasonboard.com>
+ <20250327175842.130c0386@eldfell>
+ <CAMuHMdVEpTVWmwrYt+G-QSWucT91goUcFor9qbo5rZ+X2jnRog@mail.gmail.com>
+ <20250331105446.098f0fbe@eldfell>
+ <20250331082135.GB13690@pendragon.ideasonboard.com>
+ <20250331135337.61934003@eldfell> <20250401162732.731ef774@eldfell>
+ <73bd6628-374d-417f-a30f-88a4b1d157bb@ideasonboard.com>
+ <20250417111315.62a749e5@eldfell>
+ <20250421145039.GA19213@pendragon.ideasonboard.com>
+ <20250422121107.572cb7ad@eldfell>
+In-Reply-To: <20250422121107.572cb7ad@eldfell>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 22 Apr 2025 11:41:29 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX+yaw_PYsM_N8Gzrt2hbn_5cRN375jLKpwE13ygTvwHA@mail.gmail.com>
+X-Gm-Features: ATxdqUG4PO00LgIbFApc_8Si6w6Y5yiIk6lKKJquY2wvCceeJmyU4SVfFA6n4dQ
+Message-ID: <CAMuHMdX+yaw_PYsM_N8Gzrt2hbn_5cRN375jLKpwE13ygTvwHA@mail.gmail.com>
+Subject: Re: [PATCH v4 03/11] drm/fourcc: Add DRM_FORMAT_Y8
+To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Vishal Sagar <vishal.sagar@amd.com>, 
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,154 +100,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 17, 2025 at 04:22:28PM +0530, Arun R Murthy wrote:
-> Unify the function to calculate the link symbol cycles for both dsc and
-> non-dsc case and export the function so that it can be used in the
-> respective platform display drivers for other calculations.
-> 
-> v2: unify the fn for both dsc and non-dsc case (Imre)
-> v3: rename drm_dp_link_symbol_cycles to drm_dp_link_data_symbol_cycles
->     retain slice_eoc_cycles as is (Imre)
-> 
-> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 53 +++++++++++++++++----------------
->  include/drm/display/drm_dp_helper.h     |  2 ++
->  2 files changed, 29 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index 57828f2b7b5a0582ca4a6f2a9be2d5909fe8ad24..5ce8ccc3310fb71b39ea5f74c4022474c180f727 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -4392,26 +4392,33 @@ EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
->  
->  #endif
->  
-> -/* See DP Standard v2.1 2.6.4.4.1.1, 2.8.4.4, 2.8.7 */
-> -static int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-> -				     int symbol_size, bool is_mst)
-> -{
-> -	int cycles = DIV_ROUND_UP(pixels * bpp_x16, 16 * symbol_size * lane_count);
-> -	int align = is_mst ? 4 / lane_count : 1;
-> -
-> -	return ALIGN(cycles, align);
-> -}
-> -
-> -static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
-> -					 int bpp_x16, int symbol_size, bool is_mst)
-> -{
-> -	int slice_pixels = DIV_ROUND_UP(pixels, slice_count);
-> -	int slice_data_cycles = drm_dp_link_symbol_cycles(lane_count, slice_pixels,
-> -							  bpp_x16, symbol_size, is_mst);
-> +/**
-> + * drm_dp_link_data_symbol_cycles - calculate the link symbol count
-> + * @lane_coount: DP link lane count
-> + * @pixels: horizontal active pixels
-> + * @bpp_x16: bits per pixel in .4 binary fixed format
-> + * @symbol_size: DP symbol size
-> + * @is_mst: is mst or sst
-> + * @slice_count: number of slices
-> + *
-> + * Calculate the link symbol cycles for both dsc and non dsc case and
-> + * return the count.
-> + */
-> +int drm_dp_link_data_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-> +				   int symbol_size, bool is_mst, int slice_count)
-> +{
-> +	int slice_pixels = slice_count ? DIV_ROUND_UP(pixels, slice_count) :
-> +					 pixels;
-> +	int cycles = DIV_ROUND_UP(slice_pixels * bpp_x16,
-> +				  (6 * symbol_size * lane_count));
-> +	int slice_data_cycles = ALIGN(cycles, is_mst ? (4 / lane_count) : 1);
->  	int slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
->  
-> -	return slice_count * (slice_data_cycles + slice_eoc_cycles);
-> +	return slice_count ? (slice_count *
-> +			      (slice_data_cycles + slice_eoc_cycles)) :
-> +			      slice_data_cycles;
->  }
+Hi Pekka,
 
-This is not what I meant. Please keep the two functions separate, don't merge
-them and don't introduce changes unrelated to what was requested. The following
-is needed here:
+On Tue, 22 Apr 2025 at 11:11, Pekka Paalanen
+<pekka.paalanen@haloniitty.fi> wrote:
+> On Mon, 21 Apr 2025 17:50:39 +0300
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> > On Thu, Apr 17, 2025 at 11:13:15AM +0300, Pekka Paalanen wrote:
+> > > On Wed, 16 Apr 2025 11:59:43 +0300 Tomi Valkeinen wrote:
+> > > > On 01/04/2025 16:27, Pekka Paalanen wrote:
+> > > > > On Mon, 31 Mar 2025 13:53:37 +0300 Pekka Paalanen wrote:
+> > > > >> On Mon, 31 Mar 2025 11:21:35 +0300 Laurent Pinchart wrote:
+> > > > >>> On Mon, Mar 31, 2025 at 10:54:46AM +0300, Pekka Paalanen wrote:
+> > > > >>>> On Thu, 27 Mar 2025 17:35:39 +0100 Geert Uytterhoeven wrote:
+> > > > >>>>> On Thu, 27 Mar 2025 at 16:59, Pekka Paalanen wrote:
+> > > > >>>>>> On Thu, 27 Mar 2025 16:21:16 +0200 Tomi Valkeinen wrote:
+> > > > >>>>>>> On 27/03/2025 11:20, Pekka Paalanen wrote:
+> > > > >>>>>>>> On Wed, 26 Mar 2025 15:55:18 +0200 Tomi Valkeinen wrote:
+> > > > >>>>>>>>> On 26/03/2025 15:52, Geert Uytterhoeven wrote:
+> > > > >>>>>>>>>> On Wed, 26 Mar 2025 at 14:23, Tomi Valkeinen wrote:
+> > > > >>>>>>>>>>> Add greyscale Y8 format.
+> > > > >>>>>>>>>>>
+> > > > >>>>>>>>>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > >>>>>>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > > >>>>>>>>>>
+> > > > >>>>>>>>>> Thanks for your patch!
+> > > > >>>>>>>>>>
+> > > > >>>>>>>>>>> --- a/include/uapi/drm/drm_fourcc.h
+> > > > >>>>>>>>>>> +++ b/include/uapi/drm/drm_fourcc.h
+> > > > >>>>>>>>>>> @@ -405,6 +405,9 @@ extern "C" {
+> > > > >>>>>>>>>>>     #define DRM_FORMAT_YUV444      fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
+> > > > >>>>>>>>>>>     #define DRM_FORMAT_YVU444      fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
+> > > > >>>>>>>>>>>
+> > > > >>>>>>>>>>> +/* Greyscale formats */
+> > > > >>>>>>>>>>> +
+> > > > >>>>>>>>>>> +#define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
+> > > > >>>>>>>>>>
+> > > > >>>>>>>>>> This format differs from e.g. DRM_FORMAT_R8, which encodes
+> > > > >>>>>>>>>> the number of bits in the FOURCC format. What do you envision
+> > > > >>>>>>>>>> for e.g. DRM_FORMAT_Y16? fourcc_code('G', 'R', '1', '6')?
+> > > > >>>>>>>>>
+> > > > >>>>>>>>> I wanted to use the same fourcc as on V4L2 side. Strictly speaking it's
+> > > > >>>>>>>>> not required, but different fourccs for the same formats do confuse.
+> > > > >>>>>>>>>
+> > > > >>>>>>>>> So, generally speaking, I'd pick an existing fourcc from v4l2 side if
+> > > > >>>>>>>>> possible, and if not, invent a new one.
+> > > > >>>>>>>>
+> > > > >>>>>>>> what's the actual difference between DRM_FORMAT_R8 and DRM_FORMAT_Y8?
+> > > > >>>>>>>>
+> > > > >>>>>>>> Is the difference that when R8 gets expanded to RGB, it becomes (R, 0,
+> > > > >>>>>>>> 0), but Y8 gets expanded to (c1 * Y, c2 * Y, c3 * Y) where c1..c3 are
+> > > > >>>>>>>> defined by MatrixCoefficients (H.273 terminology)?
+> > > > >>>>>>>>
+> > > > >>>>>>>> That would be my intuitive assumption following how YCbCr is handled.
+> > > > >>>>>>>> Is it obvious enough, or should there be a comment to that effect?
+> > > > >>>>>>>
+> > > > >>>>>>> You raise an interesting point. Is it defined how a display driver, that
+> > > > >>>>>>> supports R8 as a format, shows R8 on screen? I came into this in the
+> > > > >>>>>>> context of grayscale formats, so I thought R8 would be handled as (R, R,
+> > > > >>>>>>> R) in RGB. But you say (R, 0, 0), which... also makes sense.
+> > > > >>>>>>
+> > > > >>>>>> That is a good question too. I based my assumption on OpenGL behavior
+> > > > >>>>>> of R8.
+> > > > >>>>>>
+> > > > >>>>>> Single channel displays do exist I believe, but being single-channel,
+> > > > >>>>>> expansion on the other channels is likely meaningless. Hm, but for the
+> > > > >>>>>> KMS color pipeline, it would be meaningful, like with a CTM.
+> > > > >>>>>> Interesting.
+> > > > >>>>>>
+> > > > >>>>>> I don't know. Maybe Geert does?
+> > > > >>>>>
+> > > > >>>>> I did some digging, and was a bit surprised that it was you who told
+> > > > >>>>> me to use R8 instead of Y8?
+> > > > >>>>> https://lore.kernel.org/all/20220202111954.6ee9a10c@eldfell
+> > > > >>>>
+> > > > >>>> Hi Geert,
+> > > > >>>>
+> > > > >>>> indeed I did. I never thought of the question of expansion to R,G,B
+> > > > >>>> before. Maybe that expansion is what spells R8 and Y8 apart?
+> > > > >>>>
+> > > > >>>> I do think that expansion needs to be specified, so that the KMS color
+> > > > >>>> pipeline computations are defined. There is a big difference between
+> > > > >>>> multiplying these with an arbitrary 3x3 matrix (e.g. CTM):
+> > > > >>>>
+> > > > >>>> - (R, 0, 0)
+> > > > >>>> - (R, R, R)
+> > > > >>>> - (c1 * Y, c2 * Y, c3 * Y)
+> > > > >>>
+> > > > >>> I'd be very surprised by an YUV to RGB conversion matrix where the first
+> > > > >>> column would contain different values. What we need to take into account
+> > > > >>> though is quantization (full vs. limited range).
+> > > > >
+> > > > > Quantization range is indeed good to note. R8 would be always full
+> > > > > range, but Y8 would follow COLOR_RANGE property.
+> > > > >
+> > > > >> That makes Y8 produce (Y, Y, Y), and we have our answer: R8 should be
+> > > > >> (R, 0, 0), so we have both variants.
+> > > > >>
+> > > > >> Can we specify Y, R, G and B be nominal values in the range 0.0 - 1.0
+> > > > >> in the KMS color processing?
+> > > > >
+> > > > > I think this 0.0 - 1.0 nominal range definition for the abstract KMS
+> > > > > color processing is necessary.
+> > > > >
+> > > > > It also means that limited range Y8 data, when containing values 0-15
+> > > > > or 240-255, would produce negative and greater than 1.0 values,
+> > > > > respectively. They might get immediately clamped to 0.0 - 1.0 with the
+> > > > > first color operation they face, though, but the concept seems
+> > > > > important and carrying over to the new color pipelines UAPI which might
+> > > > > choose not to clamp.
+> > > >
+> > > > Is the behavior of values outside the limited range something that needs
+> > > > to be defined? We can't know how each piece of HW behaves with
+> > > > "undefined" input, so should we not just define the behavior as platform
+> > > > specific?
+> > >
+> > > Hi Tomi,
+> > >
+> > > it's not undefined nor illegal input in general. The so-called
+> > > sub-black and super-white ranges exist for a reason, and they are
+> > > intended to be used in video processing to avoid clipping in
+> > > intermediate processing steps when a filter overshoots a bit. There are
+> > > also practices that depend on them, like PLUGE calibration with
+> > > traditional signals on a display: https://www.itu.int/rec/R-REC-BT.814
+> > >
+> > > I think it would be really good to have defined behaviour if at all
+> > > possible.
+> > >
+> > > > In any case: I can't say I fully understood all the discussions wrt.
+> > > > color spaces. But my immediate interest is, of course, this series =).
+> > > > So is there something that you think should be improved here?
+> > >
+> > > Right, the range discussion is a tangent and applies to all YUV
+> > > formats, so it's not a new question.
+> > >
+> > > > My understanding is that the Y-only pixel formats behave in a well
+> > > > defined way (or, as well defined as the YUV formats), and there's
+> > > > nothing more to add here. Is that right?
+> > >
+> > > There are two things:
+> > >
+> > > - Y8 follows COLOR_RANGE property, just like all other YUV formats.
+> > > - Y8 implies that Cb and Cr are both neutral (0.0 in nominal values).
+> > >
+> > > I'd like these explicitly written down, so that they become obvious to
+> > > everyone. I suspect either one might be easy to forget when writing
+> > > code and taking shortcuts without thinking.
+> > >
+> > >
+> > > Laurent,
+> > >
+> > > I did find a case where (Y', neutral, neutral) does *not* seem to expand
+> > > to RGB=(Y, Y, Y): ICtCp. The conversion from ICtCp to L'M'S' does
+> > > produce (Y', Y', Y'), but the LMS-to-RGB matrix scrambles it.
+> > >
+> > > I didn't dig through BT.2020 constant-luminance Y'C'bcC'rc, but I
+> > > wouldn't be surprised if it scrambled too.
+> > >
+> > > Of course, both of the above are not just one matrix. They require two
+> > > matrices and the transfer characteristic each to compute. KMS color
+> > > operations cannot implement those today, but with the colorop pipelines
+> > > they will if the hardware does it.
+> > >
+> > > That's why I think it's important to document the assumption of Cb and
+> > > Cr when not part of the pixel format, and not write down a specific
+> > > expansion to RGB like (Y, Y, Y).
+> >
+> > Every time I discuss color spaces, the scopes of "RGB" and "YUV" seem to
+> > expand more and more. This makes me wonder how we define those two
+> > concepts. Taking the conversion from RGB to ICtCp as an example, would
+> > you consider LMS and L'M'S' as "RGB" formats, and ICtCp as a "YUV"
+> > format ?
+>
+> sorry for the confusion. In this specific context, my use of RGB and
+> YUV refers to the channels in DRM pixel formats. It might have been
+> better if all channels in all pixel formats were "anonymous" and merely
+> numbered because all formats can be used for any color model, but this
+> is what we have.
+>
+> There is some disambiguation in
+> https://gitlab.freedesktop.org/pq/color-and-hdr/-/blob/main/doc/pixels_color.md
+> The doc is some years old, so nowadays I might phrase things
+> differently, but maybe it's easier to read for those new to things as I
+> wrote it when I was just learning things.
+>
+> I would classify ICtCp in the YUV pixel format category, because the
+> CtCp plane can be sub-sampled (right?). I would classify LMS and L'M'S'
+> in the RGB pixel format category because they are not sub-sampled AFAIK
+> although they also do not actually appear as buffer contents, so the
+> relation to pixel formats is... theoretical.
+>
+> IOW, we have a completely artificial split of DRM pixel formats to RGB
+> and YUV where the only essential difference is that YUV formats can have
+> sub-sampled variants and RGB formats do not.
 
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -4393,8 +4393,8 @@ EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
- #endif
- 
- /* See DP Standard v2.1 2.6.4.4.1.1, 2.8.4.4, 2.8.7 */
--static int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
--                                    int symbol_size, bool is_mst)
-+static int drm_dp_link_data_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-+                                         int symbol_size, bool is_mst)
- {
-        int cycles = DIV_ROUND_UP(pixels * bpp_x16, 16 * symbol_size * lane_count);
-        int align = is_mst ? 4 / lane_count : 1;
-@@ -4402,13 +4402,17 @@ static int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-        return ALIGN(cycles, align);
- }
- 
--static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
--                                        int bpp_x16, int symbol_size, bool is_mst)
-+int drm_dp_link_symbol_cycles(int lane_count, int pixels, int dsc_slice_count,
-+                             int bpp_x16, int symbol_size, bool is_mst)
- {
-+       int slice_count = dsc_slice_count ? : 1;
-        int slice_pixels = DIV_ROUND_UP(pixels, slice_count);
--       int slice_data_cycles = drm_dp_link_symbol_cycles(lane_count, slice_pixels,
--                                                         bpp_x16, symbol_size, is_mst);
--       int slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
-+       int slice_data_cycles = drm_dp_link_data_symbol_cycles(lane_count, slice_pixels,
-+                                                              bpp_x16, symbol_size, is_mst);
-+       int slice_eoc_cycles = 0;
-+
-+       if (dsc_slice_count)
-+               slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
- 
-        return slice_count * (slice_data_cycles + slice_eoc_cycles);
- }
+RGB can be subsampled, too...
+https://en.wikipedia.org/wiki/Bayer_filter
 
-> +EXPORT_SYMBOL(drm_dp_link_data_symbol_cycles);
->  
->  /**
->   * drm_dp_bw_overhead - Calculate the BW overhead of a DP link stream
-> @@ -4486,15 +4493,9 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
->  	WARN_ON((flags & DRM_DP_BW_OVERHEAD_UHBR) &&
->  		(flags & DRM_DP_BW_OVERHEAD_FEC));
->  
-> -	if (flags & DRM_DP_BW_OVERHEAD_DSC)
-> -		symbol_cycles = drm_dp_link_dsc_symbol_cycles(lane_count, hactive,
-> -							      dsc_slice_count,
-> -							      bpp_x16, symbol_size,
-> -							      is_mst);
-> -	else
-> -		symbol_cycles = drm_dp_link_symbol_cycles(lane_count, hactive,
-> -							  bpp_x16, symbol_size,
-> -							  is_mst);
-> +	symbol_cycles = drm_dp_link_data_symbol_cycles(lane_count, hactive,
-> +						       bpp_x16, symbol_size,
-> +						       is_mst, dsc_slice_count);
->  
->  	return DIV_ROUND_UP_ULL(mul_u32_u32(symbol_cycles * symbol_size * lane_count,
->  					    overhead * 16),
-> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> index d9614e2c89397536f44bb7258e894628ae1dccc9..98bbbe98e5bc0ce0f9cdf513b2c5ea90bb5caffb 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -971,5 +971,7 @@ int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
->  int drm_dp_max_dprx_data_rate(int max_link_rate, int max_lanes);
->  
->  ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc, struct dp_sdp *sdp);
-> +int drm_dp_link_data_symbol_cycles(int lane_count, int pixels, int bpp_x16,
-> +				   int symbol_size, bool is_mst, int slice_count);
->  
->  #endif /* _DRM_DP_HELPER_H_ */
-> 
-> -- 
-> 2.25.1
-> 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
