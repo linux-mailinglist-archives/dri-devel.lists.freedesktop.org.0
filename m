@@ -2,77 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DE7A97816
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 22:57:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30593A976B1
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 22:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4860610E11C;
-	Tue, 22 Apr 2025 20:57:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F27E10E3B0;
+	Tue, 22 Apr 2025 20:19:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z7epY6aL";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="HOryk42X";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="i+zjNpg9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com
- [209.85.221.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52A6110E5CA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 15:26:03 +0000 (UTC)
-Received: by mail-vk1-f179.google.com with SMTP id
- 71dfb90a1353d-523de5611a3so1999062e0c.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 08:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745335562; x=1745940362; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HzNfDmE6ryFy4nS3P9XDvD3y3RhYJvbmPTm1DAkC1kc=;
- b=Z7epY6aLCVfg8Ki7H579rDqVyKvE/1zlqB4e8RCsiKFxmqmD+hqRV3Whfr9a6biMVJ
- wEMl3/Vpj5WsH1SIFue2JrurYsLJLMQnvwYYfUUR3UcuTOdEshziugGwyhhbUGCGHdy8
- b4MZT9H0mOO0t3uE6mDVtuKCkxCfGUPFKicNfikBg83iX/XWAGigcm77hKYExpaZF/JE
- GX5MCcm3FxMWeJRv6ki2XemxttpxzWcQTmLx/HmyB6c7McgLc8+MJj3VMKzpS/sWJKum
- oUa61r0YcfIJi8o3ttLo6tzAJDWnlCgqc+7bBKkzRX5mfSK3rlQAWrPaOoXPVCNW4wkT
- C0xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745335562; x=1745940362;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HzNfDmE6ryFy4nS3P9XDvD3y3RhYJvbmPTm1DAkC1kc=;
- b=aULAaIm5rOlAweYfezCZdrIXaspb5sMLXSv3Zvo5tISzK/Ie9E0ntmquADhv+5YtHy
- BZLUgn29qgE99YfhTvSXvq3o+jlJGUmIDz5gI0R02YMhLSbjk69ycL/PnNAv0l318PMu
- Tzs0RJwm1RmZB+D6RhufZrnqXUMEAoh+EdFt3dbedN2q4dM4Eez4tw6UaT2WOmoSRK28
- 6Rf9bu910BYq/0nmRlvSRd1WL+bij3PSrRhLzL770K1Y4T7MjDRUYJjqTik1YnvDPUOq
- 5dQJOtQuGgdZMVubShlvC8HIWzBUcsgN7ir5FInyKIx1NeoMqly0d7v9l8AZTKPkE+dD
- 88HQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUPyFSpc/Lbe00kQ550REh4or9vT906pwJrJxavPb/a0uY6lk3m94ghx51cyWGowhvoSL8+fzQmub4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyE94VHDzT87KRZWE0A+TczE8r8TplGyBKt2ps+WELfgtJqxmku
- KDCCih96B/NCTbvERJQivNZgL6v1e6J3aBH3vwz7Up9mGxVDtg6irsnOw6HWM/aLdsromts+gJy
- BIJBht6kmpEHDAim0jNssY+yzIcQ=
-X-Gm-Gg: ASbGncvhnpiqKjBs+Cdwwt+u3L/TmVx3qykRdfR0JwG9c2GNdI+EykzfAxNk4Z0r0od
- Lo8wSRswnup6QX3uLtV5Y4TB1TcaTf2Kx/ZKxoJvIE8T02lyCvQrNxrT7ItlUgNgf8RqPvm4wmT
- zbvB8PYGdBPGQIdfr3Cx+L
-X-Google-Smtp-Source: AGHT+IEEm3+dIdGauwIjZW9S+BY/bSJwy2PMr1CcA6bB8azyzuwdyP9NjEB9/AeyMd0PEJdGUbkFKXhWDh6kNk4YrPs=
-X-Received: by 2002:a05:6122:d96:b0:50a:c70b:9453 with SMTP id
- 71dfb90a1353d-529254fb492mr10699729e0c.10.1745335562148; Tue, 22 Apr 2025
- 08:26:02 -0700 (PDT)
+Received: from send193.i.mail.ru (send193.i.mail.ru [95.163.59.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4276610E3B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 20:19:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
+ ; s=mailru;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive:X-Cloud-Ids;
+ bh=iebI3MkzhqhNb0buAHKTzfrAJp6HFa4fEyurj7k9QOQ=; t=1745353157; x=1745443157; 
+ b=HOryk42XGs8AfbvQT4KvU8H4lPKwAuRLUzGuBzDpNpnlZBwayTMUt6bI2bJdlDs6vuLJWNG68rm
+ 6WcbVoowrAIjbLqc40cDTcjFAcBymJfWv2gSbQVzXE2HhGPEtyhAAp/KHRhn7NYBXRGHpXIbkTTNo
+ WoMEMwvH/DzJs529yc4=;
+Received: from [10.113.178.221] (port=39216 helo=send82.i.mail.ru)
+ by exim-fallback-5f8f9b6d5b-vxn2x with esmtp (envelope-from
+ <danila@jiaxyga.com>)
+ id 1u7K58-00000000AVC-1x28; Tue, 22 Apr 2025 23:19:05 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
+ ; s=mailru;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:From:Sender:Reply-To:To:Cc:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+ References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
+ List-Owner:List-Archive:X-Cloud-Ids:Disposition-Notification-To;
+ bh=iebI3MkzhqhNb0buAHKTzfrAJp6HFa4fEyurj7k9QOQ=; t=1745353142; x=1745443142; 
+ b=i+zjNpg9XcqmCBgsyaBQK1s6cn0DDoN8b5hN5XpwMLkCQJuiLcBdYzAd29KpVZ8Sv+AqbdD+4My
+ 6FQGFZMXNHNg7p1RVIt8zPTjtx+9eGKyNEt9/KY0HjU0jVAlxITWOou7spiGZFCaXabtw0DVYSMSJ
+ +ciyiU3azaPEilWFbxE=;
+Received: by exim-smtp-77d8cdf77b-httmk with esmtpa (envelope-from
+ <danila@jiaxyga.com>)
+ id 1u7K4U-00000000Adc-00tp; Tue, 22 Apr 2025 23:18:23 +0300
+From: Danila Tikhonov <danila@jiaxyga.com>
+Subject: [PATCH 00/33] Add support for Qualcomm Snapdragon SM7150 SoC and
+ Google Pixel 4a
+Date: Tue, 22 Apr 2025 23:17:01 +0300
+Message-Id: <20250422-sm7150-upstream-v1-0-bf9a9081631d@jiaxyga.com>
 MIME-Version: 1.0
-References: <20250421085907.24972-1-jagathjog1996@gmail.com>
- <20250421085907.24972-2-jagathjog1996@gmail.com>
- <lhjibofycex36n23edeb6m7uc4n55nqg4y3qdzoe2wdpc5twrh@ytyvawvgdhuz>
-In-Reply-To: <lhjibofycex36n23edeb6m7uc4n55nqg4y3qdzoe2wdpc5twrh@ytyvawvgdhuz>
-From: Jagath Jog J <jagathjog1996@gmail.com>
-Date: Tue, 22 Apr 2025 20:55:50 +0530
-X-Gm-Features: ATxdqUF1D67yTmhQ6f3dP5eoLeuG5KOTyBgcSuwwE5qpUwgLzSwyutR9C3kgyMI
-Message-ID: <CAM+2EuJKPO0iGPK2uqPhdTpLvR0-+Vwh_K-FWTMJ96+AvzLO1A@mail.gmail.com>
-Subject: Re: [RFC 1/1] drm/mipi-dbi: Use drm_device for debugfs, drop
- drm_minor and .debugfs_init
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, 
- simona@ffwll.ch, mcanal@igalia.com, maarten.lankhorst@linux.intel.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 22 Apr 2025 20:57:55 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAD35B2gC/x3MQQqAIBBA0avErBNGM8KuEi2kppqFFk5FEN49a
+ fkW/78glJgE+uqFRDcL77FA1xVMm48rKZ6LwaBp0RqjJHS6RXUdcibyQTmHaLV1jSaEUh2JFn7
+ +4zDm/AHbvmj+YQAAAA==
+X-Change-ID: 20250422-sm7150-upstream-9900414931e0
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>, 
+ Rajendra Nayak <quic_rjendra@quicinc.com>, 
+ Jassi Brar <jassisinghbrar@gmail.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Amit Kucheria <amitk@kernel.org>, 
+ Thara Gopinath <thara.gopinath@gmail.com>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, Thomas Gleixner <tglx@linutronix.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Wesley Cheng <quic_wcheng@quicinc.com>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, 
+ Souradeep Chowdhury <quic_schowdhu@quicinc.com>, Lee Jones <lee@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Alex Elder <elder@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Avri Altman <avri.altman@wdc.com>, Bart Van Assche <bvanassche@acm.org>, 
+ Andy Gross <agross@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Georgi Djakov <djakov@kernel.org>, 
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+ Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Taniya Das <quic_tdas@quicinc.com>, 
+ Sibi Sankar <quic_sibis@quicinc.com>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
+ Imran Shaik <quic_imrashai@quicinc.com>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>, 
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>, 
+ David Wronek <david@mainlining.org>, Jens Reidel <adrian@mainlining.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-mmc@vger.kernel.org, 
+ netdev@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
+ linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-hardening@vger.kernel.org, linux@mainlining.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, Danila Tikhonov <danila@jiaxyga.com>, 
+ Connor Mitchell <c.dog29@hotmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745353049; l=5706;
+ i=danila@jiaxyga.com; s=20250422; h=from:subject:message-id;
+ bh=46VHL5vhmoCeAp1Ym4uU4sBzGu8tfsJBNOQzyM37tHU=;
+ b=60mTGvAzuTQlti9MzBWZQskN1/mP/WrztAI3VHmiWGObIrhdL0cs3fw9o6Vu7Rzc44MOXIPWV
+ 76QqaNXqQMJCD650RdNwWNX2rE6RhX9PN7kzj3ltUPynEFJYHHTVEii
+X-Developer-Key: i=danila@jiaxyga.com; a=ed25519;
+ pk=kkU4G47tvpSEUdBQEkXuWvTk/3WmGrVrdzZiKAKjBJo=
+X-Mailru-Src: smtp
+X-7564579A: EEAE043A70213CC8
+X-77F55803: 4F1203BC0FB41BD9563C565BC8219237D5DFFB79FDCADED6DE48DADD37CA2EEC182A05F5380850404C228DA9ACA6FE2793C387FCDC7C71EE3DE06ABAFEAF6705253A7DBABE01AAB36CAB699290A87B9A7B9585C59A2DDEF7
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7AB524098FB2F2222EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637AC83A81C8FD4AD23D82A6BABE6F325AC2E85FA5F3EDFCBAA7353EFBB5533756605D4038907BE0FDB876012C3BF043B45497C9FA7C24C7B2A6F557F55DE11AA42389733CBF5DBD5E913377AFFFEAFD269176DF2183F8FC7C000E2D00546020E658941B15DA834481FCF19DD082D7633A0EF3E4896CB9E6436389733CBF5DBD5E9D5E8D9A59859A8B6AEEA5BB16A939343CC7F00164DA146DA6F5DAA56C3B73B237318B6A418E8EAB8D32BA5DBAC0009BE9E8FC8737B5C224924A474D822E1F61376E601842F6C81A12EF20D2F80756B5FB606B96278B59C4276E601842F6C81A127C277FBC8AE2E8BE53CE7BD399AAB573AA81AA40904B5D99C9F4D5AE37F343AD1F44FA8B9022EA23BBE47FD9DD3FB595F5C1EE8F4F765FC72CEEB2601E22B093A03B725D353964B0B7D0EA88DDEDAC722CA9DD8327EE4930A3850AC1BE2E7355E1C53F199C2BB95B5C8C57E37DE458BEDA766A37F9254B7
+X-C1DE0DAB: 0D63561A33F958A5EC0757841F447DAD5002B1117B3ED6963706A8DEBE433A298D59E407A97E9958823CB91A9FED034534781492E4B8EEADD6B8D1F75A55B56DF36E2E0160E5C55395B8A2A0B6518DF68C46860778A80D548E8926FB43031F38
+X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF703FE251F748C1E5D27308FD4CF5D7396D50190868D45AA71A271C5A8A138314F09515A9A3E4BB8D68A835CA8743990B341249A7E886F8880E280A9F3BCC449B261E0ECD5CC99FEB6557FDD6B607B6B402C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu53w8ahmwBjZKM/YPHZyZHvz5uv+WouB9+ObcCpyrx6l7KImUglyhkEat/+ysWwi0gdhEs0JGjl6ggRWTy1haxBpVdbIX1nthFXMZebaIdHP2ghjoIc/363UZI6Kf1ptIMVS+uSU+BUhgv4DNKjNUrt/4=
+X-Mailru-Sender: 9EB879F2C80682A0D0AE6A344B45275FE33E25B1C0D8A9380D8E165B5AC4796C06FAC53478C042799D6F4D2EBC31AC922C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+X-Mailru-Src: fallback
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B4F4CF43BFC943A60588C99C423F47DE0B9E5CE1735208E14B68F3CF0E9FE49B693D0DD15183EF2CA6F3006F2CF759E9EB895EC5891D4C12BA4C864F44338D3D672947B12AF19300AA
+X-87b9d050: 1
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu53w8ahmwBjZKM/YPHZyZHvz5uv+WouB9+OYcBso8Zm+oliTz8oZwnDrFsY77LZRcHyw5ht0smWrfSeTW5FiI8avd9v29gUBslpEZ9wIMwqVP4jLQVQ+dVm7x9BpDHadBV9RMjI809PraZxCvlsRkEy1jXVDAHWlwDOw==
+X-Mailru-MI: 20000000000000800
+X-Mras: Ok
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,155 +155,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry
+This patch series adds support for the Qualcomm Snapdragon 730/730G/732G
+(SM7150) platform along with the Google Pixel 4a (sunfish) device. Since
+the most critical drivers were submitted and applied in separate patch
+series, this series is largely composed of DT bindings and device‑trees.
 
-Thanks for the reply
+To date, we’ve tested SM7150 support on the following eleven devices:
+- Google Pixel 4a (sunfish)
+- Samsung Galaxy A71 (a715f)
+- Lenovo Tab P11 Pro (j706f)
+- Xiaomi POCO X2 (phoenix)
+- Xiaomi POCO X3 (karna) / POCO X3 NFC (surya)
+- Xiaomi Redmi Note 10 Pro (sweet)
+- Xiaomi Redmi Note 12 Pro (sweet_k6a)
+- Xiaomi Mi 9T / Redmi K20 (davinci)
+- Xiaomi Mi Note 10 Lite (toco)
+- Xiaomi Mi Note 10 (CC9 Pro) & Mi Note 10 Pro (CC9 Pro Premium) (tucana)
+- Xiaomi Mi 11 Lite 4G (courbet)
 
-On Mon, Apr 21, 2025 at 3:59=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> On Mon, Apr 21, 2025 at 02:29:07PM +0530, Jagath Jog J wrote:
-> > Refactor to use drm_device.debugfs_root instead of drm_minor for
-> > debugfs file creation. The driver can now initialize debugfs directly
-> > in probe(), before drm_dev_register(). This also removes the use of
-> > .debugfs_init callback.
->
-> Why? The callback was designed to add debugfs files. Likewise most if
-> not all DRM drivers add files under the corresponding minor node.
+A huge thank‑you to the SM7150 community for all the devices-porting
+work, testing efforts, and bug reports.
 
-My intention here was to follow the direction suggested in the DRM TODO lis=
-t
-https://docs.kernel.org/gpu/todo.html#clean-up-the-debugfs-support
+Patches adding support for the aforementioned Xiaomi devices will be
+submitted as a separate series, contingent on this series being applied.
 
-It recommends using drm_device instead of drm_minor, transitioning towards
-drm_device.debugfs_root, and avoiding .debugfs_init. The RFC patch was
-an initial
-step to gather feedback.
+Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
+---
+Connor Mitchell (1):
+      arm64: dts: qcom: sm7150: Add device-tree for Google Pixel 4a
 
-Related to this todo, some drivers use drm_debugfs_add_files() instead of
-drm_debugfs_create_files(). For example
+Danila Tikhonov (25):
+      dt-bindings: arm: cpus: Add Kryo 470 CPUs
+      dt-bindings: cpufreq: qcom-hw: Add the SM7150 compatible
+      dt-bindings: watchdog: qcom-wdt: Add the SM7150 compatible
+      dt-bindings: sram: qcom,imem: Add the SM7150 compatible
+      dt-bindings: thermal: tsens: Add the SM7150 compatible
+      dt-bindings: mmc: sdhci-msm: Add the SM7150 compatible
+      dt-bindings: soc: qcom,dcc: Add the SM7150 compatible
+      dt-bindings: mfd: qcom,tcsr: Add the SM7150 compatible
+      dt-bindings: net: qcom,ipa: Add the SM7150 compatible
+      dt-bindings: dmaengine: qcom: gpi: Add the SM7150 compatible
+      dt-bindings: nvmem: qfprom: Add the SM7150 compatible
+      dt-bindings: crypto: qcom,inline-crypto-engine: Add the SM7150 compatible
+      dt-bindings: interconnect: qcom-bwmon: Add the SM7150 compatible
+      dt-bindings: i2c: qcom-cci: Add the SM7150 compatible
+      dt-bindings: clock: qcom-rpmhcc: Add the SM7150 compatible
+      dt-bindings: interconnect: OSM L3: Add the SM7150 compatible
+      dt-bindings: arm-smmu: Add the SM7150 compatible
+      dt-bindings: clock: qcom,gpucc: Add the SM7150 compatible
+      dt-bindings: remoteproc: qcom: sc7180-pas: Add the SM7150 compatible
+      remoteproc: qcom: pas: Add SM7150 remoteproc support
+      cpufreq: Add SM7150 to cpufreq-dt-platdev blocklist
+      firmware: qcom: tzmem: disable sm7150 platform
+      arm64: dts: qcom: Add dtsi for Snapdragon 730/730g/732g (SM7150) SoCs
+      dt-bindings: arm: qcom: Add SM7150 Google Pixel 4a
+      dt-bindings: display: panel: samsung,ams581vf01: Add google,sunfish
 
-hdlcd - https://patchwork.freedesktop.org/patch/msgid/20221226155029.244355=
--4-mcanal@igalia.com
-v3d - https://patchwork.freedesktop.org/patch/msgid/20221219120621.15086-6-=
-mcanal@igalia.com
-https://elixir.bootlin.com/linux/v6.14.3/source/include/drm/drm_device.h#L9=
-2
+David Wronek (6):
+      dt-bindings: mailbox: qcom: Add the SM7150 APCS compatible
+      dt-bindings: soc: qcom: aoss-qmp: Add the SM7150 compatible
+      dt-bindings: interrupt-controller: qcom-pdc: Add the SM7150 compatible
+      dt-bindings: usb: dwc3: Add the SM7150 compatible
+      dt-bindings: phy: qcom,qusb2: Add the SM7150 compatible
+      dt-bindings: ufs: qcom: Add the SM7150 compatible
 
-Please let me know your thoughts on this.
+Jens Reidel (1):
+      soc: qcom: pd-mapper: Add support for SM7150
 
+ Documentation/devicetree/bindings/arm/cpus.yaml    |    1 +
+ Documentation/devicetree/bindings/arm/qcom.yaml    |    6 +
+ .../devicetree/bindings/clock/qcom,gpucc.yaml      |   29 +-
+ .../devicetree/bindings/clock/qcom,rpmhcc.yaml     |   53 +-
+ .../bindings/cpufreq/cpufreq-qcom-hw.yaml          |    2 +
+ .../bindings/crypto/qcom,inline-crypto-engine.yaml |    1 +
+ .../bindings/display/panel/samsung,ams581vf01.yaml |    8 +-
+ .../devicetree/bindings/dma/qcom,gpi.yaml          |    1 +
+ .../devicetree/bindings/i2c/qcom,i2c-cci.yaml      |    2 +
+ .../bindings/interconnect/qcom,msm8998-bwmon.yaml  |    2 +
+ .../bindings/interconnect/qcom,osm-l3.yaml         |    1 +
+ .../bindings/interrupt-controller/qcom,pdc.yaml    |    1 +
+ .../devicetree/bindings/iommu/arm,smmu.yaml        |    3 +
+ .../bindings/mailbox/qcom,apcs-kpss-global.yaml    |    1 +
+ .../devicetree/bindings/mfd/qcom,tcsr.yaml         |    1 +
+ .../devicetree/bindings/mmc/sdhci-msm.yaml         |    1 +
+ .../devicetree/bindings/net/qcom,ipa.yaml          |    4 +
+ .../devicetree/bindings/nvmem/qcom,qfprom.yaml     |    1 +
+ .../devicetree/bindings/phy/qcom,qusb2-phy.yaml    |    1 +
+ .../bindings/remoteproc/qcom,sc7180-pas.yaml       |   14 +-
+ .../bindings/soc/qcom/qcom,aoss-qmp.yaml           |    1 +
+ .../devicetree/bindings/soc/qcom/qcom,dcc.yaml     |    1 +
+ .../devicetree/bindings/sram/qcom,imem.yaml        |    1 +
+ .../devicetree/bindings/thermal/qcom-tsens.yaml    |    1 +
+ .../devicetree/bindings/ufs/qcom,ufs.yaml          |    2 +
+ .../devicetree/bindings/usb/qcom,dwc3.yaml         |    3 +
+ .../devicetree/bindings/watchdog/qcom-wdt.yaml     |    1 +
+ arch/arm64/boot/dts/qcom/Makefile                  |    1 +
+ arch/arm64/boot/dts/qcom/sm7150-google-sunfish.dts |  901 ++++
+ arch/arm64/boot/dts/qcom/sm7150.dtsi               | 5010 ++++++++++++++++++++
+ drivers/cpufreq/cpufreq-dt-platdev.c               |    1 +
+ drivers/firmware/qcom/qcom_tzmem.c                 |    1 +
+ drivers/remoteproc/qcom_q6v5_pas.c                 |    3 +
+ drivers/soc/qcom/qcom_pd_mapper.c                  |   11 +
+ 34 files changed, 6031 insertions(+), 40 deletions(-)
+---
+base-commit: 2c9c612abeb38aab0e87d48496de6fd6daafb00b
+change-id: 20250422-sm7150-upstream-9900414931e0
 
-Regards
-Jagath
->
-> >
-> > Signed-off-by: Jagath Jog J <jagathjog1996@gmail.com>
-> > ---
-> >  drivers/gpu/drm/drm_mipi_dbi.c        | 8 ++++----
-> >  drivers/gpu/drm/tiny/ili9163.c        | 3 ++-
-> >  drivers/gpu/drm/tiny/panel-mipi-dbi.c | 3 ++-
-> >  include/drm/drm_mipi_dbi.h            | 4 ++--
-> >  4 files changed, 10 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_=
-dbi.c
-> > index 89e05a5bed1d..66f292c48a78 100644
-> > --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> > +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> > @@ -1488,17 +1488,17 @@ static const struct file_operations mipi_dbi_de=
-bugfs_command_fops =3D {
-> >   *
-> >   * This function creates a 'command' debugfs file for sending commands=
- to the
-> >   * controller or getting the read command values.
-> > - * Drivers can use this as their &drm_driver->debugfs_init callback.
-> > + * Drivers can call this function before registering their device to d=
-rm.
-> >   *
-> >   */
-> > -void mipi_dbi_debugfs_init(struct drm_minor *minor)
-> > +void mipi_dbi_debugfs_init(struct mipi_dbi_dev *dbidev)
-> >  {
-> > -     struct mipi_dbi_dev *dbidev =3D drm_to_mipi_dbi_dev(minor->dev);
-> >       umode_t mode =3D S_IFREG | S_IWUSR;
-> >
-> >       if (dbidev->dbi.read_commands)
-> >               mode |=3D S_IRUGO;
-> > -     debugfs_create_file("command", mode, minor->debugfs_root, dbidev,
-> > +
-> > +     debugfs_create_file("command", mode, dbidev->drm.debugfs_root, db=
-idev,
-> >                           &mipi_dbi_debugfs_command_fops);
-> >  }
-> >  EXPORT_SYMBOL(mipi_dbi_debugfs_init);
-> > diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9=
-163.c
-> > index 62cadf5e033d..351d2a5b9f27 100644
-> > --- a/drivers/gpu/drm/tiny/ili9163.c
-> > +++ b/drivers/gpu/drm/tiny/ili9163.c
-> > @@ -115,7 +115,6 @@ static struct drm_driver ili9163_driver =3D {
-> >       .fops                   =3D &ili9163_fops,
-> >       DRM_GEM_DMA_DRIVER_OPS_VMAP,
-> >       DRM_FBDEV_DMA_DRIVER_OPS,
-> > -     .debugfs_init           =3D mipi_dbi_debugfs_init,
-> >       .name                   =3D "ili9163",
-> >       .desc                   =3D "Ilitek ILI9163",
-> >       .major                  =3D 1,
-> > @@ -182,6 +181,8 @@ static int ili9163_probe(struct spi_device *spi)
-> >
-> >       drm_mode_config_reset(drm);
-> >
-> > +     mipi_dbi_debugfs_init(dbidev);
-> > +
-> >       ret =3D drm_dev_register(drm, 0);
-> >       if (ret)
-> >               return ret;
-> > diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/ti=
-ny/panel-mipi-dbi.c
-> > index 0460ecaef4bd..94466dd8db9f 100644
-> > --- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> > +++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> > @@ -267,7 +267,6 @@ static const struct drm_driver panel_mipi_dbi_drive=
-r =3D {
-> >       .fops                   =3D &panel_mipi_dbi_fops,
-> >       DRM_GEM_DMA_DRIVER_OPS_VMAP,
-> >       DRM_FBDEV_DMA_DRIVER_OPS,
-> > -     .debugfs_init           =3D mipi_dbi_debugfs_init,
-> >       .name                   =3D "panel-mipi-dbi",
-> >       .desc                   =3D "MIPI DBI compatible display panel",
-> >       .major                  =3D 1,
-> > @@ -384,6 +383,8 @@ static int panel_mipi_dbi_spi_probe(struct spi_devi=
-ce *spi)
-> >
-> >       drm_mode_config_reset(drm);
-> >
-> > +     mipi_dbi_debugfs_init(dbidev);
-> > +
-> >       ret =3D drm_dev_register(drm, 0);
-> >       if (ret)
-> >               return ret;
-> > diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
-> > index f45f9612c0bc..88a9c87a1e99 100644
-> > --- a/include/drm/drm_mipi_dbi.h
-> > +++ b/include/drm/drm_mipi_dbi.h
-> > @@ -230,9 +230,9 @@ int mipi_dbi_buf_copy(void *dst, struct iosys_map *=
-src, struct drm_framebuffer *
-> >  })
-> >
-> >  #ifdef CONFIG_DEBUG_FS
-> > -void mipi_dbi_debugfs_init(struct drm_minor *minor);
-> > +void mipi_dbi_debugfs_init(struct mipi_dbi_dev *dbidev);
-> >  #else
-> > -static inline void mipi_dbi_debugfs_init(struct drm_minor *minor) {}
-> > +static inline void mipi_dbi_debugfs_init(struct mipi_dbi_dev *dbidev) =
-{}
-> >  #endif
-> >
-> >  /**
-> > --
-> > 2.20.1
-> >
->
-> --
-> With best wishes
-> Dmitry
+Best regards,
+-- 
+Danila Tikhonov <danila@jiaxyga.com>
+
