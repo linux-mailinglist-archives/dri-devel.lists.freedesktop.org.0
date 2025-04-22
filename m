@@ -2,187 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E787A96E43
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 16:23:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF93A96F33
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 16:44:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 510D610E5C3;
-	Tue, 22 Apr 2025 14:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E43A10E5C1;
+	Tue, 22 Apr 2025 14:44:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CsLOISU1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bo3pshyw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A90310E2A0;
- Tue, 22 Apr 2025 14:23:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745331780; x=1776867780;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=16+KJPdPNXyxtQ19oghAtT58D6igs6RCJg0dEY1y2jw=;
- b=CsLOISU1oLcXjUK1hpWODqwEMMRGhJBA6w26B1gxAMjtplyYhoeqWnZH
- ZwHJ0z9GmH9W6qNDEvTqzd09LnPw0tPmRr+6exDgMYdFYla5kF2S1zPNw
- ZDZE0V3NikN8sXATUJzb2PZumqekpnQtKrcr4Ston0dx5reoWS0z15FRM
- cHbjru7Y7dMYiLdojWNEQmtFBxUhDYWYTv/+S2a/32uUoorE94WqSDQGZ
- miq0GzfKyP7l6eoNaBpq2o7MXcivbJBoTVwng+txE3Z1X8xOtNKNMP0U8
- mxJW19Sv6IUdbhNKjOZ+cJagCMLpqiFioO+2pB9aG7ZW4G3itXf2WFrwG A==;
-X-CSE-ConnectionGUID: NhF/+Sa6RrSko3UCsJVI8A==
-X-CSE-MsgGUID: z87sS8LJRa2a1BNQAbFoAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="47023676"
-X-IronPort-AV: E=Sophos;i="6.15,231,1739865600"; d="scan'208";a="47023676"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2025 07:22:59 -0700
-X-CSE-ConnectionGUID: pci1lNoXTx6OukNV1+3iEw==
-X-CSE-MsgGUID: dcGVjAfgSGm3moXrG6lx8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,231,1739865600"; d="scan'208";a="132345978"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2025 07:22:59 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Tue, 22 Apr 2025 07:22:58 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 22 Apr 2025 07:22:58 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.45) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 22 Apr 2025 07:22:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FpD83Cn1zhhoUOvpwJBFtISrjhYgQewj+/eWyrpkhtcvXrwqQE/gYLzEGvRMe7JO3E0MNlXO2TtYBxsNHSpOvenhkuqeQDpFh7XDb0iMgfmpaVm699OScd4MGSeiTO6+dcuqKENCvJxelHV70aD1GuhIPRR5h8IT+0KCicXc8MprJjmlJAkOrmC/+JfdNlz/PqaVWQmm/YkcrdNG331QeWxamoOyP4Xli22nIIEGB5VXt3ct9Qz9F35faZpmisDk4MjVUwqGwILRf0pndDwN2p2Vkv1CgbgcFhS+wf47naUlmo7piSSOp+WbFaaxcb5pB0BIn5q+u0EL8I8tUSvcTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=irdumMQUcAP6PLZ7Hue2GqgciC1eoqtWvZIzUgGgr/w=;
- b=ShUqFa/Ich4UOkQDUiwiSqIRfrCGB+YQnBwOjE6BWBJhrlqHsB++YVqfisKFAr31keiW7SOZrrhHkO9zIIVKnQSoSO8GRFswe3gyFvyRO0HBpu8Qnl0MuopOd0WR2R/FlrGpEBtiuBPCe7YJk6NCsZ+/vlXm6XJpeIqIJEknfcmlcq1CfOOrRpa9zfAPayWipBBaM4TZmvZjVLlqXoZBNn4hRdQnT8sKiKMZ80GLcjnpju298s/77LUBU9DjyZsrY10WFmYko00E8q6je5ZXHclBPjukJb74tJwdy4sPmHc5REz2ONMiXyvTw5166DBnjApVJ5HZf9g9BYERIZRRJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
- by CH3PR11MB8209.namprd11.prod.outlook.com (2603:10b6:610:15d::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.33; Tue, 22 Apr
- 2025 14:22:50 +0000
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::8900:d137:e757:ac9f%5]) with mapi id 15.20.8655.033; Tue, 22 Apr 2025
- 14:22:50 +0000
-Date: Tue, 22 Apr 2025 17:22:53 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-CC: "Murthy, Arun R" <arun.r.murthy@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "Govindapillai, Vinod" <vinod.govindapillai@intel.com>
-Subject: Re: [PATCH v3 3/3] drm/i915/display: move min_hblank from dp_mst.c
- to dp.c
-Message-ID: <aAemPYFn2QpUloHX@ideak-desk.fi.intel.com>
-References: <20250417-hblank-v3-0-d3387df7efce@intel.com>
- <20250417-hblank-v3-3-d3387df7efce@intel.com>
- <SN7PR11MB67504C5B979B78C6076BA4BBE3BB2@SN7PR11MB6750.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <SN7PR11MB67504C5B979B78C6076BA4BBE3BB2@SN7PR11MB6750.namprd11.prod.outlook.com>
-X-ClientProxiedBy: DB7PR02CA0035.eurprd02.prod.outlook.com
- (2603:10a6:10:52::48) To SJ0PR11MB4845.namprd11.prod.outlook.com
- (2603:10b6:a03:2d1::10)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E86D10E0D0;
+ Tue, 22 Apr 2025 14:44:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BE43A5C0F2C;
+ Tue, 22 Apr 2025 14:42:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9394DC4CEE9;
+ Tue, 22 Apr 2025 14:44:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745333088;
+ bh=3YYaqQpGD2G06m6l7TNEk6e+fszKrUbeTO6Ooav+qp0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bo3pshywgwiQ55LGqsFt0ZNMt+RA6vhHs94QZrDfNyo0GnWanguufJ5VFoPaZU1kT
+ wBwD6ZIWyFaBsT7pBSyEm9s2Xf77yNW/fKnXigEhBuWQI5rtr1mSr8uOt4rh5fXI49
+ q1HhG3AV0qzi65yZinAyj3RBJSTAhnP+lri+/IJxhfzCFwKeSk8wqN/gNu6a6U9i/W
+ iDUDZzxFnC3ru1wnHFcYSDbPm+n+7Vgrl6vVyOqRbOsOOE9RXvcVbIHR4asJ4/foRC
+ 8Ffvp2W6Hj/AaVfJixdc/iXZAvMsdb82UnMw8jpPVGEvjC5ZjoyHH56qi6s0WFrsME
+ aSAAZWt/eh1Jg==
+Date: Tue, 22 Apr 2025 16:44:40 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 11/16] gpu: nova-core: add falcon register definitions
+ and base code
+Message-ID: <aAerWF9j5d01pQv0@cassiopeiae>
+References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
+ <20250420-nova-frts-v1-11-ecd1cca23963@nvidia.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|CH3PR11MB8209:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc4551a0-fdc4-46fc-f24f-08dd81a928e7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RUoyMExlcStrLzRPN0JMckZLcFo1UVNLV095VElYZEkvaTZjc29TUFpNck81?=
- =?utf-8?B?ZkJYbmNuc1pWb1BHTW05ZktYMThiWEdiVk1LUjFlUGtKVkFLWFkxOHI4TUUv?=
- =?utf-8?B?NHpYZWQyR1UwU3NrRWlwbjJQSEc4dDJPeThZeHdXWTFuVWtEUDl1OG1jS2dj?=
- =?utf-8?B?NEg0dHVXTG4xdjAvRnY5UFlzSG13ZnhVMDBJZFo5TzMyVTlvNjYrQ2EwNTRq?=
- =?utf-8?B?RmV1SDNid1NGZUhWeUkyTy9rVkIvZGdhaHJQMGxkTER5SGRGQVFuQWdZVVkx?=
- =?utf-8?B?eWovWm8yb1E2SkQxSGQzTFhGSTVaNUlUdEFvaGhubXRMQnFoem4yRHJRL2Jj?=
- =?utf-8?B?TlJYVlFLTjVrais1dlVEaE9sQUR3cWVnMjBNYmtpR0p6c09DYzgwWWcxaWlk?=
- =?utf-8?B?eTFQKzFLcXNCbDNNdlg2bGI3UW5INGdQRXo4eExrK204eHYrZ1JKRnZCUlNE?=
- =?utf-8?B?MUtIRGdpaFRxOENHdk95N09MTVRXSnF6eFhXSVhPSlZucFNWbHF3VTNpK3Q0?=
- =?utf-8?B?ZzJySjhhdTR4K2grU0k1OE9oQzBjVm9DTERjanFxY3pWRHE2NUcxdUl1RXVw?=
- =?utf-8?B?YVRKTDdjVWluYlp0a1pubGZsYTFocHc2S21ncy82T0d3MUpXZnNpWFR6L3Rj?=
- =?utf-8?B?Z0Q0ZnE0K1dvclRuMFQrQ3JEb1VlaW5kd3ZzSldDdzVrTWRvQkU2dnBUbk5q?=
- =?utf-8?B?VTdGdjNWNW4xRHJwU0ErTm9GVGV6NUZveGFhbjJZdnlEbWREN2JEZDRxSnRk?=
- =?utf-8?B?bTBrenc2b2FOKzVXNXNSRnl0SndYY1BUd3JDODEzMStMZWpTNWsvcmIxMjVV?=
- =?utf-8?B?UGY1aHFuQjdSdm1EWnJXcU1ZNVRKeEhvMGh5ZlZHTG9tKzA5dy9TZForWmZD?=
- =?utf-8?B?bVNEdTJRUFl2UDF3ZDFtNGZLQ0hVbHh4QmN4WHdBZGdKaHNEWVB0S3A1SU0v?=
- =?utf-8?B?bkRQS3VtYkc3YTloT21kVW8yOTBPeGpCWGd3NUlJL1gyNkQ2QUcwUmJadExY?=
- =?utf-8?B?QVdJMjBZMk84c1pFZXdTclBTbXFQaDJvU1pVY3lJb3ExR0hFZ0s4NzFRWDhn?=
- =?utf-8?B?LzV0REhCUmpNVjVrbEpjMXJWSjk3WE8xSitSRkpnWDlpRm92V0pYTTFCME9m?=
- =?utf-8?B?MmdSeHIxRFpvWldtbGt6M2NVMjN2MURCUTZXQUk0K3RzdGJBWU9WQ2ZuZnlZ?=
- =?utf-8?B?cXkxUmJkMW9qZ01MeWVKVXphZThNRzJDMjBkWkxCek5iVkYrTDZvS0VlSnhF?=
- =?utf-8?B?bThtL1NrbTFudk5OK2NhWEJmc1hVUWozQVpwbzdPUFNnYmpldVh2dWlHRnJ1?=
- =?utf-8?B?S0V0RUUxeDJXOE53NDNyaHVIL2RhL3VuNFBBTlk1Y3N5TlY4UXcwaWNsUU55?=
- =?utf-8?B?SGY4M2lGRUs4QWFiRFVnbjJHejJhVk50Y25wYklQT1IvdWd2cVUxWEtVUm04?=
- =?utf-8?B?VTBIdVRJVmozZ2lIT2xyVUc4bmNmLzJ5UVVwaXZQUFNocGhmaFhpZFlvYjZl?=
- =?utf-8?B?Y21hSFBUaDJ1d3pLV0o3M1U1UmpwZmJxZ3M2K1BZMmpIVjhram5NRDc0OHVI?=
- =?utf-8?B?cXhXSlBOamN0Z21GUDlHeUtoM1F4dC8xNi9WZ2M3WjFrUXVMb0JVSEtWWkJU?=
- =?utf-8?B?WWRtT3ZiWSs4bWVJMWJwMjdwR3p3WXdZOUJPUm1QNG1Xb1FrVHdMRkpnL1h6?=
- =?utf-8?B?QkVQS2JYV1lKKzFLUVE5WTEwMkxFckpXSVJNWmJhdkhrL09GZGtXUU15bElF?=
- =?utf-8?B?MVlodU5zMGd1OXhabm11QTUvR1FPMmVuT2NkNzY2aFF3TFJxclhYNExSSVhn?=
- =?utf-8?Q?4H4nuTzgQCfrcPAKPgnJaLgf7/Kgiuu8v+u1s=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UnZicVRDZ1lxV2IrbHZRbmhIbDZmWlJmWGNNYUpWQmFNRUJBQy9TOU9pbEZX?=
- =?utf-8?B?bWxRZVNjNGhBNGVjY2RsbUhtUjdETHFRcFpYTXRsZFRJZmRXUkRTa2lYNFZv?=
- =?utf-8?B?VWxwdnZpcHlTUU1LRFRDdkQ0NjBBNVRnVHB3bXUxMDdNUTYyZzU2UEliYzkv?=
- =?utf-8?B?dTBGemE1anBZam1ZTnNITEMrRWFxVnVHRmhYYmpiSFlWdVozUVRQaFpnNW9i?=
- =?utf-8?B?MXErejdjYS9RdnJYSk1kcCs3WlVjKzM4WlNZbk1KNzdWSnQ4QWVPQ2NDLzcx?=
- =?utf-8?B?eUtNNUxwUVROSVNOcHFXRUlOMDlQRUpJVU1teGlaK0dQMVJaLzlZdlFFbDF5?=
- =?utf-8?B?MWU3L1E3UlNUM1M1N3E2dHRNQmRuQVVxMXRXbnl2QThjWU9WNnFMT2xMa0NK?=
- =?utf-8?B?dEoyOVZVNllEeFdjUUc3WStOdWRtS1gvSFNVK0toelJFeVJCdnlRRCtCVEtq?=
- =?utf-8?B?R2daeW9sdDZkeWdsRCtLbzJndmZ0RDc1TkpJZ0Z2OHVvVWlyV3NsMEJLUmNS?=
- =?utf-8?B?TUNQN3JjRC9YeDhEblV1L3F4dWluaTB4aXN5VlFIRklsVWMrYXlQcjNRdis0?=
- =?utf-8?B?T3A1cW9Lb1pweFJ6RUR1SFVjS3pqQjRNZU9QRlZKb0wwQjQ2cEpXcDFlNUtX?=
- =?utf-8?B?VXcwTE9pMHorek1ST2RINkZqNHhpSkx5Zm1ENnd3NktYVGVCUllpRkpJeFhx?=
- =?utf-8?B?dXhDenU3bVIyZFRDN0l0ZXZUNFFvQ01TTDlURXdpcTZodE0yRVFMeVdzbnhw?=
- =?utf-8?B?T0x4dXB6TnRYb2Z0QlVMS1JYbk50RXdvKzZ0ZjJwbjFQbU1lc1FJcW9QUlpC?=
- =?utf-8?B?QjVNemZVUTlseWF6QUtDL0VvNHlpN0d0ak9KSVpZSlN1c1owR0gxakkzYjhK?=
- =?utf-8?B?U09iRkRQRG9pSHNhNWVJRU9iME5vb0s2Z1hvYWdGK05wSHZmbFJXbWd4RGJX?=
- =?utf-8?B?eFUxVmk2TDJYcW91VW1STjRSOVNpYU1TM3BXdGM5Mjk5STkxTnV0QnI5a0h3?=
- =?utf-8?B?OHRueGlTNE02Y29nL3M5cmVwNEN6UldLRmRoNjM0Wk5IYnlJV1FidnN1Y1VQ?=
- =?utf-8?B?Z1Q0SzE4eTZpMlE3d2lKakNnSXBSNk81TytYVHdIU1lNb1Foa1V3R1BnT0J4?=
- =?utf-8?B?c0l6eFlkNVRnd1hNbUJlYzNJSUNHaUovUjdERTNPMDc5OWN1eVk5Uncyc0h5?=
- =?utf-8?B?WFRpYlR1VnNJVXpFRkQxMVh0cWpVcStISzkrSVE3MmQzSEMrKzRaYzArdmJL?=
- =?utf-8?B?eWFBeG5sTG5zdzNGN3VGVW0zbVR3dlNzVEFWeG9jYlB1Z1ZQRkF0dStxRnp4?=
- =?utf-8?B?cFRmR0hwTHFMVWJadlc2N2tmL2xLTWlYeDdGWkd6OTJPK0hCWTVMQy8zTEln?=
- =?utf-8?B?cEZYWm9EMEVhdFNDRVhKZWZVYWMwTmV2K2pLZ1BzVXllTTh6bDNXTVdIU1pY?=
- =?utf-8?B?SDN0S0xwckQrdzNyU3I1Qmo4NWJHTndWZGRaRk02R2lBQjZDTWVmZ3RWV0Rq?=
- =?utf-8?B?U2pCZlp6a2JZcjBoWWJ4VkZVVHNSWXRMY0dnV1F5Ui8yNzg3bTRGMW4xT3Zn?=
- =?utf-8?B?TTVZY3E2eURYN1ByWXpNeWw5cU5VejI2cWNudnRGR3Y5N05VdEVkRlZFM0hZ?=
- =?utf-8?B?QmJyMENHL093QWwxV1dXMkhIMDJDWDZXcFhDSG9STG5VZTI4UUJPQ0R1eWFx?=
- =?utf-8?B?YTNDTFhGZjI0UkxNeW1HR1BSdVhiWGhWdTloN2wwbFNsVElkcFhLT29PS2M4?=
- =?utf-8?B?cVZUU1YyaWRZelg2ZW9OSWQ5ejYyck5SYmE4ZUtNUStMUzFFMGQvekllQ1Iy?=
- =?utf-8?B?WERiUGp6VFM4SHBVQ2x3MXFkK3JLYmZNOGFzaDFEREVjZWhtNUVaY0NWRWZv?=
- =?utf-8?B?eElLU21xZDFMMllXVjB6QTFnanZ3Z1QrSVdvLzlnNU1uZWZaMjhmR3czSVBK?=
- =?utf-8?B?NkVEZXpnY2E5cUpvN1FqajNyRE1RNnZraHQwd3Q3cWxmNXZVclpzN0R4VEk4?=
- =?utf-8?B?N0MyWVJOb1ZNT0lrOUlQNjlGTisvcGV5RzBWSWZuZksrV0F3MFV6REhNclRR?=
- =?utf-8?B?YkpqbXFzeDlZMVlFRUFqV2hWalBGQXNiUlR4eFJUNUpZVHVEbFF3dGVKTHY2?=
- =?utf-8?Q?QDbcbiMqrCcLef0SrU1BmZhMD?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc4551a0-fdc4-46fc-f24f-08dd81a928e7
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 14:22:49.9044 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XqCuKOKqzwo/C7VRQqMpts4CRLxW3ioADvt4qMe7YSzMDEIJURkk8YoHUGOb7eaNePcu4H92dLptPknkK19oaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8209
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250420-nova-frts-v1-11-ecd1cca23963@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -195,231 +69,932 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 22, 2025 at 08:28:31AM +0300, Kandpal, Suraj wrote:
-> [...]
->
-> > +void intel_dp_compute_min_hblank(int link_bpp_x16,
-> > +				 struct intel_crtc_state *crtc_state,
-> > +				 struct drm_connector_state *conn_state,
-> > +				 bool is_dsc)
-> > +{
-> >
-> > [...]
-> > 
-> > +
-> > +	/* Calculate min Hblank Link Layer Symbol Cycle Count for 8b/10b MST & 128b/132b */
-> > +	hactive_sym_cycles = drm_dp_link_data_symbol_cycles(max_lane_count,
-> > +							    adjusted_mode->hdisplay,
-> > +							    link_bpp_x16,
-> > +							    symbol_size,
-> > +							    is_mst,
-> > +							    dsc_slices);
-> > +	htotal_sym_cycles = adjusted_mode->htotal *
-> > +			    (hactive_sym_cycles / adjusted_mode->hdisplay);
+This patch could probably split up a bit, to make it more pleasant to review. :)
 
-Here the ( ) around the divisor should be dropped for the div-round-down
-by adjusted_mode->hdisplay to work as expected.
-
-> > +
-> > +	min_hblank = htotal_sym_cycles - hactive_sym_cycles;
-> > +	/* minimum Hblank calculation:
-> > https://groups.vesa.org/wg/DP/document/20494 */
-> > +	min_hblank = max(min_hblank, min_sym_cycles);
+On Sun, Apr 20, 2025 at 09:19:43PM +0900, Alexandre Courbot wrote:
 > 
-> From the solution I see the way to calculate min hblank as 
-> HACT_ML_SYM_CYC_CNT = CEIL(CEIL(HACT_WIDTH / 4) × PIX_BPP / SYMBOL_SIZE) × 4 / PHY_LANE_CNT 
-> HBLNK_ML_SYM_CYC_CNT =  CEIL(CEIL(HBLNK_WIDTH / 4) × PIX_BPP / SYMBOL_SIZE) × 4 / PHY_LANE_CNT 
-> HTOTAL_ML_SYM_CYC_CNT = HACT_ML_SYM_CYC_CNT+ HBLNK_ML_SYM_CYC_CNT
-> EFF_PIX_BPP = HTOTAL_ML_SYM_CYC_CNT × SYMBOL_SIZE × PHY_LANE_CNT / HTOTAL_WIDTH
+> +#[repr(u8)]
+> +#[derive(Debug, Default, Copy, Clone)]
+> +pub(crate) enum FalconSecurityModel {
+> +    #[default]
+> +    None = 0,
+> +    Light = 2,
+> +    Heavy = 3,
+> +}
+
+Please add an explanation for the different security modules. Where are the
+differences?
+
+I think most of the structures, registers, abbreviations, etc. introduced in
+this patch need some documentation.
+
+Please see https://docs.kernel.org/gpu/nova/guidelines.html#documentation.
+
+> +
+> +impl TryFrom<u32> for FalconSecurityModel {
+> +    type Error = Error;
+> +
+> +    fn try_from(value: u32) -> core::result::Result<Self, Self::Error> {
+> +        use FalconSecurityModel::*;
+> +
+> +        let sec_model = match value {
+> +            0 => None,
+> +            2 => Light,
+> +            3 => Heavy,
+> +            _ => return Err(EINVAL),
+> +        };
+> +
+> +        Ok(sec_model)
+> +    }
+> +}
+> +
+> +#[repr(u8)]
+> +#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+> +pub(crate) enum FalconCoreRevSubversion {
+> +    #[default]
+> +    Subversion0 = 0,
+> +    Subversion1 = 1,
+> +    Subversion2 = 2,
+> +    Subversion3 = 3,
+> +}
+> +
+> +impl From<u32> for FalconCoreRevSubversion {
+> +    fn from(value: u32) -> Self {
+> +        use FalconCoreRevSubversion::*;
+> +
+> +        match value & 0b11 {
+> +            0 => Subversion0,
+> +            1 => Subversion1,
+> +            2 => Subversion2,
+> +            3 => Subversion3,
+> +            // SAFETY: the `0b11` mask limits the possible values to `0..=3`.
+> +            4..=u32::MAX => unsafe { unreachable_unchecked() },
+> +        }
+
+FalconCoreRev uses TryFrom to avoid unsafe code, I think FalconCoreRevSubversion
+should do the same thing.
+
+> +/// Trait defining the parameters of a given Falcon instance.
+> +pub(crate) trait FalconEngine: Sync {
+> +    /// Base I/O address for the falcon, relative from which its registers are accessed.
+> +    const BASE: usize;
+> +}
+> +
+> +/// Represents a portion of the firmware to be loaded into a particular memory (e.g. IMEM or DMEM).
+> +#[derive(Debug)]
+> +pub(crate) struct FalconLoadTarget {
+> +    /// Offset from the start of the source object to copy from.
+> +    pub(crate) src_start: u32,
+> +    /// Offset from the start of the destination memory to copy into.
+> +    pub(crate) dst_start: u32,
+> +    /// Number of bytes to copy.
+> +    pub(crate) len: u32,
+> +}
+> +
+> +#[derive(Debug)]
+> +pub(crate) struct FalconBromParams {
+> +    pub(crate) pkc_data_offset: u32,
+> +    pub(crate) engine_id_mask: u16,
+> +    pub(crate) ucode_id: u8,
+> +}
+> +
+> +pub(crate) trait FalconFirmware {
+> +    type Target: FalconEngine;
+> +
+> +    /// Returns the DMA handle of the object containing the firmware.
+> +    fn dma_handle(&self) -> bindings::dma_addr_t;
+> +
+> +    /// Returns the load parameters for `IMEM`.
+> +    fn imem_load(&self) -> FalconLoadTarget;
+> +
+> +    /// Returns the load parameters for `DMEM`.
+> +    fn dmem_load(&self) -> FalconLoadTarget;
+> +
+> +    /// Returns the parameters to write into the BROM registers.
+> +    fn brom_params(&self) -> FalconBromParams;
+> +
+> +    /// Returns the start address of the firmware.
+> +    fn boot_addr(&self) -> u32;
+> +}
+> +
+> +/// Contains the base parameters common to all Falcon instances.
+> +pub(crate) struct Falcon<E: FalconEngine> {
+> +    pub hal: Arc<dyn FalconHal<E>>,
+
+This should probably be private and instead should be exposed via Deref.
+
+Also, please see my comment at create_falcon_hal() regarding the dynamic
+dispatch.
+
+> +}
+> +
+> +impl<E: FalconEngine + 'static> Falcon<E> {
+> +    pub(crate) fn new(
+> +        pdev: &pci::Device,
+> +        chipset: Chipset,
+> +        bar: &Devres<Bar0>,
+> +        need_riscv: bool,
+> +    ) -> Result<Self> {
+> +        let hwcfg1 = with_bar!(bar, |b| regs::FalconHwcfg1::read(b, E::BASE))?;
+> +        // Ensure that the revision and security model contain valid values.
+> +        let _rev = hwcfg1.core_rev()?;
+> +        let _sec_model = hwcfg1.security_model()?;
+> +
+> +        if need_riscv {
+> +            let hwcfg2 = with_bar!(bar, |b| regs::FalconHwcfg2::read(b, E::BASE))?;
+> +            if !hwcfg2.riscv() {
+> +                dev_err!(
+> +                    pdev.as_ref(),
+> +                    "riscv support requested on falcon that does not support it\n"
+> +                );
+> +                return Err(EINVAL);
+> +            }
+> +        }
+> +
+> +        Ok(Self {
+> +            hal: hal::create_falcon_hal(chipset)?,
+
+I'd prefer to move the contents of create_falcon_hal() into this constructor.
+
+> +        })
+> +    }
+> +
+> +    fn reset_wait_mem_scrubbing(&self, bar: &Devres<Bar0>, timer: &Timer) -> Result<()> {
+> +        timer.wait_on(bar, Duration::from_millis(20), || {
+> +            bar.try_access_with(|b| regs::FalconHwcfg2::read(b, E::BASE))
+> +                .and_then(|r| if r.mem_scrubbing() { Some(()) } else { None })
+> +        })
+> +    }
+> +
+> +    fn reset_eng(&self, bar: &Devres<Bar0>, timer: &Timer) -> Result<()> {
+> +        let _ = with_bar!(bar, |b| regs::FalconHwcfg2::read(b, E::BASE))?;
+> +
+> +        // According to OpenRM's `kflcnPreResetWait_GA102` documentation, HW sometimes does not set
+> +        // RESET_READY so a non-failing timeout is used.
+> +        let _ = timer.wait_on(bar, Duration::from_micros(150), || {
+> +            bar.try_access_with(|b| regs::FalconHwcfg2::read(b, E::BASE))
+> +                .and_then(|r| if r.reset_ready() { Some(()) } else { None })
+> +        });
+> +
+> +        with_bar!(bar, |b| regs::FalconEngine::alter(b, E::BASE, |v| v
+> +            .set_reset(true)))?;
+> +
+> +        let _: Result<()> = timer.wait_on(bar, Duration::from_micros(10), || None);
+> +
+> +        with_bar!(bar, |b| regs::FalconEngine::alter(b, E::BASE, |v| v
+> +            .set_reset(false)))?;
+> +
+> +        self.reset_wait_mem_scrubbing(bar, timer)?;
+> +
+> +        Ok(())
+> +    }
+> +
+> +    pub(crate) fn reset(&self, bar: &Devres<Bar0>, timer: &Timer) -> Result<()> {
+> +        self.reset_eng(bar, timer)?;
+> +        self.hal.select_core(bar, timer)?;
+> +        self.reset_wait_mem_scrubbing(bar, timer)?;
+> +
+> +        with_bar!(bar, |b| {
+> +            regs::FalconRm::default()
+> +                .set_val(regs::Boot0::read(b).into())
+> +                .write(b, E::BASE)
+> +        })
+> +    }
+> +
+> +    fn dma_wr(
+> +        &self,
+> +        bar: &Devres<Bar0>,
+> +        timer: &Timer,
+> +        dma_handle: bindings::dma_addr_t,
+> +        target_mem: FalconMem,
+> +        load_offsets: FalconLoadTarget,
+> +        sec: bool,
+> +    ) -> Result<()> {
+> +        const DMA_LEN: u32 = 256;
+> +        const DMA_LEN_ILOG2_MINUS2: u8 = (DMA_LEN.ilog2() - 2) as u8;
+> +
+> +        // For IMEM, we want to use the start offset as a virtual address tag for each page, since
+> +        // code addresses in the firmware (and the boot vector) are virtual.
+> +        //
+> +        // For DMEM we can fold the start offset into the DMA handle.
+> +        let (src_start, dma_start) = match target_mem {
+> +            FalconMem::Imem => (load_offsets.src_start, dma_handle),
+> +            FalconMem::Dmem => (
+> +                0,
+> +                dma_handle + load_offsets.src_start as bindings::dma_addr_t,
+> +            ),
+> +        };
+> +        if dma_start % DMA_LEN as bindings::dma_addr_t > 0 {
+> +            pr_err!(
+> +                "DMA transfer start addresses must be a multiple of {}",
+> +                DMA_LEN
+> +            );
+> +            return Err(EINVAL);
+> +        }
+> +        if load_offsets.len % DMA_LEN > 0 {
+> +            pr_err!("DMA transfer length must be a multiple of {}", DMA_LEN);
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        // Set up the base source DMA address.
+> +        with_bar!(bar, |b| {
+> +            regs::FalconDmaTrfBase::default()
+> +                .set_base((dma_start >> 8) as u32)
+> +                .write(b, E::BASE);
+> +            regs::FalconDmaTrfBase1::default()
+> +                .set_base((dma_start >> 40) as u16)
+> +                .write(b, E::BASE)
+> +        })?;
+> +
+> +        let cmd = regs::FalconDmaTrfCmd::default()
+> +            .set_size(DMA_LEN_ILOG2_MINUS2)
+> +            .set_imem(target_mem == FalconMem::Imem)
+> +            .set_sec(if sec { 1 } else { 0 });
+> +
+> +        for pos in (0..load_offsets.len).step_by(DMA_LEN as usize) {
+> +            // Perform a transfer of size `DMA_LEN`.
+> +            with_bar!(bar, |b| {
+> +                regs::FalconDmaTrfMOffs::default()
+> +                    .set_offs(load_offsets.dst_start + pos)
+> +                    .write(b, E::BASE);
+> +                regs::FalconDmaTrfBOffs::default()
+> +                    .set_offs(src_start + pos)
+> +                    .write(b, E::BASE);
+> +                cmd.write(b, E::BASE)
+> +            })?;
+> +
+> +            // Wait for the transfer to complete.
+> +            timer.wait_on(bar, Duration::from_millis(2000), || {
+> +                bar.try_access_with(|b| regs::FalconDmaTrfCmd::read(b, E::BASE))
+> +                    .and_then(|v| if v.idle() { Some(()) } else { None })
+> +            })?;
+> +        }
+> +
+> +        Ok(())
+> +    }
+> +
+> +    pub(crate) fn dma_load<F: FalconFirmware<Target = E>>(
+> +        &self,
+> +        bar: &Devres<Bar0>,
+> +        timer: &Timer,
+> +        fw: &F,
+> +    ) -> Result<()> {
+> +        let dma_handle = fw.dma_handle();
+> +
+> +        with_bar!(bar, |b| {
+> +            regs::FalconFbifCtl::alter(b, E::BASE, |v| v.set_allow_phys_no_ctx(true));
+> +            regs::FalconDmaCtl::default().write(b, E::BASE);
+> +            regs::FalconFbifTranscfg::alter(b, E::BASE, |v| {
+> +                v.set_target(FalconFbifTarget::CoherentSysmem)
+> +                    .set_mem_type(FalconFbifMemType::Physical)
+> +            });
+> +        })?;
+> +
+> +        self.dma_wr(
+> +            bar,
+> +            timer,
+> +            dma_handle,
+> +            FalconMem::Imem,
+> +            fw.imem_load(),
+> +            true,
+> +        )?;
+> +        self.dma_wr(
+> +            bar,
+> +            timer,
+> +            dma_handle,
+> +            FalconMem::Dmem,
+> +            fw.dmem_load(),
+> +            true,
+> +        )?;
+> +
+> +        self.hal.program_brom(bar, &fw.brom_params())?;
+> +
+> +        with_bar!(bar, |b| {
+> +            // Set `BootVec` to start of non-secure code.
+> +            regs::FalconBootVec::default()
+> +                .set_boot_vec(fw.boot_addr())
+> +                .write(b, E::BASE);
+> +        })?;
+> +
+> +        Ok(())
+> +    }
+> +
+> +    pub(crate) fn boot(
+> +        &self,
+> +        bar: &Devres<Bar0>,
+> +        timer: &Timer,
+> +        mbox0: Option<u32>,
+> +        mbox1: Option<u32>,
+> +    ) -> Result<(u32, u32)> {
+> +        with_bar!(bar, |b| {
+> +            if let Some(mbox0) = mbox0 {
+> +                regs::FalconMailbox0::default()
+> +                    .set_mailbox0(mbox0)
+> +                    .write(b, E::BASE);
+> +            }
+> +
+> +            if let Some(mbox1) = mbox1 {
+> +                regs::FalconMailbox1::default()
+> +                    .set_mailbox1(mbox1)
+> +                    .write(b, E::BASE);
+> +            }
+> +
+> +            match regs::FalconCpuCtl::read(b, E::BASE).alias_en() {
+> +                true => regs::FalconCpuCtlAlias::default()
+> +                    .set_start_cpu(true)
+> +                    .write(b, E::BASE),
+> +                false => regs::FalconCpuCtl::default()
+> +                    .set_start_cpu(true)
+> +                    .write(b, E::BASE),
+> +            }
+> +        })?;
+> +
+> +        timer.wait_on(bar, Duration::from_secs(2), || {
+> +            bar.try_access()
+> +                .map(|b| regs::FalconCpuCtl::read(&*b, E::BASE))
+> +                .and_then(|v| if v.halted() { Some(()) } else { None })
+> +        })?;
+> +
+> +        let (mbox0, mbox1) = with_bar!(bar, |b| {
+> +            let mbox0 = regs::FalconMailbox0::read(b, E::BASE).mailbox0();
+> +            let mbox1 = regs::FalconMailbox1::read(b, E::BASE).mailbox1();
+> +
+> +            (mbox0, mbox1)
+> +        })?;
+> +
+> +        Ok((mbox0, mbox1))
+> +    }
+> +}
+> diff --git a/drivers/gpu/nova-core/falcon/gsp.rs b/drivers/gpu/nova-core/falcon/gsp.rs
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..44b8dc118eda1263eaede466efd55408c6e7cded
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/falcon/gsp.rs
+> @@ -0,0 +1,27 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +use kernel::devres::Devres;
+> +use kernel::prelude::*;
+> +
+> +use crate::{
+> +    driver::Bar0,
+> +    falcon::{Falcon, FalconEngine},
+> +    regs,
+> +};
+> +
+> +pub(crate) struct Gsp;
+> +impl FalconEngine for Gsp {
+> +    const BASE: usize = 0x00110000;
+> +}
+> +
+> +pub(crate) type GspFalcon = Falcon<Gsp>;
+
+Please drop this type alias, Falcon<Gsp> seems simple enough and is much more
+obvious IMHO.
+
+> +
+> +impl Falcon<Gsp> {
+> +    /// Clears the SWGEN0 bit in the Falcon's IRQ status clear register to
+> +    /// allow GSP to signal CPU for processing new messages in message queue.
+> +    pub(crate) fn clear_swgen0_intr(&self, bar: &Devres<Bar0>) -> Result<()> {
+> +        with_bar!(bar, |b| regs::FalconIrqsclr::default()
+> +            .set_swgen0(true)
+> +            .write(b, Gsp::BASE))
+> +    }
+> +}
+> diff --git a/drivers/gpu/nova-core/falcon/hal.rs b/drivers/gpu/nova-core/falcon/hal.rs
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..5ebf4e88f1f25a13cf47859a53507be53e795d34
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/falcon/hal.rs
+> @@ -0,0 +1,54 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +use kernel::devres::Devres;
+> +use kernel::prelude::*;
+> +use kernel::sync::Arc;
+> +
+> +use crate::driver::Bar0;
+> +use crate::falcon::{FalconBromParams, FalconEngine};
+> +use crate::gpu::Chipset;
+> +use crate::timer::Timer;
+> +
+> +mod ga102;
+> +
+> +/// Hardware Abstraction Layer for Falcon cores.
+> +///
+> +/// Implements chipset-specific low-level operations. The trait is generic against [`FalconEngine`]
+> +/// so its `BASE` parameter can be used in order to avoid runtime bound checks when accessing
+> +/// registers.
+> +pub(crate) trait FalconHal<E: FalconEngine>: Sync {
+> +    // Activates the Falcon core if the engine is a risvc/falcon dual engine.
+> +    fn select_core(&self, _bar: &Devres<Bar0>, _timer: &Timer) -> Result<()> {
+> +        Ok(())
+> +    }
+> +
+> +    fn get_signature_reg_fuse_version(
+> +        &self,
+> +        bar: &Devres<Bar0>,
+> +        engine_id_mask: u16,
+> +        ucode_id: u8,
+> +    ) -> Result<u32>;
+> +
+> +    // Program the BROM registers prior to starting a secure firmware.
+> +    fn program_brom(&self, bar: &Devres<Bar0>, params: &FalconBromParams) -> Result<()>;
+> +}
+> +
+> +/// Returns a boxed falcon HAL adequate for the passed `chipset`.
+> +///
+> +/// We use this function and a heap-allocated trait object instead of statically defined trait
+> +/// objects because of the two-dimensional (Chipset, Engine) lookup required to return the
+> +/// requested HAL.
+
+Do we really need the dynamic dispatch? AFAICS, there's only E::BASE that is
+relevant to FalconHal impls?
+
+Can't we do something like I do in the following example [1]?
+
+```
+use std::marker::PhantomData;
+use std::ops::Deref;
+
+trait Engine {
+    const BASE: u32;
+}
+
+trait Hal<E: Engine> {
+    fn access(&self);
+}
+
+struct Gsp;
+
+impl Engine for Gsp {
+    const BASE: u32 = 0x1;
+}
+
+struct Sec2;
+
+impl Engine for Sec2 {
+    const BASE: u32 = 0x2;
+}
+
+struct GA100<E: Engine>(PhantomData<E>);
+
+impl<E: Engine> Hal<E> for GA100<E> {
+    fn access(&self) {
+        println!("Base: {}", E::BASE);
+    }
+}
+
+impl<E: Engine> GA100<E> {
+    fn new() -> Self {
+        Self(PhantomData)
+    }
+}
+
+//struct Falcon<E: Engine>(GA100<E>);
+
+struct Falcon<H: Hal<E>, E: Engine>(H, PhantomData<E>);
+
+impl<H: Hal<E>, E: Engine> Falcon<H, E> {
+    fn new(hal: H) -> Self {
+        Self(hal, PhantomData)
+    }
+}
+
+impl<H: Hal<E>, E: Engine> Deref for Falcon<H, E> {
+    type Target = H;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+fn main() {
+    let gsp = Falcon::new(GA100::<Gsp>::new());
+    let sec2 = Falcon::new(GA100::<Sec2>::new());
+
+    gsp.access();
+    sec2.access();
+}
+```
+
+[1] https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=bf7035a07e79a4047fb6834eac03a9f2
+
+> +///
+> +/// TODO: replace the return type with `KBox` once it gains the ability to host trait objects.
+> +pub(crate) fn create_falcon_hal<E: FalconEngine + 'static>(
+> +    chipset: Chipset,
+> +) -> Result<Arc<dyn FalconHal<E>>> {
+> +    let hal = match chipset {
+> +        Chipset::GA102 | Chipset::GA103 | Chipset::GA104 | Chipset::GA106 | Chipset::GA107 => {
+> +            Arc::new(ga102::Ga102::<E>::new(), GFP_KERNEL)? as Arc<dyn FalconHal<E>>
+> +        }
+> +        _ => return Err(ENOTSUPP),
+> +    };
+> +
+> +    Ok(hal)
+> +}
+> diff --git a/drivers/gpu/nova-core/falcon/hal/ga102.rs b/drivers/gpu/nova-core/falcon/hal/ga102.rs
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..747b02ca671f7d4a97142665a9ba64807c87391e
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/falcon/hal/ga102.rs
+> @@ -0,0 +1,111 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +use core::marker::PhantomData;
+> +use core::time::Duration;
+> +
+> +use kernel::devres::Devres;
+> +use kernel::prelude::*;
+> +
+> +use crate::driver::Bar0;
+> +use crate::falcon::{FalconBromParams, FalconEngine, FalconModSelAlgo, RiscvCoreSelect};
+> +use crate::regs;
+> +use crate::timer::Timer;
+> +
+> +use super::FalconHal;
+> +
+> +fn select_core_ga102<E: FalconEngine>(bar: &Devres<Bar0>, timer: &Timer) -> Result<()> {
+> +    let bcr_ctrl = with_bar!(bar, |b| regs::RiscvBcrCtrl::read(b, E::BASE))?;
+> +    if bcr_ctrl.core_select() != RiscvCoreSelect::Falcon {
+> +        with_bar!(bar, |b| regs::RiscvBcrCtrl::default()
+> +            .set_core_select(RiscvCoreSelect::Falcon)
+> +            .write(b, E::BASE))?;
+> +
+> +        timer.wait_on(bar, Duration::from_millis(10), || {
+> +            bar.try_access_with(|b| regs::RiscvBcrCtrl::read(b, E::BASE))
+> +                .and_then(|v| if v.valid() { Some(()) } else { None })
+> +        })?;
+> +    }
+> +
+> +    Ok(())
+> +}
+> +
+> +fn get_signature_reg_fuse_version_ga102(
+> +    bar: &Devres<Bar0>,
+> +    engine_id_mask: u16,
+> +    ucode_id: u8,
+> +) -> Result<u32> {
+> +    // The ucode fuse versions are contained in the FUSE_OPT_FPF_<ENGINE>_UCODE<X>_VERSION
+> +    // registers, which are an array. Our register definition macros do not allow us to manage them
+> +    // properly, so we need to hardcode their addresses for now.
+> +
+> +    // Each engine has 16 ucode version registers numbered from 1 to 16.
+> +    if ucode_id == 0 || ucode_id > 16 {
+> +        pr_warn!("invalid ucode id {:#x}", ucode_id);
+> +        return Err(EINVAL);
+> +    }
+> +    let reg_fuse = if engine_id_mask & 0x0001 != 0 {
+> +        // NV_FUSE_OPT_FPF_SEC2_UCODE1_VERSION
+> +        0x824140
+> +    } else if engine_id_mask & 0x0004 != 0 {
+> +        // NV_FUSE_OPT_FPF_NVDEC_UCODE1_VERSION
+> +        0x824100
+> +    } else if engine_id_mask & 0x0400 != 0 {
+> +        // NV_FUSE_OPT_FPF_GSP_UCODE1_VERSION
+> +        0x8241c0
+> +    } else {
+> +        pr_warn!("unexpected engine_id_mask {:#x}", engine_id_mask);
+> +        return Err(EINVAL);
+> +    } + ((ucode_id - 1) as usize * core::mem::size_of::<u32>());
+> +
+> +    let reg_fuse_version = with_bar!(bar, |b| { b.read32(reg_fuse) })?;
+> +
+> +    // Equivalent of Find Last Set bit.
+> +    Ok(u32::BITS - reg_fuse_version.leading_zeros())
+> +}
+> +
+> +fn program_brom_ga102<E: FalconEngine>(
+> +    bar: &Devres<Bar0>,
+> +    params: &FalconBromParams,
+> +) -> Result<()> {
+> +    with_bar!(bar, |b| {
+> +        regs::FalconBromParaaddr0::default()
+> +            .set_addr(params.pkc_data_offset)
+> +            .write(b, E::BASE);
+> +        regs::FalconBromEngidmask::default()
+> +            .set_mask(params.engine_id_mask as u32)
+> +            .write(b, E::BASE);
+> +        regs::FalconBromCurrUcodeId::default()
+> +            .set_ucode_id(params.ucode_id as u32)
+> +            .write(b, E::BASE);
+> +        regs::FalconModSel::default()
+> +            .set_algo(FalconModSelAlgo::Rsa3k)
+> +            .write(b, E::BASE)
+> +    })
+> +}
+> +
+> +pub(super) struct Ga102<E: FalconEngine>(PhantomData<E>);
+> +
+> +impl<E: FalconEngine> Ga102<E> {
+> +    pub(super) fn new() -> Self {
+> +        Self(PhantomData)
+> +    }
+> +}
+> +
+> +impl<E: FalconEngine> FalconHal<E> for Ga102<E> {
+> +    fn select_core(&self, bar: &Devres<Bar0>, timer: &Timer) -> Result<()> {
+> +        select_core_ga102::<E>(bar, timer)
+> +    }
+> +
+> +    fn get_signature_reg_fuse_version(
+> +        &self,
+> +        bar: &Devres<Bar0>,
+> +        engine_id_mask: u16,
+> +        ucode_id: u8,
+> +    ) -> Result<u32> {
+> +        get_signature_reg_fuse_version_ga102(bar, engine_id_mask, ucode_id)
+> +    }
+> +
+> +    fn program_brom(&self, bar: &Devres<Bar0>, params: &FalconBromParams) -> Result<()> {
+> +        program_brom_ga102::<E>(bar, params)
+> +    }
+> +}
+> diff --git a/drivers/gpu/nova-core/falcon/sec2.rs b/drivers/gpu/nova-core/falcon/sec2.rs
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..85dda3e8380a3d31d34c92c4236c6f81c63ce772
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/falcon/sec2.rs
+> @@ -0,0 +1,9 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +use crate::falcon::{Falcon, FalconEngine};
+> +
+> +pub(crate) struct Sec2;
+> +impl FalconEngine for Sec2 {
+> +    const BASE: usize = 0x00840000;
+> +}
+> +pub(crate) type Sec2Falcon = Falcon<Sec2>;
+> diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
+> index 1b3e43e0412e2a2ea178c7404ea647c9e38d4e04..ec4c648c6e8b4aa7d06c627ed59c0e66a08c679e 100644
+> --- a/drivers/gpu/nova-core/gpu.rs
+> +++ b/drivers/gpu/nova-core/gpu.rs
+> @@ -5,6 +5,8 @@
+>  use crate::devinit;
+>  use crate::dma::DmaObject;
+>  use crate::driver::Bar0;
+> +use crate::falcon::gsp::GspFalcon;
+> +use crate::falcon::sec2::Sec2Falcon;
+>  use crate::firmware::Firmware;
+>  use crate::regs;
+>  use crate::timer::Timer;
+> @@ -221,6 +223,20 @@ pub(crate) fn new(
 >  
-> Which is similar to how we calculate hactive_sym_cycles so lets use drm_dp_link_data_symbol_cycles
-> and pass htotal-hdisplay to get min hblank we wont need to calculate htotal sym cycles that way too
-
-That would be calculating EFF_HBLNK_ML_SYM_CYC_CNT (or the LL version of
-this), so a different value than MIN_HBLNK_LL_SYM_CYC_CNT. The latter is
-based on a rounded-down htotal_sym_cycles value, see:
-
-MIN_HBLNK_LL_SYM_CYC_CNT_128B132B_DPTX
-= MAX((FLOOR(HTOTAL_WIDTH × EFF_PIX_BPP / (4 × SYMBOL_SIZE))
-– HACT_LL_SYM_CYC_CNT), 3)
-
-Using the
-
-EFF_PIX_BPP
-= HACT_ML_SYM_CYC_CNT × SYMBOL_SIZE × PHY_LANE_CNT / HACT_WIDTH
-
-equation in the standard, this matches the above way in the patch
-calculating htotal_sym_cycles, subtracting hactive_sym_cycles from it.
-
-> > +	/*
-> > +	 * adjust the BlankingStart/BlankingEnd framing control from
-> > +	 * the calculated value
-> > +	 */
-> > +	min_hblank = min_hblank - 2;
-> > +
-> > +	min_hblank = min(10, min_hblank);
+>          let timer = Timer::new();
+>  
+> +        let gsp_falcon = GspFalcon::new(
+> +            pdev,
+> +            spec.chipset,
+> +            &bar,
+> +            if spec.chipset > Chipset::GA100 {
+> +                true
+> +            } else {
+> +                false
+> +            },
+> +        )?;
+> +        gsp_falcon.clear_swgen0_intr(&bar)?;
+> +
+> +        let _sec2_falcon = Sec2Falcon::new(pdev, spec.chipset, &bar, true)?;
+> +
+>          Ok(pin_init!(Self {
+>              spec,
+>              bar,
+> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
+> index df3468c92c6081b3e2db218d92fbe1c40a0a75c3..4dde8004d24882c60669b5acd6af9d6988c66a9c 100644
+> --- a/drivers/gpu/nova-core/nova_core.rs
+> +++ b/drivers/gpu/nova-core/nova_core.rs
+> @@ -23,6 +23,7 @@ macro_rules! with_bar {
+>  mod devinit;
+>  mod dma;
+>  mod driver;
+> +mod falcon;
+>  mod firmware;
+>  mod gpu;
+>  mod regs;
+> diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
+> index f191cf4eb44c2b950e5cfcc6d04f95c122ce29d3..c76a16dc8e7267a4eb54cb71e1cca6fb9e00188f 100644
+> --- a/drivers/gpu/nova-core/regs.rs
+> +++ b/drivers/gpu/nova-core/regs.rs
+> @@ -6,6 +6,10 @@
+>  #[macro_use]
+>  mod macros;
+>  
+> +use crate::falcon::{
+> +    FalconCoreRev, FalconCoreRevSubversion, FalconFbifMemType, FalconFbifTarget, FalconModSelAlgo,
+> +    FalconSecurityModel, RiscvCoreSelect,
+> +};
+>  use crate::gpu::Chipset;
+>  
+>  register!(Boot0@0x00000000, "Basic revision information about the GPU";
+> @@ -44,3 +48,188 @@
+>  register!(Pgc6AonSecureScratchGroup05@0x00118234;
+>      31:0    value => as u32
+>  );
+> +
+> +/* PFALCON */
+> +
+> +register!(FalconIrqsclr@+0x00000004;
+> +    4:4     halt => as_bit bool;
+> +    6:6     swgen0 => as_bit bool;
+> +);
+> +
+> +register!(FalconIrqstat@+0x00000008;
+> +    4:4     halt => as_bit bool;
+> +    6:6     swgen0 => as_bit bool;
+> +);
+> +
+> +register!(FalconIrqmclr@+0x00000014;
+> +    31:0    val => as u32
+> +);
+> +
+> +register!(FalconIrqmask@+0x00000018;
+> +    31:0    val => as u32
+> +);
+> +
+> +register!(FalconRm@+0x00000084;
+> +    31:0    val => as u32
+> +);
+> +
+> +register!(FalconIrqdest@+0x0000001c;
+> +    31:0    val => as u32
+> +);
+> +
+> +register!(FalconMailbox0@+0x00000040;
+> +    31:0    mailbox0 => as u32
+> +);
+> +register!(FalconMailbox1@+0x00000044;
+> +    31:0    mailbox1 => as u32
+> +);
+> +
+> +register!(FalconHwcfg2@+0x000000f4;
+> +    10:10   riscv => as_bit bool;
+> +    12:12   mem_scrubbing => as_bit bool;
+> +    31:31   reset_ready => as_bit bool;
+> +);
+> +
+> +register!(FalconCpuCtl@+0x00000100;
+> +    1:1     start_cpu => as_bit bool;
+> +    4:4     halted => as_bit bool;
+> +    6:6     alias_en => as_bit bool;
+> +);
+> +
+> +register!(FalconBootVec@+0x00000104;
+> +    31:0    boot_vec => as u32
+> +);
+> +
+> +register!(FalconHwCfg@+0x00000108;
+> +    8:0     imem_size => as u32;
+> +    17:9    dmem_size => as u32;
+> +);
+> +
+> +register!(FalconDmaCtl@+0x0000010c;
+> +    0:0     require_ctx => as_bit bool;
+> +    1:1     dmem_scrubbing  => as_bit bool;
+> +    2:2     imem_scrubbing => as_bit bool;
+> +    6:3     dmaq_num => as_bit u8;
+> +    7:7     secure_stat => as_bit bool;
+> +);
+> +
+> +register!(FalconDmaTrfBase@+0x00000110;
+> +    31:0    base => as u32;
+> +);
+> +
+> +register!(FalconDmaTrfMOffs@+0x00000114;
+> +    23:0    offs => as u32;
+> +);
+> +
+> +register!(FalconDmaTrfCmd@+0x00000118;
+> +    0:0     full => as_bit bool;
+> +    1:1     idle => as_bit bool;
+> +    3:2     sec => as_bit u8;
+> +    4:4     imem => as_bit bool;
+> +    5:5     is_write => as_bit bool;
+> +    10:8    size => as u8;
+> +    14:12   ctxdma => as u8;
+> +    16:16   set_dmtag => as u8;
+> +);
+> +
+> +register!(FalconDmaTrfBOffs@+0x0000011c;
+> +    31:0    offs => as u32;
+> +);
+> +
+> +register!(FalconDmaTrfBase1@+0x00000128;
+> +    8:0     base => as u16;
+> +);
+> +
+> +register!(FalconHwcfg1@+0x0000012c;
+> +    3:0     core_rev => try_into FalconCoreRev, "core revision of the falcon";
+> +    5:4     security_model => try_into FalconSecurityModel, "security model of the falcon";
+> +    7:6     core_rev_subversion => into FalconCoreRevSubversion;
+> +    11:8    imem_ports => as u8;
+> +    15:12   dmem_ports => as u8;
+> +);
+> +
+> +register!(FalconCpuCtlAlias@+0x00000130;
+> +    1:1     start_cpu => as_bit bool;
+> +);
+> +
+> +/* TODO: this is an array of registers */
+> +register!(FalconImemC@+0x00000180;
+> +    7:2     offs => as u8;
+> +    23:8    blk => as u8;
+> +    24:24   aincw => as_bit bool;
+> +    25:25   aincr => as_bit bool;
+> +    28:28   secure => as_bit bool;
+> +    29:29   sec_atomic => as_bit bool;
+> +);
+> +
+> +register!(FalconImemD@+0x00000184;
+> +    31:0    data => as u32;
+> +);
+> +
+> +register!(FalconImemT@+0x00000188;
+> +    15:0    data => as u16;
+> +);
+> +
+> +register!(FalconDmemC@+0x000001c0;
+> +    7:2     offs => as u8;
+> +    23:0    addr => as u32;
+> +    23:8    blk => as u8;
+> +    24:24   aincw => as_bit bool;
+> +    25:25   aincr => as_bit bool;
+> +    26:26   settag => as_bit bool;
+> +    27:27   setlvl => as_bit bool;
+> +    28:28   va => as_bit bool;
+> +    29:29   miss => as_bit bool;
+> +);
+> +
+> +register!(FalconDmemD@+0x000001c4;
+> +    31:0    data => as u32;
+> +);
+> +
+> +register!(FalconModSel@+0x00001180;
+> +    7:0     algo => try_into FalconModSelAlgo;
+> +);
+> +register!(FalconBromCurrUcodeId@+0x00001198;
+> +    31:0    ucode_id => as u32;
+> +);
+> +register!(FalconBromEngidmask@+0x0000119c;
+> +    31:0    mask => as u32;
+> +);
+> +register!(FalconBromParaaddr0@+0x00001210;
+> +    31:0    addr => as u32;
+> +);
+> +
+> +register!(RiscvCpuctl@+0x00000388;
+> +    0:0     startcpu => as_bit bool;
+> +    4:4     halted => as_bit bool;
+> +    5:5     stopped => as_bit bool;
+> +    7:7     active_stat => as_bit bool;
+> +);
+> +
+> +register!(FalconEngine@+0x000003c0;
+> +    0:0     reset => as_bit bool;
+> +);
+> +
+> +register!(RiscvIrqmask@+0x00000528;
+> +    31:0    mask => as u32;
+> +);
+> +
+> +register!(RiscvIrqdest@+0x0000052c;
+> +    31:0    dest => as u32;
+> +);
+> +
+> +/* TODO: this is an array of registers */
+> +register!(FalconFbifTranscfg@+0x00000600;
+> +    1:0     target => try_into FalconFbifTarget;
+> +    2:2     mem_type => as_bit FalconFbifMemType;
+> +);
+> +
+> +register!(FalconFbifCtl@+0x00000624;
+> +    7:7     allow_phys_no_ctx => as_bit bool;
+> +);
+> +
+> +register!(RiscvBcrCtrl@+0x00001668;
+> +    0:0     valid => as_bit bool;
+> +    4:4     core_select => as_bit RiscvCoreSelect;
+> +    8:8     br_fetch => as_bit bool;
+> +);
+> diff --git a/drivers/gpu/nova-core/timer.rs b/drivers/gpu/nova-core/timer.rs
+> index 8987352f4192bc9b4b2fc0fb5f2e8e62ff27be68..c03a5c36d1230dfbf2bd6e02a793264280c6d509 100644
+> --- a/drivers/gpu/nova-core/timer.rs
+> +++ b/drivers/gpu/nova-core/timer.rs
+> @@ -2,9 +2,6 @@
+>  
+>  //! Nova Core Timer subdevice
+>  
+> -// To be removed when all code is used.
+> -#![allow(dead_code)]
+> -
+>  use core::fmt::Display;
+>  use core::ops::{Add, Sub};
+>  use core::time::Duration;
 > 
-> Is this 10 or 0x10 since previously 0x10 was coded in
-> 
-> Regards,
-> Suraj Kandpal
-> 
-> > +	crtc_state->min_hblank = min_hblank;
-> > +}
-> > +
-> >  int
-> >  intel_dp_compute_config(struct intel_encoder *encoder,
-> >  			struct intel_crtc_state *pipe_config, @@ -3202,6
-> > +3263,9 @@ intel_dp_compute_config(struct intel_encoder *encoder,
-> >  				       &pipe_config->dp_m_n);
-> >  	}
-> > 
-> > +	intel_dp_compute_min_hblank(link_bpp_x16, pipe_config, conn_state,
-> > +				    pipe_config->dsc.compression_enable);
-> > +
-> >  	/* FIXME: abstract this better */
-> >  	if (pipe_config->splitter.enable)
-> >  		pipe_config->dp_m_n.data_m *= pipe_config-
-> > >splitter.link_count; diff --git a/drivers/gpu/drm/i915/display/intel_dp.h
-> > b/drivers/gpu/drm/i915/display/intel_dp.h
-> > index
-> > 9189db4c25946a0f082223ce059c242e80cc32dc..43624aead998a8a330a244bb9
-> > c85f026e203171b 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp.h
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp.h
-> > @@ -208,5 +208,9 @@ bool intel_dp_has_connector(struct intel_dp *intel_dp,
-> >  			    const struct drm_connector_state *conn_state);  int
-> > intel_dp_dsc_max_src_input_bpc(struct intel_display *display);  int
-> > intel_dp_dsc_min_src_input_bpc(void);
-> > +void intel_dp_compute_min_hblank(int link_bpp_x16,
-> > +				 struct intel_crtc_state *crtc_state,
-> > +				 struct drm_connector_state *conn_state,
-> > +				 bool is_dsc);
-> > 
-> >  #endif /* __INTEL_DP_H__ */
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > index
-> > af98a0d0e8376a79ce1ab6ff3c4f6af30f4d3e73..4153afa13c618bb4db6dbcdc6e5
-> > 9faddcbeade6b 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > @@ -211,26 +211,6 @@ int intel_dp_mst_dsc_get_slice_count(const struct
-> > intel_connector *connector,
-> >  					    num_joined_pipes);
-> >  }
-> > 
-> > -static void intel_dp_mst_compute_min_hblank(struct intel_crtc_state
-> > *crtc_state,
-> > -					    int bpp_x16)
-> > -{
-> > -	struct intel_display *display = to_intel_display(crtc_state);
-> > -	const struct drm_display_mode *adjusted_mode =
-> > -					&crtc_state->hw.adjusted_mode;
-> > -	int symbol_size = intel_dp_is_uhbr(crtc_state) ? 32 : 8;
-> > -	int hblank;
-> > -
-> > -	if (DISPLAY_VER(display) < 20)
-> > -		return;
-> > -
-> > -	/* Calculate min Hblank Link Layer Symbol Cycle Count for 8b/10b MST
-> > & 128b/132b */
-> > -	hblank = DIV_ROUND_UP((DIV_ROUND_UP
-> > -			       (adjusted_mode->htotal - adjusted_mode-
-> > >hdisplay, 4) * bpp_x16),
-> > -			      symbol_size);
-> > -
-> > -	crtc_state->min_hblank = hblank;
-> > -}
-> > -
-> >  int intel_dp_mtp_tu_compute_config(struct intel_dp *intel_dp,
-> >  				   struct intel_crtc_state *crtc_state,
-> >  				   struct drm_connector_state *conn_state,
-> > @@ -301,12 +281,11 @@ int intel_dp_mtp_tu_compute_config(struct intel_dp
-> > *intel_dp,
-> >  		local_bw_overhead = intel_dp_mst_bw_overhead(crtc_state,
-> >  							     false,
-> > dsc_slice_count, link_bpp_x16);
-> > 
-> > -		intel_dp_mst_compute_min_hblank(crtc_state, link_bpp_x16);
-> > -
-> >  		intel_dp_mst_compute_m_n(crtc_state,
-> >  					 local_bw_overhead,
-> >  					 link_bpp_x16,
-> >  					 &crtc_state->dp_m_n);
-> > +		intel_dp_compute_min_hblank(link_bpp_x16, crtc_state,
-> > conn_state,
-> > +dsc);
-> > 
-> >  		if (is_mst) {
-> >  			int remote_bw_overhead;
-> > @@ -998,7 +977,6 @@ static void mst_stream_disable(struct
-> > intel_atomic_state *state,
-> >  	struct intel_dp *intel_dp = to_primary_dp(encoder);
-> >  	struct intel_connector *connector =
-> >  		to_intel_connector(old_conn_state->connector);
-> > -	enum transcoder trans = old_crtc_state->cpu_transcoder;
-> > 
-> >  	drm_dbg_kms(display->drm, "active links %d\n",
-> >  		    intel_dp->mst.active_links);
-> > @@ -1009,9 +987,6 @@ static void mst_stream_disable(struct
-> > intel_atomic_state *state,
-> >  	intel_hdcp_disable(intel_mst->connector);
-> > 
-> >  	intel_dp_sink_disable_decompression(state, connector, old_crtc_state);
-> > -
-> > -	if (DISPLAY_VER(display) >= 20)
-> > -		intel_de_write(display, DP_MIN_HBLANK_CTL(trans), 0);
-> >  }
-> > 
-> >  static void mst_stream_post_disable(struct intel_atomic_state *state, @@ -
-> > 1286,7 +1261,7 @@ static void mst_stream_enable(struct intel_atomic_state
-> > *state,
-> >  	enum transcoder trans = pipe_config->cpu_transcoder;
-> >  	bool first_mst_stream = intel_dp->mst.active_links == 1;
-> >  	struct intel_crtc *pipe_crtc;
-> > -	int ret, i, min_hblank;
-> > +	int ret, i;
-> > 
-> >  	drm_WARN_ON(display->drm, pipe_config->has_pch_encoder);
-> > 
-> > @@ -1301,29 +1276,6 @@ static void mst_stream_enable(struct
-> > intel_atomic_state *state,
-> >  			       TRANS_DP2_VFREQ_PIXEL_CLOCK(crtc_clock_hz &
-> > 0xffffff));
-> >  	}
-> > 
-> > -	if (DISPLAY_VER(display) >= 20) {
-> > -		/*
-> > -		 * adjust the BlankingStart/BlankingEnd framing control from
-> > -		 * the calculated value
-> > -		 */
-> > -		min_hblank = pipe_config->min_hblank - 2;
-> > -
-> > -		/* Maximum value to be programmed is limited to 0x10 */
-> > -		min_hblank = min(0x10, min_hblank);
-> > -
-> > -		/*
-> > -		 * Minimum hblank accepted for 128b/132b would be 5 and for
-> > -		 * 8b/10b would be 3 symbol count
-> > -		 */
-> > -		if (intel_dp_is_uhbr(pipe_config))
-> > -			min_hblank = max(min_hblank, 5);
-> > -		else
-> > -			min_hblank = max(min_hblank, 3);
-> > -
-> > -		intel_de_write(display, DP_MIN_HBLANK_CTL(trans),
-> > -			       min_hblank);
-> > -	}
-> > -
-> >  	enable_bs_jitter_was(pipe_config);
-> > 
-> >  	intel_ddi_enable_transcoder_func(encoder, pipe_config);
-> > 
-> > --
-> > 2.25.1
+> -- 
+> 2.49.0
 > 
