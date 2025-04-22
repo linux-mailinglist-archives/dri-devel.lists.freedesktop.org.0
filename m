@@ -2,88 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54353A965BB
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 12:20:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658BEA965DF
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 12:26:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE3A10E19F;
-	Tue, 22 Apr 2025 10:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6582710E1AD;
+	Tue, 22 Apr 2025 10:26:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QSCp68do";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 388AA10E19F
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 10:20:53 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id
- a1e0cc1a2514c-873a2ba6f7cso1691720241.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 03:20:53 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 200F510E1AD;
+ Tue, 22 Apr 2025 10:26:34 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-43ce71582e9so39690505e9.1; 
+ Tue, 22 Apr 2025 03:26:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1745317593; x=1745922393; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=g7SxF5DbGT5htrrk5YgOA+scpYjVb9Z25iQ9Uytxx0w=;
+ b=QSCp68do+C2Uattg5NfH8q7rDxMCTE7Cw+uJcWGoPZGlCGpL5F1TW6/jIerVxIY+IV
+ o1ZBxzel2YasK5fuVKVACQHMe7ifXL7mP4qKKqC+RTmP/i5j+1XJGI2OKWZzBm/zuv8B
+ q49OhjxNYsI4xBAt4JDmVj70oo6BgvIoKP62wpjBgQGsmYK57wtOihTuxeYuGUjZBs+d
+ eM57dPIONwdSq2b2vPqS7aopYhj7C1liL0i0w8pvCXRr7HevTxXBmS0KGCC5EcECYgOw
+ zgbN5ZLE9vmj6vYBaieRo4HIViODGX61VXHpOWR2wHJLzFR3v1a95eu7BgCChwqsDvMa
+ hhew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745317251; x=1745922051;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1745317593; x=1745922393;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ohxPhiK6YcJP8Y4tA22q1xDQLWt1Qweo8WFh3HJlJLE=;
- b=Fctf41gNVWz49q8Aw/du1TeTPbxiCxwY26t07RRSdjk/lDhr++rUs3w7fJ8oL5y1Mo
- Ba/zcCETYOWxmXTtO3UjDr5Jvp2SYiM3RF+EAGygbIWWSM9szzwa7Vb4QDs2bYOf7mSs
- knYFrKfuC5XaL7SM+mwu5cC60sv8fEJWBuArD4PW9tPU85SVrWJAfiyAMHb2UXAwqnlk
- VY2Gq79yj4EPo6mZZh2vum2snSNEzajkGq43SlU/WpSsexoE1BfwYYL2n2lPNQI9ovdu
- 0nNmXPp4nJZ2HwUyllQcOQO0W02e1ea6CBmxYxPpyqBBWxTqW1R3dmoNOvd+W22ezgPX
- z7Bw==
+ bh=g7SxF5DbGT5htrrk5YgOA+scpYjVb9Z25iQ9Uytxx0w=;
+ b=mLXICC/DF/XVkMvB1viSTozQ+dDKcL3JqKbH7FiRSxqyyobMPRwMWTlgsoqAWoffLm
+ sH+yJU+syMUpi1viNZvMaCl/vajvS33LHhemx8KdMiV3mLe9c2om56t9VdBuYPwsOuKt
+ 63jb63iJCsD2JUAD0VHyvzGiI9jsPVUbRxOvUo50EG2pIQl6+uBe22E+0TGR07GJ15UE
+ qbfqg4hsGG+geq7zuA5dLuipqo1DJg8XJEFwU1gORisvhs2StndkJR13Rd9pnB+W0zN4
+ LF2Fg20EJWHm8cjOKSx+ykYMYtmH/gDuJ2IIAF0oA4I147L/u/ynuohDbhCUu/xcv5cX
+ XiPA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWSriudcTC2v4j3F5DYJrmZdTrW2nSEnGzoRcuzoL9Xt3AcymcIes57impihK0lnKQNK5mA40SDqmY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTosrQiqr0Gl9h1eDYfVSOI7/ZSINKP5rTSgCem8Bc2pX4Oa9A
- Qc4eaeymtAE3W9aKddgFI/Wzp1O2e0kd4sO+5lIIKTaP6ApHn0SAg/KeeYtG
-X-Gm-Gg: ASbGncsiBM2H5H00D1xhpPpVNiOya0AhFxI1kQjrBe5k/dBPrG12oejEqwys32IsFVi
- kK48MtJOZIR7TBiMOkUR8ZCieM0VP8ucTcVson7lDGf/C4YhWzfxmj3xQUwoGXYrblsoIBfNnmN
- 0N+0p/PMTC2fOqMvNDm8gdwkKbczYJZtGSq8gl3MNpe3dw08B6aM7EPT4qCoB+oFg+MaHzSTCuL
- EsayQ+n1cEVOH0mbVfFIE2jgKxfwjcps6BZrSZTqYAkmg9WLXW19dxRu1EULKcF0FC8q4cFgLFo
- fqzEVTvG6IqOhQjnLu7JvHHGZyv9T6ucrnF3Tv/1Fy7aDCnya7bl/tnke5cX5JXUAIUPJRAthrv
- Ztv4=
-X-Google-Smtp-Source: AGHT+IErqzYg4cJiQnZHHzExPFajbSLqktpF+LDKexNCxKQxtJbMqRplzGbeu5XA+o0axQJ+1GKo7Q==
-X-Received: by 2002:a05:6102:3b04:b0:4c3:6393:83f4 with SMTP id
- ada2fe7eead31-4cb800d7de2mr8593339137.2.1745317251257; 
- Tue, 22 Apr 2025 03:20:51 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com.
- [209.85.222.53]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-4cb7dd7be00sm2135679137.6.2025.04.22.03.20.51
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Apr 2025 03:20:51 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id
- a1e0cc1a2514c-86f9c719d63so1604798241.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 03:20:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxmhOby2MXizFUhoniP/Vjp5axRJ+77rj2iirfhrpRmkF77X8wkdz03r0AiUcOQopz5rn5Pxd10HA=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:1173:b0:4c4:f128:3abb with SMTP id
- ada2fe7eead31-4cb8026372bmr8785686137.25.1745317250910; Tue, 22 Apr 2025
- 03:20:50 -0700 (PDT)
+ AJvYcCUmqkytU9dhxNbw6aDY0AmAApUgMahBoG+2PqBVDFdZUK1YgOW0PIX9Br5nq4WVee/9EgM8ZgkkF3lQ@lists.freedesktop.org,
+ AJvYcCUnZJLEq8dIpSCNEQG9F9/c4AbR2KcHo8OU7hOVnRFKYRoYQcsJr/c3wBgedbx/lzW/qJPSBmZX@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7soT7++PMQa+ljIstHP46x4dsPx+pTdRBqwke+tslDQCUGEmT
+ lHlk+ZWeEuPMoVJbsqHZ1/N0Q5ltdAyV9IdcujOSdNeG7z24W+ES
+X-Gm-Gg: ASbGnctNOtHfpcyJ15M0uqFkkozEwSSUTdCP08U29kH3Xswr3NSFVrHbERJBHq0uy2M
+ AGJ3TtV7oxR7KgFbVNSJ3UHgJkrtLw17RydER2lk+uMtSk7ge7t2gm+afBXAyIYm/5qiVfkFDbi
+ nNz/4tG3WJ3yW5MZqziKxUHD1b6o7grIYnBJkz4iQtYnBBq4M9ovwus7giJY9PqifuRT16SwDkE
+ aSlj8nVzDljpdrloR9kBVIKaX3hodVNSy0zPqm2Wz6uJPsexJL+ST6UfnHX4vt61nlE/MvmRYMh
+ XLKydzPAQdDVxFdhbRYiuhIm50+7I0U33M7T7ZlHsQ==
+X-Google-Smtp-Source: AGHT+IGlq5aQo6biEBoKrYltKM02BlS5tU2XYCn2QzFs14ArIDjnApRfpVJZzbfhnaPVk4Nsu5WREQ==
+X-Received: by 2002:a05:600c:4ecc:b0:43d:db5:7af8 with SMTP id
+ 5b1f17b1804b1-4406ac0f3c0mr111465995e9.21.1745317592548; 
+ Tue, 22 Apr 2025 03:26:32 -0700 (PDT)
+Received: from localhost ([194.120.133.58])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-4406d5acccdsm165855825e9.11.2025.04.22.03.26.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Apr 2025 03:26:32 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/amdgpu: Fix spelling mistake "rounter" -> "rounter"
+Date: Tue, 22 Apr 2025 11:26:26 +0100
+Message-ID: <20250422102626.29965-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
- <aAdrkxhHaEpdl05d@smile.fi.intel.com>
-In-Reply-To: <aAdrkxhHaEpdl05d@smile.fi.intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 22 Apr 2025 12:20:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVu33wTjgAHUXdaLFvgnCqMzXGZkcc7i4iug0QP=-WkLA@mail.gmail.com>
-X-Gm-Features: ATxdqUENa0qwyfrGVHcZ3QDmHbGb5nSiuKchVuCF7S-gHUHHmDPBWDnwpEhdUFQ
-Message-ID: <CAMuHMdVu33wTjgAHUXdaLFvgnCqMzXGZkcc7i4iug0QP=-WkLA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>,
- alyssa@rosenzweig.io, 
- Petr Mladek <pmladek@suse.com>, Sven Peter <sven@svenpeter.dev>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Aun-Ali Zaidi <admin@kodeit.net>, 
- Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
- Simona Vetter <simona@ffwll.ch>, Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com, joe@perches.com, 
- dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, 
- tamird@gmail.com, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- Asahi Linux Mailing List <asahi@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,63 +90,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+There is a spelling mistake with the array utcl2_rounter_str, it
+appears it should be utcl2_router_str. Fix it.
 
-On Tue, 22 Apr 2025 at 12:12, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> On Tue, Apr 22, 2025 at 10:07:33AM +0200, Geert Uytterhoeven wrote:
-> > On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
->
-> ...
->
-> > > +Generic FourCC code
-> > > +-------------------
-> > > +
-> > > +::
-> > > +       %p4c[hnlb]      gP00 (0x67503030)
-> > > +
-> > > +Print a generic FourCC code, as both ASCII characters and its numerical
-> > > +value as hexadecimal.
-> > > +
-> > > +The generic FourCC code is always printed in the big-endian format,
-> > > +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
-> > > +
-> > > +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
-> > > +endianness is used to load the stored bytes. The data might be interpreted
-> > > +using the host byte order, network byte order, little-endian, or big-endian.
-> > > +
-> > > +Passed by reference.
-> > > +
-> > > +Examples for a little-endian machine, given &(u32)0x67503030::
-> > > +
-> > > +       %p4ch   gP00 (0x67503030)
-> > > +       %p4cn   00Pg (0x30305067)
-> > > +       %p4cl   gP00 (0x67503030)
-> > > +       %p4cb   00Pg (0x30305067)
-> > > +
-> > > +Examples for a big-endian machine, given &(u32)0x67503030::
-> > > +
-> > > +       %p4ch   gP00 (0x67503030)
-> > > +       %p4cn   00Pg (0x30305067)
-> >
-> > This doesn't look right to me, as network byte order is big endian?
-> > Note that I didn't check the code.
->
-> Yes, network is big endian and this seems right to me. What is the confusion?
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On a big-endian machine, it should print 0x67503030, like the host
-or explicit big-endian output.
-
-> > > +       %p4cl   00Pg (0x30305067)
-> > > +       %p4cb   gP00 (0x67503030)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c
+index d81449f9d822..c48cd47b531f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c
+@@ -1547,7 +1547,7 @@ static void gfx_v9_4_2_log_utc_edc_count(struct amdgpu_device *adev,
+ {
+ 	uint32_t bank, way, mem;
+ 	static const char * const vml2_way_str[] = { "BIGK", "4K" };
+-	static const char * const utcl2_rounter_str[] = { "VMC", "APT" };
++	static const char * const utcl2_router_str[] = { "VMC", "APT" };
+ 
+ 	mem = instance % blk->num_mem_blocks;
+ 	way = (instance / blk->num_mem_blocks) % blk->num_ways;
+@@ -1568,7 +1568,7 @@ static void gfx_v9_4_2_log_utc_edc_count(struct amdgpu_device *adev,
+ 		dev_info(
+ 			adev->dev,
+ 			"GFX SubBlock UTCL2_ROUTER_IFIF%d_GROUP0_%s, SED %d, DED %d\n",
+-			bank, utcl2_rounter_str[mem], sec_cnt, ded_cnt);
++			bank, utcl2_router_str[mem], sec_cnt, ded_cnt);
+ 		break;
+ 	case ATC_L2_CACHE_2M:
+ 		dev_info(
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.49.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
