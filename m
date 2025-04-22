@@ -2,149 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA348A96404
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 11:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81050A9647A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 11:34:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31FAC10E19D;
-	Tue, 22 Apr 2025 09:20:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C408510E559;
+	Tue, 22 Apr 2025 09:34:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xKpqjbYf";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nFWplkH8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2063.outbound.protection.outlook.com [40.107.101.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6513810E19D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 09:20:24 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B351C10E554;
+ Tue, 22 Apr 2025 09:34:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745314442; x=1776850442;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ in-reply-to:mime-version;
+ bh=Ap36ei89wwyuTFEJGMKZdGy+glDzxJ+ODD1sgpBlnh8=;
+ b=nFWplkH8eht5aUY+kzsugYgiq2mowDp2e/UzfM5XPpZ3kYutFlsY30nH
+ +K+MtgPTI4gEDjgs5pNyjQd12Y4iTPq+FPoiQH/zUWi2+gsfgi23PGkqZ
+ ej1YKz5kwGxyVKRN5jo9B9+fcc34UCs1F8+1DRDb7qTASqbnl1uG++jgo
+ V/Mc3E5qjJGwpZ7Nqam0Enndjk3S2KCf7UlMY2EhDVCwqou2GRaPkd3TD
+ /A4sNvyvfulqpuGMD18O9i35jZLJtbegYo7uFBHoYrq5FNvrYJvSSnZuX
+ OnkHSh4X079WB7CeOvO54TM6Y9OSp1UBEH36yZk9zqwj68ex17y/XxfY2 Q==;
+X-CSE-ConnectionGUID: 4aACIod9T1CnfIVAsVYpEQ==
+X-CSE-MsgGUID: 6kfS8h1GQJCNu8eOF0ewvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="57846707"
+X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; d="scan'208";a="57846707"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2025 02:34:00 -0700
+X-CSE-ConnectionGUID: KJSprvdqRSiFKoRM2nS9xA==
+X-CSE-MsgGUID: PjMeQhDrRr6Dw6mVUGVl9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; d="scan'208";a="137118873"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2025 02:34:00 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Tue, 22 Apr 2025 02:33:59 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Tue, 22 Apr 2025 02:33:59 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.46) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 22 Apr 2025 02:33:34 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r/ShtvVCmnQ44NF1JbW911lLX40wXQlie3FdxxDjJFgrEQOAHaSvHM6raRXxk25Xj2xVRwXQU/B/+LOrzJOVi6+mJ7qHyqhGJA4a90nE6mXIJIGTdKaoQlzrGQKGE/JIHh+f7TeBeAMLLk11x91WtIPqOO59Bp7Yffqz+msYcuX8oII8xiKWbMkDhWI8vW+fuKu0Ra2Die9fljqBzUcb4lWEtgyDSmvDtzqojikC67G97XTrHxEPZEAs9tvPelUX/vCVNYrfwZ3FuzL0J7B34OEIccu47BLhz4pPJRl9eJpAIuOl6S2WU1BmZ6eiTzHL+SjIi1136XFLN0i9qKD/EQ==
+ b=eOnJyzxukBofJejaqbmXuQgUP/Xcm89bkHELLFBiXEYrNCXTdF7EVesmdi8xe37juRFV7Nb6TyUIOOIg+sHdPaXs3K+I5jZVjh/wqp4L482B+mNwprDputUj9XgwgWKrGbzbMPKqy03b3NzYJ8oj5SqPH2E2LRaKEgSxcpMo96NDECE1+SkNXviW1nMiJeqV5Kx+A8I0KuWss5fXohil4vIINAdgz9VGjCX+iaNHwnZBs2kWRJf2HE8Dre6bGpudwJkci2K2fgbrbdCSAurNyidjempz9PxLDuRnfkFoTUrY0JTMF/oaNKb1q+PERuCbuN59/A/MqUh1n4xmGqggDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c6bbKEK817/32KuWu3drd0gOiZRFKYh6X6c8DxJOJq0=;
- b=Mn1Pr760ecKwsD8EffRVWB2jUi1STOqCEa4SuV5Of0up/4RxyaPnd8ykSTeazn47JmyojsNXs2uq2Pr/qiRcFFAVFHYioxicBRlfdRG5MYrCcRHHESsbqq3sa9LRLKi0e4mK4lQbyQzuivfWLMlcCz+QuhN1zHacqma60NMI+ur1B9QCHjVPui0/Zh68ZpPsM7OnsuZ2obv3/A6oZeIBOjbkb6mbig9EsXuC2ZmKKYZzN2Ehe5RhpjtXS4M9kdXdFI3IhVDsbUpsYfCJxQI1EuSJUoptmmKkvCfgFlxUczG2R24ZvOdvUqSlPHGnal57CpSGSrfSEYS/UaHh9kKtpA==
+ bh=mk0OsrR+66Y7La1xB6Y6nPvFvkGEi0JRatDDmr8oSIA=;
+ b=kZdPLGStLE2tRYx6jLvIs97ICvLGGDIvg+OvCnH6vtiIfdhQt5rY8E+1hdzwzZLAyF0He1af0DmU0WM8quMnovmHD+To9DeYM3gTmwsLux/5fD6Uo+N7qEKiWuwBTAxeHVemJXSLgeaJihQrKbw//LyXJWR8i2SyI3omAnzsya0yKjvUvV7OQ+ab9mzhp8KtSAZDxvTQaER+fPCZrRDojrwi/5khEETAAAclExeHG6CzhhubQjbWJA2w4ClmWhZYmG+UoYkfeKpUK6wqP/TlSwV0K8PG2r7ghM8cf//tUTtouQwTOHjMJKr5TSUwflU7CU7hXrzUsdc0zFMpL+QyUA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c6bbKEK817/32KuWu3drd0gOiZRFKYh6X6c8DxJOJq0=;
- b=xKpqjbYfV7FqzIU7tRjR3bKp0H5CvuRxy3eAjhLfflo/esM4NFQO8amB1qycXMudCNthKZFJ3lda5o3eC7h5ALQw+gmgMQd8tFVWHNERYFiiZabUaW4mLVHegFAVulhmpLCt+93s/iqt1PmBqub6ODYLMKFUOJGxN04wODQhOyg=
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB7945.namprd12.prod.outlook.com (2603:10b6:8:153::19) with
- Microsoft SMTP Server (version=TLS1_2,
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by CH3PR11MB8096.namprd11.prod.outlook.com (2603:10b6:610:155::21)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Tue, 22 Apr
- 2025 09:20:21 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.8655.025; Tue, 22 Apr 2025
- 09:20:20 +0000
-From: "Koenig, Christian" <Christian.Koenig@amd.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC: "kernel-dev@igalia.com" <kernel-dev@igalia.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Umesh
- Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Subject: AW: [PATCH] drm/fdinfo: Protect against driver unbind
-Thread-Topic: [PATCH] drm/fdinfo: Protect against driver unbind
-Thread-Index: AQHbsH6A9sU5gErEeEmfRpoBns43XbOvbnsR
-Date: Tue, 22 Apr 2025 09:20:20 +0000
-Message-ID: <PH7PR12MB5685C40A8B0058293A9A8AE783BB2@PH7PR12MB5685.namprd12.prod.outlook.com>
-References: <20250418162512.72324-1-tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250418162512.72324-1-tvrtko.ursulin@igalia.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=True;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-04-22T09:20:20.051Z;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
- Internal Distribution
- Only; MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=0;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard; 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR12MB5685:EE_|DS0PR12MB7945:EE_
-x-ms-office365-filtering-correlation-id: 3f7bdf49-50f6-41ac-e848-08dd817ee77c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|376014|366016|7053199007|38070700018; 
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?pTMjR8MtmtW0cr/4xPlJcX2xMDvtJlROyyzhOAbPiipip9DvB5yCbpoDmU?=
- =?iso-8859-1?Q?mzyVqdvWZZVHmXoPsuQsHShRoTwrd4JI9tCanbhwS/eQFyk9zyVJVUmVm8?=
- =?iso-8859-1?Q?aanzclvPMiEdESCx6aXvNm8QYY5ERBIxVgUx+vRBb5JFr8Se6L3lcHApDL?=
- =?iso-8859-1?Q?Kp000RkGMDKUpWkmYiGJUm9MVZIRCvPI7LKOYMvI8y4n4G+sEKl107nBB5?=
- =?iso-8859-1?Q?3XSuhtODcXfp51/KE66wH5+jval163wHK28mipmOVgR8Z6DAzV6EQuvfKP?=
- =?iso-8859-1?Q?efk2McfcJMpLRxhJE5fBwCjl4o0O83A65YVMgl6o7jQ7busyb+VQwWUqBA?=
- =?iso-8859-1?Q?Ih8kgTJfzvM+gjnJLw0AJTnyQu7wFzg1wgwZu/ah4LrD++4ZSgXx8Iq7yi?=
- =?iso-8859-1?Q?WoH1m+l4rEUP5M3EmCvOOOvLD1m3nFqDdaXfP5dZMi1bNpjhzahZU4EYPo?=
- =?iso-8859-1?Q?fuhsYkxitJhNLM6xvm8VLYk97luVPp7MNlwIgBmiHRyMG9wplvNjmuzQ39?=
- =?iso-8859-1?Q?lDGjVWDjrDakhEPLkXEdDgk6Q0jDUrBnY7bv9RNW+/HJJM36i8Lq+F+uSQ?=
- =?iso-8859-1?Q?LevMWdBWaDs9D7QL2Gl8vuTzlxL2nLUjS8fluINAITe5GZpCR/lem/pHyH?=
- =?iso-8859-1?Q?RdqBj+kT8zt97yvZeruO+ws4ZX2jPofI24rO+5Hz2+KjDIXyNASlkq3d9B?=
- =?iso-8859-1?Q?3oACjMb7Vy8sKcv/MVwV+FciWUB6Dr6lbZ6u7L8IVtqyUySGk98Dtfsux5?=
- =?iso-8859-1?Q?qixA51jBsG5zzgRwyJFefE3dsbAH6yIKTg4GADvS4f5xJkSO/cIJp21vGH?=
- =?iso-8859-1?Q?6TzR9MoLMcKiommAaTEkEhgieZ2cpcrXOqTeljFAKV6xdCXGlZqpr1Zg1O?=
- =?iso-8859-1?Q?H993BfU9C4IPJp9gNo/WPBeq7YcVHosd7zEtJCQsOHdKmTTS+UKorKVjQB?=
- =?iso-8859-1?Q?+wTvhcb7rDSLv7upJo+tly4QHCheJGk9VBKkjDMJKt9951ILdJQ/Zxlh/1?=
- =?iso-8859-1?Q?MwdqnqykfNsXFyyEQf99ZMWNFFzYrpGeuf8Mwz94PF6OFdMqsqfqLycMBy?=
- =?iso-8859-1?Q?JPncdkZnZ4BOF698NtHLtYpr6LSD+exi9vVz/daMe8qczt0IC28qqgid3o?=
- =?iso-8859-1?Q?vwANX9IJlrRfaMgV0ubGab/z1BEAwKuSPTfqqZJ+AMlsSL7cxGfjbQf5T9?=
- =?iso-8859-1?Q?BxXbDW1rXo5y12qB8BEEJ2S0KndElEK9hmu7E1wvO4fSYBxO+WIHitDq0T?=
- =?iso-8859-1?Q?nDF13PJR+sZ9uF4j/46unAEIQT9yzr1t6NX4ykFpyLwzMc6r9WJFbLpzp6?=
- =?iso-8859-1?Q?t/eT/tZNogl+cElTaE8uHCh8MxGl5doQjvCLLYLz3CJoNV2kmpzz4t7FyT?=
- =?iso-8859-1?Q?grCIsYK3F9cOXLhjdzdxsLh9KE/bUUlzC7MAfOMYJDEnD7M2F9bvn94QAB?=
- =?iso-8859-1?Q?bwhsFf+JloD0z6mQpkZ7GN57Mb9VKEuEifYSlrDz+I4FccnOLLpYlPavy4?=
- =?iso-8859-1?Q?HK+wY7zSlgJOg7iqkh4vz4QiNfFTDqz3D/riIBMr3lBs+GXDPJCdxqMA6Y?=
- =?iso-8859-1?Q?VKBcQso=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(7053199007)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?8xHonnkcfdEH3lfsFollrGR0Q+yYryEke5gjyJlzMqJJWpZWcTcOBQ+1aI?=
- =?iso-8859-1?Q?7uYzQIdLC2utBrerDq7/GJtsJsF6syiy0B4pPXk33mbJM501xCvkMoTxtM?=
- =?iso-8859-1?Q?hqwDxSI5PkvAURVKzga/8mfjPu6wwhzlL4WT+hYVfq+6ktopD9Duqmed5v?=
- =?iso-8859-1?Q?Itu0pRSNzGX1i/TGpc3SGg8mjk4BGG4iB1nO/ZcOQld3GZ130RYfhF0TG0?=
- =?iso-8859-1?Q?eSVpRvngHZ5EcrLxyBZos8PH+yOfxmfS2Hnkzdf6Vx594uDu3ZMaoagoNr?=
- =?iso-8859-1?Q?u2RDQpqR18SNiNyqdlM4gLZTOLgx62UxzWFHEORuX24nMM7L6/7iQLdAwz?=
- =?iso-8859-1?Q?lut8fo/X58aB4tRV/UWzrY4xnVGBfE1YLpcwwEWLm7oiXnromgLwlLi5gL?=
- =?iso-8859-1?Q?ipY1IkzOtgFe6cE9mkW2mnGRLqhrVmVrsU5WhBbB3HvLHICXIWT0dQO2zS?=
- =?iso-8859-1?Q?/20gskKSj4tnjk9IXgZ+/1UUQsxG+rmuSh9nmhVAChA+kovUyIBhKwlIKY?=
- =?iso-8859-1?Q?cwG8xnNjkVgTRMqXhBvwSbUvGnT1bOq6WDjz81Pgb74rmbcuvblzpzFlbp?=
- =?iso-8859-1?Q?jDJw9fmWqbXRYpVpr7wW8mZ09ogz8Zz4vBn06Td065o9IPjeV+zrMJB9Iw?=
- =?iso-8859-1?Q?fmg/plRzz09370PYlfduvrXQmhXpLA2/MJFdpK+4AG9qBjseVPjhEzmIGV?=
- =?iso-8859-1?Q?3ha8KSJ9gMfUKzZoQZKAeqHfIryRHK7kweQrGPQai4HPPQ9FFgyJLYsAel?=
- =?iso-8859-1?Q?/efhXbOC1LMft+4dh29m5PX82X6E7i8dKl0cpGZj3CWUKFFf451E6vgivm?=
- =?iso-8859-1?Q?aZniSPCJFI9O+3a0uWGehRbJZ1kEq4NZ3/HsPWdIT8MDpXJAiB9P4ZVWwa?=
- =?iso-8859-1?Q?S7Xr8PIOAmrc1JhKc25Wj8L/637Jj2xIAdjGv0TG3EUFOUOYxkBPVKVpVT?=
- =?iso-8859-1?Q?DfzcA3hC1boswpuHIrZQ9N0NP1iTXzpowF257rj5kJILSevsKcqxuKfyJY?=
- =?iso-8859-1?Q?9z5cJ3JHNKLKYJhO2x+3VYBRKngCDkCNwmAX1CN/heqxj/U4wLIDF6vjro?=
- =?iso-8859-1?Q?n2ulU03hDzIpwgx5Q0pbJ48ZTw7Qc1vYxie/Y9diGzzB0XvwOMvj9AmCVM?=
- =?iso-8859-1?Q?VoNlYhEr8iyciilVfrtoOmKvGk3jbfYXnwvTZ2Kxdw2JmFcD0S8QdhFch+?=
- =?iso-8859-1?Q?aJeW1XPuwTUDiYnbWnbjGK03Br89NgfF6pH5XjfJ19kl8120fjv60663ua?=
- =?iso-8859-1?Q?GUpzU6YQB/hOnkJa33yyDbuPJbIeVmIGPGKvX8eRp+76k//PEXaagK26Wz?=
- =?iso-8859-1?Q?/W+H1vIimgG9xqRONVrRup4BbQp+EHgJ6APwq8o3tz+h1rq0WFD2NtYyOd?=
- =?iso-8859-1?Q?e6gkg4bfOHOsTmgIJ9imh6QMWCa1AXMmYfiWEw9yZfZhKieJA1HhF73gHZ?=
- =?iso-8859-1?Q?Qho40GLfzwwJtWi2VnNkA+QaGxj04PF3UDxWw6Gz5JEgNlhnVMCoppgdmg?=
- =?iso-8859-1?Q?FxVGKX2QNIExqeHiNALYee/qPgtVyKlZwDoJxICuoVfN4exT8WI7DZ/q5d?=
- =?iso-8859-1?Q?SloKazHlXPohTkE4rSw/FGaLB7pOKpt6ZujFHyoaAIdmWKpM1AGk3HzDLy?=
- =?iso-8859-1?Q?LV8b/xuVyoLk8=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ 2025 09:33:04 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%5]) with mapi id 15.20.8655.033; Tue, 22 Apr 2025
+ 09:33:03 +0000
+Date: Tue, 22 Apr 2025 12:33:07 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Arun R Murthy <arun.r.murthy@intel.com>
+CC: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <vinod.govindapillai@intel.com>
+Subject: Re: [PATCH v3 1/3] drm/display/dp: Export fn to calculate link
+ symbol cycles
+Message-ID: <aAdiU3K5EV6Oq81a@ideak-desk.fi.intel.com>
+References: <20250417-hblank-v3-0-d3387df7efce@intel.com>
+ <20250417-hblank-v3-1-d3387df7efce@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250417-hblank-v3-1-d3387df7efce@intel.com>
+X-ClientProxiedBy: DB8PR04CA0017.eurprd04.prod.outlook.com
+ (2603:10a6:10:110::27) To SJ0PR11MB4845.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d1::10)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|CH3PR11MB8096:EE_
+X-MS-Office365-Filtering-Correlation-Id: f6cc35bf-4808-4180-934a-08dd8180ae19
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HCMLKcHb73ukgXOJ7/wC9S6aPTsnBbqVoijuf4704/b+ODToZxVl0TTaw1Nv?=
+ =?us-ascii?Q?rNsbXfFPxYc11v1eKsSJzfyFr3VlN4MoQ9RHRfUxa7prM7jGGqtVOMVmMpxR?=
+ =?us-ascii?Q?FbB2j7cz8Nfd1d3+svw2wxxQSbdXCLsCQRLwly8STutE68OWUExEmtEy9gU1?=
+ =?us-ascii?Q?DULwyERIVLq987rvPm6g4680AeIGW/V4PYMOLG10IF+DiSiDzr3Hl8W5pcWp?=
+ =?us-ascii?Q?dgxsnCKm+YNLFTJSM/3KepxcsWSOjuMt+7/xAgM559+qNUfbvtiBNssuhLX4?=
+ =?us-ascii?Q?G+YbAg7wDEx4pikFcsflqP2lS2s3Dl1m2CPpPPTm8u6WmSlFOEjkIo1k/YrH?=
+ =?us-ascii?Q?wJb9DSTnTCzhT03ybYhWRuA4iPgzgGwpNpNb1R/oaqTtX54gPaSD+u1ONWMu?=
+ =?us-ascii?Q?vTFyl84pSOpZxHNzXQOVGcGhCClHb/kzWrX3kmIVMBnJceSfs5xXgG1+Hb9p?=
+ =?us-ascii?Q?HShY9dfp+iBBEBNui5nmUr2vlIgTDUrRFR7qzjk+MkfQHJi8q03ky6GDM4Mt?=
+ =?us-ascii?Q?7LPKx+F+CBApVPmrgQ4YO1tT4vOKwXqPloVbZD/jknvH3IzfIH74OW6sAx+1?=
+ =?us-ascii?Q?NwYonPadsgIjrEFfLt1dyhRcTemIQqrn7jYLgDeT/SDazU18n64PxhhEGlHG?=
+ =?us-ascii?Q?2lXzFq1dGgf57pEcTXO+N+NRB3lP2RLlz5h1dCfYK+hOEVPjoHyVooU9dLu6?=
+ =?us-ascii?Q?gaptxszYQKMNQiId0j26UyrI4i4TYPsFpNUORkH2hlkCPgh2kUS/hD4SU1xb?=
+ =?us-ascii?Q?KsD9v8gtmHnV1x2jtdDfbBUNHRBFW036mV4kwnMZLN8ZQ6KdpG5WzPlQTOsk?=
+ =?us-ascii?Q?qKrYQISg4o2G8yz1LQI90wR05SUdpdLM6e2qrzw9WG73+vT8zHfQ78DOw2kq?=
+ =?us-ascii?Q?MjSaJ3Bz5t5Etww59oeiQ7De5PIQQ8DEY0lFp+1asES7xR/ikyHAFWk6LcAZ?=
+ =?us-ascii?Q?EQD7gpAdp+CQRamLIITrzl5ttSRAmquAalW92D9im88WKtkLjb7vc7sZZHcR?=
+ =?us-ascii?Q?AxVFSJp7u6QJwDWrb5vUre0vRbLtwCydw7fqHN1LRtjfj8XQ7sUehOg12XmZ?=
+ =?us-ascii?Q?sJFoSjhd+WJp+DFO3PJP9XEIYCcaPUVQW27IVcX2mZW0zlAhUJkWjRiq/wkD?=
+ =?us-ascii?Q?bYRFsHOSMVTelNtpWAGuotiZoaOakVqPgDUJX/V9QzkaNYxJnIuGWo2PRgrQ?=
+ =?us-ascii?Q?q96q/KubRasO0vdKT7mD42mrQ62EfLFs28oVcvPoltj3EEWxRYUlFNJQYWpW?=
+ =?us-ascii?Q?HvhjNQqNUNwjc+29V49nVZxQOQvkxHR3eMxYJkXiyCfCvo1E1p1Ue14tg/O3?=
+ =?us-ascii?Q?tj/0f0ctXt6YyJ52b9ZaeSGttBLpZkEjVeOwHk3nQwgcymupM8ywmf+RVioQ?=
+ =?us-ascii?Q?gE9AERZc/+4XnOYbvt+VBkzoeljXBj0tPv55/fx/I3PXs+nJyC3FJwZyYtfC?=
+ =?us-ascii?Q?95SMsjJv3nk=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qf6Pne+5b90/u+erxfdNgBE53lYwz7a43yTIRw5+NWyvtaX37W8gOKs8Q2Z2?=
+ =?us-ascii?Q?GvoibPLPboidWGoEhV1orQhQYkivWi5tt5XfnTYLXMw3nkeNYUq7jwBv1muz?=
+ =?us-ascii?Q?x9/yizAfdKPp4pqjs+sXyYFe4yFQsBUqKoPQ0i3B60yg5LgJClq4fAEPUdZI?=
+ =?us-ascii?Q?CBvs4LKIKojURVvKIVH5uKdYdqJDYtxD5Z+xgzp2SvzXXf6je+poyUYAjKSw?=
+ =?us-ascii?Q?qbBDm0Cf2AXOVDpHRfHucgft1lz0vmhP1Q7PvhhThBRNDXfBDNSzMQ38+nxK?=
+ =?us-ascii?Q?ADo6DuU1hvWzcGOOsO0yeoi5QITBuafAg0p7I7tPq3GIY/CZ6ZnQY0tij0RC?=
+ =?us-ascii?Q?IgihAm0ab64ZpwYu9d6frYKyHIO5SgLFysTCRnmLID31VVrtvkHY3vajAyhl?=
+ =?us-ascii?Q?Ubs16JAYjaZB1Wguhx8/5nj36u0HNwMg3ZFjAHB9uEGnz+xQLQCb7eW8tBsu?=
+ =?us-ascii?Q?zsGwoWsxaDw9HpNjeZuscRsn6e+VqRkltVcM7d9JjPbO6Bo9orL/1ZbF22oc?=
+ =?us-ascii?Q?7TqOPYhHiAA7X8wd/I2icxbSskjwSQQfcTddyyQDMwF7vToZ5+y14t44OfAk?=
+ =?us-ascii?Q?fedCZGmKG60GziBCoXOxrIar+8C3MF5MfgqWMmD3ZKEDaGs0araH7boGZMla?=
+ =?us-ascii?Q?HazjCGljQHiRnn/4TOsdk/J6hckyIg8q7jyj8fQIUnx4CoNubxEx9/crcRnU?=
+ =?us-ascii?Q?9Fz9flDW0YmmJosoNx4MOZaS6XxTY7edjobq2oYlwkVqqyO9tM283IJh8LX+?=
+ =?us-ascii?Q?+Srak0/ARmarV/jnS9aHh1GWxQPBL/2kyvoZQhyWId4FXp1wxBP+y74i62Nb?=
+ =?us-ascii?Q?4lifEwH0KhMr47Au1ahcZdZrJa2JxxSWOyKz9bQ5az3k3HajbOxZ1AjCvRT1?=
+ =?us-ascii?Q?GIHvt6yq/OfQraViL/UHa6aaekgmMfflrjNFpGLVTUsVJuwlALybXEIkwWgc?=
+ =?us-ascii?Q?OKE4WxUXFvFeuVkdb0XBxkUoI6tQxaoAJHaC2oKKzdWokJtEdgHdKB8jSflC?=
+ =?us-ascii?Q?DvLn2pPZSjnMewuylQgkJ7jAe4+u97GFEQZ0/lTVD3YEhf/sxAF/tnR5SMhH?=
+ =?us-ascii?Q?5aZ/qty2yAIaE+xIsFysF+cfsxcL5ui7E+R+eRuLqaal3fYOSX/ir69e2peV?=
+ =?us-ascii?Q?LO2MvGMbk1xyeLzSmbfrA/DrkSMO/mHkqEFF1tJBrYjokG5b6Nugcm6KNMGZ?=
+ =?us-ascii?Q?8uqKenUsSKqLkM1Tp5Zhsb19UC8TBCmKvcyhxXWNUEov/NEM4+R0v62Yt0SA?=
+ =?us-ascii?Q?1peaXoTmEY8T833pOO667w5PCfhaw8bhV1UB+ewjZ4ytj7u8+tbctOtQZOwW?=
+ =?us-ascii?Q?OPtJf7lcbPVwIFS1ijbX3VrOURYNHLA/p5ZFBgLPmhl4FMvKZqYhyjPa+5Ey?=
+ =?us-ascii?Q?n5o53TrM+FVTSHk9b1PSpmCYStaV5ZddeLLUF/Hd8OyFdUrw1qGqMlJ8c7Zz?=
+ =?us-ascii?Q?YJExoh6rkvuqz4QipKBap+qiGPLBkzEaMU5uhaPLQVpYDbrHJ9RaIjsO+Bdb?=
+ =?us-ascii?Q?mFPA22El6ThDrzd3rIvgKb6UxxL5dJgY3L2rgcuba7UJQLL8DFj/ug+8LvYz?=
+ =?us-ascii?Q?m41neGvKm/CxEAQMJpn2UW08rs7qq8bA5FkNR66A?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6cc35bf-4808-4180-934a-08dd8180ae19
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f7bdf49-50f6-41ac-e848-08dd817ee77c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2025 09:20:20.5542 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rfP3d6AiTDD9dIh1DZqhA4iS5pbbnZeg2Txh/LQU1GMQDnhNqM6NDmM2I/mzj0VF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7945
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 09:33:03.6865 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Pm5btpy2AF9wBE4M36xZK45a+0V92d0fDG6LL8oQtZlDaw+AHKrJ1kYEppU+vRoU1WBrGsFayzWpZVhNh1iClA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8096
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,62 +175,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - AMD Internal Distribution Only]
+On Thu, Apr 17, 2025 at 04:22:28PM +0530, Arun R Murthy wrote:
+> Unify the function to calculate the link symbol cycles for both dsc and
+> non-dsc case and export the function so that it can be used in the
+> respective platform display drivers for other calculations.
+> 
+> v2: unify the fn for both dsc and non-dsc case (Imre)
+> v3: rename drm_dp_link_symbol_cycles to drm_dp_link_data_symbol_cycles
+>     retain slice_eoc_cycles as is (Imre)
+> 
+> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c | 53 +++++++++++++++++----------------
+>  include/drm/display/drm_dp_helper.h     |  2 ++
+>  2 files changed, 29 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 57828f2b7b5a0582ca4a6f2a9be2d5909fe8ad24..5ce8ccc3310fb71b39ea5f74c4022474c180f727 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -4392,26 +4392,33 @@ EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
+>  
+>  #endif
+>  
+> -/* See DP Standard v2.1 2.6.4.4.1.1, 2.8.4.4, 2.8.7 */
+> -static int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
+> -				     int symbol_size, bool is_mst)
+> -{
+> -	int cycles = DIV_ROUND_UP(pixels * bpp_x16, 16 * symbol_size * lane_count);
+> -	int align = is_mst ? 4 / lane_count : 1;
+> -
+> -	return ALIGN(cycles, align);
+> -}
+> -
+> -static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
+> -					 int bpp_x16, int symbol_size, bool is_mst)
+> -{
+> -	int slice_pixels = DIV_ROUND_UP(pixels, slice_count);
+> -	int slice_data_cycles = drm_dp_link_symbol_cycles(lane_count, slice_pixels,
+> -							  bpp_x16, symbol_size, is_mst);
+> +/**
+> + * drm_dp_link_data_symbol_cycles - calculate the link symbol count
+> + * @lane_coount: DP link lane count
+> + * @pixels: horizontal active pixels
+> + * @bpp_x16: bits per pixel in .4 binary fixed format
+> + * @symbol_size: DP symbol size
+> + * @is_mst: is mst or sst
+> + * @slice_count: number of slices
+> + *
+> + * Calculate the link symbol cycles for both dsc and non dsc case and
+> + * return the count.
+> + */
+> +int drm_dp_link_data_symbol_cycles(int lane_count, int pixels, int bpp_x16,
+> +				   int symbol_size, bool is_mst, int slice_count)
+> +{
+> +	int slice_pixels = slice_count ? DIV_ROUND_UP(pixels, slice_count) :
+> +					 pixels;
+> +	int cycles = DIV_ROUND_UP(slice_pixels * bpp_x16,
+> +				  (6 * symbol_size * lane_count));
+> +	int slice_data_cycles = ALIGN(cycles, is_mst ? (4 / lane_count) : 1);
+>  	int slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
+>  
+> -	return slice_count * (slice_data_cycles + slice_eoc_cycles);
+> +	return slice_count ? (slice_count *
+> +			      (slice_data_cycles + slice_eoc_cycles)) :
+> +			      slice_data_cycles;
+>  }
 
-Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
+This is not what I meant. Please keep the two functions separate, don't merge
+them and don't introduce changes unrelated to what was requested. The following
+is needed here:
 
-________________________________________
-Von: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Gesendet: Freitag, 18. April 2025 18:25
-An: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com; Tvrtko Ursulin; Koenig, Christian; Lucas De Marc=
-hi; Rodrigo Vivi; Umesh Nerlige Ramappa
-Betreff: [PATCH] drm/fdinfo: Protect against driver unbind
-
-If we unbind a driver from the PCI device with an active DRM client,
-subsequent read of the fdinfo data associated with the file descriptor in
-question will not end well.
-
-Protect the path with a drm_dev_enter/exit() pair.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian K=F6nig <christian.koenig@amd.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
----
- drivers/gpu/drm/drm_file.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index c299cd94d3f7..cf2463090d3a 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -964,6 +964,10 @@ void drm_show_fdinfo(struct seq_file *m, struct file *=
-f)
-        struct drm_file *file =3D f->private_data;
-        struct drm_device *dev =3D file->minor->dev;
-        struct drm_printer p =3D drm_seq_file_printer(m);
-+       int idx;
-+
-+       if (!drm_dev_enter(dev, &idx))
-+               return;
-
-        drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
-        drm_printf(&p, "drm-client-id:\t%llu\n", file->client_id);
-@@ -983,6 +987,8 @@ void drm_show_fdinfo(struct seq_file *m, struct file *f=
-)
-
-        if (dev->driver->show_fdinfo)
-                dev->driver->show_fdinfo(&p, file);
-+
-+       drm_dev_exit(idx);
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -4393,8 +4393,8 @@ EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
+ #endif
+ 
+ /* See DP Standard v2.1 2.6.4.4.1.1, 2.8.4.4, 2.8.7 */
+-static int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
+-                                    int symbol_size, bool is_mst)
++static int drm_dp_link_data_symbol_cycles(int lane_count, int pixels, int bpp_x16,
++                                         int symbol_size, bool is_mst)
+ {
+        int cycles = DIV_ROUND_UP(pixels * bpp_x16, 16 * symbol_size * lane_count);
+        int align = is_mst ? 4 / lane_count : 1;
+@@ -4402,13 +4402,17 @@ static int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
+        return ALIGN(cycles, align);
  }
- EXPORT_SYMBOL(drm_show_fdinfo);
+ 
+-static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
+-                                        int bpp_x16, int symbol_size, bool is_mst)
++int drm_dp_link_symbol_cycles(int lane_count, int pixels, int dsc_slice_count,
++                             int bpp_x16, int symbol_size, bool is_mst)
+ {
++       int slice_count = dsc_slice_count ? : 1;
+        int slice_pixels = DIV_ROUND_UP(pixels, slice_count);
+-       int slice_data_cycles = drm_dp_link_symbol_cycles(lane_count, slice_pixels,
+-                                                         bpp_x16, symbol_size, is_mst);
+-       int slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
++       int slice_data_cycles = drm_dp_link_data_symbol_cycles(lane_count, slice_pixels,
++                                                              bpp_x16, symbol_size, is_mst);
++       int slice_eoc_cycles = 0;
++
++       if (dsc_slice_count)
++               slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
+ 
+        return slice_count * (slice_data_cycles + slice_eoc_cycles);
+ }
 
---
-2.48.0
-
+> +EXPORT_SYMBOL(drm_dp_link_data_symbol_cycles);
+>  
+>  /**
+>   * drm_dp_bw_overhead - Calculate the BW overhead of a DP link stream
+> @@ -4486,15 +4493,9 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
+>  	WARN_ON((flags & DRM_DP_BW_OVERHEAD_UHBR) &&
+>  		(flags & DRM_DP_BW_OVERHEAD_FEC));
+>  
+> -	if (flags & DRM_DP_BW_OVERHEAD_DSC)
+> -		symbol_cycles = drm_dp_link_dsc_symbol_cycles(lane_count, hactive,
+> -							      dsc_slice_count,
+> -							      bpp_x16, symbol_size,
+> -							      is_mst);
+> -	else
+> -		symbol_cycles = drm_dp_link_symbol_cycles(lane_count, hactive,
+> -							  bpp_x16, symbol_size,
+> -							  is_mst);
+> +	symbol_cycles = drm_dp_link_data_symbol_cycles(lane_count, hactive,
+> +						       bpp_x16, symbol_size,
+> +						       is_mst, dsc_slice_count);
+>  
+>  	return DIV_ROUND_UP_ULL(mul_u32_u32(symbol_cycles * symbol_size * lane_count,
+>  					    overhead * 16),
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index d9614e2c89397536f44bb7258e894628ae1dccc9..98bbbe98e5bc0ce0f9cdf513b2c5ea90bb5caffb 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -971,5 +971,7 @@ int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
+>  int drm_dp_max_dprx_data_rate(int max_link_rate, int max_lanes);
+>  
+>  ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc, struct dp_sdp *sdp);
+> +int drm_dp_link_data_symbol_cycles(int lane_count, int pixels, int bpp_x16,
+> +				   int symbol_size, bool is_mst, int slice_count);
+>  
+>  #endif /* _DRM_DP_HELPER_H_ */
+> 
+> -- 
+> 2.25.1
+> 
