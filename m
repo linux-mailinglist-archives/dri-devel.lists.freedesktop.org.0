@@ -2,120 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98CAA9794E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 23:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42876A979AF
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 23:47:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 451AF10E635;
-	Tue, 22 Apr 2025 21:41:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C410510E3BE;
+	Tue, 22 Apr 2025 21:47:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WGEcD0+0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FcrQXoBn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1C010E635
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 21:41:30 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-43ce70f9afbso49278625e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 14:41:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745358089; x=1745962889; darn=lists.freedesktop.org;
- h=autocrypt:subject:from:cc:to:content-language:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=CdpsBpDWdxMBBvIM8tPsAm81m0X2FgTrOU07T3tJZx4=;
- b=WGEcD0+0zyQfdQ1wIfDBzxLCH6LbTYaGIqi3ZoEMRwsQpFyZhSj18ejSrVUmcRRFGI
- Yn10CsUx60qmGcVZXv710h6WVohXBrUevbWxBS6HPJaQQwuGxzJvApa0Iwqb8iiJYCkh
- oOnfwm7kDcjYfkmL+StOy+KhOG1dKGRydEmTOBkygOi+c4BAChgISDmE+17/TEgKPUdP
- 9/bnZ6Ncwx/1XqJy7HS7VOjLZTLspceQQKzk1vF41w3MJGVY5hObdbBV+TV8A6vITAG8
- xUl17tEGt4k48ywMgJ21z5RDWs72HH2TumDeKYhZaPAsqnYLhxFqKT4mRtd6xJoEV/Jo
- 4MNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745358089; x=1745962889;
- h=autocrypt:subject:from:cc:to:content-language:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=CdpsBpDWdxMBBvIM8tPsAm81m0X2FgTrOU07T3tJZx4=;
- b=hG2kOC7r89otSCI5mjENzgdJF+GOF5GNV0Qwrnm1zAdSYEWUk0537GpPA/nJcCF8Ma
- I9KAgtyvDiVaqAa3ZGhcmeDwCCraGSm/3gTaY8Mnj4zhSm7npt2/0L3yeoY2pPRofrHb
- G6SYpp/ofFk2Ee7KU6I+NRAbGjDW9Yj6G02hSorDN7S8BjEk8g1FpLLZNUF7K/qZeuyZ
- eMsGvLcOFc2YgtweNr+v/4J9WS2CsVZGh541D3ebE1moQSUoOPWRQUSOSlYRs/Cw4N0I
- 6ATYUZiuPH9t9srRiMgWsCMFpEiOXzmndZWKUq5FBgy6EJsBUtpaDqFbSpo4n5xZb/di
- XJdA==
-X-Gm-Message-State: AOJu0Yx2PUy4Vsopn8Oo0GWy9cUZfkYdzi4O/gTfTITN0bpn/6o3Z1oB
- HwpwS29u5RIunfzr74s5AXTSaTKVHfckY9o3AN/DD/dWQIK163YU
-X-Gm-Gg: ASbGncu1sRcHMk5NiSyK4p3GV7peN7Kd/NejJ59cFbsH9W6YbrORm9yaUEJvy0mKxCg
- yZWP3u1ZCm5/afA+VC0ke4x+rLrMgjSNMpRtzwxCKldZNjViLcHNjZWQLx/WWdGNkVoKA72JfK7
- gT1tdi7wDY045z9j+kL3RJVH2lW/ImMWVJETfxzuaFOgorS8RgXyjme58OZiml+d7YvB2/4Qrki
- JBsOV3pnlzcHPHtFrrk0KxyUKSiwbbTZJbRkTFPs7ezyWHWaesXTTVkgCYeRJwP2gIAllN4Km3Z
- SsVroE2mXD4Y+KiL99rD2ZoAo0Lk4cS+AlAxEhtcNzPXo+FWCA==
-X-Google-Smtp-Source: AGHT+IHQVD0tIfkPN74yp5c4f2oJLeNnumF3FWo3PgQxDk2Ugmmb39SXChQKZpo1gDy2JzECsRQb1Q==
-X-Received: by 2002:a05:600c:8508:b0:43c:fe15:41cb with SMTP id
- 5b1f17b1804b1-4406aba4af7mr178019315e9.15.1745358088581; 
- Tue, 22 Apr 2025 14:41:28 -0700 (PDT)
-Received: from [192.168.1.248] ([194.120.133.58])
- by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-44092d369f1sm2256155e9.29.2025.04.22.14.41.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Apr 2025 14:41:27 -0700 (PDT)
-Message-ID: <5369c64b-ba14-481c-8156-62a2efa5f447@gmail.com>
-Date: Tue, 22 Apr 2025 22:41:20 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6AB210E3BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 21:47:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 758B1614E0;
+ Tue, 22 Apr 2025 21:46:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 451DBC4CEE9;
+ Tue, 22 Apr 2025 21:47:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745358433;
+ bh=RPojC3b1nEKZhf0p4kkS9DaOsT5aYr010F373zcdvwA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=FcrQXoBnsiYdtAHICcGnYrZR32ZHOHqmCEv0xTKizpCD7unfxt4Yn4CuFV3u9Iq62
+ tAtIwwDtA9R6tpADG7ZzPMkKldbT/diHNIRNSmt05n9KmvpNWVzv0w1XhnCKaauuwg
+ xQ7xxNW7lq4wZWKqx1/+Y5aiFzGNtq8ggf5nWB2pdlcjKGnKnVtBjDSpJ7r7E8ZsYA
+ 0qckIK47D4DzXJbt3PEl3X5SmlRLNT/+9szkUQWyW16L5n1yVnCO1cKDsGswSS9VJl
+ jctj/u1y4JOueiyZD8sW65AAxdr9u65SlsUVOJek+LlkKSWIWPx4fJC/Zi1jYgLSVh
+ wl8p0NFG2e47g==
+Date: Tue, 22 Apr 2025 16:47:11 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, iivanov@suse.de, tiwai@suse.de, bhelgaas@google.com,
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v2] video: screen_info: Relocate framebuffers behind PCI
+ bridges
+Message-ID: <20250422214711.GA385826@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@collabora.com,
- "Richard_j_nixon@hotmail.com" <Richard_j_nixon@hotmail.com>
-From: "Colin King (gmail)" <colin.i.king@gmail.com>
-Subject: re: drm: panel: Add driver for Himax HX8279 DDIC panels
-Autocrypt: addr=colin.i.king@gmail.com; keydata=
- xsFNBE6TJCgBEACo6nMNvy06zNKj5tiwDsXXS+LhT+LwtEsy9EnraKYXAf2xwazcICSjX06e
- fanlyhB0figzQO0n/tP7BcfMVNG7n1+DC71mSyRK1ZERcG1523ajvdZOxbBCTvTitYOy3bjs
- +LXKqeVMhK3mRvdTjjmVpWnWqJ1LL+Hn12ysDVVfkbtuIm2NoaSEC8Ae8LSSyCMecd22d9Pn
- LR4UeFgrWEkQsqROq6ZDJT9pBLGe1ZS0pVGhkRyBP9GP65oPev39SmfAx9R92SYJygCy0pPv
- BMWKvEZS/7bpetPNx6l2xu9UvwoeEbpzUvH26PHO3DDAv0ynJugPCoxlGPVf3zcfGQxy3oty
- dNTWkP6Wh3Q85m+AlifgKZudjZLrO6c+fAw/jFu1UMjNuyhgShtFU7NvEzL3RqzFf9O1qM2m
- uj83IeFQ1FZ65QAiCdTa3npz1vHc7N4uEQBUxyXgXfCI+A5yDnjHwzU0Y3RYS52TA3nfa08y
- LGPLTf5wyAREkFYou20vh5vRvPASoXx6auVf1MuxokDShVhxLpryBnlKCobs4voxN54BUO7m
- zuERXN8kadsxGFzItAyfKYzEiJrpUB1yhm78AecDyiPlMjl99xXk0zs9lcKriaByVUv/NsyJ
- FQj/kmdxox3XHi9K29kopFszm1tFiDwCFr/xumbZcMY17Yi2bQARAQABzSdDb2xpbiBJYW4g
- S2luZyA8Y29saW4uaS5raW5nQGdtYWlsLmNvbT7CwZEEEwEIADsCGwMFCwkIBwMFFQoJCAsF
- FgIDAQACHgECF4AWIQRwYtqk8AG5xmFnAM9owoffxqgCJgUCY8GcawIZAQAKCRBowoffxqgC
- Jtd/EACIWcaxfVt/MH4qqo5ELsjCFPVp+RhVpQDWy8v9Np2YbTcZ4AY2Zj4Pq/HrZ3F/Bh02
- v85C6mNv8BDTKev6Qcq3BYw0iqw6/xLNvRcSFHM81mQI9xtnAWIWfI9k5hpX19QooPIIP3GO
- MdMc1uRUGTxTgTFAAsAswRY3kMzo6k7arQnUs9zbiZ9SmS43qWOIxzGnvneekHHDAcomc/oh
- o7kgj6rKp/f9qRrhForkgVQwdj6iBlW934yRXzeFVF3wr7Lk5GQNIEkJiNQPZs54ojBS/Kx6
- 3UTLT1HgOp6UY9RPEi9wubmUR+J6YjLRZMr5PCcA86EYmRoysnnJ8Q/SlBVD8nppGVEcuvrb
- H3MBfhmwOPDc3RyLkEtKfSTB92k1hsmRkx9zkyuUzhcSnqQnpWGJD+xtKHvcHRT7Uxaa+SDw
- UDM36BjkyVcZQy8c+Is2jA55uwNgPpiA7n82pTeT+FRGd+7iCLQHaryu6FO6DNDv09RbPBjI
- iC/q814aeKJaSILP1ld9/PEBrLPdm+6lG6OKOt9DDV6jPmfR96FydjxcmI1cgZVgPomSxv2J
- B1erOggB8rmX4hhWYsVQl1AXZs3LdEpJ6clmCPspn/ufZxHslgR9/WR1EvPMQc8XtssF55p8
- ehRIcVSXDRcMFr3ZuqMTXcL68YbDmv5OGS95O1Gs4c7BTQROkyQoARAAxfoc/nNKhdEefA8I
- jPDPz6KcxbuYnrQaZdI1M4JWioTGSilu5QK+Kc3hOD4CeGcEHdHUpMet4UajPetxXt+Yl663
- oJacGcYG2xpbkSaaHqBls7lKVxOmXtANpyAhS5O/WmB7BUcJysqJfTNAMmRwrwV4tRwHY9e4
- l3qwmDf2SCw+UjtHQ4kJee9P9Uad3dc9Jdeg7gpyvl9yOxk/GfQd1gK+igkYj9Bq76KY8cJI
- +GdfdZj/2rn9aqVj1xADy1QL7uaDO3ZUyMV+3WGun8JXJtbqG2b5rV3gxLhyd05GxYER62cL
- oedBjC4LhtUI4SD15cxO/zwULM4ecxsT4/HEfNbcbOiv9BhkZyKz4QiJTqE1PC/gXp8WRd9b
- rrXUnB8NRAIAegLEXcHXfGvQEfl3YRxs0HpfJBsgaeDAO+dPIodC/fjAT7gq0rHHI8Fffpn7
- E7M622aLCIVaQWnhza1DKYcBXvR2xlMEHkurTq/qcmzrTVB3oieWlNzaaN3mZFlRnjz9juL6
- /K41UNcWTCFgNfMVGi071Umq1e/yKoy29LjE8+jYO0nHqo7IMTuCd+aTzghvIMvOU5neTSnu
- OitcRrDRts8310OnDZKH1MkBRlWywrXX0Mlle/nYFJzpz4a0yqRXyeZZ1qS6c3tC38ltNwqV
- sfceMjJcHLyBcNoS2jkAEQEAAcLBXwQYAQgACQUCTpMkKAIbDAAKCRBowoffxqgCJniWD/43
- aaTHm+wGZyxlV3fKzewiwbXzDpFwlmjlIYzEQGO3VSDIhdYj2XOkoIojErHRuySYTIzLi08Q
- NJF9mej9PunWZTuGwzijCL+JzRoYEo/TbkiiT0Ysolyig/8DZz11RXQWbKB5xFxsgBRp4nbu
- Ci1CSIkpuLRyXaDJNGWiUpsLdHbcrbgtSFh/HiGlaPwIehcQms50c7xjRcfvTn3HO/mjGdeX
- ZIPV2oDrog2df6+lbhMPaL55A0+B+QQLMrMaP6spF+F0NkUEmPz97XfVjS3ly77dWiTUXMHC
- BCoGeQDt2EGxCbdXRHwlO0wCokabI5wv4kIkBxrdiLzXIvKGZjNxEBIu8mag9OwOnaRk50av
- TkO3xoY9Ekvfcmb6KB93wSBwNi0br4XwwIE66W1NMC75ACKNE9m/UqEQlfBRKR70dm/OjW01
- OVjeHqmUGwG58Qu7SaepC8dmZ9rkDL310X50vUdY2nrb6ZN4exfq/0QAIfhL4LD1DWokSUUS
- 73/W8U0GYZja8O/XiBTbESJLZ4i8qJiX9vljzlBAs4dZXy6nvcorlCr/pubgGpV3WsoYj26f
- yR7NRA0YEqt7YoqzrCq4fyjKcM/9tqhjEQYxcGAYX+qM4Lo5j5TuQ1Rbc38DsnczZV05Mu7e
- FVPMkxl2UyaayDvhrO9kNXvl1SKCpdzCMQ==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------HW6FEBicTQyXxGu8zSYeoTOq"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250422075056.12989-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,168 +58,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------HW6FEBicTQyXxGu8zSYeoTOq
-Content-Type: multipart/mixed; boundary="------------N3ZcnUoSP2zg08nWWTSKJgQN";
- protected-headers="v1"
-From: "Colin King (gmail)" <colin.i.king@gmail.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@collabora.com,
- "Richard_j_nixon@hotmail.com" <Richard_j_nixon@hotmail.com>
-Message-ID: <5369c64b-ba14-481c-8156-62a2efa5f447@gmail.com>
-Subject: re: drm: panel: Add driver for Himax HX8279 DDIC panels
+On Tue, Apr 22, 2025 at 09:49:57AM +0200, Thomas Zimmermann wrote:
+> Apply bridge window offsets to screen_info framebuffers during
+> relocation. Fixes invalid access to I/O memory.
+> 
+> Resources behind a PCI bridge can be located at a certain offset
+> in the kernel's I/O range. The framebuffer memory range stored in
+> screen_info refers to the offset as seen during boot (essentialy 0).
+> During boot up, the kernel may assign a different memory offset to
+> the bridge device and thereby relocating the framebuffer address of
+> the PCI graphics device as seen by the kernel. The information in
+> screen_info must be updated as well.
 
---------------N3ZcnUoSP2zg08nWWTSKJgQN
-Content-Type: multipart/mixed; boundary="------------075VCYFG3sx02irjB7RB8IlG"
+I can't see the bug report below, so I'm not sure what's happening
+here.  Apparently the platform is one where PCI bus addresses are not
+identical to CPU physical addresses.  On such platforms, the PCI host
+bridge applies an offset between CPU and PCI addresses.  There are
+several systems like that, but I'm not aware of any that change that
+CPU->PCI bus address offset at runtime.
 
---------------075VCYFG3sx02irjB7RB8IlG
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+So I suspect the problem is not that the kernel has assigned a
+different offset.  I think it's more likely that the hardware or
+firmware has determined the offset before the kernel starts, and this
+code just doesn't account for that.
 
-SGksDQoNCnN0YXRpYyBhbmFseXNpcyBvbiB0b2RheSdzIGxpbnV4LW5leHQgaGFzIGZvdW5k
-IHR3byBpc3N1ZXMgd2l0aCB0aGUgDQpmb2xsb3dpbmcgY29tbWl0Og0KDQpjb21taXQgMzhk
-NDJjMjYxMzg5OTg1ZThkZDQ3MzlkYmQ5N2UyZGM4NTVlOGRkMA0KQXV0aG9yOiBBbmdlbG9H
-aW9hY2NoaW5vIERlbCBSZWdubyA8YW5nZWxvZ2lvYWNjaGluby5kZWxyZWdub0Bjb2xsYWJv
-cmEuY29tPg0KRGF0ZTogICBNb24gQXByIDE0IDEwOjI5OjE4IDIwMjUgKzAyMDANCg0KICAg
-ICBkcm06IHBhbmVsOiBBZGQgZHJpdmVyIGZvciBIaW1heCBIWDgyNzkgRERJQyBwYW5lbHMN
-Cg0KDQpJbiB0aGUgZm9sbG93aW5nIGNvZGUsIGJvb2xlYW4gdmFyaWFibGVzIGdvYV9vZGRf
-dmFsaWQgYW5kIA0KZ29hX2V2ZW5fdmFsaWQgYXJlIG5vdCBpbml0aWFsaXplZC4gVGhleSBh
-cmUgb25seSBiZWluZyBzZXQgKHRvIGZhbHNlKSANCm9uIHRoZSBudW1femVybyBpZiBzdGF0
-ZW1lbnRzOg0KDQpzdGF0aWMgaW50IGh4ODI3OV9jaGVja19nb2FfY29uZmlnKHN0cnVjdCBo
-eDgyNzkgKmh4LCBzdHJ1Y3QgZGV2aWNlICpkZXYpDQp7DQogICAgICAgICBjb25zdCBzdHJ1
-Y3QgaHg4Mjc5X3BhbmVsX2Rlc2MgKmRlc2MgPSBoeC0+ZGVzYzsNCiAgICAgICAgIGJvb2wg
-Z29hX29kZF92YWxpZCwgZ29hX2V2ZW5fdmFsaWQ7DQogICAgICAgICBpbnQgaSwgbnVtX3pl
-cm8sIG51bV9jbHIgPSAwOw0KDQogICAgICAgICAvKiBVcCB0byA0IHplcm8gdmFsdWVzIGlz
-IGEgdmFsaWQgY29uZmlndXJhdGlvbi4gQ2hlY2sgdGhlbSBhbGwuICovDQogICAgICAgICBu
-dW1femVybyA9IDE7DQogICAgICAgICBmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRShkZXNj
-LT5nb2Ffb2RkX3RpbWluZyk7IGkrKykgew0KICAgICAgICAgICAgICAgICBpZiAoZGVzYy0+
-Z29hX29kZF90aW1pbmdbaV0pDQogICAgICAgICAgICAgICAgICAgICAgICAgbnVtX3plcm8r
-KzsNCiAgICAgICAgIH0NCg0KICAgICAgICAgaWYgKG51bV96ZXJvID09IEFSUkFZX1NJWkUo
-ZGVzYy0+Z29hX29kZF90aW1pbmcpKQ0KICAgICAgICAgICAgICAgICBnb2Ffb2RkX3ZhbGlk
-ID0gZmFsc2U7DQoNCiAgICAgICAgIC8qIFVwIHRvIDMgemVyb2VzIGlzIGEgdmFsaWQgY29u
-ZmlnLiBDaGVjayB0aGVtIGFsbC4gKi8NCiAgICAgICAgIG51bV96ZXJvID0gMTsNCiAgICAg
-ICAgIGZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKGRlc2MtPmdvYV9ldmVuX3RpbWluZyk7
-IGkrKykgew0KICAgICAgICAgICAgICAgICBpZiAoZGVzYy0+Z29hX2V2ZW5fdGltaW5nW2ld
-KQ0KICAgICAgICAgICAgICAgICAgICAgICAgIG51bV96ZXJvKys7DQogICAgICAgICB9DQoN
-CiAgICAgICAgIGlmIChudW1femVybyA9PSBBUlJBWV9TSVpFKGRlc2MtPmdvYV9ldmVuX3Rp
-bWluZykpDQogICAgICAgICAgICAgICAgIGdvYV9ldmVuX3ZhbGlkID0gZmFsc2U7DQoNCg0K
-YW5kIHNvIHRoZSBmb2xsb3dpbmcgdHdvIGNoZWNrcyBvbiB0aGUgYm9vbGVhbiB2YXJpYWJs
-ZXMgaXMgb24gDQpwb3RlbnRpYWxseSB1bmluaXRpYWxpemVkIHZhbHVlczoNCg0KICAgICAg
-ICAgLyogUHJvZ3JhbW1pbmcgb25lIHdpdGhvdXQgdGhlIG90aGVyIHdvdWxkIG1ha2Ugbm8g
-c2Vuc2UhICovDQogICAgICAgICBpZiAoZ29hX29kZF92YWxpZCAhPSBnb2FfZXZlbl92YWxp
-ZCkNCiAgICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQoNCiAgICAgICAgIC8qIFdl
-IGtub3cgdGhhdCBib3RoIGFyZSBlaXRoZXIgdHJ1ZSBvciBmYWxzZSBub3csIGNoZWNrIGp1
-c3QgDQpvbmUgKi8NCiAgICAgICAgIGlmICghZ29hX29kZF92YWxpZCkNCiAgICAgICAgICAg
-ICAgICAgaHgtPnNraXBfZ29hX3RpbWluZyA9IHRydWU7DQoNCg0KQ29saW4NCg==
---------------075VCYFG3sx02irjB7RB8IlG
-Content-Type: application/pgp-keys; name="OpenPGP_0x68C287DFC6A80226.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x68C287DFC6A80226.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+I don't know what "stored in screen_info" means.  Most of the
+addresses filled in by screen_info_resources() are hard-coded bus
+addresses specified by PCI and VGA specs.  These are not just offsets
+"seen during boot"; these are legacy addresses that are not
+programmable via usual PCI BARs.  They're hard-wired into VGA devices,
+so if we use the VGA frame buffer at 0xA0000, the 0xA0000 address must
+appear on the PCI bus.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+VIDEO_TYPE_VLFB and VIDEO_TYPE_EFI are exceptions; I don't know how
+they work, but if they return addresses from firmware, I would expect 
+them to be PCI bus addresses as well.
 
-xsFNBE6TJCgBEACo6nMNvy06zNKj5tiwDsXXS+LhT+LwtEsy9EnraKYXAf2xwazc
-ICSjX06efanlyhB0figzQO0n/tP7BcfMVNG7n1+DC71mSyRK1ZERcG1523ajvdZO
-xbBCTvTitYOy3bjs+LXKqeVMhK3mRvdTjjmVpWnWqJ1LL+Hn12ysDVVfkbtuIm2N
-oaSEC8Ae8LSSyCMecd22d9PnLR4UeFgrWEkQsqROq6ZDJT9pBLGe1ZS0pVGhkRyB
-P9GP65oPev39SmfAx9R92SYJygCy0pPvBMWKvEZS/7bpetPNx6l2xu9UvwoeEbpz
-UvH26PHO3DDAv0ynJugPCoxlGPVf3zcfGQxy3otydNTWkP6Wh3Q85m+AlifgKZud
-jZLrO6c+fAw/jFu1UMjNuyhgShtFU7NvEzL3RqzFf9O1qM2muj83IeFQ1FZ65QAi
-CdTa3npz1vHc7N4uEQBUxyXgXfCI+A5yDnjHwzU0Y3RYS52TA3nfa08yLGPLTf5w
-yAREkFYou20vh5vRvPASoXx6auVf1MuxokDShVhxLpryBnlKCobs4voxN54BUO7m
-zuERXN8kadsxGFzItAyfKYzEiJrpUB1yhm78AecDyiPlMjl99xXk0zs9lcKriaBy
-VUv/NsyJFQj/kmdxox3XHi9K29kopFszm1tFiDwCFr/xumbZcMY17Yi2bQARAQAB
-zSdDb2xpbiBJYW4gS2luZyA8Y29saW4uaS5raW5nQGdtYWlsLmNvbT7CwZEEEwEI
-ADsCGwMFCwkIBwMFFQoJCAsFFgIDAQACHgECF4AWIQRwYtqk8AG5xmFnAM9owoff
-xqgCJgUCY8GcawIZAQAKCRBowoffxqgCJtd/EACIWcaxfVt/MH4qqo5ELsjCFPVp
-+RhVpQDWy8v9Np2YbTcZ4AY2Zj4Pq/HrZ3F/Bh02v85C6mNv8BDTKev6Qcq3BYw0
-iqw6/xLNvRcSFHM81mQI9xtnAWIWfI9k5hpX19QooPIIP3GOMdMc1uRUGTxTgTFA
-AsAswRY3kMzo6k7arQnUs9zbiZ9SmS43qWOIxzGnvneekHHDAcomc/oho7kgj6rK
-p/f9qRrhForkgVQwdj6iBlW934yRXzeFVF3wr7Lk5GQNIEkJiNQPZs54ojBS/Kx6
-3UTLT1HgOp6UY9RPEi9wubmUR+J6YjLRZMr5PCcA86EYmRoysnnJ8Q/SlBVD8npp
-GVEcuvrbH3MBfhmwOPDc3RyLkEtKfSTB92k1hsmRkx9zkyuUzhcSnqQnpWGJD+xt
-KHvcHRT7Uxaa+SDwUDM36BjkyVcZQy8c+Is2jA55uwNgPpiA7n82pTeT+FRGd+7i
-CLQHaryu6FO6DNDv09RbPBjIiC/q814aeKJaSILP1ld9/PEBrLPdm+6lG6OKOt9D
-DV6jPmfR96FydjxcmI1cgZVgPomSxv2JB1erOggB8rmX4hhWYsVQl1AXZs3LdEpJ
-6clmCPspn/ufZxHslgR9/WR1EvPMQc8XtssF55p8ehRIcVSXDRcMFr3ZuqMTXcL6
-8YbDmv5OGS95O1Gs4c0iQ29saW4gS2luZyA8Y29saW4ua2luZ0B1YnVudHUuY29t
-PsLBdwQTAQgAIQUCTwq47wIbAwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgAAKCRBo
-woffxqgCJo1bD/4gPIQ0Muy5TGHqTQ/bSiQ9oWjS5rAQvsrsVwcm2Ka7Uo8LzG8e
-grZrYieJxn3Qc22b98TiT6/5+sMa3XxhxBZ9FvALve175NPOz+2pQsAV88tR5NWk
-5YSzhrpzi7+klkWEVAB71hKFZcT0qNlDSeg9NXfbXOyCVNPDJQJfrtOPEuutuRuU
-hrXziaRchqmlhmszKZGHWybmPWnDQEAJdRs2Twwsi68WgScqapqd1vq2+5vWqzUT
-JcoHrxVOnlBq0e0IlbrpkxnmxhfQ+tx/Sw9BP9RITgOEFh6tf7uwly6/aqNWMgFL
-WACArNMMkWyOsFj8ouSMjk4lglT96ksVeCUfKqvCYRhMMUuXxAe+q/lxsXC+6qok
-Jlcd25I5U+hZ52pz3A+0bDDgIDXKXn7VbKooJxTwN1x2g3nsOLffXn/sCsIoslO4
-6nbr0rfGpi1YqeXcTdU2Cqlj2riBy9xNgCiCrqrGfX7VCdzVwpQHyNxBzzGG6JOm
-9OJ2UlpgbbSh6/GJFReW+I62mzC5VaAoPgxmH38g0mA8MvRT7yVpLep331F3Inmq
-4nkpRxLd39dgj6ejjkfMhWVpSEmCnQ/Tw81z/ZCWExFp6+3Q933hGSvifTecKQlO
-x736wORwjjCYH/A3H7HK4/R9kKfL2xKzD+42ejmGqQjleTGUulue8JRtpM1AQ29s
-aW4gSWFuIEtpbmcgKEludGVsIENvbGluIElhbiBLaW5nIGtleSkgPGNvbGluLmtp
-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
-=3DQKm6
------END PGP PUBLIC KEY BLOCK-----
+> The helper pcibios_bus_to_resource() performs the relocation of
+> the screen_info resource. The result now matches the I/O-memory
+> resource of the PCI graphics device. As before, we store away the
+> information necessary to update the information in screen_info.
+> 
+> Commit 78aa89d1dfba ("firmware/sysfb: Update screen_info for relocated
+> EFI framebuffers") added the code for updating screen_info. It is
+> based on similar functionality that pre-existed in efifb. Efifb uses
+> a pointer to the PCI resource, while the newer code does a memcpy of
+> the region. Hence efifb sees any updates to the PCI resource and avoids
+> the issue.
+> 
+> v2:
+> - Fixed tags (Takashi, Ivan)
+> - Updated information on efifb
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reported-by: "Ivan T. Ivanov" <iivanov@suse.de>
+> Closes: https://bugzilla.suse.com/show_bug.cgi?id=1240696
 
---------------075VCYFG3sx02irjB7RB8IlG--
+This bug isn't public.  Can it be made public?  Or even better, a
+report at https://bugzilla.kernel.org?
 
---------------N3ZcnUoSP2zg08nWWTSKJgQN--
+s/essentialy/essentially/
 
---------------HW6FEBicTQyXxGu8zSYeoTOq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+> Tested-by: "Ivan T. Ivanov" <iivanov@suse.de>
+> Fixes: 78aa89d1dfba ("firmware/sysfb: Update screen_info for relocated EFI framebuffers")
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v6.9+
+> ---
+>  drivers/video/screen_info_pci.c | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/video/screen_info_pci.c b/drivers/video/screen_info_pci.c
+> index 6c5833517141..c46c75dc3fae 100644
+> --- a/drivers/video/screen_info_pci.c
+> +++ b/drivers/video/screen_info_pci.c
+> @@ -8,7 +8,7 @@
+>  static struct pci_dev *screen_info_lfb_pdev;
+>  static size_t screen_info_lfb_bar;
+>  static resource_size_t screen_info_lfb_offset;
+> -static struct resource screen_info_lfb_res = DEFINE_RES_MEM(0, 0);
+> +static struct pci_bus_region screen_info_lfb_region;
+>  
+>  static bool __screen_info_relocation_is_valid(const struct screen_info *si, struct resource *pr)
+>  {
+> @@ -31,7 +31,7 @@ void screen_info_apply_fixups(void)
+>  	if (screen_info_lfb_pdev) {
+>  		struct resource *pr = &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
+>  
+> -		if (pr->start != screen_info_lfb_res.start) {
+> +		if (pr->start != screen_info_lfb_region.start) {
+>  			if (__screen_info_relocation_is_valid(si, pr)) {
+>  				/*
+>  				 * Only update base if we have an actual
+> @@ -69,10 +69,21 @@ static void screen_info_fixup_lfb(struct pci_dev *pdev)
+>  
+>  	for (i = 0; i < numres; ++i) {
+>  		struct resource *r = &res[i];
+> +		struct pci_bus_region bus_region = {
+> +			.start = r->start,
+> +			.end = r->end,
+> +		};
 
------BEGIN PGP SIGNATURE-----
+screen_info_resources() above fills in "struct resource res[]", but
+that's not quite right.  A struct resource contains CPU addresses, and
+screen_info_resources() fills in PCI bus addresses (0xa0000, etc).
 
-wsF5BAABCAAjFiEEcGLapPABucZhZwDPaMKH38aoAiYFAmgIDQEFAwAAAAAACgkQaMKH38aoAiaK
-bQ/+Lf3XZD7U7g7oSad8C4m0KFGC2osXPSdA4eTAOsnWXNvMJQIe/2juSzSz4Ius023wFWEOe4m0
-vOzvEInM6l2UQrUOhLH2XhP1C5LpJpIUuq4tjgt0QDSJNRMOgz/PfqAIUaFdRiMCEBtEKupS8Wyu
-0x21EKgek3jCWENpVmvC/fKPR8/+hN224ACxBfOFxaC5Woc9p700lHITEB8M+74Jccoqw3qMnjsW
-hAF0LV12XhX/Se9KIGnlfkCu992exi5qgBgClALKQok9gAecZ5x86fR2/WuVIX+p054skA/tEgdv
-t76Uk0x9gIHQnFiUKAQsP8+CXjQLBi0RURXmaU5VI6/UIqs49jSOdrsCUtLq7WW8//H0PJY2WbXy
-fBIUmhp4Z85IXOZO0jqyEDM+0CwioKd4n1kaYJ4LtTzObooBpwP/WzzGg9UPmU92Tak1/BIhGWp5
-CVIm2IOapKVKcDVYE8vpnm2EFwMP8bcN8bNxNMlJheaNOcbWpRaGbExeiPokSDcjNJ6FVVje9rs6
-44uGWyVdHBV1fQTlGItjWZYjoHNNpqVXvj0pvJjCoG0M/QlJpDJz3Fvy64zAQZmAjGQcsuUaXBbh
-e2Yae+Vpnnxt+4fRv3j7YuD5pNFSz4tiHIVKtQgzqRjJtot613kavQa64q/qtXWzRhXDqdVaKaCL
-9tM=
-=9cRm
------END PGP SIGNATURE-----
+struct pci_bus_region is meant to hold PCI bus addresses, so this
+assignment gets them back where they should be.
 
---------------HW6FEBicTQyXxGu8zSYeoTOq--
+>  		const struct resource *pr;
+>  
+>  		if (!(r->flags & IORESOURCE_MEM))
+>  			continue;
+> +
+> +		/*
+> +		 * Translate the address to resource if the framebuffer
+> +		 * is behind a PCI bridge.
+> +		 */
+> +		pcibios_bus_to_resource(pdev->bus, r, &bus_region);
+
+And this converts the PCI bus addresses to CPU addresses, so this
+makes sense.
+
+The comment might be a little misleading, though.  When PCI bus
+addresses are different from CPU addresses, it's because the PCI host
+bridge has applied an offset.  This only happens at the host bridge,
+never at a PCI-PCI bridge (which is what "PCI bridge" usually means).
+
+The commit log and comments could maybe be clarified, but this all
+looks to me like it's doing the right thing in spite of abusing the
+use of struct resource.
+
+>  		pr = pci_find_resource(pdev, r);
+>  		if (!pr)
+>  			continue;
+> @@ -85,7 +96,7 @@ static void screen_info_fixup_lfb(struct pci_dev *pdev)
+>  		screen_info_lfb_pdev = pdev;
+>  		screen_info_lfb_bar = pr - pdev->resource;
+>  		screen_info_lfb_offset = r->start - pr->start;
+> -		memcpy(&screen_info_lfb_res, r, sizeof(screen_info_lfb_res));
+> +		memcpy(&screen_info_lfb_region, &bus_region, sizeof(screen_info_lfb_region));
+>  	}
+>  }
+>  DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_ANY_ID, PCI_ANY_ID, PCI_BASE_CLASS_DISPLAY, 16,
+> -- 
+> 2.49.0
+> 
