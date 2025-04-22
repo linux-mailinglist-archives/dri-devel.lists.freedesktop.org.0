@@ -2,60 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A77AA96040
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 10:00:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2BDA96065
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 10:03:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7216A10E528;
-	Tue, 22 Apr 2025 08:00:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6682010E516;
+	Tue, 22 Apr 2025 08:03:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="psAeqVoP";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="jKY8Iapx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2994D10E528;
- Tue, 22 Apr 2025 07:59:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=0/6nEFrgS1C04Ibd4G7cvNL9wRLiPUrNDF6gwaEK1B4=; b=p
- sAeqVoPySESnzmUVTK4aza7vwvLgunqAAY/En8AQLpv1FFiqv+yOtXhPxWiYk3KI
- iK98sKhWxw/jKvgpUCPlQMXDk/BeEe27ep2hzNPzjqlUlvrd1r9KjxBTPkQDm+30
- AzaZYLUhnWPuCl5qXIBFqEoqI+RM10mV0MPkeobP5Q=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-102 (Coremail) ; Tue, 22 Apr 2025 15:59:27 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Tue, 22 Apr 2025 15:59:27 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
- "Maxime Ripard" <mripard@kernel.org>
-Cc: lumag@kernel.org, neil.armstrong@linaro.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- jani.nikula@intel.com, lyude@redhat.com, jonathanh@nvidia.com,
- p.zabel@pengutronix.de, simona@ffwll.ch, victor.liu@nxp.com,
- rfoss@kernel.org, chunkuang.hu@kernel.org,
- cristian.ciocaltea@collabora.com, Laurent.pinchart@ideasonboard.com,
- linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
- "Andy Yan" <andy.yan@rock-chips.com>
-Subject: Re:Re: [PATCH 1/1] drm/bridge: Pass down connector to drm bridge
- detect hook
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250321-optimistic-prompt-civet-bdcdba@houat>
-References: <20250321085345.136380-1-andyshrk@163.com>
- <20250321085345.136380-2-andyshrk@163.com>
- <20250321-optimistic-prompt-civet-bdcdba@houat>
-X-NTES-SC: AL_Qu2fB/+bt08t4SmeY+kfmkcVgOw9UcO5v/Qk3oZXOJF8jCzp8D4yf1JTEnDy1fCDKg+MkAiHYjpJ8Pt0f7d2fYwujCqEY09RcV7NnzuMedMx4g==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BDC810E516
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 08:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1745309018;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KOK06Gy+USdFFUjUhlRbDrQoZuj04eP9w8IDxAKpvDk=;
+ b=jKY8Iapx3SRFnaFHJaNpB4itDV0W3GH7i4TklFo3sckSTHLOs0JYd0SXdhUSx4sQiaimuy
+ V4sa5IPIa3ftS7oXgVK6irWVt/KYIxdSa7ACw/3e+sY2zcYF1OfikFVSinaCqoCRbbPiqc
+ iJ5ow4OkAFVEQlV89j0FjKJEu/ePtDA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-491-I79zj4WeNS-KzwutxxIcEA-1; Tue, 22 Apr 2025 04:03:36 -0400
+X-MC-Unique: I79zj4WeNS-KzwutxxIcEA-1
+X-Mimecast-MFC-AGG-ID: I79zj4WeNS-KzwutxxIcEA_1745309015
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3912fc9861cso1078576f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 01:03:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745309015; x=1745913815;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KOK06Gy+USdFFUjUhlRbDrQoZuj04eP9w8IDxAKpvDk=;
+ b=QsySZYOlUT/DfvQgHZ1LuYSgZvUkTsqg0zJauueYvJHFKFdyQOz2m87iLf7S7304sW
+ 2n8Pj6FF4rjZlVfLKkjik4vBPzMOVdYg9GuWaHY54YvZrVoZOL3s9txKfgbP+QbWmJVz
+ Rz2Tt5d6bTuQPurey2PifGb9FHVmJiCbYdlogz2rEJt1Bz0OsiJ8Snz5rg283JwcrnR3
+ I448Bbkp4JF219Ja1lfdCi4IEhXxceLURm48+gJ6QTHvbAfV6Ol+0QsJ0FnK7YKwd9mq
+ iTXqt8Vjr1cJUGpZ59YXp2DAz6VhTFH1wWftpOoCUYrwi6sK1Ye7LEYTqEvIiXvs4tyC
+ j/Qg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXEy3s39zdXpYM1qc7wGo32s1oTCD8TOlukVqeat/KWjEM2hg865dHtAo6pFzzBj08MaFEuqmhYkvQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzVWeUU5171ysZgGkg2eLJeFhtVbSh0fe8VDlm1b2XgT9ufPaFu
+ reYSjgJo4IDrl35F9jeMS4KpK7tEPrhRbH3hMuF/2AgMcV81gG7BSuvFPBMYr+gOUODxgqEm7dc
+ 0PgQBFE6p2IRVPSJeeXPxpay0B520yMVe4B3xWKFoJFD/3/7eFaQDDAa891utpgTzPg==
+X-Gm-Gg: ASbGnctuGmnZKmYCZRASq80EIYkn+HkVRe1B6UFg1usT+L8/PEPV45NLUnw+fncSpb7
+ 4uS6nj47iy2q8aINu8llnjakK3fnmiQ2gtdt4c6i66pzKzITB7EIvo/dGLGOecqTQ50uRGJJeei
+ CbMIJK9FRPpX/GvoEIoF0z7NiCTxl10Iun6jhqxTo5F2ZUBK4emA5q87dTQGmGWUL2QBgSQo8wo
+ dEzPTqzutjdaqOJ2Vr4Fen9+Am3sIWHqY0CISTPmHog3QYfKtjHXSAAsbKbOG8nnkySre2lKMaX
+ TXHNUwJigqHII6JopkBQp9PIwX0H9xoqmKOYEujuC09iwFrGiT8=
+X-Received: by 2002:a05:6000:1acb:b0:39e:cbf2:e23f with SMTP id
+ ffacd0b85a97d-39efb949514mr12348680f8f.0.1745309015363; 
+ Tue, 22 Apr 2025 01:03:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+QyOm/Vu2YE4p69xcQvAMQItgNodGSQLc0uE5uT6jNKC/u0jIIwsbmq+1mCMLdKIAUP3k4A==
+X-Received: by 2002:a05:6000:1acb:b0:39e:cbf2:e23f with SMTP id
+ ffacd0b85a97d-39efb949514mr12348638f8f.0.1745309014968; 
+ Tue, 22 Apr 2025 01:03:34 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4406d5a9ed9sm166802545e9.3.2025.04.22.01.03.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Apr 2025 01:03:34 -0700 (PDT)
+Message-ID: <e18bccaa-bc73-4d7d-a708-688284b1d15f@redhat.com>
+Date: Tue, 22 Apr 2025 10:03:33 +0200
 MIME-Version: 1.0
-Message-ID: <1bb549f4.746e.1965c8256e4.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: ZigvCgAnjYdgTAdoaPGbAA--.58451W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gA3XmgHRzC35wACsx
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panic: Use a decimal fifo to avoid u64 by u64 divide
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+ Christian Schrefl <chrisi.schrefl@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Russell King <linux@armlinux.org.uk>, Paolo Bonzini <pbonzini@redhat.com>,
+ rust-for-linux <rust-for-linux@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+References: <20250418165059.560503-1-jfalempe@redhat.com>
+ <CANiq72neXsmmYQXQOYxndFWkyp1NKa=x3skekZZJOVE-wMZeuQ@mail.gmail.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <CANiq72neXsmmYQXQOYxndFWkyp1NKa=x3skekZZJOVE-wMZeuQ@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: BJPkx1BW0k2Bm3LkBEpGhdYOn0U87FMpNt4j01b1NuQ_1745309015
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,26 +111,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIGFsbCwKCkF0IDIwMjUtMDMtMjEgMTc6NDg6MDQsICJNYXhpbWUgUmlwYXJkIiA8bXJpcGFy
-ZEBrZXJuZWwub3JnPiB3cm90ZToKPk9uIEZyaSwgTWFyIDIxLCAyMDI1IGF0IDA0OjUzOjM4UE0g
-KzA4MDAsIEFuZHkgWWFuIHdyb3RlOgo+PiBGcm9tOiBBbmR5IFlhbiA8YW5keS55YW5Acm9jay1j
-aGlwcy5jb20+Cj4+IAo+PiBJbiBzb21lIGFwcGxpY2F0aW9uIHNjZW5hcmlvcywgd2UgaG9wZSB0
-byBnZXQgdGhlIGNvcnJlc3BvbmRpbmcKPj4gY29ubmVjdG9yIHdoZW4gdGhlIGJyaWRnZSdzIGRl
-dGVjdCBob29rIGlzIGludm9rZWQuCj4+IAo+PiBJbiBtb3N0IGNhc2VzLCB3ZSBjYW4gZ2V0IHRo
-ZSBjb25uZWN0b3IgYnkgZHJtX2F0b21pY19nZXRfY29ubmVjdG9yX2Zvcl9lbmNvZGVyCj4+IGlm
-IHRoZSBlbmNvZGVyIGF0dGFjaGVkIHRvIHRoZSBicmlkZ2UgaXMgZW5hYmxlZCwgaG93ZXZlciB0
-aGVyZSB3aWxsCj4+IHN0aWxsIGJlIHNvbWUgc2NlbmFyaW9zIHdoZXJlIHRoZSBkZXRlY3QgaG9v
-ayBvZiB0aGUgYnJpZGdlIGlzIGNhbGxlZAo+PiBidXQgdGhlIGNvcnJlc3BvbmRpbmcgZW5jb2Rl
-ciBoYXMgbm90IGJlZW4gZW5hYmxlZCB5ZXQuIEZvciBpbnN0YW5jZSwKPj4gdGhpcyBvY2N1cnMg
-d2hlbiB0aGUgZGV2aWNlIGlzIGhvdCBwbHVnIGluIGZvciB0aGUgZmlyc3QgdGltZS4KPj4gCj4+
-IFNpbmNlIHRoZSBjYWxsIHRvIGJyaWRnZSdzIGRldGVjdCBpcyBpbml0aWF0ZWQgYnkgdGhlIGNv
-bm5lY3RvciwgcGFzc2luZwo+PiBkb3duIHRoZSBjb3JyZXNwb25kaW5nIGNvbm5lY3RvciBkaXJl
-Y3RseSB3aWxsIG1ha2UgdGhpbmdzIHNpbXBsZXIuCj4+IAo+PiBTaWduZWQtb2ZmLWJ5OiBBbmR5
-IFlhbiA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj4KPkZUUiwgSSdtIGFnYWluc3QgaXQgYW5k
-IHdvdWxkIGhhdmUgYXBwcmVjaWF0ZWQgdGhhdCB5b3Ugd2FpdCBmb3IgYQo+bWVhbmluZ2Z1bCBj
-bG9zdXJlIHRvIHRoZSBkaXNjdXNzaW9uIHdlJ3ZlIGhhZCBvbiB0aGlzLgoKQ2FuIHdlIHN0YXJ0
-IHRvIHJldmlldyB0aGlzIHBhdGNoPyBTaW5jZSBpdCdzIGJlZW4gYWxtb3N0IGEgbW9udGggbm93
-IGFuZApubyBvbmUgaGFzIHJhaXNlZCBhbnkgb2JqZWN0aW9uIHRvIERtaXRyeSdzIHN1Z2dlc3Rp
-b25bMV0uCgoKWzFdaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvZHJpLWRldmVsL3Z3Mm5jZG9teDNy
-d2x0YjJ4bG82bmYzcmFwZ2NkdGNqY29kb2ZnbWVjcnp6YWJmN2ppQHB5YnNmdjI3amtxMi8KCgo+
-Cj5NYXhpbWUK
+On 18/04/2025 20:18, Miguel Ojeda wrote:
+> On Fri, Apr 18, 2025 at 6:51 PM Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>>
+>> Link: https://lore.kernel.org/dri-devel/CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com/ [1]
+> 
+> Thanks for fixing that -- some tags for your consideration:
+> 
+> Reported-by: Miguel Ojeda <ojeda@kernel.org>
+> Closes: https://lore.kernel.org/dri-devel/CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com/
+> Fixes: ccb8ce526807 ("ARM: 9441/1: rust: Enable Rust support for ARMv7")
+
+Thanks I will add those tags before pushing to drm-misc-next.
+
+-- 
+
+Jocelyn
+
+> 
+> Cheers,
+> Miguel
+> 
+
