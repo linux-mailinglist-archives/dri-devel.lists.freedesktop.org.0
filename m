@@ -2,91 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9ECA97642
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 21:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DE7A97816
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 22:57:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AAD010E3AA;
-	Tue, 22 Apr 2025 19:57:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4860610E11C;
+	Tue, 22 Apr 2025 20:57:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ycPwcqJi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z7epY6aL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0A1010E3AA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 19:57:32 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-43cf3192d8bso1565e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 12:57:32 -0700 (PDT)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com
+ [209.85.221.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52A6110E5CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 15:26:03 +0000 (UTC)
+Received: by mail-vk1-f179.google.com with SMTP id
+ 71dfb90a1353d-523de5611a3so1999062e0c.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 08:26:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1745351851; x=1745956651;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1745335562; x=1745940362; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=o+8WoEV+fhr75HFqg9zZSA4L2nRl0GyEtZHiF2PswuY=;
- b=ycPwcqJi7jx4P3MmF94Kl/FOxmw3gLiXjcJuGsmZuHdeEvTuYcxJqNJAqEZuI71u3u
- pmHpiEAbWxurm+XDSx+lRq8cJbfS79ex+UVsfB0p9yGSSu1d8Gcn31bqz0Wyv0+HYSZe
- yYXF8LXglBbs4Pbwz6YYh1+b1n2dsAFk755uXMsAYxSzsAsMLUpzx8vMX0sGbQozbCLQ
- nEv6YnX0czCpLbS6ZrniZNVV2XPx74ynAisTxBOIdhFlCuma4Ma2s3RSf+Z0s+rOFLSY
- 5IJQ6GyileHzumZBKR10JFuRrhNmbR3VYB+rXfVI1rMfnwl2/KnVooGTa37UKy97i8xs
- aYZw==
+ bh=HzNfDmE6ryFy4nS3P9XDvD3y3RhYJvbmPTm1DAkC1kc=;
+ b=Z7epY6aLCVfg8Ki7H579rDqVyKvE/1zlqB4e8RCsiKFxmqmD+hqRV3Whfr9a6biMVJ
+ wEMl3/Vpj5WsH1SIFue2JrurYsLJLMQnvwYYfUUR3UcuTOdEshziugGwyhhbUGCGHdy8
+ b4MZT9H0mOO0t3uE6mDVtuKCkxCfGUPFKicNfikBg83iX/XWAGigcm77hKYExpaZF/JE
+ GX5MCcm3FxMWeJRv6ki2XemxttpxzWcQTmLx/HmyB6c7McgLc8+MJj3VMKzpS/sWJKum
+ oUa61r0YcfIJi8o3ttLo6tzAJDWnlCgqc+7bBKkzRX5mfSK3rlQAWrPaOoXPVCNW4wkT
+ C0xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745351851; x=1745956651;
+ d=1e100.net; s=20230601; t=1745335562; x=1745940362;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=o+8WoEV+fhr75HFqg9zZSA4L2nRl0GyEtZHiF2PswuY=;
- b=oWH9MeBPU0aUzUFCjVIie4ctTHZwFCY8zk4t8UkOKYeAcbBOAIOjrlJjPM8hXjvz3S
- SvCrvNU/vS7KjqrFPI5hhnn5D/U05bbYY3X22UTvJvCHloCqqFeyA5ApKjKNCvLVPXng
- x3Ken93j8nY3HHkSEi+rQE7ZR1vKAUTv22ngVe0pX8NvIy3T77WfxX41rxCOrvwprMQr
- uc/hp96NzC86yNqIopR5RtWZdK1jA2gWoJEeMUrkWw09hkYAJdDI1gNrl/or1sq3XwaB
- paf9N+77kDdcyoCUzY2K4Jip3uKRixLZxn9Vh1kMZthafoeQQx7Iw1Up3wFQMLlBffsJ
- rJ/w==
+ bh=HzNfDmE6ryFy4nS3P9XDvD3y3RhYJvbmPTm1DAkC1kc=;
+ b=aULAaIm5rOlAweYfezCZdrIXaspb5sMLXSv3Zvo5tISzK/Ie9E0ntmquADhv+5YtHy
+ BZLUgn29qgE99YfhTvSXvq3o+jlJGUmIDz5gI0R02YMhLSbjk69ycL/PnNAv0l318PMu
+ Tzs0RJwm1RmZB+D6RhufZrnqXUMEAoh+EdFt3dbedN2q4dM4Eez4tw6UaT2WOmoSRK28
+ 6Rf9bu910BYq/0nmRlvSRd1WL+bij3PSrRhLzL770K1Y4T7MjDRUYJjqTik1YnvDPUOq
+ 5dQJOtQuGgdZMVubShlvC8HIWzBUcsgN7ir5FInyKIx1NeoMqly0d7v9l8AZTKPkE+dD
+ 88HQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU7JNDZR/aSLX9/Ht4PWQfDmSux+MRhKic/rJzAfSve9NLay8A789DDBzVVpJiWeWsjRaSm6K3shx0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx3ZTmAhHOe1EH0efi4mqfy5/blzFoObXSL/NTTwXEKgJru3xL7
- lWKs8vznDa0D2SpHvz11FbVytB+b1vO8H0UJm/C1enKcqOmOwv2f5/3/SmTtfmG4sf4F3AOAG0N
- DwqoJzIJTEtADBCVUjSlxHtjMTXa5XACVAc3h
-X-Gm-Gg: ASbGncstfymUBcJ3kj5aJI4tv54icERSeqc6w6PjctQcL31/n6CQHeKU74sLd3fxsEx
- u5Psc+/vCIB4SwcfIO9Us5vg5nKodrlYycOatbUuVsZN04SdXvNXEY+gwoBVPu3vdGjQXF8u07L
- hVmZmxKOW1/LfCMs9mMN0kQfS6lpR89KV2QWgv3pYARErDXjMoIRIOUmjKBIH0258=
-X-Google-Smtp-Source: AGHT+IHUmXBjG9n60eY/loYKceaeQypFwnBTAsAPzYJ5PJ5nFZ7ErzebtVx7FMQxwUfLtBAv12j9WXMAZTzYMIU/Svk=
-X-Received: by 2002:a05:600c:259:b0:439:8d84:32ff with SMTP id
- 5b1f17b1804b1-44091b78f2dmr168325e9.3.1745351850985; Tue, 22 Apr 2025
- 12:57:30 -0700 (PDT)
+ AJvYcCUPyFSpc/Lbe00kQ550REh4or9vT906pwJrJxavPb/a0uY6lk3m94ghx51cyWGowhvoSL8+fzQmub4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyE94VHDzT87KRZWE0A+TczE8r8TplGyBKt2ps+WELfgtJqxmku
+ KDCCih96B/NCTbvERJQivNZgL6v1e6J3aBH3vwz7Up9mGxVDtg6irsnOw6HWM/aLdsromts+gJy
+ BIJBht6kmpEHDAim0jNssY+yzIcQ=
+X-Gm-Gg: ASbGncvhnpiqKjBs+Cdwwt+u3L/TmVx3qykRdfR0JwG9c2GNdI+EykzfAxNk4Z0r0od
+ Lo8wSRswnup6QX3uLtV5Y4TB1TcaTf2Kx/ZKxoJvIE8T02lyCvQrNxrT7ItlUgNgf8RqPvm4wmT
+ zbvB8PYGdBPGQIdfr3Cx+L
+X-Google-Smtp-Source: AGHT+IEEm3+dIdGauwIjZW9S+BY/bSJwy2PMr1CcA6bB8azyzuwdyP9NjEB9/AeyMd0PEJdGUbkFKXhWDh6kNk4YrPs=
+X-Received: by 2002:a05:6122:d96:b0:50a:c70b:9453 with SMTP id
+ 71dfb90a1353d-529254fb492mr10699729e0c.10.1745335562148; Tue, 22 Apr 2025
+ 08:26:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com>
- <20250414225227.3642618-3-tjmercier@google.com>
- <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
- <CABdmKX1OqLLsY5+LSMU-c=DDUxTFaivNcyXG3ntD8D0ty1Pwig@mail.gmail.com>
- <CAADnVQ+0PXgm_VuSJDKwr9iomxFLuG-=Chi2Ya3k0YPnKaex_w@mail.gmail.com>
-In-Reply-To: <CAADnVQ+0PXgm_VuSJDKwr9iomxFLuG-=Chi2Ya3k0YPnKaex_w@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 22 Apr 2025 12:57:18 -0700
-X-Gm-Features: ATxdqUHMQq2PHoV14JDZonbBE5auIlNOjBV31C8667rOy5nLy9RJngJSN6-OcnY
-Message-ID: <CABdmKX1aMuyPTNXD72wXyXAfOi6f58DfcaBDh6uDo0EQ7pKChw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Song Liu <song@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Shuah Khan <skhan@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, 
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- bpf <bpf@vger.kernel.org>, 
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- android-mm@google.com, simona@ffwll.ch, 
- Jonathan Corbet <corbet@lwn.net>, Eduard <eddyz87@gmail.com>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
- Jiri Olsa <jolsa@kernel.org>, Mykola Lysenko <mykolal@fb.com>
+References: <20250421085907.24972-1-jagathjog1996@gmail.com>
+ <20250421085907.24972-2-jagathjog1996@gmail.com>
+ <lhjibofycex36n23edeb6m7uc4n55nqg4y3qdzoe2wdpc5twrh@ytyvawvgdhuz>
+In-Reply-To: <lhjibofycex36n23edeb6m7uc4n55nqg4y3qdzoe2wdpc5twrh@ytyvawvgdhuz>
+From: Jagath Jog J <jagathjog1996@gmail.com>
+Date: Tue, 22 Apr 2025 20:55:50 +0530
+X-Gm-Features: ATxdqUF1D67yTmhQ6f3dP5eoLeuG5KOTyBgcSuwwE5qpUwgLzSwyutR9C3kgyMI
+Message-ID: <CAM+2EuJKPO0iGPK2uqPhdTpLvR0-+Vwh_K-FWTMJ96+AvzLO1A@mail.gmail.com>
+Subject: Re: [RFC 1/1] drm/mipi-dbi: Use drm_device for debugfs, drop
+ drm_minor and .debugfs_init
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, 
+ simona@ffwll.ch, mcanal@igalia.com, maarten.lankhorst@linux.intel.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 22 Apr 2025 20:57:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,58 +88,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 21, 2025 at 4:39=E2=80=AFPM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+Hi Dmitry
+
+Thanks for the reply
+
+On Mon, Apr 21, 2025 at 3:59=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
 >
-> On Mon, Apr 21, 2025 at 1:40=E2=80=AFPM T.J. Mercier <tjmercier@google.co=
-m> wrote:
-> >
-> > > > new file mode 100644
-> > > > index 000000000000..b4b8be1d6aa4
-> > > > --- /dev/null
-> > > > +++ b/kernel/bpf/dmabuf_iter.c
-> > >
-> > > Maybe we should add this file to drivers/dma-buf. I would like to
-> > > hear other folks thoughts on this.
-> >
-> > This is fine with me, and would save us the extra
-> > CONFIG_DMA_SHARED_BUFFER check that's currently needed in
-> > kernel/bpf/Makefile but would require checking CONFIG_BPF instead.
-> > Sumit / Christian any objections to moving the dmabuf bpf iterator
-> > implementation into drivers/dma-buf?
+> On Mon, Apr 21, 2025 at 02:29:07PM +0530, Jagath Jog J wrote:
+> > Refactor to use drm_device.debugfs_root instead of drm_minor for
+> > debugfs file creation. The driver can now initialize debugfs directly
+> > in probe(), before drm_dev_register(). This also removes the use of
+> > .debugfs_init callback.
 >
-> The driver directory would need to 'depends on BPF_SYSCALL'.
-> Are you sure you want this?
-> imo kernel/bpf/ is fine for this.
+> Why? The callback was designed to add debugfs files. Likewise most if
+> not all DRM drivers add files under the corresponding minor node.
 
-I don't have a strong preference so either way is fine with me. The
-main difference I see is maintainership.
+My intention here was to follow the direction suggested in the DRM TODO lis=
+t
+https://docs.kernel.org/gpu/todo.html#clean-up-the-debugfs-support
 
-> You also probably want
-> .feature                =3D BPF_ITER_RESCHED
-> in bpf_dmabuf_reg_info.
+It recommends using drm_device instead of drm_minor, transitioning towards
+drm_device.debugfs_root, and avoiding .debugfs_init. The RFC patch was
+an initial
+step to gather feedback.
 
-Thank you, this looks like a good idea.
+Related to this todo, some drivers use drm_debugfs_add_files() instead of
+drm_debugfs_create_files(). For example
 
-> Also have you considered open coded iterator for dmabufs?
-> Would it help with the interface to user space?
+hdlcd - https://patchwork.freedesktop.org/patch/msgid/20221226155029.244355=
+-4-mcanal@igalia.com
+v3d - https://patchwork.freedesktop.org/patch/msgid/20221219120621.15086-6-=
+mcanal@igalia.com
+https://elixir.bootlin.com/linux/v6.14.3/source/include/drm/drm_device.h#L9=
+2
 
-I read through the open coded iterator patches, and it looks like they
-would be slightly more efficient by avoiding seq_file overhead. As far
-as the interface to userspace, for the purpose of replacing what's
-currently exposed by CONFIG_DMABUF_SYSFS_STATS I don't think there is
-a difference. However it looks like if I were to try to replace all of
-our userspace analysis of dmabufs with a single bpf program then an
-open coded iterator would make that much easier. I had not considered
-attempting that.
+Please let me know your thoughts on this.
 
-One problem I see with open coded iterators is that support is much
-more recent (2023 vs 2020). We support longterm stable kernels (back
-to 5.4 currently but probably 5.10 by the time this would be used), so
-it seems like it would be harder to backport the kernel support for an
-open-coded iterator that far since it only goes back as far as 6.6
-now. Actually it doesn't look like it is possible while also
-maintaining the stable ABI we provide to device vendors. Which means
-we couldn't get rid of the dmabuf sysfs stats userspace dependency
-until 6.1 EOL in Dec. 2027. :\ So I'm in favor of a traditional bpf
-iterator here for now.
+
+Regards
+Jagath
+>
+> >
+> > Signed-off-by: Jagath Jog J <jagathjog1996@gmail.com>
+> > ---
+> >  drivers/gpu/drm/drm_mipi_dbi.c        | 8 ++++----
+> >  drivers/gpu/drm/tiny/ili9163.c        | 3 ++-
+> >  drivers/gpu/drm/tiny/panel-mipi-dbi.c | 3 ++-
+> >  include/drm/drm_mipi_dbi.h            | 4 ++--
+> >  4 files changed, 10 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_=
+dbi.c
+> > index 89e05a5bed1d..66f292c48a78 100644
+> > --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> > +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> > @@ -1488,17 +1488,17 @@ static const struct file_operations mipi_dbi_de=
+bugfs_command_fops =3D {
+> >   *
+> >   * This function creates a 'command' debugfs file for sending commands=
+ to the
+> >   * controller or getting the read command values.
+> > - * Drivers can use this as their &drm_driver->debugfs_init callback.
+> > + * Drivers can call this function before registering their device to d=
+rm.
+> >   *
+> >   */
+> > -void mipi_dbi_debugfs_init(struct drm_minor *minor)
+> > +void mipi_dbi_debugfs_init(struct mipi_dbi_dev *dbidev)
+> >  {
+> > -     struct mipi_dbi_dev *dbidev =3D drm_to_mipi_dbi_dev(minor->dev);
+> >       umode_t mode =3D S_IFREG | S_IWUSR;
+> >
+> >       if (dbidev->dbi.read_commands)
+> >               mode |=3D S_IRUGO;
+> > -     debugfs_create_file("command", mode, minor->debugfs_root, dbidev,
+> > +
+> > +     debugfs_create_file("command", mode, dbidev->drm.debugfs_root, db=
+idev,
+> >                           &mipi_dbi_debugfs_command_fops);
+> >  }
+> >  EXPORT_SYMBOL(mipi_dbi_debugfs_init);
+> > diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9=
+163.c
+> > index 62cadf5e033d..351d2a5b9f27 100644
+> > --- a/drivers/gpu/drm/tiny/ili9163.c
+> > +++ b/drivers/gpu/drm/tiny/ili9163.c
+> > @@ -115,7 +115,6 @@ static struct drm_driver ili9163_driver =3D {
+> >       .fops                   =3D &ili9163_fops,
+> >       DRM_GEM_DMA_DRIVER_OPS_VMAP,
+> >       DRM_FBDEV_DMA_DRIVER_OPS,
+> > -     .debugfs_init           =3D mipi_dbi_debugfs_init,
+> >       .name                   =3D "ili9163",
+> >       .desc                   =3D "Ilitek ILI9163",
+> >       .major                  =3D 1,
+> > @@ -182,6 +181,8 @@ static int ili9163_probe(struct spi_device *spi)
+> >
+> >       drm_mode_config_reset(drm);
+> >
+> > +     mipi_dbi_debugfs_init(dbidev);
+> > +
+> >       ret =3D drm_dev_register(drm, 0);
+> >       if (ret)
+> >               return ret;
+> > diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/ti=
+ny/panel-mipi-dbi.c
+> > index 0460ecaef4bd..94466dd8db9f 100644
+> > --- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+> > +++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+> > @@ -267,7 +267,6 @@ static const struct drm_driver panel_mipi_dbi_drive=
+r =3D {
+> >       .fops                   =3D &panel_mipi_dbi_fops,
+> >       DRM_GEM_DMA_DRIVER_OPS_VMAP,
+> >       DRM_FBDEV_DMA_DRIVER_OPS,
+> > -     .debugfs_init           =3D mipi_dbi_debugfs_init,
+> >       .name                   =3D "panel-mipi-dbi",
+> >       .desc                   =3D "MIPI DBI compatible display panel",
+> >       .major                  =3D 1,
+> > @@ -384,6 +383,8 @@ static int panel_mipi_dbi_spi_probe(struct spi_devi=
+ce *spi)
+> >
+> >       drm_mode_config_reset(drm);
+> >
+> > +     mipi_dbi_debugfs_init(dbidev);
+> > +
+> >       ret =3D drm_dev_register(drm, 0);
+> >       if (ret)
+> >               return ret;
+> > diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+> > index f45f9612c0bc..88a9c87a1e99 100644
+> > --- a/include/drm/drm_mipi_dbi.h
+> > +++ b/include/drm/drm_mipi_dbi.h
+> > @@ -230,9 +230,9 @@ int mipi_dbi_buf_copy(void *dst, struct iosys_map *=
+src, struct drm_framebuffer *
+> >  })
+> >
+> >  #ifdef CONFIG_DEBUG_FS
+> > -void mipi_dbi_debugfs_init(struct drm_minor *minor);
+> > +void mipi_dbi_debugfs_init(struct mipi_dbi_dev *dbidev);
+> >  #else
+> > -static inline void mipi_dbi_debugfs_init(struct drm_minor *minor) {}
+> > +static inline void mipi_dbi_debugfs_init(struct mipi_dbi_dev *dbidev) =
+{}
+> >  #endif
+> >
+> >  /**
+> > --
+> > 2.20.1
+> >
+>
+> --
+> With best wishes
+> Dmitry
