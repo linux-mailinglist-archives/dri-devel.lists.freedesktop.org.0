@@ -2,92 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A33CA964B4
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 11:41:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6BCA964B6
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 11:41:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49E5D10E1EA;
-	Tue, 22 Apr 2025 09:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCCEB10E552;
+	Tue, 22 Apr 2025 09:41:57 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="Ie9hT3DN";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
- [209.85.222.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ECD610E1EA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 09:41:46 +0000 (UTC)
-Received: by mail-ua1-f48.google.com with SMTP id
- a1e0cc1a2514c-86715793b1fso1722064241.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 02:41:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745314903; x=1745919703;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HtDPN0f0mJZSQySCDGpLuMV+cPQyuwPvJZF9dRzKPOc=;
- b=TGV774Z1GimuxM2xktl/M2bTu8Zszl0xNECjrEaigyh6bsGB/6C+Qlzzbr0TNWkMkr
- BVzf/nmdJPVVWU5YB2yL4gJNVbl2HlakgDJDviUwP6mfXQSluGNKujXpsmN/qFY83m+z
- 11Dtgh6ckIcl6fWUwR+sx7ubVVkyNeyPStF/pyoKhjp1qGFUstkPqtIzzYciKdeIVxv7
- hJIVjji76qIFYkZhV3nrEZS8KEFZREH1E6ERUBSFPGvV59Fdx1+Yl8FM+/iWx6q6BwN8
- zqBO3Y987YVf954cWZY3p5o8QB9X2NVMAyl7qTqyM/qxa1uX4umtIAXf7gI2svqdazg0
- /84A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX96iO7P5y6TKfmrebg7NHIr/LW+Up7O5rV9kWOij09wjLajFQ+Y8VUWj4lfEGh4TOJd2+4TttVFuc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx43qRIS//T713IyhX6ZjRroU1f5KFXiSfg3l639IDGbhnDP0yV
- Rw8cTXtz3SWRjUaYNUi2MfH3yIBacj+r823nIXeMIQNL9BPrB9YO4nB+0tQj
-X-Gm-Gg: ASbGncvF+2IUB6NAX364RJtMItIZM/LyyIvP2UOkS4sGQYk+cQAdW9XPd2ba+j1+faX
- Q2OFwkrD4RyB762sZTShD9nl83bN1csH1fFuggbhsNIL7pkw2zMhXkpwhm4dexa6iLhhGYYH/N8
- BoQhfUDrrTKm7+Be2hsXPoHrMSndt3V8yLEacIsk4GLih47cbjVz/YYVp434MxFQZWP9GvqsY5l
- N37pvV67h5jPp1o7g06TKRF67TzsUg1in9ERtId928DwCrr95eSWImHtQCybA0x6jtWR/eCEWYe
- qltyozS6WXo5LEB4q49wZVCTnjEJTN5c3BCDN84nxKfYCphHZeyqnMiCxqzrM6wDm4dKjtVU8o1
- fC6hfNFg=
-X-Google-Smtp-Source: AGHT+IEZtI8dsM7m0AoWJi7DV6SkpO5lwub1QXMuH1OoMkLA9I7BCB9o/yWajY9MJ7SdDr9OaVnpYA==
-X-Received: by 2002:a05:6102:5616:b0:4bb:e14a:944b with SMTP id
- ada2fe7eead31-4cb801d00f6mr7399640137.20.1745314902913; 
- Tue, 22 Apr 2025 02:41:42 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com.
- [209.85.221.173]) by smtp.gmail.com with ESMTPSA id
- a1e0cc1a2514c-8776468ca4csm2239897241.15.2025.04.22.02.41.41
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Apr 2025 02:41:42 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id
- 71dfb90a1353d-523d8c024dfso1877818e0c.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 02:41:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWCAevN+vnlGyS2JZlDPwXdt4xKxOGtMWtNNNtgHBXWa0GqFlq+ozdgqu5P9EQ6C/mUJ02KAaNfWbc=@lists.freedesktop.org
-X-Received: by 2002:a05:6122:da3:b0:523:e9d2:404d with SMTP id
- 71dfb90a1353d-52925508a15mr11639393e0c.11.1745314901637; Tue, 22 Apr 2025
- 02:41:41 -0700 (PDT)
+Received: from MA0PR01CU009.outbound.protection.outlook.com
+ (mail-southindiaazolkn19010003.outbound.protection.outlook.com [52.103.67.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7344610E552
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 09:41:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WUZAL+e+pYAtwGp4gk5cU1muZHRySM2q+j015f4XGiVQzdPUhifJ7iKPc4IfhDorwiNCB9HPyZ1Aty3636E2cFsGVIzZWh4/5G5QA4YWGyCYsW/gV5eKLHAdF8DRFQyPtmb2vNLNzX/EFKztBgVvUU5jA+MF+55YYjW2nwPd6VsxBolc/S7uhFd8CcNBk6K62kIzNTphZwZ+7uJtOZAlo4MKLnkY1+r3aw5B0+mlSVAhmYLkWonlsWevBT0HZtxvwc+JH/4GbCESMvrDCukzFa19RGkD1/tHVYWKd2PcXi8lcVlHxEfQdZ1W3depAvxdOKKa+FUfXgKTfquOW/EKGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/WgLkCcvrmsLz68Yl6o2DmT9ZAh53KP5K+/4Dt7jj5U=;
+ b=mreB6Kj68bQp43GASlVSStjYIwvjj/z4DZ5ZJb5f6iq9b+x7pqkPlPVA8EDD5g0Hc78B1BSVZz+uW0Y/1cbgEZH86+yr0wdjS9RiSTIR+WrSbxLNBKhY23/vSffCfgNrZrtU3NR9or4PxBM8uECw/GT9xouh0j2jHXgyuvZjIqBVqCoEJ12JRNZ14ljnkseb3/K/GXFUaOWnyHZdSFxxbTr4FwpuwIjd8YAONa1rBY//sJV6lzeNoqGS8B85dHBmPbe5qICnpewVCe9V1RQd1gZqBlQE+ED/kkCvsYpOHWIN4llLYs0HkzxKMzXr8svgAONdgQCv5orIfHwgPWmKHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/WgLkCcvrmsLz68Yl6o2DmT9ZAh53KP5K+/4Dt7jj5U=;
+ b=Ie9hT3DNfLAVGRII8dZWYOVkevwJcpakKe+VtFJriTU7UTg20Okb+t6aXj+jonY+doHyHmbRoEMjzm8uipL0rK2fDpuXw/Iy8VHqZmk1DJ2vHrxJiWufB+aULoNNa7awnJDoi/PvHR+24vmWuwjZfI2qe7ulqq7Lc95sdkOtJ+ZlexE7c9xEfv96c2Hl1wL5sh7m2mb4ijlGRCC+ZLValD9V38uk1WOuMI8C/AEUMEIC0Wsa3atJTXFeTgSCBaPrLlMAop3unRHbKHu+tYxUr2Bs58hqJdsvxbyxTyg9oSZy9rgSiFhtiPra5WDJK9DwSrjZBYGP57I8pmrGq7Ef8Q==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by PN2PR01MB9229.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:118::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.36; Tue, 22 Apr
+ 2025 09:41:39 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8655.031; Tue, 22 Apr 2025
+ 09:41:39 +0000
+Message-ID: <PN3PR01MB95971C60303914361CECEB06B8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Date: Tue, 22 Apr 2025 15:11:35 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Hector Martin <marcan@marcan.st>, alyssa@rosenzweig.io,
+ Petr Mladek <pmladek@suse.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
+ airlied@redhat.com, Simona Vetter <simona@ffwll.ch>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
+ lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>,
+ netdev <netdev@vger.kernel.org>
+References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
+ <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
+Content-Language: en-US
+From: Aditya Garg <gargaditya08@live.com>
+In-Reply-To: <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0131.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:6::16) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:f7::14)
+X-Microsoft-Original-Message-ID: <f8de5cdc-edca-4a63-9794-207fe91a3edb@live.com>
 MIME-Version: 1.0
-References: <20250327112009.6b4dc430@eldfell>
- <b5cf15a4-7c65-4718-9c39-a4c86179ba4c@ideasonboard.com>
- <20250327175842.130c0386@eldfell>
- <CAMuHMdVEpTVWmwrYt+G-QSWucT91goUcFor9qbo5rZ+X2jnRog@mail.gmail.com>
- <20250331105446.098f0fbe@eldfell>
- <20250331082135.GB13690@pendragon.ideasonboard.com>
- <20250331135337.61934003@eldfell> <20250401162732.731ef774@eldfell>
- <73bd6628-374d-417f-a30f-88a4b1d157bb@ideasonboard.com>
- <20250417111315.62a749e5@eldfell>
- <20250421145039.GA19213@pendragon.ideasonboard.com>
- <20250422121107.572cb7ad@eldfell>
-In-Reply-To: <20250422121107.572cb7ad@eldfell>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 22 Apr 2025 11:41:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX+yaw_PYsM_N8Gzrt2hbn_5cRN375jLKpwE13ygTvwHA@mail.gmail.com>
-X-Gm-Features: ATxdqUG4PO00LgIbFApc_8Si6w6Y5yiIk6lKKJquY2wvCceeJmyU4SVfFA6n4dQ
-Message-ID: <CAMuHMdX+yaw_PYsM_N8Gzrt2hbn_5cRN375jLKpwE13ygTvwHA@mail.gmail.com>
-Subject: Re: [PATCH v4 03/11] drm/fourcc: Add DRM_FORMAT_Y8
-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Vishal Sagar <vishal.sagar@amd.com>, 
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN2PR01MB9229:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9de0a7c1-56a9-4cfc-ffbf-08dd8181e15b
+X-Microsoft-Antispam: BCL:0;
+ ARA:14566002|6090799003|5072599009|8060799006|15080799006|7092599003|461199028|19110799003|3412199025|440099028|12091999003;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VlNQUC8zMyswblBwTlFKRGEvalZQUUdwRng1eFMvaE84REptMzVDcTNvU0xC?=
+ =?utf-8?B?dDJYbkp5V2JmZDJLa0o4bFhrVFJsQzl0V0FmcDIxS3dNTklPK1JhZ1J0WEdX?=
+ =?utf-8?B?ZmhIbHBJQkxiUzJEYkpnSTgzc1Fib1o5WmdnRzhFbGVRVGlqbkZlTE1LYjQ0?=
+ =?utf-8?B?VERJTjhWZlN3RDd2eXIzeGQvSFBFb1BTUytmK2pHWE1BK3VOQXF6SU82WE1Y?=
+ =?utf-8?B?WGtITTRKYVBlaHRDNHZmUm5wZVNIWThCUUZvZ1kwSnRQbXJFekxENkhaekJV?=
+ =?utf-8?B?Uk1rbVNuMDYwWFVYRG5JdFQ3QXM4d0pxZ0o1bWx6andCdHBFRVMvTXp3QThz?=
+ =?utf-8?B?aHMvZ3RXNkFSQzVyQUhmalY4WGl3bndSbnplWldzZ3hOMVl3VmMyQ1g0M281?=
+ =?utf-8?B?cmRFYm1BcGtraTNoSHdIMExCdFl2VEdRV3pUU2tkRnVCMDBNazYxSGJxdXVj?=
+ =?utf-8?B?ekZIUFJSUGorSEZ5MklXWTFibnFkNjlhMzhYZTFEVWpVcVdWSk5jUzdqRnYr?=
+ =?utf-8?B?U1ZaV0V2ZFdkWkdiTjQxa2R2OXlZRUUvUzFrRDV0UXovNFVlSDIzOUZCSDFW?=
+ =?utf-8?B?R3VlT1ByeGNYakdDNWFTb0d1ZjRuSHV3UTAyQTVscTZFaDVNRmZJS2dZNTYy?=
+ =?utf-8?B?dWhicFhzM20wYU5TR3ZqdnlURmZ0K2xTdkVub3g4d3lwYWNRRVZ3eUpqell5?=
+ =?utf-8?B?eEUveVYweWNJNjByN0xaTXp2UzA1QzRkUkordHJveTZwS0FZWW05WVYwUmg2?=
+ =?utf-8?B?RkVHNk8wYnZFUHp5MUpCZmxsb3Z6VHE1OGZCdUE3Q1pEWmdxcUpIWG1kQ1Yy?=
+ =?utf-8?B?U2ZOQ3RKOGNIbHV5dmtqbFlrMFk5c1JCS0prTkNUSWo5QXV3MHpwRmpqc1pD?=
+ =?utf-8?B?QSt5M0RNUWE4U1pkVlM2aEJxcm9qckErYzhOclQrWEVQd29iVkNDUmhQZUwr?=
+ =?utf-8?B?cnpxM2tub2VXcWdaUytpT2ttVTJvWVdzeWNIb2xvMGRRSTQ0UUpzeGxrVk1a?=
+ =?utf-8?B?TW9FaWhIbXpybkR0bHd2cHJxbVZIVzJCT2g2RGdscXZRbk9Ca1k3QWtOUVc3?=
+ =?utf-8?B?R01lY1JYVDNjSkhZbEQxU09RUStlektwTkFkS3lhQnEwcVJSdGdmMHlPSDNt?=
+ =?utf-8?B?TWF2UFhTaU5lUVNWejcxRUJLN21QdWlxaUtDSXZnMENjWmxMcWFhcW9PNysv?=
+ =?utf-8?B?bVRENFNTS091N3BXMnU4dG9OQnJBRklXb21qMWhQZ21mbGtwSkN3dEdVd1Jh?=
+ =?utf-8?B?Z3liWnNicE42RVRNZGhuSjlNc1p2aFdudGNQckIyMzMzNnU0RXpRUGlkUVJ4?=
+ =?utf-8?B?TkwzUmpnZkpWS1dFSHB5bGFtTFA5NE9NWGNRVUNEcy9sN0NUZnpYRmk5MnBJ?=
+ =?utf-8?B?c0l1bG1HQjM5TCtmMGkvSGFMRUt4MTArY1lic0VqQkdidVB0U0Y4TGhtUENB?=
+ =?utf-8?B?eG1hWmZ6UmhwWHlGQUlDN1VRR2cvd0RnOGtiYWQ2L3FQdlN5N1RlWjNOZHEy?=
+ =?utf-8?B?eFFsc0hjQW1jbVZsVTRlaWc4TDA4ZVZMS2xtOG5XREd0bFpIbGlGdXNTbkQw?=
+ =?utf-8?Q?3riNgA+WSwTJ0MqI8AjCs5DhQ=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZU5XKzc4dGgwYzR3aHU4Q3BUVzQwT1V1R0FJWVJ1S01iSWkrbzkyU2xWSEJu?=
+ =?utf-8?B?YUJSNklJTnBhLzZLNHN5NVlTbWg3ZFg0V3AzRnB0SGczZU5MMmhzVXZlWUhu?=
+ =?utf-8?B?eTI5QjdwNi9iakxZMENYNTFscnBiNS9kOGd3MnJmM0hTMTRRaGF1Q2o3YXBU?=
+ =?utf-8?B?YWFqMkRRL2ZxTER6Sktud25HLzA1WDlheWRHQWRvU3B2NWwreCtUUEtRMnps?=
+ =?utf-8?B?YnhBTTd5c3BDNFJFYTFLdEFWYXlxMk56SUEzZGUwTWJkR1Z4WFFLZWZoS2o3?=
+ =?utf-8?B?SktNZVhERktFbFlMRnpUVmd6Z3ZjTDhuU0dzQ2REZEF1SDhqcm9NUVpWclp6?=
+ =?utf-8?B?dE9FTzVTUHZub3g1Qzl3c1QxUmFnLzJ4N3V3QzFYMkwzdTBzdDFBbW45L3R3?=
+ =?utf-8?B?RXBQVWlVWFlxYTNNUEV2amRRNG0rd3Q2NkV3MXoyQTBkNitIYjZEdFl2dXhB?=
+ =?utf-8?B?Tjh6Z1dDM2VwWU5JTVpTWkpXTjBRUjBjTHQxMnlpdDBkblVEZnoyOVY0NUVl?=
+ =?utf-8?B?cGVWaXZodVJxMnQ5eXJxb2ZXSlNLaXNSaDUzejVDalFPT2prV0lXaUdHL0tQ?=
+ =?utf-8?B?ajVYUitJaXFVTmMzT210dGxzb2x2djVNMythSU9tT3BnUXdLczN6cldUSnQ5?=
+ =?utf-8?B?d25uck10Yy92WUpuMEZ2cElwZTVrY2txaFBzSzFnQ2l1aW1hSDVtVWdmQkVZ?=
+ =?utf-8?B?cnlwdHZ0UjBERTFHanFDMHJWQy9lY0JzeExrMEowaTRQOFRjZEU2ZlhIYThC?=
+ =?utf-8?B?NFY2MmM4RkppbzF3TDFYZWpjOUhxWS8za0d3WU5nRkk3VW9QNEE1cEUxdmJz?=
+ =?utf-8?B?VUloSllaSWpqVU9Xd3hwdVhnd3hJU1pYZkZpNHIydndDRi9sZXkwZWswT0JP?=
+ =?utf-8?B?MWhjWWJVamFEUGtyeEk0UHpwL2pDNms5bXFoQXYxQ2Uycm5GYldwTlNDNlk2?=
+ =?utf-8?B?KzRKT01kbTBPWVlFZWRyVVJxNkswTittZDVIU1haZ2xNdDQ0YTY4UDhGb3o4?=
+ =?utf-8?B?cUVTT1BsOTNlNWUwU0JzeGFVSUJ3eHVPNnNiSTdPZTU1NTViRTdsdkxXMXN6?=
+ =?utf-8?B?YmpENE9UdExDTThjSkRsdi91M0J6TnhXclNNc0hvUENCSXRGbmN3cU03b0cw?=
+ =?utf-8?B?L0RsSUl6Q1d4YUNkcjV3L09IbW9mTU5tamN5M1RxN2MvZjBHT0FYR0d0NW9j?=
+ =?utf-8?B?MmJOWnJwM0ZNN0FRYVBkcHUvR2h3U1p0d1ROeGRTWDVlMG52NHlWbHFLWTRq?=
+ =?utf-8?B?cTV3a1pDMng0YllJRUtSMXZmNmhqR21PWldnSnpzZlA5clVGVWpGRHo4NTZP?=
+ =?utf-8?B?TFUyZnRNcUpRZGVhRUNCVlVORE1ReU5wTldsZk56ZHVmVWJZVXhha3hwbFdL?=
+ =?utf-8?B?d0R2blNQb1lqTTVvQWlYdm00K1h6djdHSWs5V2IraEdZV0JGbzE5ZHQrVjMv?=
+ =?utf-8?B?ZGFZMlVBY2o3QlNNZjIzc2dtYWM0V0UzL1ZOd2pZYnFCa3N3ekVLT3BvZVQv?=
+ =?utf-8?B?ZU94MS9SY3ZKYUdPMmlMV1BuQysvbE5pVVpZMEVvSnRkS2lzZTFIUWpLcWhH?=
+ =?utf-8?B?VkhYaEp4Q1BHay9RZlhXVWpIUkNsMWdJdnc3ZVp0alN5RGFzTVJNWXdXWitV?=
+ =?utf-8?B?dEtIWXEvTVM3QWFlUWJVcGJCWGZzUG5ML2Y4bit3Ymd2WFNybjJYV012TzJu?=
+ =?utf-8?Q?Cy3lFykaTTk9P0mDfEpA?=
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9de0a7c1-56a9-4cfc-ffbf-08dd8181e15b
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 09:41:39.0288 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PR01MB9229
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,210 +162,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka,
 
-On Tue, 22 Apr 2025 at 11:11, Pekka Paalanen
-<pekka.paalanen@haloniitty.fi> wrote:
-> On Mon, 21 Apr 2025 17:50:39 +0300
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> > On Thu, Apr 17, 2025 at 11:13:15AM +0300, Pekka Paalanen wrote:
-> > > On Wed, 16 Apr 2025 11:59:43 +0300 Tomi Valkeinen wrote:
-> > > > On 01/04/2025 16:27, Pekka Paalanen wrote:
-> > > > > On Mon, 31 Mar 2025 13:53:37 +0300 Pekka Paalanen wrote:
-> > > > >> On Mon, 31 Mar 2025 11:21:35 +0300 Laurent Pinchart wrote:
-> > > > >>> On Mon, Mar 31, 2025 at 10:54:46AM +0300, Pekka Paalanen wrote:
-> > > > >>>> On Thu, 27 Mar 2025 17:35:39 +0100 Geert Uytterhoeven wrote:
-> > > > >>>>> On Thu, 27 Mar 2025 at 16:59, Pekka Paalanen wrote:
-> > > > >>>>>> On Thu, 27 Mar 2025 16:21:16 +0200 Tomi Valkeinen wrote:
-> > > > >>>>>>> On 27/03/2025 11:20, Pekka Paalanen wrote:
-> > > > >>>>>>>> On Wed, 26 Mar 2025 15:55:18 +0200 Tomi Valkeinen wrote:
-> > > > >>>>>>>>> On 26/03/2025 15:52, Geert Uytterhoeven wrote:
-> > > > >>>>>>>>>> On Wed, 26 Mar 2025 at 14:23, Tomi Valkeinen wrote:
-> > > > >>>>>>>>>>> Add greyscale Y8 format.
-> > > > >>>>>>>>>>>
-> > > > >>>>>>>>>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > >>>>>>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > > > >>>>>>>>>>
-> > > > >>>>>>>>>> Thanks for your patch!
-> > > > >>>>>>>>>>
-> > > > >>>>>>>>>>> --- a/include/uapi/drm/drm_fourcc.h
-> > > > >>>>>>>>>>> +++ b/include/uapi/drm/drm_fourcc.h
-> > > > >>>>>>>>>>> @@ -405,6 +405,9 @@ extern "C" {
-> > > > >>>>>>>>>>>     #define DRM_FORMAT_YUV444      fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
-> > > > >>>>>>>>>>>     #define DRM_FORMAT_YVU444      fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
-> > > > >>>>>>>>>>>
-> > > > >>>>>>>>>>> +/* Greyscale formats */
-> > > > >>>>>>>>>>> +
-> > > > >>>>>>>>>>> +#define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
-> > > > >>>>>>>>>>
-> > > > >>>>>>>>>> This format differs from e.g. DRM_FORMAT_R8, which encodes
-> > > > >>>>>>>>>> the number of bits in the FOURCC format. What do you envision
-> > > > >>>>>>>>>> for e.g. DRM_FORMAT_Y16? fourcc_code('G', 'R', '1', '6')?
-> > > > >>>>>>>>>
-> > > > >>>>>>>>> I wanted to use the same fourcc as on V4L2 side. Strictly speaking it's
-> > > > >>>>>>>>> not required, but different fourccs for the same formats do confuse.
-> > > > >>>>>>>>>
-> > > > >>>>>>>>> So, generally speaking, I'd pick an existing fourcc from v4l2 side if
-> > > > >>>>>>>>> possible, and if not, invent a new one.
-> > > > >>>>>>>>
-> > > > >>>>>>>> what's the actual difference between DRM_FORMAT_R8 and DRM_FORMAT_Y8?
-> > > > >>>>>>>>
-> > > > >>>>>>>> Is the difference that when R8 gets expanded to RGB, it becomes (R, 0,
-> > > > >>>>>>>> 0), but Y8 gets expanded to (c1 * Y, c2 * Y, c3 * Y) where c1..c3 are
-> > > > >>>>>>>> defined by MatrixCoefficients (H.273 terminology)?
-> > > > >>>>>>>>
-> > > > >>>>>>>> That would be my intuitive assumption following how YCbCr is handled.
-> > > > >>>>>>>> Is it obvious enough, or should there be a comment to that effect?
-> > > > >>>>>>>
-> > > > >>>>>>> You raise an interesting point. Is it defined how a display driver, that
-> > > > >>>>>>> supports R8 as a format, shows R8 on screen? I came into this in the
-> > > > >>>>>>> context of grayscale formats, so I thought R8 would be handled as (R, R,
-> > > > >>>>>>> R) in RGB. But you say (R, 0, 0), which... also makes sense.
-> > > > >>>>>>
-> > > > >>>>>> That is a good question too. I based my assumption on OpenGL behavior
-> > > > >>>>>> of R8.
-> > > > >>>>>>
-> > > > >>>>>> Single channel displays do exist I believe, but being single-channel,
-> > > > >>>>>> expansion on the other channels is likely meaningless. Hm, but for the
-> > > > >>>>>> KMS color pipeline, it would be meaningful, like with a CTM.
-> > > > >>>>>> Interesting.
-> > > > >>>>>>
-> > > > >>>>>> I don't know. Maybe Geert does?
-> > > > >>>>>
-> > > > >>>>> I did some digging, and was a bit surprised that it was you who told
-> > > > >>>>> me to use R8 instead of Y8?
-> > > > >>>>> https://lore.kernel.org/all/20220202111954.6ee9a10c@eldfell
-> > > > >>>>
-> > > > >>>> Hi Geert,
-> > > > >>>>
-> > > > >>>> indeed I did. I never thought of the question of expansion to R,G,B
-> > > > >>>> before. Maybe that expansion is what spells R8 and Y8 apart?
-> > > > >>>>
-> > > > >>>> I do think that expansion needs to be specified, so that the KMS color
-> > > > >>>> pipeline computations are defined. There is a big difference between
-> > > > >>>> multiplying these with an arbitrary 3x3 matrix (e.g. CTM):
-> > > > >>>>
-> > > > >>>> - (R, 0, 0)
-> > > > >>>> - (R, R, R)
-> > > > >>>> - (c1 * Y, c2 * Y, c3 * Y)
-> > > > >>>
-> > > > >>> I'd be very surprised by an YUV to RGB conversion matrix where the first
-> > > > >>> column would contain different values. What we need to take into account
-> > > > >>> though is quantization (full vs. limited range).
-> > > > >
-> > > > > Quantization range is indeed good to note. R8 would be always full
-> > > > > range, but Y8 would follow COLOR_RANGE property.
-> > > > >
-> > > > >> That makes Y8 produce (Y, Y, Y), and we have our answer: R8 should be
-> > > > >> (R, 0, 0), so we have both variants.
-> > > > >>
-> > > > >> Can we specify Y, R, G and B be nominal values in the range 0.0 - 1.0
-> > > > >> in the KMS color processing?
-> > > > >
-> > > > > I think this 0.0 - 1.0 nominal range definition for the abstract KMS
-> > > > > color processing is necessary.
-> > > > >
-> > > > > It also means that limited range Y8 data, when containing values 0-15
-> > > > > or 240-255, would produce negative and greater than 1.0 values,
-> > > > > respectively. They might get immediately clamped to 0.0 - 1.0 with the
-> > > > > first color operation they face, though, but the concept seems
-> > > > > important and carrying over to the new color pipelines UAPI which might
-> > > > > choose not to clamp.
-> > > >
-> > > > Is the behavior of values outside the limited range something that needs
-> > > > to be defined? We can't know how each piece of HW behaves with
-> > > > "undefined" input, so should we not just define the behavior as platform
-> > > > specific?
-> > >
-> > > Hi Tomi,
-> > >
-> > > it's not undefined nor illegal input in general. The so-called
-> > > sub-black and super-white ranges exist for a reason, and they are
-> > > intended to be used in video processing to avoid clipping in
-> > > intermediate processing steps when a filter overshoots a bit. There are
-> > > also practices that depend on them, like PLUGE calibration with
-> > > traditional signals on a display: https://www.itu.int/rec/R-REC-BT.814
-> > >
-> > > I think it would be really good to have defined behaviour if at all
-> > > possible.
-> > >
-> > > > In any case: I can't say I fully understood all the discussions wrt.
-> > > > color spaces. But my immediate interest is, of course, this series =).
-> > > > So is there something that you think should be improved here?
-> > >
-> > > Right, the range discussion is a tangent and applies to all YUV
-> > > formats, so it's not a new question.
-> > >
-> > > > My understanding is that the Y-only pixel formats behave in a well
-> > > > defined way (or, as well defined as the YUV formats), and there's
-> > > > nothing more to add here. Is that right?
-> > >
-> > > There are two things:
-> > >
-> > > - Y8 follows COLOR_RANGE property, just like all other YUV formats.
-> > > - Y8 implies that Cb and Cr are both neutral (0.0 in nominal values).
-> > >
-> > > I'd like these explicitly written down, so that they become obvious to
-> > > everyone. I suspect either one might be easy to forget when writing
-> > > code and taking shortcuts without thinking.
-> > >
-> > >
-> > > Laurent,
-> > >
-> > > I did find a case where (Y', neutral, neutral) does *not* seem to expand
-> > > to RGB=(Y, Y, Y): ICtCp. The conversion from ICtCp to L'M'S' does
-> > > produce (Y', Y', Y'), but the LMS-to-RGB matrix scrambles it.
-> > >
-> > > I didn't dig through BT.2020 constant-luminance Y'C'bcC'rc, but I
-> > > wouldn't be surprised if it scrambled too.
-> > >
-> > > Of course, both of the above are not just one matrix. They require two
-> > > matrices and the transfer characteristic each to compute. KMS color
-> > > operations cannot implement those today, but with the colorop pipelines
-> > > they will if the hardware does it.
-> > >
-> > > That's why I think it's important to document the assumption of Cb and
-> > > Cr when not part of the pixel format, and not write down a specific
-> > > expansion to RGB like (Y, Y, Y).
-> >
-> > Every time I discuss color spaces, the scopes of "RGB" and "YUV" seem to
-> > expand more and more. This makes me wonder how we define those two
-> > concepts. Taking the conversion from RGB to ICtCp as an example, would
-> > you consider LMS and L'M'S' as "RGB" formats, and ICtCp as a "YUV"
-> > format ?
->
-> sorry for the confusion. In this specific context, my use of RGB and
-> YUV refers to the channels in DRM pixel formats. It might have been
-> better if all channels in all pixel formats were "anonymous" and merely
-> numbered because all formats can be used for any color model, but this
-> is what we have.
->
-> There is some disambiguation in
-> https://gitlab.freedesktop.org/pq/color-and-hdr/-/blob/main/doc/pixels_color.md
-> The doc is some years old, so nowadays I might phrase things
-> differently, but maybe it's easier to read for those new to things as I
-> wrote it when I was just learning things.
->
-> I would classify ICtCp in the YUV pixel format category, because the
-> CtCp plane can be sub-sampled (right?). I would classify LMS and L'M'S'
-> in the RGB pixel format category because they are not sub-sampled AFAIK
-> although they also do not actually appear as buffer contents, so the
-> relation to pixel formats is... theoretical.
->
-> IOW, we have a completely artificial split of DRM pixel formats to RGB
-> and YUV where the only essential difference is that YUV formats can have
-> sub-sampled variants and RGB formats do not.
 
-RGB can be subsampled, too...
-https://en.wikipedia.org/wiki/Bayer_filter
+On 22-04-2025 02:13 pm, Geert Uytterhoeven wrote:
+> Hi Aditya,
+> 
+> CC netdev
+> 
+> On Tue, 22 Apr 2025 at 10:30, Aditya Garg <gargaditya08@live.com> wrote:
+>> On 22-04-2025 01:37 pm, Geert Uytterhoeven wrote:
+>>> On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
+>>>> From: Hector Martin <marcan@marcan.st>
+>>>>
+>>>> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
+>>>> it's useful to be able to print generic 4-character codes formatted as
+>>>> an integer. Extend it to add format specifiers for printing generic
+>>>> 32-bit FourCCs with various endian semantics:
+>>>>
+>>>> %p4ch   Host byte order
+>>>> %p4cn   Network byte order
+>>>> %p4cl   Little-endian
+>>>> %p4cb   Big-endian
+>>>>
+>>>> The endianness determines how bytes are interpreted as a u32, and the
+>>>> FourCC is then always printed MSByte-first (this is the opposite of
+>>>> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
+>>>> allow printing LSByte-first FourCCs stored in host endian order
+>>>> (other than the hex form being in character order, not the integer
+>>>> value).
+>>>>
+>>>> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+>>>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>>>> Reviewed-by: Petr Mladek <pmladek@suse.com>
+>>>> Tested-by: Petr Mladek <pmladek@suse.com>
+>>>> Signed-off-by: Hector Martin <marcan@marcan.st>
+>>>> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+>>>
+>>> Thanks for your patch, which is now commit 1938479b2720ebc0
+>>> ("lib/vsprintf: Add support for generic FourCCs by extending %p4cc")
+>>> in drm-misc-next/
+>>>
+>>>> --- a/Documentation/core-api/printk-formats.rst
+>>>> +++ b/Documentation/core-api/printk-formats.rst
+>>>> @@ -648,6 +648,38 @@ Examples::
+>>>>         %p4cc   Y10  little-endian (0x20303159)
+>>>>         %p4cc   NV12 big-endian (0xb231564e)
+>>>>
+>>>> +Generic FourCC code
+>>>> +-------------------
+>>>> +
+>>>> +::
+>>>> +       %p4c[hnlb]      gP00 (0x67503030)
+>>>> +
+>>>> +Print a generic FourCC code, as both ASCII characters and its numerical
+>>>> +value as hexadecimal.
+>>>> +
+>>>> +The generic FourCC code is always printed in the big-endian format,
+>>>> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+>>>> +
+>>>> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
+>>>> +endianness is used to load the stored bytes. The data might be interpreted
+>>>> +using the host byte order, network byte order, little-endian, or big-endian.
+>>>> +
+>>>> +Passed by reference.
+>>>> +
+>>>> +Examples for a little-endian machine, given &(u32)0x67503030::
+>>>> +
+>>>> +       %p4ch   gP00 (0x67503030)
+>>>> +       %p4cn   00Pg (0x30305067)
+>>>> +       %p4cl   gP00 (0x67503030)
+>>>> +       %p4cb   00Pg (0x30305067)
+>>>> +
+>>>> +Examples for a big-endian machine, given &(u32)0x67503030::
+>>>> +
+>>>> +       %p4ch   gP00 (0x67503030)
+>>>> +       %p4cn   00Pg (0x30305067)
+>>>
+>>> This doesn't look right to me, as network byte order is big endian?
+>>> Note that I didn't check the code.
+>>
+>> Originally, it was %p4cr (reverse-endian), but on the request of the maintainers, it was changed to %p4cn.
+> 
+> Ah, I found it[1]:
+> 
+> | so, it needs more information that this mimics htonl() / ntohl() for
+> networking.
+> 
+> IMHO this does not mimic htonl(), as htonl() is a no-op on big-endian.
+> while %p4ch and %p4cl yield different results on big-endian.
+> 
+>> So here network means reverse of host, not strictly big-endian.
+> 
+> Please don't call it "network byte order" if that does not have the same
+> meaning as in the network subsystem.
+> 
+> Personally, I like "%p4r" (reverse) more...
 
-Gr{oetje,eeting}s,
+I share the same view about this. But, we have to respect the maintainers request as well xD.
 
-                        Geert
+Still, feel free to send a patch if you want to make this change.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Cheers
+Aditya
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
