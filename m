@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0E6A97959
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 23:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801CAA97962
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Apr 2025 23:42:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E380510E638;
-	Tue, 22 Apr 2025 21:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1DA010E63A;
+	Tue, 22 Apr 2025 21:42:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="kMMZTGJg";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="eSeQtPnp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from send128.i.mail.ru (send128.i.mail.ru [89.221.237.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1FA10E638
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 21:41:57 +0000 (UTC)
+Received: from send174.i.mail.ru (send174.i.mail.ru [95.163.59.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCD3A10E63A
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 21:42:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
  ; s=mailru;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -23,13 +23,13 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
  Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
  List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
  X-Cloud-Ids:Disposition-Notification-To;
- bh=QmiwTW6l0vQetKq8p5/VKcGN+F4xuMdV90XLiz5Ene4=; t=1745358117; x=1745448117; 
- b=kMMZTGJg+o2338EQc3x/gOunt7NApZGsQcW3LYGVn3whICOx2ZMmQxR6ph4SxkeNlgP6voNtpC2
- lstmHnFungq6rEVv6YtO2HF+NXd7D8g6emgi5yh+k2pUOdESvLt9f+DADeZJsAXtq3IC2GYSxGyp7
- Tb8QFWg1y15pUduN78E=;
+ bh=AihJLKVZXaR+g5VYMa9Q+hKTKxPRcUhhhd8yuHNB8cY=; t=1745358149; x=1745448149; 
+ b=eSeQtPnpKQInkpXpHfzEaxFGQ3x/x30IF8yVPn+Rbng1imMuZhMs+eXO5EfWFi2aCP08hjHUUoQ
+ 8hGjv9Sgwk/oFf98J5IASbhWHLFlROC5gZBQbSercPTOSSBfcGHKnxgF5TUVzJTUb7xEkggHEDsGl
+ u40Ad/RojP5W8WfTOlI=;
 Received: by exim-smtp-77d8cdf77b-wlhm8 with esmtpa (envelope-from
  <danila@jiaxyga.com>)
- id 1u7LND-00000000BOp-3Bny; Wed, 23 Apr 2025 00:41:48 +0300
+ id 1u7LNk-00000000BOp-2PUS; Wed, 23 Apr 2025 00:42:21 +0300
 From: Danila Tikhonov <danila@jiaxyga.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
@@ -91,9 +91,10 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-hardening@vger.kernel.org, linux@mainlining.org,
  ~postmarketos/upstreaming@lists.sr.ht, Danila Tikhonov <danila@jiaxyga.com>
-Subject: [PATCH 31/33] dt-bindings: arm: qcom: Add SM7150 Google Pixel 4a
-Date: Wed, 23 Apr 2025 00:31:35 +0300
-Message-ID: <20250422213137.80366-15-danila@jiaxyga.com>
+Subject: [PATCH 32/33] dt-bindings: display: panel: samsung,
+ ams581vf01: Add google, sunfish
+Date: Wed, 23 Apr 2025 00:31:36 +0300
+Message-ID: <20250422213137.80366-16-danila@jiaxyga.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250422213137.80366-1-danila@jiaxyga.com>
 References: <20250422213137.80366-1-danila@jiaxyga.com>
@@ -104,13 +105,13 @@ Authentication-Results: exim-smtp-77d8cdf77b-wlhm8;
  smtp.mailfrom=danila@jiaxyga.com
 X-Mailru-Src: smtp
 X-4EC0790: 10
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD985535D2C87FE65BB93D191B9C62802A16DCD3F6998F2053A00894C459B0CD1B90C2562A5C926B8D333594132A326AF8B059FFE6E5AF92EB5DC93281C933D57C01E39E150AE5B0BE1
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE763424119D34F5CBFEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006376473F174BDE74BA48638F802B75D45FF914D58D5BE9E6BC1A93B80C6DEB9DEE97C6FB206A91F05B2769974B3434F1BE02E070BE324C7D3C495CBC80DF7C5436BF6B57BC7E64490618DEB871D839B73339E8FC8737B5C2249A70DDFFB3186CBC5CC7F00164DA146DAFE8445B8C89999729449624AB7ADAF37F6B57BC7E64490611E7FA7ABCAF51C92176DF2183F8FC7C0F60A601881DBAB3C8941B15DA834481F9449624AB7ADAF37BA3038C0950A5D3613377AFFFEAFD269176DF2183F8FC7C0040F9FF01DFDA4A84AD6D5ED66289B523666184CF4C3C14F6136E347CC761E07725E5C173C3A84C36804EF05EF4ADF2A3AA81AA40904B5D99C9F4D5AE37F343AD1F44FA8B9022EA23BBE47FD9DD3FB595F5C1EE8F4F765FC72CEEB2601E22B093A03B725D353964B0B7D0EA88DDEDAC722CA9DD8327EE4930A3850AC1BE2E735E4A630A5B664A4FFC4224003CC83647689D4C264860C145E
-X-C1DE0DAB: 0D63561A33F958A5156D49AF13AA09505002B1117B3ED6964D6B6659E0364835715D9AB585B0EB04823CB91A9FED034534781492E4B8EEAD0BC323893F80E328C79554A2A72441328621D336A7BC284946AD531847A6065A535571D14F44ED41
-X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF3FED46C3ACD6F73ED3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF2448672FF0FC67ECB75A99BA15001C9A95203CDBC28BDC53DA183B0E57D96999F33D08354E2B7C9268A835CA8743990BDC2F84A2275F0B6CD59B53E1D0EAB0124C1925EEC904B077EFF8118B638B08AA02C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu53w8ahmwBjZKM/YPHZyZHvz5uv+WouB9+ObcCpyrx6l7KImUglyhkEat/+ysWwi0gdhEs0JGjl6ggRWTy1haxBpVdbIX1nthFXMZebaIdHP2ghjoIc/363UZI6Kf1ptIMVS+uSU+BUhgv/wWnEJJA3nM=
-X-Mailru-Sender: 9EB879F2C80682A0D0AE6A344B45275F728288CFF7AFD822F33F69C7E48EA1FBF0A14902EDE8C39D2F671661D5AB76C12C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD985535D2C87FE65BBCEB406D2985502DE651E0E6CBA378FA300894C459B0CD1B966146D042DC94A8533594132A326AF8BDEDEA41B171FD621DC93281C933D57C0750FC9643A608EC1
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE72F22E6DC541F75D9EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637ECAF4C2CEE0D0B2F8638F802B75D45FF914D58D5BE9E6BC1A93B80C6DEB9DEE97C6FB206A91F05B2B3B1E2A3A8D0B81E2E070BE324C7D3C4555B88E1619BAF87F6B57BC7E64490618DEB871D839B73339E8FC8737B5C22495FF0BFC5AEE34BE6CC7F00164DA146DAFE8445B8C89999729449624AB7ADAF37F6B57BC7E64490611E7FA7ABCAF51C92176DF2183F8FC7C0B27420F9988F54058941B15DA834481F9449624AB7ADAF37BA3038C0950A5D3613377AFFFEAFD269176DF2183F8FC7C0430B4546ECB778427B076A6E789B0E97A8DF7F3B2552694AD5FFEEA1DED7F25D49FD398EE364050F0AC5B80A05675ACD3DBBCB839D0549ACB3661434B16C20ACC84D3B47A649675FE827F84554CEF5019E625A9149C048EE33AC447995A7AD182BEBFE083D3B9BA73A03B725D353964B2FFDA4F57982C5F435872C767BF85DA227C277FBC8AE2E8BDC0F6C5B2EEF3D0C75ECD9A6C639B01B4E70A05D1297E1BBCB5012B2E24CD356
+X-C1DE0DAB: 0D63561A33F958A5F3A4C20AE1BFF6545002B1117B3ED696B2A5708A05F1492B1E49B01306B5E3AD823CB91A9FED034534781492E4B8EEAD09122B91796FF21FC79554A2A72441328621D336A7BC284946AD531847A6065A535571D14F44ED41
+X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF3FED46C3ACD6F73ED3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFAA096278F38FCC1E60FD1892EF2B9ABA211CBC885786DCA12845D3CC6C9FBDE6ACCA692FBCDC96C268A835CA8743990B2177CD1772E9538CD59B53E1D0EAB01270436F0DEE694E65EFF8118B638B08AA02C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu53w8ahmwBjZKM/YPHZyZHvz5uv+WouB9+ObcCpyrx6l7KImUglyhkEat/+ysWwi0gdhEs0JGjl6ggRWTy1haxBpVdbIX1nthFXMZebaIdHP2ghjoIc/363UZI6Kf1ptIMVS+uSU+BUhgv2gKwfCjEhao=
+X-Mailru-Sender: 9EB879F2C80682A0D0AE6A344B45275F728288CFF7AFD822CC811723C208B4178CE2F44239217BC4F426582E0103707E2C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
 X-Mras: Ok
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -127,37 +128,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Google Pixel 4a (google,sunfish) is a smartphone based on the SM7150 SoC
+This panel is used in Google Pixel 4a (google,sunfish). Document the
+corresponding string.
 
 Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
 ---
- Documentation/devicetree/bindings/arm/qcom.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../bindings/display/panel/samsung,ams581vf01.yaml        | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
-index 08c329b1e919..a5c521ce70e6 100644
---- a/Documentation/devicetree/bindings/arm/qcom.yaml
-+++ b/Documentation/devicetree/bindings/arm/qcom.yaml
-@@ -90,6 +90,7 @@ description: |
-         sm6350
-         sm6375
-         sm7125
-+        sm7150
-         sm7225
-         sm7325
-         sm8150
-@@ -1040,6 +1041,11 @@ properties:
-               - xiaomi,joyeuse
-           - const: qcom,sm7125
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,ams581vf01.yaml b/Documentation/devicetree/bindings/display/panel/samsung,ams581vf01.yaml
+index 70dff9c0ef2b..a3a1de32d8be 100644
+--- a/Documentation/devicetree/bindings/display/panel/samsung,ams581vf01.yaml
++++ b/Documentation/devicetree/bindings/display/panel/samsung,ams581vf01.yaml
+@@ -17,7 +17,13 @@ allOf:
  
+ properties:
+   compatible:
+-    const: samsung,ams581vf01
++    oneOf:
++      - enum:
++          - samsung,ams581vf01
 +      - items:
 +          - enum:
-+              - google,sunfish
-+          - const: qcom,sm7150
-+
-       - items:
-           - enum:
-               - fairphone,fp4
++              - google,ams581vf01-sunfish
++          - const: samsung,ams581vf01
+ 
+   reg:
+     maxItems: 1
 -- 
 2.49.0
 
