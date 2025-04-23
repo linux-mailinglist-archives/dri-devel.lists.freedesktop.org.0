@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63546A98745
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 12:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F62A98795
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 12:36:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9219B10E666;
-	Wed, 23 Apr 2025 10:26:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF1510E67F;
+	Wed, 23 Apr 2025 10:36:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PIVL03PD";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UA0zPiLy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A97E10E664;
- Wed, 23 Apr 2025 10:26:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7F243614BF;
- Wed, 23 Apr 2025 10:26:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65F98C4CEE2;
- Wed, 23 Apr 2025 10:26:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745404010;
- bh=ntTT//J2B8pcFKYLfru/QnidU17YFxtnzYOlBfMeaLg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PIVL03PD2Re97acHs7r+J1qgTccfAsRgtr4NedPLtOaZ/f1HiQDEy2ivUkf5/W740
- zpJ8nWbPcOM9EjusEIH/33HvMFZe9R8DJNZPqqVDni5kzAbrPtzn+zcbqx8vI7cP1s
- aqOUrfM+fEVPlG6FWKEQrsKsyZItUu/n98ezZzEs1rvDxuupkV6rqCskMzNDkYQxc8
- pF33v8M6enghp4WsJFK14grgzWNXGzYnV1oFAzi4Gx7VT9CgswbxndCRgGlJaA4Llx
- RiGs6U+wj67GFRASuFwN8yZuvj1gKgGxaeWypYHql5hCJqcYz2Gy9LLDlBs6g6LWRO
- wbPUGKYmSl+WA==
-Date: Wed, 23 Apr 2025 12:26:44 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] drm/sched: Warn if pending list is not empty
-Message-ID: <aAjAZH7m96oz4ohC@pollux>
-References: <aAd54jUwBwgc-_g2@cassiopeiae>
- <d3c0f721-2d19-4a1c-a086-33e8d6bd7be6@igalia.com>
- <aAeMVtdkrAoMrmVk@cassiopeiae>
- <52574769-2120-41a1-b5dc-50a42da5dca6@igalia.com>
- <aAeiwZ2j2PhEwhVh@cassiopeiae>
- <f0ae2d411c21e799491244fe49880a4acca32918.camel@mailbox.org>
- <aAetRm3Sbp9vzamg@cassiopeiae>
- <88f892f9-e99a-4813-830f-b3d30496ba3c@igalia.com>
- <aAipUTTQuv9MXoTA@pollux>
- <893b1d5e-7940-4abb-97bb-57f9ee2916cc@igalia.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 867F810E67F
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 10:36:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1745404570;
+ bh=E4aNkXNAf7lPTjZel8FFf785YVcNWb1onMeMZv2npsc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=UA0zPiLyV7Q9K2NWcWRFhj5QjqtUC1OdI3G2Nk5JOb6hDt0WUKc4P9OZg44rkkM55
+ XX98hdJsrEp13mLC7RKrwb7y8assf5vX2ledBdCLpfrb0U7QKfcpvEt2yduRJLm8AF
+ wmng5ZShNEn6yZmRAYOWtx3x9RxkMILV+wNZEnYHGp1Ufs9k7OwsJ/c9QaSZzfNzn4
+ bPsCeUbW6BEOkWbancb0iw76bt31+tsw3cqvJgnFmh6a2aW4hZM0VKlwXkloIKXqPD
+ X+qzo+1o8mh5Ye7QJwKhCOdN4kvXSVbBGEsHmGMnWe/3REDfuCfP1Jd5SMtJ5EXmA8
+ R0ZvL5dKN0GyA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 223AD17E014F;
+ Wed, 23 Apr 2025 12:36:10 +0200 (CEST)
+Message-ID: <8c34fd48-5bff-4089-a217-bf2d08f00fae@collabora.com>
+Date: Wed, 23 Apr 2025 12:36:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <893b1d5e-7940-4abb-97bb-57f9ee2916cc@igalia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 1/2] dt-bindings: arm: mediatek: Add MT8186 Ponyta
+ Chromebook
+To: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>,
+ sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@google.com, hsinyi@google.com, matthias.bgg@gmail.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ knoxchiou@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20250423093647.4074135-1-cengjianeng@huaqin.corp-partner.google.com>
+ <20250423093647.4074135-2-cengjianeng@huaqin.corp-partner.google.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250423093647.4074135-2-cengjianeng@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,40 +68,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 23, 2025 at 11:10:51AM +0100, Tvrtko Ursulin wrote:
+Il 23/04/25 11:36, Jianeng Ceng ha scritto:
+> Ponyta is a custom label Chromebook based on MT8186. It is a
+> self-developed project of Huaqin and has no fixed OEM.
 > 
-> On 23/04/2025 09:48, Danilo Krummrich wrote:
-> > On Wed, Apr 23, 2025 at 08:34:08AM +0100, Tvrtko Ursulin wrote:
-> > > 
-> > > IMO it is better to leave it. Regardless of whether it was added because
-> > > some driver is actually operating like that, it does describe a _currently_
-> > > workable option to avoid memory leaks. Once a better method is there, ie.
-> > > FIXME is addressed, then it can be removed or replaced.
-> > 
-> > I'm not willing to sign off on encouraging drivers to rely on scheduler
-> > internals -- also not in this case, sorry.
-> > 
-> > Our primary goal with the scheduler is to *remove* such broken contracts where
-> > drivers rely on scheduler internal implementation details, mess with scheduler
-> > internal data structures etc. This is clearly a step back.
-> > 
-> > And AFAICT, as by now drivers either do a) or simply nothing (with the exception
-> > of the mock scheduler). Drivers can do a) in the meantime, there's no reason at
-> > all to additionally offer b).
+> Signed-off-by: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
+> ---
+> Changes in v10:
+> - PATCH 1/2: Add enum for ponyta sku.
+> - Link to v9:https://lore.kernel.org/all/20250328094034.3400233-2-cengjianeng@huaqin.corp-partner.google.com/
 > 
-> What mechanism do we currently have to enable using a), and which you would
-> not consider needing knowledge of scheduler internals?
+> Chage in V9:
+> - No change.
+> 
+> Changes in v8:
+> - PATCH 1/2: Remove custom label.
+> - Link to v7:https://lore.kernel.org/all/01020191ea98a643-2d0be5d1-e00b-48e0-b823-bfe2c65b0d00-000000@eu-west-1.amazonses.com/
+> 
+> Chage since V6:
+> - No change.
+> 
+> Changes in v5:
+> - PATCH 1/2: Remove sku2147483647.
+> - Link to v4:https://lore.kernel.org/all/20240906085739.1322676-2-cengjianeng@huaqin.corp-partner.google.com/
+> 
+> Changes in v4:
+> - PATCH 1/2: Add more info for Ponyta custom label in commit.
+> - Link to v3:https://lore.kernel.org/all/20240904081501.2060933-1-cengjianeng@huaqin.corp-partner.google.com/
+> 
+> Changes in v3:
+> - PATCH 1/2: Modify lable to label.
+> - Link to v2:https://lore.kernel.org/all/20240903061603.3007289-1-cengjianeng@huaqin.corp-partner.google.com/
+> 
+> Chage since V2:
+> - No change.
+> 
+> ---
+>   Documentation/devicetree/bindings/arm/mediatek.yaml | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/mediatek.yaml b/Documentation/devicetree/bindings/arm/mediatek.yaml
+> index 108ae5e0185d..bfa38e7fd0f7 100644
+> --- a/Documentation/devicetree/bindings/arm/mediatek.yaml
+> +++ b/Documentation/devicetree/bindings/arm/mediatek.yaml
+> @@ -285,6 +285,19 @@ properties:
+>             - const: google,steelix-sku393218
+>             - const: google,steelix
+>             - const: mediatek,mt8186
+> +      - description: Google Ponyta
+> +        items:
+> +          - enum:
+> +              - google,ponyta-sku0
+> +              - google,ponyta-sku1
+> +          - const: google,ponyta-sku0
 
-The rule is that drivers must not call drm_sched_fini() before all jobs are
-processed.
+You can't have sku0 as both const and enum.
+Since there's no board declaring both, drop the enum.
 
-For this, drivers may reference count their scheduler "subclass" for each job
-in flight and only call drm_sched_fini() once the reference count becomes zero,
-or keep their own list of jobs in flight and just wait for the list to become
-empty.
+Regards,
+Angelo
 
-This is possible with the regular API and none of this requires relying on
-scheduler internals or messing with scheduler internal data structures.
 
-The problem is limited to the aspect that the GPU scheduler does not provide an
-API for drivers to solve this problem.
