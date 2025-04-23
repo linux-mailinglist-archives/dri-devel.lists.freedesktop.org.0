@@ -2,49 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0592EA98A87
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 15:08:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679E3A98A8E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 15:11:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 418B710E1A0;
-	Wed, 23 Apr 2025 13:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C07A610E693;
+	Wed, 23 Apr 2025 13:10:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mcst.ru header.i=@mcst.ru header.b="d2vTtl4t";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="F82hhpVo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 900 seconds by postgrey-1.36 at gabe;
- Wed, 23 Apr 2025 13:08:45 UTC
-Received: from tretyak2q.mcst.ru (tretyak2q.mcst.ru [213.247.143.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5577B10E1A0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 13:08:45 +0000 (UTC)
-Received: from tretyak2q.mcst.ru (localhost.localdomain [127.0.0.1])
- by tretyak2q.mcst.ru (Proxmox) with ESMTP id E98BB100C30
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 15:39:44 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mcst.ru; h=cc:cc
- :content-transfer-encoding:date:from:from:message-id
- :mime-version:reply-to:subject:subject:to:to; s=dkim; bh=2VRR1Cy
- u8OkmME9Et2pZK3JY6/+89JeRSKN0C/QUg+Q=; b=d2vTtl4tZc+HUgwG2Iy7X+w
- 3L3+2Z0JugeEVFTndi3dPvldn1XABXCP1aD+4Xcgdg/48Q3IIFzzttfHkXrbZo39
- i1BMZaHUNsgoBEQm2eMD1hspDjWS/WwgsOk/mSEOICkwwmxeX0Zpq98ZtzVsxErN
- pl58Y5t8fA7+6W8OKdqGOz0YEkK/M5oUHOWXSr89FOY5aKXxyU/Rfmrdov87DaQP
- FwShXl6hTxjUHP9odX29IA194l42XJ8LAGH5MqI3hESyCgmVQNiBxwsg+l/rhBN6
- zKrZa/n9pcNTZYfmelm93+tv0mxuS3+nCgP2fVhTerQM4PJv4DAHJd8nHTzW8NA=
- =
-X-Virus-Scanned: Debian amavis at mcst.ru
-From: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: [lvc-project] [PATCH] drm/radeon: fix possible NULL pointer
- dereference in atombios_set_encoder_crtc_source()
-Date: Wed, 23 Apr 2025 15:31:42 +0300
-Message-Id: <20250423123142.1499351-1-Igor.A.Artemiev@mcst.ru>
-X-Mailer: git-send-email 2.39.2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DFD410E671;
+ Wed, 23 Apr 2025 13:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745413836; x=1776949836;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=g+fuh7650gSDCrvJk4QPIb9orFRAKamRsHau3x2ml0o=;
+ b=F82hhpVoNIcJqnLiRhb/1Jkfz1fpRDiKFKFZzTmZIbyiLBFq0hr/YB3g
+ KICBR0An9i+jz6f+UH8U0mYizVQgQRaFWGypOmr2o1FTmx6WoH4GD61ax
+ T2F3iyh+69UZprttwgv5llMc82xAIUkJL86YUlAWC9q1JpYalKeaboUZf
+ ElmW0F4SHI4V2m7deKZatjPzmXc+4r/UwtVYUNwDwCGUidM6NnLohja1B
+ FXMYebECBxhTPUaMvTA2E/Yw9XS+Qi1gVR64FbYMwF7rymSQ0MQRzmvUj
+ 200O7M/V7rVb/ouajaykg5NSTfUfxmDBzKDpIU5rNbag5+bi6Lbe37qvW Q==;
+X-CSE-ConnectionGUID: 8DfxgFYYSA2d0dpGXr9sPA==
+X-CSE-MsgGUID: JOJm2v+CRTyRl12EkCKNDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="47185223"
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; d="scan'208";a="47185223"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2025 06:08:22 -0700
+X-CSE-ConnectionGUID: dTTWHLiQTKW9h1+dV4flCA==
+X-CSE-MsgGUID: iOWfUSj0R22vQG7dejctVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; d="scan'208";a="133196369"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by fmviesa009.fm.intel.com with ESMTP; 23 Apr 2025 06:08:00 -0700
+From: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCH v5 0/2] Rework/Correction on minimum hblank calculation
+Date: Wed, 23 Apr 2025 18:23:32 +0530
+Message-Id: <20250423-hblank-v5-0-6bee618bc979@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMziCGgC/12Pyw6CMBBFf8V0TU07fQCu/A/joo9RGhEMkEZD+
+ HcLCQRd3pt7zmRG0mMXsCenw0g6jKEPbZOCyg7EVaa5Iw0+ZQIMFJMsp5WtTfOgsrRCMoPWCE7
+ S+NXhLbwX0eWachX6oe0+izfyuV0VxaqInDIqreF50iBqdQ7NgPXRtU8yKyLsMK42DBLGDQgsf
+ ZkLzf4xucMANkwmzHqbW186WWi3w7L1PxA/8wIVF84pqRXsr0zT9AXJdlsyOQEAAA==
+X-Change-ID: 20250407-hblank-49b340aeba31
+To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Cc: imre.deak@intel.com, vinod.govindapillai@intel.com, 
+ Arun R Murthy <arun.r.murthy@intel.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,37 +72,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function radeon_get_connector_for_encoder() can return NULL
-and its result is checked before dereference in all functions
-except atombios_set_encoder_crtc_source().
-
-Add a NULL pointer check before dereference.
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-Fixes: a4863ca93ccc ("drm/radeon/kms/DCE4.1: fix Select_CrtcSource EncodeMode setting for DP bridges (v2)")
-Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
- drivers/gpu/drm/radeon/atombios_encoders.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v5:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v4: https://lore.kernel.org/r/20250423-hblank-v4-0-8e513cc54652@intel.com
 
-diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu/drm/radeon/atombios_encoders.c
-index d1c5e471bdca..0cda4e6749f0 100644
---- a/drivers/gpu/drm/radeon/atombios_encoders.c
-+++ b/drivers/gpu/drm/radeon/atombios_encoders.c
-@@ -1913,9 +1913,9 @@ atombios_set_encoder_crtc_source(struct drm_encoder *encoder)
- 			if (radeon_encoder_get_dp_bridge_encoder_id(encoder) != ENCODER_OBJECT_ID_NONE) {
- 				struct drm_connector *connector = radeon_get_connector_for_encoder(encoder);
- 
--				if (connector->connector_type == DRM_MODE_CONNECTOR_LVDS)
-+				if (connector && connector->connector_type == DRM_MODE_CONNECTOR_LVDS)
- 					args.v2.ucEncodeMode = ATOM_ENCODER_MODE_LVDS;
--				else if (connector->connector_type == DRM_MODE_CONNECTOR_VGA)
-+				else if (connector && connector->connector_type == DRM_MODE_CONNECTOR_VGA)
- 					args.v2.ucEncodeMode = ATOM_ENCODER_MODE_CRT;
- 				else
- 					args.v2.ucEncodeMode = atombios_get_encoder_mode(encoder);
+Changes in v5:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v4: https://lore.kernel.org/r/20250422-hblank-v4-0-bdb7bd9c486c@intel.com
+
+Changes in v3:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v2: https://lore.kernel.org/r/20250415-hblank-v2-0-1a23e9d97360@intel.com
+
+Changes in v2:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v1: https://lore.kernel.org/r/20250408-hblank-v1-0-4ba17aebee65@intel.com
+
+---
+Arun R Murthy (2):
+      drm/display/dp: Export fn to calculate link symbol cycles
+      drm/i915/display: move min_hblank from dp_mst.c to dp.c
+
+ drivers/gpu/drm/display/drm_dp_helper.c      | 51 ++++++++++++-------
+ drivers/gpu/drm/i915/display/intel_display.c | 18 +++++++
+ drivers/gpu/drm/i915/display/intel_dp.c      | 76 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.h      |  3 ++
+ drivers/gpu/drm/i915/display/intel_dp_mst.c  | 57 +++------------------
+ include/drm/display/drm_dp_helper.h          |  2 +
+ 6 files changed, 138 insertions(+), 69 deletions(-)
+---
+base-commit: ada794bd93930fd265c2df8f38196994173e1fde
+change-id: 20250407-hblank-49b340aeba31
+
+Best regards,
 -- 
-2.39.2
-
+Arun R Murthy <arun.r.murthy@intel.com>
 
