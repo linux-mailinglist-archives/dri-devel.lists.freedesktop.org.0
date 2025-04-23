@@ -2,151 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D17A98A93
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 15:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E52A98AC3
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 15:21:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 448C210E6C1;
-	Wed, 23 Apr 2025 13:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C350810E0BD;
+	Wed, 23 Apr 2025 13:21:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="cCcyrFWO";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bwfqo26k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2044.outbound.protection.outlook.com [40.107.94.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9619C10E69C
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 13:12:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NtH+X1tocJ1YaZyGvsSw0V7kXniux7ggGhpomemXRxXsYrGaLp2rA8JMF5rgXvA3Gds5B5Za674rVu53gi3lVgDosAYUqMVJL14/kILqyefBTKi1wn2oI9S+GViFF4KlIUX4GliO5T/eRPSEUGr+2FfnGHgQSdqCWuJyveOBz8Zv7rAUefLGdYvSiryAY6iUr5xpz7Z7yrVX49sAw1ICjmYt4YjWMgV3B1mlQys7Q0tgL6RnE/d0mxm7sWypS4UOlr+t+0uYyqK7PRdpxxFAgnBl/yE9P5+kbiELWDkrlXuHv3yVaKcrk+6bzs14d8sT8apwxQEiiLujRDV+w5vaBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ylYdZPRf4XurMUP/5T48XODrsLOlLoyTX57/htJRs1g=;
- b=i2Yd64qFb0I8R9EGWEyRtvDn60LXEawCXxQrqQsYnnKBbU4SyM7aqnb+r5GevGxxGEZCkeuiLXGBTCHotYxswLpNiiwqM+MuETnllQbmSyyVCHmhShnWqLN4hBxmlXJEG4CT/8KKVHQ2gyLwgxsJHw2vDJt2OhSCHVyiWA2cVg8trxqaCDLb4mFd6EUar8xrJTGuUZd50ig2sXe7Peh2VLcO3vFUxX7Ve9BE087RUWblYjzEhdzvpG/VKrJ8fwunaeCBDgLLh96QwIegFCop6yvGwg0kw2FIMdEM91cs8Iko38WDzuUUkJNw3OJD/fBlz5Rxjn53xCu2vWQByl3jgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ylYdZPRf4XurMUP/5T48XODrsLOlLoyTX57/htJRs1g=;
- b=cCcyrFWODqIbWIVo3z63I/BN6n31/p6pMi1vEfWl0bwvYvHNvDABPHCn7/xh+mKW+8dyQfRAd0g0YGVF9dRkdQsUtso3oX/fRLC5JExTR98PLd1P1lkzFeGIBD6RwrXYdQURfHvqHDt9wubCa+EXS0NDdtuQ5CoXDijrYWB5NYc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SN7PR12MB7953.namprd12.prod.outlook.com (2603:10b6:806:345::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.30; Wed, 23 Apr
- 2025 13:12:32 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.021; Wed, 23 Apr 2025
- 13:12:32 +0000
-Message-ID: <29b27ae3-de56-475d-ae85-fd593a011ea3@amd.com>
-Date: Wed, 23 Apr 2025 15:12:27 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/4] Some (drm_sched_|dma_)fence lifetime issues
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
- <phasta@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20250418164246.72426-1-tvrtko.ursulin@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250418164246.72426-1-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0083.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9b::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B0B010E1BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 13:21:15 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53NA594g024290
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 13:21:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ o0Oojh+DOVkC76UOAHNrHiaA7ZHX478F8dAXStkU6sU=; b=bwfqo26keTZguCUI
+ lpFj1PVfOvesj82rvdjoEPQXNXnQadeUl8hxFEs60qbBjGgUKByuKmIIty+JUt0Z
+ 1iG+B6M2ng2pDbbR3KErXPer4so6qHukcVDOyHn827gdZ1ceCVmDUj9cQFX9FCCG
+ etndl05X6EAzNkTGUrTlA2SwND/bAJSJA+y+PM1M6hhH0446eGgzC1WF1pc+ZhgJ
+ jllaqY4MO0VdxvmvaUpcXA4kOraQH2dumRY11UUDVBvz0jy59xhliaIQhBlkaqs5
+ FxYJ7ippD19BNgReAjUR6XisBOtFW0IS/1RjbWhxLFwBrjjsUw9ne5hCGpWLXgvR
+ YVYvZw==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh12727-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 13:21:14 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id
+ 98e67ed59e1d1-2ff605a7a43so9126556a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 06:21:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745414472; x=1746019272;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=o0Oojh+DOVkC76UOAHNrHiaA7ZHX478F8dAXStkU6sU=;
+ b=wjN+ay+wzmXGIjYw/VAQqlSd52nZtG/eO1381v1IhlvQcsI1EXhAFOIo9k6yuQ6hG/
+ aFJK8+CGXjm0A9w75ltV+iqP+Jq7dGEFXWcskO3E2zHM/3tA8GNEKGWgm1ceUCMwFSYl
+ Tum1TBuHYejmzFM3PYowtzXJoYwXgR/Zd//Rec+XBAtwCiTYK4H0wZ4gnRZNIczAiPW8
+ zfi98LdTOQIGqK65QHAQlRXeWyLj/tFmRARJylsWK9ba3HjAhkTNUmN6fLkvakSMCszn
+ RN9EIqXc6YaMsjW6t5A7AOs/Vz9lk5SVBOldXlj7ZhjvtgtOmnZrZbeTG4ABmWFelIZc
+ yuKw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVlSjBOXzA5NMuizX1SrPXgfwT2y8PT+NnqR7BkUeteowtiRUFXYaDFqPKIkJ/vOiKgtbCyZ2SCXjc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yya0BLEtDv67gHFh23W8gCUezc1rWIWF9/cDjKQjdf9OpxWr7Wf
+ oVM6fvom0TUv7TG5p68dW9OkeD+V+o9rJ8yvWr7dD0C1JMIIfNyJaVbJj1TtGsQettLomffu5hl
+ rooWU7qvjoP6KjeJHYVO69q3qqMVJFgeUU8h61l8XeUJBZXyL3dYP3aRu/+TtvjslDMVY+9gZws
+ G3G6Qn+qtfnhwv2XBNKArc+mKWhkoC/qhZXQoyAYugwwgkne1Tfg==
+X-Gm-Gg: ASbGncvSzsAXFGquEA8gHouDp9MJA0MGoiuFt5vrp9Us+ree3M33QIpFwxHKF6jGKl+
+ CN3Oor+fjT1Lnn1N7/R3AoGSv5Su3MOaWRQltmeYIEUDuAbiH+5PReod3OC9WEPKtLN7VuNUTev
+ EzmFzmuGcN1YRXVN4vZLJ32yrT
+X-Received: by 2002:a17:90b:2f48:b0:2ee:ee77:2263 with SMTP id
+ 98e67ed59e1d1-3087bb418dfmr30784365a91.7.1745414472175; 
+ Wed, 23 Apr 2025 06:21:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEqmjm/2kDzMUyAfKU30umWUUv1n/JyBQC1oaF07FgLHjm7bKHWdrgbopbp7m+vpW/yO0v9Q/VkT8i0fw84gas=
+X-Received: by 2002:a17:90b:2f48:b0:2ee:ee77:2263 with SMTP id
+ 98e67ed59e1d1-3087bb418dfmr30784318a91.7.1745414471636; Wed, 23 Apr 2025
+ 06:21:11 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB7953:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57c5ee18-8da1-4b42-c482-08dd8268818f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UDExZVFhU255STV4cmpzZ3RpeWlZWU0zdURUTmJkMHZWU1d4ZCtsamdVZDZF?=
- =?utf-8?B?VUNteGJMdjY5UFlMSkVRYmhjOHIySXAraFliVmM5djlOd1pjYnNTY0pWN3pX?=
- =?utf-8?B?Qm5TWXdDc0d2WmxnNG5PV1FKSTlpc2UxaUZWNW1keHkxd3MrWEZqMmtiM1NI?=
- =?utf-8?B?R0dnQWpaS2JaRDZVN1RGdURUSHZ1NGZIRzBVZ3hXdDM2NDB4VTFTdDR2aW5D?=
- =?utf-8?B?d3BHWkNqM1FQQkc1YzQ1c2ZweDdoTWFjN2dPSVhBUzJtaUhpSVBWMnc4akc4?=
- =?utf-8?B?cEViWXNCN2xUelVDMm8vZ25tdjdDR1ZOUG9HNWUrU1hMcFNpdzVHQ3BDWGk3?=
- =?utf-8?B?aDR5NXVYV3N5WklCTm9CdlladWZYa0UreWRheGZibXZYS2ZUNTJyZWF6UnZj?=
- =?utf-8?B?MVdBU2pqT0t2UnIwZ21EaTRQbWdFZXJOSkpZUzVkQmo2ZXBjTXZLSHYzaEVm?=
- =?utf-8?B?bXU0blRkd1VWL3oyZmppbEtCNWtLWjVmLy9kTk1KMWEyZldYeU1sd0ZEZGpT?=
- =?utf-8?B?cG5MNE5jamZJK0FFQVNEdytWY0RUMU5oN0YybFZ5V2hQVW1BeVlFUDhIMXNZ?=
- =?utf-8?B?ME9WbzVONXpqQVNFK2RHblNzZnFZeTByblJ6R0loYW9HaXhObkdvNGVBWWhK?=
- =?utf-8?B?YTltWGdCNVJjZlVGUFd6SVNCQm40UmxJdXhoVUlhdGwyZW9neVJSaTB5ZDFW?=
- =?utf-8?B?d3g3RjVTZzZ0bGNnOXdWUU1DKzc1TGJEZy9pQXlxUTNubUR0bzd2VitDSFkw?=
- =?utf-8?B?Q3NlRWQrV0p1T0J2YlU1Ti9iQkJrTEw5a25sKzg0eVNCcVZuNno3aTM0cU9X?=
- =?utf-8?B?SS9sK2RLTWtNdlFXY3FUNXN0aGtNTXpwWU1jTld2c0M5V3pqMDVqVXRsdElT?=
- =?utf-8?B?cWRSUXlGdmJnSWJXVjcxWklhbDF1S015UU1Nb0lCY3BKOUlmSUQzbTZyaldy?=
- =?utf-8?B?QkY5Z25uNEZQSGUzQWMrTVphVE5JYjJsZWdXMTJTa3RmcG9yRXBqQkV1bkx4?=
- =?utf-8?B?emdYUG9uaWhWMDJvdUJnMG55VjVVNk9YaEd1QnJiaDBoNFdzVExXbkxEQjRq?=
- =?utf-8?B?OFFESVg0QkZvT0s4eWgwbWFuWGFkLzRwS3dCMUVYMko1N1A1QVhKaTFONmo5?=
- =?utf-8?B?NFJqcWxjS1dwSi9kRENqNk5hdHg1Z1Qvb1hSYUZiTW5xOFBRYnQ4cEFKZ080?=
- =?utf-8?B?SXhiSWQ4bFY2NjlEdXVCY3BqbGxDY3QwWUFERng0RFhVZThqNldOZndBaHVp?=
- =?utf-8?B?VWlhcXUrSFlUaDlmeE9qSDRmV21rQXhob0pGU3Z6U25hTXRPbkNzYlozN1lh?=
- =?utf-8?B?SC8rUm1HMVJJUkFnMTR1UjVyVWMvcTV5azkvVGx6YkdqYlBjN1VVTitrS0ls?=
- =?utf-8?B?dzR6QWF6T1prRjRpcExYVStYUEN4R2NSTjB3YmNKZ09sUlB4d1huWnNlcGgw?=
- =?utf-8?B?UDJ2U2I4Y2V0Zm5WQkZLNmlsVldUamhNTG43aXRMY2lPbXRBZ0dIRmdyYUpi?=
- =?utf-8?B?amg5ZWp2ZHMvK1VVbUxkZFJmYmJaQ09zOFVSd1BZd0dqMlBSQnpxc0pPUDV3?=
- =?utf-8?B?dS9jSHNydkJyUmYveDk4WHo3REM5Zmc2RmNwYStIMTVXUWdQSUJHSmplcmVm?=
- =?utf-8?B?M2dYSGx1Q252bGlKWHBwdFI3WU1lUHoxOWRNQjB1a2lMT0VWTWVDdlRVd0Ez?=
- =?utf-8?B?ZHkyc0VYQ2Qyb1V5UFNza3ZGUXd0bnpRcHpyMVp3RnVtcEt4MkYzNlVVMVht?=
- =?utf-8?B?THV4YXV1ak1kRmZJL3hKY3ZqRmNHNEVzRVJZUUdsdC9lUlgrbE9wZUx2b2w0?=
- =?utf-8?Q?LOQbWWJsiPkEdnadA3rP3mY7HLC907PPQoJxU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHR6MU1aSjl2a0NGejZzbTlmZHpWZzVqTEg1UG9oSWt1V0QvMENiREVMaHB3?=
- =?utf-8?B?V3pJcW1NWWlPWFhiRHFmKzN1MzlJcVBKczZ1d0xWZ3Y0dk4rMjhzSmVLZFY3?=
- =?utf-8?B?Ly9HTVpKRmg5N0Q2c0R3S2tsYk5MZEZRZU5aV1gzWXh2TGxrbkVDYWlXb0dN?=
- =?utf-8?B?NWpjdW9IdllSek9LRlBiYzVYQTh5bTFFb1U3T2dYV042S3MveWxRNDhhSUE0?=
- =?utf-8?B?RXBUUGN3SWdUbWxPS1NRZFgvaTdBOFlVUGtKd2Z6M2R6d29uTjVKNmtnSHUy?=
- =?utf-8?B?K1BSTWxoRlBQZnQ1L3F1TE5SRkg2NythR0tFY21TYWs2S1p5QXMzRzVSdXd5?=
- =?utf-8?B?NlhRakJQOFJpNUFaYnBWTlppUVhzQy9sZGlNcEYwTnhGTEl5d21qUGJyaysz?=
- =?utf-8?B?U0ZsQzN3U1hhQ01ESXRLYVYya0JZbXNBRVVSaU4wSHFCK1JJOHdadURCRjJZ?=
- =?utf-8?B?VVB1aWJvMkEyMnUvVGtWUTNXOFFBVllkNU1hNHNBMVNvU3UxODFsdlIzU3gy?=
- =?utf-8?B?RTFTWUl6VzlDTk02NXJtYjVweXJvWmcrT1k3UDltSHlaS1Q0MDRPWEQzMDdY?=
- =?utf-8?B?aDNwTEJMRkU1WlFiVW5sOHpCVUN5azhXcVZLT1prTHUvY29lNlBDOHF3d2NF?=
- =?utf-8?B?R1M3ZWlNUER0T0NUZnM3NVMwVERhS1hnY2txQ2gxRXhGdDNHY1lBZ29VTW9n?=
- =?utf-8?B?cnlUN0FYeG9PM2FGdnBmSFFySTY3RXJhSzl2R1BVYi8zUUpnVlNHOHJqRW9U?=
- =?utf-8?B?b2JNT1A0NGlMMWl2RndXV2dZTTNoQWo1ZklacDlWbm50NEhGakZCSFE2OXN2?=
- =?utf-8?B?UFRYZThaVm1qS1dIa3RaOHZOUW5aUXFsc2Y1d3JkdXFTaEhFOU1XVWh0clJv?=
- =?utf-8?B?WWpzS05UMzVuQzhNd2huL1RqUWpOTXJtakRkOGFMcEJ3cyttSHBLTXN5dFpV?=
- =?utf-8?B?b3J1VlNxNlJEeXhaUm1IZ2dJUHM2eXA0NHlKWnA5eWNqd0hYaXRwa0RJUk5Q?=
- =?utf-8?B?UVZJU2tTVnJiVVRCcXFQQzhoMEFpN2FyWmJmNzlhUWljTGVDMlN5TkdLMWVX?=
- =?utf-8?B?QXVvUHFobEwvWmhWUnNTYzhKM1I2VkNiOFRIeFhoaDd6TWZ3QVpOcThRdVAy?=
- =?utf-8?B?NlJUN1JXb0xPd1dFeWRFUlcrNmZqYVhiM0lhbVVxZ0U2d1JJQVUvZ2ZYQi9I?=
- =?utf-8?B?L0FEVHFaenpUL0xHSitVSXltMEpHTzZTUGo2R2drZWJvTTZ2eHhNbUt6Smcw?=
- =?utf-8?B?dklGY2Z0ajdiQXBqVkdRTmMxck9Rb1JpdzJrb0NZTTVpWjRYRnhYSGI0SDY1?=
- =?utf-8?B?SmkxNytKcTM2WkVEVFZDYzFMWUg5a0lSWFh1MW9hd0VucUJjVDVpekh4VDRy?=
- =?utf-8?B?czNqN3pXa21Ra3IzRmh6QSt2d1hSR0V1NEJZN0hvM3B1S0J5OGV6RWpCVS9X?=
- =?utf-8?B?V1lHQnI2UXdmMWZQNWxhTWt3S3BWRlZTN1A5aGZ4MGhnZ0tSZ3YwNU5RdXhG?=
- =?utf-8?B?L2F5SW1JWUxEelNRRjJRMG5qWE90TWRJSTAyMFlyUFNZUmFHNnppdU51TXEx?=
- =?utf-8?B?ZUpzdzBqSDlXTkwzWjhMRFRlM05mRFdjRll5WTFxNWFMMXh3dVYvTzkxVGtB?=
- =?utf-8?B?eFpnRHNvMkhyTVNRWkcvV29sUXhvdys1MnhYSU1wMW5RazVoeHlmc3lhRFhN?=
- =?utf-8?B?bUp6N0RoNFJyNDY5TkFkQjBjTnFGMUtwbUNEVnBsN2JPY1AzSXBMOHRwZEdW?=
- =?utf-8?B?bm52VTVKUElES3JNRVpwcU5RaXZGYzliUzdtTjVOdzNiNVozSm9zaloyclE4?=
- =?utf-8?B?ajI5Szg4eDIzUjJGbmtrcUVmemllZGdwY1Qvdm5wUHArUEVhdEh6UXRSMloz?=
- =?utf-8?B?VDNsVzY0ZUtLNUJxRmNlVXJESkpVckQvempUMEpsUUQ1WU5Oa3FDK1hESGlE?=
- =?utf-8?B?Mk1SSHpheEcyc0xscmZJTEg5azlmTG4rckk1SUdzVWdJbTlqS1l0REhkTTBR?=
- =?utf-8?B?YWtVd3B1eVErSkZGY2taRnJlcVIvaEUreXZ3eEZKVE1FUmluWWdWdHFENkFo?=
- =?utf-8?B?TVRYZDFRMUgxT25LM1BnYlMxQTUzakt1RTE2b1FCOC9wdHV0NmNCOEw3cThF?=
- =?utf-8?Q?dNJFjsJcUPwyONGHaxUW+GhZd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57c5ee18-8da1-4b42-c482-08dd8268818f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 13:12:32.0067 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XER9YSMNaOTI9eJnXs1N1F6VOhGzGWqYIZriZXONftv1PQerXJ+xziaq7p5dVMmC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7953
+References: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
+ <20250410-topic-smem_dramc-v2-3-dead15264714@oss.qualcomm.com>
+ <20911703-ab4e-4eb2-8611-294730a06d2f@quicinc.com>
+ <CACu1E7HDmQXDNtEQCXpHXsOKPCOgrWgo+_kcgizo9Mp1ntjDbA@mail.gmail.com>
+ <1282bf58-e431-4a07-97e5-628437e7ce5f@quicinc.com>
+ <CACu1E7GwMCt6+JJQGgSvJObTMMWYLPd69owyFo7S=sxu_EEsUw@mail.gmail.com>
+ <16845de2-a40a-4e3d-b3aa-c91e7072b57f@quicinc.com>
+ <CAF6AEGvyeRLHFBYmxkevgT+hosXGiH_w8Z+UjQmL+LdbNfVZ+w@mail.gmail.com>
+ <acd1c8dd-286b-40b7-841d-e53e2d155a61@oss.qualcomm.com>
+ <d67b8fe7-ab92-4756-b549-827210240593@quicinc.com>
+In-Reply-To: <d67b8fe7-ab92-4756-b549-827210240593@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Wed, 23 Apr 2025 16:21:00 +0300
+X-Gm-Features: ATxdqUGiKzLZZWpft--coqQChZkRh8TF47Vs6qYx0rHMcX_qIVdwunZSkKSPdaU
+Message-ID: <CAO9ioeU9_MsLn3THJDkR1J6efmvm2u9vPZSu9U8Qe2mdHx0_tw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] drm/msm/a6xx: Get HBB dynamically, if available
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Rob Clark <robdclark@gmail.com>, Connor Abbott <cwabbott0@gmail.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ linux-hardening@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: eWi8P92BEJogBWPRdq1En3ko803DcZw1
+X-Authority-Analysis: v=2.4 cv=OY6YDgTY c=1 sm=1 tr=0 ts=6808e94a cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10
+ a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=QMXKlZcuWh9fA9xejY4A:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: eWi8P92BEJogBWPRdq1En3ko803DcZw1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDA5MyBTYWx0ZWRfX29ynOA2dCJ5L
+ Eq6phItCDQ/tFF2bb1PuRxjRQ9elUqm/4Cdg1bKaCDPz9jyAKtuyhX3/kXNZKSSznIOdyRzKmMd
+ QdgoNW4vSjP4bXAZ5Zi56DQ5Z7cvX/AI8BA689oh+4McpHxxJB4KV867MsoYgtOfP1zh8Z2Hh2S
+ 0zhCytw5EQp71/jxfXIH0Eu/z6NVAT1g86PRYXOEAJvmUGNJqilZtbOkRRL/K7ZoOalU8YraePU
+ GseNUKgeAzCYhHnNeMY8nkAySeWKixzrIAyp72HPyZFods5LYllxW2zfWol2HcFy5Xh/cakCsqg
+ 1nH9mS7aSWB7vgt9EsFZspI8Ooa2uE9g3J5m2nzMgBbzux89iC17vzRYnVbvWqe7iWYu5Te4s/P
+ kraQIzbITb9E79d552d2JjFdAu/JfYHfuon55nUvLGaW/J0k2BDtVBCFtLb8ebWe6udtnhui
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
+ definitions=2025-04-23_08,2025-04-22_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 suspectscore=0 mlxscore=0 clxscore=1015 malwarescore=0
+ mlxlogscore=999 phishscore=0 priorityscore=1501 spamscore=0 adultscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504230093
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,76 +137,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/18/25 18:42, Tvrtko Ursulin wrote:
-> Hi all,
-> 
-> Recently I mentioned to Danilo about some fence lifetime issues so here is a
-> rough series, more than anything intended to start the discussion.
-> 
-> Most of the problem statement can be found in the first patch but to briefly
-> summarise - because sched fence can outlive the scheduler, we can trivially
-> engineer an use after free with xe and possibly other drivers. All that is
-> needed is to convert a syncobj into a sync file behind drivers back, and I don't
-> see what the driver can do about it.
+On Wed, 23 Apr 2025 at 09:55, Akhil P Oommen <quic_akhilpo@quicinc.com> wro=
+te:
+>
+> On 4/23/2025 5:27 AM, Konrad Dybcio wrote:
+> > On 4/21/25 10:13 PM, Rob Clark wrote:
+> >> On Fri, Apr 18, 2025 at 9:00=E2=80=AFAM Akhil P Oommen <quic_akhilpo@q=
+uicinc.com> wrote:
+> >>>
+> >>> On 4/18/2025 6:40 AM, Connor Abbott wrote:
+> >>>> On Thu, Apr 17, 2025, 1:50=E2=80=AFPM Akhil P Oommen <quic_akhilpo@q=
+uicinc.com> wrote:
+> >>>>>
+> >>>>> On 4/17/2025 9:02 PM, Connor Abbott wrote:
+> >>>>>> On Thu, Apr 17, 2025 at 3:45=E2=80=AFAM Akhil P Oommen <quic_akhil=
+po@quicinc.com> wrote:
+> >>>>>>>
+> >>>>>>> On 4/10/2025 11:13 PM, Konrad Dybcio wrote:
+> >>>>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >>>>>>>>
+> >>>>>>>> The Highest Bank address Bit value can change based on memory ty=
+pe used.
+> >>>>>>>>
+> >>>>>>>> Attempt to retrieve it dynamically, and fall back to a reasonabl=
+e
+> >>>>>>>> default (the one used prior to this change) on error.
+> >>>>>>>>
+> >>>>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >>>>>>>> ---
+> >>>>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 15 ++++++++++++++-
+> >>>>>>>>  1 file changed, 14 insertions(+), 1 deletion(-)
+> >>>>>>>>
+> >>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu=
+/drm/msm/adreno/a6xx_gpu.c
+> >>>>>>>> index 06465bc2d0b4b128cddfcfcaf1fe4252632b6777..a6232b382bd16319=
+f20ae5f8f5e57f38ecc62d9f 100644
+> >>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >>>>>>>> @@ -13,6 +13,7 @@
+> >>>>>>>>  #include <linux/firmware/qcom/qcom_scm.h>
+> >>>>>>>>  #include <linux/pm_domain.h>
+> >>>>>>>>  #include <linux/soc/qcom/llcc-qcom.h>
+> >>>>>>>> +#include <linux/soc/qcom/smem.h>
+> >>>>>>>>
+> >>>>>>>>  #define GPU_PAS_ID 13
+> >>>>>>>>
+> >>>>>>>> @@ -587,6 +588,8 @@ static void a6xx_set_cp_protect(struct msm_g=
+pu *gpu)
+> >>>>>>>>
+> >>>>>>>>  static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+> >>>>>>>>  {
+> >>>>>>>> +     int hbb;
+> >>>>>>>> +
+> >>>>>>>>       gpu->ubwc_config.rgb565_predicator =3D 0;
+> >>>>>>>>       gpu->ubwc_config.uavflagprd_inv =3D 0;
+> >>>>>>>>       gpu->ubwc_config.min_acc_len =3D 0;
+> >>>>>>>> @@ -635,7 +638,6 @@ static void a6xx_calc_ubwc_config(struct adr=
+eno_gpu *gpu)
+> >>>>>>>>           adreno_is_a690(gpu) ||
+> >>>>>>>>           adreno_is_a730(gpu) ||
+> >>>>>>>>           adreno_is_a740_family(gpu)) {
+> >>>>>>>> -             /* TODO: get ddr type from bootloader and use 2 fo=
+r LPDDR4 */
+> >>>>>>>>               gpu->ubwc_config.highest_bank_bit =3D 16;
+> >>>>>>>>               gpu->ubwc_config.amsbc =3D 1;
+> >>>>>>>>               gpu->ubwc_config.rgb565_predicator =3D 1;
+> >>>>>>>> @@ -664,6 +666,13 @@ static void a6xx_calc_ubwc_config(struct ad=
+reno_gpu *gpu)
+> >>>>>>>>               gpu->ubwc_config.highest_bank_bit =3D 14;
+> >>>>>>>>               gpu->ubwc_config.min_acc_len =3D 1;
+> >>>>>>>>       }
+> >>>>>>>> +
+> >>>>>>>> +     /* Attempt to retrieve the data from SMEM, keep the above =
+defaults in case of error */
+> >>>>>>>> +     hbb =3D qcom_smem_dram_get_hbb();
+> >>>>>>>> +     if (hbb < 0)
+> >>>>>>>> +             return;
+> >>>>>>>> +
+> >>>>>>>> +     gpu->ubwc_config.highest_bank_bit =3D hbb;
+> >>>>>>>
+> >>>>>>> I am worried about blindly relying on SMEM data directly for HBB =
+for
+> >>>>>>> legacy chipsets. There is no guarantee it is accurate on every ch=
+ipset
+> >>>>>>> and every version of firmware. Also, until recently, this value w=
+as
+> >>>>>>> hardcoded in Mesa which matched the value in KMD.
+> >>>>>>
+> >>>>>> To be clear about this, from the moment we introduced host image
+> >>>>>> copies in Mesa we added support for querying the HBB from the kern=
+el,
+> >>>>>> explicitly so that we could do what this series does without Mesa =
+ever
+> >>>>>> breaking. Mesa will never assume the HBB unless the kernel is too =
+old
+> >>>>>> to support querying it. So don't let Mesa be the thing that stops =
+us
+> >>>>>> here.
+> >>>>>
+> >>>>> Thanks for clarifying about Mesa. I still don't trust a data source=
+ that
+> >>>>> is unused in production.
+> >>>>
+> >>>> Fair enough, I'm not going to argue with that part. Just wanted to
+> >>>> clear up any confusion about Mesa.
+> >>>>
+> >>>> Although, IIRC kgsl did set different values for a650 depending on
+> >>>> memory type... do you know what source that used?
+> >>>
+> >>> KGSL relies on an undocumented devicetree node populated by bootloade=
+r
+> >>> to detect ddrtype and calculates the HBB value based on that.
+> >>
+> >> Would it be reasonable to use the smem value, but if we find the
+> >> undocumented dt property, WARN_ON() if it's value disagrees with smem?
+> >>
+> >> That would at least give some confidence, or justified un-confidence
+> >> about the smem values
+> >
+> > The aforementioned value is populated based on the data that this
+> > driver reads out, and only on the same range of platforms that this
+> > driver happens to cater to
+>
+> Like I suggested privately, can we centralize all ubwc configuration so
+> that it is consistent across all drivers. With that, we will need to
+> maintain a table of ubwc config for each chipset and HBB can be
+> calculated based on the DDR configuration identified from SMEM. Once we
+> migrate the downstream drivers to the new API, we can hopefully move to
+> the HBB value from SMEM. This will ensure that the SMEM data for HBB is
+> accurate in all future chipsets.
 
+I like this suggestion.
 
-Yeah that topic again :) The problem here is that this is not a bug, it is a feature!
-
-IIRC it was Alex who pointed that issue out on the very first fence patch set, and we already discussed what to do back then.
-
-The problem with grabbing module references for fences is that you get trivially into circle references and so basically always preventing the module from unloading.
-
-The decision was made to postpone this and live with the potential use after free on module unload until somebody has time to fix it. Well that was +10 years ago :)
-
-I discussed this with Sima again last year and we came to the conclusion that the easiest way forward would be to decouple the dma_fence implementation from the driver or component issuing the fence.
-
-I then came up with the following steps to allow this:
-1. Decouple the lock used for protecting the dma_fence callback list from the caller.
-2. Stop calling enable_signaling with the lock held.
-3. Nuke all those kmem_cache implementations and force drivers to always allocate fences using kvmalloc().
-4. Nuke the release callback (or maybe move it directly after signaling) and set fence->ops to NULL after signaling the fence.
-
-I already send patches out for #1 and #2, but don't have enough time to actually finish the work.
-
-If you want take a look at nuking all those kmem_cache implementations for allocating the fence memory. I think that can be completed completely separate to everything else.
-
-Regards,
-Christian.
-
-
-> 
-> IGT that exploits the problem:
-> https://patchwork.freedesktop.org/patch/642709/?series=146211&rev=2
-> 
-> Different flavour of the problem space is if we had a close(drm_fd) in that test
-> before the sleep. In that case we can even unload xe.ko and gpu-sched.ko for
-> even more fun. Last two patches in the series close that gap.
-> 
-> But first two patches are just shrinking the race window. They are not proper
-> fixes. This is what I want to discuss since I understand reference counting all
-> the involved objects has been rejected in the past. And since the problem
-> probably expands to all dma fences it certainly isn't easy.
-> 
-> To be clear once more - lets not focus on how this does not fix it fully - I am
-> primarily trying to start the conversation.
-> 
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> 
-> Tvrtko Ursulin (4):
->   sync_file: Weakly paper over one use-after-free resulting race
->   dma-fence: Slightly safer dma_fence_set_deadline
->   drm/sched: Keep module reference while there are active fences
->   drm/xe: Keep module reference while there are active fences
-> 
->  drivers/dma-buf/dma-fence.c             |  2 +-
->  drivers/dma-buf/sync_file.c             | 29 ++++++++++++++++++++-----
->  drivers/gpu/drm/scheduler/sched_fence.c | 12 ++++++++--
->  drivers/gpu/drm/xe/xe_hw_fence.c        | 13 ++++++++++-
->  4 files changed, 47 insertions(+), 9 deletions(-)
-> 
-
+--=20
+With best wishes
+Dmitry
