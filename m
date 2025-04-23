@@ -2,69 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2091CA99528
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 18:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3836A9952E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 18:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B89510E224;
-	Wed, 23 Apr 2025 16:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4B510E6D4;
+	Wed, 23 Apr 2025 16:32:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hlvTPiQd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZrWWoK2F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C10610E219;
- Wed, 23 Apr 2025 16:31:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745425906; x=1776961906;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rHHe/8RhyPpADAv2wMNhicCGW725SUetgJ9BCqcDqjo=;
- b=hlvTPiQdzoIL0kWzctuYARFsIG5qYFAZMKyaO9Z3I3N9GtrkahbozY5h
- XzkkPvPMSgr2JpegPJbE589iV11E5ZZY8v+7/i98yHhcNLLysBPqi8qjw
- RK+XG7d/57aG94XEBxHOlJr01cipjtjovzezTyT9XNjT/Pc4dVnzCgqGZ
- 0HC+19xN8oYzsTMlGo0LKpJCRNXy3oDD2CCs5MeLuTqdxm98Dcx/AGvos
- 9dXJn1jivbpEiOGShMrecVZerLmq652Jww5B4TjsNZYqYgEIEVLGIUitO
- ofgbZv+yBshnrR/23Q+mciFE0Jtf9qLWcC7TsPuVuhIHFZg3L/3HFdEUz g==;
-X-CSE-ConnectionGUID: nlurddbgQ9a/eD4s8m50WA==
-X-CSE-MsgGUID: OcF3gdOBRQug+TkxuzBS/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="50830451"
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; d="scan'208";a="50830451"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2025 09:31:46 -0700
-X-CSE-ConnectionGUID: uLr7sJu1QAGKYY4H1GMrRw==
-X-CSE-MsgGUID: Rzl/IukPSwmtIFv8RfavZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; d="scan'208";a="137220613"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2025 09:31:41 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
- (envelope-from <andriy.shevchenko@intel.com>)
- id 1u7d0a-0000000F7Fm-3nZd; Wed, 23 Apr 2025 19:31:36 +0300
-Date: Wed, 23 Apr 2025 19:31:36 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: airlied@gmail.com, corbet@lwn.net, dmitry.baryshkov@oss.qualcomm.com,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- masahiroy@kernel.org, mchehab+huawei@kernel.org, mripard@kernel.org,
- nathan@kernel.org, nicolas.schier@linux.dev, rodrigo.vivi@intel.com,
- simona@ffwll.ch, tursulin@ursulin.net, tzimmermann@suse.de
-Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
- kernel
-Message-ID: <aAkV6Kl3BX1TmMxl@smile.fi.intel.com>
-References: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
- <5cc4d9dd-496e-4512-a683-272b1b84d98b@gmail.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A821910E6D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 16:32:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A2422A4BD17;
+ Wed, 23 Apr 2025 16:26:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21CBAC4CEE2;
+ Wed, 23 Apr 2025 16:32:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745425939;
+ bh=TOWmoiV7dROcpvE8FI0qo5GdrkaDw81r/N34kGCjJtY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZrWWoK2FIyu47dEDN67BKoV+SEHzd7+JgGowrCnt5CO4JbrhU8uqabYPDlfvKPZF0
+ SQs2xCD0CzM1tM8890V0fAc2K4n94XpC/GSEzVeOsSSLMOJD//XV28HhSjx2HrsrqR
+ YRrMvqIvE0BwU4YM5UVF6LS9yGTYIMRWYkd9WmvVyYq3t1GFSLlzgU1mg1U6aI4lwn
+ S5U7Btx+YvuUPlgOQwWgRJ23kb4EdCO+pzLckbCdRi7a6bWbAuUsoMexbRc3/vyevB
+ kTKz+DcMGSD4ToIYk8BeZZE+3SI/o805BEGEbNWIR1YXQs0WziLJQ8dn60+bdrydF3
+ PafBwb7rydKAg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: panel: himax-hx8279: avoid using an uninitialized
+ variable
+Date: Wed, 23 Apr 2025 18:32:07 +0200
+Message-Id: <20250423163214.2276114-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5cc4d9dd-496e-4512-a683-272b1b84d98b@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,45 +61,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 23, 2025 at 06:30:48PM +0900, Akira Yokosawa wrote:
-> On Tue, 22 Apr 2025 10:57:33 +0300, Andy Shevchenko wrote:
-> > On Mon, Apr 21, 2025 at 10:35:29AM -0600, Jonathan Corbet wrote:
-> >> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
+From: Arnd Bergmann <arnd@arndb.de>
 
-[...]
+goa_even_valid is only initialized in one branch but not the other:
 
-> >> > Would it be possible to properly support O= and create pyc / pycache
-> >> > inside the object/output dir?
-> >> 
-> >> I have to confess, I've been wondering if we should be treating the .pyc
-> >> files like we treat .o files or other intermediate products.  Rather
-> >> than trying to avoid their creation entirely, perhaps we should just be
-> >> sure they end up in the right place and are properly cleaned up...?
-> >> 
-> >> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
-> >> should do the trick?
-> > 
-> > It's not so easy. The Python is written in a way that it thinks it will never
-> > runs object files separately from the source. Hence that variable sets only
-> > the folder per script as _home_ for the cache. It's completely unusable. They
-> > took it wrong. It still can be _painfully_ used, but it will make Makefiles
-> > uglier.
-> 
-> But, PYTHONPYCACHEPREFIX can be set as an environment variable.
-> 
-> For example, try:
-> 
->     export PYTHONPYCACHEPREFIX="$HOME/.cache/__pycache__"
-> 
-> Wouldn't it be good enough for you?
+drivers/gpu/drm/panel/panel-himax-hx8279.c:838:6: error: variable 'goa_even_valid' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+  838 |         if (num_zero == ARRAY_SIZE(desc->goa_even_timing))
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/panel/panel-himax-hx8279.c:842:23: note: uninitialized use occurs here
+  842 |         if (goa_odd_valid != goa_even_valid)
+      |                              ^~~~~~~~~~~~~~
 
-Of course not. We have _many_ scripts in python in kernel and having a cache
-there for _all_ of them is simply WRONG. You never know what clashes can be
-there with two complicated enough scripts which may have same module names,
-etc.
+Change the initialization to set it to the value of the condition instead.
 
+Fixes: 38d42c261389 ("drm: panel: Add driver for Himax HX8279 DDIC panels")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/panel/panel-himax-hx8279.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-himax-hx8279.c b/drivers/gpu/drm/panel/panel-himax-hx8279.c
+index b48b350b62da..4f548430654a 100644
+--- a/drivers/gpu/drm/panel/panel-himax-hx8279.c
++++ b/drivers/gpu/drm/panel/panel-himax-hx8279.c
+@@ -835,8 +835,7 @@ static int hx8279_check_goa_config(struct hx8279 *hx, struct device *dev)
+ 			num_zero++;
+ 	}
+ 
+-	if (num_zero == ARRAY_SIZE(desc->goa_even_timing))
+-		goa_even_valid = false;
++	goa_even_valid = (num_zero != ARRAY_SIZE(desc->goa_even_timing));
+ 
+ 	/* Programming one without the other would make no sense! */
+ 	if (goa_odd_valid != goa_even_valid)
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.5
 
