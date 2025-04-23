@@ -2,50 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91296A97CA9
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 04:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF721A97CAD
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 04:13:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E86510E160;
-	Wed, 23 Apr 2025 02:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C86D10E3E4;
+	Wed, 23 Apr 2025 02:13:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="Vs3jOZ75";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="WM0+CfF4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D01A10E160
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 02:13:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1745374374; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6414310E3E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 02:13:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1745374378; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=eyWU+rvnolQeP/RinfJuEu3JLD58+bB7op6emxYFUqrxLMEIXtwNNEa32GnjYNf2hMhBWo/xyevB0soaJ3DkTWVoONZTxhRnenC94ioYl/hdKepoIiOyeMQDdwDQU2URk7F3EZVaHbj9iIgX6IpG37XeKmLUFbRF2oB1eFimmPw=
+ b=QRF7VRFZinndQISGfGnfP/OXA5bAPkcPL3hNQX6OPRb1cGRffePJJ9Jj3qDcvRCz5FOX6WWe4dYx5zgrMqns2Hdugsa1VxPUILxgs0YHnDxDLUICScQ/8/KFFrA2moSp958DIe6cBM5Ze0bbKyyd63gELlAQxF7EiC8yN2nNiVM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1745374374;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=RlNMSce+7Qyi64BSTjMp63mWrqfhtAqm3c0wzIuhgp0=; 
- b=luKAKYIWKwvy42YdT/mbaBQVQRDs+kuDGOg+VCAEfu/YvMs7YUn9Cif4mrMe39llB5fZ6k1CIwm5Q3YxwcPgwpxAh2XviILARDrTtVz4Kby4BEttpEvXlk1RssyHa96Eu/75p7rPqagUOCBlLHVM9GtpGPsr5rE8PByny9f2mK8=
+ s=zohoarc; t=1745374378;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=k6xD9WlxcOB5wjZAwwzZ+SEahObCfEnbA46ihgVRKNU=; 
+ b=M/hHzNiBMcvXX21kaw5fPhDFmiAIaEk1VhcpHfZSaSXP4S/DK22rN00MxG+rbzNBmMCRdsw/xW3OcNr95JvBzGconByy8T9d2Vk6OLxM94Ln3+cRSDZpYnKaWJDrzx3eM8uuwQmy9j9tdT/AwuyVoAVfDQQk+N0/vvPT2HxCf64=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745374374; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745374378; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=RlNMSce+7Qyi64BSTjMp63mWrqfhtAqm3c0wzIuhgp0=;
- b=Vs3jOZ751pHiLDJ8RCzy851VQOe0TGeasfDyF+vku7xsb55iRX0it5YJq5zVe98H
- BiI04KtIkNo2K6oKH41X6uI4XBdze0xYOYttIWP2dpYXFYfUnIlu/ZMs2+QEcQJDT/v
- V8e/Gc1tMlDRigE1aZ4961sA9ZZlJtOoNLLv0398=
-Received: by mx.zohomail.com with SMTPS id 1745374372008988.5400713545316;
- Tue, 22 Apr 2025 19:12:52 -0700 (PDT)
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=k6xD9WlxcOB5wjZAwwzZ+SEahObCfEnbA46ihgVRKNU=;
+ b=WM0+CfF4FxJbjNGzLhixdndc1qGnHniWhODZE12tbGc7z33xL2X5q6BaXFhFWy5+
+ r1NJRvHWakTI1OQaKw+QN9ipe/TI6/DnJVmXEqhtFuJtjQkVU05G/3FjsMMD1xx1k9D
+ DjUHrSYsia03aYW4i3TX+ao87xtsgKaKKMG7l4BY=
+Received: by mx.zohomail.com with SMTPS id 174537437551130.74276877402292;
+ Tue, 22 Apr 2025 19:12:55 -0700 (PDT)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org,
  Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Subject: [PATCH v10 0/4] Panthor BO tagging and GEMS debug display
-Date: Wed, 23 Apr 2025 03:12:30 +0100
-Message-ID: <20250423021238.1639175-1-adrian.larumbe@collabora.com>
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Subject: [PATCH v10 1/4] drm/panthor: Introduce BO labeling
+Date: Wed, 23 Apr 2025 03:12:31 +0100
+Message-ID: <20250423021238.1639175-2-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250423021238.1639175-1-adrian.larumbe@collabora.com>
+References: <20250423021238.1639175-1-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,82 +71,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series is aimed at providing UM with detailed memory profiling
-information in debug builds. It is achieved through a device-wide list of
-DRM GEM objects, and also implementing the ability to label BO's from UM
-through a new IOCTL.
+Add a new character string Panthor BO field, and a function that allows
+setting it from within the driver.
 
-The new debugfs file shows a list of driver DRM GEM objects in tabular mode.
-To visualise it, cat sudo cat /sys/kernel/debug/dri/*.gpu/gems.
-To test this functionality from UM, please refer to this Mesa patch series:
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34224
+Driver takes care of freeing the string when it's replaced or no longer
+needed at object destruction time, but allocating it is the responsibility
+of callers.
 
-Discussion of previous revision of this patch series can be found at:
-https://lore.kernel.org/dri-devel/20250418022710.74749-1-adrian.larumbe@collabora.com/
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_gem.c | 46 +++++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_gem.h | 17 ++++++++++
+ 2 files changed, 63 insertions(+)
 
-Changelog:
-v10:
- - Simplified printing of GEM state and usage flags: now they're printed numericaly,
-   and their meanings given in the DebugFS file prelude
- - Some minor formating changes
- - Fixed all checkpatch issues with --strict
-
-v9:
- - Added padding field to uAPI BO label ioctl struct
- - Simplified copying and bounds checking of label in ioctl function
-
-v8:
- - Renamed NULL to NUL in comments describing NUL-terminated strings
- - Removed 'size' parameter from labelling ioctl() as max length can be
-   handled by the kernel itself
- - Made sure to use kfree_const() everywhere labels are freed
- - Replaced maximum label size with numerical constant rather than page size
- - Added some warnings and checks in kernel BO labelling function
-
-v7:
- - Improved formating of DebugFS GEM's status and usage flags
- - Deleted some spurious white spaces
- - Renamed usage flags setting function
-
-v6:
- - Replaced some mutex calls with scoped guards
- - Documented data size limits in the label ioctl
- - Simplified GEMS status flags treatment (Panthor doesn't use madvise)
- - Fixed some array size and string bugs
- - Improved the naming of GEM status and usage flags to reflect their meaning
- - Improved the formatting of the output table
-
-v5:
- - Kept case and naming of kernel BO's consistent
- - Increased the driver minor after new ioctl
- - Now adds BO to debugfs GEMs list at GEM object creation time
- - No longer try to hide BO creator's name when it's a workqueue or modprobe
- - Reworked the procedure for printing GEM state and kernel BO flags
- - Turned kernel BO flags and GEM state flags into bit enums
- - Wait until BO state is marked as initialied for debugfs display
-
-v4:
- - Labelled all kernel BO's, not just heap chunks.
- - Refactored DebugGFs GEMs list handling functions
- - Added debugfs GEMS node mask to tell different kinds of BO's
-
-
-Adrián Larumbe (4):
-  drm/panthor: Introduce BO labeling
-  drm/panthor: Add driver IOCTL for setting BO labels
-  drm/panthor: Label all kernel BO's
-  drm/panthor: show device-wide list of DRM GEM objects over DebugFS
-
- drivers/gpu/drm/panthor/panthor_device.c |   5 +
- drivers/gpu/drm/panthor/panthor_device.h |  11 ++
- drivers/gpu/drm/panthor/panthor_drv.c    |  69 +++++++-
- drivers/gpu/drm/panthor/panthor_fw.c     |   8 +-
- drivers/gpu/drm/panthor/panthor_gem.c    | 207 ++++++++++++++++++++++-
- drivers/gpu/drm/panthor/panthor_gem.h    |  86 +++++++++-
- drivers/gpu/drm/panthor/panthor_heap.c   |   6 +-
- drivers/gpu/drm/panthor/panthor_sched.c  |   9 +-
- include/uapi/drm/panthor_drm.h           |  23 +++
- 9 files changed, 413 insertions(+), 11 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index 8244a4e6c2a2..8dd7fa63f1ff 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -2,6 +2,7 @@
+ /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+ /* Copyright 2023 Collabora ltd. */
+ 
++#include <linux/cleanup.h>
+ #include <linux/dma-buf.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/err.h>
+@@ -18,6 +19,14 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
+ 	struct panthor_gem_object *bo = to_panthor_bo(obj);
+ 	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
+ 
++	/*
++	 * Label might have been allocated with kstrdup_const(),
++	 * we need to take that into account when freeing the memory
++	 */
++	kfree_const(bo->label.str);
++
++	mutex_destroy(&bo->label.lock);
++
+ 	drm_gem_free_mmap_offset(&bo->base.base);
+ 	mutex_destroy(&bo->gpuva_list_lock);
+ 	drm_gem_shmem_free(&bo->base);
+@@ -196,6 +205,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+ 	obj->base.map_wc = !ptdev->coherent;
+ 	mutex_init(&obj->gpuva_list_lock);
+ 	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
++	mutex_init(&obj->label.lock);
+ 
+ 	return &obj->base.base;
+ }
+@@ -247,3 +257,39 @@ panthor_gem_create_with_handle(struct drm_file *file,
+ 
+ 	return ret;
+ }
++
++void
++panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
++{
++	struct panthor_gem_object *bo = to_panthor_bo(obj);
++	const char *old_label;
++
++	scoped_guard(mutex, &bo->label.lock) {
++		old_label = bo->label.str;
++		bo->label.str = label;
++	}
++
++	kfree_const(old_label);
++}
++
++void
++panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
++{
++	const char *str;
++
++	/* We should never attempt labelling a UM-exposed GEM object */
++	if (drm_WARN_ON(bo->obj->dev, bo->obj->handle_count > 0))
++		return;
++
++	if (!label)
++		return;
++
++	str = kstrdup_const(label, GFP_KERNEL);
++	if (!str) {
++		/* Failing to allocate memory for a label isn't a fatal condition */
++		drm_warn(bo->obj->dev, "Not enough memory to allocate BO label");
++		return;
++	}
++
++	panthor_gem_bo_set_label(bo->obj, str);
++}
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index 1a363bb814f4..af0d77338860 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -46,6 +46,20 @@ struct panthor_gem_object {
+ 
+ 	/** @flags: Combination of drm_panthor_bo_flags flags. */
+ 	u32 flags;
++
++	/**
++	 * @label: BO tagging fields. The label can be assigned within the
++	 * driver itself or through a specific IOCTL.
++	 */
++	struct {
++		/**
++		 * @label.str: Pointer to NULL-terminated string,
++		 */
++		const char *str;
++
++		/** @lock.str: Protects access to the @label.str field. */
++		struct mutex lock;
++	} label;
+ };
+ 
+ /**
+@@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
+ 			       struct panthor_vm *exclusive_vm,
+ 			       u64 *size, u32 flags, uint32_t *handle);
+ 
++void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
++void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
++
+ static inline u64
+ panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
+ {
+-- 
 2.48.1
+
