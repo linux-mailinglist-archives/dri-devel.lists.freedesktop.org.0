@@ -2,120 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52F7A997EC
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 20:31:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E10A99800
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 20:36:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8339B10E22D;
-	Wed, 23 Apr 2025 18:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C14C610E08C;
+	Wed, 23 Apr 2025 18:36:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="OOTPJAGB";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="D40aiJj7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2057.outbound.protection.outlook.com [40.107.92.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C658410E22D;
- Wed, 23 Apr 2025 18:31:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=b299k3sKOcRK2QXYtY7m13SrmezmpZRMT02lgTuxov5n6UYNuxCRn6NuxGqNka+m92kQ1JNtxGqx+aKyAgCE2GRxsv4AfqiUyNYNxSRO8ts6KQLWUJ3qbydhFD6zkUg1aPYZj3HxDCEL19KDRZSlEZkvRgMa7YgwXdJDDpqa783NMVGY2cBfuV2nbFR876jr54dliZtfBtCDXjoCk+7w+X5dtmVQbEq0mRw6u3mIyRjWDzy2/nNZcn9hKsQbJiIhWaZe7BAl9XZzZdoJERv+pVQNr6f9zLlUsjuTKXkwVUTlf8xkNVAqvL/MfRuNUEDXZiE2tYzAgG0RK/y4Du9mUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R72WRw8oRG9TsOWLA5y9A4YT1fULf94LDbB0LZaCZWo=;
- b=FoSgKnqr3bHrKVvz9Iu2tAmAPbVEExVhmiPd+8S8/1HC4xbgMzvSBJT7RiqWeaDAHCEHKBbZuDKgY8E1JZNptZ6P64JnzWi2DmEF6SbdPEUdgsatN7svLJlEGAiFUiadsvgPn7+tfnfZswUYiVXG34Uwm9GC1EKQ+E+CIIUveRS0/o3D45DfjkmBRKRz87H+vZD3gL/9gs5qe6Rk78m03xPpErpVHDeJ7oVXgyGltD6oq/Y24vIce/QIAS+7IBMK3bYXZXoZSnIA8ccO2IwXbJZykAawacesBy2HwzAQep145ZDQgtBhOMKV5MJ/q6dDhH+lAJz96QLZBBhetGIK+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R72WRw8oRG9TsOWLA5y9A4YT1fULf94LDbB0LZaCZWo=;
- b=OOTPJAGBqt1E4X/TH/hPMx7y+yXG04NVKPo48bgBA8B1Y+AZfr1MVU7o4NMfd+pmL4RtD7djW8zDLf9p0Lmie8lDBF/PAlw088h5PcBRVZwgvxIrX43tCL4Zl8QnKQECyGZot+2jIMxsVC33u16Srd0tG24d8ppkV20bLL35aEg=
-Received: from SJ0PR05CA0163.namprd05.prod.outlook.com (2603:10b6:a03:339::18)
- by CH3PR12MB8852.namprd12.prod.outlook.com (2603:10b6:610:17d::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Wed, 23 Apr
- 2025 18:31:05 +0000
-Received: from SJ5PEPF000001F3.namprd05.prod.outlook.com
- (2603:10b6:a03:339:cafe::1e) by SJ0PR05CA0163.outlook.office365.com
- (2603:10b6:a03:339::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8678.13 via Frontend Transport; Wed,
- 23 Apr 2025 18:31:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF000001F3.mail.protection.outlook.com (10.167.242.71) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8655.12 via Frontend Transport; Wed, 23 Apr 2025 18:31:05 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 23 Apr
- 2025 13:31:03 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <simona.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu drm-fixes-6.15
-Date: Wed, 23 Apr 2025 14:30:45 -0400
-Message-ID: <20250423183045.2886753-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.49.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F331610E08C
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 18:36:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1745433366;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DZNe45ridILK2CdOVqF5AQIHmwtE4BwCZt3v56x2yIY=;
+ b=D40aiJj7VkjI7cD+U+3ExIirW2Nz0eQB2QVnjcXzFVmg7kRk0mKC6b/UoDdRCAA42VXcPx
+ KXvZQ75EBadyAVD606urG5ZL/NU3srcANoVSB7jXHXPvGAvHMy4oKLY9UjNSfJa33RDB4p
+ YPu2TEoGuY1XfRqLbHVLef4FhUhbFO4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-78-eQM2qtymOYCYhQbKwXQFvw-1; Wed, 23 Apr 2025 14:36:04 -0400
+X-MC-Unique: eQM2qtymOYCYhQbKwXQFvw-1
+X-Mimecast-MFC-AGG-ID: eQM2qtymOYCYhQbKwXQFvw_1745433364
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-43d00017e9dso761575e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 11:36:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745433363; x=1746038163;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DZNe45ridILK2CdOVqF5AQIHmwtE4BwCZt3v56x2yIY=;
+ b=ZdSpviyhq+fJURd/NFJZNeumm4pS3lq2O4D8b9Q5CJoRvbCw1ZYcoZe2GvgV5LMcfc
+ d9dVybS8D2MlcibEi6wfgY8mlfhuCinKa9lWv0jcS4QoGENQ+qsoyGuLLhpm7yT+w+/d
+ nM+t9Q9yQlpzeitUQSExiwIWpEfkUESpLZn6CIvW6ZVxpAoCgLE7X/lUN/t8AXcEBX/e
+ 0vpDEKwycK7EsCmbQbVm6G/viX6LVutod4sdF3+Hi7kwAfzJNz57jD6Jg9l7Zpdh/HjJ
+ e+9Dzx7lobmBusrYJ+R+a0pGd/tpyPYQsooTth5DVTz0VorOVjOxir9mx8AFj0D5Eo2R
+ aBbA==
+X-Gm-Message-State: AOJu0YyXor3KGwnWuVXsl7alurMw9cVFGOOiNn0feZilPjD7olxJAuST
+ 80RwX2MgZ7oknWqUaYMArYe2BN6Co4HHCMGepXWVRrN2bwJxmPrVp9oXjuwhI2wzGKB4lncphRJ
+ 0uSgttG2J0h9NV4EFl7CJ4x/7+1WXYx7/7tNmNWFNZjmIwmlPV74+1ERqvOZf3js8Mg==
+X-Gm-Gg: ASbGncswDM9ZbS9EVi3No0o6hCboNk1oQFcpk2eZDv4Uyu1hYFCgNa7069Fhd7BzX7b
+ l1SVWUWk3FiPo6eZ3COJdraJaaRPZQf4twQRc70/IQi44NBVYdHEt8cTLKS7vB0CNAC63QeSxkE
+ pciweyqbCUQ0QLlpwmIEaZB15LjbqKn/PTo2obskyelBIjyBEQbX1MqJb/cpqm49v+pJCV1SQ46
+ 2XYQQBF9jdYRvs1WCW6hPgz7ZFp2BNBGPafjy2gaH6H+CFkAF+g5j+as8zHoxhaCv8AyPZSYKcx
+ BTlOwiunlsqyfAgRFDeZw2SbnBBvEfLr0eqrJXOuKXOudYJp6s8+4fCT3oxX3mah1o1FTA==
+X-Received: by 2002:a5d:648d:0:b0:39c:142c:e889 with SMTP id
+ ffacd0b85a97d-3a06c4154f3mr579130f8f.27.1745433363545; 
+ Wed, 23 Apr 2025 11:36:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEscSOJRnvzbjZw78Ojyv2Eu8GFNx3irhr5ooUj/zzBGPxiIgsSfqlwkRsklP5kZCHqZ8vATw==
+X-Received: by 2002:a5d:648d:0:b0:39c:142c:e889 with SMTP id
+ ffacd0b85a97d-3a06c4154f3mr579105f8f.27.1745433363150; 
+ Wed, 23 Apr 2025 11:36:03 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-39efa5a2300sm19349612f8f.101.2025.04.23.11.36.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Apr 2025 11:36:02 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Marcus Folkesson <marcus.folkesson@gmail.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Marcus Folkesson
+ <marcus.folkesson@gmail.com>, Thomas Zimmermann <tzimmrmann@suse.de>
+Subject: Re: [PATCH v5 2/3] drm/st7571-i2c: add support for Sitronix ST7571
+ LCD controller
+In-Reply-To: <20250423-st7571-v5-2-a283b752ad39@gmail.com>
+References: <20250423-st7571-v5-0-a283b752ad39@gmail.com>
+ <20250423-st7571-v5-2-a283b752ad39@gmail.com>
+Date: Wed, 23 Apr 2025 20:36:01 +0200
+Message-ID: <87v7quafou.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 3cujtHaoozkYJrApgBnlMha3al-ib_PXrc_7RJgrp1I_1745433364
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F3:EE_|CH3PR12MB8852:EE_
-X-MS-Office365-Filtering-Correlation-Id: 567c8ee9-90e9-45d1-732f-08dd8295021e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|30052699003|82310400026|36860700013|1800799024|376014|13003099007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?XYO/91r+cPCYW2OaLSe/DUTYY9sWR37eaGVXRpkLqojwAjGztNu7+EJ9Odzm?=
- =?us-ascii?Q?6UIHD63olAAvrap9F81Iv68Xwv0Cf1fR4nDG48gytIFyn7CyREY1y8lfv6Jn?=
- =?us-ascii?Q?mcZ5Xu43tofkohqQdI5DE8vR1BZtkmEck4Yx54eDBcLI4cntLbxn0rbR4Ah7?=
- =?us-ascii?Q?1sdj3M3Qzmq3qE1pon8+74VPa1kjTLq44CGq/1fL+h2b/eGToDP5nAtY4BIS?=
- =?us-ascii?Q?/zROXP9KjuGeDxWE6YxU0K9gOAV/SE3FqI5wpPziVkcgZyqiW7GCO9CSFL04?=
- =?us-ascii?Q?LJ/+hQ+oF0JIisahUyNYAkGEWJEeDJQ7L0q3Hv5guZO/32fVRb0gyg3UgVN8?=
- =?us-ascii?Q?87EghuTdm0yC7RnMpvZW0asMdT2iIrTdK7VlA0sFzP5eb6D68rK6YYNpiFob?=
- =?us-ascii?Q?AbY166q9XDKUo6x8q2B3QgQcbdRUmw47+XON41lmsEItT9sdpcWkVhm+3/wy?=
- =?us-ascii?Q?jDGK6WgC+EwSGidi2egAX9ZtrR4Ga23aAc0e6H0f07TkGxM7J+WMBM6izIta?=
- =?us-ascii?Q?N9E/KOyfjQHdhEL3k4zA4eNyTwQKzNiXap4Vr7wfdswDnZcirtulBIOu7TIb?=
- =?us-ascii?Q?+tJ/GzUpCzeYC+IqY3kdnMRCflVbYE5JOvE+rk4qnsoCBYRiHMl3Sw9lh553?=
- =?us-ascii?Q?iePjaPrMwmCOwp17JpZRr3gM9j4/myav58V+2/kR53ytPwsN+hY31MT80ABr?=
- =?us-ascii?Q?M1+kKP2a5P/l7bqCSCDA18Ul0o0xvELDbZkeXEbaMStKRsVdnihEGT6305iy?=
- =?us-ascii?Q?BeDyN8Nht0gspJJg0UOPmRUw3kg+TEVZKdDEq3niQtCsod5xTV1WwxdC07FV?=
- =?us-ascii?Q?xCgGE4deAOFAB8kT95cBMDtHX2WXZgIcK4xSZU0w+lOILoAd6PQtfkBRxBlQ?=
- =?us-ascii?Q?oahj98iod6XtTE1WMXhSdQeTqQEJ3hPLdXoAuRRtUm12ZNY5Gmuu/1Go4V4q?=
- =?us-ascii?Q?1thTyfbj5SDsRXtDthslmLz+gv48gMxmQ4M5eZkusStJfI/EcKMqgq7vQTGu?=
- =?us-ascii?Q?03V8GbDLc7icS2kUC5dUVxKZGmd8cTYKzcassrFtCwZNg59C0dQailp4ukYu?=
- =?us-ascii?Q?V6/il3tMv5Zkjuq76lyIinonH6krbb9YGlPZcdjhC/iUQNWok9UmawjBLa0U?=
- =?us-ascii?Q?VClhGdge2m3lW/Mk4MKg6zisopGwhAPjVG27zjvhfbZdOp33x9y50CMcDsKC?=
- =?us-ascii?Q?U8WJGYbIQg+62uUXLlFXu4KIfaOJgUJkAkMoFkP78OP75nACviMb4GQMwZcM?=
- =?us-ascii?Q?7yVc5HFhdW5NeK+LCxuFvWptmsMWLJjYBodHzXA3S04vtEEBVfCKkL3pIseR?=
- =?us-ascii?Q?E8o8XMuki/p4nTqCulbovTo6XKClXbEmtnnB9tjrFymcB10LeKbVMe/lA8YA?=
- =?us-ascii?Q?+oOuPAs1Icb9M/DP15bYylcZ1NN3HWBEaHZ4zJTSbssxAX1BJ81logKzfLte?=
- =?us-ascii?Q?yKtgxxOye1AHWjzPS8YWAe50GNmXDmLMrPMIdNNcMwRc510ZxSFV9w=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(30052699003)(82310400026)(36860700013)(1800799024)(376014)(13003099007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 18:31:05.2360 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 567c8ee9-90e9-45d1-732f-08dd8295021e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001F3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8852
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,61 +102,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 
-Fixes for 6.15.
+Hello Marcus,
 
-The following changes since commit 0467145fab3b3a7a1efd221722310fe32329b3da:
+I tried to apply your patches to drm-misc and found some issues, so I will
+have to ask you to do a final re-spin. Sorry about that...
 
-  Merge tag 'drm-msm-fixes-2025-04-18' of https://gitlab.freedesktop.org/drm/msm into drm-fixes (2025-04-19 15:09:29 +1000)
+> Sitronix ST7571 is a 4bit gray scale dot matrix LCD controller.
+> The controller has a SPI, I2C and 8bit parallel interface, this
+> driver is for the I2C interface only.
+>
+> Reviewed-by: Thomas Zimmermann <tzimmrmann@suse.de>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
+>  drivers/gpu/drm/tiny/Kconfig      |   11 +
+>  drivers/gpu/drm/tiny/Makefile     |    1 +
+>  drivers/gpu/drm/tiny/st7571-i2c.c | 1007 +++++++++++++++++++++++++++++++++++++
+>  3 files changed, 1019 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+> index 94cbdb1337c07f1628a33599a7130369b9d59d98..e4a55482e3bcd3f6851df1d322a14cbe1f96adfb 100644
+> --- a/drivers/gpu/drm/tiny/Kconfig
+> +++ b/drivers/gpu/drm/tiny/Kconfig
+> @@ -232,6 +232,17 @@ config TINYDRM_ST7586
+>  
+>  	  If M is selected the module will be called st7586.
+>  
+> +config DRM_ST7571_I2C
+> +	tristate "DRM support for Sitronix ST7571 display panels (I2C)"
+> +	depends on DRM && I2C && MMU
+> +	select DRM_GEM_SHMEM_HELPER
+> +	select DRM_KMS_HELPER
+> +	select REGMAP_I2C
+> +	help
+> +	  DRM driver for Sitronix ST7571 panels controlled over I2C.
+> +
+> +	  if M is selected the module will be called st7571-i2c.
+> +
 
-are available in the Git repository at:
+checkpatch here complains about:
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.15-2025-04-23
+WARNING: please write a help paragraph that fully describes the config symbol with at least 4 lines
+#144: FILE: drivers/gpu/drm/tiny/Kconfig:215:                                                            
++config DRM_ST7571_I2C
++       tristate "DRM support for Sitronix ST7571 display panels (I2C)"                                  
++       depends on DRM && I2C && MMU                                                                     
++       select DRM_GEM_SHMEM_HELPER                                                                      
++       select DRM_KMS_HELPER                                                                                                                                                                                      
++       select REGMAP_I2C
++       help                                                                                             
++         DRM driver for Sitronix ST7571 panels controlled over I2C.                                     
 
-for you to fetch changes up to b316727a27d0dac1e6b7ae51204df4d0f241fcc2:
+but honestly I think is just silly and your explanation is good enough so
+you could ignore it if you want.
 
-  drm/amd/display: do not copy invalid CRTC timing info (2025-04-22 16:51:17 -0400)
+>  config TINYDRM_ST7735R
+>  	tristate "DRM support for Sitronix ST7715R/ST7735R display panels"
+>  	depends on DRM && SPI
+> diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+> index 60816d2eb4ff93b87228ed8eadd60a0a33a1144b..eab7568c92c880cfdf7c2f0b9c4bfac4685dbe95 100644
+> --- a/drivers/gpu/drm/tiny/Makefile
+> +++ b/drivers/gpu/drm/tiny/Makefile
+> @@ -7,6 +7,7 @@ obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
+>  obj-$(CONFIG_DRM_OFDRM)			+= ofdrm.o
+>  obj-$(CONFIG_DRM_PANEL_MIPI_DBI)	+= panel-mipi-dbi.o
+>  obj-$(CONFIG_DRM_SIMPLEDRM)		+= simpledrm.o
+> +obj-$(CONFIG_DRM_ST7571_I2C)		+= st7571-i2c.o
 
-----------------------------------------------------------------
-amd-drm-fixes-6.15-2025-04-23:
+this chunk doesn't apply on top of the drm-misc/drm-next branch [1] due
+the simpledrm driver being moved out of the tiny directory. Please do a
+rebase on top of that branch when posting a v6.
 
-amdgpu:
-- P2P DMA fixes
-- Display reset fixes
-- DCN 3.5 fixes
-- ACPI EDID fix
-- LTTPR fix
-- mode_valid() fix
+[1]: https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-misc-next
 
-----------------------------------------------------------------
-Felix Kuehling (3):
-      drm/amdgpu: Use allowed_domains for pinning dmabufs
-      drm/amdgpu: Don't pin VRAM without DMABUF_MOVE_NOTIFY
-      drm/amdgpu: Allow P2P access through XGMI
+[...]
 
-George Shen (1):
-      drm/amd/display: Use 16ms AUX read interval for LTTPR with old sinks
+> +++ b/drivers/gpu/drm/tiny/st7571-i2c.c
 
-Gergo Koteles (1):
-      drm/amd/display: do not copy invalid CRTC timing info
+Please run ./scripts/checkpatch.pl --strict -f -- drivers/gpu/drm/tiny/st7571-i2c.c
+since checkpatch complains about some issues. Other than some style nits, it has some
+good points IMO. In particular:
 
-Leo Li (1):
-      drm/amd/display: Default IPS to RCG_IN_ACTIVE_IPS2_IN_OFF
+[...]
 
-Mario Limonciello (1):
-      drm/amd/display: Fix ACPI edid parsing on some Lenovo systems
+> +
+> +static int st7571_fb_update_rect_grayscale(struct drm_framebuffer *fb, struct drm_rect *rect)
+> +{
+> +	struct st7571_device *st7571 = drm_to_st7571(fb->dev);
+> +	uint32_t format = fb->format->format;
 
-Nicholas Susanto (1):
-      drm/amd/display: Enable urgent latency adjustment on DCN35
+CHECK: Prefer kernel type 'u32' over 'uint32_t'                                                          
+#523: FILE: drivers/gpu/drm/tiny/st7571-i2c.c:348:
++       uint32_t format = fb->format->format;
 
-Roman Li (2):
-      drm/amd/display: Fix gpu reset in multidisplay config
-      drm/amd/display: Force full update in gpu reset
+[...]
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        | 52 ++++++++++++++++++---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 41 +++++-----------
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |  2 +-
- .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |  4 +-
- .../dc/link/protocols/link_dp_training_8b_10b.c    | 54 ++++++++++++++--------
- 5 files changed, 96 insertions(+), 57 deletions(-)
+> +
+> +static const uint64_t st7571_primary_plane_fmtmods[] = {
+> +	DRM_FORMAT_MOD_LINEAR,
+> +	DRM_FORMAT_MOD_INVALID
+> +};
+
+CHECK: Prefer kernel type 'u64' over 'uint64_t'                                                          
+#611: FILE: drivers/gpu/drm/tiny/st7571-i2c.c:436:                                                       
++static const uint64_t st7571_primary_plane_fmtmods[] = {
+
+[...]
+
+> +static void st7571_reset(struct st7571_device *st7571)
+> +{
+> +	gpiod_set_value_cansleep(st7571->reset, 1);
+> +	udelay(20);
+
+CHECK: usleep_range is preferred over udelay; see function description of usleep_range() and udelay().
+#993: FILE: drivers/gpu/drm/tiny/st7571-i2c.c:818:                                                       
++       udelay(20);
+
+Specially since this is not in atomic context AFAIK. The Delay and sleep
+mechanisms [2] doc has a good explanation about the different functions
+provided by the Linux kernel for this.
+
+Feel free to keep my R-B tag if you decide that some of the checkpatch
+suggestions are applicable. The most important bit for me is the rebase,
+to allow your patch to be cleanly applied on the drm-misc-next branch.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
