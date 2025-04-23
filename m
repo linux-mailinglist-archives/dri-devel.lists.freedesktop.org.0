@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64418A98FA0
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 17:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D23A99090
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 17:21:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3D4F10E6CD;
-	Wed, 23 Apr 2025 15:11:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A59D10E6DD;
+	Wed, 23 Apr 2025 15:21:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="helW73BE";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="s9PjX7FJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FDE710E6CD
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 15:11:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0366410E6DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 15:21:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3C171A4B8FB;
- Wed, 23 Apr 2025 15:06:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A937C4CEE2;
- Wed, 23 Apr 2025 15:11:52 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 37F2DA4BA2F;
+ Wed, 23 Apr 2025 15:15:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 968D2C4CEE8;
+ Wed, 23 Apr 2025 15:21:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1745421113;
- bh=USCzaULdMivVnwX3KQc0hB9AKf7a2Ol9EKY4h90E9Eo=;
+ s=korg; t=1745421681;
+ bh=icdxCIF20ysLf8BxQUFbsqXxC2ZaOEksU/qxC2yFAfI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=helW73BELAhnYS5cOToyT0zecD7pSTDQi1o8gN12POcfXaPzsVM0hAydqJqza364a
- YIMYw6KqdDqfm1uq6Vu6X3qJZoQNB6aXFkLoemk1FUDuDQV96YS4atijUbSb3hsACl
- Tm8y13jriR/u7uePu7mCCWvx4/Fkyzb9wqVwWJZM=
+ b=s9PjX7FJ9F3T+HI4WXGewcubo6aqOsHmShvV2RuQQP8OM1aTO3emFzIjrsBPaz2EB
+ 0wiAVdRdAHmGEOaZO3klerWBd6DraFfGiFhm/Sbi358CYvfRPigYziwMXeQb6dZJkk
+ rB34+LvRgeep/ZVcyQrCfMHifhbgK2zo0WRSA4Lk=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -35,12 +35,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Jocelyn Falempe <jfalempe@redhat.com>, Dave Airlie <airlied@redhat.com>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 6.12 185/223] drm/mgag200: Fix value in <VBLKSTR> register
-Date: Wed, 23 Apr 2025 16:44:17 +0200
-Message-ID: <20250423142624.704501207@linuxfoundation.org>
+Subject: [PATCH 6.14 219/241] drm/mgag200: Fix value in <VBLKSTR> register
+Date: Wed, 23 Apr 2025 16:44:43 +0200
+Message-ID: <20250423142629.505225032@linuxfoundation.org>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250423142617.120834124@linuxfoundation.org>
-References: <20250423142617.120834124@linuxfoundation.org>
+In-Reply-To: <20250423142620.525425242@linuxfoundation.org>
+References: <20250423142620.525425242@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -62,7 +62,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.12-stable review patch.  If anyone has any objections, please let me know.
+6.14-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
