@@ -2,125 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F75A98C19
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 15:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A43A98C29
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 16:01:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7E710E6B7;
-	Wed, 23 Apr 2025 13:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B81CD10E1FB;
+	Wed, 23 Apr 2025 14:01:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UTgqP1+e";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OjZlLZcD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 330E910E6BA
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 13:58:32 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53NAt7uP017255
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 13:58:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=C1pEN0V7ta1blhUvOSjeh8t4
- 4YefebhUlQwfthVEXOM=; b=UTgqP1+etb3ty0z6u7O7hwoOAlcDHh5vsbXu8c0z
- rwfN6RHS+54OuaLDkQPttzlnSpLzH/+b/o4UPUfSno6Ii6P0XKAvyFXhBYXRqGKD
- oSVtEJdBFsvlTxZj08ZjWxSvofBfOQGBlTPcY169WdwxucX2FL/eff9cDybipwQg
- L1Qq5AgQRK2M9anMqZeVzx3hPa0NYXdoKRkVQzQDPdtB4qk/1SHO7YQeGZPh2cbH
- IL+pXOWUaZv1EU8Gwk2Q2eQFVCrwM7UQpGzZ7fgl6vaXirhM0sHUheRN9QdZkczN
- MOXHY3NwAEfwsmDAC3N0/Dbj+KHHsbbZ1YErmYLVmef7zg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh3ja70-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 13:58:31 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c95556f824so7191185a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 06:58:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745416710; x=1746021510;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=C1pEN0V7ta1blhUvOSjeh8t44YefebhUlQwfthVEXOM=;
- b=ryMEIbRR/56qktpouQKfoHCwUg0WpKk3VwY1P7yqeOoH78yYHqdFK1Dp9GL2sF8MR7
- vaGlB8tszl+i+BbR/WRjzvyXFHyxHKBOD6zAa4OmhZ/YU6Ay1aeQx/iaIl0M6MdjKqVM
- +dx2gmozKPpIQ8UIaN7P9ht+2EgJwIM/jRjhqM/2LTCQQm23cwcBF9TDW6XCa+1Yn4II
- igtkXJSCcjD1bqBMPuyKJDVGPw9j7eXXDgmj92VXk8K5NMj6ixGyDYY99IGOsCrJ1/e/
- 9f/LLiBPmKzJl+qqTh03BIpIEVW0y1jSH+lDk3O37PBLqo+/ZLUruabk7kQgIaSDev5G
- tdWQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXDV7H6aoo/Lfoh2W5mZSIcN+BRMTSN6o1LPD8iMOluFATH+DUTJs24o7v4CixyxOL9VJVw+NfGdz0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzctcsWmuQdPJNHtaU6gfh9ALdbMGx9CeaxDoPG1FkKS3PVIyd+
- oEt2bB5PI1VzmILVajHwKyCqhLSnz08awCkmWByitcah0DCUcfINlHYGzmTmDIQeYJzESS7VQHj
- KOZV9S9sIr9nGZv4u+WDHFOSCavWBz/SZSS8dxg+4FJ7nqtlaCyuUIlqxAfwEVK/ibyOj+/f/TG
- s=
-X-Gm-Gg: ASbGncuLtFB7ORlOj/eFizKjzhsD2/QgLzfDQgyAejf2DPh9m4Hlf9kQgU1CdvhIIxs
- 7gIZr8faeKs5UPnxDnu1weWs9RSQpQPXb95htPHzi+XMDx0QLaLT5kx5gAMHx7JQu7OOWdqgue0
- AfrbAGHqShfBTe62T3N5dkP+XN/kwL6QMyimj9GRN71e3KaWeQ1YrtXWRvDMOzS1M6QKIUeP07n
- oUu+84/o5ln4zWJM7qbJDcMib7mEYZ/6p+DWUEiWicv5Jy7X1IWRUQ1BW/+Uesztw4iLhDES0cn
- IOWrDsV/B0/w6UXdMybQ0mkH95iGwpM33OBcopMHrEpSW3gy2k9AVK3ul1chXFHkQl+UPUamJCE
- =
-X-Received: by 2002:a05:620a:29d4:b0:7c5:642f:b22f with SMTP id
- af79cd13be357-7c927f780aemr2925733985a.18.1745416710300; 
- Wed, 23 Apr 2025 06:58:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGbMHBNHoF6fiuAveTacg+V4AVRjDSJG6H3O7cmW3Wv+n7Ux0OzCJ4jiXurojEiqthLPkdZuw==
-X-Received: by 2002:a05:620a:29d4:b0:7c5:642f:b22f with SMTP id
- af79cd13be357-7c927f780aemr2925730785a.18.1745416709828; 
- Wed, 23 Apr 2025 06:58:29 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54e721ab8c6sm461722e87.232.2025.04.23.06.58.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Apr 2025 06:58:28 -0700 (PDT)
-Date: Wed, 23 Apr 2025 16:58:27 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ayushi Makhija <quic_amakhija@quicinc.com>
-Cc: Ayushi Makhija <amakhija@qti.qualcomm.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- robdclark@gmail.com, sean@poorly.run, marijn.suijten@somainline.org,
- andersson@kernel.org, robh@kernel.org, robh+dt@kernel.org,
- krzk+dt@kernel.org, konradybcio@kernel.org, conor+dt@kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
- quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
- quic_jesszhan@quicinc.com
-Subject: Re: [PATCH v4 10/11] drm/bridge: anx7625: fix anx7625_sink_detect()
- to return correct hpd status
-Message-ID: <5mbgo73lfr5yc7nmdgzgdogdtog6cfhqya7ekjjd2guhmogtml@ngoial7rsmrh>
-References: <20250417053909.1051416-1-amakhija@qti.qualcomm.com>
- <20250417053909.1051416-11-amakhija@qti.qualcomm.com>
- <g5mrn6o2arkbt356xtisszqtiokxm4oq4gkwa23y3f3aaahbfr@umcg5ikf5qjb>
- <783a80d6-63d7-4c00-ba09-0ec07492103c@quicinc.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8DB10E1FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 14:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1745416881;
+ bh=xIVMmyvZfh3hGJ6hzL0vT1Yla3mDQFmjTEfQNN+WN8k=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OjZlLZcDL0ESfghrgpABz+tyVK9R+FSUhFn2X5gIvW2ylDbvnTh7fFyynmyHjOhPK
+ k9BqxygG/CEw3ayjjhxgM3fNIQT6lBrqienJ33XRt0LHQTAywkYjfVIDN/+gmIAWX6
+ 4uSkfLiVSfZ7t6BW6hPA76BKv5aOSI003g+MGabYbo1ktsQeykfHA3sTxHHxKgCJvv
+ FKHGWXvzLIqPmOu6+JTyQrpBirBLc83cZery7cOOOgOnI140L+3ufkWSSYOA9HsG0p
+ ex2MjfniDWw+K0T65V7pVBU+rLhyz/UAi6FRTRqVPr5wptAb6qRKYEOkJjjHLGeRhE
+ uYUV2+zyQF7tQ==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B206017E014F;
+ Wed, 23 Apr 2025 16:01:20 +0200 (CEST)
+Message-ID: <4cd274f8-85ab-43dc-bef4-41646d43b775@collabora.com>
+Date: Wed, 23 Apr 2025 16:01:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <783a80d6-63d7-4c00-ba09-0ec07492103c@quicinc.com>
-X-Proofpoint-ORIG-GUID: 9oNLxRVs8eFQZ4DEGTdJqqKXqhrBGkOF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDA5OCBTYWx0ZWRfX4fxzR80wj1VY
- Hvht0+4DVvI7WBeuPBYdgo58opHSe+C+sOQzLjehuZi/zdxqysYvCRBYDvXLI8cTs7NC2Vjr5Yg
- YeileacQk2etO3cHjwKRZhNCKidt78n42T2xYzOG86y7Wo6HXKIbcsUKOWtd5Z6jTmjek3Zo7sS
- +LU4ylEdzgvrW2Qc7fc910QrYDx8eXdtg2AMntQCbEBGLI4rpkdIi+IY4TCooi5Z/bJuBmRI289
- 9OnZkFp07qQe/shx6GmTsdPB/MJIEqUUB+Pm6Y+5OytpBLp7JWTF92t/2/w1QDPPGt/kxREUWJ2
- X+tzHGPTLYQ1bekJV+aFz8rWcHffqqkFcEn5z2EJeonxRpSR5y+m6g9osdT3O2aEGyQZwEMXNXL
- XM3L9GHLDGBIMzOMY1M6WZbeu261Trl+LJ4QDiJyTyk409MrArAUYaPn1mGNkAkBMFEiDajL
-X-Authority-Analysis: v=2.4 cv=ELgG00ZC c=1 sm=1 tr=0 ts=6808f207 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=TmeSYMYVi8BcKzM9Xd0A:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: 9oNLxRVs8eFQZ4DEGTdJqqKXqhrBGkOF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
- definitions=2025-04-23_08,2025-04-22_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- malwarescore=0 clxscore=1015 bulkscore=0 phishscore=0 spamscore=0
- mlxscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504230098
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panel: himax-hx8279: Initialize goa_{even, odd}_valid
+ in hx8279_check_goa_config()
+To: neil.armstrong@linaro.org, Nathan Chancellor <nathan@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
+ patches@lists.linux.dev
+References: <20250422-panel-himax-hx8279-fix-sometimes-uninitialized-v1-1-614dba12b30d@kernel.org>
+ <a6e47775-33c3-44c2-b6d5-58164e4a0a50@linaro.org>
+ <b8d21e46-c50a-4212-ae7a-d292c2ec6ce4@linaro.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <b8d21e46-c50a-4212-ae7a-d292c2ec6ce4@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,35 +68,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 23, 2025 at 03:03:02PM +0530, Ayushi Makhija wrote:
-> On 4/17/2025 4:14 PM, Dmitry Baryshkov wrote:
-> > On Thu, Apr 17, 2025 at 11:09:08AM +0530, Ayushi Makhija wrote:
-> >> From: Ayushi Makhija <quic_amakhija@quicinc.com>
-> >>
-> >> In the anx7625_sink_detect(), the device is checked to see
-> >> if it is a panel bridge, and it always sends a "connected"
-> >> status to the connector. When adding the DP port on port 1 of the
-> >> anx7625, it incorrectly treats it as a panel bridge and sends an
-> >> always "connected" status. Instead of checking the status on the
-> >> panel bridge, it's better to check the hpd_status for connectors
-> >> that supports hot-plugging. This way, it verifies the hpd_status
-> >> variable before sending the status to the connector.
-> > 
-> > Does this work if the Analogix bridge is connected to an eDP panel? In
-> > such a case it should report 'connected' even before powering up the
-> > panel (which might mean HPD pin being low).
-> > 
+Il 23/04/25 15:50, Neil Armstrong ha scritto:
+> On 23/04/2025 15:45, Neil Armstrong wrote:
+>> On 22/04/2025 23:20, Nathan Chancellor wrote:
+>>> Clang warns (or errors with CONFIG_WERROR=y):
+>>>
+>>>    drivers/gpu/drm/panel/panel-himax-hx8279.c:838:6: error: variable 
+>>> 'goa_even_valid' is used uninitialized whenever 'if' condition is false [- 
+>>> Werror,-Wsometimes-uninitialized]
+>>>      838 |         if (num_zero == ARRAY_SIZE(desc->goa_even_timing))
+>>>          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>    drivers/gpu/drm/panel/panel-himax-hx8279.c:842:23: note: uninitialized use 
+>>> occurs here
+>>>      842 |         if (goa_odd_valid != goa_even_valid)
+>>>          |                              ^~~~~~~~~~~~~~
+>>>    drivers/gpu/drm/panel/panel-himax-hx8279.c:838:2: note: remove the 'if' if 
+>>> its condition is always true
+>>>      838 |         if (num_zero == ARRAY_SIZE(desc->goa_even_timing))
+>>>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>      839 |                 goa_even_valid = false;
+>>>    drivers/gpu/drm/panel/panel-himax-hx8279.c:818:36: note: initialize the 
+>>> variable 'goa_even_valid' to silence this warning
+>>>      818 |         bool goa_odd_valid, goa_even_valid;
+>>>          |                                           ^
+>>>          |                                            = 0
+>>>
+>>> Even though only the even valid variable gets flagged, both valid
+>>> variables appear to have the same issue of possibly being used
+>>> uninitialized if the if statement initializing them to false is not
+>>> taken.
+>>>
+>>> Initialize both values to true to clear up the warning and remove any
+>>> possibility of encountering undefined behavior.
+>>>
+>>> Fixes: 38d42c261389 ("drm: panel: Add driver for Himax HX8279 DDIC panels")
+>>> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+>>> ---
+>>>   drivers/gpu/drm/panel/panel-himax-hx8279.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-himax-hx8279.c b/drivers/gpu/drm/panel/ 
+>>> panel-himax-hx8279.c
+>>> index b48b350b62da..92f351e66c25 100644
+>>> --- a/drivers/gpu/drm/panel/panel-himax-hx8279.c
+>>> +++ b/drivers/gpu/drm/panel/panel-himax-hx8279.c
+>>> @@ -815,7 +815,7 @@ static int hx8279_check_gmux_config(struct hx8279 *hx, 
+>>> struct device *dev)
+>>>   static int hx8279_check_goa_config(struct hx8279 *hx, struct device *dev)
+>>>   {
+>>>       const struct hx8279_panel_desc *desc = hx->desc;
+>>> -    bool goa_odd_valid, goa_even_valid;
+>>> +    bool goa_odd_valid = true, goa_even_valid = true;
+>>>       int i, num_zero, num_clr = 0;
+>>>       /* Up to 4 zero values is a valid configuration. Check them all. */
+>>>
+>>> ---
+>>> base-commit: dcbd5dcc956e2331414fd7020b4655df08deeb87
+>>> change-id: 20250422-panel-himax-hx8279-fix-sometimes-uninitialized-207354fb930c
+>>>
+>>> Best regards,
+>>
+>> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 > 
-> Hi Dmitry,
+> I'll wait a few days until AngeloGioacchino Del Regno reviews it to be sure
+> it's the right fix.
 > 
-> Thanks for the review.
-> 
-> In case of eDP, anx7625_bridge_detect()  will not get called, because this below condition
-> in anx7625_link_bridge() will not get satisfy. anx7625_sink_detect() is getting called from
-> anx7625_bridge_detect().
+> Thanks,
+> Neil
 
-Please mention this in the commit message. With that fixed, LGTM.
+I would prefer
 
--- 
-With best wishes
-Dmitry
+	if (num_zero == ARRAY_SIZE(desc->goa_odd_timing))
+		goa_odd_valid = false;
+	else
+		goa_odd_valid = true;
+
+	/* Up to 3 zeroes is a valid config. Check them all. */
+	num_zero = 1;
+	for (i = 0; i < ARRAY_SIZE(desc->goa_even_timing); i++) {
+		if (desc->goa_even_timing[i])
+			num_zero++;
+	}
+
+	if (num_zero == ARRAY_SIZE(desc->goa_even_timing))
+		goa_even_valid = false;
+	else
+		goa_even_valid = true;
+
+or the shorter form:
+
+	goa_odd_valid = (num_zero != ARRAY_SIZE(desc->goa_odd_timing));
+
+	/* Up to 3 zeroes is a valid config. Check them all. */
+	num_zero = 1;
+	for (i = 0; i < ARRAY_SIZE(desc->goa_even_timing); i++) {
+		if (desc->goa_even_timing[i])
+			num_zero++;
+	}
+
+	goa_even_valid = (num_zero != ARRAY_SIZE(desc->goa_even_timing));
+
+...to avoid double initialization.
+
+But anyway, the proposed solution also works just fine, as the sense is, as well
+understood by Nathan, "if it's all zeroes something is wrong, otherwise it's ok".
+
+Btw , I'm sorry about this - not sure how the code ended up being like this,
+probably that last minute cleanup that I did.
+
+Ultimately, whether to avoid the double init or not is Neil's call - so for this
+commit you can get my
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+And sorry again about the (stupid) mistake.
+
+Cheers,
+Angelo
