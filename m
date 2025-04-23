@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED32EA9802D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 09:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27626A98032
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 09:14:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A13610E1FF;
-	Wed, 23 Apr 2025 07:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4220610E41C;
+	Wed, 23 Apr 2025 07:14:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WhXQ+x2f";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HwDCAz2W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A049810E1FF
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 07:14:01 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-548409cd2a8so7870599e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 00:14:01 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBA5610E401
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 07:14:02 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-54addb5a139so6430457e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 00:14:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745392440; x=1745997240; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YvyOldVjik2clEufX+t1ug+a06U2eyGh/2E+7k+qjeo=;
- b=WhXQ+x2foc3ic6qixPbjbqfggEsqg16DCm9tNjapo0rHVwK7kOgl/IJ0WVhECgo2sP
- X62Rxd8/QIVge/jeGkJX5WwJgiZ88uspUk9ah2ZiZjc5Bc8gzG6ZxTLCozd1vOjusU/9
- OsGRL0jqT0SXafppW1qkPCFJ2JTTT5LW7nmQoL76nqEQMte/nPrcegtiLtdUXJWGYaWK
- Fkvn5FaHLhWwlc/YnjC/oKx22GVcsS5uepIjo0UkdlUhW7UKKrJZHxUOQyX+YWSKFeJm
- D0NkPQBX5/cmhJGPd+PWFbJ+386D0YmqS1sgl+YGPEGDz/z9gGleZClu8h57rDtKbkA2
- 0aTA==
+ d=gmail.com; s=20230601; t=1745392441; x=1745997241; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=Wp1eUvMBdcnYqPsD1ECvMkcidMJ054ioPzyghi4FuDQ=;
+ b=HwDCAz2WtpqcrD48mWqYDaG0bd1f4nG5CTDkm2UwoFk62FS7t24FUXmycElsoLr9EV
+ DZbxYUbKFCWj1dMvnKhKBLdQknmhVEKOZb2Q0XROBgIEZz90rkZls3b1CV3UyK2oOMQA
+ nu/BBz75ECfDohwrNSP/ZitXSaZpM1s0Qa1KHILtfh379EIdgOiJBTLmbfk+CuzolsVH
+ qKJpF6Sd0z7SWq5huwkOHd1DiPheXwvIcBNJlIWu03+YxlQ/h4aOZYR8n3vrg57/IZa+
+ WUurFxZ28WVGM3GRfH+KRQXxN8gx2/rIIH/Cc2XREjEi9+x+OEokeyc0h6theqfnENcf
+ 9YDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745392440; x=1745997240;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YvyOldVjik2clEufX+t1ug+a06U2eyGh/2E+7k+qjeo=;
- b=vVxcWvn5vPKehRFOOw4P8G7adiFTxS7SUnK/8oDcrSTzlitqmTXbtmXgPCdoJwQ9Sn
- JMrziJ+dKGMfbjpRruKdsEwbYao8zzUkhedC/llaW9ZeBmZQKzXggmkGBeZKrq/aZ1uj
- Z//UrB+EIq06vW2SMkYz6eLLwMnyC5Q7bMSWzxRXTyOZPgWg50LCdnmImdu87iUBZwfK
- +tdqJr3bjJuHsZqRk1Tgn0hT10RqvkeODEkYICb0824UqsHLdsLLDPn2Lgkxn+ptMmzJ
- 66gqnGfb40bMJv28VbQkqydTRxsIHWmbzyiR6LKiirYlmQTGF9DcFieCMJFE77mNrvzp
- TaQg==
-X-Gm-Message-State: AOJu0Yzi0kA5jcikaOUbAZBcgsVJvCVS5rm5P0UH9K1e3r0P2GEYpRY9
- hoTo9i8ejiKss8tE8kLGx1w+6X1VQ0ac+anAJsK7bGTYRnE6L9g9
-X-Gm-Gg: ASbGncsJVbVZ773yn2jTkIUgV2sWCEwzxp0teHzLc+SGWZ5D4ksuX1Lv0A206DrlO5z
- hDNm3WAIG/x3E3z/cp0qqCKEed2VvQnP69+7tGLQPx9PUzdVPwubFPxevTsQEW7+P8Xr4V6N04V
- gr3uq0ehC3a7lY+haLmSGzLqmHZrEkrZsYn7NgAQmV9ZOA+8bdTnTC9A6rVZa4G2OSXhtGDIKIr
- +hD9DrP609Og7yvvGMkDb6SJOSZw0QCRRGDzmq8iJVqxdp4Eei3+VHLFBD18NjgtpI4NiIid7vW
- Nw5UWG5NrNY7gy0GGu1itfo7zNqbTq5ZZFxX9O1zAvRXQrAUhCO+V6Ob6Pmn5metZ6bghoqmsb9
- UDcG9/B0L
-X-Google-Smtp-Source: AGHT+IEJ2dqO4sQOvwn1jc5hvRSw2WVFzIUOKoTI1g9tUZR21Xok3o4RsI9UbYwJ4A6sNAN6iFcu6Q==
-X-Received: by 2002:a05:6512:ac3:b0:54b:e70:3658 with SMTP id
- 2adb3069b0e04-54d6e615e52mr3463302e87.2.1745392439491; 
- Wed, 23 Apr 2025 00:13:59 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1745392441; x=1745997241;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Wp1eUvMBdcnYqPsD1ECvMkcidMJ054ioPzyghi4FuDQ=;
+ b=LXwwbLpGIvs1+Ja3crIEHlbPZBowDVYxBiI4HteVHphjLTgw1Jum+ewW6KGfcYxHVr
+ SlHcYDOVrvJeoziGNoBAq3duLh1KCLX61kLk1jBgGNL7cQn0H7giV+LYT5IJSUyDNceI
+ yGKKMvYpVoAB6sXpHBdWump+Zvj0AJhd5o0wEMhfPQY1PWm5zJJXuKXiJKItDkeTzeyY
+ gvx7+dEWsLbnWVASqMTN1ExYqrdFyARkaJO93iYprIyypd9Fg+S2Day8aEiDGYQHOGkm
+ /eSMw5Mr39YQsR6AEvr6Ep9nCTaWVls47bda2dO5qLwxC/yVuovLrINqhAtxi6qr1DQE
+ JjZQ==
+X-Gm-Message-State: AOJu0YwFFcmbks2zQhZVER2FJu40XT24RjXry7H5GKwypshoe0fTxZ84
+ Tb0AFLEv/zGS7+4SRjawcQfhi6jnJX2LJ7xgwtemFzlV7ly0Iuem
+X-Gm-Gg: ASbGncsD1ntw9dwpIYkbt2PCplOeRHOJS/OV0uLJ3uux/B1RiQRxGGwzEEW8QXK+NSY
+ C4/ySlHsobsl1FvY47AQ0L3bRp3JdXuVIO/HQkPy9kXqO7qqwIJvBgw+e3IN5RzA5XfLornhP3W
+ ktanLvZnLh41SAt6mFB1/+NxBs45dXqPVjDQoKKLTML4bRPMzbdnHbmIpx43s5QWb0SrSsmsXzL
+ Jtzg1yo1n/fpQ4GQhXGwvTp3sH7OnKSRvUDMI/DGqv/eBmFg7EbiGNgTioEHQWA9z9SG9y7njwm
+ zr0xng4Dk5xFraH3d2/Kp4xZpKsU0zXjfb6BOD2h9vSEjS4RhGH+m5HvSZHSomwZW1vJqS4CoZT
+ zp9cskH5d
+X-Google-Smtp-Source: AGHT+IGvowmu55PG6LtPWhPWoZ5Kg5bAoX9r8U7PcI5/15ZB2sjHiJaCS9lWdbPisTPDmn+Kuh46aQ==
+X-Received: by 2002:a05:6512:3b29:b0:54d:676c:ddfa with SMTP id
+ 2adb3069b0e04-54d6e61609bmr5153223e87.4.1745392440901; 
+ Wed, 23 Apr 2025 00:14:00 -0700 (PDT)
 Received: from [192.168.2.11] (83-233-6-197.cust.bredband2.com. [83.233.6.197])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54d6e524645sm1428793e87.41.2025.04.23.00.13.58
+ 2adb3069b0e04-54d6e524645sm1428793e87.41.2025.04.23.00.13.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Apr 2025 00:13:58 -0700 (PDT)
+ Wed, 23 Apr 2025 00:14:00 -0700 (PDT)
 From: Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: [PATCH v5 0/3] Add support for Sitronix ST7571 LCD controller
-Date: Wed, 23 Apr 2025 09:13:32 +0200
-Message-Id: <20250423-st7571-v5-0-a283b752ad39@gmail.com>
+Date: Wed, 23 Apr 2025 09:13:33 +0200
+Subject: [PATCH v5 1/3] dt-bindings: display: Add Sitronix ST7571 LCD
+ Controller
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAByTCGgC/2XO3wqCMBiH4VuRHbfYX9066j6ig21+6iA1NpFCv
- PemoFgd/j72vGxCEYKHiC7ZhAKMPvq+S0OeMuQa09WAfZk2YoRJIgjFcShkQbHmilntKkd4hdL
- jZ4DKv9bQ7Z524+PQh/faHely3RJsS4wUE8wlLXOrAaww17o1/nF2fYuWxMiOTOyMJSZcoYxJH
- yjlH+NHpnbGE2OE5JpDBU4Wv0wcGJU7E4kpK522oKyBLzbP8wdvwX3tQQEAAA==
-X-Change-ID: 20250401-st7571-9382b9cfc03f
+Message-Id: <20250423-st7571-v5-1-a283b752ad39@gmail.com>
+References: <20250423-st7571-v5-0-a283b752ad39@gmail.com>
+In-Reply-To: <20250423-st7571-v5-0-a283b752ad39@gmail.com>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -80,24 +78,23 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Marcus Folkesson <marcus.folkesson@gmail.com>, 
  Conor Dooley <conor.dooley@microchip.com>, 
  Javier Martinez Canillas <javierm@redhat.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Thomas Zimmermann <tzimmrmann@suse.de>
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2715;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2443;
  i=marcus.folkesson@gmail.com; h=from:subject:message-id;
- bh=/9Pm/dETYjpbmvzlN7/wVga9a2QFFFVHsRT3VRnZTVM=;
- b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBoCJMi524WRfvrlcCxy5vIKcPaFcs2cO3q+qOb8
- 8D4w6/n62aJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaAiTIgAKCRCIgE5vWV1S
- MuMbD/0U9hwH53nNOtgDB3XxMW1YE68amsUwKCqIop8DQE+o7t0ooAEpEhU6yYN7HQd8noFgM5L
- E35m5BVNB2owIlaaBUD7P+sSdzR8VEcwowoRGruDfEDsol/v5XZMT4izgoUWTlI/GML/TVm9N/m
- x9GCZCHf4uPg0oXbTCwNecb5QICe+ON7UPXOwWEFeNum2xEMsxyy2rzO4anpJkOr6bkuRYv0cb+
- J3uE6tdf5WH+vc9yzf2rkCDluJT9hes44ZxUXDfwgzdz0i6U9B3pP6mufvbalkU3FNNKkUyZkb4
- RRNTuhbkyzZTLFSrkEBROmOiO0lP4u7JH4S2Zww5V8Hb0ckoDLhfM1qrWNeQuVUe6habIdkUEDm
- GHWPkCW4RLlMyjK8cjzR5/4BU0GvG8UJxy5i76+S15W5PQpwxCZn/9tvPQHiDj/+/pI1csON2iL
- 4JfIG+yq3KRbfMndMooA8Sj11N1nUfA4MzeAptq6zsCLcZveV8ZqhjGdHQP9HUKPLsvAHtB5PXM
- 9TOZLrMVJBilMPOmP1mwGax3+FisJGT9Ojd1yOyEtgWwpSJmtI8mz2Fdvpla/uyo6o0ZlN7zAtG
- vmM2rNiA96tzlktlNYmLGauH1SQEQ8EKxWakgjOOcrsR68kIK0tZQU18xgyB8tPg5Ke3o4MByip
- Gb7qNRa4ZI/jUXQ==
+ bh=YB3U1vGWiGbGv/SZx3xK3oLfCX1vsYzknR/aXytg8xc=;
+ b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBoCJMnpPP5Uv6KlMXzj7js3h5xWuDgruYzpR5Sd
+ WzqEPK5ggKJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaAiTJwAKCRCIgE5vWV1S
+ MpSwD/4j7O0k2Ad7fUd2A/3jFfXd8tieImPyatFp/ocYrhFuwHgCNlFMNNBSdvXohr0zsC3nPYL
+ 7z/Uk+rymGBQSd1HEnR+7rvK5A5mWEw428SZa8BHkVPW8HKL+N3pSjcsOdA/l/+Uug8FuMKi1iK
+ puCQ5veEdSvMaC6DAEf+jy0M4OVdsnxq6HezsvCoW8gxR3Bulw6+6NDykonYt9FPU4NlRBxYYGC
+ iN47n5dG0VoDyJ0B8+31vg0ffnyRmVRYt/FbEWOqAQiSPCvxKsonsNYbUmjVBKlR0Nj+86EQ3K+
+ aoTQAwBIEaDTitJAYHsn+7KgWoAWhl0MVgT0N41pUaf+CReNuR3hbtzd0xSrECdbjroQQ0Iq61T
+ hGTbQhwaHqeuo8x6cURqFPqmqS9mUOA1RAVihCALkUoW2kBG7tsfKDrWTV4zFhL9soCYgE8cAGP
+ JWJ5wA4+ancz+jU+DrviMEJaSEbVSmgjESQ96YEJpP6Vn4qRsrFiXuw1h2EWs8n2ZHI1QWBKPGo
+ q7mSH7NDV9/wtlAC7VEBdUgx3kUquZcT0jxXenZMuJc9rJdWNukKhZCllPiMaaTJBj+Ty7fgUIa
+ Mqp4BSkGWi78eqU67xsfuokWdnA4AZb8VFFgimDCOjt+zJpoo04heFW2Sswmofaf/ajNEy5vZA0
+ YyHHDD3DeckjZug==
 X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
  fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,69 +112,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series add support for the ST7571 LCD Controller.
-It is a 4 gray scale dot matrix LCD controller that supports several
-interfaces such as SPI, I2C and a 8bit parallell port.
-The controlelr supports both monochrome and grayscale displays.
+Sitronix ST7571 is a dot matrix LCD controller supporting
+both 4bit grayscale and monochrome LCDs.
 
-This driver only supports the I2C interface, but all common parts could
-easily be put into a common file to be used with other interfaces.
-I only have I2C to test with.
-
-The device is a little defiant, it tends to NAK some commands, but all
-commands takes effect, hence the I2C_M_IGNORE_NAK flag.
-
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 ---
-Changes in v5:
-- Use bitfield macros where appropriate
-- Add comments where needed
-- Link to v4: https://lore.kernel.org/r/20250415-st7571-v4-0-8b5c9be8bae7@gmail.com
+ .../bindings/display/sitronix,st7571.yaml          | 73 ++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
 
-Changes in v4:
-- (dt-binding) Add sitronix,grayscale property
-- Describe why ignore_nack may be needed
-- Make drm_to_st7571 an inline function
-- Add support to clear screen
-- Change from C2 to R2
-- Add support for XRGB8888
-- Use dev_err_probe() where appropriate
-- Make Kconfig config depend on MMU
-- Introduce device data to prepare for support for other chips
-- Add support for drm_encoder_helper_funcs.atomic_en(dis)able
-- Link to v3: https://lore.kernel.org/r/20250408-st7571-v3-0-200693efec57@gmail.com
+diff --git a/Documentation/devicetree/bindings/display/sitronix,st7571.yaml b/Documentation/devicetree/bindings/display/sitronix,st7571.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..4fea782fccd701f5095a08290c13722a12a58b52
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/sitronix,st7571.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/sitronix,st7571.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sitronix ST7571 Display Controller
++
++maintainers:
++  - Marcus Folkesson <marcus.folkesson@gmail.com>
++
++description:
++  Sitronix ST7571 is a driver and controller for 4-level gray
++  scale and monochrome dot matrix LCD panels.
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++
++properties:
++  compatible:
++    const: sitronix,st7571
++
++  reg:
++    maxItems: 1
++
++  sitronix,grayscale:
++    type: boolean
++    description:
++      Display supports 4-level grayscale.
++
++  reset-gpios: true
++  width-mm: true
++  height-mm: true
++  panel-timing: true
++
++required:
++  - compatible
++  - reg
++  - reset-gpios
++  - width-mm
++  - height-mm
++  - panel-timing
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      display@3f {
++        compatible = "sitronix,st7571";
++        reg = <0x3f>;
++        reset-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
++        width-mm = <37>;
++        height-mm = <27>;
++
++        panel-timing {
++          hactive = <128>;
++          vactive = <96>;
++          hback-porch = <0>;
++          vback-porch = <0>;
++          clock-frequency = <0>;
++          hfront-porch = <0>;
++          hsync-len = <0>;
++          vfront-porch = <0>;
++          vsync-len = <0>;
++        };
++      };
++    };
 
-Changes in v3:
-- (dt-binding) Use 'Controller' rather than 'Panel' in texts
-- (dt-binding) Constrain the reg property
-- (dt-binding) Remove panel-timing description
-- (dt-binding) Change description
-- Mostly cosmetic changes in the driver code
-- Don't call drm_atomic_helper_shutdown() in remove()
-- Link to v2: https://lore.kernel.org/r/20250404-st7571-v2-0-4c78aab9cd5a@gmail.com
-
-Changes in v2:
-- Reworked pretty much the whole driver to not use obsolete code.
-- Use panel and timing bindings to specify resolution and panel size
-- Link to v1: https://lore.kernel.org/r/20250402-st7571-v1-0-351d6b9eeb4a@gmail.com
-
----
-Marcus Folkesson (3):
-      dt-bindings: display: Add Sitronix ST7571 LCD Controller
-      drm/st7571-i2c: add support for Sitronix ST7571 LCD controller
-      MAINTAINERS: add entry for Sitronix ST7571 LCD Controller
-
- .../bindings/display/sitronix,st7571.yaml          |   73 ++
- MAINTAINERS                                        |    6 +
- drivers/gpu/drm/tiny/Kconfig                       |   11 +
- drivers/gpu/drm/tiny/Makefile                      |    1 +
- drivers/gpu/drm/tiny/st7571-i2c.c                  | 1007 ++++++++++++++++++++
- 5 files changed, 1098 insertions(+)
----
-base-commit: 1e26c5e28ca5821a824e90dd359556f5e9e7b89f
-change-id: 20250401-st7571-9382b9cfc03f
-
-Best regards,
 -- 
-Marcus Folkesson <marcus.folkesson@gmail.com>
+2.49.0
 
