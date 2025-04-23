@@ -2,61 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A537DA999A6
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 22:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3CFA999F8
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 23:10:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BBAE10E265;
-	Wed, 23 Apr 2025 20:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC24510E256;
+	Wed, 23 Apr 2025 21:10:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iQA6hkyH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cuqlrtKY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13B8B10E260;
- Wed, 23 Apr 2025 20:48:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745441330; x=1776977330;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=xULdZNV9xP5rHYToJnrM+C7GjaigY0dBBE2CTKmk8d8=;
- b=iQA6hkyHfJ6/AZj8WmuI7hGyMG/nu246fBEOQ8h51Uy5+uS9Lm4SWFf9
- c5ilvPKHoCU7NuasmrzjlXqaf2Kk979AF64sdclH/mTFi+MKHDRIzw1UE
- ymSiI0Cr/ANw8IXRmfZCaEyMHQ9lYPE3ZjxR/QvDMEsT0SepdFCurDSLM
- FzFyXQWnjAIorEFU/YnDlmSO+ycJdli9nDA2Y2UE7YrXo5rLNmeYDscll
- M45sorvNQhW8YA0dC3BwTKCuxpZkSEWsWt1p3YExUvm6c60/S5mHjQnDW
- rfPxH1J/EVuYvXRuYbeyjIvOT0KD3F1Ish6CdjgWu/bwYREt8L+ugCf0r A==;
-X-CSE-ConnectionGUID: QgfkPq/HSmyJEh1AnPhEfQ==
-X-CSE-MsgGUID: ut3UdjoMROiKthDtTcEMFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="58425294"
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; d="scan'208";a="58425294"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2025 13:48:49 -0700
-X-CSE-ConnectionGUID: niOYWT0FR423OxAOJZaKUw==
-X-CSE-MsgGUID: 5SGzDaLzRsir+NU6Em/r0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; d="scan'208";a="132165294"
-Received: from dut4046ptlh.fm.intel.com ([10.105.8.103])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2025 13:48:48 -0700
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: igt-dev@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, shuicheng.lin@intel.com,
- dri-devel@lists.freedesktop.org, stuart.summers@intel.com,
- ivan.briano@intel.com
-Subject: [PATCH v4 4/4] tests/intel/xe_vm: Test DRM_IOCTL_XE_VM_GET_PROPERTY
- fault reporting
-Date: Wed, 23 Apr 2025 20:48:47 +0000
-Message-ID: <20250423204847.154424-5-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250423204847.154424-1-jonathan.cavitt@intel.com>
-References: <20250423204847.154424-1-jonathan.cavitt@intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35F4F10E256
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 21:10:12 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53NApUaU014055
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 21:10:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=Gaa4TeturWzyIFwu8cwVqF
+ 43gCRMKyHks46p68aqEw4=; b=cuqlrtKYH/23nh7T5GFBBLqsmjkCFRcHDPY+ou
+ DbBYYb8UNSI61ec6qhe3SEa+XPPUxAXGB5YGvbJKLdq+NVd5oMYUGnu3EBNPnMUB
+ Ft82kq7KZ4GXfASALFUoo4RYPD8GgvHMDaDZLarKtRt1yvl0aGKEzjDOHskR0DFT
+ RlLpUYGfXSl2mPkS/i+8W2LUZ8zqQ/pU2+Onkxbj3AjAf1t6xY9W/T6sd9UHdaCy
+ CFEjiBUbmcUXU6rWDIjDJLCywivdQVNNnZvlSCrXHoWni+Bhbm/E3AECOzPIb4lH
+ CnxOsiRji2GC/gKK2u+xJo8BeVyeMm9UniCbQWtvAiKNbLKQ==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh3bcwk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 21:10:10 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-6ecfbdaaee3so5449066d6.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 14:10:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745442609; x=1746047409;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Gaa4TeturWzyIFwu8cwVqF43gCRMKyHks46p68aqEw4=;
+ b=b7K4PLK52s1FITw7QmRSm5/GgBPUYEQhmUxbiygHfllvIDMuww/+BzIWchEnxgYfmf
+ oYnApxg5TGlPm14pRhhS4+HYGigW/KKeDp9PsRXOKQHj1Y5EgRAMX1QRvp/BC73j6+bw
+ Myp4ZuqxINozDWlQs7ii5CMr8si2xiTmI4AaQvZ7KsW4CNMPv9csuMF6q5ue+FnCRjNX
+ 1fTqhPIE8AEoBzQP8WOhnrZSigBhxb1aOeaOOQhbscmm5vvxA/3/ayHmm4LCE44F014G
+ MZJwaMVdjtRLuNiI1Omh5ysGf92Q5SeXMwSa1t1ndHaGCHZ1L/DL1GgTz2vZMxWnFEJ/
+ 2/ow==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU5xYMqTKJbN/jRlMFIPTAklh49HflX/JFvm4MMMqITzC9tHAEfZS178LgMshRHaaeXguWScQCXdXM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzA9sm04v8YMRZt70jTSrgdc54h+RlwTYFrXcmOFy+8vqzv/5DG
+ xgXikdBGsBC+Hkz4w1wXvjU6o+QlFiwScNaNGNWNhDACbr7bxF+OaqGXwv0DuU/bylFGUZbmV2+
+ LbGnJ712zQ39CrIuD82tmvGtKVtwkwiYRtFueB4a45b1C8ZDqFrAn6+VIZ86cRr1VQUY=
+X-Gm-Gg: ASbGncuchCR7ZlMJdLIiFS1KCNDhio6Qy1GVvUnf0pLKM87gSlLn2ps2A19Jh1ibFlf
+ fYcxGP1nJhHqPfXswVJnDG2fFSVhHM2oFCDJXHvJtZlLzth5+QuOOanKFMhV9xXuLi9VphPutah
+ 5SrEw/TTTFwn1Y/QcN35a27V34VdDBcdftn1jr/rH5khicjZQwS5KlBGAktbIFQ/xuhZprNp45B
+ GlnId0WW/t2mgF3qmOlHEDfmr2ybnPuh2foxcU9tytBSlBgKqCVTS7U9N5bpGpXAQprKxvW/6SH
+ K7zHiLwmeb2T0hyMSSjPUo6+mtWAvLcUmQNVmJ0IMqMqaAgeIOg4c82VYNSJ5eOcK+UV06W05l0
+ M7O/o374t9p4M1BUMik+drJcI
+X-Received: by 2002:ad4:596f:0:b0:6e8:e828:820d with SMTP id
+ 6a1803df08f44-6f4bfc739aamr4372216d6.36.1745442609368; 
+ Wed, 23 Apr 2025 14:10:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGE7Bn4p+WATg0q+ICMoXucgKsyTUfj4NHoRs66BP16GFpVxFmXOgfq2cYmjSrspq1UUkzsmA==
+X-Received: by 2002:ad4:596f:0:b0:6e8:e828:820d with SMTP id
+ 6a1803df08f44-6f4bfc739aamr4371446d6.36.1745442608764; 
+ Wed, 23 Apr 2025 14:10:08 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54e7cb3987csm3852e87.59.2025.04.23.14.10.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Apr 2025 14:10:07 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v2 00/33] drm/msm/dpu: rework HW block feature handling
+Date: Thu, 24 Apr 2025 00:09:56 +0300
+Message-Id: <20250424-dpu-drop-features-v2-0-0a9a66a7b3a2@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACVXCWgC/22NywqDMBBFf0Vm3SlJFB9d+R/FhU0mOlCMTFRax
+ H9vKnTX5Tlwz90hkjBFuGU7CG0cOUwJzCUDO/bTQMguMRhlCm10jm5e0UmY0VO/rEIRq1LlzuZ
+ Eum4g7WYhz6+zee8SjxyXIO/zYtNf+6sVf2qbRoVNXXtVlsY+KmqfPPUSrkEG6I7j+AD4UEQQs
+ wAAAA==
+X-Change-ID: 20241213-dpu-drop-features-7603dc3ee189
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <lumag@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5988;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=jeV2CdgCXKP9mX1CiT3h3t3hCkQmPqAG4j55H1iiq88=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoCVcpQVMxF5tzqEX4RsauRdDfAlBXbQKCMrT++
+ r+hXfeMEmeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaAlXKQAKCRCLPIo+Aiko
+ 1WJUCACUoaX9jE40MmdEgcQfFQS6lB0hE8tvm13PGuQaKaHwc3Uubm3h9/q/WUOyOtc606kngbC
+ sS9pkDjrDMINtt2uKgVSWYuxqXKP2Q379LOKbWFtz3mhtJ3uZSTj91TTVDsZTWZv1wIY5wFyzS+
+ cGc09rOw67JL6AzO6iEa6h3uX28yFmXCjh/t3heXaiqv5aZjIRioS297XyJ8iStAZdEP3qfGoss
+ j7xQJuupJurtH6CG5KgkuTPVNUS3S2jEwf5mz8hp7AHVCMujkiuyg6nPBXtLzPczzLQdo0zNwJg
+ j8z9csh6A7fNSnQudHx1RsEINFF2qXJsT7IXzA22W1hqIlnU
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDE0MyBTYWx0ZWRfX4WUZxLVERt00
+ UZi6++G+rFDoSJid0K6c3+kGDShaEYN9y1Dwm0NWCLLgXIqwT7bMyz+HiIH4od/a2UNk5Ldirlp
+ Ua47OCuIndq3N57UoiDCnznU+qVA30028no0d0qsbK3i28icj2irduahXtktCyxPJVdITz+Z0HV
+ ak60HbiBLrMS0yulnammV6HFltv89anDQBGeplNHIRRf6J3COmYX99g1MTeSHV30lJemW8aKxh/
+ 5QF/8tqkErZno6sLYwR5EkK63PiI4835adG86aviwElZMiLD3ILOUXb7J4kuQE7deEr3IRa7bQx
+ 1LdIHUCv2lStL0I7W+o3KCUZCp68xIbqFEn/+UtZXLh800n/lSBf87M7dZgfaT9Z25WPmcgkaXm
+ a0VSJoqYJHySEbA3GjspzK5k+S49rz0nP2Bwr3okPVkBe+1XAVwd5VeipCmFQ9+yjIusss78
+X-Authority-Analysis: v=2.4 cv=bs1MBFai c=1 sm=1 tr=0 ts=68095732 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=dC62eGL372UhZDOq83QA:9 a=QEXdDO2ut3YA:10
+ a=OIgjcC2v60KrkQgK7BGD:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: Abux49ZHMynuYXcXGeeSgr0uAiJlF4qW
+X-Proofpoint-GUID: Abux49ZHMynuYXcXGeeSgr0uAiJlF4qW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
+ definitions=2025-04-23_11,2025-04-22_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 suspectscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 spamscore=0 impostorscore=0 malwarescore=0
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504230143
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,200 +145,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a test to xe_vm that determines if pagefaults are correctly tracked
-and reported by the DRM_IOCTL_XE_VM_GET_PROPERTY.
+Some time ago we started the process of converting HW blocks to use
+revision-based checks instead of having feature bits (which are easy to
+miss or to set incorrectly). Then the process of such a conversion was
+postponed. (Mostly) finish the conversion. The only blocks which still
+have feature bits are SSPP, WB and VBIF. In the rare cases where
+behaviour actually differs from platform to platform (or from block to
+block) use unsigned long bitfields, they have simpler syntax to be
+checked and don't involve test_bit() invocation.
 
-v2:
-- s/pageproperty/pagefaults
-
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Jianxun Zhang <jianxun.zhang@intel.com>
-Suggested-by: Stuart Summers <stuart.summers@intel.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- tests/intel/xe_vm.c | 156 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 156 insertions(+)
+Changes in v2:
+- Rebased on top of the current msm-next
+- Link to v1: https://lore.kernel.org/r/20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org
 
-diff --git a/tests/intel/xe_vm.c b/tests/intel/xe_vm.c
-index 5c189f7af1..3269125686 100644
---- a/tests/intel/xe_vm.c
-+++ b/tests/intel/xe_vm.c
-@@ -2382,6 +2382,10 @@ static void invalid_vm_id(int fd)
-  * SUBTEST: vm-get-property-invalid-property
-  * Functionality: ioctl_input_validation
-  * Description: Check query with invalid property returns expected error code
-+ *
-+ * SUBTEST: vm-get-property-exercise
-+ * Functionality: drm_xe_vm_get_property
-+ * Description: Check query correctly reports pagefaults on vm
-  */
- static void get_property_invalid_reserved(int fd, uint32_t vm)
- {
-@@ -2422,6 +2426,157 @@ static void get_property_invalid_property(int fd, uint32_t vm)
- 	do_ioctl_err(fd, DRM_IOCTL_XE_VM_GET_PROPERTY, &query, EINVAL);
- }
- 
-+static void
-+gen_pf(int fd, uint32_t vm, struct drm_xe_engine_class_instance *eci)
-+{
-+	int n_exec_queues = 2;
-+	int n_execs = 2;
-+	uint64_t addr = 0x1a0000;
-+	struct drm_xe_sync sync[2] = {
-+		{ .type = DRM_XE_SYNC_TYPE_SYNCOBJ, .flags = DRM_XE_SYNC_FLAG_SIGNAL, },
-+		{ .type = DRM_XE_SYNC_TYPE_SYNCOBJ, .flags = DRM_XE_SYNC_FLAG_SIGNAL, },
-+	};
-+	struct drm_xe_exec exec = {
-+		.num_batch_buffer = 1,
-+		.num_syncs = 2,
-+		.syncs = to_user_pointer(sync),
-+	};
-+	uint32_t exec_queues[2];
-+	uint32_t syncobjs[2];
-+	size_t bo_size;
-+	uint32_t bo = 0;
-+	struct {
-+		struct xe_spin spin;
-+		uint32_t batch[16];
-+		uint64_t pad;
-+		uint32_t data;
-+	} *data;
-+	struct xe_spin_opts spin_opts = { .preempt = false };
-+	int i, b;
-+
-+	bo_size = sizeof(*data) * n_execs;
-+	bo_size = xe_bb_size(fd, bo_size);
-+
-+	bo = xe_bo_create(fd, vm, bo_size,
-+			  vram_if_possible(fd, eci->gt_id),
-+			  DRM_XE_GEM_CREATE_FLAG_NEEDS_VISIBLE_VRAM);
-+	data = xe_bo_map(fd, bo, bo_size);
-+
-+	for (i = 0; i < n_exec_queues; i++) {
-+		exec_queues[i] = xe_exec_queue_create(fd, vm, eci, 0);
-+		syncobjs[i] = syncobj_create(fd, 0);
-+	};
-+
-+	sync[0].handle = syncobj_create(fd, 0);
-+	xe_vm_bind_async(fd, vm, 0, bo, 0, addr, bo_size, sync, 1);
-+
-+	for (i = 0; i < n_execs; i++) {
-+		uint64_t base_addr = !i ? addr + bo_size * 128 : addr;
-+		uint64_t batch_offset = (char *)&data[i].batch - (char *)data;
-+		uint64_t batch_addr = base_addr + batch_offset;
-+		uint64_t spin_offset = (char *)&data[i].spin - (char *)data;
-+		uint64_t sdi_offset = (char *)&data[i].data - (char *)data;
-+		uint64_t sdi_addr = base_addr + sdi_offset;
-+		uint64_t exec_addr;
-+		int e = i % n_exec_queues;
-+
-+		if (!i) {
-+			spin_opts.addr = base_addr + spin_offset;
-+			xe_spin_init(&data[i].spin, &spin_opts);
-+			exec_addr = spin_opts.addr;
-+		} else {
-+			b = 0;
-+			data[i].batch[b++] = MI_STORE_DWORD_IMM_GEN4;
-+			data[i].batch[b++] = sdi_addr;
-+			data[i].batch[b++] = sdi_addr >> 32;
-+			data[i].batch[b++] = 0xc0ffee;
-+			data[i].batch[b++] = MI_BATCH_BUFFER_END;
-+			igt_assert(b <= ARRAY_SIZE(data[i].batch));
-+
-+			exec_addr = batch_addr;
-+		}
-+
-+		sync[0].flags &= ~DRM_XE_SYNC_FLAG_SIGNAL;
-+		sync[1].flags |= DRM_XE_SYNC_FLAG_SIGNAL;
-+		sync[1].handle = syncobjs[e];
-+
-+		exec.exec_queue_id = exec_queues[e];
-+		exec.address = exec_addr;
-+		if (e != i)
-+			 syncobj_reset(fd, &syncobjs[e], 1);
-+		xe_exec(fd, &exec);
-+	}
-+
-+	for (i = 0; i < n_exec_queues && n_execs; i++)
-+		igt_assert(syncobj_wait(fd, &syncobjs[i], 1, INT64_MAX, 0,
-+					NULL));
-+	igt_assert(syncobj_wait(fd, &sync[0].handle, 1, INT64_MAX, 0, NULL));
-+
-+	sync[0].flags |= DRM_XE_SYNC_FLAG_SIGNAL;
-+	xe_vm_unbind_async(fd, vm, 0, 0, addr, bo_size, sync, 1);
-+	igt_assert(syncobj_wait(fd, &sync[0].handle, 1, INT64_MAX, 0, NULL));
-+
-+	syncobj_destroy(fd, sync[0].handle);
-+	for (i = 0; i < n_exec_queues; i++) {
-+		syncobj_destroy(fd, syncobjs[i]);
-+		xe_exec_queue_destroy(fd, exec_queues[i]);
-+	}
-+
-+	munmap(data, bo_size);
-+	gem_close(fd, bo);
-+}
-+
-+static void print_pf(struct xe_vm_fault *fault)
-+{
-+	igt_debug("FAULT:\n");
-+	igt_debug("address = 0x%08x%08x\n",
-+		  upper_32_bits(fault->address),
-+		  lower_32_bits(fault->address));
-+	igt_debug("address precision = %u\n", fault->address_precision);
-+	igt_debug("access type = %u\n", fault->access_type);
-+	igt_debug("fault type = %u\n", fault->fault_type);
-+	igt_debug("fault level = %u\n", fault->fault_level);
-+	igt_debug("\n");
-+}
-+
-+static void get_property_exercise(int fd, uint32_t vm)
-+{
-+	struct drm_xe_engine_class_instance *hwe;
-+	struct xe_vm_fault *faults, f0, f;
-+	struct drm_xe_vm_get_property query = {
-+		.vm_id = vm,
-+		.property = DRM_XE_VM_GET_PROPERTY_FAULTS
-+	};
-+	int i, fault_count;
-+
-+	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_VM_GET_PROPERTY, &query), 0);
-+
-+	igt_assert_eq(query.size, 0);
-+
-+	xe_for_each_engine(fd, hwe)
-+		gen_pf(fd, vm, hwe);
-+
-+	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_VM_GET_PROPERTY, &query), 0);
-+	igt_assert_lt(0, query.size);
-+
-+	faults = malloc(query.size);
-+	igt_assert(faults);
-+
-+	query.data = to_user_pointer(faults);
-+	igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_XE_VM_GET_PROPERTY, &query), 0);
-+
-+	fault_count = query.size / sizeof(struct xe_vm_fault);
-+	f0 = faults[0];
-+	for (i = 0; i < fault_count; i++) {
-+		f = faults[i];
-+		print_pf(&f);
-+		igt_assert_eq(f.address, f0.address);
-+		igt_assert_eq(f.access_type, f0.access_type);
-+		igt_assert_eq(f.fault_type, f0.fault_type);
-+	}
-+	free(faults);
-+}
-+
- static void test_get_property(int fd, void (*func)(int fd, uint32_t vm))
- {
- 	uint32_t vm;
-@@ -2551,6 +2706,7 @@ igt_main
- 		{ "invalid-vm-id", get_property_invalid_vm_id },
- 		{ "invalid-size", get_property_invalid_size },
- 		{ "invalid-property", get_property_invalid_property },
-+		{ "exercise", get_property_exercise },
- 		{ }
- 	};
- 
+---
+Dmitry Baryshkov (33):
+      drm/msm/dpu: stop passing mdss_ver to setup_timing_gen()
+      drm/msm/dpu: drop INTF_SC7280_MASK
+      drm/msm/dpu: inline _setup_ctl_ops()
+      drm/msm/dpu: inline _setup_dsc_ops()
+      drm/msm/dpu: inline _setup_dspp_ops()
+      drm/msm/dpu: inline _setup_mixer_ops()
+      drm/msm/dpu: remove DSPP_SC7180_MASK
+      drm/msm/dpu: get rid of DPU_CTL_HAS_LAYER_EXT4
+      drm/msm/dpu: get rid of DPU_CTL_ACTIVE_CFG
+      drm/msm/dpu: get rid of DPU_CTL_FETCH_ACTIVE
+      drm/msm/dpu: get rid of DPU_CTL_DSPP_SUB_BLOCK_FLUSH
+      drm/msm/dpu: get rid of DPU_CTL_VM_CFG
+      drm/msm/dpu: get rid of DPU_DATA_HCTL_EN
+      drm/msm/dpu: get rid of DPU_INTF_STATUS_SUPPORTED
+      drm/msm/dpu: get rid of DPU_INTF_INPUT_CTRL
+      drm/msm/dpu: get rid of DPU_PINGPONG_DSC
+      drm/msm/dpu: get rid of DPU_PINGPONG_DITHER
+      drm/msm/dpu: get rid of DPU_MDP_VSYNC_SEL
+      drm/msm/dpu: get rid of DPU_MDP_PERIPH_0_REMOVED
+      drm/msm/dpu: get rid of DPU_MDP_AUDIO_SELECT
+      drm/msm/dpu: get rid of DPU_MIXER_COMBINED_ALPHA
+      drm/msm/dpu: get rid of DPU_DIM_LAYER
+      drm/msm/dpu: get rid of DPU_DSC_HW_REV_1_2
+      drm/msm/dpu: get rid of DPU_DSC_OUTPUT_CTRL
+      drm/msm/dpu: get rid of DPU_WB_INPUT_CTRL
+      drm/msm/dpu: get rid of DPU_SSPP_QOS_8LVL
+      drm/msm/dpu: drop unused MDP TOP features
+      drm/msm/dpu: drop ununused PINGPONG features
+      drm/msm/dpu: drop ununused MIXER features
+      drm/msm/dpu: get rid of DPU_MIXER_SOURCESPLIT
+      drm/msm/dpu: get rid of DPU_DSC_NATIVE_42x_EN
+      drm/msm/dpu: get rid of DPU_CTL_SPLIT_DISPLAY
+      drm/msm/dpu: move features out of the DPU_HW_BLK_INFO
+
+ .../drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h    |  53 +++-----
+ .../drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h   |   4 -
+ .../drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h   |   3 -
+ .../drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h   |   4 -
+ .../drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h    |  15 +--
+ .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  19 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h |  19 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h |  12 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  21 +---
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h |  11 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  43 ++-----
+ .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  45 ++-----
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h |  31 ++---
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h |  19 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h |  16 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  42 ++-----
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |  14 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |   5 -
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h |  16 +--
+ .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |   5 -
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h |   6 -
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  44 ++-----
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |  22 +---
+ .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  50 ++------
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  47 ++------
+ .../drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h    |  53 ++------
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  47 ++------
+ .../drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h   |  52 ++------
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |   2 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   3 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  51 +-------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     | 134 ++-------------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         | 108 ++++++++---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |  21 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c     |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c        |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  14 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c          |  28 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h          |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c     |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c         |  11 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |  17 ++-
+ 51 files changed, 304 insertions(+), 864 deletions(-)
+---
+base-commit: 6ac908f24cd7ddae52c496bbc888e97ee7b033ac
+change-id: 20241213-dpu-drop-features-7603dc3ee189
+
+Best regards,
 -- 
-2.43.0
+Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
