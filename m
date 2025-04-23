@@ -2,57 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A43A98C29
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 16:01:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7577AA98C40
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 16:04:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B81CD10E1FB;
-	Wed, 23 Apr 2025 14:01:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6577B10E6B6;
+	Wed, 23 Apr 2025 14:04:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OjZlLZcD";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gqLJFhRC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8DB10E1FB
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 14:01:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1745416881;
- bh=xIVMmyvZfh3hGJ6hzL0vT1Yla3mDQFmjTEfQNN+WN8k=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OjZlLZcDL0ESfghrgpABz+tyVK9R+FSUhFn2X5gIvW2ylDbvnTh7fFyynmyHjOhPK
- k9BqxygG/CEw3ayjjhxgM3fNIQT6lBrqienJ33XRt0LHQTAywkYjfVIDN/+gmIAWX6
- 4uSkfLiVSfZ7t6BW6hPA76BKv5aOSI003g+MGabYbo1ktsQeykfHA3sTxHHxKgCJvv
- FKHGWXvzLIqPmOu6+JTyQrpBirBLc83cZery7cOOOgOnI140L+3ufkWSSYOA9HsG0p
- ex2MjfniDWw+K0T65V7pVBU+rLhyz/UAi6FRTRqVPr5wptAb6qRKYEOkJjjHLGeRhE
- uYUV2+zyQF7tQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B206017E014F;
- Wed, 23 Apr 2025 16:01:20 +0200 (CEST)
-Message-ID: <4cd274f8-85ab-43dc-bef4-41646d43b775@collabora.com>
-Date: Wed, 23 Apr 2025 16:01:20 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8716D10E6B6
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 14:04:05 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53NAM7VW007642
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 14:04:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ HK4v2UxJbR5fXrAk1G29VWPj/UWIHaIHZOcZYqRxF9s=; b=gqLJFhRCUndtiYt7
+ 7nVFud9l/0MH6QpvE/kIW4J63tMdeelEMdTC1IAEuFA5K8jVzh0/d2qRdrDKK0pn
+ GZ33/RXPMfhZ4ODI8LwwhwIjrHfe0CCVJ9oGBukOxpkpnVOdAvlmpDk6pQ9Yr6Sd
+ sGmrczDi829QgGOBpgyZcaaTXhafCwhyZ5ukT4NVV2sYiNrr/zgOGkk/+us2b4qe
+ PQ0B8HH0A/1PTId4jL0cQbCi2yPTJVav6wv3gPj9Mryc4kD+5qj9DW91th1v8CHe
+ sqcBZzwfinKADXufKObWXY4eajJl+7rEEMVrYwYjd4EyLomAZtuIXhSz+/e8iXwP
+ 1ecJ8g==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh5abjy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 14:04:04 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7c54be4b03aso108391585a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 07:04:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745417043; x=1746021843;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HK4v2UxJbR5fXrAk1G29VWPj/UWIHaIHZOcZYqRxF9s=;
+ b=CeDoDU/Ltxt4gyVYZ5fOIYgkwjCD9z2ELqg+gNGLdgO+qTjVGNl/vvDMctZwKXu3O7
+ UA8cfbiz5338W00PGzcxh84Nkz6ocn82+ZwVJ4uy+m5EBSnQMzzTuSZZgraGr698S0Rz
+ 4o0ScBgQPtJnTOgLuKNm7vH+RrLTcdSYN9v6isuFrD/6lgAl7cp+NxMAGcpqRNrfjhVx
+ pfTJjzXe5gMLI9TjVkcOzU11pRXRvPpoigAeJr1UZggJ+AwQMg+AUBVBd/Un13cN0Ui2
+ m33HUk/JEi7PL59ACpheXikhsUzSLKEQCNZfPXvybrP0/A8S6knGrDroXfst7GF2J819
+ qffQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKrIXmfzOXdENmhyank0KuQTasso1nRUmJhsf7pmXdrMbI1AktCY0oRVRk+MzafNsJo1/CmKJSMLU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxcF8ObTZWEiULrBsAVOc0b5ZLuMJrlXO1VNA1w792VFxSgWBbu
+ jKTo6tubY5EWwZ3vlvzmcPKCSWZwF/FBKtvKNBnLF+yBmGNqBpLlS0hi33/Uv0+TLqL7UJ+oec4
+ z96r9lPKsdLNTJmd7e652BPyQ3Vl0AMSMdH2h2Af2jId9kZYV9xwXBT1b7YQE4afgWeQ=
+X-Gm-Gg: ASbGnctHbZpUCKdDENDweWyIOokJ545j/c8e/je0gJSEIq+8PsVyDimKiwtqGHyWRqu
+ +08u37Fhf7QershS/+V6TWONHwOyCXq6cPE2izMpw1Ykvw+Xwc/UYHZt+i3yu4izo9ZWThHTK4J
+ 6X82YtxcnAe7nuiwVnRq8s/TiyjFTI/knj52YBZr/AGcjjhTVpIkJWhXoxF0WdEUj17fSTSZesQ
+ T7SHSV3TJZjGd1wC0Ny3QfAqDhmH/0evSjl1FKQfZH4t5iHVCKC3aaR5eHjox2swOZI9Kv/q+xY
+ QnM7saVqmh1uJFeXnc/zL/eVayrhXiiUPOddDYR02LT6VdsjwDmZALSbQlrlk4FcBxA=
+X-Received: by 2002:a05:620a:40c4:b0:7c3:bae4:2339 with SMTP id
+ af79cd13be357-7c928038e5emr1063391985a.11.1745417043387; 
+ Wed, 23 Apr 2025 07:04:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE5Nmp61dxe3+g8XquReGtc6SZo2EBLqOi9MgrQLq0RCvHH8eZt76lUCj3q3b5DnYlZ2FEF3g==
+X-Received: by 2002:a05:620a:40c4:b0:7c3:bae4:2339 with SMTP id
+ af79cd13be357-7c928038e5emr1063386885a.11.1745417042771; 
+ Wed, 23 Apr 2025 07:04:02 -0700 (PDT)
+Received: from [192.168.65.183] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-acb6ec4d397sm808450266b.59.2025.04.23.07.03.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Apr 2025 07:04:02 -0700 (PDT)
+Message-ID: <2e3d94a4-d9e1-429e-9f65-d004c80180e5@oss.qualcomm.com>
+Date: Wed, 23 Apr 2025 16:03:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panel: himax-hx8279: Initialize goa_{even, odd}_valid
- in hx8279_check_goa_config()
-To: neil.armstrong@linaro.org, Nathan Chancellor <nathan@kernel.org>,
+Subject: Re: [PATCH v5 3/5] arm64: dts: qcom: Add initial support for MSM8937
+To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>,
+ =?UTF-8?Q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>,
+ Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
- dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
- patches@lists.linux.dev
-References: <20250422-panel-himax-hx8279-fix-sometimes-uninitialized-v1-1-614dba12b30d@kernel.org>
- <a6e47775-33c3-44c2-b6d5-58164e4a0a50@linaro.org>
- <b8d21e46-c50a-4212-ae7a-d292c2ec6ce4@linaro.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <lumag@kernel.org>, Adam Skladowski
+ <a_skl39@protonmail.com>, Sireesh Kodali <sireeshkodali@protonmail.com>,
+ Srinivas Kandagatla <srini@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ linux@mainlining.org, Dang Huynh <danct12@riseup.net>
+References: <20250421-msm8937-v5-0-bf9879ef14d9@mainlining.org>
+ <20250421-msm8937-v5-3-bf9879ef14d9@mainlining.org>
 Content-Language: en-US
-In-Reply-To: <b8d21e46-c50a-4212-ae7a-d292c2ec6ce4@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250421-msm8937-v5-3-bf9879ef14d9@mainlining.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDA5OCBTYWx0ZWRfX+6oN+J91cCmI
+ znuBguep2bS8mdvVmwbE6ULo15/P8S0cK+bP0Y8im/4IwI0CU2b/4PbUmh5UpwGPhrzLRhQ0jye
+ 9vqW3WtbY52CI6sGOMbEeVX+2Yih086P5lPejbdyUjhcMCNeQhVNrbAc9esJXsABHh7TdRXH4HV
+ jHBgE4hrhLKoxLoaRw5HmP0z5HU5NsI7WoLsha4gnZ1VZxXppFt/4ho7trgMpOo7hdBZtXRWYya
+ XJ3L3BqqLjY4yh3p4Q/PHqvCFKonWiKfUxN8+2TiSGGo17eUxvNZw0qqv/0XqCZCFQuq2Yztqyz
+ ZD/8WkdXcSFqR3bT38fD+dATYtZwilB3ZElk0gJmdvYJ3TGEGrH1TVfvPp3qL18yLDiejHJHF3f
+ iDW7czG5dHRO3AIeJ0fVo/OmO0s2qRiG1KUBzcDFh46R2joBs239rJk+jTAPd0Q+dVQxkT0H
+X-Proofpoint-GUID: bCKOFLaqm2stiKIUeLxMRHY2r1dSywp3
+X-Authority-Analysis: v=2.4 cv=B/S50PtM c=1 sm=1 tr=0 ts=6808f354 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=bBqXziUQAAAA:8 a=OuZLqq7tAAAA:8
+ a=GsLbDo3STCR25-WXoqoA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=BjKv_IHbNJvPKzgot4uq:22
+ a=AKGiAy9iJ-JzxKVHQNES:22
+X-Proofpoint-ORIG-GUID: bCKOFLaqm2stiKIUeLxMRHY2r1dSywp3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
+ definitions=2025-04-23_08,2025-04-22_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=999
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 suspectscore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504230098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,120 +150,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 23/04/25 15:50, Neil Armstrong ha scritto:
-> On 23/04/2025 15:45, Neil Armstrong wrote:
->> On 22/04/2025 23:20, Nathan Chancellor wrote:
->>> Clang warns (or errors with CONFIG_WERROR=y):
->>>
->>>    drivers/gpu/drm/panel/panel-himax-hx8279.c:838:6: error: variable 
->>> 'goa_even_valid' is used uninitialized whenever 'if' condition is false [- 
->>> Werror,-Wsometimes-uninitialized]
->>>      838 |         if (num_zero == ARRAY_SIZE(desc->goa_even_timing))
->>>          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>    drivers/gpu/drm/panel/panel-himax-hx8279.c:842:23: note: uninitialized use 
->>> occurs here
->>>      842 |         if (goa_odd_valid != goa_even_valid)
->>>          |                              ^~~~~~~~~~~~~~
->>>    drivers/gpu/drm/panel/panel-himax-hx8279.c:838:2: note: remove the 'if' if 
->>> its condition is always true
->>>      838 |         if (num_zero == ARRAY_SIZE(desc->goa_even_timing))
->>>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>      839 |                 goa_even_valid = false;
->>>    drivers/gpu/drm/panel/panel-himax-hx8279.c:818:36: note: initialize the 
->>> variable 'goa_even_valid' to silence this warning
->>>      818 |         bool goa_odd_valid, goa_even_valid;
->>>          |                                           ^
->>>          |                                            = 0
->>>
->>> Even though only the even valid variable gets flagged, both valid
->>> variables appear to have the same issue of possibly being used
->>> uninitialized if the if statement initializing them to false is not
->>> taken.
->>>
->>> Initialize both values to true to clear up the warning and remove any
->>> possibility of encountering undefined behavior.
->>>
->>> Fixes: 38d42c261389 ("drm: panel: Add driver for Himax HX8279 DDIC panels")
->>> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
->>> ---
->>>   drivers/gpu/drm/panel/panel-himax-hx8279.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/panel/panel-himax-hx8279.c b/drivers/gpu/drm/panel/ 
->>> panel-himax-hx8279.c
->>> index b48b350b62da..92f351e66c25 100644
->>> --- a/drivers/gpu/drm/panel/panel-himax-hx8279.c
->>> +++ b/drivers/gpu/drm/panel/panel-himax-hx8279.c
->>> @@ -815,7 +815,7 @@ static int hx8279_check_gmux_config(struct hx8279 *hx, 
->>> struct device *dev)
->>>   static int hx8279_check_goa_config(struct hx8279 *hx, struct device *dev)
->>>   {
->>>       const struct hx8279_panel_desc *desc = hx->desc;
->>> -    bool goa_odd_valid, goa_even_valid;
->>> +    bool goa_odd_valid = true, goa_even_valid = true;
->>>       int i, num_zero, num_clr = 0;
->>>       /* Up to 4 zero values is a valid configuration. Check them all. */
->>>
->>> ---
->>> base-commit: dcbd5dcc956e2331414fd7020b4655df08deeb87
->>> change-id: 20250422-panel-himax-hx8279-fix-sometimes-uninitialized-207354fb930c
->>>
->>> Best regards,
->>
->> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On 4/21/25 10:18 PM, Barnabás Czémán wrote:
+> From: Dang Huynh <danct12@riseup.net>
 > 
-> I'll wait a few days until AngeloGioacchino Del Regno reviews it to be sure
-> it's the right fix.
+> Add initial support for MSM8937 SoC.
 > 
-> Thanks,
-> Neil
+> Signed-off-by: Dang Huynh <danct12@riseup.net>
+> Co-developed-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+> ---
 
-I would prefer
+[...]
 
-	if (num_zero == ARRAY_SIZE(desc->goa_odd_timing))
-		goa_odd_valid = false;
-	else
-		goa_odd_valid = true;
+> +			tsens_base1: base1@1d8 {
+> +				reg = <0x1d8 1>;
 
-	/* Up to 3 zeroes is a valid config. Check them all. */
-	num_zero = 1;
-	for (i = 0; i < ARRAY_SIZE(desc->goa_even_timing); i++) {
-		if (desc->goa_even_timing[i])
-			num_zero++;
-	}
+The size part should be hex too
 
-	if (num_zero == ARRAY_SIZE(desc->goa_even_timing))
-		goa_even_valid = false;
-	else
-		goa_even_valid = true;
+[...]
 
-or the shorter form:
+> +				wcss-wlan2-pins {
+> +					pins = "gpio76";
+> +					function = "wcss_wlan2";
+> +					drive-strength = <6>;
+> +					bias-pull-up;
+> +
+> +				};
+> +
+> +			};
 
-	goa_odd_valid = (num_zero != ARRAY_SIZE(desc->goa_odd_timing));
+random newline /\
 
-	/* Up to 3 zeroes is a valid config. Check them all. */
-	num_zero = 1;
-	for (i = 0; i < ARRAY_SIZE(desc->goa_even_timing); i++) {
-		if (desc->goa_even_timing[i])
-			num_zero++;
-	}
+[...]
 
-	goa_even_valid = (num_zero != ARRAY_SIZE(desc->goa_even_timing));
+> +		mdss: display-subsystem@1a00000 {
+> +			compatible = "qcom,mdss";
+> +			reg = <0x01a00000 0x1000>,
+> +			      <0x01ab0000 0x1040>;
 
-...to avoid double initialization.
+The latter region is 0x3000-long
 
-But anyway, the proposed solution also works just fine, as the sense is, as well
-understood by Nathan, "if it's all zeroes something is wrong, otherwise it's ok".
+> +			reg-names = "mdss_phys", "vbif_phys";
 
-Btw , I'm sorry about this - not sure how the code ended up being like this,
-probably that last minute cleanup that I did.
+Please make reg-names a vertical list too
 
-Ultimately, whether to avoid the double init or not is Neil's call - so for this
-commit you can get my
+[...]
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-And sorry again about the (stupid) mistake.
+> +		gpu: gpu@1c00000 {
+> +			compatible = "qcom,adreno-505.0", "qcom,adreno";
+> +			reg = <0x1c00000 0x40000>;
 
-Cheers,
-Angelo
+Please pad the address part to 8 hex digits
+
+[...]
+
+> +			gpu_opp_table: opp-table {
+> +				compatible = "operating-points-v2";
+> +
+> +				opp-19200000 {
+> +					opp-hz = /bits/ 64 <19200000>;
+> +					opp-supported-hw = <0xff>;
+
+The comment from the previous revision still stands
+
+Konrad
