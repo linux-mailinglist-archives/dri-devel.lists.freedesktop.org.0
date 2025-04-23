@@ -2,45 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68AA7A985DE
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 11:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D7BA986CC
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 12:11:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92ED610E652;
-	Wed, 23 Apr 2025 09:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB73E10E678;
+	Wed, 23 Apr 2025 10:11:16 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="MsNxFvHg";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4A22710E447;
- Wed, 23 Apr 2025 09:41:59 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F2062B;
- Wed, 23 Apr 2025 02:41:54 -0700 (PDT)
-Received: from [10.57.91.61] (unknown [10.57.91.61])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DEE433F66E;
- Wed, 23 Apr 2025 02:41:54 -0700 (PDT)
-Message-ID: <be01aea3-1fc6-48f8-b8ad-83464e260c5c@arm.com>
-Date: Wed, 23 Apr 2025 10:41:53 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2234B10E678;
+ Wed, 23 Apr 2025 10:11:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=s2eCtmfOmTzeDrwqg2IblJsu4TJiDRVJHiz8t8i45lg=; b=MsNxFvHgStw+2qqiRpo+d2Oyx7
+ jdAJCtcSrzGYxkHbKSZb9h0N+i9XjLVukoF0p+J4YpTyZRBrxp6DjABlERqJIeHjm2rbN+15hxWKS
+ 9g1oEnoxDNpsrgVWRAEmUu5O55JCvEpoZRDUFq0xVY04GAaT+0GEv7BY1gOjQ6/PhSRvkzooCi2VN
+ ReWvZlctNjWFf22WSjF2NLl+MVcxCOIlh3OvGPvbAf3fDgPjSQwdITrDqzMlqSj00SfVUkUigKjR4
+ zwK7FUcWTR6re7Wtdl3y0D8IRO2MRXYqx16dhRT/wEjVulfB9+JPyBOrYVlBUmw2R84gPeZjtAM9E
+ yLWUizrA==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1u7X48-006rXZ-Dz; Wed, 23 Apr 2025 12:10:52 +0200
+Message-ID: <893b1d5e-7940-4abb-97bb-57f9ee2916cc@igalia.com>
+Date: Wed, 23 Apr 2025 11:10:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/doc: Start documenting aspects specific to tile-based
- renderers
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>,
+Subject: Re: [PATCH 3/5] drm/sched: Warn if pending list is not empty
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Christian Koenig <christian.koenig@amd.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
-References: <20250418122524.410448-1-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <0bfa746ca37de1813db22e518ffb259648d29e02.camel@mailbox.org>
+ <5a5d4a33-2f7b-46e4-8707-7445ac3de376@igalia.com>
+ <aAd54jUwBwgc-_g2@cassiopeiae>
+ <d3c0f721-2d19-4a1c-a086-33e8d6bd7be6@igalia.com>
+ <aAeMVtdkrAoMrmVk@cassiopeiae>
+ <52574769-2120-41a1-b5dc-50a42da5dca6@igalia.com>
+ <aAeiwZ2j2PhEwhVh@cassiopeiae>
+ <f0ae2d411c21e799491244fe49880a4acca32918.camel@mailbox.org>
+ <aAetRm3Sbp9vzamg@cassiopeiae>
+ <88f892f9-e99a-4813-830f-b3d30496ba3c@igalia.com> <aAipUTTQuv9MXoTA@pollux>
 Content-Language: en-GB
-In-Reply-To: <20250418122524.410448-1-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <aAipUTTQuv9MXoTA@pollux>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,276 +76,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/04/2025 13:25, Boris Brezillon wrote:
-> Tile-based GPUs come with a set of constraints that are not present
-> when immediate rendering is used. This new document tries to explain
-> the differences between tile/immediate rendering, the problems that
-> come with tilers, and how we plan to address them.
+
+On 23/04/2025 09:48, Danilo Krummrich wrote:
+> On Wed, Apr 23, 2025 at 08:34:08AM +0100, Tvrtko Ursulin wrote:
+>>
+>> IMO it is better to leave it. Regardless of whether it was added because
+>> some driver is actually operating like that, it does describe a _currently_
+>> workable option to avoid memory leaks. Once a better method is there, ie.
+>> FIXME is addressed, then it can be removed or replaced.
 > 
-> This is just a started point, this document will be updated with new
-> materials as we refine the libraries we add to help deal with
-> tilers, and have more drivers converted to follow the rules listed
-> here.
+> I'm not willing to sign off on encouraging drivers to rely on scheduler
+> internals -- also not in this case, sorry.
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-Seems like a good starting point, a few minor comments below. We really
-need some non-Mali input too though.
-
-> ---
->  Documentation/gpu/drm-tile-based-renderer.rst | 201 ++++++++++++++++++
->  Documentation/gpu/index.rst                   |   1 +
->  2 files changed, 202 insertions(+)
->  create mode 100644 Documentation/gpu/drm-tile-based-renderer.rst
+> Our primary goal with the scheduler is to *remove* such broken contracts where
+> drivers rely on scheduler internal implementation details, mess with scheduler
+> internal data structures etc. This is clearly a step back.
 > 
-> diff --git a/Documentation/gpu/drm-tile-based-renderer.rst b/Documentation/gpu/drm-tile-based-renderer.rst
-> new file mode 100644
-> index 000000000000..19b56b9476fc
-> --- /dev/null
-> +++ b/Documentation/gpu/drm-tile-based-renderer.rst
-> @@ -0,0 +1,201 @@
-> +==================================================
-> +Infrastructure and tricks for tile-based renderers
-> +==================================================
-> +
-> +All lot of embedded GPUs are using tile-based rendering instead of immediate
-> +rendering. This mode of rendering has various implications that we try to
-> +document here along with some hints about how to deal with some of the
-> +problems that surface with tile-based renderers.
-> +
-> +The main idea behind tile-based rendering is to batch processing of nearby
-> +pixels during the fragment shading phase to limit the traffic on the memory
-> +bus by making optimal use of the various caches present in the GPU. Unlike
-> +immediate rendering, where primitives generated by the geometry stages of
-> +the pipeline are directly consumed by the fragment stage, tilers have to
-> +record primitives in bins that are somehow attached to tiles (the
-> +granularity of the tile being GPU-specific). This data is usually stored
-> +in memory, and pulled back when the fragment stage is executed.
-> +
-> +This approach has several issues that most drivers need to handle somehow,
-> +sometimes with a bit of help from the hardware.
-> +
-> +Issues at hand
-> +==============
-> +
-> +Tiler memory
-> +------------
-> +
-> +The amount of memory needed to store primitives data and metadata is hard
-> +to guess ahead of time, because it depends on various parameters that are
-> +not in control of the UMD (UserMode Driver). Here is a non-exhaustive list
-> +of things that may complicate the calculation of the memory needed to store
-> +primitive information:
-> +
-> +- Primitives distribution across tiles is hard to guess: the binning process
-> +  is about assigning each primitive to the set tiles it covers. The more tiles
-> +  being covered the more memory is needed to record those. We can estimate
-> +  the worst case scenario by assuming all primitives will cover all tiles but
-> +  this will lead to over-allocation most of the time, which is not good
-> +- Indirect draws: the number of vertices comes from a GPU buffer that might
-> +  be filled by previous GPU compute jobs. This means we only know the number
-> +  of vertices when the GPU executes the draw, and thus can't guess how much
-> +  memory will be needed for those and allocate a GPU buffer that's big enough
-> +  to hold those
-> +- Complex geometry pipelines: if you throw geometry/tesselation/mesh shaders
-> +  it gets even trickier to guess the number of primitives from the number
-> +  of vertices passed to the vertex shader.
-> +
-> +For all these reasons, the tiler usually allocates memory dynamically, but
-> +DRM has not been designed with this use case in mind. Drivers will address
-> +these problems differently based on the functionality provided by their
-> +hardware, but all of them almost certainly have to deal with this somehow.
-> +
-> +The easy solution is to statically allocate a huge buffer to pick from when
-> +tiler memory is needed, and fail the rendering when this buffer is depleted.
-> +Some drivers try to be smarter to avoid reserving a lot of memory upfront.
-> +Instead, they start with an almost empty buffer and progressively populate it
-> +when the GPU faults on an address sitting in the tiler buffer range. This
-> +works okay most of the time but it falls short when the system is under
-> +memory pressure, because the memory request is not guaranteed to be satisfied.
-> +In that case, the driver either fails the rendering, or, if the hardware
-> +allows it, it tries to flush the primitives that have been processed and
-> +triggers a fragment job that will consume those primitives and free up some
-> +memory to be recycled and make further progress on the tiling step. This is
-> +usually referred as partial/incremental rendering (it might have other names).
-> +
-> +Compute based emulation of geometry stages
-> +------------------------------------------
-> +
-> +More and more hardware vendors don't bother providing hardware support for
-> +geometry/tesselation/mesh stages, since those can be emulated with compute
-> +shaders. But the same problem we have with tiler memory exists with those
-> +intermediate compute-emulated stages, because transient data shared between
-> +stages need to be stored in memory for the next stage to consume, and this
-> +bubbles up until the tiling stage is reached, because ultimately, what the
-> +tiling stage will need to process is a set of vertices it can turn into
-> +primitives, like would happen if the application had emulated the geometry,
-> +tesselation or mesh stages with compute.
-> +
-> +Unlike tiling, where the hardware can provide a fallback to recycle memory,
-> +there is no way the intermediate primitives can be flushed up to the framebuffer,
-> +because it's a purely software emulation here. This being said, the same
-> +"start small, grow on-demand" can be applied to avoid over-allocating memory
-> +upfront.
-> +
-> +On-demand memory allocation
-> +---------------------------
-> +
-> +As explained in previous sections, on-demand allocation is a central piece
-> +of tile-based renderer if we don't want to over-allocate, which is bad for
-> +integrated GPUs who share their memory with the rest of the system.
-> +
-> +The problem with on-demand allocation is that suddenly, GPU accesses can
-> +fail on OOM, and the DRM components (drm_gpu_scheduler and drm_gem mostly)
-> +were not designed for that. Those are assuming that buffers memory is
+> And AFAICT, as by now drivers either do a) or simply nothing (with the exception
+> of the mock scheduler). Drivers can do a) in the meantime, there's no reason at
+> all to additionally offer b).
 
-NIT: s/buffers/buffer's/
+What mechanism do we currently have to enable using a), and which you 
+would not consider needing knowledge of scheduler internals?
 
-> +populated at job submission time, and will stay around for the job lifetime.
-> +If a GPU fault happens, it's the user fault, and the context can be flagged
+Regards,
 
-NIT: s/user/user's/
-
-> +unusable. On-demand allocation is usually implemented as allocation-on-fault,
-> +and the dma_fence contract prevents us from blocking on allocations in that
-> +path (GPU fault handlers are in the dma-fence signalling path). So now we
-> +have GPU allocations that will be satisfied most of the time, but can fail
-> +occasionally. And this is not great, because an allocation failure might
-> +kill the user GPU context (VK_DEVICE_LOST in Vulkan terms), without the
-> +application having dong anything wrong. So, we need something that makes those
-> +allocation failures rare enough that most users won't experience them, and
-> +we need a fallback for when this happens to try to avoid them on the next
-> +user attempt to submit a graphics job.
-> +
-> +The plan
-> +========
-> +
-> +On-demand allocation rules
-> +--------------------------
-> +
-> +First of all, all allocations happening in the fault handler path must
-> +be using GFP_NOWAIT. With this flag, low-hanging fruit can be picked
-> +(clean FS cache will be flushed for instance), but an error will be
-> +returned if no memory is readily available. GFP_NOWAIT will also trigger
-> +background reclaim to hopefully free-up some memory for our future
-> +requests.
-> +
-> +How to deal with allocation failures
-> +------------------------------------
-> +
-> +The first trick here is to try to guess approximately how much memory
-> +will be needed, and force-populate on-demand buffers with that amount
-> +of memory when the job is started. It's not about guessing the worst
-> +case scenario here, but more the most likely case, probably with a
-> +reasonable margin, so that the job is likely to succeed when this amount
-> +of memory is provided by the KMD.
-> +
-> +The second trick to try to avoid over-allocation, even with this
-> +sub-optimistic estimate, is to have a shared pool of memory that can be
-> +used by all GPU contexts when they need tiler/geometry memory. This
-> +implies returning chunks to this pool at some point, so other contexts
-> +can re-use those. Details about what this global memory pool implementation
-> +would look like is currently undefined, but it needs to be filled to
-> +guarantee that pre-allocation requests for on-demand buffers used by a
-> +GPU job can be satisfied in the fault handler path.
-
-Note one thing I haven't seen discussed is that across multiple contexts
-it's possible to prioritise jobs that free memory. E.g. a fragment job
-can be run to free up memory from a tiler heap, allowing pages to be
-returned to the global pool. This might imply a uAPI extension allowing
-a fragment job to automatically drop memory from a BO so that the kernel
-can have confidence that it will actually free up memory.
-
-Sadly I don't think it's plausible to wait in the fault handler for a
-fragment job to complete to free up memory - so the best we can do here
-is postpone *starting* a vertex+tiler job if we're short on memory and
-have fragment jobs to run.
-
-> +
-> +As a last resort, we can try to allocate with GFP_ATOMIC if everything
-> +else fails, but this is a dangerous game, because we would be stealing
-> +memory from the atomic reserve, so it's not entirely clear if this is
-> +better than failing the job at this point.
-> +
-> +Ideas on how to make allocation failures decrease over time
-> +-----------------------------------------------------------
-> +
-> +When an on-demand allocation fails and the hardware doesn't have a
-> +flush-primitives fallback, we usually can't do much apart from failing the
-> +whole job. But it's important to try to avoid future allocation failures
-> +when the application creates a new context. There's no clear path for
-> +how to guess the actual size to force-populate on the next attempt. One
-> +option is to have a simple heuristics, like double the current resident size,
-> +but this has the downside of potentially taking a few attempts before reaching
-> +the stability point. Another option is to repeatedly map a dummy page at the
-> +fault addresses, so we can get a sense of how much memory was needed for this
-> +particular job.
-
-We'd have to double check that we don't cause extra problems with an
-aliasing heap like that. The tiler might attempt to read back data which
-could cause 'interesting' errors if it's getting clobbered. Given this
-is just a heuristic it might be ok, but it definitely needs more research.
-
-> +
-> +Once userspace gets an idea of what the application needs, it should force
-> +this to be the minimum populated size on the next context creation. For GL
-> +drivers, the UMD is in control of the context recreation, so it can easily
-> +record the next buffer size to use. For Vulkan applications, something should
-> +be recorded to track that, maybe in the form of some implicit dri-conf
-> +database that can overload the explicit dri-conf.
-> +
-> +Various implementation details have been discussed
-> +`here <https://lore.kernel.org/dri-devel/Z_kEjFjmsumfmbfM@phenom.ffwll.local/>`_
-> +but nothing has been decided yet.
-> +
-> +DRM infrastructure changes for tile-based renderers
-> +===================================================
-> +
-> +As seen in previous sections, allocation for tile-based GPUs can be tricky,
-> +so we really want to add as much facility as we can, and document how these
-> +helpers must be used. This section tries to list the various components and
-> +how we expect them to work.
-> +
-> +GEM SHMEM sparse backing
-> +------------------------
-> +
-> +On-demand allocation is not something the GEM layer has been designed for.
-> +The idea is to extend the existing GEM and GEM SHMEM helpers to cover the
-> +concept of sparse backing.
-> +
-> +A solution has been proposed
-> +`here<https://lore.kernel.org/dri-devel/20250404092634.2968115-1-boris.brezillon@collabora.com/>`_
-> +
-> +Fault injection mechanism
-> +-------------------------
-> +
-> +In order to easily test/validate the on-demand allocation logic, we need
-> +a way to fake GPU faults and trigger on-demand allocation. We also need
-> +to fake allocation failures are various points.
-
-NIT: s/are/at/
-
-Thanks,
-Steve
-
-> +
-> +This part is likely to be driver specific, and should probably involve
-> +new debugfs knobs.
-> +
-> +Global memory pool for on-demand allocation
-> +-------------------------------------------
-> +
-> +TBD.
-> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-> index 7dcb15850afd..186917524854 100644
-> --- a/Documentation/gpu/index.rst
-> +++ b/Documentation/gpu/index.rst
-> @@ -14,6 +14,7 @@ GPU Driver Developer's Guide
->     driver-uapi
->     drm-client
->     drm-compute
-> +   drm-tile-based-renderer
->     drivers
->     backlight
->     vga-switcheroo
+Tvrtko
 
