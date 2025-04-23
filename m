@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E901A98F18
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 17:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F185A98FE7
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 17:15:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B595010E115;
-	Wed, 23 Apr 2025 15:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 793F910E6D8;
+	Wed, 23 Apr 2025 15:15:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="okGMgR0s";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yVmP/NId";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40DCE10E115
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 15:04:15 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC7CD10E6D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 15:15:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EE852A4B980;
- Wed, 23 Apr 2025 14:58:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D3D9C4CEE2;
- Wed, 23 Apr 2025 15:04:10 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id BAAC1614B6;
+ Wed, 23 Apr 2025 15:14:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FCDC4CEE2;
+ Wed, 23 Apr 2025 15:15:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1745420650;
- bh=sKitR6gJOaJO9GdmcJigpdI4xJqqgrf+Z96bcERjt3Y=;
+ s=korg; t=1745421301;
+ bh=3RIPUDv0iKGPfWWlGzN4ygKt+lL+ONGy5THcJlWU4Ew=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=okGMgR0smDU/TzlMbHvhHeHlAQim0ll0mwhxDdwLFo6GPPCVFU6cjY8G46ero0KAZ
- Z1R4COrkvzbsTY8InA++Udm0yMV7yesEumhAaM6iHLQOP3GL2pTa8QWmJtIhQbYjSA
- uKQga08Enpy2puFsl4qJ/rBbGJSD9M+2OIIQuzlQ=
+ b=yVmP/NId2VJ3Rlgl7ohskcSdFhQqMmnRM/llRnDGFBHRDOAfqE3GaIdd1IHLaiIHC
+ S4tO22lLLncpMXn7kgrzSz70nAK9u1cSFPluiCvrtq/qH91Mvuma9Q9VQN77LeXfs8
+ 8IeTYWDT0wPsYBeFWxJ+utpyosXjamEwRvnoExA4=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -34,12 +34,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Jerry Hoemann <jerry.hoemann@hpe.com>, Jose Lopez <jose.lopez@hpe.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 6.12 149/223] drm/ast: Fix ast_dp connection status
-Date: Wed, 23 Apr 2025 16:43:41 +0200
-Message-ID: <20250423142623.245905709@linuxfoundation.org>
+Subject: [PATCH 6.14 173/241] drm/ast: Fix ast_dp connection status
+Date: Wed, 23 Apr 2025 16:43:57 +0200
+Message-ID: <20250423142627.598204027@linuxfoundation.org>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250423142617.120834124@linuxfoundation.org>
-References: <20250423142617.120834124@linuxfoundation.org>
+In-Reply-To: <20250423142620.525425242@linuxfoundation.org>
+References: <20250423142620.525425242@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -60,7 +60,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.12-stable review patch.  If anyone has any objections, please let me know.
+6.14-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -86,14 +86,12 @@ Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Link: https://patchwork.freedesktop.org/patch/msgid/20250124141142.2434138-1-jfalempe@redhat.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/ast/ast_dp.c | 6 ++++++
+ drivers/gpu/drm/ast/ast_dp.c |    6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 0e282b7b167c..30aad5c0112a 100644
 --- a/drivers/gpu/drm/ast/ast_dp.c
 +++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -17,6 +17,12 @@ static bool ast_astdp_is_connected(struct ast_device *ast)
+@@ -17,6 +17,12 @@ static bool ast_astdp_is_connected(struc
  {
  	if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, AST_IO_VGACRDF_HPD))
  		return false;
@@ -106,8 +104,5 @@ index 0e282b7b167c..30aad5c0112a 100644
  	return true;
  }
  
--- 
-2.49.0
-
 
 
