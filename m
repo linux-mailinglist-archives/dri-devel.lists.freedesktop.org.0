@@ -2,50 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FADFA98B5B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 15:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD705A98B73
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 15:39:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8351A10E6A6;
-	Wed, 23 Apr 2025 13:37:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31C6A10E6AC;
+	Wed, 23 Apr 2025 13:39:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WqxGEHGm";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="SHQoA5NP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69A4610E6A6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 13:37:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 45D77A4CF2A;
- Wed, 23 Apr 2025 13:32:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B39CAC4CEEC;
- Wed, 23 Apr 2025 13:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745415464;
- bh=Z7aXhF1PMMnEtCARJD64Zg3Ihl0WPcHH/gy6wwnFk6A=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=WqxGEHGmgyYAqddIT0VvUzUx3lFjwbKNUPUT6SlacMhiWPAJH/caP+smHmx0Hsb2q
- mdez6aN4cDkGv2QvYFKP22MNBGYzqfbSvmMtCGCKrdNl20N7ipCqVwoO1spXv28gFb
- ACpmc9Ovk8rFgqucNV6XFLWrGb8US38hIQqBc0hoEdi5/ok5ywXRO8txDx6ZVBhI2M
- ++jMNJ71NXMG97shTSOruANWwrnJW2kWvWTU8AZWCNDdFPt/53NiA05YKr0U74VSkS
- LM1zsAtscxqQCqEaaF7VIBuOFUoRqVMU7WUwtfYiDv/5B1b2IM8m3jvg6K4bDa73Q3
- T/wapBMh7ltlg==
-Date: Wed, 23 Apr 2025 08:37:42 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDE6C10E6AC
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 13:39:22 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-43ed8d32a95so56314285e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 06:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1745415561; x=1746020361; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=LQj0aWA0uhLFimVD63/qUQ7O934wTcmBz9rBbgLbZq4=;
+ b=SHQoA5NPVq7XPVpZWQ1w2X2vcC07kisE8A3Y8g932RIIrSaT1v6c8T6LpRuRLMvcFM
+ CoXw0NmNDXHj4grSujALS1F3bwmNTM6cxP4MidgaavaBqLJ1qtOSQye0dbjk7BjrKuKt
+ t3wc0QClNj0uTK6yxHrH7jWKeD7te+5yvc2O1iqnjuPlOXalyVnIVPGL9tJZllnfL3Dq
+ vRR59Q3lbTeegHRzo8DtRLd2LNuFWiocUwm8mq/FzsYytsANChQ3+NGntOKZbTJ1f0KK
+ rIiAoxvTRjXVOYUjjdeRiIl9rM3tuACdT64iY1vaSY1KUvnfrOpcmUKdNrbl/0mmcR4h
+ Z38w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745415561; x=1746020361;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LQj0aWA0uhLFimVD63/qUQ7O934wTcmBz9rBbgLbZq4=;
+ b=wUf/TKi/CyzpW6k3qboBzXmubj7THD0wukBmUVKKXAP7c1vUkjAZkboRvscI0PmqJp
+ a4dqt2FJXDJCCP70vGMFCvbgjIdgAJn5KWuQKF5DZF1BBbxQzTOL+WJmJEMpqtgOWjCY
+ dssnm0Qdyy5aFDTyaEuyubkJzxRTDXDx9Xgv5KdLO++ChPrYy08g5gkdV7gMbshgyBds
+ 27CzlwSNT9Te6ouI9JNoAbTegHLiX/6DYuQlJ91nbKzrONhcftXuSypwqTfT3o9hW8/H
+ kvpU4szRb3gb1LcCtf3W0uSKHdN9XtUkjcP2V07jWFsWKZVnpxHRIrd1cOx7OuXeldI4
+ iaNQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWf6xa+81QancluVrsj+nsOoUBm9wEA7B8y4uIIKMXyAquF08q8fxbj3WZyl++NhaguAJB+EncaDU0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9dBiq9EcNXsInEWDu6FiW01xzmckbuFDuB1E7NaUu+YoPR6Sf
+ 9qv7me7UhN4gAU3zAKs8OBTE8QTrMIW+z4nfP3hESDWJRJ8TkhSBvhX1JNhSug8=
+X-Gm-Gg: ASbGncvjyTswwaqYkHIkYHZG0flEFDqAv261a5ZTHcEV1rA18yN0aBWZLOI6vxAXBew
+ Ds8txxJGbTt+ItmunaeQp1Z+HtlLPN0ERd9601k6KhdkcSYa1bPELtZLHG+PVtzhK/mCJ4eMhj1
+ Em9PLAG3j8fPsZSgYVPmyOoq01VnNy1fy81YSFkOTpGKlyLGwMrI3hS14G1VRkHgw9x9zvCzr8X
+ ePXNoJD3onH1IUrjdS3cuEFx4Xm9MgKU+GRjHaTxmhjyE8awU8w8DM1YZ1fW6zvTWIMzfmltya3
+ O8vu+DskBFC9MMbh6OnI6g0u5OD6KdmLRu1IP7pMmOs=
+X-Google-Smtp-Source: AGHT+IFSUhI0GoSrqlt5Y3r/ho99jNi0Y05l/TGhtWyQ6IK4273s3NboVQgNwSsoCRz1OM2e9M8GYw==
+X-Received: by 2002:a05:600c:4e52:b0:43c:e6d1:efe7 with SMTP id
+ 5b1f17b1804b1-4408efbaebemr42210395e9.26.1745415561308; 
+ Wed, 23 Apr 2025 06:39:21 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-44092b0a4b5sm26482605e9.0.2025.04.23.06.39.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Apr 2025 06:39:20 -0700 (PDT)
+Date: Wed, 23 Apr 2025 15:39:18 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>,
+ alyssa@rosenzweig.io, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Aun-Ali Zaidi <admin@kodeit.net>,
+ Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
+ Simona Vetter <simona@ffwll.ch>, Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+ joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+ Kees Cook <kees@kernel.org>, tamird@gmail.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>,
+ netdev <netdev@vger.kernel.org>
+Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Message-ID: <aAjthvTuIeUIO4CT@pathway.suse.cz>
+References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
+ <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: dianders@google.com, daniel@ffwll.ch, krzk+dt@kernel.org, 
- conor+dt@kernel.org, matthias.bgg@gmail.com, 
- dri-devel@lists.freedesktop.org, sam@ravnborg.org, 
- angelogioacchino.delregno@collabora.com, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, neil.armstrong@linaro.org, 
- knoxchiou@google.com, hsinyi@google.com, devicetree@vger.kernel.org
-To: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
-In-Reply-To: <20250423093647.4074135-1-cengjianeng@huaqin.corp-partner.google.com>
-References: <20250423093647.4074135-1-cengjianeng@huaqin.corp-partner.google.com>
-Message-Id: <174541475783.315252.12086637953539668018.robh@kernel.org>
-Subject: Re: [PATCH v10 0/2]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,251 +106,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Wed, 23 Apr 2025 17:36:45 +0800, Jianeng Ceng wrote:
-> This is v10 of the MT8186 Chromebook device tree series.
-> ---
-> Changes in v10:
-> - PATCH 1/2: Add enum for ponyta sku.
-> - Link to v9:https://lore.kernel.org/all/20250328094034.3400233-2-cengjianeng@huaqin.corp-partner.google.com/
+On Tue 2025-04-22 10:43:59, Geert Uytterhoeven wrote:
+> Hi Aditya,
 > 
-> Changes in v9:
-> - PATCH 2/2: Add sound model to fix the warning.
-> - Link to v8:https://lore.kernel.org/all/20240914063122.1622196-1-cengjianeng@huaqin.corp-partner.google.com/
+> CC netdev
 > 
-> Changes in v8:
-> - PATCH 1/2: Remove custom label.
-> - PATCH 2/2: Change the commit about ponyta.
-> - Link to v7:https://lore.kernel.org/all/20240913031505.372868-1-cengjianeng@huaqin.corp-partner.google.com/
+> On Tue, 22 Apr 2025 at 10:30, Aditya Garg <gargaditya08@live.com> wrote:
+> > On 22-04-2025 01:37 pm, Geert Uytterhoeven wrote:
+> > > On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
+> > >> From: Hector Martin <marcan@marcan.st>
+> > >>
+> > >> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
+> > >> it's useful to be able to print generic 4-character codes formatted as
+> > >> an integer. Extend it to add format specifiers for printing generic
+> > >> 32-bit FourCCs with various endian semantics:
+> > >>
+> > >> %p4ch   Host byte order
+> > >> %p4cn   Network byte order
+> > >> %p4cl   Little-endian
+> > >> %p4cb   Big-endian
+> > >>
+> > >> The endianness determines how bytes are interpreted as a u32, and the
+> > >> FourCC is then always printed MSByte-first (this is the opposite of
+> > >> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
+> > >> allow printing LSByte-first FourCCs stored in host endian order
+> > >> (other than the hex form being in character order, not the integer
+> > >> value).
+> > >>
+> > >> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> > >> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > >> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> > >> Tested-by: Petr Mladek <pmladek@suse.com>
+> > >> Signed-off-by: Hector Martin <marcan@marcan.st>
+> > >> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> > >
+> > > Thanks for your patch, which is now commit 1938479b2720ebc0
+> > > ("lib/vsprintf: Add support for generic FourCCs by extending %p4cc")
+> > > in drm-misc-next/
+> > >
+> > >> --- a/Documentation/core-api/printk-formats.rst
+> > >> +++ b/Documentation/core-api/printk-formats.rst
+> > >> @@ -648,6 +648,38 @@ Examples::
+> > >>         %p4cc   Y10  little-endian (0x20303159)
+> > >>         %p4cc   NV12 big-endian (0xb231564e)
+> > >>
+> > >> +Generic FourCC code
+> > >> +-------------------
+> > >> +
+> > >> +::
+> > >> +       %p4c[hnlb]      gP00 (0x67503030)
+> > >> +
+> > >> +Print a generic FourCC code, as both ASCII characters and its numerical
+> > >> +value as hexadecimal.
+> > >> +
+> > >> +The generic FourCC code is always printed in the big-endian format,
+> > >> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+> > >> +
+> > >> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
+> > >> +endianness is used to load the stored bytes. The data might be interpreted
+> > >> +using the host byte order, network byte order, little-endian, or big-endian.
+> > >> +
+> > >> +Passed by reference.
+> > >> +
+> > >> +Examples for a little-endian machine, given &(u32)0x67503030::
+> > >> +
+> > >> +       %p4ch   gP00 (0x67503030)
+> > >> +       %p4cn   00Pg (0x30305067)
+> > >> +       %p4cl   gP00 (0x67503030)
+> > >> +       %p4cb   00Pg (0x30305067)
+> > >> +
+> > >> +Examples for a big-endian machine, given &(u32)0x67503030::
+> > >> +
+> > >> +       %p4ch   gP00 (0x67503030)
+> > >> +       %p4cn   00Pg (0x30305067)
+> > >
+> > > This doesn't look right to me, as network byte order is big endian?
+> > > Note that I didn't check the code.
+> >
+> > Originally, it was %p4cr (reverse-endian), but on the request of the maintainers, it was changed to %p4cn.
 > 
-> Changes in v7:
-> - PATCH 2/2: Remove prototype sku.
-> - PATCH 2/2: Disable the other trackpad to enable one of them.
-> - Link to v5:https://lore.kernel.org/all/20240913015503.4192806-1-cengjianeng@huaqin.corp-partner.google.com/
+> Ah, I found it[1]:
 > 
-> Changes in v6:
-> - No change.
+> | so, it needs more information that this mimics htonl() / ntohl() for
+> networking.
 > 
-> Changes in v5:
-> - PATCH 1/2: Remove sku2147483647.
-> - PATCH 2/2: Remove sku2147483647.
-> - Link to v4:https://lore.kernel.org/all/20240906085739.1322676-1-cengjianeng@huaqin.corp-partner.google.com/
+> IMHO this does not mimic htonl(), as htonl() is a no-op on big-endian.
+> while %p4ch and %p4cl yield different results on big-endian.
 > 
-> Changes in v4:
-> - PATCH 1/2: Add more info for Ponyta custom label in commit.
-> - Link to v3:https://lore.kernel.org/all/20240904081501.2060933-1-cengjianeng@huaqin.corp-partner.google.com/
+> > So here network means reverse of host, not strictly big-endian.
 > 
-> Changes in v3:
-> - PATCH 0/2: Add the modify records.
-> - PATCH 1/2: Modify lable to label.
-> - Link to v2:https://lore.kernel.org/all/20240903061603.3007289-1-cengjianeng@huaqin.corp-partner.google.com/
+> Please don't call it "network byte order" if that does not have the same
+> meaning as in the network subsystem.
 > 
-> Changes in v2:
-> - PATCH 2/2: Modify the dtb name without rev2.
-> - Link to v1:https://lore.kernel.org/all/20240902125502.1844374-1-cengjianeng@huaqin.corp-partner.google.com/
+> Personally, I like "%p4r" (reverse) more...
+> (and "%p4ch" might mean human-readable ;-)
 > 
-> Jianeng Ceng (2):
->   dt-bindings: arm: mediatek: Add MT8186 Ponyta Chromebook
->   arm64: dts: mediatek: Add MT8186 Ponyta Chromebooks
-> 
->  .../devicetree/bindings/arm/mediatek.yaml     | 13 +++++
->  arch/arm64/boot/dts/mediatek/Makefile         |  2 +
->  .../mediatek/mt8186-corsola-ponyta-sku0.dts   | 18 +++++++
->  .../mediatek/mt8186-corsola-ponyta-sku1.dts   | 22 +++++++++
->  .../dts/mediatek/mt8186-corsola-ponyta.dtsi   | 49 +++++++++++++++++++
->  5 files changed, 104 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
-> 
-> --
-> 2.34.1
-> 
-> 
-> 
+> [1] https://lore.kernel.org/all/Z8B6DwcRbV-8D8GB@smile.fi.intel.com
 
+I have to admit that I was always a bit confused by the meaning of the
+new modifiers. And I did give up at some point and decided to do not
+block the patch when it made sense to others.
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+But I have to agree with Geert here. The current behavior of %p4ch
+is confusing on big endian system. I would expect that it does not
+revert the ordering.
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+Well, I still think that people might find all 4 variants useful.
+Andy does not like "r". What about "hR"? It is inspired by
+the existing %pmR.
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+I tried to implement it and the complexity of the code is similar:
 
-  pip3 install dtschema --upgrade
+From f6aa2213cec9b9d25c0506e3112f32e90a18aa7f Mon Sep 17 00:00:00 2001
+From: Petr Mladek <pmladek@suse.com>
+Date: Wed, 23 Apr 2025 15:02:10 +0200
+Subject: [PATCH] vsprintf: Use %p4chR instead of %p4cn for reading data in
+ reversed host ordering
 
+The generic FourCC format always prints the data using the big endian
+order. It is generic because it allows to read the data using a custom
+ordering.
 
-This patch series was applied (using b4) to base:
- Base: attempting to guess base-commit...
- Base: tags/next-20250423 (exact match)
+The current code uses "n" for reading data in the reverse host ordering.
+It makes the 4 variants [hnbl] consistent with the generic printing
+of IPv4 addresses.
 
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
+Unfortunately, it creates confusion on big endian systems. For example,
+it shows the data &(u32)0x67503030 as
 
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/mediatek/' for 20250423093647.4074135-1-cengjianeng@huaqin.corp-partner.google.com:
+	%p4cn	00Pg (0x30305067)
 
-arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: pinctrl@10005000 (mediatek,mt8183-pinctrl): 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'keyboard' do not match any of the regexes: '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dtb: / (google,ponyta-sku0): compatible: 'oneOf' conditional failed, one must be fixed:
-	['google,ponyta-sku0', 'google,ponyta', 'mediatek,mt8186'] is too long
-	['google,ponyta-sku0', 'google,ponyta', 'mediatek,mt8186'] is too short
-	'google,ponyta-sku0' is not one of ['mediatek,mt2701-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt2712-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6580-evbp1']
-	'google,ponyta-sku0' is not one of ['prestigio,pmt5008-3g']
-	'google,ponyta-sku0' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6592-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6755-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6765-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6779-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt6795-evb', 'sony,xperia-m5']
-	'google,ponyta-sku0' is not one of ['archermind,mt6797-x20-dev', 'mediatek,mt6797-evb']
-	'google,ponyta-sku0' is not one of ['bananapi,bpi-r64', 'mediatek,mt7622-rfb1']
-	'google,ponyta-sku0' is not one of ['mediatek,mt7623a-rfb-emmc', 'mediatek,mt7623a-rfb-nand', 'mediatek,mt7623n-rfb-emmc', 'bananapi,bpi-r2']
-	'google,ponyta-sku0' is not one of ['mediatek,mt7629-rfb']
-	'google,ponyta-sku0' is not one of ['cudy,wr3000-v1', 'openwrt,one', 'xiaomi,ax3000t']
-	'google,ponyta-sku0' is not one of ['acelink,ew-7886cax', 'bananapi,bpi-r3', 'bananapi,bpi-r3mini', 'mediatek,mt7986a-rfb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt7986b-rfb']
-	'google,ponyta-sku0' is not one of ['bananapi,bpi-r4']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8127-moose']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8135-evbp1']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8167-pumpkin']
-	'google,elm-rev8' was expected
-	'google,hana-rev6' was expected
-	'google,hana-rev7' was expected
-	'google,ponyta-sku0' is not one of ['mediatek,mt8173-evb']
-	'google,burnet' was expected
-	'google,cozmo' was expected
-	'google,damu' was expected
-	'google,ponyta-sku0' is not one of ['google,fennel-sku0', 'google,fennel-sku1', 'google,fennel-sku2', 'google,fennel-sku6', 'google,fennel-sku7']
-	'google,ponyta-sku0' is not one of ['google,juniper-sku16', 'google,juniper-sku17']
-	'google,kakadu-rev3' was expected
-	'google,kakadu-rev3-sku22' was expected
-	'google,kappa' was expected
-	'google,ponyta-sku0' is not one of ['google,katsu-sku32', 'google,katsu-sku38']
-	'google,ponyta-sku0' is not one of ['google,kodama-sku16', 'google,kodama-sku272', 'google,kodama-sku288', 'google,kodama-sku32']
-	'google,ponyta-sku0' is not one of ['google,krane-sku0', 'google,krane-sku176']
-	'google,ponyta-sku0' is not one of ['google,makomo-sku0', 'google,makomo-sku1']
-	'google,ponyta-sku0' is not one of ['google,pico-sku1', 'google,pico-sku2']
-	'google,ponyta-sku0' is not one of ['google,willow-sku0', 'google,willow-sku1']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8183-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8183-pumpkin']
-	'google,chinchou-sku0' was expected
-	'google,chinchou-sku1' was expected
-	'google,chinchou-sku16' was expected
-	'google,steelix-sku393219' was expected
-	'google,steelix-sku393220' was expected
-	'google,steelix-sku393221' was expected
-	'google,ponyta-sku1' was expected
-	'google,steelix-sku196609' was expected
-	'google,starmie-sku0' was expected
-	'google,starmie-sku1' was expected
-	'google,ponyta-sku0' is not one of ['google,steelix-sku131072', 'google,steelix-sku131073']
-	'google,tentacruel-sku262147' was expected
-	'google,tentacruel-sku262151' was expected
-	'google,tentacruel-sku327681' was expected
-	'google,tentacruel-sku327683' was expected
-	'google,ponyta-sku0' is not one of ['google,voltorb-sku589824', 'google,voltorb-sku589825']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8186-evb']
-	'google,ponyta-sku0' is not one of ['google,ciri-sku0', 'google,ciri-sku1', 'google,ciri-sku2', 'google,ciri-sku3', 'google,ciri-sku4', 'google,ciri-sku5', 'google,ciri-sku6', 'google,ciri-sku7']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8188-evb']
-	'google,hayato-rev1' was expected
-	'google,spherion-rev3' was expected
-	'google,ponyta-sku0' is not one of ['mediatek,mt8192-evb']
-	'google,ponyta-sku0' is not one of ['google,tomato-rev2', 'google,tomato-rev1']
-	'google,tomato-rev4' was expected
-	'google,dojo-sku7' was expected
-	'google,ponyta-sku0' is not one of ['mediatek,mt8195-demo', 'mediatek,mt8195-evb']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8365-evk']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8370-evk']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8390-evk']
-	'google,ponyta-sku0' is not one of ['kontron,3-5-sbc-i1200', 'mediatek,mt8395-evk', 'radxa,nio-12l']
-	'google,ponyta-sku0' is not one of ['mediatek,mt8516-pumpkin']
-	'mediatek,mt2701' was expected
-	'mediatek,mt2712' was expected
-	'mediatek,mt6580' was expected
-	'mediatek,mt6582' was expected
-	'mediatek,mt6589' was expected
-	'mediatek,mt6592' was expected
-	'mediatek,mt6755' was expected
-	'mediatek,mt6765' was expected
-	'mediatek,mt6779' was expected
-	'mediatek,mt6795' was expected
-	'mediatek,mt6797' was expected
-	'mediatek,mt7622' was expected
-	'mediatek,mt7623' was expected
-	'mediatek,mt7629' was expected
-	'mediatek,mt7981b' was expected
-	'mediatek,mt7986a' was expected
-	'mediatek,mt7986b' was expected
-	'mediatek,mt7988a' was expected
-	'mediatek,mt8127' was expected
-	'mediatek,mt8135' was expected
-	'mediatek,mt8167' was expected
-	'google,elm-rev7' was expected
-	'google,hana-rev5' was expected
-	'mediatek,mt8173' was expected
-	'mediatek,mt8183' was expected
-	'google,fennel' was expected
-	'google,juniper' was expected
-	'google,kakadu-rev2' was expected
-	'google,kakadu-rev2-sku22' was expected
-	'google,katsu' was expected
-	'google,kodama' was expected
-	'google,krane' was expected
-	'google,makomo' was expected
-	'google,pico' was expected
-	'google,willow' was expected
-	'google,chinchou-sku2' was expected
-	'google,chinchou-sku3' was expected
-	'google,chinchou-sku18' was expected
-	'google,steelix-sku393216' was expected
-	'google,steelix-sku393217' was expected
-	'google,steelix-sku393218' was expected
-	'google,ponyta-sku0' was expected
-	'google,steelix-sku196608' was expected
-	'google,starmie-sku2' was expected
-	'google,starmie-sku4' was expected
-	'google,steelix' was expected
-	'google,tentacruel-sku262146' was expected
-	'google,tentacruel-sku262150' was expected
-	'google,tentacruel' was expected
-	'google,voltorb' was expected
-	'mediatek,mt8186' was expected
-	'google,ciri' was expected
-	'mediatek,mt8188' was expected
-	'google,hayato' was expected
-	'google,spherion-rev2' was expected
-	'mediatek,mt8192' was expected
-	'google,tomato' was expected
-	'google,tomato-rev3' was expected
-	'google,dojo-sku5' was expected
-	'mediatek,mt8195' was expected
-	'mediatek,mt8365' was expected
-	'mediatek,mt8370' was expected
-	'mediatek,mt8390' was expected
-	'mediatek,mt8395' was expected
-	'mediatek,mt8516' was expected
-	'google,elm-rev6' was expected
-	'google,hana-rev4' was expected
-	'google,kakadu' was expected
-	'google,chinchou-sku4' was expected
-	'google,chinchou-sku6' was expected
-	'google,chinchou-sku19' was expected
-	'google,ponyta' was expected
-	'google,starmie-sku3' was expected
-	'google,starmie' was expected
-	'google,tentacruel-sku262145' was expected
-	'google,tentacruel-sku262149' was expected
-	'google,spherion-rev1' was expected
-	'google,dojo-sku3' was expected
-	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
+But people expect that the ordering stays the same. The network ordering
+is a big-endian ordering.
 
+The problem is that the semantic is not the same. The modifiers affect
+the output ordering of IPv4 addresses while they affect the reading order
+in case of FourCC code.
 
+Avoid the confusion by replacing the "n" modifier with "hR", aka
+reverse host ordering.
 
+Signed-off-by: Petr Mladek <pmladek@suse.com>
+---
+ Documentation/core-api/printk-formats.rst | 10 +++++-----
+ lib/tests/printf_kunit.c                  |  2 +-
+ lib/vsprintf.c                            | 11 ++++++++---
+ 3 files changed, 14 insertions(+), 9 deletions(-)
 
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index 125fd0397510..f531873bb3c9 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -652,7 +652,7 @@ Generic FourCC code
+ -------------------
+ 
+ ::
+-	%p4c[hnlb]	gP00 (0x67503030)
++	%p4c[h[R]lb]	gP00 (0x67503030)
+ 
+ Print a generic FourCC code, as both ASCII characters and its numerical
+ value as hexadecimal.
+@@ -660,23 +660,23 @@ value as hexadecimal.
+ The generic FourCC code is always printed in the big-endian format,
+ the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+ 
+-The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
++The additional ``h``, ``hR``, ``l``, and ``b`` specifiers define what
+ endianness is used to load the stored bytes. The data might be interpreted
+-using the host byte order, network byte order, little-endian, or big-endian.
++using the host, reversed host byte order, little-endian, or big-endian.
+ 
+ Passed by reference.
+ 
+ Examples for a little-endian machine, given &(u32)0x67503030::
+ 
+ 	%p4ch	gP00 (0x67503030)
+-	%p4cn	00Pg (0x30305067)
++	%p4chR	00Pg (0x30305067)
+ 	%p4cl	gP00 (0x67503030)
+ 	%p4cb	00Pg (0x30305067)
+ 
+ Examples for a big-endian machine, given &(u32)0x67503030::
+ 
+ 	%p4ch	gP00 (0x67503030)
+-	%p4cn	00Pg (0x30305067)
++	%p4chR	00Pg (0x30305067)
+ 	%p4cl	00Pg (0x30305067)
+ 	%p4cb	gP00 (0x67503030)
+ 
+diff --git a/lib/tests/printf_kunit.c b/lib/tests/printf_kunit.c
+index b1fa0dcea52f..b8a4b5006f9c 100644
+--- a/lib/tests/printf_kunit.c
++++ b/lib/tests/printf_kunit.c
+@@ -738,7 +738,7 @@ static void fourcc_pointer(struct kunit *kunittest)
+ 
+ 	fourcc_pointer_test(kunittest, try_cc, ARRAY_SIZE(try_cc), "%p4cc");
+ 	fourcc_pointer_test(kunittest, try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+-	fourcc_pointer_test(kunittest, try_cn, ARRAY_SIZE(try_cn), "%p4cn");
++	fourcc_pointer_test(kunittest, try_cn, ARRAY_SIZE(try_cn), "%p4chR");
+ 	fourcc_pointer_test(kunittest, try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+ 	fourcc_pointer_test(kunittest, try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+ }
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 2c5de4216415..34587b2dbdb1 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1804,9 +1804,8 @@ char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+ 	orig = get_unaligned(fourcc);
+ 	switch (fmt[2]) {
+ 	case 'h':
+-		break;
+-	case 'n':
+-		orig = swab32(orig);
++		if (fmt[3] == 'R')
++			orig = swab32(orig);
+ 		break;
+ 	case 'l':
+ 		orig = (__force u32)cpu_to_le32(orig);
+@@ -2396,6 +2395,12 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
+  *       read the documentation (path below) first.
+  * - 'NF' For a netdev_features_t
+  * - '4cc' V4L2 or DRM FourCC code, with endianness and raw numerical value.
++ * - '4c[h[R]lb]' For generic FourCC code with raw numerical value. Both are
++ *	 displayed in the big-endian format. This is the opposite of V4L2 or
++ *	 DRM FourCCs.
++ *	 The additional specifiers define what endianness is used to load
++ *	 the stored bytes. The data might be interpreted using the host,
++ *	 reversed host byte order, little-endian, or big-endian.
+  * - 'h[CDN]' For a variable-length buffer, it prints it as a hex string with
+  *            a certain separator (' ' by default):
+  *              C colon
+-- 
+2.49.0
 
