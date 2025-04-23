@@ -2,51 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2418FA987E0
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 12:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015CEA988F4
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 13:54:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00CFE10E208;
-	Wed, 23 Apr 2025 10:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3438410E085;
+	Wed, 23 Apr 2025 11:54:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VvJat+yN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XRA+uEMG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01A3810E208
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 10:52:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=J5kO8HOcTIEVYwvohRyo6zyhFztvJgpIS0+e5/7HALg=; b=VvJat+yNygjhbneEzwboF6I8hh
- bFTLP43ULTlE6/FTi+JXvWGVjk2DoAVxQbqCoReoAqSFhM7f3arueKj+42VtB5Umg6pOG00Fhs4gD
- 2e7EFwVjF7c3CKqMdwMKeP0BcxYBPuYSvvF6Zk7EZrGBWBvTCrWJFOAOv5T77DWJHz6vqGAtPfHLM
- nVdozT3kTu8UrWwauMaKJVb3jtF01sNAcqbQ+zQ/YrBYYVyFJaGiLzLGZQzq8ATDms+nJ0qzOmoD9
- WeQt2beE0vYp1S2hoheFgJuVZ5Bs4ftCQpANOProNLVvlUhLYfe4Uvpd81uu+NQWzjLq1o8BiOUpu
- lSI0TU+A==;
-Received: from [189.7.87.174] (helo=[192.168.0.224])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1u7Xhu-006sMM-Db; Wed, 23 Apr 2025 12:51:58 +0200
-Message-ID: <a6c2baa7-521f-4c9f-b6f8-ff18e35dd941@igalia.com>
-Date: Wed, 23 Apr 2025 07:51:50 -0300
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD8B10E085
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 11:54:26 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-39ee623fe64so5481761f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 04:54:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1745409265; x=1746014065; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RXiSx30w1hmWlM/Di4qv5E69sWeA1eC0NCdlxnJgn04=;
+ b=XRA+uEMGouoJcY9AY8GsUFtzwLpmMjkAmTHrRx8bsvi0lmu8MyxXB9Ba/zahTQKDfu
+ Kxw/z5hbxuHmCX7sNhblNsmOFC6qi1ijcBP18z1+Q9HZgIeQSrCTC9eIwCJ9DltceuzR
+ Cubm4nr9d8XGVz68TlVnFEFFkBJNH8QiNo6g43+TFF9X5znBBRDp1DbuuCk6f802E8vj
+ wfQd4aMziPvJbtIfRVFy3dGdXCIq1el+pHdomCRu8jHgH5RhMEYc4C2Y8Rej8pXF9ZrE
+ iNLA7TXTUjafwcSWuC5o5KywUk7bSF7nTtlX50oN15N1nfXZEhO0jw3D3s4cVd6U42j5
+ zQiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745409265; x=1746014065;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RXiSx30w1hmWlM/Di4qv5E69sWeA1eC0NCdlxnJgn04=;
+ b=S8jqItLz9m2CH37+761Wc9UpyijWPOMuDMBI8kpMNJZ5lLQnql7Pue/OXL4VoCAXCh
+ ARpyCJzvQmm9pFhNy8XfAktRWY4XzQVGN6GJnTlI5tE7xH+U1Nji9eHOT3m5mwud977P
+ BOhNjLrLDHzPAyaaAWJ6Z+VVwplJEqw4so5ekVHvkdWs7vkI9RnSuC7AZE+acwFXJpgD
+ PqNF1Nw020L9x6L7Ev2NagQN1a3AFajlkDnQYI52ZQLq0/lbCHzwoZmMCSCoDhBv4/1B
+ rColCymevr/J7ixq4PlJhWHSouo5yUwWlSbEnQeURPLgdMzskLT8U1V3BCDVhlDT+gph
+ 3T1g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVrOZ3O3bKGBQ33efgavx5u3PfLWWfV5xTIQBDPyEbVNs+cqovSVs9Y63NZMIpmLSjLpHyeswOFM9Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxxexaWpnoKntoI5D7+gofkaT6348YmIsvua0Ur/0tlc0b1zYFF
+ fGg/Kw5AaGOk1VwDYeLFTQ7JL7FFpmJY2aq0N+0rXXw2A6Zh44pTvC4s47bDYO6a8RbAfdHJizf
+ iq0Aq9LicIWOr3GzKJcRBBe5xa4Y=
+X-Gm-Gg: ASbGnct2peESgVeViaBmWosskpUv7FzDFDb94P/M4AUpVnx/eq2a7Sc28e2UaIogIMR
+ +dqwLtGyEesFHADMFtoHeqPxEuUZw6WZUh9OY1vZ91uZHJ+9YQrnXlZa0FwcZ/PsdeP3BvcUQWV
+ 760hK84GAnpmPHtzbJh5TVhTJL47mxAJdT
+X-Google-Smtp-Source: AGHT+IFmLMHRjZ1XgjDcqyxjk7BtcPPGf+OCSTtdICXla1NMLROjvh3kKmkIO0184O1OWZlMMASHo5tS0W9iQ2Iv8xM=
+X-Received: by 2002:a05:6000:43cc:20b0:39f:fd4:aec7 with SMTP id
+ ffacd0b85a97d-39f0fd4aed9mr4142583f8f.7.1745409264608; Wed, 23 Apr 2025
+ 04:54:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/1] drm/mipi-dbi: Use drm_device for debugfs, drop drm_minor
-To: Jagath Jog J <jagathjog1996@gmail.com>, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250421085907.24972-1-jagathjog1996@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250421085907.24972-1-jagathjog1996@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250418184658.456398-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250418184658.456398-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdWs7R9rtS7Ur6PP9e3m9ghkM1jc_Xn3QOWG4rvTtB2omA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWs7R9rtS7Ur6PP9e3m9ghkM1jc_Xn3QOWG4rvTtB2omA@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 23 Apr 2025 12:53:58 +0100
+X-Gm-Features: ATxdqUE-OgT80-E06tUi_do9bnwXEJELC81J36DTuicZR1BwPkK_CJ9Za-SJxBA
+Message-ID: <CA+V-a8tXpWf8-YL-qzWhqc+fDvV4Kzd-6gJqC5HWvE00QsNFAA@mail.gmail.com>
+Subject: Re: [PATCH v3 10/15] drm: renesas: rz-du: mipi_dsi: Use mHz for D-PHY
+ frequency calculations
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +102,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagath,
+Hi Geert,
 
-On 21/04/25 05:59, Jagath Jog J wrote:
-> This patch updates the MIPI DBI driver to use drm_device.debugfs_root
-> instead of drm_minor for creating debugfs files. The debugfs setup is now
-> done earlier in probe(), before drm_dev_register(), and the drivers can
-> avoid using the .debugfs_init callback.
-> 
-> This is an initial version, and only a few drivers are updated for now.
-> 
-> I noticed that some newer drivers or patches still use
-> drm_debugfs_create_files(), which relies on drm_minor. I was wondering if
-> there is a specific reason for this, or if there's a plan to switch to
-> drm_debugfs_add_files? I can send patches to update more drivers if
-> that helps.
+Thank you for the review.
 
-Yes, there was a plan to switch to drm_debugfs_add_files(), as it
-centers the debugfs files management on the drm_device instead of
-drm_minor.
+On Tue, Apr 22, 2025 at 8:41=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Fri, 18 Apr 2025 at 20:47, Prabhakar <prabhakar.csengg@gmail.com> wrot=
+e:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Pass the HSFREQ in milli-Hz to the `dphy_init()` callback to improve
+> > precision, especially for the RZ/V2H(P) SoC, where PLL dividers require
+> > high accuracy.
+> >
+> > These changes prepare the driver for upcoming RZ/V2H(P) SoC support.
+> >
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v2->v3:
+> > - Replaced `unsigned long long` with `u64`
+> > - Replaced *_mhz with *_millihz` in functions
+>
+> Thanks for the update!
+>
+> > @@ -203,8 +203,9 @@ static u32 rzg2l_mipi_dsi_link_read(struct rzg2l_mi=
+pi_dsi *dsi, u32 reg)
+> >   */
+> >
+> >  static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
+> > -                                   unsigned long hsfreq)
+> > +                                   u64 hsfreq_millihz)
+> >  {
+> > +       unsigned long hsfreq =3D DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, =
+KILO);
+>
+> MILLI (everywhere)
+>
+OK.
 
-But, in the end, we concluded that we needed a few more changes in the
-infrastructure to make things more generic. Here are some discussions
-[1][2] and this was my plan to make things more generic [3], which
-needed some improvements.
+> It's a strange world where KILO =3D=3D MILLI ;-)
+>
+:-)
+>     include/linux/units.h:#define KILO      1000UL
+>     include/linux/units.h-#define MILLI     1000UL
+>
+> >         const struct rzg2l_mipi_dsi_timings *dphy_timings;
+> >         unsigned int i;
+> >         u32 dphyctrl0;
+> > @@ -277,6 +278,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
+_dsi *dsi,
+> >                                   const struct drm_display_mode *mode)
+> >  {
+> >         unsigned long hsfreq, vclk_rate;
+> > +       u64 hsfreq_millihz;
+> >         unsigned int bpp;
+> >         u32 txsetr;
+> >         u32 clstptsetr;
+> > @@ -305,9 +307,9 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
+_dsi *dsi,
+> >          */
+> >         bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
+> >         vclk_rate =3D clk_get_rate(dsi->vclk);
+> > -       hsfreq =3D DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp, dsi->lanes);
+> > +       hsfreq_millihz =3D DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp * KILO=
+ * 1ULL, dsi->lanes);
+>
+> The "* 1ULL" only makes the last factor unsigned long long.
+> "vclk_rate * bpp" is still unsigned long, causing overflow on 32-bit.
+> As there is no rounding variant of mul_u64_u32_div(), you probably
+> want to use mul_u32_u32() instead.
+>
+Agreed, I will update it to,
+`DIV_ROUND_CLOSEST_ULL(mul_u32_u32(vclk_rate, bpp * KILO),
+dsi->lanes);`
 
-It would be create if you help us to cleanup debugfs and feel free to
-use my patches as a base for it.
-
-[1] 
-https://lore.kernel.org/dri-devel/20230209081838.45273-1-christian.koenig@amd.com/
-[2] https://lore.kernel.org/dri-devel/87eds0gm9b.fsf@intel.com/
-[3] 
-https://lore.kernel.org/dri-devel/20230131195825.677487-1-mcanal@igalia.com/
-
-Best Regards,
-- Maíra
-
-> 
-> This patch helps move toward the debugfs cleanup task listed here:
-> https://docs.kernel.org/gpu/todo.html#clean-up-the-debugfs-support
-> 
-> Looking forward to your feedback.
-> 
-> Jagath Jog J (1):
->    drm/mipi-dbi: Use drm_device for debugfs, drop drm_minor and
->      .debugfs_init
-> 
->   drivers/gpu/drm/drm_mipi_dbi.c        | 8 ++++----
->   drivers/gpu/drm/tiny/ili9163.c        | 3 ++-
->   drivers/gpu/drm/tiny/panel-mipi-dbi.c | 3 ++-
->   include/drm/drm_mipi_dbi.h            | 4 ++--
->   4 files changed, 10 insertions(+), 8 deletions(-)
-> 
-
+Cheers,
+Prabhakar
