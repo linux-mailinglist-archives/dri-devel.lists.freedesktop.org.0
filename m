@@ -2,103 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D0DA97CC5
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 04:24:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D51BA97CD8
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 04:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E56810E3EA;
-	Wed, 23 Apr 2025 02:24:05 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gcEsVa04";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63B8D10E3E8;
+	Wed, 23 Apr 2025 02:36:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB4AE10E3E8;
- Wed, 23 Apr 2025 02:24:03 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53N0iOFC024199;
- Wed, 23 Apr 2025 02:23:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- A3p0shn+EadAgS37YRBKT47mpjkqtQBb46wYknXcv7A=; b=gcEsVa04yMM/LiEo
- biMv9NF5VP2uzwEC5vulbuTJT7OwSiWpOVkYa1HKbnFnDrUTH2RSFtEzgF6cSbpA
- o2CaeQFj3HrrV2RH7EYbpUJuouZ0V91V6023chl4/8e7qdP2NOh9bFGe6RibjLuC
- XIwC8/3aUhsEl8pmXMwg3GY1f1yJRohs+Y5UvESX8SiUgwHFPVBd9/g+V5E22lnB
- YahZRH3UW5j75zasBQHTENqVk8InRbFeSP06+qNfe48QDFaZ8o9X5s5A5Kgb9COO
- D7o1PAyr9eYtg53/t6Aaj1SQQgnyHGen7rGUasFhbgwc0yDReOVv4GC9kVSaeHlt
- f6/liA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh38k15-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Apr 2025 02:23:53 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53N2NqTm011450
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Apr 2025 02:23:52 GMT
-Received: from [10.71.110.123] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 22 Apr
- 2025 19:23:51 -0700
-Message-ID: <079bdb90-2dae-4feb-a32e-7a7ce8a3a972@quicinc.com>
-Date: Tue, 22 Apr 2025 19:23:35 -0700
+X-Greylist: delayed 327 seconds by postgrey-1.36 at gabe;
+ Wed, 23 Apr 2025 02:36:02 UTC
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D32D10E3E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 02:36:02 +0000 (UTC)
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-294-_3dPWgHpPRa4mZXnRLb--A-1; Tue,
+ 22 Apr 2025 22:29:26 -0400
+X-MC-Unique: _3dPWgHpPRa4mZXnRLb--A-1
+X-Mimecast-MFC-AGG-ID: _3dPWgHpPRa4mZXnRLb--A_1745375365
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 747521956094; Wed, 23 Apr 2025 02:29:25 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.64.136.98])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 9A081180047F; Wed, 23 Apr 2025 02:29:23 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: matthew.brost@intel.com,
+	christian.koenig@amd.com
+Subject: [PATCH] drm/ttm/xe: drop unused force_alloc flag
+Date: Wed, 23 Apr 2025 12:29:20 +1000
+Message-ID: <20250423022920.27701-1-airlied@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: display: msm: dp-controller: document
- pixel clock stream
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Mahadevan <quic_mahap@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com>
- <20241202-dp_mst_bindings-v1-1-9a9a43b0624a@quicinc.com>
- <e8f2e17c-13c1-4485-8e9a-d67705e461d6@kernel.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <e8f2e17c-13c1-4485-8e9a-d67705e461d6@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: XNhPFzHgSVf8tZ7uxJJbchvi4jvQGUkl
-X-Proofpoint-GUID: XNhPFzHgSVf8tZ7uxJJbchvi4jvQGUkl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDAxMiBTYWx0ZWRfX9hDdm3ug2qfK
- HoTCYPSVU+rvUSU/PtDeRevJkQz9ko8+1GI51wFXfuH+JhA8oBMO4ivYbIwb2S1NdFubtuFOuN6
- bmVWIX4Pzoq3Nq0YGlFZs2W3cn2W6Bdi2lWvyt2h2tJTlnHOh5SWEfyCu5ec5sn9CeaSPFyZIe7
- B43rNIM1FhEUnF8RIqRr05n5FbaNT/QTfEenZmaupjziBu1ZK8FffCQqLh+c30n5oOZBe52OSaC
- /hx43O6bOwwC7UsQRYobfTbALhOoXG6yQaqqGflzmsKOi7zpu3E0PsZyUn2F5AkWNAH9fUyqSeu
- Ka6f1Oz+/os/fCTbyBJ0OWb6CFkFzwYx3yirpaQ5m7P+KqeUImRS3Y6KGr+gFdqj1/94Ei6rWdb
- QsvOV6HxtCk/b6Q2+4rCdD0Bt4smUgqELJ6n1WeDSsB9QXGL/pxuMD2y+Z+ttuySdpkb/rt7
-X-Authority-Analysis: v=2.4 cv=Mepsu4/f c=1 sm=1 tr=0 ts=68084f39 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10
- a=wkMkCz1etwRys_XeWVAA:9 a=QEXdDO2ut3YA:10 a=QYH75iMubAgA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-23_01,2025-04-22_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 malwarescore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 clxscore=1015
- mlxlogscore=964 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504230012
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: DSM6VbtG8N8_2SfsXXZL5PqxLYRfH---5yedq343h2A_1745375365
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+content-type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,21 +61,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof
+From: Dave Airlie <airlied@redhat.com>
 
-Sorry for the delayed response.
+This flag used to be used in the old memory tracking code, that
+code got migrated into the vmwgfx driver[1], and then got removed
+from the tree[2], but this piece got left behind.
 
-On 12/3/2024 12:01 AM, Krzysztof Kozlowski wrote:
-> On 03/12/2024 04:31, Abhinav Kumar wrote:
->> Display port controller on some MSM chipsets are capable of supporting
->> multiple streams. In order to distinguish the streams better, describe
->> the current pixel clock better to emphasize that it drives the stream 0.
->>
-> This should be squashed with patch adding stream 1.
-> 
+[1] f07069da6b4c ("drm/ttm: move memory accounting into vmwgfx v4")
+[2] 8aadeb8ad874 ("drm/vmwgfx: Remove the dedicated memory accounting")
 
-Sure, I can squash this with patch 3.
+Cleanup the dead code.
 
-> Best regards,
-> Krzysztof
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo_vm.c    | 1 -
+ drivers/gpu/drm/ttm/ttm_resource.c | 1 -
+ drivers/gpu/drm/xe/xe_bo.c         | 4 +---
+ drivers/gpu/drm/xe/xe_bo.h         | 2 +-
+ drivers/gpu/drm/xe/xe_dma_buf.c    | 2 +-
+ include/drm/ttm/ttm_bo.h           | 2 --
+ 6 files changed, 3 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_v=
+m.c
+index a194db83421d..bdfa6ecfef05 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+@@ -220,7 +220,6 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vm=
+f,
+ =09=09struct ttm_operation_ctx ctx =3D {
+ =09=09=09.interruptible =3D true,
+ =09=09=09.no_wait_gpu =3D false,
+-=09=09=09.force_alloc =3D true
+ =09=09};
+=20
+ =09=09ttm =3D bo->ttm;
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_r=
+esource.c
+index 7e5a60c55813..769b0ca9be47 100644
+--- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -548,7 +548,6 @@ int ttm_resource_manager_evict_all(struct ttm_device *b=
+dev,
+ =09struct ttm_operation_ctx ctx =3D {
+ =09=09.interruptible =3D false,
+ =09=09.no_wait_gpu =3D false,
+-=09=09.force_alloc =3D true
+ =09};
+ =09struct dma_fence *fence;
+ =09int ret;
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index 64f9c936eea0..32a5a6390f62 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -2759,19 +2759,17 @@ int xe_bo_migrate(struct xe_bo *bo, u32 mem_type)
+ /**
+  * xe_bo_evict - Evict an object to evict placement
+  * @bo: The buffer object to migrate.
+- * @force_alloc: Set force_alloc in ttm_operation_ctx
+  *
+  * On successful completion, the object memory will be moved to evict
+  * placement. This function blocks until the object has been fully moved.
+  *
+  * Return: 0 on success. Negative error code on failure.
+  */
+-int xe_bo_evict(struct xe_bo *bo, bool force_alloc)
++int xe_bo_evict(struct xe_bo *bo)
+ {
+ =09struct ttm_operation_ctx ctx =3D {
+ =09=09.interruptible =3D false,
+ =09=09.no_wait_gpu =3D false,
+-=09=09.force_alloc =3D force_alloc,
+ =09=09.gfp_retry_mayfail =3D true,
+ =09};
+ =09struct ttm_placement placement;
+diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
+index ec3e4446d027..1a3734d9f8be 100644
+--- a/drivers/gpu/drm/xe/xe_bo.h
++++ b/drivers/gpu/drm/xe/xe_bo.h
+@@ -271,7 +271,7 @@ uint64_t vram_region_gpu_offset(struct ttm_resource *re=
+s);
+ bool xe_bo_can_migrate(struct xe_bo *bo, u32 mem_type);
+=20
+ int xe_bo_migrate(struct xe_bo *bo, u32 mem_type);
+-int xe_bo_evict(struct xe_bo *bo, bool force_alloc);
++int xe_bo_evict(struct xe_bo *bo);
+=20
+ int xe_bo_evict_pinned(struct xe_bo *bo);
+ int xe_bo_restore_pinned(struct xe_bo *bo);
+diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_bu=
+f.c
+index f67803e15a0e..f06961575d8a 100644
+--- a/drivers/gpu/drm/xe/xe_dma_buf.c
++++ b/drivers/gpu/drm/xe/xe_dma_buf.c
+@@ -236,7 +236,7 @@ static void xe_dma_buf_move_notify(struct dma_buf_attac=
+hment *attach)
+ =09struct drm_gem_object *obj =3D attach->importer_priv;
+ =09struct xe_bo *bo =3D gem_to_xe_bo(obj);
+=20
+-=09XE_WARN_ON(xe_bo_evict(bo, false));
++=09XE_WARN_ON(xe_bo_evict(bo));
+ }
+=20
+ static const struct dma_buf_attach_ops xe_dma_buf_attach_ops =3D {
+diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+index 903cd1030110..cf027558b6db 100644
+--- a/include/drm/ttm/ttm_bo.h
++++ b/include/drm/ttm/ttm_bo.h
+@@ -172,7 +172,6 @@ struct ttm_bo_kmap_obj {
+  * @gfp_retry_mayfail: Set the __GFP_RETRY_MAYFAIL when allocation pages.
+  * @allow_res_evict: Allow eviction of reserved BOs. Can be used when mult=
+iple
+  * BOs share the same reservation object.
+- * @force_alloc: Don't check the memory account during suspend or CPU page
+  * faults. Should only be used by TTM internally.
+  * @resv: Reservation object to allow reserved evictions with.
+  * @bytes_moved: Statistics on how many bytes have been moved.
+@@ -185,7 +184,6 @@ struct ttm_operation_ctx {
+ =09bool no_wait_gpu;
+ =09bool gfp_retry_mayfail;
+ =09bool allow_res_evict;
+-=09bool force_alloc;
+ =09struct dma_resv *resv;
+ =09uint64_t bytes_moved;
+ };
+--=20
+2.48.1
 
