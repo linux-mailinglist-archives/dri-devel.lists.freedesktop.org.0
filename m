@@ -2,58 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABFBA98672
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 11:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68AA7A985DE
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 11:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B936810E66C;
-	Wed, 23 Apr 2025 09:52:19 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LY9fQ6MX";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92ED610E652;
+	Wed, 23 Apr 2025 09:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B83D10E674;
- Wed, 23 Apr 2025 09:52:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745401939; x=1776937939;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=r4qqDZrWY+GHBfNicFtr7V/j6O/UpFISLIc5BHssD6Q=;
- b=LY9fQ6MXAziex+bYZn1ikXQNc6AUGcKwduZG6deTPFCk/6hn2GMBze9d
- 0ZQ/eCIEzfjs8cq/OgSAtgoBRiuUfF/ShejM4xxfqYIjRLgXyZsZMLzEK
- 746qrD9aDq7obkLGypih5dHxrL0o7Zkbod/Xa25D86eoO1Z+lNNRH0xRK
- CzjsI8/GVceoSVcBaQndXi+O0ktSEzGGcNxIsdsKEE7pu4UUB4ADwqn+w
- EWWsYEaSP97mL7UnryfpifrbkBpdvJzoslfSxK/VDOU9te4vebeJFF+e6
- 6iuBB/VaycdfJEEEzOh/r2KnhR1eVLcM6uiGAdSBSKtzdqcTzSoxgu7rI A==;
-X-CSE-ConnectionGUID: jSZsJkNhQWKVsiC6oZIkfQ==
-X-CSE-MsgGUID: VOllbdO9RdSO1RgdO6K//w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="46221937"
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; d="scan'208";a="46221937"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2025 02:52:18 -0700
-X-CSE-ConnectionGUID: 3lRBdskpTBCacpy0/kkcRw==
-X-CSE-MsgGUID: pWcEvlCgR0+51Zoq7CP/gA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; d="scan'208";a="163327170"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa001.fm.intel.com with ESMTP; 23 Apr 2025 02:52:16 -0700
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Wed, 23 Apr 2025 15:07:40 +0530
-Subject: [PATCH v4 2/2] drm/i915/display: move min_hblank from dp_mst.c to dp.c
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A22710E447;
+ Wed, 23 Apr 2025 09:41:59 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F2062B;
+ Wed, 23 Apr 2025 02:41:54 -0700 (PDT)
+Received: from [10.57.91.61] (unknown [10.57.91.61])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DEE433F66E;
+ Wed, 23 Apr 2025 02:41:54 -0700 (PDT)
+Message-ID: <be01aea3-1fc6-48f8-b8ad-83464e260c5c@arm.com>
+Date: Wed, 23 Apr 2025 10:41:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250423-hblank-v4-2-8e513cc54652@intel.com>
-References: <20250423-hblank-v4-0-8e513cc54652@intel.com>
-In-Reply-To: <20250423-hblank-v4-0-8e513cc54652@intel.com>
-To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/doc: Start documenting aspects specific to tile-based
+ renderers
+To: Boris Brezillon <boris.brezillon@collabora.com>,
  dri-devel@lists.freedesktop.org
-Cc: imre.deak@intel.com, vinod.govindapillai@intel.com, 
- Arun R Murthy <arun.r.murthy@intel.com>
-X-Mailer: b4 0.15-dev
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
+References: <20250418122524.410448-1-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250418122524.410448-1-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,293 +57,276 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Minimum HBlank is programmed to address jitter for high resolutions with
-high refresh rates that have small Hblank, specifically where Hblank is
-smaller than one MTP.
+On 18/04/2025 13:25, Boris Brezillon wrote:
+> Tile-based GPUs come with a set of constraints that are not present
+> when immediate rendering is used. This new document tries to explain
+> the differences between tile/immediate rendering, the problems that
+> come with tilers, and how we plan to address them.
+> 
+> This is just a started point, this document will be updated with new
+> materials as we refine the libraries we add to help deal with
+> tilers, and have more drivers converted to follow the rules listed
+> here.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-TODO: Add the min_hblank calculation for hdmi as well.
+Seems like a good starting point, a few minor comments below. We really
+need some non-Mali input too though.
 
-v2: move from intel_audio.c to intel_dp.c
-    some correction in link_bpp_x16 (Imre)
-v3: min_hblank for 8b/10b MST and 128b/132b SST/MST
-    handle error for intel_dp_mst_dsc_get_slice_count
-    reset min_hblank before disabling transcoder (Imre)
-v4: compute link_bpp_x16 within compute_min_hblank,
-    return error in case of compute failure
-    call compute_min_hblank() before vrr_compute_config (Imre)
+> ---
+>  Documentation/gpu/drm-tile-based-renderer.rst | 201 ++++++++++++++++++
+>  Documentation/gpu/index.rst                   |   1 +
+>  2 files changed, 202 insertions(+)
+>  create mode 100644 Documentation/gpu/drm-tile-based-renderer.rst
+> 
+> diff --git a/Documentation/gpu/drm-tile-based-renderer.rst b/Documentation/gpu/drm-tile-based-renderer.rst
+> new file mode 100644
+> index 000000000000..19b56b9476fc
+> --- /dev/null
+> +++ b/Documentation/gpu/drm-tile-based-renderer.rst
+> @@ -0,0 +1,201 @@
+> +==================================================
+> +Infrastructure and tricks for tile-based renderers
+> +==================================================
+> +
+> +All lot of embedded GPUs are using tile-based rendering instead of immediate
+> +rendering. This mode of rendering has various implications that we try to
+> +document here along with some hints about how to deal with some of the
+> +problems that surface with tile-based renderers.
+> +
+> +The main idea behind tile-based rendering is to batch processing of nearby
+> +pixels during the fragment shading phase to limit the traffic on the memory
+> +bus by making optimal use of the various caches present in the GPU. Unlike
+> +immediate rendering, where primitives generated by the geometry stages of
+> +the pipeline are directly consumed by the fragment stage, tilers have to
+> +record primitives in bins that are somehow attached to tiles (the
+> +granularity of the tile being GPU-specific). This data is usually stored
+> +in memory, and pulled back when the fragment stage is executed.
+> +
+> +This approach has several issues that most drivers need to handle somehow,
+> +sometimes with a bit of help from the hardware.
+> +
+> +Issues at hand
+> +==============
+> +
+> +Tiler memory
+> +------------
+> +
+> +The amount of memory needed to store primitives data and metadata is hard
+> +to guess ahead of time, because it depends on various parameters that are
+> +not in control of the UMD (UserMode Driver). Here is a non-exhaustive list
+> +of things that may complicate the calculation of the memory needed to store
+> +primitive information:
+> +
+> +- Primitives distribution across tiles is hard to guess: the binning process
+> +  is about assigning each primitive to the set tiles it covers. The more tiles
+> +  being covered the more memory is needed to record those. We can estimate
+> +  the worst case scenario by assuming all primitives will cover all tiles but
+> +  this will lead to over-allocation most of the time, which is not good
+> +- Indirect draws: the number of vertices comes from a GPU buffer that might
+> +  be filled by previous GPU compute jobs. This means we only know the number
+> +  of vertices when the GPU executes the draw, and thus can't guess how much
+> +  memory will be needed for those and allocate a GPU buffer that's big enough
+> +  to hold those
+> +- Complex geometry pipelines: if you throw geometry/tesselation/mesh shaders
+> +  it gets even trickier to guess the number of primitives from the number
+> +  of vertices passed to the vertex shader.
+> +
+> +For all these reasons, the tiler usually allocates memory dynamically, but
+> +DRM has not been designed with this use case in mind. Drivers will address
+> +these problems differently based on the functionality provided by their
+> +hardware, but all of them almost certainly have to deal with this somehow.
+> +
+> +The easy solution is to statically allocate a huge buffer to pick from when
+> +tiler memory is needed, and fail the rendering when this buffer is depleted.
+> +Some drivers try to be smarter to avoid reserving a lot of memory upfront.
+> +Instead, they start with an almost empty buffer and progressively populate it
+> +when the GPU faults on an address sitting in the tiler buffer range. This
+> +works okay most of the time but it falls short when the system is under
+> +memory pressure, because the memory request is not guaranteed to be satisfied.
+> +In that case, the driver either fails the rendering, or, if the hardware
+> +allows it, it tries to flush the primitives that have been processed and
+> +triggers a fragment job that will consume those primitives and free up some
+> +memory to be recycled and make further progress on the tiling step. This is
+> +usually referred as partial/incremental rendering (it might have other names).
+> +
+> +Compute based emulation of geometry stages
+> +------------------------------------------
+> +
+> +More and more hardware vendors don't bother providing hardware support for
+> +geometry/tesselation/mesh stages, since those can be emulated with compute
+> +shaders. But the same problem we have with tiler memory exists with those
+> +intermediate compute-emulated stages, because transient data shared between
+> +stages need to be stored in memory for the next stage to consume, and this
+> +bubbles up until the tiling stage is reached, because ultimately, what the
+> +tiling stage will need to process is a set of vertices it can turn into
+> +primitives, like would happen if the application had emulated the geometry,
+> +tesselation or mesh stages with compute.
+> +
+> +Unlike tiling, where the hardware can provide a fallback to recycle memory,
+> +there is no way the intermediate primitives can be flushed up to the framebuffer,
+> +because it's a purely software emulation here. This being said, the same
+> +"start small, grow on-demand" can be applied to avoid over-allocating memory
+> +upfront.
+> +
+> +On-demand memory allocation
+> +---------------------------
+> +
+> +As explained in previous sections, on-demand allocation is a central piece
+> +of tile-based renderer if we don't want to over-allocate, which is bad for
+> +integrated GPUs who share their memory with the rest of the system.
+> +
+> +The problem with on-demand allocation is that suddenly, GPU accesses can
+> +fail on OOM, and the DRM components (drm_gpu_scheduler and drm_gem mostly)
+> +were not designed for that. Those are assuming that buffers memory is
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
----
- drivers/gpu/drm/i915/display/intel_display.c | 17 +++++++
- drivers/gpu/drm/i915/display/intel_dp.c      | 76 ++++++++++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_dp.h      |  3 ++
- drivers/gpu/drm/i915/display/intel_dp_mst.c  | 57 +++------------------
- 4 files changed, 102 insertions(+), 51 deletions(-)
+NIT: s/buffers/buffer's/
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 33c09999c42e046c7a8b6e6143be0b81650ee7f7..6425296d99f408582cd10d9ffdae94beb2ea2521 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -2723,6 +2723,19 @@ static void intel_set_transcoder_timings(const struct intel_crtc_state *crtc_sta
- 		intel_de_write(display, TRANS_VTOTAL(display, pipe),
- 			       VACTIVE(crtc_vdisplay - 1) |
- 			       VTOTAL(crtc_vtotal - 1));
-+
-+	if (DISPLAY_VER(display) >= 30) {
-+		/*
-+		 * Address issues for resolutions with high refresh rate that
-+		 * have small Hblank, specifically where Hblank is smaller than
-+		 * one MTP. Simulations indicate this will address the
-+		 * jitter issues that currently causes BS to be immediately
-+		 * followed by BE which DPRX devices are unable to handle.
-+		 * https://groups.vesa.org/wg/DP/document/20494
-+		 */
-+		intel_de_write(display, DP_MIN_HBLANK_CTL(cpu_transcoder),
-+			       crtc_state->min_hblank);
-+	}
- }
- 
- static void intel_set_transcoder_timings_lrr(const struct intel_crtc_state *crtc_state)
-@@ -2866,6 +2879,8 @@ static void intel_get_transcoder_timings(struct intel_crtc *crtc,
- 			adjusted_mode->crtc_vdisplay +
- 			intel_de_read(display,
- 				      TRANS_SET_CONTEXT_LATENCY(display, cpu_transcoder));
-+	pipe_config->min_hblank = intel_de_read(display,
-+						DP_MIN_HBLANK_CTL(cpu_transcoder));
- }
- 
- static void intel_joiner_adjust_pipe_src(struct intel_crtc_state *crtc_state)
-@@ -5216,6 +5231,8 @@ intel_pipe_config_compare(const struct intel_crtc_state *current_config,
- 	PIPE_CONF_CHECK_I(lane_count);
- 	PIPE_CONF_CHECK_X(lane_lat_optim_mask);
- 
-+	PIPE_CONF_CHECK_I(min_hblank);
-+
- 	if (HAS_DOUBLE_BUFFERED_M_N(display)) {
- 		if (!fastset || !pipe_config->update_m_n)
- 			PIPE_CONF_CHECK_M_N(dp_m_n);
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index d7a30d0992b7a65250a3abfecde876321326fa84..c18889cecaf40cd6599adbb3ae0f0feb0c95990f 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -3104,6 +3104,77 @@ intel_dp_queue_modeset_retry_for_link(struct intel_atomic_state *state,
- 	}
- }
- 
-+int intel_dp_compute_min_hblank(struct intel_crtc_state *crtc_state,
-+				 struct drm_connector_state *conn_state,
-+				 bool is_dsc)
-+{
-+	struct intel_display *display = to_intel_display(crtc_state);
-+	const struct drm_display_mode *adjusted_mode =
-+					&crtc_state->hw.adjusted_mode;
-+	struct intel_connector *connector = to_intel_connector(conn_state->connector);
-+	int symbol_size = intel_dp_is_uhbr(crtc_state) ? 32 : 8;
-+	/*
-+	 * min symbol cycles is 3(BS,VBID, BE) for 128b/132b and
-+	 * 5(BS, VBID, MVID, MAUD, BE) for 8b/10b
-+	 */
-+	int min_sym_cycles = intel_dp_is_uhbr(crtc_state) ? 3 : 5;
-+	bool is_mst = intel_crtc_has_type(crtc_state, INTEL_OUTPUT_DP_MST);
-+	int num_joined_pipes = intel_crtc_num_joined_pipes(crtc_state);
-+	int min_hblank;
-+	int max_lane_count = 4;
-+	int hactive_sym_cycles, htotal_sym_cycles;
-+	int dsc_slices = 0;
-+	int link_bpp_x16;
-+
-+	if (DISPLAY_VER(display) < 30)
-+		return 0;
-+
-+	/* MIN_HBLANK should be set only for 8b/10b MST or for 128b/132b SST/MST */
-+	if (!is_mst && !intel_dp_is_uhbr(crtc_state))
-+		return 0;
-+
-+	if (is_dsc) {
-+		dsc_slices = intel_dp_dsc_get_slice_count(connector,
-+						     adjusted_mode->crtc_clock,
-+						     adjusted_mode->crtc_hdisplay,
-+						     num_joined_pipes);
-+		if (!dsc_slices) {
-+			drm_dbg(display->drm, "failed to calculate dsc slice count\n");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	if (crtc_state->dsc.compression_enable)
-+		link_bpp_x16 = crtc_state->dsc.compressed_bpp_x16;
-+	else
-+		link_bpp_x16 = fxp_q4_from_int(intel_dp_output_bpp(crtc_state->output_format,
-+								   crtc_state->pipe_bpp));
-+
-+	/* Calculate min Hblank Link Layer Symbol Cycle Count for 8b/10b MST & 128b/132b */
-+	hactive_sym_cycles = drm_dp_link_symbol_cycles(max_lane_count,
-+						       adjusted_mode->hdisplay,
-+						       dsc_slices,
-+						       link_bpp_x16,
-+						       symbol_size, is_mst);
-+	htotal_sym_cycles = (adjusted_mode->htotal * hactive_sym_cycles) /
-+			     adjusted_mode->hdisplay;
-+
-+	min_hblank = htotal_sym_cycles - hactive_sym_cycles;
-+	/* minimum Hblank calculation: https://groups.vesa.org/wg/DP/document/20494 */
-+	min_hblank = max(min_hblank, min_sym_cycles);
-+
-+	/*
-+	 * adjust the BlankingStart/BlankingEnd framing control from
-+	 * the calculated value
-+	 */
-+	min_hblank = min_hblank - 2;
-+
-+	min_hblank = min(10, min_hblank);
-+	crtc_state->min_hblank = min_hblank;
-+
-+	return 0;
-+}
-+
- int
- intel_dp_compute_config(struct intel_encoder *encoder,
- 			struct intel_crtc_state *pipe_config,
-@@ -3203,6 +3274,11 @@ intel_dp_compute_config(struct intel_encoder *encoder,
- 				       &pipe_config->dp_m_n);
- 	}
- 
-+	ret = intel_dp_compute_min_hblank(pipe_config, conn_state,
-+					  pipe_config->dsc.compression_enable);
-+	if (ret)
-+		return ret;
-+
- 	/* FIXME: abstract this better */
- 	if (pipe_config->splitter.enable)
- 		pipe_config->dp_m_n.data_m *= pipe_config->splitter.link_count;
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index 9189db4c25946a0f082223ce059c242e80cc32dc..6f2f048295ecaa6cc1f967dc7b3b4cc75f3344c0 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -208,5 +208,8 @@ bool intel_dp_has_connector(struct intel_dp *intel_dp,
- 			    const struct drm_connector_state *conn_state);
- int intel_dp_dsc_max_src_input_bpc(struct intel_display *display);
- int intel_dp_dsc_min_src_input_bpc(void);
-+int intel_dp_compute_min_hblank(struct intel_crtc_state *crtc_state,
-+				struct drm_connector_state *conn_state,
-+				bool is_dsc);
- 
- #endif /* __INTEL_DP_H__ */
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 4c15dcb103aa2ed5650cbbef8c12be53132e6a80..1108c3749d812a45d1675297220dad23969750fe 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -239,26 +239,6 @@ static int intel_dp_mst_dsc_get_slice_count(const struct intel_connector *connec
- 					    num_joined_pipes);
- }
- 
--static void intel_dp_mst_compute_min_hblank(struct intel_crtc_state *crtc_state,
--					    int bpp_x16)
--{
--	struct intel_display *display = to_intel_display(crtc_state);
--	const struct drm_display_mode *adjusted_mode =
--					&crtc_state->hw.adjusted_mode;
--	int symbol_size = intel_dp_is_uhbr(crtc_state) ? 32 : 8;
--	int hblank;
--
--	if (DISPLAY_VER(display) < 20)
--		return;
--
--	/* Calculate min Hblank Link Layer Symbol Cycle Count for 8b/10b MST & 128b/132b */
--	hblank = DIV_ROUND_UP((DIV_ROUND_UP
--			       (adjusted_mode->htotal - adjusted_mode->hdisplay, 4) * bpp_x16),
--			      symbol_size);
--
--	crtc_state->min_hblank = hblank;
--}
--
- int intel_dp_mtp_tu_compute_config(struct intel_dp *intel_dp,
- 				   struct intel_crtc_state *crtc_state,
- 				   struct drm_connector_state *conn_state,
-@@ -329,8 +309,6 @@ int intel_dp_mtp_tu_compute_config(struct intel_dp *intel_dp,
- 		local_bw_overhead = intel_dp_mst_bw_overhead(crtc_state,
- 							     false, dsc_slice_count, link_bpp_x16);
- 
--		intel_dp_mst_compute_min_hblank(crtc_state, link_bpp_x16);
--
- 		intel_dp_mst_compute_m_n(crtc_state,
- 					 local_bw_overhead,
- 					 link_bpp_x16,
-@@ -739,6 +717,11 @@ static int mst_stream_compute_config(struct intel_encoder *encoder,
- 		pipe_config->lane_lat_optim_mask =
- 			bxt_dpio_phy_calc_lane_lat_optim_mask(pipe_config->lane_count);
- 
-+	ret = intel_dp_compute_min_hblank(pipe_config, conn_state,
-+					  pipe_config->dsc.compression_enable);
-+	if (ret)
-+		return ret;
-+
- 	intel_vrr_compute_config(pipe_config, conn_state);
- 
- 	intel_dp_audio_compute_config(encoder, pipe_config, conn_state);
-@@ -1021,12 +1004,10 @@ static void mst_stream_disable(struct intel_atomic_state *state,
- 			       const struct intel_crtc_state *old_crtc_state,
- 			       const struct drm_connector_state *old_conn_state)
- {
--	struct intel_display *display = to_intel_display(state);
- 	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
- 	struct intel_dp *intel_dp = to_primary_dp(encoder);
- 	struct intel_connector *connector =
- 		to_intel_connector(old_conn_state->connector);
--	enum transcoder trans = old_crtc_state->cpu_transcoder;
- 
- 	if (intel_dp_mst_active_streams(intel_dp) == 1)
- 		intel_dp->link.active = false;
-@@ -1034,9 +1015,6 @@ static void mst_stream_disable(struct intel_atomic_state *state,
- 	intel_hdcp_disable(intel_mst->connector);
- 
- 	intel_dp_sink_disable_decompression(state, connector, old_crtc_state);
--
--	if (DISPLAY_VER(display) >= 20)
--		intel_de_write(display, DP_MIN_HBLANK_CTL(trans), 0);
- }
- 
- static void mst_stream_post_disable(struct intel_atomic_state *state,
-@@ -1305,7 +1283,7 @@ static void mst_stream_enable(struct intel_atomic_state *state,
- 	enum transcoder trans = pipe_config->cpu_transcoder;
- 	bool first_mst_stream = intel_dp_mst_active_streams(intel_dp) == 1;
- 	struct intel_crtc *pipe_crtc;
--	int ret, i, min_hblank;
-+	int ret, i;
- 
- 	drm_WARN_ON(display->drm, pipe_config->has_pch_encoder);
- 
-@@ -1320,29 +1298,6 @@ static void mst_stream_enable(struct intel_atomic_state *state,
- 			       TRANS_DP2_VFREQ_PIXEL_CLOCK(crtc_clock_hz & 0xffffff));
- 	}
- 
--	if (DISPLAY_VER(display) >= 20) {
--		/*
--		 * adjust the BlankingStart/BlankingEnd framing control from
--		 * the calculated value
--		 */
--		min_hblank = pipe_config->min_hblank - 2;
--
--		/* Maximum value to be programmed is limited to 0x10 */
--		min_hblank = min(0x10, min_hblank);
--
--		/*
--		 * Minimum hblank accepted for 128b/132b would be 5 and for
--		 * 8b/10b would be 3 symbol count
--		 */
--		if (intel_dp_is_uhbr(pipe_config))
--			min_hblank = max(min_hblank, 5);
--		else
--			min_hblank = max(min_hblank, 3);
--
--		intel_de_write(display, DP_MIN_HBLANK_CTL(trans),
--			       min_hblank);
--	}
--
- 	enable_bs_jitter_was(pipe_config);
- 
- 	intel_ddi_enable_transcoder_func(encoder, pipe_config);
+> +populated at job submission time, and will stay around for the job lifetime.
+> +If a GPU fault happens, it's the user fault, and the context can be flagged
 
--- 
-2.25.1
+NIT: s/user/user's/
+
+> +unusable. On-demand allocation is usually implemented as allocation-on-fault,
+> +and the dma_fence contract prevents us from blocking on allocations in that
+> +path (GPU fault handlers are in the dma-fence signalling path). So now we
+> +have GPU allocations that will be satisfied most of the time, but can fail
+> +occasionally. And this is not great, because an allocation failure might
+> +kill the user GPU context (VK_DEVICE_LOST in Vulkan terms), without the
+> +application having dong anything wrong. So, we need something that makes those
+> +allocation failures rare enough that most users won't experience them, and
+> +we need a fallback for when this happens to try to avoid them on the next
+> +user attempt to submit a graphics job.
+> +
+> +The plan
+> +========
+> +
+> +On-demand allocation rules
+> +--------------------------
+> +
+> +First of all, all allocations happening in the fault handler path must
+> +be using GFP_NOWAIT. With this flag, low-hanging fruit can be picked
+> +(clean FS cache will be flushed for instance), but an error will be
+> +returned if no memory is readily available. GFP_NOWAIT will also trigger
+> +background reclaim to hopefully free-up some memory for our future
+> +requests.
+> +
+> +How to deal with allocation failures
+> +------------------------------------
+> +
+> +The first trick here is to try to guess approximately how much memory
+> +will be needed, and force-populate on-demand buffers with that amount
+> +of memory when the job is started. It's not about guessing the worst
+> +case scenario here, but more the most likely case, probably with a
+> +reasonable margin, so that the job is likely to succeed when this amount
+> +of memory is provided by the KMD.
+> +
+> +The second trick to try to avoid over-allocation, even with this
+> +sub-optimistic estimate, is to have a shared pool of memory that can be
+> +used by all GPU contexts when they need tiler/geometry memory. This
+> +implies returning chunks to this pool at some point, so other contexts
+> +can re-use those. Details about what this global memory pool implementation
+> +would look like is currently undefined, but it needs to be filled to
+> +guarantee that pre-allocation requests for on-demand buffers used by a
+> +GPU job can be satisfied in the fault handler path.
+
+Note one thing I haven't seen discussed is that across multiple contexts
+it's possible to prioritise jobs that free memory. E.g. a fragment job
+can be run to free up memory from a tiler heap, allowing pages to be
+returned to the global pool. This might imply a uAPI extension allowing
+a fragment job to automatically drop memory from a BO so that the kernel
+can have confidence that it will actually free up memory.
+
+Sadly I don't think it's plausible to wait in the fault handler for a
+fragment job to complete to free up memory - so the best we can do here
+is postpone *starting* a vertex+tiler job if we're short on memory and
+have fragment jobs to run.
+
+> +
+> +As a last resort, we can try to allocate with GFP_ATOMIC if everything
+> +else fails, but this is a dangerous game, because we would be stealing
+> +memory from the atomic reserve, so it's not entirely clear if this is
+> +better than failing the job at this point.
+> +
+> +Ideas on how to make allocation failures decrease over time
+> +-----------------------------------------------------------
+> +
+> +When an on-demand allocation fails and the hardware doesn't have a
+> +flush-primitives fallback, we usually can't do much apart from failing the
+> +whole job. But it's important to try to avoid future allocation failures
+> +when the application creates a new context. There's no clear path for
+> +how to guess the actual size to force-populate on the next attempt. One
+> +option is to have a simple heuristics, like double the current resident size,
+> +but this has the downside of potentially taking a few attempts before reaching
+> +the stability point. Another option is to repeatedly map a dummy page at the
+> +fault addresses, so we can get a sense of how much memory was needed for this
+> +particular job.
+
+We'd have to double check that we don't cause extra problems with an
+aliasing heap like that. The tiler might attempt to read back data which
+could cause 'interesting' errors if it's getting clobbered. Given this
+is just a heuristic it might be ok, but it definitely needs more research.
+
+> +
+> +Once userspace gets an idea of what the application needs, it should force
+> +this to be the minimum populated size on the next context creation. For GL
+> +drivers, the UMD is in control of the context recreation, so it can easily
+> +record the next buffer size to use. For Vulkan applications, something should
+> +be recorded to track that, maybe in the form of some implicit dri-conf
+> +database that can overload the explicit dri-conf.
+> +
+> +Various implementation details have been discussed
+> +`here <https://lore.kernel.org/dri-devel/Z_kEjFjmsumfmbfM@phenom.ffwll.local/>`_
+> +but nothing has been decided yet.
+> +
+> +DRM infrastructure changes for tile-based renderers
+> +===================================================
+> +
+> +As seen in previous sections, allocation for tile-based GPUs can be tricky,
+> +so we really want to add as much facility as we can, and document how these
+> +helpers must be used. This section tries to list the various components and
+> +how we expect them to work.
+> +
+> +GEM SHMEM sparse backing
+> +------------------------
+> +
+> +On-demand allocation is not something the GEM layer has been designed for.
+> +The idea is to extend the existing GEM and GEM SHMEM helpers to cover the
+> +concept of sparse backing.
+> +
+> +A solution has been proposed
+> +`here<https://lore.kernel.org/dri-devel/20250404092634.2968115-1-boris.brezillon@collabora.com/>`_
+> +
+> +Fault injection mechanism
+> +-------------------------
+> +
+> +In order to easily test/validate the on-demand allocation logic, we need
+> +a way to fake GPU faults and trigger on-demand allocation. We also need
+> +to fake allocation failures are various points.
+
+NIT: s/are/at/
+
+Thanks,
+Steve
+
+> +
+> +This part is likely to be driver specific, and should probably involve
+> +new debugfs knobs.
+> +
+> +Global memory pool for on-demand allocation
+> +-------------------------------------------
+> +
+> +TBD.
+> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+> index 7dcb15850afd..186917524854 100644
+> --- a/Documentation/gpu/index.rst
+> +++ b/Documentation/gpu/index.rst
+> @@ -14,6 +14,7 @@ GPU Driver Developer's Guide
+>     driver-uapi
+>     drm-client
+>     drm-compute
+> +   drm-tile-based-renderer
+>     drivers
+>     backlight
+>     vga-switcheroo
 
