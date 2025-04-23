@@ -2,99 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB93A99843
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 21:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85181A998A1
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 21:35:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD10510E24A;
-	Wed, 23 Apr 2025 19:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43F9910E23F;
+	Wed, 23 Apr 2025 19:35:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RlXghq8x";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CIrdxZCO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A011810E23F
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 19:03:50 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-30db1bc464dso2867711fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 12:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745435029; x=1746039829; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=7LuhtW5tfnv74ISfwTqYLQ3czllGmI8LVC1e0ZexWu8=;
- b=RlXghq8x5NOtELzCxsLo5tS6/ir3WGQdy2ZI9Jx2eauSzHItLNWetRFfg8x8ZS4doO
- 1dWqcMVrxN2dEJv3kAqn8B1ROUe957/RZTmLaZPIFzIL8CY6/hGxuVUkVMKKXFadMyn9
- QhjrP4Go4lBJcAMxLKMr5Owvg46bkBGfTj669sXfht1Te5EoSV+16FsdJcQc8S+EcQkw
- TtZGoaEu8k7LrufgJItH5kNdSggQtGXVQqOwrB1T+119JCl1InLB3DZj2wp6jmeH+VN8
- cbSxsvVcLZGCWdOvZ50aF+Fnw/U0YCA6GKZXrJhz7FwwjaPv/Fdzbprk1/2XoVYn7dEc
- iQYg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2AF610E23F
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 19:35:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1745436932;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FATaLF00yydNEgdc6HTsvoSO0T2k174Kjhtrl2el9HU=;
+ b=CIrdxZCOlW3rxQ96zdUi/PZ4mecqwQzFmfSCsC3kPg+w5uSz4RUiVle68tJ5her/hCkWwW
+ 7wkwS1Q6UEAumbrC80t2h06uR9jJ8qLGeuX3Cy2Uts3NF4cURZOje2WEIIAjIGmLz4hPfG
+ 39agiJHY+CuHfznqSlgwAxNGfCi3WsM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-386-btUVvkzeMvShmILCe7R3jg-1; Wed, 23 Apr 2025 15:35:31 -0400
+X-MC-Unique: btUVvkzeMvShmILCe7R3jg-1
+X-Mimecast-MFC-AGG-ID: btUVvkzeMvShmILCe7R3jg_1745436930
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-43947a0919aso1241035e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 12:35:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745435029; x=1746039829;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1745436930; x=1746041730;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7LuhtW5tfnv74ISfwTqYLQ3czllGmI8LVC1e0ZexWu8=;
- b=qmjAms8LHnmPW5deQ0DBQlgmKKObVXSL6VPvZOkV58t2LJ/VhZy9G/SMTJY83/4P77
- COUHBBPCA7xyPQOxVS6DvokFWsnyMbXWx+pH4FsQF7ZeYl783QZSet/MBvHxBlUc/Hlr
- SVqpYO0KAJ5XoHL99eGuhT6nDdKfsUXva7LZK5Qjr0GxXg+qiaxPlqf7YiE18LtUBkPS
- y0jLpyvAbPGy8oEUC8H5dvV8VO6MuwA1eC0LbPV1a8zqSI7piO3k9mdCZVyuGM+icjOR
- B8zbRzHQYFlzBfZXV8ny+Q/p3b6wcpOa5CYGhIOVWYrQ6PjGTIX1FOTkXdF6uKyZpeld
- J0Cw==
-X-Gm-Message-State: AOJu0YwGFGx/TYotM2zfE2p9j3hmW6T9/+w3cMOA0eCts+NPiRRe5xYH
- /xS4Nqdhpq3ajy+46IQCzT7RgIqSEyac4CvayYxkMaRpvyWVPSj8jCjqDC9icXg=
-X-Gm-Gg: ASbGncubHMevXcLohqrfHxhI+0SaHo3AltArn2yAzR8eUompbwqCTRV9Jufz4eVlIXT
- CIk8s3IE1G4SJLAi8kEZnjmEQ8tseGFI4p8UFhAV8A4mJdySoQtgJFjEmbWiEJeOOgXIEOF94ib
- WPi00tZIy8nLc7BEn0CcX9yq+Zbq1FRwyLb+R0WTFlgLzM7qME5CYF5oBogxG8XcHVCd147Y3K6
- ejOeg4/WEBiTulsRsjcRgZkVL8owzUJOjnDcrx3Ok5kpNxyZVVA+DT/PCnJGuUrisGqMJN73oo9
- vAixoO/jFrAUMb3rfEnV1XPYchkYJxQMJJOKFFbmiMA3nmGKXIntSLdLwUVQRe1XuKg1dpCLVou
- m9is9lXLU
-X-Google-Smtp-Source: AGHT+IGMbEsjVQru0dx5wwlUTch0T9ZdZNISzut3C5NNKy3xvn8oL2J1bLuI35icszl9MyIYEtlSkg==
-X-Received: by 2002:a05:651c:242:b0:310:8258:c09f with SMTP id
- 38308e7fff4ca-3179facac43mr325291fa.26.1745435028622; 
- Wed, 23 Apr 2025 12:03:48 -0700 (PDT)
-Received: from [192.168.1.11] (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+ bh=mHwM84CGYO+3jNCMTmmYeka00nVSY0LWa8c5ny3yQ7I=;
+ b=ZJoBCk/JkqiWqSyLrdcdNrL0/obbvleiGGWfJg2/LgCtbBInqH6Slfa5NeyHKv08ny
+ 9J/DO7nqs5qXmpUivwQy++vXHSGP4l2ZiNxGbg3Y/U3DcF7Br6dEDy9h6CBbsr/CaZjw
+ EuOcu3atQwMuJaPe4AFtBJwM7NGCgYHEvRog5zmkNFP7lvcrhW3rf09Yb0xuKXSfWkv1
+ z81Lw/Pta0dPSbNgQ+z4QXdU5LIXDCXDN8l/7/gGJp1IkaRagIqBXX/5DEQJzR4YrQev
+ qBIf3rBk1WlHr0A0gVSx+GW7QhjwWOMlxL8cXgYheDX0Es0qF8ONtwPMQtPtjmhB1MkB
+ qFog==
+X-Gm-Message-State: AOJu0Yz0kE7sOuTaOg4ibRqS+c8YckyIHmt9qkU2UMwQuU0MIQl529Mu
+ HBwRqNC7dLlA1sCy+HNTo6CwSw4u/MCWOnnN2/AXl0OSbrg5dA1l69v7KFxh+lur7zFqNgKj5Gj
+ mYaRYwCETt5U5ML4nP1GE2Neozs33B9zN4LuRIRuNA53TsZ3lvlna3GQ2GeCYb76Oaw==
+X-Gm-Gg: ASbGncs0BBF1NqnqaurVtp/1OkohDf3nlZnjeDQxTpQ8XO4CzbWoHAUPBZ0UikBlAYB
+ /UmRBRlqcnmaT7OJ71AHc0c0ANx+k+FutM0usEwn8SrzNr/zvs3m+iy3CnQDuie0ABFueHFpRDb
+ XoHi9JsqvlClWkvNnAFwXTT7TgzGVKXXFE3iveZuMircQDlL0fjAVtC1oAEbfgnUPyJdbhZS841
+ NaCypWc6K3QlzTR0xMNf7K/aLUg4YNNa4so51eGBbZ+yyEMHdAGGG5uXgifSkw5XxVp8fQBJvFy
+ Ex5R4isZYdwEUS29u1VN+tc3NgMMambePa+ES2iwpoZbpJtU8VGFxA2qXAAslVIeEomtsg==
+X-Received: by 2002:a05:600c:384b:b0:43d:b85:1831 with SMTP id
+ 5b1f17b1804b1-4406aa872edmr213880905e9.0.1745436930110; 
+ Wed, 23 Apr 2025 12:35:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF3o9b9voFidMYGql7TPjF6NJBpEq4Fi6/itjQOx6j+R+KZEPRTl/Eo2lQx2cIZP+I8qEWd0Q==
+X-Received: by 2002:a05:600c:384b:b0:43d:b85:1831 with SMTP id
+ 5b1f17b1804b1-4406aa872edmr213880635e9.0.1745436929653; 
+ Wed, 23 Apr 2025 12:35:29 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3109084d9d0sm19475141fa.97.2025.04.23.12.03.47
+ ffacd0b85a97d-39efa433191sm20045996f8f.31.2025.04.23.12.35.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Apr 2025 12:03:47 -0700 (PDT)
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-Date: Wed, 23 Apr 2025 21:03:22 +0200
-Subject: [PATCH v6 3/3] MAINTAINERS: add entry for Sitronix ST7571 LCD
- Controller
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250423-st7571-v6-3-e9519e3c4ec4@gmail.com>
+ Wed, 23 Apr 2025 12:35:29 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Marcus Folkesson <marcus.folkesson@gmail.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Marcus Folkesson
+ <marcus.folkesson@gmail.com>, Thomas Zimmermann <tzimmrmann@suse.de>
+Subject: Re: [PATCH v6 2/3] drm/st7571-i2c: add support for Sitronix ST7571
+ LCD controller
+In-Reply-To: <20250423-st7571-v6-2-e9519e3c4ec4@gmail.com>
 References: <20250423-st7571-v6-0-e9519e3c4ec4@gmail.com>
-In-Reply-To: <20250423-st7571-v6-0-e9519e3c4ec4@gmail.com>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Marcus Folkesson <marcus.folkesson@gmail.com>, 
- Javier Martinez Canillas <javierm@redhat.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1014;
- i=marcus.folkesson@gmail.com; h=from:subject:message-id;
- bh=xiAk+ddYinxUgC9Hz4BM5RvVJX8mskoni8HwaHWzwjg=;
- b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBoCTmJzO7f1FM50qHzchOePigynZ6h4tldEcHZT
- pucZGMIZ9KJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaAk5iQAKCRCIgE5vWV1S
- MnO/D/0QIfSBBND3WCKgBt9NAphpk4C8PUpI/FuAsIH+cSRoeLmswfuINaDDP62Dh/zgSs5N0yy
- 4gfcs5eKnF2VFLHzTo4O9JUmbTj/AYD4BW+oYTg5SVAIn2KStcNFP5BsqXkU5GKLX25TKaBYbbJ
- g/+D0q6Sy6dhlHVXyNEGRhMBJur6635+4Eo86Oz9kF1tO/Sl0giRCtY5/tH2f40TMnhp48Kjo9A
- IQfUKPp+qoKOU4OSI3ei6IDEiWhg7eULVEj2sjbNUUE7HYmZDQA/p43dGLM3XsK9x+achvTp9nR
- 2pdDw2F2lcrzYpT+JJi5WBhZNZf0t44xi5rugRFabIQh6ycIMHRHm5q99JdYI4tgVY7Dm+sgjxd
- JlCPBPD4o+Hn810j6Zkh0y2m2pVOoe0EG3BiIfvD5waTnU4MIVDg1TUGHVFMOXH/7nMN8SiG84s
- n46YAIUxTQGINeAc0z3kV8Cn1ivAphHfGB0HqaCVSPOSsYD3ssr6SeP84+R0gJbb/acyukYveIm
- s1AhjZv+sCnYwRvvvCbbLhVXmCRfeUZYz3plzbmIKUT064ecJGP0R+uczOfwc27HIGhg1GqnP5K
- pvap3cJIWh7QuJKtT2WzCbX+6MnX1Q6DjCWsf09NprvxkdwtBQoK7zDvWCY8Ce/WWoPV6+nZNn4
- 27MLGZ9RisY3llg==
-X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
- fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
+ <20250423-st7571-v6-2-e9519e3c4ec4@gmail.com>
+Date: Wed, 23 Apr 2025 21:35:28 +0200
+Message-ID: <87y0vqacxr.fsf@minerva.mail-host-address-is-not-set>
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: pxtaTew8Y8t21gEemvZVnC8SPiCe54pO_YfjCtKtgqk_1745436930
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,34 +105,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MAINTAINERS entry for the Sitronix ST7571 dot matrix LCD
-controller.
+Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+Hello Marcus,
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 251b1f3d0e9225f79fb500f563f35a21510090c6..81b81cc68ca2482f2965b801693ff8a43bbf2053 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7682,6 +7682,12 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/sitronix,st7586.txt
- F:	drivers/gpu/drm/tiny/st7586.c
- 
-+DRM DRIVER FOR SITRONIX ST7571 PANELS
-+M:	Marcus Folkesson <marcus.folkesson@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/sitronix,st7571.yaml
-+F:	drivers/gpu/drm/tiny/st7571-i2c.c
-+
- DRM DRIVER FOR SITRONIX ST7701 PANELS
- M:	Jagan Teki <jagan@amarulasolutions.com>
- S:	Maintained
+> Sitronix ST7571 is a 4bit gray scale dot matrix LCD controller.
+> The controller has a SPI, I2C and 8bit parallel interface, this
+> driver is for the I2C interface only.
+>
+> Reviewed-by: Thomas Zimmermann <tzimmrmann@suse.de>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
 
--- 
-2.49.0
+[...]
+
+> +
+> +static void st7571_reset(struct st7571_device *st7571)
+> +{
+> +=09gpiod_set_value_cansleep(st7571->reset, 1);
+> +=09fdelay(20);
+
+There's no fdelay() and this leads to a build failure now:
+
+make -j16 M=3Ddrivers/gpu/drm/tiny/
+...
+  CC [M]  st7571-i2c.o
+st7571-i2c.c: In function =E2=80=98st7571_reset=E2=80=99:
+st7571-i2c.c:815:9: error: implicit declaration of function =E2=80=98fdelay=
+=E2=80=99; did you mean =E2=80=98ndelay=E2=80=99? [-Wimplicit-function-decl=
+aration]
+  815 |         fdelay(20);
+      |         ^~~~~~
+      |         ndelay
+
+
+but I think you meant fsleep() here (which makes sense to me), so I will ap=
+ply
+the following fixup to this patch before pushing it:
+
+diff --git a/drivers/gpu/drm/tiny/st7571-i2c.c b/drivers/gpu/drm/tiny/st757=
+1-i2c.c
+index ba089a7e2b61..dc410ec41baf 100644
+--- a/drivers/gpu/drm/tiny/st7571-i2c.c
++++ b/drivers/gpu/drm/tiny/st7571-i2c.c
+@@ -812,7 +812,7 @@ static int st7571_parse_dt(struct st7571_device *st7571=
+)
+ static void st7571_reset(struct st7571_device *st7571)
+ {
+        gpiod_set_value_cansleep(st7571->reset, 1);
+-       fdelay(20);
++       fsleep(20);
+        gpiod_set_value_cansleep(st7571->reset, 0);
+ }
+
+--=20
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
