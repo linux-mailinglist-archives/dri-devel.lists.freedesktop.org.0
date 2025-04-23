@@ -2,91 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015CEA988F4
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 13:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C525A9890C
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 14:02:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3438410E085;
-	Wed, 23 Apr 2025 11:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0880A10E0B0;
+	Wed, 23 Apr 2025 12:02:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XRA+uEMG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BicpC+SW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD8B10E085
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 11:54:26 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-39ee623fe64so5481761f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 04:54:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745409265; x=1746014065; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RXiSx30w1hmWlM/Di4qv5E69sWeA1eC0NCdlxnJgn04=;
- b=XRA+uEMGouoJcY9AY8GsUFtzwLpmMjkAmTHrRx8bsvi0lmu8MyxXB9Ba/zahTQKDfu
- Kxw/z5hbxuHmCX7sNhblNsmOFC6qi1ijcBP18z1+Q9HZgIeQSrCTC9eIwCJ9DltceuzR
- Cubm4nr9d8XGVz68TlVnFEFFkBJNH8QiNo6g43+TFF9X5znBBRDp1DbuuCk6f802E8vj
- wfQd4aMziPvJbtIfRVFy3dGdXCIq1el+pHdomCRu8jHgH5RhMEYc4C2Y8Rej8pXF9ZrE
- iNLA7TXTUjafwcSWuC5o5KywUk7bSF7nTtlX50oN15N1nfXZEhO0jw3D3s4cVd6U42j5
- zQiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745409265; x=1746014065;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RXiSx30w1hmWlM/Di4qv5E69sWeA1eC0NCdlxnJgn04=;
- b=S8jqItLz9m2CH37+761Wc9UpyijWPOMuDMBI8kpMNJZ5lLQnql7Pue/OXL4VoCAXCh
- ARpyCJzvQmm9pFhNy8XfAktRWY4XzQVGN6GJnTlI5tE7xH+U1Nji9eHOT3m5mwud977P
- BOhNjLrLDHzPAyaaAWJ6Z+VVwplJEqw4so5ekVHvkdWs7vkI9RnSuC7AZE+acwFXJpgD
- PqNF1Nw020L9x6L7Ev2NagQN1a3AFajlkDnQYI52ZQLq0/lbCHzwoZmMCSCoDhBv4/1B
- rColCymevr/J7ixq4PlJhWHSouo5yUwWlSbEnQeURPLgdMzskLT8U1V3BCDVhlDT+gph
- 3T1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVrOZ3O3bKGBQ33efgavx5u3PfLWWfV5xTIQBDPyEbVNs+cqovSVs9Y63NZMIpmLSjLpHyeswOFM9Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxxexaWpnoKntoI5D7+gofkaT6348YmIsvua0Ur/0tlc0b1zYFF
- fGg/Kw5AaGOk1VwDYeLFTQ7JL7FFpmJY2aq0N+0rXXw2A6Zh44pTvC4s47bDYO6a8RbAfdHJizf
- iq0Aq9LicIWOr3GzKJcRBBe5xa4Y=
-X-Gm-Gg: ASbGnct2peESgVeViaBmWosskpUv7FzDFDb94P/M4AUpVnx/eq2a7Sc28e2UaIogIMR
- +dqwLtGyEesFHADMFtoHeqPxEuUZw6WZUh9OY1vZ91uZHJ+9YQrnXlZa0FwcZ/PsdeP3BvcUQWV
- 760hK84GAnpmPHtzbJh5TVhTJL47mxAJdT
-X-Google-Smtp-Source: AGHT+IFmLMHRjZ1XgjDcqyxjk7BtcPPGf+OCSTtdICXla1NMLROjvh3kKmkIO0184O1OWZlMMASHo5tS0W9iQ2Iv8xM=
-X-Received: by 2002:a05:6000:43cc:20b0:39f:fd4:aec7 with SMTP id
- ffacd0b85a97d-39f0fd4aed9mr4142583f8f.7.1745409264608; Wed, 23 Apr 2025
- 04:54:24 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1FA210E0B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 12:02:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 0831DA4CEA3;
+ Wed, 23 Apr 2025 11:56:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1161C4CEE2;
+ Wed, 23 Apr 2025 12:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745409728;
+ bh=0nzwQLtEHyNu/7/CKM0ZVwpRTIEm+zb35CC9woF3LVg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BicpC+SW6jsQVvZDY4P3/K1ZYD9yv3Nb4aVjxvOzhdalNeiPLXe1GYUMz2cUW4V/z
+ nEMLfVF1MhN8J28ogaxUKxwp1hJobsFpeXE8PptO5g/8OdWTYmJnf5HTeeRfLb0klY
+ C/rJBtHzMZLdpuW3XBFM7c7rfA5ZQpG30CpBZAjBcRayerhFPHdCN3imsND1POPALU
+ iQLy75pwgeThzmanfZ4fApIjkefjJa3zaNh92R84awnvCkPpIcw2sJ4apntKN+BzMc
+ MuB2kONuwsMuHgJfnV58GfXyh6g1Fv7enE1Uw5Ia8e2NAD9qrdUIqs7wwhg6O73VZM
+ c66Xk24JswzBg==
+Message-ID: <7988146f-cbc0-465b-af3b-b16562e163ce@kernel.org>
+Date: Wed, 23 Apr 2025 14:02:03 +0200
 MIME-Version: 1.0
-References: <20250418184658.456398-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250418184658.456398-11-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWs7R9rtS7Ur6PP9e3m9ghkM1jc_Xn3QOWG4rvTtB2omA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWs7R9rtS7Ur6PP9e3m9ghkM1jc_Xn3QOWG4rvTtB2omA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 23 Apr 2025 12:53:58 +0100
-X-Gm-Features: ATxdqUE-OgT80-E06tUi_do9bnwXEJELC81J36DTuicZR1BwPkK_CJ9Za-SJxBA
-Message-ID: <CA+V-a8tXpWf8-YL-qzWhqc+fDvV4Kzd-6gJqC5HWvE00QsNFAA@mail.gmail.com>
-Subject: Re: [PATCH v3 10/15] drm: renesas: rz-du: mipi_dsi: Use mHz for D-PHY
- frequency calculations
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 2/2] arm64: dts: mediatek: Add MT8186 Ponyta
+ Chromebooks
+To: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>,
+ sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@google.com, hsinyi@google.com,
+ angelogioacchino.delregno@collabora.com, matthias.bgg@gmail.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ knoxchiou@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20250423093647.4074135-1-cengjianeng@huaqin.corp-partner.google.com>
+ <20250423093647.4074135-3-cengjianeng@huaqin.corp-partner.google.com>
+Content-Language: en-US, ca-ES, es-ES
+From: Matthias Brugger <matthias.bgg@kernel.org>
+In-Reply-To: <20250423093647.4074135-3-cengjianeng@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,85 +66,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+On 23/04/2025 11:36, Jianeng Ceng wrote:
+> MT8186 ponyta, known as huaqin custom label, is a
+> MT8186 based laptop. It is based on the "corsola" design.
+> It includes LTE, touchpad combinations.
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Jianeng Ceng <cengjianeng@huaqin.corp-partner.google.com>
 
-Thank you for the review.
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
-On Tue, Apr 22, 2025 at 8:41=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, 18 Apr 2025 at 20:47, Prabhakar <prabhakar.csengg@gmail.com> wrot=
-e:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Pass the HSFREQ in milli-Hz to the `dphy_init()` callback to improve
-> > precision, especially for the RZ/V2H(P) SoC, where PLL dividers require
-> > high accuracy.
-> >
-> > These changes prepare the driver for upcoming RZ/V2H(P) SoC support.
-> >
-> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v2->v3:
-> > - Replaced `unsigned long long` with `u64`
-> > - Replaced *_mhz with *_millihz` in functions
->
-> Thanks for the update!
->
-> > @@ -203,8 +203,9 @@ static u32 rzg2l_mipi_dsi_link_read(struct rzg2l_mi=
-pi_dsi *dsi, u32 reg)
-> >   */
-> >
-> >  static int rzg2l_mipi_dsi_dphy_init(struct rzg2l_mipi_dsi *dsi,
-> > -                                   unsigned long hsfreq)
-> > +                                   u64 hsfreq_millihz)
-> >  {
-> > +       unsigned long hsfreq =3D DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, =
-KILO);
->
-> MILLI (everywhere)
->
-OK.
+> ---
+> Changes in v10:
+> - No change.
+> 
+> Changes in v9:
+> - PATCH 2/2: Add sound model to fix the warning.
+> - Link to v8:https://lore.kernel.org/all/20240914063122.1622196-3-cengjianeng@huaqin.corp-partner.google.com/
+> 
+> Changes in v8:
+> - PATCH 2/2: Change the commit about ponyta.
+> - Link to v7:https://lore.kernel.org/all/20240913031505.372868-3-cengjianeng@huaqin.corp-partner.google.com/
+> 
+> Changes in v7:
+> - PATCH 2/2: Remove prototype sku.
+> - PATCH 2/2: Disable the other trackpad to enable one of them.
+> - Link to v5:https://lore.kernel.org/all/20240909023148.1677936-3-cengjianeng@huaqin.corp-partner.google.com/
+> 
+> Changes in v6:
+> - No change.
+> 
+> Changes in v5:
+> - PATCH 2/2: Remove sku2147483647.
+> - Link to v4:https://lore.kernel.org/all/20240906085739.1322676-3-cengjianeng@huaqin.corp-partner.google.com/
+> 
+> Chage since v3:
+> - No change.
+> 
+> Changes in v2:
+> - PATCH 2/2: Modify the dtb name without rev2.
+> - Link to v1:https://lore.kernel.org/all/20240902125502.1844374-1-cengjianeng@huaqin.corp-partner.google.com/
+> 
+> ---
+>   arch/arm64/boot/dts/mediatek/Makefile         |  2 +
+>   .../mediatek/mt8186-corsola-ponyta-sku0.dts   | 18 +++++++
+>   .../mediatek/mt8186-corsola-ponyta-sku1.dts   | 22 +++++++++
+>   .../dts/mediatek/mt8186-corsola-ponyta.dtsi   | 49 +++++++++++++++++++
+>   4 files changed, 91 insertions(+)
+>   create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
+>   create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
+>   create mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
+> 
+> diff --git a/arch/arm64/boot/dts/mediatek/Makefile b/arch/arm64/boot/dts/mediatek/Makefile
+> index 58484e830063..3aa06476c6c0 100644
+> --- a/arch/arm64/boot/dts/mediatek/Makefile
+> +++ b/arch/arm64/boot/dts/mediatek/Makefile
+> @@ -64,6 +64,8 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-chinchou-sku16.dtb
+>   dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-magneton-sku393216.dtb
+>   dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-magneton-sku393217.dtb
+>   dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-magneton-sku393218.dtb
+> +dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-ponyta-sku0.dtb
+> +dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-ponyta-sku1.dtb
+>   dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-rusty-sku196608.dtb
+>   dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-starmie-sku0.dtb
+>   dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-starmie-sku1.dtb
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
+> new file mode 100644
+> index 000000000000..986498af4c70
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku0.dts
+> @@ -0,0 +1,18 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+> +/*
+> + * Copyright 2023 Google LLC
+> + */
+> +
+> +/dts-v1/;
+> +#include "mt8186-corsola-ponyta.dtsi"
+> +
+> +/ {
+> +	model = "Google Ponyta sku0 board";
+> +	compatible = "google,ponyta-sku0", "google,ponyta", "mediatek,mt8186";
+> +};
+> +
+> +&i2c2 {
+> +	trackpad@15 {
+> +		status = "disabled";
+> +	};
+> +};
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
+> new file mode 100644
+> index 000000000000..ff5eea0ddeb4
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta-sku1.dts
+> @@ -0,0 +1,22 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+> +/*
+> + * Copyright 2023 Google LLC
+> + */
+> +
+> +/dts-v1/;
+> +#include "mt8186-corsola-ponyta.dtsi"
+> +
+> +/ {
+> +	model = "Google Ponyta sku1 board";
+> +	compatible = "google,ponyta-sku1", "google,ponyta", "mediatek,mt8186";
+> +};
+> +
+> +&i2c2 {
+> +	trackpad@2c {
+> +		status = "disabled";
+> +	};
+> +};
+> +
+> +&usb_c1 {
+> +	status = "disabled";
+> +};
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
+> new file mode 100644
+> index 000000000000..0abf69077089
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola-ponyta.dtsi
+> @@ -0,0 +1,49 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+> +/*
+> + * Copyright 2023 Google LLC
+> + */
+> +
+> +/dts-v1/;
+> +#include "mt8186-corsola-steelix.dtsi"
+> +
+> +&keyboard_controller {
+> +	function-row-physmap = <
+> +		MATRIX_KEY(0x00, 0x02, 0)	/* T1 */
+> +		MATRIX_KEY(0x03, 0x02, 0)	/* T2 */
+> +		MATRIX_KEY(0x02, 0x02, 0)	/* T3 */
+> +		MATRIX_KEY(0x01, 0x02, 0)	/* T4 */
+> +		MATRIX_KEY(0x03, 0x04, 0)	/* T5 */
+> +		MATRIX_KEY(0x02, 0x04, 0)	/* T6 */
+> +		MATRIX_KEY(0x01, 0x04, 0)	/* T7 */
+> +		MATRIX_KEY(0x00, 0x04, 0)	/* T8 */
+> +		MATRIX_KEY(0x00, 0x01, 0)	/* T9 */
+> +		MATRIX_KEY(0x02, 0x09, 0)	/* T10 */
+> +		MATRIX_KEY(0x01, 0x09, 0)	/* T11 */
+> +		MATRIX_KEY(0x01, 0x05, 0)	/* T12 */
+> +	>;
+> +
+> +	linux,keymap = <
+> +		CROS_STD_MAIN_KEYMAP
+> +		MATRIX_KEY(0x00, 0x02, KEY_BACK)
+> +		MATRIX_KEY(0x03, 0x02, KEY_REFRESH)
+> +		MATRIX_KEY(0x02, 0x02, KEY_ZOOM)
+> +		MATRIX_KEY(0x01, 0x02, KEY_SCALE)
+> +		MATRIX_KEY(0x03, 0x04, KEY_SYSRQ)
+> +		MATRIX_KEY(0x02, 0x04, KEY_BRIGHTNESSDOWN)
+> +		MATRIX_KEY(0x01, 0x04, KEY_BRIGHTNESSUP)
+> +		MATRIX_KEY(0x00, 0x04, KEY_PLAYPAUSE)
+> +		MATRIX_KEY(0x00, 0x01, KEY_MICMUTE)
+> +		MATRIX_KEY(0x02, 0x09, KEY_MUTE)
+> +		MATRIX_KEY(0x01, 0x09, KEY_VOLUMEDOWN)
+> +		MATRIX_KEY(0x01, 0x05, KEY_VOLUMEUP)
+> +	>;
+> +};
+> +
+> +&mt6366codec {
+> +	mediatek,dmic-mode = <1>; /* one-wire */
+> +};
+> +
+> +&sound {
+> +	model = "mt8186_rt1019_rt5682s";
+> +};
+> +
 
-> It's a strange world where KILO =3D=3D MILLI ;-)
->
-:-)
->     include/linux/units.h:#define KILO      1000UL
->     include/linux/units.h-#define MILLI     1000UL
->
-> >         const struct rzg2l_mipi_dsi_timings *dphy_timings;
-> >         unsigned int i;
-> >         u32 dphyctrl0;
-> > @@ -277,6 +278,7 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
-_dsi *dsi,
-> >                                   const struct drm_display_mode *mode)
-> >  {
-> >         unsigned long hsfreq, vclk_rate;
-> > +       u64 hsfreq_millihz;
-> >         unsigned int bpp;
-> >         u32 txsetr;
-> >         u32 clstptsetr;
-> > @@ -305,9 +307,9 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi=
-_dsi *dsi,
-> >          */
-> >         bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
-> >         vclk_rate =3D clk_get_rate(dsi->vclk);
-> > -       hsfreq =3D DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp, dsi->lanes);
-> > +       hsfreq_millihz =3D DIV_ROUND_CLOSEST_ULL(vclk_rate * bpp * KILO=
- * 1ULL, dsi->lanes);
->
-> The "* 1ULL" only makes the last factor unsigned long long.
-> "vclk_rate * bpp" is still unsigned long, causing overflow on 32-bit.
-> As there is no rounding variant of mul_u64_u32_div(), you probably
-> want to use mul_u32_u32() instead.
->
-Agreed, I will update it to,
-`DIV_ROUND_CLOSEST_ULL(mul_u32_u32(vclk_rate, bpp * KILO),
-dsi->lanes);`
-
-Cheers,
-Prabhakar
