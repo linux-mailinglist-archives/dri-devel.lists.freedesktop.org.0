@@ -2,101 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F04A97F7E
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 08:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEC0A97FE0
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 08:56:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20B0D10E1E5;
-	Wed, 23 Apr 2025 06:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D99D10E400;
+	Wed, 23 Apr 2025 06:56:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YtvnDUah";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lJdLuOkq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1308710E1E5
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 06:45:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1745390714;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FJQr5daKI6/1i+nwgHlDoYSZzm+JP1wEk08aCiKUf8w=;
- b=YtvnDUahU/NIwm+jAMKeVlRp1kxa+PIRtpYrXvqAt+sXFgHRJgMmO44CU6A8T/ptHFlOMs
- +iyk/aCXGJ3RXN6WO21sq8lGnxkcSwOnlofl56c7bhQyRkFlERhazW1klDifFJMeuECXzq
- kynOOvA+s9zsG/6Dk6dIX9YfQcC5WiQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-478-DHPdHZY0M_eBIiGeT7q_wg-1; Wed, 23 Apr 2025 02:45:13 -0400
-X-MC-Unique: DHPdHZY0M_eBIiGeT7q_wg-1
-X-Mimecast-MFC-AGG-ID: DHPdHZY0M_eBIiGeT7q_wg_1745390712
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-43ced8c2eb7so43549045e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Apr 2025 23:45:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745390712; x=1745995512;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FJQr5daKI6/1i+nwgHlDoYSZzm+JP1wEk08aCiKUf8w=;
- b=Xf9OENWROjjfi4dkzAZ3m4m8OGwaFryTTuWj2E21924y8yPCMIwjSJmtXe98uFTQgj
- FOBlpMHYPptq9WiFDBdNkwUd0NcmKstUQXb/knvfrq1kFKD0fL3rgGyHBSks06Gouh90
- mLLEulyUN1NI/k/T6Y56m8syDxlv9Chk6k0CO9rhkNQsINA8GQip1O0E9ciVf+bGKwdd
- 13lf5rde0giyNd9ReE/xNhKek1v4bEdzxzkMQEfRClGiGjOUCwsMK3h13MsIQrQKB3CC
- 4aEh4fBy1Y88wDqWNz6wshkExG52f6C78Lq8MrSMuwCkYypzO9A1MN/7PXXC6NZ/9N2X
- RA7g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW4KV5x1Ue4JbCvJMAbckmhY7EBo6IPrnZmOl6S9S1bASncGUEBynW4CFypVsPa3NCYuZeL1RCLA44=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz2NKDP4cMPasowx/1Bmp2Zf0pCqhzyzIlL70T+rYJWs6irtnY/
- dao0heZcZ3hRz7lkCRE7QO9JqZEf1oXE2TGbhTfOvXFizosDZGSpFVLV+Gr4cgUwpu+v9myQjez
- fQTybr/7S9vkn9R7G2nTbZz3zA6rims6Flj8GU8rQscfwQGmRBf0wIzAfmgiwrveRzg==
-X-Gm-Gg: ASbGncvbJqVDGca5MJfYHJY0LI8DdCQ5+j6ZztW6jzdsk4KbsiCc7GjjkCdj+wze4an
- 9kMKfLtR9xObRw2RU2aV3QtE45Iq50dsEPwJSN75NpiE0GAa3am9OKOafJJ2Xp40EjYL/cceGnL
- 8vNO/Up+4++NXrv4kcUT9RmmXX396XsAZmQw1zHWAiNxDx5kUXatp9qw2oK0hZJoGVFk8feq58t
- nhB+YGfyEUhqdDo1YU5/XnVWY1XsI3deu3JHJDen+CVJ5Ix7I7y0t8/1I9GeonnFOCeKbhzjfFx
- jSLYVA==
-X-Received: by 2002:a05:600c:3487:b0:43e:a7c9:8d2b with SMTP id
- 5b1f17b1804b1-4406abfab7dmr152587705e9.24.1745390712289; 
- Tue, 22 Apr 2025 23:45:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IESPeBSydPIH0zVAjW7EqTg1hmkncqgVOAhXdcSWQ91oQ3uYj81WGlTIQYk3qbwlXLCw+komw==
-X-Received: by 2002:a05:600c:3487:b0:43e:a7c9:8d2b with SMTP id
- 5b1f17b1804b1-4406abfab7dmr152587385e9.24.1745390711947; 
- Tue, 22 Apr 2025 23:45:11 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:1517:1000:ea83:8e5f:3302:3575])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-44092d4707csm14014875e9.40.2025.04.22.23.45.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Apr 2025 23:45:11 -0700 (PDT)
-Date: Wed, 23 Apr 2025 02:45:08 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, linux-kernel@vger.kernel.org,
- Eric Auger <eauger@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
- David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH v2] virtgpu: don't reset on shutdown
-Message-ID: <20250423023922-mutt-send-email-mst@kernel.org>
-References: <8490dbeb6f79ed039e6c11d121002618972538a3.1744293540.git.mst@redhat.com>
- <ge6675q3ahypfncrwbiodtcjnoftuza6ele5fhre3jmdeifsez@yy53fbwoulgo>
- <20250415095922-mutt-send-email-mst@kernel.org>
- <lgizdflxcku5ew2en55ux3r72u37d6aycuoosn5i5a5wagz6sc@d2kha7ycmmpy>
- <5aede4c4-5dfd-4ec1-9fd8-a5d6700678bd@redhat.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D83DD10E3FF;
+ Wed, 23 Apr 2025 06:56:00 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53N0imR8024486;
+ Wed, 23 Apr 2025 06:55:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ JNK7csbWWJGOBAas9TNoxtKn6v3A37YJlU2owPvz6As=; b=lJdLuOkq+MbHdKqP
+ z8NnZEUKPIhCq6xJxTd82za4RIknfuKjwOqKKIkbtRC9xSmzONt7kqg9m48M64jb
+ 88UuMvPeKJzsodTpd8rS1nl4SN0sQNWqIaLnkG/KfUus/xZY5UnrrZBH6y2NOIU3
+ EDSj5v62nF2POvqbsSvwMlZUPQnlCcJVTVyKrOI64kUlZGShNBt3kdEykcAIvqKv
+ qOYnHTQLDLiqHtqcjb9LLX/GMEsy9wqanlIHtgEyKJ61WUhUUa9LWw5tU8kgisQG
+ XnVmJJxvxEZIjq0C9p+GO+tVDakkdWbVUhzVxWKhgRloee8EU1USbw3iALUGIfiu
+ x9P5Uw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh395cb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Apr 2025 06:55:49 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53N6teTU023927
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Apr 2025 06:55:40 GMT
+Received: from [10.216.1.162] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 22 Apr
+ 2025 23:55:23 -0700
+Message-ID: <d67b8fe7-ab92-4756-b549-827210240593@quicinc.com>
+Date: Wed, 23 Apr 2025 12:25:18 +0530
 MIME-Version: 1.0
-In-Reply-To: <5aede4c4-5dfd-4ec1-9fd8-a5d6700678bd@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: xQWjqVHTfSF1PF8i8N2RPMu86T0dHFC4Ou7tcRTtPwc_1745390712
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] drm/msm/a6xx: Get HBB dynamically, if available
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Rob Clark
+ <robdclark@gmail.com>
+CC: Connor Abbott <cwabbott0@gmail.com>, Konrad Dybcio
+ <konradybcio@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Kees Cook
+ <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Sean Paul
+ <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov
+ <lumag@kernel.org>, Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, linux-arm-msm
+ <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
+ <20250410-topic-smem_dramc-v2-3-dead15264714@oss.qualcomm.com>
+ <20911703-ab4e-4eb2-8611-294730a06d2f@quicinc.com>
+ <CACu1E7HDmQXDNtEQCXpHXsOKPCOgrWgo+_kcgizo9Mp1ntjDbA@mail.gmail.com>
+ <1282bf58-e431-4a07-97e5-628437e7ce5f@quicinc.com>
+ <CACu1E7GwMCt6+JJQGgSvJObTMMWYLPd69owyFo7S=sxu_EEsUw@mail.gmail.com>
+ <16845de2-a40a-4e3d-b3aa-c91e7072b57f@quicinc.com>
+ <CAF6AEGvyeRLHFBYmxkevgT+hosXGiH_w8Z+UjQmL+LdbNfVZ+w@mail.gmail.com>
+ <acd1c8dd-286b-40b7-841d-e53e2d155a61@oss.qualcomm.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <acd1c8dd-286b-40b7-841d-e53e2d155a61@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: DCJhFJ_Gse0nR6-0i__p9vnIB0-LNb6Q
+X-Proofpoint-GUID: DCJhFJ_Gse0nR6-0i__p9vnIB0-LNb6Q
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDA0NiBTYWx0ZWRfXz8Kag/OH6Cal
+ r7KNWLltqrX/X7mjyOb9yk7doxf9dMeHmhsy/yjUAv9zXfKu3tDv8UfwS01/rMfQ1O1SWmFCuQy
+ ZtGQ3I/ZNMwvM4PL+Tor1vH4Nk1UQxAAoiqBc8elIya0JS99uQoIhCvGa9jKaDUhEdLXGhCcJCB
+ pVi1rH2emJY3Kim1ZvDbLVGL9efSWDpx1UKy7s6hH54KpxmRCwKO0BO/xDsl5woAnLiWq6eZj6r
+ 9XLaAuu+eLBPUtLNrAqv/UT/j6m4EYFEZIKwPrEDdz277HCtvYlhIOk9o/oyaUfuZ+DdxGLXsPn
+ 8zZzjkc2Ui46l6lTRaS2xjLD/GUwzjLFovlemvMSffib9S3dQY+YCvSmODoVeXMpa+5XQwHfAB1
+ ZcO463UBR9M3NpXznRwpAEqXmVtYC5htmrNVjzbVo72cILAsONssDFmNapA0/1/DtbsFIejL
+X-Authority-Analysis: v=2.4 cv=Mepsu4/f c=1 sm=1 tr=0 ts=68088ef5 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8
+ a=EUspDBNiAAAA:8 a=BtPMHYKAB6ts6yx63a4A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-23_05,2025-04-22_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 impostorscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504230046
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,83 +120,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 22, 2025 at 06:49:04PM +0200, Eric Auger wrote:
-> Hi Gerd, Michael,
+On 4/23/2025 5:27 AM, Konrad Dybcio wrote:
+> On 4/21/25 10:13 PM, Rob Clark wrote:
+>> On Fri, Apr 18, 2025 at 9:00 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>>>
+>>> On 4/18/2025 6:40 AM, Connor Abbott wrote:
+>>>> On Thu, Apr 17, 2025, 1:50 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>>>>>
+>>>>> On 4/17/2025 9:02 PM, Connor Abbott wrote:
+>>>>>> On Thu, Apr 17, 2025 at 3:45 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>>>>>>>
+>>>>>>> On 4/10/2025 11:13 PM, Konrad Dybcio wrote:
+>>>>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>>>>>
+>>>>>>>> The Highest Bank address Bit value can change based on memory type used.
+>>>>>>>>
+>>>>>>>> Attempt to retrieve it dynamically, and fall back to a reasonable
+>>>>>>>> default (the one used prior to this change) on error.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>>>>> ---
+>>>>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 15 ++++++++++++++-
+>>>>>>>>  1 file changed, 14 insertions(+), 1 deletion(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>>>>>> index 06465bc2d0b4b128cddfcfcaf1fe4252632b6777..a6232b382bd16319f20ae5f8f5e57f38ecc62d9f 100644
+>>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>>>>>> @@ -13,6 +13,7 @@
+>>>>>>>>  #include <linux/firmware/qcom/qcom_scm.h>
+>>>>>>>>  #include <linux/pm_domain.h>
+>>>>>>>>  #include <linux/soc/qcom/llcc-qcom.h>
+>>>>>>>> +#include <linux/soc/qcom/smem.h>
+>>>>>>>>
+>>>>>>>>  #define GPU_PAS_ID 13
+>>>>>>>>
+>>>>>>>> @@ -587,6 +588,8 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
+>>>>>>>>
+>>>>>>>>  static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+>>>>>>>>  {
+>>>>>>>> +     int hbb;
+>>>>>>>> +
+>>>>>>>>       gpu->ubwc_config.rgb565_predicator = 0;
+>>>>>>>>       gpu->ubwc_config.uavflagprd_inv = 0;
+>>>>>>>>       gpu->ubwc_config.min_acc_len = 0;
+>>>>>>>> @@ -635,7 +638,6 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+>>>>>>>>           adreno_is_a690(gpu) ||
+>>>>>>>>           adreno_is_a730(gpu) ||
+>>>>>>>>           adreno_is_a740_family(gpu)) {
+>>>>>>>> -             /* TODO: get ddr type from bootloader and use 2 for LPDDR4 */
+>>>>>>>>               gpu->ubwc_config.highest_bank_bit = 16;
+>>>>>>>>               gpu->ubwc_config.amsbc = 1;
+>>>>>>>>               gpu->ubwc_config.rgb565_predicator = 1;
+>>>>>>>> @@ -664,6 +666,13 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+>>>>>>>>               gpu->ubwc_config.highest_bank_bit = 14;
+>>>>>>>>               gpu->ubwc_config.min_acc_len = 1;
+>>>>>>>>       }
+>>>>>>>> +
+>>>>>>>> +     /* Attempt to retrieve the data from SMEM, keep the above defaults in case of error */
+>>>>>>>> +     hbb = qcom_smem_dram_get_hbb();
+>>>>>>>> +     if (hbb < 0)
+>>>>>>>> +             return;
+>>>>>>>> +
+>>>>>>>> +     gpu->ubwc_config.highest_bank_bit = hbb;
+>>>>>>>
+>>>>>>> I am worried about blindly relying on SMEM data directly for HBB for
+>>>>>>> legacy chipsets. There is no guarantee it is accurate on every chipset
+>>>>>>> and every version of firmware. Also, until recently, this value was
+>>>>>>> hardcoded in Mesa which matched the value in KMD.
+>>>>>>
+>>>>>> To be clear about this, from the moment we introduced host image
+>>>>>> copies in Mesa we added support for querying the HBB from the kernel,
+>>>>>> explicitly so that we could do what this series does without Mesa ever
+>>>>>> breaking. Mesa will never assume the HBB unless the kernel is too old
+>>>>>> to support querying it. So don't let Mesa be the thing that stops us
+>>>>>> here.
+>>>>>
+>>>>> Thanks for clarifying about Mesa. I still don't trust a data source that
+>>>>> is unused in production.
+>>>>
+>>>> Fair enough, I'm not going to argue with that part. Just wanted to
+>>>> clear up any confusion about Mesa.
+>>>>
+>>>> Although, IIRC kgsl did set different values for a650 depending on
+>>>> memory type... do you know what source that used?
+>>>
+>>> KGSL relies on an undocumented devicetree node populated by bootloader
+>>> to detect ddrtype and calculates the HBB value based on that.
+>>
+>> Would it be reasonable to use the smem value, but if we find the
+>> undocumented dt property, WARN_ON() if it's value disagrees with smem?
+>>
+>> That would at least give some confidence, or justified un-confidence
+>> about the smem values
 > 
-> On 4/16/25 3:57 PM, Gerd Hoffmann wrote:
-> > On Tue, Apr 15, 2025 at 10:00:48AM -0400, Michael S. Tsirkin wrote:
-> >> On Tue, Apr 15, 2025 at 01:16:32PM +0200, Gerd Hoffmann wrote:
-> >>>   Hi,
-> >>>
-> >>>> +static void virtio_gpu_shutdown(struct virtio_device *vdev)
-> >>>> +{
-> >>>> +	/*
-> >>>> +	 * drm does its own synchronization on shutdown.
-> >>>> +	 * Do nothing here, opt out of device reset.
-> >>>> +	 */
-> >>> I think a call to 'drm_dev_unplug()' is what you need here.
-> >>>
-> >>> take care,
-> >>>   Gerd
-> >> My patch reverts the behaviour back to what it was, so pls go
-> >> ahead and send a patch on top? I won't be able to explain
-> >> what it does and why it's needed.
-> > See below.  Untested.
-> >
-> > Eric, can you give this a spin?
-> >
-> > thanks,
-> >   Gerd
-> >
-> > ----------------------- cut here -------------------------------
-> > From f3051dd52cb2004232941e6d2cbc0c694e290534 Mon Sep 17 00:00:00 2001
-> > From: Gerd Hoffmann <kraxel@redhat.com>
-> > Date: Wed, 16 Apr 2025 15:53:04 +0200
-> > Subject: [PATCH] drm/virtio: implement virtio_gpu_shutdown
-> >
-> > Calling drm_dev_unplug() is the drm way to say the device
-> > is gone and can not be accessed any more.
-> >
-> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> > ---
-> >  drivers/gpu/drm/virtio/virtgpu_drv.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> > index e32e680c7197..71c6ccad4b99 100644
-> > --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-> > +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> > @@ -130,10 +130,10 @@ static void virtio_gpu_remove(struct virtio_device *vdev)
-> >  
-> >  static void virtio_gpu_shutdown(struct virtio_device *vdev)
-> >  {
-> > -	/*
-> > -	 * drm does its own synchronization on shutdown.
-> > -	 * Do nothing here, opt out of device reset.
-> > -	 */
-> > +	struct drm_device *dev = vdev->priv;
-> > +
-> > +	/* stop talking to the device */
-> > +	drm_dev_unplug(dev);
-> I have tested this patch on top of Michael's v2 and I don't see any
-> splat on guest.
-> 
-> Feel free to add my
-> 
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> Tested-by: Eric Auger <eric.auger@redhat.com>
-> 
-> Thanks
-> 
-> Eric
+> The aforementioned value is populated based on the data that this
+> driver reads out, and only on the same range of platforms that this
+> driver happens to cater to
 
-Thanks, Eric!
-Gerd, do you want to post a patch officially?
-I just sent the dependency to Linus, maybe mention this for the
-maintainers.
+Like I suggested privately, can we centralize all ubwc configuration so
+that it is consistent across all drivers. With that, we will need to
+maintain a table of ubwc config for each chipset and HBB can be
+calculated based on the DDR configuration identified from SMEM. Once we
+migrate the downstream drivers to the new API, we can hopefully move to
+the HBB value from SMEM. This will ensure that the SMEM data for HBB is
+accurate in all future chipsets.
+
+-Akhil.
 
 
-> >  }
-> >  
-> >  static void virtio_gpu_config_changed(struct virtio_device *vdev)
+
+> 
+> Konrad
 
