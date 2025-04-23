@@ -2,109 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEC0A97FE0
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 08:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3120A97FFA
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 09:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D99D10E400;
-	Wed, 23 Apr 2025 06:56:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 896CA10E40B;
+	Wed, 23 Apr 2025 07:02:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lJdLuOkq";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BoJPgxZm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D83DD10E3FF;
- Wed, 23 Apr 2025 06:56:00 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53N0imR8024486;
- Wed, 23 Apr 2025 06:55:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- JNK7csbWWJGOBAas9TNoxtKn6v3A37YJlU2owPvz6As=; b=lJdLuOkq+MbHdKqP
- z8NnZEUKPIhCq6xJxTd82za4RIknfuKjwOqKKIkbtRC9xSmzONt7kqg9m48M64jb
- 88UuMvPeKJzsodTpd8rS1nl4SN0sQNWqIaLnkG/KfUus/xZY5UnrrZBH6y2NOIU3
- EDSj5v62nF2POvqbsSvwMlZUPQnlCcJVTVyKrOI64kUlZGShNBt3kdEykcAIvqKv
- qOYnHTQLDLiqHtqcjb9LLX/GMEsy9wqanlIHtgEyKJ61WUhUUa9LWw5tU8kgisQG
- XnVmJJxvxEZIjq0C9p+GO+tVDakkdWbVUhzVxWKhgRloee8EU1USbw3iALUGIfiu
- x9P5Uw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh395cb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Apr 2025 06:55:49 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53N6teTU023927
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Apr 2025 06:55:40 GMT
-Received: from [10.216.1.162] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 22 Apr
- 2025 23:55:23 -0700
-Message-ID: <d67b8fe7-ab92-4756-b549-827210240593@quicinc.com>
-Date: Wed, 23 Apr 2025 12:25:18 +0530
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF6E10E40A
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 07:02:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1745391714;
+ bh=fxfjIVU+ZhirxND5ra6vazmGa+OoPozdqLaVl+mbqC0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BoJPgxZmuy5/Mr7Hjz8cmKl9RitRo+zaUWgYLM/n+pRO0HkZThYKg+7PrODtwfcKj
+ vJ3vWCXs+9mPR/TRcSEEEZXDDTyvnJcxo2G4rQmFb8kM7SQGdXNJiSkJm6Z9v5kVUU
+ WEERjX5TkApodHm/nav3xae9hRMzzp9MLA9RTKiLOvgL443NH5UC+mpJJx4IbOWuNT
+ lInb3G7HJI3MddwjcQzsDAPfJgOjNg3tbY4VLv2on3bILSvHLnSrsBx/HtPuOhExvz
+ a0GQRbipfosghR2WtoPaPzxqDcq/X1sRNhjsEF48YtuSbWDAjtkTRFfYSGiU0CxH7d
+ 0ZgxgEvRNnACw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 57FFA17E0702;
+ Wed, 23 Apr 2025 09:01:54 +0200 (CEST)
+Date: Wed, 23 Apr 2025 09:01:49 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com, Liviu Dudau <liviu.dudau@arm.com>, Steven Price
+ <steven.price@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v10 4/4] drm/panthor: show device-wide list of DRM GEM
+ objects over DebugFS
+Message-ID: <20250423090149.2748ef62@collabora.com>
+In-Reply-To: <20250423021238.1639175-5-adrian.larumbe@collabora.com>
+References: <20250423021238.1639175-1-adrian.larumbe@collabora.com>
+ <20250423021238.1639175-5-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] drm/msm/a6xx: Get HBB dynamically, if available
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Rob Clark
- <robdclark@gmail.com>
-CC: Connor Abbott <cwabbott0@gmail.com>, Konrad Dybcio
- <konradybcio@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Kees Cook
- <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Sean Paul
- <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov
- <lumag@kernel.org>, Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, linux-arm-msm
- <linux-arm-msm@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
- <20250410-topic-smem_dramc-v2-3-dead15264714@oss.qualcomm.com>
- <20911703-ab4e-4eb2-8611-294730a06d2f@quicinc.com>
- <CACu1E7HDmQXDNtEQCXpHXsOKPCOgrWgo+_kcgizo9Mp1ntjDbA@mail.gmail.com>
- <1282bf58-e431-4a07-97e5-628437e7ce5f@quicinc.com>
- <CACu1E7GwMCt6+JJQGgSvJObTMMWYLPd69owyFo7S=sxu_EEsUw@mail.gmail.com>
- <16845de2-a40a-4e3d-b3aa-c91e7072b57f@quicinc.com>
- <CAF6AEGvyeRLHFBYmxkevgT+hosXGiH_w8Z+UjQmL+LdbNfVZ+w@mail.gmail.com>
- <acd1c8dd-286b-40b7-841d-e53e2d155a61@oss.qualcomm.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <acd1c8dd-286b-40b7-841d-e53e2d155a61@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: DCJhFJ_Gse0nR6-0i__p9vnIB0-LNb6Q
-X-Proofpoint-GUID: DCJhFJ_Gse0nR6-0i__p9vnIB0-LNb6Q
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDA0NiBTYWx0ZWRfXz8Kag/OH6Cal
- r7KNWLltqrX/X7mjyOb9yk7doxf9dMeHmhsy/yjUAv9zXfKu3tDv8UfwS01/rMfQ1O1SWmFCuQy
- ZtGQ3I/ZNMwvM4PL+Tor1vH4Nk1UQxAAoiqBc8elIya0JS99uQoIhCvGa9jKaDUhEdLXGhCcJCB
- pVi1rH2emJY3Kim1ZvDbLVGL9efSWDpx1UKy7s6hH54KpxmRCwKO0BO/xDsl5woAnLiWq6eZj6r
- 9XLaAuu+eLBPUtLNrAqv/UT/j6m4EYFEZIKwPrEDdz277HCtvYlhIOk9o/oyaUfuZ+DdxGLXsPn
- 8zZzjkc2Ui46l6lTRaS2xjLD/GUwzjLFovlemvMSffib9S3dQY+YCvSmODoVeXMpa+5XQwHfAB1
- ZcO463UBR9M3NpXznRwpAEqXmVtYC5htmrNVjzbVo72cILAsONssDFmNapA0/1/DtbsFIejL
-X-Authority-Analysis: v=2.4 cv=Mepsu4/f c=1 sm=1 tr=0 ts=68088ef5 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8
- a=EUspDBNiAAAA:8 a=BtPMHYKAB6ts6yx63a4A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-23_05,2025-04-22_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 malwarescore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 clxscore=1015
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504230046
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,116 +69,456 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/23/2025 5:27 AM, Konrad Dybcio wrote:
-> On 4/21/25 10:13 PM, Rob Clark wrote:
->> On Fri, Apr 18, 2025 at 9:00 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>>
->>> On 4/18/2025 6:40 AM, Connor Abbott wrote:
->>>> On Thu, Apr 17, 2025, 1:50 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>>>>
->>>>> On 4/17/2025 9:02 PM, Connor Abbott wrote:
->>>>>> On Thu, Apr 17, 2025 at 3:45 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>>>>>>
->>>>>>> On 4/10/2025 11:13 PM, Konrad Dybcio wrote:
->>>>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>>>>>>
->>>>>>>> The Highest Bank address Bit value can change based on memory type used.
->>>>>>>>
->>>>>>>> Attempt to retrieve it dynamically, and fall back to a reasonable
->>>>>>>> default (the one used prior to this change) on error.
->>>>>>>>
->>>>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>>>>>> ---
->>>>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 15 ++++++++++++++-
->>>>>>>>  1 file changed, 14 insertions(+), 1 deletion(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>>>>> index 06465bc2d0b4b128cddfcfcaf1fe4252632b6777..a6232b382bd16319f20ae5f8f5e57f38ecc62d9f 100644
->>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>>>>> @@ -13,6 +13,7 @@
->>>>>>>>  #include <linux/firmware/qcom/qcom_scm.h>
->>>>>>>>  #include <linux/pm_domain.h>
->>>>>>>>  #include <linux/soc/qcom/llcc-qcom.h>
->>>>>>>> +#include <linux/soc/qcom/smem.h>
->>>>>>>>
->>>>>>>>  #define GPU_PAS_ID 13
->>>>>>>>
->>>>>>>> @@ -587,6 +588,8 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
->>>>>>>>
->>>>>>>>  static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
->>>>>>>>  {
->>>>>>>> +     int hbb;
->>>>>>>> +
->>>>>>>>       gpu->ubwc_config.rgb565_predicator = 0;
->>>>>>>>       gpu->ubwc_config.uavflagprd_inv = 0;
->>>>>>>>       gpu->ubwc_config.min_acc_len = 0;
->>>>>>>> @@ -635,7 +638,6 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
->>>>>>>>           adreno_is_a690(gpu) ||
->>>>>>>>           adreno_is_a730(gpu) ||
->>>>>>>>           adreno_is_a740_family(gpu)) {
->>>>>>>> -             /* TODO: get ddr type from bootloader and use 2 for LPDDR4 */
->>>>>>>>               gpu->ubwc_config.highest_bank_bit = 16;
->>>>>>>>               gpu->ubwc_config.amsbc = 1;
->>>>>>>>               gpu->ubwc_config.rgb565_predicator = 1;
->>>>>>>> @@ -664,6 +666,13 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
->>>>>>>>               gpu->ubwc_config.highest_bank_bit = 14;
->>>>>>>>               gpu->ubwc_config.min_acc_len = 1;
->>>>>>>>       }
->>>>>>>> +
->>>>>>>> +     /* Attempt to retrieve the data from SMEM, keep the above defaults in case of error */
->>>>>>>> +     hbb = qcom_smem_dram_get_hbb();
->>>>>>>> +     if (hbb < 0)
->>>>>>>> +             return;
->>>>>>>> +
->>>>>>>> +     gpu->ubwc_config.highest_bank_bit = hbb;
->>>>>>>
->>>>>>> I am worried about blindly relying on SMEM data directly for HBB for
->>>>>>> legacy chipsets. There is no guarantee it is accurate on every chipset
->>>>>>> and every version of firmware. Also, until recently, this value was
->>>>>>> hardcoded in Mesa which matched the value in KMD.
->>>>>>
->>>>>> To be clear about this, from the moment we introduced host image
->>>>>> copies in Mesa we added support for querying the HBB from the kernel,
->>>>>> explicitly so that we could do what this series does without Mesa ever
->>>>>> breaking. Mesa will never assume the HBB unless the kernel is too old
->>>>>> to support querying it. So don't let Mesa be the thing that stops us
->>>>>> here.
->>>>>
->>>>> Thanks for clarifying about Mesa. I still don't trust a data source that
->>>>> is unused in production.
->>>>
->>>> Fair enough, I'm not going to argue with that part. Just wanted to
->>>> clear up any confusion about Mesa.
->>>>
->>>> Although, IIRC kgsl did set different values for a650 depending on
->>>> memory type... do you know what source that used?
->>>
->>> KGSL relies on an undocumented devicetree node populated by bootloader
->>> to detect ddrtype and calculates the HBB value based on that.
->>
->> Would it be reasonable to use the smem value, but if we find the
->> undocumented dt property, WARN_ON() if it's value disagrees with smem?
->>
->> That would at least give some confidence, or justified un-confidence
->> about the smem values
-> 
-> The aforementioned value is populated based on the data that this
-> driver reads out, and only on the same range of platforms that this
-> driver happens to cater to
+On Wed, 23 Apr 2025 03:12:34 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Like I suggested privately, can we centralize all ubwc configuration so
-that it is consistent across all drivers. With that, we will need to
-maintain a table of ubwc config for each chipset and HBB can be
-calculated based on the DDR configuration identified from SMEM. Once we
-migrate the downstream drivers to the new API, we can hopefully move to
-the HBB value from SMEM. This will ensure that the SMEM data for HBB is
-accurate in all future chipsets.
+> Add a device DebugFS file that displays a complete list of all the DRM
+> GEM objects that are exposed to UM through a DRM handle.
+>=20
+> Since leaking object identifiers that might belong to a different NS is
+> inadmissible, this functionality is only made available in debug builds
+> with DEBUGFS support enabled.
+>=20
+> File format is that of a table, with each entry displaying a variety of
+> fields with information about each GEM object.
+>=20
+> Each GEM object entry in the file displays the following information
+> fields: Client PID, BO's global name, reference count, BO virtual size,
+> BO resize size, VM address in its DRM-managed range, BO label and a GEM
+> state flags.
+>=20
+> There's also a usage flags field for the type of BO, which tells us
+> whether it's a kernel BO and/or mapped onto the FW's address space.
+>=20
+> GEM state and usage flag meanings are printed in the file prelude, so
+> that UM parsing tools can interpret the numerical values in the table.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c |   5 +
+>  drivers/gpu/drm/panthor/panthor_device.h |  11 ++
+>  drivers/gpu/drm/panthor/panthor_drv.c    |  25 ++++
+>  drivers/gpu/drm/panthor/panthor_gem.c    | 156 +++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h    |  65 ++++++++++
+>  5 files changed, 262 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
+anthor/panthor_device.c
+> index a9da1d1eeb70..b776e1a2e4f3 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -184,6 +184,11 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		return ret;
+> =20
+> +#ifdef CONFIG_DEBUG_FS
+> +	drmm_mutex_init(&ptdev->base, &ptdev->gems.lock);
+> +	INIT_LIST_HEAD(&ptdev->gems.node);
+> +#endif
+> +
+>  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+>  	p =3D alloc_page(GFP_KERNEL | __GFP_ZERO);
+>  	if (!p)
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
+anthor/panthor_device.h
+> index da6574021664..86206a961b38 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -205,6 +205,17 @@ struct panthor_device {
+> =20
+>  	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
+>  	unsigned long fast_rate;
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +	/** @gems: Device-wide list of GEM objects owned by at least one file. =
+*/
+> +	struct {
+> +		/** @gems.lock: Protects the device-wide list of GEM objects. */
+> +		struct mutex lock;
+> +
+> +		/** @node: Used to keep track of all the device's DRM objects */
+> +		struct list_head node;
+> +	} gems;
+> +#endif
+>  };
+> =20
+>  struct panthor_gpu_usage {
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
+hor/panthor_drv.c
+> index 7308fad02c9e..dfe2e89942a0 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1537,9 +1537,34 @@ static const struct file_operations panthor_drm_dr=
+iver_fops =3D {
+>  };
+> =20
+>  #ifdef CONFIG_DEBUG_FS
+> +static int panthor_gems_show(struct seq_file *m, void *data)
+> +{
+> +	struct drm_info_node *node =3D m->private;
+> +	struct drm_device *dev =3D node->minor->dev;
+> +	struct panthor_device *ptdev =3D container_of(dev, struct panthor_devic=
+e, base);
+> +
+> +	panthor_gem_debugfs_print_bos(ptdev, m);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct drm_info_list panthor_debugfs_list[] =3D {
+> +	{"gems", panthor_gems_show, 0, NULL},
+> +};
+> +
+> +static int panthor_gems_debugfs_init(struct drm_minor *minor)
+> +{
+> +	drm_debugfs_create_files(panthor_debugfs_list,
+> +				 ARRAY_SIZE(panthor_debugfs_list),
+> +				 minor->debugfs_root, minor);
+> +
+> +	return 0;
+> +}
+> +
+>  static void panthor_debugfs_init(struct drm_minor *minor)
+>  {
+>  	panthor_mmu_debugfs_init(minor);
+> +	panthor_gems_debugfs_init(minor);
+>  }
+>  #endif
+> =20
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
+hor/panthor_gem.c
+> index 3f4ab5a2f2ae..fedb9697fe57 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -11,14 +11,51 @@
+>  #include <drm/panthor_drm.h>
+> =20
+>  #include "panthor_device.h"
+> +#include "panthor_fw.h"
+>  #include "panthor_gem.h"
+>  #include "panthor_mmu.h"
+> =20
+> +#ifdef CONFIG_DEBUG_FS
+> +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+> +				       struct panthor_gem_object *bo)
+> +{
+> +	INIT_LIST_HEAD(&bo->debugfs.node);
+> +
+> +	bo->debugfs.creator.tgid =3D current->group_leader->pid;
+> +	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
+> +
+> +	mutex_lock(&ptdev->gems.lock);
+> +	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
+> +	mutex_unlock(&ptdev->gems.lock);
+> +}
+> +
+> +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
+> +{
+> +	struct panthor_device *ptdev =3D container_of(bo->base.base.dev,
+> +						    struct panthor_device, base);
+> +
+> +	if (list_empty(&bo->debugfs.node))
+> +		return;
+> +
+> +	mutex_lock(&ptdev->gems.lock);
+> +	list_del_init(&bo->debugfs.node);
+> +	mutex_unlock(&ptdev->gems.lock);
+> +}
+> +
+> +#else
+> +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+> +				       struct panthor_gem_object *bo)
+> +{}
+> +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
+> +#endif
+> +
+>  static void panthor_gem_free_object(struct drm_gem_object *obj)
+>  {
+>  	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
+>  	struct drm_gem_object *vm_root_gem =3D bo->exclusive_vm_root_gem;
+> =20
+> +	panthor_gem_debugfs_bo_rm(bo);
+> +
+>  	/*
+>  	 * Label might have been allocated with kstrdup_const(),
+>  	 * we need to take that into account when freeing the memory
+> @@ -88,6 +125,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev,=
+ struct panthor_vm *vm,
+>  	struct drm_gem_shmem_object *obj;
+>  	struct panthor_kernel_bo *kbo;
+>  	struct panthor_gem_object *bo;
+> +	u32 debug_flags =3D PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL;
+>  	int ret;
+> =20
+>  	if (drm_WARN_ON(&ptdev->base, !vm))
+> @@ -107,7 +145,11 @@ panthor_kernel_bo_create(struct panthor_device *ptde=
+v, struct panthor_vm *vm,
+>  	kbo->obj =3D &obj->base;
+>  	bo->flags =3D bo_flags;
+> =20
+> +	if (vm =3D=3D panthor_fw_vm(ptdev))
+> +		debug_flags |=3D PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED;
+> +
+>  	panthor_gem_kernel_bo_set_label(kbo, name);
+> +	panthor_gem_debugfs_set_usage_flags(to_panthor_bo(kbo->obj), debug_flag=
+s);
+> =20
+>  	/* The system and GPU MMU page size might differ, which becomes a
+>  	 * problem for FW sections that need to be mapped at explicit address
+> @@ -210,6 +252,8 @@ struct drm_gem_object *panthor_gem_create_object(stru=
+ct drm_device *ddev, size_t
+>  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+>  	mutex_init(&obj->label.lock);
+> =20
+> +	panthor_gem_debugfs_bo_add(ptdev, obj);
+> +
+>  	return &obj->base.base;
+>  }
+> =20
+> @@ -258,6 +302,12 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  	/* drop reference from allocate - handle holds it now. */
+>  	drm_gem_object_put(&shmem->base);
+> =20
+> +	/*
+> +	 * No explicit flags are needed in the call below, since the
+> +	 * function internally sets the INITIALIZED bit for us.
+> +	 */
+> +	panthor_gem_debugfs_set_usage_flags(bo, 0);
+> +
+>  	return ret;
+>  }
+> =20
+> @@ -296,3 +346,109 @@ panthor_gem_kernel_bo_set_label(struct panthor_kern=
+el_bo *bo, const char *label)
+> =20
+>  	panthor_gem_bo_set_label(bo->obj, str);
+>  }
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +struct gem_size_totals {
+> +	size_t size;
+> +	size_t resident;
+> +	size_t reclaimable;
+> +};
+> +
+> +static void panthor_gem_debugfs_print_flag_names(struct seq_file *m)
+> +{
+> +	int len;
+> +	int i;
+> +
+> +	static const char * const gem_state_flags_names[] =3D {
+> +		[PANTHOR_DEBUGFS_GEM_STATE_IMPORTED_BIT] =3D "imported",
+> +		[PANTHOR_DEBUGFS_GEM_STATE_EXPORTED_BIT] =3D "exported",
+> +	};
+> +
+> +	static const char * const gem_usage_flags_names[] =3D {
+> +		[PANTHOR_DEBUGFS_GEM_USAGE_KERNEL_BIT] =3D "kernel",
+> +		[PANTHOR_DEBUGFS_GEM_USAGE_FW_MAPPED_BIT] =3D "fw-mapped",
+> +	};
+> +
+> +	seq_puts(m, "GEM state flags: ");
+> +	for (i =3D 0, len =3D ARRAY_SIZE(gem_state_flags_names); i < len; i++) {
+> +		if (!gem_state_flags_names[i])
+> +			continue;
+> +		seq_printf(m, "%s (0x%x)%s", gem_state_flags_names[i],
+> +			   (u32)BIT(i), (i < len - 1) ? ", " : "\n");
+> +	}
+> +
+> +	seq_puts(m, "GEM usage flags: ");
+> +	for (i =3D 0, len =3D ARRAY_SIZE(gem_usage_flags_names); i < len; i++) {
+> +		if (!gem_usage_flags_names[i])
+> +			continue;
+> +		seq_printf(m, "%s (0x%x)%s", gem_usage_flags_names[i],
+> +			   (u32)BIT(i), (i < len - 1) ? ", " : "\n\n");
+> +	}
+> +}
+> +
+> +static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+> +					 struct seq_file *m,
+> +					 struct gem_size_totals *totals)
+> +{
+> +	unsigned int refcount =3D kref_read(&bo->base.base.refcount);
+> +	char creator_info[32] =3D {};
+> +	size_t resident_size;
+> +	u32 gem_usage_flags =3D bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_GEM_U=
+SAGE_FLAG_INITIALIZED;
+> +	u32 gem_state_flags =3D 0;
+> +
+> +	/* Skip BOs being destroyed. */
+> +	if (!refcount)
+> +		return;
+> +
+> +	resident_size =3D bo->base.pages ? bo->base.base.size : 0;
+> +
+> +	snprintf(creator_info, sizeof(creator_info),
+> +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
+> +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd0x%-16lx",
+> +		   creator_info,
+> +		   bo->base.base.name,
+> +		   refcount,
+> +		   bo->base.base.size,
+> +		   resident_size,
+> +		   drm_vma_node_start(&bo->base.base.vma_node));
+> +
+> +	if (bo->base.base.import_attach)
+> +		gem_state_flags |=3D PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
+> +	if (bo->base.base.dma_buf)
+> +		gem_state_flags |=3D PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
+> +
+> +	seq_printf(m, "0x%-8x 0x%-10x", gem_state_flags, gem_usage_flags);
+> +
+> +	scoped_guard(mutex, &bo->label.lock) {
+> +		seq_printf(m, "%s\n", bo->label.str ? : "");
+> +	}
+> +
+> +	totals->size +=3D bo->base.base.size;
+> +	totals->resident +=3D resident_size;
+> +	if (bo->base.madv > 0)
+> +		totals->reclaimable +=3D resident_size;
+> +}
+> +
+> +void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+> +				   struct seq_file *m)
+> +{
+> +	struct gem_size_totals totals =3D {0};
+> +	struct panthor_gem_object *bo;
+> +
+> +	panthor_gem_debugfs_print_flag_names(m);
+> +
+> +	seq_puts(m, "created-by                      global-name     refcount  =
+      size            resident-size   file-offset       state      usage   =
+    label\n");
+> +	seq_puts(m, "----------------------------------------------------------=
+---------------------------------------------------------------------------=
+---------\n");
+> +
+> +	scoped_guard(mutex, &ptdev->gems.lock) {
+> +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+> +			if (bo->debugfs.flags & PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED)
+> +				panthor_gem_debugfs_bo_print(bo, m, &totals);
+> +		}
+> +	}
+> +
+> +	seq_puts(m, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n");
+> +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable:=
+ %zd\n",
+> +		   totals.size, totals.resident, totals.reclaimable);
+> +}
+> +#endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/pant=
+hor/panthor_gem.h
+> index 3c09af568e47..4641994ddd7f 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -15,6 +15,54 @@ struct panthor_vm;
+> =20
+>  #define PANTHOR_BO_LABEL_MAXLEN	4096
+> =20
+> +enum panthor_debugfs_gem_state_flags {
+> +	PANTHOR_DEBUGFS_GEM_STATE_IMPORTED_BIT =3D 0,
+> +	PANTHOR_DEBUGFS_GEM_STATE_EXPORTED_BIT =3D 1,
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported.=
+ */
+> +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED =3D BIT(PANTHOR_DEBUGFS_GEM_STA=
+TE_IMPORTED_BIT),
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported.=
+ */
+> +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED =3D BIT(PANTHOR_DEBUGFS_GEM_STA=
+TE_EXPORTED_BIT),
+> +};
+> +
+> +enum panthor_debugfs_gem_usage_flags {
+> +	PANTHOR_DEBUGFS_GEM_USAGE_KERNEL_BIT =3D 0,
+> +	PANTHOR_DEBUGFS_GEM_USAGE_FW_MAPPED_BIT =3D 1,
 
--Akhil.
+Now that you print the flags as raw hex values, you don't need those
+_BIT definitions.
 
-
-
-> 
-> Konrad
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL: BO is for kernel use only. =
+*/
+> +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL =3D BIT(PANTHOR_DEBUGFS_GEM_USAGE=
+_KERNEL_BIT),
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED: BO is mapped on the FW V=
+M. */
+> +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED =3D BIT(PANTHOR_DEBUGFS_GEM_US=
+AGE_FW_MAPPED_BIT),
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED: BO is ready for DebugF=
+S display. */
+> +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED =3D BIT(31),
+> +};
+> +
+> +/**
+> + * struct panthor_gem_debugfs - GEM object's DebugFS list information
+> + */
+> +struct panthor_gem_debugfs {
+> +	/**
+> +	 * @node: Node used to insert the object in the device-wide list of
+> +	 * GEM objects, to display information about it through a DebugFS file.
+> +	 */
+> +	struct list_head node;
+> +
+> +	/** @creator: Information about the UM process which created the GEM. */
+> +	struct {
+> +		/** @creator.process_name: Group leader name in owning thread's proces=
+s */
+> +		char process_name[TASK_COMM_LEN];
+> +
+> +		/** @creator.tgid: PID of the thread's group leader within its process=
+ */
+> +		pid_t tgid;
+> +	} creator;
+> +
+> +	/** @flags: Combination of panthor_debugfs_gem_usage_flags flags */
+> +	u32 flags;
+> +};
+> +
+>  /**
+>   * struct panthor_gem_object - Driver specific GEM object.
+>   */
+> @@ -62,6 +110,10 @@ struct panthor_gem_object {
+>  		/** @lock.str: Protects access to the @label.str field. */
+>  		struct mutex lock;
+>  	} label;
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +	struct panthor_gem_debugfs debugfs;
+> +#endif
+>  };
+> =20
+>  /**
+> @@ -157,4 +209,17 @@ panthor_kernel_bo_create(struct panthor_device *ptde=
+v, struct panthor_vm *vm,
+> =20
+>  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+> =20
+> +#ifdef CONFIG_DEBUG_FS
+> +void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+> +				   struct seq_file *m);
+> +static inline void
+> +panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 u=
+sage_flags)
+> +{
+> +	bo->debugfs.flags =3D usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INIT=
+IALIZED;
+> +}
+> +
+> +#else
+> +void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, =
+u32 usage_flags) {};
+> +#endif
+> +
+>  #endif /* __PANTHOR_GEM_H__ */
 
