@@ -2,91 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8052BA98E84
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 16:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6B6A98E23
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Apr 2025 16:53:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C607E10E6D1;
-	Wed, 23 Apr 2025 14:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1134110E6C8;
+	Wed, 23 Apr 2025 14:53:01 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="LY1hdON/";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F80410E6D1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 14:56:58 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id
- af79cd13be357-7c54b651310so902686285a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 07:56:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745420217; x=1746025017;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hlyPTphf+x28unQ9fsmlIwni94vcWgQaX/dq2nBGd2c=;
- b=EJMxn+POtZ1hVALbtAHW/TOzxqtNBYC1lgHuFksPog6tr3lhnKyUQz4ONbbDDab0+R
- Z8Zv8kgm9MJPvGt1CRhhrjt1QhLbD8cKhf68xG/FdOIz/Ymi45LwsSrUckhM292Zt/Z5
- OE5tELGhRSjQs2qBDRqG0Qzr2n2g/boI37jVQ6YlH+N4dux2daCBDvXACe9N6BekbUHw
- SQK01xL7MD37vW/qr9CUAaIqVHoKBn02o5erjcs5O9pVpxiv+YH9WJ6lrmmBcTsNvmFO
- b8ENQcmvKslzuUKzdbyB+rbsPVem69tGdFuEl40g7IssbJEhD47MwfCt8v9R4n0HSxvt
- O8Kw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVnu3nJrkh3TDtvH5AcUTs4WaMY6OUvZLhSbXlCS8FNYM6QUOzeDlwO9KP6NApzu60MO0XMzBNCrAk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlTs7fAS3hP3/Q6h9R2S3Jmdrwu36zKM/HWaRn4xRMfNIeJoA2
- QCsQYRC+Dgrft9/TJSBBf6NPTjeUUKIGn+PQgyj40AddwwOmxPSHzM1jEqw/fH0=
-X-Gm-Gg: ASbGnctsPUtKLOrVIbXrk455OyoN+TNvFwi0OG79fvErB/h186keXyUnuyi0d9rZDKz
- X3oSlA0jusemVJ++6bXxAunVEkX6La7wyfvKriZHC0QHqn/RzuLAl717cRb69YuT2RmOcfC4/iP
- z8cxmJ99Njg2w5dTKN03ywwfXN6l2zMAaiFxgMSLDKiN1cf4F08C3RVzb64GgJhy81cEtip9ul6
- PCBRw1VV8KutAJJb9FGrHh99F71L+x64qw7OlzMITi4get3ujtGBiATrtCXPfl8uKWXa6GxCC2y
- KSir8/IHDH8KxRK0Zav46DQUPlZfAWpEb1XV2sex2uMLPXY8JJk6S6MRTB5w/JQ6+Tc5SiG3QYz
- W37/JcAY=
-X-Google-Smtp-Source: AGHT+IG6pkSa4O3smYZipMkrinKMTnJuL36JFOSN4oiYn/85MT935Y18bNXxGAPNv4x1ux0tOj4jHQ==
-X-Received: by 2002:a05:620a:258b:b0:7c5:5f58:9158 with SMTP id
- af79cd13be357-7c927f590bfmr3285045385a.9.1745420216644; 
- Wed, 23 Apr 2025 07:56:56 -0700 (PDT)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
- [209.85.160.180]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7c925ac2f27sm688965485a.54.2025.04.23.07.56.56
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Apr 2025 07:56:56 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id
- d75a77b69052e-47ae894e9b7so109504081cf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Apr 2025 07:56:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXyVEn1AEmPLJD2rn0AHGJH4D8zizuWB+ykC80RYTrdmQqpINjCefGDz6z9i+TLLoHbN5BtIgTMXkQ=@lists.freedesktop.org
-X-Received: by 2002:a05:6122:793:b0:526:285a:f4b3 with SMTP id
- 71dfb90a1353d-529253b90f7mr17209301e0c.2.1745419814638; Wed, 23 Apr 2025
- 07:50:14 -0700 (PDT)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2086.outbound.protection.outlook.com [40.107.100.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8849B10E6C6;
+ Wed, 23 Apr 2025 14:52:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L99TWSGyRMB5urs+zHFnz4VZHJmABxPGohg+jt4Arw59uCwZTcWpP/0AypDb6wUcx7TB4CU7ZIlIzuLo/J69oZHyTuPyNS8x6b1+AN3yJwQTMcyFjU9KMgAA3mCb8y2AQ6kLUVfw018bvYlFADLEI2TwViLW+L10/ehPvdmr06xG4ILy+X8bRDrPxEutgyrHju7xIvHc1Jn5JQ5iqrvnAEh3c9w3G5O6RVLMR4kIpzosx9B18dXY6V5n76q4yDl2r65sOFHuS22WbuggosK6ylVFDgWqC0+If/WiYcf9U5KBGdyn9LZMjDUvw0zNFbhXqU6q/ozdaF0IwyLmgwsUiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rmwQgkIJAzWGiNOOc0XQUWD0i0GAyawlLTVWDHSsHzM=;
+ b=yfHaGX47H4JmIIr1eTLtGa2kFVjBAH/PD20Rl3/58CDS6gMZOMuLys4Gm2eAASWlevkODqk76x7b5/FhFr1+LiR9EOeNT4UB5k67XCSLgmmBs3jvALGqGiF6EG7iungnYgsd3I0ihBqe1b5pk3/Dg6JJ593A1rZKluWH4El86y8ZM/oKYR93tc7BuOYSNYmFVYiIzlFhZRYcOTRzC/3hHXXbCOFtEQZDH+TfDaR5MpM3zTGdjnpUO1WJN6hFrih/0vOi7gMRABJR2sb6FC94UUueki/VoSiOgRSyjOHgQlj8o2dHYfd7UHoRsxGjUtuSLGEpOi0PbsEGBjAlaNsPiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rmwQgkIJAzWGiNOOc0XQUWD0i0GAyawlLTVWDHSsHzM=;
+ b=LY1hdON/xWHgnT+sDXKm0+WpD8O8tIjifCdGS5ZNSsclN+w0qt6TkRGOpUjwurh1SV/uVIyd/D/HNuZ8hEuACaCfWMmKfcMXW4NTF4ptdomgRoum+OHhAKZLQseJRG5ZsZj+iuKmyKBQ55erN+1atmlYNh5sM3pzRVmzLyWR2kwYJJa07fBd3m1Y2xQ/YmYze5ogHG7sIMFXvVFnjwmDDHp5vffeMRVk0S2KfMVDTdyFw1Euiau9VCq5fZhCnPUfAih7z6kXMCUEKLzs1GLkGFjY+uzp4N4wQ452/ElGYG5kI49e4goNs4e4fF+N2aZ35I1QRGnkK0/v8xIr1nccOQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by SJ1PR12MB6290.namprd12.prod.outlook.com (2603:10b6:a03:457::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.23; Wed, 23 Apr
+ 2025 14:52:47 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%6]) with mapi id 15.20.8655.033; Wed, 23 Apr 2025
+ 14:52:47 +0000
+Message-ID: <88937e2b-6950-4c9d-8f02-50f9b12c7376@nvidia.com>
+Date: Wed, 23 Apr 2025 10:52:42 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/16] gpu: nova-core: Add support for VBIOS ucode
+ extraction for boot
+To: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, John Hubbard <jhubbard@nvidia.com>,
+ Ben Skeggs <bskeggs@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
+ <20250420-nova-frts-v1-13-ecd1cca23963@nvidia.com> <aAjz2CYTsAhidiEU@pollux>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <aAjz2CYTsAhidiEU@pollux>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PH7P222CA0003.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:510:33a::18) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
- <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
- <aAjthvTuIeUIO4CT@pathway.suse.cz>
-In-Reply-To: <aAjthvTuIeUIO4CT@pathway.suse.cz>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 23 Apr 2025 16:50:02 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXuawN0eC0yO40-zrz70TH-3_Y-CFSy6=hHCCMLAPvU5w@mail.gmail.com>
-X-Gm-Features: ATxdqUEtXjwX1Xvi6EF4OaIe3skICOJiGJO6vzaZtD0WSg84WGPiul-c6IaIVeg
-Message-ID: <CAMuHMdXuawN0eC0yO40-zrz70TH-3_Y-CFSy6=hHCCMLAPvU5w@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-To: Petr Mladek <pmladek@suse.com>
-Cc: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>,
- alyssa@rosenzweig.io, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sven Peter <sven@svenpeter.dev>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Aun-Ali Zaidi <admin@kodeit.net>, 
- Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
- Simona Vetter <simona@ffwll.ch>, Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com, joe@perches.com, 
- dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, 
- tamird@gmail.com, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- netdev <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|SJ1PR12MB6290:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3413d0a-860c-498b-a7ae-08dd8276830d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dVpnNzVQMlVEUE1FaHU4VGxBVUZOcER4TFdiZTNiM3FuMm9jbkR4SmNEMTVp?=
+ =?utf-8?B?bnkzU0xiMlhKdDlteFd5SEhYMTZWbmlpOVlIQlFqR2FKNlZjYTJWNllMSUdC?=
+ =?utf-8?B?bE53NHlUdlJodlBwcmJCeGRzU3EzQ21GK05sS2NNU3pwUEdYQ1JHMjJ2MUh5?=
+ =?utf-8?B?ZEkzY2UzOUZiUjJ3WGQxQklUVk9KaG54di9qYTVrbkFaTDZqcjJDWkNmTmsr?=
+ =?utf-8?B?Uld3YVhHdlpMZ2xrU0dYa0phMGg1ckdTOFlwUzJ4bDgxem5tMXYrNDc1OW4y?=
+ =?utf-8?B?RUZmb2RZQ0Y3ODlrVTdSTHRwc0ZtQjVsUHVsdnJaMXZETzZEN1BybnJwc0NT?=
+ =?utf-8?B?eUROWDJLNVgvRzRKL1Zkclkvb2NFamR5ZFhiMW9abDBWUXArN3FCUGpVUTlj?=
+ =?utf-8?B?aU90Ylp0MG0wZGVNKzd0WFMwd2YwTHNYaFYrRDNVbFJUMk5ZbnE5bnlHVHlS?=
+ =?utf-8?B?d3Z4OFJOZmVQS2ZoRmhqcEg1Q2RtaHluOEk5L3JGbVBRNS9EMnM2R1p3OEtH?=
+ =?utf-8?B?UkM4Q25GNjRBQkxlb2R2M1NHcEowZk5JTEVIQkpJMWczWjhUUmpmQlNrd0VH?=
+ =?utf-8?B?NjNzOXdUdWxueXJVQk5uV2tsVmNMK2lxd2hWL3hmbU5jT3I5TXFud1pHQ0RX?=
+ =?utf-8?B?V1g0Z0NJQ3NSNUZFNldLd1ZrM2ltSWxmd0NQU3M0bEZUOFlFbldyaWt6UG9B?=
+ =?utf-8?B?eHcvaWI5WGhwRFhBbTNxNXFHbVlJNFMxTEdaT2U5SlJLS2F0QzVkTkY1NkpK?=
+ =?utf-8?B?TlBhdS9qcUpPRWJnL0JFL0RVcktYUTU2YmNOZTQrbkYwL1F4N1l1T0h6dHh3?=
+ =?utf-8?B?OFB3cTkyeGp3cGY1Q241ZldGcVgyT0VneU0ydjNVSFpadGhzT0xPRDJHQUdt?=
+ =?utf-8?B?Y3RBVDdhMkNjQ0VFVWZYYmdNMEpMSmJJTG9hbTVVc1VhSTJpdklFNmtLNG5z?=
+ =?utf-8?B?bDgzejZya0JFQ2pYMnp6Q1hBUjJuS2d4b0NMYUp3aEpmczNoUWFWRElydFFM?=
+ =?utf-8?B?V2xGbVR1OFBPRFRxZnpYWGROc1ptUGppQ251VmF4SGllRitWZzJ2MDhseXQ1?=
+ =?utf-8?B?TmpHZEJpQ0hMenBNTnFXRVRHMFN0T2lselJ4OEIyOWJTQktub2tKMEdBekYw?=
+ =?utf-8?B?a2JPU2hpZzNORkdVSStMQW9aUGVKY3ZvSnRpNS9JakJZbnJWbnlZOW96WXdC?=
+ =?utf-8?B?NTVvaTJvQVpjWkM4WHcxdndBZEpiT2FvNFZ0ci9LbE5hK3VBMDBpK0hJdUJX?=
+ =?utf-8?B?cHRtellFOUNjOTd2ZVhxK2t1cGYyYjcyZmN0VERtNXVLNENkbXEzVEFKMlR5?=
+ =?utf-8?B?UFNHelhPS2RTaFBDMk1tYnlnY3BHT0NQOWMwVUNLL2xIY0R5ODRrTS9oRTJq?=
+ =?utf-8?B?WW0wZW0vV2VuZGZxWlVBYTQ3U3dYZVZSa3ZnbE90ZXNITWRGU0Z6R1dzdjJB?=
+ =?utf-8?B?cHQvU2ZPZzFSODc1Z21YTGRFZzVwaHJqY0VuZHFRRzJEUktSOEpxQnd3Y0Mz?=
+ =?utf-8?B?WDFTZTFMWEp0dmt2dStSNjFpYlpUQjh4WWhuL05UNGgwQmY4UzRQQmd4dXRL?=
+ =?utf-8?B?SmNoNWxtT2ZQTDVLRkNxYzNmeWVSVXRkWm5MK0VIYTVvb0VGNzJ6ZXpvbllq?=
+ =?utf-8?B?Nm1vUEFvRDM0QmNqaTV5VnV6UE80a0t5d1ljMTVwRUIyVWlQc0ZQbDZEUnRE?=
+ =?utf-8?B?Q0ZnVlZpdHZLSFZWV3VhTjB2Z0pUbUwrSHVlMXpKV0xnNlFhYUJ5b2FUbEFW?=
+ =?utf-8?B?VmZXeGF6akxINXZNdURIcFlwTW9LZWpNMUlwbzhPeTRDV2ZrU1oycTRpdkVj?=
+ =?utf-8?B?dGlEQkhHSWFWQ2lMcmdNK0p0dGZCWlN6WWV3VmVzRStTaE1GYUxxaWs2dE05?=
+ =?utf-8?B?NWFUZFJJQnFUYmVOT3dZT0VUQ1JNd1pTNVptd0Fmd2F6ZnErMk1pcmpRYXox?=
+ =?utf-8?Q?CSsnn6P4xnY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1hocE1oTDM3Qk1KWFN6bmY1RHZINk1DNXhvR2srZktMNW1aV3d0VlZ1bVJP?=
+ =?utf-8?B?QkZIQnhpQktGS0U2TitCemM5RHErQnFpMkI2RlQ4aVlzWGZCNC9kTVMwOWIx?=
+ =?utf-8?B?a0pyQksvVk9oMzVHNmNTMWdVYkZNdUF1cTNINEpKeGlsN0FpM0UyQWxRaEh4?=
+ =?utf-8?B?dEhhZjc5N2Y5NCtwTEJySGYwd2xQU09EVFp3U1o5WHllcEFYbmVGMC9ueXN2?=
+ =?utf-8?B?L3BodU5MdXRlZVpaeXpUNmZSS0hWMFlqS0lDLyttVE1rS2JhZGJ0elpWMGRT?=
+ =?utf-8?B?eHhFc2w0VE9YUWEwVCsyQXYvZzFwQ0RlZFJnck9QS3R6OVJjNnBNT0FUTEN4?=
+ =?utf-8?B?M2RyZUtRT2JXZGdpVEZvaytKRllqQ0xIRXg0cWVkcTk4YVMxQWdrQ3p1WXJY?=
+ =?utf-8?B?UTU3LzFrUlJXTjFVNTdPanBXZ3Q1WkkvUHpGYXNpWnI4aVJ2UnpBNVI0VEhK?=
+ =?utf-8?B?ZmhVOHRVZkRTaFpRYkJlTG1OVWtLK09zbEJiODNEYnR6NmpOQWF1QVFXQytW?=
+ =?utf-8?B?SnhYL2J1MEdVQnFuam1oV29MRVJKTzFmWG1vYUNBOHB5MGVsUlpFMnNhVFpq?=
+ =?utf-8?B?MDhUTnZHYTlrdDhHRllzWGxHa2lZV09WbCtoYkFpT1JQRlF1VVlKZS9tbTNr?=
+ =?utf-8?B?TkxEZjVlVmgrVkZNUDJLdWl5WkcwcmxGNUpiWUJjVjBiQTljeU15d2x4UzM1?=
+ =?utf-8?B?NHM1Ym5ZeVlENkRtRVQvZDlGNUhHUUtRWDI4K05ibzJKdFJpdFBJUXJSN3d4?=
+ =?utf-8?B?cm92dGJpU0hvMURpcktidzZabTFNSVV4b3kwY0liUjNOdXA4YVIvQXJQZTgz?=
+ =?utf-8?B?VmQzL2pBVSt3L05xb0ZCRjB1V1FWM2ZIZmwvTVh0QWxrQm12TWZuWkd1QTBq?=
+ =?utf-8?B?U2VhUlh6MnU4UkhFQ0RYOGtDc3FpRHkwMEdQOUJBZFJHRE5tYUVpVkpzaXor?=
+ =?utf-8?B?clRiR2N6SlYrbjBhUnQyNHBtbVBkSjJFaDVuYnpSajVWVi94N1ZwZ3pwS1Zy?=
+ =?utf-8?B?aGU5empuYktFZndyTkN6a3NIT2dxRDU3Q29BdXBmWFJ5dDNnVzMvSC9Fd3ln?=
+ =?utf-8?B?bDY4UkJTVi9nSGw4NGY3ZEVIVUFIdTJDNE54UGV2N3U3UThCelorakJLYS9x?=
+ =?utf-8?B?bUlMdUc2RDFCRDZTUHpsLzNncTRzS21rYXFCZ1R3ZUFhd2dtSHdGS2ltYWdK?=
+ =?utf-8?B?NUNPaDNxakd0TDdTWWk2NDVxd1RDbHVtdXlDSFFib0JFTEhzaHhUclZhRXR3?=
+ =?utf-8?B?MURqNVIyUHNwbk1WNW9pV1l2NzM2S0tIcXFQY3dIemZEQ1JhQTJNb0psTnk0?=
+ =?utf-8?B?aU5UT3dIamZGMXI0SERMcFlQNXhkM0pTclBKcEZiWlk0WWhtVXRwcElKL2FL?=
+ =?utf-8?B?MGtDOTkwOTFvWTIrWU95eWNKN2NDZlhHR0w3ODJCT281a3djQWh2bG5BQnNI?=
+ =?utf-8?B?NXJtYkhFcHRtMFQ0cldjWTdENjc2ZWxxQUJwUnVEbk91NzcvTjU0ZEloN2pE?=
+ =?utf-8?B?MHM2bDcrQ0Y5SWtoK0Z1QTlEdDZyNlg2dFIwc1FWdGhoYjlMMFR2OHZqbnBP?=
+ =?utf-8?B?RFRoaFJpR09PU1JYbGpHRklrK2FZVFBxakJxVnZEOXY2SVpoWng5R3BnTG9T?=
+ =?utf-8?B?bWs1eTEyM2VpUTdtWEVMNit5clBoYVY0c1pPMzZxRURTUExhdmZZY1JZZE43?=
+ =?utf-8?B?YlJUQmdIdmYwVUFDUUlGdXV2T1Z6MndvZEFRS1hEbmtJTHFUTmVJUlp6ZjZi?=
+ =?utf-8?B?d25tNDlpSzBGdm5aUFc0ZE9ISDZiSXI0aDF6bXEvK0RqWEVvTTJtSSs2U1d4?=
+ =?utf-8?B?Tzk1eFVnSUNmME96ZUdYOHRZK2JEQXdsUGxBbjFMNXBCQ3pyK2JNbXJUMzI1?=
+ =?utf-8?B?K2txSnZFZVpGVWk1ZHVkK1k1VHR6Sm1xbjJzenJRZkJwUUVDMlF2WElFaGRR?=
+ =?utf-8?B?OGRrMmJNZG01eTg3K0FuUThjcU9VcXpjdzVDY3dQaFFFdXVNMndUQm12RGdO?=
+ =?utf-8?B?ZDUzVzZrUHJYMWpQeHM0cW4vaGhhTy80Q0JTb2tpR1VvK3RnbjZpQlN0TUMw?=
+ =?utf-8?B?dEpJQVkwMzFUUkR2VHUwczBtRUNyLzhmbldRUUdLV0Z3YTdTblpwVkdNZFRi?=
+ =?utf-8?B?MzNMREtOQ3FoTE9vUStIRTdkMUNQYmV5Znd6c2VLU1d6elpJKzVBb0YzaXJR?=
+ =?utf-8?B?b1E9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3413d0a-860c-498b-a7ae-08dd8276830d
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 14:52:47.6326 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /oGWGNPdZjwqs4EB0JqhqshXCyow0xRpfOqfD6At00/FkyxIj+zwcBSK5+5eEK2HlQkV/lRjtaRF8r1bhU+phA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6290
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,138 +178,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Petr,
+Hello, Danilo,
+Thanks for all the feedback. Due to the volume of feedback, I will respond
+incrementally in multiple emails so we can discuss as we go - hope that's Ok but
+let me know if that is annoying.
 
-On Wed, 23 Apr 2025 at 15:39, Petr Mladek <pmladek@suse.com> wrote:
-> On Tue 2025-04-22 10:43:59, Geert Uytterhoeven wrote:
-> > On Tue, 22 Apr 2025 at 10:30, Aditya Garg <gargaditya08@live.com> wrote:
-> > > On 22-04-2025 01:37 pm, Geert Uytterhoeven wrote:
-> > > > On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
-> > > >> From: Hector Martin <marcan@marcan.st>
-> > > >>
-> > > >> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
-> > > >> it's useful to be able to print generic 4-character codes formatted as
-> > > >> an integer. Extend it to add format specifiers for printing generic
-> > > >> 32-bit FourCCs with various endian semantics:
-> > > >>
-> > > >> %p4ch   Host byte order
-> > > >> %p4cn   Network byte order
-> > > >> %p4cl   Little-endian
-> > > >> %p4cb   Big-endian
-> > > >>
-> > > >> The endianness determines how bytes are interpreted as a u32, and the
-> > > >> FourCC is then always printed MSByte-first (this is the opposite of
-> > > >> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
-> > > >> allow printing LSByte-first FourCCs stored in host endian order
-> > > >> (other than the hex form being in character order, not the integer
-> > > >> value).
-> > > >>
-> > > >> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> > > >> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > >> Reviewed-by: Petr Mladek <pmladek@suse.com>
-> > > >> Tested-by: Petr Mladek <pmladek@suse.com>
-> > > >> Signed-off-by: Hector Martin <marcan@marcan.st>
-> > > >> Signed-off-by: Aditya Garg <gargaditya08@live.com>
-> > > >
-> > > > Thanks for your patch, which is now commit 1938479b2720ebc0
-> > > > ("lib/vsprintf: Add support for generic FourCCs by extending %p4cc")
-> > > > in drm-misc-next/
-> > > >
-> > > >> --- a/Documentation/core-api/printk-formats.rst
-> > > >> +++ b/Documentation/core-api/printk-formats.rst
-> > > >> @@ -648,6 +648,38 @@ Examples::
-> > > >>         %p4cc   Y10  little-endian (0x20303159)
-> > > >>         %p4cc   NV12 big-endian (0xb231564e)
-> > > >>
-> > > >> +Generic FourCC code
-> > > >> +-------------------
-> > > >> +
-> > > >> +::
-> > > >> +       %p4c[hnlb]      gP00 (0x67503030)
-> > > >> +
-> > > >> +Print a generic FourCC code, as both ASCII characters and its numerical
-> > > >> +value as hexadecimal.
-> > > >> +
-> > > >> +The generic FourCC code is always printed in the big-endian format,
-> > > >> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
-> > > >> +
-> > > >> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
-> > > >> +endianness is used to load the stored bytes. The data might be interpreted
-> > > >> +using the host byte order, network byte order, little-endian, or big-endian.
-> > > >> +
-> > > >> +Passed by reference.
-> > > >> +
-> > > >> +Examples for a little-endian machine, given &(u32)0x67503030::
-> > > >> +
-> > > >> +       %p4ch   gP00 (0x67503030)
-> > > >> +       %p4cn   00Pg (0x30305067)
-> > > >> +       %p4cl   gP00 (0x67503030)
-> > > >> +       %p4cb   00Pg (0x30305067)
-> > > >> +
-> > > >> +Examples for a big-endian machine, given &(u32)0x67503030::
-> > > >> +
-> > > >> +       %p4ch   gP00 (0x67503030)
-> > > >> +       %p4cn   00Pg (0x30305067)
-> > > >
-> > > > This doesn't look right to me, as network byte order is big endian?
-> > > > Note that I didn't check the code.
-> > >
-> > > Originally, it was %p4cr (reverse-endian), but on the request of the maintainers, it was changed to %p4cn.
-> >
-> > Ah, I found it[1]:
-> >
-> > | so, it needs more information that this mimics htonl() / ntohl() for
-> > networking.
-> >
-> > IMHO this does not mimic htonl(), as htonl() is a no-op on big-endian.
-> > while %p4ch and %p4cl yield different results on big-endian.
-> >
-> > > So here network means reverse of host, not strictly big-endian.
-> >
-> > Please don't call it "network byte order" if that does not have the same
-> > meaning as in the network subsystem.
-> >
-> > Personally, I like "%p4r" (reverse) more...
-> > (and "%p4ch" might mean human-readable ;-)
-> >
-> > [1] https://lore.kernel.org/all/Z8B6DwcRbV-8D8GB@smile.fi.intel.com
->
-> I have to admit that I was always a bit confused by the meaning of the
-> new modifiers. And I did give up at some point and decided to do not
-> block the patch when it made sense to others.
->
-> But I have to agree with Geert here. The current behavior of %p4ch
-> is confusing on big endian system. I would expect that it does not
-> revert the ordering.
->
-> Well, I still think that people might find all 4 variants useful.
-> Andy does not like "r". What about "hR"? It is inspired by
-> the existing %pmR.
+On 4/23/2025 10:06 AM, Danilo Krummrich wrote:
+> On Sun, Apr 20, 2025 at 09:19:45PM +0900, Alexandre Courbot wrote:
+>> From: Joel Fernandes <joelagnelf@nvidia.com>
+>>
+>> Add support for navigating and setting up vBIOS ucode data required for
+[...]
+>> diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..534107b708cab0eb8d0accf7daa5718edf030358
+>> --- /dev/null
+>> +++ b/drivers/gpu/nova-core/vbios.rs
+>> @@ -0,0 +1,1103 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +// To be removed when all code is used.
+>> +#![allow(dead_code)]
+> 
+> Please not, use 'expect' and and only where needed. If it would be too much,
+> it's probably a good indicator that we want to reduce the size of the patch for
+> now.
+> 
 
-I am not a fan of complicating the format specifier even more by adding
-more characters...  But seeing %pmR, I have to admit it does make sense.
+Sure, I will switch to expect. The addition of a bit of dead code is intentional
+as we want to keep unused bits for future extension and lesser reader ambiguity.
 
-> The problem is that the semantic is not the same. The modifiers affect
-> the output ordering of IPv4 addresses while they affect the reading order
-> in case of FourCC code.
+Note that I've already been conservative with not adding too much more code than
+we need (otherwise this patch could have been 2X the size), however VBIOS is a
+complicated thing and I think we want to keep a little more than we need for
+future extension for GPU families and proper documentation.
 
-Note that for IPv4 addresses we have %pI4, which BTW also takes [hnbl]
-modifiers.
+>> +
+>> +//! VBIOS extraction and parsing.
+>> +
+>> +use crate::driver::Bar0;
+>> +use crate::firmware::FalconUCodeDescV3;
+>> +use core::convert::TryFrom;
+>> +use kernel::devres::Devres;
+>> +use kernel::error::Result;
+>> +use kernel::prelude::*;
+>> +
+>> +/// The offset of the VBIOS ROM in the BAR0 space.
+>> +const ROM_OFFSET: usize = 0x300000;
+>> +/// The maximum length of the VBIOS ROM to scan into.
+>> +const BIOS_MAX_SCAN_LEN: usize = 0x100000;
+>> +/// The size to read ahead when parsing initial BIOS image headers.
+>> +const BIOS_READ_AHEAD_SIZE: usize = 1024;
+>> +
+>> +// PMU lookup table entry types. Used to locate PMU table entries
+>> +// in the Fwsec image, corresponding to falcon ucodes.
+>> +#[allow(dead_code)]
+>> +const FALCON_UCODE_ENTRY_APPID_FIRMWARE_SEC_LIC: u8 = 0x05;
+>> +#[allow(dead_code)]
+>> +const FALCON_UCODE_ENTRY_APPID_FWSEC_DBG: u8 = 0x45;
+>> +const FALCON_UCODE_ENTRY_APPID_FWSEC_PROD: u8 = 0x85;
+>> +
+>> +pub(crate) struct Vbios {
+>> +    pub fwsec_image: Option<FwSecBiosImage>,
+>> +}
+>> +
+>> +impl Vbios {
+>> +    /// Read bytes from the ROM at the current end of the data vector
+>> +    fn read_more(bar0: &Devres<Bar0>, data: &mut KVec<u8>, len: usize) -> Result {
+>> +        let current_len = data.len();
+>> +        let start = ROM_OFFSET + current_len;
+>> +
+>> +        // Ensure length is a multiple of 4 for 32-bit reads
+>> +        if len % core::mem::size_of::<u32>() != 0 {
+>> +            pr_err!("VBIOS read length {} is not a multiple of 4\n", len);
+> 
+> Please don't use any of the pr_*() print macros within a driver, use the dev_*()
+> ones instead.
 
-> Avoid the confusion by replacing the "n" modifier with "hR", aka
-> reverse host ordering.
->
-> Signed-off-by: Petr Mladek <pmladek@suse.com>
+Ok I'll switch to this. One slight complication is I've to retrieve the 'dev'
+from the Bar0 and pass that along, but that should be doable.
 
-Thanks, LGTM!
+> 
+>> +            return Err(EINVAL);
+>> +        }
+>> +
+>> +        // Allocate and zero-initialize the required memory
+> 
+> That's obvious from the code, if you feel this needs a comment, better explain
+> what we need it for, why zero-initialize, etc.
 
-Gr{oetje,eeting}s,
+Sure, actually the extends_with() is a performance optimization as we want to do
+only a single allocation and then fill in the allocated data. It has nothing to
+do with 0-initializing per-se. I will adjust the comment, but:
 
-                        Geert
+This code...
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>> +        data.extend_with(len, 0, GFP_KERNEL)?;
+>> +        with_bar!(?bar0, |bar0_ref| {
+>> +            let dst = &mut data[current_len..current_len + len];
+>> +            for (idx, chunk) in dst
+>> +                .chunks_exact_mut(core::mem::size_of::<u32>())
+>> +                .enumerate()
+>> +            {
+>> +                let addr = start + (idx * core::mem::size_of::<u32>());
+>> +                // Convert the u32 to a 4 byte array. We use the .to_ne_bytes()
+>> +                // method out of convenience to convert the 32-bit integer as it
+>> +                // is in memory into a byte array without any endianness
+>> +                // conversion or byte-swapping.
+>> +                chunk.copy_from_slice(&bar0_ref.try_read32(addr)?.to_ne_bytes());
+>> +            }
+>> +            Ok(())
+>> +        })?;
+>> +
+>> +        Ok(())
+>> +    }
+..actually initially was:
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
++        with_bar!(self.bar0, |bar0| {
++            // Get current length
++            let current_len = self.data.len();
++
++            // Read ROM data bytes push directly to vector
++            for i in 0..bytes as usize {
++                // Read byte from the VBIOS ROM and push it to the data vector
++                let rom_addr = ROM_OFFSET + current_len + i;
++                let byte = bar0.try_readb(rom_addr)?;
++                self.data.push(byte, GFP_KERNEL)?;
+
+Where this bit could result in a lot of allocation.
+
+There was an unsafe() way of not having to do this but we settled with
+extends_with().
+
+Thoughts?
+
+Thanks.
+
+
+
