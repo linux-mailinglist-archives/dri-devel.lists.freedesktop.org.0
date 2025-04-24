@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D1FA9B8CF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 22:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA29A9B8EF
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 22:18:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE49810E1A5;
-	Thu, 24 Apr 2025 20:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B75610E859;
+	Thu, 24 Apr 2025 20:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ISS9edEF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GgICv8TH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF88310E08F;
- Thu, 24 Apr 2025 20:08:59 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5737210E10C;
+ Thu, 24 Apr 2025 20:18:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 18E1361137;
- Thu, 24 Apr 2025 20:08:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20AA7C4CEE3;
- Thu, 24 Apr 2025 20:08:53 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 08D38A42CDE;
+ Thu, 24 Apr 2025 20:12:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A069C4CEE3;
+ Thu, 24 Apr 2025 20:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745525338;
- bh=r/J+71axIcbcBnTDMTPbPhfWreusoyG9PFW3KMwW3d0=;
+ s=k20201202; t=1745525880;
+ bh=PvlSRg3PqK0Na1wxmJYNIAcgxcwAC/5M4UG3B2S6iEU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ISS9edEF3u5Xby+MOrLIfGta/xXgvj8DjuWHfzBXrFZ9ZBVbkAwIkoDv9x14/vlmd
- hzy7BUxXKcII6wkglUSqd21SGKks8ao2Mb/0m5uGpwG+WWvYJL4XwU43191f7cCpJX
- zy0BhwhgLd7MBL5szOCwB0f9KYZB+tcTH1/At/LklVOkX6MC3pKizBD69oeN3VTsMR
- ku0O6Rzq6WoT1dSlZeSQRjA10kpghiyV2qSGBzVH87+Dy5b1c41PQgsNkCSjCQUTeA
- j1gGwCwlYLhhucBavtvJ+AQVSrgVaTuEEAoJBlBgoftI+s7Reib0R0jbd5rHQcx3BT
- 9fCHoitRYzsyA==
-Date: Thu, 24 Apr 2025 22:08:51 +0200
+ b=GgICv8THuxD1y4opGFDVixTPJ+MSLa06ftDHBZ/uL3bpcEba8Ax9CNjX/CrAjNnK+
+ VrdftMj6rt/y0nYHggbE+/+ZdTDGCYLXRT7mOcGvwC7bCSE83+DbVxzPf3cC4DYWSm
+ PMucd4/daNGVL1ky8SzTBOZzENHyxiZRg0M27zV0V9ZeTRNC52CdGfmktWVZXB+hWw
+ G/KOn/rUFQY8/JYZBDntShkyosVq6rYRqn54LEEu0diJlmzt+/UBG/amyHDHtox3qq
+ llxjUhKWpgKb3CWbVNBUYbOl0seYyxZsGbey/k6z4f59Tqb6lBJHo6xV9z3mo+gMsQ
+ 7NM2GTjTihpjw==
+Date: Thu, 24 Apr 2025 22:17:53 +0200
 From: Danilo Krummrich <dakr@kernel.org>
 To: Joel Fernandes <joelagnelf@nvidia.com>
 Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
@@ -50,15 +50,16 @@ Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
  nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH 13/16] gpu: nova-core: Add support for VBIOS ucode
  extraction for boot
-Message-ID: <aAqaU-nX0YRKIGyl@pollux>
+Message-ID: <aAqccVvLIEZw-zrU@pollux>
 References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
  <20250420-nova-frts-v1-13-ecd1cca23963@nvidia.com>
  <aAjz2CYTsAhidiEU@pollux>
- <7f3aa4b3-a24a-41c6-b75e-61e0e6e11ee3@nvidia.com>
+ <88937e2b-6950-4c9d-8f02-50f9b12c7376@nvidia.com>
+ <aAkBIvfTkKVNbdnm@pollux> <20250424195448.GA182914@joelnvbox>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7f3aa4b3-a24a-41c6-b75e-61e0e6e11ee3@nvidia.com>
+In-Reply-To: <20250424195448.GA182914@joelnvbox>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,42 +75,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 24, 2025 at 02:54:42PM -0400, Joel Fernandes wrote:
-> 
-> 
-> On 4/23/2025 10:06 AM, Danilo Krummrich wrote:
-> [...]
-> >> +
-> >> +    /// Probe for VBIOS extraction
-> >> +    /// Once the VBIOS object is built, bar0 is not read for vbios purposes anymore.
-> >> +    pub(crate) fn probe(bar0: &Devres<Bar0>) -> Result<Self> {
+On Thu, Apr 24, 2025 at 03:54:48PM -0400, Joel Fernandes wrote:
+> On Wed, Apr 23, 2025 at 05:02:58PM +0200, Danilo Krummrich wrote:
+> > On Wed, Apr 23, 2025 at 10:52:42AM -0400, Joel Fernandes wrote:
+> > > Hello, Danilo,
+> > > Thanks for all the feedback. Due to the volume of feedback, I will respond
+> > > incrementally in multiple emails so we can discuss as we go - hope that's Ok but
+> > > let me know if that is annoying.
 > > 
-> > Let's not call it probe(), what about VBios::parse(), or simply VBios::new()?
+> > That's perfectly fine, whatever works best for you. :)
 > > 
-> 
-> Yes, new() is better. I changed it.
-> 
-> >> +        // VBIOS data vector: As BIOS images are scanned, they are added to this vector
-> >> +        // for reference or copying into other data structures. It is the entire
-> >> +        // scanned contents of the VBIOS which progressively extends. It is used
-> >> +        // so that we do not re-read any contents that are already read as we use
-> >> +        // the cumulative length read so far, and re-read any gaps as we extend
-> >> +        // the length
-> >> +        let mut data = KVec::new();
-> >> +
-> >> +        // Loop through all the BiosImage and extract relevant ones and relevant data from them
-> >> +        let mut cur_offset = 0;
+> > > On 4/23/2025 10:06 AM, Danilo Krummrich wrote:
+> > > 
+> > > >> +impl Vbios {
+> > > >> +    /// Read bytes from the ROM at the current end of the data vector
+> > > >> +    fn read_more(bar0: &Devres<Bar0>, data: &mut KVec<u8>, len: usize) -> Result {
+> > > >> +        let current_len = data.len();
+> > > >> +        let start = ROM_OFFSET + current_len;
+> > > >> +
+> > > >> +        // Ensure length is a multiple of 4 for 32-bit reads
+> > > >> +        if len % core::mem::size_of::<u32>() != 0 {
+> > > >> +            pr_err!("VBIOS read length {} is not a multiple of 4\n", len);
+> > > > 
+> > > > Please don't use any of the pr_*() print macros within a driver, use the dev_*()
+> > > > ones instead.
+> > > 
+> > > Ok I'll switch to this. One slight complication is I've to retrieve the 'dev'
+> > > from the Bar0 and pass that along, but that should be doable.
 > > 
-> > I suggest to create a new type that contains data and offset and implement
-> > read_bios_image_at_offset() and friends as methods of this type. I think this
-> > would turn out much cleaner.
-> I moved it into struct Vbios {} itself instead of introducing a new type. Is
-> that Ok?
+> > You can also pass the pci::Device reference to VBios::probe() directly.
 > 
-> I agree it is cleaner. Please see below link for this particular refactor
-> (moving data) and let me know if it looks Ok to you: http://bit.ly/4lHfDKZ
+> 
+> This turns out to be rather difficult to do in the whole vbios.rs because
+> we'd have to them propogate pdev to various class methods which may print
+> errors
 
-I still think a new type would be better, the Option<KVec<u8>> that is only used
-for the construction of the actual type instance is a bit weird. It's basically
-two types in one, which is also why you need two options -- better separate
-them.
+Note that you can always create an ARef<pci::Device> instance from a
+&pci::Device, which you can store temporarily if needed. Though I don't think
+it's needed here.
+
+> (some of which don't make sense to pass pdev to, like try_from()).
+
+Yeah, it's indeed difficult with a TryFrom or From impl. I guess you're
+referring to things like
+
+	impl TryFrom<&[u8]> for PcirStruct
+
+and I actually think that's a bit of an abuse of the TryFrom trait. A &[u8]
+isn't really something that is "natural" to convert to a PcirStruct.
+
+Instead you should just move this code into a normal constructor, i.e.
+PcirStruct::new(). Here you can then also pass a device reference to print
+errors.
+
+We should really stick to dev_*() print macros from within driver code.
