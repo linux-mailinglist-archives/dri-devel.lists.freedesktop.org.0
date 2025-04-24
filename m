@@ -2,75 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12FCAA9A6E2
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 10:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A18AA9A766
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 11:06:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1DBD10E111;
-	Thu, 24 Apr 2025 08:52:51 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uC/vkBuV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B96410E0CF;
+	Thu, 24 Apr 2025 09:06:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21C4110E111
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 08:52:47 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-3105ef2a06cso8021811fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 01:52:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1745484760; x=1746089560; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Pi6I9/2PW0WKwJeejN5o1HPNrvvIUYugrgLnZZJ7Pu4=;
- b=uC/vkBuVyv5KAodN+tOYiVDsiFtgID9nLLzsVoqNNeZ2BkAwmy4aptsBhzM0jjnQXd
- IV65PY7aagJrIGNSBf9VsCd3frVB8c0PJqpFTMwzUrlbFoOjyRYM6M3YIlklgffY2RY3
- HwoxSwyYCNrYvP7nB4dma4IQ0dr1M1T++bajLr2gokktZEJqBXceC+cf93LXFin6i+go
- OqvBsDHWFT5dfpm805Os88F4rd10JGNXjmkZ0EB87Bqzjy9HOpynMaLniH1pqN3nkkPJ
- oZB1flsCfwtPgSxi8TxfPioF2ip2xxGklLgpQpWucuGrmMsALoCmF0V2e5fHiOY/B/F+
- jA0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745484760; x=1746089560;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Pi6I9/2PW0WKwJeejN5o1HPNrvvIUYugrgLnZZJ7Pu4=;
- b=fVA/OEibbLM1TON8USq0sDNlPAb1caOgxKnxosMFWvRz6GpqetqtJsW+bV3Q30YJ/a
- VN4Hkm9IQh+d2VYQAnd4cQCrK/LU+o1HGMNIX4tenj9uKheZTjrzbWNtpAdNwHspWm8v
- JpmNgFw+HVETKek+EfnD4AK6+ZYLgnLuO6EjW5kB/vLW20t1pBrDPIqYDIueBSJQY06G
- 6CntZtfGFq6QmWSV+DWQc3rCVj7S87jFFG0OEEGaqAEMut8YLrQ5SnF/VFQJBkOtLiQH
- 67c4IzXpKs3RiRyX0wf2oISkxteCpGRbykUZZ1L/5lLESxGgrCudoOwCFWgdVOTd9Bd6
- 7EkA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXj3wGt0PKtuEfgzRJPWJmrwYMP9ERnRGectDMp/VjZ7leQWr+1FV2FsgKNFgzTpgYxjuQsmI7QRwc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylYVgndL6AHTuAaMo3WY00PuxYFvoSO9xNzaXkrObdUdCji0Jt
- Xg7P+OOATpbom0OZ6tqo+W7r7BPRRqLfcyU9PGQVjiz2UTV1QEmWQjOOpPlgQNAI6FndLRCkaf8
- 4RnfD24kGg9qIwLx1Iy3riTzBbUfpl1j5l+EsHw==
-X-Gm-Gg: ASbGncsMojF5XlL0YWsIFz71OvZ5193vMacHeq/ITmUEkdblDcmz7+9x39A7OG5QIQX
- OlM4y5sz0r3OPU6ThlF7Cq8usu8Svnclx3abDSpy9gfgUNu7HYexO55HQCre4dBqlTtplJZQIfn
- PvCg1k0yPtqsZs0NFSgx8HVsSvZqIstGoQ
-X-Google-Smtp-Source: AGHT+IHAB9LWhYEooDYo0NS7+cNeVroUrJMiu/TtDGjCg2QMPYKVyjyzVDKPg2dN18XgA6c11bYigJex/WlKFNej81k=
-X-Received: by 2002:a05:651c:241:b0:30b:d022:2fd4 with SMTP id
- 38308e7fff4ca-3179febbfeamr7382591fa.30.1745484760431; Thu, 24 Apr 2025
- 01:52:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250408-gpiochip-set-rv-video-v1-1-200ea4d24a29@linaro.org>
-In-Reply-To: <20250408-gpiochip-set-rv-video-v1-1-200ea4d24a29@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 24 Apr 2025 10:52:29 +0200
-X-Gm-Features: ATxdqUGMaYSVPrnrhvuCdxBcM9tsozWah8p2gB0BcCstcebhaxaVqziqhHfQoJY
-Message-ID: <CACRpkdY0d_a8qzN2bJD+yzZ0P_twwPM21yV771YoABuVQzXAUg@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: via: use new GPIO line value setter callbacks
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Received: from irl.hu (irl.hu [95.85.9.111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED0BE10E0CF;
+ Thu, 24 Apr 2025 09:06:42 +0000 (UTC)
+Received: from [192.168.2.19] (51b69338.dsl.pool.telekom.hu
+ [::ffff:81.182.147.56]) (AUTH: CRAM-MD5 soyer@irl.hu, )
+ by irl.hu with ESMTPSA
+ id 0000000000084239.000000006809FF1B.000C6449; Thu, 24 Apr 2025 11:06:34 +0200
+Message-ID: <a2dbbf4e79c42b99d0772db5712f52a430864240.camel@irl.hu>
+Subject: Re: amdgpu_dm_connector_mode_valid regression
+From: Gergo Koteles <soyer@irl.hu>
+To: Marek =?ISO-8859-1?Q?Marczykowski-G=F3recki?=
+ <marmarek@invisiblethingslab.com>
+Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, regressions@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>
+Date: Thu, 24 Apr 2025 11:06:34 +0200
+In-Reply-To: <aAn6wsnJ-6mqK4vR@mail-itl>
+References: <ed09edb167e74167a694f4854102a3de6d2f1433.camel@irl.hu>
+ <8963a409dd575e040e5f07e4ad5e9c1d26b421f2.camel@irl.hu>
+ <CALT56yPd-xfd=47xRxrCk4F3jib4Ti7kg8pRXy-gVAQpbOc=pw@mail.gmail.com>
+ <e323219b52cda1891a55d12ad77a2b34edc8688b.camel@irl.hu>
+ <Z_jodBrNFdEpJRKA@mail-itl> <aAn6wsnJ-6mqK4vR@mail-itl>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,18 +54,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 8, 2025 at 9:43=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl> =
-wrote:
+Hi Marek,
 
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->
-> struct gpio_chip now has callbacks for setting line values that return
-> an integer, allowing to indicate failures. Convert the driver to using
-> them.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Thu, 2025-04-24 at 10:48 +0200, Marek Marczykowski-G=C3=B3recki wrote:
+> On Fri, Apr 11, 2025 at 12:01:28PM +0200, Marek Marczykowski-G=C3=B3recki=
+ wrote:
+> >=20
+> > Hi,
+> >=20
+> > On Wed, Apr 02, 2025 at 04:35:05PM +0200, Gergo Koteles wrote:
+> > > Hi Dmitry,
+> > >=20
+> > > But the code would start to become quite untraceable.
+> > > duplicate mode in amdgpu_dm_connector_mode_valid()
+> > > call drm_mode_set_crtcinfo() in amdgpu_dm_connector_mode_valid()
+> > > duplicate mode in create_stream_for_sink()
+> > > overwrite ctrc in decide_crtc_timing_for_drm_display_mode()
+> > > if crtc_clock =3D=3D 0 call drm_mode_set_crtcinfo() again in
+> > > create_stream_for_sink()=20
+> >=20
+> > FWIW I'm affected by the same issue (on HP ProBook 445 G7, with AMD
+> > Ryzen 5 4500U). And the patch quoted below fixes it for me too.
+>=20
+> I've re-tested it with 6.15-rc3 and the issue is still there. Is there
+> something I can do to help fixing it before final 6.15 is out?
+>=20
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+This patch has been accepted into the the amd drm-fixes-6.15 branch, so
+hopefully it will be fixed in 6.15-rc4.
 
-Yours,
-Linus Walleij
+https://lore.kernel.org/dri-devel/24439c13a014e1cd200785db6f3dcf08f4773eb3.=
+1743612701.git.soyer@irl.hu/
+https://gitlab.freedesktop.org/agd5f/linux/-/commits/drm-fixes-6.15
+
+Gergo
+
