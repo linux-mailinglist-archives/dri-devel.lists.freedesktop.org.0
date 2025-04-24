@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D1DA9B858
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 21:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C2FA9B860
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 21:39:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86C5810E85A;
-	Thu, 24 Apr 2025 19:35:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B41710E47B;
+	Thu, 24 Apr 2025 19:39:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dXcTEfwJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HGadm6yt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0C7A10E859;
- Thu, 24 Apr 2025 19:35:55 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B85E10E096;
+ Thu, 24 Apr 2025 19:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745523356; x=1777059356;
+ t=1745523585; x=1777059585;
  h=date:from:to:cc:subject:message-id:references:
  in-reply-to:mime-version;
- bh=xXF/hND7QRC69HS9XgCbqSnRU5zqbtTMyUZsID1Jwkw=;
- b=dXcTEfwJ8dd3KiE6jJJz+RMjxUcllP4csILmA+G/b7uexC3lD3IdxsPu
- CNFcRXKmVHvnjY43wPNuuVoojHxnXqBvFQaYzjcEA1fCRYC2lkna6ZFEJ
- U+f5OllL+KzyD36mqCiVN15xzXfqXv2TEoQlRtp4+NY9MftJWXHoE/7uD
- UzhbCLPWjWB316DUUN/n/MKVQTL6ZhXPpkBzAkLiv3V8I24ydfgHFR2jd
- J4t/IoHSfqvWfVwu9kykpUXwgbUkmnF3MmlxFF85Bv4QKK/Tor9Usy7lL
- d0BrYTE/SkgS5U/3PFFNwUv02f2XxtvDreLBXTX50z2WPEWDZlCMFkpRZ A==;
-X-CSE-ConnectionGUID: JHqSDELRQJiwzThZxW8Xtw==
-X-CSE-MsgGUID: roalDzJHRhWuyeGMDwcJQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="69668510"
-X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; d="scan'208";a="69668510"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2025 12:35:56 -0700
-X-CSE-ConnectionGUID: Gff48lJHRLKBhN9jkUCvyQ==
-X-CSE-MsgGUID: 4kKp8ww0ScCbA0IFrUPZ8A==
+ bh=8FeJ/9EdEdTnVTHM9eekIKcXjq+2u3mxGaoLvOqRddw=;
+ b=HGadm6ytymJQ2GH++mGPBwRAtfzNV0H0pgYWv2Hv3jQtYp/bKjEZjG7p
+ uZwXm6TxHIOhO8KfCoIPVuG4It2Bb8KhgpTphq7/o2zuP0BAKa3+3IfM7
+ dQ1Q0Cnnw7pf8x1syO7jfeOV9SMQubm9VcdUeppNDm+y+n3rUNRbJNt29
+ RsKtxVM7kkCjFQrvRDJNhmIcsFad7hIcv1/19HhCEG9nyq2GaGW72+GJn
+ kBMYjL09raHU2d7O4xQ7ivWvB7pswtwOXzWIwPxuRRRSYGz5JKma9f/jV
+ TXmhYycDHNPYwakrLlJafGPwwsqsqgOHDhVO5qm+UJ7V7+3fP2/98QMZ7 Q==;
+X-CSE-ConnectionGUID: Yd/3UlNlRoeVXwBu1zSTXg==
+X-CSE-MsgGUID: Uu6ruSlxQYyIFUlVlTfDsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="57375440"
+X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; d="scan'208";a="57375440"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2025 12:39:44 -0700
+X-CSE-ConnectionGUID: L1qMUvDtQeGPppUFyki1wQ==
+X-CSE-MsgGUID: NMwW0IeUQVOWhCwmFcv/iQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; d="scan'208";a="133236694"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2025 12:35:55 -0700
+X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; d="scan'208";a="137700049"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2025 12:39:44 -0700
 Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 24 Apr 2025 12:35:54 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 24 Apr 2025 12:35:54 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.2.1544.14; Thu, 24 Apr 2025 12:39:42 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 24 Apr 2025 12:35:54 -0700
+ 15.2.1544.14 via Frontend Transport; Thu, 24 Apr 2025 12:39:42 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.44) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 24 Apr 2025 12:39:42 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R8XJa8XVVjvwc0uTPcCzb9j4c3GvuKmWHrrU77V28R34moEm0X0xp+QnADFRCfOaXFfI/6vpq5fCbpPFACDX4tx9eJ6DzNxTiIkFo7yTl6PYVIdCYHC4JnEPvatkcCy/CQofEnxBRBlfGI0/zfw7wTfGVfrGhZX5adoz6dE3qX5z5D7ofhaJOhMDARHkQ+CF8nzgbUyaHgipkKco/a6vpowMxmbWEHLKO3eG+FJb7NAe3F3Exq6DyzgRWpohpQiu6BgHP+ogyuw1xlrZ5uKkZPN9BBHVioENkiO7NLItea2MKzKAt39yNBnmEDvtVIrJBq9VhiWto1bLwrI7NdaEvA==
+ b=pn5RmM4vH3KTQYWcXR1+aiOcPB15QR8n27Icfd+NUPu9k5aSoBmJTWuu58vgyZI++IuLNkOeOWW3jCudqU6jwyUxYv7AEP2ozSxGZRr7Ln5YmdRR9LhS/iWjgrD67bpzru237aSrcsQjvi6soJ7FQr1cUEO0+cL4G0luX4EoHMiPLEJeuzebwdEABEjBXcHDvdvdjtaZ4gYoUCJDdrJ++t9fT9uCv/sOfEv+3GY2KneuBi9qq+gEvNXTvwXQOdClkOP9xqWSy4ODkhbJfwIVHPLFwni5hjsJkkvsjR8TqjsODZyDzRpJVZW9cmdQBefsx0juJ3137w4kkUqMfeWb+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4kIrniJcC/EW5ZiO+ctQmQc5Amjek3MxrUToCDynRyU=;
- b=G1eNje2lZmytEkizwBNLLmd5SL0DHkmmZ4HQ+r/M1Aop8GVT3Jv7nDgZUMOqRgBw2BK56p5659eMncLwPS0nOBmPF14rU8bVlQBKNxhiNpacXxBDTA4Kh6J2h7/B3RzjPuJAxNMp+hsSFh5V00wDl7m89m574NUZrczDSjT2odEiOaAsTBPdiTk19RVDlfR0mfno77cOlzvkN5wtGvF4ZgbGbH2gHpj/dCHORBhkVOsGaKWKOhgmVfTonPayowFQFFPgYf0vJjtMCx+rpQehPT0pwPxGQXlj4KNAbCylzMYuBvMwBp7WWrSlAq45bkEZb287/C82ZAMs38IgwxwIig==
+ bh=+a8v8cjc1Zox89RjzlDfSdprSmiDmM8OetvBraCL+fQ=;
+ b=wAWNWdq/ZxOpfVBcIIzeg9xeNW2TGa3N0f1huNdronJjBeCMBcWEHbS3IriZSHIQjCbOKOEtEV88SCZkqpbPXBV4IBHYflScsnBussgAaSPPo0s66n7uIWAdzUqR/ggSh1ryx/3rhjsiCSGZrJgxgMhG16aj+BGENQ8b8zKiKSKxjFvkwPuvWQWB9SEX+NsXgPsUyklRvkQlnaiwrYuD6/ATpC+aAR/9SXe14en2FlIxdT49zkrPCbUA1kiGAWql602WfEK4eBf6U37r5+U5Uv8kW5lvYtCF1y4ynId8F+h5KONuKxORESqqhPoU4aiFm/Mkedwk2Exqi89D/jrmcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DS0PR11MB7624.namprd11.prod.outlook.com (2603:10b6:8:141::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Thu, 24 Apr
- 2025 19:35:19 +0000
+ by SN7PR11MB6678.namprd11.prod.outlook.com (2603:10b6:806:26a::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.48; Thu, 24 Apr
+ 2025 19:39:40 +0000
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.8655.037; Thu, 24 Apr 2025
- 19:35:18 +0000
-Date: Thu, 24 Apr 2025 12:36:38 -0700
+ 19:39:40 +0000
+Date: Thu, 24 Apr 2025 12:41:00 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: Jonathan Cavitt <jonathan.cavitt@intel.com>
 CC: <intel-xe@lists.freedesktop.org>, <saurabhg.gupta@intel.com>,
@@ -84,90 +84,87 @@ CC: <intel-xe@lists.freedesktop.org>, <saurabhg.gupta@intel.com>,
  <michal.mrozek@intel.com>, <raag.jadav@intel.com>,
  <john.c.harrison@intel.com>, <ivan.briano@intel.com>,
  <matthew.auld@intel.com>
-Subject: Re: [PATCH v22 1/5] drm/xe/xe_gt_pagefault: Disallow writes to
- read-only VMAs
-Message-ID: <aAqSxmxU6gob1jj3@lstrano-desk.jf.intel.com>
+Subject: Re: [PATCH v22 0/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Message-ID: <aAqTzMv5iU59hTOB@lstrano-desk.jf.intel.com>
 References: <20250424143812.11210-1-jonathan.cavitt@intel.com>
- <20250424143812.11210-2-jonathan.cavitt@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20250424143812.11210-2-jonathan.cavitt@intel.com>
-X-ClientProxiedBy: MW4P222CA0030.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:303:114::35) To PH7PR11MB6522.namprd11.prod.outlook.com
+In-Reply-To: <20250424143812.11210-1-jonathan.cavitt@intel.com>
+X-ClientProxiedBy: MW4PR03CA0267.namprd03.prod.outlook.com
+ (2603:10b6:303:b4::32) To PH7PR11MB6522.namprd11.prod.outlook.com
  (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DS0PR11MB7624:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4fb1aadf-b154-46f2-3b15-08dd836724d3
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SN7PR11MB6678:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9fe8676c-afae-461d-97ae-08dd8367c0bb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?EDW5roy9Ixbu6/NupgJejj+EkU2Mrpi01de5rZd2+g0VUiIDvBGOfE6Y3qCw?=
- =?us-ascii?Q?YLPAp/A+WMRjh3Hcev/ldUVAQDEgmhZj+6oXSNrDo9QX0PhPP4N3TWTy3gPL?=
- =?us-ascii?Q?k2rr1AjdLe0JJluPCnvjY7kuS62LkDmOZovre/dxb3aJEGxOG54n0+idgbGZ?=
- =?us-ascii?Q?N5VxPrIqOdrDlqJtwPnNE+6rWlzkuOSFT2I2B6HxeHmIQhL+EF23QP5Y4wgg?=
- =?us-ascii?Q?XMMUrJGxNnhTeNT+Ft72SVUjzTUkcBhOe845rDs/FFzjovEIFkqfhi+IZ6Bk?=
- =?us-ascii?Q?l4jZWihd+Lz3vqbh1tbdcmAMK3qsbH9BrBztnI3UjJANnrefbzki+aaRHY77?=
- =?us-ascii?Q?YVGmLheJC7Z3hhCLmSTi0f1M/3E/DjarQOLqpzsQy9hcee1njhLLV4G8RoQr?=
- =?us-ascii?Q?Jrzs061Nwn37IxJX2oqVdRTyR9kdRSklz4kYntxsfaryEzqJGGfPFl+f7bqW?=
- =?us-ascii?Q?ndcVdFl2OMTNfJeoFvw17qJXNKZOadij/WNo3fjNlq4ILlmufwEfo2TP11Z/?=
- =?us-ascii?Q?bLUBfX47rV2pGcLjFvAt82pMDvxO4rkH/JVuhaG3RV5R3C82OGvwhwapF9WF?=
- =?us-ascii?Q?iQXWvdg/Pya4pKgUYOb+ej/ZSc9O3nsJzBT5dFYcig3gLEB4PTAbM8HeKlYq?=
- =?us-ascii?Q?qhU3iJCFiVyiFozhSGlAHNThx7w6cITFzX2RDch3gply6WbyVs+C4xST7lOy?=
- =?us-ascii?Q?ykbrkk3/91OxvyrHo8QN1B9S3xUNrn72vH7pzhXnT9im9X1ldVZqk30TpFKy?=
- =?us-ascii?Q?ek6f3tztSSKNu8ukdl3qMNyvcXmeM6/1bIl1fQubUhJQ2SJBmqWNQfDSZ2tr?=
- =?us-ascii?Q?tJN5CiBbCkFSL78UfUM2BJ6MRfKDS9T5VUwEosMeZlMwKTYJLiSZJM0zAPri?=
- =?us-ascii?Q?knf298OVjiJ1V+GKeuNkeYOZIbuFPd3nWZ2wZVCtO5oMnLMHk6mwWgDQTstT?=
- =?us-ascii?Q?qDYBZyl8aoQkI3jzsn2BPy5QgzLi01XpKk3liSr2w/icnHfy2xNIJ6kk51Ef?=
- =?us-ascii?Q?hbE/eUtighruUaeR5kCpbvjwW60jOSUGci80VwkoX75efHRIBWSdXVdKPZaw?=
- =?us-ascii?Q?6t+wOr40VwO+MlEiwjw4SJAbS7+kwrOhjLuUuWnPZjv8Vqq7x4Jwuzr2y5by?=
- =?us-ascii?Q?KkyA01brBpVdxsLpbG/+vchfjISC/417m4XqGA/ka5xESDKleTregt6SsYn/?=
- =?us-ascii?Q?aBbLIG7Nw1hNsJDND7vVyVB7bjHlNjOb9G5dUAqZkWzA9O6iAvw1VLx3L5cz?=
- =?us-ascii?Q?P6wOVbZDKAdo2MLvuglxTwxN1PBgXXflWXy7SoYmchPG7tgyXbyB4miQARou?=
- =?us-ascii?Q?UD269TxJ9w166Kx1rA1c6Vh00Jxr0xp+M73z6pSSYpXKQSJXPhovyYgfSWZs?=
- =?us-ascii?Q?AVINtxwtWwVqLgzArZ6QcNdoxRuAu9PntILarOYhWH3rjXcgSSy2h/Oi+AEL?=
- =?us-ascii?Q?a7OOcOpjuwo=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FVCpVNEGprDvc7n/AzUe2YTftM1f2LHHtwjOhuuHBZP0qSKgLrA0pCrW28yd?=
+ =?us-ascii?Q?hAafyUqveIXeNUfnwmlVlwjhk0pjPgGzEQXH5wodVFaRN+206YmVFmru78b6?=
+ =?us-ascii?Q?DQJbuIghwLxRW2mRK9HMDx9PCDAXDHa+6AJ2ibfNF5ArmfYEg5w6W5wnfCk1?=
+ =?us-ascii?Q?OL+JYUicsAcauDU5T+ODeRZmu9Zqg8j7z6wKRW8OQKQjn5dQsGjTrGoLLLib?=
+ =?us-ascii?Q?EXL3Wb4ewj8UGDv84iTZanAEroct6PH/pfrD8Qpuo4b/mJDqxhYCcs09PVU9?=
+ =?us-ascii?Q?snxS5PAgB0tjGOt9d0RcYt2+113od0Azr0K5uf3skdbV28xGvoUAqSflUzDu?=
+ =?us-ascii?Q?JAT3SIklo2mEPdNUCe2j8AR+MLnEXeHcN+7bUPwMSzlFK+jcEBXrBTDQh7R0?=
+ =?us-ascii?Q?WaxDGnBTJ1GiR0cWXQyZR0SNUcg8FDkfg/0xr/vYUmQWQsvo0nKFovtzcEdn?=
+ =?us-ascii?Q?OY8XMq/V7CaH283iUjSlNQtBaNjsieeI2W5kQzlMTwkwMe67rTpwOw0Mq0b3?=
+ =?us-ascii?Q?vkAZTA3Kl/PgJ5SnCF1ZGucIKnJefZmFYbvsmbQz2lsAioXI/W4u8CGOMBVm?=
+ =?us-ascii?Q?rEhUbtkqtmBVYwY3xmLh1Cze0WJ7RGHeYGG/FfdmXLm58bp6KCvG29ZQdBdB?=
+ =?us-ascii?Q?OM1oB5sIyUWOtDSnRaJylUmf6KqILirVct8bkebfi5n4mhujdPQROu1/2ajT?=
+ =?us-ascii?Q?ro1ShkbFPpuDb+ndrqRZqb1rahMzigfzk7WRnlyMXzcfo0cpLeQGDAOugPUw?=
+ =?us-ascii?Q?RMq/9p1d9j9H2ARzraYd713yK++ooHpeTSAZvbdB40kVwJVtszyCX8leWUmP?=
+ =?us-ascii?Q?hL73YAKty+GRhU81hAxnDgkJqJoNjQPd4ftq4PKN7E9naX+E4tgOzR/deb7p?=
+ =?us-ascii?Q?GNG7Erw/URXCtCLZnz0w3v4mExk1EJF61sXkkXigTTKUwpkMcuBHld8DpJ4/?=
+ =?us-ascii?Q?SsMsd99MBllnl+V8ijuS09SRF1nLhNTEuFhXccRBPI2ElF/msccYx4vfGVTb?=
+ =?us-ascii?Q?r5vPbo6sXWQDz9NlKdsKRXIyufdrW4BTDS56ADtCbA5QIz2qUnhuxSrLoOSu?=
+ =?us-ascii?Q?zh/LnuoZREU+MuWc+9LTNrlTTpPQUeT3XWoQRDepGcf4BjSCvVu6rcBmxkEV?=
+ =?us-ascii?Q?q0U5fdoZvgFfdDngfxQBxlcvsyV5j7kYRDbN0BZZxbcgd6BiQENwnzwVSHR3?=
+ =?us-ascii?Q?XBU25VWpyQcedScqdVc1YPQn3gpCpSnmfB8xDVAwxIuXbw7Bv6SFcN+B6DJv?=
+ =?us-ascii?Q?Qogmz9MHi77TLe+iJADvYa81OH6oaChqBTKZWiJhJ8pARFZfrTZFLF5E4OFa?=
+ =?us-ascii?Q?LBBwC2zx7dAwWHquUow9frTXJ+L8mhQ2+jeguXJH5sHzmOBwITeW5YAxzmhW?=
+ =?us-ascii?Q?xViYL7w=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?h5d3zETXwcIyFLTC1I0DAWT7eNhhMKmvj4PT0YqeOe+d2wt0hxg7dtEIdz7r?=
- =?us-ascii?Q?DgbEh95HRILhbAR0gtLUtUIw29vRypaf5Rxj5q3fo5wYwlE0s4CeJZ6FNVRn?=
- =?us-ascii?Q?RUtnw5jNbvlkoHRPMPJPAv7uEfDmiYf8YICrplT7CD0Q26TV5p03fLcR6cfb?=
- =?us-ascii?Q?K2JzkPByIbGwt8ExNKYLgSVpDpXMEP959OUTrFn61GlhMneumzi04x016gwk?=
- =?us-ascii?Q?wEmrHWEPCe6wX2BXEDLhPo52TfAV0w3kQy8Df0jmCuoZ6dDKwTbEjwWv+wlJ?=
- =?us-ascii?Q?3SEiiUzEGzuYmSU4fRIwLj5YRvwxtuO+LQFDn3TT3kRkcTpZjFjyGdljfMe3?=
- =?us-ascii?Q?dTgcTwEudm+ZCbtMGBIw9ub0DGDlnoY/FF5hPs3OQTpfrnPEJYCYBBRJyyON?=
- =?us-ascii?Q?IqJKmOxuoizm1njumpoNzvAomHf5ExpHL0hzmiy7tqrvXDHiKA8kfFyAQl9f?=
- =?us-ascii?Q?1pW1P1DPlGVLLn7Q91vj1sVSyAyn2W2G/Ctra1dfo7H+ozUjII2JKtLclKQb?=
- =?us-ascii?Q?qbkqbtSFtwGdYau+HdysszjpiDrV7bkgp2yQUDYtmwFbYiros27KlBJC1SLV?=
- =?us-ascii?Q?misfh5PPO7PRB0sQogEppMtVdjACZbJNdnVfoRThB2vUrCmXz7U47qLJoIcY?=
- =?us-ascii?Q?I9OCCZA5ixRwxCtGVi97Rp3PZ0eTyjB1usZqQaO4+722+aDb4j9sklHuerSz?=
- =?us-ascii?Q?Bj1CM3wqlXbg5Olr6vSy0uQAzjBpqDktec4YR04Sefr3kVMZn5PzzP3CO9bF?=
- =?us-ascii?Q?qsr8bA8BLg5J5jyoqS4wNL2qBNZelXLEkPmHJZcYPbWCghcaqF/li8Tqyw70?=
- =?us-ascii?Q?KSMkf+OWVq3KdhuO1mwu91dw50umjZqBgZXDKiHqHwmrGappL4fcuPUUxsow?=
- =?us-ascii?Q?W7IIkdSJbPbdoaEferVInkAs2Lt61OW9K6U2JLB2M9m0g5YuyCQzKLqtpkcO?=
- =?us-ascii?Q?3nQByUg+G4UWNPP2GkNhqjZUwVQDsbNnWYslvVhcGTkzoOmesVMitB2bLX+Q?=
- =?us-ascii?Q?IomwhLGiYIQ84mAN9l/aou+Wn82UBBacDQe5Q5RJjJoFUzE6qpt016G4Xbwk?=
- =?us-ascii?Q?ti2Xy1ItJFlCPjXBLwftkUQ5CX472qvwylB5IjY8GLqqLDvkDLhQ/uIQiEsq?=
- =?us-ascii?Q?vLUubiKhb2wPSocYzJTYTNyn6N43sPmqKZJqIHdckMVp0jhKXyUmjW7I6Xrl?=
- =?us-ascii?Q?vHBxst7VP9hpQwFh+0bGcN/qWm5j/f+1XtwS143ZjIQt/LXNuLKI3YG0ff5u?=
- =?us-ascii?Q?H1uLwp8Al9YlvQaUMPUj2ZrruXZ4o62yKtn4g0JB2tQOrT7lJ2QjTxfcdDz3?=
- =?us-ascii?Q?fEzRb3zr6jI8UKsJM2wmb24QbvZmJXryHJdpOdNzcHMX6ZD+IIgBk2URaydH?=
- =?us-ascii?Q?SV3FIrdCf5UtwG8nqGKgjrr7y7JxK4xjWKh6IABFH2uzr1Fe3MaQDlmmxAv1?=
- =?us-ascii?Q?vcQVJx+sQDu0w2IOW0Y382khtg5DMiWZPdjtzmzmeeqt61MCE+lr8TQMh0rr?=
- =?us-ascii?Q?6voj0sx8hfoO3azy/4bn/oSJg2/nG69/0x2v3QRvwdKzRiLeayV7dJah1geF?=
- =?us-ascii?Q?aaKuM9BnP86fjbvZ9FqyERJp7LqWW3mzTEzZ/zl+a/yIFDzA4YmMralrUYrV?=
- =?us-ascii?Q?Hg=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fb1aadf-b154-46f2-3b15-08dd836724d3
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tHyEEIS4+EVJTzaycbBDo254vjb1I+mfYapmC8RCoNc2D3v+Na7MOusqp09P?=
+ =?us-ascii?Q?OK/B9AWECnIAtDDfBCcw+JqIKYr0hua02F0Z9/sCRQT3k2Dhg9So5qeTutbJ?=
+ =?us-ascii?Q?B1ftMG1ROv0VVgPWApvt4e0RIi33VVXRboJj2et0fIjSR9GzJfl2V8l9A6zp?=
+ =?us-ascii?Q?HG6KGvUUaa6oAPfJ5jPCp8B+VdMFnkaUSAXKUqAnFZeXtiv/iP7TmsVh4Kio?=
+ =?us-ascii?Q?FCKCxva2Sb4bTbFG32eW9MiMf6z/LhLzQH9/jeSkyFjIVkgLGeu2qHRPfqqo?=
+ =?us-ascii?Q?iesOC827tC9qOJunW37TVoHpNaad2ATJubKnw+f/2hFQYg4Je5FTrj6irJP+?=
+ =?us-ascii?Q?wPdofBReoqehJOM6WgzC4UX5BvOBDQZh1NO4R56Gm9XZL9hOI/FCUV/LKVxA?=
+ =?us-ascii?Q?rspXUgh+8V/KHC3ieb8NIS+Be23q1CzfIEZB19uWO2r+zc4yERKbu7HiHARS?=
+ =?us-ascii?Q?9OP2RZHCHQtTrxV7IeKeB0HhOs290wFJm//WQRnkaUQ0lA2U/xh3d3hq0JtS?=
+ =?us-ascii?Q?fqDZmS9qV/Zv/yEjphqKqHfcmzVBpD/J19GovhxBDf0HeUizfrUGPmaEMtLa?=
+ =?us-ascii?Q?CHJP+Yl038sqE4+bhmUUzvMCeadKBnhgWysIX0+Km8XlPezPvGyhc7Ygw5Sp?=
+ =?us-ascii?Q?tOdzXk52pvJWzguwiAoV4LKLAqAr04NjOFEkMMotwDMXsVH0VKKivgjSqirx?=
+ =?us-ascii?Q?bsUZjGv8IEmbKtdUaBaIYVi5p//llqh2LUOqE0XQv/3VHieub/5IVuuxOJsB?=
+ =?us-ascii?Q?XXCc2/Frkasf+3n4YExvnIeRWKWaqkfClHuPz47SCnGawjEOq321f9ZYkYA7?=
+ =?us-ascii?Q?8tVNVWGEUcmr4p3yzTgWhyZfqNQ9yOoxnkIej8DP3NDEmw6knnx0PLYMqjTo?=
+ =?us-ascii?Q?KtI8Q67PgRnNnONTzS5GaDuHDoZyyVQ7QKou38Q5pF/g97gJSOCy8ajLBxtL?=
+ =?us-ascii?Q?5h9FJYqdFSYEuzfpG1UXiXQ2Z0s/9NqSNWQziIeVo1oa5YQhUucSSE8+ykgJ?=
+ =?us-ascii?Q?xX4AOw5ebY2+PVFBk5qtduv+DY8yWp/uEo1PTT2Ih4AlJGQjjjecZv4BrNst?=
+ =?us-ascii?Q?YCwuB0kqxiq7AudJAaNgAlNpLOS5av5sVRVWdiuOeBZiUyV13ELjdwFcQYST?=
+ =?us-ascii?Q?lYkXaoiTv+lKI0pOfexAahRnkCowt/bcrGY/Ej4K42nfavr0+fwF9P+7GiUl?=
+ =?us-ascii?Q?uFNbONme/cGkqcRegEAqUl/ORWHuW2uwJyo6X/6lghb0vK+/9GEsh/JvoRmG?=
+ =?us-ascii?Q?9UOUtLisA4UYykkQ7/8cXnqkP+d71ELwupwv8f1mdkG435+J7Myc5T2Qgoll?=
+ =?us-ascii?Q?OlKtcIG7oelAJc7E33viVRET9KfbRiOU2HGcrv51Pqey6bGL7VqWQD1UkcUo?=
+ =?us-ascii?Q?zpUAUr9tc87SteFZHry+tFC3haQdnf4CtX9NObrDfEy6KRzLNUVueLUSWd3o?=
+ =?us-ascii?Q?XwwrOW0YS5lVxXDomYGWXRUzE3idsCOJmixkMSiK6SgvmUGqKLaLN/ly1lJI?=
+ =?us-ascii?Q?ZxfQE4iv51No761eOhtVZS+UzsNdWhS/pnnbVnqCHb1hsaVULp1LiSehLtek?=
+ =?us-ascii?Q?29oCn2tBfUC+2xGAgb1EIlXQHN1Xd1jarmgYoclKpCJOC1gIF135u73SuY5a?=
+ =?us-ascii?Q?Yg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fe8676c-afae-461d-97ae-08dd8367c0bb
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 19:35:18.0834 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 19:39:39.6738 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o5nyV9o3pzbOIWLEHBlwzYJNTQMbvuRfAssMA5qnsh/E9OegdZKiqKv6rRsknSwqLYo5qGWVTxI8wggW9N8TcQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7624
+X-MS-Exchange-CrossTenant-UserPrincipalName: h6Q+fXV82UmpB7g3Yp4q006TYLhdOMDOk6ndc7CcrMOvWDr9PQwBdppPsdwd1MSjwHIG6yo/VRi/f8EJerjgrg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6678
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -184,37 +181,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 24, 2025 at 02:38:06PM +0000, Jonathan Cavitt wrote:
-> The page fault handler should reject write/atomic access to read only
-> VMAs.  Add code to handle this in handle_pagefault after the VMA lookup.
+On Thu, Apr 24, 2025 at 02:38:05PM +0000, Jonathan Cavitt wrote:
+> Add additional information to each VM so they can report up to the first
+> 50 seen faults.  Only pagefaults are saved this way currently, though in
+> the future, all faults should be tracked by the VM for future reporting.
 > 
-> Fixes: 3d420e9fa848 ("drm/xe: Rework GPU page fault handling")
-> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Additionally, of the pagefaults reported, only failed pagefaults are
+> saved this way, as successful pagefaults should recover silently and not
+> need to be reported to userspace.
+> 
+> To allow userspace to access these faults, a new ioctl -
+> xe_vm_get_property_ioct - was created.
+> 
+> v2: (Matt Brost)
+> - Break full ban list request into a separate property.
+> - Reformat drm_xe_vm_get_property struct.
+> - Remove need for drm_xe_faults helper struct.
+> - Separate data pointer and scalar return value in ioctl.
+> - Get address type on pagefault report and save it to the pagefault.
+> - Correctly reject writes to read-only VMAs.
+> - Miscellaneous formatting fixes.
+> 
+> v3: (Matt Brost)
+> - Only allow querying of failed pagefaults
+> 
+> v4:
+> - Remove unnecessary size parameter from helper function, as it
+>   is a property of the arguments. (jcavitt)
+> - Remove unnecessary copy_from_user (Jainxun)
+> - Set address_precision to 1 (Jainxun)
+> - Report max size instead of dynamic size for memory allocation
+>   purposes.  Total memory usage is reported separately.
+> 
+> v5:
+> - Return int from xe_vm_get_property_size (Shuicheng)
+> - Fix memory leak (Shuicheng)
+> - Remove unnecessary size variable (jcavitt)
+> 
+> v6:
+> - Free vm after use (Shuicheng)
+> - Compress pf copy logic (Shuicheng)
+> - Update fault_unsuccessful before storing (Shuicheng)
+> - Fix old struct name in comments (Shuicheng)
+> - Keep first 50 pagefaults instead of last 50 (Jianxun)
+> - Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
+> 
+> v7:
+> - Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
+> - Fix double-locking error (jcavitt)
+> - Assert kmemdump is successful (Shuicheng)
+> - Repair and move fill_faults break condition (Dan Carpenter)
+> - Free vm after use (jcavitt)
+> - Combine assertions (jcavitt)
+> - Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+> - Remove return mask from fill_faults, as return is already -EFAULT or 0
+>   (jcavitt)
+> 
+> v8:
+> - Revert back to using drm_xe_vm_get_property_ioctl
+> - s/Migrate/Move (Michal)
+> - s/xe_pagefault/xe_gt_pagefault (Michal)
+> - Create new header file, xe_gt_pagefault_types.h (Michal)
+> - Add and fix kernel docs (Michal)
+> - Rename xe_vm.pfs to xe_vm.faults (jcavitt)
+> - Store fault data and not pagefault in xe_vm faults list (jcavitt)
+> - Store address, address type, and address precision per fault (jcavitt)
+> - Store engine class and instance data per fault (Jianxun)
+> - Properly handle kzalloc error (Michal W)
+> - s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
+> - Store fault level per fault (Micahl M)
+> - Apply better copy_to_user logic (jcavitt)
+> 
+> v9:
+> - More kernel doc fixes (Michal W, Jianxun)
+> - Better error handling (jcavitt)
+> 
+> v10:
+> - Convert enums to defines in regs folder (Michal W)
+> - Move xe_guc_pagefault_desc to regs folder (Michal W)
+> - Future-proof size logic for zero-size properties (jcavitt)
+> - Replace address type extern with access type (Jianxun)
+> - Add fault type to xe_drm_fault (Jianxun)
+> 
+> v11:
+> - Remove unnecessary switch case logic (Raag)
+> - Compress size get, size validation, and property fill functions into a
+>   single helper function (jcavitt)
+> - Assert valid size (jcavitt)
+> - Store pagefaults in non-fault-mode VMs as well (Jianxun)
+> 
+> v12:
+> - Remove unnecessary else condition
+> - Correct backwards helper function size logic (jcavitt)
+> - Fix kernel docs and comments (Michal W)
+> 
+> v13:
+> - Move xe and user engine class mapping arrays to header (John H)
+> 
+> v14:
+> - Fix double locking issue (Jianxun)
+> - Use size_t instead of int (Raag)
+> - Remove unnecessary includes (jcavitt)
+> 
+> v15:
+> - Do not report faults from reserved engines (Jianxun)
+> 
+> v16:
+> - Remove engine class and instance (Ivan)
+> 
+> v17:
+> - Map access type, fault type, and fault level to user macros (Matt
+>   Brost, Ivan)
+> 
+> v18:
+> - Add uAPI merge request to this cover letter
+> 
+> v19:
+> - Perform kzalloc outside of lock (Auld)
+> 
+> v20:
+> - Fix inconsistent use of whitespace in defines
+> 
+> v21:
+> - Remove unnecessary size assertion (jcavitt)
+> 
+> v22:
+> - Fix xe_vm_fault_entry kernel docs (Shuicheng)
+> 
+> uAPI: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32987
+> Signed-off-by: Jonathan Cavitt <joanthan.cavitt@intel.com>
+> Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 > Suggested-by: Matthew Brost <matthew.brost@intel.com>
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Scanned the series, had some nits on the last patch, but overall LGTM.
 
-> Reviewed-by: Shuicheng Lin <shuicheng.lin@intel.com>
-> ---
->  drivers/gpu/drm/xe/xe_gt_pagefault.c | 5 +++++
->  1 file changed, 5 insertions(+)
+Consider all patches:
+Acked-by: Matthew Brost <matthew.brost@intel.com>
+
+> Cc: Zhang Jianxun <jianxun.zhang@intel.com>
+> Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+> Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+> Cc: Michal Mrozek <michal.mrozek@intel.com>
+> Cc: Raag Jadav <raag.jadav@intel.com>
+> Cc: John Harrison <john.c.harrison@intel.com>
+> Cc: Ivan Briano <ivan.briano@intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
 > 
-> diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_gt_pagefault.c
-> index 10622ca471a2..d4e3b7eb165a 100644
-> --- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
-> +++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
-> @@ -237,6 +237,11 @@ static int handle_pagefault(struct xe_gt *gt, struct pagefault *pf)
->  		goto unlock_vm;
->  	}
->  
-> +	if (xe_vma_read_only(vma) && pf->access_type != ACCESS_TYPE_READ) {
-> +		err = -EPERM;
-> +		goto unlock_vm;
-> +	}
-> +
->  	atomic = access_is_atomic(pf->access_type);
->  
->  	if (xe_vma_is_cpu_addr_mirror(vma))
+> Jonathan Cavitt (5):
+>   drm/xe/xe_gt_pagefault: Disallow writes to read-only VMAs
+>   drm/xe/xe_gt_pagefault: Move pagefault struct to header
+>   drm/xe/uapi: Define drm_xe_vm_get_property
+>   drm/xe/xe_vm: Add per VM fault info
+>   drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+> 
+>  drivers/gpu/drm/xe/regs/xe_pagefault_desc.h |  49 +++++
+>  drivers/gpu/drm/xe/xe_device.c              |   3 +
+>  drivers/gpu/drm/xe/xe_gt_pagefault.c        |  72 ++++----
+>  drivers/gpu/drm/xe/xe_gt_pagefault_types.h  |  42 +++++
+>  drivers/gpu/drm/xe/xe_guc_fwif.h            |  28 ---
+>  drivers/gpu/drm/xe/xe_vm.c                  | 195 ++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_vm.h                  |  11 ++
+>  drivers/gpu/drm/xe/xe_vm_types.h            |  29 +++
+>  include/uapi/drm/xe_drm.h                   |  86 +++++++++
+>  9 files changed, 454 insertions(+), 61 deletions(-)
+>  create mode 100644 drivers/gpu/drm/xe/regs/xe_pagefault_desc.h
+>  create mode 100644 drivers/gpu/drm/xe/xe_gt_pagefault_types.h
+> 
 > -- 
 > 2.43.0
 > 
