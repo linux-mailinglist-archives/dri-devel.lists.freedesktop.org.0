@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7606A9A92C
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 11:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF21A9A930
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 11:56:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8E0C10E7B5;
-	Thu, 24 Apr 2025 09:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 255FB10E7BB;
+	Thu, 24 Apr 2025 09:56:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VmCYyOkX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DN2jpb84";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A93E010E7B0;
- Thu, 24 Apr 2025 09:56:18 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E27710E7BB;
+ Thu, 24 Apr 2025 09:56:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id F170A4A7E8;
- Thu, 24 Apr 2025 09:56:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B119C4CEEE;
- Thu, 24 Apr 2025 09:56:15 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 8426468455;
+ Thu, 24 Apr 2025 09:56:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 064FEC4CEE3;
+ Thu, 24 Apr 2025 09:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745488578;
- bh=P28JeNDdfIsHs0Yhi2or+iZJOlxhsSMOqlD2e6764qc=;
+ s=k20201202; t=1745488582;
+ bh=uDucjiIXIOMk0SOi1/h4I9CU9DMx2BoeK9EwYcIl2RM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VmCYyOkXDb9BTTFQYQ09JnGdXSChMtGo7+dFoeXkGx16HUmP1AcbZXmHnVOZZ+MpQ
- Hk00VDKKRZwdeDLoXxLh4gZ6Z0sirAxfnSmGsUTOltia8oGt7Al91tvWR3yLhdyoPB
- bPWCuvIG4z78YOI+CwJySmoCAg5V24K0MqqZVoZLTHXCj1mn3XOhXhiznX50JlWeNf
- 8kOiDXP5yjNiEQUpYrd1TEQCANq+JE2+T7KmpR+3+l6JudlsHTJ+0TlXYowWQImibT
- 3T7mjHlyLQ9zIEydPZqiPZCQ2hz9q6aLn9H0ulifxyBx5MRf3kLPrCusP2+/SUUYjK
- LgkQEt0LeFRlw==
+ b=DN2jpb848NX1mc1DlP4cENi4/aCFYjMEzfMDn1yADdNEPdNZzIl0ydEC44VOiWyt3
+ UprMnYdrorHMepPujLGTXPkhYBIebs8nqrZ1hQ5rzd1H2iFQyFn3+57vVCYScj3tDF
+ FsgpPKWd449+d4YAmDZOZNkJ//6C+OtXZL/ILWxk6DbSh4BBywxLWD6NyehM+Ou6X7
+ f9R0/bfaY/DRvdVsIJX1NSl3q4XscsN1OCsVew8bTL3Q51+wxDOzPaUCM6jM26bxCT
+ 5Aa35NnVmwb1tXE4Di/viPPHiPIOAbRxDjJFV5YCNySdhrJvMJtcm33VqB4sB1IVZB
+ 0l6N+Dgf5LDCA==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -42,9 +42,9 @@ To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/6] drm/nouveau: Remove waitque for sched teardown
-Date: Thu, 24 Apr 2025 11:55:35 +0200
-Message-ID: <20250424095535.26119-7-phasta@kernel.org>
+Subject: [PATCH v2 6/6] drm/sched: Port unit tests to new cleanup design
+Date: Thu, 24 Apr 2025 11:55:36 +0200
+Message-ID: <20250424095535.26119-8-phasta@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250424095535.26119-2-phasta@kernel.org>
 References: <20250424095535.26119-2-phasta@kernel.org>
@@ -65,129 +65,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-struct nouveau_sched contains a waitque needed to prevent
-drm_sched_fini() from being called while there are still jobs pending.
-Doing so so far would have caused memory leaks.
+The unit tests so far took care manually of avoiding memory leaks that
+might have occurred when calling drm_sched_fini().
 
-With the new memleak-free mode of operation switched on in
-drm_sched_fini() by providing the callback
-nouveau_sched_fence_context_kill() the waitque is not necessary anymore.
+The scheduler now takes care by itself of avoiding memory leaks if the
+driver provides the callback drm_sched_backend_ops.kill_fence_context().
 
-Remove the waitque.
+Implement that callback for the unit tests. Remove the manual cleanup
+code.
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_sched.c | 20 +++++++-------------
- drivers/gpu/drm/nouveau/nouveau_sched.h |  9 +++------
- drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  8 ++++----
- 3 files changed, 14 insertions(+), 23 deletions(-)
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  | 34 ++++++++++++-------
+ 1 file changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-index 3659ac78bb3e..d9ac76198616 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-@@ -121,11 +121,9 @@ nouveau_job_done(struct nouveau_job *job)
- {
- 	struct nouveau_sched *sched = job->sched;
- 
--	spin_lock(&sched->job.list.lock);
-+	spin_lock(&sched->job_list.lock);
- 	list_del(&job->entry);
--	spin_unlock(&sched->job.list.lock);
--
--	wake_up(&sched->job.wq);
-+	spin_unlock(&sched->job_list.lock);
+diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+index f999c8859cf7..a72d26ca8262 100644
+--- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
++++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+@@ -228,10 +228,30 @@ static void mock_sched_free_job(struct drm_sched_job *sched_job)
+ 	/* Mock job itself is freed by the kunit framework. */
  }
  
- void
-@@ -306,9 +304,9 @@ nouveau_job_submit(struct nouveau_job *job)
- 	}
- 
- 	/* Submit was successful; add the job to the schedulers job list. */
--	spin_lock(&sched->job.list.lock);
--	list_add(&job->entry, &sched->job.list.head);
--	spin_unlock(&sched->job.list.lock);
-+	spin_lock(&sched->job_list.lock);
-+	list_add(&job->entry, &sched->job_list.head);
-+	spin_unlock(&sched->job_list.lock);
- 
- 	drm_sched_job_arm(&job->base);
- 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
-@@ -458,9 +456,8 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
- 		goto fail_sched;
- 
- 	mutex_init(&sched->mutex);
--	spin_lock_init(&sched->job.list.lock);
--	INIT_LIST_HEAD(&sched->job.list.head);
--	init_waitqueue_head(&sched->job.wq);
-+	spin_lock_init(&sched->job_list.lock);
-+	INIT_LIST_HEAD(&sched->job_list.head);
- 
- 	return 0;
- 
-@@ -503,9 +500,6 @@ nouveau_sched_fini(struct nouveau_sched *sched)
- 	struct drm_gpu_scheduler *drm_sched = &sched->base;
- 	struct drm_sched_entity *entity = &sched->entity;
- 
--	rmb(); /* for list_empty to work without lock */
--	wait_event(sched->job.wq, list_empty(&sched->job.list.head));
--
- 	drm_sched_entity_fini(entity);
- 	drm_sched_fini(drm_sched);
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
-index e6e2016a3569..339a14563fbb 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
-@@ -105,12 +105,9 @@ struct nouveau_sched {
- 	struct nouveau_channel *chan;
- 
- 	struct {
--		struct {
--			struct list_head head;
--			spinlock_t lock;
--		} list;
--		struct wait_queue_head wq;
--	} job;
-+		struct list_head head;
-+		spinlock_t lock;
-+	} job_list;
++static void mock_sched_fence_context_kill(struct drm_gpu_scheduler *gpu_sched)
++{
++	struct drm_mock_scheduler *sched = drm_sched_to_mock_sched(gpu_sched);
++	struct drm_mock_sched_job *job;
++	unsigned long flags;
++
++	spin_lock_irqsave(&sched->lock, flags);
++	list_for_each_entry(job, &sched->job_list, link) {
++		spin_lock(&job->lock);
++		if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
++			dma_fence_set_error(&job->hw_fence, -ECANCELED);
++			dma_fence_signal_locked(&job->hw_fence);
++		}
++		complete(&job->done);
++		spin_unlock(&job->lock);
++	}
++	spin_unlock_irqrestore(&sched->lock, flags);
++}
++
+ static const struct drm_sched_backend_ops drm_mock_scheduler_ops = {
+ 	.run_job = mock_sched_run_job,
+ 	.timedout_job = mock_sched_timedout_job,
+-	.free_job = mock_sched_free_job
++	.free_job = mock_sched_free_job,
++	.kill_fence_context = mock_sched_fence_context_kill,
  };
  
- int nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 48f105239f42..ddfc46bc1b3e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -1019,8 +1019,8 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
- 	u64 end = addr + range;
+ /**
+@@ -300,18 +320,6 @@ void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
+ 		drm_mock_sched_job_complete(job);
+ 	spin_unlock_irqrestore(&sched->lock, flags);
  
- again:
--	spin_lock(&sched->job.list.lock);
--	list_for_each_entry(__job, &sched->job.list.head, entry) {
-+	spin_lock(&sched->job_list.lock);
-+	list_for_each_entry(__job, &sched->job_list.head, entry) {
- 		struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(__job);
- 
- 		list_for_each_op(op, &bind_job->ops) {
-@@ -1030,7 +1030,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
- 
- 				if (!(end <= op_addr || addr >= op_end)) {
- 					nouveau_uvmm_bind_job_get(bind_job);
--					spin_unlock(&sched->job.list.lock);
-+					spin_unlock(&sched->job_list.lock);
- 					wait_for_completion(&bind_job->complete);
- 					nouveau_uvmm_bind_job_put(bind_job);
- 					goto again;
-@@ -1038,7 +1038,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
- 			}
- 		}
- 	}
--	spin_unlock(&sched->job.list.lock);
-+	spin_unlock(&sched->job_list.lock);
+-	/*
+-	 * Free completed jobs and jobs not yet processed by the DRM scheduler
+-	 * free worker.
+-	 */
+-	spin_lock_irqsave(&sched->lock, flags);
+-	list_for_each_entry_safe(job, next, &sched->done_list, link)
+-		list_move_tail(&job->link, &list);
+-	spin_unlock_irqrestore(&sched->lock, flags);
+-
+-	list_for_each_entry_safe(job, next, &list, link)
+-		mock_sched_free_job(&job->base);
+-
+ 	drm_sched_fini(&sched->base);
  }
  
- static int
 -- 
 2.48.1
 
