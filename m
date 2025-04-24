@@ -2,53 +2,178 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E47CA9B35D
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 18:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F40A9B355
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 18:05:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A32F310E821;
-	Thu, 24 Apr 2025 16:05:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0466F10E179;
+	Thu, 24 Apr 2025 16:05:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GFUSg2IO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GWqP39XY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF9410E44B;
- Thu, 24 Apr 2025 16:05:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A25A461137;
- Thu, 24 Apr 2025 16:04:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B039CC4CEE3;
- Thu, 24 Apr 2025 16:05:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745510713;
- bh=eDIDIP0yIwESrxxN35qnF8/8t2OFcbde86zD7REwfhU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GFUSg2IOZDxLwQFucCyf3JUQfs1z6DZ0wXnaSx2X079pHw2YFCZYGprVaC2rIB82C
- f7QNLI9q9KasvgGewi7DXhkOT1en15VcB/7JPKvpM4J1lUP2tTA+1AowMlnD6Fz1Nj
- pdTR/mOaD8mYHQaX2o1wgxvekXARxfQE4AuzF63rx8Zw8NMgOj+OA9yW8OmdxJHtZG
- Ejutdy6q+0/YRiIhDSuaobjhx6afgQvUvYsSOspHnWRA+fWW/UnhkgkeVaSY+K0h+/
- vO87Nk89T6hY0NFiHugN4A8JH/Uf4Jj0jKn2oZbP/c/ah5hdnGYnoe7JfIZXn/pjBY
- 5W0Q7RQTSojvg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, ajanulgu@redhat.com,
- lyude@redhat.com, pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
- joelagnelf@nvidia.com, ttabi@nvidia.com, acourbot@nvidia.com
-Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v2 2/2] drm: nova-drm: add initial driver skeleton
-Date: Thu, 24 Apr 2025 18:02:50 +0200
-Message-ID: <20250424160452.8070-3-dakr@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250424160452.8070-1-dakr@kernel.org>
-References: <20250424160452.8070-1-dakr@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A764410E179;
+ Thu, 24 Apr 2025 16:05:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745510701; x=1777046701;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=BuBtLTbiMP7bGmaa/qNVFxrldJB0DD+aOiHTeak0zw4=;
+ b=GWqP39XYaTqZS711N/kuY+O5nb4eqquvqsGbUZFFdqkpmPfr7+kC6Tk7
+ lefrF5haLWk/e32EksBKjfxH/ofzNNd8w2UNKNJx7er70WcwDJyIMh9NU
+ N/QPSxM2leq6uB7Ahjmccn0KE2QvUDW+TKb/3s/ka/onejLlu8w3317qF
+ Ojjy+/L2YR33Lp+STLfXuFoyXddllaJxlGa2IOcUgFnWGa8hXNwqP9P1W
+ VSg8BKJU0NjROtl0qFCmhWOPXGblyiXOThEc08OeNAxHzdvdvrThoo5Ek
+ /8c/EZdV9bggWNFreov69QK+sWpIPCUjwknpkSvvMAcmtf3VxflKqudh+ g==;
+X-CSE-ConnectionGUID: jsXhkDO+R3OCKf2v16jdkA==
+X-CSE-MsgGUID: vwKKy9bJT365GYU15I2UjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="46274827"
+X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; d="scan'208";a="46274827"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2025 09:05:00 -0700
+X-CSE-ConnectionGUID: Bq+VEXwJTcyHmb3/eQqCmg==
+X-CSE-MsgGUID: c4tmoDZdSbuqSw9T/WtaVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; d="scan'208";a="133580394"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2025 09:05:00 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Thu, 24 Apr 2025 09:04:59 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Thu, 24 Apr 2025 09:04:59 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.45) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 24 Apr 2025 09:04:59 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IR14M/FdKPiDwScJFdGmHDJOjQGjwYQy/DBuy2/GmBnf/Wb+rGyO2wDDRr+HgsUcG0c7XTRhEOQYlhsbBq1vqBNjygktLA/YEG4JosDmr/dkM7wVhBgY9A/4rKmYM2rAVC8n1T2sU/oGaA616T7FSFsILfeSl9SDHySHuDR4j58tvUbU7gRPWH01Ms22BiRb5TihgCkt01HXeT9hegYYR9RKKx83kq5zs0aZ2xYUb3mfWhtFY44QPNhxGbZ/C+1Es8zZL4TwUjvRdGo0sMuPvXLqXhSAaqxWoWb2VaROjDrmB7nQ4SfVsRtQ5MnN14hBasfxFWjJuBQJVwe3CzmLVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/zK9kOpQO6EzTAX0xpduXLNK7NnI3Sf/F/b3dPe+A4I=;
+ b=FNy+6XaAXSk26V7jIuf0hAuUjpPgpB2Rj8tztCJSTxjaH3nWYjVP5jrsEMlNgxGi7Lkc3o6ydk70sgKDax4+X1CvQg9fBAkztHjkF6kniFo9sVs2LAQ/8eeY4vjnhn7P/BlZ8Yu3ai/LTkKhqIHh/xASsHXQNQ425X7MoqmocaDIiFAHsi/nESTW3gzXOsVBZ1Ova6SIC8BP718Sl25i1rg4HztyEeSoZYlBlCJT8Ht5L6PJadn5d+CUgQmCQHmw4FG4/iRZpqkz7cni9MFgs93Jz9178VpJeChHHIlsiEPnCPqINo3GYxGQs7+8042X685aMuZM/ZyLjBX+J5t2hA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB5456.namprd11.prod.outlook.com (2603:10b6:5:39c::14)
+ by CY8PR11MB6889.namprd11.prod.outlook.com (2603:10b6:930:5e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.40; Thu, 24 Apr
+ 2025 16:04:57 +0000
+Received: from DM4PR11MB5456.namprd11.prod.outlook.com
+ ([fe80::b23b:735f:b015:26ad]) by DM4PR11MB5456.namprd11.prod.outlook.com
+ ([fe80::b23b:735f:b015:26ad%7]) with mapi id 15.20.8678.025; Thu, 24 Apr 2025
+ 16:04:56 +0000
+From: "Lin, Shuicheng" <shuicheng.lin@intel.com>
+To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+CC: "Gupta, saurabhg" <saurabhg.gupta@intel.com>, "Zuo, Alex"
+ <alex.zuo@intel.com>, "joonas.lahtinen@linux.intel.com"
+ <joonas.lahtinen@linux.intel.com>, "Brost, Matthew"
+ <matthew.brost@intel.com>, "Zhang, Jianxun" <jianxun.zhang@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Wajdeczko, Michal" <Michal.Wajdeczko@intel.com>, "Mrozek, Michal"
+ <michal.mrozek@intel.com>, "Jadav, Raag" <raag.jadav@intel.com>, "Harrison,
+ John C" <john.c.harrison@intel.com>, "Briano, Ivan" <ivan.briano@intel.com>,
+ "Auld, Matthew" <matthew.auld@intel.com>
+Subject: RE: [PATCH v22 4/5] drm/xe/xe_vm: Add per VM fault info
+Thread-Topic: [PATCH v22 4/5] drm/xe/xe_vm: Add per VM fault info
+Thread-Index: AQHbtSaJF962bF+9XUqHG8YG479wlbOy+dOA
+Date: Thu, 24 Apr 2025 16:04:56 +0000
+Message-ID: <DM4PR11MB5456216FA96DE3230B8D57BEEA852@DM4PR11MB5456.namprd11.prod.outlook.com>
+References: <20250424143812.11210-1-jonathan.cavitt@intel.com>
+ <20250424143812.11210-5-jonathan.cavitt@intel.com>
+In-Reply-To: <20250424143812.11210-5-jonathan.cavitt@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB5456:EE_|CY8PR11MB6889:EE_
+x-ms-office365-filtering-correlation-id: c9e004b7-7c44-4d65-86c5-08dd8349c1de
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?f6j0AfRsyKVuZ7I3BIFBqO48H2t82a0VAdcgur4AnUZau8cp+q1MsvsJeUT1?=
+ =?us-ascii?Q?bEyR9kRO51VgruT0YH6X7pM456/975F1HnowVwv06nImPKxYc7B3pyQ07kgc?=
+ =?us-ascii?Q?myBnwNIpgS1W5GRJtd2d2NgLB5ticGhzDw2QBG7uuovvx2xcbUYcGgO2YQCN?=
+ =?us-ascii?Q?CKMzOY31IJtgxZfNlqsO5Hr4mgfpnlh0MDdjYqPqTYRTdk1XSC8nUX+uPU+e?=
+ =?us-ascii?Q?QY3IUDrwktB/J96nPjb3AOausENSiwvSxR3/9fsJS4u7CW/F2XivLJQeB8hN?=
+ =?us-ascii?Q?8Q4Rgb4bFErHka5XQTxSyaa+R2l65+j2TjRGdNTEHQ0e7GL3SNnny1C37c25?=
+ =?us-ascii?Q?i6IPLb+4PZbwD16GC1+wzIaxrnqWpUrZDpkHsKeuQ1LaTvxQJ8zNh7DEiW7e?=
+ =?us-ascii?Q?sdITJHBu/Is+qHoHp9AwT6salGUUJy2Mq8ss/wysSH3rZCDzl9WLca8VxFd3?=
+ =?us-ascii?Q?KXFqp2xgZcXHVnO9QVXGhissYjSPcBuIJc2N2pv8MD82FWMu+4y6t/qMjG6b?=
+ =?us-ascii?Q?4BGoNU3rh7AE4TDcTalI3hzpDRAt3FNjnOtbUc3GTzHlpp4rqGgCrG+ScxQm?=
+ =?us-ascii?Q?dh7182Rk5bLknDfP3/Y5SfkejCq4CPKkubclRc5F7PY4JMW37LYay6AD6/y4?=
+ =?us-ascii?Q?Lm1tP1GqE7N4si0DleGrgsvMe3/J2T+/8RzOVXysjXdiCzyHhMjYstuohtNP?=
+ =?us-ascii?Q?HS6DbC3o8qwxCoMk7GIiv/fxh0rhP+GhsskjjRXFvDUs0AzwoziHt43b4xE6?=
+ =?us-ascii?Q?uKZ3Wx/bt9myCZQWloSpX4kbIof4qbikXH+4/ZYOcXEayUrGuS6wy5WHvhRN?=
+ =?us-ascii?Q?YR8dJS4XjQqthTgeImmXk/Sk9ulaWGfhKBJPgLlJWBJyzoUGLMWbzKl1oStO?=
+ =?us-ascii?Q?RuPNhNFSNPxtZJv9BB/er1V/h7x35K9O49/h5xgSffZNmxA0ylKx/geUPJPS?=
+ =?us-ascii?Q?8UVYc3giN0dySm/1rM1ARNI1k0ir/6RMtZm6MIR7kncARmkmOYwgRs/u4mFA?=
+ =?us-ascii?Q?eYJh4bamehugQPczAzEYPxLSipU95s6PQVcFFkEJsgugZGtabucpQInq4SB5?=
+ =?us-ascii?Q?itTUgIP67543C7Ove+zpG5D5nPzY4vcWGQAus2XBN106O5OPwgs65wfnOE/O?=
+ =?us-ascii?Q?B+VercKoOm35tC6QwCHIJej2n0sGU1S1h4H9zvZbQADJ98TvJH1vLDarKvNA?=
+ =?us-ascii?Q?yHvnQTh7Y2HmbLmw7WXsWEh0u1m00GeztaLc9iwj9qz1UHT7EoFmAG5DDEsT?=
+ =?us-ascii?Q?VyYRXPE5gLZhmNlyh1ct64RC+egVcFCo9soBuiY+Jfiik+vTB9BHyxATkBHG?=
+ =?us-ascii?Q?U3vpJ6gBVHtwRboKyGTcq2Sd6TWKCsNkKu0rgOApQcszO7UwEjkkwABhc2Ud?=
+ =?us-ascii?Q?uwaFbyzckV0TVjrlw/mSNO23aKH8qogTxwr5KokcHLDK8eW7VLTI9lEe0v7S?=
+ =?us-ascii?Q?7XDKSaunebAr6oxvLVD+zK+1hk1+J+ClRpa4AsEud0OOSBoPuONV9+3DwNc8?=
+ =?us-ascii?Q?uVD7/ECHE/HaJZg=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5456.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?JJtenccGHAFfWxPHlUCtcBnBCnpLVMz5LAhpM071jp7+j4T3QukXZmii2a9s?=
+ =?us-ascii?Q?WQwc+xcZ2USPgtsopYoO44fdLkwn8BqlRkxpy8RZObfN0yvCuenjWID8FdYF?=
+ =?us-ascii?Q?ypm1IWeeoGi2n7XpYrxXqWeLhAIbsfYTs4nJMSvRSVBlFLAp+EonI1jeuBVw?=
+ =?us-ascii?Q?2g7b9Uv2Z/G2rmD4oLb5MbTrcKeFxO7pSLczj/eML3Z3f1J9m8Imbml0biZI?=
+ =?us-ascii?Q?w31Gt5nCSfX0r2+IvgaPQcILWXCmrMCpkO7RPzeN8DtrAd2ORVk+6Akf5GCq?=
+ =?us-ascii?Q?YNz/rPaa4IfQsn2y8cZwilSHeu9imSJ5P8tSJAE5ylNboGK1jfIUIESalP8q?=
+ =?us-ascii?Q?PvxKeWIKT3RfhYxCRjfVqIRnxXCRvpTe9OCfNbAf5HMZiF1A1erqEBGp3JYs?=
+ =?us-ascii?Q?M9JlOxeT3evmQybQ2cSh2kJDO9fvB0lrj0A2oij2l4EYRPIbW5R1PsaguXK8?=
+ =?us-ascii?Q?MpSZ08tAJTrGzEZpgLbkwYWPRYi8bhsbJ8xH8zSpx9KUHp/FZBP/bYMQRSFm?=
+ =?us-ascii?Q?rArbPUprEKCL+dK7K1csqTz/bTRcwk5i9jF9LCZgtapi4bAwIpit5e0UAaWY?=
+ =?us-ascii?Q?7Zk0RFNrHUVMADhoFlSgp4zGizr8T3eXTP9J0WdOJ7KuCgja9/gh1zyxcvfV?=
+ =?us-ascii?Q?rMyeF7Vv2gwvs7JuzwAzDA/irWqiQ1prxZdyVagII2m3VFX9Eq/pnUvWaTRP?=
+ =?us-ascii?Q?WwOV1u+INI+K6wqDvZ/ngQ7J6UHI3VA9KsbXi+R0CkVKFTnMms15IqQkpwHM?=
+ =?us-ascii?Q?apIF0ilcMwbjB4jn7iLDD3B9hNulnMfkCjUw1WSftnyikdBfYCKog4P+tT8R?=
+ =?us-ascii?Q?KoFasXz86/aerDAvRSFHvzx2PP/X4LHGijp6OlC58nbaFuHGWT1gx6G1ln1Q?=
+ =?us-ascii?Q?dW5YA+C2vGl4BT3AxIMXOEnkfc0VxNmNoLVyo/RSrE/kl/1KM+my0GQBAfKF?=
+ =?us-ascii?Q?G4g5AQuLLip4yTsjHRrPYylQBKODQUwS/WnOXLiFoiRm30M2qltOdYlWfL3L?=
+ =?us-ascii?Q?pDPpLc2Xip7rJnkhaCGeP9bxdbb+TNTfe9ycAnrLR63cYI3UmYAai2yKdRrF?=
+ =?us-ascii?Q?UtAqaK/9eDBEXfhXz51R8neUJ2KRB995oV3lZSYAQQSkLC7+mN5IUtu5HtKx?=
+ =?us-ascii?Q?CUnwU0Gd4lermdnoCkLUdIiDEvI2FnC1K+W27X94YQ/KYUWGBdK5BoMJ29Ks?=
+ =?us-ascii?Q?kPuNx+IaStN63UM9iUzoZhsDJUPduX8GtHmS00i2+e2UGzTxa5sio4Sw+eoD?=
+ =?us-ascii?Q?yCHudzr5AVA37gwwcRiQitnOkYx8VncLrjdcleur3oo+dzlJFnWH+OeBeQMe?=
+ =?us-ascii?Q?kQxut9djYyRiJs5ckYD64vSKulUnzMfzlL2b/3stot5s2jSq6McvudwHBuZj?=
+ =?us-ascii?Q?q/b+O/xgObLigTRZ+qNR4ZdTTO9XWBIIzEZxKKU7Dwgkpeguu+/JJbKpwn8T?=
+ =?us-ascii?Q?hdo5p0vcADsYKmyIpTsrL9+qsPxFFwVS8leZcOfBhMYySz3anuwrjiVrcebe?=
+ =?us-ascii?Q?BYgJz1kxIX9eSYHVjzuWm12P5a0CpIvFDbeZaiGQ3LBTU6ggRDEZPMHEgVoC?=
+ =?us-ascii?Q?StG6kEdbXi0EKThge0HJFzqd4efvZPxtwdjUvHiL?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5456.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9e004b7-7c44-4d65-86c5-08dd8349c1de
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2025 16:04:56.4821 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ua11vwVFo5luGS2tQe3P0yhtFl2jNnzyHTzGFRkJmoSHCmh4G376nyEtMlNhLsfiFqpEt6Y/R29ajf3aU3Lqng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6889
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,550 +189,348 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the initial nova-drm driver skeleton.
+On Thu, April 24, 2025 7:38 AM Cavitt, Jonathan wrote:
+> Add additional information to each VM so they can report up to the first
+> 50 seen faults.  Only pagefaults are saved this way currently, though in =
+the
+> future, all faults should be tracked by the VM for future reporting.
+>=20
+> Additionally, of the pagefaults reported, only failed pagefaults are save=
+d this
+> way, as successful pagefaults should recover silently and not need to be
+> reported to userspace.
+>=20
+> v2:
+> - Free vm after use (Shuicheng)
+> - Compress pf copy logic (Shuicheng)
+> - Update fault_unsuccessful before storing (Shuicheng)
+> - Fix old struct name in comments (Shuicheng)
+> - Keep first 50 pagefaults instead of last 50 (Jianxun)
+>=20
+> v3:
+> - Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
+> - Fix double-locking error (jcavitt)
+> - Assert kmemdump is successful (Shuicheng)
+>=20
+> v4:
+> - Rename xe_vm.pfs to xe_vm.faults (jcavitt)
+> - Store fault data and not pagefault in xe_vm faults list (jcavitt)
+> - Store address, address type, and address precision per fault (jcavitt)
+> - Store engine class and instance data per fault (Jianxun)
+> - Add and fix kernel docs (Michal W)
+> - Properly handle kzalloc error (Michal W)
+> - s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
+> - Store fault level per fault (Micahl M)
+>=20
+> v5:
+> - Store fault and access type instead of address type (Jianxun)
+>=20
+> v6:
+> - Store pagefaults in non-fault-mode VMs as well (Jianxun)
+>=20
+> v7:
+> - Fix kernel docs and comments (Michal W)
+>=20
+> v8:
+> - Fix double-locking issue (Jianxun)
+>=20
+> v9:
+> - Do not report faults from reserved engines (Jianxun)
+>=20
+> v10:
+> - Remove engine class and instance (Ivan)
+>=20
+> v11:
+> - Perform kzalloc outside of lock (Auld)
+>=20
+> v12:
+> - Fix xe_vm_fault_entry kernel docs (Shuicheng)
+>=20
+> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+> Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+> Cc: Jianxun Zhang <jianxun.zhang@intel.com>
+> Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+> Cc: Michal Mzorek <michal.mzorek@intel.com>
+> Cc: Ivan Briano <ivan.briano@intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
 
-nova-drm is connected to nova-core through the auxiliary bus and
-implements the DRM parts of the nova driver stack.
+LGTM.
+Reviewed-by: Shuicheng Lin <shuicheng.lin@intel.com>
 
-For now, it implements the fundamental DRM abstractions, i.e. creates a
-DRM device and registers it, exposing a three sample IOCTLs.
-
-  DRM_IOCTL_NOVA_GETPARAM
-    - provides the PCI bar size from the bar that maps the GPUs VRAM
-      from nova-core
-
-  DRM_IOCTL_NOVA_GEM_CREATE
-    - creates a new dummy DRM GEM object and returns a handle
-
-  DRM_IOCTL_NOVA_GEM_INFO
-    - provides metadata for the DRM GEM object behind a given handle
-
-I implemented a small userspace test suite [1] that utilizes this
-interface.
-
-Link: https://gitlab.freedesktop.org/dakr/drm-test [1]
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- MAINTAINERS                    |  12 ++++
- drivers/gpu/drm/Kconfig        |   2 +
- drivers/gpu/drm/Makefile       |   1 +
- drivers/gpu/drm/nova/Kconfig   |  14 +++++
- drivers/gpu/drm/nova/Makefile  |   3 +
- drivers/gpu/drm/nova/driver.rs |  69 ++++++++++++++++++++++
- drivers/gpu/drm/nova/file.rs   |  74 ++++++++++++++++++++++++
- drivers/gpu/drm/nova/gem.rs    |  49 ++++++++++++++++
- drivers/gpu/drm/nova/nova.rs   |  18 ++++++
- drivers/gpu/drm/nova/uapi.rs   |  61 ++++++++++++++++++++
- include/uapi/drm/nova_drm.h    | 101 +++++++++++++++++++++++++++++++++
- rust/uapi/uapi_helper.h        |   1 +
- 12 files changed, 405 insertions(+)
- create mode 100644 drivers/gpu/drm/nova/Kconfig
- create mode 100644 drivers/gpu/drm/nova/Makefile
- create mode 100644 drivers/gpu/drm/nova/driver.rs
- create mode 100644 drivers/gpu/drm/nova/file.rs
- create mode 100644 drivers/gpu/drm/nova/gem.rs
- create mode 100644 drivers/gpu/drm/nova/nova.rs
- create mode 100644 drivers/gpu/drm/nova/uapi.rs
- create mode 100644 include/uapi/drm/nova_drm.h
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2fe2e531f4cb..f7cffb0a5a77 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7594,6 +7594,18 @@ T:	git https://gitlab.freedesktop.org/drm/nova.git nova-next
- F:	Documentation/gpu/nova/
- F:	drivers/gpu/nova-core/
- 
-+DRM DRIVER FOR NVIDIA GPUS [RUST]
-+M:	Danilo Krummrich <dakr@kernel.org>
-+L:	nouveau@lists.freedesktop.org
-+S:	Supported
-+Q:	https://patchwork.freedesktop.org/project/nouveau/
-+B:	https://gitlab.freedesktop.org/drm/nova/-/issues
-+C:	irc://irc.oftc.net/nouveau
-+T:	git https://gitlab.freedesktop.org/drm/nova.git nova-next
-+F:	Documentation/gpu/nova/
-+F:	drivers/gpu/drm/nova/
-+F:	include/uapi/drm/nova_drm.h
-+
- DRM DRIVER FOR OLIMEX LCD-OLINUXINO PANELS
- M:	Stefan Mavrodiev <stefan@olimex.com>
- S:	Maintained
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 2cba2b6ebe1c..90cdaa0068bd 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -343,6 +343,8 @@ source "drivers/gpu/drm/amd/amdgpu/Kconfig"
- 
- source "drivers/gpu/drm/nouveau/Kconfig"
- 
-+source "drivers/gpu/drm/nova/Kconfig"
-+
- source "drivers/gpu/drm/i915/Kconfig"
- 
- source "drivers/gpu/drm/xe/Kconfig"
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index ed54a546bbe2..947ed126135b 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -176,6 +176,7 @@ obj-$(CONFIG_DRM_VMWGFX)+= vmwgfx/
- obj-$(CONFIG_DRM_VGEM)	+= vgem/
- obj-$(CONFIG_DRM_VKMS)	+= vkms/
- obj-$(CONFIG_DRM_NOUVEAU) +=nouveau/
-+obj-$(CONFIG_DRM_NOVA) += nova/
- obj-$(CONFIG_DRM_EXYNOS) +=exynos/
- obj-$(CONFIG_DRM_ROCKCHIP) +=rockchip/
- obj-$(CONFIG_DRM_GMA500) += gma500/
-diff --git a/drivers/gpu/drm/nova/Kconfig b/drivers/gpu/drm/nova/Kconfig
-new file mode 100644
-index 000000000000..cf6261584c81
---- /dev/null
-+++ b/drivers/gpu/drm/nova/Kconfig
-@@ -0,0 +1,14 @@
-+config DRM_NOVA
-+	tristate "Nova DRM driver"
-+	depends on AUXILIARY_BUS
-+	depends on DRM
-+	depends on PCI
-+	depends on RUST
-+	default n
-+	help
-+	  Choose this if you want to build the Nova DRM driver for Nvidia
-+	  GSP-based GPUs.
-+
-+	  This driver is work in progress and may not be functional.
-+
-+	  If M is selected, the module will be called nova.
-diff --git a/drivers/gpu/drm/nova/Makefile b/drivers/gpu/drm/nova/Makefile
-new file mode 100644
-index 000000000000..42019bff3173
---- /dev/null
-+++ b/drivers/gpu/drm/nova/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-$(CONFIG_DRM_NOVA) += nova.o
-diff --git a/drivers/gpu/drm/nova/driver.rs b/drivers/gpu/drm/nova/driver.rs
-new file mode 100644
-index 000000000000..b28b2e05cc15
---- /dev/null
-+++ b/drivers/gpu/drm/nova/driver.rs
-@@ -0,0 +1,69 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+use kernel::{auxiliary, c_str, device::Core, drm, drm::gem, drm::ioctl, prelude::*, types::ARef};
-+
-+use crate::file::File;
-+use crate::gem::NovaObject;
-+
-+pub(crate) struct NovaDriver {
-+    #[expect(unused)]
-+    drm: ARef<drm::Device<Self>>,
-+}
-+
-+/// Convienence type alias for the DRM device type for this driver
-+pub(crate) type NovaDevice = drm::Device<NovaDriver>;
-+
-+#[pin_data]
-+pub(crate) struct NovaData {
-+    pub(crate) adev: ARef<auxiliary::Device>,
-+}
-+
-+const INFO: drm::DriverInfo = drm::DriverInfo {
-+    major: 0,
-+    minor: 0,
-+    patchlevel: 0,
-+    name: c_str!("nova"),
-+    desc: c_str!("Nvidia Graphics"),
-+};
-+
-+const NOVA_CORE_MODULE_NAME: &CStr = c_str!("NovaCore");
-+const AUXILIARY_NAME: &CStr = c_str!("nova-drm");
-+
-+kernel::auxiliary_device_table!(
-+    AUX_TABLE,
-+    MODULE_AUX_TABLE,
-+    <NovaDriver as auxiliary::Driver>::IdInfo,
-+    [(
-+        auxiliary::DeviceId::new(NOVA_CORE_MODULE_NAME, AUXILIARY_NAME),
-+        ()
-+    )]
-+);
-+
-+impl auxiliary::Driver for NovaDriver {
-+    type IdInfo = ();
-+    const ID_TABLE: auxiliary::IdTable<Self::IdInfo> = &AUX_TABLE;
-+
-+    fn probe(adev: &auxiliary::Device<Core>, _info: &Self::IdInfo) -> Result<Pin<KBox<Self>>> {
-+        let data = try_pin_init!(NovaData { adev: adev.into() });
-+
-+        let drm = drm::Device::<Self>::new(adev.as_ref(), data)?;
-+        drm::Registration::new_foreign_owned(&drm, adev.as_ref(), 0)?;
-+
-+        Ok(KBox::new(Self { drm }, GFP_KERNEL)?.into())
-+    }
-+}
-+
-+#[vtable]
-+impl drm::Driver for NovaDriver {
-+    type Data = NovaData;
-+    type File = File;
-+    type Object = gem::Object<NovaObject>;
-+
-+    const INFO: drm::DriverInfo = INFO;
-+
-+    kernel::declare_drm_ioctls! {
-+        (NOVA_GETPARAM, drm_nova_getparam, ioctl::RENDER_ALLOW, File::get_param),
-+        (NOVA_GEM_CREATE, drm_nova_gem_create, ioctl::AUTH | ioctl::RENDER_ALLOW, File::gem_create),
-+        (NOVA_GEM_INFO, drm_nova_gem_info, ioctl::AUTH | ioctl::RENDER_ALLOW, File::gem_info),
-+    }
-+}
-diff --git a/drivers/gpu/drm/nova/file.rs b/drivers/gpu/drm/nova/file.rs
-new file mode 100644
-index 000000000000..7e59a34b830d
---- /dev/null
-+++ b/drivers/gpu/drm/nova/file.rs
-@@ -0,0 +1,74 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+use crate::driver::{NovaDevice, NovaDriver};
-+use crate::gem::NovaObject;
-+use crate::uapi::{GemCreate, GemInfo, Getparam};
-+use kernel::{
-+    alloc::flags::*,
-+    drm::{self, gem::BaseObject},
-+    pci,
-+    prelude::*,
-+    types::Opaque,
-+    uapi,
-+};
-+
-+pub(crate) struct File;
-+
-+impl drm::file::DriverFile for File {
-+    type Driver = NovaDriver;
-+
-+    fn open(_dev: &NovaDevice) -> Result<Pin<KBox<Self>>> {
-+        Ok(KBox::new(Self, GFP_KERNEL)?.into())
-+    }
-+}
-+
-+impl File {
-+    /// IOCTL: get_param: Query GPU / driver metadata.
-+    pub(crate) fn get_param(
-+        dev: &NovaDevice,
-+        getparam: &Opaque<uapi::drm_nova_getparam>,
-+        _file: &drm::File<File>,
-+    ) -> Result<u32> {
-+        let adev = &dev.adev;
-+        let parent = adev.parent().ok_or(ENOENT)?;
-+        let pdev: &pci::Device = parent.try_into()?;
-+        let getparam: &Getparam = getparam.into();
-+
-+        let value = match getparam.param() as u32 {
-+            uapi::NOVA_GETPARAM_VRAM_BAR_SIZE => pdev.resource_len(1)?,
-+            _ => return Err(EINVAL),
-+        };
-+
-+        getparam.set_value(value);
-+
-+        Ok(0)
-+    }
-+
-+    /// IOCTL: gem_create: Create a new DRM GEM object.
-+    pub(crate) fn gem_create(
-+        dev: &NovaDevice,
-+        req: &Opaque<uapi::drm_nova_gem_create>,
-+        file: &drm::File<File>,
-+    ) -> Result<u32> {
-+        let req: &GemCreate = req.into();
-+        let obj = NovaObject::new(dev, req.size().try_into()?)?;
-+
-+        req.set_handle(obj.create_handle(file)?);
-+
-+        Ok(0)
-+    }
-+
-+    /// IOCTL: gem_info: Query GEM metadata.
-+    pub(crate) fn gem_info(
-+        _dev: &NovaDevice,
-+        req: &Opaque<uapi::drm_nova_gem_info>,
-+        file: &drm::File<File>,
-+    ) -> Result<u32> {
-+        let req: &GemInfo = req.into();
-+        let bo = NovaObject::lookup_handle(file, req.handle())?;
-+
-+        req.set_size(bo.size().try_into()?);
-+
-+        Ok(0)
-+    }
-+}
-diff --git a/drivers/gpu/drm/nova/gem.rs b/drivers/gpu/drm/nova/gem.rs
-new file mode 100644
-index 000000000000..33b62d21400c
---- /dev/null
-+++ b/drivers/gpu/drm/nova/gem.rs
-@@ -0,0 +1,49 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+use kernel::{
-+    drm,
-+    drm::{gem, gem::BaseObject},
-+    prelude::*,
-+    types::ARef,
-+};
-+
-+use crate::{
-+    driver::{NovaDevice, NovaDriver},
-+    file::File,
-+};
-+
-+/// GEM Object inner driver data
-+#[pin_data]
-+pub(crate) struct NovaObject {}
-+
-+impl gem::BaseDriverObject<gem::Object<NovaObject>> for NovaObject {
-+    fn new(_dev: &NovaDevice, _size: usize) -> impl PinInit<Self, Error> {
-+        try_pin_init!(NovaObject {})
-+    }
-+}
-+
-+impl gem::DriverObject for NovaObject {
-+    type Driver = NovaDriver;
-+}
-+
-+impl NovaObject {
-+    /// Create a new DRM GEM object.
-+    pub(crate) fn new(dev: &NovaDevice, size: usize) -> Result<ARef<gem::Object<Self>>> {
-+        let aligned_size = size.next_multiple_of(1 << 12);
-+
-+        if size == 0 || size > aligned_size {
-+            return Err(EINVAL);
-+        }
-+
-+        gem::Object::new(dev, aligned_size)
-+    }
-+
-+    /// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
-+    #[inline]
-+    pub(crate) fn lookup_handle(
-+        file: &drm::File<File>,
-+        handle: u32,
-+    ) -> Result<ARef<gem::Object<Self>>> {
-+        gem::Object::lookup_handle(file, handle)
-+    }
-+}
-diff --git a/drivers/gpu/drm/nova/nova.rs b/drivers/gpu/drm/nova/nova.rs
-new file mode 100644
-index 000000000000..902876aa14d1
---- /dev/null
-+++ b/drivers/gpu/drm/nova/nova.rs
-@@ -0,0 +1,18 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Nova DRM Driver
-+
-+mod driver;
-+mod file;
-+mod gem;
-+mod uapi;
-+
-+use crate::driver::NovaDriver;
-+
-+kernel::module_auxiliary_driver! {
-+    type: NovaDriver,
-+    name: "Nova",
-+    author: "Danilo Krummrich",
-+    description: "Nova GPU driver",
-+    license: "GPL v2",
-+}
-diff --git a/drivers/gpu/drm/nova/uapi.rs b/drivers/gpu/drm/nova/uapi.rs
-new file mode 100644
-index 000000000000..eb228a58d423
---- /dev/null
-+++ b/drivers/gpu/drm/nova/uapi.rs
-@@ -0,0 +1,61 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+use kernel::uapi;
-+
-+// TODO Work out some common infrastructure to avoid boilerplate code for uAPI abstractions.
-+
-+macro_rules! define_uapi_abstraction {
-+    ($name:ident <= $inner:ty) => {
-+        #[repr(transparent)]
-+        pub struct $name(::kernel::types::Opaque<$inner>);
-+
-+        impl ::core::convert::From<&::kernel::types::Opaque<$inner>> for &$name {
-+            fn from(value: &::kernel::types::Opaque<$inner>) -> Self {
-+                // SAFETY: `Self` is a transparent wrapper of `$inner`.
-+                unsafe { ::core::mem::transmute(value) }
-+            }
-+        }
-+    };
-+}
-+
-+define_uapi_abstraction!(Getparam <= uapi::drm_nova_getparam);
-+
-+impl Getparam {
-+    pub fn param(&self) -> u64 {
-+        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_getparam`.
-+        unsafe { (*self.0.get()).param }
-+    }
-+
-+    pub fn set_value(&self, v: u64) {
-+        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_getparam`.
-+        unsafe { (*self.0.get()).value = v };
-+    }
-+}
-+
-+define_uapi_abstraction!(GemCreate <= uapi::drm_nova_gem_create);
-+
-+impl GemCreate {
-+    pub fn size(&self) -> u64 {
-+        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_create`.
-+        unsafe { (*self.0.get()).size }
-+    }
-+
-+    pub fn set_handle(&self, handle: u32) {
-+        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_create`.
-+        unsafe { (*self.0.get()).handle = handle };
-+    }
-+}
-+
-+define_uapi_abstraction!(GemInfo <= uapi::drm_nova_gem_info);
-+
-+impl GemInfo {
-+    pub fn handle(&self) -> u32 {
-+        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_info`.
-+        unsafe { (*self.0.get()).handle }
-+    }
-+
-+    pub fn set_size(&self, size: u64) {
-+        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_info`.
-+        unsafe { (*self.0.get()).size = size };
-+    }
-+}
-diff --git a/include/uapi/drm/nova_drm.h b/include/uapi/drm/nova_drm.h
-new file mode 100644
-index 000000000000..3ca90ed9d2bb
---- /dev/null
-+++ b/include/uapi/drm/nova_drm.h
-@@ -0,0 +1,101 @@
-+/* SPDX-License-Identifier: MIT */
-+
-+#ifndef __NOVA_DRM_H__
-+#define __NOVA_DRM_H__
-+
-+#include "drm.h"
-+
-+/* DISCLAIMER: Do not use, this is not a stable uAPI.
-+ *
-+ * This uAPI serves only testing purposes as long as this driver is still in
-+ * development. It is required to implement and test infrastructure which is
-+ * upstreamed in the context of this driver. See also [1].
-+ *
-+ * [1] https://lore.kernel.org/dri-devel/Zfsj0_tb-0-tNrJy@cassiopeiae/T/#u
-+ */
-+
-+#if defined(__cplusplus)
-+extern "C" {
-+#endif
-+
-+/*
-+ * NOVA_GETPARAM_VRAM_BAR_SIZE
-+ *
-+ * Query the VRAM BAR size in bytes.
-+ */
-+#define NOVA_GETPARAM_VRAM_BAR_SIZE	0x1
-+
-+/**
-+ * struct drm_nova_getparam - query GPU and driver metadata
-+ */
-+struct drm_nova_getparam {
-+	/**
-+	 * @param: The identifier of the parameter to query.
-+	 */
-+	__u64 param;
-+
-+	/**
-+	 * @value: The value for the specified parameter.
-+	 */
-+	__u64 value;
-+};
-+
-+/**
-+ * struct drm_nova_gem_create - create a new DRM GEM object
-+ */
-+struct drm_nova_gem_create {
-+	/**
-+	 * @handle: The handle of the new DRM GEM object.
-+	 */
-+	__u32 handle;
-+
-+	/**
-+	 * @pad: 32 bit padding, should be 0.
-+	 */
-+	__u32 pad;
-+
-+	/**
-+	 * @size: The size of the new DRM GEM object.
-+	 */
-+	__u64 size;
-+};
-+
-+/**
-+ * struct drm_nova_gem_info - query DRM GEM object metadata
-+ */
-+struct drm_nova_gem_info {
-+	/**
-+	 * @handle: The handle of the DRM GEM object to query.
-+	 */
-+	__u32 handle;
-+
-+	/**
-+	 * @pad: 32 bit padding, should be 0.
-+	 */
-+	__u32 pad;
-+
-+	/**
-+	 * @size: The size of the DRM GEM obejct.
-+	 */
-+	__u64 size;
-+};
-+
-+#define DRM_NOVA_GETPARAM		0x00
-+#define DRM_NOVA_GEM_CREATE		0x01
-+#define DRM_NOVA_GEM_INFO		0x02
-+
-+/* Note: this is an enum so that it can be resolved by Rust bindgen. */
-+enum {
-+	DRM_IOCTL_NOVA_GETPARAM		= DRM_IOWR(DRM_COMMAND_BASE + DRM_NOVA_GETPARAM,
-+						   struct drm_nova_getparam),
-+	DRM_IOCTL_NOVA_GEM_CREATE	= DRM_IOWR(DRM_COMMAND_BASE + DRM_NOVA_GEM_CREATE,
-+						   struct drm_nova_gem_create),
-+	DRM_IOCTL_NOVA_GEM_INFO		= DRM_IOWR(DRM_COMMAND_BASE + DRM_NOVA_GEM_INFO,
-+						   struct drm_nova_gem_info),
-+};
-+
-+#if defined(__cplusplus)
-+}
-+#endif
-+
-+#endif /* __NOVA_DRM_H__ */
-diff --git a/rust/uapi/uapi_helper.h b/rust/uapi/uapi_helper.h
-index 19587e55e604..1409441359f5 100644
---- a/rust/uapi/uapi_helper.h
-+++ b/rust/uapi/uapi_helper.h
-@@ -8,6 +8,7 @@
- 
- #include <uapi/asm-generic/ioctl.h>
- #include <uapi/drm/drm.h>
-+#include <uapi/drm/nova_drm.h>
- #include <uapi/linux/mdio.h>
- #include <uapi/linux/mii.h>
- #include <uapi/linux/ethtool.h>
--- 
-2.49.0
+> ---
+>  drivers/gpu/drm/xe/xe_gt_pagefault.c | 26 ++++++++
+>  drivers/gpu/drm/xe/xe_vm.c           | 88 ++++++++++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_vm.h           |  9 +++
+>  drivers/gpu/drm/xe/xe_vm_types.h     | 29 +++++++++
+>  4 files changed, 152 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c
+> b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+> index 93afa54c8780..a84f6247f8a2 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
+> +++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+> @@ -345,6 +345,31 @@ int xe_guc_pagefault_handler(struct xe_guc *guc,
+> u32 *msg, u32 len)
+>  	return full ? -ENOSPC : 0;
+>  }
+>=20
+> +static void save_pagefault_to_vm(struct xe_device *xe, struct
+> +xe_gt_pagefault *pf) {
+> +	struct xe_vm *vm;
+> +
+> +	/*
+> +	 * Pagefault may be associated to VM that is not in fault mode.
+> +	 * Perform asid_to_vm behavior, except if vm is not in fault
+> +	 * mode, return the VM anyways.
+> +	 */
+> +	down_read(&xe->usm.lock);
+> +	vm =3D xa_load(&xe->usm.asid_to_vm, pf->asid);
+> +	if (vm)
+> +		xe_vm_get(vm);
+> +	else
+> +		vm =3D ERR_PTR(-EINVAL);
+> +	up_read(&xe->usm.lock);
+> +
+> +	if (IS_ERR(vm))
+> +		return;
+> +
+> +	xe_vm_add_fault_entry_pf(vm, pf);
+> +
+> +	xe_vm_put(vm);
+> +}
+> +
+>  #define USM_QUEUE_MAX_RUNTIME_MS	20
+>=20
+>  static void pf_queue_work_func(struct work_struct *w) @@ -364,6 +389,7
+> @@ static void pf_queue_work_func(struct work_struct *w)
+>  		if (unlikely(ret)) {
+>  			print_pagefault(xe, &pf);
+>  			pf.fault_unsuccessful =3D 1;
+> +			save_pagefault_to_vm(xe, &pf);
+>  			drm_dbg(&xe->drm, "Fault response:
+> Unsuccessful %d\n", ret);
+>  		}
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c inde=
+x
+> 0c69ef6b5ec5..107e397b4987 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.c
+> +++ b/drivers/gpu/drm/xe/xe_vm.c
+> @@ -27,7 +27,9 @@
+>  #include "xe_device.h"
+>  #include "xe_drm_client.h"
+>  #include "xe_exec_queue.h"
+> +#include "xe_gt.h"
+>  #include "xe_gt_pagefault.h"
+> +#include "xe_gt_pagefault_types.h"
+>  #include "xe_gt_tlb_invalidation.h"
+>  #include "xe_migrate.h"
+>  #include "xe_pat.h"
+> @@ -778,6 +780,87 @@ int xe_vm_userptr_check_repin(struct xe_vm *vm)
+>  		list_empty_careful(&vm->userptr.invalidated)) ? 0 : -
+> EAGAIN;  }
+>=20
+> +static struct xe_hw_engine *
+> +hw_engine_lookup_class_instance(struct xe_vm *vm,
+> +				enum xe_engine_class class,
+> +				u16 instance)
+> +{
+> +	struct xe_device *xe =3D vm->xe;
+> +	struct xe_hw_engine *hwe;
+> +	enum xe_hw_engine_id id;
+> +	struct xe_gt *gt;
+> +	u8 gt_id;
+> +
+> +	for_each_gt(gt, xe, gt_id)
+> +		for_each_hw_engine(hwe, gt, id)
+> +			if (hwe->class =3D=3D class && hwe->instance =3D=3D instance)
+> +				return hwe;
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * xe_vm_add_fault_entry_pf() - Add pagefault to vm fault list
+> + * @vm: The VM.
+> + * @pf: The pagefault.
+> + *
+> + * This function takes the data from the pagefault @pf and saves it to @=
+vm-
+> >faults.list.
+> + *
+> + * The function exits silently if the list is full, and reports a
+> +warning if the pagefault
+> + * could not be saved to the list.
+> + */
+> +void xe_vm_add_fault_entry_pf(struct xe_vm *vm, struct xe_gt_pagefault
+> +*pf) {
+> +	struct xe_vm_fault_entry *e =3D NULL;
+> +	struct xe_hw_engine *hwe;
+> +
+> +	/* Do not report faults on reserved engines */
+> +	hwe =3D hw_engine_lookup_class_instance(vm, pf->engine_class, pf-
+> >engine_instance);
+> +	if (!hwe || xe_hw_engine_is_reserved(hwe))
+> +		return;
+> +
+> +	e =3D kzalloc(sizeof(*e), GFP_KERNEL);
+> +	if (!e) {
+> +		drm_warn(&vm->xe->drm,
+> +			 "Could not allocate memory for fault!\n");
+> +		return;
+> +	}
+> +
+> +	spin_lock(&vm->faults.lock);
+> +
+> +	/*
+> +	 * Limit the number of faults in the fault list to prevent
+> +	 * memory overuse.
+> +	 */
+> +	if (vm->faults.len >=3D MAX_FAULTS_SAVED_PER_VM) {
+> +		kfree(e);
+> +		goto out;
+> +	}
+> +
+> +	e->address =3D pf->page_addr;
+> +	e->address_precision =3D 1;
+> +	e->access_type =3D pf->access_type;
+> +	e->fault_type =3D pf->fault_type;
+> +	e->fault_level =3D pf->fault_level;
+> +
+> +	list_add_tail(&e->list, &vm->faults.list);
+> +	vm->faults.len++;
+> +out:
+> +	spin_unlock(&vm->faults.lock);
+> +}
+> +
+> +static void xe_vm_clear_fault_entries(struct xe_vm *vm) {
+> +	struct xe_vm_fault_entry *e, *tmp;
+> +
+> +	spin_lock(&vm->faults.lock);
+> +	list_for_each_entry_safe(e, tmp, &vm->faults.list, list) {
+> +		list_del(&e->list);
+> +		kfree(e);
+> +	}
+> +	vm->faults.len =3D 0;
+> +	spin_unlock(&vm->faults.lock);
+> +}
+> +
+>  static int xe_vma_ops_alloc(struct xe_vma_ops *vops, bool array_of_binds=
+)  {
+>  	int i;
+> @@ -1660,6 +1743,9 @@ struct xe_vm *xe_vm_create(struct xe_device *xe,
+> u32 flags)
+>  	init_rwsem(&vm->userptr.notifier_lock);
+>  	spin_lock_init(&vm->userptr.invalidated_lock);
+>=20
+> +	INIT_LIST_HEAD(&vm->faults.list);
+> +	spin_lock_init(&vm->faults.lock);
+> +
+>  	ttm_lru_bulk_move_init(&vm->lru_bulk_move);
+>=20
+>  	INIT_WORK(&vm->destroy_work, vm_destroy_work_func); @@ -
+> 1930,6 +2016,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)
+>  	}
+>  	up_write(&xe->usm.lock);
+>=20
+> +	xe_vm_clear_fault_entries(vm);
+> +
+>  	for_each_tile(tile, xe, id)
+>  		xe_range_fence_tree_fini(&vm->rftree[id]);
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h inde=
+x
+> 0ef811fc2bde..9bd7e93824da 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.h
+> +++ b/drivers/gpu/drm/xe/xe_vm.h
+> @@ -12,6 +12,12 @@
+>  #include "xe_map.h"
+>  #include "xe_vm_types.h"
+>=20
+> +/**
+> + * MAX_FAULTS_SAVED_PER_VM - Maximum number of faults each vm can
+> store
+> +before future
+> + * faults are discarded to prevent memory overuse  */
+> +#define MAX_FAULTS_SAVED_PER_VM	50
+> +
+>  struct drm_device;
+>  struct drm_printer;
+>  struct drm_file;
+> @@ -22,6 +28,7 @@ struct dma_fence;
+>=20
+>  struct xe_exec_queue;
+>  struct xe_file;
+> +struct xe_gt_pagefault;
+>  struct xe_sync_entry;
+>  struct xe_svm_range;
+>  struct drm_exec;
+> @@ -257,6 +264,8 @@ int xe_vma_userptr_pin_pages(struct
+> xe_userptr_vma *uvma);
+>=20
+>  int xe_vma_userptr_check_repin(struct xe_userptr_vma *uvma);
+>=20
+> +void xe_vm_add_fault_entry_pf(struct xe_vm *vm, struct xe_gt_pagefault
+> +*pf);
+> +
+>  bool xe_vm_validate_should_retry(struct drm_exec *exec, int err, ktime_t
+> *end);
+>=20
+>  int xe_vm_lock_vma(struct drm_exec *exec, struct xe_vma *vma); diff --gi=
+t
+> a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
+> index 1662604c4486..38e9f5d66386 100644
+> --- a/drivers/gpu/drm/xe/xe_vm_types.h
+> +++ b/drivers/gpu/drm/xe/xe_vm_types.h
+> @@ -19,6 +19,7 @@
+>  #include "xe_range_fence.h"
+>=20
+>  struct xe_bo;
+> +struct xe_pagefault;
+>  struct xe_svm_range;
+>  struct xe_sync_entry;
+>  struct xe_user_fence;
+> @@ -142,6 +143,24 @@ struct xe_userptr_vma {
+>=20
+>  struct xe_device;
+>=20
+> +/**
+> + * struct xe_vm_fault_entry - Elements of vm->faults.list
+> + * @list: link into @xe_vm.faults.list
+> + * @address: address of the fault
+> + * @address_precision: precision of faulted address
+> + * @access_type: type of address access that resulted in fault
+> + * @fault_type: type of fault reported
+> + * @fault_level: fault level of the fault  */ struct xe_vm_fault_entry
+> +{
+> +	struct list_head list;
+> +	u64 address;
+> +	u32 address_precision;
+> +	u8 access_type;
+> +	u8 fault_type;
+> +	u8 fault_level;
+> +};
+> +
+>  struct xe_vm {
+>  	/** @gpuvm: base GPUVM used to track VMAs */
+>  	struct drm_gpuvm gpuvm;
+> @@ -305,6 +324,16 @@ struct xe_vm {
+>  		bool capture_once;
+>  	} error_capture;
+>=20
+> +	/** @faults: List of all faults associated with this VM */
+> +	struct {
+> +		/** @faults.lock: lock protecting @faults.list */
+> +		spinlock_t lock;
+> +		/** @faults.list: list of xe_vm_fault_entry entries */
+> +		struct list_head list;
+> +		/** @faults.len: length of @faults.list */
+> +		unsigned int len;
+> +	} faults;
+> +
+>  	/**
+>  	 * @tlb_flush_seqno: Required TLB flush seqno for the next exec.
+>  	 * protected by the vm resv.
+> --
+> 2.43.0
 
