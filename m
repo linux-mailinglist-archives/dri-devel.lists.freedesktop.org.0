@@ -2,76 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A836A9B1FD
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 17:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 996FCA9B2B8
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 17:44:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D000710E833;
-	Thu, 24 Apr 2025 15:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74F3710E82C;
+	Thu, 24 Apr 2025 15:44:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="sPp9JlQp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="foXRe342";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
- [209.85.219.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EFF010E833
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 15:20:58 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-e643f235a34so929568276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 08:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1745508057; x=1746112857;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NG938xxNFSAXoB4QqL7HrBT3cXqzIUpUR1csE9yRVyM=;
- b=sPp9JlQpfAJyCcwAAkFDhuF2gyutog1B9PHkikH2SvnGvj3RTclXBZWy96wxiq64X+
- t2G4Eb4j+jjYMhbbXKsmvF7ugK5V6aYNOMrju0NZi01W7vnaK37s3bBnBEGad3TxXjve
- a1SNrwA10DHUznACWLFUbxWoEx5Yvbq+qmLaSA1dZkflxCFy/oYkmALFaSn2ljIhAr+L
- iTL4TrQs61kkqjr2xYw4ChfNswQXSuf+Q8WN1wZUjY8tpxIkErg+BCTY/jqG07mMPhPf
- 6Li6Has+YXrst9GYkqC47/xgRFq2FNH7ligwAqjEMuRoSSHnR837CmnpUbRyVYU9EzFC
- ekug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745508057; x=1746112857;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NG938xxNFSAXoB4QqL7HrBT3cXqzIUpUR1csE9yRVyM=;
- b=gz5YXEbmASTUCEz0ehpkm9MFzgfkPdI6wl7VlK1iVu3LRseWhQRJf5F+hojXHNd6xc
- YeI3ZTW19eFNcfV9miRYKZYcoidONWRYerbYshznQvQyCrrBzbhND+VzsK2wRS93tkR7
- s4SgUBATQltli2h6vYTWSq1FP6LBrSfjcAgFeGvNFWhgDxkWrdJlAfQ7anXKJazmLBcK
- E+4csLLQ7xjLwZLFTTROeZ26/pecK24zYN75FpGWY0r/HNOQ2gaGHdaoPluVuoTRLraF
- pRLU5HXnypI1pHMGqF/WbKeM5GqjEZP9+3+9+M+zvASgsmeFqpCBVYkaA3z0nrKz8tAe
- c1+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVgS8fRDrsWHV0q+lhYd74EgH8UvYUGrmgTqXOt7wPyZhrD7y9zLFKrKDBsA2jqr37QAj5dpvNx7n0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwrOryWQR4t7kLtcn3wYDhP98P2UhuKESpEvy+zZTNJWVB9D0mV
- uHSUlR1J/eKEao5cbxVRwckGqChQZN4JpGHXLoUnkmKPxlwJsLegBRL0LruUcdj6PKz7RxzokHh
- MjurEtMqhP8veiCX3aYakt62aM3GMmHsWlEa01g==
-X-Gm-Gg: ASbGncv6euUEJPMp2UcZrEUYlnpuyDoTvtqPP78+LUidLgUSedjaO61URTtTYj8NTVG
- lo8XqayU560b9y5OwzxRNN2qces//LP2creWfMuG1Qp1LPnf0W4C5SQajjOTjNKJmcaMrjkLskW
- tjeyCMQi0aD9YioCgZuyHFPDzV65emlM+J8GAO/UnbMZwdRwOx3YaAfg==
-X-Google-Smtp-Source: AGHT+IH0Ztll6nMfYKq1MkjEkdf7279uZTDGix3UzH+NA+sMoaHFXy1pYzDOyt8Mba+QUq1GRouVzGcOx6ZFnPQxCQo=
-X-Received: by 2002:a05:6902:2209:b0:e6b:71cf:45cf with SMTP id
- 3f1490d57ef6-e730365abc3mr4664805276.46.1745508057189; Thu, 24 Apr 2025
- 08:20:57 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B26CB10E82C;
+ Thu, 24 Apr 2025 15:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745509466; x=1777045466;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Vxn9eSjJ8m+nMrlX03mokqrwLMbSDxuvnsPugGxZU9A=;
+ b=foXRe342iXOeWwjcbSDeqkKHlqfgJWL4c1NIdD+7cebj4zJuVieNfVsC
+ aO8G9FTQ+04aHXhSBM55xIW7OUwJq1uLDV1wF6RjxzzMJpKXSKnyFsBOT
+ TdnjM7ExbTR3mAacAI85pjO2zMLYacfkRgoIp/LnY+ycmn52L7uyG8Xtt
+ iyhxgtTvvUnYH6booKCMMsaeQmjdNWYu+0O2HpReABu5VM4B/hGCDUHzB
+ x3bJP6eOnbTKrmIrENZ2GY6DQZQtT4XNmgM8LUYQrZ0DN0VUNhZfALFT3
+ etrGcSa8Z6RYS+6hPgDVAJPbKByGGCYIGEEqEUYza9uols7d05822b522 g==;
+X-CSE-ConnectionGUID: D4/giVslTLKsi0PFyDRxRA==
+X-CSE-MsgGUID: tO2a4CvhQU+mHl4jO5cPTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="57800125"
+X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; d="scan'208";a="57800125"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2025 08:44:25 -0700
+X-CSE-ConnectionGUID: JIeJSll2T2u5TlH7hvl0LA==
+X-CSE-MsgGUID: nOExJKHGRsqeDHjzsv/rug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; d="scan'208";a="163711421"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+ by fmviesa001.fm.intel.com with ESMTP; 24 Apr 2025 08:44:23 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1u7ykP-0004HZ-1p;
+ Thu, 24 Apr 2025 15:44:21 +0000
+Date: Thu, 24 Apr 2025 23:43:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH v3 7/7] drm/xe/pt: unify xe_pt_svm_pre_commit with userptr
+Message-ID: <202504242339.WQvU1OVP-lkp@intel.com>
+References: <20250424121827.862729-16-matthew.auld@intel.com>
 MIME-Version: 1.0
-References: <20250414134821.568225-6-tzimmermann@suse.de>
-In-Reply-To: <20250414134821.568225-6-tzimmermann@suse.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 24 Apr 2025 16:20:40 +0100
-X-Gm-Features: ATxdqUH2tI2TKyvMPV7X_DpnmMBVAt0W_xoeOP4xZsiae98sNeVETsUWC_cq-BY
-Message-ID: <CAPY8ntD3smR2Z62mxeHgis6UOSrSswawTsr=8Xm_LE9hxt+FGA@mail.gmail.com>
-Subject: Re: [PATCH 06/11] drm/vc4: Test for imported buffers with
- drm_gem_is_imported()
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: airlied@gmail.com, simona@ffwll.ch, mripard@kernel.org, 
- maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org, 
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424121827.862729-16-matthew.auld@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,58 +72,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 14 Apr 2025 at 14:51, Thomas Zimmermann <tzimmermann@suse.de> wrote=
-:
->
-> Instead of testing import_attach for imported GEM buffers, invoke
-> drm_gem_is_imported() to do the test. The helper tests the dma_buf
-> itself while import_attach is just an artifact of the import. Prepares
-> to make import_attach optional.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: "Ma=C3=ADra Canal" <mcanal@igalia.com>
-> Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Hi Matthew,
 
-Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+kernel test robot noticed the following build warnings:
 
-> ---
->  drivers/gpu/drm/vc4/vc4_bo.c  | 2 +-
->  drivers/gpu/drm/vc4/vc4_gem.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-> index 7125773889f1..b503fd0488b0 100644
-> --- a/drivers/gpu/drm/vc4/vc4_bo.c
-> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
-> @@ -556,7 +556,7 @@ static void vc4_free_object(struct drm_gem_object *ge=
-m_bo)
->         mutex_lock(&vc4->bo_lock);
->         /* If the object references someone else's memory, we can't cache=
- it.
->          */
-> -       if (gem_bo->import_attach) {
-> +       if (drm_gem_is_imported(gem_bo)) {
->                 vc4_bo_destroy(bo);
->                 goto out;
->         }
-> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.=
-c
-> index 8125f87edc60..3e79ad69250a 100644
-> --- a/drivers/gpu/drm/vc4/vc4_gem.c
-> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
-> @@ -1249,7 +1249,7 @@ int vc4_gem_madvise_ioctl(struct drm_device *dev, v=
-oid *data,
->         /* Not sure it's safe to purge imported BOs. Let's just assume it=
-'s
->          * not until proven otherwise.
->          */
-> -       if (gem_obj->import_attach) {
-> +       if (drm_gem_is_imported(gem_obj)) {
->                 DRM_DEBUG("madvise not supported on imported BOs\n");
->                 ret =3D -EINVAL;
->                 goto out_put_gem;
-> --
-> 2.49.0
->
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on next-20250424]
+[cannot apply to drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.15-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Auld/drm-gpusvm-fix-hmm_pfn_to_map_order-usage/20250424-202128
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250424121827.862729-16-matthew.auld%40intel.com
+patch subject: [PATCH v3 7/7] drm/xe/pt: unify xe_pt_svm_pre_commit with userptr
+config: csky-randconfig-001-20250424 (https://download.01.org/0day-ci/archive/20250424/202504242339.WQvU1OVP-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504242339.WQvU1OVP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504242339.WQvU1OVP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/xe/xe_res_cursor.h:38,
+                    from drivers/gpu/drm/xe/xe_vm.c:38:
+>> drivers/gpu/drm/xe/xe_svm.h:182: warning: "xe_svm_assert_in_notifier" redefined
+     182 | #define xe_svm_assert_in_notifier(vm__) \
+         | 
+   drivers/gpu/drm/xe/xe_svm.h:170: note: this is the location of the previous definition
+     170 | #define xe_svm_assert_in_notifier(...) do {} while (0)
+         | 
+--
+   In file included from drivers/gpu/drm/xe/xe_tile.c:16:
+   drivers/gpu/drm/xe/xe_svm.h: In function 'xe_svm_init':
+   drivers/gpu/drm/xe/xe_svm.h:128:16: error: implicit declaration of function 'drm_gpusvm_init'; did you mean 'drm_mm_init'? [-Werror=implicit-function-declaration]
+     128 |         return drm_gpusvm_init(&vm->svm.gpusvm, "Xe SVM (simple)", &vm->xe->drm,
+         |                ^~~~~~~~~~~~~~~
+         |                drm_mm_init
+   drivers/gpu/drm/xe/xe_svm.h:128:35: error: invalid use of undefined type 'struct xe_vm'
+     128 |         return drm_gpusvm_init(&vm->svm.gpusvm, "Xe SVM (simple)", &vm->xe->drm,
+         |                                   ^~
+   drivers/gpu/drm/xe/xe_svm.h:128:71: error: invalid use of undefined type 'struct xe_vm'
+     128 |         return drm_gpusvm_init(&vm->svm.gpusvm, "Xe SVM (simple)", &vm->xe->drm,
+         |                                                                       ^~
+   In file included from drivers/gpu/drm/xe/xe_sriov.h:9,
+                    from drivers/gpu/drm/xe/xe_device.h:13,
+                    from drivers/gpu/drm/xe/xe_tile.c:10:
+   drivers/gpu/drm/xe/xe_svm.h: In function 'xe_svm_fini':
+   drivers/gpu/drm/xe/xe_svm.h:135:21: error: invalid use of undefined type 'struct xe_vm'
+     135 |         xe_assert(vm->xe, xe_vm_is_closed(vm));
+         |                     ^~
+   drivers/gpu/drm/xe/xe_assert.h:110:41: note: in definition of macro 'xe_assert_msg'
+     110 |         const struct xe_device *__xe = (xe);                                                    \
+         |                                         ^~
+   drivers/gpu/drm/xe/xe_svm.h:135:9: note: in expansion of macro 'xe_assert'
+     135 |         xe_assert(vm->xe, xe_vm_is_closed(vm));
+         |         ^~~~~~~~~
+   In file included from include/linux/bits.h:22,
+                    from include/linux/gfp_types.h:5,
+                    from include/linux/gfp.h:5,
+                    from include/drm/drm_managed.h:6,
+                    from drivers/gpu/drm/xe/xe_tile.c:8:
+   drivers/gpu/drm/xe/xe_svm.h:135:27: error: implicit declaration of function 'xe_vm_is_closed' [-Werror=implicit-function-declaration]
+     135 |         xe_assert(vm->xe, xe_vm_is_closed(vm));
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
+      30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
+         |                                                               ^
+   drivers/gpu/drm/xe/xe_assert.h:111:9: note: in expansion of macro '__xe_assert_msg'
+     111 |         __xe_assert_msg(__xe, condition,                                                        \
+         |         ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_assert.h:108:34: note: in expansion of macro 'xe_assert_msg'
+     108 | #define xe_assert(xe, condition) xe_assert_msg((xe), condition, "")
+         |                                  ^~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_svm.h:135:9: note: in expansion of macro 'xe_assert'
+     135 |         xe_assert(vm->xe, xe_vm_is_closed(vm));
+         |         ^~~~~~~~~
+   drivers/gpu/drm/xe/xe_svm.h:137:9: error: implicit declaration of function 'drm_gpusvm_fini'; did you mean 'drm_buddy_fini'? [-Werror=implicit-function-declaration]
+     137 |         drm_gpusvm_fini(&vm->svm.gpusvm);
+         |         ^~~~~~~~~~~~~~~
+         |         drm_buddy_fini
+   drivers/gpu/drm/xe/xe_svm.h:137:28: error: invalid use of undefined type 'struct xe_vm'
+     137 |         drm_gpusvm_fini(&vm->svm.gpusvm);
+         |                            ^~
+   drivers/gpu/drm/xe/xe_svm.h: At top level:
+>> drivers/gpu/drm/xe/xe_svm.h:182: warning: "xe_svm_assert_in_notifier" redefined
+     182 | #define xe_svm_assert_in_notifier(vm__) \
+         | 
+   drivers/gpu/drm/xe/xe_svm.h:170: note: this is the location of the previous definition
+     170 | #define xe_svm_assert_in_notifier(...) do {} while (0)
+         | 
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_GPUSVM
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DEVICE_PRIVATE [=n]
+   Selected by [m]:
+   - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && MMU [=y] && (m [=m] && MODULES [=y] || KUNIT [=n]=y [=y])
+
+
+vim +/xe_svm_assert_in_notifier +182 drivers/gpu/drm/xe/xe_svm.h
+
+   181	
+ > 182	#define xe_svm_assert_in_notifier(vm__) \
+   183		lockdep_assert_held_write(&(vm__)->svm.gpusvm.notifier_lock)
+   184	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
