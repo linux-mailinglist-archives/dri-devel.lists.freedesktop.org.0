@@ -2,151 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C91A9B82C
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 21:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09064A9B856
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 21:35:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4880C10E848;
-	Thu, 24 Apr 2025 19:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E167E10E856;
+	Thu, 24 Apr 2025 19:34:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="pp6k5+zB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IN+E+16y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2061.outbound.protection.outlook.com [40.107.93.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71F1810E845;
- Thu, 24 Apr 2025 19:19:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 554A310E856;
+ Thu, 24 Apr 2025 19:34:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745523297; x=1777059297;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=rojSADyUl0THEpzC4K3tOnUn0+eIZaKaEcTJtPtDpAo=;
+ b=IN+E+16yRZf8HhZH+RvLIwqGdaJTELjLbvrW7LNMhRb3bRUy8zqdPB6h
+ H3LXgwy7ctsB1WvezK5MeNCIlf5BBf3tPJvSqRED7ZCDpJfbvZJn0/V7J
+ 3RgoMiMzZAzVlNu8Yv2ZFpvOhTQE/zEeIzzzLd+BXDYLB0ZHp2LNxaQ6h
+ 170P6XbmJc0h8XgDmMJxNZH8KSjpkCOjca8rO6aeM+IBTd7v/mKbRNzn2
+ 8oAF+Ty7OZzRdNVABJu+noKHC3tLa6ID0tLKwqIBJY90avQ88S2fa6LII
+ vojstQL8+DY1R8bnONvMSEi/UWaApCb9EGWddHiKzQntjsdPoPGoZjMxN A==;
+X-CSE-ConnectionGUID: 759D2uqXRbqAg5Sb425s1w==
+X-CSE-MsgGUID: JJPKrXdlQ8OlImkk3me3Kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="69668339"
+X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; d="scan'208";a="69668339"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2025 12:34:57 -0700
+X-CSE-ConnectionGUID: dLULjCfORVqOutoeVCvB+Q==
+X-CSE-MsgGUID: OShajWQgRRWSYyQoJMsvfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; d="scan'208";a="133236330"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2025 12:34:57 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Thu, 24 Apr 2025 12:34:56 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Thu, 24 Apr 2025 12:34:56 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.48) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 24 Apr 2025 12:34:55 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hSJmkF90zrJ/4H1qIe3iNgj6S8ROjvNzxaEf43qseQkBYjkhfZ1owPMcYTxt9NzIumKUocga922XyxtibJZNIvkL+F/boOmUkGNxQ650zbyp4FDDuc7jPbVJKcSXk6aSKzlBHDFCmDP45XQVSpL2wdcSTP+JAqx/RGayHhFzjb5BD/9trcIhFgYgTiTS6Be6766vpKJ6U9Y9875/sM2kW9lp4cEojBUn2fL9QNGs4cSRDVHIAZ2fWDex+9iWyZWSJn4vI6LxMSOQRlET2h2MVs0dJ6AlluGnyEqTPQGQu67/xVyZIAHs7frdPL0Hf2UZI+bK3I/erMVOy3fzB/gX2Q==
+ b=T6oj1o8yO9wrPrcb6bZhO000Otj84btrduUgniA5S4CXERS7ylJfc/bl3P4TXltJVlzSliPux0G3/ncQVm6BtbXtFlC4Hc1tew/F00YERIiMmeYESc4aEIY/4u9WKySpmQwP+wmlVuGK1yQsSZlZjQednwU7/eMtN1bc7wgtaEa/mMHaXZ+IcPgNnpx3wUULoz19sroS3X+lCAmq7FRLsfBC6S/B7wHShymO68fbWVJdfJcW/AcVUgCsyNnnWdYm2jB5elwul0iuIjN3YoWDcKTZ+ASV9KUWZFkBVenqCL4V4eJyOuaUfbyN7COOkNSXpZax5oMj1QvKtePRoBNrew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7XGcZFvdkllNkhBgzuL4JIscTQDkBTw5A4uANNNrld0=;
- b=MVHlSSYWHgotaXQ/8Se+qQPbeKw8HhZVJTDtkyTAVe4cZPdrFf/ZOToSWXn6P9YyZxErRXOrQfebqLaNLU+3wJCoJmi2pxuzuvR/DXmVohzqVIpst0QwS4dCtoHIBHTEnBB0NKB/AAHiXABFbBEgtC2tTtHHynuZN3IJx/Y3rgyZBew1kemdD0mtcsgV49EdCEd9mtwoeRIaSD87cUlC+U65LP90f66UyQtnQi8nlEafVEy17fg8cmKlOQM8+Pi3ndGFU7olxV5dNSBOooSMzAYGQMrooFIL0uIwT+vWoevTVMUtGE739H+y/8jOvby4CUY1MiR845maN7i/3uuhaQ==
+ bh=3yi0shtoTLWF+nnHR/S29+o81bhzTml/Wk2fyhVAHxI=;
+ b=iQCQvdTdJ3k1fYoP044E5a77iLk0wpkhY5x/GnBxZeKU5V4keIbom8VeAFoAzoRH7t3bBapgYdtk/tLXueAkn5heRoYL+YGTj/h4+JbFRxS6wS9Hq2dib0Ar1uK0AZnHsaacmiKQCP8IQXmgj/tsMWnEJuDgD7L8GBnVW/pFcAL0PJVhjz/p6DGVlu4wNc7Psyxf5VMV8KP9PtW3gmBbSmDRVlA56RsZg/pg8e6Esw/G9IZ9Jdb7ci4e7hh/GyUe1btoWPVOFmWoDCpPrNhFwTIkuDti19KDfBLkD3RXAD7qSUThCV1vSI5KG7ATqyQLF6K3dspzdLoS/gS4MtE2qQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7XGcZFvdkllNkhBgzuL4JIscTQDkBTw5A4uANNNrld0=;
- b=pp6k5+zB3BGlIMfvKuvT8I0DaSqXuEUAD/ySEULlz1xKnuyzHrk59N8ZPwH0/ZCKp1PP+WV3ni1ZQjY1CnIrUyRZtoANyCVv3hbzAc8HYjvQtcjMXR1iQAwfyZ+vCxf6gfiRwOl8zKyIGCt7q+lgk13jJRApzXAcl4XoIhRSLT/8ax3QhHnwqBurnYU7stI0YYBHAuF7uOBkEDQ+MkTzOb/xR0zpRRg/QM5irhUGAwtJKugYkM1UCkZ8zNAesRlzWyhQ0XODZk523fxcD/Abr1rzqut0nx77pEmSrRmPJsmDpDnll83iikZiJsSPmjg8OCc34w1tmLiVbai6rjgxPw==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by DS4PR12MB9658.namprd12.prod.outlook.com (2603:10b6:8:280::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.23; Thu, 24 Apr
- 2025 19:19:03 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%6]) with mapi id 15.20.8655.033; Thu, 24 Apr 2025
- 19:19:03 +0000
-Date: Thu, 24 Apr 2025 15:19:00 -0400
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 13/16] gpu: nova-core: Add support for VBIOS ucode
- extraction for boot
-Message-ID: <20250424191900.GA174004@joelnvbox>
-References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
- <20250420-nova-frts-v1-13-ecd1cca23963@nvidia.com>
- <aAjz2CYTsAhidiEU@pollux>
- <88937e2b-6950-4c9d-8f02-50f9b12c7376@nvidia.com>
- <aAkBIvfTkKVNbdnm@pollux>
-Content-Type: text/plain; charset=us-ascii
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by BL1PR11MB6001.namprd11.prod.outlook.com (2603:10b6:208:385::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.35; Thu, 24 Apr
+ 2025 19:34:38 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.8655.037; Thu, 24 Apr 2025
+ 19:34:38 +0000
+Date: Thu, 24 Apr 2025 12:35:59 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Jonathan Cavitt <jonathan.cavitt@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <saurabhg.gupta@intel.com>,
+ <alex.zuo@intel.com>, <joonas.lahtinen@linux.intel.com>,
+ <jianxun.zhang@intel.com>, <shuicheng.lin@intel.com>,
+ <dri-devel@lists.freedesktop.org>, <Michal.Wajdeczko@intel.com>,
+ <michal.mrozek@intel.com>, <raag.jadav@intel.com>,
+ <john.c.harrison@intel.com>, <ivan.briano@intel.com>,
+ <matthew.auld@intel.com>
+Subject: Re: [PATCH v22 5/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Message-ID: <aAqSn94hX71kF1zp@lstrano-desk.jf.intel.com>
+References: <20250424143812.11210-1-jonathan.cavitt@intel.com>
+ <20250424143812.11210-6-jonathan.cavitt@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <aAkBIvfTkKVNbdnm@pollux>
-X-ClientProxiedBy: BL6PEPF00016418.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:22e:400:0:1004:0:7) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+In-Reply-To: <20250424143812.11210-6-jonathan.cavitt@intel.com>
+X-ClientProxiedBy: MW4P220CA0018.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:303:115::23) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS4PR12MB9658:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd506992-1ee8-42c8-f9b9-08dd8364dfa5
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|BL1PR11MB6001:EE_
+X-MS-Office365-Filtering-Correlation-Id: d00fdfa6-baa8-4eb5-9020-08dd83670d5f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?c5mfFE/4hrvT9qYmIkfqz9OaZQ/BjMn2r24jJdGUYj0LiRJ7hju89IwQwwhL?=
- =?us-ascii?Q?c8YGwH/9PhoJERp5Ghs724efpl7jMe68XCGIkxssHMX8I0LpVA6fWodexTVS?=
- =?us-ascii?Q?JaCaKrkhBetrRJ4xfeWuXivn/KpYBClPFjld1uIZv8bzhPWpw0BYQKBaOq4e?=
- =?us-ascii?Q?b9Rp/bJLWw+BGtk8kTc22s9RqQEzqlqWESVHPwtSSPfUQFPm/8PDzbz5pSli?=
- =?us-ascii?Q?q9t+Hi9FlB/sWlXML2dXGos3bgfqHm7zsaCZbGGpcR6zl4oRYzuYy10kFpX/?=
- =?us-ascii?Q?Nk+0HLHEXfSXrXD2NzAsZiZw6F/1LqIOBWk8dF6z0i3Zd4kKe349Aoed0TzO?=
- =?us-ascii?Q?c7OUXY8i8MJPP6SXYcAqkVXROTfrpJER+Nzv38AMc8pZCky7QTWgdU+Ulxcu?=
- =?us-ascii?Q?5qdyJduI4O26EUGyYCH9uwg/Izk1Yk9BJJNgurbVeQ3KFY04X3gwKpq0C5iw?=
- =?us-ascii?Q?j82WTkDDywXyU/oJntzqObsHOTH9WhpFZyTv3LMUP9cwRGnThDA74dCe2/Uj?=
- =?us-ascii?Q?hHJCVDQ5OeXrMtuXOepacwFczyYmZmGAXgQTjrNLSaIE1li2awgA7iSUHDQz?=
- =?us-ascii?Q?v/J9+O5Vwcm0a6FEAdytfSGJJ8uB5x3cBSFUsmlbiTuKOSyIxOiQOEj7OqOA?=
- =?us-ascii?Q?TEg0np9WvS44gwx13j2ZIeKZS4+5PhiSMwG6Ld7t/9ryWDCUfOZAaYepHz/t?=
- =?us-ascii?Q?4RlQ9PYDfD0uNmErGZZ7FSreH6Snfp20c1vHg/BHxd4PFF2Co6fVHPOrwQnz?=
- =?us-ascii?Q?A3olIQvncjt4uz0YI5c1Rs6X0GbFtcagUSAylDB/ASbJJg7TAwmAG2vQRcgB?=
- =?us-ascii?Q?EWKiOVGuVlKYyHX1HfF8ogOgkm90OfLx2G17llkuHxIlMl1DxlqS0su4JUHD?=
- =?us-ascii?Q?O9LZ6vQ/xKxxTpwqteIgjhBLV/spXBEq3tD3zzT4hwuCQInRUOWFOfXmvcqR?=
- =?us-ascii?Q?t5ex2F5IF58Jamkgmur7YCf/D7l6A6PFvZRwUFgMsE1NVPrjLIO6w6Se/g4F?=
- =?us-ascii?Q?8FHmLS+/dVy/21K26L1okPIXsLV/mklsHkQJqy5rK+o/pgyKhc4hhAXvq0Jc?=
- =?us-ascii?Q?wGbNVWOHNpl5dmweSJKwHxIfUTycz5OoduaZcZ6VCsgz9ToGfwOn/Xfr8VMt?=
- =?us-ascii?Q?hSSbBZyhIsfPBR6n0VTd1knT4pnbJLQNZ9cHjFPDCUj+oqkx2VILrGeK1Hu4?=
- =?us-ascii?Q?uE6aEaVkfvmk2u7A6NohtdPNCmbocZIoTE5nbJbX24GfsD900WqopDHFGqsQ?=
- =?us-ascii?Q?cozAzDB6YiqQ1Uxf6g7uKZgOyn5p/Bpu+GQwYU/hZO7zlk/GDr4oPYEryr29?=
- =?us-ascii?Q?ahkak128NVfhCOMyFiQV7VqLChq8gaErEbW05oLBCJclaAnAAknIsES13QEQ?=
- =?us-ascii?Q?o78ftU2Ega95Qohl0b5wlmOtCBevO3tbGS9XE0fSQdmbQw+nJPkd2xXc5ORY?=
- =?us-ascii?Q?TuaAR3BochM=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?J6EzI0V1oYjhvKFu+bckmaTH/LdEPXhbkuPUOsxodslAdx2LtiV134sC3qJa?=
+ =?us-ascii?Q?7JPt0U/AZduTedOVK+opuq6OR2eJzSwGZYMAGEmlrbTzRcqNXaVisqyOKvbF?=
+ =?us-ascii?Q?9RN1XeOigNpsip225BsXk+3xHo2IIPjTODhkxmcwQKnULpoRfdLoMjebaR4z?=
+ =?us-ascii?Q?gkQk0KcSqhs/Xr1bITwolPe82oAYn9DfCLqkFIL1caovm51TPEfHxF3EdXB7?=
+ =?us-ascii?Q?+YV7ae96U8vAekzBdClh+u9M4hZGUZbzfEkdCsba3ikgsTCZfz3vkZbXvT9Q?=
+ =?us-ascii?Q?gyge1Ddhb/SOrGCZaBBng7LgfaFyNQt24jaxA7mICne4KBJA6wbj2ukplbNM?=
+ =?us-ascii?Q?12WpECo5zKIcsvCezKb6Ro8Vld5kp3FTUHW+rlrz9WHDQ2ddQwuiqfl/hTO2?=
+ =?us-ascii?Q?4TvN1t40VKihjaZi17fD8xbw7kQKIwYl1XXe8HTNIb6srBDcqHXx9ApHW9UW?=
+ =?us-ascii?Q?TF2/FM/25/Ow3h6malo0chMZnPLdvOPRG5mDHw+swD5ZFIKWD1cPFHGiGb3Z?=
+ =?us-ascii?Q?If0aLHxf1nerIE7HGNWBnazmMf0E5eB7kAUPzNyvVIScnSkichka3+OKzLNG?=
+ =?us-ascii?Q?ycITAdOmnY96lvjgXr4UZEbXGabIueu0k7fYL9uGQoXQhOjUDooPwPYmo6ZV?=
+ =?us-ascii?Q?C3ZtgiySWNIyqVFQAZeigrDuiS0oBfZu72KUMyZC6bZyDqtRp/luUDEr1+//?=
+ =?us-ascii?Q?jXKebSX4t220dFK0vZIiZiTPQQ8VoHrlvK8FAx8fiOYThvJ37E87GEA5eFQs?=
+ =?us-ascii?Q?Qpxo7g5tjB7eRxfLlPdA6kdIJhGnTvYTTiTs+SY7Q6M62ktd6UImvuvRmVqy?=
+ =?us-ascii?Q?VAkyoYSFQET1ZMp32z9tM/b4MT+TaBrTSFXYLzNFN0DEs7GUKPRM2adsj0Gi?=
+ =?us-ascii?Q?dZYv9KAVPVn9zmpFZot4OpHx5ZbuARgSXU5Fp/O564WBoZTl6ARrui8TmIxD?=
+ =?us-ascii?Q?9rjdouOnLQDqO4ByDsxo/MKxWJdNonE0W76Hcw4mOqq7mmmO6CQ1pYS+yJ+U?=
+ =?us-ascii?Q?LoUCEmnrZn29IhdtcZEfi22ZCLQSEUkYXP6Jj0cHmuVec7rghPCw91YLBcgx?=
+ =?us-ascii?Q?Y2fdtNrpXPIgztiPHSK7g4O8IkfXZjK4URE/PGJMAH8TqcboJSuTD0m5t5k0?=
+ =?us-ascii?Q?AaHeJWzVynT9z2WpZjnBLenMG781a7Sdu7r3PwDR5YHoPkVzys7fvkh8RhYr?=
+ =?us-ascii?Q?3HpHduV5b9noBjeZqEuZcaf4jLsImOL0CW84ZihixRv4okI926bX13knYTof?=
+ =?us-ascii?Q?SUSDfdfqtTLhHMt8uHPmFEBFcBu74oZeuhjuwcE2UTbNDtEkovPZvnbYq30K?=
+ =?us-ascii?Q?7mtP1s1nUVA1J5OdpwTsE8rpyEHUn/xArp9dC9sAtd7FTYzsPH63ePWFgKtA?=
+ =?us-ascii?Q?a4JqTpyQMOVSHIe1N+4oRag/1wdOocj8PPnvDoG8HQnhJKWTXAONCPRyoWtG?=
+ =?us-ascii?Q?LUUHQpPMNck=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YIolb0lYFm7a6w1XwltIgare2uyZ5a7M8fwAgRh66OAwaXP7Jzed7SwLejeY?=
- =?us-ascii?Q?BqRdBn2VUPrkaNGKD1zwHFonpp/elwTeS2Wofh7Hoq/ek4NOCyGtcKf95+Jx?=
- =?us-ascii?Q?h8M1rKEkIpScrewZ1XypnMmqohzdmMIpdoHhZqwb0a6R1OSpn/JSAFFkZ79t?=
- =?us-ascii?Q?pjABCYrEQRL6BcyXc03H0PgXXhAF+MBpfsjSMoTFE8PRCBKMQ0MR8uElAjpt?=
- =?us-ascii?Q?v/bTD/wZsg2J67ejkfAvBrhwX4p/uL56j6G8H7avASpob5UUggGHeI5S/xDA?=
- =?us-ascii?Q?6oytCPiofoWBga4+lXoxwrcKEWcvmY4LcWvB8wQvhPRGuAmFVT5RCaqrsq3W?=
- =?us-ascii?Q?9Yrof3gtH05ClrQsJrq978nCRN7M4BW4TOmTIih/abJ5nejfx6nkX5pacIi3?=
- =?us-ascii?Q?RbWbEnrUNzO0/9uXC1Iewx5sKJ3t99rvtMCGZGK9zDQjAr0+OM2dvLuix2UE?=
- =?us-ascii?Q?uBGJRmaCTNHcgE3o9u50heTwpFS+wLhS6hp602Tm0k3fG9OXzdDQCF+okL9Q?=
- =?us-ascii?Q?0qC7zOgXvSDQ7xONdUvlJrJFbRDyd0s5LNrw2CKq8FyL6Ems1RKrvlHAfwj9?=
- =?us-ascii?Q?bvWQGPUmcMwQ6O127Or6Dg2rpKVuBj0AAGPQb0SK/rqbGx9/iyDo+Zaj8wnA?=
- =?us-ascii?Q?aMPfAA4LMhBygw2rF2zCxbO7lRZcHnx3D6gEjQeYDucQnPKkE6IgeEIV2T1P?=
- =?us-ascii?Q?3uwBs5kyuZXM9k/zXh22QNfm/c3k1e4OFJmzLOieWvdqhzeJn/ZhEyAoil61?=
- =?us-ascii?Q?qlckSDxzM6TtVXGDAr4QEpepjgac5NoNdSdlP0qN5jasI+amksYWDFsm0FEf?=
- =?us-ascii?Q?JzKP+utn35rM7DjHI4/lHTYSs088gJ6woSSGwflmr606zub4SRvCMhiQYBb+?=
- =?us-ascii?Q?W0EIBm4W5ynLRKwxp8Y/R6J60htqg5gMLGqSGx9a6fWrZfZ73KK9pLw3FNsa?=
- =?us-ascii?Q?H9pY52wLBlXutcq6vYpTsL/LCZu0sL/Ag6Y1e0GBtI+JZjUSlh0ZKBAThXSK?=
- =?us-ascii?Q?Wh9KVdFK642p4R6DmK1bBvyktKPPvVQKlO+za9Dp3wu2uAgv1EomsbZqw+II?=
- =?us-ascii?Q?s+MDyUIoo8ZMc7ciGVPeEuT8jbrALw2URh0Gq1lA4QDSJGM22Ba231dqjliQ?=
- =?us-ascii?Q?tJ2SchACgGqPYmggEbNdQkMmNbDPDDs7aYk7sOgGxtzSxYTCPP8wuASS9ydE?=
- =?us-ascii?Q?d3LEP0jAmPJkxwbMHJEE+4a8mTgwqYfqa0DLEQVu9SwJEzeAwMbFOIXkKxvP?=
- =?us-ascii?Q?mIoFNJxkh2foL2crAmbisWymaaT/R6dxlpDzKcfkdTbePJtRXFOtN/EB0rW/?=
- =?us-ascii?Q?bvLSNXHB9moUaIYES79brBs/2uhTA0uSTS0DSfRaOxMkx1lpmq/FLvNZxuoL?=
- =?us-ascii?Q?VkISbsTqusV3mwG6TX3WVN2tfQ96jyY83gj4LtnAI1nfaVFVc4qOqbCGIJlg?=
- =?us-ascii?Q?gXWVt7WcE05Yp06JSG5PHqJDICWyvV7HfOFWChuyTAs7FFS1QcKw+/qE2PEj?=
- =?us-ascii?Q?WOuTrXj6cJt0/pNotqP/VtP6mng3/vKHoRw2nHw7237FmuGt0fUw2RZi8T8m?=
- =?us-ascii?Q?LfaTyB+bc1ZtGUQVgNiQgZeGPng5DFR4UlukC7NP?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd506992-1ee8-42c8-f9b9-08dd8364dfa5
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?T68KibCuEy2VIUlQyHQVuRuin8TheGchxvTzhBV9r0SgRCn28gMUMCFpRs5P?=
+ =?us-ascii?Q?62Oj7tCjaS/dVjbO1nGDvCBTE3c7Sz7p51/pY4FxArGrInV1C0J6u3MkNBfT?=
+ =?us-ascii?Q?crRYuieWiLkwbBYuUGg+kBkVbcKnqkrnr344yxXGTaZnNVWtHPDADbHgfNk9?=
+ =?us-ascii?Q?3mgGPbAaKACy3XHKlvgxUi94WlTw/D2mwTbymwjQK72k0fH1ctQcXQTuzLfg?=
+ =?us-ascii?Q?bnnB6Q5VOK4DDgZmOVCLOJLfr/YSHusZ3xtwiSmMAw1AYA9EEB1Iz4aKsBks?=
+ =?us-ascii?Q?kiLjCMG01TY2Foc7OySDYCW4MQZbK5ZzOW8bHPmc0N59KqPoFGlYOBkZHnnV?=
+ =?us-ascii?Q?YNmoTOxlhOb4MjXFmu188wFe404pR8vqZ2xxFXT4DIMvL22VZI0gGUZ21UjO?=
+ =?us-ascii?Q?ymbUTCvjFqMznMfud0q/p8A/LQ7oRnzVrWSTtwJBuuOruomXokAzhSBulimP?=
+ =?us-ascii?Q?xu/WncmI8LzCqn7gVMWeKdDO8690IRuwkg2FX/s1W2rMTjpJ3hD63U24sXXh?=
+ =?us-ascii?Q?JQAcy578FN5QuxXBIjeHtMSrx9yI6oFQqf2c+t3qqsc7XXIF2LB5QTDT6cUp?=
+ =?us-ascii?Q?dRx+mlNX5W5OWw+B/isq5Ds3jEnn+bSDNsEaipg2ca8L0R2ZtYB1Ed93b4Zy?=
+ =?us-ascii?Q?oxFS0EIvNlTg1uCNsZ1/CzqcCyt7Ibtx06PcnHUAjyvYa4p3HuiF9brs7AVI?=
+ =?us-ascii?Q?YM5NBrZOb2AdG+RButdC6/bkowfNbbnPhv22FXzhfUWXVnCFtbvxAdA3zvzu?=
+ =?us-ascii?Q?FzUzqVZDLYSp15oN3c8IoEUqCzxcpexsXTKvV1bGYjIFAt+bpyw9b9A6AMlQ?=
+ =?us-ascii?Q?fStmdWHwkJBgmd0wraQPHrmKILR/WkIJxVyOoe8wH/nFaulQhDSDrULRevXq?=
+ =?us-ascii?Q?n3j1/ov4QjxXK3rGztMOZyHTERt11d3xYtvMBuE7V4GRsCqpELAfAS6DnZkm?=
+ =?us-ascii?Q?/9nQFFQtu7V1s7bWESrtnUCrqw3gpCoF9zkEMuaZb8gwMwh43G1T8Cblc1SX?=
+ =?us-ascii?Q?HAeyrdiVHaJYmb2PDsb9SinTGk+axg4LbMX0t6s2pwdh3MlE6wUQkbGBrmSb?=
+ =?us-ascii?Q?+Nfd/c2xZBeWBtybnaXr4vvTQjG/+yMjqmPMsDXNEJ2r953pKS93E836EM8b?=
+ =?us-ascii?Q?q7Pf1dlcfYmKxwritn4ym6BBeN9eR9oUdCXPS52Nt5ezNvShgJlV2t5pPqdy?=
+ =?us-ascii?Q?dnAvb/9aAiH0i1P44X95P+KOQgAox4oz6s6gv819xMB/z3rDa3WkW3vjRqbi?=
+ =?us-ascii?Q?g7e2Vh9byrVDBfc3AjukrGGrqRscbeqLK/vOhq2SQ2TTVnfYpN++8virHCZe?=
+ =?us-ascii?Q?7v1xzFuytTbEkyPsQrv4qzFNeoyrf62ghDyq7dGs3HO5zygM7WEETVf53mRI?=
+ =?us-ascii?Q?R/PE+di8IbjfghXuylH5E5sKgWF9VfW4PMzpTPBmPZ3JUrw68tVJ5tpkUF5L?=
+ =?us-ascii?Q?R9VdPmJ+5Jj/MZdHepzhPwXDAnVtQ9OsoVNbOpi6CdDLN8Rkc0tpBUiEPt72?=
+ =?us-ascii?Q?iu9fZp+W9NxetNWPj1u+IQyBpUW0AEXQeGDqNsFrrHN92N6AQQFXIKuMhGeU?=
+ =?us-ascii?Q?2/KhmU2t6QL+TewOgAzTJAB/Kn4STTENG7DjBcQyUEJ7t+EzTk51ggw5QDnv?=
+ =?us-ascii?Q?sg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d00fdfa6-baa8-4eb5-9020-08dd83670d5f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 19:19:03.1331 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 19:34:38.7572 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hTkDYORE4+/hCGdQf28ebVr/i04bnPxvK8zczLwmfewuOw9bd4hTqYhl7FlXu/Z7DYpsFVa+1y9n6xoftI/hkA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9658
+X-MS-Exchange-CrossTenant-UserPrincipalName: VRtLqJQLgT1PhN3fMbw3INR9bqV4q31EA44xIR9/3L+SI4o259EmyuK20Y9nnUJVVmpRkpTUIi+tb+A6hA0pJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB6001
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,86 +183,244 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 23, 2025 at 05:02:58PM +0200, Danilo Krummrich wrote:
-
-[..]
-
-> > >> +        data.extend_with(len, 0, GFP_KERNEL)?;
-> > >> +        with_bar!(?bar0, |bar0_ref| {
-> > >> +            let dst = &mut data[current_len..current_len + len];
-> > >> +            for (idx, chunk) in dst
-> > >> +                .chunks_exact_mut(core::mem::size_of::<u32>())
-> > >> +                .enumerate()
-> > >> +            {
-> > >> +                let addr = start + (idx * core::mem::size_of::<u32>());
-> > >> +                // Convert the u32 to a 4 byte array. We use the .to_ne_bytes()
-> > >> +                // method out of convenience to convert the 32-bit integer as it
-> > >> +                // is in memory into a byte array without any endianness
-> > >> +                // conversion or byte-swapping.
-> > >> +                chunk.copy_from_slice(&bar0_ref.try_read32(addr)?.to_ne_bytes());
-> > >> +            }
-> > >> +            Ok(())
-> > >> +        })?;
-> > >> +
-> > >> +        Ok(())
-> > >> +    }
-> > ..actually initially was:
-> > 
-> > +        with_bar!(self.bar0, |bar0| {
-> > +            // Get current length
-> > +            let current_len = self.data.len();
-> > +
-> > +            // Read ROM data bytes push directly to vector
-> > +            for i in 0..bytes as usize {
-> > +                // Read byte from the VBIOS ROM and push it to the data vector
-> > +                let rom_addr = ROM_OFFSET + current_len + i;
-> > +                let byte = bar0.try_readb(rom_addr)?;
-> > +                self.data.push(byte, GFP_KERNEL)?;
-> > 
-> > Where this bit could result in a lot of allocation.
-> > 
-> > There was an unsafe() way of not having to do this but we settled with
-> > extends_with().
-> > 
-> > Thoughts?
+On Thu, Apr 24, 2025 at 02:38:10PM +0000, Jonathan Cavitt wrote:
+> Add support for userspace to request a list of observed faults
+> from a specified VM.
 > 
-> If I understand you correctly, you just want to make sure that subsequent push()
-> calls don't re-allocate? If so, you can just use reserve() [1] and keep the
-> subsequent push() calls.
+> v2:
+> - Only allow querying of failed pagefaults (Matt Brost)
 > 
-> [1] https://rust.docs.kernel.org/kernel/alloc/kvec/struct.Vec.html#method.reserve
+> v3:
+> - Remove unnecessary size parameter from helper function, as it
+>   is a property of the arguments. (jcavitt)
+> - Remove unnecessary copy_from_user (Jainxun)
+> - Set address_precision to 1 (Jainxun)
+> - Report max size instead of dynamic size for memory allocation
+>   purposes.  Total memory usage is reported separately.
+> 
+> v4:
+> - Return int from xe_vm_get_property_size (Shuicheng)
+> - Fix memory leak (Shuicheng)
+> - Remove unnecessary size variable (jcavitt)
+> 
+> v5:
+> - Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
+> - Update fill_property_pfs to eliminate need for kzalloc (Jianxun)
+> 
+> v6:
+> - Repair and move fill_faults break condition (Dan Carpenter)
+> - Free vm after use (jcavitt)
+> - Combine assertions (jcavitt)
+> - Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+> - Remove return mask from fill_faults, as return is already -EFAULT or 0
+>   (jcavitt)
+> 
+> v7:
+> - Revert back to using xe_vm_get_property_ioctl
+> - Apply better copy_to_user logic (jcavitt)
+> 
+> v8:
+> - Fix and clean up error value handling in ioctl (jcavitt)
+> - Reapply return mask for fill_faults (jcavitt)
+> 
+> v9:
+> - Future-proof size logic for zero-size properties (jcavitt)
+> - Add access and fault types (Jianxun)
+> - Remove address type (Jianxun)
+> 
+> v10:
+> - Remove unnecessary switch case logic (Raag)
+> - Compress size get, size validation, and property fill functions into a
+>   single helper function (jcavitt)
+> - Assert valid size (jcavitt)
+> 
+> v11:
+> - Remove unnecessary else condition
+> - Correct backwards helper function size logic (jcavitt)
+> 
+> v12:
+> - Use size_t instead of int (Raag)
+> 
+> v13:
+> - Remove engine class and instance (Ivan)
+> 
+> v14:
+> - Map access type, fault type, and fault level to user macros (Matt
+>   Brost, Ivan)
+> 
+> v15:
+> - Remove unnecessary size assertion (jcavitt)
+> 
+> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+> Reviewed-by: Shuicheng Lin <shuicheng.lin@intel.com>
+> Cc: Jainxun Zhang <jianxun.zhang@intel.com>
+> Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+> Cc: Raag Jadav <raag.jadav@intel.com>
+> Cc: Ivan Briano <ivan.briano@intel.com>
+> ---
+>  drivers/gpu/drm/xe/xe_device.c |   3 +
+>  drivers/gpu/drm/xe/xe_vm.c     | 107 +++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_vm.h     |   2 +
+>  3 files changed, 112 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index 75e753e0a682..6816dc3a428c 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -196,6 +196,9 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
+>  	DRM_IOCTL_DEF_DRV(XE_WAIT_USER_FENCE, xe_wait_user_fence_ioctl,
+>  			  DRM_RENDER_ALLOW),
+>  	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
+> +			  DRM_RENDER_ALLOW),
+> +
 
+Extra newline.
 
+>  };
+>  
+>  static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> index 107e397b4987..c20ac51d8573 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.c
+> +++ b/drivers/gpu/drm/xe/xe_vm.c
+> @@ -3600,6 +3600,113 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>  	return err;
+>  }
+>  
+> +/*
+> + * Map access type, fault type, and fault level from current bspec
+> + * specification to user spec abstraction.  The current mapping is
+> + * 1-to-1, but if there is ever a hardware change, we will need
+> + * this abstraction layer to maintain API stability through the
+> + * hardware change.
+> + */
+> +static u8 xe_to_user_access_type(u8 access_type)
+> +{
+> +	return access_type;
+> +}
+> +
+> +static u8 xe_to_user_fault_type(u8 fault_type)
+> +{
+> +	return fault_type;
+> +}
+> +
+> +static u8 xe_to_user_fault_level(u8 fault_level)
+> +{
+> +	return fault_level;
+> +}
+> +
+> +static int fill_faults(struct xe_vm *vm,
+> +		       struct drm_xe_vm_get_property *args)
+> +{
+> +	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->data);
+> +	struct xe_vm_fault store = { 0 };
+> +	struct xe_vm_fault_entry *entry;
+> +	int ret = 0, i = 0, count, entry_size;
+> +
+> +	entry_size = sizeof(struct xe_vm_fault);
+> +	count = args->size / entry_size;
+> +
+> +	spin_lock(&vm->faults.lock);
+> +	list_for_each_entry(entry, &vm->faults.list, list) {
+> +		if (i++ == count)
+> +			break;
+> +
+> +		memset(&store, 0, entry_size);
+> +
+> +		store.address = entry->address;
+> +		store.address_precision = entry->address_precision;
+> +
+> +		store.access_type = xe_to_user_access_type(entry->access_type);
+> +		store.fault_type = xe_to_user_fault_type(entry->fault_type);
+> +		store.fault_level = xe_to_user_fault_level(entry->fault_level);
+> +
+> +		ret = copy_to_user(usr_ptr, &store, entry_size);
+> +		if (ret)
+> +			break;
+> +
+> +		usr_ptr++;
+> +	}
+> +	spin_unlock(&vm->faults.lock);
+> +
+> +	return ret ? -EFAULT : 0;
+> +}
+> +
+> +static int xe_vm_get_property_helper(struct xe_vm *vm,
+> +				     struct drm_xe_vm_get_property *args)
+> +{
+> +	size_t size;
+> +
+> +	switch (args->property) {
+> +	case DRM_XE_VM_GET_PROPERTY_FAULTS:
+> +		spin_lock(&vm->faults.lock);
+> +		size = size_mul(sizeof(struct xe_vm_fault), vm->faults.len);
+> +		spin_unlock(&vm->faults.lock);
+> +
+> +		if (args->size)
+> +			/*
+> +			 * Number of faults may increase between calls to
+> +			 * xe_vm_get_property_ioctl, so just report the
+> +			 * number of faults the user requests if it's less
+> +			 * than or equal to the number of faults in the VM
+> +			 * fault array.
+> +			 */
+> +			return args->size <= size ? fill_faults(vm, args) : -EINVAL;
+> +
+> +		args->size = size;
+> +		return 0;
+> +	}
+> +	return -EINVAL;
+> +}
+> +
+> +int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
+> +			     struct drm_file *file)
+> +{
+> +	struct xe_device *xe = to_xe_device(drm);
+> +	struct xe_file *xef = to_xe_file(file);
+> +	struct drm_xe_vm_get_property *args = data;
+> +	struct xe_vm *vm;
+> +	int ret = 0;
+> +
+> +	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
 
-Ok that does turn out to be cleaner! I replaced it with the following and it works.
+|| reserved[2]
 
-Let me know if it looks good now? Here's a preview:
+Or reduce the number of resereved qws to 2.
 
--        data.extend_with(len, 0, GFP_KERNEL)?;
-+        data.reserve(len, GFP_KERNEL)?;
-+
-         with_bar_res!(bar0, |bar0_ref| {
--            let dst = &mut data[current_len..current_len + len];
--            for (idx, chunk) in dst
--                .chunks_exact_mut(core::mem::size_of::<u32>())
--                .enumerate()
--            {
--                let addr = start + (idx * core::mem::size_of::<u32>());
--                // Convert the u32 to a 4 byte array. We use the .to_ne_bytes()
--                // method out of convenience to convert the 32-bit integer as it
--                // is in memory into a byte array without any endianness
--                // conversion or byte-swapping.
--                chunk.copy_from_slice(&bar0_ref.try_read32(addr)?.to_ne_bytes());
-+            // Read ROM data bytes and push directly to vector
-+            for i in 0..len {
-+                // Read 32-bit word from the VBIOS ROM
-+                let rom_addr = start + i * core::mem::size_of::<u32>();
-+                let word = bar0_ref.try_read32(rom_addr)?;
-+
-+                // Convert the u32 to a 4 byte array and push each byte
-+                word.to_ne_bytes().iter().try_for_each(|&b| data.push(b, GFP_KERNEL))?;
-             }
+Otherwise LGTM.
 
-Thanks.
+Matt
 
-
+> +		return -EINVAL;
+> +
+> +	vm = xe_vm_lookup(xef, args->vm_id);
+> +	if (XE_IOCTL_DBG(xe, !vm))
+> +		return -ENOENT;
+> +
+> +	ret = xe_vm_get_property_helper(vm, args);
+> +
+> +	xe_vm_put(vm);
+> +	return ret;
+> +}
+> +
+>  /**
+>   * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
+>   * @vm: VM to bind the BO to
+> diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
+> index 9bd7e93824da..63ec22458e04 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.h
+> +++ b/drivers/gpu/drm/xe/xe_vm.h
+> @@ -196,6 +196,8 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
+>  			struct drm_file *file);
+>  int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
+>  		     struct drm_file *file);
+> +int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
+> +			     struct drm_file *file);
+>  
+>  void xe_vm_close_and_put(struct xe_vm *vm);
+>  
+> -- 
+> 2.43.0
+> 
