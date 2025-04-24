@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41427A9B1B6
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 17:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DFFA9B1B8
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 17:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A3010E128;
-	Thu, 24 Apr 2025 15:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238C310E143;
+	Thu, 24 Apr 2025 15:08:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="k2BAAqgy";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="knrFdceF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 094E410E07F
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 15:08:27 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DE74E43B28;
- Thu, 24 Apr 2025 15:08:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8A4A10E0A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 15:08:28 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AD7DE43B36;
+ Thu, 24 Apr 2025 15:08:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1745507306;
+ t=1745507307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+Dknd1WYoRwFoYs5Ic/5aWkOPzzA922MzeBd+WtZEH0=;
- b=k2BAAqgyV2SHRY0iWQSduWkBsJXxJ5+pnZZlO5ME8V3jG7ubHVgZksTqDnsBjipOjRnsM1
- 570PSjO/zio9dFb/0K/2PEmzzO7Vgauilp8tNiwBla0g3yc6fRgwJpePnB4nVCkW/pniBA
- 1DwT5m2XH1s8SFoGrETpazF1v9CUhPXn7Dq5kanC5sha4Frt3UFUMb3Ihcjre4thNqZdbA
- pxHID0xubAknh4+Sn3ghEkDMRJNdKnN/Lg6TJBVuWKLL0Pn/PvUfrndGB1vo7HPsnlrVrn
- Yt20jC51t4UNTyr2he0XMk2ugr91uOICr7QKj+887HD4chY/dcx+Z1B90qwiZQ==
+ bh=CT0uhP/bD3mmWh94Vsk3jAq3+/uKPxqbo7WOZFqDn4A=;
+ b=knrFdceFsZK9lIjVUroYIaQSyXY4Kez9+sIzznkPq6HXbvGMP1QP4U+DSd9OuM1NMTQyC9
+ j91xRop5FkFjjJnIyAVhfXqFwI1BO+Jo5r6Hg0OtOs2YDjl53Zi2mOkDm9Ki574XD2K8Z1
+ t+0ZrPqImMIBh0QJAGUDxSTl9zugWnW/F6aLIy41BWCt8u0gS/MU+L5g18TncZJFDrPa9T
+ pPDkIeeVfRz27oH2g4abq9Z8Ie34D7DS84jre1pF9T4nmi11lOx1hLGBAMu4Ca2Se5SncY
+ R+yDW6lP6Rc03NTSYZ5O6ccJtpoSlw+K5pRbiuAhAnj+CgQnI+DrnQgapSxJgA==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Thu, 24 Apr 2025 17:07:41 +0200
-Subject: [PATCH RFC v2 3/5] drm/panel: ilitek-ili9881c: Add support for
- two-lane configuration
+Date: Thu, 24 Apr 2025 17:07:42 +0200
+Subject: [PATCH RFC v2 4/5] dt-bindings: ili9881c: Add Saef SFTO340XC support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-feature_sfto340xc-v2-3-ff7da6192df2@bootlin.com>
+Message-Id: <20250424-feature_sfto340xc-v2-4-ff7da6192df2@bootlin.com>
 References: <20250424-feature_sfto340xc-v2-0-ff7da6192df2@bootlin.com>
 In-Reply-To: <20250424-feature_sfto340xc-v2-0-ff7da6192df2@bootlin.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -74,99 +73,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable support for two-lane configuration which is done by setting the
-LANSEL_SW_EN and LANSEL_SW bits in the Pad Control register.
-
-Use the data-lanes device tree parameter to configure the number of lanes.
-The default configuration remains set to four lanes.
+Document the compatible value for Saef SFTO340XC panels.
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
+ Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Change in v2:
-- Read the data-lanes parameter from the port endpoint and use
-  drm_of_get_data_lanes_count instead of of_property_read_u32.
----
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 33 +++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index 28cd7560e5db1d5734b10babdb4e4e553c6e07d0..2e38dea28336f445cb6a074dbbec006f0659287a 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-@@ -16,6 +16,7 @@
- 
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_modes.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- 
- #include <video/mipi_display.h>
-@@ -1263,6 +1264,21 @@ static int ili9881c_send_cmd_data(struct ili9881c *ctx, u8 cmd, u8 data)
- 	return 0;
- }
- 
-+static int ili9881c_set_lanes_cfg(struct ili9881c *ctx)
-+{
-+	int ret;
-+
-+	if (ctx->dsi->lanes != 2)
-+		/* Nothing to do */
-+		return 0;
-+
-+	ret = ili9881c_switch_page(ctx, 1);
-+	if (ret)
-+		return ret;
-+
-+	return ili9881c_send_cmd_data(ctx, 0xB7, 0x3);
-+}
-+
- static int ili9881c_prepare(struct drm_panel *panel)
- {
- 	struct ili9881c *ctx = panel_to_ili9881c(panel);
-@@ -1295,6 +1311,10 @@ static int ili9881c_prepare(struct drm_panel *panel)
- 			return ret;
- 	}
- 
-+	ret = ili9881c_set_lanes_cfg(ctx);
-+	if (ret)
-+		return ret;
-+
- 	ret = ili9881c_switch_page(ctx, 0);
- 	if (ret)
- 		return ret;
-@@ -1503,8 +1523,9 @@ static const struct drm_panel_funcs ili9881c_funcs = {
- 
- static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
- {
-+	struct device_node *endpoint;
- 	struct ili9881c *ctx;
--	int ret;
-+	int ret, lanes;
- 
- 	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
- 	if (!ctx)
-@@ -1545,11 +1566,19 @@ static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
- 	if (ret)
- 		return ret;
- 
-+	endpoint = of_graph_get_endpoint_by_regs(dsi->dev.of_node, -1, -1);
-+	lanes = drm_of_get_data_lanes_count(endpoint, 2, 4);
-+	of_node_put(endpoint);
-+	if (lanes == -EINVAL)
-+		lanes = 4;
-+	else if (lanes < 0)
-+		return lanes;
-+
- 	drm_panel_add(&ctx->panel);
- 
- 	dsi->mode_flags = ctx->desc->mode_flags;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->lanes = 4;
-+	dsi->lanes = lanes;
- 
- 	return mipi_dsi_attach(dsi);
- }
+diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+index 3a897e464178dfc8a7c70e0fafb51184c50a520b..1e6845454e23bb37f1f7adffd99cd17a5effe68e 100644
+--- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
++++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+@@ -19,6 +19,7 @@ properties:
+           - ampire,am8001280g
+           - bananapi,lhr050h41
+           - feixin,k101-im2byl02
++          - saef,sfto340xc
+           - startek,kd050hdfia020
+           - tdo,tl050hdv35
+           - wanchanglong,w552946aba
 
 -- 
 2.34.1
