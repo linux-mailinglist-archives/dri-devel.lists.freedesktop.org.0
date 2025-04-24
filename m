@@ -2,54 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B202A9A2E3
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 09:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B35EA9A378
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 09:24:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBBD10E73C;
-	Thu, 24 Apr 2025 07:07:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6862110E745;
+	Thu, 24 Apr 2025 07:24:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="aEDdRCNb";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="toHVGeMe";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IsLUglRE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 236FE10E73C
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 07:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=P6dxRnCEmFme6g/XnGOCpWVei/EzbFB1aGY/BAh4xYA=; b=aEDdRCNbvhMJPzYeJqnbcIVWfV
- RqPrtz5v4Y85OjLy1RWhjcyJG4BcSIeSkCDPdDuzZQbVlxsKoje3C9mybzcn3zRz3hLLHcls2VnUw
- AAVLRAzM8ADXstBS+GHsKQDeWl+utUCN7jXv8HlSZE1JIo+R8oebP4Px3Y2XHBTLTC9wZ7MMdoOre
- VqppNQFDecBg62+O0QBarYlfclFaW81SvdQYmx4rmdDvqD2qA2s7KiETawNuLA+wJ5jUQp7lnzkHD
- jH3Tx0g4ZayQpU86e4PUDeb7+coFN8gd3bwzV/08TtjXBk3ZaPW4finJKUotCksxgN4gKkjyMNmwZ
- V+w9p27Q==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1u7qfr-007i8U-Cm; Thu, 24 Apr 2025 09:07:07 +0200
-Message-ID: <e4acf86d-ff22-423d-9769-80316fa96cb5@igalia.com>
-Date: Thu, 24 Apr 2025 08:07:06 +0100
+X-Greylist: delayed 506 seconds by postgrey-1.36 at gabe;
+ Thu, 24 Apr 2025 07:24:36 UTC
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3516B10E009;
+ Thu, 24 Apr 2025 07:24:36 +0000 (UTC)
+Date: Thu, 24 Apr 2025 09:15:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1745478955;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2PCGrdmxoQ3SbHA+7E+kNOmoS0qvn21yo5rrDA+j3rw=;
+ b=toHVGeMeU2cfiS1J7qzC0zNuHQNrnhoBv7pm+YyFA3l0Mqtw5VpFwwyrR8ACkHbSMh8PUZ
+ bRVRhtLFL7PudO4ZIEFTTQ/J5srMRBTxCT/qAgA30CLEX22Kv1EpEIZX9ZWiNwX6MjcEAz
+ RCgJYeR8dj17UUs2MeSz9pP1GOLkmEW9PF0pqfJGKgmrF7YmCDMabd5gNpxAu05vIaGx3T
+ uTk8WkvgRXlPgXe8o4qoF0nDoyC/TCBUGyvXAcMrmh9MVmF5vA5JWpmytYFWDbMdRvUgWV
+ nPPhD9aWKvF5NzI/jNGBRAiMM4MrxlvDJd8IRKmA3NCIm5mcvp+y0pAB8aJ43g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1745478955;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2PCGrdmxoQ3SbHA+7E+kNOmoS0qvn21yo5rrDA+j3rw=;
+ b=IsLUglREf3JqL+7nt64O8XhbXk70GcRbLMhGRAWmAsPhBPqp+BJcAtp61Q84B7+dvXom/5
+ Rc9wphuvfPmPqMBQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Junxiao Chang <junxiao.chang@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] drm/i915/gsc: mei interrupt top half should be in irq
+ disabled context
+Message-ID: <20250424071553.yT9-dWWM@linutronix.de>
+References: <20250424065609.624457-1-junxiao.chang@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/4] Some (drm_sched_|dma_)fence lifetime issues
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
- <phasta@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20250418164246.72426-1-tvrtko.ursulin@igalia.com>
- <29b27ae3-de56-475d-ae85-fd593a011ea3@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <29b27ae3-de56-475d-ae85-fd593a011ea3@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250424065609.624457-1-junxiao.chang@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,92 +72,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 23/04/2025 14:12, Christian König wrote:
-> On 4/18/25 18:42, Tvrtko Ursulin wrote:
->> Hi all,
->>
->> Recently I mentioned to Danilo about some fence lifetime issues so here is a
->> rough series, more than anything intended to start the discussion.
->>
->> Most of the problem statement can be found in the first patch but to briefly
->> summarise - because sched fence can outlive the scheduler, we can trivially
->> engineer an use after free with xe and possibly other drivers. All that is
->> needed is to convert a syncobj into a sync file behind drivers back, and I don't
->> see what the driver can do about it.
+On 2025-04-24 14:56:08 [+0800], Junxiao Chang wrote:
+> MEI GSC interrupt comes from i915. It has top half and bottom half.
+> Top half is called from i915 interrupt handler. It should be in
+> irq disabled context.
 > 
+> With RT kernel, by default i915 IRQ handler is in threaded IRQ. MEI GSC
+> top half might be in threaded IRQ context. In this case, local IRQ
+> should be disabled for MEI GSC interrupt top half.
 > 
-> Yeah that topic again :) The problem here is that this is not a bug, it is a feature!
+> This change fixes A380/A770 GPU boot hang issue with RT kernel.
+
+This should have a Fixes when generic_handle_irq() was introduced. 
+
+> Signed-off-by: Junxiao Chang <junxiao.chang@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gsc.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> IIRC it was Alex who pointed that issue out on the very first fence patch set, and we already discussed what to do back then.
-> 
-> The problem with grabbing module references for fences is that you get trivially into circle references and so basically always preventing the module from unloading.
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gsc.c b/drivers/gpu/drm/i915/gt/intel_gsc.c
+> index 1e925c75fb080..9c72117263f78 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gsc.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gsc.c
+> @@ -270,6 +270,9 @@ static void gsc_init_one(struct drm_i915_private *i915, struct intel_gsc *gsc,
+>  static void gsc_irq_handler(struct intel_gt *gt, unsigned int intf_id)
+>  {
+>  	int ret;
+> +#ifdef CONFIG_PREEMPT_RT
+> +	int irq_disabled_flag;
+> +#endif
+>  
+>  	if (intf_id >= INTEL_GSC_NUM_INTERFACES) {
+>  		gt_warn_once(gt, "GSC irq: intf_id %d is out of range", intf_id);
+> @@ -284,7 +287,18 @@ static void gsc_irq_handler(struct intel_gt *gt, unsigned int intf_id)
+>  	if (gt->gsc.intf[intf_id].irq < 0)
+>  		return;
+>  
+> +#ifdef CONFIG_PREEMPT_RT
+> +	/* mei interrupt top half should run in irq disabled context */
+> +	irq_disabled_flag = irqs_disabled();
+> +	if (!irq_disabled_flag)
+> +		local_irq_disable();
+> +#endif
+>  	ret = generic_handle_irq(gt->gsc.intf[intf_id].irq);
 
-Where "always" is only "while there are active objects from that 
-module", no?
+What about generic_handle_irq_safe() instead the whole ifdef show?
 
-> The decision was made to postpone this and live with the potential use after free on module unload until somebody has time to fix it. Well that was +10 years ago :)
-> 
-> I discussed this with Sima again last year and we came to the conclusion that the easiest way forward would be to decouple the dma_fence implementation from the driver or component issuing the fence.
-> 
-> I then came up with the following steps to allow this:
-> 1. Decouple the lock used for protecting the dma_fence callback list from the caller.
-> 2. Stop calling enable_signaling with the lock held.
-> 3. Nuke all those kmem_cache implementations and force drivers to always allocate fences using kvmalloc().
-> 4. Nuke the release callback (or maybe move it directly after signaling) and set fence->ops to NULL after signaling the fence.
-> 
-> I already send patches out for #1 and #2, but don't have enough time to actually finish the work.
-> 
-> If you want take a look at nuking all those kmem_cache implementations for allocating the fence memory. I think that can be completed completely separate to everything else.
+> +#ifdef CONFIG_PREEMPT_RT
+> +	if (!irq_disabled_flag)
+> +		local_irq_enable();
+> +#endif
+> +
+>  	if (ret)
+>  		gt_err_ratelimited(gt, "error handling GSC irq: %d\n", ret);
+>  }
 
-So enabling dma fence "revoke" so to say.
-
-Just to check we are on the same page, it is not just about the module 
-references, but also use after frees which can happen even if module is 
-still loaded but any memory reachable via dma fence entry points has 
-been freed.
-
-In that case, as Matt has already asked, if you could dig up your 
-unfinished work it would be interesting to see.
-
-Regards,
-
-Tvrtko
-
-
->> IGT that exploits the problem:
->> https://patchwork.freedesktop.org/patch/642709/?series=146211&rev=2
->>
->> Different flavour of the problem space is if we had a close(drm_fd) in that test
->> before the sleep. In that case we can even unload xe.ko and gpu-sched.ko for
->> even more fun. Last two patches in the series close that gap.
->>
->> But first two patches are just shrinking the race window. They are not proper
->> fixes. This is what I want to discuss since I understand reference counting all
->> the involved objects has been rejected in the past. And since the problem
->> probably expands to all dma fences it certainly isn't easy.
->>
->> To be clear once more - lets not focus on how this does not fix it fully - I am
->> primarily trying to start the conversation.
->>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <phasta@kernel.org>
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>
->> Tvrtko Ursulin (4):
->>    sync_file: Weakly paper over one use-after-free resulting race
->>    dma-fence: Slightly safer dma_fence_set_deadline
->>    drm/sched: Keep module reference while there are active fences
->>    drm/xe: Keep module reference while there are active fences
->>
->>   drivers/dma-buf/dma-fence.c             |  2 +-
->>   drivers/dma-buf/sync_file.c             | 29 ++++++++++++++++++++-----
->>   drivers/gpu/drm/scheduler/sched_fence.c | 12 ++++++++--
->>   drivers/gpu/drm/xe/xe_hw_fence.c        | 13 ++++++++++-
->>   4 files changed, 47 insertions(+), 9 deletions(-)
->>
-> 
-
+Sebastian
