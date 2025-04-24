@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC06A9A7D4
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 11:30:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7424BA9A7E9
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 11:31:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2489810E7A6;
-	Thu, 24 Apr 2025 09:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8292A10E7A9;
+	Thu, 24 Apr 2025 09:31:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="f+fO7SZZ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Nonq8wif";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEC6F10E792
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 09:30:48 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53O0F5h8028322
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 09:30:48 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5FF410E790
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 09:30:50 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53O0F6kO003397
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 09:30:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- QywQSn/YHjitxPlBIJbPhSL0qb3ubeGjN/MXA9O/FXo=; b=f+fO7SZZwcAoFk8Z
- 46Ye7IAzGepfF1Ak08qs3OKavxtVBCWWRwN8qEoIzEzVOA6aHiit+tUq1ivF/DYu
- aSsvjnBtGBiWH/NN+OSScwKHElr8FKdE3g3c8N2HS4SQN3PhSmh9wmEjPcOBQU71
- bw0APT4Z3gFSdVj0cuN3vSZJn2JtJtAuhdW3x9Z7dLaDXIABvflwyNVv/pBowE2Q
- GzVY1mZBJeFkYAa9dfirKdHr5c7th7leRs+NhW0+mG5yZcCZqdeWRhQ8rKpHtGg/
- IJSmBxCP+2onbgeGVXFRRBpVijUa3lGZts+22beIdnIjQ2JqLG6VR8l/SMtBgVG9
- 8bhK0w==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jgy4yya-1
+ mJipZcZZWH1q+GPZjyCUn13cwL4q5wMDd8S9OaXiPQE=; b=Nonq8wifbCmkLCqr
+ E4UJ4AsWLcoudxwqiP4aRkSOfnjqjTWLPYtKaCH20w45oAIuuUhqAcQxaH4+eVDc
+ WmKFgQyBfbrjPM1TYd1pTXSHgEhcKOU/CWXyClM7SADQ05ud2/iYIXTUGdShModZ
+ XVhl/2qAZCnV8caTPO7FP4i4du36UaCpHgHCtsMqzl3ed7smU6JPMGO3Sc4mx2un
+ H6GXaG8hhv4sKTmz1om9MFbNyKnhs7XA6gvsW5CMfFRRws6RLz2XpKtrGqAX6HQu
+ 3mhUuy3lNGomgL32187YruD9bhAT84/3HyMDDXq4OGDoukXGP+WYfq8i2fLK0sXC
+ EigGaA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh0my97-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 09:30:47 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7c5bb68b386so231195585a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 02:30:47 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 09:30:49 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7c53e316734so137407785a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 02:30:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745487047; x=1746091847;
+ d=1e100.net; s=20230601; t=1745487049; x=1746091849;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QywQSn/YHjitxPlBIJbPhSL0qb3ubeGjN/MXA9O/FXo=;
- b=Dlvkn/SXr4wkOwfKh5JYgX03tiSTscVjE8fYDUWmPgScYQCdvta7WFDr5S1ZT9PeBP
- q1bYSZzM0HsdQtVij7uMYdqrdFaXWj0F6EV14ieWt00AofXY6QYmWt8G7iZdmHJSvyPg
- qaKBQfrzanip09AhUA/lnx23B5/dGPJ8KwJ/gXWXX50lpZMKM2mN3N7odYuWzYbrcbUj
- CbZtfSwMdiKOdehnq0sm1H6OyWK8EV9iz7hRZRpceenRUEry9lLDes/6v3/zgWHFRC3v
- DJnRTH7lDXwvnUHSa0bHh5GDn8nIc0Jzww5ZtxQuDeteTzvZqNmb5ipkR0qel70KzXVJ
- FKuw==
+ bh=mJipZcZZWH1q+GPZjyCUn13cwL4q5wMDd8S9OaXiPQE=;
+ b=Zo1q016Hr2vADzrMiEMRczJnGZfd7UEbt1h/vkmbPtjLAXy73z6mAals04qVApFxNv
+ RcmHBTe3xUHvZPbkJ4HO8cw5v4aAb0eZoH9brUkfpxnOLjdHXmxhbfan6FrbW9GJHPnW
+ l1gk7zSg4zjdusXf9DKpMUrred8Qxx1R8cmAetr0rMeCVYsqoMq/pxKPSOR+rJPIEBUr
+ ACGcAG67bznLgOv1CIFdRAcMAVo//UHDFqdNAWO87R1u7KsFnocXvSlHkMyKntKj/WyL
+ Y6Aml1fCLez7Yl0ExCw/p48UhSwr80ABq9KpIrUn2huMMEr1wAXt81uX83WFz8Nekn9D
+ frXA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU9RNiYgSFH/PnZPH/aj+BcrNrFHCu6YqW+m2KVHqKEHyRp5toPIYZjY6OVgT7Sh3MhKV0E08xg+y4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxdLJZfFBb1XD1TLC5H3j8yQqB/rR5KGr3wVMHihI6qpY+gx1C8
- EYxymxOk1ugt/kJlN++mCtCktmEG6HbYYPFY6vWC3YQPj55AyBPx3Ej8dxnVm5XNzOhbSD5Gf2g
- +4ZQKzsBsTXBiGcXRHp3KlN2MspxH5iywl9e3kdnuzTBejw3oz8P76g3iDNyeH1uIvvg=
-X-Gm-Gg: ASbGnctX1DTNIMwntXhbxtuBGLaJrff2rfJvKl5nU+gaahXKj3KapTcqj/B7CDyasZ9
- MB0E2uErs//r1BP0L7/J/0L7zk/3IXUaxreCn5yq4rs7QatpdzBH2/jYMVf2+BBJ/ekS+9FIOAq
- u3NiOdLgeY2O5WdETTekwZVXhKVDpQsZIOCjcfKjqcHf/eo2r5nMn0UcFu36Yoz1NhaHnXs17eC
- Ek9xrLNOVzvSeVmkf2avC29HZHdd+xfq2gaUhiZNvpHPNfzpYvCYdpLcc812NhgB3TMc2PNh1Gv
- xFzv22d0aX74fWka0I7OCqNDTPL+VkGMHgW1Dbi0xpW/TTyc6dlH4mAwWOD4+O35+bJmzAKMeak
- jT8J+sPTVId9zmaMHeazNXoXy
-X-Received: by 2002:a05:620a:4248:b0:7c9:1523:3f17 with SMTP id
- af79cd13be357-7c956f60603mr265151385a.57.1745487046521; 
- Thu, 24 Apr 2025 02:30:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHYXB3qqSao1dvcIQQrC/bcdm4MO4pX3tX178JHk99SvJsxRtFn1KxSr1x2fmrSYlsEquMDTA==
-X-Received: by 2002:a05:620a:4248:b0:7c9:1523:3f17 with SMTP id
- af79cd13be357-7c956f60603mr265146385a.57.1745487045996; 
- Thu, 24 Apr 2025 02:30:45 -0700 (PDT)
+ AJvYcCWKnX6L4oVQeylWXqMx0cKcQp0sLFXdzmu0y9/16y+PRyO3vzTlElpbSwOOZukVO0I+hQ2sD4rMS7Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy6Ut3be1SgCMu7WFv8SenG8/sBQXLf/JuySGqgvzRlOpM/MIQ4
+ 7xghQsjVFwiXgZ26gHz2qY/vGI2AdEIBqSPnxME/AB53nBzo5BR8oJ4LdLyhPk3we+0TyoMyI97
+ LfpoX9VUnGcrYG0G1nXvgJ/BnI3UEpINN33rfc2gwbVcJWCrI8lSFdoZvMybjJDBKdj0=
+X-Gm-Gg: ASbGnct2xH4lwbsqZCz7GoHePAV8S6H2Fg1q3/vmrKd1z0V1IONwAj/CeczomHYQPdE
+ wqyH9kaw0z9Fbqv+UVA2D7qjGuHGJhXVvicBAPmP7hgLDeeVbddJE/OYNNEOn+bTXbGOj7rvX7k
+ 0nSmlddjcvlLtw9ARmRT2/fR5UXELAL/Vps6exg+syglE/AF6duKgkTcihkV2rK4iMmpZ2hZnku
+ GHl26uVTxAHhN6039RJyue4MN1fBezbFzG4dz/ELPincKtBcaKh8WFby45sM6nq6E7EGQr11D+f
+ ZYgzOr73uxC/BFdWYGXimQWccZUIhuPOD1W1nSd4UIR/rg1b/DAn1KPlfYHTaYSH4V70CtY9hT2
+ JbUVB1JzUHFyJGGCnR/wiwBPZ
+X-Received: by 2002:a05:620a:1794:b0:7c5:5909:18e5 with SMTP id
+ af79cd13be357-7c956e7d446mr326879185a.3.1745487049294; 
+ Thu, 24 Apr 2025 02:30:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFBQmRn7SKcjUSTbGIjxqsPY4wEMu/CWMSRP8MryisNW1tohurPxko9cDIUFwhuJlclwe9QsQ==
+X-Received: by 2002:a05:620a:1794:b0:7c5:5909:18e5 with SMTP id
+ af79cd13be357-7c956e7d446mr326875185a.3.1745487048943; 
+ Thu, 24 Apr 2025 02:30:48 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-317d1b9a304sm1820461fa.99.2025.04.24.02.30.44
+ 38308e7fff4ca-317d1b9a304sm1820461fa.99.2025.04.24.02.30.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Apr 2025 02:30:45 -0700 (PDT)
+ Thu, 24 Apr 2025 02:30:46 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Thu, 24 Apr 2025 12:30:17 +0300
-Subject: [PATCH v3 13/33] drm/msm/dpu: get rid of DPU_DATA_HCTL_EN
+Date: Thu, 24 Apr 2025 12:30:18 +0300
+Subject: [PATCH v3 14/33] drm/msm/dpu: get rid of DPU_INTF_STATUS_SUPPORTED
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-dpu-drop-features-v3-13-cdaca81d356f@oss.qualcomm.com>
+Message-Id: <20250424-dpu-drop-features-v3-14-cdaca81d356f@oss.qualcomm.com>
 References: <20250424-dpu-drop-features-v3-0-cdaca81d356f@oss.qualcomm.com>
 In-Reply-To: <20250424-dpu-drop-features-v3-0-cdaca81d356f@oss.qualcomm.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -92,40 +92,39 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2745;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2459;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=RMvwZw2IoUGRGV6OIhReHxHfhgm4YrJasKj5L020giI=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoCgSsrXBB/I40QUDXp7j0Pla/+E9TO3fFw7wQC
- IshmHo6E+eJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaAoErAAKCRCLPIo+Aiko
- 1eZEB/4sSFKY1+3onz1ptOWEABhrbuoYH6l8WyhMjFTRKQLJEzl5fOI19kQvvs6fi7qA7Kb/fnm
- qPZOLtqlGi4VWE75FAqi7F8ymnxcFWihZvu/rBDjgk/k0t4uIjFjUbmuZa7mkzdAtYHOU/oRQwn
- KBZcHjR3f70lmuLUvW06LbWzVYT+jKk6F/EAKofVdm7DneGFo6Af096FbWsxxCWND+988H+WFIA
- bjNndujTIRnb9qCXz3UlfZgvDsFQrTk39+a7S8+9FMB9kiUmsfsrR7ADczNTl9//KVpI6h4LiIA
- mcIO0FCMKHuUmAZaiVcYlkxIpEyQyL9RzvnTAuyKCcGAllX0
+ bh=Nt4QhnpHTNYrhzhqV0xbi5+n74LJmsNMY4VbVunyJu8=;
+ b=owEBbAGT/pANAwAKAYs8ij4CKSjVAcsmYgBoCgSt5uuV1bwUk5DQ4vQkc/FrwRESt2DWna1p0
+ zQoy8eeh6GJATIEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaAoErQAKCRCLPIo+Aiko
+ 1UZUB/dSUNDw61C3xWnyNFZGuOISsMOOeIDbwgFQ1wDsmxaKY820q07g40rgZ/jKh0prEf7XsmO
+ C84OnR0tvenNeIvXZm8sZsdkRJNU020kjboki6Vqkmsax4Ep3wq7AO1EKashj7zmJlOD5iUXmGC
+ /fM7entgLttcNsyxwhK515VCsxvazBjGD69tk/9xPDmrje/LPtvt7APsgR6AvjHuWBpTVV9A+wS
+ kLTvq1xTz5KU/ZlLtsOgAB+A1tgJytgfIvqL929trBGoE+no6fM4G9YMEE3PIyLBT9xAbDw7PDg
+ 0gMgrV1By9pnPaoOvSuU61HaZ0ap1pb0iPeLu43FByx4Vto=
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI0MDA2MyBTYWx0ZWRfX/+Vexpuf6dXb
- cvyJwpuQuzxAwKflJKeSpnuQdv780UVbaKogyVHrCiUdWlwSLLQo0Hk5IEm06qrCuYQQgs+E5HP
- ASeaWzyvg+IHqTqdSxecVrhZs7GCXxwr3GrsuajnDQIsHyvr3oDbJZiDc26kjx/xNEr47Uku6gd
- 2vrTiEiIpnyCQa8rN6y5rc+bkniq7P8pcDCTu9bymQ3ynVP/0NudIngWwMY2dc/cdkAEA9rjmvb
- nC6nsm73S03arEYYztIgNAQfOKAhdX6i86l0d8ZDpowpX4XILSzf+02izCUvvEsAiCOKqtZ2892
- b/gYA8xqBaHt9UvN1c/pYZ0L/FfcEGXZs4orhkIcykPxgWLALoo36VZaarCnP0llxaE5YVOf8bM
- wC6Aj05kRV7u810cWAIofntUkr8GKUhW2m04Js8Olc4AFiTlGi4ZyoAloj4Eh2vrZLB4RDkp
-X-Proofpoint-GUID: Y4F48sGj-7yeI_9MnNC5_3PFENA-auQX
-X-Proofpoint-ORIG-GUID: Y4F48sGj-7yeI_9MnNC5_3PFENA-auQX
-X-Authority-Analysis: v=2.4 cv=M5VNKzws c=1 sm=1 tr=0 ts=680a04c7 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=BlGH1-kmwhya4yQ-KWAA:9
- a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: GskKdGXoY0Nwt2EMuhzPYq48ZkHeyo6b
+X-Authority-Analysis: v=2.4 cv=ftfcZE4f c=1 sm=1 tr=0 ts=680a04c9 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=z6iiZyybfqEMMI01lysA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: GskKdGXoY0Nwt2EMuhzPYq48ZkHeyo6b
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI0MDA2MyBTYWx0ZWRfX8VE1NHckssdo
+ H6E33SkV7OKCpLqaGC81os5Lle9DfrxzrSUSOG0X95DfFR01RbgcDv//OkNKbiv47JELrBFaqNT
+ 0++LtfVLagXn4NGSKWLYHM4jNXRd5p9ousDw33u8+1lR088FmvgeyJznszgxWJKYRHdmHmAmAFl
+ 68+5V0QAlKQE4ub52zo+xIbIit2fYK+OeKQRVOjGfTyn47JlN82h9i8PiXAcoSoqP6t6Ommkgq5
+ AsPmVeHNSW96E7KA44NhsZJzrvBCpBpfT3SHInRDMtINsjim0o73SNwy6l2MY+uEUV/hDART8co
+ l70Abqi4WnVnS5p7gVpnq4FBL2E98cBCwQD7d/jcFApAagHdSjr6lk7J1VdDVc6KNagM+GWxgBD
+ DQniG8NbeWlXTRIKKz4gJPY3d/yrW4WMDw13Bq0bNHPXgzz7QSF14XnW9Yhf2Jk0ZNydkglc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
  definitions=2025-04-24_04,2025-04-22_01,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- mlxlogscore=999 malwarescore=0 impostorscore=0 clxscore=1015
- suspectscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ bulkscore=0 mlxscore=0
+ suspectscore=0 mlxlogscore=999 lowpriorityscore=0 phishscore=0
+ malwarescore=0 impostorscore=0 adultscore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
  definitions=main-2504240063
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -146,62 +145,62 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 Continue migration to the MDSS-revision based checks and replace
-DPU_DATA_HCTL_EN feature bit with the core_major_ver >= 5 check.
+DPU_INTF_STATUS_SUPPORTED feature bit with the core_major_ver >= 5
+check.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 3 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 3 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c    | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c    | 3 +--
  3 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 22ca093419059600f0ad7e1e7a0a4e443b977860..20f4700ef9969003cfa4728049b9737cb9eb6229 100644
+index 20f4700ef9969003cfa4728049b9737cb9eb6229..8808be27593b303a2a199a740827c92ea5339b0d 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -112,8 +112,7 @@
+@@ -111,8 +111,7 @@
+ 	(BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_DSC))
  
  #define INTF_SC7180_MASK \
- 	(BIT(DPU_INTF_INPUT_CTRL) | \
--	 BIT(DPU_INTF_STATUS_SUPPORTED) | \
--	 BIT(DPU_DATA_HCTL_EN))
-+	 BIT(DPU_INTF_STATUS_SUPPORTED))
+-	(BIT(DPU_INTF_INPUT_CTRL) | \
+-	 BIT(DPU_INTF_STATUS_SUPPORTED))
++	(BIT(DPU_INTF_INPUT_CTRL))
  
  #define WB_SDM845_MASK (BIT(DPU_WB_LINE_MODE) | \
  			 BIT(DPU_WB_UBWC) | \
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 27422a5a340b90ee02f36a87cf1bab9d97504c76..36100e21135fba09fcafdd5d36ac919cd17f63c0 100644
+index 36100e21135fba09fcafdd5d36ac919cd17f63c0..858fd73e0ac3a92fe402001d4796eb86945f61b0 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -145,14 +145,11 @@ enum {
+@@ -145,12 +145,10 @@ enum {
   * INTF sub-blocks
   * @DPU_INTF_INPUT_CTRL             Supports the setting of pp block from which
   *                                  pixel data arrives to this INTF
-- * @DPU_DATA_HCTL_EN                Allows data to be transferred at different rate
-- *                                  than video timing
-  * @DPU_INTF_STATUS_SUPPORTED       INTF block has INTF_STATUS register
+- * @DPU_INTF_STATUS_SUPPORTED       INTF block has INTF_STATUS register
   * @DPU_INTF_MAX
   */
  enum {
  	DPU_INTF_INPUT_CTRL = 0x1,
--	DPU_DATA_HCTL_EN,
- 	DPU_INTF_STATUS_SUPPORTED,
+-	DPU_INTF_STATUS_SUPPORTED,
  	DPU_INTF_MAX
  };
+ 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-index 1d56c21ac79095ab515aeb485346e1eb5793c260..8f9733aad2dec3a9b5464d55b00f350348842911 100644
+index 8f9733aad2dec3a9b5464d55b00f350348842911..54c2e984ef0ce604e3eda49595d2816ea41bd7fd 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-@@ -237,7 +237,7 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *intf,
- 	DPU_REG_WRITE(c, INTF_FRAME_LINE_COUNT_EN, 0x3);
- 	DPU_REG_WRITE(c, INTF_CONFIG, intf_cfg);
- 	DPU_REG_WRITE(c, INTF_PANEL_FORMAT, panel_format);
--	if (intf->cap->features & BIT(DPU_DATA_HCTL_EN)) {
-+	if (intf->mdss_ver->core_major_ver >= 5) {
- 		/*
- 		 * DATA_HCTL_EN controls data timing which can be different from
- 		 * video timing. It is recommended to enable it for all cases, except
+@@ -308,9 +308,8 @@ static void dpu_hw_intf_get_status(
+ 		struct dpu_hw_intf_status *s)
+ {
+ 	struct dpu_hw_blk_reg_map *c = &intf->hw;
+-	unsigned long cap = intf->cap->features;
+ 
+-	if (cap & BIT(DPU_INTF_STATUS_SUPPORTED))
++	if (intf->mdss_ver->core_major_ver >= 5)
+ 		s->is_en = DPU_REG_READ(c, INTF_STATUS) & BIT(0);
+ 	else
+ 		s->is_en = DPU_REG_READ(c, INTF_TIMING_ENGINE_EN);
 
 -- 
 2.39.5
