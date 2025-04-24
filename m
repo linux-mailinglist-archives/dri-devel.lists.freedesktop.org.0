@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07E4A9B6F6
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 20:59:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8B7A9B6F9
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 20:59:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00AD110E45C;
-	Thu, 24 Apr 2025 18:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C2DC10E457;
+	Thu, 24 Apr 2025 18:59:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JmNT1LA5";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Kb7Vrjp0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1124E10E457;
- Thu, 24 Apr 2025 18:59:40 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7AD29443A8;
- Thu, 24 Apr 2025 18:59:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9272310E45E;
+ Thu, 24 Apr 2025 18:59:44 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F01464439D;
+ Thu, 24 Apr 2025 18:59:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1745521179;
+ t=1745521183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qAMpzkdcu4YyVXcoriylpHMenEacmOqIz6YdxYu79ZI=;
- b=JmNT1LA5zC55ZojbXdHDx0DmJrHd2HHJZ1lX5pceXf5FVQnP8XIQBgHgoVwCfXmemV8Ywc
- 3dnbTrHTCh1m/p0ROnPLPqXN9Mi3N7qh8IVm/szGJeu27NaJmybtqKk0fQugGFpMOLG746
- +h92aKduZj1xdvVY6ipAMgxF2bzewMoMxPekooWmOhTaIsPQzV+xq2nkQ52KbfdB65iH8y
- 8dFcvBCMcjXGCativimBTNi+4EzQNVjm/juF2w25zQ3Eq05AUQfsNE9lre1y/tDN+Nz48E
- Aq8G+wxEWeAPuqZQ2W4xH2DvTpNRqR0MlTo7wx8N/QVvYGUnXbd/4bcN9Y+sAQ==
+ bh=9nLzTz3Q2iFU/gJhPDdrA5oYK+YrTFClvIKrxPpKn1o=;
+ b=Kb7Vrjp0+BImCXRWAobIoRNPKUtSkPur8xhgqTv8rxfwvUv5AWQt66eGTjsSnHPSNCn17c
+ BGiwN4uueuoAJYFItr4TifgWkV309MdynP+FvsgUFkcnXofk4Daqf4fumCdtg5O6q6M9eM
+ m9lM0X8L7h+1hTlqe8Uu9MwAW1jrzUBofhgCRaEVxDtzFpk6eHg2Wc+Odj/KbtP6nZmOM8
+ al/Ou9xLkPd3M1DrHZw2eSBDVu0oZo2HikYRrcgRCINZl2ZVm2QiP43pjvE8hyxRFi/svM
+ N9h5BrC0D2NpR5DNfSms6U4ASdmQvuPzbkzSYKGjqoTOwnpei9LbIblopHPsHA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 24 Apr 2025 20:59:10 +0200
-Subject: [PATCH v2 03/34] drm/bridge: analogix-anx6345: convert to
+Date: Thu, 24 Apr 2025 20:59:11 +0200
+Subject: [PATCH v2 04/34] drm/bridge: anx7625: convert to
  devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-3-8f91a404d86b@bootlin.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-4-8f91a404d86b@bootlin.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -66,15 +66,15 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Jani Nikula <jani.nikula@intel.com>, Sui Jingfeng <sui.jingfeng@linux.dev>
+ "Rob Herring (Arm)" <robh@kernel.org>, 
+ Hsin-Te Yuan <yuanhsinte@chromium.org>, Jani Nikula <jani.nikula@intel.com>, 
+ Pin-yen Lin <treapking@chromium.org>, Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Xin Ji <xji@analogixsemi.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefffffgfefghfettedtfeehgfdtveekhfekudeiueetkeehleetveetjeffhedugeenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeggedprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtp
- hhtthhopehimhigsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheprghnugihrdihrghnsehrohgtkhdqtghhihhpshdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeghedprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopeihuhgrnhhhshhinhhtvgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhto
+ hepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrtghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhm
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,41 +97,42 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Cc: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
-Cc: Andy Yan <andy.yan@rock-chips.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Hsin-Te Yuan <yuanhsinte@chromium.org>
 Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Pin-yen Lin <treapking@chromium.org>
 Cc: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Xin Ji <xji@analogixsemi.com>
 ---
- drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-index f2bafa6cf77956ecafc87aae3a2b6890bdb36cfa..f3fe47b12edca1f92ddd306d152be144df5649b5 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-@@ -664,9 +664,10 @@ static int anx6345_i2c_probe(struct i2c_client *client)
- 	struct device *dev;
- 	int i, err;
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 8bfe477c476c045f8a08b6d646da7bae77693fdf..bdf8f7762e0c19d19e4c60ca0841edfc3625592c 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -2581,7 +2581,6 @@ static int anx7625_link_bridge(struct drm_dp_aux *aux)
+ 		return ret;
+ 	}
  
--	anx6345 = devm_kzalloc(&client->dev, sizeof(*anx6345), GFP_KERNEL);
--	if (!anx6345)
+-	platform->bridge.funcs = &anx7625_bridge_funcs;
+ 	platform->bridge.of_node = dev->of_node;
+ 	if (!anx7625_of_panel_on_aux_bus(dev))
+ 		platform->bridge.ops |= DRM_BRIDGE_OP_EDID;
+@@ -2616,10 +2615,10 @@ static int anx7625_i2c_probe(struct i2c_client *client)
+ 		return -ENODEV;
+ 	}
+ 
+-	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+-	if (!platform) {
++	platform = devm_drm_bridge_alloc(dev, struct anx7625_data, bridge, &anx7625_bridge_funcs);
++	if (IS_ERR(platform)) {
+ 		DRM_DEV_ERROR(dev, "fail to allocate driver data\n");
 -		return -ENOMEM;
-+	anx6345 = devm_drm_bridge_alloc(&client->dev, struct anx6345, bridge,
-+					&anx6345_bridge_funcs);
-+	if (IS_ERR(anx6345))
-+		return PTR_ERR(anx6345);
++		return PTR_ERR(platform);
+ 	}
  
- 	mutex_init(&anx6345->lock);
- 
-@@ -738,7 +739,6 @@ static int anx6345_i2c_probe(struct i2c_client *client)
- 	/* Look for supported chip ID */
- 	anx6345_poweron(anx6345);
- 	if (anx6345_get_chip_id(anx6345)) {
--		anx6345->bridge.funcs = &anx6345_bridge_funcs;
- 		drm_bridge_add(&anx6345->bridge);
- 
- 		return 0;
+ 	pdata = &platform->pdata;
 
 -- 
 2.49.0
