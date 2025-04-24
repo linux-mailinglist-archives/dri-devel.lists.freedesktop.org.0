@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F53EA9B72F
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 21:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42A1A9B733
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 21:00:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F46A10E47D;
-	Thu, 24 Apr 2025 19:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 046A410E468;
+	Thu, 24 Apr 2025 19:00:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pQMczLIL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="AHBO3cSn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6D210E469;
- Thu, 24 Apr 2025 19:00:27 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E319A443B3;
- Thu, 24 Apr 2025 19:00:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 199A910E456;
+ Thu, 24 Apr 2025 19:00:30 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 78484443AC;
+ Thu, 24 Apr 2025 19:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1745521226;
+ t=1745521229;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=awOAgPr+q9DGYzVpOVBJHCkywDHS7z4YfF9zqbhhY3E=;
- b=pQMczLILzKuJkaulIGp6r0PStM9jRLLxTMnQ06sHx7IYAmzZXBpo+b13XmiaQpvYCrIvqx
- l0MazCepyoM9jhjV81zKU/5+cNO8q4pJLjNmuM1tjsCTIN7DSANOnwVIu2xfl3MNk3cuTq
- kY6nvJw64X5OSYJpkh8lcwKwzzD7NLFyME58qdpKa03R1dd5bgkbLVSEibVIaD063JwWnd
- mN3Hm8xNCAGEQbs6kW7kzqJPI0MO3EoSOB8QnxoUmBzC2SlVxHukTeflJ7V+7hOMny1QbL
- 9a3InPCYjbeVLMD24XZA2hpHqoXj/EuEFi6WppyM4GjxWl+SvpcEowmGDxctVg==
+ bh=mNTgUWBvtvv4Qf1nv78qeW45KkcYs2taInShiyx+5BU=;
+ b=AHBO3cSnlAT5W6+xeqZ5dCSvEuoyNYYP6IGvNh+PHhwGMhWeO4qSLmT9jXuRthzv6+piXZ
+ EBTu/IJ4Uc/+9NOd8QaEbRiqwS1CduDJzDgCGAYbQx+yXst8GxuyAGFupOt7u+ICwn5ZoA
+ vopCPuQetFXsaPOTMGPNctYsc8fmnjuUmKebIs2vxMeaAa/QUHp98aQR+WnDsv/01KXRmr
+ KRG1KVitjWvL6stQVDxXVv83x8FpbhwkcKdx/J2cP/XpXaQj4rLbjJ7qlJMutMl6KeCEjU
+ THA+ahpHGJbRymXkFQXJF46xKWUvuZclIicPQP6YXjHXWCk7/wROBHy8oBTKyA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 24 Apr 2025 20:59:24 +0200
-Subject: [PATCH v2 17/34] drm/msm/dsi: convert to devm_drm_bridge_alloc() API
+Date: Thu, 24 Apr 2025 20:59:25 +0200
+Subject: [PATCH v2 18/34] drm/msm/hdmi: convert to devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-17-8f91a404d86b@bootlin.com>
+Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-18-8f91a404d86b@bootlin.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -101,33 +101,34 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>
 Cc: Rob Clark <robdclark@gmail.com>
 Cc: Sean Paul <sean@poorly.run>
 ---
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 9 ++++-----
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 9 ++++-----
  1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 72ada9f2f043d2278e3ff2ff499fb52502330c68..ca400924d4eea89732905997d087e442ba9f336e 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -462,15 +462,14 @@ int msm_dsi_manager_connector_init(struct msm_dsi *msm_dsi,
- 	struct drm_connector *connector;
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+index ab6c8bc4a30b681f7de8ca7031f833795d1f7d94..7f71956806a25a1ab23293284da83ed4a8759c98 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+@@ -498,16 +498,15 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
+ 	struct hdmi_bridge *hdmi_bridge;
  	int ret;
  
--	dsi_bridge = devm_kzalloc(msm_dsi->dev->dev,
--				sizeof(*dsi_bridge), GFP_KERNEL);
--	if (!dsi_bridge)
+-	hdmi_bridge = devm_kzalloc(hdmi->dev->dev,
+-			sizeof(*hdmi_bridge), GFP_KERNEL);
+-	if (!hdmi_bridge)
 -		return -ENOMEM;
-+	dsi_bridge = devm_drm_bridge_alloc(msm_dsi->dev->dev, struct dsi_bridge, base,
-+					   &dsi_mgr_bridge_funcs);
-+	if (IS_ERR(dsi_bridge))
-+		return PTR_ERR(dsi_bridge);
++	hdmi_bridge = devm_drm_bridge_alloc(hdmi->dev->dev, struct hdmi_bridge, base,
++					    &msm_hdmi_bridge_funcs);
++	if (IS_ERR(hdmi_bridge))
++		return PTR_ERR(hdmi_bridge);
  
- 	dsi_bridge->id = msm_dsi->id;
+ 	hdmi_bridge->hdmi = hdmi;
+ 	INIT_WORK(&hdmi_bridge->hpd_work, msm_hdmi_hotplug_work);
  
- 	bridge = &dsi_bridge->base;
--	bridge->funcs = &dsi_mgr_bridge_funcs;
- 
- 	ret = devm_drm_bridge_add(msm_dsi->dev->dev, bridge);
- 	if (ret)
+ 	bridge = &hdmi_bridge->base;
+-	bridge->funcs = &msm_hdmi_bridge_funcs;
+ 	bridge->ddc = hdmi->i2c;
+ 	bridge->type = DRM_MODE_CONNECTOR_HDMIA;
+ 	bridge->vendor = "Qualcomm";
 
 -- 
 2.49.0
