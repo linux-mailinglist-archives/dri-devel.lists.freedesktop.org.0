@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6177A9AD43
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 14:24:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4F8A9AE04
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 14:53:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC2A010E31C;
-	Thu, 24 Apr 2025 12:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F13310E7E5;
+	Thu, 24 Apr 2025 12:53:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AwMt9hiz";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=robert.mader@collabora.com header.b="i26E65Ep";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDE1710E31C
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 12:24:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1745497463;
- bh=EPY4acWajNcExtL2mcawm0yfatLm/mqsxg6yAKcSxr4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=AwMt9hizlsUfdTJa22FZiJuTZaWs5y7Pq9Ov9K8ft1YhS2qaotOIhTNyTQwysKZlm
- QRzX9q1Li8BeZeBQbzr9o5QIqlwcBjfMrdVUNQsbBzt5Sh+r1EDFIDl2Au7zbWcADS
- dXxfGflQ7Dr+Tgk5ccJlW0vJIMa46rWTaQ+GbrIqu3v3nCzCr+W9M7LaWHf9PTj47J
- D/t1OAKQ1w12LqLGJatGVgQrRCzrcRLbKyrBCgeUbutUY8kLZ4x9CTB9uePE4CrM2t
- EKhozYI+i823fwXoJdPoir4Ls1fffTm26pgnhV0jihtzIjkji/D920CpJFy60om/nN
- +T6soN5qS+WTA==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4F18317E3610;
- Thu, 24 Apr 2025 14:24:23 +0200 (CEST)
-Date: Thu, 24 Apr 2025 14:24:19 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Arnd Bergmann" <arnd@kernel.org>, "Steven Price"
- <steven.price@arm.com>, "Liviu Dudau" <liviu.dudau@arm.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, "Dmitry
- Osipenko" <dmitry.osipenko@collabora.com>, "Florent Tomasin"
- <florent.tomasin@arm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: fix building without CONFIG_DEBUG_FS
-Message-ID: <20250424142419.47b9d457@collabora.com>
-In-Reply-To: <41cd0579-698c-4e1e-82c4-3d46a1cd5e3e@app.fastmail.com>
-References: <20250424112637.3432563-1-arnd@kernel.org>
- <20250424134105.087ec2f8@collabora.com>
- <41cd0579-698c-4e1e-82c4-3d46a1cd5e3e@app.fastmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0951C10E7E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 12:53:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1745499204; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Fp2+HnHkcZ+B4Vsrl+glV81tXHzXNTbcHnXWJ1Wde+vr8rwCnUMFUcoJ7W6VN/cgNfaV9xDdIM37VuOlTqxQTWL5inuQ00fAogQceLnS/Y9Dr5LfdTLSzecTzzWTRMUoyoGO/ZlRXxkrEyxdJ0PQxgEnp+du7En36ztoDC4llNU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1745499204;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=StCVCbEyg4EmAXix4UYyyC5CH9VAKmEnJJ/edCUJfdw=; 
+ b=gSA47iYtkDQeFWxvhrxOpqus9JVGQe6SFD8wqtXwQX1n+Nl3oa/nKsnp8I32PsdCQKT2oqHA8P42StgzItwngRzHysj9vDf5Ta88oZs5g5nlYHiQJP9Xg5UJseM9CwvGTBIPzT7cgBVCds60dgOGpTxuV6f0NdeBl4LT9vmFaNU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=robert.mader@collabora.com;
+ dmarc=pass header.from=<robert.mader@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745499204; 
+ s=zohomail; d=collabora.com; i=robert.mader@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:Cc:Cc:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=StCVCbEyg4EmAXix4UYyyC5CH9VAKmEnJJ/edCUJfdw=;
+ b=i26E65EpahmUSZsBaxJFHVZQtyQlgSw3ouOmSEK9OHVlYXfBnGnoPkNk+ZXUZ+CQ
+ QKuY0u5iPFY7UXLVoU/pTK2tZitADtOCPW1AR9v082VkkFyHPxFUJLKMEe/Jpbk0HaM
+ ALtnStQwL3GBTErK3mv75L1VkeyDNhq0mvhgJP8U=
+Received: by mx.zohomail.com with SMTPS id 1745499201646388.84502105620004;
+ Thu, 24 Apr 2025 05:53:21 -0700 (PDT)
+Message-ID: <dde3c5c3-4e23-4962-a165-38fa6b004ef1@collabora.com>
+Date: Thu, 24 Apr 2025 14:53:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: drm_fourcc: add 10/12bit software decoder YCbCr
+ formats
+To: dri-devel@lists.freedesktop.org
+References: <20250407191314.500601-1-robert.mader@collabora.com>
+Content-Language: en-US, de-DE, en-GB
+Cc: Christopher Obbard <chris.obbard@collabora.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Robert Mader <robert.mader@collabora.com>
+In-Reply-To: <20250407191314.500601-1-robert.mader@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,43 +68,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Apr 2025 14:10:16 +0200
-"Arnd Bergmann" <arnd@arndb.de> wrote:
+Chris, Javier, Laurent - sorry for the noise, but given you reviewed 
+changes in the respective files before, maybe you can help me moving 
+this forward? I'd be very happy for any feedback to get this landed, 
+thanks! :)
 
-> On Thu, Apr 24, 2025, at 13:41, Boris Brezillon wrote:
-> > On Thu, 24 Apr 2025 13:25:47 +0200  
-> >> +#ifdef CONFIG_DEBUG_FS
-> >>  	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
-> >> -}
-> >> -
-> >> -#else
-> >> -void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {};
-> >>  #endif
-> >> +}
-> >>    
-> >
-> > Oops. I actually don't see a good reason to expose this function, so
-> > could we go for something like that instead?  
-> 
-> I think moving it into pantor_gem.c makes sense, and it certainly
-> avoids the build warning.
-> 
-> >  #else
-> >  static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
-> >                                        struct panthor_gem_object *bo)
-> >  {}
-> >  static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
-> > +static void panthor_gem_debugfs_set_usage_flags(struct 
-> > panthor_gem_object *bo,
-> > +                                               u32 usage_flags)
-> > +{  
-> 
-> Side note: I think the panthor_gem_debugfs_bo_{add,rm} stubs could
-> actually be replaced with an IS_ENABLED() check in the normal
-> functions, but that wouldn't work for
-> panthor_gem_debugfs_set_usage_flags or
-> panthor_gem_debugfs_print_bos().
-
-Yeah, I think I prefer consistency over saving a few LoC ;-).
-Do you plan to send a v2 with the suggested changes, or should we take
-care of that?
+On 07.04.25 21:13, Robert Mader wrote:
+> This adds FOURCCs for 10/12bit YCbCr formats used by software decoders
+> like ffmpeg, dav1d and libvpx. The intended use-case is buffer sharing
+> between SW-decoders and GPUs by allocating buffers with udmabuf or
+> dma-heaps, avoiding unnecessary copies or format conversions.
+>
+> Unlike formats typically used by hardware decoders these formats
+> use a LSB alignment. In order to allow fast implementations in GL
+> and Vulkan the padding must contain only zeros, so the float
+> representation can calculated by simple multiplicating with 2^6=64
+> or 2^4=16.
+>
+> WIP MRs for Mesa, Vulkan and Gstreamer can be found at:
+>   - https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34303
+>   - https://github.com/rmader/Vulkan-Docs/commits/ycbcr-16bit-lsb-formats/
+>   - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8540
+>
+> The values where inspired by the corresponding VA_FOURCC_I010, however
+> suggestions are very welcome.
+>
+> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+> ---
+>   drivers/gpu/drm/drm_fourcc.c  | 18 ++++++++++++++++++
+>   include/uapi/drm/drm_fourcc.h | 20 ++++++++++++++++++++
+>   2 files changed, 38 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index 3a94ca211f9c..917f77703645 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -346,6 +346,24 @@ const struct drm_format_info *__drm_format_info(u32 format)
+>   		{ .format = DRM_FORMAT_P030,            .depth = 0,  .num_planes = 2,
+>   		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
+>   		  .hsub = 2, .vsub = 2, .is_yuv = true},
+> +		{ .format = DRM_FORMAT_I010,            .depth = 0,  .num_planes = 3,
+> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+> +		  .hsub = 2, .vsub = 2, .is_yuv = true},
+> +		{ .format = DRM_FORMAT_I210,            .depth = 0,  .num_planes = 3,
+> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+> +		  .hsub = 2, .vsub = 1, .is_yuv = true},
+> +		{ .format = DRM_FORMAT_I410,            .depth = 0,  .num_planes = 3,
+> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+> +		  .hsub = 1, .vsub = 1, .is_yuv = true},
+> +		{ .format = DRM_FORMAT_I012,            .depth = 0,  .num_planes = 3,
+> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+> +		  .hsub = 2, .vsub = 2, .is_yuv = true},
+> +		{ .format = DRM_FORMAT_I212,            .depth = 0,  .num_planes = 3,
+> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+> +		  .hsub = 2, .vsub = 1, .is_yuv = true},
+> +		{ .format = DRM_FORMAT_I412,            .depth = 0,  .num_planes = 3,
+> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+> +		  .hsub = 1, .vsub = 1, .is_yuv = true},
+>   	};
+>   
+>   	unsigned int i;
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index e41a3cec6a9e..f22c80031595 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -397,6 +397,26 @@ extern "C" {
+>   #define DRM_FORMAT_YUV444	fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
+>   #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
+>   
+> +/*
+> + * 3 plane YCbCr LSB aligned
+> + * index 0 = Y plane, [15:0] x:Y [6:10] little endian
+> + * index 1 = Cr plane, [15:0] x:Cr [6:10] little endian
+> + * index 2 = Cb plane, [15:0] x:Cb [6:10] little endian
+> + */
+> +#define DRM_FORMAT_I010	fourcc_code('I', '0', '1', '0') /* 2x2 subsampled Cb (1) and Cr (2) planes 10 bits per channel */
+> +#define DRM_FORMAT_I210	fourcc_code('I', '2', '1', '0') /* 2x1 subsampled Cb (1) and Cr (2) planes 10 bits per channel */
+> +#define DRM_FORMAT_I410	fourcc_code('I', '4', '1', '0') /* non-subsampled Cb (1) and Cr (2) planes 10 bits per channel */
+> +
+> +/*
+> + * 3 plane YCbCr LSB aligned
+> + * index 0 = Y plane, [15:0] x:Y [4:12] little endian
+> + * index 1 = Cr plane, [15:0] x:Cr [4:12] little endian
+> + * index 2 = Cb plane, [15:0] x:Cb [4:12] little endian
+> + */
+> +#define DRM_FORMAT_I012	fourcc_code('I', '0', '1', '2') /* 2x2 subsampled Cb (1) and Cr (2) planes 12 bits per channel */
+> +#define DRM_FORMAT_I212	fourcc_code('I', '2', '1', '2') /* 2x1 subsampled Cb (1) and Cr (2) planes 12 bits per channel */
+> +#define DRM_FORMAT_I412	fourcc_code('I', '4', '1', '2') /* non-subsampled Cb (1) and Cr (2) planes 12 bits per channel */
+> +
+>   
+>   /*
+>    * Format Modifiers:
