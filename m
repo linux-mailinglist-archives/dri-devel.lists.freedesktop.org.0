@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67750A9B6EF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 20:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B07E4A9B6F6
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 20:59:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 895C610E279;
-	Thu, 24 Apr 2025 18:59:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00AD110E45C;
+	Thu, 24 Apr 2025 18:59:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ENSDT7Hq";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JmNT1LA5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E00810E279;
- Thu, 24 Apr 2025 18:59:37 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1A1A8443AC;
- Thu, 24 Apr 2025 18:59:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1124E10E457;
+ Thu, 24 Apr 2025 18:59:40 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7AD29443A8;
+ Thu, 24 Apr 2025 18:59:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1745521176;
+ t=1745521179;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pe9TGbQbkCe+ORWPYOnOFjy2xEDFN3D1DRO+A6gr8d8=;
- b=ENSDT7HqsiyuBMtm9ZWgHDJIwA6rNydfQT3vUAEvINHE3ZilXsEUTxfnJCNzj4K5iyBMeh
- xI5N3QaLx9xdrG+Yi9IP51QPwTzZ6Ev1UA7pUop84y/qoj+OYAHoVq3VaUJu5LF06pLXw4
- tZqMthi2H4aTZGfuoKb3H58kvW2AXXf64vUgps/1fKOPLZ1f6kQ1e4a8I6JNGmz38AOf1d
- eH55cPq+zuOxWvyWyCNGrKg9MjW7cYS6IJP4g/5uc+NJCP8+JjD32U6QSTI7Kw2oF8+hxN
- roVhDODBTmQmSMxk3a9UjodmSmBDv0WJsFRCIKBYAaLgw+6d8deMFipWIUrp0Q==
+ bh=qAMpzkdcu4YyVXcoriylpHMenEacmOqIz6YdxYu79ZI=;
+ b=JmNT1LA5zC55ZojbXdHDx0DmJrHd2HHJZ1lX5pceXf5FVQnP8XIQBgHgoVwCfXmemV8Ywc
+ 3dnbTrHTCh1m/p0ROnPLPqXN9Mi3N7qh8IVm/szGJeu27NaJmybtqKk0fQugGFpMOLG746
+ +h92aKduZj1xdvVY6ipAMgxF2bzewMoMxPekooWmOhTaIsPQzV+xq2nkQ52KbfdB65iH8y
+ 8dFcvBCMcjXGCativimBTNi+4EzQNVjm/juF2w25zQ3Eq05AUQfsNE9lre1y/tDN+Nz48E
+ Aq8G+wxEWeAPuqZQ2W4xH2DvTpNRqR0MlTo7wx8N/QVvYGUnXbd/4bcN9Y+sAQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 24 Apr 2025 20:59:09 +0200
-Subject: [PATCH v2 02/34] platform: arm64: acer-aspire1-ec: convert to
+Date: Thu, 24 Apr 2025 20:59:10 +0200
+Subject: [PATCH v2 03/34] drm/bridge: analogix-anx6345: convert to
  devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-2-8f91a404d86b@bootlin.com>
+Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-3-8f91a404d86b@bootlin.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -66,14 +66,15 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Hans de Goede <hdegoede@redhat.com>
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Jani Nikula <jani.nikula@intel.com>, Sui Jingfeng <sui.jingfeng@linux.dev>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefffffgfefghfettedtfeehgfdtveekhfekudeiueetkeehleetveetjeffhedugeenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegvddprhgtphhtthhopehhuggvghhovgguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepjhgrg
- hgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrtghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthekredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefffffgfefghfettedtfeehgfdtveekhfekudeiueetkeehleetveetjeffhedugeenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeggedprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtp
+ hhtthhopehimhigsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheprghnugihrdihrghnsehrohgtkhdqtghhihhpshdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,42 +93,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is the new API for allocating DRM bridges.
 
-Acked-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
 ---
 
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
+Cc: Andy Yan <andy.yan@rock-chips.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/platform/arm64/acer-aspire1-ec.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/platform/arm64/acer-aspire1-ec.c b/drivers/platform/arm64/acer-aspire1-ec.c
-index 958fe1bf5f85bb69ac7962f217de9f0b40cde9a1..438532a047e68799ac53a16a4c813fc16be997b9 100644
---- a/drivers/platform/arm64/acer-aspire1-ec.c
-+++ b/drivers/platform/arm64/acer-aspire1-ec.c
-@@ -452,9 +452,9 @@ static int aspire_ec_probe(struct i2c_client *client)
- 	int ret;
- 	u8 tmp;
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+index f2bafa6cf77956ecafc87aae3a2b6890bdb36cfa..f3fe47b12edca1f92ddd306d152be144df5649b5 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+@@ -664,9 +664,10 @@ static int anx6345_i2c_probe(struct i2c_client *client)
+ 	struct device *dev;
+ 	int i, err;
  
--	ec = devm_kzalloc(dev, sizeof(*ec), GFP_KERNEL);
--	if (!ec)
+-	anx6345 = devm_kzalloc(&client->dev, sizeof(*anx6345), GFP_KERNEL);
+-	if (!anx6345)
 -		return -ENOMEM;
-+	ec = devm_drm_bridge_alloc(dev, struct aspire_ec, bridge, &aspire_ec_bridge_funcs);
-+	if (IS_ERR(ec))
-+		return PTR_ERR(ec);
++	anx6345 = devm_drm_bridge_alloc(&client->dev, struct anx6345, bridge,
++					&anx6345_bridge_funcs);
++	if (IS_ERR(anx6345))
++		return PTR_ERR(anx6345);
  
- 	ec->client = client;
- 	i2c_set_clientdata(client, ec);
-@@ -497,7 +497,6 @@ static int aspire_ec_probe(struct i2c_client *client)
- 	fwnode = device_get_named_child_node(dev, "connector");
- 	if (fwnode) {
- 		INIT_WORK(&ec->work, aspire_ec_bridge_update_hpd_work);
--		ec->bridge.funcs = &aspire_ec_bridge_funcs;
- 		ec->bridge.of_node = to_of_node(fwnode);
- 		ec->bridge.ops = DRM_BRIDGE_OP_HPD;
- 		ec->bridge.type = DRM_MODE_CONNECTOR_USB;
+ 	mutex_init(&anx6345->lock);
+ 
+@@ -738,7 +739,6 @@ static int anx6345_i2c_probe(struct i2c_client *client)
+ 	/* Look for supported chip ID */
+ 	anx6345_poweron(anx6345);
+ 	if (anx6345_get_chip_id(anx6345)) {
+-		anx6345->bridge.funcs = &anx6345_bridge_funcs;
+ 		drm_bridge_add(&anx6345->bridge);
+ 
+ 		return 0;
 
 -- 
 2.49.0
