@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B35EA9A378
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 09:24:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5EC8A9A341
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 09:21:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6862110E745;
-	Thu, 24 Apr 2025 07:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A59D10E741;
+	Thu, 24 Apr 2025 07:21:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="toHVGeMe";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IsLUglRE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qR/QBki9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 506 seconds by postgrey-1.36 at gabe;
- Thu, 24 Apr 2025 07:24:36 UTC
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3516B10E009;
- Thu, 24 Apr 2025 07:24:36 +0000 (UTC)
-Date: Thu, 24 Apr 2025 09:15:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1745478955;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2PCGrdmxoQ3SbHA+7E+kNOmoS0qvn21yo5rrDA+j3rw=;
- b=toHVGeMeU2cfiS1J7qzC0zNuHQNrnhoBv7pm+YyFA3l0Mqtw5VpFwwyrR8ACkHbSMh8PUZ
- bRVRhtLFL7PudO4ZIEFTTQ/J5srMRBTxCT/qAgA30CLEX22Kv1EpEIZX9ZWiNwX6MjcEAz
- RCgJYeR8dj17UUs2MeSz9pP1GOLkmEW9PF0pqfJGKgmrF7YmCDMabd5gNpxAu05vIaGx3T
- uTk8WkvgRXlPgXe8o4qoF0nDoyC/TCBUGyvXAcMrmh9MVmF5vA5JWpmytYFWDbMdRvUgWV
- nPPhD9aWKvF5NzI/jNGBRAiMM4MrxlvDJd8IRKmA3NCIm5mcvp+y0pAB8aJ43g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1745478955;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2PCGrdmxoQ3SbHA+7E+kNOmoS0qvn21yo5rrDA+j3rw=;
- b=IsLUglREf3JqL+7nt64O8XhbXk70GcRbLMhGRAWmAsPhBPqp+BJcAtp61Q84B7+dvXom/5
- Rc9wphuvfPmPqMBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Junxiao Chang <junxiao.chang@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] drm/i915/gsc: mei interrupt top half should be in irq
- disabled context
-Message-ID: <20250424071553.yT9-dWWM@linutronix.de>
-References: <20250424065609.624457-1-junxiao.chang@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4BB910E741
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 07:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1745479289;
+ bh=QG9Hg/8/to4LWR09+9YUrP29AfBWc4mW6szKx34ebAQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=qR/QBki9F3cJw8UQnOnoX1NSL4R+OZp4/wDsjTHqFzYQ5hBOY/3xGP6Rh7opD7/4l
+ KuuFp12IVPh///Rrump6kqSomCgglBkIMgB5B56ntGjrOw5K75y/9+Dh/7vG+WOPiC
+ ajrA3ssUjFb01nNu7TyVuumUx6nkQTcwZP0zkPKh/WbOOA8lJBm/lrmn4isuLuHxls
+ iGgGlzUk+PAuEDX2fI1Tb0DpHBfIvSeyF4W1gPCpsyQtdIjJlXDIYqJU1j7IxjSr41
+ zP2SUpKyrR0ND5SsMT6wMkMufPyMbFm8XbKnhGEPRhXJJb/8gGVwg1oo6cyQHryG8x
+ HZXfgsvKht93Q==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 2711817E065E;
+ Thu, 24 Apr 2025 09:21:29 +0200 (CEST)
+Message-ID: <912d64ba-8f17-4e63-b166-be8a9224a643@collabora.com>
+Date: Thu, 24 Apr 2025 09:21:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250424065609.624457-1-junxiao.chang@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: panel: himax-hx8279: avoid using an uninitialized
+ variable
+To: Arnd Bergmann <arnd@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250423163214.2276114-1-arnd@kernel.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250423163214.2276114-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,59 +67,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-04-24 14:56:08 [+0800], Junxiao Chang wrote:
-> MEI GSC interrupt comes from i915. It has top half and bottom half.
-> Top half is called from i915 interrupt handler. It should be in
-> irq disabled context.
+Il 23/04/25 18:32, Arnd Bergmann ha scritto:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> With RT kernel, by default i915 IRQ handler is in threaded IRQ. MEI GSC
-> top half might be in threaded IRQ context. In this case, local IRQ
-> should be disabled for MEI GSC interrupt top half.
+> goa_even_valid is only initialized in one branch but not the other:
 > 
-> This change fixes A380/A770 GPU boot hang issue with RT kernel.
+> drivers/gpu/drm/panel/panel-himax-hx8279.c:838:6: error: variable 'goa_even_valid' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+>    838 |         if (num_zero == ARRAY_SIZE(desc->goa_even_timing))
+>        |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/panel/panel-himax-hx8279.c:842:23: note: uninitialized use occurs here
+>    842 |         if (goa_odd_valid != goa_even_valid)
+>        |                              ^~~~~~~~~~~~~~
+> 
+> Change the initialization to set it to the value of the condition instead.
+> 
+> Fixes: 38d42c261389 ("drm: panel: Add driver for Himax HX8279 DDIC panels")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-This should have a Fixes when generic_handle_irq() was introduced. 
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-> Signed-off-by: Junxiao Chang <junxiao.chang@intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/intel_gsc.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>   drivers/gpu/drm/panel/panel-himax-hx8279.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gsc.c b/drivers/gpu/drm/i915/gt/intel_gsc.c
-> index 1e925c75fb080..9c72117263f78 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gsc.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gsc.c
-> @@ -270,6 +270,9 @@ static void gsc_init_one(struct drm_i915_private *i915, struct intel_gsc *gsc,
->  static void gsc_irq_handler(struct intel_gt *gt, unsigned int intf_id)
->  {
->  	int ret;
-> +#ifdef CONFIG_PREEMPT_RT
-> +	int irq_disabled_flag;
-> +#endif
->  
->  	if (intf_id >= INTEL_GSC_NUM_INTERFACES) {
->  		gt_warn_once(gt, "GSC irq: intf_id %d is out of range", intf_id);
-> @@ -284,7 +287,18 @@ static void gsc_irq_handler(struct intel_gt *gt, unsigned int intf_id)
->  	if (gt->gsc.intf[intf_id].irq < 0)
->  		return;
->  
-> +#ifdef CONFIG_PREEMPT_RT
-> +	/* mei interrupt top half should run in irq disabled context */
-> +	irq_disabled_flag = irqs_disabled();
-> +	if (!irq_disabled_flag)
-> +		local_irq_disable();
-> +#endif
->  	ret = generic_handle_irq(gt->gsc.intf[intf_id].irq);
+> diff --git a/drivers/gpu/drm/panel/panel-himax-hx8279.c b/drivers/gpu/drm/panel/panel-himax-hx8279.c
+> index b48b350b62da..4f548430654a 100644
+> --- a/drivers/gpu/drm/panel/panel-himax-hx8279.c
+> +++ b/drivers/gpu/drm/panel/panel-himax-hx8279.c
+> @@ -835,8 +835,7 @@ static int hx8279_check_goa_config(struct hx8279 *hx, struct device *dev)
+>   			num_zero++;
+>   	}
+>   
+> -	if (num_zero == ARRAY_SIZE(desc->goa_even_timing))
+> -		goa_even_valid = false;
+> +	goa_even_valid = (num_zero != ARRAY_SIZE(desc->goa_even_timing));
+>   
+>   	/* Programming one without the other would make no sense! */
+>   	if (goa_odd_valid != goa_even_valid)
 
-What about generic_handle_irq_safe() instead the whole ifdef show?
-
-> +#ifdef CONFIG_PREEMPT_RT
-> +	if (!irq_disabled_flag)
-> +		local_irq_enable();
-> +#endif
-> +
->  	if (ret)
->  		gt_err_ratelimited(gt, "error handling GSC irq: %d\n", ret);
->  }
-
-Sebastian
