@@ -2,52 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FC4A9ABAF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 13:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62486A9ABBA
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 13:28:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5C610E7CF;
-	Thu, 24 Apr 2025 11:26:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20C1C10E30B;
+	Thu, 24 Apr 2025 11:28:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oeHn4zay";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="WTO+fOKy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A97410E7CF
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 11:26:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5220A434F2;
- Thu, 24 Apr 2025 11:26:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2734EC4CEE3;
- Thu, 24 Apr 2025 11:26:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745494002;
- bh=A+RYlcmQmsEmIG25G70lkCafpndJRI9Esoh9VrB89Vs=;
- h=From:To:Cc:Subject:Date:From;
- b=oeHn4zay9DfEUn5bcf5MU7u9XX60Lw+zmMzqOyUquvijfGKed8fHmWTMDlw21oz7g
- MYzjR6fzhsS6vRzMwti10RZBhbHSi2UUjaX+fe5A+F71ZEesP9UgFs9/1Dj7wXGOMh
- VZifZuCzJ61aovvWuSPisiuvgwZzxo0hWBh6SpcuM/SMQqj1mxbqxCKjwzBqeZw1nZ
- x1gmytDIXhtEPP2/nPpwFAjO5+gtHHCkKCe8tZdVVOrw1Cde5EstmLPDP2n55H/d9m
- Es/YbHg3ZA/UnIPahBVoAkb0b9ce5s9l/SCQyPIa9P+bq7kBXlbpSmTJH2dr5QBQlA
- AUGRyHWec/5fQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C79E10E309;
+ Thu, 24 Apr 2025 11:28:17 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3AD1F43A07;
+ Thu, 24 Apr 2025 11:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1745494091;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Bz9b9HTv2sWKqYaZLjCkIaHyjCRTMEZ4N5CM7lBAIjs=;
+ b=WTO+fOKy08+k3R6VOo4FgIrrMPsiB/nAVAOfJMQAdVSxjWQogtIY5cFgPAk1SOOSNg84v5
+ YAycUQfirISNqB46b6Rq2Kb0/kVJ/dVEDf6CJhl7XDUG4q1uUDmCk208gBMtVQ1QLCcowA
+ g+fPgfDstAalRZjliFX6HSgfLCdZRZcUtPau+3ZpOneb+uQBqfC5TO3g1NgDEjHo5A2vBl
+ J+gh7wITo8g5J8vLAI13NXWX+GLjyMQP1oVXIARzj/ipCf1WquNYUKY8S/ZYFKBK0oZlOQ
+ bt2f1BodPSa+XQVEebdOJs0qRrfqWeThlK3iYiydfl+WN4DaUXnuKi9a5EyTRA==
+Date: Thu, 24 Apr 2025 13:28:04 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski
+ <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, =?UTF-8?B?SGVy?=
+ =?UTF-8?B?dsOp?= Codina <herve.codina@bootlin.com>, Hui Pu
+ <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ Michal Simek <michal.simek@amd.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Florent Tomasin <florent.tomasin@arm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panthor: fix building without CONFIG_DEBUG_FS
-Date: Thu, 24 Apr 2025 13:25:47 +0200
-Message-Id: <20250424112637.3432563-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 29/34] drm: zynqmp_dp: convert to
+ devm_drm_bridge_alloc() API
+Message-ID: <20250424132804.30bcc49a@booty>
+In-Reply-To: <6b699329-8ed4-4be6-81bb-17b4bf800d34@ideasonboard.com>
+References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
+ <20250407-drm-bridge-convert-to-alloc-api-v1-29-42113ff8d9c0@bootlin.com>
+ <6b699329-8ed4-4be6-81bb-17b4bf800d34@ideasonboard.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeelfeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedvpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopegrshhrihhvrghtshesrhgvughhrghtrdgtohhmpdhrtghpthhtohepphgruhhlkhesshihshdqs
+ ggrshgvrdhiohdprhgtphhtthhopehluhhmrghgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdprhgtphhtthhopefjuhhirdfruhesghgvhhgvrghlthhhtggrrhgvrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,50 +88,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hello Tomi,
 
-When debugfs is disabled, including panthor_gem.h causes warnings
-about a non-static global function defined in a header:
+On Wed, 16 Apr 2025 15:31:41 +0300
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
 
-In file included from drivers/gpu/drm/panthor/panthor_drv.c:30:
-drivers/gpu/drm/panthor/panthor_gem.h:222:6: error: no previous prototype for 'panthor_gem_debugfs_set_usage_flags' [-Werror=missing-prototypes]
-  222 | void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {};
+> Hi,
+> 
+> On 07/04/2025 17:23, Luca Ceresoli wrote:
+> > This is the new API for allocating DRM bridges.
+> > 
+> > This driver has a peculiar structure. zynqmp_dpsub.c is the actual driver,
+> > which delegates to a submodule (zynqmp_dp.c) the allocation of a
+> > sub-structure embedding the drm_bridge and its initialization, however it
+> > does not delegate the drm_bridge_add(). Hence, following carefully the code
+> > flow, it is correct to change the allocation function and .funcs assignment
+> > in the submodule, while the drm_bridge_add() is not in that submodule.
+> > 
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-This could be changed to a static inline function, but as the normal
-one is also static inline, just move the #ifdef check in there.
-The #ifdef is still needed to avoid accessing a struct member that
-does not exist without debugfs.
+[...]
 
-Fixes: a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/panthor/panthor_gem.h | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+> To add to my last mail, this clearly cannot be right, as it changes 
+> kzalloc call to devm_* call, without removing the kfree()s...
 
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index 4641994ddd7f..693842e10dee 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -209,17 +209,14 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
- 
- void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
- 
--#ifdef CONFIG_DEBUG_FS
- void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
- 				   struct seq_file *m);
- static inline void
- panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags)
- {
-+#ifdef CONFIG_DEBUG_FS
- 	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
--}
--
--#else
--void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {};
- #endif
-+}
- 
- #endif /* __PANTHOR_GEM_H__ */
+Thank you very much for having tested this patch and found the mistake!
+I have checked all other patches in the series and found no other
+instance of this specific flaw, but a couple flaws of a different
+nature. I'm now fixing all of them and will send v2 later today.
+
+Luca
+
 -- 
-2.39.5
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
