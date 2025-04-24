@@ -2,170 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C658A9BA1F
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 23:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57DAA9BA25
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 23:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D358810E872;
-	Thu, 24 Apr 2025 21:46:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 198F310E86E;
+	Thu, 24 Apr 2025 21:49:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Sp8duKek";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="P5cOLPW8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8319510E86E;
- Thu, 24 Apr 2025 21:46:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745531215; x=1777067215;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=elOwmrssCfaozpE+jm5KJfyyEK9lPvGeH1VNZz+/gAo=;
- b=Sp8duKek75Ig8wkWz9I7N3HUivo/dl28UXpvTwy4ernZERLc/BxqOj6Y
- 2dbpHX2dwgn+TPJMwz35NbjJOr6l73MYBFM9qArfXfaFcsO7e7Q+T8354
- h3CF8+OHTBntqpPPZThznewCaRSkqxzZzBMYBl8ebzrx3XevbapqPxA05
- ik24Cbjw2gWCjFbth4G+QxYFa36cg7AXAuAes0rKvm0zSmAtWXvvyY4V5
- Ag+Qm/rVx5Aud3l1FXjO4FUbSvnhzMQUrx+b6JXSemS91cV0rE/9J7Cc9
- 3D2Y69HjFkCwfbIEiPREHCMi4nNzg5qn9HKosBZj3SRndWYq43Rt3OtS7 A==;
-X-CSE-ConnectionGUID: FswtBlpcTqSoCKJ/UkWwiQ==
-X-CSE-MsgGUID: E1virHDTS/O9iQDzYRfbeQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="46418049"
-X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; d="scan'208";a="46418049"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2025 14:46:53 -0700
-X-CSE-ConnectionGUID: r+R7TRYIQGeP2FjG81bMBg==
-X-CSE-MsgGUID: 3MVIQu1USmiT5fyn3+ZPJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; d="scan'208";a="132616279"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2025 14:46:52 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 24 Apr 2025 14:46:52 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 24 Apr 2025 14:46:52 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.176)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 24 Apr 2025 14:46:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GF1PIGVcJHv1fggRhzCCi+FNDGM9ATT+jayqEl/9k0pNYr+CqaTBhO+9qAoAAkXEQiiGs0zxZ8Fz/KDcN8ONCVxHAwO3fFKXcIaoVpyAmyb6f02Q6rtwQYpn76xzSZOZ5T/ZpZzuHfWINhVM2wryykPJsNTIiFDVM5KOEu7Uv4pTxKAlxGmCrvE4C5u5XYEVk6A5eMV8F2yLylsCaWR0pzlEsrelyjJ+n5g0gNzhJPxFI66dxjm56eQ98rav9m/HZBsfx/crgPGxjFrsXLEKiH1iVyWg/tzaGZ9NLsBsRXfTVMWgg9R/Pa9I/UVd4WrMXCQe/Q/EbfUr3J6oAiO99w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O+kvKQxV+5gRhsbTBwzhPxzQbNa+tmGwCwWskv5LYP8=;
- b=KQMQ/KZwlikzOo7j4uOl8UegDZSg/JAzdX0wqjWt7KwDBeRplhbj7E89P3NvQfhM4p75vuFPl3WbHcA2/lODXeM4jcdk1oGoq20KLB1UcT4eWkgIZj637JtOT7GAPp/ZljO2mQBQ8blSnArHOaKj7Bb92OZVXdn7Sb6f0ecbsXuICayu/AqaFqhetjVq8aRIQWVOd8OHyr3xIc1IuTJp33vOaMHqSE16Lcl/CfQ6e7VxeVpG8PzuFpvlFkQSwNX/CHBOLBMJKgV/+muH7pFUc1F3QjVs2AiZvQvhOknU2MdgCGvmaWIJkTbQaeVnZEorpbrM2B/XccxOHl70H36Rdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by PH8PR11MB8287.namprd11.prod.outlook.com (2603:10b6:510:1c7::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Thu, 24 Apr
- 2025 21:46:35 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.8655.037; Thu, 24 Apr 2025
- 21:46:35 +0000
-Date: Thu, 24 Apr 2025 14:47:56 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH v3 4/7] drm/gpusvm: refactor core API to use pages struct
-Message-ID: <aAqxjKrHdj+37yw6@lstrano-desk.jf.intel.com>
-References: <20250424121827.862729-9-matthew.auld@intel.com>
- <20250424121827.862729-13-matthew.auld@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250424121827.862729-13-matthew.auld@intel.com>
-X-ClientProxiedBy: MW4PR03CA0329.namprd03.prod.outlook.com
- (2603:10b6:303:dd::34) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0D1C10E878
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 21:48:55 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53OJn9DE028320
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 21:48:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=vJjKyI0rQI/9msOKqrosK9Bq
+ uNXjcnMHw9Fb+7VsjdE=; b=P5cOLPW8tJRX6P/90ulOi4MeADMGmK9LLjAGy7y7
+ 0oI+UnDh0e4YfWrxqdBohtrb1TDHB3Kf7H9wFjHG/keMJFsWqfoji1fYIMikm4SW
+ XZIbBw2qmwVHrVEcQfah8A5qEelf4WPPY4nSB5MygvuPs21BV+zU1JgR/TcXsJ8p
+ Pxc1f1gNOXV2HBUxDOlEePVL27A9uo7kWMsRegqPEQ5EEy4i3bOVPkDwoqE4JREg
+ zIwLyeLbBnXkmfH550nYhtvfrszE1pVGbjxNLvAHZkix6ZzUBJlQs6cQC5iVgZAn
+ 5kvTW6mQTaQ4T8Unwd+A5UgiKTfF0y42gh097fPsfl58XA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh0pwmh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 21:48:54 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c0a3ff7e81so263343285a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 14:48:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745531334; x=1746136134;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vJjKyI0rQI/9msOKqrosK9BquNXjcnMHw9Fb+7VsjdE=;
+ b=eYRAYq/Kba3VJ4pfEqjYE5R6UyrWXZ0gDlL5F+XPt+rWWFRdpLc+RIwsQPtwf79eWS
+ CvOcvrHDTg5xRQU2+OBg8zhkKKUpfEXx7bUvQdW6rybzeKYX07VvJJC3QUxCLd0zlQRL
+ fvTLP0GpBusQ8YoxMl6UiwiL54NS++cv9v5XJVdmcehUYyx+0ycSV+w9DWqoFdW+V/Xq
+ tTasREzK8BCE/ggHEPbK0bb83VnsE/W49xYBIi5I9mdqEyXYBhJGBO5CyA31cj8oGwVk
+ F2lAKbrM2XwCcMeoD8PAB3MD+dFlfwIY3J82XQ59wJokvHYo5bXXr2/CIoAoiDtHr/kw
+ YlDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX7spVnBQAR8/wGKUNxKEEELh3MzkmVFPx5ECVBqPj2ylSVP+X5Xn/H82XyTNl2iBxehD3wGK15/Fk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXqOBFODBxOwkj2U2/cuXjZbpmIz0j/o7deaWAsxhnURmrTU+F
+ f1TuDV0uv5nZKxH3HmPyCQCTqbBKVDBF87YOFA1rXyN0CeWW2+RgLoYkkzGzWe5JX5oT5MTTBTj
+ QlDu5u23sSQcG1OaVbF9vcV4w5jM35OF1czL0N89ympxgrfhOEDcb553RmSoKAZ5uUNI=
+X-Gm-Gg: ASbGncsOVnrncGMvGzL62H25+M5fphc4CJfsJX7vtu8jiqWvRwv1EyQCeLgQ5Xt0XX6
+ ifW9xyyiZrEOYAfDPykowlh+zskMATf7wqJ0Z/IrA5Y6GtFKjoGJY4GtuYzqCCNWlWi/6pVpZWS
+ tWn76Xk/XmPWT8/P8piv/EPwIqmfBvx9UecmEOTH2bjnVj/Z0ioNelzGXxDPLHCQU2MOLmrkiyJ
+ WhfytLQOE/BTW5/G4m/hc/flwI3YdnqdspybQf1W9+WSXGADkr+SFHO+CDyq60W5MGSBSi9Ls+R
+ XgBbcb2lWEmunWlUkpdEyxX2QPM8yt3FGAW/cZWaEsajZJUkcwD6eUBHs03RU50ctZtFCEIluHM
+ =
+X-Received: by 2002:a05:620a:2a11:b0:7c7:aed7:907b with SMTP id
+ af79cd13be357-7c9607d2caamr24642485a.54.1745531333788; 
+ Thu, 24 Apr 2025 14:48:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE0qarO4qVaIHzjVmmbkwRDLZaton6bL+gzlVk0PfxAhAHsQF6WlByLxtZIfk0z6pubJzUsMQ==
+X-Received: by 2002:a05:620a:2a11:b0:7c7:aed7:907b with SMTP id
+ af79cd13be357-7c9607d2caamr24639485a.54.1745531333520; 
+ Thu, 24 Apr 2025 14:48:53 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54e7cca7fbbsm364985e87.159.2025.04.24.14.48.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Apr 2025 14:48:52 -0700 (PDT)
+Date: Fri, 25 Apr 2025 00:48:50 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Cc: Dmitry Baryshkov <lumag@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ laurentiu.tudor1@dell.com, abel.vesa@linaro.org, johan@kernel.org
+Subject: Re: [PATCH v3 1/4] drm/msm/dp: Fix support of LTTPR initialization
+Message-ID: <num3gu5gfpnu3hw7ofk5ado2hnmftgqw3jfzlp4pi4yganugvu@ntsyr6lwry7v>
+References: <20250417021349.148911-1-alex.vinarskis@gmail.com>
+ <20250417021349.148911-2-alex.vinarskis@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH8PR11MB8287:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27e831f9-aa67-4a36-1e64-08dd83797c2b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?F34gABNta9K7dE/RMP2DFCw2ecmwIWxEutB10uamP9/s8M864MQNsnDnTp?=
- =?iso-8859-1?Q?SM4Y6jV9cRk6veWxPDmCiyHIOxiL6GvPxz1UZMaVoE7JgV7NWZ+mW6vFss?=
- =?iso-8859-1?Q?CAesl5LfXA8HhNNcsvQUKWtH2XGRKpTL5n3TeEizK4l/h+nPjh1K0dhPDj?=
- =?iso-8859-1?Q?ldAQAqbzPKuPEqWU4/NXIeOXvljoYnN6YetqeDGUbQ8gzhqoTQoLPIY9o8?=
- =?iso-8859-1?Q?57j5IxU12ol8fJpQypVJ9GzSrokakRD7erjicoqAg3FGdaGo3cQ9/IJ/BN?=
- =?iso-8859-1?Q?dozWKIKQkz2dUjX5FLRuJizpV/QzZM+7pPmb6i/jfajj8V6ZPfZxxvEp9N?=
- =?iso-8859-1?Q?nZRScRVDbhDv3oyV00zAdCyflpidwJjooK5hJgUqT+yZEEu1y2ADEoM7Ej?=
- =?iso-8859-1?Q?+jtmo7cvno0DUoXDu+7o6SnV2z5k6x98ITUdCgXys3u6oSy+E49iz2cDqm?=
- =?iso-8859-1?Q?bN+BdUIAimuzCtIBnE22sxdfXZimjRU/L2vGQnvZr3bgg76k6JTpp0AVZT?=
- =?iso-8859-1?Q?dzjfLO4upcrh9FqrVS61nUwdGASXWu7xVD1/X29RQl+mWfNOGm0txWtfor?=
- =?iso-8859-1?Q?XfS70x5jtrM+VR+0LyjVUfRzGCsyod7ICFBhIINdyLSRS0Npzg1KdAfdzE?=
- =?iso-8859-1?Q?jMd0fJR5q2xHNh+lbT2q9oYmptcz21kw1BJxgpSOOwBJnXEMO6W4ScrbT1?=
- =?iso-8859-1?Q?FPypvtZvo4mgO9grVF1jyK7nOf0YXyEDld6sucR+WAmFgxaf8caLVK2QV8?=
- =?iso-8859-1?Q?5DzhEe9yzB7gJ34DFeIYe68yPx71WCG4Uw1/EB7ZS1CfFl0D6V0vsW51W1?=
- =?iso-8859-1?Q?/HjoY/9A0D+eilGTgECa3+s6n1GkEnchQLeVphqWaobFOaCzEuPDF0RxNX?=
- =?iso-8859-1?Q?N02tb9R7AqFceyP6imkTKEGE4kaq3/QeK7HkYc1Wiz2u773ElTqcoOF/mR?=
- =?iso-8859-1?Q?kdPZNP+iWz6w7bYeOapB1xO9ffdvGPf7LBkEbKiqyr1hJ1mngi2OoDVYxC?=
- =?iso-8859-1?Q?PrPbRZw98CWLC1Ox0lE3HbjdGWwSEMmj/BDd5Xz0mAckmbfYQxGar9uNvm?=
- =?iso-8859-1?Q?q4YRpjBeuyb3iD0APE0SK0M0bTcRnClWPUfmDcFoSMYGheL819dsUakcrS?=
- =?iso-8859-1?Q?Shl4Z6FzCkow4198V+75SJ7gkjt9L56bn9XyQgCXYaXbIy2GuCuaq9CJpL?=
- =?iso-8859-1?Q?SGIIQ3cYAKl9ppofomC1uCa6p1CJ01aWZcMzRTxHzWI12Pk0yO4kV8fHZV?=
- =?iso-8859-1?Q?x38Jo4zi96b/0LDGGUd3YGWbL3bP5oFVz9Q/+Tsx587F3YhOo6jGTG5R6/?=
- =?iso-8859-1?Q?xu6xJq6+8F5Xyet/bDmn87ykdXbABnF2ldOcN7u8fU54Mny2U/MBNPYt5Y?=
- =?iso-8859-1?Q?wW9ZRLd1KnKJzll7NKyfpX80LiRKfOHIeFQ0HkGvEdlsNAijVf6is7weBH?=
- =?iso-8859-1?Q?Rk3mD9UxBxbpN1oBJ2SR7cm2QgNfxzcRvbjgsrs6IwAtsYDdsaXYVisrFk?=
- =?iso-8859-1?Q?Q=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?n65E0L0VNbdfwHRdZ7VHSrsGOv+ZJOTEbm4a/Xu+ozb7IlIrkT1L5+SwPZ?=
- =?iso-8859-1?Q?lZ4hdcO28vWjQRqQcOfvIgwSppKW5X72ddD/KrLCkmszYO3fLOvRmikh3A?=
- =?iso-8859-1?Q?CJio5X+uPp/jQzn5a6TonRs04b6zNzC/Jaq6OTrPRPcQqJqBpbhBew5jyz?=
- =?iso-8859-1?Q?r7FmvOpZw2Nc4puWJFkplx0jMHxhpj5dvhGhF+IAPy5N1CdcvO1NjGpRf2?=
- =?iso-8859-1?Q?dJ4GqtR0ymf8vcNcCZEp053E6UMJFMUamCnPV6NBle8Mnjps16c0OTEiuo?=
- =?iso-8859-1?Q?fy85a/tz6p+ZjBvdLlDCPPDfptDEkiRmCz2zdyTKw/nMEd1r1VEEEwfBTe?=
- =?iso-8859-1?Q?ThejXENa/UWkgMKtybhnHq6luP77R+tIZmN2NahDAb3wRPKWMJi+nwpINf?=
- =?iso-8859-1?Q?AGzRn58pvQRFSDNfC7MryUmbBYXblLm1kK+bb8nhUK1YUJkH2LMJVm2vCN?=
- =?iso-8859-1?Q?7aAjv4216sBPubnRi36nzB7eCt+TrOUIuauP/vS4TQesLnsHeDzcwfHixD?=
- =?iso-8859-1?Q?wV30B2yNq8r4gIyF0neYjRIARsTG1+2FETEjEtMUBhcnH9KYkg++3q1iWC?=
- =?iso-8859-1?Q?+kpzH1JK6DTJxIRYDThoT7KkcHKM/dPl8JtHq3IMZIW2sHynwC3kWSD+H8?=
- =?iso-8859-1?Q?PBFbC6wIMNA7PDyGPAA7jJoV4r2INwZAFRAQg6DVt5+PtK+z3xWDFtOCDq?=
- =?iso-8859-1?Q?JyGPT5aNPdL1S7+CWEUGM2yw3XKD0UlbpSOrJsjmh6xd9Sr6/3htRbWFtK?=
- =?iso-8859-1?Q?Elg+4DapOP+JuqyTv8Fh8v4a0HJ8s3HyzU591w5NhjAasMZIMrdCzd8dmc?=
- =?iso-8859-1?Q?6Y4jOoB4Y0inRrw3ZFR8N2qNGmPZGrl00Z3f7lzwe/4wPIDtRcXCzsorBS?=
- =?iso-8859-1?Q?5amee5ITsbheuNKhoJ+DzR1/09smP0qzCnhJnCrTv3oOwlsqeQjts56/EA?=
- =?iso-8859-1?Q?y/oQMVEOz78yRtySIbodWxrwpfY4cJEoOcn9d4oRXpySddBaumUGmnzsJt?=
- =?iso-8859-1?Q?SyOhzKkbB8VKQITiVmwTbPDSQSw9vJcv7N+LZlNSG+gaHO+u/q/rpK4jKf?=
- =?iso-8859-1?Q?fFfkFkgt+pTS1+9khmBlyxCWINt10nq4jSDo9MOIInSi3UzmdIryodCjDj?=
- =?iso-8859-1?Q?bpX5XxTgQW53gHe+VibhiE5MDk4GTD/tTyRde0wVUBTLL+BfvFovl3nTrW?=
- =?iso-8859-1?Q?psZtbJlzxaZXUGG3y6YQmblrp6ghVBzVyDHKamA0au9Sxrv0xmNP3rZO3T?=
- =?iso-8859-1?Q?zpTS1ApXsCrQOT3QuUX2v4YNYXfqSJKTIAbu3hp075G73+biFCoKGHvOmz?=
- =?iso-8859-1?Q?ZQ8zc3diuIGtKzfXDCnNM7ssinFrQrwHaZsS93sIkRgXp9nS5FFZ+1cej+?=
- =?iso-8859-1?Q?6v2evgmq6SRgqHIq56HYGJrjB8DGOvnW6CxvGRC7p9NqQVbArpmT0557x3?=
- =?iso-8859-1?Q?LUg2PJH39n51ojVuiaXlDqRxTBax9YocOkojJLs/VUsf+T4q9jSwADF7cn?=
- =?iso-8859-1?Q?L0Eo3byTYjcLuDQYbr54u0e1zDh0ZRcM8Wiu1CRJbQO7o1n4Oc27gDml7R?=
- =?iso-8859-1?Q?kFZox5SvAP7uwnwniiD4C0vBnwTvtM0tRIVULqg+oHHynazg6SlqGIBzqC?=
- =?iso-8859-1?Q?mx7D8LKZv8WWmVoUR0H4Nl8ue/XRJoaywLf8xHDETHlMOsL7LoDzdOvA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27e831f9-aa67-4a36-1e64-08dd83797c2b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 21:46:35.5955 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FWkln8RRMD2nh7gjzt8mVeaD9pBbZiFjrwA94jHGqzoAZLBfiPI/mCXBbrKX4kaOec6Q5cwlUOLOdy4B8Nvnng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8287
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250417021349.148911-2-alex.vinarskis@gmail.com>
+X-Proofpoint-ORIG-GUID: 4zjtSR8VNsH6eS2FjOztuRb17hzCCyma
+X-Authority-Analysis: v=2.4 cv=ftfcZE4f c=1 sm=1 tr=0 ts=680ab1c6 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=7ctMvB4_1dO5SEtod34A:9
+ a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: 4zjtSR8VNsH6eS2FjOztuRb17hzCCyma
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI0MDE1MyBTYWx0ZWRfXyCUSCmikDcZO
+ nTVVuZLceXFWF+jFxOb29IYK4T+4lfACj+maQj/ItWLnKawyj8cCmloDTlqeV6oKBQpsTNnuDIY
+ CBNDMz/7i/bVmuiop49mulU1tSfSdb9xhQBuvDj6eqD7ILRVj6lXLyRDHX5mnVLWa6qv6rMuXFv
+ 9A5oLR0X1eI1xKyJQRjXnZO2OP/qHOY4krjnkl1OdwNnQ55qTaFcYE/pxLambONoVLmFGvWhfsS
+ M1BGS/tJ4lq3jD78Rz9lf4rI11Ng0FmSUgZKlfB1kesOx3/9iqvRBdQZvt5GLEKHqXNCD9/ahoE
+ 4xP5efJlSaqq+o1fhVnJYnWqj0guEJVTzX8EuR/kCPl9EhnfGjeGSc+KFDOvV+Ul47DRq91AE5T
+ 1SbuZTBf/caVscLosvwF+WjDVC7r6NxPwNdE8RaOQuECsJP7hLdDOHZKp7AvTlWYXrePLh2G
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-24_09,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ suspectscore=0 mlxlogscore=999 lowpriorityscore=0 phishscore=0
+ malwarescore=0 impostorscore=0 adultscore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504240153
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,304 +128,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 24, 2025 at 01:18:32PM +0100, Matthew Auld wrote:
-> Refactor the core API of get/unmap/free pages to all operate on
-> drm_gpusvm_pages. In the next patch we want to export a simplified core
-> API without needing fully blown svm range etc.
+On Thu, Apr 17, 2025 at 04:10:32AM +0200, Aleksandrs Vinarskis wrote:
+> Initialize LTTPR before msm_dp_panel_read_sink_caps, as DPTX shall
+> (re)read DPRX caps after LTTPR detection, as required by DP 2.1,
+> Section 3.6.7.6.1.
 > 
-> Suggested-by: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 > ---
->  drivers/gpu/drm/drm_gpusvm.c | 161 ++++++++++++++++++++++++-----------
->  1 file changed, 110 insertions(+), 51 deletions(-)
+>  drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
-> index ef38017d2159..fbe0d70ef163 100644
-> --- a/drivers/gpu/drm/drm_gpusvm.c
-> +++ b/drivers/gpu/drm/drm_gpusvm.c
-> @@ -1128,19 +1128,19 @@ drm_gpusvm_range_find_or_insert(struct drm_gpusvm *gpusvm,
->  EXPORT_SYMBOL_GPL(drm_gpusvm_range_find_or_insert);
->  
->  /**
-> - * __drm_gpusvm_range_unmap_pages() - Unmap pages associated with a GPU SVM range (internal)
-> + * __drm_gpusvm_unmap_pages() - Unmap pages associated with GPU SVM pages
-> + * (internal)
->   * @gpusvm: Pointer to the GPU SVM structure
-> - * @range: Pointer to the GPU SVM range structure
-> + * @pages: Pointer to the GPU SVM pages structure
->   * @npages: Number of pages to unmap
->   *
-> - * This function unmap pages associated with a GPU SVM range. Assumes and
-> + * This function unmap pages associated with a GPU SVM pages struct. Assumes and
->   * asserts correct locking is in place when called.
->   */
-> -static void __drm_gpusvm_range_unmap_pages(struct drm_gpusvm *gpusvm,
-> -					   struct drm_gpusvm_range *range,
-> -					   unsigned long npages)
-> +static void __drm_gpusvm_unmap_pages(struct drm_gpusvm *gpusvm,
-> +				     struct drm_gpusvm_pages *svm_pages,
-> +				     unsigned long npages)
->  {
-> -	struct drm_gpusvm_pages *svm_pages = &range->pages;
->  	struct drm_pagemap *dpagemap = svm_pages->dpagemap;
->  	struct device *dev = gpusvm->drm->dev;
->  	unsigned long i, j;
-> @@ -1168,17 +1168,15 @@ static void __drm_gpusvm_range_unmap_pages(struct drm_gpusvm *gpusvm,
->  }
->  
->  /**
-> - * drm_gpusvm_range_free_pages() - Free pages associated with a GPU SVM range
-> + * __drm_gpusvm_free_pages() - Free dma array associated with GPU SVM pages
->   * @gpusvm: Pointer to the GPU SVM structure
-> - * @range: Pointer to the GPU SVM range structure
-> + * @svm_pages: Pointer to the GPU SVM pages structure
->   *
->   * This function frees the dma address array associated with a GPU SVM range.
->   */
-> -static void drm_gpusvm_range_free_pages(struct drm_gpusvm *gpusvm,
-> -					struct drm_gpusvm_range *range)
-> +static void __drm_gpusvm_free_pages(struct drm_gpusvm *gpusvm,
-> +				    struct drm_gpusvm_pages *svm_pages)
->  {
-> -	struct drm_gpusvm_pages *svm_pages = &range->pages;
-> -
->  	lockdep_assert_held(&gpusvm->notifier_lock);
->  
->  	if (svm_pages->dma_addr) {
-> @@ -1211,8 +1209,8 @@ void drm_gpusvm_range_remove(struct drm_gpusvm *gpusvm,
->  		return;
->  
->  	drm_gpusvm_notifier_lock(gpusvm);
-> -	__drm_gpusvm_range_unmap_pages(gpusvm, range, npages);
-> -	drm_gpusvm_range_free_pages(gpusvm, range);
-> +	__drm_gpusvm_unmap_pages(gpusvm, &range->pages, npages);
-> +	__drm_gpusvm_free_pages(gpusvm, &range->pages);
->  	__drm_gpusvm_range_remove(notifier, range);
->  	drm_gpusvm_notifier_unlock(gpusvm);
->  
-> @@ -1277,6 +1275,28 @@ void drm_gpusvm_range_put(struct drm_gpusvm_range *range)
->  }
->  EXPORT_SYMBOL_GPL(drm_gpusvm_range_put);
->  
-> +/**
-> + * drm_gpusvm_pages_valid() - GPU SVM range pages valid
-> + * @gpusvm: Pointer to the GPU SVM structure
-> + * @svm_pages: Pointer to the GPU SVM pages structure
-> + *
-> + * This function determines if a GPU SVM range pages are valid. Expected be
-> + * called holding gpusvm->notifier_lock and as the last step before committing a
-> + * GPU binding. This is akin to a notifier seqno check in the HMM documentation
-> + * but due to wider notifiers (i.e., notifiers which span multiple ranges) this
-> + * function is required for finer grained checking (i.e., per range) if pages
-> + * are valid.
-> + *
-> + * Return: True if GPU SVM range has valid pages, False otherwise
-> + */
-> +static bool drm_gpusvm_pages_valid(struct drm_gpusvm *gpusvm,
-> +				   struct drm_gpusvm_pages *svm_pages)
-> +{
-> +	lockdep_assert_held(&gpusvm->notifier_lock);
-> +
-> +	return svm_pages->flags.has_devmem_pages || svm_pages->flags.has_dma_mapping;
-> +}
-> +
->  /**
->   * drm_gpusvm_range_pages_valid() - GPU SVM range pages valid
->   * @gpusvm: Pointer to the GPU SVM structure
-> @@ -1294,11 +1314,7 @@ EXPORT_SYMBOL_GPL(drm_gpusvm_range_put);
->  bool drm_gpusvm_range_pages_valid(struct drm_gpusvm *gpusvm,
->  				  struct drm_gpusvm_range *range)
->  {
-> -	struct drm_gpusvm_pages *svm_pages = &range->pages;
-> -
-> -	lockdep_assert_held(&gpusvm->notifier_lock);
-> -
-> -	return svm_pages->flags.has_devmem_pages || svm_pages->flags.has_dma_mapping;
-> +	return drm_gpusvm_pages_valid(gpusvm, &range->pages);
->  }
->  EXPORT_SYMBOL_GPL(drm_gpusvm_range_pages_valid);
->  
-> @@ -1312,57 +1328,59 @@ EXPORT_SYMBOL_GPL(drm_gpusvm_range_pages_valid);
->   *
->   * Return: True if GPU SVM range has valid pages, False otherwise
->   */
-> -static bool
-> -drm_gpusvm_range_pages_valid_unlocked(struct drm_gpusvm *gpusvm,
-> -				      struct drm_gpusvm_range *range)
 
-I think the kernel doc needs to be updated here.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Other that this nit, patch LGTM:
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-
-
-> +static bool drm_gpusvm_pages_valid_unlocked(struct drm_gpusvm *gpusvm,
-> +					    struct drm_gpusvm_pages *svm_pages)
->  {
-> -	struct drm_gpusvm_pages *svm_pages = &range->pages;
->  	bool pages_valid;
->  
->  	if (!svm_pages->dma_addr)
->  		return false;
->  
->  	drm_gpusvm_notifier_lock(gpusvm);
-> -	pages_valid = drm_gpusvm_range_pages_valid(gpusvm, range);
-> +	pages_valid = drm_gpusvm_pages_valid(gpusvm, svm_pages);
->  	if (!pages_valid)
-> -		drm_gpusvm_range_free_pages(gpusvm, range);
-> +		__drm_gpusvm_free_pages(gpusvm, svm_pages);
->  	drm_gpusvm_notifier_unlock(gpusvm);
->  
->  	return pages_valid;
->  }
->  
->  /**
-> - * drm_gpusvm_range_get_pages() - Get pages for a GPU SVM range
-> + * drm_gpusvm_get_pages() - Get pages and populate GPU SVM pages struct
->   * @gpusvm: Pointer to the GPU SVM structure
-> - * @range: Pointer to the GPU SVM range structure
-> + * @svm_pages: The SVM pages to populate. This will contain the dma-addresses
-> + * @mm: The mm corresponding to the CPU range
-> + * @notifier: The corresponding notifier for the given CPU range
-> + * @pages_start: Start CPU address for the pages
-> + * @pages_end: End CPU address for the pages (exclusive)
->   * @ctx: GPU SVM context
->   *
-> - * This function gets pages for a GPU SVM range and ensures they are mapped for
-> - * DMA access.
-> + * This function gets and maps pages for CPU range and ensures they are
-> + * mapped for DMA access.
->   *
->   * Return: 0 on success, negative error code on failure.
->   */
-> -int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
-> -			       struct drm_gpusvm_range *range,
-> -			       const struct drm_gpusvm_ctx *ctx)
-> +static int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
-> +				struct drm_gpusvm_pages *svm_pages,
-> +				struct mm_struct *mm,
-> +				struct mmu_interval_notifier *notifier,
-> +				unsigned long pages_start,
-> +				unsigned long pages_end,
-> +				const struct drm_gpusvm_ctx *ctx)
->  {
-> -	struct drm_gpusvm_pages *svm_pages = &range->pages;
-> -	struct mmu_interval_notifier *notifier = &range->notifier->notifier;
->  	struct hmm_range hmm_range = {
->  		.default_flags = HMM_PFN_REQ_FAULT | (ctx->read_only ? 0 :
->  			HMM_PFN_REQ_WRITE),
->  		.notifier = notifier,
-> -		.start = drm_gpusvm_range_start(range),
-> -		.end = drm_gpusvm_range_end(range),
-> +		.start = pages_start,
-> +		.end = pages_end,
->  		.dev_private_owner = gpusvm->device_private_page_owner,
->  	};
-> -	struct mm_struct *mm = gpusvm->mm;
->  	struct drm_gpusvm_zdd *zdd;
->  	unsigned long timeout =
->  		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
->  	unsigned long i, j;
-> -	unsigned long npages = npages_in_range(drm_gpusvm_range_start(range),
-> -					       drm_gpusvm_range_end(range));
-> +	unsigned long npages = npages_in_range(pages_start, pages_end);
->  	unsigned long num_dma_mapped;
->  	unsigned int order = 0;
->  	unsigned long *pfns;
-> @@ -1375,7 +1393,7 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
->  
->  retry:
->  	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
-> -	if (drm_gpusvm_range_pages_valid_unlocked(gpusvm, range))
-> +	if (drm_gpusvm_pages_valid_unlocked(gpusvm, svm_pages))
->  		goto set_seqno;
->  
->  	pfns = kvmalloc_array(npages, sizeof(*pfns), GFP_KERNEL);
-> @@ -1522,7 +1540,7 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
->  	return 0;
->  
->  err_unmap:
-> -	__drm_gpusvm_range_unmap_pages(gpusvm, range, num_dma_mapped);
-> +	__drm_gpusvm_unmap_pages(gpusvm, svm_pages, num_dma_mapped);
->  	drm_gpusvm_notifier_unlock(gpusvm);
->  err_free:
->  	kvfree(pfns);
-> @@ -1530,8 +1548,57 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
->  		goto retry;
->  	return err;
->  }
-> +
-> +/**
-> + * drm_gpusvm_range_get_pages() - Get pages for a GPU SVM range
-> + * @gpusvm: Pointer to the GPU SVM structure
-> + * @range: Pointer to the GPU SVM range structure
-> + * @ctx: GPU SVM context
-> + *
-> + * This function gets pages for a GPU SVM range and ensures they are mapped for
-> + * DMA access.
-> + *
-> + * Return: 0 on success, negative error code on failure.
-> + */
-> +int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
-> +			       struct drm_gpusvm_range *range,
-> +			       const struct drm_gpusvm_ctx *ctx)
-> +{
-> +	return drm_gpusvm_get_pages(gpusvm, &range->pages, gpusvm->mm,
-> +				    &range->notifier->notifier,
-> +				    drm_gpusvm_range_start(range),
-> +				    drm_gpusvm_range_end(range), ctx);
-> +}
->  EXPORT_SYMBOL_GPL(drm_gpusvm_range_get_pages);
->  
-> +/**
-> + * drm_gpusvm_unmap_pages() - Unmap GPU svm pages
-> + * @gpusvm: Pointer to the GPU SVM structure
-> + * @pages: Pointer to the GPU SVM pages structure
-> + * @ctx: GPU SVM context
-> + *
-> + * This function unmaps pages associated with a GPU SVM pages struct. If
-> + * @in_notifier is set, it is assumed that gpusvm->notifier_lock is held in
-> + * write mode; if it is clear, it acquires gpusvm->notifier_lock in read mode.
-> + * Must be called in the invalidate() callback of the corresponding notifier for
-> + * IOMMU security model.
-> + */
-> +static void drm_gpusvm_unmap_pages(struct drm_gpusvm *gpusvm,
-> +				   struct drm_gpusvm_pages *svm_pages,
-> +				   unsigned long npages,
-> +				   const struct drm_gpusvm_ctx *ctx)
-> +{
-> +	if (ctx->in_notifier)
-> +		lockdep_assert_held_write(&gpusvm->notifier_lock);
-> +	else
-> +		drm_gpusvm_notifier_lock(gpusvm);
-> +
-> +	__drm_gpusvm_unmap_pages(gpusvm, svm_pages, npages);
-> +
-> +	if (!ctx->in_notifier)
-> +		drm_gpusvm_notifier_unlock(gpusvm);
-> +}
-> +
->  /**
->   * drm_gpusvm_range_unmap_pages() - Unmap pages associated with a GPU SVM range
->   * @gpusvm: Pointer to the GPU SVM structure
-> @@ -1551,15 +1618,7 @@ void drm_gpusvm_range_unmap_pages(struct drm_gpusvm *gpusvm,
->  	unsigned long npages = npages_in_range(drm_gpusvm_range_start(range),
->  					       drm_gpusvm_range_end(range));
->  
-> -	if (ctx->in_notifier)
-> -		lockdep_assert_held_write(&gpusvm->notifier_lock);
-> -	else
-> -		drm_gpusvm_notifier_lock(gpusvm);
-> -
-> -	__drm_gpusvm_range_unmap_pages(gpusvm, range, npages);
-> -
-> -	if (!ctx->in_notifier)
-> -		drm_gpusvm_notifier_unlock(gpusvm);
-> +	return drm_gpusvm_unmap_pages(gpusvm, &range->pages, npages, ctx);
->  }
->  EXPORT_SYMBOL_GPL(drm_gpusvm_range_unmap_pages);
->  
-> -- 
-> 2.49.0
-> 
+-- 
+With best wishes
+Dmitry
