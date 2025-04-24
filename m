@@ -2,103 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A26A9A6B5
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 10:48:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FCAA9A6E2
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 10:52:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBEE10E2EF;
-	Thu, 24 Apr 2025 08:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1DBD10E111;
+	Thu, 24 Apr 2025 08:52:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="ZsmY+OzE";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="lHGhLUpZ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uC/vkBuV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a8-smtp.messagingengine.com
- (fout-a8-smtp.messagingengine.com [103.168.172.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C99A110E111;
- Thu, 24 Apr 2025 08:48:11 +0000 (UTC)
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal
- [10.202.2.51])
- by mailfout.phl.internal (Postfix) with ESMTP id CAB27138076D;
- Thu, 24 Apr 2025 04:48:07 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-11.internal (MEProxy); Thu, 24 Apr 2025 04:48:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- invisiblethingslab.com; h=cc:cc:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1745484487;
- x=1745570887; bh=moUx0r6Zq8JwwGRRoRpEamtclvFlhO2+mjvAHef9WeQ=; b=
- ZsmY+OzEb1pQg4GiC4JG4Sh5g+Ip+k6fuayHtkGVKQ+IjcAqVxY/D+FAS3CVT9FB
- bg29pfm41Lck3qQ0nffQ9xF94B1iZA4/5xt3cwjzEo7tkMc3i+haiyiXmfPPuWLf
- I9QHoVUY/Bhn795UHXTMVgVXG8nzaix/igvDa79xsIv++E+SWUZHpsUwmm06VBhw
- E2SHliyjCtS7CGWkP0gEBedsT+nvNY01YWL+BSLCqKgkzdmbp9l04pOAdw0iiRgO
- LMgJxWjdyO820kBGpJoqJuA2UnB35x1uLKDuoLpPPKsrCciLTKO5wupwYfd4MyiY
- E48ZjxUYOxysFpM8N8tTlg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1745484487; x=1745570887; bh=moUx0r6Zq8JwwGRRoRpEamtclvFlhO2+mjv
- AHef9WeQ=; b=lHGhLUpZQ9XRUW06rGYsOJZ+OA+9JUUWyUfWkkz2DjS0HftXE7s
- Puk7F8F5vbVFydidVwxpmpEhnfr09aPPoQOJXcLVDpD36eZWskRdyV/MPYBPw7QU
- IXgt9CGIk5eNG5vI5hp1BfJ+zBD6EpsCgC6z51fOVGnXZzmpLW9/DwxHaH4OId6F
- QhaeIG9lJVAL+moq4p1G/i0J7x1X2fzRlUMfsMg57qlnnz8xyLKFQHIpSi/l4Vij
- cVD/wLO2sQ+S9gtU2Bwh50YfPNLuJQ+9btw1HUJUqbbECMegks3lhTlbLw564bol
- bM5rHHEt/4oA6Tv55AC2g4roroZCiT2RrJg==
-X-ME-Sender: <xms:x_oJaDotSKYiM2R2_3OoS3yD-5pJrI8bx9yPpKJRzJ9rk8LvGtoCsQ>
- <xme:x_oJaNp5y-pgrTNpg7MxfBTkwBvTfsIc5fO_MXizIXALjBzgVAtItlU2HlP7Eb-oZ
- qlwFI6y1jQCiw>
-X-ME-Received: <xmr:x_oJaAMWdSCNpaQpUnwW9sv5MKsuG3e3IgR2fZfNdrGQTZWjTshkHFl_cudhZbN1g7Z84lj3JH00ZnuuyfagnH8ZduTFO_ipNg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeeltdefucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
- pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
- gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesghdtreertddt
- jeenucfhrhhomhepofgrrhgvkhcuofgrrhgtiiihkhhofihskhhiqdfikphrvggtkhhiuc
- eomhgrrhhmrghrvghksehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomheqnecu
- ggftrfgrthhtvghrnhepgfduleetfeevhfefheeiteeliefhjefhleduveetteekveettd
- dvgeeuteefjedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
- rhhomhepmhgrrhhmrghrvghksehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomh
- dpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehs
- ohihvghrsehirhhlrdhhuhdprhgtphhtthhopegusggrrhihshhhkhhovhesghhmrghilh
- drtghomhdprhgtphhtthhopehluhhmrghgsehkvghrnhgvlhdrohhrghdprhgtphhtthho
- pehrvghgrhgvshhsihhonhhssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoh
- epughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgt
- phhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
- gtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
- pdhrtghpthhtohephhguvghgohgvuggvsehrvgguhhgrthdrtghomhdprhgtphhtthhope
- grlhgvgigrnhguvghrrdguvghutghhvghrsegrmhgurdgtohhm
-X-ME-Proxy: <xmx:x_oJaG59SC0ie0iwmzaqx2MElZOGTcF7BgPvDNKXGsdCK7sCX-ycxg>
- <xmx:x_oJaC4AOqptvFe75JzIIoHYAJ4tciwEHu3v3woNbQtHFavZlhfHkQ>
- <xmx:x_oJaOgDKiZ4-XDkuT9cjxeo_C-MqFqlP0gtyAaXlUaA24pN0XO7Eg>
- <xmx:x_oJaE6r4zv8apJtEI8fuJtpJJFQK3epsNsNk0JdcXsdfcpXpWDqdA>
- <xmx:x_oJaBD3p2rjIbttTnFuS0qHrVsa-1zlCddRfvwQxDaC1fvlSEaINl1l>
-Feedback-ID: i1568416f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Apr 2025 04:48:05 -0400 (EDT)
-Date: Thu, 24 Apr 2025 10:48:02 +0200
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
- <marmarek@invisiblethingslab.com>
-To: Gergo Koteles <soyer@irl.hu>
-Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>,
- Dmitry Baryshkov <lumag@kernel.org>, regressions@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Alex Hung <alex.hung@amd.com>, Harry Wentland <harry.wentland@amd.com>
-Subject: Re: amdgpu_dm_connector_mode_valid regression
-Message-ID: <aAn6wsnJ-6mqK4vR@mail-itl>
-References: <ed09edb167e74167a694f4854102a3de6d2f1433.camel@irl.hu>
- <8963a409dd575e040e5f07e4ad5e9c1d26b421f2.camel@irl.hu>
- <CALT56yPd-xfd=47xRxrCk4F3jib4Ti7kg8pRXy-gVAQpbOc=pw@mail.gmail.com>
- <e323219b52cda1891a55d12ad77a2b34edc8688b.camel@irl.hu>
- <Z_jodBrNFdEpJRKA@mail-itl>
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21C4110E111
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 08:52:47 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-3105ef2a06cso8021811fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 01:52:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1745484760; x=1746089560; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Pi6I9/2PW0WKwJeejN5o1HPNrvvIUYugrgLnZZJ7Pu4=;
+ b=uC/vkBuVyv5KAodN+tOYiVDsiFtgID9nLLzsVoqNNeZ2BkAwmy4aptsBhzM0jjnQXd
+ IV65PY7aagJrIGNSBf9VsCd3frVB8c0PJqpFTMwzUrlbFoOjyRYM6M3YIlklgffY2RY3
+ HwoxSwyYCNrYvP7nB4dma4IQ0dr1M1T++bajLr2gokktZEJqBXceC+cf93LXFin6i+go
+ OqvBsDHWFT5dfpm805Os88F4rd10JGNXjmkZ0EB87Bqzjy9HOpynMaLniH1pqN3nkkPJ
+ oZB1flsCfwtPgSxi8TxfPioF2ip2xxGklLgpQpWucuGrmMsALoCmF0V2e5fHiOY/B/F+
+ jA0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745484760; x=1746089560;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Pi6I9/2PW0WKwJeejN5o1HPNrvvIUYugrgLnZZJ7Pu4=;
+ b=fVA/OEibbLM1TON8USq0sDNlPAb1caOgxKnxosMFWvRz6GpqetqtJsW+bV3Q30YJ/a
+ VN4Hkm9IQh+d2VYQAnd4cQCrK/LU+o1HGMNIX4tenj9uKheZTjrzbWNtpAdNwHspWm8v
+ JpmNgFw+HVETKek+EfnD4AK6+ZYLgnLuO6EjW5kB/vLW20t1pBrDPIqYDIueBSJQY06G
+ 6CntZtfGFq6QmWSV+DWQc3rCVj7S87jFFG0OEEGaqAEMut8YLrQ5SnF/VFQJBkOtLiQH
+ 67c4IzXpKs3RiRyX0wf2oISkxteCpGRbykUZZ1L/5lLESxGgrCudoOwCFWgdVOTd9Bd6
+ 7EkA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXj3wGt0PKtuEfgzRJPWJmrwYMP9ERnRGectDMp/VjZ7leQWr+1FV2FsgKNFgzTpgYxjuQsmI7QRwc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YylYVgndL6AHTuAaMo3WY00PuxYFvoSO9xNzaXkrObdUdCji0Jt
+ Xg7P+OOATpbom0OZ6tqo+W7r7BPRRqLfcyU9PGQVjiz2UTV1QEmWQjOOpPlgQNAI6FndLRCkaf8
+ 4RnfD24kGg9qIwLx1Iy3riTzBbUfpl1j5l+EsHw==
+X-Gm-Gg: ASbGncsMojF5XlL0YWsIFz71OvZ5193vMacHeq/ITmUEkdblDcmz7+9x39A7OG5QIQX
+ OlM4y5sz0r3OPU6ThlF7Cq8usu8Svnclx3abDSpy9gfgUNu7HYexO55HQCre4dBqlTtplJZQIfn
+ PvCg1k0yPtqsZs0NFSgx8HVsSvZqIstGoQ
+X-Google-Smtp-Source: AGHT+IHAB9LWhYEooDYo0NS7+cNeVroUrJMiu/TtDGjCg2QMPYKVyjyzVDKPg2dN18XgA6c11bYigJex/WlKFNej81k=
+X-Received: by 2002:a05:651c:241:b0:30b:d022:2fd4 with SMTP id
+ 38308e7fff4ca-3179febbfeamr7382591fa.30.1745484760431; Thu, 24 Apr 2025
+ 01:52:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0nQ5TDnVhV5gn1bQ"
-Content-Disposition: inline
-In-Reply-To: <Z_jodBrNFdEpJRKA@mail-itl>
+References: <20250408-gpiochip-set-rv-video-v1-1-200ea4d24a29@linaro.org>
+In-Reply-To: <20250408-gpiochip-set-rv-video-v1-1-200ea4d24a29@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 24 Apr 2025 10:52:29 +0200
+X-Gm-Features: ATxdqUGMaYSVPrnrhvuCdxBcM9tsozWah8p2gB0BcCstcebhaxaVqziqhHfQoJY
+Message-ID: <CACRpkdY0d_a8qzN2bJD+yzZ0P_twwPM21yV771YoABuVQzXAUg@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: via: use new GPIO line value setter callbacks
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,64 +86,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Apr 8, 2025 at 9:43=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl> =
+wrote:
 
---0nQ5TDnVhV5gn1bQ
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 24 Apr 2025 10:48:02 +0200
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Gergo Koteles <soyer@irl.hu>
-Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>,
-	Dmitry Baryshkov <lumag@kernel.org>, regressions@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: Re: amdgpu_dm_connector_mode_valid regression
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> struct gpio_chip now has callbacks for setting line values that return
+> an integer, allowing to indicate failures. Convert the driver to using
+> them.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-On Fri, Apr 11, 2025 at 12:01:28PM +0200, Marek Marczykowski-G=C3=B3recki w=
-rote:
->=20
-> Hi,
->=20
-> On Wed, Apr 02, 2025 at 04:35:05PM +0200, Gergo Koteles wrote:
-> > Hi Dmitry,
-> >=20
-> > But the code would start to become quite untraceable.
-> > duplicate mode in amdgpu_dm_connector_mode_valid()
-> > call drm_mode_set_crtcinfo() in amdgpu_dm_connector_mode_valid()
-> > duplicate mode in create_stream_for_sink()
-> > overwrite ctrc in decide_crtc_timing_for_drm_display_mode()
-> > if crtc_clock =3D=3D 0 call drm_mode_set_crtcinfo() again in
-> > create_stream_for_sink()=20
->=20
-> FWIW I'm affected by the same issue (on HP ProBook 445 G7, with AMD
-> Ryzen 5 4500U). And the patch quoted below fixes it for me too.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-I've re-tested it with 6.15-rc3 and the issue is still there. Is there
-something I can do to help fixing it before final 6.15 is out?
-
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
-
---0nQ5TDnVhV5gn1bQ
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmgJ+sIACgkQ24/THMrX
-1yzQtwf/V1Kwj5a1YqzIurMPiJsNiEryIIzzNggnyRm78T9GwN33DU6aKpvdbcwH
-q4Iz18yFSH2T8suYaXLjan3o4HkwIh6shkMRJ1S+J8KRP1vinn9Olq0pDu7bCxrl
-98+lRYOQpl7n1s8Ne2Mw/z2aaUuE4rd2lKym9YrkkPhvijC7A3XeUqRSS8mkdydw
-gkx4Up1lc0hp0X1o90fc7UJYaxM231XjnT+HqVEYNsnt/8bsaj2FN09SJwsBmVTk
-481dT17Ts2ffRRAw+4lp6ecY3Y+RIbKkvC0rra+y5XFaFzd6O7hQ9MrKxqkLH4xK
-WyLBwwfno2qFjv2Y2lzONmiSwS2YGw==
-=x2tm
------END PGP SIGNATURE-----
-
---0nQ5TDnVhV5gn1bQ--
+Yours,
+Linus Walleij
