@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BBBA9B739
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 21:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9294FA9B738
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 21:00:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27C4710E849;
-	Thu, 24 Apr 2025 19:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0ABF10E847;
+	Thu, 24 Apr 2025 19:00:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="LmOiK4ZQ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="agC3fZ8u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E8FE10E468;
- Thu, 24 Apr 2025 19:00:34 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F1CFB43B6C;
- Thu, 24 Apr 2025 19:00:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 937F310E47B;
+ Thu, 24 Apr 2025 19:00:37 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5EA074439D;
+ Thu, 24 Apr 2025 19:00:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1745521233;
+ t=1745521236;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bLDy713DSCSiEtaJQVHhalrNIkPHI1Ti+irjYvcfZ5Q=;
- b=LmOiK4ZQlvdmbILtNnF2ogxqdhXzJw2Watm4lizMc+BuUWbX0/3OBvj8ekiYDftpcJCpHw
- GVR9yRhrSaftSWBuTDQwZbucV4Oy7OaTAcbT7GF+8WVtduuy+gnJMn8z36P8fZQyW02Oc/
- rqS9ZuWwhh27IVcuyBchfAsNJI1Ff4zo+jVPC2V7jkNDcT2+cADtC6O/j68JrFdQztugUo
- WzGTRvdMx2vyCUG6gpoAjKzQT3d3f8F+0SNhhfS7JQcHOf0LykOuIwEzhCbw8tdZw/Png4
- itre8LrsVpvGm2mpMIJCEMMdSf98DOahvlxZfmnbZTh1dFaNySMibh9CeE+hdQ==
+ bh=4BQLiRh/RZfWcS10lQgNxsXJ+tOrm6WIeF/3AUc4G/c=;
+ b=agC3fZ8uSSGeDqMAmhZmRsbd7oBzZI0fV9O3uaZaPNcGaNpWMjLCwZK2s+c3DtPCfu6GLr
+ z1sT+5+8LbXH/gob7nO6IwF+nWgNM77NZfrzU8Agg8YHfcfRhKVr92ZpB0DhpUg0hdOqJC
+ EcQFTHUSxDSKk6MjbOPUzwy/M4kp7t/fLy/SOyJCF7FZrNdDoZPcz28ihrsfCFAfs03Lci
+ EpxHWgTDu0cU6X3wE3CE1/MrWPkLCVub2kWgIcPjxh/dmRzoUYT4avMqmFB52/kH2YNotG
+ EJvNQbWuA5Tn/kx4ZCHXCl8wmg9RTjz91K+0GVJfKb5OBuKmTKRqXRGc8ftRFQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 24 Apr 2025 20:59:26 +0200
-Subject: [PATCH v2 19/34] drm/omap: dss: dpi: convert to
+Date: Thu, 24 Apr 2025 20:59:27 +0200
+Subject: [PATCH v2 20/34] drm/omap: dss: dsi: convert to
  devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-19-8f91a404d86b@bootlin.com>
+Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-20-8f91a404d86b@bootlin.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -66,14 +66,12 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- "Rob Herring (Arm)" <robh@kernel.org>, Helge Deller <deller@gmx.de>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepudeinecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgegiedvmedusgguugemledutddumedvleegfhdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgeefpdhrtghpthhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrt
- ghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirghtvghksehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepudeinecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgegiedvmedusgguugemledutddumedvleegfhdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedtpdhrtghpthhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrt
+ ghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehfrhgvvggurhgvnhhosehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,39 +94,36 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Cc: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dpi.c | 7 +++----
+ drivers/gpu/drm/omapdrm/dss/dsi.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dpi.c b/drivers/gpu/drm/omapdrm/dss/dpi.c
-index 6eff97a091602f6d137095b3b7bf54fce17e8d3e..9f86db774c395db7e3396cbf2694748fc23c309d 100644
---- a/drivers/gpu/drm/omapdrm/dss/dpi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dpi.c
-@@ -562,7 +562,6 @@ static const struct drm_bridge_funcs dpi_bridge_funcs = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index 91ee63bfe0bc73e28877d0383812225867e167a4..b129e5a8d791507098c7b8d1bc54f54c4b453954 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -4701,7 +4701,6 @@ static const struct drm_bridge_funcs dsi_bridge_funcs = {
  
- static void dpi_bridge_init(struct dpi_data *dpi)
+ static void dsi_bridge_init(struct dsi_data *dsi)
  {
--	dpi->bridge.funcs = &dpi_bridge_funcs;
- 	dpi->bridge.of_node = dpi->pdev->dev.of_node;
- 	dpi->bridge.type = DRM_MODE_CONNECTOR_DPI;
+-	dsi->bridge.funcs = &dsi_bridge_funcs;
+ 	dsi->bridge.of_node = dsi->host.dev->of_node;
+ 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
  
-@@ -707,9 +706,9 @@ int dpi_init_port(struct dss_device *dss, struct platform_device *pdev,
- 	u32 datalines;
+@@ -4894,9 +4893,9 @@ static int dsi_probe(struct platform_device *pdev)
+ 	unsigned int i;
  	int r;
  
--	dpi = devm_kzalloc(&pdev->dev, sizeof(*dpi), GFP_KERNEL);
--	if (!dpi)
+-	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+-	if (!dsi)
 -		return -ENOMEM;
-+	dpi = devm_drm_bridge_alloc(&pdev->dev, struct dpi_data, bridge, &dpi_bridge_funcs);
-+	if (IS_ERR(dpi))
-+		return PTR_ERR(dpi);
++	dsi = devm_drm_bridge_alloc(dev, struct dsi_data, bridge, &dsi_bridge_funcs);
++	if (IS_ERR(dsi))
++		return PTR_ERR(dsi);
  
- 	ep = of_graph_get_next_port_endpoint(port, NULL);
- 	if (!ep)
+ 	dsi->dev = dev;
+ 	dev_set_drvdata(dev, dsi);
 
 -- 
 2.49.0
