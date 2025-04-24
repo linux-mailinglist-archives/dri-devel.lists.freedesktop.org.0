@@ -2,54 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF958A9B181
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 16:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7FAA9B1B5
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 17:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6CD310E315;
-	Thu, 24 Apr 2025 14:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B54510E0A5;
+	Thu, 24 Apr 2025 15:08:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="Nr4pd4D2";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hkTO/UrV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A3F10E315;
- Thu, 24 Apr 2025 14:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=YjpXgRpWlie3nhUpkIBO8PbIJqJF6f6xuXD5Vo6dKLk=; b=Nr4pd4D2RRdqU3qS
- FoRqDTjUb3bVXqrUZ4Utexrrlomo82+grWdiEb+9+iB7IIvVw51zUGq1eJ61E5cJF5HbXZGc3NGjW
- uONY7rAWk+Ag9Ly0cTZvzj0NdtkWaj++mYLni+mScGQKRQpIOXozGDCv+3Kpq8XuB+n0MKdm+ta8V
- uVhKmqpNHq8YhVI2H06NACBPCai6RkKI1YareY2dRcfj9EGJtUzLAUz05ptxtoUi9wz0FK1In5CIv
- dWNq19qsvCJAEInsyxdXwswM8vf5JKqgdztdkFGgkMD5CKo2oXXOx5PxC3NvLi0CYKEnYrpJbAoAE
- v/As6Gk3CpU0LfrjBw==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1u7xts-00Ddmv-1u;
- Thu, 24 Apr 2025 14:50:04 +0000
-Date: Thu, 24 Apr 2025 14:50:04 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- alexander.deucher@amd.com, harry.wentland@amd.com,
- sunpeng.li@amd.com, siqueira@igalia.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] drm/radeon: Remove unused radeon_doorbell_free
-Message-ID: <aApPnAA_QLYhNn71@gallifrey>
-References: <20250418002117.130612-1-linux@treblig.org>
- <20250418002117.130612-3-linux@treblig.org>
- <ab85b3c9-46cc-4148-9de5-dcaabea130ea@wanadoo.fr>
- <CADnq5_MrEQ2XGbNho6xd9Um0R6kEEpZBeu0e-97o6-D=juD0gw@mail.gmail.com>
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EF2710E07F
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 15:08:26 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F002E43B30;
+ Thu, 24 Apr 2025 15:08:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1745507304;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kwtZUDd9gopu8zcCC7uUuLCyqfUunCI+oJq4E/2cP8w=;
+ b=hkTO/UrVpap4HBu2e4bKxBkum05gdM3+9VhWemsvQ+uRDD4HMct7fWS5UgCPPOQQdxr1SC
+ QFuCeGhoN05wFQlRS4I3cZZP6qlPMcahbHZxB+cafbzqvvlC6OQiE2QJj+1Hx9hTGRr3BD
+ 3Iz8XrPhwfi/11uKR9SlKRoiMZPwIYVHNnMmZFUIXis9QAEzBuy8JewQkDq4Yc3IVR65T7
+ kuaL/J60EB/TGfDRLbM/YRoGS/gtiDYHsSlST/waKW9Rb/KiwgtoNEVSHwPW+dImFRfA/z
+ YOS6ZHRvODDFZyLSxo4WB0hA9NC183cDu29kGoAaE2Zevkb2ADdC8dlXhDVJ/w==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH RFC v2 0/5] Add support for Saef SFTO340XC panel.
+Date: Thu, 24 Apr 2025 17:07:38 +0200
+Message-Id: <20250424-feature_sfto340xc-v2-0-ff7da6192df2@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnq5_MrEQ2XGbNho6xd9Um0R6kEEpZBeu0e-97o6-D=juD0gw@mail.gmail.com>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 14:49:51 up 351 days,  2:03,  1 user,  load average: 0.04, 0.02, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+X-B4-Tracking: v=1; b=H4sIALpTCmgC/22NQQrCMBREryJ/bSRJG21cCYIHcCtFkvbHftBGk
+ lgqpXc3ZO3yzTBvFogYCCMcNwsEnCiSHzPI7Qa6wYwPZNRnBsml4kJq5tCkT8B7dMlXNZ871ks
+ rlVFWHeoG8u4d0NFcnDe4Xs7Q5nCgmHz4lp9JlKooa978UU6CceYqXvXCaqP1/mS9T08ad51/Q
+ buu6w+KmomFuQAAAA==
+X-Change-ID: 20250129-feature_sfto340xc-d2b25a5b5748
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Kory Maincent <kory.maincent@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeeljeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthekredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeduhfevudetfffgkedvhfevheeghedtleeghfffudeiffefvdehfeegieeivdekteenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudekpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrn
+ hgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehquhhitggpjhgvshhsiihhrghnsehquhhitghinhgtrdgtohhmpdhrtghpthhtohepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdprhgtphhtthhopehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhm
+X-GND-Sasl: kory.maincent@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,85 +75,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Alex Deucher (alexdeucher@gmail.com) wrote:
-> On Fri, Apr 18, 2025 at 2:18 AM Christophe JAILLET
-> <christophe.jaillet@wanadoo.fr> wrote:
-> >
-> > Le 18/04/2025 à 02:21, linux@treblig.org a écrit :
-> > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> > >
-> > > radeon_doorbell_free() was added in 2013 by
-> > > commit 75efdee11b5d ("drm/radeon: implement simple doorbell page
-> > > allocator")
-> > > but never used.
-> >
-> > Hi,
-> >
-> > I think than instead of being removed, it should be used in the error
-> > handling path of cik_init() and in cik_fini().
-> 
-> Yes, ideally.  Care to make a patch to fix that?
+Add support for Saef Technology Limited SFTO340XC LCD panel.
+Add alongside the number of lanes configuration in the ili9881c driver
+as the board on my desc use the panel with only two lanes.
 
-I can have a look at that.
+Faced an issue with panel-common binding. Wrote a fix (first patch) but not
+sure it is the right one. If someone from dt tree could take a look, it
+would be nice.
 
-Dave
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Changes in v2:
+- Add new patch trying to fix panel-common binding.
+- Read the data-lanes parameter from the port endpoint and use
+  drm_of_get_data_lanes_count instead of of_property_read_u32.
+- Link to v1: https://lore.kernel.org/r/20250408-feature_sfto340xc-v1-0-f303d1b9a996@bootlin.com
 
-> Thanks,
-> 
-> Alex
-> 
-> >
-> > CJ
-> >
-> > >
-> > > Remove it.
-> > >
-> > > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> > > ---
-> > >   drivers/gpu/drm/radeon/radeon.h        |  1 -
-> > >   drivers/gpu/drm/radeon/radeon_device.c | 14 --------------
-> > >   2 files changed, 15 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-> > > index 8605c074d9f7..58111fdf520d 100644
-> > > --- a/drivers/gpu/drm/radeon/radeon.h
-> > > +++ b/drivers/gpu/drm/radeon/radeon.h
-> > > @@ -686,7 +686,6 @@ struct radeon_doorbell {
-> > >   };
-> > >
-> > >   int radeon_doorbell_get(struct radeon_device *rdev, u32 *page);
-> > > -void radeon_doorbell_free(struct radeon_device *rdev, u32 doorbell);
-> > >
-> > >   /*
-> > >    * IRQS.
-> > > diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-> > > index bbd39348a7ab..4127ffb4bb6f 100644
-> > > --- a/drivers/gpu/drm/radeon/radeon_device.c
-> > > +++ b/drivers/gpu/drm/radeon/radeon_device.c
-> > > @@ -392,20 +392,6 @@ int radeon_doorbell_get(struct radeon_device *rdev, u32 *doorbell)
-> > >       }
-> > >   }
-> > >
-> > > -/**
-> > > - * radeon_doorbell_free - Free a doorbell entry
-> > > - *
-> > > - * @rdev: radeon_device pointer
-> > > - * @doorbell: doorbell index
-> > > - *
-> > > - * Free a doorbell allocated for use by the driver (all asics)
-> > > - */
-> > > -void radeon_doorbell_free(struct radeon_device *rdev, u32 doorbell)
-> > > -{
-> > > -     if (doorbell < rdev->doorbell.num_doorbells)
-> > > -             __clear_bit(doorbell, rdev->doorbell.used);
-> > > -}
-> > > -
-> > >   /*
-> > >    * radeon_wb_*()
-> > >    * Writeback is the method by which the GPU updates special pages
-> >
+---
+Kory Maincent (5):
+      dt-bindings: display: panel: Fix port binding
+      dt-bindings: display: panel: ili9881c: Add data-lanes property
+      drm/panel: ilitek-ili9881c: Add support for two-lane configuration
+      dt-bindings: ili9881c: Add Saef SFTO340XC support
+      drm: panel: Add Saef SFTO340XC LCD panel
+
+ .../bindings/display/panel/ilitek,ili9881c.yaml    |  21 ++
+ .../bindings/display/panel/panel-common.yaml       |   2 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c      | 265 ++++++++++++++++++++-
+ 3 files changed, 285 insertions(+), 3 deletions(-)
+---
+base-commit: bef4f1156b74721b7d111114538659031119b6f2
+change-id: 20250129-feature_sfto340xc-d2b25a5b5748
+
+Best regards,
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
