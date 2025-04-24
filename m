@@ -2,166 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA48A9B90E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 22:22:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41F9A9B930
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 22:29:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD8010E02A;
-	Thu, 24 Apr 2025 20:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C734410E864;
+	Thu, 24 Apr 2025 20:29:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="VdEpEVIK";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FuFXDoxV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2058.outbound.protection.outlook.com [40.107.93.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F20A10E02A;
- Thu, 24 Apr 2025 20:22:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZWuwRNkvyAgidhbEedD7Kw7KOeWVs+28Wg+platN5nYMHSSbZCwQMqXUxs9N0fo8FrTrOPaiZmQV/8nZ2zD2b1IcL0oJusrm0SAktqDtTd3xIx5ohsRlP95ok6EIjYorWZjQt63yGzqJRfF7HpnT5Qu5Php/blYGJpzUquHRZ54DGwWqMuru2HcL+xvdJUHRpXtvlEIxwb2dvOB+mIyQj/FJhaoYZcZv9grYzBE0KUsw2sLQUR8QjW1TeQxUMpGm7axTpXKckfpIXVMAivLiTeSEU0+RN+2opU71NdCSOTLqdRkmlDJD7sqFxCG+9URFKamI4k9oQKiheCZezqdFOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rbh/k+l2WscQat/XMYxtHhv0ilU//rB2LJnOc2BNRs0=;
- b=QDqlz6q0jjrkWg8G0mx3n5CaI4qQ/tS+Ck+Z1alvM0Zq/TwkBI+fad86RlhDWi+yxsrYlG34wp3vbRBnmjAtpV7qe3gU0owslegGG8YeqqDbgb/tadgGKJq6zk7i1mkLtrlGiW7+nLeSJS6KUY5b7ktkU/7XPJFpsHJ/n87aByZRQHnWV//AMSgPcGcCToS7LeupALkpQcWV60lpoYeKBu3Cu+A3RSsWsh9rItfViWeKEU/i7kzqCLdWFn9TY/15pDm0NKAnnjZMO6HylZydvZ02sQBKyfa0jguykybiSZZ88JjzA/sE9Uf1tWYIrXoJNWsaZ4GIHodJ92KCRV6DTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rbh/k+l2WscQat/XMYxtHhv0ilU//rB2LJnOc2BNRs0=;
- b=VdEpEVIKUC6OJIvyswm0WI+E9QOuRB0GuHB6DQWOy3Ut/t9mQ8My2E37d1XkpmoWaf+dCRrUbNu7RvvV/yL/ae1X/Vwr2IXhtKKWwdyW3EsEe+yt4wxP06GOuuYfAyKo9IIoVYcsY9DGDHHp1rQMuCNxBGdGLWGIcPts6SYACf6uEjJHw9TSGIqTyLjItCto/DzI5ZHG5ZIGttDhFEF2F8AWOTWgjyfo5H8+W4l4Ci1fgkULsSAeQ4UMCwXT7TcTHQcMVv/HQ26R95hEFWobtljBgz09vpXlATPbDX7uPWmXluqbNVGsweFygTo4VcveqXr4lgY+IIqRxDnI6O0M6Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB8044.namprd12.prod.outlook.com (2603:10b6:8:148::14)
- by CH3PR12MB7739.namprd12.prod.outlook.com (2603:10b6:610:151::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.36; Thu, 24 Apr
- 2025 20:22:47 +0000
-Received: from DS0PR12MB8044.namprd12.prod.outlook.com
- ([fe80::f250:7fd7:ce23:a0fb]) by DS0PR12MB8044.namprd12.prod.outlook.com
- ([fe80::f250:7fd7:ce23:a0fb%6]) with mapi id 15.20.8678.025; Thu, 24 Apr 2025
- 20:22:47 +0000
-Message-ID: <aa540122-6a6a-4fd0-9005-5a4061f8eb6f@nvidia.com>
-Date: Thu, 24 Apr 2025 16:22:44 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/16] gpu: nova-core: Add support for VBIOS ucode
- extraction for boot
-To: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, John Hubbard <jhubbard@nvidia.com>,
- Ben Skeggs <bskeggs@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
- <20250420-nova-frts-v1-13-ecd1cca23963@nvidia.com> <aAjz2CYTsAhidiEU@pollux>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <aAjz2CYTsAhidiEU@pollux>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN9P223CA0011.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:408:10b::16) To DS0PR12MB8044.namprd12.prod.outlook.com
- (2603:10b6:8:148::14)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D75F010E21F
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 20:29:03 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53OJmfLA006917
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 20:29:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ AE6pFsekqcqEpjtxscTH0U9yzSRkz2si1yg/1Rn6R0I=; b=FuFXDoxVcgsmKjY8
+ bMlQIDCswn+OWe9kpnZwSVbK/gROM10pRlRH+jjoT2NZ5o/BOvs/L1U1fk1WWelN
+ PRAh8+BzNJfrzr9fjgBU79QOpCGmwZYm+W1sV7zsUPL3NQdMRvYyiP7G8DTeL7Xo
+ AbUP/VmKBR4jeBQDSbtnSSP5o4SwTFVC+P4vVf3f7v9RAMugBeJaZghvaHOISPZF
+ xt1j+Ew1XUisdTeuFo1SjnkT9XeScVZoIyhBhD51u/phtHzuvgVgG/tWK563h3s7
+ G8tHf8aMxpPFSjY1c5DLX+RAXQ9EfWgmRbt8+ljbSB6cjvJfE9oQ9/ZrRpn3BwlV
+ rn4QDg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh2evu6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 20:29:03 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c53d5f85c9so29119385a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 13:29:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745526542; x=1746131342;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AE6pFsekqcqEpjtxscTH0U9yzSRkz2si1yg/1Rn6R0I=;
+ b=wH835FldGCe89dg39FXFQfdKo1YuRMe+FWpaL3z7T0+m7SOWIPHICUsFI39pS64T+a
+ VtVINk1YjW9f5fxpJSfrTAk2wNbxrAwzQtuo0gRQAqWsbP4mHz1+VWieR5hjObSqnNBy
+ Csonp+z5pLZxPwQbGy1kdZT39QfqieOBJnJL7IaHYN93sa6V1kHEjNVEVKzkm51bX4Ej
+ TV328T94GWizMuYp+MCW5/qxJFNQSRAj3eHdHCDvM3pEBDybCJcnRK/Mo4sKlauA2XtA
+ cye7en8mpxTkVGXSVzH7H6XSWJ+GbeN2ybA1X2OQcZAQwCgYQz3+brZxEpfTcH4KtCcm
+ 32UA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVIw/N3Y6SofCYsq3qhimDP33+qgn3ocodgHyaSWzFqWtrjTHU4MDG31a2VRfYrOFDO8Hg9vSdZIRI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwiS5EbQa9OcWitTIiSLkJeJEjwIL92EeW/JDicBT5hDbXhGZrb
+ eyIak/wgg7rB3zLNRVMy0I8cEc9s5XAOM11/qQndFBw5H/aNUGtWNLDpevpG+YZRsgqyAd72Sbs
+ oA3B9R09ItXI670Hr+1NKWdrdwtli45Y1GFz/TZCQQerEPqNf94qQZCllGy4kWkqG1rk=
+X-Gm-Gg: ASbGncu2mdRbMjsOIXwFbZzYQpb1PAytFrBapbUnT9YGxRIdleMiaOxqeEUDDJbzgNB
+ 0ubDK9NAryN/C0Jk04DRYSuxOqvgIXQE/u7SI0FDG/gyNdDglzFo2DxZ0G0l/5wIiLQxflNbYnn
+ c9Wd33gJrMNHPwjvK48YdlJoG+4nBsrdf0PAQlFFlWcVtaxyeANU1V/jCsQ6T2dfMm5UgZ58HhL
+ kn3Lp/BG3qqhb3tXhKMHU1EGtQAs2nj/jFlYy0KN4c6mcGqxubjKyHQZy4/v7UWfyW/kRd1/0MI
+ LNuTdgkFb3/eovAiiq8Dhgmhc7/LPxtavFPw8uy3r+96+D6RIPraXjk01ULZ//vPqlE=
+X-Received: by 2002:a05:620a:390a:b0:7c0:b106:94ba with SMTP id
+ af79cd13be357-7c956efd7fdmr209394585a.7.1745526541810; 
+ Thu, 24 Apr 2025 13:29:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG5WXJS8NaqdeMt/+KLcu9ZSJwqsayh1efliZCQC90ik+AnNBQkVEBnW9Khoq4PWXzzmvC+AQ==
+X-Received: by 2002:a05:620a:390a:b0:7c0:b106:94ba with SMTP id
+ af79cd13be357-7c956efd7fdmr209392885a.7.1745526541344; 
+ Thu, 24 Apr 2025 13:29:01 -0700 (PDT)
+Received: from [192.168.65.221] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ace6e4e7ccbsm17442766b.59.2025.04.24.13.28.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Apr 2025 13:29:00 -0700 (PDT)
+Message-ID: <eac33841-4796-43bf-affe-31901344c5ff@oss.qualcomm.com>
+Date: Thu, 24 Apr 2025 22:28:58 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB8044:EE_|CH3PR12MB7739:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb88fc99-63e2-43e1-8d67-08dd836dc72c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L2pkQk1ITERFb3ZEaUltbHJ3NmRvREY0UC96eVlhK0VBazg0RkwxM2pLaE9k?=
- =?utf-8?B?RVlsdGhDcFRZSDRxMFQ4cXNRaVVYMThGU0xOY1ZnNmJ4SUpUdi8zbXZqdTRS?=
- =?utf-8?B?dStUcWtJNW9RdFh6M3BTUk03ekNSY0xUN2xWa0Ywd3U2eEdtLzVTUS80T25W?=
- =?utf-8?B?ZytQYVNsM0xyVGU1dFFBTW5sU2FhRldFSklpSVhrZlhnMGpKTEU4SGlTVlh4?=
- =?utf-8?B?ZVU5b0U5a0dPNm00Tm4xSVlYaWs3YnhVVWpuYytMR2xNdlhkTVMxRHEzR3Rp?=
- =?utf-8?B?dGtaQkpEajF3YmZHb21pWksveS9pZjVCVXpYV2laTzIrV0dGMjVTeExpYlZ6?=
- =?utf-8?B?UUlXaGQyeExSWFQyN1lNZE92S1BUOWF5YXNIS2E3NjhzSmhyTUFmVm9IUmRF?=
- =?utf-8?B?elM0WGRZZzFYNm5sbHAwb0RGNDdlR2pqZnRxTWk2cEVVVmZ5VzEwN2lSOFV6?=
- =?utf-8?B?Y3RWTGFUU1VlRjZtL3hJck51VE0wa2s1VGlBMDZMYTNJVUhUZTZYN1d0dU9j?=
- =?utf-8?B?WWZoSDIzK0c0K0pEWXFoeERFWUN0b3o0SWJvd3FyTU1UZmRDVHEwMkFkSnFm?=
- =?utf-8?B?SnZjK3dnWTFyRXVlOFUvZVhrczlYYnVzTlRrd1FPT2tGaDZtanZJYUtxUUVG?=
- =?utf-8?B?YUlTdVpjclhYVVB1TzIxV0ZOa0VTUGxXSlIwbkJocldxbnZnT0F2cVNpSzI2?=
- =?utf-8?B?ckZoeHVwdG9rNkw3WUZlT2V1QVdxajRPRlMzdFJTb2hQMVFTVXhPOUdHc01v?=
- =?utf-8?B?VzNEa0w0Y0Zab3FmWU1NMWc5YzFOWTk3V0NOOW9lMXlxdUJqckdUT2hEanVX?=
- =?utf-8?B?QUxWUG92YnRnY3hTU0xCQXFhZUEzdXJpNFZPTEp0QzR2Tkc0WktjZGpvWC92?=
- =?utf-8?B?WURsZXRzaUd4RkhKSXVuWlBDU2xUdzlwS2ZZT1hhVHJSVnJGZWdOYVl2bURB?=
- =?utf-8?B?WnJub3pvMGl6ZU50YWFSemJQU3V5MHQ4M1RFUm42WHZXUE5jZ0g3T1ROZ0Jx?=
- =?utf-8?B?a1NCT3JTbmRiVDE5eEtYK2NRbUtrRFFUNDl6ZVMxRWNIUUtGMkVLSVc4NFVD?=
- =?utf-8?B?REFZOWp5ZHRudXBtR29Jb3Y2ak16SWFEdjNnQkZJT1VNc09XaDU1cmE0L2Nj?=
- =?utf-8?B?UUNNNkZhZVZHcitOS0dSU2xiaFZhSW1yRU5ieXlQQVY3ZUlqNFVGcXZpaDRH?=
- =?utf-8?B?bUUvMkNLbkRZRXdTaG9jL0RVdE9lVnhjZzlVbUN3L0VzZG5lVXJIdjdUUjFG?=
- =?utf-8?B?NWdyOFllZDRJVjB0S0NzOWJGMG1kVXEzZFJWcERWNU9yZ2FSRGZ0Yk51b2Nh?=
- =?utf-8?B?YXB2V0pYN2YzY1RROTlVd0MxYnNyczVtN1NXTUpwWktCWDVoRlJHMzBkL1BW?=
- =?utf-8?B?MTRqc2IxSHBsOG5hc25tTExNcEhIY3ZoZ1YxOEJNdzZJbk9HVTdySStEVUwx?=
- =?utf-8?B?WCtiRDE1R2dhQWtIMXpxYmZKVEZZK2pYU2RTUVB6d3Njd1Y5YkxpL2Jub3pK?=
- =?utf-8?B?WW4yaTg2d0RQSk13MjBjRjFZOGZyRFRYck9BaUUzck5XbHkxM1RXSlJvN0NH?=
- =?utf-8?B?YmpJbnhiSmNVLy8rellzejZyRkwwSlp4N3drMVUvUEp3aGFPTjR1VFg0OHhs?=
- =?utf-8?B?cGNxT2FwcncwNjQ3bjUwOG5jbnpFVkVpcjJ1ejdUQVdpajlyRE41ek1nN3Jw?=
- =?utf-8?B?dDdNOTJJRndyWmhocnNHdXJZK3U2ZVFISENrRzA3U0xQcXh2UXlXemtVVVZO?=
- =?utf-8?B?MXNRTGI1cnpjak04Z0VKMEJpSnluWjNBRVREVVBjNjQxRVpjeEhubHhWekZu?=
- =?utf-8?B?UGxqVVgxYndHSXFSaXAyOVpjR3B4bTZJaFBDa1pGeG40V3V4b0xYdHlWVG05?=
- =?utf-8?B?VkVwR3lLSW45TFdZUUhPMjlRN29uTVBGT29qa0ZuV3Y1UWcyQUMvdituZXpL?=
- =?utf-8?Q?3ZS77bF8dmU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB8044.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bGFtU1NTcWhVZ1lPTnpBWUtXT2xCSHpxUlJtUXB6U081OFlXNUV1Rlk2d3A5?=
- =?utf-8?B?NkFvL1MweGJOVUtTRE9ycW1YK1VkWVJCbnIyTTYyZzlReFB3M3pCVS9qdTV6?=
- =?utf-8?B?MGpHQTNVa1dISWs3WWo2K095ZW5PZUk0VmxBOGNNWUtGcjVORzhha0hsREE2?=
- =?utf-8?B?U3hEeGljU2dxSDFtTTlCaUJHTkFpSURHbS9NdktkUnM2V2g4cnNrR2gvdzJv?=
- =?utf-8?B?MGtFMmtrbTdETUVlb2xXRkREUElVS1dEMjBidzIxVHM2L1pSZmUzRnRCU01i?=
- =?utf-8?B?NE5XR0hBc2hQUGFBeThWT0Vyc21wSkNld09NaW1QU000VkRlVDB0VktBS093?=
- =?utf-8?B?Q2pTWjhqT1p4L2ZBcFZvcUZuQjhXMnJ0K29hUkFaeW4xWFY5elpjbEFYQ2N6?=
- =?utf-8?B?R1VtSVQ5R2pqNk5PNnZka1Z3Y1NVNTNwenZBdnFkd2xkaUkydUl4S3R5SFd6?=
- =?utf-8?B?S0M1Tkd6NnIzZGJaUVlCZEFTUzFkUWxidkJnWXFXL3I0UitsbFJpZlVGQlNy?=
- =?utf-8?B?bUNiZE5RRFcraW5Tci9QNjlRbjNrMG00cTkvclBEZVQ2TUJqQnpJK1huR05w?=
- =?utf-8?B?cy9Dbm8rVjJobDFLN0dLSTlseExrVUxERE5JS3hzeXF2OEVLdUZIb3cxL3Y5?=
- =?utf-8?B?alROU1R2SmdocUJRdHdaRmdTRjdET2JzRzRHQjNvZ282aXNkYVlLOFhFTkpL?=
- =?utf-8?B?M2MyVlNlVXFJVWQ4OG5wRmo3eVU2ZjEyYVFGUzZMQjR3VGpqTWl3VVJpSDAy?=
- =?utf-8?B?bnBYaUg2NERrcDlIWjVVZmtSKytNRUQvaUtKMmJUYVJWb0plVXRjcHR1eGlW?=
- =?utf-8?B?YngxYUxqVFdkbndxM0NadDJIR05tNDVQeXVBWDRjTGNicnkwRFpRTThuMDVI?=
- =?utf-8?B?b0VLWXRaZXhtd3oydEVwb05KUVdzeTdSK1JXeTdCSUZTN1d6bHB1UW94NXpG?=
- =?utf-8?B?SXFDN2xLd21kQWt1TjF3V3c1cEFoNGFCYlFFbFRCL3g2UmF3c3BEOHFKYStz?=
- =?utf-8?B?dUhlMTVySGFrTVhXdCtObnc4RE5GUFlTQzFqa0IzeGNHd3R2MnJrb1dTZFJ6?=
- =?utf-8?B?bXpEN240TmFWOUxleC9zbnY3OGlWT2RrQTVlSVlTR0FBaS9jWE1uOUVhZVpy?=
- =?utf-8?B?b0svUkFER3hZWVFaWjUvNmVXcUgza3V6a1NKMXZNTmNpWTROUkFuLzVXVXZk?=
- =?utf-8?B?c1hvaFNOdzRtdUEzWU0rZnlGSVMySWJESWFQako3cGUvKzNyRU9xazBMVlA3?=
- =?utf-8?B?UVEzenpYSDVBQjBWS25nUlFDMjMzT0xORmNDNFRXVkpyTlR5RWxYVUh5dGVC?=
- =?utf-8?B?SnVGSUVSVTJPWDV4Vy9QMHAyWmVTK251cTRtR0p6eG5tV29jdC9WT1RpQzlL?=
- =?utf-8?B?VkpwZFhIMjQrQTZGOU85VVlJTXJxN1JOWFFXU2JJNDA4VVEwQ04rYVF1TTJ1?=
- =?utf-8?B?V0R0SW9oWitPcklXdWV0a0FXdW95UTBqTzlFZGZ3aWlkZnNtK1NrSDdSbXNv?=
- =?utf-8?B?aGxCL3ZqTnI1WmNMaGhaYjJxZmUwcHlFdklxSHlaMkFuWENKWFBNcTFEdUpv?=
- =?utf-8?B?ODd5M0Z3QXdQSjF0Nlc0eFBTTWNGV1ZJYUx5QmFmT3lpSDlVQ0hxR3F4cWgw?=
- =?utf-8?B?TWc3SUJvaTJGQitMZkJBbEpieHArem5MeWN2aS9VVEI5ZXVjSEM2UGN5YVg5?=
- =?utf-8?B?bmdaK3hrWENScjVJa1BBV1ZycWFsNlBPbllQWTZ1WHZZZ1JNSUQ4d1h3bEYy?=
- =?utf-8?B?Vi82VWFsRHppZFhDZXcwQWU0TWJ4a2pzVEZWZnVqUmZweEFMSjdtSEZIKzR0?=
- =?utf-8?B?UEdsa1J5eFdWNWJyZzBTNWY1UEFCbHhLeEw0ZFVlRHdFZE55MnRMdm5zMnFH?=
- =?utf-8?B?K3owWkdEU3NQMVhJaEFseldVV1o0UGtuMEhrQWhldEYyQitvVDlXVTBCRlBr?=
- =?utf-8?B?bWZiRllRVjRhNU1FUnhnbWNhSHhydVczVFRJRVJ1WXJXY0pzZ0JGUFlnOGlO?=
- =?utf-8?B?dDhCOWtoKzhqbEE4ZzlWZDlTUTdDdys2R3UxQ3ZOUko0QllrWTB5K3dFM0F2?=
- =?utf-8?B?bEkyeko4aEI4bHErM2pmTU0yT3dVWkc3QUN0UnA0cVh4NnUzaEw1ZEJ0NFg0?=
- =?utf-8?Q?jL6PFtsmO0qyIQNq+J56Ze+v1?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb88fc99-63e2-43e1-8d67-08dd836dc72c
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB8044.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 20:22:47.4698 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g0BdCoxlChsI6o941JfElWSu0Wz8IArKI8TnEnIsjetPTgJokzBIPyKpoJ10zVJlPZZ4w7eRnwEfuOi5P8tB7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7739
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] drm/msm/a6xx: Get HBB dynamically, if available
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Clark <robdclark@gmail.com>
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Connor Abbott <cwabbott0@gmail.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ linux-hardening@vger.kernel.org, dri-devel
+ <dri-devel@lists.freedesktop.org>, freedreno@lists.freedesktop.org
+References: <20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com>
+ <20250410-topic-smem_dramc-v2-3-dead15264714@oss.qualcomm.com>
+ <20911703-ab4e-4eb2-8611-294730a06d2f@quicinc.com>
+ <CACu1E7HDmQXDNtEQCXpHXsOKPCOgrWgo+_kcgizo9Mp1ntjDbA@mail.gmail.com>
+ <1282bf58-e431-4a07-97e5-628437e7ce5f@quicinc.com>
+ <CACu1E7GwMCt6+JJQGgSvJObTMMWYLPd69owyFo7S=sxu_EEsUw@mail.gmail.com>
+ <16845de2-a40a-4e3d-b3aa-c91e7072b57f@quicinc.com>
+ <CAF6AEGvyeRLHFBYmxkevgT+hosXGiH_w8Z+UjQmL+LdbNfVZ+w@mail.gmail.com>
+ <acd1c8dd-286b-40b7-841d-e53e2d155a61@oss.qualcomm.com>
+ <CAF6AEGts5rWvgyZy8RtAaUOsad362AG-uNjxF9vyj4szg=b5Bw@mail.gmail.com>
+ <6233171a-2964-4d57-986c-d3f1725eacd6@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <6233171a-2964-4d57-986c-d3f1725eacd6@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: dTatGJAoOdfyIeBio6jkLCXXrkpA7G5m
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI0MDE0MyBTYWx0ZWRfX4I3S3vaYzziq
+ W15+WGMXU/9dKumVfcZ4wfX+n9c7TjlDCha07aTba6r67E1AWLicfpxj+2/814kdILWrawyIzr1
+ wxp+UIffKHpr5k0m/PnL4ClWBj3P8xAaYWeAkLwh+sTe3+xwqJJ+FnAleaFy5edWyxbSZQ+4ivV
+ 3Of6stj+BlY1snwxdEIU0MvB2xP7GSZfay0BvivOZcyMNT+/kih7KITgYm5ptt6cZYzHCR21p2Q
+ g3qjfw2w+8buRb/+Fyvgsq+P//TXscTi3XJQQrasDwcZmgv3evmoz8vU7JHkVHyZcLf48IuG1IY
+ IedEEJS/7jyA+0Lv22AlotmOb5xXAPTH9hdIlJe/vqxzf7KOV7EXehidREuI34EEzT5xwNXdUIk
+ K+M3pZH7/LxKu2j2NZalbLkBXnbS3YW/7215oO6Aa+tT3gJbOLuM3yRV7E/Lj/lKYQsDVFt0
+X-Authority-Analysis: v=2.4 cv=Tu/mhCXh c=1 sm=1 tr=0 ts=680a9f0f cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
+ a=U4o27yoWPFISaBf6hsEA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: dTatGJAoOdfyIeBio6jkLCXXrkpA7G5m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-24_09,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0
+ impostorscore=0 adultscore=0 phishscore=0 mlxlogscore=999 bulkscore=0
+ mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504240143
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,168 +146,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/23/2025 10:06 AM, Danilo Krummrich wrote:
-> On Sun, Apr 20, 2025 at 09:19:45PM +0900, Alexandre Courbot wrote:
->> From: Joel Fernandes <joelagnelf@nvidia.com>
+On 4/23/25 5:23 PM, Dmitry Baryshkov wrote:
+> On 23/04/2025 17:55, Rob Clark wrote:
+>> On Tue, Apr 22, 2025 at 4:57 PM Konrad Dybcio
+>> <konrad.dybcio@oss.qualcomm.com> wrote:
+>>>
+>>> On 4/21/25 10:13 PM, Rob Clark wrote:
+>>>> On Fri, Apr 18, 2025 at 9:00 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>>>>>
+>>>>> On 4/18/2025 6:40 AM, Connor Abbott wrote:
+>>>>>> On Thu, Apr 17, 2025, 1:50 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>>>>>>>
+>>>>>>> On 4/17/2025 9:02 PM, Connor Abbott wrote:
+>>>>>>>> On Thu, Apr 17, 2025 at 3:45 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>>>>>>>>>
+>>>>>>>>> On 4/10/2025 11:13 PM, Konrad Dybcio wrote:
+>>>>>>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>>>>>>>
+>>>>>>>>>> The Highest Bank address Bit value can change based on memory type used.
+>>>>>>>>>>
+>>>>>>>>>> Attempt to retrieve it dynamically, and fall back to a reasonable
+>>>>>>>>>> default (the one used prior to this change) on error.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>>>>>>> ---
+>>>>>>>>>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 15 ++++++++++++++-
+>>>>>>>>>>   1 file changed, 14 insertions(+), 1 deletion(-)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>>>>>>>> index 06465bc2d0b4b128cddfcfcaf1fe4252632b6777..a6232b382bd16319f20ae5f8f5e57f38ecc62d9f 100644
+>>>>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>>>>>>>> @@ -13,6 +13,7 @@
+>>>>>>>>>>   #include <linux/firmware/qcom/qcom_scm.h>
+>>>>>>>>>>   #include <linux/pm_domain.h>
+>>>>>>>>>>   #include <linux/soc/qcom/llcc-qcom.h>
+>>>>>>>>>> +#include <linux/soc/qcom/smem.h>
+>>>>>>>>>>
+>>>>>>>>>>   #define GPU_PAS_ID 13
+>>>>>>>>>>
+>>>>>>>>>> @@ -587,6 +588,8 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
+>>>>>>>>>>
+>>>>>>>>>>   static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+>>>>>>>>>>   {
+>>>>>>>>>> +     int hbb;
+>>>>>>>>>> +
+>>>>>>>>>>        gpu->ubwc_config.rgb565_predicator = 0;
+>>>>>>>>>>        gpu->ubwc_config.uavflagprd_inv = 0;
+>>>>>>>>>>        gpu->ubwc_config.min_acc_len = 0;
+>>>>>>>>>> @@ -635,7 +638,6 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+>>>>>>>>>>            adreno_is_a690(gpu) ||
+>>>>>>>>>>            adreno_is_a730(gpu) ||
+>>>>>>>>>>            adreno_is_a740_family(gpu)) {
+>>>>>>>>>> -             /* TODO: get ddr type from bootloader and use 2 for LPDDR4 */
+>>>>>>>>>>                gpu->ubwc_config.highest_bank_bit = 16;
+>>>>>>>>>>                gpu->ubwc_config.amsbc = 1;
+>>>>>>>>>>                gpu->ubwc_config.rgb565_predicator = 1;
+>>>>>>>>>> @@ -664,6 +666,13 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+>>>>>>>>>>                gpu->ubwc_config.highest_bank_bit = 14;
+>>>>>>>>>>                gpu->ubwc_config.min_acc_len = 1;
+>>>>>>>>>>        }
+>>>>>>>>>> +
+>>>>>>>>>> +     /* Attempt to retrieve the data from SMEM, keep the above defaults in case of error */
+>>>>>>>>>> +     hbb = qcom_smem_dram_get_hbb();
+>>>>>>>>>> +     if (hbb < 0)
+>>>>>>>>>> +             return;
+>>>>>>>>>> +
+>>>>>>>>>> +     gpu->ubwc_config.highest_bank_bit = hbb;
+>>>>>>>>>
+>>>>>>>>> I am worried about blindly relying on SMEM data directly for HBB for
+>>>>>>>>> legacy chipsets. There is no guarantee it is accurate on every chipset
+>>>>>>>>> and every version of firmware. Also, until recently, this value was
+>>>>>>>>> hardcoded in Mesa which matched the value in KMD.
+>>>>>>>>
+>>>>>>>> To be clear about this, from the moment we introduced host image
+>>>>>>>> copies in Mesa we added support for querying the HBB from the kernel,
+>>>>>>>> explicitly so that we could do what this series does without Mesa ever
+>>>>>>>> breaking. Mesa will never assume the HBB unless the kernel is too old
+>>>>>>>> to support querying it. So don't let Mesa be the thing that stops us
+>>>>>>>> here.
+>>>>>>>
+>>>>>>> Thanks for clarifying about Mesa. I still don't trust a data source that
+>>>>>>> is unused in production.
+>>>>>>
+>>>>>> Fair enough, I'm not going to argue with that part. Just wanted to
+>>>>>> clear up any confusion about Mesa.
+>>>>>>
+>>>>>> Although, IIRC kgsl did set different values for a650 depending on
+>>>>>> memory type... do you know what source that used?
+>>>>>
+>>>>> KGSL relies on an undocumented devicetree node populated by bootloader
+>>>>> to detect ddrtype and calculates the HBB value based on that.
+>>>>
+>>>> Would it be reasonable to use the smem value, but if we find the
+>>>> undocumented dt property, WARN_ON() if it's value disagrees with smem?
+>>>>
+>>>> That would at least give some confidence, or justified un-confidence
+>>>> about the smem values
+>>>
+>>> The aforementioned value is populated based on the data that this
+>>> driver reads out, and only on the same range of platforms that this
+>>> driver happens to cater to
 >>
->> Add support for navigating and setting up vBIOS ucode data required for
->> GSP to boot. The main data extracted from the vBIOS is the FWSEC-FRTS
->> firmware which runs on the GSP processor. This firmware runs in high
->> secure mode, and sets up the WPR2 (Write protected region) before the
->> Booter runs on the SEC2 processor.
->>
->> Also add log messages to show the BIOS images.
->>
->> [102141.013287] NovaCore: Found BIOS image at offset 0x0, size: 0xfe00, type: PciAt
->> [102141.080692] NovaCore: Found BIOS image at offset 0xfe00, size: 0x14800, type: Efi
->> [102141.098443] NovaCore: Found BIOS image at offset 0x24600, size: 0x5600, type: FwSec
->> [102141.415095] NovaCore: Found BIOS image at offset 0x29c00, size: 0x60800, type: FwSec
->>
->> Tested on my Ampere GA102 and boot is successful.
->>
->> [applied changes by Alex Courbot for fwsec signatures]
->> [applied feedback from Alex Courbot and Timur Tabi]
->>
->> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
->> ---
->>  drivers/gpu/nova-core/firmware.rs  |    2 -
->>  drivers/gpu/nova-core/gpu.rs       |    5 +
->>  drivers/gpu/nova-core/nova_core.rs |    1 +
->>  drivers/gpu/nova-core/vbios.rs     | 1103 ++++++++++++++++++++++++++++++++++++
->>  4 files changed, 1109 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
->> index 4ef5ba934b9d255635aa9a902e1d3a732d6e5568..58c0513d49e9a0cef36917c8e2b25c414f6fc596 100644
->> --- a/drivers/gpu/nova-core/firmware.rs
->> +++ b/drivers/gpu/nova-core/firmware.rs
->> @@ -44,7 +44,6 @@ pub(crate) fn new(
->>  }
->>  
->>  /// Structure used to describe some firmwares, notable fwsec-frts.
->> -#[allow(dead_code)]
->>  #[repr(C)]
->>  #[derive(Debug, Clone)]
->>  pub(crate) struct FalconUCodeDescV3 {
->> @@ -64,7 +63,6 @@ pub(crate) struct FalconUCodeDescV3 {
->>      _reserved: u16,
->>  }
->>  
->> -#[allow(dead_code)]
->>  impl FalconUCodeDescV3 {
->>      pub(crate) fn size(&self) -> usize {
->>          ((self.hdr & 0xffff0000) >> 16) as usize
->> diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
->> index ec4c648c6e8b4aa7d06c627ed59c0e66a08c679e..2344dfc69fe4246644437d70572680a4450b5bd7 100644
->> --- a/drivers/gpu/nova-core/gpu.rs
->> +++ b/drivers/gpu/nova-core/gpu.rs
->> @@ -11,6 +11,7 @@
->>  use crate::regs;
->>  use crate::timer::Timer;
->>  use crate::util;
->> +use crate::vbios::Vbios;
->>  use core::fmt;
->>  
->>  macro_rules! define_chipset {
->> @@ -157,6 +158,7 @@ pub(crate) struct Gpu {
->>      fw: Firmware,
->>      sysmem_flush: DmaObject,
->>      timer: Timer,
->> +    bios: Vbios,
->>  }
->>  
->>  #[pinned_drop]
->> @@ -237,12 +239,15 @@ pub(crate) fn new(
->>  
->>          let _sec2_falcon = Sec2Falcon::new(pdev, spec.chipset, &bar, true)?;
->>  
->> +        let bios = Vbios::probe(&bar)?;
->> +
->>          Ok(pin_init!(Self {
->>              spec,
->>              bar,
->>              fw,
->>              sysmem_flush,
->>              timer,
->> +            bios,
->>          }))
->>      }
->>  }
->> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
->> index 4dde8004d24882c60669b5acd6af9d6988c66a9c..2858f4a0dc35eb9d6547d5cbd81de44c8fc47bae 100644
->> --- a/drivers/gpu/nova-core/nova_core.rs
->> +++ b/drivers/gpu/nova-core/nova_core.rs
->> @@ -29,6 +29,7 @@ macro_rules! with_bar {
->>  mod regs;
->>  mod timer;
->>  mod util;
->> +mod vbios;
->>  
->>  kernel::module_pci_driver! {
->>      type: driver::NovaCore,
->> diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..534107b708cab0eb8d0accf7daa5718edf030358
->> --- /dev/null
->> +++ b/drivers/gpu/nova-core/vbios.rs
->> @@ -0,0 +1,1103 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +// To be removed when all code is used.
->> +#![allow(dead_code)]
+>> Did I understand that correctly to mean that the dt property is based
+>> on the same smem value that you are using?  In that case, there should
+>> be no argument against using the smem value as the source of truth.
 > 
-> Please not, use 'expect' and and only where needed. If it would be too much,
-> it's probably a good indicator that we want to reduce the size of the patch for
-> now.
+> It is, but is done by the bootloader that knows exact format of the data.
 
-Done.
+Right, so the only point of concern here is the handwavy matching-by-size
+logic.
 
-[..]
-
->> +
->> +        // loop till break
-> 
-> This comment seems unnecessary, better explain what we loop over and why.
-
-Done.
-
->> +        loop {
->> +            // Try to parse a BIOS image at the current offset
->> +            // This will now check for all valid ROM signatures (0xAA55, 0xBB77, 0x4E56)
->> +            let image_size =
->> +                Self::read_bios_image_at_offset(bar0, &mut data, cur_offset, BIOS_READ_AHEAD_SIZE)
->> +                    .and_then(|image| image.image_size_bytes())
->> +                    .inspect_err(|e| {
->> +                        pr_err!(
->> +                            "Failed to parse initial BIOS image headers at offset {:#x}: {:?}\n",
->> +                            cur_offset,
->> +                            e
->> +                        );
->> +                    })?;
->> +
->> +            // Create a new BiosImage with the full image data
->> +            let full_image =
->> +                Self::read_bios_image_at_offset(bar0, &mut data, cur_offset, image_size)
->> +                    .inspect_err(|e| {
->> +                        pr_err!(
->> +                            "Failed to parse full BIOS image at offset {:#x}: {:?}\n",
->> +                            cur_offset,
->> +                            e
->> +                        );
->> +                    })?;
->> +
->> +            // Determine the image type
->> +            let image_type = full_image.image_type_str();
->> +
->> +            pr_info!(
-> 
-> I think this should be a debug print.
-
-Done.
-
-Will continue looking into the feedback on the rest of the items and reply. Thanks!
-
- - Joel
-
+Konrad
