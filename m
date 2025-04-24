@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D385A9AE47
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 15:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFE9A9AE44
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Apr 2025 15:03:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6AEC10E7FB;
-	Thu, 24 Apr 2025 13:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A36E910E7F4;
+	Thu, 24 Apr 2025 13:03:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M8OaBxMw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B2Lh/mpy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49A7210E7F1;
- Thu, 24 Apr 2025 13:03:12 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1D510E7F4;
+ Thu, 24 Apr 2025 13:03:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2A64F4A7F8;
- Thu, 24 Apr 2025 13:03:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1130C4CEE3;
- Thu, 24 Apr 2025 13:03:06 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 6B74868462;
+ Thu, 24 Apr 2025 13:02:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28138C4CEE3;
+ Thu, 24 Apr 2025 13:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745499789;
- bh=7HKtlHM65HuEx4XWBvP6kV1rjNjQ+ivJbYPYEkVX5fQ=;
+ s=k20201202; t=1745499793;
+ bh=aWijLvZAk3fD5Xw7QJX+kfKWe8iN4WqFGm8B7OBvTTU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M8OaBxMwa5+pwS9Z9fqr7blGKVdU4MvbySsUzbZ3oIq/VUy6/gNEfW9mqIGPqcPpv
- szTiQwGU4sNbanmGK4oVx9F71hyBgmy3VCX0gDfteossxz4wikzfyeXyofvuz8zI1Q
- t4yJ0otnFaGQ3CY3mibzOvwABhU2P3jWvjbkLHnpIHhBEPujr5daB1tPwgVuzGDGY9
- WUOIq+UPUkStsajJL2qrPONxq3E/UdkBflUy9OWGE1FUKI6aY4U9Y6gzSqeTVYvTOI
- phFs8CiNMFxFrlVL2hSTTlbD5ag+ecB72/aC6Fw4a8Jcs0IxSrcwsVXHQK5ERIIxij
- Lh98iaybaaHlQ==
+ b=B2Lh/mpyg6zo+cLFVviRJDnFZi/nBDGg4DimbXpvlTQPFJiblEFLaBttf30J/tfsL
+ qAiIkN7UqUdvtJ3oviCRcQdw+aZPD74DZjw1mW7wMFZeu4cq332zYeolBw3Ni+Ts13
+ zYDMuWsBQ4oEKZ3+BCah67nZ1Pne1kWE5F9lFI0dMvRArtuDx/NHh0Eb80YYCRWoIy
+ 9ntNY7IX/zvmeALASoFEz25PO3JJrgeIrAMiuNuGEIXNruZ/Mj4TiveYn5Dec5Mb7y
+ 7+acEDob32ANTDERpLbBHcbgALkO2RVmCXYrih2oGEbtUOB+4SIEn4xNytpBX+rXBk
+ mEkgiMFZMc4Jg==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -38,9 +38,9 @@ To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH 2/4] drm/nouveau: Simplify calls to nvif_event_block()
-Date: Thu, 24 Apr 2025 15:02:52 +0200
-Message-ID: <20250424130254.42046-4-phasta@kernel.org>
+Subject: [PATCH 3/4] drm/nouveau: Simplify nouveau_fence_done()
+Date: Thu, 24 Apr 2025 15:02:53 +0200
+Message-ID: <20250424130254.42046-5-phasta@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250424130254.42046-2-phasta@kernel.org>
 References: <20250424130254.42046-2-phasta@kernel.org>
@@ -61,115 +61,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-nouveau_fence_signal() returns a de-facto boolean to indicate when
-nvif_event_block() shall be called.
+nouveau_fence_done() contains an if branch that checks whether a
+nouveau_fence has either of the two existing nouveau_fence backend ops,
+which will always evaluate to true.
 
-The code can be made more compact and readable by calling
-nvif_event_block() in nouveau_fence_update() directly.
-
-Make those calls in nouveau_fence.c more canonical.
+Remove the surplus check.
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 31 +++++++++++--------------
- 1 file changed, 13 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 761c174cb286..2b79bcb7da16 100644
+index 2b79bcb7da16..fb9811938c82 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -50,10 +50,10 @@ nouveau_fctx(struct nouveau_fence *fence)
- 	return container_of(fence->base.lock, struct nouveau_fence_chan, lock);
- }
- 
--static int
-+static bool
- nouveau_fence_signal(struct nouveau_fence *fence)
+@@ -249,21 +249,19 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+ bool
+ nouveau_fence_done(struct nouveau_fence *fence)
  {
--	int drop = 0;
-+	bool drop = false;
+-	if (fence->base.ops == &nouveau_fence_ops_legacy ||
+-	    fence->base.ops == &nouveau_fence_ops_uevent) {
+-		struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+-		struct nouveau_channel *chan;
+-		unsigned long flags;
++	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
++	struct nouveau_channel *chan;
++	unsigned long flags;
  
- 	dma_fence_signal_locked(&fence->base);
- 	list_del(&fence->head);
-@@ -63,7 +63,7 @@ nouveau_fence_signal(struct nouveau_fence *fence)
- 		struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
- 
- 		if (!--fctx->notify_ref)
--			drop = 1;
-+			drop = true;
- 	}
- 
- 	dma_fence_put(&fence->base);
-@@ -125,21 +125,23 @@ nouveau_fence_context_free(struct nouveau_fence_chan *fctx)
- 	kref_put(&fctx->fence_ref, nouveau_fence_context_put);
- }
- 
--static int
-+static void
- nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fctx)
- {
- 	struct nouveau_fence *fence, *tmp;
--	int drop = 0;
-+	bool drop = false;
- 	u32 seq = fctx->read(chan);
- 
- 	list_for_each_entry_safe(fence, tmp, &fctx->pending, head) {
- 		if ((int)(seq - fence->base.seqno) < 0)
- 			break;
- 
--		drop |= nouveau_fence_signal(fence);
-+		if (nouveau_fence_signal(fence))
-+			drop = true;
- 	}
- 
--	return drop;
-+	if (drop)
-+		nvif_event_block(&fctx->event);
- }
- 
- static void
-@@ -150,18 +152,13 @@ nouveau_fence_uevent_work(struct work_struct *work)
- 	struct nouveau_channel *chan;
- 	struct nouveau_fence *fence;
- 	unsigned long flags;
--	int drop = 0;
- 
- 	spin_lock_irqsave(&fctx->lock, flags);
- 	fence = list_first_entry_or_null(&fctx->pending, typeof(*fence), head);
- 	if (fence) {
- 		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
--		if (nouveau_fence_update(chan, fctx))
--			drop = 1;
+-		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags))
+-			return true;
++	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags))
++		return true;
++
++	spin_lock_irqsave(&fctx->lock, flags);
++	chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
++	if (chan)
 +		nouveau_fence_update(chan, fctx);
- 	}
--	if (drop)
--		nvif_event_block(&fctx->event);
--
- 	spin_unlock_irqrestore(&fctx->lock, flags);
- }
++	spin_unlock_irqrestore(&fctx->lock, flags);
  
-@@ -241,9 +238,7 @@ nouveau_fence_emit(struct nouveau_fence *fence)
- 			return -ENODEV;
- 		}
- 
--		if (nouveau_fence_update(chan, fctx))
--			nvif_event_block(&fctx->event);
--
-+		nouveau_fence_update(chan, fctx);
- 		list_add_tail(&fence->head, &fctx->pending);
- 		spin_unlock_irq(&fctx->lock);
- 	}
-@@ -265,8 +260,8 @@ nouveau_fence_done(struct nouveau_fence *fence)
- 
- 		spin_lock_irqsave(&fctx->lock, flags);
- 		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
--		if (chan && nouveau_fence_update(chan, fctx))
--			nvif_event_block(&fctx->event);
-+		if (chan)
-+			nouveau_fence_update(chan, fctx);
- 		spin_unlock_irqrestore(&fctx->lock, flags);
- 	}
+-		spin_lock_irqsave(&fctx->lock, flags);
+-		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
+-		if (chan)
+-			nouveau_fence_update(chan, fctx);
+-		spin_unlock_irqrestore(&fctx->lock, flags);
+-	}
  	return dma_fence_is_signaled(&fence->base);
+ }
+ 
 -- 
 2.48.1
 
