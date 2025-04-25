@@ -2,89 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAE0A9BF7F
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 09:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3895A9BF97
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 09:18:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B63110E89C;
-	Fri, 25 Apr 2025 07:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B26B710E8A6;
+	Fri, 25 Apr 2025 07:18:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aztSutTD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JX67kWfQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB4910E89C
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 07:15:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1745565337;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T7r2z4B/7Mbfi0IDabIkh3LojKAky8fE2btyGmdHAwA=;
- b=aztSutTDHJkoAecXau3x00BDNCwCuaHQGYcZytPO1LZz7RuVUmsh8laG2D2DyA6HOPWmyB
- nXR3qigfxi/CKmmYRNthtuEH0STEM5mx3vZdcXjD85+I/JH/PxoNtu2zCcfCYSeeeXZdPz
- NqiRstkxHvb4b+Y4Q+FMDXw0iedhuY0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-1-Jse5A9i5N2CyIYrvm8EgAQ-1; Fri, 25 Apr 2025 03:15:33 -0400
-X-MC-Unique: Jse5A9i5N2CyIYrvm8EgAQ-1
-X-Mimecast-MFC-AGG-ID: Jse5A9i5N2CyIYrvm8EgAQ_1745565332
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-43d733063cdso11373445e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 00:15:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745565332; x=1746170132;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=T7r2z4B/7Mbfi0IDabIkh3LojKAky8fE2btyGmdHAwA=;
- b=m+Ma5WakEOfgaaaGudt+qlWO+xzSYzB6VLrthNpm9unwoeCN0sAnt7EvXJUyIEffK/
- 4O5CpIJwfomLyGOu+VKcpCfiqn6AHvk5M75aQqywUy00HRhNZK+tpreEiRecQnlptXza
- ZHzogQ/cZw69enA9ZwP1gud2ZNTtQvF2zLTCuTj5H2iedXsKS83xsNWak86ECSellojP
- +wUC9TkIL4eePWuolGMzQPGWqxQZYprn56GXqMi+3X71yd0HFi2EInAvLm4z1zrZz/iP
- 2WK03I2lwDflemauXHAbkoYFrIAvZPdHq8CpYstb6iC3hxdWUgk2Yw3nBmGvUH0Tid7T
- jzXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW4NlIVttYN9oNmCr5QAFircW5Hlg/mMwlTzqcOMRbwuH1Y3LMu2JbVp3gWFrzuHk9qbnD3HPVb0oM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxrGBvZpwCat6ncyP22Pc3NdYbViOads+hxI5p/W6PiPuItNjk0
- g0CNsCfQa/25P3YqR8nWYrfZnXP37hpc9Kq6+sIg/S9LXhQVT+HvJ7pPNhurGyTF7cWfIzWh+TN
- gzEJ33HdqXcb/FpZhMXJmRWWzFfkKn8sGmrIAlMcCTpV9gTMB4pAGaJGfW8U43LlVZw==
-X-Gm-Gg: ASbGncvz00gqVwa+E9i6/8kGpSavcUso5V5DAnbuz9WTENQIwvYnOfQx/C4XZ4rKCJE
- 3D5GQYYwblEzdiXWWJtAmh+6R5DaeXz9b9l+ktkmYKCH304YYKhhY4Pt8HHUmSIr8QrZOEmoZQt
- fN9cGMQwAf2oJ64Nd9sxBILiY3otJyIlzETrlelbA3s/cNO5G2WKcmr8feLJmn8JSG06HOjBocj
- dnT0sUc8BKQAtoILvOv47/gczhoI1V3H3ycI/I4j4j3utMnPLJq5qZqDI/zipIbgZAWd7DcroV/
- pmtCy3oN/3xnwksMAktyr2WxXP8UYiRKge0dZpc2d4SLm/vNlJzcNhIw0vWJn9rXNFrCew==
-X-Received: by 2002:a05:6000:186c:b0:39f:fcb:3bf6 with SMTP id
- ffacd0b85a97d-3a074e0dfccmr653957f8f.2.1745565332264; 
- Fri, 25 Apr 2025 00:15:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEKjltySyoEEsZUoyQAjvToSkGsH8mjTJtTxmkBO665sLQSkBEEV6kyM0pGb2qhN8WQSJn6fQ==
-X-Received: by 2002:a05:6000:186c:b0:39f:fcb:3bf6 with SMTP id
- ffacd0b85a97d-3a074e0dfccmr653934f8f.2.1745565331871; 
- Fri, 25 Apr 2025 00:15:31 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a073ca543bsm1492506f8f.34.2025.04.25.00.15.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Apr 2025 00:15:31 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Ryosuke Yasuoka <ryasuoka@redhat.com>, drawat.floss@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jfalempe@redhat.com
-Cc: Ryosuke Yasuoka <ryasuoka@redhat.com>, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH drm-next v2] drm/hyperv: Replace simple-KMS with regular
- atomic helpers
-In-Reply-To: <20250425063234.757344-1-ryasuoka@redhat.com>
-References: <20250425063234.757344-1-ryasuoka@redhat.com>
-Date: Fri, 25 Apr 2025 09:15:29 +0200
-Message-ID: <87wmb8yani.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA6010E8B4;
+ Fri, 25 Apr 2025 07:18:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745565507; x=1777101507;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=5is2b6CL+Kf1Z4BGzTozz+DKO3dg1FVvDZGCwehnwJI=;
+ b=JX67kWfQ2FibbBfN/ZmPpxOufJTIZqxnv11CyG9XeaUAuKkhW6PjZHJt
+ VHHHjAGixGefCtPjmZPZo57+m/z1NZHmxvc0pO2DNhcHJjIDpvyhC/6DG
+ ZTUshtQdRoizVsd5EZWyUG8FL4em0czFQwgeuTbBmi7ve0hKAoNcQNsYv
+ 6hIyY+HIcU0chBeq2KB2jmZRvOHiB83vDUogXTz1Kanu+ABZKgsn26nFQ
+ t0BGBpsf9J5ubX45l3A3/heh+/VqzEARZf+QmijldCJGnvcz1WFN6M/6p
+ 5/MLMIm5MAzdVscY8OoOoJndQ9JL5D6OpzEqwNcKfIWpkuv91DPqKsFH0 g==;
+X-CSE-ConnectionGUID: r1benXidQBOFK1ek/1zXsA==
+X-CSE-MsgGUID: oaWfB5INSQiyATI8dIU8PQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47093596"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="47093596"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 00:18:24 -0700
+X-CSE-ConnectionGUID: 3y4x5GRHTGC615sxvHBVSA==
+X-CSE-MsgGUID: VyRWTFAMQGK1XqMwGXrEkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="156060813"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.70])
+ ([10.245.246.70])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 00:18:22 -0700
+Message-ID: <0a98149f281c081c4ef560c12a0e55fd2f3239aa.camel@linux.intel.com>
+Subject: Re: [PATCH v4 2/5] drm/xe: Strict migration policy for atomic SVM
+ faults
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ himal.prasad.ghimiray@intel.com
+Date: Fri, 25 Apr 2025 09:18:19 +0200
+In-Reply-To: <aAp88xbpx3ik3H4p@lstrano-desk.jf.intel.com>
+References: <20250422170415.584662-1-matthew.brost@intel.com>
+ <20250422170415.584662-3-matthew.brost@intel.com>
+ <1391a2ab3cbf8b690f1ec371cdc932032a647645.camel@linux.intel.com>
+ <aAp88xbpx3ik3H4p@lstrano-desk.jf.intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: DgpeQdvAZxJJ4gRI0cU-EnqIhBmAImzsWHey5OfufYw_1745565332
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,123 +75,399 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ryosuke Yasuoka <ryasuoka@redhat.com> writes:
+On Thu, 2025-04-24 at 11:03 -0700, Matthew Brost wrote:
+> On Thu, Apr 24, 2025 at 04:39:21PM +0200, Thomas Hellstr=C3=B6m wrote:
+> > On Tue, 2025-04-22 at 10:04 -0700, Matthew Brost wrote:
+> > > Mixing GPU and CPU atomics does not work unless a strict
+> > > migration
+> > > policy of GPU atomics must be device memory. Enforce a policy of
+> > > must
+> > > be
+> > > in VRAM with a retry loop of 2 attempts, if retry loop fails
+> > > abort
+> > > fault.
+> > >=20
+> > > v2:
+> > > =C2=A0- Only retry migration on atomics
+> > > =C2=A0- Drop alway migrate modparam
+> > > v3:
+> > > =C2=A0- Only set vram_only on DGFX (Himal)
+> > > =C2=A0- Bail on get_pages failure if vram_only and retry count
+> > > exceeded
+> > > (Himal)
+> > > =C2=A0- s/vram_only/devmem_only
+> > > =C2=A0- Update xe_svm_range_is_valid to accept devmem_only argument
+> > > v4:
+> > > =C2=A0- Fix logic bug get_pages failure
+> > >=20
+> > > Signed-off-by: Himal Prasad Ghimiray
+> > > <himal.prasad.ghimiray@intel.com>
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > ---
+> > > =C2=A0drivers/gpu/drm/xe/xe_module.c |=C2=A0 3 --
+> > > =C2=A0drivers/gpu/drm/xe/xe_module.h |=C2=A0 1 -
+> > > =C2=A0drivers/gpu/drm/xe/xe_svm.c=C2=A0=C2=A0=C2=A0 | 89 ++++++++++++=
++++++++++++++---
+> > > ----
+> > > --
+> > > =C2=A0drivers/gpu/drm/xe/xe_svm.h=C2=A0=C2=A0=C2=A0 |=C2=A0 5 --
+> > > =C2=A04 files changed, 65 insertions(+), 33 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/xe/xe_module.c
+> > > b/drivers/gpu/drm/xe/xe_module.c
+> > > index 05c7d0ae6d83..1c4dfafbcd0b 100644
+> > > --- a/drivers/gpu/drm/xe/xe_module.c
+> > > +++ b/drivers/gpu/drm/xe/xe_module.c
+> > > @@ -33,9 +33,6 @@ struct xe_modparam xe_modparam =3D {
+> > > =C2=A0module_param_named(svm_notifier_size,
+> > > xe_modparam.svm_notifier_size,
+> > > uint, 0600);
+> > > =C2=A0MODULE_PARM_DESC(svm_notifier_size, "Set the svm notifier
+> > > size(in
+> > > MiB), must be power of 2");
+> > > =C2=A0
+> > > -module_param_named(always_migrate_to_vram,
+> > > xe_modparam.always_migrate_to_vram, bool, 0444);
+> > > -MODULE_PARM_DESC(always_migrate_to_vram, "Always migrate to VRAM
+> > > on
+> > > GPU fault");
+> > > -
+> > =C2=A0module_param_named_unsafe(force_execlist,
+> > > xe_modparam.force_execlist, bool, 0444);
+> > > =C2=A0MODULE_PARM_DESC(force_execlist, "Force Execlist submission");
+> > > =C2=A0
+> > > diff --git a/drivers/gpu/drm/xe/xe_module.h
+> > > b/drivers/gpu/drm/xe/xe_module.h
+> > > index 84339e509c80..5a3bfea8b7b4 100644
+> > > --- a/drivers/gpu/drm/xe/xe_module.h
+> > > +++ b/drivers/gpu/drm/xe/xe_module.h
+> > > @@ -12,7 +12,6 @@
+> > > =C2=A0struct xe_modparam {
+> > > =C2=A0	bool force_execlist;
+> > > =C2=A0	bool probe_display;
+> > > -	bool always_migrate_to_vram;
+> > > =C2=A0	u32 force_vram_bar_size;
+> > > =C2=A0	int guc_log_level;
+> > > =C2=A0	char *guc_firmware_path;
+> > > diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> > > b/drivers/gpu/drm/xe/xe_svm.c
+> > > index 890f6b2f40e9..f749ae367a8f 100644
+> > > --- a/drivers/gpu/drm/xe/xe_svm.c
+> > > +++ b/drivers/gpu/drm/xe/xe_svm.c
+> > > @@ -650,9 +650,11 @@ void xe_svm_fini(struct xe_vm *vm)
+> > > =C2=A0}
+> > > =C2=A0
+> > > =C2=A0static bool xe_svm_range_is_valid(struct xe_svm_range *range,
+> > > -				=C2=A0 struct xe_tile *tile)
+> > > +				=C2=A0 struct xe_tile *tile,
+> > > +				=C2=A0 bool devmem_only)
+> > > =C2=A0{
+> > > -	return (range->tile_present & ~range->tile_invalidated)
+> > > &
+> > > BIT(tile->id);
+> > > +	return ((range->tile_present & ~range->tile_invalidated)
+> > > &
+> > > BIT(tile->id))
+> > > +		&& (!devmem_only || range-
+> > > > base.flags.migrate_devmem);
+> > > =C2=A0}
+> >=20
+> > So let's say devmem_only is true here, and range-
+> > > base.flags.migrate_devmem is false. Wouldn't that mean the range
+> > > is
+> > unusable and needs to be freed and re-allocated?
+> >=20
+>=20
+> This is typo, this should be s/migrate_devmem/has_devmem_pages.
+>=20
+> This translates to:
+>=20
+> Either devmem_only is not required or we have devmem pages with a
+> valid mapping.
+>=20
+> If migrate_devmem is false and devmem_only is true, that is a fatal
+> error actually, we should have check for that and kill the fault. An
+> example of this would be shared mapping which cannot be migrated to
+> devmem.
+> =C2=A0
+> > Also another thing going back to older code, it seems like range-
+> > > tile_invalidated is protected by the notifier lock, so shouldn't
+> > > we
+> > assert that to be held in the function? It seems not to be held
+> > further
+> > below:
+>=20
+> Yea techincally to get a stable value we'd need the notifier lock but
+> this is an opportunistic check - at worst if we read a valid range we
+> skip the page faults and will immediately get another page fault. So
+> we
+> could take the notifier lock here but I don't think this is strickly
+> required. Let me know what you think here.
 
-Hello Ryosuke,
+The problem with this is that the code gets harder to maintain and
+understand. A new reader would probably first react over the lockless
+read, and then why there are no memory barriers and then what happens
+if the page-fault was marked as resolved without actually resolving it.
 
-> Drop simple-KMS in favor of regular atomic helpers to make the code more
-> modular. The simple-KMS helper mix up plane and CRTC state, so it is
-> obsolete and should go away [1]. Since it just split the simple-pipe
-> functions into per-plane and per-CRTC, no functional changes is
-> expected.
->
-> [1] https://lore.kernel.org/lkml/dae5089d-e214-4518-b927-5c4149babad8@suse.de/
->
-> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
->
+So IMO if we do opportunistic tests to opt out of locking (which is
+discouraged in the drm locking guidelines
+https://blog.ffwll.ch/2022/08/locking-hierarchy.html)
+we should definitely add separate functions for that with extensive
+docs and READ_ONCE() annotation.
 
+But also think if this is really worth sacrificing readability instead
+of actually relying on alloc_vram() and get_pages() exiting early if
+everything looks ok?
 
+>=20
+> >=20
+> > > =C2=A0
+> > > =C2=A0#if IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR)
+> > > @@ -726,6 +728,35 @@ static int xe_svm_alloc_vram(struct xe_vm
+> > > *vm,
+> > > struct xe_tile *tile,
+> > > =C2=A0}
+> > > =C2=A0#endif
+> > > =C2=A0
+> > > +static bool supports_4K_migration(struct xe_device *xe)
+> > > +{
+> > > +	if (xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K)
+> > > +		return false;
+> > > +
+> > > +	return true;
+> > > +}
+> >=20
+> > Do we have any hardware that supports pagefaults but not 4K VRAM
+> > pages?
+> >=20
+>=20
+> PVC
 
-> -static void hyperv_pipe_enable(struct drm_simple_display_pipe *pipe,
-> -			       struct drm_crtc_state *crtc_state,
-> -			       struct drm_plane_state *plane_state)
-> +static const uint32_t hyperv_formats[] = {
-> +	DRM_FORMAT_XRGB8888,
-> +};
-> +
-> +static const uint64_t hyperv_modifiers[] = {
-> +	DRM_FORMAT_MOD_LINEAR,
-> +	DRM_FORMAT_MOD_INVALID
-> +};
-> +
-
-I think the kernel u32 and u64 types are preferred ?
-
-> +static void hyperv_crtc_helper_atomic_enable(struct drm_crtc *crtc,
-> +					     struct drm_atomic_state *state)
->  {
-> -	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
-> -	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-> +	struct hyperv_drm_device *hv = to_hv(crtc->dev);
-> +	struct drm_plane *plane = &hv->plane;
-> +	struct drm_plane_state *plane_state = plane->state;
-> +	struct drm_crtc_state *crtc_state = crtc->state;
->  
->  	hyperv_hide_hw_ptr(hv->hdev);
->  	hyperv_update_situation(hv->hdev, 1,  hv->screen_depth,
->  				crtc_state->mode.hdisplay,
->  				crtc_state->mode.vdisplay,
->  				plane_state->fb->pitches[0]);
-> -	hyperv_blit_to_vram_fullscreen(plane_state->fb, &shadow_plane_state->data[0]);
->  }
->  
-> -static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
-> -			     struct drm_plane_state *plane_state,
-> -			     struct drm_crtc_state *crtc_state)
-> +static void hyperv_crtc_helper_atomic_disable(struct drm_crtc *crtc,
-> +					      struct drm_atomic_state *state)
-> +{ }
-> +
-
-Why do you need an empty CRTC atomic disable callback? Can you just not
-set it instead?
-
->  
-> -static void hyperv_pipe_update(struct drm_simple_display_pipe *pipe,
-> -			       struct drm_plane_state *old_state)
-> +static void hyperv_plane_atomic_update(struct drm_plane *plane,
-> +						      struct drm_atomic_state *old_state)
->  {
-> -	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
-> -	struct drm_plane_state *state = pipe->plane.state;
-> +	struct drm_plane_state *old_pstate = drm_atomic_get_old_plane_state(old_state, plane);
-> +	struct hyperv_drm_device *hv = to_hv(plane->dev);
-> +	struct drm_plane_state *state = plane->state;
-
-You should never access the plane->state directly, instead the helper
-drm_atomic_get_new_plane_state() should be used. You can also rename
-the old_state paramete to just state, since it will be used to lookup
-both the old and new atomic states.
-
-More info is in the following email from Ville:
-
-https://lore.kernel.org/dri-devel/Yx9pij4LmFHrq81V@intel.com/
-
->  	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
->  	struct drm_rect rect;
->  
-> -	if (drm_atomic_helper_damage_merged(old_state, state, &rect)) {
-> +	if (drm_atomic_helper_damage_merged(old_pstate, state, &rect)) {
-
-I know that most of the simple-KMS drivers do this but since this driver
-enables FB damage clips support, it is better to iterate over the damage 
-areas. For example:
-
-	struct drm_atomic_helper_damage_iter iter;
-        struct drm_rect dst_clip;
-	struct drm_rect damage;
-
-	drm_atomic_helper_damage_iter_init(&iter, old_pstate, state);
-	drm_atomic_for_each_plane_damage(&iter, &damage) {
-		dst_clip = state->dst;
-
-		if (!drm_rect_intersect(&dst_clip, &damage))
-			continue;
-
-                hyperv_blit_to_vram_rect(state->fb, &shadow_plane_state->data[0], &damage);
-                hyperv_update_dirt(hv->hdev, &damage);
-        }
+OK, I was under the impression that PVC actually supported 4K pages.
+But perhaps there was a bug encountered while implementing that.
 
 
-Other than these small comments, the patch looks good to me. So if you take
-into account my suggestions, feel free to add:
+>=20
+> > > +
+> > > +static bool xe_svm_range_needs_migrate_to_vram(struct
+> > > xe_svm_range
+> > > *range,
+> > > +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct xe_vma
+> > > *vma)
+> > > +{
+> > > +	struct xe_vm *vm =3D range_to_vm(&range->base);
+> > > +	u64 range_size =3D xe_svm_range_size(range);
+> > > +
+> > > +	if (!range->base.flags.migrate_devmem)
+> > > +		return false;
+> > > +
+> > > +	if (xe_svm_range_in_vram(range)) {
+> > > +		drm_dbg(&vm->xe->drm, "Range is already in
+> > > VRAM\n");
+> > > +		return false;
+> > > +	}
+> > > +
+> > > +	if (range_size <=3D SZ_64K && !supports_4K_migration(vm-
+> > > >xe))
+> > > {
+> > > +		drm_dbg(&vm->xe->drm, "Platform doesn't support
+> > > SZ_4K range migration\n");
+> > > +		return false;
+> > > +	}
+> > > +
+> > > +	return true;
+> > > +}
+> > > =C2=A0
+> > > =C2=A0/**
+> > > =C2=A0 * xe_svm_handle_pagefault() - SVM handle page fault
+> > > @@ -750,12 +781,15 @@ int xe_svm_handle_pagefault(struct xe_vm
+> > > *vm,
+> > > struct xe_vma *vma,
+> > > =C2=A0			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR),
+> > > =C2=A0		.check_pages_threshold =3D IS_DGFX(vm->xe) &&
+> > > =C2=A0			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR)
+> > > ?
+> > > SZ_64K : 0,
+> > > +		.devmem_only =3D atomic && IS_DGFX(vm->xe) &&
+> > > +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR),
+> > > =C2=A0	};
+> > > =C2=A0	struct xe_svm_range *range;
+> > > =C2=A0	struct drm_gpusvm_range *r;
+> > > =C2=A0	struct drm_exec exec;
+> > > =C2=A0	struct dma_fence *fence;
+> > > =C2=A0	struct xe_tile *tile =3D gt_to_tile(gt);
+> > > +	int migrate_try_count =3D ctx.devmem_only ? 3 : 1;
+> > > =C2=A0	ktime_t end =3D 0;
+> > > =C2=A0	int err;
+> > > =C2=A0
+> > > @@ -777,23 +811,26 @@ int xe_svm_handle_pagefault(struct xe_vm
+> > > *vm,
+> > > struct xe_vma *vma,
+> > > =C2=A0		return PTR_ERR(r);
+> > > =C2=A0
+> > > =C2=A0	range =3D to_xe_range(r);
+> > > -	if (xe_svm_range_is_valid(range, tile))
+> > > +	if (xe_svm_range_is_valid(range, tile, ctx.devmem_only))
+> >=20
+> > Requires notifier lock. Also see comment on re-allocating the range
+> > above.
+> >=20
+>=20
+> Same as above.
+>=20
+> > > =C2=A0		return 0;
+> > > =C2=A0
+> > > =C2=A0	range_debug(range, "PAGE FAULT");
+> > > =C2=A0
+> > > -	/* XXX: Add migration policy, for now migrate range once
+> > > */
+> > > -	if (!range->skip_migrate && range-
+> > > >base.flags.migrate_devmem
+> > > &&
+> > > -	=C2=A0=C2=A0=C2=A0 xe_svm_range_size(range) >=3D SZ_64K) {
+> > > -		range->skip_migrate =3D true;
+> > > -
+> > > +	if (--migrate_try_count >=3D 0 &&
+> > > +	=C2=A0=C2=A0=C2=A0 xe_svm_range_needs_migrate_to_vram(range, vma)
+> >=20
+> > Requires notifier lock.
+> >=20
+>=20
+> Same as above.
+>=20
+> > Should we have some sort of timeout instead of a try-count? Perhaps
+> > as
+> > a last resort fall back to a 4K range?
+> >=20
+>=20
+> I did have code like that at one point to reduce range size but it is
+> a
+> bit complicated as we'd have to remove the range... I'd rather stick
+> with the retry loop for now and if this becomes problematic, circle
+> back
+> to reducing the size of the fault page on each retry loop.
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+OK, makes sense.
 
--- 
-Best regards,
+/Thomas
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+
+>=20
+> Matt
+>=20
+> > /Thomas
+> >=20
+> >=20
+> >=20
+> > > ) {
+> > > =C2=A0		err =3D xe_svm_alloc_vram(vm, tile, range, &ctx);
+> > > =C2=A0		if (err) {
+> > > -			drm_dbg(&vm->xe->drm,
+> > > -				"VRAM allocation failed, falling
+> > > back to "
+> > > -				"retrying fault, asid=3D%u,
+> > > errno=3D%pe\n",
+> > > -				vm->usm.asid, ERR_PTR(err));
+> > > -			goto retry;
+> > > +			if (migrate_try_count ||
+> > > !ctx.devmem_only) {
+> > > +				drm_dbg(&vm->xe->drm,
+> > > +					"VRAM allocation failed,
+> > > falling back to retrying fault, asid=3D%u, errno=3D%pe\n",
+> > > +					vm->usm.asid,
+> > > ERR_PTR(err));
+> > > +				goto retry;
+> > > +			} else {
+> > > +				drm_err(&vm->xe->drm,
+> > > +					"VRAM allocation failed,
+> > > retry count exceeded, asid=3D%u, errno=3D%pe\n",
+> > > +					vm->usm.asid,
+> > > ERR_PTR(err));
+> > > +				return err;
+> > > +			}
+> > > =C2=A0		}
+> > > =C2=A0	}
+> > > =C2=A0
+> > > @@ -801,15 +838,22 @@ int xe_svm_handle_pagefault(struct xe_vm
+> > > *vm,
+> > > struct xe_vma *vma,
+> > > =C2=A0	err =3D drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r,
+> > > &ctx);
+> > > =C2=A0	/* Corner where CPU mappings have changed */
+> > > =C2=A0	if (err =3D=3D -EOPNOTSUPP || err =3D=3D -EFAULT || err =3D=3D=
+ -
+> > > EPERM) {
+> > > -		if (err =3D=3D -EOPNOTSUPP) {
+> > > -			range_debug(range, "PAGE FAULT - EVICT
+> > > PAGES");
+> > > -			drm_gpusvm_range_evict(&vm->svm.gpusvm,
+> > > &range->base);
+> > > +		if (migrate_try_count > 0 || !ctx.devmem_only) {
+> > > +			if (err =3D=3D -EOPNOTSUPP) {
+> > > +				range_debug(range, "PAGE FAULT -
+> > > EVICT PAGES");
+> > > +				drm_gpusvm_range_evict(&vm-
+> > > > svm.gpusvm,
+> > > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &range-
+> > > > base);
+> > > +			}
+> > > +			drm_dbg(&vm->xe->drm,
+> > > +				"Get pages failed, falling back
+> > > to
+> > > retrying, asid=3D%u, gpusvm=3D%p, errno=3D%pe\n",
+> > > +				vm->usm.asid, &vm->svm.gpusvm,
+> > > ERR_PTR(err));
+> > > +			range_debug(range, "PAGE FAULT - RETRY
+> > > PAGES");
+> > > +			goto retry;
+> > > +		} else {
+> > > +			drm_err(&vm->xe->drm,
+> > > +				"Get pages failed, retry count
+> > > exceeded, asid=3D%u, gpusvm=3D%p, errno=3D%pe\n",
+> > > +				vm->usm.asid, &vm->svm.gpusvm,
+> > > ERR_PTR(err));
+> > > =C2=A0		}
+> > > -		drm_dbg(&vm->xe->drm,
+> > > -			"Get pages failed, falling back to
+> > > retrying,
+> > > asid=3D%u, gpusvm=3D%p, errno=3D%pe\n",
+> > > -			vm->usm.asid, &vm->svm.gpusvm,
+> > > ERR_PTR(err));
+> > > -		range_debug(range, "PAGE FAULT - RETRY PAGES");
+> > > -		goto retry;
+> > > =C2=A0	}
+> > > =C2=A0	if (err) {
+> > > =C2=A0		range_debug(range, "PAGE FAULT - FAIL PAGE
+> > > COLLECT");
+> > > @@ -843,9 +887,6 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
+> > > struct xe_vma *vma,
+> > > =C2=A0	}
+> > > =C2=A0	drm_exec_fini(&exec);
+> > > =C2=A0
+> > > -	if (xe_modparam.always_migrate_to_vram)
+> > > -		range->skip_migrate =3D false;
+> > > -
+> > > =C2=A0	dma_fence_wait(fence, false);
+> > > =C2=A0	dma_fence_put(fence);
+> > > =C2=A0
+> > > diff --git a/drivers/gpu/drm/xe/xe_svm.h
+> > > b/drivers/gpu/drm/xe/xe_svm.h
+> > > index 3d441eb1f7ea..0e1f376a7471 100644
+> > > --- a/drivers/gpu/drm/xe/xe_svm.h
+> > > +++ b/drivers/gpu/drm/xe/xe_svm.h
+> > > @@ -39,11 +39,6 @@ struct xe_svm_range {
+> > > =C2=A0	 * range. Protected by GPU SVM notifier lock.
+> > > =C2=A0	 */
+> > > =C2=A0	u8 tile_invalidated;
+> > > -	/**
+> > > -	 * @skip_migrate: Skip migration to VRAM, protected by
+> > > GPU
+> > > fault handler
+> > > -	 * locking.
+> > > -	 */
+> > > -	u8 skip_migrate	:1;
+> > > =C2=A0};
+> > > =C2=A0
+> > > =C2=A0/**
+> >=20
 
