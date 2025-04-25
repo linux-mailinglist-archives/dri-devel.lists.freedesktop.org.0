@@ -2,156 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9BEA9D27D
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 21:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 528E9A9D288
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 21:59:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91C8110E9BB;
-	Fri, 25 Apr 2025 19:56:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB2F410E9C3;
+	Fri, 25 Apr 2025 19:59:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UAULLfte";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ncTrHHJG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 894C010E9BB
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 19:56:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1745610998;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bE2Dp5Yo0pObZA0Gc62tH8dA81bjnFJ9ScY4Xen6Glg=;
- b=UAULLfteh0HWaVIQ9RhjgnIveRioHIiJVDk5zWR80Wr72A4b1nnJFLG9y9npYNJM4QYFiO
- dAbdwUrVmhAoGlxIYau1sLTWQe0i/8evUuGiEZ+mznmEWD3fiMWZxSuyOodo4nPcKlt3wO
- wBpmHD/WTvMLp0E0jfMCOnzVS9bSXUc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-212--scCvT9JOhiMM63eNOtGdw-1; Fri, 25 Apr 2025 15:56:37 -0400
-X-MC-Unique: -scCvT9JOhiMM63eNOtGdw-1
-X-Mimecast-MFC-AGG-ID: -scCvT9JOhiMM63eNOtGdw_1745610996
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-43d08915f61so13733535e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 12:56:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745610996; x=1746215796;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=bE2Dp5Yo0pObZA0Gc62tH8dA81bjnFJ9ScY4Xen6Glg=;
- b=htNR69ui0G/tTJH0+I8WVcMorfQ7I7YIy4CuU9z4P1BY/zL2eIDO4DysDCBG9n+DMi
- KIgsqY1mybyG+wWvBhG6DLx/6bDlDWdE8EEPbauaJBvSaL3WCvoSx0Rhcz9g48WfXhVf
- uY0kRqzIwizRTg58d8i4UoF2RDyii+4M8gPK/VY+hbk/uScXCLrsJpokkJMVF6Meg3Xz
- Q4RThqo3uf9i25EkyzXh4e02+eigdV7xzLuqAn7nUN3qMzi7/14G+pJiJbMI+c3kntJ4
- LF6qj4q8rjXo7aQ+mWixDynvVaAV97sBcd0lxAyG7FZheQ1YacXvM30H5eZNqBbkFUG4
- rgvw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWmnfnmAtC25u90AUTbfoVEVQ/NCD2wxUdrvT2D+aFJs4NUT6KXiZYgLoOZZNk92zQ8S+cfK9mMv+Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1pv52fOSbj3O/xgdfM9QWnruzGXGfIz4/Q6Ybxm+Ja1UEwXck
- SVzH5TvY63XadyTqSEJ6+vQ1JpjDzSvYUKQHYw50hlUUCye742YUhluhyI9RH4D/ABu7M6OvKi7
- JSZiV+TBjm7MLJ7YeeJC4anM1pB10LspHjvU8sMukmjD0FIpLaz1d2UG0+BvyTyOKKA==
-X-Gm-Gg: ASbGncvSKZBRcRxuc3tT1qafwgeBTC3va3F4szfXsLbtLL98Px5vLTE2kD4OyqjDBO+
- lLmAHn4XZyqXX4MPwvPjqsVInYLlwdHiLK/3thLVO1aV5Gw8vV5J/QdnvZpMgetpLzQm/4oPQyW
- LDB1Q3x5OeAZaADcn0dPoNt/372fsAC7fsnGWjselWsqToCW9X18Zsevb0tzXwIEMNHtuju5Ie0
- gZNEIbOFJtvf4tSNKpmzu/vhxVe0txIxnr+l1+3GJ7Pzjk7+zndLaRYF1euZMQ2KbeCoRflu0lj
- pcUZ0/GLWWy94p8lBvmx4FmhmVurJx20FTyDmFgmza7RSCR62Fn/8LzHo+0DRAdxj3WTTOfikTs
- qgSlWYRP57FCO5YND2PT5J4dImp43RIRXpi2A
-X-Received: by 2002:a05:600c:a4d:b0:440:68db:9fef with SMTP id
- 5b1f17b1804b1-440a669b52cmr29619485e9.20.1745610996265; 
- Fri, 25 Apr 2025 12:56:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHDTvNhYItxE+4Y0RI+qao1NGVdbXY23J5yiDp5FychjNVZxG0vly/CBGVBOu3qdA9XOIO6hw==
-X-Received: by 2002:a05:600c:a4d:b0:440:68db:9fef with SMTP id
- 5b1f17b1804b1-440a669b52cmr29619355e9.20.1745610995912; 
- Fri, 25 Apr 2025 12:56:35 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70f:6900:6c56:80f8:c14:6d2a?
- (p200300cbc70f69006c5680f80c146d2a.dip0.t-ipconnect.de.
- [2003:cb:c70f:6900:6c56:80f8:c14:6d2a])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4409d2d86f7sm66114125e9.32.2025.04.25.12.56.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Apr 2025 12:56:34 -0700 (PDT)
-Message-ID: <519e3bbf-b198-4e55-81e8-0a77d8ab03d3@redhat.com>
-Date: Fri, 25 Apr 2025 21:56:33 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADE7C10E027;
+ Fri, 25 Apr 2025 19:59:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Rft/VMLG85HS5hQH2g2PgJNBINfikizGEu9oLhFhw9c=; b=ncTrHHJGWYcmYnb6MI264juTNH
+ lt7OmS5g3TSQ7CY9oITVAO6obRNSk2sKIu60pYMVE/yBCeyjUi9RASvehf9H+Z6ChlN7IcltiJ7VC
+ 9urVcshtdpE4k12vEOUOgTskhnysUejN8sgw5YsxRnBzzy604QIGd1OLnoud/Tk3cM035yp+e0TfD
+ 66nL3pqWTKQN6vAbLhckbAHsA3Y3IiY6UErE5JzNzw4aMfQtEjVbFfjOC06tkTjpRQRta2zJt4W36
+ cGCC/d5pTs/+YHKMf5jkFib839MHkGkbELlPnixZH9EAksUEXVnsDMiH8hSq7DefHig0HMItrvvru
+ ynefQznQ==;
+Received: from [189.6.35.67] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1u8PCO-008Tsm-4a; Fri, 25 Apr 2025 21:59:00 +0200
+From: Melissa Wen <mwen@igalia.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
+Cc: Michel Daenzer <michel.daenzer@mailbox.org>,
+ Simon Ser <contact@emersion.fr>, Xaver Hugl <xaver.hugl@gmail.com>,
+ kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amd/display: log color state for DCN401
+Date: Fri, 25 Apr 2025 16:58:27 -0300
+Message-ID: <20250425195853.307330-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 02/11] mm: convert track_pfn_insert() to
- pfnmap_sanitize_pgprot()
-To: Peter Xu <peterx@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-trace-kernel@vger.kernel.org, Dave Hansen
- <dave.hansen@linux.intel.com>, Andy Lutomirski <luto@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- "H. Peter Anvin" <hpa@zytor.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>
-References: <20250425081715.1341199-1-david@redhat.com>
- <20250425081715.1341199-3-david@redhat.com> <aAvjJOmvm5GsZ-JN@x1.local>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
- AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
- 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
- rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
- wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
- 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
- pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
- KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
- BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
- 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
- 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
- M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
- AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
- boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
- 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
- XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
- a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
- Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
- 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
- kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
- th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
- jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <aAvjJOmvm5GsZ-JN@x1.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: EozZ5Vz8zl7WK_d-16ck3zsSYjNlJuFUbbGz9UrnR4I_1745610996
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,19 +60,261 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->>   
->> -	track_pfn_insert(vma, &pgprot, pfn);
->> +	if (pfnmap_sanitize_pgprot(pfn_t_to_pfn(pfn), PAGE_SIZE, &pgprot))
->> +		return VM_FAULT_FALLBACK;
-> 
-> Would "pgtable" leak if it fails?  If it's PAGE_SIZE, IIUC it won't ever
-> trigger, though.
+Add missing DTN logs for DCN401 to improve debugging tools.  There is no
+DPP gamut_remap log: from `ddp_set_gamut_remap = NULL`, there is no DPP
+gamut_remap. Also, log doesn't say anything yet about the position of
+MPC shaper+3dlut+blndlut, that can be set before or after blending in
+this hw version. This moviment is also the reason that there is no log
+for DPP shaper+3dlut+blndlut too.
 
-Missed that comment. I can document that pgprot will only be touched if 
-the function succeeds.
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
+ .../amd/display/dc/dpp/dcn401/dcn401_dpp.c    |  16 ++-
+ .../amd/display/dc/hwss/dcn401/dcn401_hwseq.c | 120 ++++++++++++++++++
+ .../amd/display/dc/hwss/dcn401/dcn401_hwseq.h |   3 +
+ .../amd/display/dc/hwss/dcn401/dcn401_init.c  |   1 +
+ .../amd/display/dc/mpc/dcn401/dcn401_mpc.c    |  32 ++++-
+ 5 files changed, 169 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.c b/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.c
+index 97bf26fa3573..b89e35d2bc0c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.c
++++ b/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp.c
+@@ -44,12 +44,24 @@
+ 
+ void dpp401_read_state(struct dpp *dpp_base, struct dcn_dpp_state *s)
+ {
+-	struct dcn3_dpp *dpp = TO_DCN30_DPP(dpp_base);
++	struct dcn401_dpp *dpp = TO_DCN401_DPP(dpp_base);
++	uint32_t gamcor_lut_mode;
+ 
+ 	REG_GET(DPP_CONTROL,
+ 		DPP_CLOCK_ENABLE, &s->is_enabled);
++	// Pre-degamma (ROM)
++	REG_GET_2(PRE_DEGAM,
++		  PRE_DEGAM_MODE, &s->pre_dgam_mode,
++		  PRE_DEGAM_SELECT, &s->pre_dgam_select);
+ 
+-	// TODO: Implement for DCN4
++	// Gamma Correction (RAM)
++	REG_GET(CM_GAMCOR_CONTROL,
++		CM_GAMCOR_MODE_CURRENT, &s->gamcor_mode);
++	if (s->gamcor_mode) {
++		REG_GET(CM_GAMCOR_CONTROL, CM_GAMCOR_SELECT_CURRENT, &gamcor_lut_mode);
++		if (!gamcor_lut_mode)
++			s->gamcor_mode = LUT_RAM_A; // Otherwise, LUT_RAM_B
++	}
+ }
+ 
+ void dpp401_dpp_setup(
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
+index 8611eb9607df..76043caaadbc 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
+@@ -32,6 +32,7 @@
+ #include "dcn32/dcn32_hwseq.h"
+ #include "dcn401_hwseq.h"
+ #include "dcn401/dcn401_resource.h"
++#include "dcn401/dcn401_mpc.h"
+ #include "dc_state_priv.h"
+ #include "link_enc_cfg.h"
+ 
+@@ -78,6 +79,125 @@ static void dcn401_initialize_min_clocks(struct dc *dc)
+ 			true);
+ }
+ 
++void dcn401_log_color_state(struct dc *dc,
++			   struct dc_log_buffer_ctx *log_ctx)
++{
++	struct dc_context *dc_ctx = dc->ctx;
++	struct resource_pool *pool = dc->res_pool;
++	int i;
++
++	DTN_INFO("DPP:  DGAM ROM  DGAM ROM type  DGAM LUT  SHAPER mode"
++		 "  3DLUT mode  3DLUT bit depth  3DLUT size  RGAM mode"
++		 "  GAMUT adjust  "
++		 "C11        C12        C13        C14        "
++		 "C21        C22        C23        C24        "
++		 "C31        C32        C33        C34        \n");
++
++	for (i = 0; i < pool->pipe_count; i++) {
++		struct dpp *dpp = pool->dpps[i];
++		struct dcn_dpp_state s = {0};
++
++		dpp->funcs->dpp_read_state(dpp, &s);
++
++		if (!s.is_enabled)
++			continue;
++
++		DTN_INFO("[%2d]:  %7x  %13s  %8s",
++			 dpp->inst,
++			 s.pre_dgam_mode,
++			 (s.pre_dgam_select == 0) ? "sRGB" :
++			  ((s.pre_dgam_select == 1) ? "Gamma 2.2" :
++			  ((s.pre_dgam_select == 2) ? "Gamma 2.4" :
++			  ((s.pre_dgam_select == 3) ? "Gamma 2.6" :
++			  ((s.pre_dgam_select == 4) ? "BT.709" :
++			  ((s.pre_dgam_select == 5) ? "PQ" :
++			  ((s.pre_dgam_select == 6) ? "HLG" :
++						      "Unknown")))))),
++			 (s.gamcor_mode == 0) ? "Bypass" :
++			  ((s.gamcor_mode == 1) ? "RAM A" :
++						  "RAM B"));
++		DTN_INFO("\n");
++	}
++	DTN_INFO("\n");
++	DTN_INFO("DPP Color Caps: input_lut_shared:%d  icsc:%d"
++		 "  dgam_ram:%d  dgam_rom: srgb:%d,bt2020:%d,gamma2_2:%d,pq:%d,hlg:%d"
++		 "  post_csc:%d  gamcor:%d  dgam_rom_for_yuv:%d  3d_lut:%d"
++		 "  blnd_lut:%d  oscs:%d\n\n",
++		 dc->caps.color.dpp.input_lut_shared,
++		 dc->caps.color.dpp.icsc,
++		 dc->caps.color.dpp.dgam_ram,
++		 dc->caps.color.dpp.dgam_rom_caps.srgb,
++		 dc->caps.color.dpp.dgam_rom_caps.bt2020,
++		 dc->caps.color.dpp.dgam_rom_caps.gamma2_2,
++		 dc->caps.color.dpp.dgam_rom_caps.pq,
++		 dc->caps.color.dpp.dgam_rom_caps.hlg,
++		 dc->caps.color.dpp.post_csc,
++		 dc->caps.color.dpp.gamma_corr,
++		 dc->caps.color.dpp.dgam_rom_for_yuv,
++		 dc->caps.color.dpp.hw_3d_lut,
++		 dc->caps.color.dpp.ogam_ram,
++		 dc->caps.color.dpp.ocsc);
++
++	DTN_INFO("MPCC:  OPP  DPP  MPCCBOT  MODE  ALPHA_MODE  PREMULT  OVERLAP_ONLY  IDLE"
++		 "  SHAPER mode  3DLUT mode  3DLUT bit-depth  3DLUT size  OGAM mode  OGAM LUT"
++		 "  GAMUT adjust  "
++		 "C11        C12        C13        C14        "
++		 "C21        C22        C23        C24        "
++		 "C31        C32        C33        C34        \n");
++
++	for (i = 0; i < pool->mpcc_count; i++) {
++		struct mpcc_state s = {0};
++
++		pool->mpc->funcs->read_mpcc_state(pool->mpc, i, &s);
++
++		if (s.opp_id != 0xf) {
++			mpc401_get_gamut_remap(pool->mpc, i,  &s.gamut_remap);
++
++			DTN_INFO("[%2d]:  %2xh  %2xh  %6xh  %4d  %10d  %7d  %12d  %4d  %11s %11s %16s %11s %10s %9s"
++				 "  %-12s  "
++				 "%010lld %010lld %010lld %010lld "
++				 "%010lld %010lld %010lld %010lld "
++				 "%010lld %010lld %010lld %010lld\n",
++				i, s.opp_id, s.dpp_id, s.bot_mpcc_id,
++				s.mode, s.alpha_mode, s.pre_multiplied_alpha, s.overlap_only,
++				s.idle,
++				(s.shaper_lut_mode == 1) ? "RAM A" :
++				 ((s.shaper_lut_mode == 2) ? "RAM B" :
++							     "Bypass"),
++				(s.lut3d_mode == 1) ? "RAM A" :
++				 ((s.lut3d_mode == 2) ? "RAM B" :
++							"Bypass"),
++				(s.lut3d_bit_depth <= 0) ? "12-bit" : "10-bit",
++				(s.lut3d_size == 0) ? "17x17x17" : "9x9x9",
++				(s.rgam_mode == 0) ? "Bypass" :
++				 ((s.rgam_mode == 2) ? "RAM" :
++						       "Unknown"),
++				(s.rgam_mode == 1) ? "B" : "A",
++				(s.gamut_remap.gamut_adjust_type == 0) ? "Bypass" :
++					((s.gamut_remap.gamut_adjust_type == 1) ? "HW" :
++										  "SW"),
++				s.gamut_remap.temperature_matrix[0].value,
++				s.gamut_remap.temperature_matrix[1].value,
++				s.gamut_remap.temperature_matrix[2].value,
++				s.gamut_remap.temperature_matrix[3].value,
++				s.gamut_remap.temperature_matrix[4].value,
++				s.gamut_remap.temperature_matrix[5].value,
++				s.gamut_remap.temperature_matrix[6].value,
++				s.gamut_remap.temperature_matrix[7].value,
++				s.gamut_remap.temperature_matrix[8].value,
++				s.gamut_remap.temperature_matrix[9].value,
++				s.gamut_remap.temperature_matrix[10].value,
++				s.gamut_remap.temperature_matrix[11].value);
++		}
++	}
++	DTN_INFO("\n");
++	DTN_INFO("MPC Color Caps: gamut_remap:%d, 3dlut:%d, ogam_ram:%d, ocsc:%d\n\n",
++		 dc->caps.color.mpc.gamut_remap,
++		 dc->caps.color.mpc.num_3dluts,
++		 dc->caps.color.mpc.ogam_ram,
++		 dc->caps.color.mpc.ocsc);
++}
++
+ void dcn401_program_gamut_remap(struct pipe_ctx *pipe_ctx)
+ {
+ 	unsigned int i = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.h b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.h
+index ce65b4f6c672..5a6c6c6ff66e 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.h
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.h
+@@ -35,6 +35,9 @@ void dcn401_program_gamut_remap(struct pipe_ctx *pipe_ctx);
+ 
+ void dcn401_init_hw(struct dc *dc);
+ 
++void dcn401_log_color_state(struct dc *dc,
++			    struct dc_log_buffer_ctx *log_ctx);
++
+ bool dcn401_set_mcm_luts(struct pipe_ctx *pipe_ctx,
+ 				const struct dc_plane_state *plane_state);
+ bool dcn401_set_output_transfer_func(struct dc *dc,
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_init.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_init.c
+index fe7aceb2f510..839bafa1df34 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_init.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_init.c
+@@ -50,6 +50,7 @@ static const struct hw_sequencer_funcs dcn401_funcs = {
+ 	.setup_stereo = dcn10_setup_stereo,
+ 	.set_avmute = dcn30_set_avmute,
+ 	.log_hw_state = dcn10_log_hw_state,
++	.log_color_state = dcn401_log_color_state,
+ 	.get_hw_state = dcn10_get_hw_state,
+ 	.clear_status_bits = dcn10_clear_status_bits,
+ 	.wait_for_mpcc_disconnect = dcn10_wait_for_mpcc_disconnect,
+diff --git a/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c b/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c
+index 98cf0cbd59ba..ba36465e0b79 100644
+--- a/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c
++++ b/drivers/gpu/drm/amd/display/dc/mpc/dcn401/dcn401_mpc.c
+@@ -575,8 +575,38 @@ void mpc401_get_gamut_remap(struct mpc *mpc,
+ 		arr_reg_val, ARRAY_SIZE(arr_reg_val));
+ }
+ 
++static void mpc401_read_mpcc_state(struct mpc *mpc,
++				   int mpcc_inst,
++				   struct mpcc_state *s)
++{
++	struct dcn401_mpc *mpc401 = TO_DCN401_MPC(mpc);
++
++	REG_GET(MPCC_OPP_ID[mpcc_inst], MPCC_OPP_ID, &s->opp_id);
++	REG_GET(MPCC_TOP_SEL[mpcc_inst], MPCC_TOP_SEL, &s->dpp_id);
++	REG_GET(MPCC_BOT_SEL[mpcc_inst], MPCC_BOT_SEL, &s->bot_mpcc_id);
++	REG_GET_4(MPCC_CONTROL[mpcc_inst], MPCC_MODE, &s->mode,
++			MPCC_ALPHA_BLND_MODE, &s->alpha_mode,
++			MPCC_ALPHA_MULTIPLIED_MODE, &s->pre_multiplied_alpha,
++			MPCC_BLND_ACTIVE_OVERLAP_ONLY, &s->overlap_only);
++	REG_GET_2(MPCC_STATUS[mpcc_inst], MPCC_IDLE, &s->idle,
++			MPCC_BUSY, &s->busy);
++
++	/* Color blocks state */
++	REG_GET(MPCC_MCM_SHAPER_CONTROL[mpcc_inst], MPCC_MCM_SHAPER_MODE_CURRENT, &s->shaper_lut_mode);
++	REG_GET(MPCC_MCM_3DLUT_MODE[mpcc_inst],
++		MPCC_MCM_3DLUT_MODE_CURRENT,  &s->lut3d_mode);
++	REG_GET(MPCC_MCM_3DLUT_READ_WRITE_CONTROL[mpcc_inst],
++		MPCC_MCM_3DLUT_30BIT_EN, &s->lut3d_bit_depth);
++	REG_GET(MPCC_MCM_3DLUT_MODE[mpcc_inst], MPCC_MCM_3DLUT_SIZE, &s->lut3d_size);
++	REG_GET(MPCC_MCM_1DLUT_CONTROL[mpcc_inst],
++		MPCC_MCM_1DLUT_MODE_CURRENT, &s->rgam_mode);
++	REG_GET(MPCC_MCM_1DLUT_CONTROL[mpcc_inst],
++		MPCC_MCM_1DLUT_SELECT_CURRENT, &s->rgam_lut);
++
++}
++
+ static const struct mpc_funcs dcn401_mpc_funcs = {
+-	.read_mpcc_state = mpc1_read_mpcc_state,
++	.read_mpcc_state = mpc401_read_mpcc_state,
+ 	.insert_plane = mpc1_insert_plane,
+ 	.remove_mpcc = mpc1_remove_mpcc,
+ 	.mpc_init = mpc32_mpc_init,
 -- 
-Cheers,
-
-David / dhildenb
+2.47.2
 
