@@ -2,66 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDB9A9D60B
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 01:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CD6A9D679
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 02:00:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 456FF10E00D;
-	Fri, 25 Apr 2025 23:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9BF510E9D6;
+	Fri, 25 Apr 2025 23:59:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y0H9hiDN";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HEh3M4aZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66EB510E00D
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 23:12:24 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-ac3fcf5ab0dso440086266b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 16:12:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745622743; x=1746227543; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=tmqGkrT8pKgcGDCBKcXPdyFIvAScDuIz/sDPPptlagc=;
- b=Y0H9hiDNl0ywNkx8lilZLb8P+NeCYc+kyScwg68mkyvPqoNjZetduSttRUMD++8fm6
- KqEVajOt8iVmBGg7KscTYNhEIKyYNDY/HeWoGI5Cuff8P+3gUkrU/wV3Tz3kK07C8tU8
- ziOqKlvZMxpObq6HhlNRjT5YFS6ArtABDDeJ3Gr7ybPkKsaxyq9pKeG6ysYpU/PhfuQ7
- 7tsAzJxP/uiXAME7eByrB8BDEFQ6+qxwGRSwkDIznEfNntt/EQrTZUDrHskSi/GMyRda
- tR6DsYHaDDbA3EZtPD+HxsWRLNoa1oYkwbVlcZg2QUFF2mVwrpgoK7zkQd4VKG6g2cNo
- eMhA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E96310E195
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 23:59:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1745625586;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wtOnWyGTfN8q6JuJ/l3fPnGL2JnyGgt9o0A4bTemOx0=;
+ b=HEh3M4aZ+ecXJA4rnI9Sja+TB478u6ssVFyyJW5zKqJBGwlfJhACvP9Vo+L9D4Svr4wgc+
+ YKzogpaaKMcx7qqiNPtJjdqvs+F3Kdimi5VeSNj1HIbVmclkWs78oYCjCrulRyLRcKBVaz
+ mAZk7Qm0cyn7owzNMGsqGgF5s25x8ps=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-534-c_x-rLxmNaejOgi71Dx4hg-1; Fri, 25 Apr 2025 19:59:44 -0400
+X-MC-Unique: c_x-rLxmNaejOgi71Dx4hg-1
+X-Mimecast-MFC-AGG-ID: c_x-rLxmNaejOgi71Dx4hg_1745625584
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-6eb2480028cso47214416d6.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 16:59:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745622743; x=1746227543;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tmqGkrT8pKgcGDCBKcXPdyFIvAScDuIz/sDPPptlagc=;
- b=ETPfuexGvqEDgZ2DwS8wSV7Po2vlu6/pn5UVGhcnUlzUydVjDpe0A0JNUWsxg/kRCE
- rtDMkouguIVwGbZ9oXwrBtv+aH3NwGtNEKxxHYud8y+qp+bGSiWkwe5xBShW4QKreIjy
- GKrecfAtkKwRojKW4Y1hyWbx1mMwzeTjBIkaSUM7sRMtQpQs8vDZGIy6svabOXQjf+7l
- KPwApiqtAWHeJPApB+XVfBXRKbzOnALw1aZAenTEimpyUjnU1Aj+R0/kd7Ix9qJndhEH
- WJyripnnQpy5ZyIpUaGY251elY/lZYB0sHtEJY91ogNok4tmWEZ5fPEvXenOROGIY966
- m2Nw==
-X-Gm-Message-State: AOJu0YyzpdjU0xP47GsPHdv4ShPgv7iB+aeNBxqFlcMVA1TI48EpGpwp
- j2BN/NDieUyoX1AzVW6hs0JmmJ16F0dGo9B3dFgpDW+uylFIaU7VHqg+E1NrZ7rxPkglWa7PPzP
- FLYeoprQWxtJ5xoN1KLejiWP6qoT59RkQ
-X-Gm-Gg: ASbGncuGuwgdGeNVgGcefAsk2t+nA6iQDUrae3UJ7kJc9kVQ9MBVzPyrzLP2gD305TD
- gTdZmvmjgZn27HgEzsiAesqr863466cAgiwQhW/nrAqKun8GzxdXZmSLGa0o9/oRU5DyqmPpDvo
- wk0rAle7b65TS8WDTObtVf
-X-Google-Smtp-Source: AGHT+IFbYQ+2iFR7S/u7nsYXV11sOemyomei8G6gARGgyO0bDnQjksxdk7K85FYgv6vPimpeu2QI16jyGjeNrP3Ew9c=
-X-Received: by 2002:a17:907:3f17:b0:acb:58f5:4529 with SMTP id
- a640c23a62f3a-ace71394307mr313873366b.45.1745622742560; Fri, 25 Apr 2025
- 16:12:22 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1745625584; x=1746230384;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wtOnWyGTfN8q6JuJ/l3fPnGL2JnyGgt9o0A4bTemOx0=;
+ b=bwbWdsU5f6aGc7IiOE1xeLHRtb4BWEUaJLdwuQ5VzD4EzyVArJxUGhgrhEcT62AGqd
+ pn7ZOFYa5OG5F21EasRwqAKqkHgglKDRVhuS/KU0GpQbrRxH05jd6D9ofiPjaM+wJEM5
+ yBDJaLGmb1o3/BJ2zi/Wb4avsI1HhfN3XIfIW7TO0984UF41SPTenpv2uT9nCltjWrsm
+ 3fed/f5WbE8XDcNh8PJs1U2o49/wLlZCwqC0xt3Qcq2tZkHJo3iyL5VVVUr11ilFQTVI
+ bpHGU2fDT9Ii6sc1YE84GPmOaIfIyCEGO4jSuAQ48zj9M2ya1TeMiEpaPZDXPRVybSeO
+ 392w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWZ3xMs2Gmm39ck1Zof/g/5z6McAzrsKDfPwXDHe+0Y2ry/idWvh3FyWtTL0CQKonQOPtM4H6AI/6o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyYSgpO9Vu4SQ9B9Rmu/TcCy3qHjOZ0ldPrnN+szJEKBf2aFsc0
+ 3cG6NnuUgAkpi59LyIV7m+SKrwOb0NS0GnTy8/PqAToWB4BA0Fdl1/Dh/7BE8CXEhlnpVjpBINp
+ w6trA9/vwxGT33Gy26PYS4b3WBtuSrmuZWiNs3pPdXe5jFfyK7nMEHGbRhiJQHmFTHA==
+X-Gm-Gg: ASbGnctsKqw4iDPCPqdPAPBhSGYvVSytUzFot6anuo41KJycyJGinUzC/neyihGp8fN
+ 7jQSZWjiuVMdiVwAMmDbu6Zha5G8gtEnNK14sakutfryhgBt729m8KKyF75DsOH27j+arTKCBD4
+ RWGUuV6K70C82GO+vq2xnBdCpbuo6DjoHUKGf7yeezhUYNhhMXneiTzoOdkjzN+JfQTSSc8A2ti
+ EEVcR5EJ/rchQTasrfLVFxMKt2zZTVVe6EotrNzuwN8NC1UtUl4Vb55SrwdVk6usQzMDZcMsp/G
+ UeE=
+X-Received: by 2002:a05:6214:194a:b0:6e6:5e15:d94f with SMTP id
+ 6a1803df08f44-6f4d1f19b77mr24255846d6.27.1745625584240; 
+ Fri, 25 Apr 2025 16:59:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEdbVSllJ4RZlkwtB3mta0Vz7At0z8Ar6VLV/trW+nwFTJ9jQ0vWTbFnH+eKnFdhDis/h0FdA==
+X-Received: by 2002:a05:6214:194a:b0:6e6:5e15:d94f with SMTP id
+ 6a1803df08f44-6f4d1f19b77mr24255296d6.27.1745625583759; 
+ Fri, 25 Apr 2025 16:59:43 -0700 (PDT)
+Received: from x1.local ([85.131.185.92]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-47e9efdad60sm32399051cf.28.2025.04.25.16.59.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Apr 2025 16:59:42 -0700 (PDT)
+Date: Fri, 25 Apr 2025 19:59:38 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-trace-kernel@vger.kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>
+Subject: Re: [PATCH v1 02/11] mm: convert track_pfn_insert() to
+ pfnmap_sanitize_pgprot()
+Message-ID: <aAwh6n058Hh490io@x1.local>
+References: <20250425081715.1341199-1-david@redhat.com>
+ <20250425081715.1341199-3-david@redhat.com>
+ <aAvjJOmvm5GsZ-JN@x1.local>
+ <78f88303-6b00-42cf-8977-bf7541fa45a9@redhat.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 26 Apr 2025 09:12:11 +1000
-X-Gm-Features: ATxdqUFSwwc7uu860_jUpvTlumw25sQQBYyeK2MYs5a6E0i_lkdE8bixFaKtgIM
-Message-ID: <CAPM=9twNOWYCQ6vXZqUAu8G=oxGrKUvcTYz-SL6Jc=4+8ivVew@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.15-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <78f88303-6b00-42cf-8977-bf7541fa45a9@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: kkFTeO5FB5ikO8_Fqlkx8nN96NSoAque1W2R234y11Y_1745625584
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,147 +120,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Fri, Apr 25, 2025 at 09:48:50PM +0200, David Hildenbrand wrote:
+> On 25.04.25 21:31, Peter Xu wrote:
+> > On Fri, Apr 25, 2025 at 10:17:06AM +0200, David Hildenbrand wrote:
+> > > ... by factoring it out from track_pfn_remap().
+> > > 
+> > > For PMDs/PUDs, actually check the full range, and trigger a fallback
+> > > if we run into this "different memory types / cachemodes" scenario.
+> > 
+> > The current patch looks like to still pass PAGE_SIZE into the new helper at
+> > all track_pfn_insert() call sites, so it seems this comment does not 100%
+> > match with the code?  Or I may have misread somewhere.
+> 
+> No, you're right, while reshuffling the patches I forgot to add the actual
+> PMD/PUD size.
+> 
+> > 
+> > Maybe it's still easier to keep the single-pfn lookup to never fail..  more
+> > below.
+> > 
+> 
+> [...]
+> 
+> > >   /*
+> > > @@ -1556,8 +1553,23 @@ static inline void untrack_pfn_clear(struct vm_area_struct *vma)
+> > >   extern int track_pfn_remap(struct vm_area_struct *vma, pgprot_t *prot,
+> > >   			   unsigned long pfn, unsigned long addr,
+> > >   			   unsigned long size);
+> > > -extern void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot,
+> > > -			     pfn_t pfn);
+> > > +
+> > > +/**
+> > > + * pfnmap_sanitize_pgprot - sanitize the pgprot for a pfn range
+> > 
+> > Nit: s/sanitize/update|setup|.../?
+> > 
+> > But maybe you have good reason to use sanitize.  No strong opinions.
+> 
+> What it does on PAT (only implementation so far ...) is looking up the
+> memory type to select the caching mode that can be use.
+> 
+> "sanitize" was IMHO a good fit, because we must make sure that we don't use
+> the wrong caching mode.
+> 
+> update/setup/... don't make that quite clear. Any other suggestions?
 
-Weekly drm fixes, mostly amdgpu, with some exynos cleanups and a
-couple of minor fixes, seems a bit quiet, but probably some lag from
-Easter holidays.
+I'm very poor on naming.. :( So far anything seems slightly better than
+sanitize to me, as the word "sanitize" is actually also used in memtype.c
+for other purpose.. see sanitize_phys().
 
-Dave.
+> 
+> > 
+> > > + * @pfn: the start of the pfn range
+> > > + * @size: the size of the pfn range
+> > > + * @prot: the pgprot to sanitize
+> > > + *
+> > > + * Sanitize the given pgprot for a pfn range, for example, adjusting the
+> > > + * cachemode.
+> > > + *
+> > > + * This function cannot fail for a single page, but can fail for multiple
+> > > + * pages.
+> > > + *
+> > > + * Returns 0 on success and -EINVAL on error.
+> > > + */
+> > > +int pfnmap_sanitize_pgprot(unsigned long pfn, unsigned long size,
+> > > +		pgprot_t *prot);
+> > >   extern int track_pfn_copy(struct vm_area_struct *dst_vma,
+> > >   		struct vm_area_struct *src_vma, unsigned long *pfn);
+> > >   extern void untrack_pfn_copy(struct vm_area_struct *dst_vma,
+> > > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> > > index fdcf0a6049b9f..b8ae5e1493315 100644
+> > > --- a/mm/huge_memory.c
+> > > +++ b/mm/huge_memory.c
+> > > @@ -1455,7 +1455,9 @@ vm_fault_t vmf_insert_pfn_pmd(struct vm_fault *vmf, pfn_t pfn, bool write)
+> > >   			return VM_FAULT_OOM;
+> > >   	}
+> > > -	track_pfn_insert(vma, &pgprot, pfn);
+> > > +	if (pfnmap_sanitize_pgprot(pfn_t_to_pfn(pfn), PAGE_SIZE, &pgprot))
+> > > +		return VM_FAULT_FALLBACK;
+> > 
+> > Would "pgtable" leak if it fails?  If it's PAGE_SIZE, IIUC it won't ever
+> > trigger, though.
+> > 
+> > Maybe we could have a "void pfnmap_sanitize_pgprot_pfn(&pgprot, pfn)" to
+> > replace track_pfn_insert() and never fail?  Dropping vma ref is definitely
+> > a win already in all cases.
+> 
+> It could be a simple wrapper around pfnmap_sanitize_pgprot(), yes. That's
+> certainly helpful for the single-page case.
+> 
+> Regarding never failing here: we should check the whole range. We have to
+> make sure that none of the pages has a memory type / caching mode that is
+> incompatible with what we setup.
 
-drm-fixes-2025-04-26:
-drm fixes for 6.15-rc4
+Would it happen in real world?
 
-amdgpu:
-- P2P DMA fixes
-- Display reset fixes
-- DCN 3.5 fixes
-- ACPI EDID fix
-- LTTPR fix
-- mode_valid() fix
+IIUC per-vma registration needs to happen first, which checks for memtype
+conflicts in the first place, or reserve_pfn_range() could already have
+failed.
 
-exynos:
-- fix spelling error
-- remove redundant error handling in exynos_drm_vidi.c module.
-- marks struct decon_data as const in the exynos7_drm_decon driver
-since it is only read.
-- Remove unnecessary checking in exynos_drm_drv.c module
+Here it's the fault path looking up the memtype, so I would expect it is
+guaranteed all pfns under the same vma is following the verified (and same)
+memtype?
 
-meson:
-- Fix VCLK calculation
+Thanks,
 
-panel:
-- jd9365a: Fix reset polarity
-The following changes since commit 9c32cda43eb78f78c73aee4aa344b777714e259b:
+-- 
+Peter Xu
 
-  Linux 6.15-rc3 (2025-04-20 13:43:47 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-04-26
-
-for you to fetch changes up to 250130d2daaa0a828bafbd6ad58479a645029e82:
-
-  Merge tag 'amd-drm-fixes-6.15-2025-04-23' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2025-04-26
-08:12:41 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.15-rc4
-
-amdgpu:
-- P2P DMA fixes
-- Display reset fixes
-- DCN 3.5 fixes
-- ACPI EDID fix
-- LTTPR fix
-- mode_valid() fix
-
-exynos:
-- fix spelling error
-- remove redundant error handling in exynos_drm_vidi.c module.
-- marks struct decon_data as const in the exynos7_drm_decon driver
-since it is only read.
-- Remove unnecessary checking in exynos_drm_drv.c module
-
-meson:
-- Fix VCLK calculation
-
-panel:
-- jd9365a: Fix reset polarity
-
-----------------------------------------------------------------
-Anindya Sundar Gayen (1):
-      drm/exynos: fixed a spelling error
-
-Christian Hewitt (1):
-      Revert "drm/meson: vclk: fix calculation of 59.94 fractional rates"
-
-Colin Ian King (1):
-      drm/exynos: Fix spelling mistake "enqueu" -> "enqueue"
-
-Dave Airlie (3):
-      Merge tag 'drm-misc-fixes-2025-04-22' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'exynos-drm-fixes-for-v6.15-rc4' of
-git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into
-drm-fixes
-      Merge tag 'amd-drm-fixes-6.15-2025-04-23' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Felix Kuehling (3):
-      drm/amdgpu: Use allowed_domains for pinning dmabufs
-      drm/amdgpu: Don't pin VRAM without DMABUF_MOVE_NOTIFY
-      drm/amdgpu: Allow P2P access through XGMI
-
-George Shen (1):
-      drm/amd/display: Use 16ms AUX read interval for LTTPR with old sinks
-
-Gergo Koteles (1):
-      drm/amd/display: do not copy invalid CRTC timing info
-
-Guoqing Jiang (1):
-      drm/exynos: Remove unnecessary checking
-
-Hugo Villeneuve (1):
-      drm: panel: jd9365da: fix reset signal polarity in unprepare
-
-Krzysztof Kozlowski (1):
-      drm/exynos: exynos7_drm_decon: Consstify struct decon_data
-
-Leo Li (1):
-      drm/amd/display: Default IPS to RCG_IN_ACTIVE_IPS2_IN_OFF
-
-Mario Limonciello (1):
-      drm/amd/display: Fix ACPI edid parsing on some Lenovo systems
-
-Martin Blumenstingl (1):
-      drm/meson: use unsigned long long / Hz for frequency types
-
-Nicholas Susanto (1):
-      drm/amd/display: Enable urgent latency adjustment on DCN35
-
-Roman Li (2):
-      drm/amd/display: Fix gpu reset in multidisplay config
-      drm/amd/display: Force full update in gpu reset
-
-Wentao Liang (1):
-      drm/exynos/vidi: Remove redundant error handling in vidi_get_modes()
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  52 +++++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  41 ++---
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   2 +-
- .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |   4 +-
- .../dc/link/protocols/link_dp_training_8b_10b.c    |  54 ++++--
- drivers/gpu/drm/exynos/exynos7_drm_decon.c         |   4 +-
- drivers/gpu/drm/exynos/exynos_drm_drv.c            |   3 +-
- drivers/gpu/drm/exynos/exynos_drm_fimc.c           |   2 +-
- drivers/gpu/drm/exynos/exynos_drm_fimd.c           |   2 +-
- drivers/gpu/drm/exynos/exynos_drm_vidi.c           |   3 -
- drivers/gpu/drm/meson/meson_drv.c                  |   2 +-
- drivers/gpu/drm/meson/meson_drv.h                  |   2 +-
- drivers/gpu/drm/meson/meson_encoder_hdmi.c         |  29 +--
- drivers/gpu/drm/meson/meson_vclk.c                 | 195 +++++++++++----------
- drivers/gpu/drm/meson/meson_vclk.h                 |  13 +-
- drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c   |   4 +-
- 16 files changed, 229 insertions(+), 183 deletions(-)
