@@ -2,77 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675D0A9C3A4
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 11:33:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781E5A9C3AC
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 11:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B221710E8EE;
-	Fri, 25 Apr 2025 09:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A8210E8F5;
+	Fri, 25 Apr 2025 09:33:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="ip9IG0TV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BVlaDBxd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9860B10E8E6
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 09:32:57 +0000 (UTC)
-X-UUID: 3c3766e621b811f09b6713c7f6bde12e-20250425
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=6VbUAEeV39eL80nnS9lHM6fAPeFr3119Wt/l0LVAUKA=; 
- b=ip9IG0TViOh0WjDhtbzkZLxk/JSINYrYhZ+t1Xt9ET1+M9TSNvxdVNxAeAyu6J4LMf1srQZzGapZhD+m7I9wDFSq9a2CKIbBTtbmpCAbbfyWKana62Vo+OB/0f/UxnvjX1Q7XHncPQWUYWe0CLm9Shw1GmkIlp1FOConQGBdoZQ=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.2.1, REQID:5ee56e8e-0236-450f-a189-9e952c3cb18d, IP:0,
- UR
- L:0,TC:0,Content:41,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:41
-X-CID-META: VersionHash:0ef645f, CLOUDID:9b39cb76-5fec-4b3e-b8cb-933843551e81,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:4|50,EDM:-3
- ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
- :0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 3c3766e621b811f09b6713c7f6bde12e-20250425
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 737590061; Fri, 25 Apr 2025 17:32:41 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Fri, 25 Apr 2025 17:32:40 +0800
-Received: from mtksitap99.mediatek.inc (10.233.130.16) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Fri, 25 Apr 2025 17:32:40 +0800
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-CC: Matthias Brugger <matthias.bgg@gmail.com>, Jason-JH Lin
- <jason-jh.lin@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, Singo Chang
- <singo.chang@mediatek.com>, Paul-PL Chen <pual-pl.chen@mediatek.com>, "Moudy
- Ho" <moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
- Xiandong Wang <xiandong.wang@mediatek.com>, Sirius Wang
- <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>, Chen-yu Tsai
- <wenst@chromium.org>, <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>
-Subject: [PATCH v5 19/19] soc: mediatek: mtk-cmdq: Remove cmdq_pkt_write() and
- cmdq_pkt_write_mask()
-Date: Fri, 25 Apr 2025 17:28:51 +0800
-Message-ID: <20250425093237.1543918-20-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250425093237.1543918-1-jason-jh.lin@mediatek.com>
-References: <20250425093237.1543918-1-jason-jh.lin@mediatek.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7EF510E8F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 09:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745573625; x=1777109625;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/jkhNUvlWb9lP0DSr6vAf640i2Vth6+58hzLCTGx8NY=;
+ b=BVlaDBxdcysX9BhVlhj4Hmfn5Sox0RgoZ89gHjwzWf4JliQP+LxR7O02
+ TU5BbwyL2twnu2fGqgyo8/YBgs2BdKLd3050hEu6xTKC5QFfALcUEC92f
+ XCjoVtgTNuoxo9FJXa95GRaHvSbW1300hkmTXaus8pxkXjg2foCzy+P1v
+ L3yNUOAJPtCzbGC4vLkMK5OxHs9bPvO32UWxuE+T7PSW2cd945hx34EvC
+ NipcEtTwYw/JOt7fJc146Hp2sbZJ+PohsZUetLIUkoXoDEDtSWY9B259d
+ VfxJpH4gplW16/KRzp7PRR8gQemrkncaiM1jLyh436SEeSVirctNjG9/t A==;
+X-CSE-ConnectionGUID: F12RwoWYQGCH7BxkKEp0Xg==
+X-CSE-MsgGUID: I0o8l+YYSum0kmISuFnodw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47248030"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="47248030"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 02:33:45 -0700
+X-CSE-ConnectionGUID: B+qGfPoqSZapqwe8LnG9lA==
+X-CSE-MsgGUID: joUPQAROTI+WSsgqQK3Riw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="138025165"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 02:33:44 -0700
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: quic_jhugo@quicinc.com, lizhi.hou@amd.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH] accel/ivpu: Fix pm related deadlocks in cmdq ioctls
+Date: Fri, 25 Apr 2025 11:33:40 +0200
+Message-ID: <20250425093341.2202895-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,163 +66,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The original cmdq_pkt_write() and cmdq_pkt_write_mask() only supported
-generating GCE instructions with subsys ID. They have been replaced by
-cmdq_pkt_write_pa(), cmdq_pkt_write_subsys(), cmdq_pkt_write_mask_pa()
-and cmdq_pkt_write_mask_subsys().
+Fix deadlocks in ivpu_cmdq_create_ioctl() and ivpu_cmdq_destroy_ioctl()
+related to runtime suspend.
 
-These 2 functions can now be removed as they are no longer in use.
+Runtime suspend acquires file_priv->lock mutex by calling
+ivpu_cmdq_reset_all_contexts(). The same lock is acquired in the cmdq
+ioctls. If one of the cmdq ioctls is called while runtime suspend is in
+progress, it can lead to a deadlock.
 
-Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+Call stacks from example deadlock below.
+
+Runtime suspend thread:
+[ 3443.179717] Call Trace:
+[ 3443.179724]  __schedule+0x4b6/0x16b0
+[ 3443.179732]  ? __mod_timer+0x27d/0x3a0
+[ 3443.179738]  schedule+0x2f/0x140
+[ 3443.179741]  schedule_preempt_disabled+0x19/0x30
+[ 3443.179743]  __mutex_lock.constprop.0+0x335/0x7d0
+[ 3443.179745]  ? xas_find+0x1ed/0x260
+[ 3443.179747]  ? xa_find+0x8e/0xf0
+[ 3443.179749]  __mutex_lock_slowpath+0x13/0x20
+[ 3443.179751]  mutex_lock+0x41/0x60
+[ 3443.179757]  ivpu_cmdq_reset_all_contexts+0x82/0x150 [intel_vpu a9bd091a97f28f0235f161316b29f8234f437295]
+[ 3443.179786]  ivpu_pm_runtime_suspend_cb+0x1f1/0x3f0 [intel_vpu a9bd091a97f28f0235f161316b29f8234f437295]
+[ 3443.179850]  pci_pm_runtime_suspend+0x6e/0x1f0
+[ 3443.179870]  ? __pfx_pci_pm_runtime_suspend+0x10/0x10
+[ 3443.179886]  __rpm_callback+0x48/0x130
+[ 3443.179899]  rpm_callback+0x64/0x70
+[ 3443.179911]  rpm_suspend+0x12c/0x630
+[ 3443.179922]  ? __schedule+0x4be/0x16b0
+[ 3443.179941]  pm_runtime_work+0xca/0xf0
+[ 3443.179955]  process_one_work+0x188/0x3d0
+[ 3443.179971]  worker_thread+0x2b9/0x3c0
+[ 3443.179984]  kthread+0xfb/0x220
+[ 3443.180001]  ? __pfx_worker_thread+0x10/0x10
+[ 3443.180013]  ? __pfx_kthread+0x10/0x10
+[ 3443.180029]  ret_from_fork+0x47/0x70
+[ 3443.180044]  ? __pfx_kthread+0x10/0x10
+[ 3443.180059]  ret_from_fork_asm+0x1a/0x30
+
+User space thread:
+[ 3443.180128] Call Trace:
+[ 3443.180138]  __schedule+0x4b6/0x16b0
+[ 3443.180159]  schedule+0x2f/0x140
+[ 3443.180163]  rpm_resume+0x1a7/0x6a0
+[ 3443.180165]  ? __pfx_autoremove_wake_function+0x10/0x10
+[ 3443.180169]  __pm_runtime_resume+0x56/0x90
+[ 3443.180171]  ivpu_rpm_get+0x28/0xb0 [intel_vpu a9bd091a97f28f0235f161316b29f8234f437295]
+[ 3443.180181]  ivpu_ipc_send_receive+0x6d/0x120 [intel_vpu a9bd091a97f28f0235f161316b29f8234f437295]
+[ 3443.180193]  ? free_frozen_pages+0x395/0x670
+[ 3443.180199]  ? __free_pages+0xa7/0xc0
+[ 3443.180202]  ivpu_jsm_hws_destroy_cmdq+0x76/0xf0 [intel_vpu a9bd091a97f28f0235f161316b29f8234f437295]
+[ 3443.180213]  ? locks_dispose_list+0x6c/0xa0
+[ 3443.180219]  ? kmem_cache_free+0x342/0x470
+[ 3443.180222]  ? vm_area_free+0x19/0x30
+[ 3443.180225]  ? xas_load+0x17/0xf0
+[ 3443.180229]  ? xa_load+0x72/0xb0
+[ 3443.180230]  ivpu_cmdq_unregister.isra.0+0xb1/0x100 [intel_vpu a9bd091a97f28f0235f161316b29f8234f437295]
+[ 3443.180241]  ivpu_cmdq_destroy_ioctl+0x8d/0x130 [intel_vpu a9bd091a97f28f0235f161316b29f8234f437295]
+[ 3443.180251]  ? __pfx_ivpu_cmdq_destroy_ioctl+0x10/0x10 [intel_vpu a9bd091a97f28f0235f161316b29f8234f437295]
+[ 3443.180260]  drm_ioctl_kernel+0xb3/0x110
+[ 3443.180265]  drm_ioctl+0x2ca/0x580
+[ 3443.180266]  ? __pfx_ivpu_cmdq_destroy_ioctl+0x10/0x10 [intel_vpu a9bd091a97f28f0235f161316b29f8234f437295]
+[ 3443.180275]  ? __fput+0x1ae/0x2f0
+[ 3443.180279]  ? kmem_cache_free+0x342/0x470
+[ 3443.180282]  __x64_sys_ioctl+0xa9/0xe0
+[ 3443.180286]  x64_sys_call+0x13b7/0x26f0
+[ 3443.180289]  do_syscall_64+0x62/0x180
+[ 3443.180291]  entry_SYSCALL_64_after_hwframe+0x71/0x79
+
+Fixes: 465a3914b254 ("accel/ivpu: Add API for command queue create/destroy/submit")
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/soc/mediatek/mtk-cmdq-helper.c | 49 ++++++++++----------------
- include/linux/soc/mediatek/mtk-cmdq.h  | 35 ------------------
- 2 files changed, 18 insertions(+), 66 deletions(-)
+ drivers/accel/ivpu/ivpu_job.c | 33 ++++++++++++++++++++++++---------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index 0a718ffa5f3b..5822a3d13bda 100644
---- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-+++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -201,18 +201,6 @@ static int cmdq_pkt_mask(struct cmdq_pkt *pkt, u32 mask)
- 	return cmdq_pkt_append_command(pkt, inst);
- }
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index 863e3cd6ace51..e17b3deda2012 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -874,15 +874,21 @@ int ivpu_cmdq_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *
+ int ivpu_cmdq_create_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+ {
+ 	struct ivpu_file_priv *file_priv = file->driver_priv;
++	struct ivpu_device *vdev = file_priv->vdev;
+ 	struct drm_ivpu_cmdq_create *args = data;
+ 	struct ivpu_cmdq *cmdq;
++	int ret;
  
--int cmdq_pkt_write(struct cmdq_pkt *pkt, u8 subsys, u16 offset, u32 value)
--{
--	struct cmdq_instruction inst = {
--		.op = CMDQ_CODE_WRITE,
--		.value = value,
--		.offset = offset,
--		.subsys = subsys
--	};
--	return cmdq_pkt_append_command(pkt, inst);
--}
--EXPORT_SYMBOL(cmdq_pkt_write);
--
- int cmdq_pkt_write_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/, u32 pa_base,
- 		      u16 offset, u32 value)
- {
-@@ -229,27 +217,16 @@ EXPORT_SYMBOL(cmdq_pkt_write_pa);
- int cmdq_pkt_write_subsys(struct cmdq_pkt *pkt, u8 subsys, u32 pa_base /*unused*/,
- 			  u16 offset, u32 value)
- {
--	return cmdq_pkt_write(pkt, subsys, offset, value);
-+	struct cmdq_instruction inst = {
-+		.op = CMDQ_CODE_WRITE,
-+		.value = value,
-+		.offset = offset,
-+		.subsys = subsys
-+	};
-+	return cmdq_pkt_append_command(pkt, inst);
- }
- EXPORT_SYMBOL(cmdq_pkt_write_subsys);
+-	if (!ivpu_is_capable(file_priv->vdev, DRM_IVPU_CAP_MANAGE_CMDQ))
++	if (!ivpu_is_capable(vdev, DRM_IVPU_CAP_MANAGE_CMDQ))
+ 		return -ENODEV;
  
--int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
--			u16 offset, u32 value, u32 mask)
--{
--	u16 offset_mask = offset;
--	int err;
--
--	if (mask != GENMASK(31, 0)) {
--		err = cmdq_pkt_mask(pkt, mask);
--		if (err < 0)
--			return err;
--
--		offset_mask |= CMDQ_WRITE_ENABLE_MASK;
--	}
--	return cmdq_pkt_write(pkt, subsys, offset_mask, value);
--}
--EXPORT_SYMBOL(cmdq_pkt_write_mask);
--
- int cmdq_pkt_write_mask_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/, u32 pa_base,
- 			   u16 offset, u32 value, u32 mask)
- {
-@@ -267,7 +244,17 @@ EXPORT_SYMBOL(cmdq_pkt_write_mask_pa);
- int cmdq_pkt_write_mask_subsys(struct cmdq_pkt *pkt, u8 subsys, u32 pa_base /*unused*/,
- 			       u16 offset, u32 value, u32 mask)
- {
--	return cmdq_pkt_write_mask(pkt, subsys, offset, value, mask);
-+	u16 offset_mask = offset;
-+	int err;
+ 	if (args->priority > DRM_IVPU_JOB_PRIORITY_REALTIME)
+ 		return -EINVAL;
+ 
++	ret = ivpu_rpm_get(vdev);
++	if (ret < 0)
++		return ret;
 +
-+	if (mask != GENMASK(31, 0)) {
-+		err = cmdq_pkt_mask(pkt, mask);
-+		if (err < 0)
-+			return err;
+ 	mutex_lock(&file_priv->lock);
+ 
+ 	cmdq = ivpu_cmdq_create(file_priv, ivpu_job_to_jsm_priority(args->priority), false);
+@@ -891,6 +897,8 @@ int ivpu_cmdq_create_ioctl(struct drm_device *dev, void *data, struct drm_file *
+ 
+ 	mutex_unlock(&file_priv->lock);
+ 
++	ivpu_rpm_put(vdev);
 +
-+		offset_mask |= CMDQ_WRITE_ENABLE_MASK;
-+	}
-+	return cmdq_pkt_write_subsys(pkt, subsys, pa_base, offset_mask, value);
- }
- EXPORT_SYMBOL(cmdq_pkt_write_mask_subsys);
- 
-diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 4a2acceb8581..f4663fbfb5a0 100644
---- a/include/linux/soc/mediatek/mtk-cmdq.h
-+++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -113,17 +113,6 @@ int cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt, size_t siz
-  */
- void cmdq_pkt_destroy(struct cmdq_client *client, struct cmdq_pkt *pkt);
- 
--/**
-- * cmdq_pkt_write() - append write command to the CMDQ packet
-- * @pkt:	the CMDQ packet
-- * @subsys:	the CMDQ sub system code
-- * @offset:	register offset from CMDQ sub system
-- * @value:	the specified target register value
-- *
-- * Return: 0 for success; else the error code is returned
-- */
--int cmdq_pkt_write(struct cmdq_pkt *pkt, u8 subsys, u16 offset, u32 value);
--
- /**
-  * cmdq_pkt_write_pa() - append write command to the CMDQ packet with pa_base
-  * @pkt:	the CMDQ packet
-@@ -150,19 +139,6 @@ int cmdq_pkt_write_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/,
- int cmdq_pkt_write_subsys(struct cmdq_pkt *pkt, u8 subsys,
- 			  u32 pa_base /*unused*/, u16 offset, u32 value);
- 
--/**
-- * cmdq_pkt_write_mask() - append write command with mask to the CMDQ packet
-- * @pkt:	the CMDQ packet
-- * @subsys:	the CMDQ sub system code
-- * @offset:	register offset from CMDQ sub system
-- * @value:	the specified target register value
-- * @mask:	the specified target register mask
-- *
-- * Return: 0 for success; else the error code is returned
-- */
--int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
--			u16 offset, u32 value, u32 mask);
--
- /**
-  * cmdq_pkt_write_mask_pa() - append write command with mask to the CMDQ packet with pa
-  * @pkt:	the CMDQ packet
-@@ -460,11 +436,6 @@ static inline int cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *p
- 
- static inline void cmdq_pkt_destroy(struct cmdq_client *client, struct cmdq_pkt *pkt) { }
- 
--static inline int cmdq_pkt_write(struct cmdq_pkt *pkt, u8 subsys, u16 offset, u32 value)
--{
--	return -ENOENT;
--}
--
- static inline int cmdq_pkt_write_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/,
- 				    u32 pa_base, u16 offset, u32 value)
- {
-@@ -477,12 +448,6 @@ static inline int cmdq_pkt_write_subsys(struct cmdq_pkt *pkt, u8 subsys,
- 	return -ENOENT;
+ 	return cmdq ? 0 : -ENOMEM;
  }
  
--static inline int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
--				      u16 offset, u32 value, u32 mask)
--{
--	return -ENOENT;
--}
--
- static inline int cmdq_pkt_write_mask_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/,
- 					 u32 pa_base, u16 offset, u32 value, u32 mask)
- {
+@@ -900,28 +908,35 @@ int ivpu_cmdq_destroy_ioctl(struct drm_device *dev, void *data, struct drm_file
+ 	struct ivpu_device *vdev = file_priv->vdev;
+ 	struct drm_ivpu_cmdq_destroy *args = data;
+ 	struct ivpu_cmdq *cmdq;
+-	u32 cmdq_id;
++	u32 cmdq_id = 0;
+ 	int ret;
+ 
+ 	if (!ivpu_is_capable(vdev, DRM_IVPU_CAP_MANAGE_CMDQ))
+ 		return -ENODEV;
+ 
++	ret = ivpu_rpm_get(vdev);
++	if (ret < 0)
++		return ret;
++
+ 	mutex_lock(&file_priv->lock);
+ 
+ 	cmdq = xa_load(&file_priv->cmdq_xa, args->cmdq_id);
+ 	if (!cmdq || cmdq->is_legacy) {
+ 		ret = -ENOENT;
+-		goto err_unlock;
++	} else {
++		cmdq_id = cmdq->id;
++		ivpu_cmdq_destroy(file_priv, cmdq);
++		ret = 0;
+ 	}
+ 
+-	cmdq_id = cmdq->id;
+-	ivpu_cmdq_destroy(file_priv, cmdq);
+ 	mutex_unlock(&file_priv->lock);
+-	ivpu_cmdq_abort_all_jobs(vdev, file_priv->ctx.id, cmdq_id);
+-	return 0;
+ 
+-err_unlock:
+-	mutex_unlock(&file_priv->lock);
++	/* Abort any pending jobs only if cmdq was destroyed */
++	if (!ret)
++		ivpu_cmdq_abort_all_jobs(vdev, file_priv->ctx.id, cmdq_id);
++
++	ivpu_rpm_put(vdev);
++
+ 	return ret;
+ }
+ 
 -- 
-2.43.0
+2.45.1
 
