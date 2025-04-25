@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6449A9CBA8
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 16:27:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0638BA9CBB4
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 16:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE04210E2FB;
-	Fri, 25 Apr 2025 14:27:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5869210E30E;
+	Fri, 25 Apr 2025 14:30:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XK8cC/1J";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="V6uRKjbZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (unknown [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19BEF10E2FB;
- Fri, 25 Apr 2025 14:27:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EB5075C110C;
- Fri, 25 Apr 2025 14:24:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5F4AC4CEE4;
- Fri, 25 Apr 2025 14:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745591232;
- bh=+Khgswb4ycfEe63uGiPULJ9rhp6/pWoWuzGOliOHJsw=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=XK8cC/1JQsw+QmMpSYDevbuERmsHOZ432HwIkCgz1LS+dLwja5JMn0cOWKtERKNeZ
- D2BLyuy/6Q1PVl0XrZejWxXiMbD4G9uOhTAw0RE6286dHt2anwfui5qDCX7gNw+7ER
- 64U8zQcbSgi6LV5QqUkxXFghZsjYa8nvEbjhIHXWUFTOsDOVDJfWOZEVIjnthPGo3g
- Yr/85zxfM32Y7TwcmGTuiGKWeYsExRxmiBQH+C2o7vet71I4ZgjeZfy8gFI2KRrmpz
- rwQTe/XrfELM9Tl/+Hz6E7OZ6gQBjfBAL8FQ9B6NiOCzG93ODCAzvEMTHP+hjIQt5N
- v9I3IqXvABBBw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
- id 57E9FCE0485; Fri, 25 Apr 2025 07:27:12 -0700 (PDT)
-Date: Fri, 25 Apr 2025 07:27:12 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, kernel-team@meta.com,
- Andrew Morton <akpm@linux-foundation.org>,
- Kuniyuki Iwashima <kuniyu@amazon.com>,
- Mateusz Guzik <mjguzik@gmail.com>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- John Ogness <john.ogness@linutronix.de>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jon Pan-Doh <pandoh@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Karolina Stolarek <karolina.stolarek@oracle.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 04/20] drm/i915: Avoid open-coded use of
- ratelimit_state structure's ->missed field
-Message-ID: <99be31c6-2a01-44fe-9043-8ec7909cd3e8@paulmck-laptop>
-References: <72ee57b8-9e2a-4cad-aaa0-1e3353d146d8@paulmck-laptop>
- <20250425002826.3431914-4-paulmck@kernel.org>
- <87selwy6cg.fsf@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE26010E30E
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 14:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1745591424;
+ bh=4z4ULHlJVIMsCH+XO1eJC+hJKCbBUsa1mYl8nI678po=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=V6uRKjbZVrIIkNn2B/oisjCyB8PZ3YQWDzwABALJYDWBkPhRZGKjZpNIRgTtx0Mz7
+ kJS6w0SHK0SaJbVc3ETVjKus+GH/pYui5Qj7PfAFwfuELf0gAiIfSbm5lSueN/wh8y
+ w/TAyCm8zhCryMb2cBx9p6nt3N4SIIorm4exdu5D+yxvPXnUoHXXKnzR8mM1sxcYU8
+ cI9jVnGSVT3yy/mlJ3+ssTNvBaKQlDP3trrJsL9bx67niP9d82c2F9DeBj7e9yzjKP
+ HgGmMytKAlhWcPghy3ehS9MZ3H4CBWrUb9Iqlzh72hhOeYyjKJaDEjThZ+IKniwIV/
+ Q9kJi04tYfVGA==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9599E17E00BD;
+ Fri, 25 Apr 2025 16:30:23 +0200 (CEST)
+Date: Fri, 25 Apr 2025 16:30:17 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>
+Subject: Re: [PATCH 09/15] drm/panthor: Test for imported buffers with
+ drm_gem_is_imported()
+Message-ID: <20250425163017.050f94f0@collabora.com>
+In-Reply-To: <bd83794c-17a9-4e28-bf62-7a62bef57c22@arm.com>
+References: <20250317131923.238374-1-tzimmermann@suse.de>
+ <20250317131923.238374-10-tzimmermann@suse.de>
+ <bd83794c-17a9-4e28-bf62-7a62bef57c22@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87selwy6cg.fsf@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,72 +62,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 25, 2025 at 11:48:31AM +0300, Jani Nikula wrote:
-> On Thu, 24 Apr 2025, "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> > The i915_oa_stream_destroy() function directly accesses the
-> > ratelimit_state structure's ->missed field, which work, but which also
-> > makes it more difficult to change this field.  Therefore, make use of
-> > the ratelimit_state_get_miss() function instead of directly accessing
-> > the ->missed field.
-> 
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
+On Fri, 25 Apr 2025 14:34:53 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-Thank you, Jani!  I will apply this on my next rebase later today.
-
-> For merging via whichever tree is convenient for you. Please let us know
-> if you want us to pick it up via drm-intel.
-
-This one depends on a commit earlier in the series, so I will very
-happily take you up on your kind offer of letting me push it.  ;-)
-
-							Thanx, Paul
-
-> > Link: https://lore.kernel.org/all/fbe93a52-365e-47fe-93a4-44a44547d601@paulmck-laptop/
-> > Link: https://lore.kernel.org/all/20250423115409.3425-1-spasswolf@web.de/
-> > Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > Reviewed-by: Petr Mladek <pmladek@suse.com>
-> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Simona Vetter <simona@ffwll.ch>
-> > Cc: <intel-gfx@lists.freedesktop.org>
-> > Cc: <dri-devel@lists.freedesktop.org>
+> On 17/03/2025 13:06, Thomas Zimmermann wrote:
+> > Instead of testing import_attach for imported GEM buffers, invoke
+> > drm_gem_is_imported() to do the test. The helper tests the dma_buf
+> > itself while import_attach is just an artifact of the import. Prepares
+> > to make import_attach optional.
+> > 
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> > Cc: Steven Price <steven.price@arm.com>
+> > Cc: Liviu Dudau <liviu.dudau@arm.com>
 > > ---
-> >  drivers/gpu/drm/i915/i915_perf.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> > index de0b413600a15..1658f1246c6fa 100644
-> > --- a/drivers/gpu/drm/i915/i915_perf.c
-> > +++ b/drivers/gpu/drm/i915/i915_perf.c
-> > @@ -1666,6 +1666,7 @@ static void i915_oa_stream_destroy(struct i915_perf_stream *stream)
-> >  	struct i915_perf *perf = stream->perf;
-> >  	struct intel_gt *gt = stream->engine->gt;
-> >  	struct i915_perf_group *g = stream->engine->oa_group;
-> > +	int m;
+> >  drivers/gpu/drm/panthor/panthor_gem.c |  2 +-
+> >  drivers/gpu/drm/panthor/panthor_mmu.c | 10 +++++-----
+> >  2 files changed, 6 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> > index 8244a4e6c2a2..fd014ccc3bfc 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> > @@ -155,7 +155,7 @@ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
+> >  	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> >  	enum drm_gem_object_status res = 0;
 > >  
-> >  	if (WARN_ON(stream != g->exclusive_stream))
-> >  		return;
-> > @@ -1690,10 +1691,9 @@ static void i915_oa_stream_destroy(struct i915_perf_stream *stream)
-> >  	free_oa_configs(stream);
-> >  	free_noa_wait(stream);
+> > -	if (bo->base.base.import_attach || bo->base.pages)
+> > +	if (drm_gem_is_imported(&bo->base.base) || bo->base.pages)
+> >  		res |= DRM_GEM_OBJECT_RESIDENT;
 > >  
-> > -	if (perf->spurious_report_rs.missed) {
-> > -		gt_notice(gt, "%d spurious OA report notices suppressed due to ratelimiting\n",
-> > -			  perf->spurious_report_rs.missed);
-> > -	}
-> > +	m = ratelimit_state_get_miss(&perf->spurious_report_rs);
-> > +	if (m)
-> > +		gt_notice(gt, "%d spurious OA report notices suppressed due to ratelimiting\n", m);
-> >  }
-> >  
-> >  static void gen7_init_oa_buffer(struct i915_perf_stream *stream)
+> >  	return res;
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index 12a02e28f50f..3e123159ac10 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -1103,7 +1103,7 @@ static void panthor_vm_bo_put(struct drm_gpuvm_bo *vm_bo)
+> >  	/* If the vm_bo object was destroyed, release the pin reference that
+> >  	 * was hold by this object.
+> >  	 */
+> > -	if (unpin && !bo->base.base.import_attach)
+> > +	if (unpin && !drm_gem_is_imported(&bo->base.base))
+> >  		drm_gem_shmem_unpin(&bo->base);  
 > 
-> -- 
-> Jani Nikula, Intel
+> I'm seeing issues on cleanup where drm_gem_is_imported() doesn't return 
+> the same as !!import_attach in the above code. Specifically this appears 
+> to be caused by drm_gem_object_exported_dma_buf_free() setting ->dma_buf 
+> to NULL which makes the BO look like it isn't imported.
+> 
+> Stashing the imported state in the BO fixes the problem (see below 
+> hack), but it would be nice to fix this more generally in case there are 
+> other drivers that need to know the imported state during cleanup.
+> 
+> Any suggestions for how drm_gem_is_imported() can more accurately report 
+> the state during cleanup?
+
+This should be fixed by [1], but I wonder why it's not been merged in
+drm-misc-next yet.
+
+[1]https://patches.linaro.org/project/linux-media/patch/20250416065820.26076-1-tzimmermann@suse.de/
