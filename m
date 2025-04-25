@@ -2,67 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AE5A9C0DC
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E06A9C0F0
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74B2910E0E3;
-	Fri, 25 Apr 2025 08:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 297C610E2A8;
+	Fri, 25 Apr 2025 08:27:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fjmLsaSs";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="KZBKIpvw";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PVOi/gi6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F7610E0E3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 08:23:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745569382; x=1777105382;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=mM9Dkv+5w/EtRpnZmN6iIy3PC5eTmKCVuLGs/ca4NnM=;
- b=fjmLsaSsVdvHdm7Jn5aUtJHDo3TxB74K2lD6Ujkzyy5VEVDC7Xu7T7wz
- i4YnXNGLOPIJBQLz6imY37rQ4QL9/9dXvwqX0HzmBBX4G78TloC6vwv+Y
- bZgxb9U2x6nvxjdcF5MMGvVfHTej+uaNi0K1LEoBPLsQa4sjyNHQ5r/BD
- 7Xc62ATKdyj4Tp4eHhE0mlWjKn2IJ9FYGb/cnsEIukgUgcwgTZfuUJ396
- omI17OQp2mRH6HaU1tS8jpAKvvNN/E4Bfks0MQ2iwuClv9B2J79DmuMCK
- iiTO/79t4B2CMklhr7aqSmynvI4d+fdg28dHR4aIp0x+61bJ0dPUsk7uI w==;
-X-CSE-ConnectionGUID: jk6OoKy2R/+sTyD3296nfw==
-X-CSE-MsgGUID: sobXFjL7QECY9ovHTSzqKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="46457034"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="46457034"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2025 01:23:02 -0700
-X-CSE-ConnectionGUID: UA8gUz67TDG5DSubX98lxQ==
-X-CSE-MsgGUID: u1suGBVnSs6oM02KjdEdBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="132736500"
-Received: from pwilma-mobl1.ger.corp.intel.com (HELO [10.245.252.249])
- ([10.245.252.249])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2025 01:23:00 -0700
-Message-ID: <1043bb88-3da0-4489-9341-f2a0dae5b5a6@linux.intel.com>
-Date: Fri, 25 Apr 2025 10:22:58 +0200
+Received: from galois.linutronix.de (unknown [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEDC110E2A8;
+ Fri, 25 Apr 2025 08:27:40 +0000 (UTC)
+Date: Fri, 25 Apr 2025 10:27:26 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1745569648;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bwKc8vWDzsGShvSx8/ujEE3vSUGRy3MUCHV+p+G4yOM=;
+ b=KZBKIpvwvkXoKwK4SyKQlVDvDURRV3Awgp4XWdhfCQ/kvw4/+prjS74f+0cfZTiCNThQHP
+ SUZTrzh1MqpfaTFgfxOL/Afi+rwNmZBqAPsv2g7rI6q/eRAAMqF2FarnHsoyOcQuHdCyoh
+ JCVgXkCcXxVT8EVeE7hjmKgkDN1X2oDZheVA/sMvcomZJO05Kb3ph6BW+cf1N/4lTVqsG1
+ D0l1Pu/1LwDemaCW6wg55nnXsE+qCHjQaaWHitNqZ5dUh6k9Lx+iazIsojLEVu8xtKAUQS
+ 6A4nYAkyLYUS9okHgSGVkrl/mJlkNdjsLYFG7qzUqU/95ezUtQ4pJzWp43THjA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1745569648;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bwKc8vWDzsGShvSx8/ujEE3vSUGRy3MUCHV+p+G4yOM=;
+ b=PVOi/gi69ZVtKyEIcPPxTfvtIYIfLesnLQgo3tRdrBwYTCpNcLJHYy2PtD0qW+oqfHAwhV
+ QaQ37ecJPxP0TNAw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Junxiao Chang <junxiao.chang@intel.com>
+Cc: tomas.winkler@intel.com, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Vitaly Lubart <vitaly.lubart@intel.com>,
+ Alexander Usyskin <alexander.usyskin@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ furong.zhou@intel.com
+Subject: Re: [PATCH] drm/i915/gsc: mei interrupt top half should be in irq
+ disabled context
+Message-ID: <20250425082726.Z3fE3m9I@linutronix.de>
+References: <20250424065609.624457-1-junxiao.chang@intel.com>
+ <20250425060455.641008-1-junxiao.chang@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Implement heartbeat-based TDR mechanism
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, lizhi.hou@amd.com,
- Karol Wachowski <karol.wachowski@intel.com>
-References: <20250416102555.384526-1-maciej.falkowski@linux.intel.com>
- <c6b4aaad-aa5f-4f46-948f-de150dfc60fe@quicinc.com>
- <edbd4421-e3b4-47a9-834e-200faf6fbda9@linux.intel.com>
- <ecaeb3ec-8956-48f9-9102-27ebb774cab9@oss.qualcomm.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <ecaeb3ec-8956-48f9-9102-27ebb774cab9@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250425060455.641008-1-junxiao.chang@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,47 +75,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 4/23/2025 4:23 PM, Jeff Hugo wrote:
-> On 4/23/2025 1:23 AM, Jacek Lawrynowicz wrote:
->> Hi,
->>
->> On 4/18/2025 5:27 PM, Jeffrey Hugo wrote:
->>> On 4/16/2025 4:25 AM, Maciej Falkowski wrote:
->>>> From: Karol Wachowski <karol.wachowski@intel.com>
->>>>
->>>> Introduce a heartbeat-based Timeout Detection and Recovery (TDR) mechanism.
->>>> The enhancement aims to improve the reliability of device hang detection by
->>>> monitoring heartbeat updates.
->>>>
->>>> Each progressing inference will update heartbeat counter allowing driver to
->>>> monitor its progression. Limit maximum number of reschedules when heartbeat
->>>> indicates progression to 30.
->>>
->>> Code looks good.  However, why 30?  This would artificially limit how long a job could run, no?
->>
->> Yes, we still need a time based limit. There may be workloads that are stuck in infinite loop for example.
->> With this patch the max time the job can run is extended from 2 to 60 seconds.
->> We are not aware of any workloads that exceed this timeout at the moment.
+On 2025-04-25 14:04:54 [+0800], Junxiao Chang wrote:
+> MEI GSC interrupt comes from i915. It has top half and bottom half.
+> Top half is called from i915 interrupt handler. It should be in
+> irq disabled context.
 > 
-> Infinite loop vs something that just happens to be running long by design is a difficult problem.  60 seconds does not seem all that long to me.  Perhaps consider some kind of override so that if/when a workload comes along that needs more than 60 seconds, the user doesn't need to recompile their kernel to make it work?  I suspect that would be outside the scope of this change.
+> With RT kernel, by default i915 IRQ handler is in threaded IRQ. MEI GSC
+> top half might be in threaded IRQ context. generic_handle_irq_safe API
+> could be called from either IRQ or process context, it disables local
+> IRQ then calls MEI GSC interrupt top half.
 > 
-> For this change, I think it would be good to add some info from your response.  I think the commit text would be improved by stating this increases the max runtime from 2 seconds to 60, and that this covers all known workloads.  Also, I think a comment on PM_TDR_HEARTBEAT_LIMIT that tells how long the limit is (60 seconds) would be helpful to future readers, instead of needing to parse through multiple functions and how they all interact.
+> This change fixes A380/A770 GPU boot hang issue with RT kernel.
 > 
-> With the commit text update -
+> Fixes: 1e3dc1d8622b ("drm/i915/gsc: add gsc as a mei auxiliary device")
+> Tested-by: Furong Zhou <furong.zhou@intel.com>
+> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Junxiao Chang <junxiao.chang@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gsc.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-> 
-> The PM_TDR_HEARTBEAT_LIMIT comment is optional to me.
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gsc.c b/drivers/gpu/drm/i915/gt/intel_gsc.c
+> index 1e925c75fb080..a099d885508ac 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gsc.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gsc.c
+> @@ -284,7 +284,9 @@ static void gsc_irq_handler(struct intel_gt *gt, unsigned int intf_id)
+>  	if (gt->gsc.intf[intf_id].irq < 0)
+>  		return;
+>  
+> -	ret = generic_handle_irq(gt->gsc.intf[intf_id].irq);
+> +	/* It can be called in both irq context and in thread context */
 
-OK, I will update the commit message.
+I don't know why this deserves a comment. However, generic_handle_irq()
+is used from the IRQ chip, everything that signals the interrupt. This,
+if it comes from an interrupt handler itself, should use the _safe()
+variant. It used to be a issue also with threaded interrupts on !RT but
+for other reasons this is no longer the case.
 
-There is a module param that can be used to increase the overall timeout (tdr_timeout_ms).
-The total timeout is (tdr_timeout_ms * 30) but this is not too intuitive after this change.
-I will figure better solution that's easier to use.
+> +	ret = generic_handle_irq_safe(gt->gsc.intf[intf_id].irq);
+> +
+>  	if (ret)
+>  		gt_err_ratelimited(gt, "error handling GSC irq: %d\n", ret);
+>  }
 
-
-Regards,
-Jacek
-
+Sebastian
