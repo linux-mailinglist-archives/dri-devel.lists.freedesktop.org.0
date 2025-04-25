@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956EDA9CC85
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 17:13:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E3EA9CCEF
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 17:30:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A918110E974;
-	Fri, 25 Apr 2025 15:13:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A4410E0C5;
+	Fri, 25 Apr 2025 15:29:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="MiecbeKS";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="fN6/WQgV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D9710E326;
- Fri, 25 Apr 2025 15:13:50 +0000 (UTC)
-Received: from localhost (web.docker-mailserver_default [172.18.0.2])
- by mail.mainlining.org (Postfix) with ESMTPSA id 4E4B2BBAC4;
- Fri, 25 Apr 2025 15:13:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
- s=psm; t=1745594025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ECsaLysjp6B31lix5ePZqbR776k53fktpSr8Jb8kvHE=;
- b=MiecbeKSC9qPTxgyzouBu54qd4VjFtmkfHV/2qTsOefPU2eAaK5cBCTcImhw+T75qlqO2+
- xsNGxQQjX0OdP68jb2HZKFeV8do4HMOWxaZhIfySqXsdEKz5Op//pZWwxEqwnctK8A8rVg
- P2WjEybiUv3PnKk+10v9R9AGnDIaowzlxTfxSncUT2oXgzv8YLcXGPbJ5rn9brvr+KfYzt
- y9ZSgyOeTe1KRw4YfSE60ZQrWAbmyN8y261B96MCfrdyWbqrTrbHB4hEewS6ZzpxeAxnO5
- sW1MJRWbpDrguja+qwxdVjlEkU+50iOBR8LfCx5VBQuphi1fOseWw4tM2FcHfg==
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACF1F10E0C5;
+ Fri, 25 Apr 2025 15:29:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=V2ubyh+bjlQv6yXlPJcSZvWHB9kI8FXyi+2QpQSBgg0=; b=fN6/WQgVnfsKcjw2LeranTXPwK
+ zKytiexROCkGSgc3jY2fqn4iLmqiX4xyFcNvxrhKHn8cwdA08NZNDnKxMYnzFMB5J80mQhSfxFSOV
+ 3uZyOicj1vbwmDHFnmBnTBOf3DoztEAhJMWC/Nl1PIUpSjZgJfDiJq3tmxZCdjOl6Kz22ZzUnmaIc
+ yEEnHcR6LcdnmlX/EhKw1/mH2eIiOr4tfJ18AQbTuuOn/Vob8N8J//xNgJ/MpDvvrxf3NS3VGK5nP
+ ZTf3hSNJjPl6gxuuyL4Vge57Ie7NV3L5udjqW7q1afIzjg65HHoamuil0gbK8g0b6VBp1JtMcws0c
+ G2zyNP4w==;
+Received: from [189.6.35.67] (helo=[192.168.0.55])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1u8Kzr-008Nuq-06; Fri, 25 Apr 2025 17:29:47 +0200
+Message-ID: <19fb08c6-7dc2-41c6-9483-45b20eec94bf@igalia.com>
+Date: Fri, 25 Apr 2025 12:29:37 -0300
 MIME-Version: 1.0
-Date: Fri, 25 Apr 2025 17:13:45 +0200
-From: barnabas.czeman@mainlining.org
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>,
- =?UTF-8?Q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, Linus Walleij
- <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>, Joerg Roedel
- <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy
- <robin.murphy@arm.com>, Konrad Dybcio <konradybcio@kernel.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Dmitry
- Baryshkov <lumag@kernel.org>, Adam Skladowski <a_skl39@protonmail.com>,
- Sireesh Kodali <sireeshkodali@protonmail.com>, Srinivas Kandagatla
- <srini@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- iommu@lists.linux.dev, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, phone-devel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, linux@mainlining.org, Dang Huynh
- <danct12@riseup.net>
-Subject: Re: [PATCH v5 3/5] arm64: dts: qcom: Add initial support for MSM8937
-In-Reply-To: <70635d75-03f9-49ea-8098-57cb144fda94@oss.qualcomm.com>
-References: <20250421-msm8937-v5-0-bf9879ef14d9@mainlining.org>
- <20250421-msm8937-v5-3-bf9879ef14d9@mainlining.org>
- <2e3d94a4-d9e1-429e-9f65-d004c80180e5@oss.qualcomm.com>
- <790a0b7537e0b82b70bc4b32612ecee6@mainlining.org>
- <70635d75-03f9-49ea-8098-57cb144fda94@oss.qualcomm.com>
-Message-ID: <5ccb39f9393b44761127717096a38a46@mainlining.org>
-X-Sender: barnabas.czeman@mainlining.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "drm/amd/display: Hardware cursor changes color
+ when switched to software cursor"
+To: Harry Wentland <harry.wentland@amd.com>, sunpeng.li@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: Michel Daenzer <michel.daenzer@mailbox.org>, Alex Hung
+ <alex.hung@amd.com>, Aurabindo Pillai <Aurabindo.Pillai@amd.com>,
+ Nevenko Stupar <Nevenko.Stupar@amd.com>, Roman Li <roman.li@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+References: <20250422150427.59679-1-mwen@igalia.com>
+ <060be9f5-e5bd-421f-9168-5a7e709959f7@amd.com>
+Content-Language: en-US
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <060be9f5-e5bd-421f-9168-5a7e709959f7@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,37 +69,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-04-25 11:57, Konrad Dybcio wrote:
-> On 4/23/25 4:46 PM, barnabas.czeman@mainlining.org wrote:
->> On 2025-04-23 16:03, Konrad Dybcio wrote:
->>> On 4/21/25 10:18 PM, Barnabás Czémán wrote:
->>>> From: Dang Huynh <danct12@riseup.net>
->>>> 
->>>> Add initial support for MSM8937 SoC.
->>>> 
->>>> Signed-off-by: Dang Huynh <danct12@riseup.net>
->>>> Co-developed-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
->>>> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
->>>> ---
-> 
-> [...]
-> 
->>>> +            gpu_opp_table: opp-table {
->>>> +                compatible = "operating-points-v2";
->>>> +
->>>> +                opp-19200000 {
->>>> +                    opp-hz = /bits/ 64 <19200000>;
->>>> +                    opp-supported-hw = <0xff>;
->>> 
->>> The comment from the previous revision still stands
->> If i remove opp-supported-hw i will got -22 EINVAL messages and the 
->> opp will be not fine.
-> 
-> Right, I have a series pending to improve this situation a bit..
-> 
-> In the meantime, you should be able to define the nvmem cell and
-> fill in meaningful values for this platform
-As I wrote in the previous revision there is no nvmem for GPU on msm8937 
-only on msm8940.
-> 
-> Konrad
+
+
+On 24/04/2025 16:10, Harry Wentland wrote:
+>
+> On 2025-04-22 10:58, Melissa Wen wrote:
+>> This reverts commit 272e6aab14bbf98d7a06b2b1cd6308a02d4a10a1.
+>>
+>> Applying degamma curve to the cursor by default breaks Linux userspace
+>> expectation.
+>>
+>> On Linux, AMD display manager enables cursor degamma ROM just for
+>> implict sRGB on HW versions where degamma is split into two blocks:
+>> degamma ROM for pre-defined TFs and `gamma correction` for user/custom
+>> curves, and degamma ROM settings doesn't apply to cursor plane.
+>>
+>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1513
+>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2803
+>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4144
+>> Reported-by: Michel Dänzer <michel.daenzer@mailbox.org>
+>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>> ---
+>>
+>> Hi,
+>>
+>> I suspect there is a conflict of interest between OSes here, because
+>> this is not the first time this mechanism has been removed from the
+>> DC shared-code and after reintroduced [1].
+>>
+>> I'd suggest that other OSes set the `dc_cursor_attributes
+>> attribute_flags.bits.ENABLE_CURSOR_DEGAMMA` to true by default, rather
+>> than removing the mechanism that is valid for the Linux driver. Similar
+>> to what the Linux AMD DM does for the implicit sRGB [2][3], but in their
+>> case, they just need to initialize with 1.
+>>
+> That's a good suggestion and I started that conversation with
+> Windows devs.
+>
+> Is there an IGT test that would test for this behavior? Without
+> an IGT test I think we're apt to end back here again at some
+> point.
+Indeed, it's a good idea. AFAIK, there is no IGT color test for cursor.
+I'll work on it then, as it might save everyone time.
+
+Thanks
+
+Melissa
+>
+> Harry
+>
+>> Finally, thanks Michel for pointing this issue out to me and noticing
+>> the similarity to previous solution.
+>>
+>> [1] https://gitlab.freedesktop.org/agd5f/linux/-/commit/d9fbd64e8e317
+>> [2] https://gitlab.freedesktop.org/agd5f/linux/-/commit/857b835f
+>> [3] https://gitlab.freedesktop.org/agd5f/linux/-/commit/66eba12a
+>>
+>> Best Regards,
+>>
+>> Melissa
+>>
+>>   drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c b/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c
+>> index 1236e0f9a256..712aff7e17f7 100644
+>> --- a/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c
+>> +++ b/drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c
+>> @@ -120,10 +120,11 @@ void dpp401_set_cursor_attributes(
+>>   	enum dc_cursor_color_format color_format = cursor_attributes->color_format;
+>>   	int cur_rom_en = 0;
+>>   
+>> -	// DCN4 should always do Cursor degamma for Cursor Color modes
+>>   	if (color_format == CURSOR_MODE_COLOR_PRE_MULTIPLIED_ALPHA ||
+>>   		color_format == CURSOR_MODE_COLOR_UN_PRE_MULTIPLIED_ALPHA) {
+>> -		cur_rom_en = 1;
+>> +		if (cursor_attributes->attribute_flags.bits.ENABLE_CURSOR_DEGAMMA) {
+>> +			cur_rom_en = 1;
+>> +		}
+>>   	}
+>>   
+>>   	REG_UPDATE_3(CURSOR0_CONTROL,
+
