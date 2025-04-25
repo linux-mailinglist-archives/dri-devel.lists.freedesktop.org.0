@@ -2,40 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676C5A9CA7A
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 15:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D92AA9CA80
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 15:36:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8E410E2AC;
-	Fri, 25 Apr 2025 13:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD4DF10E2AB;
+	Fri, 25 Apr 2025 13:36:52 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xX7wpJAF";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 90B6810E2AC
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 13:34:58 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F510106F;
- Fri, 25 Apr 2025 06:34:52 -0700 (PDT)
-Received: from [10.1.36.15] (e122027.cambridge.arm.com [10.1.36.15])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5A37C3F59E;
- Fri, 25 Apr 2025 06:34:55 -0700 (PDT)
-Message-ID: <bd83794c-17a9-4e28-bf62-7a62bef57c22@arm.com>
-Date: Fri, 25 Apr 2025 14:34:53 +0100
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D77CD10E2AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 13:36:46 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-5f62ef3c383so4321088a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 06:36:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1745588205; x=1746193005; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=HTyBdYK9QHtfmQZsIeeNm4rwCrR2M4f8xsWgO6o7yV4=;
+ b=xX7wpJAF6zr4KIwi7oZDkjuYGPRyMl8qJcZe5EhJsP0tPMXgQhiZEfrOBmb4Spsj0T
+ YkkxJb4mzuFzGqsx1yyfj+5vCvDq9kjLMw0yC06RyXNGEQ19xZ1Unbix95KfkYVKmWsX
+ kZlzM1yo/d2sFT6dqZMyAToiibEbeUj4OSIc78mVFkXFPK8BIvE+I9+Iqfqa/XWXTU8R
+ QMogjXzsW0vHJCz/+WqZ7dv8pLQlazHbdHG6ltURa/FszfDOu1RFCt5MeUlpSROrPm6l
+ FhBGsIaYuf/lV3fggoggbjPgSYwnIVwbNaHo48e2AZYB4aE5oLmTKXy+oeXq9+1zuf/s
+ CVZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745588205; x=1746193005;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HTyBdYK9QHtfmQZsIeeNm4rwCrR2M4f8xsWgO6o7yV4=;
+ b=vjXqSLF+uYqyMAQpZOI6ILJ0s8vltSmBDnBDsgMYZt5XNG+seTY32B0flJG7nI1VMm
+ PeCXjsU4dWFGx9rRQCJ3CUOqS8C55MJNmolX76dX6t096qcEbVWowKTySll+EV/juxEg
+ WEohqIQeI/kThJemDEmV1nQYplkpuqRC4+UyK+PNH5Mf9Jqhpw3FvkBZzkBSca+DKvOA
+ FWKwVjeV9plcKIMv8+CMnSyANnYcabr30m6K4y+umo8g+7w3ElYaMdIyRNMfbAUZGgFA
+ JaDU4vUCX0KF2bQFLjlwNZ03Db7WxMMfJZ7zzYNZ/jkudRdSvIS9bXBMpc1E5iZVNBxq
+ Igcw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUEtqwW0bOnLZ1l4jChiyFihTNImnLTnSp9+uVQB1a0YMPrXbS/pvJi3b16l1VAtX6kFdtEdknt82Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz7pFaQWsfd0YLACdMf8o/2ejIiAIHIHlmwnFGfTw1ElrbnTL6e
+ bkU5PQ9FTSihXMMZIIOeEtvcbBFGK0Y3+BILJP/JMjkTqk05L2uJbmwk/zsW1i9rDfOemuIcB9b
+ DqkTu0CYmJJufkkZivuDc77yossSIE6gY54d/IQ==
+X-Gm-Gg: ASbGncukXOH/0JUWpEgCvfSeyLAIG2yY6ag7HGeCShEpV1SRPEEpv6NBpbMSdQ2cpRL
+ WWvsKaRIBDJk3ACSZQXjhM7Pxwk20WREIVxoGH5GRT1p+95hU15mNg9ymgkc9ISd8zYhpyuj49K
+ yZeTl/HgBRjMj6X9zAvZqTr5lCbyHnAUUvkEC60BjuVtPBVZVQrG/hPeU=
+X-Google-Smtp-Source: AGHT+IE7SPxlVH3PkxOOB55XTbBPfO/7JEFTukIQStQPN0fihbHuXz0FkHYC68Cqk0Q9M/qOq82CDuNzvmZ6Nh2nFq4=
+X-Received: by 2002:a05:6402:4309:b0:5f6:23b1:ab4b with SMTP id
+ 4fb4d7f45d1cf-5f723a1d32fmr2029504a12.30.1745588205252; Fri, 25 Apr 2025
+ 06:36:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/15] drm/panthor: Test for imported buffers with
- drm_gem_is_imported()
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-References: <20250317131923.238374-1-tzimmermann@suse.de>
- <20250317131923.238374-10-tzimmermann@suse.de>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250317131923.238374-10-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250404143215.2281034-1-jens.wiklander@linaro.org>
+ <20250404143215.2281034-5-jens.wiklander@linaro.org>
+In-Reply-To: <20250404143215.2281034-5-jens.wiklander@linaro.org>
+From: Rouven Czerwinski <rouven.czerwinski@linaro.org>
+Date: Fri, 25 Apr 2025 15:36:33 +0200
+X-Gm-Features: ATxdqUGYPWHtY03dwLh1zXB-k8A70x8RLBAD7gk6FeZVRcqYmVrqVAOIUH5hmp8
+Message-ID: <CAK8z29XHZXo5e1u8q_0D=iWxr3V2m7PateRGgqVGFe-WDeFKGg@mail.gmail.com>
+Subject: Re: [PATCH v7 04/11] optee: sync secure world ABI headers
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, 
+ Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,125 +94,314 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/03/2025 13:06, Thomas Zimmermann wrote:
-> Instead of testing import_attach for imported GEM buffers, invoke
-> drm_gem_is_imported() to do the test. The helper tests the dma_buf
-> itself while import_attach is just an artifact of the import. Prepares
-> to make import_attach optional.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
+Hi,
+
+On Fri, 4 Apr 2025 at 16:31, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+>
+> Update the header files describing the secure world ABI, both with and
+> without FF-A. The ABI is extended to deal with protected memory, but as
+> usual backward compatible.
+>
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 > ---
->  drivers/gpu/drm/panthor/panthor_gem.c |  2 +-
->  drivers/gpu/drm/panthor/panthor_mmu.c | 10 +++++-----
->  2 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 8244a4e6c2a2..fd014ccc3bfc 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -155,7 +155,7 @@ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
->  	struct panthor_gem_object *bo = to_panthor_bo(obj);
->  	enum drm_gem_object_status res = 0;
->  
-> -	if (bo->base.base.import_attach || bo->base.pages)
-> +	if (drm_gem_is_imported(&bo->base.base) || bo->base.pages)
->  		res |= DRM_GEM_OBJECT_RESIDENT;
->  
->  	return res;
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 12a02e28f50f..3e123159ac10 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1103,7 +1103,7 @@ static void panthor_vm_bo_put(struct drm_gpuvm_bo *vm_bo)
->  	/* If the vm_bo object was destroyed, release the pin reference that
->  	 * was hold by this object.
->  	 */
-> -	if (unpin && !bo->base.base.import_attach)
-> +	if (unpin && !drm_gem_is_imported(&bo->base.base))
->  		drm_gem_shmem_unpin(&bo->base);
+>  drivers/tee/optee/optee_ffa.h | 27 +++++++++---
+>  drivers/tee/optee/optee_msg.h | 83 ++++++++++++++++++++++++++++++-----
+>  drivers/tee/optee/optee_smc.h | 71 +++++++++++++++++++++++++++++-
+>  3 files changed, 163 insertions(+), 18 deletions(-)
+>
+> diff --git a/drivers/tee/optee/optee_ffa.h b/drivers/tee/optee/optee_ffa.h
+> index 257735ae5b56..cc257e7956a3 100644
+> --- a/drivers/tee/optee/optee_ffa.h
+> +++ b/drivers/tee/optee/optee_ffa.h
+> @@ -81,7 +81,7 @@
+>   *                   as the second MSG arg struct for
+>   *                   OPTEE_FFA_YIELDING_CALL_WITH_ARG.
+>   *        Bit[31:8]: Reserved (MBZ)
+> - * w5:   Bitfield of secure world capabilities OPTEE_FFA_SEC_CAP_* below,
+> + * w5:   Bitfield of OP-TEE capabilities OPTEE_FFA_SEC_CAP_*
+>   * w6:   The maximum secure world notification number
+>   * w7:   Not used (MBZ)
+>   */
+> @@ -94,6 +94,8 @@
+>  #define OPTEE_FFA_SEC_CAP_ASYNC_NOTIF  BIT(1)
+>  /* OP-TEE supports probing for RPMB device if needed */
+>  #define OPTEE_FFA_SEC_CAP_RPMB_PROBE   BIT(2)
+> +/* OP-TEE supports Protected Memory for secure data path */
+> +#define OPTEE_FFA_SEC_CAP_PROTMEM      BIT(3)
+>
+>  #define OPTEE_FFA_EXCHANGE_CAPABILITIES OPTEE_FFA_BLOCKING_CALL(2)
+>
+> @@ -108,7 +110,7 @@
+>   *
+>   * Return register usage:
+>   * w3:    Error code, 0 on success
+> - * w4-w7: Note used (MBZ)
+> + * w4-w7: Not used (MBZ)
+>   */
+>  #define OPTEE_FFA_UNREGISTER_SHM       OPTEE_FFA_BLOCKING_CALL(3)
+>
+> @@ -119,16 +121,31 @@
+>   * Call register usage:
+>   * w3:    Service ID, OPTEE_FFA_ENABLE_ASYNC_NOTIF
+>   * w4:   Notification value to request bottom half processing, should be
+> - *       less than OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE.
+> + *       less than OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE
+>   * w5-w7: Not used (MBZ)
+>   *
+>   * Return register usage:
+>   * w3:    Error code, 0 on success
+> - * w4-w7: Note used (MBZ)
+> + * w4-w7: Not used (MBZ)
+>   */
+>  #define OPTEE_FFA_ENABLE_ASYNC_NOTIF   OPTEE_FFA_BLOCKING_CALL(5)
+>
+> -#define OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE 64
+> +#define OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE        64
+> +
+> +/*
+> + * Release Protected memory
+> + *
+> + * Call register usage:
+> + * w3:    Service ID, OPTEE_FFA_RECLAIM_PROTMEM
+> + * w4:    Shared memory handle, lower bits
+> + * w5:    Shared memory handle, higher bits
+> + * w6-w7: Not used (MBZ)
+> + *
+> + * Return register usage:
+> + * w3:    Error code, 0 on success
+> + * w4-w7: Note used (MBZ)
+> + */
+> +#define OPTEE_FFA_RELEASE_PROTMEM      OPTEE_FFA_BLOCKING_CALL(8)
+>
+>  /*
+>   * Call with struct optee_msg_arg as argument in the supplied shared memory
+> diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
+> index e8840a82b983..22d71d6f110d 100644
+> --- a/drivers/tee/optee/optee_msg.h
+> +++ b/drivers/tee/optee/optee_msg.h
+> @@ -133,13 +133,13 @@ struct optee_msg_param_rmem {
+>  };
+>
+>  /**
+> - * struct optee_msg_param_fmem - ffa memory reference parameter
+> + * struct optee_msg_param_fmem - FF-A memory reference parameter
+>   * @offs_lower:           Lower bits of offset into shared memory reference
+>   * @offs_upper:           Upper bits of offset into shared memory reference
+>   * @internal_offs: Internal offset into the first page of shared memory
+>   *                reference
+>   * @size:         Size of the buffer
+> - * @global_id:    Global identifier of Shared memory
+> + * @global_id:    Global identifier of the shared memory
+>   */
+>  struct optee_msg_param_fmem {
+>         u32 offs_low;
+> @@ -165,7 +165,7 @@ struct optee_msg_param_value {
+>   * @attr:      attributes
+>   * @tmem:      parameter by temporary memory reference
+>   * @rmem:      parameter by registered memory reference
+> - * @fmem:      parameter by ffa registered memory reference
+> + * @fmem:      parameter by FF-A registered memory reference
+>   * @value:     parameter by opaque value
+>   * @octets:    parameter by octet string
+>   *
+> @@ -296,6 +296,18 @@ struct optee_msg_arg {
+>   */
+>  #define OPTEE_MSG_FUNCID_GET_OS_REVISION       0x0001
+>
+> +/*
+> + * Values used in OPTEE_MSG_CMD_LEND_PROTMEM below
+> + * OPTEE_MSG_PROTMEM_RESERVED          Reserved
+> + * OPTEE_MSG_PROTMEM_SECURE_VIDEO_PLAY Secure Video Playback
+> + * OPTEE_MSG_PROTMEM_TRUSTED_UI                Trused UI
+> + * OPTEE_MSG_PROTMEM_SECURE_VIDEO_RECORD       Secure Video Recording
+> + */
+> +#define OPTEE_MSG_PROTMEM_RESERVED             0
+> +#define OPTEE_MSG_PROTMEM_SECURE_VIDEO_PLAY    1
+> +#define OPTEE_MSG_PROTMEM_TRUSTED_UI           2
+> +#define OPTEE_MSG_PROTMEM_SECURE_VIDEO_RECORD  3
+> +
+>  /*
+>   * Do a secure call with struct optee_msg_arg as argument
+>   * The OPTEE_MSG_CMD_* below defines what goes in struct optee_msg_arg::cmd
+> @@ -337,15 +349,62 @@ struct optee_msg_arg {
+>   * OPTEE_MSG_CMD_STOP_ASYNC_NOTIF informs secure world that from now is
+>   * normal world unable to process asynchronous notifications. Typically
+>   * used when the driver is shut down.
+> + *
+> + * OPTEE_MSG_CMD_LEND_PROTMEM lends protected memory. The passed normal
+> + * physical memory is protected from normal world access. The memory
+> + * should be unmapped prior to this call since it becomes inaccessible
+> + * during the request.
+> + * Parameters are passed as:
+> + * [in] param[0].attr                  OPTEE_MSG_ATTR_TYPE_VALUE_INPUT
+> + * [in] param[0].u.value.a             OPTEE_MSG_PROTMEM_* defined above
+> + * [in] param[1].attr                  OPTEE_MSG_ATTR_TYPE_TMEM_INPUT
+> + * [in] param[1].u.tmem.buf_ptr                physical address
+> + * [in] param[1].u.tmem.size           size
+> + * [in] param[1].u.tmem.shm_ref                holds protected memory reference
+> + *
+> + * OPTEE_MSG_CMD_RECLAIM_PROTMEM reclaims a previously lent protected
+> + * memory reference. The physical memory is accessible by the normal world
+> + * after this function has return and can be mapped again. The information
+> + * is passed as:
+> + * [in] param[0].attr                  OPTEE_MSG_ATTR_TYPE_VALUE_INPUT
+> + * [in] param[0].u.value.a             holds protected memory cookie
+> + *
+> + * OPTEE_MSG_CMD_GET_PROTMEM_CONFIG get configuration for a specific
+> + * protected memory use case. Parameters are passed as:
+> + * [in] param[0].attr                  OPTEE_MSG_ATTR_TYPE_VALUE_INOUT
+> + * [in] param[0].value.a               OPTEE_MSG_PROTMEM_*
+> + * [in] param[1].attr                  OPTEE_MSG_ATTR_TYPE_{R,F}MEM_OUTPUT
+> + * [in] param[1].u.{r,f}mem            Buffer or NULL
+> + * [in] param[1].u.{r,f}mem.size       Provided size of buffer or 0 for query
+> + * output for the protected use case:
+> + * [out] param[0].value.a              Minimal size of protected memory
+> + * [out] param[0].value.b              Required alignment of size and start of
+> + *                                     protected memory
+> + * [out] param[1].{r,f}mem.size                Size of output data
+> + * [out] param[1].{r,f}mem             If non-NULL, contains an array of
+> + *                                     uint16_t holding endpoints that
+> + *                                     must be included when lending
+> + *                                     memory for this use case
+> + *
+> + * OPTEE_MSG_CMD_ASSIGN_PROTMEM assigns use-case to protected memory
+> + * previously lent using the FFA_LEND framework ABI. Parameters are passed
+> + * as:
+> + * [in] param[0].attr                  OPTEE_MSG_ATTR_TYPE_VALUE_INPUT
+> + * [in] param[0].u.value.a             holds protected memory cookie
+> + * [in] param[0].u.value.b             OPTEE_MSG_PROTMEM_* defined above
+>   */
+> -#define OPTEE_MSG_CMD_OPEN_SESSION     0
+> -#define OPTEE_MSG_CMD_INVOKE_COMMAND   1
+> -#define OPTEE_MSG_CMD_CLOSE_SESSION    2
+> -#define OPTEE_MSG_CMD_CANCEL           3
+> -#define OPTEE_MSG_CMD_REGISTER_SHM     4
+> -#define OPTEE_MSG_CMD_UNREGISTER_SHM   5
+> -#define OPTEE_MSG_CMD_DO_BOTTOM_HALF   6
+> -#define OPTEE_MSG_CMD_STOP_ASYNC_NOTIF 7
+> -#define OPTEE_MSG_FUNCID_CALL_WITH_ARG 0x0004
+> +#define OPTEE_MSG_CMD_OPEN_SESSION             0
+> +#define OPTEE_MSG_CMD_INVOKE_COMMAND           1
+> +#define OPTEE_MSG_CMD_CLOSE_SESSION            2
+> +#define OPTEE_MSG_CMD_CANCEL                   3
+> +#define OPTEE_MSG_CMD_REGISTER_SHM             4
+> +#define OPTEE_MSG_CMD_UNREGISTER_SHM           5
+> +#define OPTEE_MSG_CMD_DO_BOTTOM_HALF           6
+> +#define OPTEE_MSG_CMD_STOP_ASYNC_NOTIF         7
+> +#define OPTEE_MSG_CMD_LEND_PROTMEM             8
+> +#define OPTEE_MSG_CMD_RECLAIM_PROTMEM          9
+> +#define OPTEE_MSG_CMD_GET_PROTMEM_CONFIG       10
+> +#define OPTEE_MSG_CMD_ASSIGN_PROTMEM           11
+> +#define OPTEE_MSG_FUNCID_CALL_WITH_ARG         0x0004
+>
+>  #endif /* _OPTEE_MSG_H */
+> diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
+> index 879426300821..b17e81f464a3 100644
+> --- a/drivers/tee/optee/optee_smc.h
+> +++ b/drivers/tee/optee/optee_smc.h
+> @@ -264,7 +264,6 @@ struct optee_smc_get_shm_config_result {
+>  #define OPTEE_SMC_SEC_CAP_HAVE_RESERVED_SHM    BIT(0)
+>  /* Secure world can communicate via previously unregistered shared memory */
+>  #define OPTEE_SMC_SEC_CAP_UNREGISTERED_SHM     BIT(1)
+> -
+>  /*
+>   * Secure world supports commands "register/unregister shared memory",
+>   * secure world accepts command buffers located in any parts of non-secure RAM
+> @@ -280,6 +279,10 @@ struct optee_smc_get_shm_config_result {
+>  #define OPTEE_SMC_SEC_CAP_RPC_ARG              BIT(6)
+>  /* Secure world supports probing for RPMB device if needed */
+>  #define OPTEE_SMC_SEC_CAP_RPMB_PROBE           BIT(7)
+> +/* Secure world supports protected memory */
+> +#define OPTEE_SMC_SEC_CAP_PROTMEM              BIT(8)
+> +/* Secure world supports dynamic protected memory */
+> +#define OPTEE_SMC_SEC_CAP_DYNAMIC_PROTMEM      BIT(9)
+>
+>  #define OPTEE_SMC_FUNCID_EXCHANGE_CAPABILITIES 9
+>  #define OPTEE_SMC_EXCHANGE_CAPABILITIES \
+> @@ -451,6 +454,72 @@ struct optee_smc_disable_shm_cache_result {
+>
+>  /* See OPTEE_SMC_CALL_WITH_REGD_ARG above */
+>  #define OPTEE_SMC_FUNCID_CALL_WITH_REGD_ARG    19
+> +/*
+> + * Get protected memory config
+> + *
+> + * Returns the protected memory config.
+> + *
+> + * Call register usage:
+> + * a0   SMC Function ID, OPTEE_SMC_GET_PROTMEM_CONFIG
+> + * a2-6        Not used, must be zero
+> + * a7  Hypervisor Client ID register
+> + *
+> + * Have config return register usage:
+> + * a0  OPTEE_SMC_RETURN_OK
+> + * a1  Physical address of start of protected memory
+> + * a2  Size of protected memory
+> + * a3  Not used
+> + * a4-7        Preserved
+> + *
+> + * Not available register usage:
+> + * a0  OPTEE_SMC_RETURN_ENOTAVAIL
+> + * a1-3 Not used
+> + * a4-7        Preserved
+> + */
+> +#define OPTEE_SMC_FUNCID_GET_PROTMEM_CONFIG            20
+> +#define OPTEE_SMC_GET_PROTMEM_CONFIG \
+> +       OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_PROTMEM_CONFIG)
+> +
+> +struct optee_smc_get_protmem_config_result {
+> +       unsigned long status;
+> +       unsigned long start;
+> +       unsigned long size;
+> +       unsigned long flags;
 
-I'm seeing issues on cleanup where drm_gem_is_imported() doesn't return 
-the same as !!import_attach in the above code. Specifically this appears 
-to be caused by drm_gem_object_exported_dma_buf_free() setting ->dma_buf 
-to NULL which makes the BO look like it isn't imported.
+The ABI comment does not document a flags return argument, either
+this can be removed or the ABI comment needs to be fixed.
+Same for
+> +};
+> +
+> +/*
+> + * Get dynamic protected memory config
+> + *
+> + * Returns the dynamic protected memory config.
+> + *
+> + * Call register usage:
+> + * a0  SMC Function ID, OPTEE_SMC_GET_DYN_SHM_CONFIG
 
-Stashing the imported state in the BO fixes the problem (see below 
-hack), but it would be nice to fix this more generally in case there are 
-other drivers that need to know the imported state during cleanup.
+should be OPTEE_SMC_GET_DYN_PROTMEM_CONFIG
 
-Any suggestions for how drm_gem_is_imported() can more accurately report 
-the state during cleanup?
+> + * a2-6        Not used, must be zero
+> + * a7  Hypervisor Client ID register
+> + *
+> + * Have config return register usage:
+> + * a0  OPTEE_SMC_RETURN_OK
+> + * a1  Minamal size of protected memory
 
-Thanks,
-Steve
+Nit: Typo, should be "Minimal"
 
+> + * a2  Required alignment of size and start of registered protected memory
+> + * a3  Not used
+> + * a4-7        Preserved
+> + *
+> + * Not available register usage:
+> + * a0  OPTEE_SMC_RETURN_ENOTAVAIL
+> + * a1-3 Not used
+> + * a4-7        Preserved
+> + */
+> +
+> +#define OPTEE_SMC_FUNCID_GET_DYN_PROTMEM_CONFIG        21
+> +#define OPTEE_SMC_GET_DYN_PROTMEM_CONFIG \
+> +       OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_DYN_PROTMEM_CONFIG)
+> +
+> +struct optee_smc_get_dyn_protmem_config_result {
+> +       unsigned long status;
+> +       unsigned long size;
+> +       unsigned long align;
+> +       unsigned long flags;
+> +};
+>
+>  /*
+>   * Resume from RPC (for example after processing a foreign interrupt)
+> --
+> 2.43.0
 
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index 4641994ddd7f..160facc67b23 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -97,6 +97,9 @@ struct panthor_gem_object {
- 	/** @flags: Combination of drm_panthor_bo_flags flags. */
- 	u32 flags;
- 
-+	/** @imported: Has this BO been imported? */
-+	bool imported;
-+
- 	/**
- 	 * @label: BO tagging fields. The label can be assigned within the
- 	 * driver itself or through a specific IOCTL.
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 6ca9a2642a4e..f6c8cdc867be 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -1104,7 +1104,7 @@ static void panthor_vm_bo_put(struct drm_gpuvm_bo *vm_bo)
- 	/* If the vm_bo object was destroyed, release the pin reference that
- 	 * was hold by this object.
- 	 */
--	if (unpin && !drm_gem_is_imported(&bo->base.base))
-+	if (unpin && !bo->imported)
- 		drm_gem_shmem_unpin(&bo->base);
- 
- 	drm_gpuvm_put(vm);
-@@ -1235,7 +1235,8 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 	if (ret)
- 		goto err_cleanup;
- 
--	if (!drm_gem_is_imported(&bo->base.base)) {
-+	bo->imported = drm_gem_is_imported(&bo->base.base);
-+	if (!bo->imported) {
- 		/* Pre-reserve the BO pages, so the map operation doesn't have to
- 		 * allocate.
- 		 */
-@@ -1246,7 +1247,7 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 
- 	sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
- 	if (IS_ERR(sgt)) {
--		if (!drm_gem_is_imported(&bo->base.base))
-+		if (!bo->imported)
- 			drm_gem_shmem_unpin(&bo->base);
- 
- 		ret = PTR_ERR(sgt);
-@@ -1257,7 +1258,7 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 
- 	preallocated_vm_bo = drm_gpuvm_bo_create(&vm->base, &bo->base.base);
- 	if (!preallocated_vm_bo) {
--		if (!drm_gem_is_imported(&bo->base.base))
-+		if (!bo->imported)
- 			drm_gem_shmem_unpin(&bo->base);
- 
- 		ret = -ENOMEM;
-@@ -1282,8 +1283,7 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 	 * If our pre-allocated vm_bo is picked, it now retains the pin ref,
- 	 * which will be released in panthor_vm_bo_put().
- 	 */
--	if (preallocated_vm_bo != op_ctx->map.vm_bo &&
--	    !drm_gem_is_imported(&bo->base.base))
-+	if (preallocated_vm_bo != op_ctx->map.vm_bo && !bo->imported)
- 		drm_gem_shmem_unpin(&bo->base);
- 
- 	op_ctx->map.bo_offset = offset;
-
+- Rouven
