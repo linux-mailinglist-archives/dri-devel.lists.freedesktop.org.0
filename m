@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49921A9CC29
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 16:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B79A9CC30
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 16:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 619B410E318;
-	Fri, 25 Apr 2025 14:57:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F0C10E312;
+	Fri, 25 Apr 2025 14:58:49 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Smopjurs";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9F75D10E318
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 14:57:06 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8DB81106F;
- Fri, 25 Apr 2025 07:57:00 -0700 (PDT)
-Received: from [10.1.36.15] (e122027.cambridge.arm.com [10.1.36.15])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A9C263F59E;
- Fri, 25 Apr 2025 07:57:02 -0700 (PDT)
-Message-ID: <3b6235d6-67e3-47dc-b1a5-f30a726d0bdb@arm.com>
-Date: Fri, 25 Apr 2025 15:57:00 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 905B410E312
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 14:58:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=pDLyGz5psQSfot+EZOXRGE+hMbkgp+pmPZFZcccHNyg=; b=SmopjursYih+qOKaPpuLCTqKEn
+ 7AIHCGYi1AMw+1wnuSrZ1J2Lb0c8NMGPxnc4W/pJPQ4dA+ViTNm8WeNeGVrcdunTKJ7D9DH1SHb17
+ sbUV+3wHq26ckTX4gLW+yjFsOFJO92eYK9H76N63QvjafwBntIBG4WjAHO/CtMnQ2qRrcFPgqSX+1
+ Dj8lvY5QFLaoftmwjsgjArtCsXJ/yN+JePywoZcU2353SaWzMMPJwBR8lXFqLB3348zGHpvD6ZaQL
+ F0TRq/Os/neF5ffhTA7nqdoomWqaQumu0WVLf5PwMBEF9/b5bJAYOMcuXjjccqZuCloL0WFFxp2cr
+ SEJJR6Fw==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1u8KVp-008NEa-GG; Fri, 25 Apr 2025 16:58:45 +0200
+Message-ID: <9a82376d-a650-47ec-83cb-dd481741f8bd@igalia.com>
+Date: Fri, 25 Apr 2025 15:58:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/15] drm/panthor: Test for imported buffers with
- drm_gem_is_imported()
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>
-References: <20250317131923.238374-1-tzimmermann@suse.de>
- <20250317131923.238374-10-tzimmermann@suse.de>
- <bd83794c-17a9-4e28-bf62-7a62bef57c22@arm.com>
- <20250425163017.050f94f0@collabora.com>
-From: Steven Price <steven.price@arm.com>
+Subject: Re: AW: [PATCH] drm/fdinfo: Protect against driver unbind
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20250418162512.72324-1-tvrtko.ursulin@igalia.com>
+ <PH7PR12MB5685C40A8B0058293A9A8AE783BB2@PH7PR12MB5685.namprd12.prod.outlook.com>
+ <9b3e27d6-724f-4fca-8214-3a3bd7053995@igalia.com>
+ <dfc4a23b-00eb-4835-9683-154c5d7f516e@amd.com>
 Content-Language: en-GB
-In-Reply-To: <20250425163017.050f94f0@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <dfc4a23b-00eb-4835-9683-154c5d7f516e@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,69 +68,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/04/2025 15:30, Boris Brezillon wrote:
-> On Fri, 25 Apr 2025 14:34:53 +0100
-> Steven Price <steven.price@arm.com> wrote:
-> 
->> On 17/03/2025 13:06, Thomas Zimmermann wrote:
->>> Instead of testing import_attach for imported GEM buffers, invoke
->>> drm_gem_is_imported() to do the test. The helper tests the dma_buf
->>> itself while import_attach is just an artifact of the import. Prepares
->>> to make import_attach optional.
+
++ Thomas, AFAICT you are handling drm-misc-fixes this round - are you 
+okay to take this patch with Christian's rb?
+
+Regards,
+
+Tvrtko
+
+On 23/04/2025 13:57, Christian König wrote:
+> On 4/22/25 17:10, Tvrtko Ursulin wrote:
+>>
+>> On 22/04/2025 10:20, Koenig, Christian wrote:
+>>> [AMD Official Use Only - AMD Internal Distribution Only]
 >>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
->>> Cc: Steven Price <steven.price@arm.com>
->>> Cc: Liviu Dudau <liviu.dudau@arm.com>
+>>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>
+>> Thanks!
+>>
+>> I could also add:
+>>
+>> Fixes: 3f09a0cd4ea3 ("drm: Add common fdinfo helper")
+>> Cc: <stable@vger.kernel.org> # v6.5+
+>>
+>> With a disclaimer that the problem predates the common helper. Not sure if it is worth it for such an edge case.
+>>
+>> I was planning to merge to drm-misc-next, but if I add the stable tag it would be drm-misc-fixes right?
+> 
+> Yeah even without the CC:stable tag that is clearly something for the -fixes branch I would say.
+> 
+> Regards,
+> Christian.
+> 
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> ________________________________________
+>>> Von: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>> Gesendet: Freitag, 18. April 2025 18:25
+>>> An: dri-devel@lists.freedesktop.org
+>>> Cc: kernel-dev@igalia.com; Tvrtko Ursulin; Koenig, Christian; Lucas De Marchi; Rodrigo Vivi; Umesh Nerlige Ramappa
+>>> Betreff: [PATCH] drm/fdinfo: Protect against driver unbind
+>>>
+>>> If we unbind a driver from the PCI device with an active DRM client,
+>>> subsequent read of the fdinfo data associated with the file descriptor in
+>>> question will not end well.
+>>>
+>>> Protect the path with a drm_dev_enter/exit() pair.
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>> Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 >>> ---
->>>  drivers/gpu/drm/panthor/panthor_gem.c |  2 +-
->>>  drivers/gpu/drm/panthor/panthor_mmu.c | 10 +++++-----
->>>  2 files changed, 6 insertions(+), 6 deletions(-)
+>>>    drivers/gpu/drm/drm_file.c | 6 ++++++
+>>>    1 file changed, 6 insertions(+)
 >>>
->>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
->>> index 8244a4e6c2a2..fd014ccc3bfc 100644
->>> --- a/drivers/gpu/drm/panthor/panthor_gem.c
->>> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
->>> @@ -155,7 +155,7 @@ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
->>>  	struct panthor_gem_object *bo = to_panthor_bo(obj);
->>>  	enum drm_gem_object_status res = 0;
->>>  
->>> -	if (bo->base.base.import_attach || bo->base.pages)
->>> +	if (drm_gem_is_imported(&bo->base.base) || bo->base.pages)
->>>  		res |= DRM_GEM_OBJECT_RESIDENT;
->>>  
->>>  	return res;
->>> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
->>> index 12a02e28f50f..3e123159ac10 100644
->>> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
->>> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
->>> @@ -1103,7 +1103,7 @@ static void panthor_vm_bo_put(struct drm_gpuvm_bo *vm_bo)
->>>  	/* If the vm_bo object was destroyed, release the pin reference that
->>>  	 * was hold by this object.
->>>  	 */
->>> -	if (unpin && !bo->base.base.import_attach)
->>> +	if (unpin && !drm_gem_is_imported(&bo->base.base))
->>>  		drm_gem_shmem_unpin(&bo->base);  
+>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+>>> index c299cd94d3f7..cf2463090d3a 100644
+>>> --- a/drivers/gpu/drm/drm_file.c
+>>> +++ b/drivers/gpu/drm/drm_file.c
+>>> @@ -964,6 +964,10 @@ void drm_show_fdinfo(struct seq_file *m, struct file *f)
+>>>           struct drm_file *file = f->private_data;
+>>>           struct drm_device *dev = file->minor->dev;
+>>>           struct drm_printer p = drm_seq_file_printer(m);
+>>> +       int idx;
+>>> +
+>>> +       if (!drm_dev_enter(dev, &idx))
+>>> +               return;
+>>>
+>>>           drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
+>>>           drm_printf(&p, "drm-client-id:\t%llu\n", file->client_id);
+>>> @@ -983,6 +987,8 @@ void drm_show_fdinfo(struct seq_file *m, struct file *f)
+>>>
+>>>           if (dev->driver->show_fdinfo)
+>>>                   dev->driver->show_fdinfo(&p, file);
+>>> +
+>>> +       drm_dev_exit(idx);
+>>>    }
+>>>    EXPORT_SYMBOL(drm_show_fdinfo);
+>>>
+>>> -- 
+>>> 2.48.0
+>>>
 >>
->> I'm seeing issues on cleanup where drm_gem_is_imported() doesn't return 
->> the same as !!import_attach in the above code. Specifically this appears 
->> to be caused by drm_gem_object_exported_dma_buf_free() setting ->dma_buf 
->> to NULL which makes the BO look like it isn't imported.
->>
->> Stashing the imported state in the BO fixes the problem (see below 
->> hack), but it would be nice to fix this more generally in case there are 
->> other drivers that need to know the imported state during cleanup.
->>
->> Any suggestions for how drm_gem_is_imported() can more accurately report 
->> the state during cleanup?
 > 
-> This should be fixed by [1], but I wonder why it's not been merged in
-> drm-misc-next yet.
-
-Ah, yes that's exactly the bug I'm seeing - I missed the patch being
-posted. Thanks for the link!
-
-Steve
-
-> [1]https://patches.linaro.org/project/linux-media/patch/20250416065820.26076-1-tzimmermann@suse.de/
 
