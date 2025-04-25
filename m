@@ -2,83 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D92AA9CA80
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 15:36:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46A0A9CAF2
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 15:59:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD4DF10E2AB;
-	Fri, 25 Apr 2025 13:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F34B10E2D5;
+	Fri, 25 Apr 2025 13:59:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xX7wpJAF";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="TDP8TXou";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D77CD10E2AB
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 13:36:46 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-5f62ef3c383so4321088a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 06:36:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1745588205; x=1746193005; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HTyBdYK9QHtfmQZsIeeNm4rwCrR2M4f8xsWgO6o7yV4=;
- b=xX7wpJAF6zr4KIwi7oZDkjuYGPRyMl8qJcZe5EhJsP0tPMXgQhiZEfrOBmb4Spsj0T
- YkkxJb4mzuFzGqsx1yyfj+5vCvDq9kjLMw0yC06RyXNGEQ19xZ1Unbix95KfkYVKmWsX
- kZlzM1yo/d2sFT6dqZMyAToiibEbeUj4OSIc78mVFkXFPK8BIvE+I9+Iqfqa/XWXTU8R
- QMogjXzsW0vHJCz/+WqZ7dv8pLQlazHbdHG6ltURa/FszfDOu1RFCt5MeUlpSROrPm6l
- FhBGsIaYuf/lV3fggoggbjPgSYwnIVwbNaHo48e2AZYB4aE5oLmTKXy+oeXq9+1zuf/s
- CVZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745588205; x=1746193005;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HTyBdYK9QHtfmQZsIeeNm4rwCrR2M4f8xsWgO6o7yV4=;
- b=vjXqSLF+uYqyMAQpZOI6ILJ0s8vltSmBDnBDsgMYZt5XNG+seTY32B0flJG7nI1VMm
- PeCXjsU4dWFGx9rRQCJ3CUOqS8C55MJNmolX76dX6t096qcEbVWowKTySll+EV/juxEg
- WEohqIQeI/kThJemDEmV1nQYplkpuqRC4+UyK+PNH5Mf9Jqhpw3FvkBZzkBSca+DKvOA
- FWKwVjeV9plcKIMv8+CMnSyANnYcabr30m6K4y+umo8g+7w3ElYaMdIyRNMfbAUZGgFA
- JaDU4vUCX0KF2bQFLjlwNZ03Db7WxMMfJZ7zzYNZ/jkudRdSvIS9bXBMpc1E5iZVNBxq
- Igcw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEtqwW0bOnLZ1l4jChiyFihTNImnLTnSp9+uVQB1a0YMPrXbS/pvJi3b16l1VAtX6kFdtEdknt82Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz7pFaQWsfd0YLACdMf8o/2ejIiAIHIHlmwnFGfTw1ElrbnTL6e
- bkU5PQ9FTSihXMMZIIOeEtvcbBFGK0Y3+BILJP/JMjkTqk05L2uJbmwk/zsW1i9rDfOemuIcB9b
- DqkTu0CYmJJufkkZivuDc77yossSIE6gY54d/IQ==
-X-Gm-Gg: ASbGncukXOH/0JUWpEgCvfSeyLAIG2yY6ag7HGeCShEpV1SRPEEpv6NBpbMSdQ2cpRL
- WWvsKaRIBDJk3ACSZQXjhM7Pxwk20WREIVxoGH5GRT1p+95hU15mNg9ymgkc9ISd8zYhpyuj49K
- yZeTl/HgBRjMj6X9zAvZqTr5lCbyHnAUUvkEC60BjuVtPBVZVQrG/hPeU=
-X-Google-Smtp-Source: AGHT+IE7SPxlVH3PkxOOB55XTbBPfO/7JEFTukIQStQPN0fihbHuXz0FkHYC68Cqk0Q9M/qOq82CDuNzvmZ6Nh2nFq4=
-X-Received: by 2002:a05:6402:4309:b0:5f6:23b1:ab4b with SMTP id
- 4fb4d7f45d1cf-5f723a1d32fmr2029504a12.30.1745588205252; Fri, 25 Apr 2025
- 06:36:45 -0700 (PDT)
+X-Greylist: delayed 512 seconds by postgrey-1.36 at gabe;
+ Fri, 25 Apr 2025 13:58:59 UTC
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E24110E136;
+ Fri, 25 Apr 2025 13:58:59 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4ZkZ3f06PTzDqKZ;
+ Fri, 25 Apr 2025 13:50:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1745589022; bh=7CqMt7D2Ad0OtcbJ1KHWSMCb8AnEr8Q/w8mxHLM8Iq0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=TDP8TXouRJvmjkbDW0zM2MYo8wbQeIbhhopfc2AquK3PaIlEalj7HWSGq05WDh4zw
+ wOTyPwVxb0MOltnpnrNUOntEYq9oi1sUKAMBiT4PxdeYHgPEF/Lmibw34uqkIpAP9x
+ 4smaVArG5jbXPL7o3rp5xcKjifTqEsF75sVisS2U=
+X-Riseup-User-ID: CFB9761A7B9478EF00DD78B6ADCE1D1E1118B035738A5D013E1345A46ECCA270
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4ZkZ3V09HPzJstx;
+ Fri, 25 Apr 2025 13:50:13 +0000 (UTC)
+Message-ID: <e03200db-3e24-49e6-87d4-a9253401c494@riseup.net>
+Date: Fri, 25 Apr 2025 10:50:07 -0300
 MIME-Version: 1.0
-References: <20250404143215.2281034-1-jens.wiklander@linaro.org>
- <20250404143215.2281034-5-jens.wiklander@linaro.org>
-In-Reply-To: <20250404143215.2281034-5-jens.wiklander@linaro.org>
-From: Rouven Czerwinski <rouven.czerwinski@linaro.org>
-Date: Fri, 25 Apr 2025 15:36:33 +0200
-X-Gm-Features: ATxdqUGYPWHtY03dwLh1zXB-k8A70x8RLBAD7gk6FeZVRcqYmVrqVAOIUH5hmp8
-Message-ID: <CAK8z29XHZXo5e1u8q_0D=iWxr3V2m7PateRGgqVGFe-WDeFKGg@mail.gmail.com>
-Subject: Re: [PATCH v7 04/11] optee: sync secure world ABI headers
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, 
- Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH V8 40/43] drm/colorop: Add 3D LUT support to color pipeline
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
+ leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
+ uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+ quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
+ sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
+ louis.chauvet@bootlin.com
+References: <20250326234748.2982010-1-alex.hung@amd.com>
+ <20250326234748.2982010-41-alex.hung@amd.com>
+Content-Language: en-US
+From: Leandro Ribeiro <leandrohr@riseup.net>
+In-Reply-To: <20250326234748.2982010-41-alex.hung@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,314 +71,315 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+
+
+On 3/26/25 20:47, Alex Hung wrote:
+> It is to be used to enable HDR by allowing userpace to create and pass
+> 3D LUTs to kernel and hardware.
+> 
+> new drm_colorop_type: DRM_COLOROP_3D_LUT.
+> 
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> ---
+> v8:
+>  - Fix typo in subject (Simon Ser)
+>  - Update documentation for DRM_COLOROP_3D_LUT (Simon Ser)
+>  - Delete empty lines (Simon Ser)
+> 
+> v7:
+>  - Simplify 3D LUT by removing lut_3d_modes and related functions (Simon Ser)
+> 
+>  drivers/gpu/drm/drm_atomic.c      |  6 +++
+>  drivers/gpu/drm/drm_atomic_uapi.c |  6 +++
+>  drivers/gpu/drm/drm_colorop.c     | 72 +++++++++++++++++++++++++++++++
+>  include/drm/drm_colorop.h         | 21 +++++++++
+>  include/uapi/drm/drm_mode.h       | 33 ++++++++++++++
+>  5 files changed, 138 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 0efb0ead204a..ef47a06344f3 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -806,6 +806,12 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
+>  	case DRM_COLOROP_MULTIPLIER:
+>  		drm_printf(p, "\tmultiplier=%llu\n", state->multiplier);
+>  		break;
+> +	case DRM_COLOROP_3D_LUT:
+> +		drm_printf(p, "\tsize=%d\n", colorop->lut_size);
+> +		drm_printf(p, "\tinterpolation=%s\n",
+> +			   drm_get_colorop_lut3d_interpolation_name(colorop->lut3d_interpolation));
+> +		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
+> +		break;
+>  	default:
+>  		break;
+>  	}
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 947c18e8bf9b..d5d464b4d0f6 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -719,6 +719,10 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
+>  	case DRM_COLOROP_CTM_3X4:
+>  		size = sizeof(struct drm_color_ctm_3x4);
+>  		break;
+> +	case DRM_COLOROP_3D_LUT:
+> +		size = colorop->lut_size * colorop->lut_size * colorop->lut_size *
+> +		       sizeof(struct drm_color_lut);
+> +		break;
+>  	default:
+>  		/* should never get here */
+>  		return -EINVAL;
+> @@ -771,6 +775,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *colorop,
+>  		*val = state->multiplier;
+>  	} else if (property == colorop->lut_size_property) {
+>  		*val = colorop->lut_size;
+> +	} else if (property == colorop->lut3d_interpolation_property) {
+> +		*val = colorop->lut3d_interpolation;
+>  	} else if (property == colorop->data_property) {
+>  		*val = (state->data) ? state->data->base.id : 0;
+>  	} else {
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index e03706e7179b..224c6be237d2 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -67,6 +67,7 @@ static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
+>  	{ DRM_COLOROP_1D_LUT, "1D LUT" },
+>  	{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
+>  	{ DRM_COLOROP_MULTIPLIER, "Multiplier"},
+> +	{ DRM_COLOROP_3D_LUT, "3D LUT"},
+>  };
+>  
+>  static const char * const colorop_curve_1d_type_names[] = {
+> @@ -82,6 +83,11 @@ static const struct drm_prop_enum_list drm_colorop_lut1d_interpolation_list[] =
+>  	{ DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR, "Linear" },
+>  };
+>  
+> +
+> +static const struct drm_prop_enum_list drm_colorop_lut3d_interpolation_list[] = {
+> +	{ DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL, "Tetrahedral" },
+> +};
+> +
+>  /* Init Helpers */
+>  
+>  static int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
+> @@ -349,6 +355,51 @@ int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+>  }
+>  EXPORT_SYMBOL(drm_colorop_mult_init);
+>  
+> +int drm_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +			   struct drm_plane *plane,
+> +			   uint32_t lut_size,
+> +			   enum drm_colorop_lut3d_interpolation_type interpolation,
+> +			   bool allow_bypass)
+> +{
+> +	struct drm_property *prop;
+> +	int ret;
+> +
+> +	ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_3D_LUT, allow_bypass);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* LUT size */
+> +	prop = drm_property_create_range(dev, DRM_MODE_PROP_IMMUTABLE  | DRM_MODE_PROP_ATOMIC,
+> +					 "SIZE", 0, UINT_MAX);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	colorop->lut_size_property = prop;
+> +	drm_object_attach_property(&colorop->base, colorop->lut_size_property, lut_size);
+> +	colorop->lut_size = lut_size;
+> +
+> +	/* interpolation */
+> +	prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE, "LUT3D_INTERPOLATION",
+> +					drm_colorop_lut3d_interpolation_list,
+> +					ARRAY_SIZE(drm_colorop_lut3d_interpolation_list));
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	colorop->lut3d_interpolation_property = prop;
+> +	drm_object_attach_property(&colorop->base, prop, interpolation);
+> +	colorop->lut3d_interpolation = interpolation;
+> +
+> +	/* data */
+> +	ret = drm_colorop_create_data_prop(dev, colorop);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_colorop_reset(colorop);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_colorop_3dlut_init);
+> +
+>  static void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
+>  							struct drm_colorop_state *state)
+>  {
+> @@ -441,7 +492,13 @@ static const char * const colorop_type_name[] = {
+>  	[DRM_COLOROP_1D_LUT] = "1D LUT",
+>  	[DRM_COLOROP_CTM_3X4] = "3x4 Matrix",
+>  	[DRM_COLOROP_MULTIPLIER] = "Multiplier",
+> +	[DRM_COLOROP_3D_LUT] = "3D LUT",
+>  };
+> +
+> +static const char * const colorop_lu3d_interpolation_name[] = {
+> +	[DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL] = "Tetrahedral",
+> +};
+> +
+>  static const char * const colorop_lut1d_interpolation_name[] = {
+>  	[DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR] = "Linear",
+>  };
+> @@ -477,6 +534,21 @@ const char *drm_get_colorop_lut1d_interpolation_name(enum drm_colorop_lut1d_inte
+>  	return colorop_lut1d_interpolation_name[type];
+>  }
+>  
+> +/**
+> + * drm_get_colorop_lut3d_interpolation_name - return a string for interpolation type
+> + * @type: interpolation type to compute name of
+> + *
+> + * In contrast to the other drm_get_*_name functions this one here returns a
+> + * const pointer and hence is threadsafe.
+> + */
+> +const char *drm_get_colorop_lut3d_interpolation_name(enum drm_colorop_lut3d_interpolation_type type)
+> +{
+> +	if (WARN_ON(type >= ARRAY_SIZE(colorop_lu3d_interpolation_name)))
+> +		return "unknown";
+> +
+> +	return colorop_lu3d_interpolation_name[type];
+> +}
+> +
+>  /**
+>   * drm_colorop_set_next_property - sets the next pointer
+>   * @colorop: drm colorop
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index c89d5eb44856..e999d5ceb8a5 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -281,6 +281,14 @@ struct drm_colorop {
+>  	 */
+>  	enum drm_colorop_lut1d_interpolation_type lut1d_interpolation;
+>  
+> +	/**
+> +	 * @lut3d_interpolation:
+> +	 *
+> +	 * Read-only
+> +	 * Interpolation for DRM_COLOROP_3D_LUT
+> +	 */
+> +	enum drm_colorop_lut3d_interpolation_type lut3d_interpolation;
+> +
+>  	/**
+>  	 * @lut1d_interpolation_property:
+>  	 *
+> @@ -309,6 +317,13 @@ struct drm_colorop {
+>  	 */
+>  	struct drm_property *lut_size_property;
+>  
+> +	/**
+> +	 * @lut3d_interpolation_property:
+> +	 *
+> +	 * Read-only property for DRM_COLOROP_3D_LUT interpolation
+> +	 */
+> +	struct drm_property *lut3d_interpolation_property;
+> +
+>  	/**
+>  	 * @data_property:
+>  	 *
+> @@ -362,6 +377,11 @@ int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop
+>  			     struct drm_plane *plane, bool allow_bypass);
+>  int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+>  			      struct drm_plane *plane, bool allow_bypass);
+> +int drm_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +			   struct drm_plane *plane,
+> +			   uint32_t lut_size,
+> +			   enum drm_colorop_lut3d_interpolation_type interpolation,
+> +			   bool allow_bypass);
+>  
+>  struct drm_colorop_state *
+>  drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
+> @@ -412,6 +432,7 @@ const char *drm_get_colorop_type_name(enum drm_colorop_type type);
+>   */
+>  const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d_type type);
+>  const char *drm_get_colorop_lut1d_interpolation_name(enum drm_colorop_lut1d_interpolation_type type);
+> +const char *drm_get_colorop_lut3d_interpolation_name(enum drm_colorop_lut3d_interpolation_type type);
+>  
+>  void drm_colorop_set_next_property(struct drm_colorop *colorop, struct drm_colorop *next);
+>  
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index d76c8ffe5408..88fafbdeb2a2 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -930,6 +930,39 @@ enum drm_colorop_type {
+>  	 * property.
+>  	 */
+>  	DRM_COLOROP_MULTIPLIER,
+> +
+> +	/**
+> +	 * @DRM_COLOROP_3D_LUT:
+> +	 *
+> +	 * enum string "3D LUT"
+> +	 *
+> +	 * A 3D LUT of &drm_color_lut entries,
+> +	 * packed into a blob via the DATA property. The driver's expected
+> +	 * LUT size is advertised via the SIZE property, i.e., a 3D LUT with
+> +	 * 17x17x17 entries will have SIZE set to 17.
+> +	 *
+> +	 * The DATA blob is a 3D array of struct drm_color_lut with dimension
+> +	 * length of "lut_size".
+> +	 * The LUT elements are traversed like so:
+> +	 *
+> +	 *   for R in range 0..n
+> +	 *     for G in range 0..n
+> +	 *       for B in range 0..n
+> +	 *         color = lut3d[R][G][B]
+> +	 */
+> +	DRM_COLOROP_3D_LUT,
+> +};
+
 Hi,
 
-On Fri, 4 Apr 2025 at 16:31, Jens Wiklander <jens.wiklander@linaro.org> wrote:
->
-> Update the header files describing the secure world ABI, both with and
-> without FF-A. The ABI is extended to deal with protected memory, but as
-> usual backward compatible.
->
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> ---
->  drivers/tee/optee/optee_ffa.h | 27 +++++++++---
->  drivers/tee/optee/optee_msg.h | 83 ++++++++++++++++++++++++++++++-----
->  drivers/tee/optee/optee_smc.h | 71 +++++++++++++++++++++++++++++-
->  3 files changed, 163 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/tee/optee/optee_ffa.h b/drivers/tee/optee/optee_ffa.h
-> index 257735ae5b56..cc257e7956a3 100644
-> --- a/drivers/tee/optee/optee_ffa.h
-> +++ b/drivers/tee/optee/optee_ffa.h
-> @@ -81,7 +81,7 @@
->   *                   as the second MSG arg struct for
->   *                   OPTEE_FFA_YIELDING_CALL_WITH_ARG.
->   *        Bit[31:8]: Reserved (MBZ)
-> - * w5:   Bitfield of secure world capabilities OPTEE_FFA_SEC_CAP_* below,
-> + * w5:   Bitfield of OP-TEE capabilities OPTEE_FFA_SEC_CAP_*
->   * w6:   The maximum secure world notification number
->   * w7:   Not used (MBZ)
->   */
-> @@ -94,6 +94,8 @@
->  #define OPTEE_FFA_SEC_CAP_ASYNC_NOTIF  BIT(1)
->  /* OP-TEE supports probing for RPMB device if needed */
->  #define OPTEE_FFA_SEC_CAP_RPMB_PROBE   BIT(2)
-> +/* OP-TEE supports Protected Memory for secure data path */
-> +#define OPTEE_FFA_SEC_CAP_PROTMEM      BIT(3)
->
->  #define OPTEE_FFA_EXCHANGE_CAPABILITIES OPTEE_FFA_BLOCKING_CALL(2)
->
-> @@ -108,7 +110,7 @@
->   *
->   * Return register usage:
->   * w3:    Error code, 0 on success
-> - * w4-w7: Note used (MBZ)
-> + * w4-w7: Not used (MBZ)
->   */
->  #define OPTEE_FFA_UNREGISTER_SHM       OPTEE_FFA_BLOCKING_CALL(3)
->
-> @@ -119,16 +121,31 @@
->   * Call register usage:
->   * w3:    Service ID, OPTEE_FFA_ENABLE_ASYNC_NOTIF
->   * w4:   Notification value to request bottom half processing, should be
-> - *       less than OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE.
-> + *       less than OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE
->   * w5-w7: Not used (MBZ)
->   *
->   * Return register usage:
->   * w3:    Error code, 0 on success
-> - * w4-w7: Note used (MBZ)
-> + * w4-w7: Not used (MBZ)
->   */
->  #define OPTEE_FFA_ENABLE_ASYNC_NOTIF   OPTEE_FFA_BLOCKING_CALL(5)
->
-> -#define OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE 64
-> +#define OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE        64
+I'm experimenting with V7 of the this API on Weston, using the AMD driver,
+and I'm seeing issues with the usage of 3D LUT's: channels R and B being
+swapped.
+On Weston, the 3D LUT is constructed as:
+
+for B in range 0..n
+    for G in range 0..n
+       for R in range 0..n
+           index = R + n * (G + n * B)
+           lut[index].red   = foo
+           lut[index].green = foo
+           lut[index].blue  = foo
+
+To map that to DRM_COLOROP_3D_LUT, we do:
+
+for B in range 0..n
+    for G in range 0..n
+       for R in range 0..n
+           index_weston = R + n * (G + n * B)
+           index_kernel = B + n * (G + n * R)
+           lut_kernel[index_kernel].red   = lut[index_weston].red
+           lut_kernel[index_kernel].green = lut[index_weston].green
+           lut_kernel[index_kernel].blue  = lut[index_weston].blue
+
+If I ignore the documentation and use the same indices, everything works
+fine regarding the color channels.
+
+Maybe there's a bug in our Weston code, but writing this just to confirm
+that the documentation and the AMD driver are matching.
+
+Thanks,
+Leandro
+
 > +
-> +/*
-> + * Release Protected memory
-> + *
-> + * Call register usage:
-> + * w3:    Service ID, OPTEE_FFA_RECLAIM_PROTMEM
-> + * w4:    Shared memory handle, lower bits
-> + * w5:    Shared memory handle, higher bits
-> + * w6-w7: Not used (MBZ)
-> + *
-> + * Return register usage:
-> + * w3:    Error code, 0 on success
-> + * w4-w7: Note used (MBZ)
+> +/**
+> + * enum drm_colorop_lut3d_interpolation_type - type of 3DLUT interpolation
 > + */
-> +#define OPTEE_FFA_RELEASE_PROTMEM      OPTEE_FFA_BLOCKING_CALL(8)
->
->  /*
->   * Call with struct optee_msg_arg as argument in the supplied shared memory
-> diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
-> index e8840a82b983..22d71d6f110d 100644
-> --- a/drivers/tee/optee/optee_msg.h
-> +++ b/drivers/tee/optee/optee_msg.h
-> @@ -133,13 +133,13 @@ struct optee_msg_param_rmem {
+> +enum drm_colorop_lut3d_interpolation_type {
+> +	/**
+> +	 * @DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL:
+> +	 *
+> +	 * Tetrahedral 3DLUT interpolation
+> +	 */
+> +	DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
 >  };
->
+>  
 >  /**
-> - * struct optee_msg_param_fmem - ffa memory reference parameter
-> + * struct optee_msg_param_fmem - FF-A memory reference parameter
->   * @offs_lower:           Lower bits of offset into shared memory reference
->   * @offs_upper:           Upper bits of offset into shared memory reference
->   * @internal_offs: Internal offset into the first page of shared memory
->   *                reference
->   * @size:         Size of the buffer
-> - * @global_id:    Global identifier of Shared memory
-> + * @global_id:    Global identifier of the shared memory
->   */
->  struct optee_msg_param_fmem {
->         u32 offs_low;
-> @@ -165,7 +165,7 @@ struct optee_msg_param_value {
->   * @attr:      attributes
->   * @tmem:      parameter by temporary memory reference
->   * @rmem:      parameter by registered memory reference
-> - * @fmem:      parameter by ffa registered memory reference
-> + * @fmem:      parameter by FF-A registered memory reference
->   * @value:     parameter by opaque value
->   * @octets:    parameter by octet string
->   *
-> @@ -296,6 +296,18 @@ struct optee_msg_arg {
->   */
->  #define OPTEE_MSG_FUNCID_GET_OS_REVISION       0x0001
->
-> +/*
-> + * Values used in OPTEE_MSG_CMD_LEND_PROTMEM below
-> + * OPTEE_MSG_PROTMEM_RESERVED          Reserved
-> + * OPTEE_MSG_PROTMEM_SECURE_VIDEO_PLAY Secure Video Playback
-> + * OPTEE_MSG_PROTMEM_TRUSTED_UI                Trused UI
-> + * OPTEE_MSG_PROTMEM_SECURE_VIDEO_RECORD       Secure Video Recording
-> + */
-> +#define OPTEE_MSG_PROTMEM_RESERVED             0
-> +#define OPTEE_MSG_PROTMEM_SECURE_VIDEO_PLAY    1
-> +#define OPTEE_MSG_PROTMEM_TRUSTED_UI           2
-> +#define OPTEE_MSG_PROTMEM_SECURE_VIDEO_RECORD  3
-> +
->  /*
->   * Do a secure call with struct optee_msg_arg as argument
->   * The OPTEE_MSG_CMD_* below defines what goes in struct optee_msg_arg::cmd
-> @@ -337,15 +349,62 @@ struct optee_msg_arg {
->   * OPTEE_MSG_CMD_STOP_ASYNC_NOTIF informs secure world that from now is
->   * normal world unable to process asynchronous notifications. Typically
->   * used when the driver is shut down.
-> + *
-> + * OPTEE_MSG_CMD_LEND_PROTMEM lends protected memory. The passed normal
-> + * physical memory is protected from normal world access. The memory
-> + * should be unmapped prior to this call since it becomes inaccessible
-> + * during the request.
-> + * Parameters are passed as:
-> + * [in] param[0].attr                  OPTEE_MSG_ATTR_TYPE_VALUE_INPUT
-> + * [in] param[0].u.value.a             OPTEE_MSG_PROTMEM_* defined above
-> + * [in] param[1].attr                  OPTEE_MSG_ATTR_TYPE_TMEM_INPUT
-> + * [in] param[1].u.tmem.buf_ptr                physical address
-> + * [in] param[1].u.tmem.size           size
-> + * [in] param[1].u.tmem.shm_ref                holds protected memory reference
-> + *
-> + * OPTEE_MSG_CMD_RECLAIM_PROTMEM reclaims a previously lent protected
-> + * memory reference. The physical memory is accessible by the normal world
-> + * after this function has return and can be mapped again. The information
-> + * is passed as:
-> + * [in] param[0].attr                  OPTEE_MSG_ATTR_TYPE_VALUE_INPUT
-> + * [in] param[0].u.value.a             holds protected memory cookie
-> + *
-> + * OPTEE_MSG_CMD_GET_PROTMEM_CONFIG get configuration for a specific
-> + * protected memory use case. Parameters are passed as:
-> + * [in] param[0].attr                  OPTEE_MSG_ATTR_TYPE_VALUE_INOUT
-> + * [in] param[0].value.a               OPTEE_MSG_PROTMEM_*
-> + * [in] param[1].attr                  OPTEE_MSG_ATTR_TYPE_{R,F}MEM_OUTPUT
-> + * [in] param[1].u.{r,f}mem            Buffer or NULL
-> + * [in] param[1].u.{r,f}mem.size       Provided size of buffer or 0 for query
-> + * output for the protected use case:
-> + * [out] param[0].value.a              Minimal size of protected memory
-> + * [out] param[0].value.b              Required alignment of size and start of
-> + *                                     protected memory
-> + * [out] param[1].{r,f}mem.size                Size of output data
-> + * [out] param[1].{r,f}mem             If non-NULL, contains an array of
-> + *                                     uint16_t holding endpoints that
-> + *                                     must be included when lending
-> + *                                     memory for this use case
-> + *
-> + * OPTEE_MSG_CMD_ASSIGN_PROTMEM assigns use-case to protected memory
-> + * previously lent using the FFA_LEND framework ABI. Parameters are passed
-> + * as:
-> + * [in] param[0].attr                  OPTEE_MSG_ATTR_TYPE_VALUE_INPUT
-> + * [in] param[0].u.value.a             holds protected memory cookie
-> + * [in] param[0].u.value.b             OPTEE_MSG_PROTMEM_* defined above
->   */
-> -#define OPTEE_MSG_CMD_OPEN_SESSION     0
-> -#define OPTEE_MSG_CMD_INVOKE_COMMAND   1
-> -#define OPTEE_MSG_CMD_CLOSE_SESSION    2
-> -#define OPTEE_MSG_CMD_CANCEL           3
-> -#define OPTEE_MSG_CMD_REGISTER_SHM     4
-> -#define OPTEE_MSG_CMD_UNREGISTER_SHM   5
-> -#define OPTEE_MSG_CMD_DO_BOTTOM_HALF   6
-> -#define OPTEE_MSG_CMD_STOP_ASYNC_NOTIF 7
-> -#define OPTEE_MSG_FUNCID_CALL_WITH_ARG 0x0004
-> +#define OPTEE_MSG_CMD_OPEN_SESSION             0
-> +#define OPTEE_MSG_CMD_INVOKE_COMMAND           1
-> +#define OPTEE_MSG_CMD_CLOSE_SESSION            2
-> +#define OPTEE_MSG_CMD_CANCEL                   3
-> +#define OPTEE_MSG_CMD_REGISTER_SHM             4
-> +#define OPTEE_MSG_CMD_UNREGISTER_SHM           5
-> +#define OPTEE_MSG_CMD_DO_BOTTOM_HALF           6
-> +#define OPTEE_MSG_CMD_STOP_ASYNC_NOTIF         7
-> +#define OPTEE_MSG_CMD_LEND_PROTMEM             8
-> +#define OPTEE_MSG_CMD_RECLAIM_PROTMEM          9
-> +#define OPTEE_MSG_CMD_GET_PROTMEM_CONFIG       10
-> +#define OPTEE_MSG_CMD_ASSIGN_PROTMEM           11
-> +#define OPTEE_MSG_FUNCID_CALL_WITH_ARG         0x0004
->
->  #endif /* _OPTEE_MSG_H */
-> diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
-> index 879426300821..b17e81f464a3 100644
-> --- a/drivers/tee/optee/optee_smc.h
-> +++ b/drivers/tee/optee/optee_smc.h
-> @@ -264,7 +264,6 @@ struct optee_smc_get_shm_config_result {
->  #define OPTEE_SMC_SEC_CAP_HAVE_RESERVED_SHM    BIT(0)
->  /* Secure world can communicate via previously unregistered shared memory */
->  #define OPTEE_SMC_SEC_CAP_UNREGISTERED_SHM     BIT(1)
-> -
->  /*
->   * Secure world supports commands "register/unregister shared memory",
->   * secure world accepts command buffers located in any parts of non-secure RAM
-> @@ -280,6 +279,10 @@ struct optee_smc_get_shm_config_result {
->  #define OPTEE_SMC_SEC_CAP_RPC_ARG              BIT(6)
->  /* Secure world supports probing for RPMB device if needed */
->  #define OPTEE_SMC_SEC_CAP_RPMB_PROBE           BIT(7)
-> +/* Secure world supports protected memory */
-> +#define OPTEE_SMC_SEC_CAP_PROTMEM              BIT(8)
-> +/* Secure world supports dynamic protected memory */
-> +#define OPTEE_SMC_SEC_CAP_DYNAMIC_PROTMEM      BIT(9)
->
->  #define OPTEE_SMC_FUNCID_EXCHANGE_CAPABILITIES 9
->  #define OPTEE_SMC_EXCHANGE_CAPABILITIES \
-> @@ -451,6 +454,72 @@ struct optee_smc_disable_shm_cache_result {
->
->  /* See OPTEE_SMC_CALL_WITH_REGD_ARG above */
->  #define OPTEE_SMC_FUNCID_CALL_WITH_REGD_ARG    19
-> +/*
-> + * Get protected memory config
-> + *
-> + * Returns the protected memory config.
-> + *
-> + * Call register usage:
-> + * a0   SMC Function ID, OPTEE_SMC_GET_PROTMEM_CONFIG
-> + * a2-6        Not used, must be zero
-> + * a7  Hypervisor Client ID register
-> + *
-> + * Have config return register usage:
-> + * a0  OPTEE_SMC_RETURN_OK
-> + * a1  Physical address of start of protected memory
-> + * a2  Size of protected memory
-> + * a3  Not used
-> + * a4-7        Preserved
-> + *
-> + * Not available register usage:
-> + * a0  OPTEE_SMC_RETURN_ENOTAVAIL
-> + * a1-3 Not used
-> + * a4-7        Preserved
-> + */
-> +#define OPTEE_SMC_FUNCID_GET_PROTMEM_CONFIG            20
-> +#define OPTEE_SMC_GET_PROTMEM_CONFIG \
-> +       OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_PROTMEM_CONFIG)
-> +
-> +struct optee_smc_get_protmem_config_result {
-> +       unsigned long status;
-> +       unsigned long start;
-> +       unsigned long size;
-> +       unsigned long flags;
 
-The ABI comment does not document a flags return argument, either
-this can be removed or the ABI comment needs to be fixed.
-Same for
-> +};
-> +
-> +/*
-> + * Get dynamic protected memory config
-> + *
-> + * Returns the dynamic protected memory config.
-> + *
-> + * Call register usage:
-> + * a0  SMC Function ID, OPTEE_SMC_GET_DYN_SHM_CONFIG
-
-should be OPTEE_SMC_GET_DYN_PROTMEM_CONFIG
-
-> + * a2-6        Not used, must be zero
-> + * a7  Hypervisor Client ID register
-> + *
-> + * Have config return register usage:
-> + * a0  OPTEE_SMC_RETURN_OK
-> + * a1  Minamal size of protected memory
-
-Nit: Typo, should be "Minimal"
-
-> + * a2  Required alignment of size and start of registered protected memory
-> + * a3  Not used
-> + * a4-7        Preserved
-> + *
-> + * Not available register usage:
-> + * a0  OPTEE_SMC_RETURN_ENOTAVAIL
-> + * a1-3 Not used
-> + * a4-7        Preserved
-> + */
-> +
-> +#define OPTEE_SMC_FUNCID_GET_DYN_PROTMEM_CONFIG        21
-> +#define OPTEE_SMC_GET_DYN_PROTMEM_CONFIG \
-> +       OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_DYN_PROTMEM_CONFIG)
-> +
-> +struct optee_smc_get_dyn_protmem_config_result {
-> +       unsigned long status;
-> +       unsigned long size;
-> +       unsigned long align;
-> +       unsigned long flags;
-> +};
->
->  /*
->   * Resume from RPC (for example after processing a foreign interrupt)
-> --
-> 2.43.0
-
-- Rouven
