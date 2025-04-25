@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F048A9C24B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4F7A9C25C
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:55:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC9DF10E8D9;
-	Fri, 25 Apr 2025 08:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 545AC10E8DB;
+	Fri, 25 Apr 2025 08:55:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Yq49QPNm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DYi5IM0B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0916310E8D9;
- Fri, 25 Apr 2025 08:54:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 501615C64A0;
- Fri, 25 Apr 2025 08:52:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 993C5C4CEE4;
- Fri, 25 Apr 2025 08:54:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745571284;
- bh=byos0KBTq/TSuKpnONmQSZ/S7MqfhwZ6bkrEWjklef8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Yq49QPNm8JISyJIWA2gTjzx9WngHH+jHBnH+w++QZ4pLMPSVcKMh0Ut10d2/xzj7u
- DHBPjAgGLWsLqEba9tvqZ60cDvalmVmpUC0shPA/dfsmSMelBP/17e4an3ddQJxLZJ
- 9PVdU9hqvVyqjF91HUSMPadBgv/Yy/GhiJNOEpJpM3Mg6f52UlfpguAqQzY1o/b7FV
- yESvey9PKaic4QrnwGUnY/tD+pTwnEQluFLVZqjr3akxgz2J33cQ+0+zVzRf3kNL6S
- G6eKTst6v2EoKA75j2SpeC2gRocKxR7Ua0Um4vA9GT+1140PqAUvt/5qTml+9HmhFO
- Rt5+CrLgQldkA==
-Date: Fri, 25 Apr 2025 10:54:35 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-trace-kernel@vger.kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- "H. Peter Anvin" <hpa@zytor.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v1 00/11] mm: rewrite pfnmap tracking and remove VM_PAT
-Message-ID: <aAtNy6VjUvOrOC7r@gmail.com>
-References: <20250425081715.1341199-1-david@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97E8A10E8DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 08:55:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745571326; x=1777107326;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=TBT+E29zDkTQjatUup1fCppdtl5cDQY487OPnz7bNyA=;
+ b=DYi5IM0Brxyw2EBJYzwv5II66UqXUBHZh6wL3TYm0cPag6YcIMFINVQf
+ TwD+j/SgS9FBT2yLvQI5MuFAJ6xpndMLDGs+McUYUh5NTqVenNKhLydBM
+ Jq3iEh+w9Nq5pvT1Nz3k95CogWvJQMv+zrmwLg5lmww6RVrnNVNV+teq2
+ zf6BPPsZEQ9rxojcegQHWvNLofwXc5s5exBV3gaRo4MhclDhK2oNqLZaU
+ 3DNi2kAqwiogKDd4I6Q3YfLtjCTd1QcEeRVII9M1G6sUEnk8iJgdHYq/9
+ vyTWcTZuriN1M5HU9KCxU53A9ZOzYptE9Ar3PUg5HLrz8rlQE75m82yBu Q==;
+X-CSE-ConnectionGUID: y8ldNRQ+QUaOJ4RKOoZ3uQ==
+X-CSE-MsgGUID: IWzKo1fcRVav6kIuCTFemg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47112258"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="47112258"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 01:55:26 -0700
+X-CSE-ConnectionGUID: dTZO0n3lRDq5xrDOw//EQw==
+X-CSE-MsgGUID: b2tGcxX/ShSDgtNrMaj9NA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="133772670"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.83])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 01:55:23 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Zijun Hu <zijun_hu@icloud.com>, Antonino Daplas <adaplas@gmail.com>,
+ Helge Deller <deller@gmx.de>
+Cc: Zijun Hu <zijun_hu@icloud.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Zijun Hu
+ <quic_zijuhu@quicinc.com>
+Subject: Re: [PATCH] fbdev/nvidiafb: Correct const string length in
+ nvidiafb_setup()
+In-Reply-To: <20250407-fix_nvidia-v1-1-843f8d031c7d@quicinc.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250407-fix_nvidia-v1-1-843f8d031c7d@quicinc.com>
+Date: Fri, 25 Apr 2025 11:55:20 +0300
+Message-ID: <87o6wky613.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250425081715.1341199-1-david@redhat.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,54 +72,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 07 Apr 2025, Zijun Hu <zijun_hu@icloud.com> wrote:
+> From: Zijun Hu <quic_zijuhu@quicinc.com>
+>
+> The actual length of const string "noaccel" is 7, but the strncmp()
+> branch in nvidiafb_setup() wrongly hard codes it as 6.
+>
+> Fix by using actual length 7 as argument of the strncmp().
+>
+> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+> ---
+>  drivers/video/fbdev/nvidia/nvidia.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
+> index 8900f181f1952acd2acc16a6ab49a5a42ec056ac..cfaf9454014d8161bedc3598fb68855e04ea9408 100644
+> --- a/drivers/video/fbdev/nvidia/nvidia.c
+> +++ b/drivers/video/fbdev/nvidia/nvidia.c
+> @@ -1484,7 +1484,7 @@ static int nvidiafb_setup(char *options)
+>  			flatpanel = 1;
+>  		} else if (!strncmp(this_opt, "hwcur", 5)) {
+>  			hwcur = 1;
+> -		} else if (!strncmp(this_opt, "noaccel", 6)) {
+> +		} else if (!strncmp(this_opt, "noaccel", 7)) {
+>  			noaccel = 1;
+>  		} else if (!strncmp(this_opt, "noscale", 7)) {
+>  			noscale = 1;
 
-* David Hildenbrand <david@redhat.com> wrote:
+A further cleanup could be to replace all of the strncmp's with
+str_has_prefix(this_opt, "...") to avoid this class of errors
+altogether. It also returns the length of the prefix on match, and that
+can be used to drop more magic numbers.
 
-> On top of mm-unstable.
-> 
-> VM_PAT annoyed me too much and wasted too much of my time, let's clean
-> PAT handling up and remove VM_PAT.
-> 
-> This should sort out various issues with VM_PAT we discovered recently,
-> and will hopefully make the whole code more stable and easier to maintain.
-> 
-> In essence: we stop letting PAT mode mess with VMAs and instead lift
-> what to track/untrack to the MM core. We remember per VMA which pfn range
-> we tracked in a new struct we attach to a VMA (we have space without
-> exceeding 192 bytes), use a kref to share it among VMAs during
-> split/mremap/fork, and automatically untrack once the kref drops to 0.
+BR,
+Jani.
 
-Yay!
+>
+> ---
+> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+> change-id: 20250407-fix_nvidia-a9d72c98a808
+>
+> Best regards,
 
-The extra pointer in vm_area_struct is a small price to pay IMHO.
-
-> This implies that we'll keep tracking a full pfn range even after partially
-> unmapping it, until fully unmapping it; but as that case was mostly broken
-> before, this at least makes it work in a way that is least intrusive to
-> VMA handling.
-> 
-> Shrinking with mremap() used to work in a hacky way, now we'll similarly
-> keep the original pfn range tacked even after this form of partial unmap.
-> Does anybody care about that? Unlikely. If we run into issues, we could
-> likely handled that (adjust the tracking) when our kref drops to 1 while
-> freeing a VMA. But it adds more complexity, so avoid that for now.
-> 
-> Briefly tested
-> 
-> There will be some clash with [1], but nothing that cannot be sorted out
-> easily by moving the functions added to kernel/fork.c to wherever the vma
-> bits will live.
-> 
-> Briefly tested with some basic /dev/mem test I crafted. I want to convert
-> them to selftests, but that might or might not require a bit of
-> more work (e.g., /dev/mem accessibility).
-
-So for the x86 bits, once it passes review by the fine MM folks:
-
-  Acked-by: Ingo Molnar <mingo@kernel.org>
-
-And I suppose this rewrite will be carried in -mm?
-
-Thanks,
-
-	Ingo
+-- 
+Jani Nikula, Intel
