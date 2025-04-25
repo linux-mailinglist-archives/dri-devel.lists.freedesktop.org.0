@@ -2,152 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26BAEA9C361
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 11:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F69A9C36B
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 11:28:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09F7F10E8DE;
-	Fri, 25 Apr 2025 09:27:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A54EB10E8DF;
+	Fri, 25 Apr 2025 09:28:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="O2tgU9sJ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mQfJItrK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5DD110E2FA
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 09:27:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1745573225;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8eqLytJIQY/pnCK/wv0GRjy/uV2gVRfHwFR8LZ6llRk=;
- b=O2tgU9sJJMmRZ/OVQu/dRQCeNcEfyxXcTn4cnIj/D5GymwUM23O6OXINdXljLNMdzsIONW
- 2QVCiOFT/cqOhAt/tIeLP871+YTwrtuqlWvlCax/zc2E7frOAmVan1tD8wceJVP67VdoFq
- NYCADOFDViFCAMmnsAvsv4CZksGh1NM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-455-w3hVqeuwOn2wfp0UPS9SOw-1; Fri, 25 Apr 2025 05:27:04 -0400
-X-MC-Unique: w3hVqeuwOn2wfp0UPS9SOw-1
-X-Mimecast-MFC-AGG-ID: w3hVqeuwOn2wfp0UPS9SOw_1745573223
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-43947a0919aso14480265e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 02:27:03 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EBDF10E8DF
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 09:28:08 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53P8T6VI022928
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 09:28:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=xt2jjx4txmL59hNW/slqoBCJ
+ /oGYSTNA7mQ8pWiEl4c=; b=mQfJItrKW7QKh1CevTs4eVfDZpk+xBmfsJ8ePfyr
+ MgXxxMg3u2dgrr9RSzxFr9XbRswUPTH+hxBv7oQDcYv2Teli2ugzwXsX+l3hABqN
+ aoQfN66dTCS+BqsgAinm9a3y3KMtVtU5oMaFdOh2iBBJiQQmCYBnc+dMC7bVJLeo
+ I0g80pPZkllaFWAomLm5UI81/VsbNyJJvWCeALOkng4plnQj4JF6cVM17Spkd6jq
+ od8pEIWi0ifYu/hkQ90atrmCfFyZCBoNPD1dDmfjC8MBH2Z0FWYibU4UiX3JCcEO
+ DJEP1Ur5hWgMXAoy6BY0iH5ey4ypHT7Hk+VTBGaz7aFz8w==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh0gjww-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 09:28:07 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-2264e5b2b7cso19459675ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 02:28:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745573223; x=1746178023;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=8eqLytJIQY/pnCK/wv0GRjy/uV2gVRfHwFR8LZ6llRk=;
- b=s/SUvg7s54zqa8fyneeVjiXsJwkKW1w/EuIXwgrpL7ZeVKSOUJU+bG5Y4cp808F1y2
- uuQ5upipNuuUnOxeL2DNUzWMneQUBE+tTFUb7RhQiY+I7LpstPP9lGLzuf/yx5TFNidP
- zbACN2JtwZ6wGMCDVgL+NXBo60UbQR37Odh7TDRdYmIRvBlSgpwJcmBNGkbMF1enP4BJ
- OtaLA7tBbh/JPYxu7Falw9DlN5iEVdv9rQR+FAcmGtbSMyOTUwCPxeOv89syoy6JNFQN
- gQR9vYfCtBw35nZP2NdeTKfs3PgKHnW7odXL8fcImrbKjyucb/cvU5E6sXf9U5YvSE+j
- om7A==
+ d=1e100.net; s=20230601; t=1745573287; x=1746178087;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xt2jjx4txmL59hNW/slqoBCJ/oGYSTNA7mQ8pWiEl4c=;
+ b=ggGC9rYylZ+OhnRH33+JoQiOxIkGXwsKMqBo5BCj3f315yQkMl/PKI5DJ/XqUcJF1+
+ Sk6t8r8Eol8XtZPom/ybtwgq/DNr1OkgwHgWe3bzGtDI52zmurszrzo2X+SGktfPgmrK
+ BE41na4hstSbhlRtKKtLUwNHV7c4S3Yk5Txh0qzk1yjPYuWWXfC7FDJH8/PBOoVlFOnU
+ 92/aV5svvlT27xeThejByijneOlEwUNTJue7wQF+u+VUNANCP1RhyafIExXlfYif7I0U
+ 4bY7V367hiI5wMkEh/Wyb4OIiwEv/QIHIG/TUQh1qljfishPt7nwboSOX7O2+cwR1kuc
+ mF6w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVG1eXEdd6P0yl5WLjFAZgz+hV8087EEXBRCilhpTV+Nc7ZJCM55FuTvkmx1wZKz1RmkfAidmnRqO8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxv2qh4pkzqfSH/PooDd/PmNxNJxQQ7ln/yejng3jFWRaSAm9YA
- FUcvG9TuafJ/USqtguVe6l3TMH5m8A71qVgDtWZey1MdDLqzxzFyBvkp2yRuUhMp7XVOlw0o/rP
- ZjQ5t56BGg68Ow9OXJNJ6tajrxWZUh7cOdEVbiRCtIKdeQ1L/udlEQZKu1wZlKWDSyw==
-X-Gm-Gg: ASbGncs5Z5cx/VkvDuSs7uSQCwg9LebzsvSrR8GIwe2B3KR42POge6HN2kYMby5gAxm
- GPWJGKVTT5JUWrKm9rv9VCLskO1QS0/ahGiZglBO7Fs9j71bbAocUPhX+imlC63PCWi4ROrkJyI
- CVTKlDkwLkGtZaJznz2y9LPx8+fD0si5G7z6H89AEMytuCQG1S5fIbE+MWYScSaedl/1XbrKAvq
- k899m74nXl51XRGmxe0sumuVa8DBeZ07YccS/QdYo6ItUsOkr6pGNZwnPF5d4dXoKVuuJksooRl
- lTT/MwXUJwlnx4xlSngnEVGA94ZrGhMLnK/0Mj/row==
-X-Received: by 2002:a05:600c:1f82:b0:43d:b85:1831 with SMTP id
- 5b1f17b1804b1-440a6347ff9mr13026635e9.0.1745573222963; 
- Fri, 25 Apr 2025 02:27:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFY7LbS9YRQ5wCXB84Jy7eT6u2rOjZc7kKIwIhV5LjW+hBQBfoI1k6U1ecprzUpbxRl2y0xrg==
-X-Received: by 2002:a05:600c:1f82:b0:43d:b85:1831 with SMTP id
- 5b1f17b1804b1-440a6347ff9mr13026355e9.0.1745573222548; 
- Fri, 25 Apr 2025 02:27:02 -0700 (PDT)
-Received: from [192.168.3.141] (p4ff23df8.dip0.t-ipconnect.de. [79.242.61.248])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-440a52f8915sm18804175e9.7.2025.04.25.02.27.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Apr 2025 02:27:02 -0700 (PDT)
-Message-ID: <c69f782b-798d-459d-b7fb-c2d7c7e30372@redhat.com>
-Date: Fri, 25 Apr 2025 11:27:00 +0200
+ AJvYcCXlRyld89GCX1EDRfP33U4sa9T+5GTa9kTScnvKOHd6WUnABapC4LiIRWUaN8zEGSXlkoaY+Rw/OSo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyN7RNKXo3KeXw/eSaEvJT0JRAznnC7RVcV53FGOtHvb6ap+JQY
+ DXS4MJfNxTrEGakEdq/t5M2RZIO+ebBvxrRhtvekYZ4IuL0fzzJOUWJciNnk7yADbdTlbuJjWDo
+ skRm/HhHDC3Qw9UymHoWyjyv3+J6YUl1yQsddGO8xvd54sJIwVFBD205eQO91VrGY/6tmvE7xta
+ uBjC/oanz9EYYJaqvmFrnZb23YIMPtWX/2PPaq0IIJCg==
+X-Gm-Gg: ASbGncuO7ja1GwjuT9SK8w+Jx4v1tPNBEkUND0i4eekr1Oh10CprqSDFQdgyqaAQd7/
+ balvxTJaMXGEWuyLF6BcH6PQjvTRbx+8AI6giU3jTNY6qK3k3xF+18AA9TcTcU2n+JWhRQZJC1i
+ aFI8n9Dy0=
+X-Received: by 2002:a17:902:ecc2:b0:224:1ec0:8a16 with SMTP id
+ d9443c01a7336-22dbf5ee6c8mr22878865ad.21.1745573286934; 
+ Fri, 25 Apr 2025 02:28:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG7sY9pNe21FkhpOVYLUJOVzPn9xf8OZzxysQbok+sCqT4QpEP41QTCap95a4a+qxhM7yJVJ2G9ynG4MaRKCCk=
+X-Received: by 2002:a17:902:ecc2:b0:224:1ec0:8a16 with SMTP id
+ d9443c01a7336-22dbf5ee6c8mr22878495ad.21.1745573286549; Fri, 25 Apr 2025
+ 02:28:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 00/11] mm: rewrite pfnmap tracking and remove VM_PAT
-To: Ingo Molnar <mingo@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-trace-kernel@vger.kernel.org, Dave Hansen
- <dave.hansen@linux.intel.com>, Andy Lutomirski <luto@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- "H. Peter Anvin" <hpa@zytor.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>
-References: <20250425081715.1341199-1-david@redhat.com>
- <aAtNy6VjUvOrOC7r@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <aAtNy6VjUvOrOC7r@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Elz5vHV0rJaWaeu2iC-EoT_BPR4aopR4cZgPJ4_dypk_1745573223
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250227-fd-mdp4-lvds-v3-0-c983788987ae@linaro.org>
+ <20250227-fd-mdp4-lvds-v3-6-c983788987ae@linaro.org>
+ <63e5ddf6-151a-42aa-b2cf-003d91b34a04@quicinc.com>
+ <s63lvzn35d7xcvw3kkmtasyinxbqa35juyxosdscfk6vhty4pw@hu3dotyklo3r>
+ <402bbda7-33c6-49b2-89c7-37372cc07457@quicinc.com>
+In-Reply-To: <402bbda7-33c6-49b2-89c7-37372cc07457@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Fri, 25 Apr 2025 12:27:55 +0300
+X-Gm-Features: ATxdqUHcGBSXlw8hFJp5C9Ri6LceneKkEY0gyZGnRt8lLgLrZ0UNEEiCOxxayBo
+Message-ID: <CAO9ioeXhjrOyKz3N3oU6QxW+u6WUC4R5XXqWgb=7iF7Hk0Q_nQ@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] drm/msm/mdp4: switch LVDS to use
+ drm_bridge/_connector
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-GUID: X7VZPFqBK547UrcQwv_xrD_1ZXDYDs5k
+X-Proofpoint-ORIG-GUID: X7VZPFqBK547UrcQwv_xrD_1ZXDYDs5k
+X-Authority-Analysis: v=2.4 cv=Fv0F/3rq c=1 sm=1 tr=0 ts=680b55a7 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10
+ a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=ZLr3lU9xobrfYbAAIvMA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22
+ a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDA2OCBTYWx0ZWRfXyjW78iYKIi33
+ xuQeG6UfxfKK7cDtLboBNqHmD35xo+pJAApAA06fL9DP6XKEYtJxCXtcfGjnEIKAG8gEbFe1w1A
+ /MhSs5DmOrXiOiNsDWyiCc4q5yIj5zwmtK7IbuBz2IbHLumoW26FhBR38YdNkxmLXJiHKvwm39q
+ tXO+BNeJbgDj9B6nhq2EHNIC3ON36H6GWWAS97pDmBv8MEX5QhbitNPXXFg/49w0SbdDlvNHYX5
+ pJLe69Hvzr+BYlc7WAsx0Y2B5ootTKjq2Jt5wPYCEZxQrsq3LggaW6QLPj7WGlSo1sECf9KtFx0
+ XT6WwKZBODGoQXrW7TLP5od8QkaFUQTjJXg2UnRQ3mZUXvRZm3cToNmadN1CusoPlKv1qyf6SI6
+ tu7mAe3jEl2kDxlnG2Reb8lwJ+/9d0lYPv4r45Tyyzu5xOtm5BSHGGUGPcqRCbwZxZ2dy1h9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-25_02,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ malwarescore=0 mlxlogscore=999 priorityscore=1501 suspectscore=0
+ adultscore=0 bulkscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0
+ phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504250068
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,29 +130,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->> There will be some clash with [1], but nothing that cannot be sorted out
->> easily by moving the functions added to kernel/fork.c to wherever the vma
->> bits will live.
->>
->> Briefly tested with some basic /dev/mem test I crafted. I want to convert
->> them to selftests, but that might or might not require a bit of
->> more work (e.g., /dev/mem accessibility).
-> 
-> So for the x86 bits, once it passes review by the fine MM folks:
-> 
->    Acked-by: Ingo Molnar <mingo@kernel.org>
-> 
+On Fri, 25 Apr 2025 at 00:00, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 4/24/2025 3:23 AM, Dmitry Baryshkov wrote:
+> > On Wed, Apr 23, 2025 at 07:04:16PM -0700, Abhinav Kumar wrote:
+> >>
+> >>
+> >> On 2/26/2025 6:25 PM, Dmitry Baryshkov wrote:
+> >>> LVDS support in MDP4 driver makes use of drm_connector directly. However
+> >>> LCDC encoder and LVDS connector are wrappers around drm_panel. Switch
+> >>> them to use drm_panel_bridge/drm_bridge_connector. This allows using
+> >>> standard interface for the drm_panel and also inserting additional
+> >>> bridges between encoder and panel.
+> >>>
+> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>> ---
+> >>>    drivers/gpu/drm/msm/Makefile                       |   1 -
+> >>>    drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |  34 +++++--
+> >>>    drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h           |   6 +-
+> >>>    drivers/gpu/drm/msm/disp/mdp4/mdp4_lcdc_encoder.c  |  20 +----
+> >>>    .../gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c    | 100 ---------------------
+> >>>    5 files changed, 28 insertions(+), 133 deletions(-)
+> >>>
+> >>> @@ -199,27 +201,43 @@ static int mdp4_modeset_init_intf(struct mdp4_kms *mdp4_kms,
+> >>>              * bail out early if there is no panel node (no need to
+> >>>              * initialize LCDC encoder and LVDS connector)
+> >>>              */
+> >>> -           panel_node = of_graph_get_remote_node(dev->dev->of_node, 0, 0);
+> >>> -           if (!panel_node)
+> >>> -                   return 0;
+> >>> +           next_bridge = devm_drm_of_get_bridge(dev->dev, dev->dev->of_node, 0, 0);
+> >>> +           if (IS_ERR(next_bridge)) {
+> >>> +                   ret = PTR_ERR(next_bridge);
+> >>> +                   if (ret == -ENODEV)
+> >>> +                           return 0;
+> >>> +                   return ret;
+> >>> +           }
+> >>> -           encoder = mdp4_lcdc_encoder_init(dev, panel_node);
+> >>> +           encoder = mdp4_lcdc_encoder_init(dev);
+> >>>             if (IS_ERR(encoder)) {
+> >>>                     DRM_DEV_ERROR(dev->dev, "failed to construct LCDC encoder\n");
+> >>> -                   of_node_put(panel_node);
+> >>>                     return PTR_ERR(encoder);
+> >>>             }
+> >>>             /* LCDC can be hooked to DMA_P (TODO: Add DMA_S later?) */
+> >>>             encoder->possible_crtcs = 1 << DMA_P;
+> >>> -           connector = mdp4_lvds_connector_init(dev, panel_node, encoder);
+> >>> +           ret = drm_bridge_attach(encoder, next_bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> >>> +           if (ret) {
+> >>> +                   DRM_DEV_ERROR(dev->dev, "failed to attach LVDS panel/bridge: %d\n", ret);
+> >>> +
+> >>> +                   return ret;
+> >>> +           }
+> >>
+> >> Can you pls point me to the lvds bridge used with this apq8064 board? I was
+> >> unable to find it. Just wanted to compare that against this while reviewing.
+> >
+> > It's the panel bridge, wrapping one of the LVDS panels.
+> >
+>
+> Yes but what I wanted to check was which LVDS panel was being used so
+> far. Looks like for arm32 the dts is missing? As I couldnt find the lvds
+> out endpoint. So can you pls point me to the lvds panel you verified
+> this with?
 
-Thanks!
+I used the AUO b101xtn01 panel connected to the LVDS connector on the
+IFC6410. I'm not posting DT bits since the panel is not a part of the
+kit.
 
-> And I suppose this rewrite will be carried in -mm?
+>
+>
+> >>> +
+> >>> +           connector = drm_bridge_connector_init(dev, encoder);
+> >>>             if (IS_ERR(connector)) {
+> >>>                     DRM_DEV_ERROR(dev->dev, "failed to initialize LVDS connector\n");
+> >>> -                   of_node_put(panel_node);
+> >>>                     return PTR_ERR(connector);
+> >>>             }
+> >>> +           ret = drm_connector_attach_encoder(connector, encoder);
+> >>> +           if (ret) {
+> >>> +                   DRM_DEV_ERROR(dev->dev, "failed to attach LVDS connector: %d\n", ret);
+> >>> +
+> >>> +                   return ret;
+> >>> +           }
+> >>> +
+> >>>             break;
+> >>>     case DRM_MODE_ENCODER_TMDS:
+> >>>             encoder = mdp4_dtv_encoder_init(dev);
+> >
+>
 
-Yes, will make conflicts with Lorenzo's work easier to resolve (in 
-whatever order this ends up going in). I suspect there are not many PAT 
-related things on the horizon.
 
 -- 
-Cheers,
-
-David / dhildenb
-
+With best wishes
+Dmitry
