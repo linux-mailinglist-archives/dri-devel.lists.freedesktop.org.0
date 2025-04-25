@@ -2,78 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3F4A9BB9D
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 02:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484EEA9BBCA
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 02:28:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E8C710E055;
-	Fri, 25 Apr 2025 00:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20AEA10E206;
+	Fri, 25 Apr 2025 00:28:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="RRazBpjg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N4jjWGIa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFCC210E055
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 00:14:01 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-54b0d638e86so1891970e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Apr 2025 17:14:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1745540040; x=1746144840;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=weepQ3o3E6eVKCjaxY3CTZ3gGB6j9iWw3wdfeMK8HxI=;
- b=RRazBpjgRjoJjnzrulTua5D1W5vyn06Z8PfICD2jzVB/K508IyUhLcE/5sa77cssmJ
- LZyuEagtYYdzf8cEyq7i/9gjrRRjmbriz3VdDYCJTkmOcscaV8I6flV3EHDqLI28Zg/H
- /IyM1mCoywKCCVuvhXQDVWwVZAdFXrPbX+2tM4hjaq5eHzuTPHde0z1g38q5gO4Dnz5N
- Up9oYN8ev0B2vPghXl2z72OK7oaqPKHtoKgiBEB92Cw34Q2aIrfdMd5+xTHQElnPCJ4b
- 33JgNmOKIHKrYeiFurdm0LKsOCRGXg+XThtpXl+Q69rauKxwrvwPsk5rQq95PY+6d/Hn
- MrGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745540040; x=1746144840;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=weepQ3o3E6eVKCjaxY3CTZ3gGB6j9iWw3wdfeMK8HxI=;
- b=f5wim6A2UX8maFAh3gKnXYcWaEJqiwhrbE6g7heEUDgYlOwGTlIfM25EYZXdLC9aUk
- lFOsYpWL/o3BFSI+0mpatMAC+NBvt9Ae4dpXs8IIPsZYfPSjrDcqwimhlWGY5BcI6Upj
- ki+y0S5zSnmU39Hr0TTvaN3zY8K47gNM4TNTaEzqYMcHAAZvbpLHmCsQtOAtks5bbwGp
- vAptUCpaMWQVMo5fNXfjXJJ8eC8Rv6WbaA8tN/MfKabwolRsyIRIYLoJ/4It6sxN88xS
- gl5EOmsRjhWxDKi5/+rzqI/hk6agpq4DcMYnTru8WCldH7gCp+L9mW/ZuCh6lxY3Vx44
- 5RzQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXYk+YFYv/atS5q+PdOQsNbVuQO+4oZSddJow8W8W5gmX0ceaQSOwPClac4JRNpuHcRodop7Y6LMTQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxre06D420KKxFjKlovbnZlyDOYstPEaK9RJ+yvJQJLMA3u15bW
- dmFDcdBeKWTes0I9qytUCMGKlB4mqQm1MxQwnj7kNnHfEBStYKSWqY5Ph3I1yXvGN/A+c00Pk8p
- BWSqNtPdiLowm1MQUseHfVdzHqFxtcYJkYJs=
-X-Gm-Gg: ASbGnctyRPhnocF/mIxcUnOM8PoAVu6TrDsJ9Zl3SuCO/OP0CwVLaQYGggRIrnixya/
- H5OSKiilrCTSJCZc3ihsKkU2J5f7oYsnVtt/TylJVxcSgj6OxoiXHYLw5iDVBLC2LX+zV8LjhmQ
- hFX/2rIS6EBoctBlH78Z+mT8O4DD9nIX4vIn4a5GfYFpMmCR1GEO0kkpL2tfMFSM4=
-X-Google-Smtp-Source: AGHT+IFupDhtk787UYFC+m51vWARrrW+g3qeY1nzKmRJUOvJStBMU1HIyqroJk5ca7MURfz+ouovj/qgbuHigNDZtwA=
-X-Received: by 2002:a05:6512:ac5:b0:545:2871:7cd5 with SMTP id
- 2adb3069b0e04-54e8cbce2bamr107809e87.15.1745540039297; Thu, 24 Apr 2025
- 17:13:59 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 573AE10E1F1;
+ Fri, 25 Apr 2025 00:28:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id CC76A5C6515;
+ Fri, 25 Apr 2025 00:26:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85C2AC4CEEC;
+ Fri, 25 Apr 2025 00:28:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745540907;
+ bh=A6du4VoIApzpLPXhp1iUZPIafFQ8enDvkgNuwCFgU0Q=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=N4jjWGIa3G9Mx0DMKEwurok2Bt6hl94sEpKPgddAo+Et8KNvG+L1THBwhQW91srLE
+ O3tIgpiNCsxQfv8dnWTkY2W+gEX3yxtISQ7EZRTGKQdTnr1ieQ+odcODejr3ttWADE
+ h3Tf5Cd14rmId1JzMIH6ih7g8QEi3XdHXE/RKoe1f/jsc7NbJFozJFq20epbWtARSZ
+ AIx5MkVyfpwpTmWt7PH2XcTLjSxPsJVu7q+3V7FEdSpFm+h6RYGkWCKngBiYYC+J1y
+ pZh1J62tWj7cC8GK4+lmvc0hX72shcNi5MOjl8h/du/FwHD5SJKJooz5tPT2j8Ivwn
+ 3t++cL2o60SwA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+ id 2C3DBCE19C3; Thu, 24 Apr 2025 17:28:27 -0700 (PDT)
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: kernel-team@meta.com, Andrew Morton <akpm@linux-foundation.org>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Mateusz Guzik <mjguzik@gmail.com>,
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jon Pan-Doh <pandoh@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Karolina Stolarek <karolina.stolarek@oracle.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 04/20] drm/i915: Avoid open-coded use of ratelimit_state
+ structure's ->missed field
+Date: Thu, 24 Apr 2025 17:28:10 -0700
+Message-Id: <20250425002826.3431914-4-paulmck@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <72ee57b8-9e2a-4cad-aaa0-1e3353d146d8@paulmck-laptop>
+References: <72ee57b8-9e2a-4cad-aaa0-1e3353d146d8@paulmck-laptop>
 MIME-Version: 1.0
-References: <20250422191939.555963-1-jkangas@redhat.com>
- <20250422191939.555963-3-jkangas@redhat.com>
- <20250424-sassy-cunning-pillbug-ffde51@houat>
-In-Reply-To: <20250424-sassy-cunning-pillbug-ffde51@houat>
-From: John Stultz <jstultz@google.com>
-Date: Thu, 24 Apr 2025 17:13:47 -0700
-X-Gm-Features: ATxdqUEd-WZkBCWlXClEEov2Vu7arSm9wmBJpDM85wdm6VobmqGM8s292rnkW9E
-Message-ID: <CANDhNCqfsUbN3aavAH5hi4wdcKuUkjLX4jqhKzy-q+jCEqpoow@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dma-buf: heaps: Give default CMA heap a fixed name
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jared Kangas <jkangas@redhat.com>, sumit.semwal@linaro.org, 
- benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, tjmercier@google.com, 
- christian.koenig@amd.com, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,30 +72,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 24, 2025 at 1:34=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
-> On Tue, Apr 22, 2025 at 12:19:39PM -0700, Jared Kangas wrote:
-> > @@ -22,6 +22,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/vmalloc.h>
-> >
-> > +#define DEFAULT_CMA_NAME "default_cma"
->
-> I appreciate this is kind of bikeshed-color territory, but I think "cma"
-> would be a better option here. There's nothing "default" about it.
+The i915_oa_stream_destroy() function directly accesses the
+ratelimit_state structure's ->missed field, which work, but which also
+makes it more difficult to change this field.  Therefore, make use of
+the ratelimit_state_get_miss() function instead of directly accessing
+the ->missed field.
 
-I disagree.  It very much is "default" as it's returning the
-dma_contiguous_default_area.
+Link: https://lore.kernel.org/all/fbe93a52-365e-47fe-93a4-44a44547d601@paulmck-laptop/
+Link: https://lore.kernel.org/all/20250423115409.3425-1-spasswolf@web.de/
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Reviewed-by: Petr Mladek <pmladek@suse.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: <intel-gfx@lists.freedesktop.org>
+Cc: <dri-devel@lists.freedesktop.org>
+---
+ drivers/gpu/drm/i915/i915_perf.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-There can be multiple CMA areas, and out of tree, vendors do reserve
-separate areas for specific purposes, exposing multiple CMA dmabuf
-heaps.
-There have been patches to expose multiple CMA heaps, but with no
-upstream drivers using those purpose specific regions, we haven't
-taken them yet.
-I do hope as the drivers that utilize these purpose focused heaps go
-upstream, we can add that logic, so I think being specific that this
-is default CMA is a good idea.
+diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+index de0b413600a15..1658f1246c6fa 100644
+--- a/drivers/gpu/drm/i915/i915_perf.c
++++ b/drivers/gpu/drm/i915/i915_perf.c
+@@ -1666,6 +1666,7 @@ static void i915_oa_stream_destroy(struct i915_perf_stream *stream)
+ 	struct i915_perf *perf = stream->perf;
+ 	struct intel_gt *gt = stream->engine->gt;
+ 	struct i915_perf_group *g = stream->engine->oa_group;
++	int m;
+ 
+ 	if (WARN_ON(stream != g->exclusive_stream))
+ 		return;
+@@ -1690,10 +1691,9 @@ static void i915_oa_stream_destroy(struct i915_perf_stream *stream)
+ 	free_oa_configs(stream);
+ 	free_noa_wait(stream);
+ 
+-	if (perf->spurious_report_rs.missed) {
+-		gt_notice(gt, "%d spurious OA report notices suppressed due to ratelimiting\n",
+-			  perf->spurious_report_rs.missed);
+-	}
++	m = ratelimit_state_get_miss(&perf->spurious_report_rs);
++	if (m)
++		gt_notice(gt, "%d spurious OA report notices suppressed due to ratelimiting\n", m);
+ }
+ 
+ static void gen7_init_oa_buffer(struct i915_perf_stream *stream)
+-- 
+2.40.1
 
-thanks
--john
