@@ -2,61 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96748A9C200
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D757A9C203
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:51:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B0FC10E0F8;
-	Fri, 25 Apr 2025 08:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C16A10E8D5;
+	Fri, 25 Apr 2025 08:51:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HTWqJY0Z";
+	dkim=pass (2048-bit key; secure) header.d=xs4all.nl header.i=@xs4all.nl header.b="C05ahXwG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E361310E0F8
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 08:50:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745571057; x=1777107057;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=QkIrrTWA1kg4BKzQxpXXmk8AZJHKdoYVS3wZTbhTkp0=;
- b=HTWqJY0ZHIxiXViha8SA3RXwCOKX8fEyhdjGoRo5SkJlZbnfwYRu/Zpr
- 0/6hQNQ0x7IIP4F9ixnGnmC4qnq9nUynWBnpJxHwIJ59t2FRo0cFP27dc
- 2KkcyWaw71wQjUma9wo+xeO7bnsJAfE06TJHSEoPSke0vwMMzUUgDv5ou
- szCyrZKMcXx9YsuwrG4pEy8nwVFXPfsJxQaSvtHUFFeHNFEYgYoItmPZn
- l1qs1GdaDxHEnFeinroSN1VETON+plYVBtc/oLF6CmT3tS18/mJHpJmkh
- 7yJWRu9UsCnYO1UMIWHuLlpCZbb7XdXaZvzwTd+goxHnKcQ56P/PQ2JLB A==;
-X-CSE-ConnectionGUID: lIf5McwGSHGyBpzulQqSMQ==
-X-CSE-MsgGUID: geFq4JtASGWcBGHciLUYtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47111753"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="47111753"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2025 01:50:56 -0700
-X-CSE-ConnectionGUID: nf1I5b1RT8aYaaoR2bW3dA==
-X-CSE-MsgGUID: ZZo1AH2YRJ2fq0ayLgemfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="137657790"
-Received: from pwilma-mobl1.ger.corp.intel.com (HELO [10.245.252.249])
- ([10.245.252.249])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2025 01:50:54 -0700
-Message-ID: <709e2398-1212-44ad-b70c-9f62d8f73b2b@linux.intel.com>
-Date: Fri, 25 Apr 2025 10:50:52 +0200
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 808E410E8D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 08:51:11 +0000 (UTC)
+X-KPN-MessageId: 93f16712-21b2-11f0-b9a0-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+ by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+ id 93f16712-21b2-11f0-b9a0-005056abbe64;
+ Fri, 25 Apr 2025 10:52:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=xs4all01;
+ h=content-type:from:to:subject:mime-version:date:message-id;
+ bh=ZUUJHctHfNsWNu1EuQFACb2hrUYidSMtniMgESDbRMU=;
+ b=C05ahXwGA4fFgl5pI9IJHaOIC76m8R/+Es89bI5CvWoa6HqeHuMK1mldeMHIPdQDi2kLlgzYGuFDe
+ D6MuwZeTwD9wDa1XBMVKPiXUdLXcq+GTqnyBHWJmMljRXk48AhzZTUw4w3JcILCX9BZqxzGIjcGt45
+ rVpMjojPveoEKJh8q2SHsNUin5NrH2hHy2UM/ToU41fRmD9iRhfZFZVHgj6RTwNoFsLryLF3BsJztF
+ gaTSBezUZK3uueMs3FZ29rF3MDkksrwOCGH4rjzRi2+4egWucO06G46ulnDHCSBicLhtJMzaffZPP7
+ sV5V8wKP1no2OVYkOrkoy9/F8HuD5EA==
+X-KPN-MID: 33|AF0t4UVO0ldgi6YmnFhYJXqAPxHkuBjosJGcKGQA7S6P7Abi1YftYhe8yCepFKM
+ Um9AVCIhpwBzaPi+MzlrzvCTD1SHpo9+IS4F4rFr5JFU=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|nqQMCrwmB3CHOeiz1JE1vwIQX38ApX4EwzMJX9cEX5ZmT/5GDgIxRdtlrbvDrcJ
+ 3U9+ukECS2iUUeZHN8Kv+nQ==
+X-Originating-IP: 80.60.128.215
+Received: from [192.168.1.10] (80-60-128-215.fixed.kpn.net [80.60.128.215])
+ by smtp.xs4all.nl (Halon) with ESMTPSA
+ id 6c670738-21b2-11f0-95a4-005056abf0db;
+ Fri, 25 Apr 2025 10:51:06 +0200 (CEST)
+Message-ID: <7d0096ad-a290-4fbc-8c06-dba49e8db8af@xs4all.nl>
+Date: Fri, 25 Apr 2025 10:51:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Implement heartbeat-based TDR mechanism
-To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com, lizhi.hou@amd.com,
- Karol Wachowski <karol.wachowski@intel.com>
-References: <20250416102555.384526-1-maciej.falkowski@linux.intel.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250416102555.384526-1-maciej.falkowski@linux.intel.com>
+Subject: Re: [PATCH v4 03/13] media: pci: cx18-av-vbi: Replace open-coded
+ parity calculation with parity_odd()
+To: Kuan-Wei Chiu <visitorckw@gmail.com>,
+ Arend van Spriel <arend.vanspriel@broadcom.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
+ eajames@linux.ibm.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+ hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, johannes@sipsolutions.net,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, yury.norov@gmail.com,
+ akpm@linux-foundation.org, jdelvare@suse.com, linux@roeck-us.net,
+ alexandre.belloni@bootlin.com, pgaj@cadence.com, hpa@zytor.com,
+ alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Frank.Li@nxp.com, linux-hwmon@vger.kernel.org,
+ linux-i3c@lists.infradead.org, david.laight.linux@gmail.com,
+ andrew.cooper3@citrix.com, Yu-Chun Lin <eleanor15x@gmail.com>
+References: <20250409154356.423512-1-visitorckw@gmail.com>
+ <20250409154356.423512-4-visitorckw@gmail.com>
+ <25b7888d-f704-493b-a2d7-c5e8fff9cfb4@broadcom.com>
+ <Z/bDnLzcajzIxey3@visitorckw-System-Product-Name>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <Z/bDnLzcajzIxey3@visitorckw-System-Product-Name>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,129 +95,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next
+On 09/04/2025 20:59, Kuan-Wei Chiu wrote:
+> On Wed, Apr 09, 2025 at 08:43:09PM +0200, Arend van Spriel wrote:
+>> On 4/9/2025 5:43 PM, Kuan-Wei Chiu wrote:
+>>> Refactor parity calculations to use the standard parity_odd() helper.
+>>> This change eliminates redundant implementations.
+>>>
+>>> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+>>> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+>>> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+>>> ---
+>>>   drivers/media/pci/cx18/cx18-av-vbi.c | 12 ++----------
+>>>   1 file changed, 2 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/drivers/media/pci/cx18/cx18-av-vbi.c b/drivers/media/pci/cx18/cx18-av-vbi.c
+>>> index 65281d40c681..15b515b95956 100644
+>>> --- a/drivers/media/pci/cx18/cx18-av-vbi.c
+>>> +++ b/drivers/media/pci/cx18/cx18-av-vbi.c
+>>
+>> [...]
+>>
+>>> @@ -278,7 +270,7 @@ int cx18_av_decode_vbi_line(struct v4l2_subdev *sd,
+>>>   		break;
+>>>   	case 6:
+>>>   		sdid = V4L2_SLICED_CAPTION_525;
+>>> -		err = !odd_parity(p[0]) || !odd_parity(p[1]);
+>>> +		err = !parity_odd(p[0]) || !parity_odd(p[1]);
+>>
+>> No need to call parity_odd() twice here. Instead you could do:
+>>
+>> 		err = !parity_odd(p[0] ^ p[1]);
 
-On 4/16/2025 12:25 PM, Maciej Falkowski wrote:
-> From: Karol Wachowski <karol.wachowski@intel.com>
+I prefer the original approach, it is easier to understand. Performance
+is not an issue here, clarity of the code is more important.
+
+So for this patch (i.e. this v4 version):
+
+Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
+
+>>
+>> This is orthogonal to the change to parity_odd() though. More specific to
+>> the new parity_odd() you can now do following as parity_odd() argument is
+>> u64:
+>>
+>> 		err = !parity_odd(*(u16 *)p);
+>>
+>>
+> Thanks for the feedback!
+> Would you prefer this change to be part of the parity() conversion
+> patch, or in a separate one?
+
+Just leave it as-is, as mentioned above.
+
+Regards,
+
+	Hans
+
 > 
-> Introduce a heartbeat-based Timeout Detection and Recovery (TDR) mechanism.
-> The enhancement aims to improve the reliability of device hang detection by
-> monitoring heartbeat updates.
-> 
-> Each progressing inference will update heartbeat counter allowing driver to
-> monitor its progression. Limit maximum number of reschedules when heartbeat
-> indicates progression to 30.
-> 
-> The heartbeat mechanism provides a more robust method for detecting device
-> hangs, potentially reducing false positive recoveries due to long running
-> inferences.
-> 
-> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
-> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
-> ---
->  drivers/accel/ivpu/ivpu_drv.c |  4 ++++
->  drivers/accel/ivpu/ivpu_drv.h |  1 +
->  drivers/accel/ivpu/ivpu_fw.h  |  1 +
->  drivers/accel/ivpu/ivpu_pm.c  | 20 ++++++++++++++++++++
->  4 files changed, 26 insertions(+)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-> index eff1d3ca075f..0e7748c5e117 100644
-> --- a/drivers/accel/ivpu/ivpu_drv.c
-> +++ b/drivers/accel/ivpu/ivpu_drv.c
-> @@ -374,6 +374,9 @@ int ivpu_boot(struct ivpu_device *vdev)
->  {
->  	int ret;
->  
-> +	drm_WARN_ON(&vdev->drm, atomic_read(&vdev->job_timeout_counter));
-> +	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->submitted_jobs_xa));
-> +
->  	/* Update boot params located at first 4KB of FW memory */
->  	ivpu_fw_boot_params_setup(vdev, ivpu_bo_vaddr(vdev->fw->mem));
->  
-> @@ -573,6 +576,7 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
->  	vdev->context_xa_limit.min = IVPU_USER_CONTEXT_MIN_SSID;
->  	vdev->context_xa_limit.max = IVPU_USER_CONTEXT_MAX_SSID;
->  	atomic64_set(&vdev->unique_id_counter, 0);
-> +	atomic_set(&vdev->job_timeout_counter, 0);
->  	xa_init_flags(&vdev->context_xa, XA_FLAGS_ALLOC | XA_FLAGS_LOCK_IRQ);
->  	xa_init_flags(&vdev->submitted_jobs_xa, XA_FLAGS_ALLOC1);
->  	xa_init_flags(&vdev->db_xa, XA_FLAGS_ALLOC1);
-> diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-> index 92753effb1c9..5497e7030e91 100644
-> --- a/drivers/accel/ivpu/ivpu_drv.h
-> +++ b/drivers/accel/ivpu/ivpu_drv.h
-> @@ -154,6 +154,7 @@ struct ivpu_device {
->  	struct mutex submitted_jobs_lock; /* Protects submitted_jobs */
->  	struct xarray submitted_jobs_xa;
->  	struct ivpu_ipc_consumer job_done_consumer;
-> +	atomic_t job_timeout_counter;
->  
->  	atomic64_t unique_id_counter;
->  
-> diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
-> index 1d0b2bd9d65c..9a3935be1c05 100644
-> --- a/drivers/accel/ivpu/ivpu_fw.h
-> +++ b/drivers/accel/ivpu/ivpu_fw.h
-> @@ -39,6 +39,7 @@ struct ivpu_fw_info {
->  	u64 read_only_addr;
->  	u32 read_only_size;
->  	u32 sched_mode;
-> +	u64 last_heartbeat;
->  };
->  
->  int ivpu_fw_init(struct ivpu_device *vdev);
-> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-> index b5891e91f7ab..1fe03fc16bbc 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.c
-> +++ b/drivers/accel/ivpu/ivpu_pm.c
-> @@ -34,6 +34,7 @@ module_param_named(tdr_timeout_ms, ivpu_tdr_timeout_ms, ulong, 0644);
->  MODULE_PARM_DESC(tdr_timeout_ms, "Timeout for device hang detection, in milliseconds, 0 - default");
->  
->  #define PM_RESCHEDULE_LIMIT     5
-> +#define PM_TDR_HEARTBEAT_LIMIT  30
->  
->  static void ivpu_pm_prepare_cold_boot(struct ivpu_device *vdev)
->  {
-> @@ -44,6 +45,7 @@ static void ivpu_pm_prepare_cold_boot(struct ivpu_device *vdev)
->  	ivpu_fw_log_reset(vdev);
->  	ivpu_fw_load(vdev);
->  	fw->entry_point = fw->cold_boot_entry_point;
-> +	fw->last_heartbeat = 0;
->  }
->  
->  static void ivpu_pm_prepare_warm_boot(struct ivpu_device *vdev)
-> @@ -189,7 +191,24 @@ static void ivpu_job_timeout_work(struct work_struct *work)
->  {
->  	struct ivpu_pm_info *pm = container_of(work, struct ivpu_pm_info, job_timeout_work.work);
->  	struct ivpu_device *vdev = pm->vdev;
-> +	u64 heartbeat;
->  
-> +	if (ivpu_jsm_get_heartbeat(vdev, 0, &heartbeat) || heartbeat <= vdev->fw->last_heartbeat) {
-> +		ivpu_err(vdev, "Job timeout detected, heartbeat not progressed\n");
-> +		goto recovery;
-> +	}
-> +
-> +	if (atomic_fetch_inc(&vdev->job_timeout_counter) > PM_TDR_HEARTBEAT_LIMIT) {
-> +		ivpu_err(vdev, "Job timeout detected, heartbeat limit exceeded\n");
-> +		goto recovery;
-> +	}
-> +
-> +	vdev->fw->last_heartbeat = heartbeat;
-> +	ivpu_start_job_timeout_detection(vdev);
-> +	return;
-> +
-> +recovery:
-> +	atomic_set(&vdev->job_timeout_counter, 0);
->  	ivpu_pm_trigger_recovery(vdev, "TDR");
->  }
->  
-> @@ -204,6 +223,7 @@ void ivpu_start_job_timeout_detection(struct ivpu_device *vdev)
->  void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev)
->  {
->  	cancel_delayed_work_sync(&vdev->pm->job_timeout_work);
-> +	atomic_set(&vdev->job_timeout_counter, 0);
->  }
->  
->  int ivpu_pm_suspend_cb(struct device *dev)
+> Regards,
+> Kuan-Wei
 
