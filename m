@@ -2,96 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2454CA9D084
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 20:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1915A9D0C8
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 20:50:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C34410E335;
-	Fri, 25 Apr 2025 18:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFDF910E32F;
+	Fri, 25 Apr 2025 18:50:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jArYCwMm";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="al6VijCa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6A210E32F;
- Fri, 25 Apr 2025 18:34:25 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53PGJqT9004641;
- Fri, 25 Apr 2025 18:34:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- tpf3DT5UzR74dZGzrTOa5DHwm1uSbc0G7zvmerjwaXo=; b=jArYCwMm4Xw9sSSt
- L78ye8lyYR5tzLbFMskxmTTzf08pgl1fx7XQ/6pl+eHGt1dI6UE9vuyznzZzqxG4
- 9RMZ+TTLrNpVA3oRjHNmm/QZ9Rkkx37tKtLbcy4HaS93NhNGad8ugWnOE8FLKM90
- NhwBt7mbbqvf1GDHpxM9cRAYsikMWtyvFnJQn/4XFlrT2s/Amc0rllZC7U+zJ0D6
- 9KCWE3DXI7a1ucJTaD9p0PiHyjiGF/RG3lg/J4Pq7Jh36JBcT4WjwhaP9nVZ0178
- ofPe4nn5ZF8D3dOf2ILM5wu8beGSgYO9djsYwPF0f5ErHPzrtSjyAMjbdjR1xnVZ
- QqzbEg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh0a0w4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Apr 2025 18:34:20 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53PIYJu7012358
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Apr 2025 18:34:19 GMT
-Received: from [10.134.71.99] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Apr
- 2025 11:34:19 -0700
-Message-ID: <aae55674-1ef1-4cf8-b1ef-e2b67c086b77@quicinc.com>
-Date: Fri, 25 Apr 2025 11:34:18 -0700
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3424910E32F
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 18:50:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1745607031; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=PZblNby2kNMGIbAGzDVzwLiumkkQhhxjcsBYLiOL8UD+2K2d0EtoWEFqnCouiiLqtOAvfl/Qhw+7qvmEi04zwvH3gzT7v2gRv8VmjCogvFNeLMBJA9qMiqWZ9iqG2AjXYrq96nDGb82ZUdbU5sz40HOAQBSt1rzPmRp5mVRpgZA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1745607031;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=87movGfsgkKvCCO2hsLlnVrga1A0glMJM4uj70IwRA4=; 
+ b=PuySUUok4jjuwpyxKWK3hE0vMWd5hkFuzO4+h/W2NcDzZDa06IfMxzwR2msIDlSuqn5ozjBaeib3XBCLDGrI3Q44MRamBuvWlDqojZmyhpCBsZ8eOgHSq7w8c0qi2wq25CojDG9oak+IcTNcav/f1CUFKHQ6lMLyuFdeFAIe7kI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745607031; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=87movGfsgkKvCCO2hsLlnVrga1A0glMJM4uj70IwRA4=;
+ b=al6VijCaLZB9Ojg/CKlBpPpTiL4L3l7bnLYNsd3XxABO+a0i9ArBlgH6/pNQgvmw
+ i2wxG3w96SF06YXzw9QwprVhD2lASN8UGy+OqLVEwhlQAKGpgTbA2Q31tFVZDA2UHlZ
+ 53mE1YO5TJSM/79t3EN/Inuxk3Vm6KA0OhJHhhKQ=
+Received: by mx.zohomail.com with SMTPS id 1745607028843569.4630920933195;
+ Fri, 25 Apr 2025 11:50:28 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-rockchip@lists.infradead.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: Re: [PATCH v2 1/7] dt-bindings: npu: rockchip,rknn: Add bindings
+Date: Fri, 25 Apr 2025 20:50:21 +0200
+Message-ID: <14333638.uLZWGnKmhe@workhorse>
+In-Reply-To: <20250225-6-10-rocket-v2-1-d4dbcfafc141@tomeuvizoso.net>
+References: <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
+ <20250225-6-10-rocket-v2-1-d4dbcfafc141@tomeuvizoso.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] drm/msm/dpu: enable SmartDMA on SC8280XP
-To: Dmitry Baryshkov <lumag@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Konrad Dybcio
- <konradybcio@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250308-dpu-rework-vig-masks-v1-0-f1b5d101ae0b@linaro.org>
- <20250308-dpu-rework-vig-masks-v1-3-f1b5d101ae0b@linaro.org>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20250308-dpu-rework-vig-masks-v1-3-f1b5d101ae0b@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDEzMSBTYWx0ZWRfX9pHbDgD+TDcu
- CADlErJgBq4+9cSSx7/zm4TZa2uYVI42iROlXc251IcDAK/KHxj36hW73Lj4KQmJ2S13spQuzLL
- BUtreaFMvzVYdSv34DxrkudrVl8CODTrbQ9H6RJDR3MA0thobvRsFgw+0BQHz+9JD4BlsiYQijR
- v0289tA8/CEqtfnWn15Dtf2nqEZ7JFfUDOvI0jlwsv1Lzl3i37korIPJICb2KPS49svZTuHaHTi
- FywKo6Fx2oArq9/bSay7mCE0TTLhSERqHyn04aJo8DpFeEnWE3kntBN2AqbF0Vyn7mJQR5/8vdS
- rhYeq+pUNB8G98YcuJoyUir0HEWXxdw9oUMuXnRPnO4J853ot4tfVYGaKzqd7aBAQA7CXobRa4y
- J8Q7UUDYU11vnqFX0ptt/jpXDH9ykvf3C6E9aQs5dI+k52dH4BeCVdGFeLYWeVEu59uhAOTe
-X-Proofpoint-GUID: D6W7qwmaDHYb_wjT_fXSDZgD1_lhhgnr
-X-Authority-Analysis: v=2.4 cv=ZuTtK87G c=1 sm=1 tr=0 ts=680bd5ac cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8
- a=KKAkSRfTAAAA:8 a=HeSMwb9fToagm6IspYYA:9
- a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: D6W7qwmaDHYb_wjT_fXSDZgD1_lhhgnr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-25_05,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- impostorscore=0 bulkscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0
- mlxlogscore=999 priorityscore=1501 malwarescore=0 suspectscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504250131
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,104 +78,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/7/2025 9:38 PM, Dmitry Baryshkov wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+On Tuesday, 25 February 2025 08:55:47 Central European Summer Time Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
 > 
-> In order to support more versatile configuration of the display pipes on
-> SC8280XP, enable SmartDMA for this platform.
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Hi Dmitry,
-
-Seems like Abhinav's signed-off-by is missing for the patches that list 
-him as author.
-
-Thanks,
-
-Jessica Zhang
-
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 152 +++++++++++++++++++++
+>  1 file changed, 152 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> index fcee1c3665f88a9defca4fec38dd76d56c97297e..923afc202f5195fa15bcfc1e141fc44134c965e4 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> @@ -74,7 +74,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
->   	{
->   		.name = "sspp_0", .id = SSPP_VIG0,
->   		.base = 0x4000, .len = 0x2ac,
-> -		.features = VIG_SDM845_MASK,
-> +		.features = VIG_SDM845_MASK_SDMA,
->   		.sblk = &dpu_vig_sblk_qseed3_3_0,
->   		.xin_id = 0,
->   		.type = SSPP_TYPE_VIG,
-> @@ -82,7 +82,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
->   	}, {
->   		.name = "sspp_1", .id = SSPP_VIG1,
->   		.base = 0x6000, .len = 0x2ac,
-> -		.features = VIG_SDM845_MASK,
-> +		.features = VIG_SDM845_MASK_SDMA,
->   		.sblk = &dpu_vig_sblk_qseed3_3_0,
->   		.xin_id = 4,
->   		.type = SSPP_TYPE_VIG,
-> @@ -90,7 +90,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
->   	}, {
->   		.name = "sspp_2", .id = SSPP_VIG2,
->   		.base = 0x8000, .len = 0x2ac,
-> -		.features = VIG_SDM845_MASK,
-> +		.features = VIG_SDM845_MASK_SDMA,
->   		.sblk = &dpu_vig_sblk_qseed3_3_0,
->   		.xin_id = 8,
->   		.type = SSPP_TYPE_VIG,
-> @@ -98,7 +98,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
->   	}, {
->   		.name = "sspp_3", .id = SSPP_VIG3,
->   		.base = 0xa000, .len = 0x2ac,
-> -		.features = VIG_SDM845_MASK,
-> +		.features = VIG_SDM845_MASK_SDMA,
->   		.sblk = &dpu_vig_sblk_qseed3_3_0,
->   		.xin_id = 12,
->   		.type = SSPP_TYPE_VIG,
-> @@ -106,7 +106,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
->   	}, {
->   		.name = "sspp_8", .id = SSPP_DMA0,
->   		.base = 0x24000, .len = 0x2ac,
-> -		.features = DMA_SDM845_MASK,
-> +		.features = DMA_SDM845_MASK_SDMA,
->   		.sblk = &dpu_dma_sblk,
->   		.xin_id = 1,
->   		.type = SSPP_TYPE_DMA,
-> @@ -114,7 +114,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
->   	}, {
->   		.name = "sspp_9", .id = SSPP_DMA1,
->   		.base = 0x26000, .len = 0x2ac,
-> -		.features = DMA_SDM845_MASK,
-> +		.features = DMA_SDM845_MASK_SDMA,
->   		.sblk = &dpu_dma_sblk,
->   		.xin_id = 5,
->   		.type = SSPP_TYPE_DMA,
-> @@ -122,7 +122,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
->   	}, {
->   		.name = "sspp_10", .id = SSPP_DMA2,
->   		.base = 0x28000, .len = 0x2ac,
-> -		.features = DMA_CURSOR_SDM845_MASK,
-> +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
->   		.sblk = &dpu_dma_sblk,
->   		.xin_id = 9,
->   		.type = SSPP_TYPE_DMA,
-> @@ -130,7 +130,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
->   	}, {
->   		.name = "sspp_11", .id = SSPP_DMA3,
->   		.base = 0x2a000, .len = 0x2ac,
-> -		.features = DMA_CURSOR_SDM845_MASK,
-> +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
->   		.sblk = &dpu_dma_sblk,
->   		.xin_id = 13,
->   		.type = SSPP_TYPE_DMA,
-> 
+> diff --git a/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..e8d0afe4a7d1c4f166cf13a9f4aa7c1901362a3f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
+> @@ -0,0 +1,152 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Neural Processing Unit IP from Rockchip
+> +
+> +maintainers:
+> +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> +
+> +description:
+> +  Rockchip IP for accelerating inference of neural networks, based on NVIDIA's
+> +  open source NVDLA IP.
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: '^npu-core@[a-f0-9]+$'
+> +
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - rockchip,rk3588-rknn-core-top
+> +          - const: rockchip,rknn-core-top
+> +      - items:
+> +          - enum:
+> +              - rockchip,rk3588-rknn-core
+> +          - const: rockchip,rknn-core
+> +
+> +  reg:
+> +    maxItems: 1
+
+Hi Tomeu,
+
+as you probably know, RK3576 has quite a similar NPU. This is why I'm currently
+poking at this patch series. One of the differences I ran into was that the
+IOMMU of each NPU core now sits within the reg address space range of the core
+as described by the single reg item binding and assumed by the driver.
+
+This seemed weird to me at first, since I would've guessed the cores would be
+exactly the same, but I noticed that they kind of still are; the RK3588's NPU
+also has a "hole" between 0x2000 and 0x2fff on each core, which is where RK3576
+put its IOMMU.
+
+This is some information I gleaned from the RK3588 TRM, specifically section
+36.4.1 "Internal Address Mapping", which shows where each "part" of the NPU core
+has its address space.
+
+Right now we just represent this as a single reg item per core. I've played
+with the idea of splitting this up into the distinct ranges the TRM lists and
+giving each a reg-names entry, but this would require a major rework of the
+driver from what I can tell, including to the auto-generated register header.
+
+For now, my hack on RK3576 is to just ioremap the range defined by resource 
+start to resource end inside rocket manually if I get -EBUSY trying to ioremap 
+the resource proper. This is quite an ugly hack though, it means the IOMMU node 
+still has its address overlapping with another node in the DT, and it also means 
+we have an unavoidable error message printed into the kernel log. This is also
+what the vendor driver seems to do.
+
+What do you reckon is a reg setup in the binding that is both reasonable to
+implement in the driver while accurately describing the hardware?
+
+The RK3568, which uses a similar NPU design has the IOMMU at an offset of 0xb000 
+from the core's start of PC, so probably after any core specifics but before the 
+global registers if I hazard a guess.
+
+For those without access to the TRM: splitting this up into multiple reg items
+per core precisely the way the TRM does it would result in no less than 10 reg
+items on RK3588, if I count correctly.
+
+Kind regards,
+Nicolas Frattaroli
+
 
