@@ -2,61 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4B7A9C212
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158A5A9C21D
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:52:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED11A10E8D7;
-	Fri, 25 Apr 2025 08:51:30 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GTOdHaHA";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52AF310E8D6;
+	Fri, 25 Apr 2025 08:52:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A131910E8D6
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 08:51:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745571090; x=1777107090;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=3haJLTedau4sXV9L05Y3NxuA5jQpX2ZlIMU47OUXNGM=;
- b=GTOdHaHA7Ot9xzEmSrJmQwg0uQaJG1lW0axjEYewt9GKYMdnIjk6pqx7
- vIzJU1KLub8WGB94WnFARXLbEXqNWagThfOQgMiAoPVj4tzOjmVQXVkly
- rJiPbz3L4CuwnlqitkGG7ujdXaBBjFRaZlnrQcFM63bO7CwL3YZh0c2H9
- YUdenZIGfj+Eaw3xvaSP9otR1QPcsDSBNqU9C5cu6WMMxZeyiz6GGp+2P
- iKUTo1kNcAd8lzufE2J4FB4qqCP/EKvh6m3/0dog+kUSPikEJ3VkqzbGW
- iKxgWFEicNveMfo+cwturSNm/3y4ivWRaE/7K3jLMd/slNcdAeFLnvrNQ w==;
-X-CSE-ConnectionGUID: 8TQize1ZTZGThkXcQiayPw==
-X-CSE-MsgGUID: /ZmDimXYRymlHr+PhppkOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47243824"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="47243824"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2025 01:51:30 -0700
-X-CSE-ConnectionGUID: W1TGHBdoT4WEHvpN6syR0Q==
-X-CSE-MsgGUID: KIdIY74TTc+5GK3g/5ULBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="133382880"
-Received: from pwilma-mobl1.ger.corp.intel.com (HELO [10.245.252.249])
- ([10.245.252.249])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2025 01:51:27 -0700
-Message-ID: <1f899e90-51e5-49f1-a621-4b0997aabfdf@linux.intel.com>
-Date: Fri, 25 Apr 2025 10:51:24 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF22A10E8D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 08:52:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 11BE15C4CC2;
+ Fri, 25 Apr 2025 08:49:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BAE6C4CEE4;
+ Fri, 25 Apr 2025 08:51:58 +0000 (UTC)
+Message-ID: <8c1e6d90-c394-4d98-96f9-eff526a987ed@xs4all.nl>
+Date: Fri, 25 Apr 2025 10:51:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Correct DCT interrupt handling
-To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com, lizhi.hou@amd.com,
- Karol Wachowski <karol.wachowski@intel.com>
-References: <20250416102616.384577-1-maciej.falkowski@linux.intel.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250416102616.384577-1-maciej.falkowski@linux.intel.com>
+Subject: Re: [PATCH v4 04/13] media: saa7115: Replace open-coded parity
+ calculation with parity_odd()
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
+ mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, parthiban.veerasooran@microchip.com,
+ arend.vanspriel@broadcom.com, johannes@sipsolutions.net,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, yury.norov@gmail.com,
+ akpm@linux-foundation.org, jdelvare@suse.com, linux@roeck-us.net,
+ alexandre.belloni@bootlin.com, pgaj@cadence.com
+Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Frank.Li@nxp.com, linux-hwmon@vger.kernel.org,
+ linux-i3c@lists.infradead.org, david.laight.linux@gmail.com,
+ andrew.cooper3@citrix.com, Yu-Chun Lin <eleanor15x@gmail.com>
+References: <20250409154356.423512-1-visitorckw@gmail.com>
+ <20250409154356.423512-5-visitorckw@gmail.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20250409154356.423512-5-visitorckw@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,90 +114,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-fixes
+On 09/04/2025 17:43, Kuan-Wei Chiu wrote:
+> Refactor parity calculations to use the standard parity_odd() helper.
+> This change eliminates redundant implementations.
+> 
+> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 
-On 4/16/2025 12:26 PM, Maciej Falkowski wrote:
-> From: Karol Wachowski <karol.wachowski@intel.com>
-> 
-> Fix improper use of dct_active_percent field in DCT interrupt handler
-> causing DCT to never get enabled. Set dct_active_percent internally before
-> IPC to ensure correct driver value even if IPC fails.
-> Set default DCT value to 30 accordingly to HW architecture specification.
-> 
-> Fixes: a19bffb10c46 ("accel/ivpu: Implement DCT handling")
-> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
-> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
+
+Regards,
+
+	Hans
+
 > ---
->  drivers/accel/ivpu/ivpu_hw_btrs.h |  2 +-
->  drivers/accel/ivpu/ivpu_pm.c      | 18 ++++++++++--------
->  2 files changed, 11 insertions(+), 9 deletions(-)
+>  drivers/media/i2c/saa7115.c | 12 ++----------
+>  1 file changed, 2 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.h b/drivers/accel/ivpu/ivpu_hw_btrs.h
-> index 300f749971d4..d2d82651976d 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_btrs.h
-> +++ b/drivers/accel/ivpu/ivpu_hw_btrs.h
-> @@ -14,7 +14,7 @@
->  #define PLL_PROFILING_FREQ_DEFAULT   38400000
->  #define PLL_PROFILING_FREQ_HIGH      400000000
+> diff --git a/drivers/media/i2c/saa7115.c b/drivers/media/i2c/saa7115.c
+> index a1c71187e773..a7886269dcfc 100644
+> --- a/drivers/media/i2c/saa7115.c
+> +++ b/drivers/media/i2c/saa7115.c
+> @@ -25,6 +25,7 @@
 >  
-> -#define DCT_DEFAULT_ACTIVE_PERCENT 15u
-> +#define DCT_DEFAULT_ACTIVE_PERCENT 30u
->  #define DCT_PERIOD_US		   35300u
+>  #include "saa711x_regs.h"
 >  
->  int ivpu_hw_btrs_info_init(struct ivpu_device *vdev);
-> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-> index 1fe03fc16bbc..ea30db181cd7 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.c
-> +++ b/drivers/accel/ivpu/ivpu_pm.c
-> @@ -448,16 +448,17 @@ int ivpu_pm_dct_enable(struct ivpu_device *vdev, u8 active_percent)
->  	active_us = (DCT_PERIOD_US * active_percent) / 100;
->  	inactive_us = DCT_PERIOD_US - active_us;
+> +#include <linux/bitops.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+> @@ -664,15 +665,6 @@ static const unsigned char saa7115_init_misc[] = {
+>  	0x00, 0x00
+>  };
 >  
-> +	vdev->pm->dct_active_percent = active_percent;
-> +
-> +	ivpu_dbg(vdev, PM, "DCT requested %u%% (D0: %uus, D0i2: %uus)\n",
-> +		 active_percent, active_us, inactive_us);
-> +
->  	ret = ivpu_jsm_dct_enable(vdev, active_us, inactive_us);
->  	if (ret) {
->  		ivpu_err_ratelimited(vdev, "Failed to enable DCT: %d\n", ret);
->  		return ret;
->  	}
->  
-> -	vdev->pm->dct_active_percent = active_percent;
+> -static int saa711x_odd_parity(u8 c)
+> -{
+> -	c ^= (c >> 4);
+> -	c ^= (c >> 2);
+> -	c ^= (c >> 1);
 > -
-> -	ivpu_dbg(vdev, PM, "DCT set to %u%% (D0: %uus, D0i2: %uus)\n",
-> -		 active_percent, active_us, inactive_us);
->  	return 0;
->  }
->  
-> @@ -465,15 +466,16 @@ int ivpu_pm_dct_disable(struct ivpu_device *vdev)
+> -	return c & 1;
+> -}
+> -
+>  static int saa711x_decode_vps(u8 *dst, u8 *p)
 >  {
->  	int ret;
->  
-> +	vdev->pm->dct_active_percent = 0;
-> +
-> +	ivpu_dbg(vdev, PM, "DCT requested to be disabled\n");
-> +
->  	ret = ivpu_jsm_dct_disable(vdev);
->  	if (ret) {
->  		ivpu_err_ratelimited(vdev, "Failed to disable DCT: %d\n", ret);
->  		return ret;
->  	}
->  
-> -	vdev->pm->dct_active_percent = 0;
-> -
-> -	ivpu_dbg(vdev, PM, "DCT disabled\n");
->  	return 0;
->  }
->  
-> @@ -486,7 +488,7 @@ void ivpu_pm_irq_dct_work_fn(struct work_struct *work)
->  	if (ivpu_hw_btrs_dct_get_request(vdev, &enable))
->  		return;
->  
-> -	if (vdev->pm->dct_active_percent)
-> +	if (enable)
->  		ret = ivpu_pm_dct_enable(vdev, DCT_DEFAULT_ACTIVE_PERCENT);
->  	else
->  		ret = ivpu_pm_dct_disable(vdev);
+>  	static const u8 biphase_tbl[] = {
+> @@ -1227,7 +1219,7 @@ static int saa711x_decode_vbi_line(struct v4l2_subdev *sd, struct v4l2_decode_vb
+>  		vbi->type = V4L2_SLICED_TELETEXT_B;
+>  		break;
+>  	case 4:
+> -		if (!saa711x_odd_parity(p[0]) || !saa711x_odd_parity(p[1]))
+> +		if (!parity_odd(p[0]) || !parity_odd(p[1]))
+>  			return 0;
+>  		vbi->type = V4L2_SLICED_CAPTION_525;
+>  		break;
 
