@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC3DA9C568
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 12:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93648A9C561
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 12:28:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EB3E10E940;
-	Fri, 25 Apr 2025 10:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C44B010E929;
+	Fri, 25 Apr 2025 10:28:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="P4AwPH4P";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="R0xOYF7t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9848C10E929
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 10:28:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A68110E929
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 10:28:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1745576907;
- bh=4lg+tZhIc+oaFlZ18h7Sr9PgPxrUHhP/ALL5+NI4Jyw=;
+ s=mail; t=1745576908;
+ bh=7+YGBQ+4NGRCaWlLRr/l01wupW6JJX5shiIuSOf1qXw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=P4AwPH4PNP5xKBEwfNCTd9U+rJZFZoIr9bvKx0s8P4BNFM3vWRJ3eKIyCzET3FYoU
- xe5GEf9gEVEsAHiQ8oCwV3SvueR8u4qM04vGepvywnB1FhjjAybMsLXriGdg87K6LA
- wVH/qY81lHF0nbST8asPVa8lAN/w+IQOk4rgWL8MctONcvdmC/ONjnXVvF2nNVP8Uj
- yCuZDb5qPvv4lsE/uzfiF6NdfJXBVj91hwr9vCw2dE5n9s54/kE/kQEVZ1tcRHWspV
- LNgfkHsmexdqUANf2PVkRhREDrM57mq5tPTrV1EBtPA853RLh/E+bf2+muCveRcEJB
- Y4fdHPXkOMj3w==
+ b=R0xOYF7tG8pzEE6Z0IP/SCUDLQzffOjrQGcgptsppWZBopIJth4E8de6eh604uVPX
+ eSYG1iYkUuNwnI+9ND+BH2sEPcTTki9DDhChClOX4upD2I+DZz9T7O0zNfnf/LvoSI
+ GNetDh645VtJDg9ux8yUXrw2dvoYSzgEcvmMvZ7OJKXjQ2BvxtuhRITFnLHJEojxf7
+ azRwV3hUZJ4nSnjUTgT0F2hqKVgKHJLsnBLEwXsgZfv2Qd3bsE/gY60aHfqrxRC/X8
+ B+vEx+m1vmBiWDXu0uBWKeXcupgXuC6XNbwP3pnuN0PiFU7FlvhQJMLAyAQWySQP0M
+ xsFOdrUqijggQ==
 Received: from localhost (unknown [82.76.59.226])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 0C43517E36BD;
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id ED1F217E36C1;
  Fri, 25 Apr 2025 12:28:27 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Fri, 25 Apr 2025 13:27:01 +0300
-Subject: [PATCH v4 10/23] drm/tests: hdmi: Drop unused
- drm_kunit_helper_connector_hdmi_init_funcs()
+Date: Fri, 25 Apr 2025 13:27:02 +0300
+Subject: [PATCH v4 11/23] drm/tests: hdmi: Setup ycbcr_420_allowed before
+ initializing connector
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250425-hdmi-conn-yuv-v4-10-5e55e2aaa3fa@collabora.com>
+Message-Id: <20250425-hdmi-conn-yuv-v4-11-5e55e2aaa3fa@collabora.com>
 References: <20250425-hdmi-conn-yuv-v4-0-5e55e2aaa3fa@collabora.com>
 In-Reply-To: <20250425-hdmi-conn-yuv-v4-0-5e55e2aaa3fa@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -67,36 +67,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After updating the code to make use of the new EDID setup helper,
-drm_kunit_helper_connector_hdmi_init_funcs() became unused, hence drop
-it.
+Initializing HDMI connector via drmm_connector_hdmi_init() requires its
+->ycbcr_420_allowed flag to be adjusted according to the supported
+formats passed as function argument, prior to the actual invocation.
 
+In order to allow providing test coverage for YUV420 modes, ensure the
+flag is properly setup.
+
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index 921afb732797f1530d3857ea6d951c5df79d42b4..6b4000aea2f2eff373c803d95c3304281c879176 100644
+index 6b4000aea2f2eff373c803d95c3304281c879176..323863a24a498d220f9fb73081abfbb00575c370 100644
 --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
 +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -206,16 +206,6 @@ __connector_hdmi_init(struct kunit *test,
- 	return priv;
- }
+@@ -183,6 +183,8 @@ __connector_hdmi_init(struct kunit *test,
+ 	enc->possible_crtcs = drm_crtc_mask(priv->crtc);
  
--static
--struct drm_atomic_helper_connector_hdmi_priv *
--drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
--					   unsigned int formats,
--					   unsigned int max_bpc,
--					   const struct drm_connector_hdmi_funcs *hdmi_funcs)
--{
--	return __connector_hdmi_init(test, formats, max_bpc, hdmi_funcs, NULL, 0);
--}
--
- #define drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test, formats, max_bpc, funcs, edid) \
- 	__connector_hdmi_init(test, formats, max_bpc, funcs, edid, ARRAY_SIZE(edid))
- 
+ 	conn = &priv->connector;
++	conn->ycbcr_420_allowed = !!(formats & BIT(HDMI_COLORSPACE_YUV420));
++
+ 	ret = drmm_connector_hdmi_init(drm, conn,
+ 				       "Vendor", "Product",
+ 				       &dummy_connector_funcs,
 
 -- 
 2.49.0
