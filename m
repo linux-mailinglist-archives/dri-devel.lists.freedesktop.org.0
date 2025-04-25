@@ -2,156 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E006A9D2C2
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 22:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 901BAA9D2CE
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 22:18:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E80110E9C2;
-	Fri, 25 Apr 2025 20:14:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC0810E9C8;
+	Fri, 25 Apr 2025 20:18:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="K2xoEgfw";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="exEJJvoB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A3310E9C2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 20:14:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1745612058;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=IDOXsLnBlG5Gf4KYJyCVXRBkPrSN1fTR4Oi8KAMotgA=;
- b=K2xoEgfwTZM7hscapQvY3jbJaosYm0Kvt8GqiUET1kUl72vFXg+DhX7OpoQcVrXOmu2SAX
- IWt7PFDkaJK6nothMB5krJGhXEQpQWfAFPVYdPfzs630v8b1nJO0JKJaQsfEvLRs0vJyby
- vyGA4xJA/R9MIsgQi8fQn5yD8a6vwOI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-632-9Z3PDpOjMdWGLuMeBcL_QA-1; Fri, 25 Apr 2025 16:14:16 -0400
-X-MC-Unique: 9Z3PDpOjMdWGLuMeBcL_QA-1
-X-Mimecast-MFC-AGG-ID: 9Z3PDpOjMdWGLuMeBcL_QA_1745612055
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-39141ffa913so1253748f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 13:14:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745612055; x=1746216855;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=IDOXsLnBlG5Gf4KYJyCVXRBkPrSN1fTR4Oi8KAMotgA=;
- b=VQnNGJpLUM5fspPfN52qHASVGXAlF7Xl2/H2/QSV50TP5zL9KPJaYGn6DXHR3WNHIH
- qxPcmawa8Au+QVHXlugGlwSkxQy8apg3gApru4HoxXe8BGaaWhLQic2Yau4OOhbxIYm4
- ubxxnDv/d+tFXtb+44ecQh9IkaSzFQGTy23y+TV+wRHh4s3XVnuieFY5DbHIWIx5Wbbt
- DVKMhCaAIFurdqS9QnDe7WN0M4/Jrqk2xv5ySOkcwiE4AWrBiea1FL11DbekErnJUD2c
- y8pJGNjsXZ8+xqR6UN92i6S3ryevXkbCbw77+8/TpN7JhiyY9K+0IWOmHBhCsEXqhMtz
- IPQQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXb3pxYokmvAsSDqH6ZkzxCqRGgyvZN7K8tui7v7pJo/Rm0O7QuPqOKxBAImgk03cc/Hc9Ocfk/G0k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzxde26wzxOFQAJWvKCQVQndIUdQOOgmjU2k6N3CScAS0VCGMHP
- gI4kxbBZfkPHFFxYTQs0DDysfgZhc1XBcdaZdoZE5iZOiLHvD0OyNFgV2fN9iDaapzYY+zMIWpo
- ACl7KFZTeX1kSEjLXCg5C3IKDJ/JrbSpQG9VhdvYempHwXXWakMFjHTIaCghjM2EkMA==
-X-Gm-Gg: ASbGncseIHh5fbjBH+HARDhs7GcGO0shqqd2vtbibPZ3ZNFGQY0Woi1wYLE0VrDx1Ag
- nieMV5MvEFknZnQHs+QWVbd5Ero/LMXsyMFGtQhwm8qCo+zsH+2KGqmUirrtVNYJuR2T+NsP771
- kaP6Xvvtj9cKudaW34rAn6BUe/WM/NnGoNnRI3Cb2B36yTPTXDsTGqglQRFFcg1Frq3iYfWdScy
- mJcn+4iJbrjxmuvatOwCw//b66JGlrBzNOPujCfKgdvUoa2wH1ozSQKnyCq8jRc4yp49spkD+iK
- WS7XlBH6B2ecNenJIlk53CNVV1fJUJSZTY/9x6Rd4SSb8cKMehVH/wP+C33wkwL62fTQmEfQJNp
- XMw3hdEFgGgqLD0+/bji6/U8/J4uy3GvYRr98
-X-Received: by 2002:a05:6000:248a:b0:39c:141a:6c67 with SMTP id
- ffacd0b85a97d-3a074f2f48amr3041200f8f.45.1745612054787; 
- Fri, 25 Apr 2025 13:14:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF6wu++VR5yLUa+Bh6ZWzjR0kuzX9MeXtfpoEa38XdStVWFYJa2gmbZFdVy3f4E0U4OoDuw6g==
-X-Received: by 2002:a05:6000:248a:b0:39c:141a:6c67 with SMTP id
- ffacd0b85a97d-3a074f2f48amr3041180f8f.45.1745612054338; 
- Fri, 25 Apr 2025 13:14:14 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70f:6900:6c56:80f8:c14:6d2a?
- (p200300cbc70f69006c5680f80c146d2a.dip0.t-ipconnect.de.
- [2003:cb:c70f:6900:6c56:80f8:c14:6d2a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a073ca511asm3210623f8f.26.2025.04.25.13.14.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Apr 2025 13:14:13 -0700 (PDT)
-Message-ID: <6e88cf7c-3d1c-461a-acff-4d6ef01671d6@redhat.com>
-Date: Fri, 25 Apr 2025 22:14:12 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A272910E9AE;
+ Fri, 25 Apr 2025 20:18:27 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53PGJplt031925;
+ Fri, 25 Apr 2025 20:18:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ jJYqZXzdF32jhKcPVa2dqOGh8Ls4BKAg3Edx1wDdRiE=; b=exEJJvoBx9UTm2hv
+ Nr6IUOjoRsfdIFkhPpq5kNUatEYpOq6ehwJ0YgLU9lITU8iHhNbmllmYHnz18Lpq
+ /16i2kAoDUy1aV4r5ZXlpZ1cMH6feQCAfy1TcLGGjncoMTK6auKzdBCU9SdgerdB
+ PRf85x+83y4m+iMvXYXHqLl8uk4Ab/2eK5laKGlNd5H6VvDaz0RsPoCDM3M07+T6
+ yiUkpw4w+yd2cr+ILTDglFUYEpTl0YArRBctsQdyXWtsGohF11kzr6Pbrgty/+tP
+ SSFOuTAx1PKTeCVAk/dZQokGlJUc+Bjuq8a9bNWDxrZ0PrBbCQcITiXf9QTXgn69
+ YZKHzA==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jgya6ca-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 25 Apr 2025 20:18:23 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53PKIM7a020914
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 25 Apr 2025 20:18:22 GMT
+Received: from [10.134.71.99] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Apr
+ 2025 13:18:22 -0700
+Message-ID: <a5975b9d-fc0e-4db6-8f61-b6ae6f3f17fe@quicinc.com>
+Date: Fri, 25 Apr 2025 13:18:21 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 04/11] mm/memremap: convert to pfnmap_track() +
- pfnmap_untrack()
-To: Peter Xu <peterx@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-trace-kernel@vger.kernel.org, Dave Hansen
- <dave.hansen@linux.intel.com>, Andy Lutomirski <luto@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- "H. Peter Anvin" <hpa@zytor.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>
-References: <20250425081715.1341199-1-david@redhat.com>
- <20250425081715.1341199-5-david@redhat.com> <aAvp6umyw1AF2DbN@x1.local>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <aAvp6umyw1AF2DbN@x1.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: l_p4-85AUUcQi82dvKOtWkfBF_4fERU-L7bkswJsaVw_1745612055
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 1/5] drm/msm/dpu: enable SmartDMA on SM8150
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: Dmitry Baryshkov <lumag@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Konrad Dybcio
+ <konradybcio@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20250308-dpu-rework-vig-masks-v1-0-f1b5d101ae0b@linaro.org>
+ <20250308-dpu-rework-vig-masks-v1-1-f1b5d101ae0b@linaro.org>
+ <bf242898-bf47-4235-9086-745bd4f05acf@quicinc.com>
+ <c62wafi73jwdf7qz5a7gp3xqhqg27aifn5ollr7dmufeaeyldr@rbzbtpbfenkc>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <c62wafi73jwdf7qz5a7gp3xqhqg27aifn5ollr7dmufeaeyldr@rbzbtpbfenkc>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDE0NCBTYWx0ZWRfX7XF499v8vR3I
+ XEKEdy0bt8hD4F95LcvpzqL7ulOQjiXWc0xgIJOt8vYG0NSRpslXz37JcDmrJtXW3UNY9vQ7kVY
+ ZuQ/K9abOX6ptoA+i1lxY33RJYqPP0P+yEIoLYOR7PcPrQHBZBkPhQlbqRUGbThYv1h7F3lr9ZU
+ enOiOZe7tcbEC50KXmnPuGFPIOuRxnYtVaBC5GpU+kNldgyuS8MmKhom62YmvdaMVPlltXDnxnv
+ rsPx3HI/LivdcCZ9pG+N6JIM6A+OU6aDXicr7KUj1iIpS8zPKxZKxUjqgqNL0Yp77cKNLZ9PCa5
+ ud7Y+1DeGyxbYMZDWpQ9z+orm6HTgZVGpuVga853QMRPyO/3R76NgfpDLQq3GMLbTMLIT0RAPxz
+ VxjfNH9ptxsuWONE9QxdfiIfXt2Zkbpb32O0MIMjGg+Wco/iV/48l6oGoCetwoG+s6O9V7ZK
+X-Proofpoint-GUID: 6Cnef_pjvbNS2j5_wTmyn5xSX_7DXKXp
+X-Proofpoint-ORIG-GUID: 6Cnef_pjvbNS2j5_wTmyn5xSX_7DXKXp
+X-Authority-Analysis: v=2.4 cv=M5VNKzws c=1 sm=1 tr=0 ts=680bee0f cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8
+ a=COk6AnOGAAAA:8 a=ep-ZKmNeXLTrS1u6wGwA:9
+ a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-25_06,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ lowpriorityscore=0 adultscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ mlxlogscore=999 malwarescore=0 impostorscore=0 clxscore=1015
+ suspectscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504250144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,54 +110,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.04.25 22:00, Peter Xu wrote:
-> On Fri, Apr 25, 2025 at 10:17:08AM +0200, David Hildenbrand wrote:
->> Let's use the new, cleaner interface.
+
+
+On 4/25/2025 11:53 AM, Dmitry Baryshkov wrote:
+> On Fri, Apr 25, 2025 at 11:26:20AM -0700, Jessica Zhang wrote:
 >>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   mm/memremap.c | 8 ++++----
->>   1 file changed, 4 insertions(+), 4 deletions(-)
 >>
->> diff --git a/mm/memremap.c b/mm/memremap.c
->> index 2aebc1b192da9..c417c843e9b1f 100644
->> --- a/mm/memremap.c
->> +++ b/mm/memremap.c
->> @@ -130,7 +130,7 @@ static void pageunmap_range(struct dev_pagemap *pgmap, int range_id)
->>   	}
->>   	mem_hotplug_done();
->>   
->> -	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range), true);
->> +	pfnmap_untrack(PHYS_PFN(range->start), range_len(range));
->>   	pgmap_array_delete(range);
->>   }
->>   
->> @@ -211,8 +211,8 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
->>   	if (nid < 0)
->>   		nid = numa_mem_id();
->>   
->> -	error = track_pfn_remap(NULL, &params->pgprot, PHYS_PFN(range->start), 0,
->> -			range_len(range));
->> +	error = pfnmap_track(PHYS_PFN(range->start), range_len(range),
->> +			     &params->pgprot);
->>   	if (error)
->>   		goto err_pfn_remap;
->>   
->> @@ -277,7 +277,7 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
->>   	if (!is_private)
->>   		kasan_remove_zero_shadow(__va(range->start), range_len(range));
->>   err_kasan:
->> -	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range), true);
->> +	pfnmap_untrack(PHYS_PFN(range->start), range_len(range));
+>> On 3/7/2025 9:38 PM, Dmitry Baryshkov wrote:
+>>> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>
+>>> Reworking of the catalog dropped the SmartDMA feature bit on the SM8150
+>>> platform. Renable SmartDMA support on this SoC.
+>>>
+>>> Fixes: 460c410f02e4 ("drm/msm/dpu: duplicate sdm845 catalog entries")
+>>
+>> Hi Dmitry,
+>>
+>> The code LGTM, but was just wondering why there's a fixes tag for the first
+>> two patches but not for the other catalog changes.
+>>
+>> Is there some context I'm missing with regards to this?
 > 
-> Not a huge deal, but maybe we could merge this and previous patch?  It
-> might be easier to reference the impl when reading the call site changes.
+> As I wrote in the commit message, SmartDMA for these two platforms was
+> enabled previously, but then it got disabled by the mistake in the
+> commit 460c410f02e4 ("drm/msm/dpu: duplicate sdm845 catalog entries").
+> For the rest of the platforms SmartDMA supoprt was never enabled, so
+> no need for Fixes tags.
 
-Yes, I can do that. The important part to me is to split #5 of, to keep 
-that patch somewhat reasonable in size.
+Ah, sorry I missed that sdm845_sspp has the SDMA feature flag.
 
--- 
-Cheers,
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
-David / dhildenb
+> 
+>>
+>> Thanks,
+>>
+>> Jessica Zhang
+>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 16 ++++++++--------
+>>>    1 file changed, 8 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+>>> index 23188290001ffb45563a9953a9f710bacb4dac89..fe4de5b31644de33b77a882fa21a18f48ecd1790 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+>>> @@ -76,7 +76,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
+>>>    	{
+>>>    		.name = "sspp_0", .id = SSPP_VIG0,
+>>>    		.base = 0x4000, .len = 0x1f0,
+>>> -		.features = VIG_SDM845_MASK,
+>>> +		.features = VIG_SDM845_MASK_SDMA,
+>>>    		.sblk = &dpu_vig_sblk_qseed3_1_4,
+>>>    		.xin_id = 0,
+>>>    		.type = SSPP_TYPE_VIG,
+>>> @@ -84,7 +84,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
+>>>    	}, {
+>>>    		.name = "sspp_1", .id = SSPP_VIG1,
+>>>    		.base = 0x6000, .len = 0x1f0,
+>>> -		.features = VIG_SDM845_MASK,
+>>> +		.features = VIG_SDM845_MASK_SDMA,
+>>>    		.sblk = &dpu_vig_sblk_qseed3_1_4,
+>>>    		.xin_id = 4,
+>>>    		.type = SSPP_TYPE_VIG,
+>>> @@ -92,7 +92,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
+>>>    	}, {
+>>>    		.name = "sspp_2", .id = SSPP_VIG2,
+>>>    		.base = 0x8000, .len = 0x1f0,
+>>> -		.features = VIG_SDM845_MASK,
+>>> +		.features = VIG_SDM845_MASK_SDMA,
+>>>    		.sblk = &dpu_vig_sblk_qseed3_1_4,
+>>>    		.xin_id = 8,
+>>>    		.type = SSPP_TYPE_VIG,
+>>> @@ -100,7 +100,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
+>>>    	}, {
+>>>    		.name = "sspp_3", .id = SSPP_VIG3,
+>>>    		.base = 0xa000, .len = 0x1f0,
+>>> -		.features = VIG_SDM845_MASK,
+>>> +		.features = VIG_SDM845_MASK_SDMA,
+>>>    		.sblk = &dpu_vig_sblk_qseed3_1_4,
+>>>    		.xin_id = 12,
+>>>    		.type = SSPP_TYPE_VIG,
+>>> @@ -108,7 +108,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
+>>>    	}, {
+>>>    		.name = "sspp_8", .id = SSPP_DMA0,
+>>>    		.base = 0x24000, .len = 0x1f0,
+>>> -		.features = DMA_SDM845_MASK,
+>>> +		.features = DMA_SDM845_MASK_SDMA,
+>>>    		.sblk = &dpu_dma_sblk,
+>>>    		.xin_id = 1,
+>>>    		.type = SSPP_TYPE_DMA,
+>>> @@ -116,7 +116,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
+>>>    	}, {
+>>>    		.name = "sspp_9", .id = SSPP_DMA1,
+>>>    		.base = 0x26000, .len = 0x1f0,
+>>> -		.features = DMA_SDM845_MASK,
+>>> +		.features = DMA_SDM845_MASK_SDMA,
+>>>    		.sblk = &dpu_dma_sblk,
+>>>    		.xin_id = 5,
+>>>    		.type = SSPP_TYPE_DMA,
+>>> @@ -124,7 +124,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
+>>>    	}, {
+>>>    		.name = "sspp_10", .id = SSPP_DMA2,
+>>>    		.base = 0x28000, .len = 0x1f0,
+>>> -		.features = DMA_CURSOR_SDM845_MASK,
+>>> +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
+>>>    		.sblk = &dpu_dma_sblk,
+>>>    		.xin_id = 9,
+>>>    		.type = SSPP_TYPE_DMA,
+>>> @@ -132,7 +132,7 @@ static const struct dpu_sspp_cfg sm8150_sspp[] = {
+>>>    	}, {
+>>>    		.name = "sspp_11", .id = SSPP_DMA3,
+>>>    		.base = 0x2a000, .len = 0x1f0,
+>>> -		.features = DMA_CURSOR_SDM845_MASK,
+>>> +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
+>>>    		.sblk = &dpu_dma_sblk,
+>>>    		.xin_id = 13,
+>>>    		.type = SSPP_TYPE_DMA,
+>>>
+>>
+> 
 
