@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484EEA9BBCA
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 02:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570D2A9BBCC
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 02:28:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20AEA10E206;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A72410E23E;
 	Fri, 25 Apr 2025 00:28:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N4jjWGIa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e0j1TMee";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 573AE10E1F1;
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C56AB10E206;
  Fri, 25 Apr 2025 00:28:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CC76A5C6515;
- Fri, 25 Apr 2025 00:26:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85C2AC4CEEC;
+ by sea.source.kernel.org (Postfix) with ESMTP id 543344A74D;
+ Fri, 25 Apr 2025 00:28:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94D40C4CEED;
  Fri, 25 Apr 2025 00:28:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1745540907;
- bh=A6du4VoIApzpLPXhp1iUZPIafFQ8enDvkgNuwCFgU0Q=;
+ bh=VlNjobFFO2OnPAUIEbW4a0d2nydURUzYRuMV5k/BDuI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N4jjWGIa3G9Mx0DMKEwurok2Bt6hl94sEpKPgddAo+Et8KNvG+L1THBwhQW91srLE
- O3tIgpiNCsxQfv8dnWTkY2W+gEX3yxtISQ7EZRTGKQdTnr1ieQ+odcODejr3ttWADE
- h3Tf5Cd14rmId1JzMIH6ih7g8QEi3XdHXE/RKoe1f/jsc7NbJFozJFq20epbWtARSZ
- AIx5MkVyfpwpTmWt7PH2XcTLjSxPsJVu7q+3V7FEdSpFm+h6RYGkWCKngBiYYC+J1y
- pZh1J62tWj7cC8GK4+lmvc0hX72shcNi5MOjl8h/du/FwHD5SJKJooz5tPT2j8Ivwn
- 3t++cL2o60SwA==
+ b=e0j1TMeeWVtP3aoH+eKwJ5nQddqE5wpvJgY6YqezDj47pbOfCgjUV81PMH6bePQa0
+ Ic5wR2DN5bQxbRagNHbOetQTg27mLcK0V1lcI1WU4mRCb4IHGYHC/3O2hr0Z3V5iaq
+ t2hN0qnyZ/9nrAO5Px8U2DM+pfUlReBZB3wk7Jb5TMvlooNm8rt1Ie7SvEHCEt50qk
+ 9pd9eQHaYoBdt8Em0YGo6+zcvLyfDaTamWVo5NbCsRR3VUNOMR5RWdWuYzg/xSPCZ9
+ Vn7PyYW2u4pXgASUomZ9N1FupuuTjBob4Zsa2SUet2mZ9PtTnrJCuGnw3ir3KlDyy3
+ B3ayykyN8ZICg==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
- id 2C3DBCE19C3; Thu, 24 Apr 2025 17:28:27 -0700 (PDT)
+ id 2F355CE19CD; Thu, 24 Apr 2025 17:28:27 -0700 (PDT)
 From: "Paul E. McKenney" <paulmck@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: kernel-team@meta.com, Andrew Morton <akpm@linux-foundation.org>,
@@ -41,21 +41,22 @@ Cc: kernel-team@meta.com, Andrew Morton <akpm@linux-foundation.org>,
  Sergey Senozhatsky <senozhatsky@chromium.org>,
  Jon Pan-Doh <pandoh@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
  Karolina Stolarek <karolina.stolarek@oracle.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ "Paul E. McKenney" <paulmck@kernel.org>, kernel test robot <lkp@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Kenneth Feng <kenneth.feng@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 04/20] drm/i915: Avoid open-coded use of ratelimit_state
- structure's ->missed field
-Date: Thu, 24 Apr 2025 17:28:10 -0700
-Message-Id: <20250425002826.3431914-4-paulmck@kernel.org>
+Subject: [PATCH v3 05/20] drm/amd/pm: Avoid open-coded use of ratelimit_state
+ structure's internals
+Date: Thu, 24 Apr 2025 17:28:11 -0700
+Message-Id: <20250425002826.3431914-5-paulmck@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <72ee57b8-9e2a-4cad-aaa0-1e3353d146d8@paulmck-laptop>
 References: <72ee57b8-9e2a-4cad-aaa0-1e3353d146d8@paulmck-laptop>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,54 +73,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The i915_oa_stream_destroy() function directly accesses the
-ratelimit_state structure's ->missed field, which work, but which also
-makes it more difficult to change this field.  Therefore, make use of
-the ratelimit_state_get_miss() function instead of directly accessing
-the ->missed field.
+The amdgpu_set_thermal_throttling_logging() function directly accesses
+the ratelimit_state structure's ->missed field, which work, but which
+also makes it more difficult to change this field.  Therefore, make
+use of the ratelimit_state_reset_miss() function instead of directly
+accessing the ->missed field.
+
+Nevertheless, open-coded use of ->burst and ->interval is still permitted,
+for example, for runtime sysfs adjustment of these fields.
 
 Link: https://lore.kernel.org/all/fbe93a52-365e-47fe-93a4-44a44547d601@paulmck-laptop/
 Link: https://lore.kernel.org/all/20250423115409.3425-1-spasswolf@web.de/
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202503180826.EiekA1MB-lkp@intel.com/
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Reviewed-by: Petr Mladek <pmladek@suse.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Kenneth Feng <kenneth.feng@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Xinhui Pan <Xinhui.Pan@amd.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Simona Vetter <simona@ffwll.ch>
-Cc: <intel-gfx@lists.freedesktop.org>
+Cc: <amd-gfx@lists.freedesktop.org>
 Cc: <dri-devel@lists.freedesktop.org>
 ---
- drivers/gpu/drm/i915/i915_perf.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index de0b413600a15..1658f1246c6fa 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -1666,6 +1666,7 @@ static void i915_oa_stream_destroy(struct i915_perf_stream *stream)
- 	struct i915_perf *perf = stream->perf;
- 	struct intel_gt *gt = stream->engine->gt;
- 	struct i915_perf_group *g = stream->engine->oa_group;
-+	int m;
+diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+index 922def51685b0..d533c79f7e215 100644
+--- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
++++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+@@ -1606,7 +1606,6 @@ static ssize_t amdgpu_set_thermal_throttling_logging(struct device *dev,
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 	long throttling_logging_interval;
+-	unsigned long flags;
+ 	int ret = 0;
  
- 	if (WARN_ON(stream != g->exclusive_stream))
- 		return;
-@@ -1690,10 +1691,9 @@ static void i915_oa_stream_destroy(struct i915_perf_stream *stream)
- 	free_oa_configs(stream);
- 	free_noa_wait(stream);
+ 	ret = kstrtol(buf, 0, &throttling_logging_interval);
+@@ -1617,18 +1616,12 @@ static ssize_t amdgpu_set_thermal_throttling_logging(struct device *dev,
+ 		return -EINVAL;
  
--	if (perf->spurious_report_rs.missed) {
--		gt_notice(gt, "%d spurious OA report notices suppressed due to ratelimiting\n",
--			  perf->spurious_report_rs.missed);
--	}
-+	m = ratelimit_state_get_miss(&perf->spurious_report_rs);
-+	if (m)
-+		gt_notice(gt, "%d spurious OA report notices suppressed due to ratelimiting\n", m);
- }
- 
- static void gen7_init_oa_buffer(struct i915_perf_stream *stream)
+ 	if (throttling_logging_interval > 0) {
+-		raw_spin_lock_irqsave(&adev->throttling_logging_rs.lock, flags);
+ 		/*
+ 		 * Reset the ratelimit timer internals.
+ 		 * This can effectively restart the timer.
+ 		 */
+-		adev->throttling_logging_rs.interval =
+-			(throttling_logging_interval - 1) * HZ;
+-		adev->throttling_logging_rs.begin = 0;
+-		adev->throttling_logging_rs.printed = 0;
+-		adev->throttling_logging_rs.missed = 0;
+-		raw_spin_unlock_irqrestore(&adev->throttling_logging_rs.lock, flags);
+-
++		ratelimit_state_reset_interval(&adev->throttling_logging_rs,
++					       (throttling_logging_interval - 1) * HZ);
+ 		atomic_set(&adev->throttling_logging_enabled, 1);
+ 	} else {
+ 		atomic_set(&adev->throttling_logging_enabled, 0);
 -- 
 2.40.1
 
