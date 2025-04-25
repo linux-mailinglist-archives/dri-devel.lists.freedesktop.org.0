@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F378A9C682
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 13:02:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299ECA9C684
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 13:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D7910E93E;
-	Fri, 25 Apr 2025 11:01:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C82310E948;
+	Fri, 25 Apr 2025 11:02:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Sb5sk5Uf";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hu1v1AAF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 557AD10E93E
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 11:01:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58FAF10E948
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 11:01:54 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9D0B4D77;
- Fri, 25 Apr 2025 13:01:48 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 88CD3EE4;
+ Fri, 25 Apr 2025 13:01:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1745578909;
- bh=rnb9O5ga+vC0Au9mvXeMxO85sgNKSlUDQVe/FRuj+pw=;
+ s=mail; t=1745578910;
+ bh=oWB+k3YdN2oGtIP+eNrRjj58cvMvE9xAoBG8JrtVz78=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Sb5sk5UfxD8qmpaDvvbR8Zj2LskR6jJ/A81uOBgRMzGIOWA11mW0zyk7ktESrTQOf
- AFoypnmTrZ+D4mlLzkr3M8YZ7IbtSCSLlZknCd+OfHGoURCBD+setx5nR+jgJfd5Ij
- WIGOVnyh7Z81JUk8SFSEHIHnq1eUsU1n3B4r+nmI=
+ b=hu1v1AAFBQMoIzLemdfDc3aRjzIZbO9lK/UIuuflMtpMnhHIUzrqaleFxg3oA0Y8W
+ +3fTzADH5mVjLVsHuTLZW/ZSR8q8esUjt99YCTBiQdSLUXC98qRO65g/8Ao0zmOOXp
+ A874qRwEX47rRlDa+ipm6oIN4sIfvSjYeUysS1LQ=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 25 Apr 2025 14:01:21 +0300
-Subject: [PATCH v5 01/11] drm/fourcc: Add warning for bad bpp
+Date: Fri, 25 Apr 2025 14:01:22 +0300
+Subject: [PATCH v5 02/11] drm/fourcc: Add DRM_FORMAT_XV15/XV20
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250425-xilinx-formats-v5-1-c74263231630@ideasonboard.com>
+Message-Id: <20250425-xilinx-formats-v5-2-c74263231630@ideasonboard.com>
 References: <20250425-xilinx-formats-v5-0-c74263231630@ideasonboard.com>
 In-Reply-To: <20250425-xilinx-formats-v5-0-c74263231630@ideasonboard.com>
 To: Vishal Sagar <vishal.sagar@amd.com>, 
@@ -48,23 +48,24 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Geert Uytterhoeven <geert@linux-m68k.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
  Pekka Paalanen <ppaalanen@gmail.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1747;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2201;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=rnb9O5ga+vC0Au9mvXeMxO85sgNKSlUDQVe/FRuj+pw=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBoC2uZ0gF4l87mnADMNdl5nDKdXbrZmaM0UJsBZ
- nn/PG/33qyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaAtrmQAKCRD6PaqMvJYe
- 9Sy4EACfOqlwgpKfB2i0IryEotLvaFuW3Vsa/n6owJ+Cy6FdOSjkBe/UzlkXbYeydjXKMtC4rns
- /GtNGv24JPp0U0y+H0mrClDhJ1JzoMIgePNzYS4DTMhTF6sivKSaBJ9KzFKZfqsjk/wT5vcaLpj
- GTNqt5x9Cx/cJ6aEgjTkRrsZkH26o6TKWsz0hQ7DkyTds+saH55Jogs0cTFeIl7VkOFjnkXHaLf
- o/nwxNfhBhElZLDADT85Y/qqd5FrtKpn5WktN2hBm6EeLWVT8DQtWN16BYv3+vMJK7hvEBKTWT6
- fDlNLCSn9Tqw+42pzzs9pxtrIaCUBSNpnS3shDLBYBl4YlnXqdfn5vQ0z40in6P8EIrwpPqxVk/
- LcV4RGhL3K8sUL6i2VHsy8KpCNUSyHXvU+i6YxpW1or7qJ/Bqa4v87/pIlbi6uTC86vh/m0m/gf
- j6bcSZSLMcDoWJO4uDbH9xOyePLqSIw80cEDzTdkR3t3uE4B2qDFaepxOnwNOjGs7hBF1zxL9n9
- ALqL5zO55qJhhWjCH1UqKXjCgAOJAQD5s5zdqlJyF5NgLTU7cVF4AfqDbxjpLv5YHnggFnER1JH
- gMuYwFeU/PqpnFEQknFuhN9cL/wQ4ZDV3H5BT0E4yLEaOkXSeyAHyhHtUnW+BwMsUxYK2cCXLL2
- fCkagyUYKiKH2OA==
+ bh=oWB+k3YdN2oGtIP+eNrRjj58cvMvE9xAoBG8JrtVz78=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBoC2uanCWWVL7wd5T9RWP070XzWhAE4usJENsQW
+ yGHlDEqRdqJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaAtrmgAKCRD6PaqMvJYe
+ 9bxhEACeXgFP/xyYSgrm+03Z3utF9MuJsIZkv5seiN0mA7+VeYSDx1Cs+6hFFjnKTYpvr1M4eIA
+ LNLCMijWiBsKuN+/KGGcu0Kxt70dSnoqmDEVar+PmkfAOagwfmRMjj/fFbH4Fb/1zhptCFXm0r1
+ Bo+HA/adtkJhJmO1KuxZM3WQ3/YYWtHq6rM4V6iHt06O9KfSHG3lyHkgHsAFHUZoTyJiO60UKpF
+ 9H3ClbNZlEGVQvMvkWzWgZPSHdV+dIPRuJlu++uls2MKUXX7W5KW7tekqrKjL5H49/xaQtnCeYM
+ P2zZyeF5iIYr3H2bB4qI5VLdb1JZR0h9cL0vdGDckJlOmiB3AvN8NwJ4YxXFyNtmMWFILmEHI+R
+ USMocSWmA7E2zbqIj+JDFkVWmlwu/nFBEvv3djXMdJ9y8dT/WVCrEqXdKSPJdyqLlt6gx9R7/IO
+ GIZg4mwKWORW76xi5UNHpShgE1/eIVLrjC5mUWEv4XzQeT6a3tejdmT4ELEHhDFu68rHnhkAIQt
+ sO9z5JA20HSLBsjRG6tstSCbFzlGCm3aiaHq9ITpajH2+nPqe3VHcnIEkGvoLvjk6uOrAm4AREp
+ kQTkjoc+9LGayDdmpcpnflOQgDWXDIJHKfzqlGUyjpmkQO5OkmGXJIZMwBJLE+cz9JfFd998OLN
+ SDm2FMORZnn6tug==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,52 +83,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_format_info_bpp() cannot be used for formats which do not have an
-integer bits-per-pixel in a pixel block.
+Add two new pixel formats:
 
-E.g. DRM_FORMAT_XV15's (not yet in upstream) plane 0 has three 10-bit
-pixels (Y components), and two padding bits, in a 4 byte block. That is
-10.666... bits per pixel when considering the whole 4 byte block, which
-is what drm_format_info_bpp() does. Thus a driver that supports such
-formats cannot use drm_format_info_bpp(),
+DRM_FORMAT_XV15 ("XV15")
+DRM_FORMAT_XV20 ("XV20")
 
-It is a driver bug if this happens, but so handle wrong calls by
-printing a warning and returning 0.
+The formats are 2 plane 10 bit per component YCbCr, with the XV15 2x2
+subsampled whereas XV20 is 2x1 subsampled.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/drm_fourcc.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_fourcc.c  | 6 ++++++
+ include/uapi/drm/drm_fourcc.h | 8 ++++++++
+ 2 files changed, 14 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-index 3a94ca211f9c..2f5781f5dcda 100644
+index 2f5781f5dcda..e101d1b99aeb 100644
 --- a/drivers/gpu/drm/drm_fourcc.c
 +++ b/drivers/gpu/drm/drm_fourcc.c
-@@ -454,12 +454,20 @@ EXPORT_SYMBOL(drm_format_info_block_height);
-  */
- unsigned int drm_format_info_bpp(const struct drm_format_info *info, int plane)
- {
-+	unsigned int block_size;
-+
- 	if (!info || plane < 0 || plane >= info->num_planes)
- 		return 0;
+@@ -346,6 +346,12 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 		{ .format = DRM_FORMAT_P030,            .depth = 0,  .num_planes = 2,
+ 		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
+ 		  .hsub = 2, .vsub = 2, .is_yuv = true},
++		{ .format = DRM_FORMAT_XV15,		.depth = 0,  .num_planes = 2,
++		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
++		  .hsub = 2, .vsub = 2, .is_yuv = true },
++		{ .format = DRM_FORMAT_XV20,		.depth = 0,  .num_planes = 2,
++		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
++		  .hsub = 2, .vsub = 1, .is_yuv = true },
+ 	};
  
--	return info->char_per_block[plane] * 8 /
--	       (drm_format_info_block_width(info, plane) *
--		drm_format_info_block_height(info, plane));
-+	block_size = drm_format_info_block_width(info, plane) *
-+		     drm_format_info_block_height(info, plane);
-+
-+	if (info->char_per_block[plane] * 8 % block_size) {
-+		pr_warn("unable to return an integer bpp\n");
-+		return 0;
-+	}
-+
-+	return info->char_per_block[plane] * 8 / block_size;
- }
- EXPORT_SYMBOL(drm_format_info_bpp);
+ 	unsigned int i;
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 81202a50dc9e..1247b814bd66 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -304,6 +304,14 @@ extern "C" {
+ #define DRM_FORMAT_RGB565_A8	fourcc_code('R', '5', 'A', '8')
+ #define DRM_FORMAT_BGR565_A8	fourcc_code('B', '5', 'A', '8')
  
++/*
++ * 2 plane 10 bit per component YCrCb
++ * index 0 = Y plane, [31:0] x:Y2:Y1:Y0 2:10:10:10 little endian
++ * index 1 = Cb:Cr plane, [63:0] x:Cr2:Cb2:Cr1:x:Cb1:Cr0:Cb0 2:10:10:10:2:10:10:10 little endian
++ */
++#define DRM_FORMAT_XV15		fourcc_code('X', 'V', '1', '5') /* 2x2 subsampled Cr:Cb plane 2:10:10:10 */
++#define DRM_FORMAT_XV20		fourcc_code('X', 'V', '2', '0') /* 2x1 subsampled Cr:Cb plane 2:10:10:10 */
++
+ /*
+  * 2 plane YCbCr
+  * index 0 = Y plane, [7:0] Y
 
 -- 
 2.43.0
