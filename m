@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46A0A9CAF2
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 15:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDC4A9CAFF
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 16:01:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F34B10E2D5;
-	Fri, 25 Apr 2025 13:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B3A610E2AE;
+	Fri, 25 Apr 2025 14:01:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="TDP8TXou";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X9RP/828";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 512 seconds by postgrey-1.36 at gabe;
- Fri, 25 Apr 2025 13:58:59 UTC
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E24110E136;
- Fri, 25 Apr 2025 13:58:59 +0000 (UTC)
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4ZkZ3f06PTzDqKZ;
- Fri, 25 Apr 2025 13:50:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1745589022; bh=7CqMt7D2Ad0OtcbJ1KHWSMCb8AnEr8Q/w8mxHLM8Iq0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TDP8TXouRJvmjkbDW0zM2MYo8wbQeIbhhopfc2AquK3PaIlEalj7HWSGq05WDh4zw
- wOTyPwVxb0MOltnpnrNUOntEYq9oi1sUKAMBiT4PxdeYHgPEF/Lmibw34uqkIpAP9x
- 4smaVArG5jbXPL7o3rp5xcKjifTqEsF75sVisS2U=
-X-Riseup-User-ID: CFB9761A7B9478EF00DD78B6ADCE1D1E1118B035738A5D013E1345A46ECCA270
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4ZkZ3V09HPzJstx;
- Fri, 25 Apr 2025 13:50:13 +0000 (UTC)
-Message-ID: <e03200db-3e24-49e6-87d4-a9253401c494@riseup.net>
-Date: Fri, 25 Apr 2025 10:50:07 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9542110E136;
+ Fri, 25 Apr 2025 14:01:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745589687; x=1777125687;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qJwvzDI/Ecr+K4pKDMV7GxiLNnGXwiyiJLLgrVXjl/8=;
+ b=X9RP/8282XKWEqwwQ1seF/oIzTn+wRvohejTweFsHQ+eZ90khzlbjrJl
+ WLG4uSCKKd508IwlNp2WjmRXLMrgzVfVjIIrY2SSQgrqxbIunGb5UC28c
+ +z4A/X0i65REBlkHNh4YpBskBcu7MzjG57CygfsHCnMz6bmlR1A0tlPrY
+ nyPME3MiXfYoaOVABkkqLlDilbzylpxp+/9QyBlS9dy2dCb1fuP/FJyK4
+ 9lpoNzbcRuzglZyAjPmsdAf3S9iOlti9OaMw7D7AbMLBPdiPfFyjK1UW6
+ kM9W6FwNXo6agYKyRHdCLYKTEUMfudqzHQWs7Xpq970OdO8A1y+biBju6 A==;
+X-CSE-ConnectionGUID: y8UPV2vtTt6yatsg3UUqoQ==
+X-CSE-MsgGUID: WVfdjEy2RUKiTDj6rFBoAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="58618395"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="58618395"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 07:01:23 -0700
+X-CSE-ConnectionGUID: WPIN99XYTSOGUq13aNBqYg==
+X-CSE-MsgGUID: w3oFJ/h1SNKujDE+bMVYbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="136970958"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+ by fmviesa003.fm.intel.com with ESMTP; 25 Apr 2025 07:01:22 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1u8JcG-0005G1-0m;
+ Fri, 25 Apr 2025 14:01:20 +0000
+Date: Fri, 25 Apr 2025 22:00:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-xe@lists.freedesktop.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH v3 6/7] drm/xe/userptr: replace xe_hmm with gpusvm
+Message-ID: <202504252124.jQDkibSg-lkp@intel.com>
+References: <20250424121827.862729-15-matthew.auld@intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH V8 40/43] drm/colorop: Add 3D LUT support to color pipeline
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
- leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- louis.chauvet@bootlin.com
-References: <20250326234748.2982010-1-alex.hung@amd.com>
- <20250326234748.2982010-41-alex.hung@amd.com>
-Content-Language: en-US
-From: Leandro Ribeiro <leandrohr@riseup.net>
-In-Reply-To: <20250326234748.2982010-41-alex.hung@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424121827.862729-15-matthew.auld@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,315 +74,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Matthew,
 
+kernel test robot noticed the following build warnings:
 
-On 3/26/25 20:47, Alex Hung wrote:
-> It is to be used to enable HDR by allowing userpace to create and pass
-> 3D LUTs to kernel and hardware.
-> 
-> new drm_colorop_type: DRM_COLOROP_3D_LUT.
-> 
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
-> ---
-> v8:
->  - Fix typo in subject (Simon Ser)
->  - Update documentation for DRM_COLOROP_3D_LUT (Simon Ser)
->  - Delete empty lines (Simon Ser)
-> 
-> v7:
->  - Simplify 3D LUT by removing lut_3d_modes and related functions (Simon Ser)
-> 
->  drivers/gpu/drm/drm_atomic.c      |  6 +++
->  drivers/gpu/drm/drm_atomic_uapi.c |  6 +++
->  drivers/gpu/drm/drm_colorop.c     | 72 +++++++++++++++++++++++++++++++
->  include/drm/drm_colorop.h         | 21 +++++++++
->  include/uapi/drm/drm_mode.h       | 33 ++++++++++++++
->  5 files changed, 138 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 0efb0ead204a..ef47a06344f3 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -806,6 +806,12 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
->  	case DRM_COLOROP_MULTIPLIER:
->  		drm_printf(p, "\tmultiplier=%llu\n", state->multiplier);
->  		break;
-> +	case DRM_COLOROP_3D_LUT:
-> +		drm_printf(p, "\tsize=%d\n", colorop->lut_size);
-> +		drm_printf(p, "\tinterpolation=%s\n",
-> +			   drm_get_colorop_lut3d_interpolation_name(colorop->lut3d_interpolation));
-> +		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
-> +		break;
->  	default:
->  		break;
->  	}
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index 947c18e8bf9b..d5d464b4d0f6 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -719,6 +719,10 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
->  	case DRM_COLOROP_CTM_3X4:
->  		size = sizeof(struct drm_color_ctm_3x4);
->  		break;
-> +	case DRM_COLOROP_3D_LUT:
-> +		size = colorop->lut_size * colorop->lut_size * colorop->lut_size *
-> +		       sizeof(struct drm_color_lut);
-> +		break;
->  	default:
->  		/* should never get here */
->  		return -EINVAL;
-> @@ -771,6 +775,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *colorop,
->  		*val = state->multiplier;
->  	} else if (property == colorop->lut_size_property) {
->  		*val = colorop->lut_size;
-> +	} else if (property == colorop->lut3d_interpolation_property) {
-> +		*val = colorop->lut3d_interpolation;
->  	} else if (property == colorop->data_property) {
->  		*val = (state->data) ? state->data->base.id : 0;
->  	} else {
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index e03706e7179b..224c6be237d2 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -67,6 +67,7 @@ static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
->  	{ DRM_COLOROP_1D_LUT, "1D LUT" },
->  	{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
->  	{ DRM_COLOROP_MULTIPLIER, "Multiplier"},
-> +	{ DRM_COLOROP_3D_LUT, "3D LUT"},
->  };
->  
->  static const char * const colorop_curve_1d_type_names[] = {
-> @@ -82,6 +83,11 @@ static const struct drm_prop_enum_list drm_colorop_lut1d_interpolation_list[] =
->  	{ DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR, "Linear" },
->  };
->  
-> +
-> +static const struct drm_prop_enum_list drm_colorop_lut3d_interpolation_list[] = {
-> +	{ DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL, "Tetrahedral" },
-> +};
-> +
->  /* Init Helpers */
->  
->  static int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
-> @@ -349,6 +355,51 @@ int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
->  }
->  EXPORT_SYMBOL(drm_colorop_mult_init);
->  
-> +int drm_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +			   struct drm_plane *plane,
-> +			   uint32_t lut_size,
-> +			   enum drm_colorop_lut3d_interpolation_type interpolation,
-> +			   bool allow_bypass)
-> +{
-> +	struct drm_property *prop;
-> +	int ret;
-> +
-> +	ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_3D_LUT, allow_bypass);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* LUT size */
-> +	prop = drm_property_create_range(dev, DRM_MODE_PROP_IMMUTABLE  | DRM_MODE_PROP_ATOMIC,
-> +					 "SIZE", 0, UINT_MAX);
-> +	if (!prop)
-> +		return -ENOMEM;
-> +
-> +	colorop->lut_size_property = prop;
-> +	drm_object_attach_property(&colorop->base, colorop->lut_size_property, lut_size);
-> +	colorop->lut_size = lut_size;
-> +
-> +	/* interpolation */
-> +	prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE, "LUT3D_INTERPOLATION",
-> +					drm_colorop_lut3d_interpolation_list,
-> +					ARRAY_SIZE(drm_colorop_lut3d_interpolation_list));
-> +	if (!prop)
-> +		return -ENOMEM;
-> +
-> +	colorop->lut3d_interpolation_property = prop;
-> +	drm_object_attach_property(&colorop->base, prop, interpolation);
-> +	colorop->lut3d_interpolation = interpolation;
-> +
-> +	/* data */
-> +	ret = drm_colorop_create_data_prop(dev, colorop);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_colorop_reset(colorop);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_colorop_3dlut_init);
-> +
->  static void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
->  							struct drm_colorop_state *state)
->  {
-> @@ -441,7 +492,13 @@ static const char * const colorop_type_name[] = {
->  	[DRM_COLOROP_1D_LUT] = "1D LUT",
->  	[DRM_COLOROP_CTM_3X4] = "3x4 Matrix",
->  	[DRM_COLOROP_MULTIPLIER] = "Multiplier",
-> +	[DRM_COLOROP_3D_LUT] = "3D LUT",
->  };
-> +
-> +static const char * const colorop_lu3d_interpolation_name[] = {
-> +	[DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL] = "Tetrahedral",
-> +};
-> +
->  static const char * const colorop_lut1d_interpolation_name[] = {
->  	[DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR] = "Linear",
->  };
-> @@ -477,6 +534,21 @@ const char *drm_get_colorop_lut1d_interpolation_name(enum drm_colorop_lut1d_inte
->  	return colorop_lut1d_interpolation_name[type];
->  }
->  
-> +/**
-> + * drm_get_colorop_lut3d_interpolation_name - return a string for interpolation type
-> + * @type: interpolation type to compute name of
-> + *
-> + * In contrast to the other drm_get_*_name functions this one here returns a
-> + * const pointer and hence is threadsafe.
-> + */
-> +const char *drm_get_colorop_lut3d_interpolation_name(enum drm_colorop_lut3d_interpolation_type type)
-> +{
-> +	if (WARN_ON(type >= ARRAY_SIZE(colorop_lu3d_interpolation_name)))
-> +		return "unknown";
-> +
-> +	return colorop_lu3d_interpolation_name[type];
-> +}
-> +
->  /**
->   * drm_colorop_set_next_property - sets the next pointer
->   * @colorop: drm colorop
-> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-> index c89d5eb44856..e999d5ceb8a5 100644
-> --- a/include/drm/drm_colorop.h
-> +++ b/include/drm/drm_colorop.h
-> @@ -281,6 +281,14 @@ struct drm_colorop {
->  	 */
->  	enum drm_colorop_lut1d_interpolation_type lut1d_interpolation;
->  
-> +	/**
-> +	 * @lut3d_interpolation:
-> +	 *
-> +	 * Read-only
-> +	 * Interpolation for DRM_COLOROP_3D_LUT
-> +	 */
-> +	enum drm_colorop_lut3d_interpolation_type lut3d_interpolation;
-> +
->  	/**
->  	 * @lut1d_interpolation_property:
->  	 *
-> @@ -309,6 +317,13 @@ struct drm_colorop {
->  	 */
->  	struct drm_property *lut_size_property;
->  
-> +	/**
-> +	 * @lut3d_interpolation_property:
-> +	 *
-> +	 * Read-only property for DRM_COLOROP_3D_LUT interpolation
-> +	 */
-> +	struct drm_property *lut3d_interpolation_property;
-> +
->  	/**
->  	 * @data_property:
->  	 *
-> @@ -362,6 +377,11 @@ int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop
->  			     struct drm_plane *plane, bool allow_bypass);
->  int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
->  			      struct drm_plane *plane, bool allow_bypass);
-> +int drm_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +			   struct drm_plane *plane,
-> +			   uint32_t lut_size,
-> +			   enum drm_colorop_lut3d_interpolation_type interpolation,
-> +			   bool allow_bypass);
->  
->  struct drm_colorop_state *
->  drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
-> @@ -412,6 +432,7 @@ const char *drm_get_colorop_type_name(enum drm_colorop_type type);
->   */
->  const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d_type type);
->  const char *drm_get_colorop_lut1d_interpolation_name(enum drm_colorop_lut1d_interpolation_type type);
-> +const char *drm_get_colorop_lut3d_interpolation_name(enum drm_colorop_lut3d_interpolation_type type);
->  
->  void drm_colorop_set_next_property(struct drm_colorop *colorop, struct drm_colorop *next);
->  
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index d76c8ffe5408..88fafbdeb2a2 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -930,6 +930,39 @@ enum drm_colorop_type {
->  	 * property.
->  	 */
->  	DRM_COLOROP_MULTIPLIER,
-> +
-> +	/**
-> +	 * @DRM_COLOROP_3D_LUT:
-> +	 *
-> +	 * enum string "3D LUT"
-> +	 *
-> +	 * A 3D LUT of &drm_color_lut entries,
-> +	 * packed into a blob via the DATA property. The driver's expected
-> +	 * LUT size is advertised via the SIZE property, i.e., a 3D LUT with
-> +	 * 17x17x17 entries will have SIZE set to 17.
-> +	 *
-> +	 * The DATA blob is a 3D array of struct drm_color_lut with dimension
-> +	 * length of "lut_size".
-> +	 * The LUT elements are traversed like so:
-> +	 *
-> +	 *   for R in range 0..n
-> +	 *     for G in range 0..n
-> +	 *       for B in range 0..n
-> +	 *         color = lut3d[R][G][B]
-> +	 */
-> +	DRM_COLOROP_3D_LUT,
-> +};
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on next-20250424]
+[cannot apply to drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.15-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Hi,
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Auld/drm-gpusvm-fix-hmm_pfn_to_map_order-usage/20250424-202128
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250424121827.862729-15-matthew.auld%40intel.com
+patch subject: [PATCH v3 6/7] drm/xe/userptr: replace xe_hmm with gpusvm
+config: alpha-kismet-CONFIG_DRM_GPUSVM-CONFIG_DRM_XE-0-0 (https://download.01.org/0day-ci/archive/20250425/202504252124.jQDkibSg-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250425/202504252124.jQDkibSg-lkp@intel.com/reproduce)
 
-I'm experimenting with V7 of the this API on Weston, using the AMD driver,
-and I'm seeing issues with the usage of 3D LUT's: channels R and B being
-swapped.
-On Weston, the 3D LUT is constructed as:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504252124.jQDkibSg-lkp@intel.com/
 
-for B in range 0..n
-    for G in range 0..n
-       for R in range 0..n
-           index = R + n * (G + n * B)
-           lut[index].red   = foo
-           lut[index].green = foo
-           lut[index].blue  = foo
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_GPUSVM when selected by DRM_XE
+   WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
+     Depends on [n]: GPIOLIB [=n] || NEW_LEDS [=y] && GPIOLIB [=n]
+     Selected by [y]:
+     - BACKLIGHT_KTD2801 [=y] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+   
+   WARNING: unmet direct dependencies detected for DRM_GPUSVM
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DEVICE_PRIVATE [=n]
+     Selected by [m]:
+     - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && MMU [=y] && (m [=m] && MODULES [=y] || KUNIT [=n]=y [=y])
 
-To map that to DRM_COLOROP_3D_LUT, we do:
-
-for B in range 0..n
-    for G in range 0..n
-       for R in range 0..n
-           index_weston = R + n * (G + n * B)
-           index_kernel = B + n * (G + n * R)
-           lut_kernel[index_kernel].red   = lut[index_weston].red
-           lut_kernel[index_kernel].green = lut[index_weston].green
-           lut_kernel[index_kernel].blue  = lut[index_weston].blue
-
-If I ignore the documentation and use the same indices, everything works
-fine regarding the color channels.
-
-Maybe there's a bug in our Weston code, but writing this just to confirm
-that the documentation and the AMD driver are matching.
-
-Thanks,
-Leandro
-
-> +
-> +/**
-> + * enum drm_colorop_lut3d_interpolation_type - type of 3DLUT interpolation
-> + */
-> +enum drm_colorop_lut3d_interpolation_type {
-> +	/**
-> +	 * @DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL:
-> +	 *
-> +	 * Tetrahedral 3DLUT interpolation
-> +	 */
-> +	DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
->  };
->  
->  /**
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
