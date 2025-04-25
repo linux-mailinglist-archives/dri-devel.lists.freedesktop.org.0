@@ -2,142 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B94A9C479
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 11:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8FBCA9C4D0
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 12:11:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6223A10E8FD;
-	Fri, 25 Apr 2025 09:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 492C110E900;
+	Fri, 25 Apr 2025 10:11:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bo60nUk9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Gm18137b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D98F410E8FD
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 09:58:01 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53P8T86I015714
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 09:58:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Vf/rLd4GFcJ3rfHcTZhJzseE/NW/DuE267IkH38ND9w=; b=bo60nUk9AriZpXIr
- 8ljFtmcUnt1uRxZYBxGkQQlsIai1k8jsLguG+AwgraCpok0IcazIBJZjpNR0oJnG
- KvgS0pzEuAGog/4KSHfuQpdLZcO10pZC9b/uUF/Al2RV0NjruLsFzxsnbmG7Pxeu
- 3PcJWrNtdoY+T5Oxq+sgEku3XYUqyme3hcVfzq+y469VFQI52PgGyM61PPtWmBkn
- WbIslN6eW1R5FoyNVOSuB1C5h3wS6fo1bXCfzeIlEE12BfWDz+t4D3cRvFV4mLTg
- 1ijoB2emkUJJsQ+MaXJjDtnawqSHOjCg55JBOV420CiR2xDzhZitC5GczT/tgQcm
- 5ga5zw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh3gjgw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 09:58:01 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6e8f9c5af3dso3380976d6.1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 02:58:01 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9E610E900
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 10:11:22 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-6ff0c9d1761so21680687b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 03:11:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1745575881; x=1746180681; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=M6prVsylQnKDMIBjZXP4uOELttil8ar/HvFRq0ET36k=;
+ b=Gm18137bi96pbaO6pi9F9UoE8JH66o9THD/ojzuVWqM7qTAYdWhBxNIfq0z7gwuEnA
+ Xy6ATwDEIOtLyjwBkRq3bcztM1n+a3pv9abnksIADSoPkTXfvMT6ooGZ45QPHaO9ihSU
+ cGpr/YzwMG5fkq9lCVrzeOe8+Ru+iiultSGl0pgq+c5EtLc3V3utIFpyekoMcovdQFTq
+ RY5kNrrD71eKaZZ3cJopXTN5tZFPCx+ICk3fm52Jm68jt79kOZafiQyqE6ntl7Oh2FUs
+ tcuRi12x9g88wbtwaRuO35Tls2r9C96iebQf2ewZvC8Oclf/FGBIIDwice4tGHzjzPfU
+ Ip5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745575080; x=1746179880;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vf/rLd4GFcJ3rfHcTZhJzseE/NW/DuE267IkH38ND9w=;
- b=bq8paQird/IEN+WeQ5PEP553Z22CY406Pn4jhucovwac9T9Q8bdTh8nDxpr4AMgRNF
- Re+NKitDpFU1wuNKanGJNxCL6NPC3bmFC+8mzb7wkJG0NDmIl3YluooWCv5Fg7PdqJEN
- cJsTE+vMv9I1imWx4WEFaxt/nkzbBk2HsOm4biGkrpV02Lin1CzvYg5DtGaW6tG7qX4V
- JR5Sz20F1NMMVwBTfh+ybme+L7jjujMe5Oi+enjrHgwGu/Sbd2vVvy8mDnzvdf5HoJnk
- 71wEfuH3dqiR6WpFyUCskAtFjOkoZ6/m4lYzOWBMPFkPBbAAm2l94GTWjZ67fZnRWVlw
- Sk8A==
+ d=1e100.net; s=20230601; t=1745575881; x=1746180681;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=M6prVsylQnKDMIBjZXP4uOELttil8ar/HvFRq0ET36k=;
+ b=URSzor/yH1sB9z4ca22SW/tRmO6BFnf7Amx+cpkGwJ/5y4ybg2T+kW2/adR74Oq0Hq
+ 2HhalZfKKLP9GReDPX2MZM4wdX6TowLDDsdn6rNMlR6zDc7Y6G10Uf1MmDL+TRhjJlM9
+ So3pKTmjLcOX+Dmwx6iVRYmMY/ZebbUzWtyqAEEo6Ee1CtM38D2NtToZLc+RgVjPQokO
+ l+xLnFd/EdNRPU7kwtGzvES7GuYe7X6PB9zfqxA4YnivNhZiQFcS25Ezsn39+7s4SMtS
+ 9GzFYFNFlI55xjybB22mN91obqFUTobEN6TFB3UeZNfZj3jFWQDwrVTGGx/A+eunaph0
+ 426w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUG1tT6ZMNoJjQ7WftN9f4OZJeHseIA+dWSkId6RiXB9F/2YrAbd2rEtd9ZTdPr5VyZ762KH4lQCEA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsuUhHz2UbodEEl9kjC+NcdyL5lYaDVjja9j4MCo03Je/EvnM6
- R30h0tXIwordUNoX7WEbcu3C2xCHUvl405PG+DW1a3/czcl0nfT05IZsg5V/gMQtcY+I9nfdYd2
- NrSgydCX4ltGEFJpycL2yzbSl2V+Xl6SYRbRLaRe+lP7ELSYdF5cnEnIMAaCw5VjQHG0=
-X-Gm-Gg: ASbGncsX5IWw3N6mRvc+fMpQkq8FEoY5yqtRhP09q1ugdX2mhKXef2TXuPhJRWK6VAq
- G7PvJhhXdy3Uc0b6HAmLmbYW+8pZxZu4j1ah7saQr5q34NHpPh1YgBOriFCxd8/Z7S/TuTFA9hl
- Dzpdj+7BFnr0XsToxQKUKmMrLeGBKgcsHd+7gtxXN24yTPxUYBS7U/GwQtfMGq56g57zPCS6G6u
- Whs4lUHlQMluGzXbpj0vP6LaZ6CKxkpEJiv830YnD6lnGw1JfQTwng11fDltGUYoLLEQTg6B5Sd
- A2dwzYrSoxhZExdI8eChReA1qwB7MOJO0VTSAtcmrLfRvWCGb0/b/3DdoAbapNZM
-X-Received: by 2002:a05:6214:27ec:b0:6d8:ae2c:5053 with SMTP id
- 6a1803df08f44-6f4cba5f634mr10002396d6.9.1745575079793; 
- Fri, 25 Apr 2025 02:57:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE1aDrr9tIrGOVh+lPKRQPvx999AwcL22qiAWtArNF4QQ88HDa7YW9+wreCLFQKaTgC7b9wGQ==
-X-Received: by 2002:a05:6214:27ec:b0:6d8:ae2c:5053 with SMTP id
- 6a1803df08f44-6f4cba5f634mr10001956d6.9.1745575079389; 
- Fri, 25 Apr 2025 02:57:59 -0700 (PDT)
-Received: from [192.168.65.5] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5f7016f5342sm1032645a12.35.2025.04.25.02.57.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Apr 2025 02:57:58 -0700 (PDT)
-Message-ID: <70635d75-03f9-49ea-8098-57cb144fda94@oss.qualcomm.com>
-Date: Fri, 25 Apr 2025 11:57:52 +0200
+ AJvYcCXkscAOJq5XuVC7KiQ7gyjvgNp5QL/Kjb7lZDUU2guRQAPOB8URwllmc6eGZhzxq1GP9X6/TihLNpk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyqb1PoKhcK3K+C0EqWEDHgHK9PvOvC2rNjEB1srf6mQRKoIFYY
+ lQ0WgwJ/LRKlshJi8kanOWEOlAVVT8GGUFMzA+DlU96acY6hdSI3SX4jkO++zVHnZjWAhp6h2YF
+ +sO61YPl7tsY+RHY49OMn7TWkhdKr10HvVHGVjQ==
+X-Gm-Gg: ASbGncsgLyDc1fECz5hD4509mC2YRp5y51ak/3hCsCUt1V9ScbfLFldpoToucv2KUti
+ 8E1A3H/dkImLSh45YcYZ43uKUlTA/8CcfwcSUZH/upUn5uUmIrRX8oiVU/A7nIDAWokvGeCfrTB
+ FdSstlNvzkeQcEtxyetL/qEo4=
+X-Google-Smtp-Source: AGHT+IGurFHGYwar2TKD3VtJNgOfTgLYu73UwsY3fMeiKx/80V1BEROWuydsOdDJ1TKv9Y5NtKhSq17Sa7k73YOZM/k=
+X-Received: by 2002:a05:690c:4b0a:b0:708:3a47:3d2c with SMTP id
+ 00721157ae682-70854107cf6mr20217487b3.13.1745575881129; Fri, 25 Apr 2025
+ 03:11:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/5] arm64: dts: qcom: Add initial support for MSM8937
-To: barnabas.czeman@mainlining.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>,
- =?UTF-8?Q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>,
- Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+References: <CGME20250414185314eucas1p1ae57b937773a2ed4ce8d52d5598eb028@eucas1p1.samsung.com>
+ <20250414-apr_14_for_sending-v2-0-70c5af2af96c@samsung.com>
+ <20250414-apr_14_for_sending-v2-1-70c5af2af96c@samsung.com>
+ <CAJZ5v0irRq8_p35vf41_ZgomW0X=KZN+0HqwU2K9PvPRm8iZQA@mail.gmail.com>
+ <b9c4182d-38c2-4173-a35a-0e1773c8f2ed@samsung.com>
+ <CAJZ5v0gE0anjW_mDSwNXY8xoZ_0=bDDxiSbUq1GP7-NycDojrQ@mail.gmail.com>
+ <cbf20469-02ab-403a-8db7-2b66e9936b4f@samsung.com>
+ <CAPDyKFqND2JrH8nLUzAqwWgHkwia6M9XOJoY6AqxtR0t120JUA@mail.gmail.com>
+ <20250425-lumpy-marmot-of-popularity-cdbbcd@houat>
+In-Reply-To: <20250425-lumpy-marmot-of-popularity-cdbbcd@houat>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 25 Apr 2025 12:10:45 +0200
+X-Gm-Features: ATxdqUE_JbjUe45S3EVZ15Z84FoHvfu8q4ysbH-yq1WIOchBVAmKx33KA3qSxvM
+Message-ID: <CAPDyKFp-Bguqukn0my9mVDdSyG2eQ3EPP+diD-BBg-P_E8S9=A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] PM: device: Introduce platform_resources_managed
+ flag
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Michal Wilczynski <m.wilczynski@samsung.com>,
+ Stephen Boyd <sboyd@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, 
+ Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, 
+ Matt Coster <matt.coster@imgtec.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <lumag@kernel.org>, Adam Skladowski
- <a_skl39@protonmail.com>, Sireesh Kodali <sireeshkodali@protonmail.com>,
- Srinivas Kandagatla <srini@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- iommu@lists.linux.dev, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, phone-devel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, linux@mainlining.org,
- Dang Huynh <danct12@riseup.net>
-References: <20250421-msm8937-v5-0-bf9879ef14d9@mainlining.org>
- <20250421-msm8937-v5-3-bf9879ef14d9@mainlining.org>
- <2e3d94a4-d9e1-429e-9f65-d004c80180e5@oss.qualcomm.com>
- <790a0b7537e0b82b70bc4b32612ecee6@mainlining.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <790a0b7537e0b82b70bc4b32612ecee6@mainlining.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDA3MiBTYWx0ZWRfX6LHCU5293IN4
- Y/lYOoEkupMGaZRZ3gQlcr0D/JuZain6KcSDXNZ5FXzj8OoK6GsgOTuV4faC2XWMIKxpVjO9DY7
- WhXEEGD54YiS1WujXrRGarwl4B5j4gTwilw4BlGfPQbzQ8/zg/W9swt1fgDC1PIlWI+JgMLDQ1V
- +kM0IqVlhCLzaXf5HxV1VG6z7YhTl3MPGooP+JVbSyYnza4aniaxEhsVBsFvPiQBf1XOVeC+Zwi
- l/zPt/lsLDfO0psckmOvwf2kwq6T9FWeh8vLUZM3b5jg4awhbkFXYR6LMAxzfw53BT5AO0O1oR1
- tMwqH8jszDTe0KbWA1Vp9vMU0hTonqYNkuknvglZpm1LjEQRwMJeaDmLT66xGJXqWDv1m2rvP0q
- otMUTpBLt8p0OO7ZjbEvjBUBrqkSc6pfFNHUN9G8M+Uyh8YDGBq+dK8K8Oq4X+0k0ROEQtW1
-X-Authority-Analysis: v=2.4 cv=bs1MBFai c=1 sm=1 tr=0 ts=680b5ca9 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=OuZLqq7tAAAA:8 a=bBqXziUQAAAA:8
- a=x_pH4qmy28IV03WXGqsA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22 a=AKGiAy9iJ-JzxKVHQNES:22
- a=BjKv_IHbNJvPKzgot4uq:22
-X-Proofpoint-ORIG-GUID: ytwIa5cedCFMyodMNPrW9vll_HplJGtL
-X-Proofpoint-GUID: ytwIa5cedCFMyodMNPrW9vll_HplJGtL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-25_02,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 suspectscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 impostorscore=0 malwarescore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504250072
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ m.szyprowski@samsung.com, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,33 +107,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/23/25 4:46 PM, barnabas.czeman@mainlining.org wrote:
-> On 2025-04-23 16:03, Konrad Dybcio wrote:
->> On 4/21/25 10:18 PM, Barnabás Czémán wrote:
->>> From: Dang Huynh <danct12@riseup.net>
->>>
->>> Add initial support for MSM8937 SoC.
->>>
->>> Signed-off-by: Dang Huynh <danct12@riseup.net>
->>> Co-developed-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
->>> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
->>> ---
+On Fri, 25 Apr 2025 at 09:09, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> Hi,
+>
+> On Thu, Apr 24, 2025 at 06:51:00PM +0200, Ulf Hansson wrote:
+> > On Thu, 17 Apr 2025 at 18:19, Michal Wilczynski
+> > <m.wilczynski@samsung.com> wrote:
+> > > On 4/16/25 16:48, Rafael J. Wysocki wrote:
+> > > > On Wed, Apr 16, 2025 at 3:32=E2=80=AFPM Michal Wilczynski
+> > > > <m.wilczynski@samsung.com> wrote:
+> > > >>
+> > > >> On 4/15/25 18:42, Rafael J. Wysocki wrote:
+> > > >>> On Mon, Apr 14, 2025 at 8:53=E2=80=AFPM Michal Wilczynski
+> > > >>> <m.wilczynski@samsung.com> wrote:
+> > > >>>>
+> > > >>>> Introduce a new dev_pm_info flag - platform_resources_managed, t=
+o
+> > > >>>> indicate whether platform PM resources such as clocks or resets =
+are
+> > > >>>> managed externally (e.g. by a generic power domain driver) inste=
+ad of
+> > > >>>> directly by the consumer device driver.
+> > > >>>
+> > > >>> I think that this is genpd-specific and so I don't think it belon=
+gs in
+> > > >>> struct dev_pm_info.
+> > > >>>
+> > > >>> There is dev->power.subsys_data->domain_data, why not use it for =
+this?
+> > > >>
+> > > >> Hi Rafael,
+> > > >>
+> > > >> Thanks for the feedback.
+> > > >>
+> > > >> You're right =E2=80=94 this behavior is specific to genpd, so embe=
+dding the flag
+> > > >> directly in struct dev_pm_info may not be the best choice. Using
+> > > >> dev->power.subsys_data->domain_data makes more sense and avoids bl=
+oating
+> > > >> the core PM structure.
+> > > >>
+> > > >>>
+> > > >>> Also, it should be documented way more comprehensively IMV.
+> > > >>>
+> > > >>> Who is supposed to set it and when?  What does it mean when it is=
+ set?
+> > > >>
+> > > >> To clarify the intended usage, I would propose adding the followin=
+g
+> > > >> explanation to the commit message:
+> > > >>
+> > > >> "This flag is intended to be set by a generic PM domain driver (e.=
+g.,
+> > > >> from within its attach_dev callback) to indicate that it will mana=
+ge
+> > > >> platform specific runtime power management resources =E2=80=94 suc=
+h as clocks
+> > > >> and resets =E2=80=94 on behalf of the consumer device. This implie=
+s a delegation
+> > > >> of runtime PM control to the PM domain, typically implemented thro=
+ugh
+> > > >> its start and stop callbacks.
+> > > >>
+> > > >> When this flag is set, the consumer driver (e.g., drm/imagination)=
+ can
+> > > >> check it and skip managing such resources in its runtime PM callba=
+cks
+> > > >> (runtime_suspend, runtime_resume), avoiding conflicts or redundant
+> > > >> operations."
+> > > >
+> > > > This sounds good and I would also put it into a code comment somewh=
+ere.
+> > > >
+> > > > I guess you'll need helpers for setting and testing this flag, so
+> > > > their kerneldoc comments can be used for that.
+> > > >
+> > > >> This could also be included as a code comment near the flag defini=
+tion
+> > > >> if you think that=E2=80=99s appropriate.
+> > > >>
+> > > >> Also, as discussed earlier with Maxime and Matt [1], this is not a=
+bout
+> > > >> full "resource ownership," but more about delegating runtime contr=
+ol of
+> > > >> PM resources like clocks/resets to the genpd. That nuance may be w=
+orth
+> > > >> reflecting in the flag name as well, I would rename it to let's sa=
+y
+> > > >> 'runtime_pm_platform_res_delegated', or more concise
+> > > >> 'runtime_pm_delegated'.
+> > > >
+> > > > Or just "rpm_delegated" I suppose.
+> > > >
+> > > > But if the genpd driver is going to set that flag, it will rather m=
+ean
+> > > > that this driver will now control the resources in question, so the
+> > > > driver should not attempt to manipulate them directly.  Is my
+> > > > understanding correct?
+> > >
+> > > Yes, your understanding is correct =E2=80=94 with one minor clarifica=
+tion.
+> > >
+> > > When the genpd driver sets the flag, it indicates that it will take o=
+ver
+> > > control of the relevant PM resources in the context of runtime PM, i.=
+e.,
+> > > via its start() and stop() callbacks. As a result, the device driver
+> > > should not manipulate those resources from within its RUNTIME_PM_OPS
+> > > (e.g., runtime_suspend, runtime_resume) to avoid conflicts.
+> > >
+> > > However, outside of the runtime PM callbacks, the consumer device dri=
+ver
+> > > may still access or use those resources if needed e.g for devfreq.
+> > >
+> > > >
+> > > > Assuming that it is correct, how is the device driver going to know
+> > > > which resources in particular are now controlled by the genpd drive=
+r?
+> > >
+> > > Good question =E2=80=94 to allow finer-grained control, we could repl=
+ace the
+> > > current single boolean flag with a u32 bitmask field. Each bit would
+> > > correspond to a specific category of platform managed resources. For
+> > > example:
+> > >
+> > > #define RPM_TAKEOVER_CLK        BIT(0)
+> > > #define RPM_TAKEOVER_RESET      BIT(1)
+> > >
+> > > This would allow a PM domain driver to selectively declare which
+> > > resources it is taking over and let the consumer driver query only th=
+e
+> > > relevant parts.
+> >
+> > Assuming we are targeting device specific resources for runtime PM;
+> > why would we want the driver to be responsible for some resources and
+> > the genpd provider for some others? I would assume we want to handle
+> > all these RPM-resources from the genpd provider, if/when possible,
+> > right?
+> >
+> > The tricky part though (maybe Stephen had some ideas in his talk [a]
+> > at OSS), is to teach the genpd provider about what resources it should
+> > handle. In principle the genpd provider will need some kind of device
+> > specific knowledge, perhaps based on the device's compatible-string
+> > and description in DT.
+> >
+> > My point is, using a bitmask doesn't scale as it would end up having
+> > one bit for each clock (a device may have multiple clocks), regulator,
+> > pinctrl, phy, etc. In principle, reflecting the description in DT.
+>
+> My understanding is that it's to address a situation where a "generic"
+> driver interacts with some platform specific code. I think it's tied to
+> the discussion with the imagination GPU driver handling his clocks, and
+> the platform genpd clocks overlapping a bit.
+>
+> But then, my question is: does it matter? clocks are refcounted, and
+> resets are as well iirc, so why do we need a transition at all? Can't we
+> just let the platform genpd code take a reference on the clock, the GPU
+> driver take one as well, and it's all good, right?
 
-[...]
+The problem is the power-sequencing that is needed to initialize the
+GPU. Have a look at patch3's commit message - and I think it will be
+clearer what is needed.
 
->>> +            gpu_opp_table: opp-table {
->>> +                compatible = "operating-points-v2";
->>> +
->>> +                opp-19200000 {
->>> +                    opp-hz = /bits/ 64 <19200000>;
->>> +                    opp-supported-hw = <0xff>;
->>
->> The comment from the previous revision still stands
-> If i remove opp-supported-hw i will got -22 EINVAL messages and the opp will be not fine.
+In my last reply for patch 3/4, I am suggesting this whole thing may
+be better modeled as a real power-sequence, using the new subsystem in
+drivers/power/sequencing/*
 
-Right, I have a series pending to improve this situation a bit..
-
-In the meantime, you should be able to define the nvmem cell and
-fill in meaningful values for this platform
-
-Konrad
+Kind regards
+Uffe
