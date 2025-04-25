@@ -2,54 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 139AFA9C02B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 09:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4957A9C048
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1E8E10E0DD;
-	Fri, 25 Apr 2025 07:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 217A810E8A9;
+	Fri, 25 Apr 2025 08:00:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aFvm+aax";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YAXOvlue";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A66410E8A9
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 07:56:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5F2EAA4CE32;
- Fri, 25 Apr 2025 07:50:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7165C4CEE4;
- Fri, 25 Apr 2025 07:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745567762;
- bh=j4IKgIHjCn3GRE7rTt3jFdDFcO+dbk1ODkk477utpFw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aFvm+aaxF3u+JoObzzaMkyRFEMOy/bNPo8IN5zvVyHbQ+GmEene12EniXOH3UeGaz
- DpcXl6gcNkmX/dKLs+oW5XbfoiNM65yIbw89ZKhGUIRmAJn0k+veltDjv9FBr3rt1i
- whEvflrRZFnhTioiIY1BZKWhHAOWKbX9IElem+adgtFh8hhGD4GzU6ZgJf7UYnZwRF
- j6XS+ZApH75L9dEStr5bdb7aIAtfolVFfFYBcEuu0DD/7Wfc01rwxHOTcIyewBSJ8S
- X4T/UJ6v16LnfuFVNc4cXrQyeJgTpjv+iThgaYCrELlkxYj/OW8wK1FGT7+5eMpvyn
- SmmKeRQHLBt0A==
-Date: Fri, 25 Apr 2025 09:55:59 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Mattijs Korpershoek <mkorpershoek@kernel.org>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v3 0/2] dma-buf: heaps: Support carved-out heaps
-Message-ID: <20250425-refined-nano-vole-efe21e@houat>
-References: <20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 049D510E8A9;
+ Fri, 25 Apr 2025 08:00:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745568049; x=1777104049;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=c6TIoXsjX95rpwlTor+k+SVGfkqfhOsAsRW9lkoCB+0=;
+ b=YAXOvlueCNDGJ5XzvkU+RwF6scX+ij4py3YeYsv1aU09LqYh7k0wH7es
+ 3Saon7weds9IlqOgFzfI6G78FBvMyvCL+ILf2u6cA8t4ZOE+FoWsZ9fMM
+ EWL/TikJa9wBS6mHtYCM/Do6AIb4Yphku6bIuTCR94mDkz0Evkk4ip9+Q
+ gxxWp//HFV7uJiqnzCYsftZ0lMSlJ2UGPJM4sYlKPj3A7sDu4a32wKx7z
+ TWtm7Xikxt9WsoEM+CE6z/4MTDG1IWSVX+NXmcFHQyvJa9f2o82ruc8Pg
+ m3lmUJIxCYKO/abcq8FMJhe2eqVLoMyYHYaLwKoPs4wnsk9q5jJlYVJos g==;
+X-CSE-ConnectionGUID: fcEj5TZmS++R1/+xyCBQRQ==
+X-CSE-MsgGUID: XArYB02QR/eYeUQNfl7JwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="57864548"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="57864548"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 01:00:49 -0700
+X-CSE-ConnectionGUID: Puj2tsmFRT+bEnbXCo9i+Q==
+X-CSE-MsgGUID: 5mh8FrHBRICDDfsPHBC+DQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="163897606"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.83])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 01:00:43 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Junxiao Chang <junxiao.chang@intel.com>, tomas.winkler@intel.com, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sebastian
+ Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
+ <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Daniele
+ Ceraolo Spurio <daniele.ceraolospurio@intel.com>, Vitaly Lubart
+ <vitaly.lubart@intel.com>, Alexander Usyskin
+ <alexander.usyskin@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Cc: junxiao.chang@intel.com, furong.zhou@intel.com
+Subject: Re: [PATCH] drm/i915/gsc: mei interrupt top half should be in irq
+ disabled context
+In-Reply-To: <20250425060455.641008-1-junxiao.chang@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250424065609.624457-1-junxiao.chang@intel.com>
+ <20250425060455.641008-1-junxiao.chang@intel.com>
+Date: Fri, 25 Apr 2025 11:00:38 +0300
+Message-ID: <87v7qsy8k9.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="cnfj2vosil43ztw3"
-Content-Disposition: inline
-In-Reply-To: <20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,92 +80,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 25 Apr 2025, Junxiao Chang <junxiao.chang@intel.com> wrote:
+> MEI GSC interrupt comes from i915. It has top half and bottom half.
+> Top half is called from i915 interrupt handler. It should be in
+> irq disabled context.
+>
+> With RT kernel, by default i915 IRQ handler is in threaded IRQ. MEI GSC
+> top half might be in threaded IRQ context. generic_handle_irq_safe API
+> could be called from either IRQ or process context, it disables local
+> IRQ then calls MEI GSC interrupt top half.
+>
+> This change fixes A380/A770 GPU boot hang issue with RT kernel.
+>
+> Fixes: 1e3dc1d8622b ("drm/i915/gsc: add gsc as a mei auxiliary device")
+> Tested-by: Furong Zhou <furong.zhou@intel.com>
+> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Junxiao Chang <junxiao.chang@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gsc.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gsc.c b/drivers/gpu/drm/i915/gt/intel_gsc.c
+> index 1e925c75fb080..a099d885508ac 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gsc.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gsc.c
+> @@ -284,7 +284,9 @@ static void gsc_irq_handler(struct intel_gt *gt, unsigned int intf_id)
+>  	if (gt->gsc.intf[intf_id].irq < 0)
+>  		return;
+>  
+> -	ret = generic_handle_irq(gt->gsc.intf[intf_id].irq);
+> +	/* It can be called in both irq context and in thread context */
 
---cnfj2vosil43ztw3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 0/2] dma-buf: heaps: Support carved-out heaps
-MIME-Version: 1.0
+What is "It" in this case?
 
-Hi,
+> +	ret = generic_handle_irq_safe(gt->gsc.intf[intf_id].irq);
+> +
+>  	if (ret)
+>  		gt_err_ratelimited(gt, "error handling GSC irq: %d\n", ret);
+>  }
 
-On Mon, Apr 07, 2025 at 06:29:06PM +0200, Maxime Ripard wrote:
-> Hi,
->=20
-> This series is the follow-up of the discussion that John and I had some
-> time ago here:
->=20
-> https://lore.kernel.org/all/CANDhNCquJn6bH3KxKf65BWiTYLVqSd9892-xtFDHHqqy=
-rroCMQ@mail.gmail.com/
->=20
-> The initial problem we were discussing was that I'm currently working on
-> a platform which has a memory layout with ECC enabled. However, enabling
-> the ECC has a number of drawbacks on that platform: lower performance,
-> increased memory usage, etc. So for things like framebuffers, the
-> trade-off isn't great and thus there's a memory region with ECC disabled
-> to allocate from for such use cases.
->=20
-> After a suggestion from John, I chose to first start using heap
-> allocations flags to allow for userspace to ask for a particular ECC
-> setup. This is then backed by a new heap type that runs from reserved
-> memory chunks flagged as such, and the existing DT properties to specify
-> the ECC properties.
->=20
-> After further discussion, it was considered that flags were not the
-> right solution, and relying on the names of the heaps would be enough to
-> let userspace know the kind of buffer it deals with.
->=20
-> Thus, even though the uAPI part of it has been dropped in this second
-> version, we still need a driver to create heaps out of carved-out memory
-> regions. In addition to the original usecase, a similar driver can be
-> found in BSPs from most vendors, so I believe it would be a useful
-> addition to the kernel.
->=20
-> I submitted a draft PR to the DT schema for the bindings used in this
-> PR:
-> https://github.com/devicetree-org/dt-schema/pull/138
-
-One thing the discussion about the CMA heap naming[1] with John made me
-realize is that if we have both a region that is exported as a
-carved-out heap, and with devices pointing to it with reserved-memory,
-we wouldn't use the same allocator in both cases.
-
-It looks like we have four cases:
-
-  - We have a shared-dma-pool region with the reusable property: the
-    region is registered as a CMA area, the devices will allocate from
-    that.
-
-  - We have a shared-dma-pool region without the reusable property: the
-    region is registered as a coherent DMA area, and the devices will
-    allocate from that pool.
-
-  - We have a restricted-dma-pool region, devices will allocate from
-    swiotlb
-
-  - We have any other region, we can do whatever.
-
-So, the driver only supports the fourth case, and should be
-significantly more complicated.
-
-I'll work on that.
-
-Maxime
-
-1: https://lore.kernel.org/dri-devel/20250422191939.555963-1-jkangas@redhat=
-=2Ecom/
-
---cnfj2vosil43ztw3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaAtADgAKCRAnX84Zoj2+
-dho5AYCdIU9gnjmEXAPpheQ7IEaJF7J7fF6y4U8T44525/CGFCETjJ4+kCtJjPQa
-Wg2Hu1sBegMbyRVnTSH6daT0qQjW2SCzMW+UpugQt8xH7KOs05/WnQmns9K2/YP4
-lkpGkuBJOg==
-=rOoz
------END PGP SIGNATURE-----
-
---cnfj2vosil43ztw3--
+-- 
+Jani Nikula, Intel
