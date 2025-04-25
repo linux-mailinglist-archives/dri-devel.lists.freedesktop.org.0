@@ -2,103 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A91A9D5FC
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 01:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDB9A9D60B
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 01:12:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5C1710E139;
-	Fri, 25 Apr 2025 23:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 456FF10E00D;
+	Fri, 25 Apr 2025 23:12:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Y1iDMeAk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y0H9hiDN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CCCC10E139;
- Fri, 25 Apr 2025 23:02:01 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53PGJuRS001348;
- Fri, 25 Apr 2025 23:01:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- PVCoVGhbhHaQpzrYc6zL+NmjQ0+ewuCnFrIJjis5X1I=; b=Y1iDMeAkjL79nxRK
- ZXi39MsyhYJBJp++z5y0kwRUg4KlZn6jRp+rzTLGJc6Cf29gWnTd51/Nl58K0OF4
- hbGV+e2BN6h4n8QwcJyK65ARupvUmUFMa8kN/V/z0p8rKZiZrOWj5p83dbykv6dh
- NqkY0VHmYL371SMfBv2dgNntrYrxzPMq9SVCO75lN41Kl+iet995yxYRkPkNmo49
- 5nrx1JWF1l4JezKTT4k9uZcz4d1PpXXqz9CmhywBAou+sJ4mMtHVTYE88Pm/YWMz
- KGA83yueRQk+e3Ypoxq18dBnlyfTRzsPDfWCgl3BSLeMUvBNhAXk6jncIdV5W1hR
- TDbu/Q==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh3jg1m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Apr 2025 23:01:52 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53PN1qVE000653
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Apr 2025 23:01:52 GMT
-Received: from [10.110.43.17] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Apr
- 2025 16:01:50 -0700
-Message-ID: <beb866cb-0510-4e8c-84a0-ae66f864303e@quicinc.com>
-Date: Fri, 25 Apr 2025 16:01:49 -0700
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66EB510E00D
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 23:12:24 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-ac3fcf5ab0dso440086266b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 16:12:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1745622743; x=1746227543; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=tmqGkrT8pKgcGDCBKcXPdyFIvAScDuIz/sDPPptlagc=;
+ b=Y0H9hiDNl0ywNkx8lilZLb8P+NeCYc+kyScwg68mkyvPqoNjZetduSttRUMD++8fm6
+ KqEVajOt8iVmBGg7KscTYNhEIKyYNDY/HeWoGI5Cuff8P+3gUkrU/wV3Tz3kK07C8tU8
+ ziOqKlvZMxpObq6HhlNRjT5YFS6ArtABDDeJ3Gr7ybPkKsaxyq9pKeG6ysYpU/PhfuQ7
+ 7tsAzJxP/uiXAME7eByrB8BDEFQ6+qxwGRSwkDIznEfNntt/EQrTZUDrHskSi/GMyRda
+ tR6DsYHaDDbA3EZtPD+HxsWRLNoa1oYkwbVlcZg2QUFF2mVwrpgoK7zkQd4VKG6g2cNo
+ eMhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745622743; x=1746227543;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tmqGkrT8pKgcGDCBKcXPdyFIvAScDuIz/sDPPptlagc=;
+ b=ETPfuexGvqEDgZ2DwS8wSV7Po2vlu6/pn5UVGhcnUlzUydVjDpe0A0JNUWsxg/kRCE
+ rtDMkouguIVwGbZ9oXwrBtv+aH3NwGtNEKxxHYud8y+qp+bGSiWkwe5xBShW4QKreIjy
+ GKrecfAtkKwRojKW4Y1hyWbx1mMwzeTjBIkaSUM7sRMtQpQs8vDZGIy6svabOXQjf+7l
+ KPwApiqtAWHeJPApB+XVfBXRKbzOnALw1aZAenTEimpyUjnU1Aj+R0/kd7Ix9qJndhEH
+ WJyripnnQpy5ZyIpUaGY251elY/lZYB0sHtEJY91ogNok4tmWEZ5fPEvXenOROGIY966
+ m2Nw==
+X-Gm-Message-State: AOJu0YyzpdjU0xP47GsPHdv4ShPgv7iB+aeNBxqFlcMVA1TI48EpGpwp
+ j2BN/NDieUyoX1AzVW6hs0JmmJ16F0dGo9B3dFgpDW+uylFIaU7VHqg+E1NrZ7rxPkglWa7PPzP
+ FLYeoprQWxtJ5xoN1KLejiWP6qoT59RkQ
+X-Gm-Gg: ASbGncuGuwgdGeNVgGcefAsk2t+nA6iQDUrae3UJ7kJc9kVQ9MBVzPyrzLP2gD305TD
+ gTdZmvmjgZn27HgEzsiAesqr863466cAgiwQhW/nrAqKun8GzxdXZmSLGa0o9/oRU5DyqmPpDvo
+ wk0rAle7b65TS8WDTObtVf
+X-Google-Smtp-Source: AGHT+IFbYQ+2iFR7S/u7nsYXV11sOemyomei8G6gARGgyO0bDnQjksxdk7K85FYgv6vPimpeu2QI16jyGjeNrP3Ew9c=
+X-Received: by 2002:a17:907:3f17:b0:acb:58f5:4529 with SMTP id
+ a640c23a62f3a-ace71394307mr313873366b.45.1745622742560; Fri, 25 Apr 2025
+ 16:12:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/7] drm/msm/mdp4: switch LVDS to use
- drm_bridge/_connector
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "Sean Paul" <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20250425-fd-mdp4-lvds-v4-0-6b212160b44c@oss.qualcomm.com>
- <20250425-fd-mdp4-lvds-v4-6-6b212160b44c@oss.qualcomm.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250425-fd-mdp4-lvds-v4-6-6b212160b44c@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDE2NSBTYWx0ZWRfX0BTU8LZ/tPk3
- du2Ri2Maj/ZAkOx5kAZhXnhX2xTOU7iM9773HOfcEstyyVM6nAMMi9WLQhPgxyXaNpRxjW9ybVi
- 2KhHtREZC94X3W7zN8vyNI5HShqawG+cFiax797jMEGQx7DDiAf1a8YVRIf2S7ew+9j5gUteEEV
- S8y9IVG3Ir9gIyPeYfu7oeF1zFZP4ZnBL1BrSTd+avME44jMGZl1g46IL/WZaauE2N2cjaZ5VVA
- tVBY/13s1OCxkDKPQ/NMXZ+oIlm0Q9MznNJuTUE1v4khUBcwjTsVjHqHeMSyhWAqbUl/Nf4772e
- rFBnTBG1JH3oVxVejYxDIxGAokrPsZz86t93VxZwKoghJb5F3CNCNbCmnBI4um6YTpR0WrmUavw
- KeSdqEhu1M5uVcC6V6LX+JlFfPZVoXneUXfrq/yVyRCPFFmV3aiN4hmRZah6PsNA7MnhCod+
-X-Authority-Analysis: v=2.4 cv=bs1MBFai c=1 sm=1 tr=0 ts=680c1460 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8
- a=COk6AnOGAAAA:8 a=mBQssbH8hIC3Lvm7LJMA:9
- a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: 9Cy1EhYJFLfHWBx0aUHbhKwvB1YM9lZh
-X-Proofpoint-GUID: 9Cy1EhYJFLfHWBx0aUHbhKwvB1YM9lZh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-25_07,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 suspectscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 impostorscore=0 malwarescore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504250165
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 26 Apr 2025 09:12:11 +1000
+X-Gm-Features: ATxdqUFSwwc7uu860_jUpvTlumw25sQQBYyeK2MYs5a6E0i_lkdE8bixFaKtgIM
+Message-ID: <CAPM=9twNOWYCQ6vXZqUAu8G=oxGrKUvcTYz-SL6Jc=4+8ivVew@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.15-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,77 +77,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Linus,
 
+Weekly drm fixes, mostly amdgpu, with some exynos cleanups and a
+couple of minor fixes, seems a bit quiet, but probably some lag from
+Easter holidays.
 
-On 4/25/2025 2:51 AM, Dmitry Baryshkov wrote:
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> LVDS support in MDP4 driver makes use of drm_connector directly. However
-> LCDC encoder and LVDS connector are wrappers around drm_panel. Switch
-> them to use drm_panel_bridge/drm_bridge_connector. This allows using
-> standard interface for the drm_panel and also inserting additional
-> bridges between encoder and panel.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/Makefile                       |   1 -
->   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |  34 +++++--
->   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h           |   6 +-
->   drivers/gpu/drm/msm/disp/mdp4/mdp4_lcdc_encoder.c  |  20 +----
->   .../gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c    | 100 ---------------------
->   5 files changed, 28 insertions(+), 133 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index 5df20cbeafb8bf07c825a1fd72719d5a56c38613..7a2ada6e2d74a902879e4f12a78ed475e5209ec2 100644
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -48,7 +48,6 @@ msm-display-$(CONFIG_DRM_MSM_MDP4) += \
->   	disp/mdp4/mdp4_dsi_encoder.o \
->   	disp/mdp4/mdp4_dtv_encoder.o \
->   	disp/mdp4/mdp4_lcdc_encoder.o \
-> -	disp/mdp4/mdp4_lvds_connector.o \
->   	disp/mdp4/mdp4_lvds_pll.o \
->   	disp/mdp4/mdp4_irq.o \
->   	disp/mdp4/mdp4_kms.o \
-> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> index 689e210660a5218ed1e2d116073723215af5a187..93c9411eb422bc67b7fedb5ffce4c330310b520f 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> @@ -6,6 +6,8 @@
->   
->   #include <linux/delay.h>
->   
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_bridge_connector.h>
->   #include <drm/drm_vblank.h>
->   
->   #include "msm_drv.h"
-> @@ -189,7 +191,7 @@ static int mdp4_modeset_init_intf(struct mdp4_kms *mdp4_kms,
->   	struct msm_drm_private *priv = dev->dev_private;
->   	struct drm_encoder *encoder;
->   	struct drm_connector *connector;
-> -	struct device_node *panel_node;
-> +	struct drm_bridge *next_bridge;
->   	int dsi_id;
->   	int ret;
->   
-> @@ -199,27 +201,43 @@ static int mdp4_modeset_init_intf(struct mdp4_kms *mdp4_kms,
->   		 * bail out early if there is no panel node (no need to
->   		 * initialize LCDC encoder and LVDS connector)
->   		 */
-> -		panel_node = of_graph_get_remote_node(dev->dev->of_node, 0, 0);
-> -		if (!panel_node)
-> -			return 0;
-> +		next_bridge = devm_drm_of_get_bridge(dev->dev, dev->dev->of_node, 0, 0);
-> +		if (IS_ERR(next_bridge)) {
-> +			ret = PTR_ERR(next_bridge);
-> +			if (ret == -ENODEV)
-> +				return 0;
-> +			return ret;
-> +		}
+Dave.
 
-Alright, I think this will protect us against the fact that there is no 
-panel in the DT currently like before, hence
+drm-fixes-2025-04-26:
+drm fixes for 6.15-rc4
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+amdgpu:
+- P2P DMA fixes
+- Display reset fixes
+- DCN 3.5 fixes
+- ACPI EDID fix
+- LTTPR fix
+- mode_valid() fix
 
+exynos:
+- fix spelling error
+- remove redundant error handling in exynos_drm_vidi.c module.
+- marks struct decon_data as const in the exynos7_drm_decon driver
+since it is only read.
+- Remove unnecessary checking in exynos_drm_drv.c module
+
+meson:
+- Fix VCLK calculation
+
+panel:
+- jd9365a: Fix reset polarity
+The following changes since commit 9c32cda43eb78f78c73aee4aa344b777714e259b:
+
+  Linux 6.15-rc3 (2025-04-20 13:43:47 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-04-26
+
+for you to fetch changes up to 250130d2daaa0a828bafbd6ad58479a645029e82:
+
+  Merge tag 'amd-drm-fixes-6.15-2025-04-23' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2025-04-26
+08:12:41 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.15-rc4
+
+amdgpu:
+- P2P DMA fixes
+- Display reset fixes
+- DCN 3.5 fixes
+- ACPI EDID fix
+- LTTPR fix
+- mode_valid() fix
+
+exynos:
+- fix spelling error
+- remove redundant error handling in exynos_drm_vidi.c module.
+- marks struct decon_data as const in the exynos7_drm_decon driver
+since it is only read.
+- Remove unnecessary checking in exynos_drm_drv.c module
+
+meson:
+- Fix VCLK calculation
+
+panel:
+- jd9365a: Fix reset polarity
+
+----------------------------------------------------------------
+Anindya Sundar Gayen (1):
+      drm/exynos: fixed a spelling error
+
+Christian Hewitt (1):
+      Revert "drm/meson: vclk: fix calculation of 59.94 fractional rates"
+
+Colin Ian King (1):
+      drm/exynos: Fix spelling mistake "enqueu" -> "enqueue"
+
+Dave Airlie (3):
+      Merge tag 'drm-misc-fixes-2025-04-22' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'exynos-drm-fixes-for-v6.15-rc4' of
+git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into
+drm-fixes
+      Merge tag 'amd-drm-fixes-6.15-2025-04-23' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+Felix Kuehling (3):
+      drm/amdgpu: Use allowed_domains for pinning dmabufs
+      drm/amdgpu: Don't pin VRAM without DMABUF_MOVE_NOTIFY
+      drm/amdgpu: Allow P2P access through XGMI
+
+George Shen (1):
+      drm/amd/display: Use 16ms AUX read interval for LTTPR with old sinks
+
+Gergo Koteles (1):
+      drm/amd/display: do not copy invalid CRTC timing info
+
+Guoqing Jiang (1):
+      drm/exynos: Remove unnecessary checking
+
+Hugo Villeneuve (1):
+      drm: panel: jd9365da: fix reset signal polarity in unprepare
+
+Krzysztof Kozlowski (1):
+      drm/exynos: exynos7_drm_decon: Consstify struct decon_data
+
+Leo Li (1):
+      drm/amd/display: Default IPS to RCG_IN_ACTIVE_IPS2_IN_OFF
+
+Mario Limonciello (1):
+      drm/amd/display: Fix ACPI edid parsing on some Lenovo systems
+
+Martin Blumenstingl (1):
+      drm/meson: use unsigned long long / Hz for frequency types
+
+Nicholas Susanto (1):
+      drm/amd/display: Enable urgent latency adjustment on DCN35
+
+Roman Li (2):
+      drm/amd/display: Fix gpu reset in multidisplay config
+      drm/amd/display: Force full update in gpu reset
+
+Wentao Liang (1):
+      drm/exynos/vidi: Remove redundant error handling in vidi_get_modes()
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  52 +++++-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  41 ++---
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   2 +-
+ .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |   4 +-
+ .../dc/link/protocols/link_dp_training_8b_10b.c    |  54 ++++--
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c         |   4 +-
+ drivers/gpu/drm/exynos/exynos_drm_drv.c            |   3 +-
+ drivers/gpu/drm/exynos/exynos_drm_fimc.c           |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c           |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c           |   3 -
+ drivers/gpu/drm/meson/meson_drv.c                  |   2 +-
+ drivers/gpu/drm/meson/meson_drv.h                  |   2 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |  29 +--
+ drivers/gpu/drm/meson/meson_vclk.c                 | 195 +++++++++++----------
+ drivers/gpu/drm/meson/meson_vclk.h                 |  13 +-
+ drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c   |   4 +-
+ 16 files changed, 229 insertions(+), 183 deletions(-)
