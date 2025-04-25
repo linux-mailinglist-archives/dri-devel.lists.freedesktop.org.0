@@ -2,82 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D757A9C203
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:51:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6328A9C201
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 10:51:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C16A10E8D5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2442E10E8D4;
 	Fri, 25 Apr 2025 08:51:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=xs4all.nl header.i=@xs4all.nl header.b="C05ahXwG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hDPVItuT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 808E410E8D4
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8705810E8D5
  for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 08:51:11 +0000 (UTC)
-X-KPN-MessageId: 93f16712-21b2-11f0-b9a0-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
- by ewsoutbound.so.kpn.org (Halon) with ESMTPS
- id 93f16712-21b2-11f0-b9a0-005056abbe64;
- Fri, 25 Apr 2025 10:52:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=xs4all01;
- h=content-type:from:to:subject:mime-version:date:message-id;
- bh=ZUUJHctHfNsWNu1EuQFACb2hrUYidSMtniMgESDbRMU=;
- b=C05ahXwGA4fFgl5pI9IJHaOIC76m8R/+Es89bI5CvWoa6HqeHuMK1mldeMHIPdQDi2kLlgzYGuFDe
- D6MuwZeTwD9wDa1XBMVKPiXUdLXcq+GTqnyBHWJmMljRXk48AhzZTUw4w3JcILCX9BZqxzGIjcGt45
- rVpMjojPveoEKJh8q2SHsNUin5NrH2hHy2UM/ToU41fRmD9iRhfZFZVHgj6RTwNoFsLryLF3BsJztF
- gaTSBezUZK3uueMs3FZ29rF3MDkksrwOCGH4rjzRi2+4egWucO06G46ulnDHCSBicLhtJMzaffZPP7
- sV5V8wKP1no2OVYkOrkoy9/F8HuD5EA==
-X-KPN-MID: 33|AF0t4UVO0ldgi6YmnFhYJXqAPxHkuBjosJGcKGQA7S6P7Abi1YftYhe8yCepFKM
- Um9AVCIhpwBzaPi+MzlrzvCTD1SHpo9+IS4F4rFr5JFU=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|nqQMCrwmB3CHOeiz1JE1vwIQX38ApX4EwzMJX9cEX5ZmT/5GDgIxRdtlrbvDrcJ
- 3U9+ukECS2iUUeZHN8Kv+nQ==
-X-Originating-IP: 80.60.128.215
-Received: from [192.168.1.10] (80-60-128-215.fixed.kpn.net [80.60.128.215])
- by smtp.xs4all.nl (Halon) with ESMTPSA
- id 6c670738-21b2-11f0-95a4-005056abf0db;
- Fri, 25 Apr 2025 10:51:06 +0200 (CEST)
-Message-ID: <7d0096ad-a290-4fbc-8c06-dba49e8db8af@xs4all.nl>
-Date: Fri, 25 Apr 2025 10:51:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745571071; x=1777107071;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=L/KfqH9MZtQOA04gWuzJIE/ONGhE4FALNIovQZn85cM=;
+ b=hDPVItuTY0HFQ92/tZ6tJpLNLxeaBQkUJoheR8fkqXyere25tpdJpynU
+ xUUwwRKXPDccvtTPijbrkTzctysn+j5hwCCA8PHZtiqq4Ij7QQGsmkdpj
+ WFErCPhTydx/Bdsddi1Gblb0fKqWdXo67hdRv5h6uNSuNI/k+d6OUihtu
+ jF9AP9Q0lDdefCLstVGGc45hhOCJ36xA/EJDwVE6Xj12VvlSjbuXx6FDG
+ A/LLKR6/j0XPx7whqC2yhYzGUcujZJqa7GT494ZGg84y09Rz4d7+wlIBC
+ 4VZuiivNCC+2QnIPinKyTl4bzWPrfleA/DkWfW4ChinlAa1jTg6zxcy0Y w==;
+X-CSE-ConnectionGUID: lVhH5vpwSh+gtKagtUyG6A==
+X-CSE-MsgGUID: ajSQk8JlSOuwOoPYV1n+xA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47111779"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="47111779"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 01:51:11 -0700
+X-CSE-ConnectionGUID: hiC/UaFJS7+roJ0Ckn6PAg==
+X-CSE-MsgGUID: ze3sgRZaT7aBWcVSXeIeDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; d="scan'208";a="137657833"
+Received: from pwilma-mobl1.ger.corp.intel.com (HELO [10.245.252.249])
+ ([10.245.252.249])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2025 01:51:09 -0700
+Message-ID: <261a616d-7eb7-417d-aee8-905f93f78491@linux.intel.com>
+Date: Fri, 25 Apr 2025 10:51:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 03/13] media: pci: cx18-av-vbi: Replace open-coded
- parity calculation with parity_odd()
-To: Kuan-Wei Chiu <visitorckw@gmail.com>,
- Arend van Spriel <arend.vanspriel@broadcom.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
- eajames@linux.ibm.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
- hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, johannes@sipsolutions.net,
- gregkh@linuxfoundation.org, jirislaby@kernel.org, yury.norov@gmail.com,
- akpm@linux-foundation.org, jdelvare@suse.com, linux@roeck-us.net,
- alexandre.belloni@bootlin.com, pgaj@cadence.com, hpa@zytor.com,
- alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Frank.Li@nxp.com, linux-hwmon@vger.kernel.org,
- linux-i3c@lists.infradead.org, david.laight.linux@gmail.com,
- andrew.cooper3@citrix.com, Yu-Chun Lin <eleanor15x@gmail.com>
-References: <20250409154356.423512-1-visitorckw@gmail.com>
- <20250409154356.423512-4-visitorckw@gmail.com>
- <25b7888d-f704-493b-a2d7-c5e8fff9cfb4@broadcom.com>
- <Z/bDnLzcajzIxey3@visitorckw-System-Product-Name>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <Z/bDnLzcajzIxey3@visitorckw-System-Product-Name>
+Subject: Re: [PATCH] accel/ivpu: Fix the D0i2 disable test mode
+To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com, lizhi.hou@amd.com,
+ Andrzej Kacprowski <Andrzej.Kacprowski@linux.intel.com>
+References: <20250416102629.384626-1-maciej.falkowski@linux.intel.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20250416102629.384626-1-maciej.falkowski@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,63 +74,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/04/2025 20:59, Kuan-Wei Chiu wrote:
-> On Wed, Apr 09, 2025 at 08:43:09PM +0200, Arend van Spriel wrote:
->> On 4/9/2025 5:43 PM, Kuan-Wei Chiu wrote:
->>> Refactor parity calculations to use the standard parity_odd() helper.
->>> This change eliminates redundant implementations.
->>>
->>> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
->>> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
->>> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
->>> ---
->>>   drivers/media/pci/cx18/cx18-av-vbi.c | 12 ++----------
->>>   1 file changed, 2 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/media/pci/cx18/cx18-av-vbi.c b/drivers/media/pci/cx18/cx18-av-vbi.c
->>> index 65281d40c681..15b515b95956 100644
->>> --- a/drivers/media/pci/cx18/cx18-av-vbi.c
->>> +++ b/drivers/media/pci/cx18/cx18-av-vbi.c
->>
->> [...]
->>
->>> @@ -278,7 +270,7 @@ int cx18_av_decode_vbi_line(struct v4l2_subdev *sd,
->>>   		break;
->>>   	case 6:
->>>   		sdid = V4L2_SLICED_CAPTION_525;
->>> -		err = !odd_parity(p[0]) || !odd_parity(p[1]);
->>> +		err = !parity_odd(p[0]) || !parity_odd(p[1]);
->>
->> No need to call parity_odd() twice here. Instead you could do:
->>
->> 		err = !parity_odd(p[0] ^ p[1]);
+Applied to drm-misc-fixes
 
-I prefer the original approach, it is easier to understand. Performance
-is not an issue here, clarity of the code is more important.
-
-So for this patch (i.e. this v4 version):
-
-Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
-
->>
->> This is orthogonal to the change to parity_odd() though. More specific to
->> the new parity_odd() you can now do following as parity_odd() argument is
->> u64:
->>
->> 		err = !parity_odd(*(u16 *)p);
->>
->>
-> Thanks for the feedback!
-> Would you prefer this change to be part of the parity() conversion
-> patch, or in a separate one?
-
-Just leave it as-is, as mentioned above.
-
-Regards,
-
-	Hans
-
+On 4/16/2025 12:26 PM, Maciej Falkowski wrote:
+> From: Andrzej Kacprowski <Andrzej.Kacprowski@linux.intel.com>
 > 
-> Regards,
-> Kuan-Wei
+> Correct setup of D0i2 disable which was
+> by mistake set up to value 1 and use BIT(1) instead.
+> 
+> Fixes: 011529fe8112 ("accel/ivpu: Implement D0i2 disable test mode")
+> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@linux.intel.com>
+> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+> ---
+>  drivers/accel/ivpu/ivpu_fw.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+> index 5e1d709c6a46..ccaaf6c100c0 100644
+> --- a/drivers/accel/ivpu/ivpu_fw.c
+> +++ b/drivers/accel/ivpu/ivpu_fw.c
+> @@ -544,7 +544,7 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
+>  		 boot_params->d0i3_entry_vpu_ts);
+>  	ivpu_dbg(vdev, FW_BOOT, "boot_params.system_time_us = %llu\n",
+>  		 boot_params->system_time_us);
+> -	ivpu_dbg(vdev, FW_BOOT, "boot_params.power_profile = %u\n",
+> +	ivpu_dbg(vdev, FW_BOOT, "boot_params.power_profile = 0x%x\n",
+>  		 boot_params->power_profile);
+>  }
+>  
+> @@ -646,7 +646,7 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+>  	boot_params->d0i3_residency_time_us = 0;
+>  	boot_params->d0i3_entry_vpu_ts = 0;
+>  	if (IVPU_WA(disable_d0i2))
+> -		boot_params->power_profile = 1;
+> +		boot_params->power_profile |= BIT(1);
+>  
+>  	boot_params->system_time_us = ktime_to_us(ktime_get_real());
+>  	wmb(); /* Flush WC buffers after writing bootparams */
 
