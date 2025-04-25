@@ -2,80 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE6BA9D1EA
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 21:40:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8ADA9D231
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Apr 2025 21:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F17810E9A7;
-	Fri, 25 Apr 2025 19:40:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DFC510E9B4;
+	Fri, 25 Apr 2025 19:48:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="zZm6wkp7";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="O+t1bQU4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 213F710E9A7
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 19:39:56 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-54acc0cd458so3082513e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 12:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1745609994; x=1746214794;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dfSIX9jpfiWRSxgHFlpEDElrGRa3eqYVEWZZrqsW9bI=;
- b=zZm6wkp7MKK7dVWfhket0aLFIEF/7kIoveCSfo1nqlC4/ReCcdJOOtaAmCSWQRsNya
- aUMvKzfESvataeoPGh5GZYExOtBzEmzyxfTpWa2XRGAoQyIqla3A7hNwq59RFYWDyeBG
- FSytIO45U98y3GKGfcMtk4u3wUrQZiF258RPmCk2c/wL41CZErRGmbfHiJG12TDtnhPf
- fmBOryf0kJ8MkmL9o8BnOCw1fIaTOS/SFoMEb2cshX/LSyDXcTk+JGpdQnlIZ9phsjXg
- mOGwIzl9XcSG6HegZo5OE7PpZsSaGJd+dme2rSmPm5elLamnGBM2n1jb2REfSuq/yAjd
- AaVg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A5D810E9B4
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 19:48:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1745610535;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Iyio0+rdGGHZ3rJEpArzIbX1q77xWWWNHXXnWo3MTWI=;
+ b=O+t1bQU41M+2cIK0CrRj1GH+/nN8ZWeWkjCX7E9U9RKtm9WyRVhGIz06TLtkbBiFKkMA67
+ /Bwd9mk2ovTPx16+Uj2oUU2H7rtUPNhuehfRTi+jVINHC3t1G+taZhnAjMcE2tv0LToRMs
+ OImxAX0pLQd6uEiC81mKlse7AghMK0Y=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-57-UGBoVennOreWSkdh_XGOCw-1; Fri, 25 Apr 2025 15:48:54 -0400
+X-MC-Unique: UGBoVennOreWSkdh_XGOCw-1
+X-Mimecast-MFC-AGG-ID: UGBoVennOreWSkdh_XGOCw_1745610533
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-440a4e2bad7so5161675e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 12:48:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745609994; x=1746214794;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dfSIX9jpfiWRSxgHFlpEDElrGRa3eqYVEWZZrqsW9bI=;
- b=wiKmZuzRICw8jS421Z/1/DlHEcKLm98yce4Dm7Sytrdxiq9hM/F9mU6gGVgtXsLt4Y
- vuFXcDiIM++nw/wcj7kZyUGs5F3XoWCOwAdAbjZ1kC6M3M1dhZTJsXNErVo7oyTsgZk/
- qSE6Mz7KTXtMj9eM/tdZTVHRjsJyISsDFR20NWmIkSHeQ4Rk/+3lAeyZBwc/b2B5st7U
- o3+L5JtlxQjmQ3GbP4+oef56siJ2LGiZ0HTz//6Lijrt5P1W9eE7uJWLrBD0l1qMI00r
- Vd9o2EgfQioeuzQwa1O8iaiGGbUOun9tgGNlyGclu62dba1AAoigLOHPVfVM6QrS25Tr
- Rdow==
+ d=1e100.net; s=20230601; t=1745610533; x=1746215333;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:from:references:cc:to:subject:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Iyio0+rdGGHZ3rJEpArzIbX1q77xWWWNHXXnWo3MTWI=;
+ b=gKirh3kP5BPPS71ccFQfZWZYS2dHgV/pdi4KkKdAKtjEZhkheowf/8KgrRovcD6rIV
+ o5gpcpVYm+v25w+vVZUAsNmZoNxcmRJ3apQO7TvrI3LdFdeaEU+lpRxyBeZjvUmSdNAZ
+ wjqoCsnHVRVFfodStauEZSqza04kspbStm9MCyWJnfCNf8pL46PhL+2/nfqPZSQxI41F
+ 7MliwhXci1/2x874T4RkjxC9IWca2WTNDZkH+IlHJClinSBsnhln2qI2r2EfgxlbcX3A
+ 1I4PqkiBohrzD8H9/pMbQpfuoNPhcqCXKdJYnpyx4ZMDhj8OQbImqxMZzaqBVtgTcC8S
+ wGaQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXo1TG86vFLaTF3uljbLRa/y12XslA52DxfxfaXyz7vqg1dVfWLXTEHOTSOk6obgT3W7vDYDVMszzQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzT7DZPa44LlLON/BpNq/4yz+/qEDhsFnzgOUchCd9aBOc/qZyY
- PRq6l1sE+omsa2DPOFxqqnzdkJ9E2ZTRtFzsTBSPzxgL5Oq2OB2fKDRInGivd1yssXRtQQxg+lH
- l/XNj7HU8PTsMTlTf4imxQRlQ38354j2SQQw=
-X-Gm-Gg: ASbGncugG3y3DzmhdCiAhPu/Seq/HfHegylxLSHxFCNias1Y47NtmGkDPTb5630hmYq
- vBAMgmbwvJbtiA3bTKuDYrGWmipuIrFUYpilha6drR7kiJDq3Y/UvL/cne7s8xwNmLMjrJwjjpH
- qcQTOdpHPZTc3KyOOdzY1q5JoXD0aWz06I+489O3CUbmkxIUkckDU=
-X-Google-Smtp-Source: AGHT+IHUbAh5N12vJaC4y50M7cNDxVxLCPYrcMSTN18M4pC1Y8L+yTG0UPsfIVPETtsJQssOgUaeDFzFHB1JvR/EmjM=
-X-Received: by 2002:a05:6512:239f:b0:549:8db6:b2dd with SMTP id
- 2adb3069b0e04-54e8cbe0789mr1187301e87.31.1745609994088; Fri, 25 Apr 2025
- 12:39:54 -0700 (PDT)
+ AJvYcCWbb8zVz9B2oIgzzZ1bbLb94EMlO6BTz2U1WvyXB2t/o0JfR97mXd7g+ryqtrRJl445k9dbbORQMQc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTbCuShbhbUigMxRxxx6WwJonVCE9VEnCUyJWiJwF0R6+l6FGs
+ 5+clkZ6Z5Lxgf2C5P302/ALJfwGM8+m/CcZk0f9Fwlb0OhWEGgFF32ePogl4iqXDnk8HiLWy/yM
+ xs+ybddEMa95XTRmBzVHl5rAXlaHXcjK5AHiW6BlWbItaOcIYDCjLe5zYwyC0ADZVQA==
+X-Gm-Gg: ASbGnctLLd+eZZKwB5iE06ucWugOi4SiSjQKO9xh7fiYj+eOQDDWolh1OdP/sVDgA66
+ 6Ewb+slgYuu4rhN4GiUAZghlbokYSdW6nUNkVSbl2HXVab/O/R1/SkMSjEjQDbsl1pWejHF01cR
+ 4NktUKDHiMkDgh2ibsSWKexRu9eA/sek8oTgAwk52UbGZpBQiQv7FjGxYGCrY6QXiv/S1KERGI1
+ 9ZA560rrQdI56LUSk71Bjz7ny74X6N//Jhyz0e/2W1LlSwpveuLivVZDFPM2HZdgvQ2tkN5iipa
+ sLI7Yy97BakzjNAXSnscC/jBhW52Y3ngT0O9JPSPbg==
+X-Received: by 2002:a05:600c:45d0:b0:43d:5264:3cf0 with SMTP id
+ 5b1f17b1804b1-4409c4de02dmr67828905e9.11.1745610533032; 
+ Fri, 25 Apr 2025 12:48:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHCFfrtzSc+UtPRGo0BIvDxCf3n2hnwRdIbAoPATpGWLsnc5w/p+CDOEbj1RMEvVgHKgNRMBw==
+X-Received: by 2002:a05:600c:45d0:b0:43d:5264:3cf0 with SMTP id
+ 5b1f17b1804b1-4409c4de02dmr67828555e9.11.1745610532645; 
+ Fri, 25 Apr 2025 12:48:52 -0700 (PDT)
+Received: from [192.168.3.141] (p4ff23df8.dip0.t-ipconnect.de. [79.242.61.248])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-440a5310ad2sm34335985e9.21.2025.04.25.12.48.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Apr 2025 12:48:52 -0700 (PDT)
+Message-ID: <78f88303-6b00-42cf-8977-bf7541fa45a9@redhat.com>
+Date: Fri, 25 Apr 2025 21:48:50 +0200
 MIME-Version: 1.0
-References: <20250422191939.555963-1-jkangas@redhat.com>
- <20250422191939.555963-3-jkangas@redhat.com>
- <20250424-sassy-cunning-pillbug-ffde51@houat>
- <CANDhNCqfsUbN3aavAH5hi4wdcKuUkjLX4jqhKzy-q+jCEqpoow@mail.gmail.com>
- <20250425-savvy-chubby-alpaca-0196e3@houat>
-In-Reply-To: <20250425-savvy-chubby-alpaca-0196e3@houat>
-From: John Stultz <jstultz@google.com>
-Date: Fri, 25 Apr 2025 12:39:40 -0700
-X-Gm-Features: ATxdqUERSINXjgZozjhH6OJicqqRpLdRfV1ZPdW61MN5MO_O8cl1SzEcLT4val0
-Message-ID: <CANDhNCroe6ZBtN_o=c71kzFFaWK-fF5rCdnr9P5h1sgPOWSGSw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dma-buf: heaps: Give default CMA heap a fixed name
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jared Kangas <jkangas@redhat.com>, sumit.semwal@linaro.org, 
- benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, tjmercier@google.com, 
- christian.koenig@amd.com, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 02/11] mm: convert track_pfn_insert() to
+ pfnmap_sanitize_pgprot()
+To: Peter Xu <peterx@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-trace-kernel@vger.kernel.org, Dave Hansen
+ <dave.hansen@linux.intel.com>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "H. Peter Anvin" <hpa@zytor.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>
+References: <20250425081715.1341199-1-david@redhat.com>
+ <20250425081715.1341199-3-david@redhat.com> <aAvjJOmvm5GsZ-JN@x1.local>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <aAvjJOmvm5GsZ-JN@x1.local>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: e3G8jApwS1St3ggGvrfA-zPakF2uKOC7nb2agbp5swM_1745610533
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,98 +164,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 24, 2025 at 11:58=E2=80=AFPM Maxime Ripard <mripard@kernel.org>=
- wrote:
-> On Thu, Apr 24, 2025 at 05:13:47PM -0700, John Stultz wrote:
-> > On Thu, Apr 24, 2025 at 1:34=E2=80=AFAM Maxime Ripard <mripard@kernel.o=
-rg> wrote:
-> > > I appreciate this is kind of bikeshed-color territory, but I think "c=
-ma"
-> > > would be a better option here. There's nothing "default" about it.
-> >
-> > I disagree.  It very much is "default" as it's returning the
-> > dma_contiguous_default_area.
->
-> My main concern here is that it's "default" as opposed to what, exactly?
-> We have a single CMA allocator. We could have multiple buffer
-> attributes, but then "cached_cma" would make more sense to me if we
-> expect to have uncached CMA allocations at some point.
+On 25.04.25 21:31, Peter Xu wrote:
+> On Fri, Apr 25, 2025 at 10:17:06AM +0200, David Hildenbrand wrote:
+>> ... by factoring it out from track_pfn_remap().
+>>
+>> For PMDs/PUDs, actually check the full range, and trigger a fallback
+>> if we run into this "different memory types / cachemodes" scenario.
+> 
+> The current patch looks like to still pass PAGE_SIZE into the new helper at
+> all track_pfn_insert() call sites, so it seems this comment does not 100%
+> match with the code?  Or I may have misread somewhere.
 
-Well, there may be one CMA allocator, but there can be multiple CMA regions=
-.
+No, you're right, while reshuffling the patches I forgot to add the 
+actual PMD/PUD size.
 
-So in the kernel, cma_alloc() always takes the cma area as an
-argument.  And dma_alloc_contiguous() lets you do allocations against
-a device, which may reference a specific cma area. Or if the device
-doesn't specify a region it will utilize the default region.
+> 
+> Maybe it's still easier to keep the single-pfn lookup to never fail..  more
+> below.
+> 
 
-> > There can be multiple CMA areas, and out of tree, vendors do reserve
-> > separate areas for specific purposes, exposing multiple CMA dmabuf
-> > heaps.
->
-> By "CMA areas", I guess you mean carved-out memory regions? If so, how
-> is it relevant to userspace if we use CMA or any other implementation to
-> expose a carved-out region, and thus that we carry that implemenattion
-> detail in the name?
+[...]
 
-So, no, I don't mean carve-out regions.  It's more about dealing with
-competition between multiple CMA users. In some cases, where there are
-known fixed buffer sizes, say camera buffers, it's much easier to
-reserve a separate specific sized region to allocate from so that you
-know it will always succeed and you don't need to waste much on safety
-margins. Having this added as a separate CMA region makes it a lot
-easier to account or reason about, and the kernel can still make
-(limited) use of the CMA space when it's idle. Then you don't have to
-worry about some other device having a short term cma allocation that
-pushes back the alignment for your large allocation, possibly
-impacting some other devices larger allocations.
+>>   /*
+>> @@ -1556,8 +1553,23 @@ static inline void untrack_pfn_clear(struct vm_area_struct *vma)
+>>   extern int track_pfn_remap(struct vm_area_struct *vma, pgprot_t *prot,
+>>   			   unsigned long pfn, unsigned long addr,
+>>   			   unsigned long size);
+>> -extern void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot,
+>> -			     pfn_t pfn);
+>> +
+>> +/**
+>> + * pfnmap_sanitize_pgprot - sanitize the pgprot for a pfn range
+> 
+> Nit: s/sanitize/update|setup|.../?
+> 
+> But maybe you have good reason to use sanitize.  No strong opinions.
 
-And unlike with just using a carveout, you don't end up just wasting
-all that space when it is unused.
+What it does on PAT (only implementation so far ...) is looking up the 
+memory type to select the caching mode that can be use.
 
-So userland may want to allocate contiguous memory, but it may also be
-relevant to userland to be able to allocate contiguous memory from a
-purpose specific pool.
+"sanitize" was IMHO a good fit, because we must make sure that we don't 
+use the wrong caching mode.
 
-And while not used in Android, you could imagine having separate
-purpose reserved cma heaps with different permissions on the heap
-devnodes, allowing less trusted applications to allocate cma from a
-small pool without having the potential to DoS the system.
+update/setup/... don't make that quite clear. Any other suggestions?
 
-> > There have been patches to expose multiple CMA heaps, but with no
-> > upstream drivers using those purpose specific regions, we haven't
-> > taken them yet.
-> > I do hope as the drivers that utilize these purpose focused heaps go
-> > upstream, we can add that logic, so I think being specific that this
-> > is default CMA is a good idea.
->
-> If heaps names are supposed to carry the region it exposes, then it
-> should be default_cma_region/area. If heap names are supposed to expose
-> the allocator (but I don't think it's a good idea), it should be cma. If
-> they are meant to carry all that plus some policy,
-> cached_default_cma_region should be used.
->
-> Either way, default_cma seems to me either too specific or not specific
-> enough. And we should really document what the policy for those heaps
-> are supposed to be.
+> 
+>> + * @pfn: the start of the pfn range
+>> + * @size: the size of the pfn range
+>> + * @prot: the pgprot to sanitize
+>> + *
+>> + * Sanitize the given pgprot for a pfn range, for example, adjusting the
+>> + * cachemode.
+>> + *
+>> + * This function cannot fail for a single page, but can fail for multiple
+>> + * pages.
+>> + *
+>> + * Returns 0 on success and -EINVAL on error.
+>> + */
+>> +int pfnmap_sanitize_pgprot(unsigned long pfn, unsigned long size,
+>> +		pgprot_t *prot);
+>>   extern int track_pfn_copy(struct vm_area_struct *dst_vma,
+>>   		struct vm_area_struct *src_vma, unsigned long *pfn);
+>>   extern void untrack_pfn_copy(struct vm_area_struct *dst_vma,
+>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>> index fdcf0a6049b9f..b8ae5e1493315 100644
+>> --- a/mm/huge_memory.c
+>> +++ b/mm/huge_memory.c
+>> @@ -1455,7 +1455,9 @@ vm_fault_t vmf_insert_pfn_pmd(struct vm_fault *vmf, pfn_t pfn, bool write)
+>>   			return VM_FAULT_OOM;
+>>   	}
+>>   
+>> -	track_pfn_insert(vma, &pgprot, pfn);
+>> +	if (pfnmap_sanitize_pgprot(pfn_t_to_pfn(pfn), PAGE_SIZE, &pgprot))
+>> +		return VM_FAULT_FALLBACK;
+> 
+> Would "pgtable" leak if it fails?  If it's PAGE_SIZE, IIUC it won't ever
+> trigger, though.
+> 
+> Maybe we could have a "void pfnmap_sanitize_pgprot_pfn(&pgprot, pfn)" to
+> replace track_pfn_insert() and never fail?  Dropping vma ref is definitely
+> a win already in all cases.
 
-I don't see it as such a problem. It is clear it is cma, it also is
-clear conceptually that it is the "default" region that the kernel
-uses when devices aren't specific.
-But I wouldn't object to cma_default_region/area as a name either, but
-I don't see it as particularly improved over cma_default.
+It could be a simple wrapper around pfnmap_sanitize_pgprot(), yes. 
+That's certainly helpful for the single-page case.
 
-To your larger point about policy, I do get the tension that you want
-to be able to programmatically derive or evaluate heap names, so that
-applications can consistently derive a pathname to get what they want.
-But I also think that there is so much variety in both the devices and
-uses that there is no way that all use cases and all devices can be
-satisfied with such a static or even programmatic mapping. From my
-perspective, there just is going to have to be some device specific
-glue logic that maps use->heap name. Same reason we have fstab and the
-passwd file.  That said, I think advocating for naming conventions is
-definitely useful, but I'm wary of trying to enforce too specific a
-schema on the names as the incompleteness theorem will bite us.
+Regarding never failing here: we should check the whole range. We have 
+to make sure that none of the pages has a memory type / caching mode 
+that is incompatible with what we setup.
 
-thanks
--john
+
+Thanks a bunch for the review!
+-- 
+Cheers,
+
+David / dhildenb
+
