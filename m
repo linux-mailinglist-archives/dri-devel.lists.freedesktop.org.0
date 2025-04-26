@@ -2,79 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE04DA9DC9F
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 19:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8299FA9DCA5
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 19:52:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9752910E0F9;
-	Sat, 26 Apr 2025 17:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA87610E098;
+	Sat, 26 Apr 2025 17:52:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="QiqBbowp";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="glPXAijV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48CC610E098
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 17:43:00 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-5f3f04b5dbcso5396590a12.1
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 10:43:00 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFB2E10E098
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 17:52:29 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-abec8b750ebso578125666b.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 10:52:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1745689378; x=1746294178;
+ d=linux-foundation.org; s=google; t=1745689948; x=1746294748;
  darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=p5ZuHweNuEVBE3Fej2LIynmyJBbRTA/TM1UDo0+mKg0=;
- b=QiqBbowpRusqNwfcKLbaJ3wkhISP5Sn6D66lOkO0UKUpJtZnknqW76iJK9YcqzdmUp
- zKdhQ5lHcI74zZPFwJqkciDAlCiUFX/uwxM5HhcBOauyQ2fq1WAcjbUJMow4dinxdOd3
- zwaRtfciYZB42GASp9Gc5UVOWAxlw5avFHliE=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ilc4ZqBanqCc92fVWGxIS3nPZUWorDx2QpnCQQ4E2Tc=;
+ b=glPXAijVUjPoPCSr58gxCir3SFTaj7F/j8+FuGwJu8h2bhXvSRBkHO3CtSuS7ygvHq
+ qNmJIpwOd5Zt8syQ+KjBm5P0Aats4Ko4DjZQOyVPHtpC960N6t+oW05LIs3aPJbVZZZI
+ rRilXj99zjvgJQ4vg8P1ugAIEe5imFB/2O1Bk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745689378; x=1746294178;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=p5ZuHweNuEVBE3Fej2LIynmyJBbRTA/TM1UDo0+mKg0=;
- b=v6MByPb6GbXe5b4zqgaQ/ml1yN8UOMKvTcJTCBGdjBtMYcroCxPasvL5fB5ehCnT2j
- 2izJugwox4kU9CnaGmV5NY+fy0ec6sBW0UV3Ho3l/rLWBkJyPRpL2btESlYclx4Q7af+
- 7lbwTeMH8tJYjpl4JAF8yghGQRycK1YyFZFXNKHtHgneXp4Mm8szEbQ6tBDYMUU26w7C
- gsh8XX5w/ixQxCk25rcMB2gIZvvU536sEJ+OB+qal6G1ZiZls4G1iMMDiGzOUqG6xllA
- UuPE8PZ411KLgBLy05jjHkVTyjn9ANcShv+i8bdxSLZq3T1At0mcR+GXUj26zKPKPDUr
- urbA==
+ d=1e100.net; s=20230601; t=1745689948; x=1746294748;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ilc4ZqBanqCc92fVWGxIS3nPZUWorDx2QpnCQQ4E2Tc=;
+ b=O/CezYEKOXStyg1LV+ovmzOJodu1Dcbv9yIbtuyZ1Vb+lubWL4jlMkGo5SZveHc7tF
+ EkmpkHqkhdUt4k1MnYtaZYEyLlB6/MSrSWLtt6XV1pSK/QpBCKMQgbpxyusuki0sbLHv
+ JBa7HcamzLBD/JiD3wDR0Onh+qi5gwLME+iMw5TlmnJ2cxJloZfR3Wmjvijd5lk2tr/u
+ bSmkwqs1y4zKfL4kUCyzNqjZ2F36IUu18Nxj/hUsMIFCafGpQPvZrXqWmbWIJ2g6E+iC
+ TFlQ0glNJzjJuSz0aQEmqZzuem8GBj/ZlsphemYAAci++hbICbSx4Wmw0hgNs9zrNIow
+ H7NQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVBhiJ4RZ9eQdEpbm2fu1xPNpi1mikGBX/ToUhrb7fzYjBpJn0P1WBOh2BFyoB/l0a+RJAVN0H0TTg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyjjC7POBuQ6wBj36CWBbhy7mi90/6au1iGdOgWkteu1CjFZhuY
- imhFKi54Q78rSktZNFEKz5/aiLmNvzqhRWD4E7tMHskvktB/y5zQjr5ByiRwseygoOQ4CwYT3Ep
- rXk8=
-X-Gm-Gg: ASbGncscUXNOud6Q6EcWFkW9w6Is7td1KpE9Bovc4psVZ1Q6RHXhgcrOEwc8d9e5p+u
- U4b3DO0jBHjYkuJJ+1aQtEc2yku0eGuqGHvqFLfQuYXGBpv79ciHYRCoCSr7KZ1V7X9g3IKrg6B
- 4WOjReQ7SB2GYArwyPHmwuBuUQhBTmRs00riEySmvTaW0EwtIkuaXz49RfvonBjh4a2nyHago8M
- j9hHSJVSjpIbp4CoEKWLJ6UsQxy+xpAj17EE/m9jpEd/fZzVc3FtotWjO8dGtogP3sfwYCiilEJ
- JkEFUY4eCDUGtHMGm1fi5QnWDQIYLBi3Z0Es3uuvASmPFpLs7MN0doIXTwiUKWm1bXUAIdKvXLO
- s24q3oqZuh75KyoE=
-X-Google-Smtp-Source: AGHT+IEixbpB5SrnyMOU04D2JkYhuGXnIPXAuHn12AqSNhogamRjFkdDPMywKpuj6zd/5FrEnX11fQ==
-X-Received: by 2002:a17:906:34d6:b0:ace:8280:8eff with SMTP id
- a640c23a62f3a-ace82809109mr271807366b.26.1745689378184; 
- Sat, 26 Apr 2025 10:42:58 -0700 (PDT)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com.
- [209.85.208.51]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5f7013fef5esm2920188a12.18.2025.04.26.10.42.57
+ AJvYcCV8Tdi5bZ2XC82CcdvUJ8hdaRn/tAq8q+HLs8Iiulnv2Bp0ruoBqKLCTt0zWibLI/7BhHVzsitfu0I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxHJH1FjxX7o3Bw5Srjgz+DlsJqcRq+tXouoc5aI1/s9jbuXd99
+ y3w2gqUstYJisR9n4ENrRpBR3+6vFJqeO+9e4tscShZAv/hsr9n3XG+novUIi8C4v9soPD2Fhhc
+ 0F6Q=
+X-Gm-Gg: ASbGncv9O3x9tckRL6IPVU22CFERF+bcUUQOO1uvkD2J4GivpLYBb8/kVMfAJ9vxbev
+ wV1SarD8XKcFWmIbll7NamxKuZOufGQbgel+5Qx4QgQkSZzJJxPbHw+9645qnGtvy95DMLlZ05+
+ ez9377iJuqItHQ/o1QYW9glxZ1dilHMLKZrWdV33MpwL3bR6KL+c7NurN8h7VyZp3I+jPeU1clU
+ Eg/iejB/gm7c8KkzMQIB8vKPeNA4ohzLopJgDDlj8BouzCeL2t8q9ryeGBrWfg9CsasMZT6bpy+
+ Zo60WT2duQAeWgN8jmGMi4Oh/BzmUb/9S2M2iJMOScoj/GU7/2/Flex6CWsigrGh+bJ5X6lXbAN
+ +5lya+oYvQzC8ZRk=
+X-Google-Smtp-Source: AGHT+IGeOAb3P6fMKYohdvbzPp7GlbOkeWE5qaQxsYnnY9vN/s3AApGNOS1FgLhZZvD+CuJZy2wUgw==
+X-Received: by 2002:a17:906:7311:b0:ac7:3918:50f3 with SMTP id
+ a640c23a62f3a-ace713efb52mr642109266b.58.1745689948133; 
+ Sat, 26 Apr 2025 10:52:28 -0700 (PDT)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com.
+ [209.85.208.45]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ace6ed64fc5sm315621866b.129.2025.04.26.10.52.27
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 26 Apr 2025 10:42:57 -0700 (PDT)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-5f4b7211badso5572023a12.2
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 10:42:57 -0700 (PDT)
+ Sat, 26 Apr 2025 10:52:27 -0700 (PDT)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-5e6c18e2c7dso6337311a12.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 10:52:27 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUJTSECA+L5pLGSAV/xNyz3De8lqF4X34ROKp+W0Hl20/0d37f/ppxtvd/UfGEwI8i3GlLOyE4Wa2I=@lists.freedesktop.org
-X-Received: by 2002:a17:906:9fc7:b0:aca:cde4:fac1 with SMTP id
- a640c23a62f3a-ace71131c2dmr658231266b.31.1745689377007; Sat, 26 Apr 2025
- 10:42:57 -0700 (PDT)
+ AJvYcCVpYGkMk7pa4YSjhRET4DzxSMfw5vjjI4xmSa0whbCgbmkxY+D8NCFUPLRpVhM6TZk4C0mA3LmxvTs=@lists.freedesktop.org
+X-Received: by 2002:a17:906:7311:b0:ac3:8516:9cf2 with SMTP id
+ a640c23a62f3a-ace713deee2mr658764966b.55.1745689946923; Sat, 26 Apr 2025
+ 10:52:26 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAHk-=wiq=E0fwJLFpCc3wPY_9BPZF3dbdqGgVoOmK9Ykj5JEeg@mail.gmail.com>
+In-Reply-To: <CAHk-=wiq=E0fwJLFpCc3wPY_9BPZF3dbdqGgVoOmK9Ykj5JEeg@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 26 Apr 2025 10:42:40 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiq=E0fwJLFpCc3wPY_9BPZF3dbdqGgVoOmK9Ykj5JEeg@mail.gmail.com>
-X-Gm-Features: ATxdqUF66SgVPO-TQX09fkvhV4kdjdHCzpMk_g01lv5yN5C2c15Un2Rowbof3YY
-Message-ID: <CAHk-=wiq=E0fwJLFpCc3wPY_9BPZF3dbdqGgVoOmK9Ykj5JEeg@mail.gmail.com>
-Subject: clang and drm issue: objtool warnings from clang build
+Date: Sat, 26 Apr 2025 10:52:10 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wip2-yTrWpAkrUQ0iejEo2PjReddu4xntwBvdnSvWDbzg@mail.gmail.com>
+X-Gm-Features: ATxdqUFJhpP1cnPfVY8nm1K1gppvnR2N5pQ5E7BQd9ZjkOk2BZpV-x-DK59L6io
+Message-ID: <CAHk-=wip2-yTrWpAkrUQ0iejEo2PjReddu4xntwBvdnSvWDbzg@mail.gmail.com>
+Subject: Re: clang and drm issue: objtool warnings from clang build
 To: Josh Poimboeuf <jpoimboe@kernel.org>,
  Harry Wentland <harry.wentland@amd.com>, 
  Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
@@ -102,108 +105,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-So with clang, I get these drm build warnings
+On Sat, 26 Apr 2025 at 10:42, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> We had something similar some time ago, where there was a drm
+> assertion without error handling, which caused the compiler to see
+> that there was a static path where the invalid value was used, and
+> then caused other problems. I forget the details, and gmail search
+> isn't helping me
 
-  drivers/gpu/drm/amd/amdgpu/../display/dc/basics/fixpt31_32.o:
-     warning: objtool: dc_fixpt_recip() falls through to next function
-dc_fixpt_sinc()
+My dim memories came back and helped me with the right search terms,
+and this is what I was talking about:
 
-  drivers/gpu/drm/amd/amdgpu/../display/dc/sspl/spl_fixpt31_32.o:
-     warning: objtool: spl_fixpt_recip() falls through to next
-function spl_fixpt_sinc()
+   https://lore.kernel.org/all/CAHk-=wg4ETks+pGUco4gDrRxT+1UBbFGQtpOqSxLSzvVAWpm5w@mail.gmail.com/
 
-and the warnings seem real. I ignored them because it wasn't entirely
-obvious what was going on and I was looking at other things, but today
-I looked at why these happen.
+different compiler, very different results, but same kind of issue:
+warning about an error case without actually *dealing* with the error,
+which results in the compiler seeing a static code path from the
+warning to an invalid situation, and causing odd problems.
 
-What is going on is that the *_fixpt_recip() function has a
+Please people: "ASSERT()" like behavior is simply not acceptable in
+the kernel. WARN_ON() and friends need to either be otherwise benign
+(ie "warn but then continue to do valid things") or they need to be
+*handled* (ie "warn and then refuse to do things that aren't valid").
 
-        SPL_ASSERT(arg.value);
+Just warning and then doing random crap is not sane. If you aren't
+capable of dealing with the situation, don't do the bogus test. Just
+warning about it isn't fixing the code, and can make things actively
+worse as in these two examples.
 
-which results in basically a test for 'arg.value' being zero and a WARN_ON()
+But I do think that clang needs to stop doing that "make things
+actively worse" part. Maybe even have an actual honest-to-goodness
+"this is a static undefined situation, I will stop generating code AND
+THAT MEANS I FAIL THE BUILD".
 
-Then - through inlining - we get from *_fixpt_recip() to
+Not this silent "now I generate random code by falling through to
+something else entirely" that clang does now. Not good.
 
-  spl_fixpt_from_fraction ->
-    spl_complete_integer_division_u64()
-
-here we have *another* check for the divisor not being zero:
-
-        SPL_ASSERT(divisor);
-
-and then it goes on to inline the code:
-
-      spl_div64_u64_rem() ->
-        div64_u64_rem()
-
-which does
-
-        *remainder = dividend % divisor;
-        return dividend / divisor;
-
-so now what has happened is that clang sees that when it inlines those
-things, it basically has a path with two warnings, following a divide
-by a value known to be the constant zero.
-
-And that makes clang just stop generating any code at all, and the asm
-looks like this:
-
-spl_fixpt_recip:                        # @spl_fixpt_recip
-# %bb.0:
-        callq   __fentry__
-        testq   %rdi, %rdi
-        je      .LBB3_10
-  ...
-.LBB3_10:
-        #APP
-     .. disgusting unreadable for WARN_ON() on line 199 ..
-        #NO_APP
-        #APP
-     .. disgusting unreadable for WARN_ON() on line 32 ..
-        #NO_APP
-.Lfunc_end3:
-
-because clang has decided - correctly - that this path now divides by
-zero. Notice how it just falls off at .Lfunc_end3 with no actual
-divide, and no other sign of "you have failed at life".
-
-However, this is actually problematic for the kernel: yes, the warning
-hopefully helps show what is wrong, but because clang has now
-generated code that basically jumps to random code, you get random
-security issues if the warnign ever triggers (and there are
-configurations where the warning is just disabled).
-
-So there are two problems here:
-
- - the drm code should not "assert" crap. Do proper error handling, or
-don't. But don't have a random "this is a known bad value" and then
-fall back to using that value anyway.
-
-We had something similar some time ago, where there was a drm
-assertion without error handling, which caused the compiler to see
-that there was a static path where the invalid value was used, and
-then caused other problems. I forget the details, and gmail search
-isn't helping me
-
-But I *really* think that clang silently just generating known bad
-code for invalida operations like this is very very dangerous, and is
-a bug in clang.
-
-So I'm cc'ing drm and clang people (and x86 people) in the hope that
-we can fix both of these things.
-
-Can we *please* get a flag for clang that it doesn't just stop
-generating code because it has decided some path is unreachable or
-undefined? Add a TRAP instruction, for Chrissake! PLEASE!
-
- Maybe such a flag already exists, and the kernel just doesn't know
-about it. This whole "do random things for undefined behavior" is a
-bug, dammit.
-
-And yes, the drm code shouldn't be doing this. Adding warnings for
-things that will oops is actually counter-productive. It generates
-extra code, but this is an example of it actually causing *more*
-problems. We'd have been better off with a nice clean divide-by-zero
-oops than with a warning followed by random behavior.
-
-               Linus
+              Linus
