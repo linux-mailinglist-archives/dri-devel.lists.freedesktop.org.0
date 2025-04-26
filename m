@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FD0A9D835
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 08:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD06A9D837
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 08:14:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFE4910E1D5;
-	Sat, 26 Apr 2025 06:14:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D783C10E1FC;
+	Sat, 26 Apr 2025 06:14:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kItm1LyY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nrsqxMkQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75A9910E1D5;
- Sat, 26 Apr 2025 06:14:03 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD78E10E1FC
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 06:14:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id BBE85A4D10C;
- Sat, 26 Apr 2025 06:08:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 588B0C4CEE2;
- Sat, 26 Apr 2025 06:14:02 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id A999749B84;
+ Sat, 26 Apr 2025 06:14:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AAB9C4CEE2;
+ Sat, 26 Apr 2025 06:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745648042;
- bh=tgnkQjbME95yyx26he3+PrzzkQMxy8GR11SY9HIto2Y=;
+ s=k20201202; t=1745648076;
+ bh=2S6FazreNdjnfIYoLguCqFO9oh1E5RA+zvoSpthv3PA=;
  h=From:To:Cc:Subject:Date:From;
- b=kItm1LyY5xe3XMkcah/akXlxaFMBxPlQEXLELtW+ZTB0PCEvXfhO7nJD8tqW5xCPq
- RYXNKKUgo5CtfJoLq5RaUJt7spV6y+vpcO7sqgjjFZ5ssDGtWAQRA66eJwe0kYNjDi
- LrJGf7qcqOJr6sLFCbTXk3+0PeW/K6V8DP2sY3vP9IToZRzEECjPKXVOhlzQbgx/uW
- lFnxwqR/CDp5o7hY6+en4WlUXpAFmYzCAuRy0si4c7U5Y4RFIuJ1i/Xw0LgAmwmBS9
- HXaU7pSvkQTwXKGCHOwdJScRIlLhlhXdVGPkGvQJSN65n0ItpcjG+JHFv0KX4H5TYy
- PxESg/+v7ZFxg==
+ b=nrsqxMkQLI8iHlTgxJHpUFqF41aD6CByanLOmURxG4Sr+qv7Zo1QEiHZFBJ6BNsEs
+ yrN2NKnVJsipUJQTDYCXLMpDQfg5z5G+LknEnno/Dvtde19fQun8pK6LtaU74EerYM
+ JV3a2+gFE5weDPL9t3nVvoR1Daxg/5RRodYvScqjaM8/w0QZi7buE+RBuq0Jdp6zBo
+ VDx+d3t9Cge+DBP8A5FJdBqbKgWpc8zNiHbJLzpcrNjdWG4Dl3b+EeXGJqMwwtppgo
+ oUgLB00eotL4RZllkuWEe3rho4rCHKQF18NWqOUtzZgbjB+qfdonyxwktbJiufbi/3
+ Uc2piYQsKxiPw==
 From: Kees Cook <kees@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Kees Cook <kees@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>,
- Gustavo Sousa <gustavo.sousa@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Gnattu OC <gnattuoc@me.com>, Nitin Gote <nitin.r.gote@intel.com>,
- Ranu Maurya <ranu.maurya@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Angus Chen <angus.chen@intel.com>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Yu Jiaoliang <yujiaoliang@vivo.com>,
- Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: [PATCH] drm/i915/gt: Remove const from struct i915_wa list allocation
-Date: Fri, 25 Apr 2025 23:13:58 -0700
-Message-Id: <20250426061357.work.749-kees@kernel.org>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Kees Cook <kees@kernel.org>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: [PATCH] drm/vkms: Adjust vkms_state->active_planes allocation type
+Date: Fri, 25 Apr 2025 23:14:32 -0700
+Message-Id: <20250426061431.work.304-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1895; i=kees@kernel.org;
- h=from:subject:message-id; bh=tgnkQjbME95yyx26he3+PrzzkQMxy8GR11SY9HIto2Y=;
- b=owGbwMvMwCVmps19z/KJym7G02pJDBk8lcvipJa8W+WvvlcpZW4B19WOZr7wTpaktT2P8/bYz
- 1qi0n2xo5SFQYyLQVZMkSXIzj3OxeNte7j7XEWYOaxMIEMYuDgFYCKzeRgZHqX/1Z20lO/fpmST
- CSeKjqsuzK5R+NfpXLpwx6T9HaY+gYwM+4K9Di5fy3b3GQN3+v+q1KpHB+aUti25s6tcaGI61+M
- SBgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1626; i=kees@kernel.org;
+ h=from:subject:message-id; bh=2S6FazreNdjnfIYoLguCqFO9oh1E5RA+zvoSpthv3PA=;
+ b=owGbwMvMwCVmps19z/KJym7G02pJDBk8lSfu6W4MtPbYf3hzwpalax4WLg559Ob6Wpb5E4rSV
+ it9ik8u6yhlYRDjYpAVU2QJsnOPc/F42x7uPlcRZg4rE8gQBi5OAZjICxdGhvUb248ZT+JffLlV
+ tVL/wudGWdXjX6eG8WRGs9qYxhYuZ2P4H5rlLi716ODxDhuv0LKL6nlh8sIdb3Z15xwtVuxSnSH
+ FAgA=
 X-Developer-Key: i=kees@kernel.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -83,42 +73,38 @@ we need to make sure that the returned type from the allocation matches
 the type of the variable being assigned. (Before, the allocator would
 always return "void *", which can be implicitly cast to any pointer type.)
 
-The assigned type is "struct i915_wa *". The returned type, while
-technically matching, will be const qualified. As there is no general
-way to remove const qualifiers, adjust the allocation type to match
-the assignment.
+The assigned type is "struct vkms_plane_state **", but the returned type
+will be "struct drm_plane **". These are the same size (pointer size), but
+the types don't match. Adjust the allocation type to match the assignment.
 
 Signed-off-by: Kees Cook <kees@kernel.org>
 ---
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: David Airlie <airlied@gmail.com>
+Cc: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
 Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Gustavo Sousa <gustavo.sousa@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: <intel-gfx@lists.freedesktop.org>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
 Cc: <dri-devel@lists.freedesktop.org>
 ---
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 2 +-
+ drivers/gpu/drm/vkms/vkms_crtc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 116683ebe074..b37e400f74e5 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -156,7 +156,7 @@ static void _wa_add(struct i915_wa_list *wal, const struct i915_wa *wa)
- 	if (IS_ALIGNED(wal->count, grow)) { /* Either uninitialized or full. */
- 		struct i915_wa *list;
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index 12034ec12029..8c9898b9055d 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -194,7 +194,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
+ 		i++;
+ 	}
  
--		list = kmalloc_array(ALIGN(wal->count + 1, grow), sizeof(*wa),
-+		list = kmalloc_array(ALIGN(wal->count + 1, grow), sizeof(*list),
- 				     GFP_KERNEL);
- 		if (!list) {
- 			drm_err(&i915->drm, "No space for workaround init!\n");
+-	vkms_state->active_planes = kcalloc(i, sizeof(plane), GFP_KERNEL);
++	vkms_state->active_planes = kcalloc(i, sizeof(*vkms_state->active_planes), GFP_KERNEL);
+ 	if (!vkms_state->active_planes)
+ 		return -ENOMEM;
+ 	vkms_state->num_active_planes = i;
 -- 
 2.34.1
 
