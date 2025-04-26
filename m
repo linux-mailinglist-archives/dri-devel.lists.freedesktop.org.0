@@ -2,127 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D60DA9D79E
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 07:06:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CBFA9D7B1
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 07:52:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20A0610E20F;
-	Sat, 26 Apr 2025 05:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7238610E11A;
+	Sat, 26 Apr 2025 05:52:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UwiPqJcW";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="STeY3nIh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47DAC10E050
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 05:06:48 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53Q3YteD002338
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 05:06:47 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E88B10E11A
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 05:52:45 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53Q4lxvs012252
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 05:52:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=eIL0w0SaX4fEgbdtMZSS99AU
- nD4HN81VW+RR9ZFL48M=; b=UwiPqJcWeRfXKGZLlT0agSw339wTDg3PCCVj8LQH
- yA5RINtNoHEdSVM1JsHflF+FPX3yiiaGkso7Zz9lz09vSwtO79HJQ50Qh+g8nZX/
- vHhrHJbs23P3OlGSTxLMtHWF3WGTZXU7YZ+MxbgrRvJBuW8D/jiwHBILVxoWvCx6
- oLpQT9fRf9hSZrYbtlFjcNDFg9gAQ7yGtliUCQzzTopF8pV5qpbYkxAYVK41hg2m
- SyXa3VebwcVirsIOEWrc4NQEOOZMmb+yzcfK/nWpZla4JSm/dGtOQbiMnTkGpME3
- T4poN4r+p477qwePiZpI2s5rXEEQNpwZ569C0nlIG8SxBw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468qq585w4-1
+ :references:subject:to; s=qcppdkim1; bh=wPJiynUC5KrcChLqRhN+do2f
+ Q7u3TtFrtBAAerVGWrE=; b=STeY3nIhQbk54o0P6ireoWGeLAsgBSWr6NRaWQ1j
+ g4fKz8JnZXytwXe3hDg+7QZC4rN9pR0Q6VctYSRfSogq92bWCKNWyikjRVaeoTVi
+ ltVBVQOOWOLnjbzh62fozs1rFzhjhVUkmRKiQio8PUZaSPWIaAq7G0lHInuNjdkn
+ cmiVFXM3qBlYggT3rG/BfEzW7VlQITRSLc5OPwYTU6nilBtEdIytV0x14nVMgp0v
+ ZkribfDVy0T5l8hX7KC5Fp4dlXOPRFY84i9t30Um0/+bLAxXTBZOO8lC7RG0q9Aq
+ pRbTWFMnZiJiKePP9gJC+mEg0kjZFX4pCCv09wLqfyMuXA==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468rsb04gc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 05:06:47 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7c7c30d8986so838928785a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 22:06:47 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 05:52:44 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-6e9083404b7so52290266d6.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 22:52:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745644006; x=1746248806;
+ d=1e100.net; s=20230601; t=1745646763; x=1746251563;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=eIL0w0SaX4fEgbdtMZSS99AUnD4HN81VW+RR9ZFL48M=;
- b=ZAhqQQBd7pqm4UL+YUbQnX6heVxoPVfBHFX3phvEn53iWww3pljE+ZrxS21/1df6CO
- sD6LWvuMyJrEebIYVlCAz0eh9ocCkePfhrLtinq/X3mQezeGzMsewzyqVaazWCjBN1M8
- J+7FUWnTLFxFM/0SV68FeR6obYGpkZeN/JpW1s7vb30Ui/vU7exgKw07dkBCqvNGPTWX
- kCiVDrIBiy0B1zS3eXMIWXV87m3boXLUX7tpxnKXnYjmsDpe0jsXQOexaBD696wquMu4
- A4jm6N9l/rPpqCAAjaaXqc6Y/eR7Zki6NlTDfPgq3bHBHEHiefVqlbTO3YJLjaUKmSOE
- ffPw==
+ bh=wPJiynUC5KrcChLqRhN+do2fQ7u3TtFrtBAAerVGWrE=;
+ b=NYBaHaLNYEFCjjTeQnKaxkHhWxktG8gJUg5Mz3RI/y0p/zYZ7NgFCnX8pbMMP6kYhJ
+ VeNvxOZ+MGzI4Y2nnLHDEKicebvky+ZrofCmtfYI3AcszgNaTUm7TSktGG06WGjD1ojk
+ K9MCra5wVBKmvKAzQDdgnnxx4ykr1QlAxtzEi+a6cJ3mAeje8fZWexYbbLaRlOEC6crV
+ CvgI0mwN/lCbjcx9hI0ZmnjP/6KkJFkeS7tpyEUSVs9J0OTCugALY8cln5xcUQ1nfqyQ
+ mSID5WwMhse0hsV14EaH27VnfKR6BbUx81O6ssRyMcGOh0RoQXiyse/nw5FE7aJXoglh
+ L8VQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW1a6gTXl/xdu/ZziS4//YWklYoTnrMlBvD3u9dz6DmXiwG03KKqyWalcRkKzU6gQ83KKw+zI+t5U4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8mPZKMoq42xbIc/+KcLjiBvfOx8VbkWyBJUBon/RUS9sVcc8V
- 6WPwujaRwjTMMLMd6Gr/BLlSh06T/hKF4FngV2EsX9mM1wCJahuaVq7qrkYk3vBSwZZ7DV3odq/
- 0oombE8GBvMM5NsP4rumBAZsTGfbjq89w6PkyDoBoFWIgjDj68AYnHgoXlRty5B/XKwk=
-X-Gm-Gg: ASbGncudOiJufsCVzQm8HyFsERbgENUwDxE3LKKvr9JX0L0PqZg4bbWj0HOb2IqUHQl
- dqmF+rDs0WlAuX8x+teHq5xjkBpIczWDnA+1kctwMlyg4g8ApOoPMWpyD2nEBL8Z595NDZckPU+
- OtrB9TW/o+yAQHOyLbNNuCDVamLtlkC6RzD81N7cWVutMwCN1KEdLg7WfHMwBS45pQokm6A8xh1
- RQ7m2yp+0C/8jNk3IXDRdsY1uKr6y95BwHrZ2d1PerVswE7L+0UNGu1W6DVd2ZSfYfi13HiPaS8
- qMLEVlm/kKzQnEcPkWq0U8iBFw5Lo8yxhEXos41o+4MlQ8xz8UwFKrjnnIT2xqAbQpnX3J6jw3U
+ AJvYcCXT4a6zOd81eQOMLWbxvStgA659a2SMWB4nVH5kNCQ8fmq7vF4J45PQQE/XRd12Zwk+couWXpLMsEg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyX3AMXTvFpOsqr+ROiS0IuXm3yXauPMpckg8/O8hZlEA0Qz8CC
+ 0MbtEzZqYaFdV3xppT6/vqnuzQrKReJUOnGys7+Qq1i0R7jJ/sBCCYK7nso7f9VfHOQeaZImCSr
+ 4uLMVo6RdUfsFfy7EwzK/4GG2RNcIzA0SZ1LiQZ2KDpOM++/4zDPG1/Cq0OnowfZTQHo=
+X-Gm-Gg: ASbGnctka1HfIQzhl9U/DboQfATf79W3yU3L42YTcMNFwthu0iq+A64D4nIDole0vu6
+ oipHc4MvK/cIdNHmN202sXYfzUaVlaa5afprwG18QfWdugUcBhxT9R7wsVBGJTs09EkD9PVtPFE
+ D0shY6Fcvow9u2inyGa5q+g/0WAR3B+KXwHJrTdYgiwUPWxl3yKgfABZ/qX9QXiGdK4uC/Owu8S
+ vnEaWSQqTJAGETKiDIQDgm6dQ0F15pNAxKM7wxzYC6QDuHPHsU8nxN5jl0tlm7YolcCE0u74OLG
+ 8ESyZxZgTxvK10rdu9bUQWdCBzyVWIFwMb2pF8SmoDYxesbbYOuLlWq0EE6kLC39EKxKpRkzNWw
  =
-X-Received: by 2002:a05:620a:2894:b0:7c5:5e05:df33 with SMTP id
- af79cd13be357-7c9668cda1cmr346615985a.51.1745644006431; 
- Fri, 25 Apr 2025 22:06:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEMaVXLId8fuUgq9yIofTuCxPmggQOFvjAUGTOfOuo8GXCozhFMNKAnbZiG2Wbb5ZGjE45ggQ==
-X-Received: by 2002:a05:620a:2894:b0:7c5:5e05:df33 with SMTP id
- af79cd13be357-7c9668cda1cmr346614185a.51.1745644006052; 
- Fri, 25 Apr 2025 22:06:46 -0700 (PDT)
+X-Received: by 2002:a05:6214:29ca:b0:6d8:a7e1:e270 with SMTP id
+ 6a1803df08f44-6f4cbb5893bmr70485356d6.40.1745646763444; 
+ Fri, 25 Apr 2025 22:52:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHGfnM89hyAQV0jPbK7IhI4wD6nEJfo4E+eFt6OFBoKATt5UnIfwc6pP9Q3dfmcI6nbIsPN2w==
+X-Received: by 2002:a05:6214:29ca:b0:6d8:a7e1:e270 with SMTP id
+ 6a1803df08f44-6f4cbb5893bmr70485266d6.40.1745646763120; 
+ Fri, 25 Apr 2025 22:52:43 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54e7ccb7bf9sm837712e87.215.2025.04.25.22.06.43
+ 38308e7fff4ca-317d1b96d27sm10503671fa.107.2025.04.25.22.52.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Apr 2025 22:06:45 -0700 (PDT)
-Date: Sat, 26 Apr 2025 08:06:42 +0300
+ Fri, 25 Apr 2025 22:52:42 -0700 (PDT)
+Date: Sat, 26 Apr 2025 08:52:40 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Luca Weiss <luca@lucaweiss.eu>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: msm: qcom,mdss: Document
- interconnect paths
-Message-ID: <cmmongeaqwfsfnhpmwdsvozhjzkbdqncktiski4jvqgn5sjmsj@2lw4vesrcwjc>
-References: <20250420-msm8953-interconnect-v2-0-828715dcb674@lucaweiss.eu>
- <20250420-msm8953-interconnect-v2-1-828715dcb674@lucaweiss.eu>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Jonathan Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH] drm/fbdev-client: Ignore EOPNOTSUPP errors
+Message-ID: <tqvzgt3cyf453x6eovhe2ox5n7w4wacmdjzxpclxsubq3ub7ld@a6fzvt2is2sa>
+References: <20250412070047.6725-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250420-msm8953-interconnect-v2-1-828715dcb674@lucaweiss.eu>
-X-Proofpoint-ORIG-GUID: 6vJM4uOSpjLcfJAVJ1rD8T15vm-Rl1H0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI2MDAzMCBTYWx0ZWRfX41HvY1g3vWfv
- Ug2gJBAqGJeS0kBAPz+7hhXycVevolsdSXM3CdLpNofTznXzaOuj/IK1931VlsrzD4O48njhs/Z
- leeBMrRj70wrI1FufT8Gbtj8KnpUb3nfHGQUrs7G6o81D2jjk1fIqFNbl5M7o+ah7VUmGvTU5CE
- +tEOszlqkcun0/sTh1JA+Cf6jaQ/lrp8xBr7uz+PMJoSJHD3WVY+l7W3k+G/4jlObJ6Hvt9+HcQ
- Kx4Ac/6KZmQsM/chkMvEU4MyTd4tuY9kdcRLmFixa2jpvQx/Ip/YMt7nH76z8/rJBLbzc4wxDRj
- kb+zCYybH9vkFPESh1Fe78s5/NxQwmndr2a5XhfoETDhy3s6I7jsis70ch3ixzLpUbBC5tGv9ka
- 3okTsGB9ba78G1NSgDgRHvwB70vXNHfStA1AWyK5OFsbmCKb3MKJp45B7ArMiteBy/gzP0sH
-X-Authority-Analysis: v=2.4 cv=QP1oRhLL c=1 sm=1 tr=0 ts=680c69e7 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=dlmhaOwlAAAA:8 a=EUspDBNiAAAA:8
- a=z5yIEXyMNdJ1grE4PEwA:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=y4cfut4LVr_MrANMpYTh:22
-X-Proofpoint-GUID: 6vJM4uOSpjLcfJAVJ1rD8T15vm-Rl1H0
+In-Reply-To: <20250412070047.6725-1-thierry.reding@gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI2MDAzMyBTYWx0ZWRfX0L17W1Z4vU2c
+ I17IamQjCDs4tbYQSm4Iabc1eXpDDwjOoCZvQQGLXkQJ7f3Rx5FnoFfe7ReT70J4y7E15b2Wo+K
+ UH9bP5Ch8GjO7BWzYG6JCP/KZ8QCipsycwCQZt8+brf4JY+TVMQ3TNiAGUWxPx3sm1FUSKGop4N
+ NxaVN0dxK5vQgFPK8pCK/bQw4A2g1EvS1RqdbjzaTJJZHZA/USBgOt2d+6r/ORg/osX+8NslxeM
+ mFBdLAzHWKB62rvdWrZZZxIDo3QUW+qOOcCL09nWQ/RoVAUVnI/C0hM+BKD4UMwfMdm10QxEaLH
+ b2EKBmtTH8eLNwvey2HgC0dVLjjBH03JWkxNevig0ZpqizI436gCpUZHJ1cptGOClRURvLgoTnZ
+ TPGyYr29aqZVG6VUzFiRo0GD2c5t3v8CgMRmFEgeKydRckLt6RRds8n2OM/XAhFieEJlmypI
+X-Proofpoint-GUID: dqS1tiwAuY5BOEEuTbl_uAPqSB5qzU-o
+X-Proofpoint-ORIG-GUID: dqS1tiwAuY5BOEEuTbl_uAPqSB5qzU-o
+X-Authority-Analysis: v=2.4 cv=I8ZlRMgg c=1 sm=1 tr=0 ts=680c74ac cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=Ikd4Dj_1AAAA:8 a=IgeXuqktetCwhAi8AUwA:9 a=CjuIK1q_8ugA:10
+ a=pJ04lnu7RYOZP9TFuWaZ:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-26_01,2025-04-24_02,2025-02-21_01
+ definitions=2025-04-26_02,2025-04-24_02,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- clxscore=1015 mlxlogscore=999 lowpriorityscore=0 adultscore=0 mlxscore=0
- bulkscore=0 phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504260030
+ lowpriorityscore=0
+ phishscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ malwarescore=0 impostorscore=0 mlxscore=0 adultscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504260033
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,22 +125,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 20, 2025 at 05:12:43PM +0200, Luca Weiss wrote:
-> Document two interconnect paths found on the MDSS on MSM8953.
+On Sat, Apr 12, 2025 at 09:00:47AM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
-> ---
-> There's also some interconnect paths defined in the mdp5 schema, both
-> drivers accept it. Newer mdss schemas seem to prefer mdp0-mem + cpu-cfg
-> in the mdss schema instead of in the dpu subnode. Since there's no
-> cpu-cfg defined with mdp5, I've added these paths here.
-> ---
->  Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+> Recent generations of Tegra have moved the display components outside of
+> host1x, leading to a device that has no CRTCs attached and hence doesn't
+> support any of the modesetting functionality. When this is detected, the
+> driver clears the DRIVER_MODESET and DRIVER_ATOMIC flags for the device.
 > 
+> Unfortunately, this causes the following errors during boot:
+> 
+>     [      15.418958] ERR KERN drm drm: [drm] *ERROR* Failed to register client: -95
+>     [      15.425311] WARNING KERN drm drm: [drm] Failed to set up DRM client; error -95
+> 
+> These originate from the fbdev client checking for the presence of the
+> DRIVER_MODESET flag and returning -EOPNOTSUPP. However, if a driver does
+> not support DRIVER_MODESET this is entirely expected and the error isn't
+> helpful.
+> 
+> One solution would have been to conditionally call drm_client_setup()
+> only if modesetting is supported. This seems a bit redundant, however,
+> and could further complicate things if ever any DRM clients are added
+> that do not rely on modesetting.
+> 
+> Instead, simply add an extra check to ignore this expected error and
+> skip the fbdev client registration.
+> 
+> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/gpu/drm/clients/drm_fbdev_client.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/clients/drm_fbdev_client.c b/drivers/gpu/drm/clients/drm_fbdev_client.c
+> index f894ba52bdb5..8c8552ed912e 100644
+> --- a/drivers/gpu/drm/clients/drm_fbdev_client.c
+> +++ b/drivers/gpu/drm/clients/drm_fbdev_client.c
+> @@ -152,7 +152,11 @@ int drm_fbdev_client_setup(struct drm_device *dev, const struct drm_format_info
+>  
+>  	ret = drm_client_init(dev, &fb_helper->client, "fbdev", &drm_fbdev_client_funcs);
+>  	if (ret) {
+> -		drm_err(dev, "Failed to register client: %d\n", ret);
+> +		if (ret != -EOPNOTSUPP)
+> +			drm_err(dev, "Failed to register client: %d\n", ret);
+> +		else
+> +			ret = 0;
+> +
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Wouldn't it be better to explicitly return 0 in the beginning of the
+function if !drm_core_check_feature(dev, DRIVER_MODESET) ?
+
+>  		goto err_drm_client_init;
+>  	}
+>  
+> -- 
+> 2.49.0
+> 
 
 -- 
 With best wishes
