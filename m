@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD06A9D837
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 08:14:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFA7A9D85A
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Apr 2025 08:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D783C10E1FC;
-	Sat, 26 Apr 2025 06:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 073A910E159;
+	Sat, 26 Apr 2025 06:23:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nrsqxMkQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aHo9/Fab";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD78E10E1FC
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 06:14:40 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F62110E159
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 06:23:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A999749B84;
- Sat, 26 Apr 2025 06:14:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AAB9C4CEE2;
- Sat, 26 Apr 2025 06:14:36 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id F0ECB61127;
+ Sat, 26 Apr 2025 06:22:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 455B5C4CEE2;
+ Sat, 26 Apr 2025 06:23:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745648076;
- bh=2S6FazreNdjnfIYoLguCqFO9oh1E5RA+zvoSpthv3PA=;
+ s=k20201202; t=1745648590;
+ bh=27+zMyxeObnY+2ZctN5Kd1JdUG7p8OUHfohFohgaffs=;
  h=From:To:Cc:Subject:Date:From;
- b=nrsqxMkQLI8iHlTgxJHpUFqF41aD6CByanLOmURxG4Sr+qv7Zo1QEiHZFBJ6BNsEs
- yrN2NKnVJsipUJQTDYCXLMpDQfg5z5G+LknEnno/Dvtde19fQun8pK6LtaU74EerYM
- JV3a2+gFE5weDPL9t3nVvoR1Daxg/5RRodYvScqjaM8/w0QZi7buE+RBuq0Jdp6zBo
- VDx+d3t9Cge+DBP8A5FJdBqbKgWpc8zNiHbJLzpcrNjdWG4Dl3b+EeXGJqMwwtppgo
- oUgLB00eotL4RZllkuWEe3rho4rCHKQF18NWqOUtzZgbjB+qfdonyxwktbJiufbi/3
- Uc2piYQsKxiPw==
+ b=aHo9/FabE7ZQa+vos7KsSZ4IJeQlktU6shV39qpD4mWsp2zFVhGZs6e02/MoMZtSB
+ jH3fwcdHt9avgFrD0P9elk2pPCYbhJdzeaEmIEYpHBnL21CNLVxOkwfTDimBSJKj3F
+ kFXpHC7K6HfNgKtrbkcPZ6cP8MH+S/5/xMfvJlB/4i2u/cY11YIdxsYszcP1uE7Ep7
+ +sPhzEVBw1U3+A7FRptQLwD2zx7Z/jkVlT//0lPYwJvgQln4EUELfSATEp2yKrOD7S
+ yS22uIeTcf02PyK2V1rnfWuHLFQ4yjv/J8PV7wNzPzr95PzN/TrugIv+nCr5lc5FH2
+ ASxErqEnFUjHA==
 From: Kees Cook <kees@kernel.org>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Kees Cook <kees@kernel.org>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: [PATCH] drm/vkms: Adjust vkms_state->active_planes allocation type
-Date: Fri, 25 Apr 2025 23:14:32 -0700
-Message-Id: <20250426061431.work.304-kees@kernel.org>
+To: Helge Deller <deller@gmx.de>
+Cc: Kees Cook <kees@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Zheyu Ma <zheyuma97@gmail.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH] video: fbdev: arkfb: Cast ics5342_init() allocation type
+Date: Fri, 25 Apr 2025 23:23:06 -0700
+Message-Id: <20250426062305.work.819-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1626; i=kees@kernel.org;
- h=from:subject:message-id; bh=2S6FazreNdjnfIYoLguCqFO9oh1E5RA+zvoSpthv3PA=;
- b=owGbwMvMwCVmps19z/KJym7G02pJDBk8lSfu6W4MtPbYf3hzwpalax4WLg559Ob6Wpb5E4rSV
- it9ik8u6yhlYRDjYpAVU2QJsnOPc/F42x7uPlcRZg4rE8gQBi5OAZjICxdGhvUb248ZT+JffLlV
- tVL/wudGWdXjX6eG8WRGs9qYxhYuZ2P4H5rlLi716ODxDhuv0LKL6nlh8sIdb3Z15xwtVuxSnSH
- FAgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1621; i=kees@kernel.org;
+ h=from:subject:message-id; bh=27+zMyxeObnY+2ZctN5Kd1JdUG7p8OUHfohFohgaffs=;
+ b=owGbwMvMwCVmps19z/KJym7G02pJDBk81ac+X1l5T0tgY5HOHT/tEy84W2w//dh8pP/bOpule
+ SF5y/av7ihlYRDjYpAVU2QJsnOPc/F42x7uPlcRZg4rE8gQBi5OAZiIfDYjwz6/cN0C0apLb6pZ
+ YvsP2eewrMh87lYp8vPjNr81aWorMhkZNvU6MrntOe/1YgJ7WvbOUAeX9K1zPI2/8z3TLD4x41c
+ LDwA=
 X-Developer-Key: i=kees@kernel.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -73,38 +72,38 @@ we need to make sure that the returned type from the allocation matches
 the type of the variable being assigned. (Before, the allocator would
 always return "void *", which can be implicitly cast to any pointer type.)
 
-The assigned type is "struct vkms_plane_state **", but the returned type
-will be "struct drm_plane **". These are the same size (pointer size), but
-the types don't match. Adjust the allocation type to match the assignment.
+The assigned type is "struct dac_info *" but the returned type will be
+"struct ics5342_info *", which has a larger allocation size. This is
+by design, as struct ics5342_info contains struct dac_info as its first
+member. Cast the allocation type to match the assignment.
 
 Signed-off-by: Kees Cook <kees@kernel.org>
 ---
-Cc: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
+Cc: Zheyu Ma <zheyuma97@gmail.com>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: <linux-fbdev@vger.kernel.org>
 Cc: <dri-devel@lists.freedesktop.org>
 ---
- drivers/gpu/drm/vkms/vkms_crtc.c | 2 +-
+ drivers/video/fbdev/arkfb.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 12034ec12029..8c9898b9055d 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -194,7 +194,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- 		i++;
- 	}
+diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
+index 082501feceb9..7d131e3d159a 100644
+--- a/drivers/video/fbdev/arkfb.c
++++ b/drivers/video/fbdev/arkfb.c
+@@ -431,7 +431,7 @@ static struct dac_ops ics5342_ops = {
  
--	vkms_state->active_planes = kcalloc(i, sizeof(plane), GFP_KERNEL);
-+	vkms_state->active_planes = kcalloc(i, sizeof(*vkms_state->active_planes), GFP_KERNEL);
- 	if (!vkms_state->active_planes)
- 		return -ENOMEM;
- 	vkms_state->num_active_planes = i;
+ static struct dac_info * ics5342_init(dac_read_regs_t drr, dac_write_regs_t dwr, void *data)
+ {
+-	struct dac_info *info = kzalloc(sizeof(struct ics5342_info), GFP_KERNEL);
++	struct dac_info *info = (struct dac_info *)kzalloc(sizeof(struct ics5342_info), GFP_KERNEL);
+ 
+ 	if (! info)
+ 		return NULL;
 -- 
 2.34.1
 
