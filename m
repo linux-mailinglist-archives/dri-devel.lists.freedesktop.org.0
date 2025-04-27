@@ -2,65 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04F8A9DE75
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Apr 2025 03:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CB7A9DEB0
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Apr 2025 04:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43CB810E059;
-	Sun, 27 Apr 2025 01:46:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BD8310E0AC;
+	Sun, 27 Apr 2025 02:37:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OjxSi1cn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MriyEWx3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BAA410E059
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Apr 2025 01:46:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4B8B649EDB
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Apr 2025 01:46:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07D00C4CEEA
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Apr 2025 01:46:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745718407;
- bh=SnY0OVfoDmbXp5koX1Ut+7k1dmo/CROGEsXd1gmHnO0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=OjxSi1cn6I5f6ICjrjhXad56TRK1i+y/AHQUc/5otvDDX7e8TDm1YRqpkH4hH/fyH
- 0YFMywvkD/ZkBq/p7QXyE7sQFYbfvlTbECFwj1fRASa5Ffu1GHwJUtWXlOzEdR/8BF
- WBIT8efXIoqHNb9FLAnQreDsJLDiRFPlTUY05MZh/0jSH4YF8mToo4nuPrxNmT1K+2
- +MvbLrUEaIIvlAKsKRlTGJB/G3y0xRhWBd4TZ8+xfBs18SV6LKPdxtiux/pA95X32x
- lEeECD631518qCrdROzHls1T3vX6194Fr4Cy7239dOcsEkt0LyidiDrBnf6URhFngi
- 3yDVgCn/TYSwg==
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-5ed43460d6bso5006670a12.0
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 18:46:46 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EBEC10E0AC;
+ Sun, 27 Apr 2025 02:37:10 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-2295d78b45cso53239715ad.0; 
+ Sat, 26 Apr 2025 19:37:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1745721429; x=1746326229; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sGhmxhSrOG99ny8cfzHBCSn4oPUOL2LGUGAF5QgBGIw=;
+ b=MriyEWx3ueC7pBQpCVuOo1/PjbxkpN/B2qRqWasyRT2p9cB0txdXYgPY1XpthxXI+f
+ iJgUS1lylpgSTsHlcwSv6gLBvlobR0bHOLG5SUCEEqsPWALHMmCkxbbq9QFQpOZiituJ
+ H0ynQ+MfGVd1E+WpuRhsmKMumWiNcrfhMNq08tGkgZvaCimIlBMmhYyNI0Ew1bDgn8CG
+ rWZTLJJ/5pHtinHwWLn7QSLwuwecQAOxYSFx+kqHq/LSihbPMNb5hbV4EgO7NmetQKxf
+ VQcswkz51ema4DJfvIq1CCCRShPyz/jSfgDwdYnnl/6dVJBwG9q9Bo2ES5mhhoIB8B1T
+ VGfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745721430; x=1746326230;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sGhmxhSrOG99ny8cfzHBCSn4oPUOL2LGUGAF5QgBGIw=;
+ b=MRKEvhCkruApeZzw6AbcfCiz2pgqg3p+hu5PVPD7eqthNHkQzgyBtBJ/30IRLEYAK4
+ TRjThhSncjsyitM+NSW9SZPU/aGWyKE4wf5HYYBGVGz1AKh/Oj3NqmHvw+JCEDym8mFH
+ yOZ8IiuQF+ZhWna2CBQlnL437d0S6ZMY90E9kH/Rp8XfpK0aWOm3Pnuzm+IRQm2S1Tjc
+ 0R0x/Ajwvj0CPhij886GBwlTznl6DAPTsiCQEHcaTSvAQdxJ30RxQyg2qhjcpzAGJQz7
+ PjbTyfhOKwJ+QLFK4zC8zxQ5hcxFRVg2QNGd17JW8XyYdQzPyfyKxrYVPhJE+VWIJjYf
+ VLdg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV9/SeJHcCK44IfDAd8WFr/UsWKes3P+Jmes0DYb/E5+nLlbap8fkaSL3DpSq2d+LmtcPRhXbohnnY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw/58oBvpnNQcwyQEDeSF0SJ8GAWrifRmTDVCCQaD4KTk3RLHJY
- U0tnjk+W3o3OY12PIVyWWSc2gecgUcc3V9w1/uI3D3PXRqPar232tx6a/B/mHAwxp5F+JUR9t25
- HqZXzkog4HFHpIg9d3P0S+8Kkcg==
-X-Google-Smtp-Source: AGHT+IHwFnZmrXrm96vl8R7jE4+InC0lzNGtdGV49DZM/HkH0U6QBLErQWPSVSddA8htDu0Z5bOVhme32UVMcNPgYiE=
-X-Received: by 2002:a05:6402:3582:b0:5f4:370d:96bc with SMTP id
- 4fb4d7f45d1cf-5f722673ab2mr5556823a12.2.1745718405627; Sat, 26 Apr 2025
- 18:46:45 -0700 (PDT)
+ AJvYcCUK0kpFNkhLCgBuwN68DNwQiQ0Niwyn4lnE2chvEOrs3WBfHco92kOJ4GYzJirId64LooqEUGLB@lists.freedesktop.org,
+ AJvYcCVS1zbEbQ6S/mvxual8jvJZU73rjyfS7TunIpEg9ULwqSyHs90rtER7oqOBbnzrQqkktNEaXhkhfyzz@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0XImfah0/eC4tHFpiwOcipGqxWIx2Ab/YCwH6l9rWJoGw+HIN
+ 9+uANY1SIEjOSQ75DVtfR8YePkJSLEWMnJgSIQ6srs2+2JhZtq5l
+X-Gm-Gg: ASbGncvWcHpGNgYSgpEKjAtYyREBw3B6qt2tlf4PPgoVLvHqeEhlL4xFDuDk1bEFgyY
+ gIc225VXanUbvNcd/+i0yT9pCSJJ5KryynsjOjCUYWuTOmpF9YKBBNhU7VwNOps1n4wvGwxgg81
+ SuWZYLKaAcVL3x41SrZjysdms4ukNys1rvldkJ22ICZFPmPGwmhEAw0wDWM79E9Zu9eHCAqsk0e
+ jRubyjzIrHgM7SakcnKgsCCkbGmt1UcBpxKtD+IDp6E8zI+X8Yi7FtD0hNgJP3xqMCZsaeecnbw
+ 9RQ+IXQsv8YPVbMHF1rdYLB9sTo3dyEiDWvhHNX4
+X-Google-Smtp-Source: AGHT+IHORZxRoCwJgkxTIznfaV7sWbHLw+4c1AAkdhkWHc2dCqwboQ1cj9cnhpySTMZq7KnyUv6y+Q==
+X-Received: by 2002:a17:903:1b26:b0:21f:564:80a4 with SMTP id
+ d9443c01a7336-22dc6a6852amr69641655ad.33.1745721429362; 
+ Sat, 26 Apr 2025 19:37:09 -0700 (PDT)
+Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-22db4d74c93sm56570415ad.11.2025.04.26.19.37.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Apr 2025 19:37:08 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+ id 0AE584208F70; Sun, 27 Apr 2025 09:37:04 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lijo Lazar <lijo.lazar@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Ramesh Errabolu <Ramesh.Errabolu@amd.com>,
+ Arvind Yadav <Arvind.Yadav@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] drm/amdgpu/userq: fix user_queue parameters list
+Date: Sun, 27 Apr 2025 09:36:26 +0700
+Message-ID: <20250427023625.14327-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250409131306.108635-1-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250409131306.108635-1-angelogioacchino.delregno@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 27 Apr 2025 09:47:35 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-YRTsGZc6BK+Z55S8vDtyRiK8+YmH5ot9S-0uZ74ZvLQ@mail.gmail.com>
-X-Gm-Features: ATxdqUFIcH_9J8n0sw5vPGyhuF-f63RdB61FF-kV0-kFcASs5EUXu7xSvR6Jfcg
-Message-ID: <CAAOTY_-YRTsGZc6BK+Z55S8vDtyRiK8+YmH5ot9S-0uZ74ZvLQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/5] MediaTek DPI: Cleanups and add support for more
- formats
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- simona@ffwll.ch, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com, 
- lewis.liao@mediatek.com, ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com, 
- jason-jh.lin@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1905; i=bagasdotme@gmail.com;
+ h=from:subject; bh=rK+u9vJhz3zpOrwMOXrVbGhSFwLMiih9GqsN16Vu+8s=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDBm801606YS91/42J91SNohletaKPw1KmtNYn19wEVjq2
+ vrqkJNuRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACZyK4KR4cOB5FrhC3KymaEl
+ DxbEmN6Yf/ioboVi+vInemYRTs3deYwMS59Y6YpzNLeK8PPsShB5nN6ULXNG96RTdn3a5VcvFq7
+ mBgA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
+ fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,46 +107,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Angelo:
+Sphinx reports htmldocs warning:
 
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
-=BC
-2025=E5=B9=B44=E6=9C=889=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=889:13=
-=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> This series adds support to configure the MediaTek DPI IP to output
-> more formats, such as YUV422 8/10/12 bits, YUV444 8/10 bits, BGR 8bits,
-> and RGB 10 bits, and also performs some cleanups that improve the code
-> readability when those are added.
->
-> Even though some of those formats are also supported by MT8173, MT8183,
-> MT8186 and MT8192, I am enabling them only for MT8195/MT8188 as those
-> are the only two that I was able to test.
+Documentation/gpu/amdgpu/module-parameters:7: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:1119: ERROR: Unexpected indentation. [docutils]
 
-The whole series is applied to mediatek-drm-next [1], thanks.
+Fix the warning by using reST bullet list syntax for user_queue
+parameter options, separated from preceding paragraph by a blank
+line.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
+Fixes: fb20954c9717 ("drm/amdgpu/userq: rework driver parameter")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20250422202956.176fb590@canb.auug.org.au/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Regards,
-Chun-Kuang.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index b9a1ef343c79cf..ec8057597c5aad 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -1115,11 +1115,12 @@ module_param_named(rebar, amdgpu_rebar, int, 0444);
+ 
+ /**
+  * DOC: user_queue (int)
+- * Enable user queues on systems that support user queues.
+- * -1 = auto (ASIC specific default)
+- *  0 = user queues disabled
+- *  1 = user queues enabled and kernel queues enabled (if supported)
+- *  2 = user queues enabled and kernel queues disabled
++ * Enable user queues on systems that support user queues. Possible values:
++ *
++ * - -1 = auto (ASIC specific default)
++ * -  0 = user queues disabled
++ * -  1 = user queues enabled and kernel queues enabled (if supported)
++ * -  2 = user queues enabled and kernel queues disabled
+  */
+ MODULE_PARM_DESC(user_queue, "Enable user queues (-1 = auto (default), 0 = disable, 1 = enable, 2 = enable UQs and disable KQs)");
+ module_param_named(user_queue, amdgpu_user_queue, int, 0444);
 
->
-> This was tested on:
->  - MT8195 Tomato Chromebook
->  - MT8395 Radxa NIO-12L
->  - MT8390 MediaTek Genio 700 EVK
->
-> AngeloGioacchino Del Regno (5):
->   drm/mediatek: mtk_dpi: Use switch in mtk_dpi_config_color_format()
->   drm/mediatek: mtk_dpi: Add local helpers for bus format parameters
->   drm/mediatek: mtk_dpi: Add support for additional output formats
->   drm/mediatek: mtk_dpi: Allow additional output formats on MT8195/88
->   drm/mediatek: mtk_dpi: Rename output fmts array for MT8195 DP_INTF
->
->  drivers/gpu/drm/mediatek/mtk_dpi.c | 117 +++++++++++++++++++++++++----
->  1 file changed, 102 insertions(+), 15 deletions(-)
->
-> --
-> 2.49.0
->
+base-commit: 127e612bf16726620e431b6e0f771424916492be
+-- 
+An old man doll... just what I always wanted! - Clara
+
