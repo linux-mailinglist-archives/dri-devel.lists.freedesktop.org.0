@@ -2,90 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DAA8A9E246
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Apr 2025 11:52:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DAEA9E245
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Apr 2025 11:51:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C1E210E18F;
-	Sun, 27 Apr 2025 09:51:58 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mFmtwF/+";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B4310E188;
+	Sun, 27 Apr 2025 09:51:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
- [209.85.222.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A82B110E29B
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Apr 2025 06:23:20 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id
- af79cd13be357-7be49f6b331so367192685a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Apr 2025 23:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745648599; x=1746253399; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=yYjPYlG/aOt+7muqnNSQUYn87RZuOsFelShjtJk3VdA=;
- b=mFmtwF/+jOyjZ8ykC4YbYSJci1ZIWLbS3XWJ/cAMB1vkn5c5BUK93eoaMDHiSItOzw
- ZW8oCCfbSnAeaRYszG5XM4pGBScMp7CP99J4jT4vewVzrCn2Ds5jk78MKRVLNh3IHnP8
- gdWBAGv+VkxKfPTBadp5lktbPUyYQxhC09s9HktpoxqynPpziKw+ZnpklMLVFAaKOh6p
- Ya/5PXjaHlTLwuHAa4Ulg7DUHsFq+zpR673lIjOU6e101zTxOaD/YFTGWN/6q/jR/Idt
- Huut9pOTREp2o4Lh8LNA8WARgflXdmqnl3a/s4fKsRQOQsmoy5+ChqqmhoA8yaLsoRn0
- qhbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745648599; x=1746253399;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yYjPYlG/aOt+7muqnNSQUYn87RZuOsFelShjtJk3VdA=;
- b=GdqESfS6euecKuSBeaiowMv22WFpcDZf0WhQctAeg+2Z7f9BWK5yvX9rJYLyXPdgMl
- 6naZsu1jljGINrHi2pt2JljOcnKmVmL+SgqclKkca/cNdPofJFoWDJRFUBbN6OpTtFEA
- 8/9BZ/Cd+8jAUCbLGMQCD7yTXv/XIXoM8UqMekq4SVe1H80pilAnu2TvVN1Mc0mpT8qb
- KUT3UfxRtXYKI/kLH9bWpzjbDiM6m6rVRaZUaQK3KIeqRrp/X8d2iZESTPAoMBNQhw1+
- F1BkaHDGf4iHvGZ5bZb3GaS5Tj/qWd3ZrRHYPPZpzjvE2FIrgIXdZbeMDAsWTejVlM95
- nfUg==
-X-Gm-Message-State: AOJu0YzY3vAA/IXeNEhbmIFIvq6rivgKY7pIQHZ5lKQhxzVNcQ/ppE7k
- yIuuVed2cQhe3TRBFUk4mA/45wbf+nugg5Ggx394jr+kRN0f1NsM
-X-Gm-Gg: ASbGncsUu+TFaCslyk4r2c81YX7PVjYKVJKF1K/iBbgxCvWB33YQ0XukER6qZcHXmMi
- 8Bc3hFFKQ+RRezULVB1IYpDXju4SAKL6nXjQZjdnW7xXlKibKJ46ZgDcFmqLAh4ft1qUnDr70nK
- hp8enBxw95pzShxtKTTBCiUpl6KhLdrQP9ByNHy7rNNdh6sObeC1S1IfmKnxW88gnyViPGGnRRk
- Wojl2LTnyeT/z+y0VsFaAqJY8W2ymVf0Qx1ajRsamIOf08URVj5wy+llGjffhSZ81NmCA8P612T
- 4Lunrk0n7oe8O+jw892XVGdCv01E9KC25utOt4iUGZnp+XFLo0KNmYC3
-X-Google-Smtp-Source: AGHT+IHFkpV0m/2kCRCnG4UBJMY+2A70QyJWPMyvnAmt2xVVw7MRyayQRC2/jvS7+UjWFurLbcUqvg==
-X-Received: by 2002:a05:620a:390c:b0:7c5:79c6:645d with SMTP id
- af79cd13be357-7c9606ac6e6mr672821185a.11.1745648599506; 
- Fri, 25 Apr 2025 23:23:19 -0700 (PDT)
-Received: from DESKTOP-IH04BR9. ([174.88.143.14])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7c958e7c035sm313919785a.78.2025.04.25.23.23.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Apr 2025 23:23:19 -0700 (PDT)
-From: Gabriel Dalimonte <gabriel.dalimonte@gmail.com>
-Date: Sat, 26 Apr 2025 02:22:58 -0400
-Subject: [PATCH] drm/vc4: fix infinite EPROBE_DEFER loop
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250426-vc4-audio-inf-probe-v1-1-a500785b71df@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAMF7DGgC/x3MTQqAIBBA4avErBtQ6Ue6SrSYaqzZqChJEN09a
- fkt3nsgcxLOMDUPJC6SJfgK3TawneQPRtmrwSjTq84MWLYO6doloHiHMYWV0Q0jWSJD2iqoZUz
- s5P6v8/K+H+bGmFZlAAAA
-X-Change-ID: 20250426-vc4-audio-inf-probe-f67a8aa2a180
-To: Maxime Ripard <mripard@kernel.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Gabriel Dalimonte <gabriel.dalimonte@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745648599; l=3157;
- i=gabriel.dalimonte@gmail.com; s=20250426; h=from:subject:message-id;
- bh=bTFlO0TwF8sw3rIs76AU9tYPoYlXU0yDlOFLlIGtuJY=;
- b=Ykw0DUw1uI7iXb4HJ2AglC6VizvnISjek0BPMA82rTon2tQZWXXn5RsBR2FPwM2X62PNKTyOY
- WpSGRjVyO6MCYcawa4mCl0NVSuUAg7R2z6UqHDH+yAexCuWZFthUklW
-X-Developer-Key: i=gabriel.dalimonte@gmail.com; a=ed25519;
- pk=y2QfWJ6TJVcd8RyB6C0zTc7+AqnN6+9cOX7TxbshPMQ=
+X-Greylist: delayed 402 seconds by postgrey-1.36 at gabe;
+ Sun, 27 Apr 2025 04:20:40 UTC
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0421310E044;
+ Sun, 27 Apr 2025 04:20:40 +0000 (UTC)
+Received: from mxde.zte.com.cn (unknown [10.35.20.121])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZlY9X639czKhp;
+ Sun, 27 Apr 2025 12:13:52 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxde.zte.com.cn (FangMail) with ESMTPS id 4ZlY9S24RwzBRHKJ;
+ Sun, 27 Apr 2025 12:13:48 +0800 (CST)
+Received: from mse-db.zte.com.cn (unknown [10.5.228.131])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZlY981t3Vz5B1KR;
+ Sun, 27 Apr 2025 12:13:32 +0800 (CST)
+Received: (from root@localhost) by mse-db.zte.com.cn id 53R4DUco001600;
+ Sun, 27 Apr 2025 12:13:30 +0800 (+08)
+ (envelope-from liu.song13@zte.com.cn)
+Message-Id: <202504270413.53R4DUco001600@mse-db.zte.com.cn>
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+ by mse-fl2.zte.com.cn with SMTP id 53R1P9Pd083371;
+ Sun, 27 Apr 2025 09:25:09 +0800 (+08)
+ (envelope-from liu.song13@zte.com.cn)
+Received: from mapi (xaxapp01[null]) by mapi (Zmail) with MAPI id mid31;
+ Sun, 27 Apr 2025 09:25:10 +0800 (CST)
+Date: Sun, 27 Apr 2025 09:25:10 +0800 (CST)
+X-Zmail-TransId: 2af9680d8776ffffffff9e6-9acdf
+X-Mailer: Zmail v1.0
+Mime-Version: 1.0
+From: <liu.song13@zte.com.cn>
+To: <felix.kuehling@amd.com>
+Cc: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <airlied@gmail.com>, <simona@ffwll.ch>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <liu.xuemei1@zte.com.cn>,
+ <jiang.xuexin@zte.com.cn>, <xue.zhihong@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIXSBkcm0vYW1ka2ZkOiBlbmFibGUga2ZkIG9uIFJJU0NWIHN5c3RlbXM=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-db.zte.com.cn 53R4DUco001600
+X-MSS: AUDITRELEASE@mse-db.zte.com.cn
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 680DAEFF.000/4ZlY9X639czKhp
 X-Mailman-Approved-At: Sun, 27 Apr 2025 09:51:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,81 +73,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-`vc4_hdmi_audio_init` calls `devm_snd_dmaengine_pcm_register` which may
-return EPROBE_DEFER. Calling `drm_connector_hdmi_audio_init` adds a
-child device. The driver model docs[1] state that adding a child device
-prior to returning EPROBE_DEFER may result in an infinite loop.
+From: Xuemei Liu <liu.xuemei1@zte.com.cn>
 
-[1] https://www.kernel.org/doc/html/v6.14/driver-api/driver-model/driver.html
+KFD has been confirmed that can run on RISCV systems. It's necessary to
+support CONFIG_HSA_AMD on RISCV.
 
-Signed-off-by: Gabriel Dalimonte <gabriel.dalimonte@gmail.com>
+Signed-off-by: Xuemei Liu <liu.xuemei1@zte.com.cn>
 ---
-Starting with v6.14, my Raspberry Pi 4B on the mainline kernel started seeing
-the vc4 driver looping during probe with:
+ drivers/gpu/drm/amd/amdkfd/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-Registered IR keymap rc-cec
-rc rc0: vc4-hdmi-0 as /devices/platform/soc/fef00700.hdmi/rc/rc0
-input: vc4-hdmi-0 as /devices/platform/soc/fef00700.hdmi/rc/rc0/input3503
-vc4_hdmi fef00700.hdmi: Could not register PCM component: -517
+diff --git a/drivers/gpu/drm/amd/amdkfd/Kconfig b/drivers/gpu/drm/amd/amdkfd/Kconfig
+index d3c3d3ab7225..9d4a5f8ef43f 100644
+--- a/drivers/gpu/drm/amd/amdkfd/Kconfig
++++ b/drivers/gpu/drm/amd/amdkfd/Kconfig
+@@ -5,7 +5,7 @@
 
-repeating several times per second.
-
-From my understanding, this happens due to the mainline kernel missing the
-patches to support audio portion of the HDMI interface. In this case, or
-other cases where the sound subsystem can't create a device, it returns
--517 (EPROBE_DEFER). All of this is consistent with what I experienced prior
-to 6.14 as well. However, prior to 6.14 it did not try to probe infinitely.
-
-Bisecting 6.13 -> 6.14, it looks like
-9640f1437a88d8c617ff5523f1f9dc8c3ff29121 [1] moved HDMI audio connector
-initialization from audio vc4 audio initialization to vc4 connector
-initialization. If my understanding is correct, this change causes a child
-device to be added before EPROBE_DEFER is returned and queues the device probe
-to happen when a new device is added, which happens immediately because the
-audio child device was added earlier in the probe. 
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9640f1437a88d8c617ff5523f1f9dc8c3ff29121
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index a29a6ef266f9a5952af53030a9a2d313e2ecdfce..163d092bd973bb3dfc5ea61187ec5fdf4f4f6029 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -560,12 +560,6 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
- 	if (ret)
- 		return ret;
- 
--	ret = drm_connector_hdmi_audio_init(connector, dev->dev,
--					    &vc4_hdmi_audio_funcs,
--					    8, false, -1);
--	if (ret)
--		return ret;
--
- 	drm_connector_helper_add(connector, &vc4_hdmi_connector_helper_funcs);
- 
- 	/*
-@@ -2291,6 +2285,12 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
- 		return ret;
- 	}
- 
-+	ret = drm_connector_hdmi_audio_init(&vc4_hdmi->connector, dev,
-+					    &vc4_hdmi_audio_funcs, 8, false,
-+					    -1);
-+	if (ret)
-+		return ret;
-+
- 	dai_link->cpus		= &vc4_hdmi->audio.cpu;
- 	dai_link->codecs	= &vc4_hdmi->audio.codec;
- 	dai_link->platforms	= &vc4_hdmi->audio.platform;
-
----
-base-commit: b60301774a8fe6c30b14a95104ec099290a2e904
-change-id: 20250426-vc4-audio-inf-probe-f67a8aa2a180
-
-Best regards,
+ config HSA_AMD
+  bool "HSA kernel driver for AMD GPU devices"
+- depends on DRM_AMDGPU && (X86_64 || ARM64 || PPC64)
++ depends on DRM_AMDGPU && (X86_64 || ARM64 || PPC64 || RISCV)
+  select HMM_MIRROR
+  select MMU_NOTIFIER
+  select DRM_AMDGPU_USERPTR
 -- 
-Gabriel Dalimonte <gabriel.dalimonte@gmail.com>
-
+2.25.1
