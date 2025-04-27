@@ -2,96 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CB7A9DEB0
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Apr 2025 04:37:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65383A9E069
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Apr 2025 09:29:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BD8310E0AC;
-	Sun, 27 Apr 2025 02:37:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4554B10E169;
+	Sun, 27 Apr 2025 07:29:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MriyEWx3";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="apPGyhnQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EBEC10E0AC;
- Sun, 27 Apr 2025 02:37:10 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-2295d78b45cso53239715ad.0; 
- Sat, 26 Apr 2025 19:37:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745721429; x=1746326229; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sGhmxhSrOG99ny8cfzHBCSn4oPUOL2LGUGAF5QgBGIw=;
- b=MriyEWx3ueC7pBQpCVuOo1/PjbxkpN/B2qRqWasyRT2p9cB0txdXYgPY1XpthxXI+f
- iJgUS1lylpgSTsHlcwSv6gLBvlobR0bHOLG5SUCEEqsPWALHMmCkxbbq9QFQpOZiituJ
- H0ynQ+MfGVd1E+WpuRhsmKMumWiNcrfhMNq08tGkgZvaCimIlBMmhYyNI0Ew1bDgn8CG
- rWZTLJJ/5pHtinHwWLn7QSLwuwecQAOxYSFx+kqHq/LSihbPMNb5hbV4EgO7NmetQKxf
- VQcswkz51ema4DJfvIq1CCCRShPyz/jSfgDwdYnnl/6dVJBwG9q9Bo2ES5mhhoIB8B1T
- VGfQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6BE110E169
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Apr 2025 07:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1745738966;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wcGQpFTguItVa6CDu+q0byxuNxLDL/Np928mwDKp2zQ=;
+ b=apPGyhnQzKjMfEh8pc5VsOX8lReifZama9tM0SKqrxsRkE2ScvLODerhMZ5ldS6a2nVVtj
+ ADNEB74uTrClC2tfRNEQ5eDJwe0ePWdEKhMrrMWPgmCDFS79yKriPf7jjN3w9+FK8eQTdZ
+ jbQig6oY9AUX+Zmm+eVYdldl+jGH7+s=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-592-jXIU_yhdPYmxPz18pHOJqw-1; Sun, 27 Apr 2025 03:29:25 -0400
+X-MC-Unique: jXIU_yhdPYmxPz18pHOJqw-1
+X-Mimecast-MFC-AGG-ID: jXIU_yhdPYmxPz18pHOJqw_1745738964
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-43d00017e9dso21104625e9.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Apr 2025 00:29:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745721430; x=1746326230;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sGhmxhSrOG99ny8cfzHBCSn4oPUOL2LGUGAF5QgBGIw=;
- b=MRKEvhCkruApeZzw6AbcfCiz2pgqg3p+hu5PVPD7eqthNHkQzgyBtBJ/30IRLEYAK4
- TRjThhSncjsyitM+NSW9SZPU/aGWyKE4wf5HYYBGVGz1AKh/Oj3NqmHvw+JCEDym8mFH
- yOZ8IiuQF+ZhWna2CBQlnL437d0S6ZMY90E9kH/Rp8XfpK0aWOm3Pnuzm+IRQm2S1Tjc
- 0R0x/Ajwvj0CPhij886GBwlTznl6DAPTsiCQEHcaTSvAQdxJ30RxQyg2qhjcpzAGJQz7
- PjbTyfhOKwJ+QLFK4zC8zxQ5hcxFRVg2QNGd17JW8XyYdQzPyfyKxrYVPhJE+VWIJjYf
- VLdg==
+ d=1e100.net; s=20230601; t=1745738964; x=1746343764;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wcGQpFTguItVa6CDu+q0byxuNxLDL/Np928mwDKp2zQ=;
+ b=Fsea9gzLfggeD7hUFTtXdast8diZCE4IF0330eGqpymtA25sXDrZsEtfUQOXkIwlRG
+ XOy1lluAd1MEzOwpt5Ib6FB7P72+5+ICo6i1tPeFoUxQk3n7sQBkkReL+wnVzUNkG4au
+ gTpuRg8nnnt33/R9qFZ7ZTbYPREEkI2biGokOaKul4fjoagc212tuFUEuxg7LOxvnW6U
+ tqmRj60Ga8sVGatwTEr7P1V1U4uOfXKwCZO5uxCAwJnk04B+zLecUlAAGiYKwXFCRpay
+ 7jq9QVhMYqxPeqNih+Sa49u7Vb/xiOJJqX0ipwu9k/CmsPDVxIe0nS1p3sxtXoNvhXUg
+ MpDQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUK0kpFNkhLCgBuwN68DNwQiQ0Niwyn4lnE2chvEOrs3WBfHco92kOJ4GYzJirId64LooqEUGLB@lists.freedesktop.org,
- AJvYcCVS1zbEbQ6S/mvxual8jvJZU73rjyfS7TunIpEg9ULwqSyHs90rtER7oqOBbnzrQqkktNEaXhkhfyzz@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0XImfah0/eC4tHFpiwOcipGqxWIx2Ab/YCwH6l9rWJoGw+HIN
- 9+uANY1SIEjOSQ75DVtfR8YePkJSLEWMnJgSIQ6srs2+2JhZtq5l
-X-Gm-Gg: ASbGncvWcHpGNgYSgpEKjAtYyREBw3B6qt2tlf4PPgoVLvHqeEhlL4xFDuDk1bEFgyY
- gIc225VXanUbvNcd/+i0yT9pCSJJ5KryynsjOjCUYWuTOmpF9YKBBNhU7VwNOps1n4wvGwxgg81
- SuWZYLKaAcVL3x41SrZjysdms4ukNys1rvldkJ22ICZFPmPGwmhEAw0wDWM79E9Zu9eHCAqsk0e
- jRubyjzIrHgM7SakcnKgsCCkbGmt1UcBpxKtD+IDp6E8zI+X8Yi7FtD0hNgJP3xqMCZsaeecnbw
- 9RQ+IXQsv8YPVbMHF1rdYLB9sTo3dyEiDWvhHNX4
-X-Google-Smtp-Source: AGHT+IHORZxRoCwJgkxTIznfaV7sWbHLw+4c1AAkdhkWHc2dCqwboQ1cj9cnhpySTMZq7KnyUv6y+Q==
-X-Received: by 2002:a17:903:1b26:b0:21f:564:80a4 with SMTP id
- d9443c01a7336-22dc6a6852amr69641655ad.33.1745721429362; 
- Sat, 26 Apr 2025 19:37:09 -0700 (PDT)
-Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22db4d74c93sm56570415ad.11.2025.04.26.19.37.08
+ AJvYcCVoBIKxmZToPFw5OFqME6EDDOihodpiyhaE0jda2vB34jc7at4yi29SVWy3guNFNTv1c/HusWS+vFM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/AAj0Rmu5WBIJIoZ6cRDtAOyozHoWxiqn/GQkP7GbNhO0zKvh
+ veEb+gFP3tLHFFdFSnD0C329efF3Dt9BaDD5x8RnVizQzO01lAgVLzvlthH5LNp0CoCE1TKMYfO
+ 7xLRsAGb6xp+p55haO+nuMKAfbjt0frrewza4ZiI4F8kWA+uvV9nP5Zrd4qeXQIVrlA==
+X-Gm-Gg: ASbGncv4rr/Hnhe5NRRCD93lpAoDv8+1Kh1LwNH/CQbQOBFNztgjRJRfmBIIa01bg4d
+ E/z1e3i2TxcSOY/QD4BOchyF0x/S7IPtG51O613pLNfYj1MsWCRlN1JRF+54Flfa+49ol5YDozf
+ yMWEK2kDA2T181fSdMnwNHBWLe/fksKztvCnnhfuLmlnMkysU5Z4Br7q2gKXjuxi0GfFzbiz/0w
+ Xq+8aT/+VsoECO0MrLxElWiJJwho16cumKNrMtEEoJsWJbKyrxQvo09OUr2jC3gK1nf1nJgERas
+ 5mOz5RjF5Z18Oxdl466QKRBKyQU9mjXpoxfsMBLijmUcpBz/dsuT7O9e4AuFxSGDhOnMVQ==
+X-Received: by 2002:a05:600c:1e84:b0:43d:172:50b1 with SMTP id
+ 5b1f17b1804b1-440a66b7b68mr66727245e9.29.1745738963927; 
+ Sun, 27 Apr 2025 00:29:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHimZlDfyKX+dV1RunsI8DPPpzKCieKScXo5Xcy7H8gXFHsd947YK1+IzF4ivCFxFOjPMb/Zw==
+X-Received: by 2002:a05:600c:1e84:b0:43d:172:50b1 with SMTP id
+ 5b1f17b1804b1-440a66b7b68mr66727125e9.29.1745738963562; 
+ Sun, 27 Apr 2025 00:29:23 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4408d0a7802sm102831515e9.1.2025.04.27.00.29.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Apr 2025 19:37:08 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
- id 0AE584208F70; Sun, 27 Apr 2025 09:37:04 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lijo Lazar <lijo.lazar@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Ramesh Errabolu <Ramesh.Errabolu@amd.com>,
- Arvind Yadav <Arvind.Yadav@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] drm/amdgpu/userq: fix user_queue parameters list
-Date: Sun, 27 Apr 2025 09:36:26 +0700
-Message-ID: <20250427023625.14327-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
+ Sun, 27 Apr 2025 00:29:22 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Ryosuke Yasuoka <ryasuoka@redhat.com>
+Cc: drawat.floss@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, jfalempe@redhat.com, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH drm-next v2] drm/hyperv: Replace simple-KMS with regular
+ atomic helpers
+In-Reply-To: <CAHpthZqJPKtXUjFiVRLP+LEmTKFowUKVHGDe9=NS4aGx7WWcMA@mail.gmail.com>
+References: <20250425063234.757344-1-ryasuoka@redhat.com>
+ <87wmb8yani.fsf@minerva.mail-host-address-is-not-set>
+ <CAHpthZqJPKtXUjFiVRLP+LEmTKFowUKVHGDe9=NS4aGx7WWcMA@mail.gmail.com>
+Date: Sun, 27 Apr 2025 09:29:20 +0200
+Message-ID: <87selugizz.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1905; i=bagasdotme@gmail.com;
- h=from:subject; bh=rK+u9vJhz3zpOrwMOXrVbGhSFwLMiih9GqsN16Vu+8s=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDBm801606YS91/42J91SNohletaKPw1KmtNYn19wEVjq2
- vrqkJNuRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACZyK4KR4cOB5FrhC3KymaEl
- DxbEmN6Yf/ioboVi+vInemYRTs3deYwMS59Y6YpzNLeK8PPsShB5nN6ULXNG96RTdn3a5VcvFq7
- mBgA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
- fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: k6vM7J6xI7FodFNTogoRhmPlffdrLwa0UAq9mkLMeJk_1745738964
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,46 +104,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sphinx reports htmldocs warning:
+Ryosuke Yasuoka <ryasuoka@redhat.com> writes:
 
-Documentation/gpu/amdgpu/module-parameters:7: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:1119: ERROR: Unexpected indentation. [docutils]
+Hello Ryosuke,
 
-Fix the warning by using reST bullet list syntax for user_queue
-parameter options, separated from preceding paragraph by a blank
-line.
+> Hi Javier,
+>
+> On Fri, Apr 25, 2025 at 4:15=E2=80=AFPM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+>>
+>> Ryosuke Yasuoka <ryasuoka@redhat.com> writes:
+>>
+>> Hello Ryosuke,
+>>
+>> > Drop simple-KMS in favor of regular atomic helpers to make the code mo=
+re
+>> > modular. The simple-KMS helper mix up plane and CRTC state, so it is
+>> > obsolete and should go away [1]. Since it just split the simple-pipe
+>> > functions into per-plane and per-CRTC, no functional changes is
+>> > expected.
+>> >
+>> > [1] https://lore.kernel.org/lkml/dae5089d-e214-4518-b927-5c4149babad8@=
+suse.de/
+>> >
+>> > Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+>> >
+>>
+>>
+>>
+>> > -static void hyperv_pipe_enable(struct drm_simple_display_pipe *pipe,
+>> > -                            struct drm_crtc_state *crtc_state,
+>> > -                            struct drm_plane_state *plane_state)
+>> > +static const uint32_t hyperv_formats[] =3D {
+>> > +     DRM_FORMAT_XRGB8888,
+>> > +};
+>> > +
+>> > +static const uint64_t hyperv_modifiers[] =3D {
+>> > +     DRM_FORMAT_MOD_LINEAR,
+>> > +     DRM_FORMAT_MOD_INVALID
+>> > +};
+>> > +
+>>
+>> I think the kernel u32 and u64 types are preferred ?
+>
+> I'm not sure if I should fix this in this patch because I did not add the=
+se
+> variables. IMO, we need to split the commit if we fix them.
+>
 
-Fixes: fb20954c9717 ("drm/amdgpu/userq: rework driver parameter")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20250422202956.176fb590@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Right, I got confused for how the diff showed the changes. But I agree with
+you that should be a separate patch since the variables already exist.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index b9a1ef343c79cf..ec8057597c5aad 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -1115,11 +1115,12 @@ module_param_named(rebar, amdgpu_rebar, int, 0444);
- 
- /**
-  * DOC: user_queue (int)
-- * Enable user queues on systems that support user queues.
-- * -1 = auto (ASIC specific default)
-- *  0 = user queues disabled
-- *  1 = user queues enabled and kernel queues enabled (if supported)
-- *  2 = user queues enabled and kernel queues disabled
-+ * Enable user queues on systems that support user queues. Possible values:
-+ *
-+ * - -1 = auto (ASIC specific default)
-+ * -  0 = user queues disabled
-+ * -  1 = user queues enabled and kernel queues enabled (if supported)
-+ * -  2 = user queues enabled and kernel queues disabled
-  */
- MODULE_PARM_DESC(user_queue, "Enable user queues (-1 = auto (default), 0 = disable, 1 = enable, 2 = enable UQs and disable KQs)");
- module_param_named(user_queue, amdgpu_user_queue, int, 0444);
+[...]
 
-base-commit: 127e612bf16726620e431b6e0f771424916492be
--- 
-An old man doll... just what I always wanted! - Clara
+>>
+>> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+>
+> Thank you for your review and comment. I'll fix them and add your ack.
+>
+
+Thanks!
+
+> Best regards,
+> Ryosuke
+>
+
+--=20
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
