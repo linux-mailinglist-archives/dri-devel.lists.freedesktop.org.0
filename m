@@ -2,56 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CD0A9E427
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Apr 2025 20:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51879A9E472
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Apr 2025 21:30:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4DD010E168;
-	Sun, 27 Apr 2025 18:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3747310E048;
+	Sun, 27 Apr 2025 19:30:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="o1oC1KPl";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ACxOZXeY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A70B10E168
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Apr 2025 18:16:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=oOp6JjE1KZO09/VU6qzNCwl2fuAmGNH2bQ434dB2dYU=; b=o1oC1KPlAbmycOQ7LS3gkDNs3w
- JUAK0/38O+iluhV1LWJJumki/+TiMwmrv3Uja9NrZIUAookzRIyAZooxqgBms70e8wpv9RPAQBgME
- 9Ee5TsvAJnaODl5huGY60rjGElyubm8VUNDJW3hl6n5CUry9xq5U2w7+m464MBDW6FD6BfLrr37u2
- 97UCCiy72YOpTIebYn+5hsM/cJEBNbRHCmT05zwLX8byz6qQ2+rJ4XfqnUnpmvyPbBI1PRaBlSbQd
- ZAx0IDFUPtUs8CHgzEdXyFZsaqxOvrEvoGol0TJjv4w0qJIuMc594f+Hf47S56FUJTxwOsThJVnoC
- C32R+Ylw==;
-Received: from [189.7.87.174] (helo=[192.168.0.224])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1u96Y2-009Spi-DK; Sun, 27 Apr 2025 20:16:14 +0200
-Message-ID: <c3e4e3e6-51b4-4cad-b81f-5841e74ae659@igalia.com>
-Date: Sun, 27 Apr 2025 15:16:07 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm/v3d: fix client obtained from axi_ids on V3D
- 4.1
-To: Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
- Melissa Wen <mwen@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F2B410E048;
+ Sun, 27 Apr 2025 19:30:47 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-5e61d91a087so6194202a12.0; 
+ Sun, 27 Apr 2025 12:30:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1745782246; x=1746387046; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Vq2NZtyVOEuDGpHaesgQUonw0VF6mQCOOpBxn+1+3Tk=;
+ b=ACxOZXeYqHArMslPd1M5qraGh7uf2GEmcdmoByY5Pa7XkaMF7VoqgGUj55W9ympCZI
+ NLLVlvoNbCZq29I1S1dmDgu070xzpPPZ3tmlALBA2SUGJYzwvTNHxmptXMIJR1xSpgXH
+ Szq5F8k2As4VIhY/PJJURbAv1Nzr2eW5+nUDRrm2m8K6Ba0lGzha8yeREPB5NFu00wJL
+ +PyIksPiBs9FRHmKE4uHZOh76tokUlldEkQoslYs/peGgHC2kqWG42Yp0wS5kLyeiLNy
+ o3lkZfwl0pMj4VASLUY3ccz1+slSfKoi78ahUe88O6prkDaBTN/Vn2ZjUpFeYXPLJQUL
+ Dyjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745782246; x=1746387046;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vq2NZtyVOEuDGpHaesgQUonw0VF6mQCOOpBxn+1+3Tk=;
+ b=hKnhxh+Ttc2Os48A3Bv9B8Y49w95imqR12wmUQ6FanNNn/vBSS8x/2pP7Qt5dNx34z
+ 9ec2/ab26iUJApfZMhQCVURg3EV6VeFDqN00iPVVqCxQS10y8THIYpYK8mJ2FqIbloMf
+ J/ZMOhKwbqxHSRVcZ5/PPW35Ba9BZJRCznZYM2T1Eno3neusoQRAOzrlQKWF6EN0sKTV
+ 0Hkn/pY8z1I7bm9OMojb8QIsb6wi7Wgr9eNPTTY4QML9djOHdG7ghGZD2gr+cFuPDElY
+ STOpZc30B2VOFqi7OU+x0OXKo+99e5q+sc06Bq3MuUDa4Lw8/zgmXkt2sCJnC+4wa0qU
+ vn6g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUmHMB8WrOzMyS1ASnAL0E6YGoL779ctmX1HSRbdDV3/dxcS1SKU1237UPHejgaplgvbV82iwXf1hM=@lists.freedesktop.org,
+ AJvYcCWvT8XPg4Hk0Hmtr7vftmJIlgG/jc++/zfEv5Z84x+RCHQQ1ZKjM785S1j9He/sTe9q5TgAGaPxpJHp@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxuu+B+HVahajURxqOYpFT3digyw1h8PdXK3Hev5GrU9Vft4/Yr
+ FaMCvQgr1oSBHTKptsP7TWniI/fCrPhc78DTPm9afJyBp5G2XQhqZiL0VeUp1iY=
+X-Gm-Gg: ASbGnctSZuE7JuTFrpqdttFyn2gqdu4GLkqi9ODRurySoJre9Anu3lD9x3HXm82Q5bP
+ dhD7cP8HngnCvc6zBTDRQt0maQr9T9yqU555gJbVI3GzyE6DCd9Z5+mOL09Q8S3o1qPdfWCC58I
+ U7mIGOxgC4P/Whl79zPP9ucABh0SCBt4ZDTznsGClqbMQjI6HLJB7qrtIykXw0uHp6Tw5egwF8I
+ jBjsymrpkWORGVGKapPhKnR3YXBuB0+naK6NvbHOx2QJHiAs/KPnhVD++XwvjaG8dvuz9G2Vy6N
+ qz3Uk+h2xM6OZ3eeIASIoRNHccLsNkyYhqnK6Cqr
+X-Google-Smtp-Source: AGHT+IFqrHYYNndTHBqETij9GGWRLa1eTwCtVYc0JJoktW+J8p6FM13VUwFnm78bj89E7k/qB+FIsg==
+X-Received: by 2002:a17:906:f5a4:b0:acb:b3ee:fb9b with SMTP id
+ a640c23a62f3a-ace848c0153mr529006266b.1.1745782246038; 
+ Sun, 27 Apr 2025 12:30:46 -0700 (PDT)
+Received: from pc ([165.51.118.63]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ace6edae042sm486027866b.169.2025.04.27.12.30.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 27 Apr 2025 12:30:45 -0700 (PDT)
+Date: Sun, 27 Apr 2025 20:30:42 +0100
+From: Salah Triki <salah.triki@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com
-References: <20250425122522.18425-1-jmcasanova@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250425122522.18425-1-jmcasanova@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: salah.triki@gmail.com
+Subject: [PATCH] drm: i915: gt: replace __ATTR() with __ATTR_RO()
+Message-ID: <aA6F4mbg_sfGRXzh@pc>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,100 +89,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chema,
+Replace __ATTR() with __ATTR_RO() to make code cleaner.
 
-On 25/04/25 09:25, Jose Maria Casanova Crespo wrote:
-> In the case of MMU errors caused by the TFU unit, the
-> client that causes the MMU error is expected to be reported.
-> But in the case of MMU TFU errors, a non existing client was
-> being reported. This happened because the client calculation
-> was taking into account more than the bits 0-7 from the
-> axi_id that were representing the client.
-> 
-> [   27.845132] v3d fec00000.v3d: MMU error from client ? (13) at 0x3bb1000, pte invalid
-> 
-> Masking the bits and using the correct exi_id ranges fixes the
+Signed-off-by: Salah Triki <salah.triki@gmail.com>
+---
+ drivers/gpu/drm/i915/gt/sysfs_engines.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-I changed s/exi_id/axi_id before pushing the patch.
-
-> calculation to report the real guilty client on V3D 4.1 and 4.2.
-> 
-> Make the MMU error print axi_id with hexadecimal as used in the
-> ranges.
-> 
-> Fixes: 38c2c7917adc ("drm/v3d: Fix and extend MMU error handling.")
-> Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
-
-Applied both patches to misc/kernel.git (drm-misc-next).
-
-Thanks for your patches!
-
-Best Regards,
-- Maíra
-
-> ---
->   drivers/gpu/drm/v3d/v3d_irq.c | 37 +++++++++++++++++++++++------------
->   1 file changed, 24 insertions(+), 13 deletions(-)
-> 
-> Changes in v2:
-> - Now axi_id is showed in hexadecimal in error message (Maira Canal)
-> - Improved commit log description with error example. (Maira Canal)
-> - Fixed typos in commit log (Maira Canal)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-> index 29f63f572d35..d6ce1324905d 100644
-> --- a/drivers/gpu/drm/v3d/v3d_irq.c
-> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
-> @@ -186,27 +186,38 @@ v3d_hub_irq(int irq, void *arg)
->   		u32 axi_id = V3D_READ(V3D_MMU_VIO_ID);
->   		u64 vio_addr = ((u64)V3D_READ(V3D_MMU_VIO_ADDR) <<
->   				(v3d->va_width - 32));
-> -		static const char *const v3d41_axi_ids[] = {
-> -			"L2T",
-> -			"PTB",
-> -			"PSE",
-> -			"TLB",
-> -			"CLE",
-> -			"TFU",
-> -			"MMU",
-> -			"GMP",
-> +		static const struct {
-> +			u32 begin;
-> +			u32 end;
-> +			const char *client;
-> +		} v3d41_axi_ids[] = {
-> +			{0x00, 0x20, "L2T"},
-> +			{0x20, 0x21, "PTB"},
-> +			{0x40, 0x41, "PSE"},
-> +			{0x60, 0x80, "TLB"},
-> +			{0x80, 0x88, "CLE"},
-> +			{0xA0, 0xA1, "TFU"},
-> +			{0xC0, 0xE0, "MMU"},
-> +			{0xE0, 0xE1, "GMP"},
->   		};
->   		const char *client = "?";
->   
->   		V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL));
->   
->   		if (v3d->ver >= V3D_GEN_41) {
-> -			axi_id = axi_id >> 5;
-> -			if (axi_id < ARRAY_SIZE(v3d41_axi_ids))
-> -				client = v3d41_axi_ids[axi_id];
-> +			size_t i;
-> +
-> +			axi_id = axi_id & 0xFF;
-> +			for (i = 0; i < ARRAY_SIZE(v3d41_axi_ids); i++) {
-> +				if (axi_id >= v3d41_axi_ids[i].begin &&
-> +				    axi_id < v3d41_axi_ids[i].end) {
-> +					client = v3d41_axi_ids[i].client;
-> +					break;
-> +				}
-> +			}
->   		}
->   
-> -		dev_err(v3d->drm.dev, "MMU error from client %s (%d) at 0x%llx%s%s%s\n",
-> +		dev_err(v3d->drm.dev, "MMU error from client %s (0x%x) at 0x%llx%s%s%s\n",
->   			client, axi_id, (long long)vio_addr,
->   			((intsts & V3D_HUB_INT_MMU_WRV) ?
->   			 ", write violation" : ""),
+diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+index aab2759067d2..f6149167de05 100644
+--- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
++++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+@@ -27,8 +27,7 @@ name_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+ 	return sysfs_emit(buf, "%s\n", kobj_to_engine(kobj)->name);
+ }
+ 
+-static const struct kobj_attribute name_attr =
+-__ATTR(name, 0444, name_show, NULL);
++static const struct kobj_attribute name_attr = __ATTR_RO(name);
+ 
+ static ssize_t
+ class_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+-- 
+2.43.0
 
