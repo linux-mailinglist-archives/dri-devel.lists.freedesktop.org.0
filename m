@@ -2,77 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462F3A9F50C
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 18:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F08BA9F51A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 18:03:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4559610E5BA;
-	Mon, 28 Apr 2025 16:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFEBA10E5FC;
+	Mon, 28 Apr 2025 16:03:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="jlKRp8sj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cF/qAgSX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7B9010E5D5
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 16:00:28 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-5f4d28d9fd8so6149644a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 09:00:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1745856027; x=1746460827; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=ju0m/te+QHiEcI4eXrGOD7HxlePKof8EZ1iR5gDsFoA=;
- b=jlKRp8sj5vY62lV7bmLiNU+JqREDxqiGemt7SQ7l3G5uuZ/7qMlqNcOBRB5AbRuLu6
- fL8wiBR/cMLUL4MFA7sgvm2ul6e1eADPJz7LUA1h0/2Z3TyX4GaASwPdbVG6Vfi3wH2X
- TjtnUDyjlqp8Mq9p2EW2lSB2c7ja+uYakCGaQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745856027; x=1746460827;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ju0m/te+QHiEcI4eXrGOD7HxlePKof8EZ1iR5gDsFoA=;
- b=cOOM3sqxOE3mgN3dTkeeSjbEUZD2cF3OPH2WamXSokh/uSxtwxqi7so6Zu1EC7WrLq
- ZP/e+quEF4zghCPbfonjFH1Fj153wwP8eP8xP5hZObisz07SWs7+hRJsvKt4kXEQvGTm
- we7Bk48lgL1zOAC3310UKV0ogIC3NykLNo/KSoUtWR/AtR6v3jpJsgWgX98cHpdQgSRD
- vAVk0JLvMIABo54aFp7ntTvAqVgK1t7U/9FpQL96PUxtwzz2lD8e6zWHA65ct+jXa/EM
- XTvdE7a70xFrSMkuVI0WF/Afkek0VvhamdOSbzO2m4CqjVDv7R062kIYyUS8d0kO4aRc
- EOCw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXRhF6zoG1shRin4rFtnYGRZyAZg39qLxKMAe/HvfwjKpDBzJkgNmUFbs6FHcSfsZ/FNm45LcT0y4E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwNe9a2xIb5dbd0DfIrRlEwpUlZx2hyJIG+YqOrik2B5w+mNyPH
- 6Dx6k9eEJVvARV1nx5jbiBz/WuWqWcv0MWUy66c0opC/Cb8rMxeNjw4FYJ8ilMs=
-X-Gm-Gg: ASbGncu5UaDrGPNGzjNWMts5+jRQ7j1q33gkNIKLxWmDpCA8iDEsNDJQJtKxuSgQDT2
- n+iJ/KtKzPaQtaFWSBPHVgm6ZMTblgSJ6zFdQVE14Oc+mrd6515dKKx/VIYaIPRxOcswY00+OUR
- JuHwOx3jZGnMGVjIl/rrhF167I6T0bmE/AARm4cPgnaAC/Nyvqsaw8KQ2KR0AqyRketKoS/4g9/
- xI1sGYf4sIm9ynQyfVEGE+3ZnEjCci9Riluv3vJd6qkHPhgnWGlu3pJL3yTZFTrBYUn3MIaZSPQ
- k5LYoWfDbF6CgdRUYeZvDeT37ozAuV0p+ShIKwP+Sw4iv4Ni4bIN
-X-Google-Smtp-Source: AGHT+IGobhrNlPW8PAYgax+LM4vV2hUFDS1mN92blyYJKuh5RqZBSLMeJEn91SiPcJWgZJR9F0eutQ==
-X-Received: by 2002:a17:907:971f:b0:acb:5ae1:f6b8 with SMTP id
- a640c23a62f3a-ace848c0465mr950005366b.7.1745856026876; 
- Mon, 28 Apr 2025 09:00:26 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ace6ecfb35bsm646493866b.100.2025.04.28.09.00.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Apr 2025 09:00:26 -0700 (PDT)
-Date: Mon, 28 Apr 2025 18:00:24 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- tj@kernel.org, cgroups@vger.kernel.org
-Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration
-Message-ID: <aA-mGO547zETZpFK@phenom.ffwll.local>
-References: <20250423214321.100440-1-airlied@gmail.com>
- <4bac662a-228e-4739-b627-5d81df3d4842@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B22D10E5FF;
+ Mon, 28 Apr 2025 16:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745856219; x=1777392219;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9MVOWoUBnHaDYw7OejNBwzP4OLieGeOiM9uL1QginAo=;
+ b=cF/qAgSX7mDU6sKyLnQyU9fMDRgNSyD6d/WaZrPRPOLXjINcBDtg0DEV
+ 6kTG4x3ODoZlbE8m1vcRe2M3i8bcXtY0e92YIsZSfZsQIunP/v7eYQSin
+ GBrlaHwi0A6Mki4/20N2wlxhDhE6bbNx45KXmLjjIMV6k+Y1sWWoHIj/p
+ PnPlYYh1veRtF+Gp5MwBSxUM8YOX/q/Lq5qx1FgjQxZzcmVcBixn/eOmv
+ qJTfmIRfDBo5ncQlQSjSGIbUtjccr77SSAHVcPhX/IeHy1/TN9MO/hKag
+ 3MNZOUYB1X4KZVyKCuR+oO/uDcPVNtfgBPXEa47bQoWFfMG81RJ7JH7f8 Q==;
+X-CSE-ConnectionGUID: 1me9+WYzTkmgU6k1AaN4qg==
+X-CSE-MsgGUID: 6SrubAexSfiAMYtw082tgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="51124651"
+X-IronPort-AV: E=Sophos;i="6.15,246,1739865600"; d="scan'208";a="51124651"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2025 09:03:30 -0700
+X-CSE-ConnectionGUID: 9MaCJbWySiWG7N/A9Y1wrw==
+X-CSE-MsgGUID: NG5gqInUREubMEn3V1rQHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,246,1739865600"; d="scan'208";a="133524997"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO fedora)
+ ([10.245.246.179])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2025 09:03:25 -0700
+Date: Mon, 28 Apr 2025 18:03:09 +0200
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-next
+Message-ID: <aA-mvTb6s909V8hu@fedora>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4bac662a-228e-4739-b627-5d81df3d4842@amd.com>
-X-Operating-System: Linux phenom 6.12.17-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,118 +78,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 28, 2025 at 12:43:30PM +0200, Christian König wrote:
-> On 4/23/25 23:37, Dave Airlie wrote:
-> > Hey,
-> > 
-> > I've been tasked to look into this, and I'm going start from hopeless
-> > naivety and see how far I can get. This is an initial attempt to hook
-> > TTM system memory allocations into memcg and account for them.
-> 
-> Yeah, this looks mostly like what we had already discussed.
-> 
-> > 
-> > It does:
-> > 1. Adds memcg GPU statistic,
-> > 2. Adds TTM memcg pointer for drivers to set on their user object
-> > allocation paths
-> > 3. Adds a singular path where we account for memory in TTM on cached
-> > non-pooled non-dma allocations. Cached memory allocations used to be
-> > pooled but we dropped that a while back which makes them the best target
-> > to start attacking this from.
-> 
-> I think that should go into the resource like the existing dmem approach
-> instead. That allows drivers to control the accounting through the
-> placement which is far less error prone than the context.
-> 
-> It would also completely avoid the pooled vs unpooled problematic.
-> 
-> 
-> > 4. It only accounts for memory that is allocated directly from a userspace
-> > TTM operation (like page faults or validation). It *doesn't* account for
-> > memory allocated in eviction paths due to device memory pressure.
-> 
-> Yeah, that's something I totally agree on.
-> 
-> But the major show stopper is still accounting to memcg will break
-> existing userspace. E.g. display servers can get attacked with a deny of
-> service with that.
-> 
-> The feature would need to be behind a module option or not account
-> allocations for DRM masters or something like that.
+Hi Dave, Simona
 
-The trouble is that support is very uneven, and it will be even more
-uneven going forward. Especially if we then also add in SoC drivers, which
-have all kinds of fun between system memory, cma, carveout and userptr all
-being differently accounted for.
+An additional drm-xe-next PR as requested on IRC.
+Take 2, This time with a normal-looking diffstat.
 
-Which means I think we need two pieces here:
+A lot of fixes but some new stuff as detailed below.
 
-1. opt-in enabling, or things break
+Please note that the top commit,
 
-2. some way to figure out whether what userspace expects in term of
-enforcement matches what the kernel actually does
+"Drop force_alloc from xe_bo_evict in selftests"
 
-Without two we'll never manage to get this beyond the initial demo stage I
-fear, and we'll have a really hard time rolling out the various pieces to
-various drivers.
+carries a Fixes tag that is not an ancestor, but that
+commit is in drm-next so should not be a problem once
+merged, I hope.
 
-But I have no idea what this should look like at all unfortuantely. Best I
-can come up with is a set of flags of what kind of enforcement the kernel
-does, and every time we add something new we set a new flag. And if the
-flags userspace or the modoption opt-in sets don't match what the kernel
-supports, you get a fallback to no enforcment.
+Thanks,
+Thomas
 
-But a module option flag approach doesn't cover at all per-driver or
-per-device changes. I think for that we need the kernel to provide enough
-information to userspace in sysfs, which userspace then needs to use to
-set/update cgroup limits to fit whatever use-case it case. Or maybe a
-per-device opt-in flag set.
+drm-xe-next-2025-04-28-1:
+Core Changes:
+- Add drm_coredump_printer_is_full() (Matt Brost)
 
-Also I think the only fallback we can realistically provide is "no
-enforcement", and that would technically be a regression every time we add
-a new enforcement feature and hence another opt-in flag. And see below
-with just the eviction example, I think there's plenty of really tricky
-areas where we will just never get to the end state in one step, because
-it's too much work and too hard to get right from the first attempt.
+Driver Changes:
+- Do not queue unneeded terminations from debugfs (Daniele)
+- Fix out-of-bound while enabling engine activity stats (Michal)
+- Use GT oriented message to report engine activity error (Michal)
+- Some fault-injection additions (Satyanarayana)
+- Fix an error pointer dereference (Harshit)
+- Fix capture of steering registers (John)
+- Use the steering flag when printing registers (John)
+- Cache DSS info when creating capture register list (John)
+- Backup VRAM in PM notifier instead of in the suspend / freeze
+  callbacks (Matt Auld)
+- Fix CFI violation when accessing sysfs files (Jeevaka)
+- Fix kernel version docs for temperature and fan speed (Lucas)
+- Add devcoredump chunking (Matt Brost)
+- Update xe_ttm_access_memory to use GPU for non-visible access
+  (Matt Brost)
+- Abort printing coredump in VM printer output if full (Matt Brost)
+- Resolve a possible circular locking dependency (Harish)
+- Don't support EU stall on SRIOV VF (Harish)
+- Drop force_alloc from xe_bo_evict in selftests (Matt Brost)
+The following changes since commit d2b9e2f8a15d53121ae8f2c67b69cf06b6fa586c:
 
-I think once we have a decent opt-in/forward-compatible strategy for
-cgroups gpu features, adding not-entirely-complete solutions to get this
-moving is the right thing to do.
+  Merge tag 'drm-xe-next-2025-04-17' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-next (2025-04-26 08:06:14 +1000)
 
-> > This seems to work for me here on my hacked up tests systems at least, I
-> > can see the GPU stats moving and they look sane.
-> > 
-> > Future work:
-> > Account for pooled non-cached
-> > Account for pooled dma allocations (no idea how that looks)
-> > Figure out if accounting for eviction is possible, and what it might look
-> > like.
-> 
-> T.J. suggested to account but don't limit the evictions and I think that
-> should work.
+are available in the Git repository at:
 
-I think this will need a ladder of implementations, where we slowly get to
-a full featured place. Maybe something like:
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2025-04-28-1
 
-1. Don't account evicted buffers. Pretty obvious gap if you're on a dgpu,
-but entirely fine with an igpu without stolen memory.
+for you to fetch changes up to 1bb53d05ba71b684f61bd11df8b99fe75ce52754:
 
-2. Account, but don't enforce any limits on evictions. This could already
-get funny if then system memory allocations start failing for random
-reasons due to memory pressure from other processes.
+  Merge drm/drm-next into drm-xe-next (2025-04-28 17:42:49 +0200)
 
-3. Probably at this point we need a memcg aware shrinker in ttm drivers
-that want to go further.
+----------------------------------------------------------------
+Core Changes:
+- Add drm_coredump_printer_is_full() (Matt Brost)
 
-4. Start enforcing limits even on eviction.
+Driver Changes:
+- Do not queue unneeded terminations from debugfs (Daniele)
+- Fix out-of-bound while enabling engine activity stats (Michal)
+- Use GT oriented message to report engine activity error (Michal)
+- Some fault-injection additions (Satyanarayana)
+- Fix an error pointer dereference (Harshit)
+- Fix capture of steering registers (John)
+- Use the steering flag when printing registers (John)
+- Cache DSS info when creating capture register list (John)
+- Backup VRAM in PM notifier instead of in the suspend / freeze
+  callbacks (Matt Auld)
+- Fix CFI violation when accessing sysfs files (Jeevaka)
+- Fix kernel version docs for temperature and fan speed (Lucas)
+- Add devcoredump chunking (Matt Brost)
+- Update xe_ttm_access_memory to use GPU for non-visible access
+  (Matt Brost)
+- Abort printing coredump in VM printer output if full (Matt Brost)
+- Resolve a possible circular locking dependency (Harish)
+- Don't support EU stall on SRIOV VF (Harish)
+- Drop force_alloc from xe_bo_evict in selftests (Matt Brost)
 
-I probably missed a few steps, like about enforcing dmem limits. And
-memory pin limits also tie into this all in interesting ways (both for
-system and device memory).
+----------------------------------------------------------------
+Daniele Ceraolo Spurio (1):
+      drm/xe/pxp: do not queue unneeded terminations from debugfs
 
-Cheers, Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Harish Chegondi (2):
+      drm/xe/eustall: Resolve a possible circular locking dependency
+      drm/xe/eustall: Do not support EU stall on SRIOV VF
+
+Harshit Mogalapalli (1):
+      drm/xe/svm: fix dereferencing error pointer in drm_gpusvm_range_alloc()
+
+Jeevaka Prabu Badrappan (1):
+      drm/xe: Fix CFI violation when accessing sysfs files
+
+John Harrison (3):
+      drm/xe/guc: Fix capture of steering registers
+      drm/xe/guc: Use the steering flag when printing registers
+      drm/xe/guc: Cache DSS info when creating capture register list
+
+Lucas De Marchi (2):
+      drm/xe/hwmon: Fix kernel version documentation for temperature
+      drm/xe/hwmon: Fix kernel version documentation for fan speed
+
+Matthew Auld (3):
+      drm/xe: evict user memory in PM notifier
+      drm/xe: share bo dma-resv with backup object
+      drm/xe: handle pinned memory in PM notifier
+
+Matthew Brost (5):
+      drm/xe: Add devcoredump chunking
+      drm/xe: Update xe_ttm_access_memory to use GPU for non-visible access
+      drm/print: Add drm_coredump_printer_is_full
+      drm/xe: Abort printing coredump in VM printer output if full
+      drm/xe: Drop force_alloc from xe_bo_evict in selftests
+
+Michal Wajdeczko (2):
+      drm/xe/guc: Fix out-of-bound while enabling engine activity stats
+      drm/xe: Use GT oriented message to report engine activity error
+
+Satyanarayana K V P (2):
+      drm/xe: Introduce fault injection for guc mmio send/recv.
+      drm/xe: Introduce fault injection for guc CTB send/recv
+
+Thomas Hellström (2):
+      Merge drm/drm-next into drm-xe-next
+      Merge drm/drm-next into drm-xe-next
+
+ .../ABI/testing/sysfs-driver-intel-xe-hwmon        |  10 +-
+ drivers/gpu/drm/xe/tests/xe_bo.c                   |   2 +-
+ drivers/gpu/drm/xe/tests/xe_dma_buf.c              |   2 +-
+ drivers/gpu/drm/xe/tests/xe_migrate.c              |   2 +-
+ drivers/gpu/drm/xe/xe_bo.c                         | 152 +++++++++++---
+ drivers/gpu/drm/xe/xe_bo.h                         |   2 +
+ drivers/gpu/drm/xe/xe_bo_evict.c                   |  96 +++++++--
+ drivers/gpu/drm/xe/xe_bo_evict.h                   |   3 +
+ drivers/gpu/drm/xe/xe_bo_types.h                   |   2 +
+ drivers/gpu/drm/xe/xe_devcoredump.c                |  57 ++++--
+ drivers/gpu/drm/xe/xe_devcoredump_types.h          |   2 +
+ drivers/gpu/drm/xe/xe_device_types.h               |   3 +
+ drivers/gpu/drm/xe/xe_eu_stall.c                   |  14 +-
+ drivers/gpu/drm/xe/xe_eu_stall.h                   |   3 +-
+ drivers/gpu/drm/xe/xe_gt_freq.c                    |  82 ++++----
+ drivers/gpu/drm/xe/xe_gt_idle.c                    |  28 +--
+ drivers/gpu/drm/xe/xe_gt_throttle.c                |  90 ++++-----
+ drivers/gpu/drm/xe/xe_guc.c                        |   1 +
+ drivers/gpu/drm/xe/xe_guc_capture.c                | 102 +++++-----
+ drivers/gpu/drm/xe/xe_guc_capture_types.h          |   2 +
+ drivers/gpu/drm/xe/xe_guc_ct.c                     |   1 +
+ drivers/gpu/drm/xe/xe_guc_engine_activity.c        |   7 +-
+ drivers/gpu/drm/xe/xe_migrate.c                    | 218 +++++++++++++++++++--
+ drivers/gpu/drm/xe/xe_migrate.h                    |   4 +
+ drivers/gpu/drm/xe/xe_pci.c                        |   2 +-
+ drivers/gpu/drm/xe/xe_pci_sriov.c                  |   5 +-
+ drivers/gpu/drm/xe/xe_pm.c                         |  68 ++++++-
+ drivers/gpu/drm/xe/xe_pm.h                         |   2 +-
+ drivers/gpu/drm/xe/xe_pxp_debugfs.c                |  13 +-
+ drivers/gpu/drm/xe/xe_svm.c                        |   2 +-
+ drivers/gpu/drm/xe/xe_vm.c                         |   3 +
+ include/drm/drm_print.h                            |  20 ++
+ 32 files changed, 756 insertions(+), 244 deletions(-)
