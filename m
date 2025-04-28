@@ -2,59 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96968A9E8F2
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 09:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA61A9E8FD
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 09:16:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6002E10E074;
-	Mon, 28 Apr 2025 07:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9576310E3B1;
+	Mon, 28 Apr 2025 07:16:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D3J8+hYZ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MJAzUdKS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E729410E074;
- Mon, 28 Apr 2025 07:14:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745824447; x=1777360447;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=InPFv7NzxrLdMuKj7vrbwJrkYbLdh0+6ESBqGAOmfF0=;
- b=D3J8+hYZqveK+I6Sk2tH4A0LjdBWwg/4wyQR6KDJPECsDco5hco1Cwiz
- QPN4JVgHdT2hNMyVOvsJPIJQCW0WDzAmaI1B4tjS8jFtff+17dCinWOfJ
- ONsSFfByk+9Jfr+aOpgKvHn2eoAli8F0Us9esOZiUMLZFewYb1dkaUxs1
- OTSNKHzeXYDNJ42PheBW88AycosiUcUkxWLlGee6MUQ6YLorPCuT+ZG10
- NBQMaOsyV2IPzFgKk12VcDP2inB3v9MHXgbLO58+Pq9MGh/fGCFEQNBER
- A9CKZqw/VXGXgY5eAD4Iq3+Og8J7uqHgN6IrW5XJXnmuMDZdQyaZ+X0Pc g==;
-X-CSE-ConnectionGUID: bJxO8MFUS2qAsq6OUFFaKA==
-X-CSE-MsgGUID: 3xvgIvV8QnWuhshUju8yMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="50055387"
-X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; d="scan'208";a="50055387"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2025 00:14:06 -0700
-X-CSE-ConnectionGUID: LSbsf5n/Qnex1vpO6CEr5Q==
-X-CSE-MsgGUID: ca64yB/wRj+r5F14JJoB2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; d="scan'208";a="156655031"
-Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 28 Apr 2025 00:14:05 -0700
-Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1u9Igk-0006hZ-33;
- Mon, 28 Apr 2025 07:14:02 +0000
-Date: Mon, 28 Apr 2025 15:13:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- matthew.brost@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH] drm/xe/tests: fix the bo evict build break
-Message-ID: <202504281424.5u93dWXu-lkp@intel.com>
-References: <20250428034043.407486-1-airlied@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 451E810E3AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 07:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1745824597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=16CNKajqgwGmZ8oI9vbBSydbJPDHhv2hM7VyKx5uLvo=;
+ b=MJAzUdKSBAHxjnwy2TNiMSY83ds3SgXG1Q9921QEVAEU3mx8WAglUUS7VQEnrWBV8HxSjE
+ PT69oro1uSBwjO1AH4BEQ+CoEge4UVlnP3bnveoNRTG/qI49+TJqTYx/NGyUKvps5M6LjO
+ 64AENQmNR/XY42YLJp7Jlh6H8xhfhHc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-304-GnYeaNfGM2651aatvqHDNg-1; Mon, 28 Apr 2025 03:16:35 -0400
+X-MC-Unique: GnYeaNfGM2651aatvqHDNg-1
+X-Mimecast-MFC-AGG-ID: GnYeaNfGM2651aatvqHDNg_1745824594
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-39135d31ca4so1641299f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 00:16:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745824594; x=1746429394;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=16CNKajqgwGmZ8oI9vbBSydbJPDHhv2hM7VyKx5uLvo=;
+ b=C4gGNSF4fHR8u/01188H/CqXZr6qkxUmUtcHkyoJgDyaUYkqzTziVrT6ShWG7gMYqa
+ DDIIlfn/Bz3dh0BRz9woPBnj+vjVz9M0LuAwjvOOUTxROJPl1atlywsTPOoRKie1dphb
+ lKnbiYpI1ci4tzQDy95moNsFRi+MYvX2NcN1UAf58/O6NwDri/DUjcKlJexHKC2g5PgT
+ zOiHFKJkJeatIhu0Uiu05RWHvFVkW+npCz7kqNTpEudeu+lBwPdjpY/WKhnGkijUYggi
+ vX+Y4eJ8enn3jQXIWazdnQ54mTO8dVLoVs412ebHlcVNZEtOfSjAkRYhSAYGIZCgURqI
+ /VIg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUNwRI1XpY72sGvpcNTXrn1FXxT0rIdV+ylg8ZR8L6UKRRY+2VBBtWj5fptzzyz1MGeSqgVNw5PHFY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0yiXQt+kMJbbwGqroa7wXPD5hGstg0/OrJ5kqbH6m0YAue/W8
+ mwMm+utAX61AehNhLiVJx3uevN8i5MbLxqFYYXfkSVSk1sKrsoJ4M5Sw7CaeC2vEOwSnSJh7HMg
+ KV+enHaS44rRwDPhktBnZJByteoedU/TzJ6NFBoOebZGSvDK8khE+raa3+w/vtMoCpQ==
+X-Gm-Gg: ASbGnctdyMHtl/9KI7Pi7GSAucgfuokobszM+M1pchejCS0PvxZv+5qUg6yckRLBww/
+ nkfIwxorJuR++SS2I0ImHesJFD/DnCZeFkWlXJLUX81j9DQxaEXTcV80mm1v70FHOqBo4e7kCwq
+ sebbO0WqzPHeYY/VdFVewRf6tC+Bi+P6T6b54DrXs3aOPGkXXGmaNnjxCjHpZxY3oyJSy4kY/n/
+ LY5Hnb6SY2J9YQiUxestUA575Hdn2t6We+SYJmwcsEQP4ylqhfrM5iaFlkjrFp2m96ubcrTAkju
+ OhLSIB1g7fzouvXiO7VgKGwN53KdHkJgiow88Fc/kA==
+X-Received: by 2002:a05:6000:4285:b0:38d:e0a9:7e5e with SMTP id
+ ffacd0b85a97d-3a06d641ee8mr13559953f8f.6.1745824594522; 
+ Mon, 28 Apr 2025 00:16:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHIrPcunVHLnlQ1AatF9UYAiW856wnW8cOclcw7+LA1ObWz8K2SToJ1c1vlFs6uRPgv8kBJdA==
+X-Received: by 2002:a05:6000:4285:b0:38d:e0a9:7e5e with SMTP id
+ ffacd0b85a97d-3a06d641ee8mr13559929f8f.6.1745824594178; 
+ Mon, 28 Apr 2025 00:16:34 -0700 (PDT)
+Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a073e46257sm10241681f8f.77.2025.04.28.00.16.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Apr 2025 00:16:33 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Marcus Folkesson <marcus.folkesson@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, David Lechner <david@lechnology.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Marcus
+ Folkesson <marcus.folkesson@gmail.com>
+Subject: Re: [PATCH] drm/sitronix: move tiny Sitronix drivers to their own
+ subdir
+In-Reply-To: <20250428-sitronix-v1-1-4e7cc0a8195a@gmail.com>
+References: <20250428-sitronix-v1-1-4e7cc0a8195a@gmail.com>
+Date: Mon, 28 Apr 2025 09:16:32 +0200
+Message-ID: <877c3421tb.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250428034043.407486-1-airlied@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 0eb6d4qSNB5jC9ocXznSkIKE8Kuy6jTcYVTD0U2ohGU_1745824594
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,154 +99,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 
-kernel test robot noticed the following build errors:
+Hello Marcus,
 
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on drm/drm-next drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.15-rc3 next-20250424]
-[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> We start to have support many Sitronix displays in the tiny directory,
+> and we expect more to come.
+>
+> Move them to their own subdirectory.
+>
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-xe-tests-fix-the-bo-evict-build-break/20250428-114114
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250428034043.407486-1-airlied%40gmail.com
-patch subject: [PATCH] drm/xe/tests: fix the bo evict build break
-config: loongarch-randconfig-002-20250428 (https://download.01.org/0day-ci/archive/20250428/202504281424.5u93dWXu-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250428/202504281424.5u93dWXu-lkp@intel.com/reproduce)
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504281424.5u93dWXu-lkp@intel.com/
+You can also include the following if you feel like it:
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/xe/xe_migrate.c:1723:
-   drivers/gpu/drm/xe/tests/xe_migrate.c: In function 'test_migrate':
->> drivers/gpu/drm/xe/tests/xe_migrate.c:515:15: error: too few arguments to function 'xe_bo_evict'
-     515 |         ret = xe_bo_evict(vram_bo);
-         |               ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/xe/xe_migrate.c:23:
-   drivers/gpu/drm/xe/xe_bo.h:274:5: note: declared here
-     274 | int xe_bo_evict(struct xe_bo *bo, bool force_alloc);
-         |     ^~~~~~~~~~~
---
-   In file included from drivers/gpu/drm/xe/xe_dma_buf.c:322:
-   drivers/gpu/drm/xe/tests/xe_dma_buf.c: In function 'check_residency':
->> drivers/gpu/drm/xe/tests/xe_dma_buf.c:68:15: error: too few arguments to function 'xe_bo_evict'
-      68 |         ret = xe_bo_evict(exported);
-         |               ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/xe/xe_dma_buf.c:17:
-   drivers/gpu/drm/xe/xe_bo.h:274:5: note: declared here
-     274 | int xe_bo_evict(struct xe_bo *bo, bool force_alloc);
-         |     ^~~~~~~~~~~
---
-   In file included from drivers/gpu/drm/xe/xe_bo.c:2949:
-   drivers/gpu/drm/xe/tests/xe_bo.c: In function 'ccs_test_migrate':
->> drivers/gpu/drm/xe/tests/xe_bo.c:63:15: error: too few arguments to function 'xe_bo_evict'
-      63 |         ret = xe_bo_evict(bo);
-         |               ^~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_bo.c:2769:5: note: declared here
-    2769 | int xe_bo_evict(struct xe_bo *bo, bool force_alloc)
-         |     ^~~~~~~~~~~
-
-
-vim +/xe_bo_evict +515 drivers/gpu/drm/xe/tests/xe_migrate.c
-
-   493	
-   494	static void test_migrate(struct xe_device *xe, struct xe_tile *tile,
-   495				 struct xe_bo *sys_bo, struct xe_bo *vram_bo, struct xe_bo *ccs_bo,
-   496				 struct kunit *test)
-   497	{
-   498		struct dma_fence *fence;
-   499		u64 expected, retval;
-   500		long timeout;
-   501		long ret;
-   502	
-   503		expected = 0xd0d0d0d0d0d0d0d0;
-   504		xe_map_memset(xe, &sys_bo->vmap, 0, 0xd0, sys_bo->size);
-   505	
-   506		fence = blt_copy(tile, sys_bo, vram_bo, false, "Blit copy from sysmem to vram", test);
-   507		if (!sanity_fence_failed(xe, fence, "Blit copy from sysmem to vram", test)) {
-   508			retval = xe_map_rd(xe, &vram_bo->vmap, 0, u64);
-   509			if (retval == expected)
-   510				KUNIT_FAIL(test, "Sanity check failed: VRAM must have compressed value\n");
-   511		}
-   512		dma_fence_put(fence);
-   513	
-   514		kunit_info(test, "Evict vram buffer object\n");
- > 515		ret = xe_bo_evict(vram_bo);
-   516		if (ret) {
-   517			KUNIT_FAIL(test, "Failed to evict bo.\n");
-   518			return;
-   519		}
-   520	
-   521		ret = xe_bo_vmap(vram_bo);
-   522		if (ret) {
-   523			KUNIT_FAIL(test, "Failed to vmap vram bo: %li\n", ret);
-   524			return;
-   525		}
-   526	
-   527		retval = xe_map_rd(xe, &vram_bo->vmap, 0, u64);
-   528		check(retval, expected, "Clear evicted vram data first value", test);
-   529		retval = xe_map_rd(xe, &vram_bo->vmap, vram_bo->size - 8, u64);
-   530		check(retval, expected, "Clear evicted vram data last value", test);
-   531	
-   532		fence = blt_copy(tile, vram_bo, ccs_bo,
-   533				 true, "Blit surf copy from vram to sysmem", test);
-   534		if (!sanity_fence_failed(xe, fence, "Clear ccs buffer data", test)) {
-   535			retval = xe_map_rd(xe, &ccs_bo->vmap, 0, u64);
-   536			check(retval, 0, "Clear ccs data first value", test);
-   537	
-   538			retval = xe_map_rd(xe, &ccs_bo->vmap, ccs_bo->size - 8, u64);
-   539			check(retval, 0, "Clear ccs data last value", test);
-   540		}
-   541		dma_fence_put(fence);
-   542	
-   543		kunit_info(test, "Restore vram buffer object\n");
-   544		ret = xe_bo_validate(vram_bo, NULL, false);
-   545		if (ret) {
-   546			KUNIT_FAIL(test, "Failed to validate vram bo for: %li\n", ret);
-   547			return;
-   548		}
-   549	
-   550		/* Sync all migration blits */
-   551		timeout = dma_resv_wait_timeout(vram_bo->ttm.base.resv,
-   552						DMA_RESV_USAGE_KERNEL,
-   553						true,
-   554						5 * HZ);
-   555		if (timeout <= 0) {
-   556			KUNIT_FAIL(test, "Failed to sync bo eviction.\n");
-   557			return;
-   558		}
-   559	
-   560		ret = xe_bo_vmap(vram_bo);
-   561		if (ret) {
-   562			KUNIT_FAIL(test, "Failed to vmap vram bo: %li\n", ret);
-   563			return;
-   564		}
-   565	
-   566		retval = xe_map_rd(xe, &vram_bo->vmap, 0, u64);
-   567		check(retval, expected, "Restored value must be equal to initial value", test);
-   568		retval = xe_map_rd(xe, &vram_bo->vmap, vram_bo->size - 8, u64);
-   569		check(retval, expected, "Restored value must be equal to initial value", test);
-   570	
-   571		fence = blt_copy(tile, vram_bo, ccs_bo,
-   572				 true, "Blit surf copy from vram to sysmem", test);
-   573		if (!sanity_fence_failed(xe, fence, "Clear ccs buffer data", test)) {
-   574			retval = xe_map_rd(xe, &ccs_bo->vmap, 0, u64);
-   575			check(retval, 0, "Clear ccs data first value", test);
-   576			retval = xe_map_rd(xe, &ccs_bo->vmap, ccs_bo->size - 8, u64);
-   577			check(retval, 0, "Clear ccs data last value", test);
-   578		}
-   579		dma_fence_put(fence);
-   580	}
-   581	
+Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
