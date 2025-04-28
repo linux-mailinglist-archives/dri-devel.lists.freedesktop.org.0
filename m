@@ -2,105 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDF2A9F143
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 14:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8159A9F149
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 14:47:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 079D610E3DD;
-	Mon, 28 Apr 2025 12:46:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2519510E4B6;
+	Mon, 28 Apr 2025 12:47:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="bWe9+8mW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="evPeBLpa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB0810E3DD
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 12:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=LMrRcIEPY7Q9w3xDE5e0552Sq4/nmQzTOdECWk3BTP8=; b=b
- We9+8mW+I4hT/nzFKdxG+p/vbuilXDf9o2+aUBFkKPR79bqEtQJdE/sC+9PEXb00
- ga8AgCzUSARhAkaTPAuttd2gETbO3T7O2cNjufquY2Aa9FZem8KEG4nbeaBxM0+0
- zerUAdGVSg/Mvpp05YVkVKp7TcNjpPAOF1Mreokx5o=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-137 (Coremail) ; Mon, 28 Apr 2025 20:44:03 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Mon, 28 Apr 2025 20:44:03 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Jagan Teki" <jagan@amarulasolutions.com>,
- "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>,
- "Fabio Estevam" <festevam@gmail.com>,
- "Douglas Anderson" <dianders@chromium.org>,
- "Chun-Kuang Hu" <chunkuang.hu@kernel.org>,
- "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Anusha Srivatsa" <asrivats@redhat.com>,
- "Paul Kocialkowski" <paulk@sys-base.io>,
- "Dmitry Baryshkov" <lumag@kernel.org>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
- "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- "Adam Ford" <aford173@gmail.com>,
- "Adrien Grassein" <adrien.grassein@gmail.com>,
- "Aleksandr Mishin" <amishin@t-argos.ru>,
- "Andy Yan" <andy.yan@rock-chips.com>,
- "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
- "Benson Leung" <bleung@chromium.org>,
- "Biju Das" <biju.das.jz@bp.renesas.com>,
- "Christoph Fritz" <chf.fritz@googlemail.com>,
- "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>,
- "Detlev Casanova" <detlev.casanova@collabora.com>,
- "Dharma Balasubiramani" <dharma.b@microchip.com>,
- "Guenter Roeck" <groeck@chromium.org>, "Heiko Stuebner" <heiko@sntech.de>,
- "Jani Nikula" <jani.nikula@intel.com>, "Janne Grunau" <j@jannau.net>,
- "Jerome Brunet" <jbrunet@baylibre.com>,
- "Jesse Van Gavere" <jesseevg@gmail.com>,
- "Kevin Hilman" <khilman@baylibre.com>,
- "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>,
- "Liu Ying" <victor.liu@nxp.com>,
- "Manikandan Muralidharan" <manikandan.m@microchip.com>,
- "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>,
- "Matthias Brugger" <matthias.bgg@gmail.com>,
- "Philipp Zabel" <p.zabel@pengutronix.de>, "Phong LE" <ple@baylibre.com>,
- "Sasha Finkelstein" <fnkl.kernel@gmail.com>,
- "Sugar Zhang" <sugar.zhang@rock-chips.com>,
- "Sui Jingfeng" <sui.jingfeng@linux.dev>,
- "Tomi Valkeinen" <tomi.valkeinen+renesas@ideasonboard.com>,
- "Vitalii Mordan" <mordan@ispras.ru>
-Subject: Re:[PATCH v2 01/34] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
-X-NTES-SC: AL_Qu2fB/Sfu0ov5SWabOkfmkcVgOw9UcO5v/Qk3oZXOJF8jBLo1zItdntMFln1/t+OJCOIkReYbzJI9MlIe6VRY6sPQCdyBIxAX351AVpDhuQrhQ==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A21310E4A5;
+ Mon, 28 Apr 2025 12:47:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2F5866115B;
+ Mon, 28 Apr 2025 12:46:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B601CC4CEEE;
+ Mon, 28 Apr 2025 12:47:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745844424;
+ bh=HsH8nSf/ZGhRZOeMHnaNQznU6FZlvjFFRODGQYmj+JY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=evPeBLpaoctrC5GT63OrxExzUsjgpxglDn0tp5Lk8sirEe7wne4kUoXS8RapfZ3Sl
+ PDaO/2qt4VKJhE5rskd5h2CAlBlSniCYmN19BMYrch4HLuQYHBx6a+UFh6NLXuEgj8
+ 8sAeKb9tPeVHSJgLGxAPENU8bPkh/5cQQsGvx1qUWxZjfRxXL3YVoLhIhOrhQg9wl7
+ Osm9FTUWcRiM5N1b7Y3JAQcf9CVdqiMDM8VCAQfzMgo3nln0KS4+qOMJUYRfSxEQWJ
+ /fXC0xTXBPy9ko+uu/Dp1GG13ch0vhXPf+yGhnagiopkwzn4n4XCUA0RXKE5dYC4A5
+ mezPocQXwjeDQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1u9Nt2-000000004Gi-3jfr;
+ Mon, 28 Apr 2025 14:47:05 +0200
+Date: Mon, 28 Apr 2025 14:47:04 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Cc: Dmitry Baryshkov <lumag@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ laurentiu.tudor1@dell.com, abel.vesa@linaro.org
+Subject: Re: drm/msm/dp: Introduce link training per-segment for LTTPRs
+Message-ID: <aA94yOjsayZHNDpx@hovoldconsulting.com>
+References: <20250417021349.148911-1-alex.vinarskis@gmail.com>
+ <aA8yFI2Bvm-lFJTl@hovoldconsulting.com>
+ <CAMcHhXpmii=Rc9YVeKXaB17mYv0piSFs02K=0r8kWe5tQGk7eA@mail.gmail.com>
 MIME-Version: 1.0
-Message-ID: <656e493e.a551.1967c6d0c53.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: iSgvCgAXHxgTeA9o84ahAA--.15978W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hM9XmgPbkX+9wACsl
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMcHhXpmii=Rc9YVeKXaB17mYv0piSFs02K=0r8kWe5tQGk7eA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,171 +68,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgLAoKQXQgMjAyNS0wNC0yNSAwMjo1OTowOCwgIkx1Y2EgQ2VyZXNvbGkiIDxsdWNhLmNlcmVz
-b2xpQGJvb3RsaW4uY29tPiB3cm90ZToKPmRldm1fZHJtX2JyaWRnZV9hbGxvYygpIGlzIHRoZSBu
-ZXcgQVBJIHRvIGJlIHVzZWQgZm9yIGFsbG9jYXRpbmcgKGFuZAo+cGFydGlhbGx5IGluaXRpYWxp
-emluZykgYSBwcml2YXRlIGRyaXZlciBzdHJ1Y3QgZW1iZWRkaW5nIGEgc3RydWN0Cj5kcm1fYnJp
-ZGdlLgo+Cj5Gb3IgbWFueSBkcml2ZXJzIGhhdmluZyBhIHNpbXBsZSBjb2RlIGZsb3cgaW4gdGhl
-IHByb2JlIGZ1bmN0aW9uLCB0aGlzCj5jb21taXQgZG9lcyBhIG1hc3MgY29udmVyc2lvbiBhdXRv
-bWF0aWNhbGx5IHdpdGggdGhlIGZvbGxvd2luZyBzZW1hbnRpYwo+cGF0Y2guIFRoZSBjaGFuZ2Vz
-IGhhdmUgYmVlbiByZXZpZXdlZCBtYW51YWxseSBmb3IgY29ycmVjdG5lc3MgYXMgd2VsbCBhcwo+
-dG8gZmluZCBhbnkgZmFsc2UgcG9zaXRpdmVzLgo+Cj4gIEBACj4gIHR5cGUgVDsKPiAgaWRlbnRp
-ZmllciBDOwo+ICBpZGVudGlmaWVyIEJSOwo+ICBleHByZXNzaW9uIERFVjsKPiAgZXhwcmVzc2lv
-biBGVU5DUzsKPiAgQEAKPiAgLVQgKkM7Cj4gICtUICpDOwo+ICAgLi4uCj4gICgKPiAgLUMgPSBk
-ZXZtX2t6YWxsb2MoREVWLCAuLi4pOwo+ICAtaWYgKCFDKQo+ICAtICAgIHJldHVybiAtRU5PTUVN
-Owo+ICArQyA9IGRldm1fZHJtX2JyaWRnZV9hbGxvYyhERVYsIFQsIEJSLCBGVU5DUyk7Cj4gICtp
-ZiAoSVNfRVJSKEMpKQo+ICArICAgICByZXR1cm4gUFRSX0VSUihDKTsKPiAgfAo+ICAtQyA9IGRl
-dm1fa3phbGxvYyhERVYsIC4uLik7Cj4gIC1pZiAoIUMpCj4gIC0gICAgcmV0dXJuIEVSUl9QVFIo
-LUVOT01FTSk7Cj4gICtDID0gZGV2bV9kcm1fYnJpZGdlX2FsbG9jKERFViwgVCwgQlIsIEZVTkNT
-KTsKPiAgK2lmIChJU19FUlIoQykpCj4gICsgICAgIHJldHVybiBQVFJfRVJSKEMpOwo+ICApCj4g
-ICAuLi4KPiAgLUMtPkJSLmZ1bmNzID0gRlVOQ1M7Cj4KPlNpZ25lZC1vZmYtYnk6IEx1Y2EgQ2Vy
-ZXNvbGkgPGx1Y2EuY2VyZXNvbGlAYm9vdGxpbi5jb20+Cj4KPi0tLQo+Cj5DYzogQWRhbSBGb3Jk
-IDxhZm9yZDE3M0BnbWFpbC5jb20+Cj5DYzogQWRyaWVuIEdyYXNzZWluIDxhZHJpZW4uZ3Jhc3Nl
-aW5AZ21haWwuY29tPgo+Q2M6IEFsZWtzYW5kciBNaXNoaW4gPGFtaXNoaW5AdC1hcmdvcy5ydT4K
-PkNjOiBBbmR5IFlhbiA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj5DYzogQW5nZWxvR2lvYWNj
-aGlubyBEZWwgUmVnbm8gPGFuZ2Vsb2dpb2FjY2hpbm8uZGVscmVnbm9AY29sbGFib3JhLmNvbT4K
-PkNjOiBCZW5zb24gTGV1bmcgPGJsZXVuZ0BjaHJvbWl1bS5vcmc+Cj5DYzogQmlqdSBEYXMgPGJp
-anUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPgo+Q2M6IENocmlzdG9waCBGcml0eiA8Y2hmLmZyaXR6
-QGdvb2dsZW1haWwuY29tPgo+Q2M6IENyaXN0aWFuIENpb2NhbHRlYSA8Y3Jpc3RpYW4uY2lvY2Fs
-dGVhQGNvbGxhYm9yYS5jb20+Cj5DYzogRGV0bGV2IENhc2Fub3ZhIDxkZXRsZXYuY2FzYW5vdmFA
-Y29sbGFib3JhLmNvbT4KPkNjOiBEaGFybWEgQmFsYXN1YmlyYW1hbmkgPGRoYXJtYS5iQG1pY3Jv
-Y2hpcC5jb20+Cj5DYzogR3VlbnRlciBSb2VjayA8Z3JvZWNrQGNocm9taXVtLm9yZz4KPkNjOiBI
-ZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNoLmRlPgo+Q2M6IEphbmkgTmlrdWxhIDxqYW5pLm5p
-a3VsYUBpbnRlbC5jb20+Cj5DYzogSmFubmUgR3J1bmF1IDxqQGphbm5hdS5uZXQ+Cj5DYzogSmVy
-b21lIEJydW5ldCA8amJydW5ldEBiYXlsaWJyZS5jb20+Cj5DYzogSmVzc2UgVmFuIEdhdmVyZSA8
-amVzc2VldmdAZ21haWwuY29tPgo+Q2M6IEtldmluIEhpbG1hbiA8a2hpbG1hbkBiYXlsaWJyZS5j
-b20+Cj5DYzogS2llcmFuIEJpbmdoYW0gPGtpZXJhbi5iaW5naGFtK3JlbmVzYXNAaWRlYXNvbmJv
-YXJkLmNvbT4KPkNjOiBMaXUgWWluZyA8dmljdG9yLmxpdUBueHAuY29tPgo+Q2M6IE1hbmlrYW5k
-YW4gTXVyYWxpZGhhcmFuIDxtYW5pa2FuZGFuLm1AbWljcm9jaGlwLmNvbT4KPkNjOiBNYXJ0aW4g
-Qmx1bWVuc3RpbmdsIDxtYXJ0aW4uYmx1bWVuc3RpbmdsQGdvb2dsZW1haWwuY29tPgo+Q2M6IE1h
-dHRoaWFzIEJydWdnZXIgPG1hdHRoaWFzLmJnZ0BnbWFpbC5jb20+Cj5DYzogUGhpbGlwcCBaYWJl
-bCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KPkNjOiBQaG9uZyBMRSA8cGxlQGJheWxpYnJlLmNv
-bT4KPkNjOiBTYXNoYSBGaW5rZWxzdGVpbiA8Zm5rbC5rZXJuZWxAZ21haWwuY29tPgo+Q2M6IFN1
-Z2FyIFpoYW5nIDxzdWdhci56aGFuZ0Byb2NrLWNoaXBzLmNvbT4KPkNjOiBTdWkgSmluZ2Zlbmcg
-PHN1aS5qaW5nZmVuZ0BsaW51eC5kZXY+Cj5DYzogVG9taSBWYWxrZWluZW4gPHRvbWkudmFsa2Vp
-bmVuK3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4KPkNjOiBWaXRhbGlpIE1vcmRhbiA8bW9yZGFu
-QGlzcHJhcy5ydT4KPgo+Q2hhbmdlZCBpbiB2MjoKPi0gYWRkZWQgbWlzc2luZyBQVFJfRVJSKCkg
-aW4gdGhlIHNlY29uZCBzcGF0Y2ggYWx0ZXJuYXRpdmUKPi0tLQo+IGRyaXZlcnMvZ3B1L2RybS9h
-ZHAvYWRwLW1pcGkuYyAgICAgICAgICAgICAgICAgICAgICB8ICA4ICsrKystLS0tCj4gZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMgICAgICAgIHwgIDkgKysrKy0t
-LS0tCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeC1hbng3OHh4LmMg
-IHwgIDkgKysrKy0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hdXgtYnJpZGdlLmMgICAg
-ICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hdXgt
-aHBkLWJyaWRnZS5jICAgICAgICAgICAgIHwgIDkgKysrKystLS0tCj4gZHJpdmVycy9ncHUvZHJt
-L2JyaWRnZS9jYWRlbmNlL2NkbnMtbWhkcDg1NDYtY29yZS5jIHwgIDggKysrKy0tLS0KPiBkcml2
-ZXJzL2dwdS9kcm0vYnJpZGdlL2NoaXBvbmUtaWNuNjIxMS5jICAgICAgICAgICAgfCAgOSArKysr
-LS0tLS0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Nocm9udGVsLWNoNzAzMy5jICAgICAgICAg
-ICAgfCAgOCArKysrLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvY3Jvcy1lYy1hbng3Njg4
-LmMgICAgICAgICAgICB8ICA5ICsrKystLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvZnNs
-LWxkYi5jICAgICAgICAgICAgICAgICAgICB8ICA3ICsrKy0tLS0KPiBkcml2ZXJzL2dwdS9kcm0v
-YnJpZGdlL2lteC9pbXgtbGVnYWN5LWJyaWRnZS5jICAgICAgfCAgOSArKysrLS0tLS0KPiBkcml2
-ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9pbXg4bXAtaGRtaS1wdmkuYyAgICAgICAgfCAxMCArKysr
-LS0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pbXgvaW14OHF4cC1waXhlbC1saW5rLmMg
-ICAgIHwgIDggKysrKy0tLS0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9pbXg4cXhwLXB4
-bDJkcGkuYyAgICAgICAgfCAgOCArKysrLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRl
-LWl0NjI2My5jICAgICAgICAgICAgICAgICB8ICA5ICsrKystLS0tLQo+IGRyaXZlcnMvZ3B1L2Ry
-bS9icmlkZ2UvaXRlLWl0NjUwNS5jICAgICAgICAgICAgICAgICB8ICA5ICsrKystLS0tLQo+IGRy
-aXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRlLWl0NjYxMjEuYyAgICAgICAgICAgICAgICB8ICA5ICsr
-KystLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbG9udGl1bS1sdDg5MTJiLmMgICAgICAg
-ICAgICB8ICA5ICsrKystLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbG9udGl1bS1sdDky
-MTEuYyAgICAgICAgICAgICB8ICA4ICsrKy0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9s
-b250aXVtLWx0OTYxMS5jICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tCj4gZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS9sdmRzLWNvZGVjLmMgICAgICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tCj4g
-ZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9taWNyb2NoaXAtbHZkcy5jICAgICAgICAgICAgIHwgIDgg
-KysrKy0tLS0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL253bC1kc2kuYyAgICAgICAgICAgICAg
-ICAgICAgfCAgOCArKysrLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvcGFyYWRlLXBzODYy
-Mi5jICAgICAgICAgICAgICB8ICA5ICsrKystLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-cGFyYWRlLXBzODY0MC5jICAgICAgICAgICAgICB8ICA5ICsrKystLS0tLQo+IGRyaXZlcnMvZ3B1
-L2RybS9icmlkZ2Uvc2lpOTIzNC5jICAgICAgICAgICAgICAgICAgICB8ICA5ICsrKystLS0tLQo+
-IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2lsLXNpaTg2MjAuYyAgICAgICAgICAgICAgICB8ICA5
-ICsrKystLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2ltcGxlLWJyaWRnZS5jICAgICAg
-ICAgICAgICB8IDEwICsrKystLS0tLS0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lz
-L2R3LWhkbWktcXAuYyAgICAgICAgfCAgOCArKysrLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlk
-Z2Uvc3lub3BzeXMvZHctbWlwaS1kc2kuYyAgICAgICB8ICA4ICsrKystLS0tCj4gZHJpdmVycy9n
-cHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1taXBpLWRzaTIuYyAgICAgIHwgIDggKysrKy0tLS0K
-PiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzYyLmMgICAgICAgICAgICAgICAgICAgfCAg
-OSArKysrLS0tLS0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY0LmMgICAgICAgICAg
-ICAgICAgICAgfCAgOSArKysrLS0tLS0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY4
-LmMgICAgICAgICAgICAgICAgICAgfCAgOSArKysrLS0tLS0KPiBkcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL3RjMzU4Nzc1LmMgICAgICAgICAgICAgICAgICAgfCAgOSArKysrLS0tLS0KPiBkcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL3RoYzYzbHZkMTAyNC5jICAgICAgICAgICAgICAgfCAgOCArKysrLS0t
-LQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktZGxwYzM0MzMuYyAgICAgICAgICAgICAgICB8
-ICA5ICsrKystLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktdGRwMTU4LmMgICAgICAg
-ICAgICAgICAgICB8ICA4ICsrKystLS0tCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS10ZnA0
-MTAuYyAgICAgICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL2Jy
-aWRnZS90aS10cGQxMnMwMTUuYyAgICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tCj4gZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19kcC5jICAgICAgICAgICAgICAgICAgIHwgIDkgKysrKy0t
-LS0tCj4gZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcGkuYyAgICAgICAgICAgICAgICAg
-IHwgIDkgKysrKy0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyAgICAg
-ICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19oZG1pLmMgICAgICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tCj4gZHJpdmVycy9ncHUvZHJt
-L21lc29uL21lc29uX2VuY29kZXJfY3Zicy5jICAgICAgICAgIHwgMTIgKysrKysrLS0tLS0tCj4g
-ZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX2VuY29kZXJfZHNpLmMgICAgICAgICAgIHwgMTIg
-KysrKysrLS0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX2VuY29kZXJfaGRtaS5j
-ICAgICAgICAgIHwgMTIgKysrKysrLS0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcmNh
-ci1kdS9yY2FyX2x2ZHMuYyAgICAgICAgIHwgIDkgKysrKy0tLS0tCj4gZHJpdmVycy9ncHUvZHJt
-L3JlbmVzYXMvcnotZHUvcnpnMmxfbWlwaV9kc2kuYyAgICAgIHwgMTAgKysrKy0tLS0tLQo+IDQ5
-IGZpbGVzIGNoYW5nZWQsIDIwMSBpbnNlcnRpb25zKCspLCAyMzcgZGVsZXRpb25zKC0pCj4KCi4u
-Li4uLgoKPiAKPkBAIC0yMDIsOSArMjAzLDYgQEAgc3RhdGljIGludCBzaW1wbGVfYnJpZGdlX3By
-b2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gCWlmIChJU19FUlIoc2JyaWRnZS0+
-ZW5hYmxlKSkKPiAJCXJldHVybiBkZXZfZXJyX3Byb2JlKCZwZGV2LT5kZXYsIFBUUl9FUlIoc2Jy
-aWRnZS0+ZW5hYmxlKSwKPiAJCQkJICAgICAiVW5hYmxlIHRvIHJldHJpZXZlIGVuYWJsZSBHUElP
-XG4iKTsKPi0KPi0JLyogUmVnaXN0ZXIgdGhlIGJyaWRnZS4gKi8KPi0Jc2JyaWRnZS0+YnJpZGdl
-LmZ1bmNzID0gJnNpbXBsZV9icmlkZ2VfYnJpZGdlX2Z1bmNzOwo+IAlzYnJpZGdlLT5icmlkZ2Uu
-b2Zfbm9kZSA9IHBkZXYtPmRldi5vZl9ub2RlOwo+IAlzYnJpZGdlLT5icmlkZ2UudGltaW5ncyA9
-IHNicmlkZ2UtPmluZm8tPnRpbWluZ3M7Cj4gCj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLXFwLmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5
-bm9wc3lzL2R3LWhkbWktcXAuYwo+aW5kZXggNWU1ZjhjMmY5NWJlMWY1YzQ2MzNmMTA5M2IxN2Ew
-MGY5NDI1YmIzNy4uOWIxZGZkYjVlN2VlNTI4Yzg3NmMwMTkxNmM5ODIxZDU1MGNhZDY3OSAxMDA2
-NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1xcC5jCj4r
-KysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWktcXAuYwo+QEAgLTEw
-NDUsOSArMTA0NSwxMCBAQCBzdHJ1Y3QgZHdfaGRtaV9xcCAqZHdfaGRtaV9xcF9iaW5kKHN0cnVj
-dCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYsCj4gCQlyZXR1cm4gRVJSX1BUUigtRU5PREVWKTsKPiAJ
-fQo+IAo+LQloZG1pID0gZGV2bV9remFsbG9jKGRldiwgc2l6ZW9mKCpoZG1pKSwgR0ZQX0tFUk5F
-TCk7Cj4tCWlmICghaGRtaSkKPi0JCXJldHVybiBFUlJfUFRSKC1FTk9NRU0pOwo+KwloZG1pID0g
-ZGV2bV9kcm1fYnJpZGdlX2FsbG9jKGRldiwgc3RydWN0IGR3X2hkbWlfcXAsIGJyaWRnZSwKPisJ
-CQkJICAgICAmZHdfaGRtaV9xcF9icmlkZ2VfZnVuY3MpOwo+KwlpZiAoSVNfRVJSKGhkbWkpKQo+
-KwkJcmV0dXJuIFBUUl9FUlIoaGRtaSk7CgogICAgICAgICAgIFRoaXMgc2hvdWxkIHJldHVybiBo
-ZG1pIG9yIEVSUl9DQVNUKGhkbWkpOwoKCj4gCj4gCWhkbWktPmRldiA9IGRldjsKPiAKPkBAIC0x
-MDczLDcgKzEwNzQsNiBAQCBzdHJ1Y3QgZHdfaGRtaV9xcCAqZHdfaGRtaV9xcF9iaW5kKHN0cnVj
-dCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYsCj4gCQlyZXR1cm4gRVJSX1BUUihyZXQpOwo+IAo+IAlo
-ZG1pLT5icmlkZ2UuZHJpdmVyX3ByaXZhdGUgPSBoZG1pOwo+LQloZG1pLT5icmlkZ2UuZnVuY3Mg
-PSAmZHdfaGRtaV9xcF9icmlkZ2VfZnVuY3M7Cj4gCWhkbWktPmJyaWRnZS5vcHMgPSBEUk1fQlJJ
-REdFX09QX0RFVEVDVCB8Cj4gCQkJICAgRFJNX0JSSURHRV9PUF9FRElEIHwKPiAJCQkgICBEUk1f
-QlJJREdFX09QX0hETUkgfAo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lu
-b3BzeXMvZHctbWlwaS1kc2kuYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHct
-bWlwaS1kc2kuYwo+aW5kZXggYjA4YWRhOTIwYTUwMWQ2YTYyZjM5NTgxOTQ0YTg3MDE5ZjVlNWMx
-NS4uODc4ODYyMzViOGQzYTg1ZTA3MTFmNzc2M2QwNDhhZDllZWZkMTU5YSAxMDA2NDQKPi0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctbWlwaS1kc2kuYwo+KysrIGIvZHJp
-dmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1taXBpLWRzaS5jCj5AQCAtMTE5NCw5ICsx
-MTk0LDEwIEBAIF9fZHdfbWlwaV9kc2lfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
-diwKPiAJc3RydWN0IGR3X21pcGlfZHNpICpkc2k7Cj4gCWludCByZXQ7Cj4gCj4tCWRzaSA9IGRl
-dm1fa3phbGxvYyhkZXYsIHNpemVvZigqZHNpKSwgR0ZQX0tFUk5FTCk7Cj4tCWlmICghZHNpKQo+
-LQkJcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7Cj4rCWRzaSA9IGRldm1fZHJtX2JyaWRnZV9hbGxv
-YyhkZXYsIHN0cnVjdCBkd19taXBpX2RzaSwgYnJpZGdlLAo+KwkJCQkgICAgJmR3X21pcGlfZHNp
-X2JyaWRnZV9mdW5jcyk7Cj4rCWlmIChJU19FUlIoZHNpKSkKPisJCXJldHVybiBQVFJfRVJSKGRz
-aSk7CgoKVGhpcyBzaG91ZCByZXR1cm4gZHNpIG9yIEVSUl9DQVNUKGRzaSk7Cj4gCj4gCWRzaS0+
-ZGV2ID0gZGV2Owo+IAlkc2ktPnBsYXRfZGF0YSA9IHBsYXRfZGF0YTsKPkBAIC0xMjY1LDcgKzEy
-NjYsNiBAQCBfX2R3X21pcGlfZHNpX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYs
-Cj4gCX0KPiAKPiAJZHNpLT5icmlkZ2UuZHJpdmVyX3ByaXZhdGUgPSBkc2k7Cj4tCWRzaS0+YnJp
-ZGdlLmZ1bmNzID0gJmR3X21pcGlfZHNpX2JyaWRnZV9mdW5jczsKPiAJZHNpLT5icmlkZ2Uub2Zf
-bm9kZSA9IHBkZXYtPmRldi5vZl9ub2RlOwo+IAo+IAlyZXR1cm4gZHNpOwo+ZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctbWlwaS1kc2kyLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LW1pcGktZHNpMi5jCj5pbmRleCBjNzZmNWYyZTc0
-ZDE0YmQzNzJmOTY5YzZjNzgzMmFhNTdmODA3NzJiLi45ZjY5NGY3MmI1MjE5MTJmNWQ0YWY0NmYy
-ZGYyZmMwZmUzZjc3NmVhIDEwMDY0NAo+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5v
-cHN5cy9kdy1taXBpLWRzaTIuYwo+KysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5
-cy9kdy1taXBpLWRzaTIuYwo+QEAgLTkxNCw5ICs5MTQsMTAgQEAgX19kd19taXBpX2RzaTJfcHJv
-YmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldiwKPiAJc3RydWN0IGR3X21pcGlfZHNpMiAq
-ZHNpMjsKPiAJaW50IHJldDsKPiAKPi0JZHNpMiA9IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZigq
-ZHNpMiksIEdGUF9LRVJORUwpOwo+LQlpZiAoIWRzaTIpCj4tCQlyZXR1cm4gRVJSX1BUUigtRU5P
-TUVNKTsKPisJZHNpMiA9IGRldm1fZHJtX2JyaWRnZV9hbGxvYyhkZXYsIHN0cnVjdCBkd19taXBp
-X2RzaTIsIGJyaWRnZSwKPisJCQkJICAgICAmZHdfbWlwaV9kc2kyX2JyaWRnZV9mdW5jcyk7Cj4r
-CWlmIChJU19FUlIoZHNpMikpCj4rCQlyZXR1cm4gUFRSX0VSUihkc2kyKTsKClRoaXMgc2hvdWxk
-IHJldHVybiBkc2kyIG9yIEVSUl9DQVNUKGRpczIpOwoKPiAKPiAJZHNpMi0+ZGV2ID0gZGV2Owo+
-IAlkc2kyLT5wbGF0X2RhdGEgPSBwbGF0X2RhdGE7Cj5AQCAtOTgxLDcgKzk4Miw2IEBAIF9fZHdf
-bWlwaV9kc2kyX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYsCj4gCX0KPiAKPiAJ
-ZHNpMi0+YnJpZGdlLmRyaXZlcl9wcml2YXRlID0gZHNpMjsKPi0JZHNpMi0+YnJpZGdlLmZ1bmNz
-ID0gJmR3X21pcGlfZHNpMl9icmlkZ2VfZnVuY3M7Cj4gCWRzaTItPmJyaWRnZS5vZl9ub2RlID0g
-cGRldi0+ZGV2Lm9mX25vZGU7Cj4gCj4gCXJldHVybiBkc2kyOwo+Cj4gCS8qIEluaXQgaG9zdCBk
-ZXZpY2UgKi8KPgo+LS0gCj4yLjQ5LjAK
+On Mon, Apr 28, 2025 at 11:06:39AM +0200, Aleksandrs Vinarskis wrote:
+> On Mon, 28 Apr 2025 at 09:45, Johan Hovold <johan@kernel.org> wrote:
+> > On Thu, Apr 17, 2025 at 04:10:31AM +0200, Aleksandrs Vinarskis wrote:
+> > > Recently added Initial LTTPR support in msm/dp has configured LTTPR(s)
+> > > to non-transparent mode to enable video output on X1E-based devices
+> > > that come with LTTPR on the motherboards. However, video would not work
+> > > if additional LTTPR(s) are present between sink and source, which is
+> > > the case for USB Type-C docks (eg. Dell WD19TB/WD22TB4), and at least
+> > > some universal Thunderbolt/USB Type-C monitors (eg. Dell U2725QE).
+> >
+> > Does this mean that the incomplete LTTPR support in 6.15-rc1 broke
+> > adapters or docks with retimers in transparent mode?
+> 
+> I am actually not 100% sure.
+> - If without LTTPR initialization, they default to transparent mode,
+> then yes, incomplete LTTPR support sets them to non-transparent
+> without per-segment training and breaks docks with retimers, while it
+> would've worked if LTTPR(s) would've been left in default transparent
+> mode. Note that in this case, X1E devices with ps883x are somehow an
+> exception, because without LTTPR initialization at all the training
+> always fails.
+
+Right, I'm concerned about breaking working setups for users of machines
+like the X13s.
+
+> - If LTTPR has to be initialized either way, and explicitly set to
+> transparent mode if we do not want non-transparent, then no,
+> incomplete LTTPR support in 6.15-rcX did not explicitly break docks
+> with retimers, as those never worked in the first place. As per my
+> understanding, this is the case, unless something (firmware?) has
+> already placed LTTPR to transparent mode before the driver takes over
+> - then 1st case would be applicable.
+> 
+> Docks with retimers do not work in 6.15-rcX, but I am unable to verify
+> if it did work before, as I do not have a Qualcomm based device
+> without LTTPR on the baseboard.
+
+Abel (or anyone else), do you have one of these docks that you could
+test with the X13s to confirm whether this series fixes a regression or
+not?
+
+> > You describe at least one of this patches as a fix but I'm not seeing
+> > any Fixes tags or indication that these need to go into 6.15-rc to fix
+> > a regression.
+> 
+> You are right, I will add Fixes tag to the 1st patch to make it clear:
+> Fixes 72d0af4accd (drm/msm/dp: Add support for LTTPR handling)
+> 
+> Or should I mark the entire series with Fixes, so that the docking
+> stations with retimers can be fixed in 6.15 already? Landing only the
+> 1st patch will fix inconsistency with DP spec, but will not fix
+> docking stations with retimers. I guess this comes down to whether
+> existing LTTPR (but not multiple LTTPRs) support is considered a bug
+> (and patches 2,3,4 are a fix) or lack of functionality (and patches
+> 2,3,4 are a new feature).
+
+Indeed. If LTTPR support broke existing setups, then I think all should
+be marked with a Fixes tag and merged for 6.15. If we can't get it into
+6.15 we may consider just disabling LTTPR support in 6.15 to address the
+regression and then enable it again once fixed in 6.16.
+
+But if this series is just enabling support for docks (and USB-C ports)
+that did not used to work, then I guess this can all wait for 6.16.
+
+Johan
