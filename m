@@ -2,68 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30272A9EFA6
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 13:50:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E751EA9F04E
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 14:10:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF5110E209;
-	Mon, 28 Apr 2025 11:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3049C10E47E;
+	Mon, 28 Apr 2025 12:09:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N8uBGkXH";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="OdTz9j58";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FB2410E208;
- Mon, 28 Apr 2025 11:49:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745840992; x=1777376992;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=zB1R+3nPlS8YyDEXUjEpyTUCdVXfQYrcqgAxtPVk+1k=;
- b=N8uBGkXH9wGm+bShxbHcIFVtghxS60ouPyHLOBRW+inemXyK4YMZ1uDY
- engKYotrn/6OrNRSsPB2T/KhIjdUYSWZ9CpbkkLklFaRM2t7E+nJ55VDH
- XUqhl1BUcmpdaDD+MkVn9cP6D1N0NL5056sE0gsa+suCf/Ab8tx5kZq+z
- NQCfVgcl0lVNa4PFVORJK4nkJZTN3S7DT+AqFNPKIbbN5a3MS/+VWvnSq
- M7trg4vIEUFn2CV5J8xIi05oxDJBEeGhuKxbLGxuRFnwIMNhtq7f1+XuE
- CM57hVyKekdH5mEdXdZi/t1uP+nYQ0KcxpU6ABerNGzQ6TbWY9Yj5wIzs w==;
-X-CSE-ConnectionGUID: 52CkJ0M9TRScZXof2GP6Ng==
-X-CSE-MsgGUID: /JOkh4ySQK+iDb4ahCycUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="69926560"
-X-IronPort-AV: E=Sophos;i="6.15,246,1739865600"; d="scan'208";a="69926560"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2025 04:49:50 -0700
-X-CSE-ConnectionGUID: hAhgMd9+Q3CW5CF12QndgQ==
-X-CSE-MsgGUID: XleMqfvhSTuB77eYrfOvdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,246,1739865600"; d="scan'208";a="170721583"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.174])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2025 04:49:46 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Khatri, Sunil" <sukhatri@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, David
- Airlie <airlied@linux.ie>, Simona Vetter <simona@ffwll.ch>, Maxime Ripard
- <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>, Pierre-Eric Pelloux-Prayer
- <pierre-eric.pelloux-prayer@amd.com>
-Subject: Re: [PATCH V8 1/5] drm: add drm_file_err function to add process info
-In-Reply-To: <f9c5edeb-ffc8-4a25-a80b-3ae8de9b62da@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250417161042.120981-1-sunil.khatri@amd.com>
- <4b7a7016-7ad5-4d08-919e-9876f7da1ef2@amd.com>
- <f9c5edeb-ffc8-4a25-a80b-3ae8de9b62da@amd.com>
-Date: Mon, 28 Apr 2025 14:49:42 +0300
-Message-ID: <871ptcy089.fsf@intel.com>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C69A010E479
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 12:09:49 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-39ee682e0ddso3198777f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 05:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1745842188; x=1746446988;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/JmJKZuEpq5UN0wmEtOpCzeCBmpLeQy7dV9yrtIP3UA=;
+ b=OdTz9j58xRxzkjo3Ip09B1TK8iA/A7OMDK+AYQvB13g7LtRqjNbB1p4kjsB6DtK9EZ
+ 4piQzAfcqncn8Q8p5o+Y0BzK6PxdoxpWBuEEzspprrJhqXtJojpBgZ3MEw6I05mNpEJ3
+ rUfpmoH3lH2n6JAEuBVkIzglgjruvg0g5/hj6uKBhz9Y2ZWz/gsxFnHP/LaNdYGm4MeB
+ 1UQSJutpXcNy23/0GcH7vpHuRAMgDKDibdpHcfotQiZ19NlEvr8kAis8GHf1JsbwaFNI
+ 8ndWytTlD5xs0d/u7MnrX/Zn9UNJlfL0/mzN1tZbwBn/ZIoYjL1t6orw5d5FDqXxLR1m
+ +cUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745842188; x=1746446988;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/JmJKZuEpq5UN0wmEtOpCzeCBmpLeQy7dV9yrtIP3UA=;
+ b=UccCMTrQBNWAEcdl5MIESE/VGYp4h+nXkGpk2kdNaDItU6p3OHgx9vuXTcETzSNaSW
+ tHjYA4DvjpYjIMvYcXTN5iDRlJQu0IqKI5M7DWYpnsDkkyZir32KqkNKjKGRJ++pb0OW
+ fpuQjx4fNswSxSusetLE/gj8g8O5AEtcGH00GNKS3QaVlbdyDasudJeUgCTh10DcXDVb
+ 92zzCrEEDBTuibFD50ISx9SQGu/KCHtokGEgBieLBp/p7AutPvwD4xH+PFovHuBHUUJa
+ tmTQiuT8fEgrLonaI2fOOzhdLUxDThaj8sBnQsbiuUkEDIKSRh5kBmnqDMGqRwb9C9uh
+ iE+g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXEUeDxbbmFostbPUeaNF7f2Ua35Mb/7DUCOhlIXtSERqgcc0OOA06e0pt+veZKocz9Rcm2kNCy5Gg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwVU6znWoHR2xe1MTWUsLZ1N0/otP6EdBROsXXLq+TUxJnbwLGG
+ 7Bw5OEXLQ34f86RtKSaZbzpbB6eftlbJ2NJkD1Sc4JLwNo6crfnzI4+B0RDkW9A=
+X-Gm-Gg: ASbGncvqDDxxNgQIzSsFqfwGJmVw0G2B1v5kIm8MTLa3zw6EZPl8PGSybEg4rVUd1QW
+ O9oEha3Jf0vfq3danSwBx8dj38ReXeNGQzn4C2T9bDkqFJkG06cH3rEwToAkmnVwsMwOmWexU8J
+ l2HFyqd35V4QLm6eB0Mez+TM5sOJUvsgRnbbIsOytE3OMebEt+uKXH1rxQSTOOQtfGkBafjc3XI
+ b6MpROnqBDAYNd9+iPSHZvmtsweEYQXhIC3dCsF6NTNGFyh6JEfFDS9OuI2+NArAFXE05XrAkw0
+ q4DANdnGgdVRtSxxNJvk3uS449V6JWYYVANankVn0By/zAkO94tipFY=
+X-Google-Smtp-Source: AGHT+IHqEv8cFeHZNO066YOoWB8BFD6tcgESusNCDp7OcqCCqOLYefsxt5CXNgjV3wL2bS4dyhsh5Q==
+X-Received: by 2002:a05:6000:1a8e:b0:391:3b11:d604 with SMTP id
+ ffacd0b85a97d-3a07adb1d30mr7133747f8f.54.1745842187842; 
+ Mon, 28 Apr 2025 05:09:47 -0700 (PDT)
+Received: from [192.168.0.101] ([81.79.92.254])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4409d2d88cdsm153399285e9.25.2025.04.28.05.09.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Apr 2025 05:09:47 -0700 (PDT)
+Message-ID: <7f1ad610-5a37-4f74-8eee-5f37556d9576@ursulin.net>
+Date: Mon, 28 Apr 2025 13:09:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/gt: Remove const from struct i915_wa list
+ allocation
+To: Kees Cook <kees@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>,
+ Gustavo Sousa <gustavo.sousa@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Gnattu OC <gnattuoc@me.com>,
+ Nitin Gote <nitin.r.gote@intel.com>, Ranu Maurya <ranu.maurya@intel.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Angus Chen <angus.chen@intel.com>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ Yu Jiaoliang <yujiaoliang@vivo.com>,
+ Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20250426061357.work.749-kees@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20250426061357.work.749-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,119 +104,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Apr 2025, "Khatri, Sunil" <sukhatri@amd.com> wrote:
-> On 4/22/2025 2:33 PM, Christian K=C3=B6nig wrote:
->> Am 17.04.25 um 18:10 schrieb Sunil Khatri:
->>> Add a drm helper function which appends the process information for
->>> the drm_file over drm_err formatted output.
->>>
->>> v5: change to macro from function (Christian Koenig)
->>>      add helper functions for lock/unlock (Christian Koenig)
->>>
->>> v6: remove __maybe_unused and make function inline (Jani Nikula)
->>>      remove drm_print.h
->>>
->>> v7: Use va_format and %pV to concatenate fmt and vargs (Jani Nikula)
->>>
->>> v8: Code formatting and typos (Ursulin tvrtko)
->>>
->>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
->>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Any objections to merge this through amd-staging-drm-next?
-> Gentle reminder here folks ??
 
-It might help to Cc the drm-misc maintainers, though even that doesn't
-always guarantee a reply. ;D
+On 26/04/2025 07:13, Kees Cook wrote:
+> In preparation for making the kmalloc family of allocators type aware,
+> we need to make sure that the returned type from the allocation matches
+> the type of the variable being assigned. (Before, the allocator would
+> always return "void *", which can be implicitly cast to any pointer type.)
+> 
+> The assigned type is "struct i915_wa *". The returned type, while
+> technically matching, will be const qualified. As there is no general
+> way to remove const qualifiers, adjust the allocation type to match
+> the assignment.
+> 
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Gustavo Sousa <gustavo.sousa@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: <intel-gfx@lists.freedesktop.org>
+> Cc: <dri-devel@lists.freedesktop.org>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_workarounds.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> index 116683ebe074..b37e400f74e5 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -156,7 +156,7 @@ static void _wa_add(struct i915_wa_list *wal, const struct i915_wa *wa)
+>   	if (IS_ALIGNED(wal->count, grow)) { /* Either uninitialized or full. */
+>   		struct i915_wa *list;
+>   
+> -		list = kmalloc_array(ALIGN(wal->count + 1, grow), sizeof(*wa),
+> +		list = kmalloc_array(ALIGN(wal->count + 1, grow), sizeof(*list),
 
-Done now.
+Will the sizeof stay, and if so, how will kmalloc be able to distinguish 
+the type? Or we expect one more churn on the same line?
 
-Anyway, since I commented on an earlier version, and my feedback was
-addressed,
+Regards,
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+Tvrtko
 
-even though that does not help you merge via the amd tree.
+>   				     GFP_KERNEL);
+>   		if (!list) {
+>   			drm_err(&i915->drm, "No space for workaround init!\n");
 
-
-BR,
-Jani.
-
-
->> The follow up amdgpu patches all depend on stuff in there which is not y=
-et merged to drm-misc-next.
->>
->> Thanks,
->> Christian.
->>
->>> ---
->>>   drivers/gpu/drm/drm_file.c | 34 ++++++++++++++++++++++++++++++++++
->>>   include/drm/drm_file.h     |  3 +++
->>>   2 files changed, 37 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->>> index c299cd94d3f7..dd351f601acd 100644
->>> --- a/drivers/gpu/drm/drm_file.c
->>> +++ b/drivers/gpu/drm/drm_file.c
->>> @@ -986,6 +986,40 @@ void drm_show_fdinfo(struct seq_file *m, struct fi=
-le *f)
->>>   }
->>>   EXPORT_SYMBOL(drm_show_fdinfo);
->>>=20=20=20
->>> +/**
->>> + * drm_file_err - log process name, pid and client_name associated wit=
-h a drm_file
->>> + * @file_priv: context of interest for process name and pid
->>> + * @fmt: printf() like format string
->>> + *
->>> + * Helper function for clients which needs to log process details such
->>> + * as name and pid etc along with user logs.
->>> + */
->>> +void drm_file_err(struct drm_file *file_priv, const char *fmt, ...)
->>> +{
->>> +	va_list args;
->>> +	struct va_format vaf;
->>> +	struct pid *pid;
->>> +	struct task_struct *task;
->>> +	struct drm_device *dev =3D file_priv->minor->dev;
->>> +
->>> +	va_start(args, fmt);
->>> +	vaf.fmt =3D fmt;
->>> +	vaf.va =3D &args;
->>> +
->>> +	mutex_lock(&file_priv->client_name_lock);
->>> +	rcu_read_lock();
->>> +	pid =3D rcu_dereference(file_priv->pid);
->>> +	task =3D pid_task(pid, PIDTYPE_TGID);
->>> +
->>> +	drm_err(dev, "comm: %s pid: %d client: %s ... %pV", task ? task->comm=
- : "Unset",
->>> +		task ? task->pid : 0, file_priv->client_name ?: "Unset", &vaf);
->>> +
->>> +	va_end(args);
->>> +	rcu_read_unlock();
->>> +	mutex_unlock(&file_priv->client_name_lock);
->>> +}
->>> +EXPORT_SYMBOL(drm_file_err);
->>> +
->>>   /**
->>>    * mock_drm_getfile - Create a new struct file for the drm device
->>>    * @minor: drm minor to wrap (e.g. #drm_device.primary)
->>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->>> index 94d365b22505..5c3b2aa3e69d 100644
->>> --- a/include/drm/drm_file.h
->>> +++ b/include/drm/drm_file.h
->>> @@ -446,6 +446,9 @@ static inline bool drm_is_accel_client(const struct=
- drm_file *file_priv)
->>>   	return file_priv->minor->type =3D=3D DRM_MINOR_ACCEL;
->>>   }
->>>=20=20=20
->>> +__printf(2, 3)
->>> +void drm_file_err(struct drm_file *file_priv, const char *fmt, ...);
->>> +
->>>   void drm_file_update_pid(struct drm_file *);
->>>=20=20=20
->>>   struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigne=
-d int minor_id);
-
---=20
-Jani Nikula, Intel
