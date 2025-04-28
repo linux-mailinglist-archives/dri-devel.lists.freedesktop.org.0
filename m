@@ -2,80 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C28A9F86D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 20:24:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95EDA9F871
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 20:27:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43D1A10E67B;
-	Mon, 28 Apr 2025 18:24:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7F710E698;
+	Mon, 28 Apr 2025 18:27:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="h/lkl/cN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EK5vlaER";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 328E910E67B;
- Mon, 28 Apr 2025 18:23:58 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-39ee651e419so2695578f8f.3; 
- Mon, 28 Apr 2025 11:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745864637; x=1746469437; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bfkSNuW9ZLA+zt1E4XJ6Y4jl13nx7BJaRR54OIX8urI=;
- b=h/lkl/cNF2E/K7yn021n2jfJJPCHfzAWvo7T9zQe21KklgmXdno/PPWToTkQRnuC6x
- Oi35e7XdLkwMjdj53yC5PrZ2K8rlNWvuUVcerCbFIhgwSJY0fgQgcBxMkDwYNqQUwaE9
- grSHwl8nbiATzB31AhYi7VVM5L05iM2h9/EpQRQ0+Fc5nwD5CA6pUj5ft3RmvJBhlHAr
- g3VVJ3pAUuXMQpNC30nC0BzSYSbhUNsQdp1vfansb12dUCx8papY1ROPAg/6WUHw2h0e
- umMRTYkT3S6ymn8E0T2Yov6k5nGO5zZ/ue2udURiMpHW7Zn3yR187I/QXoW+AQbkvtLz
- /MAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745864637; x=1746469437;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bfkSNuW9ZLA+zt1E4XJ6Y4jl13nx7BJaRR54OIX8urI=;
- b=o0rtptD159ZnSaJ9Bi29VaEr+1qlbXwM5Ah548uP1ZBD389NIrJEVG5nGtJZyN1BBi
- FHC0RefcYGDwJ7lArXb3pN/8Qn9fmekTOlmgOGUp4q+5W0h8Hruns8a6+Dx0oopPQuFH
- WsPfV/tFsfBVYnEh3uMjikBW9j7DTDTJavEcsrvBAoKPwZhJB0eT+eYYtz3XljLcv7M+
- btT3diiKvH7kRnxhObKk/pea/cmSa2bb3bWkuIjuWpSMKOb6JRlqt9sJ5OTnQak7SHQZ
- McbI+VcoJcZrfNVfMWcJA7Z+Ggh2F2Jlzw5WutqgEnPAAqvBGyo7rnyxKJGVJ7THs4oD
- uOXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVRocNQVgB4BG7NAGX0F2r9tUvDKH23VI4/isvrUUoKTy/txu++ZZyGFgTqNTD4BZwlNFVwGl7ouvk=@lists.freedesktop.org,
- AJvYcCX+Ohwwu+ZDzJ3zbEjB1YTl0zaVkPQfoCXGPi0bRNLwIReFTXYTeK6ieHE4cTX3aDBdOgmSHR1/SlPl@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGauwT9etN5YNwOM+7Khmll0c3bJFAr0HYm2jL+w+dUcMtqFqH
- c6F5KaiDpwSPprtnOEGxdQmgtfhOx0SR9/Ub9NVM8PPAah2AHtH86Xc9ct+bvaiUuhmC7nu9rsv
- 4AAyx7aCaFAzQduIBDVq5alxnBw==
-X-Gm-Gg: ASbGnct8wVirI+L3FaqkU2jX0e0//P82Ii5HqIVP75erLMTvf+niWe3UGptUu78lac2
- nbVE7SNp5HNYdHBfsyxWHE4Jw7S6DZbxVA0pMNBWBPMzgdIIYnHBVJroVg09VTmkDzogTfsHgas
- kAi747DbGnCgTAVTCZjF4pmQ==
-X-Google-Smtp-Source: AGHT+IFwDSjFDsXFqDEajGlCEG2JWphdEKba/Sl0xJc1WhGDflX1dA0OlyRMRIVd6p09uVXAOpHTVyL0aAWfZUYjs78=
-X-Received: by 2002:a05:6000:4310:b0:3a0:8549:302 with SMTP id
- ffacd0b85a97d-3a08a371450mr255248f8f.35.1745864636424; Mon, 28 Apr 2025
- 11:23:56 -0700 (PDT)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE0A010E699;
+ Mon, 28 Apr 2025 18:27:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id C22F34A593;
+ Mon, 28 Apr 2025 18:27:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 071C0C4CEED;
+ Mon, 28 Apr 2025 18:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745864823;
+ bh=h5NvfaerCqqps0cYzgZ9hk6memBJ3cZgDY3NSZ5Txjs=;
+ h=From:Subject:Date:To:Cc:From;
+ b=EK5vlaER0+czh36fiLkRaLGLy7vyk1yh6mCHlfaBDlhKdEcmsRi1oJs/h/HSsFGF0
+ zOWVevDhweqDE9lkWZh0a9t47fvmXB+gUNBU0B3kx0MvZKsP83h7xeYdPrXAbLYEQ3
+ 8h9ogbtfVs8zaaG0nVY5kOLu5qlL1m2dSEzlOyg7WtOIq2jRFNIKErhIPW64lTgLvD
+ weZSj/4fLeEhHJsntfqXCqRxTo54rc4MZP5FrJ6BwRNlcSs81mk72HJeuDeYmx2A/g
+ FuzqDoewJWUX1RJhAjzbTlXRsYkNw5tDm5Rci4fVbrBc9UBexO3o/SPuBQKIr95f+E
+ cC+8lJprhAHdg==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v5 00/10] ref_tracker: add ability to register a debugfs
+ file for a ref_tracker_dir
+Date: Mon, 28 Apr 2025 11:26:23 -0700
+Message-Id: <20250428-reftrack-dbgfs-v5-0-1cbbdf2038bd@kernel.org>
 MIME-Version: 1.0
-References: <20250417021349.148911-1-alex.vinarskis@gmail.com>
- <aA8yFI2Bvm-lFJTl@hovoldconsulting.com>
- <CAMcHhXpmii=Rc9YVeKXaB17mYv0piSFs02K=0r8kWe5tQGk7eA@mail.gmail.com>
- <aA94yOjsayZHNDpx@hovoldconsulting.com> <aA+N8YHX0DZ6h9Uj@linaro.org>
-In-Reply-To: <aA+N8YHX0DZ6h9Uj@linaro.org>
-From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-Date: Mon, 28 Apr 2025 20:23:45 +0200
-X-Gm-Features: ATxdqUFJV2eKUF6Ib5_rQijD8ZDNXLbxDy4yxnBcyxEjzsLTAojaiverpqjEJgQ
-Message-ID: <CAMcHhXpG-1AP7qP6bAfFcdxtDxsC+_3TYFqwByp5pkFiRYvmJQ@mail.gmail.com>
-Subject: Re: drm/msm/dp: Introduce link training per-segment for LTTPRs
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- laurentiu.tudor1@dell.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFDID2gC/2XMQQ7CIBCF4asY1mJghrHUlfcwLoBCJZrWgGk0p
+ ncXTUyqLN9Mvv/Jsk/RZ7ZbPVnyU8xxHMqg9Yq5kxl6z2NXNgMBJJREnny4JePOvLN9yBybbWN
+ RoIdgWEHX8o/3T/BwLPsU821Mj09/ku/rN6X+U5PkggeBpEkjgMD92afBXzZj6tm7NcHSU+Whe
+ Cu1U8Z2EiBUHpe+qTwW71BSq0A7HWzl1dLryqviyRlyjW5bUurHz/P8AmLli/FtAQAA
+X-Change-ID: 20250413-reftrack-dbgfs-3767b303e2fa
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, 
+ Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ Jeff Layton <jlayton@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3743; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=h5NvfaerCqqps0cYzgZ9hk6memBJ3cZgDY3NSZ5Txjs=;
+ b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBoD8h0Gv1hJSTC52TiQX1Rum6sG9p3zd0+46lkO
+ ABX5YCEVFmJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaA/IdAAKCRAADmhBGVaC
+ FWBlD/9nSekgdog3Y0VbADaub1JMYh6XgrPCxk66va48i1As/b4j+949889BsJXOuU5eo1qYYv5
+ 2ZBqcDue3RzxePkz9jw2cWg8Zo7YU/7//UKTqRVI6kG+vf4R2lhmLctKR3oWFuWWmwyh+IvuhNT
+ kFyYYZ12L2pvx12FFj9qkNPwHD9JUT0mkJztQjiysVueJqqHkGHkFbZPJ2YikAHu+vMmb/+Aqrm
+ utmSB/wIXxRezR0MERBzxEC0K9rcK07noF3B+8AfPrGrNkSYGjaqY8JDogMsFZdvjUIh9/4MZVg
+ arhS0Z8/l9qSi/rzz84Y3LuUrgwyGeQpl726/D3EXqZufPcdQi3/5Zy/5wgonetj1Z93I85Mlh8
+ oe1qOzLkBHWep2exCnUhuAhtaQE7oyuMh5Ko64JjTaI2Dfh7gnPP5vmhG0ffzPF4ej6ge2mb2qL
+ 5imTmUlovF/SI2qbppJZIdT/8wQtRXNIdQ8hBxJO/8vH1b2DgQ9ufuA/SDgrKbimiZhq1pmx+a0
+ CUZOYzRvsUW/yG3f0oTq2+NmVZglafk2dObXM6k7Rr3rNDQa+OjHpSp+JZrMVaWoDn6s79uiYW3
+ 2Mnqcyz470Ltg27ob5LIzJJ+MFF197KO6zixiHZ1+zuDUewp5jc9IJNQcpX02XDVQslelNckqCK
+ t+z/OEdbZsXRXiQ==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,107 +92,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Apr 2025 at 16:17, Abel Vesa <abel.vesa@linaro.org> wrote:
->
-> On 25-04-28 14:47:04, Johan Hovold wrote:
-> > On Mon, Apr 28, 2025 at 11:06:39AM +0200, Aleksandrs Vinarskis wrote:
-> > > On Mon, 28 Apr 2025 at 09:45, Johan Hovold <johan@kernel.org> wrote:
-> > > > On Thu, Apr 17, 2025 at 04:10:31AM +0200, Aleksandrs Vinarskis wrote:
-> > > > > Recently added Initial LTTPR support in msm/dp has configured LTTPR(s)
-> > > > > to non-transparent mode to enable video output on X1E-based devices
-> > > > > that come with LTTPR on the motherboards. However, video would not work
-> > > > > if additional LTTPR(s) are present between sink and source, which is
-> > > > > the case for USB Type-C docks (eg. Dell WD19TB/WD22TB4), and at least
-> > > > > some universal Thunderbolt/USB Type-C monitors (eg. Dell U2725QE).
-> > > >
-> > > > Does this mean that the incomplete LTTPR support in 6.15-rc1 broke
-> > > > adapters or docks with retimers in transparent mode?
-> > >
-> > > I am actually not 100% sure.
-> > > - If without LTTPR initialization, they default to transparent mode,
-> > > then yes, incomplete LTTPR support sets them to non-transparent
-> > > without per-segment training and breaks docks with retimers, while it
-> > > would've worked if LTTPR(s) would've been left in default transparent
-> > > mode. Note that in this case, X1E devices with ps883x are somehow an
-> > > exception, because without LTTPR initialization at all the training
-> > > always fails.
-> >
-> > Right, I'm concerned about breaking working setups for users of machines
-> > like the X13s.
-> >
-> > > - If LTTPR has to be initialized either way, and explicitly set to
-> > > transparent mode if we do not want non-transparent, then no,
-> > > incomplete LTTPR support in 6.15-rcX did not explicitly break docks
-> > > with retimers, as those never worked in the first place. As per my
-> > > understanding, this is the case, unless something (firmware?) has
-> > > already placed LTTPR to transparent mode before the driver takes over
-> > > - then 1st case would be applicable.
-> > >
-> > > Docks with retimers do not work in 6.15-rcX, but I am unable to verify
-> > > if it did work before, as I do not have a Qualcomm based device
-> > > without LTTPR on the baseboard.
-> >
-> > Abel (or anyone else), do you have one of these docks that you could
-> > test with the X13s to confirm whether this series fixes a regression or
-> > not?
->
-> Before the support for LTTPRs has been merged, if you would have one of
-> those docks (I do not own one) with LTTPRs, link training would've just
-> failed if the LTTPRs were not by default in transparent mode, which IIRC
-> is what the standard dictates.
->
-> X13s doesn't have LTTPRs on-board so when reading the caps, LTTPRs count
-> would return 0 and none of the of the transparent/non-transparent setup
-> would happen. Now, as already mentioned, DP would be considered already
-> broken (or rather not supported) if you would connect a dock with LTTPRs in it.
->
-> With the support in, if one such dock is used, the training should be
-> successful as all LTTPRs are set in transparent mode. This I was not
-> able to test myself as I do not own such a dock.
->
-> >
-> > > > You describe at least one of this patches as a fix but I'm not seeing
-> > > > any Fixes tags or indication that these need to go into 6.15-rc to fix
-> > > > a regression.
-> > >
-> > > You are right, I will add Fixes tag to the 1st patch to make it clear:
-> > > Fixes 72d0af4accd (drm/msm/dp: Add support for LTTPR handling)
-> > >
-> > > Or should I mark the entire series with Fixes, so that the docking
-> > > stations with retimers can be fixed in 6.15 already? Landing only the
-> > > 1st patch will fix inconsistency with DP spec, but will not fix
-> > > docking stations with retimers. I guess this comes down to whether
-> > > existing LTTPR (but not multiple LTTPRs) support is considered a bug
-> > > (and patches 2,3,4 are a fix) or lack of functionality (and patches
-> > > 2,3,4 are a new feature).
-> >
-> > Indeed. If LTTPR support broke existing setups, then I think all should
-> > be marked with a Fixes tag and merged for 6.15. If we can't get it into
-> > 6.15 we may consider just disabling LTTPR support in 6.15 to address the
-> > regression and then enable it again once fixed in 6.16.
->
-> The LTTPR support did not break existing (working) setups because on these
-> setups, LTTPR count would read 0 and would be basically a no-op.
->
-> >
-> > But if this series is just enabling support for docks (and USB-C ports)
-> > that did not used to work, then I guess this can all wait for 6.16.
->
-> I'm not sure about what this actually fixes. It might be that is
-> specific to a dock or something. But as far as X Elite boards go, even
-> without this "fix" display has been working fine.
->
-> The change itself makes sense though and I think makes sense to be marked as a fix.
+This one is quite a bit of a change from the last set. I've gone back to
+auto-registering the debugfs files for every ref_tracker_dir. With this,
+the callers should pass in a static string as a classname instead of an
+individual name string that gets copied. The debugfs file is given a
+name "class@%px" The output format is switched to print "class@%p"
+instead of "name@%p".
 
-Just to confirm, you mean to mark as fix only the 1st patch, correct?
-Since it's obvious now that the currently present partial LTTPR
-support did not break anything that used to work.
+To allow for human-readable names, I've added the ability to add a
+symlink in the debugfs dir that can be set to an arbitrary name. This is
+optional. I've only added them to the netns and i915 trackers in this
+series.
 
-Thanks,
-Alex
+Finally, with the above changes, we can eliminate the "name" field in
+the ref_tracker_dir which shrinks it by 16 bytes on a 64 bit host.
 
->
-> >
-> > Johan
->
-> Abel
+The original plan was to merge this via the networking tree. That's
+probably still doable but there are some display port and i915 changes
+in here too. Note that those are untested, mostly because I don't have
+the necessary hardware handy.
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v5:
+- add class string to each ref_tracker_dir
+- auto-register debugfs file for every tracker in ref_tracker_dir_init
+- add function to allow adding a symlink for each tracker
+- add patches to create symlinks for netns's and i915 entries
+- change output format to print class@%p instead of name@%p
+- eliminate the name field in ref_tracker_dir
+- fix off-by-one bug when NULL terminating name string
+- Link to v4: https://lore.kernel.org/r/20250418-reftrack-dbgfs-v4-0-5ca5c7899544@kernel.org
+
+Changes in v4:
+- Drop patch to widen ref_tracker_dir_.name, use NAME_MAX+1 (256) instead since this only affects dentry name
+- Link to v3: https://lore.kernel.org/r/20250417-reftrack-dbgfs-v3-0-c3159428c8fb@kernel.org
+
+Changes in v3:
+- don't overwrite dir->name in ref_tracker_dir_debugfs
+- define REF_TRACKER_NAMESZ and use it when setting name
+- Link to v2: https://lore.kernel.org/r/20250415-reftrack-dbgfs-v2-0-b18c4abd122f@kernel.org
+
+Changes in v2:
+- Add patch to do %pK -> %p conversion in ref_tracker.c
+- Pass in output function to pr_ostream() instead of if statement
+- Widen ref_tracker_dir.name to 64 bytes to accomodate unique names
+- Eliminate error handling with debugfs manipulation
+- Incorporate pointer value into netdev name
+- Link to v1: https://lore.kernel.org/r/20250414-reftrack-dbgfs-v1-0-f03585832203@kernel.org
+
+---
+Jeff Layton (10):
+      ref_tracker: don't use %pK in pr_ostream() output
+      ref_tracker: add a top level debugfs directory for ref_tracker
+      ref_tracker: have callers pass output function to pr_ostream()
+      ref_tracker: allow pr_ostream() to print directly to a seq_file
+      ref_tracker: add a static classname string to each ref_tracker_dir
+      ref_tracker: automatically register a file in debugfs for a ref_tracker_dir
+      ref_tracker: add a way to create a symlink to the ref_tracker_dir debugfs file
+      net: add symlinks to ref_tracker_dir for netns
+      i915: add ref_tracker_dir symlinks for each tracker
+      ref_tracker: eliminate the ref_tracker_dir name field
+
+ drivers/gpu/drm/display/drm_dp_tunnel.c |   2 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.c |   4 +-
+ drivers/gpu/drm/i915/intel_wakeref.c    |   3 +-
+ include/linux/ref_tracker.h             |  41 ++++++-
+ lib/ref_tracker.c                       | 194 +++++++++++++++++++++++++++++---
+ net/core/dev.c                          |   2 +-
+ net/core/net_namespace.c                |  32 +++++-
+ 7 files changed, 252 insertions(+), 26 deletions(-)
+---
+base-commit: 5bc1018675ec28a8a60d83b378d8c3991faa5a27
+change-id: 20250413-reftrack-dbgfs-3767b303e2fa
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
