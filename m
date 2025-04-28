@@ -2,60 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20BD4A9EAA6
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 10:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65437A9EAD0
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 10:32:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED3110E3CC;
-	Mon, 28 Apr 2025 08:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DDB310E3A7;
+	Mon, 28 Apr 2025 08:32:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dbWmVRgD";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JKdkFimD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FC0010E3CC;
- Mon, 28 Apr 2025 08:22:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=asq7zu1/ieevisO4S1keqCQ4x3VurV65KCckwW+DKVg=; b=dbWmVRgDRvw1h86hzWgzlJ1WhB
- j1jK1YULsoIKI6YUpDdKxTCMNLTKlXYplFJqfdBBuungyTYuUgh4NuVkET1Cj6B1NKt61j7N9Cgbb
- aNgrpdGGBp/zGaclvpe0HDvEOv94kNcKBf3aBN1kOr3+u0VhAOm48Nyms9+R1HeEuCLhXTuqKU9Iq
- BxTsxdjmHYTmSp5qhafR9GZrdff8ymXFBOdxeNSinLWCcr2CUTp02bm1y5sgmeV7G4Fg5Hj3Gkow4
- /kPMsoHDl7h596rjAbuuJJrQywWlkaPluthCwvks8a68TCN9XyLa82JsLodnSR/d/g/DzL2IjguXg
- iNx+tIgg==;
-Received: from [159.147.214.238] (helo=[192.168.0.17])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1u9Jl9-009gdn-Im; Mon, 28 Apr 2025 10:22:39 +0200
-Message-ID: <ac7e3350fdfde6f04083c82e2dad02330ff3372c.camel@igalia.com>
-Subject: Re: [PATCH] drm/doc: Start documenting aspects specific to
- tile-based renderers
-From: Iago Toral <itoral@igalia.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, =?ISO-8859-1?Q?Adri=E1n?= Larumbe
- <adrian.larumbe@collabora.com>,  lima@lists.freedesktop.org, Qiang Yu
- <yuq825@gmail.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,  Thomas Zimmermann
- <tzimmermann@suse.de>, Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Christian Koenig
- <christian.koenig@amd.com>, Faith Ekstrand <faith.ekstrand@collabora.com>,
- kernel@collabora.com
-Date: Mon, 28 Apr 2025 10:22:28 +0200
-In-Reply-To: <20250428101302.2df2f9cb@collabora.com>
-References: <20250418122524.410448-1-boris.brezillon@collabora.com>
- <123343432f17913452ba9cbef6161837cc3c07d8.camel@igalia.com>
- <20250428101302.2df2f9cb@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB6F10E3A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 08:32:10 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EF034432FF;
+ Mon, 28 Apr 2025 08:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1745829128;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Qc4XQ8+2pTnqhK3Ek13XA1rEgbWt1yxdWNiOR8qYlC8=;
+ b=JKdkFimDvh1IXkTI7bHL+X5N0TFU70CvzuyP7VzoICzIWXTU1QWLMwA27rwHTKyW4RXZln
+ aZBdNi4/tIkWySiD9fI4DKCYk3x4fdXrBBgxyygNhe2LlVQ0MF3w99WSPrBnKOlWcCzd0h
+ 3Rjx6a0bUU7H6cxvFOqIDU93hWcUmpCEO6/Bne2BCbllWUJj3pdlyfxrtVqkQE/fjz8+fb
+ 0ToPQflb6NOc5qpOps2c0/5jfH2f8dE0VGENFsJx5C70TDZ3cBiCx1yR/Fngs7Ios7fiPZ
+ +oDpJ3pwHARqtwi0le7ow0+B5aac26s0NR22XUmcAxwuo7ELbrRn5gWGYawB1Q==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Date: Mon, 28 Apr 2025 10:32:07 +0200
+Subject: [PATCH] drm: writeback: Fix drm_writeback_connector_cleanup signature
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250428-drm-fix-writeback-cleanup-v1-1-e4c723868b73@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAY9D2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDEyML3ZSiXN20zArd8qLMktSkxORs3eSc1MS80gLdRENDc8s04yRLM0t
+ DJaD+gqJUoEKw2dGxtbUAVawnAWsAAAA=
+X-Change-ID: 20250428-drm-fix-writeback-cleanup-a1179f3b9691
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Mark Yacoub <markyacoub@google.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2149;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=XaoKvzX2DeCVnCWRL6OK5qy4mw7MD8OvjOev2TR3R2k=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoDz0HlJdE5uq8Cv4zrM+9yyw2lQyZRLv/vAclK
+ zUsNoQVW5iJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaA89BwAKCRAgrS7GWxAs
+ 4ivzEACclEox4KveQ00j00AwKybPrX9cOrZiQrR3nxODzCbx9pJSG4BzzbmsoosLdjE4AHFTtM/
+ nHtGOlTTxyeLLsOWNoRRxS6rQxPoGUwnWG4yTXFLA7/gJQuuoAal0QxCOwMby9yzBAVIQIu+kv5
+ NE/HKzFf+wMMlWgeZHlboZBuyYByIVBuN0OgA5zSgdSiwrcAYpBkBrT3MCIDSg8YdzoPQC3aUYE
+ sv7fm82N9r3EbKqr3GtF0IC18QbpBi9cYNrPyU0WYh8FszQ+b6FzwhV+TT3YwYVasjbh1eblJ5z
+ Rtz2atLDjYnuEBO4CACJRIPJ5LfCsPIUgaV7yYNFBvSKldrfYTsv829WiFHDrsoUzCWp4lwYVm/
+ YJ1U2v36LCDM4nNm8EzAfjED8DeBUXsNnDdhGn5DL9bBTiElaWXpC9pFtCoJyLuPvtTQkGbMqrm
+ NsU2pf5MFy9vSEjZvI7f1ENGeRRjFykT3bo8OQyMGkj+YMjvEcno2YCTq38JX8u9W7XUWFAPnlX
+ NMYcN4ObjALKyehliTTDC0cGfPwEGXaC4P8v9SRKv/J7k+ooFRrmyYhq7hceTrj4s6mBUdnBPa8
+ +COFgo7TGSZSvR0GretGp0XNNsyd3LJ+TJYQ+S8YGBlXPoVDjX9tL7N+IXX7gt/vbftNrtXe05s
+ 8WLbaEdeA9Ca7LA==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddviedtgeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeuteejgeegffdvgeektedukeejveekheehudeltdegjefhuddvueelheelffeggfenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgdujedvrddukedrtddrudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhrtghpt
+ hhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,37 +84,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-El lun, 28-04-2025 a las 10:13 +0200, Boris Brezillon escribi=C3=B3:
-> Hi Iago,
->=20
-> On Mon, 28 Apr 2025 08:55:07 +0200
-> Iago Toral <itoral@igalia.com> wrote:
-(...)
-> > As I described above, v3d is not quite an allocation-on-fault
-> > mechanism
-> > but rather, we get a dedicated interrupt from the hw when it needs
-> > more
-> > memory, which I believe happens a bit before it completely runs out
-> > of
-> > memory actually. Maybe that changes the picture since we don't
-> > exactly
-> > use a fault handler?
->=20
-> Not really. Any mechanism relying on on-demand allocation in the
-> dma_fence signalling path is problematic. The fact it's based on a
-> fault handler might add extra problems on top, but both designs
-> violate
-> the dma_fence contract stating that no non-fallible allocation should
-> be done in the dma_fence signalling path (that is, any allocation
-> happening between the moment the job was queued to the
-> drm_sched_entity, and the moment the job fence is signalled).
->=20
-> Given, the description you made, I think we can add v3d to the list
-> of
-> problematic drivers :-(.
+The drm_writeback_connector_cleanup have the signature:
 
-In that case we should add vc4 as well, since it is the same story
-there.
+     static void drm_writeback_connector_cleanup(
+		struct drm_device *dev,
+		struct drm_writeback_connector *wb_connector)
 
-Thanks,
-Iago
+But it is stored and used as a drmres_release_t
+
+    typedef void (*drmres_release_t)(struct drm_device *dev, void *res);
+
+While the current code is valid and does not produce any warning, the
+CFI runtime check (CONFIG_CFI_CLANG) can fail because the function
+signature is not the same as drmres_release_t.
+
+In order to fix this, change the function signature to match what is
+expected by drmres_release_t.
+
+Fixes: 1914ba2b91ea ("drm: writeback: Create drmm variants for drm_writeback_connector initialization")
+
+Suggested-by: Mark Yacoub <markyacoub@google.com>
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+ drivers/gpu/drm/drm_writeback.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+index edbeab88ff2b..2f5c40616d9d 100644
+--- a/drivers/gpu/drm/drm_writeback.c
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -350,10 +350,11 @@ EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
+  * clean up the attached encoder and the drm_connector.
+  */
+ static void drm_writeback_connector_cleanup(struct drm_device *dev,
+-					    struct drm_writeback_connector *wb_connector)
++					    void *data)
+ {
+ 	unsigned long flags;
+ 	struct drm_writeback_job *pos, *n;
++	struct drm_writeback_connector *wb_connector = data;
+ 
+ 	delete_writeback_properties(dev);
+ 	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
+@@ -405,7 +406,7 @@ int drmm_writeback_connector_init(struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = drmm_add_action_or_reset(dev, (void *)drm_writeback_connector_cleanup,
++	ret = drmm_add_action_or_reset(dev, drm_writeback_connector_cleanup,
+ 				       wb_connector);
+ 	if (ret)
+ 		return ret;
+
+---
+base-commit: b848cd418aebdb313364b4843f41fae82281a823
+change-id: 20250428-drm-fix-writeback-cleanup-a1179f3b9691
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
+
