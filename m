@@ -2,122 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A6DA9F594
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 18:22:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DD1A9F5B7
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 18:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B02CA10E601;
-	Mon, 28 Apr 2025 16:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 454ED10E60F;
+	Mon, 28 Apr 2025 16:24:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pA3/1EGn";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MLJ4Hp8F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1B410E601
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 16:22:07 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-7082ad1355bso42345187b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 09:22:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1745857326; x=1746462126; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kjtfgNYAyQgaIv+6+gwAi/DXzlNfZQv9vmE2wR+LnUU=;
- b=pA3/1EGnEVXP74TEjZSmfvSQUM/E/TzAuaAQ3Q24hzGocBAZe7715NebYWiUDPUT9i
- vYZaY7QyOwvFHmpi80DCl0nqYvIPHXikGqc5zRNYBP972PfjHTJgZxIWAq7XTJUj0p7t
- ihwWdwuWaefKJhMtSowhXmI2BhaHOpNSCzCYUTPEMDbkh2JSJS3OlXGvT37zv/nuod8Z
- WtEnC+q3GD3iRXn+nxuWTAVDuBwyKj9se+tl/VIlMaXI57imKwIW2oUvvXw3dX26MTKr
- NmnOTcdHUiD/XMMEonVc6EYp7+jyJ26CiEptaaAl/EYOdh88gYWPSz4U3o2rEM4ps42O
- +GSA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3954210E60C
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 16:24:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1745857470;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KRdiWHlG77Us6l2oFM6nu2eUggr09dOOElY1pvowm4s=;
+ b=MLJ4Hp8F5RFKSW0BF7YO4Kn3HMm8Dq/wqN4YYrfN6kIq76H/xdt7XABVVWuwm8KYMFDAQd
+ xWnvMAG8H3SFNNzMgIfxp64sYvDXC2Ofca6UTUmA45y6BBTGZA4KOGfjxaSDcFUNtaWZ7z
+ uGhYVAvV+nn5qoaRf2bIOAzBr61EjAQ=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-563-WMx6BvS6PI-mEnntNB6MEg-1; Mon, 28 Apr 2025 12:24:27 -0400
+X-MC-Unique: WMx6BvS6PI-mEnntNB6MEg-1
+X-Mimecast-MFC-AGG-ID: WMx6BvS6PI-mEnntNB6MEg_1745857467
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4768488f4d7so70275521cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 09:24:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745857326; x=1746462126;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kjtfgNYAyQgaIv+6+gwAi/DXzlNfZQv9vmE2wR+LnUU=;
- b=RPjccskaTzEXpiWpKuqIErl8Own0+oUIHO0DNcOAMEYQORV3ySIxgr/wL9EOzVdBQ4
- 6twwzymklqw/s3g7D+A9zU4eVlzJSNiySnAbLROP9kzAK2ZlAWGFIoUwrkQv2M1r4iqa
- 2ibS4pE/eD05c1yp9Gix/LhNeeMX6LW942joVN074VBQSG3nw4zEoAeNwN4k93BIzeHP
- T0z/gF6p61oR2d2X1ln2E8xakLoCyBVRzRFCQL+i0klS1zhV8hSXq0htkoiZHaLYr3zD
- B9OQAbgkQD7LxOGMDKP06WwjN56DbIImhb5m1zYV4zOvu0Tdx4P3UwCi8/WxnMzDiYp8
- 7MwQ==
+ d=1e100.net; s=20230601; t=1745857467; x=1746462267;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KRdiWHlG77Us6l2oFM6nu2eUggr09dOOElY1pvowm4s=;
+ b=gOv+xrhnH6qv57cVe3HntBfSmBeOKtqDzKOudDHeOJOiCqxiahKgwZIAHdSyLBhYWL
+ x4tKzVuQVmN5xBE0+nSjDWPe5ndgcXtmCYalIvuivxUdJeRvT/RpAEiaO/gIsntXEBCK
+ Qgj/kdLxSKbQWMqtLVHxOdH/Z8F8INLbnZvXuFRodrMsklG66E8A+ege8EkoambE/fOO
+ 9z9XbFfMjAo1m9ybmt1U5US+MX+KjAZ4gYeh+gpIOT5DvvcerNQ1HaPc4F9pzHiPc3Hf
+ eXNFk2J4oWtX2/ZPrGcARDKbkMz3NqnyOx721zOMKf70ECcvhg3kKv2LwvLw9SW47/jD
+ HBDA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWc0cNhDelGs9Q6QfVe3eejWBKCQe2osrnhv1gSpshwwkT6o33k+C8NjGxT3C6dwByBAk7gi48B9dQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxvpEVSpKlG2APXPXcQadZmeOMsI3D8JZR7kKE6ko2PA1qwWhY1
- r70QZ0MX44nZbbfFjSgPsJcmh7nU4Xn72/qG5fc1xT2+GuEHuAT0u8/1TP5UYrRUF9TqtuW9p+x
- yRua2rx9Kr1W8Cpd570604mNSOOVBYlQsMm5ZPg==
-X-Gm-Gg: ASbGnct1eOQdCiXK9t3Q7Yq+OHNRtUxsoZplW6DzhXOWZgZ8usC1BYH00lKR+w55w3I
- tCDbwBOCtA73Lp4lMa4jGQyIL2xP4d55RQx537PSEaCE50cyy+uDMePl8e9cQrBraINTf2nm9/v
- gyfmUnMViztUEfrfPeE2ssUuxUZIDIgNk9JQ==
-X-Google-Smtp-Source: AGHT+IHJ8fzCsar22nWRrLuqubA/nW5PD6Isexezh6U72gKuIl5N70HEwT9JTNXKPWmpqHrpu7bpAGC2DT3kmga/dpo=
-X-Received: by 2002:a05:690c:67c6:b0:708:3532:ec94 with SMTP id
- 00721157ae682-70853f752e9mr174343137b3.0.1745857326167; Mon, 28 Apr 2025
- 09:22:06 -0700 (PDT)
+ AJvYcCVOudEqbI5VM4sj8bAXFx0INGXI7lWUf7+yaB2hOE5wT9sVHaaTBBLJoL3viHPEVWFQ71n4hhIEOE8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwsuLBoqm/68ul2C2/e1HsXOq7TfvterMxHsilHMK9oINkuoE6s
+ e0ceKgre0CstSNYDLx1C23r6wErHgqEoEXA6a7hIK0mK9KnO8iUWCmqeQGOu41/9/GrB5/sLzAw
+ z+aLR/7xEni7y51rnkz92+pxLGc+GfydxpunYH91Kt6TwAL18ogcqTB7tRJjVw2K0lw==
+X-Gm-Gg: ASbGncvsIgMRTTuDzlVcZmm/pfWbGU3Ah1KDRILAzSVBXX7RSXsGnQRn04CYiFlre09
+ h7iyekgFtEczgbuvwnAXU5Qc+50okCkWtlyGnTpD/fR1hMVP6r0CrrY3sHH/fcZCkjpgB0CUE9g
+ 8cOQfHPt+hT+DKhomC5xs2NzxMbz4LVlfxOyfZsKY5qikTr9RGVWjGgbl9lHnAH2ai+OWfrZmOG
+ u86I0z0+FnhUZwkAWIfV26P/fjjwQmgLyFqqVQZI7ARWOiumZvhu471Ll3l30oNzKzR5bPNW+Sb
+ 1Aw=
+X-Received: by 2002:ac8:5885:0:b0:476:8ee8:d8a1 with SMTP id
+ d75a77b69052e-48025238433mr189998971cf.45.1745857467155; 
+ Mon, 28 Apr 2025 09:24:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEbtfAYJXqWijuqC9qE1XAYSFE+Ms0Ul7NtVdmGjB5I/RjjP9FCiSLL88Eit0raUnSdKc6qiA==
+X-Received: by 2002:ac8:5885:0:b0:476:8ee8:d8a1 with SMTP id
+ d75a77b69052e-48025238433mr189998431cf.45.1745857466831; 
+ Mon, 28 Apr 2025 09:24:26 -0700 (PDT)
+Received: from x1.local ([85.131.185.92]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-47e9eaf264dsm70223561cf.10.2025.04.28.09.24.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Apr 2025 09:24:26 -0700 (PDT)
+Date: Mon, 28 Apr 2025 12:24:22 -0400
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-trace-kernel@vger.kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>
+Subject: Re: [PATCH v1 05/11] mm: convert VM_PFNMAP tracking to
+ pfnmap_track() + pfnmap_untrack()
+Message-ID: <aA-rtji7ujQgckbM@x1.local>
+References: <20250425081715.1341199-1-david@redhat.com>
+ <20250425081715.1341199-6-david@redhat.com>
+ <aAvvQ1h9bg11hiqI@x1.local>
+ <bbadf008-9ffc-4628-9809-2d8cf104a424@redhat.com>
+ <aA-n9hvSX9JLsRM-@x1.local>
+ <7a26e29c-d889-450a-a5e1-ce671f09e4c8@redhat.com>
 MIME-Version: 1.0
-References: <20250422-sm7150-upstream-v1-0-bf9a9081631d@jiaxyga.com>
- <20250422-sm7150-upstream-v1-11-bf9a9081631d@jiaxyga.com>
-In-Reply-To: <20250422-sm7150-upstream-v1-11-bf9a9081631d@jiaxyga.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 28 Apr 2025 18:21:30 +0200
-X-Gm-Features: ATxdqUFknbhFgOKvNVOI3-s43pP4YH55pKLNf_KwLrUaeaEizalUr2MLUM3sfs8
-Message-ID: <CAPDyKFqPpqDj+DKT=nJrTS8iDUx_8scnLreUQ99byDHEdBeiww@mail.gmail.com>
-Subject: Re: [PATCH 11/33] dt-bindings: mmc: sdhci-msm: Add the SM7150
- compatible
-To: Danila Tikhonov <danila@jiaxyga.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
- Rajendra Nayak <quic_rjendra@quicinc.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Amit Kucheria <amitk@kernel.org>, Thara Gopinath <thara.gopinath@gmail.com>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, Thomas Gleixner <tglx@linutronix.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Wesley Cheng <quic_wcheng@quicinc.com>, 
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Souradeep Chowdhury <quic_schowdhu@quicinc.com>, Lee Jones <lee@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, 
- Alex Elder <elder@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Avri Altman <avri.altman@wdc.com>, Bart Van Assche <bvanassche@acm.org>,
- Andy Gross <agross@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Georgi Djakov <djakov@kernel.org>, 
- Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss <rfoss@kernel.org>, 
- Andi Shyti <andi.shyti@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Taniya Das <quic_tdas@quicinc.com>, 
- Sibi Sankar <quic_sibis@quicinc.com>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
- Imran Shaik <quic_imrashai@quicinc.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Kees Cook <kees@kernel.org>, 
- Tony Luck <tony.luck@intel.com>, "Guilherme G. Piccoli" <gpiccoli@igalia.com>, 
- David Wronek <david@mainlining.org>, Jens Reidel <adrian@mainlining.org>,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-watchdog@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-phy@lists.infradead.org, 
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org, linux-scsi@vger.kernel.org, 
- dmaengine@vger.kernel.org, linux-crypto@vger.kernel.org, 
- linux-i2c@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
- linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-hardening@vger.kernel.org, linux@mainlining.org, 
- ~postmarketos/upstreaming@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <7a26e29c-d889-450a-a5e1-ce671f09e4c8@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: yNg8aKlbE_7ho8Nl0aqnFWSdm4N9RGoijjxcttV1Iv8_1745857467
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,35 +122,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 22 Apr 2025 at 22:24, Danila Tikhonov <danila@jiaxyga.com> wrote:
->
-> Add compatible for the SDHCI block found in SM7150.
->
-> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
+On Mon, Apr 28, 2025 at 06:16:21PM +0200, David Hildenbrand wrote:
+> > Probably due to what config you have.  E.g., when I'm looking mine it's
+> > much bigger and already consuming 256B, but it's because I enabled more
+> > things (userfaultfd, lockdep, etc.).
+> 
+> Note that I enabled everything that you would expect on a production system
+> (incld. userfaultfd, mempolicy, per-vma locks), so I didn't enable lockep.
 
-Applied for next, thanks!
+I still doubt whether you at least enabled userfaultfd, e.g., your previous
+paste has:
 
-Kind regards
-Uffe
+  struct vm_userfaultfd_ctx  vm_userfaultfd_ctx;   /*   176     0 */
 
+Not something that matters.. but just in case you didn't use the expected
+config file you wanted to use..
 
-> ---
->  Documentation/devicetree/bindings/mmc/sdhci-msm.yaml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml b/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml
-> index eed9063e9bb352b5c8dac10ae2d289c5ca17f81b..2b2cbce2458b70b96b98c042109b10ead26e2291 100644
-> --- a/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml
-> @@ -60,6 +60,7 @@ properties:
->                - qcom,sm6125-sdhci
->                - qcom,sm6350-sdhci
->                - qcom,sm6375-sdhci
-> +              - qcom,sm7150-sdhci
->                - qcom,sm8150-sdhci
->                - qcom,sm8250-sdhci
->                - qcom,sm8350-sdhci
->
-> --
-> 2.49.0
->
+-- 
+Peter Xu
+
