@@ -2,111 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2AEA9F588
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 18:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A6DA9F594
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 18:22:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAF4210E608;
-	Mon, 28 Apr 2025 16:21:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02CA10E601;
+	Mon, 28 Apr 2025 16:22:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YZMkwWQx";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pA3/1EGn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCCCA10E606
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 16:21:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1745857283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ICKzzB8taBJD0eGbxcxv8f4DsFK3m+kwUBskNGBQM7I=;
- b=YZMkwWQxt3Pa5FOlsOiO6LS3/qOaNylynowN2Zl2/h/jbE1cNwB8k8pGyothvl6INSJasD
- ynvUb6z+qNYBF4niC4urmdt+0mR4C3LmBx2G0TbF+6fixCaal9YGcPJBA0AzHfqEVZhF3i
- VpK+IPOpnyvIPH7OYMlFZrMPG624b2w=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-302-RNPezKB-No6mjdqg_WCy_g-1; Mon, 28 Apr 2025 12:21:22 -0400
-X-MC-Unique: RNPezKB-No6mjdqg_WCy_g-1
-X-Mimecast-MFC-AGG-ID: RNPezKB-No6mjdqg_WCy_g_1745857281
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6e913e1cf4aso144679416d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 09:21:21 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
+ [209.85.128.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1B410E601
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 16:22:07 +0000 (UTC)
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-7082ad1355bso42345187b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 09:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1745857326; x=1746462126; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kjtfgNYAyQgaIv+6+gwAi/DXzlNfZQv9vmE2wR+LnUU=;
+ b=pA3/1EGnEVXP74TEjZSmfvSQUM/E/TzAuaAQ3Q24hzGocBAZe7715NebYWiUDPUT9i
+ vYZaY7QyOwvFHmpi80DCl0nqYvIPHXikGqc5zRNYBP972PfjHTJgZxIWAq7XTJUj0p7t
+ ihwWdwuWaefKJhMtSowhXmI2BhaHOpNSCzCYUTPEMDbkh2JSJS3OlXGvT37zv/nuod8Z
+ WtEnC+q3GD3iRXn+nxuWTAVDuBwyKj9se+tl/VIlMaXI57imKwIW2oUvvXw3dX26MTKr
+ NmnOTcdHUiD/XMMEonVc6EYp7+jyJ26CiEptaaAl/EYOdh88gYWPSz4U3o2rEM4ps42O
+ +GSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745857281; x=1746462081;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ICKzzB8taBJD0eGbxcxv8f4DsFK3m+kwUBskNGBQM7I=;
- b=HMsxJdx7pITWtJjQwZcJoZhkhEkK4P61XQReSHSSUeXZMHcHB2RhMtAr4jaiN7C7jz
- Y8PMxIbEQrLJTJLLzuLJTZsFm6vx+gQy+AmFqmA5LK3zOyL+/u+GD8z+C7tpXhiFwSRo
- MuofNI8WsQCcR4+RtXmiFdGZr3aMkg92cf1/efuXozOb3BchcRgVAi0yh3gT9Hq3cQ9r
- YBqcsnlUxRJk+jy/AkQQ/zTNPnDcaoCuDqk2yq8qK6fQuDXhVC67OF2mClN0Ro9ZqYzO
- UDwdlDmyw8LONAw7EhPmziluGBnGxFe0heMbYdr9wHoVNs9s/yjrMsJTtyWQREVfpesr
- QdSg==
+ d=1e100.net; s=20230601; t=1745857326; x=1746462126;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kjtfgNYAyQgaIv+6+gwAi/DXzlNfZQv9vmE2wR+LnUU=;
+ b=RPjccskaTzEXpiWpKuqIErl8Own0+oUIHO0DNcOAMEYQORV3ySIxgr/wL9EOzVdBQ4
+ 6twwzymklqw/s3g7D+A9zU4eVlzJSNiySnAbLROP9kzAK2ZlAWGFIoUwrkQv2M1r4iqa
+ 2ibS4pE/eD05c1yp9Gix/LhNeeMX6LW942joVN074VBQSG3nw4zEoAeNwN4k93BIzeHP
+ T0z/gF6p61oR2d2X1ln2E8xakLoCyBVRzRFCQL+i0klS1zhV8hSXq0htkoiZHaLYr3zD
+ B9OQAbgkQD7LxOGMDKP06WwjN56DbIImhb5m1zYV4zOvu0Tdx4P3UwCi8/WxnMzDiYp8
+ 7MwQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWk65AD97WTbxCkpT03kiLREMtqRI/MxNMi2/zq3OVxgOv5YVlwtzvkrjs7ZHVf9S8SRx59VK7upZQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwpdyRa0LBE4/uq2nS1gErUKY6w1uBi4x2GV2IShjaAQ5yR9lCf
- 5riNa1kC3BqOR51B/INWeZwXP2LuPzjuA0QwezygYwwy69HobNn0s7N/LBw7M4KTvI8qLe/bAN3
- qKKAJrfE3NCuCVVAo+ylzf8EV5D6HKyprS45amac1xCcTcsfL/MMnPW260elvr89XUg==
-X-Gm-Gg: ASbGncuMzrv1VZTDPdVSiO7GgbaQ5OqFPdZL2ZpfECRyRyHmLKgFZUklVaJ/o2TIk7m
- oE/anL0fr48z+bWGxFw2oGlF8TtFeHkKBtUAe3umYrO//bYzh1KcOg1Xpqm+USo5yZbMnb2y7Mq
- XRxg2Ho7uWy785vaREa7047Luoqs0PpONZsy7Xb/IhpXygzOjWSFT8uax6VPv8PjXk8w6vbvJm6
- hZaBc6Mcgt0rz0HPT/gy7ny3JgTG0FnJwaJ20HeX3CecFf900zS9eNb5lXibKZ9JHEyeRMMPIKf
- 4kU=
-X-Received: by 2002:a05:620a:19a3:b0:7c5:7a03:8467 with SMTP id
- af79cd13be357-7c9668d1d61mr1640816385a.55.1745857281509; 
- Mon, 28 Apr 2025 09:21:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHQz1zkMFXlMEPUAS7D8yAHGiL/XnLPod9B0w30kVOxZ+K3YH+CRaciRSMW1T3Yxr1P4D1AmQ==
-X-Received: by 2002:a05:620a:19a3:b0:7c5:7a03:8467 with SMTP id
- af79cd13be357-7c9668d1d61mr1640808385a.55.1745857280905; 
- Mon, 28 Apr 2025 09:21:20 -0700 (PDT)
-Received: from x1.local ([85.131.185.92]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7c958e9fdaesm639851585a.95.2025.04.28.09.21.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Apr 2025 09:21:20 -0700 (PDT)
-Date: Mon, 28 Apr 2025 12:21:16 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-trace-kernel@vger.kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- "H. Peter Anvin" <hpa@zytor.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>
-Subject: Re: [PATCH v1 02/11] mm: convert track_pfn_insert() to
- pfnmap_sanitize_pgprot()
-Message-ID: <aA-q_PrThAw5v1PF@x1.local>
-References: <20250425081715.1341199-1-david@redhat.com>
- <20250425081715.1341199-3-david@redhat.com>
- <aAvjJOmvm5GsZ-JN@x1.local>
- <78f88303-6b00-42cf-8977-bf7541fa45a9@redhat.com>
- <aAwh6n058Hh490io@x1.local>
- <75998f7c-93d2-4b98-bb53-8d858b2c108e@redhat.com>
+ AJvYcCWc0cNhDelGs9Q6QfVe3eejWBKCQe2osrnhv1gSpshwwkT6o33k+C8NjGxT3C6dwByBAk7gi48B9dQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxvpEVSpKlG2APXPXcQadZmeOMsI3D8JZR7kKE6ko2PA1qwWhY1
+ r70QZ0MX44nZbbfFjSgPsJcmh7nU4Xn72/qG5fc1xT2+GuEHuAT0u8/1TP5UYrRUF9TqtuW9p+x
+ yRua2rx9Kr1W8Cpd570604mNSOOVBYlQsMm5ZPg==
+X-Gm-Gg: ASbGnct1eOQdCiXK9t3Q7Yq+OHNRtUxsoZplW6DzhXOWZgZ8usC1BYH00lKR+w55w3I
+ tCDbwBOCtA73Lp4lMa4jGQyIL2xP4d55RQx537PSEaCE50cyy+uDMePl8e9cQrBraINTf2nm9/v
+ gyfmUnMViztUEfrfPeE2ssUuxUZIDIgNk9JQ==
+X-Google-Smtp-Source: AGHT+IHJ8fzCsar22nWRrLuqubA/nW5PD6Isexezh6U72gKuIl5N70HEwT9JTNXKPWmpqHrpu7bpAGC2DT3kmga/dpo=
+X-Received: by 2002:a05:690c:67c6:b0:708:3532:ec94 with SMTP id
+ 00721157ae682-70853f752e9mr174343137b3.0.1745857326167; Mon, 28 Apr 2025
+ 09:22:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <75998f7c-93d2-4b98-bb53-8d858b2c108e@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: BVf94Eryltudry-YyxqifQ_-gfLT6ZECwiZvv9YhzdE_1745857281
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20250422-sm7150-upstream-v1-0-bf9a9081631d@jiaxyga.com>
+ <20250422-sm7150-upstream-v1-11-bf9a9081631d@jiaxyga.com>
+In-Reply-To: <20250422-sm7150-upstream-v1-11-bf9a9081631d@jiaxyga.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 28 Apr 2025 18:21:30 +0200
+X-Gm-Features: ATxdqUFknbhFgOKvNVOI3-s43pP4YH55pKLNf_KwLrUaeaEizalUr2MLUM3sfs8
+Message-ID: <CAPDyKFqPpqDj+DKT=nJrTS8iDUx_8scnLreUQ99byDHEdBeiww@mail.gmail.com>
+Subject: Re: [PATCH 11/33] dt-bindings: mmc: sdhci-msm: Add the SM7150
+ compatible
+To: Danila Tikhonov <danila@jiaxyga.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+ Rajendra Nayak <quic_rjendra@quicinc.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Amit Kucheria <amitk@kernel.org>, Thara Gopinath <thara.gopinath@gmail.com>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, Thomas Gleixner <tglx@linutronix.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Wesley Cheng <quic_wcheng@quicinc.com>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Souradeep Chowdhury <quic_schowdhu@quicinc.com>, Lee Jones <lee@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, 
+ Alex Elder <elder@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Avri Altman <avri.altman@wdc.com>, Bart Van Assche <bvanassche@acm.org>,
+ Andy Gross <agross@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Georgi Djakov <djakov@kernel.org>, 
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss <rfoss@kernel.org>, 
+ Andi Shyti <andi.shyti@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Taniya Das <quic_tdas@quicinc.com>, 
+ Sibi Sankar <quic_sibis@quicinc.com>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
+ Imran Shaik <quic_imrashai@quicinc.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Kees Cook <kees@kernel.org>, 
+ Tony Luck <tony.luck@intel.com>, "Guilherme G. Piccoli" <gpiccoli@igalia.com>, 
+ David Wronek <david@mainlining.org>, Jens Reidel <adrian@mainlining.org>,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-mmc@vger.kernel.org, netdev@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
+ linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-hardening@vger.kernel.org, linux@mainlining.org, 
+ ~postmarketos/upstreaming@lists.sr.ht
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,110 +133,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 28, 2025 at 04:58:46PM +0200, David Hildenbrand wrote:
-> 
-> > > What it does on PAT (only implementation so far ...) is looking up the
-> > > memory type to select the caching mode that can be use.
-> > > 
-> > > "sanitize" was IMHO a good fit, because we must make sure that we don't use
-> > > the wrong caching mode.
-> > > 
-> > > update/setup/... don't make that quite clear. Any other suggestions?
-> > 
-> > I'm very poor on naming.. :( So far anything seems slightly better than
-> > sanitize to me, as the word "sanitize" is actually also used in memtype.c
-> > for other purpose.. see sanitize_phys().
-> 
-> Sure, one can sanitize a lot of things. Here it's the cachemode/pgrpot, in
-> the other functions it's an address.
-> 
-> Likely we should just call it pfnmap_X_cachemode()/
-> 
-> Set/update don't really fit for X in case pfnmap_X_cachemode() is a NOP.
-> 
-> pfnmap_setup_cachemode() ? Hm.
+On Tue, 22 Apr 2025 at 22:24, Danila Tikhonov <danila@jiaxyga.com> wrote:
+>
+> Add compatible for the SDHCI block found in SM7150.
+>
+> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
 
-Sounds good here.
+Applied for next, thanks!
 
-> 
-> > 
-> > > 
-> > > > 
-> > > > > + * @pfn: the start of the pfn range
-> > > > > + * @size: the size of the pfn range
-> > > > > + * @prot: the pgprot to sanitize
-> > > > > + *
-> > > > > + * Sanitize the given pgprot for a pfn range, for example, adjusting the
-> > > > > + * cachemode.
-> > > > > + *
-> > > > > + * This function cannot fail for a single page, but can fail for multiple
-> > > > > + * pages.
-> > > > > + *
-> > > > > + * Returns 0 on success and -EINVAL on error.
-> > > > > + */
-> > > > > +int pfnmap_sanitize_pgprot(unsigned long pfn, unsigned long size,
-> > > > > +		pgprot_t *prot);
-> > > > >    extern int track_pfn_copy(struct vm_area_struct *dst_vma,
-> > > > >    		struct vm_area_struct *src_vma, unsigned long *pfn);
-> > > > >    extern void untrack_pfn_copy(struct vm_area_struct *dst_vma,
-> > > > > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > > > > index fdcf0a6049b9f..b8ae5e1493315 100644
-> > > > > --- a/mm/huge_memory.c
-> > > > > +++ b/mm/huge_memory.c
-> > > > > @@ -1455,7 +1455,9 @@ vm_fault_t vmf_insert_pfn_pmd(struct vm_fault *vmf, pfn_t pfn, bool write)
-> > > > >    			return VM_FAULT_OOM;
-> > > > >    	}
-> > > > > -	track_pfn_insert(vma, &pgprot, pfn);
-> > > > > +	if (pfnmap_sanitize_pgprot(pfn_t_to_pfn(pfn), PAGE_SIZE, &pgprot))
-> > > > > +		return VM_FAULT_FALLBACK;
-> > > > 
-> > > > Would "pgtable" leak if it fails?  If it's PAGE_SIZE, IIUC it won't ever
-> > > > trigger, though.
-> > > > 
-> > > > Maybe we could have a "void pfnmap_sanitize_pgprot_pfn(&pgprot, pfn)" to
-> > > > replace track_pfn_insert() and never fail?  Dropping vma ref is definitely
-> > > > a win already in all cases.
-> > > 
-> > > It could be a simple wrapper around pfnmap_sanitize_pgprot(), yes. That's
-> > > certainly helpful for the single-page case.
-> > > 
-> > > Regarding never failing here: we should check the whole range. We have to
-> > > make sure that none of the pages has a memory type / caching mode that is
-> > > incompatible with what we setup.
-> > 
-> > Would it happen in real world?
-> > > IIUC per-vma registration needs to happen first, which checks for
-> memtype
-> > conflicts in the first place, or reserve_pfn_range() could already have
-> > failed.
-> > > Here it's the fault path looking up the memtype, so I would expect it is
-> > guaranteed all pfns under the same vma is following the verified (and same)
-> > memtype?
-> 
-> The whole point of track_pfn_insert() is that it is used when we *don't* use
-> reserve_pfn_range()->track_pfn_remap(), no?
-> 
-> track_pfn_remap() would check the whole range that gets mapped, so
-> track_pfn_insert() user must similarly check the whole range that gets
-> mapped.
-> 
-> Note that even track_pfn_insert() is already pretty clear on the intended
-> usage: "called when a _new_ single pfn is established"
+Kind regards
+Uffe
 
-We need to define "new" then..  But I agree it's not crystal clear at
-least.  I think I just wasn't the first to assume it was reserved, see this
-(especially, the "Expectation" part..):
 
-commit 5180da410db6369d1f95c9014da1c9bc33fb043e
-Author: Suresh Siddha <suresh.b.siddha@intel.com>
-Date:   Mon Oct 8 16:28:29 2012 -0700
-
-    x86, pat: separate the pfn attribute tracking for remap_pfn_range and vm_insert_pfn
-    
-    With PAT enabled, vm_insert_pfn() looks up the existing pfn memory
-    attribute and uses it.  Expectation is that the driver reserves the
-    memory attributes for the pfn before calling vm_insert_pfn().
-
--- 
-Peter Xu
-
+> ---
+>  Documentation/devicetree/bindings/mmc/sdhci-msm.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml b/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml
+> index eed9063e9bb352b5c8dac10ae2d289c5ca17f81b..2b2cbce2458b70b96b98c042109b10ead26e2291 100644
+> --- a/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml
+> @@ -60,6 +60,7 @@ properties:
+>                - qcom,sm6125-sdhci
+>                - qcom,sm6350-sdhci
+>                - qcom,sm6375-sdhci
+> +              - qcom,sm7150-sdhci
+>                - qcom,sm8150-sdhci
+>                - qcom,sm8250-sdhci
+>                - qcom,sm8350-sdhci
+>
+> --
+> 2.49.0
+>
