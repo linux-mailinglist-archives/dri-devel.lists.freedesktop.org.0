@@ -2,98 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF5FA9F921
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 21:03:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D797BA9F989
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 21:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F73710E22D;
-	Mon, 28 Apr 2025 19:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC53C10E238;
+	Mon, 28 Apr 2025 19:32:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Cfk5D5RY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EBPFYls1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A7810E08C;
- Mon, 28 Apr 2025 19:02:55 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53SADFOi002817;
- Mon, 28 Apr 2025 19:02:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- aauU0FGniSWBHKvffweWH7HLyt3q/OcuurZpMxy2CLk=; b=Cfk5D5RYRxtBiwt0
- mc/Zxe03Xw0UeJz7Ho34x3NWMbODzAd5ohR6DzNE1//Vc66uqFK1vv0mGDoKiQSJ
- /WUEub4rlnydUIPDdbTo11s7iFv7YG78eOQqM68NhJhEzmj31251+oDgNbmaSSBy
- yHPp03t/03VKqirJcLC1mQm5JMFXTpR2VUoSG2aqcYnqu3tFRJRgPzk+k3MxzrKj
- pi6fVE0bwO6S3Sk6pJv7QghZpfscb9BfDy852mWg5LGnPhxVGYldWP0bdaMt4Tdl
- TPdaz/F7ktggEfGURagHqplxpSDJSsBQmEEBBC7VHKL8ecWabQtH2/kYQKQd5qix
- qWIIew==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468qv9j3q3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Apr 2025 19:02:49 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53SJ2mG1006066
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Apr 2025 19:02:49 GMT
-Received: from [10.134.71.99] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 28 Apr
- 2025 12:02:48 -0700
-Message-ID: <7cd99242-e670-420d-bced-b8a979e3fd2f@quicinc.com>
-Date: Mon, 28 Apr 2025 12:02:47 -0700
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E13A10E238
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 19:32:00 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-ac25d2b2354so769356866b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 12:32:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1745868719; x=1746473519; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=clvMixzUlwXVdP1MVYhs8dd5jD9W6xD/V/kA/2PWTsA=;
+ b=EBPFYls1+VbUq+7gFLIXfiKc7hAfzdwwkVvqUqWuvHbYYUYsgOWWUVEg/WMHl5CkWW
+ 6yEbXiuJSsiCo0X88SCXif8lcUIsBX7MhvQjzj3tA8yYE6thpgnWegulGnybQVZe6HwP
+ qH58PEeZSQmRjwbUYv5+Z1mPFZRhudopbI7b40+eRSFuw0d68mjOOaXC/Yd805hYdJfa
+ aqgkoJOBhryCaXQWqLF6Xoa+0OVqg3cI5DeTnVaIDuOT+yzAdxiiHJwGBhBywIF4/Xru
+ RJSJIrOqIfd/1V7IRs8EAR4q9bsFIrTckZMGOmUO5iBCpT9+AsiMFFdskaaCKx+mHf+V
+ xF3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745868719; x=1746473519;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=clvMixzUlwXVdP1MVYhs8dd5jD9W6xD/V/kA/2PWTsA=;
+ b=A7ymXFnJVrz3HCLMdIG0+bXPsbbdPQGqSAJqdoSBnO4RFcArXpI6H1Ub3zhLz2NBEZ
+ fdDZ8VJfNoZoUtwiWRvcfN503gvvemVjJfeMYljjIT3BNgeo9ohItmaXobHcisejdLrz
+ nFN/8v3mzD+bEbYlwAvZd4Ru0TQe8LZpacF7zumljDjVmWB5s5/lwpkGgk9kMI2KpGgi
+ oezVE63Crtdtz9ZL8HbykKsfTnM90WmbRHk2bM3SOcL8FuJhTi9YY51J5+sgsRlLZdSW
+ Las/nxj5FDNXjLz8i6EHatuaV/F+QaMrnGE3+vGOggzIj6ZukXbOe6KgrYsGICqA2Wn3
+ y4Hg==
+X-Gm-Message-State: AOJu0YyPhNn28a7mmqmb7m46M/wZ8HhPUcWXfsDCRSCq92BuLSM585/C
+ 38T3e/TOF7gR5Pz91A6LtyXgjSB0ea+CEDA7DLChirV/ewJIHDiUXCCOkZCpaT/bejk8EoWwkUT
+ wq/G/mPv8pBSCBtsjXjMESKmLm58=
+X-Gm-Gg: ASbGncuqZh6egTmVTsb3SGqvWVFEjEPvFtMr6pigrNpEqEz2MawQk6GQUw3ogrGb1ta
+ CsOrKKJJuBrm8dAK31bDTUqtLgkQIJoxwBjeRgysPmEWyHSL3JwMZs/N+eeaB0TLrAohpL9oJVn
+ +CC/7gWgvh6xfv33bB86lDdRSQdcHSd/8=
+X-Google-Smtp-Source: AGHT+IFLuUocUdQmizosojpHdukguxfQt2DZzVHhIIuVAmlSuN8A3ZHMSJnYr5cbpnG+GpgGCSNqqRto8AJov4Lc9X0=
+X-Received: by 2002:a17:907:7f8c:b0:aca:e33d:48af with SMTP id
+ a640c23a62f3a-acec4f20479mr85905966b.61.1745868718523; Mon, 28 Apr 2025
+ 12:31:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/8] drm/msm/dpu: don't overwrite CTL_MERGE_3D_ACTIVE
- register
-To: Dmitry Baryshkov <lumag@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>
-References: <20250307-dpu-active-ctl-v3-0-5d20655f10ca@linaro.org>
- <20250307-dpu-active-ctl-v3-1-5d20655f10ca@linaro.org>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20250307-dpu-active-ctl-v3-1-5d20655f10ca@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Authority-Analysis: v=2.4 cv=AO34vM+d c=1 sm=1 tr=0 ts=680fd0da cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8
- a=tVI0ZWmoAAAA:8 a=COk6AnOGAAAA:8
- a=w8TCXdzS96gXyQ4iQjUA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22
- a=-BPWgnxRz2uhmvdm1NTO:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: n0vkWxy-KaGU8_FxfUBEL44yYIAItQxf
-X-Proofpoint-ORIG-GUID: n0vkWxy-KaGU8_FxfUBEL44yYIAItQxf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDE1MyBTYWx0ZWRfXzOnUrbR4z09D
- g/ZVbSc/k6A70cMiAGbjoXhoU7GA+iJ9zRN7NEFTGblbvEAv3EQb97xx7L4pKgoBNtQjBcPb16G
- lvMAJvG3m5eLaIDnnNou9jjQvcmd67VbTQOTF/ZbbrTlyzjmOAamonEi7LkRIPlPWJO00Nh+9af
- pQrzjUPNOsPipWEd8u1RVfB1NSL9j5AcLA27jKl7gR0p4No62u4H2yZfzf7VZel0ySb70P7Znzo
- P1ZfteYstGHwhYihXW3JIa6PUN5jR2Rh5ZiulVOFmjsd/YFMRPfts5rjz74q6lHWQ2hGDHGmIo+
- 1m1krhh3hBGlxyITBasH7MpfSXJinxiVStWnBo+96dO7qTqCP4M66zHh+tbozZPYRT42Xsz5JvV
- NAZUNhDYwK5VPnGAT05crKKelazphxl2HU9b3qbxlWP+5tkEQJ8pFhNd8HZr62Xx0cJPX/Nk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-28_07,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 clxscore=1015 malwarescore=0 spamscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504280153
+References: <20250423214321.100440-1-airlied@gmail.com>
+ <4bac662a-228e-4739-b627-5d81df3d4842@amd.com>
+In-Reply-To: <4bac662a-228e-4739-b627-5d81df3d4842@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 29 Apr 2025 05:31:46 +1000
+X-Gm-Features: ATxdqUFX8TlA8SB5and9ojCYJazRG2Xwfktm6GA_G0-fvfnIIHi7VfxOzfvDHjk
+Message-ID: <CAPM=9tzVijMmf8P=Kthc-UcaYXK28Gy3e3W+F8i3NKdYzhL_BA@mail.gmail.com>
+Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, tj@kernel.org, cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,66 +81,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 28 Apr 2025 at 20:43, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+>
+> On 4/23/25 23:37, Dave Airlie wrote:
+> > Hey,
+> >
+> > I've been tasked to look into this, and I'm going start from hopeless
+> > naivety and see how far I can get. This is an initial attempt to hook
+> > TTM system memory allocations into memcg and account for them.
+>
+> Yeah, this looks mostly like what we had already discussed.
+>
+> >
+> > It does:
+> > 1. Adds memcg GPU statistic,
+> > 2. Adds TTM memcg pointer for drivers to set on their user object
+> > allocation paths
+> > 3. Adds a singular path where we account for memory in TTM on cached
+> > non-pooled non-dma allocations. Cached memory allocations used to be
+> > pooled but we dropped that a while back which makes them the best targe=
+t
+> > to start attacking this from.
+>
+> I think that should go into the resource like the existing dmem approach =
+instead. That allows drivers to control the accounting through the placemen=
+t which is far less error prone than the context.
 
+I'll reconsider this, but I'm not sure it'll work at that level,
+because we have to handle the fact that when something gets put back
+into the pool it gets removed from the cgroup kmem accounting and
+taken from the pool gets added to the cgroup kmem account, but
+otherwise we just use __GFP_ACCOUNT on allocations. I've added cached
+pool support yesterday, which just leaves the dma paths which probably
+aren't too insane, but I'll re-evaluate this and see if higher level
+makes sense.
 
-On 3/6/2025 10:24 PM, Dmitry Baryshkov wrote:
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> In case of complex pipelines (e.g. the forthcoming quad-pipe) the DPU
-> might use more that one MERGE_3D block for a single output.  Follow the
-> pattern and extend the CTL_MERGE_3D_ACTIVE active register instead of
-> simply writing new value there. Currently at most one MERGE_3D block is
-> being used, so this has no impact on existing targets.
-> 
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > 4. It only accounts for memory that is allocated directly from a usersp=
+ace
+> > TTM operation (like page faults or validation). It *doesn't* account fo=
+r
+> > memory allocated in eviction paths due to device memory pressure.
+>
+> Yeah, that's something I totally agree on.
+>
+> But the major show stopper is still accounting to memcg will break existi=
+ng userspace. E.g. display servers can get attacked with a deny of service =
+with that.
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+The thing with modern userspace, I'm not sure this out of the box is a
+major problem, we usually run the display server and the user
+processes in the same cgroup, so they share limits. Most modern
+distros don't run X.org servers as root in a separate cgroup, even
+running X is usually in the same cgroup as the users of it, Android
+might have different opinions of course, but I'd probably suggest we
+Kconfig this stuff and let distros turn it on once we agree on a
+baseline.
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index 411a7cf088eb72f856940c09b0af9e108ccade4b..cef3bfaa4af82ebc55fb8cf76adef3075c7d73e3 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -563,6 +563,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
->   	u32 wb_active = 0;
->   	u32 cwb_active = 0;
->   	u32 mode_sel = 0;
-> +	u32 merge_3d_active = 0;
->   
->   	/* CTL_TOP[31:28] carries group_id to collate CTL paths
->   	 * per VM. Explicitly disable it until VM support is
-> @@ -578,6 +579,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
->   	wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
->   	cwb_active = DPU_REG_READ(c, CTL_CWB_ACTIVE);
->   	dsc_active = DPU_REG_READ(c, CTL_DSC_ACTIVE);
-> +	merge_3d_active = DPU_REG_READ(c, CTL_MERGE_3D_ACTIVE);
->   
->   	if (cfg->intf)
->   		intf_active |= BIT(cfg->intf - INTF_0);
-> @@ -591,15 +593,15 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
->   	if (cfg->dsc)
->   		dsc_active |= cfg->dsc;
->   
-> +	if (cfg->merge_3d)
-> +		merge_3d_active |= BIT(cfg->merge_3d - MERGE_3D_0);
-> +
->   	DPU_REG_WRITE(c, CTL_TOP, mode_sel);
->   	DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
->   	DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
->   	DPU_REG_WRITE(c, CTL_CWB_ACTIVE, cwb_active);
->   	DPU_REG_WRITE(c, CTL_DSC_ACTIVE, dsc_active);
-> -
-> -	if (cfg->merge_3d)
-> -		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
-> -			      BIT(cfg->merge_3d - MERGE_3D_0));
-> +	DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE, merge_3d_active);
->   
->   	if (cfg->cdm)
->   		DPU_REG_WRITE(c, CTL_CDM_ACTIVE, cfg->cdm);
-> 
+> >
+> > This seems to work for me here on my hacked up tests systems at least, =
+I
+> > can see the GPU stats moving and they look sane.
+> >
+> > Future work:
+> > Account for pooled non-cached
+> > Account for pooled dma allocations (no idea how that looks)
+> > Figure out if accounting for eviction is possible, and what it might lo=
+ok
+> > like.
+>
+> T.J. suggested to account but don't limit the evictions and I think that =
+should work.
+>
 
+I was going to introduce an gpu eviction stat counter as a start, I
+also got the idea that might be a bit hard to pull off, but if a
+process needs to evict from VRAM, but the original process has no
+space in it's cgroup, we just fail the VRAM allocation for the current
+process, which didn't sound insane, but I haven't considered how
+implementing that in TTM might look.
+
+Dave.
