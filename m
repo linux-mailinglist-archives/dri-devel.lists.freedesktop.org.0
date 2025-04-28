@@ -2,73 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65437A9EAD0
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 10:32:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0E5A9EB2B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 10:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DDB310E3A7;
-	Mon, 28 Apr 2025 08:32:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JKdkFimD";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCD568903B;
+	Mon, 28 Apr 2025 08:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB6F10E3A7
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 08:32:10 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EF034432FF;
- Mon, 28 Apr 2025 08:32:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1745829128;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Qc4XQ8+2pTnqhK3Ek13XA1rEgbWt1yxdWNiOR8qYlC8=;
- b=JKdkFimDvh1IXkTI7bHL+X5N0TFU70CvzuyP7VzoICzIWXTU1QWLMwA27rwHTKyW4RXZln
- aZBdNi4/tIkWySiD9fI4DKCYk3x4fdXrBBgxyygNhe2LlVQ0MF3w99WSPrBnKOlWcCzd0h
- 3Rjx6a0bUU7H6cxvFOqIDU93hWcUmpCEO6/Bne2BCbllWUJj3pdlyfxrtVqkQE/fjz8+fb
- 0ToPQflb6NOc5qpOps2c0/5jfH2f8dE0VGENFsJx5C70TDZ3cBiCx1yR/Fngs7Ios7fiPZ
- +oDpJ3pwHARqtwi0le7ow0+B5aac26s0NR22XUmcAxwuo7ELbrRn5gWGYawB1Q==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 28 Apr 2025 10:32:07 +0200
-Subject: [PATCH] drm: writeback: Fix drm_writeback_connector_cleanup signature
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8754C10E0B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 08:53:06 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 79B881595;
+ Mon, 28 Apr 2025 01:52:59 -0700 (PDT)
+Received: from [10.57.19.90] (unknown [10.57.19.90])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7B203F673;
+ Mon, 28 Apr 2025 01:53:03 -0700 (PDT)
+Message-ID: <1ae2f636-2695-4349-8590-c9893ff813ec@arm.com>
+Date: Mon, 28 Apr 2025 09:53:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250428-drm-fix-writeback-cleanup-v1-1-e4c723868b73@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAAY9D2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDEyML3ZSiXN20zArd8qLMktSkxORs3eSc1MS80gLdRENDc8s04yRLM0t
- DJaD+gqJUoEKw2dGxtbUAVawnAWsAAAA=
-X-Change-ID: 20250428-drm-fix-writeback-cleanup-a1179f3b9691
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Mark Yacoub <markyacoub@google.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2149;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=XaoKvzX2DeCVnCWRL6OK5qy4mw7MD8OvjOev2TR3R2k=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoDz0HlJdE5uq8Cv4zrM+9yyw2lQyZRLv/vAclK
- zUsNoQVW5iJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaA89BwAKCRAgrS7GWxAs
- 4ivzEACclEox4KveQ00j00AwKybPrX9cOrZiQrR3nxODzCbx9pJSG4BzzbmsoosLdjE4AHFTtM/
- nHtGOlTTxyeLLsOWNoRRxS6rQxPoGUwnWG4yTXFLA7/gJQuuoAal0QxCOwMby9yzBAVIQIu+kv5
- NE/HKzFf+wMMlWgeZHlboZBuyYByIVBuN0OgA5zSgdSiwrcAYpBkBrT3MCIDSg8YdzoPQC3aUYE
- sv7fm82N9r3EbKqr3GtF0IC18QbpBi9cYNrPyU0WYh8FszQ+b6FzwhV+TT3YwYVasjbh1eblJ5z
- Rtz2atLDjYnuEBO4CACJRIPJ5LfCsPIUgaV7yYNFBvSKldrfYTsv829WiFHDrsoUzCWp4lwYVm/
- YJ1U2v36LCDM4nNm8EzAfjED8DeBUXsNnDdhGn5DL9bBTiElaWXpC9pFtCoJyLuPvtTQkGbMqrm
- NsU2pf5MFy9vSEjZvI7f1ENGeRRjFykT3bo8OQyMGkj+YMjvEcno2YCTq38JX8u9W7XUWFAPnlX
- NMYcN4ObjALKyehliTTDC0cGfPwEGXaC4P8v9SRKv/J7k+ooFRrmyYhq7hceTrj4s6mBUdnBPa8
- +COFgo7TGSZSvR0GretGp0XNNsyd3LJ+TJYQ+S8YGBlXPoVDjX9tL7N+IXX7gt/vbftNrtXe05s
- 8WLbaEdeA9Ca7LA==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddviedtgeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeuteejgeegffdvgeektedukeejveekheehudeltdegjefhuddvueelheelffeggfenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgdujedvrddukedrtddrudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhrtghpt
- hhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: louis.chauvet@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Fix build warning when DEBUG_FS is disabled
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+References: <20250424184041.356191-1-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250424184041.356191-1-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,63 +53,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_writeback_connector_cleanup have the signature:
+On 24/04/2025 19:40, Adrián Larumbe wrote:
+> Commit a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM
+> objects over DebugFS") causes a build warning and linking error when
+> built without support for DebugFS, because of a non-inline non-static
+> function declaration in a header file.
+> 
+> On top of that, the function is only being used inside a single
+> compilation unit, so there is no point in exposing it as a global
+> symbol.
+> 
+> This is a follow-up from Arnd Bergmann's first fix.
+> Also move panthor_gem_debugfs_set_usage_flags() into panthor_gem.c and
+> declare it static.
+> 
+> Fixes: a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS")
+> Reported-by: Arnd Bergmann <arnd@arndb.de>
+> Closes: https://lore.kernel.org/dri-devel/20250424142419.47b9d457@collabora.com/T/#t
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-     static void drm_writeback_connector_cleanup(
-		struct drm_device *dev,
-		struct drm_writeback_connector *wb_connector)
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-But it is stored and used as a drmres_release_t
-
-    typedef void (*drmres_release_t)(struct drm_device *dev, void *res);
-
-While the current code is valid and does not produce any warning, the
-CFI runtime check (CONFIG_CFI_CLANG) can fail because the function
-signature is not the same as drmres_release_t.
-
-In order to fix this, change the function signature to match what is
-expected by drmres_release_t.
-
-Fixes: 1914ba2b91ea ("drm: writeback: Create drmm variants for drm_writeback_connector initialization")
-
-Suggested-by: Mark Yacoub <markyacoub@google.com>
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/drm_writeback.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index edbeab88ff2b..2f5c40616d9d 100644
---- a/drivers/gpu/drm/drm_writeback.c
-+++ b/drivers/gpu/drm/drm_writeback.c
-@@ -350,10 +350,11 @@ EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
-  * clean up the attached encoder and the drm_connector.
-  */
- static void drm_writeback_connector_cleanup(struct drm_device *dev,
--					    struct drm_writeback_connector *wb_connector)
-+					    void *data)
- {
- 	unsigned long flags;
- 	struct drm_writeback_job *pos, *n;
-+	struct drm_writeback_connector *wb_connector = data;
- 
- 	delete_writeback_properties(dev);
- 	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
-@@ -405,7 +406,7 @@ int drmm_writeback_connector_init(struct drm_device *dev,
- 	if (ret)
- 		return ret;
- 
--	ret = drmm_add_action_or_reset(dev, (void *)drm_writeback_connector_cleanup,
-+	ret = drmm_add_action_or_reset(dev, drm_writeback_connector_cleanup,
- 				       wb_connector);
- 	if (ret)
- 		return ret;
-
----
-base-commit: b848cd418aebdb313364b4843f41fae82281a823
-change-id: 20250428-drm-fix-writeback-cleanup-a1179f3b9691
-
-Best regards,
--- 
-Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_gem.c | 5 +++++
+>  drivers/gpu/drm/panthor/panthor_gem.h | 8 --------
+>  2 files changed, 5 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index 2dcf308094b2..7c00fd77758b 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -42,11 +42,16 @@ static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
+>  	mutex_unlock(&ptdev->gems.lock);
+>  }
+>  
+> +static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags)
+> +{
+> +	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
+> +}
+>  #else
+>  static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+>  				       struct panthor_gem_object *bo)
+>  {}
+>  static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
+> +static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {}
+>  #endif
+>  
+>  static void panthor_gem_free_object(struct drm_gem_object *obj)
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index 4641994ddd7f..4dd732dcd59f 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -212,14 +212,6 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+>  #ifdef CONFIG_DEBUG_FS
+>  void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+>  				   struct seq_file *m);
+> -static inline void
+> -panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags)
+> -{
+> -	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
+> -}
+> -
+> -#else
+> -void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {};
+>  #endif
+>  
+>  #endif /* __PANTHOR_GEM_H__ */
+> 
+> base-commit: 3a2b7389feea9a7afd18d58cda59b7a989445f38
 
