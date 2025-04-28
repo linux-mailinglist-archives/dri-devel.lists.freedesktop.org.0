@@ -2,98 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE35A9F3F9
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 17:01:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54113A9F415
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 17:08:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6749D10E552;
-	Mon, 28 Apr 2025 15:00:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F302A10E594;
+	Mon, 28 Apr 2025 15:08:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cTAHqyDf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qdYuVUBb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C4C310E584;
- Mon, 28 Apr 2025 15:00:57 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4F84F4397F;
- Mon, 28 Apr 2025 15:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1745852455;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l/KM50XoeWonitoxoMaOHFeoOtZjamWkVO4Sfztxz2s=;
- b=cTAHqyDfWqZQRajnA0jCJJTRWgntMZ9qCGKU473NOxESwutCLvKkGP9L3GMlUIUf1TVfoJ
- rSml0e13bS9W5xL7vpWnRG/Gf8DwWyNIkXZ07glmnEui2hZC2Xoq/8/xjrvJp5r3ePSFuU
- njtoTq8LUpcrENa9NLXi3tWAr4COusan12TyNUvMZQZfaHrdfuVf/DcDoxsqC3HUZd6Oxa
- xFrGUT/PhDw09LZJgn+fTcnrJMlbI4kHX39u8mbqL16gwmh6HE2DuFmuNLvVbhBpuVI1WK
- hOs5l7kG8ZpIdaFhDwnEIRvdHjqsZaRpzN9lTpgipOlJKjv7cuiqF1qRk9Zf2g==
-Date: Mon, 28 Apr 2025 17:00:45 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Andy Yan" <andyshrk@163.com>
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Andrzej
- Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Jagan
- Teki" <jagan@amarulasolutions.com>, "Shawn Guo" <shawnguo@kernel.org>,
- "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Douglas
- Anderson" <dianders@chromium.org>, "Chun-Kuang Hu"
- <chunkuang.hu@kernel.org>, "Krzysztof Kozlowski" <krzk@kernel.org>, "Anusha
- Srivatsa" <asrivats@redhat.com>, "Paul Kocialkowski" <paulk@sys-base.io>,
- "Dmitry Baryshkov" <lumag@kernel.org>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
- "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- "Adam Ford" <aford173@gmail.com>, "Adrien Grassein"
- <adrien.grassein@gmail.com>, "Aleksandr Mishin" <amishin@t-argos.ru>, "Andy
- Yan" <andy.yan@rock-chips.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Benson Leung"
- <bleung@chromium.org>, "Biju Das" <biju.das.jz@bp.renesas.com>, "Christoph
- Fritz" <chf.fritz@googlemail.com>, "Cristian Ciocaltea"
- <cristian.ciocaltea@collabora.com>, "Detlev Casanova"
- <detlev.casanova@collabora.com>, "Dharma Balasubiramani"
- <dharma.b@microchip.com>, "Guenter Roeck" <groeck@chromium.org>, "Heiko
- Stuebner" <heiko@sntech.de>, "Jani Nikula" <jani.nikula@intel.com>, "Janne
- Grunau" <j@jannau.net>, "Jerome Brunet" <jbrunet@baylibre.com>, "Jesse Van
- Gavere" <jesseevg@gmail.com>, "Kevin Hilman" <khilman@baylibre.com>,
- "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>, "Liu Ying"
- <victor.liu@nxp.com>, "Manikandan Muralidharan"
- <manikandan.m@microchip.com>, "Martin Blumenstingl"
- <martin.blumenstingl@googlemail.com>, "Matthias Brugger"
- <matthias.bgg@gmail.com>, "Philipp Zabel" <p.zabel@pengutronix.de>, "Phong
- LE" <ple@baylibre.com>, "Sasha Finkelstein" <fnkl.kernel@gmail.com>, "Sugar
- Zhang" <sugar.zhang@rock-chips.com>, "Sui Jingfeng"
- <sui.jingfeng@linux.dev>, "Tomi Valkeinen"
- <tomi.valkeinen+renesas@ideasonboard.com>, "Vitalii Mordan"
- <mordan@ispras.ru>
-Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-Message-ID: <20250428170045.5ca315ce@booty>
-In-Reply-To: <656e493e.a551.1967c6d0c53.Coremail.andyshrk@163.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
- <656e493e.a551.1967c6d0c53.Coremail.andyshrk@163.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7DD810E594
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 15:08:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 35F8544D83;
+ Mon, 28 Apr 2025 15:07:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67B3FC4CEE4;
+ Mon, 28 Apr 2025 15:07:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745852878;
+ bh=jxTwfAcECygf5CIL5YAyFGJI9HrtjGfkmcaFSr4z1Us=;
+ h=From:To:Cc:Subject:Date:From;
+ b=qdYuVUBbXL6NTpfZ6clt4loWwrgjyzitkl9NMyTlYhx0Egx5zo/sapVWVxmLXaX9w
+ KrYiwPMNKLX2nBK5GP1vJhsqPCoAZ7bRBrG0ok1ROrloR4tCjL/WxRunEopF9VuGxD
+ MWDils7CFgiqxAWJWAVeAkpheLZP7GSJoTDtFidWLaS0/TsY1xq0/0AS1CRH5kGmHE
+ VEcR2zSQY3vxK0K1whQJYz6OTiQJzg235GqS9phytgatqctBio+s3jqdMi/FImQLxr
+ LOGWAjMElNT7l35yLf37XcctqlUnstywmmU+PnqpZ+OeHp5rqjElcQywvAl1F97rtN
+ cQ04GQoy53Alg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, David Lechner <david@lechnology.com>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Alex Lanzano <lanzano.alex@gmail.com>, Kerem Karabay <kekrby@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/st7571-i2c: select CONFIG_DRM_CLIENT_SELECTION
+Date: Mon, 28 Apr 2025 17:07:45 +0200
+Message-Id: <20250428150752.3970145-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieduvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepieelpdhrtghpthhtoheprghnugihshhhrhhkseduieefrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrn
- hgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,83 +62,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hallo Andy,
+From: Arnd Bergmann <arnd@arndb.de>
 
-On Mon, 28 Apr 2025 20:44:03 +0800 (CST)
-"Andy Yan" <andyshrk@163.com> wrote:
+The newly added driver calls drm_client_setup(), but that is not
+always built in:
 
-> Hi ,
-> 
-> At 2025-04-25 02:59:08, "Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
-> >devm_drm_bridge_alloc() is the new API to be used for allocating (and
-> >partially initializing) a private driver struct embedding a struct
-> >drm_bridge.
-> >
-> >For many drivers having a simple code flow in the probe function, this
-> >commit does a mass conversion automatically with the following semantic
-> >patch. The changes have been reviewed manually for correctness as well as
-> >to find any false positives.
-> >
-> >  @@
-> >  type T;
-> >  identifier C;
-> >  identifier BR;
-> >  expression DEV;
-> >  expression FUNCS;
-> >  @@
-> >  -T *C;
-> >  +T *C;
-> >   ...
-> >  (
-> >  -C = devm_kzalloc(DEV, ...);
-> >  -if (!C)
-> >  -    return -ENOMEM;
-> >  +C = devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
-> >  +if (IS_ERR(C))
-> >  +     return PTR_ERR(C);
-> >  |
-> >  -C = devm_kzalloc(DEV, ...);
-> >  -if (!C)
-> >  -    return ERR_PTR(-ENOMEM);
-> >  +C = devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
-> >  +if (IS_ERR(C))
-> >  +     return PTR_ERR(C);
-> >  )
-> >   ...
-> >  -C->BR.funcs = FUNCS;
-> >
-> >Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+x86_64-linux-ld: vmlinux.o: in function `st7571_probe':
+st7571-i2c.c:(.text+0x7b7119): undefined reference to `drm_client_setup'
 
-[...]
+Select the appropriate Kconfig symbol.
 
-> >diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> >index 5e5f8c2f95be1f5c4633f1093b17a00f9425bb37..9b1dfdb5e7ee528c876c01916c9821d550cad679 100644
-> >--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> >+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> >@@ -1045,9 +1045,10 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
-> > 		return ERR_PTR(-ENODEV);
-> > 	}
-> > 
-> >-	hdmi = devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
-> >-	if (!hdmi)
-> >-		return ERR_PTR(-ENOMEM);
-> >+	hdmi = devm_drm_bridge_alloc(dev, struct dw_hdmi_qp, bridge,
-> >+				     &dw_hdmi_qp_bridge_funcs);
-> >+	if (IS_ERR(hdmi))
-> >+		return PTR_ERR(hdmi);  
-> 
->            This should return hdmi or ERR_CAST(hdmi);
+Fixes: 4b35f0f41ee2 ("drm/st7571-i2c: add support for Sitronix ST7571 LCD controller")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/tiny/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Indeed, thanks!
-
-My coccinelle patch is clearly not clever enough. I'll see whether I
-can fix it, otherwise I'll handle these 3 special cases manually, along
-with another similar one (imx/imx-legacy-bridge.c) I just spotted after
-your report.
-
-Luca
-
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index 1dfe6291d9c0..654cd6f25faa 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -215,6 +215,7 @@ config TINYDRM_ST7586
+ config DRM_ST7571_I2C
+ 	tristate "DRM support for Sitronix ST7571 display panels (I2C)"
+ 	depends on DRM && I2C && MMU
++	select DRM_CLIENT_SELECTION
+ 	select DRM_GEM_SHMEM_HELPER
+ 	select DRM_KMS_HELPER
+ 	select REGMAP_I2C
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.5
+
