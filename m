@@ -2,51 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279FEA9E7D2
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 07:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC34A9E801
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 08:11:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE20010E185;
-	Mon, 28 Apr 2025 05:45:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F19B10E155;
+	Mon, 28 Apr 2025 06:11:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LAgdQ1bn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mH/0IeSV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 916B910E185
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 05:45:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=1k1pJaFY2vinDCz5f7Qz2btimtbywPDOiib+3gnfllI=; b=LAgdQ1bnXSMyDAxS7iTYI+rFG7
- uSrK+4xNrjzdLVXGbG0oGIIXbSwtkauqbXLgKMA0bE2HqNeleytvugMeStMP1eiact6BhS8PX8X3W
- 5RQnRxKgYwgKYEHq1j544SVcAQzgViFWrh+unmkLL7j/kT1q/quNNt6lvzkw2Mx5XkFcMWQ0rrNAX
- 7ZiQag80/jQVq7NuXmuKQ5DWQScTUwTRAlyg3ToKacwRqcX+vm8lvQd5wawaKr3Ndn9mhki5TjvYx
- L1fZ3Li+frukEoOl3UiBBTawTzrg/l4gyEyGQZZwkt+ovdQcTkkYq2PGm+EVVWR7IsaOygzQnPkJA
- QGSIdhMw==;
-Received: from [159.147.214.238] (helo=[192.168.0.17])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1u9HJM-009dAc-4Q; Mon, 28 Apr 2025 07:45:48 +0200
-Message-ID: <ace509ac67221d5a3e7215ea132c8155179850e4.camel@igalia.com>
-Subject: Re: [PATCH] drm/v3d: Add job to pending list if the reset was skipped
-From: Iago Toral <itoral@igalia.com>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
- <mwen@igalia.com>, Jose Maria Casanova Crespo <jmcasanova@igalia.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
- stable@vger.kernel.org, Daivik Bhatia <dtgs1208@gmail.com>
-Date: Mon, 28 Apr 2025 07:45:37 +0200
-In-Reply-To: <20250427202907.94415-2-mcanal@igalia.com>
-References: <20250427202907.94415-2-mcanal@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6553F10E155
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 06:10:56 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-acb39c45b4eso689343066b.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Apr 2025 23:10:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1745820655; x=1746425455; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=QphPfE+vUE67L3trT4TGohjxqNrvuWYQckH1kmeBzLI=;
+ b=mH/0IeSVBWfCYMl9BAewhCqb+gYMSKHJBJykhtXtwEXpXFqp9vlUqyEhPmvM0GxnqP
+ c0tMsmpRxMGsEqVmqK736oG11QHRNRZHoaI43e9Sf5sUGJxlAJNpA9g1mNnmd/fAeJb4
+ HbT68Plbwp1VpmpF8YIiNtUTCHdyfleCJ8AQhArrSOA7V1Pm9fHitMATJu5j4LiO+rG9
+ y3j8vEhdjaaHfrOhgC9FZp9igGrmp9TdJWPiuc3m7b0yKtdkCdvOArN8q1CZnFTq6yls
+ en6IqfSWHAVorD6focEoq/cszCV27GzWdLzDXjqWuPCTTPFtcjfH6AsNmF/EPHYnvzVE
+ sb4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745820655; x=1746425455;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QphPfE+vUE67L3trT4TGohjxqNrvuWYQckH1kmeBzLI=;
+ b=lXlFwXzn5Pma7cTt7VNnP8KKd4J+XB2UowtBfoQfYIJ9BBZzVkwc7u4ScibOwRCLDI
+ UxNG1KxWqGnoeGgKl9zKTsEN8ieoVKZUSrXo0I46AUqVcD9gQYEOzcdUQuhkujxWzJ1r
+ pooURrGIIaYeGWG8ZRlUJv1vL+Y5BtmlhqsfGlTQSVZ1TjDCV3gJcwm2LBJ05jIx2T+/
+ DJivyHMSwLtpnsuYXxAh1Fp0M7gpSmV6eUxTZll86KfzWyn6dZzpp5D8lOFx2+0Jb62r
+ /BkGyPpheUlqiwxZpq5BaHnrS+kIyFQdFSAnY1eYRvjEdC3xmgH7qhpLAOuLIyQy+OAo
+ 1jlA==
+X-Gm-Message-State: AOJu0YyVU9DSyz8oRy1vg53BlBVh2aUpGPEXwIyQriwoDXgXnT42fTIN
+ FuhhckDzYwqC/KZ+lWRonM4Kgo/VjHw0R2FIAyDS5RIKR0I0Y5JO
+X-Gm-Gg: ASbGncs6E9Jmtrr/aS2wOAlbvwll6mh3C+kH8zR3cwnIe57SZ4xw1LbBtWnj0VPsSmm
+ EGY8AeKQrxfxUhFxb8w94i+fYALDHsYM2TNlErkRw2X3Fvnop2j/fjqMxKgpzM3itAp6Wr9Xs67
+ F8SiaXdw7uAx8X0vAgaoMZSxLXxBVL/hXaUHwagKxPhy/lX/2AOa2Ldr6jBsGqTE0rBaQi5zo7g
+ MqWM5j/aMVp5a4IVqXyC93i93mFLxaS7Q+KBeqAMU5KPug651QMYnnPbIteVkssgVZew7HrmYHQ
+ y1xs1VU7g7c1Eb/F06VHAA1qKQWfu1v1j7iEFoB1NTr3lYcYPqqtYbcVbDuBWvQh6gTwP+8bT9U
+ VcF+ZXVMcgAkEenWPsQ==
+X-Google-Smtp-Source: AGHT+IHkHGWY//K0wfWb5JEsBAo4EX5tBYhxssfjjb2vj5Y0wAC7SsY0YE6ZYBAcqI4jC1DXrJwMuA==
+X-Received: by 2002:a17:906:f59f:b0:aca:a162:67bb with SMTP id
+ a640c23a62f3a-ace739dcdd6mr918382966b.4.1745820654333; 
+ Sun, 27 Apr 2025 23:10:54 -0700 (PDT)
+Received: from [192.168.1.18] (146.10-240-81.adsl-dyn.isp.belgacom.be.
+ [81.240.10.146]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ace6ed70611sm569224466b.143.2025.04.27.23.10.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 27 Apr 2025 23:10:53 -0700 (PDT)
+Message-ID: <3aea4181-427f-4859-8a89-54c139775da6@gmail.com>
+Date: Mon, 28 Apr 2025 08:10:53 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] drm/panfrost: enable G31 on H616
+From: Philippe Simons <simons.philippe@gmail.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
+ =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+References: <20250403055210.54486-1-simons.philippe@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20250403055210.54486-1-simons.philippe@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,104 +95,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maira,
+Hi, is there any issue with this serie
 
-Looks good to me, but don't we need to do the same in
-v3d_csd_job_timedout?
+Thanks,
 
-Iago
+Philippe
 
-El dom, 27-04-2025 a las 17:28 -0300, Ma=C3=ADra Canal escribi=C3=B3:
-> When a CL/CSD job times out, we check if the GPU has made any
-> progress
-> since the last timeout. If so, instead of resetting the hardware, we
-> skip
-> the reset and let the timer get rearmed. This gives long-running jobs
-> a
-> chance to complete.
->=20
-> However, when `timedout_job()` is called, the job in question is
-> removed
-> from the pending list, which means it won't be automatically freed
-> through
-> `free_job()`. Consequently, when we skip the reset and keep the job
-> running, the job won't be freed when it finally completes.
->=20
-> This situation leads to a memory leak, as exposed in [1].
->=20
-> Similarly to commit 704d3d60fec4 ("drm/etnaviv: don't block scheduler
-> when
-> GPU is still active"), this patch ensures the job is put back on the
-> pending list when extending the timeout.
->=20
-> Cc: stable@vger.kernel.org=C2=A0# 6.0
-> Link: https://gitlab.freedesktop.org/mesa/mesa/-/issues/12227=C2=A0[1]
-> Reported-by: Daivik Bhatia <dtgs1208@gmail.com>
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
-> =C2=A0drivers/gpu/drm/v3d/v3d_sched.c | 18 +++++++++++-------
-> =C2=A01 file changed, 11 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c
-> b/drivers/gpu/drm/v3d/v3d_sched.c
-> index b3be08b0ca91..a98dcf9d75b1 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -734,11 +734,6 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d,
-> struct drm_sched_job *sched_job)
-> =C2=A0	return DRM_GPU_SCHED_STAT_NOMINAL;
-> =C2=A0}
-> =C2=A0
-> -/* If the current address or return address have changed, then the
-> GPU
-> - * has probably made progress and we should delay the reset.=C2=A0 This
-> - * could fail if the GPU got in an infinite loop in the CL, but that
-> - * is pretty unlikely outside of an i-g-t testcase.
-> - */
-> =C2=A0static enum drm_gpu_sched_stat
-> =C2=A0v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue
-> q,
-> =C2=A0		=C2=A0=C2=A0=C2=A0 u32 *timedout_ctca, u32 *timedout_ctra)
-> @@ -748,9 +743,16 @@ v3d_cl_job_timedout(struct drm_sched_job
-> *sched_job, enum v3d_queue q,
-> =C2=A0	u32 ctca =3D V3D_CORE_READ(0, V3D_CLE_CTNCA(q));
-> =C2=A0	u32 ctra =3D V3D_CORE_READ(0, V3D_CLE_CTNRA(q));
-> =C2=A0
-> +	/* If the current address or return address have changed,
-> then the GPU
-> +	 * has probably made progress and we should delay the reset.
-> This
-> +	 * could fail if the GPU got in an infinite loop in the CL,
-> but that
-> +	 * is pretty unlikely outside of an i-g-t testcase.
-> +	 */
-> =C2=A0	if (*timedout_ctca !=3D ctca || *timedout_ctra !=3D ctra) {
-> =C2=A0		*timedout_ctca =3D ctca;
-> =C2=A0		*timedout_ctra =3D ctra;
-> +
-> +		list_add(&sched_job->list, &sched_job->sched-
-> >pending_list);
-> =C2=A0		return DRM_GPU_SCHED_STAT_NOMINAL;
-> =C2=A0	}
-> =C2=A0
-> @@ -790,11 +792,13 @@ v3d_csd_job_timedout(struct drm_sched_job
-> *sched_job)
-> =C2=A0	struct v3d_dev *v3d =3D job->base.v3d;
-> =C2=A0	u32 batches =3D V3D_CORE_READ(0, V3D_CSD_CURRENT_CFG4(v3d-
-> >ver));
-> =C2=A0
-> -	/* If we've made progress, skip reset and let the timer get
-> -	 * rearmed.
-> +	/* If we've made progress, skip reset, add the job to the
-> pending
-> +	 * list, and let the timer get rearmed.
-> =C2=A0	 */
-> =C2=A0	if (job->timedout_batches !=3D batches) {
-> =C2=A0		job->timedout_batches =3D batches;
-> +
-> +		list_add(&sched_job->list, &sched_job->sched-
-> >pending_list);
-> =C2=A0		return DRM_GPU_SCHED_STAT_NOMINAL;
-> =C2=A0	}
-> =C2=A0
-
+On 4/3/25 07:52, Philippe Simons wrote:
+> Allwinner H616 has a dedicated power domain for its Mali G31.
+>
+> Currently after probe, the GPU is put in runtime suspend which
+> disable the power domain.
+> On first usage of GPU, the power domain enable hangs the system.
+>
+> This series adds the necessary calls to enable the clocks and
+> deasserting the reset line after the power domain enabling and
+> asserting the reset line and disabling the clocks prior to the
+> power domain disabling.
+>
+> This allows to use the Mali GPU on all Allwinner H616
+> boards and devices.
+>
+> Changelog v1 .. v2:
+> - merge flags to a single GPU_PM_RT flag
+> - reorder init/deinit powerup/down sequences according to
+>    Mali manuals.
+> Link to v1:
+> https://lore.kernel.org/linux-sunxi/20250312232319.25712-1-simons.philippe@gmail.com/
+>
+> Philippe Simons (3):
+>    drm/panfrost: Add PM runtime flag
+>    drm/panfrost: add h616 compatible string
+>    drm/panfrost: reorder pd/clk/rst sequence
+>
+>   drivers/gpu/drm/panfrost/panfrost_device.c | 71 ++++++++++++++++------
+>   drivers/gpu/drm/panfrost/panfrost_device.h |  3 +
+>   drivers/gpu/drm/panfrost/panfrost_drv.c    |  8 +++
+>   3 files changed, 63 insertions(+), 19 deletions(-)
+>
+>
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> prerequisite-patch-id: eb8a11e2b24bb282970d8b8528834dea7ee392cc
