@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C3EA9E68A
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 05:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A84A9E6C7
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 05:40:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79F1E10E0F5;
-	Mon, 28 Apr 2025 03:30:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="kd6k1BOw";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB5210E0F3;
+	Mon, 28 Apr 2025 03:40:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34BDE10E0F5
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 03:30:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1745811015;
- bh=jVsaLEXMNvidpLj40+o8rBlX0uwUjWHgmyDQFjNXlMI=;
- h=Date:From:To:Cc:Subject:From;
- b=kd6k1BOwa61cmlciiPYmM6pN5yRqfo+mp5qaCkWAQMzTzfa7DQBpUafIwraXz5flX
- MBIJprT0sKJtg4DqDrPmxbfreDAT0DKDKmMi+GgWWK4YbZ0l23rlyFo1QShfPPfg/E
- by3vnNN7vXKh9n+tQnKLRWX0MQRqej/kLgLj2VL++DKPlu91stKVNDOUDuD2oZ8ewp
- qlNPaIWUShf4jkJOaRYizzV8dsb29qf70bGqgrhXInYalUtHQNcZfWpCUnI3129New
- S/xQ+VqydPn9VBQ9CZKZpRRVj2umbNdKhYPIXpwIgaiBy1X8J1zi/cb1crlFvZLicf
- 6FAmiNOFYOucA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 224FC10E0F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 03:40:53 +0000 (UTC)
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-49-7i_SpseSMwu4eFl6FI_7lg-1; Sun,
+ 27 Apr 2025 23:40:48 -0400
+X-MC-Unique: 7i_SpseSMwu4eFl6FI_7lg-1
+X-Mimecast-MFC-AGG-ID: 7i_SpseSMwu4eFl6FI_7lg_1745811647
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Zm88k3gypz4wbb;
- Mon, 28 Apr 2025 13:30:14 +1000 (AEST)
-Date: Mon, 28 Apr 2025 13:30:13 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build failure after merge of the drm tree
-Message-ID: <20250428133013.5ad6b6b7@canb.auug.org.au>
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 19DE419560AA; Mon, 28 Apr 2025 03:40:47 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.64.136.70])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 49F08180045B; Mon, 28 Apr 2025 03:40:44 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org,
+	matthew.brost@intel.com
+Cc: intel-xe@lists.freedesktop.org
+Subject: [PATCH] drm/xe/tests: fix the bo evict build break
+Date: Mon, 28 Apr 2025 13:40:42 +1000
+Message-ID: <20250428034043.407486-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/NBBoeFV7ZF2NNzEQXKV3LoQ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: HAhbwhP9iJnQPo0ok37biMtD-RrBKS089_OzG-IX360_1745811647
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+content-type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,49 +59,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/NBBoeFV7ZF2NNzEQXKV3LoQ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: Dave Airlie <airlied@redhat.com>
 
-Hi all,
+Fixes: 55df7c0c62c1 ("drm/ttm/xe: drop unused force_alloc flag")
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/xe/tests/xe_bo.c      | 2 +-
+ drivers/gpu/drm/xe/tests/xe_dma_buf.c | 2 +-
+ drivers/gpu/drm/xe/tests/xe_migrate.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
-failed like this:
-
-In file included from drivers/gpu/drm/xe/xe_bo.c:3118:
-drivers/gpu/drm/xe/tests/xe_bo.c: In function 'ccs_test_migrate':
-drivers/gpu/drm/xe/tests/xe_bo.c:63:15: error: too many arguments to functi=
-on 'xe_bo_evict'
-   63 |         ret =3D xe_bo_evict(bo, true);
-      |               ^~~~~~~~~~~
-drivers/gpu/drm/xe/xe_bo.c:2939:5: note: declared here
- 2939 | int xe_bo_evict(struct xe_bo *bo)
-      |     ^~~~~~~~~~~
-
-Caused by commit
-
-  55df7c0c62c1 ("drm/ttm/xe: drop unused force_alloc flag")
-
-I have used the drm tree from next-20250424 for today.
-
+diff --git a/drivers/gpu/drm/xe/tests/xe_bo.c b/drivers/gpu/drm/xe/tests/xe=
+_bo.c
+index 230eb824550f..378dcd0fb414 100644
+--- a/drivers/gpu/drm/xe/tests/xe_bo.c
++++ b/drivers/gpu/drm/xe/tests/xe_bo.c
+@@ -60,7 +60,7 @@ static int ccs_test_migrate(struct xe_tile *tile, struct =
+xe_bo *bo,
+ =09}
+=20
+ =09/* Evict to system. CCS data should be copied. */
+-=09ret =3D xe_bo_evict(bo, true);
++=09ret =3D xe_bo_evict(bo);
+ =09if (ret) {
+ =09=09KUNIT_FAIL(test, "Failed to evict bo.\n");
+ =09=09return ret;
+diff --git a/drivers/gpu/drm/xe/tests/xe_dma_buf.c b/drivers/gpu/drm/xe/tes=
+ts/xe_dma_buf.c
+index cedd3e88a6fb..c53f67ce4b0a 100644
+--- a/drivers/gpu/drm/xe/tests/xe_dma_buf.c
++++ b/drivers/gpu/drm/xe/tests/xe_dma_buf.c
+@@ -65,7 +65,7 @@ static void check_residency(struct kunit *test, struct xe=
+_bo *exported,
+ =09 * the exporter and the importer should be the same bo.
+ =09 */
+ =09swap(exported->ttm.base.dma_buf, dmabuf);
+-=09ret =3D xe_bo_evict(exported, true);
++=09ret =3D xe_bo_evict(exported);
+ =09swap(exported->ttm.base.dma_buf, dmabuf);
+ =09if (ret) {
+ =09=09if (ret !=3D -EINTR && ret !=3D -ERESTARTSYS)
+diff --git a/drivers/gpu/drm/xe/tests/xe_migrate.c b/drivers/gpu/drm/xe/tes=
+ts/xe_migrate.c
+index 52f89476bf62..4a65e3103f77 100644
+--- a/drivers/gpu/drm/xe/tests/xe_migrate.c
++++ b/drivers/gpu/drm/xe/tests/xe_migrate.c
+@@ -509,7 +509,7 @@ static void test_migrate(struct xe_device *xe, struct x=
+e_tile *tile,
+ =09dma_fence_put(fence);
+=20
+ =09kunit_info(test, "Evict vram buffer object\n");
+-=09ret =3D xe_bo_evict(vram_bo, true);
++=09ret =3D xe_bo_evict(vram_bo);
+ =09if (ret) {
+ =09=09KUNIT_FAIL(test, "Failed to evict bo.\n");
+ =09=09return;
 --=20
-Cheers,
-Stephen Rothwell
+2.49.0
 
---Sig_/NBBoeFV7ZF2NNzEQXKV3LoQ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmgO9kUACgkQAVBC80lX
-0GyAnggAmHLlVC9qQysUQOD+ukgNvCJLzL3FXgmP2knj7KjKvyCQWOyErdEN3Jv9
-6wrIetk12gRZ3mSzPtS1bhN5/s1l/a3CPaG7bXFUaTbwffTDetIA+gPWnDJJHaCb
-eCVbVD+qM0lPWIMBJALxexRimirVBoAesxq+2CFO9bl3gUQo7Gg2eSbP5tUHLIfP
-kUgUtSV6/MhlrqcRglU5TsyQI4LeU/XaxzTpAg36x4reRnJxKmV6soxDx7KmoteH
-le3nYh2VZ6nCObeq9zs7AeZCeoLWFYHKqxX4Rjjis/L0sxeHXEXCa3IFyqM/I5oL
-HgKeB1QmTqZoDVtp4n2/6WSISwZ0QQ==
-=HIGf
------END PGP SIGNATURE-----
-
---Sig_/NBBoeFV7ZF2NNzEQXKV3LoQ--
