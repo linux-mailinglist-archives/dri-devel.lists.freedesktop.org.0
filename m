@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6E5A9F6F4
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 19:12:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F40B1A9F738
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 19:23:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2EEE10E626;
-	Mon, 28 Apr 2025 17:12:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B771410E629;
+	Mon, 28 Apr 2025 17:23:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="h4B2qOue";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VmD3ILt/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2AC610E625
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 17:12:16 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76A3A10E629
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 17:23:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1745860335;
+ s=mimecast20190719; t=1745861007;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YlBurcqbe64ISpcElqVnUgzueWYOv8LWsAS36SHmzGE=;
- b=h4B2qOueyF/hwmmGTVyIFRkyfIF/vZ5AK3ke90qCeoKO+KSufp62P/MLsd8sS4R7rrpMsj
- vzey3+We8HfoUQ389MD0/j6ZotxSSeqLugip9Og2QC+aq1BFmCz/HlpEBWsPg6PfbcDqJo
- vaccYm3Q9Ev9N9rooUY3NgYBoC6b+90=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wY4CVzX+uN3IX3vcq1iWMePW9o5nKkePYfy/0EKsFFQ=;
+ b=VmD3ILt/WYmKERk2aQfnLrcrIhmiy1c8JvAy4GZ0IJ/Bl3ZIzrLAWgjnP+QnZvTtWsy/ZW
+ Hu0pYNEPmvgHIc4D3pfMNlA7S13A2jeiO4eJ6gZ8JGsscrVnMLlRlk9BlI+opqbPNywnwh
+ z23loh3ULzxZaz7q/AIWBZcbYeehsFw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-316-P-r-F189Mky6oduFjvjT_g-1; Mon, 28 Apr 2025 13:12:14 -0400
-X-MC-Unique: P-r-F189Mky6oduFjvjT_g-1
-X-Mimecast-MFC-AGG-ID: P-r-F189Mky6oduFjvjT_g_1745860333
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-43cf3168b87so24088485e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 10:12:14 -0700 (PDT)
+ us-mta-45-zDLCnA1WNjyi7BH1zAGLDg-1; Mon, 28 Apr 2025 13:23:23 -0400
+X-MC-Unique: zDLCnA1WNjyi7BH1zAGLDg-1
+X-Mimecast-MFC-AGG-ID: zDLCnA1WNjyi7BH1zAGLDg_1745861002
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3912e4e2033so1570934f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 10:23:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745860333; x=1746465133;
+ d=1e100.net; s=20230601; t=1745861002; x=1746465802;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=YlBurcqbe64ISpcElqVnUgzueWYOv8LWsAS36SHmzGE=;
- b=R3TyONUmkBzcvfaqaKmvHibDwvC4SDHunfh5f4ihzqThdfbi5QlRKkJEu9MLOUzgsa
- cDTQwVtW7qLKxO78FG7FHxcMnuYHPi9jN7UHyReHXm2g/bdkpEvOJBSqCzcVATO+bOIN
- tCmx/I9zpagPlq8Rid+t1jTOav/pf25eg2VoXQYniocqssuRFpq+j2d1JQvd2HVatEg4
- s/sGaHNB5S6UFzjYY9slWNog4rS8A2RtqQj7k7HWpODFyv3kgJjg2yNTQpE2HSEulZvF
- i804rzB0tvuNoBAxKeRxyLXj45SMwoiXzMPk3c4dCL9KVj9mXE610g/rMcGY+v1Ek9jV
- fwgQ==
+ bh=wY4CVzX+uN3IX3vcq1iWMePW9o5nKkePYfy/0EKsFFQ=;
+ b=Xjbj6OxHcnqzNSCzy4YWPdc8RCP7KkjBPbjQt2B8xms/Fr5aG1uUNWroCJShuwz6Jf
+ lCa9JyK0A7o+WrsmXFMQ6n3QeZq0nSMZQVowCK3uQpUhSTMsRIJlwR2n+iuzLWuw4Udq
+ M1D+TD9mtf0uy0KMomvyVs/zYWC5CyaLmEqmqafRogrZ22TYpSLazH+unlVJmaWyYeRQ
+ UrxQm8DG7c9yakU0n5Zg1rlWxFTYlNdj3zYseH4/NHnaCrBNrTcYh5Y1nuMrglC5VVMY
+ O748JwhXyB6WJB81UGl8idfk0I0Uh2Q7+9Qn+5G1SuFLF+vp3VWli85k9W9KwMknIrdc
+ MHiA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWZiNdy/JXZi9ar/IC8QRJ4VfHknckRxD+g5sit18LaZf5yZpMT74S8fxDcstwrhHvAdyZOL4frPpE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy229N7Sg+iFobXIGk9LXfNQ8qdHUljnu8GpnZ6y1Z64XyXflSJ
- StKDlqkmxNrqeIIBJ4dxifZEHZZyFBLXmuWv8VLzX6BD06/xS2U9zMe3o6c9mICOJfxsM9UN6LF
- LdDzaEAN97id3ycq7uGAwoKny1dnMv19EDQReL/luewCPivV8Sx60LaKJVYGGP7/6ZA==
-X-Gm-Gg: ASbGncs1WgcHsN0bWmIPq1cG6WhqZ0xgArKXgHgBp7O7bGo7wV5PTj1YQF6JOQZjcev
- gOUBqAB9UsV2emlcIP15lq+yabbA9UfbwlVk2FNpiu6ZjorBmhJuVUNPDWGcochhMgtncLDfM6G
- T5yLNm/+UImBpYcm1XsxIBco4icMFyByYgeDnt2RR7LXx8J2EVCwursofc1qe1bSW3TO5GJQbTi
- 9ixNGD0OYpQA8c8s99mu0k9IMwzNF/ijk+J9651l7xa81bh8fP7VvaWiMdIoguQN3VGofrVnljE
- 3qBZNhASGYHRBdTmu32/yzZ5wVfsUexfR2htt4qR9qZg4Jz9scBQadIi0ZYQFumgJ8RdBaL934L
- k3LhIPF6/rDFCZmlTCJ04x5T0O09j3AYTh3qILg==
-X-Received: by 2002:a05:600c:4e4b:b0:43b:b756:f0a9 with SMTP id
- 5b1f17b1804b1-441ac8eb213mr763535e9.11.1745860333364; 
- Mon, 28 Apr 2025 10:12:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGI3eEGBKgI0g/a7m3l8hddD1u69DnS0ugwSS0KDQtTLhljvtnZJ97Ojpq6J+GchDMn+0V3FA==
-X-Received: by 2002:a05:600c:4e4b:b0:43b:b756:f0a9 with SMTP id
- 5b1f17b1804b1-441ac8eb213mr763265e9.11.1745860332996; 
- Mon, 28 Apr 2025 10:12:12 -0700 (PDT)
+ AJvYcCWrBsumNCFiE8E1QDV13R5JUe4cGOyhOAxkPdPPmLCaHIk1iaD3GBDds3fH1oe732KAp/+5Cb+DfPI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxvsSUK/fYwN3AMJMBmQ/tcWP/RLDgRNscG2C0dNm8jeHhn5dgl
+ CSInbL6U4STH89+1BCT6mYgxVLYN8Q4lyXFjMU0MnZDii3sUg2k8CIMdeDkM4TsHPsArhbsnPIQ
+ 9icBa4qQ1bRZSmrZJF+RmXYn727BO+l1MvvYWbJdkgzZb2LLOQvMeq7fSyCZgAuEqTA==
+X-Gm-Gg: ASbGnctCFOLGBqvifMJAwj9WdY/9iELo6UKWa2KDuDtcnuXSOY4BI3gomq608cals6j
+ s8DjOqAAo8hn8B770WA1hMHMNyQcGImqcBI4E5lVxs43tGXydd28LF1dRfJuo2ekoBfH0DzuuR9
+ F5L2lcbL8FSKTytoahvx7acIItyAFXzFvDMgutSg9NxxvN49/3HMpiZKV0EixfoHoEyB28TuXjd
+ PCVHJnsf6x2OmO01JAbjw/ANbMu9OyowVJfx5lB7RbLeSFqzxOgqCE8MobmFHVemQ/T6tC0NzF9
+ XGiNCT+erphEpkRZd6lwotrabrS+bGCW0pW9KU7nLwBQ6M4JHJAmuspISskito/Hy6QYwf/Fsjg
+ XXE7m7Gd1btBbopcU887GDj9Pxj4zAAdcTYABUw==
+X-Received: by 2002:a05:6000:40cb:b0:390:f394:6271 with SMTP id
+ ffacd0b85a97d-3a07ab85dc3mr7533540f8f.43.1745861001704; 
+ Mon, 28 Apr 2025 10:23:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGIb09GQKvUWlrzMymYxayYtDPK47jESgQU5kjQqNoI7xzmODDrJ7lADPOND7gNymtIw+O2CQ==
+X-Received: by 2002:a05:6000:40cb:b0:390:f394:6271 with SMTP id
+ ffacd0b85a97d-3a07ab85dc3mr7533500f8f.43.1745861001273; 
+ Mon, 28 Apr 2025 10:23:21 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f32:c200:9add:4a7a:46aa:f740?
  (p200300d82f32c2009add4a7a46aaf740.dip0.t-ipconnect.de.
  [2003:d8:2f32:c200:9add:4a7a:46aa:f740])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4408d0a7802sm127236275e9.1.2025.04.28.10.12.11
+ 5b1f17b1804b1-4408c80174dsm135486465e9.0.2025.04.28.10.23.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Apr 2025 10:12:12 -0700 (PDT)
-Message-ID: <fc8117d9-57f8-4c28-9c46-328e4a3c4613@redhat.com>
-Date: Mon, 28 Apr 2025 19:12:11 +0200
+ Mon, 28 Apr 2025 10:23:20 -0700 (PDT)
+Message-ID: <884fab29-e16a-4663-8e33-885bc70ca2f7@redhat.com>
+Date: Mon, 28 Apr 2025 19:23:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 03/11] x86/mm/pat: introduce pfnmap_track() and
- pfnmap_untrack()
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Subject: Re: [PATCH v1 05/11] mm: convert VM_PFNMAP tracking to pfnmap_track()
+ + pfnmap_untrack()
+To: Peter Xu <peterx@redhat.com>
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-trace-kernel@vger.kernel.org, Dave Hansen
@@ -93,12 +93,14 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
  Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
  Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
  <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>
 References: <20250425081715.1341199-1-david@redhat.com>
- <20250425081715.1341199-4-david@redhat.com>
- <554a6063-268c-49a7-883b-c39cf541c146@lucifer.local>
+ <20250425081715.1341199-6-david@redhat.com> <aAvvQ1h9bg11hiqI@x1.local>
+ <bbadf008-9ffc-4628-9809-2d8cf104a424@redhat.com> <aA-n9hvSX9JLsRM-@x1.local>
+ <7a26e29c-d889-450a-a5e1-ce671f09e4c8@redhat.com> <aA-rtji7ujQgckbM@x1.local>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -145,9 +147,9 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <554a6063-268c-49a7-883b-c39cf541c146@lucifer.local>
+In-Reply-To: <aA-rtji7ujQgckbM@x1.local>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: j7mU_-LzzKze6YIuZDTPRqtXOBLG1jhdBH_0D7qqt5E_1745860333
+X-Mimecast-MFC-PROC-ID: 00UIspfqMi2nHtiiWWaOG-wFLeoKM15JPUJ8grmpUFo_1745861002
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -167,53 +169,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
+On 28.04.25 18:24, Peter Xu wrote:
+> On Mon, Apr 28, 2025 at 06:16:21PM +0200, David Hildenbrand wrote:
+>>> Probably due to what config you have.  E.g., when I'm looking mine it's
+>>> much bigger and already consuming 256B, but it's because I enabled more
+>>> things (userfaultfd, lockdep, etc.).
 >>
->> +int pfnmap_track(unsigned long pfn, unsigned long size, pgprot_t *prot)
->> +{
->> +	const resource_size_t paddr = (resource_size_t)pfn << PAGE_SHIFT;
->> +
->> +	return reserve_pfn_range(paddr, size, prot, 0);
+>> Note that I enabled everything that you would expect on a production system
+>> (incld. userfaultfd, mempolicy, per-vma locks), so I didn't enable lockep.
 > 
-> Nitty, but a pattern established by Liam which we've followed consistently
-> in VMA code is to prefix parameters that might be less than obvious,
-> especially boolean parameters, with a comment naming the parameter, e.g.:
- > > 	return reserve_pfn_range(paddr, size, prot, /*strict_prot=*/0);
-
-Not sure I like that. But as this parameter goes away patch #8, I'll 
-leave it as is in this patch and not start a bigger discussion on better 
-alternatives (don't use these stupid boolean variables ...) ;)
-
-[...]
-
->> +
->> +/**
->> + * pfnmap_track - track a pfn range
+> I still doubt whether you at least enabled userfaultfd, e.g., your previous
+> paste has:
 > 
-> To risk sounding annoyingly pedantic and giving the kind of review that is
-> annoying, this really needs to be expanded, I think perhaps this
-> description is stating the obvious :)
+>    struct vm_userfaultfd_ctx  vm_userfaultfd_ctx;   /*   176     0 */
 > 
-> To me the confusing thing is that the 'generic' sounding pfnmap_track() is
-> actually PAT-specific, so surely the description should give a brief
-> overview of PAT here, saying it's applicable on x86-64 etc. etc.
-> 
-> I'm not sure there's much use in keeping this generic when it clearly is
-> not at this point?
+> Not something that matters.. but just in case you didn't use the expected
+> config file you wanted to use..
 
-Sorry, is your suggestion to document more PAT stuff or what exactly?
+You're absolutely right. I only briefly rechecked for this purpose here 
+on my notebook, and only looked for the existence of members, not 
+expecting that we have confusing stuff like vm_userfaultfd_ctx.
 
-As you know, I'm a busy man ... so instructions/suggestions please :)
-
-> 
->> + * @pfn: the start of the pfn range
->> + * @size: the size of the pfn range
-> 
-> In what units? Given it's a pfn range it's a bit ambiguous as to whether it
-> should be expressed in pages/bytes.
-
-Agreed. It's bytes. (not my favorite here, but good enough)
-
+I checked again and the size stays at 192 with allyesconfig and then 
+disabling debug options.
 
 -- 
 Cheers,
