@@ -2,150 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9126EA9E9E4
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 09:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF26A9EA30
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 10:00:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E771F10E0C6;
-	Mon, 28 Apr 2025 07:47:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2FB610E3C2;
+	Mon, 28 Apr 2025 08:00:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4q/c8WBx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fXEmuUy6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2073.outbound.protection.outlook.com [40.107.212.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5032C10E0C6
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 07:47:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gyqte1fGLoWKHjsS+S83sw2CherXHZM0QewXZ0xEPJjnUGv7a1Mtox9MWJwvNUgeOhkmC9l0pVqmdLaB0U8r6niB73Zo2n1qvF6+kz/Q+acQEbc0+YNy/NAkcuhSCdDzNJQtCBVS3HkOPehy/EymH77Pu4IQmg6RaXSG16LNkOZIaEbMjpbtSc+qyL4x1vZibV2HkEtY1t38+wXS221tOo0YmVJsCftqovcEmPLhdLJ14mYsEu3d2XjT9cyhJqQyTQNxdboY0u0jzu5+4ZkmkGktZHqBrkHA4SsFD9RE7ZNOV3R6rRuEw39yTWOxBF558V21cL9t4zXzLs/rGwqyXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yH4A9/KZ+XeayCMcDIu/1wOK5q73Svb+Tmn8n9sQb8o=;
- b=qQFH3KmOb4lXt6uV1YYKxp9SaoE9+D5ueOUSgW/1NMDX+g6TZl7oUb6YPlS3ZekvIc2MmDFtqMsY1m/MN/Q7/mnUzT/gAEE4TaflXd9MD1S9LHjN6veR53ePo9zdM8fnQ754Bzatj/f60Oxom4oL9/0M63OU+iH3Jj1fKSxkN6WCFBpDN9ut+HCd2CDhhZOB87+kYwXKcn/vTAFxnvpel0lDc1YSdMqIJe5E74tjHEZ2gBBKC2VaorQYqExOnKhwTXcvQXI4pimDNl3dhL6xNjX8yowE+G7X8YfZTdS4JaNTJtwzm1FMF6ihbzPDAUPT67EPnHhltvyif5f/RzFBuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yH4A9/KZ+XeayCMcDIu/1wOK5q73Svb+Tmn8n9sQb8o=;
- b=4q/c8WBxAkaFv8Fli6F4kcbm+pQgmDO7y6Aq0IkemsKbUkuDV8Qi8EJCYpoajudwFaxysdas442oGIymXfBTkK+5z5qPhXprLFY6vja7Pchgxgu8aTlEsBOIosm9NlwMxE+C6cmbFmv7053mWAEB2a1N8FJ0MRYwC8xqo9PgDSY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB8019.namprd12.prod.outlook.com (2603:10b6:8:14e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Mon, 28 Apr
- 2025 07:47:24 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Mon, 28 Apr 2025
- 07:47:24 +0000
-Message-ID: <d8d3eb50-021c-49d5-9203-ad33a469eae4@amd.com>
-Date: Mon, 28 Apr 2025 09:47:20 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ttm/xe: drop unused force_alloc flag
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: matthew.brost@intel.com
-References: <20250423022920.27701-1-airlied@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250423022920.27701-1-airlied@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0149.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BA6D10E3B9;
+ Mon, 28 Apr 2025 08:00:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1745827225;
+ bh=b9oeHMakjkQ95OUEN5nOPD7sS9lnOO4xBk40QU8YcW4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=fXEmuUy61vh5yac+eVHBqbxi4jE1YC/ycpVA6EzYL842JzvzNwBuM6T+m5XQgmM0B
+ KKLQf8r2p5D6iJOw5ekiNcDidQx4n+6ddiULOS3Yme/EEn7aDx2h4xKr8RhZfcPSMM
+ GFnXbIgGZr7wHqRBgKlpmqifHr8sEHIr+BpUElR5GIoxj+pyKOk858csdjQVdgu3j5
+ 4RZhi/FQi/aFpYmWx/LOwHp8yrctnlGRrcECpwX9/gEb4F2b9pIf9n+VvovMVM93i8
+ CCXqSlX70DlFyMyakI7XnZZ9YfnHgpmlu4pQk/+B0Ya20dScJSdUeZzqxLhLe9cdF2
+ U48KbrsldBXoA==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 10D7517E0F66;
+ Mon, 28 Apr 2025 10:00:25 +0200 (CEST)
+Date: Mon, 28 Apr 2025 10:00:20 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
+ lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Christian Koenig <christian.koenig@amd.com>, Faith Ekstrand
+ <faith.ekstrand@collabora.com>, kernel@collabora.com
+Subject: Re: [PATCH] drm/doc: Start documenting aspects specific to
+ tile-based renderers
+Message-ID: <20250428100020.0df24938@collabora.com>
+In-Reply-To: <be01aea3-1fc6-48f8-b8ad-83464e260c5c@arm.com>
+References: <20250418122524.410448-1-boris.brezillon@collabora.com>
+ <be01aea3-1fc6-48f8-b8ad-83464e260c5c@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB8019:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb0af0a4-c3d0-47f0-b1e7-08dd8628e9ee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RE5aMFhHN1hjYUJuMlczYjBKVVQvOVhsR0dWR3c1RjE2VFZZclZtN1dvMkUy?=
- =?utf-8?B?WkJia0hHTXk0cVVhTUxkclFXbkMraHNsWVlCRC9senRwRjhnRC9wZnhkb3hN?=
- =?utf-8?B?ZEkxK01UMHZsTUFrdVo0cjdncWx6Z1owemc4VGltbFJKTHgxcG1NZThXZFh3?=
- =?utf-8?B?ZnhyUS9ObmlQS25tUlQyZW92c2dsYkttVm9tOEZ1dU54eHhTVDJVUDQ5YWFP?=
- =?utf-8?B?THdxR0d6L3ZldjYvMWw3R09CVDdUdmxtbGJicVZtTDRnaEpqN3BoVmdUd3d3?=
- =?utf-8?B?dER4R0NUcE5Jbk1KSEIzTHJPdWZtYnZ3d3FNell1b1ZOTWd0cENTMGh3Z0kr?=
- =?utf-8?B?dThlbm9BazRKcUdLVkZQNHlPb29zVi8zOUJtSDRDOXpOVW1TVnJWQnV0SHRC?=
- =?utf-8?B?L0g4UWhIOFp3SWJ1VG8xc2JiY0NldDU0WTd1L3JubTh1RDl2dy9uTUFDelp0?=
- =?utf-8?B?WWJtaitXNTZwN2pkK0t2M3Q1NkFjd2VPUlNLRWFNVUhYckMyMG5RQ3VYRjZm?=
- =?utf-8?B?R2U5SkdQenZFMnEvSHc5eWh0ckgwMHJPRmFFcEVYSGJpRGRTN1FnREgvdS80?=
- =?utf-8?B?NGZ6eElyZzVaZHA0end0L2JhV2hHeVE4dERYbWtCRHNEN3l1WnE5MDhxK04v?=
- =?utf-8?B?SUVqUFBLVnNwWGYwVURLTlNYd2xRYURIQU5LV1NuRTlMWmk2QTJLVEorY0lX?=
- =?utf-8?B?bTJJOEc2Wng1c005ZWl4WEs0QlVSRjVyQjJvNG1STGZiYVFlanI5MUNuUTdB?=
- =?utf-8?B?a2JwQXFpRnNEeEE0UnJ1VW5xRzBTckczTENyOHJxMG9CSk9uUG1UcC92eTFo?=
- =?utf-8?B?MDA4WFM1WEpoeDErOXJYZCtMOExEdHczY3lhSjhOZ3dJWlNqdy9MdUcvL0kr?=
- =?utf-8?B?QWpEM0RhRHpsS096ZzZsY0tQRldGcGsyQmxhUmNOcGlJdm44V3NiekZQanM4?=
- =?utf-8?B?L3JqbGsxNUlRN2s4M24wbHFPYkorTWFYVDAyeCtCS3lxMFo2WHN0dkloaDNG?=
- =?utf-8?B?QzBzOUtmLzdmWnMzMjRxM0FmSklwS3lTM3BSV1NteHF1NzNoTU5XQ3g1VWxy?=
- =?utf-8?B?WUlyeGkzSUdhWlk2OTlMbDRhYkkrV0pITGlVeXhwK2puVmRqZDcxN2lQZ0Rr?=
- =?utf-8?B?Q0JaYWp1NGE3dUg0bjlhUTdaWS9jVEdyazFhd1BVLzRrdjgrVTBJZC9mTHI4?=
- =?utf-8?B?RitFcHJ5cGxCWFNuNzFWMkxlQS9Eb0VEdUlPNnIvT3JCOGNHTE8zekdCM2Vq?=
- =?utf-8?B?SFFwd0RWdEVFN1BlWStneWNOSlpGcGo0L29hN1RPcEw1TGdYRU03cFFSR0J3?=
- =?utf-8?B?T3VFTW9xdjdLcllsNTdMS0xtcFVBYlhaK0ZzeGV6R24zOGlmdGpYNElRdlow?=
- =?utf-8?B?MDBQQ1RWVXh6NUNDejA3bGEzVFBQWWZmRXBKNEc2Y2RiY0JFYUtxMjJaRFgw?=
- =?utf-8?B?Q0VaU3dqLy94VjU2bmUyYXUyOE10d29ncm5VZXljVkRpNnpkdDVudWZ5Tldq?=
- =?utf-8?B?cFV2NEdUb0p1YWVnWno2c3kwNlJ4V0hieDFQVk5mbzBndXcrbjdReU1qaWtr?=
- =?utf-8?B?bXdudVdadzcwYVN4b1FLdUZ3M3Fubm03THEvVFdjd28vTUdLaWQ3TWZEMHlJ?=
- =?utf-8?B?TU1rVVdmOTQ2SUpXSEhWazRQc2duYU1YRHQ2N1NLb1NYOFFCcjhvWUduOGZJ?=
- =?utf-8?B?RTRtSks1ZU1vSnpnMjhpSFl0SmZWZ0tZazhSVXRGVzA1NDBidmxSWWlSM1di?=
- =?utf-8?B?VnJBbm5OdkIrNkhMR1BGYXRNL2NXVi84Rnl0UHJVcWN6S1pRbXNKdXJtVlha?=
- =?utf-8?B?bzk4bnhLZzVRSTF2b1ZNa1h5eEFQNXZ5UWx5QU9xK3BnWnMzbEtnbHZBcVVv?=
- =?utf-8?B?N0oySVh0MHBVNXhXM0Z4YVNiOHFhanp2ZEdWVU9oSmVnOXpKTXkxVGNoSWdY?=
- =?utf-8?Q?ybcIQEbJsHg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VFVGUFFhWjdPTUxoOEpGdFlic1NGMU5RSHpENkVpekVJQm1FcWYxemZSNnNH?=
- =?utf-8?B?L1FhTTZYdkkvRnpWUmU2WXJRblExUWVhOG1nRWZGRmJrOVppaG40Rng1RlY0?=
- =?utf-8?B?c1hRREZVSkpMSkhvZ3kyTU4yd2xjR2pXQVlPbzVNNTlTV0plcG5kamszamxn?=
- =?utf-8?B?SnI0Z0ltUEk1a0Y1bFZoM0ZObFdjNS84RzlXdFIvVzdoTDRmK0cyT3ZtVEdQ?=
- =?utf-8?B?V1J5ditiTTNqNmp0YVN1ZUxUbXVMZ0F1OFhqMXZHYW9reEtzejlxRjNGNitV?=
- =?utf-8?B?WFhKUGJTb05wUGdyb20vOTBnT0hNU2hZQUVhRGZhSEk4NG4rRCtybmJDQytZ?=
- =?utf-8?B?ZDhuMXordUxzMnNnZVA0K3JoU2pia0lwZTlraWo0cjRRNFhKM2NiMnUyTk1v?=
- =?utf-8?B?TWt5d0Jud1l2Z0k5dHZOaU5pQlNWWU5wbFBFTjVhOStVNW5pQUVweER0Rzhy?=
- =?utf-8?B?b1haN3ZqMFd5TmVQVzVkaW5ZOHBnZHJlMkE4bnBDa1hRTWVGblVHWExkektT?=
- =?utf-8?B?Ryt6TWdRMTAzcVhreWNicHMrS09LQWZkZTZZUCt1NDQ3K0Q5QzZ5WmVvME9n?=
- =?utf-8?B?SzRJV29DbjV0ekJzdUluV2FreFJIcCtUazBtcGlLVzhBRm8yLzVjNFZwZUpK?=
- =?utf-8?B?cTBLVlFzemtZTkhtTjJJQUJORTFhZ0RpNkU5emgyd2VlcE9hclB4Rm9Ha2ll?=
- =?utf-8?B?am9tdGQwcUtSMS8yWnk3cHgrWXJ0dFR3eCtXbjRBSlkzb05lcmZ3MVMwMk5I?=
- =?utf-8?B?dDE5cVN2VE1uUFdMNzZNRmgxWTRDeURSWDJxS3RDbWxiOStnOTNKbU1GMmxz?=
- =?utf-8?B?WU9PcXBGSmVnRzltSko1UG9pSGd5ZG1HUm9mRjV1azdUMW9lVXZjQkhmMEU5?=
- =?utf-8?B?dWp2c2psSWVTcjhmcnNRNzZtS3dWbzQrdDdxYUduV0FHc1ZCSHFia1dudVY2?=
- =?utf-8?B?ME5QZHRrWFowWFpIeUVXNkR0dERxdmJCZHh2ajFUWGZQYzdDMEZac2ZNRmdp?=
- =?utf-8?B?MWxWdlZ2eEVJaHJBYkFPU0kxeitMemNBNDlGNzYrNW5MTzhWYURXdDBBeGlI?=
- =?utf-8?B?UlBlYU9Cb1lMdzlMUkJQdnZhaFZQR1ladjJ3aEpTKzZCUWFlSDFLeWJqbHYx?=
- =?utf-8?B?SGN1d1JYZTF0b0tBMHB5eThYSGRSeTRRaXI5eUxwTlJNNENxNXRHVnZUWGth?=
- =?utf-8?B?NUFyMFBNNWpPV0Y1WUlXdHF2NTcyc3BGODNUSFVBZ3RvNk1DTUdQN3hpU1Iv?=
- =?utf-8?B?bmNnNldpdVBBZmtydGxmdlh4eEhLVlRlN2FBdkJQekRpM2FrOUFsL05rYTJ4?=
- =?utf-8?B?MytpTE54OE1ydkVFUHdrb0FtUDJwaEVGTTNWMlc1b3VmTFp0eEtCRFRwYjRp?=
- =?utf-8?B?QkFBL2luVElLWjRuZTIrZnhhUVVRdXJSSVR0aXVKSnduL1MyLzhvQ0hGc0o2?=
- =?utf-8?B?Z1pLSEw4Zm1iNWNHRWZKWitSNWp4Z3V1WWx6aTgxdkJKNldySjJyWTFZeklM?=
- =?utf-8?B?RTRJdUREVm5OaUZVL3VHL0wvc3dKNVd5eTlPb0cxVGR0eWJQOW1TQmtRZGNr?=
- =?utf-8?B?b21jRHVSUkRDWTJaVDI4eFBMVnU1KzcvK2tKYktjVXpGQmpxNllHSVdSL2x1?=
- =?utf-8?B?NkQ1bXpkekxEZHNacThSdkk5dTZqTDBCRW8xN0k3TjByUUUremhXZEhLQndz?=
- =?utf-8?B?M2FTM0NQbXU1UzN6b09tUXljN0JLMGVRaEozdHc3YmJIMXN1QlltSkQrcmtG?=
- =?utf-8?B?dmhhOTlFZjFHYTdpc1FYZGlpWnMxMlUyUS9uSC9sWkJib0RJMmRkUFBkQ1lM?=
- =?utf-8?B?cUhiK280UEhjU1l5NEY5dnlHZnIyTnRRZFR3ZG85U0RST0o0cmFYUERmMDlz?=
- =?utf-8?B?ZXVreC90MTBZTFArb2JIQ05Ya1lzeTVtZVY1dXBacWZ0WGt0UVo3Y0g1V0Zh?=
- =?utf-8?B?a2NseGYwdkpXc2pzU0lkRUErTXdYQnVFRkcyMHNBeUpsRjJQVXFFOVhCTXdI?=
- =?utf-8?B?a3VqWFdST1IxbGhXT1cxSFBPckxEbmVFT0VaOWp4SHhWdHo5d2Jta245ZEMy?=
- =?utf-8?B?eWFJaGdCK1dZNWpBcjVlK2Rsd1YvSmljSXE1V2N6ekFHK2d4RVpMbVRLM0lo?=
- =?utf-8?Q?73gE=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb0af0a4-c3d0-47f0-b1e7-08dd8628e9ee
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 07:47:24.0647 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DTbWdWHo5YPzTdwBVPM+tAaUbv+ZwhVVF24sqEOzZWzUnM3jsfXue5kH3e+S4v2c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8019
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,124 +70,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/23/25 04:29, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
-> 
-> This flag used to be used in the old memory tracking code, that
-> code got migrated into the vmwgfx driver[1], and then got removed
-> from the tree[2], but this piece got left behind.
-> 
-> [1] f07069da6b4c ("drm/ttm: move memory accounting into vmwgfx v4")
-> [2] 8aadeb8ad874 ("drm/vmwgfx: Remove the dedicated memory accounting")
-> 
-> Cleanup the dead code.
-> 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+Hi Steve,
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+On Wed, 23 Apr 2025 10:41:53 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-> ---
->  drivers/gpu/drm/ttm/ttm_bo_vm.c    | 1 -
->  drivers/gpu/drm/ttm/ttm_resource.c | 1 -
->  drivers/gpu/drm/xe/xe_bo.c         | 4 +---
->  drivers/gpu/drm/xe/xe_bo.h         | 2 +-
->  drivers/gpu/drm/xe/xe_dma_buf.c    | 2 +-
->  include/drm/ttm/ttm_bo.h           | 2 --
->  6 files changed, 3 insertions(+), 9 deletions(-)
+> On 18/04/2025 13:25, Boris Brezillon wrote:
+> > Tile-based GPUs come with a set of constraints that are not present
+> > when immediate rendering is used. This new document tries to explain
+> > the differences between tile/immediate rendering, the problems that
+> > come with tilers, and how we plan to address them.
+> > 
+> > This is just a started point, this document will be updated with new
+> > materials as we refine the libraries we add to help deal with
+> > tilers, and have more drivers converted to follow the rules listed
+> > here.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
 > 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> index a194db83421d..bdfa6ecfef05 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> @@ -220,7 +220,6 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
->  		struct ttm_operation_ctx ctx = {
->  			.interruptible = true,
->  			.no_wait_gpu = false,
-> -			.force_alloc = true
->  		};
->  
->  		ttm = bo->ttm;
-> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> index 7e5a60c55813..769b0ca9be47 100644
-> --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -548,7 +548,6 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
->  	struct ttm_operation_ctx ctx = {
->  		.interruptible = false,
->  		.no_wait_gpu = false,
-> -		.force_alloc = true
->  	};
->  	struct dma_fence *fence;
->  	int ret;
-> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-> index 64f9c936eea0..32a5a6390f62 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.c
-> +++ b/drivers/gpu/drm/xe/xe_bo.c
-> @@ -2759,19 +2759,17 @@ int xe_bo_migrate(struct xe_bo *bo, u32 mem_type)
->  /**
->   * xe_bo_evict - Evict an object to evict placement
->   * @bo: The buffer object to migrate.
-> - * @force_alloc: Set force_alloc in ttm_operation_ctx
->   *
->   * On successful completion, the object memory will be moved to evict
->   * placement. This function blocks until the object has been fully moved.
->   *
->   * Return: 0 on success. Negative error code on failure.
->   */
-> -int xe_bo_evict(struct xe_bo *bo, bool force_alloc)
-> +int xe_bo_evict(struct xe_bo *bo)
->  {
->  	struct ttm_operation_ctx ctx = {
->  		.interruptible = false,
->  		.no_wait_gpu = false,
-> -		.force_alloc = force_alloc,
->  		.gfp_retry_mayfail = true,
->  	};
->  	struct ttm_placement placement;
-> diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
-> index ec3e4446d027..1a3734d9f8be 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.h
-> +++ b/drivers/gpu/drm/xe/xe_bo.h
-> @@ -271,7 +271,7 @@ uint64_t vram_region_gpu_offset(struct ttm_resource *res);
->  bool xe_bo_can_migrate(struct xe_bo *bo, u32 mem_type);
->  
->  int xe_bo_migrate(struct xe_bo *bo, u32 mem_type);
-> -int xe_bo_evict(struct xe_bo *bo, bool force_alloc);
-> +int xe_bo_evict(struct xe_bo *bo);
->  
->  int xe_bo_evict_pinned(struct xe_bo *bo);
->  int xe_bo_restore_pinned(struct xe_bo *bo);
-> diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_buf.c
-> index f67803e15a0e..f06961575d8a 100644
-> --- a/drivers/gpu/drm/xe/xe_dma_buf.c
-> +++ b/drivers/gpu/drm/xe/xe_dma_buf.c
-> @@ -236,7 +236,7 @@ static void xe_dma_buf_move_notify(struct dma_buf_attachment *attach)
->  	struct drm_gem_object *obj = attach->importer_priv;
->  	struct xe_bo *bo = gem_to_xe_bo(obj);
->  
-> -	XE_WARN_ON(xe_bo_evict(bo, false));
-> +	XE_WARN_ON(xe_bo_evict(bo));
->  }
->  
->  static const struct dma_buf_attach_ops xe_dma_buf_attach_ops = {
-> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> index 903cd1030110..cf027558b6db 100644
-> --- a/include/drm/ttm/ttm_bo.h
-> +++ b/include/drm/ttm/ttm_bo.h
-> @@ -172,7 +172,6 @@ struct ttm_bo_kmap_obj {
->   * @gfp_retry_mayfail: Set the __GFP_RETRY_MAYFAIL when allocation pages.
->   * @allow_res_evict: Allow eviction of reserved BOs. Can be used when multiple
->   * BOs share the same reservation object.
-> - * @force_alloc: Don't check the memory account during suspend or CPU page
->   * faults. Should only be used by TTM internally.
->   * @resv: Reservation object to allow reserved evictions with.
->   * @bytes_moved: Statistics on how many bytes have been moved.
-> @@ -185,7 +184,6 @@ struct ttm_operation_ctx {
->  	bool no_wait_gpu;
->  	bool gfp_retry_mayfail;
->  	bool allow_res_evict;
-> -	bool force_alloc;
->  	struct dma_resv *resv;
->  	uint64_t bytes_moved;
->  };
+> Seems like a good starting point, a few minor comments below. We really
+> need some non-Mali input too though.
 
+Totally agree with that, my view on this problem is certainly biased.
+
+> 
+> > ---
+> >  Documentation/gpu/drm-tile-based-renderer.rst | 201 ++++++++++++++++++
+> >  Documentation/gpu/index.rst                   |   1 +
+> >  2 files changed, 202 insertions(+)
+> >  create mode 100644 Documentation/gpu/drm-tile-based-renderer.rst
+> > 
+> > diff --git a/Documentation/gpu/drm-tile-based-renderer.rst b/Documentation/gpu/drm-tile-based-renderer.rst
+> > new file mode 100644
+> > index 000000000000..19b56b9476fc
+> > --- /dev/null
+> > +++ b/Documentation/gpu/drm-tile-based-renderer.rst
+> > @@ -0,0 +1,201 @@
+> > +==================================================
+> > +Infrastructure and tricks for tile-based renderers
+> > +==================================================
+> > +
+> > +All lot of embedded GPUs are using tile-based rendering instead of immediate
+> > +rendering. This mode of rendering has various implications that we try to
+> > +document here along with some hints about how to deal with some of the
+> > +problems that surface with tile-based renderers.
+> > +
+> > +The main idea behind tile-based rendering is to batch processing of nearby
+> > +pixels during the fragment shading phase to limit the traffic on the memory
+> > +bus by making optimal use of the various caches present in the GPU. Unlike
+> > +immediate rendering, where primitives generated by the geometry stages of
+> > +the pipeline are directly consumed by the fragment stage, tilers have to
+> > +record primitives in bins that are somehow attached to tiles (the
+> > +granularity of the tile being GPU-specific). This data is usually stored
+> > +in memory, and pulled back when the fragment stage is executed.
+> > +
+> > +This approach has several issues that most drivers need to handle somehow,
+> > +sometimes with a bit of help from the hardware.
+> > +
+> > +Issues at hand
+> > +==============
+> > +
+> > +Tiler memory
+> > +------------
+> > +
+> > +The amount of memory needed to store primitives data and metadata is hard
+> > +to guess ahead of time, because it depends on various parameters that are
+> > +not in control of the UMD (UserMode Driver). Here is a non-exhaustive list
+> > +of things that may complicate the calculation of the memory needed to store
+> > +primitive information:
+> > +
+> > +- Primitives distribution across tiles is hard to guess: the binning process
+> > +  is about assigning each primitive to the set tiles it covers. The more tiles
+> > +  being covered the more memory is needed to record those. We can estimate
+> > +  the worst case scenario by assuming all primitives will cover all tiles but
+> > +  this will lead to over-allocation most of the time, which is not good
+> > +- Indirect draws: the number of vertices comes from a GPU buffer that might
+> > +  be filled by previous GPU compute jobs. This means we only know the number
+> > +  of vertices when the GPU executes the draw, and thus can't guess how much
+> > +  memory will be needed for those and allocate a GPU buffer that's big enough
+> > +  to hold those
+> > +- Complex geometry pipelines: if you throw geometry/tesselation/mesh shaders
+> > +  it gets even trickier to guess the number of primitives from the number
+> > +  of vertices passed to the vertex shader.
+> > +
+> > +For all these reasons, the tiler usually allocates memory dynamically, but
+> > +DRM has not been designed with this use case in mind. Drivers will address
+> > +these problems differently based on the functionality provided by their
+> > +hardware, but all of them almost certainly have to deal with this somehow.
+> > +
+> > +The easy solution is to statically allocate a huge buffer to pick from when
+> > +tiler memory is needed, and fail the rendering when this buffer is depleted.
+> > +Some drivers try to be smarter to avoid reserving a lot of memory upfront.
+> > +Instead, they start with an almost empty buffer and progressively populate it
+> > +when the GPU faults on an address sitting in the tiler buffer range. This
+> > +works okay most of the time but it falls short when the system is under
+> > +memory pressure, because the memory request is not guaranteed to be satisfied.
+> > +In that case, the driver either fails the rendering, or, if the hardware
+> > +allows it, it tries to flush the primitives that have been processed and
+> > +triggers a fragment job that will consume those primitives and free up some
+> > +memory to be recycled and make further progress on the tiling step. This is
+> > +usually referred as partial/incremental rendering (it might have other names).
+> > +
+> > +Compute based emulation of geometry stages
+> > +------------------------------------------
+> > +
+> > +More and more hardware vendors don't bother providing hardware support for
+> > +geometry/tesselation/mesh stages, since those can be emulated with compute
+> > +shaders. But the same problem we have with tiler memory exists with those
+> > +intermediate compute-emulated stages, because transient data shared between
+> > +stages need to be stored in memory for the next stage to consume, and this
+> > +bubbles up until the tiling stage is reached, because ultimately, what the
+> > +tiling stage will need to process is a set of vertices it can turn into
+> > +primitives, like would happen if the application had emulated the geometry,
+> > +tesselation or mesh stages with compute.
+> > +
+> > +Unlike tiling, where the hardware can provide a fallback to recycle memory,
+> > +there is no way the intermediate primitives can be flushed up to the framebuffer,
+> > +because it's a purely software emulation here. This being said, the same
+> > +"start small, grow on-demand" can be applied to avoid over-allocating memory
+> > +upfront.
+> > +
+> > +On-demand memory allocation
+> > +---------------------------
+> > +
+> > +As explained in previous sections, on-demand allocation is a central piece
+> > +of tile-based renderer if we don't want to over-allocate, which is bad for
+> > +integrated GPUs who share their memory with the rest of the system.
+> > +
+> > +The problem with on-demand allocation is that suddenly, GPU accesses can
+> > +fail on OOM, and the DRM components (drm_gpu_scheduler and drm_gem mostly)
+> > +were not designed for that. Those are assuming that buffers memory is  
+> 
+> NIT: s/buffers/buffer's/
+> 
+> > +populated at job submission time, and will stay around for the job lifetime.
+> > +If a GPU fault happens, it's the user fault, and the context can be flagged  
+> 
+> NIT: s/user/user's/
+> 
+> > +unusable. On-demand allocation is usually implemented as allocation-on-fault,
+> > +and the dma_fence contract prevents us from blocking on allocations in that
+> > +path (GPU fault handlers are in the dma-fence signalling path). So now we
+> > +have GPU allocations that will be satisfied most of the time, but can fail
+> > +occasionally. And this is not great, because an allocation failure might
+> > +kill the user GPU context (VK_DEVICE_LOST in Vulkan terms), without the
+> > +application having dong anything wrong. So, we need something that makes those
+> > +allocation failures rare enough that most users won't experience them, and
+> > +we need a fallback for when this happens to try to avoid them on the next
+> > +user attempt to submit a graphics job.
+> > +
+> > +The plan
+> > +========
+> > +
+> > +On-demand allocation rules
+> > +--------------------------
+> > +
+> > +First of all, all allocations happening in the fault handler path must
+> > +be using GFP_NOWAIT. With this flag, low-hanging fruit can be picked
+> > +(clean FS cache will be flushed for instance), but an error will be
+> > +returned if no memory is readily available. GFP_NOWAIT will also trigger
+> > +background reclaim to hopefully free-up some memory for our future
+> > +requests.
+> > +
+> > +How to deal with allocation failures
+> > +------------------------------------
+> > +
+> > +The first trick here is to try to guess approximately how much memory
+> > +will be needed, and force-populate on-demand buffers with that amount
+> > +of memory when the job is started. It's not about guessing the worst
+> > +case scenario here, but more the most likely case, probably with a
+> > +reasonable margin, so that the job is likely to succeed when this amount
+> > +of memory is provided by the KMD.
+> > +
+> > +The second trick to try to avoid over-allocation, even with this
+> > +sub-optimistic estimate, is to have a shared pool of memory that can be
+> > +used by all GPU contexts when they need tiler/geometry memory. This
+> > +implies returning chunks to this pool at some point, so other contexts
+> > +can re-use those. Details about what this global memory pool implementation
+> > +would look like is currently undefined, but it needs to be filled to
+> > +guarantee that pre-allocation requests for on-demand buffers used by a
+> > +GPU job can be satisfied in the fault handler path.  
+> 
+> Note one thing I haven't seen discussed is that across multiple contexts
+> it's possible to prioritise jobs that free memory. E.g. a fragment job
+> can be run to free up memory from a tiler heap, allowing pages to be
+> returned to the global pool. This might imply a uAPI extension allowing
+> a fragment job to automatically drop memory from a BO so that the kernel
+> can have confidence that it will actually free up memory.
+> 
+> Sadly I don't think it's plausible to wait in the fault handler for a
+> fragment job to complete to free up memory - so the best we can do here
+> is postpone *starting* a vertex+tiler job if we're short on memory and
+> have fragment jobs to run.
+
+Right, we'll have to do with an internal dma_fence (returned
+through drm_sched_ops::prepare_job()) that's controlling access to this
+memory pool, so we're sure all currently queued tiler jobs (those
+passed to ::run_job()) can have their estimated memory allocation
+satisfied. But because it's just an estimate, there's still no guarantee
+that the job won't try to allocate more, and thus no guarantee that
+the job will always succeed.
+
+> 
+> > +
+> > +As a last resort, we can try to allocate with GFP_ATOMIC if everything
+> > +else fails, but this is a dangerous game, because we would be stealing
+> > +memory from the atomic reserve, so it's not entirely clear if this is
+> > +better than failing the job at this point.
+> > +
+> > +Ideas on how to make allocation failures decrease over time
+> > +-----------------------------------------------------------
+> > +
+> > +When an on-demand allocation fails and the hardware doesn't have a
+> > +flush-primitives fallback, we usually can't do much apart from failing the
+> > +whole job. But it's important to try to avoid future allocation failures
+> > +when the application creates a new context. There's no clear path for
+> > +how to guess the actual size to force-populate on the next attempt. One
+> > +option is to have a simple heuristics, like double the current resident size,
+> > +but this has the downside of potentially taking a few attempts before reaching
+> > +the stability point. Another option is to repeatedly map a dummy page at the
+> > +fault addresses, so we can get a sense of how much memory was needed for this
+> > +particular job.  
+> 
+> We'd have to double check that we don't cause extra problems with an
+> aliasing heap like that. The tiler might attempt to read back data which
+> could cause 'interesting' errors if it's getting clobbered.
+
+Yeah, I thought about that too :-(.
+
+> Given this
+> is just a heuristic it might be ok, but it definitely needs more research.
+
+I should probably make it clear that these options are based on
+speculations about how the HW works, and they might prove impossible to
+implement in practice. The reason I have them listed here is so Sima's
+suggestions don't get lost in the original thread.
+
+Thanks for reviewing the piece of doc. I'll leave a bit more time for
+others to chime in, and post of v2 addressing your comments.
+
+Boris
