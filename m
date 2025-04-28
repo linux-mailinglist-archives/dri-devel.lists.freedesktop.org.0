@@ -2,93 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E751EA9F04E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 14:10:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 745CDA9F0BE
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 14:31:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3049C10E47E;
-	Mon, 28 Apr 2025 12:09:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD2E10E489;
+	Mon, 28 Apr 2025 12:31:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="OdTz9j58";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="mtCJR9N9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C69A010E479
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 12:09:49 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-39ee682e0ddso3198777f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 05:09:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1745842188; x=1746446988;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/JmJKZuEpq5UN0wmEtOpCzeCBmpLeQy7dV9yrtIP3UA=;
- b=OdTz9j58xRxzkjo3Ip09B1TK8iA/A7OMDK+AYQvB13g7LtRqjNbB1p4kjsB6DtK9EZ
- 4piQzAfcqncn8Q8p5o+Y0BzK6PxdoxpWBuEEzspprrJhqXtJojpBgZ3MEw6I05mNpEJ3
- rUfpmoH3lH2n6JAEuBVkIzglgjruvg0g5/hj6uKBhz9Y2ZWz/gsxFnHP/LaNdYGm4MeB
- 1UQSJutpXcNy23/0GcH7vpHuRAMgDKDibdpHcfotQiZ19NlEvr8kAis8GHf1JsbwaFNI
- 8ndWytTlD5xs0d/u7MnrX/Zn9UNJlfL0/mzN1tZbwBn/ZIoYjL1t6orw5d5FDqXxLR1m
- +cUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745842188; x=1746446988;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/JmJKZuEpq5UN0wmEtOpCzeCBmpLeQy7dV9yrtIP3UA=;
- b=UccCMTrQBNWAEcdl5MIESE/VGYp4h+nXkGpk2kdNaDItU6p3OHgx9vuXTcETzSNaSW
- tHjYA4DvjpYjIMvYcXTN5iDRlJQu0IqKI5M7DWYpnsDkkyZir32KqkNKjKGRJ++pb0OW
- fpuQjx4fNswSxSusetLE/gj8g8O5AEtcGH00GNKS3QaVlbdyDasudJeUgCTh10DcXDVb
- 92zzCrEEDBTuibFD50ISx9SQGu/KCHtokGEgBieLBp/p7AutPvwD4xH+PFovHuBHUUJa
- tmTQiuT8fEgrLonaI2fOOzhdLUxDThaj8sBnQsbiuUkEDIKSRh5kBmnqDMGqRwb9C9uh
- iE+g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXEUeDxbbmFostbPUeaNF7f2Ua35Mb/7DUCOhlIXtSERqgcc0OOA06e0pt+veZKocz9Rcm2kNCy5Gg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwVU6znWoHR2xe1MTWUsLZ1N0/otP6EdBROsXXLq+TUxJnbwLGG
- 7Bw5OEXLQ34f86RtKSaZbzpbB6eftlbJ2NJkD1Sc4JLwNo6crfnzI4+B0RDkW9A=
-X-Gm-Gg: ASbGncvqDDxxNgQIzSsFqfwGJmVw0G2B1v5kIm8MTLa3zw6EZPl8PGSybEg4rVUd1QW
- O9oEha3Jf0vfq3danSwBx8dj38ReXeNGQzn4C2T9bDkqFJkG06cH3rEwToAkmnVwsMwOmWexU8J
- l2HFyqd35V4QLm6eB0Mez+TM5sOJUvsgRnbbIsOytE3OMebEt+uKXH1rxQSTOOQtfGkBafjc3XI
- b6MpROnqBDAYNd9+iPSHZvmtsweEYQXhIC3dCsF6NTNGFyh6JEfFDS9OuI2+NArAFXE05XrAkw0
- q4DANdnGgdVRtSxxNJvk3uS449V6JWYYVANankVn0By/zAkO94tipFY=
-X-Google-Smtp-Source: AGHT+IHqEv8cFeHZNO066YOoWB8BFD6tcgESusNCDp7OcqCCqOLYefsxt5CXNgjV3wL2bS4dyhsh5Q==
-X-Received: by 2002:a05:6000:1a8e:b0:391:3b11:d604 with SMTP id
- ffacd0b85a97d-3a07adb1d30mr7133747f8f.54.1745842187842; 
- Mon, 28 Apr 2025 05:09:47 -0700 (PDT)
-Received: from [192.168.0.101] ([81.79.92.254])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4409d2d88cdsm153399285e9.25.2025.04.28.05.09.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Apr 2025 05:09:47 -0700 (PDT)
-Message-ID: <7f1ad610-5a37-4f74-8eee-5f37556d9576@ursulin.net>
-Date: Mon, 28 Apr 2025 13:09:46 +0100
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21FB210E1A8;
+ Mon, 28 Apr 2025 12:31:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=vtjvgZup4DO5ywnw9b4E1q8kivNev25eB77ifmZ/sTs=; b=m
+ tCJR9N9x3gtZGhoQsEufXu5MN0AoGgBnc9N9lSkAgpBJLZQPG1Lo+OSqFi93JRvI
+ ngq1on+ZxdIr8jyTfxe0JF0drb2Ew9vZJy2Hf/W6P8m2RPPwWSr8TXM061kV2MgE
+ mJxqzzkAClVAGiil0kSOzSY7vw1Ezm8kRampFKLAZk=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-137 (Coremail) ; Mon, 28 Apr 2025 20:29:36 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Mon, 28 Apr 2025 20:29:36 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Jagan Teki" <jagan@amarulasolutions.com>,
+ "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+ "Fabio Estevam" <festevam@gmail.com>,
+ "Douglas Anderson" <dianders@chromium.org>,
+ "Chun-Kuang Hu" <chunkuang.hu@kernel.org>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Anusha Srivatsa" <asrivats@redhat.com>,
+ "Paul Kocialkowski" <paulk@sys-base.io>,
+ "Dmitry Baryshkov" <lumag@kernel.org>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
+ "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ "Andy Yan" <andy.yan@rock-chips.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
+ "Jani Nikula" <jani.nikula@intel.com>,
+ "Sui Jingfeng" <sui.jingfeng@linux.dev>
+Subject: Re:[PATCH v2 03/34] drm/bridge: analogix-anx6345: convert to
+ devm_drm_bridge_alloc() API
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-3-8f91a404d86b@bootlin.com>
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+ <20250424-drm-bridge-convert-to-alloc-api-v2-3-8f91a404d86b@bootlin.com>
+X-NTES-SC: AL_Qu2fB/SfvEss4CGcZOkfmkcVgOw9UcO5v/Qk3oZXOJF8jBLo1zItdntMFln1/t+OJCOIkReYbzJI9MlIe6VRY6sPAVnVyjji8TlWtnuinPbeFw==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915/gt: Remove const from struct i915_wa list
- allocation
-To: Kees Cook <kees@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>,
- Gustavo Sousa <gustavo.sousa@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Gnattu OC <gnattuoc@me.com>,
- Nitin Gote <nitin.r.gote@intel.com>, Ranu Maurya <ranu.maurya@intel.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Angus Chen <angus.chen@intel.com>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Yu Jiaoliang <yujiaoliang@vivo.com>,
- Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20250426061357.work.749-kees@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250426061357.work.749-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-ID: <45fac756.a42e.1967c5fd015.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: iSgvCgD33wCwdA9oe4WhAA--.62923W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqA49XmgPasP6GgADso
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,55 +94,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 26/04/2025 07:13, Kees Cook wrote:
-> In preparation for making the kmalloc family of allocators type aware,
-> we need to make sure that the returned type from the allocation matches
-> the type of the variable being assigned. (Before, the allocator would
-> always return "void *", which can be implicitly cast to any pointer type.)
-> 
-> The assigned type is "struct i915_wa *". The returned type, while
-> technically matching, will be const qualified. As there is no general
-> way to remove const qualifiers, adjust the allocation type to match
-> the assignment.
-> 
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Gustavo Sousa <gustavo.sousa@intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: <intel-gfx@lists.freedesktop.org>
-> Cc: <dri-devel@lists.freedesktop.org>
-> ---
->   drivers/gpu/drm/i915/gt/intel_workarounds.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> index 116683ebe074..b37e400f74e5 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> @@ -156,7 +156,7 @@ static void _wa_add(struct i915_wa_list *wal, const struct i915_wa *wa)
->   	if (IS_ALIGNED(wal->count, grow)) { /* Either uninitialized or full. */
->   		struct i915_wa *list;
->   
-> -		list = kmalloc_array(ALIGN(wal->count + 1, grow), sizeof(*wa),
-> +		list = kmalloc_array(ALIGN(wal->count + 1, grow), sizeof(*list),
-
-Will the sizeof stay, and if so, how will kmalloc be able to distinguish 
-the type? Or we expect one more churn on the same line?
-
-Regards,
-
-Tvrtko
-
->   				     GFP_KERNEL);
->   		if (!list) {
->   			drm_err(&i915->drm, "No space for workaround init!\n");
-
+CkhpLAoKQXQgMjAyNS0wNC0yNSAwMjo1OToxMCwgIkx1Y2EgQ2VyZXNvbGkiIDxsdWNhLmNlcmVz
+b2xpQGJvb3RsaW4uY29tPiB3cm90ZToKPlRoaXMgaXMgdGhlIG5ldyBBUEkgZm9yIGFsbG9jYXRp
+bmcgRFJNIGJyaWRnZXMuCj4KPlNpZ25lZC1vZmYtYnk6IEx1Y2EgQ2VyZXNvbGkgPGx1Y2EuY2Vy
+ZXNvbGlAYm9vdGxpbi5jb20+CgpSZXZpZXdlZC1ieTogQW5keSBZYW4gPGFuZHlzaHJrQDE2My5j
+b20+Cgo+Cj4tLS0KPgo+Q2M6ICJVd2UgS2xlaW5lLUvDtm5pZyIgPHUua2xlaW5lLWtvZW5pZ0Bi
+YXlsaWJyZS5jb20+Cj5DYzogQW5keSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMuY29tPgo+Q2M6
+IERtaXRyeSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5c2hrb3ZAb3NzLnF1YWxjb21tLmNvbT4KPkNj
+OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgo+Q2M6IFN1aSBKaW5nZmVuZyA8
+c3VpLmppbmdmZW5nQGxpbnV4LmRldj4KPi0tLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5h
+bG9naXgvYW5hbG9naXgtYW54NjM0NS5jIHwgOCArKysrLS0tLQo+IDEgZmlsZSBjaGFuZ2VkLCA0
+IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vYnJpZGdlL2FuYWxvZ2l4L2FuYWxvZ2l4LWFueDYzNDUuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9icmlkZ2UvYW5hbG9naXgvYW5hbG9naXgtYW54NjM0NS5jCj5pbmRleCBmMmJhZmE2Y2Y3Nzk1
+NmVjYWZjODdhYWUzYTJiNjg5MGJkYjM2Y2ZhLi5mM2ZlNDdiMTJlZGNhMWY5MmRkZDMwNmQxNTJi
+ZTE0NGRmNTY0OWI1IDEwMDY0NAo+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dp
+eC9hbmFsb2dpeC1hbng2MzQ1LmMKPisrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9n
+aXgvYW5hbG9naXgtYW54NjM0NS5jCj5AQCAtNjY0LDkgKzY2NCwxMCBAQCBzdGF0aWMgaW50IGFu
+eDYzNDVfaTJjX3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQpCj4gCXN0cnVjdCBkZXZp
+Y2UgKmRldjsKPiAJaW50IGksIGVycjsKPiAKPi0JYW54NjM0NSA9IGRldm1fa3phbGxvYygmY2xp
+ZW50LT5kZXYsIHNpemVvZigqYW54NjM0NSksIEdGUF9LRVJORUwpOwo+LQlpZiAoIWFueDYzNDUp
+Cj4tCQlyZXR1cm4gLUVOT01FTTsKPisJYW54NjM0NSA9IGRldm1fZHJtX2JyaWRnZV9hbGxvYygm
+Y2xpZW50LT5kZXYsIHN0cnVjdCBhbng2MzQ1LCBicmlkZ2UsCj4rCQkJCQkmYW54NjM0NV9icmlk
+Z2VfZnVuY3MpOwo+KwlpZiAoSVNfRVJSKGFueDYzNDUpKQo+KwkJcmV0dXJuIFBUUl9FUlIoYW54
+NjM0NSk7Cj4gCj4gCW11dGV4X2luaXQoJmFueDYzNDUtPmxvY2spOwo+IAo+QEAgLTczOCw3ICs3
+MzksNiBAQCBzdGF0aWMgaW50IGFueDYzNDVfaTJjX3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICpj
+bGllbnQpCj4gCS8qIExvb2sgZm9yIHN1cHBvcnRlZCBjaGlwIElEICovCj4gCWFueDYzNDVfcG93
+ZXJvbihhbng2MzQ1KTsKPiAJaWYgKGFueDYzNDVfZ2V0X2NoaXBfaWQoYW54NjM0NSkpIHsKPi0J
+CWFueDYzNDUtPmJyaWRnZS5mdW5jcyA9ICZhbng2MzQ1X2JyaWRnZV9mdW5jczsKPiAJCWRybV9i
+cmlkZ2VfYWRkKCZhbng2MzQ1LT5icmlkZ2UpOwo+IAo+IAkJcmV0dXJuIDA7Cj4KPi0tIAo+Mi40
+OS4wCj4K
