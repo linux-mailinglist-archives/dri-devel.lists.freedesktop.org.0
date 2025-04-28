@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727DBA9FAEE
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 22:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D9FA9FAEB
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 22:56:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8805410EA29;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6280510EA2A;
 	Mon, 28 Apr 2025 20:56:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Jnj0o0+Q";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j0X1siL8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A20E110EA27;
- Mon, 28 Apr 2025 20:56:35 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-224191d92e4so58450805ad.3; 
- Mon, 28 Apr 2025 13:56:35 -0700 (PDT)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31FD710EA28;
+ Mon, 28 Apr 2025 20:56:38 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id
+ d2e1a72fcca58-736aaeed234so4470872b3a.0; 
+ Mon, 28 Apr 2025 13:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745873795; x=1746478595; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1745873797; x=1746478597; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=erym78Mhl39hRTn49O0kNbTLtbQnHd2bEe+DJwYFpbg=;
- b=Jnj0o0+Q4HTbph20lg2n0n28sJgCPWGkxfIG/Om4kA+0rH2ynx328iw4eCCMsAFjMi
- Gp02ns3C4ZNCB+wgsJzWTLi29dz4m+ENpRtQcvDwfIwdkuR/waikWrRMQnpK77yPRarZ
- IrE/TNPIkkh4OFTAYaK4Q5iTYM9Uedjw7pRqHhKIRgvexD5RQ/JV+hdQPQRooI3kq2Ay
- h2UrGU/cnu1DBtHEa9lc9uYyc4tn/UKf8RioThoRS8Zww44xFv0fAFuef+hOYU6axXCq
- OQ9S9WSm/mbeyN/bXNDjtknCwUIOmd9Z3D6asOYt4JMmtlywpXud/o2yQI0pFg1e9ati
- Qtgw==
+ bh=8ZWdv895QF2g5ZazrpGEqIZ+CNyMWOJKJzfuDlETcFA=;
+ b=j0X1siL8Mbqe7wFzyrfl/0FvGvFxvAN4qDQ+msWr46VrPlVa8VFLDwoavh4aouz3YP
+ t/tDAC7kPU1mBV1wOy29M+irhtz1uSsmVCIvyonzdOJb6iD4JwuTyD5dUUid18VdlkkS
+ zk17j6umYWUt1RCh6MCbvKDrF+svRDbyE4In/Uc1xnfxcFEW3hn3mv1VTY8OmjSU23fl
+ g5hwkbQGdU/SeMm4AG+qcrueObkXO+i7P/X/E7VNwV1IDp/rWPNSAPgIIGPJ6aqaXOHl
+ F8LZaTiISpVCVIq8V1yn7Q5x/fX/FxM5vQWNww1rYFD5viFgK5/UPpKB1Z961pNJj0Oq
+ xooA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745873795; x=1746478595;
+ d=1e100.net; s=20230601; t=1745873797; x=1746478597;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=erym78Mhl39hRTn49O0kNbTLtbQnHd2bEe+DJwYFpbg=;
- b=vVIp1EpUS+/GaRU+jBbVCbrWzUeefztxXA/eF5qQw+VCKd0CIZVkPRyGOIHozbSOP1
- lde62RkUYxaYsJhRZtO1Rvnhz2E422B8bq5PiYqvFf1EIUFtOpS2YbwavNQ1BfcMhnyR
- IIEfP8nYox7NxKM1+SiQDFqWfMYdng6I0dvYRK8UHaj4QqGkPMP4bVoAVzuC1VnPQd0b
- +QexgTUGHgGB++VkWYsiO2YdFM5QAIs4UKDcJHLWOi3KaWLOBbXDt5rUO71oKW7ljmUm
- DEeUDlnUzWVfBONkNtPMsCo66PTb1mKYXKbSEN0isWjWOlqQrlHZzGVEqnwOQHW7l57/
- /6XQ==
-X-Gm-Message-State: AOJu0Yxy2i9KWc5dwCoRRofyaz7AAdd2+eHD1Zt20ItaMACVDf6Koc15
- zm6UnLpuIOmWxY1qwymnRyFhSEqBQWadvmWUQu4QPjB1BiJ1c7EurBHUuw==
-X-Gm-Gg: ASbGncsLSQlgnRawtWr6Y13piYdHxVeXcsAZuGrcji/ZPG4NDBopo1vrPWW6G7zUE8w
- 19KjuKr6CY2XwIj7kt8Gq2g+Os4FRLLLpNaB48I0OXQ/DlyCtShh3F0r6DnnkXR3bd/3SRawYzZ
- ijgwlKP3iHQutRZQ3bIL5QfjUS8cgZxA9K6BsvVyAOoZh/x9y1EDxJxJbdkqO3Xhh0f3Um+a3dM
- wxDMhHWuiC9cIBK3H5LBlxVOegr9d1I769pBzh9WNjYpNa3atzZvUuKaTWBQTNoK0N9xFAmDSF5
- BWqVpItZha56Iu8jxKnfPYfqaoKXoBMY3CvEmnQjP+Bp8LOJVoqtjveMPvBsrhp8IJQAx+3YDZJ
- Lk18130wH125qzcY=
-X-Google-Smtp-Source: AGHT+IGHS/bF9Co5qgug/OnqPeg4Arjq6RJlRxQJskHgD/bjb7pncc78mBfMXMNijqkOO7FjoxdxRA==
-X-Received: by 2002:a17:903:228a:b0:223:4d5e:789d with SMTP id
- d9443c01a7336-22dc6a0013dmr161266665ad.19.1745873794730; 
- Mon, 28 Apr 2025 13:56:34 -0700 (PDT)
+ bh=8ZWdv895QF2g5ZazrpGEqIZ+CNyMWOJKJzfuDlETcFA=;
+ b=m0nkmJ8SnWwUve4WqG8fhuomedQB86Ku+oxpyIbHcwrGwbF0FyPILLMeKoEouIlKjH
+ 7pK3MdrmQn3MfhHjAa9sGbseSSNLFP3dAg+8TLpUSge3FV3gI7bKQcGhGX3zAenzfgLg
+ 3YdAq1Lin3PmYj892AaRKJYdRtOCpAjNcC1FvLtdl0UvACUQ228cnkfjhKBf2V4csVCI
+ whAU/VN48zHIl/21JrUcqYXzcfuXRYA54vKfAdTN3L4JcMulOTJxDz796rYNJYW/zjPi
+ taxeTOEuvoPDC3ISQgK2la6+G+JwFyAFe6buBgLTvvkaf2KUnyTTTCJa0+aWzpi8VX8m
+ IXFQ==
+X-Gm-Message-State: AOJu0YwpqN1EoFLXMynFkKHyY4EfDMvIjxkjAxjYp4oy1tHPPn/soaaP
+ yWsV+79SRVPiyA/yTvQm7/kGUpRxawKh+sk6DGe+kuOWd5D0dUJbOd3DOg==
+X-Gm-Gg: ASbGncvgk4IE1wGpqp/85cIjnKWTn+IH/eWsluqnGRXUxu9e6GkOzjcj4aTB/3qxTwF
+ 8HC+AVlOg62aLCfzYJALZxTPlIDewXKQu9DIxtO3CCmcHkt4ds8NLDP1zESf5tP/aNik7I03nDq
+ d6vI/BKhf7G53XqyXZJW1H65na1wG2fIDdlg+/g2ztLyN7StMUY+b75fBsrlIghsmg/Ox3yfk7n
+ q8BGZ+wqdvYVc76l76eBVKU39B3TxiWnrUR/37AAcwoOYTX+2LtiXeILFtpmodKCKJObty4510a
+ ++3ukPzDwRWK6Si87bWCxw8Z9M9LqaYyxJWP1qVcAvOeeQdr6ysQ++ZQ9QJ0m1Csx1CZMiDziG6
+ JUv87rinbFQulcvg8i+dqKQ24zA==
+X-Google-Smtp-Source: AGHT+IEiI0PIx8sG0Cs/BBXwMjUjK2HcinX0Gfd8jPjSIhMKMTJcc2LognCvLHlEUKydTsw79aws8Q==
+X-Received: by 2002:a05:6a00:3927:b0:732:2923:b70f with SMTP id
+ d2e1a72fcca58-740271689ffmr1632804b3a.11.1745873797293; 
+ Mon, 28 Apr 2025 13:56:37 -0700 (PDT)
 Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22db5101636sm87952955ad.180.2025.04.28.13.56.33
+ d2e1a72fcca58-73e25a9abf2sm8405360b3a.122.2025.04.28.13.56.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Apr 2025 13:56:34 -0700 (PDT)
+ Mon, 28 Apr 2025 13:56:36 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Connor Abbott <cwabbott0@gmail.com>, Rob Clark <robdclark@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 02/33] drm/gpuvm: Allow VAs to hold soft reference to BOs
-Date: Mon, 28 Apr 2025 13:54:09 -0700
-Message-ID: <20250428205619.227835-3-robdclark@gmail.com>
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Nicolin Chen <nicolinc@nvidia.com>, Kevin Tian <kevin.tian@intel.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM SMMU DRIVERS),
+ iommu@lists.linux.dev (open list:IOMMU SUBSYSTEM),
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v3 03/33] iommu/io-pgtable-arm: Add quirk to quiet WARN_ON()
+Date: Mon, 28 Apr 2025 13:54:10 -0700
+Message-ID: <20250428205619.227835-4-robdclark@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250428205619.227835-1-robdclark@gmail.com>
 References: <20250428205619.227835-1-robdclark@gmail.com>
@@ -93,89 +96,100 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Eases migration for drivers where VAs don't hold hard references to
-their associated BO, avoiding reference loops.
-
-In particular, msm uses soft references to optimistically keep around
-mappings until the BO is distroyed.  Which obviously won't work if the
-VA (the mapping) is holding a reference to the BO.
-
-By making this a per-VM flag, we can use normal hard-references for
-mappings in a "VM_BIND" managed VM, but soft references in other cases,
-such as kernel-internal VMs (for display scanout, etc).
+In situations where mapping/unmapping squence can be controlled by
+userspace, attempting to map over a region that has not yet been
+unmapped is an error.  But not something that should spam dmesg.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/drm_gpuvm.c |  8 ++++++--
- include/drm/drm_gpuvm.h     | 12 ++++++++++--
- 2 files changed, 16 insertions(+), 4 deletions(-)
+ drivers/iommu/io-pgtable-arm.c | 18 ++++++++++++------
+ include/linux/io-pgtable.h     |  8 ++++++++
+ 2 files changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index 1e89a98caad4..f1d521dc1fb0 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -1482,7 +1482,9 @@ drm_gpuvm_bo_create(struct drm_gpuvm *gpuvm,
+diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+index f27965caf6a1..99523505dac5 100644
+--- a/drivers/iommu/io-pgtable-arm.c
++++ b/drivers/iommu/io-pgtable-arm.c
+@@ -475,7 +475,7 @@ static int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
+ 		cptep = iopte_deref(pte, data);
+ 	} else if (pte) {
+ 		/* We require an unmap first */
+-		WARN_ON(!selftest_running);
++		WARN_ON(!selftest_running && !(cfg->quirks & IO_PGTABLE_QUIRK_NO_WARN_ON));
+ 		return -EEXIST;
+ 	}
  
- 	vm_bo->vm = drm_gpuvm_get(gpuvm);
- 	vm_bo->obj = obj;
--	drm_gem_object_get(obj);
-+
-+	if (!(gpuvm->flags & DRM_GPUVM_VA_WEAK_REF))
-+		drm_gem_object_get(obj);
+@@ -649,8 +649,10 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+ 	unmap_idx_start = ARM_LPAE_LVL_IDX(iova, lvl, data);
+ 	ptep += unmap_idx_start;
+ 	pte = READ_ONCE(*ptep);
+-	if (WARN_ON(!pte))
+-		return 0;
++	if (!pte) {
++		WARN_ON(!(data->iop.cfg.quirks & IO_PGTABLE_QUIRK_NO_WARN_ON));
++		return -ENOENT;
++	}
  
- 	kref_init(&vm_bo->kref);
- 	INIT_LIST_HEAD(&vm_bo->list.gpuva);
-@@ -1504,6 +1506,7 @@ drm_gpuvm_bo_destroy(struct kref *kref)
- 	const struct drm_gpuvm_ops *ops = gpuvm->ops;
- 	struct drm_gem_object *obj = vm_bo->obj;
- 	bool lock = !drm_gpuvm_resv_protected(gpuvm);
-+	bool unref = !(gpuvm->flags & DRM_GPUVM_VA_WEAK_REF);
+ 	/* If the size matches this level, we're in the right place */
+ 	if (size == ARM_LPAE_BLOCK_SIZE(lvl, data)) {
+@@ -660,8 +662,10 @@ static size_t __arm_lpae_unmap(struct arm_lpae_io_pgtable *data,
+ 		/* Find and handle non-leaf entries */
+ 		for (i = 0; i < num_entries; i++) {
+ 			pte = READ_ONCE(ptep[i]);
+-			if (WARN_ON(!pte))
++			if (!pte) {
++				WARN_ON(!(data->iop.cfg.quirks & IO_PGTABLE_QUIRK_NO_WARN_ON));
+ 				break;
++			}
  
- 	if (!lock)
- 		drm_gpuvm_resv_assert_held(gpuvm);
-@@ -1522,7 +1525,8 @@ drm_gpuvm_bo_destroy(struct kref *kref)
- 		kfree(vm_bo);
+ 			if (!iopte_leaf(pte, lvl, iop->fmt)) {
+ 				__arm_lpae_clear_pte(&ptep[i], &iop->cfg, 1);
+@@ -976,7 +980,8 @@ arm_64_lpae_alloc_pgtable_s1(struct io_pgtable_cfg *cfg, void *cookie)
+ 	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_NS |
+ 			    IO_PGTABLE_QUIRK_ARM_TTBR1 |
+ 			    IO_PGTABLE_QUIRK_ARM_OUTER_WBWA |
+-			    IO_PGTABLE_QUIRK_ARM_HD))
++			    IO_PGTABLE_QUIRK_ARM_HD |
++			    IO_PGTABLE_QUIRK_NO_WARN_ON))
+ 		return NULL;
  
- 	drm_gpuvm_put(gpuvm);
--	drm_gem_object_put(obj);
-+	if (unref)
-+		drm_gem_object_put(obj);
- }
+ 	data = arm_lpae_alloc_pgtable(cfg);
+@@ -1079,7 +1084,8 @@ arm_64_lpae_alloc_pgtable_s2(struct io_pgtable_cfg *cfg, void *cookie)
+ 	struct arm_lpae_io_pgtable *data;
+ 	typeof(&cfg->arm_lpae_s2_cfg.vtcr) vtcr = &cfg->arm_lpae_s2_cfg.vtcr;
  
- /**
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 00d4e43b76b6..13ab087a45fa 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -205,10 +205,18 @@ enum drm_gpuvm_flags {
- 	 */
- 	DRM_GPUVM_RESV_PROTECTED = BIT(0),
+-	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_S2FWB))
++	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_S2FWB |
++			    IO_PGTABLE_QUIRK_NO_WARN_ON))
+ 		return NULL;
  
-+	/**
-+	 * @DRM_GPUVM_VA_WEAK_REF:
+ 	data = arm_lpae_alloc_pgtable(cfg);
+diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+index bba2a51c87d2..639b8f4fb87d 100644
+--- a/include/linux/io-pgtable.h
++++ b/include/linux/io-pgtable.h
+@@ -88,6 +88,13 @@ struct io_pgtable_cfg {
+ 	 *
+ 	 * IO_PGTABLE_QUIRK_ARM_HD: Enables dirty tracking in stage 1 pagetable.
+ 	 * IO_PGTABLE_QUIRK_ARM_S2FWB: Use the FWB format for the MemAttrs bits
 +	 *
-+	 * Flag indicating that the &drm_gpuva (or more correctly, the
-+	 * &drm_gpuvm_bo) only holds a weak reference to the &drm_gem_object.
-+	 */
-+	DRM_GPUVM_VA_WEAK_REF = BIT(1),
-+
- 	/**
- 	 * @DRM_GPUVM_USERBITS: user defined bits
++	 * IO_PGTABLE_QUIRK_NO_WARN_ON: Do not WARN_ON() on conflicting
++	 *	mappings, but silently return -EEXISTS.  Normally an attempt
++	 *	to map over an existing mapping would indicate some sort of
++	 *	kernel bug, which would justify the WARN_ON().  But for GPU
++	 *	drivers, this could be under control of userspace.  Which
++	 *	deserves an error return, but not to spam dmesg.
  	 */
--	DRM_GPUVM_USERBITS = BIT(1),
-+	DRM_GPUVM_USERBITS = BIT(2),
- };
- 
- /**
-@@ -651,7 +659,7 @@ struct drm_gpuvm_bo {
- 
- 	/**
- 	 * @obj: The &drm_gem_object being mapped in @vm. This is a reference
--	 * counted pointer.
-+	 * counted pointer, unless the &DRM_GPUVM_VA_WEAK_REF flag is set.
- 	 */
- 	struct drm_gem_object *obj;
- 
+ 	#define IO_PGTABLE_QUIRK_ARM_NS			BIT(0)
+ 	#define IO_PGTABLE_QUIRK_NO_PERMS		BIT(1)
+@@ -97,6 +104,7 @@ struct io_pgtable_cfg {
+ 	#define IO_PGTABLE_QUIRK_ARM_OUTER_WBWA		BIT(6)
+ 	#define IO_PGTABLE_QUIRK_ARM_HD			BIT(7)
+ 	#define IO_PGTABLE_QUIRK_ARM_S2FWB		BIT(8)
++	#define IO_PGTABLE_QUIRK_NO_WARN_ON		BIT(9)
+ 	unsigned long			quirks;
+ 	unsigned long			pgsize_bitmap;
+ 	unsigned int			ias;
 -- 
 2.49.0
 
