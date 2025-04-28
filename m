@@ -2,84 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63863A9FC75
+	by mail.lfdr.de (Postfix) with ESMTPS id 91140A9FC79
 	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 23:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0335510E27C;
-	Mon, 28 Apr 2025 21:45:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FBAE10E28D;
+	Mon, 28 Apr 2025 21:45:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i9hVPspO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xu9xX4Y9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40CE210E3A3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 09:40:56 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-43cf0d787eeso53066785e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 02:40:56 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45C2610E3DB;
+ Mon, 28 Apr 2025 10:46:34 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-ac3eb3fdd2eso806187966b.0; 
+ Mon, 28 Apr 2025 03:46:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745833255; x=1746438055; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1745837193; x=1746441993; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=eWdl+Kqq58dT2qY6KpY9tsh+8ZNojmQ7ty0C+vUxAbM=;
- b=i9hVPspOlBYI8f+oSNOk4OwXBe9/6taF3bR03ASCAVNS5Hg4niAxDuVCthDM38fZj0
- SjpQBqakFQURJvZrU5tpQG+VtsLPkPlHMhqQgvRS7P9M0aHHIa1sfAcHRWi5mrJ6GrA/
- vAKYa87U96yyP3UK5xtslM9Q+MeThXIQrCn9IVgF7z3tmjGDQLSaqJsS0FMk2vQJsMWs
- k4Y7OnM4I6J2459AsqqnC+XepvLO16rY5i5eSTmx+BY+JWjjcbSBRI5VHh0wRq/YY3hO
- whcp8lJlCtIYlEAHo0LBuQXIrUB4Dd8BVdU9klwPOCg9XqXbET9/IoC+JHhxIPCD+vZW
- rqRg==
+ bh=Wvbdr0JNuifyk5uUnYe0etbSIhAeqsQMJ4amy8aWMqQ=;
+ b=Xu9xX4Y9PDpRze2ljijsDMjMVpjeiOKCVFK6kHUB8jA/TrgUgPTy1ZaBN/tBVMNpZX
+ hEne19QZCxngBSKisRTKMNpqnXaqXspUxNO3Dd4NYw6X9BFWSVcmDs4bPcG+QNSgr3ha
+ sXjlOoEx6NSnvnynISzH+lrU04a+K7gzeKiut+r4Ibqrnhjk290YxLhUfmWCEO3ZNDDv
+ gkHcu+Mt98w6OW0Pbgapv2rV2bKJ6FSi+DBsuBAd246DKQ7dmaFB5wETivyy9TyN9uUZ
+ HOvUmxUBEv9rSdx1tH6IcH0EPS8hVrSyG5EhvPOX41sHsm8gvTNHvf0NYJpCxOuj4jY5
+ ajaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745833255; x=1746438055;
+ d=1e100.net; s=20230601; t=1745837193; x=1746441993;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=eWdl+Kqq58dT2qY6KpY9tsh+8ZNojmQ7ty0C+vUxAbM=;
- b=N9RQ1tM1lDu/iRHsDRqO68/zuDVJ05+sGbsknv1SB6+SRdVAkQfHTkfUM1sdys0VnP
- S04or6N01Db62lp/KBwsrsq3jS2cAMRIgOGE/ObsyRWzXBFXF3dCa9L7ZoLqvioQkWFX
- mEVnspmB05ac7vS48Y5WZDXGX+aYQiVS9p5ZBAOVRRMFd/P455Crk/1LvJWqUnSr/bnK
- SfZx7UHTX8VQibWi0V9caqNdjspmxwsJ1VAvr/Y9H/j86cf0FZZSkh7oIYC4NisGyuTZ
- CHuSdaCGSsj6EVRgWfCmu4HqBCAy+nYlv4wlGP9TW/vIDe5UUZLArjjH1MravLjUlyvY
- XkjA==
+ bh=Wvbdr0JNuifyk5uUnYe0etbSIhAeqsQMJ4amy8aWMqQ=;
+ b=JGVDk/N8wNp1xiDViUbM3+XZ0ERsJ1oes3qE97//7Y5KqU6kDZhyFkiMNVF8snw8i/
+ ZLbVzHyT2C7XRJjItGGlvFsRQ06TzH/S/coEDrjetIioO6jskK7WaDEc+aePg2AN0PQT
+ SVA6dQy4iEJN83AwEeKBA3WkwpwZjVUef9jX1D5kMAc0VX1gTOEsV2vCCHTwbK/6I+O1
+ CQVMuoClRZ3FvO/y/LsMa4IuB9AQhIeynIVuk5CuFT/LEZVVGpmoZIl7F8o+ujt/cyEi
+ bPiZbIMBmboU4sG2Ufy8abFI7sRO1dRVrXdm7xTbrapOUK4QBr+8SFDUdPYtYnedAF+o
+ VnVQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUt4PGaInuj2VtpcXYSOVoa4sN+rVpshY6aVSMGVMTmfSOPjZ1B2gPbNqPkwT2BB5gyJa6YD3orQeQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVsUW4aFH8jApGzwYAL/iyVF5THzpQyHF2Byker+JooTYj+26J
- vnWsorsyypD99SSALUpmy7TkwLBAeONBzq7K7nFgW0zWNqGPm3AF
-X-Gm-Gg: ASbGnctxR/HGqb8MHF9fXFrincuCCjTKMmf6XEp7y7SRUt3JmrqUVQUoDL+N/2XnRbi
- ECv6P+DYz8V7f61YsxQyUSKK+KIRMMrZCrQT1PkU2rdsBh1IQLyHe44c6ojJwZ0OEE9i6udmWoS
- cCOqCR5nd2fbQMpGBGsloTa833cv5eQmXE1rdmyj0hHgHYhJuJEl4ljeYPfgbANjPGrN6Ko3I68
- h66inDvoHJiJX4UXUrhunaOIaZyPAF/t5/XkW2kYtUIz0782OfFmi+xsjaKKK8BESVz6OsIE3IG
- OYgm+iPJ+jQXwjLJdICg/lwIbsH93UlrOT+NaA==
-X-Google-Smtp-Source: AGHT+IH5WZ2I2b6xONMXmkTLp55tTW8AkFEOLovibWPPY96a7fFSfSjudvpq3AXJ+RQ8zoo5DYpahA==
-X-Received: by 2002:a05:600c:5120:b0:43d:22d9:4b8e with SMTP id
- 5b1f17b1804b1-440a65d8e5bmr109031545e9.10.1745833254418; 
- Mon, 28 Apr 2025 02:40:54 -0700 (PDT)
-Received: from vitor-nb.. ([2001:8a0:e602:d900:4f54:7a4f:dfe1:ebb6])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4409d2d8343sm152687785e9.28.2025.04.28.02.40.53
+ AJvYcCVasJlp20NJn9ludlBueEH/y/2jusZ4btTurD8jo9DzHnYHn0/xcyQCxLbDTLnk3NbqdgGhaHTL@lists.freedesktop.org,
+ AJvYcCXPNwbJ9RxRvNDtniF0ZxG4dKwTRd5/qsD41mrPnOyyyejETcW+cZZLmwDD6C8XU+XlMC0Bwo70xzss@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwEhe8IxbUEmo3CYZnV5w00x9KkpuNbml6XEpPrDrmO9bSPaKYX
+ xDkFCOYvN9EuNEJiJHJ0J6rKNtxrj5Xo+oti5XsQM5UZWHwj2EQo
+X-Gm-Gg: ASbGncsLsUTo6YmoA/uhkeyY4GEGBL2nxR2oEXkWraA9Qooh1BApD+68aZJRFEUAKnY
+ 3mipZvUdh8ZHuzm0bSyWVAogg5Wv38Alc00ID2/6wMvz397jJwxVxVuLBN+a8CdsDf78C6pmI3e
+ y5y5pkbRqIoL7O9fa+PmOJ7Zdi35N2yYfS9FlU0n7WHwhsrQegFWofYmLuQ3Y7KnSMZiFXJoLbK
+ FX2iG+CFSV0VQ+A89NBDjPc63YU5ZSIpgjkJbLDwLfL0lRRYUqkqL85IZ8bwxSah8guaoZ12q+c
+ uTwla93ZQH8ftW4cox2AKcInaT2aMGBAe0Q9lKxUbxDLdQ==
+X-Google-Smtp-Source: AGHT+IHwRoOppXIpij71zjuWnJJzu0zh59DkRNeg5ulYk+IyTgFGTV8x2J19ySlX5bz0MCG5VQ7icA==
+X-Received: by 2002:a17:907:3e03:b0:ace:3a27:9413 with SMTP id
+ a640c23a62f3a-ace739dd0b1mr912614666b.11.1745837192384; 
+ Mon, 28 Apr 2025 03:46:32 -0700 (PDT)
+Received: from noctura.suse.cz ([103.210.134.84])
+ by smtp.googlemail.com with ESMTPSA id
+ a640c23a62f3a-ace6ed70b1fsm602497066b.157.2025.04.28.03.46.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Apr 2025 02:40:54 -0700 (PDT)
-From: Vitor Soares <ivitro@gmail.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Vitor Soares <vitor.soares@toradex.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Aradhya Bhatia <aradhya.bhatia@linux.dev>,
- Jayesh Choudhary <j-choudhary@ti.com>, ivitro@gmail.com,
- stable@vger.kernel.org
-Subject: [PATCH v1] drm/bridge: cdns-dsi: Replace deprecated
- UNIVERSAL_DEV_PM_OPS()
-Date: Mon, 28 Apr 2025 10:40:48 +0100
-Message-Id: <20250428094048.1459620-1-ivitro@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Mon, 28 Apr 2025 03:46:32 -0700 (PDT)
+From: Brahmajit Das <brahmajit.xyz@gmail.com>
+X-Google-Original-From: Brahmajit Das <listout@listout.xyz>
+To: 
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sunil Khatri <sunil.khatri@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Boyuan Zhang <boyuan.zhang@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Dominik Kaszewski <dominik.kaszewski@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] drm/amd: Fix malformed kerneldoc comment
+Date: Mon, 28 Apr 2025 16:16:14 +0530
+Message-ID: <20250428104620.12699-1-listout@listout.xyz>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 28 Apr 2025 21:45:29 +0000
@@ -98,83 +96,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vitor Soares <vitor.soares@toradex.com>
+One kerneldoc commets in amd_shared.h failed to adhere to required
+format, resulting in these doc-build warnings:
 
-The deprecated UNIVERSAL_DEV_PM_OPS() macro uses the provided callbacks
-for both runtime PM and system sleep. This causes the DSI clocks to be
-disabled twice: once during runtime suspend and again during system
-suspend, resulting in a WARN message from the clock framework when
-attempting to disable already-disabled clocks.
+./drivers/gpu/drm/amd/include/amd_shared.h:369: warning: Incorrect use of kernel-doc format:          * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
+./drivers/gpu/drm/amd/include/amd_shared.h:369: warning: Incorrect use of kernel-doc format:          * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
+./drivers/gpu/drm/amd/include/amd_shared.h:373: warning: Enum value 'DC_HDCP_LC_ENABLE_SW_FALLBACK' not described in enum 'DC_DEBUG_MASK'
 
-[   84.384540] clk:231:5 already disabled
-[   84.388314] WARNING: CPU: 2 PID: 531 at /drivers/clk/clk.c:1181 clk_core_disable+0xa4/0xac
-...
-[   84.579183] Call trace:
-[   84.581624]  clk_core_disable+0xa4/0xac
-[   84.585457]  clk_disable+0x30/0x4c
-[   84.588857]  cdns_dsi_suspend+0x20/0x58 [cdns_dsi]
-[   84.593651]  pm_generic_suspend+0x2c/0x44
-[   84.597661]  ti_sci_pd_suspend+0xbc/0x15c
-[   84.601670]  dpm_run_callback+0x8c/0x14c
-[   84.605588]  __device_suspend+0x1a0/0x56c
-[   84.609594]  dpm_suspend+0x17c/0x21c
-[   84.613165]  dpm_suspend_start+0xa0/0xa8
-[   84.617083]  suspend_devices_and_enter+0x12c/0x634
-[   84.621872]  pm_suspend+0x1fc/0x368
+Adding missing colon symbol and making kernel doc happy :)
 
-To address this issue, replace UNIVERSAL_DEV_PM_OPS() with
-DEFINE_RUNTIME_DEV_PM_OPS(), which avoids redundant suspend/resume calls
-by checking if the device is already runtime suspended.
-
-Cc: <stable@vger.kernel.org> # 6.1.x
-Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
-Signed-off-by: Vitor Soares <vitor.soares@toradex.com>
+Signed-off-by: Brahmajit Das <listout@listout.xyz>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/include/amd_shared.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index b022dd6e6b6e..62179e55e032 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -1258,7 +1258,7 @@ static const struct mipi_dsi_host_ops cdns_dsi_ops = {
- 	.transfer = cdns_dsi_transfer,
- };
+diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
+index 4c95b885d1d0..c8eccee9b023 100644
+--- a/drivers/gpu/drm/amd/include/amd_shared.h
++++ b/drivers/gpu/drm/amd/include/amd_shared.h
+@@ -366,7 +366,7 @@ enum DC_DEBUG_MASK {
+ 	DC_HDCP_LC_FORCE_FW_ENABLE = 0x80000,
  
--static int __maybe_unused cdns_dsi_resume(struct device *dev)
-+static int cdns_dsi_resume(struct device *dev)
- {
- 	struct cdns_dsi *dsi = dev_get_drvdata(dev);
- 
-@@ -1269,7 +1269,7 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused cdns_dsi_suspend(struct device *dev)
-+static int cdns_dsi_suspend(struct device *dev)
- {
- 	struct cdns_dsi *dsi = dev_get_drvdata(dev);
- 
-@@ -1279,8 +1279,8 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
- 	return 0;
- }
- 
--static UNIVERSAL_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend, cdns_dsi_resume,
--			    NULL);
-+static DEFINE_RUNTIME_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend,
-+				 cdns_dsi_resume, NULL);
- 
- static int cdns_dsi_drm_probe(struct platform_device *pdev)
- {
-@@ -1427,7 +1427,7 @@ static struct platform_driver cdns_dsi_platform_driver = {
- 	.driver = {
- 		.name   = "cdns-dsi",
- 		.of_match_table = cdns_dsi_of_match,
--		.pm = &cdns_dsi_pm_ops,
-+		.pm = pm_ptr(&cdns_dsi_pm_ops),
- 	},
- };
- module_platform_driver(cdns_dsi_platform_driver);
+ 	/**
+-	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
++	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK: If set, upon HDCP Locality Check FW
+ 	 * path failure, retry using legacy SW path.
+ 	 */
+ 	DC_HDCP_LC_ENABLE_SW_FALLBACK = 0x100000,
 -- 
-2.34.1
+2.49.0
 
