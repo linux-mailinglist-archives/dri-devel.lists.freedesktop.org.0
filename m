@@ -2,58 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1E5A9E89E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 08:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8288A9E8C4
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 09:04:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1198B10E1D8;
-	Mon, 28 Apr 2025 06:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECCC710E1E5;
+	Mon, 28 Apr 2025 07:04:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="BunLmojY";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="H4K8ojtI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A7510E1F3;
- Mon, 28 Apr 2025 06:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=QE8DCSwcscmJrYhE5fqUCRzRLE3AEMMS/ax1OCdFi7A=; b=BunLmojYHNB3GOvpqihN5LoOY4
- +bpjrtskhwSeqqY53WK1Pxv8iEYZMYeD/gMkLSy7r93KHgDWUa1DaKab2lEfigKCCKXIeZ5R/vLa9
- r6A5uhWEhTbMpyWuAFER7GaGiuFmGNjvqq977Ti4jWv3BffqHeqsCmlNg4FET9brKQr6d30n11pFl
- 1Hw+R0Ktqr5Anvqt7wn3ODKtzIbvE6Qlzc1KyR3vtrjxKJNlR5QuWg/0I0TdW7aoD0VrXOu4igTWd
- iVppKRoC4xiTrB8j1103jtZ/CFS9V7XJSKAc0EoSLqCE93IsWaciMhQ5G8A5zVFRxcJouKAwpyGlA
- +bsSrxGw==;
-Received: from [159.147.214.238] (helo=[192.168.0.17])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1u9IOb-009ePp-Uy; Mon, 28 Apr 2025 08:55:17 +0200
-Message-ID: <123343432f17913452ba9cbef6161837cc3c07d8.camel@igalia.com>
-Subject: Re: [PATCH] drm/doc: Start documenting aspects specific to
- tile-based renderers
-From: Iago Toral <itoral@igalia.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, 
- dri-devel@lists.freedesktop.org
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- =?ISO-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Christian Koenig <christian.koenig@amd.com>, Faith Ekstrand
- <faith.ekstrand@collabora.com>, kernel@collabora.com
-Date: Mon, 28 Apr 2025 08:55:07 +0200
-In-Reply-To: <20250418122524.410448-1-boris.brezillon@collabora.com>
-References: <20250418122524.410448-1-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+Received: from OS8PR02CU002.outbound.protection.outlook.com
+ (mail-japanwestazon11012057.outbound.protection.outlook.com [40.107.75.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B1C510E1E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 07:04:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QmaNThclFJXfPIg+TN7J65fY2qcqEtPSGgG6w3phxToe0Uum4KcUSuiHP74t0gL1CeQSTo0/S1jLvDnY45W9EORSNvSGscR1kjQgQddP7LNkL8WfEc7f0JHThZAJMhMKuWXhm0M9QdnEIpfMP+mZXdfXe6x1WGB7ELQk4seNMsScX/tvDMayNfYB6DB6w6a6lXIt8Vrl7VZun0z+Z4j4mhoQbt+u2wLVY58lDsMN3vzpznE4TWdePDQnVuXBs4pyZnmMYiCtRCl3gWUwxnV3ARkEKRDmxr8yOOYefjZdH+Ut5tXX+y7X6Vsl1NqVm5Sk9QiGzqsq/6uOnQaCVphkEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3saixAML2VUGusm9AYcp6Yvl405I9RHeRBGZnM96/dU=;
+ b=G4WMGZmj2wUlA0JurIwx5cMPjPqFfNYv7wanNzY0mqEzOaAi8CgCb6TQT6Vbs0+hNUH9aXOo50JAjCjoCYQDvXQRpqG+FVBhvhOFFvDmsS3yVb6uuCt/AaMZ+90oK7lhzJwazijUS5j6kzRh1QfqY48kln0QakfEUpDORnr9gKO0a++ZRT+kIIe8e7FCFJhw6xwB3jU+pgoIPNTLnVeONhOSt7eDMSTm2GvEOhFDRDTYxIjrjacxQiopotIifhYSPgv2obNnk23kwP8qPV3kB8fpaPNaOexhQ0fF9rIEGTdN/jKWAtfHGUJ7Yl0vwvXZl3jfIxLWN8ch08fEs48/eA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3saixAML2VUGusm9AYcp6Yvl405I9RHeRBGZnM96/dU=;
+ b=H4K8ojtIt4TZLSzIqUkXZ0c6U2YlPav4r6cLPaKf8ABpIe12u8LovagXAzkfaTFepFgLSbrwKliPQfMMTANrYJYFnWB+bpnjWmnjxYzYVBoi6RTzQ9CHH8Z8j9a/JXUUyiZ4KSlVYKaKggRED6/g1zAcb9tjENLDkSXdcpchxubOoPrXDJ+Nqw2IqcTgp1P6mTizcEs6NzLlRckf2MVK8lIhaFk+YLjqHcYYGqvBPNBiP4MRVWfler0JbqkkrrgjKlhWS/08Zyms0j1UEk+8Xf2daRVkXRwr9moc5NRrq+AF27RzojZIodny0iXnpLEVVhQjxKSnsvwyYOjGnsMWjw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
+ by JH0PR06MB6979.apcprd06.prod.outlook.com (2603:1096:990:71::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Mon, 28 Apr
+ 2025 07:04:22 +0000
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f%7]) with mapi id 15.20.8678.028; Mon, 28 Apr 2025
+ 07:04:21 +0000
+Message-ID: <b077248e-8af5-46be-89a5-100da3ca35ba@vivo.com>
+Date: Mon, 28 Apr 2025 15:03:01 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] Revert "udmabuf: fix vmap_udmabuf error page set"
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Dave Airlie <airlied@redhat.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>,
+ Bingbu Cao <bingbu.cao@linux.intel.com>
+References: <20250415031548.2007942-1-link@vivo.com>
+ <20250415031548.2007942-2-link@vivo.com>
+ <IA0PR11MB71852A481E8A99C9380C7317F8BB2@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <63297d3f-5e37-411e-8150-108a03a01a89@vivo.com>
+ <c752a31d-e7c5-49bf-8722-8eeaf582a4d1@vivo.com>
+ <IA0PR11MB7185FC46BE53F16BA6A9C7C9F8812@IA0PR11MB7185.namprd11.prod.outlook.com>
+From: Huan Yang <link@vivo.com>
+In-Reply-To: <IA0PR11MB7185FC46BE53F16BA6A9C7C9F8812@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TYBP286CA0042.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:404:10a::30) To PUZPR06MB5676.apcprd06.prod.outlook.com
+ (2603:1096:301:f8::10)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|JH0PR06MB6979:EE_
+X-MS-Office365-Filtering-Correlation-Id: 332e716d-6918-41e1-200c-08dd8622e691
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|7416014|376014|52116014|38350700014|921020|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bVI1WnJIaXdpYndvdURlaGJpVE9kb0F3MlBISzdTOGk1UkMvTUJZMHNReWVO?=
+ =?utf-8?B?QmUwRGEzUEVHdjJQNCtCZkF5NHd4UlorTnFHQUpNSXdWcmF2T0tKWWxyaW1Q?=
+ =?utf-8?B?WFdSZ1NXdG4vYlhNYWdOR3h1SzVNdjZOS2dXVHVPRFcvVkk0OUpVTENEaWZI?=
+ =?utf-8?B?dGtiU2NHMFpPb0s2M0s0cGcvWkVVWWFOamVCTldvMW5KNGtOQ3UrYmR1NVFV?=
+ =?utf-8?B?YnpxaUJFblhuRWJPV2hQenZjandKUE4vWU1pTm9jUE92YlQ2Z3ZjQTBwdFVV?=
+ =?utf-8?B?bk9QK0hoRkxjWkkzZTVuWVE3TDcxWGozRUZ3aUZ3UDVyNVZITEpEZ3NiWnFN?=
+ =?utf-8?B?V3J3dy8zSHN4SFFMQVlnWFFKSXBUUjd2VWE1ZmY3alJGRis0eW93Z2YxcnpN?=
+ =?utf-8?B?cFM2d213ZVNwcEJQaU1Ka05jdkVDYVZtcE91VytjbXhrVVBmQnJRNmw2VDVp?=
+ =?utf-8?B?cGRmVHBQZ3pSOUJYUGMxWHl4N1o3aVdoc0MyQkExRWJQaldBRkhMQUdYQzY4?=
+ =?utf-8?B?OGdnK1JNREdTbnpkNVFqdTNJMDVkMUZLQlJUay9HcnhwcldiYm9IeGxSYTZG?=
+ =?utf-8?B?Y0hCOFo2T3F0cW9menRSdDRWRndxZ3N3eFJLU2J1enIzU3FkRVA1aHJMNXhk?=
+ =?utf-8?B?ZlNHemV5WTQrTnhTWElmM0hpbGNrZko1VWc3Y20wZ2YyZHVYY25ySWdaSUtR?=
+ =?utf-8?B?U2wwd00vbGpmYU9kRXVZbU4valY2Z0cydWUrWEZ3T1I0ZmpIeUd4YmtmUy9Z?=
+ =?utf-8?B?dms2WTBlRXRZT3JHOEErcHlPMS9XWVFwanIya2U1YVdHVmFDSzVMYVVoSmxB?=
+ =?utf-8?B?UjVYVytRcEUwSWorM3lZaS96aEczLzkzWjlYa3pJekdkNTlWOENwYmpUVzcr?=
+ =?utf-8?B?b0ZwemNXa1lnc1hLb1h3K3JSNmc0Qmt3TklnYnU4VzdWZVMrUFFWdGxjZ2Rp?=
+ =?utf-8?B?WkZCM0RDUlFib2VLRWFpQWE0ajBnNFdaRUpOZmlSbm9vY0ZYdEx2RkRMSTF2?=
+ =?utf-8?B?WUc3dnhUME9TU09nWnFSbUJuQUVvck9PR29nSGVBL2lzQU5kRnZZL0lWV2h0?=
+ =?utf-8?B?WWNrRWxjKzVMejQvSGNiOTJCSXM4eC8xYVUrYzR3UElsYlRLLzBKWGtXTXBh?=
+ =?utf-8?B?WVdjVE1QUnU2elVXYVo2VWpLSHhKMXpOM3Q0SmNBSjVBNzdvbEVTV2RIemcr?=
+ =?utf-8?B?dzNoQjU0NG1ZdFFEK2paR1BnMmtKWkp4YVdyZ1dkTjVGK243TThsV1pxVVYv?=
+ =?utf-8?B?akV2Zkc0YXJtbGg3RjNrL3hYZVBla251UmRFL0VWVDFKRzZaUkE1UFYzdysr?=
+ =?utf-8?B?by9aRFYybGVYU0tORmpMUmVUYXNSZmRLL2E4MGwyd2psS1ZHR0libTRZUk5Q?=
+ =?utf-8?B?bTh1QXB0aU5Uby9sdzhPNW5yOWJsbUpJT0l5cE1QUFU5bytRTTVZTVpSanE5?=
+ =?utf-8?B?WE1xYU96a29ETk9LK2IrUE9vbWJaTmIzN3dvblZZenJCOUYxMHJUNVBLTG12?=
+ =?utf-8?B?RXU2cy8wQm9DVWFEb0kzMzIwOUkvcG9BekJQaXc4aDhGMWd6SWVZRG4rZXlv?=
+ =?utf-8?B?YXAxSS81dGVFYjVrcjVLbXNtYTlPTkowK1dnZ2w4RDFBRHVWNlJhQTVlQVNj?=
+ =?utf-8?B?NDRpV0RxMEFVTFQ3dEI3V0FRRDBCbm1UYmMzbDlnYlVDQ0sxS3FqOFpodGZ1?=
+ =?utf-8?B?bkcwSEhQbE8wbzVqcnRoOWdYQTdvajFXbWw2KzNEV3k2dVJObjA1cExUdUsy?=
+ =?utf-8?B?RkIwcUYrVnJGS0MwajU4d2I3WmVIK1NPVGcvR01YUThtSjJqaFRkZ1Btc2xh?=
+ =?utf-8?B?OEhUVzNtTjFqNVkxSzNsMmJlYlZVY1RTZ1J3QUdzOUxVeDFVaTBoSkVhK1dl?=
+ =?utf-8?B?a1c4MTFkRXJWYXNrelNtWVRiNUVCRjhMSHVOTVZPQUQ0Y0R6R1ZlU2xMNEJO?=
+ =?utf-8?Q?ysRXd1aRQvQ6raFMjO0gLibUE1+GX47b?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PUZPR06MB5676.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014)(52116014)(38350700014)(921020)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2Z3VU9FRGE1TDliS1RlUXZESVFlNEt2dk1YUjRndnZpcEpTL29TWDN4SkxU?=
+ =?utf-8?B?bUFxMnY4a2JnTDNiMWNTYktPQmN3ZlZvQzBDVklsYUhPS0Nqa1Y2MGpRUS9P?=
+ =?utf-8?B?d1VLSzRxSFExQ1poQWJMaVNUbmp2QVM1eGNwTmNFdFpvVFdZck1CN09iN1lG?=
+ =?utf-8?B?U05FYjJtM1JqakxUUXZlK0VNQnFGMEk1dXlSVzVCTWpPRm9iaDVQQTIxWjRy?=
+ =?utf-8?B?ZTFuMWZ4TUg3cnUzSkZRbkpIbjJaQVdKT0MrYTZ5Y3NuWGo0YXM2b3pkWVYw?=
+ =?utf-8?B?T2JMY1pBUnZuQ20xN280b1E2SEd2TkhObVZDbzdKK0M4RUlsb1dXM3I0cjFS?=
+ =?utf-8?B?WENCOTUzak4vaUJLczFtekdITmp5N2N4UnZrOVpjZGtURGwrbjhCNHMzM2lM?=
+ =?utf-8?B?WE16cm90N1kxOXAzMlljSmR2QXRCQndDNFlyMFRMT1FVYmFGZTBGL0hjUC93?=
+ =?utf-8?B?Wi9GYnVObUk4bnhIUk9Rb0dvOUpMbVU1TGk2U091VkdHKy9RcGV2N0t1Ni9Z?=
+ =?utf-8?B?MEFiMTFmUnV3Um91VVBFdG5JbFErTEdiWXZ5bEdneVFnVlRvY2Q3enM2U2xL?=
+ =?utf-8?B?SjRPcXgxckZ6Qjg3NWRYeVRla0tvL3NuRDhaeVlRYzFxRm9uU1M5NDhYRGZJ?=
+ =?utf-8?B?R2x0eE5mYnRpSHlFYlZBWmc0SHVtZy9aSW9pTmVZZ3ZhSU5odVU1TWxrNW5v?=
+ =?utf-8?B?R1B3UkEvWU9JbXVpWVZhWXUwRFVFNDhsUHVoWWNJcUZjdEVMSVdKQ1c0QUVS?=
+ =?utf-8?B?WDhUZlpibE9GWWJkSFFmcXdmditFSGd2NWE5cGNBUmFYbm1QOC9mcjdKdERD?=
+ =?utf-8?B?eDVJR2R1L1VUWWlxS1J5MmxUM0FJRWE0di8ycGkvcStZUThKdkFPVHVrOStI?=
+ =?utf-8?B?M0p2WVRJbWZSNzJsSExTSHh0WTFFVC9wM0hjVkhGci9oYUVDT2tlblJqdDVQ?=
+ =?utf-8?B?N0sxWGhMM0Z0bFFsUVoxTUhNTWdmV1l5cFV1YjNyUlh4NUtObzdKSUZYQTd2?=
+ =?utf-8?B?dlNydkRzaytteitFYzhocGk0TTVyVnJqajVWTHo5dEpiQVhNTWR0YkFjeWc5?=
+ =?utf-8?B?UnFRM1QrU0g3ZnpnOUhMUHpQYkljUThxU0dwLzBuY1ZYelJOWnJzNzUzTFQr?=
+ =?utf-8?B?TDdWY1Fra1ZZOURWb24zOGtaTVFoUW5XOENjQmtIYzlha0Y4NVBzcWVpUDB2?=
+ =?utf-8?B?VlMwUTVlb01YN2U0UWNLVG80alhyOUpaWHE5K2tFMGFFT0JUbEsvVjFqbVRL?=
+ =?utf-8?B?dmR2MjdoY0VsM1RheGxUSUZLKzJzZTRQb3YyOSt4YUFyRm44T0xXNXJaSXkw?=
+ =?utf-8?B?eDFVcUpJYTBhSmIyMGIzSjA2WksrVWs4R2xjd0d0ckcrcHZZVmZIY0h3Wm5l?=
+ =?utf-8?B?WDdjVmV3MFNWS3dReTNuNUFVYXN1WGZPUTBabGhaUmNZczBBWkJOOGNscFp0?=
+ =?utf-8?B?TVI2bGJFQXlSUDNHaldTbFJJcGpWTVI5M1NpZUU3cExlWU5Vd0pCUStjL3o0?=
+ =?utf-8?B?OC9ZS3hhcUFkSTBFYzlkdXhQREkySGV0V0xBMkp1ZjhTUll1OElKcU91VEoz?=
+ =?utf-8?B?WU9rcFN4ZVRsazd0Y3hnaDhLZGlCb3FITTZVQ1dCNlVVVjJSb05SUS80dDRF?=
+ =?utf-8?B?QS9RRWp3MExCYW84T2UzK2VFSmlqSE94UHRKT2ZpaVRkN2NVREZqRGF3Sm5t?=
+ =?utf-8?B?clZQV0xlYThxN05BY2RXcld6eUwvbUNIM056aDA4b3FHYXdQODI3VUVGOWdD?=
+ =?utf-8?B?Z2JCeDgrYVlDUWRaZDdUY2svTnFFQW4vWHlNdmhFMjYxNWE4UmtDU1B6dXdO?=
+ =?utf-8?B?K29zMGNIWkRoNDZRMDB6ZUZRQWQwVG5jZ01LMEJzdHVjbC8yTU1zRWN5Z3J6?=
+ =?utf-8?B?aU9aa3l5Z3NuczBscmFuTGhUY3Q0Qzh4c3M2K1VDWnNldTl3YlB0SGlkNGUz?=
+ =?utf-8?B?bW56ZHZJSXZnSHlFYzVpT1MrZkpLNlp2ZlNoa2hnNWozWVAyUEN2dzJEQ25C?=
+ =?utf-8?B?WlFUdzd5ZXlBTTh0Um9HSWZnc1dLVUZiSit6TUJ1eFRMalRsZllHd0kwbS9L?=
+ =?utf-8?B?Rk5PTWhZTDF5cmo1WFMvMWIrM0xrMzczUWpFamd1OFdOdFlPNHJRTXJ1cHVv?=
+ =?utf-8?Q?0/lVlty6sJn8swBOoTMsdBw2w?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 332e716d-6918-41e1-200c-08dd8622e691
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 07:04:21.3638 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PoO/CtrIOFZMC15nseFlwhpGAIR3YwhtB73Wik/SDQcq6aTdA5WtmCO4jVN4OYw2RUeN2hrDF3VVkW6VVaFL0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6979
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,126 +176,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-Pitching in to describe the situation for v3d:
+在 2025/4/28 12:16, Kasireddy, Vivek 写道:
+> Hi Huan,
+>
+>> Subject: Re: [PATCH 1/2] Revert "udmabuf: fix vmap_udmabuf error page set"
+>>
+>>   From 38aa11d92f209e7529736f3e11e08dfc804bdfae Mon Sep 17 00:00:00
+>> 2001
+>> From: Huan Yang <link@vivo.com>
+>> Date: Tue, 15 Apr 2025 10:04:18 +0800
+>> Subject: [PATCH 1/2] Revert "udmabuf: fix vmap_udmabuf error page set"
+>>
+>> This reverts commit 18d7de823b7150344d242c3677e65d68c5271b04.
+>>
+>> This given a misuse of vmap_pfn, vmap_pfn give a !pfn_valid check
+>> to avoid user miss use it. This API design to only for none-page struct
+>> based user invoke, i.e. PCIe BARs and other. So any page based will
+>> inject by !pfn_valid check.
+>>
+>> udmabuf used shmem or hugetlb as folio src, hence, page/folio based,
+>> can't use it.
+> Please consider having a commit message like below and resend both patches:
+> "We cannot use vmap_pfn() in vmap_udmabuf() as it would fail the pfn_valid()
+> check in vmap_pfn_apply(). This is because vmap_pfn() is intended to be
+> used for mapping non-struct-page memory such as PCIe BARs. Since, udmabuf
+> mostly works with pages/folios backed by shmem/hugetlbfs/THP, vmap_pfn()
+> is not the right tool or API to invoke for implementing vmap."
 
-El vie, 18-04-2025 a las 14:25 +0200, Boris Brezillon escribi=C3=B3:
+Thanks, that's clearer, I'll update in v2 version. :)
 
-(...)
-> +For all these reasons, the tiler usually allocates memory
-> dynamically, but
-> +DRM has not been designed with this use case in mind. Drivers will
-> address
-> +these problems differently based on the functionality provided by
-> their
-> +hardware, but all of them almost certainly have to deal with this
-> somehow.
-> +
-> +The easy solution is to statically allocate a huge buffer to pick
-> from when
-> +tiler memory is needed, and fail the rendering when this buffer is
-> depleted.
-> +Some drivers try to be smarter to avoid reserving a lot of memory
-> upfront.
-> +Instead, they start with an almost empty buffer and progressively
-> populate it
-> +when the GPU faults on an address sitting in the tiler buffer range.
-> This
-> +works okay most of the time but it falls short when the system is
-> under
-> +memory pressure, because the memory request is not guaranteed to be
-> satisfied.
-> +In that case, the driver either fails the rendering, or, if the
-> hardware
-> +allows it, it tries to flush the primitives that have been processed
-> and
-> +triggers a fragment job that will consume those primitives and free
-> up some
-> +memory to be recycled and make further progress on the tiling step.
-> This is
-> +usually referred as partial/incremental rendering (it might have
-> other names).
+Huan
 
-In our case, user space allocates some memory up front hoping to avoid
-running out of memory during tiling, but if the tiler does run out of
-memory we get an interrupt and the tiler hw will stop and wait for the
-kernel driver to write back an address where more memory is made
-available (via register write), which we will try to allocate at that
-point. This can happen any number of times until the tiler job
-completes
-
-I am not sure that we are handling allocation failure on this path=20
-nicely at the moment since we don't try to fail and cancel the job,
-that's maybe something we should fix, although I don't personally
-recall any reports of us running into this situation either.
-
-
-> +
-> +Compute based emulation of geometry stages
-> +------------------------------------------
-> +
-> +More and more hardware vendors don't bother providing hardware
-> support for
-> +geometry/tesselation/mesh stages, since those can be emulated with
-> compute
-> +shaders. But the same problem we have with tiler memory exists with
-> those
-> +intermediate compute-emulated stages, because transient data shared
-> between
-> +stages need to be stored in memory for the next stage to consume,
-> and this
-> +bubbles up until the tiling stage is reached, because ultimately,
-> what the
-> +tiling stage will need to process is a set of vertices it can turn
-> into
-> +primitives, like would happen if the application had emulated the
-> geometry,
-> +tesselation or mesh stages with compute.
-> +
-> +Unlike tiling, where the hardware can provide a fallback to recycle
-> memory,
-> +there is no way the intermediate primitives can be flushed up to the
-> framebuffer,
-> +because it's a purely software emulation here. This being said, the
-> same
-> +"start small, grow on-demand" can be applied to avoid over-
-> allocating memory
-> +upfront.
-
-FWIW, v3d has geometry and tessellation hardware.
-
-
-> +
-> +On-demand memory allocation
-> +---------------------------
-> +
-> +As explained in previous sections, on-demand allocation is a central
-> piece
-> +of tile-based renderer if we don't want to over-allocate, which is
-> bad for
-> +integrated GPUs who share their memory with the rest of the system.
-> +
-> +The problem with on-demand allocation is that suddenly, GPU accesses
-> can
-> +fail on OOM, and the DRM components (drm_gpu_scheduler and drm_gem
-> mostly)
-> +were not designed for that. Those are assuming that buffers memory
-> is
-> +populated at job submission time, and will stay around for the job
-> lifetime.
-> +If a GPU fault happens, it's the user fault, and the context can be
-> flagged
-> +unusable. On-demand allocation is usually implemented as allocation-
-> on-fault,
-> +and the dma_fence contract prevents us from blocking on allocations
-> in that
-> +path (GPU fault handlers are in the dma-fence signalling path).
-
-As I described above, v3d is not quite an allocation-on-fault mechanism
-but rather, we get a dedicated interrupt from the hw when it needs more
-memory, which I believe happens a bit before it completely runs out of
-memory actually. Maybe that changes the picture since we don't exactly
-use a fault handler?
-
-Iago
+>
+> Thanks,
+> Vivek
+>
+>> Signed-off-by: Huan Yang <link@vivo.com>
+>> Reported-by: Bingbu Cao <bingbu.cao@linux.intel.com>
+>> Closes: https://lore.kernel.org/dri-devel/eb7e0137-3508-4287-98c4-
+>> 816c5fd98e10@vivo.com/T/#mbda4f64a3532b32e061f4e8763bc8e307bea3ca
+>> 8
+>> Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+>> ---
+>>    drivers/dma-buf/Kconfig   |  1 -
+>>    drivers/dma-buf/udmabuf.c | 22 +++++++---------------
+>>    2 files changed, 7 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+>> index fee04fdb0822..b46eb8a552d7 100644
+>> --- a/drivers/dma-buf/Kconfig
+>> +++ b/drivers/dma-buf/Kconfig
+>> @@ -36,7 +36,6 @@ config UDMABUF
+>>        depends on DMA_SHARED_BUFFER
+>>        depends on MEMFD_CREATE || COMPILE_TEST
+>>        depends on MMU
+>> -    select VMAP_PFN
+>>        help
+>>          A driver to let userspace turn memfd regions into dma-bufs.
+>>          Qemu can use this to create host dmabufs for guest framebuffers.
+>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+>> index 7eee3eb47a8e..79845565089d 100644
+>> --- a/drivers/dma-buf/udmabuf.c
+>> +++ b/drivers/dma-buf/udmabuf.c
+>> @@ -109,29 +109,21 @@ static int mmap_udmabuf(struct dma_buf *buf,
+>> struct vm_area_struct *vma)
+>>    static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+>>    {
+>>        struct udmabuf *ubuf = buf->priv;
+>> -    unsigned long *pfns;
+>> +    struct page **pages;
+>>        void *vaddr;
+>>        pgoff_t pg;
+>>
+>>        dma_resv_assert_held(buf->resv);
+>>
+>> -    /**
+>> -     * HVO may free tail pages, so just use pfn to map each folio
+>> -     * into vmalloc area.
+>> -     */
+>> -    pfns = kvmalloc_array(ubuf->pagecount, sizeof(*pfns), GFP_KERNEL);
+>> -    if (!pfns)
+>> +    pages = kvmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
+>> +    if (!pages)
+>>            return -ENOMEM;
+>>
+>> -    for (pg = 0; pg < ubuf->pagecount; pg++) {
+>> -        unsigned long pfn = folio_pfn(ubuf->folios[pg]);
+>> -
+>> -        pfn += ubuf->offsets[pg] >> PAGE_SHIFT;
+>> -        pfns[pg] = pfn;
+>> -    }
+>> +    for (pg = 0; pg < ubuf->pagecount; pg++)
+>> +        pages[pg] = &ubuf->folios[pg]->page;
+>>
+>> -    vaddr = vmap_pfn(pfns, ubuf->pagecount, PAGE_KERNEL);
+>> -    kvfree(pfns);
+>> +    vaddr = vm_map_ram(pages, ubuf->pagecount, -1);
+>> +    kvfree(pages);
+>>        if (!vaddr)
+>>            return -EINVAL;
+>>
+>> --
+>> 2.48.1
+>>
