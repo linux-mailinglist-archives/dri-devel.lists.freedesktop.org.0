@@ -2,136 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51EF9A9FB91
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 23:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E869A9FC78
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 23:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE8310E254;
-	Mon, 28 Apr 2025 21:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA37510E2AA;
+	Mon, 28 Apr 2025 21:45:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="gAH32FLs";
+	dkim=pass (2048-bit key; unprotected) header.d=ventureresearch.com header.i=@ventureresearch.com header.b="d7CWexwv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA94D10E254
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 21:06:58 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id
- d75a77b69052e-4767e969b94so121062951cf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 14:06:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1745874417; x=1746479217;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0HZyp8budJTYWJ9MOmTZnBjDzB8PV0g52ckHb+nyRQs=;
- b=gAH32FLs/FKxVCuJZuAwdcuoFw8KOYz2esaIq/BhbcOUUfZoEoOvjgsQjlRbgdiCvI
- 9S9NJm99JxsjPpc3YhvsnZiOQar3bdvkywgz4K6Uq1ynF8zuB+xaQjTOMG2d/HwZ9wxV
- w4ye1Fx8t/rscTZl+tFukOcFozy46okCBeUog=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745874417; x=1746479217;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0HZyp8budJTYWJ9MOmTZnBjDzB8PV0g52ckHb+nyRQs=;
- b=AKAhA8P0mDjN5BTzHho2Tb2ZEHAR3Y1XdO7+m8CxMEgsvwdOehZzMINlsD6J6NBZpb
- FwpBNyeAGo/SWmMP845rcXAauH0QtZlVcc1UQILkAamhbJr7ewHh55OJRBJ4cYUWQvko
- s+UTUo135MvTrYKA1oJVGOiBOyBGXwbJGtTNvOewlwZaGpjwVRy5fw+QRmoZCZesp36R
- +XPSbCyxjgZ9B5LzrScfNjukbFOKwgrQCADo6PA5jpN/R3z+6saheRTqxxDTEFiLkgVu
- UIhGsj3aqC9yxDTk1mDe0MJc5c8zsmhw+JVtpmDp19uSbY/jgVsUtCx+RXdeSp+7VW9k
- hnsg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVuYvRuwHtO3UGJrOo5gaEtwtcdenPqFg8Y6owDqZvlvDMVC0Angi9D8Ty0GU9r+T81G8q7y585mcE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZjVWnsmrW5Shvrn/NUEowHBDLiCoiNe0AmkSzFlcJ3GO1Rl+7
- /YUddxXv7u8/mAQv+zWcxlwV9l1XQ8tbYe+gsTzBhZfwAM1KXF65JLX80AYYSXO/1MU8zlVDUgs
- =
-X-Gm-Gg: ASbGncs3dXZps5CJ0gWznFYCfbEx5q/Qd9/xeLmvZq1N+NTKDAZkbFnW3hUZ03I1rRS
- qHu/Fr5IEC5GG1uJnyQxmRlc1yid6Fq0xCCwxt1tDbm/UlI6e1DXVMjDjNzfAljkviyarD4o62j
- e1yQIz2CKf5fG0ZWmKj6+Z8E/bV9aYIA68rs4oLzJkcxEuaTIbMnttwIJaTqPYMnk/o/iYDkUoA
- V2BUhWfi3nKexr3SmjquDz16D3WLT8f7T5j/alQSkE+UHTDMPmwNOSz2lFtK3UGgNbLZ0zQVwbv
- 7ljjACYbZy1rHeAs6Vw54JmInyRMaBFOyYJZcmmxEsdCXTs/7PdrG5XT3JDIPJsMc1cEIfEMVB9
- axF53mQB2MqSVjkY=
-X-Google-Smtp-Source: AGHT+IHmou5SNnqRzK9EXYAsUqfThfqjo3OQrIyL7pj7EIjJKKDvrVYs1wyV8Ykkivsod5f1Kt7vkg==
-X-Received: by 2002:ac8:574b:0:b0:477:644a:72ec with SMTP id
- d75a77b69052e-48131903eb2mr212256221cf.13.1745874417122; 
- Mon, 28 Apr 2025 14:06:57 -0700 (PDT)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com.
- [209.85.219.44]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-47ea1ba2868sm72407481cf.74.2025.04.28.14.06.56
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Apr 2025 14:06:56 -0700 (PDT)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-6ecfbf1c7cbso94500896d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 14:06:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXm4Rruegs075PS6VTRLM6Ouv0Wsu/heGPhTWl8XwX6jaiE+jqfF9TIQpzqApzjnJyK7i+WnHu+iIc=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:2e03:b0:2fa:1a23:c01d with SMTP id
- 98e67ed59e1d1-30a0132e771mr15291417a91.21.1745874002058; Mon, 28 Apr 2025
- 14:00:02 -0700 (PDT)
+Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com
+ [67.231.154.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1CE310EA62
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 21:07:47 +0000 (UTC)
+Received: from engine.ppe-hosted.com (unknown [10.110.49.207])
+ by dispatch1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id
+ E512660120; Mon, 28 Apr 2025 21:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ventureresearch.com;
+ h=cc:cc:content-transfer-encoding:content-transfer-encoding:content-type:content-type:date:date:from:from:message-id:message-id:mime-version:mime-version:subject:subject:to:to;
+ s=selector-1717781956; bh=rmHbe1rt5BgZPp9mZinZNbVB03QooxBNv/WYL5AAkBI=;
+ b=d7CWexwvBHWFPi6whiyB+3nyzRRcqk+XEwR95lS57pbD0FrxQeUtSnVxabNB6m7DgYQyV74gXlxcucZ9HZBbjbKMD+uezmWsWTnipbzhOIdlpCRqgQiH//dSGQ3cO1G+s94AJJu4+hkO1ppQ/RiXjXcjCCPs0UY42MlzBe8zR2dKxAIiLx1xR/5l+NXzVZaUL66A/Kn5+Px0v036eTe14Ij/7JYnU+3o+4WD+5m1g7Kob2AAJ3DsjKYswbQsZ5WCqr/ajXnr7slYrPRNAPKUcIi9i2Jw1yj0LlzA1zIQhAZQGUnQUkI9advrdKKOeWFZ/f9qS1uXlzFjDlM6yN0POQ==
+X-Virus-Scanned: Proofpoint Essentials engine
+Received: from Mail2019.crm.ventureresearch.com (unknown [67.210.242.164])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id 37DCC24006A;
+ Mon, 28 Apr 2025 21:07:45 +0000 (UTC)
+Received: from build01-deb.crm.ventureresearch.com (2605:ed00:15b3:1::5:1) by
+ mail.ventureresearch.com (2605:ae00:1849:1:733d:6d07:c0da:2dc6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 28 Apr
+ 2025 16:07:44 -0500
+From: Kevin Baker <kevinb@ventureresearch.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
+CC: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, Kevin
+ Baker <kevinb@ventureresearch.com>
+Subject: [PATCH] drm/panel: simple: Update timings for AUO G101EVN010
+Date: Mon, 28 Apr 2025 16:07:26 -0500
+Message-ID: <20250428210726.3395279-1-kevinb@ventureresearch.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
-In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 28 Apr 2025 13:59:50 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VmV5yb0HWWGTiKyyC8+WNPJpM7vE9PQGh5_=KPk6+HCg@mail.gmail.com>
-X-Gm-Features: ATxdqUFp3e4vRAA9U9jS3-gUD9FhwChMaNCvlfej-PAqltrXksVDq12UxaUaXqM
-Message-ID: <CAD=FV=VmV5yb0HWWGTiKyyC8+WNPJpM7vE9PQGh5_=KPk6+HCg@mail.gmail.com>
-Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
- Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, 
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
- platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- linux-stm32@st-md-mailman.stormreply.com, Adam Ford <aford173@gmail.com>, 
- Adrien Grassein <adrien.grassein@gmail.com>,
- Aleksandr Mishin <amishin@t-argos.ru>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Christoph Fritz <chf.fritz@googlemail.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Detlev Casanova <detlev.casanova@collabora.com>, 
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Guenter Roeck <groeck@chromium.org>, 
- Heiko Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>,
- Janne Grunau <j@jannau.net>, 
- Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Liu Ying <victor.liu@nxp.com>, 
- Manikandan Muralidharan <manikandan.m@microchip.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Phong LE <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Sugar Zhang <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Vitalii Mordan <mordan@ispras.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MDID: 1745874466-yh445e51p1Fp
+X-PPE-STACK: {"stack":"us1"}
+X-MDID-O: us1; at1; 1745874466; yh445e51p1Fp; <kevinb@ventureresearch.com>;
+ 5e6c6d0f4ea4dbaad6972e39b9ca5131
+X-PPE-TRUSTED: V=1;DIR=OUT;
+X-Mailman-Approved-At: Mon, 28 Apr 2025 21:45:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,136 +67,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Switch to panel timings based on datasheet for the AUO G101EVN01.0
+LVDS panel. Default timings were tested on the panel.
 
-On Thu, Apr 24, 2025 at 11:59=E2=80=AFAM Luca Ceresoli
-<luca.ceresoli@bootlin.com> wrote:
->
-> devm_drm_bridge_alloc() is the new API to be used for allocating (and
-> partially initializing) a private driver struct embedding a struct
-> drm_bridge.
->
-> For many drivers having a simple code flow in the probe function, this
-> commit does a mass conversion automatically with the following semantic
-> patch. The changes have been reviewed manually for correctness as well as
-> to find any false positives.
->
->   @@
->   type T;
->   identifier C;
->   identifier BR;
->   expression DEV;
->   expression FUNCS;
->   @@
->   -T *C;
->   +T *C;
->    ...
->   (
->   -C =3D devm_kzalloc(DEV, ...);
->   -if (!C)
->   -    return -ENOMEM;
->   +C =3D devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
->   +if (IS_ERR(C))
->   +     return PTR_ERR(C);
->   |
->   -C =3D devm_kzalloc(DEV, ...);
->   -if (!C)
->   -    return ERR_PTR(-ENOMEM);
->   +C =3D devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
->   +if (IS_ERR(C))
->   +     return PTR_ERR(C);
->   )
->    ...
->   -C->BR.funcs =3D FUNCS;
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->
-> ---
->
-> Cc: Adam Ford <aford173@gmail.com>
-> Cc: Adrien Grassein <adrien.grassein@gmail.com>
-> Cc: Aleksandr Mishin <amishin@t-argos.ru>
-> Cc: Andy Yan <andy.yan@rock-chips.com>
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Biju Das <biju.das.jz@bp.renesas.com>
-> Cc: Christoph Fritz <chf.fritz@googlemail.com>
-> Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> Cc: Detlev Casanova <detlev.casanova@collabora.com>
-> Cc: Dharma Balasubiramani <dharma.b@microchip.com>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Heiko Stuebner <heiko@sntech.de>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Janne Grunau <j@jannau.net>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: Jesse Van Gavere <jesseevg@gmail.com>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Liu Ying <victor.liu@nxp.com>
-> Cc: Manikandan Muralidharan <manikandan.m@microchip.com>
-> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Phong LE <ple@baylibre.com>
-> Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> Cc: Sugar Zhang <sugar.zhang@rock-chips.com>
-> Cc: Sui Jingfeng <sui.jingfeng@linux.dev>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: Vitalii Mordan <mordan@ispras.ru>
->
-> Changed in v2:
-> - added missing PTR_ERR() in the second spatch alternative
-> ---
->  drivers/gpu/drm/adp/adp-mipi.c                      |  8 ++++----
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c        |  9 ++++-----
->  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c  |  9 ++++-----
->  drivers/gpu/drm/bridge/aux-bridge.c                 |  9 ++++-----
->  drivers/gpu/drm/bridge/aux-hpd-bridge.c             |  9 +++++----
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c |  8 ++++----
->  drivers/gpu/drm/bridge/chipone-icn6211.c            |  9 ++++-----
->  drivers/gpu/drm/bridge/chrontel-ch7033.c            |  8 ++++----
->  drivers/gpu/drm/bridge/cros-ec-anx7688.c            |  9 ++++-----
->  drivers/gpu/drm/bridge/fsl-ldb.c                    |  7 +++----
->  drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c      |  9 ++++-----
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c        | 10 ++++------
->  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c     |  8 ++++----
->  drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c        |  8 ++++----
->  drivers/gpu/drm/bridge/ite-it6263.c                 |  9 ++++-----
->  drivers/gpu/drm/bridge/ite-it6505.c                 |  9 ++++-----
->  drivers/gpu/drm/bridge/ite-it66121.c                |  9 ++++-----
->  drivers/gpu/drm/bridge/lontium-lt8912b.c            |  9 ++++-----
->  drivers/gpu/drm/bridge/lontium-lt9211.c             |  8 +++-----
->  drivers/gpu/drm/bridge/lontium-lt9611.c             |  9 ++++-----
->  drivers/gpu/drm/bridge/lvds-codec.c                 |  9 ++++-----
->  drivers/gpu/drm/bridge/microchip-lvds.c             |  8 ++++----
->  drivers/gpu/drm/bridge/nwl-dsi.c                    |  8 ++++----
->  drivers/gpu/drm/bridge/parade-ps8622.c              |  9 ++++-----
->  drivers/gpu/drm/bridge/parade-ps8640.c              |  9 ++++-----
->  drivers/gpu/drm/bridge/sii9234.c                    |  9 ++++-----
->  drivers/gpu/drm/bridge/sil-sii8620.c                |  9 ++++-----
->  drivers/gpu/drm/bridge/simple-bridge.c              | 10 ++++------
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c        |  8 ++++----
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c       |  8 ++++----
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c      |  8 ++++----
->  drivers/gpu/drm/bridge/tc358762.c                   |  9 ++++-----
->  drivers/gpu/drm/bridge/tc358764.c                   |  9 ++++-----
->  drivers/gpu/drm/bridge/tc358768.c                   |  9 ++++-----
->  drivers/gpu/drm/bridge/tc358775.c                   |  9 ++++-----
->  drivers/gpu/drm/bridge/thc63lvd1024.c               |  8 ++++----
->  drivers/gpu/drm/bridge/ti-dlpc3433.c                |  9 ++++-----
->  drivers/gpu/drm/bridge/ti-tdp158.c                  |  8 ++++----
->  drivers/gpu/drm/bridge/ti-tfp410.c                  |  9 ++++-----
->  drivers/gpu/drm/bridge/ti-tpd12s015.c               |  9 ++++-----
->  drivers/gpu/drm/mediatek/mtk_dp.c                   |  9 ++++-----
->  drivers/gpu/drm/mediatek/mtk_dpi.c                  |  9 ++++-----
->  drivers/gpu/drm/mediatek/mtk_dsi.c                  |  9 ++++-----
->  drivers/gpu/drm/mediatek/mtk_hdmi.c                 |  9 ++++-----
->  drivers/gpu/drm/meson/meson_encoder_cvbs.c          | 12 ++++++------
->  drivers/gpu/drm/meson/meson_encoder_dsi.c           | 12 ++++++------
->  drivers/gpu/drm/meson/meson_encoder_hdmi.c          | 12 ++++++------
->  drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c         |  9 ++++-----
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c      | 10 ++++------
->  49 files changed, 201 insertions(+), 237 deletions(-)
+Previous mode-based timings resulted in horizontal display shift.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
-Tested-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
+Signed-off-by: Kevin Baker <kevinb@ventureresearch.com>
+---
+ drivers/gpu/drm/panel/panel-simple.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index fb8a57afe687..1a3d7ccb328a 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -979,27 +979,28 @@ static const struct panel_desc auo_g070vvn01 = {
+ 	},
+ };
+ 
+-static const struct drm_display_mode auo_g101evn010_mode = {
+-	.clock = 68930,
+-	.hdisplay = 1280,
+-	.hsync_start = 1280 + 82,
+-	.hsync_end = 1280 + 82 + 2,
+-	.htotal = 1280 + 82 + 2 + 84,
+-	.vdisplay = 800,
+-	.vsync_start = 800 + 8,
+-	.vsync_end = 800 + 8 + 2,
+-	.vtotal = 800 + 8 + 2 + 6,
++static const struct display_timing auo_g101evn010_timing = {
++	.pixelclock = { 64000000, 68930000, 85000000 },
++	.hactive = { 1280, 1280, 1280 },
++	.hfront_porch = { 8, 64, 256 },
++	.hback_porch = { 8, 64, 256 },
++	.hsync_len = { 40, 168, 767 },
++	.vactive = { 800, 800, 800 },
++	.vfront_porch = { 4, 8, 100 },
++	.vback_porch = { 4, 8, 100 },
++	.vsync_len = { 8, 16, 223 },
+ };
+ 
+ static const struct panel_desc auo_g101evn010 = {
+-	.modes = &auo_g101evn010_mode,
+-	.num_modes = 1,
++	.timings = &auo_g101evn010_timing,
++	.num_timings = 1,
+ 	.bpc = 6,
+ 	.size = {
+ 		.width = 216,
+ 		.height = 135,
+ 	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+-- 
+2.39.5
+
