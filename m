@@ -2,199 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6869FA9FA6C
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 22:24:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689B7A9FA6A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 22:24:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B21EE10EA0D;
-	Mon, 28 Apr 2025 20:24:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8BF510EA0E;
+	Mon, 28 Apr 2025 20:24:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="bQWr14p7";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="hH48V515";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JrY6z5Ew";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B4510EA0D;
- Mon, 28 Apr 2025 20:24:04 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53SKG2Uk018912;
- Mon, 28 Apr 2025 20:23:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=corp-2023-11-20; bh=GvNaaKH63lRsPeHAuQ
- sEhn/sGg0xeSLIAzW0W9EMbdw=; b=bQWr14p7mQKlGqjS4UR8MY+0u7LEKicIZ5
- JhkZApx5yMLUAFXzmmx39zFcDVawU0STkmGRAK0jCC90NHwsZKRDRqJbrM7mJUqH
- CTXhmOLt8xo+K7Kf3ca2jq0i2YMDWmzHzXcGJkwsLYPuZ6EsjnadPP3URLzO3854
- c/VGQrd4xjEbFVWxHEvl7zvX6XfZNJi5VXght+yMjC4o8CGR3ROYuhTIxhODzcbt
- /wwpsdyTgBdzV0Jc12xza1VQhO3pwwVmq/15FTDDOPCZs3HE5AQhQmropaelrIYj
- 6llhvSW8deORZb4hZXwsFA5fIFrellGyd3utjzzlAEZeKwZbGQyg==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46aenug8a2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 28 Apr 2025 20:23:40 +0000 (GMT)
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 53SK0x9F033456; Mon, 28 Apr 2025 20:23:39 GMT
-Received: from bn1pr04cu002.outbound.protection.outlook.com
- (mail-eastus2azlp17010022.outbound.protection.outlook.com [40.93.12.22])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 468nx8x76f-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 28 Apr 2025 20:23:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UgeM5jJ07DDAyyDs4aENq+uSwKZw/Ykps4+CpaymmgZ4K6bFBJkukThSLrh3/9JsNx6AlhOnp3bDVgCpmtMGtDjGtgybVCln1u2GTuNR/TFIg1gcBEcA+Dp9CTQouciSQfKtKoevkVfrvsDdcEbQdWYZt2YughYPPpAY29z7RUZLixzqqMdByqKMRzioXWEbAbjGV3QPOUPSff/4duXIKhPvbvb5kinIxUDDD8u5Hf/EI7TMz4evttg1uQYQRo3MBNA22t18Orlsus+8jXsntBvesx2DGxfaJICZpiIGXRqLnA/pGDk0o0Aubi0xBlgEpWjwhRAgHPkAXuTSVakJ2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GvNaaKH63lRsPeHAuQsEhn/sGg0xeSLIAzW0W9EMbdw=;
- b=K1QP0D2AgggmqSHUCdlWdUgKK3LHeci72Th9KtORMg1AdVW+KUiqlT66EscFDH1b66Myic06a967p/Sm5G3weJjL9mHKUWX5qsMCbHiS2xZhlsNXXA4tpxzaN57ZT5tzqxUunWt0ql5Z79+5t+xZNONw3DSCwII7fLeypNaqtvraZ5mvHMTwvKG3Gr8w5ACw1BTL8OuUivi8N+5PX+PGLtZ352U0OvWAQrmGTw3fWQypi9RwJFcIthHkaBfCR7L6t/uMUB1C5Eu4uymFHz9Y3QaSTEqUs5HcuL7JhYgcc9Alx0VBGzhepNdGOr+3C5wt8rhfUYV5eLatDuLK9shAuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GvNaaKH63lRsPeHAuQsEhn/sGg0xeSLIAzW0W9EMbdw=;
- b=hH48V515+ho1kSoDvn9wjIbpN+GuMxnjLbL9NXAu0XceioeZNimRinkkZmx7BCHSOheLgyx2m299TyPzK74fvqb/EXsBWQ8/+FzywlwcVW8n2xnWiLWByExeCepUKW4+CDvoH9U5An3SjqWyC+svpaa3ecNhAn2qGV0KEJadn+M=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by SJ0PR10MB5549.namprd10.prod.outlook.com (2603:10b6:a03:3d8::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Mon, 28 Apr
- 2025 20:23:30 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.8678.028; Mon, 28 Apr 2025
- 20:23:30 +0000
-Date: Mon, 28 Apr 2025 21:23:28 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-trace-kernel@vger.kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEA6B10EA0E
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 20:23:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1745871838;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=rkEtrqEhBS4XY4MnxLuPuVZCrKNUqZ8c+beG4mFgbns=;
+ b=JrY6z5EwOIR79+F7ECFoCL5Ys2UOR/E0t11a04ZyZKXQPo8Mn2NQY27pDnFw70+HbTksVa
+ sePT3LaplT1UM7bPFHYXA5mpfqBQ33Y676ekmkf1CPX6iTW1+PpovJhfl2jVmd2CWPwaLF
+ f3gmmcn0bMzJgc7CpMwTh/0gMSNDcok=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-589-BxiPx7tcONWNGTTX2l2-xA-1; Mon, 28 Apr 2025 16:23:56 -0400
+X-MC-Unique: BxiPx7tcONWNGTTX2l2-xA-1
+X-Mimecast-MFC-AGG-ID: BxiPx7tcONWNGTTX2l2-xA_1745871835
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3912d5f6689so2799202f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 13:23:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745871825; x=1746476625;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:from:references:cc:to:subject:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=rkEtrqEhBS4XY4MnxLuPuVZCrKNUqZ8c+beG4mFgbns=;
+ b=P5FA206BKtdwIsKnSBfiXRCNmwknAPeny4vquk6ldrvma/DGTbGTpUK3BgP/kSX3EB
+ mRR84iurqTlM56BEXPCSNsjHNT7vuu0mZI82kHW5IcRA/aAbx6s71xT0Lf1APgHMdj4t
+ jw0xam2o0e6WveUTKz6zkO1KxmRl3egXSCSPr8UpKRjzEkakzxMenIEDawDHrXSjBhLK
+ uqkeMAOxdn7XA8CY9/hmZM5coxRnIJ3hnQxu69j0yFPmYcQL1DwPyoyA9kK+3y4ohHAk
+ GcT5HYbeSKQryIM9n3wyvU6RSi9eMv4bBUJqzcf3g6Q/0vSz6sDH/jfsVcp9pPESOwLq
+ xl6A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUZS+dDkUEw8mQR+9BVuZqaWZI0D90VCnQwsi+sx6BxQ5CYuRVmi7o0cyt3bZQELxEUi1SV0a8l8uw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzuVDkT5c+NwnsWyE5p7EsmQE/OB7aNn5GdN1Ba5S7WIyQvlyl4
+ diexMd2JF2gg4lntelsbZXCozaUkdXDnJCs7R7ImI25RiH47E/EgymCEL6vq/tReIlc8mmjM55/
+ /pvk9gC5tYBXD7qACr1LRGFeGP3XoDpWZDyAjpHjIZk9+YcYNRkSbTm6bMYGygk08+w==
+X-Gm-Gg: ASbGncvvrUmv4L3lSdIJZtVSo7WlALrNWBWVXO9yaTPFnDT0sR4Nfp0NmwYpctvIeP0
+ Y2USQBlvVMA6fnP/ktZ1UqRu5G5dBIh90h7FeQo9B61BJELYT7NGIMDlco85j0x9GhW+iiSod8t
+ wJW0Njcddy9uXpsLPstTqi5MUD9g/MzkwRqmvLTRUPokJKFMXHp6oZz8Kr9iI4RcKLNqSpBrI2+
+ 09AQ01QQUflZKT/xSBr62JQ9crD719csctEuJFNd1oZofkr53B7YHhXqHrSDUURjjqBpguEQboC
+ jIJR0Jm6SvFGB3W2xXAZ/oySPsPMNgVnwjyrjD4deoaSjwfusMU7mkensmSPVEFJ83kc01LKMD0
+ IgsydAbz2vv++k5UqFIc8xsMTnBirP4J+OMi4438=
+X-Received: by 2002:a05:6000:b4e:b0:39e:cc5e:147 with SMTP id
+ ffacd0b85a97d-3a0894a1aa8mr941306f8f.55.1745871825198; 
+ Mon, 28 Apr 2025 13:23:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHi9BeKEw90HGojYH0uYj++rRWoQl9Ep0UCTEuLPP1j3Ci9jqWDeYDWhMBAhQ1IJFvMvOz7CA==
+X-Received: by 2002:a05:6000:b4e:b0:39e:cc5e:147 with SMTP id
+ ffacd0b85a97d-3a0894a1aa8mr941276f8f.55.1745871824797; 
+ Mon, 28 Apr 2025 13:23:44 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c72f:ea00:2f00:e7e5:8875:a0ea?
+ (p200300cbc72fea002f00e7e58875a0ea.dip0.t-ipconnect.de.
+ [2003:cb:c72f:ea00:2f00:e7e5:8875:a0ea])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a073cbf04dsm12236556f8f.52.2025.04.28.13.23.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Apr 2025 13:23:44 -0700 (PDT)
+Message-ID: <bd8ce421-cf2a-451b-a3eb-613e6856bb9e@redhat.com>
+Date: Mon, 28 Apr 2025 22:23:42 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 05/11] mm: convert VM_PFNMAP tracking to pfnmap_track()
+ + pfnmap_untrack()
+To: Suren Baghdasaryan <surenb@google.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Peter Xu <peterx@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, x86@kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>, Andy Lutomirski
+ <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
  Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
  Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v1 10/11] drm/i915: track_pfn() -> "pfnmap tracking"
-Message-ID: <cff35573-53cd-4df0-84f5-84b96abe5135@lucifer.local>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>
 References: <20250425081715.1341199-1-david@redhat.com>
- <20250425081715.1341199-11-david@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250425081715.1341199-11-david@redhat.com>
-X-ClientProxiedBy: LO4P265CA0044.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ac::23) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|SJ0PR10MB5549:EE_
-X-MS-Office365-Filtering-Correlation-Id: f07d39c3-0309-43ae-1350-08dd86928a96
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?MNmuYlZQAHY3Nlm1GmyheyCuYO6kSZQcu0w24jnaEMIO92C1vXG7XVqqfqWY?=
- =?us-ascii?Q?na9nU3tLtV2upAiFWdwFZUwT/+gNJsosWVLYCw248twZRp6cEV+4PfnI5eO6?=
- =?us-ascii?Q?UGderWN12udCx5BfsFHNQZNG6KRoFKHcACeQbAl4SIp6SfVZhwv+FpeyNADG?=
- =?us-ascii?Q?V7Fr8V9Yz0Go0y/uIebRPpbRLjFR4egGWGrFSPQ6xwoBqDe/Ey7Q6LE1wz6e?=
- =?us-ascii?Q?CNA1Z5sSKSdeqlcV+LaIKW5wrqvFU7CdlTholcYJ0io+wvqGZUEUnRwtwKNO?=
- =?us-ascii?Q?zeOyyjpboZJOE08mxF7go3LeS6PaansS+rjewUYgfITwCeSb4FGZqf3sLNfg?=
- =?us-ascii?Q?kfr9ofKKliRe1sSRIZbTS8Euylz4pM/4lRogV79Af9BJFllnFuijdDkJi11B?=
- =?us-ascii?Q?GtLaacp9awrlBvLsIQ9/01F4SqkihZlWUr56wf64jOeKHn1gm9Sf15pkm1f6?=
- =?us-ascii?Q?vJUP/1Ug26MAoxkjIPtaQ1nFnFPa0Iu4JuOM6VKEUW8knNJ1/15UwaYfXnnz?=
- =?us-ascii?Q?C/rRWUvDS7riNBmQUzQomeRO5c1SjVLLaTEVcTQux/8UNTiSlFUAeSO/BiXS?=
- =?us-ascii?Q?vvLAXDLFuut8zFDGP9Z7hUWYqR4ZcovycUxyu8XEV7KJB8NRNxPuM1eaIN4o?=
- =?us-ascii?Q?Tn70GstFKMrKlDXIYUEfyLT4gsvlAe3UJrDZ3aDEJ35WwnVhRLxQue8eYdah?=
- =?us-ascii?Q?fsiqcKWBaFgQGooYZBvgDVsyydVMYKjWkmQ+IQjO1WqqlELyr5XsrZn02rGJ?=
- =?us-ascii?Q?5mMdBbHlp8jMCb0squXOJS3oM5njYxrR557kiVNsyu5yDIP0YRC7+7iUJ1YR?=
- =?us-ascii?Q?Rereo/UMtXVuHm+eu47WVAOV9gpp45/RLww1adimMD2i30NatHLWoWLR0EkY?=
- =?us-ascii?Q?hx/cPxdgFxzWuGPNY4JSXB1Uf9yEyuCyplIdC30bRYpplRhNGDydgVecGW6N?=
- =?us-ascii?Q?AA5TlINiwRiEnLtszBxs4nWV8/ozcIp+++IX4FKNmejbZNzq8zwuzNcOGyQB?=
- =?us-ascii?Q?blHJBk4ynWtAVJYLAKzNkhfZEfno4upfijHZ+9yJiDpqATaK4ROUZJvANG4Q?=
- =?us-ascii?Q?Wp2EG/86FWOsXjzJeBTzNv8W42rrAiM+HxNWF3sOrVpcNWDPS/Bhe6LDpSkm?=
- =?us-ascii?Q?vBl2tQpnsSI98y2o8kv2DaUBJW3engkJcSN+/ji6u2UVveWJsqTYZS89D0Cc?=
- =?us-ascii?Q?CmPDnfNqqBOaVEpUMobqUP/SZqIyk6CD3dyi37MejkAyPqikmoGSpnjcW1hr?=
- =?us-ascii?Q?qsn3bnYiSUiZP7jlcLzLh44xdGIJfiTHEpdCXX35l5fQy/dGfRPtFJzKgP+9?=
- =?us-ascii?Q?D4d/yFNR1PJflgaWUnA7QOqTtODue7bReHlNoxSGMtTMxLT68QBt/OYvOKsW?=
- =?us-ascii?Q?c5D9GH0jdHm2/b9ynINtVBQI/xWQ+8M1ld8OrJ+bS0ckyp3WiNuP16kKrgij?=
- =?us-ascii?Q?YaoholUDUEM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR10MB8218.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?63NXFf+guX0n+4RZS4pm0imPtoCdjcq9tQ7Juraj9F0PYSfWvgKhsrLtuOTL?=
- =?us-ascii?Q?gsEjdHJ1glNdMlIvQ0JsQSlH1K5iu/nIfAuSK5dtGv640g1882nMhG3M/T2O?=
- =?us-ascii?Q?AV4HVKXinoDP1+lJXmXT+dUasstRWo3CSaAsQnNQnlPV1AP8tJedcutfzTGo?=
- =?us-ascii?Q?jhfP8SgWh+pE58GXlJUqsJqHjBQ5Ai6m+ICR62Y4lV1HEpGF6ToPEgw0tD+9?=
- =?us-ascii?Q?mAMQ4PTUc2zSN28MRQLmI/0GvvyEWo8tyi40zbXLIm1MQL1R+S3TWzRF7RdK?=
- =?us-ascii?Q?EHkR4QGZE4cNjPTKeZg6baxhDiERC7l48vvFeIS8EucpyhIySJ3HItrNor+w?=
- =?us-ascii?Q?cfRNkTzpP2ULw3YBOU/mmsemrXfUtsBtL7CW3wmukYKIOXZtZgkmIkZTTJi9?=
- =?us-ascii?Q?h0lVnmmyAjlfOpVYwrWZqsLlGMfJt67OQW61PTdnPD6zFpEFsHft9dG8/uGJ?=
- =?us-ascii?Q?mykpLPMgVWfUBtGSwHz5nkq63fK6MxFqyvN8BcoUx4RAVsGo0IVHb1FFk1wT?=
- =?us-ascii?Q?gwXeYoiIfExHZqSLmUk50ca/bbnDZM4FZSXHHPyLXdkQv1R5ACFsGzGY0X89?=
- =?us-ascii?Q?KVWQP02bnagjIvcFrMi9hL6T7kzX+W2L1Bm7CdsUGUYlbugHTh/Q7xdPvosi?=
- =?us-ascii?Q?lg6OMeagwk1sZCRT8uPgRiozKvNfu2i+aCU8ASPNTyBPlmYCc8Qg2Py96q7R?=
- =?us-ascii?Q?Fsc2A40vGCHZDgvPwhNrPFgVE5oAuoKQdOtrNl8kBpCwrZBOz7suKsXhniOo?=
- =?us-ascii?Q?JpmUnGmDQBSYIP3g1rdnBxXVH5/+fqpxeVm92pPwJb8xAsL4mdt0tTd/Zl8w?=
- =?us-ascii?Q?W+fq6XNj3won6dRF9hYD9ytQTuyXaDp9hUl13KoJj/djTO+FxxK11Awgdceo?=
- =?us-ascii?Q?s/Cpy1h70md6PkeQLUn+rEMCaxNPso5hCZ1FKSbLKVqBSnmKCVDJ4lWHohJF?=
- =?us-ascii?Q?+vbl7ZEYJPQrtERuY+ltfyWqjcy7qDZANbcrXCoTgBRqtH9/n+VktUiHE5g/?=
- =?us-ascii?Q?4YdYcmNiL9m+x6au2lUw0SoVeHdptWtp8YDy3tR8RDt3JhS55X/mz0/RNj47?=
- =?us-ascii?Q?QGNW36olJ2BJEOmTNkAGjQ4twj6lmonp2Id9VRcRFMrakKX1yx7JwR7/ZMxh?=
- =?us-ascii?Q?IwgjIaZW9wqv/VOGY3aQlMsTT/vNpehwd1yRlBHHA74vIbAWS094O7wXh5h/?=
- =?us-ascii?Q?HjNWtoC++MpjRSyiaWbDHIDjj8WYxni9omuMys/VozY/19lGVKl1V2TV8u1q?=
- =?us-ascii?Q?8vtb/ppM/SS6WNWHmx2UbVs9g4deoK4y2OXacowWNf/ZUH5fUygjbSq67OZH?=
- =?us-ascii?Q?9Vk5qCTgvsdJ/1OPfcFyckct1wU6rV4g3UXuxVNbtAaPVyeiiWLs86lm7lRH?=
- =?us-ascii?Q?0Z+NhooyotUrYwIVwigydxva+XQ6U/g/uW9XEcvZbnHYTJ0Xle63RTr3jSsA?=
- =?us-ascii?Q?+9+Ox5V1TlpnwFEQUbe07kKSHr55MErJNerqXSbzsILbYH0rDrGe2Cls08Si?=
- =?us-ascii?Q?dMfB6Abd0SOko3bmXXcItr5FMcLP3Gh536iCA3bagSGs8VV9IKujXhUsX8c3?=
- =?us-ascii?Q?+1WTxrXhJJcxHWTH2WrctUfPiP/P7Y8tTim9o143VUbJ80hm35mJ7+fM5eGj?=
- =?us-ascii?Q?Ig=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: fct+fsBWvYqUugAT2ecd7wXsWpwVgsNfxSMoKPFvdQi+sz4qfLynO0ijUTC2AErSte+64GFTwcp33caCrgkumi4Mf072SUn8eEruewttr6rC9iVrzmYO+i7j/v3lvt39UvId5w6Dw/RAuHT81h6OkBZK8AkE0ZXtbs3A3RaZpFqIFmTwU+QHb6tU6xCddqOQZBHs1Gs9B+HzmnKkXswMFvszmlmXk5oFw0um9+csYFsZCpQUruUk2bq3WSsz3U4kXHZ0ImtXI7qZOpnYxdiCaEOlQbc0uvpvdu2EAIqJd5H/ij6OMSo58zV0ckF4DAziYvdfSAv9UYjJwJr/HMDfhb8lFaE6n0TfHle2hFHdNdhzGYeC6gb8bvob16MUnOcNZf7+ZmJSU5uL5blnBePukzZATw3J+TA82gs7qmrp3ugcfQRNcWLpim385fzH0VjmTwcH2WIoz/EnrAq1svCdbY2c0qYGXW+Siqv/JgRx2jFZjR+m1u5wMXwTyCQav9YMZxONelR1VcXU9OfHKnYEMxV1sqTpbyJJvKhz+3KnBVru9pyJZ/HShyzGc5ldM9eV/BhZPRH1sfGzlbpezNY3gO9t7qbLEE831VWhThmdm7s=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f07d39c3-0309-43ae-1350-08dd86928a96
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 20:23:30.5934 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +ieAItb3WtVEiEBQxgFoGcEbm7+ibor615YzU4G/nQRubntUDo1Mr1wHtTi5cy0HfyFsvo9MH+zzwTVsHvDxR0dKH3BwgaL0T9rCZcICmN0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5549
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-28_08,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- adultscore=0
- malwarescore=0 mlxscore=0 bulkscore=0 phishscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2504070000 definitions=main-2504280164
-X-Proofpoint-ORIG-GUID: s8l26xH73nzk3IJpIaWvCpAwPZ2TEHsQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDE2NCBTYWx0ZWRfX8BV2kfpSIoHo
- LVBPtuA59JKtC+WBkRiFd6jUpy0zkvSNmKvX6HVWddcVjf2qocFPavN6H7G4L3pOUQcjLoJXNyV
- 09m3xcPBgGIDCpjt9LtAOrlYwCrtqigaNnwdFsya0xIon5Q/QiuBmFo0HVMPneAmvUBKYUx3qGm
- s9tNgyzcudLUkrvhWLDYS8XtQOEsHsdH50VSWOCqSpMIRw1OqyT6hYSjO2QZrKzwkBIx3km6Mr0
- 529lWIYjKyAVU7vkYjAZ2f0Y00Oh/mOqq/oCQsg5xciu2DRkfUlmBnH59Aqnkufjod83P/KjCTT
- TFWPwILQVGpihcYf9znmWyLJcPt8xdARI1HcVj5qgQfVVuS/4sVNzpB0oK2+/uJNhAwPxQN9GKf
- gdfHNj2L
-X-Proofpoint-GUID: s8l26xH73nzk3IJpIaWvCpAwPZ2TEHsQ
+ <20250425081715.1341199-6-david@redhat.com> <aAvvQ1h9bg11hiqI@x1.local>
+ <bbadf008-9ffc-4628-9809-2d8cf104a424@redhat.com> <aA-n9hvSX9JLsRM-@x1.local>
+ <7a26e29c-d889-450a-a5e1-ce671f09e4c8@redhat.com> <aA-rtji7ujQgckbM@x1.local>
+ <884fab29-e16a-4663-8e33-885bc70ca2f7@redhat.com>
+ <f08118b3-0736-4a5d-b780-8e3d88f45c02@lucifer.local>
+ <CAJuCfpEtnBrAkSV-6PDv4Au5gs02vWYeMNHo3OxZb8NB0sy8cw@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <CAJuCfpEtnBrAkSV-6PDv4Au5gs02vWYeMNHo3OxZb8NB0sy8cw@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: U7wUheaUtZNWoEzn2NUMtryov85kDuzZ6qL1SQMb_GE_1745871835
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -210,40 +173,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 25, 2025 at 10:17:14AM +0200, David Hildenbrand wrote:
-> track_pfn() does not exist, let's simply refer to it as "pfnmap
-> tracking".
->
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On 28.04.25 21:57, Suren Baghdasaryan wrote:
+> On Mon, Apr 28, 2025 at 12:37 PM Lorenzo Stoakes
+> <lorenzo.stoakes@oracle.com> wrote:
+>>
+>> On Mon, Apr 28, 2025 at 07:23:18PM +0200, David Hildenbrand wrote:
+>>> On 28.04.25 18:24, Peter Xu wrote:
+>>>> On Mon, Apr 28, 2025 at 06:16:21PM +0200, David Hildenbrand wrote:
+>>>>>> Probably due to what config you have.  E.g., when I'm looking mine it's
+>>>>>> much bigger and already consuming 256B, but it's because I enabled more
+>>>>>> things (userfaultfd, lockdep, etc.).
+>>>>>
+>>>>> Note that I enabled everything that you would expect on a production system
+>>>>> (incld. userfaultfd, mempolicy, per-vma locks), so I didn't enable lockep.
+>>>>
+>>>> I still doubt whether you at least enabled userfaultfd, e.g., your previous
+>>>> paste has:
+>>>>
+>>>>     struct vm_userfaultfd_ctx  vm_userfaultfd_ctx;   /*   176     0 */
+>>>>
+>>>> Not something that matters.. but just in case you didn't use the expected
+>>>> config file you wanted to use..
+>>>
+>>> You're absolutely right. I only briefly rechecked for this purpose here on
+>>> my notebook, and only looked for the existence of members, not expecting
+>>> that we have confusing stuff like vm_userfaultfd_ctx.
+>>>
+>>> I checked again and the size stays at 192 with allyesconfig and then
+>>> disabling debug options.
+>>
+>> I think a reasonable case is everything on, except CONFIG_DEBUG_LOCK_ALLOC and I
+>> don't care about nommu.
+> 
+> I think it's safe to assume that production systems would disable
+> lockdep due to the performance overhead. At least that's what we do on
+> Android - enable it on development branches but disable in production.
 
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Right, and "struct lockdep_map" is ... significantly larger than 8 
+bytes. With that enabled, one is already paying for extra VMA space ...
 
-> ---
->  drivers/gpu/drm/i915/i915_mm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_mm.c b/drivers/gpu/drm/i915/i915_mm.c
-> index 76e2801619f09..c33bd3d830699 100644
-> --- a/drivers/gpu/drm/i915/i915_mm.c
-> +++ b/drivers/gpu/drm/i915/i915_mm.c
-> @@ -100,7 +100,7 @@ int remap_io_mapping(struct vm_area_struct *vma,
->
->  	GEM_BUG_ON((vma->vm_flags & EXPECTED_FLAGS) != EXPECTED_FLAGS);
->
-> -	/* We rely on prevalidation of the io-mapping to skip track_pfn(). */
-> +	/* We rely on prevalidation of the io-mapping to skip pfnmap tracking. */
->  	r.mm = vma->vm_mm;
->  	r.pfn = pfn;
->  	r.prot = __pgprot((pgprot_val(iomap->prot) & _PAGE_CACHE_MASK) |
-> @@ -140,7 +140,7 @@ int remap_io_sg(struct vm_area_struct *vma,
->  	};
->  	int err;
->
-> -	/* We rely on prevalidation of the io-mapping to skip track_pfn(). */
-> +	/* We rely on prevalidation of the io-mapping to skip pfnmap tracking. */
->  	GEM_BUG_ON((vma->vm_flags & EXPECTED_FLAGS) != EXPECTED_FLAGS);
->
->  	while (offset >= r.sgt.max >> PAGE_SHIFT) {
-> --
-> 2.49.0
->
+-- 
+Cheers,
+
+David / dhildenb
+
