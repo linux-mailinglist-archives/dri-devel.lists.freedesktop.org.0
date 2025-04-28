@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1A7A9E881
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 08:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1E5A9E89E
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 08:55:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1314410E39F;
-	Mon, 28 Apr 2025 06:47:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1198B10E1D8;
+	Mon, 28 Apr 2025 06:55:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Lw4LBAUe";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="BunLmojY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E84110E39F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 06:47:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745822839; x=1777358839;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=293dJiETy/MLYM2bKoXlmW2We/RInDpdUcocnMlVns4=;
- b=Lw4LBAUevd7XG8nPXli6YsExQy+zM/LZ9IchXEI9CsWHX/E7PGLMiojs
- mBj/BMOsSO5h9/LoPTWlQpWhmb2vgImmLjHzLwRUhK00MZwLODBs+riz4
- /wCVhzk2RdIVEP7OlDN9dMYcNMIHlVn8VQLRHHj76pzmCZq8HvrzS41VU
- jx5RR2SZ1eteWaixUNxaT2BiExtukf2TsYKdb0m6MOL6iPpcb7fhHYDX5
- pR+kgsAzSwVssZ3uzxXp/mJ2z0VORQXUJMgWS2iV39x4HNHEOvbbXOHOU
- Q45tjT+QO94yyD7nqtO/1/D6cHAutAuogIMU8RJs9fCA/6Hi1QTpxYH6j w==;
-X-CSE-ConnectionGUID: pmUqi7j7RFK7I2DFdAazMg==
-X-CSE-MsgGUID: sf13RAPZTIWlTqi0GNYygA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="47487797"
-X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; d="scan'208";a="47487797"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2025 23:47:18 -0700
-X-CSE-ConnectionGUID: C9qrGzPAQHykJbPtJKNSig==
-X-CSE-MsgGUID: sZBKJVuOQ1KX6r7KJxXlhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; d="scan'208";a="170652759"
-Received: from smorozov-mobl1.ger.corp.intel.com (HELO [10.245.80.157])
- ([10.245.80.157])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2025 23:47:17 -0700
-Message-ID: <92d4a66e-8df7-4852-b1b4-c42f167856b0@linux.intel.com>
-Date: Mon, 28 Apr 2025 08:47:14 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95A7510E1F3;
+ Mon, 28 Apr 2025 06:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=QE8DCSwcscmJrYhE5fqUCRzRLE3AEMMS/ax1OCdFi7A=; b=BunLmojYHNB3GOvpqihN5LoOY4
+ +bpjrtskhwSeqqY53WK1Pxv8iEYZMYeD/gMkLSy7r93KHgDWUa1DaKab2lEfigKCCKXIeZ5R/vLa9
+ r6A5uhWEhTbMpyWuAFER7GaGiuFmGNjvqq977Ti4jWv3BffqHeqsCmlNg4FET9brKQr6d30n11pFl
+ 1Hw+R0Ktqr5Anvqt7wn3ODKtzIbvE6Qlzc1KyR3vtrjxKJNlR5QuWg/0I0TdW7aoD0VrXOu4igTWd
+ iVppKRoC4xiTrB8j1103jtZ/CFS9V7XJSKAc0EoSLqCE93IsWaciMhQ5G8A5zVFRxcJouKAwpyGlA
+ +bsSrxGw==;
+Received: from [159.147.214.238] (helo=[192.168.0.17])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1u9IOb-009ePp-Uy; Mon, 28 Apr 2025 08:55:17 +0200
+Message-ID: <123343432f17913452ba9cbef6161837cc3c07d8.camel@igalia.com>
+Subject: Re: [PATCH] drm/doc: Start documenting aspects specific to
+ tile-based renderers
+From: Iago Toral <itoral@igalia.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ =?ISO-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+ lima@lists.freedesktop.org, Qiang Yu <yuq825@gmail.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Christian Koenig <christian.koenig@amd.com>, Faith Ekstrand
+ <faith.ekstrand@collabora.com>, kernel@collabora.com
+Date: Mon, 28 Apr 2025 08:55:07 +0200
+In-Reply-To: <20250418122524.410448-1-boris.brezillon@collabora.com>
+References: <20250418122524.410448-1-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Correct mutex unlock order in job submission
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
-Cc: lizhi.hou@amd.com, Karol Wachowski <karol.wachowski@intel.com>
-References: <20250425093656.2228168-1-jacek.lawrynowicz@linux.intel.com>
- <087563ac-bf33-4c80-a5fe-b4f2d155d9d1@oss.qualcomm.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <087563ac-bf33-4c80-a5fe-b4f2d155d9d1@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,39 +71,124 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 4/25/2025 7:22 PM, Jeff Hugo wrote:
-> On 4/25/2025 3:36 AM, Jacek Lawrynowicz wrote:
->> From: Karol Wachowski <karol.wachowski@intel.com>
->>
->> The mutex unlock for vdev->submitted_jobs_lock was incorrectly placed
->> after unlocking file_priv->lock. Change order of unlocks to avoid potential
-> 
-> This should read "before unlocking", right?
+Pitching in to describe the situation for v3d:
 
-Yes, I will correct the commit message after submitting this patch :)
+El vie, 18-04-2025 a las 14:25 +0200, Boris Brezillon escribi=C3=B3:
 
->> race conditions.
->>
->> Fixes: 5bbccadaf33e ("accel/ivpu: Abort all jobs after command queue unregister")
->> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
->> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->> ---
->>   drivers/accel/ivpu/ivpu_job.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
->> index 863e3cd6ace51..540923ffcbf8d 100644
->> --- a/drivers/accel/ivpu/ivpu_job.c
->> +++ b/drivers/accel/ivpu/ivpu_job.c
->> @@ -681,8 +681,8 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority, u32 cmdq_id)
->>   err_erase_xa:
->>       xa_erase(&vdev->submitted_jobs_xa, job->job_id);
->>   err_unlock:
->> -    mutex_unlock(&vdev->submitted_jobs_lock);
->>       mutex_unlock(&file_priv->lock);
->> +    mutex_unlock(&vdev->submitted_jobs_lock);
->>       ivpu_rpm_put(vdev);
->>       return ret;
->>   }
-> 
+(...)
+> +For all these reasons, the tiler usually allocates memory
+> dynamically, but
+> +DRM has not been designed with this use case in mind. Drivers will
+> address
+> +these problems differently based on the functionality provided by
+> their
+> +hardware, but all of them almost certainly have to deal with this
+> somehow.
+> +
+> +The easy solution is to statically allocate a huge buffer to pick
+> from when
+> +tiler memory is needed, and fail the rendering when this buffer is
+> depleted.
+> +Some drivers try to be smarter to avoid reserving a lot of memory
+> upfront.
+> +Instead, they start with an almost empty buffer and progressively
+> populate it
+> +when the GPU faults on an address sitting in the tiler buffer range.
+> This
+> +works okay most of the time but it falls short when the system is
+> under
+> +memory pressure, because the memory request is not guaranteed to be
+> satisfied.
+> +In that case, the driver either fails the rendering, or, if the
+> hardware
+> +allows it, it tries to flush the primitives that have been processed
+> and
+> +triggers a fragment job that will consume those primitives and free
+> up some
+> +memory to be recycled and make further progress on the tiling step.
+> This is
+> +usually referred as partial/incremental rendering (it might have
+> other names).
 
+In our case, user space allocates some memory up front hoping to avoid
+running out of memory during tiling, but if the tiler does run out of
+memory we get an interrupt and the tiler hw will stop and wait for the
+kernel driver to write back an address where more memory is made
+available (via register write), which we will try to allocate at that
+point. This can happen any number of times until the tiler job
+completes
+
+I am not sure that we are handling allocation failure on this path=20
+nicely at the moment since we don't try to fail and cancel the job,
+that's maybe something we should fix, although I don't personally
+recall any reports of us running into this situation either.
+
+
+> +
+> +Compute based emulation of geometry stages
+> +------------------------------------------
+> +
+> +More and more hardware vendors don't bother providing hardware
+> support for
+> +geometry/tesselation/mesh stages, since those can be emulated with
+> compute
+> +shaders. But the same problem we have with tiler memory exists with
+> those
+> +intermediate compute-emulated stages, because transient data shared
+> between
+> +stages need to be stored in memory for the next stage to consume,
+> and this
+> +bubbles up until the tiling stage is reached, because ultimately,
+> what the
+> +tiling stage will need to process is a set of vertices it can turn
+> into
+> +primitives, like would happen if the application had emulated the
+> geometry,
+> +tesselation or mesh stages with compute.
+> +
+> +Unlike tiling, where the hardware can provide a fallback to recycle
+> memory,
+> +there is no way the intermediate primitives can be flushed up to the
+> framebuffer,
+> +because it's a purely software emulation here. This being said, the
+> same
+> +"start small, grow on-demand" can be applied to avoid over-
+> allocating memory
+> +upfront.
+
+FWIW, v3d has geometry and tessellation hardware.
+
+
+> +
+> +On-demand memory allocation
+> +---------------------------
+> +
+> +As explained in previous sections, on-demand allocation is a central
+> piece
+> +of tile-based renderer if we don't want to over-allocate, which is
+> bad for
+> +integrated GPUs who share their memory with the rest of the system.
+> +
+> +The problem with on-demand allocation is that suddenly, GPU accesses
+> can
+> +fail on OOM, and the DRM components (drm_gpu_scheduler and drm_gem
+> mostly)
+> +were not designed for that. Those are assuming that buffers memory
+> is
+> +populated at job submission time, and will stay around for the job
+> lifetime.
+> +If a GPU fault happens, it's the user fault, and the context can be
+> flagged
+> +unusable. On-demand allocation is usually implemented as allocation-
+> on-fault,
+> +and the dma_fence contract prevents us from blocking on allocations
+> in that
+> +path (GPU fault handlers are in the dma-fence signalling path).
+
+As I described above, v3d is not quite an allocation-on-fault mechanism
+but rather, we get a dedicated interrupt from the hw when it needs more
+memory, which I believe happens a bit before it completely runs out of
+memory actually. Maybe that changes the picture since we don't exactly
+use a fault handler?
+
+Iago
