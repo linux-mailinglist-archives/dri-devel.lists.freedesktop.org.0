@@ -2,86 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE45A9FB44
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 22:58:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51EF9A9FB91
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 23:07:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8BE10E27F;
-	Mon, 28 Apr 2025 20:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE8310E254;
+	Mon, 28 Apr 2025 21:06:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ezAxGP1U";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="gAH32FLs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 448BF10E27F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 20:58:49 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-ac25520a289so834550266b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 13:58:49 -0700 (PDT)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+ [209.85.160.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA94D10E254
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 21:06:58 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id
+ d75a77b69052e-4767e969b94so121062951cf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 14:06:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1745873928; x=1746478728;
+ d=chromium.org; s=google; t=1745874417; x=1746479217;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cXxnMI8M/GtLF+9NF954ti8G8yA0onSPXV9Pub/d3Ic=;
- b=ezAxGP1Ul/wYabCIQO0Z/Y3/dNIW1y+Wd/WrfUZ+pkF77NPDxAm8YCXbOy6xP51OK9
- Id6yK6r21aB6blm5xBQbA07Z+E03vLunFEoXJnfrq6RnE8E+GhJc0CbgoGQf0CPMixDr
- ilWVxMETAgzL7c7EaNXfT5GIwqhlxgTKaDkgEyCwZcJbnxP72k0XP7B6rB04zjHq6qlk
- PSKfi9xYXxJMOFl7ncXbfhiTyfnQlB1ybvz78zEvTIRX6pHMiT7DIn8eI72HJAiVpY+Q
- Cp5MNFnk8HFDCWnP3KCJw6ZEhTQhhN+UotpdyGRD/+fktBSSlHKyuf1JU8gY2IGoUV4/
- hegw==
+ bh=0HZyp8budJTYWJ9MOmTZnBjDzB8PV0g52ckHb+nyRQs=;
+ b=gAH32FLs/FKxVCuJZuAwdcuoFw8KOYz2esaIq/BhbcOUUfZoEoOvjgsQjlRbgdiCvI
+ 9S9NJm99JxsjPpc3YhvsnZiOQar3bdvkywgz4K6Uq1ynF8zuB+xaQjTOMG2d/HwZ9wxV
+ w4ye1Fx8t/rscTZl+tFukOcFozy46okCBeUog=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745873928; x=1746478728;
+ d=1e100.net; s=20230601; t=1745874417; x=1746479217;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cXxnMI8M/GtLF+9NF954ti8G8yA0onSPXV9Pub/d3Ic=;
- b=GxNcuL2C7L9vPVFrX9uYVXOF9OQv/jRwXpEHf1FhiH6ho4PLQCx7lPMfixm4C4/Del
- 809yVUklQjeFVipiIM3CnuAw68jFTmU5DoDGvbhW80O8kHqthX2NAQw1+N9vyA6BKRD8
- c7t58bcpKDge/bxlgDbfLwm2i0lrt39GLVYvVh0d8RlZJsbSbrCJtWryobCbq7Q6L6oa
- 12iAun+156EjZfQM5qcwKKgvyJ6HLO3kWTcGk1lnKAhPor1tbQWdRskWPuI7KJImqx6z
- dDRxh//cMWu8VD5fsvDi1h42xFMLUfMLwUUsgzKL7OVyJp2kk4FUWxaWHTqUmbgBUExJ
- 6o6A==
+ bh=0HZyp8budJTYWJ9MOmTZnBjDzB8PV0g52ckHb+nyRQs=;
+ b=AKAhA8P0mDjN5BTzHho2Tb2ZEHAR3Y1XdO7+m8CxMEgsvwdOehZzMINlsD6J6NBZpb
+ FwpBNyeAGo/SWmMP845rcXAauH0QtZlVcc1UQILkAamhbJr7ewHh55OJRBJ4cYUWQvko
+ s+UTUo135MvTrYKA1oJVGOiBOyBGXwbJGtTNvOewlwZaGpjwVRy5fw+QRmoZCZesp36R
+ +XPSbCyxjgZ9B5LzrScfNjukbFOKwgrQCADo6PA5jpN/R3z+6saheRTqxxDTEFiLkgVu
+ UIhGsj3aqC9yxDTk1mDe0MJc5c8zsmhw+JVtpmDp19uSbY/jgVsUtCx+RXdeSp+7VW9k
+ hnsg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU46t79N/lKVT+d5g7Pqe0YslQtLDb0lTuQfwRoOMrMpB5V1PWCFevIsBQ2BaVxRCrLbz6JILpaBw4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnCPRcU3BWTq+A/fo1Js47YY2PPJfy3Xmg/BJnHtKK9qqhkivN
- X8fFgQo8eYNiz+2STKX2Ts8Sp4WkKQQbDGo2wuzfxn1q/npxi5E9/M0d9aoSq6fAc3p21Rl98f6
- vc9XKayxEKSZLp9jUzepRnne1eoQJAH8i+Tw=
-X-Gm-Gg: ASbGncsy/DnGIVuQp+prRiWTwssHV5v8orY/euU2QGUUNnkbbiM6hXC3DY6DYAYiaMj
- COM5gQavK83h4sXiwpDHa90La75HtseJeLy9hA1aAoQ/CRrxoOHIdQMWxjlza89Gftkd5UDprAA
- Uem0RzllZpfkD9Fzfg/04=
-X-Google-Smtp-Source: AGHT+IGOyelpELUrcOaJAvR9wIXmVNLb4kVyS6Bj3YvQoR4friAxcC5mv6fARKTEWbb74RFaxnK/H/YGZe2ubcspY0I=
-X-Received: by 2002:a17:907:2da3:b0:ace:3643:1959 with SMTP id
- a640c23a62f3a-acec4b404d3mr117462266b.7.1745873927652; Mon, 28 Apr 2025
- 13:58:47 -0700 (PDT)
+ AJvYcCVuYvRuwHtO3UGJrOo5gaEtwtcdenPqFg8Y6owDqZvlvDMVC0Angi9D8Ty0GU9r+T81G8q7y585mcE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyZjVWnsmrW5Shvrn/NUEowHBDLiCoiNe0AmkSzFlcJ3GO1Rl+7
+ /YUddxXv7u8/mAQv+zWcxlwV9l1XQ8tbYe+gsTzBhZfwAM1KXF65JLX80AYYSXO/1MU8zlVDUgs
+ =
+X-Gm-Gg: ASbGncs3dXZps5CJ0gWznFYCfbEx5q/Qd9/xeLmvZq1N+NTKDAZkbFnW3hUZ03I1rRS
+ qHu/Fr5IEC5GG1uJnyQxmRlc1yid6Fq0xCCwxt1tDbm/UlI6e1DXVMjDjNzfAljkviyarD4o62j
+ e1yQIz2CKf5fG0ZWmKj6+Z8E/bV9aYIA68rs4oLzJkcxEuaTIbMnttwIJaTqPYMnk/o/iYDkUoA
+ V2BUhWfi3nKexr3SmjquDz16D3WLT8f7T5j/alQSkE+UHTDMPmwNOSz2lFtK3UGgNbLZ0zQVwbv
+ 7ljjACYbZy1rHeAs6Vw54JmInyRMaBFOyYJZcmmxEsdCXTs/7PdrG5XT3JDIPJsMc1cEIfEMVB9
+ axF53mQB2MqSVjkY=
+X-Google-Smtp-Source: AGHT+IHmou5SNnqRzK9EXYAsUqfThfqjo3OQrIyL7pj7EIjJKKDvrVYs1wyV8Ykkivsod5f1Kt7vkg==
+X-Received: by 2002:ac8:574b:0:b0:477:644a:72ec with SMTP id
+ d75a77b69052e-48131903eb2mr212256221cf.13.1745874417122; 
+ Mon, 28 Apr 2025 14:06:57 -0700 (PDT)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com.
+ [209.85.219.44]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-47ea1ba2868sm72407481cf.74.2025.04.28.14.06.56
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Apr 2025 14:06:56 -0700 (PDT)
+Received: by mail-qv1-f44.google.com with SMTP id
+ 6a1803df08f44-6ecfbf1c7cbso94500896d6.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 14:06:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXm4Rruegs075PS6VTRLM6Ouv0Wsu/heGPhTWl8XwX6jaiE+jqfF9TIQpzqApzjnJyK7i+WnHu+iIc=@lists.freedesktop.org
+X-Received: by 2002:a17:90b:2e03:b0:2fa:1a23:c01d with SMTP id
+ 98e67ed59e1d1-30a0132e771mr15291417a91.21.1745874002058; Mon, 28 Apr 2025
+ 14:00:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHk-=wiq=E0fwJLFpCc3wPY_9BPZF3dbdqGgVoOmK9Ykj5JEeg@mail.gmail.com>
- <CAHk-=wip2-yTrWpAkrUQ0iejEo2PjReddu4xntwBvdnSvWDbzg@mail.gmail.com>
- <20250426200513.GA427956@ax162>
- <CAHk-=wgPCbZv0JgqoNWMOO+p=N772YW16xYk_pmb1GU7aeuPFA@mail.gmail.com>
- <20250426232344.GA1395819@ax162>
- <CAHk-=wha-AgeeqATWRrKuopM4fKhhF_tZE_raQM77qO7Zd3fOQ@mail.gmail.com>
- <CAGG=3QUk8-Ak7YKnRziO4=0z=1C_7+4jF+6ZeDQ9yF+kuTOHOQ@mail.gmail.com>
- <CAHk-=wgrT9++rFTnM1vh3bwx2Pcc18anDGQCwEL+0d2nDm3p+A@mail.gmail.com>
-In-Reply-To: <CAHk-=wgrT9++rFTnM1vh3bwx2Pcc18anDGQCwEL+0d2nDm3p+A@mail.gmail.com>
-From: Bill Wendling <morbo@google.com>
-Date: Mon, 28 Apr 2025 13:58:30 -0700
-X-Gm-Features: ATxdqUF4QkWNeHvPaIyn2o9vl9GR7lp0ClD6ieeSP_GVkSD20WfrHb3VJY9h8jg
-Message-ID: <CAGG=3QVJWRNUEAm=bbszJGvAwT-1Fka4hd-0R6Uszyx8WZ3zQQ@mail.gmail.com>
-Subject: Re: clang and drm issue: objtool warnings from clang build
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Justin Stitt <justinstitt@google.com>, 
- "the arch/x86 maintainers" <x86@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, llvm@lists.linux.dev
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+ <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
+In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 28 Apr 2025 13:59:50 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VmV5yb0HWWGTiKyyC8+WNPJpM7vE9PQGh5_=KPk6+HCg@mail.gmail.com>
+X-Gm-Features: ATxdqUFp3e4vRAA9U9jS3-gUD9FhwChMaNCvlfej-PAqltrXksVDq12UxaUaXqM
+Message-ID: <CAD=FV=VmV5yb0HWWGTiKyyC8+WNPJpM7vE9PQGh5_=KPk6+HCg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
+ devm_kzalloc() to devm_drm_bridge_alloc() API
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
+ Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ linux-stm32@st-md-mailman.stormreply.com, Adam Ford <aford173@gmail.com>, 
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Aleksandr Mishin <amishin@t-argos.ru>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Christoph Fritz <chf.fritz@googlemail.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Detlev Casanova <detlev.casanova@collabora.com>, 
+ Dharma Balasubiramani <dharma.b@microchip.com>,
+ Guenter Roeck <groeck@chromium.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>,
+ Janne Grunau <j@jannau.net>, 
+ Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Liu Ying <victor.liu@nxp.com>, 
+ Manikandan Muralidharan <manikandan.m@microchip.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Phong LE <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Sugar Zhang <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Vitalii Mordan <mordan@ispras.ru>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,98 +147,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 28, 2025 at 12:34=E2=80=AFPM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Mon, 28 Apr 2025 at 11:08, Bill Wendling <morbo@google.com> wrote:
-> >
-> > This situation is one of the
-> > easier ones: "do something other than fall into the next function";
->
-> Note that the "fall into the next function" is just something that
-> objtool notices. It *could* be "fall into the next basic block of the
-> same function, and objtool wouldn't warn, because objtool generally
-> wouldn't notice (there could be other things that make objtool notice,
-> of course - things like stack updates being out of whack or similar).
->
-> But I really wish that clang would look at a "don't depend on UD as a
-> code generation model AT ALL" as a flag.
->
-> The whole "this is undefined, so I'll generate something different"
-> model is just wrong.
->
-> That said, there are certainly graduations of wrong:
->
-> > but there are far more involved examples, of course. And even in this
-> > case, the compiler needs to know if a "trap" is okay, or would
-> > returning with garbage in %rax be okay.
->
-> Honestly, the least wrong thing is to just NOT HAVE THE CHECK FOR ZERO AT=
- ALL.
->
-> IOW, just generate the divide instruction.
->
-> I can almost guarantee that that will actually then generate the best
-> code too, because you'll probably just end up sharing the divide
-> instruction will all the *normal* cases.
->
-I get what you're saying, I really do. I'm actually in the "playing
-Wack-A-Mole(tm) is far better than generating code that accidentally
-launches the nukes" crowd. The fact that the compiler silently
-generates something wrong is horrifying to me. The compiler has a ton
-of options to allow for "bad" math, but they're mostly (all?) for
-floating point operations. It has some for integers, like the -fwrapv
-you mentioned.
+Hi,
 
-> So the best model is to literally remove that pointless and stupid "is
-> this a divide by zero" code. It's pointless and stupid because it
-> literally just makes for more work both for the compiler AND it
-> generates worse code.
+On Thu, Apr 24, 2025 at 11:59=E2=80=AFAM Luca Ceresoli
+<luca.ceresoli@bootlin.com> wrote:
 >
-> Why do extra work to generate worse code?
+> devm_drm_bridge_alloc() is the new API to be used for allocating (and
+> partially initializing) a private driver struct embedding a struct
+> drm_bridge.
 >
-> Btu if some religious nutcase decides that "I will not generate divide
-> instructions if I know the divisor is zero" is a hill they will die
-> on, generating a "trap" instruction is certainly not inexcusable.
+> For many drivers having a simple code flow in the probe function, this
+> commit does a mass conversion automatically with the following semantic
+> patch. The changes have been reviewed manually for correctness as well as
+> to find any false positives.
 >
-I'll see what I can do with this. I might be able to sneak a patch in
-past the religious nutcases. The fact that we have the two flags
-Nathan and I mentioned could indicate that someone will be amenable to
-the patch.
+>   @@
+>   type T;
+>   identifier C;
+>   identifier BR;
+>   expression DEV;
+>   expression FUNCS;
+>   @@
+>   -T *C;
+>   +T *C;
+>    ...
+>   (
+>   -C =3D devm_kzalloc(DEV, ...);
+>   -if (!C)
+>   -    return -ENOMEM;
+>   +C =3D devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
+>   +if (IS_ERR(C))
+>   +     return PTR_ERR(C);
+>   |
+>   -C =3D devm_kzalloc(DEV, ...);
+>   -if (!C)
+>   -    return ERR_PTR(-ENOMEM);
+>   +C =3D devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
+>   +if (IS_ERR(C))
+>   +     return PTR_ERR(C);
+>   )
+>    ...
+>   -C->BR.funcs =3D FUNCS;
+>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>
+> ---
+>
+> Cc: Adam Ford <aford173@gmail.com>
+> Cc: Adrien Grassein <adrien.grassein@gmail.com>
+> Cc: Aleksandr Mishin <amishin@t-argos.ru>
+> Cc: Andy Yan <andy.yan@rock-chips.com>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: Christoph Fritz <chf.fritz@googlemail.com>
+> Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> Cc: Detlev Casanova <detlev.casanova@collabora.com>
+> Cc: Dharma Balasubiramani <dharma.b@microchip.com>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Janne Grunau <j@jannau.net>
+> Cc: Jerome Brunet <jbrunet@baylibre.com>
+> Cc: Jesse Van Gavere <jesseevg@gmail.com>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: Liu Ying <victor.liu@nxp.com>
+> Cc: Manikandan Muralidharan <manikandan.m@microchip.com>
+> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Phong LE <ple@baylibre.com>
+> Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> Cc: Sugar Zhang <sugar.zhang@rock-chips.com>
+> Cc: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Cc: Vitalii Mordan <mordan@ispras.ru>
+>
+> Changed in v2:
+> - added missing PTR_ERR() in the second spatch alternative
+> ---
+>  drivers/gpu/drm/adp/adp-mipi.c                      |  8 ++++----
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c        |  9 ++++-----
+>  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c  |  9 ++++-----
+>  drivers/gpu/drm/bridge/aux-bridge.c                 |  9 ++++-----
+>  drivers/gpu/drm/bridge/aux-hpd-bridge.c             |  9 +++++----
+>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c |  8 ++++----
+>  drivers/gpu/drm/bridge/chipone-icn6211.c            |  9 ++++-----
+>  drivers/gpu/drm/bridge/chrontel-ch7033.c            |  8 ++++----
+>  drivers/gpu/drm/bridge/cros-ec-anx7688.c            |  9 ++++-----
+>  drivers/gpu/drm/bridge/fsl-ldb.c                    |  7 +++----
+>  drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c      |  9 ++++-----
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c        | 10 ++++------
+>  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c     |  8 ++++----
+>  drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c        |  8 ++++----
+>  drivers/gpu/drm/bridge/ite-it6263.c                 |  9 ++++-----
+>  drivers/gpu/drm/bridge/ite-it6505.c                 |  9 ++++-----
+>  drivers/gpu/drm/bridge/ite-it66121.c                |  9 ++++-----
+>  drivers/gpu/drm/bridge/lontium-lt8912b.c            |  9 ++++-----
+>  drivers/gpu/drm/bridge/lontium-lt9211.c             |  8 +++-----
+>  drivers/gpu/drm/bridge/lontium-lt9611.c             |  9 ++++-----
+>  drivers/gpu/drm/bridge/lvds-codec.c                 |  9 ++++-----
+>  drivers/gpu/drm/bridge/microchip-lvds.c             |  8 ++++----
+>  drivers/gpu/drm/bridge/nwl-dsi.c                    |  8 ++++----
+>  drivers/gpu/drm/bridge/parade-ps8622.c              |  9 ++++-----
+>  drivers/gpu/drm/bridge/parade-ps8640.c              |  9 ++++-----
+>  drivers/gpu/drm/bridge/sii9234.c                    |  9 ++++-----
+>  drivers/gpu/drm/bridge/sil-sii8620.c                |  9 ++++-----
+>  drivers/gpu/drm/bridge/simple-bridge.c              | 10 ++++------
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c        |  8 ++++----
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c       |  8 ++++----
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c      |  8 ++++----
+>  drivers/gpu/drm/bridge/tc358762.c                   |  9 ++++-----
+>  drivers/gpu/drm/bridge/tc358764.c                   |  9 ++++-----
+>  drivers/gpu/drm/bridge/tc358768.c                   |  9 ++++-----
+>  drivers/gpu/drm/bridge/tc358775.c                   |  9 ++++-----
+>  drivers/gpu/drm/bridge/thc63lvd1024.c               |  8 ++++----
+>  drivers/gpu/drm/bridge/ti-dlpc3433.c                |  9 ++++-----
+>  drivers/gpu/drm/bridge/ti-tdp158.c                  |  8 ++++----
+>  drivers/gpu/drm/bridge/ti-tfp410.c                  |  9 ++++-----
+>  drivers/gpu/drm/bridge/ti-tpd12s015.c               |  9 ++++-----
+>  drivers/gpu/drm/mediatek/mtk_dp.c                   |  9 ++++-----
+>  drivers/gpu/drm/mediatek/mtk_dpi.c                  |  9 ++++-----
+>  drivers/gpu/drm/mediatek/mtk_dsi.c                  |  9 ++++-----
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c                 |  9 ++++-----
+>  drivers/gpu/drm/meson/meson_encoder_cvbs.c          | 12 ++++++------
+>  drivers/gpu/drm/meson/meson_encoder_dsi.c           | 12 ++++++------
+>  drivers/gpu/drm/meson/meson_encoder_hdmi.c          | 12 ++++++------
+>  drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c         |  9 ++++-----
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c      | 10 ++++------
+>  49 files changed, 201 insertions(+), 237 deletions(-)
 
--bw
-
-> Generating a random value for %eax is WRONG. Now, that said, it's
-> clearly less wrong than falling through to some unrelated code
-> entirely, so it would be an improvement on the *current* situation,
-> but that's like saying that getting shot in the foot is an improvement
-> on getting shot in the head: true, but if the alternative is not
-> getting shot at all, why is that "less bad" alternative even on the
-> table?
->
-> The "just execute random code" is clearly so bad that it *should* be
-> off the table in the first place, and I don't understand why it is
-> what clang does now. It's just crazy.
->
-> And yes, this really is a very potential and real security issue. In
-> the kernel I don't think we have this ever happening, partly because a
-> lot of configurations use gcc which afaik doesn't have this particular
-> horrendous model of UD.
->
-> But this isn't just a kernel issue, it's a "anybody using clang to
-> build any program that might have security issues would be *insane* to
-> think this is a good model for dealing with UD". We do more checking
-> than most on the code generation, so we actually had tools that
-> noticed this odd code generaton. I can guarantee you that 99% of all
-> projects out there would never have even noticed.
->
-> And who knows what cases we *don't* find.
->
-> And obviously hopefully UD doesn't actually happen. But that's like
-> saying "hopefully we have no bugs". It's not reality.
->
-> Using UD to change code generation really is a truly horrendously bad
-> idea in the first place, but doing it in anything where security might
-> matter takes "bad idea" to "just don't do this".
->
->                  Linus
+Reviewed-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
+Tested-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
