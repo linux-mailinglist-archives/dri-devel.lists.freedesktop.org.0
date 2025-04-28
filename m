@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C8BA9EB43
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 10:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A67CA9EB49
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 10:58:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F005A10E3CD;
-	Mon, 28 Apr 2025 08:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D8AE10E3CF;
+	Mon, 28 Apr 2025 08:58:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kiBf8AbV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tf+Jo7jf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02FE210E0B1;
- Mon, 28 Apr 2025 08:57:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A98110E0B1;
+ Mon, 28 Apr 2025 08:58:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745830644; x=1777366644;
+ t=1745830701; x=1777366701;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=8H0WN7XTW67tevcNXGLWe1GbJBQHuqyfJtMOm3Viedg=;
- b=kiBf8AbVwsZkSYkd3Jj9kH81ouYrtQB9fhGkr4XbuTQCYIJgFweEX5e/
- U8oNe9XuRSZn90fW6Un0SdgtzfAWkGfo08Qs6L6GAfAT4VEOApwgcsecv
- IRRzvK9aZbHYOnKoBkN2hIsYwNJG1oKeg8lXfjjQwO/tziNlwgNAgNFbz
- q/Tsx0SPDn+Ii3+JEdvygzC2KdK7uU3YE9kqBkAdllvu7bEh89IMel2et
- riZOI4GehbZ14OoJ3LETS/jo6lqvZVmHIio4GEfWTuQjRICXK3p9ToMYm
- DUnJRVZLexo75qCSN5p2i4BCiJb67jWikBQgLDz/b1UiQyzXYtKbhJDOJ Q==;
-X-CSE-ConnectionGUID: /qiZgs4qRcCxTyZCJxt8mg==
-X-CSE-MsgGUID: 0X46QrrvTi+0XYyW/mthgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="47539457"
-X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; d="scan'208";a="47539457"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2025 01:57:23 -0700
-X-CSE-ConnectionGUID: 5SC1JbYiQlqmqs8UfChFaw==
-X-CSE-MsgGUID: hGJIEcJGQF2dV1JVW/vPyw==
+ bh=21rqOoDRvspT0S5ScRKehVP1CKrs5WROWFBwRN8KJWA=;
+ b=Tf+Jo7jfVIBo6sQmu1KA/ouY6tgQGMfbjDQ/t4XrJW+Qdh2z+sdjS1fk
+ VKaKrhE59A0Ns+NXygs+vfVTzIAUEk+snzzHN0lE639I9hamRxD8VX5lg
+ tvXVv6CX4Krk+9pocfFtPZEbcMpmvG7SlT5uwEInABGHeqEMQ/QA4lpOB
+ eklGJatvLz1eaYqA2FFYnzp1qUGmmBf4sRuE8IXDHqWxgVBEw5hWMZQJK
+ xmud2likMjc6ZHv6ILsuzO1XXbF3X5HvpWBGQfPPxXc+4Jv38l+LCmYy2
+ nbJf4QuvXZOOdN2IYebKOgKWGuiH4GXt0dURj7pdWkrBxbujCWvWOW1+q A==;
+X-CSE-ConnectionGUID: G3mTfmXyReWDaeHd0Yy9ig==
+X-CSE-MsgGUID: l1lOxC9yQAiVyxlNzs53EA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="58776011"
+X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; d="scan'208";a="58776011"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2025 01:58:21 -0700
+X-CSE-ConnectionGUID: bAN4wepdQ+KRrm7uz8IgAQ==
+X-CSE-MsgGUID: 1BgRasNoRaWePJIhi+8oKw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; d="scan'208";a="133383576"
+X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; d="scan'208";a="156675999"
 Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.174])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2025 01:57:20 -0700
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2025 01:58:17 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Arun R Murthy <arun.r.murthy@intel.com>,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Cc: imre.deak@intel.com, vinod.govindapillai@intel.com, Arun R Murthy
  <arun.r.murthy@intel.com>
 Subject: Re: [PATCH v7 1/2] drm/display/dp: Export fn to calculate link
@@ -54,8 +56,8 @@ In-Reply-To: <20250424-hblank-v7-1-8b002f1506cc@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20250424-hblank-v7-0-8b002f1506cc@intel.com>
  <20250424-hblank-v7-1-8b002f1506cc@intel.com>
-Date: Mon, 28 Apr 2025 11:57:16 +0300
-Message-ID: <87ikmoy87n.fsf@intel.com>
+Date: Mon, 28 Apr 2025 11:58:14 +0300
+Message-ID: <87frhsy861.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,6 +88,13 @@ On Thu, 24 Apr 2025, Arun R Murthy <arun.r.murthy@intel.com> wrote:
 >
 > Reviewed-by: Imre Deak <imre.deak@intel.com>
 > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+
+Maxime, Maarten, Thomas, ack for merging this via drm-intel, please?
+
+BR,
+Jani.
+
+
 > ---
 >  drivers/gpu/drm/display/drm_dp_helper.c | 52 +++++++++++++++++++++------------
 >  include/drm/display/drm_dp_helper.h     |  2 ++
@@ -170,18 +179,6 @@ On Thu, 24 Apr 2025, Arun R Murthy <arun.r.murthy@intel.com> wrote:
 >  		(flags & DRM_DP_BW_OVERHEAD_FEC));
 >  
 > -	if (flags & DRM_DP_BW_OVERHEAD_DSC)
-
-After this series, intel_dp_mst_bw_overhead() will still pass in
-DRM_DP_BW_OVERHEAD_DSC in flags, but it's no longer used for anything.
-
-Is there going to be a follow-up, or what's the idea here?
-
-
-BR,
-Jani.
-
-
-
 > -		symbol_cycles = drm_dp_link_dsc_symbol_cycles(lane_count, hactive,
 > -							      dsc_slice_count,
 > -							      bpp_x16, symbol_size,
