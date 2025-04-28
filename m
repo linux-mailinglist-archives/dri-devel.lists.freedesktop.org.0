@@ -2,55 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42ABAA9F3D3
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 16:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80D7A9F3DE
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 16:53:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8F3210E20E;
-	Mon, 28 Apr 2025 14:52:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E354110E50E;
+	Mon, 28 Apr 2025 14:53:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V2MK7vRc";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ELyt86T9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB9E10E20E
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 14:52:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1683B5C135F;
- Mon, 28 Apr 2025 14:49:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D7CAC4CEE4;
- Mon, 28 Apr 2025 14:52:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745851921;
- bh=SZ88ynsrxyycASOHhheCX/iwl8zgTZHYGYj+3bNOJx4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V2MK7vRcY1dlL1+EZ1NoZxP268+GNpFW3Ocb8LPN7Yho6nLoAaaXufXwx5XaLAbYR
- 6zPVK5hyb6Jf25WzBeSpMyXbLEDodvvjRqSvXP5GJ4m9lMT3IZTcmm6+5Rz3X+W2MD
- e815HEh/S03UXEZDcH+Ri2VhCgWcvowtURogNlBNZGuVRl42HhPlu1cq3jTlWLOaEM
- J8bu8qMesc4jRWKYH6rEI97pjDBrlOAfnaD4vDOj/9JlQBE+ckM+Q2fu+zYJuuYFbN
- nvO/iKk9W95uGjmgDHW1+MHW662Wu2n98EvjpLPoqRWKzrgGPqZpSpR74RcwQovTe0
- iWkaLaFC1Ymkw==
-Date: Mon, 28 Apr 2025 16:51:59 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: John Stultz <jstultz@google.com>
-Cc: Jared Kangas <jkangas@redhat.com>, sumit.semwal@linaro.org, 
- benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, tjmercier@google.com, 
- christian.koenig@amd.com, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dma-buf: heaps: Give default CMA heap a fixed name
-Message-ID: <20250428-greedy-vivid-goldfish-5abb35@houat>
-References: <20250422191939.555963-1-jkangas@redhat.com>
- <20250422191939.555963-3-jkangas@redhat.com>
- <20250424-sassy-cunning-pillbug-ffde51@houat>
- <CANDhNCqfsUbN3aavAH5hi4wdcKuUkjLX4jqhKzy-q+jCEqpoow@mail.gmail.com>
- <20250425-savvy-chubby-alpaca-0196e3@houat>
- <CANDhNCroe6ZBtN_o=c71kzFFaWK-fF5rCdnr9P5h1sgPOWSGSw@mail.gmail.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2067.outbound.protection.outlook.com [40.107.243.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2267C10E3D9;
+ Mon, 28 Apr 2025 14:53:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xWpt7rgPb38fS+0lJiYALRqmbfip+cYB2VG4/mdIavKjD8ynM1ADpGQi8528GwVNOrNHcJ5j40P6Ohr/klTyzvXpZYCwPYRhoxfYaoGI9ODUQ9cELt4kqaMN1r231pANvPAH5Hz7B7VszSuSUcKgGj5xHqZnW2wY4nWajrIZqqVrix7EmYpb7ZBANTcMGPSB8LoPeZBkEqX9f2O7oycP/z0aNLKFW0baOX+6+HQ5sUdxIS3ZOxuEDQhHFSlnrS85qEimRiMMvRwSbXy/yTlzPVKhEsGYFy0Nfbp8xYXc42d1l4315rTDzI1WwsCqUku73Z3234BmgeAFfOZ1qCSwgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xUiyxrKkvQ7Gg8yEyny3ulrqFmzUfmcrgu4qvqeNdnw=;
+ b=fyOMuvfqz9hV07lv7FCnMmAbtOAQ57KG9p4vLGTLfYlOknIX2gNca7FWgK6jylSnkSb3Vty7GOLKM9bSsYeQN0QgQziiTnwOd5XcqA81BTG51IV+a2x18OKohvQNjqZjFobKhErwxh9qVv6aNa9bKajZjvIb/f/N9CXJZsScAmxJJcY5SSbs/NokCssH30fjG0aTs2NYkDwU9NYa1S+U39sFRVZN92v4HKDdvAEaxp2eGSjpJ3FRashdpOUedgrhh7p43EGN6jjGKl/RfoJacHTpBw2EdnH9K6oSg87kkg+o1GcmDtNEf5Za0VKrVYUDRYhxMsDymXVF+zWtYc9X7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xUiyxrKkvQ7Gg8yEyny3ulrqFmzUfmcrgu4qvqeNdnw=;
+ b=ELyt86T9eBfbHb2M6cAsyyfTKpY+FlHg6qJ72UU+lHxj76YbaTAhcrp3v6QVc4MrRgGdR4aQvb0Cm1lWOmnIuJ8+YZIcrFcwfBj93e06BBwC7lyNHHZPN8KoPQ2DHANVCdq/mu7YV/Ty9uLPwbiOTxeJ0Df7BOCFkhyBM74u2+U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS4PR12MB9708.namprd12.prod.outlook.com (2603:10b6:8:278::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Mon, 28 Apr
+ 2025 14:53:41 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Mon, 28 Apr 2025
+ 14:53:41 +0000
+Message-ID: <9d7392ed-20fd-4237-89bf-483f9930e09e@amd.com>
+Date: Mon, 28 Apr 2025 16:53:32 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amdgpu: check a user-provided number of BOs in list
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ Denis Arefev <arefev@swemel.ru>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Chunming Zhou <david1.zhou@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <20250418083129.9739-1-arefev@swemel.ru>
+ <PH7PR12MB56852EECD78C11BD15157AF383BB2@PH7PR12MB5685.namprd12.prod.outlook.com>
+ <CADnq5_NLEUZget2naQm9bYH1EsrvbhJCGd7yPN+=9Z_kKmUOCw@mail.gmail.com>
+ <BL1PR12MB5144467CB7C017E030A4C3E3F7BB2@BL1PR12MB5144.namprd12.prod.outlook.com>
+ <9e4700f6-df58-4685-b4fe-6b53fc1c5222@amd.com>
+ <CADnq5_O-tqQ4y7sNx0nMD_0aTFO0H7_vVg=umaPXUbBLFmwnJg@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CADnq5_O-tqQ4y7sNx0nMD_0aTFO0H7_vVg=umaPXUbBLFmwnJg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0053.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="63qayjjnrzawfdlj"
-Content-Disposition: inline
-In-Reply-To: <CANDhNCroe6ZBtN_o=c71kzFFaWK-fF5rCdnr9P5h1sgPOWSGSw@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS4PR12MB9708:EE_
+X-MS-Office365-Filtering-Correlation-Id: 123c718f-b3cc-4347-15a9-08dd8664773c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bXQ3RnRyUmw1SXNERklwUVNJOG5Qb0pwQWs2eXRRSHdid1FEL2pSNUV1NFl4?=
+ =?utf-8?B?K3hjeXIrR2hNd2d6RDNRMWx1c0QrS2Q4VXVQU0F4MjhXNWhxZmZIazNSNVFm?=
+ =?utf-8?B?R3FJS0dRaG02RVlyMVByNU1QMGVJL0ErNFlralRIZ2lMWkJUOEEyaGhYa1lO?=
+ =?utf-8?B?bExNajlTTEt6clZRUkh3SllEN3ltc1VIYVphYVhPbFBiNFMyd2NndEdVYy9G?=
+ =?utf-8?B?Qy96dFJZVzZHSFZtSXVxRitDMFVpaXFkT1p6V1FQUFJWNWd6bCt4Y3FEc2N5?=
+ =?utf-8?B?Wm9JN2FjdnZJdjhPTzF2WFp0SnNlanFYTjZyOWV1b242aG9KQnVzWThRTHc2?=
+ =?utf-8?B?RGsxRU9zYWc0ZzBQSmxUdEd5eExyQW5vb3FaNlNBSUc4ZXk1MVJmM3lYZWow?=
+ =?utf-8?B?NUZkaXpDQUJxYjdNenBJeGQ0U3hVZnBGR1BadmsyM2ZkVjN0M2IvdTJkWkhn?=
+ =?utf-8?B?aFJZd2h3TUlObFUrcDh3ZGlLSlByVHVGVGl0RHE2ME1QNzdFTWFzbUc3elNw?=
+ =?utf-8?B?ZGVkUGtrRElvazdTeGpDNEFtQStwTFpQSjE2NVdFUk1nbVJsVGZvYTRnOWls?=
+ =?utf-8?B?cWVzbDNsQU5CQUZSSEg3Vm9QcW55ajB4T1l2UnNyNTZFUnRGN2E0cjVVaER5?=
+ =?utf-8?B?anpkeXNMTDltNm41eUREVUFaNDZubjhGcjdObkQ5UzFMaHRkRVJ2RkpHYUZp?=
+ =?utf-8?B?RzF6NWJLZklqMUV1V3Q4NDVPSHNqbHNtQ2NNSXFDbnA3aDVaeVl0TUI2OXFT?=
+ =?utf-8?B?N1UvVU12TkhhNHNKU2JaSGhraHNzcEdEK1ZHbGVVQW10L3ZSSjhNSE9IVHAv?=
+ =?utf-8?B?ODlwQTcrR1QvLy9OQ1RYNW9oQWJKNWEwcTliOE9sWFI2aHl5ZC95ckhVUVlG?=
+ =?utf-8?B?c1NGVXUyT2NOeFdZRHhvWUZYVTY2K0tTZ3RrNmJDcHlpYnRkMGNQd00wUFVU?=
+ =?utf-8?B?VUdMRzM0OFBmbi9xUjE5OEpaTzNxNEE1WnRuQzl4aUFJS24xK21ZRVdCUUJi?=
+ =?utf-8?B?NWJoWGRXL0xoZ0Q5dEZ3OUNmNm1YVWxPL3pPcFNVbitIR2k0bkVBWDgrUlR4?=
+ =?utf-8?B?OTY4d0lqZEZyWGtiUGhlZEk0SDI2TFJRRXUvZUF1SGJ1TEdpSkpldWxuSTlJ?=
+ =?utf-8?B?VzZkMmxPRkM5QXJMNFc2bnpzSWlNTVVUVk5EclFBV21MdW5lU2trZXJaSGhs?=
+ =?utf-8?B?V094amJaTDhCbTVZT2dPSWs3ZVdqQnprTE1FcGpQVjFOY0h3RUN4K1RZV25G?=
+ =?utf-8?B?NFlIcUd1a3hWWWRrK3R3NzVZKzgwbFZqMXJpbCtWb2FzY2NQYVhPVDlOSThp?=
+ =?utf-8?B?VlcwV2V5NUJMbmIxMlpQTjNKTXhXaTM4Z2hsQmZ2NGJuNEhkZGR6MmtBR1V3?=
+ =?utf-8?B?ajNCZ1pncllQbXpTWjhjY1hmVlR1WjQ0RHZPY1NMQVkxUTFqbzFrVUdEN3VN?=
+ =?utf-8?B?d0VUWG5GdXA1ei90ODFyZmRJNU1BNHNKQ0VTVU9VcnBxT043bytzdWw3Wjgz?=
+ =?utf-8?B?WGhNcHVZREZ6WHFEZGJzM3ZDYmlNVGpxVTJYaEE5UHRvZGVVWVFXekNVRncx?=
+ =?utf-8?B?a0VqUldjTmU2aXlWU0QzcFNORjNaaGFSbkJCakQxR29YTkg0WWJCOXh2dFl1?=
+ =?utf-8?B?OURna2p0b1FnWkpKTjZPV1h4Ti9ZUTVqeGdWWitjRGdVUFpkeWZKc2VremRx?=
+ =?utf-8?B?UlJxYnBlTVNVTEZFd3ZTRHFCRUxZb0pKU0s5aWJhVDdtNmdBOUxidWJTVWFB?=
+ =?utf-8?B?TUhyUlUwQjVWYTVaaGZlN0lFa1cvR0xtZVlXWlRzQVZHbHlEak1PNVpzUHNC?=
+ =?utf-8?B?KzFRNlM1NGZabzhoZVV4Nkk5TUJkSzN2SWtITWFyazdILzN1b2pYRXp2YTFI?=
+ =?utf-8?B?R1EwQzBGb1YzMzNud255QllQNnVYQkdVQ2FJUG02THpUYWlpVXlvL0wrc2Vt?=
+ =?utf-8?Q?Ka/FBxjxHk4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eEVWeURJeXhldnN1UkRGZjRaaTVaemg3NkpyeTNtT0MrOW0vWnlqMkk3dUho?=
+ =?utf-8?B?S2Z6Ym02eGUrVVJUUEpMK0MzZWt3MVJTcFhCZklkVmZxWWVpSE5uZ2pWcFlK?=
+ =?utf-8?B?SlVqSFR0eHdvRHJhTnViRFVHK0tMM0laZmcrbVhZL2xUU1IrQTZ0UFkzZ21X?=
+ =?utf-8?B?bWFORFlNS20yY2kzbWdqTVZMS3FaQ3hDa0dtK3JrM1FGTE95T0E5cjFsV3hu?=
+ =?utf-8?B?SGhzYmtWVFppcDdCem9KSW9xQU9sQ1FJL0RqNTV6cWtkNjhUajJTQmRhOEdD?=
+ =?utf-8?B?Qk1CU0hMUlhqdzlhT0FZM1lTMldPMk5BZW5hY0kxUFVuUkQxRGphWVpsUFRo?=
+ =?utf-8?B?UExNUVM1SFZRcXlYejhrcEVqQ0pJVnE4U2lpRlBIMmhMSFNrVHYwa1lWaXpr?=
+ =?utf-8?B?RUVnaWVEcHNFSjIrUk0xWVNXdkVqTUZseXE4cUNvRWI3enNGTWlYZnhFbldo?=
+ =?utf-8?B?Wm5xWXlxYU1PYStIRmZZNG9haTR5bU02SDZMaDcvNjhlcmE0dFh5NUNjeXFh?=
+ =?utf-8?B?UTFBRWdyTUxjWmRPaFhOWm00Z1ZVcXB2NnVBWi9zbFdST2h6YVVZeDB5dEJQ?=
+ =?utf-8?B?Q1NuRjVOMTNHZWd6SFRhT085K2t3Zmd6blE2VmNPWCtpcXM1QXQyNmlyOWRH?=
+ =?utf-8?B?TmF5MkVJZWsrYXB1bjAydjVlRnZURTBsckhiNjFDYng1WjNsRVlNejdqc0hQ?=
+ =?utf-8?B?VVJXL0U0MlNQYXEweCtMMlExc1hUU09jMDlWUGg1bjRlLy93TEhMcko1SDNQ?=
+ =?utf-8?B?cmg2S1RNdml0S2JkdENyNzR2MWhxNUQvWVVBbnBIeEd5QSt1OFF6S0F1VUly?=
+ =?utf-8?B?dytJTHBxNVVCMEp5M0liQjJycTZEVGxSN2E1UURaNXdYVndkd1JYdmpPa2pP?=
+ =?utf-8?B?Z3ZBN1hocUJBY2QzeFZtK0JQd214RjZhT0NzaW53ajBRRXlyRVNRYk9WTnJn?=
+ =?utf-8?B?eUhCenNiRERMcGlQSXZ4OUovb2QrUG9mMEppUngwY3MzV3hnTXVPR1hMNlZZ?=
+ =?utf-8?B?YXk3amFGSUlWYkFTS1NGYlVLcDNNb3YwS0xFUVJKT3JqN3NGcjNXdjZDMlFV?=
+ =?utf-8?B?d0NkeUZRdUl1ckpKbCtDSGRkdlhGZ3lQZUxzOXpNZ29JZmNYbDE4QXhhVkIr?=
+ =?utf-8?B?TTZuMFRDQ3BjZGZDenVNWFp0dW4vVE9XOVBwNU13aER6eUpWczNlSTlNc1Jv?=
+ =?utf-8?B?bitab0RKSUo2MFhLT09iU3pqbEEyeTFUWlErczIydzZTMFpNUS81eklwRk5W?=
+ =?utf-8?B?d24rejFGdTdZS25xdUhid3d2K3BGUzFuWnlWODlqOElMeDQ5Um4yUHBkN1or?=
+ =?utf-8?B?WHlYZ2YrcWVmWXdiU2NHcnQ0YjFtaTJTRWJYZ2h3VXcybG04VFF4UDZsdEJ4?=
+ =?utf-8?B?VCtSYUFydUdlT0R1c3Vzd0FQUFNlbXhrSkNMQ2daM3hCckFYbmhPMlRENm1w?=
+ =?utf-8?B?VytLc1JIYmVBdWJyVVlselVSenJZeXNTZlpyeEdidWpxd2dETkdtRk1XQkF1?=
+ =?utf-8?B?blBmSi94TUQweTdhWVBRTkpmbWZ2cnVuZ0NWQkZIWEt1YnVhV3FzVWYwOXFR?=
+ =?utf-8?B?VFdTNTZBVGtzVnpPSUNCcEtIMUZvNnV3WDRaZGFiOHgrWlZTbnlJdkozRS9u?=
+ =?utf-8?B?L0RwVjNKMG4zQllxZUlidnlzam9VK09obTBqb0l2SDI5Q08yc3VaMEhiSmZJ?=
+ =?utf-8?B?TFZRNlpIV0wvdTZJb0xKMld4aElvd0xWelRaM2tWNWVrZzhDbENnVk5vcWxI?=
+ =?utf-8?B?MEYvTUt3UjFnTGRVcXAvSmRMVWhuTkZCRHhWMG5jRGRSblRGTzVGTVdvcEEz?=
+ =?utf-8?B?VlRCVkcrUDJKUE9FRUM1amZ6OWNQandzemNncmkzbDZzN0NvUVlqTFNua2Zz?=
+ =?utf-8?B?VjdJY3ZyaTI1TzVhb0xGMFMwUHV4d20wL28ydmViZlNKbkJXdzg0TldlQ1Js?=
+ =?utf-8?B?UjhZL0xibFJMUEg4RC85QzZFYnVTTWkxeG56QXllYkU1cWF6STZBNGpVam9E?=
+ =?utf-8?B?UGRha3JkOVNVd1lCTm9pMldwVnRPd1FPTWhCdllmWmhualB3a00wbWdUdXlx?=
+ =?utf-8?B?SVAxY21pWkQxQUJlL2Zsenl2REJkNVdQbE80c0dGQ0xyZ21qU3dLN2wwSG9P?=
+ =?utf-8?Q?EKRAT5xGN3wUDI3C8V8Ochr4+?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 123c718f-b3cc-4347-15a9-08dd8664773c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 14:53:41.4926 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rNDw6DSa2bxi+SRCdmQmigDvt9c+uABk6NpoybhgX/lRgnV2eg6VGJtHE9+/cx3o
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9708
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,172 +175,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 4/24/25 15:40, Alex Deucher wrote:
+> On Wed, Apr 23, 2025 at 10:29 AM Christian König
+> <christian.koenig@amd.com> wrote:
+>>
+>> On 4/22/25 18:26, Deucher, Alexander wrote:
+>>> [Public]
+>>>
+>>>> -----Original Message-----
+>>>> From: Alex Deucher <alexdeucher@gmail.com>
+>>>> Sent: Tuesday, April 22, 2025 9:46 AM
+>>>> To: Koenig, Christian <Christian.Koenig@amd.com>
+>>>> Cc: Denis Arefev <arefev@swemel.ru>; Deucher, Alexander
+>>>> <Alexander.Deucher@amd.com>; David Airlie <airlied@gmail.com>; Simona Vetter
+>>>> <simona@ffwll.ch>; Andrey Grodzovsky <andrey.grodzovsky@amd.com>;
+>>>> Chunming Zhou <david1.zhou@amd.com>; amd-gfx@lists.freedesktop.org; dri-
+>>>> devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; lvc-
+>>>> project@linuxtesting.org; stable@vger.kernel.org
+>>>> Subject: Re: [PATCH v2] drm/amdgpu: check a user-provided number of BOs in list
+>>>>
+>>>> Applied.  Thanks!
+>>>
+>>> This change beaks the following IGT tests:
+>>>
+>>> igt@amdgpu/amd_vcn@vcn-decoder-create-decode-destroy@vcn-decoder-create
+>>> igt@amdgpu/amd_vcn@vcn-decoder-create-decode-destroy@vcn-decoder-decode
+>>> igt@amdgpu/amd_vcn@vcn-decoder-create-decode-destroy@vcn-decoder-destroy
+>>> igt@amdgpu/amd_jpeg_dec@amdgpu_cs_jpeg_decode
+>>> igt@amdgpu/amd_cs_nop@cs-nops-with-nop-compute0@cs-nop-with-nop-compute0
+>>> igt@amdgpu/amd_cs_nop@cs-nops-with-sync-compute0@cs-nop-with-sync-compute0
+>>> igt@amdgpu/amd_cs_nop@cs-nops-with-fork-compute0@cs-nop-with-fork-compute0
+>>> igt@amdgpu/amd_cs_nop@cs-nops-with-sync-fork-compute0@cs-nop-with-sync-fork-compute0
+>>> igt@amdgpu/amd_basic@userptr-with-ip-dma@userptr
+>>> igt@amdgpu/amd_basic@cs-compute-with-ip-compute@cs-compute
+>>> igt@amdgpu/amd_basic@cs-sdma-with-ip-dma@cs-sdma
+>>> igt@amdgpu/amd_basic@eviction-test-with-ip-dma@eviction_test
+>>> igt@amdgpu/amd_cp_dma_misc@gtt_to_vram-amdgpu_hw_ip_compute0
+>>> igt@amdgpu/amd_cp_dma_misc@vram_to_gtt-amdgpu_hw_ip_compute0
+>>> igt@amdgpu/amd_cp_dma_misc@vram_to_vram-amdgpu_hw_ip_compute0
+>>
+>>
+>> Could it be that we used BO list with zero entries for those?
+> 
+> Yes.  Dropping the 0 check fixed them.  E.g.,
+> 
+> +       if (in->bo_number > USHRT_MAX)
+> +               return -EINVAL;
 
---63qayjjnrzawfdlj
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 2/2] dma-buf: heaps: Give default CMA heap a fixed name
-MIME-Version: 1.0
 
-Hi John,
+Feel free to keep my rb on that version as well.
 
-On Fri, Apr 25, 2025 at 12:39:40PM -0700, John Stultz wrote:
-> On Thu, Apr 24, 2025 at 11:58=E2=80=AFPM Maxime Ripard <mripard@kernel.or=
-g> wrote:
-> > On Thu, Apr 24, 2025 at 05:13:47PM -0700, John Stultz wrote:
-> > > On Thu, Apr 24, 2025 at 1:34=E2=80=AFAM Maxime Ripard <mripard@kernel=
-=2Eorg> wrote:
-> > > > I appreciate this is kind of bikeshed-color territory, but I think =
-"cma"
-> > > > would be a better option here. There's nothing "default" about it.
-> > >
-> > > I disagree.  It very much is "default" as it's returning the
-> > > dma_contiguous_default_area.
-> >
-> > My main concern here is that it's "default" as opposed to what, exactly?
-> > We have a single CMA allocator. We could have multiple buffer
-> > attributes, but then "cached_cma" would make more sense to me if we
-> > expect to have uncached CMA allocations at some point.
->=20
-> Well, there may be one CMA allocator, but there can be multiple CMA regio=
-ns.
->=20
-> So in the kernel, cma_alloc() always takes the cma area as an
-> argument.  And dma_alloc_contiguous() lets you do allocations against
-> a device, which may reference a specific cma area. Or if the device
-> doesn't specify a region it will utilize the default region.
->=20
-> > > There can be multiple CMA areas, and out of tree, vendors do reserve
-> > > separate areas for specific purposes, exposing multiple CMA dmabuf
-> > > heaps.
-> >
-> > By "CMA areas", I guess you mean carved-out memory regions? If so, how
-> > is it relevant to userspace if we use CMA or any other implementation to
-> > expose a carved-out region, and thus that we carry that implemenattion
-> > detail in the name?
->=20
-> So, no, I don't mean carve-out regions.  It's more about dealing with
-> competition between multiple CMA users. In some cases, where there are
-> known fixed buffer sizes, say camera buffers, it's much easier to
-> reserve a separate specific sized region to allocate from so that you
-> know it will always succeed and you don't need to waste much on safety
-> margins. Having this added as a separate CMA region makes it a lot
-> easier to account or reason about, and the kernel can still make
-> (limited) use of the CMA space when it's idle. Then you don't have to
-> worry about some other device having a short term cma allocation that
-> pushes back the alignment for your large allocation, possibly
-> impacting some other devices larger allocations.
->=20
-> And unlike with just using a carveout, you don't end up just wasting
-> all that space when it is unused.
+Christian.
 
-The way I see it, it's an implementation detail and is abstracted away
-=66rom userspace. That's what I meant by carved-out I guess: a region
-dedicated to a (set of) devices(s) that the rest of the system won't
-use from userspace point of view.
+> 
+> Alex
+> 
+>>
+>> Christian.
+>>
+>>>
+>>> Alex
+>>>
+>>>>
+>>>> On Tue, Apr 22, 2025 at 5:13 AM Koenig, Christian <Christian.Koenig@amd.com>
+>>>> wrote:
+>>>>>
+>>>>> [AMD Official Use Only - AMD Internal Distribution Only]
+>>>>>
+>>>>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>>>>
+>>>>> ________________________________________
+>>>>> Von: Denis Arefev <arefev@swemel.ru>
+>>>>> Gesendet: Freitag, 18. April 2025 10:31
+>>>>> An: Deucher, Alexander
+>>>>> Cc: Koenig, Christian; David Airlie; Simona Vetter; Andrey Grodzovsky;
+>>>>> Chunming Zhou; amd-gfx@lists.freedesktop.org;
+>>>>> dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org;
+>>>>> lvc-project@linuxtesting.org; stable@vger.kernel.org
+>>>>> Betreff: [PATCH v2] drm/amdgpu: check a user-provided number of BOs in
+>>>>> list
+>>>>>
+>>>>> The user can set any value to the variable ‘bo_number’, via the ioctl
+>>>>> command DRM_IOCTL_AMDGPU_BO_LIST. This will affect the arithmetic
+>>>>> expression ‘in->bo_number * in->bo_info_size’, which is prone to
+>>>>> overflow. Add a valid value check.
+>>>>>
+>>>>> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+>>>>>
+>>>>> Fixes: 964d0fbf6301 ("drm/amdgpu: Allow to create BO lists in CS ioctl
+>>>>> v3")
+>>>>> Cc: stable@vger.kernel.org
+>>>>> Signed-off-by: Denis Arefev <arefev@swemel.ru>
+>>>>> ---
+>>>>> V1 -> V2:
+>>>>> Set a reasonable limit 'USHRT_MAX' for 'bo_number' it as Christian
+>>>>> König <christian.koenig@amd.com> suggested
+>>>>>
+>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c | 3 +++
+>>>>>  1 file changed, 3 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c
+>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c
+>>>>> index 702f6610d024..85f7ee1e085d 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c
+>>>>> @@ -189,6 +189,9 @@ int amdgpu_bo_create_list_entry_array(struct
+>>>> drm_amdgpu_bo_list_in *in,
+>>>>>         struct drm_amdgpu_bo_list_entry *info;
+>>>>>         int r;
+>>>>>
+>>>>> +       if (!in->bo_number || in->bo_number > USHRT_MAX)
+>>>>> +               return -EINVAL;
+>>>>> +
+>>>>>         info = kvmalloc_array(in->bo_number, info_size, GFP_KERNEL);
+>>>>>         if (!info)
+>>>>>                 return -ENOMEM;
+>>>>> --
+>>>>> 2.43.0
+>>>>>
+>>
 
-> So userland may want to allocate contiguous memory, but it may also be
-> relevant to userland to be able to allocate contiguous memory from a
-> purpose specific pool.
->=20
-> And while not used in Android, you could imagine having separate
-> purpose reserved cma heaps with different permissions on the heap
-> devnodes, allowing less trusted applications to allocate cma from a
-> small pool without having the potential to DoS the system.
-
-Yeah... I don't think it's the right approach for that. If Android
-doesn't use it, and if it's the only Linux distro with 1 app / 1 user
-policy, then the only permissions we'll effectively have is one for the
-whole use, trusted and untrusted apps alike.
-
-cgroups look like a much better path forward, and wouldn't require
-multiple heaps.
-
-Anyway... It's not really important at this point I guess.
-
-> > > There have been patches to expose multiple CMA heaps, but with no
-> > > upstream drivers using those purpose specific regions, we haven't
-> > > taken them yet.
-> > > I do hope as the drivers that utilize these purpose focused heaps go
-> > > upstream, we can add that logic, so I think being specific that this
-> > > is default CMA is a good idea.
-> >
-> > If heaps names are supposed to carry the region it exposes, then it
-> > should be default_cma_region/area. If heap names are supposed to expose
-> > the allocator (but I don't think it's a good idea), it should be cma. If
-> > they are meant to carry all that plus some policy,
-> > cached_default_cma_region should be used.
-> >
-> > Either way, default_cma seems to me either too specific or not specific
-> > enough. And we should really document what the policy for those heaps
-> > are supposed to be.
->=20
-> I don't see it as such a problem. It is clear it is cma, it also is
-> clear conceptually that it is the "default" region that the kernel
-> uses when devices aren't specific.
-> But I wouldn't object to cma_default_region/area as a name either, but
-> I don't see it as particularly improved over cma_default.
->=20
-> To your larger point about policy, I do get the tension that you want
-> to be able to programmatically derive or evaluate heap names, so that
-> applications can consistently derive a pathname to get what they want.
-
-We've discussed it in the past, I don't really want to. But it was clear
-=66rom the last discussion that you (plural) wanted to infer heap
-semantics from the names. I'm ok with that, but then if we want to make
-it work we need to have well defined names.
-
-And it's actually what I really want to discuss here: we've discussed at
-length how bad the heaps name are (and not only here), but I don't think
-we have any documented policy on what makes a good name?
-
-For example, I'm not sure exposing the allocator name is a good idea:
-it's an implementation detail and for all userspace cares about, we
-could change it every release if it provided the same kind of buffers.
-
-Taking your camera buffers example before, then we could also expose a
-memory region id, and let the platform figure it out, or use the usecase
-as the name.
-
-But if we don't document that, how can we possibly expect everyone
-including downstream to come up with perfect names every time. And FTR,
-I'm willing to write that doc down once the discussion settles.
-
-> But I also think that there is so much variety in both the devices and
-> uses that there is no way that all use cases and all devices can be
-> satisfied with such a static or even programmatic mapping. From my
-> perspective, there just is going to have to be some device specific
-> glue logic that maps use->heap name. Same reason we have fstab and the
-> passwd file.
-
-fstab and passwd can be generated at (first) boot time / install. fstab
-is also being somewhat less important with the auto-partition discovery.
-How would you generate that configuration file at boot?
-
-I'm not really asking this as a theoretical question. Being able to
-auto-discover which heap a driver/device would allocate from is central
-for the cgroup work I mentioned earlier.
-
-And I'm really not sure how distros or applications developpers are
-supposed to keep up with the raw volume of devices that go out every
-year, each and every one of them having different heap names, etc.
-Possibly different from one version of the firmware to another.
-
-> That said, I think advocating for naming conventions is definitely
-> useful, but I'm wary of trying to enforce too specific a schema on the
-> names as the incompleteness theorem will bite us.
-
---63qayjjnrzawfdlj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaA+WCgAKCRAnX84Zoj2+
-dtAdAX490+iTTwDqyILjSOEVCA8RChLdm0moya2/lu4SN1P1TfZ7XV7zi3X4jh0S
-5VdaV+IBgL+thiZgE/SuZsHWgo1vstjGkPj1WnOIESpeFXh4Q59WDtafcqWPQU8T
-rxMeOC+VsQ==
-=9b8o
------END PGP SIGNATURE-----
-
---63qayjjnrzawfdlj--
