@@ -2,86 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7DFA9F5C6
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 18:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4225DA9F5DC
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 18:32:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B117110E616;
-	Mon, 28 Apr 2025 16:27:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D1AB10E399;
+	Mon, 28 Apr 2025 16:32:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fKTyMEvR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hITa48Ks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A26610E616
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 16:27:07 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-54d65cb6e8aso6447428e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 09:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745857626; x=1746462426; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=NEz+7HnlSD9gBpRqA1Xm5hcc+9kBO2HYG+echiMcxYU=;
- b=fKTyMEvRwD0Lh4O1HCu+ru/suNG3tkKer21HzZczfQ/nZEZYT3eu2Euw+HthTdp0Cl
- otwLyiaodSoAjj9sWzjEi1yEogfCzWKc3jB3lGm6p+2AdWuSoRbt9TxSmBz6uRty8tm8
- C3G1LjzxWWLBPjmrF4IrTcQ9O4qQySWIPlJelRfnTDxRmEaGMRUlB2IPTwH9JZ4/txwp
- 2ENKVCw6ky8xPpz9xb/X/IqXFL04Pyk/1xM86B+/jPmicf0XxiLHCmLdlOuKTVW1n7dQ
- bwFS+8yvySECZC3jfI71uQ9y5N4Gbz25JAMcRjVv0JmChPNLWM/1XaLLwNf7n5/e+XY7
- YLWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745857626; x=1746462426;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NEz+7HnlSD9gBpRqA1Xm5hcc+9kBO2HYG+echiMcxYU=;
- b=jgvCDhR5VsXEHNQd0A6zGRhzZSfvVQtRpx8lzLzSoDcW4uyBnIHOdzAMIEfTs5dPyD
- lVyJq72AEnaTJYQ0F/cpTO+pbpFUgO/oQ9rGtzXjqYvRe/goUjq9fPjBovWDfEDdKcHx
- sK78/g+c4S0Q5UJBCr6vXVQA9DYY5R60wTeeCMXVx10T5wW6YuU1VN0yRHoap/esXx+E
- yAyTlrpAWqcpsAI2JO71rMkDwjeKPBoNb1ISJl2prY8w1b5oWy2e+PgDT/d94jZ7ASGs
- B9D/BxD8YCzyfzH3TxZFX1+ZFgoyQS8MZobohiatlWsLjg7otfsr67CaAi4gGsk/wFcS
- Jb7g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxv+Xj32bkYPOT8zDEwT37Y9Sssv5LC6tiuIs9bOwrbhQRqKB/LHYJgz+mp4y2u4kwwz66xvMzcCI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWsDVMyZnoqdJmNFX7+iQPs0EnNjcwTWJl8JkRAcZmvI8yYMCl
- OFsoh2SpeeR0lUYF/bqYuOepJ/BLGNTngZRZhVh8VK3IUcQQPOUY
-X-Gm-Gg: ASbGncv4zmQg9YDbSwgsenYV2qWwkwHKoX05a8rBnLE8wR/26FZ0oAdBI2nOYJqYzxt
- uybw2VFiDZIuSYJkBw6S8/pxXd6o+AK0XX8F1WetI4NDRKSTgx/z2aJgs082xTg1OFdpF5i0EYI
- AXKqMFPglQFGV1Xl0uu/zLnfJjI7spC/IemO2OHn/TTTAgjSGc8iVIerGniSNhGkzZrwxmKsEgb
- eo2/Sa+V7BL9jDqi1XIUNHdxHqb5jYdTXFbhrwGqiMCbC5EPnbzp/pRuoZhY0naRlj/rYUybNa0
- O/q2ghLx2PR0LU90g8DvIeGWq8mCWVuu5wN/kxDev5emfhyXLMSvGduMvyNHvG+p9p6TBNhC1Kp
- Hmg==
-X-Google-Smtp-Source: AGHT+IGr6BX7don/g6ZzfnnNUrD4Fex9BPlhWoDzwbCr+DZza31LV5r8+5jBFKfRTAtrCQtlTb7OFA==
-X-Received: by 2002:a19:6458:0:b0:54d:6aa1:8f5a with SMTP id
- 2adb3069b0e04-54e8cbd5b23mr2738532e87.13.1745857625379; 
- Mon, 28 Apr 2025 09:27:05 -0700 (PDT)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54e7ccb7cf7sm1648779e87.214.2025.04.28.09.27.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Apr 2025 09:27:04 -0700 (PDT)
-Date: Mon, 28 Apr 2025 18:27:02 +0200
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, David Lechner <david@lechnology.com>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Alex Lanzano <lanzano.alex@gmail.com>,
- Kerem Karabay <kekrby@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/st7571-i2c: select CONFIG_DRM_CLIENT_SELECTION
-Message-ID: <aA-sVpH4JprVJfvi@gmail.com>
-References: <20250428150752.3970145-1-arnd@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0E010E5FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 16:31:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745857918; x=1777393918;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=2flk/hePgzpEnCa5tkTmVPtt3EsWIE0IUFHUsusXdX4=;
+ b=hITa48KsmkzgkpOcovSAoq4eF/U3COxGaDCjPgfCxPp52N3+SX8u+aPD
+ P36HvTzrkyP4RMRWC8FSoF5A8K+aNOcdq6NAYwNdAShN5oDnhkFH2C7GZ
+ tsViJfTYS7WGarEysFhASmZnpzIgNdTLSDwqGwlLeZbv064a/nZe46XGY
+ pDmSbj9UHlhyS6VsBDV6/lVB4A7mvE1oEvFcYLwo5MfSVnEAN39j8a+Yt
+ DR9FNNdWhdoTZg0wSm9QhR89eS11sdBbJwy7sxAmMhMOyH4rMUnj74JiB
+ gjffK6eolGkKSR8gkFdtOq8U/DSxKTkRvEK+pXXu/JrQ/4sY/9szWXacX g==;
+X-CSE-ConnectionGUID: Dg4NP0afQ86mSD0iiMscZA==
+X-CSE-MsgGUID: G8vAzNx0TA2AFvM0LSZLQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="64990943"
+X-IronPort-AV: E=Sophos;i="6.15,246,1739865600"; d="scan'208";a="64990943"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2025 09:31:57 -0700
+X-CSE-ConnectionGUID: ZjDgHR9hQyqRRRf05YluIg==
+X-CSE-MsgGUID: xtdCujlnSJiUCj8kRmLw2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,246,1739865600"; d="scan'208";a="133460477"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.174])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2025 09:31:54 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Anusha Srivatsa <asrivats@redhat.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Luca
+ Ceresoli <luca.ceresoli@bootlin.com>, Anusha Srivatsa <asrivats@redhat.com>
+Subject: Re: [PATCH v4 2/4] drm/panel: Add refcount support
+In-Reply-To: <20250331-b4-panel-refcounting-v4-2-dad50c60c6c9@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com>
+ <20250331-b4-panel-refcounting-v4-2-dad50c60c6c9@redhat.com>
+Date: Mon, 28 Apr 2025 19:31:50 +0300
+Message-ID: <87y0vkw8ll.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="o3c6wV1GzZxPmN44"
-Content-Disposition: inline
-In-Reply-To: <20250428150752.3970145-1-arnd@kernel.org>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,48 +74,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 31 Mar 2025, Anusha Srivatsa <asrivats@redhat.com> wrote:
+> Allocate panel via reference counting. Add _get() and _put() helper
+> functions to ensure panel allocations are refcounted. Avoid use after
+> free by ensuring panel pointer is valid and can be usable till the last
+> reference is put.
+>
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+>
+> ---
+> v4: Add refcounting documentation in this patch (Maxime)
+>
+> v3: Add include in this patch (Luca)
+>
+> v2: Export drm_panel_put/get() (Maxime)
+> - Change commit log with better workding (Luca, Maxime)
+> - Change drm_panel_put() to return void (Luca)
+> - Code Cleanups - add return in documentation, replace bridge to
+> panel (Luca)
+> ---
+>  drivers/gpu/drm/drm_panel.c | 64 ++++++++++++++++++++++++++++++++++++++++++++-
+>  include/drm/drm_panel.h     | 19 ++++++++++++++
+>  2 files changed, 82 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> index bdeab5710ee324dc1742fbc77582250960556308..7b17531d85a4dc3031709919564d2e4d8332f748 100644
+> --- a/drivers/gpu/drm/drm_panel.c
+> +++ b/drivers/gpu/drm/drm_panel.c
+> @@ -355,24 +355,86 @@ struct drm_panel *of_drm_find_panel(const struct device_node *np)
+>  }
+>  EXPORT_SYMBOL(of_drm_find_panel);
+>  
+> +static void __drm_panel_free(struct kref *kref)
+> +{
+> +	struct drm_panel *panel = container_of(kref, struct drm_panel, refcount);
+> +
+> +	kfree(panel->container);
+> +}
+> +
+> +/**
+> + * drm_panel_get - Acquire a panel reference
+> + * @panel: DRM panel
+> + *
+> + * This function increments the panel's refcount.
+> + * Returns:
+> + * Pointer to @panel
+> + */
+> +struct drm_panel *drm_panel_get(struct drm_panel *panel)
+> +{
+> +	if (!panel)
+> +		return panel;
+> +
+> +	kref_get(&panel->refcount);
+> +
+> +	return panel;
+> +}
+> +EXPORT_SYMBOL(drm_panel_get);
+> +
+> +/**
+> + * drm_panel_put - Release a panel reference
+> + * @panel: DRM panel
+> + *
+> + * This function decrements the panel's reference count and frees the
+> + * object if the reference count drops to zero.
+> + */
+> +void drm_panel_put(struct drm_panel *panel)
+> +{
+> +	if (panel)
+> +		kref_put(&panel->refcount, __drm_panel_free);
+> +}
+> +EXPORT_SYMBOL(drm_panel_put);
+> +
+> +/**
+> + * drm_panel_put_void - wrapper to drm_panel_put() taking a void pointer
+> + *
+> + * @data: pointer to @struct drm_panel, cast to a void pointer
+> + *
+> + * Wrapper of drm_panel_put() to be used when a function taking a void
+> + * pointer is needed, for example as a devm action.
+> + */
+> +static void drm_panel_put_void(void *data)
+> +{
+> +	struct drm_panel *panel = (struct drm_panel *)data;
+> +
+> +	drm_panel_put(panel);
+> +}
+> +
+>  void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t offset,
+>  			     const struct drm_panel_funcs *funcs,
+>  			     int connector_type)
+>  {
+>  	void *container;
+>  	struct drm_panel *panel;
+> +	int err;
+>  
+>  	if (!funcs) {
+>  		dev_warn(dev, "Missing funcs pointer\n");
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
+> -	container = devm_kzalloc(dev, size, GFP_KERNEL);
+> +	container = kzalloc(size, GFP_KERNEL);
+>  	if (!container)
+>  		return ERR_PTR(-ENOMEM);
+>  
+>  	panel = container + offset;
+> +	panel->container = container;
+>  	panel->funcs = funcs;
+> +	kref_init(&panel->refcount);
 
---o3c6wV1GzZxPmN44
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Anusha, this should be done in drm_panel_init() instead.
 
-On Mon, Apr 28, 2025 at 05:07:45PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> The newly added driver calls drm_client_setup(), but that is not
-> always built in:
->=20
-> x86_64-linux-ld: vmlinux.o: in function `st7571_probe':
-> st7571-i2c.c:(.text+0x7b7119): undefined reference to `drm_client_setup'
->=20
-> Select the appropriate Kconfig symbol.
->=20
-> Fixes: 4b35f0f41ee2 ("drm/st7571-i2c: add support for Sitronix ST7571 LCD=
- controller")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+There are many users of drm_panel that don't use devm_drm_panel_alloc()
+but allocate separately, and call drm_panel_init() only. They'll all
+have refcount set to 0 instead of 1 like kref_init() does.
 
-Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+This means all subsequent get/put pairs on such panels will lead to
+__drm_panel_free() being called! But through a lucky coincidence, that
+will be a nop because panel->container is also not initialized...
+
+I'm sorry to say, the drm refcounting interface is quite broken for such
+use cases.
 
 
---o3c6wV1GzZxPmN44
-Content-Type: application/pgp-signature; name=signature.asc
+BR,
+Jani.
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmgPrFIACgkQiIBOb1ld
-UjLJRg/+OXeqfy4JHuaJu1E/9ak8qieFsIFnvYtHXHj42ZXnyeaMV8lrdx/MYlA7
-ci/Ql/XnIA4Dh9qFMNPBrfRw5zRs7pSXBQY2Ic61ocvTtVS3XRATYKLSIcCDRhFF
-owscA1AZMXAMru6+jOg43b4L2TqRMT+OGa7Xj3m3oUW+atlnRDPGRxrnOHKDjZmI
-9X1g+vm36QkLFIoVoMTrPp/oa4kgKxr+ZRRdqIfPtsr5MyG/yLBgrr1IOI2fF9kX
-wsWEuaBDEQtLgPmBo4iK8FLLeQHkYOBNKmR2za3ItOZEe2d1OKCHqXk4T1nbit4I
-8DqMAV2mc19hM7mHGE0/+DfBAmhvJhduJJ5aln+lacYJsUZotJZP2oSI9qqEpygw
-JvQb44d1JLoVIETuqC5tyNtKo9nuQD4ylingsy/1BIul0FcSqtBVIADoNSpY2Ed7
-iyT4+GV1dX16AjGPJx4kJEGGk7uoL6KX4jG1muWHkSGqEDrJNIfc3egDCkZziHJ6
-Mgm+uD8gphzFh6Q7SIAYpm4lxY/Mcidk7slhow+QtRvsEfkQ6peeU4csUkUjfCfg
-zy/plSitlaVAARLzF6jJ8oWXa4267Ve1ivpkxC4cFebYSajCRABHW4NN8rqJfaRF
-XGr2EZCdk3Q5CzJq61QQFJAwF/ZncTY/N6N9xxheYeiDNS7fTB4=
-=WotX
------END PGP SIGNATURE-----
+> +
+> +	err = devm_add_action_or_reset(dev, drm_panel_put_void, panel);
+> +	if (err)
+> +		return ERR_PTR(err);
+>  
+>  	drm_panel_init(panel, dev, funcs, connector_type);
+>  
+> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+> index 415e85e8b76a15679f59c944ea152367dc3e0488..31d84f901c514c93ab6cbc09f445853ef897bc95 100644
+> --- a/include/drm/drm_panel.h
+> +++ b/include/drm/drm_panel.h
+> @@ -28,6 +28,7 @@
+>  #include <linux/errno.h>
+>  #include <linux/list.h>
+>  #include <linux/mutex.h>
+> +#include <linux/kref.h>
+>  
+>  struct backlight_device;
+>  struct dentry;
+> @@ -266,6 +267,17 @@ struct drm_panel {
+>  	 * If true then the panel has been enabled.
+>  	 */
+>  	bool enabled;
+> +
+> +	/**
+> +	 * @container: Pointer to the private driver struct embedding this
+> +	 * @struct drm_panel.
+> +	 */
+> +	void *container;
+> +
+> +	/**
+> +	 * @refcount: reference count of users referencing this panel.
+> +	 */
+> +	struct kref refcount;
+>  };
+>  
+>  void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t offset,
+> @@ -282,6 +294,10 @@ void *__devm_drm_panel_alloc(struct device *dev, size_t size, size_t offset,
+>   * @connector_type: the connector type (DRM_MODE_CONNECTOR_*) corresponding to
+>   * the panel interface
+>   *
+> + * The reference count of the returned panel is initialized to 1. This
+> + * reference will be automatically dropped via devm (by calling
+> + * drm_panel_put()) when @dev is removed.
+> + *
+>   * Returns:
+>   * Pointer to container structure embedding the panel, ERR_PTR on failure.
+>   */
+> @@ -294,6 +310,9 @@ void drm_panel_init(struct drm_panel *panel, struct device *dev,
+>  		    const struct drm_panel_funcs *funcs,
+>  		    int connector_type);
+>  
+> +struct drm_panel *drm_panel_get(struct drm_panel *panel);
+> +void drm_panel_put(struct drm_panel *panel);
+> +
+>  void drm_panel_add(struct drm_panel *panel);
+>  void drm_panel_remove(struct drm_panel *panel);
 
---o3c6wV1GzZxPmN44--
+-- 
+Jani Nikula, Intel
