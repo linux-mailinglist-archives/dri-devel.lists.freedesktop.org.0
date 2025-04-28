@@ -2,76 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DFFA9F87E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 20:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A4FA9F8B0
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 20:36:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B456C10E6C0;
-	Mon, 28 Apr 2025 18:27:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70E1710E23C;
+	Mon, 28 Apr 2025 18:36:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QkstneYm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xd4FNjLn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3949810E693;
- Mon, 28 Apr 2025 18:27:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 770B25C5F76;
- Mon, 28 Apr 2025 18:24:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A5FBC4CEF0;
- Mon, 28 Apr 2025 18:27:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745864834;
- bh=GDPgtOVgXL6plCbNuxFYLP6Z2KzvkwaJrDLAn/m6LXU=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=QkstneYmHHLA6J294oqPCh83PODKG3epohj7IZq8+5RZhEIeEVEZZJIgSw13vL5Zp
- xhRse5VKrR/X4iHQF5cd/WsEWbNUWOGI7LhyXZCxeabjEb7nZv1OkMU0BfLoUJjZvn
- komNEJvms8z4DpG7lJsQ5ZO+Nbi1251OCpdiQygjsdx96M6XZCwspX7/cB8TgXblw6
- XRjR/4nD30a2HZKAfMCUYgSvrvvcYQPS9eS1ychR/2NU9JDMdvL2dxGY9o1h4wqPqR
- BI4CELjbu6UwLfxbZumrXFcbGMA+ndYZ8svPibdJp1GzJSE2szbAZVxo4YNyHs9tk/
- XUBkBY97LDRJw==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 28 Apr 2025 11:26:33 -0700
-Subject: [PATCH v5 10/10] ref_tracker: eliminate the ref_tracker_dir name field
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CADD510E233;
+ Mon, 28 Apr 2025 18:36:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745865408; x=1777401408;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Sn0Gj3DrQO4kqTKFj5M9ENCciwJnG1UsZz0J425zSWg=;
+ b=Xd4FNjLnOVh2vBZlMflroVy5v48vCAsBnyx7ZBOLBzERiCQ2T6Yoem0D
+ AoQhAnMfTFX+BNy56yD0xCfEXCNd/7u8+pI1eIEb6HTq5NPAhA6yBszu+
+ D2RwG9nZhWgdXsVfudHGK1XWYTdw5vEj6+LdrBIDMe8g0T702VK8d0IOM
+ 1qSfp5wUeUHUMIiu1mwpLamJSwf0v8hjpeZ3oYhR7Axo65qGqPLos9fjz
+ uW8s5Wt4dYJjI4dor4d5oFHiq+r8b4z3aeVAXJH0CxZMDAbOF/F6HY62S
+ ypv6RcBALtpspNx1ABKjCLjY+Jaxrhg+NHU5fCaKRaSqol7SH1L/Kgp0S g==;
+X-CSE-ConnectionGUID: N3s2KQArRhimc5OI9nQbBg==
+X-CSE-MsgGUID: QjjcdCkJR7GOSk2jznirsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="65003749"
+X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; d="scan'208";a="65003749"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2025 11:36:47 -0700
+X-CSE-ConnectionGUID: 7A/HKTWUSHm/MpbPrNS1Cg==
+X-CSE-MsgGUID: GMAbaPjIQL6RMQmEA6SwPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; d="scan'208";a="133909867"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.39.141])
+ by fmviesa008.fm.intel.com with ESMTP; 28 Apr 2025 11:36:47 -0700
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Sk Anirban <sk.anirban@intel.com>
+Subject: [PATCH v2] drm/i915/slpc: Balance the inc/dec for num_waiters
+Date: Mon, 28 Apr 2025 11:35:55 -0700
+Message-Id: <20250428183555.3250021-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250428-reftrack-dbgfs-v5-10-1cbbdf2038bd@kernel.org>
-References: <20250428-reftrack-dbgfs-v5-0-1cbbdf2038bd@kernel.org>
-In-Reply-To: <20250428-reftrack-dbgfs-v5-0-1cbbdf2038bd@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, 
- Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7677; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=GDPgtOVgXL6plCbNuxFYLP6Z2KzvkwaJrDLAn/m6LXU=;
- b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBoD8h2alZshdTC5MUo0enHqdTnXYzWEFaXW5InR
- 0QgaqPUFRqJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaA/IdgAKCRAADmhBGVaC
- FZCwD/4uyNGtTyU8VgiqHTC0vbAOEWvzi4PZFKEEOSiWk94kRUS4rluRUxSAnJIgI32QiB0L+qv
- wlhBcJjKUjQ5yT2Q/+nfKISKCtv66IoTAlqENJMKDdU7MbZwOpyk1K8assuqIiwUbzHJx4UY+1b
- u/wYdXUn3TLoXnELbgU2VKWJDKQ+gGwROh4etpNcMygQEvMEd4hKMKlqn97RjJbOXZuk0Sjr+N2
- cwleF47fVikVLPHrG2JdVKopERKbAZnzn97uLC7d/a0A4GECOsvFdlt5v9q3DatJUnB1BaQPgpI
- 66yHFWswqxVgNfnW0lpq5gRIEg5MihpALl0oil4GdHUo8P81+U2CSZhYhco9X/5wQhx7ZURyUav
- uA+OEmzjGDvGBDVg3J0erum7ek08e1QnVs52e8nE3er9fGW/udT4HQ4ZbDsTOEJoGjrgNvpoDJx
- BZGy6M9RfMuzMitVgkBBbH+DKtw1OtW+KZ8gzR5OJKqD/fK9o6G8a9peERPwkdFa3DEmObpV7nH
- kZb5Ehb9/fscAbsq+GOmRpw3OmbJPEbhJt/dQNr/A1AwOoAmo0aREzhlcs7S177iICbpfKpUpV6
- AaM56wUNP341lfnqVYDLSq3Xx2Xc+cNXX33EpfMbf2q5Y07Xh7DxYDyEqaR6Ly0WdC2YpbMuWRd
- 4p1WccIXmpYkJyQ==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,189 +66,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have dentries and the ability to create meaningful symlinks
-to them, don't keep a name string in each tracker. Switch the output
-format to print "class@address", and drop the name field.
+As seen in some recent failures, SLPC num_waiters value is < 0.
+This happens because the inc/dec are not balanced. We should skip
+decrement for the same conditions as the increment. Currently, we
+do that for power saving profile mode. This patch also ensures that
+num_waiters is incremented in the case min_softlimit is at boost
+freq. It ensures that we don't reduce the frequency while this request
+is in flight.
 
-Also, add a kerneldoc header for ref_tracker_dir_init().
+v2: Add Fixes tags
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13598
+Fixes: f864a29afc32 ("drm/i915/slpc: Optmize waitboost for SLPC")
+Fixes: 4a82ceb04ad4 ("drm/i915/slpc: Add sysfs for SLPC power profiles")
+Cc: Sk Anirban <sk.anirban@intel.com>
+Reviewed-by: Sk Anirban <sk.anirban@intel.com>
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_tunnel.c |  2 +-
- drivers/gpu/drm/i915/intel_runtime_pm.c |  2 +-
- drivers/gpu/drm/i915/intel_wakeref.c    |  2 +-
- include/linux/ref_tracker.h             | 20 ++++++++++++++------
- lib/ref_tracker.c                       |  6 +++---
- lib/test_ref_tracker.c                  |  2 +-
- net/core/dev.c                          |  2 +-
- net/core/net_namespace.c                |  4 ++--
- 8 files changed, 24 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_rps.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_tunnel.c b/drivers/gpu/drm/display/drm_dp_tunnel.c
-index f2a8ef6abf34d89a642d7c7708c41e5b1dc9dece..f8d1f9c60e86c5a7b1866e1c9f6425e99d4ca9c6 100644
---- a/drivers/gpu/drm/display/drm_dp_tunnel.c
-+++ b/drivers/gpu/drm/display/drm_dp_tunnel.c
-@@ -1920,7 +1920,7 @@ drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count)
- 	}
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index 8731f275fdd9..b609e3aa2122 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -1003,6 +1003,10 @@ void intel_rps_dec_waiters(struct intel_rps *rps)
+ 	if (rps_uses_slpc(rps)) {
+ 		slpc = rps_to_slpc(rps);
  
- #ifdef CONFIG_DRM_DISPLAY_DP_TUNNEL_STATE_DEBUG
--	ref_tracker_dir_init(&mgr->ref_tracker, 16, "drm_dptun", "dptun");
-+	ref_tracker_dir_init(&mgr->ref_tracker, 16, "drm_dptun");
- #endif
++		/* Don't decrement num_waiters for req where increment was skipped */
++		if (slpc->power_profile == SLPC_POWER_PROFILES_POWER_SAVING)
++			return;
++
+ 		intel_guc_slpc_dec_waiters(slpc);
+ 	} else {
+ 		atomic_dec(&rps->num_waiters);
+@@ -1031,11 +1035,15 @@ void intel_rps_boost(struct i915_request *rq)
+ 			if (slpc->power_profile == SLPC_POWER_PROFILES_POWER_SAVING)
+ 				return;
  
- 	for (i = 0; i < max_group_count; i++) {
-diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-index 94315e952ead9be276298fb2a0200d102005a0c1..d560f94af7a86f1fc139204a4e901eaea22c6ef1 100644
---- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-+++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-@@ -60,7 +60,7 @@ static struct drm_i915_private *rpm_to_i915(struct intel_runtime_pm *rpm)
- static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
- {
- 	ref_tracker_dir_init(&rpm->debug, INTEL_REFTRACK_DEAD_COUNT,
--			     "intel_runtime_pm", dev_name(rpm->kdev));
-+			     "intel_runtime_pm");
- 	ref_tracker_dir_symlink(&rpm->debug, "intel_runtime_pm-%s", dev_name(rpm->kdev));
- }
- 
-diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
-index 2e0498b3fa7947f994de1339d4d2bed93de1a795..bbd5171ce0a22435e540f10821f2a0dad59c1d2f 100644
---- a/drivers/gpu/drm/i915/intel_wakeref.c
-+++ b/drivers/gpu/drm/i915/intel_wakeref.c
-@@ -114,7 +114,7 @@ void __intel_wakeref_init(struct intel_wakeref *wf,
- 			 "wakeref.work", &key->work, 0);
- 
- #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
--	ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, "intel_wakeref", name);
-+	ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, "intel_wakeref");
- 	ref_tracker_dir_symlink(&wf->debug, "intel_wakeref-%s", name);
- #endif
- }
-diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
-index a011297c501011c697de44469f9720597aa33116..1e2bd0a0b7c4c2273a92663af7e710a0a2ba079b 100644
---- a/include/linux/ref_tracker.h
-+++ b/include/linux/ref_tracker.h
-@@ -23,7 +23,6 @@ struct ref_tracker_dir {
- 	struct dentry		*dentry;
- 	struct dentry		*symlink;
- #endif
--	char			name[32];
- #endif
- };
- 
-@@ -32,10 +31,21 @@ struct ref_tracker_dir {
- void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir);
- void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...);
- 
-+/**
-+ * ref_tracker_dir_init - initialize a ref_tracker dir
-+ * @dir: ref_tracker_dir to be initialized
-+ * @quarantime_count: max number of entries to be tracked
-+ * @class: pointer to static string that describes object type
-+ *
-+ * Initialize a ref_tracker_dir. If debugfs is configured, then a file
-+ * will also be created for it under the top-level ref_tracker debugfs
-+ * directory.
-+ *
-+ * Note that @class must point to a static string.
-+ */
- static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 					unsigned int quarantine_count,
--					const char *class,
--					const char *name)
-+					const char *class)
- {
- 	INIT_LIST_HEAD(&dir->list);
- 	INIT_LIST_HEAD(&dir->quarantine);
-@@ -49,7 +59,6 @@ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 	dir->dentry = NULL;
- 	dir->symlink = NULL;
- #endif
--	strscpy(dir->name, name, sizeof(dir->name));
- 	ref_tracker_dir_debugfs(dir);
- 	stack_depot_init();
- }
-@@ -74,8 +83,7 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
- 
- static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 					unsigned int quarantine_count,
--					const char *class,
--					const char *name)
-+					const char *class)
- {
- }
- 
-diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-index 25fb22c0a367573851d83a8a00b99b109871f47d..c603685e8afabe2263b1efef8c0bc8e0ce7e7755 100644
---- a/lib/ref_tracker.c
-+++ b/lib/ref_tracker.c
-@@ -136,7 +136,7 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
- 	stats = ref_tracker_get_stats(dir, display_limit);
- 	if (IS_ERR(stats)) {
- 		pr_ostream(s, "%s%s@%p: couldn't get stats, error %pe\n",
--			   s->prefix, dir->name, dir, stats);
-+			   s->prefix, dir->class, dir, stats);
- 		return;
- 	}
- 
-@@ -147,14 +147,14 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
- 		if (sbuf && !stack_depot_snprint(stack, sbuf, STACK_BUF_SIZE, 4))
- 			sbuf[0] = 0;
- 		pr_ostream(s, "%s%s@%p has %d/%d users at\n%s\n", s->prefix,
--			   dir->name, dir, stats->stacks[i].count,
-+			   dir->class, dir, stats->stacks[i].count,
- 			   stats->total, sbuf);
- 		skipped -= stats->stacks[i].count;
- 	}
- 
- 	if (skipped)
- 		pr_ostream(s, "%s%s@%p skipped reports about %d/%d users.\n",
--			   s->prefix, dir->name, dir, skipped, stats->total);
-+			   s->prefix, dir->class, dir, skipped, stats->total);
- 
- 	kfree(sbuf);
- 
-diff --git a/lib/test_ref_tracker.c b/lib/test_ref_tracker.c
-index d263502a4c1db248f64a66a468e96c8e4cffab25..b983ceb12afcb84ad60360a1e6fec0072e78ef79 100644
---- a/lib/test_ref_tracker.c
-+++ b/lib/test_ref_tracker.c
-@@ -64,7 +64,7 @@ static int __init test_ref_tracker_init(void)
- {
- 	int i;
- 
--	ref_tracker_dir_init(&ref_dir, 100, "selftest", "selftest");
-+	ref_tracker_dir_init(&ref_dir, 100, "selftest");
- 
- 	timer_setup(&test_ref_tracker_timer, test_ref_tracker_timer_func, 0);
- 	mod_timer(&test_ref_tracker_timer, jiffies + 1);
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 380d07bec15a1f62ed27c31a6e211e74f3a5561d..00776cba0276554066c94a6fc86f5ed4df430cfa 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -11620,7 +11620,7 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 
- 	dev->priv_len = sizeof_priv;
- 
--	ref_tracker_dir_init(&dev->refcnt_tracker, 128, "netdev", name);
-+	ref_tracker_dir_init(&dev->refcnt_tracker, 128, "netdev");
- #ifdef CONFIG_PCPU_DEV_REFCNT
- 	dev->pcpu_refcnt = alloc_percpu(int);
- 	if (!dev->pcpu_refcnt)
-diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
-index 6cbc8eabb8e56c847fc34fa8ec9994e8b275b0af..d70e058476aafbac59738e1fd88f0ebb32ee0fb2 100644
---- a/net/core/net_namespace.c
-+++ b/net/core/net_namespace.c
-@@ -324,8 +324,8 @@ static __net_init void preinit_net(struct net *net, struct user_namespace *user_
- {
- 	refcount_set(&net->passive, 1);
- 	refcount_set(&net->ns.count, 1);
--	ref_tracker_dir_init(&net->refcnt_tracker, 128, "net_refcnt", "net_refcnt");
--	ref_tracker_dir_init(&net->notrefcnt_tracker, 128, "net_notrefcnt", "net_notrefcnt");
-+	ref_tracker_dir_init(&net->refcnt_tracker, 128, "net_refcnt");
-+	ref_tracker_dir_init(&net->notrefcnt_tracker, 128, "net_notrefcnt");
- 
- 	get_random_bytes(&net->hash_mix, sizeof(u32));
- 	net->dev_base_seq = 1;
-
+-			if (slpc->min_freq_softlimit >= slpc->boost_freq)
+-				return;
+-
+ 			/* Return if old value is non zero */
+ 			if (!atomic_fetch_inc(&slpc->num_waiters)) {
++				/*
++				 * Skip queuing boost work if frequency is already boosted,
++				 * but still increment num_waiters.
++				 */
++				if (slpc->min_freq_softlimit >= slpc->boost_freq)
++					return;
++
+ 				GT_TRACE(rps_to_gt(rps), "boost fence:%llx:%llx\n",
+ 					 rq->fence.context, rq->fence.seqno);
+ 				queue_work(rps_to_gt(rps)->i915->unordered_wq,
 -- 
-2.49.0
+2.38.1
 
