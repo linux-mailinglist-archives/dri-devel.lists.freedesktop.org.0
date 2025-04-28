@@ -2,70 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E4BA9F7C3
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 19:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D0CA9F80F
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 20:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9433B10E64A;
-	Mon, 28 Apr 2025 17:53:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DBF710E672;
+	Mon, 28 Apr 2025 18:08:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="zJ7QVyCj";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="qkQKV/q0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8607310E64A
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 17:53:53 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-5e8be1bdb7bso8091834a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 10:53:53 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 908E810E672
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 18:08:35 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-acb615228a4so1080973266b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 11:08:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1745862832; x=1746467632;
+ d=google.com; s=20230601; t=1745863714; x=1746468514;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cELG0a2mXl5N6mpi0+RLp319EHg3sGhSPY6U6Zc2/4k=;
- b=zJ7QVyCjdpzHwc+N6NuZFku5Lxvz0KR3zaxBDcXfzhrW0mPLpZjHf7WhnlPZydJGnw
- mQEi5Tr+Aka2EOnKAG8BMUT0KdwT4+P8arH+eYl57RO6lfqYY9p9ON9qy3yKc7i3AKu0
- bmT8lIiYALrgGMfV+sF2Ifr/wG1v3CCTHji95NgTu43gf9Pd2nSj2M0UQ/50tNxdDY0V
- +o0Nze99qMddJcUy6AK7RicFZqTzt9hTsauIyByqz+qeLhhE3j8WQg72zperGYr1kvYu
- C12P30Rl+ZL6Q1l9MUSJoRm4/XW3uPS5w5ig1UIupmMGuw/xp+QcDbU8yJxsjEFtN5lW
- uPtA==
+ bh=ObSXFlGsDpWRV8E/7b0vGadnQXgzqYHgpaoAoCxwOYI=;
+ b=qkQKV/q0VzrmpC3+UlSKK6N2aLD4fJEmjCgZX/UNukIVQhqbL+F4hCSfpp19OFMAgv
+ Ab5KEoriBHzEi+2T1Um32M9BIv7BMyv4tO2042dnJd8C+7j9gZsJWui9Ivt+5Dvat5Pa
+ 9iXhxLOC8AvMGSrB02Gz38oCv6/pEb3/9Knlwbv4vsRsJpWLuq2htzkck7MKGOrkSW6N
+ J/wgqr1Qv7NwieVBvT4Q/TEZ3WhN8KIDVVtfFnNsXanjU5C437/TbElhz5M7of0bPlBQ
+ LcVbbZlXwpOsxmgCLmL3PBYBImGT+Z0RD59GeS0X1etDv7xk9wOReIDVaeG+30Ntr6UW
+ sJxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745862832; x=1746467632;
+ d=1e100.net; s=20230601; t=1745863714; x=1746468514;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cELG0a2mXl5N6mpi0+RLp319EHg3sGhSPY6U6Zc2/4k=;
- b=LS3v0vpKfPd+NpeGahY6LZNv+XtJnDZ4ypsrlSq19cVMKjB898Nwd88wZCJ5GySzQw
- N1ZGTBfjFB7mCzV71byvI3QlS//xQaPDSShkCaudvknVHDWS7wJ/aPjnFtsaKBIx/dTY
- zOF9MAXZhr15cN1PmZWUyToJJQ1abzMVQi/eybnDrshe+GhWBR2F5N/tUHXEnYyHzX7g
- f/8nWzejAtJ6PcpRaVGiV/Y9QpfN6pEsVGg0fSxh8Zzu5lmWzq39Nh1a4Qr8l+GC0o9j
- nXxj4vC4aFG3cBcu+T2JTHSextECCO1Olv6wD84KOtKrguC/pNONo3kl+RLgwndhVGtQ
- QTCA==
+ bh=ObSXFlGsDpWRV8E/7b0vGadnQXgzqYHgpaoAoCxwOYI=;
+ b=onnOzP4UQWsjinQaGtBtHguoFVoOyU0SLt3DHEZ2Knpn4IGhRa4t/gvGAzBxC5libh
+ 9yAeVwGk/JenKAEYJbqjy4X2gjcmC+pxoybl01CffNzYDNUi0hgZn4+Xifc1bnHOoDB6
+ QRRVrUFbFzFhemPAIeY7hzvuiZlcig+hNnv/fznNjYP3xVyYyC/lTrzmeha/Flw7uQAB
+ hkvjxIqD3BG/JaClW0ibqrbLbdPtxAqN1uYRHSYvBr9xFyN8y7rvKUIlrqAhRk2vO+pd
+ Hlv/mXtWlqbH/TX53ST1u6hJTnjvAqwjFPh6INRrKzi+9s/LRZMYks9+lMIiB+0vd1Hr
+ sEyQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU7hU4OjI27NOrtDaEzcr3mp677CBiZKM3fopUo/PEAlakjxwJ/FMPIVD5JK2IrGKDBLK+XVr5oarA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/HklmsKipmTTeTwIezYN4qGoqv1bn2WLgUCB92at0q3962OsG
- Cs0+7TH63jH6gqzWfryn4SZcNKp0FhGjOs47K3S3T+DeHoelo7AItOA66+ocmF0FCrqZAF4tQlr
- XA4LMp4Dmpiho331MsOQw8PTGWbMn2iiObqc=
-X-Gm-Gg: ASbGncvwUnzTrmBEDrUUUjspfJog10Ft637tn+e9mUCz2ZMnTyyuzSTcHGxx/f2aP0L
- nx0Y02aDWvt4di41Zh0ZaW8gqUGa72kb7Zh9V79jiWCkcw6qtPA1XZx8Td9ZDYY4x8NqljYf8n7
- sioYa1ubQJTVFLZ385jCM=
-X-Google-Smtp-Source: AGHT+IHqIg2Loa+Y0QKSG8YxCDTk31ezU03P7AATW+Z/1ns4Jt8XF4Ad3BTyh3bkX7w/0eQbixiiXnU4rTOZoxrjc1Q=
-X-Received: by 2002:a17:907:7d8a:b0:ac6:fec7:34dd with SMTP id
- a640c23a62f3a-acec6c67f34mr8894566b.52.1745862831882; Mon, 28 Apr 2025
- 10:53:51 -0700 (PDT)
+ AJvYcCWq1Sn/vlf8pQUG+JmbAKqMUvO9jdGmpXjb6u6lSAsKDYaEjKSLiDT3u3dsGENIO3HVQiQqFfsi8fM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzL+bdTI9lWNqnjVvFaJNufykGWSUFsQD0BWX3FkZU6BP7UYBAR
+ gwvYn9Y8XqicFeVtsDB7cbt1EMTNRTp3iIuak+Zuh1gbkOtVOlKhjVAzcOIO2ayzJysxg7rHv96
+ lT5TWGr/IiZ9D9sW5ozIaYyfNjp+Dj7c8GVU=
+X-Gm-Gg: ASbGncuHfQuxLczyTL7jXseSKlEP2jvD71+Q2jsAjNuX+I045DVLNgLcEp5obBwv++Q
+ HqBRhjaiYAdDLH8t0I0WdB0sL6fMjhIJs+mfETZY0BpdA5D545gMba7QKC1nbBL/lnU6nUov4kP
+ +mJBZJiFJp4JuB/hjwuBo=
+X-Google-Smtp-Source: AGHT+IH17lQSjopDcYFAF6vUXYSB4/G8Ck6PNpMZfMLiwEZdqHhhJ7KrtjzzJEVPEcYGZn8hDBoMJ8c6jyFfD4ISC3U=
+X-Received: by 2002:a17:907:940e:b0:acb:1165:9a93 with SMTP id
+ a640c23a62f3a-acec69a7894mr16522666b.3.1745863713696; Mon, 28 Apr 2025
+ 11:08:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAHk-=wiq=E0fwJLFpCc3wPY_9BPZF3dbdqGgVoOmK9Ykj5JEeg@mail.gmail.com>
  <CAHk-=wip2-yTrWpAkrUQ0iejEo2PjReddu4xntwBvdnSvWDbzg@mail.gmail.com>
  <20250426200513.GA427956@ax162>
  <CAHk-=wgPCbZv0JgqoNWMOO+p=N772YW16xYk_pmb1GU7aeuPFA@mail.gmail.com>
-In-Reply-To: <CAHk-=wgPCbZv0JgqoNWMOO+p=N772YW16xYk_pmb1GU7aeuPFA@mail.gmail.com>
+ <20250426232344.GA1395819@ax162>
+ <CAHk-=wha-AgeeqATWRrKuopM4fKhhF_tZE_raQM77qO7Zd3fOQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wha-AgeeqATWRrKuopM4fKhhF_tZE_raQM77qO7Zd3fOQ@mail.gmail.com>
 From: Bill Wendling <morbo@google.com>
-Date: Mon, 28 Apr 2025 10:53:34 -0700
-X-Gm-Features: ATxdqUEJVTdPbMJGumIpmgzZbU1wN2Zlt9jaYxbaWMUYvK-iFBpwnq2gM8nUxXs
-Message-ID: <CAGG=3QWKQ++Yhh0w8zJobs=C4M7F01doAw9t2h=f2W9wxSG3Mw@mail.gmail.com>
+Date: Mon, 28 Apr 2025 11:08:16 -0700
+X-Gm-Features: ATxdqUHdkMoNTiG3otQDMcEbh3e1opeHpcZVUMb0X719K18pydkfuXGdraIMEuw
+Message-ID: <CAGG=3QUk8-Ak7YKnRziO4=0z=1C_7+4jF+6ZeDQ9yF+kuTOHOQ@mail.gmail.com>
 Subject: Re: clang and drm issue: objtool warnings from clang build
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
@@ -95,63 +97,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 26, 2025 at 1:57=E2=80=AFPM Linus Torvalds
+On Sat, Apr 26, 2025 at 5:31=E2=80=AFPM Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
+> So please. Clang people need to get a clue. Yes, we care *deeply*
+> about performance in the kernel, but a C compiler that thinks that
+> using UD to generate "better" code is a disgrace and pure garbage.
+> Because security matters a whole lot too, and the downsides of turning
+> undefined behavior into random garbage are about a million times
+> bigger than the "I can remove one integer instruction for zero gain".
 >
-> On Sat, 26 Apr 2025 at 13:05, Nathan Chancellor <nathan@kernel.org> wrote=
-:
-> >
-> >     KBUILD_CFLAGS +=3D -mllvm -trap-unreachable
+> For the kerrnel, we want to disable absolutely all undefined behavior
+> crap ideas by the compiler. It's why we use -fwrapv and have for
+> years. It's why we disable the idiotic "strict alias" stuff that
+> should never have become part of C. And it's why I want that "turn UD
+> into unreachable" mindfart fixed.
 >
-> Hmm. That certainly builds for me, but yeah, it generates new objtool
-> warnings, notably
->
->    panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
->
-> and I *think* that is because that flag makes clang not honour our
-> *explicit* "this code is unreachable" annotations.
->
-There's also this flag:
+> The notion of "optimizing" unreachable code is crazy. And the notion
+> of thinking that "UD means unreachable" is so incredibly insane that
+> any compiler person that thinks it is reasonable should have his head
+> examined.
 
-  -mllvm -no-trap-after-noreturn
+I tend to agree that generating bad code in the face of UB is bad;
+there was another, unrelated, instance where Clang silently generated
+bad code with UB.
 
-Here's the documentation for both flags:
-
-static cl::opt<bool>
-    EnableTrapUnreachable("trap-unreachable", cl::Hidden,
-                          cl::desc("Enable generating trap for unreachable"=
-));
-
-static cl::opt<bool> EnableNoTrapAfterNoreturn(
-    "no-trap-after-noreturn", cl::Hidden,
-    cl::desc("Do not emit a trap instruction for 'unreachable' IR instructi=
-ons "
-             "after noreturn calls, even if --trap-unreachable is set."));
-
-
-Could you share how you configured your build?
+The problem borders on the philosophical. But I believe the argument
+is roughly "generating 'good' code in the face of UB is a never-ending
+game of Wack-A-Mole(tm), where we don't actually know what the correct
+outcome should be." ("Correct" implying that the compiler could
+somehow divine what the programmer was hoping for, or at least get
+close to it, but it's not possible.) This situation is one of the
+easier ones: "do something other than fall into the next function";
+but there are far more involved examples, of course. And even in this
+case, the compiler needs to know if a "trap" is okay, or would
+returning with garbage in %rax be okay.
 
 -bw
-
-> So now objtool complains about the fact that clang has generated some
-> random code that follows a call to 'panic()' even though objtool knows
-> that panic() cannot return.
->
-> And those explicit annotations definitely should be honored.
->
-> IOW, there's a *big* difference between "the programmer told me this
-> is unreachable, so I won't generate code past this point" and "I have
-> decided this is undefined behavior, so now I won't generate code past
-> this point".
->
-> So what I'm asking for is absolutely not "trap on unreachable". That's
-> wrong and just plain stupid.
->
-> I'm asking for "trap on UD instead of *assuming* it's unreachable".
->
-> Because clearly that code *can* be reached, it's just doing something und=
-efined.
->
-> See? Big big difference.
->
->              Linus
