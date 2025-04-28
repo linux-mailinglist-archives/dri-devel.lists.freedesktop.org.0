@@ -2,77 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFEAA9F7AB
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 19:48:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E4BA9F7C3
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 19:54:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18CA610E21B;
-	Mon, 28 Apr 2025 17:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9433B10E64A;
+	Mon, 28 Apr 2025 17:53:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="m/Pcwqr9";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="zJ7QVyCj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
- [209.85.128.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A13610E21B
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 17:48:15 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-7086dcab64bso17438037b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 10:48:15 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8607310E64A
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 17:53:53 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-5e8be1bdb7bso8091834a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 10:53:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1745862494; x=1746467294;
+ d=google.com; s=20230601; t=1745862832; x=1746467632;
  darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Br89HP6MhUe/ahwBGiB5/BbIYpp/iTR1g5Mpqa7I33k=;
- b=m/Pcwqr92sD5xX+T65S3seCabkRpw5PExHXWg0qHwOYOUJS0BLyC0pEk0KSzA9IJFm
- WE0fVuZkux214Qt+eHZnawfL8udeST9tC3x4itLeIP7/lDwIyqWJAa+kYDIyVa78PpA2
- 3SJ0xLSXUiYc/XtR8DFoYIL+RsS+EtE9lvQZa0GhmhLc/bT2CMv8Pzw6hQF21UlHNWjE
- mGh/1IFtQkz/ENVYq6Xcrltqa59Oe4pHKsuzbgxkvoeKS+KHcXdOlJVHe7srGT8TrHpW
- oJYkodvcgfsY/bFEhtOFdY+KiUdfLL6BQ26kJGreZFVj3R2i9YZsLUc3z4x9Lxf99vrN
- bkHw==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cELG0a2mXl5N6mpi0+RLp319EHg3sGhSPY6U6Zc2/4k=;
+ b=zJ7QVyCjdpzHwc+N6NuZFku5Lxvz0KR3zaxBDcXfzhrW0mPLpZjHf7WhnlPZydJGnw
+ mQEi5Tr+Aka2EOnKAG8BMUT0KdwT4+P8arH+eYl57RO6lfqYY9p9ON9qy3yKc7i3AKu0
+ bmT8lIiYALrgGMfV+sF2Ifr/wG1v3CCTHji95NgTu43gf9Pd2nSj2M0UQ/50tNxdDY0V
+ +o0Nze99qMddJcUy6AK7RicFZqTzt9hTsauIyByqz+qeLhhE3j8WQg72zperGYr1kvYu
+ C12P30Rl+ZL6Q1l9MUSJoRm4/XW3uPS5w5ig1UIupmMGuw/xp+QcDbU8yJxsjEFtN5lW
+ uPtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745862494; x=1746467294;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Br89HP6MhUe/ahwBGiB5/BbIYpp/iTR1g5Mpqa7I33k=;
- b=jiCNzI5xIiMmvcMbsd1JzLyKQUgUeeAYB3YRQdcBdv/yXl4oqdCwkJQmB2BbVj4Npq
- cP6gq3zPZtbLLpt9ZG+bNOayr8oWExY5O08j6e67gaycIIGeOyruhZXFWeWs8oOt9BfS
- TjgR3Ki7lVoRZfZ1Q6oAvjtKOCUhBzuFQyu05V6/QlCs+tkHxq5yKXrmlu1TueSCK7cE
- f+J1P1UPdD0M0IFoEMAADwXTc9x4jwFBzW9E9WzyPJFcN+S6T42T8aS8AfHadpV6Yp9+
- SUse/ShbccUNQx8E4F26Y1IuSaXV5nvGNI5SXaQVWb9Rf/teE/vAZTWKE/PAy1CbUtvD
- wvRQ==
+ d=1e100.net; s=20230601; t=1745862832; x=1746467632;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cELG0a2mXl5N6mpi0+RLp319EHg3sGhSPY6U6Zc2/4k=;
+ b=LS3v0vpKfPd+NpeGahY6LZNv+XtJnDZ4ypsrlSq19cVMKjB898Nwd88wZCJ5GySzQw
+ N1ZGTBfjFB7mCzV71byvI3QlS//xQaPDSShkCaudvknVHDWS7wJ/aPjnFtsaKBIx/dTY
+ zOF9MAXZhr15cN1PmZWUyToJJQ1abzMVQi/eybnDrshe+GhWBR2F5N/tUHXEnYyHzX7g
+ f/8nWzejAtJ6PcpRaVGiV/Y9QpfN6pEsVGg0fSxh8Zzu5lmWzq39Nh1a4Qr8l+GC0o9j
+ nXxj4vC4aFG3cBcu+T2JTHSextECCO1Olv6wD84KOtKrguC/pNONo3kl+RLgwndhVGtQ
+ QTCA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXDmmeXLSXrWOCI+HyJEZoK3g1Z7tEcTbUpES06HfCSpgH03Yo1UMkLKTKpYwnJTNl6DxT9XeIA/c8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLbpu0I+4CGu4IT4Xew2Om724PdHOuqpw2Sb822Vau6+DMPzT9
- 7X7NDntD/RiF+jB2GyX8Xo3tT4PrB6HIofDAymYoKJ9/7jfULrQfmcPK9jpsuE1f15KZXvrTuPP
- +WJ1OyOurz2zTgxxFI+lekPVRQJQvdFeE0bvssA==
-X-Gm-Gg: ASbGncu3WPCLMZsaWxZtxOaR+8eRlVaY4gRQvVTsZMkZpyiUarHADUmLg+It7xya6Om
- HFkxzZac7y3GnamdmRpW3RgKj2nlmO+LGNEy5pAkWD8uddW/04qr3RcFAeRLRWO1wECPDUfTddp
- qsIiqKJ4Hg+gYPVKAJTFjDjDf9cUPB3krpZ5IFaS1FLWrb1ZHK3Xcg
-X-Google-Smtp-Source: AGHT+IGqT38ux5vaBWGblzcdGmBhZyaMpSO70W/U+56Y5rFaiMiEKupGmQkwT4XDzj6P2STWaAz7Pgso32FQ1wf1fIw=
-X-Received: by 2002:a05:690c:6d01:b0:708:3a47:3d2c with SMTP id
- 00721157ae682-7089965c286mr10536507b3.13.1745862494536; Mon, 28 Apr 2025
- 10:48:14 -0700 (PDT)
+ AJvYcCU7hU4OjI27NOrtDaEzcr3mp677CBiZKM3fopUo/PEAlakjxwJ/FMPIVD5JK2IrGKDBLK+XVr5oarA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/HklmsKipmTTeTwIezYN4qGoqv1bn2WLgUCB92at0q3962OsG
+ Cs0+7TH63jH6gqzWfryn4SZcNKp0FhGjOs47K3S3T+DeHoelo7AItOA66+ocmF0FCrqZAF4tQlr
+ XA4LMp4Dmpiho331MsOQw8PTGWbMn2iiObqc=
+X-Gm-Gg: ASbGncvwUnzTrmBEDrUUUjspfJog10Ft637tn+e9mUCz2ZMnTyyuzSTcHGxx/f2aP0L
+ nx0Y02aDWvt4di41Zh0ZaW8gqUGa72kb7Zh9V79jiWCkcw6qtPA1XZx8Td9ZDYY4x8NqljYf8n7
+ sioYa1ubQJTVFLZ385jCM=
+X-Google-Smtp-Source: AGHT+IHqIg2Loa+Y0QKSG8YxCDTk31ezU03P7AATW+Z/1ns4Jt8XF4Ad3BTyh3bkX7w/0eQbixiiXnU4rTOZoxrjc1Q=
+X-Received: by 2002:a17:907:7d8a:b0:ac6:fec7:34dd with SMTP id
+ a640c23a62f3a-acec6c67f34mr8894566b.52.1745862831882; Mon, 28 Apr 2025
+ 10:53:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250426-vc4-audio-inf-probe-v1-1-a500785b71df@gmail.com>
-In-Reply-To: <20250426-vc4-audio-inf-probe-v1-1-a500785b71df@gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 28 Apr 2025 18:47:58 +0100
-X-Gm-Features: ATxdqUGhyN8MsnmzldLq3CrZVM8rsc0UmD66HlBXP3YuWCGQVL9or9qwouRQw84
-Message-ID: <CAPY8ntDqKBBt-uOb9m58jKhCn79RE26890X0EdxKiwWrypXN4Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/vc4: fix infinite EPROBE_DEFER loop
-To: Gabriel Dalimonte <gabriel.dalimonte@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Dmitry Baryshkov <lumag@kernel.org>
+References: <CAHk-=wiq=E0fwJLFpCc3wPY_9BPZF3dbdqGgVoOmK9Ykj5JEeg@mail.gmail.com>
+ <CAHk-=wip2-yTrWpAkrUQ0iejEo2PjReddu4xntwBvdnSvWDbzg@mail.gmail.com>
+ <20250426200513.GA427956@ax162>
+ <CAHk-=wgPCbZv0JgqoNWMOO+p=N772YW16xYk_pmb1GU7aeuPFA@mail.gmail.com>
+In-Reply-To: <CAHk-=wgPCbZv0JgqoNWMOO+p=N772YW16xYk_pmb1GU7aeuPFA@mail.gmail.com>
+From: Bill Wendling <morbo@google.com>
+Date: Mon, 28 Apr 2025 10:53:34 -0700
+X-Gm-Features: ATxdqUEJVTdPbMJGumIpmgzZbU1wN2Zlt9jaYxbaWMUYvK-iFBpwnq2gM8nUxXs
+Message-ID: <CAGG=3QWKQ++Yhh0w8zJobs=C4M7F01doAw9t2h=f2W9wxSG3Mw@mail.gmail.com>
+Subject: Re: clang and drm issue: objtool warnings from clang build
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Justin Stitt <justinstitt@google.com>, 
+ "the arch/x86 maintainers" <x86@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,101 +95,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Gabriel
+On Sat, Apr 26, 2025 at 1:57=E2=80=AFPM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Sat, 26 Apr 2025 at 13:05, Nathan Chancellor <nathan@kernel.org> wrote=
+:
+> >
+> >     KBUILD_CFLAGS +=3D -mllvm -trap-unreachable
+>
+> Hmm. That certainly builds for me, but yeah, it generates new objtool
+> warnings, notably
+>
+>    panic() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>
+> and I *think* that is because that flag makes clang not honour our
+> *explicit* "this code is unreachable" annotations.
+>
+There's also this flag:
 
-On Sat, 26 Apr 2025 at 07:23, Gabriel Dalimonte
-<gabriel.dalimonte@gmail.com> wrote:
->
-> `vc4_hdmi_audio_init` calls `devm_snd_dmaengine_pcm_register` which may
-> return EPROBE_DEFER. Calling `drm_connector_hdmi_audio_init` adds a
-> child device. The driver model docs[1] state that adding a child device
-> prior to returning EPROBE_DEFER may result in an infinite loop.
->
-> [1] https://www.kernel.org/doc/html/v6.14/driver-api/driver-model/driver.html
->
-> Signed-off-by: Gabriel Dalimonte <gabriel.dalimonte@gmail.com>
-> ---
-> Starting with v6.14, my Raspberry Pi 4B on the mainline kernel started seeing
-> the vc4 driver looping during probe with:
->
-> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> Registered IR keymap rc-cec
-> rc rc0: vc4-hdmi-0 as /devices/platform/soc/fef00700.hdmi/rc/rc0
-> input: vc4-hdmi-0 as /devices/platform/soc/fef00700.hdmi/rc/rc0/input3503
-> vc4_hdmi fef00700.hdmi: Could not register PCM component: -517
->
-> repeating several times per second.
->
-> From my understanding, this happens due to the mainline kernel missing the
-> patches to support audio portion of the HDMI interface. In this case, or
-> other cases where the sound subsystem can't create a device, it returns
-> -517 (EPROBE_DEFER). All of this is consistent with what I experienced prior
-> to 6.14 as well. However, prior to 6.14 it did not try to probe infinitely.
+  -mllvm -no-trap-after-noreturn
 
-Mainline should have all the bits for HDMI audio on Pi4.
-It doesn't have the bits for Pi5 as it needs the newer DMA controller.
+Here's the documentation for both flags:
 
-> Bisecting 6.13 -> 6.14, it looks like
-> 9640f1437a88d8c617ff5523f1f9dc8c3ff29121 [1] moved HDMI audio connector
-> initialization from audio vc4 audio initialization to vc4 connector
-> initialization. If my understanding is correct, this change causes a child
-> device to be added before EPROBE_DEFER is returned and queues the device probe
-> to happen when a new device is added, which happens immediately because the
-> audio child device was added earlier in the probe.
+static cl::opt<bool>
+    EnableTrapUnreachable("trap-unreachable", cl::Hidden,
+                          cl::desc("Enable generating trap for unreachable"=
+));
 
-cc Dmitry as the author of that patch.
+static cl::opt<bool> EnableNoTrapAfterNoreturn(
+    "no-trap-after-noreturn", cl::Hidden,
+    cl::desc("Do not emit a trap instruction for 'unreachable' IR instructi=
+ons "
+             "after noreturn calls, even if --trap-unreachable is set."));
 
-However I don't see an issue with moving the init back to vc4_hdmi_audio_init.
-I'm not an expert on the sequencing of things around the audio side
-though, so I wonder if Dmitry or Maxime could comment.
 
-The patch could do with a Fixes: tag if 9640f1437a88 if it is
-definitely the commit that breaks things.
+Could you share how you configured your build?
 
-Thanks
-  Dave
+-bw
 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9640f1437a88d8c617ff5523f1f9dc8c3ff29121
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> So now objtool complains about the fact that clang has generated some
+> random code that follows a call to 'panic()' even though objtool knows
+> that panic() cannot return.
 >
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index a29a6ef266f9a5952af53030a9a2d313e2ecdfce..163d092bd973bb3dfc5ea61187ec5fdf4f4f6029 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -560,12 +560,6 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
->         if (ret)
->                 return ret;
+> And those explicit annotations definitely should be honored.
 >
-> -       ret = drm_connector_hdmi_audio_init(connector, dev->dev,
-> -                                           &vc4_hdmi_audio_funcs,
-> -                                           8, false, -1);
-> -       if (ret)
-> -               return ret;
-> -
->         drm_connector_helper_add(connector, &vc4_hdmi_connector_helper_funcs);
+> IOW, there's a *big* difference between "the programmer told me this
+> is unreachable, so I won't generate code past this point" and "I have
+> decided this is undefined behavior, so now I won't generate code past
+> this point".
 >
->         /*
-> @@ -2291,6 +2285,12 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
->                 return ret;
->         }
+> So what I'm asking for is absolutely not "trap on unreachable". That's
+> wrong and just plain stupid.
 >
-> +       ret = drm_connector_hdmi_audio_init(&vc4_hdmi->connector, dev,
-> +                                           &vc4_hdmi_audio_funcs, 8, false,
-> +                                           -1);
-> +       if (ret)
-> +               return ret;
-> +
->         dai_link->cpus          = &vc4_hdmi->audio.cpu;
->         dai_link->codecs        = &vc4_hdmi->audio.codec;
->         dai_link->platforms     = &vc4_hdmi->audio.platform;
+> I'm asking for "trap on UD instead of *assuming* it's unreachable".
 >
-> ---
-> base-commit: b60301774a8fe6c30b14a95104ec099290a2e904
-> change-id: 20250426-vc4-audio-inf-probe-f67a8aa2a180
+> Because clearly that code *can* be reached, it's just doing something und=
+efined.
 >
-> Best regards,
-> --
-> Gabriel Dalimonte <gabriel.dalimonte@gmail.com>
+> See? Big big difference.
 >
+>              Linus
