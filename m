@@ -2,129 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21515A9FC15
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 23:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A2DA9FC3A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 23:34:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F13ED10EA6B;
-	Mon, 28 Apr 2025 21:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54CEF10E265;
+	Mon, 28 Apr 2025 21:34:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eNTaQp8O";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="42dpD7R0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1802C10EA6B
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 21:19:39 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53SAA2CR019294
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 21:19:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 1p0DQQl3Uv/CeewEIX8WmFJDpqWu+zknhFq+jDxcqzs=; b=eNTaQp8OWPZ8bjaJ
- siO4gZnXx47CjAcBmt71c18UjDCk4ZVh/jMyqSEZUJzIvyn/7fefYAXn/pYrF1bl
- p2KMxaJaRMThp2AKhC59qPuHUKcQGa4trnmhLTtIiY/T6e3EOD5T/a1bIHPuplle
- XPySL3CsCCVI21Q0dsmwg8TjaTRk3d2xk+CDoE2Wmci0cdhAR0yNWZtf8sYTQ4CV
- 0RiX4tWV2+LjX2zdXzHlspi9TvxrvSPJkeaddZ5dALUxBNAif1H2ySlaJ0MlfiKW
- LSV5Ro3kfMHAOT55MgOnsnVtbBSI234SnKXf1Ns8JdkigwMqJCWzaxtOFUfhwIHS
- h6fGvQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468ptmjdrk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 21:19:37 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-478f933cb4bso5393161cf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 14:19:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745875177; x=1746479977;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1p0DQQl3Uv/CeewEIX8WmFJDpqWu+zknhFq+jDxcqzs=;
- b=UuRW3RU3U4gsO9NiKPqjK30OChVUBYZ+TUYGcrOhj6edy8Z5IXQFlq1gJ7VAlPotiZ
- WxcrCjXz6DBiKJI7G6NAAllZQ1M6DYaqfxX8PjhQMiGSd0e7vPplSJqKaaXkiqde4tqe
- 2+cBgEUEcdkg7voYF+pgNP6Au31j/BlcgH6t/Go1Cszn0zmODvFyvLkUCP+4SlYESV8R
- RnwpBovqnlvaxs47uNOB2VaoyE3pGDgi7Dwfrxi1muK9wlR0xsNYtgvoty5/e7sZcMWX
- XggivGUZEzf3ow3PVmVGv8pM0q5/KtzrAALap0b0yJEl2/JR/uq6/9l6kY8cDCEJlWiw
- S4iA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVFaFVa1dvffGyIv1ZgMAO3thUjUySivl1Tnr8p/zvbyn4XA8GGk4gigan9XKaOUysrlMJi5VOW/wQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyy2f/TTG5qyiLUO3dKDrcJEyvjTOGhqdVxbTwTI8ZsPAYNdp/C
- r5fr04n50KmTRs6pVr8m8dyBpapEas6wtqgo3jxr9SauKXOseYJ3tweImIF/4Fv9+xIT00L+um4
- DPTU+i6LOeSiAaUH7wbMjaPr+fGJ1geptbI6o+LxNCyzLn48HnhlQHfw/eJNgiFSv6U4=
-X-Gm-Gg: ASbGncsNXFHwJMg5Tgk8lTKKg2pqBcp3xJ3u9WOOUIocAlO8XQKmWQtU7TD+QjYsZxU
- exfk053SkujymYhwRWDtHTlj13qyYp3Au6myu5uqHnIGfZb7n8USvgqEqbajF28H+Y9tBgrxv9I
- 3HrUfmkYG8JwzdSA2EW6Qsdi00HYgy+kRZ0EOQrS3caDJLc83O9DNugFdHQ7okcDYLY8cFzn4do
- RFfnUSeAzQ538dtrSYd9DGgNIPMMBtLm95lK/q1fQXAOSyS2zB2bMPm5zUngX5MaXrXNPfTFhot
- kRTJHwQsC7FcHjLPJ/fmUBLlq6Non36k9tT2DCZUY8henPU7hla/h2EP/Rr5aFu6Zg==
-X-Received: by 2002:ac8:5d43:0:b0:47a:e81b:cca6 with SMTP id
- d75a77b69052e-4801e5ef61bmr86239841cf.10.1745875177206; 
- Mon, 28 Apr 2025 14:19:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEHGM4Gsyyf3DoqVCxTr5c/Fx29SX0hifWAwRSJIcxlPqb02dtB8cwcCNR+5BkrZ9k/UWtLcg==
-X-Received: by 2002:ac8:5d43:0:b0:47a:e81b:cca6 with SMTP id
- d75a77b69052e-4801e5ef61bmr86239641cf.10.1745875176771; 
- Mon, 28 Apr 2025 14:19:36 -0700 (PDT)
-Received: from [192.168.65.47] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ace6e41c431sm693197766b.18.2025.04.28.14.19.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Apr 2025 14:19:36 -0700 (PDT)
-Message-ID: <41df5398-79f6-484a-8ad3-f3488eb1b71c@oss.qualcomm.com>
-Date: Mon, 28 Apr 2025 23:19:32 +0200
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2045.outbound.protection.outlook.com [40.107.244.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CDBA10E259;
+ Mon, 28 Apr 2025 21:34:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jTyMmoyEhz+mlj9xpaTQgJxtbMH+aLG9EKY3cojydy2QWZKKZMp/tHlH0/nyDyQ00vPeDC7S6tl+N+aqgVIItDhXaDoeXgjmzr3idobW8Ijehs39kj9e37p6TMnvOSZOzf0pYNbaOXBCVA3027/dU07uDfF3y8quh/cnrW+lNCbMB4XoPmsLuMUK4YzODWhXuuKyHQcQFTbPzY3eSYxkrXerJ8kjFYX5CXRds4YqSqvrv6Yt9r7l8A/5fCYCWAnC5m1EprWPxz1JPbmEi1nHtC/epqHQsG92LinKKNjoEiDcbAOWQe3MFAhqUsqk1/0bqR+bYuA/ka1Lg08i2Nnh4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VI6I9Y7/5sdnSsYfA9dofHj+xepyObA9/NKVZPP09Wo=;
+ b=bPPdLKTj8XGZpAbDZalTc3dUzoVmS/xO+V8KnFByySurlMwQ2AaRiOsKOZMoyKrzM/sj6CIVR3KVwUsEaoy0CDRPchWw8GIRDu3WnmQwI30IR+xojv0g46zenurlLKb5TiIptnUmj7LJGiDH30GRyvJIctBOz0K91lComP1s4egBxeK4loeAQzVMixfyE6436g5FoMnfoNqVO8EhaGqiVPNqXZ/NZkqitZPr9J5tf/rWHZeFpktI5RSOpNm+t2EWyLvKt7qQEVT7h/JKofBl2gS5GxjUCtaSZGyVHq13b76zlUf/ZnJV1au0+MKdMunQzAChzTcW6hWZ4b0XxeInCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VI6I9Y7/5sdnSsYfA9dofHj+xepyObA9/NKVZPP09Wo=;
+ b=42dpD7R07tXKur+vJKzpXFzOdm4OQQ32NaSDaK0ddhrSWBcaxsIkKH8pXgTTcEZLO18nkq1vfrS38NXmyY9YJopOggkRqOXmNi5fPqHIM0k4Y8UM9AQFO+QAtfwoNIZsMXioqCa/gCkGOARiiUH3oYg1WuHmPA1xQqI80gma8w4=
+Received: from SN4PR0501CA0033.namprd05.prod.outlook.com
+ (2603:10b6:803:40::46) by SN7PR12MB7978.namprd12.prod.outlook.com
+ (2603:10b6:806:34b::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.28; Mon, 28 Apr
+ 2025 21:34:14 +0000
+Received: from SA2PEPF000015C6.namprd03.prod.outlook.com
+ (2603:10b6:803:40:cafe::1) by SN4PR0501CA0033.outlook.office365.com
+ (2603:10b6:803:40::46) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.25 via Frontend Transport; Mon,
+ 28 Apr 2025 21:34:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ SA2PEPF000015C6.mail.protection.outlook.com (10.167.241.196) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8678.33 via Frontend Transport; Mon, 28 Apr 2025 21:34:14 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 28 Apr
+ 2025 16:34:13 -0500
+Received: from localhost.localdomain (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Mon, 28 Apr 2025 16:34:13 -0500
+From: Harry Wentland <harry.wentland@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+CC: Harry Wentland <harry.wentland@amd.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Leo Li <sunpeng.li@amd.com>, Alex Deucher
+ <alexander.deucher@amd.com>
+Subject: [PATCH] drm/amd/display: Don't check for NULL divisor in fixpt code
+Date: Mon, 28 Apr 2025 17:34:01 -0400
+Message-ID: <20250428213401.752738-1-harry.wentland@amd.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] arm64: dts: qcom: qcs8300: Add gpu and gmu nodes
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
-References: <20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com>
- <20250228-a623-gpu-support-v2-5-aea654ecc1d3@quicinc.com>
- <e22daaae-57fc-4523-b594-87d202d255f3@oss.qualcomm.com>
- <aa8ebd50-683b-4043-9494-5675a2d9a01e@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <aa8ebd50-683b-4043-9494-5675a2d9a01e@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: bnN0pjPSx6955WX2rYR1xvxIjRTT4k5s
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDE3MSBTYWx0ZWRfX4RV4qLLT6Zrr
- yroVvpi7eyKLPKFtnETmXzq+aBjaALKqynfVqCpDrCgeapftIxx6e+am+2AQo183NMyJ4U172dA
- P6eOrhlg/mEukNcWWcmcLDSIFOlpDvBxIqJohcnS1NKCbIl142/JRNYmXcXr4Idg+TlPrztIxvK
- yRMCBGp+iqI6rPYwI4ZFyHgmuMm/fzHmjmws6PnW/PhT6HSI0QGhDyISKIASCJUFdKNn/ljcg4q
- P8XXwalNqgE9PfhYalBUSG8PiApxVhZS463HT+ZmMdHK2ELQiWSOHAmqshXQ17G9sprz+VnJoqF
- /i1orGAj4zYW17ZJKsUEBpEqKYbWpvnl3hJQOqhEunN1OHgMDu5cgjKG4Ek/if36CRkyFMh40GT
- QxA4jHNRBLCd4fZyWOyaZx6iGC7oz+xIONiXHKDWKnyfFGjmyNfB2AFAzaKVq8cX7BGylBYH
-X-Proofpoint-GUID: bnN0pjPSx6955WX2rYR1xvxIjRTT4k5s
-X-Authority-Analysis: v=2.4 cv=DKWP4zNb c=1 sm=1 tr=0 ts=680ff0e9 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=dalwKpVopYczjXflRRgA:9
- a=QEXdDO2ut3YA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-28_08,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=738 clxscore=1015
- priorityscore=1501 impostorscore=0 mlxscore=0 bulkscore=0 malwarescore=0
- phishscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504280171
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB03.amd.com: harry.wentland@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015C6:EE_|SN7PR12MB7978:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5baf945f-bf61-4a4b-ccd7-08dd869c6c18
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|82310400026|376014|1800799024|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?uC6KsK7+OjPpf77eid9Qb7kHIWO/xv1a0vSoULCw0qDkrZXpau/sMcgTLpx3?=
+ =?us-ascii?Q?m0Bmx3PexuJxmmgCv7yt9g66QnCccy8csyMsa/9HbXtBey9a5PDxIZocEdcU?=
+ =?us-ascii?Q?ljs7GfC9hFuVStaPBi5wnbVXLpEa3fTJcvaeCpijQdK4fkP5d5Ar8aPzaJlc?=
+ =?us-ascii?Q?8ElvJPGlH4HAToMGY5kDS6gxv8a5Az1qXHRSawlRYUVFNK7nyJKcUWkZhBhg?=
+ =?us-ascii?Q?Ivj3mgORHq/KaCEdR4s4rXN17kWCbI9ZqgtsoYxb8wrHN7phHfK89xFjw7Cd?=
+ =?us-ascii?Q?MKSKrycpL8gacJ3FIok8dyUppdCpyRjxWfYyuOgP9grSy5yjaqW0+P0bxZxI?=
+ =?us-ascii?Q?ZRWjnAbtVnZ6gyBPREyRs8QTZfXuIVitntE1840XCAirDNzNx9+d6OPTVJRg?=
+ =?us-ascii?Q?59dYpinfoKXtWYyrO6CHk1T14iZJdrfp3FCT9ew66OB8gUrJvgOKhXoIudRW?=
+ =?us-ascii?Q?+M4ZikNtZSUWB9m6YYyUOnoP1TbIJQ+9Z4QBpnIoZHdeLs1EpFLiR8ghUfUZ?=
+ =?us-ascii?Q?3kRKWKZ/eL+eT6XMkif5WeXUUfmudmrxEEzNyS34H3gmM/WYnKklRtWNKN/F?=
+ =?us-ascii?Q?yIdllSYVyqW4zK17Npz6vUL4jdGWW+e27v53W3FC+Z+zfrOtlODUBfnShIWA?=
+ =?us-ascii?Q?lhbxrpMxUv5r/V71jPSvXx4JrsbFRbjo+4qVsObTTvmM3zDqp0cuEc10uByQ?=
+ =?us-ascii?Q?q838H/jEO60zgyXPi/INS8LcDPlk+Z0+V3qCHky9MomWDhcHXEAJZ7CQndkw?=
+ =?us-ascii?Q?AlHoq3BHflTarS9TryyQiOSyCUMHsZJXjP7qWH85ux9FyznOm+B0Rbqk7+zs?=
+ =?us-ascii?Q?ihNBvDEl/e2/NqCjIuBHp+3wQy4lRtXYqHEF63/Gp51xXq5k9xkYFsvA/Zg9?=
+ =?us-ascii?Q?Rr6NEcVGIb4UBtsyUMvNhp0j/ZDW9BhwUXC2wmByW96CXS7x8Z0Nq/kC5Xti?=
+ =?us-ascii?Q?N2REfripeFZn1ltdnN/xH4qMKs8BMHyBiAAb0wvw7dR6wAC1rDbJ58TCoJFn?=
+ =?us-ascii?Q?eGag9hLGH34qo+AdenANKQmoIfem2bTjX1iLX84cfSQCR9YiW5ZJO8emhLCo?=
+ =?us-ascii?Q?qulbLy1vQUUDRHsEO673r8pXGRul/3AQ0tRR+cVqG+uW2FL/6N7cC9XISo0/?=
+ =?us-ascii?Q?UAiwCyDfBbtqfIwNOCtdNenNal+jdGNtS7qPNAip0HbNoHFdq3reeJ9xnzfx?=
+ =?us-ascii?Q?EkGkji+FR4ZhTw2XK7zEUjD6ZKAuNg0wg3d9fVNRowIBAY5Xg8ceI3VywXZX?=
+ =?us-ascii?Q?B9Fu6xT0BnmBVrvrAqSjNY/o0B1VNN4UtJhWlEd9TqVA3iPkxg/YWDaLHs/k?=
+ =?us-ascii?Q?tmuZOkw4Pqmq7ttpMxzYq4ZoNV6hYo2DR6LOLvmeL7dsncxu4BbyWVPROgeR?=
+ =?us-ascii?Q?ts2WNoL79Y2Dxy6wwpnwUZQyN8Rv0ifL8yq8fanFfRZR/GpfxWJowQyD/Giq?=
+ =?us-ascii?Q?l33gtAxOzzO6ASslXQ3jeaV6zx6WwwYrMw9GV7rnyGqyN8PYrtriu7QRC3aa?=
+ =?us-ascii?Q?+wRUs+1T2WSMM4dKYDtWUnJ2MyT5p7ZLVKQ5?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 21:34:14.2377 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5baf945f-bf61-4a4b-ccd7-08dd869c6c18
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF000015C6.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7978
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,34 +135,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/28/25 12:44 PM, Akhil P Oommen wrote:
-> On 4/14/2025 4:31 PM, Konrad Dybcio wrote:
->> On 2/27/25 9:07 PM, Akhil P Oommen wrote:
->>> From: Jie Zhang <quic_jiezh@quicinc.com>
->>>
->>> Add gpu and gmu nodes for qcs8300 chipset.
->>>
->>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
->>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>> ---
->>
->> [...]
->>
->>> +		gmu: gmu@3d6a000 {
->>> +			compatible = "qcom,adreno-gmu-623.0", "qcom,adreno-gmu";
->>> +			reg = <0x0 0x03d6a000 0x0 0x34000>,
->>
->> size = 0x26000 so that it doesn't leak into GPU_CC
-> 
-> We dump GPUCC regs into snapshot!
+[Why]
+We check for a NULL divisor but don't act on it.
+This check does nothing other than throw a warning.
+It does confuse static checkers though:
+See https://lkml.org/lkml/2025/4/26/371
 
-Right, that's bad.. the dt heuristics are such that each region
-is mapped by a single device that it belongs to, with some rare
-exceptions..
+[How]
+Drop the ASSERTs in both DC and SPL variants.
 
-Instead, the moderately dirty way would be to expose gpucc as
-syscon & pass it to the GPU device, or the clean way would be
-to implement an API within the clock framework that would dump
-the relevant registers
+Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+---
+ drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c   | 5 -----
+ drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c | 4 ----
+ 2 files changed, 9 deletions(-)
 
-Konrad
+diff --git a/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c b/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c
+index 88d3f9d7dd55..452206b5095e 100644
+--- a/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c
++++ b/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c
+@@ -51,8 +51,6 @@ static inline unsigned long long complete_integer_division_u64(
+ {
+ 	unsigned long long result;
+ 
+-	ASSERT(divisor);
+-
+ 	result = div64_u64_rem(dividend, divisor, remainder);
+ 
+ 	return result;
+@@ -213,9 +211,6 @@ struct fixed31_32 dc_fixpt_recip(struct fixed31_32 arg)
+ 	 * @note
+ 	 * Good idea to use Newton's method
+ 	 */
+-
+-	ASSERT(arg.value);
+-
+ 	return dc_fixpt_from_fraction(
+ 		dc_fixpt_one.value,
+ 		arg.value);
+diff --git a/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c b/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c
+index 52d97918a3bd..ebf0287417e0 100644
+--- a/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c
++++ b/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c
+@@ -29,8 +29,6 @@ static inline unsigned long long spl_complete_integer_division_u64(
+ {
+ 	unsigned long long result;
+ 
+-	SPL_ASSERT(divisor);
+-
+ 	result = spl_div64_u64_rem(dividend, divisor, remainder);
+ 
+ 	return result;
+@@ -196,8 +194,6 @@ struct spl_fixed31_32 spl_fixpt_recip(struct spl_fixed31_32 arg)
+ 	 * Good idea to use Newton's method
+ 	 */
+ 
+-	SPL_ASSERT(arg.value);
+-
+ 	return spl_fixpt_from_fraction(
+ 		spl_fixpt_one.value,
+ 		arg.value);
+-- 
+2.49.0
+
