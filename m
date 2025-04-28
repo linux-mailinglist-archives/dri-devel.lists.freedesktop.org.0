@@ -2,70 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D797BA9F989
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 21:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53408A9F994
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Apr 2025 21:34:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC53C10E238;
-	Mon, 28 Apr 2025 19:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B34C010E6C8;
+	Mon, 28 Apr 2025 19:34:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EBPFYls1";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ALHvBGNB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E13A10E238
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 19:32:00 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-ac25d2b2354so769356866b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 12:32:00 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFC5010E6C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 19:34:48 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-ace3b03c043so799802566b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 12:34:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745868719; x=1746473519; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=clvMixzUlwXVdP1MVYhs8dd5jD9W6xD/V/kA/2PWTsA=;
- b=EBPFYls1+VbUq+7gFLIXfiKc7hAfzdwwkVvqUqWuvHbYYUYsgOWWUVEg/WMHl5CkWW
- 6yEbXiuJSsiCo0X88SCXif8lcUIsBX7MhvQjzj3tA8yYE6thpgnWegulGnybQVZe6HwP
- qH58PEeZSQmRjwbUYv5+Z1mPFZRhudopbI7b40+eRSFuw0d68mjOOaXC/Yd805hYdJfa
- aqgkoJOBhryCaXQWqLF6Xoa+0OVqg3cI5DeTnVaIDuOT+yzAdxiiHJwGBhBywIF4/Xru
- RJSJIrOqIfd/1V7IRs8EAR4q9bsFIrTckZMGOmUO5iBCpT9+AsiMFFdskaaCKx+mHf+V
- xF3g==
+ d=linux-foundation.org; s=google; t=1745868887; x=1746473687;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=9fgYACCYEdV70Eqrp9KBhgN5b4Wv2A7Z2XX6in9YmNk=;
+ b=ALHvBGNBq+C6AoYL9pTVMo0hqfoyGtSeEr7q/k2Cn5YflPWF4mSBd6693OZgGP+kcW
+ BicfF7EG1Y8LXNvn9cxHVzgKmycod/TLwQfF0h2RNtZBueCTVEABt9edrDcTFsOocJEo
+ RFgsq3qqPeo+rH3mcivQCfmXSWZUl3QMyRiM0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745868719; x=1746473519;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=clvMixzUlwXVdP1MVYhs8dd5jD9W6xD/V/kA/2PWTsA=;
- b=A7ymXFnJVrz3HCLMdIG0+bXPsbbdPQGqSAJqdoSBnO4RFcArXpI6H1Ub3zhLz2NBEZ
- fdDZ8VJfNoZoUtwiWRvcfN503gvvemVjJfeMYljjIT3BNgeo9ohItmaXobHcisejdLrz
- nFN/8v3mzD+bEbYlwAvZd4Ru0TQe8LZpacF7zumljDjVmWB5s5/lwpkGgk9kMI2KpGgi
- oezVE63Crtdtz9ZL8HbykKsfTnM90WmbRHk2bM3SOcL8FuJhTi9YY51J5+sgsRlLZdSW
- Las/nxj5FDNXjLz8i6EHatuaV/F+QaMrnGE3+vGOggzIj6ZukXbOe6KgrYsGICqA2Wn3
- y4Hg==
-X-Gm-Message-State: AOJu0YyPhNn28a7mmqmb7m46M/wZ8HhPUcWXfsDCRSCq92BuLSM585/C
- 38T3e/TOF7gR5Pz91A6LtyXgjSB0ea+CEDA7DLChirV/ewJIHDiUXCCOkZCpaT/bejk8EoWwkUT
- wq/G/mPv8pBSCBtsjXjMESKmLm58=
-X-Gm-Gg: ASbGncuqZh6egTmVTsb3SGqvWVFEjEPvFtMr6pigrNpEqEz2MawQk6GQUw3ogrGb1ta
- CsOrKKJJuBrm8dAK31bDTUqtLgkQIJoxwBjeRgysPmEWyHSL3JwMZs/N+eeaB0TLrAohpL9oJVn
- +CC/7gWgvh6xfv33bB86lDdRSQdcHSd/8=
-X-Google-Smtp-Source: AGHT+IFLuUocUdQmizosojpHdukguxfQt2DZzVHhIIuVAmlSuN8A3ZHMSJnYr5cbpnG+GpgGCSNqqRto8AJov4Lc9X0=
-X-Received: by 2002:a17:907:7f8c:b0:aca:e33d:48af with SMTP id
- a640c23a62f3a-acec4f20479mr85905966b.61.1745868718523; Mon, 28 Apr 2025
- 12:31:58 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1745868887; x=1746473687;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9fgYACCYEdV70Eqrp9KBhgN5b4Wv2A7Z2XX6in9YmNk=;
+ b=nAHKDbXD1yqx/5uws5lB6fuSUXInTMhljzsrzy0l/bgzoV715UrEi3R0rq8tbA44Lq
+ arX0SUvbBCwcbYVIQu60BQw8O4Bnvz62bRc0DOzzcs0pv7gPz+jqEslCMYCl6uvbj0Lw
+ rnHuhi7DPXEIHy4LAdTjzpaANDy7VaixZznbaNmLxdRKhJ0ytmaETClv2/uVb7r30CNW
+ dW5S5MRW2qISeZIUbJSrQOg9zJM+1gtuAXTN81D+sOMY1F8HfQeu2NeFithJW0FYoUa8
+ UGcS3TYPyeK4n/BU9hIivG3a1Z3W4KhGY4IT50rSGNCvYh3mocspkZD/H+dfzKc/yAfb
+ s7bQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWoZk5IKq+w2HuEaY19fMjJkbt7ZYbJZOX9mSsPghji3iiKoTmMzpb83Xmn5IeDn60EIz5/8bJ/Fl0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxooBrHC2XwaBVMvx7NeXJ+22zis8LTWbg0/fhy3aMaEVdPUJoF
+ oiifXS7fTCa7TF5p6BJ2MFW/w2ntHw4447EFXj4Uy/OjY52PMroWblITuaT7XjjXdPpAc10mVU+
+ LIe8sHg==
+X-Gm-Gg: ASbGncuABBKgOHjB1acfzuj+2vLFOhexpycPocOFtqbxrzF4MNcDPVPJfJY+C9B6PQr
+ WnMTxtD7N1sVWE0qOKU5MOMAwqtlrCKFFIaC3RDzuBDAD1+kSXJ+Qdx9ppgi8bvXSWgeM/l3nAE
+ 277YpWlYyJkbs3+dokxTAgqwHokco7tSNPHYF4+zPs/l+Y6ntvw7aTWIOQ08CWo+ieInhHXkPZL
+ pV6bcBebbRmW/wIgeUAjwh+ta/Wp3QwP5VJuw3mvr7X9MkGRI1RE47aGKdEnsmC4cybnx2fkcS/
+ MErF3Z9FukaQo4oyAXZI0Mez3NsJTrBe6sFsjjO4PcguC0Hx94zx4bTIb37Mny/LnxGgG9Pre/y
+ bU77zT2q4J2YhbM4=
+X-Google-Smtp-Source: AGHT+IGwqvXOxnnuNoOul+X9CNGz5G0gvAJqDj/W6NZKzru8ZIAbDKOF21HRyWkYoWuIX40ujIql+A==
+X-Received: by 2002:a17:907:7f0f:b0:ac3:446d:142 with SMTP id
+ a640c23a62f3a-acec84b8840mr9907766b.2.1745868887145; 
+ Mon, 28 Apr 2025 12:34:47 -0700 (PDT)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com.
+ [209.85.208.43]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ace6edb15a7sm684261366b.178.2025.04.28.12.34.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Apr 2025 12:34:45 -0700 (PDT)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-5f4b7211badso8471206a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Apr 2025 12:34:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVgRobbOWGEw0+3pgsBVawq4S8Gbps7J+TmQLnwYd2TiblnkVls708pEaVuo04kcHFOqz+jXJcQ2Cg=@lists.freedesktop.org
+X-Received: by 2002:a17:907:86a1:b0:ace:5207:e2ec with SMTP id
+ a640c23a62f3a-acec84b84bbmr8545366b.4.1745868885415; Mon, 28 Apr 2025
+ 12:34:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250423214321.100440-1-airlied@gmail.com>
- <4bac662a-228e-4739-b627-5d81df3d4842@amd.com>
-In-Reply-To: <4bac662a-228e-4739-b627-5d81df3d4842@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 29 Apr 2025 05:31:46 +1000
-X-Gm-Features: ATxdqUFX8TlA8SB5and9ojCYJazRG2Xwfktm6GA_G0-fvfnIIHi7VfxOzfvDHjk
-Message-ID: <CAPM=9tzVijMmf8P=Kthc-UcaYXK28Gy3e3W+F8i3NKdYzhL_BA@mail.gmail.com>
-Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, tj@kernel.org, cgroups@vger.kernel.org
+References: <CAHk-=wiq=E0fwJLFpCc3wPY_9BPZF3dbdqGgVoOmK9Ykj5JEeg@mail.gmail.com>
+ <CAHk-=wip2-yTrWpAkrUQ0iejEo2PjReddu4xntwBvdnSvWDbzg@mail.gmail.com>
+ <20250426200513.GA427956@ax162>
+ <CAHk-=wgPCbZv0JgqoNWMOO+p=N772YW16xYk_pmb1GU7aeuPFA@mail.gmail.com>
+ <20250426232344.GA1395819@ax162>
+ <CAHk-=wha-AgeeqATWRrKuopM4fKhhF_tZE_raQM77qO7Zd3fOQ@mail.gmail.com>
+ <CAGG=3QUk8-Ak7YKnRziO4=0z=1C_7+4jF+6ZeDQ9yF+kuTOHOQ@mail.gmail.com>
+In-Reply-To: <CAGG=3QUk8-Ak7YKnRziO4=0z=1C_7+4jF+6ZeDQ9yF+kuTOHOQ@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 28 Apr 2025 12:34:27 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgrT9++rFTnM1vh3bwx2Pcc18anDGQCwEL+0d2nDm3p+A@mail.gmail.com>
+X-Gm-Features: ATxdqUFMKb4hr1dAUfVb_bErfkkOWxj_7W2ubNDIidp8Hnky6iOrTQdD_4CxoZ8
+Message-ID: <CAHk-=wgrT9++rFTnM1vh3bwx2Pcc18anDGQCwEL+0d2nDm3p+A@mail.gmail.com>
+Subject: Re: clang and drm issue: objtool warnings from clang build
+To: Bill Wendling <morbo@google.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Justin Stitt <justinstitt@google.com>, 
+ "the arch/x86 maintainers" <x86@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,84 +111,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Apr 2025 at 20:43, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
+On Mon, 28 Apr 2025 at 11:08, Bill Wendling <morbo@google.com> wrote:
 >
-> On 4/23/25 23:37, Dave Airlie wrote:
-> > Hey,
-> >
-> > I've been tasked to look into this, and I'm going start from hopeless
-> > naivety and see how far I can get. This is an initial attempt to hook
-> > TTM system memory allocations into memcg and account for them.
->
-> Yeah, this looks mostly like what we had already discussed.
->
-> >
-> > It does:
-> > 1. Adds memcg GPU statistic,
-> > 2. Adds TTM memcg pointer for drivers to set on their user object
-> > allocation paths
-> > 3. Adds a singular path where we account for memory in TTM on cached
-> > non-pooled non-dma allocations. Cached memory allocations used to be
-> > pooled but we dropped that a while back which makes them the best targe=
-t
-> > to start attacking this from.
->
-> I think that should go into the resource like the existing dmem approach =
-instead. That allows drivers to control the accounting through the placemen=
-t which is far less error prone than the context.
+> This situation is one of the
+> easier ones: "do something other than fall into the next function";
 
-I'll reconsider this, but I'm not sure it'll work at that level,
-because we have to handle the fact that when something gets put back
-into the pool it gets removed from the cgroup kmem accounting and
-taken from the pool gets added to the cgroup kmem account, but
-otherwise we just use __GFP_ACCOUNT on allocations. I've added cached
-pool support yesterday, which just leaves the dma paths which probably
-aren't too insane, but I'll re-evaluate this and see if higher level
-makes sense.
+Note that the "fall into the next function" is just something that
+objtool notices. It *could* be "fall into the next basic block of the
+same function, and objtool wouldn't warn, because objtool generally
+wouldn't notice (there could be other things that make objtool notice,
+of course - things like stack updates being out of whack or similar).
 
-> > 4. It only accounts for memory that is allocated directly from a usersp=
-ace
-> > TTM operation (like page faults or validation). It *doesn't* account fo=
-r
-> > memory allocated in eviction paths due to device memory pressure.
->
-> Yeah, that's something I totally agree on.
->
-> But the major show stopper is still accounting to memcg will break existi=
-ng userspace. E.g. display servers can get attacked with a deny of service =
-with that.
+But I really wish that clang would look at a "don't depend on UD as a
+code generation model AT ALL" as a flag.
 
-The thing with modern userspace, I'm not sure this out of the box is a
-major problem, we usually run the display server and the user
-processes in the same cgroup, so they share limits. Most modern
-distros don't run X.org servers as root in a separate cgroup, even
-running X is usually in the same cgroup as the users of it, Android
-might have different opinions of course, but I'd probably suggest we
-Kconfig this stuff and let distros turn it on once we agree on a
-baseline.
+The whole "this is undefined, so I'll generate something different"
+model is just wrong.
 
-> >
-> > This seems to work for me here on my hacked up tests systems at least, =
-I
-> > can see the GPU stats moving and they look sane.
-> >
-> > Future work:
-> > Account for pooled non-cached
-> > Account for pooled dma allocations (no idea how that looks)
-> > Figure out if accounting for eviction is possible, and what it might lo=
-ok
-> > like.
->
-> T.J. suggested to account but don't limit the evictions and I think that =
-should work.
->
+That said, there are certainly graduations of wrong:
 
-I was going to introduce an gpu eviction stat counter as a start, I
-also got the idea that might be a bit hard to pull off, but if a
-process needs to evict from VRAM, but the original process has no
-space in it's cgroup, we just fail the VRAM allocation for the current
-process, which didn't sound insane, but I haven't considered how
-implementing that in TTM might look.
+> but there are far more involved examples, of course. And even in this
+> case, the compiler needs to know if a "trap" is okay, or would
+> returning with garbage in %rax be okay.
 
-Dave.
+Honestly, the least wrong thing is to just NOT HAVE THE CHECK FOR ZERO AT ALL.
+
+IOW, just generate the divide instruction.
+
+I can almost guarantee that that will actually then generate the best
+code too, because you'll probably just end up sharing the divide
+instruction will all the *normal* cases.
+
+So the best model is to literally remove that pointless and stupid "is
+this a divide by zero" code. It's pointless and stupid because it
+literally just makes for more work both for the compiler AND it
+generates worse code.
+
+Why do extra work to generate worse code?
+
+Btu if some religious nutcase decides that "I will not generate divide
+instructions if I know the divisor is zero" is a hill they will die
+on, generating a "trap" instruction is certainly not inexcusable.
+
+Generating a random value for %eax is WRONG. Now, that said, it's
+clearly less wrong than falling through to some unrelated code
+entirely, so it would be an improvement on the *current* situation,
+but that's like saying that getting shot in the foot is an improvement
+on getting shot in the head: true, but if the alternative is not
+getting shot at all, why is that "less bad" alternative even on the
+table?
+
+The "just execute random code" is clearly so bad that it *should* be
+off the table in the first place, and I don't understand why it is
+what clang does now. It's just crazy.
+
+And yes, this really is a very potential and real security issue. In
+the kernel I don't think we have this ever happening, partly because a
+lot of configurations use gcc which afaik doesn't have this particular
+horrendous model of UD.
+
+But this isn't just a kernel issue, it's a "anybody using clang to
+build any program that might have security issues would be *insane* to
+think this is a good model for dealing with UD". We do more checking
+than most on the code generation, so we actually had tools that
+noticed this odd code generaton. I can guarantee you that 99% of all
+projects out there would never have even noticed.
+
+And who knows what cases we *don't* find.
+
+And obviously hopefully UD doesn't actually happen. But that's like
+saying "hopefully we have no bugs". It's not reality.
+
+Using UD to change code generation really is a truly horrendously bad
+idea in the first place, but doing it in anything where security might
+matter takes "bad idea" to "just don't do this".
+
+                 Linus
