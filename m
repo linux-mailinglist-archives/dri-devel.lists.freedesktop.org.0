@@ -2,86 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D10AA05D6
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 10:34:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCBDAA05E3
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 10:36:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACF4C10E3C4;
-	Tue, 29 Apr 2025 08:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5A9010E090;
+	Tue, 29 Apr 2025 08:36:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="axKFLgZP";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RSIFGIbC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE9710E3AB
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 08:34:18 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-39c1efbefc6so3888816f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 01:34:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1745915657; x=1746520457; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=iNXiDOKt5wVqJ89pAp1nvo84uzdzWuqVd3C2tenlIjY=;
- b=axKFLgZPrDO+fjdGpcGa4lmnD7OpnhgoFjRByD4cfur0e6QsH9HoH8LxY7P51eX6Kx
- HFVO8UIizEFCrOElSOWwIJVRek9pg2qSVhNO7UyWBeRNSaWMf6XYttzut/VYJ7M8i1Ud
- kMOoWPxJxbA0szX8e9fFIUqWQ6adJHNyB9H++BF8QuH18ht8eTd7SQBpEKFu8MAWRnBm
- 80+iMswGLxwukzuKVudWXYP61U9cIOX8B1HWLxCUZA4s5qd1OM9/vOi9TTnQA/caXvEF
- HCEyCDyctOcZI/hNVCHatGGCcfFwizZrxkYvbL08rVCQvDj/IKcOTNsbwbvDH99SrWhj
- KeJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745915657; x=1746520457;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iNXiDOKt5wVqJ89pAp1nvo84uzdzWuqVd3C2tenlIjY=;
- b=L+X5TZvCcLTEfku92Y1kKZ6xKDxa7Sr0Nn4gU5vqLZUkOSvrma74RMsidnbAMONb8E
- w4RGpGIpUACLsZODSOr/LRTCDOKMBKPJhBEVAQvwhNV0ZQ+kfNIv3CVaxKTi4V+QHpIw
- yRzdUbvAlxpqty24mmkG6/tabfJNtWonDkfMIIH60C2PeiPJu+vI7ZkYCo7DVjWfkQw6
- hrsncDmcCwH/bbnknx1iHVqiV7htYMieUB5gq6ofkvST9Nw/Yv+xyV5s1IO8NufwzqOF
- 9OEKf83C8qmh4tzKCTD5JZ6RrVyLUwHBfIcA6bwTWu9Ix5cIDaGEiDpsofgA8El9p7La
- jdEw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHeKqfDBFYCxUr9kMl8YXawfQad1kyeXf2a2jRxN3soho5Cv4T3B1HqSrhxo95F3emyKoklyaTbY4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSs19qyJj61QIjoAE2/GgLRFQlreEYoGYUTTaXrAT4iQHd5v+L
- W//AY1iGrVc9O+/IGeoRBJJoETpFx0BvtyZ0keYGHUNCU9cI3BFkpm3O1wQDXwU=
-X-Gm-Gg: ASbGnct5EQWCBD/0NIqvW912Dsvb1XP5XWUBzv0Om/IgJB8o6XyaS9uFs4OW3NxiO48
- j70S7DFIk47nPLiyZnyc2VlqvvGaPbd9KKGvHeL8zJjY+GnD3I0xjbhOiskHMNOzlT2buTdMvvV
- 5334m7gIRKqPxfJ6WuHtPwpqrRGtRDibYfq3DRLNUJ8QNhKfdyfKyKmAT2eGUymBTl/ngnoGFVA
- jW77F0bIlK6+X5wDX+gtt7VCAdfESVsG4cvxkPqmGUs0P0zHG53xFR22smdARPfGvbH0tcuw0lX
- j/3LVJgGpHzhWI0m6R3JI0PVZaRMjz3T2JDI0oVY3xDsB311JcgzOD4VFw0QjymU
-X-Google-Smtp-Source: AGHT+IGm++8YhzXKzd/TlXniHWTMKoC7/6DztZvja5ARxvPDFybJgSY++E3QiFogsvSRHpnptLZgXQ==
-X-Received: by 2002:a5d:5f4a:0:b0:3a0:7139:d176 with SMTP id
- ffacd0b85a97d-3a08ad33226mr1224276f8f.19.1745915656791; 
- Tue, 29 Apr 2025 01:34:16 -0700 (PDT)
-Received: from [127.0.0.2] ([2a02:2454:ff21:ef41:3891:fa3e:aac:d0b8])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a073e46517sm13315292f8f.71.2025.04.29.01.34.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Apr 2025 01:34:16 -0700 (PDT)
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-Date: Tue, 29 Apr 2025 10:33:56 +0200
-Subject: [PATCH] drm/msm/gpu: Fix crash when throttling GPU immediately
- during boot
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D018110E090
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 08:36:27 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2D52D1FCEA;
+ Tue, 29 Apr 2025 08:36:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1745915786;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=esHd36pt+N8ryAwFfhcdTZSNZRbzqDw4YcR4AKfDyms=;
+ b=RSIFGIbC2isNSHaUIMssleEx8oUn09KMV74iBNdBsc8Ljyi1ulehg9lrYgKkCmjHP6D0/z
+ g7BLt+v0UzpAWlxicIeqyh/PqNl3wmLl/xxNWIeEHkzdqD0NsGpceudUUCcacVA8lj9KEW
+ rwlod4zKqpfJBmBXPKdm15CB4tSalEVJphYA0DXymWcGpu2LXSfUCs7GjWTd2CMIpCQmB8
+ qq/DignU2f64SMAKvITf7d+vFikwc+YQZYJByZTH1XXvtvdR7TKHNMeCkpWmhhnqC6a8wh
+ 1Zal3lmsikZmwip0ZMT9wvaEbCUw1R88g99FLQvhqJM3Pe6HF1ta+caYvVTOCg==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Date: Tue, 29 Apr 2025 10:36:23 +0200
+Subject: [PATCH v2] drm: writeback: Fix drm_writeback_connector_cleanup
+ signature
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250429-drm-msm-gpu-hot-devfreq-boot-v1-1-8aa9c5f266b4@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAPOOEGgC/x3MSw5AMBAA0KvIrE1S9Y2riAU6mEWVKY1E3F1j+
- TbvAU/C5KFNHhAK7NltEVmawLQO20LIJhq00qUqdINGLFpvcdkvXN2JhsIsdODoIvIqawozTrW
- qS4jFLjTz/fdd/74fHWB/G24AAAA=
-X-Change-ID: 20250428-drm-msm-gpu-hot-devfreq-boot-36184dbc7075
-To: Rob Clark <robdclark@gmail.com>
-Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Douglas Anderson <dianders@chromium.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-X-Mailer: b4 0.14.2
+Message-Id: <20250429-drm-fix-writeback-cleanup-v2-1-548ff3a4e284@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAIaPEGgC/42OzRLCIAyEX6XD2ahQtT8n38PpATDVjAIVaK3T6
+ buLdrx7y2az+2ViAT1hYHU2MY8DBXI2CbHKmL5Ke0Ggc9JMbMV+uxMlnL2BlkZ4eoqopL6BvqO
+ 0fQeS86Jqc1UdKs5SvvOYDr/dpybpK4Xo/OuLGvhn+0/rwIED7nQh8vJQqiI/KufinexaO8Oae
+ QF5fPTp97jQmJIBIfmGYp19ug0FvfkNYHGMKTq/AaPsiGz+AAAA
+X-Change-ID: 20250428-drm-fix-writeback-cleanup-a1179f3b9691
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Mark Yacoub <markyacoub@google.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2728;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=CD3pCW7rSNJV61xpSf6mpjklctqkwJQ6xLMNue4gAHE=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoEI+Iu98lXztO/neTQJlRQ7TY60V6ITeCKFa8E
+ 7DJOQS56nuJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaBCPiAAKCRAgrS7GWxAs
+ 4jQjD/0eA941lwlgFehTz8o4ybkma1QDp/av7/CQAd2Hda/PSMxhsceoLfnWhyLJeZ2I+BLzeAf
+ dnAHDWVKnnKgrkusrb0uJ/hLv0s/XbJ9ZgyDw4aRVEB3k9Z6zXkfx5OUveudoUwxFVyOUiWZpmP
+ 9/9P0SFJYY2/jFmJBoBXnQGJD2N+xuV52xGYtonC2l3sqvlpbwFA3sS0UhZmeYAK82sLO9r+yTj
+ wTIotW/retw+k8vj4SQDcaZVIHtG+rHAQnBR22xaiuzdAZDDEi9ICObZhMkfDy0yzXsQvS/BO2z
+ KIB/3KA5dt7GNk7anZG1qJeNgXiUTY98LQ596pROQHaUNUOztz83UYmFPgmsqNHT+SemhPyYwEp
+ hPBsKFLqibJbOUhBM52zfyXzv4aEpJP9F2NkFzldZQ4W8InvwpzExd56YRQJF0P6sLIj8yoDE9w
+ hJPUu9quXd5qLD2gFaUbCpmDEqGI2GBwTCcH+6D6EdDSBinZJFUZqzl0R5iJyLnJchsoRLGAtV0
+ P8AcY8VAMixsz8IVz3Fye9VFNAHsFDd0PJwsHPzUj+GlapiTPajDULgUYxVA1dCCoswf7cnIbhu
+ 9MYilHyRRoashN/VS04Ns7cH1SQtYf/tub+FEcejq+0hsNIkatkfGlsxNQ2AOiBAO143r1lktRu
+ 0NHixcRxSbiSxhQ==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieeffeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefhhedtjeekhfdtteeftefgieffveeluedvueejleevfeevgedvjeevheehffehgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludejvddrudekrddtrddungdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvu
+ ggvshhkthhophdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,76 +86,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a small chance that the GPU is already hot during boot. In that
-case, the call to of_devfreq_cooling_register() will immediately try to
-apply devfreq cooling, as seen in the following crash:
+The drm_writeback_connector_cleanup have the signature:
 
-  Unable to handle kernel paging request at virtual address 0000000000014110
-  pc : a6xx_gpu_busy+0x1c/0x58 [msm]
-  lr : msm_devfreq_get_dev_status+0xbc/0x140 [msm]
-  Call trace:
-   a6xx_gpu_busy+0x1c/0x58 [msm] (P)
-   devfreq_simple_ondemand_func+0x3c/0x150
-   devfreq_update_target+0x44/0xd8
-   qos_max_notifier_call+0x30/0x84
-   blocking_notifier_call_chain+0x6c/0xa0
-   pm_qos_update_target+0xd0/0x110
-   freq_qos_apply+0x3c/0x74
-   apply_constraint+0x88/0x148
-   __dev_pm_qos_update_request+0x7c/0xcc
-   dev_pm_qos_update_request+0x38/0x5c
-   devfreq_cooling_set_cur_state+0x98/0xf0
-   __thermal_cdev_update+0x64/0xb4
-   thermal_cdev_update+0x4c/0x58
-   step_wise_manage+0x1f0/0x318
-   __thermal_zone_device_update+0x278/0x424
-   __thermal_cooling_device_register+0x2bc/0x308
-   thermal_of_cooling_device_register+0x10/0x1c
-   of_devfreq_cooling_register_power+0x240/0x2bc
-   of_devfreq_cooling_register+0x14/0x20
-   msm_devfreq_init+0xc4/0x1a0 [msm]
-   msm_gpu_init+0x304/0x574 [msm]
-   adreno_gpu_init+0x1c4/0x2e0 [msm]
-   a6xx_gpu_init+0x5c8/0x9c8 [msm]
-   adreno_bind+0x2a8/0x33c [msm]
-   ...
+     static void drm_writeback_connector_cleanup(
+		struct drm_device *dev,
+		struct drm_writeback_connector *wb_connector)
 
-At this point we haven't initialized the GMU at all yet, so we cannot read
-the GMU registers inside a6xx_gpu_busy(). A similar issue was fixed before
-in commit 6694482a70e9 ("drm/msm: Avoid unclocked GMU register access in
-6xx gpu_busy"): msm_devfreq_init() does call devfreq_suspend_device(), but
-unlike msm_devfreq_suspend(), it doesn't set the df->suspended flag
-accordingly. This means the df->suspended flag does not match the actual
-devfreq state after initialization and msm_devfreq_get_dev_status() will
-end up accessing GMU registers, causing the crash.
+But it is stored and used as a drmres_release_t
 
-Fix this by setting df->suspended correctly during initialization.
+    typedef void (*drmres_release_t)(struct drm_device *dev, void *res);
 
-Cc: stable@vger.kernel.org
-Fixes: 6694482a70e9 ("drm/msm: Avoid unclocked GMU register access in 6xx gpu_busy")
-Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+While the current code is valid and does not produce any warning, the
+CFI runtime check (CONFIG_CFI_CLANG) can fail because the function
+signature is not the same as drmres_release_t.
+
+In order to fix this, change the function signature to match what is
+expected by drmres_release_t.
+
+Fixes: 1914ba2b91ea ("drm: writeback: Create drmm variants for drm_writeback_connector initialization")
+
+Suggested-by: Mark Yacoub <markyacoub@google.com>
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/msm/msm_gpu_devfreq.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v2:
+- Forgot to update the documentation
+- Link to v1: https://lore.kernel.org/r/20250428-drm-fix-writeback-cleanup-v1-1-e4c723868b73@bootlin.com
+---
+ drivers/gpu/drm/drm_writeback.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index 6970b0f7f457c8535ecfeaa705db871594ae5fc4..2e1d5c3432728cde15d91f69da22bb915588fe86 100644
---- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-+++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -156,6 +156,7 @@ void msm_devfreq_init(struct msm_gpu *gpu)
- 	priv->gpu_devfreq_config.downdifferential = 10;
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+index edbeab88ff2b..d983ee85cf13 100644
+--- a/drivers/gpu/drm/drm_writeback.c
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -343,17 +343,18 @@ EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
+ /**
+  * drm_writeback_connector_cleanup - Cleanup the writeback connector
+  * @dev: DRM device
+- * @wb_connector: Pointer to the writeback connector to clean up
++ * @data: Pointer to the writeback connector to clean up
+  *
+  * This will decrement the reference counter of blobs and destroy properties. It
+  * will also clean the remaining jobs in this writeback connector. Caution: This helper will not
+  * clean up the attached encoder and the drm_connector.
+  */
+ static void drm_writeback_connector_cleanup(struct drm_device *dev,
+-					    struct drm_writeback_connector *wb_connector)
++					    void *data)
+ {
+ 	unsigned long flags;
+ 	struct drm_writeback_job *pos, *n;
++	struct drm_writeback_connector *wb_connector = data;
  
- 	mutex_init(&df->lock);
-+	df->suspended = true;
+ 	delete_writeback_properties(dev);
+ 	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
+@@ -405,7 +406,7 @@ int drmm_writeback_connector_init(struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
  
- 	ret = dev_pm_qos_add_request(&gpu->pdev->dev, &df->boost_freq,
- 				     DEV_PM_QOS_MIN_FREQUENCY, 0);
+-	ret = drmm_add_action_or_reset(dev, (void *)drm_writeback_connector_cleanup,
++	ret = drmm_add_action_or_reset(dev, drm_writeback_connector_cleanup,
+ 				       wb_connector);
+ 	if (ret)
+ 		return ret;
 
 ---
-base-commit: 33035b665157558254b3c21c3f049fd728e72368
-change-id: 20250428-drm-msm-gpu-hot-devfreq-boot-36184dbc7075
+base-commit: a22e0051f9eb2281b181218d97f77cebc299310d
+change-id: 20250428-drm-fix-writeback-cleanup-a1179f3b9691
 
 Best regards,
 -- 
-Stephan Gerhold <stephan.gerhold@linaro.org>
+Louis Chauvet <louis.chauvet@bootlin.com>
 
