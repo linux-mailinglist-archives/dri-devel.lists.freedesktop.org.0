@@ -2,66 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B971CAA0BE9
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 14:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29DA0AA0C00
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 14:48:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4772D10E45D;
-	Tue, 29 Apr 2025 12:44:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D011F10E43E;
+	Tue, 29 Apr 2025 12:48:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Pj6zyorL";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="eCFnpT22";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E829410E43E;
- Tue, 29 Apr 2025 12:44:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745930691; x=1777466691;
- h=message-id:date:mime-version:from:to:cc:subject:
- content-transfer-encoding;
- bh=TFBgqpNo87pwBswgll50qm2YXeIt01N0rcwXDWLET+0=;
- b=Pj6zyorLrUZppWK1dTa7bDmUDpilWQbMWNPA0fdIK9vahFT4jy8fCD8v
- GQZ9+JsNT73b8BrN3UxxB0figAkjWkKQRjTEjlYsLB8Vv4nSoh+uU8RjR
- CPDnTKrpzArS4OKnjNLllgzkPWHuzdx1fImX5XTY9dPaqIiy8W8b+2kwt
- vuu60E8a1gnpnuFVEVk6xtenLuS8UDo9uK1jPwAqN640tvOasIYWwipt2
- ArLfmatQa6LITi29vdvavl/2nbkbOIhm9Ha1Crxqe/SsmajydPsMLt1zA
- EWC/BKzsd+ZkCOX72sGcCcghf1y1MSewuGWVre94aQnqCCWOrpcYf1axI A==;
-X-CSE-ConnectionGUID: RfFkdwQORdibknIJaXA+JQ==
-X-CSE-MsgGUID: 0SG4/F2ITTK646a2jglH3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="65086516"
-X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; d="scan'208";a="65086516"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2025 05:44:44 -0700
-X-CSE-ConnectionGUID: JnkTyKJlSGSw9HF498fJKg==
-X-CSE-MsgGUID: qQYG9gzMRpmTt617I9QW8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; d="scan'208";a="133527842"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.231])
- ([10.245.244.231])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2025 05:44:39 -0700
-Message-ID: <e2a958d9-e506-4962-8bae-0dbf2ecc000f@linux.intel.com>
-Date: Tue, 29 Apr 2025 14:44:37 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
- <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PULL] drm-misc-next
-Content-Language: en-US
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2044.outbound.protection.outlook.com [40.107.94.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF0AB10E43E;
+ Tue, 29 Apr 2025 12:48:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n2zxAa1NDuGFjFG2bV6wlhBUT32TPpHUt6iG1Qm9Z3RxFv3XGuJ04IY+vPZvZBXb1VvVIlogY0OfUIER9gLmGBtyxIhYDgU17K2PKZaM+HC8lPJAqw3daQzTyHySi1wMXXsE1Zb7FF2snU/5Xq3VzXC5LaMSzKCoKm1+qPj2VEcCBfvJ0Mjjrh8RUCB9Xhc0UJO73gOUMUg16zg9FcbwulEC681CDZfHT/cF6woa+dJF/xW5CmQ4aYjRZosBoA19tj171qIpaDqUdn2g3m8g+iqo89DoDoqEERJ1mz0gVVRvsNrylLAtK/2izhO10zTbwB5KsyJ7DR1WuCHCtHVzvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y/USV0Zoivh974fVba764W0x8+qJ2Tf6Xjqlfae8OvQ=;
+ b=Lg+YbJDa1UvwK5GqULSWgQVKfCInFLlqg5jY0t1I2Lzf2MJ5vh4gkBjC6QoISVgW/F5YqNXfO7NSVU5tpXRs2REOa87uwKzP5LFV3TitK+qe9xDm4FEODD+KyaoNIvvrF08lm+fYnZ4YjkqUoYk86IB7ETX1YM+LrKf+UdfkzKVEa96e0PwtRsNTZ1Pv4BBMZ8bjE5vJ/3E2U9V+39Vj0qAkY/rdsi0TGQrdBPN4sAGB30Bh9nSxr7i5qKLB9nxdV3G5dVIY2x3U3j9FkicVQWNl6RiV2UuimkL7eeEE19eNhJ36ltbw8eQQ3ovNz8SEEEtsegeBGqL44ZH25BcgXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y/USV0Zoivh974fVba764W0x8+qJ2Tf6Xjqlfae8OvQ=;
+ b=eCFnpT22S8l/ydnKbrKT58A8b8rCN/iWU/Ey84Njaw1xmeXaN8WyC8Sg0sBj1JlFPIIQZi4f+kvJwL85Q2MWyT1A9rKN09CvXaO611KilS3K/ZTyzrSUPKS1ZEWExRHQM6VpUpyP1axO8dBmokK9CFUyJBgzjEuohhpnQK4r1HTFkDP250L2/1nv6Z1RfECuZ0oKOC4NW344EBxr1gpKWqkXjBl12Q7mBPyygvK5+UhmCPUXnz1iuTSba4G4ERpZPHr55ZiwArRmV7GomPwEJdgZV8l0Uf4UCmYRkVyuHPdyJoBpnO6pVkAL9ljIWez+dkof4ifDQIDD0Y7ArB3Rjg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by BN7PPFD6BF22047.namprd12.prod.outlook.com
+ (2603:10b6:40f:fc02::6e4) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Tue, 29 Apr
+ 2025 12:48:17 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8699.012; Tue, 29 Apr 2025
+ 12:48:17 +0000
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Tue, 29 Apr 2025 21:48:14 +0900
+Message-Id: <D9J4UK3LWDL6.4TE5O7WM6AIP@nvidia.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <benno.lossin@proton.me>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Jonathan Corbet"
+ <corbet@lwn.net>, "John Hubbard" <jhubbard@nvidia.com>, "Ben Skeggs"
+ <bskeggs@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 08/16] gpu: nova-core: wait for GFW_BOOT completion
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
+ <20250420-nova-frts-v1-8-ecd1cca23963@nvidia.com>
+ <aAd_PBVB5S5pHeP0@cassiopeiae>
+In-Reply-To: <aAd_PBVB5S5pHeP0@cassiopeiae>
+X-ClientProxiedBy: TY2PR0101CA0025.apcprd01.prod.exchangelabs.com
+ (2603:1096:404:8000::11) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|BN7PPFD6BF22047:EE_
+X-MS-Office365-Filtering-Correlation-Id: f17c4d48-df67-4222-f5a3-08dd871c1cec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|1800799024|366016|376014|7416014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?c0UxM0JqSndORkJ4SVJVZXVManFORjN4OWhyQlg1T0dqQ3ZLUTZaNTEzeXl5?=
+ =?utf-8?B?NCtrMVR2MGxDeGR5cGpsaEw1RnFFRitnVG9vdFZWTXowM3F5MzRwVjl0QkU3?=
+ =?utf-8?B?NXhNVWFudnoxT01nTlQ5Um9nMjNVaXFJQlZxUFhSWG1BZTgrVXI1QWU0S1Fy?=
+ =?utf-8?B?a3RtQUFLbE56dWZDNFBtZFJ1NVpPQ0s2VVBxRlBPM3I3ZkNLT3o2WDNleERk?=
+ =?utf-8?B?UzBBc2RaVjkrRTNuQVBUN3V2aTJ2aTBtNmtHVk5rZ2V1QmZyNGh0c2F6Wnor?=
+ =?utf-8?B?OW9jWmxibEFIRWxWOWpsQk5TdXRoUlNLNXkwSEx4M2x5UlVTYmdrRW9XNzNQ?=
+ =?utf-8?B?M3h0RXpUVzV1bDhpUjhGNVY2TkloT3RmYVBWeFFhNlVUWUlma1M5aUVpSnFL?=
+ =?utf-8?B?cy9KNWdOK1dPUTc1OTY1S0xHQUpRWXFPK05wY3hCRnh0T3pVazlsOGNUVFlW?=
+ =?utf-8?B?bnpzTGlGT0ZrbTFFaWI3cFhqUVpJZHArU3dhNXBMZmlWWjdmVS9rVm5lMCtZ?=
+ =?utf-8?B?MVo3YlVzVlVPYWg3Wm5GTWMrYVBqeFhieS8xaFNzWVZERGpMeWJYdkNZY1JZ?=
+ =?utf-8?B?MlUrQ0VwbS9TeHpyRXJWbEtuYk9sYjBkT0o1VktxMnZyeHBsQTE1K3ZUYUNx?=
+ =?utf-8?B?K0RWSzA3WEVabU9EajVSOGREWjR1TUcyZW9jOEgrOWNFNnljMy9iQ3JzdHNV?=
+ =?utf-8?B?QzlVNnhRQW5BSzd0cENQcS96anc0cndwaDUrMkVxWU1IczlGQmhwYjl2YzZQ?=
+ =?utf-8?B?Y0duMFZkQmVXc05PZ2lQQldOSFZsaENCZlZCRWtkcXBwRmkwbElvQVE3VFF0?=
+ =?utf-8?B?RHNxbWxWLzJhQ2VHd1lINW5HOHc3WHY1Vm1kNUoxOGhobmlzeEZiR0VEL1Rk?=
+ =?utf-8?B?MmhpM1FJajFqMTdxcmNlZjd0SWlDWjUvYVpPcXYvYmVaQzdkNWxWRExDOER1?=
+ =?utf-8?B?SWNnaTIrcjhsVjVCTkxVdTBwV1lCaEpyVFE3RTdROG1zSEVNek1ZcDc3UzI0?=
+ =?utf-8?B?VUhFczlxSEhiZzVBYTJOanZjbW43aklxWlRnbzE0VlAyaDhPU3krc2FzRUVF?=
+ =?utf-8?B?ejc2K3JteVZXV1hoTENsZDZtM29zVkxMeW9XMmY5SnQ4QXpUU2J6QklxM3h1?=
+ =?utf-8?B?V254b2pKRnp2RWZid2FDOEdDWVUva1M1YlhXNWw1b1RVWVAzZjNOOUV0ZHIw?=
+ =?utf-8?B?TnZSSG1HOWlUd1NWbis4SlpyVjRab1p6NGQxZC9BYTJrblRTRXBUK1lsbzhl?=
+ =?utf-8?B?NDFteHVRMXMwdEZtRzZxcVpXUGgrLytRcmFlcTlWMlpwQ3JPVWVEdzdqY3dk?=
+ =?utf-8?B?MVVXWWlscnU0djZBR0dwdCt0N0xGWVVRMUtMZnZOb00yRjFrenhER3kwVFFJ?=
+ =?utf-8?B?NHlHcEdOSG1PRFJoVm5qQi9uUXBwZnlTK1B0RHFpNVdrZlJuK2g1TEJReXA2?=
+ =?utf-8?B?Y0xlMmd3UXNSdnozU3BMUmxaTHBieHl3NENzS1JRejdVKzlZTHFCRkdhODg5?=
+ =?utf-8?B?SkhaSWE4bDhvZzlhSUk4cStadXFlY2N4MFc1dXRqc3pIS0k3Q1l4QXlGN3hi?=
+ =?utf-8?B?TXM5SDJmV1V6bHRHRnFjcU15ZFU0a25wblV3cW5wOEd6aFQyR0Z2cjJpMkdo?=
+ =?utf-8?B?TTZBYWRqbUdtc3M3ckZCYTFqKzNKTXd3U1dsbVJlZTZ3NlhCREdTVmVEbUw2?=
+ =?utf-8?B?NnBDVTQzOTRBQ2d0M083UFRlQk5xVllrRWJLdzFPVXFuZHFzUGE0eGYxdGt3?=
+ =?utf-8?B?NTdUNWdLcXd6c3BoTmFwMXNEN3BZS1NvTWJtRjZxOGc5MFBQbDl0cGFNNEww?=
+ =?utf-8?B?TXBQMmlBNk5DWXNaYmdyRmgrb29Wclpyb1RYUHV2WUVzc3dMM3pmVHZ1ZHY4?=
+ =?utf-8?B?L3hIU1hkSDZKNkl0aXRIZ1BjYnNkeEJ1VlN5eHFqU1liUnVUenVNWkdNMmhq?=
+ =?utf-8?Q?FOAYmqcxlXQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TEtuY2YwZnJreGJ4VlF1dmwvT1YzNXVIZHRBeUVsK0ZpRXdxV1NJTUcvaEpu?=
+ =?utf-8?B?Qzk1aFJhNnJpNTdwQ1YvTHdyVGFVYms3dUVCWEs3aFN1ZUppUUp3QVRDQ1Qy?=
+ =?utf-8?B?U1V5elJ3ejVDT0htbFpWUmtHSklFb2ZnU2xOa2RqNHBSZi9HVytRa3FmclpJ?=
+ =?utf-8?B?WVJqRHA5SEZNRmRmZndWTmJPUVVuWThaMTJmOE14VjBkTFo5bmU2aExzL3Vj?=
+ =?utf-8?B?WnpJbjhlbHRpUE1kN3FWQ3NFVmw2RXFUOUdGNXh3dlljbFBoaDM0YlkxRGQx?=
+ =?utf-8?B?cWRSV0tycGlsTjR5aGMzbTNrbE1UQ1pTU2FzTS9sUkdSZ3BJaGhnRnhXaE5Y?=
+ =?utf-8?B?N0VZeDJIYnpnanpVUGhFbmp6Rlp1OUkyK3FmSjVwTE1JUWhBR05pWkdWdW5D?=
+ =?utf-8?B?NWdBSFVNcVNGR0ROcEJQeXAySlkrb3EwS1JZUmwzTXQ4YktleTlJNDdEVXBs?=
+ =?utf-8?B?bFN6cVVsYjkrN3hvcGJaekxjZTZ3YVNYa1UxTDVBZS9zaFFhNXVjSVVwT09a?=
+ =?utf-8?B?bG1jRlRMUVA3Y0hKYzJzK0h1emtKbzYvcnhzOVRzV0djbTQzdVdSdmVoZnhP?=
+ =?utf-8?B?VXdpM2U1ZVNwbnlNb1l4L3dieEFLZnIyOWhaOGhIVVR3RWdRQ2Mrb1dzaUtj?=
+ =?utf-8?B?Q1cweW9WckVOM0pZeS84QnRxNXVoRzRBaDI2SjdKclFUeGFPczQvNFVaVGs3?=
+ =?utf-8?B?SkpYMzBQTG9wSklWdzdVZzdKUG8yaXJhTUlsT1VFZThFeWFRdVJBVnRSQlFr?=
+ =?utf-8?B?K0lzRVI3MklIWlYvTVE1UUQwOHRQeWZVa3Job1BEYXBsSm42bmM5T0ova2hB?=
+ =?utf-8?B?UW1JTStLS1pWY3lWVFFoNDVwZEZYeTlDa2puemxFek1Gd1RPV1pJcW4xeERo?=
+ =?utf-8?B?Rk1Ca3FjRld0QndzVGhYU1JxZmZqU1ErbkFUbFJsTkxuMjZ0NGl6R25BUjNR?=
+ =?utf-8?B?WXBCSmpmMzdvZFRSc3pTODNhWjYvZ3JVNUZzMCtUSkJNVlFVMHRBMVBkYzZJ?=
+ =?utf-8?B?SVNVdmZHOWlIVUllVklnaWZncUpiblFIdithMzlvTzRHWE85N2pnbjZvNjZ2?=
+ =?utf-8?B?YndxWVYwMGNvYWFSTzNia0tPUmdCWmJSTGlxeG54Mi9ZWk1weEV6QysxSnRK?=
+ =?utf-8?B?UGZBOTk5b2RuTVd1Ym9ST205ckN6MXB3SDJxYkl6S05WbTNMK1g1SndIZ2lP?=
+ =?utf-8?B?YytzV2htRlNtMjJ1a3FtRUZ2enhGUUNYWDdGdllzc1FCVEQxZ0NKNVVtNkFZ?=
+ =?utf-8?B?c1VMQmprL2JhS2lIOFBMQUdwcUEvcjFEQlpNYjFZMkZuQWJNMVlQRmhIQ3Uz?=
+ =?utf-8?B?TDdVeGtGQjI0MUYxLzV4bnpQa2VFTmhPdnc4N2lyUG5lcDM4bzc0aWF5VHNo?=
+ =?utf-8?B?MkQxL29DQXhCZHJETmgzZUtmNWg1OEJ3cU9MUktqQnhTaFBXd3pCeWlOSTc1?=
+ =?utf-8?B?Z0pEbTU5YzMxWTMxeVAyUXRrQVovYXZFbGhaOVhsaWdtTXg3djlaSm95MlB0?=
+ =?utf-8?B?cis5bFJ2cVFIZkN2U1pjQm10NWhjTUgyejFGZUxWbDl0MllZM3BJK3l3cnlJ?=
+ =?utf-8?B?RTRGNlJLVlMxWURVMjBsTGx1MzB4TGQrMFh0Qms0bUZQaDlzWUdZVUZ2N3kz?=
+ =?utf-8?B?KzVsUWRrV3Q2SEVEcWZxUzhDeU5RdUlkSHQrVkZUczFPZjZacjNEWGpwdHFr?=
+ =?utf-8?B?TEgyeC9NZGh1NjJjbFgvL1Z6c2J6RGdTZkd0RktiZVFGdGJpZTFIMXJjZzV6?=
+ =?utf-8?B?SHcvTE02VTJpQmRXTXdDTy92a29Ud3lNMTQ3dHdwVkdWbm4zSHl6dFN5bkJV?=
+ =?utf-8?B?UmZiMmp1T01VN2dwRUIzeVB3allsZi9RdmhySTk0TUluaEF1Ync2N0FqdE15?=
+ =?utf-8?B?dVZkaTIyNEMzeWZLeElLQlhSQTl6MSt5MTN5a2Z2ZGhuRnJsR3hrd1pOSW1y?=
+ =?utf-8?B?RG5aS3RoWE1NT3R1ZER6MnpGZ3dyV2NEZ3crVHAvWVc2N2ZNQkVJRUFXcFVt?=
+ =?utf-8?B?YjVFN3E3azJndDFnUmdEdStqT0w4eWtBc0lQSno2SjlBQTVFSlBCUElqTndM?=
+ =?utf-8?B?Z25iR09KZkd0RjZBUzczUXlqV01JYkliS25CU25JdTJiWGh6cXNOTkV4bWtX?=
+ =?utf-8?B?N3RGTjlJdHAxenZMdEtPSG9pSnl2TkgzdWR3ZmIrbFNrdWJCVzNPTHFqcnE1?=
+ =?utf-8?Q?vFmWvzIM45Oh5Ml0w5zRwaLlmexfPlJD4VOO+7b23WdC?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f17c4d48-df67-4222-f5a3-08dd871c1cec
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 12:48:17.3572 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1p/tlCoMVKCWf+qifOsNcytZIEZg8RUar96AheRBVlUBVlhtjRVvk83gaWo1zq4Un7Qj/kKpfzBwbeYDSQTNXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPFD6BF22047
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,513 +179,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+On Tue Apr 22, 2025 at 8:36 PM JST, Danilo Krummrich wrote:
+> On Sun, Apr 20, 2025 at 09:19:40PM +0900, Alexandre Courbot wrote:
+>> Upon reset, the GPU executes the GFW_BOOT firmware in order to
+>> initialize its base parameters such as clocks. The driver must ensure
+>> that this step is completed before using the hardware.
+>>=20
+>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+>> ---
+>>  drivers/gpu/nova-core/devinit.rs   | 40 +++++++++++++++++++++++++++++++=
++++++++
+>>  drivers/gpu/nova-core/driver.rs    |  2 +-
+>>  drivers/gpu/nova-core/gpu.rs       |  5 +++++
+>>  drivers/gpu/nova-core/nova_core.rs |  1 +
+>>  drivers/gpu/nova-core/regs.rs      | 11 +++++++++++
+>>  5 files changed, 58 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/drivers/gpu/nova-core/devinit.rs b/drivers/gpu/nova-core/de=
+vinit.rs
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..ee5685aff845aa97d6b0fbe9=
+528df9a7ba274b2c
+>> --- /dev/null
+>> +++ b/drivers/gpu/nova-core/devinit.rs
+>> @@ -0,0 +1,40 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +//! Methods for device initialization.
+>> +
+>> +use kernel::bindings;
+>> +use kernel::devres::Devres;
+>> +use kernel::prelude::*;
+>> +
+>> +use crate::driver::Bar0;
+>> +use crate::regs;
+>> +
+>> +/// Wait for devinit FW completion.
+>> +///
+>> +/// Upon reset, the GPU runs some firmware code to setup its core param=
+eters. Most of the GPU is
+>> +/// considered unusable until this step is completed, so it must be wai=
+ted on very early during
+>> +/// driver initialization.
+>> +pub(crate) fn wait_gfw_boot_completion(bar: &Devres<Bar0>) -> Result<()=
+> {
+>> +    let mut timeout =3D 2000;
+>> +
+>> +    loop {
+>> +        let gfw_booted =3D with_bar!(
+>> +            bar,
+>> +            |b| regs::Pgc6AonSecureScratchGroup05PrivLevelMask::read(b)
+>> +                .read_protection_level0_enabled()
+>> +                && (regs::Pgc6AonSecureScratchGroup05::read(b).value() =
+& 0xff) =3D=3D 0xff
+>> +        )?;
+>> +
+>> +        if gfw_booted {
+>> +            return Ok(());
+>> +        }
+>> +
+>> +        if timeout =3D=3D 0 {
+>> +            return Err(ETIMEDOUT);
+>> +        }
+>> +        timeout -=3D 1;
+>> +
+>> +        // SAFETY: msleep should be safe to call with any parameter.
+>> +        unsafe { bindings::msleep(2) };
+>
+> I assume this goes away with [1]? Can we please add a corresponding TODO?=
+ Also,
+> do you mind preparing the follow-up patches for cases like this (there's =
+also
+> the transmute one), such that we can apply them, once the dependencies di=
+d land
+> and such that we can verify that they suit our needs?
+>
+> [1] https://lore.kernel.org/lkml/20250220070611.214262-8-fujita.tomonori@=
+gmail.com/
 
-A bit late, but here's the drm-misc-next pull request.
+Good idea. Added the TODO item with a link to the patch.
 
-Best regards,
-~Maarten
+>
+>> +    }
+>> +}
+>> diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/dri=
+ver.rs
+>> index a08fb6599267a960f0e07b6efd0e3b6cdc296aa4..752ba4b0fcfe8d835d366570=
+bb2f807840a196da 100644
+>> --- a/drivers/gpu/nova-core/driver.rs
+>> +++ b/drivers/gpu/nova-core/driver.rs
+>> @@ -10,7 +10,7 @@ pub(crate) struct NovaCore {
+>>      pub(crate) gpu: Gpu,
+>>  }
+>> =20
+>> -const BAR0_SIZE: usize =3D 8;
+>> +const BAR0_SIZE: usize =3D 0x1000000;
+>>  pub(crate) type Bar0 =3D pci::Bar<BAR0_SIZE>;
+>> =20
+>>  kernel::pci_device_table!(
+>> diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
+>> index 866c5992b9eb27735975bb4948e522bc01fadaa2..1f7799692a0ab042f2540e01=
+414f5ca347ae9ecc 100644
+>> --- a/drivers/gpu/nova-core/gpu.rs
+>> +++ b/drivers/gpu/nova-core/gpu.rs
+>> @@ -2,6 +2,7 @@
+>> =20
+>>  use kernel::{device, devres::Devres, error::code::*, pci, prelude::*};
+>> =20
+>> +use crate::devinit;
+>>  use crate::driver::Bar0;
+>>  use crate::firmware::Firmware;
+>>  use crate::regs;
+>> @@ -168,6 +169,10 @@ pub(crate) fn new(
+>>              spec.revision
+>>          );
+>> =20
+>> +        // We must wait for GFW_BOOT completion before doing any signif=
+icant setup on the GPU.
+>> +        devinit::wait_gfw_boot_completion(&bar)
+>> +            .inspect_err(|_| pr_err!("GFW boot did not complete"))?;
+>> +
+>>          Ok(pin_init!(Self { spec, bar, fw }))
+>>      }
+>>  }
+>> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/=
+nova_core.rs
+>> index 0eecd612e34efc046dad852e6239de6ffa5fdd62..878161e060f54da7738c656f=
+6098936a62dcaa93 100644
+>> --- a/drivers/gpu/nova-core/nova_core.rs
+>> +++ b/drivers/gpu/nova-core/nova_core.rs
+>> @@ -20,6 +20,7 @@ macro_rules! with_bar {
+>>      }
+>>  }
+>> =20
+>> +mod devinit;
+>>  mod driver;
+>>  mod firmware;
+>>  mod gpu;
+>> diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.=
+rs
+>> index e315a3011660df7f18c0a3e0582b5845545b36e2..fd7096f0ddd4af90114dd111=
+9d9715d2cd3aa2ac 100644
+>> --- a/drivers/gpu/nova-core/regs.rs
+>> +++ b/drivers/gpu/nova-core/regs.rs
+>> @@ -13,3 +13,14 @@
+>>      7:4     major_rev =3D> as u8, "major revision of the chip";
+>>      28:20   chipset =3D> try_into Chipset, "chipset model"
+>>  );
+>> +
+>> +/* GC6 */
+>> +
+>> +register!(Pgc6AonSecureScratchGroup05PrivLevelMask@0x00118128;
+>> +    0:0     read_protection_level0_enabled =3D> as_bit bool
+>> +);
+>> +
+>> +/* TODO: This is an array of registers. */
+>> +register!(Pgc6AonSecureScratchGroup05@0x00118234;
+>> +    31:0    value =3D> as u32
+>> +);
+>
+> Please also document new register definitions.
 
-drm-misc-next-2025-04-29:
-drm-misc-next for v6.16-rc1:
+Thankfully Joel's documentation patches take care of this!
 
-UAPI Changes:
-- panthor now fails in mmap_offset call for a BO created with
-  DRM_PANTHOR_BO_NO_MMAP.
-- Add DRM_PANTHOR_BO_SET_LABEL ioctl and label panthor kernel BOs.
-
-Cross-subsystem Changes:
-- Add kmap_local_page_try_from_panic for drm/panic.
-- Add DT bindings for panels.
-- Update DT bindings for imagination.
-- Extend %p4cc in lib/vsprintf.c to support fourcc printing.
-
-Core Changes:
-- Remove the disgusting turds.
-- Register definition updates for DP.
-- DisplayID timing blocks refactor.
-- Remove now unused mipi_dsi_dsc_write_seq.
-- Convert panel drivers to not return error in prepare/enable and
-  unprepare/disable calls.
-
-Driver Changes:
-- Assorted small fixes and featuers for rockchip, panthor, accel/ivpu,
-  accel/amdxdna, hisilicon/hibmc, i915/backlight, sysfb, accel/qaic,
-  udl, etnaviv, virtio, xlnx, panel/boe-bf060y8m-aj0, bridge/synopsis,
-  panthor, panel/samsung/sofef00m, lontium/lt9611uxc, nouveau, panel/himax-hx8279,
-  panfrost, st7571-i2c.
-- Improve hibmc interrupt handling and add HPD support.
-- Add NLT NL13676BC25-03F, Tianma TM070JDHG34-00, Himax HX8279/HX8279-D
-  DDIC, Visionox G2647FB105, Sitronix ST7571 LCD Controller, panels.
-- Add zpos, alpha and blend to renesas.
-- Convert drivers to use drm_gem_is_imported, replacing gem->import_attach.
-- Support TI AM68 GPU in imagination.
-- Support panic handler in virtio.
-- Add support to get the panel from DP AUX bus in rockchip and add
-  RK3588 support.
-- Make sofef00 only support the sofef00 panel, not another unrelated
-  one.
-- Add debugfs BO dumping support to panthor, and print associated labels.
-- Implement heartbeat based hangcheck in ivpu.
-- Mass convert drivers to devm_drm_bridge_alloc api.
-The following changes since commit b60301774a8fe6c30b14a95104ec099290a2e904:
-
-  Merge tag 'drm-intel-next-2025-04-11' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-next (2025-04-15 05:06:51 +1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2025-04-29
-
-for you to fetch changes up to f2c8f90b4f676c1f860e6c2cdfe91e68fae64918:
-
-  drm/st7571-i2c: select CONFIG_DRM_CLIENT_SELECTION (2025-04-29 12:29:24 +0200)
-
-----------------------------------------------------------------
-drm-misc-next for v6.16-rc1:
-
-UAPI Changes:
-- panthor now fails in mmap_offset call for a BO created with
-  DRM_PANTHOR_BO_NO_MMAP.
-- Add DRM_PANTHOR_BO_SET_LABEL ioctl and label panthor kernel BOs.
-
-Cross-subsystem Changes:
-- Add kmap_local_page_try_from_panic for drm/panic.
-- Add DT bindings for panels.
-- Update DT bindings for imagination.
-- Extend %p4cc in lib/vsprintf.c to support fourcc printing.
-
-Core Changes:
-- Remove the disgusting turds.
-- Register definition updates for DP.
-- DisplayID timing blocks refactor.
-- Remove now unused mipi_dsi_dsc_write_seq.
-- Convert panel drivers to not return error in prepare/enable and
-  unprepare/disable calls.
-
-Driver Changes:
-- Assorted small fixes and featuers for rockchip, panthor, accel/ivpu,
-  accel/amdxdna, hisilicon/hibmc, i915/backlight, sysfb, accel/qaic,
-  udl, etnaviv, virtio, xlnx, panel/boe-bf060y8m-aj0, bridge/synopsis,
-  panthor, panel/samsung/sofef00m, lontium/lt9611uxc, nouveau, panel/himax-hx8279,
-  panfrost, st7571-i2c.
-- Improve hibmc interrupt handling and add HPD support.
-- Add NLT NL13676BC25-03F, Tianma TM070JDHG34-00, Himax HX8279/HX8279-D
-  DDIC, Visionox G2647FB105, Sitronix ST7571 LCD Controller, panels.
-- Add zpos, alpha and blend to renesas.
-- Convert drivers to use drm_gem_is_imported, replacing gem->import_attach.
-- Support TI AM68 GPU in imagination.
-- Support panic handler in virtio.
-- Add support to get the panel from DP AUX bus in rockchip and add
-  RK3588 support.
-- Make sofef00 only support the sofef00 panel, not another unrelated
-  one.
-- Add debugfs BO dumping support to panthor, and print associated labels.
-- Implement heartbeat based hangcheck in ivpu.
-- Mass convert drivers to devm_drm_bridge_alloc api.
-
-----------------------------------------------------------------
-Aditya Garg (2):
-      printf: add tests for generic FourCCs
-      drm/appletbdrm: use %p4cl instead of %p4cc
-
-Adrián Larumbe (4):
-      drm/panthor: Introduce BO labeling
-      drm/panthor: Add driver IOCTL for setting BO labels
-      drm/panthor: Label all kernel BO's
-      drm/panthor: show device-wide list of DRM GEM objects over DebugFS
-
-Alessio Belle (3):
-      drm/imagination: Update register defs for newer GPUs
-      drm/imagination: Mask GPU IRQs in threaded handler
-      drm/imagination: Handle Rogue safety event IRQs
-
-Alexander Baransky (2):
-      dt-bindings: display: panel: Add Visionox G2647FB105
-      drm/panel: Add Visionox G2647FB105 panel driver
-
-Andy Yan (2):
-      drm/rockchip: vop2: Make overlay layer select register configuration take effect by vsync
-      drm/bridge: dw-hdmi: Avoid including uapi headers
-
-AngeloGioacchino Del Regno (3):
-      dt-bindings: vendor-prefixes: Add Shenzhen Aoly Technology Co., Ltd.
-      dt-bindings: display: panel: Add Himax HX8279/HX8279-D DDIC panels
-      drm: panel: Add driver for Himax HX8279 DDIC panels
-
-Antonin Godard (2):
-      dt-bindings: display: simple: Add NLT NL13676BC25-03F panel
-      drm/panel: simple: Add NLT NL13676BC25-03F panel entry
-
-Arnd Bergmann (2):
-      drm/imagination: avoid unused-const-variable warning
-      drm/st7571-i2c: select CONFIG_DRM_CLIENT_SELECTION
-
-Baihan Li (9):
-      drm/hisilicon/hibmc: Restructuring the header dp_reg.h
-      drm/hisilicon/hibmc: Add dp serdes cfg to adjust serdes rate, voltage and pre-emphasis
-      drm/hisilicon/hibmc: Add dp serdes cfg in dp process
-      drm/hisilicon/hibmc: Refactor the member of drm_aux in struct hibmc_dp
-      drm/hisilicon/hibmc: Getting connector info and EDID by using AUX channel
-      drm/hisilicon/hibmc: Add colorbar-cfg feature and its debugfs file
-      drm/hisilicon/hibmc: Enable this hot plug detect of irq feature
-      drm/hisilicon/hibmc: Add MSI irq getting and requesting for HPD
-      drm/hisilicon/hibmc: Add vga connector detect functions
-
-Biju Das (2):
-      drm: renesas: Add zpos, alpha and blend properties to RZ/G2L DU
-      drm: renesas: rz-du: rzg2l_mipi_dsi: Update the comment in rzg2l_mipi_dsi_start_video()
-
-Boris Brezillon (7):
-      drm/panthor: Fix GPU_COHERENCY_ACE[_LITE] definitions
-      drm/panthor: Call panthor_gpu_coherency_init() after PM resume()
-      drm/panthor: Update panthor_mmu::irq::mask when needed
-      drm/panthor: Let IRQ handlers clear the interrupts themselves
-      drm/panthor: Don't update MMU_INT_MASK in panthor_mmu_irq_handler()
-      drm/panthor: Fix the panthor_gpu_coherency_init() error path
-      drm/panthor: Don't create a file offset for NO_MMAP BOs
-
-Casey Connolly (1):
-      drm/panel: samsung-sofef00: Drop s6e3fc2x01 support
-
-Chen-Yu Tsai (1):
-      drm/bridge: anx7625: Use devm_pm_runtime_enable()
-
-Christophe JAILLET (1):
-      drm/bridge: lt9611uxc: Fix an error handling path in lt9611uxc_probe()
-
-Damon Ding (11):
-      drm/bridge: analogix_dp: Add irq flag IRQF_NO_AUTOEN instead of calling disable_irq()
-      drm/bridge: analogix_dp: Remove CONFIG_PM related check in analogix_dp_bind()/analogix_dp_unbind()
-      drm/bridge: analogix_dp: Add support for phy configuration.
-      dt-bindings: display: rockchip: analogix-dp: Add support to get panel from the DP AUX bus
-      drm/bridge: analogix_dp: Support to get &analogix_dp_device.plat_data and &analogix_dp_device.aux
-      drm/bridge: analogix_dp: Add support to get panel from the DP AUX bus
-      drm/bridge: analogix_dp: Add support for &drm_dp_aux.wait_hpd_asserted()
-      drm/rockchip: analogix_dp: Add support to get panel from the DP AUX bus
-      dt-bindings: display: rockchip: analogix-dp: Add support for RK3588
-      drm/bridge: analogix_dp: Add support for RK3588
-      drm/rockchip: analogix_dp: Add support for RK3588
-
-Dan Carpenter (1):
-      drm/udl: Set error code in udl_init()
-
-Dmitry Baryshkov (9):
-      drm/display: hdmi: provide central data authority for ACR params
-      drm/bridge: select DRM_KMS_HELPER for AUX_BRIDGE
-      drm/bridge: analogix_dp: drop extra calls to analogix_dp_prepare_panel()
-      drm/bridge: analogix_dp: drop unused argument to analogix_dp_prepare_panel()
-      drm/bridge: analogic_dp: drop panel_is_modeset
-      drm/bridge: analogic_dp: drop panel_lock
-      drm/bridge: analogix_dp: inline analogix_dp_prepare_panel()
-      drm/bridge: analogix_dp: ignore return values of drm_panel_* calls
-      drm/panel: make prepare/enable and disable/unprepare calls return void
-
-Egor Vorontsov (2):
-      drm/edid: Implement DisplayID Type IX & X timing blocks parsing
-      drm/edid: Refactor DisplayID timing block structs
-
-Gustavo A. R. Silva (3):
-      drm/nouveau: disp: Use __member_size() helper
-      drm/nouveau: outp: Use __member_size() helper
-      drm/nouveau: chan: Avoid -Wflex-array-member-not-at-end warnings
-
-Hector Martin (1):
-      lib/vsprintf: Add support for generic FourCCs by extending %p4cc
-
-Jocelyn Falempe (2):
-      mm/kmap: Add kmap_local_page_try_from_panic()
-      drm/panic: Add support to scanout buffer as array of pages
-
-Jose Maria Casanova Crespo (2):
-      drm/v3d: fix client obtained from axi_ids on V3D 4.1
-      drm/v3d: client ranges from axi_ids are different with V3D 7.1
-
-Karol Wachowski (1):
-      accel/ivpu: Implement heartbeat-based TDR mechanism
-
-Konstantin Shabanov (1):
-      drm/rockchip: vop: Consistently use rk3399 registers consts
-
-Kuninori Morimoto (1):
-      drm: xlnx: zynqmp_dpsub: use snd_soc_dummy_dlc
-
-Lizhi Hou (1):
-      accel/amdxdna: Fix incorrect size of ERT_START_NPU commands
-
-Luca Ceresoli (17):
-      dt-bindings: display: simple: Add Tianma P0700WXF1MBAA panel
-      drm/panel: simple: Tianma TM070JDHG34-00: add delays
-      drm/panel: simple: add Tianma P0700WXF1MBAA panel
-      platform: arm64: acer-aspire1-ec: convert to devm_drm_bridge_alloc() API
-      drm/bridge: analogix-anx6345: convert to devm_drm_bridge_alloc() API
-      drm/bridge: display-connector: convert to devm_drm_bridge_alloc() API
-      drm/bridge: lt9611uxc: convert to devm_drm_bridge_alloc() API
-      drm/bridge: dw-hdmi: convert to devm_drm_bridge_alloc() API
-      drm/bridge: tda998x: convert to devm_drm_bridge_alloc() API
-      drm/bridge: ti-sn65dsi86: convert to devm_drm_bridge_alloc() API
-      drm/exynos: mic: convert to devm_drm_bridge_alloc() API
-      drm/mcde: convert to devm_drm_bridge_alloc() API
-      drm/msm/dp: convert to devm_drm_bridge_alloc() API
-      drm/msm/dsi: convert to devm_drm_bridge_alloc() API
-      drm/msm/hdmi: convert to devm_drm_bridge_alloc() API
-      drm/vc4: convert to devm_drm_bridge_alloc() API
-      drm/bridge: imx8*-ldb: convert to devm_drm_bridge_alloc() API
-
-Lucas Stach (1):
-      drm/rockchip: vop: remove redundant condition check
-
-Marcus Folkesson (3):
-      dt-bindings: display: Add Sitronix ST7571 LCD Controller
-      drm/st7571-i2c: add support for Sitronix ST7571 LCD controller
-      MAINTAINERS: add entry for Sitronix ST7571 LCD Controller
-
-Matt Coster (12):
-      dt-bindings: gpu: img: Future-proofing enhancements
-      dt-bindings: gpu: img: Add BXS-4-64 devicetree bindings
-      drm/imagination: Use new generic compatible string
-      drm/imagination: Add power domain control
-      drm/imagination: Remove firmware enable_reg
-      drm/imagination: Rename event_mask -> status_mask
-      drm/imagination: Make has_fixed_data_addr a value
-      drm/imagination: Use a lookup table for fw defs
-      drm/imagination: Use callbacks for fw irq handling
-      drm/imagination: Move ELF fw utils to common file
-      drm/imagination: Use cached memory with dma_coherent
-      drm/imagination: Add support for TI AM68 GPU
-
-Michal Wilczynski (2):
-      dt-bindings: gpu: Add 'resets' property for GPU initialization
-      drm/imagination: Add reset controller support for GPU initialization
-
-Miguel Ojeda (1):
-      drm/panic: use `///` for private items too
-
-Nathan Chancellor (2):
-      drm/sysfb: efidrm: Avoid clang -Wsometimes-uninitialized in efidrm_device_create()
-      drm/panel: himax-hx8279: Always initialize goa_{even,odd}_valid in hx8279_check_goa_config()
-
-Philippe Simons (3):
-      drm/panfrost: Add PM runtime flag
-      drm/panfrost: add h616 compatible string
-      drm/panfrost: reorder pd/clk/rst sequence
-
-Rob Herring (Arm) (1):
-      dt-bindings: display: rockchip,vop: Drop assigned-clocks
-
-Ryosuke Yasuoka (1):
-      drm/virtio: Support drm_panic with non-vmapped shmem BO
-
-Sarah Walker (1):
-      drm/imagination: Add RISC-V firmware processor support
-
-Suraj Kandpal (2):
-      drm/dp: Add smooth brightness register bit definition
-      drm/i915/backlight: Modify condition to use panel luminance
-
-Tejas Vipin (3):
-      drm/panel: boe-bf060y8m-aj0: transition to mipi_dsi wrapped functions
-      drm/panel: panel-samsung-sofef00: transition to mipi_dsi wrapped functions
-      drm/mipi-dsi: Remove mipi_dsi_dcs_write_seq
-
-Thomas Zimmermann (25):
-      drm: Mark CONFIG_DRM_HEADER_TEST as BROKEN
-      accel/ivpu: Test for imported buffers with drm_gem_is_imported()
-      accel/qaic: Test for imported buffers with drm_gem_is_imported()
-      drm/sysfb: Split source file
-      drm/sysfb: Share helpers for integer validation
-      drm/sysfb: Share helpers for screen_info validation
-      drm/udl: Remove unused field dev from struct udl_device
-      drm/udl: Remove unused field gem_lock from struct udl_device
-      drm/udl: Improve type safety when using struct udl_device
-      drm/udl: The number of pixels is always positive
-      drm/udl: Handle errors from usb_get_descriptor()
-      drm/udl: Return error if vendor descriptor is too short
-      drm/udl: Treat vendor descriptor as u8
-      drm/udl: Validate length in vendor-descriptor parser
-      drm/udl: Support adapters without firmware descriptor
-      drm/etnaviv: Test for imported buffers with drm_gem_is_imported()
-      drm/etnaviv: Use dma_buf from GEM object instance
-      drm/msm: Test for imported buffers with drm_gem_is_imported()
-      drm/panfrost: Test for imported buffers with drm_gem_is_imported()
-      drm/panthor: Test for imported buffers with drm_gem_is_imported()
-      drm/vmwgfx: Test for imported buffers with drm_gem_is_imported()
-      drm/vmwgfx: Use dma_buf from GEM object instance
-      Merge drm/drm-next into drm-misc-next
-      drm/virtio: Test for imported buffers with drm_gem_is_imported()
-      drm/virtio: Use dma_buf from GEM object instance
-
-Zhang Enpei (1):
-      gpu: drm: xlnx: zynqmp_dp: Use dev_err_probe()
-
- Documentation/core-api/printk-formats.rst          |   32 +
- .../bindings/display/panel/himax,hx8279.yaml       |   75 ++
- .../bindings/display/panel/panel-simple.yaml       |    4 +
- .../display/panel/visionox,g2647fb105.yaml         |   79 ++
- .../display/rockchip/rockchip,analogix-dp.yaml     |   25 +-
- .../bindings/display/rockchip/rockchip-vop.yaml    |    6 -
- .../bindings/display/sitronix,st7571.yaml          |   73 ++
- .../devicetree/bindings/gpu/img,powervr-rogue.yaml |   82 +-
- .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
- MAINTAINERS                                        |    6 +
- drivers/accel/amdxdna/aie2_message.c               |    6 +-
- drivers/accel/amdxdna/aie2_msg_priv.h              |   10 +-
- drivers/accel/ivpu/ivpu_drv.c                      |    4 +
- drivers/accel/ivpu/ivpu_drv.h                      |    1 +
- drivers/accel/ivpu/ivpu_fw.h                       |    1 +
- drivers/accel/ivpu/ivpu_gem.c                      |    6 +-
- drivers/accel/ivpu/ivpu_pm.c                       |   20 +
- drivers/accel/qaic/qaic_data.c                     |    8 +-
- drivers/gpu/drm/Kconfig.debug                      |    2 +-
- drivers/gpu/drm/bridge/Kconfig                     |    1 +
- drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |    8 +-
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  192 +--
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.h |    3 -
- drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c  |   52 +
- drivers/gpu/drm/bridge/analogix/anx7625.c          |    9 +-
- drivers/gpu/drm/bridge/display-connector.c         |    8 +-
- drivers/gpu/drm/bridge/imx/imx-ldb-helper.c        |    4 +-
- drivers/gpu/drm/bridge/imx/imx-ldb-helper.h        |    3 +-
- drivers/gpu/drm/bridge/imx/imx8qm-ldb.c            |   32 +-
- drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c           |   20 +-
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c         |   13 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |   11 +-
- drivers/gpu/drm/bridge/tda998x_drv.c               |    7 +-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c              |    7 +-
- drivers/gpu/drm/display/drm_hdmi_helper.c          |  168 +++
- drivers/gpu/drm/drm_displayid_internal.h           |   31 +-
- drivers/gpu/drm/drm_edid.c                         |   91 +-
- drivers/gpu/drm/drm_panel.c                        |   54 +-
- drivers/gpu/drm/drm_panic.c                        |  144 ++-
- drivers/gpu/drm/drm_panic_qr.rs                    |   29 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c        |    8 +-
- drivers/gpu/drm/exynos/exynos_drm_mic.c            |    7 +-
- drivers/gpu/drm/hisilicon/hibmc/Makefile           |    3 +-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c        |   16 +-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h       |   10 +-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h     |    2 +
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c         |   91 +-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h         |   36 +
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c       |   90 +-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h        |  150 ++-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c     |   71 ++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c    |  104 ++
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c     |   74 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |   85 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h    |   12 +
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c   |    3 +
- .../gpu/drm/i915/display/intel_dp_aux_backlight.c  |    3 +-
- drivers/gpu/drm/imagination/Makefile               |    2 +
- drivers/gpu/drm/imagination/pvr_device.c           |  147 ++-
- drivers/gpu/drm/imagination/pvr_device.h           |   40 +-
- drivers/gpu/drm/imagination/pvr_drv.c              |   16 +
- drivers/gpu/drm/imagination/pvr_fw.c               |   28 +-
- drivers/gpu/drm/imagination/pvr_fw.h               |   85 +-
- drivers/gpu/drm/imagination/pvr_fw_meta.c          |   23 +-
- drivers/gpu/drm/imagination/pvr_fw_mips.c          |   81 +-
- drivers/gpu/drm/imagination/pvr_fw_riscv.c         |  165 +++
- drivers/gpu/drm/imagination/pvr_fw_startstop.c     |   17 +
- drivers/gpu/drm/imagination/pvr_fw_trace.c         |    8 +-
- drivers/gpu/drm/imagination/pvr_fw_trace.h         |    2 -
- drivers/gpu/drm/imagination/pvr_fw_util.c          |   66 +
- drivers/gpu/drm/imagination/pvr_gem.c              |   10 +-
- drivers/gpu/drm/imagination/pvr_gem.h              |    6 +-
- drivers/gpu/drm/imagination/pvr_mmu.c              |    8 +-
- drivers/gpu/drm/imagination/pvr_power.c            |  136 +-
- drivers/gpu/drm/imagination/pvr_power.h            |    3 +
- drivers/gpu/drm/imagination/pvr_rogue_cr_defs.h    |  153 ++-
- drivers/gpu/drm/imagination/pvr_rogue_riscv.h      |   41 +
- drivers/gpu/drm/mcde/mcde_dsi.c                    |    7 +-
- drivers/gpu/drm/msm/dp/dp_drm.c                    |    9 +-
- drivers/gpu/drm/msm/dsi/dsi_manager.c              |    9 +-
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c             |    9 +-
- drivers/gpu/drm/msm/msm_drv.c                      |    2 +-
- drivers/gpu/drm/msm/msm_gem.c                      |    4 +-
- drivers/gpu/drm/msm/msm_gem.h                      |    2 +-
- drivers/gpu/drm/msm/msm_gem_prime.c                |    4 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c            |    2 +-
- drivers/gpu/drm/nouveau/nouveau_chan.c             |  114 +-
- drivers/gpu/drm/nouveau/nvif/outp.c                |    2 +-
- drivers/gpu/drm/panel/Kconfig                      |   20 +
- drivers/gpu/drm/panel/Makefile                     |    2 +
- drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c     |  102 +-
- drivers/gpu/drm/panel/panel-himax-hx8279.c         | 1296 ++++++++++++++++++++
- drivers/gpu/drm/panel/panel-newvision-nv3051d.c    |    9 +-
- drivers/gpu/drm/panel/panel-samsung-sofef00.c      |  104 +-
- drivers/gpu/drm/panel/panel-simple.c               |   66 +-
- drivers/gpu/drm/panel/panel-visionox-g2647fb105.c  |  280 +++++
- drivers/gpu/drm/panfrost/panfrost_device.c         |   71 +-
- drivers/gpu/drm/panfrost/panfrost_device.h         |    3 +
- drivers/gpu/drm/panfrost/panfrost_drv.c            |    8 +
- drivers/gpu/drm/panfrost/panfrost_gem.c            |    2 +-
- drivers/gpu/drm/panthor/panthor_device.c           |   13 +-
- drivers/gpu/drm/panthor/panthor_device.h           |   13 +-
- drivers/gpu/drm/panthor/panthor_drv.c              |   76 +-
- drivers/gpu/drm/panthor/panthor_fw.c               |   10 +-
- drivers/gpu/drm/panthor/panthor_gem.c              |  222 +++-
- drivers/gpu/drm/panthor/panthor_gem.h              |   86 +-
- drivers/gpu/drm/panthor/panthor_gpu.c              |    2 +
- drivers/gpu/drm/panthor/panthor_heap.c             |    6 +-
- drivers/gpu/drm/panthor/panthor_mmu.c              |   19 +-
- drivers/gpu/drm/panthor/panthor_regs.h             |    4 +-
- drivers/gpu/drm/panthor/panthor_sched.c            |    9 +-
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c       |    9 +
- drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c     |    2 +-
- drivers/gpu/drm/rockchip/Kconfig                   |    1 +
- drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |  103 +-
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |    5 +-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h       |    1 +
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c       |    5 +-
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c        |   94 +-
- drivers/gpu/drm/sysfb/Makefile                     |    4 +
- drivers/gpu/drm/sysfb/drm_sysfb.c                  |   35 +
- drivers/gpu/drm/sysfb/drm_sysfb_helper.h           |   48 +
- .../{drm_sysfb_helper.c => drm_sysfb_modeset.c}    |    4 -
- drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c      |  107 ++
- drivers/gpu/drm/sysfb/efidrm.c                     |  130 +-
- drivers/gpu/drm/sysfb/ofdrm.c                      |   12 +-
- drivers/gpu/drm/sysfb/simpledrm.c                  |   14 +-
- drivers/gpu/drm/sysfb/vesadrm.c                    |  126 +-
- drivers/gpu/drm/tiny/Kconfig                       |   12 +
- drivers/gpu/drm/tiny/Makefile                      |    1 +
- drivers/gpu/drm/tiny/appletbdrm.c                  |    4 +-
- drivers/gpu/drm/tiny/st7571-i2c.c                  | 1002 +++++++++++++++
- drivers/gpu/drm/udl/udl_drv.c                      |    6 +-
- drivers/gpu/drm/udl/udl_drv.h                      |   19 +-
- drivers/gpu/drm/udl/udl_main.c                     |  175 +--
- drivers/gpu/drm/udl/udl_modeset.c                  |   21 +-
- drivers/gpu/drm/udl/udl_transfer.c                 |    6 +-
- drivers/gpu/drm/v3d/v3d_irq.c                      |   60 +-
- drivers/gpu/drm/vc4/vc4_dsi.c                      |   34 +-
- drivers/gpu/drm/virtio/virtgpu_plane.c             |   20 +-
- drivers/gpu/drm/virtio/virtgpu_prime.c             |    7 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_blit.c               |    4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                |   12 +-
- drivers/gpu/drm/xlnx/zynqmp_dp.c                   |    6 +-
- drivers/gpu/drm/xlnx/zynqmp_dp_audio.c             |    5 +-
- drivers/platform/arm64/acer-aspire1-ec.c           |    7 +-
- include/drm/bridge/analogix_dp.h                   |    7 +-
- include/drm/display/drm_dp.h                       |    1 +
- include/drm/display/drm_hdmi_helper.h              |    6 +
- include/drm/drm_mipi_dsi.h                         |   22 -
- include/drm/drm_panel.h                            |    8 +-
- include/drm/drm_panic.h                            |   12 +-
- include/linux/highmem-internal.h                   |   13 +
- include/uapi/drm/panthor_drm.h                     |   23 +
- lib/tests/printf_kunit.c                           |   39 +-
- lib/vsprintf.c                                     |   35 +-
- scripts/checkpatch.pl                              |    2 +-
- 157 files changed, 6560 insertions(+), 1427 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/panel/himax,hx8279.yaml
- create mode 100644 Documentation/devicetree/bindings/display/panel/visionox,g2647fb105.yaml
- create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7571.yaml
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_riscv.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_util.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_riscv.h
- create mode 100644 drivers/gpu/drm/panel/panel-himax-hx8279.c
- create mode 100644 drivers/gpu/drm/panel/panel-visionox-g2647fb105.c
- create mode 100644 drivers/gpu/drm/sysfb/drm_sysfb.c
- rename drivers/gpu/drm/sysfb/{drm_sysfb_helper.c => drm_sysfb_modeset.c} (98%)
- create mode 100644 drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c
- create mode 100644 drivers/gpu/drm/tiny/st7571-i2c.c
+Cheers,
+Alex.
