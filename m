@@ -2,80 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B6C8AA1B7E
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 21:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB57AA1CC4
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 23:18:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3385410E0A9;
-	Tue, 29 Apr 2025 19:49:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51C0010E096;
+	Tue, 29 Apr 2025 21:18:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="wgszniFw";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="b3QffBEW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1F2B10E0A9
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 19:49:22 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-43cf3192d8bso26575e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 12:49:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1745956161; x=1746560961;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TzKOWzU43LrPmkFzN5+2z6l0zJFMgpGF/vX9S5W3V2I=;
- b=wgszniFwgu1InwiUwaNnU7LQiaVQ8eIlQ8Rvr2AEcdRH378LPGbmoVOf7vkiNZ5GQq
- 9vmLMLpEQXR/esUWmWI141gs+P2aZrJQGyrhxYuEe3wBAye+WPYbxamEF2jIS66R7qPC
- bPkjalTJDlbMyThTOtPCofTk88C2ZoN0oF8RwzSRc681Wc2D65oR53Mk2NGvI+mm/d2K
- 10UoXl8CVINA0yt78E103odWe1M+PI1ldR7gesUVSu8PybcL6QFngSGQr/lz7Ey7ft/R
- R0AUTfYTpCA5MiAW6S77/p+XGlpDHttkyKKS7//IzbJbZkk31qC5iWwtsb/VTLnTGdQw
- jKrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745956161; x=1746560961;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TzKOWzU43LrPmkFzN5+2z6l0zJFMgpGF/vX9S5W3V2I=;
- b=CNgOmnqCYhL/06wJG1Mjuqk2iAwC2cy0t1s+QkR5mNbCwE8jroK7APjx6wvBgQE6kv
- 08I5ggftp3E7pE23dCAiN3R1pgDVi4UFQmGwe1Y0P6YUVuFYdB3esSp8Gm/J9hmaGW2p
- /y/DKMtFECq/nFOCYfTaOgPYzGirZRzfGFMToM8tpwMHzBfoJxY3AqDzuntMpnNo4ieM
- mITWzo1OQ7Z9dnv5V2fodsWiep3Al6u2Mw6bhPxAY6KIjcidNaDWKQCwy2N1eW/QccOS
- b1eZq8c97xs6zTgIV1nm9nnDevmVzzHiBuC6aLCOc8hzJGb5i9Vf7/vyc4UUd2ODRQhi
- ryXg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVFpucqa/S4MF+1ya0hnsuGExMR9c6elxqRzj9AQxLBaHX0xmRRhkeilSVeJAnaoddpMXdILnhm8xE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUvgTiM1XdIL7yU63Ab8PQJ6L++yx3G7ILB2AaDxUmlxNe+Jn1
- +KT9A9ZC3yjj7/10R1gAZxKfovVfQ6Lzlf79uIMrptZFb9/3cqqvd2cRh6gD8qL2eaQqJx2tToM
- TWx0Qi4lyHP8GskabIvnwgbe1hamwnY/ZTufb
-X-Gm-Gg: ASbGncvfRLOx0VYugYsihJTFp6RHzvH+sRRk75dJ5q9Lp9MkDqCiCulrUv/iX+2P5Db
- k8Y/F0Y+uunaIbbuzK6zS2ilfI89I77Ml1xjmJpxXMlR5WzC7Af35jJSaHpjIp121vr7MKCQb0X
- d2UD4+KCkzJGq/jIvqsWb399EiIvhiZz0axFbyeIiS+1Ub9/Uwng==
-X-Google-Smtp-Source: AGHT+IHWvQ/UxjzUUwRECNcfgu+uE4CxuQo4Yg/huZ0f0f8fGXRQAw3hQFkIdxjr0XHLMAHxPwRY62fHbX9JtKGOg54=
-X-Received: by 2002:a05:600c:63cb:b0:43d:5b3a:18cc with SMTP id
- 5b1f17b1804b1-441b200a129mr152725e9.2.1745956161141; Tue, 29 Apr 2025
- 12:49:21 -0700 (PDT)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F3610E0CF
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 09:28:02 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9DE5D43AD6;
+ Tue, 29 Apr 2025 09:27:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1745918880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kdpP6+IZV0QYmrFxTy58B29gyyja9aTG1LwyoYVwA54=;
+ b=b3QffBEWXOkepRbRJBAxG56ebIFGpWNAlbC+KLQo0RM4CJOdHofw9LcRaXOlQzjEbdB3RX
+ Z+03iDitY3AAR93mhf5d6WLE4XuT3QGY7QachEbLrEI4kcECt5/wn0GKM7h1OqhW4SjOpz
+ HOTdVe7S/cZE605Z0+HeFU5eI+Z3o6g8ShHK76B/FqbRAkibTMzruH5CF/IoUuGm4GYVXs
+ sFtz6X9pJP9Yj6BYgD109FXC4ES1/uz4pLgGybsGQHMDOgyJx5zG6q/WG2yh6+/TQM4XDc
+ hqGRyOgKhSdGaqn9GMqCPbl95bREdu4X3Ttbed9zcOzDQJjjJUJriSfQHcCMEg==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Douglas Anderson <dianders@chromium.org>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
+ Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
+ Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Christoph Fritz <chf.fritz@googlemail.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Detlev Casanova <detlev.casanova@collabora.com>, 
+ Dharma Balasubiramani <dharma.b@microchip.com>, 
+ Guenter Roeck <groeck@chromium.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>, 
+ Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Liu Ying <victor.liu@nxp.com>, 
+ Manikandan Muralidharan <manikandan.m@microchip.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Phong LE <ple@baylibre.com>, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Sugar Zhang <sugar.zhang@rock-chips.com>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Vitalii Mordan <mordan@ispras.ru>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ "Rob Herring (Arm)" <robh@kernel.org>, 
+ Hsin-Te Yuan <yuanhsinte@chromium.org>, 
+ Pin-yen Lin <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>, 
+ Aradhya Bhatia <a-bhatia1@ti.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@ge.com>, 
+ Martyn Welch <martyn.welch@collabora.co.uk>, 
+ Peter Senna Tschudin <peter.senna@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Bjorn Andersson <quic_bjorande@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Helge Deller <deller@gmx.de>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Michal Simek <michal.simek@amd.com>
+In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+Subject: Re: (subset) [PATCH v2 00/34] drm: convert all bridges to
+ devm_drm_bridge_alloc()
+Message-Id: <174591887152.961603.7706063017853945511.b4-ty@bootlin.com>
+Date: Tue, 29 Apr 2025 11:27:51 +0200
 MIME-Version: 1.0
-References: <20250417180943.1559755-1-tjmercier@google.com>
- <a4f72149-70a0-4bbe-bdcc-70384c152f83@amd.com>
- <CABdmKX2-innZC65Fut6wc2MFUNwO2g6w=_iLv9EBkDn+6LQs5w@mail.gmail.com>
-In-Reply-To: <CABdmKX2-innZC65Fut6wc2MFUNwO2g6w=_iLv9EBkDn+6LQs5w@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 29 Apr 2025 12:49:09 -0700
-X-Gm-Features: ATxdqUHw3CpDYUbqlneqXa6xD7zi73EGyL_HFvk88E824RQ0483hIO9wIhSzBDw
-Message-ID: <CABdmKX0pjGn85CLFgwauBop8i=WThnpUNkDfFhV3hMe19dDuyA@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: system_heap: No separate allocation for
- attachment sg_tables
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieefgeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevjghfuffkffggtgfgofesthejredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeejheeiledvkeeigeeluddtleejvdfhleefleffffeitdetvdeltddttddtgfelteenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgdujedvrddukedrtddrudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddutddprhgtphhtthhopehmrghtthhhihgrshdrsghgghesghhmrghilhdrtghomhdprhgtphhtthhopehjsghruhhnvghtsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopehfnhhklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepphdriigrsggvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtp
+ hhtthhopeguvghllhgvrhesghhmgidruggvpdhrtghpthhtoheprhhgrghllhgrihhsphhouhesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-GND-Sasl: louis.chauvet@bootlin.com
+X-Mailman-Approved-At: Tue, 29 Apr 2025 21:18:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,174 +148,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 22, 2025 at 9:17=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
- wrote:
->
-> On Tue, Apr 22, 2025 at 1:24=E2=80=AFAM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
-> >
-> > Am 17.04.25 um 20:09 schrieb T.J. Mercier:
-> > > struct dma_heap_attachment is a separate allocation from the struct
-> > > sg_table it contains, but there is no reason for this. Let's use the
-> > > slab allocator just once instead of twice for dma_heap_attachment.
-> > >
-> > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> >
-> > I'm not *that* expert for this code, but looks totally reasonable to me=
-.
->
-> I noticed this while reviewing Maxime Ripard's recent carveout heap
-> patches, where I was confused about sg_free_table() until I realized
-> it doesn't free the underlying allocation. Then I started looking at
-> other heaps and found that most of them do it this way (including the
-> cma heap), and figured it was a nice cleanup here.
->
-> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >
-> > Let me know if I should push that to drm-misc-next.
-> >
-> > Regards,
-> > Christian.
->
-> Thanks, yes please!
 
-Hi Christian, could you push this please? I don't have write permissions.
+On Thu, 24 Apr 2025 20:59:07 +0200, Luca Ceresoli wrote:
+> devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
+> bridge, and the only one supported from now on. It is also necessary for
+> implementing reference counting and thus needed to support removal of
+> bridges from a still existing DRM pipeline without use-after-free.
+> 
+> This series converts all DRM bridges to the new API.
+> 
+> [...]
 
-Thanks,
-T.J.
+Applied, thanks!
 
->
->
->
-> > > ---
-> > >  drivers/dma-buf/heaps/system_heap.c | 43 ++++++++++++---------------=
---
-> > >  1 file changed, 17 insertions(+), 26 deletions(-)
-> > >
-> > > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/he=
-aps/system_heap.c
-> > > index 26d5dc89ea16..bee10c400cf0 100644
-> > > --- a/drivers/dma-buf/heaps/system_heap.c
-> > > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > > @@ -35,7 +35,7 @@ struct system_heap_buffer {
-> > >
-> > >  struct dma_heap_attachment {
-> > >       struct device *dev;
-> > > -     struct sg_table *table;
-> > > +     struct sg_table table;
-> > >       struct list_head list;
-> > >       bool mapped;
-> > >  };
-> > > @@ -54,29 +54,22 @@ static gfp_t order_flags[] =3D {HIGH_ORDER_GFP, H=
-IGH_ORDER_GFP, LOW_ORDER_GFP};
-> > >  static const unsigned int orders[] =3D {8, 4, 0};
-> > >  #define NUM_ORDERS ARRAY_SIZE(orders)
-> > >
-> > > -static struct sg_table *dup_sg_table(struct sg_table *table)
-> > > +static int dup_sg_table(struct sg_table *from, struct sg_table *to)
-> > >  {
-> > > -     struct sg_table *new_table;
-> > > -     int ret, i;
-> > >       struct scatterlist *sg, *new_sg;
-> > > +     int ret, i;
-> > >
-> > > -     new_table =3D kzalloc(sizeof(*new_table), GFP_KERNEL);
-> > > -     if (!new_table)
-> > > -             return ERR_PTR(-ENOMEM);
-> > > -
-> > > -     ret =3D sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL=
-);
-> > > -     if (ret) {
-> > > -             kfree(new_table);
-> > > -             return ERR_PTR(-ENOMEM);
-> > > -     }
-> > > +     ret =3D sg_alloc_table(to, from->orig_nents, GFP_KERNEL);
-> > > +     if (ret)
-> > > +             return ret;
-> > >
-> > > -     new_sg =3D new_table->sgl;
-> > > -     for_each_sgtable_sg(table, sg, i) {
-> > > +     new_sg =3D to->sgl;
-> > > +     for_each_sgtable_sg(from, sg, i) {
-> > >               sg_set_page(new_sg, sg_page(sg), sg->length, sg->offset=
-);
-> > >               new_sg =3D sg_next(new_sg);
-> > >       }
-> > >
-> > > -     return new_table;
-> > > +     return 0;
-> > >  }
-> > >
-> > >  static int system_heap_attach(struct dma_buf *dmabuf,
-> > > @@ -84,19 +77,18 @@ static int system_heap_attach(struct dma_buf *dma=
-buf,
-> > >  {
-> > >       struct system_heap_buffer *buffer =3D dmabuf->priv;
-> > >       struct dma_heap_attachment *a;
-> > > -     struct sg_table *table;
-> > > +     int ret;
-> > >
-> > >       a =3D kzalloc(sizeof(*a), GFP_KERNEL);
-> > >       if (!a)
-> > >               return -ENOMEM;
-> > >
-> > > -     table =3D dup_sg_table(&buffer->sg_table);
-> > > -     if (IS_ERR(table)) {
-> > > +     ret =3D dup_sg_table(&buffer->sg_table, &a->table);
-> > > +     if (ret) {
-> > >               kfree(a);
-> > > -             return -ENOMEM;
-> > > +             return ret;
-> > >       }
-> > >
-> > > -     a->table =3D table;
-> > >       a->dev =3D attachment->dev;
-> > >       INIT_LIST_HEAD(&a->list);
-> > >       a->mapped =3D false;
-> > > @@ -120,8 +112,7 @@ static void system_heap_detach(struct dma_buf *dm=
-abuf,
-> > >       list_del(&a->list);
-> > >       mutex_unlock(&buffer->lock);
-> > >
-> > > -     sg_free_table(a->table);
-> > > -     kfree(a->table);
-> > > +     sg_free_table(&a->table);
-> > >       kfree(a);
-> > >  }
-> > >
-> > > @@ -129,7 +120,7 @@ static struct sg_table *system_heap_map_dma_buf(s=
-truct dma_buf_attachment *attac
-> > >                                               enum dma_data_direction=
- direction)
-> > >  {
-> > >       struct dma_heap_attachment *a =3D attachment->priv;
-> > > -     struct sg_table *table =3D a->table;
-> > > +     struct sg_table *table =3D &a->table;
-> > >       int ret;
-> > >
-> > >       ret =3D dma_map_sgtable(attachment->dev, table, direction, 0);
-> > > @@ -164,7 +155,7 @@ static int system_heap_dma_buf_begin_cpu_access(s=
-truct dma_buf *dmabuf,
-> > >       list_for_each_entry(a, &buffer->attachments, list) {
-> > >               if (!a->mapped)
-> > >                       continue;
-> > > -             dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
-> > > +             dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-> > >       }
-> > >       mutex_unlock(&buffer->lock);
-> > >
-> > > @@ -185,7 +176,7 @@ static int system_heap_dma_buf_end_cpu_access(str=
-uct dma_buf *dmabuf,
-> > >       list_for_each_entry(a, &buffer->attachments, list) {
-> > >               if (!a->mapped)
-> > >                       continue;
-> > > -             dma_sync_sgtable_for_device(a->dev, a->table, direction=
-);
-> > > +             dma_sync_sgtable_for_device(a->dev, &a->table, directio=
-n);
-> > >       }
-> > >       mutex_unlock(&buffer->lock);
-> > >
-> > >
-> > > base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
-> >
+[02/34] platform: arm64: acer-aspire1-ec: convert to devm_drm_bridge_alloc() API
+        commit: 411465d35bc56877c33e2498ac697acfcf484e6b
+[03/34] drm/bridge: analogix-anx6345: convert to devm_drm_bridge_alloc() API
+        commit: 53ddeb25159781b029fda404226af600e76f975f
+[06/34] drm/bridge: display-connector: convert to devm_drm_bridge_alloc() API
+        commit: 4e90a3d96a6185e143041273f9867a1092dd4a71
+[07/34] drm/bridge: lt9611uxc: convert to devm_drm_bridge_alloc() API
+        commit: 6287ffd9eff6eea65865e64b9d4c45e115fa5ecf
+[11/34] drm/bridge: dw-hdmi: convert to devm_drm_bridge_alloc() API
+        commit: ed6987b674185873ebed7a619a646da6dd1a78fa
+[12/34] drm/bridge: tda998x: convert to devm_drm_bridge_alloc() API
+        commit: 7fe58bf1a9a24b533875c262a3222581a3f759e4
+[13/34] drm/bridge: ti-sn65dsi86: convert to devm_drm_bridge_alloc() API
+        commit: a4754ae9cfa76fbce79f023c268a5bac56f36321
+[14/34] drm/exynos: mic: convert to devm_drm_bridge_alloc() API
+        commit: 91c5c7b5bb2dd09b43b025bce6d790d3c79f4518
+[15/34] drm/mcde: convert to devm_drm_bridge_alloc() API
+        commit: 40c25b9ec641f43ba17c7b788ac16ec23f8daaa8
+[16/34] drm/msm/dp: convert to devm_drm_bridge_alloc() API
+        commit: b2aabe5c6b65516d88214aba4b12ce2ca78bac6c
+[17/34] drm/msm/dsi: convert to devm_drm_bridge_alloc() API
+        commit: fffc8847743e45604c4478f554d628481b985556
+[18/34] drm/msm/hdmi: convert to devm_drm_bridge_alloc() API
+        commit: e11532be87e437648521a8ed5358c56df11933b4
+[27/34] drm/vc4: convert to devm_drm_bridge_alloc() API
+        commit: 9545c91ed75ff65e114761a7729de0e1b440aec6
+[31/34] drm/bridge: imx8*-ldb: convert to devm_drm_bridge_alloc() API
+        commit: e74b84cd83962e357329a695ba348b3dfe37395c
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
+
