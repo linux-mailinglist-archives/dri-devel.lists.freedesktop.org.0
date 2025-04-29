@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E73AA1C3E
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 22:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EFEAA1C94
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 23:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A158010E05C;
-	Tue, 29 Apr 2025 20:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C3D810E08F;
+	Tue, 29 Apr 2025 21:00:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Mbw8XXqN";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="aWaj4RCV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC5DB10E05C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 20:34:48 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-301e05b90caso7158558a91.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 13:34:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1745958887; x=1746563687;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Y2BGR8r3hxAteDuDzrcwyL9kGTNOc27jjGhVFTFnJ6M=;
- b=Mbw8XXqNlcUmVeVHcozMNPQdyU6zTzy6J6TQmtoBFuR6tttqyorBsA8QFlB0WfUSXA
- wp98nMBh1d+eSWd6NgpcS4hsDCZWMVtvWA0ddEDZNo/HpZG7ZdFAt8H8u+xROngxgkzF
- ee7CEuk5hnOs5AU2v0RStSlJ2QHol8qsOkBOc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745958887; x=1746563687;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Y2BGR8r3hxAteDuDzrcwyL9kGTNOc27jjGhVFTFnJ6M=;
- b=GGgThf8zz2I6rgG7POzQip6kh6sUxAoK6Y1H9B1pqIaHaXtDe1bnSgLQpdJmFvspw+
- 14IOHlEqpyocUN79sYdQkOtgA1RCXPHO1yDDJ7cXWyunOnDs++2CSDWv0hDagZK/E3DG
- /j+UxmnqNN4R/x4hIGRbrvET5BS1OtMmJa1KMlQtcLTLJXvVAMaedqTiUpgswkR80aGD
- JQOEzEbgFCp2928IQQ1WNGNTDnCMgbAhqCrRR8Q1HP6fHpXfJn/aUhie1CjqH6KkEs2r
- v1OKqrklV6tIsgsprcWkyBeOCX4bXTbRMzW+QxKXwhT2E0J2NEmfjeByCiVf/OEZ5mkb
- EfuQ==
-X-Gm-Message-State: AOJu0Ywe4lsclsF69JVgnX3GATydwuVpb8Dp+bGKrYwHIPytq3jyrzzJ
- 9CUhCzJDvfZj7MKBMbdVu+HWMZAxCf93e0iXHaIywHQV8RqzhjgQw5GiSm6HPsa7GUS1ewv8hUR
- VukcJHy7ahViOtWzPJ3n4oZTpZ/YKjgdAH326M5PFE614/x323wOx5iFexHqW82ExxgPznJLYn/
- BqMjAVO5F+6zlZhHEsS7MA+yAi9jy4gS6Zbo2pAMIU8Zpo9Bys7A==
-X-Gm-Gg: ASbGnctjAk33WJMxE5d7vQ4TW5w3ckRb0xM3GxMzXDBekQv9MsCVOmBm2wNqAHm5TRn
- 1F1U6CYBX7dOBu2ZvcNtmpFj6HOm8i7KCnWiCkB389PQX2zaPWbqQ+6CFE9nBPIwFozkFj/KUa/
- XTg+KXeE/zwNtm5KWygrKq4XlqDkE/bThGU+dIkjjitlYQZufTa44veKE+uMz7+a2wUBA3msAZW
- VVHgtl90Fxe6yujCVoK2Arotw01kDYUNbzbg1tWpyLSelHbl9IsR35mVBU2OkEmneQRBVLEiaya
- nto56sVwPIuiDUcJxciouQXERFvamuloRf0HOElPs5ddjdUwmfICXEGP7O71u2jWSwj4rHlWnyW
- GIOh1kttxGw==
-X-Google-Smtp-Source: AGHT+IHlabKtHOP3U9f6RCoJIer621nmA/JMTJNfoB1aOlGDby6qMDzRPIk2O2kPw/fapLeuAflxRw==
-X-Received: by 2002:a17:90b:5868:b0:2f5:88bb:12f with SMTP id
- 98e67ed59e1d1-30a34422574mr91386a91.21.1745958887203; 
- Tue, 29 Apr 2025 13:34:47 -0700 (PDT)
-Received: from plasma.dhcp.broadcom.net ([192.19.144.250])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b15f76f4219sm9381339a12.6.2025.04.29.13.34.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Apr 2025 13:34:46 -0700 (PDT)
-From: Ian Forbes <ian.forbes@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
- Ian Forbes <ian.forbes@broadcom.com>
-Subject: [PATCH] drm/vmwgfx: Fix Host-Backed userspace on Guest-Backed kernel
-Date: Tue, 29 Apr 2025 15:34:27 -0500
-Message-ID: <20250429203427.1742331-1-ian.forbes@broadcom.com>
-X-Mailer: git-send-email 2.49.0
+Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr
+ [80.12.242.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5AB210E08F
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 21:00:14 +0000 (UTC)
+Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id 9s3FuK4cRBfs49s3IuBIq6; Tue, 29 Apr 2025 22:59:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1745960385;
+ bh=+TozBWijXodrVUon6QJfDncNinfpv/1bQpJAQR3zwHk=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=aWaj4RCVHvwG0spz2veNVZYCrnM6nLNlGyfl8IqfdPa1TCsIeGu92xkP3nKUnmZQB
+ iE1ph39mdxBnpKYPgISulUUnSjatciPB0VOhhu3UNseGODeeaScNQyfQeUfXr6H9Ab
+ FdBUB3/lGF1wyxzCqhKt3KXO3s2C/t2kf/FAGdvsKF0loerODbMjXLxJDboeF7CeM7
+ yKqywcqMZ4qhiiMNCQCA0fagB9UG2+pxtuf271dJ9FEsnogOhvQeSw5TtBXDmtzSro
+ lSt2giOKSgCeWaTRAZW5BfagcjN7hoXWIgzEGRlyQQQWxpmR1h/9qZZxNtrhxooW0+
+ T7s3gEoxwIQrQ==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Tue, 29 Apr 2025 22:59:45 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <d5a8e781-6936-4c83-83d1-92daa2da8ca2@wanadoo.fr>
+Date: Tue, 29 Apr 2025 23:00:01 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/meson: Cast mode->clock to unsigned long long
+To: I Hsin Cheng <richard120310@gmail.com>, neil.armstrong@linaro.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+References: <20250429190724.330883-1-richard120310@gmail.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20250429190724.330883-1-richard120310@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,32 +65,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Running 3D applications with SVGA_FORCE_HOST_BACKED=1 or using an
-ancient version of mesa was broken because the buffer was pinned in
-VMW_BO_DOMAIN_SYS and could not be moved to VMW_BO_DOMAIN_MOB during
-validation.
+Le 29/04/2025 à 21:07, I Hsin Cheng a écrit :
+> Coverity scan reported the usage of "mode->clock * 1000" may lead to
+> integer overflow. Cast the type of "mode->clock" to "unsigned long long"
+> when utilizing it to avoid potential integer overflow issue.
+> 
+> Link: https://scan5.scan.coverity.com/#/project-view/10074/10063?selectedIssue=1646759
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> ---
+>   drivers/gpu/drm/meson/meson_encoder_hdmi.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+> index 7752d8ac85f0..fe3d3ff7c432 100644
+> --- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+> +++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+> @@ -75,7 +75,7 @@ static void meson_encoder_hdmi_set_vclk(struct meson_encoder_hdmi *encoder_hdmi,
+>   	unsigned long long venc_freq;
+>   	unsigned long long hdmi_freq;
+>   
+> -	vclk_freq = mode->clock * 1000;
+> +	vclk_freq = (unsigned long long) mode->clock * 1000;
 
-The compat_shader buffer should not pinned.
+Hi,
 
-Fixes: 668b206601c5 ("drm/vmwgfx: Stop using raw ttm_buffer_object's")
-Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_shader.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+maybe, using 1000ULL instead would do the same, but would be less verbose?
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-index 7fb1c88bcc47..69dfe69ce0f8 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
-@@ -896,7 +896,7 @@ int vmw_compat_shader_add(struct vmw_private *dev_priv,
- 		.busy_domain = VMW_BO_DOMAIN_SYS,
- 		.bo_type = ttm_bo_type_device,
- 		.size = size,
--		.pin = true,
-+		.pin = false,
- 		.keep_resv = true,
- 	};
- 
--- 
-2.49.0
+CJ
+
+>   
+>   	/* For 420, pixel clock is half unlike venc clock */
+>   	if (encoder_hdmi->output_bus_fmt == MEDIA_BUS_FMT_UYYVYY8_0_5X24)
+> @@ -123,7 +123,7 @@ static enum drm_mode_status meson_encoder_hdmi_mode_valid(struct drm_bridge *bri
+>   	struct meson_encoder_hdmi *encoder_hdmi = bridge_to_meson_encoder_hdmi(bridge);
+>   	struct meson_drm *priv = encoder_hdmi->priv;
+>   	bool is_hdmi2_sink = display_info->hdmi.scdc.supported;
+> -	unsigned long long clock = mode->clock * 1000;
+> +	unsigned long long clock = (unsigned long long) mode->clock * 1000;
+>   	unsigned long long phy_freq;
+>   	unsigned long long vclk_freq;
+>   	unsigned long long venc_freq;
 
