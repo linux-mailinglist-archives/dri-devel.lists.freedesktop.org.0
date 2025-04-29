@@ -2,125 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5792DAA0CEC
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 15:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00B59AA0D35
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 15:14:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A37E110E30C;
-	Tue, 29 Apr 2025 13:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3356910E441;
+	Tue, 29 Apr 2025 13:13:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IoMznvEv";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="IFQcD+xC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 775C810E30C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 13:08:00 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53TAFTtu020857
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 13:08:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=3iycI3ZTNsOLa0MGqAVtc71f
- WejZqL8jSxO6Snm5fiY=; b=IoMznvEvvdlStb0Rbk11LLtBu7NMG2nowZ2iwo4B
- fSEf08qftmKZKeH+PHWsH34CVZjWvTGK7iytfGpnB984TB2Kukc1An41CckNTid3
- Jzg2sneWcJCzRuujj+2RNmczljMozW0lvIn9wweC9lytef2jsgUp6UfNSaaiEOux
- 60pQeVIFuygGzFVuXwMy+eKzeKmTRy1vHWD+NEXKfxsuy/go2sFHit33kqG8l2bf
- tOaLec4r3VhhVNDl8aGRO2JYpKF6K9YfgGPUq4PbAwOccwrejy40BnFLnnezIE7Y
- 1g8ZnCuy0Qu89+QTHu+pMU5XvEHn/GkfQOGkDKk6+0Vzyg==
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468n6jkx71-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 13:07:59 +0000 (GMT)
-Received: by mail-il1-f199.google.com with SMTP id
- e9e14a558f8ab-3d438be189bso31945515ab.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 06:07:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745932079; x=1746536879;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3iycI3ZTNsOLa0MGqAVtc71fWejZqL8jSxO6Snm5fiY=;
- b=beFl/VvCCF0t6Ji5EkoLZve/OLAjyVcgM/pJQ6fpbJ/fxLDi1Lid4VPS4VF7LDP+Uv
- KE4DdhZYFuGzovb+vpO9SLs0VMBeBEelaLyOAaFPD6bkIu5W9FbN+g/vMnik+nF9zDOM
- OEKUZ2psvjxymFb147FknQZvS14mWjm9qNkI7/2KTXef4UdbXW6cYptya8DLaUbfILgb
- P1t0ISfOrDe3Cvi8hX2iHNKj3M1eXsz1L0PD31o4dTUM/BMIsAMqG4k4BLKheiV3uPy9
- ZAzL2RZkD/GalZkPGAcvJQTez8ngkwkX5W21ib1ywwl7isbZSAM/lcYsi2zfageQr4Dh
- ND8Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXSNeGZ4qH04mAOEIlfJUDprXse4KKZwopdwnHHuk/M9ZNXQQI7nrZYEXSRRUDTwwLZGtq4JgwYl08=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzM5C9xJGDyh6mY5clR1H29sORt3plZhTO1Gh9cOnEeAi+vvfb8
- JCZO13Q3eSaUCY7jMLa0DiujfeSQqj0VOmYfpBjlJFU2yRmbIH7a+pYiCJoLAyv7F2ivsXXRqCm
- 35W+hA+oNaGlb8sN7hxR4402q3dx8NxYOesBeVwtQ7joLv/MQHCUCl1jGixNiJiM20xk=
-X-Gm-Gg: ASbGnctYHmLBHVvXNZNSTUHpfHF/RlzaG0tWNWcDFKN2S4DmwMH+jsGscSnyb7TbqRs
- BEQbO5LW8sLybk0tKB1+4Ml+4aGqxfUlPLC0OPWh/FYhkRL5FFtE82cwNAH7kXoqjdMBfh5isUf
- 4h+7jfJA4V9IqCEeQmHj8AkmkguOuP/xeAPDKVJqPNoaYSTWXjLkBYGcXH/qbeykLHmMAICd1/D
- WCY0d65UnnWG7sL6qGS1uzC912HGzjJ63+Ryp5cHpTsUf3mdCykSqpVdMMEO0CTnO2wNpB2io/T
- 6+HGTcwA3UyvzDxcrWC7a2TvD0F0+RssTp06+kNnNcWbCDGplGCHE1sMCIro0pm0WU598LPgxGI
- =
-X-Received: by 2002:a05:6e02:3d84:b0:3d3:db70:b585 with SMTP id
- e9e14a558f8ab-3d95e037fb5mr29829345ab.21.1745932078932; 
- Tue, 29 Apr 2025 06:07:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFxYKe64KrJHOVGDGU//vPn33RLxakuwv3sE5bOFok85OIRMr67JhLX/wsIASignHrLnq4UpQ==
-X-Received: by 2002:a05:6e02:3d84:b0:3d3:db70:b585 with SMTP id
- e9e14a558f8ab-3d95e037fb5mr29828975ab.21.1745932078596; 
- Tue, 29 Apr 2025 06:07:58 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54e7cca7fbbsm1878954e87.159.2025.04.29.06.07.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Apr 2025 06:07:56 -0700 (PDT)
-Date: Tue, 29 Apr 2025 16:07:53 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
- Dmitry Baryshkov <lumag@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- laurentiu.tudor1@dell.com
-Subject: Re: drm/msm/dp: Introduce link training per-segment for LTTPRs
-Message-ID: <gcy2ka6d57pcyymaqeilwuo224jydudxvfwd47d2ufkoycjydz@7lf2bjbz7kl4>
-References: <20250417021349.148911-1-alex.vinarskis@gmail.com>
- <aA8yFI2Bvm-lFJTl@hovoldconsulting.com>
- <CAMcHhXpmii=Rc9YVeKXaB17mYv0piSFs02K=0r8kWe5tQGk7eA@mail.gmail.com>
- <aA94yOjsayZHNDpx@hovoldconsulting.com>
- <aA+N8YHX0DZ6h9Uj@linaro.org>
- <aBB-gl150GVaZPn5@hovoldconsulting.com>
- <aBCE3wSG2g5pp7jg@linaro.org>
- <aBCH4oo7dbG8ajvP@hovoldconsulting.com>
- <CAMcHhXrDEVrM4fEyMwZ9TDgqgY=s_mTcKZMacCoUuZ2fa8FhWg@mail.gmail.com>
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2048.outbound.protection.outlook.com [40.107.212.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8D3210E0A7;
+ Tue, 29 Apr 2025 13:13:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ueJ4MBj6KCrxtq/cmh7KQTasMYBQhQHxYd9AZjnIs5qkGmw5VHOM/ORtCp0XaYIr4h7vbB7u4P14qyW/OMJWI2uePrqh/aW13JOskdgsSdZsqaH2s0+BruiayanE8B1lojxvHiuNljH4F0DbOMBhmr2O63QCoG7V7rVsBapoOdXqc+/k+XOpYa2BdWBkxuPqHOJKNwQgIIuh5ZFrn+4m3WsCeftIkXEGejbcBeFmVXPXDzRLTQS6NnXyg0uYkTPrlIbV8DtiKRyh6Dhs15PZlNQ6x+2EeqIV0XgBenjr7PfnrFI36BuNQYw4Tqswv9jD0ddMW3JGnkBzuP4ENBuonw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lGWsefombxzvVMmj8h1+ZaOoh2+uxgYZfDinYnwy4J0=;
+ b=g07WjAOrLzlln+cQLH32M/NAqdYYl/CPBgdonGmpb+V0fP6taXD4e4ZpS1G6tSPFuqW16voXvXiczIfdnmIFBpmqaErSvWuwca033yERa62VrPRsvsDBhgX+gr1dg5RHclO+1CCme/daaqpwrIDe0fleBhJ1kKqM24JgO/I/CSuOw08lhxLUik1LazyTUXs78w3Epi/r9SopVs05SU8NwWllQHeWMfjlwvJLFVykLuIYIMsC4+k9SvI8caSVMJbrKacJsIh1Aw84b3Qn3GwEW947nj3JfpUhSExAjepki7NlIZiGpAmZjlDRks5TYXAMXWDQIwemxWQWRZwjMo/iEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lGWsefombxzvVMmj8h1+ZaOoh2+uxgYZfDinYnwy4J0=;
+ b=IFQcD+xC4NcqbFvfy6xEWrQqpJkNXj60MqW0fQJgi+DfOytjnlZSj4OcXS49p0vRAN0CoT/V1dWOQGCYHpa4FhnUMQd5zeEKpmW1lNT5zRix8xVFRGnlzC3b34uZ3YcTXQ6b0jRFdQFebKF+naENpOGjFtFMj/6hz4SHQhv2LsufufYiudFcLULWEJxDhcPA+dVNfsN/yqe8/wS69lCDL86/lj5TI9hE7gZLf6yDds/nYbz4h5tLk13QuzJhGi7YSgY5VB7Ud+MNYjR5OuvRQwgFJBhLMgb5KajIL+5JvDpIhsLTFT5wheaGpgpNUQiZm/hKKr+G03dYON9fV44jmQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DS7PR12MB5888.namprd12.prod.outlook.com (2603:10b6:8:7b::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Tue, 29 Apr
+ 2025 13:13:49 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8699.012; Tue, 29 Apr 2025
+ 13:13:49 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 29 Apr 2025 22:13:45 +0900
+Message-Id: <D9J5E3SL1F8V.3GN8AOA7NCQTN@nvidia.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <benno.lossin@proton.me>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Jonathan Corbet"
+ <corbet@lwn.net>, "John Hubbard" <jhubbard@nvidia.com>, "Ben Skeggs"
+ <bskeggs@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 10/16] gpu: nova-core: add basic timer device
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
+ <20250420-nova-frts-v1-10-ecd1cca23963@nvidia.com>
+ <aAeGdRvlm5EVJOw3@cassiopeiae>
+In-Reply-To: <aAeGdRvlm5EVJOw3@cassiopeiae>
+X-ClientProxiedBy: OS7PR01CA0029.jpnprd01.prod.outlook.com
+ (2603:1096:604:24f::6) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMcHhXrDEVrM4fEyMwZ9TDgqgY=s_mTcKZMacCoUuZ2fa8FhWg@mail.gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDA5OCBTYWx0ZWRfX23+/xPuZhp6o
- cwg2w0pLes+OqMnxfv/m9s0YVH4HEvXz2Nz0iiBxf/HPu5eBX7ZhZgmZo5C1AVRN2X0lzRFYyAG
- fh+XkE52mMN/GwQ2pgHk1EOxIfKrGzC2HMJMXCX+YyCMi+geeHOWOlwS3eVrU9APdMLvzzgS/eJ
- wfZmmqnd0UjdkBtSCRmYayeBlrnNuTnAS9RKIFHt3cdA1w0PC3Z2Tx9UeIAsz9tbxN5ujht2Sm8
- J1hmIvEzHdg0JMQ5SuH4XUomxyS0Eu2kgkXDhpRhhVX8C1EoAHKwTY41fo6zT7h7H27/73vGfZH
- h8AmM3LAOAyrnGgknCQ895o2YiAsrsuHBvraTuxaFCFrGjLdMZrLXIJ1c2Ep+YMCIDbKs8N7Cdd
- vAaz/6EIg7wmoPMawMAPerelacR7dd80CXBSAQiWHMEqTPNW6d7EHKDiQBb7CJz50DGPcmJx
-X-Proofpoint-GUID: vpPLIpqFf8CutP6SP3VYUPPJOOu93DDO
-X-Proofpoint-ORIG-GUID: vpPLIpqFf8CutP6SP3VYUPPJOOu93DDO
-X-Authority-Analysis: v=2.4 cv=C8fpyRP+ c=1 sm=1 tr=0 ts=6810cf2f cx=c_pps
- a=vy3nvQW9C2dqy/lMnN3IYg==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=x2CRZeuriRqWQSmQ5gwA:9 a=CjuIK1q_8ugA:10
- a=mHQ74H5e8mo-RpSg_uaF:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-29_04,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- mlxlogscore=709 priorityscore=1501 clxscore=1015 spamscore=0 adultscore=0
- malwarescore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504290098
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS7PR12MB5888:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86a11d72-cc86-4725-d560-08dd871fae45
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|366016|7416014|10070799003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?elAwbWxVc05FK1VUaVp2bE0xV20reDk3VFp1ZGhVUHZabERxbkdvYWd6VnFG?=
+ =?utf-8?B?Zm5qbHgwVnFoanBET29sVHk3eFpaV2JvY2VaVFdUV05CdmdWSHJOMTJRZmx2?=
+ =?utf-8?B?TDRoMzRRdjlDdVVKL0E4VkpBZkZISnR1dmVad3NHMUd0bzN1WjdHQzU1QWtl?=
+ =?utf-8?B?T3FXc095QmFYaGt5R2p3cTUvTjhXcVJnOXcyb2xsNkRTNHdjd0x0dWNVaElt?=
+ =?utf-8?B?dnRUSytaZ2g1S2cvRzU4b0REanNDZVJzUzBOMXJzTkM2ZllrMWUrM2J4MU1P?=
+ =?utf-8?B?bXU5cURJWFZIdXMrcVlrcUhCMnBRVndFYVlOVmNTZzQrQmR2VHRPSW1iRWgr?=
+ =?utf-8?B?eEJBbDdaZS9qUExtZnVjMERmeE0wQzlBYlJKQlNzSmhJVjVpUE5NME9WcHBh?=
+ =?utf-8?B?eXkvTkpCRkFzOXRPVHlQcFZnUmpOcE1acExXbnc0d0xyYXNMdHU2UitRNWI5?=
+ =?utf-8?B?cHlqbUxsQmpLR0tWbnJuWWFubXR6bE0vOUsxVHo4MVJxcW1qb1dkWC9KS2Zp?=
+ =?utf-8?B?a2VNVDFRWDVZVUxOWlFzZU9PYmNFYlNFRlJjTGtQYXZCZDdXMGR3U0xMSUo0?=
+ =?utf-8?B?anNSanA3ZTlkNm12aVhHSnlaaFh0Rm5VMWJkdEkvaFRtMVNaMG5ZYzVKcG5w?=
+ =?utf-8?B?cDMyNnhtY2JjYndVSmJVMGhHY2lVNGtVV3laQ1dxdnV4RHpNZ2MvejA5WitZ?=
+ =?utf-8?B?aVZIZnNIMXJ0Q3cwK3c1TmNQNW5BVzdyRTZDL3RncFVkQm9BKzY5QkNOY3Rw?=
+ =?utf-8?B?NVdJMGdlVWxvdTlQc0xsWE5uZmZsMWR2VmRmdGZJdFcrUWN2aDZyeG5JR3JF?=
+ =?utf-8?B?QkRzWGp3Z0hmOXdJSnZkaXNSbktNMGJReDJ2SDhZak5qQi94SDNOeVdrb1FJ?=
+ =?utf-8?B?aVF5NWh0TklvaThIajB5cFVLcG9rcU5VOUx6UkxsT25zcGFaekNGTzZ0aC9v?=
+ =?utf-8?B?am95eW55TUkvam5oWmpPLzRVVU9ZYnhKOGIwRGNRb051TFpSdjdCeDBsUXZx?=
+ =?utf-8?B?ODcrd3NqYVZMSDNGdXJrN1AyQmhZVFlHL1RndUZ0bGxXeVVacnN5OTlaL3BJ?=
+ =?utf-8?B?eFRJSCtrbHRTeVQvRkRtZlFocS94K3VkTFlEL3dNQ05KNzlORnFHaEtvNUNo?=
+ =?utf-8?B?Zk5IQjhpME9Id1dsUTlaRm44OXlqNlZ5cFFDbHY3c2pPc3RZbEVpM004cXhK?=
+ =?utf-8?B?eml5YXViWnZ6MVZKUEZOL1gvNG1hdUVFcFE0enlibTRGakt3MWRVQ09ZNmdQ?=
+ =?utf-8?B?K3o2REg2VFY2MWoyT0lyTHpNcEEvaEx0cG9OSkNGaEk3cUR3ZFNxWUozQzZC?=
+ =?utf-8?B?R2NTRUFDeEZCMGFwQlljQVloWm81SG82R0dIU0JEcXExNy9IVVh5dytqRTFJ?=
+ =?utf-8?B?WnJTZXBUNVNqaXRLQW1rNFNIeVVhWVprNVhRWmxhLzkzODc3YUFtNzJyTXZo?=
+ =?utf-8?B?QWpIT0ltYjVQY2ZtRzUvbnl4TWp1WGtRaG01Rm92YmVOVHFBTmVrU1V4aXpE?=
+ =?utf-8?B?VGdrYi9IaHUvQVRFNXVmSXQrd295YytORzlrNzU4Q1FNR1dXOWNwMW54WjBv?=
+ =?utf-8?B?bExSRW9qckdwb0FUbTE1YVgrRjU4a2F6YzMwaE1UVis4c1ZiUFpsTUI3eC90?=
+ =?utf-8?B?aUdrYVVqclhHZTRzcWNkUHRpbko2aHk0WE1hQ2prYjdXSzc0bG1rMEkvRE1M?=
+ =?utf-8?B?RDVzK3VHUUplUVF3M2ZLNU82c0tNVU51S3BGOTJZMitqbkR2RlVCRmdlRFhL?=
+ =?utf-8?B?cHRtUHh2R2ovUkhKYUFZRW1mMmdPSDJkUW9PZ0dZdnRTamI2MkJvTEVCYkc5?=
+ =?utf-8?B?V04wMzlYbUxLUEp4a0cvUG1uOWVYVVBvL2dyNmwvdlFBTjVIa3FxNTYvbVBB?=
+ =?utf-8?B?M1lnRlBUVXVNMkw0YkRCM0c4OXlKdW4xc0lKM3Jnb2N0RjY5ci94cDRiSzVZ?=
+ =?utf-8?Q?DQpGWLMp6Pg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(7416014)(10070799003); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UzlEK29XU3FTVXVraWlHVlZSSDVkSGNadzMyL2RDaVhBZlN6a1VLV3JYbzNV?=
+ =?utf-8?B?dUhKMEsvY0lOK29iUGxQUThpS0RyY2k2UzZ0UGQwTnNUdkZORDA2T25sR3Vr?=
+ =?utf-8?B?MndxL2tNNjVMaUxFazd3RUF4M0g0RUoyYkpZTFI1THB2bkZDc21tOHpjNG5n?=
+ =?utf-8?B?YlZBRXhXcmRIWkl2RWttUVZYVTQyNGlYNU5Ub2VyOS9nMDRzVjNhMnltamhL?=
+ =?utf-8?B?bklMNFZGUy9Oejc4NnZDNGMrQklXNmtoaXFmUDNjdVNiM080MndpODZvK0hX?=
+ =?utf-8?B?dGp0RXdReFdMMVF2OUhNSlBLbWVVaURieEd1bDh5Q1pnWGVjK2RlTitHaXZV?=
+ =?utf-8?B?anhDK1V2RXp3b1VacGFTbklxakZNRVFEb3hLeFh0b2dnb0t4SFFqbGMvaXhl?=
+ =?utf-8?B?S3VwT280andtNDdMMnBrVGk5NjFkMjRYaVdxNXhua1lmYXBQZm9HbS9qZStI?=
+ =?utf-8?B?VkU0SGlUcFhVelcrYnZxQThkU3FtUlhSbG1ranRBUXZURmc4VU5BWTJyZkFL?=
+ =?utf-8?B?TnBORmM3R0lpeHBSSUk3TmJGZ0grVG5KK0gwM2ova0pjbUlrTUV3K0l5OEZD?=
+ =?utf-8?B?MEJvd2NxMkgzTXNKRDNiNlVZcDlZaytkc0NpRURQRnE1aGN6SE5xVU05bW9n?=
+ =?utf-8?B?RUdydEJ1RGZQZWtpNTdyTGRMN3dPQVNWVTJpUGt2OHR2UkdrWEk1TVM3bG41?=
+ =?utf-8?B?cmd0b0VHbEhsSE9mNkZlcGZMTEhCT3BMaWFmMmZGS1dWMWlKTTkyMVFTQUN1?=
+ =?utf-8?B?a2oyRWpWd1BDRnNweEpEcjViQUtSakJkNVQvY011a1QvTFJxYXRuL01KaGhh?=
+ =?utf-8?B?cHpwUUV0N3NCYjdFUXFwN3dSSUlTWDlDZEdwZmx1ejUwSW45bnRQTWNJVGE5?=
+ =?utf-8?B?YUdyQ21kWnB1TVNRSXFlR09qOFRMZU1Wd0RXaDd1WkI3c0pvYlR5Q1JVMFBO?=
+ =?utf-8?B?YjNqaTYyeHpoWXl3eVhuNGppMlVZWFVHNWMyZ2thTU1WTEdyL2V3N0phc0Zi?=
+ =?utf-8?B?akN1RlVJT3ZiRzBtUklOSHovWTNWQ0xRWmQvTjZBZ1VsMWtLQWRSdElzZnUx?=
+ =?utf-8?B?Q2UwL3B5N0R1bTNqVzRLdE9KYmsxK3VuNTBtdEZvUFFWd2VBT2hXdWJEdnY1?=
+ =?utf-8?B?M3BJUDh6eFBQZy90U3plb3NjclJ0NHNkd3VrdGpXekRFS1dWRjFJeDNnL0tQ?=
+ =?utf-8?B?Unc1cG1XUXdtR2lmTnRXb25RcDV3L1hTS0puR2c2QmJVMTlwOVhQY0RoL2JT?=
+ =?utf-8?B?ZmZVcWtNODRvem1PR0lkSzM2L0I3OWVGRVE4VGpic3hVZlBmYTdiaTc5TFFl?=
+ =?utf-8?B?ZzlRV0ZWVFZpSmtyUkdNbGdGTS9KdmMxM3h1Z2hCUVdNaFpOWnhtTXVnTFVS?=
+ =?utf-8?B?QXVjS0FkKzdxSWVXVXF1Y0FCOTlXUWF1LzNmUXMzOStNaFhjai9JMWF2MUJs?=
+ =?utf-8?B?VVI0d1RkcmdpZEUwRE5MSzdLNSt5bWxjeTVqWEJON1NqNThPUUgwWWdJZXls?=
+ =?utf-8?B?M3h4dElCOUp1NENza01VT096NWs1L2hxOG56MHgyNEUwWU8zK1dmQWI5WjVK?=
+ =?utf-8?B?Sm5wUk9qLzd6ckM0M0w3QUpZNGRjR1ljQ1JKWlVpSzVZR1VsWXpoeDFvRTlM?=
+ =?utf-8?B?MGxud3FidFFWQ3VldVoycm8wSmdpQVRYYzVOR2haVmVibzUxNVFzR3hObXdU?=
+ =?utf-8?B?Q25qQjF3T01YWUVQYUtoUnBWN2F6Q1EwMGZ0OGZFUjd3Z1prNTJCY0lMZ2hv?=
+ =?utf-8?B?VWkrTGU2SHBESnAyY0hqWnVGTkZ4eHNjdE5YaTNSSXAzSXhoaW83N2gzZWcw?=
+ =?utf-8?B?QmNoUGJDWXlSUkRGSC9HZTJBczhZTVBrVXZmNFVxNkpRc2xPbllNSHBVL1Zv?=
+ =?utf-8?B?NDBiQ2haOElXUmFSZmJzaVcveHdkSytYd1IxdTFyQ1VERkZFbSs2eDhySnVj?=
+ =?utf-8?B?TDU1TEtKTkxhS0VHNncvV0d4M2FFWEtrZkpZcTV3c1JaVitzKzB1MFJzaHJR?=
+ =?utf-8?B?S2NMV1VPUGtFd0VaWWFVU3BYUGVVMmhjM3lwamplYW5ERHlRbk9iY25DOEp1?=
+ =?utf-8?B?N3J5aXRVWW1ERGs3d2JVSUJsWnc0dnJWZzRqZmFVbTRSZ2lqOSt1NUVsMGxR?=
+ =?utf-8?B?ZXl5Qm9NTXFuc0NUWmR0MWZISGgvYUlVRVYveEZTeUR0UFNWcElBNGMvVDVE?=
+ =?utf-8?Q?09OZz2T+qyq3U6MeGazdnIBoNiqLaxSMd0F79oyAlKZP?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86a11d72-cc86-4725-d560-08dd871fae45
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 13:13:49.5895 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rtELZn8YQ4ZJcJZBrhLv8v48RFl9DpYs/aQ0vF6mpjGGVKFJS18V1tvXH4ijZQF2LpKSN2pTzq77QV9bJBG4/w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5888
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,66 +179,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 29, 2025 at 12:57:16PM +0200, Aleksandrs Vinarskis wrote:
-> On Tue, 29 Apr 2025 at 10:03, Johan Hovold <johan@kernel.org> wrote:
-> >
-> > On Tue, Apr 29, 2025 at 10:50:55AM +0300, Abel Vesa wrote:
-> > > On 25-04-29 09:23:46, Johan Hovold wrote:
-> > > > On Mon, Apr 28, 2025 at 05:17:21PM +0300, Abel Vesa wrote:
-> > > > > On 25-04-28 14:47:04, Johan Hovold wrote:
-> > > > > > On Mon, Apr 28, 2025 at 11:06:39AM +0200, Aleksandrs Vinarskis wrote:
-> > > > > > > On Mon, 28 Apr 2025 at 09:45, Johan Hovold <johan@kernel.org> wrote:
-> >
-> > > > > > > > Does this mean that the incomplete LTTPR support in 6.15-rc1 broke
-> > > > > > > > adapters or docks with retimers in transparent mode?
-> >
-> > > > Ok, but my concern is if they may have worked in a default transparent
-> > > > mode.
-> > >
-> > > But if they are by default in transparent mode, doing the setup to
-> > > transparent mode will not break it in any way.
-> >
-> > It looks like it will, see below.
-> >
-> > > > > X13s doesn't have LTTPRs on-board so when reading the caps, LTTPRs count
-> > > > > would return 0 and none of the of the transparent/non-transparent setup
-> > > > > would happen.
-> > > >
-> > > > But this is the crux; does any off-board LTTPRs in transparent mode add
-> > > > to the count or not? If they don't, how would you ever learn that there
-> > > > are any LTTPRs? If they do, it seems we may have a problem here.
-> > >
-> > > Count gets increased either way. It doesn't matter if they are in
-> > > transparent mode or not.
-> >
-> > Thanks for confirming. So then it seems we do have a problem as since
-> > 6.15-rc1 drm_dp_lttpr_init() will switch all LTTPRs to non-transparent
-> > mode.
-> 
-> In this case, let me add Fixes to the entire series. Do you think we
-> could land it in 6.15-rcX then? The second option proposed to roll
-> back current LTTPR support and wait until 6.16 will completely break
-> DP output on all X1E, so it's very undesirable.
+On Tue Apr 22, 2025 at 9:07 PM JST, Danilo Krummrich wrote:
+> On Sun, Apr 20, 2025 at 09:19:42PM +0900, Alexandre Courbot wrote:
+>> Add a timer that works with GPU time and provides the ability to wait on
+>> a condition with a specific timeout.
+>
+> What can this timer do for us, what and HrTimer can't do for us?
 
-It should be possible, if you rebase onto 6.15-rc, add Fixes tags and
-send it quickly enough.
+It is local to the GPU, and the source of truth for all GPU-related
+operations. Some pushbuffer commands can return timestamps that will
+come from this timer and the driver must thus use it as well in
+driver-related operations to make sure both are on the same table.
 
-> This series was tested quite a bit on at least the X1E/X1P devices,
-> both with and without docking stations, as it is also (v2 iirc) part
-> of Ubuntu's concept tree since little over a month ago. You have
-> confirmed that x13s also works with this change but without a docking
-> station. If someone could confirm that x13s with this change does work
-> with a docking station as well, it would be safe to merge the entire
-> series as fix to 6.15, correct? I could reach out on #aarch64-laptops,
-> perhaps someone has both x13s (or another qcom-based non X1(E) device)
-> and a docking station.
-> 
-> Thanks,
-> Alex
-> 
-> >
-> > Johan
+>
+>>=20
+>> The `Duration` Rust type is used to keep track is differences between
+>> timestamps ; this will be replaced by the equivalent kernel type once it
+>> lands.
+>
+> Fine for me -- can you please add a corresponding TODO and add it to your=
+ list
+> of follow-up patches?
 
--- 
-With best wishes
-Dmitry
+Sure.
+
+>
+>> diff --git a/drivers/gpu/nova-core/timer.rs b/drivers/gpu/nova-core/time=
+r.rs
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..8987352f4192bc9b4b2fc0fb=
+5f2e8e62ff27be68
+>> --- /dev/null
+>> +++ b/drivers/gpu/nova-core/timer.rs
+>> @@ -0,0 +1,133 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +//! Nova Core Timer subdevice
+>> +
+>> +// To be removed when all code is used.
+>> +#![allow(dead_code)]
+>
+> Please prefer 'expect'.
+
+Ack.
+
+>
+>> +
+>> +use core::fmt::Display;
+>> +use core::ops::{Add, Sub};
+>> +use core::time::Duration;
+>> +
+>> +use kernel::devres::Devres;
+>> +use kernel::num::U64Ext;
+>> +use kernel::prelude::*;
+>> +
+>> +use crate::driver::Bar0;
+>> +use crate::regs;
+>> +
+>> +/// A timestamp with nanosecond granularity obtained from the GPU timer=
+.
+>> +///
+>> +/// A timestamp can also be substracted to another in order to obtain a=
+ [`Duration`].
+>> +#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+>> +pub(crate) struct Timestamp(u64);
+>> +
+>> +impl Display for Timestamp {
+>> +    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Resul=
+t {
+>> +        write!(f, "{}", self.0)
+>> +    }
+>> +}
+>> +
+>> +impl Add<Duration> for Timestamp {
+>> +    type Output =3D Self;
+>> +
+>> +    fn add(mut self, rhs: Duration) -> Self::Output {
+>> +        let mut nanos =3D rhs.as_nanos();
+>> +        while nanos > u64::MAX as u128 {
+>> +            self.0 =3D self.0.wrapping_add(nanos as u64);
+>> +            nanos -=3D u64::MAX as u128;
+>> +        }
+>> +
+>> +        Timestamp(self.0.wrapping_add(nanos as u64))
+>> +    }
+>> +}
+>> +
+>> +impl Sub for Timestamp {
+>> +    type Output =3D Duration;
+>> +
+>> +    fn sub(self, rhs: Self) -> Self::Output {
+>> +        Duration::from_nanos(self.0.wrapping_sub(rhs.0))
+>> +    }
+>> +}
+>> +
+>> +pub(crate) struct Timer {}
+>> +
+>> +impl Timer {
+>> +    pub(crate) fn new() -> Self {
+>> +        Self {}
+>> +    }
+>> +
+>> +    /// Read the current timer timestamp.
+>> +    pub(crate) fn read(&self, bar: &Bar0) -> Timestamp {
+>> +        loop {
+>> +            let hi =3D regs::PtimerTime1::read(bar);
+>> +            let lo =3D regs::PtimerTime0::read(bar);
+>> +
+>> +            if hi.hi() =3D=3D regs::PtimerTime1::read(bar).hi() {
+>> +                return Timestamp(u64::from_u32s(hi.hi(), lo.lo()));
+>> +            }
+>
+> So, if hi did not change since we've read both hi and lo, we can trust bo=
+th
+> values. Probably worth to add a brief comment.
+>
+> Additionally, we may want to add that if we get unlucky, it takes around =
+4s to
+> get unlucky again, even though that's rather obvious.
+
+Added a comment. The odds of being unlucky are infinitesimal and the
+consequences (an extra pass of this loop) inconsequential, thankfully.
+
+>
+>> +        }
+>> +    }
+>> +
+>> +    #[allow(dead_code)]
+>> +    pub(crate) fn time(bar: &Bar0, time: u64) {
+>> +        regs::PtimerTime1::default()
+>> +            .set_hi(time.upper_32_bits())
+>> +            .write(bar);
+>> +        regs::PtimerTime0::default()
+>> +            .set_lo(time.lower_32_bits())
+>> +            .write(bar);
+>> +    }
+>> +
+>> +    /// Wait until `cond` is true or `timeout` elapsed, based on GPU ti=
+me.
+>> +    ///
+>> +    /// When `cond` evaluates to `Some`, its return value is returned.
+>> +    ///
+>> +    /// `Err(ETIMEDOUT)` is returned if `timeout` has been reached with=
+out `cond` evaluating to
+>> +    /// `Some`, or if the timer device is stuck for some reason.
+>> +    pub(crate) fn wait_on<R, F: Fn() -> Option<R>>(
+>> +        &self,
+>> +        bar: &Devres<Bar0>,
+>> +        timeout: Duration,
+>> +        cond: F,
+>> +    ) -> Result<R> {
+>> +        // Number of consecutive time reads after which we consider the=
+ timer frozen if it hasn't
+>> +        // moved forward.
+>> +        const MAX_STALLED_READS: usize =3D 16;
+>
+> Huh! Can't we trust the timer hardware? Probably one reason more to use H=
+rTimer?
+
+No, to be clear I don't expect this to ever happen in real life, but I
+also don't want to leave a loop without an exit condition.
+
+OpenRM and Nouveau are both using it so I believe it can be trusted. :)
+
