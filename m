@@ -2,96 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A47BAA1109
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 17:55:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E37EAA113E
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 18:08:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEFEC10E128;
-	Tue, 29 Apr 2025 15:55:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67BA310E4FB;
+	Tue, 29 Apr 2025 16:08:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="JGDE8Uos";
+	dkim=pass (2048-bit key; unprotected) header.d=live.com header.i=@live.com header.b="NsskKn7F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0AE610E445
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 15:55:03 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-224100e9a5cso75040645ad.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 08:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1745942102; x=1746546902;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Yw4dRegYXEd+wmbXYe4jM8oKmljBSa+e8EyYUljkOc0=;
- b=JGDE8UosQLIPjzV0TXkNH3ohwlyXm6mwiaxBLmOhH5qLlbcIKrq4gp8NgVTN85km8c
- 8WRpDO+6uiFZ5e4ArMvSs/0di4/w9aBdV7LY0dflQs1Tf7XFV/mwSPCRqzBN5ZgLApQm
- 9IQ1WeZuDLKIccYE4DEyvEL8iFAjF3RM92yZU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745942102; x=1746546902;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Yw4dRegYXEd+wmbXYe4jM8oKmljBSa+e8EyYUljkOc0=;
- b=tGernvjHqWzksdkq7dbYcjCPIQdcZSm08PggsvMeHbr2R+5BJVVSiXeHQrVkZdGH/a
- JVCeUOGtTggB6AAl/XQ6tN6j8IevtVY5jm76Coup0xV/dibwhbEbYeNf0VgFWO6kP+Lr
- +FKN8vvUwvUtItLWneU49LqccVB7YQ5DQKS9MyaHHcT0xmsocr9WMoQOa7uqolQdIiB+
- qy5Dk4HpGvYHw8Zhy30rWgVLz0H2Rk8NjzihU38uFQw7wL1cHxaY9rR56APZEkSsZ874
- HdMwijjv/JqQJt870jyGBmB1tShG3+dTf0LFpFDAdgDszSR/91h9EJvPQ2Hm4oTamU7I
- 6e8Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUP3ZjZEBzN7sl9bkBqYt0MrVHmahvQOhi/wacnsUe9JrNAEGr9NPYQuQgYDUUU4DJ1SGhHVweZrio=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCHQK5xqB0V+Ddo3VXDQ9xyskyx4uK4naay+COqhRM2ATsTQNH
- aQpU98VhUn2yTzYUtM/+R9fuQcniy6g72iuLHSMDePghp6WVpRfteL/tw8uvjxuq1oAPHvX52Ys
- =
-X-Gm-Gg: ASbGnctFBxrKzgD1mICNu32Q2P18x90cQSsEGACivKUYBY5pBoEuCoHM49cKR9en23S
- Z/y5v9WZefgfGwYS9cWFOHD+4Oxcvei3sg0/7+gRbW1eIi9ICV7gs5YA/Twtl13bXbSSk9f7UP1
- s1/LxmgKqQUil0/LMR/k+fsB/2CWdZSotF7cBz/GQV+Btr+7XNZ0QqHb/EfD+PNpKDPjZn3oAVd
- R3ZwIo2ntagkcUzbVzXZqWnPTHr4OhGoC52c+bE3LF8TaS73++kzRub7R7Aq7LOEZrxbGg/ZcpX
- wTyynzC1wXo3LZpehzGVIxyzDRwkufCI/4W3ccvVQMzlcFYruZPmxO+Vw70VT7A6JbcJsvGfUOR
- D0mQm
-X-Google-Smtp-Source: AGHT+IHGHkzE7gps/iqGJsGOjsTdp1EKRhvEB2H/lo8BSmnmDrPHQQ6U7m0F3IwSSGua1V3FUaChKg==
-X-Received: by 2002:a17:90a:d00b:b0:2ef:31a9:95c6 with SMTP id
- 98e67ed59e1d1-30a215530d9mr6881310a91.14.1745942101614; 
- Tue, 29 Apr 2025 08:55:01 -0700 (PDT)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com.
- [209.85.216.41]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-309ef124cf4sm11397148a91.37.2025.04.29.08.55.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Apr 2025 08:55:00 -0700 (PDT)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-306b6ae4fb2so5662503a91.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 08:55:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV2bFDdIatgy1qaaXm2rvTqnlj7umoKGUjvFtv5HdIlImrco+8Mug6xE0OtUHfN+w6o3+LbLSJwMIk=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:55d0:b0:2ee:c2b5:97a0 with SMTP id
- 98e67ed59e1d1-30a21593a3emr5985847a91.25.1745942100102; Tue, 29 Apr 2025
- 08:55:00 -0700 (PDT)
+Received: from MA0PR01CU009.outbound.protection.outlook.com
+ (mail-southindiaazolkn19010006.outbound.protection.outlook.com [52.103.67.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3257310E512
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 16:08:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Se0GMlPjNuPEBYciD62I7VvkTFhD1I5zuU6u3jS4Z0slOwLS7cbmQh1LdkJhoAD68PiyPkzLEy8rlOX8ZBwOZRQ3B6EDGkO+sWyqsjypfumzt8q+KIq2vnvlgBHVKWaiI05DjPZWQaxFr5NZn9zjQDCTKRQYmphaGV1vPqHR5sk66KVM+7qQJ5fbb/ycuDv7k6A+Co2xjV8BNAB/S8+gj4Nc5oCV5uuMwqkEsJHY5zQZaF46lv0cbNAcC8f8h2x5LqUu3OJlaNYX+QvUS9xdwUnoaoHsXilWV0vCqrFffTn6iesIbjvkH14SDf/U15km4A0vJGMarL/GkbQjDlzvoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e+zSMucAanQk2Z8v2NWQ09hnGQQjocCv966equeBwQg=;
+ b=vH4vZiI0iSAHX9Syj4wcO3tIGvyNVf/3NUXH76HjXmxk1lhDD+HBBP0ndJZSWndeb8bVjlTiVIe+h2y0YRi9VVSYiNuxd0p0N4ycwrZpBUIqBm34+yu38KTDAzOimdeJNBYq6fSydctXT9vEG51shAcMYMKpI2pryX2U3eniaANqRflTJy+9Zy6sADb3+DFowXYLMcHTaD3u+2WehoH/6urdxAXX0oAaJpGAIyxS7XljCxhXfU5G3Jf+ioE2XwPVM12YA0EW70PnoLqhoSEr91XDwREnJ1B3LiDl2iTSmkIEQD+qlyI3O3velF2a66KDTq3WxSMued3UXk/7mogp2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e+zSMucAanQk2Z8v2NWQ09hnGQQjocCv966equeBwQg=;
+ b=NsskKn7FbU8X56H+caZoLW783gO/TmkPV6N2923JTFLSIHwKmljZ6r8bcErAIPdNG9ifCAjlpWffYZ2JsPjGKBt4utwE3jKKyAK1CD6X29BGKvs6kMNctFhG3BZfWx3nUMzcgBQq/FHa9sBbnrU6vLHSw6FrL5fdpTGyzXgcgvPZQx2UcCR/tZ7cyk+dCjc32gS3C2o+H8yFdmHvVBQR4IUkdr5lR9mKaGCCdQhMC5McUqHHO7L7caA3n5oT9tuS74SkPL6PvXlVxDmwO+IybJin2SRCgv5YU9AxBvndp8G5+UjdJE72pqdY4Oo2aUzamaSCILDGm50Tb160Clc6Gg==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by MA0PR01MB9769.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:ee::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Tue, 29 Apr
+ 2025 16:08:00 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8678.028; Tue, 29 Apr 2025
+ 16:07:59 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: pmladek@suse.com
+Cc: admin@kodeit.net, airlied@redhat.com, akpm@linux-foundation.org,
+ alyssa@rosenzweig.io, andriy.shevchenko@linux.intel.com, apw@canonical.com,
+ asahi@lists.linux.dev, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ dwaipayanray1@gmail.com, gargaditya08@live.com, geert@linux-m68k.org,
+ joe@perches.com, kees@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux@rasmusvillemoes.dk,
+ lukas.bulwahn@gmail.com, marcan@marcan.st, mripard@kernel.org,
+ rostedt@goodmis.org, senozhatsky@chromium.org, simona@ffwll.ch,
+ sven@svenpeter.dev, tamird@gmail.com, tzimmermann@suse.de
+Subject: [PATCH] checkpatch: remove %p4cn
+Date: Tue, 29 Apr 2025 16:07:42 +0000
+Message-ID: <PN3PR01MB95971954FC5E026C59B6F8EDB8802@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250428123132.578771-1-pmladek@suse.com>
+References: <20250428123132.578771-1-pmladek@suse.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PNYP287CA0088.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:2b6::8) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:f7::14)
+X-Microsoft-Original-Message-ID: <20250429160742.9285-1-gargaditya08@live.com>
 MIME-Version: 1.0
-References: <20250429-drm-msm-gpu-hot-devfreq-boot-v1-1-8aa9c5f266b4@linaro.org>
-In-Reply-To: <20250429-drm-msm-gpu-hot-devfreq-boot-v1-1-8aa9c5f266b4@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 29 Apr 2025 08:54:47 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UjtkFY=1V5mFpoyfe3yvxUaRLaqXy1cFfeXE_Ka9W1iQ@mail.gmail.com>
-X-Gm-Features: ATxdqUGCzdY0LXwBhAEJ2CeDRyHbock5i9Oan9LqNpeHcunKB9U1sJnJz2v4j0U
-Message-ID: <CAD=FV=UjtkFY=1V5mFpoyfe3yvxUaRLaqXy1cFfeXE_Ka9W1iQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/gpu: Fix crash when throttling GPU immediately
- during boot
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <lumag@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|MA0PR01MB9769:EE_
+X-MS-Office365-Filtering-Correlation-Id: c015924b-c768-431d-2438-08dd8738031e
+X-MS-Exchange-SLBlob-MailProps: Cojqxok92mqfKcxoajxhsed+mnjicdeu3zYjMch3odlpFLEecKoyzqxPHZNyX49jnnzKka3oxfYHVTsnXAEILKFpv+zTTC9Nx5BtNHeT1JyoG/ivEFaCiaWs598Z5bLi8Ib4ChKGPYDAMscWHPvzT3Qi1Zg+RKkt7kpV4ZCmKTDZ802XVgM7It9C0p74l2vMmOXd47royIOGN1nTj+2fzTihqq6op0Ali1vyO4YmpRViZTZVar8DWZBWxMu4IUvAqw6SOGkVMozHFHnM54MjLLLAFSYEWWsNkKrJThR3jCrpf5D2PaEpYttaFC3GXGCUIf7zoxfyBL02MYFRTbQdt9p3t0EzYo1y4Oa80ohMtK5PZl4RuQarWJizMwMekIddKFlUfXysrE6Pp+uN/9Ypy5jPBhiSmTwda/EPDlct4Md7BXvS+r1sXldygPbGqJLZZaGLLF9Mmq3Iq8SBmQ/OfxmGA0gU8yYiIo6rDlJWELD4CRSJcze3Z/nqsECQRNO8kQGNlkBbEYMaiXfUmqgK4yZ5pXG4Gv05bg6XhM34ZqXASg4c+pHA6OgWdv+lGyBY14dXWCIYmMmsdJHQ3SSJ4xcW0J2Tkfe94eFWHAHnkHtPomHFPdviC3GRvFfz0gvRNYknOpCUv6WxdP+PiugQHK9UEWJDssZ4EeVTaSDJR5ZZUikZZA7Arp4w4Pa0w0Py
+X-Microsoft-Antispam: BCL:0;
+ ARA:14566002|461199028|5072599009|15080799006|8060799006|19110799003|7092599003|3412199025|440099028|1710799026;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FEvBSJvoICtJF05YaH3X9E5exBX1kLA50hawhCBAvVfuWMsOUTFUnCM0qlRu?=
+ =?us-ascii?Q?safMYKlyM8oR5As4vUkqr+vxTsg8GxKjaZHk01JF3SSl5N525Z1cLxnFb/FE?=
+ =?us-ascii?Q?mj26xxZt5I+0f1oy+eZx0lXRkfuYaOxwyPKy87t8KSFC7olvGtv4jrs4JXe6?=
+ =?us-ascii?Q?vCyLnLqy4fRJ5Sa8ULH1ajC2HD+YGNu0MbpsSbodPIfrufHOeoNULEeaenF5?=
+ =?us-ascii?Q?I+DqPR/MDc2uvhbbQa5m3+kITa2MvXc52xeNQfxanSjY0d9CFGcC3m5WuwHN?=
+ =?us-ascii?Q?EVqVwzjdGsAf9ogR9AK/2mXlDUye/rWZ3EbtmjSCKNRqX3vXDHuDdgNXLfGR?=
+ =?us-ascii?Q?nwLXMtQ7nwD8QsvbJguRX2w8lVENjQRl6NSNzwYNA4fi5CoufiOZPNc8Rn8v?=
+ =?us-ascii?Q?PPX3QrVW53vSfyULRbh6zDrI2p625yj2ydKNRsaiHRHFytVIUkMKt/Cly43b?=
+ =?us-ascii?Q?usPB8j+hjtChyVsstuifDm2SgydN+LfgzyvbCgxGqNHlI3D287SsbboAsfzE?=
+ =?us-ascii?Q?bdqvHasD+vRZmqd1sYBAn9aLcVWr0VthGAtlvc+YjeNr0A42qMA1Y/3IOc4W?=
+ =?us-ascii?Q?I89ftrC5+IZJs+Fx3MwCvRQe6+zGNfdLotgKOVybuI8JbB+q41tn6C8hdSfv?=
+ =?us-ascii?Q?FlZdyLC8tPKrUdxpMqmvlZ1nCEDt3tZD3m6ey7gxcGdFOQH6/pRikqjpOfFd?=
+ =?us-ascii?Q?jzeEAEbVXIydnKUNi1RpyTCV1vveCyBI2+dXPf64xn3ZHTZsNAARDavxs/yS?=
+ =?us-ascii?Q?VArOi6yXyuWLT8n4Bno5ylL2n7YvjoZM233xG+SThOLpga5J4tyYtZMwlVMJ?=
+ =?us-ascii?Q?52EsZVWKYOwODv2AGEb548sN5NoXCCTuaNsPYA81QotP2f1ZGeTStUBKWYAo?=
+ =?us-ascii?Q?zLNELw4vkg011Png+tM8kIiA0LDUsKR7bYb0jCWNcjQgEApt0eTO7fHt7+6l?=
+ =?us-ascii?Q?0AxUZ6nlBOHFgYAHGxXN+NgdXrpCCU3U7IOsV7bILWDKPbeAb4//0wQUN+Pj?=
+ =?us-ascii?Q?r8YiJGWSE6nkxyPVz5tkiU81wdgeL2opxhJVgTFzgWrnkBIfDO0J4W8Jf/Lt?=
+ =?us-ascii?Q?xyEdMXw1P7qAnUNmUxvYOMDsXgxdiSNa5OKDtmKsW8gaDr089hvyLFLVCjjr?=
+ =?us-ascii?Q?CCGDDVcJB7MMeQwFw9fWTuMC27tKDWUXCg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WIpQWpaXU79VThm6XkxwvMtpQSO9Gm4AKSdPktX5ZNxLEnwnfn4OBQHoScdH?=
+ =?us-ascii?Q?engq7FK54bC66Eji5TkqdZwmSt3WQMi7B6G8XPDpZ9oE/43xDNKjIiSzt5iW?=
+ =?us-ascii?Q?JwHtEmgIN5nDhcTzrwiEnDl4SLxfiRl9xb0Xro7jm5tAy+S4hakZMUqH5qz4?=
+ =?us-ascii?Q?q5VlGdsdhNM6r1aaOg6amM2SvTOAA2KpPUS+S32LOggr82s+KVQQA9EwYY99?=
+ =?us-ascii?Q?vTJXu2keyOo8I9Y9NjxZSSZ4qlNAKoJccp+RhWyWePUwV9D96UsUOMVdvmy5?=
+ =?us-ascii?Q?C1M/72USXRnC9laaua0nJ95psws/rtcdv03kMZTEsbBrdBHqvt1KGYw1jj8I?=
+ =?us-ascii?Q?jg3Y0ACUHY1SStRn3K8JtNQ4IPOd9VBj2qhAQiQ0isJJDnoJqn1A5+pYgS1x?=
+ =?us-ascii?Q?4Eb17pyJks2mYy6br6gR9P1W1YQhBPQAiogDmigl5yVtl7G9Dyl+CSRwjEU+?=
+ =?us-ascii?Q?6e9NwnqHnvn0XpsgaoQ3yUuesS+X3tuFef/hxVbccAuvWKGuvAdIg2erxoMp?=
+ =?us-ascii?Q?c7Lm8kORVUWtuACLMJ/8Zr5oTPnce2CeSbA17rpMdK10W9ZFoZOg8u2N+l3D?=
+ =?us-ascii?Q?WlmdnV2lnyxIvDSE1YyK3XdHCgxL0rc5/7Hwh7e/WJKkVuhmYhhwy7M3m07W?=
+ =?us-ascii?Q?bwBdUMjCHsTMPQY3RehuvXLlI/5xn+OaCy8u5ujOQG05ziE7NQ+9rod6TQae?=
+ =?us-ascii?Q?/M1upSWgpgFF+s9Ybe76eY3IjH5/g+2Vf9OOzh9HB1eZOlkq/0k/IXFns/lT?=
+ =?us-ascii?Q?t6tzqL2htNY61bP8dwVu2FODvAmF/2KL/ygQlQoovwcjBrrs+j0/f3c2wbIC?=
+ =?us-ascii?Q?r1tlGYvW6RKgPHQrLl7W2xxQzfqOdTIjnKOPrWmk8S96aYBwxGDM5SBBEGHd?=
+ =?us-ascii?Q?4HkBj0LgkJZwjeOBkT7rXVxfIVmoDTtjQMMJznP0MIAAdI9noCmVa492yYCb?=
+ =?us-ascii?Q?suqpZDaW+tfOLLUGWfHn6vPMPNRVK+EAEfCBaAtQdZJKv/zY5zQxQqdefFQa?=
+ =?us-ascii?Q?BNiKeQ1zhM7ZCh8tAeqnLTvJHifiG4k/SK1qjaXPqDj7zwFhU1LuZT9El3bx?=
+ =?us-ascii?Q?h/U6KdMPqxN7vb4lJK4N1CQi5ZdlRme6QEm8GiFfH0dw+cXhEf9FSqR5ke9Z?=
+ =?us-ascii?Q?+bZ5g2x+Kz5rBN5tWrwXtTXymp+IwdPfOK81tDJ4MwkN1nbBYRIz0mVLnGr2?=
+ =?us-ascii?Q?UGecO1sF6M+kBRuKAbtlToQ8YHyqCRadZ5dEfnm8U0hqHxO9E2XR4RJRH+Y?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: c015924b-c768-431d-2438-08dd8738031e
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 16:07:59.9417 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB9769
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,68 +136,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+%p4cn was recently removed and replaced by %p4chR in vsprintf. So,
+remove the check for %p4cn from checkpatch.pl.
 
-On Tue, Apr 29, 2025 at 1:34=E2=80=AFAM Stephan Gerhold
-<stephan.gerhold@linaro.org> wrote:
->
-> There is a small chance that the GPU is already hot during boot. In that
-> case, the call to of_devfreq_cooling_register() will immediately try to
-> apply devfreq cooling, as seen in the following crash:
->
->   Unable to handle kernel paging request at virtual address 0000000000014=
-110
->   pc : a6xx_gpu_busy+0x1c/0x58 [msm]
->   lr : msm_devfreq_get_dev_status+0xbc/0x140 [msm]
->   Call trace:
->    a6xx_gpu_busy+0x1c/0x58 [msm] (P)
->    devfreq_simple_ondemand_func+0x3c/0x150
->    devfreq_update_target+0x44/0xd8
->    qos_max_notifier_call+0x30/0x84
->    blocking_notifier_call_chain+0x6c/0xa0
->    pm_qos_update_target+0xd0/0x110
->    freq_qos_apply+0x3c/0x74
->    apply_constraint+0x88/0x148
->    __dev_pm_qos_update_request+0x7c/0xcc
->    dev_pm_qos_update_request+0x38/0x5c
->    devfreq_cooling_set_cur_state+0x98/0xf0
->    __thermal_cdev_update+0x64/0xb4
->    thermal_cdev_update+0x4c/0x58
->    step_wise_manage+0x1f0/0x318
->    __thermal_zone_device_update+0x278/0x424
->    __thermal_cooling_device_register+0x2bc/0x308
->    thermal_of_cooling_device_register+0x10/0x1c
->    of_devfreq_cooling_register_power+0x240/0x2bc
->    of_devfreq_cooling_register+0x14/0x20
->    msm_devfreq_init+0xc4/0x1a0 [msm]
->    msm_gpu_init+0x304/0x574 [msm]
->    adreno_gpu_init+0x1c4/0x2e0 [msm]
->    a6xx_gpu_init+0x5c8/0x9c8 [msm]
->    adreno_bind+0x2a8/0x33c [msm]
->    ...
->
-> At this point we haven't initialized the GMU at all yet, so we cannot rea=
-d
-> the GMU registers inside a6xx_gpu_busy(). A similar issue was fixed befor=
-e
-> in commit 6694482a70e9 ("drm/msm: Avoid unclocked GMU register access in
-> 6xx gpu_busy"): msm_devfreq_init() does call devfreq_suspend_device(), bu=
-t
-> unlike msm_devfreq_suspend(), it doesn't set the df->suspended flag
-> accordingly. This means the df->suspended flag does not match the actual
-> devfreq state after initialization and msm_devfreq_get_dev_status() will
-> end up accessing GMU registers, causing the crash.
->
-> Fix this by setting df->suspended correctly during initialization.
->
-> Cc: stable@vger.kernel.org
-> Fixes: 6694482a70e9 ("drm/msm: Avoid unclocked GMU register access in 6xx=
- gpu_busy")
-> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
-> ---
->  drivers/gpu/drm/msm/msm_gpu_devfreq.c | 1 +
->  1 file changed, 1 insertion(+)
+Fixes: 37eed892cc5f ("vsprintf: Use %p4chR instead of %p4cn for reading data in reversed host ordering")
 
-Thanks!
+Signed-off-by: Aditya Garg <gargaditya08@live.com>
+---
+ scripts/checkpatch.pl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 44e233b6f..f79f0a085 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -6891,7 +6891,7 @@ sub process {
+ 					    ($extension eq "f" &&
+ 					     defined $qualifier && $qualifier !~ /^w/) ||
+ 					    ($extension eq "4" &&
+-					     defined $qualifier && $qualifier !~ /^c[hnlbc]/)) {
++					     defined $qualifier && $qualifier !~ /^c[hlbc]/)) {
+ 						$bad_specifier = $specifier;
+ 						last;
+ 					}
+-- 
+2.49.0
+
