@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E16BAA1087
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 17:32:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9B2AA1088
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 17:32:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34BD910E4D2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32B0810E143;
 	Tue, 29 Apr 2025 15:32:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tLiLPQhJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dDIzEsOJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44FD710E143
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 15:32:00 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2461610E4D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 15:32:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E65B9615CC;
- Tue, 29 Apr 2025 15:31:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FC1FC4CEEE;
- Tue, 29 Apr 2025 15:31:55 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 87D354A860;
+ Tue, 29 Apr 2025 15:31:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41FABC4CEEE;
+ Tue, 29 Apr 2025 15:31:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745940715;
- bh=OcjtC1r6unSYOAqmQ+trqxX0jm6Xo2rTov4KFM6JIsY=;
+ s=k20201202; t=1745940718;
+ bh=0CJuKxneljMQjy0TNkbiQplHcDMmpr97N876+7s1Nfk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tLiLPQhJOUd/1thEH5LDj94nbgUtA4pFOTNXvyuLKXlAVFGNAMsl4Gbh876VcUu0P
- xa42ymQ4eavZZ5f5d+17c7VfpSzyICmm40vjL61R3fiog3RnHgygISjyrGh1h93dbu
- auUlDa9K+5kLWAdzGvv8PytuEog/ayRePNIO/lHkEobHH+TNLIZsbLWr1D3UrNA1Hq
- 3WMeLqJykmwHApRFXHwnIGtY26IdNoiYbv+USHprKR1ndy0VMgr/2cw0TFf8cdzaeQ
- y1U3GXr+qeCHsVtwehmwn0r62m3fL8J4nJeR/ZU4z6H48ZVF5egWMXNhD21x9ToDGc
- UX6AdJsk+cuJA==
+ b=dDIzEsOJOg0Oy2aclf/zG8gYR3Y1Eu1FxjrrO5MSwVXztWVrwF+2i8qR2N8ltgtfu
+ W+VA8UmiKPBb93pstfoTxPM+/6TbKMZDJsF7JnPEHYFhJl+OiemYMVsNmpr7R9c0bV
+ sz26LG0puNbj5uhweuMkduKDM0YbHzbl7s56yXYvjKqQLD4yJx5XLc5XIJInhewyRz
+ uYr/1oraajbH613Ctatmcxx3N7qHBaZMnikUnZoaKnmLb196CQp2DbjZTe4q9dpzdt
+ NozCupYGUULW1V29H0fXpVi5XMipyvMPRQpUUh7xJMmaWVlXubHWw5/l56FsgC/xsx
+ 9c8qlo8ur5Abw==
 From: Maxime Ripard <mripard@kernel.org>
-To: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
-	Philipp Stanner <phasta@mailbox.org>
-Subject: Re: [PATCH] drm/tests: shmem: Fix memleak
-Date: Tue, 29 Apr 2025 17:31:49 +0200
-Message-ID: <174594070795.925005.16917161299075727119.b4-ty@kernel.org>
+To: dri-devel@lists.freedesktop.org,
+	Russell Cloran <rcloran@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH] drm/mipi-dbi: Fix blanking for non-16 bit formats
+Date: Tue, 29 Apr 2025 17:31:50 +0200
+Message-ID: <174594070795.925005.288282754813754693.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250408140758.1831333-1-mripard@kernel.org>
-References: <20250408140758.1831333-1-mripard@kernel.org>
+In-Reply-To: <20250415053259.79572-1-rcloran@gmail.com>
+References: <20250415053259.79572-1-rcloran@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -60,14 +58,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 08 Apr 2025 16:07:58 +0200, Maxime Ripard wrote:
-> The drm_gem_shmem_test_get_pages_sgt() gets a scatter-gather table using
-> the drm_gem_shmem_get_sg_table() function and rightfully calls
-> sg_free_table() on it. However, it's also supposed to kfree() the
-> returned sg_table, but doesn't.
+On Mon, 14 Apr 2025 22:32:59 -0700, Russell Cloran wrote:
+> On r6x2b6x2g6x2 displays not enough blank data is sent to blank the
+> entire screen. When support for these displays was added, the dirty
+> function was updated to handle the different amount of data, but
+> blanking was not, and remained hardcoded as 2 bytes per pixel.
 > 
-> This leads to a memory leak, reported by kmemleak. Fix it by adding a
-> kunit action to kfree the sgt when the test ends.
+> This change applies almost the same algorithm used in the dirty function
+> to the blank function, but there is no fb available at that point, and
+> no concern about having to transform any data, so the dbidev pixel
+> format is always used for calculating the length.
 > 
 > [...]
 
