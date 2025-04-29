@@ -2,58 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61715AA3C18
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 01:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46508AA3C23
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 01:29:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC2910E469;
-	Tue, 29 Apr 2025 23:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD4910E466;
+	Tue, 29 Apr 2025 23:29:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HNDWABjU";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N3yGx8E2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9D8A10E469;
- Tue, 29 Apr 2025 23:28:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 1857DA4A7C5;
- Tue, 29 Apr 2025 23:22:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64247C4CEE3;
- Tue, 29 Apr 2025 23:28:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745969284;
- bh=fAlX+Lt5V+LaI4Cx7JCgzZ4OfSfzgUpstMeIReZB04I=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=HNDWABjUCuxF00cC9YWvNiQ8OU5jvdWg7bBD0p3gIf9J642Uy2Xim02rHkhS9VZ55
- q+1jSQoOhuKJftYcrZKtOSRXeaEKhl6VF6o011qWYpTnu6fZqDL+fBNu55L08bPL6s
- m49lLVHGUd7VCHkZ/e2AwphSTC6dhHGpCwxmo0Zvt1DN4kcNmG8k6S/3KCmdRP/2aR
- PTOvyNbPaSr2Oo7IKUBGmF2iLhwoIBs3FWWuh+7wy5qx+nEzyooPzsq/aiT1Se0tYJ
- bjNcm0koXh2cRD0BaZpsgReR2g4kDY9uKuTDrld0C+7ca3NphgWr436tLmK4bOqPh0
- jSxjiNEpPgJoQ==
-Date: Tue, 29 Apr 2025 16:28:02 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Kuniyuki
- Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, Nathan
- Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v5 06/10] ref_tracker: automatically register a file in
- debugfs for a ref_tracker_dir
-Message-ID: <20250429162802.1cfc3965@kernel.org>
-In-Reply-To: <20250428-reftrack-dbgfs-v5-6-1cbbdf2038bd@kernel.org>
-References: <20250428-reftrack-dbgfs-v5-0-1cbbdf2038bd@kernel.org>
- <20250428-reftrack-dbgfs-v5-6-1cbbdf2038bd@kernel.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92B7410E466
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 23:29:14 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FBC9667;
+ Wed, 30 Apr 2025 01:29:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1745969345;
+ bh=tmRhTFXHrQmrX/dM5zphfOFbw54VlTM57upwCbDJDfM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=N3yGx8E2GGyjseSc3tkyyEstjVnMTefG/RtV7gWSsrdK4QgFxJmFAcK93GVw9Vkmw
+ WDaRzHQYBXW0zVpDaW0C4j2fDlVdVjl3Hx4STImKu31Wl8XJIW+avqHCQ5tjBZUsGc
+ sHLjZkN6ItThRUYQrA+IAFj2ZO6eiWZ/+p4f5uvM=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v2 0/9] media: renesas: vsp1: Add colorspace support
+Date: Wed, 30 Apr 2025 02:28:55 +0300
+Message-ID: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,19 +54,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Apr 2025 11:26:29 -0700 Jeff Layton wrote:
-> +/**
-> + * ref_tracker_dir_debugfs - create debugfs file for ref_tracker_dir
-> + * @dir: ref_tracker_dir to be associated with debugfs file
-> + * @fmt: format string for filename
-> + * @...: arguments for the format string
-> + *
-> + * Call this function to create a debugfs file for your ref_tracker_dir that
-> + * displays the current refcounts for the object. It will be automatically
-> + * removed when the ref_tracker_dir exits. The filename must be unique. If
-> + * the creation fails then the pr_warn will be emitted.
-> + */
-> +void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
+Hello,
 
-lib/ref_tracker.c:374: warning: Excess function parameter 'fmt' description in 'ref_tracker_dir_debugfs'
-lib/ref_tracker.c:374: warning: Excess function parameter '...' description in 'ref_tracker_dir_debugfs'
+This patch series extends the VSP1 driver with colorspace support. It
+turns out that the VSP RPF and WPF entities can convert between RGB and
+YUV, a feature that we have failed to test so far. The hardware support
+BT.601 and BT.709, in both limited and full range. Proper configuration
+of colorspace is crucial for accurate image rendering.
+
+Patch 1/9 starts by implementing pixel format enumeration in the driver,
+a feature that was surprisingly missing. Patch 2/9 then continues with
+another fix, restricting the creation of the HSI and HST entities to VSP
+instances that include them. Following with another fix, patch 4/9
+addresses format setting on the RPF and WPF source pad to disable HSV
+<-> { RGB, YUV } conversion, a feature *not* supported by the hardware.
+
+After those initial fixes, patch 5/9 starts implementing colorspace
+support by reporting the related information to userspace. The driver
+currently hardcodes limited range BT.601 when programming the hardware,
+so that is the value that the patch reports to userspace for YUV
+formats. Patch 6/9 makes the YCbCr encoding and quantization
+configurable, finalizing colorspace support in the VSP driver.
+
+The next three patches are new in this version. They proceed with
+exposing colorspace configurability in the API exposed to the DU DRM
+driver in patch 8/9 (with 7/9 performing a small refactoring first).
+Patch 9/9 then updates the DU driver accordingly, to create plane
+colorspace properties and wire them up to the VSP.
+
+The series has been tested with the vsp-tests suite and the kms-tests
+suite. Patches that add CSC support to the vsp-tests suite have been
+posted in [1], and can be found in the vsp-tests git tree in [2].
+Updates to media-ctl and yavta to support setting colorspace on video
+capture devices and on subdev source pads have been merged in the
+respective projects, make sure to use the latest master branch if you
+want to run the tests.
+
+The series has also been tested with the latest v4l2-compliance. The bad
+news is that the test flags 56 errors when run on a Renesas Salvator-X
+2nd version board based on r8a77965:
+
+Grand Total for vsp1 device /dev/media1: 757, Succeeded: 701, Failed: 56, Warnings: 0
+
+The good news is that none of those are regressions, quite the contrary:
+without this series applied, the total number of failures is 95, and the
+diff shows no new error. I will therefore address those issues
+separately.
+
+I would like to get patch 1/9 to 8/9 merged in v6.16, to then merge 9/9
+in v6.17.
+
+[1] https://lore.kernel.org/linux-renesas-soc/20250409004758.11014-1-laurent.pinchart@ideasonboard.com
+[2] https://git.ideasonboard.com/renesas/vsp-tests.git/log/?h=csc
+
+Laurent Pinchart (9):
+  media: renesas: vsp1: Implement pixel format enumeration
+  media: renesas: vsp1: Make HSI and HST modules optional
+  media: renesas: vsp1: Fix HSV format enumeration
+  media: renesas: vsp1: Fix media bus code setup on RWPF source pad
+  media: renesas: vsp1: Report colour space information to userspace
+  media: renesas: vsp1: Allow setting encoding and quantization
+  media: renesas: vsp1: Name nested structure in vsp1_drm
+  media: renesas: vsp1: Expose color space through the DRM API
+  drm: rcar-du: Create plane color properties
+
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c |  15 ++
+ drivers/media/platform/renesas/vsp1/vsp1.h    |   1 +
+ .../media/platform/renesas/vsp1/vsp1_brx.c    |   9 +-
+ .../media/platform/renesas/vsp1/vsp1_drm.c    |  22 +-
+ .../media/platform/renesas/vsp1/vsp1_drm.h    |   8 +-
+ .../media/platform/renesas/vsp1/vsp1_drv.c    |  59 +++---
+ .../media/platform/renesas/vsp1/vsp1_entity.c |  22 +-
+ .../media/platform/renesas/vsp1/vsp1_entity.h |   2 +
+ .../media/platform/renesas/vsp1/vsp1_hsit.c   |  11 +-
+ .../media/platform/renesas/vsp1/vsp1_pipe.c   | 188 ++++++++++++++++--
+ .../media/platform/renesas/vsp1/vsp1_pipe.h   |   5 +
+ .../media/platform/renesas/vsp1/vsp1_rpf.c    |  29 ++-
+ .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  51 ++++-
+ .../media/platform/renesas/vsp1/vsp1_sru.c    |   9 +-
+ .../media/platform/renesas/vsp1/vsp1_uds.c    |   9 +-
+ .../media/platform/renesas/vsp1/vsp1_video.c  |  50 ++++-
+ .../media/platform/renesas/vsp1/vsp1_wpf.c    |  29 ++-
+ include/media/vsp1.h                          |   4 +
+ 18 files changed, 442 insertions(+), 81 deletions(-)
+
+
+base-commit: 398a1b33f1479af35ca915c5efc9b00d6204f8fa
+prerequisite-patch-id: e3d9847d1da4398f1bf0b57f5ef4a612392c7255
+-- 
+Regards,
+
+Laurent Pinchart
+
