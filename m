@@ -2,74 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E720AA1900
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 20:06:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF426AA1A5C
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 20:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFA4E10E462;
-	Tue, 29 Apr 2025 18:06:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F3510E236;
+	Tue, 29 Apr 2025 18:21:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SM7gOipH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AOTpAYgx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC0C110E0D2;
- Tue, 29 Apr 2025 18:06:29 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-301a8b7398cso845620a91.1; 
- Tue, 29 Apr 2025 11:06:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1745949988; x=1746554788; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cH/uQx6QUmR06WXEWjtQjaJrBZIsX8Ks6Q8cT1OIeyI=;
- b=SM7gOipHrWjry1LbadXZFyVTcw5XB+EoI6RqmqwXJjAwXSZD6sB4Cu9Twk8xhxdsqr
- +Xjw/FzU8ma5Cy6Bt2SBmL9qf/nd6/J6jX90yn3aCLi8rcG4EejC7lutlY6LTLTknmkU
- JGH8FkWXuthWs/TNxs/jVBwVHSYtmMwsWCIGJoZEHNS7ywW+vyvBuLvDMC7xte7D12Ej
- 5WFvc4HEoQB3ht02132vnEbW3kxIQw+Wbl7ZMBxcckslLNaIerM2yB1i0tKvFUoEv8HD
- b25ByTYP46dLhegC+UgvqCLQky55/3sOM7Oe69fKQIHjo3MZHmJV6c9+OiLJUOWIDdSj
- VD8g==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42B8810E236
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 18:21:31 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53TA2S5q011802
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 18:21:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=PmqoRG464qsnj0pu8T0c6779
+ M0hEG7ElmjAzQA6sfi0=; b=AOTpAYgxnyRsVZRjLRr7VXvigdkz/UwUlNRZ7MPu
+ qniHDYs5yr1d8BtuPkqTU/sBWuvBH24kVXmSiAqdM48hGYNC4P9TGyHn4S1IPOX+
+ bq5POuQZNvTrrtzgMxXGeXI/mROs3WLNUUY57vTXMmGHoH+Df/y5qSo0hzxJSH4B
+ HFaCBTDHCvcxGStbRR225+2yGvR5unAVw26dMVzYFlMy1RqDaDxtBzHmuAqJViDW
+ d3KX+41X+sHKyBPn8ZTkwNo8bFBhWuqnR7QVQHHnHuGos4shhcyJs6QQBL5g83Qy
+ xJChDYWnI9F2bIYsA5+2advFxHyL5VdS30mWOZS9y7UzzA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468pg9dje5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 18:21:30 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7c791987cf6so1292224785a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 11:21:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745949988; x=1746554788;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cH/uQx6QUmR06WXEWjtQjaJrBZIsX8Ks6Q8cT1OIeyI=;
- b=Z2/Uyjm0whqJcmyHsEcYC0bFQLdmPiemh6CCrncO+mV6LHyhvOe6y1OQOVkxLoVtjj
- 5ef0zADOyeip1AeLvXv2e7Ecn5Zx/3BLbAGx5ydtZ7qVvOd/dE3HwNcdpOugwdYMv+Z5
- j1rh17HIH7JQn8IgVqhyl9dgcQRPhMcr9yiknf6hzBfWXOImTQno0rCm1uXoLhOTj9T4
- UfO+5/usN2CThfuGcc71WadyizzTudfFWgDmRBd44AB3ECMVMZi9pqkdKWnhb3+yhVC9
- L9M2vw8U7Pt+gbEBg04NJ/s22zElK5CjcLX0iQ3SwPG8dMSuPUcQUlgXs/u5PjmXyXca
- iZJA==
+ d=1e100.net; s=20230601; t=1745950889; x=1746555689;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PmqoRG464qsnj0pu8T0c6779M0hEG7ElmjAzQA6sfi0=;
+ b=hYX6sqqfHDh73dJ7HvDoBGAca2vubHQZ+ViDrL22nKoaU1/W3+TUtfC7XtxxU+oanL
+ 8w5FINpVAkHiI8JD2SMFPy5sBd1rZB3PXe46Cs7gvEVTKv8URLvCB3VXnd4kdhar8+rc
+ ov7FY40XxqvcSIcvnNlmbRLQaJ0Sm11w7FmTtEQ9R6NpH4bdaTsmt1iiq/MJ8ox3cEhm
+ foldYp+nDyNBasoXcw1l3tvP0aCQmi2HdXF7XpzF6by2mm5qG3ocrpleZbnVeJIcNF/N
+ tVUpgM3AtD0hp3MOD7/0+RhVaVvOG1P1lhmoLuyt0xg8g59JTGTRa7weBCt8czt4xeqL
+ ZpDA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6jzI1gHKXnfZ5DRQd7PkjOj80kwJbti9txUjM/6OHVX3Y7/tJOttYmGvN3pbBJIH3g178TmK8@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsfoFioFuPb/pKVd8semcxO1BfJR2gS1APYqkEQDyfAdvjqdLw
- WU88iPZqfHAdmpXMnA9d9/t7YH09A4wgu6lI27jAVv5a8HepmESExDIBiwZIGv3ZcKfC+i9anSd
- iXnXiPP91liLhKdppJY9CN5zPdl7Iyg==
-X-Gm-Gg: ASbGncs+gDswGmVkiBjhgkxRuXAbaRksM2YU+QiB5q+PzoVhOUR/BBqDio+aNS8PPYk
- CXhczmIr8wbl6tSvrALydMAnt/AL9Qp1LRZ6f+s0nQsgLKddbe8Cw2ZIqOD22//lzSbhKlgLbNo
- ZodBEdpBao7g2Np4Vw2Qc24g==
-X-Google-Smtp-Source: AGHT+IFLbWuOec+SIqz2/rrxcLdbfZeENx5vdxS6Oww2CAOLDDXrBDUcAqQa/S9kCYSzU7jWRi/LfoTxCCW8GxNxO3g=
-X-Received: by 2002:a17:90b:4c08:b0:304:eacf:8bba with SMTP id
- 98e67ed59e1d1-30a33355332mr36839a91.4.1745949988475; Tue, 29 Apr 2025
- 11:06:28 -0700 (PDT)
+ AJvYcCWbCYNPgyTwj27PKOsezqT+AujzuW+OfQSeHhab25CBWyAh+O1/ZAUYmjNvGArgdnJrY3hUtkzCUk8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzsV+6uMBxkeiqXXLI2JCYdk52Ood9DSlNM7IBVpepiTLRsT37s
+ qUix1ZZ0Ta4/9qXYRjRpApvlzS6jcnIuNhzd8nD2T+huHy7p55UjPgNVr4FnKVFRYE457xla/nt
+ FuSQ7WhS5hOdemW94qNSAOXpnt7EflTsXNGKPqUAIVqHrKEYL5XA0ZBm8Ed1BNX8+4Ow=
+X-Gm-Gg: ASbGncs5xSd8uHB4CXR9isMHLtVoflH83ehz6/Toe2+cMSJFLz+06LohzfsCS5Nb+vB
+ XmaUrBa/J8cTfWCmxxRILZ6XYSmpPgxRtdqNjDqoTBrWWAfymW3/C5aGlWbnWTTfQUTTO0Cqskk
+ cDSp6oIteXwF2dfgAqtHOEYLTQ642l8LruPCbm4t7WDb0x93Tt6x++9Sfdax3lVCI1yH1Kc3bwU
+ bYv+G/EglaZJWquIuERATniLq7Dp0ghcygp/4dwuG/9hkxrLB7/Vhtn+x/iHhKYoYHmoMTZH72a
+ 2tsRufRiJsWbJCd2EsbtFYFu8sOk8bFWvEafNYeObP+oWv/HcOzu0UpBqNwETsgO2JtsDVNjMpA
+ =
+X-Received: by 2002:a05:620a:c4c:b0:7c9:2612:32d6 with SMTP id
+ af79cd13be357-7cac76deb67mr10118485a.48.1745950889435; 
+ Tue, 29 Apr 2025 11:21:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEpf9hzPxO+ornriQj5u2UWfhmL7wM+Z3TXsQc5Mtvy+HyZAWYphfNSkz3n79ilJezodpQzrA==
+X-Received: by 2002:a05:620a:c4c:b0:7c9:2612:32d6 with SMTP id
+ af79cd13be357-7cac76deb67mr10115885a.48.1745950889098; 
+ Tue, 29 Apr 2025 11:21:29 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54e8fd2d823sm1322651e87.194.2025.04.29.11.21.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Apr 2025 11:21:28 -0700 (PDT)
+Date: Tue, 29 Apr 2025 21:21:26 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Cc: Daniel Stone <daniel@fooishbar.org>, dri-devel@lists.freedesktop.org,
+ daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
+ simona.vetter@ffwll.ch, robdclark@gmail.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ valentine.burley@collabora.com, lumag@kernel.org,
+ quic_abhinavk@quicinc.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] drm/ci: uprev mesa
+Message-ID: <rrrquzr4k64e6b74g4foio7z4pltfx3oxrqbrrw5w3frlmyzkd@x45yj42sgplt>
+References: <20250328110239.993685-1-vignesh.raman@collabora.com>
+ <20250328110239.993685-4-vignesh.raman@collabora.com>
+ <CAPj87rOPHqLaFn3r4rkeMMrQ=OSRQUJ2LLrQ4ZDE6eA1S6zybw@mail.gmail.com>
+ <3a3107d4-cc59-42ff-b3f8-2280a357208b@collabora.com>
+ <4cac94b9-2445-458c-a39f-5eb72537d6f6@collabora.com>
 MIME-Version: 1.0
-References: <20250428213401.752738-1-harry.wentland@amd.com>
-In-Reply-To: <20250428213401.752738-1-harry.wentland@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 29 Apr 2025 14:06:17 -0400
-X-Gm-Features: ATxdqUGqK_rLy5H-AD1WtzkVAmSXX7uCILO9v3tntGqYFWxNfTJxnCbQJxxnhRo
-Message-ID: <CADnq5_PXbkF8FBOPnG8a1K4ez+LduxJWa30ONPEpydNeK++t+A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Don't check for NULL divisor in fixpt
- code
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- Linus Torvalds <torvalds@linux-foundation.org>, Leo Li <sunpeng.li@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4cac94b9-2445-458c-a39f-5eb72537d6f6@collabora.com>
+X-Authority-Analysis: v=2.4 cv=ZpvtK87G c=1 sm=1 tr=0 ts=681118aa cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=QX4gbG5DAAAA:8 a=xA4-SxEZz4SaK2JE-80A:9 a=CjuIK1q_8ugA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-ORIG-GUID: gkiTiVbeAilpK3EbjrO6BpftUJ5BFU8-
+X-Proofpoint-GUID: gkiTiVbeAilpK3EbjrO6BpftUJ5BFU8-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDEzNSBTYWx0ZWRfX5YlGt786olsT
+ /hyJd9K28Hr+5UiSrRwFxmnWDHra5/M/h++EFuhroBmgjUgLDggW08UcI7354yLun62LoV8YLTn
+ hsViY6nvtTgaLL2SWKAbUaI/TxSOY4Jhhtct3AyfGsYjZb9XtOsWjMExraNdGvRl98TKDAGl7mi
+ FKhbIQymz+e6dMBDO7FgNFp4499v/t5/AqAYf3FUCTXWf8q5j69WqYkrpyOIqzqMajgMGg/a5gX
+ lkNjHZSfveoe4PFACOz2YRy1y7oPAWpidV8D1TwyqacPA2C0p4Eyx9GTNLwpSJRCNf6A7SrGeZY
+ n5zLAhBi79nIotpVAUjKu1FF+W6ZHB6sCeUPUemipswPd1OmZg8QQTEEAVfgtNCTbII8dxaPYhN
+ LXOER53HDFCb1n0SsrmXh1W8u3XGtp/H8//GPeU4vc3+rb3W5yUZOv37tm7fGjv+qV4f/Lzj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-29_06,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ mlxscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504290135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,83 +132,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 28, 2025 at 5:43=E2=80=AFPM Harry Wentland <harry.wentland@amd.=
-com> wrote:
->
-> [Why]
-> We check for a NULL divisor but don't act on it.
-> This check does nothing other than throw a warning.
-> It does confuse static checkers though:
-> See https://lkml.org/lkml/2025/4/26/371
->
-> [How]
-> Drop the ASSERTs in both DC and SPL variants.
->
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
+On Thu, Apr 03, 2025 at 11:29:55AM +0530, Vignesh Raman wrote:
+> Hi Daniel,
+> 
+> On 28/03/25 17:29, Vignesh Raman wrote:
+> > Hi Daniel,
+> > 
+> > On 28/03/25 17:06, Daniel Stone wrote:
+> > > Hi Vignesh,
+> > > 
+> > > On Fri, 28 Mar 2025 at 11:03, Vignesh Raman
+> > > <vignesh.raman@collabora.com> wrote:
+> > > > The current s3cp implementation does not work anymore after the
+> > > > migration, and instead of fixing it and propagating the fix down to us,
+> > > > it's simpler to directly use curl. Uprev mesa [1][2] to adapt these
+> > > > changes. Also replace broken s3cp command with a curl wrapper call in
+> > > > drm-ci.
+> > > 
+> > > Thanks a lot for fixing this. Sorry the fallout has been so bad.
+> > > 
+> > > You can also upgrade ci-templates to get an s3cp which works again.
+> > 
+> > Thanks for fixing this. Will use the latest ci-templates and test it.
+> 
+> We need to update mesa to use the latest ci-templates and then uprev mesa in
+> drm-ci. I will send this in a separate series after fixing it in mesa.
 
-Maybe add Fixes tags for the original patches which added these?
+Vignesh, Daniel, any updates on this? Currently drm/ci is broken both in
+master and in drm-misc.
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-
-> ---
->  drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c   | 5 -----
->  drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c | 4 ----
->  2 files changed, 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c b/drivers=
-/gpu/drm/amd/display/dc/basics/fixpt31_32.c
-> index 88d3f9d7dd55..452206b5095e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c
-> +++ b/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c
-> @@ -51,8 +51,6 @@ static inline unsigned long long complete_integer_divis=
-ion_u64(
->  {
->         unsigned long long result;
->
-> -       ASSERT(divisor);
-> -
->         result =3D div64_u64_rem(dividend, divisor, remainder);
->
->         return result;
-> @@ -213,9 +211,6 @@ struct fixed31_32 dc_fixpt_recip(struct fixed31_32 ar=
-g)
->          * @note
->          * Good idea to use Newton's method
->          */
-> -
-> -       ASSERT(arg.value);
-> -
->         return dc_fixpt_from_fraction(
->                 dc_fixpt_one.value,
->                 arg.value);
-> diff --git a/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c b/drive=
-rs/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c
-> index 52d97918a3bd..ebf0287417e0 100644
-> --- a/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c
-> +++ b/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c
-> @@ -29,8 +29,6 @@ static inline unsigned long long spl_complete_integer_d=
-ivision_u64(
->  {
->         unsigned long long result;
->
-> -       SPL_ASSERT(divisor);
-> -
->         result =3D spl_div64_u64_rem(dividend, divisor, remainder);
->
->         return result;
-> @@ -196,8 +194,6 @@ struct spl_fixed31_32 spl_fixpt_recip(struct spl_fixe=
-d31_32 arg)
->          * Good idea to use Newton's method
->          */
->
-> -       SPL_ASSERT(arg.value);
-> -
->         return spl_fixpt_from_fraction(
->                 spl_fixpt_one.value,
->                 arg.value);
-> --
-> 2.49.0
->
+-- 
+With best wishes
+Dmitry
