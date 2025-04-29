@@ -2,75 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCBDAA05E3
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 10:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256CFAA05F5
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 10:41:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5A9010E090;
-	Tue, 29 Apr 2025 08:36:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 303C610E3AB;
+	Tue, 29 Apr 2025 08:40:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RSIFGIbC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lpz3fsuG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D018110E090
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 08:36:27 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2D52D1FCEA;
- Tue, 29 Apr 2025 08:36:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1745915786;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=esHd36pt+N8ryAwFfhcdTZSNZRbzqDw4YcR4AKfDyms=;
- b=RSIFGIbC2isNSHaUIMssleEx8oUn09KMV74iBNdBsc8Ljyi1ulehg9lrYgKkCmjHP6D0/z
- g7BLt+v0UzpAWlxicIeqyh/PqNl3wmLl/xxNWIeEHkzdqD0NsGpceudUUCcacVA8lj9KEW
- rwlod4zKqpfJBmBXPKdm15CB4tSalEVJphYA0DXymWcGpu2LXSfUCs7GjWTd2CMIpCQmB8
- qq/DignU2f64SMAKvITf7d+vFikwc+YQZYJByZTH1XXvtvdR7TKHNMeCkpWmhhnqC6a8wh
- 1Zal3lmsikZmwip0ZMT9wvaEbCUw1R88g99FLQvhqJM3Pe6HF1ta+caYvVTOCg==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 29 Apr 2025 10:36:23 +0200
-Subject: [PATCH v2] drm: writeback: Fix drm_writeback_connector_cleanup
- signature
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D950310E2EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 08:40:53 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-30f30200b51so64896271fa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 01:40:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1745916052; x=1746520852; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KyAtXWPUARsz+iDauIm3noZwAgvzeeeL/6Xih7T8GDE=;
+ b=lpz3fsuGEs5d2EXCZHQv5LMnB6kuj++xNovRgXKdnPtW2cS3G/2/zpDUD3kVfQbaGc
+ lERlOn6cP5zMJbvKK4e2kNXiR6F06rayuUXTZOanz5Nq6lNWtLgSwPyWjo0HmBUfhBY0
+ vExovgmmJrUO2TKNW4DzM69dy9YpC1R8oxlAFxiiLruuoYMyLFZRAm752+jFJ9ZEUofO
+ g34e1UWj0zP0gGROe73xGe5uo52BgjId7H6FDhqjU/bTbJ5IV9XVbYVU25P0GaCEfMcl
+ 4KpHi2RkSiLfB3++D9xvvMAI3pUAyTGvZ4EKlgP/lrQJZ+55utxsFUhNh5eNlC+++7fW
+ ZVGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745916052; x=1746520852;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KyAtXWPUARsz+iDauIm3noZwAgvzeeeL/6Xih7T8GDE=;
+ b=sDrB7Om06MAPj8Dp72faEOCv71M+sAPIAylMiuESmZ7OeqR1Eyc+Nsp6Rj/9BW4t3A
+ GDi5INpGGZ9BxMYDArG48v0FD/nakfuFRhP4KioLZAmN6vKEx/Lnfbp6k+uWe16XCwSB
+ LeTslGHcAAP4t97hS0shcSFnMQUPA8p9QKZChItWesA62SaFjKq8X/84QuXoj1IKoGTB
+ v5HeZBTlvue/bi4ib/GlZ6sZ9tshz1bz1n9LxAEe/c1x/o1CNzxFMcBHPsVKumtWWpaO
+ GCBAFAzlvq/VZt/AfzDeZiBDHa4zhxvnWM3Lywi+zY/fCi8C9ffy9Jgrh8VmRT/1jeEd
+ TGlA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUo+//p+SxeKanunPwegRxohr+p6pXi9vou9XPCtxmtlGlBr53+o19r/AwCR60jynjkpRavDWmcm/M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzoNPaQJBsW565brDc6SczH7oH24oEPCSfycd87iXnaiZrTKWKf
+ ZfWBUyWW6RFMbr0fSAu5wAnCsrNX8dBsOaB/u3a1PohAnurWR2nmQN94Jc7p49YLtXu4aUWxSak
+ h1UkBf9GU3svWZJL9e5ldAq/OontQKVONqKHM/A==
+X-Gm-Gg: ASbGnct7EslIs+pM8XzVf+rTIdYrh8mkVUi5oPevTsJPJkkdcKRmv0cFCtiY+Mi3jk5
+ LBwyN0XFZAM8nlxe6xsiIuDLkQX18sz4Fic47TxfDRzXJGYlWjkZnBli9eHcsUCUMsHfTJOtayr
+ ORhQvMOly0AoU0vbJpsFEzlg==
+X-Google-Smtp-Source: AGHT+IEUiqYB296CVrwZ+xxBw7BC+pTcJa/x+6Bu5GNB2EvNhnBwa7BLSUJNRUMp+Ehtf1mLBoE9JSmzpMhMYJBukms=
+X-Received: by 2002:a2e:bc0b:0:b0:30d:894a:a538 with SMTP id
+ 38308e7fff4ca-31d34b6c243mr8766341fa.21.1745916052135; Tue, 29 Apr 2025
+ 01:40:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250429-drm-fix-writeback-cleanup-v2-1-548ff3a4e284@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAIaPEGgC/42OzRLCIAyEX6XD2ahQtT8n38PpATDVjAIVaK3T6
- buLdrx7y2az+2ViAT1hYHU2MY8DBXI2CbHKmL5Ke0Ggc9JMbMV+uxMlnL2BlkZ4eoqopL6BvqO
- 0fQeS86Jqc1UdKs5SvvOYDr/dpybpK4Xo/OuLGvhn+0/rwIED7nQh8vJQqiI/KufinexaO8Oae
- QF5fPTp97jQmJIBIfmGYp19ug0FvfkNYHGMKTq/AaPsiGz+AAAA
-X-Change-ID: 20250428-drm-fix-writeback-cleanup-a1179f3b9691
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Mark Yacoub <markyacoub@google.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2728;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=CD3pCW7rSNJV61xpSf6mpjklctqkwJQ6xLMNue4gAHE=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoEI+Iu98lXztO/neTQJlRQ7TY60V6ITeCKFa8E
- 7DJOQS56nuJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaBCPiAAKCRAgrS7GWxAs
- 4jQjD/0eA941lwlgFehTz8o4ybkma1QDp/av7/CQAd2Hda/PSMxhsceoLfnWhyLJeZ2I+BLzeAf
- dnAHDWVKnnKgrkusrb0uJ/hLv0s/XbJ9ZgyDw4aRVEB3k9Z6zXkfx5OUveudoUwxFVyOUiWZpmP
- 9/9P0SFJYY2/jFmJBoBXnQGJD2N+xuV52xGYtonC2l3sqvlpbwFA3sS0UhZmeYAK82sLO9r+yTj
- wTIotW/retw+k8vj4SQDcaZVIHtG+rHAQnBR22xaiuzdAZDDEi9ICObZhMkfDy0yzXsQvS/BO2z
- KIB/3KA5dt7GNk7anZG1qJeNgXiUTY98LQ596pROQHaUNUOztz83UYmFPgmsqNHT+SemhPyYwEp
- hPBsKFLqibJbOUhBM52zfyXzv4aEpJP9F2NkFzldZQ4W8InvwpzExd56YRQJF0P6sLIj8yoDE9w
- hJPUu9quXd5qLD2gFaUbCpmDEqGI2GBwTCcH+6D6EdDSBinZJFUZqzl0R5iJyLnJchsoRLGAtV0
- P8AcY8VAMixsz8IVz3Fye9VFNAHsFDd0PJwsHPzUj+GlapiTPajDULgUYxVA1dCCoswf7cnIbhu
- 9MYilHyRRoashN/VS04Ns7cH1SQtYf/tub+FEcejq+0hsNIkatkfGlsxNQ2AOiBAO143r1lktRu
- 0NHixcRxSbiSxhQ==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieeffeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefhhedtjeekhfdtteeftefgieffveeluedvueejleevfeevgedvjeevheehffehgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludejvddrudekrddtrddungdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvu
- ggvshhkthhophdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
-X-GND-Sasl: louis.chauvet@bootlin.com
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+ <20250424-drm-bridge-convert-to-alloc-api-v2-15-8f91a404d86b@bootlin.com>
+In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-15-8f91a404d86b@bootlin.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 29 Apr 2025 10:40:41 +0200
+X-Gm-Features: ATxdqUEhPh2HxY_cKMawBJnfuogL8n7jPhFvg8U9jTR5km8hYrNkb1VPdIYXtGQ
+Message-ID: <CACRpkdZt8zem0hFUiq3-Z1feNZHRh3R=Y0cEtK=pVt=bJ9Qf1g@mail.gmail.com>
+Subject: Re: [PATCH v2 15/34] drm/mcde: convert to devm_drm_bridge_alloc() API
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson <dianders@chromium.org>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,75 +106,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_writeback_connector_cleanup have the signature:
+On Thu, Apr 24, 2025 at 9:00=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
+n.com> wrote:
 
-     static void drm_writeback_connector_cleanup(
-		struct drm_device *dev,
-		struct drm_writeback_connector *wb_connector)
+> This is the new API for allocating DRM bridges.
+>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-But it is stored and used as a drmres_release_t
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-    typedef void (*drmres_release_t)(struct drm_device *dev, void *res);
-
-While the current code is valid and does not produce any warning, the
-CFI runtime check (CONFIG_CFI_CLANG) can fail because the function
-signature is not the same as drmres_release_t.
-
-In order to fix this, change the function signature to match what is
-expected by drmres_release_t.
-
-Fixes: 1914ba2b91ea ("drm: writeback: Create drmm variants for drm_writeback_connector initialization")
-
-Suggested-by: Mark Yacoub <markyacoub@google.com>
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
-Changes in v2:
-- Forgot to update the documentation
-- Link to v1: https://lore.kernel.org/r/20250428-drm-fix-writeback-cleanup-v1-1-e4c723868b73@bootlin.com
----
- drivers/gpu/drm/drm_writeback.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index edbeab88ff2b..d983ee85cf13 100644
---- a/drivers/gpu/drm/drm_writeback.c
-+++ b/drivers/gpu/drm/drm_writeback.c
-@@ -343,17 +343,18 @@ EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
- /**
-  * drm_writeback_connector_cleanup - Cleanup the writeback connector
-  * @dev: DRM device
-- * @wb_connector: Pointer to the writeback connector to clean up
-+ * @data: Pointer to the writeback connector to clean up
-  *
-  * This will decrement the reference counter of blobs and destroy properties. It
-  * will also clean the remaining jobs in this writeback connector. Caution: This helper will not
-  * clean up the attached encoder and the drm_connector.
-  */
- static void drm_writeback_connector_cleanup(struct drm_device *dev,
--					    struct drm_writeback_connector *wb_connector)
-+					    void *data)
- {
- 	unsigned long flags;
- 	struct drm_writeback_job *pos, *n;
-+	struct drm_writeback_connector *wb_connector = data;
- 
- 	delete_writeback_properties(dev);
- 	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
-@@ -405,7 +406,7 @@ int drmm_writeback_connector_init(struct drm_device *dev,
- 	if (ret)
- 		return ret;
- 
--	ret = drmm_add_action_or_reset(dev, (void *)drm_writeback_connector_cleanup,
-+	ret = drmm_add_action_or_reset(dev, drm_writeback_connector_cleanup,
- 				       wb_connector);
- 	if (ret)
- 		return ret;
-
----
-base-commit: a22e0051f9eb2281b181218d97f77cebc299310d
-change-id: 20250428-drm-fix-writeback-cleanup-a1179f3b9691
-
-Best regards,
--- 
-Louis Chauvet <louis.chauvet@bootlin.com>
-
+Yours,
+Linus Walleij
