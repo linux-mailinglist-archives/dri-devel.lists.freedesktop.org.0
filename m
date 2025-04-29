@@ -2,172 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E51AA1800
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 19:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA7BAA1824
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 19:56:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9F7010E431;
-	Tue, 29 Apr 2025 17:54:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9063F10E453;
+	Tue, 29 Apr 2025 17:56:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ebe7jp+u";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="L5V4SqfO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8342E10E431;
- Tue, 29 Apr 2025 17:54:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745949251; x=1777485251;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=WiQ4Bu5B00/LYmXlVtkCaIxwMUsswB9d1w6nD/T05D0=;
- b=Ebe7jp+ut6TbmW8DCN1NeKurdfstbCilNvTt+dqBSYOpIHmY+/po4jfx
- Y+zWzLJ67okYAMAoaCfNLfFcLOaGR+JzhJEUTNOpF9aBvFkdee1M8B6Ah
- im8Tgwid+jGSPI2eYZ7wWl58Z2IQBAurMhHMsKVvkUKN3aW3wikeloEXf
- F3A7xVQkE0FvGBAyRFnoCliG0kFk91lj0hY7Ds1rbPKlQFyeQXTooNhxn
- 1cUQlCztOPDgN/dGhsFtEvlUfCZZt0gi4oq3ds5Pw8P2gWKAHwvbv4cAw
- iC6gFXo220Vh9s1xTQL/ZGKFxlbiSiYZIQOoTIjPhbvB21K2PPcKatXQH Q==;
-X-CSE-ConnectionGUID: p6jAGD9kRheS6li0TwvNEQ==
-X-CSE-MsgGUID: TM6faeAfQYWXvFYMmaUO2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58963010"
-X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; d="scan'208";a="58963010"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2025 10:54:01 -0700
-X-CSE-ConnectionGUID: ayGFwf5+SXWVmKvF2U5z+Q==
-X-CSE-MsgGUID: gic0XR+pTTCeuixhLmMneA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; d="scan'208";a="157109979"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2025 10:53:59 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Tue, 29 Apr 2025 10:53:59 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 29 Apr 2025 10:53:59 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.48) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 29 Apr 2025 10:53:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p9Ck6+E+PTuaTIpxEa27tSj+c5Ptlz3qCorIoRY21GnNeNUKFpw8o67qxiRva2/K7xTHjoQr3SB3tqM+8Z4Lpmc8VvL6QnuqqVC8J7fmHjut10wNiGlXi/RPD/N0toU465k9zcZUJRDC09XpZz/R2dBjdUGS4pyN8r7ma8iz/EQIMbZ5CSL91qSkivx/qBqnCMUFYKihS7Ybh3IgIFaxw15Rq3gKwkZKGjvCisa3bymBpidzhbn+Q7C9wG6lhafVrleer0e+fi3zY4O/U+txEbTnK1AVYm5gkyNzW1dxy8rc/DRu6o4YCCmNiikqxd8HcwBm0xt74p61CRjMYv4fuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GamddYSQ/QrIt7pnaO94Xh1bpVxtnuJ9wVeC8maP/cI=;
- b=Xoyman91dtsOCeVnfffYTt3Z6X6hfSHREHRkX66eKMvUFkTLD/26WcONFzW37u9uGhKiBm4B18s8feOh2HJ4rxy6ZnTPPNGHp5URYJ4etLZ4k46KfoP+YOrnaKti0yT00sRLQZGvW1L9JRbSiz/vl7XTtMT0YnfM0mQR0tzAfxRADLl/EGYnq2XIv0mNagmnd7+MaEeWxIAHwlscikvebycaFYG3l91Ymp3x50pUGhtE00wEZ00JPDbZ5ZWB/DWZ7kumR3iDQjUIxUzAdXKnhFFHEXtQOYjkBYTcxJDFV9WUAnkUA+fpdXt6gTsfflVhY82h2IVeqJMGH5mhESD0CA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by IA1PR11MB8099.namprd11.prod.outlook.com (2603:10b6:208:448::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Tue, 29 Apr
- 2025 17:53:41 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.8699.012; Tue, 29 Apr 2025
- 17:53:41 +0000
-Date: Tue, 29 Apr 2025 10:55:03 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>
-CC: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
- =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Jonathan Cavitt <jonathan.cavitt@intel.com>, Arnd Bergmann
- <arnd@arndb.de>, John Harrison <John.C.Harrison@intel.com>,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>, Zhanjun Dong
- <zhanjun.dong@intel.com>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/xe: fix devcoredump chunk alignmnent calculation
-Message-ID: <aBESdxYMh4lrdasm@lstrano-desk.jf.intel.com>
-References: <20250429073407.3505712-1-arnd@kernel.org>
- <aBERlisb42uGjZ8j@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aBERlisb42uGjZ8j@lstrano-desk.jf.intel.com>
-X-ClientProxiedBy: MW4PR04CA0356.namprd04.prod.outlook.com
- (2603:10b6:303:8a::31) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFB2C10E45A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 17:56:13 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53TA7gQ8013273
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 17:56:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=rS5vG6Ykrsa1zW3Ud275kbku
+ 3FMpDAYZKUwwcOX3+Qs=; b=L5V4SqfOxfRjSoAvXu9F1fb31nUL+7WBBsoqfm4M
+ kgMQEPVuITFrCsaw2zQr7bHSp9yDuYHcomGlM8QnvflKiaMDHByIcosrIPf3z3m0
+ ebdc3GhH4IeGPQrYBWLYcyHUAu6OXNlCx1a2RYF7/k3qHKAxXviOoCUgQyhjggno
+ CJzXKHZzjKCS2O4Gc/Fn0SkE2CnfMn3PWOafOZAGNm+YPwGxKY6T7Uv+w3dCQVpm
+ IFLGJeQBDQEio4voMOuUPJEz0qafkQ6uw7ypTXJ5I6fzkog9NagaPJnMz61dA7cO
+ BzZ+o6XudIN7hJgKbz5G6ExpnN0UI3B6uLOkeAJ8Xk3a5A==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468q325cqm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 17:56:03 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7c95556f824so640002185a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 10:56:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745949362; x=1746554162;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rS5vG6Ykrsa1zW3Ud275kbku3FMpDAYZKUwwcOX3+Qs=;
+ b=Vq0nWYqUvtxlX60osvtxn6QmLTZgWrKPNF1UxHpBijfakHUb/5uey6/REhAugBvT+s
+ AbdqDmQn38t7ftMt8J7fsT1KAh9wrXEj9Ij8WfWw+Zf+U10dE23JpIdtJCXIcMUWQvxV
+ TPRFlykn8gR/lndmMWwTCLGagZMgcI8kHlc22aZOROE/LT/ClveVjcT0r/kDjZBxL0cM
+ O7+BCuylbIrEULTOCh01bCrxXTnvpcbQz0pEZItLb79WsNlm60a88ijcNj4xi0JiR7oO
+ YxnPUyaIQChao7OpbMYiSmRMmsYmZ/nDeTja/Nl2DngLhmTelwh5OH5+0BedNK7VaIQj
+ 97SQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXe1VZJMtAYSEvtjqGPeSnEEYTYjtTydAX5i1UfWjksiwnWPevkJ2xoya6+Xye+Pv4qO4GhHL1mPB4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzXXtYDvFbX3WRyx6MAWjnky2+i80qErV3fIL0VcWeVCIbYJ0AC
+ HpWXTRxnej+MRJ6E5Rg2kicHJ1KMEZ/Li7Im1UHFrvYRExZab4gjlUa3gGd3fXv34jPy3ijCIlm
+ 6vZpF/4vdR7y89QEZagR7zGR9sRmV3S6vI+bFVgn/hpm/YNKNOSu/TKpIwZxxQoquE+U=
+X-Gm-Gg: ASbGnctLDho7UrEYdDNvU6Y1B7ejhqC+sMRaIPrj3zWJ7xhVInceIbfNVwaNcBDlOfJ
+ Wlb/53zxZLE6O8EuPdssO/TXW7JVv4O9/CPpUvAa6lMdaFbYycb45faXvb17ybsanKbmGaWooSi
+ M5bkz3oqz4ca0ByD7zfja+RA4jM46ThLH17I6zLYbBdCJ5T15u2mKF+ia7LQo4PQ09nYXhhPiIp
+ PIvSRP5LaJ4HqXNvWCq8ekwPRRTbAFTLwEHiGkn8A1MpwP10BqQy0+HeX4sJXap8h0r6zI4jAPI
+ iFiDPsDX7+irNh2ajx1u5YfEJHzFA8NqIlijLLX9aDEq99Xq21akIH2MggIGW6iX1kK8+XhvbI8
+ =
+X-Received: by 2002:a05:620a:17a2:b0:7c5:54d8:3d43 with SMTP id
+ af79cd13be357-7cabddd8535mr597329585a.58.1745949362470; 
+ Tue, 29 Apr 2025 10:56:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHRha005ciPmWQvQ7hrDFPUg9VvCfnjF+1wobmE3CtP2HMJ9VopYx0EY6VOvVx1uhZKTX5kvQ==
+X-Received: by 2002:a05:620a:17a2:b0:7c5:54d8:3d43 with SMTP id
+ af79cd13be357-7cabddd8535mr597325085a.58.1745949362083; 
+ Tue, 29 Apr 2025 10:56:02 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54e7ccab19bsm1948330e87.207.2025.04.29.10.56.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Apr 2025 10:56:01 -0700 (PDT)
+Date: Tue, 29 Apr 2025 20:55:59 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/dpu: Filter modes based on adjusted mode clock
+Message-ID: <k4le6lz2bwdxqc3jw4ctndybkongynexr6j7p7afc2h5mzktxm@ov26hfmi3puj>
+References: <20241212-filter-mode-clock-v1-1-f4441988d6aa@quicinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA1PR11MB8099:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b5b6748-f1b0-4501-0b17-08dd8746c714
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?KM8kCXfBxvqz6h+1hZnHIzjOA+PqpgxILgYi49p7TBkeJ8O+sH4f83F6Wo9j?=
- =?us-ascii?Q?hXV/jYVki47bdpPydzVLZ+pKRGqcu9375At+UKXMQ81opfMW3nJwHqOIeHaQ?=
- =?us-ascii?Q?ydcrDCcAoY+fOUnrHIHO6QLaV+Gy0gs028iyh+N+Q+8s93zRj9m1HEqgYY+Z?=
- =?us-ascii?Q?16wA0JnphRZPWOGvNF+CuS0WnyvouzU0OGRMifleFxtUO0/0Ikt6m9TOpamL?=
- =?us-ascii?Q?QrqrqSnAg35grs0k4kCji56Xc/Tf9s5CdhpEm3+nlT5+QDK5Cie3zbg9NxI6?=
- =?us-ascii?Q?Fi6h/ZTbja9tLL36lQa1ZNqCsg2FhxPBSVvL5Al1Dfb5VG38gdbVQ4SKRCfm?=
- =?us-ascii?Q?oSIaR7LllzWXP+WRSK58MCb945CLWXV5U3+BhxmjagIFAkqiOUeHy/4h7iiT?=
- =?us-ascii?Q?mK8jSvBfjwd3oETPB5c7PKd9FPLnZLDz9qLcTWlWDuSyi1ufvVR2IsCnf3i7?=
- =?us-ascii?Q?T0iNjdfjIn+D9xl2jjAZRYqgeABVG84gzSe9EXoBsddpcU8aMSK9YNlP9N5U?=
- =?us-ascii?Q?1oPxTCiuIRGlCz7YTg5wbMNRpbzoAV8Z45u32A2rwyp7aN9JVcCr4OJVpmfX?=
- =?us-ascii?Q?dtK21finurlpXSVo0wpXNhmBssEYYEgxT5+tuzTXG4sjlifvtqwnnQeWXNXq?=
- =?us-ascii?Q?uZRnpXmhB8yZCOwdjRUT0oBPaijYJWoDWlxSfw7i7YSPAfx4qdAvZ1+Mcgfi?=
- =?us-ascii?Q?DiqdLvW39p41wb/2FUNnfohOwo+ntbR7VZ9ygwBVObTBwcEAoV7sDEpeNWKm?=
- =?us-ascii?Q?tbpiDxVWK2iuyLzWbAS7iWSmtpXjSpdNrRdvgwnyuHPiTwCgmw+qXI4EUcWl?=
- =?us-ascii?Q?0twSCR2Pv8tHwW0ty0tNiHbIIt0ANJ2YkLbwwDydn1IMlIpxGev5XsWR4RG/?=
- =?us-ascii?Q?xlX/ttzV4+Dt9TeK0OPpKhGedi3t8jb5leRr6NkOCk4IEO1uF6qvvpbpLF+U?=
- =?us-ascii?Q?lTkOSZs/vne95lS0Wuhb8NY3lFiWjiLIpPibMICR+81fJAOniRH80w+9eubV?=
- =?us-ascii?Q?LtU81471qjw0/UeiviFpKcXLKi0rZA3myjjtxaDzvvAAc/Zfl6KoO1ykJfQK?=
- =?us-ascii?Q?uMXyttbZy5DS8J1wS+pPYHjR/KmM+AUgcwIi68MJUWFT4KN52MI8gFEAvdYK?=
- =?us-ascii?Q?zqQd0aL1cXlBcCgMwjqnTFXVI3srnNCiIwAoI5lTY3IA/3bRpGpaF/PvY8Kp?=
- =?us-ascii?Q?wgtHHcm/EqCZvXIiCnYW/JzSUihIlGwpEieu4lAEKgPq7p2ngRDUQNwA8vGp?=
- =?us-ascii?Q?F0C/lAV6VemXK2ch9VdLc38B2FZQr0UNCvGZ3dAQX44yxMzyi6FoikKP+eYL?=
- =?us-ascii?Q?8iYcYrNk8+yF5UndIct8vqi6gFoPfICSRPF/MebvB1Pehd1252gPqDxcjn4z?=
- =?us-ascii?Q?dJ3dH1g=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1ekuzizhVOIrI1ogLOjXkMe05eIPwhf3001gP8L7dHwWUWyC6oVxACJdWIXo?=
- =?us-ascii?Q?u8/qDE5gqGqhhO5f20g5dAOcj0yc/u7UVNRj/AoyHTHM75ksFAxioLeH/AGl?=
- =?us-ascii?Q?1ZXRBfSqnp+VGjB+CyUskiyiETeny6NhG1tjHUmbwv2J0tlvIJCyq65St4mZ?=
- =?us-ascii?Q?OTfRMiV/6g7DqVeGvlFAQMNQHesLTqg1yY3xX8tqtvczzAge6AhMKJQfBux0?=
- =?us-ascii?Q?p6Cxy0yQECGByHsdVHtp/UAcQpBM5yBDzlYrNtmMXIwXURFG/m9q5dMDI4V/?=
- =?us-ascii?Q?xjc6naXJiB9aHdwnpmPAJ9ryK5eaSOcrprpWyEANsDtpeLcaGexrmPpimbFF?=
- =?us-ascii?Q?6iWTkVDGrz1yhcWENVmIFG6annS/2J19UvOfk+sdqu1mhN4j6DlGzbrnSYZ+?=
- =?us-ascii?Q?fYMcKbSkNDx9EkpiC4b5ox53R64fpLL66y6kE/nPsFwlm43PDFgJV9YCG/i/?=
- =?us-ascii?Q?HberoQ0PhaGlaNBkEIdjmBokp5ir2HjIY0lbJmlfzVDULn8dBkq2ShmNKHfM?=
- =?us-ascii?Q?AnzhDStYT9JK1xp4JOythpwEb9CbBfTN+wt6Y7+7K6QqrxNi5PyV3mS7K47F?=
- =?us-ascii?Q?0xfBbDuDJpBek567lG53a97tI7t9vWWARY+y+gy+qwy8fJMCRgZJoj7gLttx?=
- =?us-ascii?Q?MokdmeyqhD4ajobLjeKiLkKZXHMD+r0jo+3ItumFRPKgjr7BB7QnQsRhi7lK?=
- =?us-ascii?Q?K9KbiMWJ9dsoLfaoH1vLebk88SoV6YToRI+yK6ozZKJbMcSAXXr4jXDkYJ6H?=
- =?us-ascii?Q?ktmXzdnIGjyyk54IsXasinw1d+YnQ6cn4XSWzHB5KEHXdQ4qaQxNCG/8i/Xj?=
- =?us-ascii?Q?CfklF3WPU59O0wuIt/7FAXzorDPlsaIgt6EfqK2aG/5QeLybcKrnkNodM4o0?=
- =?us-ascii?Q?OYYLnjbPOPmHZJ7xavmsc0m0bwypbmsx/lmZ6e3YZM5yCMOgwOL/AtAybA/q?=
- =?us-ascii?Q?YnOHjai6CnxR1HMswztVY/KU8eqKj0p8krvXRJ5HHy+Qd8OgJqVX8v47Vq85?=
- =?us-ascii?Q?MtE6wWS4euhthdf06HPSEF9+5grxam+zC4NJk7XTqGGHZCi8fIxoQqu+rYI0?=
- =?us-ascii?Q?dw6UdW2DOPFqzRKwG3YjWoY2HFx8k62Dx9+iwfsQ9akm8Hjb1Yi1C8m8QMmX?=
- =?us-ascii?Q?7vV7rpaf3p44ruRFnSVn2Yhm+KvJjbUg/aNFrMxGTHhulI8LjTqQFq+JMJOa?=
- =?us-ascii?Q?Hza9AWuJQ7dGdC3ZKXyifPgKtDqDq8PqB4WtwY9LvO4lWMcvyR9qUkJbE6ls?=
- =?us-ascii?Q?fsohHhu+GIp6SyVVyf1XWZTzrogf5gZWPWFlxXY17naKXz9mB4GoqAg8uDD6?=
- =?us-ascii?Q?u1rzOyxUzJNveCTO4GuJvphk/L5+8GD5AkdFzJ4DtDpm0+XMinox8vsiIQPE?=
- =?us-ascii?Q?cAT48tLkuYpWjzzcl3LAGU7+/YcFPZSZYyfi/22+VMdQJv835gz9LoKOk2gO?=
- =?us-ascii?Q?7WG0uqeTGJUDVyBBESclw2PXxp5y0Gl7vFHla81/o18vcXk8yonKmP7U+Tmj?=
- =?us-ascii?Q?UHXs15hkNn7lQ1O6C3MZniYt+rSQK8zMmjfnznmUER7SWyakTsIA46KDjpYm?=
- =?us-ascii?Q?U7kq1mlNFWJwj5ToBeUcR6HShqOBrFHoUDrJ5NPvSBg+DXJBqgyCw/11HjJl?=
- =?us-ascii?Q?Ag=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b5b6748-f1b0-4501-0b17-08dd8746c714
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 17:53:41.5535 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fm2mriX4C38FQK8qAIU0HEyrsg/Sl/PSgRRqzQPEw9JULQ0ZhXnzk76SFJ/uzTPc0ZpoSlqZIKvKIcPbVtcOWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8099
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241212-filter-mode-clock-v1-1-f4441988d6aa@quicinc.com>
+X-Authority-Analysis: v=2.4 cv=M7xNKzws c=1 sm=1 tr=0 ts=681112b3 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=P-IC7800AAAA:8 a=COk6AnOGAAAA:8 a=p-WgCerdHsfys2ORyzkA:9
+ a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=d3PnA9EDa4IxuAV0gXij:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: XYZe3oauYcDAkBvW4nZgMsH7zDw0riXg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDEzMiBTYWx0ZWRfX+TtCILVgBTq2
+ q/XGO72swtIyhUo9689CrHrmaw7EDgfFhk8eLO5TaSEPG0Z3nTbD3Qf+ao8GgRzy4VfJqnshAgT
+ POLfIRcgMpJGbmMQfZtJxCC0sMqA3JMpWWsRZJaQ8+aylJnicyiHSZlZ6Nk+b7vNsqIC9MFFEVz
+ 70hH95KLd8SdMoe/j3vcE/WgRRfMZBIAw86ywY6p5ToV+jBAsO6FTQ6OgI/W2diT+GKE0xCnc0P
+ D7ea8B+Zdebjmumo9Q8BbLknLbExrzu+fgumNi+voDWIrIi1TBVA0tr9T3TtcRrzE6cxclKMJ7k
+ KQVfppqp9Rz1OP2YYw3QeNlrdIQ3yPZBHrnSZHAoM7UavSFYTK4q6fS8TglwNq9qgXY0Ei1VsZe
+ FTMvDjD1ReI+MRMSytbd4JQOgoRy6sFJPrjYRIUdLSFBzXAi8bSf8dn+tNd7v9NkKfMz5AWh
+X-Proofpoint-ORIG-GUID: XYZe3oauYcDAkBvW4nZgMsH7zDw0riXg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-29_06,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ priorityscore=1501 clxscore=1015 mlxlogscore=999 spamscore=0 phishscore=0
+ bulkscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504290132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,93 +129,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 29, 2025 at 10:51:18AM -0700, Matthew Brost wrote:
-> On Tue, Apr 29, 2025 at 09:34:00AM +0200, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > The device core dumps are copied in 1.5GB chunks, which leads to a
-> > link-time error on 32-bit builds because of the 64-bit division not
-> > getting trivially turned into mask and shift operations:
-> > 
-> > ERROR: modpost: "__moddi3" [drivers/gpu/drm/xe/xe.ko] undefined!
-> > 
-> > On top of this, I noticed that the ALIGN_DOWN() usage here cannot
-> > work because that is only defined for power-of-two alignments.
-> > Change ALIGN_DOWN into an explicit div_u64_rem() that avoids the
-> > link error and hopefully produces the right results.
-> > 
-> > Doing a 1.5GB kvmalloc() does seem a bit suspicious as well, e.g.
-> > this will clearly fail on any 32-bit platform and is also likely
-> > to run out of memory on 64-bit systems under memory pressure, so
-> > using a much smaller power-of-two chunk size might be a good idea
-> > instead.
-> > 
-> > Fixes: c4a2e5f865b7 ("drm/xe: Add devcoredump chunking")
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Thu, Dec 12, 2024 at 11:11:54AM -0800, Jessica Zhang wrote:
+> Filter out modes that have a clock rate greater than the max core clock
+> rate when adjusted for the perf clock factor
 > 
-> Thanks for the fix, I had similar one [1] but I missed issue with
-> ALIGN_DOWN.
+> This is especially important for chipsets such as QCS615 that have lower
+> limits for the MDP max core clock.
 > 
-> [1] https://patchwork.freedesktop.org/series/148301/
+> Since the core CRTC clock is at least the mode clock (adjusted for the
+> perf clock factor) [1], the modes supported by the driver should be less
+> than the max core clock rate.
 > 
-> > ---
-> > Please test this with multi-gigabyte buffers, the original code
-> > was clearly not right, but I don't trust my version either.
+> [1] https://elixir.bootlin.com/linux/v6.12.4/source/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c#L83
 > 
-> This was tested on 64-bit only. I do see an issue with this version
-> though. Inline below.
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 29 +++++++++++++++++++--------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  3 +++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 12 +++++++++++
+>  3 files changed, 36 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> index 6f0a37f954fe8797a4e3a34e7876a93d5e477642..0afd7c81981c722a1a9176062250c418255fe6d0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> @@ -31,6 +31,26 @@ enum dpu_perf_mode {
+>  	DPU_PERF_MODE_MAX
+>  };
+>  
+> +/**
+> + * dpu_core_perf_adjusted_crtc_clk - Adjust given crtc clock rate according to
+> + *   the perf clock factor.
+> + * @crtc_clk_rate - Unadjusted crtc clock rate
+> + * @perf_cfg: performance configuration
+> + */
+> +u64 dpu_core_perf_adjusted_crtc_clk(u64 crtc_clk_rate,
+> +				    const struct dpu_perf_cfg *perf_cfg)
+> +{
+> +	u32 clk_factor;
+> +
+> +	clk_factor = perf_cfg->clk_inefficiency_factor;
+> +	if (clk_factor) {
+> +		crtc_clk_rate *= clk_factor;
+> +		do_div(crtc_clk_rate, 100);
+> +	}
+> +
+> +	return crtc_clk_rate;
+> +}
+> +
+>  /**
+>   * _dpu_core_perf_calc_bw() - to calculate BW per crtc
+>   * @perf_cfg: performance configuration
+> @@ -76,7 +96,6 @@ static u64 _dpu_core_perf_calc_clk(const struct dpu_perf_cfg *perf_cfg,
+>  	struct dpu_plane_state *pstate;
+>  	struct drm_display_mode *mode;
+>  	u64 crtc_clk;
+> -	u32 clk_factor;
+>  
+>  	mode = &state->adjusted_mode;
+>  
+> @@ -90,13 +109,7 @@ static u64 _dpu_core_perf_calc_clk(const struct dpu_perf_cfg *perf_cfg,
+>  		crtc_clk = max(pstate->plane_clk, crtc_clk);
+>  	}
+>  
+> -	clk_factor = perf_cfg->clk_inefficiency_factor;
+> -	if (clk_factor) {
+> -		crtc_clk *= clk_factor;
+> -		do_div(crtc_clk, 100);
+> -	}
+> -
+> -	return crtc_clk;
+> +	return dpu_core_perf_adjusted_crtc_clk(crtc_clk, perf_cfg);
+>  }
+>  
+>  static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> index 451bf8021114d9d4a2dfdbb81ed4150fc559c681..c3bcd567cdfb66647c83682d1feedd69e33f0680 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> @@ -54,6 +54,9 @@ struct dpu_core_perf {
+>  	u64 fix_core_ab_vote;
+>  };
+>  
+> +u64 dpu_core_perf_adjusted_crtc_clk(u64 clk_rate,
+> +				    const struct dpu_perf_cfg *perf_cfg);
+> +
+>  int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+>  		struct drm_crtc_state *state);
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index ad3462476a143ec01a3b8817a2c85b0f50435a9e..cd7b84ab57a7526948c2beb7c5cefdddcbe4f6d9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1257,6 +1257,7 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+>  						const struct drm_display_mode *mode)
+>  {
+>  	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
+> +	u64 adjusted_mode_clk;
+>  
+>  	/* if there is no 3d_mux block we cannot merge LMs so we cannot
+>  	 * split the large layer into 2 LMs, filter out such modes
+> @@ -1264,6 +1265,17 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+>  	if (!dpu_kms->catalog->caps->has_3d_merge &&
+>  	    mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
+>  		return MODE_BAD_HVALUE;
+> +
+> +	adjusted_mode_clk = dpu_core_perf_adjusted_crtc_clk(mode->clock,
+> +							    dpu_kms->perf.perf_cfg);
+> +
+> +	/*
+> +	 * The given mode, adjusted for the perf clock factor, should not exceed
+> +	 * the max core clock rate
+> +	 */
+> +	if (adjusted_mode_clk > dpu_kms->perf.max_core_clk_rate / 1000)
+> +		return MODE_CLOCK_HIGH;
+
+This breaks arm32 builds:
+
+ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/msm/msm.ko] undefined!
+
+Please replace division with multiplication.
+
+> +
+>  	/*
+>  	 * max crtc width is equal to the max mixer width * 2 and max height is 4K
+>  	 */
+> 
+> ---
+> base-commit: 423c1c96d6b2d3bb35072e33a5fdd8db6d2c0a74
+> change-id: 20241212-filter-mode-clock-8cb2e769f05b
+> 
+> Best regards,
+> -- 
+> Jessica Zhang <quic_jesszhan@quicinc.com>
 > 
 
-Oh, yea wrt the ALIGN_DOWN we'd be reading the wrong data. We have WIP
-to replay hangs on the GPU and this would break the tool. Good catch.
-
-Matt 
-
-> > ---
-> >  drivers/gpu/drm/xe/xe_devcoredump.c | 9 +++++----
-> >  1 file changed, 5 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
-> > index a9e618abf8ac..4eb70e2d9f68 100644
-> > --- a/drivers/gpu/drm/xe/xe_devcoredump.c
-> > +++ b/drivers/gpu/drm/xe/xe_devcoredump.c
-> > @@ -177,6 +177,7 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
-> >  	struct xe_devcoredump *coredump = data;
-> >  	struct xe_devcoredump_snapshot *ss;
-> >  	ssize_t byte_copied;
-> > +	u32 chunk_offset;
-> >  
-> >  	if (!coredump)
-> >  		return -ENODEV;
-> > @@ -203,8 +204,9 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
-> >  
-> >  	if (offset >= ss->read.chunk_position + XE_DEVCOREDUMP_CHUNK_MAX ||
-> >  	    offset < ss->read.chunk_position) {
-> > -		ss->read.chunk_position =
-> > -			ALIGN_DOWN(offset, XE_DEVCOREDUMP_CHUNK_MAX);
-> > +		ss->read.chunk_position = div_u64_rem(offset,
-> > +			XE_DEVCOREDUMP_CHUNK_MAX, &chunk_offset)
-> > +			* XE_DEVCOREDUMP_CHUNK_MAX;
-> >  
-> >  		__xe_devcoredump_read(ss->read.buffer,
-> >  				      XE_DEVCOREDUMP_CHUNK_MAX,
-> > @@ -213,8 +215,7 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
-> >  
-> >  	byte_copied = count < ss->read.size - offset ? count :
-> >  		ss->read.size - offset;
-> > -	memcpy(buffer, ss->read.buffer +
-> > -	       (offset % XE_DEVCOREDUMP_CHUNK_MAX), byte_copied);
-> > +	memcpy(buffer, ss->read.buffer + chunk_offset, byte_copied);
-> 
-> chunk_offset is unset unless a new devcoredump is read which is every
-> 1.5 GB. You will need always call div_u64_rem outside of the above if
-> statement.
-> 
-> Matt
-> 
-> >  
-> >  	mutex_unlock(&coredump->lock);
-> >  
-> > -- 
-> > 2.39.5
-> > 
+-- 
+With best wishes
+Dmitry
