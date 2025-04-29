@@ -2,58 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB921AA07DE
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 11:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD01AA0804
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 12:05:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E79410E300;
-	Tue, 29 Apr 2025 09:59:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40EE110E303;
+	Tue, 29 Apr 2025 10:05:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WAHjDIQw";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ScUGTsBQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D90DA10E300
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 09:58:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1745920734;
- bh=YPTPXj7GXADEHXOMx1Z4O90ixxizjLkgmi0Dh6J7BJs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WAHjDIQwAJc3o5uxAknbJm5ETVG6FNj2CmTb9v3QxDNUMLgfs1h/Pt/ma+auHcAv0
- YKkl3a3Uv4AGD21pLRgKMt0JBb4bGixVubdE9T2Ycme2PiS274+JonPQGDfi3NBbOX
- EuCg7RdpbeuJgUTYYoylSZnxBFlduZhF42jBYCNMii+f6+3DVzLC1e6EWew/NjbF25
- QglkBRm4moWj4DM0Xxea2dWm2+GPYna1uB516wz/iAUSDcutWRo7LOMjBTe1fDczAP
- 8WeBbgbtpBYFM10q3faLrDz100X6epUwmulqFqC3ZnvFnr5cYILcSgwIOHtLrmpaWw
- cM4E50wBKGCrQ==
-Received: from [192.168.1.90] (unknown [84.232.140.122])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id EA34E17E1073;
- Tue, 29 Apr 2025 11:58:53 +0200 (CEST)
-Message-ID: <e54a7f29-c0a0-406a-b907-bb612d80e612@collabora.com>
-Date: Tue, 29 Apr 2025 12:58:52 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/23] drm/tests: hdmi: Add macro to simplify EDID setup
-To: Jani Nikula <jani.nikula@linux.intel.com>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E403610E303
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 10:05:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1745921137; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=jpSzhwxlzOAiAzYn1qgSNGg8hpGzpfBH9ZSCGDbaaQWaYBf+YTPl5HH5Y2t2me7v9d7Nqt9ShWyU/To8C5dpiQKL2aiNXBunoimO6cOc0f0dvRz6hN2jaAvgLenXRYp4rx0zkLJ8StgkMH3sI7h+Ow2hlEgQezjW5j4OGT9aIVM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1745921137;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=JxbCFy+YVAok7lkWS9hgSHArZDCzdlEOMBm9HS++e8M=; 
+ b=GKpj86eYoSeNFysHu2RMVKHTLtlZZzBLvMvKoBNr7LcpO+Z4Znm7AnG7AuZ9MdQ/qdj2qKDpK/fAs72EzucerpNxuxBl4dFmgoONR6L/FT/KtbHbAadNOUR9IX3AM8qy0kWUq0YhI+kJvAHyoCKKbHcuyuWTBB3vkzeCzRrUEvs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745921137; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=JxbCFy+YVAok7lkWS9hgSHArZDCzdlEOMBm9HS++e8M=;
+ b=ScUGTsBQeOdzXPal+jTXkQH/TtCHyCJS3xVRpl0+uUm5bDvVOrABlUbBHKOKQNex
+ CpvEWt235HdE+Hb2sFR6N01jaBy52WClbaN3+ye+vb+cQLyL8dRzGH84JXN/SQnxi/3
+ gj/y5VEPmR225Abunl34QxehV4TCifdRWstIpdhI=
+Received: by mx.zohomail.com with SMTPS id 1745921136083931.6736324937333;
+ Tue, 29 Apr 2025 03:05:36 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250425-hdmi-conn-yuv-v4-0-5e55e2aaa3fa@collabora.com>
- <20250425-hdmi-conn-yuv-v4-8-5e55e2aaa3fa@collabora.com>
- <87cycwy5n4.fsf@intel.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <87cycwy5n4.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-rockchip@lists.infradead.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: Re: [PATCH v2 6/7] accel/rocket: Add job submission IOCTL
+Date: Tue, 29 Apr 2025 12:05:28 +0200
+Message-ID: <2365360.ElGaqSPkdT@workhorse>
+In-Reply-To: <20250225-6-10-rocket-v2-6-d4dbcfafc141@tomeuvizoso.net>
+References: <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
+ <20250225-6-10-rocket-v2-6-d4dbcfafc141@tomeuvizoso.net>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,52 +78,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
-
-On 4/28/25 12:52 PM, Jani Nikula wrote:
-> On Fri, 25 Apr 2025, Cristian Ciocaltea <cristian.ciocaltea@collabora.com> wrote:
->> Factor out the HDMI connector initialization from
->> drm_kunit_helper_connector_hdmi_init_funcs() into a common
->> __connector_hdmi_init() function, while extending its functionality to
->> allow setting custom (i.e. non-default) EDID data.
->>
->> Introduce a macro as a wrapper over the new helper to allow dropping the
->> open coded EDID setup from all test cases.
->>
->> The actual conversion will be handled separately; for now just apply it
->> to drm_kunit_helper_connector_hdmi_init() helper.
->>
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
->>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 46 +++++++++++++---------
->>  1 file changed, 28 insertions(+), 18 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
->> index c8dc6fa0f925e35e9903a18bac7f78f9d8165960..36734639d19a3f279abc4631eb19d5c2b20ca315 100644
->> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
->> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
->> @@ -140,10 +140,11 @@ static const struct drm_connector_funcs dummy_connector_funcs = {
->>  
->>  static
->>  struct drm_atomic_helper_connector_hdmi_priv *
->> -drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
->> -					   unsigned int formats,
->> -					   unsigned int max_bpc,
->> -					   const struct drm_connector_hdmi_funcs *hdmi_funcs)
->> +__connector_hdmi_init(struct kunit *test,
->> +		      unsigned int formats,
->> +		      unsigned int max_bpc,
->> +		      const struct drm_connector_hdmi_funcs *hdmi_funcs,
->> +		      const char *edid_data, size_t edid_len)
+On Tuesday, 25 February 2025 08:55:52 Central European Summer Time Tomeu Vizoso wrote:
+> Using the DRM GPU scheduler infrastructure, with a scheduler for each
+> core.
 > 
-> char* is weird for EDID data, but it's a pre-existing thing, and
-> actually making it unsigned char or u8 isn't much better.
+> Userspace can decide for a series of tasks to be executed sequentially
+> in the same core, so SRAM locality can be taken advantage of.
 > 
-> A follow-up could switch edid_data to just const void *, and ditto for
-> set_connector_edid() and current_edid member in struct
-> drm_atomic_helper_connector_hdmi_priv.
+> The job submission code was initially based on Panfrost.
+> 
+> v2:
+> - Remove hardcoded number of cores
+> - Misc. style fixes (Jeffrey Hugo)
+> - Repack IOCTL struct (Jeffrey Hugo)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>  drivers/accel/rocket/Makefile        |   3 +-
+>  drivers/accel/rocket/rocket_core.c   |   6 +
+>  drivers/accel/rocket/rocket_core.h   |  14 +
+>  drivers/accel/rocket/rocket_device.c |   2 +
+>  drivers/accel/rocket/rocket_device.h |   2 +
+>  drivers/accel/rocket/rocket_drv.c    |  15 +
+>  drivers/accel/rocket/rocket_drv.h    |   4 +
+>  drivers/accel/rocket/rocket_job.c    | 710 +++++++++++++++++++++++++++++++++++
+>  drivers/accel/rocket/rocket_job.h    |  50 +++
+>  include/uapi/drm/rocket_accel.h      |  55 +++
+>  10 files changed, 860 insertions(+), 1 deletion(-)
 
-Noted for next revision (if required), otherwise I'll handle it separately.
+Hi Tomeu,
 
-Thanks,
-Cristian
+some more power management things I've noticed here.
+
+>
+> [...]
+>
+> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..25b31f28e932aaee86173b9a0962932c9c640c03
+> --- /dev/null
+> +++ b/drivers/accel/rocket/rocket_job.c
+>
+> [...]
+>
+> +static void
+> +rocket_reset(struct rocket_core *core, struct drm_sched_job *bad)
+> +{
+> +	bool cookie;
+> +
+> +	if (!atomic_read(&core->reset.pending))
+> +		return;
+> +
+> +	/*
+> +	 * Stop the scheduler.
+> +	 *
+> +	 * FIXME: We temporarily get out of the dma_fence_signalling section
+> +	 * because the cleanup path generate lockdep splats when taking locks
+> +	 * to release job resources. We should rework the code to follow this
+> +	 * pattern:
+> +	 *
+> +	 *	try_lock
+> +	 *	if (locked)
+> +	 *		release
+> +	 *	else
+> +	 *		schedule_work_to_release_later
+> +	 */
+> +	drm_sched_stop(&core->sched, bad);
+> +
+> +	cookie = dma_fence_begin_signalling();
+> +
+> +	if (bad)
+> +		drm_sched_increase_karma(bad);
+> +
+> +	/*
+> +	 * Mask job interrupts and synchronize to make sure we won't be
+> +	 * interrupted during our reset.
+> +	 */
+> +	rocket_write(core, REG_PC_INTERRUPT_MASK, 0x0);
+> +	synchronize_irq(core->irq);
+> +
+> +	/* Handle the remaining interrupts before we reset. */
+> +	rocket_job_handle_irq(core);
+> +
+> +	/*
+> +	 * Remaining interrupts have been handled, but we might still have
+> +	 * stuck jobs. Let's make sure the PM counters stay balanced by
+> +	 * manually calling pm_runtime_put_noidle() and
+> +	 * rocket_devfreq_record_idle() for each stuck job.
+> +	 * Let's also make sure the cycle counting register's refcnt is
+> +	 * kept balanced to prevent it from running forever
+> +	 */
+> +	spin_lock(&core->job_lock);
+> +	if (core->in_flight_job)
+> +		pm_runtime_put_noidle(core->dev);
+
+This particular line of code caused me issues when I was experimenting with the
+driver on RK3576. My current situation is that every job that gets submitted
+times out because of some IRQs never arriving, which is besides the point, but
+it did expose a power management bug here that I suspect may affect RK3588 as
+well. After like 3 timeouts, we reset again and hang in the interrupt mask write
+just a few lines above. This is because we somehow managed to get into a
+situation where this function is called with pclk disabled, and this manual
+balancing act may be part of it. Not doing the manual balancing at all here
+doesn't fix it, I had to explicitly wrap the reset function in
+pm_runtime_get_sync and pm_runtime_put_noidle to avoid having this function
+execute with disabled clocks. That seems like the "wrong solution" though
+because it means something already powered off our hardware too eagerly before
+we got the reset done.
+
+My gut instinct tells me that there's a bug here with multiple timed out jobs
+being in flight, but I'm not 100% on it. Maybe you'll be able to reproduce it
+on an RK3588 by artificially forcing all your jobs to time out with some very
+low timeout value or by masking the interrupts.
+
+> +
+> +	core->in_flight_job = NULL;
+> +	spin_unlock(&core->job_lock);
+> +
+> +	/* Proceed with reset now. */
+> +	pm_runtime_force_suspend(core->dev);
+> +	pm_runtime_force_resume(core->dev);
+
+Do we need to guarantee some sort of exclusivity here so that nothing tries to
+concurrently use the device while we're forcing it off and back on again? I'm
+unfamiliar with the drm fence stuff, so I may be overthinking this.
+
+> +
+> +	/* GPU has been reset, we can clear the reset pending bit. */
+> +	atomic_set(&core->reset.pending, 0);
+
+Nitpick: should probably be "NPU" ;)
+
+> +
+> +	/*
+> +	 * Now resubmit jobs that were previously queued but didn't have a
+> +	 * chance to finish.
+> +	 * FIXME: We temporarily get out of the DMA fence signalling section
+> +	 * while resubmitting jobs because the job submission logic will
+> +	 * allocate memory with the GFP_KERNEL flag which can trigger memory
+> +	 * reclaim and exposes a lock ordering issue.
+> +	 */
+> +	dma_fence_end_signalling(cookie);
+> +	drm_sched_resubmit_jobs(&core->sched);
+> +	cookie = dma_fence_begin_signalling();
+> +
+> +	/* Restart the scheduler */
+> +	drm_sched_start(&core->sched, 0);
+> +
+> +	dma_fence_end_signalling(cookie);
+> +}
+>
+> [...]
+>
+
+Kind regards,
+Nicolas Frattaroli
+
+
