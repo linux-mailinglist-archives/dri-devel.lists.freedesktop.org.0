@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDBEAA3C0F
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 01:27:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB75AA3C12
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 01:27:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC8E410E14E;
-	Tue, 29 Apr 2025 23:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C32710E1C0;
+	Tue, 29 Apr 2025 23:27:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CgDlLGqh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ess5L7vC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2036110E09B;
- Tue, 29 Apr 2025 23:26:49 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20D0510E1C0;
+ Tue, 29 Apr 2025 23:27:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0DD314424F;
- Tue, 29 Apr 2025 23:26:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5A7C4CEE3;
- Tue, 29 Apr 2025 23:26:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DD9AF5C2821;
+ Tue, 29 Apr 2025 23:24:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4C87C4CEE3;
+ Tue, 29 Apr 2025 23:27:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745969200;
- bh=gLU5bTmzAEhOlzZzVyqUxAhX9otof8GitmxtEhirTV4=;
+ s=k20201202; t=1745969226;
+ bh=28MtSgjbjXrdZ/jTsaxL32vyuTpnpiiBB72nh4Z88AE=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=CgDlLGqhAl5Lj7X309PtgVdI8yxsnCfWAIkUGfGdUTqbplV+WJrwhgPq1i9qoIkMG
- 4rLDFaLuwQRW4dBOpQJ+1pFF2FNId/8VJIRU6F/6UKb1J7qlrJbgW+p1VLvfiWiC1I
- p2CkcgNAkF66dmwhYdJfkEF8JIv1XeCQ1aWlXgu8Od8OmD/WW9BSKG8VrIVcxOYWAY
- BEqza099VlJKRlWHwm0YpYF+yRFru9oM0Q268xgsA8bt2Mrt5ihKNjaoDsG6b75iOF
- 81qav3ACB6GizH+rN9BmgSOcjN8Vs8fXGYVe+dYkrBJYYhBjTug/6u8eqrHrdgFL40
- 98DJ6F7KdYMxg==
-Date: Tue, 29 Apr 2025 16:26:38 -0700
+ b=ess5L7vCYQuQNPTszqhQ8yNwaFKuFM7yTi8nS01JB+1uQt/NHg5DISJ7tmQVMFWmI
+ 19odnC67quc5WilZYhQWCPm+/RhYU3JM6Luwlh7d3p26T19U4qBssbFqzKo9L0NObQ
+ cPt2iAmVOBS7BXca6dm/qqYP+VGEF7qbtHhY/qbTfxYEy0/aavQXb+aGIVphQUo0yj
+ tPEyn6Ba/DKZgcJpz3sSLajjfvtRwYzdLGOTSBNlknsKRkoGdTFMDhFDLTFOtfBltp
+ RkGGEHjXI2YGLcOr07kp5vLD8Nk4keMydMUjBCm7CDzGl3NkxZWyjEHYI3qQ4GSPDs
+ L4QyZ2zOKMNsQ==
+Date: Tue, 29 Apr 2025 16:27:04 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Jeff Layton <jlayton@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, "David S. Miller"
@@ -44,13 +44,13 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, "David S. Miller"
  Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, Nathan
  Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
  linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, Thomas
- =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas.weissschuh@linutronix.de>
-Subject: Re: [PATCH v5 00/10] ref_tracker: add ability to register a debugfs
- file for a ref_tracker_dir
-Message-ID: <20250429162638.0a8ff24d@kernel.org>
-In-Reply-To: <20250428-reftrack-dbgfs-v5-0-1cbbdf2038bd@kernel.org>
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v5 04/10] ref_tracker: allow pr_ostream() to print
+ directly to a seq_file
+Message-ID: <20250429162704.4729a76a@kernel.org>
+In-Reply-To: <20250428-reftrack-dbgfs-v5-4-1cbbdf2038bd@kernel.org>
 References: <20250428-reftrack-dbgfs-v5-0-1cbbdf2038bd@kernel.org>
+ <20250428-reftrack-dbgfs-v5-4-1cbbdf2038bd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -69,15 +69,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Apr 2025 11:26:23 -0700 Jeff Layton wrote:
-> This one is quite a bit of a change from the last set. I've gone back to
-> auto-registering the debugfs files for every ref_tracker_dir. With this,
-> the callers should pass in a static string as a classname instead of an
-> individual name string that gets copied. The debugfs file is given a
-> name "class@%px" The output format is switched to print "class@%p"
-> instead of "name@%p".
+On Mon, 28 Apr 2025 11:26:27 -0700 Jeff Layton wrote:
+> Allow pr_ostream to also output directly to a seq_file without an
+> intermediate buffer.
+> 
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-Nice, I like this version!
-
-Since it applies to net-next now I can point out various (transient)
-build issues :)
+lib/ref_tracker.c:316:12: warning: unused function 'ref_tracker_dir_seq_print' [-Wunused-function]
+  316 | static int ref_tracker_dir_seq_print(struct ref_tracker_dir *dir, struct seq_file *seq)
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
