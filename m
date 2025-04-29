@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD367AA0D7A
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 15:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F10AA0D7C
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 15:29:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F222E10E451;
-	Tue, 29 Apr 2025 13:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0136110E484;
+	Tue, 29 Apr 2025 13:29:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="ROw1RHi0";
+	dkim=pass (2048-bit key; unprotected) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="nMjKPaSH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
- [95.215.58.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB0810E451
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com
+ [95.215.58.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B5A710E484
  for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 13:29:12 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
- s=key1; t=1745933344;
+ s=key1; t=1745933345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4DytQf8/knSTl8uN0E/2GEj/HCfcYQColb3vJTlNtko=;
- b=ROw1RHi0HM04vTWcet5QsVpmmPhfbXa4hwH6n+xgsKwc32TKuztrJt44PvMGB5AL0YyL4a
- zoQOfN6SH0Nt23ov4l80WjBYo1jgFf90uj/2I55trX8KrCqO3ijmILGzu7hdWk7MAtSfuP
- qGPXenuw1BgxPHRVa9AQeyou0Uv3lrFSlaRrm4c2RuM74s1VpkTgu1rcuJ0nk/PDxpNF1W
- dvmgYpbo+Q3KOzWX9yFd9oxrzEgw3wxmobR2n340M8A9i8iImAwXErfSfFVhv4RpPVzEBA
- Ynyq3VtD+PaWFbAjOWA3VjyOVfrTxJqHn1/q4+5+FzGnF846uhJpgGKqFaOeSA==
+ bh=0t4N43kcq+EG1O2tabi3Z0JaJWUv3qgGXlKWPJrpiSI=;
+ b=nMjKPaSHK33LAZsqSyqODSyU7VXu92qKWBV9TzlQhDIFdf6IEz43mR9xXfTwrelImsxcl6
+ SYT+/WdHvLFejBzuMS6qt0W4yBVaeGx878tRa71g34jmQCTTq0qZxjajTKCV4gxb1viYyq
+ WMogfNGpWlxIgfkoYMf+1dPURYzQwF4Nfc9sIciI3PoB9kA94XCNPeqK+AexW5tUrp+B6n
+ iboa+eSraBWHHF4a9P2ABr0Itw5NRbQ0W2scEws3bupxTJQjOpxog2HKf9VizF7gA8VuYv
+ kBdzV+DVCC/itIPJBgbv2hJk23ZrGq8ylsmtG9S7foeG1WpDDEzXJFS/rv+uAA==
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <lumag@kernel.org>, 
- Janne Grunau <j@jannau.net>
-Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250428-drm_adp_fixes-v2-0-912e081e55d8@jannau.net>
-References: <20250428-drm_adp_fixes-v2-0-912e081e55d8@jannau.net>
-Subject: Re: [PATCH v2 0/4] Apple Display Pipe driver fixes
-Message-Id: <174593334122.31053.18397299595093842185.b4-ty@rosenzweig.io>
-Date: Tue, 29 Apr 2025 09:29:01 -0400
+ Lyude Paul <lyude@redhat.com>, Janne Grunau <j@jannau.net>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20250304-drm_debug_dp_mst_topo_kconfig-v1-1-e16fd152f258@jannau.net>
+References: <20250304-drm_debug_dp_mst_topo_kconfig-v1-1-e16fd152f258@jannau.net>
+Subject: Re: [PATCH] drm: Select DRM_KMS_HELPER from
+ DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+Message-Id: <174593334421.31053.2925170432781781609.b4-ty@rosenzweig.io>
+Date: Tue, 29 Apr 2025 09:29:04 -0400
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -64,28 +63,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 28 Apr 2025 13:37:12 +0200, Janne Grunau wrote:
-> While looking at a suspend issue in the Asahi downstream kernel I
-> noticed several issues in the the ADP driver. This series fixes those
-> issue.
-> 
-> The root cause of the issue was that the device is unexpectedly powered
-> down on suspend. The driver relies on initialization done by the boot
-> loader and can not bring the device up from reset. The change in [1]
-> annotates the power-domain used by ADP as always-on. This ensure the
-> touchbar is useable when the adpdrm module is loaded after boot.
+On Tue, 04 Mar 2025 20:12:14 +0100, Janne Grunau wrote:
+> Using "depends on" and "select" for the same Kconfig symbol is known to
+> cause circular dependencies (cmp. "Kconfig recursive dependency
+> limitations" in Documentation/kbuild/kconfig-language.rst.
+> DRM drivers are selecting drm helpers so do the same for
+> DRM_DEBUG_DP_MST_TOPOLOGY_REFS.
+> Fixes following circular dependency reported on x86 for the downstream
+> Asahi Linux tree:
 > 
 > [...]
 
 Applied, thanks!
 
-[1/4] drm: adp: Use spin_lock_irqsave for drm device event_lock
-      (no commit info)
-[2/4] drm: adp: Handle drm_crtc_vblank_get() errors
-      (no commit info)
-[3/4] drm: adp: Enable vblank interrupts in crtc's .atomic_enable
-      (no commit info)
-[4/4] drm: adp: Remove pointless irq_lock spin lock
+[1/1] drm: Select DRM_KMS_HELPER from DRM_DEBUG_DP_MST_TOPOLOGY_REFS
       (no commit info)
 
 Best regards,
