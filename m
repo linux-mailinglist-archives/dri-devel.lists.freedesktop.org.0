@@ -2,95 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA54AA0414
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 09:08:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D61DDAA0435
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 09:19:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2509210E304;
-	Tue, 29 Apr 2025 07:08:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62DC810E126;
+	Tue, 29 Apr 2025 07:19:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fcJKYscB";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="nhuBCARk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 124C110E2E8;
- Tue, 29 Apr 2025 07:08:09 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 22CA543A5D;
- Tue, 29 Apr 2025 07:08:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1745910488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kd3lI03kG0Wm60ssPsZRZZBpZE8tAduMDQ2Hf34LlN8=;
- b=fcJKYscBr/b/jTAU/vdTWM1YVAZaQiKZf9U4AtTZtpc5ho823NHoDeZMuLwHQVD5ogMz4d
- l4pHVstABt7F5anu7rX+Is4pzCVclLJyVW2RUnk7sXHFitWtcyzJ1ZDZppcaYxqIMmzxD2
- Sfc1sxFBGdTgBwDEHAPbC2rd0KV+kllYzYprQVDyppacSAp3Fkyy+/iDCZutuZh3ARu+US
- 34h4mqj6xj55AWEBMBTArFMS0lwr+TdUdaA1KbDVw07BZOaEQry3xl1MPhcnU/8hzfGqQG
- 6tTsndglheT+XJYQtJe0j1GjXXfJp3D7sz7UMZVYzpF8m9ZxqhKhClOsZxv+aQ==
-Date: Tue, 29 Apr 2025 09:07:59 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
- Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui
- Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
- chrome-platform@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, Adam Ford <aford173@gmail.com>,
- Adrien Grassein <adrien.grassein@gmail.com>, Aleksandr Mishin
- <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, AngeloGioacchino
- Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung
- <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
- Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Detlev Casanova
- <detlev.casanova@collabora.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
- Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
- Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
- Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>, Manikandan Muralidharan
- <manikandan.m@microchip.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
- <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
- <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
- Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
- <mordan@ispras.ru>
-Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-Message-ID: <20250429090759.3a6e87bc@booty>
-In-Reply-To: <810dc089-4789-4efb-a88f-4ab8da1519d4@nxp.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
- <810dc089-4789-4efb-a88f-4ab8da1519d4@nxp.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2071.outbound.protection.outlook.com [40.107.223.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEFB410E126
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 07:19:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Zxx2QhynYu2wwVY3B/7olKNSd+cMKiYnQiA2w5pOOoUkfSjmTga2t9hnucmgYPMjTUx/J/0vN2taOMJul+9H4byIV8ao8N0cADY9M/LpUaFbGIYXVaHXbH6T1Biwog859D/3u6MzduguEQ8yToJjbHsd2uonyS1a8VTizlyQ2+4xgMv5BlO9B/tkmUGOWCmYLZpf/u6yZLBN7m/6/b5YK6pnunPEvcu+xHf9+5y+bZqdehnkSruRkftKjsH886HsywOrQSb3qCj+VWc5jM4WIlzMlOM/NZhi4jCdFLVuxJCdu1pcwcA1GgP6RCy7xNYJFcdBlYOJdNfIsLfzg9FfMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=44PgwtkpqGEQeXE1ocwxhWNYJjxgpE1CUtemIBIF/88=;
+ b=CpElhFdGbs4vqg6S35AsvuLcEgo8MN7eU7vcU/gPIxSB9UG2XxtiKxsIKG0IGK67gF0yFvoroAaJ1TXOyBSiLUoWvxZUPVRt2WM7U6Nspz0RfkWl0QEUOwjCuy/bK2/0sUK4vcmnmkETgikI3ddS7A9gHAyXFW6/Mee79tS4CU8uoI286AbsKcAdkl/fLNaKmDpR0ewHyBqI50YkMr+cgc3BE0z8lM8Ig4bueAVqhnzO7z2iKwVUD23KVobWaOB2hGsksgdvkMqlccksNM4H5kCPSGvU6mQKiQGQ30K4oqzwDZeoTP+hdm1rgeykldTP9qZ/zqK/E2qJWaQ4drlVeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=44PgwtkpqGEQeXE1ocwxhWNYJjxgpE1CUtemIBIF/88=;
+ b=nhuBCARkUdeZF8DhRx1BYu1407QzfVr3p2e8I8nH+TC0pbzMPir7QfaWkNYbbBU8wVkZwwUjNHFrbByfN5wtDlpzP6HWtER9A9/A25wTfxCkfp4hcak+CL4gZ756mPWoDF5pynjWbNUkpoPnY+4hBMNW3IwcvvSqL8UVyGQEvvI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by LV2PR12MB5775.namprd12.prod.outlook.com (2603:10b6:408:179::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.30; Tue, 29 Apr
+ 2025 07:19:20 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Tue, 29 Apr 2025
+ 07:19:20 +0000
+Message-ID: <32cf322c-b23f-4127-b1f7-5cbe8894a007@amd.com>
+Date: Tue, 29 Apr 2025 09:19:15 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/sched: fix the warning in drm_sched_job_done
+To: "Khatri, Sunil" <Sunil.Khatri@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ "Pelloux-Prayer, Pierre-Eric" <Pierre-eric.Pelloux-prayer@amd.com>
+References: <20250417102430.2828552-1-sunil.khatri@amd.com>
+ <BL1PR12MB57534AEE3F7D3352F68B2A4493802@BL1PR12MB5753.namprd12.prod.outlook.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <BL1PR12MB57534AEE3F7D3352F68B2A4493802@BL1PR12MB5753.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieefudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepieekpdhrtghpthhtohepvhhitghtohhrrdhlihhusehngihprdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkv
- ghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-ClientProxiedBy: FR4P281CA0030.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c9::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|LV2PR12MB5775:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2b7f32a-a0d3-4a9a-3232-08dd86ee28fd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?anJRVlBSeXNRZnFybG9lNnljbEp4K3FhM3c5UUhjM3Jia0ZkSXpsMTl3enlW?=
+ =?utf-8?B?aUVTVlV2TXVDUGtVaEp5bnIxdDZwT1hYZktpNXF0ejhyVU42K09OeWswSnZX?=
+ =?utf-8?B?dWZ0NlhWOXpCU1czV0xhVjhRYThlZ1c1aklGaXVGWFhyL216NTUvUWhWRUZi?=
+ =?utf-8?B?V0tYeTg1N0N6eStZdUtRMkErZmhZOEt5bTRmL3ZoTUFzWFk1Mk5GY21VRmRK?=
+ =?utf-8?B?MUI4ckZTYlUyUmZ1SmFKVURNWUZWNHFraFl5aXV1d1FPZ1pXa0lEci9yU1ZU?=
+ =?utf-8?B?bTFZd0d0dVpaT1lBWUluSXFsb1ZrTm8ySmtHblUyY3NhY2luM3dJQ3F2bWxa?=
+ =?utf-8?B?WFNTZTFWSVlQYk00NDhiWjJpVHF6Y2c0dmd6QzU1SUdUblF2ek4yTkhka2JQ?=
+ =?utf-8?B?RksvZjI2Zk1EdDdyN1I5MXRtTmU5V1VvdFMvV252MGZIb2x5UDd3TnZQYnBv?=
+ =?utf-8?B?ZmtmOG0rK3VuWFp3V1Y5RlZwQkZQTVlFaDgzLzdPei9JUmEzdXEvQWtuaFAr?=
+ =?utf-8?B?RGd4Mlk1c2xTU0dqVHVaSndEUWYybG5KNUgvUGlPNHZ0ZWo0dlRPQUFpR3Q0?=
+ =?utf-8?B?VWZtZDNHYkczL056dUdXbmpURDJHeCs3K1V0TThiZU5WOHkyYXNhNHkwRzRx?=
+ =?utf-8?B?UWFvOHZub0ZnQ0EzMUE2UDYzdXFjWUZkMWpIUkpVTld3YWxKTDBmVVNFejND?=
+ =?utf-8?B?QTNUdy8wWWs4bDFQdllzK2VMbWtCdjFSUlFacTRvM2lKdzRrc3hybHdqdkQr?=
+ =?utf-8?B?Y2M3K2Rtb2ZHTkFqSjhQSHJJczhxRUFaY2E3TlVibzl3dDdER2lUeGlTMXhz?=
+ =?utf-8?B?TUlFY3pZOFpna3QxOVV5QnhCSDFtK0FraXhaNG4yVFN3WHhkckVVUDcwWHpw?=
+ =?utf-8?B?c0xRb3dTZklNaEw3WkczeHpmNktaaVpaQWdtcm9PNk9VYi9JaktCQ1dob0NS?=
+ =?utf-8?B?OE9vc0pKVXlRblZGQUFjSUhrSWoyZEFQTk02RHlxMFNPM2thSHMyUEN4WGxr?=
+ =?utf-8?B?NkVndEpJZWpqRS91UVVNcGlvR2pEVXpGb2JhZE92b2t5dXlOZXM0eVpzRUtu?=
+ =?utf-8?B?eXhoOW5odFhpczRvejlrVXVYWTRoZ29Oak9OVHV2Y1l6eTlwTEEzdHBHdlRE?=
+ =?utf-8?B?WmVtc3YyOFRBL3d6NGlnNDI0WkFkSHUwM1FCLzhvVFpjUWxDWmlNY2tqeFU2?=
+ =?utf-8?B?YjJhQzc3M0FiQm9DeDhzMXU2TEJjRmhWOFFkMWpZdVYrRXZNalZzREI1SmNh?=
+ =?utf-8?B?Y3ZLcm91K1hjcXNpeGg5M3FnMFFhR1Q2NEhmZGJTSExtdzUrWXJHaGZ3STZV?=
+ =?utf-8?B?anpNZ0k3TlNVZzlxU2RFVGZrZUV4WE0vSjRDM0NSc3ZHVkRtV042alNOQ0VW?=
+ =?utf-8?B?ZkJwZHQrM2dVek4rV3h5dGxlQThRVDVtd29VRHM1d1JseHBOb2VQQ0xNUWFa?=
+ =?utf-8?B?TTE2T0V4TFZsaXN6aCtWK25aVU1adjRLWGU4eDljc0ptSkhpbElkN3BHY3Vy?=
+ =?utf-8?B?bVdOdXlqTTA5bWt4WG5nVWU2TXNCdFlhSFJRRHMzaWhFUTFoRTFTQlNucSs0?=
+ =?utf-8?B?NHF6Lzc2cEQ0eVc4ZFFzNDN0U2JTQ0RpR0hodjZJYk1TOVhGWDlidXJOOGZ4?=
+ =?utf-8?B?TnAveTEvUWZkckxKVGpKWlZYUVNuRnh1WlZDejdTWDNvYTN5ekhiYjRnNENQ?=
+ =?utf-8?B?TGltTU1PZjZrdDZOR0VZWE9haHhWMjMvY3A4ZVN1aWlpaWZmTFc4cHIxWi96?=
+ =?utf-8?B?RW5TOVNXTGd3dFVxRmZsQmpZYVIreWgxWi9XSzRWUFRYY0loSHVlMHpwR2JI?=
+ =?utf-8?B?MnFzN2hNVndiYUQ0T09md2Z4bzRPMEIzR0dCaUh1T3d0dyt3RU9CaXlKY1RB?=
+ =?utf-8?B?Z3dmeTd3MjdiZUZjUHNEZVV4M2Z3aDQwZHJmb2VOZVFjOU9nMVpMOTBCNFNp?=
+ =?utf-8?Q?pa/AL3JWurw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXNjRlllQ3BVajkxWnRTaU9zaUIzaFk5S0FsRzByNFk5UDJ0L2xOWXVrcFdV?=
+ =?utf-8?B?aHY1cks2cG9obWQ3OFYwdXU5aURxY2hlK051UHo2M0pCa1IvUzRhYzNSR3hq?=
+ =?utf-8?B?UHVzQ2c2Y21JdHhSZ0QyMDZhZWZRb3hjU0FaSjV5QjdWMmZZZmVhZTZEa0dM?=
+ =?utf-8?B?NFhnT1N6UjQ3dGQ3TWd2aSs0ZlBLZi84M2M0N0ZBdllUNC9EYUxVTHV1ZEJP?=
+ =?utf-8?B?Q1lRSmhxczlYbW5wM3o1UjhUZEFBUmZvQW54aHJIczhWL0U3TGpqTGtNRWF4?=
+ =?utf-8?B?UitTYzdRWm1vSlo5Zy9VK1RKUWtnU3BvTFUzbk93UnhQblE5N0hJRlJvbFNE?=
+ =?utf-8?B?dFJlM0JLejVUSGk2azZSMnlXV3hBRXZiSEpkLzA4elE4WmszOEI3NGYxWVRo?=
+ =?utf-8?B?RkRCZG5FcGlBOTFmRktJTmwrb3A5T2c5cXE0VE9NdFMyYnFySkNqaTUxbWJ1?=
+ =?utf-8?B?ajA0RnprYUUvOEMyWDVNTVNLYlZuNno4a0l1aUd6dC81STFoQ1ZYaVhZQU96?=
+ =?utf-8?B?M0szRmx2dWs2akZrakFrVzExQ2JVVlh2N29VdnE4RURGOGdldDYwVmNMVGdV?=
+ =?utf-8?B?Y2ozVnVlQWc3bGJ4bjhVODJvRlZmZVN5SlFJcnBqVXI5T3dnTGMzUmlTQS9W?=
+ =?utf-8?B?dnluQ3FtM2ZJcGtpM2tRZDRrQzh5OHEveDl0UE40bGRRN1lKbWpnNHNoMEZn?=
+ =?utf-8?B?Vi9sQnlZa2MxeFpQeG9jYkp4amswZkd5YVlHekRSWUluWE5yam5MQUZjZFhj?=
+ =?utf-8?B?aXlvM3FtNWpHaVpwLzlwaVlLMmx5NVRZYzZFblkwQjhvd0ZNQXVVOWx0MEdh?=
+ =?utf-8?B?YW4wSGI3K1NPZ0FTc3ZEUXNWSG9wVDhVbzVuaTNVMjJzai9kWlQzY0NEOHdE?=
+ =?utf-8?B?bE1mdmNPNEloRVUyYzNodlpWSjFzVFBqN01SZTlsMjlxYzJ0MFpkdzAzZXpq?=
+ =?utf-8?B?SFEvazV1VTZacC9qZVg2OStOV1d5QUFNZjY1SW4wb09qUVYvUGJqYmpsT2Jw?=
+ =?utf-8?B?dDVkcDBFVDgrZmlOZ1pqbjUzMmFpUDZIeW9FVWg3cS9qMWpXVFJsRStkNVVK?=
+ =?utf-8?B?WGJqb3djNHV1L0Ercml2ajJRRFFBUGtSUERsL0I0V2VzaVh3aHFPSEU2bWl6?=
+ =?utf-8?B?emNmeTFneEFRRERhdVlQaG9JWElxcVI0U2h4YjVkdmphZkVEZlZpYjM0Rm1i?=
+ =?utf-8?B?bEtXVlFUUXJCZU1XaUJJaFZ6Uk5ZYjRFZldXbm1LbkpLTFBwWEtXSkJRcVdQ?=
+ =?utf-8?B?ZVIrTDJpenpWNWZ4aUJCdFRqZTZEWHhCRkRsMUxkeTZEcW9VcUxrWSthamVo?=
+ =?utf-8?B?UmNZbGtocGJMejlON0NaYWJSWnBMb1dpYVNuZ1hNcEZHWHhaMktGL3l6dG9m?=
+ =?utf-8?B?RHJycitrZkMzZFNRRVBjcmkrOUlaM2lSZktuZExMb3NXWnpoOVpZRlNBeXVC?=
+ =?utf-8?B?TitnMk56QVZHUjRGa05nSEtxWUhZQTU4dlBzb2toZExMcUZwSkpVQWlOeDBs?=
+ =?utf-8?B?ZmZuZEZEV1RsaVUwYTRHaXV2NnBjNkhwK0NNL01tbTJtSE55MjU5eXBkdTRM?=
+ =?utf-8?B?dk5taVFjVDNkeXV4S2ErU0pacjdmN1Z1Rnp0VTQwbWFQQ3pjZ1grRCttRGtJ?=
+ =?utf-8?B?cEhPdnEyTkJrdmhkR3VoNERONmNDS2k4bWI0emszYlZCQVVUK3lqZDN0VUR6?=
+ =?utf-8?B?QVpmNGgrYkQrM05Ibk1xZUExMUdmYy9hK25wL0IxWDdzQllQWGxmVk9XTFA2?=
+ =?utf-8?B?NDhCdkpZQWtPNk5IZFZvaFEvSEpUMWtxQ2NxbjJLTDc1YnVRdE9HajFOY1li?=
+ =?utf-8?B?U2pHNCtyQSswUUZVQzdIQ1lvWllXZFZlZitzQnJGbDh3cDViWGp4dmZZNUYr?=
+ =?utf-8?B?TzlabXR6eU45Ym1vaEdpc2hQYld4OE40K25wVUhmL3NXTmJhQm15cEdMRXc3?=
+ =?utf-8?B?elZLMko1NDN2SkxoQUdaOUEra0NQc1FuNmZzbmd4U0Y5RnZTT2ZTTUJUWHN0?=
+ =?utf-8?B?NTczalZHdUdqYTBaY09kZ3U3bkhFS0Z3cXNsSXV6cHNkdHpHQ0R3Mit0MURl?=
+ =?utf-8?B?alY5OWM4ekVjZlNEeEJUTkVwa1RhTUJvblorYW9KcFk4b3p6WDhzcmZMRFBW?=
+ =?utf-8?Q?i0Y/cdB/Y90RIKoGPEbVLn+wE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2b7f32a-a0d3-4a9a-3232-08dd86ee28fd
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 07:19:20.7609 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8lPGW552mZxNBA+qWirWTCPZtdwArh8hKk6Lksy2Yx/c0D2/ODBpEyL8HaVH6G+b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5775
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,51 +166,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Liu,
+Adding Danilo and Philipp.
 
-On Tue, 29 Apr 2025 10:19:27 +0800
-Liu Ying <victor.liu@nxp.com> wrote:
+Christian.
 
-[...]
-
-> > diff --git a/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c b/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
-> > index f072c6ed39ef183b10518b43bd6d979bc89e36f9..8069c4881e9058f5462f99116799b589bd52b19e 100644
-> > --- a/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
-> > +++ b/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
-> > @@ -59,9 +59,10 @@ struct drm_bridge *devm_imx_drm_legacy_bridge(struct device *dev,
-> >  	struct imx_legacy_bridge *imx_bridge;
-> >  	int ret;
-> >  
-> > -	imx_bridge = devm_kzalloc(dev, sizeof(*imx_bridge), GFP_KERNEL);
-> > -	if (!imx_bridge)
-> > -		return ERR_PTR(-ENOMEM);
-> > +	imx_bridge = devm_drm_bridge_alloc(dev, struct imx_legacy_bridge,
-> > +					   base, &imx_legacy_bridge_funcs);
-> > +	if (IS_ERR(imx_bridge))
-> > +		return PTR_ERR(imx_bridge);
-> >  
-> >  	ret = of_get_drm_display_mode(np,
-> >  				      &imx_bridge->mode,
-> > @@ -71,8 +72,6 @@ struct drm_bridge *devm_imx_drm_legacy_bridge(struct device *dev,
-> >  		return ERR_PTR(ret);
-> >  
-> >  	imx_bridge->mode.type |= DRM_MODE_TYPE_DRIVER;
-> > -  
+On 4/29/25 08:36, Khatri, Sunil wrote:
+> [AMD Official Use Only - AMD Internal Distribution Only]
 > 
-> Nit: Can you please leave this blank line undeleted?  And I see similar
-> situations where lines are unnecessarily deleted by this patch, so this applies
-> to the entire patch.
+> Ping ?
+> 
+> -----Original Message-----
+> From: Sunil Khatri <sunil.khatri@amd.com>
+> Sent: Thursday, April 17, 2025 3:55 PM
+> To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
+> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Tvrtko Ursulin <tvrtko.ursulin@igalia.com>; Pelloux-Prayer, Pierre-Eric <Pierre-eric.Pelloux-prayer@amd.com>; Khatri, Sunil <Sunil.Khatri@amd.com>
+> Subject: [PATCH v2] drm/sched: fix the warning in drm_sched_job_done
+> 
+> Fix the below warning.
+> scheduler/sched_main.c:397: warning: Function parameter or struct member 'result' not described in 'drm_sched_job_done'
+> 
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index bfea608a7106..5cd29e92b133 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -390,6 +390,7 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+>  /**
+>   * drm_sched_job_done - complete a job
+>   * @s_job: pointer to the job which is done
+> + * @result: error code for dma fence for scheduler
+>   *
+>   * Finish the job's fence and wake up the worker thread.
+>   */
+> --
+> 2.34.1
+> 
 
-I agree some empty lines removals are not nice in this patch. However I
-have no idea how to avoid that with spatch, so I'd have to redo [a part
-of] the changes manually to avoid it. :-(
-
-Anyway, those I spotted look quite innocuous. So I'll assume it is "OK
-enough" as is, unless there are strong requests to do differently.
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
