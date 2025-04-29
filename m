@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58151AA1183
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 18:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D86DAA1185
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 18:27:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48B7010E4FA;
-	Tue, 29 Apr 2025 16:27:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9297710E4F8;
+	Tue, 29 Apr 2025 16:27:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="GfL77pZh";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MfCIG1eY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED0110E4F8
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 16:27:07 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-30828fc17adso6244729a91.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 09:27:07 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85A9810E4F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 16:27:24 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-301302a328bso8650976a91.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 09:27:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1745944025; x=1746548825;
+ d=chromium.org; s=google; t=1745944043; x=1746548843;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ID3Zt/kcyvy5TQaBJIv/XJ2QG5FvCfrPnhdLxnIVAHE=;
- b=GfL77pZh4vH9GfBjRRbyZSBennOcMQ+//AV8loLtFgh0FasgYu976xghS+yrApVPqm
- brceClKU1VYufs0H/Z8j+sxPxejz1fyu7NjXxbBWRpM8mQT5rXi0LsKHd41bO/gmGiiC
- XF10/30zTu4SvEAbvSk2Drjii2he6vi5kzl5k=
+ bh=HclVyaYhDkOgSEJP0FWc3iF06F9vTvtmO/KyE9DKqLs=;
+ b=MfCIG1eY3zi8rZ8IF10yHF7HT3sUlOStee0C/VgDPNS7ULqI3G1Q+v3Vc5XG0laK7z
+ Ww22vv9rtbU6W2BE7n4rW++J9TSN3bcIwkM+bh2UIQOr+QuFhlnaJYQ0Ud/XfObXpmJu
+ 68W1veaWvuK8yN7chfufBbceBJKWBKNvR2UIw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745944025; x=1746548825;
+ d=1e100.net; s=20230601; t=1745944043; x=1746548843;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ID3Zt/kcyvy5TQaBJIv/XJ2QG5FvCfrPnhdLxnIVAHE=;
- b=LEum+KJ4oyTg1xzL+K80wwfj41eqNPg4mqotsjXK1yYkp/e2RDBhpzNEiLBZqC8vvo
- NH2Gj4wjOsoaIK1FrRFv1ZIYrtEU/7Lv4PQOmyTzLV7x8FpEDy972c10bMkeAH0m93qz
- Gw4IzJ300TMYz1VFuIdQszFQytHWN8hCYlblp8dvSs+zZhiBIx1zZjCJyRJYAvCMTZb2
- wAMRrl3IZW4x7CmS2b0wSXRxpiWu3aXtjQfiqQmNJSXC581fmq3o02lyzTJmmWDI2wd/
- zcw78GnjhXIAVARhrjynguV1tak47HwBerhfoRCXvoewq/QQDf1Umn3SZLkP6ae7s0b0
- 1HiA==
+ bh=HclVyaYhDkOgSEJP0FWc3iF06F9vTvtmO/KyE9DKqLs=;
+ b=nYyVBV2/wpTpO4+7sgBdxHlObM9lKt0U7B+pbn1aafm240tC0yq2DB1fGu7H2ndGtv
+ WEuPL1VY5dmQjwaLKwz5R/YVAcA/AQvpRPihYV5n+UDxerwZUoZWY1IPBNOXemjpHY7K
+ up5yfhMsPXl8cOgpQCDORO+QbIFqnKjHTLYP9dxbJv4ayRjWEDS7FpqDsgMaYeQKG3oi
+ uJSxoHZ4uDMNLtFt9kwTVUGIU37Mb4LsOwJWTSbiO8cMlU4qzzsY2ZG3kdB2ldNoSkNx
+ ev+FoO3bJxv+35jA/5E5E10JN0VMftB6G8Of0uHHm0/IWy7BD2hHfQG02FoLwYoSgpFx
+ 56ww==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWKY+cMkaz1gEkyJS4z6TVvj3vlQMwPsZZPYK1QocJ2qVntAI3gxewx0nAD5mbx/iFVTanNvHbImRw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGr8Wv6HAWtlaiBTpPcrzqEac1D/E6LOLjrJVfbXyswSHeOx5u
- xKDmjVGDOADpJD7Lxu1oCVk3WNeW9/XrmqxnTOWPor3yayZm8f4whHMvt7aHi5So+3TpBSFY7Os
+ AJvYcCU9TeKcgKz54mJhawJQXuiSacxV8eRkuimE3pB2ToIxmT++4dpHbVEagM8VtVaohYTBLawxz+EWwH0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyYvg4bmTuVn+gil87hl11k8UTzxR2W+nski2G6L5XqGq7uJGk7
+ G/dVubK8Hjqkabs5QDAKylEbrYuMMdewXAiS/Du0n+PL8Na28H/fp6pfZ8fTtAMCTpDCpl+x9PE
  =
-X-Gm-Gg: ASbGncucoynTxEiExC5d51PTrR+xjOSgf1d2VipA/+andiKXjiY0D0bQK/pPg/m8ZPW
- TLnIvvQhhnY3VN7SI7yuTj1/iVPJfIcMTawW/L8zqLOrqdLJ5Dt49f2HYTb1pB7kg0Y8Xqc1+6y
- qKpJW2J/bt1z1KP5PXuFZUMO/eGETypRFHTk7p2MRrw9c2jxuFYCtasLZMLxMi4tPQOaZlYp6mW
- ri8SpCJnWG6clNyJyuqmcEKhcggaVo+aGJ7oi5eZuk6k1F89+ztIY18DKIcXN7jFzfk/u7e0Yj3
- WeojgfMtZN22kamEnrnzhQeBXmXSolJMdXu6SmFI15esSt+OrfQ7QbhGF0O/QRx9ztnCANf8YP/
- JTGkE/2Gq
-X-Google-Smtp-Source: AGHT+IHr6JE7sAbllx+8dtmu5R1MzuGPljy20/hPv6A4X02d2+0Hm3i/DZjNqE4XLfIL3p3WyR6f8g==
-X-Received: by 2002:a17:90b:4b4e:b0:301:1d03:93cd with SMTP id
- 98e67ed59e1d1-30a013988efmr21174964a91.24.1745944025292; 
- Tue, 29 Apr 2025 09:27:05 -0700 (PDT)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com.
- [209.85.215.172]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-309f7850f87sm9579796a91.46.2025.04.29.09.27.04
+X-Gm-Gg: ASbGncu1+wv1pEQOXVv5Q8A1eiObIZj7U5+VJhkXFof97Xwxm3441fTWtxv+ysI3Mjy
+ Pr3jUcawEfa0a5L83lx8BQQQysJIufE4pdgu6r3JqOKralbt8gh4PyAVxSH2bK29BQmWc4RFcih
+ m9kN/tSRZD7O7CmuUUyH9hx9We1h0FwnTUMPj7UxXczSExD4clFgrwku4memJrs25ZRivtvYOZo
+ GnWj87tLDs8VwprzXQcZXPoQxLhapeKuHOfw6nnQU0I3ZRNWq9WDpmGkltYwjNQSxTDCfug/ikw
+ XDG/OEuUJzbusZuEN40H3fvFEdTA8ZsKUdLNXMa5rKMx1IUrBS6ngY3TTuaCxFfZ4xjVMtRQ7tJ
+ 0IxdlSMFO
+X-Google-Smtp-Source: AGHT+IHOT5+xSliK+TzFBPffDzbKeju5VxbBMoYBfZo0zcAi2zGqL1jZZIlg+PX1n3ZmwzeB2+GR8Q==
+X-Received: by 2002:a17:90b:2e50:b0:301:1bce:c258 with SMTP id
+ 98e67ed59e1d1-30a2157d90cmr5260623a91.22.1745944042861; 
+ Tue, 29 Apr 2025 09:27:22 -0700 (PDT)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com.
+ [209.85.215.174]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-309f7760d7fsm9572563a91.21.2025.04.29.09.27.21
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Apr 2025 09:27:04 -0700 (PDT)
-Received: by mail-pg1-f172.google.com with SMTP id
- 41be03b00d2f7-af50f56b862so4298612a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 09:27:04 -0700 (PDT)
+ Tue, 29 Apr 2025 09:27:22 -0700 (PDT)
+Received: by mail-pg1-f174.google.com with SMTP id
+ 41be03b00d2f7-af28bc68846so6017571a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 09:27:21 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVRpWXyAv17QzlVt0933T7GIIFGxDbxjWi2JhDS1+/Jnj725px0jkS3c5bnYRVTMVBPUOSZanhwLiA=@lists.freedesktop.org
-X-Received: by 2002:a17:90a:8c15:b0:30a:255c:9d10 with SMTP id
- 98e67ed59e1d1-30a255ca186mr3202709a91.8.1745944023558; Tue, 29 Apr 2025
- 09:27:03 -0700 (PDT)
+ AJvYcCU/+JB3sH9aqkSqKHIHICNYJoZnzXoKsJXiN0xouz/hRU0ZaJTJIkqC2ck7Ro7NKyWhAN5RI+h0n9A=@lists.freedesktop.org
+X-Received: by 2002:a17:90b:5645:b0:2ff:592d:23bc with SMTP id
+ 98e67ed59e1d1-30a21546cf9mr5997284a91.4.1745944041359; Tue, 29 Apr 2025
+ 09:27:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250429092030.8025-1-xiazhengqiao@huaqin.corp-partner.google.com>
- <20250429092030.8025-3-xiazhengqiao@huaqin.corp-partner.google.com>
-In-Reply-To: <20250429092030.8025-3-xiazhengqiao@huaqin.corp-partner.google.com>
+ <20250429092030.8025-4-xiazhengqiao@huaqin.corp-partner.google.com>
+In-Reply-To: <20250429092030.8025-4-xiazhengqiao@huaqin.corp-partner.google.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 29 Apr 2025 09:26:52 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WtRYCM=tzfyfLD8Yv015U2U=tuRMTsSLtxNSm9zAia8g@mail.gmail.com>
-X-Gm-Features: ATxdqUG2rAf0BoOyLmWMpcSnfq6hQrouHip_k1QAJOJNtZxAX5VK0S8UBRBj9Mk
-Message-ID: <CAD=FV=WtRYCM=tzfyfLD8Yv015U2U=tuRMTsSLtxNSm9zAia8g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] drm/panel-edp: Add support for BOE NE140WUM-N6S
+Date: Tue, 29 Apr 2025 09:27:09 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V3LsgMkVyUo9ZNq7VBZgRzX-7hVSyvVGXSA7Woyu-R1w@mail.gmail.com>
+X-Gm-Features: ATxdqUHg8RCvWUpfqr7D8JemmnKpizE5FcMLM7GqkurGFB3kpFT_tlqX5YrRVfI
+Message-ID: <CAD=FV=V3LsgMkVyUo9ZNq7VBZgRzX-7hVSyvVGXSA7Woyu-R1w@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] drm/panel-edp: Add support for CSW MNE007QS3-8
  panel
 To: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
 Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
@@ -108,36 +108,42 @@ Hi,
 On Tue, Apr 29, 2025 at 2:20=E2=80=AFAM Zhengqiao Xia
 <xiazhengqiao@huaqin.corp-partner.google.com> wrote:
 >
-> BOE NE140WUM-N6S EDID:
+> CSW MNE007QS3-8 EDID:
 > edid-decode (hex):
 >
-> 00 ff ff ff ff ff ff 00 09 e5 73 0d 00 00 00 00
-> 32 22 01 04 a5 1e 13 78 07 13 45 a6 54 4d a0 27
-> 0c 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 03 3e 80 a0 70 b0 48 40 30 20
-> 36 00 2e bc 10 00 00 1a 00 00 00 fd 00 1e 78 99
-> 99 20 01 0a 20 20 20 20 20 20 00 00 00 fc 00 4e
-> 45 31 34 30 57 55 4d 2d 4e 36 53 0a 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 45
+> 00 ff ff ff ff ff ff 00 0e 77 57 14 00 00 00 00
+> 34 22 01 04 a5 1e 13 78 07 ee 95 a3 54 4c 99 26
+> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 cd 7c 80 a0 70 b0 50 40 30 20
+> 26 04 2e bc 10 00 00 1a cd 7c 80 a0 70 b0 50 45
+> 30 20 26 04 2e bc 10 00 00 1a 00 00 00 fd 00 1e
+> 78 9a 9a 20 01 0a 20 20 20 20 20 20 00 00 00 fc
+> 00 4d 4e 45 30 30 37 51 53 33 2d 38 0a 20 01 3f
 >
-> 70 20 79 02 00 22 00 14 33 d8 04 85 7f 07 9f 00
-> 2f 00 1f 00 af 04 47 00 02 00 05 00 81 00 13 72
-> 1a 00 00 03 01 1e 78 00 00 5a 4a 5a 4a 78 00 00
+> 70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
+> 80 3d 8a 54 cd a4 99 66 62 0f 02 45 54 7c 5d 7c
+> 5d 00 43 12 78 2b 00 0c 27 00 1e 77 00 00 27 00
+> 1e 3b 00 00 2e 00 06 00 43 7c 5d 7c 5d 81 00 20
+> 74 1a 00 00 03 01 1e 78 00 00 5a ff 5a ff 78 00
+> 00 00 00 8d 00 e3 05 04 00 e6 06 01 01 5a 5a ff
 > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ad 90
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 76 90
 >
 > Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com=
 >
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+nit: your Signed-off-by should have been _below_ my Reviewed-by. In
+general whenever you send a patch you always move your Signed-off-by
+to the bottom of all the other tags. No need to resend this time, but
+keep in mind for the future.
+
+nit: this is unchanged from v2 when Dmitry added his review on the
+cover letter. You probably should have carried forward his tag. No
+need to resend this time, but keep in mind for the future. I've
+re-added it.
 
 Pushed to drm-misc-next:
 
-[2/3] drm/panel-edp: Add support for BOE NE140WUM-N6S panel
-      commit: 800c2180705a87829f7833df3d9e73b548bf65ff
+[3/3] drm/panel-edp: Add support for CSW MNE007QS3-8 panel
+      commit: 0d607a59a0f6593e72630854a8bcb8b01b8dce40
