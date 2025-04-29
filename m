@@ -2,60 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B949AA1141
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 18:08:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C65CAA1177
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 18:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF5F110E514;
-	Tue, 29 Apr 2025 16:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 754BD10E44E;
+	Tue, 29 Apr 2025 16:25:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gHatTEVS";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="TgGZyzJ/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3120C10E512;
- Tue, 29 Apr 2025 16:08:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745942899; x=1777478899;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=An94MrJ1lpqZ4LYrbUqiW0Nj8JyFU5tAOanobRtFWwk=;
- b=gHatTEVSaFkldT5164eoVjKjXJwYHmbPSQqfBcg0yOGHGnrVVMGACON8
- MViY51Lcs1nfPvT67R9cc6D44FE4nHIyGgxWHpvNN9if3Jz/v5koTjVeO
- 0r6GdIWuJUCs9FE8n0vg4rfiWp1D8hzhI25tQlyRh5tNfgnNp4CS4prR2
- rVw4Ge9oS8Dp9iwtNvl3OpasEIcSN0QwnsdNKKtwzDrpXCMckuZcCyPIp
- EXbZrG5qlVfz7hLUo7Y8n/tZtgcece14igWjtr3I30l7w1KLoB/gIfEqZ
- W70WkYc/xhevMECmOaSWGTfbYyM69Nkt/uU9+Z6DYdw1MwiRR6c0GjVE3 Q==;
-X-CSE-ConnectionGUID: vsFmR0EiSEyUw9/7EYGLhA==
-X-CSE-MsgGUID: mCO847kaRVW3Jz0Afi/XnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47585516"
-X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; d="scan'208";a="47585516"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2025 09:08:19 -0700
-X-CSE-ConnectionGUID: +WYrVyZNRdS7zF2lAa7PVg==
-X-CSE-MsgGUID: zk7PdYUNRDef4RlFamrmig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; d="scan'208";a="139055955"
-Received: from unknown (HELO bnilawar-desk2.iind.intel.com) ([10.190.239.41])
- by orviesa005-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 09:08:16 -0700
-From: Badal Nilawar <badal.nilawar@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
- alexander.usyskin@intel.com, gregkh@linuxfoundation.org,
- daniele.ceraolospurio@intel.com
-Subject: [RFC 9/9] {fwctl,drm}/xe/pcode: Introduce xe_pcode_fwctl
-Date: Tue, 29 Apr 2025 21:39:56 +0530
-Message-Id: <20250429160956.1014376-10-badal.nilawar@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250429160956.1014376-1-badal.nilawar@intel.com>
-References: <20250429160956.1014376-1-badal.nilawar@intel.com>
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 019FB10E44E
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 16:25:15 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5499614d3d2so6660417e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 09:25:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1745943914; x=1746548714;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oKOagLWA/kZg/ToUTo4BHkndG6E7DkyiHJdjnSUiHVY=;
+ b=TgGZyzJ/e1J2OVyI2lrSQu69G3WLTlrL4m8rVamJblpSiC6PknvH89A6c59j+jqf28
+ SBu59d3FWl/SdOHVI9Urt4TvLuIHuzHzgTq1l3zmCVLk5Bo1ub+q4snfT91Oa3WnEEWM
+ rxHLGY7Q18TUoQcU/OLr+KwRVNom8vyjb/ga/YSai9vZV+OJL9fOy1nXWESDTvrgNqZm
+ xyGFgjY3yErWLLHAy8eFu+AnJAlIQ8zfwQccnrO2f1ktBX7sJXRXvybRI/pu09sTPw6O
+ 7WMOl/JYuEYkwMF2JIdEJ5NH0vnKTEubEQUZsakFLgK4tGPpgRbSc+N+i1zd5x6nzRlI
+ UXpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1745943914; x=1746548714;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oKOagLWA/kZg/ToUTo4BHkndG6E7DkyiHJdjnSUiHVY=;
+ b=bK6CnJo3Ea0JF9DHVZ7+3tBUTdEDXFuJRBd/aoTyn0JrHAH/xDE+1qf3XjTinFKb3k
+ 8fZy056LWONrUQzvG5Vp5Lm2OvfUgadq/gqggRN8ZXwjmUrffvPoi3gYgEGakr7SFd6E
+ Vh3snqiLB9A/4WCrJ4l8qnJvIzoftHU8ndbxArKl6Y5fX0dIuFiR6TACi82d3aMJRAgW
+ hX1xMJrHcORkwzDaQHguvcGL3xbHi4sG0mROTvuDS91ra6bGJJJC7fnAv7TfxyVPNBrM
+ TklC2sWQ08qZvjC6JYbiozveC67aUXGbiCU7eS7Dd0bJl/fxVZabELzWlC3kaCaTT8f1
+ KaPg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVXq2xy3fkqOBqjLnPEmhoCIp6C/2cIBj11Gl9oqyu8RH6H9N1VC35RrVSROWEm284d+AA7KHfk9iw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzJK6rjVBOE3Gw+fjXtvqDHLJdZpjZX1FQFW4zJ+fU8XMvWfedz
+ FraNKbed4AC43WrNAgXkSBAuurV1xhb3ywBAeS2kF7/CAzWz305hBZZ94Q4zgTCl5WWnOBCicr9
+ AehjYHDXc1tL74xnhwUpFRsSaUvDLKMc/Q9c=
+X-Gm-Gg: ASbGnct6/Upvn46k1qeyBSJ8N83Cyi51rckEPt7AYThdjcn+qB3mai8Y1mnyc+xFuTT
+ IVGEgDYr5vilITFvH2ipiWfl7XM36AbK48uu6zOQyiivDu/7eEY+rHnpcow7enUKbhjUidor64w
+ r9gw1Q+K5wvfo/5xB873EFJw==
+X-Google-Smtp-Source: AGHT+IFz8rD0QJHmc5e9+fFedl8kedVp2EJSv9dtVHgPF6jnpm6m9U4oX5GINjIas2t7Kv1uptEWFoB+brR+qe4jTNY=
+X-Received: by 2002:a05:6512:4021:b0:545:2d4d:36de with SMTP id
+ 2adb3069b0e04-54e9daf7079mr1518766e87.31.1745943913905; Tue, 29 Apr 2025
+ 09:25:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+References: <20250422191939.555963-1-jkangas@redhat.com>
+ <20250422191939.555963-3-jkangas@redhat.com>
+ <20250424-sassy-cunning-pillbug-ffde51@houat>
+ <CANDhNCqfsUbN3aavAH5hi4wdcKuUkjLX4jqhKzy-q+jCEqpoow@mail.gmail.com>
+ <20250425-savvy-chubby-alpaca-0196e3@houat>
+ <CANDhNCroe6ZBtN_o=c71kzFFaWK-fF5rCdnr9P5h1sgPOWSGSw@mail.gmail.com>
+ <20250428-greedy-vivid-goldfish-5abb35@houat>
+In-Reply-To: <20250428-greedy-vivid-goldfish-5abb35@houat>
+From: John Stultz <jstultz@google.com>
+Date: Tue, 29 Apr 2025 09:25:00 -0700
+X-Gm-Features: ATxdqUG-hdRFM6Y9Ghi7S9yM9T68MXFZrkwlsbB6L0JPOCzRmgrsDsYydEWJg1Q
+Message-ID: <CANDhNCqdL7Oha+cGkk0XCZ8shO08ax1rd2k6f9SckuREUdQUjg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dma-buf: heaps: Give default CMA heap a fixed name
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Jared Kangas <jkangas@redhat.com>, sumit.semwal@linaro.org, 
+ benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, tjmercier@google.com, 
+ christian.koenig@amd.com, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,452 +93,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+On Mon, Apr 28, 2025 at 7:52=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+> On Fri, Apr 25, 2025 at 12:39:40PM -0700, John Stultz wrote:
+> > To your larger point about policy, I do get the tension that you want
+> > to be able to programmatically derive or evaluate heap names, so that
+> > applications can consistently derive a pathname to get what they want.
+>
+> We've discussed it in the past, I don't really want to. But it was clear
+> from the last discussion that you (plural) wanted to infer heap
+> semantics from the names. I'm ok with that, but then if we want to make
+> it work we need to have well defined names.
 
-Xe PCODE FWCTL implements the generic FWCTL IOCLTs to allow limited
-access from user space (as admin) to some very specific PCODE
-Mailboxes only related to hardware configuration.
+So my name keeps on getting attached to that, but I don't think I was
+involved in the LPC conversation when that got decided.
 
-PCODE is a Firmware in Intel GPUs which is the main responsible
-component for power and thermal aspects of the Intel GPUs.
+> And it's actually what I really want to discuss here: we've discussed at
+> length how bad the heaps name are (and not only here), but I don't think
+> we have any documented policy on what makes a good name?
 
-Each different Intel GPU came with different PCODE versions with
-different mailboxes and different needs. In the lack of an unified
-interface, the per platform sysfs entries at the device level is
-trending to grow, to allow admins to control different aspects of
-the Hardware.
+I very much think having a policy/guidance for better names is a good goal.
 
-In this first experiment, xe_pcode_fwctl only adds support for the
-Battlemage late-binding firmware information.
+I just want to make sure it doesn't become a strict policy that lead
+folks to make mistaken assumptions about a static solution being
+viable in userland (like folks nostalgicly using "eth0" or a fixed
+network device name in scripts expecting it to work on a different
+system)
 
-Late-binding is the name given to 2 other new auxiliary firmware
-blobs that for now lives in the Flash like PCODE, but that soon
-it is coming to linux-firmware.git: Fan-controller and
-Voltage-regulator. Then, PCODE provides some mailboxes where the
-status of both late-binding firmware can be queried as specified
-in the documentation that is added along with the new uAPI here.
+> For example, I'm not sure exposing the allocator name is a good idea:
+> it's an implementation detail and for all userspace cares about, we
+> could change it every release if it provided the same kind of buffers.
 
-RFC IMPORTANT NOTE:
-===================
-Admins will need to query this information. This code here aims
-to be used by Level0-Sysman and/or Intel XPU Manager directly
-from user space. But following the drm upstream rules, the
-userspace code will need to be ready before we can consider
-getting this patch merged!
+That is a fair point.
 
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
----
- Documentation/userspace-api/fwctl/index.rst |   1 +
- drivers/gpu/drm/xe/Kconfig                  |   1 +
- drivers/gpu/drm/xe/Makefile                 |   1 +
- drivers/gpu/drm/xe/xe_pci.c                 |   5 +
- drivers/gpu/drm/xe/xe_pcode_fwctl.c         | 218 ++++++++++++++++++++
- drivers/gpu/drm/xe/xe_pcode_fwctl.h         |  13 ++
- include/uapi/fwctl/fwctl.h                  |   1 +
- include/uapi/fwctl/xe_pcode.h               |  80 +++++++
- 8 files changed, 320 insertions(+)
- create mode 100644 drivers/gpu/drm/xe/xe_pcode_fwctl.c
- create mode 100644 drivers/gpu/drm/xe/xe_pcode_fwctl.h
- create mode 100644 include/uapi/fwctl/xe_pcode.h
+> Taking your camera buffers example before, then we could also expose a
+> memory region id, and let the platform figure it out, or use the usecase
+> as the name.
+>
+> But if we don't document that, how can we possibly expect everyone
+> including downstream to come up with perfect names every time. And FTR,
+> I'm willing to write that doc down once the discussion settles.
 
-diff --git a/Documentation/userspace-api/fwctl/index.rst b/Documentation/userspace-api/fwctl/index.rst
-index 316ac456ad3b..186f8cf17583 100644
---- a/Documentation/userspace-api/fwctl/index.rst
-+++ b/Documentation/userspace-api/fwctl/index.rst
-@@ -12,3 +12,4 @@ to securely construct and execute RPCs inside device firmware.
-    fwctl
-    fwctl-cxl
-    pds_fwctl
-+   xe_pcode_fwctl
-diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-index a8cc1876a24f..ee77039b9256 100644
---- a/drivers/gpu/drm/xe/Kconfig
-+++ b/drivers/gpu/drm/xe/Kconfig
-@@ -45,6 +45,7 @@ config DRM_XE
- 	select AUXILIARY_BUS
- 	select HMM_MIRROR
- 	select INTEL_MEI_LATE_BIND
-+	select FWCTL
- 	help
- 	  Experimental driver for Intel Xe series GPUs
- 
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index 6de291a21965..c1f3b2e2da5f 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -86,6 +86,7 @@ xe-y += xe_bb.o \
- 	xe_pat.o \
- 	xe_pci.o \
- 	xe_pcode.o \
-+	xe_pcode_fwctl.o \
- 	xe_pm.o \
- 	xe_preempt_fence.o \
- 	xe_pt.o \
-diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
-index 882398e09b7e..222e75c7427e 100644
---- a/drivers/gpu/drm/xe/xe_pci.c
-+++ b/drivers/gpu/drm/xe/xe_pci.c
-@@ -27,6 +27,7 @@
- #include "xe_module.h"
- #include "xe_pci_sriov.h"
- #include "xe_pci_types.h"
-+#include "xe_pcode_fwctl.h"
- #include "xe_pm.h"
- #include "xe_sriov.h"
- #include "xe_step.h"
-@@ -868,6 +869,10 @@ static int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (err)
- 		goto err_driver_cleanup;
- 
-+	err = xe_pcode_fwctl_init(xe);
-+	if (err)
-+		goto err_driver_cleanup;
-+
- 	drm_dbg(&xe->drm, "d3cold: capable=%s\n",
- 		str_yes_no(xe->d3cold.capable));
- 
-diff --git a/drivers/gpu/drm/xe/xe_pcode_fwctl.c b/drivers/gpu/drm/xe/xe_pcode_fwctl.c
-new file mode 100644
-index 000000000000..d6443aa4a60a
---- /dev/null
-+++ b/drivers/gpu/drm/xe/xe_pcode_fwctl.c
-@@ -0,0 +1,218 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2025 Intel Corporation
-+ */
-+
-+#include "xe_pcode_fwctl.h"
-+
-+#include <linux/fwctl.h>
-+#include <uapi/fwctl/xe_pcode.h>
-+
-+#include "xe_device.h"
-+#include "xe_pcode_api.h"
-+#include "xe_pcode.h"
-+#include "xe_pm.h"
-+
-+/**
-+ * DOC: XE PCODE FWCTL
-+ *
-+ * Xe PCODE FWCTL implements the generic FWCTL IOCLTs to allow limited access
-+ * from user space (as admin) to some very specific PCODE Mailboxes.
-+ *
-+ * User space first needs to issue the ```FWCTL_INFO``` ioctl and check for the
-+ * capability flag, which will indicate which group of Mailboxes commands are
-+ * supported on that current running firmware.
-+ *
-+ * After verifying the availability of the desired Mailbox command,
-+ * ```FWCTL_RPC``` needs to be issued with in and out parameter both using
-+ * pointers to a ```struct fwctl_rpc_xe_pcode``` allocated by userspace.
-+ * In and out length needs to be sizeof(struct fwctl_rpc_xe_pcode).
-+ *
-+ * Any command that is not listed in the include/uapi/fwctl/xe_pcode.h or not
-+ * supported by the running firmware, will return ERR_PTR(-EBADMSG).
-+ *
-+ * Example:
-+ *
-+ * .. code-block:: C
-+ *
-+ *  struct fwctl_info_xe_pcode xe_pcode_info;
-+ *
-+ *  struct fwctl_info info = {
-+ *           .size = sizeof(struct fwctl_info),
-+ *           .flags = 0,
-+ *           .out_device_type = 0,
-+ *           .device_data_len = sizeof(struct fwctl_info_xe_pcode),
-+ *           .out_device_data = (__aligned_u64) &xe_pcode_info,
-+ *   };
-+ *
-+ *   fd = open("/dev/fwctl/fwctl0", O_RDWR);
-+ *   if (fd < 0) {
-+ *       perror("Failed to open /dev/fwctl/fwctl0");
-+ *       return -1;
-+ *   }
-+ *
-+ *   if (ioctl(fd, FWCTL_INFO, &info)) {
-+ *           perror("ioctl(FWCTL_INFO) failed");
-+ *           close(fd);
-+ *           return -1;
-+ *   }
-+ *
-+ *   if (xe_pcode_info.uctx_caps & FWCTL_XE_PCODE_LATEBINDING) {
-+ *           struct fwctl_rpc_xe_pcode rpc_in = {
-+ *                   .command = PCODE_CMD_LATE_BINDING,
-+ *                   .param1 = PARAM1_GET_CAPABILITY_STATUS,
-+ *           };
-+ *
-+ *           struct fwctl_rpc_xe_pcode rpc_out = {0};
-+ *
-+ *           struct fwctl_rpc rpc = {
-+ *                   .size = sizeof(struct fwctl_rpc),
-+ *                   .scope = FWCTL_RPC_CONFIGURATION,
-+ *                   .in_len = sizeof(struct fwctl_rpc_xe_pcode),
-+ *                   .out_len = sizeof(struct fwctl_rpc_xe_pcode),
-+ *                   .in = (__aligned_u64) &rpc_in,
-+ *                   .out = (__aligned_u64) &rpc_out,
-+ *           };
-+ *
-+ *           if (ioctl(fd, FWCTL_RPC, &rpc)) {
-+ *                   perror("ioctl(FWCTL_RPC) failed");
-+ *                   close(fd);
-+ *                   return -1;
-+ *           }
-+ *
-+ */
-+
-+struct xe_pcode_fwctl_dev {
-+	struct fwctl_device fwctl;
-+	struct xe_device *xe;
-+};
-+
-+DEFINE_FREE(xe_pcode_fwctl, struct xe_pcode_fwctl_dev *, if (_T) fwctl_put(&_T->fwctl))
-+
-+static int xe_pcode_fwctl_uctx_open(struct fwctl_uctx *uctx)
-+{
-+	struct xe_pcode_fwctl_dev *fwctl_dev =
-+		container_of(uctx->fwctl, struct xe_pcode_fwctl_dev, fwctl);
-+	struct xe_device *xe = fwctl_dev->xe;
-+
-+	xe_pm_runtime_get(xe);
-+
-+	return 0;
-+}
-+
-+static void xe_pcode_fwctl_uctx_close(struct fwctl_uctx *uctx)
-+{
-+	struct xe_pcode_fwctl_dev *fwctl_dev =
-+		container_of(uctx->fwctl, struct xe_pcode_fwctl_dev, fwctl);
-+	struct xe_device *xe = fwctl_dev->xe;
-+
-+	xe_pm_runtime_put(xe);
-+}
-+
-+static void *xe_pcode_fwctl_info(struct fwctl_uctx *uctx, size_t *length)
-+{
-+	struct xe_pcode_fwctl_dev *fwctl_dev =
-+		container_of(uctx->fwctl, struct xe_pcode_fwctl_dev, fwctl);
-+	struct xe_device *xe = fwctl_dev->xe;
-+	struct fwctl_info_xe_pcode *info;
-+
-+	info = kzalloc(sizeof(*info), GFP_KERNEL);
-+	if (!info)
-+		return ERR_PTR(-ENOMEM);
-+
-+	if (xe->info.platform == XE_BATTLEMAGE)
-+		info->uctx_caps = FWCTL_XE_PCODE_LATEBINDING;
-+
-+	*length = sizeof(*info);
-+
-+	return info;
-+}
-+
-+static bool xe_pcode_fwctl_rpc_validate(struct fwctl_rpc_xe_pcode *rpc,
-+					enum fwctl_rpc_scope scope)
-+{
-+	u32 mbox = PCODE_MBOX(rpc->command, rpc->param1, rpc->param2);
-+
-+	if (mbox == PCODE_MBOX(PCODE_CMD_LATE_BINDING,
-+			       PARAM1_GET_CAPABILITY_STATUS, 0))
-+		return scope == FWCTL_RPC_CONFIGURATION;
-+
-+	if (mbox == PCODE_MBOX(PCODE_CMD_LATE_BINDING,
-+			       PARAM1_GET_VERSION_LOW, 0))
-+		return (rpc->data0 == DATA0_TYPE_FAN_CONTROLLER ||
-+			rpc->data0 == DATA0_TYPE_VOLTAGE_REGULATOR) &&
-+			scope == FWCTL_RPC_CONFIGURATION;
-+
-+	return false;
-+}
-+
-+static void *xe_pcode_fwctl_rpc(struct fwctl_uctx *uctx,
-+				enum fwctl_rpc_scope scope,
-+				void *in, size_t in_len, size_t *out_len)
-+{
-+	struct xe_pcode_fwctl_dev *fwctl_dev =
-+		container_of(uctx->fwctl, struct xe_pcode_fwctl_dev, fwctl);
-+	struct xe_tile *root_tile = xe_device_get_root_tile(fwctl_dev->xe);
-+	struct fwctl_rpc_xe_pcode *rpc = in;
-+	int err;
-+
-+	if (in_len != sizeof(struct fwctl_rpc_xe_pcode) ||
-+	    *out_len != sizeof(struct fwctl_rpc_xe_pcode))
-+		return ERR_PTR(-EMSGSIZE);
-+
-+	if (!xe_pcode_fwctl_rpc_validate(rpc, scope))
-+		return ERR_PTR(-EBADMSG);
-+
-+	err = xe_pcode_read(root_tile, PCODE_MBOX(rpc->command,
-+						  rpc->param1,
-+						  rpc->param2),
-+			    &rpc->data0,
-+			    &rpc->data1);
-+	if (err)
-+		return ERR_PTR(err);
-+
-+	return rpc;
-+}
-+
-+static const struct fwctl_ops xe_pcode_fwctl_ops = {
-+	.device_type = FWCTL_DEVICE_TYPE_XE_PCODE,
-+	.uctx_size = sizeof(struct fwctl_uctx),
-+	.open_uctx = xe_pcode_fwctl_uctx_open,
-+	.close_uctx = xe_pcode_fwctl_uctx_close,
-+	.info = xe_pcode_fwctl_info,
-+	.fw_rpc = xe_pcode_fwctl_rpc,
-+};
-+
-+static void xe_pcode_fwctl_fini(void *dev)
-+{
-+	struct fwctl_device *fwctl = dev;
-+
-+	fwctl_unregister(fwctl);
-+	fwctl_put(fwctl);
-+}
-+
-+int xe_pcode_fwctl_init(struct xe_device *xe)
-+{
-+	struct xe_pcode_fwctl_dev *fwctl_dev __free(xe_pcode_fwctl) =
-+		fwctl_alloc_device(xe->drm.dev, &xe_pcode_fwctl_ops,
-+				   struct xe_pcode_fwctl_dev, fwctl);
-+	int err;
-+
-+	/* For now xe_pcode_fwctl supports only Late-Binding commands on BMG */
-+	if (xe->info.platform != XE_BATTLEMAGE)
-+		return -ENODEV;
-+
-+	if (!fwctl_dev)
-+		return -ENOMEM;
-+
-+	fwctl_dev->xe = xe;
-+
-+	err = fwctl_register(&fwctl_dev->fwctl);
-+	if (err)
-+		return err;
-+
-+	return devm_add_action_or_reset(xe->drm.dev, xe_pcode_fwctl_fini,
-+					&fwctl_dev->fwctl);
-+}
-+
-+MODULE_IMPORT_NS("FWCTL");
-diff --git a/drivers/gpu/drm/xe/xe_pcode_fwctl.h b/drivers/gpu/drm/xe/xe_pcode_fwctl.h
-new file mode 100644
-index 000000000000..67386d7bf2ea
---- /dev/null
-+++ b/drivers/gpu/drm/xe/xe_pcode_fwctl.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2025 Intel Corporation
-+ */
-+
-+#ifndef _XE_PCODE_FWCTL_H_
-+#define _XE_PCODE_FWCTL_H_
-+
-+struct xe_device;
-+
-+int xe_pcode_fwctl_init(struct xe_device *xe);
-+
-+#endif
-diff --git a/include/uapi/fwctl/fwctl.h b/include/uapi/fwctl/fwctl.h
-index 716ac0eee42d..9e7e84aef791 100644
---- a/include/uapi/fwctl/fwctl.h
-+++ b/include/uapi/fwctl/fwctl.h
-@@ -45,6 +45,7 @@ enum fwctl_device_type {
- 	FWCTL_DEVICE_TYPE_MLX5 = 1,
- 	FWCTL_DEVICE_TYPE_CXL = 2,
- 	FWCTL_DEVICE_TYPE_PDS = 4,
-+	FWCTL_DEVICE_TYPE_XE_PCODE = 5,
- };
- 
- /**
-diff --git a/include/uapi/fwctl/xe_pcode.h b/include/uapi/fwctl/xe_pcode.h
-new file mode 100644
-index 000000000000..8df6db34e5ce
---- /dev/null
-+++ b/include/uapi/fwctl/xe_pcode.h
-@@ -0,0 +1,80 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2025 Intel Corporation
-+ */
-+
-+#ifndef _UAPI_FWCTL_XE_PCODE_H_
-+#define _UAPI_FWCTL_XE_PCODE_H_
-+
-+#include <linux/types.h>
-+
-+/**
-+ * struct fwctl_info_xe_pcode - FWCTL Information struct for Xe PCODE
-+ *
-+ * @uctx_caps:  bitmap of available capabilities:
-+ *  - %FWCTL_XE_PCODE_LATEBINDING - Command to configure Late Bind FW such as
-+ * Fan Controller and Voltage Regulator
-+ * @rsvd: Reserved for future usage or flags
-+ */
-+struct fwctl_info_xe_pcode {
-+	__u32 uctx_caps;
-+	__u32 rsvd[3];
-+};
-+
-+#define FWCTL_XE_PCODE_LATEBINDING	(1 << 0)
-+
-+/**
-+ * struct fwctl_rpc_xe_pcode - FWCTL Remote Procedure Calls for Xe PCODE
-+ */
-+struct fwctl_rpc_xe_pcode {
-+	/** @command: The main Mailbox command */
-+	__u8 command;
-+	/** @param1: A subcommand or a parameter of the main command */
-+	__u16 param1;
-+	/** @param2: A parameter of a subcommand or a subsubcommand */
-+	__u16 param2;
-+	/** @data0: The first 32 bits of data. In general data-in as param */
-+	__u32 data0;
-+	/** @data1: The other 32 bits of data. In general data-out */
-+	__u32 data1;
-+	/** @pad: Padding the uAPI struct - Must be 0. Not sent to firmware */
-+	__u8 pad[3];
-+};
-+
-+/**
-+ * DOC: Late Binding Commands
-+ *
-+ * FWCTL info.uctx_caps: FWCTL_XE_PCODE_LATEBINDING
-+ * FWCTL rpc.scope: FWCTL_RPC_CONFIGURATION
-+ *
-+ * Command	0x5C - LATE_BINDING
-+ * Param1	0x0 - GET_CAPABILITY_STATUS
-+ * Param2	0
-+ * Data in	None
-+ * Data out:
-+ *
-+ *  - Bit0: ate binding for V1 Fan Tables is supported.
-+ *  - Bit3: Late binding for VR parameters.
-+ *  - Bit16: Late binding done for V1 Fan tables
-+ *  - Bit17: Late binding done for power co-efficients.
-+ *  - Bit18: Late binding done for V2 Fan tables
-+ *  - Bit19: Late binding done for VR Parameters
-+ *
-+ * Command	0x5C - LATE_BINDING
-+ * Param1	0x1 - GET_VERSION_LOW
-+ * Param2	0
-+ * Data in - conveys the Type of the Late Binding Configuration:
-+ *
-+ *  - FAN_CONTROLLER = 1
-+ *  - VOLTAGE_REGULATOR = 2
-+ *
-+ * Data out - Lower 32 bits of Version Number for Late Binding configuration
-+ *            that has been applied successfully.
-+ */
-+#define PCODE_CMD_LATE_BINDING		0x5C
-+#define  PARAM1_GET_CAPABILITY_STATUS	0x0
-+#define  PARAM1_GET_VERSION_LOW		0x1
-+#define   DATA0_TYPE_FAN_CONTROLLER	1
-+#define   DATA0_TYPE_VOLTAGE_REGULATOR	2
-+
-+#endif /* _UAPI_FWCTL_XE_PCODE_H_ */
--- 
-2.34.1
+So again, yeah, I very much support having better guidance on the names.
 
+I think the number of device constraints and device combinations makes
+a raw enumeration of things difficult.
+
+This is why the per-device use->heap mapping "glue" seems necessary to me.
+
+And, I do get that this runs into a similar problem with enumerating
+and defining "uses" (which boil down to a combination of
+devices-in-a-pipeline and access use patterns), but for Andorid it has
+so far been manageable.
+
+Personally, I think the best idea I've heard so far to resolve this
+from userland was Christian's suggestion that devices expose links to
+compatible heaps, and then userland without a use->heap mapping could
+for the set of devices they plan to use in a pipeline, figure out the
+common heap name and use that to allocate.
+
+However, that pushes the problem down a bit, requiring drivers
+(instead of userland) to know what heaps they can work with and what
+the names might be (which again, your goal for standardizing the heap
+names isn't a bad thing!). Though, this approach also runs into
+trouble as it opens a question of: should it only encode strict
+constraint satisfaction, or something more subtle, as while something
+might work with multiple heaps, its possible it won't be performant
+enough unless it picks a specific one on device A or a different one
+on device B.  And getting that sort of device-specific details
+embedded into a driver isn't great either.
+
+> > But I also think that there is so much variety in both the devices and
+> > uses that there is no way that all use cases and all devices can be
+> > satisfied with such a static or even programmatic mapping. From my
+> > perspective, there just is going to have to be some device specific
+> > glue logic that maps use->heap name. Same reason we have fstab and the
+> > passwd file.
+>
+> fstab and passwd can be generated at (first) boot time / install. fstab
+> is also being somewhat less important with the auto-partition discovery.
+> How would you generate that configuration file at boot?
+>
+> I'm not really asking this as a theoretical question. Being able to
+> auto-discover which heap a driver/device would allocate from is central
+> for the cgroup work I mentioned earlier.
+>
+> And I'm really not sure how distros or applications developpers are
+> supposed to keep up with the raw volume of devices that go out every
+> year, each and every one of them having different heap names, etc.
+> Possibly different from one version of the firmware to another.
+
+For generic distros, I don't have a good answer here. Historically the
+focus has always been on single device usage, so having the driver do
+the allocation was fine, and if you were using multiple devices you
+could just copy the memory between the driver allocated buffers.  But
+as we've moved to disaggregated IP blocks and device pipelines, all
+those potential copies wreck performance and power.   I'm not sure
+generic distros have the concept of a device pipeline very well
+abstracted (obviously mesa and the wayland/X have had to deal with it,
+and the video and camera side is dealing with it more and more).
+Maybe a more established notion of use -> pipeline/device collections,
+is needed as a starting point? Then using Christian's suggestion, one
+could at least enumerate  use -> heap that would be functional. And
+maybe device makers could then supplement explicit optimized mapping
+overrides for their device?
+
+I just think leaving individual applications (or even individual
+frameworks like mesa) to embed assumptions about heap names ->
+functionality is going to be a problematic approach.
+
+thanks
+-john
