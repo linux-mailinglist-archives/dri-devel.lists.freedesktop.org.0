@@ -2,97 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66824AA0361
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 08:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B76AA0381
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 08:37:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 041F410E2CA;
-	Tue, 29 Apr 2025 06:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E82410E2D7;
+	Tue, 29 Apr 2025 06:37:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Onm1anIz";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="5B28b8P+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C77FF10E2CA
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 06:32:20 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 341CE669;
- Tue, 29 Apr 2025 08:32:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1745908330;
- bh=IZ7OLT5OmCO34GamkCsEAbPcSzA7K7qMQeTQuaVDBr8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Onm1anIz64s93gLDhscLKJxK7sd1iKYvubEFfNWf5oP44VKQ8toi7AWGqD7ggoAi0
- RxLLyZpcB9ZKeydt/WI3Y5KsnbDlGbS6ZKsgjx/D7PnCQlcdBVDkb6iuN/32M0K9Vj
- S9G7MRwEcA7S/9CkVXcNGGQgb3lTHf3JBr4KAHYk=
-Message-ID: <fbde0659-78f3-46e4-98cf-d832f765a18b@ideasonboard.com>
-Date: Tue, 29 Apr 2025 09:32:11 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/bridge: cdns-dsi: Replace deprecated
- UNIVERSAL_DEV_PM_OPS()
-To: Vitor Soares <ivitro@gmail.com>
-Cc: Vitor Soares <vitor.soares@toradex.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Aradhya Bhatia <aradhya.bhatia@linux.dev>,
- Jayesh Choudhary <j-choudhary@ti.com>, stable@vger.kernel.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250428094048.1459620-1-ivitro@gmail.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2081.outbound.protection.outlook.com [40.107.237.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A48EF10E2D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 06:36:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FcHHT+8reqnWzBCeC8vYzdQWlwDeSvvz9OJSQOohgZVNXJWmeeCR5g0WKtalb4uwJdedCvDazasU2hCtkItuOttTZHeq7Is726Chtb7H7V/SPIW12ijm//MsqJ6zC063SYDPfWLSVIoTtaFESleXEZbEtoJZLDexTxjoXmyivCbBlShaw/uHnhYElbqnQ6ZElX3/kEJmHHaIVC/x9qSYpl7MPJo9E4fGiIXQ18ICttXCa2yjbafTFgapSIijey2O5iGoFq8XhCill1uA07DmpBqrEd/4nEIfloaYh+4fTHvD4be2ZWpVr7MEmTbES8S6vpLx9ACulsUCRsOfYzB8PQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q+rrMQktpbPXZx6ZsQl6xEtGV6KthsUz8O8idwIPgNk=;
+ b=n9wanKQGbKRuROBA+O0jsKSrKTMQbjVdfMAgaoGbtG7hbk/UmhxvAm4YtCCKIKuZsgMfsvYBv4gxR6AzKNKRlJWiKf6sxfYmFo+t3DZ0emE5FqzDsFrYibcx1kj/Dswsd6NuIQ2l6usLukd5u+lfEMXrpnctWCCbWByh4f4HWhF/B6t7gABFFoUxzkDXb6lTEYOVL/I/4hicH3aJ/vtu9J6KmDL9pGBTKfrGFHC9Dli1uLv4XWcBD8vNRbQ2virEN49Aut/F9TxFq2nA97Xd3RWBxl2XAqgXONsup7FmAPKUQMYiR9iU6ZKbUOiBSU+xpqOpswhQNsFXQRr84B2V/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q+rrMQktpbPXZx6ZsQl6xEtGV6KthsUz8O8idwIPgNk=;
+ b=5B28b8P+TyPndcimu6s/ob5uD+d6D7L5i9fOYgcdFBszQjPzIHEG7iX4A3ozh1lmhdT9m4/Ee+FHSDwcDkf8ZhQmZ47CYVxlORaHudeN2EjXDKzdVLdWxeMhQfhfrlL+rz2ZzNmXy1a3itQDyR53gLGrwQcXploGPIpN6+nJMV0=
+Received: from BL1PR12MB5753.namprd12.prod.outlook.com (2603:10b6:208:390::15)
+ by BN7PPF862C85B20.namprd12.prod.outlook.com
+ (2603:10b6:40f:fc02::6d7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.29; Tue, 29 Apr
+ 2025 06:36:57 +0000
+Received: from BL1PR12MB5753.namprd12.prod.outlook.com
+ ([fe80::2b0e:7fc3:1d21:5d2e]) by BL1PR12MB5753.namprd12.prod.outlook.com
+ ([fe80::2b0e:7fc3:1d21:5d2e%3]) with mapi id 15.20.8678.028; Tue, 29 Apr 2025
+ 06:36:56 +0000
+From: "Khatri, Sunil" <Sunil.Khatri@amd.com>
+To: "Khatri, Sunil" <Sunil.Khatri@amd.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+CC: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Koenig, Christian"
+ <Christian.Koenig@amd.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ "Pelloux-Prayer, Pierre-Eric" <Pierre-eric.Pelloux-prayer@amd.com>
+Subject: RE: [PATCH v2] drm/sched: fix the warning in drm_sched_job_done
+Thread-Topic: [PATCH v2] drm/sched: fix the warning in drm_sched_job_done
+Thread-Index: AQHbr4Ls3jXu3P7ra0KQS5BSPMc+sbO6QxxQ
+Date: Tue, 29 Apr 2025 06:36:56 +0000
+Message-ID: <BL1PR12MB57534AEE3F7D3352F68B2A4493802@BL1PR12MB5753.namprd12.prod.outlook.com>
+References: <20250417102430.2828552-1-sunil.khatri@amd.com>
+In-Reply-To: <20250417102430.2828552-1-sunil.khatri@amd.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250428094048.1459620-1-ivitro@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ActionId=95d0605d-287a-41a5-a626-f5f3e2a3ef4e;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=0;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=true;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
+ Internal Distribution Only;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-04-29T06:36:41Z;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Tag=10, 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL1PR12MB5753:EE_|BN7PPF862C85B20:EE_
+x-ms-office365-filtering-correlation-id: 0aebfa60-1e0f-4167-d03f-08dd86e83cae
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|376014|1800799024|7053199007|38070700018; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?l3o2o+1MeVaaMknKNLWmFpHSA+EfVy3ZJJ8DVO73lYcY1j8P1hu/5bd+yP6R?=
+ =?us-ascii?Q?uJFvBiMGJBT4j5iWMJy8XWeIx9VpNWMSCVP77LcmLMeal2gkbpsDisoiKYo3?=
+ =?us-ascii?Q?MmKz0QLKN7wQqR7XA/BKoQa75HrOLbI3H569nZ8I5EgVx4irjBANEjrSnaO7?=
+ =?us-ascii?Q?khEizAeoEZrSKpiW6CcBJ4D06/vV6TIurA8X9UNrBrUfr6I7bQcbCwLkRrAX?=
+ =?us-ascii?Q?sOPcJIGJOyhzTvX/8qEeRUjjRhgFtCBniq/qyen+uOnXJjAnp+or+ZoIwMzg?=
+ =?us-ascii?Q?wGhPfTGKdZTypnBOQQGZfLZ/HvQ8RVVACJKcnDCP6aeXPtXXUOsJZ1Idny9u?=
+ =?us-ascii?Q?8oSMkKJHBnIqqu7eucHypvAMVLUtwzl08iZ+FmsVBRZz9cSew9XucsSaek9k?=
+ =?us-ascii?Q?vkkLBaKfY6tQAsUMYzQLR19g6yjupERcXkRqKqhyM1fYf52lIdTd2V16bcx9?=
+ =?us-ascii?Q?Ob3QqieIfk3aycL4txj9P/gyDsoGHshOVydChm9oC4mDU7Laapbk3sR4BI6Z?=
+ =?us-ascii?Q?QjLlzUY5TXu0c2kyEA1Oua0aYGy/P7wcDTLPmpDJAGge0KwdLxAeVlGORMuh?=
+ =?us-ascii?Q?NVLf+vpmz3zk8bMfc7ZEKxBdePqGAS2RfeyLfKRoE9O99Z9kzZLXTiEG/9RU?=
+ =?us-ascii?Q?AZtJVO1ajr+O9kX+jnvNqSiLFB5Rl4spjGqpQYyn+fHIkFbUvfQM45mi68zI?=
+ =?us-ascii?Q?PPhuAWYTGkavq7aBmN4Owg4qj5i6NxxEAIeDkQoEwoorpTRL221VlrP+ZGl4?=
+ =?us-ascii?Q?1Y6+vBuhDuDKwzwlCJ5YBDuDkFqtoHdZff80A3/o9ODiHEG+i6zdr8diC04O?=
+ =?us-ascii?Q?G6NPiOSfb0vFX8tPebL9SSHrCM9huJrpIb65DEYAgKbyEvzZAPCpYIT0CVih?=
+ =?us-ascii?Q?7b3gg5IqClCLKC6LPa5F4vNBXGF+YL0wqt6DzefGni+eaG6/Qf0w6RP+16+e?=
+ =?us-ascii?Q?6NYeuKGi8w9yLqkn/WrWH88jBexXp6e6emIHyjjirfsAkzBiiS2cldI60/fh?=
+ =?us-ascii?Q?w2FngMtiDHF/+/w52fWtXthDCRzViVggVIygVBZCKqRjJOoZ2zvy3x3HfCzG?=
+ =?us-ascii?Q?i3zY49VO5Byzybe5szR8eFgmTNAZwPzf6WpeEpXRup9GoVYnW7RTb1OH+6cU?=
+ =?us-ascii?Q?cpIKXG/ACMTpr8REMmVBuUrdVPB7l3B1qAYrikoDvyUhfx+akpwpk04egYRg?=
+ =?us-ascii?Q?SDiXt+4lfJYEMZBKhHHFbcOI99Jcvg753RrVPrflFzmNBKimPBqu1wfRNEj/?=
+ =?us-ascii?Q?/M0bpIAbAbC5tUB7J7ByqezZexFuX/fL3lccGmDQnEfSt0UUX7AJqFI/vCVO?=
+ =?us-ascii?Q?hxSTQfwHPEcz7AKT0uFOeanR2TbJxZNf5eDFOlZzFyE2JerNlmxfIp+mKKva?=
+ =?us-ascii?Q?Eg0T8T0cjHMVPLTiYe+izr9eE1y+zXYn4aZr92NtTacUDDfQ1UP+6NkEX8Xu?=
+ =?us-ascii?Q?xjk39luP4N81Mrv0TiuRbrGKr/E2v+6TbRx6msz5ca6UoDY6OyxgMg=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7053199007)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?CtepMS7F8vW17gFuAhwPCP4VDJJLtG1BKnEPl5/Q1WqgVBz1EXDKZn8lZK5/?=
+ =?us-ascii?Q?jkApEp/97x/dZsyXO8O9SFP8PrRlKX+XHiShnGpA34vy4Kv1pikteZSuwA85?=
+ =?us-ascii?Q?TyzuQGy/AxoJoueU35LyDbDyXyDJlkmKI8I+2mPMOWyuqYgRmso+zRAqh4EI?=
+ =?us-ascii?Q?K+9/oRoi/v0arudvUYDWDWNmzSNpmJqktnAdquKxjsTKWT0hjlVDEQJgYhP6?=
+ =?us-ascii?Q?PBPDS0EIc/nc4gZYr1tWtNI/yvsZn286DRAqA1bytILbyj11o/FKit2N+WWa?=
+ =?us-ascii?Q?itLVpIrc0EnbBW+CtBzEqkAkoDJHKbQLz//bJN5S6QWp7rPC5OTKlF0d3Wg9?=
+ =?us-ascii?Q?2dylFiv17UlzF1f8qLaDQyYjKPkDVbCp+24SClu7FRqSkdBrCuXP+gLhoeIt?=
+ =?us-ascii?Q?iowPka6La1hRMWVxRrlCUe1j63fslvkhAf0BzOyunb3q91sbsriKKqE8oEIv?=
+ =?us-ascii?Q?KAoWmc/BogS4yrDhvdnf3BHVUIbE7yjC1hwR+rGVmJShBXXDWAiuUfVllFeK?=
+ =?us-ascii?Q?mciJQSyygXpaxAL0QfPs8QQGcyIAl7v5hZLGbeT9qCHQnAnnYRe+Nr1+oHuh?=
+ =?us-ascii?Q?9T0WxF1EFsp2bOrPhWebFLgVLr8CPOb7psLJW9DOHSxsLlgJjdFW1wVKnf2E?=
+ =?us-ascii?Q?D0P7HN0EqocxGE9nCTsimzrmPaaHKb0HtkLlx7e0yT7NDXjM9LjV/bPf3WOd?=
+ =?us-ascii?Q?TJnJtkiGHytIRJhuIYK+fOY165GaafZldmjxFnDNT+StYbXMQNpRIS6NodaU?=
+ =?us-ascii?Q?MghRsHxuwpFDY16nEv009DxTBINyn5RGQJeECpa6sV7S8P5waPAqHZ0G82Ik?=
+ =?us-ascii?Q?GL1mmJbDcpkCFKXyOasCkLF/wWZKsprE4jh7LAfFjjyi4GyjPXMokxL3PF6w?=
+ =?us-ascii?Q?35E3DbLzTRugGI8cw9Jajo3p2XHZZXHHYWkjQ2bFDQDrVuiw9wOpWNq269ql?=
+ =?us-ascii?Q?xlvY/RoYzlUg64v3+PWqygFFuZ8IwmritgGRrMTvPoHmyYnFy9aN/ejhFDre?=
+ =?us-ascii?Q?ADDryeg4BOUx1Df/w8RfnAchXngwjrxyY8QLkf0Or6GRXN77UUyupM6AbZ3M?=
+ =?us-ascii?Q?HdSHm3durvxP+mJWRwPUunknOjWUFaRnU/gesKC7Sh0+Nysi78uFeX8LiwbC?=
+ =?us-ascii?Q?qVtDOvLlYeX4HGex8sFLGdS6+P8EjZb2V9pti9/EEI3nlFBQYUknhhD2Lpb0?=
+ =?us-ascii?Q?Syn2tl8rR6KZLdRTOXV4U4SHvLM8rwdey41fB3RLU+pSBKUEijzikKXmWabj?=
+ =?us-ascii?Q?vfk+bte+NCpv1gd3bxMTegEfkl/ZcKYoF/3viHrYtZuHKPVEUUtZbsbBNxbZ?=
+ =?us-ascii?Q?hOC4aj8RPqxSMI+sHGo3J16zpEaj2r2oTocJr6dCtjEDpbO+MWq+kRZxVpQN?=
+ =?us-ascii?Q?R3DL2ZuoRcrG4tr9pGfJQNXRlv6FGNOYiTGm0GojyKC7dB6IyzWWM0n4KRXu?=
+ =?us-ascii?Q?ekjWY/xAPoM+CXPR2c/CWMKRjgFKrWpx58n2Hd9qDlHq5oKiRQiysEWXCt2z?=
+ =?us-ascii?Q?SLmxLgjIhZnsmYzCJ5kfOZXyUfiestn5AcVeb6u363mB2IhHLIsWjxrEOXgV?=
+ =?us-ascii?Q?XD594MJEecAZI1mWxc8=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5753.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0aebfa60-1e0f-4167-d03f-08dd86e83cae
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2025 06:36:56.4883 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kldFPFhjbF38xE2rE0S0Fa3OUU6o/jW1MeuEeQv5AHfUkFTgFWmO2TZhjdl0yoeMZKGQAIa39+yrAgYld+xILA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF862C85B20
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,82 +159,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+[AMD Official Use Only - AMD Internal Distribution Only]
 
-On 28/04/2025 12:40, Vitor Soares wrote:
-> From: Vitor Soares <vitor.soares@toradex.com>
-> 
-> The deprecated UNIVERSAL_DEV_PM_OPS() macro uses the provided callbacks
-> for both runtime PM and system sleep. This causes the DSI clocks to be
-> disabled twice: once during runtime suspend and again during system
-> suspend, resulting in a WARN message from the clock framework when
-> attempting to disable already-disabled clocks.
-> 
-> [   84.384540] clk:231:5 already disabled
-> [   84.388314] WARNING: CPU: 2 PID: 531 at /drivers/clk/clk.c:1181 clk_core_disable+0xa4/0xac
-> ...
-> [   84.579183] Call trace:
-> [   84.581624]  clk_core_disable+0xa4/0xac
-> [   84.585457]  clk_disable+0x30/0x4c
-> [   84.588857]  cdns_dsi_suspend+0x20/0x58 [cdns_dsi]
-> [   84.593651]  pm_generic_suspend+0x2c/0x44
-> [   84.597661]  ti_sci_pd_suspend+0xbc/0x15c
-> [   84.601670]  dpm_run_callback+0x8c/0x14c
-> [   84.605588]  __device_suspend+0x1a0/0x56c
-> [   84.609594]  dpm_suspend+0x17c/0x21c
-> [   84.613165]  dpm_suspend_start+0xa0/0xa8
-> [   84.617083]  suspend_devices_and_enter+0x12c/0x634
-> [   84.621872]  pm_suspend+0x1fc/0x368
-> 
-> To address this issue, replace UNIVERSAL_DEV_PM_OPS() with
-> DEFINE_RUNTIME_DEV_PM_OPS(), which avoids redundant suspend/resume calls
-> by checking if the device is already runtime suspended.
-> 
-> Cc: <stable@vger.kernel.org> # 6.1.x
-> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
-> Signed-off-by: Vitor Soares <vitor.soares@toradex.com>
-> ---
->   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> index b022dd6e6b6e..62179e55e032 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-> @@ -1258,7 +1258,7 @@ static const struct mipi_dsi_host_ops cdns_dsi_ops = {
->   	.transfer = cdns_dsi_transfer,
->   };
->   
-> -static int __maybe_unused cdns_dsi_resume(struct device *dev)
-> +static int cdns_dsi_resume(struct device *dev)
->   {
->   	struct cdns_dsi *dsi = dev_get_drvdata(dev);
->   
-> @@ -1269,7 +1269,7 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
->   	return 0;
->   }
->   
-> -static int __maybe_unused cdns_dsi_suspend(struct device *dev)
-> +static int cdns_dsi_suspend(struct device *dev)
->   {
->   	struct cdns_dsi *dsi = dev_get_drvdata(dev);
->   
-> @@ -1279,8 +1279,8 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
->   	return 0;
->   }
->   
-> -static UNIVERSAL_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend, cdns_dsi_resume,
-> -			    NULL);
-> +static DEFINE_RUNTIME_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend,
-> +				 cdns_dsi_resume, NULL);
+Ping ?
 
-I'm not sure if this, or the UNIVERSAL_DEV_PM_OPS, is right here. When 
-the system is suspended, the bridge drivers will get a call to the 
-*_disable() hook, which then disables the device. If the bridge driver 
-would additionally do something in its system suspend hook, it would 
-conflict with normal disable path.
+-----Original Message-----
+From: Sunil Khatri <sunil.khatri@amd.com>
+Sent: Thursday, April 17, 2025 3:55 PM
+To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
+Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Chri=
+stian.Koenig@amd.com>; Tvrtko Ursulin <tvrtko.ursulin@igalia.com>; Pelloux-=
+Prayer, Pierre-Eric <Pierre-eric.Pelloux-prayer@amd.com>; Khatri, Sunil <Su=
+nil.Khatri@amd.com>
+Subject: [PATCH v2] drm/sched: fix the warning in drm_sched_job_done
 
-I think bridges/panels should only deal with runtime PM.
+Fix the below warning.
+scheduler/sched_main.c:397: warning: Function parameter or struct member 'r=
+esult' not described in 'drm_sched_job_done'
 
-  Tomi
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sched=
+uler/sched_main.c
+index bfea608a7106..5cd29e92b133 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -390,6 +390,7 @@ static void drm_sched_run_free_queue(struct drm_gpu_sch=
+eduler *sched)
+ /**
+  * drm_sched_job_done - complete a job
+  * @s_job: pointer to the job which is done
++ * @result: error code for dma fence for scheduler
+  *
+  * Finish the job's fence and wake up the worker thread.
+  */
+--
+2.34.1
 
