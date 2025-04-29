@@ -2,66 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674F2AA0784
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 11:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D481AA0796
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 11:44:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4BEF10E409;
-	Tue, 29 Apr 2025 09:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDE8E10E414;
+	Tue, 29 Apr 2025 09:44:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="FUWvce3l";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OCv6+Iaa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 183D210E409
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 09:40:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1745919602; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=CrRxVW/rjrrTpEX877OQp09PyFktoNq4tLm8pehDoxuZm9tRiQej5iH1DAx5qDT9Lc4NOb6SmFIJhPQWWjj3NXtAVhj7dwEyFkZR+qD6SRCsZSDTo3irFeJnHxGrejqVL7as981LljIPT+GW/s6CBivRwxQj3gYeaX4+BVwzJ7M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1745919602;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=hLcmBIsCACJDjUqAJtkO3HjgZL+AZDeLLjzKL5Mpp1Q=; 
- b=GPZeeF9NHa0+ftrpZl4aZ8Mop5XFx2Ruj4qp5aB37/XaCRaadIfTDNlR2t4LuGXZAcebXlk8pR5Mhj+rsWbtSPnWUbHIcrnEvSnlGG2jGoEyw4XjVKvqCCHrL4bNDIQsz5OoEM6oSBdpbndb2kqeSi87n6aaTXIWYRJOD5iRSck=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745919602; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=hLcmBIsCACJDjUqAJtkO3HjgZL+AZDeLLjzKL5Mpp1Q=;
- b=FUWvce3l0LAyC3oL+PJY12QkqhLVXz42z07AN6mnx/ARAY67DZuYjHPP+ne+jW8q
- gI8fLDMp8XW+4rLBKWxRzGoc90GHy3t3UK0r6m9ZX4b/ekFufCgRHaBKLUpepFbtKtL
- LPD2Ge/TYfWhDsirdN40DB7REFsV5aAKJ3Ago1+Q=
-Received: by mx.zohomail.com with SMTPS id 1745919600383113.998544462219;
- Tue, 29 Apr 2025 02:40:00 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46F8910E0CF;
+ Tue, 29 Apr 2025 09:44:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1745919862; x=1777455862;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=wh7FchBcfOdfExNX3BYz2qNe2hMS+gRAYru+0UUvZes=;
+ b=OCv6+IaaG06WCSW2P2KzmTcgLMRgcX/Mf0Wibn8O7+DG5NCiJj5pTpr5
+ IpDzjWnBy192+ixxYub7XjUmbbBD3GYWdvrBNTF1/CstMwNvHS37eMZEz
+ i1Lx0nkyDIFBQTyksg5hX66XRYCSr8c7XWD+sPLFTthBckf5QCy5z+0oI
+ SwubT8TuGU+zZ6mn2hD4yZQ72GYFiUnUv4NQF1mg95ZWjQ+p3bgLSTzBe
+ 4FwRxgT5aEWhEGUCvnH1RjPWyJimy4svtGlFlHbUG2rcotBL/NapygJfL
+ nZMehfVtZcbHpl5ZuA0sjddE5q/M2A5LeMZqNCyyqFg5QcCp2ziRvBMB9 w==;
+X-CSE-ConnectionGUID: jQJbKVQ/RgGbz1bilROLLw==
+X-CSE-MsgGUID: 1Q2T4cRITrC5hc8DR+gibw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="57731568"
+X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; d="scan'208";a="57731568"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2025 02:44:21 -0700
+X-CSE-ConnectionGUID: ESk4VnhqRUumDTvwR81cKw==
+X-CSE-MsgGUID: cp5503b2Siai0RouYOw96g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; d="scan'208";a="133726320"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2025 02:44:16 -0700
+Date: Tue, 29 Apr 2025 12:44:13 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Alexander Usyskin <alexander.usyskin@intel.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-rockchip@lists.infradead.org
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: Re: [PATCH v2 4/7] accel/rocket: Add a new driver for Rockchip's NPU
-Date: Tue, 29 Apr 2025 11:39:52 +0200
-Message-ID: <12654406.O9o76ZdvQC@workhorse>
-In-Reply-To: <20250225-6-10-rocket-v2-4-d4dbcfafc141@tomeuvizoso.net>
-References: <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
- <20250225-6-10-rocket-v2-4-d4dbcfafc141@tomeuvizoso.net>
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Karthik Poosa <karthik.poosa@intel.com>,
+ Reuven Abliyev <reuven.abliyev@intel.com>,
+ Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Tomas Winkler <tomasw@gmail.com>
+Subject: Re: [PATCH v9 03/12] mtd: intel-dg: implement region enumeration
+Message-ID: <aBCfbaYs9CnXL2h1@black.fi.intel.com>
+References: <20250424132536.3043825-1-alexander.usyskin@intel.com>
+ <20250424132536.3043825-4-alexander.usyskin@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424132536.3043825-4-alexander.usyskin@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,201 +85,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 25 February 2025 08:55:50 Central European Summer Time Tomeu Vizoso wrote:
-> This initial version supports the NPU as shipped in the RK3588 SoC and
-> described in the first part of its TRM, in Chapter 36.
-> 
-> This NPU contains 3 independent cores that the driver can submit jobs
-> to.
-> 
-> This commit adds just hardware initialization and power management.
-> 
-> v2:
-> - Split cores and IOMMUs as independent devices (Sebastian Reichel)
-> - Add some documentation (Jeffrey Hugo)
-> - Be more explicit in the Kconfig documentation (Jeffrey Hugo)
-> - Remove resets, as these haven't been found useful so far (Zenghui Yu)
-> - Repack structs (Jeffrey Hugo)
-> - Use DEFINE_DRM_ACCEL_FOPS (Jeffrey Hugo)
-> - Use devm_drm_dev_alloc (Jeffrey Hugo)
-> - Use probe log helper (Jeffrey Hugo)
-> - Introduce UABI header in a later patch (Jeffrey Hugo)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->  Documentation/accel/index.rst           |    1 +
->  Documentation/accel/rocket/index.rst    |   19 +
->  MAINTAINERS                             |    8 +
->  drivers/accel/Kconfig                   |    1 +
->  drivers/accel/Makefile                  |    1 +
->  drivers/accel/rocket/Kconfig            |   25 +
->  drivers/accel/rocket/Makefile           |    8 +
->  drivers/accel/rocket/rocket_core.c      |   71 +
->  drivers/accel/rocket/rocket_core.h      |   29 +
->  drivers/accel/rocket/rocket_device.c    |   29 +
->  drivers/accel/rocket/rocket_device.h    |   29 +
->  drivers/accel/rocket/rocket_drv.c       |  273 ++
->  drivers/accel/rocket/rocket_drv.h       |   13 +
->  drivers/accel/rocket/rocket_registers.h | 4425 +++++++++++++++++++++++++++++++
->  14 files changed, 4932 insertions(+)
+On Thu, Apr 24, 2025 at 04:25:27PM +0300, Alexander Usyskin wrote:
+> In intel-dg, there is no access to the spi controller,
+> the information is extracted from the descriptor region.
 
-Hi Tomeu,
+...
 
-I've got some more comments on the driver, this time specific to some power
-management stuff I've noticed.
+> @@ -22,9 +24,199 @@ struct intel_dg_nvm {
+>  		u8 id;
+>  		u64 offset;
+>  		u64 size;
+> +		unsigned int is_readable:1;
+> +		unsigned int is_writable:1;
+>  	} regions[] __counted_by(nregions);
+>  };
+>  
+> +#define NVM_TRIGGER_REG       0x00000000
+> +#define NVM_VALSIG_REG        0x00000010
+> +#define NVM_ADDRESS_REG       0x00000040
+> +#define NVM_REGION_ID_REG     0x00000044
+> +/*
+> + * [15:0]-Erase size = 0x0010 4K 0x0080 32K 0x0100 64K
+> + * [23:16]-Reserved
+> + * [31:24]-Erase MEM RegionID
+> + */
+> +#define NVM_ERASE_REG         0x00000048
+> +#define NVM_ACCESS_ERROR_REG  0x00000070
+> +#define NVM_ADDRESS_ERROR_REG 0x00000074
+> +
+> +/* Flash Valid Signature */
+> +#define NVM_FLVALSIG          0x0FF0A55A
+> +
+> +#define NVM_MAP_ADDR_MASK     GENMASK(7, 0)
+> +#define NVM_MAP_ADDR_SHIFT    0x00000004
+> +
+> +#define NVM_REGION_ID_DESCRIPTOR  0
+> +/* Flash Region Base Address */
+> +#define NVM_FRBA      0x40
+> +/* Flash Region __n - Flash Descriptor Record */
+> +#define NVM_FLREG(__n) (NVM_FRBA + ((__n) * 4))
+> +/*  Flash Map 1 Register */
+> +#define NVM_FLMAP1_REG  0x18
+> +#define NVM_FLMSTR4_OFFSET 0x00C
+> +
+> +#define NVM_ACCESS_ERROR_PCIE_MASK 0x7
+> +
+> +#define NVM_FREG_BASE_MASK GENMASK(15, 0)
+> +#define NVM_FREG_ADDR_MASK GENMASK(31, 16)
+> +#define NVM_FREG_ADDR_SHIFT 12
+> +#define NVM_FREG_MIN_REGION_SIZE 0xFFF
 
-> +++ b/drivers/accel/rocket/rocket_core.c
->
-> [...]
->
-> +int rocket_core_init(struct rocket_core *core)
+Should we move these to a header?
+
+> +static inline void idg_nvm_set_region_id(struct intel_dg_nvm *nvm, u8 region)
 > +{
-> +	struct device *dev = core->dev;
-> +	struct platform_device *pdev = to_platform_device(dev);
-> +	uint32_t version;
-> +	int err = 0;
+> +	iowrite32((u32)region, nvm->base + NVM_REGION_ID_REG);
+> +}
 > +
-> +	err = rocket_clk_init(core);
-> +	if (err) {
-> +		dev_err(dev, "clk init failed %d\n", err);
-> +		return err;
-> +	}
+> +static inline u32 idg_nvm_error(struct intel_dg_nvm *nvm)
+> +{
+> +	void __iomem *base = nvm->base;
 > +
-> +	core->iomem = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(core->iomem))
-> +		return PTR_ERR(core->iomem);
+> +	u32 reg = ioread32(base + NVM_ACCESS_ERROR_REG) & NVM_ACCESS_ERROR_PCIE_MASK;
 > +
-> +	pm_runtime_use_autosuspend(dev);
+> +	/* reset error bits */
+> +	if (reg)
+> +		iowrite32(reg, base + NVM_ACCESS_ERROR_REG);
+> +
+> +	return reg;
+> +}
+> +
+> +static inline u32 idg_nvm_read32(struct intel_dg_nvm *nvm, u32 address)
+> +{
+> +	void __iomem *base = nvm->base;
+> +
+> +	iowrite32(address, base + NVM_ADDRESS_REG);
+> +
+> +	return ioread32(base + NVM_TRIGGER_REG);
+> +}
+> +
+> +static int idg_nvm_get_access_map(struct intel_dg_nvm *nvm, u32 *access_map)
+> +{
+> +	u32 flmap1;
+> +	u32 fmba;
+> +	u32 fmstr4;
+> +	u32 fmstr4_addr;
 
-We're enabling autosuspend here, but don't use
-  pm_runtime_dont_use_autosuspend(core->dev);
-in rocket_core_fini. dont_use_autosuspend is only handled for us automagically
-on driver unload if we use devm wrappers for pm_runtime_enable, so this is most
-definitely an oversight.
+Nit: These are in order of appearance vs reverse xmas tree in other places.
+Perhaps make them consistent?
 
-> +	pm_runtime_set_autosuspend_delay(dev, 50); /* ~3 frames */
-
-The 50 = 3 frames thing here seems suspect. 3 frames of what, and why? If it's
-3 frames of something the hardware processed, then doesn't that depend on the
-specific hardware and its clock rate, which may change? Plus, shouldn't auto-
-suspend be blocked anyway when there's still a job processing? The RK3588 TRM
-doesn't make a mention of "frame" in the RKNN section, so if this refers to a
-specific workload then that will be another parameter.
-
-> +	pm_runtime_enable(dev);
+> +	idg_nvm_set_region_id(nvm, NVM_REGION_ID_DESCRIPTOR);
 > +
-> +	err = pm_runtime_get_sync(dev);
-
-No error checking done here, so if a clock fails to enable, we just hang on the
-read later if it was the register's clock. Though that particular error case is
-never passed out from the runtime resume callback, which should probably be
-fixed as well. 
-
+> +	flmap1 = idg_nvm_read32(nvm, NVM_FLMAP1_REG);
+> +	if (idg_nvm_error(nvm))
+> +		return -EIO;
+> +	/* Get Flash Master Baser Address (FMBA) */
+> +	fmba = (FIELD_GET(NVM_MAP_ADDR_MASK, flmap1) << NVM_MAP_ADDR_SHIFT);
+> +	fmstr4_addr = fmba + NVM_FLMSTR4_OFFSET;
 > +
-> +	version = rocket_read(core, REG_PC_VERSION);
-> +	version += rocket_read(core, REG_PC_VERSION_NUM) & 0xffff;
+> +	fmstr4 = idg_nvm_read32(nvm, fmstr4_addr);
+> +	if (idg_nvm_error(nvm))
+> +		return -EIO;
 > +
-> +	pm_runtime_mark_last_busy(dev);
-> +	pm_runtime_put_autosuspend(dev);
-> +
-> +	dev_info(dev, "Rockchip NPU core %d version: %d\n", core->index, version);
-> +
+> +	*access_map = fmstr4;
 > +	return 0;
 > +}
 > +
-> +void rocket_core_fini(struct rocket_core *core)
+> +static bool idg_nvm_region_readable(u32 access_map, u8 region)
 > +{
-> +	pm_runtime_disable(core->dev);
-> +}
->
-> [...]
->
-> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/rocket_drv.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..c22d965f20f1239a36b1d823d5fe5f372713555d
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_drv.c
->
-> [...]
->
-> +static int rocket_device_runtime_resume(struct device *dev)
-> +{
-> +	struct rocket_device *rdev = dev_get_drvdata(dev);
-> +
-> +	for (unsigned int core = 0; core < rdev->num_cores; core++) {
-> +		if (dev != rdev->cores[core].dev)
-> +			continue;
-> +
-> +		if (core == 0) {
-> +			clk_prepare_enable(rdev->clk_npu);
-> +			clk_prepare_enable(rdev->pclk);
-> +		}
-> +
-> +		clk_prepare_enable(rdev->cores[core].a_clk);
-> +		clk_prepare_enable(rdev->cores[core].h_clk);
-> +	}
-> +
-> +	return 0;
-> +}
+> +	if (region < 12)
 
-Here is where we will probably want to check the return code of each
-clk_prepare_enable, and potentially do quite ugly "always return hardware to
-known state" handling if any of them fails to enable, i.e. unwind the enables
-in the function exit before returning the error code.
+Anything special about 12? Should it have a macro def somewhere?
 
-Seems pointless because if a clock fails to enable it's a nuclear meltdown type
-situation anyway, but especially when people are writing DTSes or porting things
-to new SoCs, it can be nicer to have the driver fail rather than the whole SoC.
-
-I do wish we had cleanup.h helpers for clock enables though...
-
-> +
-> +static int rocket_device_runtime_suspend(struct device *dev)
-> +{
-> +	struct rocket_device *rdev = dev_get_drvdata(dev);
-> +
-> +	for (unsigned int core = 0; core < rdev->num_cores; core++) {
-> +		if (dev != rdev->cores[core].dev)
-> +			continue;
-> +
-> +		clk_disable_unprepare(rdev->cores[core].a_clk);
-> +		clk_disable_unprepare(rdev->cores[core].h_clk);
-> +
-> +		if (core == 0) {
-> +			clk_disable_unprepare(rdev->pclk);
-> +			clk_disable_unprepare(rdev->clk_npu);
-> +		}
-> +	}
-> +
-> +	return 0;
+> +		return access_map & BIT(region + 8); /* [19:8] */
+> +	else
+> +		return access_map & BIT(region - 12); /* [3:0] */
 > +}
 > +
-> +EXPORT_GPL_DEV_PM_OPS(rocket_pm_ops) = {
-> +	RUNTIME_PM_OPS(rocket_device_runtime_suspend, rocket_device_runtime_resume, NULL)
-> +	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-> +};
-> +
-> +static struct platform_driver rocket_driver = {
-> +	.probe = rocket_probe,
-> +	.remove = rocket_remove,
-> +	.driver	 = {
-> +		.name = "rocket",
-> +		.pm = pm_ptr(&rocket_pm_ops),
-> +		.of_match_table = dt_match,
-> +	},
-> +};
-> +module_platform_driver(rocket_driver);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("DRM driver for the Rockchip NPU IP");
-> +MODULE_AUTHOR("Tomeu Vizoso");
->
-> [...]
+> +static bool idg_nvm_region_writable(u32 access_map, u8 region)
+> +{
+> +	if (region < 12)
 
-I'll send a second reply with PM comments on the job stuff in the patch that
-adds it, since I found something peculiar there while experimenting on RK3576.
+Ditto.
 
-Kind regards,
-Nicolas Frattaroli
+> +		return access_map & BIT(region + 20); /* [31:20] */
+> +	else
+> +		return access_map & BIT(region - 8); /* [7:4] */
+> +}
 
-
+Raag
