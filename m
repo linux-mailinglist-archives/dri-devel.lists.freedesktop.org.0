@@ -2,114 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA73AA0F13
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 16:36:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8195AA0F17
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 16:37:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 227A489864;
-	Tue, 29 Apr 2025 14:36:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F9CA10E067;
+	Tue, 29 Apr 2025 14:37:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VtRl8Ac+";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="bqNzLyf9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6B5E89864
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 14:36:43 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53T8G4fb007452
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 14:36:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=J4vapM77cSti5bfb1sVRmOKt
- P/l43U94DBDBHARRk/k=; b=VtRl8Ac+hVPXwWy3/5FThBwnFkxYES1cyFx9j5c5
- hrB2Emh+tAttSdQ+cSoIFI6chbPBLR648bmTBP47f63eENqDm0QBDU4i/XYPRSiT
- v06MrvR57ohjYvmvcb0vwmwCVGIzSPcP6qQhxm3nchPEZVN/5lRUM5VnfNVcQnZQ
- k4ueE1E5Nri70Q8k5o3pDlSVz20AqlCjQPk2qSEp5tvq6qsQ2TCb54u7h5uKIXmg
- a5oObn7EiZ95kkrm/mbYcM3oG2aLymTgEXXX28wPQQQxLl0puKP4CEvEy690RDlt
- ZbYRERWS5C6ftUhef9uRSaBS96mGNu8f2od/7M3eWJETNg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468pg9cw8u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 14:36:42 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c791987cf6so1247932085a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 07:36:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745937402; x=1746542202;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J4vapM77cSti5bfb1sVRmOKtP/l43U94DBDBHARRk/k=;
- b=lvjtNfrrIrk64qE3WV8rYJ5DqeN79UVrvwjZEk85jSKQbfImEyND6/KcyUpNWFWGjb
- MHyOJ6V1DPvmNsrI6UxT9vNNzpEgoeqVr7kBHNggMVJMj8oKLU6eqeJ+sYfiAMzQYnqf
- j9Nk++DHQNBJOoOSGa/IkwSsVxbgoNtu80EP6yByUwuudmUVZ8sHmngDI0GqROw+vzAg
- B5pOOXTTqSoDhZQ0U28S7qb7x6D6JIWypTmIwafczWKlN70/K/CNXwiek7vbcSDd6q+M
- p7o9837WGbpMcZ8x99cE+i2/Y+/Zw2bBeGDzv+Ji443ck9cm8ljdsLwfliHrDkEISOZe
- RMrQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXIR1WfzAbDtNvAWCVmC8UUUc754pXO48kavSIv8jD99rCFDLFSGCGkJKhIRSAK92ZgU6HMCTD6GHg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzlkpbAMSsYf/mdRFKZxl+38XDFxm40KnceEonJUJHyHd01gDyV
- 4/vIJxQPRbyJi5gBa+Nqbbnr02328a0fCgt9bUiO30tQ2AI3Lojy9CA84hT6m+jGwUOYFTbSdgm
- VcZMqN1NE4pUuhzC0wM2IFWLsa1cfrH7S0YK6QOm9chsrd/PuFmALWKBNlGUjIbHaSAg=
-X-Gm-Gg: ASbGncv+w8poP2a9qDb2/vC758nm1R5L7ayEiKUgtKYI+dnzPL24zInjiA6EPj0hGXL
- QMykm6WBJcgJ73ZSAA60GE/xy8gNuZQQYyIq0wXhYpJnPDcgwCxXe69gQgfzf6g40oEv4TjyzCN
- xZmGsLxPw4JrTd+IzxQ2Fbmn7nNTj3l5nWuy+puFfOtgu2UsOtNgSj3OsE+61w/F9mxAms+/J8H
- o3VDnx2p+XsL9XMYT7WURzm0SkPrOye1aMoIQQYS6+5Pl97gxmn11dO4zCD4dY44L4TfzjJ9voN
- Jjfb9gG0mtkG2VGZT2Sic2WpKvJbeGa93J4t6IBwa/az9FDWoCnOciFhpSFnPwCbIfuQTlIzrTY
- =
-X-Received: by 2002:a05:620a:4309:b0:7c7:b600:8368 with SMTP id
- af79cd13be357-7cabddb646cmr566808485a.38.1745937401983; 
- Tue, 29 Apr 2025 07:36:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEvlRPDp4nVxPl5jkoeJcUjoMVkueqG9MbxVn9JenlF+X3kyGNQRHfqzf9TZwOykEYT4V2bWQ==
-X-Received: by 2002:a05:620a:4309:b0:7c7:b600:8368 with SMTP id
- af79cd13be357-7cabddb646cmr566804385a.38.1745937401635; 
- Tue, 29 Apr 2025 07:36:41 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-317d16a833esm24539771fa.85.2025.04.29.07.36.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Apr 2025 07:36:40 -0700 (PDT)
-Date: Tue, 29 Apr 2025 17:36:39 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: robdclark@gmail.com, sean@poorly.run, konradybcio@kernel.org,
- quic_abhinavk@quicinc.com, lumag@kernel.org,
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm: Convert comma to semicolon
-Message-ID: <67u334iujxbhkklsy2awxhmionha6b2qxshv4gjvjesudas2ie@6hhn6gxgjyqb>
-References: <20250410025221.3358387-1-nichen@iscas.ac.cn>
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E247E10E336
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 14:37:19 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53TEaw0f3867999
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 29 Apr 2025 09:36:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1745937418;
+ bh=DKk1xaSMzcGFiMWCM2d8Q1zeAjKKaHVkdez7w5iD168=;
+ h=From:To:CC:Subject:Date;
+ b=bqNzLyf9+Max/wk5qTUB3X8O/i8lA6biTrudCotisD35Tz+/Eo+v6Kr2612wSyZKf
+ FRI8UQFKf+fyCpIVVhSe+jgoXdQ/+Lz5ysiTq1GCQqP9vSK82wa5I4NAMWR8a7VSeZ
+ nlQtC2dHAEumm7apvuJjSZQ6PMaRBNFxQ4bXU+L0=
+Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53TEawBI035775
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 29 Apr 2025 09:36:58 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 29
+ Apr 2025 09:36:57 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 29 Apr 2025 09:36:57 -0500
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53TEav0N086083;
+ Tue, 29 Apr 2025 09:36:57 -0500
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <airlied@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>,
+ <dri-devel@lists.freedesktop.org>, <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
+ <s-jain1@ti.com>, <r-donadkar@ti.com>, <j-choudhary@ti.com>,
+ <h-shenoy@ti.com>, <devarsht@ti.com>
+Subject: [PATCH v5 0/3] Add support for AM62L DSS
+Date: Tue, 29 Apr 2025 20:06:53 +0530
+Message-ID: <20250429143656.3252877-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250410025221.3358387-1-nichen@iscas.ac.cn>
-X-Authority-Analysis: v=2.4 cv=ZpvtK87G c=1 sm=1 tr=0 ts=6810e3fa cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=sNhlO-HqowW9r6Pg40gA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: idEMKJ-patlMV2KdhS0oUHRWAs7bJ14S
-X-Proofpoint-GUID: idEMKJ-patlMV2KdhS0oUHRWAs7bJ14S
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDEwOSBTYWx0ZWRfX9apGbzUeIJ7G
- lKirMkLCdZcGK8e7zyc41ABkVtwUtSmFZno4XOdQL+LJA7x3w7YuhFFCxjBQrXRzP/uH112bA/h
- Q1YJwWB4VxPTqjyikmO/epkGonnthb2GOBMb9y278WtAh7z3NTE1TIqKfW4TAecluxUwG36xJad
- w/g70kJDHea+gWdx9r3Y17B/PTVCCeH4kDyyFGrt8yc/xdnRf8fBsGTBbAZPedtCmVzPDorlFyS
- aUKHz9jNCbgavUMCq5psMxK4l7pGisO7a0oxbQoYU1gsS0kz9+FguetFilHqxx5bg3+tz/5+qaL
- aZZHO/cugQF0fXkE1ywYLES1k4s1YBoEAs97V8mxYJv7I2qvqQo6QMbJVI8q+YwJ1/4Le3F6z4I
- CgTvLpLMvYZvIELnBX4e1Qt5x6p2SL7TJ/njZCVOmE1hvaGRDnHrnzDtkGGmqjpFqrx42eYA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-29_05,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0
- mlxscore=0 bulkscore=0 mlxlogscore=867 malwarescore=0 adultscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504290109
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,25 +74,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 10, 2025 at 10:52:21AM +0800, Chen Ni wrote:
-> Replace comma between expressions with semicolons.
-> 
-> Using a ',' in place of a ';' can have unintended side effects.
-> Although that is not the case here, it is seems best to use ';'
-> unless ',' is intended.
-> 
-> Found by inspection.
-> No functional change intended.
-> Compile tested only.
-> 
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
-> ---
->  drivers/gpu/drm/msm/msm_ringbuffer.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+This adds support for DSS subsystem present in TI's AM62L SoC
+which supports single display pipeline with DPI output which
+is also routed to DSI Tx controller within the SoC.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Change Log:
+V5:
+- Use hw_id instead of index for places where it was missed
+  so that we pick correct base address for vid region
+
+V4:
+- Update vid_info struct to keep hw_id and instantiate
+  only for actually existing pipes
+
+V3:
+- Make generic infra to support truncated K3 DSS IP's
+- Remove AM62A updates from AM62L DT binding updates
+
+V2:
+- Fix incorrect format of compatible string (comma instead of
+  hyphen) for AM62L SoC
+- Use separate register space and helper functions for AM62L
+  due to minor differences in register offset/bit position differences
+  for first plane
+
+Rangediff:
+V4->V5:
+- https://gist.github.com/devarsht/a0e6aa7b1c19f47facd0058962e3c3c2
+
+V3->V4:
+- https://gist.github.com/devarsht/1e75c9e1ac0cdfc01703a0776e31e782
+
+V2->V3:
+- https://gist.github.com/devarsht/24fa8dd2986861efa431352d19ebbb41
+
+V1->V2
+- https://gist.github.com/devarsht/11d47f25ca9fea6976e6284330ddf443
+
+Links to previous versions:
+V4: https://lore.kernel.org/all/20250326145736.3659670-1-devarsht@ti.com/
+V3: https://lore.kernel.org/all/20250306132914.1469387-1-devarsht@ti.com/
+V2: https://lore.kernel.org/all/20250204061552.3720261-1-devarsht@ti.com/
+V1: https://lore.kernel.org/all/20241231090432.3649158-1-devarsht@ti.com/
+
+Test logs:
+https://gist.github.com/devarsht/82505ca69f0bd5d9788bfc240d2e83d4
+
+Devarsh Thakkar (3):
+  dt-bindings: display: ti,am65x-dss: Add support for AM62L DSS
+  drm/tidss: Update infrastructure to support K3 DSS cut-down versions
+  drm/tidss: Add support for AM62L display subsystem
+
+ .../bindings/display/ti/ti,am65x-dss.yaml     |  21 +-
+ drivers/gpu/drm/tidss/tidss_crtc.c            |  11 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c           | 193 ++++++++++++++----
+ drivers/gpu/drm/tidss/tidss_dispc.h           |  13 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |   1 +
+ drivers/gpu/drm/tidss/tidss_kms.c             |   2 +-
+ drivers/gpu/drm/tidss/tidss_plane.c           |   2 +-
+ 7 files changed, 195 insertions(+), 48 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.39.1
+
