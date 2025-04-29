@@ -2,118 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A66AA0C91
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 15:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5792DAA0CEC
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 15:08:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9774310E27B;
-	Tue, 29 Apr 2025 13:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A37E110E30C;
+	Tue, 29 Apr 2025 13:08:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Sy+peR2z";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IoMznvEv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A944410E27B
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 13:01:20 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-39c266c2dd5so6745167f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 06:01:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1745931679; x=1746536479; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=MONQIfm/Oa04J/4iy7mo5OMqJtr7l+XlLP0uVBN0U7E=;
- b=Sy+peR2zZSdooHVjqE7nDv0fkxejgXBc0orBpxKI/teyJYCFYF7HS1i1QLHHGihLMF
- qSv6SuvT0jjgnXaQKgkAOryBAdBU9USE7+AwXWj7X0nk/jzLcmBzz+aNBCSG+CdhIOy/
- 3aFlA9QJOynmp92HeiI3lCy03P+xs90ZBWIaDUM9XXwTFxJHB6Zx3V32NjzbvZmP6QbB
- qJWyrEdGfQ+Eln+4rUBaEsbUMb982ruiMKn/DZaCZt1vSqcv2ZiJXcbLunzCVdjq0y1N
- ePs6XPNHkkAxEeHV2APfahA++vO4oYqeEEJBXoRt9K2/JSNx7AATqndg4LzdD0kDIhua
- x3MA==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 775C810E30C
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 13:08:00 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53TAFTtu020857
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 13:08:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=3iycI3ZTNsOLa0MGqAVtc71f
+ WejZqL8jSxO6Snm5fiY=; b=IoMznvEvvdlStb0Rbk11LLtBu7NMG2nowZ2iwo4B
+ fSEf08qftmKZKeH+PHWsH34CVZjWvTGK7iytfGpnB984TB2Kukc1An41CckNTid3
+ Jzg2sneWcJCzRuujj+2RNmczljMozW0lvIn9wweC9lytef2jsgUp6UfNSaaiEOux
+ 60pQeVIFuygGzFVuXwMy+eKzeKmTRy1vHWD+NEXKfxsuy/go2sFHit33kqG8l2bf
+ tOaLec4r3VhhVNDl8aGRO2JYpKF6K9YfgGPUq4PbAwOccwrejy40BnFLnnezIE7Y
+ 1g8ZnCuy0Qu89+QTHu+pMU5XvEHn/GkfQOGkDKk6+0Vzyg==
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468n6jkx71-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 13:07:59 +0000 (GMT)
+Received: by mail-il1-f199.google.com with SMTP id
+ e9e14a558f8ab-3d438be189bso31945515ab.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 06:07:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745931679; x=1746536479;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=MONQIfm/Oa04J/4iy7mo5OMqJtr7l+XlLP0uVBN0U7E=;
- b=p7tWfZDry9v7MT4q3ivJq+2660l17VZjIVzHQF9ruUZO8BUfToWyLwdXibdDS7sCCA
- OCrIuuegFsl2mDrlk4n62T8Qm78Tg91kpDUaVd8Wn3OB/sMzQtA1CbK5ML+h6NvSsslr
- AHk6MLD1kfGX4lJjKAO4tCqWEDWaXy/4+1AvBpx0BJXhf8uRNvZcS8hkjp6TZKAQJl8M
- X3UmR2FYSXXFDIv2oXW5cx2RBN1tvN+0X0cdUJFx5UBHbXKA5BOMCPrngt8UoLMddfG3
- 9Tr4ImWo095sjxtT/zE4vilzYLLe0tVVCKFSvfo15fBXHvkoo95OY2EpYy4UYNY19J1C
- gEsg==
+ d=1e100.net; s=20230601; t=1745932079; x=1746536879;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3iycI3ZTNsOLa0MGqAVtc71fWejZqL8jSxO6Snm5fiY=;
+ b=beFl/VvCCF0t6Ji5EkoLZve/OLAjyVcgM/pJQ6fpbJ/fxLDi1Lid4VPS4VF7LDP+Uv
+ KE4DdhZYFuGzovb+vpO9SLs0VMBeBEelaLyOAaFPD6bkIu5W9FbN+g/vMnik+nF9zDOM
+ OEKUZ2psvjxymFb147FknQZvS14mWjm9qNkI7/2KTXef4UdbXW6cYptya8DLaUbfILgb
+ P1t0ISfOrDe3Cvi8hX2iHNKj3M1eXsz1L0PD31o4dTUM/BMIsAMqG4k4BLKheiV3uPy9
+ ZAzL2RZkD/GalZkPGAcvJQTez8ngkwkX5W21ib1ywwl7isbZSAM/lcYsi2zfageQr4Dh
+ ND8Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVB/W4axjJ+IIrpN+j8WYWB/HhD1cFfeO0rq/U1TFyDFOyTct8xj44QBL76ntMVmE8DDLgT4jbJ1Kc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwAvrEghnJ8q/uRksKbgnzmqxahmIQkJNX1fbid2/fDMj97RkXZ
- 1lxyUSYdEXBGRCwmOZW7/TVhxVaM4g3c/W9zeBbEXfNP8HiEuBCHF2qAw2+wo5w=
-X-Gm-Gg: ASbGncsNX7qeW5b5ZI6CsMeK1BleUv0BcfVHqd/FLCGydpPKKZMGfTTN7keqOPPL0gP
- 9loW7JpB0ts0YgQCbf2wx8e/vk7oHOyyOGW4kEOKOBtCS9b/I+myvms3OUNMwilEiDmOirreZCr
- p9UQn6sOI9o06Q6V0lWdeiN4WBeLGDNmeSGuRMy/VXm6jQqKIyjzQHpyv+axuk3eO9H2/KK/auV
- 5CPcaKNNrnN9aghLakZQZsywW2yJppipUMjsz+Nfm7RsDBeWKmwDYj5jleWRNONwE7O9iJANq7P
- LEN3OmNrZ7BpmaIZDM/DAeNA5pqGuHTcoliQ4OKk0+rtSLOH09qLWnr/EDjgNL28qzyEtNr78Dp
- lbIXC3nL0UnxKCIRIGA==
-X-Google-Smtp-Source: AGHT+IFzOm/zeLBXb8tq9k3CffyVspFovQWIpznGeeVBZrU7maNGW9UIaOh5zs9qS8Jytx7rDtlTQw==
-X-Received: by 2002:a05:6000:2a1:b0:3a0:89df:3b85 with SMTP id
- ffacd0b85a97d-3a089df3e89mr2974196f8f.38.1745931678644; 
- Tue, 29 Apr 2025 06:01:18 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:7eea:fda1:4564:f556?
- ([2a01:e0a:3d9:2080:7eea:fda1:4564:f556])
+ AJvYcCXSNeGZ4qH04mAOEIlfJUDprXse4KKZwopdwnHHuk/M9ZNXQQI7nrZYEXSRRUDTwwLZGtq4JgwYl08=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzM5C9xJGDyh6mY5clR1H29sORt3plZhTO1Gh9cOnEeAi+vvfb8
+ JCZO13Q3eSaUCY7jMLa0DiujfeSQqj0VOmYfpBjlJFU2yRmbIH7a+pYiCJoLAyv7F2ivsXXRqCm
+ 35W+hA+oNaGlb8sN7hxR4402q3dx8NxYOesBeVwtQ7joLv/MQHCUCl1jGixNiJiM20xk=
+X-Gm-Gg: ASbGnctYHmLBHVvXNZNSTUHpfHF/RlzaG0tWNWcDFKN2S4DmwMH+jsGscSnyb7TbqRs
+ BEQbO5LW8sLybk0tKB1+4Ml+4aGqxfUlPLC0OPWh/FYhkRL5FFtE82cwNAH7kXoqjdMBfh5isUf
+ 4h+7jfJA4V9IqCEeQmHj8AkmkguOuP/xeAPDKVJqPNoaYSTWXjLkBYGcXH/qbeykLHmMAICd1/D
+ WCY0d65UnnWG7sL6qGS1uzC912HGzjJ63+Ryp5cHpTsUf3mdCykSqpVdMMEO0CTnO2wNpB2io/T
+ 6+HGTcwA3UyvzDxcrWC7a2TvD0F0+RssTp06+kNnNcWbCDGplGCHE1sMCIro0pm0WU598LPgxGI
+ =
+X-Received: by 2002:a05:6e02:3d84:b0:3d3:db70:b585 with SMTP id
+ e9e14a558f8ab-3d95e037fb5mr29829345ab.21.1745932078932; 
+ Tue, 29 Apr 2025 06:07:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxYKe64KrJHOVGDGU//vPn33RLxakuwv3sE5bOFok85OIRMr67JhLX/wsIASignHrLnq4UpQ==
+X-Received: by 2002:a05:6e02:3d84:b0:3d3:db70:b585 with SMTP id
+ e9e14a558f8ab-3d95e037fb5mr29828975ab.21.1745932078596; 
+ Tue, 29 Apr 2025 06:07:58 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a07a7c39a0sm10970372f8f.101.2025.04.29.06.01.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Apr 2025 06:01:18 -0700 (PDT)
-Message-ID: <3c4e3ed8-ceaf-45c7-a52c-dc7b8209418b@linaro.org>
-Date: Tue, 29 Apr 2025 15:01:17 +0200
+ 2adb3069b0e04-54e7cca7fbbsm1878954e87.159.2025.04.29.06.07.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Apr 2025 06:07:56 -0700 (PDT)
+Date: Tue, 29 Apr 2025 16:07:53 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ laurentiu.tudor1@dell.com
+Subject: Re: drm/msm/dp: Introduce link training per-segment for LTTPRs
+Message-ID: <gcy2ka6d57pcyymaqeilwuo224jydudxvfwd47d2ufkoycjydz@7lf2bjbz7kl4>
+References: <20250417021349.148911-1-alex.vinarskis@gmail.com>
+ <aA8yFI2Bvm-lFJTl@hovoldconsulting.com>
+ <CAMcHhXpmii=Rc9YVeKXaB17mYv0piSFs02K=0r8kWe5tQGk7eA@mail.gmail.com>
+ <aA94yOjsayZHNDpx@hovoldconsulting.com>
+ <aA+N8YHX0DZ6h9Uj@linaro.org>
+ <aBB-gl150GVaZPn5@hovoldconsulting.com>
+ <aBCE3wSG2g5pp7jg@linaro.org>
+ <aBCH4oo7dbG8ajvP@hovoldconsulting.com>
+ <CAMcHhXrDEVrM4fEyMwZ9TDgqgY=s_mTcKZMacCoUuZ2fa8FhWg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v4 00/11] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
- Jens Wiklander <jens.wiklander@linaro.org>,
- Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-doc@vger.kernel.org, Sumit Garg <sumit.garg@oss.qualcomm.com>
-References: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMcHhXrDEVrM4fEyMwZ9TDgqgY=s_mTcKZMacCoUuZ2fa8FhWg@mail.gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDA5OCBTYWx0ZWRfX23+/xPuZhp6o
+ cwg2w0pLes+OqMnxfv/m9s0YVH4HEvXz2Nz0iiBxf/HPu5eBX7ZhZgmZo5C1AVRN2X0lzRFYyAG
+ fh+XkE52mMN/GwQ2pgHk1EOxIfKrGzC2HMJMXCX+YyCMi+geeHOWOlwS3eVrU9APdMLvzzgS/eJ
+ wfZmmqnd0UjdkBtSCRmYayeBlrnNuTnAS9RKIFHt3cdA1w0PC3Z2Tx9UeIAsz9tbxN5ujht2Sm8
+ J1hmIvEzHdg0JMQ5SuH4XUomxyS0Eu2kgkXDhpRhhVX8C1EoAHKwTY41fo6zT7h7H27/73vGfZH
+ h8AmM3LAOAyrnGgknCQ895o2YiAsrsuHBvraTuxaFCFrGjLdMZrLXIJ1c2Ep+YMCIDbKs8N7Cdd
+ vAaz/6EIg7wmoPMawMAPerelacR7dd80CXBSAQiWHMEqTPNW6d7EHKDiQBb7CJz50DGPcmJx
+X-Proofpoint-GUID: vpPLIpqFf8CutP6SP3VYUPPJOOu93DDO
+X-Proofpoint-ORIG-GUID: vpPLIpqFf8CutP6SP3VYUPPJOOu93DDO
+X-Authority-Analysis: v=2.4 cv=C8fpyRP+ c=1 sm=1 tr=0 ts=6810cf2f cx=c_pps
+ a=vy3nvQW9C2dqy/lMnN3IYg==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=x2CRZeuriRqWQSmQ5gwA:9 a=CjuIK1q_8ugA:10
+ a=mHQ74H5e8mo-RpSg_uaF:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-29_04,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ mlxlogscore=709 priorityscore=1501 clxscore=1015 spamscore=0 adultscore=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504290098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,169 +133,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/04/2025 08:06, Amirreza Zarrabi wrote:
-> This patch series introduces a Trusted Execution Environment (TEE)
-> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
-> and services to run securely. It uses an object-based interface, where
-> each service is an object with sets of operations. Clients can invoke
-> these operations on objects, which can generate results, including other
-> objects. For example, an object can load a TA and return another object
-> that represents the loaded TA, allowing access to its services.
+On Tue, Apr 29, 2025 at 12:57:16PM +0200, Aleksandrs Vinarskis wrote:
+> On Tue, 29 Apr 2025 at 10:03, Johan Hovold <johan@kernel.org> wrote:
+> >
+> > On Tue, Apr 29, 2025 at 10:50:55AM +0300, Abel Vesa wrote:
+> > > On 25-04-29 09:23:46, Johan Hovold wrote:
+> > > > On Mon, Apr 28, 2025 at 05:17:21PM +0300, Abel Vesa wrote:
+> > > > > On 25-04-28 14:47:04, Johan Hovold wrote:
+> > > > > > On Mon, Apr 28, 2025 at 11:06:39AM +0200, Aleksandrs Vinarskis wrote:
+> > > > > > > On Mon, 28 Apr 2025 at 09:45, Johan Hovold <johan@kernel.org> wrote:
+> >
+> > > > > > > > Does this mean that the incomplete LTTPR support in 6.15-rc1 broke
+> > > > > > > > adapters or docks with retimers in transparent mode?
+> >
+> > > > Ok, but my concern is if they may have worked in a default transparent
+> > > > mode.
+> > >
+> > > But if they are by default in transparent mode, doing the setup to
+> > > transparent mode will not break it in any way.
+> >
+> > It looks like it will, see below.
+> >
+> > > > > X13s doesn't have LTTPRs on-board so when reading the caps, LTTPRs count
+> > > > > would return 0 and none of the of the transparent/non-transparent setup
+> > > > > would happen.
+> > > >
+> > > > But this is the crux; does any off-board LTTPRs in transparent mode add
+> > > > to the count or not? If they don't, how would you ever learn that there
+> > > > are any LTTPRs? If they do, it seems we may have a problem here.
+> > >
+> > > Count gets increased either way. It doesn't matter if they are in
+> > > transparent mode or not.
+> >
+> > Thanks for confirming. So then it seems we do have a problem as since
+> > 6.15-rc1 drm_dp_lttpr_init() will switch all LTTPRs to non-transparent
+> > mode.
 > 
-> Kernel and userspace services are also available to QTEE through a
-> similar approach. QTEE makes callback requests that are converted into
-> object invocations. These objects can represent services within the
-> kernel or userspace process.
-> 
-> Note: This patch series focuses on QTEE objects and userspace services.
-> 
-> Linux already provides a TEE subsystem, which is described in [1]. The
-> tee subsystem provides a generic ioctl interface, TEE_IOC_INVOKE, which
-> can be used by userspace to talk to a TEE backend driver. We extend the
-> Linux TEE subsystem to understand object parameters and an ioctl call so
-> client can invoke objects in QTEE:
-> 
->    - TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_*
->    - TEE_IOC_OBJECT_INVOKE
-> 
-> The existing ioctl calls TEE_IOC_SUPPL_RECV and TEE_IOC_SUPPL_SEND are
-> used for invoking services in the userspace process by QTEE.
-> 
-> The TEE backend driver uses the QTEE Transport Message to communicate
-> with QTEE. Interactions through the object INVOKE interface are
-> translated into QTEE messages. Likewise, object invocations from QTEE
-> for userspace objects are converted into SEND/RECV ioctl calls to
-> supplicants.
-> 
-> The details of QTEE Transport Message to communicate with QTEE is
-> available in [PATCH 11/11] Documentation: tee: Add Qualcomm TEE driver.
-> 
-> You can run basic tests with following steps:
-> git clone https://github.com/quic/quic-teec.git
-> cd quic-teec
-> mkdir build
-> cmake .. -DCMAKE_TOOLCHAIN_FILE=CMakeToolchain.txt -DBUILD_UNITTEST=ON
-> 
-> https://github.com/quic/quic-teec/blob/main/README.md lists dependencies
-> needed to build the above.
-> 
-> This series has been tested for basic QTEE object invocations and
-> callback requests, including loading a TA and requesting services form
-> the TA.
-> 
-> Tested platforms: sm8650-mtp
-> 
-> [1] https://www.kernel.org/doc/Documentation/tee.txt
-> 
-> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> 
-> Changes in v4:
-> - Move teedev_ctx_get/put and tee_device_get/put to tee_core.h.
-> - Rename object to id in struct tee_ioctl_object_invoke_arg.
-> - Replace spinlock with mutex for qtee_objects_idr.
-> - Move qcomtee_object_get to qcomtee_user/memobj_param_to_object.
-> - More code cleanup following the comments.
-> - Cleanup documentations.
-> - Update MAINTAINERS file.
-> - Link to v3: https://lore.kernel.org/r/20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-0-7f457073282d@oss.qualcomm.com
-> 
-> Changes in v3:
-> - Export shm_bridge create/delete APIs.
-> - Enable support for QTEE memory objects.
-> - Update the memory management code to use the TEE subsystem for all
->    allocations using the pool.
-> - Move all driver states into the driver's main service struct.
-> - Add more documentations.
-> - Link to v2: https://lore.kernel.org/r/20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com
-> 
-> Changes in v2:
-> - Clean up commit messages and comments.
-> - Use better names such as ubuf instead of membuf or QCOMTEE prefix
->    instead of QCOM_TEE, or names that are more consistent with other
->    TEE-backend drivers such as qcomtee_context_data instead of
->    qcom_tee_context.
-> - Drop the DTS patch and instantiate the device from the scm driver.
-> - Use a single structure for all driver's internal states.
-> - Drop srcu primitives and use the existing mutex for synchronization
->    between the supplicant and QTEE.
-> - Directly use tee_context to track the lifetime of qcomtee_context_data.
-> - Add close_context() to be called when the user closes the tee_context.
-> - Link to v1: https://lore.kernel.org/r/20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com
-> 
-> Changes in v1:
-> - It is a complete rewrite to utilize the TEE subsystem.
-> - Link to RFC: https://lore.kernel.org/all/20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com
-> 
-> ---
-> Amirreza Zarrabi (11):
->        tee: allow a driver to allocate a tee_device without a pool
->        tee: add close_context to TEE driver operation
->        tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
->        tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
->        firmware: qcom: scm: add support for object invocation
->        firmware: qcom: scm: remove unused arguments to the shm_brige
->        firmware: qcom: tzmem: export shm_bridge create/delete
->        tee: add Qualcomm TEE driver
->        qcomtee: add primordial object
->        qcomtee: enable TEE_IOC_SHM_ALLOC ioctl
->        Documentation: tee: Add Qualcomm TEE driver
-> 
->   Documentation/tee/index.rst              |   1 +
->   Documentation/tee/qtee.rst               | 150 ++++++
->   MAINTAINERS                              |   8 +
->   drivers/firmware/qcom/qcom_scm.c         | 132 ++++-
->   drivers/firmware/qcom/qcom_scm.h         |   7 +
->   drivers/firmware/qcom/qcom_tzmem.c       |  57 ++-
->   drivers/tee/Kconfig                      |   1 +
->   drivers/tee/Makefile                     |   1 +
->   drivers/tee/qcomtee/Kconfig              |  10 +
->   drivers/tee/qcomtee/Makefile             |  11 +
->   drivers/tee/qcomtee/async.c              | 160 ++++++
->   drivers/tee/qcomtee/call.c               | 770 +++++++++++++++++++++++++++++
->   drivers/tee/qcomtee/core.c               | 815 +++++++++++++++++++++++++++++++
->   drivers/tee/qcomtee/mem_obj.c            | 172 +++++++
->   drivers/tee/qcomtee/primordial_obj.c     | 115 +++++
->   drivers/tee/qcomtee/qcom_scm.c           |  38 ++
->   drivers/tee/qcomtee/qcomtee_msg.h        | 239 +++++++++
->   drivers/tee/qcomtee/qcomtee_private.h    | 264 ++++++++++
->   drivers/tee/qcomtee/release.c            |  48 ++
->   drivers/tee/qcomtee/shm.c                | 146 ++++++
->   drivers/tee/qcomtee/user_obj.c           | 713 +++++++++++++++++++++++++++
->   drivers/tee/tee_core.c                   | 127 ++++-
->   drivers/tee/tee_private.h                |   6 -
->   include/linux/firmware/qcom/qcom_scm.h   |  31 +-
->   include/linux/firmware/qcom/qcom_tee.h   | 302 ++++++++++++
->   include/linux/firmware/qcom/qcom_tzmem.h |  15 +
->   include/linux/tee_core.h                 |  54 +-
->   include/linux/tee_drv.h                  |  12 +
->   include/uapi/linux/tee.h                 |  54 +-
->   29 files changed, 4427 insertions(+), 32 deletions(-)
-> ---
-> base-commit: 33035b665157558254b3c21c3f049fd728e72368
-> change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
-> 
-> Best regards,
+> In this case, let me add Fixes to the entire series. Do you think we
+> could land it in 6.15-rcX then? The second option proposed to roll
+> back current LTTPR support and wait until 6.16 will completely break
+> DP output on all X1E, so it's very undesirable.
 
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
+It should be possible, if you rebase onto 6.15-rc, add Fixes tags and
+send it quickly enough.
 
-# /unittest -d
-[test_print_diagnostics_info][52] 831360          = Total bytes as heap
-[test_print_diagnostics_info][53] 111707          = Total bytes allocated from heap
-[test_print_diagnostics_info][54] 700160          = Total bytes free on heap
-[test_print_diagnostics_info][55] 15280           = Total bytes overhead
-[test_print_diagnostics_info][56] 4213            = Total bytes wasted
-[test_print_diagnostics_info][57] 454160          = Largest free block size
+> This series was tested quite a bit on at least the X1E/X1P devices,
+> both with and without docking stations, as it is also (v2 iirc) part
+> of Ubuntu's concept tree since little over a month ago. You have
+> confirmed that x13s also works with this change but without a docking
+> station. If someone could confirm that x13s with this change does work
+> with a docking station as well, it would be safe to merge the entire
+> series as fix to 6.15, correct? I could reach out on #aarch64-laptops,
+> perhaps someone has both x13s (or another qcom-based non X1(E) device)
+> and a docking station.
+> 
+> Thanks,
+> Alex
+> 
+> >
+> > Johan
 
-[test_print_diagnostics_info][60] SUCCESS.
-# /unittest -l / /smcinvoke_skeleton_ta64.mbn 0
-[test_read_file][246] File //smcinvoke_skeleton_ta64.mbn, size: 32856 Bytes.
-[test_load_sample_ta][199] SUCCESS.
-
-Thanks,
-Neil
+-- 
+With best wishes
+Dmitry
