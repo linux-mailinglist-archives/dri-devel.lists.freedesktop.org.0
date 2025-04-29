@@ -2,74 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D481AA0796
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 11:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB921AA07DE
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 11:59:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDE8E10E414;
-	Tue, 29 Apr 2025 09:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E79410E300;
+	Tue, 29 Apr 2025 09:59:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OCv6+Iaa";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WAHjDIQw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46F8910E0CF;
- Tue, 29 Apr 2025 09:44:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1745919862; x=1777455862;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=wh7FchBcfOdfExNX3BYz2qNe2hMS+gRAYru+0UUvZes=;
- b=OCv6+IaaG06WCSW2P2KzmTcgLMRgcX/Mf0Wibn8O7+DG5NCiJj5pTpr5
- IpDzjWnBy192+ixxYub7XjUmbbBD3GYWdvrBNTF1/CstMwNvHS37eMZEz
- i1Lx0nkyDIFBQTyksg5hX66XRYCSr8c7XWD+sPLFTthBckf5QCy5z+0oI
- SwubT8TuGU+zZ6mn2hD4yZQ72GYFiUnUv4NQF1mg95ZWjQ+p3bgLSTzBe
- 4FwRxgT5aEWhEGUCvnH1RjPWyJimy4svtGlFlHbUG2rcotBL/NapygJfL
- nZMehfVtZcbHpl5ZuA0sjddE5q/M2A5LeMZqNCyyqFg5QcCp2ziRvBMB9 w==;
-X-CSE-ConnectionGUID: jQJbKVQ/RgGbz1bilROLLw==
-X-CSE-MsgGUID: 1Q2T4cRITrC5hc8DR+gibw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="57731568"
-X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; d="scan'208";a="57731568"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2025 02:44:21 -0700
-X-CSE-ConnectionGUID: ESk4VnhqRUumDTvwR81cKw==
-X-CSE-MsgGUID: cp5503b2Siai0RouYOw96g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; d="scan'208";a="133726320"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2025 02:44:16 -0700
-Date: Tue, 29 Apr 2025 12:44:13 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Alexander Usyskin <alexander.usyskin@intel.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Karthik Poosa <karthik.poosa@intel.com>,
- Reuven Abliyev <reuven.abliyev@intel.com>,
- Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tomas Winkler <tomasw@gmail.com>
-Subject: Re: [PATCH v9 03/12] mtd: intel-dg: implement region enumeration
-Message-ID: <aBCfbaYs9CnXL2h1@black.fi.intel.com>
-References: <20250424132536.3043825-1-alexander.usyskin@intel.com>
- <20250424132536.3043825-4-alexander.usyskin@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D90DA10E300
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 09:58:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1745920734;
+ bh=YPTPXj7GXADEHXOMx1Z4O90ixxizjLkgmi0Dh6J7BJs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=WAHjDIQwAJc3o5uxAknbJm5ETVG6FNj2CmTb9v3QxDNUMLgfs1h/Pt/ma+auHcAv0
+ YKkl3a3Uv4AGD21pLRgKMt0JBb4bGixVubdE9T2Ycme2PiS274+JonPQGDfi3NBbOX
+ EuCg7RdpbeuJgUTYYoylSZnxBFlduZhF42jBYCNMii+f6+3DVzLC1e6EWew/NjbF25
+ QglkBRm4moWj4DM0Xxea2dWm2+GPYna1uB516wz/iAUSDcutWRo7LOMjBTe1fDczAP
+ 8WeBbgbtpBYFM10q3faLrDz100X6epUwmulqFqC3ZnvFnr5cYILcSgwIOHtLrmpaWw
+ cM4E50wBKGCrQ==
+Received: from [192.168.1.90] (unknown [84.232.140.122])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id EA34E17E1073;
+ Tue, 29 Apr 2025 11:58:53 +0200 (CEST)
+Message-ID: <e54a7f29-c0a0-406a-b907-bb612d80e612@collabora.com>
+Date: Tue, 29 Apr 2025 12:58:52 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250424132536.3043825-4-alexander.usyskin@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/23] drm/tests: hdmi: Add macro to simplify EDID setup
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250425-hdmi-conn-yuv-v4-0-5e55e2aaa3fa@collabora.com>
+ <20250425-hdmi-conn-yuv-v4-8-5e55e2aaa3fa@collabora.com>
+ <87cycwy5n4.fsf@intel.com>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <87cycwy5n4.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,132 +69,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 24, 2025 at 04:25:27PM +0300, Alexander Usyskin wrote:
-> In intel-dg, there is no access to the spi controller,
-> the information is extracted from the descriptor region.
+Hi Jani,
 
-...
+On 4/28/25 12:52 PM, Jani Nikula wrote:
+> On Fri, 25 Apr 2025, Cristian Ciocaltea <cristian.ciocaltea@collabora.com> wrote:
+>> Factor out the HDMI connector initialization from
+>> drm_kunit_helper_connector_hdmi_init_funcs() into a common
+>> __connector_hdmi_init() function, while extending its functionality to
+>> allow setting custom (i.e. non-default) EDID data.
+>>
+>> Introduce a macro as a wrapper over the new helper to allow dropping the
+>> open coded EDID setup from all test cases.
+>>
+>> The actual conversion will be handled separately; for now just apply it
+>> to drm_kunit_helper_connector_hdmi_init() helper.
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 46 +++++++++++++---------
+>>  1 file changed, 28 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> index c8dc6fa0f925e35e9903a18bac7f78f9d8165960..36734639d19a3f279abc4631eb19d5c2b20ca315 100644
+>> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+>> @@ -140,10 +140,11 @@ static const struct drm_connector_funcs dummy_connector_funcs = {
+>>  
+>>  static
+>>  struct drm_atomic_helper_connector_hdmi_priv *
+>> -drm_kunit_helper_connector_hdmi_init_funcs(struct kunit *test,
+>> -					   unsigned int formats,
+>> -					   unsigned int max_bpc,
+>> -					   const struct drm_connector_hdmi_funcs *hdmi_funcs)
+>> +__connector_hdmi_init(struct kunit *test,
+>> +		      unsigned int formats,
+>> +		      unsigned int max_bpc,
+>> +		      const struct drm_connector_hdmi_funcs *hdmi_funcs,
+>> +		      const char *edid_data, size_t edid_len)
+> 
+> char* is weird for EDID data, but it's a pre-existing thing, and
+> actually making it unsigned char or u8 isn't much better.
+> 
+> A follow-up could switch edid_data to just const void *, and ditto for
+> set_connector_edid() and current_edid member in struct
+> drm_atomic_helper_connector_hdmi_priv.
 
-> @@ -22,9 +24,199 @@ struct intel_dg_nvm {
->  		u8 id;
->  		u64 offset;
->  		u64 size;
-> +		unsigned int is_readable:1;
-> +		unsigned int is_writable:1;
->  	} regions[] __counted_by(nregions);
->  };
->  
-> +#define NVM_TRIGGER_REG       0x00000000
-> +#define NVM_VALSIG_REG        0x00000010
-> +#define NVM_ADDRESS_REG       0x00000040
-> +#define NVM_REGION_ID_REG     0x00000044
-> +/*
-> + * [15:0]-Erase size = 0x0010 4K 0x0080 32K 0x0100 64K
-> + * [23:16]-Reserved
-> + * [31:24]-Erase MEM RegionID
-> + */
-> +#define NVM_ERASE_REG         0x00000048
-> +#define NVM_ACCESS_ERROR_REG  0x00000070
-> +#define NVM_ADDRESS_ERROR_REG 0x00000074
-> +
-> +/* Flash Valid Signature */
-> +#define NVM_FLVALSIG          0x0FF0A55A
-> +
-> +#define NVM_MAP_ADDR_MASK     GENMASK(7, 0)
-> +#define NVM_MAP_ADDR_SHIFT    0x00000004
-> +
-> +#define NVM_REGION_ID_DESCRIPTOR  0
-> +/* Flash Region Base Address */
-> +#define NVM_FRBA      0x40
-> +/* Flash Region __n - Flash Descriptor Record */
-> +#define NVM_FLREG(__n) (NVM_FRBA + ((__n) * 4))
-> +/*  Flash Map 1 Register */
-> +#define NVM_FLMAP1_REG  0x18
-> +#define NVM_FLMSTR4_OFFSET 0x00C
-> +
-> +#define NVM_ACCESS_ERROR_PCIE_MASK 0x7
-> +
-> +#define NVM_FREG_BASE_MASK GENMASK(15, 0)
-> +#define NVM_FREG_ADDR_MASK GENMASK(31, 16)
-> +#define NVM_FREG_ADDR_SHIFT 12
-> +#define NVM_FREG_MIN_REGION_SIZE 0xFFF
+Noted for next revision (if required), otherwise I'll handle it separately.
 
-Should we move these to a header?
-
-> +static inline void idg_nvm_set_region_id(struct intel_dg_nvm *nvm, u8 region)
-> +{
-> +	iowrite32((u32)region, nvm->base + NVM_REGION_ID_REG);
-> +}
-> +
-> +static inline u32 idg_nvm_error(struct intel_dg_nvm *nvm)
-> +{
-> +	void __iomem *base = nvm->base;
-> +
-> +	u32 reg = ioread32(base + NVM_ACCESS_ERROR_REG) & NVM_ACCESS_ERROR_PCIE_MASK;
-> +
-> +	/* reset error bits */
-> +	if (reg)
-> +		iowrite32(reg, base + NVM_ACCESS_ERROR_REG);
-> +
-> +	return reg;
-> +}
-> +
-> +static inline u32 idg_nvm_read32(struct intel_dg_nvm *nvm, u32 address)
-> +{
-> +	void __iomem *base = nvm->base;
-> +
-> +	iowrite32(address, base + NVM_ADDRESS_REG);
-> +
-> +	return ioread32(base + NVM_TRIGGER_REG);
-> +}
-> +
-> +static int idg_nvm_get_access_map(struct intel_dg_nvm *nvm, u32 *access_map)
-> +{
-> +	u32 flmap1;
-> +	u32 fmba;
-> +	u32 fmstr4;
-> +	u32 fmstr4_addr;
-
-Nit: These are in order of appearance vs reverse xmas tree in other places.
-Perhaps make them consistent?
-
-> +	idg_nvm_set_region_id(nvm, NVM_REGION_ID_DESCRIPTOR);
-> +
-> +	flmap1 = idg_nvm_read32(nvm, NVM_FLMAP1_REG);
-> +	if (idg_nvm_error(nvm))
-> +		return -EIO;
-> +	/* Get Flash Master Baser Address (FMBA) */
-> +	fmba = (FIELD_GET(NVM_MAP_ADDR_MASK, flmap1) << NVM_MAP_ADDR_SHIFT);
-> +	fmstr4_addr = fmba + NVM_FLMSTR4_OFFSET;
-> +
-> +	fmstr4 = idg_nvm_read32(nvm, fmstr4_addr);
-> +	if (idg_nvm_error(nvm))
-> +		return -EIO;
-> +
-> +	*access_map = fmstr4;
-> +	return 0;
-> +}
-> +
-> +static bool idg_nvm_region_readable(u32 access_map, u8 region)
-> +{
-> +	if (region < 12)
-
-Anything special about 12? Should it have a macro def somewhere?
-
-> +		return access_map & BIT(region + 8); /* [19:8] */
-> +	else
-> +		return access_map & BIT(region - 12); /* [3:0] */
-> +}
-> +
-> +static bool idg_nvm_region_writable(u32 access_map, u8 region)
-> +{
-> +	if (region < 12)
-
-Ditto.
-
-> +		return access_map & BIT(region + 20); /* [31:20] */
-> +	else
-> +		return access_map & BIT(region - 8); /* [7:4] */
-> +}
-
-Raag
+Thanks,
+Cristian
