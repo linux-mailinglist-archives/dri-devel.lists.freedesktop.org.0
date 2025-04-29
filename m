@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055C4AA1BFC
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 22:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58B7AA1C1F
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 22:26:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7F4710E456;
-	Tue, 29 Apr 2025 20:19:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F71710E04D;
+	Tue, 29 Apr 2025 20:26:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jITlPYfD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HucJEa4F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE05810E456
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 20:19:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1745957989;
- bh=jZGhVKHkpRai0Y2/EIkeTlYu8tYQjbtzz7neJZoq66Q=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=jITlPYfDQ/id0t99pwZkpoU/2TR+rQ+XvgxpzVJS3VVbGxJF2VO19OTOxMWLHUp8U
- Kc5NNRgafkbAyvVnO2zrmKBZ8TTJOqUbXEuN2L4WdJfyd5N2uVJlwIowDKCZtAZV2x
- FRAoaDWqYL4LFXOpnX6IhBENO5Wv2eJ00wEAeOTfMRvpgdrB4+kU+8iURJJigYg4Tb
- vLKoQIwLIKx5Nd5sRfFuQkVsJ/reDxVh7+1rihIomiTiWzInLb1svQ8X5LuBtrl7g1
- 3BCnbWOm91/4XOo/yEesCjuxrrCRNABYwUDklKbNbN98SFZKATgUoh0hfCNotAt5mC
- CO30rEN3EQzWQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8965A17E09B5;
- Tue, 29 Apr 2025 22:19:48 +0200 (CEST)
-Date: Tue, 29 Apr 2025 22:19:43 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, Steven Price <steven.price@arm.com>, Liviu Dudau
- <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/panthor: Fix build warning when DEBUG_FS is disabled
-Message-ID: <20250429182207.11a26b68@collabora.com>
-In-Reply-To: <20250424184041.356191-1-adrian.larumbe@collabora.com>
-References: <20250424184041.356191-1-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81BCD10E463
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 20:26:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id A7FC043F1E;
+ Tue, 29 Apr 2025 20:25:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A052CC4CEE3;
+ Tue, 29 Apr 2025 20:26:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745958360;
+ bh=xDKKPU38K/wiLt6/Nx7DJ3Nw8x9KGNWOyymEkjs8yFE=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=HucJEa4FIFgvQJupmc8K6x97yZOvM3Egz+9GpWwCWvaNSCgp9l6Zer2iIQvuJLew9
+ yLn/SQ2DIm6WWDJlGZcCA8LawRzF5vKJT2lHEs1iT4+v/VxLhe/DD84IvEqu0VZYQi
+ ZTyhkFrj0hsdd3PcoM6xD152uAxy5+//J0aeQRonf5AHR1LAeThayw8kELJyogK79N
+ Gwd5LCg03XAStTqPqSdRuzxoJk28+cscajD2RdC8f1Egx3VeXknHOAr4h6uYvlcd8A
+ Ov359TSd2h5Bxjb7yylUW2qFmpug5rMMRBQs5aTLcgYAB5ML0I9vj5SnunWJZ95jCi
+ gcDcaawrtGhyQ==
+Date: Tue, 29 Apr 2025 13:25:55 -0700
+From: Kees Cook <kees@kernel.org>
+To: Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Zheyu Ma <zheyuma97@gmail.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] video: fbdev: arkfb: Cast ics5342_init() allocation type
+User-Agent: K-9 Mail for Android
+In-Reply-To: <e68c6218-6055-45a6-b96e-9c8381a4b409@gmx.de>
+References: <20250426062305.work.819-kees@kernel.org>
+ <b982d4f1-6ed8-490b-8d47-6dc5231913e7@gmx.de>
+ <CAMuHMdVY1_gEqULGD0BzdTd05OAkodhk+RXKRAy-T-0+RJt7yQ@mail.gmail.com>
+ <e68c6218-6055-45a6-b96e-9c8381a4b409@gmx.de>
+Message-ID: <002CF88F-6023-4A1F-A436-EE3720BD7B7B@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,86 +66,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Apr 2025 19:40:34 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-> Commit a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM
-> objects over DebugFS") causes a build warning and linking error when
-> built without support for DebugFS, because of a non-inline non-static
-> function declaration in a header file.
->=20
-> On top of that, the function is only being used inside a single
-> compilation unit, so there is no point in exposing it as a global
-> symbol.
->=20
-> This is a follow-up from Arnd Bergmann's first fix.
-> Also move panthor_gem_debugfs_set_usage_flags() into panthor_gem.c and
-> declare it static.
->=20
-> Fixes: a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM objec=
-ts over DebugFS")
-> Reported-by: Arnd Bergmann <arnd@arndb.de>
-> Closes: https://lore.kernel.org/dri-devel/20250424142419.47b9d457@collabo=
-ra.com/T/#t
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
 
-Queued to drm-misc-next.
+On April 29, 2025 1:17:26 PM PDT, Helge Deller <deller@gmx=2Ede> wrote:
+>On 4/28/25 08:36, Geert Uytterhoeven wrote:
+>> Hi Kees,
+>>=20
+>> On Sat, 26 Apr 2025 at 13:33, Helge Deller <deller@gmx=2Ede> wrote:
+>>> On 4/26/25 08:23, Kees Cook wrote:
+>>>> In preparation for making the kmalloc family of allocators type aware=
+,
+>>>> we need to make sure that the returned type from the allocation match=
+es
+>>>> the type of the variable being assigned=2E (Before, the allocator wou=
+ld
+>>>> always return "void *", which can be implicitly cast to any pointer t=
+ype=2E)
+>>>>=20
+>>>> The assigned type is "struct dac_info *" but the returned type will b=
+e
+>>>> "struct ics5342_info *", which has a larger allocation size=2E This i=
+s
+>>>> by design, as struct ics5342_info contains struct dac_info as its fir=
+st
+>>>> member=2E Cast the allocation type to match the assignment=2E
+>>>>=20
+>>>> Signed-off-by: Kees Cook <kees@kernel=2Eorg>
+>>=20
+>> Thanks for your patch, which is now commit 8d2f0f5bbac87b9d ("fbdev:
+>> arkfb: Cast ics5342_init() allocation type") in fbdev/for-next=2E
+>>=20
+>>> I applied your patch, but wouldn't this untested patch be cleaner and =
+fulfill the
+>>> same purpose to match a kzalloc return type?
+>>>=20
+>>> diff --git a/drivers/video/fbdev/arkfb=2Ec b/drivers/video/fbdev/arkfb=
+=2Ec
+>>> index 7d131e3d159a=2E=2Ea57c8a992e11 100644
+>>> --- a/drivers/video/fbdev/arkfb=2Ec
+>>> +++ b/drivers/video/fbdev/arkfb=2Ec
+>>> @@ -431,7 +431,8 @@ static struct dac_ops ics5342_ops =3D {
+>>>=20
+>>>    static struct dac_info * ics5342_init(dac_read_regs_t drr, dac_writ=
+e_regs_t dwr, void *data)
+>>>    {
+>>> -       struct dac_info *info =3D (struct dac_info *)kzalloc(sizeof(st=
+ruct ics5342_info), GFP_KERNEL);
+>>> +       struct ics5342_info *ics_info =3D kzalloc(sizeof(struct ics534=
+2_info), GFP_KERNEL);
+>>=20
+>> sizeof(*ics_info)?
+>>=20
+>>> +       struct dac_info *info =3D &ics_info->dac;
+>>=20
+>> Exactly my thought when I noticed this commit=2E  Adding casts makes
+>> it harder to notice any future discrepancies=2E
+>
+>I've changed it accordingly=2E
 
-> ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 5 +++++
->  drivers/gpu/drm/panthor/panthor_gem.h | 8 --------
->  2 files changed, 5 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
-hor/panthor_gem.c
-> index 2dcf308094b2..7c00fd77758b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -42,11 +42,16 @@ static void panthor_gem_debugfs_bo_rm(struct panthor_=
-gem_object *bo)
->  	mutex_unlock(&ptdev->gems.lock);
->  }
-> =20
-> +static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_objec=
-t *bo, u32 usage_flags)
-> +{
-> +	bo->debugfs.flags =3D usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INIT=
-IALIZED;
-> +}
->  #else
->  static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
->  				       struct panthor_gem_object *bo)
->  {}
->  static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
-> +static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_objec=
-t *bo, u32 usage_flags) {}
->  #endif
-> =20
->  static void panthor_gem_free_object(struct drm_gem_object *obj)
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/pant=
-hor/panthor_gem.h
-> index 4641994ddd7f..4dd732dcd59f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -212,14 +212,6 @@ void panthor_kernel_bo_destroy(struct panthor_kernel=
-_bo *bo);
->  #ifdef CONFIG_DEBUG_FS
->  void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
->  				   struct seq_file *m);
-> -static inline void
-> -panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 u=
-sage_flags)
-> -{
-> -	bo->debugfs.flags =3D usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INIT=
-IALIZED;
-> -}
-> -
-> -#else
-> -void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, =
-u32 usage_flags) {};
->  #endif
-> =20
->  #endif /* __PANTHOR_GEM_H__ */
->=20
-> base-commit: 3a2b7389feea9a7afd18d58cda59b7a989445f38
+Thanks! Yeah, that's a much nicer solution=2E
 
+--=20
+Kees Cook
