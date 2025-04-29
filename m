@@ -2,92 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703D2AA0494
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 09:33:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2AE5AA049A
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 09:34:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6090610E374;
-	Tue, 29 Apr 2025 07:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1DFC10E39B;
+	Tue, 29 Apr 2025 07:34:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ggxje4NR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bJWiWUbw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA72E10E374
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 07:33:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1745912005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=P+72HNtfhPv8IsRO4PpBbClmzVtCdsJ1REbN19xYrgg=;
- b=ggxje4NRTKfkAUI0QIWOfWiOjaUkugR9C76Zj33BO3vVjdsWVdbhAP/XxGDVsHZ/oKscc9
- ydoDU3SsaZMrGfPBB60cI7lfnR8A9TnJLNfeLj0Et9pV76s984eV3+XmS0yxEbjVDsw2eK
- iIArgYXBy1B4vZVO/nr910ixW+0N4nI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-258-JCisTVXQMIywILxXPtf4fw-1; Tue, 29 Apr 2025 03:33:22 -0400
-X-MC-Unique: JCisTVXQMIywILxXPtf4fw-1
-X-Mimecast-MFC-AGG-ID: JCisTVXQMIywILxXPtf4fw_1745912001
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-43d4d15058dso38670915e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Apr 2025 00:33:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1745912001; x=1746516801;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=P+72HNtfhPv8IsRO4PpBbClmzVtCdsJ1REbN19xYrgg=;
- b=P+lqbzGHNnlntV2b6kk7bnhzx/lTrKsvCM8W4GSij8pTPCx6ahdzRFSzXcVtSrjlv3
- 2PzsY4bMqe+n5ASzQUpqzrDtee8glVQBqeMtVIsgHTV/ubEjEymY5KzFpvzq5LkFBKdi
- DDsUsj97qZuVYPvfw173v/shMdSXX4UyCmrqTAHsZ0epmkD+c/j1nKut1ky/QUA3E9ac
- Sk4Q6nKxgQY5pxkqWrblvkl57FGSJ1fPUZj2gQ5j4OdbyudZGYqoNR8b9eaCfqes4mJw
- 47F9z9TWmJLinsNmQL24UYoBdqSWjeAvvyNemWcuEFIp9XpnYDsXk3ZHGGkp0j1YRBKK
- RKvA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXiM4rimL1B6wpkCrHtnpN3mD5dS+9SO5kFht8vlFT4f3XZELhYFPs5xhWqtKgf7T6A3Tg6iIA1pos=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQG/n09sS7omPdjL/+RwwXwX3HPLVF/si8BItTmAAyR5dIq5pA
- iedN6/5hu+1WT42lqCYOtav5zHOO3QJb9KELg2PmpXYP13It5miy9AhZJxY4juQZKapzOq7G4J4
- Vdnve99bPyTOh7dDfrm1yZc5Ac/BrKZrUqLRW/aA0O7uOkoO4lhlltkcKiIKb46OS5A==
-X-Gm-Gg: ASbGncvTi4HQ1blsV3uIChqlEeczSD5Y032u/4LtPfHLwePxnUbWQ1LHzK0EUXvSXSD
- aY984xRyeI1Cdn457SmMVRasVG5zzNuE7KsXH9c5/WHxjavslmofwFhuwUe1hhbpZh1ICMbtVte
- U6okhP7IW/0mNhoVGqH9OhBpHMXUipaUP7JOaNRj7YocRyqybZ/CjtUUGDRGTSA1a+BH/aJTGsu
- OckVjQSpFvhCAFkTHW/gUdfeZW6CXXpUTj1fwYVT9JWet3neo6aGJuise3/EUhRS+Q8+PoEAEzv
- lDxNWFknYFwlMO9GbOiGgRUo39tE703AmQ6N7KXesaBqHygfRVbkSF2RE+Ezihjg6BWDCg==
-X-Received: by 2002:a05:600c:19cc:b0:43d:9f2:6274 with SMTP id
- 5b1f17b1804b1-441ac85786bmr19965665e9.14.1745912001307; 
- Tue, 29 Apr 2025 00:33:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHQHljw4FTOErNPchc4gpA5RoNY02F91HquBdjkOTWdJUR7gI95jnweHCcRLzTuNXQSYwqi6w==
-X-Received: by 2002:a05:600c:19cc:b0:43d:9f2:6274 with SMTP id
- 5b1f17b1804b1-441ac85786bmr19965335e9.14.1745912000916; 
- Tue, 29 Apr 2025 00:33:20 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a073c8ca72sm12866525f8f.4.2025.04.29.00.33.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Apr 2025 00:33:18 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- Christian Schrefl <chrisi.schrefl@gmail.com>, Arnd Bergmann
- <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>, Paolo Bonzini
- <pbonzini@redhat.com>, rust-for-linux <rust-for-linux@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH] drm/panic: Use a decimal fifo to avoid u64 by u64 divide
-In-Reply-To: <20250418165059.560503-1-jfalempe@redhat.com>
-References: <20250418165059.560503-1-jfalempe@redhat.com>
-Date: Tue, 29 Apr 2025 09:33:17 +0200
-Message-ID: <8734dr1kxu.fsf@minerva.mail-host-address-is-not-set>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3CFF10E391;
+ Tue, 29 Apr 2025 07:34:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id C6DE049B94;
+ Tue, 29 Apr 2025 07:34:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F24DDC4CEE3;
+ Tue, 29 Apr 2025 07:34:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1745912052;
+ bh=7KwvjwqWpt7P9mIGSbCQc3XS85MpJcNT6e7j/JyjGvo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=bJWiWUbw1+gc7ZwHGNzpNiPuY8TEvxVkuCnmZDU9twKWflTmLBifTNeILSwaHHsyn
+ GuYvPCjkxgeSk6BrRE9w8e2x4i+ts/NzCP4ZqzMStCPoVO5xcWEq5DBbc9Xqsxk3Z9
+ MZgeYdJr6kaKPI/fdODiTvyNv8CM8s/8ntgYBbrEuRl/Mtv1mfthw6RdQ6xE0zKWML
+ vT4zkZ/7WgmglVUSau9GWBeNmW5dF9YiayzeqfSWiqsggjcXlv9s+g1WTl/jd0i4Ff
+ 9n1/mIqS6sjyuuOzljFI1Xv2Inn4s7bNlYmnKqr2QJ4q+ISIp+6IOfK5htdv33Xd3M
+ xfYnQRTb5368g==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, John Harrison <John.C.Harrison@Intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Zhanjun Dong <zhanjun.dong@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/xe: fix devcoredump chunk alignmnent calculation
+Date: Tue, 29 Apr 2025 09:34:00 +0200
+Message-Id: <20250429073407.3505712-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: p7d80jShUhrAA0ovg07v63lugVJ1kdcvbzvwkmLn510_1745912001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,24 +61,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jocelyn Falempe <jfalempe@redhat.com> writes:
+From: Arnd Bergmann <arnd@arndb.de>
 
-Hello Jocelyn,
+The device core dumps are copied in 1.5GB chunks, which leads to a
+link-time error on 32-bit builds because of the 64-bit division not
+getting trivially turned into mask and shift operations:
 
-> On 32bits ARM, u64/u64 is not supported [1], so change the algorithm
-> to use a simple fifo with decimal digits as u8 instead.
-> This is slower but should compile on all architecture.
->
-> Link: https://lore.kernel.org/dri-devel/CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com/ [1]
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> ---
+ERROR: modpost: "__moddi3" [drivers/gpu/drm/xe/xe.ko] undefined!
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+On top of this, I noticed that the ALIGN_DOWN() usage here cannot
+work because that is only defined for power-of-two alignments.
+Change ALIGN_DOWN into an explicit div_u64_rem() that avoids the
+link error and hopefully produces the right results.
 
+Doing a 1.5GB kvmalloc() does seem a bit suspicious as well, e.g.
+this will clearly fail on any 32-bit platform and is also likely
+to run out of memory on 64-bit systems under memory pressure, so
+using a much smaller power-of-two chunk size might be a good idea
+instead.
+
+Fixes: c4a2e5f865b7 ("drm/xe: Add devcoredump chunking")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+Please test this with multi-gigabyte buffers, the original code
+was clearly not right, but I don't trust my version either.
+---
+ drivers/gpu/drm/xe/xe_devcoredump.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
+index a9e618abf8ac..4eb70e2d9f68 100644
+--- a/drivers/gpu/drm/xe/xe_devcoredump.c
++++ b/drivers/gpu/drm/xe/xe_devcoredump.c
+@@ -177,6 +177,7 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
+ 	struct xe_devcoredump *coredump = data;
+ 	struct xe_devcoredump_snapshot *ss;
+ 	ssize_t byte_copied;
++	u32 chunk_offset;
+ 
+ 	if (!coredump)
+ 		return -ENODEV;
+@@ -203,8 +204,9 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
+ 
+ 	if (offset >= ss->read.chunk_position + XE_DEVCOREDUMP_CHUNK_MAX ||
+ 	    offset < ss->read.chunk_position) {
+-		ss->read.chunk_position =
+-			ALIGN_DOWN(offset, XE_DEVCOREDUMP_CHUNK_MAX);
++		ss->read.chunk_position = div_u64_rem(offset,
++			XE_DEVCOREDUMP_CHUNK_MAX, &chunk_offset)
++			* XE_DEVCOREDUMP_CHUNK_MAX;
+ 
+ 		__xe_devcoredump_read(ss->read.buffer,
+ 				      XE_DEVCOREDUMP_CHUNK_MAX,
+@@ -213,8 +215,7 @@ static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
+ 
+ 	byte_copied = count < ss->read.size - offset ? count :
+ 		ss->read.size - offset;
+-	memcpy(buffer, ss->read.buffer +
+-	       (offset % XE_DEVCOREDUMP_CHUNK_MAX), byte_copied);
++	memcpy(buffer, ss->read.buffer + chunk_offset, byte_copied);
+ 
+ 	mutex_unlock(&coredump->lock);
+ 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.39.5
 
