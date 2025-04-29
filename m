@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4A2AA0451
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 09:23:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F56AA0510
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Apr 2025 09:58:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C41B10E328;
-	Tue, 29 Apr 2025 07:23:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C58310E009;
+	Tue, 29 Apr 2025 07:57:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iqKvPj8O";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sucJB4GP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9BF10E2E8;
- Tue, 29 Apr 2025 07:23:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 08C695C271E;
- Tue, 29 Apr 2025 07:21:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C75B2C4CEE3;
- Tue, 29 Apr 2025 07:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745911425;
- bh=GTvBB4cqcEPZCXZA2x2a6SH8nj7EOHN48+b8FpTOeNk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iqKvPj8O4qVO7NAKLAzFUKorShtpffTEeisaeaG1sJFtQPmuuqCIJbolqelu3paHJ
- ngdfBMDzhssstj5OAoiuzE2KK7go4hHXxVxGHYKh/l3TqOKi0EtnUbM7BdGWmWwOUj
- TeI1h9HK+c2rVx1Xkz29cNnhY4o6SmoyHlEZQpveeDm+wxi7/dU56eSWgONctqVqLX
- 3hLRgEJca8mnMTFoXp+2WvoHcO2tzxA2j1IiI7R/nPbCZ1TD2RZdKNVmFK//6xbfTr
- DAUABO0pOPAtSGzZ4WbjVdID4zWzlaHfFYMF+GR0mFiCGFksM0GaT1dMPoLZ/pVq98
- R4HFx2Ty1i9EQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan@kernel.org>) id 1u9fJi-000000004MS-2Cgi;
- Tue, 29 Apr 2025 09:23:47 +0200
-Date: Tue, 29 Apr 2025 09:23:46 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
- Dmitry Baryshkov <lumag@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- laurentiu.tudor1@dell.com
-Subject: Re: drm/msm/dp: Introduce link training per-segment for LTTPRs
-Message-ID: <aBB-gl150GVaZPn5@hovoldconsulting.com>
-References: <20250417021349.148911-1-alex.vinarskis@gmail.com>
- <aA8yFI2Bvm-lFJTl@hovoldconsulting.com>
- <CAMcHhXpmii=Rc9YVeKXaB17mYv0piSFs02K=0r8kWe5tQGk7eA@mail.gmail.com>
- <aA94yOjsayZHNDpx@hovoldconsulting.com>
- <aA+N8YHX0DZ6h9Uj@linaro.org>
+X-Greylist: delayed 1946 seconds by postgrey-1.36 at gabe;
+ Tue, 29 Apr 2025 07:57:53 UTC
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8C910E009;
+ Tue, 29 Apr 2025 07:57:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=cv2TyVvx+vAURvNrQh1+3XkkCwfczYJD35TmyJL6FJQ=; b=sucJB4GPT3c7ksg0/3538/lZ87
+ 6I7Gx54VtzJtvAEOLvz4ln5Qw0mokeuZjHZs6RUvzPsfmkdl0G5zdw36kFXTVdCEHozxn4mOqihNh
+ Qwi769oCNrzYBcHbWazAKm5Y+NN6amidhmcIS18a9uXdAPhTtohGwf/QD98CtT2ptS4haavT0st3I
+ RdaXYk8/fyZAjeu+6AZzL/KdFUcnVBjwvm+moHIgc+L9YjDfOU6zwZDIstcIjPkb6WCoLbyiMjDkU
+ tUuAzcBtesCziZwiUYNi0ibUyqRrRWazRHYhfBFZCjWIukNXpca4qGm8DymEaghIPMcYhi/agFAy6
+ fTsS+Tcg==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1u9fL5-000CvZ-PQ; Tue, 29 Apr 2025 09:25:21 +0200
+Message-ID: <5ec59acc-aab3-4f28-9edb-7fc008a5a13b@igalia.com>
+Date: Tue, 29 Apr 2025 08:25:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aA+N8YHX0DZ6h9Uj@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v4 00/16] Fair DRM scheduler
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Leo Liu <Leo.Liu@amd.com>, Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+References: <20250425102034.85133-1-tvrtko.ursulin@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250425102034.85133-1-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,43 +67,237 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 28, 2025 at 05:17:21PM +0300, Abel Vesa wrote:
-> On 25-04-28 14:47:04, Johan Hovold wrote:
-> > On Mon, Apr 28, 2025 at 11:06:39AM +0200, Aleksandrs Vinarskis wrote:
-> > > On Mon, 28 Apr 2025 at 09:45, Johan Hovold <johan@kernel.org> wrote:
-> > > > On Thu, Apr 17, 2025 at 04:10:31AM +0200, Aleksandrs Vinarskis wrote:
-> > > > > Recently added Initial LTTPR support in msm/dp has configured LTTPR(s)
-> > > > > to non-transparent mode to enable video output on X1E-based devices
-> > > > > that come with LTTPR on the motherboards. However, video would not work
-> > > > > if additional LTTPR(s) are present between sink and source, which is
-> > > > > the case for USB Type-C docks (eg. Dell WD19TB/WD22TB4), and at least
-> > > > > some universal Thunderbolt/USB Type-C monitors (eg. Dell U2725QE).
-> > > >
-> > > > Does this mean that the incomplete LTTPR support in 6.15-rc1 broke
-> > > > adapters or docks with retimers in transparent mode?
 
-> > > Docks with retimers do not work in 6.15-rcX, but I am unable to verify
-> > > if it did work before, as I do not have a Qualcomm based device
-> > > without LTTPR on the baseboard.
-> > 
-> > Abel (or anyone else), do you have one of these docks that you could
-> > test with the X13s to confirm whether this series fixes a regression or
-> > not?
+On 25/04/2025 11:20, Tvrtko Ursulin wrote:
+> V4 is quite different from v3 in that I have replaced the deadline + queue-depth
+> approach with a fair GPU time based approach. This is because Pierre-Eric found
+> a viewperf workload which showed queue-depth based approach regressing and
+> without it there was a regression on one of my synthetic workloads I was not
+> happy with.
 > 
-> Before the support for LTTPRs has been merged, if you would have one of
-> those docks (I do not own one) with LTTPRs, link training would've just
-> failed if the LTTPRs were not by default in transparent mode, which IIRC
-> is what the standard dictates.
+> In my experiments the fair scheduler looks solid so lets see how it fares after
+> wider testing.
+> 
+> On the high level main advantages of the series are:
+> 
+>   1. Scheduling quality - schedules better than FIFO.
+>   2. Code simplification - no more multiple run queues.
 
-Ok, but my concern is if they may have worked in a default transparent
-mode.
+One important benefit which I forgot to list:
 
-> X13s doesn't have LTTPRs on-board so when reading the caps, LTTPRs count
-> would return 0 and none of the of the transparent/non-transparent setup
-> would happen.
+3. Enables the DRM scheduling cgroup controller
 
-But this is the crux; does any off-board LTTPRs in transparent mode add
-to the count or not? If they don't, how would you ever learn that there
-are any LTTPRs? If they do, it seems we may have a problem here.
+If you remember that older RFC of mine, it worked by exposing cgroup 
+drm.weight. And because the fair scheduler tracks per entity GPU time, 
+and schedules by the vruntime criteria, where vruntime = entity->scale * 
+runtime, it is trivial in concept to mix the scale from the group's 
+relative weight.
 
-Johan
+Which should make drm.weight just work for all drivers which use the DRM 
+scheduler and with no need to modify the drivers themselves.
+
+I am planning to send that RFC out in due time.
+
+Regards,
+
+Tvrtko
+
+> First patches add some unit tests which allow for easy evaluation of scheduling
+> behaviour against different client submission patterns. From there onwards it is
+> hopefully a natural progression of cleanups, enablers, adding the fair policy,
+> and finally removing FIFO and RR and simplifying the code base due not more need
+> for multiple run queues.
+> 
+> As a headline result I have tested three simultaneous clients on the Steam Deck:
+> 
+> One instance of a deferredmultisampling Vulkan demo running with low priority,
+> one normal priority instance of the same demo, and the Unigine Heaven benchmark.
+> 
+> With the FIFO scheduler we can see that the low priority client is completely
+> starved and the GPU time distribution between the other two clients is uneven:
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/fifo-starvation.png
+> 
+> Switching to the fair scheduler, GPU time distribution is almost equal and the
+> low priority client does get a small share of the GPU:
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/fair-no-starvation.png
+> 
+> Moving onto the synthetic submission patterns, they are about two simultaneous
+> clients which broadly cover the following categories:
+> 
+>   * Deep queue clients
+>   * Hogs versus interactive
+>   * Priority handling
+> 
+> Lets look at the results:
+> 
+> 1. Two normal priority deep queue clients.
+> 
+> These ones submit one second worth of 8ms jobs. As fast as they can, no
+> dependencies etc. There is no difference in runtime between FIFO and fair but
+> the latter allows both clients to progress with work more evenly:
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/normal-normal.png
+> 
+> (X axis is time, Y is submitted queue-depth, hence lowering of qd corresponds
+>    with work progress for both clients, tested with both schedulers separately.)
+> 
+> 2. Same two clients but one is now low priority.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/normal-low.png
+> 
+> Normal priority client is a solid line, low priority dotted. We can see how FIFO
+> completely starves the low priority client until the normal priority is fully
+> done. Only then the low priority client gets any GPU time.
+> 
+> In constrast, fair scheduler allows some GPU time to the low priority client.
+> 
+> 3. Same clients but now high versus normal priority.
+> 
+> Similar behaviour as in the previous one with normal a bit less de-prioritised
+> relative to high, than low was against normal.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/high-normal.png
+> 
+> 4. Heavy load vs interactive client.
+> 
+> Heavy client emits a 75% GPU load in the format of 3x 2.5ms jobs followed by a
+> 2.5ms wait. Interactive client emits a 10% GPU load in the format of 1x 1ms job
+> followed by a 9ms wait.
+> 
+> This simulates an interactive graphical client used on top of a relatively heavy
+> background load but no GPU oversubscription.
+> 
+> Graphs show the interactive client only and from now on, instead of looking at
+> the client's queue depth, we look at its "fps".
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/heavy-interactive.png
+> 
+> We can see that fair scheduler allows a higher fps for the interactive client
+> which is good.
+> 
+> 5. An even heavier load vs interactive client.
+> 
+> This one is oversubscribing the GPU by submitting 4x 50ms jobs and waiting for
+> only one microsecond before repeating the cycle. Interactive client is thje same
+> 10% as above.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/veryheavy-interactive.png
+> 
+> Here the difference is even more dramatic with fair scheduler enabling ~3x the
+> framerate for the interactive client.
+> 
+> 6. Low priority GPU hog versus heavy-interactive.
+> 
+> Low priority client: 3x 2.5ms jobs client followed by a 0.5ms wait.
+> Interactive client: 1x 0.5ms job followed by a 10ms wait.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/lowhog-interactive.png
+> 
+> Slight win for the fair scheduler but could be just noise.
+> 
+> 7. Last set of test scenarios will have three subgroups.
+> 
+> In all cases we have two interactive (synchronous, single job at a time) clients
+> with a 50% "duty cycle" GPU time usage.
+> 
+> Client 1: 1.5ms job + 1.5ms wait (aka short bursty)
+> Client 2: 2.5ms job + 2.5ms wait (aka long bursty)
+> 
+> a) Both normal priority.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-short.png
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-long.png
+> 
+> Both schedulers favour the higher frequency duty cycle with fair giving it a
+> little bit more which should be good for interactivity.
+> 
+> b) Normal vs low priority.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-normal-low-normal.png
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-normal-low-low.png
+> 
+> Fair scheduler gives a bit more GPU time to the normal priority client which is
+> again good.
+> 
+> c) High vs normal priority.
+> 
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-high-normal-high.png
+> https://people.igalia.com/tursulin/drm-sched-fair/5050-high-normal-normal.png
+> 
+> Again, fair scheduler gives a bit more share to the higher priority client.
+> 
+> On the overall fair looks like a potential improvement in terms of fairness,
+> especially avoiding priority starvation. There do not appear to be any
+> regressions with the tested workloads.
+> 
+> As before, I am looking for feedback, ideas for what kind of submission
+> scenarios to test. Testers on different GPUs would be very welcome too.
+> 
+> And I should probably test round-robin at some point, to see if we are maybe
+> okay to drop unconditionally, it or further work improving fair would be needed
+> if some use cases rely on round-robin.
+> 
+> v2:
+>   * Fixed many rebase errors.
+>   * Added some new patches.
+>   * Dropped single shot dependecy handling.
+> 
+> v3:
+>   * Added scheduling quality unit tests.
+>   * Refined a tiny bit by adding some fairness.
+>   * Dropped a few patches for now.
+> 
+> v4:
+>   * Replaced deadline with fair!
+>   * Refined scheduling quality unit tests.
+>   * Pulled one cleanup patch earlier.
+>   * Fixed "drm/sched: Avoid double re-lock on the job free path".
+> 
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> CC: Leo Liu <Leo.Liu@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> Cc: Michel Dänzer <michel.daenzer@mailbox.org>
+> 
+> Tvrtko Ursulin (16):
+>    drm/sched: Add some scheduling quality unit tests
+>    drm/sched: Add some more scheduling quality unit tests
+>    drm/sched: De-clutter drm_sched_init
+>    drm/sched: Avoid double re-lock on the job free path
+>    drm/sched: Consolidate drm_sched_job_timedout
+>    drm/sched: Consolidate drm_sched_rq_select_entity_rr
+>    drm/sched: Implement RR via FIFO
+>    drm/sched: Consolidate entity run queue management
+>    drm/sched: Move run queue related code into a separate file
+>    drm/sched: Free all finished jobs at once
+>    drm/sched: Account entity GPU time
+>    drm/sched: Remove idle entity from tree
+>    drm/sched: Add fair scheduling policy
+>    drm/sched: Remove FIFO and RR and simplify to a single run queue
+>    drm/sched: Queue all free credits in one worker invocation
+>    drm/sched: Embed run queue singleton into the scheduler
+> 
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   6 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |  27 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   5 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |   8 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   |   8 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c       |   8 +-
+>   drivers/gpu/drm/scheduler/Makefile            |   2 +-
+>   drivers/gpu/drm/scheduler/sched_entity.c      | 121 +--
+>   drivers/gpu/drm/scheduler/sched_fence.c       |   2 +-
+>   drivers/gpu/drm/scheduler/sched_internal.h    | 114 ++-
+>   drivers/gpu/drm/scheduler/sched_main.c        | 570 +++---------
+>   drivers/gpu/drm/scheduler/sched_rq.c          | 214 +++++
+>   drivers/gpu/drm/scheduler/tests/Makefile      |   3 +-
+>   .../gpu/drm/scheduler/tests/tests_scheduler.c | 815 ++++++++++++++++++
+>   include/drm/gpu_scheduler.h                   |  23 +-
+>   15 files changed, 1348 insertions(+), 578 deletions(-)
+>   create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
+>   create mode 100644 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
+> 
+
