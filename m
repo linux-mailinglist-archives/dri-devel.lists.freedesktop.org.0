@@ -2,125 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD42AA5191
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 18:25:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3510AAA51C1
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 18:38:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCAAD10E7F3;
-	Wed, 30 Apr 2025 16:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C24910E7F4;
+	Wed, 30 Apr 2025 16:37:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ampATIP5";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="YO8E7UOW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D0E10E7F3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 16:25:28 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53U9IhM8013706
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 16:25:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- HB3+gmI+ZUjqI0EbN6CC3IxDFDjjbTNSLHMPATn3Z7E=; b=ampATIP5DmHRxSg4
- iPiUpHLI5jzJ7/fxepbhbJZcUsMEd6i0GwAfIXQZluBqewvvfU9RM7xeKlcEes1G
- 8hXP1aRm15zFAG0c93TFyfxq7g+UKgfR0yz3zgSmFMLpVfscFDFBxHkauEHOsiYp
- Pt70VYRSsdHJ2yqrjBjSb9WTrvxWOOxnlqZQIazV1yEz4B+TnsYWZUbkFQqpeXA/
- H91sOG7BC9t3RVPbEUfkqbbSCS/Bry8mbjnzRV+g6ZAR6Z0Nf8DrnBYrU3qZLSeO
- xjIrLVC8HRXDEQe0CTNNRMMS/YZjrVn0TGgW7znvyqrGA/9ooDHUe42+W434pSgf
- Cy8qLA==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6ubjuxw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 16:25:27 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6eeeb7cbd40so121826d6.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 09:25:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746030327; x=1746635127;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HB3+gmI+ZUjqI0EbN6CC3IxDFDjjbTNSLHMPATn3Z7E=;
- b=G6n8js5jRFCxwui3lP+5rIYg3yqyxYe47gL4bafqAorym/87u/CIyiOnAkb1piaVGc
- ho21RqWGN8ae3pL8Klx1AYJCO3XgPs/QZzV5CIK3gja4JdjaGqXTRPCJqcbjWBGibif9
- lLm96d/e/LmKdFX1EZ9B4pgUwm3NoVjQIs5uCgABQ0ogbNM/hxwEdZH3X/o57vdFY+Pa
- X6/kfLjPVk02Xnx/p2DUI0BxxyEHjPVrUr4yplK/Yh1L8EKA+d9bHy+MNe8EwY5Jd4Z/
- AhZmyui+mlBNDgvneeY0Ec2W6nzgZMnQ8vzMSvTy0MhRErMOwHpMMpBOsNEp0h53lCyQ
- BN+g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV7335hr8mrfCks5s4Gu/N7BI6+cLecT/D/QYmx4ugCtJMUhdeVAAA1OpDAJwpJcAzEDGE2i82sZY0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw/YLoVaOaOXjbfeOIbjoQNPS0dLr0Fm0tep2W6GJEzwv21H2fY
- nUGcTzy3HQ79tXGjQ0u9QJeQhoZ+LII92f0N+BOMH3ktatNq6OwTq7buQ+TPbrv/jfss5R/QQnW
- oeQgK/CKm8F+zDA6mlkkJPNN/ovFyU2m+vd7GRwWh62r9JMF5anEOyeE6Ck7KeJj+0tY=
-X-Gm-Gg: ASbGncveWeAnO49tYhaYn7LrUuK12/U5OzoiYIeKYg3EnksKjntJehWJ5Dhp6T657t5
- j7DByN++12ZOl7CwQ3YyQRH48dofxD44j2NuIluiw/D+wbOQIiBhSbTUBZSUNkE1m/z+7ZnXGl+
- V2SY6vxWyAw85iwOS3BSBhSgXuWCJTIdd4Uu5aVOGV4RvFREZKijKAose782MlA5BUHzWh1fb5E
- pckDCUldoLMXCT2jZSI6/HZ7WfPJrL3MZRZ99+ea7wd6M0zOt+V15h6k8VcpHx3bfv5TLCcorSv
- QM3gUcbRUfDnAw5CYzuXA9FtNfcUygste7uG0rIIXO9t4enBZWLP7PI7ReKmWdSnmSk=
-X-Received: by 2002:ad4:5c4e:0:b0:6e8:f88f:b96a with SMTP id
- 6a1803df08f44-6f4ff2d2924mr18870046d6.1.1746030326706; 
- Wed, 30 Apr 2025 09:25:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFxD7HkUdqpnN+OfcCIzsrbn5QNU9jNDG0l1/EVlSKXcQll60BAsotjGUkxYzwFZKHAhPp+vQ==
-X-Received: by 2002:ad4:5c4e:0:b0:6e8:f88f:b96a with SMTP id
- 6a1803df08f44-6f4ff2d2924mr18869466d6.1.1746030326152; 
- Wed, 30 Apr 2025 09:25:26 -0700 (PDT)
-Received: from [192.168.65.132] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5f70354633asm8799526a12.55.2025.04.30.09.25.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Apr 2025 09:25:25 -0700 (PDT)
-Message-ID: <ee44260b-13cb-4901-a073-2b9bfac2a794@oss.qualcomm.com>
-Date: Wed, 30 Apr 2025 18:25:23 +0200
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05E4310E7F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 16:37:56 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53UGbPFO3433713
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 30 Apr 2025 11:37:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1746031045;
+ bh=b3dp5KW7OreVaxGvi8WjnNnrvEUPu4U0ZEyTIjYYRug=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=YO8E7UOWV/1k49uebg0Dz8gWLfFkhIrgGdvBeQFYhxNuxkMQIjoJOcJnnLBi8Ce1M
+ AsEdzDYxO27bgI4VExootBdBHvPP4aKwS1OL4V5n9adS7Fzceg3/aTU0BBtu1AcRp7
+ NAbuziNBWconD3zY9N3zWJcX75jTKharo3hLOAuY=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53UGbPE9009237
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 30 Apr 2025 11:37:25 -0500
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 30
+ Apr 2025 11:37:24 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 30 Apr 2025 11:37:24 -0500
+Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com
+ [172.24.227.193])
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53UGbInj068775;
+ Wed, 30 Apr 2025 11:37:19 -0500
+Message-ID: <1f8c43cd-8c26-4e42-b144-b91f5ffc2e2e@ti.com>
+Date: Wed, 30 Apr 2025 22:07:18 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT v6 1/5] drm/msm/adreno: Implement SMEM-based speed bin
-To: neil.armstrong@linaro.org, Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20250430-topic-smem_speedbin_respin-v6-0-954ff66061cf@oss.qualcomm.com>
- <20250430-topic-smem_speedbin_respin-v6-1-954ff66061cf@oss.qualcomm.com>
- <68a2cb9d-4f3b-4bfa-81c3-2d5c95a837f3@linaro.org>
+User-Agent: Betterbird (Linux)
+Subject: Re: [PATCH v5 2/3] drm/tidss: Update infrastructure to support K3 DSS
+ cut-down versions
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
+ <s-jain1@ti.com>, <r-donadkar@ti.com>, <j-choudhary@ti.com>,
+ <h-shenoy@ti.com>, <jyri.sarha@iki.fi>, <airlied@gmail.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>
+References: <20250429143656.3252877-1-devarsht@ti.com>
+ <20250429143656.3252877-3-devarsht@ti.com>
+ <f729c0d6-45a0-4610-b22b-92c03f534bf7@ideasonboard.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <68a2cb9d-4f3b-4bfa-81c3-2d5c95a837f3@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: UtDYzuEoDhxQ2o98BiC7U9tvaCWy0Mn4
-X-Authority-Analysis: v=2.4 cv=bsxMBFai c=1 sm=1 tr=0 ts=68124ef7 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=h3lbVRRyGfeKgUivn1YA:9
- a=QEXdDO2ut3YA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDExNyBTYWx0ZWRfX5z1ZghDPg1VZ
- 8vX3PaPMUQNGZdXw/ZKkZIJYCP/lw08Z8QBd0zh60yEBpGNQl8b1L8Z7g6u/L3lv8YF0+bUKf4A
- U58VjpuP64ulrI9OSGA4y78VkaApGfmB7MQ3u3hmNVoIaXhso9X9Iac1FByR8X8xqrLTcTpMXX0
- BHoGZHuC3WjEE2aQt9EUy4ep/0bOGJKv3nXqNoXNeKrjYTTyrNnp3nxQYTntsFSrnqmF3rg16Ou
- TKkLwVua6+3Z1YZ6hVd8P+EMlWpi59jDXcId1NITL91h0S1j080PdA9gUuhJBGMGb6eBFQjOGG0
- 0wyt35fhKGX1sysAAIQlNSTPkeZrMpM2jWBrSGJfKsjaa3+NYvdFlBU7DiQr+Hr8Pbs1NSFhXy7
- 3A7eA+RDUg+nxYdOb56kB4r+2sRvHoQ9iftBlZguh1YqrNNwaBHiep4ZwYbRRmzRSEVPgw+Z
-X-Proofpoint-ORIG-GUID: UtDYzuEoDhxQ2o98BiC7U9tvaCWy0Mn4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-30_04,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- clxscore=1015 mlxscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0
- adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0 mlxlogscore=870
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504300117
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <f729c0d6-45a0-4610-b22b-92c03f534bf7@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,30 +81,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/30/25 6:20 PM, neil.armstrong@linaro.org wrote:
-> On 30/04/2025 13:34, Konrad Dybcio wrote:
->> From: Konrad Dybcio <konrad.dybcio@linaro.org>
->>
->> On recent (SM8550+) Snapdragon platforms, the GPU speed bin data is
->> abstracted through SMEM, instead of being directly available in a fuse.
->>
->> Add support for SMEM-based speed binning, which includes getting
->> "feature code" and "product code" from said source and parsing them
->> to form something that lets us match OPPs against.
->>
->> Due to the product code being ignored in the context of Adreno on
->> production parts (as of SM8650), hardcode it to SOCINFO_PC_UNKNOWN.
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
+Hi Tomi
 
-[...]
+Thanks for the review.
 
->> +/* As of SM8650, PCODE on production SoCs is meaningless wrt the GPU bin */
+<snip>
+>>   @@ -2025,7 +2101,7 @@ int dispc_plane_check(struct dispc_device
+>> *dispc, u32 hw_plane,
+>>                 const struct drm_plane_state *state,
+>>                 u32 hw_videoport)
+>>   {
+>> -    bool lite = dispc->feat->vid_lite[hw_plane];
+>> +    bool lite = dispc->feat->vid_info[hw_plane].is_lite;
 > 
-> This should be SM8550
+> I don't think this is correct. You can't access the vid_info[] with the
+> hw-id.
 
-No, this is 8650 to signify that this holds true even later
-Looking into it, I can even say 8750 here now
+I don't think hw_id is getting passed to hw_plane here. The
+dispc_plane_check is called from tidss_plane_atomic_check which passes
+hw_plane as tplane->hw_plane_id and this index starts from actually
+instantiated planes i.e. from 0 and are contiguous as these are
+populated from vid_order array (hw_plane_id =
+feat->vid_order[tidss->num_planes];) and not the hw_id index.
 
-Konrad
+So for e.g. for AM62L even though hw_id is 1 for VIDL hw_plane is
+getting passed as 0 and that's how it is able to access the first and
+only member of vid_info struct and read the properties correctly and
+function properly as seen in test logs [1].
+
+> 
+>>       u32 fourcc = state->fb->format->format;
+>>       bool need_scaling = state->src_w >> 16 != state->crtc_w ||
+>>           state->src_h >> 16 != state->crtc_h;
+>> @@ -2096,7 +2172,7 @@ void dispc_plane_setup(struct dispc_device
+>> *dispc, u32 hw_plane,
+>>                  const struct drm_plane_state *state,
+>>                  u32 hw_videoport)
+>>   {
+>> -    bool lite = dispc->feat->vid_lite[hw_plane];
+>> +    bool lite = dispc->feat->vid_info[hw_plane].is_lite;
+> 
+> Here too.
+
+Here also hw_plane is getting passed as 0 and not the hw_id which is 1
+for AM62L.
+
+> 
+>>       u32 fourcc = state->fb->format->format;
+>>       u16 cpp = state->fb->format->cpp[0];
+>>       u32 fb_width = state->fb->pitches[0] / cpp;
+>> @@ -2210,7 +2286,7 @@ static void dispc_k2g_plane_init(struct
+>> dispc_device *dispc)
+>>       /* MFLAG_START = MFLAGNORMALSTARTMODE */
+>>       REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
+>>   -    for (hw_plane = 0; hw_plane < dispc->feat->num_planes;
+>> hw_plane++) {
+>> +    for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
+>>           u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
+>>           u32 thr_low, thr_high;
+>>           u32 mflag_low, mflag_high;
+>> @@ -2226,7 +2302,7 @@ static void dispc_k2g_plane_init(struct
+>> dispc_device *dispc)
+>>             dev_dbg(dispc->dev,
+>>               "%s: bufsize %u, buf_threshold %u/%u, mflag threshold
+>> %u/%u preload %u\n",
+>> -            dispc->feat->vid_name[hw_plane],
+>> +            dispc->feat->vid_info[hw_plane].name,
+> 
+> Here hw_plane is not actually the hw-id (anymore), but elsewhere in this
+> function it is used as a hw-id, which is no longer correct.
+
+For accessing vid_info hw_plane needs to be used which is the index of
+actually instantiated planes and I see it as correctly being passed for
+AM62L too. hw_id is only for dispc_k3_vid* functions where we need to
+skip the not-instantiated vid regions by adding the offset per the hw_id
+index.
+
+> 
+>>               size,
+>>               thr_high, thr_low,
+>>               mflag_high, mflag_low,
+>> @@ -2265,7 +2341,7 @@ static void dispc_k3_plane_init(struct
+>> dispc_device *dispc)
+>>       /* MFLAG_START = MFLAGNORMALSTARTMODE */
+>>       REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
+>>   -    for (hw_plane = 0; hw_plane < dispc->feat->num_planes;
+>> hw_plane++) {
+>> +    for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
+>>           u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
+>>           u32 thr_low, thr_high;
+>>           u32 mflag_low, mflag_high;
+>> @@ -2281,7 +2357,7 @@ static void dispc_k3_plane_init(struct
+>> dispc_device *dispc)
+>>             dev_dbg(dispc->dev,
+>>               "%s: bufsize %u, buf_threshold %u/%u, mflag threshold
+>> %u/%u preload %u\n",
+>> -            dispc->feat->vid_name[hw_plane],
+>> +            dispc->feat->vid_info[hw_plane].name,
+> 
+> And here.
+> 
+> All these issues make me wonder whether we have the right model. It's
+> just too easy to get the usage wrong.
+> 
+> I'm not sure which way to go here.
+> 
+> Fix the current issues? It's a bit cumbersome to go from hw-id to the
+> index (needs a search), just to get some hw properties.
+> 
+> Or go back to the earlier one, with a vid array containing unused slots?
+> That makes the for loops a bit harder.
+> 
+> I need to think about it...
+> 
+
+Hmm, I don't think so, it seems to look fine to me and work fine too. I
+have tested thoroughly for AM62L (which has uninstantiated vid region)
+along with AM62x and AM62A with all planes displayed simultaneously. If
+you want I can put on some test logs, create some dummy holes for VID
+regions in AM62 and AM62A to put this on to some further negative tests.
+
+Also if naming convention is confusing (hw_id vs hw_plane) then maybe we
+can use something else like vid_idx ??
+
+[1]: https://gist.github.com/devarsht/82505ca69f0bd5d9788bfc240d2e83d4
+
+Regards
+Devarsh
