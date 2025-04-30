@@ -2,187 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E66AA477A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 11:42:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C8DAA4786
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 11:44:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD05A10E04E;
-	Wed, 30 Apr 2025 09:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DDF310E07D;
+	Wed, 30 Apr 2025 09:44:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="IWh9pI0c";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bT4LKrpL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2079.outbound.protection.outlook.com [40.107.100.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 733E810E04E;
- Wed, 30 Apr 2025 09:42:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q663gqzJocP4dkyLB3sr+H++eT/s+DxAfyJUVMVMJkfvulH02CiMnGvUWJjnuGhevaaFonx3XJZvqtM/WfAI6pP4mNj8/UTV4FnVB/ySo0RwcdzgLgs31xKQ18k4vyoFGmMS5ENkrvHCh7DAnWfXEFHuPniXDU7lIilBfl1oD5cibA4ChYJSrKjdWFF3HTZap2AwbBRHKigQdJiOUFAfwrMcSg2jYv/jBp6wC0DHmVpCG/kHSLxEEu/rs5zLltsgxos1eHa9Br1AoWAOp9ki6GG973WE6p83MXM/hOClc9++88Z3EbwMjOpFT1tQ63WHgthiOHbRbuogncXK8oWLiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hEOxoYLSon1zFiOWIpme6G9Gvg/ptZ4lhg4/ZeW3X68=;
- b=hnewF3rm10IzefAiku7lIPFtf48uWJsvEPdnqlE2FvUQoT0eMOJRS2II7NfsWqIIyvbW76gsXhVTUGhE2nBjHjKwprfczdw1YdzGnZn/0I4/Ohc+1RLhII0XJJuuHmIQz8pNJ3Wi7MutJOpuaSCxH1/seVYI6LTaQRZbZiYtij7FGlvsO7DHYk2CW8w72T4n7DJtcMFeGln6a9UynRKMUjA7LohRAXMPAle/ZxSu3AvMBt7etETnrmeo8vZRsWU/Swu2z/J444jblc6VW/VlI5rG/IH62Ln7BQhsCzC4uDxscu5e4MEHiUeF1NHV6T8s24V+QZyoi0KADf+q/hXEtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hEOxoYLSon1zFiOWIpme6G9Gvg/ptZ4lhg4/ZeW3X68=;
- b=IWh9pI0c0X944tG1Kn7NdX5Ujh+izwRt7Ki+CJQF0ybSeVaniQEFshIDtYwgSw/N7s/86yZDn2tYfJrczd1+luDuHhLZCsuxhbsrX01XLtA0dGpLbqtVfDXMsLZhBt5FR92Ueapqt0Yospx+omhsXE9JIWUEWYYuNibrOus1ZOdaMuDpo/Xu3qDcUD8Chv5l8pSygKZBTlxFa/p+Gg9GZKVJUJ71whcdU4QpCfiq2Tn6JbnkkiNODQCwQbYLajUSlRuQJiLF3vKy6f2e/O5XHRAv3dvJaXUbOW01jT+fAbcgs2v2VvbdzmN3ptOu3mdz/G6YonVt5u92zclKHyTQxQ==
-Received: from PH8PR11MB6609.namprd11.prod.outlook.com (2603:10b6:510:1cc::16)
- by MN2PR11MB4552.namprd11.prod.outlook.com (2603:10b6:208:263::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Wed, 30 Apr
- 2025 09:42:16 +0000
-Received: from PH8PR11MB6609.namprd11.prod.outlook.com
- ([fe80::ebc1:5d63:a07c:60d]) by PH8PR11MB6609.namprd11.prod.outlook.com
- ([fe80::ebc1:5d63:a07c:60d%4]) with mapi id 15.20.8699.012; Wed, 30 Apr 2025
- 09:42:16 +0000
-From: <Manikandan.M@microchip.com>
-To: <luca.ceresoli@bootlin.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <jagan@amarulasolutions.com>,
- <shawnguo@kernel.org>, <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
- <festevam@gmail.com>, <dianders@chromium.org>, <chunkuang.hu@kernel.org>,
- <krzk@kernel.org>
-CC: <asrivats@redhat.com>, <paulk@sys-base.io>, <lumag@kernel.org>,
- <Hui.Pu@gehealthcare.com>, <thomas.petazzoni@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <asahi@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
- <linux-renesas-soc@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <aford173@gmail.com>,
- <adrien.grassein@gmail.com>, <amishin@t-argos.ru>, <andy.yan@rock-chips.com>, 
- <angelogioacchino.delregno@collabora.com>, <bleung@chromium.org>,
- <biju.das.jz@bp.renesas.com>, <chf.fritz@googlemail.com>,
- <cristian.ciocaltea@collabora.com>, <detlev.casanova@collabora.com>,
- <Dharma.B@microchip.com>, <groeck@chromium.org>, <heiko@sntech.de>,
- <jani.nikula@intel.com>, <j@jannau.net>, <jbrunet@baylibre.com>,
- <jesseevg@gmail.com>, <khilman@baylibre.com>,
- <kieran.bingham+renesas@ideasonboard.com>, <victor.liu@nxp.com>,
- <martin.blumenstingl@googlemail.com>, <matthias.bgg@gmail.com>,
- <p.zabel@pengutronix.de>, <ple@baylibre.com>, <fnkl.kernel@gmail.com>,
- <sugar.zhang@rock-chips.com>, <sui.jingfeng@linux.dev>,
- <tomi.valkeinen+renesas@ideasonboard.com>, <mordan@ispras.ru>
-Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-Thread-Topic: [PATCH v2 01/34] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-Thread-Index: AQHbtUsLjdQGawUhkE+yGegcji7RNrO7/beA
-Date: Wed, 30 Apr 2025 09:42:16 +0000
-Message-ID: <e90b9ef2-ace0-4b98-9d49-5a62e529cf8a@microchip.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
-In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH8PR11MB6609:EE_|MN2PR11MB4552:EE_
-x-ms-office365-filtering-correlation-id: ff71b061-11d5-4bd3-aacb-08dd87cb4b16
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|7416014|1800799024|376014|366016|921020|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?Ym14SE9FZ21ocXVYemJYYlh0UW43R2gxWkdMMXNCZGJwWTUzZktVR28yaUJr?=
- =?utf-8?B?SEY3MzN3WDBMeURtN0dFWHNzQ2tlOUpOUGsxNjdFVDNwT1k4OUNZcG1keFpU?=
- =?utf-8?B?azBYQUNBM0t6czY5NXVpZmp5MjErZHBOcTA1MU0xUlZab0RFbGFrTTJWQWdC?=
- =?utf-8?B?bUtkZmlZOVJnYjB1UHJjVDdGR2hIeFgyZ0kwMTk3VnIxendxZUZjbE0zQ2lH?=
- =?utf-8?B?cy9Pa20zOXllZXdaMXlNTjJLQVozNmZWUUFQTG9XL1U5WlV3Q0ppTWpPa3RW?=
- =?utf-8?B?bWNxQjQ5R2RVUGYzekNURlhIZ2xLT05FRVJYRzh0alBzdENQK2tIS1Y1dUVL?=
- =?utf-8?B?M0JIWk84bllkeWJtWkpHcWVvTEcwb3oySmdGRlVaQVhhTDhHRHlscVRDYlZC?=
- =?utf-8?B?dThmV09PT0l2NmdSc1VKanBlcHBEQXg4NGNNNmlNRHdoZ010R2psNm5veFhl?=
- =?utf-8?B?aGpHUXd2cHBqK3NLK0FGMmlWaG5PR1ZvSlNmMXltbXgvWUlQMUNKMnBDUklV?=
- =?utf-8?B?MkNJSmY2cHhEcWhaVVFscXpBWW5STjQ3K1RmbWdXVXh3MnJpWFZpb2hhekI4?=
- =?utf-8?B?a2JTdW5SRmE2U3ZuSEhBZHgxYkZKZ25lbmY4K25xbytSMmFvOE9KRWJKWSt0?=
- =?utf-8?B?QkhndFlwb2s4VDV3WVBVNUNoZ2FRWHZNbm9RZy9VWmVXaUdWY3JyK0Y3SzZD?=
- =?utf-8?B?TnJEUzZWNUlyTVpOYWJ0RnE4NmhGU0xqbzc2YmQrak5UNGJ2NmZMTU9DK1R0?=
- =?utf-8?B?UmlrWTdreHg5OVA3Rkk5alltYWRDVDk3enVieW56TzVGeWJKa29hZ0FsalNT?=
- =?utf-8?B?VHQ4VEtwZmZVaWJuaGtUWDZ1NEJpNm5NVzBsQThSRksxR3JSeXpZbG0rckJE?=
- =?utf-8?B?NzNOaHQzQVZKZlU1V3J2aUhoY2M4dk5QTVdjWStXWnpUa1RjSFFsRk56U29p?=
- =?utf-8?B?SmY0UjFhZjIvY2xrR3NhMkVpUHUvYS9rTVJCd2pXUEdCZVpuc2tXT1orYXBX?=
- =?utf-8?B?dTlrdTc1eGtiNzhGcVBSYUxVNElyZENqekxPVnhDS0FXbjNzc1dUYSt1SWJl?=
- =?utf-8?B?L29pNEtEWGNsQjI2eFIwR0h3Q0M1blBvLzNMTmdSOTFManpwQ3VveExKMHVE?=
- =?utf-8?B?MjBKL0lrdHZKY1VEWERNSlpCcWJXNlpRUThpUFl6YTk0ZzNOZ2ZXOEZybUFK?=
- =?utf-8?B?d3AyWTlZYmhKOGU4VGxlejFOc1RBMHBlZThqd2oyQ09KNC96TldqTHZnVXVO?=
- =?utf-8?B?NjB0V0RjR0FTRkp6bFdydjhQamcydHVhZkJHbnoxRHc4aVY0L0lyeXFkZVJp?=
- =?utf-8?B?VmNGRElncGNKdWQ3NW1QbHlMaFdnSlp0Q0ZRU1BUOExOS0tKSTdPSTltR1Vm?=
- =?utf-8?B?RTROblJCdjBTTmRFWEJrV2Z1My9jQjNZSUhqRDIxU1kvVDJKa2g0V0ExMDhn?=
- =?utf-8?B?MzdVZzBvR0p0N2gwcTRZM21yYTdXa250QjZacVVpeXp5SEc5UW8weEFYS0o5?=
- =?utf-8?B?SFIxeVhNLzE2b05pMzhGTTdNNWJsYzdlOGJxVGFQbktpL0JSTll2Z3A0dDd2?=
- =?utf-8?B?T1F3MTJjbndBZDZNbktYeVIxaU5CQ0QzaDV3Y3NrVHFsbE5yaXRJZkpJcTdN?=
- =?utf-8?B?cWVUUXFTb1ZEM3QydTNwdng5WnFEZU9yYjhQQWNwNmloSUJsazVxdXJFVG04?=
- =?utf-8?B?b3k2QVI1SEVEZkZvU1J2aHdFUlVtRmFYQ0hsb2hjTjlDd2FwNXJ6cFJHbzFE?=
- =?utf-8?B?bUc5b3VSeVluTmhlTExXMDNNNEUxbFplWGRpYmg2SUY3dUU5Z3cwUUVMd2N1?=
- =?utf-8?B?QiswOTk0SE5HUm1JRnVBY01LenFWR1M2ZzR3T0tIWTU0QnNnWjVPODBGYllN?=
- =?utf-8?B?Wk1LMGRDRXBSYlgzU0RvUHBjRk1uTjFwdVZLaTg3dVpsdkNSYitIalJWa3dH?=
- =?utf-8?B?MUF2elhzdzd0cnhvemZPeWszUXRXdk0xcGdEWVhCN28wdDhVTFVKRVljZ1Rs?=
- =?utf-8?Q?WjDNcPAau1/4Wl5MPmzEYfwRHmq5HE=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR11MB6609.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(366016)(921020)(38070700018);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U1FZZFo5YlZKQm96MHZkWTM2S3dsU3p6aEpoaTF3bHBSZDJoN1ErWis2SXBD?=
- =?utf-8?B?ZkVjVE5MSlowREhJNUpRQm9aNEdxSGdNSkJ0RVgvY2RzT2thUUZmY3l6SUFs?=
- =?utf-8?B?elR3OWZFU2VjT09IZzcxa3VmeVZuaXhDR2hySTJpeUJtL0JUWTd4MGhod1pY?=
- =?utf-8?B?MUYyZ3JUNVVzQ05WWkFYM0Q1ZVZUOWRjZUQxbmphVzQwRGtrK1dGV29ILysy?=
- =?utf-8?B?Tk5XckFhcktnT0htT3h6Z05CRVFsVXFBOTZieExkT3FzL2RJY1JyM09hb2RH?=
- =?utf-8?B?V3Zrc0RqbzhSNDdXUU9DUGxXNUo1aytCN3dSOENFZlpVNjhuaUVUWjFsU01m?=
- =?utf-8?B?alNsTHBwb2Q4bFYrVXRVYVM1TnRzaUx2bit6aWwvelZrcEs0K2dtcWZ2K3VH?=
- =?utf-8?B?Rmt3dmtBdGxCcGJLUW4yTUNiWmxTSmpCTXlVbHRsWjNhN3NvV2lTdm1OZUV4?=
- =?utf-8?B?SFlhcTdNMFhhVUZ0aGJmYVNzM1RzT05ncU9CVWtCemR5aGJMN2hTZXRKYlFW?=
- =?utf-8?B?amcwdlFPaHpmWVdsVXhyR2ZzRGJRdDRtS0RrQ2dSVTBzMyt1TUtlcmVyQTF3?=
- =?utf-8?B?cmJXemkvTVpVTkVDRGFvdHdjNDhJanBxVSs5c0JMMDRyNFZYQzd1YytYeHJB?=
- =?utf-8?B?REJ6SG4yM1R0ejZtT3JNZEh6Q0JPdksvMnk0UHFSc3duS0J5WnNXb3Byb09U?=
- =?utf-8?B?MDlLMTJxK1ZpeElhRmdiMEU2MHVOcnlaUWFLdEJON041dmZFR0VDRnArQ0Ur?=
- =?utf-8?B?YmlDd1Z2VDdWSXlGUUlleFdYVW1EdTl4cjNOejFVSzIvUkc4YnBIOUdXdEp4?=
- =?utf-8?B?bHNCRXBSOEtlcnBTZzB3QWR3MWZsT29HSFI0VXdIdVljKys1QjlBRkgxNWZk?=
- =?utf-8?B?R1NIVGtpRklnZFhneWo0TzJuV3diNkhRRkpRVnhzWlBTcWdlb2taVmdLZWtF?=
- =?utf-8?B?Sy95VHBVT3QzYTRZY0hKajh2OVd4Qm1zRTV0dGpEYnVEaVp4M2plN1B0aGZD?=
- =?utf-8?B?bVZaRVpna2tFd1dZTWpaUnFUY2VjN3RCY1VpY3dxRHJ4amhPaVlhZ051bC8w?=
- =?utf-8?B?V2pQODFEY1JnYzZwOUdpVnZ2ODNwU0JtNmg3Zm9HRUFXSzhkSXpVUXNkQ3cv?=
- =?utf-8?B?cHlrVkNvZU1pQnNqdXhWaW55SWVyVlE2eE90L3NxOTZVeGNSNlA2YUw2S2I2?=
- =?utf-8?B?UWFEUkpCU3VudjI0amhOMXpZcXNoR2VYNHFWL3VYVzdDdVVBaXRmbDd0VDB0?=
- =?utf-8?B?bTZldHFnazRiKysvaDdaZWZEek9YeHFmOGNBVmxha1R3YklwZmYwelQ4ZWRq?=
- =?utf-8?B?c094bEw4SUNCZHhPQ010VlBaUHJsb0s4TUliOTJmVFdyeG1LSmNveFNJb2tR?=
- =?utf-8?B?c1B4ZWZ5d0NHSDF5SXRZYXZ1SnowUVdmRVQ1QzlWaVNobElZek92eTVUa2s0?=
- =?utf-8?B?eG1SYVpUeVpyZS96OWUvaEJYZ1dqMjVpT1N3VUYrQ2RNUGdyRXRMakVUQzQv?=
- =?utf-8?B?MjFSb3Y5QjNKMnhJNkZCdVBtdUFrUVhtRnoyZTV4T2xPTGZBc2FzS2VPVHRq?=
- =?utf-8?B?Mk9tNTh5a0FCRjJpbVlMczJIcS92aFkvWVdUSTZyamtnTGUzdStuaS9QbUo0?=
- =?utf-8?B?ZVlhZVB5eU5qZjBqWnhDZFgxR3pOTEpza2VjRkFnejk4cmxRS1VUMk12WnZ6?=
- =?utf-8?B?UFpHZ2ZJam1TejVrUmIxL1Ivak9jd0kyVXA2QmRCV2VIOUVKdEQyeEZra2RQ?=
- =?utf-8?B?eENEZ3FkVWZtQjY3Zm9PeGhWZUJsYUJvbS9POFdSbi9SMTRmT0IvVW1IMmk4?=
- =?utf-8?B?SytZNDB3dUhzWURaNmlYTlhlK0VLWHhvSW9EOTQrYTFXbFlxTU14bWg5LzZB?=
- =?utf-8?B?N0dGd1FMSVNtam1ZVlRuM0U4YkVQODdzMFhtbTQrWm5abEZWbWhDZWJhQ3NF?=
- =?utf-8?B?UHpTMDl3ZnBPM1h4dnpBRVdoSW9wOUg3Y2FFazRJZnd4Q1JrSjR6NElPK2R2?=
- =?utf-8?B?emV4U1dPUWZ1WVYvTEJmbTI3L0JvRmdBL2toNGpDNzhOdko1Zkp0Um1oYWRw?=
- =?utf-8?B?K09Yd05hSkZFUUw3Y1R3d21SdzRQTjN6Sy9jREJOSlhQd0t4aHlFTzNFcjdl?=
- =?utf-8?Q?l8+S1T6zAATaEcXpjzgXokDzT?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <504278A449B43C44BFCC580BE40E39DD@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B64210E07D
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 09:44:14 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E8C2725;
+ Wed, 30 Apr 2025 11:43:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1746006239;
+ bh=0R7kbd8v7Ndx8uOq1zTNvYS6wblPz94/OWZoUS5EH/M=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=bT4LKrpLm5AUOCHMjGm0KgR79SxkO2yZKZ08D0OZQwXcgVnn1gPWW/AKDJW/dhMg1
+ sheZnt3JzbAWmPsAbsixSpQUMTuoqWfJ2ciWCvw/r2k3trGLn0oUrb34AuedhbPpTI
+ Jpeb+wvEZC+0zGbl+UQk1XuMvT1alZh+ytJdx4MI=
+Message-ID: <ac2578c3-0439-4909-922d-0e1d9c05e8d7@ideasonboard.com>
+Date: Wed, 30 Apr 2025 12:44:02 +0300
 MIME-Version: 1.0
-X-OriginatorOrg: microchip.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6609.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff71b061-11d5-4bd3-aacb-08dd87cb4b16
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2025 09:42:16.4161 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IndaBHi/Wa7muY11t4Fp9IKTBmSqxa9wjYTsL0ZWa9hMuEEfCq+ONtwYQVmq980PvvJOxxFRngVrkpwzPWhBvEH7xVrX64CEoPAiu9vkI/g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4552
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/9] media: renesas: vsp1: Report colour space
+ information to userspace
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+References: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20250429232904.26413-6-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+In-Reply-To: <20250429232904.26413-6-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -198,138 +103,384 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjUvMDQvMjUgMTI6MjkgYW0sIEx1Y2EgQ2VyZXNvbGkgd3JvdGU6DQo+IEVYVEVSTkFMIEVN
-QUlMOiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IGtu
-b3cgdGhlIGNvbnRlbnQgaXMgc2FmZQ0KPiANCj4gZGV2bV9kcm1fYnJpZGdlX2FsbG9jKCkgaXMg
-dGhlIG5ldyBBUEkgdG8gYmUgdXNlZCBmb3IgYWxsb2NhdGluZyAoYW5kDQo+IHBhcnRpYWxseSBp
-bml0aWFsaXppbmcpIGEgcHJpdmF0ZSBkcml2ZXIgc3RydWN0IGVtYmVkZGluZyBhIHN0cnVjdA0K
-PiBkcm1fYnJpZGdlLg0KPiANCj4gRm9yIG1hbnkgZHJpdmVycyBoYXZpbmcgYSBzaW1wbGUgY29k
-ZSBmbG93IGluIHRoZSBwcm9iZSBmdW5jdGlvbiwgdGhpcw0KPiBjb21taXQgZG9lcyBhIG1hc3Mg
-Y29udmVyc2lvbiBhdXRvbWF0aWNhbGx5IHdpdGggdGhlIGZvbGxvd2luZyBzZW1hbnRpYw0KPiBw
-YXRjaC4gVGhlIGNoYW5nZXMgaGF2ZSBiZWVuIHJldmlld2VkIG1hbnVhbGx5IGZvciBjb3JyZWN0
-bmVzcyBhcyB3ZWxsIGFzDQo+IHRvIGZpbmQgYW55IGZhbHNlIHBvc2l0aXZlcy4NCj4gDQo+ICAg
-IEBADQo+ICAgIHR5cGUgVDsNCj4gICAgaWRlbnRpZmllciBDOw0KPiAgICBpZGVudGlmaWVyIEJS
-Ow0KPiAgICBleHByZXNzaW9uIERFVjsNCj4gICAgZXhwcmVzc2lvbiBGVU5DUzsNCj4gICAgQEAN
-Cj4gICAgLVQgKkM7DQo+ICAgICtUICpDOw0KPiAgICAgLi4uDQo+ICAgICgNCj4gICAgLUMgPSBk
-ZXZtX2t6YWxsb2MoREVWLCAuLi4pOw0KPiAgICAtaWYgKCFDKQ0KPiAgICAtICAgIHJldHVybiAt
-RU5PTUVNOw0KPiAgICArQyA9IGRldm1fZHJtX2JyaWRnZV9hbGxvYyhERVYsIFQsIEJSLCBGVU5D
-Uyk7DQo+ICAgICtpZiAoSVNfRVJSKEMpKQ0KPiAgICArICAgICByZXR1cm4gUFRSX0VSUihDKTsN
-Cj4gICAgfA0KPiAgICAtQyA9IGRldm1fa3phbGxvYyhERVYsIC4uLik7DQo+ICAgIC1pZiAoIUMp
-DQo+ICAgIC0gICAgcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7DQo+ICAgICtDID0gZGV2bV9kcm1f
-YnJpZGdlX2FsbG9jKERFViwgVCwgQlIsIEZVTkNTKTsNCj4gICAgK2lmIChJU19FUlIoQykpDQo+
-ICAgICsgICAgIHJldHVybiBQVFJfRVJSKEMpOw0KPiAgICApDQo+ICAgICAuLi4NCj4gICAgLUMt
-PkJSLmZ1bmNzID0gRlVOQ1M7DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBMdWNhIENlcmVzb2xpIDxs
-dWNhLmNlcmVzb2xpQGJvb3RsaW4uY29tPg0KPiANCj4gLS0tDQo+IA0KPiBDYzogQWRhbSBGb3Jk
-IDxhZm9yZDE3M0BnbWFpbC5jb20+DQo+IENjOiBBZHJpZW4gR3Jhc3NlaW4gPGFkcmllbi5ncmFz
-c2VpbkBnbWFpbC5jb20+DQo+IENjOiBBbGVrc2FuZHIgTWlzaGluIDxhbWlzaGluQHQtYXJnb3Mu
-cnU+DQo+IENjOiBBbmR5IFlhbiA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+DQo+IENjOiBBbmdl
-bG9HaW9hY2NoaW5vIERlbCBSZWdubyA8YW5nZWxvZ2lvYWNjaGluby5kZWxyZWdub0Bjb2xsYWJv
-cmEuY29tPg0KPiBDYzogQmVuc29uIExldW5nIDxibGV1bmdAY2hyb21pdW0ub3JnPg0KPiBDYzog
-QmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiBDYzogQ2hyaXN0b3BoIEZy
-aXR6IDxjaGYuZnJpdHpAZ29vZ2xlbWFpbC5jb20+DQo+IENjOiBDcmlzdGlhbiBDaW9jYWx0ZWEg
-PGNyaXN0aWFuLmNpb2NhbHRlYUBjb2xsYWJvcmEuY29tPg0KPiBDYzogRGV0bGV2IENhc2Fub3Zh
-IDxkZXRsZXYuY2FzYW5vdmFAY29sbGFib3JhLmNvbT4NCj4gQ2M6IERoYXJtYSBCYWxhc3ViaXJh
-bWFuaSA8ZGhhcm1hLmJAbWljcm9jaGlwLmNvbT4NCj4gQ2M6IEd1ZW50ZXIgUm9lY2sgPGdyb2Vj
-a0BjaHJvbWl1bS5vcmc+DQo+IENjOiBIZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNoLmRlPg0K
-PiBDYzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4NCj4gQ2M6IEphbm5lIEdy
-dW5hdSA8akBqYW5uYXUubmV0Pg0KPiBDYzogSmVyb21lIEJydW5ldCA8amJydW5ldEBiYXlsaWJy
-ZS5jb20+DQo+IENjOiBKZXNzZSBWYW4gR2F2ZXJlIDxqZXNzZWV2Z0BnbWFpbC5jb20+DQo+IENj
-OiBLZXZpbiBIaWxtYW4gPGtoaWxtYW5AYmF5bGlicmUuY29tPg0KPiBDYzogS2llcmFuIEJpbmdo
-YW0gPGtpZXJhbi5iaW5naGFtK3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4NCj4gQ2M6IExpdSBZ
-aW5nIDx2aWN0b3IubGl1QG54cC5jb20+DQo+IENjOiBNYW5pa2FuZGFuIE11cmFsaWRoYXJhbiA8
-bWFuaWthbmRhbi5tQG1pY3JvY2hpcC5jb20+DQo+IENjOiBNYXJ0aW4gQmx1bWVuc3RpbmdsIDxt
-YXJ0aW4uYmx1bWVuc3RpbmdsQGdvb2dsZW1haWwuY29tPg0KPiBDYzogTWF0dGhpYXMgQnJ1Z2dl
-ciA8bWF0dGhpYXMuYmdnQGdtYWlsLmNvbT4NCj4gQ2M6IFBoaWxpcHAgWmFiZWwgPHAuemFiZWxA
-cGVuZ3V0cm9uaXguZGU+DQo+IENjOiBQaG9uZyBMRSA8cGxlQGJheWxpYnJlLmNvbT4NCj4gQ2M6
-IFNhc2hhIEZpbmtlbHN0ZWluIDxmbmtsLmtlcm5lbEBnbWFpbC5jb20+DQo+IENjOiBTdWdhciBa
-aGFuZyA8c3VnYXIuemhhbmdAcm9jay1jaGlwcy5jb20+DQo+IENjOiBTdWkgSmluZ2ZlbmcgPHN1
-aS5qaW5nZmVuZ0BsaW51eC5kZXY+DQo+IENjOiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWlu
-ZW4rcmVuZXNhc0BpZGVhc29uYm9hcmQuY29tPg0KPiBDYzogVml0YWxpaSBNb3JkYW4gPG1vcmRh
-bkBpc3ByYXMucnU+DQo+IA0KPiBDaGFuZ2VkIGluIHYyOg0KPiAtIGFkZGVkIG1pc3NpbmcgUFRS
-X0VSUigpIGluIHRoZSBzZWNvbmQgc3BhdGNoIGFsdGVybmF0aXZlDQo+IC0tLQ0KPiAgIGRyaXZl
-cnMvZ3B1L2RybS9hZHAvYWRwLW1pcGkuYyAgICAgICAgICAgICAgICAgICAgICB8ICA4ICsrKyst
-LS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMgICAg
-ICAgIHwgIDkgKysrKy0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9h
-bmFsb2dpeC1hbng3OHh4LmMgIHwgIDkgKysrKy0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2Jy
-aWRnZS9hdXgtYnJpZGdlLmMgICAgICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL2JyaWRnZS9hdXgtaHBkLWJyaWRnZS5jICAgICAgICAgICAgIHwgIDkgKysr
-KystLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9jYWRlbmNlL2NkbnMtbWhkcDg1NDYt
-Y29yZS5jIHwgIDggKysrKy0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2NoaXBvbmUt
-aWNuNjIxMS5jICAgICAgICAgICAgfCAgOSArKysrLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0v
-YnJpZGdlL2Nocm9udGVsLWNoNzAzMy5jICAgICAgICAgICAgfCAgOCArKysrLS0tLQ0KPiAgIGRy
-aXZlcnMvZ3B1L2RybS9icmlkZ2UvY3Jvcy1lYy1hbng3Njg4LmMgICAgICAgICAgICB8ICA5ICsr
-KystLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvZnNsLWxkYi5jICAgICAgICAgICAg
-ICAgICAgICB8ICA3ICsrKy0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9pbXgt
-bGVnYWN5LWJyaWRnZS5jICAgICAgfCAgOSArKysrLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0v
-YnJpZGdlL2lteC9pbXg4bXAtaGRtaS1wdmkuYyAgICAgICAgfCAxMCArKysrLS0tLS0tDQo+ICAg
-ZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pbXgvaW14OHF4cC1waXhlbC1saW5rLmMgICAgIHwgIDgg
-KysrKy0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9pbXg4cXhwLXB4bDJkcGku
-YyAgICAgICAgfCAgOCArKysrLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRlLWl0
-NjI2My5jICAgICAgICAgICAgICAgICB8ICA5ICsrKystLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS9icmlkZ2UvaXRlLWl0NjUwNS5jICAgICAgICAgICAgICAgICB8ICA5ICsrKystLS0tLQ0KPiAg
-IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRlLWl0NjYxMjEuYyAgICAgICAgICAgICAgICB8ICA5
-ICsrKystLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbG9udGl1bS1sdDg5MTJiLmMg
-ICAgICAgICAgICB8ICA5ICsrKystLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbG9u
-dGl1bS1sdDkyMTEuYyAgICAgICAgICAgICB8ICA4ICsrKy0tLS0tDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS9sb250aXVtLWx0OTYxMS5jICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tDQo+
-ICAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9sdmRzLWNvZGVjLmMgICAgICAgICAgICAgICAgIHwg
-IDkgKysrKy0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9taWNyb2NoaXAtbHZkcy5j
-ICAgICAgICAgICAgIHwgIDggKysrKy0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL253
-bC1kc2kuYyAgICAgICAgICAgICAgICAgICAgfCAgOCArKysrLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS9icmlkZ2UvcGFyYWRlLXBzODYyMi5jICAgICAgICAgICAgICB8ICA5ICsrKystLS0tLQ0K
-PiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvcGFyYWRlLXBzODY0MC5jICAgICAgICAgICAgICB8
-ICA5ICsrKystLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2lpOTIzNC5jICAgICAg
-ICAgICAgICAgICAgICB8ICA5ICsrKystLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-c2lsLXNpaTg2MjAuYyAgICAgICAgICAgICAgICB8ICA5ICsrKystLS0tLQ0KPiAgIGRyaXZlcnMv
-Z3B1L2RybS9icmlkZ2Uvc2ltcGxlLWJyaWRnZS5jICAgICAgICAgICAgICB8IDEwICsrKystLS0t
-LS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWktcXAuYyAgICAg
-ICAgfCAgOCArKysrLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHct
-bWlwaS1kc2kuYyAgICAgICB8ICA4ICsrKystLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2JyaWRn
-ZS9zeW5vcHN5cy9kdy1taXBpLWRzaTIuYyAgICAgIHwgIDggKysrKy0tLS0NCj4gICBkcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL3RjMzU4NzYyLmMgICAgICAgICAgICAgICAgICAgfCAgOSArKysrLS0t
-LS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY0LmMgICAgICAgICAgICAgICAg
-ICAgfCAgOSArKysrLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY4LmMg
-ICAgICAgICAgICAgICAgICAgfCAgOSArKysrLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL3RjMzU4Nzc1LmMgICAgICAgICAgICAgICAgICAgfCAgOSArKysrLS0tLS0NCj4gICBkcml2
-ZXJzL2dwdS9kcm0vYnJpZGdlL3RoYzYzbHZkMTAyNC5jICAgICAgICAgICAgICAgfCAgOCArKysr
-LS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktZGxwYzM0MzMuYyAgICAgICAgICAg
-ICAgICB8ICA5ICsrKystLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktdGRwMTU4
-LmMgICAgICAgICAgICAgICAgICB8ICA4ICsrKystLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2Jy
-aWRnZS90aS10ZnA0MTAuYyAgICAgICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL2JyaWRnZS90aS10cGQxMnMwMTUuYyAgICAgICAgICAgICAgIHwgIDkgKysr
-Ky0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcC5jICAgICAgICAgICAg
-ICAgICAgIHwgIDkgKysrKy0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
-cGkuYyAgICAgICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kc2kuYyAgICAgICAgICAgICAgICAgIHwgIDkgKysrKy0tLS0tDQo+ICAg
-ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pLmMgICAgICAgICAgICAgICAgIHwgIDkg
-KysrKy0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX2VuY29kZXJfY3Zicy5j
-ICAgICAgICAgIHwgMTIgKysrKysrLS0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL21lc29uL21l
-c29uX2VuY29kZXJfZHNpLmMgICAgICAgICAgIHwgMTIgKysrKysrLS0tLS0tDQo+ICAgZHJpdmVy
-cy9ncHUvZHJtL21lc29uL21lc29uX2VuY29kZXJfaGRtaS5jICAgICAgICAgIHwgMTIgKysrKysr
-LS0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcmNhci1kdS9yY2FyX2x2ZHMuYyAg
-ICAgICAgIHwgIDkgKysrKy0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUv
-cnpnMmxfbWlwaV9kc2kuYyAgICAgIHwgMTAgKysrKy0tLS0tLQ0KPiAgIDQ5IGZpbGVzIGNoYW5n
-ZWQsIDIwMSBpbnNlcnRpb25zKCspLCAyMzcgZGVsZXRpb25zKC0pDQo+IA0KDQpbLi4uXQ0KDQo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL21pY3JvY2hpcC1sdmRzLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL21pY3JvY2hpcC1sdmRzLmMNCj4gaW5kZXggMWQ0YWUwMDk3
-ZGY4NDdkOWY5M2M3OWVlY2ZmMGM0NTg3YWUzMzFiYS4uOWY0ZmY4MmJjNmI0OTAxMGY4NzI3ZGEz
-YjM2N2Y1YTc0NGEyOGVkYyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9t
-aWNyb2NoaXAtbHZkcy5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbWljcm9jaGlw
-LWx2ZHMuYw0KPiBAQCAtMTU3LDkgKzE1NywxMCBAQCBzdGF0aWMgaW50IG1jaHBfbHZkc19wcm9i
-ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgICAgICAgICBpZiAoIWRldi0+b2Zf
-bm9kZSkNCj4gICAgICAgICAgICAgICAgICByZXR1cm4gLUVOT0RFVjsNCj4gDQo+IC0gICAgICAg
-bHZkcyA9IGRldm1fa3phbGxvYygmcGRldi0+ZGV2LCBzaXplb2YoKmx2ZHMpLCBHRlBfS0VSTkVM
-KTsNCj4gLSAgICAgICBpZiAoIWx2ZHMpDQo+IC0gICAgICAgICAgICAgICByZXR1cm4gLUVOT01F
-TTsNCj4gKyAgICAgICBsdmRzID0gZGV2bV9kcm1fYnJpZGdlX2FsbG9jKCZwZGV2LT5kZXYsIHN0
-cnVjdCBtY2hwX2x2ZHMsIGJyaWRnZSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICZtY2hwX2x2ZHNfYnJpZGdlX2Z1bmNzKTsNCj4gKyAgICAgICBpZiAoSVNfRVJSKGx2
-ZHMpKQ0KPiArICAgICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIobHZkcyk7DQo+IA0KPiAgICAg
-ICAgICBsdmRzLT5kZXYgPSBkZXY7DQo+IA0KPiBAQCAtMTkyLDcgKzE5Myw2IEBAIHN0YXRpYyBp
-bnQgbWNocF9sdmRzX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+IA0KPiAg
-ICAgICAgICBsdmRzLT5icmlkZ2Uub2Zfbm9kZSA9IGRldi0+b2Zfbm9kZTsNCj4gICAgICAgICAg
-bHZkcy0+YnJpZGdlLnR5cGUgPSBEUk1fTU9ERV9DT05ORUNUT1JfTFZEUzsNCj4gLSAgICAgICBs
-dmRzLT5icmlkZ2UuZnVuY3MgPSAmbWNocF9sdmRzX2JyaWRnZV9mdW5jczsNCj4gDQo+ICAgICAg
-ICAgIGRldl9zZXRfZHJ2ZGF0YShkZXYsIGx2ZHMpOw0KPiAgICAgICAgICByZXQgPSBkZXZtX3Bt
-X3J1bnRpbWVfZW5hYmxlKGRldik7DQoNClJldmlld2VkLWJ5OiBNYW5pa2FuZGFuIE11cmFsaWRo
-YXJhbiA8bWFuaWthbmRhbi5tQG1pY3JvY2hpcC5jb20+DQoNCi0tIA0KVGhhbmtzIGFuZCBSZWdh
-cmRzLA0KTWFuaWthbmRhbiBNLg0KDQo=
+Hi,
+
+On 30/04/2025 02:29, Laurent Pinchart wrote:
+> The vsp1 driver implements very partial colour space support: it
+> hardcodes the colorspace field on all video devices and subdevices to
+> V4L2_COLORSPACE_SRGB, regardless of the configured format. The
+> xfer_func, ycbcr_enc and quantization fields are not set (except for
+> hsv_enc for HSV formats on video devices). This doesn't match the
+> hardware configuration, which handles YUV data as encoding in BT.601
+> with limited range.
+> 
+> As a first step towards colour space configuration, keep the colour
+> space fields hardcoded, but set them based on the selected format type
+> (RGB, YUV or HSV).
+> 
+> While at it, remove an extra blank line.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+> 
+> - Drop unneeded colorspace adjustements when propagating RWPF formats
+> ---
+>   .../media/platform/renesas/vsp1/vsp1_brx.c    |  9 +++-
+>   .../media/platform/renesas/vsp1/vsp1_entity.c | 22 +++++++++-
+>   .../media/platform/renesas/vsp1/vsp1_entity.h |  2 +
+>   .../media/platform/renesas/vsp1/vsp1_hsit.c   | 11 ++++-
+>   .../media/platform/renesas/vsp1/vsp1_pipe.c   | 44 +++++++++++++++++++
+>   .../media/platform/renesas/vsp1/vsp1_pipe.h   |  2 +
+>   .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 11 ++++-
+>   .../media/platform/renesas/vsp1/vsp1_sru.c    |  9 +++-
+>   .../media/platform/renesas/vsp1/vsp1_uds.c    |  9 +++-
+>   .../media/platform/renesas/vsp1/vsp1_video.c  |  7 +--
+>   10 files changed, 115 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> index 5dee0490c593..5fc2e5a3bb30 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> @@ -15,6 +15,7 @@
+>   #include "vsp1.h"
+>   #include "vsp1_brx.h"
+>   #include "vsp1_dl.h"
+> +#include "vsp1_entity.h"
+>   #include "vsp1_pipe.h"
+>   #include "vsp1_rwpf.h"
+>   #include "vsp1_video.h"
+> @@ -108,6 +109,8 @@ static void brx_try_format(struct vsp1_brx *brx,
+>   		if (fmt->code != MEDIA_BUS_FMT_ARGB8888_1X32 &&
+>   		    fmt->code != MEDIA_BUS_FMT_AYUV8_1X32)
+>   			fmt->code = MEDIA_BUS_FMT_AYUV8_1X32;
+> +
+> +		vsp1_entity_adjust_color_space(fmt);
+>   		break;
+>   
+>   	default:
+> @@ -115,13 +118,17 @@ static void brx_try_format(struct vsp1_brx *brx,
+>   		format = v4l2_subdev_state_get_format(sd_state,
+>   						      BRX_PAD_SINK(0));
+>   		fmt->code = format->code;
+> +
+> +		fmt->colorspace = format->colorspace;
+> +		fmt->xfer_func = format->xfer_func;
+> +		fmt->ycbcr_enc = format->ycbcr_enc;
+> +		fmt->quantization = format->quantization;
+>   		break;
+>   	}
+>   
+>   	fmt->width = clamp(fmt->width, BRX_MIN_SIZE, BRX_MAX_SIZE);
+>   	fmt->height = clamp(fmt->height, BRX_MIN_SIZE, BRX_MAX_SIZE);
+>   	fmt->field = V4L2_FIELD_NONE;
+> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+>   }
+>   
+>   static int brx_set_format(struct v4l2_subdev *subdev,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> index 8b8945bd8f10..9f93ae86b1da 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> @@ -99,6 +99,20 @@ void vsp1_entity_configure_partition(struct vsp1_entity *entity,
+>   						 dl, dlb);
+>   }
+>   
+> +void vsp1_entity_adjust_color_space(struct v4l2_mbus_framefmt *format)
+> +{
+> +	u8 xfer_func = format->xfer_func;
+> +	u8 ycbcr_enc = format->ycbcr_enc;
+> +	u8 quantization = format->quantization;
+> +
+> +	vsp1_adjust_color_space(format->code, &format->colorspace, &xfer_func,
+> +				&ycbcr_enc, &quantization);
+> +
+> +	format->xfer_func = xfer_func;
+> +	format->ycbcr_enc = ycbcr_enc;
+> +	format->quantization = quantization;
+> +}
+> +
+>   /* -----------------------------------------------------------------------------
+>    * V4L2 Subdevice Operations
+>    */
+> @@ -329,7 +343,13 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+>   	format->height = clamp_t(unsigned int, fmt->format.height,
+>   				 min_height, max_height);
+>   	format->field = V4L2_FIELD_NONE;
+> -	format->colorspace = V4L2_COLORSPACE_SRGB;
+> +
+> +	format->colorspace = fmt->format.colorspace;
+> +	format->xfer_func = fmt->format.xfer_func;
+> +	format->ycbcr_enc = fmt->format.ycbcr_enc;
+> +	format->quantization = fmt->format.quantization;
+> +
+> +	vsp1_entity_adjust_color_space(format);
+>   
+>   	fmt->format = *format;
+>   
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.h b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+> index 1bcc9e27dfdc..ce4a09610164 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+> @@ -170,6 +170,8 @@ void vsp1_entity_configure_partition(struct vsp1_entity *entity,
+>   				     struct vsp1_dl_list *dl,
+>   				     struct vsp1_dl_body *dlb);
+>   
+> +void vsp1_entity_adjust_color_space(struct v4l2_mbus_framefmt *format);
+> +
+>   struct media_pad *vsp1_entity_remote_pad(struct media_pad *pad);
+>   
+>   int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+> index 8ba2a7c7305c..1fcd1967d3b2 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+> @@ -14,6 +14,7 @@
+>   
+>   #include "vsp1.h"
+>   #include "vsp1_dl.h"
+> +#include "vsp1_entity.h"
+>   #include "vsp1_hsit.h"
+>   
+>   #define HSIT_MIN_SIZE				4U
+> @@ -96,7 +97,13 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
+>   	format->height = clamp_t(unsigned int, fmt->format.height,
+>   				 HSIT_MIN_SIZE, HSIT_MAX_SIZE);
+>   	format->field = V4L2_FIELD_NONE;
+> -	format->colorspace = V4L2_COLORSPACE_SRGB;
+> +
+> +	format->colorspace = fmt->format.colorspace;
+> +	format->xfer_func = fmt->format.xfer_func;
+> +	format->ycbcr_enc = fmt->format.ycbcr_enc;
+> +	format->quantization = fmt->format.quantization;
+> +
+> +	vsp1_entity_adjust_color_space(format);
+>   
+>   	fmt->format = *format;
+>   
+> @@ -106,6 +113,8 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
+>   	format->code = hsit->inverse ? MEDIA_BUS_FMT_ARGB8888_1X32
+>   		     : MEDIA_BUS_FMT_AHSV8888_1X32;
+>   
+> +	vsp1_entity_adjust_color_space(format);
+> +
+>   done:
+>   	mutex_unlock(&hsit->entity.lock);
+>   	return ret;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> index f7b133536704..b9ab6c9c96df 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> @@ -346,6 +346,50 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
+>   	return NULL;
+>   }
+>   
+> +/**
+> + * vsp1_adjust_color_space - Adjust color space fields in a format
+> + * @code: the media bus code
+> + * @colorspace: the colorspace
+> + * @xfer_func: the transfer function
+> + * @encoding: the encoding
+> + * @quantization: the quantization
+> + *
+> + * This function adjusts all color space fields of a video device of subdev
+> + * format structure, taking into account the requested format, requested color
+> + * space and limitations of the VSP1. It should be used in the video device and
+> + * subdev set format handlers.
+> + *
+> + * For now, simply hardcode the color space fields to the VSP1 defaults based
+> + * on the media bus code.
+> + */
+> +void vsp1_adjust_color_space(u32 code, u32 *colorspace, u8 *xfer_func,
+> +			     u8 *encoding, u8 *quantization)
+> +{
+> +	switch (code) {
+> +	case MEDIA_BUS_FMT_ARGB8888_1X32:
+> +	default:
+> +		*colorspace = V4L2_COLORSPACE_SRGB;
+> +		*xfer_func = V4L2_XFER_FUNC_SRGB;
+> +		*encoding = V4L2_YCBCR_ENC_601;
+> +		*quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> +		break;
+> +
+> +	case MEDIA_BUS_FMT_AHSV8888_1X32:
+> +		*colorspace = V4L2_COLORSPACE_SRGB;
+> +		*xfer_func = V4L2_XFER_FUNC_SRGB;
+> +		*encoding = V4L2_HSV_ENC_256;
+> +		*quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> +		break;
+> +
+> +	case MEDIA_BUS_FMT_AYUV8_1X32:
+> +		*colorspace = V4L2_COLORSPACE_SMPTE170M;
+> +		*xfer_func = V4L2_XFER_FUNC_709;
+> +		*encoding = V4L2_YCBCR_ENC_601;
+> +		*quantization = V4L2_QUANTIZATION_LIM_RANGE;
+> +		break;
+> +	}
+> +}
+> +
+>   /* -----------------------------------------------------------------------------
+>    * Pipeline Management
+>    */
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> index 1d3d033af209..c88a3f0d5b1e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> @@ -182,5 +182,7 @@ const struct vsp1_format_info *vsp1_get_format_info(struct vsp1_device *vsp1,
+>   const struct vsp1_format_info *
+>   vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
+>   			      u32 code);
+> +void vsp1_adjust_color_space(u32 code, u32 *colorspace, u8 *xfer_func,
+> +			     u8 *encoding, u8 *quantization);
+>   
+>   #endif /* __VSP1_PIPE_H__ */
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> index 1b4bac7b7cfa..4e8bcf6a59ad 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> @@ -10,6 +10,7 @@
+>   #include <media/v4l2-subdev.h>
+>   
+>   #include "vsp1.h"
+> +#include "vsp1_entity.h"
+>   #include "vsp1_rwpf.h"
+>   #include "vsp1_video.h"
+>   
+> @@ -90,6 +91,8 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>   		else
+>   			format->code = sink_format->code;
+>   
+> +		vsp1_entity_adjust_color_space(format);
+> +
+>   		fmt->format = *format;
+>   		goto done;
+>   	}
+> @@ -100,7 +103,13 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>   	format->height = clamp_t(unsigned int, fmt->format.height,
+>   				 RWPF_MIN_HEIGHT, rwpf->max_height);
+>   	format->field = V4L2_FIELD_NONE;
+> -	format->colorspace = V4L2_COLORSPACE_SRGB;
+> +
+> +	format->colorspace = fmt->format.colorspace;
+> +	format->xfer_func = fmt->format.xfer_func;
+> +	format->ycbcr_enc = fmt->format.ycbcr_enc;
+> +	format->quantization = fmt->format.quantization;
+> +
+> +	vsp1_entity_adjust_color_space(format);
+>   
+>   	fmt->format = *format;
+>   
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> index 1759ce642e6e..bba2872afaf2 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> @@ -14,6 +14,7 @@
+>   
+>   #include "vsp1.h"
+>   #include "vsp1_dl.h"
+> +#include "vsp1_entity.h"
+>   #include "vsp1_pipe.h"
+>   #include "vsp1_sru.h"
+>   
+> @@ -178,6 +179,8 @@ static void sru_try_format(struct vsp1_sru *sru,
+>   		    fmt->code != MEDIA_BUS_FMT_AYUV8_1X32)
+>   			fmt->code = MEDIA_BUS_FMT_AYUV8_1X32;
+>   
+> +		vsp1_entity_adjust_color_space(fmt);
+> +
+>   		fmt->width = clamp(fmt->width, SRU_MIN_SIZE, SRU_MAX_SIZE);
+>   		fmt->height = clamp(fmt->height, SRU_MIN_SIZE, SRU_MAX_SIZE);
+>   		break;
+> @@ -187,6 +190,11 @@ static void sru_try_format(struct vsp1_sru *sru,
+>   		format = v4l2_subdev_state_get_format(sd_state, SRU_PAD_SINK);
+>   		fmt->code = format->code;
+>   
+> +		fmt->colorspace = format->colorspace;
+> +		fmt->xfer_func = format->xfer_func;
+> +		fmt->ycbcr_enc = format->ycbcr_enc;
+> +		fmt->quantization = format->quantization;
+> +
+>   		/*
+>   		 * We can upscale by 2 in both direction, but not independently.
+>   		 * Compare the input and output rectangles areas (avoiding
+> @@ -211,7 +219,6 @@ static void sru_try_format(struct vsp1_sru *sru,
+>   	}
+>   
+>   	fmt->field = V4L2_FIELD_NONE;
+> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+>   }
+>   
+>   static int sru_set_format(struct v4l2_subdev *subdev,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> index c5a38478cf8c..2db473b6f83c 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> @@ -14,6 +14,7 @@
+>   
+>   #include "vsp1.h"
+>   #include "vsp1_dl.h"
+> +#include "vsp1_entity.h"
+>   #include "vsp1_pipe.h"
+>   #include "vsp1_uds.h"
+>   
+> @@ -177,6 +178,8 @@ static void uds_try_format(struct vsp1_uds *uds,
+>   		    fmt->code != MEDIA_BUS_FMT_AYUV8_1X32)
+>   			fmt->code = MEDIA_BUS_FMT_AYUV8_1X32;
+>   
+> +		vsp1_entity_adjust_color_space(fmt);
+> +
+>   		fmt->width = clamp(fmt->width, UDS_MIN_SIZE, UDS_MAX_SIZE);
+>   		fmt->height = clamp(fmt->height, UDS_MIN_SIZE, UDS_MAX_SIZE);
+>   		break;
+> @@ -186,6 +189,11 @@ static void uds_try_format(struct vsp1_uds *uds,
+>   		format = v4l2_subdev_state_get_format(sd_state, UDS_PAD_SINK);
+>   		fmt->code = format->code;
+>   
+> +		fmt->colorspace = format->colorspace;
+> +		fmt->xfer_func = format->xfer_func;
+> +		fmt->ycbcr_enc = format->ycbcr_enc;
+> +		fmt->quantization = format->quantization;
+> +
+>   		uds_output_limits(format->width, &minimum, &maximum);
+>   		fmt->width = clamp(fmt->width, minimum, maximum);
+>   		uds_output_limits(format->height, &minimum, &maximum);
+> @@ -194,7 +202,6 @@ static void uds_try_format(struct vsp1_uds *uds,
+>   	}
+>   
+>   	fmt->field = V4L2_FIELD_NONE;
+> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+>   }
+>   
+>   static int uds_set_format(struct v4l2_subdev *subdev,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> index da578993f472..68d495c20a84 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> @@ -127,12 +127,10 @@ static int __vsp1_video_try_format(struct vsp1_video *video,
+>   		info = vsp1_get_format_info(video->vsp1, VSP1_VIDEO_DEF_FORMAT);
+>   
+>   	pix->pixelformat = info->fourcc;
+> -	pix->colorspace = V4L2_COLORSPACE_SRGB;
+>   	pix->field = V4L2_FIELD_NONE;
+>   
+> -	if (info->fourcc == V4L2_PIX_FMT_HSV24 ||
+> -	    info->fourcc == V4L2_PIX_FMT_HSV32)
+> -		pix->hsv_enc = V4L2_HSV_ENC_256;
+> +	vsp1_adjust_color_space(info->mbus, &pix->colorspace, &pix->xfer_func,
+> +				&pix->ycbcr_enc, &pix->quantization);
+>   
+>   	memset(pix->reserved, 0, sizeof(pix->reserved));
+>   
+> @@ -891,7 +889,6 @@ vsp1_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+>   			  | V4L2_CAP_IO_MC | V4L2_CAP_VIDEO_CAPTURE_MPLANE
+>   			  | V4L2_CAP_VIDEO_OUTPUT_MPLANE;
+>   
+> -
+>   	strscpy(cap->driver, "vsp1", sizeof(cap->driver));
+>   	strscpy(cap->card, video->video.name, sizeof(cap->card));
+>   
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
+  Tomi
+
