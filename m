@@ -2,159 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57472AA495C
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 13:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10300AA496E
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 13:07:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A340A10E0C9;
-	Wed, 30 Apr 2025 11:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61C1B10E72D;
+	Wed, 30 Apr 2025 11:07:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3S/jYXBO";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IBpbFtSy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2071.outbound.protection.outlook.com [40.107.243.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F88110E0C9
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 11:03:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NWOh2hDyoX7K6toGGaJtmu+Su+ZTwhIJTWLjk1yGzsWr+0me9oiIcw/UEDKJ7prSOyEOz1ou4TWuuRxeISgmHuT4WpxLF5x8HKX6BVy/l4hGVYsnJGoybiubLVmBz28HCTtRgWBOrgAlYoJlQVIs2hrHvnz/PNK41GGP1Vp//A2obSibT0EuXnU8W8csh5CWAdhYc3epa/v8p6efDvSEO3HAXrGJp1ffN9ae3lDPPOV+oqhk4ICCEeHeC5hctdBE7SlALcf3mscyCMUeIyBaDsAclbttUvXwSj2Oy3thiunAKmnBWph/hmpMYAXBpz8uGxAE1vu4heMU465wdxBQCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rPAD/0D+v+fRE1jfnpKPCulGLrHIfKEXGOGBkHJ/+oQ=;
- b=IEm/+RzSHka2iatRNgquyTBW5jHvb3h46cKLeXlcEFsqH1JP6UhilWnkNkS7yGFXePGWXlp81qpQjwjcTXurom3/okV/X4qdjOmZRjrdw9DnindyaKnOEJumA5d2dFP/XmIfarP5FPAVUbK3gvWdx/jllNh14PxMidYpIpDKPj4vmnv499bWkqd4hQ4cr8bkH5PFu0G2JKhhHx89oNTssqsM64+YYWD0KrSchO31e0csCtpOW5LVB0D5AU/62LJAHxPNBGsJPT6J8g3U0CYC3jZwQma522dIy7KnFKY3OE8NW9DzVe//FyuhFOkToadE07drI0buvonCyetEw0nnMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rPAD/0D+v+fRE1jfnpKPCulGLrHIfKEXGOGBkHJ/+oQ=;
- b=3S/jYXBOx6pD8Gw8h9NJAL7F1WE21MDypmy494i0nVpCfYpn1n0fwvNCx/DJ2Ri3U3d7xWBF0FFu7J0S2pCGJb4aevSOIWG8agcb3LsJZYbeBBTtBsu1E4yrqPczEWkhFM9jPlxcBUFyCGA0XmEJbjd54igMFEoRd/gM62uyR80=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB7823.namprd12.prod.outlook.com (2603:10b6:a03:4c9::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Wed, 30 Apr
- 2025 11:03:55 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Wed, 30 Apr 2025
- 11:03:55 +0000
-Message-ID: <daaf1445-f0b8-490a-b87b-dab219f13571@amd.com>
-Date: Wed, 30 Apr 2025 13:03:50 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
-To: oushixiong1025@163.com, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
- Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250430085658.540746-1-oushixiong1025@163.com>
- <20250430085658.540746-2-oushixiong1025@163.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250430085658.540746-2-oushixiong1025@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0226.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e9::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB9D10E72D
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 11:07:37 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C228F725;
+ Wed, 30 Apr 2025 13:07:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1746011249;
+ bh=GcIjfIlwqOlet414vCMseJGeTnuO8pgUFpT2bsx7e9o=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IBpbFtSysFzMqd+U5uQt8eYwIbVDLEb+FQBCQD6+WQedQaXKDX1moH9KeYfgekUPN
+ Al+YzzVkJkMdUmPA0p1Lj8Zt61z3Rh6izofXr7DY8KkM4WZPrOY6i7D12qTaBVL2zI
+ Kk8rE3AMVAxahXVwKNw7CTgLGNnxpiT2StiJqrTE=
+Message-ID: <f4cb39f0-ffba-447e-a486-c2c51cae5523@ideasonboard.com>
+Date: Wed, 30 Apr 2025 14:07:31 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB7823:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7184a68-fdfa-4fbd-a0c6-08dd87d6b311
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?elpPRlBEY2hPVUNFU2ZqMkljNnY3M3RGbHprZ05uTzBnTUFkVnpZbnpJbHpo?=
- =?utf-8?B?b0drTklnUXF6dkN2SHF0clhGTCtxRDFyWlZWMTc2M01VRnZBNklhMXZrWURR?=
- =?utf-8?B?N2RMbUtzQ2p1M0dNTEZ1VlVPaWdISjY0ckpiTFBFdUtmUGI4WGtla2x3Z1NG?=
- =?utf-8?B?cThyQTB1RExmSkh2MzBXUU1Pa21lTElsS2Z2YUhYVm0vVC9IbGtiOCs2N0N6?=
- =?utf-8?B?YWt3VThrT0xHUVl1RlZUdkZGcm5EbEhsS0F3TlRlRnVFMzZkdGxFU05sRHo5?=
- =?utf-8?B?MWZvQU9CK1lUand3U1Q1UmNBelcrc2s2MDNmemdSOFo5R2w4eS9KZk5EVFpW?=
- =?utf-8?B?NVMvN1VwV1c1MXllYnRiTHhsUWdLRVlINjFRbkRFUm5KYUx1TE9WeWFUQ0Vm?=
- =?utf-8?B?dXBvTThmZ2Rxdjlpc1VRZHRqTHhkRGx3SUwzUkFPaERTYjMrRmV0eWg1U1ZG?=
- =?utf-8?B?dU1kdGUwTUdxNm55RkJzNXlrSWlsNzRJaXkzUndTWjAzOUhxcnF5UTNKRXg1?=
- =?utf-8?B?ajZ4dCtId1RydVNJeFpqeGNmZTNzU2VUVmxSVDhhYy9vYnZIUEd4SGN3bmtY?=
- =?utf-8?B?UThsazFWakZXOExpaFcxcUt6WjJXNkdVTDRmNTdtUFA1Mjhqd2g2WjZjcmZR?=
- =?utf-8?B?TlUwL0EzcXZkVFh1OCtueVVCWEJ1SEEyQmU3T2RqU3JaUGVxcUVjRytWc3pD?=
- =?utf-8?B?NFFua2dsU3NtMGNsaXVRUDVjQzlrSVFRR3YwRTJCSDk5d3dqTzlJelYzWU01?=
- =?utf-8?B?WkZhNElLUmlOSXkycjg0d2dCa0pWdmlBRHFWUldWVDhPWGc1MDVuTEt5VU96?=
- =?utf-8?B?d2gzZVpzek5HSm84OFpRVlh2c2Q3dVVKbytsdU9EM2M5MHNTRHQ4cTZHQXl4?=
- =?utf-8?B?d2FHMVRsdXNNYVVvdS9OdmwzRUlPRHZvV0xKMXY1UnYrOTVtYzZQM25BM24v?=
- =?utf-8?B?dXNiYkFHUGt3QkoxbVVFaHF6aEJ6eFQ5QnJVRmR0cHNCZ05uc0RLSWh2dXpy?=
- =?utf-8?B?U2dOaUwrLzR0Q2ZVc1F2dFNvNlpzdHdPU01wVHg2alBOTWY3ekJPN3VwZjBs?=
- =?utf-8?B?Q1owWTBuMllWcktGcC9Jem5PUFVtNlNuRGJjTGdldUpsY3lhY003bkdoeFdN?=
- =?utf-8?B?N1hYakxHSXZXUWNqWk1KcGVCakJLcHdpMnpMaUFJdzBlK24xYUc4elg3ZXJs?=
- =?utf-8?B?WXpaVlBQWkczVVV5cVh4NmZyck5ZYkxybTRKVndKRXRWck9Eby9ZTE54My83?=
- =?utf-8?B?MExORkphVVVONUdPNExuc1c5T0NLWXI5aFJJeGMxTDNSeGZMTHpvQWlNaWYz?=
- =?utf-8?B?c0U3QU1VaUN1ZjNNT3E3K2VwQmlHZXkwcEYvandZUUt0K3hGUEtVaXFNQkFw?=
- =?utf-8?B?ZGVVVkxSaTU2VWFNTU9RNllzYVFKUmZHRERXQTQ2ZkVDOGFpRnhGOHVEM255?=
- =?utf-8?B?b3RRbms4YVpIUW02bkNHdjZZV25jMGtHd01SUzY4S2x1ajNSd2w5TE9FT2pH?=
- =?utf-8?B?Vkx1QWhzOTRUc0Y2dWpPbG0yV2o1MFJXVGFPL0UwTm5SbXEzSU5VYkgrcmhv?=
- =?utf-8?B?VFNlK0FNS0tqanBjREU5SHhlL2lab0J0d2srcnZoYnZhT2VjWTlJeCtURVBx?=
- =?utf-8?B?M1BPUGtJNkZ4Q0VGWUloZkJLbzZSMnVOdWFraktRdXBFNmt0enlvZnlXNmZj?=
- =?utf-8?B?a0dHdlFBczRPRCs4NWhYQW1OZlZjaHBRWHczUFFzL2hNTVpBVG9Fc25aeW41?=
- =?utf-8?B?TVJnM0pqSHhEKzFmTkRSbWhuWWdpVllnS1hlejNBbjUzQzRPaFVwZDVOTzRK?=
- =?utf-8?B?M1NBUEhzakpOYlVWYmZWS0FiYUtGSUV4Sy9TQVFndkpwbGJNSnJKV2FrVVVa?=
- =?utf-8?B?MElsODlhVEJ1eWxtZ3VUdVdoWnJIWEx1TUxSSHpvdE9Sb1RCa1ZaamNPNHZX?=
- =?utf-8?Q?ds2QF+WPaDE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RW8rM21HNGlJSUVWTnFmWXFrdVowQlF5R0Zyb3h0UjFNMEJBV3RMM0xlMGpx?=
- =?utf-8?B?MTNGZmQwNjQvVlBINXY2VGJKallxeExsUVMvNE1vckZCamorZ09Xb1VrZVNN?=
- =?utf-8?B?YS9naTZJV25JTnNSOGt4TzhiOXhPVERaUHZTZVlXM2lMY1dqKzRnUG9FdzlV?=
- =?utf-8?B?bWtTaC9jeUhZY0JrcGxhWk9XcW55Y1Z1SWh4WFVkVnV3V1pyN1V6aFlhR1FY?=
- =?utf-8?B?TzlxRExPTXFRMXBLYmpKcTNPMlhDVEN3VmJQL3FFT3QwTEJoenRvYzJXS2JV?=
- =?utf-8?B?eFNlTEJJUWxHSGljejQwZUFjUGpuSU9xM3NLMEI3S1dZbnBvQW4ySGkzSTRY?=
- =?utf-8?B?S0sxRnlVUGZqLzdGZmtCc0VhNllDNXgxZnFFaWpld2llME05eG5GK05qeUNs?=
- =?utf-8?B?MFF2RFhQTmJld01uc2thZ2J6ejRtRmpBdUx4RlFPcXF0d2xEakxMSCtFOFlQ?=
- =?utf-8?B?Wk5JUFdKOFZHRzI1ckRnamt1bmxOTEpJV3ZqNnlBSnF4RTJQVnBVRGhFeHFX?=
- =?utf-8?B?a3NmRFZEc25WdGxWVDNhcXh1Vzg2QnpoMkNNZTRNNGNocllNMDcySjJmRllR?=
- =?utf-8?B?WDBMOXVBbEhubjJqYTFtd1ExM1p4T3E1SUtPUTZpMUFnRjRKY1htRXdhUWR6?=
- =?utf-8?B?bVhGL3l4Y0MyY1Vvbm13TlAyeVNNZUkxdTR5QVp1VElWU0wrQkw4c0lZU1A5?=
- =?utf-8?B?dDB0dmlYYjFWem1QUXduQkZSa3k0OFNTcjdjdW02WkhNbkEwVmhvTHRqRG5x?=
- =?utf-8?B?K1JhRDBlOTU5bjluZ3dVekNTNTFsSzJFUnRQRGlIUnBCY1JvN01RNFBxZkkz?=
- =?utf-8?B?dUM5L3NVRXArVWZPbW5zb1BlN2p6Z3lYNTZlUHFVQWVMTDJGeDlBSERQbURK?=
- =?utf-8?B?NTVlNWJ6ZWRjY2tBNERtaDd3ZUMvTzdrNWxNQXlpNmY2TFdqamx5a2xRK3dT?=
- =?utf-8?B?Z2F5bzVoM1VOUmFrcHc4bGJVTTdVYUNhMGZCbXYwRSszYXNCSFJESDcwMmdO?=
- =?utf-8?B?a0pCQzErOWY3SzJQSzhncks5ZlVORzZ1VEkxWm40S3JPV05WWisybmNJayt3?=
- =?utf-8?B?ZzE5N1Q5aTQyWklpV1RSWkhHTERsZlNxQ3FZaW50L1d4UnhKQTdBMVQxVGph?=
- =?utf-8?B?L0FBd0tnVkFiS2RHNTdLOC9wV1NBellXQjFzb3lYYWxPb2hFOXpsck1ydXlG?=
- =?utf-8?B?NnI5SzltS0dXYUhJaDMwRVdyTTJCWisvUEI2NS9nYVg1WVFFMnd0eEQ2ZHMv?=
- =?utf-8?B?OUtwZE5OcDF2R0s4cjBLbnA4V0dxL1R0NCtpNjl2dy82QThDWTJVdTF2aUUx?=
- =?utf-8?B?ZFM0RlFrMlUyWnl2QjU4Yk9veGdLQWhHekF1RjVTRnlkL05zSnJ0a0hVb2JO?=
- =?utf-8?B?QUNTdCsyaHZqNWovYVNaZUZpd0M1bndpN2ExbWJJZitVaEVIODZIakJXREgr?=
- =?utf-8?B?a0crMC9ESHRaNit5NkFqOEkyTmZQT21LWThVVkJjNjNudWNCZ0N3elRaWlNL?=
- =?utf-8?B?aUFQcXJvK0p4eTJaVUxYRlQ4cTloVHBXaURYY2NobUpqbEk3eG5OTG5vMUZk?=
- =?utf-8?B?M0RhQU9JYzVEY0ZCWGp1eXJIaENkeHhTL240VTBlaXFtL3d4SzJaV1dlc0lt?=
- =?utf-8?B?L240UVFERmRlTG8zVUdYMVpkSEJKcmp5SSt1dmtTbkpGM0czcEZyL0VXZlRH?=
- =?utf-8?B?WmhuOExrQlBnV3NSekhVRlZoR0N4YWhLT0Y4UlEvbis3NFdXWmN3VFEzZlpj?=
- =?utf-8?B?eGxUR0dNMVFPa3VpVlZjaDdEdUJQYjhoTzM4TFpFaVJkRjR1dXFmL3J0Mjhk?=
- =?utf-8?B?WnU3N29UTzBPdCsyNmtRZHNwTmFHd1VNZlBERTVRTTRFb0dRNHp1OHZGdWN0?=
- =?utf-8?B?Ym1Ld1h0SjEzRUVYbytZalhLMmdTckVXLzVMVnBiaFpIdGJjZVJ1NjZLRXFC?=
- =?utf-8?B?YVNOeG9WcXpoTC8vcCtxcEFYbkw2OXYrMWtlQ2FPaktjdW52YXY1dUxXMnVq?=
- =?utf-8?B?aWh2SVhpUkFMOXU4bDAwcFEzOTZkWklCdDdpaVBaRFJZeGwrZVphRGFyYlJD?=
- =?utf-8?B?bFdsbWhEb3cyWGNMeW1FdGtCTXhDU1pJVWpNWTlZc0dNUUg4UkxwRlRmYThN?=
- =?utf-8?Q?SqZGX/II7za480O/5ZeRc2tg1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7184a68-fdfa-4fbd-a0c6-08dd87d6b311
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 11:03:55.4671 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CsuCqogojHRWeVROgMgE4ARnIqV70Om7w4rflKcUJWOFMPyVAXoFva9I7rcEJrs6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7823
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/9] media: renesas: vsp1: Allow setting encoding and
+ quantization
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+References: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20250429232904.26413-7-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250429232904.26413-7-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,220 +103,261 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/30/25 10:56, oushixiong1025@163.com wrote:
-> From: Shixiong Ou <oushixiong@kylinos.cn>
+Hi,
+
+On 30/04/2025 02:29, Laurent Pinchart wrote:
+> The RPF and WPF support different encodings and quantizations when
+> converting between RGB and YUV formats. Allow setting the corresponding
+> format parameters from userspace, and configure the hardware
+> accordingly.
 > 
-> [WHY]
-> On some boards, the dma_mask of Aspeed devices is 0xffff_ffff, this
-> quite possibly causes the SWIOTLB to be triggered when importing dmabuf.
-> However IO_TLB_SEGSIZE limits the maximum amount of available memory
-> for DMA Streaming Mapping, as dmesg following:
-> 
-> [   24.885303][ T1947] ast 0000:07:00.0: swiotlb buffer is full (sz: 3145728 bytes), total 32768 (slots), used 0 (slots)
-> 
-> [HOW] Provide an interface so that attachment is not mapped when
-> importing dma-buf.
-
-This is unecessary. The extra abstraction in DRM is only useful when you want to implement the obj->funcs->get_sg_table() callback.
-
-When a driver doesn't want to expose an sg_table for a buffer or want some other special handling it can simply do so by implementing the DMA-buf interface directly.
-
-See drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c for an example on how to do this.
-
-Regards,
-Christian.
-
-> 
-> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/ast/ast_drv.c          |  2 +-
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 17 +++++++
->  drivers/gpu/drm/drm_prime.c            | 67 ++++++++++++++++++++++++--
->  drivers/gpu/drm/udl/udl_drv.c          |  2 +-
->  include/drm/drm_drv.h                  |  3 ++
->  include/drm/drm_gem_shmem_helper.h     |  6 +++
->  6 files changed, 91 insertions(+), 6 deletions(-)
+>   .../media/platform/renesas/vsp1/vsp1_pipe.c   | 29 +++++++++++------
+>   .../media/platform/renesas/vsp1/vsp1_rpf.c    | 29 +++++++++++++++--
+>   .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 31 +++++++++++++++++--
+>   .../media/platform/renesas/vsp1/vsp1_video.c  | 19 ++++++++++++
+>   .../media/platform/renesas/vsp1/vsp1_wpf.c    | 29 +++++++++++++++--
+>   5 files changed, 121 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-> index 6fbf62a99c48..2dac6acf79e7 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.c
-> +++ b/drivers/gpu/drm/ast/ast_drv.c
-> @@ -64,7 +64,7 @@ static const struct drm_driver ast_driver = {
->  	.minor = DRIVER_MINOR,
->  	.patchlevel = DRIVER_PATCHLEVEL,
->  
-> -	DRM_GEM_SHMEM_DRIVER_OPS,
-> +	DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS,
->  	DRM_FBDEV_SHMEM_DRIVER_OPS,
->  };
->  
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index d99dee67353a..655d841df933 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -799,6 +799,23 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
->  
-> +struct drm_gem_object *
-> +drm_gem_shmem_prime_import_attachment(struct drm_device *dev,
-> +				      struct dma_buf_attachment *attach)
-> +{
-> +	size_t size = PAGE_ALIGN(attach->dmabuf->size);
-> +	struct drm_gem_shmem_object *shmem;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> index b9ab6c9c96df..59e26284a90f 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> @@ -359,33 +359,42 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
+>    * space and limitations of the VSP1. It should be used in the video device and
+>    * subdev set format handlers.
+>    *
+> - * For now, simply hardcode the color space fields to the VSP1 defaults based
+> - * on the media bus code.
+> + * The colorspace and xfer_func fields are freely configurable, as they are out
+> + * of scope for VSP processing. The encoding and quantization is hardcoded for
+> + * non-YUV formats, and can be configured for YUV formats.
+>    */
+>   void vsp1_adjust_color_space(u32 code, u32 *colorspace, u8 *xfer_func,
+>   			     u8 *encoding, u8 *quantization)
+>   {
+> +	if (*colorspace == V4L2_COLORSPACE_DEFAULT ||
+> +	    *colorspace >= V4L2_COLORSPACE_LAST)
+> +		*colorspace = code == MEDIA_BUS_FMT_AYUV8_1X32
+> +			    ? V4L2_COLORSPACE_SMPTE170M
+> +			    : V4L2_COLORSPACE_SRGB;
 > +
-> +	shmem = __drm_gem_shmem_create(dev, size, true, NULL);
-> +	if (IS_ERR(shmem))
-> +		return ERR_CAST(shmem);
+> +	if (*xfer_func == V4L2_XFER_FUNC_DEFAULT ||
+> +	    *xfer_func >= V4L2_XFER_FUNC_LAST)
+> +		*xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(*colorspace);
 > +
-> +	drm_dbg_prime(dev, "size = %zu\n", size);
+>   	switch (code) {
+>   	case MEDIA_BUS_FMT_ARGB8888_1X32:
+>   	default:
+> -		*colorspace = V4L2_COLORSPACE_SRGB;
+> -		*xfer_func = V4L2_XFER_FUNC_SRGB;
+>   		*encoding = V4L2_YCBCR_ENC_601;
+>   		*quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>   		break;
+>   
+>   	case MEDIA_BUS_FMT_AHSV8888_1X32:
+> -		*colorspace = V4L2_COLORSPACE_SRGB;
+> -		*xfer_func = V4L2_XFER_FUNC_SRGB;
+>   		*encoding = V4L2_HSV_ENC_256;
+>   		*quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>   		break;
+>   
+>   	case MEDIA_BUS_FMT_AYUV8_1X32:
+> -		*colorspace = V4L2_COLORSPACE_SMPTE170M;
+> -		*xfer_func = V4L2_XFER_FUNC_709;
+> -		*encoding = V4L2_YCBCR_ENC_601;
+> -		*quantization = V4L2_QUANTIZATION_LIM_RANGE;
+> +		if (*encoding != V4L2_YCBCR_ENC_601 &&
+> +		    *encoding != V4L2_YCBCR_ENC_709)
+> +			*encoding = V4L2_YCBCR_ENC_601;
+> +		if (*quantization != V4L2_QUANTIZATION_FULL_RANGE &&
+> +		    *quantization != V4L2_QUANTIZATION_LIM_RANGE)
+> +			*quantization = V4L2_QUANTIZATION_LIM_RANGE;
+>   		break;
+>   	}
+>   }
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> index 5c8b3ba1bd3c..9f2744af54bc 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> @@ -92,8 +92,33 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+>   	if (fmtinfo->swap_uv)
+>   		infmt |= VI6_RPF_INFMT_SPUVS;
+>   
+> -	if (sink_format->code != source_format->code)
+> -		infmt |= VI6_RPF_INFMT_CSC;
+> +	if (sink_format->code != source_format->code) {
+> +		u16 ycbcr_enc;
+> +		u16 quantization;
+> +		u32 rdtm;
 > +
-> +	return &shmem->base;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_attachment);
-> +
->  MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
->  MODULE_IMPORT_NS("DMA_BUF");
->  MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 8e70abca33b9..522cf974e202 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -911,6 +911,62 @@ struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
->  }
->  EXPORT_SYMBOL(drm_gem_prime_export);
->  
-> +/**
-> + * drm_gem_prime_import_dev_skip_map - core implementation of the import callback
-> + * @dev: drm_device to import into
-> + * @dma_buf: dma-buf object to import
-> + * @attach_dev: struct device to dma_buf attach
-> + *
-> + * This function exports a dma-buf without get it's scatter/gather table.
-> + *
-> + * Drivers who need to get an scatter/gather table for objects need to call
-> + * drm_gem_prime_import_dev() instead.
-> + */
-> +struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
-> +							 struct dma_buf *dma_buf,
-> +							 struct device *attach_dev)
-> +{
-> +	struct dma_buf_attachment *attach;
-> +	struct drm_gem_object *obj;
-> +	int ret;
-> +
-> +	if (dma_buf->ops == &drm_gem_prime_dmabuf_ops) {
-> +		obj = dma_buf->priv;
-> +		if (obj->dev == dev) {
-> +			/*
-> +			 * Importing dmabuf exported from our own gem increases
-> +			 * refcount on gem itself instead of f_count of dmabuf.
-> +			 */
-> +			drm_gem_object_get(obj);
-> +			return obj;
+> +		if (sink_format->code == MEDIA_BUS_FMT_AYUV8_1X32) {
+> +			ycbcr_enc = sink_format->ycbcr_enc;
+> +			quantization = sink_format->quantization;
+> +		} else {
+> +			ycbcr_enc = source_format->ycbcr_enc;
+> +			quantization = source_format->quantization;
 > +		}
+> +
+> +		if (ycbcr_enc == V4L2_YCBCR_ENC_601 &&
+> +		    quantization == V4L2_QUANTIZATION_LIM_RANGE)
+> +			rdtm = VI6_RPF_INFMT_RDTM_BT601;
+> +		else if (ycbcr_enc == V4L2_YCBCR_ENC_601 &&
+> +			 quantization == V4L2_QUANTIZATION_FULL_RANGE)
+> +			rdtm = VI6_RPF_INFMT_RDTM_BT601_EXT;
+> +		else if (ycbcr_enc == V4L2_YCBCR_ENC_709 &&
+> +			 quantization == V4L2_QUANTIZATION_LIM_RANGE)
+> +			rdtm = VI6_RPF_INFMT_RDTM_BT709;
+> +		else
+> +			rdtm = VI6_RPF_INFMT_RDTM_BT709_EXT;
+> +
+> +		infmt |= VI6_RPF_INFMT_CSC | rdtm;
+> +	}
+>   
+>   	vsp1_rpf_write(rpf, dlb, VI6_RPF_INFMT, infmt);
+>   	vsp1_rpf_write(rpf, dlb, VI6_RPF_DSWAP, fmtinfo->swap);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> index 4e8bcf6a59ad..9c8085d5d306 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> @@ -36,6 +36,11 @@ static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev,
+>   
+>   	code->code = codes[code->index];
+>   
+> +	if (code->pad == RWPF_PAD_SOURCE &&
+> +	    code->code == MEDIA_BUS_FMT_AYUV8_1X32)
+> +		code->flags = V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC
+> +			    | V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION;
+> +
+>   	return 0;
+>   }
+>   
+> @@ -79,11 +84,13 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>   	if (fmt->pad == RWPF_PAD_SOURCE) {
+>   		const struct v4l2_mbus_framefmt *sink_format =
+>   			v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
+> +		u16 flags = fmt->format.flags & V4L2_MBUS_FRAMEFMT_SET_CSC;
+> +		bool csc;
+>   
+>   		/*
+>   		 * The RWPF performs format conversion but can't scale, only the
+> -		 * format code can be changed on the source pad when converting
+> -		 * between RGB and YUV.
+> +		 * format code, encoding and quantization can be changed on the
+> +		 * source pad when converting between RGB and YUV.
+>   		 */
+>   		if (sink_format->code != MEDIA_BUS_FMT_AHSV8888_1X32 &&
+>   		    fmt->format.code != MEDIA_BUS_FMT_AHSV8888_1X32)
+> @@ -91,9 +98,29 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>   		else
+>   			format->code = sink_format->code;
+>   
+> +		/*
+> +		 * Encoding and quantization can only be configured when YCbCr
+> +		 * <-> RGB is enabled. The V4L2 API requires userspace to set
+> +		 * the V4L2_MBUS_FRAMEFMT_SET_CSC flag. If either of these
+> +		 * conditions is not met, use the encoding and quantization
+> +		 * values from the sink pad.
+> +		 */
+> +		csc = (format->code == MEDIA_BUS_FMT_AYUV8_1X32) !=
+> +		      (sink_format->code == MEDIA_BUS_FMT_AYUV8_1X32);
+> +
+> +		if (csc && (flags & V4L2_MBUS_FRAMEFMT_SET_CSC)) {
+> +			format->ycbcr_enc = fmt->format.ycbcr_enc;
+> +			format->quantization = fmt->format.quantization;
+> +		} else {
+> +			format->ycbcr_enc = sink_format->ycbcr_enc;
+> +			format->quantization = sink_format->quantization;
+> +		}
+> +
+>   		vsp1_entity_adjust_color_space(format);
+>   
+>   		fmt->format = *format;
+> +		fmt->format.flags = flags;
+> +
+>   		goto done;
+>   	}
+>   
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> index 68d495c20a84..bc66fbdde3cc 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> @@ -129,6 +129,20 @@ static int __vsp1_video_try_format(struct vsp1_video *video,
+>   	pix->pixelformat = info->fourcc;
+>   	pix->field = V4L2_FIELD_NONE;
+>   
+> +	/*
+> +	 * Adjust the colour space fields. On capture devices, userspace needs
+> +	 * to set the V4L2_PIX_FMT_FLAG_SET_CSC to override the defaults. Reset
+> +	 * all fields to *_DEFAULT if the flag isn't set, to then handle
+> +	 * capture and output devices in the same way.
+> +	 */
+> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+> +	    !(pix->flags & V4L2_PIX_FMT_FLAG_SET_CSC)) {
+> +		pix->colorspace = V4L2_COLORSPACE_DEFAULT;
+> +		pix->xfer_func = V4L2_XFER_FUNC_DEFAULT;
+> +		pix->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+> +		pix->quantization = V4L2_QUANTIZATION_DEFAULT;
 > +	}
 > +
-> +	attach = dma_buf_attach(dma_buf, attach_dev, true);
-> +	if (IS_ERR(attach))
-> +		return ERR_CAST(attach);
+>   	vsp1_adjust_color_space(info->mbus, &pix->colorspace, &pix->xfer_func,
+>   				&pix->ycbcr_enc, &pix->quantization);
+>   
+> @@ -908,6 +922,11 @@ static int vsp1_video_enum_format(struct file *file, void *fh,
+>   
+>   	f->pixelformat = info->fourcc;
+>   
+> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+> +	    info->mbus == MEDIA_BUS_FMT_AYUV8_1X32)
+> +		f->flags = V4L2_FMT_FLAG_CSC_YCBCR_ENC
+> +			 | V4L2_FMT_FLAG_CSC_QUANTIZATION;
 > +
-> +	get_dma_buf(dma_buf);
+>   	return 0;
+>   }
+>   
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> index f176750ccd98..49af637c8186 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> @@ -279,8 +279,33 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
+>   				       (256 << VI6_WPF_ROT_CTRL_LMEM_WD_SHIFT));
+>   	}
+>   
+> -	if (sink_format->code != source_format->code)
+> -		outfmt |= VI6_WPF_OUTFMT_CSC;
+> +	if (sink_format->code != source_format->code) {
+> +		u16 ycbcr_enc;
+> +		u16 quantization;
+> +		u32 wrtm;
 > +
-> +	obj = dev->driver->gem_prime_import_attachment(dev, attach);
-> +	if (IS_ERR(obj)) {
-> +		ret = PTR_ERR(obj);
-> +		goto fail_detach;
+> +		if (sink_format->code == MEDIA_BUS_FMT_AYUV8_1X32) {
+> +			ycbcr_enc = sink_format->ycbcr_enc;
+> +			quantization = sink_format->quantization;
+> +		} else {
+> +			ycbcr_enc = source_format->ycbcr_enc;
+> +			quantization = source_format->quantization;
+> +		}
+> +
+> +		if (ycbcr_enc == V4L2_YCBCR_ENC_601 &&
+> +		    quantization == V4L2_QUANTIZATION_LIM_RANGE)
+> +			wrtm = VI6_WPF_OUTFMT_WRTM_BT601;
+> +		else if (ycbcr_enc == V4L2_YCBCR_ENC_601 &&
+> +			 quantization == V4L2_QUANTIZATION_FULL_RANGE)
+> +			wrtm = VI6_WPF_OUTFMT_WRTM_BT601_EXT;
+> +		else if (ycbcr_enc == V4L2_YCBCR_ENC_709 &&
+> +			 quantization == V4L2_QUANTIZATION_LIM_RANGE)
+> +			wrtm = VI6_WPF_OUTFMT_WRTM_BT709;
+> +		else
+> +			wrtm = VI6_WPF_OUTFMT_WRTM_BT709_EXT;
+> +
+> +		outfmt |= VI6_WPF_OUTFMT_CSC | wrtm;
 > +	}
-> +
-> +	obj->import_attach = attach;
-> +	obj->resv = dma_buf->resv;
-> +
-> +	return obj;
-> +
-> +fail_detach:
-> +	dma_buf_detach(dma_buf, attach);
-> +	dma_buf_put(dma_buf);
-> +
-> +	return ERR_PTR(ret);
-> +}
-> +EXPORT_SYMBOL(drm_gem_prime_import_dev_skip_map);
-> +
->  /**
->   * drm_gem_prime_import_dev - core implementation of the import callback
->   * @dev: drm_device to import into
-> @@ -946,9 +1002,6 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
->  		}
->  	}
->  
-> -	if (!dev->driver->gem_prime_import_sg_table)
-> -		return ERR_PTR(-EINVAL);
-> -
->  	attach = dma_buf_attach(dma_buf, attach_dev, false);
->  	if (IS_ERR(attach))
->  		return ERR_CAST(attach);
-> @@ -998,7 +1051,13 @@ EXPORT_SYMBOL(drm_gem_prime_import_dev);
->  struct drm_gem_object *drm_gem_prime_import(struct drm_device *dev,
->  					    struct dma_buf *dma_buf)
->  {
-> -	return drm_gem_prime_import_dev(dev, dma_buf, dev->dev);
-> +	if (dev->driver->gem_prime_import_sg_table)
-> +		return drm_gem_prime_import_dev(dev, dma_buf, dev->dev);
-> +	else if (dev->driver->gem_prime_import_attachment)
-> +		return drm_gem_prime_import_dev_skip_map(dev, dma_buf, dev->dev);
-> +	else
-> +		return ERR_PTR(-EINVAL);
-> +
->  }
->  EXPORT_SYMBOL(drm_gem_prime_import);
->  
-> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-> index 05b3a152cc33..c00d8b8834f2 100644
-> --- a/drivers/gpu/drm/udl/udl_drv.c
-> +++ b/drivers/gpu/drm/udl/udl_drv.c
-> @@ -72,7 +72,7 @@ static const struct drm_driver driver = {
->  
->  	/* GEM hooks */
->  	.fops = &udl_driver_fops,
-> -	DRM_GEM_SHMEM_DRIVER_OPS,
-> +	DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS,
->  	.gem_prime_import = udl_driver_gem_prime_import,
->  	DRM_FBDEV_SHMEM_DRIVER_OPS,
->  
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index a43d707b5f36..aef8d9051fcd 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -326,6 +326,9 @@ struct drm_driver {
->  				struct dma_buf_attachment *attach,
->  				struct sg_table *sgt);
->  
-> +	struct drm_gem_object *(*gem_prime_import_attachment)(
-> +				struct drm_device *dev,
-> +				struct dma_buf_attachment *attach);
->  	/**
->  	 * @dumb_create:
->  	 *
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-> index cef5a6b5a4d6..39a93c222aaa 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -274,6 +274,9 @@ struct drm_gem_object *
->  drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
->  				    struct dma_buf_attachment *attach,
->  				    struct sg_table *sgt);
-> +struct drm_gem_object *
-> +drm_gem_shmem_prime_import_attachment(struct drm_device *dev,
-> +				      struct dma_buf_attachment *attach);
->  int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
->  			      struct drm_mode_create_dumb *args);
->  
-> @@ -287,4 +290,7 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
->  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table, \
->  	.dumb_create		   = drm_gem_shmem_dumb_create
->  
-> +#define DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS \
-> +	.gem_prime_import_attachment = drm_gem_shmem_prime_import_attachment, \
-> +	.dumb_create                 = drm_gem_shmem_dumb_create
->  #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
+>   
+>   	wpf->outfmt = outfmt;
+>   
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
+  Tomi
 
