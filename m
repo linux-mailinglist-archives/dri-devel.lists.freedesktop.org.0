@@ -2,56 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525BDAA4421
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 09:37:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A845AA44A5
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 10:01:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D6310E6D3;
-	Wed, 30 Apr 2025 07:37:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5294710E6E0;
+	Wed, 30 Apr 2025 08:01:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h2WFTBv0";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WP/7U1gi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C43310E6D3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 07:37:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id BB968A40843;
- Wed, 30 Apr 2025 07:31:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A431DC4CEE9;
- Wed, 30 Apr 2025 07:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1745998637;
- bh=D5BW2gpx6wpLJIoZXvp/LiKyekPZG4Ijf80HhWU5hJo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=h2WFTBv0+Ky7WjqYg7CNblp112S2OS1Yq6PrL1dVVCzbuN/RwGDkC+wT5zyIn9pya
- fbErUuaw/+dbDO58zSAQUiqfKMjJtenaCWDNRYGFNGhGP2teIR8+C/XW8RMuqLjyql
- KOgHHmNCppPZ7F+pjqnout4ojdCeVMbNOplhTR8PAeg/0KzjICSP6WS4NXeODw4lho
- Nk1zvVeWFVlKMZFz2VHQ9r3yNnN8zO/KZ64JIkpf0AtNXqX8pzN+iGb1y+ydIEfbrS
- /V4rlsZWj4Yzo78ee1E5eYwvZ6VdNugma7AUfhEIfV48YdZMNP8yJugs7+Z91xsNc6
- 6UF8eV72x5EPQ==
-Date: Wed, 30 Apr 2025 09:37:14 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7617910E6EC
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 08:01:30 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-4394a823036so67981305e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 01:01:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1746000089; x=1746604889; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XVsI8LQZj8BwCLrRgRJ4kPnlB5Zuoj8Y+TGCFkKkR4M=;
+ b=WP/7U1gisQS563aL7Aqc7+tb1DdzSYPbbKHY6bFBak/sVNILS9ECpg2JwHS1fzTuQX
+ nZNDstANvymWalIfsHpcINGaprjYd147EQYMSyBKpHN7Zox2iO8Jf+EcE9FFL8ITLtpS
+ rBw4SzMmlvCXaixriE3F2Esr5vaq0548kCLLX/bJl+b93O0u5njtw7Wr6yaXNUypla9i
+ aU74kuw+7BTXsw3ZXC3frmuFu5qQOnL9zwns0KGGXqmMmmex8+ustJ1wXZDYA016bThH
+ N65zke5qwvGWbsPgWA04eMtknN3JXozvLx1msb2nBF5exJ0tZnY+/KihTGolS80T6Eup
+ VfJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746000089; x=1746604889;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XVsI8LQZj8BwCLrRgRJ4kPnlB5Zuoj8Y+TGCFkKkR4M=;
+ b=o/sFsz9LX/Tn3MnrN2EaXOMJpBg5cqNdW88ekJBqwGhS3idle1CrJo+WQQw4OytBYB
+ l+ljaQbS3E2OM1Ke4WDQWQlKmSmRDYx5IS28fFWYcCij4q0IsnhOVuzvGJQvwSodtT2n
+ vd62COrQJvLm+9Sbo6OKxsWKPC5XoR6j4finHsVQSu84AqK6ZQlkrdxAtHZg22glV5dQ
+ hUIoboYpUg9GX4QWahbvvOonAJtIfhbMNifqEIbTsuOhiieKFYTqayOTwdTaLwLmMIFi
+ IYB09Q6BmPn1uoYQgloPUspZLuGSkPMnlY/hDhBkFyU0+tH4HwFXCNxUVyYQs1buZZa/
+ 2MoQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVGKbosIqnAmcpydSBjwU6421dWi+hhUl8to4HtKpY31dXo2aap7Uec9pekT1QfCWqWeEkzCIB/dtI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyBdsB2ssBe734W5AGo43mqgaSwM/RHZOsV/mb39whomtyWOr0L
+ BU21RDIfpTUILT7FcWa5pPUeO5gSSfvarkIMoVATMBfmHQHw1McV+AbUdj6UVIw=
+X-Gm-Gg: ASbGnct5QJ4IIFr55MZ1/mzHLldSA5EHGfc2on4igXoOh1GKFb64QtQxojT7g0n3wDK
+ HVNpiqrfrLGvsObaU4Mred1FO8nEip0M1tSDFRLPA6wonhKOy98ZiIVV1QN1LPch3eu0lXV4yyJ
+ penTAwwYqAMX4sBJDy8g/Sw191gk3mcaujYCjkdVYnWfKRt+1otTyOfxbCCbJcUkmt5YNz8Sqtr
+ ZhSi7NltvKve7VPr0TL0bl34gwmRUYHZ+lUvxoIU6130PdZUyThhwl9niYj1am8gm7OVPvHo+IE
+ 8Ue3vFfHoTQLeZ9BZUgWVatdyxowHgcy1N4NMsgGp3cfgA==
+X-Google-Smtp-Source: AGHT+IGSWw5YzFLfOEVeGZ2sMxce5ruW0SonDB1/HWE46YfPkACQqdVyQiIV6naiuky8x9154Y7AYg==
+X-Received: by 2002:a05:600c:35cc:b0:43c:f470:7605 with SMTP id
+ 5b1f17b1804b1-441b1f33a80mr15531415e9.12.1746000088903; 
+ Wed, 30 Apr 2025 01:01:28 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-441b2b5951asm15364615e9.0.2025.04.30.01.01.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Apr 2025 01:01:28 -0700 (PDT)
+Date: Wed, 30 Apr 2025 11:01:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: Add BOE TD4320
-Message-ID: <20250430-economic-papaya-labradoodle-a947dd@kuoka>
-References: <20250429-lavender-panel-v2-0-fb467ff81bac@mainlining.org>
- <20250429-lavender-panel-v2-1-fb467ff81bac@mainlining.org>
+ Arvind Yadav <Arvind.Yadav@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH next] drm/amdgpu/userq: Call unreserve on error in
+ amdgpu_userq_fence_read_wptr()
+Message-ID: <aBHY1IPONYHyybrf@stanley.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250429-lavender-panel-v2-1-fb467ff81bac@mainlining.org>
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,20 +91,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 29, 2025 at 11:33:14PM GMT, Barnab=C3=A1s Cz=C3=A9m=C3=A1n wrot=
-e:
-> Document BOE TD4320 6.3" 2340x1080 panel
-> found in Xiaomi Redmi Note 7 smartphone.
->=20
-> Signed-off-by: Barnab=C3=A1s Cz=C3=A9m=C3=A1n <barnabas.czeman@mainlining=
-=2Eorg>
-> ---
->  .../bindings/display/panel/boe,td4320.yaml         | 65 ++++++++++++++++=
-++++++
->  1 file changed, 65 insertions(+)
+This error path should call amdgpu_bo_unreserve() before returning.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Fixes: d8675102ba32 ("drm/amdgpu: add vm root BO lock before accessing the vm")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+index be068e8e37d1..57169a8224be 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+@@ -373,6 +373,7 @@ static int amdgpu_userq_fence_read_wptr(struct amdgpu_usermode_queue *queue,
+ 
+ 	mapping = amdgpu_vm_bo_lookup_mapping(queue->vm, addr >> PAGE_SHIFT);
+ 	if (!mapping) {
++		amdgpu_bo_unreserve(queue->vm->root.bo);
+ 		DRM_ERROR("Failed to lookup amdgpu_bo_va_mapping\n");
+ 		return -EINVAL;
+ 	}
+-- 
+2.47.2
 
