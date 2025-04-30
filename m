@@ -2,70 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3510AAA51C1
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 18:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A06AA51CB
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 18:40:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C24910E7F4;
-	Wed, 30 Apr 2025 16:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27EC910E10A;
+	Wed, 30 Apr 2025 16:40:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="YO8E7UOW";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dY8dmIfo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05E4310E7F4
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 16:37:56 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53UGbPFO3433713
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Apr 2025 11:37:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1746031045;
- bh=b3dp5KW7OreVaxGvi8WjnNnrvEUPu4U0ZEyTIjYYRug=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=YO8E7UOWV/1k49uebg0Dz8gWLfFkhIrgGdvBeQFYhxNuxkMQIjoJOcJnnLBi8Ce1M
- AsEdzDYxO27bgI4VExootBdBHvPP4aKwS1OL4V5n9adS7Fzceg3/aTU0BBtu1AcRp7
- NAbuziNBWconD3zY9N3zWJcX75jTKharo3hLOAuY=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53UGbPE9009237
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 30 Apr 2025 11:37:25 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 30
- Apr 2025 11:37:24 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 30 Apr 2025 11:37:24 -0500
-Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com
- [172.24.227.193])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53UGbInj068775;
- Wed, 30 Apr 2025 11:37:19 -0500
-Message-ID: <1f8c43cd-8c26-4e42-b144-b91f5ffc2e2e@ti.com>
-Date: Wed, 30 Apr 2025 22:07:18 +0530
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0EC210E10A
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 16:40:02 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53U9AxEO029579
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 16:40:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 0IybLpUDVoXrbVMSePl8o57sK9UNIaXw3/isvQ/riIs=; b=dY8dmIfodJu511kr
+ 3eIUUxkRfmvOrKME+2epqnqJ1uLKpyqQqXfcD+2eTGaBYc6BpvRXYdS/il0ytb9I
+ +FpW1MEpRjVYGUZPJlXxqCla0PljBDBAFlX8q/BMAKggCr/B8RqpPLSoSKhit/x8
+ gnM4m4wO9TEOSv4JulpwPq0nu57uKAuH+2eU18a0lCtveWb3wTK2mzN6UVvaARGB
+ 66pPKVzFYoCjUbuXXJdn4PxeEDhsnSDESEsmF5vTAqCcNWuhVSguqjp7mNoNsOdz
+ r7CuaNV+AU9MK0tx9LacBUxycr9scRwteoO131x2DqwqrRW65mZBffY5p5Xo3WOR
+ /icVPg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6u7twyd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 16:40:00 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-476783cbdb8so195351cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 09:40:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746031199; x=1746635999;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0IybLpUDVoXrbVMSePl8o57sK9UNIaXw3/isvQ/riIs=;
+ b=dwlmZTFUFLyGYRKYWNaQ/GAmdepQw5Q24W8JdUcIgHyZMemY5bCIRM/a0J+2tqKVug
+ dSZOcEQ6/zHOKcydCvTlCDE4y9/K79iO0pM6xOnkcUUzL3I4Ii9H0H72EpIYMPE11hLE
+ Vc3OJ7Si4v8MaEC6bP/bQtPi/B5v6A8zUyooLESOpRt957477yEbF4ljV4b567UNb0Kb
+ +SHfqS5FChRRkMSCdCa+1C8tjsVg2y8waCtZVcQBUvlOrWNyub0j8q+c7bFnXZPy0K57
+ PUcrvFWCqcOxHdj3EfmL6fTFavqSfyWkvja9Uw9vEuNeN/QP0WbTDJvFqSwVUrd4Qhgj
+ fy+w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUXS2ifLdwJLH3sU2th0sqCpR6THrnem33CllXK0zUeja/G+zHgM22CgG6BEBoxKjjx07U3Uek+p9E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzzSfcbeE5IcOIg3swKg2o4yaLyvUebbDH+7OpLFUcjXWq7ocvp
+ E9/DVN+dTUSjZXTgVhvOYnB2Wws7qQ7nUCvjfHPa3stVZ3Mdlf3xX8s+svWrDK4dIpEVOIiCyV0
+ eEBBkZJUQKa3d8iV2WdAL8kdrjRN8WIbJ4nTvNJQkzcVkzg1dGDij+HHmEZoe5ZkO5TU=
+X-Gm-Gg: ASbGncvhcF5kKDIy6y4s3GKpgSwh5mp/fQkrQkjJ0/4Dsobiqzw0vgqd5dlxiB9NlMK
+ 5IMizOTfWvqjlxSSsu7a3C50G9ESgGuJrWn3ddDhDwf+hWw7g48usASXhiSQNMuR0chiE74wNsi
+ K33MuzUdKboBh2h28yCXD/sl6dmXy+dCkA0W9Igm+tySq8iLfnyYnLmGDAfSqseyYQARDJQcWp4
+ 9Zi7O5wLAGSiTuXHP6B8CdOvG4SMNjkdt/GIiKf+AWHK9EzAlDUwyiRNrG7U8oycx2o9OL1guzg
+ 19cOQkWQo1NiOFz61lYHz97rFuufDwciJIgKO2u4Ah0/6Pmp4Bf2qSF71NIY3FS4qng=
+X-Received: by 2002:ac8:7dcd:0:b0:47a:ecd7:6714 with SMTP id
+ d75a77b69052e-489e4e70aaamr18107221cf.9.1746031198631; 
+ Wed, 30 Apr 2025 09:39:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFEh2bOPNWRF8KmYsuXVxcvL17E8iNqVQrHEwU12VALDMgDENwfbhdQrAkhqW8emKmyyAuo3Q==
+X-Received: by 2002:ac8:7dcd:0:b0:47a:ecd7:6714 with SMTP id
+ d75a77b69052e-489e4e70aaamr18106871cf.9.1746031198046; 
+ Wed, 30 Apr 2025 09:39:58 -0700 (PDT)
+Received: from [192.168.65.132] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5f703833c8csm8852270a12.72.2025.04.30.09.39.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Apr 2025 09:39:57 -0700 (PDT)
+Message-ID: <892fc1eb-efd3-4fb6-9110-2df3349960a6@oss.qualcomm.com>
+Date: Wed, 30 Apr 2025 18:39:55 +0200
 MIME-Version: 1.0
-User-Agent: Betterbird (Linux)
-Subject: Re: [PATCH v5 2/3] drm/tidss: Update infrastructure to support K3 DSS
- cut-down versions
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-CC: <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
- <s-jain1@ti.com>, <r-donadkar@ti.com>, <j-choudhary@ti.com>,
- <h-shenoy@ti.com>, <jyri.sarha@iki.fi>, <airlied@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
- <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>
-References: <20250429143656.3252877-1-devarsht@ti.com>
- <20250429143656.3252877-3-devarsht@ti.com>
- <f729c0d6-45a0-4610-b22b-92c03f534bf7@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT v6 2/5] drm/msm/adreno: Add speedbin data for SM8550 /
+ A740
+To: neil.armstrong@linaro.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20250430-topic-smem_speedbin_respin-v6-0-954ff66061cf@oss.qualcomm.com>
+ <20250430-topic-smem_speedbin_respin-v6-2-954ff66061cf@oss.qualcomm.com>
+ <13cd20c6-f758-45ff-82d1-4fd663d1698c@linaro.org>
+ <886d979d-c513-4ab8-829e-4a885953079a@oss.qualcomm.com>
+ <b838f9bd-0537-4f8d-b24b-d96700d566c8@linaro.org>
+ <98a4ad20-c141-4280-801e-015dafd1fb39@oss.qualcomm.com>
+ <a26213ec-808f-4edf-bb0d-ab469ee0a884@linaro.org>
+ <281ab1b6-498e-4b29-9e15-19b5aae25342@oss.qualcomm.com>
+ <63105bce-6b8e-4b99-bca1-3741f27ea25a@linaro.org>
 Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <f729c0d6-45a0-4610-b22b-92c03f534bf7@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <63105bce-6b8e-4b99-bca1-3741f27ea25a@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-Authority-Analysis: v=2.4 cv=Ldc86ifi c=1 sm=1 tr=0 ts=68125260 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=bavVSKjQvIFP_uUPWtcA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: YeC_q8Eq12se0pYlvYFKvAL35SNZDzTP
+X-Proofpoint-ORIG-GUID: YeC_q8Eq12se0pYlvYFKvAL35SNZDzTP
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDExOSBTYWx0ZWRfX2nBtb+2Et20g
+ ACFmKUpvMhLjhGIbRn9mcPBlvWkbWNHhsso0FMvmu4zyrprg6KbUWilSOUZ9xDP043fjQBIn3bC
+ Ta569npcgsGbTLiYR5IYlSPTwmmJpVe5zGxE45sApyB9ZTXVqYf+YiVSssJbK4/h90FSNDyhDcH
+ /Yv0hCUi9OLEF/9LuOKShmWJUMxcQwj9LOL+pf5oTrZEf+wEFxvsQrLUmtoEUIgNzqpETdnsmw7
+ hm+sa7URzhb0MVCJPmMDyPDCYjW1qNngdPAk33/hGAXFqqCokBtKzmU7yJybkFYgf9U4gEIHZaY
+ dVrUhRcEyHLpMNzI7ZGRcp0NgX1fLZ5HG9UhQWJuLVZxz+w3druNnoJ0zw1tTaMdmQtpxV/e5EX
+ n/NcQQEtB2UcBmqwkcC02R5BvMCfFaOi0VY3e+PPSKNKPH8O/OWRNjnyNbRXeLRH3WwnFPMu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-30_05,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ priorityscore=1501 phishscore=0 impostorscore=0 clxscore=1015 spamscore=0
+ bulkscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 suspectscore=0
+ adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504300119
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,130 +143,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi
-
-Thanks for the review.
-
-<snip>
->>   @@ -2025,7 +2101,7 @@ int dispc_plane_check(struct dispc_device
->> *dispc, u32 hw_plane,
->>                 const struct drm_plane_state *state,
->>                 u32 hw_videoport)
->>   {
->> -    bool lite = dispc->feat->vid_lite[hw_plane];
->> +    bool lite = dispc->feat->vid_info[hw_plane].is_lite;
+On 4/30/25 6:19 PM, neil.armstrong@linaro.org wrote:
+> On 30/04/2025 17:36, Konrad Dybcio wrote:
+>> On 4/30/25 4:49 PM, neil.armstrong@linaro.org wrote:
+>>> On 30/04/2025 15:09, Konrad Dybcio wrote:
+>>>> On 4/30/25 2:49 PM, neil.armstrong@linaro.org wrote:
+>>>>> On 30/04/2025 14:35, Konrad Dybcio wrote:
+>>>>>> On 4/30/25 2:26 PM, neil.armstrong@linaro.org wrote:
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> On 30/04/2025 13:34, Konrad Dybcio wrote:
+>>>>>>>> From: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>>>>>>>
+>>>>>>>> Add speebin data for A740, as found on SM8550 and derivative SoCs.
+>>>>>>>>
+>>>>>>>> For non-development SoCs it seems that "everything except FC_AC, FC_AF
+>>>>>>>> should be speedbin 1", but what the values are for said "everything" are
+>>>>>>>> not known, so that's an exercise left to the user..
+>>>>>>>>
+>>>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>>>>>>> ---
+>>>>>>>>      drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 8 ++++++++
+>>>>>>>>      1 file changed, 8 insertions(+)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>>>>>>> index 53e2ff4406d8f0afe474aaafbf0e459ef8f4577d..61daa331567925e529deae5e25d6fb63a8ba8375 100644
+>>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>>>>>>> @@ -11,6 +11,9 @@
+>>>>>>>>      #include "a6xx.xml.h"
+>>>>>>>>      #include "a6xx_gmu.xml.h"
+>>>>>>>>      +#include <linux/soc/qcom/smem.h>
+>>>>>>>> +#include <linux/soc/qcom/socinfo.h>
+>>>>>>>> +
+>>>>>>>>      static const struct adreno_reglist a612_hwcg[] = {
+>>>>>>>>          {REG_A6XX_RBBM_CLOCK_CNTL_SP0, 0x22222222},
+>>>>>>>>          {REG_A6XX_RBBM_CLOCK_CNTL2_SP0, 0x02222220},
+>>>>>>>> @@ -1431,6 +1434,11 @@ static const struct adreno_info a7xx_gpus[] = {
+>>>>>>>>              },
+>>>>>>>>              .address_space_size = SZ_16G,
+>>>>>>>>              .preempt_record_size = 4192 * SZ_1K,
+>>>>>>>> +        .speedbins = ADRENO_SPEEDBINS(
+>>>>>>>> +            { ADRENO_SKU_ID(SOCINFO_FC_AC), 0 },
+>>>>>>>> +            { ADRENO_SKU_ID(SOCINFO_FC_AF), 0 },
+>>>>>>>> +            /* Other feature codes (on prod SoCs) should match to speedbin 1 */
+>>>>>>>
+>>>>>>> I'm trying to understand this sentence. because reading patch 4, when there's no match
+>>>>>>> devm_pm_opp_set_supported_hw() is simply never called so how can it match speedbin 1 ?
+>>>>>>
+>>>>>> What I'm saying is that all other entries that happen to be possibly
+>>>>>> added down the line are expected to be speedbin 1 (i.e. BIT(1))
+>>>>>>
+>>>>>>> Before this change the fallback was speedbin = BIT(0), but this disappeared.
+>>>>>>
+>>>>>> No, the default was to allow speedbin mask ~(0U)
+>>>>>
+>>>>> Hmm no:
+>>>>>
+>>>>>       supp_hw = fuse_to_supp_hw(info, speedbin);
+>>>>>
+>>>>>       if (supp_hw == UINT_MAX) {
+>>>>>           DRM_DEV_ERROR(dev,
+>>>>>               "missing support for speed-bin: %u. Some OPPs may not be supported by hardware\n",
+>>>>>               speedbin);
+>>>>>           supp_hw = BIT(0); /* Default */
+>>>>>       }
+>>>>>
+>>>>>       ret = devm_pm_opp_set_supported_hw(dev, &supp_hw, 1);
+>>>>>       if (ret)
+>>>>>           return ret;
+>>>>
+>>>> Right, that's my own code even..
+>>>>
+>>>> in any case, the kernel can't know about the speed bins that aren't
+>>>> defined and here we only define bin0, which doesn't break things
+>>>>
+>>>> the kernel isn't aware about hw with bin1 with or without this change
+>>>> so it effectively doesn't matter
+>>>
+>>> But it's regression for the other platforms, where before an unknown SKU
+>>> mapped to supp_hw=BIT(0)
+>>>
+>>> Not calling devm_pm_opp_set_supported_hw() is a major regression,
+>>> if the opp-supported-hw is present, the OPP will be rejected:
+>>
+>> A comment in patch 4 explains that. We can either be forwards or backwards
+>> compatible (i.e. accept a limited amount of
+>> speedbin_in_driver x speedbin_in_dt combinations)
 > 
-> I don't think this is correct. You can't access the vid_info[] with the
-> hw-id.
+> I have a hard time understanding the change, please be much more verbose
+> in the cover letter and commit messages.
+> 
+> The fact that you do such a large change in the speedbin policy in patch 4
+> makes it hard to understand why it's needed in the first place.
+> 
+> Finally I'm very concerned that "old" SM8550 DT won't work on new kernels,
+> this is frankly unacceptable, and this should be addressed in the first
+> place.
+> 
+> The nvmem situation was much simple, where we considered we added the nvmem
+> property at the same time as opp-supported-hw in OPPs, but it's no more the
+> case.
+> 
+> So I think the OPP API should probably be extended to address this situation
+> first, since if we do not have the opp-supported-hw in OPPs, all OPPs are safe.
+> 
+> So this code:
+>     count = of_property_count_u32_elems(np, "opp-supported-hw");
+>     if (count <= 0 || count % levels) {
+>         dev_err(dev, "%s: Invalid opp-supported-hw property (%d)\n",
+>             __func__, count);
+>         return false;
+>     }
+> should return true in this specific case, like a supported_hw_failsafe mode.
 
-I don't think hw_id is getting passed to hw_plane here. The
-dispc_plane_check is called from tidss_plane_atomic_check which passes
-hw_plane as tplane->hw_plane_id and this index starts from actually
-instantiated planes i.e. from 0 and are contiguous as these are
-populated from vid_order array (hw_plane_id =
-feat->vid_order[tidss->num_planes];) and not the hw_id index.
+Not really. opp-supported-hws = <BIT(0)> usually translates to the *fastest*
+bin in our case, so perhaps that change I made previously to default to it
+wasn't the wisest. In other words, all slower SKUs that weren't added to the
+kernel catalog & dt are potentially getting overclocked, which is no bueno.
+That is not always the case, but it most certainly has been for a number of
+years.
 
-So for e.g. for AM62L even though hw_id is 1 for VIDL hw_plane is
-getting passed as 0 and that's how it is able to access the first and
-only member of vid_info struct and read the properties correctly and
-function properly as seen in test logs [1].
+Old DTs in this case would be DTs lacking opp-supported-hw with the kernel
+having speedbin tables. The inverse ("too new DTs") case translates into
+"someone put some unexpected stuff in dt and the kernel has no idea what
+to do with it".
+In this context, old DTs would continue to work after patch 4, as the first
+early return in adreno_set_speedbin() takes care of that.
 
-> 
->>       u32 fourcc = state->fb->format->format;
->>       bool need_scaling = state->src_w >> 16 != state->crtc_w ||
->>           state->src_h >> 16 != state->crtc_h;
->> @@ -2096,7 +2172,7 @@ void dispc_plane_setup(struct dispc_device
->> *dispc, u32 hw_plane,
->>                  const struct drm_plane_state *state,
->>                  u32 hw_videoport)
->>   {
->> -    bool lite = dispc->feat->vid_lite[hw_plane];
->> +    bool lite = dispc->feat->vid_info[hw_plane].is_lite;
-> 
-> Here too.
-
-Here also hw_plane is getting passed as 0 and not the hw_id which is 1
-for AM62L.
-
-> 
->>       u32 fourcc = state->fb->format->format;
->>       u16 cpp = state->fb->format->cpp[0];
->>       u32 fb_width = state->fb->pitches[0] / cpp;
->> @@ -2210,7 +2286,7 @@ static void dispc_k2g_plane_init(struct
->> dispc_device *dispc)
->>       /* MFLAG_START = MFLAGNORMALSTARTMODE */
->>       REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
->>   -    for (hw_plane = 0; hw_plane < dispc->feat->num_planes;
->> hw_plane++) {
->> +    for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
->>           u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
->>           u32 thr_low, thr_high;
->>           u32 mflag_low, mflag_high;
->> @@ -2226,7 +2302,7 @@ static void dispc_k2g_plane_init(struct
->> dispc_device *dispc)
->>             dev_dbg(dispc->dev,
->>               "%s: bufsize %u, buf_threshold %u/%u, mflag threshold
->> %u/%u preload %u\n",
->> -            dispc->feat->vid_name[hw_plane],
->> +            dispc->feat->vid_info[hw_plane].name,
-> 
-> Here hw_plane is not actually the hw-id (anymore), but elsewhere in this
-> function it is used as a hw-id, which is no longer correct.
-
-For accessing vid_info hw_plane needs to be used which is the index of
-actually instantiated planes and I see it as correctly being passed for
-AM62L too. hw_id is only for dispc_k3_vid* functions where we need to
-skip the not-instantiated vid regions by adding the offset per the hw_id
-index.
-
-> 
->>               size,
->>               thr_high, thr_low,
->>               mflag_high, mflag_low,
->> @@ -2265,7 +2341,7 @@ static void dispc_k3_plane_init(struct
->> dispc_device *dispc)
->>       /* MFLAG_START = MFLAGNORMALSTARTMODE */
->>       REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
->>   -    for (hw_plane = 0; hw_plane < dispc->feat->num_planes;
->> hw_plane++) {
->> +    for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
->>           u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
->>           u32 thr_low, thr_high;
->>           u32 mflag_low, mflag_high;
->> @@ -2281,7 +2357,7 @@ static void dispc_k3_plane_init(struct
->> dispc_device *dispc)
->>             dev_dbg(dispc->dev,
->>               "%s: bufsize %u, buf_threshold %u/%u, mflag threshold
->> %u/%u preload %u\n",
->> -            dispc->feat->vid_name[hw_plane],
->> +            dispc->feat->vid_info[hw_plane].name,
-> 
-> And here.
-> 
-> All these issues make me wonder whether we have the right model. It's
-> just too easy to get the usage wrong.
-> 
-> I'm not sure which way to go here.
-> 
-> Fix the current issues? It's a bit cumbersome to go from hw-id to the
-> index (needs a search), just to get some hw properties.
-> 
-> Or go back to the earlier one, with a vid array containing unused slots?
-> That makes the for loops a bit harder.
-> 
-> I need to think about it...
-> 
-
-Hmm, I don't think so, it seems to look fine to me and work fine too. I
-have tested thoroughly for AM62L (which has uninstantiated vid region)
-along with AM62x and AM62A with all planes displayed simultaneously. If
-you want I can put on some test logs, create some dummy holes for VID
-regions in AM62 and AM62A to put this on to some further negative tests.
-
-Also if naming convention is confusing (hw_id vs hw_plane) then maybe we
-can use something else like vid_idx ??
-
-[1]: https://gist.github.com/devarsht/82505ca69f0bd5d9788bfc240d2e83d4
-
-Regards
-Devarsh
+Konrad
