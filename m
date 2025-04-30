@@ -2,119 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A15AA4B9C
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 14:49:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2113AA4BAE
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 14:50:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54EDF10E76D;
-	Wed, 30 Apr 2025 12:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F2910E778;
+	Wed, 30 Apr 2025 12:50:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QRIQoN92";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YQz06Vor";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BAE910E76D
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 12:49:33 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-43d0618746bso51653635e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 05:49:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746017372; x=1746622172; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=U0QaE6gqDjxKdHf7ertrDDvouXP/X1oSlZQqvhzBwFk=;
- b=QRIQoN92AJCbO7lM6CLhalCqJh1xUq1nlGfwSDTovuzJIVT3ZrUgSMtA1vJq7KSadu
- XI+/aQGIdtFFL33IDo40nh+sPrEZbhv796+XU//RQqsJrCBQYlKn/83HU/cDBjlPbQ0F
- GP3nC2FdQkKSQOCiyWddhuuqgQtkAPoHNmE4aDdPDnGm0yipo54U4ivJvPGcH4vSgHlY
- b+MyFUQPw0aTeN5G7m+cKYL2B+orGPYflbGAgBP2IugM9R6Ihu+X54QfflqUtqdarrqx
- MXaBgeS4HRw0nNBmAJjjk5Lm5PM4xigBfnmI/NuZhBgC5A3/8JtWwrK8M5TQUnRr0CNq
- XrnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746017372; x=1746622172;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=U0QaE6gqDjxKdHf7ertrDDvouXP/X1oSlZQqvhzBwFk=;
- b=eIwVrJdjWtte3aQR02zEj65SFOJB++Sphbp0Op4E/AgBxW1de8EwfqfwVXnquGcFWg
- JLWguV2G8tcWz+0GkjrCRbqC+hY3/uVOlQeIGqcR9I3oChq1nS/Re6tzmw56FvT4/GvY
- iSuHI+dHR2YtZs6LozRnL/YSoS58iE7MUOsIH6n6C1UFamQ2KuOLFrHz1WMfM58Ozt6H
- 9Re1RNHjHTX3iyKOkUDVxOvL7mXPIR7z3SF0n5+OIjuCDhRDq+CRnlo5yuT6GLe59ZTt
- ZUlux/JEEFlfeqq+vSbz3O7L8Nmr8K0iUciovkXYPvo5KEXQdKkTNyBaWOypBQ9CWvGA
- P9aA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWr46DfHXVvEDShLdHBzpgpzuyFXQJvo4Bd8F/o/fFGDESI9Mx+jdUlXX2+Jglr2+5jxprOil5eMSk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz6IS1TdBQx2aAVEpQ1kH04Yf/CagzcfWY70iBu3UQlhSMGoYBk
- wrzVaK/7pwh+hADXMG7s52fvIu+2Rhy12kkzknzdvUhHifpNBXYfJ50mLo3ilng=
-X-Gm-Gg: ASbGncuiv0NdH/TAz0RAu6TSjU9K4Ac+6KEJWFkOHp8vSL39TuYH7EX9KwxL7n5VSqw
- mgsAwSB4ZSsWc+s5QEGLjgynhBzyn0/PYZull5Cs1f/8mFVBoFvjVuQBOtVuX5wzLsTVkwWurMA
- xAYbPUeJPQQlJ1v/PCPQdHANvOfAFax+kDWECQ5ItJlYX5UFUUiyKrC6SigpKZSEXM93zFbe/Yy
- nLHtTWuXk/E54ewtfUhpjCqdc62aNmfC9htQvh7GGGAw1u+4pUH3nveZgfVoWVE9aZNzmdDNN5l
- WJOfNnpGRj1XC8fUnZfe4LXuLxvjQHLzlYP7jlNZOchUJ0v6cXG0ZAQ2Z8AgfUxf3TZhwFUoDXR
- H2W/kxXahcni/N9HLeA==
-X-Google-Smtp-Source: AGHT+IE0vi2coXCwFNtieUFxKKeCy42jmnqHs3dTSRXFK+ENcMKD71lm+Qd/xSuR3AE5EW7jjaACeg==
-X-Received: by 2002:a05:600c:a016:b0:43c:f513:958a with SMTP id
- 5b1f17b1804b1-441b2639853mr24601215e9.13.1746017371767; 
- Wed, 30 Apr 2025 05:49:31 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:b3d6:213c:5c50:7785?
- ([2a01:e0a:3d9:2080:b3d6:213c:5c50:7785])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-441b2b9726fsm24514075e9.8.2025.04.30.05.49.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Apr 2025 05:49:31 -0700 (PDT)
-Message-ID: <b838f9bd-0537-4f8d-b24b-d96700d566c8@linaro.org>
-Date: Wed, 30 Apr 2025 14:49:30 +0200
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2065.outbound.protection.outlook.com [40.107.93.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 398B810E770;
+ Wed, 30 Apr 2025 12:50:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MF8i9AXKvTmD10hbyWW9XfNME6PRvwoNY8VuM7g6lP9Q3w+HkK7SYmaJLjZ1MAqzim+339LdXJFFv3KD75VWk/fGccZ42zenzwiHBgbCUpdEKorzcX/NLEUh6hdJJ7XL2KEu7568VMv42EqMXzGIbQ890ZgQVOgGMoB1YuDmHMPw7uKksIlw68RhUOBRcc4e6KtBuUbCMlWQ9lcqPy8ZgoF6WuTqrJGOXyCG05y3myl0HttgIsoxYEkidhpsU+1WRCjbdjY3KeK+HxgvonqmBkkYLdNmAmXHwhkbXvc/BcLJ+oVfPLUh9BeYpZNWUy06xflICPnRXf6qiSB2+fvtvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aj6S1HsLQCzCQ9hx09oCnB4GNVVzZZawWtvvpU0fYPQ=;
+ b=IyoHENtpYLZjLOMj/EaZbtBQAwRS7xtVwVwItByIFem8muLp85DX7zihW1FZjheWce4TLmPryMZVVyFiZmeQLt4Q1KJMZb0p4HaEh7bXXD6h8tiBCnH7MIQMHsw5j1PuVnpo4NQOICUNxO90NKcn420mubpniuIj2KKbTXDSZQWr3OP+skhLN//wV+w0+zYBUVuaHP6A7xJkiQ3yrvsMWFnDTJebE26AIKWTFzSa3AL+6oAH/ltAbkVrgZB/F0tdActsjlanYpKiivlcjwLK/m1vIhf+GlL4bfg0KcRGk4t/OjLqOUv9pOmgB6/OXtqtOuh4HMOUs9rssbJHWecF+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aj6S1HsLQCzCQ9hx09oCnB4GNVVzZZawWtvvpU0fYPQ=;
+ b=YQz06VorMc0JUq3HxGrzlNBhyeGSPTRG4gvyiDurdPpMcdhbmOpfWxWzoUK+jzLkRc25jyBToFPIjj8kp3j2/58s3yaaP1NdHPUxfoS6w3s9g9HntCiTlbtDBvcN83o7DOhs8z75eqgPOeBIlGFOf9uE1TTRxNvhrvnWarG7ycY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW4PR12MB5667.namprd12.prod.outlook.com (2603:10b6:303:18a::10)
+ by PH7PR12MB5782.namprd12.prod.outlook.com (2603:10b6:510:1d1::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.30; Wed, 30 Apr
+ 2025 12:50:50 +0000
+Received: from MW4PR12MB5667.namprd12.prod.outlook.com
+ ([fe80::6216:e70a:9c8b:7abb]) by MW4PR12MB5667.namprd12.prod.outlook.com
+ ([fe80::6216:e70a:9c8b:7abb%4]) with mapi id 15.20.8678.028; Wed, 30 Apr 2025
+ 12:50:49 +0000
+Message-ID: <254d31f8-0cbb-45d2-9686-2923e511811b@amd.com>
+Date: Wed, 30 Apr 2025 14:50:44 +0200
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH RFT v6 2/5] drm/msm/adreno: Add speedbin data for SM8550 /
- A740
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20250430-topic-smem_speedbin_respin-v6-0-954ff66061cf@oss.qualcomm.com>
- <20250430-topic-smem_speedbin_respin-v6-2-954ff66061cf@oss.qualcomm.com>
- <13cd20c6-f758-45ff-82d1-4fd663d1698c@linaro.org>
- <886d979d-c513-4ab8-829e-4a885953079a@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <886d979d-c513-4ab8-829e-4a885953079a@oss.qualcomm.com>
+Subject: Re: [PATCH] drm/amdgpu/userq: remove unnecessary NULL check
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Khatri, Sunil" <Sunil.Khatri@amd.com>, "Yadav, Arvind"
+ <Arvind.Yadav@amd.com>,
+ "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
+References: <aBHZuejTTKkdnGaZ@stanley.mountain>
+ <MW4PR12MB566769E097E394ED607DBD9CF2832@MW4PR12MB5667.namprd12.prod.outlook.com>
+ <ac039a7e-4152-4df5-af3d-c952cedfa6dd@stanley.mountain>
+Content-Language: en-US
+From: "Sharma, Shashank" <shashank.sharma@amd.com>
+In-Reply-To: <ac039a7e-4152-4df5-af3d-c952cedfa6dd@stanley.mountain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0144.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:95::15) To MW4PR12MB5667.namprd12.prod.outlook.com
+ (2603:10b6:303:18a::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR12MB5667:EE_|PH7PR12MB5782:EE_
+X-MS-Office365-Filtering-Correlation-Id: a8aa4097-3d2f-4f1d-9d3b-08dd87e5a22e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NmlXTHdPK1JEVk9ud3BEQUsva0Z4SXpXazhZaVk4WHpYMGN1U3hDWks5aDh6?=
+ =?utf-8?B?b3Y4T0NuOXBaK01yZ2F4SXZFbm5DMmNTVXVqQjJQQUZmZERTd0RWYXpmdEtm?=
+ =?utf-8?B?RzZiZXFlZ09SckluYmM1eThEY0pJenIxR3BlVjJvL0RnSjNnSVRHd09seTVl?=
+ =?utf-8?B?L0NONEZCOGpzRDNEUWs0QldlMGRhMDNUemV6U29YZ0s4YUozMExJeXp3TDBl?=
+ =?utf-8?B?eGwydTVuYUo4Z0VBWjNtTERrWG5Wb3FIR1ZSeU54K0pJaXY3Tmw2QUowMUNV?=
+ =?utf-8?B?Y1EyclMvV0NlZnNqeGsvVGM2YjlBai9zck51bTBXUWRvamhaZkNpSXFWR0NF?=
+ =?utf-8?B?UjQ5QitFMmZ5bU81WnlHdHhoeWxmOGJ5SEJZWHpEOEN2NW45d3VScW5VSC9u?=
+ =?utf-8?B?dXNOK09PUXc3aUtpaTlWQThHWUg1RlNtaFlYcGppSGV5TUNEN1A4MUxZTXlL?=
+ =?utf-8?B?MW4wSFk4dnNQeVBWeWtJMGYxanNFTnQ0cHdMMkhyUVN4QVd5bkxEcEFEdVlK?=
+ =?utf-8?B?RENpM1Y5WmtKckxvcCtKRFpIOFF3cHpCaTF2REpta09rc2VrR0N6RVpiZ2ZG?=
+ =?utf-8?B?eVdQQ1pVWUdiV2NndTN5RDcvc2xZZVhDWWZLWmY4SE5tZkIzY254YzF5Kytj?=
+ =?utf-8?B?UFJsbWhQZEFJNnRnWk1UM2w3c0VmMndCQmNmVG5mdU5NQ3h4RkVpMFZBV0xj?=
+ =?utf-8?B?aFNtQnV6ekZNY1E4bG9wZFZLNzg3LzhSbWhvS0tlcy9iZC9aaWhWYXVRNjZs?=
+ =?utf-8?B?eFdjUVExTTJZcitiVXlnai8yU3l1RHd2RVcyL1JzeUNQN2l4UjArc29zVUlm?=
+ =?utf-8?B?c2swTmRQVkRXK0MzZXVwOUphZDRUaUtxNHV2TXpURFZPTlhycE1tOGY2MWF5?=
+ =?utf-8?B?blpEN0tzc3A4VUFUbTFPaTNXTC83S3JOcFU1ZXdVaDFpWS92YlBycEh4cFk0?=
+ =?utf-8?B?SVdNYk9uaGhqRU5CaXlZVjBXenk3eVNxY0dWY1FjSkltYURWREI5RzNsSmZl?=
+ =?utf-8?B?NXdIWnZBZzRad2JveUd3M2d0elpTWUVRYytrdDQyTE5WMVhPSXdrcXZ1RTFa?=
+ =?utf-8?B?N2RlNlF2S2xoRHJzMHlhNDFCNmJ6VmZoOE4xSHpYV05MakhCRE9WZU5GSTNz?=
+ =?utf-8?B?OEp6YzJKaytWQWRYaUx3Q3FLQ0RwaU1KUTIwRlBmS2RLcDRzdGFhUmNyaU1l?=
+ =?utf-8?B?aTdpVW5XSGdSQ01PRDAyM1AvNU1mbTE3THFYakxYMXMxY0RudEhRSVlIZ2lM?=
+ =?utf-8?B?ZnF0eUNPN0g5RkFTY2FFcE00SmxVQVl5Wm05YUorZHROaTVFbmRNVko4RVU1?=
+ =?utf-8?B?M29qdE9zT0dkNTNPZ1Rka3Q2OUR1Tm5UdWdIa2FlRDlEdThrUFl0eGVEOUhS?=
+ =?utf-8?B?MU04eVpsNk5wZnBTeTVRVjZScXRVdkcwRVNoNk9BL2doWjlxaG5ZeThYWnIr?=
+ =?utf-8?B?UTdrSDBvd1YxMFZJZ2dTT01TR3dwY040aGROTmZqN2NNNkpsVUVubWdYSzEr?=
+ =?utf-8?B?NnNOazBFOG44citmWnNDbEVVWTFFcmhtZWh1eWticFZwSGNlSzlZb3pRVXlw?=
+ =?utf-8?B?bjVJMHhSdDBVV3ExMkxjMHg1NXJQSFE0OVFVVzZabVNrS1IyN3orbUFweXAw?=
+ =?utf-8?B?WTd1L1VSUTRPR3locXVTMG5XMFdFRDE3ZGxHQkk4a2FzUVhIbk1rZlNEOENt?=
+ =?utf-8?B?SjhEZ2tnelE2dGlkTTFqc1ZtMjhuK1BFVzNIMExJV0hHMHJZYWZrSy9uUzlP?=
+ =?utf-8?B?OXZVRS9xL3piM1BzeUVPRXZPQUFaTVEzQWc2cW5oM0FkMUdkUHpyQUdpOW1N?=
+ =?utf-8?B?UldDWmdkQ0VTeVR4Y1YvRXVWQVhtWXFPcCs0Ri9kaHk1cDhUK1loMUVCeERz?=
+ =?utf-8?B?bWd3S25ObnJBWm5vVkZFUzluWVRqenloZTlRTThPVzNLakFYRkNXYXV3OGJw?=
+ =?utf-8?Q?FrJ+dycoz/w=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR12MB5667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MnNBdlF1SU9mWDlrTkJqSStjWEM1NUFqaTF1V3lPMWRLaTltRnREV0tLWDlX?=
+ =?utf-8?B?c29McGlHMVdTYVpPcitBVk5LMlplRGhsS3FJN2Z5WXgyVVhwcTJNVldLRVVq?=
+ =?utf-8?B?TXNqTVNXcGFwVy85eFp3bGRmOGZ6bHZ2TWNwSThaV3g5alIrcmsveTd4cHRl?=
+ =?utf-8?B?QWpRNW9BMVN4YUNac09zTDVKeFdPckJnTndHc3FXV0NpcktCTFEydVpqR3FV?=
+ =?utf-8?B?N2l1SURFTXNsVWN6STA5WkMyMlhURHZjZTFMRVhEVnp3RUhjUkJNa2xzbGdQ?=
+ =?utf-8?B?VFZYbDVoOXZMc3h0YWlvb0pRR2xVU3NibTEyb3FEbmxDSkZlR1NES3RrTFpW?=
+ =?utf-8?B?Wm1jZ0gxM0hJQjBJQmhYd1gxVUV0ZGl4OWVRTC96TDl0Qlh3YjUyc1BqMlhG?=
+ =?utf-8?B?WVNMUUJFSEtFSGNzYzdZNFBrZTFOTDR3a21rVWRWR29PNmpsMmNsRk84UzlO?=
+ =?utf-8?B?M3RTMThZNm5jZDQ4R2VoOXl3a2trbkFNTkxMbk13Z1pXVFVtNnZEQUI0SHFa?=
+ =?utf-8?B?NjdxWXVqRkJ3YWRZcVhSMzhqM1pHaW5ucVFmVi90T0w3V1czNDhjeU1yMlpD?=
+ =?utf-8?B?dHM3NHhMSDR3dVU3R2hVLzZlTVJHck53aVJZa0svb2o0S2NRd3d5V0orY2RW?=
+ =?utf-8?B?Q0NqNDF6ejhxbGh6akZROGI2M0pYMFp0SzhBQUsvS1V2YUR5eHJ5R1ZYb2gz?=
+ =?utf-8?B?V0M4SXh5MzhUNStCTHEydy9BMEYweGtOTldDckFHZStTc2FxMkptWEpMZW0w?=
+ =?utf-8?B?MmZNUktkaFRob1kraTZpaUtUL296c2hXd05SaElQN3RzeUhDMUYyMU5BLzFX?=
+ =?utf-8?B?ZzJXNG1oaUkwb2M2QjdYSWdTUTJEUityR2lvREgrVktCT3MrSHNGZVZ1eFJG?=
+ =?utf-8?B?SE9CUDJ1VmNtT1JqNnlHM0RjVXF1Uk9ucTgvRnFoY2FycTMrWGZQTDhJM0dD?=
+ =?utf-8?B?Yks1QUZMR0ZDa09Ga1YxYXhjNXZCNnRLYXpHMG0rR05nM1lGN0dmaEpmWjFJ?=
+ =?utf-8?B?czdhZ1U1Nm05TEJMUk9CRlBiV05DS2h2aUxzNlVFWHI3ODVHbTlpT0JYRXBv?=
+ =?utf-8?B?T3hxWWxiZWpRcVd3Vlh2ei93aDUveXZTaUFVNXlBM0MzUDhxTWU4d0lvRzdT?=
+ =?utf-8?B?L21uSnllcVkzVE5SZ1FUT1FQNXJKNVh1TDdHMG1leGhNZjQvRU42Mzl1djZB?=
+ =?utf-8?B?ZWxLQmlzOWp0OHpJSE10c3BpWGJwRi8yTmwwdnBsN1lra2I5ZDdRMXUzRmRD?=
+ =?utf-8?B?TEdTWENtZXl6NVNsQzFWMUxTS2xvR0FaelJzV2hlLzVnS2tTRHBGY0gwUEhz?=
+ =?utf-8?B?M2VXZWIyQ2xSeWVMQS9wbDBkdG9EZ3F3UmxEam9xRzZNRjA5akh3azEwZHEv?=
+ =?utf-8?B?Y0l4bEh3YjVEeTVnTkx3MEpnODFJQmF0ZVdGM2hBblloQ3gxMTFMYU1QbUNi?=
+ =?utf-8?B?RmxDbUM5Y2xpTXJSaFR0MDJWd3A2c2ZzejZTZDlMclM0ZEtBRXpYZTJEdUN6?=
+ =?utf-8?B?RjhBNk82K3VqRU9Ob2owTjVJTnNVMHRwdm9kd0daSFdLNkMxaURQdUZhcjVC?=
+ =?utf-8?B?b1hFRGR6djBPeWhLTFFkQTNLVHBza2k4WEV6RmtrL3ZjNkdqbnhTZkN4VjEy?=
+ =?utf-8?B?QWxmQlhKWWRkTjhOQzlubTI0TUhqUlJFcjE1cGE0TXpsL1o0eVp3dVVIMG4x?=
+ =?utf-8?B?Q1pPSEFOVkN0MHlVK2tZMU9ZN3g4K0pYTHJLaXVCaHJVZm5ZTzExM2pVZXF5?=
+ =?utf-8?B?MlFPK3p5QnFpWDVqVFRaRkFTU2J4UlBHaWYzN2ttSGx6Tk9RR0pma0IyU1kv?=
+ =?utf-8?B?Y1daNW1OZml6YkJLQUVwd2RpcExZUVVoanZRQkptR04zUjNLQURhazFpLzV0?=
+ =?utf-8?B?VFRhV3ZZdExySlMwTkJSOWRyY04rZWJjWEhSOUJKUnF4Q2tzcUIzUzhYMEZT?=
+ =?utf-8?B?bmhWSlNUUDVObW9ITTJ5QmRSWFppMUd4SzdoZlhaUVp1SWpoaWNPQ3g4M2Jh?=
+ =?utf-8?B?dExvZTNsLzcyM2w4elJMMVRhamc1MVJOZVR1bWlUU0NjZGNFc2IwVFJaQ245?=
+ =?utf-8?B?ZWpUVUpwWDJWa3hhZHltV3dGU1ZUZEpkdkUzcjk4ZmNOdTEvSFNVQkhqaXFq?=
+ =?utf-8?Q?emX6K8xqkfJmnpQyryP3fPNbb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8aa4097-3d2f-4f1d-9d3b-08dd87e5a22e
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB5667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 12:50:49.8227 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2yQuaDFx9u7FhblfISudpN5aFHYNjl+N+IwMCFfDFs+qUQtM6MfdoYKxHPdCp2LUvZK66dDHxOa8rx2Yj2hivw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5782
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,76 +169,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/04/2025 14:35, Konrad Dybcio wrote:
-> On 4/30/25 2:26 PM, neil.armstrong@linaro.org wrote:
->> Hi,
+
+On 30/04/2025 11:49, Dan Carpenter wrote:
+> On Wed, Apr 30, 2025 at 09:28:59AM +0000, Sharma, Shashank wrote:
+>> [AMD Official Use Only - AMD Internal Distribution Only]
 >>
->> On 30/04/2025 13:34, Konrad Dybcio wrote:
->>> From: Konrad Dybcio <konrad.dybcio@linaro.org>
->>>
->>> Add speebin data for A740, as found on SM8550 and derivative SoCs.
->>>
->>> For non-development SoCs it seems that "everything except FC_AC, FC_AF
->>> should be speedbin 1", but what the values are for said "everything" are
->>> not known, so that's an exercise left to the user..
->>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 8 ++++++++
->>>    1 file changed, 8 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>> index 53e2ff4406d8f0afe474aaafbf0e459ef8f4577d..61daa331567925e529deae5e25d6fb63a8ba8375 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>> @@ -11,6 +11,9 @@
->>>    #include "a6xx.xml.h"
->>>    #include "a6xx_gmu.xml.h"
->>>    +#include <linux/soc/qcom/smem.h>
->>> +#include <linux/soc/qcom/socinfo.h>
->>> +
->>>    static const struct adreno_reglist a612_hwcg[] = {
->>>        {REG_A6XX_RBBM_CLOCK_CNTL_SP0, 0x22222222},
->>>        {REG_A6XX_RBBM_CLOCK_CNTL2_SP0, 0x02222220},
->>> @@ -1431,6 +1434,11 @@ static const struct adreno_info a7xx_gpus[] = {
->>>            },
->>>            .address_space_size = SZ_16G,
->>>            .preempt_record_size = 4192 * SZ_1K,
->>> +        .speedbins = ADRENO_SPEEDBINS(
->>> +            { ADRENO_SKU_ID(SOCINFO_FC_AC), 0 },
->>> +            { ADRENO_SKU_ID(SOCINFO_FC_AF), 0 },
->>> +            /* Other feature codes (on prod SoCs) should match to speedbin 1 */
+>> Hello Dan,
 >>
->> I'm trying to understand this sentence. because reading patch 4, when there's no match
->> devm_pm_opp_set_supported_hw() is simply never called so how can it match speedbin 1 ?
-> 
-> What I'm saying is that all other entries that happen to be possibly
-> added down the line are expected to be speedbin 1 (i.e. BIT(1))
-> 
->> Before this change the fallback was speedbin = BIT(0), but this disappeared.
-> 
-> No, the default was to allow speedbin mask ~(0U)
+>> ________________________________
+>> From: Dan Carpenter
+>> Sent: Wednesday, April 30, 2025 10:05 AM
+>> To: Deucher, Alexander
+>> Cc: Koenig, Christian; David Airlie; Simona Vetter; Sharma, Shashank; Khatri, Sunil; Yadav, Arvind; Paneer Selvam, Arunpravin; amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; kernel-janitors@vger.kernel.org
+>> Subject: [PATCH] drm/amdgpu/userq: remove unnecessary NULL check
+>>
+>> The "ticket" pointer points to in the middle of the &exec struct so it
+>> can't be NULL.  Remove the check.
+>>
+>> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
+>> index b0e8098a3988..7505d920fb3d 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
+>> @@ -631,7 +631,7 @@ amdgpu_userq_validate_bos(struct amdgpu_userq_mgr *uq_mgr)
+>>                           clear = false;
+>>                           unlock = true;
+>>                   /* The caller is already holding the reservation lock */
+>> -               } else if (ticket && dma_resv_locking_ctx(resv) == ticket) {
+>> +               } else if (dma_resv_locking_ctx(resv) == ticket) {
+>>
+>> Its a Nack for me, There are a few situations (particularly during the
+>> first launch of the desktop, and also when eviction fence and new queue
+>> creation are working in parallel) where this ticket can be NULL, we
+>> observed it during the stress validation and hence added this check,
+>>
+> It shouldn't be NULL.  It sounds like you are experiencing stack
+> corruption and this is just a bandaid.
+>
+> drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
+>     566  static int
+>     567  amdgpu_userq_validate_bos(struct amdgpu_userq_mgr *uq_mgr)
+>     568  {
+>     569          struct amdgpu_fpriv *fpriv = uq_mgr_to_fpriv(uq_mgr);
+>     570          struct amdgpu_vm *vm = &fpriv->vm;
+>     571          struct amdgpu_device *adev = uq_mgr->adev;
+>     572          struct amdgpu_bo_va *bo_va;
+>     573          struct ww_acquire_ctx *ticket;
+>     574          struct drm_exec exec;
+>                  ^^^^^^^^^^^^^^^^^^^^^
+> The "exec" struct is declared on the stack.
+>
+>     575          struct amdgpu_bo *bo;
+>     576          struct dma_resv *resv;
+>     577          bool clear, unlock;
+>     578          int ret = 0;
+>     579
+>     580          drm_exec_init(&exec, DRM_EXEC_IGNORE_DUPLICATES, 0);
+>     581          drm_exec_until_all_locked(&exec) {
+>     582                  ret = amdgpu_vm_lock_pd(vm, &exec, 2);
+>     583                  drm_exec_retry_on_contention(&exec);
+>     584                  if (unlikely(ret)) {
+>     585                          DRM_ERROR("Failed to lock PD\n");
+>     586                          goto unlock_all;
+>     587                  }
+>     588
+>     589                  /* Lock the done list */
+>     590                  list_for_each_entry(bo_va, &vm->done, base.vm_status) {
+>     591                          bo = bo_va->base.bo;
+>     592                          if (!bo)
+>     593                                  continue;
+>     594
+>     595                          ret = drm_exec_lock_obj(&exec, &bo->tbo.base);
+>     596                          drm_exec_retry_on_contention(&exec);
+>     597                          if (unlikely(ret))
+>     598                                  goto unlock_all;
+>     599                  }
+>     600          }
+>     601
+>     602          spin_lock(&vm->status_lock);
+>     603          while (!list_empty(&vm->moved)) {
+>     604                  bo_va = list_first_entry(&vm->moved, struct amdgpu_bo_va,
+>     605                                           base.vm_status);
+>     606                  spin_unlock(&vm->status_lock);
+>     607
+>     608                  /* Per VM BOs never need to bo cleared in the page tables */
+>     609                  ret = amdgpu_vm_bo_update(adev, bo_va, false);
+>     610                  if (ret)
+>     611                          goto unlock_all;
+>     612                  spin_lock(&vm->status_lock);
+>     613          }
+>     614
+>     615          ticket = &exec.ticket;
+>                  ^^^^^^^^^^^^^^^^^^^^^
+> ticket is only set here.  We know that &exec is non-NULL because it's
+> declared on the stack.  ticket is 4 bytes into the middle of a non-NULL
+> struct.  It is impossible for ticket to be NULL here.
 
-Hmm no:
+Yep, you are right. I just did a code review, and probably we added that 
+NULL check before we had the right locks in place, and there was a race 
+between eviction thread and the UQ create thread, causing corruption. 
+Please feel free to use Acked-by: Shashank Sharma <shashank.sharma@amd.com>
 
-	supp_hw = fuse_to_supp_hw(info, speedbin);
+- Shashank
 
-	if (supp_hw == UINT_MAX) {
-		DRM_DEV_ERROR(dev,
-			"missing support for speed-bin: %u. Some OPPs may not be supported by hardware\n",
-			speedbin);
-		supp_hw = BIT(0); /* Default */
-	}
-
-	ret = devm_pm_opp_set_supported_hw(dev, &supp_hw, 1);
-	if (ret)
-		return ret;
-
-> 
-> Konrad
-
+>
+>     616          while (!list_empty(&vm->invalidated)) {
+>     617                  bo_va = list_first_entry(&vm->invalidated, struct amdgpu_bo_va,
+>     618                                           base.vm_status);
+>     619                  resv = bo_va->base.bo->tbo.base.resv;
+>     620                  spin_unlock(&vm->status_lock);
+>     621
+>     622                  bo = bo_va->base.bo;
+>     623                  ret = amdgpu_userq_validate_vm_bo(NULL, bo);
+>     624                  if (ret) {
+>     625                          DRM_ERROR("Failed to validate BO\n");
+>     626                          goto unlock_all;
+>     627                  }
+>     628
+>     629                  /* Try to reserve the BO to avoid clearing its ptes */
+>     630                  if (!adev->debug_vm && dma_resv_trylock(resv)) {
+>     631                          clear = false;
+>     632                          unlock = true;
+>     633                  /* The caller is already holding the reservation lock */
+>     634                  } else if (ticket && dma_resv_locking_ctx(resv) == ticket) {
+>
+> I've included the whole rest of the function so that we can see it is not
+> set a second time.
+>
+> regards,
+> dan carpenter
+>
+>     635                          clear = false;
+>     636                          unlock = false;
+>     637                  /* Somebody else is using the BO right now */
+>     638                  } else {
+>     639                          clear = true;
+>     640                          unlock = false;
+>     641                  }
+>     642
+>     643                  ret = amdgpu_vm_bo_update(adev, bo_va, clear);
+>     644
+>     645                  if (unlock)
+>     646                          dma_resv_unlock(resv);
+>     647                  if (ret)
+>     648                          goto unlock_all;
+>     649
+>     650                  spin_lock(&vm->status_lock);
+>     651          }
+>     652          spin_unlock(&vm->status_lock);
+>     653
+>     654          ret = amdgpu_eviction_fence_replace_fence(&fpriv->evf_mgr, &exec);
+>     655          if (ret)
+>     656                  DRM_ERROR("Failed to replace eviction fence\n");
+>     657
+>     658  unlock_all:
+>     659          drm_exec_fini(&exec);
+>     660          return ret;
+>     661  }
+>
+>
