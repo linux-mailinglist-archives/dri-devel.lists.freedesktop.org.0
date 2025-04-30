@@ -2,82 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26BF0AA4664
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 11:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 501BAAA46E9
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 11:22:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A241710E70D;
-	Wed, 30 Apr 2025 09:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19C7510E714;
+	Wed, 30 Apr 2025 09:22:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="hEIzoGwS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BsJqmQOd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33A6710E715
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 09:07:22 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-ac2a81e41e3so1257066466b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 02:07:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1746004041; x=1746608841; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=QWzeqHvzoIOvidos86deilx7bNZ58NmjU0Ulih/C+JI=;
- b=hEIzoGwSR+bshW0/UiqfR5ihBCHDlJqNhJGGPRttr69pRtpf9ven3OuDcBfarzpGOh
- ycjk4j5VqsKPb6z/VKQ1DkNfOL5r4LNz0feVsKoTmcFlawqeYmQaX3z1tWmdc+bFmxx6
- +O1zmeAj+LfCtEOnD4G9pebNJV9UAA5Y8dw5k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746004041; x=1746608841;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QWzeqHvzoIOvidos86deilx7bNZ58NmjU0Ulih/C+JI=;
- b=WNHc94sN4ep5GtqRH7Hgb05/JOK2kP6jObkE6Rucr7eRbP3dbe9qITrDQLCpUKBxQ0
- 0FUTj7lpJKiVgawPvU6dDNA96KnlinSNttevPTRQBPMRAYxiIUGwTVeshahoUFm/ssjZ
- yQRQIu5lNCz7YKheJWr1Sdz4nPLLZ8QR7lX+FcmDvygT3r9a8rCs000dWcYlgjcH61hw
- HeHt3i1+YsVMj7swUQSJVL2VCeh5KaXUmUh/Q5W7XzWEkS4IEVxj8dtgnus9mIXvdnyA
- QCg4d1P7CILXajEaJmg7fMpalPeu55uC4wKuxJwKS2eEBfc2sX0K22yCYwUKQxKiNGXr
- Ig3g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXoaeVjSR7kqw9eJtQMdw6ZQ9lu3QfHHQ/GmGXDxTPUlX8XiF47pC5RqpOtyvTAFulPyMwKl53841Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1XUD/on8WdN5Lnvzgw9FS0tfYQF2/IxxymspGfWs8Aluw+SlO
- WsT28Nx9h20Qw5P7KFxRKLXxlFi16p8EWcrgVnE2rV56RspfXH4iNcZpym+XvTI=
-X-Gm-Gg: ASbGncuwCBSjvz6xxvo5ebuaMGzK/iNvAyh30yfYlt81eK8xOguFuGbiyxiVrN4+EmH
- kk9TOHGkMN+dn2Sd/lPYmPC2pilZ84BGAm9Hudtf6SlutcsYNa4pJxAKov2MTwdh5Po2XtGFgGM
- EZW7h2F7wGpexaj0EZNYfDDxARpEouES9LzMqv2zaP/p7rbZgz+OLBTAlmmjYgIP/sf72v/9Qgi
- MOGSE3mUwlX5jdi5i3zErLEI085ptPP5cFPjk/Km0Vcx7ZOGHGJFwLTJb/29kGw50U4H3DTPXq2
- FApkCTnEpljyvNbQn6M58uJvUX30a4yn/xaxaTGdas/mw1lwvO29eN0IZApmHDc=
-X-Google-Smtp-Source: AGHT+IGVf8MxbpkAU9HqqZmA/jVqKf1xEVujvougTjPKVL/Z0oIU+ggvLP+fYJeMXLuFrQNOnmqtyw==
-X-Received: by 2002:a17:907:1b0d:b0:aca:c532:cf07 with SMTP id
- a640c23a62f3a-acedc65d3famr272653566b.35.1746004040489; 
- Wed, 30 Apr 2025 02:07:20 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-acebe7a4ee8sm313017166b.74.2025.04.30.02.07.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Apr 2025 02:07:19 -0700 (PDT)
-Date: Wed, 30 Apr 2025 11:07:17 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: simona@ffwll.ch, airlied@gmail.com, asrivats@redhat.com,
- andyshrk@163.com, christian.koenig@amd.com,
- boris.brezillon@collabora.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v3] drm/gem: Internally test import_attach for imported
- objects
-Message-ID: <aBHoRTdsdOLFhzfg@phenom.ffwll.local>
-References: <20250416065820.26076-1-tzimmermann@suse.de>
- <Z_96e7Lv-sEDUS6U@phenom.ffwll.local>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E89510E2B5;
+ Wed, 30 Apr 2025 09:22:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1746004967; x=1777540967;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=PgfJti/PcUUTHNkZ1Z7MZxCys8xxxAXZqso/92z2KvA=;
+ b=BsJqmQOdAtowPLUQh1O1mSu+Dm6tIIL8NgiHHm9Z1AOIZtD0WreqOCSN
+ kpYZXBQR04DQxm9REQgMOWYxZFmSLSAVXEmmaGiaKnUe627fxt8Ko54I/
+ ouWEJAGkdRzg5xqlY20WLnYE7DWoBN0YS1JsovD/3xvTGwSFqFGQjPpt9
+ CG0znnzjJdbck2Eza+BM93Tv0HHsaF99DnROhSB1o5upjPWu1FrXDQYve
+ YNa8NMbtm73aQp045y4KHHJe2KFTe5PViLta/Wm127AanHltRvoB5FNGb
+ CjBv3CaRE+jG+l6DwP/eN0ocnODKxJ7eimL5ycB6se6huzjz/JV5OvjpW w==;
+X-CSE-ConnectionGUID: Sy7BVKrsScqwwkCe4mvAxg==
+X-CSE-MsgGUID: /Cbv4tERQ5axXKDT0BGISQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47535837"
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; d="scan'208";a="47535837"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2025 02:22:46 -0700
+X-CSE-ConnectionGUID: g17r4ZeOT2iriifuCXPNDQ==
+X-CSE-MsgGUID: /3roiv2dTpy4xh9QskKpIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; d="scan'208";a="139050042"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.90])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2025 02:22:41 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Oded
+ Gabbay <ogabbay@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-fixes
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Wed, 30 Apr 2025 12:22:37 +0300
+Message-ID: <87selquhpe.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z_96e7Lv-sEDUS6U@phenom.ffwll.local>
-X-Operating-System: Linux phenom 6.12.22-amd64 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,85 +73,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 16, 2025 at 11:38:03AM +0200, Simona Vetter wrote:
-> On Wed, Apr 16, 2025 at 08:57:45AM +0200, Thomas Zimmermann wrote:
-> > Test struct drm_gem_object.import_attach to detect imported objects.
-> > 
-> > During object clenanup, the dma_buf field might be NULL. Testing it in
-> > an object's free callback then incorrectly does a cleanup as for native
-> > objects. Happens for calls to drm_mode_destroy_dumb_ioctl() that
-> > clears the dma_buf field in drm_gem_object_exported_dma_buf_free().
-> > 
-> > v3:
-> > - only test for import_attach (Boris)
-> > v2:
-> > - use import_attach.dmabuf instead of dma_buf (Christian)
-> > 
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
-> > Reported-by: Andy Yan <andyshrk@163.com>
-> > Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
-> > Tested-by: Andy Yan <andyshrk@163.com>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Anusha Srivatsa <asrivats@redhat.com>
-> > Cc: Christian König <christian.koenig@amd.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Simona Vetter <simona@ffwll.ch>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> 
-> Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-Also quick doc request: We do have a bit of overview documentation for
-prime here about specifically this lifetime fun, and why there's a chain
-of references and hence a distinction between imported foreign dma-buf and
-re-imported native dma-buf:
+Hi Dave & Sima -
 
-https://dri.freedesktop.org/docs/drm/gpu/drm-mm.html#reference-counting-for-gem-drivers
+drm-intel-fixes-2025-04-30:
+drm/i915 fixes for v6.15-rc5:
+- Fix build for CONFIG_DRM_I915_PXP=n
 
-I think it would be good to augment this with more links to functions
-(like this one recently added and fixed in this patch here) and struct
-members to that overview. And maybe also link from key function and struct
-functions back to that overview doc. Otherwise I think the next person
-will get confused by this rather tricky code again and break a corner
-cases.
+BR,
+Jani.
 
-Thanks, Sima
+The following changes since commit 9c32cda43eb78f78c73aee4aa344b777714e259b:
 
-> 
-> > ---
-> >  include/drm/drm_gem.h | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > 
-> > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> > index 9b71f7a9f3f8..a3133a08267c 100644
-> > --- a/include/drm/drm_gem.h
-> > +++ b/include/drm/drm_gem.h
-> > @@ -588,8 +588,7 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
-> >   */
-> >  static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
-> >  {
-> > -	/* The dma-buf's priv field points to the original GEM object. */
-> > -	return obj->dma_buf && (obj->dma_buf->priv != obj);
-> > +	return !!obj->import_attach;
-> >  }
-> >  
-> >  #ifdef CONFIG_LOCKDEP
-> > -- 
-> > 2.49.0
-> > 
-> 
-> -- 
-> Simona Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+  Linux 6.15-rc3 (2025-04-20 13:43:47 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2025-04-30
+
+for you to fetch changes up to 7e21ea8149a0e41c3666ee52cc063a6f797a7a2a:
+
+  drm/i915/pxp: fix undefined reference to `intel_pxp_gsccs_is_ready_for_sessions' (2025-04-22 10:55:38 +0300)
+
+----------------------------------------------------------------
+drm/i915 fixes for v6.15-rc5:
+- Fix build for CONFIG_DRM_I915_PXP=n
+
+----------------------------------------------------------------
+Chen Linxuan (1):
+      drm/i915/pxp: fix undefined reference to `intel_pxp_gsccs_is_ready_for_sessions'
+
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jani Nikula, Intel
