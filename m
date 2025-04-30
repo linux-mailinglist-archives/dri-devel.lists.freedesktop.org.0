@@ -2,53 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE0AAA469A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 11:14:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26BF0AA4664
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 11:07:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4275F8910E;
-	Wed, 30 Apr 2025 09:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A241710E70D;
+	Wed, 30 Apr 2025 09:07:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="nieKerRv";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="hEIzoGwS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83CCF8910E
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 09:14:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=VjGK2
- U//qa5zU2g/W3rDAI5DX37UsbjUdTqEkHSBYQc=; b=nieKerRvp0+jKgnHyLjuJ
- Ko1DdG3K5qv9HDR7CPQvYPBVTZ4Uz10cevI/Ld+CAdXkYZhoXTgJElXJ0h9hPTvw
- Nck4vqQA2fwl2eSah+UlyQwojJSSpKcKO19/ADBqm5Cr/+Epqlo8Qxtl2IzbOmrS
- kUaiv6bD9aYj0F42I+HoyM=
-Received: from localhost.localdomain (unknown [])
- by gzsmtp1 (Coremail) with SMTP id PCgvCgD351ze5RFo2yEaBg--.45889S4;
- Wed, 30 Apr 2025 16:58:00 +0800 (CST)
-From: oushixiong1025@163.com
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
- Sean Paul <sean@poorly.run>, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH 3/3] drm/udl: Use the default gem_prime_import function
-Date: Wed, 30 Apr 2025 16:56:58 +0800
-Message-Id: <20250430085658.540746-3-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250430085658.540746-1-oushixiong1025@163.com>
-References: <20250430085658.540746-1-oushixiong1025@163.com>
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33A6710E715
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 09:07:22 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-ac2a81e41e3so1257066466b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 02:07:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1746004041; x=1746608841; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=QWzeqHvzoIOvidos86deilx7bNZ58NmjU0Ulih/C+JI=;
+ b=hEIzoGwSR+bshW0/UiqfR5ihBCHDlJqNhJGGPRttr69pRtpf9ven3OuDcBfarzpGOh
+ ycjk4j5VqsKPb6z/VKQ1DkNfOL5r4LNz0feVsKoTmcFlawqeYmQaX3z1tWmdc+bFmxx6
+ +O1zmeAj+LfCtEOnD4G9pebNJV9UAA5Y8dw5k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746004041; x=1746608841;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QWzeqHvzoIOvidos86deilx7bNZ58NmjU0Ulih/C+JI=;
+ b=WNHc94sN4ep5GtqRH7Hgb05/JOK2kP6jObkE6Rucr7eRbP3dbe9qITrDQLCpUKBxQ0
+ 0FUTj7lpJKiVgawPvU6dDNA96KnlinSNttevPTRQBPMRAYxiIUGwTVeshahoUFm/ssjZ
+ yQRQIu5lNCz7YKheJWr1Sdz4nPLLZ8QR7lX+FcmDvygT3r9a8rCs000dWcYlgjcH61hw
+ HeHt3i1+YsVMj7swUQSJVL2VCeh5KaXUmUh/Q5W7XzWEkS4IEVxj8dtgnus9mIXvdnyA
+ QCg4d1P7CILXajEaJmg7fMpalPeu55uC4wKuxJwKS2eEBfc2sX0K22yCYwUKQxKiNGXr
+ Ig3g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXoaeVjSR7kqw9eJtQMdw6ZQ9lu3QfHHQ/GmGXDxTPUlX8XiF47pC5RqpOtyvTAFulPyMwKl53841Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1XUD/on8WdN5Lnvzgw9FS0tfYQF2/IxxymspGfWs8Aluw+SlO
+ WsT28Nx9h20Qw5P7KFxRKLXxlFi16p8EWcrgVnE2rV56RspfXH4iNcZpym+XvTI=
+X-Gm-Gg: ASbGncuwCBSjvz6xxvo5ebuaMGzK/iNvAyh30yfYlt81eK8xOguFuGbiyxiVrN4+EmH
+ kk9TOHGkMN+dn2Sd/lPYmPC2pilZ84BGAm9Hudtf6SlutcsYNa4pJxAKov2MTwdh5Po2XtGFgGM
+ EZW7h2F7wGpexaj0EZNYfDDxARpEouES9LzMqv2zaP/p7rbZgz+OLBTAlmmjYgIP/sf72v/9Qgi
+ MOGSE3mUwlX5jdi5i3zErLEI085ptPP5cFPjk/Km0Vcx7ZOGHGJFwLTJb/29kGw50U4H3DTPXq2
+ FApkCTnEpljyvNbQn6M58uJvUX30a4yn/xaxaTGdas/mw1lwvO29eN0IZApmHDc=
+X-Google-Smtp-Source: AGHT+IGVf8MxbpkAU9HqqZmA/jVqKf1xEVujvougTjPKVL/Z0oIU+ggvLP+fYJeMXLuFrQNOnmqtyw==
+X-Received: by 2002:a17:907:1b0d:b0:aca:c532:cf07 with SMTP id
+ a640c23a62f3a-acedc65d3famr272653566b.35.1746004040489; 
+ Wed, 30 Apr 2025 02:07:20 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-acebe7a4ee8sm313017166b.74.2025.04.30.02.07.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Apr 2025 02:07:19 -0700 (PDT)
+Date: Wed, 30 Apr 2025 11:07:17 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: simona@ffwll.ch, airlied@gmail.com, asrivats@redhat.com,
+ andyshrk@163.com, christian.koenig@amd.com,
+ boris.brezillon@collabora.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v3] drm/gem: Internally test import_attach for imported
+ objects
+Message-ID: <aBHoRTdsdOLFhzfg@phenom.ffwll.local>
+References: <20250416065820.26076-1-tzimmermann@suse.de>
+ <Z_96e7Lv-sEDUS6U@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PCgvCgD351ze5RFo2yEaBg--.45889S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WFy8tr4DGFWUKw4xZw47Jwb_yoW8GF4kpF
- 43G34IkrWjqF4kKw13Aw4xAa45Ca17GayIgr48Jwna9F4vyr1UJFy5JFyFy3srAr97GF13
- tF1vyryUAF48KFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jxfHUUUUUU=
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXRc-D2gR5W4O-wABs4
+In-Reply-To: <Z_96e7Lv-sEDUS6U@phenom.ffwll.local>
+X-Operating-System: Linux phenom 6.12.22-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,48 +93,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+On Wed, Apr 16, 2025 at 11:38:03AM +0200, Simona Vetter wrote:
+> On Wed, Apr 16, 2025 at 08:57:45AM +0200, Thomas Zimmermann wrote:
+> > Test struct drm_gem_object.import_attach to detect imported objects.
+> > 
+> > During object clenanup, the dma_buf field might be NULL. Testing it in
+> > an object's free callback then incorrectly does a cleanup as for native
+> > objects. Happens for calls to drm_mode_destroy_dumb_ioctl() that
+> > clears the dma_buf field in drm_gem_object_exported_dma_buf_free().
+> > 
+> > v3:
+> > - only test for import_attach (Boris)
+> > v2:
+> > - use import_attach.dmabuf instead of dma_buf (Christian)
+> > 
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
+> > Reported-by: Andy Yan <andyshrk@163.com>
+> > Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
+> > Tested-by: Andy Yan <andyshrk@163.com>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Anusha Srivatsa <asrivats@redhat.com>
+> > Cc: Christian König <christian.koenig@amd.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Simona Vetter <simona@ffwll.ch>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian König" <christian.koenig@amd.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> 
+> Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
----
- drivers/gpu/drm/udl/udl_drv.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+Also quick doc request: We do have a bit of overview documentation for
+prime here about specifically this lifetime fun, and why there's a chain
+of references and hence a distinction between imported foreign dma-buf and
+re-imported native dma-buf:
 
-diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index c00d8b8834f2..8107549b12e5 100644
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -49,22 +49,6 @@ static int udl_usb_reset_resume(struct usb_interface *interface)
- 	return drm_mode_config_helper_resume(dev);
- }
- 
--/*
-- * FIXME: Dma-buf sharing requires DMA support by the importing device.
-- *        This function is a workaround to make USB devices work as well.
-- *        See todo.rst for how to fix the issue in the dma-buf framework.
-- */
--static struct drm_gem_object *udl_driver_gem_prime_import(struct drm_device *dev,
--							  struct dma_buf *dma_buf)
--{
--	struct udl_device *udl = to_udl(dev);
--
--	if (!udl->dmadev)
--		return ERR_PTR(-ENODEV);
--
--	return drm_gem_prime_import_dev(dev, dma_buf, udl->dmadev);
--}
--
- DEFINE_DRM_GEM_FOPS(udl_driver_fops);
- 
- static const struct drm_driver driver = {
-@@ -73,7 +57,6 @@ static const struct drm_driver driver = {
- 	/* GEM hooks */
- 	.fops = &udl_driver_fops,
- 	DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS,
--	.gem_prime_import = udl_driver_gem_prime_import,
- 	DRM_FBDEV_SHMEM_DRIVER_OPS,
- 
- 	.name = DRIVER_NAME,
+https://dri.freedesktop.org/docs/drm/gpu/drm-mm.html#reference-counting-for-gem-drivers
+
+I think it would be good to augment this with more links to functions
+(like this one recently added and fixed in this patch here) and struct
+members to that overview. And maybe also link from key function and struct
+functions back to that overview doc. Otherwise I think the next person
+will get confused by this rather tricky code again and break a corner
+cases.
+
+Thanks, Sima
+
+> 
+> > ---
+> >  include/drm/drm_gem.h | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > 
+> > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> > index 9b71f7a9f3f8..a3133a08267c 100644
+> > --- a/include/drm/drm_gem.h
+> > +++ b/include/drm/drm_gem.h
+> > @@ -588,8 +588,7 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
+> >   */
+> >  static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
+> >  {
+> > -	/* The dma-buf's priv field points to the original GEM object. */
+> > -	return obj->dma_buf && (obj->dma_buf->priv != obj);
+> > +	return !!obj->import_attach;
+> >  }
+> >  
+> >  #ifdef CONFIG_LOCKDEP
+> > -- 
+> > 2.49.0
+> > 
+> 
+> -- 
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
 -- 
-2.17.1
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
