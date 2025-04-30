@@ -2,155 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDB3AA4EE3
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 16:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C4DAA4F00
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 16:48:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD83F10E7D1;
-	Wed, 30 Apr 2025 14:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 831D710E2D5;
+	Wed, 30 Apr 2025 14:48:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LL2PxIvX";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="DPAsUiIw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2081.outbound.protection.outlook.com [40.107.223.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8497E10E7BB
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 14:41:00 +0000 (UTC)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2057.outbound.protection.outlook.com [40.107.101.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1C910E2D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 14:48:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LJxUs6G5f43OgjF6mH/k2elqTw/Z6U/Jb1x7bVvrPFmL6UM2N+fBEcqb5N87SThv1BH1dSodVLVDIxBjanb7MGXAMGEoY40Oa/PcI6NOV/mOV2SSYdZ31rB5Tsqba3+th1/XPb5DJhtaSinN+Bt4QU5VpTHoJOKK9gR4Ws2dbTv/cXk44hQej3eIxsi6Qvq4kWOFvdyPqPWZsQUUSd0meFPn4axRwJGAcejV/dVpX3HAQlj0eUa75xCaNz9dpCFkF7SbMfIPRmTaKhcEObSkvV3MAIEjngEbh9KJ23o141dP/F6JSVkjhBkcsdEw4C3y9MaX9ILH0ZBUeHWHqT6ExQ==
+ b=SEpOCeJdPcj/iLjf4vefLd3lbpXqY2M0pA6BYDONbjmwhWZ3MoAWlIfpK2ZGladSYw/gneMAOnfh6s5vXYzkTveqhP/TOrKXcthMkWeLS8En+S8ig5P3n5n5N35PhUajifULvLe5+7xEJZazkGk/ka+7pmsxBQ1ZasLkA0iA+SiSbjx4wfECG+44dZzLGl/Xv9dypeKsEI2Slrv2RL/S5YnVeoUmt5Kd9oevhalq1wTc+CD5mjMaCihSzzzKzR4LLNhgwkRKuPDhCGGEkNHlVetnIfc794w/Tu1W9MCRkWhQuoj3XegVDPnjbH5Zb1D1xgclwCdnUHwvoUWAUH+APw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+KxYQhc53Ygb3hfIMWrDzoi+xOUQEpSyz4NF2JJ2ZgI=;
- b=KTEYchUSxcY9CyAYZY3JAZXivp9Ao8U5xLJ5iePr8lHslgbtcfN8nJCM3lChDgVmI9f5J5FWWU0MLl4vOkmEcyjB5N6dxnsjvnA8pch7hmn+QKV6ytpR9pGg59fAjkBVHrevkeYpeMjE86pITRCjyEoMWLfcqpGWcrTcoB/O805Qq/KO6xTFiBNF2rw+UK7D35oQMtrSTxlkjkcRLYlZrW7uezJSCj6XDWAhTQjz9UcdRUKVuuhn51ZaIJaOy8+EQYBbLIsqIvtROUVsJ/lSzFy3McKo86qAlf9aoNspk4Fs2CCPP8TZVzwts50da3IQYY/uXB9rIo8MYGjq42nCQQ==
+ bh=0y9yKD+mk626hD4vYHZo1DXaucWJYuZLYnn57YesJPY=;
+ b=fDDMmk2xDQFr1rDTIzy3ZpB5aCbbuKu87eftw1oR91ed0n6LqKjqijlF+ZAtytnuxTH2+E74hZC+fmtos0z+361fQzuJ5k/EhX0vkMzPQfUAEAlopSqhN53vOoeVLt1RhTUuBfZ/KPdMj7q8N30TUIYxXAXdnsskRBPVIc9axHb3vXlND8gYdRAvTG5/B6w2AdpoJJBRX6MZmgd4z0n10AlmRKWZpR4NOKncyniBmWls/N/yIWHGlFQRV9BWeEr24J2OubKBAJ/SiI1GY7cfSi1g1yg4AvIkEgeKjiATot6bKgY2zgvJRxUC7hQvi0/30mBX62b9zx+94MAEgXXVWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+KxYQhc53Ygb3hfIMWrDzoi+xOUQEpSyz4NF2JJ2ZgI=;
- b=LL2PxIvXR6AoZgE+4mbYRgYXCjSdenb9xHa5Vc92BRHDGTSX2MJI7LVqIMTf697a13p3FXYGA9Y9Y51G9Fv+K1sWCZnXVdotoDTsj8LY2EbKUh+mb2VoMSAH2hBHFgjvNW7PB/b+CNlO8w1aHf9CAxGVPRZF7fKc+IBfmqA/+58=
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com (2603:10b6:208:390::15)
- by IA1PR12MB9061.namprd12.prod.outlook.com (2603:10b6:208:3ab::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.34; Wed, 30 Apr
- 2025 14:40:56 +0000
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::2b0e:7fc3:1d21:5d2e]) by BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::2b0e:7fc3:1d21:5d2e%3]) with mapi id 15.20.8699.012; Wed, 30 Apr 2025
- 14:40:56 +0000
-From: "Khatri, Sunil" <Sunil.Khatri@amd.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, "Koenig, Christian"
- <Christian.Koenig@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>, Simona
- Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>
-CC: "Deucher, Alexander" <Alexander.Deucher@amd.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>, "Pelloux-Prayer, Pierre-Eric"
- <Pierre-eric.Pelloux-prayer@amd.com>
-Subject: RE: [PATCH V8 1/5] drm: add drm_file_err function to add process info
-Thread-Topic: [PATCH V8 1/5] drm: add drm_file_err function to add process info
-Thread-Index: AQHbr7NQSYmJVBBrBUetHJZnZq7X/LOva3gAgAmZooCAAALBAIADU9Ew
-Date: Wed, 30 Apr 2025 14:40:56 +0000
-Message-ID: <BL1PR12MB57537FD6C36873EFC4744B3A93832@BL1PR12MB5753.namprd12.prod.outlook.com>
-References: <20250417161042.120981-1-sunil.khatri@amd.com>
- <4b7a7016-7ad5-4d08-919e-9876f7da1ef2@amd.com>
- <f9c5edeb-ffc8-4a25-a80b-3ae8de9b62da@amd.com> <871ptcy089.fsf@intel.com>
-In-Reply-To: <871ptcy089.fsf@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ActionId=79dbd13f-922b-42a9-947c-7bf237aa58f9;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=0;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=true;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
- Internal Distribution Only;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-04-30T14:38:28Z;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Tag=10, 3, 0, 1;
-authentication-results: dkim=none (message not signed)
+ bh=0y9yKD+mk626hD4vYHZo1DXaucWJYuZLYnn57YesJPY=;
+ b=DPAsUiIwfPxT7TRy6eaevPdwGr3et20amttN1CLSv6+LGsD/lJcWww3hmzfusE8V/etqjr5oDiDon9ZacOHzB5YLDL4GnCXLzUOvz/+nsTpHtU+BAw/f8HLto/RVRhosrNHxfYpkZbZkQ1uBBqX1M8hYKppL5QoLmz5KsgileOw=
+Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL1PR12MB5753:EE_|IA1PR12MB9061:EE_
-x-ms-office365-filtering-correlation-id: da84abb5-6752-4784-45bb-08dd87f50411
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?I4wd2DU70Y0ZNyYRtwjWlKnNEayiK6S9MfSxjgA5pnY/e4eQD5dPAxV+Lk?=
- =?iso-8859-1?Q?/1hxuMD+LmvlxfrDxiUWjhFVcI9JZl7QEGqTKz6qI6DrheyHKVtgmitKc9?=
- =?iso-8859-1?Q?Wul1Pm+/jIRTZQ/EpatpOUE1kPZvOja1WoIh/LD6cGjRcRWB7IyBrT6Lf5?=
- =?iso-8859-1?Q?QLsuQgX4qvWCoqexdEuc/9pgjEo0AocglYtZYwM4a/Hh44bZZ5xggOx1Zj?=
- =?iso-8859-1?Q?XgkvCXnVFxfgba68bOncrQJaEG/wL3WsMpGNBwDQymeBgA/iWmWXDSn2ag?=
- =?iso-8859-1?Q?CapjAYeBRzqWzuZiocm6VYWORNSoPUqOv5joyOVB3TjR5sE+0L8QEeGCH1?=
- =?iso-8859-1?Q?QnlIPMR3bxBABNngh8uRwADYUhH/xK0rBsDowho7qsvFJRSjbDVzgUfZcF?=
- =?iso-8859-1?Q?z8VhWbeEP2NlQB7cyqy/nn5+dSeDrZ9kwxywS3SOFcPXQI5j1TDvDsdumj?=
- =?iso-8859-1?Q?NYvLZbBQTV4x2W/yhwSm4o0IX+9GbT1z5FB8WJvEYHokR/s8zMi9Smvda+?=
- =?iso-8859-1?Q?t4JI0fEJWQBegymuW+SECgEJqH6GOXDiK85WtcoggdSuRGxWSZR56dR4rX?=
- =?iso-8859-1?Q?OhOl00hpR/5i1YPxXhd2VbsW/TlYoGNULS4Mr+fEjqzA5tnP3Lsb7XcoAa?=
- =?iso-8859-1?Q?v3xEup17P/M2OTb4leT1OHL+XrqGVdBh9ArwLGxWnEtfcerkNfEEoaxgdy?=
- =?iso-8859-1?Q?P7tLfagZvtUXYRVYfP16wl4i9tqNVXkIp7lz7zrMGW78LoNVtI/2Ox92W3?=
- =?iso-8859-1?Q?C+9kjL+UiT6mljQ7EiopNDf8pp/dygGddbjMHHzXugybUCPAJk8kJdqMVB?=
- =?iso-8859-1?Q?9jlqZzEkdyOwU4iLNdLK28fsKTwrmpDnztMlA93sE3LmsFy1iGjTjq1VkP?=
- =?iso-8859-1?Q?MrCnAOXnAZ2g5TdYNcmAV1yOgrYXqvBiAln+CvnsA80rCgvcBujS9RUVz/?=
- =?iso-8859-1?Q?fHa15v3PvWgGg4UMSIYq9tnvwbL/Ddhl+2TbS5ggSK2nHWdXgObbpNXgnD?=
- =?iso-8859-1?Q?wo7s8dUErghDZpXq8xDyZxwpMtLK8bvbvsEKnFMMeIAdw0LBI1ZLxgOIX0?=
- =?iso-8859-1?Q?vDqMBR3xMdMUSOHkffcW+uM59C9EhrLBsWqrzjoDLTfgUQVqKwDfTyy47M?=
- =?iso-8859-1?Q?wLjs5g/ZGODjf/NUi+RS7xryNtDJGglQc5VrboApRTkNImEY9aSF2zJyzT?=
- =?iso-8859-1?Q?vF2tpUBFO/hSO0X2ZTvafFz0RrVdVUMaLy+ofOO5NJ+3/FxpE1cm53NcnL?=
- =?iso-8859-1?Q?iIKItLcZkXtQ+A7UrsoMT2BVokY2o8f8IfCnkhFofIDb8jtcKawwKEXaZr?=
- =?iso-8859-1?Q?63wJ5m8GXkU5mG+Ss8xplbgFMy3Ex0lZydRyUO7msiXUIdxfzDi1Zseo5Z?=
- =?iso-8859-1?Q?SOeHyC3j3sYzQ3l0LYVTNAX+kr2iidTWwEsuig8MkLJDOKNNZaAbgH0FQU?=
- =?iso-8859-1?Q?dEBLjB0AWYwmGCFghrd2EmAI8H7PG+zmq0Y6NzHXAbcv/VC38vYV0DFnSA?=
- =?iso-8859-1?Q?TjQnXRkK1TzLV8KRGiIGEXrEnKbXPPu8KAVSj9cY9GoAlfgLmNrQtQ/n25?=
- =?iso-8859-1?Q?hcF3egQ=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?v/CqPwq38ILcahr6ZXUTIPJFXy9Gf8KMRbT7DO8JK7caIE74mjC8+PuMQh?=
- =?iso-8859-1?Q?NXzsv4JAHlFYEPye1V99lP/uANIfcXzoTTRy3UXnO58y8o7tDu9+sBaLX7?=
- =?iso-8859-1?Q?o6KuZLZl1IcrNgMsNI+Ri1tpudGMRB7yRx23KMwdSIjr63nIWEEpCXCmHQ?=
- =?iso-8859-1?Q?VhHF0rJ9jMwLJ6XLt0NnDZMbupwmYiJFeb6y/zfXkeOIoWfQQNdfsD9yu7?=
- =?iso-8859-1?Q?A4fZ04GS7r7S1CHzilow8TFD33Vf/oNIO4mGR5T2Tkfithrjbs8/Ivys5M?=
- =?iso-8859-1?Q?H5Aln0Bja4OcYgSNZry5XJ8opcHaaFSDhzkRGE1nT/fPSCGI7TFK5LxeLh?=
- =?iso-8859-1?Q?b9zWhOMBLGQH8SWyK0emyxOEBSX9RT9vNJmBR+fadD29kXsqhwL4XvO1VT?=
- =?iso-8859-1?Q?1yhVav2EQFn7tjVMZrTTJgqo6Yw/GSkeT27m6C3OFEaWeH4BhCLjJ0Ey8x?=
- =?iso-8859-1?Q?MM6jpBMu4/fXALzq0DfFEZfEyJLmXq+vIg0FTF7QF/uNMTVlYyxPMYSPfk?=
- =?iso-8859-1?Q?QJZkdzZmYcaBWHLizywkUyf+C66+cF+59ITrVgSaCvhK9ENbvJOR3P0naR?=
- =?iso-8859-1?Q?JLtscN+IvXL2JfroZtZPjy9yudC17y6OGHpyQiNqlZTMJH6lS+mqhntFmh?=
- =?iso-8859-1?Q?OGAlsZbBR7oMkKPhf4d2s8dBTutuZRkF4ajE9jT20jM+291Gl94q8VKBxV?=
- =?iso-8859-1?Q?PhuvbZgV664ydSx+/uevnmb6mBkvb9CRpMx2dVuFsXHm9vLRxuLYTB2bWy?=
- =?iso-8859-1?Q?dB96YiXJYxC3yyyieQhuaLaa0x5XwG2k4l/rRwPWq4jvfWZ/1/UYSUE9XX?=
- =?iso-8859-1?Q?CLVlKkQ76lhYwBo2afOIs3qMMUwSAX1XT/JUhIjU2RVo6gPuJULtsCzXCI?=
- =?iso-8859-1?Q?DPWtUr09lUZqgZcVkq1xFCK7NrsddrARjs2lZgRN4djiUyVaUTFidcojmB?=
- =?iso-8859-1?Q?WcdTCKi/LShPe2W4c/Jv7LkTifLCKMZvljSe9yyADTDJm6LoPAb2gPK7GH?=
- =?iso-8859-1?Q?47VzsLMHkTOqelorPhuRO5OTgSsz5y4kuimtdY8uSN7WdHl20ruBEApM2F?=
- =?iso-8859-1?Q?FWdvw0hs1h4EUs04U0e2cSLaLndgtzTXMWe0EEydyWFAhmTAVb3OoIU2dv?=
- =?iso-8859-1?Q?Hy9+YwXNXPe7UqRJQURYU48H4VDVaZ2V4Ar83OwdvRAm8zebO6428Z0vZG?=
- =?iso-8859-1?Q?P7K7aC3cIhUHvw5FaJJN9HJf81np3iiOOgKlPMVG1+Rjl8ZyQeQa0U922I?=
- =?iso-8859-1?Q?1Lo9JLC0w59VzHfdNkxVsv8/3+W2r9Nh23TLVJJk8yQE1OnGVsCb1CDJcW?=
- =?iso-8859-1?Q?m40dLBr5qaK3nW2F7uTIR1sAlpGv+4ZqGXyw5+GTOPdkjCpBMx5sGfksL8?=
- =?iso-8859-1?Q?25uox/hB0MGT4Gj3ANi/1AQmTnltT4IEVGDrsebne4CL+ujA1kubP7b6g9?=
- =?iso-8859-1?Q?QYdgJmLEDYL27FbszLpfcpTjNR0MnFRJyolnVSPqpW65ob/fHiRZZkV/6f?=
- =?iso-8859-1?Q?o5LRiTPwWhNyu8MgNlPM0rw4uINKo1+huuZFF5ISIw5pHp6ATRP3z4+GDv?=
- =?iso-8859-1?Q?Fh6PLA6dq3tCeKRXPbOpHZhz4lLKZRpffb3dkJhv8n4owg+kWXFF3kB/IH?=
- =?iso-8859-1?Q?wpg1cxGytltN8=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB9021.namprd12.prod.outlook.com (2603:10b6:610:173::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Wed, 30 Apr
+ 2025 14:48:23 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Wed, 30 Apr 2025
+ 14:48:23 +0000
+Message-ID: <ef261695-79fa-4c0e-9894-6fe19de823bb@amd.com>
+Date: Wed, 30 Apr 2025 16:48:16 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
+To: oushixiong <oushixiong1025@163.com>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+ Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250430085658.540746-1-oushixiong1025@163.com>
+ <20250430085658.540746-2-oushixiong1025@163.com>
+ <daaf1445-f0b8-490a-b87b-dab219f13571@amd.com>
+ <c93177d7-be53-4f37-96d4-d09323737581@163.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <c93177d7-be53-4f37-96d4-d09323737581@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0119.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:bb::14) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB9021:EE_
+X-MS-Office365-Filtering-Correlation-Id: 32a956af-f23c-4cb6-d664-08dd87f60e71
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UHUwVFhrdWRBczhOK0xzS2hQNFJiWEkyNnJ4RFF5UnBWejFUSVRMZWVLbFcy?=
+ =?utf-8?B?NFdpTVpwMWFFNXlZbm5zbXhYVzVoNE4wK1RUcXVXeXBlSVVWMlR4dFNTdm44?=
+ =?utf-8?B?NCtMVnEvclNXNTY2dnlaQnpzSWVvd0VPWFgxSzRJcnNHR2xEZUdUZ1hTVk9O?=
+ =?utf-8?B?a2pKWWNDVTJlcVRXL3pWaHlFUDdMNkxjc3d0K1JTcllPKzY0YkRTOW5rQzBT?=
+ =?utf-8?B?TkJSRzFBaHhFWnE4d2JOVFltRHYwaGpBUnVPUXQ0aGl5QjdKVUwvaVVaaHJn?=
+ =?utf-8?B?eFZKVjR1V0sxbHRTWjBOd2I2OGN0VjdSdkxMWFJ0d3VYZVVJb01LUzVDZlh6?=
+ =?utf-8?B?YjVaeTU2ZlFlSHlha0FZeEh3dnEvSDVKeWdEbWhSS0FMRk1aajhsY2kzWTdt?=
+ =?utf-8?B?YlQrT0tSN2JKSzZOSDlYZlczNXJNWStEQ25uMW5kbTh4WWMzTDN0OG5oNVZa?=
+ =?utf-8?B?U2RpZVJHSEswa2VGSGJVbU9TRTR6VXlxRUhxNWQ0Sy95UUxVTzZ4TytGSThh?=
+ =?utf-8?B?QmJhS2YyUEJwYUNwMUxmTm5MczlDMEdOajVJQytoTFVTT2Y4OTR6U01GNDRw?=
+ =?utf-8?B?VDc0a29oZnZHSDIrcVpIN0dGckYwdzlhTlh5UzlnTkhqZ3pOWVVZS0xWaEJv?=
+ =?utf-8?B?Nkgxa1hlWGVVU1AyN2lHZ0Y1bkVkNG9PV2hXR1lnUmVwbWRzQkNlaWMyNE44?=
+ =?utf-8?B?YlpUYStFL05laG9OVzQrVzRvL2diSkRPVXRqNHdhL2lheXpoTkYvTXlKZnNL?=
+ =?utf-8?B?dXJZMURrMnpocmFjS0JNODB5dGVFVDByc05oYndQT1VaQlVIcE1mZTdRcjZn?=
+ =?utf-8?B?Y3dlcHhGc0ZhcDZLT3hWUnFSSVJVN1dXMThhZlUxeUxtazJRVTR3VmNobEVM?=
+ =?utf-8?B?dWdzTnAzSVA4MXJjMzhXK2YzR0FJa05OT3luT3dFeThPalFjT2pNKzFjM2pJ?=
+ =?utf-8?B?U0E4M1FsYkFGSXV1U1RlSG1uTmxNUzI1bXRmOG5saXJwUGtBUjMvdCttaGI5?=
+ =?utf-8?B?UXRhUTY0bnR6bmJqalRyalBhVVZWVGtCZWdLdDA4dnVwM0lTY0NjVjNiMDE0?=
+ =?utf-8?B?Y0hFVTM5bTdHNFhSTFZzRldpUTg5Rm96WUIyQ2dvbkR2dUVWM0FVbXFubjA4?=
+ =?utf-8?B?NkhWdk5hQTYxL1VSZGR6bE1XTUtDcE00dHZPdHdRZUg2MzFmYzd0UGdCVlNU?=
+ =?utf-8?B?NGN0dHU3Z3F3ZnU5S2oxOWZHSDVtdGgxaW5FUTJxTU02aXh5TDkzOGtiS3kr?=
+ =?utf-8?B?MlhNYkRhUnBmRTltQVFDNHJFaXc5OGtIaHZ3S2JKUHdvSjZSMk43eVJuZ2Rt?=
+ =?utf-8?B?QjJiS3ptbWlRMlFzZEhwcVR1NTlVK3FJZ290Y2phaWVKOGt0ZjJ3YkNkZkQ4?=
+ =?utf-8?B?c3N0UW9Rd25sVUQ2bGVJVnJjdE1wN3piZEtsMTRZdFl3ejZmbjExRmZwMzVC?=
+ =?utf-8?B?NFNNa056REtCRXk4RHJHdS94Rmd1d0ZxcXVIVXE1ZFdzTjRWcnhXOVlFRUt2?=
+ =?utf-8?B?ZGpaYS9lZGRtSDJDbWZ6SjdGb2YzQ1gyd3F1NWZWNkFoZDdRWm1GYjd2WEIv?=
+ =?utf-8?B?UEN3NjFvcnN1OUZ1NTM5VkkvQW5vWjNuMm1ybkp6ZHMxUTA2ZDZleFo1bzVM?=
+ =?utf-8?B?QkRXWE9ZNUlkUzlKekU1ZHJmeG4veFhZNjdrbHdIeEt0VTNVWWk1UW0xa1gw?=
+ =?utf-8?B?WjJFTEgvT2lhUnRxakI1Q1hNUTJwM3JKdWlad1Qxc3A5OUN5WHpaS2M1a09w?=
+ =?utf-8?B?dzFoOWt4Q05renRuUnJKaDhaUjIxd1VjYUxCblhudFFEMVdGMXMwSDdqZTFr?=
+ =?utf-8?B?dmZ0SkJ3K0d4QU9KNU5Ma1hLYUtPa0IrSTR3UTM5WHprdkdqSS9XSStzdFFR?=
+ =?utf-8?B?dDcvbEJrRWNjY3VUSzlZdWpVK2tIQmo5Y29Wb05MRGpKbytBUTQyTFZkR2Fs?=
+ =?utf-8?Q?MT8tC7Ei34o=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SUVublhMU2JMMDRnK1htWDc0V3NjbjNwUVZLZ1drZ3k3SzNieFRZVEdrcFIx?=
+ =?utf-8?B?UUsyTXc5WWp2N2gyRHNmazhWbGV6RXlZeWFxV2R1SUJmd2VZcEFobzRLV1BI?=
+ =?utf-8?B?R0JUR3I1bXFXa0pXeWNYNXFmVUkzR0xXMGdJNXJ0aElEZ3ppWVF6N1FLbExz?=
+ =?utf-8?B?MGdmclh5VWxpZUk3bG1BeUNnYXIrRnlLUTNLMENsY1VDeXdIckFXOWFLR0g1?=
+ =?utf-8?B?SDg3OHlBczlweG9VWG1yRDgwQXpLN2ZkR0IxK0wzTzJZa1Q5aFFrdFFPYVEw?=
+ =?utf-8?B?NzJEY1MrVkp2WEdTRDB2czRGZnVZdlNMZ29ZRGk5NW9CQXV6cVNsS1hCZWJj?=
+ =?utf-8?B?UWhOUDdsVUxreFByMFZlYVR0cjNNZHF2cmlXYkFRQm02amF1OEd3RFhMWkdF?=
+ =?utf-8?B?VWRhbDIydXpEOEt1TE1oaUF5YXg3cnExQk83eHQ3ZVliME5ZVFZ5VjdnZmht?=
+ =?utf-8?B?aGNPdVlNM1NudnN0RjBJdTZzNGdNSExNSEtaVjQ1eEFRcmhibG1pRXBrRW16?=
+ =?utf-8?B?eWxCVFVacGJSL1JKSjRQdm54aHlyK0lsV2ZmRENkNlkvNExaU1ZzUGFJUVBK?=
+ =?utf-8?B?MnJsMm1NbHFXQUF3MkhlWWtlbzU4cEM0R2RUSVFyZzF6N29tWDZZMDVud1Uv?=
+ =?utf-8?B?S041OVlzTFZla2ZCRGViaXVvU2dnY0YwYzY0NEMyTE1ETVRVbGNUbkhzUEd5?=
+ =?utf-8?B?Q21TWGplNkxHL2hvNERhU1BnZFIxbVdTdzU2SmZ1bVg0YWdQaVlUUFVJRjlH?=
+ =?utf-8?B?VjNvS1BFNnpqcGxxVE9HWURHZzNpa2YyOU5GUVVPUmpweUhqcDFRSitWZFk4?=
+ =?utf-8?B?UktOSjBtUk5GMEN3eW9vTGpXRTR5ZzVnU3lqNGpQVXdXV3BFcVdoRG5HbVFY?=
+ =?utf-8?B?WC9QUnppYkZWQWl1NmhWOGh3aFFFOW03V3VmVHY4cWZlNkVNcHBZU3haaU1B?=
+ =?utf-8?B?cUphMVBsTVRWQXc1RWhGS3BsTFArVEtwU0VFRjBjeEJJZG93WU0vOVpLVHJ4?=
+ =?utf-8?B?TUEyQWdWdXZPMkZ6NUw1VUxYcEVnbGU3WEN2OGZ6ZzBqY0o4c3FXd1U1MXU5?=
+ =?utf-8?B?NGk1dUREZ0R3dmovcVBOc0Z2cDl0SUFJQXVWZXVDMGl0SUhoZ0FyeTFsMFA4?=
+ =?utf-8?B?c0ZCTXhxelFKaHh6L1BiVENFUWltbHJicTNGOHpLM2FKR2N3V0YyR0VrbGtV?=
+ =?utf-8?B?eVdVQnNJTklQd2FVcHZleFFjK0xyakpJUjhQbWFMaERCZFRQOVpsaTdYTUgr?=
+ =?utf-8?B?S3RBUzRnYmx4NjVReUJNT014WlR2UElhSFpwUTdsMjU5d1A1bEZrbDM2dHBm?=
+ =?utf-8?B?b2NyMVRzR0I4dUtPT0FtZWdHNHlyVllWRldXRDc5dkJJTkFKSUdCN2hjT05Q?=
+ =?utf-8?B?aWFpenQ2UnlkWXdvcjNwaWZHUmFsMUFkS29MU2VmYlVtajZWcjdhc1lMTnFh?=
+ =?utf-8?B?U1A3OWhSNXB6SXdySnkzemdhYU9xTFdNR1VlM2NaOGhzRkxwME9mNWRJWng5?=
+ =?utf-8?B?c1NhaWZjbEJiOHl2TkdwTHpIU09Xb1d6b250dUtjc0IxVnBOeUFvRWE3TWdy?=
+ =?utf-8?B?U21Ra1ZJQVZFYlh3djRVNEpKeUd5VlZQZUJiYTcxTjZEcGwrQWFZQUtCWkJE?=
+ =?utf-8?B?aDdUanBLNEh1c0loY3RLbG5ZQ3pwNG9CaDJNUmVFdjdwVFpVZk5HRWhvbFpi?=
+ =?utf-8?B?Wkw3cC9lMmswaFF6UTU1MURhOHBJTFVxSGFYVm5iVWtSRW91d2NxRjRiL3RK?=
+ =?utf-8?B?cG51VEFGbGZZTUU5ZUNGRHBQQWZqb1JnbUx1WjVNZ1N5emE2c0R6TTVNcXhx?=
+ =?utf-8?B?VEE1YXBVa2xFWk5OTVRTTVJiV3ZpS1M3R3JXckJaYXd0QlNHTXFiVnZGMUdX?=
+ =?utf-8?B?WFRyUFZVNUFvazZMcmZRbXhsa05DZVRrWW9KQkVZalhkKzFzUHBmOXgrZ3lS?=
+ =?utf-8?B?QWdKTGljZmlkeSs0ZGFEakJ4RDhuZDhTL3dEa0xSTHdBRGYwaC9SdjRZakVx?=
+ =?utf-8?B?aStlNS9LejQveFVaVmxCREhwaklubmNMSVVpL3ByV2hNNGJPUy82WnFkZFFG?=
+ =?utf-8?B?Vlo0UkRoMi9VVSt2WlRvaDR0akZiVzBHWTNZNEkzVWFwU09La3czVDAzK2hK?=
+ =?utf-8?Q?fVyCDBSsSWVWbE0n40WVw135t?=
 X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32a956af-f23c-4cb6-d664-08dd87f60e71
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5753.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da84abb5-6752-4784-45bb-08dd87f50411
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2025 14:40:56.0908 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +1dduT2YkGNllnmcJBVSjKsl6mKgMMW2xpsYgjvCyp22RrPF3Xe+LcPgtKLe155U5HlO8HQj6t5KbD4pwlJrJQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9061
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 14:48:23.3476 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I6xi/qkQJTTAvk9ucabhgqAcsz6P6d5rNLTAvRmmc7vlz1qqCtHS9KUC2UMFDFhf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9021
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,149 +172,258 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - AMD Internal Distribution Only]
-
-I am not very familiar with the process here but looking forward to some re=
-sponse based.
-
-"Any objections to merge this through amd-staging-drm-next?
-
-The follow up amdgpu patches all depend on stuff in there which is not yet =
-merged to drm-misc-next.
-
-Christian "
-
------Original Message-----
-From: Jani Nikula <jani.nikula@linux.intel.com>
-Sent: Monday, April 28, 2025 5:20 PM
-To: Khatri, Sunil <Sunil.Khatri@amd.com>; Koenig, Christian <Christian.Koen=
-ig@amd.com>; Khatri, Sunil <Sunil.Khatri@amd.com>; dri-devel@lists.freedesk=
-top.org; amd-gfx@lists.freedesktop.org; David Airlie <airlied@linux.ie>; Si=
-mona Vetter <simona@ffwll.ch>; Maxime Ripard <mripard@kernel.org>; Maarten =
-Lankhorst <maarten.lankhorst@linux.intel.com>; Thomas Zimmermann <tzimmerma=
-nn@suse.de>
-Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Tvrtko Ursulin <tvrtko.=
-ursulin@igalia.com>; Pelloux-Prayer, Pierre-Eric <Pierre-eric.Pelloux-praye=
-r@amd.com>
-Subject: Re: [PATCH V8 1/5] drm: add drm_file_err function to add process i=
-nfo
-
-On Mon, 28 Apr 2025, "Khatri, Sunil" <sukhatri@amd.com> wrote:
-> On 4/22/2025 2:33 PM, Christian K=F6nig wrote:
->> Am 17.04.25 um 18:10 schrieb Sunil Khatri:
->>> Add a drm helper function which appends the process information for
->>> the drm_file over drm_err formatted output.
+On 4/30/25 16:13, oushixiong wrote:
+> 
+> 在 2025/4/30 19:03, Christian König 写道:
+>> On 4/30/25 10:56,oushixiong1025@163.com wrote:
+>>> From: Shixiong Ou<oushixiong@kylinos.cn>
 >>>
->>> v5: change to macro from function (Christian Koenig)
->>>      add helper functions for lock/unlock (Christian Koenig)
+>>> [WHY]
+>>> On some boards, the dma_mask of Aspeed devices is 0xffff_ffff, this
+>>> quite possibly causes the SWIOTLB to be triggered when importing dmabuf.
+>>> However IO_TLB_SEGSIZE limits the maximum amount of available memory
+>>> for DMA Streaming Mapping, as dmesg following:
 >>>
->>> v6: remove __maybe_unused and make function inline (Jani Nikula)
->>>      remove drm_print.h
+>>> [   24.885303][ T1947] ast 0000:07:00.0: swiotlb buffer is full (sz: 3145728 bytes), total 32768 (slots), used 0 (slots)
 >>>
->>> v7: Use va_format and %pV to concatenate fmt and vargs (Jani Nikula)
->>>
->>> v8: Code formatting and typos (Ursulin tvrtko)
->>>
->>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
->>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Any objections to merge this through amd-staging-drm-next?
-> Gentle reminder here folks ??
-
-It might help to Cc the drm-misc maintainers, though even that doesn't alwa=
-ys guarantee a reply. ;D
-
-Done now.
-
-Anyway, since I commented on an earlier version, and my feedback was addres=
-sed,
-
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-
-even though that does not help you merge via the amd tree.
-
-
-BR,
-Jani.
-
-
->> The follow up amdgpu patches all depend on stuff in there which is not y=
-et merged to drm-misc-next.
+>>> [HOW] Provide an interface so that attachment is not mapped when
+>>> importing dma-buf.
+>> This is unecessary. The extra abstraction in DRM is only useful when you want to implement the obj->funcs->get_sg_table() callback.
 >>
->> Thanks,
+>> When a driver doesn't want to expose an sg_table for a buffer or want some other special handling it can simply do so by implementing the DMA-buf interface directly.
+>>
+>> See drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c for an example on how to do this.
+>>
+>> Regards,
 >> Christian.
->>
->>> ---
->>>   drivers/gpu/drm/drm_file.c | 34 ++++++++++++++++++++++++++++++++++
->>>   include/drm/drm_file.h     |  3 +++
->>>   2 files changed, 37 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->>> index c299cd94d3f7..dd351f601acd 100644
->>> --- a/drivers/gpu/drm/drm_file.c
->>> +++ b/drivers/gpu/drm/drm_file.c
->>> @@ -986,6 +986,40 @@ void drm_show_fdinfo(struct seq_file *m, struct fi=
-le *f)
->>>   }
->>>   EXPORT_SYMBOL(drm_show_fdinfo);
->>>
->>> +/**
->>> + * drm_file_err - log process name, pid and client_name associated
->>> +with a drm_file
->>> + * @file_priv: context of interest for process name and pid
->>> + * @fmt: printf() like format string
->>> + *
->>> + * Helper function for clients which needs to log process details
->>> +such
->>> + * as name and pid etc along with user logs.
->>> + */
->>> +void drm_file_err(struct drm_file *file_priv, const char *fmt, ...)
->>> +{
->>> +   va_list args;
->>> +   struct va_format vaf;
->>> +   struct pid *pid;
->>> +   struct task_struct *task;
->>> +   struct drm_device *dev =3D file_priv->minor->dev;
->>> +
->>> +   va_start(args, fmt);
->>> +   vaf.fmt =3D fmt;
->>> +   vaf.va =3D &args;
->>> +
->>> +   mutex_lock(&file_priv->client_name_lock);
->>> +   rcu_read_lock();
->>> +   pid =3D rcu_dereference(file_priv->pid);
->>> +   task =3D pid_task(pid, PIDTYPE_TGID);
->>> +
->>> +   drm_err(dev, "comm: %s pid: %d client: %s ... %pV", task ? task->co=
-mm : "Unset",
->>> +           task ? task->pid : 0, file_priv->client_name ?: "Unset", &v=
-af);
->>> +
->>> +   va_end(args);
->>> +   rcu_read_unlock();
->>> +   mutex_unlock(&file_priv->client_name_lock);
->>> +}
->>> +EXPORT_SYMBOL(drm_file_err);
->>> +
->>>   /**
->>>    * mock_drm_getfile - Create a new struct file for the drm device
->>>    * @minor: drm minor to wrap (e.g. #drm_device.primary) diff --git
->>> a/include/drm/drm_file.h b/include/drm/drm_file.h index
->>> 94d365b22505..5c3b2aa3e69d 100644
->>> --- a/include/drm/drm_file.h
->>> +++ b/include/drm/drm_file.h
->>> @@ -446,6 +446,9 @@ static inline bool drm_is_accel_client(const struct=
- drm_file *file_priv)
->>>     return file_priv->minor->type =3D=3D DRM_MINOR_ACCEL;
->>>   }
->>>
->>> +__printf(2, 3)
->>> +void drm_file_err(struct drm_file *file_priv, const char *fmt,
->>> +...);
->>> +
->>>   void drm_file_update_pid(struct drm_file *);
->>>
->>>   struct drm_minor *drm_minor_acquire(struct xarray *minors_xa,
->>> unsigned int minor_id);
+> 
+> 
+> Thanks for the reminder,
+> 
+> most drivers that use DRM_GEM_SHADOW_PLANE_HELPER_FUNCSand DRM_GEM_SHMEM_DRIVER_OPS
+> 
+> don't need to import the sg_table, such as the udl and the ast and so on at the moment.
+> 
+> They just need to call dma_buf_vmap() to get the kernel virtual address of the shared buffer.
+> 
+> So I wondered if there was a simple generic PRIME implementation for these drivers.
+> 
+> If you don't recommend this, Maybe try to implement it in DRM_GEM_SHMEM_DRIVER_OPS ?
 
---
-Jani Nikula, Intel
+Well if you only want to implement vmap/vunmap the necessary code in the driver would look something like this:
+
+const struct dma_buf_ops amdgpu_dmabuf_ops = {
+        .map_dma_buf = dummy_map_function,
+        .release = drm_gem_dmabuf_release,
+        .mmap = drm_gem_dmabuf_mmap,
+        .vmap = drm_gem_dmabuf_vmap,
+        .vunmap = drm_gem_dmabuf_vunmap,
+};
+
+struct dma_buf *drv_gem_prime_export(struct drm_gem_object *gobj,
+                                        int flags)
+{
+        struct dma_buf *buf;
+
+        buf = drm_gem_prime_export(gobj, flags);
+        if (!IS_ERR(buf))
+                buf->ops = &amdgpu_dmabuf_ops;
+
+        return buf;
+}
+
+The only thing which could be improved is the dummy_map_function. As far as I can see we could make the map function optional in DMA-buf now.
+
+Apart from that you could make a DRM helper from that few lines, but to be honest I don't think it's worth it. It reduces the loc a bit, but there is no real complexity here which drivers could share.
+
+Regards,
+Christian.
+
+
+> 
+> Regards,
+> 
+> Shixiong Ou.
+> 
+>>> Signed-off-by: Shixiong Ou<oushixiong@kylinos.cn>
+>>> ---
+>>>   drivers/gpu/drm/ast/ast_drv.c          |  2 +-
+>>>   drivers/gpu/drm/drm_gem_shmem_helper.c | 17 +++++++
+>>>   drivers/gpu/drm/drm_prime.c            | 67 ++++++++++++++++++++++++--
+>>>   drivers/gpu/drm/udl/udl_drv.c          |  2 +-
+>>>   include/drm/drm_drv.h                  |  3 ++
+>>>   include/drm/drm_gem_shmem_helper.h     |  6 +++
+>>>   6 files changed, 91 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+>>> index 6fbf62a99c48..2dac6acf79e7 100644
+>>> --- a/drivers/gpu/drm/ast/ast_drv.c
+>>> +++ b/drivers/gpu/drm/ast/ast_drv.c
+>>> @@ -64,7 +64,7 @@ static const struct drm_driver ast_driver = {
+>>>       .minor = DRIVER_MINOR,
+>>>       .patchlevel = DRIVER_PATCHLEVEL,
+>>>   -    DRM_GEM_SHMEM_DRIVER_OPS,
+>>> +    DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS,
+>>>       DRM_FBDEV_SHMEM_DRIVER_OPS,
+>>>   };
+>>>   diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> index d99dee67353a..655d841df933 100644
+>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> @@ -799,6 +799,23 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
+>>>   +struct drm_gem_object *
+>>> +drm_gem_shmem_prime_import_attachment(struct drm_device *dev,
+>>> +                      struct dma_buf_attachment *attach)
+>>> +{
+>>> +    size_t size = PAGE_ALIGN(attach->dmabuf->size);
+>>> +    struct drm_gem_shmem_object *shmem;
+>>> +
+>>> +    shmem = __drm_gem_shmem_create(dev, size, true, NULL);
+>>> +    if (IS_ERR(shmem))
+>>> +        return ERR_CAST(shmem);
+>>> +
+>>> +    drm_dbg_prime(dev, "size = %zu\n", size);
+>>> +
+>>> +    return &shmem->base;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_attachment);
+>>> +
+>>>   MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
+>>>   MODULE_IMPORT_NS("DMA_BUF");
+>>>   MODULE_LICENSE("GPL v2");
+>>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+>>> index 8e70abca33b9..522cf974e202 100644
+>>> --- a/drivers/gpu/drm/drm_prime.c
+>>> +++ b/drivers/gpu/drm/drm_prime.c
+>>> @@ -911,6 +911,62 @@ struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
+>>>   }
+>>>   EXPORT_SYMBOL(drm_gem_prime_export);
+>>>   +/**
+>>> + * drm_gem_prime_import_dev_skip_map - core implementation of the import callback
+>>> + * @dev: drm_device to import into
+>>> + * @dma_buf: dma-buf object to import
+>>> + * @attach_dev: struct device to dma_buf attach
+>>> + *
+>>> + * This function exports a dma-buf without get it's scatter/gather table.
+>>> + *
+>>> + * Drivers who need to get an scatter/gather table for objects need to call
+>>> + * drm_gem_prime_import_dev() instead.
+>>> + */
+>>> +struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
+>>> +                             struct dma_buf *dma_buf,
+>>> +                             struct device *attach_dev)
+>>> +{
+>>> +    struct dma_buf_attachment *attach;
+>>> +    struct drm_gem_object *obj;
+>>> +    int ret;
+>>> +
+>>> +    if (dma_buf->ops == &drm_gem_prime_dmabuf_ops) {
+>>> +        obj = dma_buf->priv;
+>>> +        if (obj->dev == dev) {
+>>> +            /*
+>>> +             * Importing dmabuf exported from our own gem increases
+>>> +             * refcount on gem itself instead of f_count of dmabuf.
+>>> +             */
+>>> +            drm_gem_object_get(obj);
+>>> +            return obj;
+>>> +        }
+>>> +    }
+>>> +
+>>> +    attach = dma_buf_attach(dma_buf, attach_dev, true);
+>>> +    if (IS_ERR(attach))
+>>> +        return ERR_CAST(attach);
+>>> +
+>>> +    get_dma_buf(dma_buf);
+>>> +
+>>> +    obj = dev->driver->gem_prime_import_attachment(dev, attach);
+>>> +    if (IS_ERR(obj)) {
+>>> +        ret = PTR_ERR(obj);
+>>> +        goto fail_detach;
+>>> +    }
+>>> +
+>>> +    obj->import_attach = attach;
+>>> +    obj->resv = dma_buf->resv;
+>>> +
+>>> +    return obj;
+>>> +
+>>> +fail_detach:
+>>> +    dma_buf_detach(dma_buf, attach);
+>>> +    dma_buf_put(dma_buf);
+>>> +
+>>> +    return ERR_PTR(ret);
+>>> +}
+>>> +EXPORT_SYMBOL(drm_gem_prime_import_dev_skip_map);
+>>> +
+>>>   /**
+>>>    * drm_gem_prime_import_dev - core implementation of the import callback
+>>>    * @dev: drm_device to import into
+>>> @@ -946,9 +1002,6 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
+>>>           }
+>>>       }
+>>>   -    if (!dev->driver->gem_prime_import_sg_table)
+>>> -        return ERR_PTR(-EINVAL);
+>>> -
+>>>       attach = dma_buf_attach(dma_buf, attach_dev, false);
+>>>       if (IS_ERR(attach))
+>>>           return ERR_CAST(attach);
+>>> @@ -998,7 +1051,13 @@ EXPORT_SYMBOL(drm_gem_prime_import_dev);
+>>>   struct drm_gem_object *drm_gem_prime_import(struct drm_device *dev,
+>>>                           struct dma_buf *dma_buf)
+>>>   {
+>>> -    return drm_gem_prime_import_dev(dev, dma_buf, dev->dev);
+>>> +    if (dev->driver->gem_prime_import_sg_table)
+>>> +        return drm_gem_prime_import_dev(dev, dma_buf, dev->dev);
+>>> +    else if (dev->driver->gem_prime_import_attachment)
+>>> +        return drm_gem_prime_import_dev_skip_map(dev, dma_buf, dev->dev);
+>>> +    else
+>>> +        return ERR_PTR(-EINVAL);
+>>> +
+>>>   }
+>>>   EXPORT_SYMBOL(drm_gem_prime_import);
+>>>   diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+>>> index 05b3a152cc33..c00d8b8834f2 100644
+>>> --- a/drivers/gpu/drm/udl/udl_drv.c
+>>> +++ b/drivers/gpu/drm/udl/udl_drv.c
+>>> @@ -72,7 +72,7 @@ static const struct drm_driver driver = {
+>>>         /* GEM hooks */
+>>>       .fops = &udl_driver_fops,
+>>> -    DRM_GEM_SHMEM_DRIVER_OPS,
+>>> +    DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS,
+>>>       .gem_prime_import = udl_driver_gem_prime_import,
+>>>       DRM_FBDEV_SHMEM_DRIVER_OPS,
+>>>   diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+>>> index a43d707b5f36..aef8d9051fcd 100644
+>>> --- a/include/drm/drm_drv.h
+>>> +++ b/include/drm/drm_drv.h
+>>> @@ -326,6 +326,9 @@ struct drm_driver {
+>>>                   struct dma_buf_attachment *attach,
+>>>                   struct sg_table *sgt);
+>>>   +    struct drm_gem_object *(*gem_prime_import_attachment)(
+>>> +                struct drm_device *dev,
+>>> +                struct dma_buf_attachment *attach);
+>>>       /**
+>>>        * @dumb_create:
+>>>        *
+>>> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+>>> index cef5a6b5a4d6..39a93c222aaa 100644
+>>> --- a/include/drm/drm_gem_shmem_helper.h
+>>> +++ b/include/drm/drm_gem_shmem_helper.h
+>>> @@ -274,6 +274,9 @@ struct drm_gem_object *
+>>>   drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>>>                       struct dma_buf_attachment *attach,
+>>>                       struct sg_table *sgt);
+>>> +struct drm_gem_object *
+>>> +drm_gem_shmem_prime_import_attachment(struct drm_device *dev,
+>>> +                      struct dma_buf_attachment *attach);
+>>>   int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>>>                     struct drm_mode_create_dumb *args);
+>>>   @@ -287,4 +290,7 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>>>       .gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table, \
+>>>       .dumb_create           = drm_gem_shmem_dumb_create
+>>>   +#define DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS \
+>>> +    .gem_prime_import_attachment = drm_gem_shmem_prime_import_attachment, \
+>>> +    .dumb_create                 = drm_gem_shmem_dumb_create
+>>>   #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
+
