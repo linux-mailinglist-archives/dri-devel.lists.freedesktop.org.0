@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4CDAA407E
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 03:22:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4DCAAA4080
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 03:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE5F10E6A7;
-	Wed, 30 Apr 2025 01:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0F6910E6A8;
+	Wed, 30 Apr 2025 01:22:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="QIJ48TII";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Jp0MS0a7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2074.outbound.protection.outlook.com [40.107.223.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 413D910E6A6;
- Wed, 30 Apr 2025 01:22:14 +0000 (UTC)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2067.outbound.protection.outlook.com [40.107.101.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C2A10E6A6;
+ Wed, 30 Apr 2025 01:22:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JfLSs4W9Zymz6HbtZSSKcFdqS6SStl0w5t9XGwkMliDGq5X3ZgOZufyTcKEnPpUqC9eIGAG4Xy4tldTB0Wqf6akjzF+4XzuEnaH71NWC/jaHH8SVZhP/SWLBVpvNNq1d0RHskgCazDr2QTDTb0Ysjr1ZZOhcwFICKzVtBZGLIC9spZWJSpIxxg2fWs7pkAGha4i5uB+jRHxy1pyK8NNPT0nLIax41qVBZhRxgcyY69pjO/mz8FY9k6lMp4TBvKWK9Z+WAy/N0f8W0o8iLl6LWfxcjZz6dwybwyNfhOKEd6GYIcmvRCqEMBJLdSnEePq2QAv3SKq2JLOK3PDyDHfqOA==
+ b=TNamYaAbuvcXqGGsFlGpR2veuCTfArHvaBOUr2YHQEop0nw3XqkoI02m/cUMbh4rtk5gr8reTSDGdYORS1d1MXKPNdSLn6CzB2W25997zR0B6kFL8uTJ1uINQxlAxK+b/F5S4PtKe+KPChS5gYGawFdNt2Ayw7KWl2n51BRFhfhNU73gKEicl1nULGRdoToMUYW8U133WeuUTY4rBjxLQ0ev6vYhfPwf6MbvCHxVxuptgoXN56zp8DT4ePeikxzH3lhZ8fIUupIf9QNJVHt9Vr8+Nlm5c2CVh8mpg6C1tvfDCMPP35krSyvK13xgbKyNOG7S9+3jArd/qe9rITSXCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l1DI//jtVYzOp7NtMpP9nx/xXN95zTNNDlk2CFmt5jU=;
- b=XJKtEINXicIdv3KWs6WbYFmGXrHB8fIXDIOjPRyNgEc4+w5/MCa4f+yemfKG27kHzescvtFtmoEH8GaF5B5+Sj2TPHwepY4dntXWbNKODk4R0HxgFDgsemaOawUB9iVj7YPk0MrD0Ttlhtb/GUbzhwaV5fjg2PUpLAJMzppUdFUkJG9YUwveOdBIFr09zkpqbLrvHH0DXPZB2C6Fpi6On6uQv1Wd1EB/PmKVDor+HiEqPRS6J3Ejt/K1WJO09YOGh0FXPJTHCHS1HuLiASiKf/l0IY7JTL7h3aBHXCqIMLy1N+0XmyyxxkTqwfYgDjk9w/of5FocguFmFlzvS2ChiQ==
+ bh=/VuPL+IXOlnC2p+Lq4lzIV9VwtGUWGuG5vrIqzP6yps=;
+ b=c7lTlYKImz0t29IPpX6GVUaB2dm014Z3X08vtaPuL9O7H3d4cy5HklodJojRzKbREcrLoVcVh/NMPBgxNhf9InywKVXFJ7ImmDiaQyPjnz45eUXbBIxZn5YaysgNdq1jp0DZZ670NTpY6f6dvQV02E2avJEPzkyaD+z4U+GpO+o8fIEKRpt/4WiNM542cPv529xKjDpqAiUqR2cBpRVRYcgcSa1N3TilUlJ9IC7cuQGMaZTAeqKcdj9BzYtduncu94DX74Y0Nf+9DAefSR+BeGqAEsN5/CFt9K00lXE3tlQA6/f33Dewzvkjzf8IhImjcLPkyJgBQyX9XyA8xn0a9w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l1DI//jtVYzOp7NtMpP9nx/xXN95zTNNDlk2CFmt5jU=;
- b=QIJ48TIIX0af9pHlja4EyCfHzasM3Im1fBWfH9ykC0fkSP7Q+LR18Sh/mOxZ1G0FzYnVIQMa+Zu/YHHLljfNUJoxso1sc5DGQa/LZhKVaQag1doPmO1zwEZ17bWnwdo03Nmm+a+zrUu6O9wt2NRU7pjB9RpLYPBcs7P+heJjNpQ=
-Received: from BN9PR03CA0504.namprd03.prod.outlook.com (2603:10b6:408:130::29)
- by LV2PR12MB5799.namprd12.prod.outlook.com (2603:10b6:408:179::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Wed, 30 Apr
- 2025 01:22:10 +0000
-Received: from BN2PEPF000055E1.namprd21.prod.outlook.com
- (2603:10b6:408:130:cafe::94) by BN9PR03CA0504.outlook.office365.com
- (2603:10b6:408:130::29) with Microsoft SMTP Server (version=TLS1_3,
+ bh=/VuPL+IXOlnC2p+Lq4lzIV9VwtGUWGuG5vrIqzP6yps=;
+ b=Jp0MS0a7ks+YhttjkqOApK8mL1kMoAlkOMAOVOp0wEWlnOZQKkGJke/WuYCsh4qRrM03E4X2p2fN/6ANAiIYZNisR/TiKDPYIt411yxnS4VM4A+JT98RcBH+NLGjoePO/fnjjE8N6gGoufE01ONct37V9JJ5nYZyyNlKvkENhsc=
+Received: from SJ2PR07CA0013.namprd07.prod.outlook.com (2603:10b6:a03:505::15)
+ by BN7PPF521FFE181.namprd12.prod.outlook.com
+ (2603:10b6:40f:fc02::6d0) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.26; Wed, 30 Apr
+ 2025 01:22:25 +0000
+Received: from SJ5PEPF000001C9.namprd05.prod.outlook.com
+ (2603:10b6:a03:505:cafe::68) by SJ2PR07CA0013.outlook.office365.com
+ (2603:10b6:a03:505::15) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.40 via Frontend Transport; Wed,
- 30 Apr 2025 01:22:10 +0000
+ 30 Apr 2025 01:22:25 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN2PEPF000055E1.mail.protection.outlook.com (10.167.245.11) with Microsoft
+ SJ5PEPF000001C9.mail.protection.outlook.com (10.167.242.37) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8722.2 via Frontend Transport; Wed, 30 Apr 2025 01:22:09 +0000
+ 15.20.8699.20 via Frontend Transport; Wed, 30 Apr 2025 01:22:25 +0000
 Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 29 Apr
- 2025 20:22:06 -0500
+ 2025 20:22:21 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -68,9 +68,9 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>, Daniel Stone
  <daniels@collabora.com>
-Subject: [PATCH V9 42/43] drm/amd/display: add 3D LUT colorop
-Date: Tue, 29 Apr 2025 19:11:12 -0600
-Message-ID: <20250430011115.223996-43-alex.hung@amd.com>
+Subject: [PATCH V9 43/43] drm/amd/display: Add AMD color pipeline doc
+Date: Tue, 29 Apr 2025 19:11:13 -0600
+Message-ID: <20250430011115.223996-44-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250430011115.223996-1-alex.hung@amd.com>
 References: <20250430011115.223996-1-alex.hung@amd.com>
@@ -82,52 +82,52 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055E1:EE_|LV2PR12MB5799:EE_
-X-MS-Office365-Filtering-Correlation-Id: 501bbf9f-4789-4622-2038-08dd87856ddc
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001C9:EE_|BN7PPF521FFE181:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3321b2c6-5862-43e9-bf30-08dd878576ec
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|376014|7416014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dvqH0oY//BvimKzOgOHBUDCPrK8yL+IH+D6r4Q9+3q+O+7t4euLIBup7c+oN?=
- =?us-ascii?Q?PYR2H+JKDy9KePiu0RDLTpdTW3zWGGP6ci+uyLi6pFPw6o7CXp301AiAnJT+?=
- =?us-ascii?Q?8a8HV7NcMnmmwwHXIFlA7Op35NTu6womW1xbA+An6VHcEsc3nPqN28gjweSU?=
- =?us-ascii?Q?1K+c83O2Zg6KUcJbng7MhbL41NWspjRa5MWgFiOF3OCwT13wwggB/deZfrJP?=
- =?us-ascii?Q?zxy1uR9UiJQwY4U0oGCd2VkgFee1NfWecSZ2DEx3d0UeLF02ZgSS2Yg5tA3C?=
- =?us-ascii?Q?LyCt0ugKx4tbJJbkB0whZ7MIOCXqyhMUXVkwTEzFpF5lIkFNfrGpXVmcOrZJ?=
- =?us-ascii?Q?jlhJru8j5KSAmr58yhjF9wdL9SN85zYuunNTxa9FQQvFFPlNDVAYurMZI9AH?=
- =?us-ascii?Q?JRjk5NeXn6QlZc70V2bYX6ANhCu1W7FDNGGgKL5EWd2m3LBWdnIOdd0iwWdi?=
- =?us-ascii?Q?cn9wY8dMUIIHPJXPRizldZWihCXNBwv8K3ZGQL2jjhBCWUY/Y6+1XxpubNCp?=
- =?us-ascii?Q?xXQMRN/gtM3k/nPvtlNT2NxDTPBdn6clKuUzdRF/Y/mdn5gO1vjoVYN3Zmgs?=
- =?us-ascii?Q?vRGIGSD8WqcLga81x0UB4k28RcbeTjzj8hmGS6cEhcm2sd9A3dNHAnNU7Xbv?=
- =?us-ascii?Q?wsJCnoFomMbp5d3smu1GtEXV0NpAz1kVjS3FWgqdJgvEYNUJatCkCHVMaBWZ?=
- =?us-ascii?Q?RhVWL+RCkVhQZYbqDs3pD/qfS9SOi5sVR/0z4l8aZ8JjtvmUFDmzd6+xl19E?=
- =?us-ascii?Q?tLqrmk0aW4T0OVM8s59h3nBtABGzQdiMrJ/yLC490g8oGMxi5RrL34TLiAG6?=
- =?us-ascii?Q?eBP+HCFryIFAfAZoEzNG5i6K670xaik96iIQBCN7kUrbNmsxP6C1HFFONFyv?=
- =?us-ascii?Q?MVGoszxRS1vWd2iHh3ZqVwzikL1QOPxtpBV6dLTuu85FEfQybxG2E/OjMy9g?=
- =?us-ascii?Q?qEPdA+oKluPpZRIDoIzcdaQCAQyuEVFIesl26Xj9GghGQgoXESiwm66ADKIp?=
- =?us-ascii?Q?UBjR4JW+HgE1ndtdaIu+tfXP7QamUxP3RyY8aTOAtIlS8FTB6WhFBvo+su93?=
- =?us-ascii?Q?w4Ug8a/KJ2hV9Dw5L+XPbXTR5yFBo95kqRFEN4CFYvbMMvJ7AFbSA9yMjQ6W?=
- =?us-ascii?Q?16MfTw6WIaebMykEsrZaXnLC6rQPlAmleL3PNcAb7atoswFPN+9vg2TFt4lb?=
- =?us-ascii?Q?nI0Ca1mvW2fRLrrEqoPeLUuwhXyTPJqX/P41rGBZJbK4GUvCIOrL7bQnay53?=
- =?us-ascii?Q?gWu+9YPrPEMt768LTEVomnfcxNe+LXoKyLtWzJqO3YO5PjUXcMiRbJxG1g+j?=
- =?us-ascii?Q?6Xl1oa6TTZQXoBcgeJyjwQSv8u/wcNL7OHSebx+EmJfs098YzLtIyOAsHW/P?=
- =?us-ascii?Q?ZanZjpPoki8EIlRerdxbDp8jO3uETXlfNvFvaPV8kGUGAP3ZkAjiuNUztFpr?=
- =?us-ascii?Q?h2lRv6LZmPHBx65q5J9VGrf/HW1EUx0WeGsjtyITmec1LyDTsK1oFy7XDsg8?=
- =?us-ascii?Q?fQKt+2WYwTuC+/o6tpK6v09eornwE2lF6rHy?=
+ ARA:13230040|36860700013|82310400026|7416014|376014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Jcg9Fv1WaydjtcaQpzFHmOSZyaN5iU4Nn+LIWz/csj0khQJaazt7Z19OVUGT?=
+ =?us-ascii?Q?DluNUUKitPo9l1yJ0aGFwYQfQK+5DcWasfE4AVG/hyQb5KWKzzsRCOo+Tnj6?=
+ =?us-ascii?Q?PHiOiFMwEutkIxRz3eRnwC1tzq9q5zSQ75TAGItNeVDoWdNG1kQkxmBmec4f?=
+ =?us-ascii?Q?RXBYXQsyEchDU8pFZ7h3IXhXQMGJdm0tgIpJgbf5fVlSyR2MEePvKFf95YnM?=
+ =?us-ascii?Q?DhA/44Iq6xjEuhnQ51msPnBY7omEQUtsg5KiCOhtWzZijyj1xQhRFS96hGg6?=
+ =?us-ascii?Q?SDQ7SiZnqQgjmM/DwqCdTzjTYy5D4kA8F3g0SfOX9SQhteKedYy+WUY6GzVl?=
+ =?us-ascii?Q?Q2hIz766dg7GzqsQZ5AH360BaQW/6T0sgoSHIYLKfgVcfmjzNE+3MWudZCxc?=
+ =?us-ascii?Q?wSnMXTvTId0XqD0IFYgfMv5q58TfVqaTY/yKDEeTYPo+1bE6KctRxQXzrj3u?=
+ =?us-ascii?Q?Uu2OTENYedtkeWNQ8ivExyGiqFxXHrMiZRTLMUmHq9FM4FBKtwnuv+VLwlvo?=
+ =?us-ascii?Q?3JgSU4GWeiyk9Vgp3WbF7/Bn6wNWqdjh1m/9JyvtV0EW3cMods35KZ/DRmg4?=
+ =?us-ascii?Q?eucx+o+qdrtvqElMfvGQaq5oaOKa+NVuLe85z7A9C9X9g4VnBh+Qxou7i0UJ?=
+ =?us-ascii?Q?UCfA1zZCcIDboYKfLRJT94LHRcXRjLYyA5jaDuRg/i/ftMbCKU0gSZfdBKtp?=
+ =?us-ascii?Q?pMKV+6Z5I1xVKWLuq3LEPA7VOJ+cNXf4uHz0iHd+8cS7QyFzeZ7stktgMNHy?=
+ =?us-ascii?Q?6HC1RXRjO7eeLfvEDbyoUGBDQB/SD8gp6unbXfFsjMvkPoiB+922QfvF15Zi?=
+ =?us-ascii?Q?7S5VtUb5iU8YMxRZ1KtLPD5tIKSqF8RjzMK6DlJtCwBQVc69iY7A6G/iB8Ur?=
+ =?us-ascii?Q?dMR//pCgRahdLnqx65SGSL9G48fWE3rJZvKVZ0Az5suunNv6MAmxNXT13e8M?=
+ =?us-ascii?Q?JU+NPJb51fU5mplg7pe1z8spviYHPywCkUAFIepaGujdcS7t0v1Z+AqUIHdR?=
+ =?us-ascii?Q?qgpQa9oGTM2ZaXY7X8BTMQgz5I0aVMlg+gSrsi1xuJO6buEvRwymDSNgbLPp?=
+ =?us-ascii?Q?EdzKqRNKGyFuUxPJGo8GSoWn8AXS0BtkmYmc9OfgI2U3XRqoQHnHFjgmOu/s?=
+ =?us-ascii?Q?QYrKocKlJl4h6q29atYiYzXvPJ/TFXS9dH2r777AqnzzewqwRuLKyoVkMMkS?=
+ =?us-ascii?Q?0hjTnUMkn4rp7n9dPhOqu1iyUnROpZDbVbI/FB1zuddeCHGzutyPu+bqQ0do?=
+ =?us-ascii?Q?m/FcCIr5YulcLgKMKitfSwRwISQarmChTxiczfTx6tiuvvplaWYJwqu/aKtG?=
+ =?us-ascii?Q?vVbODjzt5NHqN6icvCGi64eaPD7oLXlk120GBxj1SHmIVSMB41cAQ77fD0cx?=
+ =?us-ascii?Q?1RLXoBuOolmcAK5yJji1gRVD4jMXJXXZ8Vd5SpoeTPakcm/7s+21xyZYchbO?=
+ =?us-ascii?Q?pADuMOXOuWNHs5hfMBGheW8izPU8Fcb3HMiKZhHBsDBSdj4x5YvLnNv2QHIB?=
+ =?us-ascii?Q?nmqPoGauOx9c2F0y3Q2T4oxobdrheYI1X8N0?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(376014)(7416014)(1800799024); DIR:OUT;
+ SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 01:22:09.9752 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 501bbf9f-4789-4622-2038-08dd87856ddc
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 01:22:25.1349 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3321b2c6-5862-43e9-bf30-08dd878576ec
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055E1.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001C9.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5799
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF521FFE181
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,205 +143,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for a 3D LUT.
+From: Harry Wentland <harry.wentland@amd.com>
 
-The color pipeline now consists of the following colorops:
-1. 1D curve colorop
-2. Multiplier
-3. 3x4 CTM
-4. 1D curve colorop
-5. 1D LUT
-6. 3D LUT
-7. 1D curve colorop
-8. 1D LUT
+Add kernel doc for AMD color pipeline.
 
 Signed-off-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 ---
-V9:
- - Return a value in __set_dm_plane_colorop_3dlut
-
-v8:
- - Set initialized to 0 and return when drm_lut3d_size is 0 (Harry Wentland)
- - Rework tf->type = TF_TYPE_BYPASS for shaper (Harry Wentland & Leo Li)
-
-v7:
- - Simplify 3D LUT according to drm_colorop changes (Simon Ser)
-
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 94 +++++++++++++++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 20 ++++
- 2 files changed, 114 insertions(+)
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 122 +++++++++++++++---
+ 1 file changed, 102 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index 313716f2003f..dfdd3f557570 100644
+index dfdd3f557570..ef30ea707077 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -1293,6 +1293,7 @@ __set_dm_plane_colorop_shaper(struct drm_plane_state *plane_state,
- 	struct dc_transfer_func *tf = &dc_plane_state->in_shaper_func;
- 	const struct drm_color_lut *shaper_lut;
- 	struct drm_device *dev = colorop->dev;
-+	bool enabled = false;
- 	uint32_t shaper_size;
- 	int i = 0, ret = 0;
- 
-@@ -1314,6 +1315,7 @@ __set_dm_plane_colorop_shaper(struct drm_plane_state *plane_state,
- 		ret = __set_output_tf(tf, 0, 0, false);
- 		if (ret)
- 			return ret;
-+		enabled = true;
- 	}
- 
- 	/* 1D LUT - SHAPER LUT */
-@@ -1345,12 +1347,93 @@ __set_dm_plane_colorop_shaper(struct drm_plane_state *plane_state,
- 			ret = __set_output_tf(tf, shaper_lut, shaper_size, false);
- 			if (ret)
- 				return ret;
-+			enabled = true;
- 		}
- 	}
- 
-+	if (!enabled)
-+		tf->type = TF_TYPE_BYPASS;
-+
- 	return 0;
- }
- 
-+/* __set_colorop_3dlut - set DRM 3D LUT to DC stream
-+ * @drm_lut3d: user 3D LUT
-+ * @drm_lut3d_size: size of 3D LUT
-+ * @lut3d: DC 3D LUT
+@@ -33,6 +33,32 @@
+ /**
+  * DOC: overview
+  *
++ * We have three types of color management in the AMD display driver.
++ * 1. the legacy &drm_crtc DEGAMMA, CTM, and GAMMA properties
++ * 2. AMD driver private color management on &drm_plane and &drm_crtc
++ * 3. AMD plane color pipeline
 + *
-+ * Map user 3D LUT data to DC 3D LUT and all necessary bits to program it
-+ * on DCN accordingly.
-+ */
-+static void __set_colorop_3dlut(const struct drm_color_lut *drm_lut3d,
-+				uint32_t drm_lut3d_size,
-+				struct dc_3dlut *lut)
-+{
-+	if (!drm_lut3d_size) {
-+		lut->state.bits.initialized = 0;
-+		return;
-+	}
-+
-+	/* Only supports 17x17x17 3D LUT (12-bit) now */
-+	lut->lut_3d.use_12bits = true;
-+	lut->lut_3d.use_tetrahedral_9 = false;
-+
-+	lut->state.bits.initialized = 1;
-+	__drm_3dlut_to_dc_3dlut(drm_lut3d, drm_lut3d_size, &lut->lut_3d,
-+				lut->lut_3d.use_tetrahedral_9, 12);
-+
-+}
-+
-+static int
-+__set_dm_plane_colorop_3dlut(struct drm_plane_state *plane_state,
-+			     struct dc_plane_state *dc_plane_state,
-+			     struct drm_colorop *colorop)
-+{
-+	struct drm_colorop *old_colorop;
-+	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
-+	struct dc_transfer_func *tf = &dc_plane_state->in_shaper_func;
-+	struct drm_atomic_state *state = plane_state->state;
-+	const struct amdgpu_device *adev = drm_to_adev(colorop->dev);
-+	const struct drm_device *dev = colorop->dev;
-+	const struct drm_color_lut *lut3d;
-+	uint32_t lut3d_size;
-+	int i = 0, ret = 0;
-+
-+	/* 3D LUT */
-+	old_colorop = colorop;
-+	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
-+		if (new_colorop_state->colorop == old_colorop &&
-+		    new_colorop_state->colorop->type == DRM_COLOROP_3D_LUT) {
-+			colorop_state = new_colorop_state;
-+			break;
-+		}
-+	}
-+
-+	if (colorop_state && !colorop_state->bypass && colorop->type == DRM_COLOROP_3D_LUT) {
-+		if (!adev->dm.dc->caps.color.dpp.hw_3d_lut) {
-+			drm_dbg(dev, "3D LUT is not supported by hardware\n");
-+			return -EINVAL;
-+		}
-+
-+		drm_dbg(dev, "3D LUT colorop with ID: %d\n", colorop->base.id);
-+		lut3d = __extract_blob_lut(colorop_state->data, &lut3d_size);
-+		lut3d_size = lut3d != NULL ? lut3d_size : 0;
-+		__set_colorop_3dlut(lut3d, lut3d_size, &dc_plane_state->lut3d_func);
-+
-+		/* 3D LUT requires shaper. If shaper colorop is bypassed, enable shaper curve
-+		 * with TRANSFER_FUNCTION_LINEAR
-+		 */
-+		if (tf->type == TF_TYPE_BYPASS) {
-+			tf->type = TF_TYPE_DISTRIBUTED_POINTS;
-+			tf->tf = TRANSFER_FUNCTION_LINEAR;
-+			tf->sdr_ref_white_level = SDR_WHITE_LEVEL_INIT_VALUE;
-+			ret = __set_output_tf(tf, NULL, 0, false);
-+		}
-+	}
-+
-+	return ret;
-+}
-+
- static int
- __set_dm_plane_colorop_blend(struct drm_plane_state *plane_state,
- 			     struct dc_plane_state *dc_plane_state,
-@@ -1522,6 +1605,17 @@ amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
- 	if (!colorop)
- 		return -EINVAL;
++ * The CRTC properties are the original color management. When they were
++ * implemented per-plane color management was not a thing yet. Because
++ * of that we could get away with plumbing the DEGAMMA and CTM
++ * properties to pre-blending HW functions. This is incompatible with
++ * per-plane color management, such as via the AMD private properties or
++ * the new drm_plane color pipeline. The only compatible CRTC property
++ * with per-plane color management is the GAMMA property as it is
++ * applied post-blending.
++ *
++ * The AMD driver private color management properties are only exposed
++ * when the kernel is built explicitly with -DAMD_PRIVATE_COLOR. They
++ * are temporary building blocks on the path to full-fledged &drm_plane
++ * and &drm_crtc color pipelines and lay the driver's groundwork for the
++ * color pipelines.
++ *
++ * The AMD plane color pipeline describes AMD's &drm_colorops via the
++ * &drm_plane's COLOR_PIPELINE property.
++ *
++ * drm_crtc Properties
++ * -------------------
++ *
+  * The DC interface to HW gives us the following color management blocks
+  * per pipe (surface):
+  *
+@@ -43,33 +69,89 @@
+  * - Surface regamma LUT (normalized)
+  * - Output CSC (normalized)
+  *
+- * But these aren't a direct mapping to DRM color properties. The current DRM
+- * interface exposes CRTC degamma, CRTC CTM and CRTC regamma while our hardware
+- * is essentially giving:
++ * But these aren't a direct mapping to DRM color properties. The
++ * current DRM interface exposes CRTC degamma, CRTC CTM and CRTC regamma
++ * while our hardware is essentially giving:
+  *
+  * Plane CTM -> Plane degamma -> Plane CTM -> Plane regamma -> Plane CTM
+  *
+- * The input gamma LUT block isn't really applicable here since it operates
+- * on the actual input data itself rather than the HW fp representation. The
+- * input and output CSC blocks are technically available to use as part of
+- * the DC interface but are typically used internally by DC for conversions
+- * between color spaces. These could be blended together with user
+- * adjustments in the future but for now these should remain untouched.
++ * The input gamma LUT block isn't really applicable here since it
++ * operates on the actual input data itself rather than the HW fp
++ * representation. The input and output CSC blocks are technically
++ * available to use as part of the DC interface but are typically used
++ * internally by DC for conversions between color spaces. These could be
++ * blended together with user adjustments in the future but for now
++ * these should remain untouched.
++ *
++ * The pipe blending also happens after these blocks so we don't
++ * actually support any CRTC props with correct blending with multiple
++ * planes - but we can still support CRTC color management properties in
++ * DM in most single plane cases correctly with clever management of the
++ * DC interface in DM.
++ *
++ * As per DRM documentation, blocks should be in hardware bypass when
++ * their respective property is set to NULL. A linear DGM/RGM LUT should
++ * also considered as putting the respective block into bypass mode.
++ *
++ * This means that the following configuration is assumed to be the
++ * default:
++ *
++ * Plane DGM Bypass -> Plane CTM Bypass -> Plane RGM Bypass -> ... CRTC
++ * DGM Bypass -> CRTC CTM Bypass -> CRTC RGM Bypass
++ *
++ * AMD Private Color Management on drm_plane
++ * -----------------------------------------
++ *
++ * The AMD private color management properties on a &drm_plane are:
++ *
++ * - AMD_PLANE_DEGAMMA_LUT
++ * - AMD_PLANE_DEGAMMA_LUT_SIZE
++ * - AMD_PLANE_DEGAMMA_TF
++ * - AMD_PLANE_HDR_MULT
++ * - AMD_PLANE_CTM
++ * - AMD_PLANE_SHAPER_LUT
++ * - AMD_PLANE_SHAPER_LUT_SIZE
++ * - AMD_PLANE_SHAPER_TF
++ * - AMD_PLANE_LUT3D
++ * - AMD_PLANE_LUT3D_SIZE
++ * - AMD_PLANE_BLEND_LUT
++ * - AMD_PLANE_BLEND_LUT_SIZE
++ * - AMD_PLANE_BLEND_TF
++ *
++ * The AMD private color management property on a &drm_crtc is:
++ *
++ * - AMD_CRTC_REGAMMA_TF
++ *
++ * Use of these properties is discouraged.
++ *
++ * AMD plane color pipeline
++ * ------------------------
++ *
++ * The AMD &drm_plane color pipeline is advertised for DCN generations
++ * 3.0 and newer. It exposes these elements in this order:
++ *
++ * 1. 1D curve colorop
++ * 2. Multiplier
++ * 3. 3x4 CTM
++ * 4. 1D curve colorop
++ * 5. 1D LUT
++ * 6. 3D LUT
++ * 7. 1D curve colorop
++ * 8. 1D LUT
++ *
++ * The multiplier (#2) is a simple multiplier that is applied to all
++ * channels.
++ *
++ * The 3x4 CTM (#3) is a simple 3x4 matrix.
+  *
+- * The pipe blending also happens after these blocks so we don't actually
+- * support any CRTC props with correct blending with multiple planes - but we
+- * can still support CRTC color management properties in DM in most single
+- * plane cases correctly with clever management of the DC interface in DM.
++ * #1, and #7 are non-linear to linear curves. #4 is a linear to
++ * non-linear curve. They support sRGB, PQ, and BT.709/BT.2020 EOTFs or
++ * their inverse.
+  *
+- * As per DRM documentation, blocks should be in hardware bypass when their
+- * respective property is set to NULL. A linear DGM/RGM LUT should also
+- * considered as putting the respective block into bypass mode.
++ * The 1D LUTs (#5 and #8) are plain 4096 entry LUTs.
+  *
+- * This means that the following
+- * configuration is assumed to be the default:
++ * The 3DLUT (#6) is a tetrahedrally interpolated 17 cube LUT.
+  *
+- * Plane DGM Bypass -> Plane CTM Bypass -> Plane RGM Bypass -> ...
+- * CRTC DGM Bypass -> CRTC CTM Bypass -> CRTC RGM Bypass
+  */
  
-+	/* 3D LUT */
-+	colorop = colorop->next;
-+	if (!colorop) {
-+		drm_dbg(dev, "no 3D LUT colorop found\n");
-+		return -EINVAL;
-+	}
-+
-+	ret = __set_dm_plane_colorop_3dlut(plane_state, dc_plane_state, colorop);
-+	if (ret)
-+		return ret;
-+
- 	/* 1D Curve & LUT - BLND TF & LUT */
- 	colorop = colorop->next;
- 	if (!colorop) {
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-index 10b3e3906461..e90774294971 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-@@ -49,6 +49,8 @@ const u64 amdgpu_dm_supported_blnd_tfs =
- 
- #define MAX_COLOR_PIPELINE_OPS 10
- 
-+#define LUT3D_SIZE		17
-+
- int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
- {
- 	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
-@@ -145,6 +147,24 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
- 
- 	i++;
- 
-+	/* 3D LUT */
-+	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-+	if (!ops[i]) {
-+		DRM_ERROR("KMS: Failed to allocate colorop\n");
-+		ret = -ENOMEM;
-+		goto cleanup;
-+	}
-+
-+	ret = drm_plane_colorop_3dlut_init(dev, ops[i], plane, LUT3D_SIZE,
-+				     DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
-+				     DRM_COLOROP_FLAG_ALLOW_BYPASS);
-+	if (ret)
-+		goto cleanup;
-+
-+	drm_colorop_set_next_property(ops[i-1], ops[i]);
-+
-+	i++;
-+
- 	/* 1D curve - BLND TF */
- 	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
- 	if (!ops[i]) {
+ #define MAX_DRM_LUT_VALUE 0xFFFF
 -- 
 2.43.0
 
