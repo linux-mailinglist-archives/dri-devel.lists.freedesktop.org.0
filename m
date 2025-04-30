@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5FDAA4070
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 03:20:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1BCAA4072
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 03:20:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A23D410E681;
-	Wed, 30 Apr 2025 01:20:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4E3310E684;
+	Wed, 30 Apr 2025 01:20:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="RS+PB8oW";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="au8ZDvt+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2062.outbound.protection.outlook.com [40.107.236.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEB1810E682;
- Wed, 30 Apr 2025 01:20:32 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2067.outbound.protection.outlook.com [40.107.237.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40EBF10E684;
+ Wed, 30 Apr 2025 01:20:49 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jRrye1lf8ZLscySxHzd5SfoeJap76nCoZ5WsI0mnOgDTYvoKrl4OcrXHM9nn0aEs4oG8REN/Tw9hZ8fZ+FZVFeQowBI5qxsy99czlfgpWWQUyt8oWUS3wamOdc3I+seVv5BGHMjg0YU9hdRZXtdi1AH0CQzJfLx0QECg2CW831ykUA11H3tH94fIh9E5iAiwhCVx/ql6DBF+oONk2BcM3BaQZHlXQEN0Mxm2sFlSinabZ+tgYOiDPEzXaxW1hnvLl+iJkPE5FQdBVOipn+58Ym/Qiz2QpuVOIA0hcurbmC3HUFI9BJ5tyCQoxw9mCjUvOc3Cwf71NePcEetwHc0J3w==
+ b=chBQvLPoEnAAoClD8gFo3/Y4IFfxPPDFGIo3p91DMJG8OGtWP5MWKGr8eloYE59pLdjeECfv6TR6ho9c1xSczBx2K2Elw8hbK5Fz17WtjdyLvz0v0pkumYycshVCcg02Dyj+k2eBBFkZuky+ZdvP3IpwdWMK3rwodtn8AEApUjRK7xPhU2T2MhU98eqYdl4XLj2hj1qBgjNaTzZ9fOxxnqJVtJjzaaA3ogAtIppvV/R9N4mT1Aq/XUsFRLd+Y1mtuAyx2tbrtgbdizcilZnx3nsy2Pn/yrbFZ85VLvBgXG62UaQDLEYg0wj9WD5jRK0AmA6EnicsvhfoU4D6B7QqdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W5S8tvqX0PVN35ioDToFZEZ7+jDp4t9/d0X5WiS4q3I=;
- b=ENMs5gam5csC1FKWRVFSa14s+Q1+5JHCTS9ROjkLjjsJdWKX44Pj6YjuIOgzlrEUcUqWoyBnG0cH6KvPL/JiTHTsQlYJa/4tD1RmljbPXcLQy4e3NUlg4kzWpdaHMudtCljTrl9xw6g+tUZ1gclwiZ/T/DtSJdKpwnOz1RvJ7T4OcvLtLmNpplVtFOJ/JU6w6jAETYhQcs3ZFTpM/XLKeK0iA5GngaW6weytjIKUYatxLBbTTA1kbEtXlUG2vtcCCUCSXKaAunVSdLYNiF8nkLJ0lY8oRSDs+3rfGRR/OhFYiKo1wdFB/sFqyWg2OFultCccm+rrFLPcPsD3pJMsqQ==
+ bh=pjkfnUlxhTC8osSsteD9C3ttjN8pkjPzCHnrFse5pKw=;
+ b=XbFz8aMel3vrS8F1FkXEalcljLpeGYI6fJgYUCXx/kTxCxTbQutKYq8XPYpi7KeY1Is+tJDM3lZJ91meXoOczTdk2RHuWqCb33lL7Iy2CahpHWKZWZzu7vmJNhWGm4HnEzLLbOS+oNWaSUFcUEVwxkP17Mw6pTX1kGeXghTRA2KR493+jGTr8Q62Kdg6dKRdh2L8QEgzSDSji6VwhqKpiw1QQYyo3HlsmSbHl9HrAtvLuH8HUYgT2hSg8WNfw26wz9fFzX9xW0AyxI7G/+AzDJGqrKY6xOi3aAfiIpMLboLhbz8Sgs3Ybyg3p5gRLn39nTmZnZz7n7qTDV7xlSADmw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W5S8tvqX0PVN35ioDToFZEZ7+jDp4t9/d0X5WiS4q3I=;
- b=RS+PB8oWDZC1hTC0Bramhxnvk6UKEAYNvLEdUSGtKfv80rzijI2nuNCB/erbX8Bzi0pXKfNxAPY7HnbAR7W2mqEIeD6NROiRALlqc+veY+gVg8JcpAe+39L4JbaAe8TUzDMXaZUwJGnGlXKFG9OiS0T3SzbxkCuZc/g0hPn72Vs=
-Received: from BL1PR13CA0184.namprd13.prod.outlook.com (2603:10b6:208:2be::9)
- by PH8PR12MB7373.namprd12.prod.outlook.com (2603:10b6:510:217::16)
+ bh=pjkfnUlxhTC8osSsteD9C3ttjN8pkjPzCHnrFse5pKw=;
+ b=au8ZDvt+tlFP3vOvy4EvnaWdmfSGTnoJIA79UTook7Jboago++srzmGUpGViBMhIj1ws9SgBq1EmI7UUZ57l83A2Bs2EudhNykF/jQK6Mf0RREF1ZjIdHKk+4LgAw8nmpCrdccncnFsUvleeo2USElaJ230VtNw7s3Bdvl/zT0I=
+Received: from BN0PR04CA0170.namprd04.prod.outlook.com (2603:10b6:408:eb::25)
+ by CH2PR12MB4230.namprd12.prod.outlook.com (2603:10b6:610:aa::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Wed, 30 Apr
- 2025 01:20:28 +0000
-Received: from BN2PEPF000055DF.namprd21.prod.outlook.com
- (2603:10b6:208:2be:cafe::48) by BL1PR13CA0184.outlook.office365.com
- (2603:10b6:208:2be::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8678.13 via Frontend Transport; Wed,
- 30 Apr 2025 01:20:27 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Wed, 30 Apr
+ 2025 01:20:42 +0000
+Received: from BN2PEPF000055DD.namprd21.prod.outlook.com
+ (2603:10b6:408:eb:cafe::5c) by BN0PR04CA0170.outlook.office365.com
+ (2603:10b6:408:eb::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.23 via Frontend Transport; Wed,
+ 30 Apr 2025 01:20:42 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN2PEPF000055DF.mail.protection.outlook.com (10.167.245.9) with Microsoft
+ BN2PEPF000055DD.mail.protection.outlook.com (10.167.245.7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8722.2 via Frontend Transport; Wed, 30 Apr 2025 01:20:27 +0000
+ 15.20.8722.2 via Frontend Transport; Wed, 30 Apr 2025 01:20:42 +0000
 Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 29 Apr
- 2025 20:20:24 -0500
+ 2025 20:20:38 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -68,9 +68,9 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>, Daniel Stone
  <daniels@collabora.com>
-Subject: [PATCH V9 35/43] drm/amd/display: add 3x4 matrix colorop
-Date: Tue, 29 Apr 2025 19:11:05 -0600
-Message-ID: <20250430011115.223996-36-alex.hung@amd.com>
+Subject: [PATCH V9 36/43] drm/colorop: Add mutliplier type
+Date: Tue, 29 Apr 2025 19:11:06 -0600
+Message-ID: <20250430011115.223996-37-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250430011115.223996-1-alex.hung@amd.com>
 References: <20250430011115.223996-1-alex.hung@amd.com>
@@ -82,52 +82,52 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055DF:EE_|PH8PR12MB7373:EE_
-X-MS-Office365-Filtering-Correlation-Id: a0df4485-de64-4f11-8c8f-08dd878530f4
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055DD:EE_|CH2PR12MB4230:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86e7436a-e621-4c8b-dc31-08dd87853971
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|36860700013|82310400026|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?S5HlbzRNNFm7rIDvOiiKfv9YO6LT4JMfOYLnCzRyrZgxczyuKpHjGBNaDoV+?=
- =?us-ascii?Q?zUdl1lGRiXKIXuCgpNFPr+PDAfBzF2cQ7A8NLUDR7cMl9iD6S/sIQfqJWBaO?=
- =?us-ascii?Q?/oY/gJXCnl7y2xTY7ys4rosGs3uh7bKctW+4BOApw6exRC8Kcsz1ijN7cYex?=
- =?us-ascii?Q?9lJtWMxgXlmdeFfdPaQOgFnz3x9UVKoqEHB1J6PVWl/lvwf0Oq+Q9gXtYTjo?=
- =?us-ascii?Q?aT1laHeCU2Q1a/4RZ/ibthdiU1DOy6zHejfp4Fo6jWY+/+Db5uIlUQwfX4Wm?=
- =?us-ascii?Q?OxXCbT+fPcerjVhOgguoaBh+7LW874/bbL7PblKWm6WAk4YnjGY9BxkHF1qD?=
- =?us-ascii?Q?53WzGnyBqoZ1GxcwFX6bCwtA878z1enCKWVR12budH2jKPdeIz1VU/D3EAL9?=
- =?us-ascii?Q?/3yYpeJKhkfj5LwfA751BBq60QqUHDhNQlYXJ/QgVp/WH06F2X3fnm2nU9to?=
- =?us-ascii?Q?wzP/N2hoO0KFJUSANbI4jEbTRLcrF7zX3Qn/OdkWFfW9w2dsw1px0oaADJEq?=
- =?us-ascii?Q?1Ky5Yk1cgf+myGaPDW24dPzawJaRAewIpf7X8ba6wkMYy9wLHf5rG6H5yU9e?=
- =?us-ascii?Q?67iDWfM0A3X0QeQ8DhjWPv9J85OBeu6egtfO8GVFWLU2Ov15rovb6VnN3Wi1?=
- =?us-ascii?Q?NKaC50ZQWxnzH71axoQII0MvOEx7XryvWRZijbZqz6BAh9GqoyduQ/PD/THq?=
- =?us-ascii?Q?EQSgG+9/c/PCS7eHddzusQY6gcBJJ2JCVSGvEfqVbdiq67h+bp0OrC4e8fet?=
- =?us-ascii?Q?3wKpBGzcmUFmnNJrNEfU/1NDA6kBP0dezGIxrluXeE2LWvxlEi26KEl3KSgU?=
- =?us-ascii?Q?xVqkT/O2elNznaz0knk10yCQKmsVMtYmDegnBBQsrgIYCri2KrRcpdRV4wh7?=
- =?us-ascii?Q?yUoig5th7D48BVo/XPI7x+EkwiHJvQQCurRJCL/jGBARhjg2TsfiH90Iyp+D?=
- =?us-ascii?Q?KINVY1s6EGPQpi1B8jb22tqAFa7H7ptJHQ/T9XbzI6jERhmnyUGOtf6TJx9J?=
- =?us-ascii?Q?LA8HqgBiu7IIvcnx6/1FkjqDxbh92v05KeoddpiQ6BEFtmHmCBsE7IdJvCOz?=
- =?us-ascii?Q?5mn7Zl+juLDYgiymthPmxJMalltMig/rG0ppGmrnFQTbRbfuBxcN4sLsXf4B?=
- =?us-ascii?Q?WL636zWaqZ2Drblhjfi0EhpFmGPtmxkvTdFAPmWsZrvEM60+HUZE6hCNWa1E?=
- =?us-ascii?Q?1ICuRGvRBIqIJA4Pnn7skIPdcMvYSVxsoRj3iHhN/0wyMsOIYpuhDF3hZzQ+?=
- =?us-ascii?Q?/l13JCuEQhVqLxPvRnUPwCy+N++e4HvvCf/UyZlzPOB45VOh4wHL7W+uWhsl?=
- =?us-ascii?Q?dFH/PFQXF17MrJyhx5yR97t9ysXsSgbgAu6jFGPlT7zkiibT1RJkaocVEnPj?=
- =?us-ascii?Q?XhUNbhaV/xhOG1+plVk8vhkPW8KuCuySe7O01zcHob8w/wTYRK3X4DT+cMbt?=
- =?us-ascii?Q?dBXneLQ4o8DpQ9To1dVR3QYdwj79qK+lJGQSE6o0jaohdoi3Tm9guVHDNVJN?=
- =?us-ascii?Q?LFW5rGsfBnbVI1MLl5OXQ9uiVnYiUHXSSAOG?=
+ ARA:13230040|7416014|1800799024|376014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?wonsOhQzRc1B6G40n+GvRUd3xX56baa7mD5FIbZE0eTE5loDPyn1t3JjMBg7?=
+ =?us-ascii?Q?124nUwVMHJTzKW2SzLveUBvWwSMZC1rfC6qN3FBB7Na5WS+obQhoKCyQCQLN?=
+ =?us-ascii?Q?JRccy189db2d/7JgWtdAm/mKaB+41+83rh3w6dzHWWnATL9EkPQjIu0SKuad?=
+ =?us-ascii?Q?HK5NFUYcB1PAH45kDvXdlgswmSyzQwRe7nFvQZNnpJHTmTXwZYPAR764D6tG?=
+ =?us-ascii?Q?ctxFA1k27ZbqYV4svFifgNve8YhVrRXbDx7TiCCOCS20udUXKdsmGzzQeVOS?=
+ =?us-ascii?Q?ML9LDf5jBk7GxRhq7UojtKD0tXQCtun2MDmfesXG2xkPz67VAJzhpjPPjMYl?=
+ =?us-ascii?Q?ki8gaAEjR1o53CfvDBP3Z6suPLvoDQfgmKSk8IISf8wyqO7dD7qd9b9BXYXG?=
+ =?us-ascii?Q?CuLBRpFOqugdmvl5wKyJ+tQaVJ+/K6AMsH03Ut2rNTodY8whuKLSUxy9jEko?=
+ =?us-ascii?Q?4ggBvr0ZYSMp/VlJ4TAMzv1k2yzU6DOqgq0mydZHJOayY8WRSR04Y5BXFOwb?=
+ =?us-ascii?Q?zQFzuM1/Gs/sU8OjQ8/VYCXvj58WnViLA0CREcTEBTnqQuiXLax8MkzG1Kdh?=
+ =?us-ascii?Q?wjbyozEJmb7D6UqIl3DYXB75EoMh1PRQPE8jnBdmqPfKqahk2yjn+6iqwjFj?=
+ =?us-ascii?Q?OvayGhORFoMYyjgCSqC8nsmWJcZ52+TILnAMxlmEPgumvQMlvBVX5KSqwQ/H?=
+ =?us-ascii?Q?Cjy/6R85OsbPqkTD4YwIVRb0PVaqvoCxtVoRGOfvGrqGR4unfku2NIKxK+yO?=
+ =?us-ascii?Q?wkhqA88j1oE3fQXI8GA6dolC2Gz+dHo3NTz+118XAAtFMgwMAyKk09h/R40Z?=
+ =?us-ascii?Q?Qa2cSTefap8e5MpQ/Jbg/8fus6RBIyqijlwfyFHsCKrn3aRF0JERCjkUELmO?=
+ =?us-ascii?Q?BsB+nysfkpuFXB4ZpNUpitwt+YAEdX83Kxu5Iq/BRChft+SalgzkXuypzZmn?=
+ =?us-ascii?Q?ezeaaALMVsI6ocJ+JS+DR+K693z8Bx+5BIzF5HWHBY0IUoS0aeM7gfslb3lZ?=
+ =?us-ascii?Q?ZzSgphepZXvaL+CDHG9PZSKm0FJOS1DzUF2dXI9l0IDZ/bHFQpjbbWGO4HAu?=
+ =?us-ascii?Q?h6QnVtK+PUo/4r8bAZxZpS+G+YsF+DVRfc/xs7D8oy4kONcs6apqLjim4gMG?=
+ =?us-ascii?Q?+cZCYg84TlI/hOWRpFb5LH+sGL2nMsx1J1aXaO2JZwYtH4Y1GS1FyyDXrDQZ?=
+ =?us-ascii?Q?BFE7SRKwfxOdn8qOOyFWILdaJb72NB6wotppSOof3M6F+l734AD7VGZAbCx8?=
+ =?us-ascii?Q?GOS2ivEBhed2KCoZK01j/7/kvdDRFy8in9y5u4DPcnPRbqpn9o3ywdjR8oD+?=
+ =?us-ascii?Q?csVSV4qytLQ+/GimIlNq6pllFDnhKUqD5OejuvoILIxa0xAEywVKD7GtA9LG?=
+ =?us-ascii?Q?3+Bj4kM6baTc8uskYTeCKxqguCqg/5nhev6RdWZ1KHHaZm1IB0xX4Dz+ISNj?=
+ =?us-ascii?Q?dKg2MmseG+DpjWuXv+4nWQu/WDQvIlQp/YFuuMycxppYUmlmSUwpScgp76HS?=
+ =?us-ascii?Q?jVlRhxrYY5M/zcBDYSLC1rpbiBj35lKQD7Xd?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(7416014)(36860700013)(82310400026)(376014)(1800799024); DIR:OUT;
+ SFS:(13230040)(7416014)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 01:20:27.7922 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0df4485-de64-4f11-8c8f-08dd878530f4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 01:20:42.0364 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86e7436a-e621-4c8b-dc31-08dd87853971
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055DF.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055DD.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7373
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4230
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,140 +143,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for a 3x4 color transformation matrix.
+This introduces a new drm_colorop_type: DRM_COLOROP_MULTIPLIER.
 
-With this change the following IGT tests pass:
-kms_colorop --run plane-XR30-XR30-ctm_3x4_50_desat
-kms_colorop --run plane-XR30-XR30-ctm_3x4_overdrive
-kms_colorop --run plane-XR30-XR30-ctm_3x4_oversaturate
-kms_colorop --run plane-XR30-XR30-ctm_3x4_bt709_enc
-kms_colorop --run plane-XR30-XR30-ctm_3x4_bt709_dec
+It's a simple multiplier to all pixel values. The value is
+specified via a S31.32 fixed point provided via the
+"MULTIPLIER" property.
 
-The color pipeline now consists of the following colorops:
-1. 1D curve colorop
-2. 3x4 CTM
-3. 1D curve colorop
-4. 1D LUT
-5. 1D curve colorop
-6. 1D LUT
-
+Reviewed-by: Simon Ser <contact@emersion.fr>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 ---
 V9:
  - Update function names by _plane_ (Chaitanya Kumar Borah)
 
-v8:
- - Return -EINVAL when drm_color_ctm_3x4's size mismatches (Leo Li)
-
 v7:
- - Change %lu to %zu for sizeof() when In drm_warn
+ - Modify size_property to lut_size_property
 
-v6:
- - fix warnings in dbg prints
+ drivers/gpu/drm/drm_atomic.c      |  3 +++
+ drivers/gpu/drm/drm_atomic_uapi.c |  4 ++++
+ drivers/gpu/drm/drm_colorop.c     | 33 +++++++++++++++++++++++++++++++
+ include/drm/drm_colorop.h         | 16 +++++++++++++++
+ include/uapi/drm/drm_mode.h       | 11 +++++++++++
+ 5 files changed, 67 insertions(+)
 
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 52 +++++++++++++++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 16 ++++++
- 2 files changed, 68 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index cf73c794ac5a..268d4837759e 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -1211,6 +1211,47 @@ __set_dm_plane_colorop_degamma(struct drm_plane_state *plane_state,
- 	return __set_colorop_in_tf_1d_curve(dc_plane_state, colorop_state);
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 1dda90554e46..907ca790689f 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -800,6 +800,9 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
+ 	case DRM_COLOROP_CTM_3X4:
+ 		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
+ 		break;
++	case DRM_COLOROP_MULTIPLIER:
++		drm_printf(p, "\tmultiplier=%llu\n", state->multiplier);
++		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 0cd250db3981..a7f1d75bb4ea 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -739,6 +739,8 @@ static int drm_atomic_colorop_set_property(struct drm_colorop *colorop,
+ 		state->bypass = val;
+ 	} else if (property == colorop->curve_1d_type_property) {
+ 		state->curve_1d_type = val;
++	} else if (property == colorop->multiplier_property) {
++		state->multiplier = val;
+ 	} else if (property == colorop->data_property) {
+ 		return drm_atomic_color_set_data_property(colorop, state,
+ 							  property, val);
+@@ -764,6 +766,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *colorop,
+ 		*val = state->bypass;
+ 	} else if (property == colorop->curve_1d_type_property) {
+ 		*val = state->curve_1d_type;
++	} else if (property == colorop->multiplier_property) {
++		*val = state->multiplier;
+ 	} else if (property == colorop->lut_size_property) {
+ 		*val = colorop->lut_size;
+ 	} else if (property == colorop->data_property) {
+diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+index 6c87f5b9f7f9..a3cf62c5e263 100644
+--- a/drivers/gpu/drm/drm_colorop.c
++++ b/drivers/gpu/drm/drm_colorop.c
+@@ -66,6 +66,7 @@ static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
+ 	{ DRM_COLOROP_1D_CURVE, "1D Curve" },
+ 	{ DRM_COLOROP_1D_LUT, "1D LUT" },
+ 	{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
++	{ DRM_COLOROP_MULTIPLIER, "Multiplier"},
+ };
+ 
+ static const char * const colorop_curve_1d_type_names[] = {
+@@ -327,6 +328,37 @@ int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *c
  }
+ EXPORT_SYMBOL(drm_plane_colorop_ctm_3x4_init);
  
-+static int
-+__set_dm_plane_colorop_3x4_matrix(struct drm_plane_state *plane_state,
-+				  struct dc_plane_state *dc_plane_state,
-+				  struct drm_colorop *colorop)
++/**
++ * drm_plane_colorop_mult_init - Initialize a DRM_COLOROP_MULTIPLIER
++ *
++ * @dev: DRM device
++ * @colorop: The drm_colorop object to initialize
++ * @plane: The associated drm_plane
++ * @return zero on success, -E value on failure
++ */
++int drm_plane_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
++				struct drm_plane *plane)
 +{
-+	struct drm_colorop *old_colorop;
-+	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
-+	struct drm_atomic_state *state = plane_state->state;
-+	const struct drm_device *dev = colorop->dev;
-+	const struct drm_property_blob *blob;
-+	struct drm_color_ctm_3x4 *ctm = NULL;
-+	int i = 0;
++	struct drm_property *prop;
++	int ret;
 +
-+	/* 3x4 matrix */
-+	old_colorop = colorop;
-+	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
-+		if (new_colorop_state->colorop == old_colorop &&
-+		    new_colorop_state->colorop->type == DRM_COLOROP_CTM_3X4) {
-+			colorop_state = new_colorop_state;
-+			break;
-+		}
-+	}
-+
-+	if (colorop_state && !colorop_state->bypass && colorop->type == DRM_COLOROP_CTM_3X4) {
-+		drm_dbg(dev, "3x4 matrix colorop with ID: %d\n", colorop->base.id);
-+		blob = colorop_state->data;
-+		if (blob->length == sizeof(struct drm_color_ctm_3x4)) {
-+			ctm = blob ? (struct drm_color_ctm_3x4 *) blob->data : NULL;
-+			__drm_ctm_3x4_to_dc_matrix(ctm, dc_plane_state->gamut_remap_matrix.matrix);
-+			dc_plane_state->gamut_remap_matrix.enable_remap = true;
-+			dc_plane_state->input_csc_color_matrix.enable_adjustment = false;
-+		} else {
-+			drm_warn(dev, "blob->length (%lu) isn't equal to drm_color_ctm_3x4 (%zu)\n",
-+				 blob->length, sizeof(struct drm_color_ctm_3x4));
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int
- __set_dm_plane_colorop_shaper(struct drm_plane_state *plane_state,
- 			      struct dc_plane_state *dc_plane_state,
-@@ -1414,6 +1455,17 @@ amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
- 	if (ret)
- 		return ret;
- 
-+	/* 3x4 matrix */
-+	colorop = colorop->next;
-+	if (!colorop) {
-+		drm_dbg(dev, "no 3x4 matrix colorop found\n");
-+		return -EINVAL;
-+	}
-+
-+	ret = __set_dm_plane_colorop_3x4_matrix(plane_state, dc_plane_state, colorop);
++	ret = drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_MULTIPLIER);
 +	if (ret)
 +		return ret;
 +
- 	/* 1D Curve & LUT - SHAPER TF & LUT */
- 	colorop = colorop->next;
- 	if (!colorop) {
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-index 1a03f7ee2fbb..39f0b383700b 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-@@ -75,6 +75,22 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
++	prop = drm_property_create_range(dev, DRM_MODE_PROP_ATOMIC, "MULTIPLIER", 0, U64_MAX);
++	if (!prop)
++		return -ENOMEM;
++
++	colorop->multiplier_property = prop;
++	drm_object_attach_property(&colorop->base, colorop->multiplier_property, 0);
++
++	drm_colorop_reset(colorop);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_plane_colorop_mult_init);
++
+ static void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
+ 							struct drm_colorop_state *state)
+ {
+@@ -418,6 +450,7 @@ static const char * const colorop_type_name[] = {
+ 	[DRM_COLOROP_1D_CURVE] = "1D Curve",
+ 	[DRM_COLOROP_1D_LUT] = "1D LUT",
+ 	[DRM_COLOROP_CTM_3X4] = "3x4 Matrix",
++	[DRM_COLOROP_MULTIPLIER] = "Multiplier",
+ };
  
- 	i++;
+ const char *drm_get_colorop_type_name(enum drm_colorop_type type)
+diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+index 52e965577bd8..888184aef7a0 100644
+--- a/include/drm/drm_colorop.h
++++ b/include/drm/drm_colorop.h
+@@ -146,6 +146,13 @@ struct drm_colorop_state {
+ 	 */
+ 	enum drm_colorop_curve_1d_type curve_1d_type;
  
-+	/* 3x4 matrix */
-+	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-+	if (!ops[i]) {
-+		DRM_ERROR("KMS: Failed to allocate colorop\n");
-+		ret = -ENOMEM;
-+		goto cleanup;
-+	}
++	/**
++	 * @multiplier:
++	 *
++	 * Multiplier to 'gain' the plane. Format is S31.32 sign-magnitude.
++	 */
++	uint64_t multiplier;
 +
-+	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane);
-+	if (ret)
-+		goto cleanup;
+ 	/**
+ 	 * @data:
+ 	 *
+@@ -273,6 +280,13 @@ struct drm_colorop {
+ 	 */
+ 	struct drm_property *curve_1d_type_property;
+ 
++	/**
++	 * @multiplier_property:
++	 *
++	 * Multiplier property for plane gain
++	 */
++	struct drm_property *multiplier_property;
 +
-+	drm_colorop_set_next_property(ops[i-1], ops[i]);
+ 	/**
+ 	 * @lut_size_property:
+ 	 *
+@@ -330,6 +344,8 @@ int drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_color
+ 					struct drm_plane *plane, uint32_t lut_size);
+ int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+ 				   struct drm_plane *plane);
++int drm_plane_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
++				struct drm_plane *plane);
+ 
+ struct drm_colorop_state *
+ drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index dde250dd7a51..fa5e1ddaf4f0 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -919,6 +919,17 @@ enum drm_colorop_type {
+ 	 * | B |   | 8  9  10 12 |   | B |
+ 	 */
+ 	DRM_COLOROP_CTM_3X4,
 +
-+	i++;
-+
- 	/* 1D curve - SHAPER TF */
- 	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
- 	if (!ops[i]) {
++	/**
++	 * @DRM_COLOROP_MULTIPLIER:
++	 *
++	 * enum string "Multiplier"
++	 *
++	 * A simple multiplier, applied to all color values. The
++	 * multiplier is specified as a S31.32 via the MULTIPLIER
++	 * property.
++	 */
++	DRM_COLOROP_MULTIPLIER,
+ };
+ 
+ /**
 -- 
 2.43.0
 
