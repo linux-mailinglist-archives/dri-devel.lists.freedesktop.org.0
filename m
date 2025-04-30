@@ -2,64 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB2BAA5383
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 20:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C20DAA53DC
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 20:41:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 520D310E10B;
-	Wed, 30 Apr 2025 18:16:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE1210E7F8;
+	Wed, 30 Apr 2025 18:41:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FBN/ePs+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DaJZQGSy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB7110E10B;
- Wed, 30 Apr 2025 18:16:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0CF8E68495;
- Wed, 30 Apr 2025 18:16:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFBA3C4CEE7;
- Wed, 30 Apr 2025 18:16:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746036989;
- bh=u+gLd6Cauqg83Q7vPE135p/3fXtheyIdEV1XMt+xhxo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FBN/ePs+8ER1bxqKoTN23OCJ/q3dk2qoAgx0OTRaleborkhSxY1sSuVm2cmc9VNEw
- mXY1MtXfvQFxFkXuL1L2sQwnqTBXYRIrl28i1Uv7Wbv3um5MKxKKNmXt5P58dBlAHh
- /wjQsFpIGVVBUoghUOu2f1OqS1HQwGjQkOT64acXoUP4bAKB2zw/1IdskFvnw4kzVD
- lkO8aNbPKupRQYD5wo94L5fjBGIBmTNm9LDAV0nygZendKx6DV4QnVrelLXUbVEPWr
- xxJoqx+PWyI2Yk2IseALagcqoAgboZ7+xUFTppeZ/uOuEjtA7TFHQ0T0gzjSpveGjC
- rh1J67l04Imjg==
-Date: Wed, 30 Apr 2025 20:16:22 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 11/16] gpu: nova-core: add falcon register definitions
- and base code
-Message-ID: <aBJo9qNDn8xDEwlk@pollux>
-References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
- <20250420-nova-frts-v1-11-ecd1cca23963@nvidia.com>
- <aAerWF9j5d01pQv0@cassiopeiae>
- <D9K09AU4KTQJ.3TVVZPMDB0H7I@nvidia.com>
- <9977ad2e-ce2d-48b5-a222-f74a821abfeb@nvidia.com>
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com
+ [209.85.166.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D91910E0A1;
+ Wed, 30 Apr 2025 18:41:06 +0000 (UTC)
+Received: by mail-il1-f171.google.com with SMTP id
+ e9e14a558f8ab-3d9189e9a06so891375ab.2; 
+ Wed, 30 Apr 2025 11:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1746038465; x=1746643265; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1yQROOQ/8z6J39sRh6FPaOmwmRuzULCDCO82suAr8rs=;
+ b=DaJZQGSy8OPhZhtG/Mi9qp9HRGWB0ipCeTBYxZJX2SEihytyEwbvNqrZ3GXJn5wgcQ
+ D+W9V/3e2WcuE+DhUtoPGYKG59fNQAyyV4f6R5ifOiH5Ur28DI7jWTGWWenIr150p26y
+ WwsrVRxFPXZ7ymZdSApMQ2aSNYb2BK5uGGc9+u56loy75rBSfbkUAmOEoYWBbHCSct2L
+ w4ojHdWtm1YInyE8MECHqOCU1ZnB3TGYo4VWID4Kx6gvOsM6PLCnxyPN6C0a1RBDFO25
+ GyMUXR3l0D5yQz7dU1yF/bUKyJc+r/p+0nw1FlAX5RL2TjaO9OcReDch7PEv3+xFsODs
+ s35w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746038465; x=1746643265;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1yQROOQ/8z6J39sRh6FPaOmwmRuzULCDCO82suAr8rs=;
+ b=CTgTv3W0L9uxFiDXsdJvDLyiZUzdEXvChBtSTEkngDpcOxb7ncaOLPfyrPd8l6c+qE
+ pbjq8YCaFFAEUr5pouwt/JSZ/0gAwBhPCRrtSKumWitg0vjT0LqutdrqEQAbc7jL1Fva
+ xGLjCTI8dY0CNk9yvBNPMfK4uwy3KRakFSxEKi/nVih/c6SMr8/rgmD1DP669HZ9/YQ5
+ nk3FtBnjdx3ujBcuZfWZEJPV5SZB+Ujyh3HMg5Uqco98A0U7PezmUEtUrdgD+gpU/3R0
+ 02Uh/zOpJki5wSXNLTbU3WlL93ZlXjATHIRVUIYKtJZVdxT85H7wCa4hu9Wbq43oUnm4
+ 0q3g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUwlmzbjj46aaZwAQq7PUp9+ydTIGC0qSxf7W0CNOThVi/qzER9bIqLuQ34Hxrq1JcTZ6ooCozCkKk4@lists.freedesktop.org,
+ AJvYcCXdpkS7wJL69LIRMqzXcEX1LB399UQcm30zytwLBPaq3aHIt2VJH1NKri3nMs/3QnXZAq26/c1Tdt4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+dBwg/U0/hAxGKa06U8cbVjjPX02o6XNLYpnYoLArFfESmFK5
+ 0dB/ehQVT07T4sXuyigMH8IWGTRzdDD0tMFi9KJw8BeBSm21NRL8F71hneoqTabLydCU35LXs43
+ N2w0A2xtYgtUxIoksl7QoI0FAg9s=
+X-Gm-Gg: ASbGncvGxUQr7ot72uG4WubMgdZchL903JZYIjoiLuRU6SLq0zXe4Jo0lKgkxh/2nbP
+ zdKszlQbI21ab3t0vC2ODywFflR8JcE32YDDxesW96k7qEt0fniEQeFjhk3nTKS3R5a7WNVMCLS
+ U7bw96xFKRrCYMD9vLxK/rTSKIq5Yd1y1VYXeDAWDCOINJ+AmH8zgX31XN
+X-Google-Smtp-Source: AGHT+IFTdYx2S7PP1ynBVe1/hJjTgkjcofHeE73M1127jD1qw/zLNvWGom/8dxEIbGmOMMDuyfAlou5W4HGP5Ex5D8w=
+X-Received: by 2002:a05:6e02:1a89:b0:3d8:1fe7:4439 with SMTP id
+ e9e14a558f8ab-3d967ffec05mr40542955ab.17.1746038465168; Wed, 30 Apr 2025
+ 11:41:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9977ad2e-ce2d-48b5-a222-f74a821abfeb@nvidia.com>
+References: <20250228-a623-gpu-support-v2-0-aea654ecc1d3@quicinc.com>
+ <20250228-a623-gpu-support-v2-5-aea654ecc1d3@quicinc.com>
+ <e22daaae-57fc-4523-b594-87d202d255f3@oss.qualcomm.com>
+ <aa8ebd50-683b-4043-9494-5675a2d9a01e@quicinc.com>
+ <41df5398-79f6-484a-8ad3-f3488eb1b71c@oss.qualcomm.com>
+ <hpfqpvkex3dtj6ieosce4phukodnoidh55vxpujyekoehhotqn@l434nae5gzdi>
+ <f1fcf9fb-3be2-4097-a372-a76bfba6043e@oss.qualcomm.com>
+In-Reply-To: <f1fcf9fb-3be2-4097-a372-a76bfba6043e@oss.qualcomm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 30 Apr 2025 11:40:53 -0700
+X-Gm-Features: ATxdqUFWSHnqCPWBHWWul9jKnD6RyuizSS6isEVI5YuIqPMbYwvAOXoUXQvDslk
+Message-ID: <CAF6AEGvGEshZbSmmLZMXGiCjRdDJLa7EKN-gviw4oxcapMKN+Q@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] arm64: dts: qcom: qcs8300: Add gpu and gmu nodes
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Jie Zhang <quic_jiezh@quicinc.com>, Rob Clark <robdclark@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,96 +103,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 30, 2025 at 10:38:11AM -0400, Joel Fernandes wrote:
-> On 4/30/2025 9:25 AM, Alexandre Courbot wrote:
-> > On Tue Apr 22, 2025 at 11:44 PM JST, Danilo Krummrich wrote:
-> 
-> >>> +/// Returns a boxed falcon HAL adequate for the passed `chipset`.
-> >>> +///
-> >>> +/// We use this function and a heap-allocated trait object instead of statically defined trait
-> >>> +/// objects because of the two-dimensional (Chipset, Engine) lookup required to return the
-> >>> +/// requested HAL.
-> >>
-> >> Do we really need the dynamic dispatch? AFAICS, there's only E::BASE that is
-> >> relevant to FalconHal impls?
-> >>
-> >> Can't we do something like I do in the following example [1]?
-> >>
-> >> [1] https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=bf7035a07e79a4047fb6834eac03a9f2
-> > 
-> > So are you have noticed there are two dimensions from which the falcons
-> > can be instantiated:
-> > 
-> > - The engine, which determines its register BASE,
-> > - The HAL, which is determined by the chipset.
-> > 
-> > For the engine, I want to keep things static for the main reason that if
-> > BASE was dynamic, we would have to do all our IO using
-> > try_read()/try_write() and check for an out-of-bounds error at each
-> > register access. The cost of monomorphization is limited as there are
-> > only a handful of engines.
-> > 
-> > But the HAL introduces a second dimension to this, and if we support N
-> > engines then the amount of monomorphized code would then increase by N
-> > for each new HAL we add. Chipsets are released at a good cadence, so
-> > this is the dimension that risks growing the most.
-
-I agree, avoiding the dynamic dispatch is probably not worth in this case
-considering the long term. However, I wanted to point out an alternative with
-[2].
-
-> > It is also the one that makes use of methods to abstract things (vs.
-> > fixed parameters), so it is a natural candidate for using virtual
-> > methods. I am not a fan of having ever-growing boilerplate match
-> > statements for each method that needs to be abstracted, especially since
-> > this is that virtual methods do without requiring extra code, and for a
-> > runtime penalty that is completely negligible in our context and IMHO
-> > completely balanced by the smaller binary size that results from their
-> > use.
+On Wed, Apr 30, 2025 at 3:39=E2=80=AFAM Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
 >
-> Adding to what Alex said, note that the runtime cost is still there even without
-> using dyn. Because at runtime, the match conditionals need to route function
-> calls to the right place.
+> On 4/29/25 2:17 PM, Dmitry Baryshkov wrote:
+> > On Mon, Apr 28, 2025 at 11:19:32PM +0200, Konrad Dybcio wrote:
+> >> On 4/28/25 12:44 PM, Akhil P Oommen wrote:
+> >>> On 4/14/2025 4:31 PM, Konrad Dybcio wrote:
+> >>>> On 2/27/25 9:07 PM, Akhil P Oommen wrote:
+> >>>>> From: Jie Zhang <quic_jiezh@quicinc.com>
+> >>>>>
+> >>>>> Add gpu and gmu nodes for qcs8300 chipset.
+> >>>>>
+> >>>>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+> >>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> >>>>> ---
+> >>>>
+> >>>> [...]
+> >>>>
+> >>>>> +         gmu: gmu@3d6a000 {
+> >>>>> +                 compatible =3D "qcom,adreno-gmu-623.0", "qcom,adr=
+eno-gmu";
+> >>>>> +                 reg =3D <0x0 0x03d6a000 0x0 0x34000>,
+> >>>>
+> >>>> size =3D 0x26000 so that it doesn't leak into GPU_CC
+> >>>
+> >>> We dump GPUCC regs into snapshot!
+> >>
+> >> Right, that's bad.. the dt heuristics are such that each region
+> >> is mapped by a single device that it belongs to, with some rare
+> >> exceptions..
+> >
+> > It has been like this for most (all?) GMU / GPUCC generations.
+>
+> Eeeeh fine, let's keep it here and fix it the next time (tm)
 
-Honestly, I don't know how dynamic dispatch scales compared to static dispatch
-with conditionals.
+Maybe it would be reasonable to add a comment about this _somewhere_?
+(Bindings doc?)  I feel like this confusion has come up before.  Maybe
+it is a bit "ugly" but since gmu is directly banging on gpucc, it
+doesn't seem completely inappropriate.
 
-OOC, I briefly looked for a benchmark and found [3], which doesn't look
-unreasonable at a first glance.
-
-I modified it real quick to have more than 2 actions. [4]
-
-2 Actions
----------
-Dynamic Dispatch: time:   [2.0679 ns 2.0825 ns 2.0945 ns]
- Static Dispatch: time:   [850.29 ps 851.05 ps 852.36 ps]
-
-20 Actions
-----------
-Dynamic Dispatch: time:   [21.368 ns 21.827 ns 22.284 ns]
- Static Dispatch: time:   [1.3623 ns 1.3703 ns 1.3793 ns]
-
-100 Actions
------------
-Dynamic Dispatch: time:   [103.72 ns 104.33 ns 105.13 ns]
- Static Dispatch: time:   [4.5905 ns 4.6311 ns 4.6775 ns]
-
-Absolutely take it with a grain of salt, I neither spend a lot of brain power
-nor time on this, which usually is not a great combination with benchmarking
-things. :)
-
-However, I think it's probably not too important here. Hence, feel free to go
-with dynamic dispatch for this.
-
-> I am just not seeing the benefits of not using dyn for
-> this use case and only drawbacks. IMHO, we should try to not be doing the
-> compiler's job.
-> 
-> Maybe the only benefit is you don't need an Arc or Kbox wrapper?
-
-That's not a huge concern for me, it's only one single allocation per Engine,
-correct?
-
-[2] https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=99ce0f12542488f78e35356c99a1e23f
-[3] https://github.com/tailcallhq/rust-benchmarks
-[4] https://pastebin.com/k0PqtQnq
+BR,
+-R
