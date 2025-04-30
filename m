@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FC0AA55C7
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 22:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7715AA55AF
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 22:41:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACBC10E806;
-	Wed, 30 Apr 2025 20:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6DA10E32F;
+	Wed, 30 Apr 2025 20:41:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZiNUwsa+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KQB/2MY6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5413610E32F
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 20:41:24 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-39ee651e419so114182f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:41:24 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 651A310E32F
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 20:41:25 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-39c0dfba946so164472f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746045683; x=1746650483; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746045684; x=1746650484; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZMYwFd61jeM/AnC60Zap8f4r2F5Tqp87rmWVrFS3Wvk=;
- b=ZiNUwsa+r9fKWPnyG/Ag3uvblpNK0LryH5gY4xu8dHGkCnSTfhJrPusTe8eWIYNY4O
- ZiKxXxZVtQky0nd3x5teDSJKj8z/uyi2V6sbRFEExpMBNzpypF6x/PRD+d8Kd5vAYDck
- tKwJQupA39e7yfCPwA9UmAVgpsdcVO3ywFtWi0kk/oY74cnX/AFBM+gF6XoCw4/C2B56
- OiezYEJiU2wpdRVG8Uddj5oJclTPE20/RFx2PbfXsyGQ4Q1W+Z/Iol0IzuP089mjKDne
- 4hVAMillnZ5Zf9tRlC5pdtn6eHZm90ojeLQkNujMwYPO2a/cFIPGYKBBR6tSv5mumDF4
- 4fEg==
+ bh=/J6f44qXU4d+QYXzioKtQndqvRly6E758jI0u/hrS88=;
+ b=KQB/2MY6PIpgKIFWMXYOc1I+NlIQ3vo7xnCfaxElfjcmhPpvMmcnXht0GY234ShII7
+ 60hlRoVYog4SUOS7hMeOFIGsIV2/hmkQ13/f1zPZcvc8tjAUB5UiO2AkM4WoItdwbfji
+ wRX7UKgH/nkqME5SilD1nxWlCGhUSxKXoRw5Xn/6tjC2F0p0tpykzMarddf1gvJvWwcw
+ +KRBGH9DXBnycCFsVWicZ1ZZoA+56hU+0gpd8ARhHL9tnxDvp2dBJY/vbeFjVgh2ym58
+ qyIC6ohl3NRscDNB3S0oqQoeSJceMCTfQr5HxJ1v0fbVFe9d86ghA6IjzxTkddEMyN6b
+ lOyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746045683; x=1746650483;
+ d=1e100.net; s=20230601; t=1746045684; x=1746650484;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZMYwFd61jeM/AnC60Zap8f4r2F5Tqp87rmWVrFS3Wvk=;
- b=pGPlNtQJdiwWV3IJIr1HOinV0eQRN3BGyTaFP7WNoVvVvhb+/+mzSogAQ+Ypp2q8N0
- FQrmQ50aViJa3i8ndd9rQJDrK5vypE0XtUxYpVyFQBJmExg3YZf8hXFdIhOUqlIfUnb3
- SlXfvx2zU6wH0zH1TroBj3qsfR7CSC10Aw521W5N5MJBuNia1/rhE6JqfK1Okk9YCs3d
- 0d9gsW+wCf9Vloh54wi5uaZzRN1T199Lmy+JOg3bSTZesM6H+IwVm9rUZo3Sv5050h9x
- IkCAYsDfF6TpDFbhjtGWiKr7w3UxklYMxmnFC9tY4ffHkxtaKtHqo1PKZyj8JtZLzeC6
- Vs3Q==
-X-Gm-Message-State: AOJu0Yy+GlN8TdFoo2D0TA9uNqJ2QBpD6Mpe2Y1U31siEcFvBUyI0zHP
- XkIZP882NgW5AXU01V6E0NetzChG7zN/f281aGP/v16+AKGXcCAv
-X-Gm-Gg: ASbGnctoXxbTQgrJ2Gvliqohy9pFGQfMHRjMtXGmj+v++tJIcAbyYjIVpd3noF91c6x
- qeCXb8L3bXpfxsbh33mGbQZkO1LdVgbW951ptjbLQ27No0Au47jMTrOWx9GGbGi+7Wo8aPsuyd+
- 1cRd5/mvU4/Mw/qYoFPSY5fndHJP1E+pu4ipluJegpcowhMA3psymblpFb1arO7J7vec4G0hkY5
- ZGv+TeVFCV0mxh3cBvNZqUsx/wEEM6jHe9eJogKO15yHlDkWazuPsCPA+cK2OixCHgDi6X9Ll6/
- oWJYPZ1WyqUOmSkuCTUHvAvS3aB0nAovyNZJp8w7vQqlo/SVQgLz2LKs2Vx7pNwyMA7hahKdwV4
- B09MujCAhbw==
-X-Google-Smtp-Source: AGHT+IG1s0JflHsvw7aoodVtDTDPq8eFL7Snt93pxGgKfMKfGwBj3pCsYKVbW91T/9KWyRPQ+tNe/g==
-X-Received: by 2002:a5d:5f92:0:b0:39e:cbe0:4f3c with SMTP id
- ffacd0b85a97d-3a08f799858mr3861267f8f.8.1746045682804; 
- Wed, 30 Apr 2025 13:41:22 -0700 (PDT)
+ bh=/J6f44qXU4d+QYXzioKtQndqvRly6E758jI0u/hrS88=;
+ b=i6lmGvMaB40+MlClX+Nbmat/n9rIR04B/6IGkML+U/twh2jZWC1tDWpJmuU9CcT4Ql
+ p28+mL7fYNBGWvKQlCppRJJ/9Ks4TfPBQu3inU3J0KvS1Nq9zpdvS+epmFJ+KGT2LsVL
+ LaeJOs+MVLhha2wlRQ/3STldPe8K6/bVD8F+IflRhhdE/KGJA9ZgL8DSI1Wr1y6IBxbd
+ DecH241MJuugjdhR9TrqUY1i9Mzy4cydhmjd+g37dM3aNfuYCk/8GLX+OYLO9dNoWKkT
+ b6YaWolO+0wRKmHCU7UWLDtId5fwKPI+FcNDqyRwdBmt1EIJJR0oZezpv7rSj7JRgCbu
+ jGjw==
+X-Gm-Message-State: AOJu0Yx1iDBGAIyFE1nzrbSY0EpM+UNOcd00lFA9hg8OP2WyGilDjrfx
+ P5L8VER5qyiiuPa39YTPwVG14Le1eUwyVws/KnKokFsFlA6SvQdL
+X-Gm-Gg: ASbGncsx1p4wRr7Ts8v4YRWV9Etnpcn6vFLXuSyotkWX1nICfaqidmywAOour2HeEVP
+ MG2yhoOT8UWyP+HDCxIdBITtL7auA5B1yxa81rHKbDa3/Znw3fSCl6jsaxsvaWdEbQuxrNfqECn
+ wxYUqOoA9BL3Mj5h0/XESP7EksI5bx1sjhBqrbsxYUHaS73LnNRv3mS3HlxIPo/zHkoZXpjahCG
+ 2H04oG59v40TiIJBZzOc9wRp591hESkai3SI+PEMuCZ/Lgmf0lZ6PthwJcZhvH+V2L+hSVq+HIZ
+ HUA2H35WNvMrN7JVoiflD3q5Xa7vysC1XwUdCn19ZmruxfJslM3uiHhx8PU/gH9Ua9wk9LJe7f+
+ Bulst7Ft6jw==
+X-Google-Smtp-Source: AGHT+IGihVH6SKs3W13DbVj6p5AfcNt/R8LnX1oxZatYwR5jlHBRYRJRXn55KS6WCOqZEYzxUTvVqQ==
+X-Received: by 2002:a05:6000:2dc3:b0:39e:e588:6721 with SMTP id
+ ffacd0b85a97d-3a08ff34cd8mr3628651f8f.3.1746045683894; 
+ Wed, 30 Apr 2025 13:41:23 -0700 (PDT)
 Received: from iku.example.org ([2a06:5906:61b:2d00:c5ac:bf15:f358:81a8])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a073ca56d5sm18098132f8f.32.2025.04.30.13.41.21
+ ffacd0b85a97d-3a073ca56d5sm18098132f8f.32.2025.04.30.13.41.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Apr 2025 13:41:22 -0700 (PDT)
+ Wed, 30 Apr 2025 13:41:23 -0700 (PDT)
 From: Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -81,9 +81,10 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 05/15] drm: renesas: rz-du: Add support for RZ/V2H(P) SoC
-Date: Wed, 30 Apr 2025 21:41:02 +0100
-Message-ID: <20250430204112.342123-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 06/15] drm: renesas: rz-du: mipi_dsi: Add min check for
+ VCLK range
+Date: Wed, 30 Apr 2025 21:41:03 +0100
+Message-ID: <20250430204112.342123-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -106,14 +107,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The LCD controller (LCDC) on the RZ/V2H(P) SoC is composed of Frame
-Compression Processor (FCPVD), Video Signal Processor (VSPD), and
-Display Unit (DU).
+The VCLK range for Renesas RZ/G2L SoC is 148.5 MHz to 5.803 MHz. Add a
+minimum clock check in the mode_valid callback to ensure that the clock
+value does not fall below the valid range.
 
-There is one LCDC unit available on the RZ/V2H(P) SoC which is connected
-to the DSI.
-
+Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v3->v4:
 - No changes
@@ -122,37 +123,24 @@ v2->v3:
 - No changes
 
 v1->v2:
-- Added enum for RZ/V2H as suggested by Krzysztof as the list
-  will grow in the future (while adding RZ/G3E SoC).
-- Added Reviewed-by tag from Krzysztof.
+- No changes
 ---
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-index 5e40f0c1e7b0..e1aa6a719529 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-@@ -50,9 +50,20 @@ static const struct rzg2l_du_device_info rzg2l_du_r9a07g044_info = {
- 	}
- };
+diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+index 4550c6d84796..ec8baecb9ba5 100644
+--- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+@@ -584,6 +584,9 @@ rzg2l_mipi_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+ 	if (mode->clock > 148500)
+ 		return MODE_CLOCK_HIGH;
  
-+static const struct rzg2l_du_device_info rzg2l_du_r9a09g057_info = {
-+	.channels_mask = BIT(0),
-+	.routes = {
-+		[RZG2L_DU_OUTPUT_DSI0] = {
-+			.possible_outputs = BIT(0),
-+			.port = 0,
-+		},
-+	},
-+};
++	if (mode->clock < 5803)
++		return MODE_CLOCK_LOW;
 +
- static const struct of_device_id rzg2l_du_of_table[] = {
- 	{ .compatible = "renesas,r9a07g043u-du", .data = &rzg2l_du_r9a07g043u_info },
- 	{ .compatible = "renesas,r9a07g044-du", .data = &rzg2l_du_r9a07g044_info },
-+	{ .compatible = "renesas,r9a09g057-du", .data = &rzg2l_du_r9a09g057_info },
- 	{ /* sentinel */ }
- };
+ 	return MODE_OK;
+ }
  
 -- 
 2.49.0
