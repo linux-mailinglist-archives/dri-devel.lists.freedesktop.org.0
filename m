@@ -2,85 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D5BAA47A0
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 11:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32865AA47A6
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 11:53:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0B910E70F;
-	Wed, 30 Apr 2025 09:49:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 709D710E2FA;
+	Wed, 30 Apr 2025 09:53:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lC82QTne";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="z3KrIYAm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5914510E70F
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 09:49:18 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-3a064a3e143so3578670f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 02:49:18 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03F2D10E2FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 09:53:11 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-39bf44be22fso4818554f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 02:53:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746006557; x=1746611357; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=LLFFbFj4LwW7R7V2JhHGReQ4jijzBvrTImoxET+7TD4=;
- b=lC82QTneHETexUwDTeTIpYpgo38XSDWTOnZgH37q6MGU+fr9O9lbElm58Urj/Oegzs
- 6iDv8B3EUhwSujXS5bbM+aIWtWza0UXS18LplsnvuwbqDMrIR9iN1662oeIV4gk5PY6h
- bEoDL0SPp/VuHmib0LENGsQDrySkMZ6GjvlLIxf5/ieM0oYftO/wsGO+5jey3/V83Pf9
- iMjymHrIQtPo5AIg4PA1PsIw/kpNt2pg5bHbnz4QLZwGEuFbJrUo6x39IRdt3LCoUcq3
- FDVszSs/zKe+QdxkJtaSPeil9UxiNAyeYjnrifP1JlDZPx6xNHKJ8yOKzmz0om6W4Xy8
- OHGw==
+ d=linaro.org; s=google; t=1746006790; x=1746611590; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=NQ33tAShH1B9qY7Mvbeo2mk5ktxHALQMW++e/cV2rKM=;
+ b=z3KrIYAmOC7h8x6hWYev/zFUdduqL8PY+HajhhOpXDnfg/ohA6SqkhsqJ9Riep+3IS
+ rOA/hMVfGM95K1TqlZKkfCndkMfRVpSsiupcwpDh3ipdj1QfiH7G3lODpH4lrHz6W+lp
+ SpYspcNbB5MVPzg/AACa/A2h25WCcZvlib+TahBgVsPLikzrJFNfKsOaI92m+amyw4+m
+ fWxfmOLjQmH8NSv6Jv7Zi9CHrFvBDVZTPxKjzAsum+Y1eg05zfMk9+XYKyZIUKhXiC6L
+ mCoPXoemsZ+gIFHIdH24/nAeobkzzWceTkeJ47NVYv1vwI4xvAa1v/uYBWLrZgul6XIX
+ c87Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746006557; x=1746611357;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LLFFbFj4LwW7R7V2JhHGReQ4jijzBvrTImoxET+7TD4=;
- b=tfHUwcNVSuClyJ2nJEe64RHD5DocQMdzoLQTQ1ogCQCJ3JqMATo7VkwOOTzNMMkUuJ
- 8rob/xgiKbPJkX7EwQ0Q9r0LoQHuKPXG0D1A8WdEJJRyuJFt4hDvh+uvgpHNkh7Tz7XL
- /333Za4L+l4TSpNqsuNgKYdxuPuduJiqD3NC9VtxQsyprd3u6iy1mweeSGFS0mpg8vYN
- h57r6FrYooCqWCwgw1B8fIbJdatxrq/y+7ZAvUmciKxFQ5Mf1An9fMVJY5qtDlJDM/yN
- Qjk4ZuOj/vxB1+wiVJtpZHJdgvqWKZhIf7IsNwqfXoj0miFLRoTJTI73TpZaYHOIIrqP
- 821A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHnuowmXRWXLAHfVb9Y/IZlgJyTOKvJxWztn4bCKnLznMk6H2lCPN0RhENHS4UKI+R5E2xLvFueDI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTYEEh7LPg4ASchhFoF5uWkFI/yN9TJwVpdaWG/GwXfpNF9Wkq
- N4h+daUKato40Sbyx2qzBzUSFJS+w8ZqTwKGWZ2iZdtrK/08ASKBVMr6+hFsCXs=
-X-Gm-Gg: ASbGncsx3PxrhhVLd0vcqJC29AKb+H3CpgmasCUIlJe3Bw0Nwwpk6HPw3zmdPBvKVLP
- EWmIiazrnx5zCK+NY6I+uNWFj8T5yFdHeQhJ6v/Key7c2pPTjGnUrR27HUpV7KnWY0GSx5reX1V
- XP6kDfa+zOtOu2UcoxptZY2mA2MsWqfryAmgAtb5SOO+Ohdg/0TXvLQQ2rcajS4nrtyfau/fRWg
- nHknnG2EBYX0Zk9s3BqaYBE77G+7G4m4QLkmCx1a6X4I06zoTvKHAkOeAPltPDY+bg8QQqeCpq7
- 12nzVvbwhcFh7Ry39VijBpEHa2DnPkI0mJr7DNgQPdjO38zGPVa11QTf
-X-Google-Smtp-Source: AGHT+IEK9MNRUEuA0t/++NHkSN+uAgTx0QHITofMQSiawq0yr1kRwXaeYfFa/CByGh7RO0Ly8OPlsA==
-X-Received: by 2002:a05:6000:420e:b0:39e:dbb0:310f with SMTP id
- ffacd0b85a97d-3a08f7c862emr2373168f8f.39.1746006557355; 
- Wed, 30 Apr 2025 02:49:17 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3a073c8d1a5sm16918149f8f.13.2025.04.30.02.49.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Apr 2025 02:49:16 -0700 (PDT)
-Date: Wed, 30 Apr 2025 12:49:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Sharma, Shashank" <Shashank.Sharma@amd.com>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "Khatri, Sunil" <Sunil.Khatri@amd.com>,
- "Yadav, Arvind" <Arvind.Yadav@amd.com>,
- "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
-Subject: Re: [PATCH] drm/amdgpu/userq: remove unnecessary NULL check
-Message-ID: <ac039a7e-4152-4df5-af3d-c952cedfa6dd@stanley.mountain>
-References: <aBHZuejTTKkdnGaZ@stanley.mountain>
- <MW4PR12MB566769E097E394ED607DBD9CF2832@MW4PR12MB5667.namprd12.prod.outlook.com>
+ d=1e100.net; s=20230601; t=1746006790; x=1746611590;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=NQ33tAShH1B9qY7Mvbeo2mk5ktxHALQMW++e/cV2rKM=;
+ b=k4LL7UjcOKpXTeGxC8+hh490pb6HE6uV4JZtCpXZc7/eyv6IHYk/VkW1ht0SNd36TH
+ nkwlmbU56q2M+awkJ3JdLjpSG7ru6xovphWJHu5JeLDWFua8tYECQMr+lWJ4KXiyrMIu
+ tQ02Z3MBbZ7xC9fVKulFQfy7NT/omVeYykferXPt+tpgWpIgkj5W0XBGlXl35esHjoFI
+ u97crhmEzyVSZngFtBX3JIhDbA70ZQBbpYO1cneCaPEunF7KY5SfaPoKp7RkAf3OQ1Y/
+ m5iUIyvpALzxkjM2zqcgB4KN00nx/kC9Mkrc4QZe1lCSu4O3D8V4ofw/veYeO6YG4OOC
+ bUgw==
+X-Gm-Message-State: AOJu0Yycq8N0waOfWnWkU01N0J2kCzccP+k7mwsgwUPiO+X5hGrZZoVa
+ e3S+32+flQ6hjC0SsXlfX8KBjoxa6OPHR9cs8aQgRiDrELBdutmWOS/20Ss97pU=
+X-Gm-Gg: ASbGncty8CBrT5DRAUTraHVwj4uehLynO4WBZcWQN5eGyEug4V1LE2ObWIH9/edDnbO
+ y5bgXyWXkdETQLF1IKMmubeP4RJo8LTF4tU2zZVXuF2waADUt769eg6tkjQz7Dhuuf8k4BDLUs2
+ HDkMTiwpgi+eexEXeLQKS6UQsccx4hrhu+tfPEwnHyBNd3AvbVKJHcCp85MIwN42mIBSHP4eSYa
+ w5ECRpekBa8/yCdcvvaJiJhsMVT5/iXIzI9k0/nzdTVI6lqD3xdcVf+HRk2NUSkjkc91aPkb7ro
+ thG8i1oao+7rhlFg76AFkv6vtTxxs1An8kPhFevGngbEa2vfpf5RNb3JFRhcoOT90m/DEvh7VQG
+ gF/5JNcebjBjMfu8+AQ==
+X-Google-Smtp-Source: AGHT+IHmFxBVgaTsAGbGDh4EsUHv+T+0NrbKf322VztbdkbBDNbxxF0eQnDWIUCwiaEeUi/56VbRMA==
+X-Received: by 2002:a5d:59af:0:b0:39f:76:8bc with SMTP id
+ ffacd0b85a97d-3a08f765397mr2097367f8f.17.1746006789750; 
+ Wed, 30 Apr 2025 02:53:09 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:b3d6:213c:5c50:7785?
+ ([2a01:e0a:3d9:2080:b3d6:213c:5c50:7785])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a073ca4742sm16225841f8f.23.2025.04.30.02.53.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Apr 2025 02:53:09 -0700 (PDT)
+Message-ID: <6ec33d95-ed93-40bb-8ff3-d2e039dcdaa4@linaro.org>
+Date: Wed, 30 Apr 2025 11:53:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MW4PR12MB566769E097E394ED607DBD9CF2832@MW4PR12MB5667.namprd12.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 2/2] drivers: gpu: drm: panel: Add BOE TD4320
+To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+References: <20250429-lavender-panel-v2-0-fb467ff81bac@mainlining.org>
+ <20250429-lavender-panel-v2-2-fb467ff81bac@mainlining.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250429-lavender-panel-v2-2-fb467ff81bac@mainlining.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,160 +121,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 30, 2025 at 09:28:59AM +0000, Sharma, Shashank wrote:
-> [AMD Official Use Only - AMD Internal Distribution Only]
+On 29/04/2025 23:33, Barnabás Czémán wrote:
+> Add driver for BOE TD4320 DSI panel, used in Xiaomi Redmi Note 7
+> mobile phone.
 > 
-> Hello Dan,
-> 
-> ________________________________
-> From: Dan Carpenter
-> Sent: Wednesday, April 30, 2025 10:05 AM
-> To: Deucher, Alexander
-> Cc: Koenig, Christian; David Airlie; Simona Vetter; Sharma, Shashank; Khatri, Sunil; Yadav, Arvind; Paneer Selvam, Arunpravin; amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; kernel-janitors@vger.kernel.org
-> Subject: [PATCH] drm/amdgpu/userq: remove unnecessary NULL check
-> 
-> The "ticket" pointer points to in the middle of the &exec struct so it
-> can't be NULL.  Remove the check.
-> 
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/panel/Kconfig            |   9 ++
+>   drivers/gpu/drm/panel/Makefile           |   1 +
+>   drivers/gpu/drm/panel/panel-boe-td4320.c | 247 +++++++++++++++++++++++++++++++
+>   3 files changed, 257 insertions(+)
+
+<snip>
+
+> +
+> +	ctx->dsi = dsi;
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +	dsi->lanes = 4;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> +			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
+> +
+> +	drm_panel_init(&ctx->panel, dev, &boe_td4320_panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+
+Please switch to devm_drm_panel_alloc()
+
+> +	ctx->panel.prepare_prev_first = true;
+> +
+> +	ret = drm_panel_of_backlight(&ctx->panel);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to get backlight\n");
+> +
+> +	drm_panel_add(&ctx->panel);
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret < 0) {
+> +		drm_panel_remove(&ctx->panel);
+> +		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void boe_td4320_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct boe_td4320 *ctx = mipi_dsi_get_drvdata(dsi);
+> +	int ret;
+> +
+> +	ret = mipi_dsi_detach(dsi);
+> +	if (ret < 0)
+> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
+> +
+> +	drm_panel_remove(&ctx->panel);
+> +}
+> +
+> +static const struct of_device_id boe_td4320_of_match[] = {
+> +	{ .compatible = "boe,td4320" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, boe_td4320_of_match);
+> +
+> +static struct mipi_dsi_driver boe_td4320_driver = {
+> +	.probe = boe_td4320_probe,
+> +	.remove = boe_td4320_remove,
+> +	.driver = {
+> +		.name = "panel-boe-td4320",
+> +		.of_match_table = boe_td4320_of_match,
+> +	},
+> +};
+> +module_mipi_dsi_driver(boe_td4320_driver);
+> +
+> +MODULE_AUTHOR("Barnabas Czeman <barnabas.czeman@mainlining.org>");
+> +MODULE_DESCRIPTION("DRM driver for boe td4320 fhdplus video mode dsi panel");
+> +MODULE_LICENSE("GPL");
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-> index b0e8098a3988..7505d920fb3d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-> @@ -631,7 +631,7 @@ amdgpu_userq_validate_bos(struct amdgpu_userq_mgr *uq_mgr)
->                          clear = false;
->                          unlock = true;
->                  /* The caller is already holding the reservation lock */
-> -               } else if (ticket && dma_resv_locking_ctx(resv) == ticket) {
-> +               } else if (dma_resv_locking_ctx(resv) == ticket) {
-> 
-> Its a Nack for me, There are a few situations (particularly during the
-> first launch of the desktop, and also when eviction fence and new queue
-> creation are working in parallel) where this ticket can be NULL, we
-> observed it during the stress validation and hence added this check,
-> 
 
-It shouldn't be NULL.  It sounds like you are experiencing stack
-corruption and this is just a bandaid.
+Otherwise it looks fine.
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-   566  static int
-   567  amdgpu_userq_validate_bos(struct amdgpu_userq_mgr *uq_mgr)
-   568  {
-   569          struct amdgpu_fpriv *fpriv = uq_mgr_to_fpriv(uq_mgr);
-   570          struct amdgpu_vm *vm = &fpriv->vm;
-   571          struct amdgpu_device *adev = uq_mgr->adev;
-   572          struct amdgpu_bo_va *bo_va;
-   573          struct ww_acquire_ctx *ticket;
-   574          struct drm_exec exec;
-                ^^^^^^^^^^^^^^^^^^^^^
-The "exec" struct is declared on the stack.
-
-   575          struct amdgpu_bo *bo;
-   576          struct dma_resv *resv;
-   577          bool clear, unlock;
-   578          int ret = 0;
-   579  
-   580          drm_exec_init(&exec, DRM_EXEC_IGNORE_DUPLICATES, 0);
-   581          drm_exec_until_all_locked(&exec) {
-   582                  ret = amdgpu_vm_lock_pd(vm, &exec, 2);
-   583                  drm_exec_retry_on_contention(&exec);
-   584                  if (unlikely(ret)) {
-   585                          DRM_ERROR("Failed to lock PD\n");
-   586                          goto unlock_all;
-   587                  }
-   588  
-   589                  /* Lock the done list */
-   590                  list_for_each_entry(bo_va, &vm->done, base.vm_status) {
-   591                          bo = bo_va->base.bo;
-   592                          if (!bo)
-   593                                  continue;
-   594  
-   595                          ret = drm_exec_lock_obj(&exec, &bo->tbo.base);
-   596                          drm_exec_retry_on_contention(&exec);
-   597                          if (unlikely(ret))
-   598                                  goto unlock_all;
-   599                  }
-   600          }
-   601  
-   602          spin_lock(&vm->status_lock);
-   603          while (!list_empty(&vm->moved)) {
-   604                  bo_va = list_first_entry(&vm->moved, struct amdgpu_bo_va,
-   605                                           base.vm_status);
-   606                  spin_unlock(&vm->status_lock);
-   607  
-   608                  /* Per VM BOs never need to bo cleared in the page tables */
-   609                  ret = amdgpu_vm_bo_update(adev, bo_va, false);
-   610                  if (ret)
-   611                          goto unlock_all;
-   612                  spin_lock(&vm->status_lock);
-   613          }
-   614  
-   615          ticket = &exec.ticket;
-                ^^^^^^^^^^^^^^^^^^^^^
-ticket is only set here.  We know that &exec is non-NULL because it's
-declared on the stack.  ticket is 4 bytes into the middle of a non-NULL
-struct.  It is impossible for ticket to be NULL here.
-
-   616          while (!list_empty(&vm->invalidated)) {
-   617                  bo_va = list_first_entry(&vm->invalidated, struct amdgpu_bo_va,
-   618                                           base.vm_status);
-   619                  resv = bo_va->base.bo->tbo.base.resv;
-   620                  spin_unlock(&vm->status_lock);
-   621  
-   622                  bo = bo_va->base.bo;
-   623                  ret = amdgpu_userq_validate_vm_bo(NULL, bo);
-   624                  if (ret) {
-   625                          DRM_ERROR("Failed to validate BO\n");
-   626                          goto unlock_all;
-   627                  }
-   628  
-   629                  /* Try to reserve the BO to avoid clearing its ptes */
-   630                  if (!adev->debug_vm && dma_resv_trylock(resv)) {
-   631                          clear = false;
-   632                          unlock = true;
-   633                  /* The caller is already holding the reservation lock */
-   634                  } else if (ticket && dma_resv_locking_ctx(resv) == ticket) {
-
-I've included the whole rest of the function so that we can see it is not
-set a second time.
-
-regards,
-dan carpenter
-
-   635                          clear = false;
-   636                          unlock = false;
-   637                  /* Somebody else is using the BO right now */
-   638                  } else {
-   639                          clear = true;
-   640                          unlock = false;
-   641                  }
-   642  
-   643                  ret = amdgpu_vm_bo_update(adev, bo_va, clear);
-   644  
-   645                  if (unlock)
-   646                          dma_resv_unlock(resv);
-   647                  if (ret)
-   648                          goto unlock_all;
-   649  
-   650                  spin_lock(&vm->status_lock);
-   651          }
-   652          spin_unlock(&vm->status_lock);
-   653  
-   654          ret = amdgpu_eviction_fence_replace_fence(&fpriv->evf_mgr, &exec);
-   655          if (ret)
-   656                  DRM_ERROR("Failed to replace eviction fence\n");
-   657  
-   658  unlock_all:
-   659          drm_exec_fini(&exec);
-   660          return ret;
-   661  }
-
-
+Thanks,
+Neil
