@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDAA6AA402A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 03:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD261AA402C
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 03:14:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C094A10E5EF;
-	Wed, 30 Apr 2025 01:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD7DE10E5F5;
+	Wed, 30 Apr 2025 01:14:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="J1ZgCY4S";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="w5HVxjUu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2065.outbound.protection.outlook.com [40.107.243.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A66010E5DB;
- Wed, 30 Apr 2025 01:13:45 +0000 (UTC)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2060.outbound.protection.outlook.com [40.107.212.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BDC710E5F2;
+ Wed, 30 Apr 2025 01:13:59 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GaALuD0gv1mYyNiYO2IZ5IMkK7X5x7ZLLU5Sss3Tenj+FOiKe8vnqNUHooCUq5EBSDHI+tUFDPDaqIWKDpkZdzR66s5C2BbUpV/we+ty9j4fyGGXno/KOnIdqmUywSasl9bj9SY05OAnagvVb18/YzEo8/mVrL5aSxikc8s0OWXuiEp2QmpHxSktZrMCl6fziig+dY6kUqBn29J3rsBeMSEhXDOjaKRHn7v0gvH8aFa7CQtD1uaIuhK5mys+GqBGIEc4FmALRDqrmYL+5EuTbcOk8mBc9HrgGfVAOoY7r6flm+qSUVhdDP1+xRGSfWJe+PjcWjhbTXVk9Bu28KjoWA==
+ b=Miwync+Zuby+cozJf9+QskJmCBK1sptEZavUqppgyUjOixEXAyAmc72GWdQkvcj0PAWHFvm8/KpdYJ6pXLHsh0zscU4GcTibqDypiManVTGlpDLnqVPTK8IXK6Y53dDr4EKNq2zN6OEohHKg8K3R+PfYWIg9UddFn6F++ZbG1rMV8hUhOKJ80v7QZaKw0VDdWU81zp9pZz9w+NcwFh6OyNpw4hZs6/KeDKpFb1vHo+lYFFgl5U3/4Vo/DNxyPQTFkkB6b9prsd/igdB/qT/BwfqUBucVR6KR/BmLzafJr9bHO9aQLYaw4cCwv90Hmk87oj0RhboMzdpH++iVm6MXiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sXih5lkwOL8n5CBapP3pGcm0CCgcBtevmWgePRRIyJs=;
- b=FQ79awgO+CtWhox7LzGoWPDUjMvY/OlYuSvC43aPzHgi/5o6HgWJGKvBN8jYprLYt6T/152BebtYgje+kyFqvcleS8iTE1POd+Oo19+Dd2+r6tZDiDoBrHD7tUbmc0YIiNUThnC/oAgZ5ckfONzktTEjpGnU0I7pZSqwVlNSLYEu5PBb4tGraD4vGa1tvyzxMG4yAHZoXd3f8R3cHoYp2LdtgAGbwCeBpr9v7GNpThuOpEievO0ou7P8hX12GeOrF6GaqhxVz4eKdERbiupJpxbEzJ/7cZ8Ng3QD0OAYqmThGxkK7pEg5lWK+tNlzCxhS8vkSXOzp9nsQL7NV/5mPw==
+ bh=CcmM952xC/apnn08QIu0yXNLsClTNsTtZQaPSUr6v2U=;
+ b=n3i99U6c8p2dz17QoJO/C/t+LS5L6+qUB91foFr903yIbJdDollwx5rSVm+l0h00fita+96/BD64LWpknKsGVTMG88wPclEe67CVaC+GMevDrNDYrLZz9Taqil1QlK/11dlaJeREs8NZKrXl9u0U2GUcdzVaRWGiJ7qUEGFhKGjfDupJpuONVNfE6/O5IvoQTg7d8FH9A+3XoxNFtrC+ittOQrmsjfRD+wWw6OIM32e7Bm7PZoN/BMLXy1sM3xKkLZ+lD6VUOlf1f5DRyxtp+N2QYHNzyFCG+dGQpiZ2UsNnNb2J/2EhPSmV3j1fsa9JYEQDExJTje+ZH9K6KDEH5w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sXih5lkwOL8n5CBapP3pGcm0CCgcBtevmWgePRRIyJs=;
- b=J1ZgCY4SjPHrUV95/hD59navPtE8E7dt4YABGGWB4i1ViczymamT2CrUCwW1jwo/9M5g2exGQAwInt0dwESKE+VmuBixO5Mh115sehQlUVgFaJx5vqL4m+Xf7ZOG/VMvppvhpwhmfyFLbcJ2KXr5rJBLqv+jfHMhslW1U0eSc6A=
-Received: from MW4PR04CA0139.namprd04.prod.outlook.com (2603:10b6:303:84::24)
- by DS0PR12MB7969.namprd12.prod.outlook.com (2603:10b6:8:146::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.29; Wed, 30 Apr
- 2025 01:13:38 +0000
-Received: from CO1PEPF000066ED.namprd05.prod.outlook.com
- (2603:10b6:303:84:cafe::ac) by MW4PR04CA0139.outlook.office365.com
- (2603:10b6:303:84::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.40 via Frontend Transport; Wed,
- 30 Apr 2025 01:13:37 +0000
+ bh=CcmM952xC/apnn08QIu0yXNLsClTNsTtZQaPSUr6v2U=;
+ b=w5HVxjUuu4/BVz9AHpzaPPuC5dxuiT5LqM9yHWYgm2eAXKh+knjeAog42mi3n9vnE4VF2zLjyDJ6+hhMB2YNBvmdD+rbUHcPKtUTp+Di9HGJ+lD7Z3RUoJHsw6/1fLvi4BpxNd1dJXeQRDNsX6Lc/uu+LBNw2SKWGDE5EWdwhtM=
+Received: from SJ0PR03CA0075.namprd03.prod.outlook.com (2603:10b6:a03:331::20)
+ by LV8PR12MB9230.namprd12.prod.outlook.com (2603:10b6:408:186::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Wed, 30 Apr
+ 2025 01:13:53 +0000
+Received: from CO1PEPF000066EC.namprd05.prod.outlook.com
+ (2603:10b6:a03:331:cafe::25) by SJ0PR03CA0075.outlook.office365.com
+ (2603:10b6:a03:331::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.25 via Frontend Transport; Wed,
+ 30 Apr 2025 01:13:52 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000066ED.mail.protection.outlook.com (10.167.249.10) with Microsoft
+ CO1PEPF000066EC.mail.protection.outlook.com (10.167.249.8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8699.20 via Frontend Transport; Wed, 30 Apr 2025 01:13:37 +0000
+ 15.20.8699.20 via Frontend Transport; Wed, 30 Apr 2025 01:13:51 +0000
 Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 29 Apr
- 2025 20:13:33 -0500
+ 2025 20:13:48 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -68,9 +68,9 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>, Daniel Stone
  <daniels@collabora.com>
-Subject: [PATCH V9 07/43] drm/colorop: Add BYPASS property
-Date: Tue, 29 Apr 2025 19:10:37 -0600
-Message-ID: <20250430011115.223996-8-alex.hung@amd.com>
+Subject: [PATCH V9 08/43] drm/colorop: Add NEXT property
+Date: Tue, 29 Apr 2025 19:10:38 -0600
+Message-ID: <20250430011115.223996-9-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250430011115.223996-1-alex.hung@amd.com>
 References: <20250430011115.223996-1-alex.hung@amd.com>
@@ -82,52 +82,52 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000066ED:EE_|DS0PR12MB7969:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23c29ae9-f520-4ba9-7d2b-08dd87843c83
+X-MS-TrafficTypeDiagnostic: CO1PEPF000066EC:EE_|LV8PR12MB9230:EE_
+X-MS-Office365-Filtering-Correlation-Id: aae3a514-22d3-49cf-6ca8-08dd87844507
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OpfEFHtct/LisQnoo5vbd4jUIHFvJz5SbXLY+Sh5k6Oe+A/JySWU+3J8WyOH?=
- =?us-ascii?Q?A/jE6MBAIVhpqOPJXGuXgZYzjZnuwcs8MmrNgqbvekBGDiCdErVCESvHnyhi?=
- =?us-ascii?Q?JabN4jtoi1eHmshknVJdjd6PFkpNxqlgboLs9hCOP1/PkQbFhTDARlvp4xVe?=
- =?us-ascii?Q?JJTESmZzIkdFlzCKkF52cz5nDIXCzTm5IXnXOWLCjaEH2wQnRd6MsFIckoAw?=
- =?us-ascii?Q?kbDZQ56MFHIrK/xub0iqfe2ekSDRVk3k+8wTspMMABB4NCSNcrfoCBBtOmtm?=
- =?us-ascii?Q?3SG2KOWfpKFp8MFIkm9RyMufuLVsUqI+P3OIIcSbZD9DONWGsnwgsqc5LTej?=
- =?us-ascii?Q?Ptu+Nasn+BjZloHPYSOZ8ZJp93krTMj6SN2TBApDetXqcJokFpXn22SwbnDJ?=
- =?us-ascii?Q?mM6BHsSfuECFS7fVSTTtX3yCrUhM49iY7PPiZVC5HbH6B08CNXuqNUpmOhFu?=
- =?us-ascii?Q?T06Jndgq2hg/fRcOLV4RvaMM+dxDaNbTxmWTKJGLt8NR4TX+6/JM0ZMC/cEQ?=
- =?us-ascii?Q?LGyBGstN15+7YznxO87+Jj2UlAR5NvboOb7pmA7fvtRiOilVaWCP0u3XAndY?=
- =?us-ascii?Q?gYt5jHVBTWX2oIhE40zSUO1j6SezTlpSSgVkG4arreNrrzKxzUBebWWHrtmo?=
- =?us-ascii?Q?H32bkgywJdBVqVZUtSv5D0nzeLbgbXPkIDgB7/9D6lfHsloDrjTbZWOXEFxK?=
- =?us-ascii?Q?1xFhWmClcj8yxj8eXYI7SBts99vjTy6VWFbPpC83dIJ9euh+gv4ZDfhWwfA9?=
- =?us-ascii?Q?QGBn8DfLKGdT/1fhyttkAlsXIXJ+C9TnvwE62Dl2S8AVMexzjXGFiwaeEoko?=
- =?us-ascii?Q?R7t3m6ueit6xC08+aTzu8MBIHwkNcZs+8Beg4celp+WahEGEeFtGtsehSIGa?=
- =?us-ascii?Q?DvvrNlwfbZ65sU8XtnmJJE+/kc6gsbFDSXr8yI/LIzabBvMQK14t0TwHP3GO?=
- =?us-ascii?Q?JtEVV+kJ6mEg4RFvB9ErqLsVUMO1M2ZLTLCAQsE5I6lZvmbo0jFQuUEaUeec?=
- =?us-ascii?Q?THRAd131duvdBpIa65FDAJnrbU3JFpJPL3Dq/a7uWvjJ7eq8trDyCinTjYPe?=
- =?us-ascii?Q?UaiRMzHKQzV2Uph6rw/iWZojt0B5cxEXT6gr62OFf00tv1o4b1W8Lxo//kW/?=
- =?us-ascii?Q?ev/jY1SZycfdoNxS35kgHWJx3p/yxNyhke+zFkcaRuwP8IJ1fyFExBlVkHKj?=
- =?us-ascii?Q?kQR1yVY4Yi2KYwHU+2/FmlFAUrin8uqNbst42JXKnghBgXY0mQ0/441xXgko?=
- =?us-ascii?Q?W0sUwRhSUpz0OG0XD+D96PwqaGa/A6gtuxHLLArWWAA2Ezk/PfK8IW1LQsds?=
- =?us-ascii?Q?wvqoZMF5B+cCjV/FDbs8Q9npeTQ3ziBbOFWmuHF0M92qE8d2J6eQbXC/LWK2?=
- =?us-ascii?Q?4nu79JFPvLzHTih5G4aOILNZyXLrJFllaSijCKZ3+fLWW7neNcvzYApAIs3e?=
- =?us-ascii?Q?upAUQzHrDwiBOVAIfWiKasDvwmWF4BhgZuy6FUHcTgmuf4khobbIKAHmrFaF?=
- =?us-ascii?Q?JUgmhQp4gAM8JIsUx5qoWyujOAT8MwVWqxel?=
+ ARA:13230040|1800799024|36860700013|376014|82310400026|7416014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?YVxgdbvRxTNmCCAQejAVK6J4tcHYsvlMhYfRcQKyAgRD6OaIQA647UFJsh0Y?=
+ =?us-ascii?Q?qSl1R1aVjc9JOW44QNwbLerSOVDfDixicrwLf6UAomqTrCeuB0RcUu5XCLwN?=
+ =?us-ascii?Q?+rCuxX8yAkR0ByBI+njVrJxhsi6s9E3umiXug6DjOtwlu+J4QO8AWkZTx+3P?=
+ =?us-ascii?Q?dj2e9wNNCMqE5dDsA0wspiI8nPVrOIuZHIoTSe7w8p/azL+F2dNuh61BTIxc?=
+ =?us-ascii?Q?msl0D2xB8u/ZUPFp8/DrJWcP8lPydCo5YAD38GDd/J7fc1XW4kSdnYYcc+Ei?=
+ =?us-ascii?Q?4r/1f5ynLfIxpOf9PHGhPeqlJk+/nyrUjU3rh6semZMJ3xRDAFFEY7ZaidbW?=
+ =?us-ascii?Q?I61QmRFYv02eQCzy29GN6mjKTcE4kTH4cqfXgkj8Vy6e9GOOrCE2ww7wOaVT?=
+ =?us-ascii?Q?Z551JFj7oz/t5AHXeZFE3XKlNl5pB8zm3KFm2Hp9wLAvxZ+XuMV8lJG02fpt?=
+ =?us-ascii?Q?2wn4cHPhZ7Pm4MhGqpgTwG2W45RKPS8J+6zmLti102FqBTLcmdfWJt2TPE5l?=
+ =?us-ascii?Q?IC1x/Kt8G8IDgHwhgJgWCv+hyg1ou9Y2nc23ytXuOLhXdFqpWCmG0IWACpVL?=
+ =?us-ascii?Q?V108KVvYA1Jn6qvMKMyLdY/0d1lXKAjbMndO6bYyH1g1wghXeda2bS4JMo9B?=
+ =?us-ascii?Q?CYDkG+8/GgjgTTMvYHsTbmOULyXiMN5KaadSjWPvI1ClsRSFDcQz89FoWBj2?=
+ =?us-ascii?Q?m9mHy/Xokx1K5tBaM/yIMwyvQLv0T8ewqrerfBOzgrzpYu3lIZ82D9Nd3qar?=
+ =?us-ascii?Q?bGUNHStMz3onRPC9PWtclKrgVubyD58UxbWr1X6CfBdT0Crx7ftCtbIuRm1h?=
+ =?us-ascii?Q?CojzgZIhzUEVSQFQ4nJ8IHJX4LAjDOI8v1QSnOv0i4qjOZK05x3oMppi5u1b?=
+ =?us-ascii?Q?0kl8FjTo/qi7hzjN2VADksfyUVld6qlCQZ0F7gazlCtQvEsPMNLO5L6dgviG?=
+ =?us-ascii?Q?Byg3Cbw2+15yGkV9BstBFHG0L00LSpQVKAIbnCgWhuiO3fxsRwigRxwlqLVa?=
+ =?us-ascii?Q?02+Wz+TD4kR+tCJHVKwoIIoa7m7knt+jfJxQI1+e2Aw5Jx/4ghXDPoygQ9fZ?=
+ =?us-ascii?Q?yJosEk/Ldq2g+ryYIO9hGjDQ3PdHB1b90D7XeRHY67548sgEWMzhRTVD2oAT?=
+ =?us-ascii?Q?x7/kLBn+RM1UEcMZJToqYCICsqu9d3HQZOZUEdrZXbrs33U6H8w9dM32Atcr?=
+ =?us-ascii?Q?8NIMMypYP3uGdhv+dNKrTWjWn6vF4qrpCgY9IyZ5Du/J+DddjRlY86AR7f0j?=
+ =?us-ascii?Q?45zqO5QUBaK7p1SJLJOQCs2jiq9pJeG603M3NB06XDt8bm9Jg3f4BbuErIsC?=
+ =?us-ascii?Q?yGxEMVzFx8rNAOpbS8xvhLfnjdlREhHXpXoiaoOW7QUrQbrUlJzMf1Dj+TX4?=
+ =?us-ascii?Q?YBlHoanFlw00FeUR3G+5diwGO9bAW5/7F7iRwixjjSpbFNvomvg6SnnznyRx?=
+ =?us-ascii?Q?zTsSmOFzpjGNRuyLdBwvltzdHXXCyBtIk+cyRgMS8vJghklBOM3HCFNWPGg3?=
+ =?us-ascii?Q?DoxICXk9yi9CxKUH0jt56vYlftKl+MLbXudx?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(36860700013)(82310400026); DIR:OUT;
+ SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026)(7416014); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 01:13:37.6368 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23c29ae9-f520-4ba9-7d2b-08dd87843c83
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 01:13:51.9229 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: aae3a514-22d3-49cf-6ca8-08dd87844507
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000066ED.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000066EC.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7969
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9230
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,134 +145,123 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Harry Wentland <harry.wentland@amd.com>
 
-We want to be able to bypass each colorop at all times.
-Introduce a new BYPASS boolean property for this.
+We'll construct color pipelines out of drm_colorop by
+chaining them via the NEXT pointer. NEXT will point to
+the next drm_colorop in the pipeline, or by 0 if we're
+at the end of the pipeline.
 
 Reviewed-by: Simon Ser <contact@emersion.fr>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 ---
-v6:
- - clarify that bypass is only valid if BYPASS prop exists (Louis Chauvet)
+v8:
+ - Remove null check "colorop->next_property" in drm_colorop_set_next_property
 
- drivers/gpu/drm/drm_atomic_uapi.c |  6 +++++-
- drivers/gpu/drm/drm_colorop.c     | 15 +++++++++++++++
- include/drm/drm_colorop.h         | 22 ++++++++++++++++++++++
- 3 files changed, 42 insertions(+), 1 deletion(-)
+v5:
+ - move next comment here from Add 3x4 CTM patch (Sebastian)
+ - Add kernel doc
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 995f5ce87efc..e5da00fdbca0 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -649,7 +649,9 @@ static int drm_atomic_colorop_set_property(struct drm_colorop *colorop,
- 		struct drm_colorop_state *state, struct drm_file *file_priv,
- 		struct drm_property *property, uint64_t val)
- {
--	if (property == colorop->curve_1d_type_property) {
-+	if (property == colorop->bypass_property) {
-+		state->bypass = val;
-+	} else if (property == colorop->curve_1d_type_property) {
- 		state->curve_1d_type = val;
- 	} else {
- 		drm_dbg_atomic(colorop->dev,
-@@ -669,6 +671,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *colorop,
- {
- 	if (property == colorop->type_property) {
- 		*val = colorop->type;
-+	} else if (property == colorop->bypass_property) {
-+		*val = state->bypass;
- 	} else if (property == colorop->curve_1d_type_property) {
- 		*val = state->curve_1d_type;
- 	} else {
+v4:
+ - Allow setting of NEXT property to NULL (Chaitanya Kumar Borah)
+
+v3:
+ - Add next pointer to colorop to be used by drivers
+   and in DRM core
+
+ drivers/gpu/drm/drm_colorop.c | 27 +++++++++++++++++++++++++++
+ include/drm/drm_colorop.h     | 17 +++++++++++++++++
+ 2 files changed, 44 insertions(+)
+
 diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index 6fbc3c284d33..11c37916c758 100644
+index 11c37916c758..43cdd68a69a2 100644
 --- a/drivers/gpu/drm/drm_colorop.c
 +++ b/drivers/gpu/drm/drm_colorop.c
-@@ -79,6 +79,17 @@ static int drm_plane_colorop_init(struct drm_device *dev, struct drm_colorop *co
- 				   colorop->type_property,
- 				   colorop->type);
+@@ -58,6 +58,7 @@ static int drm_plane_colorop_init(struct drm_device *dev, struct drm_colorop *co
+ 	colorop->dev = dev;
+ 	colorop->type = type;
+ 	colorop->plane = plane;
++	colorop->next = NULL;
  
-+	/* bypass */
-+	prop = drm_property_create_bool(dev, DRM_MODE_PROP_ATOMIC,
-+					"BYPASS");
+ 	list_add_tail(&colorop->head, &config->colorop_list);
+ 	colorop->index = config->num_colorop++;
+@@ -90,6 +91,16 @@ static int drm_plane_colorop_init(struct drm_device *dev, struct drm_colorop *co
+ 				   colorop->bypass_property,
+ 				   1);
+ 
++	/* next */
++	prop = drm_property_create_object(dev, DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_ATOMIC,
++					  "NEXT", DRM_MODE_OBJECT_COLOROP);
 +	if (!prop)
 +		return -ENOMEM;
-+
-+	colorop->bypass_property = prop;
++	colorop->next_property = prop;
 +	drm_object_attach_property(&colorop->base,
-+				   colorop->bypass_property,
-+				   1);
++				   colorop->next_property,
++				   0);
 +
  	return ret;
  }
  
-@@ -136,6 +147,7 @@ int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *
- 	/* initialize 1D curve only attribute */
- 	prop = drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC, "CURVE_1D_TYPE",
- 					enum_list, len);
-+
- 	if (!prop)
- 		return -ENOMEM;
+@@ -263,3 +274,19 @@ const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d_type ty
  
-@@ -152,6 +164,8 @@ static void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colo
- 							struct drm_colorop_state *state)
- {
- 	memcpy(state, colorop->state, sizeof(*state));
-+
-+	state->bypass = true;
+ 	return colorop_curve_1d_type_names[type];
  }
- 
- struct drm_colorop_state *
-@@ -190,6 +204,7 @@ static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
- 	u64 val;
- 
- 	colorop_state->colorop = colorop;
-+	colorop_state->bypass = true;
- 
- 	if (colorop->curve_1d_type_property) {
- 		drm_object_property_get_default_value(&colorop->base,
++
++/**
++ * drm_colorop_set_next_property - sets the next pointer
++ * @colorop: drm colorop
++ * @next: next colorop
++ *
++ * Should be used when constructing the color pipeline
++ */
++void drm_colorop_set_next_property(struct drm_colorop *colorop, struct drm_colorop *next)
++{
++	drm_object_property_set_value(&colorop->base,
++				      colorop->next_property,
++				      next ? next->base.id : 0);
++	colorop->next = next;
++}
++EXPORT_SYMBOL(drm_colorop_set_next_property);
 diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-index fa167e642e0d..49e6564c17ba 100644
+index 49e6564c17ba..791ab940c158 100644
 --- a/include/drm/drm_colorop.h
 +++ b/include/drm/drm_colorop.h
-@@ -82,6 +82,16 @@ struct drm_colorop_state {
- 	 * information.
+@@ -173,6 +173,14 @@ struct drm_colorop {
  	 */
- 
-+
-+	/**
-+	 * @bypass:
-+	 *
-+	 * When the property BYPASS exists on this colorop, this stores
-+	 * the requested bypass state: true if colorop shall be bypassed,
-+	 * false if colorop is enabled.
-+	 */
-+	bool bypass;
-+
- 	/**
- 	 * @curve_1d_type:
- 	 *
-@@ -171,6 +181,18 @@ struct drm_colorop {
- 	 */
- 	struct drm_property *type_property;
+ 	enum drm_colorop_type type;
  
 +	/**
-+	 * @bypass_property:
++	 * @next:
 +	 *
-+	 * Boolean property to control enablement of the color
-+	 * operation. Setting bypass to "true" shall always be supported
-+	 * in order to allow compositors to quickly fall back to
-+	 * alternate methods of color processing. This is important
-+	 * since setting color operations can fail due to unique
-+	 * HW constraints.
++	 * Read-only
++	 * Pointer to next drm_colorop in pipeline
 +	 */
-+	struct drm_property *bypass_property;
++	struct drm_colorop *next;
 +
  	/**
- 	 * @curve_1d_type_property:
+ 	 * @type_property:
  	 *
+@@ -200,6 +208,13 @@ struct drm_colorop {
+ 	 */
+ 	struct drm_property *curve_1d_type_property;
+ 
++	/**
++	 * @next_property:
++	 *
++	 * Read-only property to next colorop in the pipeline
++	 */
++	struct drm_property *next_property;
++
+ };
+ 
+ #define obj_to_colorop(x) container_of(x, struct drm_colorop, base)
+@@ -276,4 +291,6 @@ const char *drm_get_colorop_type_name(enum drm_colorop_type type);
+  */
+ const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d_type type);
+ 
++void drm_colorop_set_next_property(struct drm_colorop *colorop, struct drm_colorop *next);
++
+ #endif /* __DRM_COLOROP_H__ */
 -- 
 2.43.0
 
