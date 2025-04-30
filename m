@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1F7AA4C45
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 15:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95359AA4C57
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 15:01:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E485310E7C4;
-	Wed, 30 Apr 2025 13:01:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B788A10E7D0;
+	Wed, 30 Apr 2025 13:01:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="epR5prWe";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Djuw5pDv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1211610E7C2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:01:35 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-391295490c8so479481f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 06:01:35 -0700 (PDT)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46A6F10E7D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:01:37 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-3912622c9c0so678881f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 06:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746018093; x=1746622893; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1746018096; x=1746622896; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=2UTx8i3tlDwXsUWoT5VcMCQwgrRqwv+71jsU3q5eQlU=;
- b=epR5prWeemEZmxWAmQpJgLoGLf+AQS2Sp1lerNMi0RcC9J/OGHczjjEt5IIYk3Nueo
- D+Wn3iMXFkX43LTyMGDZme3LagzqP9FPjPfImvikWXnQLHzmSC+sT4yvcdC01fiVfoON
- NyjuV5liwFBD3s92NMuUXEVcrRgpPwqMM6IeEBn05tGGoCojCOXUdoXX+rjO9CnbkcIy
- dqmMqvVPCeDA+wiwEGtM1N/kgGwAWbCx6rDyHss4+RLGqDhyE49fakOK4nftzfmtm2GI
- vs20FU9p9wJ+FFFjqHOiYUcVc8itgaGFtnVXW9ngK9Ifk3sEjmpsjpbEmbqSIznNxwUl
- PP+A==
+ :reply-to; bh=SH3I77O1MdTEfL3MdKWLnHOYaZ8YnV2M8EzH5AVzyR4=;
+ b=Djuw5pDvklpyV44tlGnznTAqiLS7BtWGxVkGhNzuPeQ2oPi9mC0sOCuIs6Bjf+snwW
+ eWe2ArO8xRM2WBqyWzWxmN1yDCjV7+Y2+0rcXs2nK499AT8XvnlFpRTJJPYI/xD09/zy
+ FgGjbs2lftF+aF4/ubpiLDsK32VyyP0zo9+ZU2lzS1Z1hjBXKJU3qNuDmGcfhD+heIDl
+ sprMbg/nlh/GyA2Z2qnUf2UDxr5uKOE+lG3lh45xbfjJLfXcaW5jZIk6Cf5PixnC75QH
+ sMEYNVXiyJvOwxTzlpwRiK2CPlJY9v8KcJ2pTfpNXLAoqQ1mQbEXC4WArPqoCIoCU8Wd
+ jjrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746018093; x=1746622893;
+ d=1e100.net; s=20230601; t=1746018096; x=1746622896;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2UTx8i3tlDwXsUWoT5VcMCQwgrRqwv+71jsU3q5eQlU=;
- b=BM9UW2NPdfSRbjCK9D1KSbjrsh38gTlHhCrkmcqoVIilbTaBOTxJHumgbQmd9fHHWI
- /49thJWKo2cooFh2AfvuFDPrBSvnLvaEPeoUPHI5sY39Tuc/d5lwHzP+Z136D5QX84pT
- ZAn9JecNAVUczITkYI3iPs3TR0ogpghlUVEK5CCzMcNWoIS9LlxQAHhXFDo72FW3X761
- L3DlBtGmkh12SyHdKtTEIEQX5V89tRtforQ6CDfLDLT88RfZKE7nRKUj7tzQhbNiPEvJ
- b5CDGgqLNmey7TIDWzQqVc7QPYdzFkyHKdhLJBHwBA6yc7kH+6wgWNaFRrHPKBVRKKii
- O9lw==
+ bh=SH3I77O1MdTEfL3MdKWLnHOYaZ8YnV2M8EzH5AVzyR4=;
+ b=ELEgGOkmrVsX8OLMmHMlL12l0JbvcfmXZM1q9FCbfBtgoiVu4h24ISZ+MDpH/e4wHA
+ c44Z7hZLcEgx+NVpQ27n6/lRiFP+Y1q/ui5fKG6moQJBuqXTodlLERHCEtyWvewtdtyJ
+ h2sfltGkD/Ix/bVjna/cFh5RujSQ9klG06SklETXXDFntOiEdFURh7AtXA9y+H0YrgGG
+ /M7olcr5XV4uuSI80Nt3kzOngIV7s1tq1NKcZH8t1PRpcOGkFt92EawAO9dN5IOnejqJ
+ PFsq8lBnXXk1gkkvSw16yR/T7McF3mJvgL9YmmBRM21ITzdDyGI6T6aOszWiV0zvV4n6
+ hJKw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXX+Y2pr1lkednPeLetMEAgk+12p7wUCLx36b3VETdziAMOfaRK11h3OhxUXOpbiErdcopOHr8+QlA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwMALRCgew8leGR5gKj9PWaA4TVzV5f2VNjX6Ovb2QEjphdyG6V
- TTcLJr0NCurbM9J7Hpxnbyx3vtmFsiHtxBe9jAosaGhHjj9vSC7Eb+ph4iebVxc=
-X-Gm-Gg: ASbGncthkV3tIRSoz5lxzNp34AHuDCa0IT3Lc9aiYIsLXwuy49CPySJcjRJIoA5uvdz
- oReqoRYwnqXkK3947sYUj2FReu1ARFwOzUWelcJdoPFTB6IFhNCMgHxZtfo9MOWe0/HarxHKBTy
- ogoIof87Ndr4M3weXgQrLenKgV5B4uj+PKbAIpWlWXAeeJef9ttxD/ywZgNJvInYXyOYurbkX44
- 79Z5eDzFzKmmztBqW1Oltuzto4ScofeNROZ2ag7BswxnoQ7L5fIPJr8kRMPNGQvYrN4PFM+89HB
- 83zlj4PP8s9ToWCBpfvbontf/U3zgSquAm50LOZCbngdmmOIQ0TQOl6jaqk=
-X-Google-Smtp-Source: AGHT+IHTVW6h6Ul1dB4RYQ82JlgeupEVs6D5ssmYrEuuWYidHldAYwbLTL4y7ZCltOiWRm2Xax3Xrg==
-X-Received: by 2002:a05:6000:40dd:b0:3a0:8b90:1acd with SMTP id
- ffacd0b85a97d-3a08ff347b3mr843158f8f.0.1746018093445; 
- Wed, 30 Apr 2025 06:01:33 -0700 (PDT)
+ AJvYcCW9sWI6Qt1WNXr7skx2NuTXOTFzQ4Py21dN5pecNwlGBMl5EJb2WdLCyghCQ9mLU/gmq6ZHAD95oRs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywaxra6njQ16eXux16p89H809a0kDC2epJbleIG6fmWg9TUrMqq
+ CjB3NuFZuz7qxi5j6AybeEIQI6I8ima8hZZh86PLqEn4LwjxYISA29IQKAHDW98=
+X-Gm-Gg: ASbGncvkbBmnt1mjwPQKql38Jyd/ELp1e+b/E1M1x75dJAun3VBvkWIo0vhxpCbXtwC
+ q0rr/574Q4PbcxsMFG6+0g3BTVDzfWRbDLrmMbWqrPCKV3CYokF/ZMZC+f7i9XlnRPkkiwrFNJn
+ +f9omQBojYnJsAK9a8nl3jldiigFNQZneCLhrlls75WME5bHN4qxFnX0ju0hVYIjRIzZ60T3KNU
+ q5WQ/25n8tfqrUDybZpaKzbu1IQnEi47CtJKo0VRBIXXMRY/UilgZTcBK75HR+xqBb8FqOh/xVq
+ uaWxMjVxOqAHCpjRaJ42HWlgHLrfUHQD6lTQ7GkfYcoXjtFY5MKktRMAckw=
+X-Google-Smtp-Source: AGHT+IEBqMxYQSfRQbTltyFeNLAcJBYzuhFGFWWjAJdPvr+J/sinK/COHmsEoCreQ/Xji9bQuXY9Pg==
+X-Received: by 2002:a05:6000:1866:b0:3a0:86f3:451f with SMTP id
+ ffacd0b85a97d-3a09007e244mr807533f8f.12.1746018095608; 
+ Wed, 30 Apr 2025 06:01:35 -0700 (PDT)
 Received: from [192.168.1.28] ([178.197.207.88])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a073e46c23sm16884043f8f.75.2025.04.30.06.01.31
+ ffacd0b85a97d-3a073e46c23sm16884043f8f.75.2025.04.30.06.01.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Apr 2025 06:01:32 -0700 (PDT)
+ Wed, 30 Apr 2025 06:01:35 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 30 Apr 2025 15:00:42 +0200
-Subject: [PATCH v5 12/24] drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and
- MERGE_3D_5
+Date: Wed, 30 Apr 2025 15:00:43 +0200
+Subject: [PATCH v5 13/24] drm/msm/dpu: Add handling of LM_6 and LM_7 bits
+ in pending flush mask
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250430-b4-sm8750-display-v5-12-8cab30c3e4df@linaro.org>
+Message-Id: <20250430-b4-sm8750-display-v5-13-8cab30c3e4df@linaro.org>
 References: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
 In-Reply-To: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
@@ -93,21 +93,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Dmitry Baryshkov <lumag@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1188;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1020;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=FYQmnOteyEsh43W4459/HI5xmvv5foibNDY/l+BCr8Q=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoEh8Az8NfK/s+6V+lgG7g1iFiCCXAt5FaCBQoh
- 7X6AIKruHWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaBIfAAAKCRDBN2bmhouD
- 12VoD/9ZRMJIrOOLeG7gKh0PkygcJiEgZVQdMe3GNEdLpNLy4r0RSli85RwY+ymOetvLU4LuKJT
- JUcZhQlWry41vKc4N0+1hZkQRp9/O+9vjWt1bRCEEmQClYnT3GShpuMETn02wx3Sh+O4BkrBiA6
- /Xnab/7A9wSeoQDOiUmrtxe3QOKg9+4x6KHFL1b29/cRzZeE8pZcIVP3wi4qNL6U6yqaO0XWGXE
- HYAx1lv9i2vV/oWqPCIa4NJXyf2U/MiLlTit2eFQ3sDRKinHFr/cZBVYPZI5UjxyKlB0YGbdhSm
- e30SkGc11ODeNZvTxpDyOmpSWxzAC+ra6+xRGaTDVXIYp2/Fra+Ji0pBbOvKCXQQPVHlfyHfSgS
- rnMO8QVEO1pb+AacsEkMwoqxQs6TFC3KbRZXC/re+LCdOyts78Q2ReMQLQfSbky1ZX252ZPqS1G
- n9TGueq4YMez+KVlyQIQ+mJgxcOWP0H4daCnIIaSN3DDOom4E0w3QxeNDz8/Gnsufc3JhpzKAeN
- qEYK3a3e/OsB8Licbk0pHc6/ykZvtGeJAr4l60YJbn/Ia1JUMwdazYf4FR6AD+xM0DeVUBh2hdI
- djz2s4hLGCz1jBokqwfI8eQgPJjKdCOMstCPzQ6kNSdJAO8L6yKeKMvkZUevp/bXCcJ46HOBLx9
- ef8Dq4UKRzhyILA==
+ bh=HJ0MNpBmrQRCw9sK9HdpK5tunBDYYQ7B8hA9RLdeWJU=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoEh8BU1FyXvyJubnZWWpHhlyoSM3xTDbUd9SPV
+ SvPM6R3NkSJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaBIfAQAKCRDBN2bmhouD
+ 10psD/9Nl/I/ReW4K7IMQtk7o5ANVYUTBL85xn5Tru5onHKZC8S2COPO62MOh683IPy6z//4zK7
+ BSmb5qO1u0NaRS3wwET/MLK1ieZyMiBYic03mZtr3I7YZ0pMn5JAKQom2h9WkOt6Bx9tapsz5Ir
+ zAREj5dgm9LgUL0M+9UHP4oal4NOdTCUwHpeJZ07Y7M8Nfy3ZJgplEVntIxRwMRTv6VZbTocv2S
+ hxsaWKfHVXkwWKy7A+6SkxuoOVBwOJnZZwfKlEHDgEo6ow0EW0g9uNCpRP3Zj1+oUUIDe9FKhLs
+ 8/y0QM5JECZry2ZEVdQufdFMbp2OEPSxzwVMPVacEdpa7f3QT1hwpYa8iSXGjOWrsGotaPw8n+T
+ HE08jEI7sdx2f/HXX1O6L9/aKQKioq5WHSQsTsjLKswx3a6U4JQkIK/Qk6/OY8Uhdi4H4P2EmOo
+ WpAzr5NvqDbbK0jjRv6Vm3FpovLtNoxT5RIn9TZQLuEeZSDkZzuZwPABJQ+O9m4TVoucb0PmxlY
+ d2c6Z73juebij/Zp/7t6ROdddEY+qAlg0aVZpYt6ou2LMY6TqOMSeMv57NiBzJkUC3kbaX1nun6
+ 9MoAfcvAzjThXuqYBH0RnqDqMJ3rLmmV4XwC5BASN7bwKZI937wsgRo1IjTg2wKokIbNzCIE4Ez
+ gyWQDPSon2agTVA==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -125,54 +125,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add IDs for new blocks present in MDSS/MDP v12 for LM, DSC, PINGPONG and
-MERGE_3D blocks.
+MDSS/MDP v12 comes with new bits in flush registers (e.g.
+MDP_CTL_0_FLUSH) for Layer Mixer 6 and 7.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h | 6 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index 8d820cd1b5545d247515763039b341184e814e32..175639c8bfbb9bbd02ed35f1780bcbd869f08c36 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -125,6 +125,7 @@ enum dpu_lm {
- 	LM_4,
- 	LM_5,
- 	LM_6,
-+	LM_7,
- 	LM_MAX
- };
- 
-@@ -169,6 +170,8 @@ enum dpu_dsc {
- 	DSC_3,
- 	DSC_4,
- 	DSC_5,
-+	DSC_6,
-+	DSC_7,
- 	DSC_MAX
- };
- 
-@@ -185,6 +188,8 @@ enum dpu_pingpong {
- 	PINGPONG_3,
- 	PINGPONG_4,
- 	PINGPONG_5,
-+	PINGPONG_6,
-+	PINGPONG_7,
- 	PINGPONG_CWB_0,
- 	PINGPONG_CWB_1,
- 	PINGPONG_CWB_2,
-@@ -199,6 +204,7 @@ enum dpu_merge_3d {
- 	MERGE_3D_2,
- 	MERGE_3D_3,
- 	MERGE_3D_4,
-+	MERGE_3D_5,
- 	MERGE_3D_MAX
- };
- 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index 2ce59ba50ffa0d14eaa07e993fadf0f218390ef1..3e5e1e09e9d00ade74371489b2b4e50e648e2d16 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -261,6 +261,12 @@ static void dpu_hw_ctl_update_pending_flush_mixer(struct dpu_hw_ctl *ctx,
+ 	case LM_5:
+ 		ctx->pending_flush_mask |= BIT(20);
+ 		break;
++	case LM_6:
++		ctx->pending_flush_mask |= BIT(21);
++		break;
++	case LM_7:
++		ctx->pending_flush_mask |= BIT(27);
++		break;
+ 	default:
+ 		break;
+ 	}
 
 -- 
 2.45.2
