@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DC5AA407C
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 03:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4CDAA407E
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 03:22:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24F5910E6A0;
-	Wed, 30 Apr 2025 01:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE5F10E6A7;
+	Wed, 30 Apr 2025 01:22:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Ue0AqdAV";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="QIJ48TII";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2052.outbound.protection.outlook.com [40.107.94.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A253910E69F;
- Wed, 30 Apr 2025 01:21:59 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2074.outbound.protection.outlook.com [40.107.223.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 413D910E6A6;
+ Wed, 30 Apr 2025 01:22:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P0hbOFdq2q0z7Id8JwZvyp5/n9IsdSsgjD/4gi3DAyAJkg+ZIrlbc4MwBX4CxILgWruN3BF2vfN6nORPcXgAl8c/GqtX6IgapvOKVx7UVnpJhYP7ovrA8U3O3fRyURG/1V8+bh7jNawtSm+30zej1Ag4cZZXLhayZXRzQGVGfElFky7OeuX96iE9a9Dqq7Nk6EHbyQYmmDYw6oH0nSH6FWXQxxjVDyhzhOmk7bwgV7pvINGSArNT0tqwO0jFGi07nHCRJ8FAQNCLbSShvo/PRxzanOfTX8qul/Chn+ary6JQSf3D70woYQ81/PVGNHS5nxAOIDE/H/LOvKgVdiJQcg==
+ b=JfLSs4W9Zymz6HbtZSSKcFdqS6SStl0w5t9XGwkMliDGq5X3ZgOZufyTcKEnPpUqC9eIGAG4Xy4tldTB0Wqf6akjzF+4XzuEnaH71NWC/jaHH8SVZhP/SWLBVpvNNq1d0RHskgCazDr2QTDTb0Ysjr1ZZOhcwFICKzVtBZGLIC9spZWJSpIxxg2fWs7pkAGha4i5uB+jRHxy1pyK8NNPT0nLIax41qVBZhRxgcyY69pjO/mz8FY9k6lMp4TBvKWK9Z+WAy/N0f8W0o8iLl6LWfxcjZz6dwybwyNfhOKEd6GYIcmvRCqEMBJLdSnEePq2QAv3SKq2JLOK3PDyDHfqOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1fcYWHahChFUbs3vXvXhvgnBw/1IvPJzgnHDVmlVV9M=;
- b=SFoHZ7OAT5jnrmfIsVTJGMRXA9irf9VeICsi7NBg0rDucm+lWzTijvZ8Pslyl+5QIeeC0sL0lzPU0oI42zcFeYSg9HhNzUBZ2gy9AJu7vSTvh7mYbkB1qGxI1LM3zLD1PAZAzioBWHKIwJ68gh9XtdXHalee2vszrrb6RMgAc0BgIjBr7xFYj4K7ndCoRVnm+2mXDOwTEmrjSKAcNjHSrp/lmb4lRg6GyU5C5j2iiDaQxq+yGYYAGgt675K6knqwGQfSooXTSdCBSscguNuDRvpGkCw4koyCanrIHd7XVtCETMDgHGuiz7nw2xC+0TR8wT1qQ4x+rfNsBGBN96jcKA==
+ bh=l1DI//jtVYzOp7NtMpP9nx/xXN95zTNNDlk2CFmt5jU=;
+ b=XJKtEINXicIdv3KWs6WbYFmGXrHB8fIXDIOjPRyNgEc4+w5/MCa4f+yemfKG27kHzescvtFtmoEH8GaF5B5+Sj2TPHwepY4dntXWbNKODk4R0HxgFDgsemaOawUB9iVj7YPk0MrD0Ttlhtb/GUbzhwaV5fjg2PUpLAJMzppUdFUkJG9YUwveOdBIFr09zkpqbLrvHH0DXPZB2C6Fpi6On6uQv1Wd1EB/PmKVDor+HiEqPRS6J3Ejt/K1WJO09YOGh0FXPJTHCHS1HuLiASiKf/l0IY7JTL7h3aBHXCqIMLy1N+0XmyyxxkTqwfYgDjk9w/of5FocguFmFlzvS2ChiQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1fcYWHahChFUbs3vXvXhvgnBw/1IvPJzgnHDVmlVV9M=;
- b=Ue0AqdAVju/GIZMGUWoTFvzeWn7nsFmfubnRgRvHfw9a+zep0UVO8zn9lOylmYwivvaIt660WMd3iJoPTLObuS5ELBFWrISQ5gvzGseJeaV+xH2buEa6qkaOwhPto4UojmA6GVTM8RK4Fi5b6t+nA7sh8nGpnZqUSfxws+umJzU=
-Received: from BN1PR12CA0005.namprd12.prod.outlook.com (2603:10b6:408:e1::10)
- by MW4PR12MB7118.namprd12.prod.outlook.com (2603:10b6:303:213::12)
+ bh=l1DI//jtVYzOp7NtMpP9nx/xXN95zTNNDlk2CFmt5jU=;
+ b=QIJ48TIIX0af9pHlja4EyCfHzasM3Im1fBWfH9ykC0fkSP7Q+LR18Sh/mOxZ1G0FzYnVIQMa+Zu/YHHLljfNUJoxso1sc5DGQa/LZhKVaQag1doPmO1zwEZ17bWnwdo03Nmm+a+zrUu6O9wt2NRU7pjB9RpLYPBcs7P+heJjNpQ=
+Received: from BN9PR03CA0504.namprd03.prod.outlook.com (2603:10b6:408:130::29)
+ by LV2PR12MB5799.namprd12.prod.outlook.com (2603:10b6:408:179::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.23; Wed, 30 Apr
- 2025 01:21:55 +0000
-Received: from BN2PEPF000055E0.namprd21.prod.outlook.com
- (2603:10b6:408:e1:cafe::73) by BN1PR12CA0005.outlook.office365.com
- (2603:10b6:408:e1::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.41 via Frontend Transport; Wed,
- 30 Apr 2025 01:21:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Wed, 30 Apr
+ 2025 01:22:10 +0000
+Received: from BN2PEPF000055E1.namprd21.prod.outlook.com
+ (2603:10b6:408:130:cafe::94) by BN9PR03CA0504.outlook.office365.com
+ (2603:10b6:408:130::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.40 via Frontend Transport; Wed,
+ 30 Apr 2025 01:22:10 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN2PEPF000055E0.mail.protection.outlook.com (10.167.245.10) with Microsoft
+ BN2PEPF000055E1.mail.protection.outlook.com (10.167.245.11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8722.2 via Frontend Transport; Wed, 30 Apr 2025 01:21:55 +0000
+ 15.20.8722.2 via Frontend Transport; Wed, 30 Apr 2025 01:22:09 +0000
 Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 29 Apr
- 2025 20:21:51 -0500
+ 2025 20:22:06 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -68,9 +68,9 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>, Daniel Stone
  <daniels@collabora.com>
-Subject: [PATCH V9 41/43] drm/colorop: Add 3D LUT support to color pipeline
-Date: Tue, 29 Apr 2025 19:11:11 -0600
-Message-ID: <20250430011115.223996-42-alex.hung@amd.com>
+Subject: [PATCH V9 42/43] drm/amd/display: add 3D LUT colorop
+Date: Tue, 29 Apr 2025 19:11:12 -0600
+Message-ID: <20250430011115.223996-43-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250430011115.223996-1-alex.hung@amd.com>
 References: <20250430011115.223996-1-alex.hung@amd.com>
@@ -82,52 +82,52 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055E0:EE_|MW4PR12MB7118:EE_
-X-MS-Office365-Filtering-Correlation-Id: d349d968-26d1-44ea-0ad0-08dd878564f7
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055E1:EE_|LV2PR12MB5799:EE_
+X-MS-Office365-Filtering-Correlation-Id: 501bbf9f-4789-4622-2038-08dd87856ddc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?vM0woU5rPn3YtTvlt8kghFSlqEcZaNSu00msprI6Ak/QJO6Z0ZOd2P3pryvM?=
- =?us-ascii?Q?I6zSIIo71tMsgNVH+zR3pNQ7WsDYSN0dezs+4j6WsaKxqzs+tSiJqmBnNmpB?=
- =?us-ascii?Q?oiNT4KFE+VCoWK73p2fevvAnbXKMPYpNlWT2fP8Fr+1L8o/S754i3ugTRT0Q?=
- =?us-ascii?Q?bAfI++D8Y3lsusQHMOilcf+r8NlWaXM0/jc+o3Y9i30/jjGm8JyBSRSSvkqz?=
- =?us-ascii?Q?hjTRZ3zb9eId81A9B3qPdW0WJHeEtlINEzmAnB0ts8R5M++GRciRF+FhdWjU?=
- =?us-ascii?Q?7KT2M7d2awoqCE4FwfDmzUZJHZ685/lGnkjmRdMy97sZjP0pKBUvBy6zNhJ5?=
- =?us-ascii?Q?rUeI8f8/44tWn4sETYXcXM25doqKpMPgNN1PgDerZBFRHa0qdO1Vpt4B4D7q?=
- =?us-ascii?Q?LXgQUCOkeJTBxo0Cp4qWbPZXQi64VJbnp6DzePXVNfV3FLtxqw+HpVDa4gX8?=
- =?us-ascii?Q?B+PeZUsYJDBYJ76RI2uayA2MvE2nsAHMArF+3Y4nPh3QPulSRArmlJkmopy7?=
- =?us-ascii?Q?7ny1ocQMmLPKn5AWypcdu4wtgPaI8cGOUpQIlDd/ECuW9mUEm8MsY0Lnj5Gw?=
- =?us-ascii?Q?1ZdhFKg+U461K9wZj+m4rGUmZawGTJ5cxiqifQXllTCSwcWhBMN/+6nRyLjd?=
- =?us-ascii?Q?QYSYuBOWWagbDqEMyd8cwL4UFYNf4AtoFu5/WEdXYmcxYoIOAli2F6AV5x3u?=
- =?us-ascii?Q?bUHrm4yEdbDrP8gMbSurnMBlLHwqcawalH3KMI+Tuu02/TgJhwfK+JrDm7EG?=
- =?us-ascii?Q?S8b6broQjkJd3IL3vdlm3Xzg70kGfOrY+MwM475NpyqN4011zvfRbigB/j4Y?=
- =?us-ascii?Q?NuiAR8iptt20bKCeq3HKjsZQhP/q5/qFa0ysk3p245zixjrS9EfO1WwMVgT0?=
- =?us-ascii?Q?SymoEcKSd0VbjI+DlKFr6L7c5Ll5HnwNK+HybocLJqkaMce/zn6OyxLmj7BZ?=
- =?us-ascii?Q?7tfDahRm7SbXbJ49/JmPxVjte0D7h488oKF5ccVQ3Ch0XFhsy3XveWb2gBP0?=
- =?us-ascii?Q?30KbCamLYAlefPvFaDlflkPgGzqrmG+x1UMPf+Wq1oid0wBRGShsvog8dJWm?=
- =?us-ascii?Q?Bc6N5yLCvwsBZ6XwN+BGXTHNrbbB8Mi8biA8+1yRMKNkjdNe3XucbkqRI+7c?=
- =?us-ascii?Q?nzBofm6rauLqo1SUnOQyNuYBGNRne+U2eMmQrOmhW6a33JBeNSxaddVzD+Lv?=
- =?us-ascii?Q?eXycrWWjQ0t7aFQUkeIBE4xG/Pi5papeHC/afsWri4Y6HNLhY1i+P5zZCmBc?=
- =?us-ascii?Q?Y899E632ufneCGuoxhkIBt7UeofQvyYi7oE2Bv+asrj0GiHJhIDqmUtIPAcq?=
- =?us-ascii?Q?C8Sh/lDT1Dor0IYE3cweasUmeEYFtfmmRd7+UrAg0J5l1miU9r0RXFrG3T7d?=
- =?us-ascii?Q?ojkuIWjpCDE0yGgIO/3H/MoQRl/PNYYahu5A7iPNekgZ7YaS08YKsMB+cp7g?=
- =?us-ascii?Q?zMcoCyDkTasAFBzdbrv8CbF5BsYTN8opH3WD/f38T8GhBedW5uM6wgImAtXn?=
- =?us-ascii?Q?IUsjuvuODX4kxsmXLfK1vd8kT1h5wjKDivEX?=
+ ARA:13230040|82310400026|36860700013|376014|7416014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dvqH0oY//BvimKzOgOHBUDCPrK8yL+IH+D6r4Q9+3q+O+7t4euLIBup7c+oN?=
+ =?us-ascii?Q?PYR2H+JKDy9KePiu0RDLTpdTW3zWGGP6ci+uyLi6pFPw6o7CXp301AiAnJT+?=
+ =?us-ascii?Q?8a8HV7NcMnmmwwHXIFlA7Op35NTu6womW1xbA+An6VHcEsc3nPqN28gjweSU?=
+ =?us-ascii?Q?1K+c83O2Zg6KUcJbng7MhbL41NWspjRa5MWgFiOF3OCwT13wwggB/deZfrJP?=
+ =?us-ascii?Q?zxy1uR9UiJQwY4U0oGCd2VkgFee1NfWecSZ2DEx3d0UeLF02ZgSS2Yg5tA3C?=
+ =?us-ascii?Q?LyCt0ugKx4tbJJbkB0whZ7MIOCXqyhMUXVkwTEzFpF5lIkFNfrGpXVmcOrZJ?=
+ =?us-ascii?Q?jlhJru8j5KSAmr58yhjF9wdL9SN85zYuunNTxa9FQQvFFPlNDVAYurMZI9AH?=
+ =?us-ascii?Q?JRjk5NeXn6QlZc70V2bYX6ANhCu1W7FDNGGgKL5EWd2m3LBWdnIOdd0iwWdi?=
+ =?us-ascii?Q?cn9wY8dMUIIHPJXPRizldZWihCXNBwv8K3ZGQL2jjhBCWUY/Y6+1XxpubNCp?=
+ =?us-ascii?Q?xXQMRN/gtM3k/nPvtlNT2NxDTPBdn6clKuUzdRF/Y/mdn5gO1vjoVYN3Zmgs?=
+ =?us-ascii?Q?vRGIGSD8WqcLga81x0UB4k28RcbeTjzj8hmGS6cEhcm2sd9A3dNHAnNU7Xbv?=
+ =?us-ascii?Q?wsJCnoFomMbp5d3smu1GtEXV0NpAz1kVjS3FWgqdJgvEYNUJatCkCHVMaBWZ?=
+ =?us-ascii?Q?RhVWL+RCkVhQZYbqDs3pD/qfS9SOi5sVR/0z4l8aZ8JjtvmUFDmzd6+xl19E?=
+ =?us-ascii?Q?tLqrmk0aW4T0OVM8s59h3nBtABGzQdiMrJ/yLC490g8oGMxi5RrL34TLiAG6?=
+ =?us-ascii?Q?eBP+HCFryIFAfAZoEzNG5i6K670xaik96iIQBCN7kUrbNmsxP6C1HFFONFyv?=
+ =?us-ascii?Q?MVGoszxRS1vWd2iHh3ZqVwzikL1QOPxtpBV6dLTuu85FEfQybxG2E/OjMy9g?=
+ =?us-ascii?Q?qEPdA+oKluPpZRIDoIzcdaQCAQyuEVFIesl26Xj9GghGQgoXESiwm66ADKIp?=
+ =?us-ascii?Q?UBjR4JW+HgE1ndtdaIu+tfXP7QamUxP3RyY8aTOAtIlS8FTB6WhFBvo+su93?=
+ =?us-ascii?Q?w4Ug8a/KJ2hV9Dw5L+XPbXTR5yFBo95kqRFEN4CFYvbMMvJ7AFbSA9yMjQ6W?=
+ =?us-ascii?Q?16MfTw6WIaebMykEsrZaXnLC6rQPlAmleL3PNcAb7atoswFPN+9vg2TFt4lb?=
+ =?us-ascii?Q?nI0Ca1mvW2fRLrrEqoPeLUuwhXyTPJqX/P41rGBZJbK4GUvCIOrL7bQnay53?=
+ =?us-ascii?Q?gWu+9YPrPEMt768LTEVomnfcxNe+LXoKyLtWzJqO3YO5PjUXcMiRbJxG1g+j?=
+ =?us-ascii?Q?6Xl1oa6TTZQXoBcgeJyjwQSv8u/wcNL7OHSebx+EmJfs098YzLtIyOAsHW/P?=
+ =?us-ascii?Q?ZanZjpPoki8EIlRerdxbDp8jO3uETXlfNvFvaPV8kGUGAP3ZkAjiuNUztFpr?=
+ =?us-ascii?Q?h2lRv6LZmPHBx65q5J9VGrf/HW1EUx0WeGsjtyITmec1LyDTsK1oFy7XDsg8?=
+ =?us-ascii?Q?fQKt+2WYwTuC+/o6tpK6v09eornwE2lF6rHy?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(36860700013)(82310400026); DIR:OUT;
+ SFS:(13230040)(82310400026)(36860700013)(376014)(7416014)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 01:21:55.0501 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d349d968-26d1-44ea-0ad0-08dd878564f7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 01:22:09.9752 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 501bbf9f-4789-4622-2038-08dd87856ddc
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055E0.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055E1.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7118
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5799
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,283 +143,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is to be used to enable HDR by allowing userpace to create and pass
-3D LUTs to kernel and hardware.
+This adds support for a 3D LUT.
 
-new drm_colorop_type: DRM_COLOROP_3D_LUT.
+The color pipeline now consists of the following colorops:
+1. 1D curve colorop
+2. Multiplier
+3. 3x4 CTM
+4. 1D curve colorop
+5. 1D LUT
+6. 3D LUT
+7. 1D curve colorop
+8. 1D LUT
 
-Reviewed-by: Simon Ser <contact@emersion.fr>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 ---
 V9:
- - Update function names by _plane_ (Chaitanya Kumar Borah)
+ - Return a value in __set_dm_plane_colorop_3dlut
 
 v8:
- - Fix typo in subject (Simon Ser)
- - Update documentation for DRM_COLOROP_3D_LUT (Simon Ser)
- - Delete empty lines (Simon Ser)
+ - Set initialized to 0 and return when drm_lut3d_size is 0 (Harry Wentland)
+ - Rework tf->type = TF_TYPE_BYPASS for shaper (Harry Wentland & Leo Li)
 
 v7:
- - Simplify 3D LUT by removing lut_3d_modes and related functions (Simon Ser)
+ - Simplify 3D LUT according to drm_colorop changes (Simon Ser)
 
- drivers/gpu/drm/drm_atomic.c      |  6 +++
- drivers/gpu/drm/drm_atomic_uapi.c |  6 +++
- drivers/gpu/drm/drm_colorop.c     | 72 +++++++++++++++++++++++++++++++
- include/drm/drm_colorop.h         | 21 +++++++++
- include/uapi/drm/drm_mode.h       | 33 ++++++++++++++
- 5 files changed, 138 insertions(+)
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 94 +++++++++++++++++++
+ .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 20 ++++
+ 2 files changed, 114 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 41dd6a90e13b..35640154c70a 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -806,6 +806,12 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
- 	case DRM_COLOROP_MULTIPLIER:
- 		drm_printf(p, "\tmultiplier=%llu\n", state->multiplier);
- 		break;
-+	case DRM_COLOROP_3D_LUT:
-+		drm_printf(p, "\tsize=%d\n", colorop->lut_size);
-+		drm_printf(p, "\tinterpolation=%s\n",
-+			   drm_get_colorop_lut3d_interpolation_name(colorop->lut3d_interpolation));
-+		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
-+		break;
- 	default:
- 		break;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+index 313716f2003f..dfdd3f557570 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+@@ -1293,6 +1293,7 @@ __set_dm_plane_colorop_shaper(struct drm_plane_state *plane_state,
+ 	struct dc_transfer_func *tf = &dc_plane_state->in_shaper_func;
+ 	const struct drm_color_lut *shaper_lut;
+ 	struct drm_device *dev = colorop->dev;
++	bool enabled = false;
+ 	uint32_t shaper_size;
+ 	int i = 0, ret = 0;
+ 
+@@ -1314,6 +1315,7 @@ __set_dm_plane_colorop_shaper(struct drm_plane_state *plane_state,
+ 		ret = __set_output_tf(tf, 0, 0, false);
+ 		if (ret)
+ 			return ret;
++		enabled = true;
  	}
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index a7f1d75bb4ea..497dba5ffe14 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -718,6 +718,10 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
- 	case DRM_COLOROP_CTM_3X4:
- 		size = sizeof(struct drm_color_ctm_3x4);
- 		break;
-+	case DRM_COLOROP_3D_LUT:
-+		size = colorop->lut_size * colorop->lut_size * colorop->lut_size *
-+		       sizeof(struct drm_color_lut);
-+		break;
- 	default:
- 		/* should never get here */
- 		return -EINVAL;
-@@ -770,6 +774,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *colorop,
- 		*val = state->multiplier;
- 	} else if (property == colorop->lut_size_property) {
- 		*val = colorop->lut_size;
-+	} else if (property == colorop->lut3d_interpolation_property) {
-+		*val = colorop->lut3d_interpolation;
- 	} else if (property == colorop->data_property) {
- 		*val = (state->data) ? state->data->base.id : 0;
- 	} else {
-diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index 38bbe57db348..528de1829350 100644
---- a/drivers/gpu/drm/drm_colorop.c
-+++ b/drivers/gpu/drm/drm_colorop.c
-@@ -67,6 +67,7 @@ static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
- 	{ DRM_COLOROP_1D_LUT, "1D LUT" },
- 	{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
- 	{ DRM_COLOROP_MULTIPLIER, "Multiplier"},
-+	{ DRM_COLOROP_3D_LUT, "3D LUT"},
- };
  
- static const char * const colorop_curve_1d_type_names[] = {
-@@ -82,6 +83,11 @@ static const struct drm_prop_enum_list drm_colorop_lut1d_interpolation_list[] =
- 	{ DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR, "Linear" },
- };
+ 	/* 1D LUT - SHAPER LUT */
+@@ -1345,12 +1347,93 @@ __set_dm_plane_colorop_shaper(struct drm_plane_state *plane_state,
+ 			ret = __set_output_tf(tf, shaper_lut, shaper_size, false);
+ 			if (ret)
+ 				return ret;
++			enabled = true;
+ 		}
+ 	}
  
++	if (!enabled)
++		tf->type = TF_TYPE_BYPASS;
 +
-+static const struct drm_prop_enum_list drm_colorop_lut3d_interpolation_list[] = {
-+	{ DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL, "Tetrahedral" },
-+};
-+
- /* Init Helpers */
- 
- static int drm_plane_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
-@@ -381,6 +387,51 @@ int drm_plane_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colo
- }
- EXPORT_SYMBOL(drm_plane_colorop_mult_init);
- 
-+int drm_plane_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *colorop,
-+				 struct drm_plane *plane,
-+				 uint32_t lut_size,
-+				 enum drm_colorop_lut3d_interpolation_type interpolation,
-+				 uint32_t flags)
-+{
-+	struct drm_property *prop;
-+	int ret;
-+
-+	ret = drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_3D_LUT, flags);
-+	if (ret)
-+		return ret;
-+
-+	/* LUT size */
-+	prop = drm_property_create_range(dev, DRM_MODE_PROP_IMMUTABLE  | DRM_MODE_PROP_ATOMIC,
-+					 "SIZE", 0, UINT_MAX);
-+	if (!prop)
-+		return -ENOMEM;
-+
-+	colorop->lut_size_property = prop;
-+	drm_object_attach_property(&colorop->base, colorop->lut_size_property, lut_size);
-+	colorop->lut_size = lut_size;
-+
-+	/* interpolation */
-+	prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE, "LUT3D_INTERPOLATION",
-+					drm_colorop_lut3d_interpolation_list,
-+					ARRAY_SIZE(drm_colorop_lut3d_interpolation_list));
-+	if (!prop)
-+		return -ENOMEM;
-+
-+	colorop->lut3d_interpolation_property = prop;
-+	drm_object_attach_property(&colorop->base, prop, interpolation);
-+	colorop->lut3d_interpolation = interpolation;
-+
-+	/* data */
-+	ret = drm_colorop_create_data_prop(dev, colorop);
-+	if (ret)
-+		return ret;
-+
-+	drm_colorop_reset(colorop);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_plane_colorop_3dlut_init);
-+
- static void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
- 							struct drm_colorop_state *state)
- {
-@@ -473,7 +524,13 @@ static const char * const colorop_type_name[] = {
- 	[DRM_COLOROP_1D_LUT] = "1D LUT",
- 	[DRM_COLOROP_CTM_3X4] = "3x4 Matrix",
- 	[DRM_COLOROP_MULTIPLIER] = "Multiplier",
-+	[DRM_COLOROP_3D_LUT] = "3D LUT",
- };
-+
-+static const char * const colorop_lu3d_interpolation_name[] = {
-+	[DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL] = "Tetrahedral",
-+};
-+
- static const char * const colorop_lut1d_interpolation_name[] = {
- 	[DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR] = "Linear",
- };
-@@ -509,6 +566,21 @@ const char *drm_get_colorop_lut1d_interpolation_name(enum drm_colorop_lut1d_inte
- 	return colorop_lut1d_interpolation_name[type];
+ 	return 0;
  }
  
-+/**
-+ * drm_get_colorop_lut3d_interpolation_name - return a string for interpolation type
-+ * @type: interpolation type to compute name of
++/* __set_colorop_3dlut - set DRM 3D LUT to DC stream
++ * @drm_lut3d: user 3D LUT
++ * @drm_lut3d_size: size of 3D LUT
++ * @lut3d: DC 3D LUT
 + *
-+ * In contrast to the other drm_get_*_name functions this one here returns a
-+ * const pointer and hence is threadsafe.
++ * Map user 3D LUT data to DC 3D LUT and all necessary bits to program it
++ * on DCN accordingly.
 + */
-+const char *drm_get_colorop_lut3d_interpolation_name(enum drm_colorop_lut3d_interpolation_type type)
++static void __set_colorop_3dlut(const struct drm_color_lut *drm_lut3d,
++				uint32_t drm_lut3d_size,
++				struct dc_3dlut *lut)
 +{
-+	if (WARN_ON(type >= ARRAY_SIZE(colorop_lu3d_interpolation_name)))
-+		return "unknown";
++	if (!drm_lut3d_size) {
++		lut->state.bits.initialized = 0;
++		return;
++	}
 +
-+	return colorop_lu3d_interpolation_name[type];
++	/* Only supports 17x17x17 3D LUT (12-bit) now */
++	lut->lut_3d.use_12bits = true;
++	lut->lut_3d.use_tetrahedral_9 = false;
++
++	lut->state.bits.initialized = 1;
++	__drm_3dlut_to_dc_3dlut(drm_lut3d, drm_lut3d_size, &lut->lut_3d,
++				lut->lut_3d.use_tetrahedral_9, 12);
++
 +}
 +
- /**
-  * drm_colorop_set_next_property - sets the next pointer
-  * @colorop: drm colorop
-diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-index e79472739d11..d5aebe46970f 100644
---- a/include/drm/drm_colorop.h
-+++ b/include/drm/drm_colorop.h
-@@ -283,6 +283,14 @@ struct drm_colorop {
- 	 */
- 	enum drm_colorop_lut1d_interpolation_type lut1d_interpolation;
- 
-+	/**
-+	 * @lut3d_interpolation:
-+	 *
-+	 * Read-only
-+	 * Interpolation for DRM_COLOROP_3D_LUT
-+	 */
-+	enum drm_colorop_lut3d_interpolation_type lut3d_interpolation;
++static int
++__set_dm_plane_colorop_3dlut(struct drm_plane_state *plane_state,
++			     struct dc_plane_state *dc_plane_state,
++			     struct drm_colorop *colorop)
++{
++	struct drm_colorop *old_colorop;
++	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
++	struct dc_transfer_func *tf = &dc_plane_state->in_shaper_func;
++	struct drm_atomic_state *state = plane_state->state;
++	const struct amdgpu_device *adev = drm_to_adev(colorop->dev);
++	const struct drm_device *dev = colorop->dev;
++	const struct drm_color_lut *lut3d;
++	uint32_t lut3d_size;
++	int i = 0, ret = 0;
 +
- 	/**
- 	 * @lut1d_interpolation_property:
- 	 *
-@@ -311,6 +319,13 @@ struct drm_colorop {
- 	 */
- 	struct drm_property *lut_size_property;
- 
-+	/**
-+	 * @lut3d_interpolation_property:
-+	 *
-+	 * Read-only property for DRM_COLOROP_3D_LUT interpolation
-+	 */
-+	struct drm_property *lut3d_interpolation_property;
++	/* 3D LUT */
++	old_colorop = colorop;
++	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
++		if (new_colorop_state->colorop == old_colorop &&
++		    new_colorop_state->colorop->type == DRM_COLOROP_3D_LUT) {
++			colorop_state = new_colorop_state;
++			break;
++		}
++	}
 +
- 	/**
- 	 * @data_property:
- 	 *
-@@ -365,6 +380,11 @@ int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *c
- 				   struct drm_plane *plane, uint32_t flags);
- int drm_plane_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
- 				struct drm_plane *plane, uint32_t flags);
-+int drm_plane_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *colorop,
-+				 struct drm_plane *plane,
-+				 uint32_t lut_size,
-+				 enum drm_colorop_lut3d_interpolation_type interpolation,
-+				 uint32_t flags);
- 
- struct drm_colorop_state *
- drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
-@@ -415,6 +435,7 @@ const char *drm_get_colorop_type_name(enum drm_colorop_type type);
-  */
- const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d_type type);
- const char *drm_get_colorop_lut1d_interpolation_name(enum drm_colorop_lut1d_interpolation_type type);
-+const char *drm_get_colorop_lut3d_interpolation_name(enum drm_colorop_lut3d_interpolation_type type);
- 
- void drm_colorop_set_next_property(struct drm_colorop *colorop, struct drm_colorop *next);
- 
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index d76c8ffe5408..88fafbdeb2a2 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -930,6 +930,39 @@ enum drm_colorop_type {
- 	 * property.
- 	 */
- 	DRM_COLOROP_MULTIPLIER,
++	if (colorop_state && !colorop_state->bypass && colorop->type == DRM_COLOROP_3D_LUT) {
++		if (!adev->dm.dc->caps.color.dpp.hw_3d_lut) {
++			drm_dbg(dev, "3D LUT is not supported by hardware\n");
++			return -EINVAL;
++		}
 +
-+	/**
-+	 * @DRM_COLOROP_3D_LUT:
-+	 *
-+	 * enum string "3D LUT"
-+	 *
-+	 * A 3D LUT of &drm_color_lut entries,
-+	 * packed into a blob via the DATA property. The driver's expected
-+	 * LUT size is advertised via the SIZE property, i.e., a 3D LUT with
-+	 * 17x17x17 entries will have SIZE set to 17.
-+	 *
-+	 * The DATA blob is a 3D array of struct drm_color_lut with dimension
-+	 * length of "lut_size".
-+	 * The LUT elements are traversed like so:
-+	 *
-+	 *   for R in range 0..n
-+	 *     for G in range 0..n
-+	 *       for B in range 0..n
-+	 *         color = lut3d[R][G][B]
-+	 */
-+	DRM_COLOROP_3D_LUT,
-+};
++		drm_dbg(dev, "3D LUT colorop with ID: %d\n", colorop->base.id);
++		lut3d = __extract_blob_lut(colorop_state->data, &lut3d_size);
++		lut3d_size = lut3d != NULL ? lut3d_size : 0;
++		__set_colorop_3dlut(lut3d, lut3d_size, &dc_plane_state->lut3d_func);
 +
-+/**
-+ * enum drm_colorop_lut3d_interpolation_type - type of 3DLUT interpolation
-+ */
-+enum drm_colorop_lut3d_interpolation_type {
-+	/**
-+	 * @DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL:
-+	 *
-+	 * Tetrahedral 3DLUT interpolation
-+	 */
-+	DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
- };
++		/* 3D LUT requires shaper. If shaper colorop is bypassed, enable shaper curve
++		 * with TRANSFER_FUNCTION_LINEAR
++		 */
++		if (tf->type == TF_TYPE_BYPASS) {
++			tf->type = TF_TYPE_DISTRIBUTED_POINTS;
++			tf->tf = TRANSFER_FUNCTION_LINEAR;
++			tf->sdr_ref_white_level = SDR_WHITE_LEVEL_INIT_VALUE;
++			ret = __set_output_tf(tf, NULL, 0, false);
++		}
++	}
++
++	return ret;
++}
++
+ static int
+ __set_dm_plane_colorop_blend(struct drm_plane_state *plane_state,
+ 			     struct dc_plane_state *dc_plane_state,
+@@ -1522,6 +1605,17 @@ amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
+ 	if (!colorop)
+ 		return -EINVAL;
  
- /**
++	/* 3D LUT */
++	colorop = colorop->next;
++	if (!colorop) {
++		drm_dbg(dev, "no 3D LUT colorop found\n");
++		return -EINVAL;
++	}
++
++	ret = __set_dm_plane_colorop_3dlut(plane_state, dc_plane_state, colorop);
++	if (ret)
++		return ret;
++
+ 	/* 1D Curve & LUT - BLND TF & LUT */
+ 	colorop = colorop->next;
+ 	if (!colorop) {
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+index 10b3e3906461..e90774294971 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+@@ -49,6 +49,8 @@ const u64 amdgpu_dm_supported_blnd_tfs =
+ 
+ #define MAX_COLOR_PIPELINE_OPS 10
+ 
++#define LUT3D_SIZE		17
++
+ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
+ {
+ 	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
+@@ -145,6 +147,24 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
+ 
+ 	i++;
+ 
++	/* 3D LUT */
++	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
++	if (!ops[i]) {
++		DRM_ERROR("KMS: Failed to allocate colorop\n");
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++
++	ret = drm_plane_colorop_3dlut_init(dev, ops[i], plane, LUT3D_SIZE,
++				     DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
++				     DRM_COLOROP_FLAG_ALLOW_BYPASS);
++	if (ret)
++		goto cleanup;
++
++	drm_colorop_set_next_property(ops[i-1], ops[i]);
++
++	i++;
++
+ 	/* 1D curve - BLND TF */
+ 	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+ 	if (!ops[i]) {
 -- 
 2.43.0
 
