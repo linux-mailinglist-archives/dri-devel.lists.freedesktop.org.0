@@ -2,91 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3DAAA4C28
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 15:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADB7AA4C30
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 15:01:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05FDE10E2FE;
-	Wed, 30 Apr 2025 13:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE6E210E799;
+	Wed, 30 Apr 2025 13:01:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dXGzfKoR";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="q1PU6CE9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B813110E2FE
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:00:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1746018040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=N/BSZJgZ5YRpAxetTo3M4XK6veqR7rUZVtf0IcGSTdo=;
- b=dXGzfKoRhBNqoc/G5b7bXSbcgH5quBL545ZWMVuoqo4tYvZJamTnZqFpKnEwqEK0rUwZeV
- A0KR9UE3XT1Be9W+2Iw8RZ+jAvxA1WxDAeH1NL8k23dxyk52Ep6vi2chQXGMbGOyb/4rXJ
- W/ivqUAPLte5v0XZWVM0IxOC5MDv6Uk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-139-P_4yRiBbNaq5ThKUKGO2SA-1; Wed, 30 Apr 2025 09:00:39 -0400
-X-MC-Unique: P_4yRiBbNaq5ThKUKGO2SA-1
-X-Mimecast-MFC-AGG-ID: P_4yRiBbNaq5ThKUKGO2SA_1746018039
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-391492acb59so3398213f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 06:00:39 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D02D10E793
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:01:10 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-3978ef9a778so260042f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 06:01:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1746018069; x=1746622869; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4gbEAkZNMTXlcsAP74FaPsyQlrV/eFxqWvfSJV+6E6A=;
+ b=q1PU6CE9zCPRwwgHeTp/UUkM6KH6i5YA6H/EtxqAeJEJRkRtQfXNhN15zYLNEnnNuN
+ Wzyvo8fLNEw5abXfVOXMT6Gk3iM3rD+IS+Uyc1Gct+Z+3+ElHf32ypa4HcnvHcD4559d
+ jSJHnAbwglicMOj0nTCW138Wp306bDvFyM0K+l3fz18oObe0lbJYzNjVShaxyKMGxUFc
+ YqxoZVD9ankMvDO7VnbSBXSHocKe1FYu3XzQStDslHoTrTYTvfRqvgD5Mny0S2zyaC6F
+ JVBuYhbEZK2TsCiUJu9uwNiyDOXJppeW8xeyf8AB97+gHkgBYFzXulploA4NbBu2onMI
+ n0RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746018038; x=1746622838;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=N/BSZJgZ5YRpAxetTo3M4XK6veqR7rUZVtf0IcGSTdo=;
- b=bWf/uDVM9wSpslGApT1uE/hxodVQqzURVSxxFtqSdE2ujOpi12Da6XO/UiyZrJIQz0
- hLH0nCpXDcGNXqGXej2q8LThLUqERDTF8smAHDYG6p/2oe0dyZHJF6/Pzxz848LizMuw
- aAuTOcWbZeaW8EhwHSE+KlO4s9t7x5tX3kSeiwis/WA8V/o8W5eqyJjYUtRQ55/wcAbV
- fSeMLEfCYUn5xZb6eGx+3BTX1/fHEbc1Dt4SPCWhHtgrI28WCPyTcRfNncEOec8B84Vj
- 9BN2gp54sGKxfSC0yiT3s8F1fo9z/jKrqgh+RfvHYwhONhZt8Yto/5+lnd0poTBdXpdL
- rj6w==
+ d=1e100.net; s=20230601; t=1746018069; x=1746622869;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4gbEAkZNMTXlcsAP74FaPsyQlrV/eFxqWvfSJV+6E6A=;
+ b=eVF1kU1Xto/p44QCgfVhxubjnZRL4VrVkI+aDfI60W2ZMb53g4DPo7S7TyXW8M/YHM
+ E8rqVD6TQntKkmMfjWFmviYJvB7u639d5T1po/rvDLjbQxQts1GzZP01HG1ytVMN4azd
+ 32xymOlvk85xmpfW8m5DYuRhdGCdR2+B+0itwrkNA1lXsdDJsH+lPFBOkQ4CwYndug5S
+ XLACmWKH1vA5LhuYs7YG9WNK1pq1XXxO6l6ZGcIr9kgCI9QQR+zx94iQFmsMmIWh/OBc
+ 34KQXaAOO/xsXDvpLBMWw4roW+BCHlU0h1LboStv0Z4xnMW+TFHIu45bip2TmlzmuiH0
+ UAgg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWNhHkaKq2spvL0k57LD3n9AohZk3I3cLubz5yhZtd0mOrfdsp6Stg4rsOVagj9ojvhKMwcco350gM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzp3tmwtf5zC4SJo2US6EHeCoXX4jjDTbth4fYDySNEDZDFnclz
- /3DVwSRol7CCpeyVH7RorlokwnrOl7J4UZtxp9lXo9mJyQmSC734xyxjUlC04ABdL+EFM5UxH6J
- Tq0IeNsEZlU3QJ1pIBIi4by3O6xxHTbJTCEzoyWqptGJjhceX6IyngAwsQTebRFqKmw==
-X-Gm-Gg: ASbGncv1Uq418n/q2+Jn9h1is2pxn2QHGKjgGZUXqFwZMxpVSwPOOCEkvPwFamRvctu
- MoFPjZUwkjmM+zFqb+6a+oVhoB4qJnNpsGsa0aQ+ynAgkTQzFbXxL+oXXl/Nm5OS078UTd9/wH5
- +Iujg4lcS5lDSxQEKIP8eujZrCM1Q9xrY1HXg1UXrl8wYKaIaN3quocrGUSSLPKjG0MG6XFLOfG
- 1XCkepfOPmt5z1IoTLR0vuqsfiFAJa7ZxPtX9+jNiiDK9WIdlLBZbxX7dVLMGn0aejYBkIamwNl
- oaOPA/gMetDJxfsKEQgsiP+z3tGw3QsNjLzeW+9xPEyjlDCRauW4Wz05gI8cdlUFiOxe3w==
-X-Received: by 2002:a5d:598c:0:b0:3a0:7a5d:bbff with SMTP id
- ffacd0b85a97d-3a08f752666mr2847930f8f.7.1746018035214; 
- Wed, 30 Apr 2025 06:00:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH00zIXR/QJpX2r62x/BnijgtG/melnBE3UE7Sv8nmaQkGLGVWABf71hYp4Wd9Pcm+gpDIP2g==
-X-Received: by 2002:a5d:598c:0:b0:3a0:7a5d:bbff with SMTP id
- ffacd0b85a97d-3a08f752666mr2847668f8f.7.1746018032433; 
- Wed, 30 Apr 2025 06:00:32 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ AJvYcCWwg1JzRgj2b42+LD3J21ZKPAV3Mj3z0SpYkwlqJeoTCqykzCpg+0b2h7BCkMp5cxxWEr/Hu666o8s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3WX4x4vzTEAOYEqGoPk0PqzdkGblj7/wUgQfxRPIQ5SHLlWgt
+ FiUKvNnNvz1s/45leMI+UqLwRHsEbBlq3gD2/avSdiQnVQMQdi+lCJiDL4AQ4kA=
+X-Gm-Gg: ASbGncuKJDp4OSnZXr6fv5u3Oh0m+qq7x7ttIl8UGI9VtXXyMdQBTyJHtnRs82RrmRV
+ 7eIq+f137oMkjs/9iNqIY0aTwn4DjlpaxOVAMwTS4D7SwAs7+F7uUdkKsqNUPe0Yy5VOR542gY9
+ /1wk6XxO3tq7RmIJcFH5pNyI5D3nwMt2Fms3rF3MePTHLfGeh8P68xdfgAYQO2vN1Mnwn9EawJp
+ AGlYgnfc1qXOYjubWZ+oNdr4Oi57ZP+u/k4HIXcEkdP9CHb31ou7ZAKLhxRbgAbqUUQkwUGvOAB
+ 2jKSS5+NyhP87lrbwr8QxiJJGQFy9OVlOKdYWy7byZM6mJDAhho1O4HiEJI=
+X-Google-Smtp-Source: AGHT+IG2VTFNWUrEEXBGyq9UKQdZJTmvSHvUA0Jr6vxl/QuIFwOD6OSw3MFYg94J9D0YPZj1GRv5Ng==
+X-Received: by 2002:a5d:64a6:0:b0:3a0:7a0d:bab1 with SMTP id
+ ffacd0b85a97d-3a0900a1719mr732293f8f.16.1746018067135; 
+ Wed, 30 Apr 2025 06:01:07 -0700 (PDT)
+Received: from [192.168.1.28] ([178.197.207.88])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a073e5cffasm17192690f8f.96.2025.04.30.06.00.31
+ ffacd0b85a97d-3a073e46c23sm16884043f8f.75.2025.04.30.06.01.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Apr 2025 06:00:31 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, Marcus Folkesson
- <marcus.folkesson@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] drm/st7571-i2c: Fix IS_ERR() vs NULL checks in
- probe()
-In-Reply-To: <87msbxzuhh.fsf@minerva.mail-host-address-is-not-set>
-References: <aBHZYgPPPYY-J8Vd@stanley.mountain>
- <87msbxzuhh.fsf@minerva.mail-host-address-is-not-set>
+ Wed, 30 Apr 2025 06:01:06 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v5 00/24] drm/msm: Add support for SM8750
 Date: Wed, 30 Apr 2025 15:00:30 +0200
-Message-ID: <87jz71ztw1.fsf@minerva.mail-host-address-is-not-set>
+Message-Id: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 8h-fi5faBjC5_dJCH8S00Dr6hqtKzmwInluj-dLFB1M_1746018039
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO4eEmgC/33OzQrCMAzA8VeRnq00/bSefA/xkK2pFnSTVoYie
+ 3c7LyoOj/9AfsmDFcqJCtssHizTkErquxpmuWDtEbsD8RRqMymkESA8bzQv57UzgodULie8c0t
+ olHNGYwRW9y6ZYrq9zN2+9jGVa5/vrxMDTNN/2gBc8EZFMBGjbr3bnlKHuV/1+cAmbpBvQoKbI
+ 2QlghQQ2hDQov4h1AchYY5QlVCE3jRglSD8IfSbUDBL6OkLtI0ib3zr7BcxjuMTameQpnwBAAA
+ =
+X-Change-ID: 20250109-b4-sm8750-display-6ea537754af1
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Rob Clark <robdclark@chromium.org>, linux-clk@vger.kernel.org, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6319;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=6UGiGoFvF2aKJYkukKaOiAHHAs4rLWuriEaXmp3EsCA=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoEh7yFUeWWAHdoSLpFqk1YqlBuLC8G8D2EspQP
+ Qekz41s5HyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaBIe8gAKCRDBN2bmhouD
+ 12CCD/42Cq/qpyv78r3bYG7TRQSjR8W8dyfhsDw3xahe/6kwJE/8tsdJsyU4V5Czi4WSJ0EGiyx
+ soRoYgjSB+NythlqFWG0bhEZQOOaDaC7GlBWt8bn1sbZ7Lhj7D01PIDT9C0ppHxU1Jkg5d5FaBy
+ AZbFxck67k55KcrhXL29H/OMafzCARj53SSBhbuO2NAOY3ILMUe4e+2YyyKs14jx/aoKoLq9Ocl
+ VXx0EEW8uVz+sX7P/JQDSqUSwR36y7/WioWqz4epvqkAjVnudlafckdSSsuHpi5mOXRETqctIvz
+ xiK0q/xoOT2dT2Ivj7fDsQA3qucXsFbR3lMIIbeKuQ0vd+8Ty3a+boi1MhtDXcqQ+kHxDhg/tow
+ lB7Ud4HQxqEkiGlFVDmOWFNyL9C+Tvr8NYu4iEjS6h0ccLF35wa2eR9jonSwgFLbzMpskvCxMzm
+ bgz15GZX/vkIR/V4Uba8TVS6XJllMFdQxVfzqpyoEokxNqiIuIPJWv/bBffB2o6wUbaCo9zfNzH
+ 4q/483L74Yx6SSczfMW9liPaEocmF7+R3yR350WnX6SlNApemvkf8wMUJkOgPT+lse58EVZRfbT
+ pME8C8sAfDFTNz2eQIGrxSYVF+/V4c4M0yP19aKakQL0biZAaLZh/hIGpRZxwSPIjvBc5JG002+
+ EGnF1YMAh7F4mYw==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,30 +129,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Javier Martinez Canillas <javierm@redhat.com> writes:
+Hi,
 
-> Dan Carpenter <dan.carpenter@linaro.org> writes:
->
-> Hello Dan,
->
->> The devm_kzalloc() function returns NULL on failure, not error pointers.
->> Also printing an error message for kmalloc() failures is against kernel
->> style so just return -ENOMEM without printing a message.  (Kmalloc
->> already prints a message).
->>
->> Fixes: 4b35f0f41ee2 ("drm/st7571-i2c: add support for Sitronix ST7571 LCD controller")
->> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
->> ---
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->
+Dependency / Rabased on top of
+==============================
+https://lore.kernel.org/all/20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org/
 
-Pushed to drm-misc (drm-misc-next). Thanks!
+Merging
+=======
+DSI works! With the fixes here and debugging help from Jessica and
+Abhinav, the DSI panel works properly.
 
--- 
+The display clock controller patch can go separately.
+
+Changes in v5:
+=============
+- Add ack/rb tags
+- New patches:
+  #6: clk: qcom: dispcc-sm8750: Fix setting rate byte and pixel clocks
+  #14: drm/msm/dsi/phy: Toggle back buffer resync after preparing PLL
+  #15: drm/msm/dsi/phy: Define PHY_CMN_CTRL_0 bitfields
+  #16: drm/msm/dsi/phy: Fix reading zero as PLL rates when unprepared
+  #17: drm/msm/dsi/phy: Fix missing initial VCO rate
+
+- Patch drm/msm/dsi: Add support for SM8750:
+  - Only reparent byte and pixel clocks while PLLs is prepared. Setting
+    rate works fine with earlier DISP CC patch for enabling their parents
+    during rate change.
+
+- Link to v4: https://lore.kernel.org/r/20250311-b4-sm8750-display-v4-0-da6b3e959c76@linaro.org
+
+Changes in v4
+=============
+- Add ack/rb tags
+- Implement Dmitry's feedback (lower-case hex, indentation, pass
+  mdss_ver instead of ctl), patches:
+  drm/msm/dpu: Implement 10-bit color alpha for v12.0 DPU
+  drm/msm/dpu: Implement CTL_PIPE_ACTIVE for v12.0 DPU
+
+- Rebase on latest next
+- Drop applied two first patches
+- Link to v3: https://lore.kernel.org/r/20250221-b4-sm8750-display-v3-0-3ea95b1630ea@linaro.org
+
+Changes in v3
+=============
+- Add ack/rb tags
+- #5: dt-bindings: display/msm: dp-controller: Add SM8750:
+  Extend commit msg
+
+- #7: dt-bindings: display/msm: qcom,sm8750-mdss: Add SM8750:
+  - Properly described interconnects
+  - Use only one compatible and contains for the sub-blocks (Rob)
+
+- #12: drm/msm/dsi: Add support for SM8750:
+  Drop 'struct msm_dsi_config sm8750_dsi_cfg' and use sm8650 one.
+- drm/msm/dpu: Implement new v12.0 DPU differences
+  Split into several patches
+- Link to v2: https://lore.kernel.org/r/20250217-b4-sm8750-display-v2-0-d201dcdda6a4@linaro.org
+
+Changes in v2
+=============
+- Implement LM crossbar, 10-bit alpha and active layer changes:
+  New patch: drm/msm/dpu: Implement new v12.0 DPU differences
+- New patch: drm/msm/dpu: Add missing "fetch" name to set_active_pipes()
+- Add CDM
+- Split some DPU patch pieces into separate patches:
+  drm/msm/dpu: Drop useless comments
+  drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and MERGE_3D_5
+  drm/msm/dpu: Add handling of LM_6 and LM_7 bits in pending flush mask
+- Split DSI and DSI PHY patches
+- Mention CLK_OPS_PARENT_ENABLE in DSI commit
+- Mention DSI PHY PLL work:
+  https://patchwork.freedesktop.org/patch/542000/?series=119177&rev=1
+- DPU: Drop SSPP_VIG4 comments
+- DPU: Add CDM
+- Link to v1: https://lore.kernel.org/r/20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org
+
 Best regards,
+Krzysztof
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+---
+Krzysztof Kozlowski (24):
+      dt-bindings: display/msm: dsi-phy-7nm: Add SM8750
+      dt-bindings: display/msm: dsi-controller-main: Add SM8750
+      dt-bindings: display/msm: dp-controller: Add SM8750
+      dt-bindings: display/msm: qcom,sm8650-dpu: Add SM8750
+      dt-bindings: display/msm: qcom,sm8750-mdss: Add SM8750
+      clk: qcom: dispcc-sm8750: Fix setting rate byte and pixel clocks
+      drm/msm/dpu: Add missing "fetch" name to set_active_pipes()
+      drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE on mixer reset
+      drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE on ctl_path reset
+      drm/msm/dpu: Clear CTL_FETCH_PIPE_ACTIVE before blend setup
+      drm/msm/dpu: Drop useless comments
+      drm/msm/dpu: Add LM_7, DSC_[67], PP_[67] and MERGE_3D_5
+      drm/msm/dpu: Add handling of LM_6 and LM_7 bits in pending flush mask
+      drm/msm/dsi/phy: Toggle back buffer resync after preparing PLL
+      drm/msm/dsi/phy: Define PHY_CMN_CTRL_0 bitfields
+      drm/msm/dsi/phy: Fix reading zero as PLL rates when unprepared
+      drm/msm/dsi/phy: Fix missing initial VCO rate
+      drm/msm/dsi/phy: Add support for SM8750
+      drm/msm/dsi: Add support for SM8750
+      drm/msm/dpu: Add support for SM8750
+      drm/msm/dpu: Implement 10-bit color alpha for v12.0 DPU
+      drm/msm/dpu: Implement CTL_PIPE_ACTIVE for v12.0 DPU
+      drm/msm/dpu: Implement LM crossbar for v12.0 DPU
+      drm/msm/mdss: Add support for SM8750
+
+ .../bindings/display/msm/dp-controller.yaml        |   4 +
+ .../bindings/display/msm/dsi-controller-main.yaml  |  54 ++-
+ .../bindings/display/msm/dsi-phy-7nm.yaml          |   1 +
+ .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   1 +
+ .../bindings/display/msm/qcom,sm8750-mdss.yaml     | 470 +++++++++++++++++++
+ drivers/clk/qcom/dispcc-sm8750.c                   |   4 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h    | 496 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  58 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  12 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  35 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  71 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  19 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c          | 210 ++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h          |  18 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   6 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/dsi/dsi.h                      |   2 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  14 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |  81 ++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 157 ++++++-
+ drivers/gpu/drm/msm/msm_mdss.c                     |  33 ++
+ drivers/gpu/drm/msm/msm_mdss.h                     |   1 +
+ .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  |  25 +-
+ 27 files changed, 1730 insertions(+), 49 deletions(-)
+---
+base-commit: 4ec6605d1f7e5df173ffa871cce72567f820a9c2
+change-id: 20250109-b4-sm8750-display-6ea537754af1
+
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
