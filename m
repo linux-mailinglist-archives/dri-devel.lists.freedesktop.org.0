@@ -2,94 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B90C5AA4889
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 12:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA8AAA4895
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 12:37:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D949310E094;
-	Wed, 30 Apr 2025 10:36:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D65010E72B;
+	Wed, 30 Apr 2025 10:37:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DR1nbnNE";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="j5IGpt96";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 977A110E094;
- Wed, 30 Apr 2025 10:36:11 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 60CEE43ACD;
- Wed, 30 Apr 2025 10:36:00 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97C1210E724;
+ Wed, 30 Apr 2025 10:37:01 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 59B1343155;
+ Wed, 30 Apr 2025 10:36:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1746009368;
+ t=1746009420;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0sw7RZH8uXkQJtcp9eADpOTsFW7ewdwsHMspom6OVyU=;
- b=DR1nbnNEQEtiK8PPunmQqt9W1Xj7ZM/jEiwqOCgctAmP0VwxUOGRIawDqTkf8B0IK00FRA
- e4YRU+HDhv339jGc70wzPfD5wJIMGOZJtq+wQedaruk9gGiAwI9R9yAa5wEOr9vk8kxdQw
- 627rC9lZsSU3ZGLbq+C2PhsQX/bR8nvzOTRzyQl1Zf/PaIZdia9lZ4X9d0WZSkRsiJySZO
- jFC3GpXnaiJtMzeSlCkr4lePSMQaiv7ddSajpXS7HGtEJdO9rXgHadivnaO4qHOLV9Wyr8
- mkKsgPj/j0YjkWu1Zwp1VfbyGSF9BUtzw3Y3mrcjL4tz5tbBwc+HBbIC6E26rQ==
-Date: Wed, 30 Apr 2025 12:35:57 +0200
+ bh=HCqPYAYDeSC4T6gsM+8/d4/R4hTjtWts9K3/InF+2yg=;
+ b=j5IGpt96m3GS1GgdAQYb0DMF9BS9VJKNh0+D/2DDE2MQcbaP8QshRiOSUeBtDIq10LHfcK
+ da6Rz6IPzqh72skLr3qzo8sCS1PQhKF2edPzJp4eG6QBBwrh5nrxL51ckveG3zavYd3qUP
+ J2jx1+yN1XlBcUb/xgzlUVBCN3TYadasJXfR27IzS3EZ5METDQ7Zoy8F1/pK4SrZPTMcLs
+ EeISxDq5NZi4vcUbvqFr2+DghQmkq4QWjiUcMCuSrjLoJhKePJalZDcGyOqVuDEsI237bq
+ COMqwTuYqRY83cpYZO0vAcYqKCUzKgW8Qg5QF6JVH87BqsDr4JvKUr2eOLVdmQ==
+Date: Wed, 30 Apr 2025 12:36:51 +0200
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Anusha
- Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Adam Ford <aford173@gmail.com>, Adrien Grassein
- <adrien.grassein@gmail.com>, Aleksandr Mishin <amishin@t-argos.ru>, Andy
- Yan <andy.yan@rock-chips.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benson Leung
- <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
- Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Detlev Casanova
- <detlev.casanova@collabora.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
- Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
- Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
- Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>, Liu Ying
- <victor.liu@nxp.com>, Manikandan Muralidharan <manikandan.m@microchip.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
- <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
- <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
- Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
+To: <Manikandan.M@microchip.com>
+Cc: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <jagan@amarulasolutions.com>,
+ <shawnguo@kernel.org>, <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
+ <festevam@gmail.com>, <dianders@chromium.org>, <chunkuang.hu@kernel.org>,
+ <krzk@kernel.org>, <asrivats@redhat.com>, <paulk@sys-base.io>,
+ <lumag@kernel.org>, <Hui.Pu@gehealthcare.com>,
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <asahi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <chrome-platform@lists.linux.dev>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>, <aford173@gmail.com>,
+ <adrien.grassein@gmail.com>, <amishin@t-argos.ru>,
+ <andy.yan@rock-chips.com>, <angelogioacchino.delregno@collabora.com>,
+ <bleung@chromium.org>, <biju.das.jz@bp.renesas.com>,
+ <chf.fritz@googlemail.com>, <cristian.ciocaltea@collabora.com>,
+ <detlev.casanova@collabora.com>, <Dharma.B@microchip.com>,
+ <groeck@chromium.org>, <heiko@sntech.de>, <jani.nikula@intel.com>,
+ <j@jannau.net>, <jbrunet@baylibre.com>, <jesseevg@gmail.com>,
+ <khilman@baylibre.com>, <kieran.bingham+renesas@ideasonboard.com>,
+ <victor.liu@nxp.com>, <martin.blumenstingl@googlemail.com>,
+ <matthias.bgg@gmail.com>, <p.zabel@pengutronix.de>, <ple@baylibre.com>,
+ <fnkl.kernel@gmail.com>, <sugar.zhang@rock-chips.com>,
+ <sui.jingfeng@linux.dev>, <tomi.valkeinen+renesas@ideasonboard.com>,
  <mordan@ispras.ru>
 Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
  devm_kzalloc() to devm_drm_bridge_alloc() API
-Message-ID: <20250430123557.3d8b1de4@booty>
-In-Reply-To: <CAD=FV=VmV5yb0HWWGTiKyyC8+WNPJpM7vE9PQGh5_=KPk6+HCg@mail.gmail.com>
+Message-ID: <20250430123651.37be3e38@booty>
+In-Reply-To: <e90b9ef2-ace0-4b98-9d49-5a62e529cf8a@microchip.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
  <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
- <CAD=FV=VmV5yb0HWWGTiKyyC8+WNPJpM7vE9PQGh5_=KPk6+HCg@mail.gmail.com>
+ <e90b9ef2-ace0-4b98-9d49-5a62e529cf8a@microchip.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieeigeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepieekpdhrtghpthhtohepughirghnuggvrhhssegthhhrohhmihhumhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghru
- geskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieeigeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeikedprhgtphhtthhopeforghnihhkrghnuggrnhdrofesmhhitghrohgthhhiphdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrt
+ ghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -106,29 +96,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Doug,
+Hello Manikandan,
 
-On Mon, 28 Apr 2025 13:59:50 -0700
-Doug Anderson <dianders@chromium.org> wrote:
+On Wed, 30 Apr 2025 09:42:16 +0000
+<Manikandan.M@microchip.com> wrote:
 
 [...]
 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
-> Tested-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
+> > diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
+> > index 1d4ae0097df847d9f93c79eecff0c4587ae331ba..9f4ff82bc6b49010f8727da3b367f5a744a28edc 100644
+> > --- a/drivers/gpu/drm/bridge/microchip-lvds.c
+> > +++ b/drivers/gpu/drm/bridge/microchip-lvds.c
+> > @@ -157,9 +157,10 @@ static int mchp_lvds_probe(struct platform_device *pdev)
+> >          if (!dev->of_node)
+> >                  return -ENODEV;
+> > 
+> > -       lvds = devm_kzalloc(&pdev->dev, sizeof(*lvds), GFP_KERNEL);
+> > -       if (!lvds)
+> > -               return -ENOMEM;
+> > +       lvds = devm_drm_bridge_alloc(&pdev->dev, struct mchp_lvds, bridge,
+> > +                                    &mchp_lvds_bridge_funcs);
+> > +       if (IS_ERR(lvds))
+> > +               return PTR_ERR(lvds);
+> > 
+> >          lvds->dev = dev;
+> > 
+> > @@ -192,7 +193,6 @@ static int mchp_lvds_probe(struct platform_device *pdev)
+> > 
+> >          lvds->bridge.of_node = dev->of_node;
+> >          lvds->bridge.type = DRM_MODE_CONNECTOR_LVDS;
+> > -       lvds->bridge.funcs = &mchp_lvds_bridge_funcs;
+> > 
+> >          dev_set_drvdata(dev, lvds);
+> >          ret = devm_pm_runtime_enable(dev);  
+> 
+> Reviewed-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 
-Thank you for your review!
+Thanks for reviewing!
 
-However I'll be sending v3 with some differences w.r.t. v2, in order to
-fix the 3 bugs reported by Andy Yan plus a similar one I spotted. The
-fix just is replacing PTR_ERR() with ERR_CAST() in the 4 cases where the
-involved function is returning a pointer instead of an int.
+In v3 this patch will be slightly different from v2. See the reply I
+just sent to Doug for the details.
 
-Your review/test tags appear global to the whole patch, thus being the
-patch different I think I cannot include your tags in v3.
+If your Reviewed-by tag refers only to the microchip-lvds driver, for
+which there will be no change in v3, I think it's correct to take your
+tag and add a comment like:
 
-Let me know if you think I should do differently.
+ Reviewed-by: Manikandan Muralidharan <manikandan.m@microchip.com> # microchip-lvds.c
 
-Sorry about that.
+Anything against this?
 
 Best regards,
 Luca
