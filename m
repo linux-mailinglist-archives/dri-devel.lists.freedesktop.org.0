@@ -2,161 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C4DAA4F00
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 16:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90BD0AA4F09
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 16:49:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 831D710E2D5;
-	Wed, 30 Apr 2025 14:48:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5DBD10E7BB;
+	Wed, 30 Apr 2025 14:49:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="DPAsUiIw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XZ2AiK2O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2057.outbound.protection.outlook.com [40.107.101.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1C910E2D5
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 14:48:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SEpOCeJdPcj/iLjf4vefLd3lbpXqY2M0pA6BYDONbjmwhWZ3MoAWlIfpK2ZGladSYw/gneMAOnfh6s5vXYzkTveqhP/TOrKXcthMkWeLS8En+S8ig5P3n5n5N35PhUajifULvLe5+7xEJZazkGk/ka+7pmsxBQ1ZasLkA0iA+SiSbjx4wfECG+44dZzLGl/Xv9dypeKsEI2Slrv2RL/S5YnVeoUmt5Kd9oevhalq1wTc+CD5mjMaCihSzzzKzR4LLNhgwkRKuPDhCGGEkNHlVetnIfc794w/Tu1W9MCRkWhQuoj3XegVDPnjbH5Zb1D1xgclwCdnUHwvoUWAUH+APw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0y9yKD+mk626hD4vYHZo1DXaucWJYuZLYnn57YesJPY=;
- b=fDDMmk2xDQFr1rDTIzy3ZpB5aCbbuKu87eftw1oR91ed0n6LqKjqijlF+ZAtytnuxTH2+E74hZC+fmtos0z+361fQzuJ5k/EhX0vkMzPQfUAEAlopSqhN53vOoeVLt1RhTUuBfZ/KPdMj7q8N30TUIYxXAXdnsskRBPVIc9axHb3vXlND8gYdRAvTG5/B6w2AdpoJJBRX6MZmgd4z0n10AlmRKWZpR4NOKncyniBmWls/N/yIWHGlFQRV9BWeEr24J2OubKBAJ/SiI1GY7cfSi1g1yg4AvIkEgeKjiATot6bKgY2zgvJRxUC7hQvi0/30mBX62b9zx+94MAEgXXVWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0y9yKD+mk626hD4vYHZo1DXaucWJYuZLYnn57YesJPY=;
- b=DPAsUiIwfPxT7TRy6eaevPdwGr3et20amttN1CLSv6+LGsD/lJcWww3hmzfusE8V/etqjr5oDiDon9ZacOHzB5YLDL4GnCXLzUOvz/+nsTpHtU+BAw/f8HLto/RVRhosrNHxfYpkZbZkQ1uBBqX1M8hYKppL5QoLmz5KsgileOw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB9021.namprd12.prod.outlook.com (2603:10b6:610:173::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Wed, 30 Apr
- 2025 14:48:23 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Wed, 30 Apr 2025
- 14:48:23 +0000
-Message-ID: <ef261695-79fa-4c0e-9894-6fe19de823bb@amd.com>
-Date: Wed, 30 Apr 2025 16:48:16 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
-To: oushixiong <oushixiong1025@163.com>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
- Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250430085658.540746-1-oushixiong1025@163.com>
- <20250430085658.540746-2-oushixiong1025@163.com>
- <daaf1445-f0b8-490a-b87b-dab219f13571@amd.com>
- <c93177d7-be53-4f37-96d4-d09323737581@163.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <c93177d7-be53-4f37-96d4-d09323737581@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0119.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:bb::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEAE510E7BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 14:49:20 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-39ee57c0b8cso8105652f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 07:49:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1746024559; x=1746629359; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=1RqdX/DnBKaAL2ccd0QiLQOKQZs79JYq/OxFCxJknp8=;
+ b=XZ2AiK2OPL0bP5oN0K+i00IGKoYGiUkMsDqGB7niykUwuJCmhO66632mSI3HPF8J61
+ 9DReBzm1fuor/ORe5VKXtYMywcQixZTUKIA7L4f3HmopTtYPSrTgOmZUSZ0ayeUS0wQj
+ IJRFDPGO4si8xBe4ChyZnX9NiB+YY1oAWokEgt8DN4lrgY84hL6XULF7aXkyzZWEllmH
+ SRMPUSlikWXOo8fOffSEUwU54WVnvufQHCO9BN67yGvYEjL3w89Xw/q2bDk1qEhiJZfQ
+ pMXLcWY34GLaXeiG7Iq2plq+bakfDofU9dWRQYyjonCQ0qasMa1SnVUpG4dbSyD41UV9
+ Zsvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746024559; x=1746629359;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=1RqdX/DnBKaAL2ccd0QiLQOKQZs79JYq/OxFCxJknp8=;
+ b=TzQC4177a17y2tOE2vh4+DsAvIXbJfBVxK0tMEn+hsgTV38xyhLJFi+895AEoS77zH
+ E8HNtmt9cWBRyy73jtlc09DOr8dF2jH52Qnj8grgwWmvpiuXUznOd//Gn0Wrtye1V46O
+ 8wdbQ1hMbNnuEKcGQ34Y5Jb+AuF54iBvqy9mKBlN1VQdI5CBS0Rwayeh+VftlwrkaGrV
+ pa1axNwgd7HJqM2YvBzFJ6lUlh2nKTX7AqHlrWqCkZA9Orxemf1Ke/KAlvoRL5FLYagY
+ miJlgsB6kVHuiN8jiKCJkzeDzwqddiA+a2Xgp/ZDYrIRzuOVCTMDxZEnMU6pL8xG/iH1
+ mbTA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXz8MPjVCFgcLK71e+XrAKjHHuLgJzrp1XUvx3x+8D4YSL0LWyUsehoNCZHnNh2ZdzLATk4XYn9Afg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzMjSn+UJeRAVHcHUeQ/TI6l53ximUS0Wzg4Uvyn6Yz6HcfZD1r
+ EGDqC7MSeVLR0G0EA54PLb+FWwEt6Y40EFzGBcJPc0brpUuO4BmPQMKugQl/yrk=
+X-Gm-Gg: ASbGncuYp6PWiv3dK4Xx1r/bxLr9wSCW+w95WfPnVKqRBDJ+BpRmxD60mbjfsaubYED
+ +M/LDvulETI1zwOzMidtH8N7oNDwKeWwCYUBflLml0/yIwfiyDop8ST2jv2+whNGpkPjgdpoczO
+ MaITGcp6trEKei0RwlpoDpPJSyiSkdUXk3Ge1l5P8RabN5vo9kUtOF6u05EovS9TncAuDTwuhsZ
+ nYmJsRfEmyVWStbxKR/RZsWDPeeoWYOUvTUmlQqnZM7NiX4h0hPjhHk/vDvjyzh0t3sOc+ZvjhM
+ 02A2+IG00m8vRVDOfJSjQFfanxCd2zuDD4CehXx+yl2R58YNzz02OmMHtQStsUp31hZt408Q25b
+ 1HCU1ajoJlMqBbkaQTQ==
+X-Google-Smtp-Source: AGHT+IH5RToavPzsqmcP3rrYHSVRaH7ZbG3bUAXbFz2vDPdI/yavfdXM8NVtxQIg8VPdzVXTGW0OoA==
+X-Received: by 2002:a5d:5887:0:b0:390:f0ff:2c11 with SMTP id
+ ffacd0b85a97d-3a08f7538dfmr3670511f8f.2.1746024558772; 
+ Wed, 30 Apr 2025 07:49:18 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:b3d6:213c:5c50:7785?
+ ([2a01:e0a:3d9:2080:b3d6:213c:5c50:7785])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a073e4684csm17177628f8f.76.2025.04.30.07.49.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Apr 2025 07:49:18 -0700 (PDT)
+Message-ID: <a26213ec-808f-4edf-bb0d-ab469ee0a884@linaro.org>
+Date: Wed, 30 Apr 2025 16:49:17 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB9021:EE_
-X-MS-Office365-Filtering-Correlation-Id: 32a956af-f23c-4cb6-d664-08dd87f60e71
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UHUwVFhrdWRBczhOK0xzS2hQNFJiWEkyNnJ4RFF5UnBWejFUSVRMZWVLbFcy?=
- =?utf-8?B?NFdpTVpwMWFFNXlZbm5zbXhYVzVoNE4wK1RUcXVXeXBlSVVWMlR4dFNTdm44?=
- =?utf-8?B?NCtMVnEvclNXNTY2dnlaQnpzSWVvd0VPWFgxSzRJcnNHR2xEZUdUZ1hTVk9O?=
- =?utf-8?B?a2pKWWNDVTJlcVRXL3pWaHlFUDdMNkxjc3d0K1JTcllPKzY0YkRTOW5rQzBT?=
- =?utf-8?B?TkJSRzFBaHhFWnE4d2JOVFltRHYwaGpBUnVPUXQ0aGl5QjdKVUwvaVVaaHJn?=
- =?utf-8?B?eFZKVjR1V0sxbHRTWjBOd2I2OGN0VjdSdkxMWFJ0d3VYZVVJb01LUzVDZlh6?=
- =?utf-8?B?YjVaeTU2ZlFlSHlha0FZeEh3dnEvSDVKeWdEbWhSS0FMRk1aajhsY2kzWTdt?=
- =?utf-8?B?YlQrT0tSN2JKSzZOSDlYZlczNXJNWStEQ25uMW5kbTh4WWMzTDN0OG5oNVZa?=
- =?utf-8?B?U2RpZVJHSEswa2VGSGJVbU9TRTR6VXlxRUhxNWQ0Sy95UUxVTzZ4TytGSThh?=
- =?utf-8?B?QmJhS2YyUEJwYUNwMUxmTm5MczlDMEdOajVJQytoTFVTT2Y4OTR6U01GNDRw?=
- =?utf-8?B?VDc0a29oZnZHSDIrcVpIN0dGckYwdzlhTlh5UzlnTkhqZ3pOWVVZS0xWaEJv?=
- =?utf-8?B?Nkgxa1hlWGVVU1AyN2lHZ0Y1bkVkNG9PV2hXR1lnUmVwbWRzQkNlaWMyNE44?=
- =?utf-8?B?YlpUYStFL05laG9OVzQrVzRvL2diSkRPVXRqNHdhL2lheXpoTkYvTXlKZnNL?=
- =?utf-8?B?dXJZMURrMnpocmFjS0JNODB5dGVFVDByc05oYndQT1VaQlVIcE1mZTdRcjZn?=
- =?utf-8?B?Y3dlcHhGc0ZhcDZLT3hWUnFSSVJVN1dXMThhZlUxeUxtazJRVTR3VmNobEVM?=
- =?utf-8?B?dWdzTnAzSVA4MXJjMzhXK2YzR0FJa05OT3luT3dFeThPalFjT2pNKzFjM2pJ?=
- =?utf-8?B?U0E4M1FsYkFGSXV1U1RlSG1uTmxNUzI1bXRmOG5saXJwUGtBUjMvdCttaGI5?=
- =?utf-8?B?UXRhUTY0bnR6bmJqalRyalBhVVZWVGtCZWdLdDA4dnVwM0lTY0NjVjNiMDE0?=
- =?utf-8?B?Y0hFVTM5bTdHNFhSTFZzRldpUTg5Rm96WUIyQ2dvbkR2dUVWM0FVbXFubjA4?=
- =?utf-8?B?NkhWdk5hQTYxL1VSZGR6bE1XTUtDcE00dHZPdHdRZUg2MzFmYzd0UGdCVlNU?=
- =?utf-8?B?NGN0dHU3Z3F3ZnU5S2oxOWZHSDVtdGgxaW5FUTJxTU02aXh5TDkzOGtiS3kr?=
- =?utf-8?B?MlhNYkRhUnBmRTltQVFDNHJFaXc5OGtIaHZ3S2JKUHdvSjZSMk43eVJuZ2Rt?=
- =?utf-8?B?QjJiS3ptbWlRMlFzZEhwcVR1NTlVK3FJZ290Y2phaWVKOGt0ZjJ3YkNkZkQ4?=
- =?utf-8?B?c3N0UW9Rd25sVUQ2bGVJVnJjdE1wN3piZEtsMTRZdFl3ejZmbjExRmZwMzVC?=
- =?utf-8?B?NFNNa056REtCRXk4RHJHdS94Rmd1d0ZxcXVIVXE1ZFdzTjRWcnhXOVlFRUt2?=
- =?utf-8?B?ZGpaYS9lZGRtSDJDbWZ6SjdGb2YzQ1gyd3F1NWZWNkFoZDdRWm1GYjd2WEIv?=
- =?utf-8?B?UEN3NjFvcnN1OUZ1NTM5VkkvQW5vWjNuMm1ybkp6ZHMxUTA2ZDZleFo1bzVM?=
- =?utf-8?B?QkRXWE9ZNUlkUzlKekU1ZHJmeG4veFhZNjdrbHdIeEt0VTNVWWk1UW0xa1gw?=
- =?utf-8?B?WjJFTEgvT2lhUnRxakI1Q1hNUTJwM3JKdWlad1Qxc3A5OUN5WHpaS2M1a09w?=
- =?utf-8?B?dzFoOWt4Q05renRuUnJKaDhaUjIxd1VjYUxCblhudFFEMVdGMXMwSDdqZTFr?=
- =?utf-8?B?dmZ0SkJ3K0d4QU9KNU5Ma1hLYUtPa0IrSTR3UTM5WHprdkdqSS9XSStzdFFR?=
- =?utf-8?B?dDcvbEJrRWNjY3VUSzlZdWpVK2tIQmo5Y29Wb05MRGpKbytBUTQyTFZkR2Fs?=
- =?utf-8?Q?MT8tC7Ei34o=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SUVublhMU2JMMDRnK1htWDc0V3NjbjNwUVZLZ1drZ3k3SzNieFRZVEdrcFIx?=
- =?utf-8?B?UUsyTXc5WWp2N2gyRHNmazhWbGV6RXlZeWFxV2R1SUJmd2VZcEFobzRLV1BI?=
- =?utf-8?B?R0JUR3I1bXFXa0pXeWNYNXFmVUkzR0xXMGdJNXJ0aElEZ3ppWVF6N1FLbExz?=
- =?utf-8?B?MGdmclh5VWxpZUk3bG1BeUNnYXIrRnlLUTNLMENsY1VDeXdIckFXOWFLR0g1?=
- =?utf-8?B?SDg3OHlBczlweG9VWG1yRDgwQXpLN2ZkR0IxK0wzTzJZa1Q5aFFrdFFPYVEw?=
- =?utf-8?B?NzJEY1MrVkp2WEdTRDB2czRGZnVZdlNMZ29ZRGk5NW9CQXV6cVNsS1hCZWJj?=
- =?utf-8?B?UWhOUDdsVUxreFByMFZlYVR0cjNNZHF2cmlXYkFRQm02amF1OEd3RFhMWkdF?=
- =?utf-8?B?VWRhbDIydXpEOEt1TE1oaUF5YXg3cnExQk83eHQ3ZVliME5ZVFZ5VjdnZmht?=
- =?utf-8?B?aGNPdVlNM1NudnN0RjBJdTZzNGdNSExNSEtaVjQ1eEFRcmhibG1pRXBrRW16?=
- =?utf-8?B?eWxCVFVacGJSL1JKSjRQdm54aHlyK0lsV2ZmRENkNlkvNExaU1ZzUGFJUVBK?=
- =?utf-8?B?MnJsMm1NbHFXQUF3MkhlWWtlbzU4cEM0R2RUSVFyZzF6N29tWDZZMDVud1Uv?=
- =?utf-8?B?S041OVlzTFZla2ZCRGViaXVvU2dnY0YwYzY0NEMyTE1ETVRVbGNUbkhzUEd5?=
- =?utf-8?B?Q21TWGplNkxHL2hvNERhU1BnZFIxbVdTdzU2SmZ1bVg0YWdQaVlUUFVJRjlH?=
- =?utf-8?B?VjNvS1BFNnpqcGxxVE9HWURHZzNpa2YyOU5GUVVPUmpweUhqcDFRSitWZFk4?=
- =?utf-8?B?UktOSjBtUk5GMEN3eW9vTGpXRTR5ZzVnU3lqNGpQVXdXV3BFcVdoRG5HbVFY?=
- =?utf-8?B?WC9QUnppYkZWQWl1NmhWOGh3aFFFOW03V3VmVHY4cWZlNkVNcHBZU3haaU1B?=
- =?utf-8?B?cUphMVBsTVRWQXc1RWhGS3BsTFArVEtwU0VFRjBjeEJJZG93WU0vOVpLVHJ4?=
- =?utf-8?B?TUEyQWdWdXZPMkZ6NUw1VUxYcEVnbGU3WEN2OGZ6ZzBqY0o4c3FXd1U1MXU5?=
- =?utf-8?B?NGk1dUREZ0R3dmovcVBOc0Z2cDl0SUFJQXVWZXVDMGl0SUhoZ0FyeTFsMFA4?=
- =?utf-8?B?c0ZCTXhxelFKaHh6L1BiVENFUWltbHJicTNGOHpLM2FKR2N3V0YyR0VrbGtV?=
- =?utf-8?B?eVdVQnNJTklQd2FVcHZleFFjK0xyakpJUjhQbWFMaERCZFRQOVpsaTdYTUgr?=
- =?utf-8?B?S3RBUzRnYmx4NjVReUJNT014WlR2UElhSFpwUTdsMjU5d1A1bEZrbDM2dHBm?=
- =?utf-8?B?b2NyMVRzR0I4dUtPT0FtZWdHNHlyVllWRldXRDc5dkJJTkFKSUdCN2hjT05Q?=
- =?utf-8?B?aWFpenQ2UnlkWXdvcjNwaWZHUmFsMUFkS29MU2VmYlVtajZWcjdhc1lMTnFh?=
- =?utf-8?B?U1A3OWhSNXB6SXdySnkzemdhYU9xTFdNR1VlM2NaOGhzRkxwME9mNWRJWng5?=
- =?utf-8?B?c1NhaWZjbEJiOHl2TkdwTHpIU09Xb1d6b250dUtjc0IxVnBOeUFvRWE3TWdy?=
- =?utf-8?B?U21Ra1ZJQVZFYlh3djRVNEpKeUd5VlZQZUJiYTcxTjZEcGwrQWFZQUtCWkJE?=
- =?utf-8?B?aDdUanBLNEh1c0loY3RLbG5ZQ3pwNG9CaDJNUmVFdjdwVFpVZk5HRWhvbFpi?=
- =?utf-8?B?Wkw3cC9lMmswaFF6UTU1MURhOHBJTFVxSGFYVm5iVWtSRW91d2NxRjRiL3RK?=
- =?utf-8?B?cG51VEFGbGZZTUU5ZUNGRHBQQWZqb1JnbUx1WjVNZ1N5emE2c0R6TTVNcXhx?=
- =?utf-8?B?VEE1YXBVa2xFWk5OTVRTTVJiV3ZpS1M3R3JXckJaYXd0QlNHTXFiVnZGMUdX?=
- =?utf-8?B?WFRyUFZVNUFvazZMcmZRbXhsa05DZVRrWW9KQkVZalhkKzFzUHBmOXgrZ3lS?=
- =?utf-8?B?QWdKTGljZmlkeSs0ZGFEakJ4RDhuZDhTL3dEa0xSTHdBRGYwaC9SdjRZakVx?=
- =?utf-8?B?aStlNS9LejQveFVaVmxCREhwaklubmNMSVVpL3ByV2hNNGJPUy82WnFkZFFG?=
- =?utf-8?B?Vlo0UkRoMi9VVSt2WlRvaDR0akZiVzBHWTNZNEkzVWFwU09La3czVDAzK2hK?=
- =?utf-8?Q?fVyCDBSsSWVWbE0n40WVw135t?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32a956af-f23c-4cb6-d664-08dd87f60e71
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 14:48:23.3476 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I6xi/qkQJTTAvk9ucabhgqAcsz6P6d5rNLTAvRmmc7vlz1qqCtHS9KUC2UMFDFhf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9021
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH RFT v6 2/5] drm/msm/adreno: Add speedbin data for SM8550 /
+ A740
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20250430-topic-smem_speedbin_respin-v6-0-954ff66061cf@oss.qualcomm.com>
+ <20250430-topic-smem_speedbin_respin-v6-2-954ff66061cf@oss.qualcomm.com>
+ <13cd20c6-f758-45ff-82d1-4fd663d1698c@linaro.org>
+ <886d979d-c513-4ab8-829e-4a885953079a@oss.qualcomm.com>
+ <b838f9bd-0537-4f8d-b24b-d96700d566c8@linaro.org>
+ <98a4ad20-c141-4280-801e-015dafd1fb39@oss.qualcomm.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <98a4ad20-c141-4280-801e-015dafd1fb39@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,261 +129,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/30/25 16:13, oushixiong wrote:
-> 
-> 在 2025/4/30 19:03, Christian König 写道:
->> On 4/30/25 10:56,oushixiong1025@163.com wrote:
->>> From: Shixiong Ou<oushixiong@kylinos.cn>
+On 30/04/2025 15:09, Konrad Dybcio wrote:
+> On 4/30/25 2:49 PM, neil.armstrong@linaro.org wrote:
+>> On 30/04/2025 14:35, Konrad Dybcio wrote:
+>>> On 4/30/25 2:26 PM, neil.armstrong@linaro.org wrote:
+>>>> Hi,
+>>>>
+>>>> On 30/04/2025 13:34, Konrad Dybcio wrote:
+>>>>> From: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>>>>
+>>>>> Add speebin data for A740, as found on SM8550 and derivative SoCs.
+>>>>>
+>>>>> For non-development SoCs it seems that "everything except FC_AC, FC_AF
+>>>>> should be speedbin 1", but what the values are for said "everything" are
+>>>>> not known, so that's an exercise left to the user..
+>>>>>
+>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>>>> ---
+>>>>>     drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 8 ++++++++
+>>>>>     1 file changed, 8 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>>>> index 53e2ff4406d8f0afe474aaafbf0e459ef8f4577d..61daa331567925e529deae5e25d6fb63a8ba8375 100644
+>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>>>> @@ -11,6 +11,9 @@
+>>>>>     #include "a6xx.xml.h"
+>>>>>     #include "a6xx_gmu.xml.h"
+>>>>>     +#include <linux/soc/qcom/smem.h>
+>>>>> +#include <linux/soc/qcom/socinfo.h>
+>>>>> +
+>>>>>     static const struct adreno_reglist a612_hwcg[] = {
+>>>>>         {REG_A6XX_RBBM_CLOCK_CNTL_SP0, 0x22222222},
+>>>>>         {REG_A6XX_RBBM_CLOCK_CNTL2_SP0, 0x02222220},
+>>>>> @@ -1431,6 +1434,11 @@ static const struct adreno_info a7xx_gpus[] = {
+>>>>>             },
+>>>>>             .address_space_size = SZ_16G,
+>>>>>             .preempt_record_size = 4192 * SZ_1K,
+>>>>> +        .speedbins = ADRENO_SPEEDBINS(
+>>>>> +            { ADRENO_SKU_ID(SOCINFO_FC_AC), 0 },
+>>>>> +            { ADRENO_SKU_ID(SOCINFO_FC_AF), 0 },
+>>>>> +            /* Other feature codes (on prod SoCs) should match to speedbin 1 */
+>>>>
+>>>> I'm trying to understand this sentence. because reading patch 4, when there's no match
+>>>> devm_pm_opp_set_supported_hw() is simply never called so how can it match speedbin 1 ?
 >>>
->>> [WHY]
->>> On some boards, the dma_mask of Aspeed devices is 0xffff_ffff, this
->>> quite possibly causes the SWIOTLB to be triggered when importing dmabuf.
->>> However IO_TLB_SEGSIZE limits the maximum amount of available memory
->>> for DMA Streaming Mapping, as dmesg following:
+>>> What I'm saying is that all other entries that happen to be possibly
+>>> added down the line are expected to be speedbin 1 (i.e. BIT(1))
 >>>
->>> [   24.885303][ T1947] ast 0000:07:00.0: swiotlb buffer is full (sz: 3145728 bytes), total 32768 (slots), used 0 (slots)
+>>>> Before this change the fallback was speedbin = BIT(0), but this disappeared.
 >>>
->>> [HOW] Provide an interface so that attachment is not mapped when
->>> importing dma-buf.
->> This is unecessary. The extra abstraction in DRM is only useful when you want to implement the obj->funcs->get_sg_table() callback.
+>>> No, the default was to allow speedbin mask ~(0U)
 >>
->> When a driver doesn't want to expose an sg_table for a buffer or want some other special handling it can simply do so by implementing the DMA-buf interface directly.
+>> Hmm no:
 >>
->> See drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c for an example on how to do this.
+>>      supp_hw = fuse_to_supp_hw(info, speedbin);
 >>
->> Regards,
->> Christian.
+>>      if (supp_hw == UINT_MAX) {
+>>          DRM_DEV_ERROR(dev,
+>>              "missing support for speed-bin: %u. Some OPPs may not be supported by hardware\n",
+>>              speedbin);
+>>          supp_hw = BIT(0); /* Default */
+>>      }
+>>
+>>      ret = devm_pm_opp_set_supported_hw(dev, &supp_hw, 1);
+>>      if (ret)
+>>          return ret;
 > 
+> Right, that's my own code even..
 > 
-> Thanks for the reminder,
+> in any case, the kernel can't know about the speed bins that aren't
+> defined and here we only define bin0, which doesn't break things
 > 
-> most drivers that use DRM_GEM_SHADOW_PLANE_HELPER_FUNCSand DRM_GEM_SHMEM_DRIVER_OPS
-> 
-> don't need to import the sg_table, such as the udl and the ast and so on at the moment.
-> 
-> They just need to call dma_buf_vmap() to get the kernel virtual address of the shared buffer.
-> 
-> So I wondered if there was a simple generic PRIME implementation for these drivers.
-> 
-> If you don't recommend this, Maybe try to implement it in DRM_GEM_SHMEM_DRIVER_OPS ?
+> the kernel isn't aware about hw with bin1 with or without this change
+> so it effectively doesn't matter
 
-Well if you only want to implement vmap/vunmap the necessary code in the driver would look something like this:
+But it's regression for the other platforms, where before an unknown SKU
+mapped to supp_hw=BIT(0)
 
-const struct dma_buf_ops amdgpu_dmabuf_ops = {
-        .map_dma_buf = dummy_map_function,
-        .release = drm_gem_dmabuf_release,
-        .mmap = drm_gem_dmabuf_mmap,
-        .vmap = drm_gem_dmabuf_vmap,
-        .vunmap = drm_gem_dmabuf_vunmap,
-};
+Not calling devm_pm_opp_set_supported_hw() is a major regression,
+if the opp-supported-hw is present, the OPP will be rejected:
 
-struct dma_buf *drv_gem_prime_export(struct drm_gem_object *gobj,
-                                        int flags)
-{
-        struct dma_buf *buf;
+https://elixir.bootlin.com/linux/v6.14.4/source/drivers/opp/of.c#L538
 
-        buf = drm_gem_prime_export(gobj, flags);
-        if (!IS_ERR(buf))
-                buf->ops = &amdgpu_dmabuf_ops;
+	if (!opp_table->supported_hw) {
+		/*
+		 * In the case that no supported_hw has been set by the
+		 * platform but there is an opp-supported-hw value set for
+		 * an OPP then the OPP should not be enabled as there is
+		 * no way to see if the hardware supports it.
+		 */
+		if (of_property_present(np, "opp-supported-hw"))
+			return false;
+		else
+			return true;
+	}
 
-        return buf;
-}
-
-The only thing which could be improved is the dummy_map_function. As far as I can see we could make the map function optional in DMA-buf now.
-
-Apart from that you could make a DRM helper from that few lines, but to be honest I don't think it's worth it. It reduces the loc a bit, but there is no real complexity here which drivers could share.
-
-Regards,
-Christian.
-
+Neil
 
 > 
-> Regards,
-> 
-> Shixiong Ou.
-> 
->>> Signed-off-by: Shixiong Ou<oushixiong@kylinos.cn>
->>> ---
->>>   drivers/gpu/drm/ast/ast_drv.c          |  2 +-
->>>   drivers/gpu/drm/drm_gem_shmem_helper.c | 17 +++++++
->>>   drivers/gpu/drm/drm_prime.c            | 67 ++++++++++++++++++++++++--
->>>   drivers/gpu/drm/udl/udl_drv.c          |  2 +-
->>>   include/drm/drm_drv.h                  |  3 ++
->>>   include/drm/drm_gem_shmem_helper.h     |  6 +++
->>>   6 files changed, 91 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
->>> index 6fbf62a99c48..2dac6acf79e7 100644
->>> --- a/drivers/gpu/drm/ast/ast_drv.c
->>> +++ b/drivers/gpu/drm/ast/ast_drv.c
->>> @@ -64,7 +64,7 @@ static const struct drm_driver ast_driver = {
->>>       .minor = DRIVER_MINOR,
->>>       .patchlevel = DRIVER_PATCHLEVEL,
->>>   -    DRM_GEM_SHMEM_DRIVER_OPS,
->>> +    DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS,
->>>       DRM_FBDEV_SHMEM_DRIVER_OPS,
->>>   };
->>>   diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> index d99dee67353a..655d841df933 100644
->>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> @@ -799,6 +799,23 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
->>>   }
->>>   EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
->>>   +struct drm_gem_object *
->>> +drm_gem_shmem_prime_import_attachment(struct drm_device *dev,
->>> +                      struct dma_buf_attachment *attach)
->>> +{
->>> +    size_t size = PAGE_ALIGN(attach->dmabuf->size);
->>> +    struct drm_gem_shmem_object *shmem;
->>> +
->>> +    shmem = __drm_gem_shmem_create(dev, size, true, NULL);
->>> +    if (IS_ERR(shmem))
->>> +        return ERR_CAST(shmem);
->>> +
->>> +    drm_dbg_prime(dev, "size = %zu\n", size);
->>> +
->>> +    return &shmem->base;
->>> +}
->>> +EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_attachment);
->>> +
->>>   MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
->>>   MODULE_IMPORT_NS("DMA_BUF");
->>>   MODULE_LICENSE("GPL v2");
->>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
->>> index 8e70abca33b9..522cf974e202 100644
->>> --- a/drivers/gpu/drm/drm_prime.c
->>> +++ b/drivers/gpu/drm/drm_prime.c
->>> @@ -911,6 +911,62 @@ struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
->>>   }
->>>   EXPORT_SYMBOL(drm_gem_prime_export);
->>>   +/**
->>> + * drm_gem_prime_import_dev_skip_map - core implementation of the import callback
->>> + * @dev: drm_device to import into
->>> + * @dma_buf: dma-buf object to import
->>> + * @attach_dev: struct device to dma_buf attach
->>> + *
->>> + * This function exports a dma-buf without get it's scatter/gather table.
->>> + *
->>> + * Drivers who need to get an scatter/gather table for objects need to call
->>> + * drm_gem_prime_import_dev() instead.
->>> + */
->>> +struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
->>> +                             struct dma_buf *dma_buf,
->>> +                             struct device *attach_dev)
->>> +{
->>> +    struct dma_buf_attachment *attach;
->>> +    struct drm_gem_object *obj;
->>> +    int ret;
->>> +
->>> +    if (dma_buf->ops == &drm_gem_prime_dmabuf_ops) {
->>> +        obj = dma_buf->priv;
->>> +        if (obj->dev == dev) {
->>> +            /*
->>> +             * Importing dmabuf exported from our own gem increases
->>> +             * refcount on gem itself instead of f_count of dmabuf.
->>> +             */
->>> +            drm_gem_object_get(obj);
->>> +            return obj;
->>> +        }
->>> +    }
->>> +
->>> +    attach = dma_buf_attach(dma_buf, attach_dev, true);
->>> +    if (IS_ERR(attach))
->>> +        return ERR_CAST(attach);
->>> +
->>> +    get_dma_buf(dma_buf);
->>> +
->>> +    obj = dev->driver->gem_prime_import_attachment(dev, attach);
->>> +    if (IS_ERR(obj)) {
->>> +        ret = PTR_ERR(obj);
->>> +        goto fail_detach;
->>> +    }
->>> +
->>> +    obj->import_attach = attach;
->>> +    obj->resv = dma_buf->resv;
->>> +
->>> +    return obj;
->>> +
->>> +fail_detach:
->>> +    dma_buf_detach(dma_buf, attach);
->>> +    dma_buf_put(dma_buf);
->>> +
->>> +    return ERR_PTR(ret);
->>> +}
->>> +EXPORT_SYMBOL(drm_gem_prime_import_dev_skip_map);
->>> +
->>>   /**
->>>    * drm_gem_prime_import_dev - core implementation of the import callback
->>>    * @dev: drm_device to import into
->>> @@ -946,9 +1002,6 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
->>>           }
->>>       }
->>>   -    if (!dev->driver->gem_prime_import_sg_table)
->>> -        return ERR_PTR(-EINVAL);
->>> -
->>>       attach = dma_buf_attach(dma_buf, attach_dev, false);
->>>       if (IS_ERR(attach))
->>>           return ERR_CAST(attach);
->>> @@ -998,7 +1051,13 @@ EXPORT_SYMBOL(drm_gem_prime_import_dev);
->>>   struct drm_gem_object *drm_gem_prime_import(struct drm_device *dev,
->>>                           struct dma_buf *dma_buf)
->>>   {
->>> -    return drm_gem_prime_import_dev(dev, dma_buf, dev->dev);
->>> +    if (dev->driver->gem_prime_import_sg_table)
->>> +        return drm_gem_prime_import_dev(dev, dma_buf, dev->dev);
->>> +    else if (dev->driver->gem_prime_import_attachment)
->>> +        return drm_gem_prime_import_dev_skip_map(dev, dma_buf, dev->dev);
->>> +    else
->>> +        return ERR_PTR(-EINVAL);
->>> +
->>>   }
->>>   EXPORT_SYMBOL(drm_gem_prime_import);
->>>   diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
->>> index 05b3a152cc33..c00d8b8834f2 100644
->>> --- a/drivers/gpu/drm/udl/udl_drv.c
->>> +++ b/drivers/gpu/drm/udl/udl_drv.c
->>> @@ -72,7 +72,7 @@ static const struct drm_driver driver = {
->>>         /* GEM hooks */
->>>       .fops = &udl_driver_fops,
->>> -    DRM_GEM_SHMEM_DRIVER_OPS,
->>> +    DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS,
->>>       .gem_prime_import = udl_driver_gem_prime_import,
->>>       DRM_FBDEV_SHMEM_DRIVER_OPS,
->>>   diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
->>> index a43d707b5f36..aef8d9051fcd 100644
->>> --- a/include/drm/drm_drv.h
->>> +++ b/include/drm/drm_drv.h
->>> @@ -326,6 +326,9 @@ struct drm_driver {
->>>                   struct dma_buf_attachment *attach,
->>>                   struct sg_table *sgt);
->>>   +    struct drm_gem_object *(*gem_prime_import_attachment)(
->>> +                struct drm_device *dev,
->>> +                struct dma_buf_attachment *attach);
->>>       /**
->>>        * @dumb_create:
->>>        *
->>> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
->>> index cef5a6b5a4d6..39a93c222aaa 100644
->>> --- a/include/drm/drm_gem_shmem_helper.h
->>> +++ b/include/drm/drm_gem_shmem_helper.h
->>> @@ -274,6 +274,9 @@ struct drm_gem_object *
->>>   drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
->>>                       struct dma_buf_attachment *attach,
->>>                       struct sg_table *sgt);
->>> +struct drm_gem_object *
->>> +drm_gem_shmem_prime_import_attachment(struct drm_device *dev,
->>> +                      struct dma_buf_attachment *attach);
->>>   int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
->>>                     struct drm_mode_create_dumb *args);
->>>   @@ -287,4 +290,7 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
->>>       .gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table, \
->>>       .dumb_create           = drm_gem_shmem_dumb_create
->>>   +#define DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS \
->>> +    .gem_prime_import_attachment = drm_gem_shmem_prime_import_attachment, \
->>> +    .dumb_create                 = drm_gem_shmem_dumb_create
->>>   #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
+> Konrad
 
