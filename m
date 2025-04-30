@@ -2,169 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04B26AA4D65
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 15:25:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F2FAA4D78
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 15:29:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B948F10E0EB;
-	Wed, 30 Apr 2025 13:25:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2880310E2A6;
+	Wed, 30 Apr 2025 13:28:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Mm/0J95H";
+	dkim=pass (2048-bit key; unprotected) header.d=draconx-ca.20230601.gappssmtp.com header.i=@draconx-ca.20230601.gappssmtp.com header.b="YQX3nzrt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B62310E0EB;
- Wed, 30 Apr 2025 13:25:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ai+AX7gZa6Ah3rRiUayHlHoCQqFrcGTi3yq0WheM0eHkWfCTT+ObmgQnNL42JcLfOcQY897CIrBjTrOnmiUv5562JYBT51V8mrjNhVg2kL36iXXHUGSU5g6FFAThFwieBOiWIQSmiDlavOzKPQSSJ6Akv5de+xo1oJ+QHYvQ9Lbsd6RvZuvHchMml3+nlaHEoIrdTer50JZnWOvW4r3l+RHLPEpt1QapJAFw+VMHsCNk6j1CfwDbPYWhHieRPAbFgaRf+Q9mrQkBbQX7bxicVati0tvV9HDBs+PWJugjUqVn1YfXTuylWuiJdbgOQWJZZlWgji3HPcfjd1WnKMoqGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=huRjw/1BMjRb/5dEjJHYQbCBNRQyWCrVACkA3qWwqEo=;
- b=VXzIOihlL9CWBrPHRDPnfGVr34xX0xxvire2pAdEyPj/uk0INqpc17MzrUdh8MJUUpQf7JBgLkkQp3ZrIbfLNj/Sot94Tv4PdLiWk/IY508aW0ClJ1144ak4eniDtBKQqBFBoqQ05gWbz0wOLdVQ76uNK3tWFJWP8hiPN3nMxTShpSlatzz4fDA7YKAeLsEzwMLG8AqZrEuh0EeFRYPNfvW1ffTOmk3obokMaQ/enoyDzA9c2ZskYIFsfYINVzMFztRBN3EMbN6EdnzRk50MKy1T+X9kXT8fvE26/CCrekDS+TZ40a0/gjR3+5obIkrL4+Heb/x9EdBlUO+BTNBptg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=huRjw/1BMjRb/5dEjJHYQbCBNRQyWCrVACkA3qWwqEo=;
- b=Mm/0J95H7O8t6nGfJEYCEYDQ3cpNJhH5oQ7Zbc4s4xf9p+17YsKtA4IuzYpPZ5j6/27TEimj1HhmAHxjwRimzt7Y/QplIvZDXkNwagpmZ6hISTZEt3p/86pNGwygCfbx5DBeAIf3nE7//OxjQQuf6e66jiyoSrAAH9S/cKPE4WXnrujQ1EOhyGNEiugs6sN1V4ssvFVGF3rrgPEsjp0LZd8cHZHyeUEtZeLsJ3/KOrDSJXK5v70tFQ/RyBcQmxaS3j7Z07YqXOtFFZSiRuVCOoL9CYx+hF6yZjNBQJVoJqoiiSwEO8CwTrxgVPt9CUrToDAujaJRqns8tMaXE6b28w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by SJ5PPF4D350AC80.namprd12.prod.outlook.com
- (2603:10b6:a0f:fc02::993) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Wed, 30 Apr
- 2025 13:25:08 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8699.012; Wed, 30 Apr 2025
- 13:25:07 +0000
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 30 Apr 2025 22:25:03 +0900
-Message-Id: <D9K09AU4KTQJ.3TVVZPMDB0H7I@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <benno.lossin@proton.me>,
- "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Jonathan Corbet"
- <corbet@lwn.net>, "John Hubbard" <jhubbard@nvidia.com>, "Ben Skeggs"
- <bskeggs@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 11/16] gpu: nova-core: add falcon register definitions
- and base code
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250420-nova-frts-v1-0-ecd1cca23963@nvidia.com>
- <20250420-nova-frts-v1-11-ecd1cca23963@nvidia.com>
- <aAerWF9j5d01pQv0@cassiopeiae>
-In-Reply-To: <aAerWF9j5d01pQv0@cassiopeiae>
-X-ClientProxiedBy: OS3P301CA0055.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:604:21c::11) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
+ [209.85.166.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA4410E2A6
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:28:43 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id
+ ca18e2360f4ac-85b4170f1f5so209243339f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 06:28:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=draconx-ca.20230601.gappssmtp.com; s=20230601; t=1746019722; x=1746624522;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=GBXqVpFrcNNJIHdkVu7UpTOZIMqKbAfKldy52pSWadk=;
+ b=YQX3nzrtu8EkV7jwOBPYRYi4FxpHjii6LaP2bqHfYJyaNA3mTd0OVZ/aMJ4wP2417C
+ QrDPqlWoVEOSOOhEYfq0ywH5p//D9PDihyDFuLMdwpzFQ+Yr0RV2o8mMYiL1gZH7r9lQ
+ uxm2mvn6fn81UJWoRvRV3J293p8qgbySGJWyElAX2mubM2otYj+mNEwvWYTv0NmRgw35
+ GEmdNM4wGXJNT7/jEJBs7PsUbepqmTawqoAHgz8c86vKgLr1vLRn9zIcNEaldDJJLoIq
+ TiVtmP5aug20R/ABwtbjIEztIyk1TWxV9rSpsMghc1Nrhdy/L+D8g12LzQYSK+DgMti0
+ fl3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746019722; x=1746624522;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GBXqVpFrcNNJIHdkVu7UpTOZIMqKbAfKldy52pSWadk=;
+ b=IXnLabZh0ppG3BRffTqRoVzub1IsJDSXZDpRlGruVGNZBmqSsjLEJkBk6ipo+J9y5I
+ A8xEc3VxCTbPKFM/3cGlnpiY/EQHz7I+9Mfn0BlKGM29HfwAc07ji7tk8+hpiP33qPWf
+ AOSUYlOlWWrodkk1crwkWvRRz4X4QOSgHw/bU/N+J4/vmYIyenY3qG3Hyb1H1VmBIcAV
+ l8KhAurluxJ20mpbKwZZ9EoWSmlSNq/I0hxqzK2QaS4PdcH0PqZFdvIE9FahoiXeEdt2
+ BokZyBZRT4XFgpYW9zIGy+O9TxO+soJ/xk1vi+mrqplIYrPXEpc+RVngHSOWoTboH28m
+ jAuA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV04nFbtFSIt3c2rXJ099S5cU/ISnvQGIVRZOUBFEaD/EptW+X+B9k2EDAGApdax3bDJ951nwGbR9s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDr/AhdkUlGH6dwtPjOqNr9dHpDgvcGK6r1eb63RWSJEMJ1RdW
+ Lh0sm49L/IyxQwLIq9gpsPQM4LW9Sc51a/HuktmGp+jXqwTljs7I2JVPwpa+MWI=
+X-Gm-Gg: ASbGncvcLb+vWUA0609qEYaiO+vS+qG+KjAjXiLmzqzOZJlcHu8W5NX8hoDA3Txls2p
+ YRQ0GqWlojT9Zkn+qrgjxxJeO4JCrF7RQtjdI3almNoYIy8qICt/pk5uMzvRyj1ZBzfRxHtaC1K
+ v4D/TzTFz2L/aU55H0EBvPmP2zqeOkVhm4vBuqVydgSn97tX2JGEVQemTG3qQsNQ72Z7JfBEm3z
+ lEDM0+cqNY86zw0HTKozzUWaBzhkAj2hl3P496KaogglEHp26SrVtUe730tk7MpGkONY9kCGGRa
+ Yp1AkKZ4lDdlfDLrHNy+3wCBhhas2ssSqdiJ7ZEikR8JNnZO/fIsu10g+QaXB+BvQJ6Ieg==
+X-Google-Smtp-Source: AGHT+IE4Sy491yyh0NnrBaw3S7a5NIOgQLrhs9y87h3f61x5oxVe3zv2YgkQWfaBtNe4Q52lspMWzA==
+X-Received: by 2002:a05:6e02:1b07:b0:3d6:d179:a311 with SMTP id
+ e9e14a558f8ab-3d9676c1c11mr32198255ab.6.1746019721819; 
+ Wed, 30 Apr 2025 06:28:41 -0700 (PDT)
+Received: from localhost (ip-24-156-181-135.user.start.ca. [24.156.181.135])
+ by smtp.gmail.com with ESMTPSA id
+ e9e14a558f8ab-3d95f3ff7e1sm7891985ab.50.2025.04.30.06.28.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Apr 2025 06:28:41 -0700 (PDT)
+Date: Wed, 30 Apr 2025 09:28:39 -0400
+From: Nick Bowler <nbowler@draconx.ca>
+To: Doug Anderson <dianders@chromium.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ regressions@lists.linux.dev
+Subject: Re: PROBLEM: AST2500 BMC video output disabled by reboot (regression)
+Message-ID: <u7ek3ccya4c3c4rteliskjjfczpmrt4vmqo5c6kjdotxdgitn7@ko24dpb35pq4>
+References: <wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi>
+ <CAD=FV=Xp7zOQ2iEVf896P074RW911F-e2Qa36deD0e8fWksFBA@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SJ5PPF4D350AC80:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57e96d6e-1071-4853-6ad4-08dd87ea6c7d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|376014|7416014|1800799024|366016; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QVpUR1dOdWIzTGVObzhPY1RLTW9FeEFubFI1WndPOVdmRy9tTTRiNTFJVkZ5?=
- =?utf-8?B?OGdtSXZuMmVScWI4cFlGWlFET0o3TDUrWlp2eXM1Tm1ucm53eGREQW1hTnQv?=
- =?utf-8?B?YWRnaW1TZEtOY0lNQU45dFdKS1ZTaW9kSnRxRjhQWEVJYjc0aDIxdFU3RTht?=
- =?utf-8?B?SzlFWTZqUEdMUVBVa1ZkUG9UbWlDZFFFTmM4SE0vcDlTZmdDRmFFK0Q4eC9S?=
- =?utf-8?B?ckEyQ2hHSHJtbGllYlVTcGNRSC9HOGl5VVhIRDlLMEJGZzVqRkpKNW9nbkEv?=
- =?utf-8?B?WCtiVU9INEJVcklBMmtlcmpaNkREZmp4UmhlTkpBUVQ1SnFJZUJXaVF1SkZD?=
- =?utf-8?B?eklpc0hnRjZsYmhwNmpoMTNxWm1oV2lidWhCWVV3UEJHMmdjQldZNC9YR29m?=
- =?utf-8?B?bkRTL1ZESFF2WW5uRWpmaS82bEt5ZW9xdzlqcmlsUDJpd3pBM1JTWnJ6ZGdC?=
- =?utf-8?B?eXZWM1Mxd0g2R3hFRExoTWFIT1VlYi9OWUIwTFZQZ3AwWlU3UGtVTHc4VElG?=
- =?utf-8?B?UWh2UDJBYlg5d1pMWi9HaWNtaW1ZMFZNL1d2SzExVjcxM2x6dGZKN2hHYlhF?=
- =?utf-8?B?cjVWZUdDc3MzL0w1MlQ3RnBDNVBRWTc0RDFOZkkzSEdPaHR0RDJWeDU5dWtS?=
- =?utf-8?B?eEkwSGEzU1R3NnJVTlovMmtEMDZQVFRUeVUraVFscWtHWG1OOG42S2VDZGs4?=
- =?utf-8?B?aVFqanAvVjQwa242cE1Wam9FaG5XOUJTU0NKYWk5YjFndHhETDZyWGFKamZD?=
- =?utf-8?B?Vk94TnZPYm91WXFoNkkxclRYbDkwWlJUdWxNY3RZN28wTE1nODFJc2lJMnRx?=
- =?utf-8?B?Z2crMCtXdDFOS21yMCtYcEFVVkdUdjVDQUNLY3FMTytORGg2WmdWZmZmd0cr?=
- =?utf-8?B?TGdWT2h5bm1OaGQvSEZpS1FudVVWMEQ4ZldYL0RxVVVUYlNMTytod0EwaVlo?=
- =?utf-8?B?K0NLZkNVcGtPN1RaOXdLUlRmQldsWHBzY08vdmZMT0Y1c0xRZzdoSUdXU2VH?=
- =?utf-8?B?ZTMxTS9vdFprRVo3UTYvcnBGN3MvVUhuZjRpM0Vjd1E4Z2NETjdVVEhsQlFS?=
- =?utf-8?B?ZzJDSnVSdlFSaWpidERwSWdsZDVIcFd0bzBrU0l0b25qMU9HMjJ2dE1maTEw?=
- =?utf-8?B?OVhMcmlsQnpqSCtDd2REbHVxc2tVN0p4K2pEWWxvTDQwQUhyekdqQzVjdElu?=
- =?utf-8?B?SFdHYThSa3VNak9iYnRsTml5U3BPSXU5ckxVQUhDNzd5bFhnbG0yeDlrZFZD?=
- =?utf-8?B?QXloQ0c1UEFoTTJHUUJQT0MwQytkZjZ2RndZOG9rTS9Pd1RLeFRZQzJSTzAr?=
- =?utf-8?B?b1E1ald5Qm1ZT2I3MHBFUytJOWVLWE9rMTlqWHJoS21QT1BLSXR5T0REVVh5?=
- =?utf-8?B?T2ZTbEhwSWZNczlyK0lqVkIxcEo0NmtmZ0hDS0dJOUNmeHMwK1RleEZzVStS?=
- =?utf-8?B?RktISHZ0K2dDRS9TbG5kcGEvUzh0RTdpUlJIbDFSdStMVU44ckJlQW1rSVh2?=
- =?utf-8?B?L1QvQU9qQTdHK3AraFVQMnpnMndITXR6TFREc1Y4T0NSTUhUU3pYTW9PWHNI?=
- =?utf-8?B?MnNuM2hFamNJWGRKTktpVUZaSTFZNXVqNG1YNTdOT1dlZkhKZ0dkQU9nVmJR?=
- =?utf-8?B?emhHWW9hWmFlRVVaWW1BaU8xaDBHcC82bHkvK3oxNjBzMll4cjdFWDczUnpl?=
- =?utf-8?B?Y0xGUEd1VkN0UTNVUHVKZ2UzOHR4RHRaTmRyRTJaY3pWVkxna212c0J6ZS9D?=
- =?utf-8?B?dGdlQXZlK1cxczY0Sk5XbXVHVyt4cFZlN2lxL29kUW5reTFDa201Z2JCU1hZ?=
- =?utf-8?B?djJDK1FNb2lVbTc0REZEMm9WVjFFQ0syOW4zQjE4ZXhwODN2QlJsWFJMQTBM?=
- =?utf-8?B?NlltZ3ppZUFoZVVucStSNlN1YldMNTlDanlwaWd0c21kREhkdzAycHV1RFQw?=
- =?utf-8?Q?LSbe+jwlmjc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(376014)(7416014)(1800799024)(366016); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ly93SkhiLzFETW9zWlVzY1VuWTRwcy9rVld2VVVGekk1ZkpKek9PMEhKa3Rw?=
- =?utf-8?B?a1NiaU96aS9yYTZ0dXFRNkRYd21mYTRFZ3dxamw4Y3pVdXg0aHRhbkRlOURl?=
- =?utf-8?B?b2NrNkVTTmJETUlpZGtpblhJd0FjaWdZVm5mT2pWanhhaWs2b2lndWNzMnI0?=
- =?utf-8?B?YlltKzN0ZWphWUF1UnVub0NQT3ZieHh5M3k2b2dZekZLMG9OYXFSdFEzWG8x?=
- =?utf-8?B?Vnp5UFV2M2dVdXRUM2pKdlVPTnhwT3VQOTVIM1VwY2NwYnE2QU9hK0l6eVRt?=
- =?utf-8?B?a3U5QVNubHpkTlpWSEhQS0VKdkUya2lFUWRYaUhzT0RJTkNXMVluZFdPOExH?=
- =?utf-8?B?QUFxVDROVmdqU2duQ3o3NnZhZ3BVM0dGczlyY01xbXk4NlFvRG5RdmJyN3Nr?=
- =?utf-8?B?aVpKSm0rY3ZHaVlyR0phNzRoOWlLSFN2ekFmTHNENE5pVndnNFNoWnZCM1A1?=
- =?utf-8?B?VWdWSytxNUYwOUZTemdyRTBod3pGQ0FtRGFUamE2R25jWDFDR0ZFcnRGQ25r?=
- =?utf-8?B?Zk1RQWJtUnpDRWdsVFcxcTZrUXJ6ZTV1b2FkUitYMXUxS3g4Tk1zM2VJVHMw?=
- =?utf-8?B?K1BXd1lvTE5oLzZTTEtEbmxuS25jbzdNTVliR0kxV0JiUTNkZ2NyVFZIWHNI?=
- =?utf-8?B?eXZQR2FiQkNwZ3l6S09JTm1DdHlHcGw0UURsNFVLYTVneUpXV0kwZkgweUh1?=
- =?utf-8?B?dnhwdy9GVTVxMTZOWnNHNnplMFFxSElVcXBobXFMN2V4NjZmZFpibkV6eTl3?=
- =?utf-8?B?NDR6Z0lWUFFYalB2Q1I0N2UxQW1iOHBORGxkMW5OWXNNc3M2WFJwOFFGVy93?=
- =?utf-8?B?dzJaQlVuZ3NzZFV5cVlpZUxNVk9PdHpFWDE4ZFRDK21MWXJtWElYWmlwMEh2?=
- =?utf-8?B?cEdsemsvQzJPQTBxeG5LRGVOb3QrNVQrdCtxMmM4aDBUbkFYLzZjUGlkaEow?=
- =?utf-8?B?L0J5dVBjUnp0YWxzT0VtallWOVZtYWR3MWQ5Mk1wSElVWkkxaC9zWHVVMUR6?=
- =?utf-8?B?dWMxWWN0VW9EQmxhUUlQenFJb2ZSbFBkU1BLSmh6dHNGNWhFNXJPSVdrT2JV?=
- =?utf-8?B?cEIvbXM5SjhSZmZrR3JHTW1Sa2J4U2NwVm5lTjFNZzdVclBRanpTZ2N6bm94?=
- =?utf-8?B?ZHpncVgyU0R3YllzTGUwbHVLNXBHTi9VL0c0c25mWHJvMkVjb1MxM2xTUUdy?=
- =?utf-8?B?RC9tQlN1MWxDVXBtTXdrSHc3WDZCK0FUajIwZ0FIbTh1YVYvSWxSS0hyZi94?=
- =?utf-8?B?cWR5MWt3bnpQS3A0bG1HbXV5Z2Jsd2FXa1BENmVxUGoxcXhYa0hMYWFsOUJn?=
- =?utf-8?B?Y1B4L3lVZTFaR0xoeVlqNDFWcndMdHo3YWhCU0NMb3JqMmtBWThZbHJFWS90?=
- =?utf-8?B?OFVVdDhQdUJqRHc3N3lVcDlYVWhtQ0w4SlBtV3NhcWpNMGEyUFQ0Q0J1d1Nu?=
- =?utf-8?B?aUNNNUtIbkhSZjRLQko0dTNDU1VnTjdDeStpZm5Tak04TGliVDVxWmpCaEp3?=
- =?utf-8?B?NmdHNHllUWpjd1NVeWhMeVVOczdtT2RoUmRodnJRSW4zTkVDZ01IN3JUbEk2?=
- =?utf-8?B?aUJLNTNIclF3K0p5VlJGTkhsU1ZkelBDWFhYY1lTVkt3eEVWVUZjMnJ0RVcv?=
- =?utf-8?B?dWliLzlTUmUvUjlCSzhxVml0MjJtTkpxdC9LRlh6STZGOHQwWDRTUmRJeUg4?=
- =?utf-8?B?YjcyV3ZBVGxmWWZNMFdQc1RIcFdqR0xJcE1QSXcrR3lrYzBPS3Z4MXVXUjFh?=
- =?utf-8?B?SDJzME9YdkxmdE1KZ0RHVzVud2VTQ3BpM3lpc1FiM1lsM0RzTXYvTlR2RWs5?=
- =?utf-8?B?bW1KUGtqQ3ZvRTJyUFl3RHV2bnpLVkNWRmg2Q2FUbkRrWHE5SU52Q0xJT2xy?=
- =?utf-8?B?algxb2g3VUlpMXYvNC8vSFZpS2p0UUtmUWFwOUtHQTFhTjU1QVBvTTYvNWJD?=
- =?utf-8?B?Z0FNdDdtVnNWZEZva3hTMXdNell3UjQ0MEdDVzZqVHRBOTZ3WnBwNnIxcGVR?=
- =?utf-8?B?cXJHdk5mN05ndHNFNFFzaDVVRjBqbGE2c0FWaXpyd0VuZHNYTmpHdDFRb3Rq?=
- =?utf-8?B?L1BkaDR0dGJYNUMyWHYxSHJReG9TK0VGZFNRaWNWRlpTM1hFQjJQNWQ5L2pX?=
- =?utf-8?B?ZGpwdjM4SmdQZEppWGtKQkZ4QXNXcGRwbE1OMXJrVWJiSk1pVXo4a2I2Z2JC?=
- =?utf-8?Q?rldvldZfjcKzq5OVOBAEgY+oGb3ono/qiUAHeBAniua2?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57e96d6e-1071-4853-6ad4-08dd87ea6c7d
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 13:25:07.4259 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 31asiCGlU1YiLMKGh6HcDp/jAgOKTQdAYiDacsFYyA0Yi5LEoloZoFGhPTgX3XzKLAX4cyGdUICI9CNroQfENg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF4D350AC80
+Content-Type: multipart/mixed; boundary="vz7ryfaxqvusa56n"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=Xp7zOQ2iEVf896P074RW911F-e2Qa36deD0e8fWksFBA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,381 +91,293 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
 
-On Tue Apr 22, 2025 at 11:44 PM JST, Danilo Krummrich wrote:
-> This patch could probably split up a bit, to make it more pleasant to rev=
-iew. :)
+--vz7ryfaxqvusa56n
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Probably yes. I thought since it is mostly new files, splitting up
-wouldn't change much. Let me see what I can do.
+Hi Doug,
 
->
-> On Sun, Apr 20, 2025 at 09:19:43PM +0900, Alexandre Courbot wrote:
->>=20
->> +#[repr(u8)]
->> +#[derive(Debug, Default, Copy, Clone)]
->> +pub(crate) enum FalconSecurityModel {
->> +    #[default]
->> +    None =3D 0,
->> +    Light =3D 2,
->> +    Heavy =3D 3,
->> +}
->
-> Please add an explanation for the different security modules. Where are t=
-he
-> differences?
->
-> I think most of the structures, registers, abbreviations, etc. introduced=
- in
-> this patch need some documentation.
+On Mon, Apr 28, 2025 at 01:40:25PM -0700, Doug Anderson wrote:
+> On Sun, Apr 20, 2025 at 9:26■PM Nick Bowler <nbowler@draconx.ca> wrote:
+> > I recently noticed that on current kernels I lose video output from
+> > my Blackbird's AST2500 BMC after a reboot
+[...]
+> >   ce3d99c8349584bc0fbe1e21918a3ea1155343aa is the first bad commit
+> >   commit ce3d99c8349584bc0fbe1e21918a3ea1155343aa
+> >   Author: Douglas Anderson <dianders@chromium.org>
+> >   Date:   Fri Sep 1 16:39:53 2023 -0700
+> >
+> >       drm: Call drm_atomic_helper_shutdown() at shutdown time for misc drivers
+[...]
+> Bleh. That's not good. If I had to guess there's some subtle bug /
+> missing timing constraint that's being triggered here. A few things to
+> try:
+> 
+> 1. Add a several second delay after the call to
+> "drm_atomic_helper_shutdown()", like msleep(5000) or something like
+> that. That's kind of a shot in the dark, but it's fairly common for
+> panels to get upset if you turn them off and then turn them on again
+> too quickly. This would be my blind guess of what is happening.
 
-I've documented things a bit better for the next revision.
+Adding msleep(5000) does nothing except that once the video turns off
+it now takes 5 seconds longer to reboot.
 
->
-> Please see https://docs.kernel.org/gpu/nova/guidelines.html#documentation=
-.
->
->> +
->> +impl TryFrom<u32> for FalconSecurityModel {
->> +    type Error =3D Error;
->> +
->> +    fn try_from(value: u32) -> core::result::Result<Self, Self::Error> =
-{
->> +        use FalconSecurityModel::*;
->> +
->> +        let sec_model =3D match value {
->> +            0 =3D> None,
->> +            2 =3D> Light,
->> +            3 =3D> Heavy,
->> +            _ =3D> return Err(EINVAL),
->> +        };
->> +
->> +        Ok(sec_model)
->> +    }
->> +}
->> +
->> +#[repr(u8)]
->> +#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
->> +pub(crate) enum FalconCoreRevSubversion {
->> +    #[default]
->> +    Subversion0 =3D 0,
->> +    Subversion1 =3D 1,
->> +    Subversion2 =3D 2,
->> +    Subversion3 =3D 3,
->> +}
->> +
->> +impl From<u32> for FalconCoreRevSubversion {
->> +    fn from(value: u32) -> Self {
->> +        use FalconCoreRevSubversion::*;
->> +
->> +        match value & 0b11 {
->> +            0 =3D> Subversion0,
->> +            1 =3D> Subversion1,
->> +            2 =3D> Subversion2,
->> +            3 =3D> Subversion3,
->> +            // SAFETY: the `0b11` mask limits the possible values to `0=
-..=3D3`.
->> +            4..=3Du32::MAX =3D> unsafe { unreachable_unchecked() },
->> +        }
->
-> FalconCoreRev uses TryFrom to avoid unsafe code, I think FalconCoreRevSub=
-version
-> should do the same thing.
+> 2. Could you give more details about what panel you're using?
 
-Since the field from which `FalconCoreRevSubversion` is built is only 2
-bits, I thought we could avoid using `TryFrom` since we are effectively
-covering all possible values (I wish Rust has n-bit integer types :)).
-But yeah I have probably overthought that, and that unsafe block is
-unsightly. Converted to `TryFrom`.
+According to the documentation I have for the machine, the video output
+of the AST2500 BMC is connected to an IT66121 HDMI transmitter.
 
->
->> +/// Trait defining the parameters of a given Falcon instance.
->> +pub(crate) trait FalconEngine: Sync {
->> +    /// Base I/O address for the falcon, relative from which its regist=
-ers are accessed.
->> +    const BASE: usize;
->> +}
->> +
->> +/// Represents a portion of the firmware to be loaded into a particular=
- memory (e.g. IMEM or DMEM).
->> +#[derive(Debug)]
->> +pub(crate) struct FalconLoadTarget {
->> +    /// Offset from the start of the source object to copy from.
->> +    pub(crate) src_start: u32,
->> +    /// Offset from the start of the destination memory to copy into.
->> +    pub(crate) dst_start: u32,
->> +    /// Number of bytes to copy.
->> +    pub(crate) len: u32,
->> +}
->> +
->> +#[derive(Debug)]
->> +pub(crate) struct FalconBromParams {
->> +    pub(crate) pkc_data_offset: u32,
->> +    pub(crate) engine_id_mask: u16,
->> +    pub(crate) ucode_id: u8,
->> +}
->> +
->> +pub(crate) trait FalconFirmware {
->> +    type Target: FalconEngine;
->> +
->> +    /// Returns the DMA handle of the object containing the firmware.
->> +    fn dma_handle(&self) -> bindings::dma_addr_t;
->> +
->> +    /// Returns the load parameters for `IMEM`.
->> +    fn imem_load(&self) -> FalconLoadTarget;
->> +
->> +    /// Returns the load parameters for `DMEM`.
->> +    fn dmem_load(&self) -> FalconLoadTarget;
->> +
->> +    /// Returns the parameters to write into the BROM registers.
->> +    fn brom_params(&self) -> FalconBromParams;
->> +
->> +    /// Returns the start address of the firmware.
->> +    fn boot_addr(&self) -> u32;
->> +}
->> +
->> +/// Contains the base parameters common to all Falcon instances.
->> +pub(crate) struct Falcon<E: FalconEngine> {
->> +    pub hal: Arc<dyn FalconHal<E>>,
->
-> This should probably be private and instead should be exposed via Deref.
+Then in turn I have that connected to some generic HDMI->VGA adapter
+(PrimeCables branded).  I also tried with another much more expensive
+device (Extron DVI-RGB 200) and observe no difference in behaviour.
 
-Agreed - actually not all the HAL is supposed to be exposed, so I've
-added a proxy method for the only method that needs to be called from
-outside this module.
+i think these devices are working and there's just no output signal
+on the hdmi port.
 
->
-> Also, please see my comment at create_falcon_hal() regarding the dynamic
-> dispatch.
->
->> +}
->> +
->> +impl<E: FalconEngine + 'static> Falcon<E> {
->> +    pub(crate) fn new(
->> +        pdev: &pci::Device,
->> +        chipset: Chipset,
->> +        bar: &Devres<Bar0>,
->> +        need_riscv: bool,
->> +    ) -> Result<Self> {
->> +        let hwcfg1 =3D with_bar!(bar, |b| regs::FalconHwcfg1::read(b, E=
-::BASE))?;
->> +        // Ensure that the revision and security model contain valid va=
-lues.
->> +        let _rev =3D hwcfg1.core_rev()?;
->> +        let _sec_model =3D hwcfg1.security_model()?;
->> +
->> +        if need_riscv {
->> +            let hwcfg2 =3D with_bar!(bar, |b| regs::FalconHwcfg2::read(=
-b, E::BASE))?;
->> +            if !hwcfg2.riscv() {
->> +                dev_err!(
->> +                    pdev.as_ref(),
->> +                    "riscv support requested on falcon that does not su=
-pport it\n"
->> +                );
->> +                return Err(EINVAL);
->> +            }
->> +        }
->> +
->> +        Ok(Self {
->> +            hal: hal::create_falcon_hal(chipset)?,
->
-> I'd prefer to move the contents of create_falcon_hal() into this construc=
-tor.
+> Ideally it'd be great if you could say which device tree you're using too.
 
-I think it is actually beneficial to have this in a dedicated method:
-that way the individual HAL constructors do not need to be visible to
-the `falcon` module and can be contained in the `hal` sub-module, which
-I think helps keeping things at their place. Is there a good reason to
-prefer doing it here?
+Not sure how to answer this.  Do you want me to look at something
+specific in /proc/device-tree?  Or dump it somehow?
 
-Ah, maybe you are thinking that we are returning a Boxed HAL because we
-are going through this function? It's actually on purpose - see below.
+> 3. Any chance you can gather the `dmesg` from a failing boot and
+> provide it somehow? Are there any errors in the logs from the failing
+> boot?
 
->> +pub(crate) struct Gsp;
->> +impl FalconEngine for Gsp {
->> +    const BASE: usize =3D 0x00110000;
->> +}
->> +
->> +pub(crate) type GspFalcon =3D Falcon<Gsp>;
->
-> Please drop this type alias, Falcon<Gsp> seems simple enough and is much =
-more
-> obvious IMHO.
+To clarify, there is no boot failure.  There is just no video output
+after rebooting.  I can then boot Linux again by any method that works
+without being able to see the screen, and then everything is fine once
+I do that.
 
-Yeah, I wanted to avoid having to import two symbols into the gpu
-module, but I've probably been overthinking it again.
+I've attached the dmesg output (gzipped) from after such a reboot.
+Except for the order and the timestamps, the messages are identical to
+when I boot after rebooting a kernel which does not disable the video.
 
->
->> +
->> +impl Falcon<Gsp> {
->> +    /// Clears the SWGEN0 bit in the Falcon's IRQ status clear register=
- to
->> +    /// allow GSP to signal CPU for processing new messages in message =
-queue.
->> +    pub(crate) fn clear_swgen0_intr(&self, bar: &Devres<Bar0>) -> Resul=
-t<()> {
->> +        with_bar!(bar, |b| regs::FalconIrqsclr::default()
->> +            .set_swgen0(true)
->> +            .write(b, Gsp::BASE))
->> +    }
->> +}
->> diff --git a/drivers/gpu/nova-core/falcon/hal.rs b/drivers/gpu/nova-core=
-/falcon/hal.rs
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..5ebf4e88f1f25a13cf47859a=
-53507be53e795d34
->> --- /dev/null
->> +++ b/drivers/gpu/nova-core/falcon/hal.rs
->> @@ -0,0 +1,54 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +use kernel::devres::Devres;
->> +use kernel::prelude::*;
->> +use kernel::sync::Arc;
->> +
->> +use crate::driver::Bar0;
->> +use crate::falcon::{FalconBromParams, FalconEngine};
->> +use crate::gpu::Chipset;
->> +use crate::timer::Timer;
->> +
->> +mod ga102;
->> +
->> +/// Hardware Abstraction Layer for Falcon cores.
->> +///
->> +/// Implements chipset-specific low-level operations. The trait is gene=
-ric against [`FalconEngine`]
->> +/// so its `BASE` parameter can be used in order to avoid runtime bound=
- checks when accessing
->> +/// registers.
->> +pub(crate) trait FalconHal<E: FalconEngine>: Sync {
->> +    // Activates the Falcon core if the engine is a risvc/falcon dual e=
-ngine.
->> +    fn select_core(&self, _bar: &Devres<Bar0>, _timer: &Timer) -> Resul=
-t<()> {
->> +        Ok(())
->> +    }
->> +
->> +    fn get_signature_reg_fuse_version(
->> +        &self,
->> +        bar: &Devres<Bar0>,
->> +        engine_id_mask: u16,
->> +        ucode_id: u8,
->> +    ) -> Result<u32>;
->> +
->> +    // Program the BROM registers prior to starting a secure firmware.
->> +    fn program_brom(&self, bar: &Devres<Bar0>, params: &FalconBromParam=
-s) -> Result<()>;
->> +}
->> +
->> +/// Returns a boxed falcon HAL adequate for the passed `chipset`.
->> +///
->> +/// We use this function and a heap-allocated trait object instead of s=
-tatically defined trait
->> +/// objects because of the two-dimensional (Chipset, Engine) lookup req=
-uired to return the
->> +/// requested HAL.
->
-> Do we really need the dynamic dispatch? AFAICS, there's only E::BASE that=
- is
-> relevant to FalconHal impls?
->
-> Can't we do something like I do in the following example [1]?
->
-> ```
-> use std::marker::PhantomData;
-> use std::ops::Deref;
->
-> trait Engine {
->     const BASE: u32;
-> }
->
-> trait Hal<E: Engine> {
->     fn access(&self);
-> }
->
-> struct Gsp;
->
-> impl Engine for Gsp {
->     const BASE: u32 =3D 0x1;
-> }
->
-> struct Sec2;
->
-> impl Engine for Sec2 {
->     const BASE: u32 =3D 0x2;
-> }
->
-> struct GA100<E: Engine>(PhantomData<E>);
->
-> impl<E: Engine> Hal<E> for GA100<E> {
->     fn access(&self) {
->         println!("Base: {}", E::BASE);
->     }
-> }
->
-> impl<E: Engine> GA100<E> {
->     fn new() -> Self {
->         Self(PhantomData)
->     }
-> }
->
-> //struct Falcon<E: Engine>(GA100<E>);
->
-> struct Falcon<H: Hal<E>, E: Engine>(H, PhantomData<E>);
->
-> impl<H: Hal<E>, E: Engine> Falcon<H, E> {
->     fn new(hal: H) -> Self {
->         Self(hal, PhantomData)
->     }
-> }
->
-> impl<H: Hal<E>, E: Engine> Deref for Falcon<H, E> {
->     type Target =3D H;
->
->     fn deref(&self) -> &Self::Target {
->         &self.0
->     }
-> }
->
-> fn main() {
->     let gsp =3D Falcon::new(GA100::<Gsp>::new());
->     let sec2 =3D Falcon::new(GA100::<Sec2>::new());
->
->     gsp.access();
->     sec2.access();
-> }
-> ```
->
-> [1] https://play.rust-lang.org/?version=3Dstable&mode=3Ddebug&edition=3D2=
-024&gist=3Dbf7035a07e79a4047fb6834eac03a9f2
+Thanks,
+  Nick
 
-So are you have noticed there are two dimensions from which the falcons
-can be instantiated:
+--vz7ryfaxqvusa56n
+Content-Type: application/gzip
+Content-Disposition: attachment; filename="boot-novid.log.gz"
+Content-Transfer-Encoding: base64
 
-- The engine, which determines its register BASE,
-- The HAL, which is determined by the chipset.
+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
 
-For the engine, I want to keep things static for the main reason that if
-BASE was dynamic, we would have to do all our IO using
-try_read()/try_write() and check for an out-of-bounds error at each
-register access. The cost of monomorphization is limited as there are
-only a handful of engines.
-
-But the HAL introduces a second dimension to this, and if we support N
-engines then the amount of monomorphized code would then increase by N
-for each new HAL we add. Chipsets are released at a good cadence, so
-this is the dimension that risks growing the most.
-
-It is also the one that makes use of methods to abstract things (vs.
-fixed parameters), so it is a natural candidate for using virtual
-methods. I am not a fan of having ever-growing boilerplate match
-statements for each method that needs to be abstracted, especially since
-this is that virtual methods do without requiring extra code, and for a
-runtime penalty that is completely negligible in our context and IMHO
-completely balanced by the smaller binary size that results from their
-use.
-
-Cheers,
-Alex.
+--vz7ryfaxqvusa56n--
