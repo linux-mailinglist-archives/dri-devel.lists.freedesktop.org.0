@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D93AA4C0F
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 14:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B706AA4C13
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 14:58:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 358A610E7AA;
-	Wed, 30 Apr 2025 12:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2ECD10E7B0;
+	Wed, 30 Apr 2025 12:58:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K/k7ltOI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AjfilHOz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F9C310E7A8;
- Wed, 30 Apr 2025 12:57:44 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-225887c7265so13511845ad.0; 
- Wed, 30 Apr 2025 05:57:44 -0700 (PDT)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85E6510E7AC;
+ Wed, 30 Apr 2025 12:58:07 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-b078bb16607so798523a12.2; 
+ Wed, 30 Apr 2025 05:58:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746017863; x=1746622663; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746017887; x=1746622687; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Rm05lpTkOVOHXu8eGRdE6kXYVUr0GQNtiOAVsh1nNCg=;
- b=K/k7ltOIII7GN79ydq7MWK8BJ6m6KCcSWRawyhsglYhax7Mcmfcbx8CnpuX8qZ3/BI
- 7GZtrJK1UXymhibb0iH6c63SSFZAskvUB7I7mQb2d8IGFNU5gwSlaqUJ/J8+HgLWMhHt
- 2MgIELmEi41QdKISam/tZMEeWka7x3F9n8DysdefESev+b+WvZBmavkaINo5EJ+xE2ec
- PBvuaHscoh8rXlIfkl3bWHJcECOMQkPRgQ7qTDnksaZb89yuV6pann30Ut75KGNPjc5D
- WSBf7bxyzR+VYAkC08WS9jfJgSB9fVbm7UCxD2nAF6Fcia9M58V42AgkW2uLhX4t+CC5
- LXrA==
+ bh=w1akON1o4PR3e5D1TI8Ndz51nWQooVFDodiAjMxjF6A=;
+ b=AjfilHOzkVCg8Qe7VXOWMtgNLm7WEW66Kx1BX+xJAAyyuGoU1Nc8wGyC0L+myQvFZy
+ MedrPbiSItHJxJPayR6RgQ+S07smMmiPtpFy74IYiU/iB6wIqzNYXtIXQvgL/kOljbUE
+ RzoYvJd2F34oifXx+EIMAfrTc99fqz2mSv9F6Vr13Kt+WY8RbT2orBUWeAV2EWSCeFyM
+ k7QdIZ6NxT9fpOh9gP+AdaJAMg1QF5dbw0XvdkJ0men3n+njSFSBkuJK/4mxo1708/b/
+ MXKJAzBSqYY9+fEmDyh9lIWoFfBsNqO8uVeUZgeehB1ErFQ05OBuQywzE18lrdcHQB/b
+ ZmHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746017863; x=1746622663;
+ d=1e100.net; s=20230601; t=1746017887; x=1746622687;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Rm05lpTkOVOHXu8eGRdE6kXYVUr0GQNtiOAVsh1nNCg=;
- b=Sz4yQ2ihD87+sc7MMW7FKNNqDDiw/DqBbyVryAlyOag6MXTKUtxNNfewXgH4rxqqG/
- js+KGJbmmGHA4537HDHtr7l445sb8m4SZGPTvMn7/nHgpfg3nDLcL2Ts/CTFlwH4dJtu
- 4ppNh4k+eJzc9PWGs+tnFxVOSW+aU1U52RL/QOGIYUtTzlIpBvfA8kBPFosi5kBxiRaS
- jJKiDyU1x1mGN1wJDykXaCrxO/vKcZfinQR3nQikuG6CF4nVWnCT0G8XVMKyXicIzGfs
- Np30mQtQL/NwWxWayo5QAyHQ8ytPlu674aMray6hyNw49KV4++9ksHhc4LO7ztRMXmdj
- O4hA==
+ bh=w1akON1o4PR3e5D1TI8Ndz51nWQooVFDodiAjMxjF6A=;
+ b=BY+8WMQX+n9D24zpw3v9Jj/9aJT03MOALK/VpXNAUkT5xaY0se/ITH+jmVm7KV1jKz
+ lRyRul5J7zrGu2BKuinpMNNnTkmn8NSYn8gMcVwOAe1LmAhNHmwsOsS62z/oEFEXQ5hn
+ rp2nVX30ZrL7e2Be85T2AkdVr5dti5rxbml3grqWb/iV8nuTsLlE+Z0XCCp0MHXKdasW
+ HH6xLzPda4q79/4Re8KUzEsQbEXnrPIA4bW4Fve3K5ajBi2u03znCcN2SoQMX5F9VArq
+ mj4K7AbDazxb1AbAznY+z4ojoZ1Blqhi9xiRJ7poyA3wOJitWljgxGsUJmfxDFgdpliy
+ TafQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3zThvdaQ7C8EUp3m/ztiqAdamEg97nzBw5F/mFATJk+ohI83eCV2DLxSJqtagHJI0blztwDlf6Dfx@lists.freedesktop.org,
- AJvYcCV5PiG4DVs8eSQkZJC3VtXJCBO+4zcNnHI8DYK45RzRhyrcS+kXivkQbcYxYhjWwoMXwpeu1vxk@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdPkl/WljAwq8HRdOg6CmEblResNLnGDYEJaQ4F6uvufsSiVNH
- t/tu3iWNgHVMvXvVt4/N6U6lMv0o/2AL9tcyEjZmAQgW/rm4qQ7Gzes3IAN2kr3pRm+pofNAza6
- dmib1trxrNvsumEMz162Sk2BUav0=
-X-Gm-Gg: ASbGncuFBZza9EWlZFpKsjfVzJqoq5eFOOcNrBBIWEthkcrFfBMZUp9l3/hJtM1CFkE
- ACm2iKTtDYGUOfOVTgM6qdv/4UsuIq0BpxW26y5dBAYVZWc7fzQA8qTlhkPmigFspQFKyRtB1Y4
- fHEUgSu4YzP3BUINO6ESJvw8+ZUXxfWCfy
-X-Google-Smtp-Source: AGHT+IHsahqat7sRDVZbpn87HSfKCGqp+eBYCISXvsmpIZH8IyO4vathjjFMmGbSmuz1hqRFo78WfmBbT1d//7/DQAM=
-X-Received: by 2002:a17:90b:1c07:b0:2ee:f59a:94d3 with SMTP id
- 98e67ed59e1d1-30a3b959b2cmr271359a91.0.1746017863425; Wed, 30 Apr 2025
- 05:57:43 -0700 (PDT)
+ AJvYcCWAP2T26fsFf6zTn4G5KDNcHuXSAmgjQTLtz5gMngrzZV5TY9XAoLQjAMM5iwW/IEjG6lTpZkM3V78v@lists.freedesktop.org,
+ AJvYcCWfOVcNJ4V9RV4Ut8Ruma5IbX6JtCACmJZJqBkIwxJz4kxvxR7nrOWBbwj9chRtJq/sg7M9h/oq@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwbwBubqiAlnZY7iqnPmCIdGU8poBbzjkuu3oNeTrKajcrLEmA5
+ LANdKHlkS/8s//LxEuUxAn80v5oOxKPgHTv8Jrsf38swNyFfIHI+8hdxm1HO6pfKWKlPrxXHg+c
+ zx8REzSPFhvapup3PfGFSBwqT08Y=
+X-Gm-Gg: ASbGncvUWtOov+BS2idtfOStMxnGdMIYTyiWx79AMu+nV8DUit9RDfsulN1wVuRajO5
+ mkdhODxbOMz4zKvCOFnfNd4g/NjKKFG0e91dvrYilqKYqh+D9YavqrAkvrgbw+kgnfSGoxGlPnA
+ 1Wy9B14hnO0ue6+K+wC9Qmnw==
+X-Google-Smtp-Source: AGHT+IFkgBWA5Qz+38wX3ie0e4pxXoHem2tefzFM+zdcot5D0U/XdRjt4IzjaRXDLGP924qPLiNa3sAqw5Z1l8JSrRs=
+X-Received: by 2002:a17:90b:4d90:b0:2ff:4be6:c5e2 with SMTP id
+ 98e67ed59e1d1-30a34ab3ffamr1322221a91.7.1746017886792; Wed, 30 Apr 2025
+ 05:58:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250429235316.538129-1-sashal@kernel.org>
- <20250429235316.538129-7-sashal@kernel.org>
-In-Reply-To: <20250429235316.538129-7-sashal@kernel.org>
+References: <20250429235233.537828-1-sashal@kernel.org>
+ <20250429235233.537828-18-sashal@kernel.org>
+In-Reply-To: <20250429235233.537828-18-sashal@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 30 Apr 2025 08:57:30 -0400
-X-Gm-Features: ATxdqUGOAb33lS8ofFWUIrrEQktvjwc5jTIu1Jk9cnpJOqAND3CyqoIWsvrv9zE
-Message-ID: <CADnq5_NacNmcKKQUdrbTtEGAn8UCvvJHki+JMUPMRA2AB6T8VA@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 6.1 07/10] drm/amdgpu: Allow P2P access through
+Date: Wed, 30 Apr 2025 08:57:55 -0400
+X-Gm-Features: ATxdqUG2QivkrM09P4CiwCQRObyzJMJYNyE22wZ8sy_0nnVPZuHIF6dm-UUbAH8
+Message-ID: <CADnq5_MMNrRSkwAPHU4n2jpHyZ_Lr28wVguZ8yducpQeLZJP_w@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 6.6 18/21] drm/amdgpu: Allow P2P access through
  XGMI
 To: Sasha Levin <sashal@kernel.org>
 Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
  Felix Kuehling <felix.kuehling@amd.com>, Hao Zhou <hao.zhou@amd.com>, 
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
  Alex Deucher <alexander.deucher@amd.com>, airlied@gmail.com, simona@ffwll.ch, 
- Yunxiang.Li@amd.com, matthew.auld@intel.com, tvrtko.ursulin@igalia.com, 
+ Yunxiang.Li@amd.com, tvrtko.ursulin@igalia.com, matthew.auld@intel.com, 
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -90,7 +90,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 29, 2025 at 8:03=E2=80=AFPM Sasha Levin <sashal@kernel.org> wro=
+On Tue, Apr 29, 2025 at 8:04=E2=80=AFPM Sasha Levin <sashal@kernel.org> wro=
 te:
 >
 > From: Felix Kuehling <felix.kuehling@amd.com>
@@ -111,16 +111,17 @@ This patch is only applicable to 6.15 and newer.  Please drop for stable.
 
 Alex
 
+
 > ---
 >  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 30 ++++++++++++++++++++-
 >  1 file changed, 29 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/dr=
 m/amd/amdgpu/amdgpu_dma_buf.c
-> index ab06cb4d7b358..4dcc7de961d08 100644
+> index be4cc4868a748..493e18bcea069 100644
 > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
 > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> @@ -42,6 +42,29 @@
+> @@ -43,6 +43,29 @@
 >  #include <linux/pci-p2pdma.h>
 >  #include <linux/pm_runtime.h>
 >
@@ -152,7 +153,7 @@ nt *attach)
 >  /**
 >   * amdgpu_dma_buf_attach - &dma_buf_ops.attach implementation
 >   *
-> @@ -53,12 +76,14 @@
+> @@ -54,12 +77,14 @@
 >  static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
 >                                  struct dma_buf_attachment *attach)
 >  {
@@ -169,7 +170,7 @@ nt *attach)
 >                 attach->peer2peer =3D false;
 >
 >         r =3D pm_runtime_get_sync(adev_to_drm(adev)->dev);
-> @@ -479,6 +504,9 @@ bool amdgpu_dmabuf_is_xgmi_accessible(struct amdgpu_d=
+> @@ -482,6 +507,9 @@ bool amdgpu_dmabuf_is_xgmi_accessible(struct amdgpu_d=
 evice *adev,
 >         struct drm_gem_object *obj =3D &bo->tbo.base;
 >         struct drm_gem_object *gobj;
