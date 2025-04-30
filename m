@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D55BAA4020
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D78AA4022
 	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 03:12:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F60010E5ED;
-	Wed, 30 Apr 2025 01:12:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27B9010E5E3;
+	Wed, 30 Apr 2025 01:12:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="wBe7OGE3";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LwyHxvxx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2077.outbound.protection.outlook.com [40.107.244.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3BAB10E5DF;
- Wed, 30 Apr 2025 01:12:29 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2078.outbound.protection.outlook.com [40.107.236.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2784810E5D9;
+ Wed, 30 Apr 2025 01:12:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J6lTTlup10qnhB8suUTf9ucE2+461PbhHEGZYFUZDND462DgI8xfBe5SAlTANf+okoMrY95SVJqBzHwtV4/Ustq/HTzp3LZwXC04Lt0A3Pa3ivRo/RjzTGaFRFNnGkmjzF71kWbgj5CaB95O3tQ8FbyqZYcLDBPR6oXqJkela3QqxNGqE5YNbcGHsUC+llt0bD226P+z0vTlT0L5wTQPEFxrmGv7dR8rJDbhIIyRzI156T7/Z2JpE4/Id8ZKvk072d6CGanjlb80//arCQhZpw9Hy7WxxuNb4fgxDD+sjI1Igi7Iq9wXZfyU/FFhYyqQmY8FDZSphmw/FUy2UlcjYQ==
+ b=DF+Z4ZgQeWjOMbZwH2PYNH6nVr6o8ERqPJi8f0NsdTf8GvFjUm4xZFStphnmR/cCv+XWZAWczzUI+3HWmDpXlVQp/Spk444qHyj35ao/gDS6BLDsGqkU23VbEk9MuVqVFZ8149PwluceoOxv52AncM+uyJfAD/bZTHNPyXGi9KQngPdDWeWzumXXtW8I4fq0zMtHij5zR5QBHBe2LHvjdeGcy0B7IUtHT2XrWE2fh/BlgBcYHU4pLtnH9Whs/HqsWpjJEVaaO3foDlKawLwzXQtQZvrTGvvNngyGHjlpmMz3bwNsAZHvMvBd5b569/UTSN2VZuyUHstzZC5qLhWrpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fL3cjuC/bWo1Ax+Hq7TK19gmTcWub2E3bwv0bh12Xyw=;
- b=T8j6Z6sIY16F+CGoEa+/s/Kwn2LX3na+X1RV+wMfZVP3RMuOZzsBSfkSwRtupzQ3bg8zpGShueN2F/6lSGDav9vSUFfqOvDFkFeQxk5T8Skw3tvB3q2BnbrLmfM5vAUhkO1QuoozB2Kb9DywCLLt4wljahgRbREXHp9k41WCD7UaFaBC+vaLaaMMDfp5TKEMBIPrN3HCABe2Y531r8ynrq0kx0zXCacigibGdZDVWljPlTFGyeZ5crEbfDSkLxr7SLjOcow8p9tZjp5jUr8gDxNvtqsD5pACURDrQytcW4ZnwNr0n04ZyCJt00RZhLKRdn66ZAeH66HJLkU0c7f4Bw==
+ bh=ds/6uwscQUFgph9zMTs6VSm/8XK1HPBD3ZdAVFSAVfw=;
+ b=xBPcSNpvIldDgsuvS7igY4/7PwiTSpRjNvcf+yHS+mj1Q2TWAFyrseQDLj/76I+arCdGMIRNOqH0odbnV6/ewzMIsMZSf28Ztd7z8FdbmE9svtqwpRYq8RrlH6CEuC92xHMepSqh50hfCz9KkZRdz8aIDlLGVosaTXj36aiki1f26CXP5gXmjnba/5WDcHrNE8yiS3Zbw47OTbK/+7aj2dAlfwxQ+lliyug9F8XIkmul+hR8U67Jir7qfNJFkW6Uar+drGsluiWypefCL2YzAWq5Hgx9KsupyCVUf/PmBXSeLQ5j7tjVN+K9/t4cfS8Nmjpfn/qK3Mm9wg2dd4DiPA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fL3cjuC/bWo1Ax+Hq7TK19gmTcWub2E3bwv0bh12Xyw=;
- b=wBe7OGE3N1kojs6+MHwcP5f2XNxSlbmOf6rjcMFWIv8Qnm/HTUgCP0bz2S3/kfWiEQ98m59E4mMBxVWkR0Vw42ZWteyiO2ukXEhvWP6CSdLfZYUJo6bN5MKsACPxkl0ZCeDkhPVPgbuvbZtNXnozPARGcXzi7Zcty4NIlvC1aKA=
-Received: from SJ0PR05CA0158.namprd05.prod.outlook.com (2603:10b6:a03:339::13)
- by SA1PR12MB7443.namprd12.prod.outlook.com (2603:10b6:806:2b7::21)
+ bh=ds/6uwscQUFgph9zMTs6VSm/8XK1HPBD3ZdAVFSAVfw=;
+ b=LwyHxvxxHGu35nlPuNW+nCIY01iwyUBqkuSlw0qUALXHiJHcIlVA9IQYWeLk0lqO56tM0JTdOqQMEqR5lArGcFyibBtD4gDqzAOgOFAPKwf928h2xOmwLjteLi+PjVnVYAimGodVPDLLXFLrxB1hzeZL9MSdkhwUUWfrYBHJyBE=
+Received: from SJ0PR03CA0082.namprd03.prod.outlook.com (2603:10b6:a03:331::27)
+ by SJ1PR12MB6241.namprd12.prod.outlook.com (2603:10b6:a03:458::15)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Wed, 30 Apr
- 2025 01:12:24 +0000
-Received: from CO1PEPF000066E8.namprd05.prod.outlook.com
- (2603:10b6:a03:339:cafe::48) by SJ0PR05CA0158.outlook.office365.com
- (2603:10b6:a03:339::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.16 via Frontend Transport; Wed,
- 30 Apr 2025 01:12:24 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Wed, 30 Apr
+ 2025 01:12:39 +0000
+Received: from CO1PEPF000066EC.namprd05.prod.outlook.com
+ (2603:10b6:a03:331:cafe::bb) by SJ0PR03CA0082.outlook.office365.com
+ (2603:10b6:a03:331::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.41 via Frontend Transport; Wed,
+ 30 Apr 2025 01:12:39 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000066E8.mail.protection.outlook.com (10.167.249.6) with Microsoft
+ CO1PEPF000066EC.mail.protection.outlook.com (10.167.249.8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8699.20 via Frontend Transport; Wed, 30 Apr 2025 01:12:24 +0000
+ 15.20.8699.20 via Frontend Transport; Wed, 30 Apr 2025 01:12:38 +0000
 Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 29 Apr
- 2025 20:12:20 -0500
+ 2025 20:12:34 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -66,68 +66,78 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <daniel@ffwll.ch>, <uma.shankar@intel.com>, <quic_naseer@quicinc.com>,
  <quic_cbraga@quicinc.com>, <quic_abhinavk@quicinc.com>, <marcan@marcan.st>,
  <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
- <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>, Arthur Grillo
- <arthurgrillo@riseup.net>, Daniel Stone <daniels@collabora.com>
-Subject: [PATCH V9 02/43] drm/vkms: Add kunit tests for VKMS LUT handling
-Date: Tue, 29 Apr 2025 19:10:32 -0600
-Message-ID: <20250430011115.223996-3-alex.hung@amd.com>
+ <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>, Daniel Stone
+ <daniels@collabora.com>
+Subject: [PATCH V9 03/43] drm/doc/rfc: Describe why prescriptive color
+ pipeline is needed
+Date: Tue, 29 Apr 2025 19:10:33 -0600
+Message-ID: <20250430011115.223996-4-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250430011115.223996-1-alex.hung@amd.com>
 References: <20250430011115.223996-1-alex.hung@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000066E8:EE_|SA1PR12MB7443:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a292c9d-1e5c-4514-9427-08dd878410fb
+X-MS-TrafficTypeDiagnostic: CO1PEPF000066EC:EE_|SJ1PR12MB6241:EE_
+X-MS-Office365-Filtering-Correlation-Id: c53b017c-c363-44fb-8071-08dd87841965
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|376014|7416014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pe+UTwk2KwrJpG8/2iywAu0qDe8bRp4hwk8pEGiLiBGddLyMsf5aAi8m6VpP?=
- =?us-ascii?Q?BgzRPO155A3Br6zx2ZaKrRZ2VMaEhbr+9A/Q5LGKbac8vuBmWmcWxkkL9nmf?=
- =?us-ascii?Q?7nFf04lonTiYUgx5hdVS2d37rslHmUwK2NeUqfEhvW6eh7qvi1Lv1L7TAuxk?=
- =?us-ascii?Q?X26KoMcVQITmQY37Iy3swnIvXFf4C57G2j12A4RhZw/P0jq8D2llGfe7uCXu?=
- =?us-ascii?Q?FIFgdjeUqDZjCx/YJOOXxbaAuD+2IMfeQNSn/Tn/fdTYPVy0sQBNe0jpYlbM?=
- =?us-ascii?Q?pRFs7seKuPXvANFOUe2DezZd4qWVPqWt0CUI8y4fjBjF+srTggEJPBEfQb0E?=
- =?us-ascii?Q?FaewBFXAIv8iV0BBhzp12pRsxLWwKfup+l/b6pVczbO/cYaXTVHY34JueR6x?=
- =?us-ascii?Q?N+3u+gudpFhYHuQDIMNNaLWPKDIkqUUfJOoSTnNgWhh5Jlb9VXhjx3bY3WZq?=
- =?us-ascii?Q?PPqbLp6BfjeeYkgXGuFB8la+4e+XduPYFHcZo9sdQA40fJD9zy9ZXwrNc8Hp?=
- =?us-ascii?Q?aqkFWYgTDolEYiOVxzbvfHZW5+Fv5FR19FOdbVIT3uBeDW3Iz8EGteiPERYg?=
- =?us-ascii?Q?xam8h/GUrEkrAt/xGQkAftqEpHK0N/p2WCtqBU4reu/5YjHBZfELsVjuBFW6?=
- =?us-ascii?Q?Bf/BosyfptvRyBNl9Cvqaj3sbjEqfa80qNPYE1x0VHensjZYjF4kE3+OnsIQ?=
- =?us-ascii?Q?0TInT1qne0Ch7DYuid+Ea4XnfnjehKPWWV2lS4s5t73bOELZARwzp3hzsQHy?=
- =?us-ascii?Q?Uq/kNUKKW9WmDgDfhdLxzt8pQtAAcq0eDc/rdNzZdgwuS3hI5eLuVEDpVYI/?=
- =?us-ascii?Q?b2Hx1FJstZ6NVQz1Zu4p4unA0/q+S5IMv9VxD1h0pNmvaRDtb/s74AeLKJOk?=
- =?us-ascii?Q?Shq+7eRzPFfavRqH0FE+FyUqOcashL18msmvUCCrRBWJEx4sVscS5HhOwIh1?=
- =?us-ascii?Q?iFuDOkoBK8pLmynKZ4uLTJqFXqIdViCCXWRiWMGIDou0W8Uwrw9MKTccZtOm?=
- =?us-ascii?Q?9ANt09HdVdRPIlJRRkjFTNZrQ+0axV/9r3pHCQZ8KjyMzwZrt32xgSD9F4/0?=
- =?us-ascii?Q?9+oO209wmPOVRpg/SxrY2uURwLXAwFIrJ71Le3CyQsT/DcsGuDMXwcGVDBm9?=
- =?us-ascii?Q?6xNciuMKfNoQrbcjnar6/B1yilAjwn4b/u7+P0CDdHvC0Y7kjcvrBXy15B5K?=
- =?us-ascii?Q?8VPxOxAP2rSisGwj7NoHvOkvnck226rRkKd1f7s7XXD03Neqrib1H1BFoKUK?=
- =?us-ascii?Q?G/Y1qJ4kEbRqVq36Iar+lEPgL12lALoMfES1vc4MhN1uZwtaYJIdIzE4fLh+?=
- =?us-ascii?Q?HZWJNG3qUW9z3MGM24ZvgSBhQ5PR1D5WVekVb94UWmc0Cu+d9fS1fBuUm3eH?=
- =?us-ascii?Q?kVNklYYomJtCiMMVX/okR3ED1nP/JS2A6ahVdWOUMctg9UTbfjXCnzxtLwno?=
- =?us-ascii?Q?o3qV6z7luke7Da1oY7wBTQbU9hwLci0OCHHooCMhaVroy48BbcZzICRVzerO?=
- =?us-ascii?Q?hAj8hvfXCAEgKYDN1jxpa0RtoqDZi5ZU7O14?=
+ ARA:13230040|1800799024|376014|7416014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z291bHk4NWdDYjVxSmNBR2hpVXlxYVhDWUtpVytscDVOdlppQkkvbXBxblk1?=
+ =?utf-8?B?bUFPeXpSOFlHVzdaQjY0ekwyaGpTNjdLSiswd1ZGZm1ielVZcXRRRnVJRGFj?=
+ =?utf-8?B?TWVTV2FWRzVPdStlS2QzZk83eVJvV2VINExOd3A1VTMzU1lNOStISFM2amlG?=
+ =?utf-8?B?MnMxSE9FNWRRWFZ0QXNqbzhlN2Z6dVhudE16dGJHbGJDaFFVNG1QNzk3cFA3?=
+ =?utf-8?B?QVY2Nm5JWkkxY3JXd0JaSFEwbFg4RTJVdCsvOUVUck9FQTRybS84SlFzQUo5?=
+ =?utf-8?B?UlB0NVNRaTAreW5lUnpzeTM0Q01IcHdzRnVwOW5EenROM3RNRHRhVFdjckkz?=
+ =?utf-8?B?cmQwRFZ4UVNsZnhRbzY5alJXbmloV0FqSmcvOUJndWQxSU1zaW00Vy9jSExP?=
+ =?utf-8?B?ZUF4dTEyNDB5STJVNlFDWDVYYUpleHNJYnRqa1JCekNZbnN4dnBPM0k1R2hY?=
+ =?utf-8?B?L0NPV1ZhL3lHbkoyWUtORFMydGNoWGo1b2JCUTc5R3VBTkNId2lPb3FFQS9M?=
+ =?utf-8?B?b0J1bzdEMms2R3I4MmkrakhVblFpQldNTVp2YW5MSmhBL2wzOWtkdGlhVkJa?=
+ =?utf-8?B?dFR0d20vclZuSDRZVFgxQm1pSXU3cGpnSTNURWVSRTV3TGdJVi8vRjR6dzBZ?=
+ =?utf-8?B?V2RLOGhpK0FsS0IxNHdmbTFyWSt6NElvQm9zb2tkSWQwdTZCN2lQYlhvMkF6?=
+ =?utf-8?B?Z0ppUnUya3c1cjRuSzQ1RHcxVlZYMWVSYjVyeEVTVnRBUHlXZTMxZjZvL1Zh?=
+ =?utf-8?B?R1ZSMWpza0doek1SbjVwcDM4dVR6MWoxcVRSY0FiSHpzdHkxb29tNUJiUjlG?=
+ =?utf-8?B?OEpHdy9TSEFkcU1HYkdsdGE4OTlpN0dCQ1RvOVBEYzRiRjEzakEwTXJncVZT?=
+ =?utf-8?B?eVJ6VittVlM3S0tTb1NyNTVXU1FUOU01V2hubGEyWDBwWjM0VDZ3SERXeHJk?=
+ =?utf-8?B?NXlac1plSXhQS0dZTHp6akZwaFpaNnJ1bS95bXVPaFExQ1pYalJRWGo2aVhu?=
+ =?utf-8?B?MUdmREZkdHhhMjBpaW52NzdjeWNKZ1h6WDMrNHJJS3Z3ZE1KWHd2ZmF4NzBZ?=
+ =?utf-8?B?K1VmZWxjY2Y3YU0yK25FdnVBcyttUWNOT0NmWlZHTXpTMkw0MmE0ZW5pLzVS?=
+ =?utf-8?B?blVGeFlhYnBsZzFOenJjb1VRSjdhVnVtU3crOUt4MVJlZFRmY0FDY2dJRVJN?=
+ =?utf-8?B?RGoxc1piSkQvcHJ4WTd1elEzNUE3MXJmV2pxRG1vYTBLeGN6QjFtZlFVVm9H?=
+ =?utf-8?B?YXNRbUpRZ0dvby9iaC83djNzVnk1YVB6bjRNdWhrSmliaUtGV1V0cE1SYXdt?=
+ =?utf-8?B?QzRDWk9Fc3RCTjBjRWgyNHlCQitNUjFzekRZdll4MnRaYkl1TXhCVWVobWpx?=
+ =?utf-8?B?VTZqR3JjRWpjRFFOUi9hb3VSRE5PR1phVmFCeERXRUtQNjl1SUZEWDArVW16?=
+ =?utf-8?B?VUR4TjFQdklkSE5xRnBtMVFiWnZTeTJaL2ViUmRHTFF2Q1NWQjVWSEs3eGZq?=
+ =?utf-8?B?MVhLd2E0eTJRdzR3Nm4rK2dEem45QktZeDEvMGNVNGhZU0YwU2ltcWUxWHZz?=
+ =?utf-8?B?ZWxNUzhyZ2YySFJzNTVVa0JUU3pIcFBLU096REY4VmM4bDRVTjZ3bFJsRVV3?=
+ =?utf-8?B?TVk3M0dhRHZvOEhua1ZMZ25lZ0U4ZVBQdEw3RzhML0hvS2dOd2pTSXV0cHd3?=
+ =?utf-8?B?a2M4QTErQXAzRkpCZVExSVBLUXdRZlI0a1l5MUdQbkdlZEVpbm96T0E1YXRQ?=
+ =?utf-8?B?RjIrSjA0ZVVYTFBFZWxZWUVDK0MrWE5FekVQSDZJai9wMlc4ZW9lVUNmKzJQ?=
+ =?utf-8?B?Y1Bka2JhbitheDZveTdGdDNNcVNhN3E1NzlnSksrbGZqV2xZcll0TDlSdVpJ?=
+ =?utf-8?B?UnBGenBCUlpkYUwycjNCNWp3bXo0dzZOVW5DcDA5Zi9aMjRxMkducmxtQlJB?=
+ =?utf-8?B?dnZyZHBUaThzMVpCUlVqVGp4UVVEYVRWbnZpa2FHaU9XL2ptVnB3T1IyMVBK?=
+ =?utf-8?B?a1k0REQydnhwQTVZbHAxRmVjRURiRjRmT1A3OWcvOFJkMENUQk1CYVBoQlg4?=
+ =?utf-8?B?ZU1zQ1FHVkZQb2F0SzhjSmx0Sms2YUpxbDlpUT09?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(376014)(7416014)(1800799024); DIR:OUT;
+ SFS:(13230040)(1800799024)(376014)(7416014)(36860700013)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 01:12:24.5387 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a292c9d-1e5c-4514-9427-08dd878410fb
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 01:12:38.7200 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c53b017c-c363-44fb-8071-08dd87841965
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000066E8.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000066EC.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7443
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6241
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,293 +155,453 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Harry Wentland <harry.wentland@amd.com>
 
-Debugging LUT math is much easier when we can unit test
-it. Add kunit functionality to VKMS and add tests for
- - get_lut_index
- - lerp_u16
+Add documentation for color pipeline API.
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-Cc: Arthur Grillo <arthurgrillo@riseup.net>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 ---
+V9:
+ - Update documents according to new 3DLUT changes (Simon Ser)
+ - Spell out the behaviours when fallback to shaders/CPU (Simon Ser)
+
 v8:
- - Update config names (Louis Chauvet)
+ - Fix typo "definint" -> "defining"
 
 v7:
- - Fix checkpatch warnings and errors (Louis Chauvet)
-  - Change SPDX-License-Identifier: GPL-2.0+ from /* */ to //
-  - Fix checkpatch errors and warnings (new line at EOF, redundant spaces, and long lines)
-  - Add static to const struct vkms_color_lut test_linear_lut
- - Add "MODULE_DESCRIPTION" (Jeff Johnson)
-
-
-v6:
- - Eliminate need to include test as .c file (Louis Chauvet)
+ - Add a commit messages
 
 v5:
- - Bring back static for lerp_u16 and get_lut_index (Arthur)
+ - Don't require BYPASS to succeed (Sebastian)
+ - use DATA for 1D and 3D LUT types (Sebastian)
+ - update 3DLUT ops to use 3DLUT_MODES and 3DLUT_MODE_INDEX
+ - Add section on drm_colorop extensibility
+ - Add color_pipeline.rst to RFC toc tree
 
 v4:
- - Test the critical points of the lerp function (Pekka)
+ - Drop IOCTL docs since we dropped the IOCTLs (Pekka)
+ - Clarify reading and setting of COLOR_PIPELINE prop (Pekka)
+ - Add blurb about not requiring to reject a pipeline due to
+   incompatible ops, as long as op can be bypassed (Pekka)
+ - Dropped informational strings (such as input CSC) as they're
+   not actually intended to be advertised (Pekka)
 
 v3:
- - Use include way of testing static functions (Arthur)
+ - Describe DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE (Sebastian)
+ - Ask for clear documentation of colorop behavior (Sebastian)
 
- drivers/gpu/drm/vkms/tests/Makefile          |   2 +-
- drivers/gpu/drm/vkms/tests/vkms_color_test.c | 172 +++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_composer.c         |   8 +-
- drivers/gpu/drm/vkms/vkms_composer.h         |  13 ++
- 4 files changed, 192 insertions(+), 3 deletions(-)
- create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_test.c
- create mode 100644 drivers/gpu/drm/vkms/vkms_composer.h
+v2:
+ - Update colorop visualizations to match reality (Sebastian, Alex Hung)
+ - Updated wording (Pekka)
+ - Change BYPASS wording to make it non-mandatory (Sebastian)
+ - Drop cover-letter-like paragraph from COLOR_PIPELINE Plane Property
+   section (Pekka)
+ - Use PQ EOTF instead of its inverse in Pipeline Programming example (Melissa)
+ - Add "Driver Implementer's Guide" section (Pekka)
+ - Add "Driver Forward/Backward Compatibility" section (Sebastian, Pekka)
 
-diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/tests/Makefile
-index 9ded37b67a46..e92f7143e540 100644
---- a/drivers/gpu/drm/vkms/tests/Makefile
-+++ b/drivers/gpu/drm/vkms/tests/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += vkms_config_test.o
-+obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += vkms_config_test.o vkms_color_test.o
-diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_test.c b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
+ Documentation/gpu/rfc/color_pipeline.rst | 378 +++++++++++++++++++++++
+ Documentation/gpu/rfc/index.rst          |   3 +
+ 2 files changed, 381 insertions(+)
+ create mode 100644 Documentation/gpu/rfc/color_pipeline.rst
+
+diff --git a/Documentation/gpu/rfc/color_pipeline.rst b/Documentation/gpu/rfc/color_pipeline.rst
 new file mode 100644
-index 000000000000..affca56cac7b
+index 000000000000..cd1cc2d0f988
 --- /dev/null
-+++ b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-@@ -0,0 +1,172 @@
-+// SPDX-License-Identifier: GPL-2.0+
++++ b/Documentation/gpu/rfc/color_pipeline.rst
+@@ -0,0 +1,378 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#include <kunit/test.h>
++========================
++Linux Color Pipeline API
++========================
 +
-+#include <drm/drm_fixed.h>
-+#include <drm/drm_mode.h>
-+#include "../vkms_drv.h"
-+#include "../vkms_composer.h"
++What problem are we solving?
++============================
 +
-+#define TEST_LUT_SIZE 16
++We would like to support pre-, and post-blending complex color
++transformations in display controller hardware in order to allow for
++HW-supported HDR use-cases, as well as to provide support to
++color-managed applications, such as video or image editors.
 +
-+MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
++It is possible to support an HDR output on HW supporting the Colorspace
++and HDR Metadata drm_connector properties, but that requires the
++compositor or application to render and compose the content into one
++final buffer intended for display. Doing so is costly.
 +
-+static struct drm_color_lut test_linear_array[TEST_LUT_SIZE] = {
-+	{ 0x0, 0x0, 0x0, 0 },
-+	{ 0x1111, 0x1111, 0x1111, 0 },
-+	{ 0x2222, 0x2222, 0x2222, 0 },
-+	{ 0x3333, 0x3333, 0x3333, 0 },
-+	{ 0x4444, 0x4444, 0x4444, 0 },
-+	{ 0x5555, 0x5555, 0x5555, 0 },
-+	{ 0x6666, 0x6666, 0x6666, 0 },
-+	{ 0x7777, 0x7777, 0x7777, 0 },
-+	{ 0x8888, 0x8888, 0x8888, 0 },
-+	{ 0x9999, 0x9999, 0x9999, 0 },
-+	{ 0xaaaa, 0xaaaa, 0xaaaa, 0 },
-+	{ 0xbbbb, 0xbbbb, 0xbbbb, 0 },
-+	{ 0xcccc, 0xcccc, 0xcccc, 0 },
-+	{ 0xdddd, 0xdddd, 0xdddd, 0 },
-+	{ 0xeeee, 0xeeee, 0xeeee, 0 },
-+	{ 0xffff, 0xffff, 0xffff, 0 },
-+};
++Most modern display HW offers various 1D LUTs, 3D LUTs, matrices, and other
++operations to support color transformations. These operations are often
++implemented in fixed-function HW and therefore much more power efficient than
++performing similar operations via shaders or CPU.
 +
-+static const struct vkms_color_lut test_linear_lut = {
-+	.base = test_linear_array,
-+	.lut_length = TEST_LUT_SIZE,
-+	.channel_value2index_ratio = 0xf000fll
-+};
++We would like to make use of this HW functionality to support complex color
++transformations with no, or minimal CPU or shader load. The switch between HW
++fixed-function blocks and shaders/CPU must be seamless with no visible
++difference when fallback to shaders/CPU is neceesary at any time.
 +
 +
-+static void vkms_color_test_get_lut_index(struct kunit *test)
-+{
-+	s64 lut_index;
-+	int i;
++How are other OSes solving this problem?
++========================================
 +
-+	lut_index = get_lut_index(&test_linear_lut, test_linear_array[0].red);
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int(lut_index), 0);
++The most widely supported use-cases regard HDR content, whether video or
++gaming.
 +
-+	for (i = 0; i < TEST_LUT_SIZE; i++) {
-+		lut_index = get_lut_index(&test_linear_lut, test_linear_array[i].red);
-+		KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(lut_index), i);
-+	}
-+}
++Most OSes will specify the source content format (color gamut, encoding transfer
++function, and other metadata, such as max and average light levels) to a driver.
++Drivers will then program their fixed-function HW accordingly to map from a
++source content buffer's space to a display's space.
 +
-+static void vkms_color_test_lerp(struct kunit *test)
-+{
-+	/*** half-way round down ***/
-+	s64 t = 0x80000000 - 1;
++When fixed-function HW is not available the compositor will assemble a shader to
++ask the GPU to perform the transformation from the source content format to the
++display's format.
 +
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
++A compositor's mapping function and a driver's mapping function are usually
++entirely separate concepts. On OSes where a HW vendor has no insight into
++closed-source compositor code such a vendor will tune their color management
++code to visually match the compositor's. On other OSes, where both mapping
++functions are open to an implementer they will ensure both mappings match.
 +
-+	/* odd a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x8);
++This results in mapping algorithm lock-in, meaning that no-one alone can
++experiment with or introduce new mapping algorithms and achieve
++consistent results regardless of which implementation path is taken.
 +
-+	/* odd b */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
++Why is Linux different?
++=======================
 +
-+	/* b = a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++Unlike other OSes, where there is one compositor for one or more drivers, on
++Linux we have a many-to-many relationship. Many compositors; many drivers.
++In addition each compositor vendor or community has their own view of how
++color management should be done. This is what makes Linux so beautiful.
 +
-+	/* b = a + 1 */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
++This means that a HW vendor can now no longer tune their driver to one
++compositor, as tuning it to one could make it look fairly different from
++another compositor's color mapping.
 +
-+	/*** half-way round up ***/
-+	t = 0x80000000;
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
++We need a better solution.
 +
-+	/* odd a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x9);
 +
-+	/* odd b */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
++Descriptive API
++===============
 +
-+	/* b = a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++An API that describes the source and destination colorspaces is a descriptive
++API. It describes the input and output color spaces but does not describe
++how precisely they should be mapped. Such a mapping includes many minute
++design decision that can greatly affect the look of the final result.
 +
-+	/* b = a + 1 */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
++It is not feasible to describe such mapping with enough detail to ensure the
++same result from each implementation. In fact, these mappings are a very active
++research area.
 +
-+	/*** t = 0.0 ***/
-+	t = 0x0;
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
 +
-+	/* odd a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
++Prescriptive API
++================
 +
-+	/* odd b */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
++A prescriptive API describes not the source and destination colorspaces. It
++instead prescribes a recipe for how to manipulate pixel values to arrive at the
++desired outcome.
 +
-+	/* b = a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++This recipe is generally an ordered list of straight-forward operations,
++with clear mathematical definitions, such as 1D LUTs, 3D LUTs, matrices,
++or other operations that can be described in a precise manner.
 +
-+	/* b = a + 1 */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
 +
-+	/*** t = 1.0 ***/
-+	t = 0x100000000;
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
++The Color Pipeline API
++======================
 +
-+	/* odd a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
++HW color management pipelines can significantly differ between HW
++vendors in terms of availability, ordering, and capabilities of HW
++blocks. This makes a common definition of color management blocks and
++their ordering nigh impossible. Instead we are defining an API that
++allows user space to discover the HW capabilities in a generic manner,
++agnostic of specific drivers and hardware.
 +
-+	/* odd b */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
 +
-+	/* b = a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++drm_colorop Object
++==================
 +
-+	/* b = a + 1 */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
++To support the definition of color pipelines we define the DRM core
++object type drm_colorop. Individual drm_colorop objects will be chained
++via the NEXT property of a drm_colorop to constitute a color pipeline.
++Each drm_colorop object is unique, i.e., even if multiple color
++pipelines have the same operation they won't share the same drm_colorop
++object to describe that operation.
 +
-+	/*** t = 0.0 + 1 ***/
-+	t = 0x0 + 1;
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
++Note that drivers are not expected to map drm_colorop objects statically
++to specific HW blocks. The mapping of drm_colorop objects is entirely a
++driver-internal detail and can be as dynamic or static as a driver needs
++it to be. See more in the Driver Implementation Guide section below.
 +
-+	/* odd a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
++Each drm_colorop has three core properties:
 +
-+	/* odd b */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
++TYPE: An enumeration property, defining the type of transformation, such as
++* enumerated curve
++* custom (uniform) 1D LUT
++* 3x3 matrix
++* 3x4 matrix
++* 3D LUT
++* etc.
 +
-+	/* b = a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++Depending on the type of transformation other properties will describe
++more details.
 +
-+	/* b = a + 1 */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
++BYPASS: A boolean property that can be used to easily put a block into
++bypass mode. The BYPASS property is not mandatory for a colorop, as long
++as the entire pipeline can get bypassed by setting the COLOR_PIPELINE on
++a plane to '0'.
 +
-+	/*** t = 1.0 - 1 ***/
-+	t = 0x100000000 - 1;
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
++NEXT: The ID of the next drm_colorop in a color pipeline, or 0 if this
++drm_colorop is the last in the chain.
 +
-+	/* odd a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
++An example of a drm_colorop object might look like one of these::
 +
-+	/* odd b */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
++    /* 1D enumerated curve */
++    Color operation 42
++    ├─ "TYPE": immutable enum {1D enumerated curve, 1D LUT, 3x3 matrix, 3x4 matrix, 3D LUT, etc.} = 1D enumerated curve
++    ├─ "BYPASS": bool {true, false}
++    ├─ "CURVE_1D_TYPE": enum {sRGB EOTF, sRGB inverse EOTF, PQ EOTF, PQ inverse EOTF, …}
++    └─ "NEXT": immutable color operation ID = 43
 +
-+	/* b = a */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++    /* custom 4k entry 1D LUT */
++    Color operation 52
++    ├─ "TYPE": immutable enum {1D enumerated curve, 1D LUT, 3x3 matrix, 3x4 matrix, 3D LUT, etc.} = 1D LUT
++    ├─ "BYPASS": bool {true, false}
++    ├─ "SIZE": immutable range = 4096
++    ├─ "DATA": blob
++    └─ "NEXT": immutable color operation ID = 0
 +
-+	/* b = a + 1 */
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
++    /* 17^3 3D LUT */
++    Color operation 72
++    ├─ "TYPE": immutable enum {1D enumerated curve, 1D LUT, 3x3 matrix, 3x4 matrix, 3D LUT, etc.} = 3D LUT
++    ├─ "BYPASS": bool {true, false}
++    ├─ "SIZE": immutable range = 17
++    ├─ "DATA": blob
++    └─ "NEXT": immutable color operation ID = 73
 +
-+	/*** t chosen to verify the flipping point of result a (or b) to a+1 (or b-1) ***/
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000 - 1), 0x0);
-+	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000), 0x1);
-+}
++drm_colorop extensibility
++-------------------------
 +
-+static struct kunit_case vkms_color_test_cases[] = {
-+	KUNIT_CASE(vkms_color_test_get_lut_index),
-+	KUNIT_CASE(vkms_color_test_lerp),
-+	{}
-+};
++Unlike existing DRM core objects, like &drm_plane, drm_colorop is not
++extensible. This simplifies implementations and keeps all functionality
++for managing &drm_colorop objects in the DRM core.
 +
-+static struct kunit_suite vkms_color_test_suite = {
-+	.name = "vkms-color",
-+	.test_cases = vkms_color_test_cases,
-+};
++If there is a need one may introduce a simple &drm_colorop_funcs
++function table in the future, for example to support an IN_FORMATS
++property on a &drm_colorop.
 +
-+kunit_test_suite(vkms_color_test_suite);
++If a driver requires the ability to create a driver-specific colorop
++object they will need to add &drm_colorop func table support with
++support for the usual functions, like destroy, atomic_duplicate_state,
++and atomic_destroy_state.
 +
-+MODULE_DESCRIPTION("Kunit test for VKMS LUT handling");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index fa269d279e25..b0dc95f971d8 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -12,6 +12,8 @@
- #include <linux/minmax.h>
++
++COLOR_PIPELINE Plane Property
++=============================
++
++Color Pipelines are created by a driver and advertised via a new
++COLOR_PIPELINE enum property on each plane. Values of the property
++always include object id 0, which is the default and means all color
++processing is disabled. Additional values will be the object IDs of the
++first drm_colorop in a pipeline. A driver can create and advertise none,
++one, or more possible color pipelines. A DRM client will select a color
++pipeline by setting the COLOR PIPELINE to the respective value.
++
++NOTE: Many DRM clients will set enumeration properties via the string
++value, often hard-coding it. Since this enumeration is generated based
++on the colorop object IDs it is important to perform the Color Pipeline
++Discovery, described below, instead of hard-coding color pipeline
++assignment. Drivers might generate the enum strings dynamically.
++Hard-coded strings might only work for specific drivers on a specific
++pieces of HW. Color Pipeline Discovery can work universally, as long as
++drivers implement the required color operations.
++
++The COLOR_PIPELINE property is only exposed when the
++DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE is set. Drivers shall ignore any
++existing pre-blend color operations when this cap is set, such as
++COLOR_RANGE and COLOR_ENCODING. If drivers want to support COLOR_RANGE
++or COLOR_ENCODING functionality when the color pipeline client cap is
++set, they are expected to expose colorops in the pipeline to allow for
++the appropriate color transformation.
++
++Setting of the COLOR_PIPELINE plane property or drm_colorop properties
++is only allowed for userspace that sets this client cap.
++
++An example of a COLOR_PIPELINE property on a plane might look like this::
++
++    Plane 10
++    ├─ "TYPE": immutable enum {Overlay, Primary, Cursor} = Primary
++    ├─ …
++    └─ "COLOR_PIPELINE": enum {0, 42, 52} = 0
++
++
++Color Pipeline Discovery
++========================
++
++A DRM client wanting color management on a drm_plane will:
++
++1. Get the COLOR_PIPELINE property of the plane
++2. iterate all COLOR_PIPELINE enum values
++3. for each enum value walk the color pipeline (via the NEXT pointers)
++   and see if the available color operations are suitable for the
++   desired color management operations
++
++If userspace encounters an unknown or unsuitable color operation during
++discovery it does not need to reject the entire color pipeline outright,
++as long as the unknown or unsuitable colorop has a "BYPASS" property.
++Drivers will ensure that a bypassed block does not have any effect.
++
++An example of chained properties to define an AMD pre-blending color
++pipeline might look like this::
++
++    Plane 10
++    ├─ "TYPE" (immutable) = Primary
++    └─ "COLOR_PIPELINE": enum {0, 44} = 0
++
++    Color operation 44
++    ├─ "TYPE" (immutable) = 1D enumerated curve
++    ├─ "BYPASS": bool
++    ├─ "CURVE_1D_TYPE": enum {sRGB EOTF, PQ EOTF} = sRGB EOTF
++    └─ "NEXT" (immutable) = 45
++
++    Color operation 45
++    ├─ "TYPE" (immutable) = 3x4 Matrix
++    ├─ "BYPASS": bool
++    ├─ "DATA": blob
++    └─ "NEXT" (immutable) = 46
++
++    Color operation 46
++    ├─ "TYPE" (immutable) = 1D enumerated curve
++    ├─ "BYPASS": bool
++    ├─ "CURVE_1D_TYPE": enum {sRGB Inverse EOTF, PQ Inverse EOTF} = sRGB EOTF
++    └─ "NEXT" (immutable) = 47
++
++    Color operation 47
++    ├─ "TYPE" (immutable) = 1D LUT
++    ├─ "SIZE": immutable range = 4096
++    ├─ "DATA": blob
++    └─ "NEXT" (immutable) = 48
++
++    Color operation 48
++    ├─ "TYPE" (immutable) = 3D LUT
++    ├─ "DATA": blob
++    └─ "NEXT" (immutable) = 49
++
++    Color operation 49
++    ├─ "TYPE" (immutable) = 1D enumerated curve
++    ├─ "BYPASS": bool
++    ├─ "CURVE_1D_TYPE": enum {sRGB EOTF, PQ EOTF} = sRGB EOTF
++    └─ "NEXT" (immutable) = 0
++
++
++Color Pipeline Programming
++==========================
++
++Once a DRM client has found a suitable pipeline it will:
++
++1. Set the COLOR_PIPELINE enum value to the one pointing at the first
++   drm_colorop object of the desired pipeline
++2. Set the properties for all drm_colorop objects in the pipeline to the
++   desired values, setting BYPASS to true for unused drm_colorop blocks,
++   and false for enabled drm_colorop blocks
++3. Perform (TEST_ONLY or not) atomic commit with all the other KMS
++   states it wishes to change
++
++To configure the pipeline for an HDR10 PQ plane and blending in linear
++space, a compositor might perform an atomic commit with the following
++property values::
++
++    Plane 10
++    └─ "COLOR_PIPELINE" = 42
++
++    Color operation 42
++    └─ "BYPASS" = true
++
++    Color operation 44
++    └─ "BYPASS" = true
++
++    Color operation 45
++    └─ "BYPASS" = true
++
++    Color operation 46
++    └─ "BYPASS" = true
++
++    Color operation 47
++    ├─ "DATA" = Gamut mapping + tone mapping + night mode
++    └─ "BYPASS" = false
++
++    Color operation 48
++    ├─ "CURVE_1D_TYPE" = PQ EOTF
++    └─ "BYPASS" = false
++
++
++Driver Implementer's Guide
++==========================
++
++What does this all mean for driver implementations? As noted above the
++colorops can map to HW directly but don't need to do so. Here are some
++suggestions on how to think about creating your color pipelines:
++
++- Try to expose pipelines that use already defined colorops, even if
++  your hardware pipeline is split differently. This allows existing
++  userspace to immediately take advantage of the hardware.
++
++- Additionally, try to expose your actual hardware blocks as colorops.
++  Define new colorop types where you believe it can offer significant
++  benefits if userspace learns to program them.
++
++- Avoid defining new colorops for compound operations with very narrow
++  scope. If you have a hardware block for a special operation that
++  cannot be split further, you can expose that as a new colorop type.
++  However, try to not define colorops for "use cases", especially if
++  they require you to combine multiple hardware blocks.
++
++- Design new colorops as prescriptive, not descriptive; by the
++  mathematical formula, not by the assumed input and output.
++
++A defined colorop type must be deterministic. The exact behavior of the
++colorop must be documented entirely, whether via a mathematical formula
++or some other description. Its operation can depend only on its
++properties and input and nothing else, allowed error tolerance
++notwithstanding.
++
++
++Driver Forward/Backward Compatibility
++=====================================
++
++As this is uAPI drivers can't regress color pipelines that have been
++introduced for a given HW generation. New HW generations are free to
++abandon color pipelines advertised for previous generations.
++Nevertheless, it can be beneficial to carry support for existing color
++pipelines forward as those will likely already have support in DRM
++clients.
++
++Introducing new colorops to a pipeline is fine, as long as they can be
++bypassed or are purely informational. DRM clients implementing support
++for the pipeline can always skip unknown properties as long as they can
++be confident that doing so will not cause unexpected results.
++
++If a new colorop doesn't fall into one of the above categories
++(bypassable or informational) the modified pipeline would be unusable
++for user space. In this case a new pipeline should be defined.
++
++
++References
++==========
++
++1. https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr/
+\ No newline at end of file
+diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+index 396e535377fb..ef19b0ba2a3e 100644
+--- a/Documentation/gpu/rfc/index.rst
++++ b/Documentation/gpu/rfc/index.rst
+@@ -35,3 +35,6 @@ host such documentation:
+ .. toctree::
  
- #include "vkms_drv.h"
-+#include <kunit/visibility.h>
-+#include "vkms_composer.h"
- 
- static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
- {
-@@ -60,7 +62,7 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
- }
- 
- // lerp(a, b, t) = a + (b - a) * t
--static u16 lerp_u16(u16 a, u16 b, s64 t)
-+VISIBLE_IF_KUNIT u16 lerp_u16(u16 a, u16 b, s64 t)
- {
- 	s64 a_fp = drm_int2fixp(a);
- 	s64 b_fp = drm_int2fixp(b);
-@@ -69,13 +71,15 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
- 
- 	return drm_fixp2int_round(a_fp + delta);
- }
-+EXPORT_SYMBOL_IF_KUNIT(lerp_u16);
- 
--static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
-+VISIBLE_IF_KUNIT s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
- {
- 	s64 color_channel_fp = drm_int2fixp(channel_value);
- 
- 	return drm_fixp_mul(color_channel_fp, lut->channel_value2index_ratio);
- }
-+EXPORT_SYMBOL_IF_KUNIT(get_lut_index);
- 
- /*
-  * This enum is related to the positions of the variables inside
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.h b/drivers/gpu/drm/vkms/vkms_composer.h
-new file mode 100644
-index 000000000000..9316a053e7d7
---- /dev/null
-+++ b/drivers/gpu/drm/vkms/vkms_composer.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
+     i915_vm_bind.rst
 +
-+#ifndef _VKMS_COMPOSER_H_
-+#define _VKMS_COMPOSER_H_
-+
-+#include <kunit/visibility.h>
-+
-+#if IS_ENABLED(CONFIG_KUNIT)
-+u16 lerp_u16(u16 a, u16 b, s64 t);
-+s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
-+#endif
-+
-+#endif /* _VKMS_COMPOSER_H_ */
++.. toctree::
++    color_pipeline.rst
+\ No newline at end of file
 -- 
 2.43.0
 
