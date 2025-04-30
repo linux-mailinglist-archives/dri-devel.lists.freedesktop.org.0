@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C64EAA4E75
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 16:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93174AA4E77
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 16:26:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88FB410E2DC;
-	Wed, 30 Apr 2025 14:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 904AD10E7AE;
+	Wed, 30 Apr 2025 14:26:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="T0AMNRuB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mB2imhpw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9096210E2B1;
- Wed, 30 Apr 2025 14:25:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C235C10E753;
+ Wed, 30 Apr 2025 14:26:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=LIu7VJz61SLNsihoHPV4xCQkbX9OCBXYRCb12otNTfU=; b=T0AMNRuBHw3YxWY040Yt+bSMZG
- E6L7RjM4KmdJGoFQIPEMMRL+iW3Tf7NApilWHFF/mW3hIkEEYWe5tbsdUbwz5tosjOwQaRbW4yLxo
- SPwTMvHWGGpbpIRMnAp9PtMvK958dk/JfbAO15BHsr2ASkJ960F724hv2hJlSTAJCV6u14k7PMLVo
- 0EE5mX3fdaenYMNMIhNrnpBmsu9xfNn1HeI/DWf7cXhWNN1GrMJO5avjVnq8+l0yVbjHEeQpWriWD
- +NZ2nDrVmSqUSI9b9LA42pndKyWnxO5XXiroLp5Xzi/I1/Df8wTp/hrvlPhtc3dBdOM2Ft9cVnLqV
- AUbKRRdg==;
+ bh=SEFL4EFtteGyjsUH28kZ7pvKFqe/62p/vDNsanYf0lA=; b=mB2imhpwRX7vGwT8wMJI1kO8b4
+ o81CfNXtme7JXWF8xL5lPncGfzvTJiS+t80SFod4wk532Amig1s+fR+m/sJOODWusIQEUtP09N6UR
+ efQ+kEQDX/HsByF9ec6DJVP8ug6ty0ryOI49e2lLeU6AAnx1JERCcbuAKubjIEBhsIVH3HeZYssto
+ hqgev7re4Vy4oMO2KJXDCeIPEsoHCFj1c8PvZIaDkP/CBut5qGry43gMfrRQcmRq/CNxnEPBggX3r
+ f7RtPP8PZVjEI/uxw6yTTmWqK5QSnqjlHFL24xtzccczlgkBn3tmEw07TMESvjYL1YkViw/htX+JG
+ BMIj7IIw==;
 Received: from [189.6.35.67] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uA8Mv-000vo2-7j; Wed, 30 Apr 2025 16:25:55 +0200
+ id 1uA8Mz-000vo2-Ae; Wed, 30 Apr 2025 16:25:59 +0200
 From: Melissa Wen <mwen@igalia.com>
-To: airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- harry.wentland@amd.com, simona@ffwll.ch, sunpeng.li@amd.com
+To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  kernel-dev@igalia.com
-Subject: [PATCH 0/5] drm/amd/display: remove code duplication on dcn401
-Date: Wed, 30 Apr 2025 11:20:06 -0300
-Message-ID: <20250430142549.829861-1-mwen@igalia.com>
+Subject: [PATCH 1/5] drm/amd/display: add hook for program_tg
+Date: Wed, 30 Apr 2025 11:20:07 -0300
+Message-ID: <20250430142549.829861-2-mwen@igalia.com>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250430142549.829861-1-mwen@igalia.com>
+References: <20250430142549.829861-1-mwen@igalia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,38 +60,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The only actual difference between dcn20_program_pipe and
+dcn401_program_pipe is the way they program global sync.  Create a hook
+to enable hw-family function calls, so that we can reuse
+dcn20_program_pipe, avoid code duplication and prevent future partial
+fixes for the same portion of code.
 
-I've been examining dcn401 code to figure out what is causing a wrong
-cursor gamma on HDR issue reported in [1], and I found unnecessary code
-duplications during this inspection. I don't have the HW, so I'd
-appreciate if someone can validate this series (if it makes sense to you
-ofc).
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
+ .../gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c   | 11 ++++++++---
+ drivers/gpu/drm/amd/display/dc/hwss/hw_sequencer.h    |  4 ++++
+ 2 files changed, 12 insertions(+), 3 deletions(-)
 
-This series basically adds some hooks to dcn20 base functions that are
-usually used in other hw versions and reuses those functions on dcn401
-so that we can reduce many lines of code and also increase the coverage
-of bug fixes by avoiding the kind of issue of [2]. Better for debugging
-and maintainability too.
-
-[1] https://gitlab.freedesktop.org/drm/amd/-/issues/4176
-[2] https://lore.kernel.org/amd-gfx/20250430141156.827763-1-mwen@igalia.com/ 
-
-Melissa Wen (5):
-  drm/amd/display: add hook for program_tg
-  drm/amd/display: hook up program_tg for dcn401
-  drm/amd/display: remove duplicated program_front_end_for_ctx code
-  drm/amd/display: remove duplicated post_unlock_program_front_end code
-    on dcn401
-  drm/amd/display: remove duplicated program_pipe code on dcn401
-
- .../amd/display/dc/hwss/dcn20/dcn20_hwseq.c   |  40 +-
- .../amd/display/dc/hwss/dcn401/dcn401_hwseq.c | 436 +-----------------
- .../amd/display/dc/hwss/dcn401/dcn401_hwseq.h |  10 +-
- .../amd/display/dc/hwss/dcn401/dcn401_init.c  |   5 +-
- .../drm/amd/display/dc/hwss/hw_sequencer.h    |   4 +
- 5 files changed, 45 insertions(+), 450 deletions(-)
-
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
+index 5e78b553adbd..1be9be74564e 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
+@@ -1925,9 +1925,14 @@ static void dcn20_program_pipe(
+ 	}
+ 
+ 	/* Only update TG on top pipe */
+-	if (pipe_ctx->update_flags.bits.global_sync && !pipe_ctx->top_pipe
+-		&& !pipe_ctx->prev_odm_pipe)
+-		dcn20_program_tg(dc, pipe_ctx, context, hws);
++	if (pipe_ctx->update_flags.bits.global_sync &&
++	    !pipe_ctx->top_pipe &&
++	    !pipe_ctx->prev_odm_pipe) {
++		if(dc->hwss.program_tg)
++			dc->hwss.program_tg(dc, pipe_ctx, context, hws);
++		else
++			dcn20_program_tg(dc, pipe_ctx, context, hws);
++	}
+ 
+ 	if (pipe_ctx->update_flags.bits.odm)
+ 		hws->funcs.update_odm(dc, context, pipe_ctx);
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/hw_sequencer.h b/drivers/gpu/drm/amd/display/dc/hwss/hw_sequencer.h
+index 3a0795045bc6..86ffc7818df7 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/hw_sequencer.h
++++ b/drivers/gpu/drm/amd/display/dc/hwss/hw_sequencer.h
+@@ -467,6 +467,10 @@ struct hw_sequencer_funcs {
+ 			struct dc_state *new_state,
+ 			struct pipe_ctx *old_pipe,
+ 			struct pipe_ctx *new_pipe);
++	void (*program_tg)(struct dc *dc,
++			   struct pipe_ctx *pipe_ctx,
++			   struct dc_state *context,
++			   struct dce_hwseq *hws);
+ 	void (*enable_plane)(struct dc *dc,
+ 			struct pipe_ctx *pipe_ctx,
+ 			struct dc_state *context);
 -- 
 2.47.2
 
