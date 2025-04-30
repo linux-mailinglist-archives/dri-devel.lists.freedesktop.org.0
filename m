@@ -2,92 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10300AA496E
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 13:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EACCBAA49A9
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 13:18:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61C1B10E72D;
-	Wed, 30 Apr 2025 11:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D375B10E0A2;
+	Wed, 30 Apr 2025 11:18:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IBpbFtSy";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SiIz+EgD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB9D10E72D
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 11:07:37 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C228F725;
- Wed, 30 Apr 2025 13:07:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1746011249;
- bh=GcIjfIlwqOlet414vCMseJGeTnuO8pgUFpT2bsx7e9o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IBpbFtSysFzMqd+U5uQt8eYwIbVDLEb+FQBCQD6+WQedQaXKDX1moH9KeYfgekUPN
- Al+YzzVkJkMdUmPA0p1Lj8Zt61z3Rh6izofXr7DY8KkM4WZPrOY6i7D12qTaBVL2zI
- Kk8rE3AMVAxahXVwKNw7CTgLGNnxpiT2StiJqrTE=
-Message-ID: <f4cb39f0-ffba-447e-a486-c2c51cae5523@ideasonboard.com>
-Date: Wed, 30 Apr 2025 14:07:31 +0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C12610E0A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 11:18:42 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53U90vaG032206
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 11:18:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 8ZFIsCqDMndsS+cxLg5we8+lkzN4XxRlgIxgsI40cLE=; b=SiIz+EgDyVjpF0AC
+ FlvOSbq9aNS1XnVLTFUTHcfEW8hDhfPDutaknOg0l09KveVXOk8tkGJ98IJQh4gf
+ pfoOuPQD+YbkYgVYPZcVOzjGiJkpt5RLrs/SgauEQqem1AqD+HLiB3eccAGdZKDj
+ xKc3ZxURike72+VnX8U27MMt1dpf81qklZirM5eoyTiPYsjVJoNVB+0IYvZBL5r0
+ jxNGc3d2U6ZaVbRTivMulmvdMo/02jg8WfyBqY920ddo0HfU9J0HTtX6QxDp6Wai
+ C6b5lPSOLrvzJS8SKcg7e4LU/5q4ocjMkmCFltmToWpm9eOEn076TwfPNBorhf+3
+ fwoQ4Q==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6u71y06-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 11:18:42 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4792d998b21so10840281cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 04:18:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746011921; x=1746616721;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8ZFIsCqDMndsS+cxLg5we8+lkzN4XxRlgIxgsI40cLE=;
+ b=Yyak6eUv816DFmfKFdH3tFo1aRXop7Wyo1XK4F7T5zecRF58jkuXRmoqj9T4xeKJXj
+ dgPwEKQmtYso1gfPY7oCxL4cD6a2G/IS2YhiR3rLVg57X1lcb5fW5TGdFMd4eckuSlnX
+ Wzg+bCGJtAimA5ek6HDkiL34O2UW6uAAPvDEKYKHUxKspCVeKt8ifQy/go3+ENIvIbIH
+ vHtfroC60aeLZWdOm8M+xUWQmeizDJU4VjYPUwgyX9kEQePE5w2KcxHp04GTnyVXtrc3
+ fRxoJd5q9nSyQczKweYw7KKOWUw3PUv2r0Tihhffw0Up4mgYJFn2Plg837YVQp6feu6v
+ 58QA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWNcyRK5fi6KMN0K3ghi5qescpxfKn7yPOcKe9qLfwR68V2GZtAvyJhAw2s3NShey+iIMHnWCvqyTQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyYdVMZMsg5qe+EJ0poaWxxnpiQgO6BHJxQwvAloPBvmr9WHZyG
+ kpPxZ/7j2TemMaEPJX2hohxpSnA71cvy4oNLkPmuS4SR6tWplWr8jIlPMFn1ockpuF5z+nsWi4y
+ RGNzzUyeBJ52doDYRy18b2t+J+D97F6Cxl1vsr2gdVO38tfw+NK2L41euYYjqGqAsPq4=
+X-Gm-Gg: ASbGncu669xD+L/5Vq5OQ4mnLA4NcCBjWh/T1ughw+JkguH0rlOsd/Acx908qqauwLq
+ Sp4Rq3avmvR0N3OfICxtl4XBy6OXEtpUZs5YAN0TlojSGdeiq4mWeXL3i1mTuGtXceQdr/uasbp
+ dN/zqNjAKRP991c30jNYnT52uLWjFC9IJ3YEHn/jEq10M3ZeUhxZJG1pU7hCYygCEw/gb+/P8O8
+ 6683FA1lXmyUjOGHnj23vQvtCY1l5iGPhmzuTvvD/uShCy09UDe6wvNZ5lUj3N/Qob6hZWTvYyp
+ on2zuSHm4FZSOhjYulUudtRfldpHLMfiic3oZvxcOgeOK9CjhElZvep22PVD7j/DMHc=
+X-Received: by 2002:a05:622a:1b88:b0:474:f9a1:ffb8 with SMTP id
+ d75a77b69052e-489e5efee93mr11201581cf.10.1746011920916; 
+ Wed, 30 Apr 2025 04:18:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGYI8AK0llTsxREeTqIZc4iujbSMfKc70TN9di8lFbZ1oHX31huO3bZUjC9mtgoH3qMOFI7aQ==
+X-Received: by 2002:a05:622a:1b88:b0:474:f9a1:ffb8 with SMTP id
+ d75a77b69052e-489e5efee93mr11201471cf.10.1746011920593; 
+ Wed, 30 Apr 2025 04:18:40 -0700 (PDT)
+Received: from [192.168.65.132] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ace6ecfa910sm903756866b.113.2025.04.30.04.18.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Apr 2025 04:18:40 -0700 (PDT)
+Message-ID: <3e4e628a-740c-4b80-b927-014a635eeeba@oss.qualcomm.com>
+Date: Wed, 30 Apr 2025 13:18:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/9] media: renesas: vsp1: Allow setting encoding and
- quantization
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
- <20250429232904.26413-7-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] drm/msm/gpu: Fix crash when throttling GPU immediately
+ during boot
+To: Stephan Gerhold <stephan.gerhold@linaro.org>,
+ Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Douglas Anderson <dianders@chromium.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Johan Hovold <johan@kernel.org>
+References: <20250429-drm-msm-gpu-hot-devfreq-boot-v1-1-8aa9c5f266b4@linaro.org>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250429232904.26413-7-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250429-drm-msm-gpu-hot-devfreq-boot-v1-1-8aa9c5f266b4@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDA4MCBTYWx0ZWRfX05IgOp7aiajI
+ pZEdqTBwiSf5G0hU7cVqpz62jqRVwmLfaXE9YOyNQOdSpIyWT4s/MyboBpz1yp5I1ftDOHRxoBw
+ ZcoOl6axns5Yf4lhuZSla59joe2QmTxuFV+9PukNCSXx9HnLNsWGPprMKTnFCyPClqa6Q/uPWuE
+ +LL068np1+e8dYrx6Dtrka5pFomjlX4L6SaD5ncMMHuFwS9Utx3UzB4dcW6cl04aSIu2ZqB03pW
+ QAlaycF52RbDMNxIEsrsEvgdPytg6DeLy6A4DlUaFhhGzkpZLzzVYcVRbrWfEQvaBqehGpewisu
+ 77PphfRspK72mjHU0+xCnvE1G0cmshGMyE87i+poueD6Z56N4kxDapz536CwWhvNkC+ZtbfLyDg
+ +162fDkvZSf04OnsN/28hzYlvFQD4/X8bLjq/Y1PbZI7CtnKDL571KjLSrVDDUauqQGc6du2
+X-Proofpoint-GUID: jQ_FWiwUws0gKQdIL6hDRb9LiQfJNC4V
+X-Authority-Analysis: v=2.4 cv=W404VQWk c=1 sm=1 tr=0 ts=68120712 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8
+ a=EUspDBNiAAAA:8 a=5xDEUdhm2TPt1CDrq1UA:9
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: jQ_FWiwUws0gKQdIL6hDRb9LiQfJNC4V
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-30_03,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 phishscore=0 impostorscore=0 mlxlogscore=999 malwarescore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504300080
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,261 +133,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 30/04/2025 02:29, Laurent Pinchart wrote:
-> The RPF and WPF support different encodings and quantizations when
-> converting between RGB and YUV formats. Allow setting the corresponding
-> format parameters from userspace, and configure the hardware
-> accordingly.
+On 4/29/25 10:33 AM, Stephan Gerhold wrote:
+> There is a small chance that the GPU is already hot during boot. In that
+> case, the call to of_devfreq_cooling_register() will immediately try to
+> apply devfreq cooling, as seen in the following crash:
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>   Unable to handle kernel paging request at virtual address 0000000000014110
+>   pc : a6xx_gpu_busy+0x1c/0x58 [msm]
+>   lr : msm_devfreq_get_dev_status+0xbc/0x140 [msm]
+>   Call trace:
+>    a6xx_gpu_busy+0x1c/0x58 [msm] (P)
+>    devfreq_simple_ondemand_func+0x3c/0x150
+>    devfreq_update_target+0x44/0xd8
+>    qos_max_notifier_call+0x30/0x84
+>    blocking_notifier_call_chain+0x6c/0xa0
+>    pm_qos_update_target+0xd0/0x110
+>    freq_qos_apply+0x3c/0x74
+>    apply_constraint+0x88/0x148
+>    __dev_pm_qos_update_request+0x7c/0xcc
+>    dev_pm_qos_update_request+0x38/0x5c
+>    devfreq_cooling_set_cur_state+0x98/0xf0
+>    __thermal_cdev_update+0x64/0xb4
+>    thermal_cdev_update+0x4c/0x58
+>    step_wise_manage+0x1f0/0x318
+>    __thermal_zone_device_update+0x278/0x424
+>    __thermal_cooling_device_register+0x2bc/0x308
+>    thermal_of_cooling_device_register+0x10/0x1c
+>    of_devfreq_cooling_register_power+0x240/0x2bc
+>    of_devfreq_cooling_register+0x14/0x20
+>    msm_devfreq_init+0xc4/0x1a0 [msm]
+>    msm_gpu_init+0x304/0x574 [msm]
+>    adreno_gpu_init+0x1c4/0x2e0 [msm]
+>    a6xx_gpu_init+0x5c8/0x9c8 [msm]
+>    adreno_bind+0x2a8/0x33c [msm]
+>    ...
+> 
+> At this point we haven't initialized the GMU at all yet, so we cannot read
+> the GMU registers inside a6xx_gpu_busy(). A similar issue was fixed before
+> in commit 6694482a70e9 ("drm/msm: Avoid unclocked GMU register access in
+> 6xx gpu_busy"): msm_devfreq_init() does call devfreq_suspend_device(), but
+> unlike msm_devfreq_suspend(), it doesn't set the df->suspended flag
+> accordingly. This means the df->suspended flag does not match the actual
+> devfreq state after initialization and msm_devfreq_get_dev_status() will
+> end up accessing GMU registers, causing the crash.
+> 
+> Fix this by setting df->suspended correctly during initialization.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 6694482a70e9 ("drm/msm: Avoid unclocked GMU register access in 6xx gpu_busy")
+> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
 > ---
->   .../media/platform/renesas/vsp1/vsp1_pipe.c   | 29 +++++++++++------
->   .../media/platform/renesas/vsp1/vsp1_rpf.c    | 29 +++++++++++++++--
->   .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 31 +++++++++++++++++--
->   .../media/platform/renesas/vsp1/vsp1_video.c  | 19 ++++++++++++
->   .../media/platform/renesas/vsp1/vsp1_wpf.c    | 29 +++++++++++++++--
->   5 files changed, 121 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index b9ab6c9c96df..59e26284a90f 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -359,33 +359,42 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->    * space and limitations of the VSP1. It should be used in the video device and
->    * subdev set format handlers.
->    *
-> - * For now, simply hardcode the color space fields to the VSP1 defaults based
-> - * on the media bus code.
-> + * The colorspace and xfer_func fields are freely configurable, as they are out
-> + * of scope for VSP processing. The encoding and quantization is hardcoded for
-> + * non-YUV formats, and can be configured for YUV formats.
->    */
->   void vsp1_adjust_color_space(u32 code, u32 *colorspace, u8 *xfer_func,
->   			     u8 *encoding, u8 *quantization)
->   {
-> +	if (*colorspace == V4L2_COLORSPACE_DEFAULT ||
-> +	    *colorspace >= V4L2_COLORSPACE_LAST)
-> +		*colorspace = code == MEDIA_BUS_FMT_AYUV8_1X32
-> +			    ? V4L2_COLORSPACE_SMPTE170M
-> +			    : V4L2_COLORSPACE_SRGB;
-> +
-> +	if (*xfer_func == V4L2_XFER_FUNC_DEFAULT ||
-> +	    *xfer_func >= V4L2_XFER_FUNC_LAST)
-> +		*xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(*colorspace);
-> +
->   	switch (code) {
->   	case MEDIA_BUS_FMT_ARGB8888_1X32:
->   	default:
-> -		*colorspace = V4L2_COLORSPACE_SRGB;
-> -		*xfer_func = V4L2_XFER_FUNC_SRGB;
->   		*encoding = V4L2_YCBCR_ENC_601;
->   		*quantization = V4L2_QUANTIZATION_FULL_RANGE;
->   		break;
->   
->   	case MEDIA_BUS_FMT_AHSV8888_1X32:
-> -		*colorspace = V4L2_COLORSPACE_SRGB;
-> -		*xfer_func = V4L2_XFER_FUNC_SRGB;
->   		*encoding = V4L2_HSV_ENC_256;
->   		*quantization = V4L2_QUANTIZATION_FULL_RANGE;
->   		break;
->   
->   	case MEDIA_BUS_FMT_AYUV8_1X32:
-> -		*colorspace = V4L2_COLORSPACE_SMPTE170M;
-> -		*xfer_func = V4L2_XFER_FUNC_709;
-> -		*encoding = V4L2_YCBCR_ENC_601;
-> -		*quantization = V4L2_QUANTIZATION_LIM_RANGE;
-> +		if (*encoding != V4L2_YCBCR_ENC_601 &&
-> +		    *encoding != V4L2_YCBCR_ENC_709)
-> +			*encoding = V4L2_YCBCR_ENC_601;
-> +		if (*quantization != V4L2_QUANTIZATION_FULL_RANGE &&
-> +		    *quantization != V4L2_QUANTIZATION_LIM_RANGE)
-> +			*quantization = V4L2_QUANTIZATION_LIM_RANGE;
->   		break;
->   	}
->   }
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> index 5c8b3ba1bd3c..9f2744af54bc 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> @@ -92,8 +92,33 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
->   	if (fmtinfo->swap_uv)
->   		infmt |= VI6_RPF_INFMT_SPUVS;
->   
-> -	if (sink_format->code != source_format->code)
-> -		infmt |= VI6_RPF_INFMT_CSC;
-> +	if (sink_format->code != source_format->code) {
-> +		u16 ycbcr_enc;
-> +		u16 quantization;
-> +		u32 rdtm;
-> +
-> +		if (sink_format->code == MEDIA_BUS_FMT_AYUV8_1X32) {
-> +			ycbcr_enc = sink_format->ycbcr_enc;
-> +			quantization = sink_format->quantization;
-> +		} else {
-> +			ycbcr_enc = source_format->ycbcr_enc;
-> +			quantization = source_format->quantization;
-> +		}
-> +
-> +		if (ycbcr_enc == V4L2_YCBCR_ENC_601 &&
-> +		    quantization == V4L2_QUANTIZATION_LIM_RANGE)
-> +			rdtm = VI6_RPF_INFMT_RDTM_BT601;
-> +		else if (ycbcr_enc == V4L2_YCBCR_ENC_601 &&
-> +			 quantization == V4L2_QUANTIZATION_FULL_RANGE)
-> +			rdtm = VI6_RPF_INFMT_RDTM_BT601_EXT;
-> +		else if (ycbcr_enc == V4L2_YCBCR_ENC_709 &&
-> +			 quantization == V4L2_QUANTIZATION_LIM_RANGE)
-> +			rdtm = VI6_RPF_INFMT_RDTM_BT709;
-> +		else
-> +			rdtm = VI6_RPF_INFMT_RDTM_BT709_EXT;
-> +
-> +		infmt |= VI6_RPF_INFMT_CSC | rdtm;
-> +	}
->   
->   	vsp1_rpf_write(rpf, dlb, VI6_RPF_INFMT, infmt);
->   	vsp1_rpf_write(rpf, dlb, VI6_RPF_DSWAP, fmtinfo->swap);
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> index 4e8bcf6a59ad..9c8085d5d306 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> @@ -36,6 +36,11 @@ static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev,
->   
->   	code->code = codes[code->index];
->   
-> +	if (code->pad == RWPF_PAD_SOURCE &&
-> +	    code->code == MEDIA_BUS_FMT_AYUV8_1X32)
-> +		code->flags = V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC
-> +			    | V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION;
-> +
->   	return 0;
->   }
->   
-> @@ -79,11 +84,13 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
->   	if (fmt->pad == RWPF_PAD_SOURCE) {
->   		const struct v4l2_mbus_framefmt *sink_format =
->   			v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
-> +		u16 flags = fmt->format.flags & V4L2_MBUS_FRAMEFMT_SET_CSC;
-> +		bool csc;
->   
->   		/*
->   		 * The RWPF performs format conversion but can't scale, only the
-> -		 * format code can be changed on the source pad when converting
-> -		 * between RGB and YUV.
-> +		 * format code, encoding and quantization can be changed on the
-> +		 * source pad when converting between RGB and YUV.
->   		 */
->   		if (sink_format->code != MEDIA_BUS_FMT_AHSV8888_1X32 &&
->   		    fmt->format.code != MEDIA_BUS_FMT_AHSV8888_1X32)
-> @@ -91,9 +98,29 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
->   		else
->   			format->code = sink_format->code;
->   
-> +		/*
-> +		 * Encoding and quantization can only be configured when YCbCr
-> +		 * <-> RGB is enabled. The V4L2 API requires userspace to set
-> +		 * the V4L2_MBUS_FRAMEFMT_SET_CSC flag. If either of these
-> +		 * conditions is not met, use the encoding and quantization
-> +		 * values from the sink pad.
-> +		 */
-> +		csc = (format->code == MEDIA_BUS_FMT_AYUV8_1X32) !=
-> +		      (sink_format->code == MEDIA_BUS_FMT_AYUV8_1X32);
-> +
-> +		if (csc && (flags & V4L2_MBUS_FRAMEFMT_SET_CSC)) {
-> +			format->ycbcr_enc = fmt->format.ycbcr_enc;
-> +			format->quantization = fmt->format.quantization;
-> +		} else {
-> +			format->ycbcr_enc = sink_format->ycbcr_enc;
-> +			format->quantization = sink_format->quantization;
-> +		}
-> +
->   		vsp1_entity_adjust_color_space(format);
->   
->   		fmt->format = *format;
-> +		fmt->format.flags = flags;
-> +
->   		goto done;
->   	}
->   
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> index 68d495c20a84..bc66fbdde3cc 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> @@ -129,6 +129,20 @@ static int __vsp1_video_try_format(struct vsp1_video *video,
->   	pix->pixelformat = info->fourcc;
->   	pix->field = V4L2_FIELD_NONE;
->   
-> +	/*
-> +	 * Adjust the colour space fields. On capture devices, userspace needs
-> +	 * to set the V4L2_PIX_FMT_FLAG_SET_CSC to override the defaults. Reset
-> +	 * all fields to *_DEFAULT if the flag isn't set, to then handle
-> +	 * capture and output devices in the same way.
-> +	 */
-> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
-> +	    !(pix->flags & V4L2_PIX_FMT_FLAG_SET_CSC)) {
-> +		pix->colorspace = V4L2_COLORSPACE_DEFAULT;
-> +		pix->xfer_func = V4L2_XFER_FUNC_DEFAULT;
-> +		pix->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> +		pix->quantization = V4L2_QUANTIZATION_DEFAULT;
-> +	}
-> +
->   	vsp1_adjust_color_space(info->mbus, &pix->colorspace, &pix->xfer_func,
->   				&pix->ycbcr_enc, &pix->quantization);
->   
-> @@ -908,6 +922,11 @@ static int vsp1_video_enum_format(struct file *file, void *fh,
->   
->   	f->pixelformat = info->fourcc;
->   
-> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
-> +	    info->mbus == MEDIA_BUS_FMT_AYUV8_1X32)
-> +		f->flags = V4L2_FMT_FLAG_CSC_YCBCR_ENC
-> +			 | V4L2_FMT_FLAG_CSC_QUANTIZATION;
-> +
->   	return 0;
->   }
->   
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> index f176750ccd98..49af637c8186 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> @@ -279,8 +279,33 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
->   				       (256 << VI6_WPF_ROT_CTRL_LMEM_WD_SHIFT));
->   	}
->   
-> -	if (sink_format->code != source_format->code)
-> -		outfmt |= VI6_WPF_OUTFMT_CSC;
-> +	if (sink_format->code != source_format->code) {
-> +		u16 ycbcr_enc;
-> +		u16 quantization;
-> +		u32 wrtm;
-> +
-> +		if (sink_format->code == MEDIA_BUS_FMT_AYUV8_1X32) {
-> +			ycbcr_enc = sink_format->ycbcr_enc;
-> +			quantization = sink_format->quantization;
-> +		} else {
-> +			ycbcr_enc = source_format->ycbcr_enc;
-> +			quantization = source_format->quantization;
-> +		}
-> +
-> +		if (ycbcr_enc == V4L2_YCBCR_ENC_601 &&
-> +		    quantization == V4L2_QUANTIZATION_LIM_RANGE)
-> +			wrtm = VI6_WPF_OUTFMT_WRTM_BT601;
-> +		else if (ycbcr_enc == V4L2_YCBCR_ENC_601 &&
-> +			 quantization == V4L2_QUANTIZATION_FULL_RANGE)
-> +			wrtm = VI6_WPF_OUTFMT_WRTM_BT601_EXT;
-> +		else if (ycbcr_enc == V4L2_YCBCR_ENC_709 &&
-> +			 quantization == V4L2_QUANTIZATION_LIM_RANGE)
-> +			wrtm = VI6_WPF_OUTFMT_WRTM_BT709;
-> +		else
-> +			wrtm = VI6_WPF_OUTFMT_WRTM_BT709_EXT;
-> +
-> +		outfmt |= VI6_WPF_OUTFMT_CSC | wrtm;
-> +	}
->   
->   	wpf->outfmt = outfmt;
->   
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-  Tomi
-
+Konrad
