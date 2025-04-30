@@ -2,90 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE74AA525E
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 19:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303A1AA52C9
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 19:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 804B910E100;
-	Wed, 30 Apr 2025 17:06:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C890210E129;
+	Wed, 30 Apr 2025 17:42:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="KcM1vszn";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Xwr19mjE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82AC610E100
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 17:06:01 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-224019ad9edso1230715ad.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 10:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1746032760; x=1746637560;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=58Ob5TdaRLI/TNcS+mN0Uupr9ndgBJlrZ3pUusjLfjE=;
- b=KcM1vsznUGIL+C30yaReVCg183n6EzwMl0UB+I2MGobqHrGBBcIS6BI9ydtar88CBu
- C97G0ZlAKZ1nA87rCNdOvVakNjMhuk9Ste6qbGGNL3g++LtZp2YsnI2O8CUQFgSn4wgZ
- PpSk9RfR+ovo9D8oI18AAP3tTkyJRylpI3U34=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746032760; x=1746637560;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=58Ob5TdaRLI/TNcS+mN0Uupr9ndgBJlrZ3pUusjLfjE=;
- b=MNv7e8DpDJ5dHGeGzqSnppMRlFOI7UrlEYia2ZdMLCT5rj787rFTVyzOzeXiGcH85t
- KaUF6REiE2IZAu1eFlX1JsnpapqUQkBl4+cypLL+v0bfvxh0F7vntX2URtn88hJAJ8Ed
- 0WdYsa9DIARBQ93jclQ/4SrhuFbm8KwHENl6kfg2zKNJP4uTkbrHW8fHDTcOhoTygZiA
- zjXP1KYrGl98t9NHEvKRNUSJcVuKK4HstSazdUhG+qOX96bQZ5UIIn2br8XETsIL8Hf/
- lYo/LAP4BTDia5KlK1t8IiKAXPh6haXL1+YtHYSJsoHspGVYINkTNw3kUl6HUaXZXbhI
- QCXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVijt4sachgQCGAc2eEp+dW5DZWPiFLiRiDWgxmLg5iJkHw3B3ZCdjSlwVxUl5JHcchmeblPgMkovk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzY0e8wAfTC5HkyWXVCF0yUWqbkURt05EwEzSw//xo1sp9uC0g3
- +8SvqbLKhuwjPJYWxknOT1IV5JlzSkTZlCtvPLaRNq+liUYhwYSmg7Epq7Vzi/Zr9adFyjER0aA
- =
-X-Gm-Gg: ASbGnctoO2vd5wD6vxw7lmi51iZyT9IybNE81MSwxy0p3nXOUX9cFyZjwdD/t+OEtHe
- Q6NKqBZ8RroX9Qf1HI1GR1V8HI8b4UtvKbHMZrE4sO17N1WaPgr3UDu+JXivuWE+V4izAhB2Zz0
- CuvYDdtj0JmAVWvcSRDBEhKXvi+0zJ9ch9jbKYybmxFk2a1t0+RagtfK5DnhSnyRQPCzadfF//n
- K3JgzkT+0CugXpq1udYk9cCBT5jkaQm9cl8kMxrjeEd4E3jAFhdwlPtY0UI3Nr9z6c9AmAo6Uk+
- j+uGdQHNUc0B60u1JRNuIxtze3xLzS01w4sridNVqLJaKgasBb8/vcKxMu2cd55T+qPS4eH32Ez
- hah5jkNNt
-X-Google-Smtp-Source: AGHT+IHCy2P04kBLbaTeHnuWpJqKv7MzLD1g/a0vK+AMyNv2dF9u4Uz/lFhrlXGL6qlQQeAUEg27Zw==
-X-Received: by 2002:a17:903:41cd:b0:224:a79:5fe9 with SMTP id
- d9443c01a7336-22df3538fdbmr58089265ad.30.1746032759509; 
- Wed, 30 Apr 2025 10:05:59 -0700 (PDT)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com.
- [209.85.215.174]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22de49dccd3sm44194525ad.123.2025.04.30.10.05.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Apr 2025 10:05:58 -0700 (PDT)
-Received: by mail-pg1-f174.google.com with SMTP id
- 41be03b00d2f7-b0db0b6a677so47269a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 10:05:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXwvMiskLCojaziJ+a2OK/N3hwkaLH5t4OOlLDHzDDLkXUoHEbc0EoiO9Vtn7a0KI05Il/B6hD9MWc=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:2e4a:b0:2ee:d024:e4fc with SMTP id
- 98e67ed59e1d1-30a3336490bmr7094252a91.33.1746032757616; Wed, 30 Apr 2025
- 10:05:57 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A48E10E129
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 17:42:53 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF8A3564;
+ Wed, 30 Apr 2025 19:42:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1746034964;
+ bh=GlNw0fg0FixJZ2qzDbRYwdij3JYjvfnckEvYMAE3tv8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Xwr19mjE4sNI9+fxfg0tZvhbRFwjqZ0mbKgQ/r2kGna1yDeNmeUWzGKUUu/IGaQ19
+ P6wGhzQmBycilryfs3aHyxoNv5eGPKmYapuuOqPQvTEt+TzdYBOznbYRAhvbVwX2J+
+ afSslEfSn1zOQ2S+Pua9t8rVdvjAfeo+mUMsJW2w=
+Message-ID: <88993439-bfdc-418c-95c6-d6d8bdb5b87f@ideasonboard.com>
+Date: Wed, 30 Apr 2025 20:42:47 +0300
 MIME-Version: 1.0
-References: <wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi>
- <CAD=FV=Xp7zOQ2iEVf896P074RW911F-e2Qa36deD0e8fWksFBA@mail.gmail.com>
- <u7ek3ccya4c3c4rteliskjjfczpmrt4vmqo5c6kjdotxdgitn7@ko24dpb35pq4>
-In-Reply-To: <u7ek3ccya4c3c4rteliskjjfczpmrt4vmqo5c6kjdotxdgitn7@ko24dpb35pq4>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 30 Apr 2025 10:05:44 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Wc9TnDg6vDb8r5A8dT9TvOzU2kNSKi_6TzTtb0ka=8jA@mail.gmail.com>
-X-Gm-Features: ATxdqUFGEFgUWcVP9tpAp7IAvVZ1WS2kKN7Qn8lT1mnsHdTLRM-PhtyTgbA3XGA
-Message-ID: <CAD=FV=Wc9TnDg6vDb8r5A8dT9TvOzU2kNSKi_6TzTtb0ka=8jA@mail.gmail.com>
-Subject: Re: PROBLEM: AST2500 BMC video output disabled by reboot (regression)
-To: Nick Bowler <nbowler@draconx.ca>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] drm/tidss: Update infrastructure to support K3 DSS
+ cut-down versions
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev,
+ s-jain1@ti.com, r-donadkar@ti.com, j-choudhary@ti.com, h-shenoy@ti.com,
+ jyri.sarha@iki.fi, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ simona@ffwll.ch, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+References: <20250429143656.3252877-1-devarsht@ti.com>
+ <20250429143656.3252877-3-devarsht@ti.com>
+ <f729c0d6-45a0-4610-b22b-92c03f534bf7@ideasonboard.com>
+ <1f8c43cd-8c26-4e42-b144-b91f5ffc2e2e@ti.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <1f8c43cd-8c26-4e42-b144-b91f5ffc2e2e@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,120 +107,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 30/04/2025 19:37, Devarsh Thakkar wrote:
+> Hi Tomi
+> 
+> Thanks for the review.
+> 
+> <snip>
+>>>    @@ -2025,7 +2101,7 @@ int dispc_plane_check(struct dispc_device
+>>> *dispc, u32 hw_plane,
+>>>                  const struct drm_plane_state *state,
+>>>                  u32 hw_videoport)
+>>>    {
+>>> -    bool lite = dispc->feat->vid_lite[hw_plane];
+>>> +    bool lite = dispc->feat->vid_info[hw_plane].is_lite;
+>>
+>> I don't think this is correct. You can't access the vid_info[] with the
+>> hw-id.
+> 
+> I don't think hw_id is getting passed to hw_plane here. The
+> dispc_plane_check is called from tidss_plane_atomic_check which passes
+> hw_plane as tplane->hw_plane_id and this index starts from actually
+> instantiated planes i.e. from 0 and are contiguous as these are
 
-On Wed, Apr 30, 2025 at 6:28=E2=80=AFAM Nick Bowler <nbowler@draconx.ca> wr=
-ote:
->
-> Hi Doug,
->
-> On Mon, Apr 28, 2025 at 01:40:25PM -0700, Doug Anderson wrote:
-> > On Sun, Apr 20, 2025 at 9:26=E2=96=A0PM Nick Bowler <nbowler@draconx.ca=
-> wrote:
-> > > I recently noticed that on current kernels I lose video output from
-> > > my Blackbird's AST2500 BMC after a reboot
-> [...]
-> > >   ce3d99c8349584bc0fbe1e21918a3ea1155343aa is the first bad commit
-> > >   commit ce3d99c8349584bc0fbe1e21918a3ea1155343aa
-> > >   Author: Douglas Anderson <dianders@chromium.org>
-> > >   Date:   Fri Sep 1 16:39:53 2023 -0700
-> > >
-> > >       drm: Call drm_atomic_helper_shutdown() at shutdown time for mis=
-c drivers
-> [...]
-> > Bleh. That's not good. If I had to guess there's some subtle bug /
-> > missing timing constraint that's being triggered here. A few things to
-> > try:
-> >
-> > 1. Add a several second delay after the call to
-> > "drm_atomic_helper_shutdown()", like msleep(5000) or something like
-> > that. That's kind of a shot in the dark, but it's fairly common for
-> > panels to get upset if you turn them off and then turn them on again
-> > too quickly. This would be my blind guess of what is happening.
->
-> Adding msleep(5000) does nothing except that once the video turns off
-> it now takes 5 seconds longer to reboot.
+Well, if tplane->hw_plane_id is not the HW plane id (i.e. it's misnamed 
+now), and tidss_plane.c calls dispc_plane_enable() with 
+tplane->hw_plane_id as the hw_plane parameter, which is used as a HW 
+plane ID... Then... One of these is wrong, no?
 
-Dang. Thanks for checking.
+> populated from vid_order array (hw_plane_id =
+> feat->vid_order[tidss->num_planes];) and not the hw_id index.
+> 
+> So for e.g. for AM62L even though hw_id is 1 for VIDL hw_plane is
+> getting passed as 0 and that's how it is able to access the first and
+> only member of vid_info struct and read the properties correctly and
+> function properly as seen in test logs [1].
 
+If for AM62L the tplane->hw_plane_id is 0, the the dispc_plane_enable() 
+call would enable the wrong plane, wouldn't it?
 
-> > 2. Could you give more details about what panel you're using?
->
-> According to the documentation I have for the machine, the video output
-> of the AST2500 BMC is connected to an IT66121 HDMI transmitter.
->
-> Then in turn I have that connected to some generic HDMI->VGA adapter
-> (PrimeCables branded).  I also tried with another much more expensive
-> device (Extron DVI-RGB 200) and observe no difference in behaviour.
->
-> i think these devices are working and there's just no output signal
-> on the hdmi port.
+But even if it all works, I think this highlights how confusing it is...
 
-I've got a pile of crappy/generic HDMI to VGA adapters and I've had
-mixed success with them working. They're not really passive adapters,
-so they somehow need power to convert the HDMI to VGA. They seem to
-run off the power given to them by the HDMI port and I've seen cases
-where (I suspect) they get into a bad state. I've seen cases where
-they need to be plugged in at just the right time in order to work and
-I suspect that there's some sort of chicken-and-egg problem here.
-Maybe in most states the HDMI port doesn't get power if nothing is
-plugged in but (because of their design) they can't report plugged in
-without getting power? ...but then there are maybe some cases where
-power is given anyway? I'm spitballing here.
+> 
+>>
+>>>        u32 fourcc = state->fb->format->format;
+>>>        bool need_scaling = state->src_w >> 16 != state->crtc_w ||
+>>>            state->src_h >> 16 != state->crtc_h;
+>>> @@ -2096,7 +2172,7 @@ void dispc_plane_setup(struct dispc_device
+>>> *dispc, u32 hw_plane,
+>>>                   const struct drm_plane_state *state,
+>>>                   u32 hw_videoport)
+>>>    {
+>>> -    bool lite = dispc->feat->vid_lite[hw_plane];
+>>> +    bool lite = dispc->feat->vid_info[hw_plane].is_lite;
+>>
+>> Here too.
+> 
+> Here also hw_plane is getting passed as 0 and not the hw_id which is 1
+> for AM62L.
+> 
+>>
+>>>        u32 fourcc = state->fb->format->format;
+>>>        u16 cpp = state->fb->format->cpp[0];
+>>>        u32 fb_width = state->fb->pitches[0] / cpp;
+>>> @@ -2210,7 +2286,7 @@ static void dispc_k2g_plane_init(struct
+>>> dispc_device *dispc)
+>>>        /* MFLAG_START = MFLAGNORMALSTARTMODE */
+>>>        REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
+>>>    -    for (hw_plane = 0; hw_plane < dispc->feat->num_planes;
+>>> hw_plane++) {
+>>> +    for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
+>>>            u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
+>>>            u32 thr_low, thr_high;
+>>>            u32 mflag_low, mflag_high;
+>>> @@ -2226,7 +2302,7 @@ static void dispc_k2g_plane_init(struct
+>>> dispc_device *dispc)
+>>>              dev_dbg(dispc->dev,
+>>>                "%s: bufsize %u, buf_threshold %u/%u, mflag threshold
+>>> %u/%u preload %u\n",
+>>> -            dispc->feat->vid_name[hw_plane],
+>>> +            dispc->feat->vid_info[hw_plane].name,
+>>
+>> Here hw_plane is not actually the hw-id (anymore), but elsewhere in this
+>> function it is used as a hw-id, which is no longer correct.
+> 
+> For accessing vid_info hw_plane needs to be used which is the index of
+> actually instantiated planes and I see it as correctly being passed for
+> AM62L too. hw_id is only for dispc_k3_vid* functions where we need to
+> skip the not-instantiated vid regions by adding the offset per the hw_id
+> index.
 
-I don't know much about the Extron DVI-RGB 200.
+Hmm, sorry, I don't follow. If we use the same variable, hw_plane, to 
+access the vid_info[], and as a parameter to functions that take 
+hw_plane, e.g., dispc_vid_set_buf_threshold(), isn't one of those uses 
+wrong?
 
-Do you happen to have anything that's just a normal HDMI sink, like a
-TV or a standard monitor that takes HDMI?
+Oh, wait... I think I see it now. For some functions using the hw_id as 
+the hw_plane parameter is fine, as they access the VID's registers by 
+just using, e.g. dispc_vid_write(), which gets the address correctly 
+from dispc->base_vid[hw_plane], as that one is indexed from 0 to num_vids.
 
+But some functions use registers that have bits based on the hw_id (like 
+dispc_k3_vid_write_irqstatus), and then we use the hw_id for the 
+hw_plane parameter. If that function were to also write a vid register, 
+using the passed hw_plane, it wouldn't work, but I guess we don't do that.
 
-> > Ideally it'd be great if you could say which device tree you're using t=
-oo.
->
-> Not sure how to answer this.  Do you want me to look at something
-> specific in /proc/device-tree?  Or dump it somehow?
+It feels broken... We can't have 'hw_plane' that's sometimes the HW id 
+(i.e. 1 for AM62L), and sometimes the driver's index (i.e. 0 for AM62L).
 
-Ah, I get it. On many device tree boards people use a dts file that
-lives in the Linux source base and then bundle it with the kernel.
-Looks like yours is provided by your firmware?
+>>
+>>>                size,
+>>>                thr_high, thr_low,
+>>>                mflag_high, mflag_low,
+>>> @@ -2265,7 +2341,7 @@ static void dispc_k3_plane_init(struct
+>>> dispc_device *dispc)
+>>>        /* MFLAG_START = MFLAGNORMALSTARTMODE */
+>>>        REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
+>>>    -    for (hw_plane = 0; hw_plane < dispc->feat->num_planes;
+>>> hw_plane++) {
+>>> +    for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
+>>>            u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
+>>>            u32 thr_low, thr_high;
+>>>            u32 mflag_low, mflag_high;
+>>> @@ -2281,7 +2357,7 @@ static void dispc_k3_plane_init(struct
+>>> dispc_device *dispc)
+>>>              dev_dbg(dispc->dev,
+>>>                "%s: bufsize %u, buf_threshold %u/%u, mflag threshold
+>>> %u/%u preload %u\n",
+>>> -            dispc->feat->vid_name[hw_plane],
+>>> +            dispc->feat->vid_info[hw_plane].name,
+>>
+>> And here.
+>>
+>> All these issues make me wonder whether we have the right model. It's
+>> just too easy to get the usage wrong.
+>>
+>> I'm not sure which way to go here.
+>>
+>> Fix the current issues? It's a bit cumbersome to go from hw-id to the
+>> index (needs a search), just to get some hw properties.
+>>
+>> Or go back to the earlier one, with a vid array containing unused slots?
+>> That makes the for loops a bit harder.
+>>
+>> I need to think about it...
+>>
+> 
+> Hmm, I don't think so, it seems to look fine to me and work fine too. I
+> have tested thoroughly for AM62L (which has uninstantiated vid region)
+> along with AM62x and AM62A with all planes displayed simultaneously. If
+> you want I can put on some test logs, create some dummy holes for VID
+> regions in AM62 and AM62A to put this on to some further negative tests.
+ >
+> Also if naming convention is confusing (hw_id vs hw_plane) then maybe we
+> can use something else like vid_idx ??
 
+It is confusing. But I think it's also broken, in the sense that e.g. 
+dispc_k3_vid_write_irqstatus() has hw_plane parameter. But it's actually 
+hw_id.
 
-> > 3. Any chance you can gather the `dmesg` from a failing boot and
-> > provide it somehow? Are there any errors in the logs from the failing
-> > boot?
->
-> To clarify, there is no boot failure.  There is just no video output
-> after rebooting.  I can then boot Linux again by any method that works
-> without being able to see the screen, and then everything is fine once
-> I do that.
+I'm not sure if naming them differently helps here. It's super 
+confusing. What indices do we have?
 
-Super weird. So every other boot works?
+- The lowest level HW IDs, e.g. for DISPC_VID_IRQSTATUS()
+- The index for the dispc->vid_info[]
+- The index to tidss->planes[]
+- drm_plane->index
 
-I guess I'd be interested in other types of tests to see what's going
-on. Aside from trying some other, more standard HDMI sinks, I'd love
-to see the results of:
+Originally I kept the drm_plane and the HW index separate, so that the 
+dispc.c doesn't really deal with the drm_plane at all. But I wonder if 
+we need to change that, as drm_plane pointer can't really be 
+"understood" wrong, whereas an two indices are easy to mix.
 
-1. HDMI is supposed to be hotpluggable. If you've got a boot where the
-display isn't working, what if you unplug the HDMI and plug it back
-in. Does it fix it?
+  Tomi
 
-2. Does the hotplug experience change if you boot with the revert?
-AKA: boot up with the revert (so everything is working normally),
-unplug HDMI, wait a few seconds, plug HDMI back in? Is this different
-than #1?
-
-3. What about if you fully power off and then power on? Does the
-display work reliably in this case, or are things different between
-ToT and with the revert?
-
-4. What about if you fully power off, unplug the HDMI, wait a few
-seconds, plug the HDMI, and power on? Does that work? Are things
-different between ToT and with the revert?
-
-
-> I've attached the dmesg output (gzipped) from after such a reboot.
-> Except for the order and the timestamps, the messages are identical to
-> when I boot after rebooting a kernel which does not disable the video.
-
-Thanks! dmesg could still be useful but I was hoping for some error
-messages. I guess not.
