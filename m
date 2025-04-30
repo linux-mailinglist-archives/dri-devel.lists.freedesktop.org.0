@@ -2,94 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0F8AA4D0D
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 15:14:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713B7AA4D3D
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 15:19:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E47010E011;
-	Wed, 30 Apr 2025 13:14:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E48EC10E084;
+	Wed, 30 Apr 2025 13:19:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JW4AOmsG";
+	dkim=pass (2048-bit key; secure) header.d=braiins.cz header.i=@braiins.cz header.b="dGOYjqch";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B6D610E011
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:14:23 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D372F725;
- Wed, 30 Apr 2025 15:14:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1746018853;
- bh=4K229jTSEoytrVRGZYVTEIZe34wrIcvfDmHAIE9mKeA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JW4AOmsG6Kn/ZVRKTcOkxxuHthEJOaYEnAorz2LDD0JwH3iPbO8CZgsDeuVNHsZQB
- U6Rfc6hjDP7BVbTDrkNb81fhjh0sAs65tTs5XcTcq2ZEiDxC0jSsINxUs85qno5x+1
- vQQqJzyHM++a9LMioqC7AaItR5Z9Mmcxm1mDXtOY=
-Message-ID: <f729c0d6-45a0-4610-b22b-92c03f534bf7@ideasonboard.com>
-Date: Wed, 30 Apr 2025 16:14:15 +0300
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+ [209.85.128.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E343E10E084
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:19:02 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id
+ 5b1f17b1804b1-43cfebc343dso50324755e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 06:19:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braiins.cz; s=google; t=1746019141; x=1746623941; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GuuJRFOt/XpcZx7+f4J4r9/4kCyOrOivaFZ4Wj50lMA=;
+ b=dGOYjqchWCa8GDTIFltuVM/fWlblsmbXCuVSQPVCi6f11kiSv5Ilk6pBOkyK6y6V6T
+ RNgIcGamHuVa8Pl2emtUFuzuo2P0yAvYNzGfVOGEdGNMg9DCC2G+1GsYBSXqlNBKe3gj
+ 4n7IJ7+NFP8LC8XWXwZVzeyV9qP1VYGr6nOup0U1sVVs27cuad61iNeMnEQg6Qq4f+qk
+ y65Y/rc0/YWTMEDFWVrFE9ySiw1YzrUlFzVi6MV1kaZSWozJs59Ps/wWc6ubu53Lk8ID
+ J1y6E6FWNY3X6rlOpsCz64SipScd6AtHnsx/zsz3nP8RKwRFFhcxxcgabxpblzbMNliK
+ poIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746019141; x=1746623941;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GuuJRFOt/XpcZx7+f4J4r9/4kCyOrOivaFZ4Wj50lMA=;
+ b=xKnS0BlFuyxnwGX/bvbufi2vsxOHA1/NpSYGAs8x6Tpkwv9Wu/hQRFiEyiUZ1Q/4Cy
+ Bn5/YpvduaIfw5kagpw3p9S5DliBpNqLXpcbOVTyfPqwzeLK+yD6TeZ3Az/ly6GK/Uw2
+ grLr+P/01ymNIJS6HMh9Sn0Qr78imzrPvJkK2CbKRNiXlLb6amyk1JqMQV1C6Ozi6hfI
+ lCu0hmp0JwxxWGx8Gb1rMihAhhcB8R0JbtCPru1WszFKeear7fi3PsRIkojtFKNaDKA3
+ UIIeEToSlgrYqD42sVXaHnEPn+HEabO0CR5axHTxfhIxD9jAq+0OiP5akOTmOi8ahL9/
+ zyTA==
+X-Gm-Message-State: AOJu0YywAnLlIfC5ZtwdE1bIAlcLoWzOFNtpDLi60ykTZcH2slW0TTGp
+ 3fF7d1jtu8mBm/gC+dFzUVby0Wc0qPN3rWvhOPqy4fMrzWuVw2gY+4wXlZ/gesAT+SkqeiouIUZ
+ kt5TLMf53
+X-Gm-Gg: ASbGncvWgc9OLT4BxtWLfrLNtjvu8MHrURWwuvlZ37pFc0YmU6wdgamsxexAgVyD0K9
+ rzjIS+w0nppZkxwxBYkLEjuelE7pH5gOH5bfSzjITDH1eckkwMnsZO8GNyf3ZTF8P9EQJ83g53b
+ Ew++4ODGZGUJu0YwoUPP5/PTyjnyYtIjE/McEGQTmVobiVGCMiL0GpNfNLVfYfH8wbOPU7ktWY7
+ /syL2NLblX1ssB2KFUWbCJ41nZAhCeIWNvwzJ5Yfp6ys4oxX2VVbkwXDl4cAnNgV0NvkXs/XN8Z
+ EPHLljq5mxFbenTi5X+JxuxCSDrO0ozdeWuQk05vWfdH2e99gboq6vt3oW+5iWMOAXIkUl1Ryv+
+ jzg==
+X-Google-Smtp-Source: AGHT+IFdqPO6DEXgI54UNvmEZOFQ4f/GuB9j1PWdW8j7g1x0rW9DsfvP4LQ9kIF5S4A0f1V6ZQAF8g==
+X-Received: by 2002:a05:600c:1ca4:b0:43c:e478:889 with SMTP id
+ 5b1f17b1804b1-441b1dfc2c4mr28542635e9.0.1746019140615; 
+ Wed, 30 Apr 2025 06:19:00 -0700 (PDT)
+Received: from hp445.cm.ii.zone (238.146.230.94.awnet.cz. [94.230.146.238])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-441b23c5e14sm18190885e9.0.2025.04.30.06.18.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Apr 2025 06:19:00 -0700 (PDT)
+From: Josef Lusticky <josef.lusticky@braiins.cz>
+To: dri-devel@lists.freedesktop.org
+Cc: david@lechnology.com, lanzano.alex@gmail.com,
+ Josef Lusticky <josef.lusticky@braiins.cz>
+Subject: [PATCH] drm/tiny: Add driver for displays with ST7365P controller
+Date: Wed, 30 Apr 2025 15:17:58 +0200
+Message-Id: <20250430131758.13535-1-josef.lusticky@braiins.cz>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] drm/tidss: Update infrastructure to support K3 DSS
- cut-down versions
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev,
- s-jain1@ti.com, r-donadkar@ti.com, j-choudhary@ti.com, h-shenoy@ti.com,
- jyri.sarha@iki.fi, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- simona@ffwll.ch, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-References: <20250429143656.3252877-1-devarsht@ti.com>
- <20250429143656.3252877-3-devarsht@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250429143656.3252877-3-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,440 +85,334 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The driver supports 3.5" Kingway HW-035P0Z002 display found
+on Braiins Mini Miner BMM 101 product.
 
-On 29/04/2025 17:36, Devarsh Thakkar wrote:
-> SoCs like AM62Lx support cut-down version of K3 DSS where although same
-> register space is supported as in other K3 DSS supported SoCs such as
-> AM65x, AM62x, AM62Ax but some of the resources such as planes and
-> corresponding register spaces are truncated.
-> 
-> For e.g. AM62Lx has only single VIDL pipeline supported, so corresponding
-> register spaces for other video pipelines need to be skipped.
-> 
-> To add a generic support for future SoCs where one or more video pipelines
-> can get truncated from the parent register space, move the video plane
-> related information to vid_info struct which will also have a field to
-> indicate hardware index of each of the available video planes, so that
-> driver only maps and programs those video pipes and skips the unavailable
-> ones.
-> 
-> While at it, also change the num_planes field in the features structure to
-> num_vid so that all places in code which use vid_info structure are
-> highlighted in the code.
-> 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
-> V5:
-> - Use separate variable for hw_id and add it in missing places to access
->    correct VID pipeline bits in common registers
-> 
-> V4:
-> - Create vid_info struct only for instantiated planes
-> - s/num_planes/num_vids
-> - s/vid_lite/is_lite
-> - Add hw_id member in vid_info struct and remove is_present
-> 
-> V2->V3:
-> - No change (patch introduced in V3)
->   
->   drivers/gpu/drm/tidss/tidss_crtc.c  |  11 +-
->   drivers/gpu/drm/tidss/tidss_dispc.c | 152 +++++++++++++++++++++-------
->   drivers/gpu/drm/tidss/tidss_dispc.h |  11 +-
->   drivers/gpu/drm/tidss/tidss_kms.c   |   2 +-
->   drivers/gpu/drm/tidss/tidss_plane.c |   2 +-
->   5 files changed, 131 insertions(+), 47 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-> index 94f8e3178df5..c555f6717e7d 100644
-> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-> @@ -130,7 +130,7 @@ static void tidss_crtc_position_planes(struct tidss_device *tidss,
->   	    !to_tidss_crtc_state(cstate)->plane_pos_changed)
->   		return;
->   
-> -	for (layer = 0; layer < tidss->feat->num_planes; layer++) {
-> +	for (layer = 0; layer < tidss->feat->num_vids ; layer++) {
->   		struct drm_plane_state *pstate;
->   		struct drm_plane *plane;
->   		bool layer_active = false;
-> @@ -271,9 +271,12 @@ static void tidss_crtc_atomic_disable(struct drm_crtc *crtc,
->   	 * another videoport, the DSS will report sync lost issues. Disable all
->   	 * the layers here as a work-around.
->   	 */
-> -	for (u32 layer = 0; layer < tidss->feat->num_planes; layer++)
-> -		dispc_ovr_enable_layer(tidss->dispc, tcrtc->hw_videoport, layer,
-> -				       false);
-> +	for (u32 layer = 0; layer < tidss->feat->num_vids; layer++) {
-> +		u32 hw_id = tidss->feat->vid_info[layer].hw_id;
-> +
-> +		dispc_ovr_enable_layer(tidss->dispc, tcrtc->hw_videoport,
-> +				       hw_id, false);
-> +	}
->   
->   	dispc_vp_disable(tidss->dispc, tcrtc->hw_videoport);
->   
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index cacb5f3d8085..da6fe4e3ca85 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -103,9 +103,16 @@ const struct dispc_features dispc_k2g_feats = {
->   		},
->   	},
->   
-> -	.num_planes = 1,
-> -	.vid_name = { "vid1" },
-> -	.vid_lite = { false },
-> +	.num_vids = 1,
-> +
-> +	.vid_info = {
-> +		{
-> +			.name = "vid1",
-> +			.is_lite = false,
-> +			.hw_id = 0,
-> +		},
-> +	},
-> +
->   	.vid_order = { 0 },
->   };
->   
-> @@ -178,11 +185,22 @@ const struct dispc_features dispc_am65x_feats = {
->   		},
->   	},
->   
-> -	.num_planes = 2,
-> +	.num_vids = 2,
->   	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-> -	.vid_name = { "vid", "vidl1" },
-> -	.vid_lite = { false, true, },
-> -	.vid_order = { 1, 0 },
-> +	.vid_info = {
-> +		{
-> +			.name = "vid",
-> +			.is_lite = false,
-> +			.hw_id = 0,
-> +		},
-> +		{
-> +			.name = "vidl1",
-> +			.is_lite = true,
-> +			.hw_id = 1,
-> +		},
-> +	},
-> +
-> +	.vid_order = {1, 0},
->   };
->   
->   static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
-> @@ -267,9 +285,32 @@ const struct dispc_features dispc_j721e_feats = {
->   			.gamma_type = TIDSS_GAMMA_10BIT,
->   		},
->   	},
-> -	.num_planes = 4,
-> -	.vid_name = { "vid1", "vidl1", "vid2", "vidl2" },
-> -	.vid_lite = { 0, 1, 0, 1, },
-> +
-> +	.num_vids = 4,
-> +
-> +	.vid_info = {
-> +		{
-> +			.name = "vid1",
-> +			.is_lite = false,
-> +			.hw_id = 0,
-> +		},
-> +		{
-> +			.name = "vidl1",
-> +			.is_lite = true,
-> +			.hw_id = 1,
-> +		},
-> +		{
-> +			.name = "vid2",
-> +			.is_lite = false,
-> +			.hw_id = 2,
-> +		},
-> +		{
-> +			.name = "vidl2",
-> +			.is_lite = true,
-> +			.hw_id = 3,
-> +		},
-> +	},
-> +
->   	.vid_order = { 1, 3, 0, 2 },
->   };
->   
-> @@ -315,11 +356,23 @@ const struct dispc_features dispc_am625_feats = {
->   		},
->   	},
->   
-> -	.num_planes = 2,
-> +	.num_vids = 2,
-> +
->   	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-> -	.vid_name = { "vid", "vidl1" },
-> -	.vid_lite = { false, true, },
-> -	.vid_order = { 1, 0 },
-> +	.vid_info = {
-> +		{
-> +			.name = "vid",
-> +			.is_lite = false,
-> +			.hw_id = 0,
-> +		},
-> +		{
-> +			.name = "vidl1",
-> +			.is_lite = true,
-> +			.hw_id = 1,
-> +		}
-> +	},
-> +
-> +	.vid_order = {1, 0},
->   };
->   
->   const struct dispc_features dispc_am62a7_feats = {
-> @@ -369,11 +422,22 @@ const struct dispc_features dispc_am62a7_feats = {
->   		},
->   	},
->   
-> -	.num_planes = 2,
-> -	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-> -	.vid_name = { "vid", "vidl1" },
-> -	.vid_lite = { false, true, },
-> -	.vid_order = { 1, 0 },
-> +	.num_vids = 2,
-> +
-> +	.vid_info = {
-> +		{
-> +			.name = "vid",
-> +			.is_lite = false,
-> +			.hw_id = 0,
-> +		},
-> +		{
-> +			.name = "vidl1",
-> +			.is_lite = true,
-> +			.hw_id = 1,
-> +		}
-> +	},
-> +
-> +	.vid_order = {1, 0},
->   };
->   
->   static const u16 *dispc_common_regmap;
-> @@ -788,9 +852,12 @@ void dispc_k3_clear_irqstatus(struct dispc_device *dispc, dispc_irq_t clearmask)
->   		if (clearmask & DSS_IRQ_VP_MASK(i))
->   			dispc_k3_vp_write_irqstatus(dispc, i, clearmask);
->   	}
-> -	for (i = 0; i < dispc->feat->num_planes; ++i) {
-> +
-> +	for (i = 0; i < dispc->feat->num_vids; ++i) {
-> +		u32 hw_id = dispc->feat->vid_info[i].hw_id;
-> +
->   		if (clearmask & DSS_IRQ_PLANE_MASK(i))
-> -			dispc_k3_vid_write_irqstatus(dispc, i, clearmask);
-> +			dispc_k3_vid_write_irqstatus(dispc, hw_id, clearmask);
->   	}
->   
->   	/* always clear the top level irqstatus */
-> @@ -809,8 +876,11 @@ dispc_irq_t dispc_k3_read_and_clear_irqstatus(struct dispc_device *dispc)
->   	for (i = 0; i < dispc->feat->num_vps; ++i)
->   		status |= dispc_k3_vp_read_irqstatus(dispc, i);
->   
-> -	for (i = 0; i < dispc->feat->num_planes; ++i)
-> -		status |= dispc_k3_vid_read_irqstatus(dispc, i);
-> +	for (i = 0; i < dispc->feat->num_vids; ++i) {
-> +		u32 hw_id = dispc->feat->vid_info[i].hw_id;
-> +
-> +		status |= dispc_k3_vid_read_irqstatus(dispc, hw_id);
-> +	}
->   
->   	dispc_k3_clear_irqstatus(dispc, status);
->   
-> @@ -825,8 +895,11 @@ static dispc_irq_t dispc_k3_read_irqenable(struct dispc_device *dispc)
->   	for (i = 0; i < dispc->feat->num_vps; ++i)
->   		enable |= dispc_k3_vp_read_irqenable(dispc, i);
->   
-> -	for (i = 0; i < dispc->feat->num_planes; ++i)
-> -		enable |= dispc_k3_vid_read_irqenable(dispc, i);
-> +	for (i = 0; i < dispc->feat->num_vids; ++i) {
-> +		u32 hw_id = dispc->feat->vid_info[i].hw_id;
-> +
-> +		enable |= dispc_k3_vid_read_irqenable(dispc, hw_id);
-> +	}
->   
->   	return enable;
->   }
-> @@ -849,19 +922,22 @@ static void dispc_k3_set_irqenable(struct dispc_device *dispc,
->   			main_enable |= BIT(i);		/* VP IRQ */
->   		else
->   			main_disable |= BIT(i);		/* VP IRQ */
-> +
->   	}
->   
-> -	for (i = 0; i < dispc->feat->num_planes; ++i) {
-> -		dispc_k3_vid_set_irqenable(dispc, i, mask);
-> +	for (i = 0; i < dispc->feat->num_vids; ++i) {
-> +		u32 hw_id = dispc->feat->vid_info[i].hw_id;
-> +
-> +		dispc_k3_vid_set_irqenable(dispc, hw_id, mask);
-> +
->   		if (mask & DSS_IRQ_PLANE_MASK(i))
-> -			main_enable |= BIT(i + 4);	/* VID IRQ */
-> +			main_enable |= BIT(hw_id + 4);	/* VID IRQ */
->   		else
-> -			main_disable |= BIT(i + 4);	/* VID IRQ */
-> +			main_disable |= BIT(hw_id + 4);	/* VID IRQ */
->   	}
->   
->   	if (main_enable)
->   		dispc_write(dispc, DISPC_IRQENABLE_SET, main_enable);
-> -
->   	if (main_disable)
->   		dispc_write(dispc, DISPC_IRQENABLE_CLR, main_disable);
->   
-> @@ -2025,7 +2101,7 @@ int dispc_plane_check(struct dispc_device *dispc, u32 hw_plane,
->   		      const struct drm_plane_state *state,
->   		      u32 hw_videoport)
->   {
-> -	bool lite = dispc->feat->vid_lite[hw_plane];
-> +	bool lite = dispc->feat->vid_info[hw_plane].is_lite;
+Signed-off-by: Josef Lusticky <josef.lusticky@braiins.cz>
+---
+ drivers/gpu/drm/tiny/Kconfig   |  14 ++
+ drivers/gpu/drm/tiny/Makefile  |   1 +
+ drivers/gpu/drm/tiny/st7365p.c | 275 +++++++++++++++++++++++++++++++++
+ 3 files changed, 290 insertions(+)
+ create mode 100644 drivers/gpu/drm/tiny/st7365p.c
 
-I don't think this is correct. You can't access the vid_info[] with the 
-hw-id.
-
->   	u32 fourcc = state->fb->format->format;
->   	bool need_scaling = state->src_w >> 16 != state->crtc_w ||
->   		state->src_h >> 16 != state->crtc_h;
-> @@ -2096,7 +2172,7 @@ void dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
->   		       const struct drm_plane_state *state,
->   		       u32 hw_videoport)
->   {
-> -	bool lite = dispc->feat->vid_lite[hw_plane];
-> +	bool lite = dispc->feat->vid_info[hw_plane].is_lite;
-
-Here too.
-
->   	u32 fourcc = state->fb->format->format;
->   	u16 cpp = state->fb->format->cpp[0];
->   	u32 fb_width = state->fb->pitches[0] / cpp;
-> @@ -2210,7 +2286,7 @@ static void dispc_k2g_plane_init(struct dispc_device *dispc)
->   	/* MFLAG_START = MFLAGNORMALSTARTMODE */
->   	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
->   
-> -	for (hw_plane = 0; hw_plane < dispc->feat->num_planes; hw_plane++) {
-> +	for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
->   		u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
->   		u32 thr_low, thr_high;
->   		u32 mflag_low, mflag_high;
-> @@ -2226,7 +2302,7 @@ static void dispc_k2g_plane_init(struct dispc_device *dispc)
->   
->   		dev_dbg(dispc->dev,
->   			"%s: bufsize %u, buf_threshold %u/%u, mflag threshold %u/%u preload %u\n",
-> -			dispc->feat->vid_name[hw_plane],
-> +			dispc->feat->vid_info[hw_plane].name,
-
-Here hw_plane is not actually the hw-id (anymore), but elsewhere in this 
-function it is used as a hw-id, which is no longer correct.
-
->   			size,
->   			thr_high, thr_low,
->   			mflag_high, mflag_low,
-> @@ -2265,7 +2341,7 @@ static void dispc_k3_plane_init(struct dispc_device *dispc)
->   	/* MFLAG_START = MFLAGNORMALSTARTMODE */
->   	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
->   
-> -	for (hw_plane = 0; hw_plane < dispc->feat->num_planes; hw_plane++) {
-> +	for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
->   		u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
->   		u32 thr_low, thr_high;
->   		u32 mflag_low, mflag_high;
-> @@ -2281,7 +2357,7 @@ static void dispc_k3_plane_init(struct dispc_device *dispc)
->   
->   		dev_dbg(dispc->dev,
->   			"%s: bufsize %u, buf_threshold %u/%u, mflag threshold %u/%u preload %u\n",
-> -			dispc->feat->vid_name[hw_plane],
-> +			dispc->feat->vid_info[hw_plane].name,
-
-And here.
-
-All these issues make me wonder whether we have the right model. It's 
-just too easy to get the usage wrong.
-
-I'm not sure which way to go here.
-
-Fix the current issues? It's a bit cumbersome to go from hw-id to the 
-index (needs a search), just to get some hw properties.
-
-Or go back to the earlier one, with a vid array containing unused slots? 
-That makes the for loops a bit harder.
-
-I need to think about it...
-
-  Tomi
-
->   			size,
->   			thr_high, thr_low,
->   			mflag_high, mflag_low,
-> @@ -2898,8 +2974,8 @@ int dispc_init(struct tidss_device *tidss)
->   	if (r)
->   		return r;
->   
-> -	for (i = 0; i < dispc->feat->num_planes; i++) {
-> -		r = dispc_iomap_resource(pdev, dispc->feat->vid_name[i],
-> +	for (i = 0; i < dispc->feat->num_vids; i++) {
-> +		r = dispc_iomap_resource(pdev, dispc->feat->vid_info[i].name,
->   					 &dispc->base_vid[i]);
->   		if (r)
->   			return r;
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-> index 086327d51a90..72a0146e57d5 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-> @@ -46,6 +46,12 @@ struct dispc_features_scaling {
->   	u32 xinc_max;
->   };
->   
-> +struct dispc_vid_info {
-> +	const char *name; /* Should match dt reg names */
-> +	u32 hw_id;
-> +	bool is_lite;
-> +};
-> +
->   struct dispc_errata {
->   	bool i2000; /* DSS Does Not Support YUV Pixel Data Formats */
->   };
-> @@ -82,9 +88,8 @@ struct dispc_features {
->   	const char *vpclk_name[TIDSS_MAX_PORTS]; /* Should match dt clk names */
->   	const enum dispc_vp_bus_type vp_bus_type[TIDSS_MAX_PORTS];
->   	struct tidss_vp_feat vp_feat;
-> -	u32 num_planes;
-> -	const char *vid_name[TIDSS_MAX_PLANES]; /* Should match dt reg names */
-> -	bool vid_lite[TIDSS_MAX_PLANES];
-> +	u32 num_vids;
-> +	struct dispc_vid_info vid_info[TIDSS_MAX_PLANES];
->   	u32 vid_order[TIDSS_MAX_PLANES];
->   };
->   
-> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-> index f371518f8697..19432c08ec6b 100644
-> --- a/drivers/gpu/drm/tidss/tidss_kms.c
-> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
-> @@ -115,7 +115,7 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
->   
->   	const struct dispc_features *feat = tidss->feat;
->   	u32 max_vps = feat->num_vps;
-> -	u32 max_planes = feat->num_planes;
-> +	u32 max_planes = feat->num_vids;
->   
->   	struct pipe pipes[TIDSS_MAX_PORTS];
->   	u32 num_pipes = 0;
-> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-> index 719412e6c346..142ae81951a0 100644
-> --- a/drivers/gpu/drm/tidss/tidss_plane.c
-> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
-> @@ -200,7 +200,7 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
->   	struct tidss_plane *tplane;
->   	enum drm_plane_type type;
->   	u32 possible_crtcs;
-> -	u32 num_planes = tidss->feat->num_planes;
-> +	u32 num_planes = tidss->feat->num_vids;
->   	u32 color_encodings = (BIT(DRM_COLOR_YCBCR_BT601) |
->   			       BIT(DRM_COLOR_YCBCR_BT709));
->   	u32 color_ranges = (BIT(DRM_COLOR_YCBCR_FULL_RANGE) |
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index ad4dab525f93..5891ff8bc475 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -199,6 +199,20 @@ config TINYDRM_SHARP_MEMORY
+ 
+ 	  If M is selected the module will be called sharp_memory.
+ 
++config TINYDRM_ST7365P
++	tristate "DRM support for Sitronix ST7365P display panels"
++	depends on DRM && SPI
++	select DRM_CLIENT_SELECTION
++	select DRM_KMS_HELPER
++	select DRM_GEM_DMA_HELPER
++	select DRM_MIPI_DBI
++	select BACKLIGHT_CLASS_DEVICE
++	help
++	  DRM driver for the following Sitronix ST7365P panels:
++	  * Kingway HW-035P0Z002
++
++	  If M is selected the module will be called st7365p.
++
+ config TINYDRM_ST7586
+ 	tristate "DRM support for Sitronix ST7586 display panels"
+ 	depends on DRM && SPI
+diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+index 0151590db5cb..d98bb5f01387 100644
+--- a/drivers/gpu/drm/tiny/Makefile
++++ b/drivers/gpu/drm/tiny/Makefile
+@@ -15,5 +15,6 @@ obj-$(CONFIG_TINYDRM_ILI9486)		+= ili9486.o
+ obj-$(CONFIG_TINYDRM_MI0283QT)		+= mi0283qt.o
+ obj-$(CONFIG_TINYDRM_REPAPER)		+= repaper.o
+ obj-$(CONFIG_TINYDRM_SHARP_MEMORY)	+= sharp-memory.o
++obj-$(CONFIG_TINYDRM_ST7365P)		+= st7365p.o
+ obj-$(CONFIG_TINYDRM_ST7586)		+= st7586.o
+ obj-$(CONFIG_TINYDRM_ST7735R)		+= st7735r.o
+diff --git a/drivers/gpu/drm/tiny/st7365p.c b/drivers/gpu/drm/tiny/st7365p.c
+new file mode 100644
+index 000000000000..c388d57682a7
+--- /dev/null
++++ b/drivers/gpu/drm/tiny/st7365p.c
+@@ -0,0 +1,275 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * DRM driver for display panels connected to Sitronix ST7365P
++ * display controller in SPI mode.
++ *
++ * Copyright (C) Braiins Systems s.r.o. 2025
++ */
++
++#include <linux/backlight.h>
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/property.h>
++#include <linux/spi/spi.h>
++
++#include <drm/clients/drm_client_setup.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_fbdev_dma.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_mipi_dbi.h>
++#include <drm/drm_modeset_helper.h>
++#include <video/mipi_display.h>
++
++/* ST7356P specific defines */
++#define ST7356P_DIC     0xB4 // Display Inversion Control
++#define ST7356P_EM      0xB7 // Entry Mode Set
++#define ST7356P_PWR1    0xC0 // Power Control 1
++#define ST7356P_PWR2    0xC1 // Power Control 2
++#define ST7356P_PWR3    0xC2 // Power Control 3
++#define ST7356P_VCMPCTL 0xC5 // VCOM Control
++#define ST7356P_VCMOST  0xC6 // VCOM Offset Register
++#define ST7356P_PGC     0xE0 // Positive Gamma Control
++#define ST7356P_NGC     0xE1 // Negative Gamma Control
++#define ST7356P_DOCA    0xE8 // Display Output Ctrl Adjust
++#define ST7356P_CSCON   0xF0 // Command Set Control
++
++#define ST7356P_CSCON_ENABLE_PART_1  0xC3
++#define ST7356P_CSCON_ENABLE_PART_2  0x96
++#define ST7356P_CSCON_DISABLE_PART_1 0x3C
++#define ST7356P_CSCON_DISABLE_PART_2 0x69
++
++#define MADCTL_MY    BIT(7) // Row Address Order
++#define MADCTL_MX    BIT(6) // Column Address Order
++#define MADCTL_MV    BIT(5) // Row/Column Exchange
++#define MADCTL_ML    BIT(4) // Vertical Refresh Order
++#define MADCTL_BGR   BIT(3) // RGB-BGR ORDER
++
++struct st7365p_cfg {
++	const struct drm_display_mode mode;
++	unsigned int inverted:1; /* Color invert mode */
++};
++
++struct st7365p_priv {
++	struct mipi_dbi_dev dbidev;	/* Must be first for .release() */
++	const struct st7365p_cfg *cfg;
++};
++
++static void st7365p_pipe_enable(struct drm_simple_display_pipe *pipe,
++				struct drm_crtc_state *crtc_state,
++				struct drm_plane_state *plane_state)
++{
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct st7365p_priv *priv = container_of(dbidev, struct st7365p_priv,
++						 dbidev);
++	struct mipi_dbi *dbi = &dbidev->dbi;
++	int ret, idx;
++	u8 addr_mode;
++
++	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++		return;
++
++	DRM_DEBUG_KMS("\n");
++
++	ret = mipi_dbi_poweron_reset(dbidev);
++	if (ret)
++		goto out_exit;
++
++	/* Exit sleep mode */
++	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
++	msleep(5);
++
++	/* 16-bit pixels */
++	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, MIPI_DCS_PIXEL_FMT_16BIT);
++
++	/* ST7365P specific settings */
++	mipi_dbi_command(dbi, ST7356P_CSCON, ST7356P_CSCON_ENABLE_PART_1);
++	mipi_dbi_command(dbi, ST7356P_CSCON, ST7356P_CSCON_ENABLE_PART_2);
++
++	mipi_dbi_command(dbi, ST7356P_DIC, 0x0001);
++	mipi_dbi_command(dbi, ST7356P_EM, 0x00C6);
++
++	mipi_dbi_command(dbi, ST7356P_PWR2, 0x0015);
++	mipi_dbi_command(dbi, ST7356P_PWR3, 0x00AF);
++	mipi_dbi_command(dbi, ST7356P_VCMPCTL, 0x0022);
++	mipi_dbi_command(dbi, ST7356P_VCMOST, 0x0000);
++	mipi_dbi_command(dbi, ST7356P_DOCA, 0x0040, 0x008A, 0x0000, 0x0000,
++					    0x0029, 0x0019, 0x00A5, 0x0033);
++
++	mipi_dbi_command(dbi, ST7356P_CSCON, ST7356P_CSCON_DISABLE_PART_1);
++	mipi_dbi_command(dbi, ST7356P_CSCON, ST7356P_CSCON_DISABLE_PART_2);
++
++	/* Enter inverted mode */
++	if (priv->cfg->inverted)
++		mipi_dbi_command(dbi, MIPI_DCS_ENTER_INVERT_MODE);
++
++	/* Rotation */
++	addr_mode = 0;
++	switch (dbidev->rotation) {
++	case 0:
++		addr_mode |= (MADCTL_MX);
++		break;
++	case 90:
++		addr_mode |= (MADCTL_MV | MADCTL_MX | MADCTL_MY);
++		break;
++	case 180:
++		addr_mode |= (MADCTL_MY);
++		break;
++	case 270:
++		addr_mode |= (MADCTL_MV);
++		break;
++	default:
++		addr_mode = 0;
++	}
++
++	/* NOTE: The meaning of this attribute has opposite effect on
++	 * the controller so 'MADCTL_BGR' is used for RGB mode.
++	 */
++	addr_mode |= MADCTL_BGR;
++
++	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
++
++	/* Turn on Brightness Control Block and Backlight Control */
++	mipi_dbi_command(dbi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
++
++	/* Turn on the display */
++	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
++
++	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
++
++out_exit:
++	drm_dev_exit(idx);
++}
++
++static const struct drm_simple_display_pipe_funcs st7365p_pipe_funcs = {
++	DRM_MIPI_DBI_SIMPLE_DISPLAY_PIPE_FUNCS(st7365p_pipe_enable),
++};
++
++static const struct st7365p_cfg kingway_hw035p0z002 = {
++	.mode       = { DRM_SIMPLE_MODE(320, 480, 49, 73) },
++	.inverted   = 1,
++};
++
++DEFINE_DRM_GEM_DMA_FOPS(st7365p_fops);
++
++static const struct drm_driver st7365p_driver = {
++	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
++	.fops            = &st7365p_fops,
++	DRM_GEM_DMA_DRIVER_OPS_VMAP,
++	DRM_FBDEV_DMA_DRIVER_OPS,
++	.debugfs_init    = mipi_dbi_debugfs_init,
++	.name            = "st7365p",
++	.desc            = "Sitronix ST7365P",
++	.major           = 1,
++	.minor           = 0,
++};
++
++static const struct of_device_id st7365p_of_match[] = {
++	{ .compatible = "kingway,hw-035p0z002", .data = &kingway_hw035p0z002 },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, st7365p_of_match);
++
++static const struct spi_device_id st7365p_id[] = {
++	{ "hw-035p0z002", (uintptr_t)&kingway_hw035p0z002 },
++	{ },
++};
++MODULE_DEVICE_TABLE(spi, st7365p_id);
++
++static int st7365p_probe(struct spi_device *spi)
++{
++	struct device *dev = &spi->dev;
++	const struct st7365p_cfg *cfg;
++	struct mipi_dbi_dev *dbidev;
++	struct st7365p_priv *priv;
++	struct drm_device *drm;
++	struct mipi_dbi *dbi;
++	struct gpio_desc *dc;
++	u32 rotation;
++	int ret;
++
++	cfg = device_get_match_data(&spi->dev);
++	if (!cfg)
++		cfg = (void *)spi_get_device_id(spi)->driver_data;
++
++	priv = devm_drm_dev_alloc(dev, &st7365p_driver,
++				  struct st7365p_priv, dbidev.drm);
++	if (IS_ERR(priv))
++		return PTR_ERR(priv);
++
++	dbidev = &priv->dbidev;
++	priv->cfg = cfg;
++
++	dbi = &dbidev->dbi;
++	drm = &dbidev->drm;
++
++	dbidev->backlight = devm_of_find_backlight(dev);
++	if (IS_ERR(dbidev->backlight))
++		return PTR_ERR(dbidev->backlight);
++
++	dbi->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(dbi->reset))
++		return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
++
++	dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
++	if (IS_ERR(dc))
++		return dev_err_probe(dev, PTR_ERR(dc), "Failed to get GPIO 'dc'\n");
++
++	ret = mipi_dbi_spi_init(spi, dbi, dc);
++	if (ret)
++		return ret;
++
++	/* Disable reading from display */
++	dbi->read_commands = NULL;
++
++	rotation = 0;
++	device_property_read_u32(dev, "rotation", &rotation);
++
++	ret = mipi_dbi_dev_init(dbidev, &st7365p_pipe_funcs, &cfg->mode, rotation);
++	if (ret)
++		return ret;
++
++	drm_mode_config_reset(drm);
++
++	ret = drm_dev_register(drm, 0);
++	if (ret)
++		return ret;
++
++	spi_set_drvdata(spi, drm);
++
++	drm_client_setup(drm, NULL);
++
++	return 0;
++}
++
++static void st7365p_remove(struct spi_device *spi)
++{
++	struct drm_device *drm = spi_get_drvdata(spi);
++
++	drm_dev_unplug(drm);
++	drm_atomic_helper_shutdown(drm);
++}
++
++static void st7365p_shutdown(struct spi_device *spi)
++{
++	drm_atomic_helper_shutdown(spi_get_drvdata(spi));
++}
++
++static struct spi_driver st7365p_spi_driver = {
++	.driver = {
++		.name = "st7365p",
++		.of_match_table = st7365p_of_match,
++	},
++	.id_table = st7365p_id,
++	.probe = st7365p_probe,
++	.remove = st7365p_remove,
++	.shutdown = st7365p_shutdown,
++};
++module_spi_driver(st7365p_spi_driver);
++
++MODULE_DESCRIPTION("Sitronix ST7365P DRM driver");
++MODULE_AUTHOR("Josef Lusticky <josef.lusticky@braiins.cz>");
++MODULE_LICENSE("GPL");
+-- 
+2.30.2
 
