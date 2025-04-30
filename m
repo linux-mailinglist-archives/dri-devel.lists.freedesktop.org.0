@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81AFAA4C3C
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 15:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7740AA4C3E
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 15:01:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B131610E79F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6B4610E7C1;
 	Wed, 30 Apr 2025 13:01:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LQcLpycI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Boh7euKI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72EFE10E79F
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:01:25 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-43cf861f936so12552935e9.3
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1760510E79F
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 13:01:26 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-43cf861f936so12553035e9.3
  for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 06:01:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746018081; x=1746622881; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1746018083; x=1746622883; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hIYbRlauLJ+HBkfmmmxeYe7riwQD6vu+qiBT5eLd3s4=;
- b=LQcLpycIsVMx++Hl8i2eBahpz1I9ZUGUwLqTgetbo3RXrjmwRXy6wNp1mlT+WdQ82R
- OCduH2mmtWOAEaP33128ISE0uvPm/OOFbUU1rppJ4JtmalOKQlDql/AahYwqeoBsem7h
- xPrVxhgHeVdgR+1utRoz6TAZMUxEDyfj8BZm847gtXvYM2hURPMz3OwAPKWTepLYiJMg
- VL91ntOZ0erpK73lDGBNe8PCxAcM23bb6gZN3l3Hinn72CSSP/rnvB+SKDOG3Vn2KZbH
- Ov0u6LrOkhXeWl20XCrMLw58I4RrHdE0l0asUQXO6BYEiP97W+R2LQJw1AneixkQann4
- rSZw==
+ :reply-to; bh=UiMJSYIfbTscEgfa/S7hm841Cae3JL3KHIhG5qDZ+4c=;
+ b=Boh7euKISzAWl4w2CpYnJqI8S0ss1IzYskQt7rrV0XPYg1YHgNCkAEXsvJBltSbKF/
+ ElZ8EGIyZ94V39riCZFdcZdDOlOgCaH82sw1+oaphYWsOhF82mvDElSg6V/oQ/dNAzDz
+ SPyCMmMgoGHNvCOf65nAN7NDN0GNIAA9GeolN7qnK4s7RUvdFWiSQa5BE4RW3wJyaFuh
+ B202lGwONB6CRrBzq7Vcr54mFnvBFxya5e6Om+e3VV1H5/XSxt/oJP9BlnAepfHe8VGr
+ VN7Ewv3l5rUR3gEBCU3v0z5R3vcwktV5PedE8J5MtEdngjrKBm/MJwukE63cQr4q5SJu
+ nV7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746018081; x=1746622881;
+ d=1e100.net; s=20230601; t=1746018083; x=1746622883;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hIYbRlauLJ+HBkfmmmxeYe7riwQD6vu+qiBT5eLd3s4=;
- b=TWBt9/+ERwlkFjkG6XpBOxoAWmIOPWU9FcCDtvkt0V8/ySjaOB6DLpOCL51sZBxYX0
- ZlJ6BZg1ilkCjcSkHzUBqD894WlYa8hMm1NguKfJNcfmFZqczNjIGWhnlHKtv0Lom+YL
- 5JA9XBwqBW+Gcl54GEmZkmPMTebZ4sc5WFR/yX8CGuTH0FXV9sp/EkSZvpZqEcMuk3ss
- hcTmDVCf5KxpNaeQLanzHjapXe1uGEn9n+qzmn1T+M39vGkHpgTzyxEbgxwcUTiFsyU4
- 37QMj9UiXNq3GfaLal3hB9yrsE1DtkuhA7k9q1vJ5ezIujz3rT24XsjbJgvB/zqehY1b
- fAPQ==
+ bh=UiMJSYIfbTscEgfa/S7hm841Cae3JL3KHIhG5qDZ+4c=;
+ b=VtdyeRKNB6RRQ3FupSMWidmDlVW8EDkVjP4aVfKpNsVloRggpL8cLe2J9JgbrXSWal
+ pBBrvieR8hZr5RDubB+1STzPXJmetkl+otD3I8D8dN5gSAjpbgnjonzNzcZiuTFiZDEQ
+ XinUJxE0juO6lEu8nLVIvRQrS4tSk/pfGG5c3Mc4Vd5fQHnPMyHy5bJ9P3SMVUxFR7r2
+ 0Jm/NUFE9DyzJKuB7XAOXxH3z4tPx0Occ3gGptOcp1hS0W4Voiz86ico5vt9xxmoU7Ls
+ yofY31YPR0ACJ6jwcSHEL3FQN/wu91/9/5r+ZXqV6mmlZNm9YZZdLbrSYAF15set0yw9
+ ACPw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0h5xGUhDK4oJo4V6HpWPrBfgJOkXtzkdOQB4TcGOmE4BgpglE+JFkDx4EnPZquOn/vydLkd2u0IM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzW78to6GoR2P+XrFn3c9epLxNyTW1z+vZQKKJZ1Ai9kVpA4p5N
- HuHWg3vHz8BqoHPFNFOMg4G8ohF7BHbAdKHMTJaQ+wq7dIq7XB9GK4paTS4Mcl8=
-X-Gm-Gg: ASbGncvubQthlhhU9eiAfQxpAl1WrSRmbwANceP/PF6vLYiyaEsJijqeJB6ybAXd61F
- NRqr8WY6T2i+e+0lbPLgtdhhQzOoabTbWlOr5fQjfOC6oD2+lDq+QdPaEjKoc2PVwqPXWgR02DT
- OitxgS2AvEGSGBjnma6+zrDD1+IOlVkbAOvdXVTWunp9oNYi/OYkgcoYm92RF3+58TRn/jZxl2C
- h6VnNsf7wLzZ8m0gHKqm0ZCacLSsuHTSzJ6key7qtpJjlzmeZUHypUQgzOGt1ZVsP8rmt0h4LTy
- 260RLRdZU3AaibuVN3EcE31I3PIM8djMwDhhR2/g755SneG+J9iDtCWOo+c=
-X-Google-Smtp-Source: AGHT+IGy0iGND4CwDZaIUFykzdWsI+BN8WeV0wSy847evjGpU0JOHr+Ib1tzikoVHW3i7zcwk/UBUw==
-X-Received: by 2002:a5d:64ee:0:b0:39f:6ca:9250 with SMTP id
- ffacd0b85a97d-3a09007e507mr674529f8f.12.1746018080066; 
- Wed, 30 Apr 2025 06:01:20 -0700 (PDT)
+ AJvYcCWkpOIn5ut0PpDaXlJruGT/zu0X8YcgtsuFJoDw1NJ8vkYT2zc75GMgxZ9zjVBFKJQEXVrSMzf/ZbE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVkG8DsdRVg4xVSl5yveEjkbWw9p1aE5l11346wXrld6yCLEns
+ CLUzSx04renlOWv9mIRuVCyZbSZsAzNSIbnZQRxMjQO85NVV+HEFAHzhwLhk8d4=
+X-Gm-Gg: ASbGncvuzLJ+gvKkQv95DX0Baz53IceipZvu//sS1yj6E53HCou5G3Eaaj9V2X5wOom
+ Iq1X1P2XhCGisnvn8tXAiZgW+poZQ7cqBticjNq6PFS2LtXsHTzTHXOX5UJ2gqAZPn73zdFg9hl
+ y/spDnrUrbHUoUN0bubHDQjDLTxnKJLGwryS8ueAm4eNF8gaiWP8UTkAVrI+5x+h7+4pKY9h+jU
+ FQ7dePTgeVa9rPAKoFZArkyrp9UW8anuUdPXkrT1eFhvxRrKOqA/8OkIc9qo7W29L9kEZj+dvQz
+ u2Y7VoqWKjfvb1c0BHzvhFqMRUkkEsAgOA5Rd1QCCQOBDMeDfpLHwyFkHtU=
+X-Google-Smtp-Source: AGHT+IFn111tvgyYFaZmfJPbWLNTKODE28cUWFrm8Mcmmd/nHWt2qqg3zfUH6GXahG8qUSQNfig2kQ==
+X-Received: by 2002:a05:6000:2288:b0:3a0:85de:e05c with SMTP id
+ ffacd0b85a97d-3a09009b735mr767112f8f.15.1746018082697; 
+ Wed, 30 Apr 2025 06:01:22 -0700 (PDT)
 Received: from [192.168.1.28] ([178.197.207.88])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a073e46c23sm16884043f8f.75.2025.04.30.06.01.18
+ ffacd0b85a97d-3a073e46c23sm16884043f8f.75.2025.04.30.06.01.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Apr 2025 06:01:19 -0700 (PDT)
+ Wed, 30 Apr 2025 06:01:21 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 30 Apr 2025 15:00:36 +0200
-Subject: [PATCH v5 06/24] clk: qcom: dispcc-sm8750: Fix setting rate byte
- and pixel clocks
+Date: Wed, 30 Apr 2025 15:00:37 +0200
+Subject: [PATCH v5 07/24] drm/msm/dpu: Add missing "fetch" name to
+ set_active_pipes()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250430-b4-sm8750-display-v5-6-8cab30c3e4df@linaro.org>
+Message-Id: <20250430-b4-sm8750-display-v5-7-8cab30c3e4df@linaro.org>
 References: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
 In-Reply-To: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
@@ -89,23 +89,25 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  Rob Clark <robdclark@chromium.org>, linux-clk@vger.kernel.org, 
- Srinivas Kandagatla <srini@kernel.org>
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1649;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4099;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=nfV/7RmHoNigN+etRFO22PUSZ15tfZ13Ey5db/FH8m8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoEh75XYczpa1XRjEYY76w1vQNfkUN4i5qCoYTp
- HwwGkhur1iJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaBIe+QAKCRDBN2bmhouD
- 17sxD/kBPOjHuljMicN8MnivmvbeOMOG6jLOk89d/9dap4GTebCFuxFDorsrNL91hdES4O7aiby
- rT/Qxv6qCxnvvkM0FVnggnSTY5gNWYcxiVD1e1wn0y+3Z03Ng9saCC1GUhyhAKTAYVZf/fjBrnU
- XHanIHAgdXPXvVbxXFipCdZHtywQr+QEpoqdBTADtnFSlTogSRmq6yOG8o15VVm9LjR2zHiS9OF
- x/lWqKJFtvGyW3ZGP8Sf9dN8RUlMD27cTAk+7dJwIlWPOUGLElzppd05ShKS9MYOzpBOWPc16q4
- t6u1+Il04mXUL2US421holVpBfFTXQU+ESXesex90exg6lMsdULKxaEJ+FuV1bFuz929ELzXykz
- y1Ssqlvl6WFuSVrkZuMisxRlELabMiGxrxs2P7Q7tJZdYqr5wxtMOaXIksAyFlleZ4oRcLGooZx
- lSBTijG+fe8L5DJxiASGKKKoxa9OwyKDSnJbU//ucnKKOauzQ6mDw+B5DoAeIHHVYYYkvqqWTL7
- p0hmMDcQYYA5RzuXWjCLUomf+HiTzN6dpdNJ7h4cYiFlCTV8DGosQ1JXRnxNTN+DiWZVIvZyx0E
- Jh0QkVO+1KaEFiJels4h0qJKL7Lyn5k7zLp/t2JJTTlDsDiVOY7cJr52yZUrPlXKwwMhrargwS5
- tbbp/QQ3V8KjjkQ==
+ bh=r6fKo5PXibO0QzyWpcwqycmMtKI/yjYBhbjx5uv53zQ=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoEh76ZVLS3hv6ZdJp/fyARXjXLcVt1FyaktOnX
+ Ipz9UhKKuKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaBIe+gAKCRDBN2bmhouD
+ 1yO4D/wLdNCJWipHGPvZ4tPbMw4jWM1bNS5dssup3qk5JC1/VFl9mWz74nVsmJcrN1eYfTaf+eZ
+ pAxXozoVqNtTC8T5q+0D6Bc6bEnvNQYiW4dMirKR97t6ryMrgtVntZ+o09MqB3LDaxWKOTFmO57
+ CJc3v8hC1k33K564U/wniOqMl560KTvZ1nEqNJB0Bn6Iq12IP8El6OV5zpkKvudZxzCm+i09vX0
+ Ps/IG5Dgdjy89P4gTMe7Bv6f+XZMTLf1UWxsrKSLXRfAEWInGHEiQJJhHGAu9Ek90eu5jEcRQo/
+ Scvm7DvNtsX6O0nLhOR99DLKJmd0KpAKcT59G8aocExhaoSRcVsKRYd/wUmoQp+pbTjogB51+ie
+ Am4i8mW78qriRw59IUQ9LlPeofH2oeRqVtzDJ7cXKqgrpqY+ToivakOL0uT2NT1sWgVIn5uKkLF
+ FcGrarQP3cct2LjT5ikXgZXBTl7x9AdNCAXN4qs4TS8eBz+dsmi4JAX1gjQLy11zMqw7uDmdJYr
+ sV8XyZISe38pRUgE/JD/o/U+ihQEFmhwVpC1GZnaBC8LgIiTrSzqmitZMFgu7EHxkYpXyFIzE8Q
+ F2OFIP7cJ2Uk8HBphWCGRtEfml+sVWGhvdX/i9vicZ7N9DYP32KKHqJMIg+SRwMiubRTfNIKwcm
+ ey6Q3tOr1Z+M9Ng==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,52 +125,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On SM8750 the setting rate of pixel and byte clocks, while the parent
-DSI PHY PLL, fails with:
+The set_active_pipes() callback configures CTL_FETCH_PIPE_ACTIVE and
+newer DPU v12.0 comes with CTL_PIPE_ACTIVE, thus rename it to
+set_active_fetch_pipes() to better match the purpose.
 
-  disp_cc_mdss_byte0_clk_src: rcg didn't update its configuration.
-
-DSI PHY PLL has to be unprepared and its "PLL Power Down" bits in
-CMN_CTRL_0 asserted.
-
-Mark these clocks with CLK_OPS_PARENT_ENABLE to ensure the parent is
-enabled during rate changes.
-
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
 ---
 
-Patch is independent and can go via separate tree. Including here for
-complete picture of clock debugging issues.
-
-Changes in v5:
+Changes in v2:
 1. New patch
 ---
- drivers/clk/qcom/dispcc-sm8750.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c   | 12 ++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c |  6 +++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h |  2 +-
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/clk/qcom/dispcc-sm8750.c b/drivers/clk/qcom/dispcc-sm8750.c
-index 877b40d50e6ff5501df16edcffb6cf3322c65977..d86f3def6dd06b6f6f7a25018a856dcc86fc48eb 100644
---- a/drivers/clk/qcom/dispcc-sm8750.c
-+++ b/drivers/clk/qcom/dispcc-sm8750.c
-@@ -393,7 +393,7 @@ static struct clk_rcg2 disp_cc_mdss_byte0_clk_src = {
- 		.name = "disp_cc_mdss_byte0_clk_src",
- 		.parent_data = disp_cc_parent_data_1,
- 		.num_parents = ARRAY_SIZE(disp_cc_parent_data_1),
--		.flags = CLK_SET_RATE_PARENT,
-+		.flags = CLK_SET_RATE_PARENT | CLK_OPS_PARENT_ENABLE,
- 		.ops = &clk_byte2_ops,
- 	},
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 0714936d883523e5c53bfb42f932234db76c58db..2d7af6fff2708c12520a78cc6c979b9930dffc95 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -445,9 +445,9 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+ 
+ 	uint32_t lm_idx;
+ 	bool bg_alpha_enable = false;
+-	DECLARE_BITMAP(fetch_active, SSPP_MAX);
++	DECLARE_BITMAP(active_fetch, SSPP_MAX);
+ 
+-	memset(fetch_active, 0, sizeof(fetch_active));
++	memset(active_fetch, 0, sizeof(active_fetch));
+ 	drm_atomic_crtc_for_each_plane(plane, crtc) {
+ 		state = plane->state;
+ 		if (!state)
+@@ -464,7 +464,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+ 		if (pstate->stage == DPU_STAGE_BASE && format->alpha_enable)
+ 			bg_alpha_enable = true;
+ 
+-		set_bit(pstate->pipe.sspp->idx, fetch_active);
++		set_bit(pstate->pipe.sspp->idx, active_fetch);
+ 		_dpu_crtc_blend_setup_pipe(crtc, plane,
+ 					   mixer, cstate->num_mixers,
+ 					   pstate->stage,
+@@ -472,7 +472,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+ 					   &pstate->pipe, 0, stage_cfg);
+ 
+ 		if (pstate->r_pipe.sspp) {
+-			set_bit(pstate->r_pipe.sspp->idx, fetch_active);
++			set_bit(pstate->r_pipe.sspp->idx, active_fetch);
+ 			_dpu_crtc_blend_setup_pipe(crtc, plane,
+ 						   mixer, cstate->num_mixers,
+ 						   pstate->stage,
+@@ -492,8 +492,8 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+ 		}
+ 	}
+ 
+-	if (ctl->ops.set_active_pipes)
+-		ctl->ops.set_active_pipes(ctl, fetch_active);
++	if (ctl->ops.set_active_fetch_pipes)
++		ctl->ops.set_active_fetch_pipes(ctl, active_fetch);
+ 
+ 	_dpu_crtc_program_lm_output_roi(crtc);
+ }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index 216dfcabcb92d410ce185c0d34db69c99930d2b8..951d5dccab6faf34a519d06683514aea1ee6ef60 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -698,8 +698,8 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 	}
+ }
+ 
+-static void dpu_hw_ctl_set_fetch_pipe_active(struct dpu_hw_ctl *ctx,
+-	unsigned long *fetch_active)
++static void dpu_hw_ctl_set_active_fetch_pipes(struct dpu_hw_ctl *ctx,
++					      unsigned long *fetch_active)
+ {
+ 	int i;
+ 	u32 val = 0;
+@@ -787,7 +787,7 @@ struct dpu_hw_ctl *dpu_hw_ctl_init(struct drm_device *dev,
+ 		c->ops.update_pending_flush_dspp = dpu_hw_ctl_update_pending_flush_dspp;
+ 
+ 	if (mdss_ver->core_major_ver >= 7)
+-		c->ops.set_active_pipes = dpu_hw_ctl_set_fetch_pipe_active;
++		c->ops.set_active_fetch_pipes = dpu_hw_ctl_set_active_fetch_pipes;
+ 
+ 	c->idx = cfg->id;
+ 	c->mixer_count = mixer_count;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+index aa560df698ed4e57a25e4a893d7333e19b065fe8..1b40d8cc92865e31e5ac4a8c3ee8fac8c5499bbd 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+@@ -254,7 +254,7 @@ struct dpu_hw_ctl_ops {
+ 	void (*setup_blendstage)(struct dpu_hw_ctl *ctx,
+ 		enum dpu_lm lm, struct dpu_hw_stage_cfg *cfg);
+ 
+-	void (*set_active_pipes)(struct dpu_hw_ctl *ctx,
++	void (*set_active_fetch_pipes)(struct dpu_hw_ctl *ctx,
+ 		unsigned long *fetch_active);
  };
-@@ -712,7 +712,7 @@ static struct clk_rcg2 disp_cc_mdss_pclk0_clk_src = {
- 		.name = "disp_cc_mdss_pclk0_clk_src",
- 		.parent_data = disp_cc_parent_data_1,
- 		.num_parents = ARRAY_SIZE(disp_cc_parent_data_1),
--		.flags = CLK_SET_RATE_PARENT,
-+		.flags = CLK_SET_RATE_PARENT | CLK_OPS_PARENT_ENABLE,
- 		.ops = &clk_pixel_ops,
- 	},
- };
+ 
 
 -- 
 2.45.2
