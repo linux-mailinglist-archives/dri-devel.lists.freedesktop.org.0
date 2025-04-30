@@ -2,82 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B76AA52F7
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 19:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9540EAA5330
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Apr 2025 20:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 366EF10E0BC;
-	Wed, 30 Apr 2025 17:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 875A610E747;
+	Wed, 30 Apr 2025 18:03:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=draconx-ca.20230601.gappssmtp.com header.i=@draconx-ca.20230601.gappssmtp.com header.b="XzNINjeo";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=mark.filion@collabora.com header.b="S68WFRGk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
- [209.85.166.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E186710E0BC
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 17:52:11 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id
- ca18e2360f4ac-85b3f92c8f8so9362439f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 10:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=draconx-ca.20230601.gappssmtp.com; s=20230601; t=1746035528; x=1746640328;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=tV3++ttVfH4W7FY1HViLXTb1LjmY9pSLMgtourB5A0Y=;
- b=XzNINjeoZGpwXK0yWo4w8bGO6MVgghSeIKgRi+Ixb4dFw53qXYX5/VB+c9Rw8JacqU
- WCh+VqW+gZixxRTRts0i/F0Hrhgct5xAubaWiU3mpFt9EBkThUFv/dRsGDC19530GmLI
- VgPmxhrWrPa1WkGAa/GwBtWEGoKsQdmPJn1IN/EFdd2li0aXC+OgMD1cOOf//FJv63Z6
- 7yBQ0W/Wp2F8PBb8nPbCPt2T/Jbl+xhngQ0Awgs/cCM7e/9555Sm/2eb5X3A0CVmTSfC
- CXIx7gmzcp7knNmvCxBLPC2gctXmjgU24Bx8sFoeIaLIO8HsGonCmlWvT+U2X3B6bVF8
- SblA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746035528; x=1746640328;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tV3++ttVfH4W7FY1HViLXTb1LjmY9pSLMgtourB5A0Y=;
- b=rYphfeoy3kVBgXrW7uF0IOr/NlmEeZGffL+HXzefHLP/L2lpVHRbFYcN7gpug3uf/S
- cdBLYOd0AUEv72swLEHO8hHgCc/9K6W8JG328pgvzGaTHQCO8USRBFuCIm/I5iTzv/XF
- IvLx3no6Gc61uGqMgTw7bzVaQnxPLf78hU/NCi91XmFZbMwnUOmYXR/e8TRB0znOfSEr
- rjhmZfEGkPrOJ/hoax7woZKFWskVli4ZivDLHKoQ9sNYue51VbN0IU30q0/i9xeIH3j7
- gHhCSKTgk0hEvb19mycvmRrR49DFyTuuYC3B6DOtosDGEzcxjfK/qy22C415tmD5jwDy
- c1JA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnhFMHCwecOscN08ln5vzGzmzAhNw5DXlQJcltF0DDLNaxonuyK0iUflf0d7sML+86yDDD1jZfEjI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzE1em3DxEm/A/zqJ7Ve8LuEQ/sGdl89jDZV8OxNty7HE3vWnO5
- N98W1yBTnCe99nIKjreQHlWZhsR5G1eS3bGoXvDssvdrvFSdRgm51W/Al16lFsc=
-X-Gm-Gg: ASbGncufQF2DHNJ1lJnzHTDH9ic++/g28/SFR2YxgNCK2XuVvs9rgCUyuvhbTLP9te5
- wC9W06jHoasb8zFOu9XcJye84GQRzCTEBAouqGBEL7o7o7Y6Q7sVNjDzwreGzRAt665cGyvYT3N
- 8EGW+6lnm5fKfxSrQKxawLpYlVbqRs3N7IP8aMIaLoRn5QXYkX34xTND4Llf2g0yL2hi8vvx1HV
- A31dVaTm/HQs8XOMMxmF3mMasbDqvNksBgcPOfADh1iOGK0t9la/tD3HmRMfdwqJ26McwbZvu97
- +IH7269a9lCmzU+KlhHxw3fF2rrY91MHm4ukYSubd6NYn6nbb7IFsUlryZLPbkfqW3zI0w==
-X-Google-Smtp-Source: AGHT+IGA8d3eSMeZa990sNEOMPBfFmfFJDgS1Kkfj8JknYIKmKzHhe3V9dFO1McaI8Jc02UYFjzRfQ==
-X-Received: by 2002:a05:6602:389a:b0:85a:e279:1ed6 with SMTP id
- ca18e2360f4ac-86495ef01d6mr557928339f.11.1746035527605; 
- Wed, 30 Apr 2025 10:52:07 -0700 (PDT)
-Received: from localhost (ip-24-156-181-135.user.start.ca. [24.156.181.135])
- by smtp.gmail.com with ESMTPSA id
- ca18e2360f4ac-8648bf2f2adsm83135239f.12.2025.04.30.10.52.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Apr 2025 10:52:07 -0700 (PDT)
-Date: Wed, 30 Apr 2025 13:52:05 -0400
-From: Nick Bowler <nbowler@draconx.ca>
-To: Doug Anderson <dianders@chromium.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- regressions@lists.linux.dev
-Subject: Re: PROBLEM: AST2500 BMC video output disabled by reboot (regression)
-Message-ID: <nchsanp7nc7nqy3kqlu7c5iwvfj6vmrkqbxyjxmoc5eq3dthjk@fusw4pm52auq>
-References: <wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi>
- <CAD=FV=Xp7zOQ2iEVf896P074RW911F-e2Qa36deD0e8fWksFBA@mail.gmail.com>
- <u7ek3ccya4c3c4rteliskjjfczpmrt4vmqo5c6kjdotxdgitn7@ko24dpb35pq4>
- <CAD=FV=Wc9TnDg6vDb8r5A8dT9TvOzU2kNSKi_6TzTtb0ka=8jA@mail.gmail.com>
+Received: from sender4-op-o16.zoho.com (sender4-op-o16.zoho.com
+ [136.143.188.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 954BB10E800
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Apr 2025 18:03:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1746036213; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=nBfiKbEJj+moidRqwIHD3qLzD27BFvfG6bo0envs3hQYBFO6uCJTyltjNem68krOGyNByqSaBJ3M0KxzP/Couiz7MmozXJ7tpboOdOMgCaqH0+1K6Fm5iRJJUNvTKvTJ4yBwnu+iMw8+xhyupID9SNVpFk0Vmti1hUGynRF/wEs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1746036213;
+ h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
+ bh=x8gO1YulXejeujn5unR9YAGX/NKDrhGsBw0UB4mK3pU=; 
+ b=KTIg2crR7OQClHy+3MStz+KS0XQvErQxhO6Oa2GsAXgpB5F3rk9vT94AsS37TyiJVLlBntfIPk1jCt8ACeHnqzCmBaEr1/ahR2Zj1Cyd83F0oxqxMCt8eZadhX6VaySHPDMyAX1jvcQB4izUAL17+mPxi4lbGb58BMMZIkM8MJ0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=mark.filion@collabora.com;
+ dmarc=pass header.from=<mark.filion@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746036213; 
+ s=zohomail; d=collabora.com; i=mark.filion@collabora.com;
+ h=Message-ID:Subject:Subject:From:From:To:To:Date:Date:Content-Type:MIME-Version:Message-Id:Reply-To:Cc;
+ bh=x8gO1YulXejeujn5unR9YAGX/NKDrhGsBw0UB4mK3pU=;
+ b=S68WFRGk/0QBcIxwrXrEKomku29Ye1TxFwymxY2taGSQrFTc13xtViSaESJgQ/zC
+ Hio2iumF4o8T7lZ3ap/pZj87l2zSYoXMTKc0D7JBHRX2HK/VNP5j2e6qMUDEGBYyCJj
+ +4PmZ7yZ2C/vjGr9nN3oB+NQd/zh0UaEJrlveynw=
+Received: by mx.zohomail.com with SMTPS id 1746036210941791.645435631649;
+ Wed, 30 Apr 2025 11:03:30 -0700 (PDT)
+Message-ID: <063eec499a3d4892992ba015db3dbc56e2439c74.camel@collabora.com>
+Subject: Announcement: 2025 X.Org Foundation Election voting OPEN
+From: Mark Filion <mark.filion@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Date: Wed, 30 Apr 2025 14:03:29 -0400
+Content-Type: multipart/alternative; boundary="=-quDBskrZXvtmMpF4N9xS"
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42app2) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=Wc9TnDg6vDb8r5A8dT9TvOzU2kNSKi_6TzTtb0ka=8jA@mail.gmail.com>
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,75 +61,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--=-quDBskrZXvtmMpF4N9xS
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 30, 2025 at 10:05:44AM -0700, Doug Anderson wrote:
-> On Wed, Apr 30, 2025 at 6:28 AM Nick Bowler <nbowler@draconx.ca> wrote:
-> > On Mon, Apr 28, 2025 at 01:40:25PM -0700, Doug Anderson wrote:
-> > > On Sun, Apr 20, 2025 at 9:26 PM Nick Bowler <nbowler@draconx.ca> wrote:
-> > > > I recently noticed that on current kernels I lose video output from
-> > > > my Blackbird's AST2500 BMC after a reboot
-> > [...]
-> > > >   ce3d99c8349584bc0fbe1e21918a3ea1155343aa is the first bad commit
-> > > >   commit ce3d99c8349584bc0fbe1e21918a3ea1155343aa
-> > > >   Author: Douglas Anderson <dianders@chromium.org>
-> > > >   Date:   Fri Sep 1 16:39:53 2023 -0700
-> > > >
-> > > >       drm: Call drm_atomic_helper_shutdown() at shutdown time for misc drivers
-[...]
-> Do you happen to have anything that's just a normal HDMI sink, like a
-> TV or a standard monitor that takes HDMI?
+To all X.Org Foundation Members:
 
-I can probably find something else to try later.
+The X.Org Foundation's annual election is now open and will remain open
+until 23:59 UTC on 14 May 2025.
 
-> > To clarify, there is no boot failure.  There is just no video output
-> > after rebooting.  I can then boot Linux again by any method that works
-> > without being able to see the screen, and then everything is fine once
-> > I do that.
-> 
-> Super weird. So every other boot works?
+Four of the eight director seats are open during this election. The
+four nominees receiving the highest vote totals serving as directors
+for two year terms.
 
-On a new/broken kernel, every time I run "reboot" the video turns off
-when Linux does whatever it does to make the system restart.
+There were five candidates nominated. For a complete list of the
+candidates and their personal statements, please
+see=C2=A0https://www.x.org/wiki/BoardOfDirectors/Elections/2025/
 
-The video comes on again if I manage to boot it up again.
+Here are some instructions on how to cast your vote:
 
-The problem is that I have to do that without using the screen.  So I
-can boot Linux via the serial port, or via the BMC web interface, or
-by just typing on the keyboard without seeing what is happening.
+   1. Go directly to the voting link (you might need to log into the
+      member system first)
+     =20
+      https://members.x.org/ballot/16/vote
+     =20
+   2. There is a pull-down selection of candidates next to each
+      preference level.=C2=A0Note that you are NOT required to select your
+      preferences for all five candidates. You can leave more than one
+      blank.
+     =20
+   3. After you have completed your ballot, click the "Vote" button.
+      Note that once you click this button, your votes will be cast and
+      you will not be able to make further changes, so please make sure
+      you are satisfied with your votes before clicking the "Vote"
+      button.
 
-> I guess I'd be interested in other types of tests to see what's going
-> on. Aside from trying some other, more standard HDMI sinks, I'd love
-> to see the results of:
-> 
-> 1. HDMI is supposed to be hotpluggable. If you've got a boot where the
-> display isn't working, what if you unplug the HDMI and plug it back
-> in. Does it fix it?
+After you click the "Cast vote" button, the system will verify that you
+have completed a valid ballot. If your ballot is invalid (e.g., you
+duplicated a selection or did not answer the By-laws approval
+question), it will return you to the previous voting page. If your
+ballot is valid, your votes will be recorded and the system will show
+you a notice that your votes were cast.
 
-Unplugging/replugging the cable when the video is off after rebooting
-does not cause it to start working again.
+Note that the election will close at 23:59 UTC on 14 May 2025. At that
+time, the election committee will count the votes and present the
+results to the current board for validation. After the current board
+validates the results, the election committee will present the results
+to the Members.
 
-> 2. Does the hotplug experience change if you boot with the revert?
-> AKA: boot up with the revert (so everything is working normally),
-> unplug HDMI, wait a few seconds, plug HDMI back in? Is this different
-> than #1?
+Mark Filion, on behalf of the X.Org elections committee
 
-I have certainly never noticed any problem related to hot plugging while
-the video output is working but this is not something I ever normally
-do.  I can try it later.
+--=-quDBskrZXvtmMpF4N9xS
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 3. What about if you fully power off and then power on? Does the
-> display work reliably in this case, or are things different between
-> ToT and with the revert?
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0,=
+ 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-var=
+iant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: st=
+art; text-indent: 0px; text-transform: none; white-space: normal; word-spac=
+ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-str=
+oke-width: 0px; text-decoration: none;">To all X.Org Foundation Members:</d=
+iv><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-famil=
+y: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal;=
+ font-weight: 400; letter-spacing: normal; text-align: start; text-indent: =
+0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-=
+tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; te=
+xt-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); co=
+lor: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: norma=
+l; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; tex=
+t-align: start; text-indent: 0px; text-transform: none; white-space: normal=
+; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webk=
+it-text-stroke-width: 0px; text-decoration: none;">The X.Org Foundation's a=
+nnual election is now open and will remain open until 23:59 UTC on 14 May 2=
+025.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); fon=
+t-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: =
+normal; font-weight: 400; letter-spacing: normal; text-align: start; text-i=
+ndent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -=
+webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: =
+0px; text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0,=
+ 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style=
+: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norm=
+al; text-align: start; text-indent: 0px; text-transform: none; white-space:=
+ normal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4)=
+; -webkit-text-stroke-width: 0px; text-decoration: none;">Four of the eight=
+ director seats are open during this election. The four nominees receiving =
+the highest vote totals serving as directors for two year terms.</div><div =
+style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot=
+;Adwaita Sans&quot;; font-style: normal; font-variant-caps: normal; font-we=
+ight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; tex=
+t-transform: none; white-space: normal; word-spacing: 0px; -webkit-tap-high=
+light-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decor=
+ation: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb=
+(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-=
+variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align:=
+ start; text-indent: 0px; text-transform: none; white-space: normal; word-s=
+pacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-=
+stroke-width: 0px; text-decoration: none;">There were five candidates nomin=
+ated. For a complete list of the candidates and their personal statements, =
+please see&nbsp;<a href=3D"https://www.x.org/wiki/BoardOfDirectors/Election=
+s/2025/" style=3D"color: rgb(46, 52, 54);">https://www.x.org/wiki/BoardOfDi=
+rectors/Elections/2025/</a></div><div style=3D"caret-color: rgb(0, 0, 0); c=
+olor: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: norm=
+al; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; te=
+xt-align: start; text-indent: 0px; text-transform: none; white-space: norma=
+l; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -web=
+kit-text-stroke-width: 0px; text-decoration: none;"><br></div><div style=3D=
+"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita=
+ Sans&quot;; font-style: normal; font-variant-caps: normal; font-weight: 40=
+0; letter-spacing: normal; text-align: start; text-indent: 0px; text-transf=
+orm: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-co=
+lor: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: n=
+one;">Here are some instructions on how to cast your vote:</div><div style=
+=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwa=
+ita Sans&quot;; font-style: normal; font-variant-caps: normal; font-weight:=
+ 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-tra=
+nsform: none; white-space: normal; word-spacing: 0px; -webkit-tap-highlight=
+-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration=
+: none;"><br></div><ol style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0,=
+ 0); font-family: &quot;Adwaita Sans&quot;; font-style: normal; font-varian=
+t-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start=
+; text-indent: 0px; text-transform: none; white-space: normal; word-spacing=
+: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke=
+-width: 0px; text-decoration: none;"><li>Go directly to the voting link (yo=
+u might need to log into the member system first)<br><br><a href=3D"https:/=
+/members.x.org/ballot/16/vote" style=3D"color: rgb(46, 52, 54);">https://me=
+mbers.x.org/ballot/16/vote</a><br><br></li><li>There is a pull-down selecti=
+on of candidates next to each preference level.<span class=3D"Apple-convert=
+ed-space">&nbsp;</span>Note that you are NOT required to select your prefer=
+ences for all five candidates. You can leave more than one blank.<br><br></=
+li><li>After you have completed your ballot, click the "Vote" button. Note =
+that once you click this button, your votes will be cast and you will not b=
+e able to make further changes, so please make sure you are satisfied with =
+your votes before clicking the "Vote" button.</li></ol><div style=3D"caret-=
+color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&q=
+uot;; font-style: normal; font-variant-caps: normal; font-weight: 400; lett=
+er-spacing: normal; text-align: start; text-indent: 0px; text-transform: no=
+ne; white-space: normal; word-spacing: 0px; -webkit-tap-highlight-color: rg=
+ba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoration: none;"><=
+br></div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font=
+-family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: n=
+ormal; font-weight: 400; letter-spacing: normal; text-align: start; text-in=
+dent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -w=
+ebkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0=
+px; text-decoration: none;">After you click the "Cast vote" button, the sys=
+tem will verify that you have completed a valid ballot. If your ballot is i=
+nvalid (e.g., you duplicated a selection or did not answer the By-laws appr=
+oval question), it will return you to the previous voting page. If your bal=
+lot is valid, your votes will be recorded and the system will show you a no=
+tice that your votes were cast.</div><div style=3D"caret-color: rgb(0, 0, 0=
+); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal=
+; text-align: start; text-indent: 0px; text-transform: none; white-space: n=
+ormal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); =
+-webkit-text-stroke-width: 0px; text-decoration: none;"><br></div><div styl=
+e=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: &quot;Adw=
+aita Sans&quot;; font-style: normal; font-variant-caps: normal; font-weight=
+: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-tr=
+ansform: none; white-space: normal; word-spacing: 0px; -webkit-tap-highligh=
+t-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0px; text-decoratio=
+n: none;">Note that the election will close at 23:59 UTC on 14 May 2025. At=
+ that time, the election committee will count the votes and present the res=
+ults to the current board for validation. After the current board validates=
+ the results, the election committee will present the results to the Member=
+s.</div><div style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-=
+family: &quot;Adwaita Sans&quot;; font-style: normal; font-variant-caps: no=
+rmal; font-weight: 400; letter-spacing: normal; text-align: start; text-ind=
+ent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -we=
+bkit-tap-highlight-color: rgba(0, 0, 0, 0.4); -webkit-text-stroke-width: 0p=
+x; text-decoration: none;"><br></div><div style=3D"caret-color: rgb(0, 0, 0=
+); color: rgb(0, 0, 0); font-family: &quot;Adwaita Sans&quot;; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal=
+; text-align: start; text-indent: 0px; text-transform: none; white-space: n=
+ormal; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.4); =
+-webkit-text-stroke-width: 0px; text-decoration: none;">Mark Filion, on beh=
+alf of the X.Org elections committee</div><div><span></span></div></body></=
+html>
 
-There is never any problem with the video output if I fully power off/on
-the system.  The problem only occurs on a reboot.
-
-> 4. What about if you fully power off, unplug the HDMI, wait a few
-> seconds, plug the HDMI, and power on? Does that work? Are things
-> different between ToT and with the revert?
-
-Again there is never any problem if I fully power off/on the system.
-
-Thanks,
-  Nick
+--=-quDBskrZXvtmMpF4N9xS--
