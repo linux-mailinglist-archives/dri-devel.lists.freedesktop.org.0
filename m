@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95F0AA5A07
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 05:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED5FAA5A24
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 06:07:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73F9E10E19A;
-	Thu,  1 May 2025 03:42:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF4E10E1A1;
+	Thu,  1 May 2025 04:07:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bcQlRpm3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vc0N5x/q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92D7310E03D;
- Thu,  1 May 2025 03:42:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1DA110E030;
+ Thu,  1 May 2025 04:07:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 614A4438D2;
- Thu,  1 May 2025 03:42:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95994C4CEE3;
- Thu,  1 May 2025 03:42:42 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1E484445B5;
+ Thu,  1 May 2025 04:07:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87EA4C4CEE3;
+ Thu,  1 May 2025 04:07:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746070966;
- bh=7jmVOUcRXRPmjJVN1jDwaPUHBPlWafpG3aqZqLzYwBI=;
+ s=k20201202; t=1746072451;
+ bh=h0QzjVR0KjHpyA96CNoleotE0TFuZUMfC/CGf9mA1O4=;
  h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=bcQlRpm3LE9u7oMVkEzP8yaZqPPeBsoWXa5h7b0d4KtvJ97YDLG/FqRpxW3BXoo/9
- 9Qd6XLaggUfun8GI/JpmHJn1pMmocs/B5bEMi20uq1lzjvveSH8IaSixdXmSB0o7jz
- 22d+HMZ2Uxja23qBlfCcxamIgBm+xbi04GEnlIZxWaVzpEx0HtORjK1i7CxEKaK0QC
- knsR8BcNPDt9wP1LbiS9hL1FYXzmp+Clfb/0EgpVA6QcLbmStKyrnSV5MsbDSlhEhV
- xb1zqF/G3C61XtPVrVQwzse/RqkB9IiXUjll75/MF/NyYQU/zjW89uuDGcJ4Nrxije
- ABhQiqwrHPfSA==
-Message-ID: <cf11e228dfa247476a498a37f88a96d8e0e2585c.camel@kernel.org>
+ b=Vc0N5x/qPw6HfifSrdfU66XAtnr852y8QGzp5fhv1pEpfEGa8RhjqYc6B9IL5NBmd
+ +iQo4MTIMk1HXAx5AkjDnvHuJvFcsIkWvXa+WlgbvSc++Wc+dTkaSYtWk6gz0On5YF
+ orbbF2SpC3JFtWPbqBCDwwEkJQf3sgQpQ5xg0gSYVWHtUYAqZkG/NSzX+VKl6ETyVb
+ BAPYDthtp2cseJxmoZP1SP7wjO/qHsn+MUx/pTbuLrFfs5aH8AqM5kFnnMt5uYy/7L
+ agf5qgmkU7VTjGllI+a2tpet1sBcauxWeKYTg9UHE0KNtYse77JgpBl7FjtzHgefwB
+ 7S3DNO2v+95bw==
+Message-ID: <0c4e532ed8b58f8253a14f8ed59d93523a096f16.camel@kernel.org>
 Subject: Re: [PATCH v6 08/10] net: add symlinks to ref_tracker_dir for netns
 From: Jeff Layton <jlayton@kernel.org>
 To: Kuniyuki Iwashima <kuniyu@amazon.com>
@@ -43,10 +43,10 @@ Cc: airlied@gmail.com, akpm@linux-foundation.org, andrew@lunn.ch,
  netdev@vger.kernel.org, pabeni@redhat.com, qasdev00@gmail.com, 
  rodrigo.vivi@intel.com, simona@ffwll.ch, tursulin@ursulin.net,
  tzimmermann@suse.de
-Date: Wed, 30 Apr 2025 20:42:40 -0700
-In-Reply-To: <20250501031900.71399-1-kuniyu@amazon.com>
-References: <c0ccfad35ce8b990fc691814bb3d830b66845ded.camel@kernel.org>
- <20250501031900.71399-1-kuniyu@amazon.com>
+Date: Wed, 30 Apr 2025 21:07:20 -0700
+In-Reply-To: <20250501035115.76182-1-kuniyu@amazon.com>
+References: <cf11e228dfa247476a498a37f88a96d8e0e2585c.camel@kernel.org>
+ <20250501035115.76182-1-kuniyu@amazon.com>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -140,77 +140,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-04-30 at 20:07 -0700, Kuniyuki Iwashima wrote:
+On Wed, 2025-04-30 at 20:50 -0700, Kuniyuki Iwashima wrote:
 > From: Jeff Layton <jlayton@kernel.org>
-> Date: Wed, 30 Apr 2025 19:59:23 -0700
-> > On Wed, 2025-04-30 at 14:29 -0700, Kuniyuki Iwashima wrote:
+> Date: Wed, 30 Apr 2025 20:42:40 -0700
+> > On Wed, 2025-04-30 at 20:07 -0700, Kuniyuki Iwashima wrote:
 > > > From: Jeff Layton <jlayton@kernel.org>
-> > > Date: Wed, 30 Apr 2025 08:06:54 -0700
-> > > > After assigning the inode number to the namespace, use it to create=
- a
-> > > > unique name for each netns refcount tracker with the ns.inum value =
-in
-> > > > it, and register a symlink to the debugfs file for it.
+> > > Date: Wed, 30 Apr 2025 19:59:23 -0700
+> > > > On Wed, 2025-04-30 at 14:29 -0700, Kuniyuki Iwashima wrote:
+> > > > > From: Jeff Layton <jlayton@kernel.org>
+> > > > > Date: Wed, 30 Apr 2025 08:06:54 -0700
+> > > > > > After assigning the inode number to the namespace, use it to cr=
+eate a
+> > > > > > unique name for each netns refcount tracker with the ns.inum va=
+lue in
+> > > > > > it, and register a symlink to the debugfs file for it.
+> > > > > >=20
+> > > > > > init_net is registered before the ref_tracker dir is created, s=
+o add a
+> > > > > > late_initcall() to register its files and symlinks.
+> > > > > >=20
+> > > > > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > > > > > ---
+> > > > > >  net/core/net_namespace.c | 28 +++++++++++++++++++++++++++-
+> > > > > >  1 file changed, 27 insertions(+), 1 deletion(-)
+> > > > > >=20
+> > > > > > diff --git a/net/core/net_namespace.c b/net/core/net_namespace.=
+c
+> > > > > > index 008de9675ea98fa8c18628b2f1c3aee7f3ebc9c6..6cbc8eabb8e56c8=
+47fc34fa8ec9994e8b275b0af 100644
+> > > > > > --- a/net/core/net_namespace.c
+> > > > > > +++ b/net/core/net_namespace.c
+> > > > > > @@ -763,12 +763,38 @@ struct net *get_net_ns_by_pid(pid_t pid)
+> > > > > >  }
+> > > > > >  EXPORT_SYMBOL_GPL(get_net_ns_by_pid);
+> > > > > > =20
+> > > > > > +#ifdef CONFIG_NET_NS_REFCNT_TRACKER
+> > > > > > +static void net_ns_net_debugfs(struct net *net)
+> > > > > > +{
+> > > > > > +	ref_tracker_dir_symlink(&net->refcnt_tracker, "netns-%u-refcn=
+t", net->ns.inum);
+> > > > > > +	ref_tracker_dir_symlink(&net->notrefcnt_tracker, "netns-%u-no=
+trefcnt", net->ns.inum);
+> > > > >=20
+> > > > > Could you use net->net_cookie ?
+> > > > >=20
+> > > > > net->ns.inum is always 1 when CONFIG_PROC_FS=3Dn.
 > > > >=20
-> > > > init_net is registered before the ref_tracker dir is created, so ad=
-d a
-> > > > late_initcall() to register its files and symlinks.
-> > > >=20
-> > > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > > > ---
-> > > >  net/core/net_namespace.c | 28 +++++++++++++++++++++++++++-
-> > > >  1 file changed, 27 insertions(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
-> > > > index 008de9675ea98fa8c18628b2f1c3aee7f3ebc9c6..6cbc8eabb8e56c847fc=
-34fa8ec9994e8b275b0af 100644
-> > > > --- a/net/core/net_namespace.c
-> > > > +++ b/net/core/net_namespace.c
-> > > > @@ -763,12 +763,38 @@ struct net *get_net_ns_by_pid(pid_t pid)
-> > > >  }
-> > > >  EXPORT_SYMBOL_GPL(get_net_ns_by_pid);
-> > > > =20
-> > > > +#ifdef CONFIG_NET_NS_REFCNT_TRACKER
-> > > > +static void net_ns_net_debugfs(struct net *net)
-> > > > +{
-> > > > +	ref_tracker_dir_symlink(&net->refcnt_tracker, "netns-%u-refcnt", =
-net->ns.inum);
-> > > > +	ref_tracker_dir_symlink(&net->notrefcnt_tracker, "netns-%u-notref=
-cnt", net->ns.inum);
+> > > > My main use-case for this is to be able to match the inode number i=
+n
+> > > > the /proc/<pid>/ns/net symlink with the correct ref_tracker debugfs
+> > > > file. Is there a way to use the net_cookie to make that association=
+?
 > > >=20
-> > > Could you use net->net_cookie ?
+> > > It's roundabout, but  net_cookie can be retrieved by creating a
+> > > random socket in the netns and calling setsockopt(SO_NETNS_COOKIE).
 > > >=20
-> > > net->ns.inum is always 1 when CONFIG_PROC_FS=3Dn.
+> > > Ido proposed a handy ip-netns subcommand here, and I guess it will
+> > > be implemented soon(?)
+> > > https://lore.kernel.org/netdev/1d99d7ccfc3a7a18840948ab6ba1c0b5fad909=
+01.camel@fejes.dev/
 > >=20
-> > My main use-case for this is to be able to match the inode number in
-> > the /proc/<pid>/ns/net symlink with the correct ref_tracker debugfs
-> > file. Is there a way to use the net_cookie to make that association?
+> > For the cases where I was looking at netns leaks, there were no more
+> > processes in the container, so there was no way to enter the container
+> > and spawn a socket at that point.
 >=20
-> It's roundabout, but  net_cookie can be retrieved by creating a
-> random socket in the netns and calling setsockopt(SO_NETNS_COOKIE).
+> Then how do you get net->ns.inum ?
 >=20
-> Ido proposed a handy ip-netns subcommand here, and I guess it will
-> be implemented soon(?)
-> https://lore.kernel.org/netdev/1d99d7ccfc3a7a18840948ab6ba1c0b5fad90901.c=
-amel@fejes.dev/
 
-For the cases where I was looking at netns leaks, there were no more
-processes in the container, so there was no way to enter the container
-and spawn a socket at that point.
+In my case, I was looking at /sys/kernel/debug/sunrpc/rpc_xprt/*/info.
+That also displays net->ns.inum in the same format. When I was
+originally working on this, the problem I was chasing was due to stuck
+RPC transports (rpc_xprt).
 
-The point of the symlinks is to have a way to easily identify what
-you're tracking. NAME_MAX is 255. We could do something like this
-instead:
-
-   snprintf(..., "netns-%u-%llx-refcnt", net->ns.inum, net->net_cookie);
-
-Obviously the inums would all be 1 when PROC_FS=3Dn, but the cookies
-would be unique. Would that work?
 
 >=20
 > >=20
-> > If there isn't, and ns.inum is always 1 with procfs is disabled, we
-> > could just skip adding the symlink when CONFIG_PROC_FS=3Dn.
+> > The point of the symlinks is to have a way to easily identify what
+> > you're tracking. NAME_MAX is 255. We could do something like this
+> > instead:
+> >=20
+> >    snprintf(..., "netns-%u-%llx-refcnt", net->ns.inum, net->net_cookie)=
+;
+> >=20
+> > Obviously the inums would all be 1 when PROC_FS=3Dn, but the cookies
+> > would be unique. Would that work?
+>=20
+> This works, but depending on the question above, there's no point in
+> using inum ?
 
+Having the inum is definitely useful to me, particularly since the
+net_cookie would be pretty useless for the problems I've been chasing.
+=20
+I'll plan to respin this to include the net_cookie though, since that
+would disambiguate the names when PROC_FS=3Dn. It might also turn out to
+be useful for someone, once there is a way to fetch the net_cookie from
+userland.=20
 --=20
 Jeff Layton <jlayton@kernel.org>
