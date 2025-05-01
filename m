@@ -2,67 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EDEAA5C77
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 11:05:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28175AA5C7E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 11:07:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29E6610E077;
-	Thu,  1 May 2025 09:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C2AD10E33F;
+	Thu,  1 May 2025 09:06:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KN8NxWit";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=robert.mader@collabora.com header.b="NrtPRsWq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83D8E10E077
- for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 09:05:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746090318; x=1777626318;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=jJ3F4gM4YJZadTUvKQftbhu43Hg+dCEKGKNWFuxIVJU=;
- b=KN8NxWitIrTw6gnIfTBX779dJ3LEBDzMH1C65cLpcMCrzzn+MbX9VhNA
- DW8ANz9pFb479OqmzHlscb2cY2yUMvVlxCzS6SWHSpGN5XKgSY2lVTKmS
- 6Lwik4ME4kybUR3VcFnHCoJaoPZXSBvDLMR9KO9YkFfMZikcMTvhqQOIi
- Cs4B3NnXig+aCZZ2mU+oIqDp6TudenT+9Jm1jzFrFnHNZHlIKrSxGm27T
- KM1E27K4neNCh/NnVX0c10ycb2HQh5teq03Ym9aoZZ2YPwKpM/utaJj6j
- XiISU6bvcIAqzPA9kHW+25YCmaShsR+U6LoZoLBNjBsg+aGGqzd1dZQvn A==;
-X-CSE-ConnectionGUID: kSDOc7zPREmdcGUorHFDUg==
-X-CSE-MsgGUID: t6+Adv8hT2yJxkAhMug8Lw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="58423477"
-X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; d="scan'208";a="58423477"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 May 2025 02:05:15 -0700
-X-CSE-ConnectionGUID: TG3uqsBdTgCIgGcs/DsKGg==
-X-CSE-MsgGUID: 4Vk331fnQHG4Glg4EM+ahQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; d="scan'208";a="139527386"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
- by orviesa005.jf.intel.com with ESMTP; 01 May 2025 02:05:10 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uAPqt-00044L-19;
- Thu, 01 May 2025 09:05:07 +0000
-Date: Thu, 1 May 2025 17:04:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: oushixiong1025@163.com, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
- Shixiong Ou <oushixiong@kylinos.cn>
-Subject: Re: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
-Message-ID: <202505011655.qTmh4UA7-lkp@intel.com>
-References: <20250430085658.540746-2-oushixiong1025@163.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC8CA10E33F
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 09:06:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1746090413; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=XiEc1HNMSGlJ/BQLBd9EXlzq4nusdETQAs0imljGUMHHvkTn4VTKfOLWYHu7nm5RfGZYgl1Odhn+qA5d7hvThTuhHGGVib5zvhl1sqrwh65LJ/jmi5mIKcfAwFlh2+JrDwcmwnDO8U5UEWnEzgm33M4uMgB/hIwzHYKKUVUwjg0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1746090413;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=PejhyDaKkwyzhDYYmXwfOYw28VzTHfaR8gwxj0lf9kI=; 
+ b=mIkmLDtrY779r1mSTdHMcKVTIcERVIbT/ycFrfkIAXZj8wEr+/IBtib4rinmI1BDJLcGSje3DPvZrmUK+UeqEXJMwWkbhccdqNLLcEd8mw+0wqsgHM/fAoQoaM0ryMNx1CJkWqbdXnEzzah95l53G02ddW78G3C39YuIjKQPJSA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=robert.mader@collabora.com;
+ dmarc=pass header.from=<robert.mader@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746090413; 
+ s=zohomail; d=collabora.com; i=robert.mader@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=PejhyDaKkwyzhDYYmXwfOYw28VzTHfaR8gwxj0lf9kI=;
+ b=NrtPRsWqUeNcDfHv2Kuq2t+ENzdBotrt6S6C0Gawok3AJKp8LyW1i61W0hvF2rWt
+ PJNHCxAOrOpR0pPBknxo/t8UG+gdR0f5QafhpkMYgyPaEmI6IvvrLVuSWdsi2a2GFBK
+ 5ALZqjuCcNrWISfbSFBbxILofwmrxd7ql/++9tTw=
+Received: by mx.zohomail.com with SMTPS id 1746090410031926.4578474797269;
+ Thu, 1 May 2025 02:06:50 -0700 (PDT)
+Message-ID: <beba7b20-ba59-4342-b74d-45ff384b9438@collabora.com>
+Date: Thu, 1 May 2025 11:06:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250430085658.540746-2-oushixiong1025@163.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: drm_fourcc: add 10/12bit software decoder YCbCr
+ formats
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20250407191314.500601-1-robert.mader@collabora.com>
+ <dde3c5c3-4e23-4962-a165-38fa6b004ef1@collabora.com>
+ <20250424133130.GD18085@pendragon.ideasonboard.com>
+Content-Language: en-US, de-DE, en-GB
+From: Robert Mader <robert.mader@collabora.com>
+In-Reply-To: <20250424133130.GD18085@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,102 +70,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hey Laurent, thanks for the feedback!
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus usb/usb-testing usb/usb-next usb/usb-linus xen-tip/linux-next linus/master v6.15-rc4]
-[cannot apply to tegra/for-next drm-xe/drm-xe-next rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes next-20250430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong1025-163-com/drm-prime-Support-importing-DMA-BUF-without-sg_table/20250430-170136
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250430085658.540746-2-oushixiong1025%40163.com
-patch subject: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
-config: arm64-randconfig-003-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011655.qTmh4UA7-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011655.qTmh4UA7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505011655.qTmh4UA7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_prime.c:925:24: warning: no previous prototype for function 'drm_gem_prime_import_dev_skip_map' [-Wmissing-prototypes]
-     925 | struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
-         |                        ^
-   drivers/gpu/drm/drm_prime.c:925:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     925 | struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/drm_gem_prime_import_dev_skip_map +925 drivers/gpu/drm/drm_prime.c
-
-   913	
-   914	/**
-   915	 * drm_gem_prime_import_dev_skip_map - core implementation of the import callback
-   916	 * @dev: drm_device to import into
-   917	 * @dma_buf: dma-buf object to import
-   918	 * @attach_dev: struct device to dma_buf attach
-   919	 *
-   920	 * This function exports a dma-buf without get it's scatter/gather table.
-   921	 *
-   922	 * Drivers who need to get an scatter/gather table for objects need to call
-   923	 * drm_gem_prime_import_dev() instead.
-   924	 */
- > 925	struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
-   926								 struct dma_buf *dma_buf,
-   927								 struct device *attach_dev)
-   928	{
-   929		struct dma_buf_attachment *attach;
-   930		struct drm_gem_object *obj;
-   931		int ret;
-   932	
-   933		if (dma_buf->ops == &drm_gem_prime_dmabuf_ops) {
-   934			obj = dma_buf->priv;
-   935			if (obj->dev == dev) {
-   936				/*
-   937				 * Importing dmabuf exported from our own gem increases
-   938				 * refcount on gem itself instead of f_count of dmabuf.
-   939				 */
-   940				drm_gem_object_get(obj);
-   941				return obj;
-   942			}
-   943		}
-   944	
-   945		attach = dma_buf_attach(dma_buf, attach_dev, true);
-   946		if (IS_ERR(attach))
-   947			return ERR_CAST(attach);
-   948	
-   949		get_dma_buf(dma_buf);
-   950	
-   951		obj = dev->driver->gem_prime_import_attachment(dev, attach);
-   952		if (IS_ERR(obj)) {
-   953			ret = PTR_ERR(obj);
-   954			goto fail_detach;
-   955		}
-   956	
-   957		obj->import_attach = attach;
-   958		obj->resv = dma_buf->resv;
-   959	
-   960		return obj;
-   961	
-   962	fail_detach:
-   963		dma_buf_detach(dma_buf, attach);
-   964		dma_buf_put(dma_buf);
-   965	
-   966		return ERR_PTR(ret);
-   967	}
-   968	EXPORT_SYMBOL(drm_gem_prime_import_dev_skip_map);
-   969	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 24.04.25 15:31, Laurent Pinchart wrote:
+> On Thu, Apr 24, 2025 at 02:53:18PM +0200, Robert Mader wrote:
+>> Chris, Javier, Laurent - sorry for the noise, but given you reviewed
+>> changes in the respective files before, maybe you can help me moving
+>> this forward? I'd be very happy for any feedback to get this landed,
+>> thanks! :)
+> I don't have spare bandwidth at the moment, sorry :-( One comment below
+> though.
+>
+> Tomi, can you check if there's any overlap with the formats you're
+> adding for the Xilinx FPGA drivers ?
+>
+>> On 07.04.25 21:13, Robert Mader wrote:
+>>> This adds FOURCCs for 10/12bit YCbCr formats used by software decoders
+>>> like ffmpeg, dav1d and libvpx. The intended use-case is buffer sharing
+>>> between SW-decoders and GPUs by allocating buffers with udmabuf or
+>>> dma-heaps, avoiding unnecessary copies or format conversions.
+>>>
+>>> Unlike formats typically used by hardware decoders these formats
+>>> use a LSB alignment. In order to allow fast implementations in GL
+>>> and Vulkan the padding must contain only zeros, so the float
+>>> representation can calculated by simple multiplicating with 2^6=64
+>>> or 2^4=16.
+> This needs to be documented somewhere.
+Ok, will add a short comment in the description.
+>
+>>> WIP MRs for Mesa, Vulkan and Gstreamer can be found at:
+>>>    - https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34303
+>>>    - https://github.com/rmader/Vulkan-Docs/commits/ycbcr-16bit-lsb-formats/
+>>>    - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8540
+>>>
+>>> The values where inspired by the corresponding VA_FOURCC_I010, however
+>>> suggestions are very welcome.
+>>>
+>>> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+>>> ---
+>>>    drivers/gpu/drm/drm_fourcc.c  | 18 ++++++++++++++++++
+>>>    include/uapi/drm/drm_fourcc.h | 20 ++++++++++++++++++++
+>>>    2 files changed, 38 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+>>> index 3a94ca211f9c..917f77703645 100644
+>>> --- a/drivers/gpu/drm/drm_fourcc.c
+>>> +++ b/drivers/gpu/drm/drm_fourcc.c
+>>> @@ -346,6 +346,24 @@ const struct drm_format_info *__drm_format_info(u32 format)
+>>>    		{ .format = DRM_FORMAT_P030,            .depth = 0,  .num_planes = 2,
+>>>    		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
+>>>    		  .hsub = 2, .vsub = 2, .is_yuv = true},
+>>> +		{ .format = DRM_FORMAT_I010,            .depth = 0,  .num_planes = 3,
+>>> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+>>> +		  .hsub = 2, .vsub = 2, .is_yuv = true},
+>>> +		{ .format = DRM_FORMAT_I210,            .depth = 0,  .num_planes = 3,
+>>> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+>>> +		  .hsub = 2, .vsub = 1, .is_yuv = true},
+>>> +		{ .format = DRM_FORMAT_I410,            .depth = 0,  .num_planes = 3,
+>>> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+>>> +		  .hsub = 1, .vsub = 1, .is_yuv = true},
+>>> +		{ .format = DRM_FORMAT_I012,            .depth = 0,  .num_planes = 3,
+>>> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+>>> +		  .hsub = 2, .vsub = 2, .is_yuv = true},
+>>> +		{ .format = DRM_FORMAT_I212,            .depth = 0,  .num_planes = 3,
+>>> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+>>> +		  .hsub = 2, .vsub = 1, .is_yuv = true},
+>>> +		{ .format = DRM_FORMAT_I412,            .depth = 0,  .num_planes = 3,
+>>> +		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+>>> +		  .hsub = 1, .vsub = 1, .is_yuv = true},
+>>>    	};
+>>>    
+>>>    	unsigned int i;
+>>> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+>>> index e41a3cec6a9e..f22c80031595 100644
+>>> --- a/include/uapi/drm/drm_fourcc.h
+>>> +++ b/include/uapi/drm/drm_fourcc.h
+>>> @@ -397,6 +397,26 @@ extern "C" {
+>>>    #define DRM_FORMAT_YUV444	fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
+>>>    #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
+>>>    
+>>> +/*
+>>> + * 3 plane YCbCr LSB aligned
+>>> + * index 0 = Y plane, [15:0] x:Y [6:10] little endian
+>>> + * index 1 = Cr plane, [15:0] x:Cr [6:10] little endian
+>>> + * index 2 = Cb plane, [15:0] x:Cb [6:10] little endian
+>>> + */
+>>> +#define DRM_FORMAT_I010	fourcc_code('I', '0', '1', '0') /* 2x2 subsampled Cb (1) and Cr (2) planes 10 bits per channel */
+>>> +#define DRM_FORMAT_I210	fourcc_code('I', '2', '1', '0') /* 2x1 subsampled Cb (1) and Cr (2) planes 10 bits per channel */
+>>> +#define DRM_FORMAT_I410	fourcc_code('I', '4', '1', '0') /* non-subsampled Cb (1) and Cr (2) planes 10 bits per channel */
+>>> +
+>>> +/*
+>>> + * 3 plane YCbCr LSB aligned
+>>> + * index 0 = Y plane, [15:0] x:Y [4:12] little endian
+>>> + * index 1 = Cr plane, [15:0] x:Cr [4:12] little endian
+>>> + * index 2 = Cb plane, [15:0] x:Cb [4:12] little endian
+>>> + */
+>>> +#define DRM_FORMAT_I012	fourcc_code('I', '0', '1', '2') /* 2x2 subsampled Cb (1) and Cr (2) planes 12 bits per channel */
+>>> +#define DRM_FORMAT_I212	fourcc_code('I', '2', '1', '2') /* 2x1 subsampled Cb (1) and Cr (2) planes 12 bits per channel */
+>>> +#define DRM_FORMAT_I412	fourcc_code('I', '4', '1', '2') /* non-subsampled Cb (1) and Cr (2) planes 12 bits per channel */
+>>> +
+>>>    
+>>>    /*
+>>>     * Format Modifiers:
