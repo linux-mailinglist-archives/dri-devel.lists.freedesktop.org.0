@@ -2,101 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222DEAA5991
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 04:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF91AA59D4
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 04:59:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC5F10E812;
-	Thu,  1 May 2025 02:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70F3C10E056;
+	Thu,  1 May 2025 02:59:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Vc5sHvH4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pDluyetf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2763010E08D;
- Thu,  1 May 2025 02:11:12 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53UH8Z8i032428;
- Thu, 1 May 2025 02:10:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- JiZQUqeanaN5clXQ+wER3ee28qDCHJOcqmU6LGoCEkU=; b=Vc5sHvH4LmvV92m+
- W7WSYJnHy0k8bPKs7u2jGrlnUeohbMKn6BP66rpGLArBmdXo9YPCmqUu8jPzhH2y
- EasKwHaghZZCPaTdr5iF7AO7Ig7V+sOc5MOX5pXN1Oinb/J3fL4RlgOJHeby5rGO
- Udlk/jdcFkLmI2STa+dqSIYyE/+KoTv3pkdcWw/J1lPRI3VDMLxuiDAAVo8YYS4T
- IgrQAV3jY2ZvOxl8zg23t31nsh7pSLjuTokfHP8IK8PjB3AKK7Xew15ladBn61hs
- ccq/3XEcA2qwddtS0TvNUzNAFIwH5tneP2LWi8SdRLqYRqCM53X8CbZZTzjACYLF
- pILWLA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6u2c536-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 May 2025 02:10:57 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5412AuNr009978
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 1 May 2025 02:10:56 GMT
-Received: from [10.71.110.123] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 30 Apr
- 2025 19:10:55 -0700
-Message-ID: <6495e342-512f-469f-9d66-bb9f47fb551d@quicinc.com>
-Date: Wed, 30 Apr 2025 19:10:53 -0700
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 158A410E056;
+ Thu,  1 May 2025 02:59:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id E3C39A4AF3C;
+ Thu,  1 May 2025 02:53:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C23FC4CEE7;
+ Thu,  1 May 2025 02:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1746068365;
+ bh=JvAcMQ0b1vZrVhGrC9pAg2O5GzPboeraAjqIBaSCYAg=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=pDluyetfAD77qHjsBqdbbhSU1Ks//zA5YH9S//FLr0f1QsSb85SAeMK4hj92dxnes
+ +BEhd0ZgxnbCFHZnXmgCaLCH1u/YRx0WbtnieULmS7yPxA0Mp9kXnzc1ojR+CnqgYK
+ +My/eSGTOGfafCHcZieu0oybPGQvs/geHXyv2Mq/Q8lbY6BHadaQQSy3gml20gEprX
+ xb8NrCmIsSPMleHTF+QwvwxL8Cbw2QIK9IVLhLXf0v435oLVl2qkf+Nh7knARH7Eh4
+ 7kU/FaHzPOXT/E8fqYdyYiwuQguz8Whz1pHk84DlJjFmZJ7yeII5I/d3acRutt/Esl
+ MdsJfIHhlQjSg==
+Message-ID: <c0ccfad35ce8b990fc691814bb3d830b66845ded.camel@kernel.org>
+Subject: Re: [PATCH v6 08/10] net: add symlinks to ref_tracker_dir for netns
+From: Jeff Layton <jlayton@kernel.org>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, andrew@lunn.ch, 
+ davem@davemloft.net, dri-devel@lists.freedesktop.org, edumazet@google.com, 
+ horms@kernel.org, intel-gfx@lists.freedesktop.org,
+ jani.nikula@linux.intel.com, 	joonas.lahtinen@linux.intel.com,
+ kuba@kernel.org, linux-kernel@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, nathan@kernel.org, 
+ netdev@vger.kernel.org, pabeni@redhat.com, qasdev00@gmail.com, 
+ rodrigo.vivi@intel.com, simona@ffwll.ch, tursulin@ursulin.net,
+ tzimmermann@suse.de
+Date: Wed, 30 Apr 2025 19:59:23 -0700
+In-Reply-To: <20250430212913.27147-1-kuniyu@amazon.com>
+References: <20250430-reftrack-dbgfs-v6-8-867c29aff03a@kernel.org>
+ <20250430212913.27147-1-kuniyu@amazon.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] drm/msm/dp: Introduce link training per-segment
- for LTTPRs
-To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>, Dmitry Baryshkov
- <lumag@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <dmitry.baryshkov@oss.qualcomm.com>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- <laurentiu.tudor1@dell.com>, <abel.vesa@linaro.org>,
- <johan@kernel.org>, Johan Hovold <johan+linaro@kernel.org>,
- Stefan Schmidt <stefan.schmidt@linaro.org>
-References: <20250430001330.265970-1-alex.vinarskis@gmail.com>
- <20250430001330.265970-5-alex.vinarskis@gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250430001330.265970-5-alex.vinarskis@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: XtVw7kzpMyYCKLrA4hjIdtZ-rvW-Bgjx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAxMDAxNiBTYWx0ZWRfX1YCOGXV0e5iu
- PMhz7Z7D0qFrubN4m+pB6p9xkK8QpDXXf/dkTiGeEkfFe64yi1hCes2qvuhdC1R9iPPn8wU6b8y
- /wQzP49RhGKXnSlEf07NWAxXGJe/rsQUq5WhF+h3v2etq8lNLkvQyXVcW3T9vW5J33LKi/ksb39
- qlY6LqcNLTmERDnaXcicyoE3ihqAo9GDfkXfUnlkU1w3qaqv+wyxHz/ErBOXhzYoZWD5ugljn+Y
- zzDWPVEHe2QN3Q5TtXD9C6pRDrEwh9Oq7t+LFM3N+R4jo1oxXs+SfTbWxq51k/9AzhGCLUhq4yI
- uNGM0Ts2Ezor/74/gM5Osfc4teJJqt5nJmOnfJf6wvbhG1jHwuC6eKTLIU0sy7go10NkXPLuxCV
- n3IERY0QrL07WbR+ftRTjJfQEtT63TDsk7lTJE6gOvhjuh5C0+xN0fOlEeiD5NC+591DZhD6
-X-Authority-Analysis: v=2.4 cv=b5qy4sGx c=1 sm=1 tr=0 ts=6812d831 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8
- a=pGLkceISAAAA:8 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=DQ8eSEry4n17BMDTzUUA:9 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: XtVw7kzpMyYCKLrA4hjIdtZ-rvW-Bgjx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-01_01,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 phishscore=0
- mlxscore=0 impostorscore=0 malwarescore=0 spamscore=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505010016
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,375 +140,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 2025-04-30 at 14:29 -0700, Kuniyuki Iwashima wrote:
+> From: Jeff Layton <jlayton@kernel.org>
+> Date: Wed, 30 Apr 2025 08:06:54 -0700
+> > After assigning the inode number to the namespace, use it to create a
+> > unique name for each netns refcount tracker with the ns.inum value in
+> > it, and register a symlink to the debugfs file for it.
+> >=20
+> > init_net is registered before the ref_tracker dir is created, so add a
+> > late_initcall() to register its files and symlinks.
+> >=20
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > ---
+> >  net/core/net_namespace.c | 28 +++++++++++++++++++++++++++-
+> >  1 file changed, 27 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
+> > index 008de9675ea98fa8c18628b2f1c3aee7f3ebc9c6..6cbc8eabb8e56c847fc34fa=
+8ec9994e8b275b0af 100644
+> > --- a/net/core/net_namespace.c
+> > +++ b/net/core/net_namespace.c
+> > @@ -763,12 +763,38 @@ struct net *get_net_ns_by_pid(pid_t pid)
+> >  }
+> >  EXPORT_SYMBOL_GPL(get_net_ns_by_pid);
+> > =20
+> > +#ifdef CONFIG_NET_NS_REFCNT_TRACKER
+> > +static void net_ns_net_debugfs(struct net *net)
+> > +{
+> > +	ref_tracker_dir_symlink(&net->refcnt_tracker, "netns-%u-refcnt", net-=
+>ns.inum);
+> > +	ref_tracker_dir_symlink(&net->notrefcnt_tracker, "netns-%u-notrefcnt"=
+, net->ns.inum);
+>=20
+> Could you use net->net_cookie ?
+>=20
+> net->ns.inum is always 1 when CONFIG_PROC_FS=3Dn.
 
+My main use-case for this is to be able to match the inode number in
+the /proc/<pid>/ns/net symlink with the correct ref_tracker debugfs
+file. Is there a way to use the net_cookie to make that association?
 
-On 4/29/2025 5:09 PM, Aleksandrs Vinarskis wrote:
-> DisplayPort requires per-segment link training when LTTPR are switched
-> to non-transparent mode, starting with LTTPR closest to the source.
-> Only when each segment is trained individually, source can link train
-> to sink.
-> 
-> Implement per-segment link traning when LTTPR(s) are detected, to
-> support external docking stations. On higher level, changes are:
-> 
-> * Pass phy being trained down to all required helpers
-> * Run CR, EQ link training per phy
-> * Set voltage swing, pre-emphasis levels per phy
-> 
-> This ensures successful link training both when connected directly to
-> the monitor (single LTTPR onboard most X1E laptops) and via the docking
-> station (at least two LTTPRs).
-> 
-> Fixes: 72d0af4accd9 ("drm/msm/dp: Add support for LTTPR handling")
-> 
-
-Thanks for the patch to improve and add support for link training in 
-non-transparent mode.
-
-Some questions below as the DP 2.1a spec documentation is not very clear 
-about segmented link training as you noted in the cover letter, so I am 
-also only reviewing i915 as reference here.
-
-
-> Tested-by: Johan Hovold <johan+linaro@kernel.org>
-> Tested-by: Rob Clark <robdclark@gmail.com>
-> Tested-by: Stefan Schmidt <stefan.schmidt@linaro.org>
-> Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-> Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_ctrl.c | 126 ++++++++++++++++++++++---------
->   1 file changed, 89 insertions(+), 37 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index d8633a596f8d..35b28c2fcd64 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1034,10 +1034,12 @@ static int msm_dp_ctrl_set_vx_px(struct msm_dp_ctrl_private *ctrl,
->   	return 0;
->   }
->   
-> -static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
-> +static int msm_dp_ctrl_update_phy_vx_px(struct msm_dp_ctrl_private *ctrl,
-> +					enum drm_dp_phy dp_phy)
->   {
->   	struct msm_dp_link *link = ctrl->link;
-> -	int ret = 0, lane, lane_cnt;
-> +	int lane, lane_cnt, reg;
-> +	int ret = 0;
->   	u8 buf[4];
->   	u32 max_level_reached = 0;
->   	u32 voltage_swing_level = link->phy_params.v_level;
-> @@ -1075,8 +1077,13 @@ static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
->   
->   	drm_dbg_dp(ctrl->drm_dev, "sink: p|v=0x%x\n",
->   			voltage_swing_level | pre_emphasis_level);
-> -	ret = drm_dp_dpcd_write(ctrl->aux, DP_TRAINING_LANE0_SET,
-> -					buf, lane_cnt);
-> +
-> +	if (dp_phy == DP_PHY_DPRX)
-> +		reg = DP_TRAINING_LANE0_SET;
-> +	else
-> +		reg = DP_TRAINING_LANE0_SET_PHY_REPEATER(dp_phy);
-> +
-> +	ret = drm_dp_dpcd_write(ctrl->aux, reg, buf, lane_cnt);
-
-For the max voltage and swing levels, it seems like we need to use the 
-source (DPTX) or the DPRX immediately upstream of the RX we are trying 
-to train. i915 achieves it with below:
-
-         /*
-          * Get voltage_max from the DPTX_PHY (source or LTTPR) upstream 
-from
-          * the DPRX_PHY we train.
-          */
-         if (intel_dp_phy_is_downstream_of_source(intel_dp, dp_phy))
-                 voltage_max = intel_dp->voltage_max(intel_dp, crtc_state);
-         else
-                 voltage_max = intel_dp_lttpr_voltage_max(intel_dp, 
-dp_phy + 1);
-
-
-But I do not see (unless I missed) how this patch takes care of this 
-requirement.
-
-Same holds true for preemph too
-
-         if (intel_dp_phy_is_downstream_of_source(intel_dp, dp_phy))
-                 preemph_max = intel_dp->preemph_max(intel_dp);
-         else
-                 preemph_max = intel_dp_lttpr_preemph_max(intel_dp, 
-dp_phy + 1);
-
-         drm_WARN_ON_ONCE(display->drm,
-                          preemph_max != DP_TRAIN_PRE_EMPH_LEVEL_2 &&
-                          preemph_max != DP_TRAIN_PRE_EMPH_LEVEL_3);
-
-
->   	if (ret == lane_cnt)
->   		ret = 0;
->   
-> @@ -1084,9 +1091,10 @@ static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
->   }
->   
->   static bool msm_dp_ctrl_train_pattern_set(struct msm_dp_ctrl_private *ctrl,
-> -		u8 pattern)
-> +		u8 pattern, enum drm_dp_phy dp_phy)
->   {
->   	u8 buf;
-> +	int reg;
->   	int ret = 0;
->   
->   	drm_dbg_dp(ctrl->drm_dev, "sink: pattern=%x\n", pattern);
-> @@ -1096,7 +1104,12 @@ static bool msm_dp_ctrl_train_pattern_set(struct msm_dp_ctrl_private *ctrl,
->   	if (pattern && pattern != DP_TRAINING_PATTERN_4)
->   		buf |= DP_LINK_SCRAMBLING_DISABLE;
->   
-> -	ret = drm_dp_dpcd_writeb(ctrl->aux, DP_TRAINING_PATTERN_SET, buf);
-> +	if (dp_phy == DP_PHY_DPRX)
-> +		reg = DP_TRAINING_PATTERN_SET;
-> +	else
-> +		reg = DP_TRAINING_PATTERN_SET_PHY_REPEATER(dp_phy);
-> +
-> +	ret = drm_dp_dpcd_writeb(ctrl->aux, reg, buf);
->   	return ret == 1;
->   }
->   
-> @@ -1115,12 +1128,16 @@ static int msm_dp_ctrl_read_link_status(struct msm_dp_ctrl_private *ctrl,
->   }
->   
->   static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
-> -			int *training_step)
-> +			int *training_step, enum drm_dp_phy dp_phy)
->   {
-> +	int delay_us;
->   	int tries, old_v_level, ret = 0;
->   	u8 link_status[DP_LINK_STATUS_SIZE];
->   	int const maximum_retries = 4;
->   
-> +	delay_us = drm_dp_read_clock_recovery_delay(ctrl->aux,
-> +						    ctrl->panel->dpcd, dp_phy, false);
-> +
->   	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
->   
->   	*training_step = DP_TRAINING_1;
-> @@ -1129,18 +1146,19 @@ static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
->   	if (ret)
->   		return ret;
->   	msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_1 |
-> -		DP_LINK_SCRAMBLING_DISABLE);
-> +		DP_LINK_SCRAMBLING_DISABLE, dp_phy);
->   
-> -	ret = msm_dp_ctrl_update_vx_px(ctrl);
-> +	msm_dp_link_reset_phy_params_vx_px(ctrl->link);
-> +	ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
->   	if (ret)
->   		return ret;
->   
->   	tries = 0;
->   	old_v_level = ctrl->link->phy_params.v_level;
->   	for (tries = 0; tries < maximum_retries; tries++) {
-> -		drm_dp_link_train_clock_recovery_delay(ctrl->aux, ctrl->panel->dpcd);
-> +		fsleep(delay_us);
->   
-> -		ret = msm_dp_ctrl_read_link_status(ctrl, link_status);
-> +		ret = drm_dp_dpcd_read_phy_link_status(ctrl->aux, dp_phy, link_status);
->   		if (ret)
->   			return ret;
->   
-> @@ -1161,7 +1179,7 @@ static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
->   		}
->   
->   		msm_dp_link_adjust_levels(ctrl->link, link_status);
-> -		ret = msm_dp_ctrl_update_vx_px(ctrl);
-> +		ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
->   		if (ret)
->   			return ret;
->   	}
-> @@ -1213,21 +1231,31 @@ static int msm_dp_ctrl_link_lane_down_shift(struct msm_dp_ctrl_private *ctrl)
->   	return 0;
->   }
->   
-> -static void msm_dp_ctrl_clear_training_pattern(struct msm_dp_ctrl_private *ctrl)
-> +static void msm_dp_ctrl_clear_training_pattern(struct msm_dp_ctrl_private *ctrl,
-> +					       enum drm_dp_phy dp_phy)
->   {
-> -	msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_DISABLE);
-> -	drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
-> +	int delay_us;
-> +
-> +	msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_DISABLE, dp_phy);
-> +
-> +	delay_us = drm_dp_read_channel_eq_delay(ctrl->aux,
-> +						ctrl->panel->dpcd, dp_phy, false);
-> +	fsleep(delay_us);
->   }
->   
->   static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
-> -			int *training_step)
-> +			int *training_step, enum drm_dp_phy dp_phy)
->   {
-> +	int delay_us;
->   	int tries = 0, ret = 0;
->   	u8 pattern;
->   	u32 state_ctrl_bit;
->   	int const maximum_retries = 5;
->   	u8 link_status[DP_LINK_STATUS_SIZE];
->   
-> +	delay_us = drm_dp_read_channel_eq_delay(ctrl->aux,
-> +						ctrl->panel->dpcd, dp_phy, false);
-> +
->   	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
->   
->   	*training_step = DP_TRAINING_2;
-> @@ -1247,12 +1275,12 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
->   	if (ret)
->   		return ret;
->   
-> -	msm_dp_ctrl_train_pattern_set(ctrl, pattern);
-> +	msm_dp_ctrl_train_pattern_set(ctrl, pattern, dp_phy);
->   
->   	for (tries = 0; tries <= maximum_retries; tries++) {
-> -		drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
-> +		fsleep(delay_us);
->   
-> -		ret = msm_dp_ctrl_read_link_status(ctrl, link_status);
-> +		ret = drm_dp_dpcd_read_phy_link_status(ctrl->aux, dp_phy, link_status);
->   		if (ret)
->   			return ret;
->   
-> @@ -1262,7 +1290,7 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
->   		}
->   
->   		msm_dp_link_adjust_levels(ctrl->link, link_status);
-> -		ret = msm_dp_ctrl_update_vx_px(ctrl);
-> +		ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
->   		if (ret)
->   			return ret;
->   
-> @@ -1271,9 +1299,32 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
->   	return -ETIMEDOUT;
->   }
->   
-> +static int msm_dp_ctrl_link_train_1_2(struct msm_dp_ctrl_private *ctrl,
-> +				      int *training_step, enum drm_dp_phy dp_phy)
-> +{
-> +	int ret;
-> +
-> +	ret = msm_dp_ctrl_link_train_1(ctrl, training_step, dp_phy);
-> +	if (ret) {
-> +		DRM_ERROR("link training #1 on phy %d failed. ret=%d\n", dp_phy, ret);
-> +		return ret;
-> +	}
-> +	drm_dbg_dp(ctrl->drm_dev, "link training #1 on phy %d successful\n", dp_phy);
-> +
-> +	ret = msm_dp_ctrl_link_train_2(ctrl, training_step, dp_phy);
-> +	if (ret) {
-> +		DRM_ERROR("link training #2 on phy %d failed. ret=%d\n", dp_phy, ret);
-> +		return ret;
-> +	}
-> +	drm_dbg_dp(ctrl->drm_dev, "link training #2 on phy %d successful\n", dp_phy);
-> +
-> +	return 0;
-> +}
-> +
->   static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
->   			int *training_step)
->   {
-> +	int i;
->   	int ret = 0;
->   	const u8 *dpcd = ctrl->panel->dpcd;
->   	u8 encoding[] = { 0, DP_SET_ANSI_8B10B };
-> @@ -1286,8 +1337,6 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
->   	link_info.rate = ctrl->link->link_params.rate;
->   	link_info.capabilities = DP_LINK_CAP_ENHANCED_FRAMING;
->   
-> -	msm_dp_link_reset_phy_params_vx_px(ctrl->link);
-> -
->   	msm_dp_aux_link_configure(ctrl->aux, &link_info);
->   
->   	if (drm_dp_max_downspread(dpcd))
-> @@ -1302,24 +1351,27 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
->   				&assr, 1);
->   	}
->   
-> -	ret = msm_dp_ctrl_link_train_1(ctrl, training_step);
-> +	for (i = ctrl->link->lttpr_count - 1; i >= 0; i--) {
-> +		enum drm_dp_phy dp_phy = DP_PHY_LTTPR(i);
-> +
-> +		ret = msm_dp_ctrl_link_train_1_2(ctrl, training_step, dp_phy);
-> +		msm_dp_ctrl_clear_training_pattern(ctrl, dp_phy);
-> +
-> +		if (ret)
-> +			break;
-> +	}
-> +
->   	if (ret) {
-> -		DRM_ERROR("link training #1 failed. ret=%d\n", ret);
-> +		DRM_ERROR("link training of LTTPR(s) failed. ret=%d\n", ret);
->   		goto end;
->   	}
->   
-> -	/* print success info as this is a result of user initiated action */
-> -	drm_dbg_dp(ctrl->drm_dev, "link training #1 successful\n");
-> -
-> -	ret = msm_dp_ctrl_link_train_2(ctrl, training_step);
-> +	ret = msm_dp_ctrl_link_train_1_2(ctrl, training_step, DP_PHY_DPRX);
->   	if (ret) {
-> -		DRM_ERROR("link training #2 failed. ret=%d\n", ret);
-> +		DRM_ERROR("link training on sink failed. ret=%d\n", ret);
->   		goto end;
->   	}
->   
-> -	/* print success info as this is a result of user initiated action */
-> -	drm_dbg_dp(ctrl->drm_dev, "link training #2 successful\n");
-> -
->   end:
->   	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
->   
-> @@ -1636,7 +1688,7 @@ static int msm_dp_ctrl_link_maintenance(struct msm_dp_ctrl_private *ctrl)
->   	if (ret)
->   		goto end;
->   
-> -	msm_dp_ctrl_clear_training_pattern(ctrl);
-> +	msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
->   
->   	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
->   
-> @@ -1660,7 +1712,7 @@ static bool msm_dp_ctrl_send_phy_test_pattern(struct msm_dp_ctrl_private *ctrl)
->   		return false;
->   	}
->   	msm_dp_catalog_ctrl_send_phy_pattern(ctrl->catalog, pattern_requested);
-> -	msm_dp_ctrl_update_vx_px(ctrl);
-> +	msm_dp_ctrl_update_phy_vx_px(ctrl, DP_PHY_DPRX);
->   	msm_dp_link_send_test_response(ctrl->link);
->   
->   	pattern_sent = msm_dp_catalog_ctrl_read_phy_pattern(ctrl->catalog);
-> @@ -1902,7 +1954,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
->   			}
->   
->   			/* stop link training before start re training  */
-> -			msm_dp_ctrl_clear_training_pattern(ctrl);
-> +			msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
->   		}
->   
->   		rc = msm_dp_ctrl_reinitialize_mainlink(ctrl);
-> @@ -1926,7 +1978,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
->   		 * link training failed
->   		 * end txing train pattern here
->   		 */
-> -		msm_dp_ctrl_clear_training_pattern(ctrl);
-> +		msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
->   
->   		msm_dp_ctrl_deinitialize_mainlink(ctrl);
->   		rc = -ECONNRESET;
-> @@ -1997,7 +2049,7 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train
->   		msm_dp_ctrl_link_retrain(ctrl);
->   
->   	/* stop txing train pattern to end link training */
-> -	msm_dp_ctrl_clear_training_pattern(ctrl);
-> +	msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
->   
->   	/*
->   	 * Set up transfer unit values and set controller state to send
-
+If there isn't, and ns.inum is always 1 with procfs is disabled, we
+could just skip adding the symlink when CONFIG_PROC_FS=3Dn.
+--=20
+Jeff Layton <jlayton@kernel.org>
