@@ -2,95 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D34AA5D7E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 13:03:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E500BAA5D8E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 13:04:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFFEA10E34C;
-	Thu,  1 May 2025 11:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2542410E24E;
+	Thu,  1 May 2025 11:04:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RMmrFwc4";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="1caFzCaE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9AA510E34C
- for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 11:03:00 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-39c13fa05ebso467163f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 01 May 2025 04:03:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746097379; x=1746702179; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YP/T0CkwpXUb5RR9D9I+LqSzO3DWW8dnrD0XkmmOOUw=;
- b=RMmrFwc4zIRtsJQ8c0f9Nimhny2dUyXkGJ5c81SmQXPZVKMC4ZBwJrPYuTCWISnYMq
- 0QcfUB5TcoeodixaS0o/E5ywLwn6YA5YIWRpGhfE4ajH1FDPg3gJRkzr2Ly8j8josqoY
- mnLQSZCRxEcXs0v8RYW5eSOFYLpU39r5fskD5QcWVaP8dZ31VOn/LNozvzWJtJdISSQP
- /h9YuL2jL6NgSw0NHk6MIko62ps3RcemHioBdnuxpAiSDEyyV5INoiAiiFsgGIKak/No
- 4uO6LidKNJLIixkMqCCdYq5feHMlTlmgRe8HhDrm2kM3wkAJfMjm+lFnkAkzk1a5zdXf
- 1/sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746097379; x=1746702179;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YP/T0CkwpXUb5RR9D9I+LqSzO3DWW8dnrD0XkmmOOUw=;
- b=UczJ7fULapvb1Sy+rnKpu+0CAI5Lm7SsCXPjtRgOQzvvw8zGsZAXY+Rt0aESHokkwI
- HEguHut2wC/YUxkNJ5q9xLWHqitFqLhG4CFJWkmdREAukddVLhuFRKNfCUPK/T8PmV/r
- 4fmT5RmXVt7DDfC2ZuorSeMD990T53gRlwlvtGAPuROBQQx6yQSVmln28PfVvwUNcIe1
- h+MCw/zKCyfH72EupYo6IkYdp0XPH9xErdZf5Kp2eWvnGU9p47RJ754zRsA3scMGi5fr
- 0F9YpjonnjSCULSKcBq9Rq9Hd+XjUXfUksSShJG8rtU6cFY6dmQiUHEKzpeLOs+eI0HX
- 5r7w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbnvnzX+aDUfuZeimDoz2IMz1rstsGxkROwMO/X8l7VUvJeFoIlXuE0UTKxYuuftWD0E13WfEM9ww=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwBDJFgVJsMm9lDsbI+O70BQYJanliKCIKG28ihtcaxLBIZfHp1
- 5BcyE4WtAhfIUSO2Tc+Bnqx4BkXDsmV+F8XxnxggJkgM2hxojQcI6WMKdTeALN0O/BcGfjZ+U1/
- tzpwE02mlpzU1r9MbzqANFDLx2hU=
-X-Gm-Gg: ASbGnctqp3JCjRKqfFHWesXcxX1/xGBU3N/2OY8JS2+hxZgwQgNe6/HIQJ1eXXzMEUx
- ND6HL8LtC+dkqOUGAEpF2BKUxbzu9ue0XJiYHea09RRFXAZDkl+zN3+FsKd9JW39vwVlc1f5gJV
- WLlsPCKjwdSWT6Aolv0zhwiUY=
-X-Google-Smtp-Source: AGHT+IHnsasC5a6owegYHHHKpqCakBnDLStztj0M0y2Ms6YAEP6lxMvKXVUQRyad58NLJTnwpxgsVeGJi0Dx1JRW5Hc=
-X-Received: by 2002:a05:6000:1aca:b0:391:40bd:6222 with SMTP id
- ffacd0b85a97d-3a08ff38a6amr4797433f8f.22.1746097379004; Thu, 01 May 2025
- 04:02:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250430204112.342123-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <f9a7c9fd-bd49-4cf0-9a86-a8e65b4fb6a5@oracle.com>
- <TYCPR01MB1209317F533E528616A4C2492C2822@TYCPR01MB12093.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB1209317F533E528616A4C2492C2822@TYCPR01MB12093.jpnprd01.prod.outlook.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 1 May 2025 12:02:33 +0100
-X-Gm-Features: ATxdqUFLehOqNU3alydkWylhiFwZjkdBEHDlkzJ7NpWrnUfS-t8P_W39zRE4coM
-Message-ID: <CA+V-a8vsKhi8Z7zi749CErCF4cR6s4r0WcUumwFY1ZPg3uAO4g@mail.gmail.com>
-Subject: Re: [PATCH v4 01/15] clk: renesas: rzv2h-cpg: Add support for DSI
- clocks
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- ALOK TIWARI <alok.a.tiwari@oracle.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF1F810E24E
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 11:04:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID;
+ bh=rDixLVJkJSr18pzCi3I0mc9yi7XCZ3dvASfzpKmBjGA=; b=1caFzCaEIheOlZdhkSdrPr/m/L
+ dOyj2gNULahSxTBEWMVYwOnUOlZhUY7mH4bFy6Maw4wC+VvIBvKFYdes6SDWkgM1OgzKYDs9GfGpM
+ O4IDJ2lJAWd+I8qU0gXouPgNw36xGfPHAC6XEFyvMhFZeHu0aO14gD0GyhrmiIeYh74kemsNT1Ia/
+ 0tZz8In13dEW5at2YezKMRL2b//83IBEYlMUyqHRgTXSQLJXzoahcKIstDAfn8FZYlh2f/nkTyCYr
+ 78oqLz7jpYWpAh8GzMt8zgToj/idx5JjenvQQbCfEKlS/ZI39q2kVmY0GhKb8r7VwP1w2kxvq4V6q
+ s99JoitA==;
+Received: from i53875bbc.versanet.de ([83.135.91.188] helo=phil.fritz.box)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1uARhj-000890-IR; Thu, 01 May 2025 13:03:47 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov <lumag@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Damon Ding <damon.ding@rock-chips.com>, Arnd Bergmann <arnd@kernel.org>
+Cc: Heiko Stuebner <heiko@sntech.de>, Arnd Bergmann <arnd@arndb.de>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/rockchip: add CONFIG_OF dependency
+Date: Thu,  1 May 2025 13:03:44 +0200
+Message-ID: <174609741908.389921.4591931319484146397.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250423164422.2793634-1-arnd@kernel.org>
+References: <20250423164422.2793634-1-arnd@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,58 +70,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fabrizio,
 
-On Thu, May 1, 2025 at 11:38=E2=80=AFAM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
->
-> Hi Alok,
->
-> Thanks for your email.
->
-> > From: ALOK TIWARI <alok.a.tiwari@oracle.com>
-> > Sent: 01 May 2025 10:51
-> > Subject: Re: [PATCH v4 01/15] clk: renesas: rzv2h-cpg: Add support for =
-DSI clocks
-> >
-> >
-> > On 01-05-2025 02:10, Prabhakar wrote:
-> > > From: Lad Prabhakar<prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Add support for PLLDSI and PLLDSI divider clocks.
-> > >
-> > > Introduce the `renesas-rzv2h-dsi.h` header to centralize and share
-> > > PLLDSI-related data structures, limits, and algorithms between the RZ=
-/V2H
-> > > CPG and DSI drivers.
-> > >
-> > > The DSI PLL is functionally similar to the CPG's PLLDSI, but has slig=
-htly
-> > > different parameter limits and omits the programmable divider present=
- in
-> > > CPG. To ensure precise frequency calculations-especially for milliHz-=
-level
-> > > accuracy needed by the DSI driver-the shared algorithm allows both dr=
-ivers
-> > > to compute PLL parameters consistently using the same logic and input
-> > > clock.
-> > >
-> > > Co-developed-by: Fabrizio Castro<fabrizio.castro.jz@renesas.com>
-> > > Signed-off-by: Fabrizio Castro<fabrizio.castro.jz@renesas.com>
-> > > Signed-off-by: Lad Prabhakar<prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> >
-> > Acked-by: Alok Tiwari <alok.a.tiwari@oracle.com>
->
-> I am not sure it makes sense for you to Ack this patch?
-> Please have a look at the process here:
-> https://www.kernel.org/doc/Documentation/process/submitting-patches.rst
->
-> Perhaps you meant to add your Reviewed-by tag instead?
->
-I'm not sure a Reviewed-by tag would be appropriate either, as it
-implies the reviewer has performed a thorough technical review of the
-patch.
+On Wed, 23 Apr 2025 18:44:16 +0200, Arnd Bergmann wrote:
+> DRM_DISPLAY_DP_AUX_BUS cannot be selected when CONFIG_OF is disabled:
+> 
+> WARNING: unmet direct dependencies detected for DRM_DISPLAY_DP_AUX_BUS
+>   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && OF [=n]
+>   Selected by [y]:
+>   - DRM_ROCKCHIP [=y] && HAS_IOMEM [=y] && DRM [=y] && ROCKCHIP_IOMMU [=y] && ROCKCHIP_ANALOGIX_DP [=y]
+> 
+> [...]
 
-Cheers,
-Prabhakar
+Applied, thanks!
+
+[1/1] drm/rockchip: add CONFIG_OF dependency
+      commit: 4f1a965d592a0ca7d4ee2125f54d19ba8292295a
+
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
