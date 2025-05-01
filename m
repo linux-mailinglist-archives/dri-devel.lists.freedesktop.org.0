@@ -2,178 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57DEAA64BD
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 22:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B54AA6507
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 23:01:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0F6E10E070;
-	Thu,  1 May 2025 20:27:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58D6E10E0AD;
+	Thu,  1 May 2025 21:01:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mz3qZIBk";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="h/GkVdL3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E551410E070
- for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 20:27:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746131256; x=1777667256;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=7vOL0nHG5hEVo6op9vZyy0mKoJxPuDbqAbqT4dlYlDI=;
- b=mz3qZIBksHZeZlf3Q/9RWsHYnMXxdbQ5JxKT7sRr8NNxRgINwx9jqQ5g
- KsRrksTaL61wdgL+bdzcUdhj1G9jLdU759XcUnC0KCl5GFaOpr0DCe9k0
- /E4mn0R4yeDCM8moqa5CgZX5K4b24cW0t6r9MIHNOcx+MR/RSdFOT/DxW
- vvmT3vz2kH7lyYItqj22SWTMCzR0G5yWizsDr1DHVc+Md07iK6/0m6Pbl
- uLsZ7iydafyzbUWLytILL2m/X+AEo1i34CJJ9+sjr6MKbMdxjIFaMG9uS
- PFp2YtFLH5LkrZwFrzGLKXZWDr4RoJ5vVSslL0yjXl9K+k/lpmSMQA3rK g==;
-X-CSE-ConnectionGUID: /ie3mHqiSyayWbSDBe/CxQ==
-X-CSE-MsgGUID: KyMzrWd9RGeGJOvPwnCzNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="51626659"
-X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; d="scan'208";a="51626659"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 May 2025 13:27:33 -0700
-X-CSE-ConnectionGUID: iDPnfS++TCmjArcXaFVfwA==
-X-CSE-MsgGUID: qv0qa1wPQW+OeWa/PNUGwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; d="scan'208";a="139281719"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 May 2025 13:27:32 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 1 May 2025 13:27:32 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 1 May 2025 13:27:32 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.171)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 1 May 2025 13:27:31 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ciAqwh1yA+SryvxYxLkYxtIiik+djY4sLxBd2d6aQvS4G0R/rgOgQZZ7JMcHAorQ+zLe8mbGAImaoPvrCg64OMDGFhg5pN4s43RdyNO7ymEVAHgipfCDw+PKyQbc9V5IKCHRI96SyKx6i/cc1eExThyIS9NUw/FDkc7Sug2NAamc6W/ENQD3GoM1d7n499aDpn3v/sGeQegxGnRAcQHlluUhH8f8wA1Jdd1YNqgd/CxP7uwW8JAAXNqOMMme770+W1sI2Ga552mfXPZr8VGuOgBi6wITJO8ZptcAas+87UL3b7NCVFaI+ZX+ibcdvdpgOkaZrx4KhRsnCC3RlLVMUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lU9FyN/mdkCZXePNm4UjdpwXsHF983tkXDOueD4EHh4=;
- b=bqYwxatmppCTpNkVnQdP4YE5YnNxyjBQ3mPRED90PBU1Uc000LuXFa7YObt1ianK+DSg6EF/LeUyPfrXVDaTd5uHT26Ka7udq/rza8sKM8nd40CF9lMdsuWUF1yQHCzdY20xlFSVHCkWjAiFAm4aIWQ3BHMfdnBs13focn6XwyTFmJianLOJL8PUwq5jV5EDm/QMTfUPzqTJxqpRijAuA+f/X5kW2y1nbVKJi0UcOChR9kTMySSl61LAxP8RPlt8ieTQWmQqdQyEo6gGLwRX9l9WRccHfy+tZZ1XVNb3ymPeXlLy2SOjOeCHlIJGc7j2AWdd6fA2KycdgP04GNlnTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by IA0PR11MB7188.namprd11.prod.outlook.com (2603:10b6:208:440::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Thu, 1 May
- 2025 20:27:29 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.8699.012; Thu, 1 May 2025
- 20:27:29 +0000
-Date: Thu, 1 May 2025 13:28:52 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Kees Cook <kees@kernel.org>
-CC: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Christian Koenig <christian.koenig@amd.com>, Somalapuram Amaranath
- <Amaranath.Somalapuram@amd.com>, Huang Rui <ray.huang@amd.com>, Matthew Auld
- <matthew.auld@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-hardening@vger.kernel.org>
-Subject: Re: [PATCH] drm/ttm: Silence randstruct warning about casting struct
- file
-Message-ID: <aBPZhFho+Z3e1/+g@lstrano-desk.jf.intel.com>
-References: <20250501195859.work.107-kees@kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250501195859.work.107-kees@kernel.org>
-X-ClientProxiedBy: SJ0PR03CA0278.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::13) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2BB10E0AD;
+ Thu,  1 May 2025 21:01:17 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 541D2J9j029208;
+ Thu, 1 May 2025 21:01:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ n7QWNu952IhpFu4vnsdaRP469Zn20c6EgJECLb+C5TM=; b=h/GkVdL3sz/dNwOW
+ Wo7XTnTizfeX7qTeZawn9Eo4pYaffQe8ZL7VltYPbyBVC1mnrhb/KFHmoumNCymp
+ NZLiENwJO34gkccfuy/RgHaXTCmTDQ/dJqwOHEsEHovPsPnN+Daz6vV9SLZs51Y2
+ dcGicPCYVKV+qkl0eWBcGUyygJgKwpf9mIG47V0zVDsz7Ocnixg3nokTvKD6oBG1
+ WfTf4xQRnwzZ8CbpVtnJFwxysUX4jOekLs/jz1hapq6LSC9O3nb5TlvEzENDX7fH
+ 9BkwHnee3IwEAJZcoREBcMzLa2sDymRDEbddbgNyeYM0Kdf1psqelp9tuIzGo8i9
+ wP+vqQ==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6u2eftk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 01 May 2025 21:01:03 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 541L116N020284
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 1 May 2025 21:01:01 GMT
+Received: from [10.134.71.99] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 1 May 2025
+ 14:01:01 -0700
+Message-ID: <b2b0b37a-e2b8-45dd-88a6-f4f54369f0c1@quicinc.com>
+Date: Thu, 1 May 2025 14:01:00 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA0PR11MB7188:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c1de617-7456-448e-4132-08dd88ee97ef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?RRYQkjRMamgCRXaxsTfB5nKMpJX/GZNREjpI9L/Gu0qAOS6eywUPaojWpb?=
- =?iso-8859-1?Q?SCbppO2pXSdSA+ObeRV4m2Uimgs0xI4rKFnedSHGQY+Qan2FXvKvcYQooq?=
- =?iso-8859-1?Q?ilz62csDlFNmfzBo6cP6noIqjBntGSNsgRkfLqSBYqg4Inz1uGe+3etJTX?=
- =?iso-8859-1?Q?BnRs8B5rCDjfDl5Y5ryJ0+Za82U+P4m5fEPciY1GL45ZA3KdivPMR6pfcF?=
- =?iso-8859-1?Q?VMeWUM6ENPMhgB2zLFDhAS5d5hV2WF8RF+PfYfc4nNUpqThP+hd/KmhLn6?=
- =?iso-8859-1?Q?vKUpHOhqaxih4eKvo6EkZUgIE4QvhIW1ympbs50ePPdl3uoTFq30hF8zHF?=
- =?iso-8859-1?Q?fC94iJvkgU8+dvsKQm+Ax/Dl+TYB9tKodhTLZC0rWAhQqqro/wt8xI0Aav?=
- =?iso-8859-1?Q?z4P42xuI5RerGRCeGOyFYrIRpi5CgnYe67sYNXjpXx0V971yVPrrbzq7dq?=
- =?iso-8859-1?Q?ODPCG3DLWN22cpm2d41Fhu4SjtK/x1BqpJGHoCjEDxrGY7T7lis+l4PDz8?=
- =?iso-8859-1?Q?SkU47eTtCudKDu684SLB+NR4aOv8ZXsJwfEsuRIMRooXdOrNGfSRh79L7z?=
- =?iso-8859-1?Q?bWsKb6EvoX7MzTfOZiwKqm3fnhUrDMmyW0kaxQ+2UXEfunySr7U0sm2Lqj?=
- =?iso-8859-1?Q?aLJfDoxz8XuArLktLYeyMr+sRJC2rWrU4g6Hgr9RRJKc1jo188P+eLogId?=
- =?iso-8859-1?Q?FZuVSZIMlcnqNUPtU6G1MuFzA8HlX2vJmZ7dPEt/XgQpXCWLLKE6myMD9Q?=
- =?iso-8859-1?Q?dvAXtQ0b4gnpBQcike6uk5Pwq5XhoLJUaoQ98lfSMI56gmR5X8UolSzkGW?=
- =?iso-8859-1?Q?th8NMlfQF6HW+sE8/MYFFy7HKOKt127mGtGzOhko3R4uBBGIdeh7VhDew7?=
- =?iso-8859-1?Q?2rJu+8NnhVIGNZDdvz/Al+84+0rPfhsy4kbu/6dC7zQGQWzcH6WWP3HiDY?=
- =?iso-8859-1?Q?3ci4SC9ERuIJTW0lLrBsdbQp7sQsnkAeTMQx5cpMCHgC2yEv6U6rOzliFU?=
- =?iso-8859-1?Q?0V5qzVBqo6/u5dmxqqtbtoKz6DfeSpPwZXDSCC40XpM8q8vD0WQI/FVvLb?=
- =?iso-8859-1?Q?lVeC2LRQshabEhxcW8KXBFnLjxCFzka3k/CrU+459N93yGPktl9kDT6jA8?=
- =?iso-8859-1?Q?xXgO20ZdWZTv3wmmtvKP4wJuIrrgOY9j0PxXtkxbA+07o76JlF5dX0DOhg?=
- =?iso-8859-1?Q?Jkm67uqQsh3DHtWsTwxqqi9FZrPTlUewvOnfEjuuOuEyU/qoh73fasIeFY?=
- =?iso-8859-1?Q?QPq9KNucr7t7B19xbyLm8GwdqavSOwlqsvOoSXdYSo0TdUb5860xdF/F0y?=
- =?iso-8859-1?Q?5I+4aHiEp0H359eimjfff9Pk/z8EVKQdgLGuq58kG9qLnueAmrL3hNtM3J?=
- =?iso-8859-1?Q?+SRn+O3WacMXfBDytaQ82AfYmcpn9lKQXtvWj2VSUz9xxEKV1Y00BHsqg7?=
- =?iso-8859-1?Q?exx+d8YA8H6OyEg5mFmaM4ajj9RcokD43tM3Brp6yD35Ej9YFjiezefJCo?=
- =?iso-8859-1?Q?4=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?MBI4Vn2IHKLNpXpTf+mUx1LliXN5vUrsNFAmS/0/Yd4RG81B12Zj6Wsp9z?=
- =?iso-8859-1?Q?b8zwMJj6ttnN+QQYSW29hf8+mqCbRZnU3xxEnwOshmGqzvyTKzREsPU6QQ?=
- =?iso-8859-1?Q?plwje/RXM31HWb6srnY5dVTyXtDw26ttk4QHE3sc406fISJjPLngArXKzm?=
- =?iso-8859-1?Q?bckDUSHtKK5gWkTZncvPPJkCpJiDkk54g9Z3K09HQ2AbqHLxRKpfI4LK7v?=
- =?iso-8859-1?Q?Ly26XvFdOs16JJ+nf9DydbDfELRY9LAcOAq2yYvADFNIeRwT0d8c4wqJIm?=
- =?iso-8859-1?Q?Azr1zEN8Ugu/GwrfBYpY8OZuTFshqm8kbUNUf6FbBUID5BWNk04pFN4hfA?=
- =?iso-8859-1?Q?GPHpoAsu1aKI4nNVej4GxsU4wBoov203K13AF0zv1jvhWbRA6f5Z9d9Ejt?=
- =?iso-8859-1?Q?9kpLvvpZxxC74L3iqCUS9F4ghTw4eXKpCGqnBPcalsEpOuPQZGwd2x6DA2?=
- =?iso-8859-1?Q?v5HGfdZuDB8OlSjUCtdVw1QcOwkL+AxiclQZraanD9b+9Sp0R2GJwgBEJE?=
- =?iso-8859-1?Q?MbJn+OKoY110WKVy/zhwk5LOKmWiYgK59qhw+oL4po6hu8+x4C2MPWSEqQ?=
- =?iso-8859-1?Q?2tsp/zQpXY2Vjyhn/fCSoNUEtDlEPGJDnnGQPnC3IayQQfWfsXmzw5QpFz?=
- =?iso-8859-1?Q?H6wQk7DrwHS3CCnrgiRxZOfEqYYm9B/T/3IUXOdnmDqwMzcQHMzjfXsLgO?=
- =?iso-8859-1?Q?BunE+rxZuq9dFsAlWskVSy62ADWYvLPZzE+GXBNjM2DqKMK94cr8Psi46f?=
- =?iso-8859-1?Q?7DF8kme6Di8j1Ef2D3UB2J9I5kD/k7PMN16WYkF+R6ZJ7BBm+ZniVNLxDQ?=
- =?iso-8859-1?Q?5Vux4SDG7wAhrFOeKIJwYdTw3mTEDSfLNOkp0mVSPPO33QroLLZYyqDJrW?=
- =?iso-8859-1?Q?C0hd8CCtYISoHNXoGDBSjENupiApqLexjs+YSjQXlewq37PdQS9oS7CCMq?=
- =?iso-8859-1?Q?TC9+LN4EJw/oZHQQ/XJn5buqFXsC7Z0ofyx+q8nXLtEA4d3F40c2aUd4FM?=
- =?iso-8859-1?Q?Qq0LlbizUKpcEW8j1WJl3qN4rnJuX+N5Wgxs112V7fA//7FPDRV9JUdxB7?=
- =?iso-8859-1?Q?dkcNndjlDobs2gWId+umTeI0dd0hj1/4wXxjnsb6kUVqAuzdSCcgBRS1gH?=
- =?iso-8859-1?Q?Rg7VwD9erC8gA2r5P7ADiygriKZJ6XoEWgbTlqHb78+j/eZZXXMq4C7FHP?=
- =?iso-8859-1?Q?INTy3/h9Ur9mUmGVL2MUd2vwW+ZqAMWmcyjWzLU+jFhqaUKCkGjeqfQ9sZ?=
- =?iso-8859-1?Q?kOpDiRoGcSlgH4rR1ve7RRc333Qx077NDexzehuNv47hU1fCaJrJGH/5rY?=
- =?iso-8859-1?Q?lgA2z29y9kkADpvYOEXu23plVya1+8UgY5KPXwe7bHUHGunPgtCObhXWze?=
- =?iso-8859-1?Q?nxZrrL/6CG1ZGyRkHJSudZ4j6zDzvjtceRjVxrZ2wzLnH0d9iIELAA+Jdt?=
- =?iso-8859-1?Q?SX72x6Ond9xs5O6ADowPogYPKW/spdJfbUAwL9WJp/nk3bCcypePgyhm+X?=
- =?iso-8859-1?Q?UhonEyX/quBOdPnQpEyFNf07eln57mfIdVBhQ1m6KQwrwMtfQcwOYt7gR6?=
- =?iso-8859-1?Q?rn2gfdj/gioIFi/cSJEGyQZWA3MJLT8zT2uTjX5mkUkjMmk46LRsabznEg?=
- =?iso-8859-1?Q?n5tpbX3r83Jx7wzh6irC9Z3y7TwghAWoHlRNn86PcC2Ers70rFfIZ2SQ?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c1de617-7456-448e-4132-08dd88ee97ef
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2025 20:27:29.0699 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wxBqVFFmiLTzWbiuZp8OrLK4OiDsJaxA7Tm4EDlvCbV+TTmjZTfbfvdHPaGjcQRPeP7BeU7vCLZbqWi2sVVMhg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7188
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/10] drm/msm/dpu: add catalog entry for SAR2130P
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, "Dmitry
+ Baryshkov" <lumag@kernel.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, "Bjorn
+ Andersson" <andersson@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Will Deacon <will@kernel.org>, Robin Murphy
+ <robin.murphy@arm.com>, "Joerg Roedel" <joro@8bytes.org>, Konrad Dybcio
+ <konradybcio@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <20250418-sar2130p-display-v5-0-442c905cb3a4@oss.qualcomm.com>
+ <20250418-sar2130p-display-v5-8-442c905cb3a4@oss.qualcomm.com>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20250418-sar2130p-display-v5-8-442c905cb3a4@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: nIC8pPNmeoEHnFOmVPGuItjmVf6BU2lB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAxMDE1OSBTYWx0ZWRfX0yiXmgqkvV2K
+ Rzddzg5O2hetPD2EX3SNoTI7OxTccaPv8CU/zoUR1g2uxmaNnRdf6NrXZ+QZ/KwX3aC/ufM6wMk
+ l9aj8j8uA/NsWkqAM+yQAZMXcczmDp+pqdMXKcyz02WvNnKI2Hfms9cK2BE4JbSn5pczNQOhWJb
+ X+wUEopf9x/MiIIgXF9VFsN7m4rWrBHW7nZr1XUVWqHTK7FwVA40/y2gKglIiu5GJBxA2l/J516
+ Ciqgi9j7MWq8s7GraMgkVsXBC4BKBVwbrphswzLK4eiUnX1bW546kYJ7dW88kskr/I3Zgkt8PKz
+ At7xKIPySs6HpimumwI8WoZxN5rJ8j7WfSBQy/3S5yRPpVtFTc0Bxayv1DAkWs4tb3U3RyT5FVH
+ 8mk/3m7lHnyy5e7T3FuBUOzNc3MYVQgfPw5l4M0OxDao8vYcyzwwrr6RJ3253s/tH8q8pXA3
+X-Authority-Analysis: v=2.4 cv=b5qy4sGx c=1 sm=1 tr=0 ts=6813e10f cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8
+ a=COk6AnOGAAAA:8 a=usGIuRzjxdkP44uZQh4A:9
+ a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: nIC8pPNmeoEHnFOmVPGuItjmVf6BU2lB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-01_06,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 phishscore=0
+ mlxscore=0 impostorscore=0 malwarescore=0 spamscore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505010159
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -189,87 +120,501 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 01, 2025 at 12:59:03PM -0700, Kees Cook wrote:
-> Casting through a "void *" isn't sufficient to convince the randstruct
-> GCC plugin that the result is intentional. Instead operate through an
-> explicit union to silence the warning:
+
+
+On 4/18/2025 12:50 AM, Dmitry Baryshkov wrote:
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
-> drivers/gpu/drm/ttm/ttm_backup.c: In function 'ttm_file_to_backup':
-> drivers/gpu/drm/ttm/ttm_backup.c:21:16: note: randstruct: casting between randomized structure pointer types (ssa): 'struct ttm_backup' and 'struct file'
->    21 |         return (void *)file;
->       |                ^~~~~~~~~~~~
+> Add DPU driver support for the Qualcomm SAR2130P platform. It is mostly
+> the same as SM8550, minor differences in the CDP configuration.
 > 
-> Fixes: e7b5d23e5d47 ("drm/ttm: Provide a shmem backup implementation")
-> Signed-off-by: Kees Cook <kees@kernel.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
 > ---
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Christian Koenig <christian.koenig@amd.com>
-> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-
-What if we did something like this instead:
-
-diff --git a/drivers/gpu/drm/ttm/ttm_backup.c b/drivers/gpu/drm/ttm/ttm_backup.c
-index 93c007f18855..fe936a87c959 100644
---- a/drivers/gpu/drm/ttm/ttm_backup.c
-+++ b/drivers/gpu/drm/ttm/ttm_backup.c
-@@ -7,18 +7,22 @@
- #include <linux/page-flags.h>
- #include <linux/swap.h>
-
-+struct ttm_backup {
-+       struct file file;
-+};
-+
- /*
-  * Casting from randomized struct file * to struct ttm_backup * is fine since
-  * struct ttm_backup is never defined nor dereferenced.
-  */
- static struct file *ttm_backup_to_file(struct ttm_backup *backup)
- {
--       return (void *)backup;
-+       return &backup->file;
- }
-
- static struct ttm_backup *ttm_file_to_backup(struct file *file)
- {
--       return (void *)file;
-+       return container_of(file, struct ttm_backup, file);
- }
-
-Matt
-
-> Cc: Huang Rui <ray.huang@amd.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: <dri-devel@lists.freedesktop.org>
-> ---
->  drivers/gpu/drm/ttm/ttm_backup.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>   .../drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h   | 434 +++++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+>   4 files changed, 437 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/ttm/ttm_backup.c b/drivers/gpu/drm/ttm/ttm_backup.c
-> index 93c007f18855..626af1de562f 100644
-> --- a/drivers/gpu/drm/ttm/ttm_backup.c
-> +++ b/drivers/gpu/drm/ttm/ttm_backup.c
-> @@ -18,7 +18,13 @@ static struct file *ttm_backup_to_file(struct ttm_backup *backup)
->  
->  static struct ttm_backup *ttm_file_to_backup(struct file *file)
->  {
-> -	return (void *)file;
-> +	/* Explicit union instead of a cast to make randstruct ignore us. */
-> +	union {
-> +		struct file *file;
-> +		struct ttm_backup *backup;
-> +	} u;
-> +	u.file = file;
-> +	return u.backup;
->  }
->  
->  /*
-> -- 
-> 2.34.1
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..22dd16c6e210e9520ecb7a851bee402032fa1ee2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
+> @@ -0,0 +1,434 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
+> + * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
+> + */
+> +
+> +#ifndef _DPU_9_1_SAR2130P_H
+> +#define _DPU_9_1_SAR2130P_H
+> +
+> +static const struct dpu_caps sar2130p_dpu_caps = {
+> +	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+> +	.max_mixer_blendstages = 0xb,
+> +	.has_src_split = true,
+> +	.has_dim_layer = true,
+> +	.has_idle_pc = true,
+> +	.has_3d_merge = true,
+> +	.max_linewidth = 5120,
+> +	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> +};
+> +
+> +static const struct dpu_mdp_cfg sar2130p_mdp = {
+> +	.name = "top_0",
+> +	.base = 0, .len = 0x494,
+> +	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
+> +	.clk_ctrls = {
+> +		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
+> +	},
+> +};
+> +
+> +/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
+> +static const struct dpu_ctl_cfg sar2130p_ctl[] = {
+> +	{
+> +		.name = "ctl_0", .id = CTL_0,
+> +		.base = 0x15000, .len = 0x290,
+> +		.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
+> +		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
+> +	}, {
+> +		.name = "ctl_1", .id = CTL_1,
+> +		.base = 0x16000, .len = 0x290,
+> +		.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
+> +		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
+> +	}, {
+> +		.name = "ctl_2", .id = CTL_2,
+> +		.base = 0x17000, .len = 0x290,
+> +		.features = CTL_SM8550_MASK,
+> +		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
+> +	}, {
+> +		.name = "ctl_3", .id = CTL_3,
+> +		.base = 0x18000, .len = 0x290,
+> +		.features = CTL_SM8550_MASK,
+> +		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
+> +	}, {
+> +		.name = "ctl_4", .id = CTL_4,
+> +		.base = 0x19000, .len = 0x290,
+> +		.features = CTL_SM8550_MASK,
+> +		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
+> +	}, {
+> +		.name = "ctl_5", .id = CTL_5,
+> +		.base = 0x1a000, .len = 0x290,
+> +		.features = CTL_SM8550_MASK,
+> +		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
+> +	},
+> +};
+> +
+> +static const struct dpu_sspp_cfg sar2130p_sspp[] = {
+> +	{
+> +		.name = "sspp_0", .id = SSPP_VIG0,
+> +		.base = 0x4000, .len = 0x344,
+> +		.features = VIG_SDM845_MASK_SDMA,
+> +		.sblk = &dpu_vig_sblk_qseed3_3_2,
+> +		.xin_id = 0,
+> +		.type = SSPP_TYPE_VIG,
+> +	}, {
+> +		.name = "sspp_1", .id = SSPP_VIG1,
+> +		.base = 0x6000, .len = 0x344,
+> +		.features = VIG_SDM845_MASK_SDMA,
+> +		.sblk = &dpu_vig_sblk_qseed3_3_2,
+> +		.xin_id = 4,
+> +		.type = SSPP_TYPE_VIG,
+> +	}, {
+> +		.name = "sspp_2", .id = SSPP_VIG2,
+> +		.base = 0x8000, .len = 0x344,
+> +		.features = VIG_SDM845_MASK_SDMA,
+> +		.sblk = &dpu_vig_sblk_qseed3_3_2,
+> +		.xin_id = 8,
+> +		.type = SSPP_TYPE_VIG,
+> +	}, {
+> +		.name = "sspp_3", .id = SSPP_VIG3,
+> +		.base = 0xa000, .len = 0x344,
+> +		.features = VIG_SDM845_MASK_SDMA,
+> +		.sblk = &dpu_vig_sblk_qseed3_3_2,
+> +		.xin_id = 12,
+> +		.type = SSPP_TYPE_VIG,
+> +	}, {
+> +		.name = "sspp_8", .id = SSPP_DMA0,
+> +		.base = 0x24000, .len = 0x344,
+> +		.features = DMA_SDM845_MASK_SDMA,
+> +		.sblk = &dpu_dma_sblk,
+> +		.xin_id = 1,
+> +		.type = SSPP_TYPE_DMA,
+> +	}, {
+> +		.name = "sspp_9", .id = SSPP_DMA1,
+> +		.base = 0x26000, .len = 0x344,
+> +		.features = DMA_SDM845_MASK_SDMA,
+> +		.sblk = &dpu_dma_sblk,
+> +		.xin_id = 5,
+> +		.type = SSPP_TYPE_DMA,
+> +	}, {
+> +		.name = "sspp_10", .id = SSPP_DMA2,
+> +		.base = 0x28000, .len = 0x344,
+> +		.features = DMA_SDM845_MASK_SDMA,
+> +		.sblk = &dpu_dma_sblk,
+> +		.xin_id = 9,
+> +		.type = SSPP_TYPE_DMA,
+> +	}, {
+> +		.name = "sspp_11", .id = SSPP_DMA3,
+> +		.base = 0x2a000, .len = 0x344,
+> +		.features = DMA_SDM845_MASK_SDMA,
+> +		.sblk = &dpu_dma_sblk,
+> +		.xin_id = 13,
+> +		.type = SSPP_TYPE_DMA,
+> +	}, {
+> +		.name = "sspp_12", .id = SSPP_DMA4,
+> +		.base = 0x2c000, .len = 0x344,
+> +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
+> +		.sblk = &dpu_dma_sblk,
+> +		.xin_id = 14,
+> +		.type = SSPP_TYPE_DMA,
+> +	}, {
+> +		.name = "sspp_13", .id = SSPP_DMA5,
+> +		.base = 0x2e000, .len = 0x344,
+> +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
+> +		.sblk = &dpu_dma_sblk,
+> +		.xin_id = 15,
+> +		.type = SSPP_TYPE_DMA,
+> +	},
+> +};
+> +
+> +static const struct dpu_lm_cfg sar2130p_lm[] = {
+> +	{
+> +		.name = "lm_0", .id = LM_0,
+> +		.base = 0x44000, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = LM_1,
+> +		.pingpong = PINGPONG_0,
+> +		.dspp = DSPP_0,
+> +	}, {
+> +		.name = "lm_1", .id = LM_1,
+> +		.base = 0x45000, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = LM_0,
+> +		.pingpong = PINGPONG_1,
+> +		.dspp = DSPP_1,
+> +	}, {
+> +		.name = "lm_2", .id = LM_2,
+> +		.base = 0x46000, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = LM_3,
+> +		.pingpong = PINGPONG_2,
+> +		.dspp = DSPP_2,
+> +	}, {
+> +		.name = "lm_3", .id = LM_3,
+> +		.base = 0x47000, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = LM_2,
+> +		.pingpong = PINGPONG_3,
+> +		.dspp = DSPP_3,
+> +	}, {
+> +		.name = "lm_4", .id = LM_4,
+> +		.base = 0x48000, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = LM_5,
+> +		.pingpong = PINGPONG_4,
+> +	}, {
+> +		.name = "lm_5", .id = LM_5,
+> +		.base = 0x49000, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = LM_4,
+> +		.pingpong = PINGPONG_5,
+> +	},
+> +};
+> +
+> +static const struct dpu_dspp_cfg sar2130p_dspp[] = {
+> +	{
+> +		.name = "dspp_0", .id = DSPP_0,
+> +		.base = 0x54000, .len = 0x1800,
+> +		.features = DSPP_SC7180_MASK,
+> +		.sblk = &sdm845_dspp_sblk,
+> +	}, {
+> +		.name = "dspp_1", .id = DSPP_1,
+> +		.base = 0x56000, .len = 0x1800,
+> +		.features = DSPP_SC7180_MASK,
+> +		.sblk = &sdm845_dspp_sblk,
+> +	}, {
+> +		.name = "dspp_2", .id = DSPP_2,
+> +		.base = 0x58000, .len = 0x1800,
+> +		.features = DSPP_SC7180_MASK,
+> +		.sblk = &sdm845_dspp_sblk,
+> +	}, {
+> +		.name = "dspp_3", .id = DSPP_3,
+> +		.base = 0x5a000, .len = 0x1800,
+> +		.features = DSPP_SC7180_MASK,
+> +		.sblk = &sdm845_dspp_sblk,
+> +	},
+> +};
+> +static const struct dpu_pingpong_cfg sar2130p_pp[] = {
+> +	{
+> +		.name = "pingpong_0", .id = PINGPONG_0,
+> +		.base = 0x69000, .len = 0,
+> +		.features = BIT(DPU_PINGPONG_DITHER),
+> +		.sblk = &sc7280_pp_sblk,
+> +		.merge_3d = MERGE_3D_0,
+> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
+> +	}, {
+> +		.name = "pingpong_1", .id = PINGPONG_1,
+> +		.base = 0x6a000, .len = 0,
+> +		.features = BIT(DPU_PINGPONG_DITHER),
+> +		.sblk = &sc7280_pp_sblk,
+> +		.merge_3d = MERGE_3D_0,
+> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
+> +	}, {
+> +		.name = "pingpong_2", .id = PINGPONG_2,
+> +		.base = 0x6b000, .len = 0,
+> +		.features = BIT(DPU_PINGPONG_DITHER),
+> +		.sblk = &sc7280_pp_sblk,
+> +		.merge_3d = MERGE_3D_1,
+> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
+> +	}, {
+> +		.name = "pingpong_3", .id = PINGPONG_3,
+> +		.base = 0x6c000, .len = 0,
+> +		.features = BIT(DPU_PINGPONG_DITHER),
+> +		.sblk = &sc7280_pp_sblk,
+> +		.merge_3d = MERGE_3D_1,
+> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
+> +	}, {
+> +		.name = "pingpong_4", .id = PINGPONG_4,
+> +		.base = 0x6d000, .len = 0,
+> +		.features = BIT(DPU_PINGPONG_DITHER),
+> +		.sblk = &sc7280_pp_sblk,
+> +		.merge_3d = MERGE_3D_2,
+> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
+> +	}, {
+> +		.name = "pingpong_5", .id = PINGPONG_5,
+> +		.base = 0x6e000, .len = 0,
+> +		.features = BIT(DPU_PINGPONG_DITHER),
+> +		.sblk = &sc7280_pp_sblk,
+> +		.merge_3d = MERGE_3D_2,
+> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31),
+> +	}, {
+> +		.name = "pingpong_cwb_0", .id = PINGPONG_CWB_0,
+> +		.base = 0x66000, .len = 0,
+> +		.features = BIT(DPU_PINGPONG_DITHER),
+> +		.sblk = &sc7280_pp_sblk,
+> +		.merge_3d = MERGE_3D_3,
+> +	}, {
+> +		.name = "pingpong_cwb_1", .id = PINGPONG_CWB_1,
+> +		.base = 0x66400, .len = 0,
+> +		.features = BIT(DPU_PINGPONG_DITHER),
+> +		.sblk = &sc7280_pp_sblk,
+> +		.merge_3d = MERGE_3D_3,
+> +	},
+> +};
+> +
+> +static const struct dpu_merge_3d_cfg sar2130p_merge_3d[] = {
+> +	{
+> +		.name = "merge_3d_0", .id = MERGE_3D_0,
+> +		.base = 0x4e000, .len = 0x8,
+> +	}, {
+> +		.name = "merge_3d_1", .id = MERGE_3D_1,
+> +		.base = 0x4f000, .len = 0x8,
+> +	}, {
+> +		.name = "merge_3d_2", .id = MERGE_3D_2,
+> +		.base = 0x50000, .len = 0x8,
+> +	}, {
+> +		.name = "merge_3d_3", .id = MERGE_3D_3,
+> +		.base = 0x66700, .len = 0x8,
+> +	},
+> +};
+> +
+> +/*
+> + * NOTE: Each display compression engine (DCE) contains dual hard
+> + * slice DSC encoders so both share same base address but with
+> + * its own different sub block address.
+> + */
+> +static const struct dpu_dsc_cfg sar2130p_dsc[] = {
+> +	{
+> +		.name = "dce_0_0", .id = DSC_0,
+> +		.base = 0x80000, .len = 0x4,
+> +		.features = BIT(DPU_DSC_HW_REV_1_2),
+> +		.sblk = &dsc_sblk_0,
+> +	}, {
+> +		.name = "dce_0_1", .id = DSC_1,
+> +		.base = 0x80000, .len = 0x4,
+> +		.features = BIT(DPU_DSC_HW_REV_1_2),
+> +		.sblk = &dsc_sblk_1,
+> +	}, {
+> +		.name = "dce_1_0", .id = DSC_2,
+> +		.base = 0x81000, .len = 0x4,
+> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
+> +		.sblk = &dsc_sblk_0,
+> +	}, {
+> +		.name = "dce_1_1", .id = DSC_3,
+> +		.base = 0x81000, .len = 0x4,
+> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
+> +		.sblk = &dsc_sblk_1,
+> +	},
+> +};
+> +
+> +static const struct dpu_wb_cfg sar2130p_wb[] = {
+> +	{
+> +		.name = "wb_2", .id = WB_2,
+> +		.base = 0x65000, .len = 0x2c8,
+> +		.features = WB_SM8250_MASK,
+> +		.format_list = wb2_formats_rgb_yuv,
+> +		.num_formats = ARRAY_SIZE(wb2_formats_rgb_yuv),
+> +		.xin_id = 6,
+> +		.vbif_idx = VBIF_RT,
+> +		.maxlinewidth = 4096,
+> +		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
+> +	},
+> +};
+> +
+> +static const struct dpu_intf_cfg sar2130p_intf[] = {
+> +	{
+> +		.name = "intf_0", .id = INTF_0,
+> +		.base = 0x34000, .len = 0x280,
+> +		.features = INTF_SC7280_MASK,
+> +		.type = INTF_DP,
+> +		.controller_id = MSM_DP_CONTROLLER_0,
+> +		.prog_fetch_lines_worst_case = 24,
+> +		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+> +		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
+> +	}, {
+> +		.name = "intf_1", .id = INTF_1,
+> +		.base = 0x35000, .len = 0x300,
+> +		.features = INTF_SC7280_MASK,
+> +		.type = INTF_DSI,
+> +		.controller_id = MSM_DSI_CONTROLLER_0,
+> +		.prog_fetch_lines_worst_case = 24,
+> +		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+> +		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+> +		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
+> +	}, {
+> +		.name = "intf_2", .id = INTF_2,
+> +		.base = 0x36000, .len = 0x300,
+> +		.features = INTF_SC7280_MASK,
+> +		.type = INTF_DSI,
+> +		.controller_id = MSM_DSI_CONTROLLER_1,
+> +		.prog_fetch_lines_worst_case = 24,
+> +		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+> +		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
+> +		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2),
+> +	}, {
+> +		.name = "intf_3", .id = INTF_3,
+> +		.base = 0x37000, .len = 0x280,
+> +		.features = INTF_SC7280_MASK,
+> +		.type = INTF_DP,
+> +		.controller_id = MSM_DP_CONTROLLER_1,
+> +		.prog_fetch_lines_worst_case = 24,
+> +		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+> +		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
+> +	},
+> +};
+> +
+> +static const struct dpu_perf_cfg sar2130p_perf_data = {
+> +	.max_bw_low = 13600000,
+> +	.max_bw_high = 18200000,
+> +	.min_core_ib = 2500000,
+> +	.min_llcc_ib = 0,
+> +	.min_dram_ib = 800000,
+> +	.min_prefill_lines = 35,
+> +	/* FIXME: lut tables */
+> +	.danger_lut_tbl = {0x3ffff, 0x3ffff, 0x0},
+> +	.safe_lut_tbl = {0xfe00, 0xfe00, 0xffff},
+> +	.qos_lut_tbl = {
+> +		{.nentry = ARRAY_SIZE(sc7180_qos_linear),
+> +		.entries = sc7180_qos_linear
+> +		},
+> +		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
+> +		.entries = sc7180_qos_macrotile
+> +		},
+> +		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
+> +		.entries = sc7180_qos_nrt
+> +		},
+> +		/* TODO: macrotile-qseed is different from macrotile */
+> +	},
+> +	.cdp_cfg = {
+> +		{.rd_enable = 0, .wr_enable = 0},
+> +		{.rd_enable = 0, .wr_enable = 0}
+> +	},
+> +	.clk_inefficiency_factor = 105,
+> +	.bw_inefficiency_factor = 120,
+> +};
+> +
+> +static const struct dpu_mdss_version sar2130p_mdss_ver = {
+> +	.core_major_ver = 9,
+> +	.core_minor_ver = 1,
+> +};
+> +
+> +const struct dpu_mdss_cfg dpu_sar2130p_cfg = {
+> +	.mdss_ver = &sar2130p_mdss_ver,
+> +	.caps = &sar2130p_dpu_caps,
+> +	.mdp = &sar2130p_mdp,
+> +	.cdm = &dpu_cdm_5_x,
+> +	.ctl_count = ARRAY_SIZE(sar2130p_ctl),
+> +	.ctl = sar2130p_ctl,
+> +	.sspp_count = ARRAY_SIZE(sar2130p_sspp),
+> +	.sspp = sar2130p_sspp,
+> +	.mixer_count = ARRAY_SIZE(sar2130p_lm),
+> +	.mixer = sar2130p_lm,
+> +	.dspp_count = ARRAY_SIZE(sar2130p_dspp),
+> +	.dspp = sar2130p_dspp,
+> +	.pingpong_count = ARRAY_SIZE(sar2130p_pp),
+> +	.pingpong = sar2130p_pp,
+> +	.dsc_count = ARRAY_SIZE(sar2130p_dsc),
+> +	.dsc = sar2130p_dsc,
+> +	.merge_3d_count = ARRAY_SIZE(sar2130p_merge_3d),
+> +	.merge_3d = sar2130p_merge_3d,
+> +	.wb_count = ARRAY_SIZE(sar2130p_wb),
+> +	.wb = sar2130p_wb,
+> +	.intf_count = ARRAY_SIZE(sar2130p_intf),
+> +	.intf = sar2130p_intf,
+> +	.vbif_count = ARRAY_SIZE(sm8550_vbif),
+> +	.vbif = sm8550_vbif,
+> +	.perf = &sar2130p_perf_data,
+> +};
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 64265ca4656a04d8c5a1d9582d7124c7eb897099..ce8d88e1d8b8bc6dea893f13a0449315ac8d2841 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -759,7 +759,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
+>   #include "catalog/dpu_8_4_sa8775p.h"
+>   
+>   #include "catalog/dpu_9_0_sm8550.h"
+> -
+> +#include "catalog/dpu_9_1_sar2130p.h"
+>   #include "catalog/dpu_9_2_x1e80100.h"
+>   
+>   #include "catalog/dpu_10_0_sm8650.h"
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 4cea19e1a20380c56ae014f2d33a6884a72e0ca0..e9b627e02c8996c8fb611e8e333a35e7ce9b8373 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -841,6 +841,7 @@ extern const struct dpu_mdss_cfg dpu_msm8937_cfg;
+>   extern const struct dpu_mdss_cfg dpu_msm8953_cfg;
+>   extern const struct dpu_mdss_cfg dpu_msm8996_cfg;
+>   extern const struct dpu_mdss_cfg dpu_msm8998_cfg;
+> +extern const struct dpu_mdss_cfg dpu_sar2130p_cfg;
+>   extern const struct dpu_mdss_cfg dpu_sdm630_cfg;
+>   extern const struct dpu_mdss_cfg dpu_sdm660_cfg;
+>   extern const struct dpu_mdss_cfg dpu_sdm845_cfg;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 3305ad0623ca41882db0172e65a9beb7ebe00b6c..1fd82b6747e9058ce11dc2620729921492d5ebdd 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -1512,6 +1512,7 @@ static const struct of_device_id dpu_dt_match[] = {
+>   	{ .compatible = "qcom,msm8998-dpu", .data = &dpu_msm8998_cfg, },
+>   	{ .compatible = "qcom,qcm2290-dpu", .data = &dpu_qcm2290_cfg, },
+>   	{ .compatible = "qcom,sa8775p-dpu", .data = &dpu_sa8775p_cfg, },
+> +	{ .compatible = "qcom,sar2130p-dpu", .data = &dpu_sar2130p_cfg, },
+>   	{ .compatible = "qcom,sdm630-mdp5", .data = &dpu_sdm630_cfg, },
+>   	{ .compatible = "qcom,sdm660-mdp5", .data = &dpu_sdm660_cfg, },
+>   	{ .compatible = "qcom,sdm670-dpu", .data = &dpu_sdm670_cfg, },
 > 
+
