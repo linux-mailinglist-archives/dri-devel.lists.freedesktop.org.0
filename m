@@ -2,53 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFF8AA5C53
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 10:48:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14EDEAA5C77
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 11:05:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE7D10E033;
-	Thu,  1 May 2025 08:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29E6610E077;
+	Thu,  1 May 2025 09:05:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pPOajMsZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KN8NxWit";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CBD410E033
- for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 08:48:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=HuOCUV3ZYd3s7vZC68iy5c6u9cQMhDH1ugkKmi7yDZI=; b=pPOajMsZd0TvfCXMTMWNGDKirP
- wPYuLuMNtL2obHX6hXS8sVijDhYNOZa0nP9O6znUSUaNV6ijpTIiOQzmVFg8Jl3o/kyuyLc75RuMq
- 9lJHJEqSt/w+J3mjc30MiPsHKChEb+/0StS3zi9t20qZgCDEk8ZQ2b+CGjHp+n/uU/PUAQ/uvf9OG
- TdJWnX+I6VmZQMSsd9Io/wwuAhNqIQa3fRE/OtIVa5TnvD7vUeg/luPD25TMNFIGHnPT/zBPbiwvB
- yH3xXOlX/d1QDkciGnVVh64iMyp+9ddA4l/amQwX5cuTz61lRtYsHLjwwcIYOSGoY+0G7wggPwvw3
- 8P3mDlqg==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uAPZF-001RQ9-GT; Thu, 01 May 2025 10:48:11 +0200
-Message-ID: <4cd1c241-ee17-46b2-aa47-43722e8dac5b@igalia.com>
-Date: Thu, 1 May 2025 09:48:10 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83D8E10E077
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 09:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1746090318; x=1777626318;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=jJ3F4gM4YJZadTUvKQftbhu43Hg+dCEKGKNWFuxIVJU=;
+ b=KN8NxWitIrTw6gnIfTBX779dJ3LEBDzMH1C65cLpcMCrzzn+MbX9VhNA
+ DW8ANz9pFb479OqmzHlscb2cY2yUMvVlxCzS6SWHSpGN5XKgSY2lVTKmS
+ 6Lwik4ME4kybUR3VcFnHCoJaoPZXSBvDLMR9KO9YkFfMZikcMTvhqQOIi
+ Cs4B3NnXig+aCZZ2mU+oIqDp6TudenT+9Jm1jzFrFnHNZHlIKrSxGm27T
+ KM1E27K4neNCh/NnVX0c10ycb2HQh5teq03Ym9aoZZ2YPwKpM/utaJj6j
+ XiISU6bvcIAqzPA9kHW+25YCmaShsR+U6LoZoLBNjBsg+aGGqzd1dZQvn A==;
+X-CSE-ConnectionGUID: kSDOc7zPREmdcGUorHFDUg==
+X-CSE-MsgGUID: t6+Adv8hT2yJxkAhMug8Lw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="58423477"
+X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; d="scan'208";a="58423477"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 May 2025 02:05:15 -0700
+X-CSE-ConnectionGUID: TG3uqsBdTgCIgGcs/DsKGg==
+X-CSE-MsgGUID: 4Vk331fnQHG4Glg4EM+ahQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; d="scan'208";a="139527386"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by orviesa005.jf.intel.com with ESMTP; 01 May 2025 02:05:10 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uAPqt-00044L-19;
+ Thu, 01 May 2025 09:05:07 +0000
+Date: Thu, 1 May 2025 17:04:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: oushixiong1025@163.com, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+ Shixiong Ou <oushixiong@kylinos.cn>
+Subject: Re: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
+Message-ID: <202505011655.qTmh4UA7-lkp@intel.com>
+References: <20250430085658.540746-2-oushixiong1025@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/v3d: Add job to pending list if the reset was
- skipped
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Jose Maria Casanova Crespo <jmcasanova@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- stable@vger.kernel.org, Daivik Bhatia <dtgs1208@gmail.com>
-References: <20250430210643.57924-1-mcanal@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250430210643.57924-1-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250430085658.540746-2-oushixiong1025@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,120 +78,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 30/04/2025 21:51, Maíra Canal wrote:
-> When a CL/CSD job times out, we check if the GPU has made any progress
-> since the last timeout. If so, instead of resetting the hardware, we skip
-> the reset and let the timer get rearmed. This gives long-running jobs a
-> chance to complete.
-> 
-> However, when `timedout_job()` is called, the job in question is removed
-> from the pending list, which means it won't be automatically freed through
-> `free_job()`. Consequently, when we skip the reset and keep the job
-> running, the job won't be freed when it finally completes.
-> 
-> This situation leads to a memory leak, as exposed in [1] and [2].
-> 
-> Similarly to commit 704d3d60fec4 ("drm/etnaviv: don't block scheduler when
-> GPU is still active"), this patch ensures the job is put back on the
-> pending list when extending the timeout.
-> 
-> Cc: stable@vger.kernel.org # 6.0
-> Reported-by: Daivik Bhatia <dtgs1208@gmail.com>
-> Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/12227 [1]
-> Closes: https://github.com/raspberrypi/linux/issues/6817 [2]
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
-> ---
-> 
-> Hi,
-> 
-> While we typically strive to avoid exposing the scheduler's internals
-> within the drivers, I'm proposing this fix as an interim solution. I'm aware
-> that a comprehensive fix will need some adjustments on the DRM sched side,
-> and I plan to address that soon.
-> 
-> However, it would be hard to justify the backport of such patches to the
-> stable branches and this issue is affecting users in the moment.
-> Therefore, I'd like to push this patch to drm-misc-fixes in order to
-> address this leak as soon as possible, while working in a more generic
-> solution.
+kernel test robot noticed the following build warnings:
 
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus usb/usb-testing usb/usb-next usb/usb-linus xen-tip/linux-next linus/master v6.15-rc4]
+[cannot apply to tegra/for-next drm-xe/drm-xe-next rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes next-20250430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Regards,
+url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong1025-163-com/drm-prime-Support-importing-DMA-BUF-without-sg_table/20250430-170136
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250430085658.540746-2-oushixiong1025%40163.com
+patch subject: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
+config: arm64-randconfig-003-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011655.qTmh4UA7-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011655.qTmh4UA7-lkp@intel.com/reproduce)
 
-Tvrtko
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505011655.qTmh4UA7-lkp@intel.com/
 
-> 
-> Best Regards,
-> - Maíra
-> 
-> v1 -> v2: https://lore.kernel.org/dri-devel/20250427202907.94415-2-mcanal@igalia.com/
-> 
-> - Protect the pending list by using its spinlock.
-> - Add the URL of another downstream issue related to this patch.
-> 
->   drivers/gpu/drm/v3d/v3d_sched.c | 28 +++++++++++++++++++++-------
->   1 file changed, 21 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> index b3be08b0ca91..c612363181df 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -734,11 +734,16 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
->   	return DRM_GPU_SCHED_STAT_NOMINAL;
->   }
->   
-> -/* If the current address or return address have changed, then the GPU
-> - * has probably made progress and we should delay the reset.  This
-> - * could fail if the GPU got in an infinite loop in the CL, but that
-> - * is pretty unlikely outside of an i-g-t testcase.
-> - */
-> +static void
-> +v3d_sched_skip_reset(struct drm_sched_job *sched_job)
-> +{
-> +	struct drm_gpu_scheduler *sched = sched_job->sched;
-> +
-> +	spin_lock(&sched->job_list_lock);
-> +	list_add(&sched_job->list, &sched->pending_list);
-> +	spin_unlock(&sched->job_list_lock);
-> +}
-> +
->   static enum drm_gpu_sched_stat
->   v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue q,
->   		    u32 *timedout_ctca, u32 *timedout_ctra)
-> @@ -748,9 +753,16 @@ v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue q,
->   	u32 ctca = V3D_CORE_READ(0, V3D_CLE_CTNCA(q));
->   	u32 ctra = V3D_CORE_READ(0, V3D_CLE_CTNRA(q));
->   
-> +	/* If the current address or return address have changed, then the GPU
-> +	 * has probably made progress and we should delay the reset. This
-> +	 * could fail if the GPU got in an infinite loop in the CL, but that
-> +	 * is pretty unlikely outside of an i-g-t testcase.
-> +	 */
->   	if (*timedout_ctca != ctca || *timedout_ctra != ctra) {
->   		*timedout_ctca = ctca;
->   		*timedout_ctra = ctra;
-> +
-> +		v3d_sched_skip_reset(sched_job);
->   		return DRM_GPU_SCHED_STAT_NOMINAL;
->   	}
->   
-> @@ -790,11 +802,13 @@ v3d_csd_job_timedout(struct drm_sched_job *sched_job)
->   	struct v3d_dev *v3d = job->base.v3d;
->   	u32 batches = V3D_CORE_READ(0, V3D_CSD_CURRENT_CFG4(v3d->ver));
->   
-> -	/* If we've made progress, skip reset and let the timer get
-> -	 * rearmed.
-> +	/* If we've made progress, skip reset, add the job to the pending
-> +	 * list, and let the timer get rearmed.
->   	 */
->   	if (job->timedout_batches != batches) {
->   		job->timedout_batches = batches;
-> +
-> +		v3d_sched_skip_reset(sched_job);
->   		return DRM_GPU_SCHED_STAT_NOMINAL;
->   	}
->   
+All warnings (new ones prefixed by >>):
 
+>> drivers/gpu/drm/drm_prime.c:925:24: warning: no previous prototype for function 'drm_gem_prime_import_dev_skip_map' [-Wmissing-prototypes]
+     925 | struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
+         |                        ^
+   drivers/gpu/drm/drm_prime.c:925:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     925 | struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
+         | ^
+         | static 
+   1 warning generated.
+
+
+vim +/drm_gem_prime_import_dev_skip_map +925 drivers/gpu/drm/drm_prime.c
+
+   913	
+   914	/**
+   915	 * drm_gem_prime_import_dev_skip_map - core implementation of the import callback
+   916	 * @dev: drm_device to import into
+   917	 * @dma_buf: dma-buf object to import
+   918	 * @attach_dev: struct device to dma_buf attach
+   919	 *
+   920	 * This function exports a dma-buf without get it's scatter/gather table.
+   921	 *
+   922	 * Drivers who need to get an scatter/gather table for objects need to call
+   923	 * drm_gem_prime_import_dev() instead.
+   924	 */
+ > 925	struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
+   926								 struct dma_buf *dma_buf,
+   927								 struct device *attach_dev)
+   928	{
+   929		struct dma_buf_attachment *attach;
+   930		struct drm_gem_object *obj;
+   931		int ret;
+   932	
+   933		if (dma_buf->ops == &drm_gem_prime_dmabuf_ops) {
+   934			obj = dma_buf->priv;
+   935			if (obj->dev == dev) {
+   936				/*
+   937				 * Importing dmabuf exported from our own gem increases
+   938				 * refcount on gem itself instead of f_count of dmabuf.
+   939				 */
+   940				drm_gem_object_get(obj);
+   941				return obj;
+   942			}
+   943		}
+   944	
+   945		attach = dma_buf_attach(dma_buf, attach_dev, true);
+   946		if (IS_ERR(attach))
+   947			return ERR_CAST(attach);
+   948	
+   949		get_dma_buf(dma_buf);
+   950	
+   951		obj = dev->driver->gem_prime_import_attachment(dev, attach);
+   952		if (IS_ERR(obj)) {
+   953			ret = PTR_ERR(obj);
+   954			goto fail_detach;
+   955		}
+   956	
+   957		obj->import_attach = attach;
+   958		obj->resv = dma_buf->resv;
+   959	
+   960		return obj;
+   961	
+   962	fail_detach:
+   963		dma_buf_detach(dma_buf, attach);
+   964		dma_buf_put(dma_buf);
+   965	
+   966		return ERR_PTR(ret);
+   967	}
+   968	EXPORT_SYMBOL(drm_gem_prime_import_dev_skip_map);
+   969	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
