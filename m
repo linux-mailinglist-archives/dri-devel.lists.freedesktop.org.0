@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE98AA62EE
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 20:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7857AA62F0
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 20:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD25910E879;
-	Thu,  1 May 2025 18:37:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05DE610E87F;
+	Thu,  1 May 2025 18:37:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GVU7n5tP";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VxJDlCNi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4043610E879
- for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 18:37:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 433B110E883
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 18:37:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1746124661;
+ s=mimecast20190719; t=1746124670;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yk7M5D8H8aC/JgAaxCS1maVk5f6A5cbefflNr0lOROM=;
- b=GVU7n5tPu5G7INAeg1O9LWILa21VcLiUfFijR1zuRoCdsBQe6OjG7XDWs3ISd4EnxUlot2
- qnRCVfAI5OtTNgGxjaDAiF+SEdXUUQNeSK2HqeOxUwUXJxKrYXVkI8TLu9DqZWx4HAzm7l
- iI8j3RN5PyDtGRNWJiOS5Y3kvHKNpuM=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ bh=GRNBnPmAgdVGuEdAa7ItVzU96gbWj7IMk8GXzUCuJj8=;
+ b=VxJDlCNi4lHJz6JvgB2c0J4Ik+/bi5je2amRZ47N/z+xoznSgrAIKztsxjWS00UEp6GSTt
+ m49YLLkxA7MVzN22CWD8UXqaQxGe3Hw1LQGP/WWZtj0TkzQpXwEOkn8hxH1qhkDh3qiNQa
+ 1+xmBj1vwX1szugkfYcZ0S0ub3DoB50=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-402-U4in9u2YObyfp8QPw3IqWA-1; Thu,
- 01 May 2025 14:37:37 -0400
-X-MC-Unique: U4in9u2YObyfp8QPw3IqWA-1
-X-Mimecast-MFC-AGG-ID: U4in9u2YObyfp8QPw3IqWA_1746124655
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-18-gnVgooa7MYmArRUfhUZFwg-1; Thu,
+ 01 May 2025 14:37:45 -0400
+X-MC-Unique: gnVgooa7MYmArRUfhUZFwg-1
+X-Mimecast-MFC-AGG-ID: gnVgooa7MYmArRUfhUZFwg_1746124662
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id B899F1800980; Thu,  1 May 2025 18:37:34 +0000 (UTC)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id D64771801A0F; Thu,  1 May 2025 18:37:41 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.88.132])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 0D2E41800115; Thu,  1 May 2025 18:37:29 +0000 (UTC)
+ id 033881800115; Thu,  1 May 2025 18:37:37 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  rust-for-linux@vger.kernel.org
@@ -58,9 +58,10 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  Danilo Krummrich <dakr@kernel.org>, Asahi Lina <lina@asahilina.net>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: [PATCH 1/4] rust: drm: gem: Use NonNull for Object::dev
-Date: Thu,  1 May 2025 14:33:16 -0400
-Message-ID: <20250501183717.2058109-2-lyude@redhat.com>
+Subject: [PATCH 2/4] rust: drm: gem: Refactor IntoGEMObject::from_gem_obj() to
+ as_ref()
+Date: Thu,  1 May 2025 14:33:17 -0400
+Message-ID: <20250501183717.2058109-3-lyude@redhat.com>
 In-Reply-To: <20250501183717.2058109-1-lyude@redhat.com>
 References: <20250501183717.2058109-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -81,45 +82,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is usually not much of a reason to use a raw pointer in a data
-struct, so move this to NonNull instead.
+There's a few issues with this function, mainly:
+
+* This function -probably- should have been unsafe from the start. Pointers
+  are not always necessarily valid, but you want a function that does
+  field-projection for a pointer that can travel outside of the original
+  struct to be unsafe, at least if I understand properly.
+* *mut Self is not terribly useful in this context, the majority of uses of
+  from_gem_obj() grab a *mut Self and then immediately convert it into a
+  &'a Self. It also goes against the ffi conventions we've set in the rest
+  of the kernel thus far.
+* from_gem_obj() also doesn't follow the naming conventions in the rest of
+  the DRM bindings at the moment, as_ref() would be a better name.
+
+So, let's:
+
+* Make from_gem_obj() unsafe
+* Convert it to return &'a Self
+* Rename it to as_ref()
+* Update all call locations
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/drm/gem/mod.rs | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ rust/kernel/drm/gem/mod.rs | 67 ++++++++++++++++++++++++--------------
+ 1 file changed, 42 insertions(+), 25 deletions(-)
 
 diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-index 0cafa4a424206..df8f9fdae5c22 100644
+index df8f9fdae5c22..f70531889c21f 100644
 --- a/rust/kernel/drm/gem/mod.rs
 +++ b/rust/kernel/drm/gem/mod.rs
-@@ -177,7 +177,7 @@ impl<T> BaseObject for T where Self: crate::types::AlwaysRefCounted + IntoGEMObj
- #[pin_data]
- pub struct Object<T: DriverObject + Send + Sync> {
-     obj: Opaque<bindings::drm_gem_object>,
--    dev: *const drm::Device<T::Driver>,
-+    dev: NonNull<drm::Device<T::Driver>>,
-     #[pin]
-     data: T,
+@@ -45,8 +45,12 @@ pub trait IntoGEMObject: Sized + super::private::Sealed {
+     #[allow(clippy::wrong_self_convention)]
+     fn into_gem_obj(&self) -> &Opaque<bindings::drm_gem_object>;
+ 
+-    /// Converts a pointer to a `struct drm_gem_object` into a pointer to `Self`.
+-    fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Self;
++    /// Converts a pointer to a `struct drm_gem_object` into a reference to `Self`.
++    ///
++    /// # Safety
++    ///
++    /// `self_ptr` must be a valid pointer to `Self`.
++    unsafe fn as_ref<'a>(self_ptr: *mut bindings::drm_gem_object) -> &'a Self;
  }
-@@ -212,7 +212,7 @@ pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
-                 data <- T::new(dev, size),
-                 // INVARIANT: The drm subsystem guarantees that the `struct drm_device` will live
-                 // as long as the GEM object lives.
--                dev,
-+                dev: dev.into(),
-             }),
-             GFP_KERNEL,
-         )?;
-@@ -237,7 +237,7 @@ pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
-     pub fn dev(&self) -> &drm::Device<T::Driver> {
-         // SAFETY: The DRM subsystem guarantees that the `struct drm_device` will live as long as
-         // the GEM object lives, hence the pointer must be valid.
--        unsafe { &*self.dev }
-+        unsafe { self.dev.as_ref() }
+ 
+ /// Trait which must be implemented by drivers using base GEM objects.
+@@ -63,14 +67,13 @@ extern "C" fn open_callback<T: BaseDriverObject<U>, U: BaseObject>(
+     let file = unsafe {
+         drm::File::<<<U as IntoGEMObject>::Driver as drm::Driver>::File>::as_ref(raw_file)
+     };
+-    let obj =
+-        <<<U as IntoGEMObject>::Driver as drm::Driver>::Object as IntoGEMObject>::from_gem_obj(
+-            raw_obj,
+-        );
+-
+-    // SAFETY: `from_gem_obj()` returns a valid pointer as long as the type is correct and the
+-    // `raw_obj` we got is valid.
+-    match T::open(unsafe { &*obj }, file) {
++    // SAFETY: `open_callback` is specified in the AllocOps structure for `Object<T>`, ensuring that
++    // `raw_obj` is indeed contained within a `Object<T>`.
++    let obj = unsafe {
++        <<<U as IntoGEMObject>::Driver as drm::Driver>::Object as IntoGEMObject>::as_ref(raw_obj)
++    };
++
++    match T::open(obj, file) {
+         Err(e) => e.to_errno(),
+         Ok(()) => 0,
+     }
+@@ -84,14 +87,13 @@ extern "C" fn close_callback<T: BaseDriverObject<U>, U: BaseObject>(
+     let file = unsafe {
+         drm::File::<<<U as IntoGEMObject>::Driver as drm::Driver>::File>::as_ref(raw_file)
+     };
+-    let obj =
+-        <<<U as IntoGEMObject>::Driver as drm::Driver>::Object as IntoGEMObject>::from_gem_obj(
+-            raw_obj,
+-        );
+-
+-    // SAFETY: `from_gem_obj()` returns a valid pointer as long as the type is correct and the
+-    // `raw_obj` we got is valid.
+-    T::close(unsafe { &*obj }, file);
++    // SAFETY: `close_callback` is specified in the AllocOps structure for `Object<T>`, ensuring
++    // that `raw_obj` is indeed contained within a `Object<T>`.
++    let obj = unsafe {
++        <<<U as IntoGEMObject>::Driver as drm::Driver>::Object as IntoGEMObject>::as_ref(raw_obj)
++    };
++
++    T::close(obj, file);
+ }
+ 
+ impl<T: DriverObject> IntoGEMObject for Object<T> {
+@@ -101,9 +103,10 @@ fn into_gem_obj(&self) -> &Opaque<bindings::drm_gem_object> {
+         &self.obj
      }
  
-     fn as_raw(&self) -> *mut bindings::drm_gem_object {
+-    fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Self {
+-        // SAFETY: All of our objects are Object<T>.
+-        unsafe { crate::container_of!(obj, Object<T>, obj).cast_mut() }
++    unsafe fn as_ref<'a>(self_ptr: *mut bindings::drm_gem_object) -> &'a Self {
++        // SAFETY: `obj` is guaranteed to be in an `Object<T>` via the safety contract of this
++        // function
++        unsafe { &*crate::container_of!(self_ptr, Object<T>, obj) }
+     }
+ }
+ 
+@@ -144,11 +147,25 @@ fn lookup_handle(
+     ) -> Result<ARef<Self>> {
+         // SAFETY: The arguments are all valid per the type invariants.
+         let ptr = unsafe { bindings::drm_gem_object_lookup(file.as_raw().cast(), handle) };
+-        let ptr = <Self as IntoGEMObject>::from_gem_obj(ptr);
+-        let ptr = NonNull::new(ptr).ok_or(ENOENT)?;
+ 
+-        // SAFETY: We take ownership of the reference of `drm_gem_object_lookup()`.
+-        Ok(unsafe { ARef::from_raw(ptr) })
++        // SAFETY:
++        // - A `drm::Driver` can only have a single `File` implementation.
++        // - `file` uses the same `drm::Driver` as `Self`.
++        // - Therefore, we're guaranteed that `ptr` must be a gem object embedded within `Self`.
++        // - And we check if the pointer is null befoe calling as_ref(), ensuring that `ptr` is a
++        //   valid pointer to an initialized `Self`.
++        // XXX: The expect lint here is to workaround
++        // https://github.com/rust-lang/rust-clippy/issues/13024
++        #[expect(clippy::undocumented_unsafe_blocks)]
++        let obj = (!ptr.is_null())
++            .then(|| unsafe { Self::as_ref(ptr) })
++            .ok_or(ENOENT)?;
++
++        // SAFETY:
++        // - We take ownership of the reference of `drm_gem_object_lookup()`.
++        // - Our `NonNull` comes from an immutable reference, thus ensuring it is a valid pointer to
++        //   `Self`.
++        Ok(unsafe { ARef::from_raw(obj.into()) })
+     }
+ 
+     /// Creates an mmap offset to map the object from userspace.
 -- 
 2.48.1
 
