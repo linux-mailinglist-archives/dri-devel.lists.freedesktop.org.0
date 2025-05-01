@@ -2,82 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8AAAA6106
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 17:56:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DB5AA62ED
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 20:37:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23F9310E870;
-	Thu,  1 May 2025 15:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C412010E87E;
+	Thu,  1 May 2025 18:37:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZJKOVCZ/";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RiM6WGCm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9552310E86F;
- Thu,  1 May 2025 15:56:46 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-39ee651e419so440494f8f.3; 
- Thu, 01 May 2025 08:56:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746115005; x=1746719805; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SyMjA5+EHm8GDLEkPCXy0Pkd/Xd5xkiy/3Y65s6r+bw=;
- b=ZJKOVCZ/dqiJy9Ts5k/MXwirWI/42XzSEti2J4KoqIEDY18MnNAv5jqC6FT0nsuwZ1
- H55mNtHQkbSzNOf8kWwJgLSd7N0ouCTLk9t56HwYt+XPxtc1BQ2KuaVIheSqpnewGk34
- 5VbeIVgmoeQgBi5Fe2QXkDoaDZJilAxXsQVxUmDySQdfb3DOCPdMVPBGXc5pWRmwfR3H
- q+31ONh/Sv6pEzHim51paMqsHGsklY4qz9pdrmUZQwzxMgTa7dp9wseGekPRXLahpHio
- lX8+RL7d+kzXzg4yAh3i2wGzl8X/Z7VYMwzhrAhaiCpApmsKz0IxJQMXk8BjRCArydrO
- nbLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746115005; x=1746719805;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SyMjA5+EHm8GDLEkPCXy0Pkd/Xd5xkiy/3Y65s6r+bw=;
- b=ozmNCnj5kHGICaFsjcsQbMWev6QR6pQRJZJWcyXeJnKAI8AfmddZk6oGCeea/mr3hi
- lEBvxbCHoEiyGbQ2eOjCtpxyUdejaPCmy9Vl+WpOerO5urXfOBn3fMPEGOuRXo0KIkFX
- wYaFrqx1MtP0MlpuOYxKhTQKWaZgcqGhoUsVUkAOwtTEiRPxJHUjA/jIqI5cZFdWV8aL
- JenNzRkh1stkK/KISw6OKa+qH8aVGptUkeE/W/MKQ6PR+1qpI6TZSOXmfb9mRp6movhh
- A0oEwGVSUIQb7Jk0rZRKYg4rwsx1HYyMVelSsRyzwdvLB8v5v5GVNJveZOEBkBRukFZ6
- 1CMg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW5TSBk8W0KgGJFMxxDoES7/seuMiVIqnB20BbnTO+gpBvzDdy5Wx1Hvl1X6S0ejFHJz22J+IXer0g=@lists.freedesktop.org,
- AJvYcCXM0fkLeLC2VwNDI9IPDTvzRl0zfGh3pdFSrsnqqz0kJSRHuiObvs8St6zWGEgJBX/9L6G8TQ5l0Ghu@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0hS7cirOIe7yyQTWRZdb+ilnrOLQzwtIVt12N0quMtNiI6MKZ
- F78mf31IG0Pk2qBMrkDbRN2vk2YWYp+8F0gfiq4+J1gNzmI0igiy98XlAc17384qTZxFH8SJ8o2
- n3sy79i89BDQsV/2IEGGVQcyiHQ==
-X-Gm-Gg: ASbGncuYoVAND04Qfos4+fbg0bf53Ub2mgzy0UE/bkkxAv4T+3wJ/Y/HHp1dmHFnmJv
- qOhJKtH8XxU8WwLR0zgtTUXJ5//cnjbUaiGcb3UObY02jHECEsGuxUzhBmXqAGpk9zIPwHTyl2S
- qgTJOhogN1M3gjCE4uo6QzbQ==
-X-Google-Smtp-Source: AGHT+IHv7ID2o6xdwodyt9aVnE8SqQt0h7xIkIKqZCIW+tDXLAT/fFqdyAFHFrwJyKkMZGKMx7TKCv44BqvyvtN7dS8=
-X-Received: by 2002:a5d:64a3:0:b0:399:71d4:a9 with SMTP id
- ffacd0b85a97d-3a09417be1amr2144028f8f.52.1746115004546; 
- Thu, 01 May 2025 08:56:44 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17ABB10E87E
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 18:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1746124654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zY/y5cuq+QzWFVJKdbHLdKnpZh6l9uuVIW68BDziQX4=;
+ b=RiM6WGCm5OSB/X2I/zBZFOqpSJ9CNt+ZUxiig4S2HQRe7zBQleTME5uldN9jwu20RKOeUs
+ doLZSnRLPOcPScgNvOTAL2xCKXm60wPCIrXeG7pfqQBOO91vaC62AVYkdhFwXVmgAh4Fex
+ djAMqCVZJUIZ7nIoITy1fYvdAj8XkPY=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-395-kR0NwullNzy9ZxuJq6cPiw-1; Thu,
+ 01 May 2025 14:37:28 -0400
+X-MC-Unique: kR0NwullNzy9ZxuJq6cPiw-1
+X-Mimecast-MFC-AGG-ID: kR0NwullNzy9ZxuJq6cPiw_1746124646
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 0724C19560BC; Thu,  1 May 2025 18:37:26 +0000 (UTC)
+Received: from chopper.redhat.com (unknown [10.22.88.132])
+ by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 903C21800115; Thu,  1 May 2025 18:37:22 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 0/4] drm: Rust GEM bindings cleanup
+Date: Thu,  1 May 2025 14:33:15 -0400
+Message-ID: <20250501183717.2058109-1-lyude@redhat.com>
 MIME-Version: 1.0
-References: <20250430001330.265970-1-alex.vinarskis@gmail.com>
- <20250430001330.265970-5-alex.vinarskis@gmail.com>
- <6495e342-512f-469f-9d66-bb9f47fb551d@quicinc.com>
-In-Reply-To: <6495e342-512f-469f-9d66-bb9f47fb551d@quicinc.com>
-From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-Date: Thu, 1 May 2025 17:56:33 +0200
-X-Gm-Features: ATxdqUHKB_UtQ78VII7tSrD9RTdwhY0k8yXnG0y-bJq8IltK3RXpVanlLhz96Rs
-Message-ID: <CAMcHhXqFE6-tnT0m9=3N1wSaTyEPMFA0zTfVqwJmgqz60tBAoQ@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] drm/msm/dp: Introduce link training per-segment
- for LTTPRs
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, laurentiu.tudor1@dell.com,
- abel.vesa@linaro.org, 
- johan@kernel.org, Johan Hovold <johan+linaro@kernel.org>, 
- Stefan Schmidt <stefan.schmidt@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,429 +73,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 1 May 2025 at 04:11, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 4/29/2025 5:09 PM, Aleksandrs Vinarskis wrote:
-> > DisplayPort requires per-segment link training when LTTPR are switched
-> > to non-transparent mode, starting with LTTPR closest to the source.
-> > Only when each segment is trained individually, source can link train
-> > to sink.
-> >
-> > Implement per-segment link traning when LTTPR(s) are detected, to
-> > support external docking stations. On higher level, changes are:
-> >
-> > * Pass phy being trained down to all required helpers
-> > * Run CR, EQ link training per phy
-> > * Set voltage swing, pre-emphasis levels per phy
-> >
-> > This ensures successful link training both when connected directly to
-> > the monitor (single LTTPR onboard most X1E laptops) and via the docking
-> > station (at least two LTTPRs).
-> >
-> > Fixes: 72d0af4accd9 ("drm/msm/dp: Add support for LTTPR handling")
-> >
->
-> Thanks for the patch to improve and add support for link training in
-> non-transparent mode.
->
-> Some questions below as the DP 2.1a spec documentation is not very clear
-> about segmented link training as you noted in the cover letter, so I am
-> also only reviewing i915 as reference here.
->
->
-> > Tested-by: Johan Hovold <johan+linaro@kernel.org>
-> > Tested-by: Rob Clark <robdclark@gmail.com>
-> > Tested-by: Stefan Schmidt <stefan.schmidt@linaro.org>
-> > Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-> > Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> >   drivers/gpu/drm/msm/dp/dp_ctrl.c | 126 ++++++++++++++++++++++---------
-> >   1 file changed, 89 insertions(+), 37 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> > index d8633a596f8d..35b28c2fcd64 100644
-> > --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> > +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> > @@ -1034,10 +1034,12 @@ static int msm_dp_ctrl_set_vx_px(struct msm_dp_ctrl_private *ctrl,
-> >       return 0;
-> >   }
-> >
-> > -static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
-> > +static int msm_dp_ctrl_update_phy_vx_px(struct msm_dp_ctrl_private *ctrl,
-> > +                                     enum drm_dp_phy dp_phy)
-> >   {
-> >       struct msm_dp_link *link = ctrl->link;
-> > -     int ret = 0, lane, lane_cnt;
-> > +     int lane, lane_cnt, reg;
-> > +     int ret = 0;
-> >       u8 buf[4];
-> >       u32 max_level_reached = 0;
-> >       u32 voltage_swing_level = link->phy_params.v_level;
-> > @@ -1075,8 +1077,13 @@ static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
-> >
-> >       drm_dbg_dp(ctrl->drm_dev, "sink: p|v=0x%x\n",
-> >                       voltage_swing_level | pre_emphasis_level);
-> > -     ret = drm_dp_dpcd_write(ctrl->aux, DP_TRAINING_LANE0_SET,
-> > -                                     buf, lane_cnt);
-> > +
-> > +     if (dp_phy == DP_PHY_DPRX)
-> > +             reg = DP_TRAINING_LANE0_SET;
-> > +     else
-> > +             reg = DP_TRAINING_LANE0_SET_PHY_REPEATER(dp_phy);
-> > +
-> > +     ret = drm_dp_dpcd_write(ctrl->aux, reg, buf, lane_cnt);
->
-> For the max voltage and swing levels, it seems like we need to use the
-> source (DPTX) or the DPRX immediately upstream of the RX we are trying
-> to train. i915 achieves it with below:
->
->          /*
->           * Get voltage_max from the DPTX_PHY (source or LTTPR) upstream
-> from
->           * the DPRX_PHY we train.
->           */
->          if (intel_dp_phy_is_downstream_of_source(intel_dp, dp_phy))
->                  voltage_max = intel_dp->voltage_max(intel_dp, crtc_state);
->          else
->                  voltage_max = intel_dp_lttpr_voltage_max(intel_dp,
-> dp_phy + 1);
->
->
-> But I do not see (unless I missed) how this patch takes care of this
-> requirement.
->
-> Same holds true for preemph too
+Just some patches to fix a handful of minor issues, some of which were already
+mentioned on the mailing list. Some of these patches also make it just a
+little bit easier to add the shmem bindings from Asahi in the future.
 
-Thanks for you review,
+This patch series applies on top of dakr's nova-next branch:
+  https://gitlab.freedesktop.org/drm/nova/-/tree/nova-next
 
-This is a very good point. You are right, in the present state it does
-not. Intel's driver is verifying whether LTTPRs supports
-DP_TRAIN_LEVEL_3 or only DP_TRAIN_LEVEL_2, while my current change
-follows msm-dp's default which was recently set to DP_TRAIN_LEVEL_3
-[1]. I came to conclusion that in particular case it was not required
-to verify that LTTPR indeed supports training level 3, but do not
-remember the details as its been a few months... should've document it
-:)
+Lyude Paul (4):
+  rust: drm: gem: Use NonNull for Object::dev
+  rust: drm: gem: Refactor IntoGEMObject::from_gem_obj() to as_ref()
+  rust: drm: gem: s/into_gem_obj()/as_gem_obj()/
+  rust: drm: gem: Implement AlwaysRefCounted for all gem objects
+    automatically
 
-As I recall, from one of the DP specs onward (has to be 1.4a then,
-since LTTPR was initially introduced in DP 1.3, but register for phy
-capabilities only added in 1.4a [2]) it mandates training level 3
-support for LTTPRs, so the assumption would've be correct in that
-case. Is this something you could verify from the official
-documentation? Unfortunately I do not have sources to back this
-statement, so it may be incorrect...
+ rust/kernel/drm/gem/mod.rs | 141 ++++++++++++++++++++-----------------
+ 1 file changed, 76 insertions(+), 65 deletions(-)
 
-Now reviewing it again, my reasoning may to be wrong, as source
-supporting training level 3 and DP 1.4a does not necessarily imply
-that external LTTPR does, nor that external LTTPR is DP 1.4a
-compliant.
 
-fwiw, after quickly inspecting AMD's driver it seems it also assumes
-DP_TRAIN_LEVEL_3 support for LTTPR and does not explicitly verify it.
-Similarly to proposed msm solution, iteration over phys [3] calls
-`perform_8b_10b_clock_recovery_sequence` [4] which is generic for both
-DPRX and LTTPR(s). This eventually calls `dp_is_max_vs_reached` [5] to
-check against hardcoded value of 3 [6]. Generally, it appears no other
-driver use `
-drm_dp_lttpr_voltage_swing_level_3_supported` or
-`drm_dp_lttpr_pre_emphasis_level_3_supported` helpers introduced by
-Intel, nor directly use register 0xf0021.
+base-commit: 3be746ebc1e6e32f499a65afe405df9030153a63
+-- 
+2.48.1
 
-Alternatively, if we cannot verify that LTTPR is expected to always
-support DP_TRAIN_LEVEL_3, I change this patch to match Intel's example
-of retrieving max vs and pe per phy. As it appears to be a bit time
-sensitive, can have it done and re-tested on all available hardware by
-Monday. Please let me know your thoughts.
-
-Thanks,
-Alex
-
-[1] https://lore.kernel.org/all/20240203-dp-swing-3-v1-1-6545e1706196@linaro.org/
-[2] https://patchwork.freedesktop.org/patch/329863/
-[3] https://github.com/torvalds/linux/blob/v6.15-rc4/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training_8b_10b.c#L396-L430
-[4] https://github.com/torvalds/linux/blob/v6.15-rc4/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training_8b_10b.c#L176-L294
-[5] https://github.com/torvalds/linux/blob/v6.15-rc4/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c#L462-L475
-[6] https://github.com/torvalds/linux/blob/v6.15-rc4/drivers/gpu/drm/amd/display/dc/dc_dp_types.h#L80
-
->
->          if (intel_dp_phy_is_downstream_of_source(intel_dp, dp_phy))
->                  preemph_max = intel_dp->preemph_max(intel_dp);
->          else
->                  preemph_max = intel_dp_lttpr_preemph_max(intel_dp,
-> dp_phy + 1);
->
->          drm_WARN_ON_ONCE(display->drm,
->                           preemph_max != DP_TRAIN_PRE_EMPH_LEVEL_2 &&
->                           preemph_max != DP_TRAIN_PRE_EMPH_LEVEL_3);
->
->
-> >       if (ret == lane_cnt)
-> >               ret = 0;
-> >
-> > @@ -1084,9 +1091,10 @@ static int msm_dp_ctrl_update_vx_px(struct msm_dp_ctrl_private *ctrl)
-> >   }
-> >
-> >   static bool msm_dp_ctrl_train_pattern_set(struct msm_dp_ctrl_private *ctrl,
-> > -             u8 pattern)
-> > +             u8 pattern, enum drm_dp_phy dp_phy)
-> >   {
-> >       u8 buf;
-> > +     int reg;
-> >       int ret = 0;
-> >
-> >       drm_dbg_dp(ctrl->drm_dev, "sink: pattern=%x\n", pattern);
-> > @@ -1096,7 +1104,12 @@ static bool msm_dp_ctrl_train_pattern_set(struct msm_dp_ctrl_private *ctrl,
-> >       if (pattern && pattern != DP_TRAINING_PATTERN_4)
-> >               buf |= DP_LINK_SCRAMBLING_DISABLE;
-> >
-> > -     ret = drm_dp_dpcd_writeb(ctrl->aux, DP_TRAINING_PATTERN_SET, buf);
-> > +     if (dp_phy == DP_PHY_DPRX)
-> > +             reg = DP_TRAINING_PATTERN_SET;
-> > +     else
-> > +             reg = DP_TRAINING_PATTERN_SET_PHY_REPEATER(dp_phy);
-> > +
-> > +     ret = drm_dp_dpcd_writeb(ctrl->aux, reg, buf);
-> >       return ret == 1;
-> >   }
-> >
-> > @@ -1115,12 +1128,16 @@ static int msm_dp_ctrl_read_link_status(struct msm_dp_ctrl_private *ctrl,
-> >   }
-> >
-> >   static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
-> > -                     int *training_step)
-> > +                     int *training_step, enum drm_dp_phy dp_phy)
-> >   {
-> > +     int delay_us;
-> >       int tries, old_v_level, ret = 0;
-> >       u8 link_status[DP_LINK_STATUS_SIZE];
-> >       int const maximum_retries = 4;
-> >
-> > +     delay_us = drm_dp_read_clock_recovery_delay(ctrl->aux,
-> > +                                                 ctrl->panel->dpcd, dp_phy, false);
-> > +
-> >       msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-> >
-> >       *training_step = DP_TRAINING_1;
-> > @@ -1129,18 +1146,19 @@ static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
-> >       if (ret)
-> >               return ret;
-> >       msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_1 |
-> > -             DP_LINK_SCRAMBLING_DISABLE);
-> > +             DP_LINK_SCRAMBLING_DISABLE, dp_phy);
-> >
-> > -     ret = msm_dp_ctrl_update_vx_px(ctrl);
-> > +     msm_dp_link_reset_phy_params_vx_px(ctrl->link);
-> > +     ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
-> >       if (ret)
-> >               return ret;
-> >
-> >       tries = 0;
-> >       old_v_level = ctrl->link->phy_params.v_level;
-> >       for (tries = 0; tries < maximum_retries; tries++) {
-> > -             drm_dp_link_train_clock_recovery_delay(ctrl->aux, ctrl->panel->dpcd);
-> > +             fsleep(delay_us);
-> >
-> > -             ret = msm_dp_ctrl_read_link_status(ctrl, link_status);
-> > +             ret = drm_dp_dpcd_read_phy_link_status(ctrl->aux, dp_phy, link_status);
-> >               if (ret)
-> >                       return ret;
-> >
-> > @@ -1161,7 +1179,7 @@ static int msm_dp_ctrl_link_train_1(struct msm_dp_ctrl_private *ctrl,
-> >               }
-> >
-> >               msm_dp_link_adjust_levels(ctrl->link, link_status);
-> > -             ret = msm_dp_ctrl_update_vx_px(ctrl);
-> > +             ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
-> >               if (ret)
-> >                       return ret;
-> >       }
-> > @@ -1213,21 +1231,31 @@ static int msm_dp_ctrl_link_lane_down_shift(struct msm_dp_ctrl_private *ctrl)
-> >       return 0;
-> >   }
-> >
-> > -static void msm_dp_ctrl_clear_training_pattern(struct msm_dp_ctrl_private *ctrl)
-> > +static void msm_dp_ctrl_clear_training_pattern(struct msm_dp_ctrl_private *ctrl,
-> > +                                            enum drm_dp_phy dp_phy)
-> >   {
-> > -     msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_DISABLE);
-> > -     drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
-> > +     int delay_us;
-> > +
-> > +     msm_dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_DISABLE, dp_phy);
-> > +
-> > +     delay_us = drm_dp_read_channel_eq_delay(ctrl->aux,
-> > +                                             ctrl->panel->dpcd, dp_phy, false);
-> > +     fsleep(delay_us);
-> >   }
-> >
-> >   static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
-> > -                     int *training_step)
-> > +                     int *training_step, enum drm_dp_phy dp_phy)
-> >   {
-> > +     int delay_us;
-> >       int tries = 0, ret = 0;
-> >       u8 pattern;
-> >       u32 state_ctrl_bit;
-> >       int const maximum_retries = 5;
-> >       u8 link_status[DP_LINK_STATUS_SIZE];
-> >
-> > +     delay_us = drm_dp_read_channel_eq_delay(ctrl->aux,
-> > +                                             ctrl->panel->dpcd, dp_phy, false);
-> > +
-> >       msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-> >
-> >       *training_step = DP_TRAINING_2;
-> > @@ -1247,12 +1275,12 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
-> >       if (ret)
-> >               return ret;
-> >
-> > -     msm_dp_ctrl_train_pattern_set(ctrl, pattern);
-> > +     msm_dp_ctrl_train_pattern_set(ctrl, pattern, dp_phy);
-> >
-> >       for (tries = 0; tries <= maximum_retries; tries++) {
-> > -             drm_dp_link_train_channel_eq_delay(ctrl->aux, ctrl->panel->dpcd);
-> > +             fsleep(delay_us);
-> >
-> > -             ret = msm_dp_ctrl_read_link_status(ctrl, link_status);
-> > +             ret = drm_dp_dpcd_read_phy_link_status(ctrl->aux, dp_phy, link_status);
-> >               if (ret)
-> >                       return ret;
-> >
-> > @@ -1262,7 +1290,7 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
-> >               }
-> >
-> >               msm_dp_link_adjust_levels(ctrl->link, link_status);
-> > -             ret = msm_dp_ctrl_update_vx_px(ctrl);
-> > +             ret = msm_dp_ctrl_update_phy_vx_px(ctrl, dp_phy);
-> >               if (ret)
-> >                       return ret;
-> >
-> > @@ -1271,9 +1299,32 @@ static int msm_dp_ctrl_link_train_2(struct msm_dp_ctrl_private *ctrl,
-> >       return -ETIMEDOUT;
-> >   }
-> >
-> > +static int msm_dp_ctrl_link_train_1_2(struct msm_dp_ctrl_private *ctrl,
-> > +                                   int *training_step, enum drm_dp_phy dp_phy)
-> > +{
-> > +     int ret;
-> > +
-> > +     ret = msm_dp_ctrl_link_train_1(ctrl, training_step, dp_phy);
-> > +     if (ret) {
-> > +             DRM_ERROR("link training #1 on phy %d failed. ret=%d\n", dp_phy, ret);
-> > +             return ret;
-> > +     }
-> > +     drm_dbg_dp(ctrl->drm_dev, "link training #1 on phy %d successful\n", dp_phy);
-> > +
-> > +     ret = msm_dp_ctrl_link_train_2(ctrl, training_step, dp_phy);
-> > +     if (ret) {
-> > +             DRM_ERROR("link training #2 on phy %d failed. ret=%d\n", dp_phy, ret);
-> > +             return ret;
-> > +     }
-> > +     drm_dbg_dp(ctrl->drm_dev, "link training #2 on phy %d successful\n", dp_phy);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> >   static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
-> >                       int *training_step)
-> >   {
-> > +     int i;
-> >       int ret = 0;
-> >       const u8 *dpcd = ctrl->panel->dpcd;
-> >       u8 encoding[] = { 0, DP_SET_ANSI_8B10B };
-> > @@ -1286,8 +1337,6 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
-> >       link_info.rate = ctrl->link->link_params.rate;
-> >       link_info.capabilities = DP_LINK_CAP_ENHANCED_FRAMING;
-> >
-> > -     msm_dp_link_reset_phy_params_vx_px(ctrl->link);
-> > -
-> >       msm_dp_aux_link_configure(ctrl->aux, &link_info);
-> >
-> >       if (drm_dp_max_downspread(dpcd))
-> > @@ -1302,24 +1351,27 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
-> >                               &assr, 1);
-> >       }
-> >
-> > -     ret = msm_dp_ctrl_link_train_1(ctrl, training_step);
-> > +     for (i = ctrl->link->lttpr_count - 1; i >= 0; i--) {
-> > +             enum drm_dp_phy dp_phy = DP_PHY_LTTPR(i);
-> > +
-> > +             ret = msm_dp_ctrl_link_train_1_2(ctrl, training_step, dp_phy);
-> > +             msm_dp_ctrl_clear_training_pattern(ctrl, dp_phy);
-> > +
-> > +             if (ret)
-> > +                     break;
-> > +     }
-> > +
-> >       if (ret) {
-> > -             DRM_ERROR("link training #1 failed. ret=%d\n", ret);
-> > +             DRM_ERROR("link training of LTTPR(s) failed. ret=%d\n", ret);
-> >               goto end;
-> >       }
-> >
-> > -     /* print success info as this is a result of user initiated action */
-> > -     drm_dbg_dp(ctrl->drm_dev, "link training #1 successful\n");
-> > -
-> > -     ret = msm_dp_ctrl_link_train_2(ctrl, training_step);
-> > +     ret = msm_dp_ctrl_link_train_1_2(ctrl, training_step, DP_PHY_DPRX);
-> >       if (ret) {
-> > -             DRM_ERROR("link training #2 failed. ret=%d\n", ret);
-> > +             DRM_ERROR("link training on sink failed. ret=%d\n", ret);
-> >               goto end;
-> >       }
-> >
-> > -     /* print success info as this is a result of user initiated action */
-> > -     drm_dbg_dp(ctrl->drm_dev, "link training #2 successful\n");
-> > -
-> >   end:
-> >       msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
-> >
-> > @@ -1636,7 +1688,7 @@ static int msm_dp_ctrl_link_maintenance(struct msm_dp_ctrl_private *ctrl)
-> >       if (ret)
-> >               goto end;
-> >
-> > -     msm_dp_ctrl_clear_training_pattern(ctrl);
-> > +     msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
-> >
-> >       msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
-> >
-> > @@ -1660,7 +1712,7 @@ static bool msm_dp_ctrl_send_phy_test_pattern(struct msm_dp_ctrl_private *ctrl)
-> >               return false;
-> >       }
-> >       msm_dp_catalog_ctrl_send_phy_pattern(ctrl->catalog, pattern_requested);
-> > -     msm_dp_ctrl_update_vx_px(ctrl);
-> > +     msm_dp_ctrl_update_phy_vx_px(ctrl, DP_PHY_DPRX);
-> >       msm_dp_link_send_test_response(ctrl->link);
-> >
-> >       pattern_sent = msm_dp_catalog_ctrl_read_phy_pattern(ctrl->catalog);
-> > @@ -1902,7 +1954,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
-> >                       }
-> >
-> >                       /* stop link training before start re training  */
-> > -                     msm_dp_ctrl_clear_training_pattern(ctrl);
-> > +                     msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
-> >               }
-> >
-> >               rc = msm_dp_ctrl_reinitialize_mainlink(ctrl);
-> > @@ -1926,7 +1978,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
-> >                * link training failed
-> >                * end txing train pattern here
-> >                */
-> > -             msm_dp_ctrl_clear_training_pattern(ctrl);
-> > +             msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
-> >
-> >               msm_dp_ctrl_deinitialize_mainlink(ctrl);
-> >               rc = -ECONNRESET;
-> > @@ -1997,7 +2049,7 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train
-> >               msm_dp_ctrl_link_retrain(ctrl);
-> >
-> >       /* stop txing train pattern to end link training */
-> > -     msm_dp_ctrl_clear_training_pattern(ctrl);
-> > +     msm_dp_ctrl_clear_training_pattern(ctrl, DP_PHY_DPRX);
-> >
-> >       /*
-> >        * Set up transfer unit values and set controller state to send
->
