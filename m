@@ -2,129 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED5FAA5A24
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 06:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4F2AA5AB4
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 07:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF4E10E1A1;
-	Thu,  1 May 2025 04:07:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9106C10E1B9;
+	Thu,  1 May 2025 05:58:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vc0N5x/q";
+	dkim=pass (2048-bit key; unprotected) header.d=fastmail.com header.i=@fastmail.com header.b="O+4pzBF6";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="G7EhpQ0o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1DA110E030;
- Thu,  1 May 2025 04:07:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1E484445B5;
- Thu,  1 May 2025 04:07:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87EA4C4CEE3;
- Thu,  1 May 2025 04:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746072451;
- bh=h0QzjVR0KjHpyA96CNoleotE0TFuZUMfC/CGf9mA1O4=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=Vc0N5x/qPw6HfifSrdfU66XAtnr852y8QGzp5fhv1pEpfEGa8RhjqYc6B9IL5NBmd
- +iQo4MTIMk1HXAx5AkjDnvHuJvFcsIkWvXa+WlgbvSc++Wc+dTkaSYtWk6gz0On5YF
- orbbF2SpC3JFtWPbqBCDwwEkJQf3sgQpQ5xg0gSYVWHtUYAqZkG/NSzX+VKl6ETyVb
- BAPYDthtp2cseJxmoZP1SP7wjO/qHsn+MUx/pTbuLrFfs5aH8AqM5kFnnMt5uYy/7L
- agf5qgmkU7VTjGllI+a2tpet1sBcauxWeKYTg9UHE0KNtYse77JgpBl7FjtzHgefwB
- 7S3DNO2v+95bw==
-Message-ID: <0c4e532ed8b58f8253a14f8ed59d93523a096f16.camel@kernel.org>
-Subject: Re: [PATCH v6 08/10] net: add symlinks to ref_tracker_dir for netns
-From: Jeff Layton <jlayton@kernel.org>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, andrew@lunn.ch, 
- davem@davemloft.net, dri-devel@lists.freedesktop.org, edumazet@google.com, 
- horms@kernel.org, intel-gfx@lists.freedesktop.org,
- jani.nikula@linux.intel.com, 	joonas.lahtinen@linux.intel.com,
- kuba@kernel.org, linux-kernel@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, nathan@kernel.org, 
- netdev@vger.kernel.org, pabeni@redhat.com, qasdev00@gmail.com, 
- rodrigo.vivi@intel.com, simona@ffwll.ch, tursulin@ursulin.net,
- tzimmermann@suse.de
-Date: Wed, 30 Apr 2025 21:07:20 -0700
-In-Reply-To: <20250501035115.76182-1-kuniyu@amazon.com>
-References: <cf11e228dfa247476a498a37f88a96d8e0e2585c.camel@kernel.org>
- <20250501035115.76182-1-kuniyu@amazon.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from fout-a4-smtp.messagingengine.com
+ (fout-a4-smtp.messagingengine.com [103.168.172.147])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43A7510E1B9;
+ Thu,  1 May 2025 05:58:06 +0000 (UTC)
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal
+ [10.202.2.41])
+ by mailfout.phl.internal (Postfix) with ESMTP id 3C59B138016C;
+ Thu,  1 May 2025 01:58:05 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-01.internal (MEProxy); Thu, 01 May 2025 01:58:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to; s=fm3; t=1746079085; x=1746165485; bh=wBa+/RP16JDDqe808w2hJ
+ uVvdiTrgtxeTmMlzvStV40=; b=O+4pzBF6r2WKZ6eDqs4LiUxjDiAFVOdEmok09
+ jA/7ww3vcBznOPaaPG29NjxpdgJeWOfpD+BLwhfKlKCrif/NnDeyr39/MZY2V3F9
+ Id+rA90HTNki3aW4NI2FdJA6V71kejBhHkkpzWRwfsrtfc2oWe2nfXUSX3Z9SNDB
+ BPSKFaEEFlJifczqymEKam4/6yaoJIB6ygKlBprcvZGj8rbi83ffjsdJabDl3SzI
+ psoAiJX1gM1gcno0hNyi5OpE1AFw48emJGfw2XZwLNSC78Th4TnSHSA2S1Xl3R66
+ 7NinxDbdZJlX6Disz1xP3IMT2LGXliy7bs2EYiEoIkiqz2LAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1746079085; x=1746165485; bh=wBa+/RP16JDDqe808w2hJuVvdiTrgtxeTmM
+ lzvStV40=; b=G7EhpQ0oiQ1g3Euw64aaUrqs7YLmf4yu1Y10PaBGxdjonTZBCeB
+ jVCkjnXHhVWnMWr06RJAHjD6Q8tMZh5RnXvSY4hE3BNKyG7pk/ZpUNt5IelBbREk
+ LZuEtuZBFJERMyUCTZOgNng2SoM+Kp3Q8Lm+zo2vNeBvQ47Cm3BBHjhMeCQx1CO6
+ EoPbOR9bly2LVT+qXT3GbFeVKnach1pWDwLYyannk6MVTw6ABE/6gnZqPIByp1A8
+ 7wjfNIcpXcjVflU6uxi+/ZsDAcqS7GK5FjuIyujAAoj45GpO/i2+d5t+cqiHw7KM
+ MnREZOXi55Sbq9WhAZYIU4MI9nncHAy3LnA==
+X-ME-Sender: <xms:bA0TaFzjQFUxAkSNbdVtIXXAURJuVg7S067NYNGLrqQ5uGpkWFslTA>
+ <xme:bA0TaFSSq0F6TlSfQ9_j50eUzpHgIJA6c0uWt3zmLoUmFujO-mHJcWWic8gUewqOa
+ uctuvJOiyOvvS1WtJo>
+X-ME-Received: <xmr:bA0TaPUdVdDaYFlwgIsj2372EtaI1wAxBqAeVpwmeYX8XZ2sLLmGXP2CVJTs1QvkF0mTmkTQaFXJEH7-C_gsyJ8vbw6ywQbPIh_876oWi3IIRYtE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieekjeelucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+ pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
+ evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflrghmvghsucfhlhhofigvrhhs
+ uceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrg
+ htthgvrhhnpefhvefgkeeiuddtudfhgefgiedvuefhhedtffejtddtfeekieefieejveet
+ hfegheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ gsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthht
+ ohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhrghrrhihrdifvghnth
+ hlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdr
+ tghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpth
+ htoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthho
+ pegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrih
+ hrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhl
+ rdgthhdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorh
+ hgpdhrtghpthhtohepsgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:bA0TaHhL54XvezQvlBAWiJMLYQ4lLem4cvTj-Kqy8k02jJWwxr_gmQ>
+ <xmx:bA0TaHC2LLAW81q9rRvrJidjUSTsavhB4nxQI9BVFMTOeU60J1qvzg>
+ <xmx:bA0TaALqGP8q3C4Yq-Me_ZeYCIJ9Q5dqX6VtlhTSJnAbA8CarJsd6g>
+ <xmx:bA0TaGAAT-haECyx6lviJ9lgFvQ2sRihNoE9j0omVHuJX7_lElxLiQ>
+ <xmx:bQ0TaE3y3NlLynx7EDoKHNooBBNKkY5U1x5iIfJ0jXc7RA-bx9kKeyfg>
+Feedback-ID: ibd7e4881:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 1 May 2025 01:58:02 -0400 (EDT)
+From: James Flowers <bold.zone2373@fastmail.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, skhan@linuxfoundation.org
+Cc: James Flowers <bold.zone2373@fastmail.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH RESEND] drm/amd/display: adds kernel-doc comment for
+ dc_stream_remove_writeback()
+Date: Wed, 30 Apr 2025 22:56:42 -0700
+Message-ID: <20250501055701.2667-1-bold.zone2373@fastmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,100 +102,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-04-30 at 20:50 -0700, Kuniyuki Iwashima wrote:
-> From: Jeff Layton <jlayton@kernel.org>
-> Date: Wed, 30 Apr 2025 20:42:40 -0700
-> > On Wed, 2025-04-30 at 20:07 -0700, Kuniyuki Iwashima wrote:
-> > > From: Jeff Layton <jlayton@kernel.org>
-> > > Date: Wed, 30 Apr 2025 19:59:23 -0700
-> > > > On Wed, 2025-04-30 at 14:29 -0700, Kuniyuki Iwashima wrote:
-> > > > > From: Jeff Layton <jlayton@kernel.org>
-> > > > > Date: Wed, 30 Apr 2025 08:06:54 -0700
-> > > > > > After assigning the inode number to the namespace, use it to cr=
-eate a
-> > > > > > unique name for each netns refcount tracker with the ns.inum va=
-lue in
-> > > > > > it, and register a symlink to the debugfs file for it.
-> > > > > >=20
-> > > > > > init_net is registered before the ref_tracker dir is created, s=
-o add a
-> > > > > > late_initcall() to register its files and symlinks.
-> > > > > >=20
-> > > > > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > > > > > ---
-> > > > > >  net/core/net_namespace.c | 28 +++++++++++++++++++++++++++-
-> > > > > >  1 file changed, 27 insertions(+), 1 deletion(-)
-> > > > > >=20
-> > > > > > diff --git a/net/core/net_namespace.c b/net/core/net_namespace.=
-c
-> > > > > > index 008de9675ea98fa8c18628b2f1c3aee7f3ebc9c6..6cbc8eabb8e56c8=
-47fc34fa8ec9994e8b275b0af 100644
-> > > > > > --- a/net/core/net_namespace.c
-> > > > > > +++ b/net/core/net_namespace.c
-> > > > > > @@ -763,12 +763,38 @@ struct net *get_net_ns_by_pid(pid_t pid)
-> > > > > >  }
-> > > > > >  EXPORT_SYMBOL_GPL(get_net_ns_by_pid);
-> > > > > > =20
-> > > > > > +#ifdef CONFIG_NET_NS_REFCNT_TRACKER
-> > > > > > +static void net_ns_net_debugfs(struct net *net)
-> > > > > > +{
-> > > > > > +	ref_tracker_dir_symlink(&net->refcnt_tracker, "netns-%u-refcn=
-t", net->ns.inum);
-> > > > > > +	ref_tracker_dir_symlink(&net->notrefcnt_tracker, "netns-%u-no=
-trefcnt", net->ns.inum);
-> > > > >=20
-> > > > > Could you use net->net_cookie ?
-> > > > >=20
-> > > > > net->ns.inum is always 1 when CONFIG_PROC_FS=3Dn.
-> > > >=20
-> > > > My main use-case for this is to be able to match the inode number i=
-n
-> > > > the /proc/<pid>/ns/net symlink with the correct ref_tracker debugfs
-> > > > file. Is there a way to use the net_cookie to make that association=
-?
-> > >=20
-> > > It's roundabout, but  net_cookie can be retrieved by creating a
-> > > random socket in the netns and calling setsockopt(SO_NETNS_COOKIE).
-> > >=20
-> > > Ido proposed a handy ip-netns subcommand here, and I guess it will
-> > > be implemented soon(?)
-> > > https://lore.kernel.org/netdev/1d99d7ccfc3a7a18840948ab6ba1c0b5fad909=
-01.camel@fejes.dev/
-> >=20
-> > For the cases where I was looking at netns leaks, there were no more
-> > processes in the container, so there was no way to enter the container
-> > and spawn a socket at that point.
->=20
-> Then how do you get net->ns.inum ?
->=20
+Adds a kernel-doc for externally linked dc_stream_remove_writeback() function.
 
-In my case, I was looking at /sys/kernel/debug/sunrpc/rpc_xprt/*/info.
-That also displays net->ns.inum in the same format. When I was
-originally working on this, the problem I was chasing was due to stuck
-RPC transports (rpc_xprt).
+Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+index 0478dd856d8c..060ee6c3fc2e 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+@@ -552,6 +552,14 @@ bool dc_stream_fc_disable_writeback(struct dc *dc,
+ 	return true;
+ }
+ 
++/**
++ * dc_stream_remove_writeback() - Disables writeback and removes writeback info.
++ * @dc: Display core control structure.
++ * @stream: Display core stream state.
++ * @dwb_pipe_inst: Display writeback pipe.
++ *
++ * Return: returns true on success, false otherwise. 
++ */
+ bool dc_stream_remove_writeback(struct dc *dc,
+ 		struct dc_stream_state *stream,
+ 		uint32_t dwb_pipe_inst)
+-- 
+2.49.0
 
->=20
-> >=20
-> > The point of the symlinks is to have a way to easily identify what
-> > you're tracking. NAME_MAX is 255. We could do something like this
-> > instead:
-> >=20
-> >    snprintf(..., "netns-%u-%llx-refcnt", net->ns.inum, net->net_cookie)=
-;
-> >=20
-> > Obviously the inums would all be 1 when PROC_FS=3Dn, but the cookies
-> > would be unique. Would that work?
->=20
-> This works, but depending on the question above, there's no point in
-> using inum ?
-
-Having the inum is definitely useful to me, particularly since the
-net_cookie would be pretty useless for the problems I've been chasing.
-=20
-I'll plan to respin this to include the net_cookie though, since that
-would disambiguate the names when PROC_FS=3Dn. It might also turn out to
-be useful for someone, once there is a way to fetch the net_cookie from
-userland.=20
---=20
-Jeff Layton <jlayton@kernel.org>
