@@ -2,111 +2,225 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC7DAA5CA7
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 11:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 257E8AA5CC6
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 11:51:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B34310E81A;
-	Thu,  1 May 2025 09:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4CE10E045;
+	Thu,  1 May 2025 09:51:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="am8cMkEX";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="gx5iTP6D";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="c+0WvLbC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D23F10E221;
- Thu,  1 May 2025 09:30:13 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5418ETh6013717;
- Thu, 1 May 2025 09:30:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- O1Yvn+lb+vHDCgyXybiOa4uhoN/0L23iOUqIx7+v4RY=; b=am8cMkEX09b26Wg+
- sRbegF1BsRtsooMy4iKog7gd8h5U47E+yqyTlts/WgWsoRSyPXNiulr2D72o3ZKu
- I2NsnrAqE604X6bGIoucuvu86scqY06U1eehycFuT1lL/KgCw+DdGRG78qe5jn7H
- QB0K8CMV9uyk2jx3BtO/2m8lpfQC4gB2fIt6kkg9H0Guztlqkmi/q98+9rMgUbYW
- U8TxL/NWIAd8SbRYiu8XnuDNKHUVqxkbijtT6zrSJP5C2n/7+S/Zzt+fCh8TN1Mj
- zPRYYddimk5k8TuPjRCJyYyBkzN314hUsKsBSbB2PWlPNWi0r9RpStwk+y7P8EQx
- axUYkQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6ubmxkt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 May 2025 09:30:07 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5419U69V017858
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 1 May 2025 09:30:06 GMT
-Received: from [10.216.32.231] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 1 May 2025
- 02:30:00 -0700
-Message-ID: <f5734944-1ed2-4acc-a015-0c638c331bbe@quicinc.com>
-Date: Thu, 1 May 2025 14:59:58 +0530
-MIME-Version: 1.0
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F7AF10E045
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 09:51:30 +0000 (UTC)
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5418g7el016983;
+ Thu, 1 May 2025 09:51:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=
+ corp-2025-04-25; bh=mINvyVkI8+5X+gXcOLnZ7hYu3KgrQOWRmfplnwd3044=; b=
+ gx5iTP6D1up1V0V52Ovsg4ERpG/5j2rURp6uCwDZjJkmrBkKyYdy07LUh1cBCh0l
+ znw2DuzL80xBbT5UbT+RsMLDrV189qJ73hw/SiGKUU70TkvMAaoKIKkigE9B/aQJ
+ 0YRtLo36pKs+gKy8+TL0OjoRBhhz+Ftta7M6rV2WJz2moumgxdFlWgcRuF4/YqLl
+ 6x8n5UHkT4ciRQtLaKLmF2bl9+ykZevNRA0D8EpQe7WeLb2bl22LOSU5OO0Aq51s
+ qRfs5OSBBV9sexDfJ178uOhayZ+k+kx1vc5Artf5VTedeHP/FwfWIdrshlfFFFY0
+ JGjrdNcmTb3uYZQ/vIGRDg==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46b6usjtex-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 01 May 2025 09:51:10 +0000 (GMT)
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 54190BYG013794; Thu, 1 May 2025 09:51:10 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2041.outbound.protection.outlook.com [104.47.58.41])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 468nxccys5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 01 May 2025 09:51:10 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fh5MFXww+b2Z4o4KSkxlhkKqtzA16rBEHv7O/W5B5os4HWp6gk9gLWo6wsdqtjm9oLNnl1hJWA+ifYp+hrQo1KUFlbXt2upz7WIJtRxomJn0LUmiQ6dbfOUtEEZZ7H2KlPVDUNkEddYIUWWOr4hJyAk3mhp8Lsu0zFuv3WhruHHyiR0i8QDHWGFP6rwEewzL7oyejfpbg0Hzu6ydMLv5HUCu6b/MvX1reL6oytugSi5dNylh0VGTR71Ox2ZK5ynpM9NbjbMnpUtUi3yYQQ++fIj4/+apH8+InuieRd/R8skL44ieOEND1L3QzBbWMitVyL016acGRHeB75PNHq7Zsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mINvyVkI8+5X+gXcOLnZ7hYu3KgrQOWRmfplnwd3044=;
+ b=CZmX85T2BO2yEuKMKmrQa4RX9v3h0KseP55iZ6TfE+3icC+eWTIOG3/WRrm79y+kvvqOtBedR6RCz/A+NRWtgOl1CuaTgWFte/p6SVWJ+FVQyiOxMIahkxvH+HLvktFmBjF8DHOUJ8NjnUCzazAnqZwKthd8EuV/3M5RZaCg2bhZ6yUhr/DC06aqNNkOUqEtbEWYjrE/G5LeldDSgUoZX0n4FkCVk5GIStQ/0yEczL+ccRrvandMZbEo8+KbSeSYX5vW/G3PJDtrucaIl8CyI7tVvMxuAeM5MciJtIlqd3k8ir65KjNEEpu9St6BmeIXy4VDvr3yf7a46mduqyG4Ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mINvyVkI8+5X+gXcOLnZ7hYu3KgrQOWRmfplnwd3044=;
+ b=c+0WvLbC4lP7q9Y/SB5ox6wV+sahGWQJuQMlSQgujL4r0HMC+yntH/av7y7HNIVvG89PEKcYOsZygiQfbxeDc9LsJ8AXEpPOYjGVX9QrtHMr3OOv/k1MxWlHwNM8fbwzESx2EvYQRRs+1cwUDbIIDRQt8anjua1MUXixl4LYvwA=
+Received: from DS7PR10MB5328.namprd10.prod.outlook.com (2603:10b6:5:3a6::12)
+ by PH8PR10MB6624.namprd10.prod.outlook.com (2603:10b6:510:220::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.23; Thu, 1 May
+ 2025 09:51:01 +0000
+Received: from DS7PR10MB5328.namprd10.prod.outlook.com
+ ([fe80::ea13:c6c1:9956:b29c]) by DS7PR10MB5328.namprd10.prod.outlook.com
+ ([fe80::ea13:c6c1:9956:b29c%2]) with mapi id 15.20.8678.028; Thu, 1 May 2025
+ 09:51:01 +0000
+Message-ID: <f9a7c9fd-bd49-4cf0-9a86-a8e65b4fb6a5@oracle.com>
+Date: Thu, 1 May 2025 15:20:49 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT v6 2/5] drm/msm/adreno: Add speedbin data for SM8550 /
- A740
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, <neil.armstrong@linaro.org>
-CC: Konrad Dybcio <konradybcio@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, David Airlie <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Marijn Suijten
- <marijn.suijten@somainline.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20250430-topic-smem_speedbin_respin-v6-0-954ff66061cf@oss.qualcomm.com>
- <20250430-topic-smem_speedbin_respin-v6-2-954ff66061cf@oss.qualcomm.com>
- <13cd20c6-f758-45ff-82d1-4fd663d1698c@linaro.org>
- <886d979d-c513-4ab8-829e-4a885953079a@oss.qualcomm.com>
- <b838f9bd-0537-4f8d-b24b-d96700d566c8@linaro.org>
- <98a4ad20-c141-4280-801e-015dafd1fb39@oss.qualcomm.com>
- <a26213ec-808f-4edf-bb0d-ab469ee0a884@linaro.org>
- <281ab1b6-498e-4b29-9e15-19b5aae25342@oss.qualcomm.com>
- <63105bce-6b8e-4b99-bca1-3741f27ea25a@linaro.org>
- <892fc1eb-efd3-4fb6-9110-2df3349960a6@oss.qualcomm.com>
- <b989522d-bd41-4d76-91a9-3cf680214003@linaro.org>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Subject: Re: [PATCH v4 01/15] clk: renesas: rzv2h-cpg: Add support for DSI
+ clocks
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250430204112.342123-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Language: en-US
-In-Reply-To: <b989522d-bd41-4d76-91a9-3cf680214003@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: QmQgx0QKw4N_AUeIp4AiKYfhaSQgKFSG
-X-Authority-Analysis: v=2.4 cv=bsxMBFai c=1 sm=1 tr=0 ts=68133f1f cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8
- a=xjiPyf2SZMVwIgDpRVcA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAxMDA3MSBTYWx0ZWRfX5TOjlfODYpbK
- IruKOoM8nqbFttpvjYJNfapBa4Rs+GPIKBiOWUZ7eIBYAHG1GL4Vpthvoxasf7zUrsh29Q0eZvV
- PnMGaOYAcbX9uQBZH4WyJuL069cc+I5h3tPkw6e3g+6EK4JHKFpLHPmQo7FN5Rcj5crbvg5cbUR
- ghd4I972B0uiRCDLWZwG2zS83LR4BzJ9reUK/1ypoWqoMjin0MrWovADY6gCY3n4L/215Lt9rWz
- d2ucH5CFL1uUupu1BiEcVEVHh5FdX2SRXJD+Bd+3W5Wpf2f/J8pD+WVsyX4tPhAlAWbOTNs6ovc
- SP6I0AYPqnkFQJK9J6S1qWGrhOzknsKIht49Nh8qmotx11UAWTtjLEOBpF1bNwd4LRmJxDQNuS2
- XHnO12iU3xx48a6tTXVwusIkmV+5XhwLHZS5QIuENuSykUyaNBQ0aYVhqsDXSbgjOkjeWrU9
-X-Proofpoint-ORIG-GUID: QmQgx0QKw4N_AUeIp4AiKYfhaSQgKFSG
+From: ALOK TIWARI <alok.a.tiwari@oracle.com>
+In-Reply-To: <20250430204112.342123-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0095.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:af::6) To DS7PR10MB5328.namprd10.prod.outlook.com
+ (2603:10b6:5:3a6::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR10MB5328:EE_|PH8PR10MB6624:EE_
+X-MS-Office365-Filtering-Correlation-Id: 080078ca-9f9f-45fd-89b2-08dd8895ae34
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UUhZY3dDN2E2UmtUTWJBcTdiZVpTSS9kR2hhNkJWM3ViT1RSZm5VK1NDYXlZ?=
+ =?utf-8?B?eFpTdUNHa1Y1ZFVBY2JMT2FZd3Y5VktKa1VMYm51eDgxTTdsOVVjNXErWE9L?=
+ =?utf-8?B?aEthR1JuMHRIalFjb1V0azEvWTgrMEhMc0RzdDMxT0hFWTUvZzk1a2lPQnBp?=
+ =?utf-8?B?QUEvcVdyWGs5VFRkbmlna3RyRnJwaC96ZUMwNGFBbmtNQmc5TXNyTlJraHdN?=
+ =?utf-8?B?aHZWYzV0QjhrQzQ0SlFJKzNqdGp0NUpVMWRUR1V4QTI1OTBUVFFZYnd5STdQ?=
+ =?utf-8?B?R2k1a010UW5lVHZFSldZVVA2Q1hkSVhSRmQ5UlV5bXBDVHIzU0Z3Kzhid1p1?=
+ =?utf-8?B?UW9hY0VZY1Z6dUdFYjNjS3A0WDF3UnRTS2hWb3l5TjZqRGdGWnVoblRucmJu?=
+ =?utf-8?B?czAzQzBNSFBYSVQwQzVYb3pqNzNsNTMvbzRvaDBuOXJPMSswUk81OCtwWmJR?=
+ =?utf-8?B?VXdYY0UyQVcrQXY1djRjUVpkWUNwVWNjVTN3QWgwYS9oMk1CcFlIL0lZOU1M?=
+ =?utf-8?B?UGdGMUc0Vk5Zby9pTlpnc0V6Y1RleDJKeVVUQWRaOFd0R2hoLzRqbUdNc2Zu?=
+ =?utf-8?B?SmhVdXp4dWlxeFBlK0VDT21XZTlDRjYwd25CNFhpNWdQejVqYVJzbktpWWNL?=
+ =?utf-8?B?UHdvcnhYejh1dFVKNDhpSzB6UERxQ2VqdkRQaE1INEdqOUZKQWJCYmxvTkx0?=
+ =?utf-8?B?Q3hBR0NIMTc3LytadUFwN01rbFlDemd2dnMrVGlPeGlwd1FOM0UyNGZqTVp4?=
+ =?utf-8?B?Uk9OdjlvWGF4cGU2ZmREd1J1UVc5NzJZR3JQSVRJN1pQWCtsYUt1U2pFTTNK?=
+ =?utf-8?B?Smdsb2loWE1xSjJZMnprU3YyZzhFU0hFRk5Cazd6ZDBmZUZ1TnNKZTZldHc3?=
+ =?utf-8?B?YnErcnlyeWl6VVlHYllWcGQrRDMzTGMxQStPb1Q4Z3krSkFKQ0xFeDlTSHJD?=
+ =?utf-8?B?UEdabGpYOUZKd2Nwamc5akJGMjVteXRLMkNsN09TR051dzNsS0t3ZHhDRGlB?=
+ =?utf-8?B?RkJyeHVsckhzcHpwdXFYR05LbktZZTFjT0haV3BuMnlvVTZjOCs4TEpNRllZ?=
+ =?utf-8?B?MTFqcHQ5Tk9pNkNaaEVSOW1IZTU1Z294SU94L3RIQnRBWFBCUDdlUUNaVURv?=
+ =?utf-8?B?czFvRkFkSU54Y2pGbnB0UjNuQm5GSStpV0NBenNiUDloYzdLeERNTlFac0Rt?=
+ =?utf-8?B?NHVHUHN1NkVjeGlPL1RMMGFhL3ZHeW9ZdjcwSXhTcDNTVTFvU2pETVp4dDkv?=
+ =?utf-8?B?b1NVZFNNVEN0aVE4S2ZHUTVPTnR2VzVnUEZ0R3VTMXpxWnFuTS8rTGtndkNQ?=
+ =?utf-8?B?MnV2VVQ2d3FpRUJEMWVyMVJTVUF1UzUxaFpNdDc0WlpPalhObXhhV1J0c3Jt?=
+ =?utf-8?B?Sm81UjVGbHJoUjVCdGx4Ni9OdCtEY2U3YUxjVktBNGhObERreFpaNWpxdk54?=
+ =?utf-8?B?eGFtL1NvYlg3dlBlVFh3NXNFNXpWR1ZnbUZ3K1NaeHZ2Ry9nMzdWR01zblVi?=
+ =?utf-8?B?eUNXUTVHL2s5TVhWNVRaNlRLQ241QndTdjBTUG40UU1qSEF5dTg3QnlQMGRx?=
+ =?utf-8?B?YWh6dnZUZ1ZKRVBaRUtQUndzZ05QRjlWSmVZZm9veXFJT2dXTWxFa3VZS2Fz?=
+ =?utf-8?B?ZTFsVjFtMitjS0FoTnhLdE40LzgwQmFBdEJTdEJmYlBVUkE0ZXRyNHM1dXVn?=
+ =?utf-8?B?ZzdpbCtGZUZiRjVQSVlxTE5qT0lXRENERmN3cXRZQVdWd3JaZ055WU5zbW4r?=
+ =?utf-8?B?bStZeUVtejk3OXNDWG5MYjgwU2dqY0VXQ3gyeWU4OCtrWlFidnM5ZlU1eG9F?=
+ =?utf-8?B?OC9YdHdMQjhiVjJpRGJpTXJFdXFBS0d3c0lQcXFJa3llYm16aktyMlRBN0RZ?=
+ =?utf-8?B?bnh2Zk9PNjV3bVFDaHFRL1BHNlhmUHdDSGtwUjU4QTk2b09ncUpPTGNjV0d2?=
+ =?utf-8?B?K0Erei90NXZKUUdFV1NYTS9waUNmaGxRNDl4dDF4WnBMTWxnSGlhS1V1OXFB?=
+ =?utf-8?B?dk1MUXAxOTZBPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR10MB5328.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TWcrT0UwT3dleEM3cmVHb1R2T0I0Z1FtMllUZDZ2Rm5HTmRaMFpveVMwSlls?=
+ =?utf-8?B?OFp0cEdxK2hORVpLczMzczVoRDlhTFdsTStvR2diV0UwRDNmYm5UWEVBYk5i?=
+ =?utf-8?B?MElhZnBNN1UyREE5QTZoT3UvOEl6b2ZBY3VUdEdPeGcxOS9veVgxbUpPVWlP?=
+ =?utf-8?B?bFdvclBzVnNEbWpJVEMzNTZ1TWwwMzVHWTVQa283ZmZCclRpaG1BUm9sRGZy?=
+ =?utf-8?B?Z3dVeVNvRDdCQ0hMTENwUDZEYWVxaVJJeWx5cEU0WWQ0NDJsdlYvZVFSaGpH?=
+ =?utf-8?B?cStRL0FUVVo5QlZBMkRWc1NBVkY1TkJBZ2JvWFBqMFpoTWpSRUxMSFRJbzIz?=
+ =?utf-8?B?eEE0NWdSOGRMVmNWUWpEMkphcDd5RU1XbzhKMmRqL3diOWdCekxOMzNGRFBW?=
+ =?utf-8?B?S3VUdUgzYzBWeGVxblBrcGtxcklEQWliTk9MMUxnUFRLZTZnb3Y4cGZ2RWhQ?=
+ =?utf-8?B?Z29YNUFMbHR0VkxhcDNIMDU5WDR0MTlNQlB6TnkvWTZEb1NBczJjVldXZTlB?=
+ =?utf-8?B?TzRpQkl0SVNGN2g1V1BHNWVxQ09jOGtaSVNJK2RXRjJGK0t4NHdoQnpRRkR1?=
+ =?utf-8?B?ckFIRWtrVDh3S0VQeE5EVHBzWk82NExTVFVpYWJNMVV1aHdHSjE2QlpqQVBF?=
+ =?utf-8?B?cXh6VzQ0UzdMOVhTNGdYUXh0QVFEK2ZVd25LSXI1ajN2eEUzcTM1Y1o0a3ZQ?=
+ =?utf-8?B?SXNqN251dk4yVUVzZWxhVG9VVHRwbHhxV3hMQzRJY0FnSmlWbndISDJCa0lM?=
+ =?utf-8?B?b0lJZlVwV3FETTNQTi80TnB5SkdWWEF5SFB6TnNWYjhiS3FNL3FYb3A5aXI5?=
+ =?utf-8?B?a0kza0JmSjc1bCsrSUg0cWRYR3RPNW5pQllHT1pJamZIR0ExUHhEYUp1UzI0?=
+ =?utf-8?B?c0RtQnpvQ1lBV1orNmFKVTIxR0ZBbFhjcjg4LzhsVXliRXBCZHQ5U2txajhs?=
+ =?utf-8?B?S05nTk5Hem9HOXM5Q1lmV2YrKzg1M1pOWThzRnhhYWhNQ2JRWTRScUdRaW5j?=
+ =?utf-8?B?MklNdkZQY3lmbk9CMkRZSG1ZMHI1UGlhejlGYlJ2Q1AwUFEyR01EekswN1JY?=
+ =?utf-8?B?dFlSZ0dwenJQdHNWcGNodXZrQnA0NC9SWFl2SE0vSEUzQnlXRnBXQkJXb29y?=
+ =?utf-8?B?Y0tOaDNQN2tNQ0pEemVadFVwNFVnNmJCNlEvNTJCZHgrSXBCZkxIbmNzaHRr?=
+ =?utf-8?B?MGtSdGRnN1dUWE12S3NSQk51ais0eVErelJYS1dhU0hQM1h4clZjUS81c0FY?=
+ =?utf-8?B?aHRDbHhiYkxRbkpZTVBGYkp3OTlBQW5yY3A0S0I5eG1JalBwV3ZlNUZGWTdI?=
+ =?utf-8?B?Ykk3WHhkalVqaG54Vm54L3hyeVE4QVUyWDU2ODZaZnF3SDU1alFLQWt3b1A1?=
+ =?utf-8?B?Y0lKMEtud3hENktRcW82M3orOXR5L0RLeS8yT3hlMWtzMUErMFlWMG45Tk1U?=
+ =?utf-8?B?K2hHMDhtMDNKNEg1MVZNZUNvZnpTZTVweS93cndoZWRvYTNGaW5Cd3RtNEZF?=
+ =?utf-8?B?OW50WlpYVTF2OTg4NWk0QnVZMGJMK1hEaGFNWXJhNXdMZlZ3ektXbTRFMHpm?=
+ =?utf-8?B?KzdxZ1FpeDNZMlpubWF1eno2cmcvSGhuaXN5aGVVT3pLR3pveGlyUVU4TDY3?=
+ =?utf-8?B?RFdkaVJNV0gzdHpRdUxySHNRMnBESlh2eDlVQitWUDJkS0JSbFNKS3dmVmtK?=
+ =?utf-8?B?N2R0V1p6Wk05ajlXUTBJeEw4c0VFaXo5N2g5alpxbUg1NnVsSHRIdXNyNUJU?=
+ =?utf-8?B?aDBIL0p0OXBIbkxFdE5SQmtuY0g0M3JJSUlHSGx2NDRoSzFNdWRlbXVYMEpL?=
+ =?utf-8?B?S3AzUmdmZEFvZjlrV3c0UjllNnM2VHl1NEhyTGtXb1dsci9VS29XUnlkY0ZR?=
+ =?utf-8?B?bzMwUGowNlllOVFCQmFJRjNwaWFPK0pIMGRtSjUvTDhST0RxdU9kOXFpcUUr?=
+ =?utf-8?B?T0QrbWNVTjE0K0VYSDFobHltQTQ2U3l2ZnVYeDBNdjM3aUw1VENBd0V1TDl6?=
+ =?utf-8?B?YXlIdGxFUXBRQWtvVmNDbzJPNVpFWWtwSElWY1hOcThmOThUSnRwd1A5b0V0?=
+ =?utf-8?B?T2tXTHE4SmZKVXVKdEhlZ3gwbGdzV3ZXTEh5RGJYYndLTEsvVExyWkwwUXBM?=
+ =?utf-8?Q?UeOT+uyvBhIGFhe15y3xEkalE?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: goxIoiK2IM7H+Si+r2hj4XzqHh7oEg7icmG5WBRu/uMZpf52o+B55LSX0SbhVz/PyaU+dPIAdGR+OgESbfGtHd7DLLc13YLZhe7Pvn8aBSpVfP9IujPdAdAt5wGr97lG0EGJNOrPi3bspSQ8A+k0pnzSQ1FpyyuvNxBMzptjCe/jpacg7rDK44KB3JvZqwB430Fkkbiz1XjUh7WWbHt+smCM0guQT+gMXdeFc35GokhxXsDNjtG9SiBtSStJ5HLMX13YzN2qqbm8wQGchOeZvgO2ExbabGVp4klaGd96RibVE37Qz8ush8NSFjrJqSZJtlIPSkxIfhr4XmtJcsbFFSK4Ee91iRZ4SdBu6gKmNF1qbeQmyKnd4gxht8CvyxRibj0ipPPGJgG1oQFebCP+BRxr4836M1aU+HCZDQ6eCKi6dVFIIA1vye0mqFAHaEW+Y9IgREuTYcodAEDTj+H30HMSmsZZYJ+ulpe1uEmNFQZMk9CLaR7ijLxfQ4KYIlb+9EGUj0BVwYEEiN/50Y+Esnao2b0Vh79jGnUS1txZO8FgZ/a+NqJWt/Bb5tEwe/IaQ3oEZKy+iIkefjYOtWR8plRqttBQMekIgg/lKiFnjkg=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 080078ca-9f9f-45fd-89b2-08dd8895ae34
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB5328.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2025 09:51:01.6895 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bLb6TCsnQ6csmULmczaighT07w+mD1pDGLVhraJ45x5CfceorguDxDLJBJCR+eGJF3+FV25+dgqa6IPuUzZfwf+WgkPu4jSxLY+e9FIXUzw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR10MB6624
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-01_03,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- clxscore=1011 mlxscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0
- adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0 mlxlogscore=999
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505010071
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0 phishscore=0
+ bulkscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2504070000
+ definitions=main-2505010074
+X-Proofpoint-ORIG-GUID: jpQJWbMzOrAhsxWKLKyrqz5ldnBQ2Zyd
+X-Proofpoint-GUID: jpQJWbMzOrAhsxWKLKyrqz5ldnBQ2Zyd
+X-Authority-Analysis: v=2.4 cv=Hd0UTjE8 c=1 sm=1 tr=0 ts=6813440e b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10
+ a=yC-0_ovQAAAA:8 a=yPCof4ZbAAAA:8 a=PpvvzeyspNopl2-bpPQA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAxMDA3NCBTYWx0ZWRfX2i3a8nUnQ6hS
+ lh0F9FIgtyp0193a7jcXwP5scdXqrwU+9VVZlLkUOsQfEePq07Ro4Wo7eVHpxsS4q2KfejkVrEw
+ GrwdOjcLTEpMAbmlN08spsy8VWiM0ZSn+/C6KaEA2qpy4+DnG10uOYH6yIrtyDzvtVe4vj7vx5u
+ EAIpy1Nt+TsTy4yddrenj+rpU5p+tseUJ8zyCgh0utXqwKpccZJx/gUUbzAX69Wijq0E8g6lyUy
+ LvMzUyXmyd9G1WE8VUbbEeAI4miLEakzxY19TDmD3+ezTIv5OGqj7o4k1uvZ8KTSqGBSj2PY+B+
+ Iy84pWoHOHGwnPTNfkXX62xXPf7hVnuZEzVv3Ln8Tu7h16r17ZAFu81qAviGGeqTvZDY86pu3Jo
+ z3vXlA5AP0MBmEodWADyq1mYQLHQvIYF3xSy7twVH1DCf0xdf9iSxOmRpXroMkTzpYTP2/ze
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,279 +236,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/30/2025 10:26 PM, neil.armstrong@linaro.org wrote:
-> On 30/04/2025 18:39, Konrad Dybcio wrote:
->> On 4/30/25 6:19 PM, neil.armstrong@linaro.org wrote:
->>> On 30/04/2025 17:36, Konrad Dybcio wrote:
->>>> On 4/30/25 4:49 PM, neil.armstrong@linaro.org wrote:
->>>>> On 30/04/2025 15:09, Konrad Dybcio wrote:
->>>>>> On 4/30/25 2:49 PM, neil.armstrong@linaro.org wrote:
->>>>>>> On 30/04/2025 14:35, Konrad Dybcio wrote:
->>>>>>>> On 4/30/25 2:26 PM, neil.armstrong@linaro.org wrote:
->>>>>>>>> Hi,
->>>>>>>>>
->>>>>>>>> On 30/04/2025 13:34, Konrad Dybcio wrote:
->>>>>>>>>> From: Konrad Dybcio <konrad.dybcio@linaro.org>
->>>>>>>>>>
->>>>>>>>>> Add speebin data for A740, as found on SM8550 and derivative
->>>>>>>>>> SoCs.
->>>>>>>>>>
->>>>>>>>>> For non-development SoCs it seems that "everything except
->>>>>>>>>> FC_AC, FC_AF
->>>>>>>>>> should be speedbin 1", but what the values are for said
->>>>>>>>>> "everything" are
->>>>>>>>>> not known, so that's an exercise left to the user..
->>>>>>>>>>
->>>>>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>>>>>>>>> ---
->>>>>>>>>>       drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 8 ++++++++
->>>>>>>>>>       1 file changed, 8 insertions(+)
->>>>>>>>>>
->>>>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/
->>>>>>>>>> drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>>>>>>>>> index
->>>>>>>>>> 53e2ff4406d8f0afe474aaafbf0e459ef8f4577d..61daa331567925e529deae5e25d6fb63a8ba8375 100644
->>>>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>>>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>>>>>>>>> @@ -11,6 +11,9 @@
->>>>>>>>>>       #include "a6xx.xml.h"
->>>>>>>>>>       #include "a6xx_gmu.xml.h"
->>>>>>>>>>       +#include <linux/soc/qcom/smem.h>
->>>>>>>>>> +#include <linux/soc/qcom/socinfo.h>
->>>>>>>>>> +
->>>>>>>>>>       static const struct adreno_reglist a612_hwcg[] = {
->>>>>>>>>>           {REG_A6XX_RBBM_CLOCK_CNTL_SP0, 0x22222222},
->>>>>>>>>>           {REG_A6XX_RBBM_CLOCK_CNTL2_SP0, 0x02222220},
->>>>>>>>>> @@ -1431,6 +1434,11 @@ static const struct adreno_info
->>>>>>>>>> a7xx_gpus[] = {
->>>>>>>>>>               },
->>>>>>>>>>               .address_space_size = SZ_16G,
->>>>>>>>>>               .preempt_record_size = 4192 * SZ_1K,
->>>>>>>>>> +        .speedbins = ADRENO_SPEEDBINS(
->>>>>>>>>> +            { ADRENO_SKU_ID(SOCINFO_FC_AC), 0 },
->>>>>>>>>> +            { ADRENO_SKU_ID(SOCINFO_FC_AF), 0 },
->>>>>>>>>> +            /* Other feature codes (on prod SoCs) should
->>>>>>>>>> match to speedbin 1 */
->>>>>>>>>
->>>>>>>>> I'm trying to understand this sentence. because reading patch
->>>>>>>>> 4, when there's no match
->>>>>>>>> devm_pm_opp_set_supported_hw() is simply never called so how
->>>>>>>>> can it match speedbin 1 ?
->>>>>>>>
->>>>>>>> What I'm saying is that all other entries that happen to be
->>>>>>>> possibly
->>>>>>>> added down the line are expected to be speedbin 1 (i.e. BIT(1))
->>>>>>>>
->>>>>>>>> Before this change the fallback was speedbin = BIT(0), but this
->>>>>>>>> disappeared.
->>>>>>>>
->>>>>>>> No, the default was to allow speedbin mask ~(0U)
->>>>>>>
->>>>>>> Hmm no:
->>>>>>>
->>>>>>>        supp_hw = fuse_to_supp_hw(info, speedbin);
->>>>>>>
->>>>>>>        if (supp_hw == UINT_MAX) {
->>>>>>>            DRM_DEV_ERROR(dev,
->>>>>>>                "missing support for speed-bin: %u. Some OPPs may
->>>>>>> not be supported by hardware\n",
->>>>>>>                speedbin);
->>>>>>>            supp_hw = BIT(0); /* Default */
->>>>>>>        }
->>>>>>>
->>>>>>>        ret = devm_pm_opp_set_supported_hw(dev, &supp_hw, 1);
->>>>>>>        if (ret)
->>>>>>>            return ret;
->>>>>>
->>>>>> Right, that's my own code even..
->>>>>>
->>>>>> in any case, the kernel can't know about the speed bins that aren't
->>>>>> defined and here we only define bin0, which doesn't break things
->>>>>>
->>>>>> the kernel isn't aware about hw with bin1 with or without this change
->>>>>> so it effectively doesn't matter
->>>>>
->>>>> But it's regression for the other platforms, where before an
->>>>> unknown SKU
->>>>> mapped to supp_hw=BIT(0)
->>>>>
->>>>> Not calling devm_pm_opp_set_supported_hw() is a major regression,
->>>>> if the opp-supported-hw is present, the OPP will be rejected:
->>>>
->>>> A comment in patch 4 explains that. We can either be forwards or
->>>> backwards
->>>> compatible (i.e. accept a limited amount of
->>>> speedbin_in_driver x speedbin_in_dt combinations)
->>>
->>> I have a hard time understanding the change, please be much more verbose
->>> in the cover letter and commit messages.
->>>
->>> The fact that you do such a large change in the speedbin policy in
->>> patch 4
->>> makes it hard to understand why it's needed in the first place.
->>>
->>> Finally I'm very concerned that "old" SM8550 DT won't work on new
->>> kernels,
->>> this is frankly unacceptable, and this should be addressed in the first
->>> place.
->>>
->>> The nvmem situation was much simple, where we considered we added the
->>> nvmem
->>> property at the same time as opp-supported-hw in OPPs, but it's no
->>> more the
->>> case.
->>>
->>> So I think the OPP API should probably be extended to address this
->>> situation
->>> first, since if we do not have the opp-supported-hw in OPPs, all OPPs
->>> are safe.
->>>
->>> So this code:
->>>      count = of_property_count_u32_elems(np, "opp-supported-hw");
->>>      if (count <= 0 || count % levels) {
->>>          dev_err(dev, "%s: Invalid opp-supported-hw property (%d)\n",
->>>              __func__, count);
->>>          return false;
->>>      }
->>> should return true in this specific case, like a
->>> supported_hw_failsafe mode.
->>
->> Not really. opp-supported-hws = <BIT(0)> usually translates to the
->> *fastest*
->> bin in our case, so perhaps that change I made previously to default
->> to it
->> wasn't the wisest. In other words, all slower SKUs that weren't added
->> to the
->> kernel catalog & dt are potentially getting overclocked, which is no
->> bueno.
->> That is not always the case, but it most certainly has been for a
->> number of
->> years.
->>
->> Old DTs in this case would be DTs lacking opp-supported-hw with the
->> kernel
->> having speedbin tables. The inverse ("too new DTs") case translates into
->> "someone put some unexpected stuff in dt and the kernel has no idea what
->> to do with it".
->> In this context, old DTs would continue to work after patch 4, as the
->> first
->> early return in adreno_set_speedbin() takes care of that.
-> 
-> No.
-> 
-> With only patches 1-4 applied (keep "old" DT) on today's -next:
-> 
-> SM8550-QRD:
-> [    7.574569] msm_dpu ae01000.display-controller: bound ae94000.dsi
-> (ops dsi_ops [msm])
-> [    7.586578] msm_dpu ae01000.display-controller: bound
-> ae90000.displayport-controller (ops msm_dp_display_comp_ops [msm])
-> [    7.597886] adreno 3d00000.gpu: error -EINVAL: Unknown speed bin fuse
-> value: 0x2
-> [    7.605518] msm_dpu ae01000.display-controller: failed to load adreno
-> gpu
-> [    7.612599] msm_dpu ae01000.display-controller: failed to bind
-> 3d00000.gpu (ops a3xx_ops [msm]): -22
-> 
-> SM8550-HDK:
-> [   10.137558] msm_dpu ae01000.display-controller: bound ae94000.dsi
-> (ops dsi_ops [msm])
-> [   10.151796] msm_dpu ae01000.display-controller: bound
-> ae90000.displayport-controller (ops msm_dp_display_comp_ops [msm])
-> [   10.163358] adreno 3d00000.gpu: error -EINVAL: Unknown speed bin fuse
-> value: 0x2
-> [   10.171066] msm_dpu ae01000.display-controller: failed to load adreno
-> gpu
-> [   10.178118] msm_dpu ae01000.display-controller: failed to bind
-> 3d00000.gpu (ops a3xx_ops [msm]): -22
-> 
-> With:
-> =================><==================
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/
-> drm/msm/adreno/a6xx_catalog.c
-> index 61daa3315679..7cac14a585a9 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> @@ -1435,6 +1435,7 @@ static const struct adreno_info a7xx_gpus[] = {
->                 .address_space_size = SZ_16G,
->                 .preempt_record_size = 4192 * SZ_1K,
->                 .speedbins = ADRENO_SPEEDBINS(
-> +                       { ADRENO_SKU_ID(SOCINFO_FC_AB), 1 },
->                         { ADRENO_SKU_ID(SOCINFO_FC_AC), 0 },
->                         { ADRENO_SKU_ID(SOCINFO_FC_AF), 0 },
->                         /* Other feature codes (on prod SoCs) should
-> match to speedbin 1 */
-> =================><==================
-> 
-> SM8550-QRD:
-> [    7.681816] msm_dpu ae01000.display-controller: bound ae94000.dsi
-> (ops dsi_ops [msm])
-> [    7.694479] msm_dpu ae01000.display-controller: bound
-> ae90000.displayport-controller (ops msm_dp_display_comp_ops [msm])
-> [    7.705784] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [    7.714322] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [    7.722851] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [    7.722853] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [    7.722855] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [    7.722856] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [    7.722858] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [    7.722860] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [    7.722861] adreno 3d00000.gpu: _of_add_opp_table_v2: no supported OPPs
-> [    7.722863] adreno 3d00000.gpu: [drm:adreno_gpu_init [msm]] *ERROR*
-> Unable to set the OPP table
-> 
-> SM8550-HDK:
-> [   10.119986] msm_dpu ae01000.display-controller: bound ae94000.dsi
-> (ops dsi_ops [msm])
-> [   10.133872] msm_dpu ae01000.display-controller: bound
-> ae90000.displayport-controller (ops msm_dp_display_comp_ops [msm])
-> [   10.147377] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [   10.161640] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [   10.171198] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [   10.179756] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [   10.188313] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [   10.196868] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [   10.205424] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [   10.226025] adreno 3d00000.gpu: _opp_is_supported: Invalid opp-
-> supported-hw property (-22)
-> [   10.234589] adreno 3d00000.gpu: _of_add_opp_table_v2: no supported OPPs
-> [   10.247165] adreno 3d00000.gpu: [drm:adreno_gpu_init [msm]] *ERROR*
-> Unable to set the OPP table
-> 
-> This behaves exactly as I said, so please fix it.
 
-Konrad,
 
-iirc, we discussed this in one of the earlier revision. There is a
-circular dependency between the driver change for SKU support and the dt
-change that adds supported_hw bitmask in opp-table. Only scenario it
-works is when you add these to the initial patches series of a new GPU.
-
-It will be very useful if we can break this circular dependency.
-
--Akhil.
-
+On 01-05-2025 02:10, Prabhakar wrote:
+> From: Lad Prabhakar<prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Neil
+> Add support for PLLDSI and PLLDSI divider clocks.
 > 
->>
->> Konrad
+> Introduce the `renesas-rzv2h-dsi.h` header to centralize and share
+> PLLDSI-related data structures, limits, and algorithms between the RZ/V2H
+> CPG and DSI drivers.
 > 
+> The DSI PLL is functionally similar to the CPG's PLLDSI, but has slightly
+> different parameter limits and omits the programmable divider present in
+> CPG. To ensure precise frequency calculations-especially for milliHz-level
+> accuracy needed by the DSI driver-the shared algorithm allows both drivers
+> to compute PLL parameters consistently using the same logic and input
+> clock.
 > 
+> Co-developed-by: Fabrizio Castro<fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Fabrizio Castro<fabrizio.castro.jz@renesas.com>
+> Signed-off-by: Lad Prabhakar<prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+
+Acked-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+
+Thanks,
+Alok
