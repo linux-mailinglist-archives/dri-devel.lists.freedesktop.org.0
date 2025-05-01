@@ -2,61 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F88AA5E55
-	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 14:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6386EAA5E60
+	for <lists+dri-devel@lfdr.de>; Thu,  1 May 2025 14:29:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B4510E816;
-	Thu,  1 May 2025 12:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD34310E03E;
+	Thu,  1 May 2025 12:29:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n+Vxwh9n";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="DP6jfear";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD70C10E816
- for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 12:22:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746102163; x=1777638163;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=iZADHagPzlbOXuR7Zz7ck4NkeUdS+gmooYnVB60pVpk=;
- b=n+Vxwh9nm0vvJBmXgNL76/MjkKL0D6t5lSIqaSDaFVHhq+EzwQzASw2J
- p0nZ0MS3Wbsag//fczNm8PPIyOp6IExj1NYN3PXFaIsuJ+m7uxf6UH8mo
- qSSahipOe1aZ8+WsnGQnwFbGRAz9oSXZ6CO0ucabLt+FfhO8fRjBaehtV
- Frzix9c9WUdP6eSomYEo/ts0i7f4exev749QJumL++4NY2hkq3Idf6uuw
- mMiHtwLJFHmWmGEEqfzJdhYPs5v4RwBp5qmMUEt7RVVeZki4Pk3ehYb1r
- n/4lkURqu8PrMyMSeGjhDNSvFKYOmYbjTzWhr+UElU2kUoiVSsTTt9esW Q==;
-X-CSE-ConnectionGUID: uu9A2CvVQr6TdJ3SBkQwyw==
-X-CSE-MsgGUID: Y+jZrE6nRXSZsUjcsH9ekQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="51593459"
-X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; d="scan'208";a="51593459"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 May 2025 05:22:32 -0700
-X-CSE-ConnectionGUID: eaTPhNftRoyIC0JLOldXZg==
-X-CSE-MsgGUID: ubKq23+6SiStcolwEQQAAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; d="scan'208";a="134891495"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 May 2025 05:22:29 -0700
-Date: Thu, 1 May 2025 15:22:25 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: jiangfeng@kylinos.cn
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- rodrigo.vivi@intel.com, andrealmeid@igalia.com,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm: Fix potential overflow issue in event_string array
-Message-ID: <aBNngS4XZR4ZtdAL@black.fi.intel.com>
-References: <20250409014633.31303-1-jiangfeng@kylinos.cn>
- <Z_YSo9YBbsLaYzkO@black.fi.intel.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1763F10E03E
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 May 2025 12:29:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID;
+ bh=qY7jMh2s1Q1/dxv6yXIZWQpJJC7k3Ol85coLC/4oDNs=; b=DP6jfear58qpqLih8qEWeAKnQQ
+ Am4/8PcoygDS5o6wPyNNnUy0zvYj8bbVtlYNpg61LXGX1j5zZiBO6wRVUpDJo4xruDni7GlGyBNwh
+ LHIErPoNjgMhjuckkR12zUAxifgvdKGpG+iSS5oJ1V6jDs8j0BlWxt4a95QJESN7zVWCHoQXS4AH5
+ 2FQ30Io/ZM48p3VvhJI13Y4JuD8QHc8/a6c/S82IuzkqnasGqhW6pJAcgCQSLPQIMNs1zsu7gzF+2
+ 4vsbA3V8ZZUmEvUz6AKIjH/yiTq1mC0Vav2HgilyjKGiCzv2GUYC76ElZZOiR9XB89XTHXIdF4fRW
+ WuOP+l+g==;
+Received: from i53875bbc.versanet.de ([83.135.91.188] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1uAT2A-000129-Qn; Thu, 01 May 2025 14:28:58 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>, Alex Bee <knaerzche@gmail.com>
+Cc: conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+ hjc@rock-chips.com, mripard@kernel.org, neil.armstrong@linaro.org,
+ dmitry.baryshkov@oss.qualcomm.com, knaerzche@gmail.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v4 0/7] Convert inno hdmi to drm bridge
+Date: Thu, 01 May 2025 14:28:57 +0200
+Message-ID: <3554727.QJadu78ljV@diego>
+In-Reply-To: <20250422070455.432666-1-andyshrk@163.com>
+References: <20250422070455.432666-1-andyshrk@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z_YSo9YBbsLaYzkO@black.fi.intel.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,22 +63,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 09, 2025 at 09:24:41AM +0300, Raag Jadav wrote:
-> On Wed, Apr 09, 2025 at 09:46:33AM +0800, jiangfeng@kylinos.cn wrote:
-> > From: Feng Jiang <jiangfeng@kylinos.cn>
-> > 
-> > When calling scnprintf() to append recovery method to event_string,
-> > the second argument should be `sizeof(event_string) - len`, otherwise
-> > there is a potential overflow problem.
-> > 
-> > Fixes: b7cf9f4ac1b8 ("drm: Introduce device wedged event")
-> > Signed-off-by: Feng Jiang <jiangfeng@kylinos.cn>
-> 
-> Reviewed-by: Raag Jadav <raag.jadav@intel.com>
-> 
-> Thanks for the fix.
+Hi Alex,
 
-This one seems got lost in the noise but important for 6.15.
-Any takers?
+Am Dienstag, 22. April 2025, 09:04:39 Mitteleurop=C3=A4ische Sommerzeit sch=
+rieb Andy Yan:
+> From: Andy Yan <andy.yan@rock-chips.com>
+>=20
+> When preparing to convert the current inno hdmi driver into a
+> bridge driver, I found that there are several issues currently
+> existing with it:
+>=20
+> 1. When the system starts up, the first time it reads the EDID, it
+>    will fail. This is because RK3036 HDMI DDC bus requires it's PHY's
+>    reference clock to be enabled first before normal DDC communication
+>    can be carried out.
+>=20
+> 2. The signal is unstable. When running the glmark2 test on the screen,
+>    there is a small probability of seeing some screen flickering.
+>    This is because The HSYNC/VSYNC polarity of rk3036 HDMI are controlled
+>    by GRF. This part is missing in the current driver.
+>=20
+> PATCH 1~6 are try to Fix Document in the dt-binding, then add the
+> missing part in driver and dts.
+> PATCH 7 converts the curren driver to drm bridge mode.
 
-Raag
+this looks all pretty okay to me, but could you check that your rk3128
+keeps working and maybe provide a Tested-by?
+
+Thanks a lot
+Heiko
+
+
