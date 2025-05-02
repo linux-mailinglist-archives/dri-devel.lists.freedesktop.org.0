@@ -2,80 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29CF7AA6BBD
-	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 09:37:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6236AA6C06
+	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 09:50:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CACE10E01F;
-	Fri,  2 May 2025 07:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B188C10E165;
+	Fri,  2 May 2025 07:50:08 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zvBaGafd";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
- [209.85.222.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8260710E01F
- for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 07:37:14 +0000 (UTC)
-Received: by mail-ua1-f46.google.com with SMTP id
- a1e0cc1a2514c-86dc3482b3dso2089147241.0
- for <dri-devel@lists.freedesktop.org>; Fri, 02 May 2025 00:37:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746171432; x=1746776232;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8llC9jHROc+tcTrdFCCLdaEjIsrrc+65EGVehejnUu0=;
- b=it3xct7jB9xS/RzDRcK/XKEgINNznQRNUxXD/SAoQKFkLe6yCpwqJD5ozc+Lu15PcN
- F79LHEuCz9oAxuzjUn3/oUukMElWOjEaMLPIIPFKZ45rkWSi5+MvZen17MfYoiFQ3qjy
- P9NmzRxoPaRCVQSS32wH1zQhXvxHLJb6IgmcqEd0cBlxC4MO+d0SI2ajGsocqz9+n4Yu
- 1r+poatkKRg+moiGA70by6ldBnpAnTCt8JoxyA/Ky6AjgO4Cnma0YjUCYjJZlFrDlDvO
- 0hVqvDgwIaVBcN3Odl792GHS0l7CHe/CntHlaofe30tdr9x3tE3gzc9NuVwcxwAKyAn9
- d89w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWp4j9+PlOXY4JbwHaLgNodFhrikB1VRLdvgrC+mtzf/+5s6wWXmZAZOkDuZ+7/iVE0QTxiH31bQK8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwgAsptFVLVZmmOYr/jhc7Pkpr6qIev9SomGF21B5WSirKg9Wuv
- DK+7OzasUOPg9/zbYXLlOmLbMAnkTh4sGYhYXmgz3yJxsqZtTVpPssM8hbjd
-X-Gm-Gg: ASbGncvaVXVqnPnxPfvbe1lzq1DhLdEhJyMf9QUWHKw8fkgjIUAWuz7PiQtYS5Is0C8
- x9AoxRpRM7xZOQzVWb4bZcANX4iQkB0wjFKjW+OWiMRwIripHLccU+5M76C3xlR49MbF0xmstTG
- swMvB56n16/qGFRwcNDTIfrMYfxxDTDzgtqsLSg5iT1nSvDj2hwNj6+2w+6FY+1oWjL5YdVbNDM
- dm14MW3zEGXeD+uv93e7Ow8+ejAcK6I/fkFNgBB27E2QB2k9IV4OFuXEk+8mMqtgJhBE9JUfqH8
- tJQxxD3GvueO0b0E/J9kZs9f7WeGJqnODTfxxmn6Trj08ECPfOwBgrEdleRdqy9rvw0CD1Nda00
- M/FI=
-X-Google-Smtp-Source: AGHT+IH8wh0kIVDoQmBgivehVSipWhlgEBF1kw4KNQkl8gc5W6Bt5JFIsfIuTqR4KYWmtsBww05yOg==
-X-Received: by 2002:a05:6122:1907:b0:52a:654e:bd98 with SMTP id
- 71dfb90a1353d-52adea1c00bmr4164734e0c.0.1746171431899; 
- Fri, 02 May 2025 00:37:11 -0700 (PDT)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com.
- [209.85.217.44]) by smtp.gmail.com with ESMTPSA id
- a1e0cc1a2514c-8780affe7c1sm177734241.11.2025.05.02.00.37.10
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 May 2025 00:37:10 -0700 (PDT)
-Received: by mail-vs1-f44.google.com with SMTP id
- ada2fe7eead31-4c4eeb36d12so1902792137.0
- for <dri-devel@lists.freedesktop.org>; Fri, 02 May 2025 00:37:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVUHZSEcV717OhA9Z318aAt0pq6uoC3mDu6vLN08H5rdUBeX3fHDix4CDSs92CEMtVd3J/PkwK++uU=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:5123:b0:4c1:8ded:2d66 with SMTP id
- ada2fe7eead31-4dae8bbcf5fmr3872454137.12.1746171430220; Fri, 02 May 2025
- 00:37:10 -0700 (PDT)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2062.outbound.protection.outlook.com [40.107.94.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7A3610E0C7
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 07:50:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=l/PpXkSAOhyrAHMkgMWZMnZo0gDuQ4RvSTJnX2XUrqCirSNOxmSstQynkwxBbSYgLQ6NKPdP9e3wmUEqc97KA6cjyA70++JiTsRZffpYh8IK2JTuk2Wa9o9mU2gdsqi75njiIOomITGJ0xzypEcenABvVlxkDROvGooAgZfvaZswy1yYm11BK/2wz6BmtwtRBwlix9VHANLtZor9YsRy5IUiuARgxGSezH3x8m80b5s078DjOF7/knh0KzqzkOwMvP56gwa5xntmW9ppUbAXLIWEgdUAU+ATio3WokMLoEgbmJyZJP2h0e3FXG+l52kXU9WAnQGSWscY0j1ApY9pvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3iKyMnR0ns1Sz1FtOgMHPfnf8jUJVUkXamPdg8NuT2w=;
+ b=AtGfuNqdTcLmcJabVtYaguqjLUX3A8sdcE2uioFGdJwV2lfYyLpauTGPPT8FFJwWT5qOqWGqVAkDdOU7KdiCNZY+5E0hB1HOtrvn0kpWVMqQp4b/kwUDD9ECRLKCan8gEGksDSAjYFBOB4QKitX1nT+3zTudyEjOiZdsrMKOIwSRZVeDYvov9twTGKkawE1SBMmmz4ve7xcJbak9yUfLug3ysR7AzrDMAzuRikHV98Ap1+hWsp2N7hSaEGiMymyO/l6FwXIkrAfGTaBaDDZhfrgQSInKtqZ3DkvNcfe++8EVrzOkmUqesuSzvw/wy4nlJF/2jG4HGxbMCG1w94XwIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3iKyMnR0ns1Sz1FtOgMHPfnf8jUJVUkXamPdg8NuT2w=;
+ b=zvBaGafdxgc0pou2qArovgeXdT2M73/sHEpYZe6eGWDF6FOEtxokQc22NpcfLtGwBWp57hRBxKZ7uehqJPM/LyCdhCL1+YmLZnn60m/lRHfmzmqQFicXuDqyJapmWnUQ29XML2Z3ICcy+T0b9N8AnooIptR6BjlQ7qB14kaHYUw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY1PR12MB9674.namprd12.prod.outlook.com (2603:10b6:930:106::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Fri, 2 May
+ 2025 07:49:58 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Fri, 2 May 2025
+ 07:49:58 +0000
+Message-ID: <da694af6-1a9a-4cee-86b7-1da97e1e91de@amd.com>
+Date: Fri, 2 May 2025 09:49:52 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/ttm: Silence randstruct warning about casting
+ struct file
+To: Al Viro <viro@zeniv.linux.org.uk>, Matthew Brost <matthew.brost@intel.com>
+Cc: Kees Cook <kees@kernel.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+References: <20250502002437.it.851-kees@kernel.org>
+ <aBQqOCQZrHBBbPbL@lstrano-desk.jf.intel.com> <20250502023447.GV2023217@ZenIV>
+ <aBRJcXfBuK29mVP+@lstrano-desk.jf.intel.com> <20250502043149.GW2023217@ZenIV>
+ <aBRPeLVgG5J5P8SL@lstrano-desk.jf.intel.com> <20250502053303.GX2023217@ZenIV>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250502053303.GX2023217@ZenIV>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0283.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e6::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20250426062305.work.819-kees@kernel.org>
- <b982d4f1-6ed8-490b-8d47-6dc5231913e7@gmx.de>
- <CAMuHMdVY1_gEqULGD0BzdTd05OAkodhk+RXKRAy-T-0+RJt7yQ@mail.gmail.com>
- <e68c6218-6055-45a6-b96e-9c8381a4b409@gmx.de>
-In-Reply-To: <e68c6218-6055-45a6-b96e-9c8381a4b409@gmx.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 2 May 2025 09:36:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXWCPcjqqxJ2JxQBeTSnQaAUFL0DqnJ7X8kEYko2L935A@mail.gmail.com>
-X-Gm-Features: ATxdqUGW6RuInIXJPMsgitscW_CZTwRS749shCj0tpcRFKiOrjcAgwc2y1eUuZY
-Message-ID: <CAMuHMdXWCPcjqqxJ2JxQBeTSnQaAUFL0DqnJ7X8kEYko2L935A@mail.gmail.com>
-Subject: Re: [PATCH] video: fbdev: arkfb: Cast ics5342_init() allocation type
-To: Helge Deller <deller@gmx.de>
-Cc: Kees Cook <kees@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Zheyu Ma <zheyuma97@gmail.com>, 
- Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY1PR12MB9674:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb6a652c-52a5-4fde-d1f3-08dd894def4d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aXoxNlNNU00zRVZMaFRRVlJyNWZENzFhWGdQa2FpZUlXY2l4dkxqZDdUaHdX?=
+ =?utf-8?B?eW5sZHRYVkM2bnV0OHhOQnlrTWFJMFpLQ0pEL0Rtc21qZ1k1dVRmUVp1Snk4?=
+ =?utf-8?B?N3krVy9tNnR4OVJSZm1nNDlxR1BmVmZlemFpbWNHMlBlSnNQWnJueTZYMFBX?=
+ =?utf-8?B?eldLUHdmcTUrbXdCaTBXOVVhMVNSenE3QjhpNDAydXNwTEkzakNscmp6TGtZ?=
+ =?utf-8?B?b3FTVUIzTmlSbEErbGVWMHU5dUxadUxxZ2loSDhJdDVtZWdJc1RMZmlQTi8r?=
+ =?utf-8?B?SzJrcStFU0FvbzNvWGxIUk4ydHYyUDlMeElCTHYvdklwTFl5TVRRZUw4OWZR?=
+ =?utf-8?B?ZFZHcTdHZUZQbEE5b0QyTWJRalQrYXJMNFh5RG1YVnZuVVBLSHNRT1RnZGk3?=
+ =?utf-8?B?eE96YytJeWdBcFZMMDNwb0ZONXc0SXZNNFUwMWpkYjdEajFlM1dlSFpuOHZX?=
+ =?utf-8?B?TFdWQi82SjJrRk5jdjhQbEExemZLK01zbm1sb0tFYm1wZVhpTmFqN1ZhSFVP?=
+ =?utf-8?B?WlV1cVVjTm12dUlEK2VleXZ3MVZ6em9tR2FxdE11ODRvcGpLT1J2eWc4QVdV?=
+ =?utf-8?B?QUhUUks1UkhGeVQrQ0ZENHJMWmhJd0ZIS0w4Nm9ZY09FZ0NMTGxOUGNVTkcx?=
+ =?utf-8?B?eHdyZkhyL2dnK2pIeUxzcnpWc28wZWtLZ1FEVWVMVXVpNVh4MjhKOHpIdXV4?=
+ =?utf-8?B?aEpiUk1ZT05ETG5Scy9obDhleVE4RDByN3oyUWVqemFpTzlFbU5BUmloT3dI?=
+ =?utf-8?B?VnVhbVJ0ejIzVWtMbUdSVUl6S1NhQW1od01pY25ndVVnL2NtVXZwMTBnTVh4?=
+ =?utf-8?B?WFg0VUIvYk1uY2JRUytBSy90R1ZIKy8zdGZQYmIrT1R1aHpsVEpVd1c0Y25G?=
+ =?utf-8?B?Q1g4MVVIVXVlb1AzUkJHTFNJWlVXVkRIZTlXSmpFWUlkZmwwYU9qUndkTlpr?=
+ =?utf-8?B?YzF2NUFyWnRHbkpaU0VaY1VBTmhUdDc4M1BNay92TjNOU3g5eDV2ZmlDVmtS?=
+ =?utf-8?B?b1BTZXVOREpRNWxYODhiWjBVT0t1emR4STBPLzhZUmV2bGNGVkNtM2E0WVBW?=
+ =?utf-8?B?MDRycGFTT2NpelVyK0kxRXJiWHJQVG1xSDZDb20vT1g3RjQ3VXoydzlCaVhp?=
+ =?utf-8?B?MWxSbWR1VkdMUW1GUFZXVkJCaXQ5NFRxV0h4Ujh5OTZESlFuYlRQOS96Wmo0?=
+ =?utf-8?B?cGpNUEhnTXJxcnROdGxnZWxNSWZNNHpRYUFEMU1VcEZNRlo2Uy9NMVBFZTRh?=
+ =?utf-8?B?RE5sRGkzNVM2dGMzZFlXa3BIeXVpUUlwajRQOVRlNDdOZHVqd3VicUpMVGp5?=
+ =?utf-8?B?SzFxVE9jYWZ6RjRaYU1LSzZlSWtQVkRuWlpBY2NLemRJcTdaWkNobTRhdFpO?=
+ =?utf-8?B?Z2VaK3piVDRSVTVIcDkraXQydGwweWVmc29WbkNsdnhIc1YreTN1VmdWeUF5?=
+ =?utf-8?B?d1JBRFpDMGt3LzVYTzZlMHYxRXdYd1h4cEpSZ3ZiamRvZHcrUm9vZ1Nma1JY?=
+ =?utf-8?B?Unh2cFRubDlYbjRMWGFramhBb2o1N1JzUGIrcTBUWVBjTnVMZ3NZMUx5MTJW?=
+ =?utf-8?B?U3ZSOHMzUWJKR1dpRzcxRWhRQmxOTG1JNFdXMjNmbnlCUmFVQjVnVDMvVHF1?=
+ =?utf-8?B?QVlqQ1dPSjFwUDJFQTdkNW9TV2xxSy96anNzb3NQWDc0V05DL3g4WW1QczdN?=
+ =?utf-8?B?RE9JUzYvTzJBR3BlZkY5TXdwYzN2T0lPMHROb1RHNmhwcDNMWTN1N2VoLzJk?=
+ =?utf-8?B?cGRFTm1oTHBjcG11SWpNTUczS0JjU2dRa0RRTUNLNjJYckdEWEUyZXBwTHh5?=
+ =?utf-8?B?YjM5bXJLNzZSYkJUYXd4ZlFQVUJXdVg0Q3FTSktJUlJjcEtQK0tNRVFrc044?=
+ =?utf-8?B?bW9vVjU3TXZoNkNPUDZPeXEvaTZlVHNtWWpCVHZCVHJwdlcxVlFIZzE5UXF1?=
+ =?utf-8?Q?vYU4/y6MVAg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cnlIK1NzalhsbFJFSEluS0RHeHhodzhmTU95R0lhQWNPdmRRckNyT1dlcERG?=
+ =?utf-8?B?V3lkSWZGZVBjU0ZaUTh6VmdwMjA5c1JlRFZmeHQ4OElDOVN2b2YvekNxd1Iv?=
+ =?utf-8?B?UFZXN0NmYzNVOVpoclJqM091aUp0akUzUUhoczhCMnRBM0FrdUJjdVh5NVlk?=
+ =?utf-8?B?NUtxZDBBclVOcUlJUG9TYXM2dVZLVlViNUQ4MXhId3hEWCtnUlh2b0MzN0Yv?=
+ =?utf-8?B?djJoL2ZmOGRqVE5SQ0Z3b1JxdkJaaktBUVFJT3hWSi9Td2RTSDZ6dkROdmlE?=
+ =?utf-8?B?VzFMSytwREN3RWhML1NINnNsdlNKbFVZcForWkRjQUZUeTdVeGV1QVVpbnB4?=
+ =?utf-8?B?Zlk4RC9YZThjaVUxb0NzTWN2TUJYNTJDTFhTYjBON3lBd0laL1pmRC8vaXRW?=
+ =?utf-8?B?eUo0UVBxYWRKd0dFVjBvU1Rkc3VnTzduQitUNDF1Q2JQeUhqa213WGhTWGhD?=
+ =?utf-8?B?b1JTZitDWUVIdU8reHIrSzlDS01HMWsrNlF5ZmJ1RldJL29zQWUwY2hEU1dN?=
+ =?utf-8?B?Y2NNbVJGSVpnR1pxS1JSeVdVcmZ6cTBjSGZ1aDJINm85VHJ6Q0dqOW14MGNY?=
+ =?utf-8?B?Z3o0WWNCVkRoVDY2S3FhaThzUjZQSXRiNnRyQ1U5d0RDTTByWGozRDN5WmNR?=
+ =?utf-8?B?MUtVczZTSHN2R3lpNElFRXJjTk1vaFg5SWxIY0ZjWERmaWkxVFpMUmpwMEV5?=
+ =?utf-8?B?cllzQldSRVhYbXo3WTMraWpiQWRLRlNhUUpmSitDaVNuelNVSVViR2lXWXRs?=
+ =?utf-8?B?ZTNJSHNOaEpRcS9PclRIcTUrQmtEUjZzL3VGNmVJNWVWMEhmSEt2VnNPZ09J?=
+ =?utf-8?B?L0hram5XSEI5SVpyaDRhcGwvaUV4eGNNNm1QZEZvbnlQT1l0akVKOGNxM0RR?=
+ =?utf-8?B?YVdXeVpKVm9qWStxdXhNWXVDc1ltTkFIQVBHbDFYck9XWUJNQURDeFk3QTVk?=
+ =?utf-8?B?WWlZdEwwYkxGMnJCT0dpUFowMEZCQTZIRkU1VE5Sd3JPWmppQkY1OFlHQmQ5?=
+ =?utf-8?B?bDJCTmJxdlgvT2ErMzBBeXlQaFJsb1hnWVdkSnhsajZGWDhDa3JldEtNRmov?=
+ =?utf-8?B?ZVRMQlNWMDlBM3BkRUJLRVdHNnBrNEx5RTBSbExROEZpdk02SE5BL3RRWnNU?=
+ =?utf-8?B?RlNoMGRXM3gzamRCK0cwdTl6bWtTU1liQXVWQWRXd0lJZCs3M0hhUDdqWUxJ?=
+ =?utf-8?B?UHNZU1p1U08rZXBvL1pkTmFjOFBlLy9wY0xxUHFzb1d4amlRZHUrQUxTYXRz?=
+ =?utf-8?B?b3dOSTVIQmRRdWdHNFpkbTlveHMrSXhDYm1iTUN4cXR2UnVTV1dZK09WRktK?=
+ =?utf-8?B?cGQzSUhRTE9SYjNMN1NGOStITmd1ODNWd2lSMEdnelord0hLWW0zTjFWNFJP?=
+ =?utf-8?B?akJLTXBua0FTcjBqUjdlbDlRZG1PTjFROVhpRzF1OTJ6Z0VxNTRka3pzaUl1?=
+ =?utf-8?B?ZlErdGlmdjZBZm8zaDVpWS9mcHZBajBHMy95MHdFVm0vZHgzeEFmdHNDcmIx?=
+ =?utf-8?B?aVRzRDhXQno4WW1HSmg2MnFwbGJ5QUo1MnEzcWVYeUJIc1VUUlcwMVVRNG5u?=
+ =?utf-8?B?KzlINHU5Vmc3YVR5SzkxRFJGMEpYdDl3dHhZZTUySXJDR2hKbzV3dXhoR0F1?=
+ =?utf-8?B?b2h6dzJ3MHhZd2dFL3VGWjlSdGpJZk9DbmdkdmRnY3hXamtrcDU4UHFzQm43?=
+ =?utf-8?B?N0E4eWpHMTFjL3U1SG11V0ZIdnFqSW41d2cxRWhMUjJBdzViaUhtdUowSUVz?=
+ =?utf-8?B?anNLU3pyb21qTk1zUmdQMEg4clQxR1pBUjU1UjU4VWEvcmYzTU5SZ2M1UDRK?=
+ =?utf-8?B?YVRBV0xaMFFYRUs5ZlUrNGUvYXJGR1A0cGl2M01sdTRDYXBiUEtBekdYbjlC?=
+ =?utf-8?B?VXNMdlhEenJyTFVqenJpN2d5bWY2ak9PNGxSejR4U0hmVldINmEzSUQvNlgz?=
+ =?utf-8?B?aEhNS3VnaHZGMzgwdXNBekNLM2VVYnpEOXVSNkFvYU1nMnVDaW9xVEFRbndo?=
+ =?utf-8?B?eDNnZkxGb2ViTXh1a0JhUXpNY2hJNmMrcTFUYmVJckpIUHRlZWdGTkVEV1lo?=
+ =?utf-8?B?WU4rQlovMXp4czZHcEJjTHZKaU1CcUtlVkxidXE4cGpPRWs0cVBqa2lXZTZO?=
+ =?utf-8?Q?lpJU=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb6a652c-52a5-4fde-d1f3-08dd894def4d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2025 07:49:58.0245 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7+9tVKNwq4qZgDDCTFqGAmaZ9vvTc5uKceRRZQ3nG2PpUWkrfwh9B1fatkW/pcAO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9674
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,63 +174,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Helge,
+On 5/2/25 07:33, Al Viro wrote:
+> On Thu, May 01, 2025 at 09:52:08PM -0700, Matthew Brost wrote:
+>> On Fri, May 02, 2025 at 05:31:49AM +0100, Al Viro wrote:
+>>> On Thu, May 01, 2025 at 09:26:25PM -0700, Matthew Brost wrote:
+> 
+>>> And what is the lifecycle of that thing?  E.g. what is guaranteed about
+>>> ttm_backup_fini() vs. functions accessing the damn thing?  Are they
+>>> serialized on something/tied to lifecycle stages of struct ttm_tt?
+>>
+>> I believe the life cycle is when ttm_tt is destroyed or api allows
+>> overriding the old backup with a new one (currently unused).
+> 
+> Umm...  So can ttm_tt_setup_backup() be called in the middle of
+> e.g. ttm_backup_drop() or ttm_backup_{copy,backup}_page(), etc.?
+> 
+> I mean, if they had been called by ttm_backup.c internals, it would
+> be an internal business of specific implementation, with all
+> serialization, etc. warranties being its responsibility;
+> but if it's called by other code that is supposed to be isolated
+> from details of what ->backup is pointing to...
+> 
+> Sorry for asking dumb questions, but I hadn't seen the original
+> threads.  Basically, what prevents the underlying shmem file getting
+> torn apart while another operation is using it?  It might very well
+> be simple, but I had enough "it's because of... oh, bugger" moments
+> on the receiving end of such questions...
 
-On Tue, 29 Apr 2025 at 22:17, Helge Deller <deller@gmx.de> wrote:
-> On 4/28/25 08:36, Geert Uytterhoeven wrote:
-> > On Sat, 26 Apr 2025 at 13:33, Helge Deller <deller@gmx.de> wrote:
-> >> On 4/26/25 08:23, Kees Cook wrote:
-> >>> In preparation for making the kmalloc family of allocators type aware,
-> >>> we need to make sure that the returned type from the allocation matches
-> >>> the type of the variable being assigned. (Before, the allocator would
-> >>> always return "void *", which can be implicitly cast to any pointer type.)
-> >>>
-> >>> The assigned type is "struct dac_info *" but the returned type will be
-> >>> "struct ics5342_info *", which has a larger allocation size. This is
-> >>> by design, as struct ics5342_info contains struct dac_info as its first
-> >>> member. Cast the allocation type to match the assignment.
-> >>>
-> >>> Signed-off-by: Kees Cook <kees@kernel.org>
-> >
-> > Thanks for your patch, which is now commit 8d2f0f5bbac87b9d ("fbdev:
-> > arkfb: Cast ics5342_init() allocation type") in fbdev/for-next.
-> >
-> >> I applied your patch, but wouldn't this untested patch be cleaner and fulfill the
-> >> same purpose to match a kzalloc return type?
-> >>
-> >> diff --git a/drivers/video/fbdev/arkfb.c b/drivers/video/fbdev/arkfb.c
-> >> index 7d131e3d159a..a57c8a992e11 100644
-> >> --- a/drivers/video/fbdev/arkfb.c
-> >> +++ b/drivers/video/fbdev/arkfb.c
-> >> @@ -431,7 +431,8 @@ static struct dac_ops ics5342_ops = {
-> >>
-> >>    static struct dac_info * ics5342_init(dac_read_regs_t drr, dac_write_regs_t dwr, void *data)
-> >>    {
-> >> -       struct dac_info *info = (struct dac_info *)kzalloc(sizeof(struct ics5342_info), GFP_KERNEL);
-> >> +       struct ics5342_info *ics_info = kzalloc(sizeof(struct ics5342_info), GFP_KERNEL);
-> >
-> > sizeof(*ics_info)?
-> >
-> >> +       struct dac_info *info = &ics_info->dac;
-> >
-> > Exactly my thought when I noticed this commit.  Adding casts makes
-> > it harder to notice any future discrepancies.
->
-> I've changed it accordingly.
+It's the outside logic which makes sure that the backup structure stays around as long as the BO or the device which needs it is around.
 
-Thanks, but the one-line summary no longer matches what the commit
-is doing...
+But putting that aside I was not very keen about the whole idea of never defining the ttm_backup structure and just casting it to a file in the backend either.
 
-Commit f1a78a7d7827357c ("fbdev: arkfb: Cast ics5342_init() allocation
-type") in fbdev/for-next.
+So I would just completely nuke that unnecessary abstraction and just use a pointer to a file all around.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Christian.
