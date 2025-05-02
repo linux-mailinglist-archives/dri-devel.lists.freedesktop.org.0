@@ -2,154 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1B2AA710C
-	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 14:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0010CAA7171
+	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 14:17:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 380AB10E189;
-	Fri,  2 May 2025 12:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C2D110E19E;
+	Fri,  2 May 2025 12:17:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vuBhRLxX";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="b5X9G7Co";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2076.outbound.protection.outlook.com [40.107.212.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5186410E189
- for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 12:01:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mtu7cfxE8d99/BzZIUE8ukXKFDq5aslecmhsIUhiWK04KWZJdvISiE39wUtDi6uFJUyoGsqA8otsfQZaYEG8gMSwYI7yDjDo2XQhRyclCFKGotSO/rYyZaLG991wWXMq6b9eBKrL5zKHxNK+kM+Ael/L48OEOp5qAR7waQLbrn0OipOvIvSQnGjdtROhEjs8vm4uilqe1G/QuH6FcEMgYug87PlckVjYtT9oo6VMXjv47pGJpCiRuaNTuPywgNfYhCGHwUgtAvPerjqqB6iAsNZa1ZklTWUxFTT/HpzrdxCqWVF4aWBnu2lsCmWLB8lrBj+T7a7vQ4C+eo38MZcFwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZJ1UZBySybbIYi3/CnkP8wnOTtFANtKXNZ6rXIZCivc=;
- b=Ssb61pCbuQ8GA8mjCAJVr9HD00OEUm+IxBpTiurzZb+u8r99i31v8tPGaH/j4E4y3puTCsjEQAEKY36TAcTd8YXE+6YXBS1fXUyX5/JkzMFvB/M1ZuFjClWMbw/8MInvSJNrofmBl/PBRgdvZBLYOcIIkm+FScxqGWDegtA0NAZrvDW6LFNniMCLqdphdVEZv1Dvrug9bzD8nb7NVla6hWqO+LuEEUSvYJsrOKiZaxTkFd95mpKrYZrtFtnJlBCFWWKYTg0jnQa0NBUQ6nRn37nDzJpa5WaZfcmmUS9c+THF8rUF191a/4U1fEJF0JBiMgYeybFAVvAMQhdup9vk2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZJ1UZBySybbIYi3/CnkP8wnOTtFANtKXNZ6rXIZCivc=;
- b=vuBhRLxXVOg/tm2G48i2LU8cQ3yzlNhJLfRM12ZZaUjx0rzMLwgA5+pQEqooV0xF+qYcT6KyeFyaMj6MKN7OD0+zttouveDJA2DWgM2gfDacW5tDGZiQburLB+r6/t2WU22ZdcaoD3xHwCzAPQLthi54PvOXTzg6PnffNysEUys=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS5PPFF8845FFFB.namprd12.prod.outlook.com (2603:10b6:f:fc00::66a)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.29; Fri, 2 May
- 2025 12:01:18 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Fri, 2 May 2025
- 12:01:18 +0000
-Message-ID: <841d7108-2591-4f26-9126-cb55f3f46858@amd.com>
-Date: Fri, 2 May 2025 14:01:13 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] ttm: add initial memcg integration. (v2)
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- tj@kernel.org, Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
-Cc: cgroups@vger.kernel.org, Waiman Long <longman@redhat.com>, simona@ffwll.ch
-References: <20250502034046.1625896-1-airlied@gmail.com>
- <20250502034046.1625896-4-airlied@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250502034046.1625896-4-airlied@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BLAPR03CA0148.namprd03.prod.outlook.com
- (2603:10b6:208:32e::33) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 044C510E10E
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 12:17:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1746188246;
+ bh=t4fcEpOMn8VFXMUSYrAeyCSCc3X3quab9Ebysu6G9As=;
+ h=From:Subject:Date:To:Cc:From;
+ b=b5X9G7ColGprEAQ5Ic///NkrEeDQG9OHjK2d8ZOxgIPDi1JeAWMxdjC3rjQ5xfiqy
+ H+jlGTLC68CJqWPrA2qcNFYsOttDqfBD6/Xb4TPeeyA8uwEmN6MELEC0X4L6A7k/9j
+ QU+E0hWS5z3j1RE2INXf+76x75gM2nturPS+GzYPg3Dok9eJQT9PuQxz6yu9Mvd5Yc
+ QDcywHVz02suO19E7kjEf9OHZCtmcGKgvAGD8ed6KDLI3nJG7axT4d5grAOyzj6JjJ
+ YeNtamX+jlMZx3oT4AYKxNwQG/OgOSR2drHQ+MBCuqMdymy72I0uuOxiR3YoedBZeX
+ PYp4aMYZmOVdw==
+Received: from yukiji.home (amontpellier-657-1-116-247.w83-113.abo.wanadoo.fr
+ [83.113.51.247])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: laeyraud)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 55BFB17E0147;
+ Fri,  2 May 2025 14:17:25 +0200 (CEST)
+From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Subject: [PATCH v5 0/3] Add Mali GPU support for Mediatek MT8370 SoC
+Date: Fri, 02 May 2025 14:17:15 +0200
+Message-Id: <20250502-mt8370-enable-gpu-v5-0-98e247b30151@collabora.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS5PPFF8845FFFB:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2364673-37d9-46a0-72c3-08dd89710bd4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VDZvaUtnWkxRNW83TktkaGRqbDA3V2hURUpMbklMY0pLblJtLzV1bFhLdHp5?=
- =?utf-8?B?OFFWQ3dlTGVRZ2V3WHp2Y0FMT2hubkV4RmhVNjYyZ0FENlNkbWhITXJ2d0xY?=
- =?utf-8?B?elZLeEliVTRnb0dvTi83OGFWVUphbFpKVE00ZHRYMEVMUGVsblJVUGYzSjJi?=
- =?utf-8?B?ZEdtSnBySlVPZ2h6cDZ5V1pDNDlWM2N0SkpEcnk1eGNENk9RTGZqQWJhZHBZ?=
- =?utf-8?B?dUZLVGhlTDc0MWY1Q09UQVhEU29hR0h3bDdid2lzQ1lEN3NBZ2ZKRUV3bFRp?=
- =?utf-8?B?SjU0SU1JRlFGeHVWN004ZFZENWtPYXE2MTQyT0MxUk5IY1QzLzE0RHAyT0l3?=
- =?utf-8?B?S0dXUEFMY0dtT3ZZRGxZRTJoSnJVV05PYVdaRWVraXFidmNVVENlcFZWK0g3?=
- =?utf-8?B?TTBjTGdhNWFWNGVkelAxdUJKN0dlUkgvbGc1VnBxT2pLVDdHZGZNVUp2SUli?=
- =?utf-8?B?WWlTeU9WVjRQaGhUWGRnbm0vdmhhSk1jcnFySFpkbDNsc0ZvSCs1aEE3ekJF?=
- =?utf-8?B?a2xTWmNNUzlZOFI3eFU3WlUzcXg5K1hHZEFqdEFIS2laZ2I1MnpJUHRsU2RO?=
- =?utf-8?B?YXlqcUFIcTJyNE9EeEFKWjBiNlYvVjdwYkZuZFMwU2xJL0djRC9kWE1Bc2Fw?=
- =?utf-8?B?YlV1ajNxRUo5Z09TZnM2ZWl1SHA2SGJITTNFSXRLLzEvTS9CdXYyYTdUemxv?=
- =?utf-8?B?TUdQUFA5TDE5VHZSekVzMmxqRmF6TWdCNnRPeGV3Ykh3VG5GQTJNQk5MWnU3?=
- =?utf-8?B?cTdsN3NnbkxsZ0JCUjF1cHZ6Nm5oazhzVDdWaklWNGZYSFNhVjh6YkZaYlFw?=
- =?utf-8?B?NERWR25acXJGTnNPZE5ZdkxISXFuRU55UHE3bnV3OWhsSG5yMSs5a3ZWdkR1?=
- =?utf-8?B?VkxjMHUvZFhuQ1d6TWRudGlTMm9qL0tUeWV1NWZIWHVPelBWazNlK2tBSW9X?=
- =?utf-8?B?ano5UnZuZHBWbFVMOUxOK2xnalc0b1FoZVdxU0ZoNHl0YjNwWk16YU4wTXRh?=
- =?utf-8?B?ZmNPZWQvbkVyR0RrWUN0V2xwK3lzN3pxc0UzRVZTUm5DUFAvc2RPb1JKNmdG?=
- =?utf-8?B?SlBYcGdxbG5XT0lFUmkxUC90dUZDbDNGUmFWZGxoR3QrTFRvNkovN2xwQmht?=
- =?utf-8?B?OXNUNk1wVVd4cXNVdVBBR2Z4L3l3a0x3NFBqcjcxcFJ5RE4rN1lYU2VZRnZ1?=
- =?utf-8?B?SGh5WU9wd28vMitVUE5wYUt6c1RuaHI1SlIvOGpqcDk5WHhXRm5nSyt2Nmt4?=
- =?utf-8?B?MllJeHFrWUF4ZW55VFNzbTZLYjduRkhURGNXM2dCbTkyNjd6R2JNS3BaNjR3?=
- =?utf-8?B?U2E0bklpL0w3STRrODlpV1ZwbU9MalpFcDE1bll3NE5BdjNoc0N3dWFmVU1k?=
- =?utf-8?B?cEpQaWV5ZWxGTkZEZC81YUtFRSs1UHpBdVRUc0RXRHk5bjVDNm5WTFE1cUJt?=
- =?utf-8?B?TFlES2ppaTZySTRKMVE2TXB2NnRYTVhaQllLMmpKbDNMTllqcCs3QVVnOUlI?=
- =?utf-8?B?KzJuNlFxc1Z6UVRTZWljbE1xQk84YjU5aXJnbkFzYVJ1UmlNb3FBSytYRUpL?=
- =?utf-8?B?ck5oN2JxRjVwNjNnc21NM2hkYkhFSTdnUFJLbUlHYjZBLy9Zdi9obDloWCt0?=
- =?utf-8?B?c2E2amdvTGgvd0k4YkVIQWxhTWFEekFUV1NQV0YxTm5YKzdUSmNMT0IyWTdu?=
- =?utf-8?B?aFBQRlU0Mk5VMjREUGdFZWdqTThzREk1S2RvNER0TTBuM3JnU0NrTWd1ZkhL?=
- =?utf-8?B?cDFJMTc1QjlqT1NQT2daREpuY2Y1cm13c1JHWVpVVFRMTUJnbHpuRjVXZXU4?=
- =?utf-8?B?N3pDNm5QT0hZeHZlSTg1SkVrMUNFSTlzbXh4WUo1Z2hvc3g3Zi9rcXpkMGh6?=
- =?utf-8?B?YkpuRFdoajdnaU4vcEhtOXB2RXF1NDk3U3VVR1p0N294QmpJZHk5dnR5YVU5?=
- =?utf-8?Q?OFdRiQK0X7Q=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QnVjOG45U3ZQdm8vRVdQbzJvYjNpd1NoMFR2UFZBbWhkNWppTG9NWGc0RG9L?=
- =?utf-8?B?MGxpcytMZWdUaXZpbzF2bXpLcjhBai9jMjVwNGFyd2hDckdNR2xuVER2bHlo?=
- =?utf-8?B?c3ZIZkZkY1FqZnZWSk0rUjJwZXRHLzkzTEtNNC90blJkWDF5eU9KeGlmNFZz?=
- =?utf-8?B?UnFUNFUwOXMwRW1lSnB6bUhFS01UVXBVNWIzaEdKZHQydDJ0YWZ4YmY4OFdL?=
- =?utf-8?B?c0JpcVNPNjF6aE0weUZkRHlmY0xLaVYzOWl6d1JPYUZiaERSRTl4L3VEZEY2?=
- =?utf-8?B?bmhScjZLR1l4LzdZdkQwREowekpUcDFqaFgveDFDR3hmNXVLRURmWjlYNW4x?=
- =?utf-8?B?M0FvMFd4QTE0K3RoUUUzek5LVjBJWDBBN0VSZDdOUlM5Ykp2dlhENEFyOEVw?=
- =?utf-8?B?OWRrTGI4ZVZBTnYwWWtMQ0IrRXNrbUlPZDhnNmJjNlNUTEhqOG5QeFY1d1pH?=
- =?utf-8?B?a1ZrRnE3eURmakxMQmczTkhwQ3FWamVFUkJMc1Bzd2pucXVNY1lNTHZaZUE3?=
- =?utf-8?B?N242cnF0bllXYmRGVE9ocmRXWmJqVkppbmoyNHE2c0pnS09aVk5TWVZtSnlG?=
- =?utf-8?B?UGZxOUxBYW41UTZCOVlhWFVtZmxrNW5yRWtBNlhneXh1djI4dDZPNWJlSzNS?=
- =?utf-8?B?ZGZwSW9aa2tzckJzS3Fid3AwcGhKYkdGcWs1OXVaVEs2bEFGVHFJd2FEaTdP?=
- =?utf-8?B?RmU1ZXJOOHhxWVdycDJKdlloeGhwbUlZdmFKaHNoZm5pZjFqam10NG85VnFF?=
- =?utf-8?B?Vkk4dHJiU29pRkRxNDg4eGhmaCtkbFJiSXlYY2M1UVhRUXhjT2lBQWY4VXdu?=
- =?utf-8?B?VkRNTEJQSVNPYzc5bmRoODZuaEwzbmlpaDFrZ3pMeEwyaU9EWm11MnFacmo0?=
- =?utf-8?B?SjlpdHBIcGxxRFZOQXFVaU1XL0RRbFdtZmRjblNTZUFqRnB1eUJlNjVEMlFK?=
- =?utf-8?B?VVZlSExQR2RTVWhwRWR2UGxjbG1mYlQyaG5BdzFOVGNXUmhxUWsxTVpYNlkv?=
- =?utf-8?B?bUFEUHQ1YUZSeGVTUGxxclpDaDJKSG9SaUZzekRWQkNXM3lUcDRNNUlBODVZ?=
- =?utf-8?B?RFI4aThWRUxtWktrUmZWZS9yOVV3a3oyUTQ0Sk1MSlk0MFZGSlRtU2lPbW55?=
- =?utf-8?B?VW1yU0FDeE9jNVBGZGZ6cGdOSGFoTGswemI2bHRRUURobCs1MllBbDBMTFVG?=
- =?utf-8?B?ZktiYXpNaVVsQTdwMGh4cmR4S2ZIRkRWRDVQSGxPa2dVaTFHZjBjOTBqRmI5?=
- =?utf-8?B?eUYxam5kUGk0WmV6Yy9uVHFVZ2NVcWFqVTFiUEQyKzdMM3UwdmtpOHk0VDg4?=
- =?utf-8?B?WkliT0Ewa21sU2FBK2ZpZjZlN1R5UkdHeCtNNnR5Z3NZSkRJS3Zua2x1Rllv?=
- =?utf-8?B?NkJFM0JxTFdad0dVOWJFdldsR2RGdUc2aTAyUktkVWxGUkpMUk1LMnN1eENX?=
- =?utf-8?B?ZXRCbWVreSs1U3BwOHRFRWhtMUlhYmorMGtZQU91TWJoMEs3N2dvY2RZc1Fh?=
- =?utf-8?B?RDBkTW13TGd0SkxldWNaWCtSczhHN3JxRG12YlZ0V0ZYUzN6UE42NllPZzM2?=
- =?utf-8?B?dG5JeUltTVVQNExwa1ZNa1R5Ly9GQnNiWWE5Zk5PazBJb3RPWXliTVMrTzMx?=
- =?utf-8?B?c2tsQThCbGdHZHpYQTk3SDBscWNURmlGNExSNkFSaXVjdHdDNlZLOWZuRWNB?=
- =?utf-8?B?NW5wK3BGTEVPaUhlcGJNSi9nN3N1WGZLYTJZWHhIMXF1eDZOU2cvUVZQSkNR?=
- =?utf-8?B?ZGdtenJzTVlNYWxxcWlMTTFBYlJWZmRXZ3liaG1jMHpjcERJUW9LYnFNQzNU?=
- =?utf-8?B?M0JISk1jUHJMcDFaMm5CelFHVHZOUzR5cHVZWDZLRGhKaDNGVm5QbHdZdVNF?=
- =?utf-8?B?ZDM4U3lFSmpQeXBoUElDM2ZMOEt5ZzdnaHo0ZlJsUGs3cXJmajM5N0VKUGNC?=
- =?utf-8?B?SU12VTUrcS9HUWYwdHZwNElvS3FiVG44UE5HcXcyNXBzOHcxUisyQzFZK0hl?=
- =?utf-8?B?ZGw5UXB3N0pQUXQvT3l2blpjZXlBajRuT3czckRSK0pzRXYrTC9TdThMWStG?=
- =?utf-8?B?OHQvZnNMSHN3eUZDMzBUUXZyT0hSTE53c1RkWTdZSzFobXBnSUpnTVhJSldE?=
- =?utf-8?Q?qVPObPqFNLFsvI//se4nELqX4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2364673-37d9-46a0-72c3-08dd89710bd4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2025 12:01:18.1303 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TLNVid649p0H/phc1n0VugbDFtF6ZbasgkXHtIEL9qb1YMYaPR+KWLsLJdieO0DM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFF8845FFFB
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMu3FGgC/23Oy2rDMBAF0F8xWldFD49lZdX/KF3oMU4EfiSyY
+ lKC/72KUmgoWt6Be+7cyYox4EoOzZ1E3MIaljkHeGuIO5n5iDT4nIlgAhjnQKfUS8UozsaOSI/
+ nK5W2G0DDYDrpSe6dIw7hVszPr2eOeLlmOj2PxJoVqVumKaRDM+Mt0cIDE+RROIU1LfG7/LTx0
+ vid7yrzG6eMMtNZ1aMW4PoPt4yjsUs073mjiJt4USSrKSIrjkPrWc/BW6gp8k8RTNUUmRUFqK1
+ mYtCO15T2ReG8prQPRXm0yihwQv5X9n3/AdyGP1S5AQAA
+X-Change-ID: 20250115-mt8370-enable-gpu-3b6f595fa63d
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746188245; l=7495;
+ i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
+ bh=t4fcEpOMn8VFXMUSYrAeyCSCc3X3quab9Ebysu6G9As=;
+ b=ni/uOYzMW4SgDH9zYh3xHAT26uvp7h/im06rBtNBciY+UKxsmEqAbxHnJUl4yer3bb6p+xaUB
+ CoJhoBIs5gUAtuFefq+CEfLPNqlFLN+R9kuZLBZC9pyqT8eo9eQyGMy
+X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
+ pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,269 +83,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/2/25 05:36, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
-> 
-> Doing proper integration of TTM system memory allocations with
-> memcg is a difficult ask, primarily due to difficulties around
-> accounting for evictions properly.
-> 
-> However there are systems where userspace will be allocating
-> objects in system memory and they won't be prone to migrating
-> or evicting and we should start with at least accounting those.
-> 
-> This adds a memcg group to ttm bo and resource objects.
-> 
-> This memcg is used when:
-> a) resource is allocated in system/tt memory
-> b) the account_op is set in the operation context
-> 
-> This patch disables the flag around object evictions,
-> but any operation that could populate a TTM tt object in process context
-> should set the account_op flag.
-> 
-> This v2 moves the charging up a level and also no longer uses
-> __GFP_ACCOUNT, or attaches the memcg to object pages, it instead
-> uses the same approach as socket memory and just charges/uncharges
-> at the object level. This was suggested by Christian.
-> 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/ttm/ttm_bo.c       |  9 +++++++--
->  drivers/gpu/drm/ttm/ttm_bo_vm.c    |  3 ++-
->  drivers/gpu/drm/ttm/ttm_resource.c | 20 ++++++++++++++++++++
->  include/drm/ttm/ttm_bo.h           |  8 ++++++++
->  include/drm/ttm/ttm_resource.h     |  6 +++++-
->  5 files changed, 42 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 95b86003c50d..89d2df246ed2 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -537,6 +537,7 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *
->  	evict_walk->evicted++;
->  	if (evict_walk->res)
->  		lret = ttm_resource_alloc(evict_walk->evictor, evict_walk->place,
-> +					  walk->ctx,
->  					  evict_walk->res, NULL);
->  	if (lret == 0)
->  		return 1;
-> @@ -733,7 +734,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->  			continue;
->  
->  		may_evict = (force_space && place->mem_type != TTM_PL_SYSTEM);
-> -		ret = ttm_resource_alloc(bo, place, res, force_space ? &limit_pool : NULL);
-> +		ret = ttm_resource_alloc(bo, place, ctx, res, force_space ? &limit_pool : NULL);
->  		if (ret) {
->  			if (ret != -ENOSPC && ret != -EAGAIN) {
->  				dmem_cgroup_pool_state_put(limit_pool);
-> @@ -744,8 +745,12 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->  				continue;
->  			}
->  
-> +			/* we don't want to account evictions at this point */
-> +			bool old_ctx_account = ctx->account_op;
-> +			ctx->account_op = false;
->  			ret = ttm_bo_evict_alloc(bdev, man, place, bo, ctx,
->  						 ticket, res, limit_pool);
-> +			ctx->account_op = old_ctx_account;
->  			dmem_cgroup_pool_state_put(limit_pool);
->  			if (ret == -EBUSY)
->  				continue;
-> @@ -1145,7 +1150,7 @@ ttm_bo_swapout_cb(struct ttm_lru_walk *walk, struct ttm_buffer_object *bo)
->  
->  		memset(&hop, 0, sizeof(hop));
->  		place.mem_type = TTM_PL_SYSTEM;
-> -		ret = ttm_resource_alloc(bo, &place, &evict_mem, NULL);
-> +		ret = ttm_resource_alloc(bo, &place, ctx, &evict_mem, NULL);
->  		if (ret)
->  			goto out;
->  
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> index a194db83421d..163039cf40a5 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> @@ -220,7 +220,8 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
->  		struct ttm_operation_ctx ctx = {
->  			.interruptible = true,
->  			.no_wait_gpu = false,
-> -			.force_alloc = true
-> +			.force_alloc = true,
-> +			.account_op = true,
->  		};
->  
->  		ttm = bo->ttm;
-> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> index 7e5a60c55813..da257678a5ba 100644
-> --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -27,6 +27,7 @@
->  #include <linux/iosys-map.h>
->  #include <linux/scatterlist.h>
->  #include <linux/cgroup_dmem.h>
-> +#include <linux/memcontrol.h>
->  
->  #include <drm/ttm/ttm_bo.h>
->  #include <drm/ttm/ttm_placement.h>
-> @@ -373,12 +374,14 @@ EXPORT_SYMBOL(ttm_resource_fini);
->  
->  int ttm_resource_alloc(struct ttm_buffer_object *bo,
->  		       const struct ttm_place *place,
-> +		       struct ttm_operation_ctx *ctx,
->  		       struct ttm_resource **res_ptr,
->  		       struct dmem_cgroup_pool_state **ret_limit_pool)
->  {
->  	struct ttm_resource_manager *man =
->  		ttm_manager_type(bo->bdev, place->mem_type);
->  	struct dmem_cgroup_pool_state *pool = NULL;
-> +	struct mem_cgroup *memcg = NULL;
->  	int ret;
->  
->  	if (man->cg) {
-> @@ -387,13 +390,26 @@ int ttm_resource_alloc(struct ttm_buffer_object *bo,
->  			return ret;
->  	}
->  
-> +	if ((place->mem_type == TTM_PL_SYSTEM || place->mem_type == TTM_PL_TT) &&
-> +	    ctx->account_op && bo->memcg) {
+This patchset adds the support of the ARM Mali G57 MC2 GPU (Valhall-JM,
+dual core), integrated in the Mediatek MT8370 SoC, to the panfrost
+driver and to the mt8370.dtsi include file.
 
+Since v4 patchset was sent, the [1] patchset adds in panfrost driver
+the AARCH64_4K page table format support and enablement for Mediatek
+SoC with integrated Arm Mali-G57, already supported in panfrost driver
+(like MT8188, MT8192, MT8195, MT8390, MT8395...).
+As MT8370 SoC is a less powerful variant of MT8390 (same GPU but with
+one less core for MT8370), I've reworked the second patch
+('drm/panfrost: Add support for Mali on the MT8370 SoC') to enable the
+AARCH64_4K mode on this SoC as well by adding specific MT8370 platform
+data to set the needed flag.
+The previous patch revision uses MT8186 platform data because despite
+having different GPU architecture (Mali G52 2EE MC2 for MT8186, making
+them not compatible), using the same plaform data, for describing the
+same power management features only, was okay.
+But now, the platform data also contains the GPU configuration quirk
+bitfield that needs to be modified to enable the AARCH64_4K page table
+format, and in order not to change MT8186 behaviour, I add specific
+MT8370 platform data.
+I also dropped previous code-review trailers that this patch got
+previously.
 
-I suggest to make that a placement flag instead of putting it into the ctx.
+I've tested this patchset on a Mediatek Genio 510 EVK board,
+with a kernel based on linux-next (tag: next-20250501).
 
-E.g. something like "if (place->flags TTM_PL_FLAG_MEMCG)" here and then just set the flag in amdgpu_bo_placement_from_domain() and clear it in amdgpu_evict_flags().
+The panfrost driver probed with the following messages:
+```
+panfrost 13000000.gpu: clock rate = 390000000
+panfrost 13000000.gpu: mali-g57 id 0x9093 major 0x0 minor 0x0 status 0x0
+panfrost 13000000.gpu: features: 00000000,000019f7, issues: 00000003,
+  80000400
+panfrost 13000000.gpu: Features: L2:0x08130206 Shader:0x00000000
+  Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
+panfrost 13000000.gpu: shader_present=0x5 l2_present=0x1
+[drm] Initialized panfrost 1.3.0 for 13000000.gpu on minor 0
+```
 
-This wopuld not only simplify the handling here but also gives a potential solution to the eviction handling.
+Running glmark2-es2-drm is also OK:
+```
+=======================================================
+    glmark2 2023.01
+=======================================================
+    OpenGL Information
+    GL_VENDOR:      Mesa
+    GL_RENDERER:    Mali-G57 (Panfrost)
+    GL_VERSION:     OpenGL ES 3.1 Mesa 25.0.3-1
+    Surface Config: buf=32 r=8 g=8 b=8 a=8 depth=24 stencil=0 samples=0
+    Surface Size:   1200x1920 fullscreen
+=======================================================
+[build] use-vbo=false: FPS: 952 FrameTime: 1.051 ms
+[build] use-vbo=true: FPS: 983 FrameTime: 1.018 ms
+[texture] texture-filter=nearest: FPS: 906 FrameTime: 1.105 ms
+[texture] texture-filter=linear: FPS: 908 FrameTime: 1.102 ms
+[texture] texture-filter=mipmap: FPS: 883 FrameTime: 1.134 ms
+[shading] shading=gouraud: FPS: 838 FrameTime: 1.194 ms
+[shading] shading=blinn-phong-inf: FPS: 778 FrameTime: 1.287 ms
+[shading] shading=phong: FPS: 583 FrameTime: 1.717 ms
+[shading] shading=cel: FPS: 553 FrameTime: 1.809 ms
+[bump] bump-render=high-poly: FPS: 573 FrameTime: 1.747 ms
+[bump] bump-render=normals: FPS: 868 FrameTime: 1.153 ms
+[bump] bump-render=height: FPS: 707 FrameTime: 1.415 ms
+[effect2d] kernel=0,1,0;1,-4,1;0,1,0;: FPS: 454 FrameTime: 2.204 ms
+[effect2d] kernel=1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;: FPS: 172 FrameTime:
+  5.843 ms
+[pulsar] light=false:quads=5:texture=false: FPS: 770 FrameTime:
+  1.300 ms
+[desktop] blur-radius=5:effect=blur:passes=1:separable=true:windows=4:
+  FPS: 161 FrameTime: 6.235 ms
+[desktop] effect=shadow:windows=4: FPS: 484 FrameTime: 2.069 ms
+[buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction
+  =0.5:update-method=map: FPS: 512 FrameTime: 1.955 ms
+[buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction
+  =0.5:update-method=subdata: FPS: 513 FrameTime: 1.952 ms
+[buffer] columns=200:interleave=true:update-dispersion=0.9:update-fraction
+  =0.5:update-method=map: FPS: 577 FrameTime: 1.735 ms
+[ideas] speed=duration: FPS: 448 FrameTime: 2.235 ms
+[jellyfish] <default>: FPS: 226 FrameTime: 4.440 ms
+[terrain] <default>: FPS: 38 FrameTime: 26.861 ms
+[shadow] <default>: FPS: 328 FrameTime: 3.051 ms
+[refract] <default>: FPS: 72 FrameTime: 13.937 ms
+[conditionals] fragment-steps=0:vertex-steps=0: FPS: 844 FrameTime:
+  1.186 ms
+[conditionals] fragment-steps=5:vertex-steps=0: FPS: 685 FrameTime: 
+  1.462 ms
+[conditionals] fragment-steps=0:vertex-steps=5: FPS: 833 FrameTime:
+  1.201 ms
+[function] fragment-complexity=low:fragment-steps=5: FPS: 830 FrameTime:
+  1.205 ms
+[function] fragment-complexity=medium:fragment-steps=5: FPS: 525 FrameTime:
+  1.905 ms
+[loop] fragment-loop=false:fragment-steps=5:vertex-steps=5: FPS: 837
+  FrameTime: 1.195 ms
+[loop] fragment-steps=5:fragment-uniform=false:vertex-steps=5: FPS: 835 
+  FrameTime: 1.199 ms
+[loop] fragment-steps=5:fragment-uniform=true:vertex-steps=5: FPS: 550
+  FrameTime: 1.820 ms
+=======================================================
+                                  glmark2 Score: 611 
+=======================================================
+```
 
-In other words allocations don't get charged to memcg on eviction, but when the next CS says during validation that the BO should stay in GTT we then charge the memory to the application.
+[1] https://lore.kernel.org/dri-devel/20250324185801.168664-1-ariel.dalessandro@collabora.com/
 
-Background is that then the right application get's the potential ENOMEM from their CS IOCTL.
+Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+---
+Changes in v5:
+- Rebase on linux-next (tqg: next-2020501)
+- Rework 'drm/panfrost: Add support for Mali on the MT8370 SoC' patch
+  to have MT8370 support with its AARCH64_4K page table format support enabled 
+- Drop code-review trailers from 'drm/panfrost: Add support for Mali on
+  the MT8370 SoC' patch due to major changes in content and commit message
+- Add ack trailer for 'dt-bindings: gpu: mali-bifrost: Add compatible 
+  for MT8370 SoC' patch
+- Add glmark2-es2-drm benchmark results in cover letter
+- Link to v4: https://lore.kernel.org/r/20250211-mt8370-enable-gpu-v4-0-77deb7a75c23@collabora.com
 
-Apart from that the solution looks totally sane to me as well.
+Changes in v4:
+- Add warning comment in mt8370.dtsi about GPU node override
+- Reword "dt-bindings: gpu: mali-bifrost: Add compatible for MT8370
+  SoC" commit message
+- Add code-review trailers
+- Link to v3: https://lore.kernel.org/r/20250207-mt8370-enable-gpu-v3-0-75e9b902f9c1@collabora.com
 
-> +		memcg = bo->memcg;
-> +		gfp_t gfp_flags = GFP_USER;
-> +		if (ctx->gfp_retry_mayfail)
-> +			gfp_flags |= __GFP_RETRY_MAYFAIL;
+Changes in v3:
+- Rebased on linux-next (tag: next-20250207)
+- Remove prerequisite change/patch ids
+- Reword commit messages to better explicit compatible needs
+- Link to v2: https://lore.kernel.org/r/20250130-mt8370-enable-gpu-v2-0-c154d0815db5@collabora.com
 
-BTW: gfp_retry_mayfail is kind of deprecated. Sima is strictly against that.
+Changes in v2:
+- Rework "drm/panfrost: Add support for Mali on the MT8370 SoC" to avoid
+  data structure duplication, as requested by Krzysztof Kozlowski
+- Reword commit messages to use imperative mood and make new compatible
+  need more explicit
+- Link to v1: https://lore.kernel.org/r/20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com
 
-I was about to remove it but then XE picked it up as well.
+---
+Louis-Alexis Eyraud (3):
+      dt-bindings: gpu: mali-bifrost: Add compatible for MT8370 SoC
+      drm/panfrost: Add support for Mali on the MT8370 SoC
+      arm64: dts: mediatek: mt8370: Enable gpu support
 
-I never kicked of the discussion on what to do with that.
+ .../devicetree/bindings/gpu/arm,mali-bifrost.yaml        |  5 ++++-
+ arch/arm64/boot/dts/mediatek/mt8370.dtsi                 | 16 ++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_drv.c                  | 11 +++++++++++
+ 3 files changed, 31 insertions(+), 1 deletion(-)
+---
+base-commit: 1c51b1ba38c07e4f999802eb708bf798dd5f5d1b
+change-id: 20250115-mt8370-enable-gpu-3b6f595fa63d
 
-Regards,
-Christian.
-
-
-> +
-> +		if (!mem_cgroup_charge_gpu(memcg, bo->base.size >> PAGE_SHIFT, gfp_flags))
-> +			return -ENOMEM;
-> +	}
->  	ret = man->func->alloc(man, bo, place, res_ptr);
->  	if (ret) {
->  		if (pool)
->  			dmem_cgroup_uncharge(pool, bo->base.size);
-> +		if (memcg)
-> +			mem_cgroup_uncharge_gpu(memcg, bo->base.size >> PAGE_SHIFT);
->  		return ret;
->  	}
->  
-> +	(*res_ptr)->memcg = memcg;
->  	(*res_ptr)->css = pool;
->  
->  	spin_lock(&bo->bdev->lru_lock);
-> @@ -407,6 +423,7 @@ void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res)
->  {
->  	struct ttm_resource_manager *man;
->  	struct dmem_cgroup_pool_state *pool;
-> +	struct mem_cgroup *memcg;
->  
->  	if (!*res)
->  		return;
-> @@ -416,11 +433,14 @@ void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res)
->  	spin_unlock(&bo->bdev->lru_lock);
->  
->  	pool = (*res)->css;
-> +	memcg = (*res)->memcg;
->  	man = ttm_manager_type(bo->bdev, (*res)->mem_type);
->  	man->func->free(man, *res);
->  	*res = NULL;
->  	if (man->cg)
->  		dmem_cgroup_uncharge(pool, bo->base.size);
-> +	if (memcg)
-> +		mem_cgroup_uncharge_gpu(memcg, bo->base.size >> PAGE_SHIFT);
->  }
->  EXPORT_SYMBOL(ttm_resource_free);
->  
-> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> index 903cd1030110..56a33b5f5c41 100644
-> --- a/include/drm/ttm/ttm_bo.h
-> +++ b/include/drm/ttm/ttm_bo.h
-> @@ -135,6 +135,12 @@ struct ttm_buffer_object {
->  	 * reservation lock.
->  	 */
->  	struct sg_table *sg;
-> +
-> +	/**
-> +	 * @memcg: memory cgroup to charge this to if it ends up using system memory.
-> +	 * NULL means don't charge.
-> +	 */
-> +	struct mem_cgroup *memcg;
->  };
->  
->  #define TTM_BO_MAP_IOMEM_MASK 0x80
-> @@ -174,6 +180,7 @@ struct ttm_bo_kmap_obj {
->   * BOs share the same reservation object.
->   * @force_alloc: Don't check the memory account during suspend or CPU page
->   * faults. Should only be used by TTM internally.
-> + * @account_op: account for any memory allocations by a bo with an memcg.
->   * @resv: Reservation object to allow reserved evictions with.
->   * @bytes_moved: Statistics on how many bytes have been moved.
->   *
-> @@ -186,6 +193,7 @@ struct ttm_operation_ctx {
->  	bool gfp_retry_mayfail;
->  	bool allow_res_evict;
->  	bool force_alloc;
-> +	bool account_op;
->  	struct dma_resv *resv;
->  	uint64_t bytes_moved;
->  };
-> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-> index e52bba15012f..1ab515c6ec00 100644
-> --- a/include/drm/ttm/ttm_resource.h
-> +++ b/include/drm/ttm/ttm_resource.h
-> @@ -45,6 +45,7 @@ struct ttm_resource;
->  struct ttm_place;
->  struct ttm_buffer_object;
->  struct ttm_placement;
-> +struct ttm_operation_ctx;
->  struct iosys_map;
->  struct io_mapping;
->  struct sg_table;
-> @@ -245,7 +246,8 @@ struct ttm_bus_placement {
->   * @placement: Placement flags.
->   * @bus: Placement on io bus accessible to the CPU
->   * @bo: weak reference to the BO, protected by ttm_device::lru_lock
-> - * @css: cgroup state this resource is charged to
-> + * @css: cgroup state this resource is charged to for dmem
-> + * @memcg: memory cgroup this resource is charged to for sysmem
->   *
->   * Structure indicating the placement and space resources used by a
->   * buffer object.
-> @@ -264,6 +266,7 @@ struct ttm_resource {
->  	 * @lru: Least recently used list, see &ttm_resource_manager.lru
->  	 */
->  	struct ttm_lru_item lru;
-> +	struct mem_cgroup *memcg;
->  };
->  
->  /**
-> @@ -444,6 +447,7 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
->  
->  int ttm_resource_alloc(struct ttm_buffer_object *bo,
->  		       const struct ttm_place *place,
-> +		       struct ttm_operation_ctx *ctx,
->  		       struct ttm_resource **res,
->  		       struct dmem_cgroup_pool_state **ret_limit_pool);
->  void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res);
+Best regards,
+-- 
+Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
 
