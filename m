@@ -2,92 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A02AA6EA7
-	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 12:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1814CAA6EE2
+	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 12:10:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D21DA10E8F1;
-	Fri,  2 May 2025 10:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6BCD10E18F;
+	Fri,  2 May 2025 10:09:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ygacUEMU";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="A5QNqvAp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4626910E8EF
- for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 10:01:21 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-acbb48bad09so323449366b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 02 May 2025 03:01:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746180080; x=1746784880; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OlmCXINH+dafzBgYNqgq0wXLz20MQsNU7TGuhsodLww=;
- b=ygacUEMUvlocIWGOI1WcWxbO9fb6hJcANAfvGZYG2xHrp0I5kYCj902wTZEBYnFQlx
- EhRKLdO4GxV7yaSRGEtmAPUc7GTWazTE4hUo82gCYkMiFT71m6UhUnLqwUuruhScDNUj
- hyd8qsJWgy/YJyilxvOAcuQMkS6H/ewgdlUSbGFUpAChSo9uuifd+kh7Os4B3lc2WOGH
- uu3h7LcI6u1fY8aM4BhVA8sWLTZpqD3k070UOdJKmP83bYuMEwrSvSAErdxrCoqruNuw
- jtxpmKfuWXR1OzDSsg2d8r0CVeeX0j8VSPAziK89HikE10UFZ79H4b7ufYsLu+8m7U9z
- 3xiA==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C85110E8EA
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 10:09:53 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5421N2VE015140
+ for <dri-devel@lists.freedesktop.org>; Fri, 2 May 2025 10:09:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=eGb1DlUbL3NjKY/kTW9b+ae2
+ nxS0xZx64n5ndmQSd6c=; b=A5QNqvAp5jkwLT+0EyVxkW5mulaAL90Je2+xwzeM
+ qyBWdXFm0tbRwy54j3HeK1MpiN1rita+E4lQKTJIt7Iu49/UToqQxANcpBRy7K/K
+ I3P1L23ExvE1bH/vDER3dlrchk16s0vq/EU3ThgSHe8KSnR+3UUloULe1V8+SCP2
+ iesFZIeyB7x/OhRWuhkjLuUPXguVqWzveeu6f0fVzDsgS1/WZLdJzmXWnNiSJ9JD
+ pIgpkyg6LGKOk5CdrvfXWsmCLRHg64M/rgsO00jJLikmiZ3rTWHw1tBdXLDpS8AD
+ Xfq/3SNCExOlmrkl6RD19f6H9eX8r2NEDhcXe1iQeMPVhw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6uayv47-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 May 2025 10:09:52 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-47b36edcdb1so65128901cf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 May 2025 03:09:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746180080; x=1746784880;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OlmCXINH+dafzBgYNqgq0wXLz20MQsNU7TGuhsodLww=;
- b=X4gKCGe9CQesz4q85I97iEgGGi+QjIDk3YQnGY9T9/nyp38/vCPYHzOejmlqZ0tXb8
- AkFtzWwl6L9J69lZj0XD8VW0A29XuvKuLtbjAou5ndR55qHpPACnG6TTBAYBoC2uYGvO
- YzWxKUuOG7+Z5rPZ0VjFplYltsBlDbeb+dZu0lrjuz2x4QEZWfOt8iab6VKIo3tTlD3T
- Dbs3MdCY4jN/3VUKJENbSZxznWeaM0QPNJNktxroQy6I998rLlXxe6Pr1gee7r3F9vo7
- F+5qjBIXO0UHafdhs+TbS6Ffzar+sWT9UR7EPPATrjeueJSd+n1Ux9rRAagbJ/qeT5co
- FUww==
+ d=1e100.net; s=20230601; t=1746180591; x=1746785391;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eGb1DlUbL3NjKY/kTW9b+ae2nxS0xZx64n5ndmQSd6c=;
+ b=Y7D4j2Q7uOVSqqL6ahw5WnUJ//pT3x04h/IuNoP27+pCtzgngfRdlREYXzlyqj9o5x
+ hFt9RB3TP+TU/OS90M9R1x3dxvNO9M1jAN0r8cbp7Nex2qr2JUTrVZ1caU6j5IzPhez/
+ Dld6MKe3FIMQ/RDIxZTzWr1E4cC342xYQxlb/vuPvrPmqyXjn2JcAOY6e2ceuIQzvD1m
+ sIlHeganrJvdAyKj84Pah/v8fWuKHzbFnbYjiyyIs7LDkae/efjsGxe/d+OgB31w87gR
+ lhK3AqMUJ4VqKEvDG/AZTiadN4rtfef51CTnArvV5qbM286qRr2MVv5NfbJ+afzOs92V
+ 6eSQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV0NgDV3zXoO49sPMSVx3abKAdsflRACCLNhwmdCKsj6RaDq43vFvYf56Gtw+Jxquiv7aSk8eaZHEw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy4PonzbBiGcTVAh0RO5Rm76rjfTZzoBv9E11bnTcFSrmH3ekmN
- D4GogDDD+kFUhjoQnXLcYt/GHy3E2Hwf9id9VLUOzL6FPrx4Vb0gZ8kIe2dLqEU=
-X-Gm-Gg: ASbGncsa38ahXyAzU/McHy9/MXHN+PV2CM5g1SfNYWXE5C01wUN5uC/a3qekDX7vJ74
- AsEhQ0Ly9t+lRNXKTtdvMmQ3RTYA2prydAWAHrfguF0q+ehGQ92xG5R3aDQzJvl9nGyRilkso66
- ZG7KppHMKJHOLYA/Ql0sLuBQLFvrTmdS+BX+upT6ny0rUkJvOXrk2P6+5lYl2ohkVX2GzEY+esV
- ZjQKfrXl+fvcVpQbL4NRJd2oYR5Lwof7Ri2rB+LShTok6EHCJbuUu+PUXYRwIeo89u00m01eJuF
- d8dgQh150WLUFmztB/RQ13BMIgOCszoutju9RSKZmf7EnFYQIqq2/ipwIYmhZ1c/9Rtj920yTos
- b7XkTF8C/idX8PL+VlA==
-X-Google-Smtp-Source: AGHT+IEYfv3P+wsN6CjsHEtvD+7RxYmI0A0Zuh0sF27ecW7PLXPxnJ4H/XpyhrWak3QZy6czVPn/hg==
-X-Received: by 2002:a17:907:728a:b0:ace:5461:81dd with SMTP id
- a640c23a62f3a-ad17acfda03mr249587766b.3.1746180079442; 
- Fri, 02 May 2025 03:01:19 -0700 (PDT)
-Received: from rayden.urgonet (h-98-128-140-123.A175.priv.bahnhof.se.
- [98.128.140.123]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ad1891473a1sm26030566b.4.2025.05.02.03.01.17
+ AJvYcCU883YVB8LSGgItmuQX+AsibsInAKsVKyrQRSCvYrkr3mOSgR1Pigm/mmFpRBuUCIsyXO9/NxFiZlU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwsdI8o007+uNYmw9za5JvEel7Oae2eOUylSIncZaWNze0UP8Gr
+ eB1gQa/GWqKgtOLqHIHdm6AUQKOjZFENY+lSTehz6kx7CZwdpt9vRgBfx0/Wacz0oqVDmUS7Xfd
+ HAJN3U/UFZ31Javdhd27T49+y4mteG93CfdiiWXmIA4oCRGOJ7jSfXqyzWl5/5P3uxTg=
+X-Gm-Gg: ASbGncsRplLJghhoS8IxcAcfMIXMznt8CmUKAGChXNgVM+cW0Oaw09DMyq50/P/+B6H
+ pS0gPeZEbJD0bUIq993qpR6Y5rCSKIRBRsLiTVD6OHV8CNbsUrh9LUEIpLBzyq6IXV8f3G6icYp
+ 5muCyXdfTe/ru8UyAHv1TU0NoUnXnf8wfKiVnVmk+lDVuUw/nfLjHiHHHThX/31xegePuboDhrS
+ 5nEm2a5s4XyzXRdI67+mpMmissu1dL+UwHYAAJVoUFerwuouRvHVFaPefaI4m6206sUQnWDUh62
+ y2L0DatKA9YPG62lYXm+9UsHPmcpVhWspK7AMMvXoMQR7Ai8bTosfH3NLvjAgLCoGLTTOJPgNyU
+ =
+X-Received: by 2002:a05:622a:908:b0:476:7f5c:e303 with SMTP id
+ d75a77b69052e-48c31c1393amr33914571cf.26.1746180591584; 
+ Fri, 02 May 2025 03:09:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEI+T+sdPnhpQgFYsQMx/i1P/XK7HsEdfcoW/C3AL1UBNlcOIoAgvN7TUEI2OJ5tLKMoKv/uQ==
+X-Received: by 2002:a05:622a:908:b0:476:7f5c:e303 with SMTP id
+ d75a77b69052e-48c31c1393amr33914241cf.26.1746180591064; 
+ Fri, 02 May 2025 03:09:51 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54ea94f680dsm309413e87.220.2025.05.02.03.09.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 May 2025 03:01:18 -0700 (PDT)
-From: Jens Wiklander <jens.wiklander@linaro.org>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org
-Cc: Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Garg <sumit.garg@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>,
- Rouven Czerwinski <rouven.czerwinski@linaro.org>,
- Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [PATCH v8 14/14] optee: smc abi: dynamic protected memory allocation
-Date: Fri,  2 May 2025 11:59:28 +0200
-Message-ID: <20250502100049.1746335-15-jens.wiklander@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250502100049.1746335-1-jens.wiklander@linaro.org>
-References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
+ Fri, 02 May 2025 03:09:49 -0700 (PDT)
+Date: Fri, 2 May 2025 13:09:47 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/7] drm/msm: make it possible to disable KMS-related code.
+Message-ID: <lyzp62vwvina435pdskwalcgjmejkbs6u6ozx3nn3epvyjyqo4@2o4w7uxrklp6>
+References: <20250413-msm-gpu-split-v1-0-1132f4b616c7@oss.qualcomm.com>
+ <20250413-msm-gpu-split-v1-3-1132f4b616c7@oss.qualcomm.com>
+ <71594689-06f7-41cb-ba6c-65459388fd1d@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <71594689-06f7-41cb-ba6c-65459388fd1d@quicinc.com>
+X-Proofpoint-GUID: nUslYoDSHJDDwZLUEPRxKMk4aCyLSD2T
+X-Authority-Analysis: v=2.4 cv=KtlN2XWN c=1 sm=1 tr=0 ts=681499f0 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=CDNnaGQRe6Xf55pPQM8A:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-ORIG-GUID: nUslYoDSHJDDwZLUEPRxKMk4aCyLSD2T
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAyMDA3OSBTYWx0ZWRfX2tpjlAo/Tubx
+ MfYEra6hkBZ7tn4DOCwoH9fVMUe6MDgUFJ5yNbEr2vbEcRqLLyP/UimgzNShj5u2kGZT3s0+YEb
+ nWBqMQENxkGPNyr665rAPYYWxg+eDBfDs05lHoLDoh351wksgO4IYgWffoTvophbOT5n6KuCPev
+ VH1qj03lwdt5z+UYhlGJt8vOiaT0Di26zU7sfXO+pLJVFs1AiNI2RxKpdlC/RcHAbrnVkyXVx33
+ OquegRLVZfTmYt6NEsb4AUbf/tzX5vSYORteIDaPYtj5Cey4iOROQuXgRPwm6BTBqlL8qI2xdlT
+ blix0NFHENJXeK4H/vExFtacHNKO+iJsGB6ZeQjEwtEAKFkR3VLU4MQja6V7yjPWFT10aoi2YOE
+ XiCJ9equJ9E3Mgws0JOTDPvvEBZFOWi383fOvjPPxZU3UZdCWx9UBJ/CFJqAqLS+DBeGDjVO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-01_06,2025-04-30_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 priorityscore=1501
+ malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=845 spamscore=0
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505020079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,165 +129,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support in the OP-TEE backend driver for dynamic protected memory
-allocation using the SMC ABI.
+On Wed, Apr 30, 2025 at 01:09:31PM -0700, Abhinav Kumar wrote:
+> 
+> 
+> On 4/13/2025 9:32 AM, Dmitry Baryshkov wrote:
+> > If the Adreno device is used in a headless mode, there is no need to
+> > build all KMS components. Build corresponding parts conditionally, only
+> > selecting them if modeset support is actually required.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > ---
+> >   drivers/gpu/drm/msm/Kconfig       | 14 ++++++
+> >   drivers/gpu/drm/msm/Makefile      | 16 +++----
+> >   drivers/gpu/drm/msm/dp/dp_debug.c |  4 ++
+> >   drivers/gpu/drm/msm/msm_debugfs.c | 92 ++++++++++++++++++++++-----------------
+> >   drivers/gpu/drm/msm/msm_drv.h     |  7 ++-
+> >   drivers/gpu/drm/msm/msm_kms.h     | 23 ++++++++++
+> >   6 files changed, 108 insertions(+), 48 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> > index a65077855201746c37ee742364b61116565f3794..5f4d3f050c1fde71c405a1ebf516f4f5a396cfc4 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.h
+> > +++ b/drivers/gpu/drm/msm/msm_drv.h
+> > @@ -88,6 +88,7 @@ struct msm_drm_private {
+> >   	/* subordinate devices, if present: */
+> >   	struct platform_device *gpu_pdev;
+> > +#ifdef CONFIG_DRM_MSM_KMS
+> >   	/* possibly this should be in the kms component, but it is
+> >   	 * shared by both mdp4 and mdp5..
+> >   	 */
+> 
+> As the comment says, I am also thinking that this should be part of msm_kms
+> struct, to avoid ifdefs. I didnt follow the second half of the comment that
+> this is shared by both mdp4/mdp5. Why does that prevent it from being in the
+> kms component?
 
-Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
----
- drivers/tee/optee/smc_abi.c | 103 +++++++++++++++++++++++++++++-------
- 1 file changed, 85 insertions(+), 18 deletions(-)
+Indeed, there are no such limitations nowadays.
 
-diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-index 7acb43852c4b..766e7f5a3953 100644
---- a/drivers/tee/optee/smc_abi.c
-+++ b/drivers/tee/optee/smc_abi.c
-@@ -1001,6 +1001,70 @@ static int optee_smc_do_call_with_arg(struct tee_context *ctx,
- 	return rc;
- }
- 
-+static int optee_smc_lend_protmem(struct optee *optee, struct tee_shm *protmem,
-+				  u16 *end_points, unsigned int ep_count,
-+				  u32 use_case)
-+{
-+	struct optee_shm_arg_entry *entry;
-+	struct optee_msg_arg *msg_arg;
-+	struct tee_shm *shm;
-+	u_int offs;
-+	int rc;
-+
-+	msg_arg = optee_get_msg_arg(optee->ctx, 2, &entry, &shm, &offs);
-+	if (IS_ERR(msg_arg))
-+		return PTR_ERR(msg_arg);
-+
-+	msg_arg->cmd = OPTEE_MSG_CMD_LEND_PROTMEM;
-+	msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
-+	msg_arg->params[0].u.value.a = use_case;
-+	msg_arg->params[1].attr = OPTEE_MSG_ATTR_TYPE_TMEM_INPUT;
-+	msg_arg->params[1].u.tmem.buf_ptr = protmem->paddr;
-+	msg_arg->params[1].u.tmem.size = protmem->size;
-+	msg_arg->params[1].u.tmem.shm_ref = (u_long)protmem;
-+
-+	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-+	if (rc)
-+		goto out;
-+	if (msg_arg->ret != TEEC_SUCCESS) {
-+		rc = -EINVAL;
-+		goto out;
-+	}
-+	protmem->sec_world_id = (u_long)protmem;
-+
-+out:
-+	optee_free_msg_arg(optee->ctx, entry, offs);
-+	return rc;
-+}
-+
-+static int optee_smc_reclaim_protmem(struct optee *optee,
-+				     struct tee_shm *protmem)
-+{
-+	struct optee_shm_arg_entry *entry;
-+	struct optee_msg_arg *msg_arg;
-+	struct tee_shm *shm;
-+	u_int offs;
-+	int rc;
-+
-+	msg_arg = optee_get_msg_arg(optee->ctx, 1, &entry, &shm, &offs);
-+	if (IS_ERR(msg_arg))
-+		return PTR_ERR(msg_arg);
-+
-+	msg_arg->cmd = OPTEE_MSG_CMD_RECLAIM_PROTMEM;
-+	msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_RMEM_INPUT;
-+	msg_arg->params[0].u.rmem.shm_ref = (u_long)protmem;
-+
-+	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-+	if (rc)
-+		goto out;
-+	if (msg_arg->ret != TEEC_SUCCESS)
-+		rc = -EINVAL;
-+
-+out:
-+	optee_free_msg_arg(optee->ctx, entry, offs);
-+	return rc;
-+}
-+
- /*
-  * 5. Asynchronous notification
-  */
-@@ -1252,6 +1316,8 @@ static const struct optee_ops optee_ops = {
- 	.do_call_with_arg = optee_smc_do_call_with_arg,
- 	.to_msg_param = optee_to_msg_param,
- 	.from_msg_param = optee_from_msg_param,
-+	.lend_protmem = optee_smc_lend_protmem,
-+	.reclaim_protmem = optee_smc_reclaim_protmem,
- };
- 
- static int enable_async_notif(optee_invoke_fn *invoke_fn)
-@@ -1622,11 +1688,14 @@ static inline int optee_load_fw(struct platform_device *pdev,
- 
- static int optee_protmem_pool_init(struct optee *optee)
- {
-+	bool protm = optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM;
-+	bool dyn_protm = optee->smc.sec_caps &
-+			 OPTEE_SMC_SEC_CAP_DYNAMIC_PROTMEM;
- 	enum tee_dma_heap_id heap_id = TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
--	struct tee_protmem_pool *pool;
--	int rc;
-+	struct tee_protmem_pool *pool = ERR_PTR(-EINVAL);
-+	int rc = -EINVAL;
- 
--	if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM) {
-+	if (protm) {
- 		union {
- 			struct arm_smccc_res smccc;
- 			struct optee_smc_get_protmem_config_result result;
-@@ -1634,25 +1703,24 @@ static int optee_protmem_pool_init(struct optee *optee)
- 
- 		optee->smc.invoke_fn(OPTEE_SMC_GET_PROTMEM_CONFIG, 0, 0, 0, 0,
- 				     0, 0, 0, &res.smccc);
--		if (res.result.status != OPTEE_SMC_RETURN_OK) {
--			pr_err("Secure Data Path service not available\n");
--			return 0;
--		}
-+		if (res.result.status == OPTEE_SMC_RETURN_OK)
-+			pool = tee_protmem_static_pool_alloc(res.result.start,
-+							     res.result.size);
-+	}
- 
--		pool = tee_protmem_static_pool_alloc(res.result.start,
--						     res.result.size);
--		if (IS_ERR(pool))
--			return PTR_ERR(pool);
-+	if (dyn_protm && IS_ERR(pool))
-+		pool = optee_protmem_alloc_cma_pool(optee, heap_id);
- 
-+	if (!IS_ERR(pool)) {
- 		rc = tee_device_register_dma_heap(optee->teedev, heap_id, pool);
- 		if (rc)
--			goto err;
-+			pool->ops->destroy_pool(pool);
- 	}
- 
-+	if (protm || dyn_protm)
-+		return rc;
-+
- 	return 0;
--err:
--	pool->ops->destroy_pool(pool);
--	return rc;
- }
- 
- static int optee_probe(struct platform_device *pdev)
-@@ -1823,9 +1891,8 @@ static int optee_probe(struct platform_device *pdev)
- 		pr_info("Asynchronous notifications enabled\n");
- 	}
- 
--	rc = optee_protmem_pool_init(optee);
--	if (rc)
--		goto err_notif_uninit;
-+	if (optee_protmem_pool_init(optee))
-+		pr_info("Protected memory service not available\n");
- 
- 	/*
- 	 * Ensure that there are no pre-existing shm objects before enabling
+
 -- 
-2.43.0
-
+With best wishes
+Dmitry
