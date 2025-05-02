@@ -2,118 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1814CAA6EE2
-	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 12:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 558C9AA6FFE
+	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 12:45:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6BCD10E18F;
-	Fri,  2 May 2025 10:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 319F310E16E;
+	Fri,  2 May 2025 10:45:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="A5QNqvAp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VlmcIdQn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C85110E8EA
- for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 10:09:53 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5421N2VE015140
- for <dri-devel@lists.freedesktop.org>; Fri, 2 May 2025 10:09:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=eGb1DlUbL3NjKY/kTW9b+ae2
- nxS0xZx64n5ndmQSd6c=; b=A5QNqvAp5jkwLT+0EyVxkW5mulaAL90Je2+xwzeM
- qyBWdXFm0tbRwy54j3HeK1MpiN1rita+E4lQKTJIt7Iu49/UToqQxANcpBRy7K/K
- I3P1L23ExvE1bH/vDER3dlrchk16s0vq/EU3ThgSHe8KSnR+3UUloULe1V8+SCP2
- iesFZIeyB7x/OhRWuhkjLuUPXguVqWzveeu6f0fVzDsgS1/WZLdJzmXWnNiSJ9JD
- pIgpkyg6LGKOk5CdrvfXWsmCLRHg64M/rgsO00jJLikmiZ3rTWHw1tBdXLDpS8AD
- Xfq/3SNCExOlmrkl6RD19f6H9eX8r2NEDhcXe1iQeMPVhw==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6uayv47-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 02 May 2025 10:09:52 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-47b36edcdb1so65128901cf.2
- for <dri-devel@lists.freedesktop.org>; Fri, 02 May 2025 03:09:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746180591; x=1746785391;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eGb1DlUbL3NjKY/kTW9b+ae2nxS0xZx64n5ndmQSd6c=;
- b=Y7D4j2Q7uOVSqqL6ahw5WnUJ//pT3x04h/IuNoP27+pCtzgngfRdlREYXzlyqj9o5x
- hFt9RB3TP+TU/OS90M9R1x3dxvNO9M1jAN0r8cbp7Nex2qr2JUTrVZ1caU6j5IzPhez/
- Dld6MKe3FIMQ/RDIxZTzWr1E4cC342xYQxlb/vuPvrPmqyXjn2JcAOY6e2ceuIQzvD1m
- sIlHeganrJvdAyKj84Pah/v8fWuKHzbFnbYjiyyIs7LDkae/efjsGxe/d+OgB31w87gR
- lhK3AqMUJ4VqKEvDG/AZTiadN4rtfef51CTnArvV5qbM286qRr2MVv5NfbJ+afzOs92V
- 6eSQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU883YVB8LSGgItmuQX+AsibsInAKsVKyrQRSCvYrkr3mOSgR1Pigm/mmFpRBuUCIsyXO9/NxFiZlU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwsdI8o007+uNYmw9za5JvEel7Oae2eOUylSIncZaWNze0UP8Gr
- eB1gQa/GWqKgtOLqHIHdm6AUQKOjZFENY+lSTehz6kx7CZwdpt9vRgBfx0/Wacz0oqVDmUS7Xfd
- HAJN3U/UFZ31Javdhd27T49+y4mteG93CfdiiWXmIA4oCRGOJ7jSfXqyzWl5/5P3uxTg=
-X-Gm-Gg: ASbGncsRplLJghhoS8IxcAcfMIXMznt8CmUKAGChXNgVM+cW0Oaw09DMyq50/P/+B6H
- pS0gPeZEbJD0bUIq993qpR6Y5rCSKIRBRsLiTVD6OHV8CNbsUrh9LUEIpLBzyq6IXV8f3G6icYp
- 5muCyXdfTe/ru8UyAHv1TU0NoUnXnf8wfKiVnVmk+lDVuUw/nfLjHiHHHThX/31xegePuboDhrS
- 5nEm2a5s4XyzXRdI67+mpMmissu1dL+UwHYAAJVoUFerwuouRvHVFaPefaI4m6206sUQnWDUh62
- y2L0DatKA9YPG62lYXm+9UsHPmcpVhWspK7AMMvXoMQR7Ai8bTosfH3NLvjAgLCoGLTTOJPgNyU
- =
-X-Received: by 2002:a05:622a:908:b0:476:7f5c:e303 with SMTP id
- d75a77b69052e-48c31c1393amr33914571cf.26.1746180591584; 
- Fri, 02 May 2025 03:09:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEI+T+sdPnhpQgFYsQMx/i1P/XK7HsEdfcoW/C3AL1UBNlcOIoAgvN7TUEI2OJ5tLKMoKv/uQ==
-X-Received: by 2002:a05:622a:908:b0:476:7f5c:e303 with SMTP id
- d75a77b69052e-48c31c1393amr33914241cf.26.1746180591064; 
- Fri, 02 May 2025 03:09:51 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ea94f680dsm309413e87.220.2025.05.02.03.09.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 May 2025 03:09:49 -0700 (PDT)
-Date: Fri, 2 May 2025 13:09:47 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] drm/msm: make it possible to disable KMS-related code.
-Message-ID: <lyzp62vwvina435pdskwalcgjmejkbs6u6ozx3nn3epvyjyqo4@2o4w7uxrklp6>
-References: <20250413-msm-gpu-split-v1-0-1132f4b616c7@oss.qualcomm.com>
- <20250413-msm-gpu-split-v1-3-1132f4b616c7@oss.qualcomm.com>
- <71594689-06f7-41cb-ba6c-65459388fd1d@quicinc.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D541D10E16E
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 10:45:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1746182722; x=1777718722;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=kabmlv0KkQDAyrTzn6zjy1nl1svXPwvfHYYf/932dMc=;
+ b=VlmcIdQnp+DAosihl0SZHCHO0XrSyE/+vVVrQmR91INRCzG2lwsFDlhz
+ 0pbnHW1fNQLTmEEG/EuYspxeLJf60sxVNlQZZx5+wCzxl+5sPNOWFn/e2
+ s0jCJwGjD8P16SN+XRSCRAax+kXc6dHVRctpqYuuHTb4mdnUlFwWsQ/N2
+ o457cIaB3fku1jALc+aHpIK+j1i8s78NWmUlxUiF3zPoELV0738Xuwtw5
+ I/UZ+H0L9KvvADH7V9u6k0DxLkxPKaxmmiwrrVtuBdFC8Xsfoi8mPd/3I
+ gfe8kYwqwiqfCa9uvWqzIV4N3Js4zVNW9PfNtt1F4AbP8/0nEPwGe/Ry/ Q==;
+X-CSE-ConnectionGUID: DSW4mVJUSXGrcAJ8cL57zw==
+X-CSE-MsgGUID: dgPlvHQ7T1e8IwL9upg14A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47874586"
+X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; d="scan'208";a="47874586"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2025 03:45:22 -0700
+X-CSE-ConnectionGUID: xCwqsuJUQiCqtrX/wmzsYw==
+X-CSE-MsgGUID: Dr+n9SJTRY+OMs3pDcKF5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; d="scan'208";a="139612566"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO [10.245.246.151])
+ ([10.245.246.151])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2025 03:45:17 -0700
+Message-ID: <9c8dbbafdaf9f3f089da2cde5a772d69579b3795.camel@linux.intel.com>
+Subject: Re: [PATCH v2] drm/ttm: Silence randstruct warning about casting
+ struct file
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Matthew Brost <matthew.brost@intel.com>
+Cc: Kees Cook <kees@kernel.org>, Somalapuram Amaranath	
+ <Amaranath.Somalapuram@amd.com>, Huang Rui <ray.huang@amd.com>, Matthew
+ Auld	 <matthew.auld@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 	linux-hardening@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, Jan
+ Kara <jack@suse.cz>
+Date: Fri, 02 May 2025 12:44:26 +0200
+In-Reply-To: <da694af6-1a9a-4cee-86b7-1da97e1e91de@amd.com>
+References: <20250502002437.it.851-kees@kernel.org>
+ <aBQqOCQZrHBBbPbL@lstrano-desk.jf.intel.com>
+ <20250502023447.GV2023217@ZenIV>
+ <aBRJcXfBuK29mVP+@lstrano-desk.jf.intel.com>
+ <20250502043149.GW2023217@ZenIV>
+ <aBRPeLVgG5J5P8SL@lstrano-desk.jf.intel.com>
+ <20250502053303.GX2023217@ZenIV>
+ <da694af6-1a9a-4cee-86b7-1da97e1e91de@amd.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <71594689-06f7-41cb-ba6c-65459388fd1d@quicinc.com>
-X-Proofpoint-GUID: nUslYoDSHJDDwZLUEPRxKMk4aCyLSD2T
-X-Authority-Analysis: v=2.4 cv=KtlN2XWN c=1 sm=1 tr=0 ts=681499f0 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=CDNnaGQRe6Xf55pPQM8A:9 a=CjuIK1q_8ugA:10
- a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-ORIG-GUID: nUslYoDSHJDDwZLUEPRxKMk4aCyLSD2T
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAyMDA3OSBTYWx0ZWRfX2tpjlAo/Tubx
- MfYEra6hkBZ7tn4DOCwoH9fVMUe6MDgUFJ5yNbEr2vbEcRqLLyP/UimgzNShj5u2kGZT3s0+YEb
- nWBqMQENxkGPNyr665rAPYYWxg+eDBfDs05lHoLDoh351wksgO4IYgWffoTvophbOT5n6KuCPev
- VH1qj03lwdt5z+UYhlGJt8vOiaT0Di26zU7sfXO+pLJVFs1AiNI2RxKpdlC/RcHAbrnVkyXVx33
- OquegRLVZfTmYt6NEsb4AUbf/tzX5vSYORteIDaPYtj5Cey4iOROQuXgRPwm6BTBqlL8qI2xdlT
- blix0NFHENJXeK4H/vExFtacHNKO+iJsGB6ZeQjEwtEAKFkR3VLU4MQja6V7yjPWFT10aoi2YOE
- XiCJ9equJ9E3Mgws0JOTDPvvEBZFOWi383fOvjPPxZU3UZdCWx9UBJ/CFJqAqLS+DBeGDjVO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-01_06,2025-04-30_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=845 spamscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505020079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,44 +87,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 30, 2025 at 01:09:31PM -0700, Abhinav Kumar wrote:
-> 
-> 
-> On 4/13/2025 9:32 AM, Dmitry Baryshkov wrote:
-> > If the Adreno device is used in a headless mode, there is no need to
-> > build all KMS components. Build corresponding parts conditionally, only
-> > selecting them if modeset support is actually required.
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> >   drivers/gpu/drm/msm/Kconfig       | 14 ++++++
-> >   drivers/gpu/drm/msm/Makefile      | 16 +++----
-> >   drivers/gpu/drm/msm/dp/dp_debug.c |  4 ++
-> >   drivers/gpu/drm/msm/msm_debugfs.c | 92 ++++++++++++++++++++++-----------------
-> >   drivers/gpu/drm/msm/msm_drv.h     |  7 ++-
-> >   drivers/gpu/drm/msm/msm_kms.h     | 23 ++++++++++
-> >   6 files changed, 108 insertions(+), 48 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> > index a65077855201746c37ee742364b61116565f3794..5f4d3f050c1fde71c405a1ebf516f4f5a396cfc4 100644
-> > --- a/drivers/gpu/drm/msm/msm_drv.h
-> > +++ b/drivers/gpu/drm/msm/msm_drv.h
-> > @@ -88,6 +88,7 @@ struct msm_drm_private {
-> >   	/* subordinate devices, if present: */
-> >   	struct platform_device *gpu_pdev;
-> > +#ifdef CONFIG_DRM_MSM_KMS
-> >   	/* possibly this should be in the kms component, but it is
-> >   	 * shared by both mdp4 and mdp5..
-> >   	 */
-> 
-> As the comment says, I am also thinking that this should be part of msm_kms
-> struct, to avoid ifdefs. I didnt follow the second half of the comment that
-> this is shared by both mdp4/mdp5. Why does that prevent it from being in the
-> kms component?
+On Fri, 2025-05-02 at 09:49 +0200, Christian K=C3=B6nig wrote:
+> On 5/2/25 07:33, Al Viro wrote:
+> > On Thu, May 01, 2025 at 09:52:08PM -0700, Matthew Brost wrote:
+> > > On Fri, May 02, 2025 at 05:31:49AM +0100, Al Viro wrote:
+> > > > On Thu, May 01, 2025 at 09:26:25PM -0700, Matthew Brost wrote:
+> >=20
+> > > > And what is the lifecycle of that thing?=C2=A0 E.g. what is
+> > > > guaranteed about
+> > > > ttm_backup_fini() vs. functions accessing the damn thing?=C2=A0 Are
+> > > > they
+> > > > serialized on something/tied to lifecycle stages of struct
+> > > > ttm_tt?
+> > >=20
+> > > I believe the life cycle is when ttm_tt is destroyed or api
+> > > allows
+> > > overriding the old backup with a new one (currently unused).
+> >=20
+> > Umm...=C2=A0 So can ttm_tt_setup_backup() be called in the middle of
+> > e.g. ttm_backup_drop() or ttm_backup_{copy,backup}_page(), etc.?
+> >=20
+> > I mean, if they had been called by ttm_backup.c internals, it would
+> > be an internal business of specific implementation, with all
+> > serialization, etc. warranties being its responsibility;
+> > but if it's called by other code that is supposed to be isolated
+> > from details of what ->backup is pointing to...
+> >=20
+> > Sorry for asking dumb questions, but I hadn't seen the original
+> > threads.=C2=A0 Basically, what prevents the underlying shmem file
+> > getting
+> > torn apart while another operation is using it?=C2=A0 It might very wel=
+l
+> > be simple, but I had enough "it's because of... oh, bugger" moments
+> > on the receiving end of such questions...
+>=20
+> It's the outside logic which makes sure that the backup structure
+> stays around as long as the BO or the device which needs it is
+> around.
+>=20
+> But putting that aside I was not very keen about the whole idea of
+> never defining the ttm_backup structure and just casting it to a file
+> in the backend either.
+>=20
+> So I would just completely nuke that unnecessary abstraction and just
+> use a pointer to a file all around.
 
-Indeed, there are no such limitations nowadays.
+Hmm, yes there were early the series a number of different
+implementations of the struct ttm_backup. Initially because previous
+attempts of using a shmem object failed but now that we've landed on a
+shmem object, We should be able to replace it with a struct file
+pointer.
 
+Let me take a look at this.=20
 
--- 
-With best wishes
-Dmitry
+/Thomas
+
+>=20
+> Regards,
+> Christian.
+
