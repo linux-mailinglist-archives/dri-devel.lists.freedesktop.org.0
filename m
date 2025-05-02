@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BAACAA7172
-	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 14:17:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0393FAA7174
+	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 14:17:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE18B10E369;
-	Fri,  2 May 2025 12:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B4310E10E;
+	Fri,  2 May 2025 12:17:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aVTg+J3S";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fAwyZno/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0554E10E36D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04F4F10E19E
  for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 12:17:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1746188249;
- bh=Q446XHlZ8iNz9WHxPKvx/WyR1/KrNJ61dHl/M96rkLQ=;
+ s=mail; t=1746188251;
+ bh=Nh/3NP0bjRTX7YboruB3JZ2xLOeP0c8eAjI6a96C+Ns=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=aVTg+J3SUJ3HuplLdkpfZj8ODvKjZlXl9YGshtrFTu7MSoUIMNUmAkd3GqZ8slOUs
- qgqWqPpcnvEAqkPy++nRN0uDgiA2YFn/IRSK7AT/hnQa9h1Y1X8sG5Fo677RJiTnHZ
- ADNSHaV9Ym230Ns2JdvRuYBKt9AMUg7RYMfww0nElELU1SL5eHFz7bqofBAFBmkWFK
- MLGywx4+tk4joq9ANp0Y44/Os97iRBNhxSCaz9KTDySM307yVQQjPEbnJcQtD8Z2hb
- 3LMCeX8oX34bcSvrS+6mn3zfFxSoqmFy9nffVlQxqlCU8IBz7iY5/Z9z/GbhpdOafx
- 3s5junWIEFSiA==
+ b=fAwyZno/6cHCUZVscF4DkoZ7XGBTZJ3WP3x3xzSDPicemItU2TSq4GDzH/CTcQvku
+ 7d5N+U1CzQpasIedHwzZR4Fy00LONxfT8nhXyAFAYZXMTlh68Cvtdzj7tOWd0vvksg
+ ixrV1MgJj3hDnsjUqs3BQi4WvTz8DSKWkb1Miy5aIz3VT0R08orJeMPWhwVqG9ahSA
+ PT8cjaCa4llX8DkE9CYOjjVy5/R039U2+TEGHnYA5ukVxtxsP8X+DZT1caLP3F2cCF
+ BXNe8K8ftiCliyI6du1LQW6qCPXiiAABGXloEIlYZ7wa1+LfGEf+59wXKfbG22cRMa
+ gdZZmXLENVapQ==
 Received: from yukiji.home (amontpellier-657-1-116-247.w83-113.abo.wanadoo.fr
  [83.113.51.247])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: laeyraud)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 62BCC17E1290;
- Fri,  2 May 2025 14:17:28 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CE25917E1501;
+ Fri,  2 May 2025 14:17:29 +0200 (CEST)
 From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Date: Fri, 02 May 2025 14:17:17 +0200
-Subject: [PATCH v5 2/3] drm/panfrost: Add support for Mali on the MT8370
- SoC
+Date: Fri, 02 May 2025 14:17:18 +0200
+Subject: [PATCH v5 3/3] arm64: dts: mediatek: mt8370: Enable gpu support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250502-mt8370-enable-gpu-v5-2-98e247b30151@collabora.com>
+Message-Id: <20250502-mt8370-enable-gpu-v5-3-98e247b30151@collabora.com>
 References: <20250502-mt8370-enable-gpu-v5-0-98e247b30151@collabora.com>
 In-Reply-To: <20250502-mt8370-enable-gpu-v5-0-98e247b30151@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -57,11 +56,11 @@ Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
  Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746188245; l=2572;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746188245; l=1948;
  i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
- bh=Q446XHlZ8iNz9WHxPKvx/WyR1/KrNJ61dHl/M96rkLQ=;
- b=YijppE0iNglF7yZGZpVAeouOBU3qk9Nl90MnNyHitBApZ9golmGaXYHsoZiKco2qspQLR5zAp
- Pes4j6eCPPMDPbil+SJLMn8vNNzWuiteC5FqIkWAB9BOaJp8eD9W+Vs
+ bh=Nh/3NP0bjRTX7YboruB3JZ2xLOeP0c8eAjI6a96C+Ns=;
+ b=qmFSu2pylbCfjivhz97G7x5XNAkEwik16epSM6J+vUCs0Bi+5XDSGEUacRx1zhPdR+p/l1UZ8
+ BpIix3PXhqDBfi6MG/Xpdmlo3off2fhC07xuSrpB88P1Dhf5RKR4Ts8
 X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
  pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,54 +78,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a compatible for the MediaTek MT8370 SoC, with an integrated ARM
-Mali G57 MC2 GPU (Valhall-JM, dual core), with new platform data for
-its support in the panfrost driver.
-It uses the same data as MT8186 for the power management features to
-describe power supplies, pm_domains and enablement (one regulator, two
-power domains) but also sets the FORCE_AARCH64_PGTABLE flag in the GPU
-configuration quirks bitfield to enable AARCH64 4K page table format
-mode.
-As MT8186 and MT8370 SoC have different GPU architecture (Mali G52 2EE
-MC2 for MT8186), making them not compatible, and this mode is only
-enabled for Mediatek SoC that are Mali G57 based (compatible with
-mediatek,mali-mt8188 or mediatek,mali-8192), having specific platform
-data allows to set this flag for MT8370 without modifying MT8186
-configuration and behaviour.
+Add a new gpu node in mt8370.dtsi to enable support for the
+ARM Mali G57 MC2 GPU (Valhall-JM) found on the MT8370 SoC, using the
+Panfrost driver.
 
+On a Mediatek Genio 510 EVK board, the panfrost driver probed with the
+following message:
+```
+panfrost 13000000.gpu: clock rate = 390000000
+panfrost 13000000.gpu: mali-g57 id 0x9093 major 0x0 minor 0x0 status 0x0
+panfrost 13000000.gpu: features: 00000000,000019f7, issues: 00000003,
+   80000400
+panfrost 13000000.gpu: Features: L2:0x08130206 Shader:0x00000000
+   Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
+panfrost 13000000.gpu: shader_present=0x5 l2_present=0x1
+[drm] Initialized panfrost 1.3.0 for 13000000.gpu on minor 0
+```
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt8370.dtsi | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index f1ec3b02f15a0029d20c7d81046ded59854e885c..8e0a1ae6940c73b7b60233950ae3abdfa843cc8e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -846,6 +846,16 @@ static const struct panfrost_compatible mediatek_mt8192_data = {
- 	.gpu_quirks = BIT(GPU_QUIRK_FORCE_AARCH64_PGTABLE),
+diff --git a/arch/arm64/boot/dts/mediatek/mt8370.dtsi b/arch/arm64/boot/dts/mediatek/mt8370.dtsi
+index cf1a3759451ff899ce9e63e5a00f192fb483f6e5..7ac8b8d0349455922a73f35db607b2b27cad23d7 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8370.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8370.dtsi
+@@ -59,6 +59,22 @@ &cpu_little3_cooling_map0 {
+ 				<&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
  };
  
-+/* MT8370 uses the same power domains and power supplies as MT8186 */
-+static const struct panfrost_compatible mediatek_mt8370_data = {
-+	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
-+	.supply_names = mediatek_mt8183_b_supplies,
-+	.num_pm_domains = ARRAY_SIZE(mediatek_mt8186_pm_domains),
-+	.pm_domain_names = mediatek_mt8186_pm_domains,
-+	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
-+	.gpu_quirks = BIT(GPU_QUIRK_FORCE_AARCH64_PGTABLE),
++/*
++ * Please note that overriding compatibles is a discouraged practice and is a
++ * clear indication of nodes not being, well, compatible!
++ *
++ * This is a special case, where the GPU is the same as MT8188, but with one
++ * of the cores fused out in this lower-binned SoC.
++ */
++&gpu {
++	compatible = "mediatek,mt8370-mali", "arm,mali-valhall-jm";
++
++	power-domains = <&spm MT8188_POWER_DOMAIN_MFG2>,
++			<&spm MT8188_POWER_DOMAIN_MFG3>;
++
++	power-domain-names = "core0", "core1";
 +};
 +
- static const struct of_device_id dt_match[] = {
- 	/* Set first to probe before the generic compatibles */
- 	{ .compatible = "amlogic,meson-gxm-mali",
-@@ -868,6 +878,7 @@ static const struct of_device_id dt_match[] = {
- 	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
- 	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
- 	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
-+	{ .compatible = "mediatek,mt8370-mali", .data = &mediatek_mt8370_data },
- 	{ .compatible = "allwinner,sun50i-h616-mali", .data = &allwinner_h616_data },
- 	{}
+ &ppi_cluster0 {
+ 	affinity = <&cpu0 &cpu1 &cpu2 &cpu3>;
  };
 
 -- 
