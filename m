@@ -2,95 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64A9AA6973
-	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 05:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DB4AA699C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 06:05:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D633A10E0AC;
-	Fri,  2 May 2025 03:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE17610E8A8;
+	Fri,  2 May 2025 04:05:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NwEknTjK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gtqcgzMY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46D8010E0AC
- for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 03:38:33 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-2240b4de12bso26585805ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 01 May 2025 20:38:33 -0700 (PDT)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA96310E149
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 04:05:34 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id
+ 41be03b00d2f7-af59c920d32so1113778a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 May 2025 21:05:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1746157110; x=1746761910;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fPJbY5868L+3A1cDgA46X38/XlY0WsfhVjXq+7oUVv4=;
- b=NwEknTjK8gZPmnVkP4Nn68eFu6WLEpVO5xhTUFKxgIEWvxYhk+WhtTEVN6vsErRfig
- 7QdtYJ02w7B4/HtGKgIx+HEUeanaE901Plo/asywjbgHl7mBRTJROGGXv8JXBQXoc5op
- za7DP7aKyuNK8bUHfPAAxv0sdbIQnpdPGCEL8=
+ d=gmail.com; s=20230601; t=1746158734; x=1746763534; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:reply-to:message-id:date
+ :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=dSub1wuh8nlEkm+pKUMg5wgv6Gx8ymFTnPqus5nWjls=;
+ b=gtqcgzMYoEAYCs77DCsvPd3w2yNLI9yfK8DO6KSW9OdUClcU+m/WV5e9ksVSZLq4ta
+ K63d04rvew0xRVz8RdDbcV1T3LYLjHlnNg8LesuCM+fepMuFu/H+9YUNVCqdG1k9qVpJ
+ zJDAmjBmNPS5G3FrQYTqOUsP1mK1t58RMivQM09O4n8Z/NP0tOWOiTUJaFVE3/5ekqp2
+ YAWng62D2FAUIgbba/5ZrRL6HVVnLkGIMSqKwtWteSUDya1WxfWNELwcf9g6eYx9j3d8
+ lvJlNn+v6nTw3asoWVA86rC6J0rvO17EpZBcsAfpa00ZGbWit5zYaKIVra3KoshYkqcm
+ FNgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746157110; x=1746761910;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fPJbY5868L+3A1cDgA46X38/XlY0WsfhVjXq+7oUVv4=;
- b=tHjRTXPH3ysTcrBiM2ePUkkHs38VejWipL47xgT4onmLn40QTlmRig1HA401sLuHVQ
- QuM6pi6sIerGKPRmAAdG3BKd2H6hCm/LkYp4zOnlwKWou5IvZAineij8RujMzmJGHjK6
- zXcv8Felqp+W4gxCL/KTH7pubsNiN47o4k4Ygf7gtU47CVUDnNXC4kkTG9Y9acwGcAtI
- XB6L7rjWsJVVUPHvOX3YeJzYQm4TDAmcD5JDWcEAhYWPdEUsueDoXluYJJU6Jy5ma4cr
- i65Re8zceo22054Y/AbR3LPvDIppJ49lIfYYb/aOQiEHcdMkhVoU2y4Jje1EBIy08B6q
- qQow==
+ d=1e100.net; s=20230601; t=1746158734; x=1746763534;
+ h=content-transfer-encoding:mime-version:reply-to:message-id:date
+ :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dSub1wuh8nlEkm+pKUMg5wgv6Gx8ymFTnPqus5nWjls=;
+ b=uvEpk383WUznE8dvy7q5Hmiauk+d+S1ozShEzK2sDJNWJKun/lyK0eaJyU9m2JN7m+
+ jPrEhrulGCmvsgdH3TDBCepV2jrJkQMab2yf6RO+ZRv5BeCav5FDStENRY4srKgGkQRq
+ Yh7j4KodFqL4xrAXOdnAk48lPf0B4jz3yyhKWIYvx3+7NxgzjYTYpHtd9Nt8X5jZUNPj
+ wL2QO0jEyxDXE9PuPsEsOIalzLFZjoWUjrwbWmwQubzitOJxYIUEqa2faX0qFwJyTlRC
+ oaFuHc6TDpjtNastC+kEf94/kna3dUP2UmTOlFWcuDrQBpAOh25kyKwe+DZ9qC74bBDR
+ qsXQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU47v3l57kzmDBtJ9y4tyKo9x1hdSDIgixOMt1BXJgT7iCuLa+mxsAZjpXclHfCkRbiqpijxf3ZHio=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbAbRXeAjrbCKwiWS0uedg+9EUywZ9HtaEUXqrmFylJGqQvP6G
- Qz5nfZCX10U9N2rnYM06a4QM5UsBF5x6pI15Nq2ZrOFOeI1nwkoh3QcNoHILUN4E/7zo+HyCKw4
- =
-X-Gm-Gg: ASbGncuOybnT1wFRJ+pvJVz/WQegOX+QH74fVRFXI6mKlLdH8xzLU2lOb0Dqb+S+rtn
- bsmr6Zg12axhCYgJD3aJNiexee0r7ZxZWjZnPj3PHQS4nKvDBxJwKUfQnQUkG833xi/M7BaMu9e
- qn9+3JN4mMDpNb7TtDRaV1zQ03us8JXc2GqIrd0x4zf1GKPlGDM09JtNn+xsd7OMLvRd23cd8wf
- VUKUOTL/JzYYvFwCyybCFnT9den1Cp7C8ykuwuXIQiQAd6uukxv36HxcnmUAJbIYzK6+BOnOQoH
- YkX1YaRAjTvldKlM0xs7NYilhzYGRtClszou2I03FTAR/YWtgtZ2HiQRqi8TtYm6DhJCFWM9KAM
- VfUmquCP2lc+iwgg=
-X-Google-Smtp-Source: AGHT+IF+AqkregepnL8O19TwPFG4LYSkL3e0XmqQPPQe8/9W04Gvxb5iGOCLVCU2Ap9M1gNHKD+g0g==
-X-Received: by 2002:a17:902:d487:b0:224:191d:8a79 with SMTP id
- d9443c01a7336-22e102e39e4mr18762925ad.27.1746157110522; 
- Thu, 01 May 2025 20:38:30 -0700 (PDT)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com.
- [209.85.216.45]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22e1084959csm4321105ad.5.2025.05.01.20.38.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 May 2025 20:38:28 -0700 (PDT)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-306b6ae4fb3so1819794a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 01 May 2025 20:38:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8NQbRaIIAbQHn5GKWDmcYWft4zfmZ37JC/ImZ4BvcboyeroOOc72XbcfmIjdGqO0k/bR9F2gAfOQ=@lists.freedesktop.org
-X-Received: by 2002:a17:90a:f944:b0:2ff:6aa6:47a3 with SMTP id
- 98e67ed59e1d1-30a4e686b6amr2145034a91.25.1746157107521; Thu, 01 May 2025
- 20:38:27 -0700 (PDT)
+ AJvYcCUGgyyyNvwzPV6qFHa3b3TBW6YNHLZS0QzTZw6PfOKjhoIAYQ+yJNfM2xrh+cQPRQk1IGbOKHyz3xo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwoGlkrClPz2eqaNdVD+80h/UMUEDd0hAFGav24x6ddu2KozYB9
+ St1AVrlkK7kvOLgW/gz37jayKSuj8HtcSIYKVBinzePikhlS1eyM
+X-Gm-Gg: ASbGncsFmeY+YqDcGI8ix3UYOjlx2btxbAT1T7hlpE9HGvjGkZaYZkFIn0RPfsL7R6C
+ bWk73oWdqc0WRgaqhIM1MfRx5vUC42VXihyJpJFR8Z0foJZd6E5EM7iHhp6zppKUMPB8/0uyI0H
+ xm8H/2brO42YAHknVO4kUqNUDU8INcJNwxUBM6lRqwa1xNlHlREfPkTgQeIyWFmoxOvcq2UHg0o
+ joevAZWmO6gqiP7bblmZ2Ualmna0RL05ITfgHzrwyOYmTTzy7cUp28AMRfmj6NjuYFgdPh79jk6
+ TVTkZ+GnfmGSnePHfhka0+31FTp9plkjbIQUerp+dEShMQgVPzv4oLbz54CS2uTAJUs0vTOd2Dt
+ YmlnfFdf5P0NRZK4HVDQG/6+y21IB7w==
+X-Google-Smtp-Source: AGHT+IHgEx/So5EIbHlSMpzfphWaNj6WsLQNTdHJsmuELyjZ0DzDKhxqJDDpr/U0LH8lOLMGSv6Ucw==
+X-Received: by 2002:a17:902:ef0b:b0:223:6657:5003 with SMTP id
+ d9443c01a7336-22e103899d1mr22760535ad.32.1746158734054; 
+ Thu, 01 May 2025 21:05:34 -0700 (PDT)
+Received: from localhost.localdomain (c-67-160-120-253.hsd1.wa.comcast.net.
+ [67.160.120.253]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-22e108fb836sm4510635ad.141.2025.05.01.21.05.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 May 2025 21:05:33 -0700 (PDT)
+From: mhkelley58@gmail.com
+X-Google-Original-From: mhklinux@outlook.com
+To: simona@ffwll.ch, deller@gmx.de, haiyangz@microsoft.com, kys@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, akpm@linux-foundation.org
+Cc: weh@microsoft.com, tzimmermann@suse.de, hch@lst.de,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-mm@kvack.org
+Subject: [PATCH v2 0/3] fbdev: Add deferred I/O support for contiguous kernel
+ memory framebuffers
+Date: Thu,  1 May 2025 21:05:22 -0700
+Message-Id: <20250502040525.822075-1-mhklinux@outlook.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20250501074805.3069311-1-max.oss.09@gmail.com>
-In-Reply-To: <20250501074805.3069311-1-max.oss.09@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 1 May 2025 20:38:15 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W=NjbM9ZXLw7gH-_4CnpU7QU=sKCVQVxgmgP-Qpt-3hg@mail.gmail.com>
-X-Gm-Features: ATxdqUFyowe41v3nrLRGFu76N4r5nn_xrMaypod_FFNLGmwvMmshLREDILcpah8
-Message-ID: <CAD=FV=W=NjbM9ZXLw7gH-_4CnpU7QU=sKCVQVxgmgP-Qpt-3hg@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/bridge: ti-sn65dsi86: Use HPD in a DP use case
-To: max.oss.09@gmail.com
-Cc: max.krummenacher@toradex.com, Jayesh Choudhary <j-choudhary@ti.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,96 +89,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: mhklinux@outlook.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Michael Kelley <mhklinux@outlook.com>
 
-On Thu, May 1, 2025 at 12:48=E2=80=AFAM <max.oss.09@gmail.com> wrote:
->
-> From: Max Krummenacher <max.krummenacher@toradex.com>
->
-> The bridge driver currently disables handling the hot plug input and
-> relies on a always connected eDP panel with fixed delays when the
-> panel is ready.
+Current deferred I/O code works only for framebuffer memory that is
+allocated with vmalloc(). The code assumes that the underlying page
+refcount can be used by the mm subsystem to manage each framebuffer
+page's lifecycle, which is consistent with vmalloc'ed memory, but not
+with contiguous kernel memory from alloc_pages() or similar. When used
+with contiguous kernel memory, current deferred I/O code eventually
+causes the memory free lists to be scrambled, and a kernel panic ensues.
+The problem is seen with the hyperv_fb driver when mmap'ing the
+framebuffer into user space, as that driver uses alloc_pages() for the
+framebuffer in some configurations. This patch set fixes the problem
+by supporting contiguous kernel memory framebuffers with deferred I/O.
 
-Not entirely correct. In some cases we don't have fixed delays and
-instead use a GPIO for HPD. That GPIO gets routed to the eDP panel
-code.
+Patch 1 exports a 'mm' subsystem function needed by Patch 2.
 
+Patch 2 is the changes to the fbdev deferred I/O code. More details
+are in the commit message of Patch 2.
 
-> If one uses the bridge for a regular display port monitor this
-> assumption is no longer true.
-> If used with a display port monitor change to keep the hot plug
-> detection functionality enabled and change to have the bridge working
-> during runtime suspend to be able to detect the connection state.
->
-> Note that if HPD_DISABLE is set the HPD bit always returns connected
-> independent of the actual state of the hot plug pin. Thus
-> currently bridge->detect() always returns connected.
+Patch 3 updates the hyperv_fb driver to use the new functionality
+from Patch 2.
 
-If that's true, it feels like this needs:
+Michael Kelley (3):
+  mm: Export vmf_insert_mixed_mkwrite()
+  fbdev/deferred-io: Support contiguous kernel memory framebuffers
+  fbdev: hyperv_fb: Fix mmap of framebuffers allocated using
+    alloc_pages()
 
-Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge
-connector operations for DP")
+ drivers/video/fbdev/core/fb_defio.c | 128 +++++++++++++++++++++++-----
+ drivers/video/fbdev/hyperv_fb.c     |   1 +
+ include/linux/fb.h                  |   1 +
+ mm/memory.c                         |   1 +
+ 4 files changed, 111 insertions(+), 20 deletions(-)
 
-...and it would be nice to get Laurent to confirm. Seems weird that he
-wouldn't have noticed that.
+-- 
+2.25.1
 
-
-> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
->
-> ---
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
-ge/ti-sn65dsi86.c
-> index 01d456b955ab..c7496bf142d1 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -333,9 +333,11 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65=
-dsi86 *pdata)
->          * If HPD somehow makes sense on some future panel we'll have to
->          * change this to be conditional on someone specifying that HPD s=
-hould
->          * be used.
-> +        * Only disable HDP if used for eDP.
->          */
-> -       regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE=
-,
-> -                          HPD_DISABLE);
-> +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_eDP)
-> +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
-> +                                  HPD_DISABLE, HPD_DISABLE);
->
->         pdata->comms_enabled =3D true;
->
-> @@ -357,6 +359,10 @@ static int __maybe_unused ti_sn65dsi86_resume(struct=
- device *dev)
->         struct ti_sn65dsi86 *pdata =3D dev_get_drvdata(dev);
->         int ret;
->
-> +       if (pdata->bridge.type =3D=3D DRM_MODE_CONNECTOR_DisplayPort &&
-> +           pdata->comms_enabled)
-> +               return 0;
-> +
-
-I don't understand this part of the patch. You're basically making
-suspend/resume a no-op for the DP case? I don't think that's right...
-
-First, I don't _think_ you need it, right? ...since "detect" is
-already grabbing the pm_runtime reference this shouldn't be needed
-from a correctness point of view.
-
-Second, if you're looking to eventually make the interrupt work, I
-don't think this is the right first step. I think in previous
-discussions about this it was agreed that if we wanted the interrupt
-to work then we should just do a "pm_runtime_get_sync()" before
-enabling the interrupt and then a "pm_runtime_put()" after disabling
-it. That'll keep things from suspending.
-
-Does that sound correct, or did I goof up on anything?
-
--Doug
