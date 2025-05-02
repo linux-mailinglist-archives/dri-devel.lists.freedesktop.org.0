@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD2EAA7215
-	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 14:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F1B8AA721C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 14:34:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B10F10E920;
-	Fri,  2 May 2025 12:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4670510E925;
+	Fri,  2 May 2025 12:34:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="CjstujTb";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="YxwFWLVJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3B310E91A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C436F10E920;
  Fri,  2 May 2025 12:34:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,24 +22,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=7wmjAKSHQPpDV3ofbtLJ6fwSEP+CBte33IWF4Kal1Ak=; b=CjstujTb0R24uJivymabkvUQhe
- zx84WwclLcqhfORgVJwRECQ28ib2b8p/QJPCF+2P0IIic6PEQ+SR3r7JrSQnpL3sw4CQ2JOC11EBu
- LstDKLukR0U1icDAVii7012vKe62+6SSyNcrsMBJNb1NXrJ20H4r9wmyi7xsLlZ6nmdldO9lXO4sl
- eXyQGXcuituG0y8aXI43zHep4741e4WpCTMHddYEpDNvcYkyC7dZnTWQBVuhvsVePIgy9DPlUwWW+
- 4oBZp+CGBP7VAcxP8FxZ19Kg8BUuBgVgb/aZa2WyTiRjC2MOnfAkuYiCWTrB9RfhiwNyCirfvHm1n
- r+1baPAA==;
+ bh=+sTtbgkmT3oLpBwrf5+7YA2YAqnoO/5BAQjQk2WTRgI=; b=YxwFWLVJYMoOHXcfzBB6t+Qmoo
+ 2rkjhvw+xB1plW4mXbW0D59sHh48FfExeQPmwjeNtXQhRxAV4s708nfvFo0ztHOEiRXugLI6fJVyW
+ BMeOZRU6cRmnWFRT5G24V+c+oI0QStlCCAuuOd8YLrpeNFtkWbLCy4l/TEC1h9Ef35YJ04yCOs31w
+ FHKEdjX4VnAXK04+lP3MWwhqQfhZdr3ykogbuU827Hue3lKFZK4D1JICtUrsZPOXcIEJlxqADIzia
+ rm0TLdEzXKsTyuJMmpc5/BTUhg3KlXySoIpEWILvDBpcntZQzUJ4H8b1MY/LY+R60WociqJi4McXl
+ o32pjdaw==;
 Received: from [81.79.92.254] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uApYy-0025I8-QE; Fri, 02 May 2025 14:34:11 +0200
+ id 1uApYz-0025IJ-HJ; Fri, 02 May 2025 14:34:12 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [RFC 17/23] cgroup: Add the DRM cgroup controller
-Date: Fri,  2 May 2025 13:32:50 +0100
-Message-ID: <20250502123256.50540-18-tvrtko.ursulin@igalia.com>
+Subject: [RFC 18/23] cgroup/drm: Track DRM clients per cgroup
+Date: Fri,  2 May 2025 13:32:51 +0100
+Message-ID: <20250502123256.50540-19-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250502123256.50540-1-tvrtko.ursulin@igalia.com>
 References: <20250502123256.50540-1-tvrtko.ursulin@igalia.com>
@@ -62,137 +62,206 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Skeleton controller without any functionality.
+To enable propagation of settings from the cgroup DRM controller to DRM
+and vice-versa, we need to start tracking to which cgroups DRM clients
+belong.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- include/linux/cgroup_drm.h    |  7 +++++
- include/linux/cgroup_subsys.h |  4 +++
- init/Kconfig                  |  5 +++
- kernel/cgroup/Makefile        |  1 +
- kernel/cgroup/drm.c           | 58 +++++++++++++++++++++++++++++++++++
- 5 files changed, 75 insertions(+)
- create mode 100644 include/linux/cgroup_drm.h
- create mode 100644 kernel/cgroup/drm.c
+ drivers/gpu/drm/drm_file.c |  8 +++++
+ include/drm/drm_file.h     |  6 ++++
+ include/linux/cgroup_drm.h | 20 ++++++++++++
+ kernel/cgroup/drm.c        | 62 +++++++++++++++++++++++++++++++++++++-
+ 4 files changed, 95 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/cgroup_drm.h b/include/linux/cgroup_drm.h
-new file mode 100644
-index 000000000000..3e51fe517791
---- /dev/null
-+++ b/include/linux/cgroup_drm.h
-@@ -0,0 +1,7 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright (c) 2025 Valve Corporation */
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index cf2463090d3a..7500b2b14fd5 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -32,6 +32,7 @@
+  */
+ 
+ #include <linux/anon_inodes.h>
++#include <linux/cgroup_drm.h>
+ #include <linux/dma-fence.h>
+ #include <linux/file.h>
+ #include <linux/module.h>
+@@ -275,6 +276,8 @@ static void drm_close_helper(struct file *filp)
+ 	list_del(&file_priv->lhead);
+ 	mutex_unlock(&dev->filelist_mutex);
+ 
++	drmcgroup_client_close(file_priv);
 +
-+#ifndef _CGROUP_DRM_H
-+#define _CGROUP_DRM_H
+ 	drm_file_free(file_priv);
+ }
+ 
+@@ -339,6 +342,8 @@ int drm_open_helper(struct file *filp, struct drm_minor *minor)
+ 	list_add(&priv->lhead, &dev->filelist);
+ 	mutex_unlock(&dev->filelist_mutex);
+ 
++	drmcgroup_client_open(priv);
 +
-+#endif	/* _CGROUP_DRM_H */
-diff --git a/include/linux/cgroup_subsys.h b/include/linux/cgroup_subsys.h
-index 3fd0bcbf3080..2ad172c9fba2 100644
---- a/include/linux/cgroup_subsys.h
-+++ b/include/linux/cgroup_subsys.h
-@@ -69,6 +69,10 @@ SUBSYS(misc)
- SUBSYS(dmem)
- #endif
+ 	return 0;
+ }
+ 
+@@ -465,6 +470,9 @@ void drm_file_update_pid(struct drm_file *filp)
+ 	old = rcu_replace_pointer(filp->pid, pid, 1);
+ 	mutex_unlock(&dev->filelist_mutex);
+ 
++	if (pid != old)
++		drmcgroup_client_migrate(filp);
++
+ 	synchronize_rcu();
+ 	put_pid(old);
+ }
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index 94d365b22505..76b194c0fc52 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -30,6 +30,7 @@
+ #ifndef _DRM_FILE_H_
+ #define _DRM_FILE_H_
+ 
++#include <linux/cgroup.h>
+ #include <linux/types.h>
+ #include <linux/completion.h>
+ #include <linux/idr.h>
+@@ -295,6 +296,11 @@ struct drm_file {
+ 	/** @minor: &struct drm_minor for this file. */
+ 	struct drm_minor *minor;
  
 +#if IS_ENABLED(CONFIG_CGROUP_DRM)
-+SUBSYS(drm)
++	struct cgroup_subsys_state *__css;
++	struct list_head clink;
 +#endif
 +
- /*
-  * The following subsystems are not supported on the default hierarchy.
-  */
-diff --git a/init/Kconfig b/init/Kconfig
-index 63f5974b9fa6..02789e15c6e6 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1157,6 +1157,11 @@ config CGROUP_DMEM
- 	  As an example, it allows you to restrict VRAM usage for applications
- 	  in the DRM subsystem.
+ 	/**
+ 	 * @object_idr:
+ 	 *
+diff --git a/include/linux/cgroup_drm.h b/include/linux/cgroup_drm.h
+index 3e51fe517791..d6a9a2fbdbf5 100644
+--- a/include/linux/cgroup_drm.h
++++ b/include/linux/cgroup_drm.h
+@@ -4,4 +4,24 @@
+ #ifndef _CGROUP_DRM_H
+ #define _CGROUP_DRM_H
  
-+config CGROUP_DRM
-+	bool "DRM controller"
-+	help
-+	  Provides the DRM subsystem controller.
++#include <drm/drm_file.h>
 +
- config CGROUP_FREEZER
- 	bool "Freezer controller"
- 	help
-diff --git a/kernel/cgroup/Makefile b/kernel/cgroup/Makefile
-index ede31601a363..c39799312cfd 100644
---- a/kernel/cgroup/Makefile
-+++ b/kernel/cgroup/Makefile
-@@ -8,4 +8,5 @@ obj-$(CONFIG_CPUSETS) += cpuset.o
- obj-$(CONFIG_CPUSETS_V1) += cpuset-v1.o
- obj-$(CONFIG_CGROUP_MISC) += misc.o
- obj-$(CONFIG_CGROUP_DMEM) += dmem.o
-+obj-$(CONFIG_CGROUP_DRM) += drm.o
- obj-$(CONFIG_CGROUP_DEBUG) += debug.o
++#if IS_ENABLED(CONFIG_CGROUP_DRM)
++void drmcgroup_client_open(struct drm_file *file_priv);
++void drmcgroup_client_close(struct drm_file *file_priv);
++void drmcgroup_client_migrate(struct drm_file *file_priv);
++#else
++static inline void drmcgroup_client_open(struct drm_file *file_priv)
++{
++}
++
++static inline void drmcgroup_client_close(struct drm_file *file_priv)
++{
++}
++
++static void drmcgroup_client_migrate(struct drm_file *file_priv)
++{
++}
++#endif
++
+ #endif	/* _CGROUP_DRM_H */
 diff --git a/kernel/cgroup/drm.c b/kernel/cgroup/drm.c
-new file mode 100644
-index 000000000000..55947a009e04
---- /dev/null
+index 55947a009e04..e9dc1e7cc4a4 100644
+--- a/kernel/cgroup/drm.c
 +++ b/kernel/cgroup/drm.c
-@@ -0,0 +1,58 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (c) 2025 Valve Corporation */
+@@ -3,17 +3,25 @@
+ 
+ #include <linux/cgroup.h>
+ #include <linux/cgroup_drm.h>
++#include <linux/list.h>
++#include <linux/mutex.h>
+ #include <linux/slab.h>
+ 
+ struct drm_cgroup_state {
+ 	struct cgroup_subsys_state css;
 +
-+#include <linux/cgroup.h>
-+#include <linux/cgroup_drm.h>
-+#include <linux/slab.h>
-+
-+struct drm_cgroup_state {
-+	struct cgroup_subsys_state css;
++	struct list_head clients;
+ };
+ 
+ struct drm_root_cgroup_state {
+ 	struct drm_cgroup_state drmcs;
+ };
+ 
+-static struct drm_root_cgroup_state root_drmcs;
++static struct drm_root_cgroup_state root_drmcs = {
++	.drmcs.clients = LIST_HEAD_INIT(root_drmcs.drmcs.clients),
 +};
 +
-+struct drm_root_cgroup_state {
-+	struct drm_cgroup_state drmcs;
-+};
++static DEFINE_MUTEX(drmcg_mutex);
+ 
+ static inline struct drm_cgroup_state *
+ css_to_drmcs(struct cgroup_subsys_state *css)
+@@ -40,11 +48,63 @@ drmcs_alloc(struct cgroup_subsys_state *parent_css)
+ 		drmcs = kzalloc(sizeof(*drmcs), GFP_KERNEL);
+ 		if (!drmcs)
+ 			return ERR_PTR(-ENOMEM);
 +
-+static struct drm_root_cgroup_state root_drmcs;
-+
-+static inline struct drm_cgroup_state *
-+css_to_drmcs(struct cgroup_subsys_state *css)
-+{
-+	return container_of(css, struct drm_cgroup_state, css);
-+}
-+
-+static void drmcs_free(struct cgroup_subsys_state *css)
-+{
-+	struct drm_cgroup_state *drmcs = css_to_drmcs(css);
-+
-+	if (drmcs != &root_drmcs.drmcs)
-+		kfree(drmcs);
-+}
-+
-+static struct cgroup_subsys_state *
-+drmcs_alloc(struct cgroup_subsys_state *parent_css)
++		INIT_LIST_HEAD(&drmcs->clients);
+ 	}
+ 
+ 	return &drmcs->css;
+ }
+ 
++void drmcgroup_client_open(struct drm_file *file_priv)
 +{
 +	struct drm_cgroup_state *drmcs;
 +
-+	if (!parent_css) {
-+		drmcs = &root_drmcs.drmcs;
-+	} else {
-+		drmcs = kzalloc(sizeof(*drmcs), GFP_KERNEL);
-+		if (!drmcs)
-+			return ERR_PTR(-ENOMEM);
++	drmcs = css_to_drmcs(task_get_css(current, drm_cgrp_id));
++
++	mutex_lock(&drmcg_mutex);
++	file_priv->__css = &drmcs->css; /* Keeps the reference. */
++	list_add_tail(&file_priv->clink, &drmcs->clients);
++	mutex_unlock(&drmcg_mutex);
++}
++EXPORT_SYMBOL_GPL(drmcgroup_client_open);
++
++void drmcgroup_client_close(struct drm_file *file_priv)
++{
++	struct drm_cgroup_state *drmcs;
++
++	drmcs = css_to_drmcs(file_priv->__css);
++
++	mutex_lock(&drmcg_mutex);
++	list_del(&file_priv->clink);
++	file_priv->__css = NULL;
++	mutex_unlock(&drmcg_mutex);
++
++	css_put(&drmcs->css);
++}
++EXPORT_SYMBOL_GPL(drmcgroup_client_close);
++
++void drmcgroup_client_migrate(struct drm_file *file_priv)
++{
++	struct drm_cgroup_state *src, *dst;
++	struct cgroup_subsys_state *old;
++
++	mutex_lock(&drmcg_mutex);
++
++	old = file_priv->__css;
++	src = css_to_drmcs(old);
++	dst = css_to_drmcs(task_get_css(current, drm_cgrp_id));
++
++	if (src != dst) {
++		file_priv->__css = &dst->css; /* Keeps the reference. */
++		list_move_tail(&file_priv->clink, &dst->clients);
 +	}
 +
-+	return &drmcs->css;
++	mutex_unlock(&drmcg_mutex);
++
++	css_put(old);
 +}
++EXPORT_SYMBOL_GPL(drmcgroup_client_migrate);
 +
-+struct cftype files[] = {
-+	{ } /* Zero entry terminates. */
-+};
-+
-+struct cgroup_subsys drm_cgrp_subsys = {
-+	.css_alloc	= drmcs_alloc,
-+	.css_free	= drmcs_free,
-+	.early_init	= false,
-+	.legacy_cftypes	= files,
-+	.dfl_cftypes	= files,
-+};
+ struct cftype files[] = {
+ 	{ } /* Zero entry terminates. */
+ };
 -- 
 2.48.0
 
