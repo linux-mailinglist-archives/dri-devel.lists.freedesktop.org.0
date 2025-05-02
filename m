@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A57EAA6E95
-	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 12:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E333EAA6E98
+	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 12:01:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B24110E07E;
-	Fri,  2 May 2025 10:00:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA69610E174;
+	Fri,  2 May 2025 10:01:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="B+hSCZO4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XJ6riUER";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE93A10E16B
- for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 10:00:56 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-ac25520a289so310940266b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 02 May 2025 03:00:56 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 360D210E07E
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 10:00:58 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-ac28e66c0e1so195827466b.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 May 2025 03:00:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746180055; x=1746784855; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1746180057; x=1746784857; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5ItVLbwXh6klaFZ4DOTZKuJkyifurR/QGuqAr/eTlGU=;
- b=B+hSCZO4umfFn1Xcmc+dviorZnNNWzlfjOdrU+ht8fAPTvAIsj6KRHfCc2g4tu8JMx
- k8S+9tVKju+bJRUoNyK0n/XxHP9k9qsGsm8arU1fDfbm7jqFi83PA/Yb0wg+AliymYPD
- r7CqOVi0TMGlcs7/gJWnH91jAs2GO0AlQ1GachOZWP0zu6icoIheNYFTNYtNUxMVmdhx
- i+RXr6+LOngZ25YPR7yL6ABvF4laE5fOOzvKM/rNuQsl8i9UpmWdHulLAHYzAFI4gkKk
- vhBxczgQhHHhbzMkgOwB035NQtIc5zR6aKV6K7QbEIZDstYir087iosxjc1O+NXHna2E
- qR1Q==
+ bh=5X2I1MlNrc8OtxTMPdYsTmJ1JjM0sba198ISiH4P8wU=;
+ b=XJ6riUERSQ3zAdkZ/Q+9Im5+dx2XqLzjXllsVTkAv1BNM2yb4/6s/Ig82+s0XM/9UI
+ bpAEypW3DbfnXRwmm52cMNlewfvnyW1uCnEra7V6GxDup9N9ShpMx49b8Os1qNBOEr4u
+ +Uir6qEfQKbN29zvWuaSBvdnZT0n0uUwr5LVlZTMqNdU51twfUVsMXY5mKy+wXgKzwN6
+ Gd2wgNKfmDOCJl9GqwdFu5sAc5dh53N/LrIChLsOSP+Ygm01K4zB1WG28Z2MDDr4+dq3
+ R/zEWCDRvWKE281iZMX6bX9+ee4BSWC4jdM9JkV1PdcRxla/hbTihzn5R2i4y/DQzKyp
+ 5gIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746180055; x=1746784855;
+ d=1e100.net; s=20230601; t=1746180057; x=1746784857;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5ItVLbwXh6klaFZ4DOTZKuJkyifurR/QGuqAr/eTlGU=;
- b=hwk0V53yax5l5Lb9sxqLYbeha45yxMdR0FmSqEHmKVDxugDbhycyWp/hv7tQR87kHJ
- x7nCh+m8PijWH8VsGcjJu4rqiXDljf5Vsm4dt9W2Q73dzMrkylTMUWswr8d+SyYKX+NL
- fjZksDdrl3xDN1hsCsGdwQTYe5kkemhnrBdOF+w4o2wXKhud++mTMkJeW3zlOb/QvkHA
- B1VXypgW7qAeLBZRbvoHWAkyT918bjqKuuAGYFomaB0Woiw3hYcUjh0RxduI1Si11gvA
- 20TdqXmX1ax+m6q3TBewgLVcdXavowc1x9XDPtsz6rbvjOeAsKx586PAxtVyLlnJO5J1
- S7Xw==
+ bh=5X2I1MlNrc8OtxTMPdYsTmJ1JjM0sba198ISiH4P8wU=;
+ b=eI5MSaa74w3p7T/6T3DRFgulFTfP8ZdbRWthy7ws5dOMffKk6DHw9QLqbgVwCdtgu7
+ hY1zeMoNU29PTynq/eNHtYTtHFELC2Uwuu5wieveU8TKmbXrylEqU4N2oPFl98TdMwZv
+ SrIY1fs4znUHxNux1yl0RozTaBQYqzdED7/eKPRq30LdfNuHla/D9L77Y2mSlk7z5Emg
+ enuxloWj71ALXk07uBFLpHtLySbSTOxm9Rlt/r3lQ/Y9IqJXbcGOAydjv4PU+P4OFAg/
+ hZNPk/0QfcVivcEJ4Z+/eqjAgy3izz4vbu0SLQEsQupGkrXmkxikVmK2HSMJb0A+/nox
+ xQAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUBn37Aqj8sg+/kqyeUMOVm/Nj3n4PMvq5+h/CaQwmxHrgz4cfvCRwK+WApHvhLZ5JJCGkpJeSSxpM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIACPKUZIre0oPQcPyZSy9Zm4mNsq3eniu4Ys+2pNfXGa/U8bV
- sArPo/HWNtRhPbKty7ANA4r+5ZIKH8Rcew2J0G2cnPX4337qvE3nMhXfN4iT7c8=
-X-Gm-Gg: ASbGncumlgl2kb753f8gcIvX8NfIqr9rY80qUNmg2elAGdjz6w16lcJLx4bU9LjHMyq
- w+jCX3SePDtzdav0Lmvve0pC2HMCEtC62rV+K/XM2CLi9bgPZ0aw8clCDRB9Hc3REK3P6uOAKGp
- gENhJThpJZJV3N3aENSMg6u32KKbzNfiNo4rXND+9gJu3E3PVQOgB291CBG/Kx5bhm2PjzzClRv
- bMoV5stobJHnjvR6+ciP+YTsjv546kK1s9K+7hvBfLKwUvuIVpFrY3Zh0AyijieZ9SCrLyPtEoq
- xD0Ns6MyfQ3F7lhlnoYt8SfNHDvEEFW+ZJ/LG9XrPsY/E6dv+Et4VvYY/OHhji8fcSA7gFoynv/
- YWX70FhfJvtm/2uF90w==
-X-Google-Smtp-Source: AGHT+IHsIhA3Bp5ORflZ8bo2wewMeJPgYiXyKbBXizljuVxA1br3p39Mij4FHprUjRbWMN7T6ANK8g==
-X-Received: by 2002:a17:907:3f0f:b0:ace:9d35:6987 with SMTP id
- a640c23a62f3a-ad17ad24ac3mr199033566b.3.1746180054591; 
- Fri, 02 May 2025 03:00:54 -0700 (PDT)
+ AJvYcCVrNkYsELW1W/0eKakX6sXHuIO47zaSURdH9mruXv2fXHfz9SgPnnSB5AfWSWniT6nLYPgr8tEu5iM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxVg8gllvwEMdx5l4lCXy4dHhL0Wkk0MRVT5Jf+kQ/XbZYnE3Vx
+ cm2ZtuJcqrw/Pwdf5dIc3tzRcFEjbxrTuqnuzaEMYUQRYJ+K7GlLj0DZHMdK76g=
+X-Gm-Gg: ASbGncv9DYOj9aMqhZQGLEKUYPumCERbVCTMnIU1R+n4gi1tyXIHav1SuOlUYYGd+o7
+ /oBGeTTQ3bihVFsL6ZISHncJ2GTnyvYK6PO4n7y1e5a5SxGcZo8Sjzu0SygH3Qdsj9FyxSB3gwZ
+ NKa5Dm3jHjZ78XwG8Dh7lj4RfQqs1gyRz3hHbs3U/HYLy8x7IxtJMrTqrG6KeCCw4EpMQxTsQQ2
+ o3bKu3jIsdDlMiUFvyyfomDPqquikiXPInrpVXwAp5Zv5PWumUp/DhxPkfaKmF4tgJN1DlfWtRp
+ 5w4BZv7vxQt3ObE6hpAgeUKNemi18gcMpRkEFmsBD2QhONG++Froz9xQZ26DhJ8hA+Py4+X0Tuy
+ AHaBcuxJtjzyd5CeozQ==
+X-Google-Smtp-Source: AGHT+IExOoNljerMnP1yPtzh01rTrQJbnwgTFzxXZMgDFfUCD64SgckGTYoDWopJzNJPBPdV4tUdDA==
+X-Received: by 2002:a17:906:6a23:b0:ace:ed3b:285e with SMTP id
+ a640c23a62f3a-ad17af80380mr236112866b.56.1746180056392; 
+ Fri, 02 May 2025 03:00:56 -0700 (PDT)
 Received: from rayden.urgonet (h-98-128-140-123.A175.priv.bahnhof.se.
  [98.128.140.123]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ad1891473a1sm26030566b.4.2025.05.02.03.00.52
+ a640c23a62f3a-ad1891473a1sm26030566b.4.2025.05.02.03.00.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 May 2025 03:00:53 -0700 (PDT)
+ Fri, 02 May 2025 03:00:55 -0700 (PDT)
 From: Jens Wiklander <jens.wiklander@linaro.org>
 To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
@@ -80,10 +80,9 @@ Cc: Olivier Masse <olivier.masse@nxp.com>,
  Daniel Stone <daniel@fooishbar.org>,
  Rouven Czerwinski <rouven.czerwinski@linaro.org>,
  Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [PATCH v8 01/14] tee: tee_device_alloc(): copy dma_mask from parent
- device
-Date: Fri,  2 May 2025 11:59:15 +0200
-Message-ID: <20250502100049.1746335-2-jens.wiklander@linaro.org>
+Subject: [PATCH v8 02/14] optee: pass parent device to tee_device_alloc()
+Date: Fri,  2 May 2025 11:59:16 +0200
+Message-ID: <20250502100049.1746335-3-jens.wiklander@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250502100049.1746335-1-jens.wiklander@linaro.org>
 References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
@@ -104,29 +103,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a parent device is supplied to tee_device_alloc(), copy the dma_mask
-field into the new device. This avoids future warnings when mapping a
-DMA-buf for the device.
+During probing of the OP-TEE driver, pass the parent device to
+tee_device_alloc() so the dma_mask of the new devices can be updated
+accordingly.
 
 Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 Reviewed-by: Sumit Garg <sumit.garg@kernel.org>
 ---
- drivers/tee/tee_core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/tee/optee/ffa_abi.c | 8 ++++----
+ drivers/tee/optee/smc_abi.c | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-index d113679b1e2d..685afcaa3ea1 100644
---- a/drivers/tee/tee_core.c
-+++ b/drivers/tee/tee_core.c
-@@ -922,6 +922,8 @@ struct tee_device *tee_device_alloc(const struct tee_desc *teedesc,
- 	teedev->dev.class = &tee_class;
- 	teedev->dev.release = tee_release_device;
- 	teedev->dev.parent = dev;
-+	if (dev)
-+		teedev->dev.dma_mask = dev->dma_mask;
+diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c
+index f3af5666bb11..4ca1d5161b82 100644
+--- a/drivers/tee/optee/ffa_abi.c
++++ b/drivers/tee/optee/ffa_abi.c
+@@ -914,16 +914,16 @@ static int optee_ffa_probe(struct ffa_device *ffa_dev)
+ 	    (sec_caps & OPTEE_FFA_SEC_CAP_RPMB_PROBE))
+ 		optee->in_kernel_rpmb_routing = true;
  
- 	teedev->dev.devt = MKDEV(MAJOR(tee_devt), teedev->id);
+-	teedev = tee_device_alloc(&optee_ffa_clnt_desc, NULL, optee->pool,
+-				  optee);
++	teedev = tee_device_alloc(&optee_ffa_clnt_desc, &ffa_dev->dev,
++				  optee->pool, optee);
+ 	if (IS_ERR(teedev)) {
+ 		rc = PTR_ERR(teedev);
+ 		goto err_free_pool;
+ 	}
+ 	optee->teedev = teedev;
  
+-	teedev = tee_device_alloc(&optee_ffa_supp_desc, NULL, optee->pool,
+-				  optee);
++	teedev = tee_device_alloc(&optee_ffa_supp_desc, &ffa_dev->dev,
++				  optee->pool, optee);
+ 	if (IS_ERR(teedev)) {
+ 		rc = PTR_ERR(teedev);
+ 		goto err_unreg_teedev;
+diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+index f0c3ac1103bb..165fadd9abc9 100644
+--- a/drivers/tee/optee/smc_abi.c
++++ b/drivers/tee/optee/smc_abi.c
+@@ -1691,14 +1691,14 @@ static int optee_probe(struct platform_device *pdev)
+ 	    (sec_caps & OPTEE_SMC_SEC_CAP_RPMB_PROBE))
+ 		optee->in_kernel_rpmb_routing = true;
+ 
+-	teedev = tee_device_alloc(&optee_clnt_desc, NULL, pool, optee);
++	teedev = tee_device_alloc(&optee_clnt_desc, &pdev->dev, pool, optee);
+ 	if (IS_ERR(teedev)) {
+ 		rc = PTR_ERR(teedev);
+ 		goto err_free_optee;
+ 	}
+ 	optee->teedev = teedev;
+ 
+-	teedev = tee_device_alloc(&optee_supp_desc, NULL, pool, optee);
++	teedev = tee_device_alloc(&optee_supp_desc, &pdev->dev, pool, optee);
+ 	if (IS_ERR(teedev)) {
+ 		rc = PTR_ERR(teedev);
+ 		goto err_unreg_teedev;
 -- 
 2.43.0
 
