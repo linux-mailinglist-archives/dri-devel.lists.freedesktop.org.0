@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28AB3AA782D
-	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 19:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835DFAA7832
+	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 19:08:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F37010E1E4;
-	Fri,  2 May 2025 17:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EABF10E968;
+	Fri,  2 May 2025 17:08:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jY0C8fWS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dtljkbfr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D37610E1D6;
- Fri,  2 May 2025 17:08:40 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-736ab1c43c4so2444862b3a.1; 
- Fri, 02 May 2025 10:08:40 -0700 (PDT)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA7C410E966;
+ Fri,  2 May 2025 17:08:50 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-736b350a22cso2092550b3a.1; 
+ Fri, 02 May 2025 10:08:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746205720; x=1746810520; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746205730; x=1746810530; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LwEmLNSHdQi+isgnaI/SqiO8ObOqDpzEublwqmn1odg=;
- b=jY0C8fWS/x9raM0k8j3d9w0C/7Yiqv6hbBazxfcksuCd4ItQR7pB+eunnH0/TswcNQ
- ZTPUEAqpJh/DjJ4NVANkghS/3+kxqZQvjtG36bEYZJWV6vaBZ+09EXpPj5RF//94o0xA
- k+vUjyrO1KpwuoM12VBxNi6/0jcmLBwKCi2nzT35gAPd5qUDwfkcnv7MAh4IYdImeUxA
- icYN0jwyyiPGWGcauTnUEtmCLNEaxLZozAPhL/BKnS9j1bjJMfsCYq7Ry95hxXdMd7A5
- QLRbGajFxIyjziAeT8Zu1LVMpn1sM1Cj8XNEzkSF6kTb9MsMk0nvhxg08LflD4rVWiEM
- v+uQ==
+ bh=Xhp9CIMhBe3uhVe7U2pu3ZuP0T82r9a0xewky4xXJfk=;
+ b=dtljkbfr4O2m4WP+030J95R24Mllj0oWIg8zH/G5fAixoAEcPCPABHRbMR+twBWZjm
+ BUJGDNwgkaoUhMRYRKkF1ZkeigzcV8+S1/BJyxSXsqYB7nsuq/ejjCwcx3aYNq9onPq9
+ zSiKr8ntfWAuVqSf5T/kvkwbg+8JYkRzDLtrWqoLOAJCIYmhiXRnYZvtbaZ6bYjXhOtq
+ Eyt82R42njQUbDJM+zy8EhvkGy8Y9JbR+yE7BrixI03i2eWs5hMVwW6J8PfifLwLTsC0
+ ZHpMkLnZMfsW5jcbxg4Ulq+jguUGjDbF3pYUR20hNlYPahIl2kQKpWPYOiidU98fYGuR
+ 6jtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746205720; x=1746810520;
+ d=1e100.net; s=20230601; t=1746205730; x=1746810530;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LwEmLNSHdQi+isgnaI/SqiO8ObOqDpzEublwqmn1odg=;
- b=VuIcdnLP1k1HZeZfq6HGYpaR2RNkAqFYyGKN/5/Gj+ehNds4Von7COumPWdpqTh8YM
- T3WlQHWwLQSPFuO17WZXWuM6aSgGqkwMTgapTlGTFhfQpsdGD5z7PYc4f6fWhydyYf27
- 1+y+Rx6uDvYm5tI4X82DKPxefKnuAYuNlna1+i7vAGXl+ZybbJDdRKdB+TbDQccFwKLm
- ZAwCWchJzFTxom+PUVucweWRcmpmEgTVsQ+tWy79pvE0WSjQVWLAJ4yySFOxS+/b0IPV
- F6YQ2E22PVBDhNiJCpz7/xM9vEqkFX82XOJ/66ABX475Ow2QCEApGcvfUJgKgpmNVR1m
- AsHg==
-X-Gm-Message-State: AOJu0Yy6hq0edPyom+O54Y5tcgI4A//op5xsNXM2wek8UYv6HuX55et5
- 0KIe5jMPP/QAfGYB3YxUal3/omWCjRpofh+hgNcdWcPWjMIXflBWOpFFdA==
-X-Gm-Gg: ASbGnctrGU0nGQ1pxwgWnLo1SK3ohwiTq0h/GSmknHDPShMpzeAzKzS74EKPSVeUh0s
- Mk5oTy08XxSsyM9BnOpXDPTRnmyL5qaP/KUXDCcK8Ow9Py1z5VtNl+RMSRhRqhaN4EkWGHM85QC
- /wPIfHw4uBK6e93B/wB1OSE2yxrFO18ioxJhArYSYULmViql23LaZ3xfy2B9XLlsQK2oKWbswa/
- PrNeKEUidILkRpIm9LIUrwSq+C7ihG9IBWrmWhb2BtDrdj+J251nO1mlFiKTXuQZCU40OQzIfGg
- 1Oj+WGzrCLr0TEa47VqaBQC4BrLCJb4xMRzhI896NykV1lLVgbJkI6Ndf8T+9PerDWB8zEfVLSQ
- AT795sxXMzEjsOFg=
-X-Google-Smtp-Source: AGHT+IEhJA41xf5qIBoNxSAj6kLwg/Wjn8btQ438SWRON5y9H23yv/J46KbWQnZP3e5aUnxJ8A/whg==
-X-Received: by 2002:a05:6a21:6e48:b0:1f5:769a:a4c3 with SMTP id
- adf61e73a8af0-20cdfdf5425mr6110544637.27.1746205719656; 
- Fri, 02 May 2025 10:08:39 -0700 (PDT)
+ bh=Xhp9CIMhBe3uhVe7U2pu3ZuP0T82r9a0xewky4xXJfk=;
+ b=dfHrXDSIPNwgdPZmkH5S+WNoHx/ePG4ofhZdnvgVHuy32HVEgmA4/AmXO7TgU8Llrl
+ 7lbpL3y6KsveV+9RA/pmNcKRlNhF6CgGFDUTR0R5ztJmIXRoys530TJx6QiMOpgKXams
+ B+bBbmz4Vi59+o/ka8wNET4VjxLBtlOJWdUgTazm4oF63E1/IKt8GSCddpmQpGUwLF2x
+ RteOlVEHaVTC36t2TK8FLBv+gcIcqW32QiXzf1+Qm6XqaGTNW61DacosHip86h+91gTj
+ yckOpiPAwPG7hJTDx0fK4oObOBRWMyIzQfVcWqrvmxxHQJCeR59CVU6kbsuD12v8E/WJ
+ rNkg==
+X-Gm-Message-State: AOJu0YwVV+HNLJQwpMfsiwX3UvVl/hRrieCOi2U9pOvYUVLLMt0lsgfp
+ u920K/U2PQhdek/ku994gdqZdWo9Us2ikNRv9TkgfyIuiCFY8GpdLj+e9A==
+X-Gm-Gg: ASbGnctxIAzf7PEhi3J6ouiKvhlHuHUzGGE8pJyCmjoB/cjnEfVKiIDw1TJrXjvHjEq
+ +C458170rBShuAOl9Z6gmplwGy1gLYVwiV8eXPeLWfEk4BVR8pvECQvhBi/TR6XRR3143eN3/CE
+ kuc3Cu6S4jLhaCeXBKwxQL6jil1IgOOhpSU5DS9fOidsGwoLE20xxDngcx9jkjmskh7HZP0BRIz
+ fdcpBowjr6XnfHEBoFeqJwUjbSMVLtz/1ABj70WOzdAiq+D3tFMUq6dOBOq0XU6WayEWZ6ATg0+
+ qvLjsZtXZ12r/jrf/jEyJDFpra0ZyQaU/2oGcUmrjkexNVsInDKYH5SNnFR8QUf8ClLSWDTYrS/
+ 5cs3nxIh8bUmrIwE=
+X-Google-Smtp-Source: AGHT+IFEsCRYwaEAAmXxEsM2aE1LQKXpnCuYJLmpfcrlQr+1gFs1fgx9p7u9QzJGzfIVO9Gnsjrc+g==
+X-Received: by 2002:a05:6300:668b:b0:1f3:41d5:6608 with SMTP id
+ adf61e73a8af0-20cdfee99ebmr4664180637.26.1746205729748; 
+ Fri, 02 May 2025 10:08:49 -0700 (PDT)
 Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-740590a5bfesm1884368b3a.171.2025.05.02.10.08.38
+ d2e1a72fcca58-74058df0f1bsm1835968b3a.75.2025.05.02.10.08.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 May 2025 10:08:38 -0700 (PDT)
+ Fri, 02 May 2025 10:08:49 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
@@ -70,10 +70,13 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Dmitry Baryshkov <lumag@kernel.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 18/33] drm/msm: Lazily create context VM
-Date: Fri,  2 May 2025 09:56:45 -0700
-Message-ID: <20250502165831.44850-19-robdclark@gmail.com>
+Subject: [PATCH v4 19/33] drm/msm: Add opt-in for VM_BIND
+Date: Fri,  2 May 2025 09:56:46 -0700
+Message-ID: <20250502165831.44850-20-robdclark@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250502165831.44850-1-robdclark@gmail.com>
 References: <20250502165831.44850-1-robdclark@gmail.com>
@@ -96,197 +99,257 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-In the next commit, a way for userspace to opt-in to userspace managed
-VM is added.  For this to work, we need to defer creation of the VM
-until it is needed.
+Add a SET_PARAM for userspace to request to manage to the VM itself,
+instead of getting a kernel managed VM.
+
+In order to transition to a userspace managed VM, this param must be set
+before any mappings are created.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  3 ++-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 14 +++++++-----
- drivers/gpu/drm/msm/msm_drv.c           | 29 ++++++++++++++++++++-----
- drivers/gpu/drm/msm/msm_gem_submit.c    |  2 +-
- drivers/gpu/drm/msm/msm_gpu.h           |  9 +++++++-
- 5 files changed, 43 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  4 ++--
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 15 +++++++++++++
+ drivers/gpu/drm/msm/msm_drv.c           | 22 +++++++++++++++++--
+ drivers/gpu/drm/msm/msm_gem.c           |  8 +++++++
+ drivers/gpu/drm/msm/msm_gpu.c           |  5 +++--
+ drivers/gpu/drm/msm/msm_gpu.h           | 29 +++++++++++++++++++++++--
+ include/uapi/drm/msm_drm.h              | 24 ++++++++++++++++++++
+ 7 files changed, 99 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 7f7dcdd1f97d..bfc11f6bda97 100644
+index bfc11f6bda97..b7936b83660f 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -112,6 +112,7 @@ static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
+@@ -2263,7 +2263,7 @@ a6xx_create_vm(struct msm_gpu *gpu, struct platform_device *pdev)
+ }
+ 
+ static struct drm_gpuvm *
+-a6xx_create_private_vm(struct msm_gpu *gpu)
++a6xx_create_private_vm(struct msm_gpu *gpu, bool kernel_managed)
  {
- 	bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
- 	struct msm_context *ctx = submit->queue->ctx;
-+	struct drm_gpuvm *vm = msm_context_vm(submit->dev, ctx);
- 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
- 	phys_addr_t ttbr;
- 	u32 asid;
-@@ -120,7 +121,7 @@ static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
- 	if (ctx->seqno == ring->cur_ctx_seqno)
- 		return;
+ 	struct msm_mmu *mmu;
  
--	if (msm_iommu_pagetable_params(to_msm_vm(ctx->vm)->mmu, &ttbr, &asid))
-+	if (msm_iommu_pagetable_params(to_msm_vm(vm)->mmu, &ttbr, &asid))
- 		return;
+@@ -2273,7 +2273,7 @@ a6xx_create_private_vm(struct msm_gpu *gpu)
+ 		return ERR_CAST(mmu);
  
- 	if (adreno_gpu->info->family >= ADRENO_7XX_GEN1) {
+ 	return msm_gem_vm_create(gpu->dev, mmu, "gpu", ADRENO_VM_START,
+-				 adreno_private_vm_size(gpu), true);
++				 adreno_private_vm_size(gpu), kernel_managed);
+ }
+ 
+ static uint32_t a6xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
 diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index cb4ee277721d..7e50de5c5110 100644
+index 7e50de5c5110..f453502032a8 100644
 --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -373,6 +373,8 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_context *ctx,
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct drm_device *drm = gpu->dev;
-+	/* Note ctx can be NULL when called from rd_open(): */
-+	struct drm_gpuvm *vm = ctx ? msm_context_vm(drm, ctx) : NULL;
- 
- 	/* No pointer params yet */
- 	if (*len != 0)
-@@ -418,8 +420,8 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_context *ctx,
- 		*value = 0;
- 		return 0;
- 	case MSM_PARAM_FAULTS:
--		if (ctx->vm)
--			*value = gpu->global_faults + to_msm_vm(ctx->vm)->faults;
-+		if (vm)
-+			*value = gpu->global_faults + to_msm_vm(vm)->faults;
- 		else
- 			*value = gpu->global_faults;
- 		return 0;
-@@ -427,14 +429,14 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_context *ctx,
- 		*value = gpu->suspend_count;
- 		return 0;
- 	case MSM_PARAM_VA_START:
--		if (ctx->vm == gpu->vm)
-+		if (vm == gpu->vm)
- 			return UERR(EINVAL, drm, "requires per-process pgtables");
--		*value = ctx->vm->mm_start;
-+		*value = vm->mm_start;
- 		return 0;
- 	case MSM_PARAM_VA_SIZE:
--		if (ctx->vm == gpu->vm)
-+		if (vm == gpu->vm)
- 			return UERR(EINVAL, drm, "requires per-process pgtables");
--		*value = ctx->vm->mm_range;
-+		*value = vm->mm_range;
- 		return 0;
- 	case MSM_PARAM_HIGHEST_BANK_BIT:
- 		*value = adreno_gpu->ubwc_config.highest_bank_bit;
+@@ -508,6 +508,21 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_context *ctx,
+ 		if (!capable(CAP_SYS_ADMIN))
+ 			return UERR(EPERM, drm, "invalid permissions");
+ 		return msm_context_set_sysprof(ctx, gpu, value);
++	case MSM_PARAM_EN_VM_BIND:
++		/* We can only support VM_BIND with per-process pgtables: */
++		if (ctx->vm == gpu->vm)
++			return UERR(EINVAL, drm, "requires per-process pgtables");
++
++		/*
++		 * We can only swtich to VM_BIND mode if the VM has not yet
++		 * been created:
++		 */
++		if (ctx->vm)
++			return UERR(EBUSY, drm, "VM already created");
++
++		ctx->userspace_managed_vm = value;
++
++		return 0;
+ 	default:
+ 		return UERR(EINVAL, drm, "%s: invalid param: %u", gpu->name, param);
+ 	}
 diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 6ef29bc48bb0..6fd981ee6aee 100644
+index 6fd981ee6aee..49e4425c3caf 100644
 --- a/drivers/gpu/drm/msm/msm_drv.c
 +++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -214,10 +214,29 @@ static void load_gpu(struct drm_device *dev)
- 	mutex_unlock(&init_lock);
- }
- 
-+/**
-+ * msm_context_vm - lazily create the context's VM
-+ *
-+ * @dev: the drm device
-+ * @ctx: the context
-+ *
-+ * The VM is lazily created, so that userspace has a chance to opt-in to having
-+ * a userspace managed VM before the VM is created.
-+ *
-+ * Note that this does not return a reference to the VM.  Once the VM is created,
-+ * it exists for the lifetime of the context.
-+ */
-+struct drm_gpuvm *msm_context_vm(struct drm_device *dev, struct msm_context *ctx)
-+{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	if (!ctx->vm)
-+		ctx->vm = msm_gpu_create_private_vm(priv->gpu, current);
-+	return ctx->vm;
-+}
-+
- static int context_init(struct drm_device *dev, struct drm_file *file)
+@@ -228,9 +228,21 @@ static void load_gpu(struct drm_device *dev)
+  */
+ struct drm_gpuvm *msm_context_vm(struct drm_device *dev, struct msm_context *ctx)
  {
- 	static atomic_t ident = ATOMIC_INIT(0);
--	struct msm_drm_private *priv = dev->dev_private;
- 	struct msm_context *ctx;
- 
- 	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-@@ -230,7 +249,6 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
- 	kref_init(&ctx->ref);
- 	msm_submitqueue_init(dev, ctx);
- 
--	ctx->vm = msm_gpu_create_private_vm(priv->gpu, current);
- 	file->driver_priv = ctx;
- 
- 	ctx->seqno = atomic_inc_return(&ident);
-@@ -408,7 +426,7 @@ static int msm_ioctl_gem_info_iova(struct drm_device *dev,
- 	 * Don't pin the memory here - just get an address so that userspace can
- 	 * be productive
- 	 */
--	return msm_gem_get_iova(obj, ctx->vm, iova);
-+	return msm_gem_get_iova(obj, msm_context_vm(dev, ctx), iova);
- }
- 
- static int msm_ioctl_gem_info_set_iova(struct drm_device *dev,
-@@ -417,18 +435,19 @@ static int msm_ioctl_gem_info_set_iova(struct drm_device *dev,
- {
++	static DEFINE_MUTEX(init_lock);
  	struct msm_drm_private *priv = dev->dev_private;
- 	struct msm_context *ctx = file->driver_priv;
-+	struct drm_gpuvm *vm = msm_context_vm(dev, ctx);
+-	if (!ctx->vm)
+-		ctx->vm = msm_gpu_create_private_vm(priv->gpu, current);
++
++	/* Once ctx->vm is created it is valid for the lifetime of the context: */
++	if (ctx->vm)
++		return ctx->vm;
++
++	mutex_lock(&init_lock);
++	if (!ctx->vm) {
++		ctx->vm = msm_gpu_create_private_vm(
++			priv->gpu, current, !ctx->userspace_managed_vm);
++
++	}
++	mutex_unlock(&init_lock);
++
+ 	return ctx->vm;
+ }
  
+@@ -419,6 +431,9 @@ static int msm_ioctl_gem_info_iova(struct drm_device *dev,
  	if (!priv->gpu)
  		return -EINVAL;
  
- 	/* Only supported if per-process address space is supported: */
--	if (priv->gpu->vm == ctx->vm)
-+	if (priv->gpu->vm == vm)
- 		return UERR(EOPNOTSUPP, dev, "requires per-process pgtables");
- 
++	if (msm_context_is_vmbind(ctx))
++		return UERR(EINVAL, dev, "VM_BIND is enabled");
++
  	if (should_fail(&fail_gem_iova, obj->size))
  		return -ENOMEM;
  
--	return msm_gem_set_iova(obj, ctx->vm, iova);
-+	return msm_gem_set_iova(obj, vm, iova);
- }
+@@ -440,6 +455,9 @@ static int msm_ioctl_gem_info_set_iova(struct drm_device *dev,
+ 	if (!priv->gpu)
+ 		return -EINVAL;
  
- static int msm_ioctl_gem_info_set_metadata(struct drm_gem_object *obj,
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 973473e6da7a..b7c7f6460aa3 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -63,7 +63,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
++	if (msm_context_is_vmbind(ctx))
++		return UERR(EINVAL, dev, "VM_BIND is enabled");
++
+ 	/* Only supported if per-process address space is supported: */
+ 	if (priv->gpu->vm == vm)
+ 		return UERR(EOPNOTSUPP, dev, "requires per-process pgtables");
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index d85bd638f684..3708d4579203 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -64,6 +64,14 @@ static void msm_gem_close(struct drm_gem_object *obj, struct drm_file *file)
+ 	if (!ctx->vm)
+ 		return;
  
- 	kref_init(&submit->ref);
- 	submit->dev = dev;
--	submit->vm = queue->ctx->vm;
-+	submit->vm = msm_context_vm(dev, queue->ctx);
- 	submit->gpu = gpu;
- 	submit->cmd = (void *)&submit->bos[nr_bos];
- 	submit->queue = queue;
++	/*
++	 * VM_BIND does not depend on implicit teardown of VMAs on handle
++	 * close, but instead on implicit teardown of the VM when the device
++	 * is closed (see msm_gem_vm_close())
++	 */
++	if (msm_context_is_vmbind(ctx))
++		return;
++
+ 	/*
+ 	 * TODO we might need to kick this to a queue to avoid blocking
+ 	 * in CLOSE ioctl
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index 82e33aa1ccd0..0314e15d04c2 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -831,7 +831,8 @@ static int get_clocks(struct platform_device *pdev, struct msm_gpu *gpu)
+ 
+ /* Return a new address space for a msm_drm_private instance */
+ struct drm_gpuvm *
+-msm_gpu_create_private_vm(struct msm_gpu *gpu, struct task_struct *task)
++msm_gpu_create_private_vm(struct msm_gpu *gpu, struct task_struct *task,
++			  bool kernel_managed)
+ {
+ 	struct drm_gpuvm *vm = NULL;
+ 
+@@ -843,7 +844,7 @@ msm_gpu_create_private_vm(struct msm_gpu *gpu, struct task_struct *task)
+ 	 * the global one
+ 	 */
+ 	if (gpu->funcs->create_private_vm) {
+-		vm = gpu->funcs->create_private_vm(gpu);
++		vm = gpu->funcs->create_private_vm(gpu, kernel_managed);
+ 		if (!IS_ERR(vm))
+ 			to_msm_vm(vm)->pid = get_pid(task_pid(task));
+ 	}
 diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index d8425e6d7f5a..c15aad288552 100644
+index c15aad288552..20f52d9636b0 100644
 --- a/drivers/gpu/drm/msm/msm_gpu.h
 +++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -362,7 +362,12 @@ struct msm_context {
+@@ -79,7 +79,7 @@ struct msm_gpu_funcs {
+ 	void (*gpu_set_freq)(struct msm_gpu *gpu, struct dev_pm_opp *opp,
+ 			     bool suspended);
+ 	struct drm_gpuvm *(*create_vm)(struct msm_gpu *gpu, struct platform_device *pdev);
+-	struct drm_gpuvm *(*create_private_vm)(struct msm_gpu *gpu);
++	struct drm_gpuvm *(*create_private_vm)(struct msm_gpu *gpu, bool kernel_managed);
+ 	uint32_t (*get_rptr)(struct msm_gpu *gpu, struct msm_ringbuffer *ring);
+ 
+ 	/**
+@@ -362,6 +362,14 @@ struct msm_context {
  	 */
  	int queueid;
  
--	/** @vm: the per-process GPU address-space */
 +	/**
-+	 * @vm:
++	 * @userspace_managed_vm:
 +	 *
-+	 * The per-process GPU address-space.  Do not access directly, use
-+	 * msm_context_vm().
++	 * Has userspace opted-in to userspace managed VM (ie. VM_BIND) via
++	 * MSM_PARAM_EN_VM_BIND?
 +	 */
- 	struct drm_gpuvm *vm;
++	bool userspace_managed_vm;
++
+ 	/**
+ 	 * @vm:
+ 	 *
+@@ -454,6 +462,22 @@ struct msm_context {
  
- 	/** @kref: the reference count */
-@@ -447,6 +452,8 @@ struct msm_context {
- 	atomic64_t ctx_mem;
- };
+ struct drm_gpuvm *msm_context_vm(struct drm_device *dev, struct msm_context *ctx);
  
-+struct drm_gpuvm *msm_context_vm(struct drm_device *dev, struct msm_context *ctx);
++/**
++ * msm_context_is_vm_bind() - has userspace opted in to VM_BIND?
++ *
++ * @ctx: the drm_file context
++ *
++ * See MSM_PARAM_EN_VM_BIND.  If userspace is managing the VM, it can
++ * do sparse binding including having multiple, potentially partial,
++ * mappings in the VM.  Therefore certain legacy uabi (ie. GET_IOVA,
++ * SET_IOVA) are rejected because they don't have a sensible meaning.
++ */
++static inline bool
++msm_context_is_vmbind(struct msm_context *ctx)
++{
++	return ctx->userspace_managed_vm;
++}
 +
  /**
   * msm_gpu_convert_priority - Map userspace priority to ring # and sched priority
   *
+@@ -681,7 +705,8 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 		const char *name, struct msm_gpu_config *config);
+ 
+ struct drm_gpuvm *
+-msm_gpu_create_private_vm(struct msm_gpu *gpu, struct task_struct *task);
++msm_gpu_create_private_vm(struct msm_gpu *gpu, struct task_struct *task,
++			  bool kernel_managed);
+ 
+ void msm_gpu_cleanup(struct msm_gpu *gpu);
+ 
+diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+index 5bc5e4526ccf..b974f5a24dbc 100644
+--- a/include/uapi/drm/msm_drm.h
++++ b/include/uapi/drm/msm_drm.h
+@@ -93,6 +93,30 @@ struct drm_msm_timespec {
+ #define MSM_PARAM_UCHE_TRAP_BASE 0x14 /* RO */
+ /* PRR (Partially Resident Region) is required for sparse residency: */
+ #define MSM_PARAM_HAS_PRR    0x15  /* RO */
++/* MSM_PARAM_EN_VM_BIND is set to 1 to enable VM_BIND ops.
++ *
++ * With VM_BIND enabled, userspace is required to allocate iova and use the
++ * VM_BIND ops for map/unmap ioctls.  MSM_INFO_SET_IOVA and MSM_INFO_GET_IOVA
++ * will be rejected.  (The latter does not have a sensible meaning when a BO
++ * can have multiple and/or partial mappings.)
++ *
++ * With VM_BIND enabled, userspace does not include a submit_bo table in the
++ * SUBMIT ioctl (this will be rejected), the resident set is determined by
++ * the the VM_BIND ops.
++ *
++ * Enabling VM_BIND will fail on devices which do not have per-process pgtables.
++ * And it is not allowed to disable VM_BIND once it has been enabled.
++ *
++ * Enabling VM_BIND should be done (attempted) prior to allocating any BOs or
++ * submitqueues of type MSM_SUBMITQUEUE_VM_BIND.
++ *
++ * Relatedly, when VM_BIND mode is enabled, the kernel will not try to recover
++ * from GPU faults or failed async VM_BIND ops, in particular because it is
++ * difficult to communicate to userspace which op failed so that userspace
++ * could rewind and try again.  When the VM is marked unusable, the SUBMIT
++ * ioctl will throw -EPIPE.
++ */
++#define MSM_PARAM_EN_VM_BIND 0x16  /* WO, once */
+ 
+ /* For backwards compat.  The original support for preemption was based on
+  * a single ring per priority level so # of priority levels equals the #
 -- 
 2.49.0
 
