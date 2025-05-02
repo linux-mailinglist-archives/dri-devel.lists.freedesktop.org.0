@@ -2,67 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0393FAA7174
-	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 14:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0AEAA71F0
+	for <lists+dri-devel@lfdr.de>; Fri,  2 May 2025 14:33:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24B4310E10E;
-	Fri,  2 May 2025 12:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5481610E8C9;
+	Fri,  2 May 2025 12:24:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fAwyZno/";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eMiY5CnH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04F4F10E19E
- for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 12:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1746188251;
- bh=Nh/3NP0bjRTX7YboruB3JZ2xLOeP0c8eAjI6a96C+Ns=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=fAwyZno/6cHCUZVscF4DkoZ7XGBTZJ3WP3x3xzSDPicemItU2TSq4GDzH/CTcQvku
- 7d5N+U1CzQpasIedHwzZR4Fy00LONxfT8nhXyAFAYZXMTlh68Cvtdzj7tOWd0vvksg
- ixrV1MgJj3hDnsjUqs3BQi4WvTz8DSKWkb1Miy5aIz3VT0R08orJeMPWhwVqG9ahSA
- PT8cjaCa4llX8DkE9CYOjjVy5/R039U2+TEGHnYA5ukVxtxsP8X+DZT1caLP3F2cCF
- BXNe8K8ftiCliyI6du1LQW6qCPXiiAABGXloEIlYZ7wa1+LfGEf+59wXKfbG22cRMa
- gdZZmXLENVapQ==
-Received: from yukiji.home (amontpellier-657-1-116-247.w83-113.abo.wanadoo.fr
- [83.113.51.247])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: laeyraud)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CE25917E1501;
- Fri,  2 May 2025 14:17:29 +0200 (CEST)
-From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Date: Fri, 02 May 2025 14:17:18 +0200
-Subject: [PATCH v5 3/3] arm64: dts: mediatek: mt8370: Enable gpu support
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD25F10E8C9
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 May 2025 12:24:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1746188639;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wIczffFaYHKPykcw3b0iM8vvrEkTn9lVPlgu8mIdn84=;
+ b=eMiY5CnHgBV3BqVWTEiybwwGwgXl4peuSp7r3t1BLa879Vwunc5SS/cecCOYNhG1oOmxbi
+ /ctJSyu52OyCBT+fYkMaR4vpEQ45WWY6MZn4MH+QYzVTkh43YbezERDl1QtShAgSqD4yIo
+ EjdTsV8t/tcahLZFDZldxu7ne4Jsot4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-402-wNEWSVsxNFeTQVomBl_GSw-1; Fri, 02 May 2025 08:23:58 -0400
+X-MC-Unique: wNEWSVsxNFeTQVomBl_GSw-1
+X-Mimecast-MFC-AGG-ID: wNEWSVsxNFeTQVomBl_GSw_1746188637
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-43d5ca7c86aso11039985e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 May 2025 05:23:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746188637; x=1746793437;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wIczffFaYHKPykcw3b0iM8vvrEkTn9lVPlgu8mIdn84=;
+ b=dvc2G4lCvWGQ5jRLdp5V4U/2AUsqqVLoRUtDnvxV7iFWtopvo1GMXj1BbhyvQVcZU8
+ wrNGa2gCeyvbtFXE4FqpSNjb2AQB6ARD8EbQJGyWQIQGnViKUoa0mszpdbi+QrKI0Hig
+ SE+WZPnk3qyw4M4yjYPZuIVIXnxDC/29xb43yuKC46HXQWr0PygENWoLyRnok8k4wDAh
+ p5V28Gw/avwSLgDUHAL/hdzu3XzKBvXCj5HqXur9sV3G6TcaCmgPhWNrzPYIEB+VvOnu
+ W3Tqu/U2lcXwfcH3Ji4TEkHwvw1jzrYu01LrO5XGyLVxXutJKoJdyEqmtyycuD9Xgq2Z
+ aIXA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUuC/jGT8paj08UnMRNwY8/aHdoYKuyqpO59D1tYQbZHO+dO///dZQ8LvKfmyLnqt2P2GFQvtfbkRw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyi4pbtNt3R8rHoXhrPSw6EqtCC6qFwWeDxnFua1oRCYHVlvq2h
+ XsfL2NOfM4WKrqPJRUw0JzstRK/BZyb3dvUk9e2mzGQ9VenclGD0f0euDS+Fd+hfBgjjL8yKvdY
+ o7mFsWXS09FNEz2dOr9i5nl3hWsri8ypeWu73OAAKIDh18R4B5NkN+XCHl9rSEiFFIQ==
+X-Gm-Gg: ASbGncs21laE+bIqgjC01RDIsByJX3qqNC2ITxU3FGYTIw0W44s638gwb/TcA1t9/Ot
+ /FJyjogOpc7TE9zZsGqfJnWqUzIXrQFf7u79eiiwM9tUP8iP1TuF30huT319JgQfhT3pNr1Fc7X
+ 4DgSPUYdCsXrEtmV8AiPDnSoWekBSX3yD408lZELNUelUralz++k446C5UIG7c/0IbXhjsru1cH
+ Kc5nsFfFXLXqVe6GF861qKLNUBsAHWTuEjOU3RffIOe95H4Ln42IgesSx11zcFv/h8QWvtYmnaT
+ HGMyqKGv0y0HQ/m14DTGW2ySoQvLqlmLUUwws9AepWDAJmxLCD0=
+X-Received: by 2002:a05:600c:5022:b0:43c:e6d1:efe7 with SMTP id
+ 5b1f17b1804b1-441bbf34052mr18719405e9.26.1746188637009; 
+ Fri, 02 May 2025 05:23:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHtBSWT/9rJ58YwwQsHRZD3aEJKNHkUCm3Vq3qVD5xLR8Kf9BbRNg4RYaf53PhVsYbqWhK/OA==
+X-Received: by 2002:a05:600c:5022:b0:43c:e6d1:efe7 with SMTP id
+ 5b1f17b1804b1-441bbf34052mr18719135e9.26.1746188636561; 
+ Fri, 02 May 2025 05:23:56 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-441b2b28718sm89479975e9.36.2025.05.02.05.23.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 May 2025 05:23:56 -0700 (PDT)
+Message-ID: <847a72c8-ea80-4aaa-b439-ab7649dcebd0@redhat.com>
+Date: Fri, 2 May 2025 14:23:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panic: Use a decimal fifo to avoid u64 by u64 divide
+To: Miguel Ojeda <ojeda@kernel.org>,
+ Christian Schrefl <chrisi.schrefl@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Russell King <linux@armlinux.org.uk>, Paolo Bonzini <pbonzini@redhat.com>,
+ rust-for-linux <rust-for-linux@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+References: <20250418165059.560503-1-jfalempe@redhat.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20250418165059.560503-1-jfalempe@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: MHpMk4dbB9MFfc9Qwy68-67-s5gKyNtsI6rl8Ow_QKM_1746188637
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250502-mt8370-enable-gpu-v5-3-98e247b30151@collabora.com>
-References: <20250502-mt8370-enable-gpu-v5-0-98e247b30151@collabora.com>
-In-Reply-To: <20250502-mt8370-enable-gpu-v5-0-98e247b30151@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746188245; l=1948;
- i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
- bh=Nh/3NP0bjRTX7YboruB3JZ2xLOeP0c8eAjI6a96C+Ns=;
- b=qmFSu2pylbCfjivhz97G7x5XNAkEwik16epSM6J+vUCs0Bi+5XDSGEUacRx1zhPdR+p/l1UZ8
- BpIix3PXhqDBfi6MG/Xpdmlo3off2fhC07xuSrpB88P1Dhf5RKR4Ts8
-X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
- pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,57 +109,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new gpu node in mt8370.dtsi to enable support for the
-ARM Mali G57 MC2 GPU (Valhall-JM) found on the MT8370 SoC, using the
-Panfrost driver.
+On 18/04/2025 18:48, Jocelyn Falempe wrote:
+> On 32bits ARM, u64/u64 is not supported [1], so change the algorithm
+> to use a simple fifo with decimal digits as u8 instead.
+> This is slower but should compile on all architecture.
 
-On a Mediatek Genio 510 EVK board, the panfrost driver probed with the
-following message:
-```
-panfrost 13000000.gpu: clock rate = 390000000
-panfrost 13000000.gpu: mali-g57 id 0x9093 major 0x0 minor 0x0 status 0x0
-panfrost 13000000.gpu: features: 00000000,000019f7, issues: 00000003,
-   80000400
-panfrost 13000000.gpu: Features: L2:0x08130206 Shader:0x00000000
-   Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
-panfrost 13000000.gpu: shader_present=0x5 l2_present=0x1
-[drm] Initialized panfrost 1.3.0 for 13000000.gpu on minor 0
-```
+I applied it to drm-misc/drm-misc-next.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
----
- arch/arm64/boot/dts/mediatek/mt8370.dtsi | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt8370.dtsi b/arch/arm64/boot/dts/mediatek/mt8370.dtsi
-index cf1a3759451ff899ce9e63e5a00f192fb483f6e5..7ac8b8d0349455922a73f35db607b2b27cad23d7 100644
---- a/arch/arm64/boot/dts/mediatek/mt8370.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8370.dtsi
-@@ -59,6 +59,22 @@ &cpu_little3_cooling_map0 {
- 				<&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
- };
- 
-+/*
-+ * Please note that overriding compatibles is a discouraged practice and is a
-+ * clear indication of nodes not being, well, compatible!
-+ *
-+ * This is a special case, where the GPU is the same as MT8188, but with one
-+ * of the cores fused out in this lower-binned SoC.
-+ */
-+&gpu {
-+	compatible = "mediatek,mt8370-mali", "arm,mali-valhall-jm";
-+
-+	power-domains = <&spm MT8188_POWER_DOMAIN_MFG2>,
-+			<&spm MT8188_POWER_DOMAIN_MFG3>;
-+
-+	power-domain-names = "core0", "core1";
-+};
-+
- &ppi_cluster0 {
- 	affinity = <&cpu0 &cpu1 &cpu2 &cpu3>;
- };
+Thanks for the reviews.
 
 -- 
-2.49.0
+
+Jocelyn
+> 
+> Link: https://lore.kernel.org/dri-devel/CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com/ [1]
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>   drivers/gpu/drm/drm_panic_qr.rs | 71 ++++++++++++++++++++++-----------
+>   1 file changed, 48 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
+> index 6025a705530e..dd55b1cb764d 100644
+> --- a/drivers/gpu/drm/drm_panic_qr.rs
+> +++ b/drivers/gpu/drm/drm_panic_qr.rs
+> @@ -366,8 +366,48 @@ fn iter(&self) -> SegmentIterator<'_> {
+>           SegmentIterator {
+>               segment: self,
+>               offset: 0,
+> -            carry: 0,
+> -            carry_len: 0,
+> +            decfifo: Default::default(),
+> +        }
+> +    }
+> +}
+> +
+> +/// Max fifo size is 17 (max push) + 2 (max remaining)
+> +const MAX_FIFO_SIZE: usize = 19;
+> +
+> +/// A simple Decimal digit FIFO
+> +#[derive(Default)]
+> +struct DecFifo {
+> +    decimals: [u8; MAX_FIFO_SIZE],
+> +    len: usize,
+> +}
+> +
+> +impl DecFifo {
+> +    fn push(&mut self, data: u64, len: usize) {
+> +        let mut chunk = data;
+> +        for i in (0..self.len).rev() {
+> +            self.decimals[i + len] = self.decimals[i];
+> +        }
+> +        for i in 0..len {
+> +            self.decimals[i] = (chunk % 10) as u8;
+> +            chunk /= 10;
+> +        }
+> +        self.len += len;
+> +    }
+> +
+> +    /// Pop 3 decimal digits from the FIFO
+> +    fn pop3(&mut self) -> Option<(u16, usize)> {
+> +        if self.len == 0 {
+> +            None
+> +        } else {
+> +            let poplen = 3.min(self.len);
+> +            self.len -= poplen;
+> +            let mut out = 0;
+> +            let mut exp = 1;
+> +            for i in 0..poplen {
+> +                out += self.decimals[self.len + i] as u16 * exp;
+> +                exp *= 10;
+> +            }
+> +            Some((out, NUM_CHARS_BITS[poplen]))
+>           }
+>       }
+>   }
+> @@ -375,8 +415,7 @@ fn iter(&self) -> SegmentIterator<'_> {
+>   struct SegmentIterator<'a> {
+>       segment: &'a Segment<'a>,
+>       offset: usize,
+> -    carry: u64,
+> -    carry_len: usize,
+> +    decfifo: DecFifo,
+>   }
+>   
+>   impl Iterator for SegmentIterator<'_> {
+> @@ -394,31 +433,17 @@ fn next(&mut self) -> Option<Self::Item> {
+>                   }
+>               }
+>               Segment::Numeric(data) => {
+> -                if self.carry_len < 3 && self.offset < data.len() {
+> -                    // If there are less than 3 decimal digits in the carry,
+> -                    // take the next 7 bytes of input, and add them to the carry.
+> +                if self.decfifo.len < 3 && self.offset < data.len() {
+> +                    // If there are less than 3 decimal digits in the fifo,
+> +                    // take the next 7 bytes of input, and push them to the fifo.
+>                       let mut buf = [0u8; 8];
+>                       let len = 7.min(data.len() - self.offset);
+>                       buf[..len].copy_from_slice(&data[self.offset..self.offset + len]);
+>                       let chunk = u64::from_le_bytes(buf);
+> -                    let pow = u64::pow(10, BYTES_TO_DIGITS[len] as u32);
+> -                    self.carry = chunk + self.carry * pow;
+> +                    self.decfifo.push(chunk, BYTES_TO_DIGITS[len]);
+>                       self.offset += len;
+> -                    self.carry_len += BYTES_TO_DIGITS[len];
+> -                }
+> -                match self.carry_len {
+> -                    0 => None,
+> -                    len => {
+> -                        // take the next 3 decimal digits of the carry
+> -                        // and return 10bits of numeric data.
+> -                        let out_len = 3.min(len);
+> -                        self.carry_len -= out_len;
+> -                        let pow = u64::pow(10, self.carry_len as u32);
+> -                        let out = (self.carry / pow) as u16;
+> -                        self.carry %= pow;
+> -                        Some((out, NUM_CHARS_BITS[out_len]))
+> -                    }
+>                   }
+> +                self.decfifo.pop3()
+>               }
+>           }
+>       }
+> 
+> base-commit: 74757ad1c105c8fc00b4cac0b7918fe3262cdb18
 
