@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D7FAA7E55
-	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 06:08:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30324AA7E5B
+	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 06:08:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E86110E329;
-	Sat,  3 May 2025 04:08:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D0D110E32E;
+	Sat,  3 May 2025 04:08:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="oWdT3rUw";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="rv6gCzyD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM04-DM6-obe.outbound.protection.outlook.com
  (mail-dm6nam04on2077.outbound.protection.outlook.com [40.107.102.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A32210E2E4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A793510E31F;
  Sat,  3 May 2025 04:08:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bOdjBUQlBPru/NMq94B3CQjEV9jRfrPrrTMTLkJsiLO0mn9ZF5N9XR8Cw6C7E1qAzmEbQIb6SEC5oWxh5KFfM2+ROWL/6eNUlfhglTwMKcurVaOVjDtcFUsNMcDaDtl0OvoqQ77QbnSHM1egRjxp2DiaRGsfsQ0c6ZyQBRnSgYqCd9IxQkaZjnW6Fdri8V+pnjtu0/4IGdWCP/M6DXZ+WNmU4oz/5RA6aI+Bt9EV0UE8nP78Dw1wvAveLpde5I9DsF/PlYYsA7nnjf7arG3Bq8I6U/z/7JwNq14tsH7zWTIEa0Tin8f3Vrj4pQ1humnPdLZp3qXXL6qVE4+U6FBioQ==
+ b=IOYAYOZgie47lPBvSpmjBkyB9xJQAfVBp+DHmJxGEkme5habCOfnJF455SD3dwRIgVd3SoCRvYx7rk28ZstIPSY8nvHbEFOcpPa+oes9cUy18aMj8f53v3Z7367Gp69OYS+ud0YMn74Gee7aBoAiGIJNJSPik1hH0jaBAJZUZOgWwItKKCGj73zEGBwWqMRBX6w0v5WikrFvCYgbiMitGjkrxgRlff8ry/Cpi7QXPYExZJ01QGa9qkTosRt+Nns9BJPLe9Fw1o/i5oaLUejtoQ0z/e5ZASdf69yKmPXyD85PZZlHox+u/dRkG7dSiBC0qHEyxdTcTrjcyNpNvQRR9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GgTqiPFj5ay0uk3Fl52h99+Q6ODuD+v/r+wqbDZ+Y78=;
- b=URfUYMoJ+qONazIHxTk+y8MhWeXrn7KgBYyVG0JO5zeDLS4nmCcssFarUlgIcjOnauN5VF181PHQB8nTAnEQH6j2E7OuSjPFzT1Zo0fHnpsTho5P6ClnWBMXZm75RwUD2IYDU8abDSVSUAi/0+ueup/Qr/oA5Ta6msYMRDDZYD2r1O4kvU6R3xldxrUaGDLL/uWIAFLj2FZqpiW+byfyDYrbcOTbLaRZn0COoB09cYlud56dJVDzyD8hFfISmlmrhQhJgWd1ArCUfWslWooWEGeC6xBE6xbslsX6ukwNipzSP/GaoQeoe7184+5j5ZNjutVsRV9BUSDnJXyNWS8wPg==
+ bh=FCEway+8+NeihLFuv1fu+sQbokP6ai9LvEdqlw+FZAM=;
+ b=e07EdlQFsw0ru/FhWV5TMWajbL6Pv7/Fm0Q/k+RgEzeqU27GKGTCENOMei+vvdfhb/xVsms32fb3k3e9645WE/JT7GKEvNmXchXrIACkD9Qs18uBx3fH/NTm3dvzLw7ObPwJqLZTI2XG/X+1BVjAw8GQm4StuEpPxtDKFmdAADs/kUqvi6kdHobOoXu/6Y2Sjq3+0diCISavxWTduUJlTYrBih41QZImb+814IUpTefKSiFqETPiRtWmpy/Mi8BtkDbmV2oN/P648cW2CC6yiYRT/pAB60ll42o/L4I4iQy9P0kVkh1wf1R1nTHU1XMq9v3mAjowB+gjnvGKfm4IxA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GgTqiPFj5ay0uk3Fl52h99+Q6ODuD+v/r+wqbDZ+Y78=;
- b=oWdT3rUwVfhPnMCB4utv7zQDKABCrkPGr7xBEsBpgkuCQmbW9bXehgknpLxzkIbk1p2hpeNdjkHd5nDIOTF6n85wbj7AvSSqZkCLpXsycDQBi+ZNiY0pqlhKviI1/FSJ9PwAB8hBZti4vYEGMSrj906l/vsJ3i1JGMdFknJHHws4td1nDnZ3lTNvaOCP8EyF6kp5V8zdT/csuSux4DcmnrD2wmTaZy/vIJ9PNOoJ+apuY9HUPFbk8PWvaqsPzILyu04UpmAn4U3MGgW/LvYJ/vIKtz/DXnZ/TSE27rdRfm6wLR8tnPGNqEOv1iyxj6/lgySu/0y5afUEVmCZcDoATQ==
+ bh=FCEway+8+NeihLFuv1fu+sQbokP6ai9LvEdqlw+FZAM=;
+ b=rv6gCzyD7MkNmlUabD6GbPK4pPml/l4SCYwRyOjEjATVhnVeXSE3i86sJdlo/eu/dMWKJiRH5efsRZmTKC50lWFLyD+OXITQBPmfVNgTo1aUdzWLW1U6zjcbFR1UUyYzJHZ6tk0DxhMuCBATCJMpnyU8ZTi/m+SijYx0KHX4nYEZB0LAYamM0U9Nvqx6yBDtIrScoIvF2xYRrcZKjhbbBHFelVZ/4K0qXqGu/a62GpGLhmTpRNS9fZtjLEWgosX1lA8MT6BakT32s7Ipk1ZIQnZRSpo5QLaHZBbNnfK1DacSWPo59KjLdZ2MM5aK+rSIpTHMdsdXrH3AqKHkeTtUIA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
  by CH3PR12MB7713.namprd12.prod.outlook.com (2603:10b6:610:14d::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.23; Sat, 3 May
- 2025 04:08:14 +0000
+ 2025 04:08:17 +0000
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.8699.021; Sat, 3 May 2025
- 04:08:14 +0000
+ 04:08:16 +0000
 From: Joel Fernandes <joelagnelf@nvidia.com>
 To: linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
 Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Alexandre Courbot <acourbot@nvidia.com>,
  John Hubbard <jhubbard@nvidia.com>,
@@ -55,106 +55,105 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
  Ben Skeggs <bskeggs@nvidia.com>, rust-for-linux@vger.kernel.org,
  Joel Fernandes <joelagnelf@nvidia.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v2 3/7] nova-core: docs: Document vbios layout
-Date: Sat,  3 May 2025 00:07:55 -0400
-Message-ID: <20250503040802.1411285-4-joelagnelf@nvidia.com>
+Subject: [PATCH v2 4/7] nova-core: docs: Document fwsec operation and layout
+Date: Sat,  3 May 2025 00:07:56 -0400
+Message-ID: <20250503040802.1411285-5-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250503040802.1411285-1-joelagnelf@nvidia.com>
 References: <20250503040802.1411285-1-joelagnelf@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0529.namprd03.prod.outlook.com
- (2603:10b6:408:131::24) To SN7PR12MB8059.namprd12.prod.outlook.com
+X-ClientProxiedBy: BN9PR03CA0041.namprd03.prod.outlook.com
+ (2603:10b6:408:fb::16) To SN7PR12MB8059.namprd12.prod.outlook.com
  (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|CH3PR12MB7713:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1023db09-e44f-40eb-ead1-08dd89f8205b
+X-MS-Office365-Filtering-Correlation-Id: 389378ae-e389-44cf-dcda-08dd89f821a2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZGx4czlETVB6NThva0N3RUpmUnE0TTVtOVh2a1VQdzlyWTF4RVN4a3pYNXQr?=
- =?utf-8?B?ZEVBQSs1KzY4eWJiY2w5L253TnRZMkVSVzI5T2oxNnpIRjRJRldjbDBNNjZq?=
- =?utf-8?B?S0E5TndGd2hMWDhCTDNrbjhxOEFGUVB3eStuQ25Zd1A5SnJtTWQ0cmNybEMz?=
- =?utf-8?B?bFU5RERGQlNhZWpaWWZSVnByMG5YVjlUUzk5NFdZYkFrUzZrTkE5TGhBUnVt?=
- =?utf-8?B?Y0h6c1JjcUtUUW1RUlBFaXZGWFB1Vm1nVy9JZ0x3bExKbTRFL2ZpU2lGdWdG?=
- =?utf-8?B?MGVYVFBDdVJJU2syOVlBK0RHT1pCZVlCVHFybHpaUkNDWDBTZUE0NDRGRFY1?=
- =?utf-8?B?SEk1RTJUZU1LNFZZOXNVRG03TVh5SXh6UXNxd05lODdCekNwdDBCNnMvck05?=
- =?utf-8?B?dGhsOVFuQ21sQk5GQ1pQSGNBQWd6UHN0K1EwZ0xhT0t0QkFxR3BGeHBjZk9O?=
- =?utf-8?B?UFkyNlJQclpqdUpMQ2RnUjYwb3BHMnVySHlvalE4VEJYVjZUbGNiaWlvRnA4?=
- =?utf-8?B?Z1YzY2x6YUNUY1JQZCtoc3dSelVDVGx6OGErV1pMVEhJVE90KzE4TjNsMXFu?=
- =?utf-8?B?QTZubUFrUGxHa2FYeUtwUk1WRHFyTms4T0J2Q0ZFNStMUVpHdWFybGNlQWtP?=
- =?utf-8?B?TVdTdW1nSFFhdE1KSFZ1UnJGcWIycGZTd2N5eGJTUWVMMkk3bUFPSG1XenM5?=
- =?utf-8?B?S1ZVQmswTzFTL1A2OExOOEM4UHdGbjlNTjRJbHIrWGZDZ2M4UTYzdXh4YmRG?=
- =?utf-8?B?K3ZOaGMwTXh5Q0tmenZTOU9oNThvQ2FtcmdUUWxiS0NkQktBcXVNNEwraDRi?=
- =?utf-8?B?RExDUVM0Qkt2ZHJHbS9IYmhxNnhTRlJoRWhDaFVlem0zK1g2VXZoeE9KZitI?=
- =?utf-8?B?RDB3dmI5QXFrdjkwbFB2ZUVKWUFPWjZQdkdoVkg0eXdqQlVZdm9VZElLbWdo?=
- =?utf-8?B?NWhuVk1lNVdydTFBejZFK1QxS3F4UzdUdHpxL1NWNUNxdTlJUHhzVlp6N0hY?=
- =?utf-8?B?MXBXTnNUc1lvTXpwQ3g5ZjZNWnRTemkwakplV3FVSit1ZlplMGE2SElBa1ZP?=
- =?utf-8?B?TFhwR1ZZMHRRcU9VYmFveGg3a0hnZnBZOWNQNTN0RXhOdEczQnRnbnlaVWtB?=
- =?utf-8?B?bjVTbWdicXFEVWN4S2NwWm5qNE1wZzRlQUpTenJCejBvQWRNNFZrM2xYSWJt?=
- =?utf-8?B?eGx3bDJKNG9obVhxb2FQaHRvNk9VdHJNRzg0OTBZQU9PRE9QT0U3emNuU0Fv?=
- =?utf-8?B?NGhMSHg4NDZmc012RHBUb0l4dUlGbHJyOTVFYmdwandNT01pbU1LaUV5dGtN?=
- =?utf-8?B?b2pQeFdiRE5XbWNhUlI5Y3RLc0JZNm1PY3dOZzVBVXRkcC9Db1cvZUlCRFcr?=
- =?utf-8?B?dHBoQXRBZWpNa2pNWFpMY2JsQUczVHJRcnFKU0hHVmNkVEl2NTFMRmtJZGQ2?=
- =?utf-8?B?Qm0xTUZPTGREZ0R0cjRqdmh1RlZBbFp2bmxDcTVuUElwSlU1SlRNOXhQZEZV?=
- =?utf-8?B?dHBnOVdoaGZhOGYvYU9EY2FlUVNSczJ4c1VDNnluTGpCbmdMTUh0WEtPT3N6?=
- =?utf-8?B?cUlNc0NEak10OTh2Sk83b01XMGJkUWpqN3hlU3hsekN6YUx4UisvcEdNdmc0?=
- =?utf-8?B?L0VDNUs2eXFCUWh5MnlUL0hSWEg3M1VZZkxUbG05d2M3ZmtQU0VqY2d4aWJ4?=
- =?utf-8?B?aWhSdDFEYzlWbmxrVVRhQ0lmZllYT2Y0dmFoMzAzeDYxTmF1azdwWmJJb2ZV?=
- =?utf-8?B?aWc4eU1OaVZGNlkxSkVVM0xOSDQzVTllTWRSUmF1d281c1Rwd2o4b0RIT3po?=
- =?utf-8?B?Z0JaNUhkcHpBV0pNZUVYN3RqejlkN3I1dXBTaWJoZVNOZFI3QU00cm5Qb3VV?=
- =?utf-8?B?Y0ZSV0VVMkxQRGxtSlBYYllVZFZiOHh4ZEh6Y0FDMGxiblJpMkFhakh5enZE?=
- =?utf-8?Q?vNZxlscyDtY=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RlZsSDNTamxnc2JFd3pLNk1wc1ZvQ1NKWDBCRStnK2xGME1GNkFkdWxmSVN1?=
+ =?utf-8?B?dlU2VEZwVUhyWmZLNVY3M0QrYS93VjhZNDYvYnkvWnF0UjVraGpPSzkzaStu?=
+ =?utf-8?B?T2FaeDhlOVVRQVE2ZkxwUDhQd0JhdkJGME9hNnZ1eWg5VERRSDVpazRrd3Z6?=
+ =?utf-8?B?OXgvSlQvMndNcis3THozTDB4WVYwdVhhV1E0Rmo4R1laSWxhN2Rhbk53WnM1?=
+ =?utf-8?B?U1ZldXl0T3lTc2Ztd09qOVlWVlhuQ0RrRVpkOEV3eDd1K3hweTdTWGhPTktS?=
+ =?utf-8?B?OUhzMFN1TlR3Vm1ybGpjemY3ZVZlNSsrSlNXckZmN0tEdVhzU0UvcmcvQ0Rv?=
+ =?utf-8?B?ZTJnVnFBdFlqZWRiaUNVRXBjTXlML2FiNUZlVHdHbm1YSjVXMmptSTZ6eUhj?=
+ =?utf-8?B?TUE3QnBPT1l5U0lud2ZSNzRJdTNhc29meTRObnpKZk9zZC85OXN2YXhra1R1?=
+ =?utf-8?B?Y3JldFp5Vm43eUxqMWx6MzVFMlkrQ0tNbksyZDhNaHJCbmJ3ZjJxYWFiTUpL?=
+ =?utf-8?B?VHAzOHludFlOOGJGQ3duY3NoV00xTnNOQUZ1NkdmekoxaEhTVFFvTjhLVWgx?=
+ =?utf-8?B?RFFZQXRJeW02QjZZbjJWTGxhZnhoRmZBK2YzRHdWWnBHbWpieU9DeEMxQjI1?=
+ =?utf-8?B?R2VoTmtDalBxQXFEWTJQVlhyVENKb0RnaUNlUGQ2ZHA5N09JbDZUS0VMVFNu?=
+ =?utf-8?B?WXZBUmFBOWxPVklMeExMVy9PdzNDSUgzaTFONGppeHdLa29ad0NGRkR2eklN?=
+ =?utf-8?B?b2VsOE9pclVVWnpEdHlSU3ZxVkFVVWFRcVRWd09GQmNiT05zanJLUzR0Tk5y?=
+ =?utf-8?B?dWdCR2hnU1gzQWJzamw5a21pNjE4QlRERWhkaFlYVFhsZ2srV2taallRWnRT?=
+ =?utf-8?B?YkI4cDJGZmdxcFk1MWdFOUd6djVUQVgxaWM2Nks3VlNLSE5YQy83Tm81MzRS?=
+ =?utf-8?B?ODJPU245TEQwV1lMTndQMXp5anQ1dmVVOFphS1l3TllRRUdPUWpDNTF1MkN3?=
+ =?utf-8?B?SU9FM0xBRTRVZkEyWkdzM0Z4UW5OL2lpUlNTSXgrVmQ0TEZiQWlMbVJGRDI5?=
+ =?utf-8?B?ZXJSbEtzYzIxSFJtL2p2cWxqQnMzbzNMOERibC90b25vU2NUZlMyVTI0YmlE?=
+ =?utf-8?B?UU1MYkNvNTNRNHZpMXVpbHJjUE5zREt6aEVIK3RlL2dQU3dJd3ArWk9xaDNJ?=
+ =?utf-8?B?aTlQbDl3emNjaWZtWXFiYkxPYkdEY3VQKysyb01YMzdlRSsvcU5INllMbk45?=
+ =?utf-8?B?bXFMWXZYeHRMN1RzbVJhdnVxK0ZUb25EQjVqRzdBTkNlWU1tWFFFOFV2d0Rl?=
+ =?utf-8?B?czU4ZDNCdENZeFZmdDliZks1SHlGbVBmWHJWdVd6aVNBVnduaGRuMzVyWFlu?=
+ =?utf-8?B?MTBuRVFHa1R4VzFpUGpSdzJwNk5jL1hIVGhWTGhaczhkamFldjFacmREWmxW?=
+ =?utf-8?B?QkM0R3JNOHU1MkdtMGN2UE8vY2d5czhwSml5clU3VVpMOTFxdG5zR3I4MDBS?=
+ =?utf-8?B?bVZ6anlKQTdhOG50bU50N1dXWmozZm1FNWp0NVA1TWI1VEhFbk5EeXp6aHh0?=
+ =?utf-8?B?U1hnaG1KTUdIRG4wakpnV2ZPbEtqZkwvS3M0K2xjbkx4N0YwTDRzR0tnNUhs?=
+ =?utf-8?B?dElYWk1GVVlMK3FPeHh3Z3N6RW15ZktEVXdQSitvUzFtYVIza1BSK0Rrd3Ju?=
+ =?utf-8?B?Rkh3NTBwTDZGOTQxa2xEL1laYStXYnFLb1N3U0NPZ3d1Q1dQc2pDSnNONENk?=
+ =?utf-8?B?WjhUdHZQaUVtL3EvbnJMWlVLQzE1NnlyVDdSNmVYOFdiaU9hVTc5UW1UU0wz?=
+ =?utf-8?B?K0tQa2d5eFVjbHRiZ1ovQXRoMHl1RllkQmR4Mkg1dkZVZVlBWjd4Q1VxQk9z?=
+ =?utf-8?B?Ui9BSnczRGVoOVpPTlY0bkQ4YWtKTmRvazdpS0Z2bWt0R1E9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDFGbTNaOGplcDZ6NG1keERLQm94NXRIajZhdlVhNDl0ZFdueGZqRFJ2RzVZ?=
- =?utf-8?B?aXRvNVh0TjdjTTVXV0k5aFZha2RzSW50U1NlTlB1K3JIcy9tS254TTRsdjNW?=
- =?utf-8?B?eEpkZ0F6UjBaUkF5blpoUzRsa0NheXd3TmVDY3JXakxsT0N4WnRQVzZqS3FK?=
- =?utf-8?B?TmdvV0c5Wm5mYng0VU8vRXd1WTI4aHRIL2d0RFJNY3YyNnJCbXlyS2U5K2o0?=
- =?utf-8?B?bWIyYXFvMGVwcXVRMEIzNHUzZ0lVTm9XRk1tRVloYklJNzcvMHh3YTE3NzBx?=
- =?utf-8?B?eVAwVjZ4OVN4YzRaYk02WDBubjlMMGhHUTZaTjMyRFc2emU5eHVCd1g5RStx?=
- =?utf-8?B?WVpacjNOa3M3QlFha0JGci9TaEJnaHBCMTlVQkFIbFlYNHBhMXE3RVIwWnFv?=
- =?utf-8?B?Q0oyTjFrMUpmaWRCZTFQZlNnaTI5eXBicG5nTDlQcC9WSklaQ25PWXhVZWJG?=
- =?utf-8?B?NWNXWkYzTEVpdzl6MTVNNmUrTGY2S3UvTlRQTmdvZEtYNEdwc3ZDYkZJbGRu?=
- =?utf-8?B?bDNYZUdlUFY1dVlKdUhJeUdSemhESmRmWGZueVpQc3pXNktMbnpaYnVIMTUy?=
- =?utf-8?B?N3JqLzB2c3JPSkp1ZzArWkZnVCt2Q2lkbUpmMHY0dUpERkRhZVZKT2xraElC?=
- =?utf-8?B?em9yWDdvWkRwVUFoREx1UjZreDJld0d5RGk1Qk12WTM2aStteUxFaGdFd2dt?=
- =?utf-8?B?RTdNUWpMVXhNTzFDazdGcWRkS3hCalB4aUZsRVg0NlREc2tqdHZOa0dXcjh1?=
- =?utf-8?B?WWVNSlB5ckxTZ1NBRytqTWczWVNpQVdaOUpJZlE2ZEN6UXp2VWphS3FlbmpN?=
- =?utf-8?B?OUtYY2Z1S09oZVRUS0pPUE5FbTdOZVVCbXZpbEQySmJURW1jNXNuRWZ6aENo?=
- =?utf-8?B?dzJPNCtvUkNvTXFvK25tNWo2Z1RVdFhBVExKOU9TTTAwZ1FqU28rWm1LaSta?=
- =?utf-8?B?M3F0amUxdDBIdGRYUG42VVRYN2FCcUQwWkxTWGR4Zlh5YjZXRW1pT0pxN1JE?=
- =?utf-8?B?MUZhMkY0UVA3c3ZkMkpUV3Bma2RWV3R2d1c2aU54Nml5ZUJLMVhYWHNCYjNl?=
- =?utf-8?B?aDUvZlpDZlEyNmhuNFFTdEJrZTgrUTBqYklDNHdkUU9PWXRaUGFZbUlta2Y0?=
- =?utf-8?B?Qzd6VUtiaWtDcnhnYnExTzNaN2VudlpSY21OVC96V3FXbGI0bUt2VWtDaWxa?=
- =?utf-8?B?azd0UXk0NXR1czFuaHNiS1VVVk5jWHZYNm1RUlZkdm5RYVphWjJ5NVI5NU42?=
- =?utf-8?B?V0xSUHRxU2NPc0JUdExIbEQ1SVl3V0R2WldDeExBRE9mZkphSXFFOUx0dUJ3?=
- =?utf-8?B?QmtFQ2dUZDd4TytQR2hJWTFMSUZ3bXE1WU82OU9UOUVrWlB4NlZlNUtETDFN?=
- =?utf-8?B?RHlmVEtPNHdhOHJraGp3ekZQN1RJakp6UUh0RU9oZFNzUHpFQ1dvMUQ2UTI0?=
- =?utf-8?B?Nyswc21NUWR2aFFMN0JOemVlNlBRanR3Y082aUcyTmFaUjUxY0ExM0VkanEr?=
- =?utf-8?B?QktpRG9lODFFV0RZL3QvTWpoOTJ5OU9GTVhvRElUTk0xdktkM3JVemUyK3Ux?=
- =?utf-8?B?Q1dtQS8zVS9keFNXcnc5UC85WmMxalY5YnVrSFcxTVF5UHNhbVZSRkVrb1FE?=
- =?utf-8?B?OCt6WVFtN1NmS0tjNlN3QlExWHZtV2FBRWhtZGt0b2d1YkhJb3pwclZxWUdH?=
- =?utf-8?B?QStwMUVnSTcxMmw2REZMaHlvK0FrdE5aV3JwbUl3MHp2QjhZbGJxU0pOTEZo?=
- =?utf-8?B?emZ0ZC9BSTVBMnFtWUtiVUo2VDUxZ2l5NmlPcDNVdWVzNnc0dFc3NTlLU0l6?=
- =?utf-8?B?VENEeWpQbUFpV3dicVpiQU8vWU5QWi9OczRES0VzY1pMRmJjWThyVzJYUzBi?=
- =?utf-8?B?MG4wclI5bll5dW9sTHBYMk0xOWtZbXhwaU4xK3NPaEJUdGdrcW1SeFhjSHdT?=
- =?utf-8?B?TFlPaDU1OS82Y0FkSlZma25ISWpRS2srdHk3bEdndU5qRHA0RmIwaTllQ0Q5?=
- =?utf-8?B?THpvZisydjJoQjNBTERNR29kY0dDZkI5anFQWFBjWG94L0dHZ3Nxc0lXU0o0?=
- =?utf-8?B?Myt2RkY2TkhPMTJjVFRNRjBCbTczOWFpU2hTNXBnNTYzNzdlK3NscXJya3Js?=
- =?utf-8?Q?sBRaX2Ob8udzaLOSRddgBgVkS?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dU4rL08vMUI3Y0E3S1ZNRVR6UEZsWjRlZ0tvbkdEN3Q5QlA0QW9zNHdvZ2hE?=
+ =?utf-8?B?QzdPSUxmdThFdERZRkJOSzlLcGk1NWFiUUdDK1A2UUlzR3NSVDluZEN6U25t?=
+ =?utf-8?B?V2QvTW54L0ttTElYbFF0VmtiVW5rOE53T0JvL1d6c05JT0RzMVJ1bXQ1ZDE5?=
+ =?utf-8?B?VEZiZTNRMHZ3T05GQlI2WCtTQTF3aFRGQjZ4cFZRQXhxUTViZ3k3eWJoQmxS?=
+ =?utf-8?B?a2tuOFlIUHA3RW9JU3BsZFk1WnV0SnE1Q2FwK3p0L0FLSWRyVE9BcjZSczlN?=
+ =?utf-8?B?bldWMlRCQURlSTN6UTFpM0pQTFNjbTVWTTVicG5ibVhaeTh0c0VkRXIrTG4y?=
+ =?utf-8?B?MkEzSFBvL2hlYThZSHZmMXoxVldtMHdjMFRqRWZ3YjFqNW9haGJERHVHU2s1?=
+ =?utf-8?B?bW9kMU5tcjRLTTQzTDg3ZXRLbU1rUFBWd254WUFQWWladHJBWDREQ3hpQm5V?=
+ =?utf-8?B?TExNVkpob3R4UnBCNXE5Z2Y3dlgvSVZKaU9uUGEyUFVEejdIL2hyT0graW9V?=
+ =?utf-8?B?TEhiN2I4R1E5ejZIN25Cc2JuencyWFhCanZXcFFSeVBHSThNWkhMNStGTEF3?=
+ =?utf-8?B?aG13dWE3eHhLWUxHVzRTaG5pd2ZISDRXd1NkMHRrcmkzK0NkMlMyZURFM0tr?=
+ =?utf-8?B?NERDcHhyM0trMXBGTzRjcWpNZFZEaTQ2Y0xoRU9la1ByUmpVL1hXeGIvcU44?=
+ =?utf-8?B?b0Q2WWRBV1hMU3BJQ0wzS3lwUndHVkx0L0VpYVZxTUNCYlhmTC9acUdUYWtN?=
+ =?utf-8?B?Yk9zOTRDMjJYeksyaGxTblVsNFllRTkyeURVMGg4Y2pzNU1FaVMyT2ZhZlE3?=
+ =?utf-8?B?NC9jRkRFNFVpRzQweW5OOExoS2N5UHlYWnVSNm5PM1VYR05YeUthdXBxbldZ?=
+ =?utf-8?B?alF5eWt4ZXhucHlyTnZuYmdMbS9idHhKaGhQL3JRWG9VZ1psaEo0ZmxtaXZQ?=
+ =?utf-8?B?eXdxSkxZaVlsOW1jVndNaHB0aE5BK2dUMTloLzRHUFo2aHBOWXZnT2dwTGZv?=
+ =?utf-8?B?MUVESEpjdXA4d1V6ZTFDc1JnSG5yYmNmdmFXTFNXTkRLYVBaSlpSS1R6STN0?=
+ =?utf-8?B?ZzFDSW9ySi9sb3pVNnRHSnlYZXU0NWFJdnIrVEd6WkFyNDRkVTI0QUd2NzFj?=
+ =?utf-8?B?c0lwL1FxdzJSUnJLLytTZWMzeWRSV1owNmdjY2JVME9iZEZOOHd0bnJ4bUpV?=
+ =?utf-8?B?MWsxOGFUemZlbk93YjA5d0t2LzVKU0hYMUtWV1AyYXU3LzFMMS9NcFJncjBm?=
+ =?utf-8?B?SFo4U0JaamRMcktHR285cjVZSlN4eUpZSDdwNHBudGRZemFDUElpLytsVWVq?=
+ =?utf-8?B?bXYzNFFkdU9UdHNmeHdJbWkybkdBSStqVnFocFBRTmZNUG1ZMUg4MFhpYm1G?=
+ =?utf-8?B?TnlsUSs1ZjkwL0U4R2p5SkxRR3Evem1Ca0xlWkN2UlFQSWl4T2NVM1hTUkRH?=
+ =?utf-8?B?ODNja2E1RDVaUHdOaUJJM1RvTnVZVjBQbzJLNkcvQUVua0JsVDZRcFVKblQx?=
+ =?utf-8?B?VWpOUFNsUGNOQzRUcVVoVGo2V1Y1bkk1NkFaT2tjcGxMNUo0a2pXM1RiMU80?=
+ =?utf-8?B?Wlg3NHg1WThEdEJlZkJGYnhZK2NOTGZyZHYwSU11VEprajI5YzI3bVBTWWRX?=
+ =?utf-8?B?RVZ2R09LZjdoT05WMGNSS0pvc3JVdWFFYUF6MC9mNU1aMkJoUW85a1p3ZDVN?=
+ =?utf-8?B?VXd1ajJhUDIwTlNKL0NMQjZEUE1xVnVaanBWZUI0amQ2VGRnVk9rYmRRUFov?=
+ =?utf-8?B?UHYwbURVam9uVVl1Q1BqMmVJbWljUGcvNzNPamNoT3pTOTR2Zlhmd25tM1gz?=
+ =?utf-8?B?RjFFcWRTdzlob1BqNzhRNTVUUWhNejY5aVBXRGoxTE5iQ2IxcUcwdTYvUFdO?=
+ =?utf-8?B?SGRBWFhZd0QxVTdWUnNTYVZFSXU2RzVDUTBkbDRGUER0RjlVK2VYTUFpL1hW?=
+ =?utf-8?B?blZIUHAzSUZHOFplenNDV1l2bGwwaHRzazRDa2tmYU1MbHZxa1lmdCsrTDFp?=
+ =?utf-8?B?bE5YWWwrNEhTdmZ2THpLUm9TY0ZHZDZUU0xKcmVhR0hUdjJtalkwaE0yV2lh?=
+ =?utf-8?B?QmFzbzV0Z1J4MFMwZk9JeXpoendUUjFmZkphOWgxdGM5cEVqRUlUU2JVc0Uz?=
+ =?utf-8?Q?I7SUpkLIly0XNVJdfFu2TuuHj?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1023db09-e44f-40eb-ead1-08dd89f8205b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 389378ae-e389-44cf-dcda-08dd89f821a2
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2025 04:08:14.5109 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2025 04:08:16.6555 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +W57i/bpWH+ejeoFkY5xnHDiCEiEAkH89ealfCqtHx9qQVOVjudBpFAFyLX7lzAuoKPr0oeR+xExdF13GWgyGQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: u1vJ1QELDf+voDp2MgP9LO2Vad5TvN7dn7dfkySbKkMSgsxM8U9e87GAARMs/9u7EiYBQxdFQOyw1CaUPzcFsA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7713
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -171,211 +170,212 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add detailed explanation and block diagrams of the layout of the vBIOS
-on Nvidia GPUs. This is important to understand how nova-core boots an
-Nvidia GPU.
-
-[ Applied Timur Tabi's feedback on providing link to BIT documentation. ]
+Add explanation of fwsec with diagrams. This helps clarify how the
+nova-core falcon boot works.
 
 Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 ---
- Documentation/gpu/nova/core/vbios.rst | 177 ++++++++++++++++++++++++++
+ Documentation/gpu/nova/core/fwsec.rst | 180 ++++++++++++++++++++++++++
  Documentation/gpu/nova/index.rst      |   1 +
- 2 files changed, 178 insertions(+)
- create mode 100644 Documentation/gpu/nova/core/vbios.rst
+ 2 files changed, 181 insertions(+)
+ create mode 100644 Documentation/gpu/nova/core/fwsec.rst
 
-diff --git a/Documentation/gpu/nova/core/vbios.rst b/Documentation/gpu/nova/core/vbios.rst
+diff --git a/Documentation/gpu/nova/core/fwsec.rst b/Documentation/gpu/nova/core/fwsec.rst
 new file mode 100644
-index 000000000000..04ced35648cb
+index 000000000000..bed941ac3f2b
 --- /dev/null
-+++ b/Documentation/gpu/nova/core/vbios.rst
-@@ -0,0 +1,177 @@
++++ b/Documentation/gpu/nova/core/fwsec.rst
+@@ -0,0 +1,180 @@
 +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+==========
-+VBIOS
-+==========
-+This document describes the layout of the VBIOS image which is a series of concatenated
-+images in the ROM of the GPU. The VBIOS is mirrored onto the BAR 0 space and is read
-+by both Boot ROM firmware (also known as IFR or init-from-rom firmware) on the GPU to
-+boot strap various microcontrollers (PMU, SEC, GSP) with critical initialization before
-+the driver loads, as well as by the nova-core driver in the kernel to boot the GSP.
++=========================
++FWSEC (Firmware Security)
++=========================
++This document briefly/conceptually describes the FWSEC (Firmware Security) image
++and its role in the GPU boot sequence. As such, this information is subject to
++change in the future and is only current as of the Ampere GPU family. However,
++hopefully the concepts described will be useful for understanding the kernel code
++that deals with it. All the information is derived from publicly available
++sources such as public drivers and documentation.
 +
-+The format of the images in the ROM follow the "BIOS Specification" part of the
-+PCI specification, with Nvidia-specific extensions. The ROM images of type FwSec
-+are the ones that contain Falcon ucode and what we are mainly looking for.
++The role of FWSEC to provide secure boot, it is running in Heavy-secure mode. It does
++firmware verification after GPU reset and load various ucode images on to the other
++microcontrollers on the GPU such as the PMU and GSP.
 +
-+As an example, the following are the different image types that can be found in the
-+VBIOS of an Ampere GA102 GPU which is supported by the nova-core driver.
++FWSEC itself is an application stored in the VBIOS ROM in the FWSEC partition of
++ROM (see vbios.rst for more details). It contains different commands like FRTS
++(Firmware Runtime Services) and SB (Secure Booting other microcontrollers after
++reset and loading them with other non-FWSEC ucode). The kernel driver only needs to
++to do FRTS, since SB is already already after reset by the time the kernel driver
++is loaded.
 +
-+- PciAt Image (Type 0x00) - This is the standard PCI BIOS image who's naming likely
-+    comes from the "IBM PC/AT" architecture.
++The FRTS command carves out the WPR2 region (Write protected region) which contains
++data data required for power management. Once setup, only HS mode ucode can
++access it (see falcon.rst for privilege levels).
 +
-+- EFI Image (Type 0x03) - This is the EFI BIOS image. It contains the UEFI GOP
-+  driver that is used to display UEFI graphics output.
++The FWSEC image is located in the VBIOS ROM in the partition of the ROM that contains
++various ucode images (also known as applications) -- one of them being FWSEC. For how
++it is extracted, see vbios.rst and the vbios.rs source code.
 +
-+- First FwSec Image (Type 0xE0) - The first FwSec image (Secure Firmware)
++The Falcon data for each ucode images (including the FWSEC image) is a combination
++of headers, data sections (DMEM) and instruction code sections (IMEM). All these
++ucode images are stored in the same ROM partition and the PMU table is used to look
++up the application to load it based on its application ID (see vbios.rs).
 +
-+- Second FwSec Image (Type 0xE0) - The second FwSec image (Secure Firmware)
-+  contains various different microcodes (also known as an applications) that do
-+  a range of different functions. The FWSEC ucode is run in heavy-secure mode and
-+  typically runs directly on the GSP (it could be running on a different designated
-+  processor in future generations but as of Ampere, it is the GSP). This firmware
-+  then loads other firmware ucodes onto the PMU and SEC2 microcontrollers for gfw
-+  initialization after GPU reset and before the driver loads (see devinit.rst).
-+  The DEVINIT ucode is itself another ucode that is stored in this ROM partition.
-+  
-+The Falcon ucodes once located have  "Application Interfaces" in the data memory (DMEM)
-+of the ucode. For FWSEC, the application interface we use for FWSEC is the "DMEM mapper"
-+interface which is configured to run the "FRTS" command. This command performs carving
-+out of the WPR2 area (Write protected region) in the VRAM and placing important data
-+called 'FRTS' into it which contains power-management data. The WPR2 region is only
-+accessible to heavy-secure ucode.
++For the purposes of nova-core driver, the FWSEC contains an 'application interface'
++called DMEMMAPPER which is used to the "FWSEC-FRTS" command (among other commands it
++is capable of executing). For Ampere, FWSEC is running on the GSP in Heavy-secure
++mode and runs FRTS.
++
++FWSEC Memory Layout
++-------------------
++The memory layout of the FWSEC image is as follows (this is using an GA-102
++Ampere GPU as an example and could vary for future GPUs and is subject to change
++completely, it is just provided as an example):
++
++Here is a block diagram of the FWSEC memory layout::
++ ┌───────────────────────────────────────────────────────────────┐
++ │                         FWSEC ROM image (type 0xE0)           │
++ │                                                               │
++ │  ┌─────────────────────────────────┐                          │
++ │  │     PMU Falcon Ucode Table      │                          │
++ │  │     (PmuLookupTable)            │                          │
++ │  │  ┌─────────────────────────┐    │                          │
++ │  │  │ Table Header            │    │                          │
++ │  │  │ - version: 0x01         │    │                          │
++ │  │  │ - header_size: 6        │    │                          │
++ │  │  │ - entry_size: 6         │    │                          │
++ │  │  │ - entry_count: N        │    │                          │
++ │  │  │ - desc_version:3(unused)│    │                          │
++ │  │  └─────────────────────────┘    │                          │
++ │  │         ...                     │                          │
++ │  │  ┌─────────────────────────┐    │                          │
++ │  │  │ Entry for FWSEC (0x85)  │    │                          │
++ │  │  │ (PmuLookupTableEntry)   │    │                          │
++ │  │  │ - app_id: 0x85 (FWSEC)  │ ───┼────┐                     │
++ │  │  │ - target_id: 0x01 (PMU) │    │    │                     │
++ │  │  │ - data: offset ─────────┼────┼────┼───┐ look up FWSEC   │
++ │  │  └─────────────────────────┘    │    │   │ application.    │
++ │  └─────────────────────────────────┘    │   │                 │
++ │                                         │   │                 │
++ │                                         │   │                 │
++ │  ┌─────────────────────────────────┐    │   │                 │
++ │  │     FWSEC Ucode Component       │<───┘   │                 │
++ │  │     (aka Falcon data)           │        │                 │
++ │  │  ┌─────────────────────────┐    │        │                 │
++ │  │  │ FalconUCodeDescV3       │<───┼────────┘                 │
++ │  │  │ - hdr                   │    │                          │
++ │  │  │ - stored_size           │    │                          │
++ │  │  │ - pkc_data_offset       │    │                          │
++ │  │  │ - interface_offset ─────┼────┼────────────────┐         │
++ │  │  │ - imem_phys_base        │    │                │         │
++ │  │  │ - imem_load_size        │    │                │         │
++ │  │  │ - imem_virt_base        │    │                │         │
++ │  │  │ - dmem_phys_base        │    │                │         │
++ │  │  │ - dmem_load_size        │    │                │         │
++ │  │  │ - engine_id_mask        │    │                │         │
++ │  │  │ - ucode_id              │    │                │         │
++ │  │  │ - signature_count       │    │    look up sig │         │
++ │  │  │ - signature_versions --------------+          │         │
++ │  │  └─────────────────────────┘    │     │          │         │
++ │  │         (no gap)                │     │          │         │
++ │  │  ┌─────────────────────────┐    │     │          │         │
++ │  │  │ Signatures Section      │<───┼─────┘          │         │
++ │  │  │ (384 bytes per sig)     │    │                │         │
++ │  │  │ - RSA-3K Signature 1    │    │                │         │
++ │  │  │ - RSA-3K Signature 2    │    │                │         │
++ │  │  │   ...                   │    │                │         │
++ │  │  └─────────────────────────┘    │                │         │
++ │  │                                 │                │         │
++ │  │  ┌─────────────────────────┐    │                │         │
++ │  │  │ IMEM Section (Code)     │    │                │         │
++ │  │  │                         │    │                │         │
++ │  │  │ Contains instruction    │    │                │         │
++ │  │  │ code etc.               │    │                │         │
++ │  │  └─────────────────────────┘    │                │         │
++ │  │                                 │                │         │
++ │  │  ┌─────────────────────────┐    │                │         │
++ │  │  │ DMEM Section (Data)     │    │                │         │
++ │  │  │                         │    │                │         │
++ │  │  │ ┌─────────────────────┐ │    │                │         │
++ │  │  │ │ Application         │ │<───┼────────────────┘         │
++ │  │  │ │ Interface Table     │ │    │                          │
++ │  │  │ │ (FalconAppifHdrV1)  │ │    │                          │
++ │  │  │ │ Header:             │ │    │                          │
++ │  │  │ │ - version: 0x01     │ │    │                          │
++ │  │  │ │ - header_size: 4    │ │    │                          │
++ │  │  │ │ - entry_size: 8     │ │    │                          │
++ │  │  │ │ - entry_count: N    │ │    │                          │
++ │  │  │ │                     │ │    │                          │
++ │  │  │ │ Entries:            │ │    │                          │
++ │  │  │ │ ┌─────────────────┐ │ │    │                          │
++ │  │  │ │ │ DEVINIT (ID 1)  │ │ │    │                          │
++ │  │  │ │ │ - id: 0x01      │ │ │    │                          │
++ │  │  │ │ │ - dmemOffset X ─┼─┼─┼────┐                          │
++ │  │  │ │ └─────────────────┘ │ │    │                          │
++ │  │  │ │ ┌─────────────────┐ │ │    │                          │
++ │  │  │ │ │ DMEMMAPPER(ID 4)│ │ │    │                          │
++ │  │  │ │ │ - id: 0x04      │ │ │    │ Used only for DevInit    │
++ │  │  │ │ │  (NVFW_FALCON_  │ │ │    │ application (not FWSEC)  │
++ │  │  │ │ │   APPIF_ID_DMEMMAPPER)   │                          │
++ │  │  │ │ │ - dmemOffset Y ─┼─┼─┼────┼─────┐                    │
++ │  │  │ │ └─────────────────┘ │ │    │     │                    │
++ │  │  │ └─────────────────────┘ │    │     │                    │
++ │  │  │                         │    │     │                    │
++ │  │  │ ┌─────────────────────┐ │    │     │                    │
++ │  │  │ │ DEVINIT Engine      │<┼────┘     │ Used by FWSEC      │
++ │  │  │ │ Interface           │ │    │     │         app.       │
++ │  │  │ └─────────────────────┘ │    │     │                    │
++ │  │  │                         │    │     │                    │
++ │  │  │ ┌─────────────────────┐ │    │     │                    │
++ │  │  │ │ DMEM Mapper (ID 4)  │<┼────+─────┘                    │
++ │  │  │ │ (FalconAppifDmemmapperV3)  │                          │
++ │  │  │ │ - signature: "DMAP" │ │    │                          │
++ │  │  │ │ - version: 0x0003   │ │    │                          │
++ │  │  │ │ - Size: 64 bytes    │ │    │                          │
++ │  │  │ │ - cmd_in_buffer_off │ │────┼────────────┐             │
++ │  │  │ │ - cmd_in_buffer_size│ │    │            │             │
++ │  │  │ │ - cmd_out_buffer_off│ │────┼────────────┼─────┐       │
++ │  │  │ │ - cmd_out_buffer_sz │ │    │            │     │       │
++ │  │  │ │ - init_cmd          │ │    │            │     │       │
++ │  │  │ │ - features          │ │    │            │     │       │
++ │  │  │ │ - cmd_mask0/1       │ │    │            │     │       │
++ │  │  │ └─────────────────────┘ │    │            │     │       │
++ │  │  │                         │    │            │     │       │
++ │  │  │ ┌─────────────────────┐ │    │            │     │       │
++ │  │  │ │ Command Input Buffer│<┼────┼────────────┘     │       │
++ │  │  │ │ - Command data      │ │    │                  │       │
++ │  │  │ │ - Arguments         │ │    │                  │       │
++ │  │  │ └─────────────────────┘ │    │                  │       │
++ │  │  │                         │    │                  │       │
++ │  │  │ ┌─────────────────────┐ │    │                  │       │
++ │  │  │ │ Command Output      │<┼────┼──────────────────┘       │
++ │  │  │ │ Buffer              │ │    │                          │
++ │  │  │ │ - Results           │ │    │                          │
++ │  │  │ │ - Status            │ │    │                          │
++ │  │  │ └─────────────────────┘ │    │                          │
++ │  │  └─────────────────────────┘    │                          │
++ │  └─────────────────────────────────┘                          │
++ │                                                               │
++ └───────────────────────────────────────────────────────────────┘
 +
 +.. note::
-+   It is not clear why FwSec has 2 different partitions in the ROM, but they both
-+   are of type 0xE0 and can be identified as such. This could be subject to change
-+   in future generations.
-+
-+VBIOS ROM Layout
-+----------------
-+The VBIOS layout is roughly a series of concatenated images as follows:
-+(For more explanations of acronyms, see the detailed descriptions in vbios.rs).
-+
-+.. note::
-+   This diagram is created based on an GA-102 Ampere GPU as an example and could
-+   vary for future or other GPUs.
-+
-+Here is a block diagram of the VBIOS layout::
-+
-+ ┌────────────────────────────────────────────────────────────────────────┐
-+ │ VBIOS (Starting at ROM_OFFSET: 0x300000)                               │
-+ ├────────────────────────────────────────────────────────────────────────┤
-+ │ ┌───────────────────────────────────────────────┐                      │
-+ │ │ PciAt Image (Type 0x00)                       │                      │
-+ │ ├───────────────────────────────────────────────┤                      │
-+ │ │ ┌───────────────────┐                         │                      │
-+ │ │ │ ROM Header        │                         │                      │
-+ │ │ │ (Signature 0xAA55)│                         │                      │
-+ │ │ └───────────────────┘                         │                      │
-+ │ │         │ rom header's pci_data_struct_offset │                      │
-+ │ │         │ points to the PCIR structure        │                      │
-+ │ │         V                                     │                      │
-+ │ │ ┌───────────────────┐                         │                      │
-+ │ │ │ PCIR Structure    │                         │                      │
-+ │ │ │ (Signature "PCIR")│                         │                      │
-+ │ │ │ last_image: 0x80  │                         │                      │
-+ │ │ │ image_len: size   │                         │                      │
-+ │ │ │ in 512-byte units │                         │                      │
-+ │ │ └───────────────────┘                         │                      │
-+ │ │         │                                     │                      │
-+ │ │         │ NPDE immediately follows PCIR       │                      │
-+ │ │         V                                     │                      │
-+ │ │ ┌───────────────────┐                         │                      │
-+ │ │ │ NPDE Structure    │                         │                      │
-+ │ │ │ (Signature "NPDE")│                         │                      │
-+ │ │ │ last_image: 0x00  │                         │                      │
-+ │ │ └───────────────────┘                         │                      │
-+ │ │                                               │                      │
-+ │ │ ┌───────────────────┐                         │                      │
-+ │ │ │ BIT Header        │ (Signature scanning     │                      │
-+ │ │ │ (Signature "BIT") │  provides the location  │                      │
-+ │ │ └───────────────────┘  of the BIT table)      │                      │
-+ │ │         │ header is                           │                      │
-+ │ │         | followed by a table of tokens       │                      │
-+ │ │         V one of which is for falcon data.    │                      │
-+ │ │ ┌───────────────────┐                         │                      │
-+ │ │ │ BIT Tokens        │                         │                      │
-+ │ | |  ______________   |                         |                      |
-+ │ │ │ │ Falcon Data │   │                         │                      │
-+ │ │ │ │ Token (0x70)│---+------------>------------┼──+                   │
-+ │ │ │ └─────────────┘   │  falcon_data_ptr()      │  │                   │
-+ │ │ └───────────────────┘                         │  V                   │
-+ │ └───────────────────────────────────────────────┘  │                   │
-+ │              (no gap between images)               │                   │
-+ │ ┌───────────────────────────────────────────────┐  │                   │
-+ │ │ EFI Image (Type 0x03)                         │  │                   │
-+ │ ├───────────────────────────────────────────────┤  │                   │
-+ │ | Contains the UEFI GOP driver (Graphics Output)|  |                   |
-+ │ │ ┌───────────────────┐                         │  │                   │
-+ │ │ │ ROM Header        │                         │  │                   │
-+ │ │ +───────────────────+                         │  │                   │
-+ │ │ │ PCIR Structure    │                         │  │                   │
-+ │ │ +───────────────────+                         │  │                   │
-+ │ │ │ NPDE Structure    │                         │  │                   │
-+ │ │ └───────────────────┘                         │  │                   │
-+ │ │ │ Image data        │                         │  │                   │
-+ │ │ └───────────────────┘                         │  │                   │
-+ │ └───────────────────────────────────────────────┘  │                   │
-+ │              (no gap between images)               │                   │
-+ │ ┌───────────────────────────────────────────────┐  │                   │
-+ │ │ First FwSec Image (Type 0xE0)                 │  │                   │
-+ │ ├───────────────────────────────────────────────┤  │                   │
-+ │ │ ┌───────────────────┐                         │  │                   │
-+ │ │ │ ROM Header        │                         │  │                   │
-+ │ │ +───────────────────+                         │  │                   │
-+ │ │ │ PCIR Structure    │                         │  │                   │
-+ │ │ +───────────────────+                         │  │                   │
-+ │ │ │ NPDE Structure    │                         │  │                   │
-+ │ │ └───────────────────┘                         │  │                   │
-+ │ │ │ Image data        │                         │  │                   │
-+ │ │ └───────────────────┘                         │  │                   │
-+ │ └───────────────────────────────────────────────┘  │                   │
-+ │              (no gap between images)               │                   │
-+ │ ┌───────────────────────────────────────────────┐  │                   │
-+ │ │ Second FwSec Image (Type 0xE0)                │  │                   │
-+ │ ├───────────────────────────────────────────────┤  │                   │
-+ │ │ ┌───────────────────┐                         │  │                   │
-+ │ │ │ ROM Header        │                         │  │                   │
-+ │ │ +───────────────────+                         │  │                   │
-+ │ │ │ PCIR Structure    │                         │  │                   │
-+ │ │ +───────────────────+                         │  │                   │
-+ │ │ │ NPDE Structure    │                         │  │                   │
-+ │ │ └───────────────────┘                         │  │                   │
-+ │ │                                               │  │                   │
-+ │ │ ┌───────────────────┐                         │  │                   │
-+ │ │ │ PMU Lookup Table  │ <- falcon_data_offset   │<─┘                   │
-+ │ │ │ ┌─────────────┐   │    pmu_lookup_table     │                      │
-+ │ │ │ │ Entry 0x85  │   │                         │                      │
-+ │ │ │ │ FWSEC_PROD  │   │                         │                      │
-+ │ │ │ └─────────────┘   │                         │                      │
-+ │ │ └───────────────────┘                         │                      │
-+ │ │         │                                     │                      │
-+ │ │         │ points to                           │                      │
-+ │ │         V                                     │                      │
-+ │ │ ┌───────────────────┐                         │                      │
-+ │ │ │ FalconUCodeDescV3 │ <- falcon_ucode_offset  │                      │
-+ │ │ │ (FWSEC Firmware)  │    fwsec_header()       │                      │
-+ │ │ └───────────────────┘                         │                      │
-+ │ │         │   immediately followed  by...       │                      │
-+ │ │         V                                     │                      │
-+ │ │ ┌────────────────────────────┐                │                      │
-+ │ │ │ Signatures + FWSEC Ucode   │                │                      │
-+ │ │ │ fwsec_sigs(), fwsec_ucode()│                │                      │
-+ │ │ └────────────────────────────┘                │                      │
-+ │ └───────────────────────────────────────────────┘______________________│
-+
-+Falcon data Lookup
-+------------------
-+A key part of the VBIOS extraction code (vbios.rs) is to find the location of the
-+Falcon data in the VBIOS which contains the PMU lookup table. This lookup table is
-+used to find the required Falcon ucode based on an application ID.
-+
-+The location of the PMU lookup table is found by scanning the BIT (`BIOS Information Table`_)
-+tokens for a token with the id `BIT_TOKEN_ID_FALCON_DATA` (0x70) which indicates the
-+offset of the same from the start of the VBIOS image. Unfortunately, the offset
-+does not account for the EFI image that sits between the PciAt image and the FwSec
-+images, the vbios.rs code compensates for that with appropriate arithmetic.
-+
-+.. _`BIOS Information Table`: https://download.nvidia.com/open-gpu-doc/BIOS-Information-Table/1/BIOS-Information-Table.html
++   The FWSEC image also plays a role in memory scrubbing (ECC initialization) and VPR
++   (Video Protected Region) initialization as well. Before the nova-core driver is even
++   loaded, the FWSEC image is running on the GSP in heavy-secure mode. After the devinit
++   sequence completes, it does VRAM memory scrubbing (ECC initialization). On consumer
++   GPUs, it scrubs only part of memory and then initiates 'async scrubbing'. Before this
++   async scrubbing completes, the unscrubbed VRAM cannot be used for allocation (thus DRM
++   memory allocators need to wait for this scrubbing to complete).
+\ No newline at end of file
 diff --git a/Documentation/gpu/nova/index.rst b/Documentation/gpu/nova/index.rst
-index 2701b3f4af35..91cc802ed94f 100644
+index 91cc802ed94f..22e5712ac6b0 100644
 --- a/Documentation/gpu/nova/index.rst
 +++ b/Documentation/gpu/nova/index.rst
-@@ -27,4 +27,5 @@ vGPU manager VFIO driver and the nova-drm driver.
-    :titlesonly:
+@@ -28,4 +28,5 @@ vGPU manager VFIO driver and the nova-drm driver.
  
     core/guidelines
-+   core/vbios
+    core/vbios
++   core/fwsec
     core/todo
 -- 
 2.43.0
