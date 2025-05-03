@@ -2,129 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C066AA7F27
-	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 09:17:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B24AA7F60
+	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 10:13:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73F8F10E371;
-	Sat,  3 May 2025 07:17:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEA6810E074;
+	Sat,  3 May 2025 08:13:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nrBqsGiF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cbqeKAIC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B23710E397
- for <dri-devel@lists.freedesktop.org>; Sat,  3 May 2025 07:17:47 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5433t5k2009452
- for <dri-devel@lists.freedesktop.org>; Sat, 3 May 2025 07:17:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- lSJKkDkoSWE8nhkAgT4eH2XDgxhrq4hNsHec/iGqYag=; b=nrBqsGiFNdzRKvJ6
- RKqbzU66SJAiqkBistUISM4ZklLV1IYs9kDTTIj3tZ/X5TA6/L9Ugffstny9gK0M
- aNFFY59M7lYZ0fUSvAgnXNeRPxIEY3saCvtykuPwCnsShxB6ILTeFk0vdqNFeUe7
- 8LDHVWeQ65nEX8qgQjNMVXv8e3gUfi3WQ5Wq7fnsSZyhRzQiEprBER4vjL+4KtDR
- JW/H0ZPteRhL4W/5QVGOeqTqXrSsA6W3mABsS1UCeDyhPUEihz4Jt6jF/1ySb3+x
- XfUHJT6HRaimd5o7A8koXiAW8B1hR5qbsJB41e1j3dvtc/xTzkJ86D68cKER7mPb
- rDN9HA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46daqxg940-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 03 May 2025 07:17:46 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-48cc1907229so23796401cf.3
- for <dri-devel@lists.freedesktop.org>; Sat, 03 May 2025 00:17:46 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49BBC10E074
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 May 2025 08:13:52 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-54afb5fcebaso3705924e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 03 May 2025 01:13:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1746260030; x=1746864830; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8sWrBJj6gfHpTqpyh7pT+JCavfPofDc7ziZnIEFASfM=;
+ b=cbqeKAICooc05NcPdJTzHGl/cWdc1o8rhZN5eT0ZU5jsUFqQMoZhzVTl7Vl7E/LOox
+ zVitg7zEkJgWYtV0Fj7YFbGuWECybFApWCUJe+nAZdG9ndK5HP5hY2m0QQ+kbIwYlIt+
+ EOE3loXJKOgm4jbgynwPZ3zcxJXMO4XT9PFJIgDg7fLnSRzG6trgUeEmS55FKFfPT6zi
+ AsYsjKKkc/fgtDbWlqC4NLu/e2i96i7d9jvaFOLmRqoQ82+Kb9iwshajX+o67oFfj+vp
+ CFgID3cGYd5/HmpQ+lnrQSe8H5edGGuoGeDG5+p9pEeWKlhGoRX85xpp/Og7zsvg5LJu
+ r2BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746256654; x=1746861454;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lSJKkDkoSWE8nhkAgT4eH2XDgxhrq4hNsHec/iGqYag=;
- b=RTVrHoXldtsBr1OHEYZvjPVvtmx+1paY3u05DM3XsIhEgMXsRZ6QXhkRHlja+0M4Z0
- TpiNs3agwTreogI7HrJifvb/QWy3jqo6u5smYGsEki+4sTteoVL3reYErPihdUQKXgiO
- Fp4CFIQck7erXQZo1Z8EF/4Iw8ZGmTAZtzVpOSBGwruwpLWsq5Oo5odadeOp9/3itMx9
- 2vYSM1mRQx6eHFIQISnuVzv20tbeqbnAGjd6Uyh2ftX7hPotGNjCKiC4/tMOFmi/BBm5
- eAzqPXslHpJDNUM7adqfFMgAPKwxnSvpAsHHjZUbGfK2SldMAcW52QvJyIE+qsPQYrQm
- A+Kg==
+ d=1e100.net; s=20230601; t=1746260030; x=1746864830;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8sWrBJj6gfHpTqpyh7pT+JCavfPofDc7ziZnIEFASfM=;
+ b=qUJMgASSv1k9Fo2F20+I52O90Hub3GLGFBtIwQSiuDzUU3UWUzUfPbWSvECAGA6580
+ kwJaP2J0egs51UhdiLC9/wIfQUUPBYXn3xgUOtc4la0yUewVfyDuzCaWmLhKhCGmbye6
+ oZngdh7BUncGfFMcwCMVKC+nec8mUqPYOLKtEoEnYsRvRVWMFerT2rVg4qiCMdnamiGu
+ K+oyIeNYkW1htLJ7EFVCuAiJnM5JH70QCup4AILJemW2n/NOUtt6wUX01Z1oeQCBX53e
+ 9XGNZZHr7KMkSaknNqDPx/4svUENDSRdlMVy9OIsSn6+8mJAmVks+WHBrTPx/Aw0zOJw
+ Gf8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUPlpqCWm/ASv5IBW+2QuxpBntawnHplNE82v1cvbNwNphCVygNiDJHGP6E5RRywd1XO0r33C0uRVE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzuOrYPELZMwodc/hG0lOAWcJ8JIvnvS+cmkerCfF+/ZBT7GICm
- RyZySb3fNQfxoiaqeil9kFBjM2MJI1762bcLTWyOaWiZRJxJe7HPoGTQXtdSCFKdKqYfKuD3FfO
- CIbFVJvgeF4Y8T9mkBpRR+enhZVEJNdiVj7o/Pu736hOl9PMEs4EC2KHL396JL1WRCfA=
-X-Gm-Gg: ASbGncuoTCVnvK2Zk0jSjm/Z6F/JVNN61siudH2LAXAQhaeuwlZMgDIBRIWK5x3MzJP
- HScfX+hbB6BN1R+mQk8iro7581WKAhrJTEjOKgJQdI+L/71cdrgEmJJJbRwRXogfKI6CWd3R7pl
- J3LDHB28P53bqZkxveU/9rU8a6d97Uh7bfC5m+7CiJBAu2VAUlzZJZ6/70jKtZ1p5X3hf6/C4k5
- EHzP5Sn6nj2fL2Y6nKzxofb4V0y8FLM7WSH53HoMJfCfPgpRKUXNsUIBvuw+HsX6+LbJ5zNjkmq
- Vu9gtfXunEAIk836x5BsdK6GXz67+h9LRmT6lQOdP5wH3Yebrc3tavO0r6MdxoNzvI0nn/0bbcO
- nhXbv2Iiv3biCCplT7UkxeDnK
-X-Received: by 2002:a05:622a:48a:b0:48c:a62c:756b with SMTP id
- d75a77b69052e-48dffec0d5emr1317021cf.25.1746256653912; 
- Sat, 03 May 2025 00:17:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHLn6+yFYRF3qywhMHziWbwDigx46MW1YhSgbGnrfve/PE/e5AYsNCMtHmHg2jIwJui/E2g1g==
-X-Received: by 2002:a05:622a:48a:b0:48c:a62c:756b with SMTP id
- d75a77b69052e-48dffec0d5emr1316791cf.25.1746256653473; 
- Sat, 03 May 2025 00:17:33 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ea94c5557sm692816e87.84.2025.05.03.00.17.32
+ AJvYcCXlU6S/346rDRxGTAbS9W15F5MghCpgPgO7SNPmJCf6/RWPVzblnUpyJ2IwY7lNnvJjQgFBMtLnHoI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzstzZKbMAISDGXxGlybZaU8rtoxzto/juSzi8GHhMA5uHmG5Jm
+ O3QETKwX7Stv0KTH1H5tIc1YwCAEpRkxE1QHUqTr12VrdwKNiPCs
+X-Gm-Gg: ASbGncu0nvMC+j8YCjBPdq1Kh/q944RakTQ9JoK3WOzYpsj9Tr7mNezrIa0LIn2cdIW
+ Uhc4QXs3yctZFgyCgtDA22mIlY/DhayVh8MwaPPBcDvdksVQULn6kEeSb5gZBww8eYGokc6NsJE
+ mfQX4NLb8MlEF98RWlNzg5O30w2OSonRDa+j2jHW1CNVII0uppeJtfzyxDYNz3nl/tBLXLMfMGJ
+ cKC3J5UFIWyVDR5ARzTUjqMawuF/2LQ51rTC1bipaHQY8kSxXDvPAsPmufzr+NjdUNnhizj3bEH
+ MeHgcnN7H2riErxVX2iGj/bYfi8bGi4hZ6VRb1EbUgq4dRT8TUYXL6bSywhYSAiacgV/iUDxo+g
+ c632w4VYjeJSt7th/0NMu
+X-Google-Smtp-Source: AGHT+IHTURik6XJQXQtn9hy97s6kSGrL10STZD54xof5ds1w3TV4rLWUJ/qTkZwS/Pa9E2+vZoQpjQ==
+X-Received: by 2002:a05:6512:b23:b0:54e:8db5:68eb with SMTP id
+ 2adb3069b0e04-54eb2444e63mr465250e87.28.1746260030156; 
+ Sat, 03 May 2025 01:13:50 -0700 (PDT)
+Received: from [192.168.1.129] (83-233-6-197.cust.bredband2.com.
+ [83.233.6.197]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54ea94f18fdsm687959e87.188.2025.05.03.01.13.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 May 2025 00:17:32 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sat, 03 May 2025 10:17:10 +0300
-Subject: [PATCH v2 11/11] drm/msm: make it possible to disable GPU support
+ Sat, 03 May 2025 01:13:49 -0700 (PDT)
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+Date: Sat, 03 May 2025 10:13:40 +0200
+Subject: [PATCH v2] drm/sitronix: move tiny Sitronix drivers to their own
+ subdir
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250503-msm-gpu-split-v2-11-1292cba0f5ad@oss.qualcomm.com>
-References: <20250503-msm-gpu-split-v2-0-1292cba0f5ad@oss.qualcomm.com>
-In-Reply-To: <20250503-msm-gpu-split-v2-0-1292cba0f5ad@oss.qualcomm.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-Id: <20250503-sitronix-v2-1-5efbed896be2@gmail.com>
+X-B4-Tracking: v=1; b=H4sIADPQFWgC/0XMQQrDIBCF4auEWdeiYqztqvcoWRg7SQYaLRokJ
+ Xj32EDp8n88vg0SRsIEt2aDiJkSBV9Dnhpwk/UjMnrWBslly5VULNESg6eVSScGbXqljdZQ7++
+ IA60H9ehqT5SWED+HnMV3/SHmj2TBBFN4cY5bI66tvY+zpdfZhRm6UsoOoV/naaAAAAA=
+X-Change-ID: 20250424-sitronix-2c1f68b46866
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ David Lechner <david@lechnology.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Marcus Folkesson <marcus.folkesson@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=17562;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=JLs/KKCCJ5cFFV4YZHdaRKFpe+QlwFO5L5IsxuDoYMA=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoFcLuxuPDXZzVzosLuL/vLNXb/1dtSylSV1sf5
- /a1U5joChuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaBXC7gAKCRCLPIo+Aiko
- 1ehHCACCF8dITwCywmDwwOXMhLHC/QUy8u3zPeUxW+Hxd9ncwXyEfPiPYdIXDuYi5bUl4zPoFTu
- jTiJQVoP2lc35oHzs9Yapym22h1CDK0V67LfyXejg38VNF7p745fUse6N9EQ6ROBQcTt1V0BC0K
- cuKWXy8FxOafcRCjKOquOEi4GGhye8h5QIIEVEPFOq4YntUwR1/6tJLAjdfFWbT9IWR3/wIH0it
- WmZqdBEhPx+gIsn3796QIhNPpOzLbJ3XQPjrK1I1+AX+0JCGGGO0d1kelwxvwL9xpspRPre6odt
- 5GRd7rrQJZk0yrMYBZQ71oeZeyIR8ew1CtX2f3BgaqlByzmH
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: ypVl3Sn6HLwm1XR48A59AHas2yMV7S9J
-X-Proofpoint-ORIG-GUID: ypVl3Sn6HLwm1XR48A59AHas2yMV7S9J
-X-Authority-Analysis: v=2.4 cv=baZrUPPB c=1 sm=1 tr=0 ts=6815c31a cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=XsBGUjEGan8I8CB0Vl8A:9 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAzMDA2MiBTYWx0ZWRfXzgSy4b1lldR6
- YEsjfRAhLvV3254Lu37rkXgx/YOyCeWBuEZ7kKJHkZw+IymLlOO7ANqxPzJ2TuoqtlCoyb9mQj2
- 9a7h1zHBn47AufdifigY5v1rJmGu8Ea9cXGul4to1csDSSRg7rNWLOWzKz6EgX8+BvzOIzQW63T
- H3+Igi9kx8WIv/TYs/pX6Nw14igJ4LrSX4qZ61neaW8phgVxq8tMrqBQccONA5d/qmULY2JZVNa
- UrhXZuGiCtG+iDR8okhbEFMn84aikdmeWxfL5R9IZkoL8p12M4qiF86/qZcqjifw3Ni6M2XO2bY
- DEuU/YMG97uqNrzMFSKY+e3lYrg7r0bCJvoh/uXItpjx8qKX5T3HdupuhElDei+E9ByaQxRvex2
- D8ZmcJDxDpuMxC3+pYOX4OWSGlQLR3XS0M4sMkVEbU9wLD4pkcUD+E1vPKSz8O9V9HafWS4K
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-03_03,2025-04-30_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0
- mlxlogscore=999 clxscore=1015 suspectscore=0 spamscore=0 adultscore=0
- mlxscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505030062
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8517;
+ i=marcus.folkesson@gmail.com; h=from:subject:message-id;
+ bh=owgqsJPUhQVJigfpn3+1SLtLjqMBYTNE/puBPwv/h6A=;
+ b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBoFdA1Cr+4oA21qO27FVpfOXqgHyV+EglRt85d/
+ kE0UeisDlaJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaBXQNQAKCRCIgE5vWV1S
+ MruFEADQzo7S4p4nptwGvkLPg42H41vt5oIKxwk1Wwh9Kn2+xosYI8iLBRCMLtasNBdT1hmekPd
+ jaRRcHQ47irU6HVtjcqH99hZoU+fvI+IA9OpiQiZ4bNi5q7BRM71ybmu97R8wqylEQtPSuR78PE
+ pDjSluomn8BxEiq7gmWG0idUDHBFxvSqOIDuw96duW71vgDXR8BDUQXi9qSGwP3UPdxFMiCT+dx
+ HmB69tWHRJXruAXbeyalkBBQbt/OHhjInULN7CszLQWKDm6WSbNACV9FTuFgDgTtyRXmG4wC5P5
+ oJF5kj84yClAchD62tuiZ+vFmprsNhRk3wkv4ASQnTOV45tbynUpdyQeHKyJJNLqv8Psie5+JVz
+ v2T02vgTE45URrbX5xuXDTl8oepAESZiN6xFZRL1upOpyKp8f0sOlnbZjnD1JgF3Vv9H1bNokDI
+ QAiA/vX2KOeksBUKb8m1qbRLy9IC45TLUE6cqmEgPjURHbsX9Psttgna5dKz+ZU6xTrjqnTJp6x
+ RmBUhi9oGEwIJookFn0L3RN42MofrwUf546xVo5aiPLJCiYOBzYBsi7IlhqOt6pCzyJ/4sBEWnW
+ C0qGkGyiamzMK13DZNhlkxgGEwZGYd5jfZ0v6RlLV9arSJRMZ+t3M9YGXzWXlxqnNAf8OSwsobU
+ Tpl52L4Ezyzsuow==
+X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
+ fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,569 +113,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some of the platforms don't have onboard GPU or don't provide support
-for the GPU in the drm/msm driver. Make it possible to disable the GPU
-part of the driver and build the KMS-only part.
+We start to have support many Sitronix displays in the tiny directory,
+and we expect more to come.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Move them to their own subdirectory.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 ---
- drivers/gpu/drm/msm/Kconfig           |  20 +++--
- drivers/gpu/drm/msm/Makefile          |  14 ++--
- drivers/gpu/drm/msm/msm_debugfs.c     | 135 ++++++++++++++++++----------------
- drivers/gpu/drm/msm/msm_drv.c         |  37 ++++++++--
- drivers/gpu/drm/msm/msm_drv.h         |   3 +
- drivers/gpu/drm/msm/msm_gpu.h         |  71 +++++++++++++++---
- drivers/gpu/drm/msm/msm_submitqueue.c |  12 +--
- 7 files changed, 191 insertions(+), 101 deletions(-)
+Changes in v2:
+- Rebase on drm-misc-next
+- Link to v1: https://lore.kernel.org/r/20250428-sitronix-v1-1-4e7cc0a8195a@gmail.com
+---
+ MAINTAINERS                                     |  6 ++--
+ drivers/gpu/drm/Kconfig                         |  2 ++
+ drivers/gpu/drm/Makefile                        |  1 +
+ drivers/gpu/drm/sitronix/Kconfig                | 41 +++++++++++++++++++++++++
+ drivers/gpu/drm/sitronix/Makefile               |  3 ++
+ drivers/gpu/drm/{tiny => sitronix}/st7571-i2c.c |  0
+ drivers/gpu/drm/{tiny => sitronix}/st7586.c     |  0
+ drivers/gpu/drm/{tiny => sitronix}/st7735r.c    |  0
+ drivers/gpu/drm/tiny/Kconfig                    | 41 -------------------------
+ drivers/gpu/drm/tiny/Makefile                   |  3 --
+ 10 files changed, 50 insertions(+), 47 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index f6360931ae55a2923264f0e6cc33c6af0d50c706..5605d2bc93a8ad9cb33afcb8ca9da44c68250620 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -15,29 +15,37 @@ config DRM_MSM
- 	select IOMMU_IO_PGTABLE
- 	select QCOM_MDT_LOADER if ARCH_QCOM
- 	select REGULATOR
--	select DRM_EXEC
--	select DRM_SCHED
- 	select SHMEM
- 	select TMPFS
- 	select QCOM_SCM
- 	select WANT_DEV_COREDUMP
- 	select SND_SOC_HDMI_CODEC if SND_SOC
--	select SYNC_FILE
- 	select PM_OPP
--	select NVMEM
- 	select PM_GENERIC_DOMAINS
- 	select TRACE_GPU_MEM
- 	help
- 	  DRM/KMS driver for MSM/snapdragon.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 81b81cc68ca2482f2965b801693ff8a43bbf2053..6b2d3d4c467b8b360317437027e20c4014c97a21 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7680,13 +7680,13 @@ M:	David Lechner <david@lechnology.com>
+ S:	Maintained
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/sitronix,st7586.txt
+-F:	drivers/gpu/drm/tiny/st7586.c
++F:	drivers/gpu/drm/sitronix/st7586.c
  
-+config DRM_MSM_ADRENO
-+	bool "Qualcomm Adreno GPU support"
-+	default y
-+	depends on DRM_MSM
-+	select DRM_EXEC
-+	select DRM_SCHED
-+	select NVMEM
-+	select SYNC_FILE
+ DRM DRIVER FOR SITRONIX ST7571 PANELS
+ M:	Marcus Folkesson <marcus.folkesson@gmail.com>
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/sitronix,st7571.yaml
+-F:	drivers/gpu/drm/tiny/st7571-i2c.c
++F:	drivers/gpu/drm/sitronix/st7571-i2c.c
+ 
+ DRM DRIVER FOR SITRONIX ST7701 PANELS
+ M:	Jagan Teki <jagan@amarulasolutions.com>
+@@ -7707,7 +7707,7 @@ M:	David Lechner <david@lechnology.com>
+ S:	Maintained
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+-F:	drivers/gpu/drm/tiny/st7735r.c
++F:	drivers/gpu/drm/sitronix/st7735r.c
+ 
+ DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
+ M:	Javier Martinez Canillas <javierm@redhat.com>
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 3921772ae61214e6ac0337edc147a46af0010070..cc7385c334eb6ad484688d9eb483c2c6a9c39e11 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -385,6 +385,8 @@ source "drivers/gpu/drm/xlnx/Kconfig"
+ 
+ source "drivers/gpu/drm/gud/Kconfig"
+ 
++source "drivers/gpu/drm/sitronix/Kconfig"
++
+ source "drivers/gpu/drm/solomon/Kconfig"
+ 
+ source "drivers/gpu/drm/sprd/Kconfig"
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index b5d5561bbe5fd72f3915e6a52f325fdb79c7981e..70510620f29c874e376c795fb05d426a0faae05c 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -221,6 +221,7 @@ obj-$(CONFIG_DRM_TIDSS) += tidss/
+ obj-y			+= xlnx/
+ obj-y			+= gud/
+ obj-$(CONFIG_DRM_HYPERV) += hyperv/
++obj-y			+= sitronix/
+ obj-y			+= solomon/
+ obj-$(CONFIG_DRM_SPRD) += sprd/
+ obj-$(CONFIG_DRM_LOONGSON) += loongson/
+diff --git a/drivers/gpu/drm/sitronix/Kconfig b/drivers/gpu/drm/sitronix/Kconfig
+new file mode 100644
+index 0000000000000000000000000000000000000000..25cae32e5c3ec11399a12f1f2bb2ede91c27d4d4
+--- /dev/null
++++ b/drivers/gpu/drm/sitronix/Kconfig
+@@ -0,0 +1,41 @@
++config DRM_ST7571_I2C
++	tristate "DRM support for Sitronix ST7571 display panels (I2C)"
++	depends on DRM && I2C && MMU
++	select DRM_CLIENT_SELECTION
++	select DRM_GEM_SHMEM_HELPER
++	select DRM_KMS_HELPER
++	select REGMAP_I2C
 +	help
-+	  Enable support for the GPU present on most of Qualcomm Snapdragon
-+	  SoCs. If you are unsure, say Y.
++	  DRM driver for Sitronix ST7571 panels controlled over I2C.
 +
- config DRM_MSM_GPU_STATE
- 	bool
--	depends on DRM_MSM && (DEBUG_FS || DEV_COREDUMP)
-+	depends on DRM_MSM_ADRENO && (DEBUG_FS || DEV_COREDUMP)
- 	default y
++	  if M is selected the module will be called st7571-i2c.
++
++config DRM_ST7586
++	tristate "DRM support for Sitronix ST7586 display panels"
++	depends on DRM && SPI
++	select DRM_CLIENT_SELECTION
++	select DRM_KMS_HELPER
++	select DRM_GEM_DMA_HELPER
++	select DRM_MIPI_DBI
++	help
++	  DRM driver for the following Sitronix ST7586 panels:
++	  * LEGO MINDSTORMS EV3
++
++	  If M is selected the module will be called st7586.
++
++config DRM_ST7735R
++	tristate "DRM support for Sitronix ST7715R/ST7735R display panels"
++	depends on DRM && SPI
++	select DRM_CLIENT_SELECTION
++	select DRM_KMS_HELPER
++	select DRM_GEM_DMA_HELPER
++	select DRM_MIPI_DBI
++	select BACKLIGHT_CLASS_DEVICE
++	help
++	  DRM driver for Sitronix ST7715R/ST7735R with one of the following
++	  LCDs:
++	  * Jianda JD-T18003-T01 1.8" 128x160 TFT
++	  * Okaya RH128128T 1.44" 128x128 TFT
++
++	  If M is selected the module will be called st7735r.
++
+diff --git a/drivers/gpu/drm/sitronix/Makefile b/drivers/gpu/drm/sitronix/Makefile
+new file mode 100644
+index 0000000000000000000000000000000000000000..bd139e5a6995fa026cc635b3c29782473d1efad7
+--- /dev/null
++++ b/drivers/gpu/drm/sitronix/Makefile
+@@ -0,0 +1,3 @@
++obj-$(CONFIG_DRM_ST7571_I2C)		+= st7571-i2c.o
++obj-$(CONFIG_DRM_ST7586)		+= st7586.o
++obj-$(CONFIG_DRM_ST7735R)		+= st7735r.o
+diff --git a/drivers/gpu/drm/tiny/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
+similarity index 100%
+rename from drivers/gpu/drm/tiny/st7571-i2c.c
+rename to drivers/gpu/drm/sitronix/st7571-i2c.c
+diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/sitronix/st7586.c
+similarity index 100%
+rename from drivers/gpu/drm/tiny/st7586.c
+rename to drivers/gpu/drm/sitronix/st7586.c
+diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/sitronix/st7735r.c
+similarity index 100%
+rename from drivers/gpu/drm/tiny/st7735r.c
+rename to drivers/gpu/drm/sitronix/st7735r.c
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index daa1adbb1b43325d644ae13f3cabfc1bb01ff4d8..6d1b3e2cb3fbd8630864824ae985897b9d8095c7 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -199,44 +199,3 @@ config TINYDRM_SHARP_MEMORY
+ 	  * 4.40" Sharp Memory LCD (LS044Q7DH01)
  
- config DRM_MSM_GPU_SUDO
- 	bool "Enable SUDO flag on submits"
--	depends on DRM_MSM && EXPERT
-+	depends on DRM_MSM_ADRENO && EXPERT
- 	default n
- 	help
- 	  Enable userspace that has CAP_SYS_RAWIO to submit GPU commands
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index 7c4508f0e5c84914633f8f2d5ddd04bd10e4d189..6a24f78d7fc51cc1c9cd706d746cabd5f567d282 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -109,21 +109,23 @@ msm-display-$(CONFIG_DRM_MSM_KMS) += \
- msm-y += \
- 	msm_debugfs.o \
- 	msm_drv.o \
--	msm_fence.o \
- 	msm_gem.o \
- 	msm_gem_prime.o \
- 	msm_gem_shrinker.o \
--	msm_gem_submit.o \
- 	msm_gem_vma.o \
--	msm_gpu.o \
--	msm_gpu_devfreq.o \
- 	msm_io_utils.o \
- 	msm_iommu.o \
-+	msm_gpu_tracepoints.o \
-+
-+msm-$(CONFIG_DRM_MSM_ADRENO) += \
-+	msm_fence.o \
-+	msm_gem_submit.o \
-+	msm_gpu.o \
-+	msm_gpu_devfreq.o \
- 	msm_perf.o \
- 	msm_rd.o \
- 	msm_ringbuffer.o \
- 	msm_submitqueue.o \
--	msm_gpu_tracepoints.o \
- 
- msm-$(CONFIG_DRM_MSM_KMS) += \
- 	msm_atomic.o \
-@@ -159,7 +161,7 @@ msm-display-$(CONFIG_DRM_MSM_DSI_14NM_PHY) += dsi/phy/dsi_phy_14nm.o
- msm-display-$(CONFIG_DRM_MSM_DSI_10NM_PHY) += dsi/phy/dsi_phy_10nm.o
- msm-display-$(CONFIG_DRM_MSM_DSI_7NM_PHY) += dsi/phy/dsi_phy_7nm.o
- 
--msm-y += $(adreno-y)
-+msm-$(CONFIG_DRM_MSM_ADRENO) += $(adreno-y)
- msm-$(CONFIG_DRM_MSM_KMS) += $(msm-display-y)
- 
- obj-$(CONFIG_DRM_MSM)	+= msm.o
-diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
-index 6e60a74b13d72c47e45cb9dc65ed67b977e900fa..fa9a94a86d060e28d4ee93fda1f22924fd5af606 100644
---- a/drivers/gpu/drm/msm/msm_debugfs.c
-+++ b/drivers/gpu/drm/msm/msm_debugfs.c
-@@ -20,6 +20,7 @@
- #include "msm_debugfs.h"
- #include "disp/msm_disp_snapshot.h"
- 
-+#ifdef CONFIG_DRM_MSM_ADRENO
- /*
-  * GPU Snapshot:
-  */
-@@ -117,6 +118,76 @@ static const struct file_operations msm_gpu_fops = {
- 	.release = msm_gpu_release,
- };
- 
-+static void msm_debugfs_gpu_init(struct drm_minor *minor)
-+{
-+	struct drm_device *dev = minor->dev;
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct dentry *gpu_devfreq;
-+
-+	debugfs_create_file("gpu", 0400, minor->debugfs_root,
-+			    dev, &msm_gpu_fops);
-+
-+	debugfs_create_u32("hangcheck_period_ms", 0600, minor->debugfs_root,
-+			   &priv->hangcheck_period);
-+
-+	debugfs_create_bool("disable_err_irq", 0600, minor->debugfs_root,
-+			    &priv->disable_err_irq);
-+
-+	gpu_devfreq = debugfs_create_dir("devfreq", minor->debugfs_root);
-+
-+	debugfs_create_bool("idle_clamp", 0600, gpu_devfreq,
-+			    &priv->gpu_clamp_to_idle);
-+
-+	debugfs_create_u32("upthreshold", 0600, gpu_devfreq,
-+			   &priv->gpu_devfreq_config.upthreshold);
-+
-+	debugfs_create_u32("downdifferential", 0600, gpu_devfreq,
-+			   &priv->gpu_devfreq_config.downdifferential);
-+}
-+
-+static int late_init_minor(struct drm_minor *minor)
-+{
-+	struct drm_device *dev = minor->dev;
-+	struct msm_drm_private *priv = dev->dev_private;
-+	int ret;
-+
-+	if (!minor)
-+		return 0;
-+
-+	if (!priv->gpu_pdev)
-+		return 0;
-+
-+	ret = msm_rd_debugfs_init(minor);
-+	if (ret) {
-+		DRM_DEV_ERROR(minor->dev->dev, "could not install rd debugfs\n");
-+		return ret;
-+	}
-+
-+	ret = msm_perf_debugfs_init(minor);
-+	if (ret) {
-+		DRM_DEV_ERROR(minor->dev->dev, "could not install perf debugfs\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+int msm_debugfs_late_init(struct drm_device *dev)
-+{
-+	int ret;
-+
-+	ret = late_init_minor(dev->primary);
-+	if (ret)
-+		return ret;
-+	ret = late_init_minor(dev->render);
-+	return ret;
-+}
-+#else /* ! CONFIG_DRM_MSM_ADRENO */
-+static void msm_debugfs_gpu_init(struct drm_minor *minor)
-+{
-+}
-+#endif /* CONFIG_DRM_MSM_ADRENO */
-+
- #ifdef CONFIG_DRM_MSM_KMS
- static int msm_fb_show(struct seq_file *m, void *arg)
- {
-@@ -294,70 +365,6 @@ static struct drm_info_list msm_debugfs_list[] = {
- 		{ "mm", msm_mm_show },
- };
- 
--static int late_init_minor(struct drm_minor *minor)
--{
--	struct drm_device *dev = minor->dev;
--	struct msm_drm_private *priv = dev->dev_private;
--	int ret;
+ 	  If M is selected the module will be called sharp_memory.
 -
--	if (!minor)
--		return 0;
+-config TINYDRM_ST7586
+-	tristate "DRM support for Sitronix ST7586 display panels"
+-	depends on DRM && SPI
+-	select DRM_CLIENT_SELECTION
+-	select DRM_KMS_HELPER
+-	select DRM_GEM_DMA_HELPER
+-	select DRM_MIPI_DBI
+-	help
+-	  DRM driver for the following Sitronix ST7586 panels:
+-	  * LEGO MINDSTORMS EV3
 -
--	if (!priv->gpu_pdev)
--		return 0;
+-	  If M is selected the module will be called st7586.
 -
--	ret = msm_rd_debugfs_init(minor);
--	if (ret) {
--		DRM_DEV_ERROR(minor->dev->dev, "could not install rd debugfs\n");
--		return ret;
--	}
+-config DRM_ST7571_I2C
+-	tristate "DRM support for Sitronix ST7571 display panels (I2C)"
+-	depends on DRM && I2C && MMU
+-	select DRM_CLIENT_SELECTION
+-	select DRM_GEM_SHMEM_HELPER
+-	select DRM_KMS_HELPER
+-	select REGMAP_I2C
+-	help
+-	  DRM driver for Sitronix ST7571 panels controlled over I2C.
 -
--	ret = msm_perf_debugfs_init(minor);
--	if (ret) {
--		DRM_DEV_ERROR(minor->dev->dev, "could not install perf debugfs\n");
--		return ret;
--	}
+-	  if M is selected the module will be called st7571-i2c.
 -
--	return 0;
--}
+-config TINYDRM_ST7735R
+-	tristate "DRM support for Sitronix ST7715R/ST7735R display panels"
+-	depends on DRM && SPI
+-	select DRM_CLIENT_SELECTION
+-	select DRM_KMS_HELPER
+-	select DRM_GEM_DMA_HELPER
+-	select DRM_MIPI_DBI
+-	select BACKLIGHT_CLASS_DEVICE
+-	help
+-	  DRM driver for Sitronix ST7715R/ST7735R with one of the following
+-	  LCDs:
+-	  * Jianda JD-T18003-T01 1.8" 128x160 TFT
+-	  * Okaya RH128128T 1.44" 128x128 TFT
 -
--int msm_debugfs_late_init(struct drm_device *dev)
--{
--	int ret;
--	ret = late_init_minor(dev->primary);
--	if (ret)
--		return ret;
--	ret = late_init_minor(dev->render);
--	return ret;
--}
--
--static void msm_debugfs_gpu_init(struct drm_minor *minor)
--{
--	struct drm_device *dev = minor->dev;
--	struct msm_drm_private *priv = dev->dev_private;
--	struct dentry *gpu_devfreq;
--
--	debugfs_create_file("gpu", S_IRUSR, minor->debugfs_root,
--		dev, &msm_gpu_fops);
--
--	debugfs_create_u32("hangcheck_period_ms", 0600, minor->debugfs_root,
--		&priv->hangcheck_period);
--
--	debugfs_create_bool("disable_err_irq", 0600, minor->debugfs_root,
--		&priv->disable_err_irq);
--
--	gpu_devfreq = debugfs_create_dir("devfreq", minor->debugfs_root);
--
--	debugfs_create_bool("idle_clamp",0600, gpu_devfreq,
--			    &priv->gpu_clamp_to_idle);
--
--	debugfs_create_u32("upthreshold",0600, gpu_devfreq,
--			   &priv->gpu_devfreq_config.upthreshold);
--
--	debugfs_create_u32("downdifferential",0600, gpu_devfreq,
--			   &priv->gpu_devfreq_config.downdifferential);
--}
--
- void msm_debugfs_init(struct drm_minor *minor)
- {
- 	struct drm_device *dev = minor->dev;
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index eec7501eb05b6c31ffd9dc5a7ba430e3284ea5ed..f12549ebfc83fe35de12b48c30a3da3f7035dc96 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -59,7 +59,11 @@ static bool modeset = true;
- MODULE_PARM_DESC(modeset, "Use kernel modesetting [KMS] (1=on (default), 0=disable)");
- module_param(modeset, bool, 0600);
- 
-+#ifndef CONFIG_DRM_MSM_ADRENO
-+static bool separate_gpu_drm = true;
-+#else
- static bool separate_gpu_drm;
-+#endif
- MODULE_PARM_DESC(separate_gpu_drm, "Use separate DRM device for the GPU (0=single DRM device for both GPU and display (default), 1=two DRM devices)");
- module_param(separate_gpu_drm, bool, 0400);
- 
-@@ -320,6 +324,22 @@ static void load_gpu(struct drm_device *dev)
- 	mutex_unlock(&init_lock);
- }
- 
-+void __msm_file_private_destroy(struct kref *kref)
-+{
-+	struct msm_file_private *ctx = container_of(kref,
-+		struct msm_file_private, ref);
-+
-+	msm_submitqueue_fini(ctx);
-+	msm_gem_address_space_put(ctx->aspace);
-+
-+#ifdef CONFIG_DRM_MSM_ADRENO
-+	kfree(ctx->comm);
-+	kfree(ctx->cmdline);
-+#endif
-+
-+	kfree(ctx);
-+}
-+
- static int context_init(struct drm_device *dev, struct drm_file *file)
- {
- 	static atomic_t ident = ATOMIC_INIT(0);
-@@ -330,9 +350,6 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
- 	if (!ctx)
- 		return -ENOMEM;
- 
--	INIT_LIST_HEAD(&ctx->submitqueues);
--	rwlock_init(&ctx->queuelock);
--
- 	kref_init(&ctx->ref);
- 	msm_submitqueue_init(dev, ctx);
- 
-@@ -717,6 +734,7 @@ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
- 	return ret;
- }
- 
-+#ifdef CONFIG_DRM_MSM_ADRENO
- static int wait_fence(struct msm_gpu_submitqueue *queue, uint32_t fence_id,
- 		      ktime_t timeout, uint32_t flags)
- {
-@@ -787,6 +805,7 @@ static int msm_ioctl_wait_fence(struct drm_device *dev, void *data,
- 
- 	return ret;
- }
-+#endif
- 
- static int msm_ioctl_gem_madvise(struct drm_device *dev, void *data,
- 		struct drm_file *file)
-@@ -820,6 +839,7 @@ static int msm_ioctl_gem_madvise(struct drm_device *dev, void *data,
- }
- 
- 
-+#ifdef CONFIG_DRM_MSM_ADRENO
- static int msm_ioctl_submitqueue_new(struct drm_device *dev, void *data,
- 		struct drm_file *file)
- {
-@@ -845,6 +865,7 @@ static int msm_ioctl_submitqueue_close(struct drm_device *dev, void *data,
- 
- 	return msm_submitqueue_remove(file->driver_priv, id);
- }
-+#endif
- 
- static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_GET_PARAM,    msm_ioctl_get_param,    DRM_RENDER_ALLOW),
-@@ -853,12 +874,14 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_GEM_INFO,     msm_ioctl_gem_info,     DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_GEM_CPU_PREP, msm_ioctl_gem_cpu_prep, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_GEM_CPU_FINI, msm_ioctl_gem_cpu_fini, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(MSM_GEM_MADVISE,  msm_ioctl_gem_madvise,  DRM_RENDER_ALLOW),
-+#ifdef CONFIG_DRM_MSM_ADRENO
- 	DRM_IOCTL_DEF_DRV(MSM_GEM_SUBMIT,   msm_ioctl_gem_submit,   DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_WAIT_FENCE,   msm_ioctl_wait_fence,   DRM_RENDER_ALLOW),
--	DRM_IOCTL_DEF_DRV(MSM_GEM_MADVISE,  msm_ioctl_gem_madvise,  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_NEW,   msm_ioctl_submitqueue_new,   DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_CLOSE, msm_ioctl_submitqueue_close, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
-+#endif
- };
- 
- static void msm_show_fdinfo(struct drm_printer *p, struct drm_file *file)
-@@ -866,10 +889,8 @@ static void msm_show_fdinfo(struct drm_printer *p, struct drm_file *file)
- 	struct drm_device *dev = file->minor->dev;
- 	struct msm_drm_private *priv = dev->dev_private;
- 
--	if (!priv->gpu)
--		return;
--
--	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, p);
-+	if (priv->gpu)
-+		msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, p);
- 
- 	drm_show_memory_stats(p, file);
- }
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 1ff799f0c78133e73c6857e3692c2dca2c5e60fa..ba4012ea2f6845061380ae2daa8eb3a0999f2e9e 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -424,6 +424,9 @@ static inline void msm_mdss_unregister(void) {}
- 
- #ifdef CONFIG_DEBUG_FS
- void msm_framebuffer_describe(struct drm_framebuffer *fb, struct seq_file *m);
-+#endif
-+
-+#if defined(CONFIG_DEBUG_FS) && defined(CONFIG_DRM_MSM_ADRENO)
- int msm_debugfs_late_init(struct drm_device *dev);
- int msm_rd_debugfs_init(struct drm_minor *minor);
- void msm_rd_debugfs_cleanup(struct msm_drm_private *priv);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index e25009150579c08f7b98d4461a75757d1093734a..6db6ef6b02db2450be68cc27e65be9aced6da7ce 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -358,12 +358,13 @@ struct msm_gpu_perfcntr {
-  * @seqno:        unique per process seqno
-  */
- struct msm_file_private {
--	rwlock_t queuelock;
--	struct list_head submitqueues;
--	int queueid;
- 	struct msm_gem_address_space *aspace;
- 	struct kref ref;
- 	int seqno;
-+#ifdef CONFIG_DRM_MSM_ADRENO
-+	rwlock_t queuelock;
-+	struct list_head submitqueues;
-+	int queueid;
- 
- 	/**
- 	 * sysprof:
-@@ -425,6 +426,7 @@ struct msm_file_private {
- 	 * level.
- 	 */
- 	struct drm_sched_entity *entities[NR_SCHED_PRIORITIES * MSM_GPU_MAX_RINGS];
-+#endif
- 
- 	/**
- 	 * ctx_mem:
-@@ -559,6 +561,7 @@ struct msm_gpu_state {
- 	struct msm_gpu_state_bo *bos;
- };
- 
-+#ifdef CONFIG_DRM_MSM_ADRENO
- static inline void gpu_write(struct msm_gpu *gpu, u32 reg, u32 data)
- {
- 	writel(data, gpu->mmio + (reg << 2));
-@@ -612,6 +615,7 @@ void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 			 struct drm_printer *p);
- 
- int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
-+void msm_submitqueue_fini(struct msm_file_private *ctx);
- struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
- 		u32 id);
- int msm_submitqueue_create(struct drm_device *drm,
-@@ -624,8 +628,42 @@ void msm_submitqueue_close(struct msm_file_private *ctx);
- 
- void msm_submitqueue_destroy(struct kref *kref);
- 
-+static inline void msm_submitqueue_put(struct msm_gpu_submitqueue *queue)
-+{
-+	if (queue)
-+		kref_put(&queue->ref, msm_submitqueue_destroy);
-+}
-+
- int msm_file_private_set_sysprof(struct msm_file_private *ctx,
- 				 struct msm_gpu *gpu, int sysprof);
-+#else
-+static inline void msm_gpu_show_fdinfo(struct msm_gpu *gpu,
-+				       struct msm_file_private *ctx,
-+				       struct drm_printer *p)
-+{
-+}
-+
-+static inline int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx)
-+{
-+	return -ENXIO;
-+}
-+
-+static inline void msm_submitqueue_fini(struct msm_file_private *ctx)
-+{
-+}
-+
-+static inline void msm_submitqueue_close(struct msm_file_private *ctx)
-+{
-+}
-+
-+static inline int msm_file_private_set_sysprof(struct msm_file_private *ctx,
-+					       struct msm_gpu *gpu,
-+					       int sysprof)
-+{
-+	return 0;
-+}
-+#endif
-+
- void __msm_file_private_destroy(struct kref *kref);
- 
- static inline void msm_file_private_put(struct msm_file_private *ctx)
-@@ -640,6 +678,7 @@ static inline struct msm_file_private *msm_file_private_get(
- 	return ctx;
- }
- 
-+#ifdef CONFIG_DRM_MSM_ADRENO
- void msm_devfreq_init(struct msm_gpu *gpu);
- void msm_devfreq_cleanup(struct msm_gpu *gpu);
- void msm_devfreq_resume(struct msm_gpu *gpu);
-@@ -671,12 +710,6 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev);
- void __init adreno_register(void);
- void __exit adreno_unregister(void);
- 
--static inline void msm_submitqueue_put(struct msm_gpu_submitqueue *queue)
--{
--	if (queue)
--		kref_put(&queue->ref, msm_submitqueue_destroy);
--}
--
- static inline struct msm_gpu_state *msm_gpu_crashstate_get(struct msm_gpu *gpu)
- {
- 	struct msm_gpu_state *state = NULL;
-@@ -712,5 +745,25 @@ static inline void msm_gpu_crashstate_put(struct msm_gpu *gpu)
- #define check_apriv(gpu, flags) \
- 	(((gpu)->hw_apriv ? MSM_BO_MAP_PRIV : 0) | (flags))
- 
-+#else /* ! CONFIG_DRM_MSM_ADRENO */
-+static inline struct msm_gem_address_space *
-+msm_gpu_create_private_address_space(struct msm_gpu *gpu, struct task_struct *task)
-+{
-+	return NULL;
-+}
-+
-+static inline struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
-+{
-+	return NULL;
-+}
-+
-+static inline void __init adreno_register(void)
-+{
-+}
-+
-+static inline void __exit adreno_unregister(void)
-+{
-+}
-+#endif /* ! CONFIG_DRM_MSM_ADRENO */
- 
- #endif /* __MSM_GPU_H__ */
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index 7fed1de63b5d9e20df88db8d9ca6ea45ec1a2846..dfb6f42a963ee3d314f11716d8649f3bf82a3eb6 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -46,10 +46,8 @@ int msm_file_private_set_sysprof(struct msm_file_private *ctx,
- 	return 0;
- }
- 
--void __msm_file_private_destroy(struct kref *kref)
-+void msm_submitqueue_fini(struct msm_file_private *ctx)
- {
--	struct msm_file_private *ctx = container_of(kref,
--		struct msm_file_private, ref);
- 	int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(ctx->entities); i++) {
-@@ -59,11 +57,6 @@ void __msm_file_private_destroy(struct kref *kref)
- 		drm_sched_entity_destroy(ctx->entities[i]);
- 		kfree(ctx->entities[i]);
- 	}
--
--	msm_gem_address_space_put(ctx->aspace);
--	kfree(ctx->comm);
--	kfree(ctx->cmdline);
--	kfree(ctx);
- }
- 
- void msm_submitqueue_destroy(struct kref *kref)
-@@ -226,6 +219,9 @@ int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx)
- 	struct msm_drm_private *priv = drm->dev_private;
- 	int default_prio, max_priority;
- 
-+	INIT_LIST_HEAD(&ctx->submitqueues);
-+	rwlock_init(&ctx->queuelock);
-+
- 	if (!priv->gpu)
- 		return -ENODEV;
- 
+-	  If M is selected the module will be called st7735r.
+diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+index 0151590db5cbd80aebde0629afd03f47b83c3045..4a9ff61ec25420e2c0a648c04eaab7ca25dd5407 100644
+--- a/drivers/gpu/drm/tiny/Makefile
++++ b/drivers/gpu/drm/tiny/Makefile
+@@ -6,7 +6,6 @@ obj-$(CONFIG_DRM_BOCHS)			+= bochs.o
+ obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus-qemu.o
+ obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
+ obj-$(CONFIG_DRM_PANEL_MIPI_DBI)	+= panel-mipi-dbi.o
+-obj-$(CONFIG_DRM_ST7571_I2C)		+= st7571-i2c.o
+ obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
+ obj-$(CONFIG_TINYDRM_ILI9163)		+= ili9163.o
+ obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
+@@ -15,5 +14,3 @@ obj-$(CONFIG_TINYDRM_ILI9486)		+= ili9486.o
+ obj-$(CONFIG_TINYDRM_MI0283QT)		+= mi0283qt.o
+ obj-$(CONFIG_TINYDRM_REPAPER)		+= repaper.o
+ obj-$(CONFIG_TINYDRM_SHARP_MEMORY)	+= sharp-memory.o
+-obj-$(CONFIG_TINYDRM_ST7586)		+= st7586.o
+-obj-$(CONFIG_TINYDRM_ST7735R)		+= st7735r.o
 
+---
+base-commit: e782ac936941cff4c5580bb5cc2ec0e91468068c
+change-id: 20250424-sitronix-2c1f68b46866
+
+Best regards,
 -- 
-2.39.5
+Marcus Folkesson <marcus.folkesson@gmail.com>
 
