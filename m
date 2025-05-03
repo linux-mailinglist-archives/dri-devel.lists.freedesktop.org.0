@@ -2,102 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B24AA7F60
-	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 10:13:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C3AAA7F7A
+	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 10:44:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEA6810E074;
-	Sat,  3 May 2025 08:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 509E010E0C6;
+	Sat,  3 May 2025 08:44:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cbqeKAIC";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b34wYraK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49BBC10E074
- for <dri-devel@lists.freedesktop.org>; Sat,  3 May 2025 08:13:52 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-54afb5fcebaso3705924e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 03 May 2025 01:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746260030; x=1746864830; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8sWrBJj6gfHpTqpyh7pT+JCavfPofDc7ziZnIEFASfM=;
- b=cbqeKAICooc05NcPdJTzHGl/cWdc1o8rhZN5eT0ZU5jsUFqQMoZhzVTl7Vl7E/LOox
- zVitg7zEkJgWYtV0Fj7YFbGuWECybFApWCUJe+nAZdG9ndK5HP5hY2m0QQ+kbIwYlIt+
- EOE3loXJKOgm4jbgynwPZ3zcxJXMO4XT9PFJIgDg7fLnSRzG6trgUeEmS55FKFfPT6zi
- AsYsjKKkc/fgtDbWlqC4NLu/e2i96i7d9jvaFOLmRqoQ82+Kb9iwshajX+o67oFfj+vp
- CFgID3cGYd5/HmpQ+lnrQSe8H5edGGuoGeDG5+p9pEeWKlhGoRX85xpp/Og7zsvg5LJu
- r2BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746260030; x=1746864830;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8sWrBJj6gfHpTqpyh7pT+JCavfPofDc7ziZnIEFASfM=;
- b=qUJMgASSv1k9Fo2F20+I52O90Hub3GLGFBtIwQSiuDzUU3UWUzUfPbWSvECAGA6580
- kwJaP2J0egs51UhdiLC9/wIfQUUPBYXn3xgUOtc4la0yUewVfyDuzCaWmLhKhCGmbye6
- oZngdh7BUncGfFMcwCMVKC+nec8mUqPYOLKtEoEnYsRvRVWMFerT2rVg4qiCMdnamiGu
- K+oyIeNYkW1htLJ7EFVCuAiJnM5JH70QCup4AILJemW2n/NOUtt6wUX01Z1oeQCBX53e
- 9XGNZZHr7KMkSaknNqDPx/4svUENDSRdlMVy9OIsSn6+8mJAmVks+WHBrTPx/Aw0zOJw
- Gf8g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlU6S/346rDRxGTAbS9W15F5MghCpgPgO7SNPmJCf6/RWPVzblnUpyJ2IwY7lNnvJjQgFBMtLnHoI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzstzZKbMAISDGXxGlybZaU8rtoxzto/juSzi8GHhMA5uHmG5Jm
- O3QETKwX7Stv0KTH1H5tIc1YwCAEpRkxE1QHUqTr12VrdwKNiPCs
-X-Gm-Gg: ASbGncu0nvMC+j8YCjBPdq1Kh/q944RakTQ9JoK3WOzYpsj9Tr7mNezrIa0LIn2cdIW
- Uhc4QXs3yctZFgyCgtDA22mIlY/DhayVh8MwaPPBcDvdksVQULn6kEeSb5gZBww8eYGokc6NsJE
- mfQX4NLb8MlEF98RWlNzg5O30w2OSonRDa+j2jHW1CNVII0uppeJtfzyxDYNz3nl/tBLXLMfMGJ
- cKC3J5UFIWyVDR5ARzTUjqMawuF/2LQ51rTC1bipaHQY8kSxXDvPAsPmufzr+NjdUNnhizj3bEH
- MeHgcnN7H2riErxVX2iGj/bYfi8bGi4hZ6VRb1EbUgq4dRT8TUYXL6bSywhYSAiacgV/iUDxo+g
- c632w4VYjeJSt7th/0NMu
-X-Google-Smtp-Source: AGHT+IHTURik6XJQXQtn9hy97s6kSGrL10STZD54xof5ds1w3TV4rLWUJ/qTkZwS/Pa9E2+vZoQpjQ==
-X-Received: by 2002:a05:6512:b23:b0:54e:8db5:68eb with SMTP id
- 2adb3069b0e04-54eb2444e63mr465250e87.28.1746260030156; 
- Sat, 03 May 2025 01:13:50 -0700 (PDT)
-Received: from [192.168.1.129] (83-233-6-197.cust.bredband2.com.
- [83.233.6.197]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ea94f18fdsm687959e87.188.2025.05.03.01.13.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 May 2025 01:13:49 -0700 (PDT)
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-Date: Sat, 03 May 2025 10:13:40 +0200
-Subject: [PATCH v2] drm/sitronix: move tiny Sitronix drivers to their own
- subdir
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62F8810E0C6
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 May 2025 08:44:22 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3BA3594;
+ Sat,  3 May 2025 10:44:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1746261847;
+ bh=RrhQFWFDlhUk9yaZGBhTbwThvjzekcN3XZpWgSxZP0I=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=b34wYraKcacAAKhNsLK0r1mbBwMuXz34AaRmr8kfD/3YTlo9TIIEVnoNLDna/v1hw
+ vdnKD71ddyKRsHzDbTrZkIsjJ4ZfCl8pVPtNGolaF7lfatyxMaRyK0hp0hTiHPK53H
+ rWlDj/ArrI51uyq2yiPk+r9UDzjQna3ec9pdauxI=
+Message-ID: <d4daa87f-3556-4b46-a0e0-d90f9d14a097@ideasonboard.com>
+Date: Sat, 3 May 2025 11:44:12 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] drm/tidss: Update infrastructure to support K3 DSS
+ cut-down versions
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev,
+ s-jain1@ti.com, r-donadkar@ti.com, j-choudhary@ti.com, h-shenoy@ti.com,
+ jyri.sarha@iki.fi, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ simona@ffwll.ch, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+References: <20250429143656.3252877-1-devarsht@ti.com>
+ <20250429143656.3252877-3-devarsht@ti.com>
+ <f729c0d6-45a0-4610-b22b-92c03f534bf7@ideasonboard.com>
+ <1f8c43cd-8c26-4e42-b144-b91f5ffc2e2e@ti.com>
+ <88993439-bfdc-418c-95c6-d6d8bdb5b87f@ideasonboard.com>
+ <466254e9-145f-4839-9451-a5f282ff02e9@ti.com>
+ <ce831f65-67d0-4f4c-9f08-3014b1d00dc0@ideasonboard.com>
+ <ca008cb0-bec6-4b10-b6b5-0f29648f76c0@ti.com>
+ <ed82e498-b3af-46f6-97ce-3a2f47872935@ideasonboard.com>
+ <ead31912-d1e5-4813-99a7-5cd2754672ef@ti.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+In-Reply-To: <ead31912-d1e5-4813-99a7-5cd2754672ef@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250503-sitronix-v2-1-5efbed896be2@gmail.com>
-X-B4-Tracking: v=1; b=H4sIADPQFWgC/0XMQQrDIBCF4auEWdeiYqztqvcoWRg7SQYaLRokJ
- Xj32EDp8n88vg0SRsIEt2aDiJkSBV9Dnhpwk/UjMnrWBslly5VULNESg6eVSScGbXqljdZQ7++
- IA60H9ehqT5SWED+HnMV3/SHmj2TBBFN4cY5bI66tvY+zpdfZhRm6UsoOoV/naaAAAAA=
-X-Change-ID: 20250424-sitronix-2c1f68b46866
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- David Lechner <david@lechnology.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Marcus Folkesson <marcus.folkesson@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8517;
- i=marcus.folkesson@gmail.com; h=from:subject:message-id;
- bh=owgqsJPUhQVJigfpn3+1SLtLjqMBYTNE/puBPwv/h6A=;
- b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBoFdA1Cr+4oA21qO27FVpfOXqgHyV+EglRt85d/
- kE0UeisDlaJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaBXQNQAKCRCIgE5vWV1S
- MruFEADQzo7S4p4nptwGvkLPg42H41vt5oIKxwk1Wwh9Kn2+xosYI8iLBRCMLtasNBdT1hmekPd
- jaRRcHQ47irU6HVtjcqH99hZoU+fvI+IA9OpiQiZ4bNi5q7BRM71ybmu97R8wqylEQtPSuR78PE
- pDjSluomn8BxEiq7gmWG0idUDHBFxvSqOIDuw96duW71vgDXR8BDUQXi9qSGwP3UPdxFMiCT+dx
- HmB69tWHRJXruAXbeyalkBBQbt/OHhjInULN7CszLQWKDm6WSbNACV9FTuFgDgTtyRXmG4wC5P5
- oJF5kj84yClAchD62tuiZ+vFmprsNhRk3wkv4ASQnTOV45tbynUpdyQeHKyJJNLqv8Psie5+JVz
- v2T02vgTE45URrbX5xuXDTl8oepAESZiN6xFZRL1upOpyKp8f0sOlnbZjnD1JgF3Vv9H1bNokDI
- QAiA/vX2KOeksBUKb8m1qbRLy9IC45TLUE6cqmEgPjURHbsX9Psttgna5dKz+ZU6xTrjqnTJp6x
- RmBUhi9oGEwIJookFn0L3RN42MofrwUf546xVo5aiPLJCiYOBzYBsi7IlhqOt6pCzyJ/4sBEWnW
- C0qGkGyiamzMK13DZNhlkxgGEwZGYd5jfZ0v6RlLV9arSJRMZ+t3M9YGXzWXlxqnNAf8OSwsobU
- Tpl52L4Ezyzsuow==
-X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
- fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,226 +113,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We start to have support many Sitronix displays in the tiny directory,
-and we expect more to come.
+On 02/05/2025 14:52, Devarsh Thakkar wrote:
+> Hi,
+> 
+> <snip>
+>>> It uses hw_id i.e. 1 for all vid irqstatus related registers since it is
+>>> accessing am65x common region register space which has vid on idx0 which
+>>> we want to skip for am62l.
+>>>
+>>> For dispc_plane_enable(), the caller uses
+>>>> 0, for dispc_k3_vid_write_irqstatus(), the caller uses 1...
+>>>
+>>> Yes above is correct, and I think that's how it is supposed to be.
+>>
+>> No it's not. Both functions have "hw_plane" parameter, yet they require
+>> a different value to be used even when referring to the same plane.
+>>
+>>>> With a quick look at the code, changing the callers to pass the "old
+>>>> style" hw_plane as the parameter to those irq functions, and the
+>>>> functions internally get the hw_id, would solve most of the problems.
+>>>
+>>> I don't follow above, hw_plane has 0 so it should not be used for
+>>> programming irq related functions which expect idx 1 as explained above.
+>>
+>> We have various functions in tidss_dispc.c that have hw_plane as a
+>> parameter. But the caller is supposed to know that for some functions
+>> hw_plane is a plane index from 0, and for some it's the hw_id from
+>> vid_info[].
+>>
+>>> There's still dispc_k3_set_irqenable() which manages 'main_disable' and
+>>>> needs the hw_id, but maybe that's fine, even if a bit confusing.
+>>>>
+>>>
+>>> I still feel there is no inherent bug here, but let me know if you want
+>>> me to put some debug prints or get register dump so that we can double
+>>> confirm.
+>>
+>> I'm not saying there's a bug. I'm saying it's bad code and will cause
+>> confusion and bugs in the future.
+>>
+> 
+> Ok I see what you mean to say.....although functionally it is working
+> fine but from readability point of view it is confusing since both
+> functions use same argument name i.e hw_plane in two different contexts.
+> In that case, I would propose to use hw_id as arg name for all
+> dispc_k3_vid* functions, will that be okay ?
 
-Move them to their own subdirectory.
+I'd prefer to have all the dispc functions take the same kind of index.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
----
-Changes in v2:
-- Rebase on drm-misc-next
-- Link to v1: https://lore.kernel.org/r/20250428-sitronix-v1-1-4e7cc0a8195a@gmail.com
----
- MAINTAINERS                                     |  6 ++--
- drivers/gpu/drm/Kconfig                         |  2 ++
- drivers/gpu/drm/Makefile                        |  1 +
- drivers/gpu/drm/sitronix/Kconfig                | 41 +++++++++++++++++++++++++
- drivers/gpu/drm/sitronix/Makefile               |  3 ++
- drivers/gpu/drm/{tiny => sitronix}/st7571-i2c.c |  0
- drivers/gpu/drm/{tiny => sitronix}/st7586.c     |  0
- drivers/gpu/drm/{tiny => sitronix}/st7735r.c    |  0
- drivers/gpu/drm/tiny/Kconfig                    | 41 -------------------------
- drivers/gpu/drm/tiny/Makefile                   |  3 --
- 10 files changed, 50 insertions(+), 47 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 81b81cc68ca2482f2965b801693ff8a43bbf2053..6b2d3d4c467b8b360317437027e20c4014c97a21 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7680,13 +7680,13 @@ M:	David Lechner <david@lechnology.com>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/sitronix,st7586.txt
--F:	drivers/gpu/drm/tiny/st7586.c
-+F:	drivers/gpu/drm/sitronix/st7586.c
- 
- DRM DRIVER FOR SITRONIX ST7571 PANELS
- M:	Marcus Folkesson <marcus.folkesson@gmail.com>
- S:	Maintained
- F:	Documentation/devicetree/bindings/display/sitronix,st7571.yaml
--F:	drivers/gpu/drm/tiny/st7571-i2c.c
-+F:	drivers/gpu/drm/sitronix/st7571-i2c.c
- 
- DRM DRIVER FOR SITRONIX ST7701 PANELS
- M:	Jagan Teki <jagan@amarulasolutions.com>
-@@ -7707,7 +7707,7 @@ M:	David Lechner <david@lechnology.com>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
--F:	drivers/gpu/drm/tiny/st7735r.c
-+F:	drivers/gpu/drm/sitronix/st7735r.c
- 
- DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
- M:	Javier Martinez Canillas <javierm@redhat.com>
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 3921772ae61214e6ac0337edc147a46af0010070..cc7385c334eb6ad484688d9eb483c2c6a9c39e11 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -385,6 +385,8 @@ source "drivers/gpu/drm/xlnx/Kconfig"
- 
- source "drivers/gpu/drm/gud/Kconfig"
- 
-+source "drivers/gpu/drm/sitronix/Kconfig"
-+
- source "drivers/gpu/drm/solomon/Kconfig"
- 
- source "drivers/gpu/drm/sprd/Kconfig"
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index b5d5561bbe5fd72f3915e6a52f325fdb79c7981e..70510620f29c874e376c795fb05d426a0faae05c 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -221,6 +221,7 @@ obj-$(CONFIG_DRM_TIDSS) += tidss/
- obj-y			+= xlnx/
- obj-y			+= gud/
- obj-$(CONFIG_DRM_HYPERV) += hyperv/
-+obj-y			+= sitronix/
- obj-y			+= solomon/
- obj-$(CONFIG_DRM_SPRD) += sprd/
- obj-$(CONFIG_DRM_LOONGSON) += loongson/
-diff --git a/drivers/gpu/drm/sitronix/Kconfig b/drivers/gpu/drm/sitronix/Kconfig
-new file mode 100644
-index 0000000000000000000000000000000000000000..25cae32e5c3ec11399a12f1f2bb2ede91c27d4d4
---- /dev/null
-+++ b/drivers/gpu/drm/sitronix/Kconfig
-@@ -0,0 +1,41 @@
-+config DRM_ST7571_I2C
-+	tristate "DRM support for Sitronix ST7571 display panels (I2C)"
-+	depends on DRM && I2C && MMU
-+	select DRM_CLIENT_SELECTION
-+	select DRM_GEM_SHMEM_HELPER
-+	select DRM_KMS_HELPER
-+	select REGMAP_I2C
-+	help
-+	  DRM driver for Sitronix ST7571 panels controlled over I2C.
-+
-+	  if M is selected the module will be called st7571-i2c.
-+
-+config DRM_ST7586
-+	tristate "DRM support for Sitronix ST7586 display panels"
-+	depends on DRM && SPI
-+	select DRM_CLIENT_SELECTION
-+	select DRM_KMS_HELPER
-+	select DRM_GEM_DMA_HELPER
-+	select DRM_MIPI_DBI
-+	help
-+	  DRM driver for the following Sitronix ST7586 panels:
-+	  * LEGO MINDSTORMS EV3
-+
-+	  If M is selected the module will be called st7586.
-+
-+config DRM_ST7735R
-+	tristate "DRM support for Sitronix ST7715R/ST7735R display panels"
-+	depends on DRM && SPI
-+	select DRM_CLIENT_SELECTION
-+	select DRM_KMS_HELPER
-+	select DRM_GEM_DMA_HELPER
-+	select DRM_MIPI_DBI
-+	select BACKLIGHT_CLASS_DEVICE
-+	help
-+	  DRM driver for Sitronix ST7715R/ST7735R with one of the following
-+	  LCDs:
-+	  * Jianda JD-T18003-T01 1.8" 128x160 TFT
-+	  * Okaya RH128128T 1.44" 128x128 TFT
-+
-+	  If M is selected the module will be called st7735r.
-+
-diff --git a/drivers/gpu/drm/sitronix/Makefile b/drivers/gpu/drm/sitronix/Makefile
-new file mode 100644
-index 0000000000000000000000000000000000000000..bd139e5a6995fa026cc635b3c29782473d1efad7
---- /dev/null
-+++ b/drivers/gpu/drm/sitronix/Makefile
-@@ -0,0 +1,3 @@
-+obj-$(CONFIG_DRM_ST7571_I2C)		+= st7571-i2c.o
-+obj-$(CONFIG_DRM_ST7586)		+= st7586.o
-+obj-$(CONFIG_DRM_ST7735R)		+= st7735r.o
-diff --git a/drivers/gpu/drm/tiny/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
-similarity index 100%
-rename from drivers/gpu/drm/tiny/st7571-i2c.c
-rename to drivers/gpu/drm/sitronix/st7571-i2c.c
-diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/sitronix/st7586.c
-similarity index 100%
-rename from drivers/gpu/drm/tiny/st7586.c
-rename to drivers/gpu/drm/sitronix/st7586.c
-diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/sitronix/st7735r.c
-similarity index 100%
-rename from drivers/gpu/drm/tiny/st7735r.c
-rename to drivers/gpu/drm/sitronix/st7735r.c
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index daa1adbb1b43325d644ae13f3cabfc1bb01ff4d8..6d1b3e2cb3fbd8630864824ae985897b9d8095c7 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -199,44 +199,3 @@ config TINYDRM_SHARP_MEMORY
- 	  * 4.40" Sharp Memory LCD (LS044Q7DH01)
- 
- 	  If M is selected the module will be called sharp_memory.
--
--config TINYDRM_ST7586
--	tristate "DRM support for Sitronix ST7586 display panels"
--	depends on DRM && SPI
--	select DRM_CLIENT_SELECTION
--	select DRM_KMS_HELPER
--	select DRM_GEM_DMA_HELPER
--	select DRM_MIPI_DBI
--	help
--	  DRM driver for the following Sitronix ST7586 panels:
--	  * LEGO MINDSTORMS EV3
--
--	  If M is selected the module will be called st7586.
--
--config DRM_ST7571_I2C
--	tristate "DRM support for Sitronix ST7571 display panels (I2C)"
--	depends on DRM && I2C && MMU
--	select DRM_CLIENT_SELECTION
--	select DRM_GEM_SHMEM_HELPER
--	select DRM_KMS_HELPER
--	select REGMAP_I2C
--	help
--	  DRM driver for Sitronix ST7571 panels controlled over I2C.
--
--	  if M is selected the module will be called st7571-i2c.
--
--config TINYDRM_ST7735R
--	tristate "DRM support for Sitronix ST7715R/ST7735R display panels"
--	depends on DRM && SPI
--	select DRM_CLIENT_SELECTION
--	select DRM_KMS_HELPER
--	select DRM_GEM_DMA_HELPER
--	select DRM_MIPI_DBI
--	select BACKLIGHT_CLASS_DEVICE
--	help
--	  DRM driver for Sitronix ST7715R/ST7735R with one of the following
--	  LCDs:
--	  * Jianda JD-T18003-T01 1.8" 128x160 TFT
--	  * Okaya RH128128T 1.44" 128x128 TFT
--
--	  If M is selected the module will be called st7735r.
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index 0151590db5cbd80aebde0629afd03f47b83c3045..4a9ff61ec25420e2c0a648c04eaab7ca25dd5407 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -6,7 +6,6 @@ obj-$(CONFIG_DRM_BOCHS)			+= bochs.o
- obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus-qemu.o
- obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
- obj-$(CONFIG_DRM_PANEL_MIPI_DBI)	+= panel-mipi-dbi.o
--obj-$(CONFIG_DRM_ST7571_I2C)		+= st7571-i2c.o
- obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
- obj-$(CONFIG_TINYDRM_ILI9163)		+= ili9163.o
- obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
-@@ -15,5 +14,3 @@ obj-$(CONFIG_TINYDRM_ILI9486)		+= ili9486.o
- obj-$(CONFIG_TINYDRM_MI0283QT)		+= mi0283qt.o
- obj-$(CONFIG_TINYDRM_REPAPER)		+= repaper.o
- obj-$(CONFIG_TINYDRM_SHARP_MEMORY)	+= sharp-memory.o
--obj-$(CONFIG_TINYDRM_ST7586)		+= st7586.o
--obj-$(CONFIG_TINYDRM_ST7735R)		+= st7735r.o
-
----
-base-commit: e782ac936941cff4c5580bb5cc2ec0e91468068c
-change-id: 20250424-sitronix-2c1f68b46866
-
-Best regards,
--- 
-Marcus Folkesson <marcus.folkesson@gmail.com>
+  Tomi
 
