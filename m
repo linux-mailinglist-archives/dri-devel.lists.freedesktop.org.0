@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CECAA7E59
-	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 06:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB1AAA7E56
+	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 06:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A98310E36F;
-	Sat,  3 May 2025 04:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44FF410E2E4;
+	Sat,  3 May 2025 04:08:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="sIHYOwn0";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="R0r5xWcG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM04-DM6-obe.outbound.protection.outlook.com
  (mail-dm6nam04on2077.outbound.protection.outlook.com [40.107.102.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD7AA10E2E4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F167110E31F;
  Sat,  3 May 2025 04:08:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ff5GizAIeLOujMJrV64rvWVs5OFMbsirDuAi0WVJwPZJ1CuoXUD9TnLs4hoG95yn2L5Bl2kiHdHrt+hyQuUFf4WqdtX0v2R12vI35+Ou4PZR2K2tskQ+SCQeAFpDfEEKOYo+PKGM2qdI6h4eA6QlEcL3lOQ6S/1if8zlbPy25wse1sp3j8yVK3ZVoZ/V13up441jVBO5sTDUFFSyvyuIWnAsfYSiEkyEOsIni11mowjmyd4CtvtiqSSP4ycmxezJLOKEW2TdGPCygc9jAyL1P3ZDGAb8ArGKZNiYTc+xsRJ8EL1Kg0O6ZBrj/dTyhd/h5amTv9lKhE0QUH85aCW0Pw==
+ b=L/QXjGDM+PU0QguQHJlJos0BnrMb+TFTJyNzU62Q4KmdXizrxdY8CZbw8qxMfExCt9/adzL//BeaCLCwv2uJKkGK1AfUDBqxOnLz0q9IdWSJ6aj5zEWvLzpqYuozd0p8VECY81Zwfqcldt+8ww33Pw+W3Wt45cYo8BRJ4fohc8phIFMbqXsiIytWcyszxcNm3DrZOLOPgMAL9z9Kkq+e7/7BVy+vdzXfSS8U8Cfq0jaAcSs3dhcscxJzphUSvbLiZWvoiJUXDex7nL5KDqyxXK3rWgxH8mPJ+IIBt5j7be2tjFaxiP7iRrettlVv4dFDLyOgl3MvZesuRgxjDV+SaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c2DYA742dUvRh92COsTaBpkZHdkC1nxUFQ8gjg6skQQ=;
- b=km+o/WlF/33zz40p9yuWFOWCCgX3T0A09B7xfWjLJk9HhOb+CDii0VbVQ0ZvtqCg1S299m8lW7UKNnsJUF70TXars6rxZZ+z1l+ZGzS9LigVoiwotBYZqQfNhYSWbxrQ9utbyG9sMwsOVhuVQ2kP/QQDKzlPBnuZ4A4Z2qksU2q3UwDMcpiStxUTM7CCBpFXSTth6jeyfonmfJq6OkaqPondvMIj7E0wao2sXsIymzdGE878eXBhjCzcUoE4cqBZp2xXapW/JzLrJjiciiJX61UD9AOSaTKWZgxBlHpII9OpjVhB8LeLek6BsE2ogyfOfjvD2Jdihpf778bCNJigvQ==
+ bh=Qc70Y0Z52EZ3TqA7lQSDoymZPh1CTaawWZyxC6Ffdak=;
+ b=ozxMAnbvLkuFz5Xq1ywHQm6stp0AbN+oQPtCsm78HgVvvLUryTYFBJUiagFbxMJAfzglluLGgDNVTDNme+SJBlosUAsExEgptAOw0dTmduIPnTZ3E3SXRCeE6kJmDvNXPMnN92HVGm43KR+07NnGx3gCLS0X6PbabHZf69H+nMx0tAT6MyI6tDnraDnlnX5Qgok3jPeHKV2wV+j3JGVDu4JKeGzYAiOvZul96oIX+BFhoYMYNKlFKEJs614jj2dkQmOgOyeqetr6TP+XtPrp24cDlx++EXYNtidG0Bb8gYwDtV/YLzfJALS65SfG7oznqvM0oI7w70VgZdWG4VtOjQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c2DYA742dUvRh92COsTaBpkZHdkC1nxUFQ8gjg6skQQ=;
- b=sIHYOwn01Z5kBNI92hNqM/61Tuv3yO+qJwHEQrAS1s5bdJCAe0OvW3Wn6MJRWLzHlAarO3Kd2VqED+4hqdczCMV0m8e7m/kLovgzJjoJ7cyMbqE4K0yugEuPpyeoxYeFrg6iZAJVBBgAxDnh11r2JsXP3OgHKbS0cMPo9VLrA4Qmu4egt3OtK+NxfPgxJrGGQmp/ljwviKqDriiuIFesk3KTXfDdsqZvpl3Ix3F3PdcmVDiiDFQhBrVCNdcQgp4qdypGNmHceBoSvhTXMdlgHVDtLlG6ovit23+CMjf1mC8zY+Djuf0df0ndBDYUQU2kH6qv+9ROsPGHAj/jMf4BlQ==
+ bh=Qc70Y0Z52EZ3TqA7lQSDoymZPh1CTaawWZyxC6Ffdak=;
+ b=R0r5xWcGtM9zkI3p+dq0AWDm499OWkM1M3FlARkc5hmwjnteUYMxlGtsuOJcybZ0Rod0m+unQ2GHk6VBnUD4qRFbuvS0iNN1df77xYQkag9qcyZd6c1ehOLGVELmuJD3ofXNv6gqOXqgqXudidRh+r0UJ7I4COtprIviYx3tB+sFpGkzv3X/DRM1IncSmGV6fdJaKPhTc+IgErsqWf17COyeTThkwmohSyfBQ2EQswHUs86c9Ns6fzBMdcjtMpshZz5W8M4rBZHOFNYP5IW1ft2Rb5qqyZzB/lWONI2ai2diF6jrRPJUby/J6xE6NEnrhs16W5K/lYRDicNXrdxUdQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
  by CH3PR12MB7713.namprd12.prod.outlook.com (2603:10b6:610:14d::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.23; Sat, 3 May
- 2025 04:08:19 +0000
+ 2025 04:08:21 +0000
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.8699.021; Sat, 3 May 2025
- 04:08:19 +0000
+ 04:08:21 +0000
 From: Joel Fernandes <joelagnelf@nvidia.com>
 To: linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
 Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Alexandre Courbot <acourbot@nvidia.com>,
  John Hubbard <jhubbard@nvidia.com>,
@@ -55,90 +55,107 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
  Ben Skeggs <bskeggs@nvidia.com>, rust-for-linux@vger.kernel.org,
  Joel Fernandes <joelagnelf@nvidia.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v2 5/7] docs: nova-core: Document devinit process
-Date: Sat,  3 May 2025 00:07:57 -0400
-Message-ID: <20250503040802.1411285-6-joelagnelf@nvidia.com>
+Subject: [PATCH v2 6/7] docs: nova-core: Document basics of the Falcon
+Date: Sat,  3 May 2025 00:07:58 -0400
+Message-ID: <20250503040802.1411285-7-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250503040802.1411285-1-joelagnelf@nvidia.com>
 References: <20250503040802.1411285-1-joelagnelf@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BN9PR03CA0538.namprd03.prod.outlook.com
- (2603:10b6:408:131::33) To SN7PR12MB8059.namprd12.prod.outlook.com
+X-ClientProxiedBy: BN0PR03CA0001.namprd03.prod.outlook.com
+ (2603:10b6:408:e6::6) To SN7PR12MB8059.namprd12.prod.outlook.com
  (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|CH3PR12MB7713:EE_
-X-MS-Office365-Filtering-Correlation-Id: 487dcb37-4f16-4b4b-de01-08dd89f822ff
+X-MS-Office365-Filtering-Correlation-Id: 9fffa790-2df9-4e07-df51-08dd89f8244b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?XGE2YiAtm+NwJV8xhXIeuujftvZ4WXlG7gQ7ahPWGRtrsLIA1//knfHt1Chr?=
- =?us-ascii?Q?ZR3Dx9Ji25jB/l4hjYi/5S/n/MfKOp6llAv3cTosfwUeCPOws/TMtYhztW5l?=
- =?us-ascii?Q?xIk9IkNFTZSzqw+HsH4sHoUhjTTfXbWa+4UXU89JS2KjFbdyeW/yGQRAFrHY?=
- =?us-ascii?Q?c4xptL/aETduUIU/R1+osaTNx+nEcz+Qb/5xvjXEQJ4YKgsbdcuoQek9AVvw?=
- =?us-ascii?Q?jCXxnNMrWH8zlz/JTbyac4QOIDh8lf4ipRS9y5mrehpGqBMOa9JU3MEtPVV+?=
- =?us-ascii?Q?VBOoZAFYl0yYg6KpoO2nqjLG6y1v/x7J1sDa2OyXuknlAr+eaRyFc1y2WFuQ?=
- =?us-ascii?Q?HsK+kx8HqP2sAnUn5Zf9nCUPiSH+Tqx8FhX+zeh1RRfDsE8KrrQI0oW/omxX?=
- =?us-ascii?Q?py6iJrPX8ciDYN2Dl157q+ILZnhFbRKnxUyj063EwAnujIYvCtBaPizCbt+V?=
- =?us-ascii?Q?GA1RFlTEk4RmFJDp+bwNgMGsGS9fqkdw4agRR+ZIylq95WL4ectRa5xcsIwW?=
- =?us-ascii?Q?OWe9TkxnEkH/7voPk8mfBzz303dX85vw5HQdy2gVkSo7SHLoXt+X/S6ivu5P?=
- =?us-ascii?Q?cLbR7w8d2Q2pKgkhhdM7GuJUWsCWDRvIFnWZIl0BtPVZyfJoEDoAxa+5woHb?=
- =?us-ascii?Q?XkmMZ5FD1aKeKQUP8e36KjHocMX77odzZFh44bkLXHeC9XoMM2YL+olw9BC+?=
- =?us-ascii?Q?rwDstDZs/jzhu2cL7u6G8Cqo3e1O/Q7w8sLBZLj42k+Em7sQuGDIQbuoYhTm?=
- =?us-ascii?Q?oiJRCRq6McAdO+H37lhOtd+SzfMt+QDRa1KrAo57yeltgzDW0CE5nmRGSd/C?=
- =?us-ascii?Q?m79t6nWo/Ps5B9gMyjdM5xDTAJ1kTLKcCn6jMu2b0ncEVuWmtuGhzmUCvezg?=
- =?us-ascii?Q?Ohrjzs0agjF4etjrCk1HtqzW0GczpCZD7oRFoL0rAiQwodAeMg08zR92NAJ2?=
- =?us-ascii?Q?iOmoAOK+8yFvFKbDpb3U4nqooJSsWyEdsY19XSIumZ7QZHvqzIr/daDbhdCE?=
- =?us-ascii?Q?mrHZYSvg1fwl+K1Cr+tVxtFaY2hCBLQj3/HFT9aeYBMPKC5VNvqkDJK/QGZV?=
- =?us-ascii?Q?+sbIvETG7ceJ6Gbip5NCBe6IwFoXjUZNvjK2CJMkqfi0CY4UKvfI6sl0zG/N?=
- =?us-ascii?Q?4dZaIkqvmcPKp7L8guISyKvM0wZNJBoL4mYiqQvAKodRyYBwJJiN+RBmY+qv?=
- =?us-ascii?Q?cfXsdnSzgHzYdQ0M+3HatIVrYBoeRs/QTv+A18taZd5jwv1Sxoi2AhGOBgYg?=
- =?us-ascii?Q?rsj1Yh4Iurp/pMquEiD8rDkU3l7a2Bl+9eep3M2kaxPfLcNSniWioRfqkhqS?=
- =?us-ascii?Q?cC5CYXj5dKeA0TVWze4GgOBuB3OfD6bEJky7/Pw1gMOlCtcnywngLJTxEj5V?=
- =?us-ascii?Q?lVOVe+P5xwuiYAoWZLfVo8KROd0ckK2q4iTU95yQoZ4KyahkhjwmvBTgIA3m?=
- =?us-ascii?Q?EDAhqj/ENE8=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Nk9JaVNPWFdsY3R0RW5oT1JnTk9uMUxQL3FGOTVqUnlaMkw4ZDdyOHVhdFBV?=
+ =?utf-8?B?c1BQV0tGTUdRaTVzNk15SjVHRTJPa3VTUFMrdGVPdlQxMzhLYUw0MkpVK0xx?=
+ =?utf-8?B?UXl1UmtuVzh3aUdSRzN3ZDZMNCtvRFpGbGRHbXN3a0tpdUdOYmJaMEpsbDZW?=
+ =?utf-8?B?M2dONHY3ZjlRaGJjbmhyZk9EWmYyK25lMnVjaUlnQnptU2JsTjByQWZsYVYv?=
+ =?utf-8?B?ZU1GbGRpQVY5STBSZDFlMk0zYlgxR1NzRTJRVDdueUhJeGxTQUwzTkltMWF3?=
+ =?utf-8?B?VzFrN1BYR1VYRHAvNUd4aDZveUwxbmVwSytnOVBlSEk2T0xmMEFWMmQxd0VK?=
+ =?utf-8?B?djF6VHB3L05ubTl1amh4TFdsUHZFNS93R1dkNzg3VWlrOXZVRzZkVzNtYWhX?=
+ =?utf-8?B?MFNpMllGSHRvTjFjN2ljNFJZSUs5NTFqMWdCQjJIdWxQMURxeTZZd3ZNOFcr?=
+ =?utf-8?B?OTluT2xtM1ZqT1gxcWJkeGpwRDdGRWZFNnJteGhxcnBBZit1YUFlMUp3eGlQ?=
+ =?utf-8?B?Q1ErbVE4T0ZOcjVkTXpaTHVac2VLSnZTWmlXU2pDY0R2MGVYcFYwVmFHR3cx?=
+ =?utf-8?B?VTNzMUJXSUk5NTNpOWtidG96SkVQZ2xpSDArV3hoZERyajJSM1o2Z2lzbmFl?=
+ =?utf-8?B?NmtNdlFWSzJVdHhsemNxdmhEVEtUeWF2Sm9nSjM1S0NrY09lS0N4aU14cklJ?=
+ =?utf-8?B?czRGWkxTTDVhNTQwUFZCVlB5K2poVDZGVEtyN0gyRUMvTjdhZlIvaGFZbm5R?=
+ =?utf-8?B?WFNmcm1lUVMrZjFjeGNzREE4U3g2S1IrUVlROEVNNVkwc0pEZ0tGem5NUG0v?=
+ =?utf-8?B?Z05JV1R2NW8yWldUaDB1ajA5cEd2Q1Fpd1JzY0VhODJEUnBjQ2hYN01QTm9r?=
+ =?utf-8?B?RjlyeGtZTmloMjNiRUtZSkZDcklHUkYxWGFxZHBVQ3F6VDJ2eDgzakpDWXBo?=
+ =?utf-8?B?ZVBkOVVCeHJLNWFxeGhWd0ZvTmxGY24yZUppdzM3TEtjbnFqTHR4RlBBNjN1?=
+ =?utf-8?B?MkI0ZDczMU1zUkRNa0JINzhlQTRwOWFZbEw2bENHelJIOUo0bC9hZmI2a2xZ?=
+ =?utf-8?B?YjhsaDJJYmZsdUl3SGFMQldlQ0pCa3g2NGlFV3BKazBYRDNwRng1U1Q0a2VT?=
+ =?utf-8?B?NnIrR0lVek51SHIwdGloRTNpamEzWXlEUlgvTGNWYzVxM25aWlhrRjU0S0F1?=
+ =?utf-8?B?NUtkbHJFQjBIYWtQeDlaVXpFNmpXOHZrdktkTnJIWllVVjFsb1dNMnBzblIr?=
+ =?utf-8?B?bDNJdnZqK2p5SWM5c1htY1JRTlFndXh6R28zRXRjSjBWM3dSeElVaGhpTGxI?=
+ =?utf-8?B?ZEp6MnphSmRKbDdrMEZYM0VubTBydjhrYzRqUXpnUnlwZjcxeXkrT3hqb1cv?=
+ =?utf-8?B?VURoRHlHREExWFdmS0NXVHY1SkwvVTI4NnJWRWJFYmpGa1JGQUhvOXZwTTJ4?=
+ =?utf-8?B?eS82Sk1ybUZXM0ZiWU9EbGEwUGlLMW5lS3dxeDNYSU9pcUFnMUc3Rkt0TkVJ?=
+ =?utf-8?B?UDdVZDk5cTlsSmRQZ3NVLzlmc2ZuV0F5WFBNYzRhNDNVRGVUZkloamlydm1H?=
+ =?utf-8?B?cFM4Snl3ZE9PbWFQNlpJbmd1U3pLTVVqSlZCcmtJd1Y5Y21OTnRNRElMSHE1?=
+ =?utf-8?B?bFNCcWI4ZlhLeU4vcno4WlR1ZXI2TjdqUmxxVlZFdnJKSHVQSC9va1BxL0dZ?=
+ =?utf-8?B?eDNBNDlQUVNsYTJtdzh5NmkraVdFZmFqWWZ6Nk1OSUdSU0szNjNqOUkzSG1N?=
+ =?utf-8?B?ek8rT0lQaklDUmNLak5sSjZmTFJuTUI4UDVnbWkvMTJEaHdVWXRMT0Ftdkhk?=
+ =?utf-8?B?aE1iYjkyeG52ZkdPamxkNXNXUGlzc3FQZklMR1MrWGRCUzR5b1BlMEk3U2xB?=
+ =?utf-8?B?YVhleUozdkVEK0lXYk9ack4rRCtlRHBuQnVPc29vbU5oS2UwVllpMzVzWFhr?=
+ =?utf-8?Q?F/w/qsrQ69c=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dvPPVnKxuaqsfb+taJQ9eE4DPlkWwOAeHt81rqCMbz2BXSYafntTtzOCCfYg?=
- =?us-ascii?Q?Tq/WSfB4aHv3wbrZTajtQIjis0slyqEB/lOmlEdIuwXhujyqwFh2quljIDeV?=
- =?us-ascii?Q?DUcRLNnwdnJAuuabTl0Xfaeq1/wp6cZRe6P38niVvXRf1CuYscywSuCCPp5m?=
- =?us-ascii?Q?SB6+1x7xGWx9rvJMi7u9STU3bIPKMLda4xfpTkbU7q8lW9/ihJkDwSzyd8zh?=
- =?us-ascii?Q?EHbOL/pA+PfUxEa9ZXcyEhy1cp7mcGS/Y/8uRLWdGqPYYReRuGAIitlsDjP/?=
- =?us-ascii?Q?/Z25tezc0GTBcOw2MkfbYBIFu09aMlH0k6y7UQrjkb2U0Pculu26ztv9/Kc+?=
- =?us-ascii?Q?vgWYR+IcxH72NdRfvJr54DBoVjgNRAuaXYtEyCHZ2eQWZMjmEr/3ezjjfaFw?=
- =?us-ascii?Q?f1m8BX2pLbiOk0hK4fhn+Lm0iCgKD9pTvKmPi1nGIjLJkEHJ9DvFae5m9+m0?=
- =?us-ascii?Q?RR5VVj1xuINlcTKzKbFkvhNVA//idJivWPYXmJpcU2Y6vnOKOXQSzazc8YZE?=
- =?us-ascii?Q?qNdnkW4J0sjpqTE1bWQES5GpMTBdCVV6fR0kb1cx+wGpoPkuFlnncer0jDI4?=
- =?us-ascii?Q?FpnCSjFeEs2dxU0Mf7EecHJbsymI5BjbdPVlzBHmZsStFupjkVFtxbimrOan?=
- =?us-ascii?Q?g3yneXtBaqi9GM+uGP9NzP/cSBSCbiH2k9bv8ob7LAPVbqHW341k9PBm17RU?=
- =?us-ascii?Q?DZwQh9hREEpYRK0nEpsCCDmNnxm35rjF/Nn1Y5UyY4tyE5mInYNIhG09Z5o/?=
- =?us-ascii?Q?5YrjKvgdGToqeph0iccaGutqEaQDVfn12k2csI6dArq3CoNLMlzwJYpNHZ57?=
- =?us-ascii?Q?QgybwboXdW3rBhytfcKvVrB0pbjwyh+eOiEht5oB+vhxLVWVYVV38snJI0dG?=
- =?us-ascii?Q?qBeCtLMJU9Jz0joF/MnzA1Dd7wM+9C5efHiCd0e0rsSswNxapUnTYU2acDIO?=
- =?us-ascii?Q?PPyN1eIYOYHG6K9icxP7VwRbhUhQsinjlVCweT7ihe/PE0lD3UL/mfmHwJB0?=
- =?us-ascii?Q?DgFoyiLrQ2i32+m0vLps3lhPgqSdLFXnZPktsaUSa/S6B6dEegrAX9ybD7IK?=
- =?us-ascii?Q?gKvRHsRCVGGncQGkq/D4s/P5JcdkYCkZEMWMEraO8e0AqIT2Xqpt9mBaFigY?=
- =?us-ascii?Q?tEr4LvxjGeSs1DFI47WmV1+FGFEUISjr85/+1tx1dw16UlgH8pc+WkSpwUd7?=
- =?us-ascii?Q?E63CrfqAXnSLrd0kZ99mSYklq4nQ0q8pBJRuLzTwIikSaWBjgv48vJPbfo7u?=
- =?us-ascii?Q?F/w3LN4XkKEh57qRgOmDKlYlXz5DzbwY+FJ1Eqll9xwEqqurie8pArvHJxvX?=
- =?us-ascii?Q?eAv2OUdNzwlrEUiTxo1W9j7za8U9Extet1BtPyNyPDlrzIkxyVk8UV61svJz?=
- =?us-ascii?Q?aA8TNQWE8+oGGYiUyN1YxhfRJ5zCScaolbMp91i1ZJkGXH94V968AGecEYqk?=
- =?us-ascii?Q?izwhnIsl8+gbtunvA8JGEmel1nFAGba4pColB1u9kj+dO0tfYyz6wh9HNhQ+?=
- =?us-ascii?Q?/Ha6SUHIEKcL58fSNhv7ih6mkXUwoFj1Bw+jK07akx1MerxfJLNaTDS7D69Q?=
- =?us-ascii?Q?2sII0y9X4t/LN9NwxtL4badbYzxLIGeKgOduTgdQ9s9XQGIzPcUpBzim97nH?=
- =?us-ascii?Q?KQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHg2d1pvQVJkOGJOWkNpaU9ibjhDNVJYQytmT3BCT21RYkhyUFNPRlZ6V21C?=
+ =?utf-8?B?dk8yc1Y2Si93UU5DV2c3WEI0emxlVDFkVGdPWHArS05mN0szVW1OR2kvZ2NV?=
+ =?utf-8?B?VTNISldmbmwxVndqQzdBY1ovYVFOZEQyREkzYStaa0NoZkdGOTJJL2FVTXEr?=
+ =?utf-8?B?UUwrSGlObmVtZzFSTHpYSmlGV05kbEtVWU5JYSt0WXBSUE5QSUIzeW1xTnB1?=
+ =?utf-8?B?TTl1ZHdkNmhvZ3F2VkdyMk1jV1dkZGFXUG9sR0ZpK0dMSS81MWFMUG5SUWJE?=
+ =?utf-8?B?ZUpXN1VzRDF6ZGZYZDhjWmdxOEhPclhYcHFOM052ZnFieGs4VzJkZWNReHBT?=
+ =?utf-8?B?UHhUOUdyZE03Q0s0NXc1N3NOMUJIbW15K21oa2EvMUQyRURxNUhJVGwzM0Y0?=
+ =?utf-8?B?aVNiRldUWSsyT3gwTkNldFY4MGhFMkFnU2swaDRiWm0wS0JxQk1zYlhBVjg1?=
+ =?utf-8?B?RnZERHNmNWlrc2VrSTBQNFlrL0tRWkl6RUFNVEdNNVlLTTRueUg0a2NjUm5n?=
+ =?utf-8?B?M2xxM2dtMW5nOXB0Y0VkRDYzZW5OelVkaFdxTXcvSXJuR0gzZzl3anhHSHFK?=
+ =?utf-8?B?MTRZaXRuQlZLOWQ4V2xmVDVQZkpMN1ZPaHJIckxpK3hTdHRscm5yMkhOV2xx?=
+ =?utf-8?B?WlFMRG40M1E3blBwVy9aZkYxTUhvckt0a2JaMU5lRDRDK3lnZXhxclpxNWVv?=
+ =?utf-8?B?b1RGVFJ4SmhnbEZhUFcyZ0JHRVIxdU1xNmczRkw3VXBTZ0xiZkU2ZGVyb1lD?=
+ =?utf-8?B?d0I3dHpzY1Z1NUphVVZidVFZaWFRaGFqcFkrN0I4SzVSVU5jZlR3dU5oL0Ur?=
+ =?utf-8?B?Mm55UFJMdVVlUGJQS3RlWUdGWGJFRXFLdzFvdEZFQjgyQjE0KzZ3czFZZWVQ?=
+ =?utf-8?B?RFl6TThSUmtYZjhuSk9KVlR6S0hpcTNRcGMwMnFHeW8rSXprYXUvT3RCdmQy?=
+ =?utf-8?B?bW1sQUp4K2ZZQjdISDY2eGFDa0V1SEVJVmJXcDZDdHYzQ2J5bEI1dHNMZWEv?=
+ =?utf-8?B?T0hyYlBwTy9aOFZzcThlVVp0T0ZiNG9XRUdFalFnbGNKU2dhS1RGQ09pbmRV?=
+ =?utf-8?B?ZXFsNDQxRm1HM0JxTGUrVkF4bEh6ZEFUSnlrVmUxY1NqN0VqQ0JOaGl6TjA0?=
+ =?utf-8?B?M3Fxclc5RTFFY3krVGlIYVpONm40cG9NOXJVTTJyWWRWYW9LS0FyYkdFQ1Nl?=
+ =?utf-8?B?Ry83UmZXeTMvbXpDRTduR3BqL0p3UUVzSFVxNFp3Uk1TTS9NbW5CdEFyOUZG?=
+ =?utf-8?B?Tllremt6aHhEV3cyTTR0Y1ozVktUb01Od2ErWHZXR2QxcVNIK09lUVRZcnlQ?=
+ =?utf-8?B?RElLS1krdU02cU5uMTE0Zno4eVpoVDhHc0lsMFlya29DMTRlR3VRRjBwSm14?=
+ =?utf-8?B?Z05BUm5HZUhaTy8zb2ViYzB4cll6QjNnTWM3ejBZRmtMRDYyeXZEYWhsaHhH?=
+ =?utf-8?B?L1VXUElSa2poQnVTMHFZblIyQUI3SEwrWFBnTlpORzlIeXRrRE1jblFvVE9q?=
+ =?utf-8?B?NGdSbHA5VFNXUEZXQ09nS05TY1BxWWROMXgyVVFHd3RMR0hJWHhyckRRN2lj?=
+ =?utf-8?B?OTNrKzRJZXZza2JyV1c0WDI1UEJ1WjJXN0MvVWk0emltZWF4cTRLaHBZN0lv?=
+ =?utf-8?B?WEl1RVduOFpSczFIMENyamU1RFhUbEd2ZnB0cUVpMlU4Qk1KelNmTUY2UjB0?=
+ =?utf-8?B?V1UxN1pJVk9LNHFDWkZYaVRMdENVVk5MQjFaR3RKbTd4S20xc3pzZW5RN1Fl?=
+ =?utf-8?B?MUJra0w4R3VlZG9USlJqQnpsYVF2b3RJVDY5U3FITlpTS1dNZTc3YzA4MCtt?=
+ =?utf-8?B?Zm9RN2FOcTBkZHJQd2RnWHpyMkxhQVV0bGZwWEJ2OHZhS3p6cjU5bndDdkNT?=
+ =?utf-8?B?bUVsZkM3NzlXMXFna3pqVlFqelhZVE91bTZsc1pOcWIwUTNaR21YSmh6MUpF?=
+ =?utf-8?B?QW0vUk9IdUhkbmtlbFVBUFlhSE1wR1piM0lQaGQ3bzFXbDZIL1RlWkR3WmtM?=
+ =?utf-8?B?NkoxdnZVeXNJN25ub05STUE5RFpvcVE4Ry9acUI1RS8zK1RsZyt6OXVxbFY1?=
+ =?utf-8?B?NUgyb3hhUEV0L29aUk5NK3lvZ2YvYnBlWUZpUUFDWEVmVTllS2F1aHp5TzEx?=
+ =?utf-8?B?bUpxcWQ4NkdmWno4MjBVa1dxVndTWlA0a1RwNHBKNy9qcXJidVluK2lVNEpK?=
+ =?utf-8?B?RFE9PQ==?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 487dcb37-4f16-4b4b-de01-08dd89f822ff
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fffa790-2df9-4e07-df51-08dd89f8244b
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2025 04:08:18.9903 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2025 04:08:21.1268 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7TiBznSPWLkADHgX0sX1VILuMBiqbeeOJrpO3YKr31HIXzItF8WY1alHIiFP69bdCZurjWdYyTHH638G2cI5lA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5dGoX3pIOkAtqoyXmN7nVmEWjLqE7yWvLk+xb8tKfzNyW44ZjFmlSfnggTTn+yf0GIdoL5JiOOoH/9Wtp+mVwA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7713
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -155,118 +172,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devinit is mentioned in the code. This patch explains it so it is clear
-what it does. devinit is not only essential at boot-time, but also at
-runtime due to suspend-resume and things like re-clocking.
+Instances of the Falcon microcontroller appear in modern Nvidia GPUs and
+are crucial to the GPU boot process. Document some concepts which will
+make nova-core boot code easier to digest. All the information is
+derived from public sources such as public documents, OpenRM and Nouveau
+code.
 
 Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 ---
- Documentation/gpu/nova/core/devinit.rst | 59 +++++++++++++++++++++++++
- Documentation/gpu/nova/index.rst        |  1 +
- drivers/gpu/nova-core/devinit.rs        |  6 +--
- 3 files changed, 63 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/gpu/nova/core/devinit.rst
+ Documentation/gpu/nova/core/falcon.rst | 156 +++++++++++++++++++++++++
+ Documentation/gpu/nova/index.rst       |   1 +
+ 2 files changed, 157 insertions(+)
+ create mode 100644 Documentation/gpu/nova/core/falcon.rst
 
-diff --git a/Documentation/gpu/nova/core/devinit.rst b/Documentation/gpu/nova/core/devinit.rst
+diff --git a/Documentation/gpu/nova/core/falcon.rst b/Documentation/gpu/nova/core/falcon.rst
 new file mode 100644
-index 000000000000..85e7033dd3a7
+index 000000000000..f2b89cc2a159
 --- /dev/null
-+++ b/Documentation/gpu/nova/core/devinit.rst
-@@ -0,0 +1,59 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+==================================
-+Device Initialization (devinit)
-+==================================
-+Note that devinit itself is a complicated process, subject to change, and this document
-+only roughly provides an overview of the process using the Ampere GPU family as an example.
-+The idea is to provide a conceptual overview of the process to help understand the kernel
-+code that deals with it.
++++ b/Documentation/gpu/nova/core/falcon.rst
+@@ -0,0 +1,156 @@
++==============================
++Falcon (FAst Logic Controller)
++==============================
++The following sections describe the Falcon core and the ucode running on it.
++The descriptions are based on the Ampere GPU or earlier designs; however, they
++should mostly apply to future designs as well, but everything is subject to
++change. The overview provided here is mainly tailored towards understanding the
++interactions of nova-core driver with the Falcon.
 +
-+Device initialization (devinit) is a crucial sequence of register read/write operations 
-+that occur after a GPU reset. The devinit sequence is essential for properly configuring 
-+the GPU hardware before it can be used.
++NVIDIA GPUs embed small RISC-like microcontrollers called Falcon cores, which
++handle secure firmware tasks, initialization, and power management. Modern
++NVIDIA GPUs may have multiple such Falcon instances (e.g., GSP (the GPU system
++processor) and SEC2 (the security engine)) and also may integrate a RISC-V core.
++This core is capable of running both RISC-V and Falcon code.
 +
-+The devinit engine is an interpreter program that typically runs on the PMU (Power Management
-+Unit) microcontroller of the GPU. This interpreter executes a "script" of initialization
-+commands. The devinit engine itself is part of the VBIOS ROM in the same ROM image as the
-+FWSEC (Firmware Security) image (see fwsec.rst and vbios.rst) and it runs before the
-+nova-core driver is even loaded. On an Ampere GPU, the devinit ucode (which is separate
-+from the FWSEC ucode), is launched by the FWSEC (FWSEC runs on GSP in heavy-secure mode
-+and devinit runs on PMU in light-secure mode).
++The code running on the Falcons is also called Ucode and will be referred to as
++such in the following sections.
 +
-+Key Functions of devinit
-+------------------------
-+devinit performs several critical tasks:
++Falcons have separate instruction and data memories (IMEM/DMEM) and provide a
++small DMA engine (via the FBIF - "Frame Buffer Interface") to load code from
++system memory. The nova-core driver must reset and configure the Falcon, load
++its firmware via DMA, and start its CPU.
 +
-+1. Programming VRAM memory controller timings
-+2. Power sequencing
-+3. Clock and PLL (Phase-Locked Loop) configuration
-+4. Thermal management
++Falcon security levels
++======================
++Falcons can run in Non-secure (NS), Light Secure (LS), or Heavy Secure (HS)
++modes.
 +
-+Low-level Firmware Initialization Flow
-+--------------------------------------
-+Upon reset, several microcontrollers on the GPU (such as PMU, SEC2, GSP, etc.) run GPU 
-+firmware (gfw) code to set up the GPU and its core parameters. Most of the GPU is
-+considered unusable until this initialization process completes.
++Heavy Secured (HS) also known as Privilege Level 3 (PL3)
++--------------------------------------------------------
++HS ucode is the most trusted code and has access to pretty much everything on
++the chip. The HS binary includes a signature in it which is verified at boot.
++This signature verification is done by the hardware itself, thus establishing a
++root of trust. For example, the FWSEC-FRTS command (see fwsec.rst) runs on the
++GSP in HS mode. FRTS, which involves setting up and loading content into the WPR
++(Write Protect Region), has to be done by the HS ucode and cannot be done by the
++host CPU or LS ucode.
 +
-+These low-level GPU firmware components are typically:
-+1. Located in the VBIOS ROM in the same ROM partition (see vbios.rst and fwsec.rst).
-+2. Executed in sequence on different microcontrollers:
-+   - The devinit engine typically but not necessarily runs on the PMU.
-+   - On an Ampere GPU, the FWSEC typically runs on the GSP (GPU System Processor) in
-+     heavy-secure mode.
++Light Secured (LS or PL2) and Non Secured (NS or PL0)
++-----------------------------------------------------
++These modes are less secure than HS. Like HS, the LS or NS ucode binary also
++typically includes a signature in it. To load firmware in LS or NS mode onto a
++Falcon, another Falcon needs to be running in HS mode, which also establishes the
++root of trust. For example, in the case of an Ampere GPU, the CPU runs the "Booter"
++ucode in HS mode on the SEC2 Falcon, which then authenticates and runs the
++run-time GSP binary (GSP-RM) in LS mode on the GSP Falcon. Similarly, as an
++example, after reset on an Ampere, FWSEC runs on the GSP which then loads the
++devinit engine onto the PMU in LS mode.
 +
-+Before the driver can proceed with further initialization, it must wait for a signal 
-+indicating that core initialization is complete (known as GFW_BOOT). This signal is
-+asserted by the FWSEC running on the GSP in heavy-secure mode.
++Root of trust establishment
++---------------------------
++To establish a root of trust, the code running of a Falcon has to be something
++that that cannot be erased and is hardwired into a read-only-memory (ROM). This
++follows industry norms for verification of firmware. This code is called the
++Boot ROM (BROM). The nova-core driver on the CPU communicates with Falcon's Boot
++ROM through various Falcon registers prefixed with "BROM" (see regs.rs).
 +
-+Runtime Considerations
-+---------------------
-+It's important to note that the devinit sequence also needs to run during suspend/resume 
-+operations at runtime, not just during initial boot, as it is critical to power management.
++After nova-core driver reads the necessary ucode from VBIOS, it programs the
++BROM and DMA registers to trigger the Falcon to load the HS ucode from the system
++memory into the Falcon's IMEM/DMEM. Once the HS ucode is loaded, it is verified
++by the Falcon's Boot ROM.
 +
-+Security and Access Control
-+--------------------------
-+The initialization process involves careful privilege management. For example, before 
-+accessing certain completion status registers, the driver must check privilege level 
-+masks. Some registers are only accessible after secure firmware (FWSEC) lowers the 
-+privilege level to allow CPU (LS/low-secure) access. For example, to receive the
-+GFW_BOOT signal.
-\ No newline at end of file
++Once the verified HS code is running on a Falcon, it can verify and load other
++LS/NS ucode binaries onto other Falcons and start them. The process of signature
++verification is the same as HS; just in this case, the hardware (BROM) doesn't
++compute the signature, but the HS ucode does.
++
++Thus the root of trust is:
++     Hardware (Boot ROM running on the Falcon) -> HS ucode -> LS/NS ucode.
++
++Example on Ampere GPU, the boot verification flow is:
++     Hardware (Boot ROM running on the SEC2) ->
++          HS ucode (Booter running on the SEC2) ->
++               LS ucode (GSP-RM running on the GSP)
++
++.. note::
++     While the CPU can load HS ucode onto a Falcon microcontroller and have it
++     verified by the hardware and run, the CPU itself typically does not load
++     LS or NS ucode and run it. Loading of LS or NS ucode is done mainly by the
++     HS ucode. For example, on an Ampere GPU, after the Booter ucode runs on the
++     SEC2 in HS mode and loads the GSP-RM binary onto the GSP, it needs to run
++     the "SEC2-RTOS" ucode at runtime. This presents a problem where there is
++     no one to load the SEC2-RTOS ucode onto the SEC2 (i.e., the CPU is incapable
++     of loading LS code, and GSP-RM has to run LS mode). To overcome this,
++     the GSP is temporarily made to run HS ucode (which is itself loaded by
++     the CPU via the nova-core driver using a "GSP-provided sequencer")
++     which then loads the SEC2-RTOS ucode onto the SEC2 in LS mode. The GSP
++     then resumes running its own GSP-RM LS ucode.
++
++Falcon memory subsystem and DMA engine
++======================================
++Falcons have separate instruction and data memories (IMEM/DMEM)
++and contains a small DMA engine called FBDMA (Framebuffer DMA) which does
++DMA transfers to/from the IMEM/DMEM memory inside the Falcon via the FBIF
++(Framebuffer Interface), to external memory.
++
++DMA transfers are possible from the Falcon's memory to both the system memory
++and the framebuffer memory (VRAM).
++
++To perform a DMA via the FBDMA, the FBIF is configured to decide how the memory
++is accessed (also known as aperture type). In the nova-core driver, this is
++determined by the `FalconFbifTarget` enum.
++
++The IO-PMP block (Input/Output Physical Memory Protection) unit in the Falcon
++controls access by the FBDMA to the external memory.
++
++Conceptual diagram (not exact) of the Falcon and its memory subsystem is as follows:
++
++           External Memory (Framebuffer / System DRAM)
++                            ▲  │
++                            │  │
++                            │  ▼
++┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━┻━━━━━━━━━━━━━━━━━━━━━━┓
++┃                           │                         ┃
++┃   ┏━━━━━━━━━━━━━━━┓       │                         ┃
++┃   ┃     FBIF      ┣━━━━━━━┛                         ┃  FALCON
++┃   ┃ (FrameBuffer  ┃   Memory Interface              ┃  PROCESSOR
++┃   ┃  InterFace)   ┃                                 ┃
++┃   ┃  Apertures    ┃                                 ┃
++┃   ┃  Configures   ┃                                 ┃
++┃   ┃  mem access   ┃                                 ┃
++┃   ┗━━━━━━━▲━━━━━━━┛                                 ┃
++┃           │                                         ┃
++┃           │ FBDMA uses configured FBIF apertures    ┃
++┃           │ to access External Memory
++┃           │
++┃   ┏━━━━━━━▼━━━━━━━┓      ┏━━━━━━━━━━━━━━━━┓
++┃   ┃    FBDMA      ┃  cfg ┃     RISC       ┃
++┃   ┃ (FrameBuffer  ┣<────>┫     CORE       ┣─────>. Direct Core Access
++┃   ┃  DMA Engine)  ┃      ┃                ┃      ┃
++┃   ┃ - Master dev. ┃      ┃ (can run both  ┃      ┃
++┃   ┗━━━━━━━▲━━━━━━━┛      ┃ Falcon and     ┃      ┃
++┃           │        cfg-->┃ RISC-V code)   ┃      ┃
++┃           │        /     ┃                ┃      ┃
++┃           │        |     ┗━━━━━━━━━━━━━━━━┛      ┃    ┏━━━━━━━━━━━━┓
++┃           │        │                             ┃    ┃   BROM     ┃
++┃           │        │                             <───>┫ (Boot ROM) ┃
++┃           │       /                              ┃    ┗━━━━━━━━━━━━┛
++┃           │      ▼                               ┃
++┃   ┏━━━━━━━━━━━━━━━┓                              ┃
++┃   ┃    IO-PMP     ┃ Controls access by FBDMA     ┃
++┃   ┃ (IO Physical  ┃ and other IO Masters         ┃
++┃   ┃ Memory Protect)                              ┃
++┃   ┗━━━━━━━▲━━━━━━━┛                              ┃
++┃           │                                      ┃
++┃           │ Protected Access Path for FBDMA      ┃
++┃           ▼                                      ┃
++┃   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓      ┃
++┃   ┃       Memory                          ┃      ┃
++┃   ┃   ┏━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━┓  ┃      ┃
++┃   ┃   ┃    IMEM       ┃  ┃    DMEM     ┃  ┃<─────┛
++┃   ┃   ┃ (Instruction  ┃  ┃   (Data     ┃  ┃
++┃   ┃   ┃  Memory)      ┃  ┃   Memory)   ┃  ┃
++┃   ┃   ┗━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━┛  ┃
++┃   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
++┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 diff --git a/Documentation/gpu/nova/index.rst b/Documentation/gpu/nova/index.rst
-index 22e5712ac6b0..301435c5cf67 100644
+index 301435c5cf67..75a98ab63055 100644
 --- a/Documentation/gpu/nova/index.rst
 +++ b/Documentation/gpu/nova/index.rst
-@@ -29,4 +29,5 @@ vGPU manager VFIO driver and the nova-drm driver.
+@@ -28,6 +28,7 @@ vGPU manager VFIO driver and the nova-drm driver.
+ 
     core/guidelines
     core/vbios
++   core/falcon
     core/fwsec
-+   core/devinit
+    core/devinit
     core/todo
-diff --git a/drivers/gpu/nova-core/devinit.rs b/drivers/gpu/nova-core/devinit.rs
-index 21fc9b96d498..bd6a5c57c444 100644
---- a/drivers/gpu/nova-core/devinit.rs
-+++ b/drivers/gpu/nova-core/devinit.rs
-@@ -10,8 +10,8 @@
- //! 3. Clock and PLL configuration.
- //! 4. Thermal management.
- //!
--//! devinit itself is a 'script' which is interpreted by the PMU microcontroller of
--//! the GPU by an interpreter program.
-+//! devinit itself is a 'script' which is interpreted by a microcontroller of
-+//! the GPU by an interpreter program (typically running on the PMU).
- //!
- //! Note that the devinit sequence also needs to run during suspend/resume at runtime.
- 
-@@ -30,7 +30,7 @@
- ///
- /// The GPU firmware (gfw) code includes several components that execute before the driver loads.
- /// These components are located in the VBIOS ROM and are executed in a sequence on these different
--/// microcontrollers. The devinit sequence itself runs on the PMU, and the FWSEC runs on the GSP.
-+/// microcontrollers. The devinit sequence typically runs on the PMU, and the FWSEC runs on the GSP.
- ///
- /// This function specifically waits for a signal indicating core initialization is complete before
- /// which not much can be done. This signal is setup by the FWSEC running on the GSP in Heavy-secured
 -- 
 2.43.0
 
