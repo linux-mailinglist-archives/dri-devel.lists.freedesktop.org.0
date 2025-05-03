@@ -2,49 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20961AA82E9
-	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 23:07:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D2DAA82FC
+	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 23:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9E010E3B9;
-	Sat,  3 May 2025 21:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A451710E227;
+	Sat,  3 May 2025 21:19:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="VCqgJIU9";
+	dkim=pass (2048-bit key; unprotected) header.d=fastmail.com header.i=@fastmail.com header.b="UpORUabr";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="noE3qTIf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEDD610E3B9
- for <dri-devel@lists.freedesktop.org>; Sat,  3 May 2025 21:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID;
- bh=gfWWm3z37dZisjAhfUtOyczLf2I0pzV8I3To02hyM8E=; b=VCqgJIU9EBQPWMZK9lEHQgSI+P
- LtwO/bRD4Y1+XxiS2+1jW+1/V1C4k/GUp/zaYDzUPE2AImcW6yIk7TlY/yke1gjkn/Dl/yXDECxBo
- lYvmNMuyY0iOVUSQUOYdAW+02qG/sqstcoXmP+d3KSuj0rLIQuFRL8uC/5D9Hjk0MsggQS59p04Np
- rAk39KqfUjvv/0ViLIw+GbqcSTvHO93XqleZSCNb8rAvv6yJfscjwqf/vBvFhXPd+c1QWbVbQaH/o
- ND8BZV/O719M9S/pol8RYs1xaHs4KzmH2EQu0HBocEJ33btfbv2oPQQSXh+jP2YbyHtdy6CZ/qd5E
- DpKhBttw==;
-Received: from i53875bbc.versanet.de ([83.135.91.188] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1uBK4r-0002b2-EY; Sat, 03 May 2025 23:07:17 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Andy Yan <andyshrk@163.com>
-Cc: mripard@kernel.org, hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH] drm/rockchip: rk3066_hdmi: switch to drm bridge
-Date: Sat, 03 May 2025 23:07:16 +0200
-Message-ID: <14210550.RDIVbhacDa@diego>
-In-Reply-To: <20250428102309.1501986-1-andyshrk@163.com>
-References: <20250428102309.1501986-1-andyshrk@163.com>
+Received: from fhigh-b1-smtp.messagingengine.com
+ (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6653710E227;
+ Sat,  3 May 2025 21:19:20 +0000 (UTC)
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal
+ [10.202.2.43])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 26924254013E;
+ Sat,  3 May 2025 17:19:19 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-03.internal (MEProxy); Sat, 03 May 2025 17:19:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to; s=fm3; t=1746307159; x=1746393559; bh=Un/bt6UrGtVYI4PFhsLl7
+ CgrGuxCoSHY1s4qLoGbllQ=; b=UpORUabrLd8cN76Jaq6K2gkqwM7By3HBukQma
+ oUYNv0zXHW7u1PBaHzM7HW5affDXjNZ6QxE9keHf3gIm8NH6qgOL9SDjyMWEaLmp
+ DX4ZwEu064lFTe0tzfIvhlf6z6A+oza0qbmWRUlVXRyhgXQYu5cuQf1JBnwoWeAj
+ br+/0Xw5ccuojAyfUM0UAbPJ9lBhHxF2BeFGiAz5neZ/7F+9cMaUc4TW5aw1mOKW
+ UUALRcAuacdYt5NWiNGFgdMiqtDbtGx7Z4NAlsEku7p6/u/FQEARs1Ph7vILrU4M
+ PtH8XOVHSEX176ZtdQLQjrK/nA+WMFZuc8j8ITV3PsugRLsdA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1746307159; x=1746393559; bh=Un/bt6UrGtVYI4PFhsLl7CgrGuxCoSHY1s4
+ qLoGbllQ=; b=noE3qTIfgRvJF1xbUDmZjlGPJqUtmlmmzmNHLBHNmKeseXZUH99
+ MhnejinCiEDwlQGxPa4qlDqYHKrUA0UofCwvHMRMLOw3isU0NbLSHAA2qZJ9mc9C
+ 9Oxu+uZB8RTi1ucJJ+2VLtFf5Vu+DPI+TzagPShBeYonJ+tTVmdS59jq92190p4w
+ 3IaYsaObLcT9m65qyGCCiAqnBDCXE9osT5V8mCI6sNjb8pFu3H08/hPtWqxPX/4r
+ gyMF4sJJgblnP+yfl1S1FV2pdGHB++60UqGGbohd2AGqufg51HA4RNFAnHHfgIv/
+ h6IZbJYvanDUz0+yY38Xwn/flEc4+ACLqgw==
+X-ME-Sender: <xms:VogWaMuH_f-vO3iJMZCF0uUZlGFNoJi-rDgUdE_2klNulzM8XkZJfw>
+ <xme:VogWaJdPDUhJkqOu_SPXr92ZC2z0BApsMm_PUKDHSYwij04eAfx9lbAOiu5UqMFhi
+ bx-5OJNsu3K3LmCoPI>
+X-ME-Received: <xmr:VogWaHzlwOtLlAxTcG6J8wE3FZOYiyPgHK_CGYXnrQ5qjJnW6jjN0JdDiQLNPRffUiFp9cwTwqt5q4mOA69jlx9Ev2VNDRET9Y-tFFLbhcxsY1pU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjeeifeelucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+ pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
+ evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflrghmvghsucfhlhhofigvrhhs
+ uceosgholhgurdiiohhnvgdvfeejfeesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrg
+ htthgvrhhnpefhvefgkeeiuddtudfhgefgiedvuefhhedtffejtddtfeekieefieejveet
+ hfegheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ gsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthht
+ ohepudeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhrghrrhihrdifvghnth
+ hlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdr
+ tghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpth
+ htoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthho
+ pegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrih
+ hrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhl
+ rdgthhdprhgtphhtthhopegrlhhvihhnrdhlvggvvdesrghmugdrtghomhdprhgtphhtth
+ hopeiirggvvghmrdhmohhhrghmvggusegrmhgurdgtohhm
+X-ME-Proxy: <xmx:VogWaPOJggpnPRy39gdK-KmQ1lH-vrPZCA_Q0myv6HK8vhG5tK-81A>
+ <xmx:VogWaM_SzOP117tFfJ1ArzIaxdsWp-Qh2InRVKwDbzeCXsFPfu0f3g>
+ <xmx:VogWaHVYVl2__DEJXwZ2AEln8aPqwAFiM1PP73GXA09lopxGJB8xQA>
+ <xmx:VogWaFdZtsW59lP3kU3fTGc8PQpvp4HSy31odCNxts-iQA4ENVwTiQ>
+ <xmx:VogWaKrZt3rFDrJvHAiEGqVBDy7aqY01UZpTRjDteXaGD9Ahhy5hfsnv>
+Feedback-ID: ibd7e4881:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 3 May 2025 17:19:16 -0400 (EDT)
+From: James Flowers <bold.zone2373@fastmail.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, alvin.lee2@amd.com, zaeem.mohamed@amd.com,
+ alex.hung@amd.com, skhan@linuxfoundation.org
+Cc: James Flowers <bold.zone2373@fastmail.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v2] drm/amd/display: adds kernel-doc comment for
+ dc_stream_remove_writeback()
+Date: Sat,  3 May 2025 14:18:51 -0700
+Message-ID: <20250503211902.70141-1-bold.zone2373@fastmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,23 +103,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 28. April 2025, 12:23:07 Mitteleurop=C3=A4ische Sommerzeit schri=
-eb Andy Yan:
-> From: Andy Yan <andy.yan@rock-chips.com>
->=20
-> Convert it to drm bridge driver, it will be convenient for us to
-> migrate the connector part to the display driver later.
->=20
-> Note: I don't have the hardware to test this driver, so for now
-> I can only do the compilation test.
->=20
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+Adds kernel-doc for externally linked dc_stream_remove_writeback function.
 
-Tested-by: Heiko Stuebner <heiko@sntech.de> #rk3066-marsboard
+Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+---
+V1 -> V2: Corrected checkpatch warnings and errors
 
-Will hopefully get to applying it tomorrow.
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thanks for that nice cleanup
-Heiko
-
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+index e6e41678525f..b883fb24fa12 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+@@ -569,6 +569,14 @@ bool dc_stream_fc_disable_writeback(struct dc *dc,
+ 	return true;
+ }
+ 
++/**
++ * dc_stream_remove_writeback() - Disables writeback and removes writeback info.
++ * @dc: Display core control structure.
++ * @stream: Display core stream state.
++ * @dwb_pipe_inst: Display writeback pipe.
++ *
++ * Return: returns true on success, false otherwise.
++ */
+ bool dc_stream_remove_writeback(struct dc *dc,
+ 		struct dc_stream_state *stream,
+ 		uint32_t dwb_pipe_inst)
+-- 
+2.49.0
 
