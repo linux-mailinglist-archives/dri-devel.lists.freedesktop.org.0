@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559F6AA7EE2
-	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 09:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E687BAA7EE9
+	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 09:04:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2F3810E370;
-	Sat,  3 May 2025 07:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 505D010E373;
+	Sat,  3 May 2025 07:04:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZItLERC8";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DolCqiCR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 959DB10E333;
- Sat,  3 May 2025 07:04:40 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5434ldMP006394;
- Sat, 3 May 2025 07:04:36 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8B5510E36B;
+ Sat,  3 May 2025 07:04:46 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5433S9he015858;
+ Sat, 3 May 2025 07:04:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- LEW02jdPjDoJveXzlR3wZA2eZYv8Nvz4Ko7ouAauK1w=; b=ZItLERC8V46hKz/h
- yUJpi6FQ1v5hU6eaAsSJ8DN5i6hUdnoXtz1OSgLoPP5/roWnOIxpjk5DnpLOZPDA
- bHHxjastdvAyMQxYCUmYJ8fZzlUevp1uCu8Y86aa4hvDfdTtLBzCK2R2PD/r/p3I
- MR58itjBEaOniDkVtYMp3PdjUt08DePqZ9DKz0e7PW5FGqqN5m7k2BGyNcmKovqC
- sVaSaHZNAgTXcPZs3z8b1ZeHyZ/TWtKHl98uECh0bJ3Of+cesdmC8P0CZbwgzpwm
- qHmCBuf9kEHR7jbUfjEKSfXvwBgsusmX5ianzDOT24nBvnbslWq1HbYYfWZ3IHuY
- virZ/g==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ w6FTIxjmnrVIMbjYmNyi66xrC7oUXS4eW4qGDVqqnAU=; b=DolCqiCRr6N6KNU3
+ Fq6PTYAaPq2KSQQjCXFfhuyMuyVX+6cVVlr32NM0BVDxMjHKO5d+nphPkvdFMr2V
+ hQ8ZS69m0sAvX8B9bkmvAneC5W4GnQ+JOjaTejqD8HBiXN5wrwMRtZ9QXexWvJQs
+ 82Xgr0QLP5KHBk2pjN0w86+YQ8mk2n/hFeHCiQURFfFkVyLbxosq+T1sZMmvLNJn
+ y1COXbJOHszcGL+kNwWZQjd8yHxQgsrpY71yCT4rkRebGh2VGZ/gcWdqyzouLbAN
+ 2Po1pSPgrPMbS8mvz8oq2TRikly1YrKJDsui3dIuoiD9rpjvhlp8grOBl1KhwWrJ
+ ala55Q==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46dce984ks-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46d9ep0bsf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 03 May 2025 07:04:36 +0000 (GMT)
+ Sat, 03 May 2025 07:04:43 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54374ZI4009411
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54374gmO020827
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 3 May 2025 07:04:35 GMT
+ Sat, 3 May 2025 07:04:42 GMT
 Received: from [10.213.111.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sat, 3 May 2025
- 00:04:28 -0700
+ 00:04:35 -0700
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Date: Sat, 3 May 2025 12:33:36 +0530
-Subject: [PATCH v6 5/7] dt-bindings: opp: Add v2-qcom-adreno vendor
- bindings
+Date: Sat, 3 May 2025 12:33:37 +0530
+Subject: [PATCH v6 6/7] arm64: dts: qcom: x1e80100: Add ACD levels for GPU
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250503-gpu-acd-v6-5-ab1b52866c64@quicinc.com>
+Message-ID: <20250503-gpu-acd-v6-6-ab1b52866c64@quicinc.com>
 References: <20250503-gpu-acd-v6-0-ab1b52866c64@quicinc.com>
 In-Reply-To: <20250503-gpu-acd-v6-0-ab1b52866c64@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
@@ -66,14 +65,14 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
  Anthony Ruhier <aruhier@mailbox.org>, Dmitry Baryshkov <lumag@kernel.org>
 CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>, Konrad Dybcio
+ <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746255835; l=4723;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746255835; l=2693;
  i=quic_akhilpo@quicinc.com; s=20240726; h=from:subject:message-id;
- bh=rDFkk7Dnq+hER0LFu+box9iP0nylL8oEOfqrVYto8Ac=;
- b=+euPbjKhVUi1G2/O92+ip3DrRrmVqKVc+BkN4oc9J7DWmNmuGKQl1QJkr7guFXrZwHXYqceRg
- 4me29yJgZ+BDSq1Au4d6gYVbxmWg98qDkHDHQzPMS3WVTZAA4SQpvg1
+ bh=0w1fKddcScC0dmSgzxeQLcre4UwOthTrSfgZ0RkvsYw=;
+ b=md18TOTDVSsl2HaAvTjaRo6O0CeV9Ec7C+pIniXWdMGqglUli/S2WS0Z5D6kbu5oEZKxe8YIQ
+ l/2VXOBQ0USAeIgEAFUPp/1sUx3GGl9WX80t781ymocCGM4rEEx8iYZ
 X-Developer-Key: i=quic_akhilpo@quicinc.com; a=ed25519;
  pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
 X-Originating-IP: [10.80.80.8]
@@ -82,31 +81,29 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAzMDA1OSBTYWx0ZWRfX2xewpMHKOLJT
- fgATCPIGjdMswAitGhXSPqomd/cijdwAvgicXTEp7qmunULoCtDCtyi69PLXsDfgk45/1x1HyNh
- 1e2JzILTZo8s0stO4F9zlYF1qvHDJY0e5tfl4fzg2jMlL4VwRcywQj+BqbwDP/RmbVHjEgZwbl4
- 7JcYSqIxwuTEvfsAPSk4YpfN0kZZhbb+gsR5hmEsOq6P5GRnt8vNA7+iAjyr9rh8C3jQh0tv8uV
- voZpiyLJ/+E4YJx9BJRf4o+AFm0nKIs0zBSmQywEq7KMDz5VSGcu/s6FibqAoWexEsObQ3mIVn7
- 2n0gpf+ws0t6Kp14VqQ0s27IO26BNeF5fU6yci/BIfiIhfzvHDJoMoMIQL1vReoN6Ktx9zJbEev
- w1kNyoslW/gTKCk5Pv7UcVTfNSocQ5nleEEAOv/c6Ue03anxU0oegCiXnObNFYxbmz/z7I6f
-X-Proofpoint-ORIG-GUID: JO1DdNFtd9MC2-Gffl_ozP6a8QVQbSlN
-X-Authority-Analysis: v=2.4 cv=Qope3Uyd c=1 sm=1 tr=0 ts=6815c004 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=EOUG00ZC c=1 sm=1 tr=0 ts=6815c00b cx=c_pps
  a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=gEfo2CItAAAA:8
- a=e5mUnYsNAAAA:8 a=pGLkceISAAAA:8 a=b3CbU_ItAAAA:8 a=KKAkSRfTAAAA:8
- a=COk6AnOGAAAA:8 a=1Nsl-F2zrY1Sy5AUJpAA:9 a=QEXdDO2ut3YA:10
- a=sptkURWiP4Gy88Gu7hUp:22 a=Vxmtnl_E_bksehYqCbjh:22 a=Rv2g8BkzVjQTVhhssdqe:22
- a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: JO1DdNFtd9MC2-Gffl_ozP6a8QVQbSlN
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8
+ a=pGLkceISAAAA:8 a=b3CbU_ItAAAA:8 a=COk6AnOGAAAA:8 a=BxRqZMmKrSJ94LtEhJwA:9
+ a=QEXdDO2ut3YA:10 a=Rv2g8BkzVjQTVhhssdqe:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: qJNABv24YKMhBYxZuEXzOwCxfVlMIeL_
+X-Proofpoint-GUID: qJNABv24YKMhBYxZuEXzOwCxfVlMIeL_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAzMDA1OSBTYWx0ZWRfX8hOTeC61g+mi
+ CWBnSnfT4TZZzPKhz78de9xE8VGHlnBTinrIfK5F2Hixk6waoetzgNRqHpNYaUaDkCuqJIj0y7m
+ n9J/YMRINiIIuTRBA5N3NQxHVqbQOgs5DvOr+hIDbU9+O9wtPwTjJpB+76HWicZX4yKEj+tI2uW
+ tdjI7azilTHeilFNEtRG2stUmS6730Vq3GCC/TtUKb4qGoRjm4OG/fbdm/buwsim4wCm2fg5uXa
+ aUBeARGRFzL7GSCvQTYixyVjhMYGcS6g6D7xBGKQeO5R7+rxekiy5eTNIOLqgRO9AI94bbf9siv
+ HSF2/guQe7Jk2+8BRkM77kQk6YWG9gyJzWkPsoCG5vTdLHKy1NJfgwBMCpHu6VV22akYBxM0jIh
+ b/InYAckJ2GSV5AmwZ22vQZgPHpllClZy/u0BnBufv01w3lye5dy7yxu+SZ4/ySqu3q1jvI2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-03_03,2025-04-30_01,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 adultscore=0 clxscore=1015
- malwarescore=0 bulkscore=0 suspectscore=0 impostorscore=0 phishscore=0
- mlxlogscore=999 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505030059
+ adultscore=0 clxscore=1015 impostorscore=0 spamscore=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 mlxlogscore=848 mlxscore=0
+ priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2504070000 definitions=main-2505030059
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,137 +119,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new schema which extends opp-v2 to support a new vendor specific
-property required for Adreno GPUs found in Qualcomm's SoCs. The new
-property called "qcom,opp-acd-level" carries a u32 value recommended
-for each opp needs to be shared to GMU during runtime.
+Update GPU node to include acd level values.
 
-Also, update MAINTAINERS file include the new opp-v2-qcom-adreno.yaml.
-
-Cc: Rob Clark <robdclark@gmail.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Tested-by: Maya Matuszczyk <maccraft123mc@gmail.com>
 Tested-by: Anthony Ruhier <aruhier@mailbox.org>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 ---
- .../bindings/opp/opp-v2-qcom-adreno.yaml           | 96 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 97 insertions(+)
+ arch/arm64/boot/dts/qcom/x1e80100.dtsi | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..a27ba7b663d456f964628a91a661b51a684de1be
---- /dev/null
-+++ b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
-@@ -0,0 +1,96 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/opp/opp-v2-qcom-adreno.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm Adreno compatible OPP supply
-+
-+description:
-+  Adreno GPUs present in Qualcomm's Snapdragon chipsets uses an OPP specific
-+  ACD related information tailored for the specific chipset. This binding
-+  provides the information needed to describe such a hardware value.
-+
-+maintainers:
-+  - Rob Clark <robdclark@gmail.com>
-+
-+allOf:
-+  - $ref: opp-v2-base.yaml#
-+
-+properties:
-+  compatible:
-+    contains:
-+      const: operating-points-v2-adreno
-+
-+patternProperties:
-+  '^opp-[0-9]+$':
-+    type: object
-+    additionalProperties: false
-+
-+    properties:
-+      opp-hz: true
-+
-+      opp-level: true
-+
-+      opp-peak-kBps: true
-+
-+      opp-supported-hw: true
-+
-+      qcom,opp-acd-level:
-+        description: |
-+          A positive value representing the ACD (Adaptive Clock Distribution,
-+          a fancy name for clk throttling during voltage droop) level associated
-+          with this OPP node. This value is shared to a co-processor inside GPU
-+          (called Graphics Management Unit a.k.a GMU) during wake up. It may not
-+          be present for some OPPs and GMU will disable ACD while transitioning
-+          to that OPP. This value encodes a voltage threshold, delay cycles &
-+          calibration margins which are identified by characterization of the
-+          SoC. So, it doesn't have any unit. This data is passed to GMU firmware
-+          via 'HFI_H2F_MSG_ACD' packet.
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+
-+    required:
-+      - opp-hz
-+      - opp-level
-+
-+required:
-+  - compatible
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/power/qcom-rpmpd.h>
-+
-+    gpu_opp_table: opp-table {
-+        compatible = "operating-points-v2-adreno", "operating-points-v2";
-+
-+        opp-687000000 {
-+            opp-hz = /bits/ 64 <687000000>;
-+            opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-+            opp-peak-kBps = <8171875>;
-+            qcom,opp-acd-level = <0x882e5ffd>;
-+        };
-+
-+        opp-550000000 {
-+            opp-hz = /bits/ 64 <550000000>;
-+            opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+            opp-peak-kBps = <6074219>;
-+            qcom,opp-acd-level = <0xc0285ffd>;
-+        };
-+
-+        opp-390000000 {
-+            opp-hz = /bits/ 64 <390000000>;
-+            opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-+            opp-peak-kBps = <3000000>;
-+            qcom,opp-acd-level = <0xc0285ffd>;
-+        };
-+
-+        opp-300000000 {
-+            opp-hz = /bits/ 64 <300000000>;
-+            opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
-+            opp-peak-kBps = <2136719>;
-+            /* Intentionally left out qcom,opp-acd-level property here */
-+        };
-+
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c59316109e3f8feacf9628fd1065ed551c4250d5..2d055c8135d1e3dbbf29fe9a552ac0ee98a8a2a4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7512,6 +7512,7 @@ S:	Maintained
- B:	https://gitlab.freedesktop.org/drm/msm/-/issues
- T:	git https://gitlab.freedesktop.org/drm/msm.git
- F:	Documentation/devicetree/bindings/display/msm/gpu.yaml
-+F:	Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
- F:	drivers/gpu/drm/msm/adreno/
- F:	drivers/gpu/drm/msm/msm_gpu.*
- F:	drivers/gpu/drm/msm/msm_gpu_devfreq.*
+diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
+index 4936fa5b98ff7a9a009e3106f4dba90131251971..a9c8cca1c6356393962cef856b3dbd9420733999 100644
+--- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
++++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
+@@ -3752,60 +3752,69 @@ zap-shader {
+ 			};
+ 
+ 			gpu_opp_table: opp-table {
+-				compatible = "operating-points-v2";
++				compatible = "operating-points-v2-adreno", "operating-points-v2";
+ 
+ 				opp-1100000000 {
+ 					opp-hz = /bits/ 64 <1100000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
+ 					opp-peak-kBps = <16500000>;
++					qcom,opp-acd-level = <0xa82a5ffd>;
+ 				};
+ 
+ 				opp-1000000000 {
+ 					opp-hz = /bits/ 64 <1000000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
+ 					opp-peak-kBps = <14398438>;
++					qcom,opp-acd-level = <0xa82b5ffd>;
+ 				};
+ 
+ 				opp-925000000 {
+ 					opp-hz = /bits/ 64 <925000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
+ 					opp-peak-kBps = <14398438>;
++					qcom,opp-acd-level = <0xa82b5ffd>;
+ 				};
+ 
+ 				opp-800000000 {
+ 					opp-hz = /bits/ 64 <800000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
+ 					opp-peak-kBps = <12449219>;
++					qcom,opp-acd-level = <0xa82c5ffd>;
+ 				};
+ 
+ 				opp-744000000 {
+ 					opp-hz = /bits/ 64 <744000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
+ 					opp-peak-kBps = <10687500>;
++					qcom,opp-acd-level = <0x882e5ffd>;
+ 				};
+ 
+ 				opp-687000000 {
+ 					opp-hz = /bits/ 64 <687000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+ 					opp-peak-kBps = <8171875>;
++					qcom,opp-acd-level = <0x882e5ffd>;
+ 				};
+ 
+ 				opp-550000000 {
+ 					opp-hz = /bits/ 64 <550000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
+ 					opp-peak-kBps = <6074219>;
++					qcom,opp-acd-level = <0xc0285ffd>;
+ 				};
+ 
+ 				opp-390000000 {
+ 					opp-hz = /bits/ 64 <390000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+ 					opp-peak-kBps = <3000000>;
++					qcom,opp-acd-level = <0xc0285ffd>;
+ 				};
+ 
+ 				opp-300000000 {
+ 					opp-hz = /bits/ 64 <300000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
+ 					opp-peak-kBps = <2136719>;
++					qcom,opp-acd-level = <0xc02b5ffd>;
+ 				};
+ 			};
+ 		};
 
 -- 
 2.48.1
