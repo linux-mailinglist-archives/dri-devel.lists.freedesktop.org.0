@@ -2,48 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8719AA82D5
-	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 23:01:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F902AA82D2
+	for <lists+dri-devel@lfdr.de>; Sat,  3 May 2025 23:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB33310E226;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15F6D10E223;
 	Sat,  3 May 2025 21:00:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UoyFh9f+";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="p0tLPdJJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8F310E223;
- Sat,  3 May 2025 21:00:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94AE910E225;
+ Sat,  3 May 2025 21:00:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
- Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=lxhSoIfN4iQm/O6riMc+khj2au53FSMA6l3ILbTZAbw=; b=UoyFh9f+qqtc7VRunF7/nK5ZMR
- Io9a3CYUBpdeY4r+l1BTX0QNF3WfkD0A48L1yvF2B8VY37U+MMuurbpOwpGRK0Cond4YQGqjPdPPi
- rvUpSfavi7QEjRhWieYpblKHXVC8O0BvlmN1t4tz7GQa3KvHzxePdSKxhSWSOFg2K/B9QYM3zZXLG
- fE+72Z7ezuUojKq+J4ql9oUSEEJNRXadryRT1dyrlxsCYKOF4bLSa2YaRZtYIIApRUgfdSEYHdLa6
- nZoDUuQpg5JjyQ6x4bH4N60OyFnKn051vk/IbueZUhNPG/Ee49YDtqbsGQ1Rbs4dSaZ+hJrniSznd
- a4Nwn0DA==;
+ s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
+ Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=xfZZt+vzuN/cPJGSMAENG1eDJtoetByz4RJ1hYSzpXg=; b=p0tLPdJJalLSmstSw52yEtGMCv
+ sgDarmUnu5/Ak0j9dZkKKRMGhudIpnmCBOkRbanYfv9Cmn5bRl3H3aSTWmQc71QqNGhCQq/idiOei
+ /FBZTcfm1ibazIw+HhZqP3XV1SnJNUrC6B7/UXe6aPwHTDHLhquBs4r+U3n8jMq0NPLkVzUoTWtrJ
+ qJP1okJJKIHMEn/Eayzj2k2dsOkOGUnC3ds9+3g8keAMJDQFhhY7Na4DlSKOYqu7ytpzAMpWo+kw9
+ cKD9GfipyzfmYOBN+FqNSE7pXx0h6zyoZq3NCgIzEb72miQPPRk1Y5B65f7vy7xHp6UqartrC58W1
+ uS6cD6Lw==;
 Received: from [189.7.87.174] (helo=janis.local)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uBJvs-002dbs-Rb; Sat, 03 May 2025 23:00:29 +0200
+ id 1uBJvz-002dbs-Kv; Sat, 03 May 2025 23:00:36 +0200
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Subject: [PATCH 0/8] drm/sched: Allow drivers to skip the reset with
- DRM_GPU_SCHED_STAT_RUNNING
-Date: Sat, 03 May 2025 17:59:51 -0300
-Message-Id: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+Date: Sat, 03 May 2025 17:59:52 -0300
+Subject: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep on
+ running
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAMiDFmgC/x3MQQqAIBBA0avErBswxYKuEi1MxxqCEiciCO+et
- HyL/18QykwCY/NCppuFz6OiaxvwmztWQg7VoJW2yiqN4jcKKDsnzCR04RIH3/VGGxMc1Cxlivz
- 8y2ku5QN5f59MYgAAAA==
-X-Change-ID: 20250502-sched-skip-reset-bf7c163233da
+Message-Id: <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
+References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+In-Reply-To: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
 To: Matthew Brost <matthew.brost@intel.com>, 
  Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, 
  =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
@@ -60,15 +57,15 @@ Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3601; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=Ejd6PC9pI+Q9AgPMDLzll5NMMyC4pXm9R0tz4HZeZPg=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBoFoPmSQZ4dZrkG4Rlwsvq7yhjNZUkk+7YlPrOK
- +w6LVC8KkeJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaBaD5gAKCRA/8w6Kdoj6
- qnYlB/0UTi9N4U4s6vV0HSVJpKrggz4VPJ0FmFQI360uNOynEtKOYhB7Fkvie5RaIK3wbS09/88
- Gy1SS1SoRfzblokZYzd//mJYqUctC1vxnP8G9yxc2VRnHAKTLki7OWHFqlvtJvNrgK3MLCDGWxu
- 18BCFoxxAfQPmbhkphgBCxlGi2m62EfVb+xJDbZhuVAxh6rUEkNqlmUX53mmBN0ciQvc+KLCXH9
- o8c3Yqpr7pehqkoDTO3B6e8nnUCa8NlHIb6BNE5Or6zoKEnWeM2hKCyy7HJ0OpkqilYQtCQt+2B
- 4iceQEtARzuni/kHvFF6mzOOaJ7bNLEI4RIT0fCpyMhpM5ru
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3592; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=2dSaHkQbmmh2OrihTk6+Yc1Tv3uCny6NoSa53AqNXjc=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBoFoPmbTQYAYvCQQhH8uWHvSL8w4/jNRIzqCOYu
+ C9TTtSKFoeJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaBaD5gAKCRA/8w6Kdoj6
+ qtfXCACPqXiNZEEmCkUvxTae7KfNP1tukPinWiuJGumJpMMg8uf3dKNQA/sx8Kl7NZebN4HB+uH
+ NOPMMp6kMn2CAodoXkik+yNxFwzmElfcVLW604y4UipaXpOQFXe22qCvo3m1/ojZHJ0ijpXoPDi
+ 5/NdgbcFa9sBkYMPHxUR8Yu+ABYSj6roUqx9ahq4v2eru5d0T6EagcWalgkl5+ZjWRAO5wyDcTN
+ xMu75AGbPV+4/eSiT2NWruxFcx68feTh5iy5K2A02oxfsPcKwgzH5oboBMyvsiQF2ve2cHADIiY
+ MhWweebI6KUvmB86rqJ9BBNUkGJRolDyetHjY1vHcYVbEpvR
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,7 +91,6 @@ reset the hardware. This can occur in two situations:
      progress. By checking this mechanism, we can safely skip the reset,
      rearm the timeout, and allow the job to continue running until
      completion. This is the case for v3d and Etnaviv.
-
   2. TDR has fired before the IRQ that signals the fence. Consequently,
      the job actually finishes, but it triggers a timeout before signaling
      the completion fence.
@@ -105,57 +101,68 @@ means that when the job finally signals completion (e.g. in the IRQ
 handler), the scheduler won't call `sched->ops->free_job()`. As a result,
 the job and its resources won't be freed, leading to a memory leak.
 
-For v3d specifically, we have observed that these memory leaks can be
-significant in certain scenarios, as reported by users in [1][2]. To
-address this situation, I submitted a patch similar to commit 704d3d60fec4
-("drm/etnaviv: don't block scheduler when GPU is still active") for v3d [3].
-This patch has already landed in drm-misc-fixes and successfully resolved
-the users' issues.
+To resolve this issue, we create a new `drm_gpu_sched_stat` that allows a
+driver to skip the reset. This new status will indicate that the job
+should be reinserted into the pending list, and the driver will still
+signal its completion.
 
-However, as I mentioned in [3], exposing the scheduler's internals within
-the drivers isn't ideal and I believe this specific situation can be
-addressed within the DRM scheduler framework.
-
-This series aims to resolve this issue by adding a new DRM sched status
-that allows a driver to skip the reset. This new status will indicate that
-the job should be reinserted into the pending list, and the driver will
-still signal its completion.
-
-The series can be divided into three parts:
-
-  * Patch 1: Implementation of the new status in the DRM scheduler.
-  * Patches 2-4: Some fixes to the DRM scheduler KUnit tests and the
-    addition of a test for the new status.
-  * Patches 5-8: Usage the new status in four different drivers.
-
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/issues/12227
-[2] https://github.com/raspberrypi/linux/issues/6817
-[3] https://lore.kernel.org/dri-devel/20250430210643.57924-1-mcanal@igalia.com/T/
-
-Best Regards,
-- Maíra
-
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
-Maíra Canal (8):
-      drm/sched: Allow drivers to skip the reset and keep on running
-      drm/sched: Always free the job after the timeout
-      drm/sched: Reduce scheduler's timeout for timeout tests
-      drm/sched: Add new test for DRM_GPU_SCHED_STAT_RUNNING
-      drm/v3d: Use DRM_GPU_SCHED_STAT_RUNNING to skip the reset
-      drm/etnaviv: Use DRM_GPU_SCHED_STAT_RUNNING to skip the reset
-      drm/xe: Use DRM_GPU_SCHED_STAT_RUNNING to skip the reset
-      drm/panfrost: Use DRM_GPU_SCHED_STAT_RUNNING to skip the reset
+ drivers/gpu/drm/scheduler/sched_main.c | 14 ++++++++++++++
+ include/drm/gpu_scheduler.h            |  2 ++
+ 2 files changed, 16 insertions(+)
 
- drivers/gpu/drm/etnaviv/etnaviv_sched.c          | 12 ++---
- drivers/gpu/drm/panfrost/panfrost_job.c          |  8 ++--
- drivers/gpu/drm/scheduler/sched_main.c           | 14 ++++++
- drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 13 ++++++
- drivers/gpu/drm/scheduler/tests/tests_basic.c    | 57 ++++++++++++++++++++++--
- drivers/gpu/drm/v3d/v3d_sched.c                  |  4 +-
- drivers/gpu/drm/xe/xe_guc_submit.c               |  8 +---
- include/drm/gpu_scheduler.h                      |  2 +
- 8 files changed, 94 insertions(+), 24 deletions(-)
----
-base-commit: 760e296124ef3b6e14cd1d940f2a01c5ed7c0dac
-change-id: 20250502-sched-skip-reset-bf7c163233da
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 829579c41c6b5d8b2abce5ad373c7017469b7680..68ca827d77e32187a034309f881135dbc639a9b4 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -568,6 +568,17 @@ static void drm_sched_job_timedout(struct work_struct *work)
+ 			job->sched->ops->free_job(job);
+ 			sched->free_guilty = false;
+ 		}
++
++		/*
++		 * If the driver indicated that the GPU is still running and wants to skip
++		 * the reset, reinsert the job back into the pending list and realarm the
++		 * timeout.
++		 */
++		if (status == DRM_GPU_SCHED_STAT_RUNNING) {
++			spin_lock(&sched->job_list_lock);
++			list_add(&job->list, &sched->pending_list);
++			spin_unlock(&sched->job_list_lock);
++		}
+ 	} else {
+ 		spin_unlock(&sched->job_list_lock);
+ 	}
+@@ -590,6 +601,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
+  * This function is typically used for reset recovery (see the docu of
+  * drm_sched_backend_ops.timedout_job() for details). Do not call it for
+  * scheduler teardown, i.e., before calling drm_sched_fini().
++ *
++ * As it's used for reset recovery, drm_sched_stop() shouldn't be called
++ * if the scheduler skipped the timeout (DRM_SCHED_STAT_RUNNING).
+  */
+ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+ {
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 1a7e377d4cbb4fc12ed93c548b236970217945e8..fe9043b6d43141bee831b5fc16b927202a507d51 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -389,11 +389,13 @@ struct drm_sched_job {
+  * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
+  * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
+  * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
++ * @DRM_GPU_SCHED_STAT_RUNNING: GPU is still running, so skip the reset.
+  */
+ enum drm_gpu_sched_stat {
+ 	DRM_GPU_SCHED_STAT_NONE,
+ 	DRM_GPU_SCHED_STAT_NOMINAL,
+ 	DRM_GPU_SCHED_STAT_ENODEV,
++	DRM_GPU_SCHED_STAT_RUNNING,
+ };
+ 
+ /**
+
+-- 
+2.49.0
 
