@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD0AAA866C
-	for <lists+dri-devel@lfdr.de>; Sun,  4 May 2025 14:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2260AA8671
+	for <lists+dri-devel@lfdr.de>; Sun,  4 May 2025 14:53:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD6710E26A;
-	Sun,  4 May 2025 12:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1EF10E26F;
+	Sun,  4 May 2025 12:53:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="YbgQfDzS";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="KidIQray";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU011.outbound.protection.outlook.com
- (mail-japanwestazon11010067.outbound.protection.outlook.com [52.101.228.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3893610E26A
- for <dri-devel@lists.freedesktop.org>; Sun,  4 May 2025 12:52:38 +0000 (UTC)
+Received: from TYVP286CU001.outbound.protection.outlook.com
+ (mail-japaneastazon11011062.outbound.protection.outlook.com [52.101.125.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E70C710E26D
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 May 2025 12:53:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZyU1RRGNc1/ZA+kM0f/+/J0vP9OLqrXpEFBLFJI8lS9iUnMAcpECpqtxSgCXK4s2mvgESEtOS61O5JYONK0wWEMSER29Sbyr3BzkCkDMyfvuJw9Zc6hWGAhogimwiZ8R+g1epKPNQngV4rXuch2azdU1GIgCAnvJVLF/BR1fP9JN0QvuDvJAA8G1VOv8fcAqw6TC0Nvt9+4x1nqfievw79D0j0fUAB9bE86/mOy+wm8P5rU84otbgU9fVAeD9GkCjKZLQpcgLdw97km8Y/Nk2ysHicOQYY0+qNMlr5+ojgPfVteq9UvaulN8XPX327Nwvyd4V7ml1BnBFtQprsqFYw==
+ b=qy4uXPCaKCSTHBvvHsTthHP8WjPFKLVqyCJG7P806s053vghBReD4pZcbr6ul1krdKsVthBolcFfZcpsYhEP5AxSuJ8/jzMVf0AFTw9InHzGJFhzD7JjrX5In1KFf0avNgpfaSJpYjl+24DT4RSk/HjrKOhpd4s0LBres4sWcjAUOtHjsBpAmg6zfcwv6UYI+QMUd4+GqrFXFaB1QmJEOxlzCAqeFIjqeWjfqNdOHh8jEOmp3uGzDSja0WMkZPAprIwPOc6tECjLr3CRHkDf42Z3BNwoTd2vx+k5ebpJXLR2Is2Rq4ihBWjfzqc21mPi3D2pcx3kzcTqTuKZnpkCaw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lpk5X+kPWnRr2wfEXfPaGm8pHpaWSe6gIF5wMk1NeSg=;
- b=lp7xCFSmk3/MwEMZYA1fwVcJUHnu+O2wDdke6tA0wpUHseQeOPFynm7COikvwO4eiw/TrIy4OUO7KVNk1lvdTvJwX4o3ZFE1tRlRPGUdlvWAtos5Pzsqejcg/hij+MyMXJ1xZut/az4U3kXrvqPveSwsN8jRE8V6TKtp8ZIxsHJyuYAmFo37YUvXUGTJJVzxBr2DRS3SRKAMC1QeBXwLLN9JxyYxKIgj7fvxwhcHgVITN2BHX2FXU3GQWVOOAfUwy3a50mwonzrLUA8n5cG02gYVqLEDC/Uhn76ELNSjySaStQAesD5Zoq+0Yj1ptn9DYdLEh/Gij7bYfJ6IqUj5PQ==
+ bh=IAj4Tgew2yQFSEbYTh7RBff5QH737OCKGA8Re8dFatY=;
+ b=prmxAxo4fayj1H9xwW4X1GTQjyBT9OoxaBx0ENA+fHQixQa5JtzA01dtsee1CQKOwelbRkjMewSM7zdpdIMBQLaRZmhxhYjYOuZdmi+n/gw2oiYQVsrOByAbpbMz6Kw7UBJyHDFC+CYvU7Cfc5kDREePc5dr59+2tXytwwBEpKUguUrIEfyzqPjHjn5/J2JzYcAQVSXetK9W2n46iOZAjV6iQWldMN+MRUiuTnDhOBFHvtVx7V8PQLeZ8TEroZ4K1NYaTyp3raQ6RsrOr6a5hl+oHn5WoFXq485uKvYb2TMR2SiXDyTKMoURvjfDVHJoddslhVesXAP+TewmN5uPRA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lpk5X+kPWnRr2wfEXfPaGm8pHpaWSe6gIF5wMk1NeSg=;
- b=YbgQfDzSPtQMJWYLK67ZxOwR36h1lP7lznKeXjA3G2Z0ZkBFyhAcCS5kBmkc91DASAjLH5oerjLG/Sza9j/w9LF7H2mvmPZC594eU8z09Ls0jDJYALrx7RETZVdOOselzXsVUISKNhpFxC9xQ4GOn7qC4d8peuD1TXj3F0YSN4o=
+ bh=IAj4Tgew2yQFSEbYTh7RBff5QH737OCKGA8Re8dFatY=;
+ b=KidIQrayg8RhYHK5wwI83Kt7rmUBHK9TmDkCYa+7zM6b29JB34BxQOr9Io+PfsNhzbBbJU3shcl/x9ZhRTGWmuY5CzmsCjrwOTeenDQQwekv8AzoEMTLcsFIsMbK2MjFTKnfQ2nq6ImoOMYwhrEhoWnt/2XG74+bsu6iNISwD3I=
 Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
  by TYCPR01MB7108.jpnprd01.prod.outlook.com (2603:1096:400:c3::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Sun, 4 May
- 2025 12:52:34 +0000
+ 2025 12:53:25 +0000
 Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
  ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
  ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8699.022; Sun, 4 May 2025
- 12:52:34 +0000
+ 12:53:25 +0000
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Prabhakar <prabhakar.csengg@gmail.com>, Andrzej Hajda
  <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, Robert
@@ -60,16 +60,16 @@ CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, Fabrizio Castro
  <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
  <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v4 11/15] drm: renesas: rz-du: mipi_dsi: Add feature flag
- for 16BPP support
-Thread-Topic: [PATCH v4 11/15] drm: renesas: rz-du: mipi_dsi: Add feature flag
- for 16BPP support
-Thread-Index: AQHbuhBDeNezpQgD1ES8oQ1ZjkdJcLPCcoDQ
-Date: Sun, 4 May 2025 12:52:34 +0000
-Message-ID: <TY3PR01MB113463B8B958391E736F65289868F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH v4 12/15] drm: renesas: rz-du: mipi_dsi: Add
+ dphy_late_init() callback for RZ/V2H(P)
+Thread-Topic: [PATCH v4 12/15] drm: renesas: rz-du: mipi_dsi: Add
+ dphy_late_init() callback for RZ/V2H(P)
+Thread-Index: AQHbuhBEHIXQ4f8QNEOzUP6Ud/smQrPCcsVw
+Date: Sun, 4 May 2025 12:53:25 +0000
+Message-ID: <TY3PR01MB11346F0E380118A4ED564CDDD868F2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 References: <20250430204112.342123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250430204112.342123-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250430204112.342123-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250430204112.342123-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250430204112.342123-13-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -78,83 +78,83 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB7108:EE_
-x-ms-office365-filtering-correlation-id: 5efadc9e-fea1-4e27-55d6-08dd8b0a8a43
+x-ms-office365-filtering-correlation-id: 3eaf98ac-0488-4e7d-3c8f-08dd8b0aa8a7
 x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
  ARA:13230040|366016|1800799024|7416014|376014|921020|38070700018; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?aimlSfoLVDgXAxr2gz0IMCel2DU/srEDfItP7mdKzo+6Nb8vXTsFYK2GoTW0?=
- =?us-ascii?Q?YGPev3brb+ZDPtfYnXRRw92uPWQgvqPqrZqPa3jfXjfX+6jkpInam/E1uWHT?=
- =?us-ascii?Q?iSXy8nFwdRnYrC+Ho2OjbNb9vrhiqpqIWYaS5BHBXh6yfWlIhLH0kz22zlGW?=
- =?us-ascii?Q?yiWPXu6W9TNUZf3sB1F7c4Gi1kHyFybl2NnU2ZJQo2J3RhcH2edarBn8klHv?=
- =?us-ascii?Q?CvpvgQCxFwpZ28VDlKVnpPe+e82PaGzTCRO4sotQ8gBNWbUGbsxcv3QKvFMv?=
- =?us-ascii?Q?bszzJeC/f7g+tT6W5Hu0sKLHxoArJJSrcyqOJLqtdZpAt1ECluGZKwOoNVH1?=
- =?us-ascii?Q?5PdeHLI+ii4pCDImihf9GG4vYeRW+RKVMcsmWy86QpsT4Opf9MAWjIB1sTHZ?=
- =?us-ascii?Q?x7Pl+JBhrLm62hYRpzKjRm20bFMHGDIjc+jF16b0Kd+uQaCm+mj6TEICFGE/?=
- =?us-ascii?Q?rg2NHCyYaryz5oMhMW7iR1m+rL814iFb1jYfX2L6fnmhcfqpp/gg3PQ5VH3Y?=
- =?us-ascii?Q?yUuJXYmumv4dMmLWwU/5w0Osx7ck0zE3EELnVCU9wDqk1bRfdJ5TXBGoIhaK?=
- =?us-ascii?Q?JWoX1cjD2WbHRA84ci3f9V3+WEcbxRV5U0GedpAyQ0LmR5ddNYPiG34tF0U6?=
- =?us-ascii?Q?yDg2HtipU8R/y20t9HLtzTWsiABgDzPZ4iOSoNZvuIeUQmRUsWhoVR4esrPZ?=
- =?us-ascii?Q?0vi02hT6tBMNdSepCXOGrdDgfk46zsK2CiWu2CWvNOV3day2JrtB45p9LB7h?=
- =?us-ascii?Q?SE5eUG181+P2SBNS1ddn0WfLDBZ8b92yFbM8oF3mJhKOSTfeoxqhH964nWJL?=
- =?us-ascii?Q?Fo/2Cj+2ZnUN/AE52uDoczdizMilNOQm6a3YBMt+2nTpaJttulR0WH5IQRX3?=
- =?us-ascii?Q?bg/uQQtjnX7Dg5ieAfsUyDtZo9BVIMNkzn9Q+LeD/e4+N1BE9DVZknWVBZLU?=
- =?us-ascii?Q?Z5rctwYM63xEi/tsYmZZhhgQyo6GjpkocZW90VoFFtCiv+qz1e2OWLs6bvG3?=
- =?us-ascii?Q?158FIGcK43t7dhoeIyqDOGN3yRsIEq4NcUhLCTv7f2HhzjCKEYAAkTh3fXMj?=
- =?us-ascii?Q?tXt52z3ThfQnb8jIch+RJPr6yxYkEu2crLNadbFlfLag3NKTZN3k4FbYGA3b?=
- =?us-ascii?Q?I0yYsgNXGUS7i0xzmjN0wOs4wJyu4jKZuyjcMeCjCm6Gl8wh8bjahwG6LxFz?=
- =?us-ascii?Q?8Xnt2JHePy9QeBG34r1edTITPztR93vkusF44QpXQ43Zr1YM8xw5Y/pvdPr2?=
- =?us-ascii?Q?1nC3MWZhW+D1oF8r5SSgZznU4+Hk078jkhCxs2QLIBDIr7B562RJWsrqVXNh?=
- =?us-ascii?Q?Z724bwpMUSUrEUCSsH5w5B16dd/o4htj3FeaYR9EEaM4zoMsq/eG5C/1egaA?=
- =?us-ascii?Q?US2BwuZPoA+lo+xr8NkEWXyAivwj3K7IttESKX18/s/X+8jMu76ihushR8zJ?=
- =?us-ascii?Q?2RYdWBVokHt8dCbaPSzJRSKqTAyIXeINMExkPsYLYAeGvZmCUWEy1KDW8oz3?=
- =?us-ascii?Q?fgrOuil5ZuId/TQ=3D?=
+x-microsoft-antispam-message-info: =?us-ascii?Q?oMHspKrmz7w5ieHQTIf+EyKmL/mo0+8TT+iV97QE2BylbhIheD/nDr5uU9tH?=
+ =?us-ascii?Q?+9ZINmWy8sE1JmEhAGGr96qemEeAjl9IPrGq+UZU7eh3+Lzt8Fll4cquluuD?=
+ =?us-ascii?Q?3lICi5bAwNuShouMn49DIA+BIr+sP3PP+xmzBXkXZYhAgAL6KX4XBr0tLtgv?=
+ =?us-ascii?Q?HC1WjIJbj6kEuUKEG1L8BzEpMUbSGSXIbXt9HtrZLjuMgX+uaODuAdpZMbAM?=
+ =?us-ascii?Q?ZZgINLKMaCUqEZ2iY71KeG9rk4y2YZPin8hh8ILGrdhH/wmWF3ntAJ8jmcOl?=
+ =?us-ascii?Q?iMoELftDJLosYLF1ueoCBDeWG8xYss1MA6o9rdkXwR75+sCt0qjV/OZ1zqIc?=
+ =?us-ascii?Q?eFHz1aqBwhueAT+v/gl7YreZmW9Yy9U2tQpvCHtRXLsvdcLvYiM+QtrJbFxd?=
+ =?us-ascii?Q?Ydhmx2DbzTduMm2OVmGfFd7INtRhSTLPrwCdYG6L1ZQTnqureUE8G5EA3v/Z?=
+ =?us-ascii?Q?bnI761dtSBV8X4Qi4KBdxvwDpdwBdKKHkLzLsRwSTuVN+706y10iSEnu5HyV?=
+ =?us-ascii?Q?Z0kqFntVWswha93grGggfAEDt8eGX8o/6ARC4pfSdDvHfCodrI7iLTHD0xC2?=
+ =?us-ascii?Q?aOh4jU1gbBaIdg4ffB7sNB2sY+KDkYjqLnOBakLBWEv8Z/B2/Gw24h2A+Wdc?=
+ =?us-ascii?Q?TX0MjMw6WwvBYMoRnAL78pi3HX0vwtd74XUCbWxD+MUGFPiIbkVgAwEHjCI0?=
+ =?us-ascii?Q?Rntpdux3gQmdrq2dhMDiAWW9nbULYGGy4nLfKMx1/thU98T0+1roS2dpZ2vJ?=
+ =?us-ascii?Q?c0Rp19Hrkc519NZk6McdxqgTK07tBuhZAftHSYzrDobtbsItzvoXbl0ZqyBz?=
+ =?us-ascii?Q?ceHTgJqj5Ysb9sFY9k466xmU1aZGNt6HXyB6RkuDCUt3AWP/WtTeOLZBXZsV?=
+ =?us-ascii?Q?0qBQKrqBH8g5wRe1WCohdOUUx711ng+9wJyeeiSq9mH/c99o/btbpeBrzPag?=
+ =?us-ascii?Q?KmosXnusUkF4MmVgj3JB/mgnhwJKih71EEkHGG61ctBfJaCaNbKPA68cYkl8?=
+ =?us-ascii?Q?qp+gVSLjSmdSUCBEhpbZMBRIST7e+ZFcMPILw7PHhSHIcQy1LbB2GHXd6JnR?=
+ =?us-ascii?Q?7lwQZgVM7uSLll36ITG9AajlbkCv2Cjk+E4EuxLO2EMDNGIacdAfcLM8z4Gl?=
+ =?us-ascii?Q?8i2O5Lzbe0EIFOUgpWzTFIR34dKNpa62q2bR3zwK9/smeILgYh5Fv/TBFfqm?=
+ =?us-ascii?Q?8gERIWIqePLnCVgDv4+e/3guka/xIgSDfQl636LitJx2vpV6sgOGAcvQxWo+?=
+ =?us-ascii?Q?3CYNy2Afxzro7GVmgdgRG87QdOXSiBqmCbHGTvSvkqHd3GdSowFsj7VCc/ds?=
+ =?us-ascii?Q?KFA5z05O6gsHrqaV+dLRyLk2b1A678MgZ06iKK93xXPD+MfKT35RARXnGYT3?=
+ =?us-ascii?Q?LU5uKFUH/gLJTnsI/I6B8uxQgmrXLw0y3U4O93pqNq0tQKREyvSoZfj1G4tg?=
+ =?us-ascii?Q?a8dMMzXrNL34X+xmSLeTksgBzQvvG0kX9W6ml8N9tb88seZtAnVhmiglbcYW?=
+ =?us-ascii?Q?oKCi7G8/mtTTCOc=3D?=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(7416014)(376014)(921020)(38070700018);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?eFXIYCm32sDB0j7J2nN6DZ1r7UAzuDJR9pgP4e4fBL3tIiPXwJaIBVFHRZUh?=
- =?us-ascii?Q?YYzJszDwkAf6xDaZ10+/YKmGWrVTrdDYEfGkQd5YVtarvj5izDp3utpJpSNS?=
- =?us-ascii?Q?nFPiA9WtfBHM9eWXJ/P2Sz71IcxMsLzWu6JnMu69ZKueFsoN3Nf3UyMwrnq3?=
- =?us-ascii?Q?9V6/InIx3I9XYhi/NBZ/dBAlP3mgjAFoSNixjNjqGLMb2aiUEaxZDBm2BLFZ?=
- =?us-ascii?Q?iIJlIvqhC0BVgrWjycF58Cxx218BHhnky3epXDEzKkGG0rZIaNjcY6ZgAOX4?=
- =?us-ascii?Q?VF+sQrM2exzntbCYhDv2laiQGpa2xINNHvdR6kE6PaNU8Ai3mIMsxuR5cHiW?=
- =?us-ascii?Q?a6VxYWO03HqrB9SfGUONt43nrAgPOpqy1zLHytnh+ANZs3op4sVjxNcmoiTU?=
- =?us-ascii?Q?bAhxyikhHHNF7dlhW+LQfLh0pouEVN6Ofv8I1yxlqKPyC5etLYqYa8E4PUOT?=
- =?us-ascii?Q?1HzFtR6xXhF++8lyVERGpkSfibbzAY1ScL/YWsA+5KFL0YSVZuVLmnGECBy1?=
- =?us-ascii?Q?0CIucIFTQG23vAgzIn5PtHngqg4POGILgd7OqB+WEvKPcwzWPsi7D/7Ej8RY?=
- =?us-ascii?Q?IyDfgZFtB7WN2xasJZWFYWDF9PiFcQcGcxiPodX43GG/KDC4kBAJMHbVAaG+?=
- =?us-ascii?Q?Za5mcZwsYDmyZJ1zzmGPqJA4uZNptXpki4NkOKNCX/k1b/MlahjEYXwHdBO4?=
- =?us-ascii?Q?0FUQ8J3GjWGWoxDDXD5eavy9AuEnIiq3iBmTW1TmcvMCcxpfdbRPHSuWf+GN?=
- =?us-ascii?Q?EJhQrDFyN05ZdmLf02/vw1kYpHzVz9sdnFdNIvIzfnhA9rQwGk8hDMJzM7nt?=
- =?us-ascii?Q?qts/puuVdsSba64YwDaOfgOo2hwuFMqAmQ6m4MMq7daHKLK7JkJpGXo/KkQy?=
- =?us-ascii?Q?Mou28SrRetNpHw+ChX60A2uE+J8rXnVLAtTSEyumepm+P2EZ82mPZT++cOcH?=
- =?us-ascii?Q?WUmfOOjW8Nxz+X50oXDPq2mbwCjP1pzcH2z5KHfE0g1nxlzr8L1duUaL95Rr?=
- =?us-ascii?Q?9zvmzCg1iyta0POh6kN0QhsCfEat47+oOvHg8ONk6b2KiE9Xdo8ACMFfFwgO?=
- =?us-ascii?Q?pLEDbXQ3DVYyPS62aH5qSom0OIDV21tfmYcFPoLHavujImB4HANp4AiPNB3t?=
- =?us-ascii?Q?/9og9jBC8TpQAhKZokusZEwbilCt2ermNJKewSEzZmQNcQwCHpapVMTuSXlZ?=
- =?us-ascii?Q?8C1/GJr2O3c/YGCn9w6fRXTmXgstXcwwlFB6TQd5n5snNoYdZIWoPEhyeGr8?=
- =?us-ascii?Q?kPLapSV9uByEKnut5vzZ5AoqGzLkPT11cPTlh07j7b/q2OU5hd/ES680fnJU?=
- =?us-ascii?Q?5uWrTBVmqZhV/i7+FFlyBBmf0tZcu6K0dj84i4Cy1rEgEi6NOI52s1bymkaP?=
- =?us-ascii?Q?eQsZ08mqXmjBf9keM7MKOpUcEkAkrvfY5MXj7J6Idqd5RSoHHcAVdpdpssQz?=
- =?us-ascii?Q?pvxe7wyLwBeiUWDHN52owRJMcOI00IDX+9b15CNBPxT+GtxZOWIfpE1f5yLS?=
- =?us-ascii?Q?7iheGZWAiuRkY+Y2ifHCroQndEa3BCc/d3oKEQENDJp0n8fqZ56M9VlWtaGM?=
- =?us-ascii?Q?8xnp5zdjo4tjQMM0DGgH289RpdLq5Q5c5u3+PSCf3mhS4I8Ydt0F7XKXcj3x?=
- =?us-ascii?Q?yw=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Nk7i0XBFqcnClC2MM5uROa168DE1lvqfKl9HTPuSJ+nP/l9SIZ0G5WbCcpPZ?=
+ =?us-ascii?Q?QrdjqKc1cO30FlhE6yrmJdJS0eqelLSogY2GlSeSSOQ7z9SiP1k+Yvh/N3GF?=
+ =?us-ascii?Q?hYCkrt/Z6egc3hmQIiQ0viAzwjki+B8FMdXFaYgnGLq0s1J4sFI4DaL4v73Q?=
+ =?us-ascii?Q?EIiL62ocf3UFCKb3BZt42G834+xb8bwnbz74g9XTE5wQNzPxfII5z39n+zlS?=
+ =?us-ascii?Q?NxI5ZowKJMbHVzllaxuCU5aE8UGFjWpQYlzE77bwIjam9ByQKjLEq7pTBOHp?=
+ =?us-ascii?Q?JJ7KX31Z5Gj9dfYHDDE1YrnFcxizEdLrCxLsWw4tSRV+dW28QkGVvSQnobsC?=
+ =?us-ascii?Q?W9rqtlSi7c+yhiR/ibl8pAXfkG0t2gHlfzMd1l1R3YrwC8BLMwSHMCB3kc87?=
+ =?us-ascii?Q?kYhDeQtKfhzVafg4T3XFpsNPBRF0M6wfRYroVPdRT3nKhyXQ9TQjwMG+ixEh?=
+ =?us-ascii?Q?eoNAFjVqikjblsjz6eq4+NecKbEHR4NeJtmdC/J7ffFtkc779LxHFUA432D8?=
+ =?us-ascii?Q?1gjjeMnrJRKBefLSf04qx7D/VWP0krM3ImVZBfmG0mTp5V2No3I8aY3HVmtk?=
+ =?us-ascii?Q?zfkrn4gH7H8XdnRo7lMXOttHrUTjWFwBTmZ4bIRFppX1EYrBPHAesbj9Xqog?=
+ =?us-ascii?Q?E9Zjk1zF7r/xIOP+sp9CXgAc3WR382e2tuBYGtP0cXahAZYCX3Ypsx22p8pl?=
+ =?us-ascii?Q?l2q2KH6onZHrGHTrhCukbBeP6+o2wMxu7QLyWiANRzEbtpsDQRJPGSx4QAPi?=
+ =?us-ascii?Q?uoAJUfjb+4n21ewxtls3Nu+4wql1Kv1a7hVPjfolK67oLoFKu0Nv+dIvRll8?=
+ =?us-ascii?Q?xAcjKwsz2/QU3zEaCGV+R0H06R0o7OpsYI/nO63eWGwShkMkrJ95OdT3q6RL?=
+ =?us-ascii?Q?fQVrEUax3w0L1yyqXtv8FHpJHs6HBLP7/6JMcOk6BD7YJAV6vrnLr6FEbYRS?=
+ =?us-ascii?Q?QMYAr+Y2zFM8zJlQodRsJE0qgLRzxKf85TGTYknfe3Ser18dyfndpGVozEX/?=
+ =?us-ascii?Q?toLOMBPEzSRgrC0RBO7vhmT3vdDlACfdDjcQpZSyhcUMsz9dFokSNLflt/5J?=
+ =?us-ascii?Q?CBXxuvSs9oscbJXtAllWZ3TGUOBE/PNHSkQnT7zztRZhvvjekUXYsfueUtwx?=
+ =?us-ascii?Q?xlIky/bFFCkHuRmW8rkL/1x/c/IE/UirZsWBISCjWgPpnbfbplBqtwfW1PRh?=
+ =?us-ascii?Q?ttDMw0j2KjW+n1o/Dxrws1btxg5UFB6pJViPj0D2HMBSe7hvImjo355S87AB?=
+ =?us-ascii?Q?rnKX0JS/QJLrukpYwTaAPzGstwXx6qwAzo0yxcEtg0YUtMGUHsqkNfV+YAtQ?=
+ =?us-ascii?Q?6q8nR5CkjtOH9uJbq/WtFn55igYf9uR+nLoA99lJysLKEicZU4BdCckxIwW3?=
+ =?us-ascii?Q?vI5K9n9vRoYrPMZDcHFv2NQshXJD2zFvWzjuKbsrHa7TgpY7v6dNREodOej+?=
+ =?us-ascii?Q?TdCvjJVuwEC1Mj7Qvw83BcBKd/xoiIUANbWKVLhpH0/6Gt+E6xhMw1xPn6aD?=
+ =?us-ascii?Q?5QHjZr/VFUARfabQ/HyJhL6eMJ/zO4eTVF+KlJHA85D05jGhfBzqIIp8DCWG?=
+ =?us-ascii?Q?7eRDP7YIdDIlB+eNt0BTkaJNdaTriu0ZfzA4TPnZCwbkyEzXP8AKFP5FXNn5?=
+ =?us-ascii?Q?eA=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5efadc9e-fea1-4e27-55d6-08dd8b0a8a43
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2025 12:52:34.1631 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3eaf98ac-0488-4e7d-3c8f-08dd8b0aa8a7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2025 12:53:25.1545 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cN8RUk1zBVcl/g64MsIxCWZIThG7MPCifOD78SNZPRFth+iWw4w4JL5HSwSSGK6HwAEZS7YqM/7qaG2L7/jOCJj4ICrNlO8unnl9MN7lMyE=
+X-MS-Exchange-CrossTenant-userprincipalname: 1/e7FRBoDtqcnz45blAvyInryKPqpxGImPko6jwqeqmGTdiiAVqCqZ2X/9UJT3DwpFFUXmuyM3nJssbGGh1Z+vIIOnfKuITbtOZiL7bm78w=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7108
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -178,24 +178,24 @@ Thanks for the patch.
 > -----Original Message-----
 > From: Prabhakar <prabhakar.csengg@gmail.com>
 > Sent: 30 April 2025 21:41
-> Subject: [PATCH v4 11/15] drm: renesas: rz-du: mipi_dsi: Add feature flag=
- for 16BPP support
+> Subject: [PATCH v4 12/15] drm: renesas: rz-du: mipi_dsi: Add dphy_late_in=
+it() callback for RZ/V2H(P)
 >=20
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >=20
-> Introduce the `RZ_MIPI_DSI_FEATURE_16BPP` flag in `rzg2l_mipi_dsi_hw_info=
-` to indicate support for
-> 16BPP pixel formats. The RZ/V2H(P) SoC supports 16BPP, whereas this featu=
-re is missing on the RZ/G2L
-> SoC.
+> Introduce the `dphy_late_init` callback in `rzg2l_mipi_dsi_hw_info` to al=
+low additional D-PHY register
+> configurations after enabling data and clock lanes. This is required for =
+the RZ/V2H(P) SoC but not for
+> the RZ/G2L SoC.
 >=20
-> Update the `mipi_dsi_host_attach()` function to check this flag before al=
-lowing 16BPP formats. If the
-> SoC does not support 16BPP, return an error to prevent incorrect format s=
-election.
+> Modify `rzg2l_mipi_dsi_startup()` to invoke `dphy_late_init` if defined, =
+ensuring SoC-specific
+> initialization is performed only when necessary.
 >=20
-> This change enables finer-grained format support control for different So=
-C variants.
+> This change prepares for RZ/V2H(P) SoC support while maintaining compatib=
+ility with existing
+> platforms.
 >=20
 > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
@@ -214,43 +214,37 @@ Biju
 > - No changes
 >=20
 > v1->v2:
-> - Renamed RZ_MIPI_DSI_FEATURE_16BPP
+> - No changes
 > ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >=20
 > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu=
 /drm/renesas/rz-
 > du/rzg2l_mipi_dsi.c
-> index a4c0dbae4a46..8c7384b95411 100644
+> index 8c7384b95411..66eef39af35e 100644
 > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -29,6 +29,7 @@
->  #include "rzg2l_mipi_dsi_regs.h"
+> @@ -35,6 +35,7 @@ struct rzg2l_mipi_dsi;
 >=20
->  #define RZ_MIPI_DSI_FEATURE_DPHY_RST	BIT(0)
-> +#define RZ_MIPI_DSI_FEATURE_16BPP	BIT(1)
+>  struct rzg2l_mipi_dsi_hw_info {
+>  	int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, u64 hsfreq_millihz);
+> +	void (*dphy_late_init)(struct rzg2l_mipi_dsi *dsi);
+>  	void (*dphy_exit)(struct rzg2l_mipi_dsi *dsi);
+>  	u32 phy_reg_offset;
+>  	u32 link_reg_offset;
+> @@ -318,6 +319,9 @@ static int rzg2l_mipi_dsi_startup(struct rzg2l_mipi_d=
+si *dsi,
+>  	txsetr =3D TXSETR_DLEN | TXSETR_NUMLANEUSE(dsi->lanes - 1) | TXSETR_CLE=
+N;
+>  	rzg2l_mipi_dsi_link_write(dsi, TXSETR, txsetr);
 >=20
->  struct rzg2l_mipi_dsi;
->=20
-> @@ -643,8 +644,16 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_ds=
-i_host *host,
->=20
->  	switch (mipi_dsi_pixel_format_to_bpp(device->format)) {
->  	case 24:
-> +		break;
->  	case 18:
->  		break;
-> +	case 16:
-> +		if (!(dsi->info->features & RZ_MIPI_DSI_FEATURE_16BPP)) {
-> +			dev_err(dsi->dev, "Unsupported format 0x%04x\n",
-> +				device->format);
-> +			return -EINVAL;
-> +		}
-> +		break;
->  	default:
->  		dev_err(dsi->dev, "Unsupported format 0x%04x\n", device->format);
->  		return -EINVAL;
+> +	if (dsi->info->dphy_late_init)
+> +		dsi->info->dphy_late_init(dsi);
+> +
+>  	hsfreq =3D DIV_ROUND_CLOSEST_ULL(hsfreq_millihz, MILLI);
+>  	/*
+>  	 * Global timings characteristic depends on high speed Clock Frequency
 > --
 > 2.49.0
 
