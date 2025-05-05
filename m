@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFDF3AAA13D
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:45:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 479EEAAA140
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:45:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B15310E52C;
-	Mon,  5 May 2025 22:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D3AA10E52F;
+	Mon,  5 May 2025 22:45:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DKDfN7fc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VQIa9X2i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4452210E52C;
- Mon,  5 May 2025 22:45:27 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC98310E52E;
+ Mon,  5 May 2025 22:45:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 768E249B72;
- Mon,  5 May 2025 22:45:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBB75C4CEED;
- Mon,  5 May 2025 22:45:25 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 502BEA4D086;
+ Mon,  5 May 2025 22:40:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48148C4CEF2;
+ Mon,  5 May 2025 22:45:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485127;
- bh=3Ho9mSFDJOupb9gCNGP5Pzm0TfHvsCdl6reT/BvM5gc=;
+ s=k20201202; t=1746485129;
+ bh=lc72sPJbWErzoLgpkVfiGzYcvLU0to7rF3tdX552Lls=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DKDfN7fchj7oAJJAIjo4nnPzuw9y+FVhqJ2WQhj5x6EVMdw87h3bHgCyaiXQSBLfT
- Mh6use9mEje1P4zfJeoC/Ew0N/OCKptjtt9dOYi+oa0NatNk30PUXLqth06hXWiW/0
- XAJF35uxVo/x3DT8JOsytMICzn9rXujepTslDkzwpB+mVjjjWbKi/B3b0mK1zHtnOE
- i+ezwBcp/1LMqdEWfNF6ELHrBhzriGfOMM6H669uL20MqZLbUeNlNAwcnhxz2LrL9j
- 8Ugv1xO3rpFzfnn/95BqLJZRzn3xKt8zo7YkFw8DdDpg6bTIpifiUKKmTLZN88IV5b
- FnOZ49GmFxA0Q==
+ b=VQIa9X2iZm8bws++5SJp7c7NCVCUdSsljobwEgNmO0Au7+OlIHQx4MbMl4zkpxoid
+ K9Jyc1EK24QvBL5yEa9ZgslArnKO8sx7dmgMOxZWbMTG+2RP9TNXBtZUDjEeIQmeSM
+ PyyKyJId09gLbe2OBFsIGhz45AF5OYKLTm+EZcHhnAP8RXfOZA5snBLVVjQZoig/5A
+ jKr1053kzxhTmVpnfNn1lbzcLu6k8lfLcDCS3HVkH+4hnvO8UKqt4uvpxxyW8LSgC6
+ 0vr9kPpq8zivWXzpEzuUPdRZkAjMhsylBv6nLICmjIPcEpxeO7E5v76kkTUNAB8zev
+ SiFjUXQVDg3Cg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
- Amber Lin <Amber.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, Felix.Kuehling@amd.com,
+Cc: Emily Deng <Emily.Deng@amd.com>, Xiaogang Chen <xiaogang.chen@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 174/486] drm/amdkfd: Set per-process flags only
- once cik/vi
-Date: Mon,  5 May 2025 18:34:10 -0400
-Message-Id: <20250505223922.2682012-174-sashal@kernel.org>
+ Felix.Kuehling@amd.com, Philip.Yang@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 175/486] drm/amdgpu: Fix missing drain retry
+ fault the last entry
+Date: Mon,  5 May 2025 18:34:11 -0400
+Message-Id: <20250505223922.2682012-175-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -65,299 +65,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
+From: Emily Deng <Emily.Deng@amd.com>
 
-[ Upstream commit 289e68503a4533b014f8447e2af28ad44c92c221 ]
+[ Upstream commit fe2fa3be3d59ba67d6de54a0064441ec233cb50c ]
 
-Set per-process static sh_mem config only once during process
-initialization. Move all static changes from update_qpd() which is
-called each time a queue is created to set_cache_memory_policy() which
-is called once during process initialization.
+While the entry get in svm_range_unmap_from_cpu is the last entry, and
+the entry is page fault, it also need to be dropped. So for equal case,
+it also need to be dropped.
 
-set_cache_memory_policy() is currently defined only for cik and vi
-family. So this commit only focuses on these two. A separate commit will
-address other asics.
+v2:
+Only modify the svm_range_restore_pages.
 
-Signed-off-by: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
-Reviewed-by: Amber Lin <Amber.Lin@amd.com>
+Signed-off-by: Emily Deng <Emily.Deng@amd.com>
+Reviewed-by: Xiaogang Chen<xiaogang.chen@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/amdkfd/kfd_device_queue_manager.c | 39 +---------
- .../amd/amdkfd/kfd_device_queue_manager_cik.c | 69 ++++++++++++------
- .../amd/amdkfd/kfd_device_queue_manager_vi.c  | 71 ++++++++++++-------
- 3 files changed, 94 insertions(+), 85 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ih.h | 3 +++
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c   | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index 951b87e7e3f68..6a58dd8d2130c 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -2453,14 +2453,6 @@ static int destroy_queue_cpsch(struct device_queue_manager *dqm,
- 	return retval;
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.h
+index 508f02eb0cf8f..7de10208e8dde 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.h
+@@ -78,6 +78,9 @@ struct amdgpu_ih_ring {
+ #define amdgpu_ih_ts_after(t1, t2) \
+ 		(((int64_t)((t2) << 16) - (int64_t)((t1) << 16)) > 0LL)
  
--/*
-- * Low bits must be 0000/FFFF as required by HW, high bits must be 0 to
-- * stay in user mode.
-- */
--#define APE1_FIXED_BITS_MASK 0xFFFF80000000FFFFULL
--/* APE1 limit is inclusive and 64K aligned. */
--#define APE1_LIMIT_ALIGNMENT 0xFFFF
--
- static bool set_cache_memory_policy(struct device_queue_manager *dqm,
- 				   struct qcm_process_device *qpd,
- 				   enum cache_policy default_policy,
-@@ -2475,34 +2467,6 @@ static bool set_cache_memory_policy(struct device_queue_manager *dqm,
- 
- 	dqm_lock(dqm);
- 
--	if (alternate_aperture_size == 0) {
--		/* base > limit disables APE1 */
--		qpd->sh_mem_ape1_base = 1;
--		qpd->sh_mem_ape1_limit = 0;
--	} else {
--		/*
--		 * In FSA64, APE1_Base[63:0] = { 16{SH_MEM_APE1_BASE[31]},
--		 *			SH_MEM_APE1_BASE[31:0], 0x0000 }
--		 * APE1_Limit[63:0] = { 16{SH_MEM_APE1_LIMIT[31]},
--		 *			SH_MEM_APE1_LIMIT[31:0], 0xFFFF }
--		 * Verify that the base and size parameters can be
--		 * represented in this format and convert them.
--		 * Additionally restrict APE1 to user-mode addresses.
--		 */
--
--		uint64_t base = (uintptr_t)alternate_aperture_base;
--		uint64_t limit = base + alternate_aperture_size - 1;
--
--		if (limit <= base || (base & APE1_FIXED_BITS_MASK) != 0 ||
--		   (limit & APE1_FIXED_BITS_MASK) != APE1_LIMIT_ALIGNMENT) {
--			retval = false;
--			goto out;
--		}
--
--		qpd->sh_mem_ape1_base = base >> 16;
--		qpd->sh_mem_ape1_limit = limit >> 16;
--	}
--
- 	retval = dqm->asic_ops.set_cache_memory_policy(
- 			dqm,
- 			qpd,
-@@ -2511,6 +2475,9 @@ static bool set_cache_memory_policy(struct device_queue_manager *dqm,
- 			alternate_aperture_base,
- 			alternate_aperture_size);
- 
-+	if (retval)
-+		goto out;
++#define amdgpu_ih_ts_after_or_equal(t1, t2) \
++		(((int64_t)((t2) << 16) - (int64_t)((t1) << 16)) >= 0LL)
 +
- 	if ((dqm->sched_policy == KFD_SCHED_POLICY_NO_HWS) && (qpd->vmid != 0))
- 		program_sh_mem_settings(dqm, qpd);
+ /* provided by the ih block */
+ struct amdgpu_ih_funcs {
+ 	/* ring read/write ptr handling, called from interrupt context */
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+index b50283864dcd2..f00d41be7fca2 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+@@ -3014,7 +3014,7 @@ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
  
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_cik.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_cik.c
-index d4d95c7f2e5d4..32bedef912b3b 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_cik.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_cik.c
-@@ -27,6 +27,14 @@
- #include "oss/oss_2_4_sh_mask.h"
- #include "gca/gfx_7_2_sh_mask.h"
- 
-+/*
-+ * Low bits must be 0000/FFFF as required by HW, high bits must be 0 to
-+ * stay in user mode.
-+ */
-+#define APE1_FIXED_BITS_MASK 0xFFFF80000000FFFFULL
-+/* APE1 limit is inclusive and 64K aligned. */
-+#define APE1_LIMIT_ALIGNMENT 0xFFFF
-+
- static bool set_cache_memory_policy_cik(struct device_queue_manager *dqm,
- 				   struct qcm_process_device *qpd,
- 				   enum cache_policy default_policy,
-@@ -84,6 +92,36 @@ static bool set_cache_memory_policy_cik(struct device_queue_manager *dqm,
- {
- 	uint32_t default_mtype;
- 	uint32_t ape1_mtype;
-+	unsigned int temp;
-+	bool retval = true;
-+
-+	if (alternate_aperture_size == 0) {
-+		/* base > limit disables APE1 */
-+		qpd->sh_mem_ape1_base = 1;
-+		qpd->sh_mem_ape1_limit = 0;
-+	} else {
-+		/*
-+		 * In FSA64, APE1_Base[63:0] = { 16{SH_MEM_APE1_BASE[31]},
-+		 *			SH_MEM_APE1_BASE[31:0], 0x0000 }
-+		 * APE1_Limit[63:0] = { 16{SH_MEM_APE1_LIMIT[31]},
-+		 *			SH_MEM_APE1_LIMIT[31:0], 0xFFFF }
-+		 * Verify that the base and size parameters can be
-+		 * represented in this format and convert them.
-+		 * Additionally restrict APE1 to user-mode addresses.
-+		 */
-+
-+		uint64_t base = (uintptr_t)alternate_aperture_base;
-+		uint64_t limit = base + alternate_aperture_size - 1;
-+
-+		if (limit <= base || (base & APE1_FIXED_BITS_MASK) != 0 ||
-+		   (limit & APE1_FIXED_BITS_MASK) != APE1_LIMIT_ALIGNMENT) {
-+			retval = false;
-+			goto out;
-+		}
-+
-+		qpd->sh_mem_ape1_base = base >> 16;
-+		qpd->sh_mem_ape1_limit = limit >> 16;
-+	}
- 
- 	default_mtype = (default_policy == cache_policy_coherent) ?
- 			MTYPE_NONCACHED :
-@@ -97,37 +135,22 @@ static bool set_cache_memory_policy_cik(struct device_queue_manager *dqm,
- 			| ALIGNMENT_MODE(SH_MEM_ALIGNMENT_MODE_UNALIGNED)
- 			| DEFAULT_MTYPE(default_mtype)
- 			| APE1_MTYPE(ape1_mtype);
--
--	return true;
--}
--
--static int update_qpd_cik(struct device_queue_manager *dqm,
--			  struct qcm_process_device *qpd)
--{
--	struct kfd_process_device *pdd;
--	unsigned int temp;
--
--	pdd = qpd_to_pdd(qpd);
--
--	/* check if sh_mem_config register already configured */
--	if (qpd->sh_mem_config == 0) {
--		qpd->sh_mem_config =
--			ALIGNMENT_MODE(SH_MEM_ALIGNMENT_MODE_UNALIGNED) |
--			DEFAULT_MTYPE(MTYPE_NONCACHED) |
--			APE1_MTYPE(MTYPE_NONCACHED);
--		qpd->sh_mem_ape1_limit = 0;
--		qpd->sh_mem_ape1_base = 0;
--	}
--
- 	/* On dGPU we're always in GPUVM64 addressing mode with 64-bit
- 	 * aperture addresses.
- 	 */
--	temp = get_sh_mem_bases_nybble_64(pdd);
-+	temp = get_sh_mem_bases_nybble_64(qpd_to_pdd(qpd));
- 	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(temp);
- 
- 	pr_debug("is32bit process: %d sh_mem_bases nybble: 0x%X and register 0x%X\n",
- 		qpd->pqm->process->is_32bit_user_mode, temp, qpd->sh_mem_bases);
- 
-+out:
-+	return retval;
-+}
-+
-+static int update_qpd_cik(struct device_queue_manager *dqm,
-+			  struct qcm_process_device *qpd)
-+{
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_vi.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_vi.c
-index b291ee0fab943..320518f418903 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_vi.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_vi.c
-@@ -27,6 +27,14 @@
- #include "gca/gfx_8_0_sh_mask.h"
- #include "oss/oss_3_0_sh_mask.h"
- 
-+/*
-+ * Low bits must be 0000/FFFF as required by HW, high bits must be 0 to
-+ * stay in user mode.
-+ */
-+#define APE1_FIXED_BITS_MASK 0xFFFF80000000FFFFULL
-+/* APE1 limit is inclusive and 64K aligned. */
-+#define APE1_LIMIT_ALIGNMENT 0xFFFF
-+
- static bool set_cache_memory_policy_vi(struct device_queue_manager *dqm,
- 				       struct qcm_process_device *qpd,
- 				       enum cache_policy default_policy,
-@@ -85,6 +93,36 @@ static bool set_cache_memory_policy_vi(struct device_queue_manager *dqm,
- {
- 	uint32_t default_mtype;
- 	uint32_t ape1_mtype;
-+	unsigned int temp;
-+	bool retval = true;
-+
-+	if (alternate_aperture_size == 0) {
-+		/* base > limit disables APE1 */
-+		qpd->sh_mem_ape1_base = 1;
-+		qpd->sh_mem_ape1_limit = 0;
-+	} else {
-+		/*
-+		 * In FSA64, APE1_Base[63:0] = { 16{SH_MEM_APE1_BASE[31]},
-+		 *			SH_MEM_APE1_BASE[31:0], 0x0000 }
-+		 * APE1_Limit[63:0] = { 16{SH_MEM_APE1_LIMIT[31]},
-+		 *			SH_MEM_APE1_LIMIT[31:0], 0xFFFF }
-+		 * Verify that the base and size parameters can be
-+		 * represented in this format and convert them.
-+		 * Additionally restrict APE1 to user-mode addresses.
-+		 */
-+
-+		uint64_t base = (uintptr_t)alternate_aperture_base;
-+		uint64_t limit = base + alternate_aperture_size - 1;
-+
-+		if (limit <= base || (base & APE1_FIXED_BITS_MASK) != 0 ||
-+		   (limit & APE1_FIXED_BITS_MASK) != APE1_LIMIT_ALIGNMENT) {
-+			retval = false;
-+			goto out;
-+		}
-+
-+		qpd->sh_mem_ape1_base = base >> 16;
-+		qpd->sh_mem_ape1_limit = limit >> 16;
-+	}
- 
- 	default_mtype = (default_policy == cache_policy_coherent) ?
- 			MTYPE_UC :
-@@ -100,40 +138,21 @@ static bool set_cache_memory_policy_vi(struct device_queue_manager *dqm,
- 			default_mtype << SH_MEM_CONFIG__DEFAULT_MTYPE__SHIFT |
- 			ape1_mtype << SH_MEM_CONFIG__APE1_MTYPE__SHIFT;
- 
--	return true;
--}
--
--static int update_qpd_vi(struct device_queue_manager *dqm,
--			 struct qcm_process_device *qpd)
--{
--	struct kfd_process_device *pdd;
--	unsigned int temp;
--
--	pdd = qpd_to_pdd(qpd);
--
--	/* check if sh_mem_config register already configured */
--	if (qpd->sh_mem_config == 0) {
--		qpd->sh_mem_config =
--				SH_MEM_ALIGNMENT_MODE_UNALIGNED <<
--					SH_MEM_CONFIG__ALIGNMENT_MODE__SHIFT |
--				MTYPE_UC <<
--					SH_MEM_CONFIG__DEFAULT_MTYPE__SHIFT |
--				MTYPE_UC <<
--					SH_MEM_CONFIG__APE1_MTYPE__SHIFT;
--
--		qpd->sh_mem_ape1_limit = 0;
--		qpd->sh_mem_ape1_base = 0;
--	}
--
- 	/* On dGPU we're always in GPUVM64 addressing mode with 64-bit
- 	 * aperture addresses.
- 	 */
--	temp = get_sh_mem_bases_nybble_64(pdd);
-+	temp = get_sh_mem_bases_nybble_64(qpd_to_pdd(qpd));
- 	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(temp);
- 
- 	pr_debug("sh_mem_bases nybble: 0x%X and register 0x%X\n",
- 		temp, qpd->sh_mem_bases);
-+out:
-+	return retval;
-+}
- 
-+static int update_qpd_vi(struct device_queue_manager *dqm,
-+			 struct qcm_process_device *qpd)
-+{
- 	return 0;
- }
- 
+ 	/* check if this page fault time stamp is before svms->checkpoint_ts */
+ 	if (svms->checkpoint_ts[gpuidx] != 0) {
+-		if (amdgpu_ih_ts_after(ts,  svms->checkpoint_ts[gpuidx])) {
++		if (amdgpu_ih_ts_after_or_equal(ts,  svms->checkpoint_ts[gpuidx])) {
+ 			pr_debug("draining retry fault, drop fault 0x%llx\n", addr);
+ 			r = -EAGAIN;
+ 			goto out_unlock_svms;
 -- 
 2.39.5
 
