@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41169AAA02B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FEA0AAA030
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:32:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B88A810E4AF;
-	Mon,  5 May 2025 22:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 241CA10E4B5;
+	Mon,  5 May 2025 22:32:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NnBnADpu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oe3Oiwg1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C61310E4AF;
- Mon,  5 May 2025 22:32:21 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E70E510E4B4;
+ Mon,  5 May 2025 22:32:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B9BA961129;
- Mon,  5 May 2025 22:31:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02AA3C4CEE4;
- Mon,  5 May 2025 22:32:18 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 73F37A4CD1D;
+ Mon,  5 May 2025 22:26:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E4BAC4CEED;
+ Mon,  5 May 2025 22:32:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484340;
- bh=IalM9L5efkNTEa16hmoVEVF62GEGUp+xR1nAhVa6dc4=;
+ s=k20201202; t=1746484346;
+ bh=KdmztdFLLveMFjpq+aylwR4DGdVV7hj4DZC4Zz3WITM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NnBnADpuO3Jq5JFeDBw0Mf4K6mZ8fBqZjI0pfHMYA+KtrEtObLl0xe2wht2IY+M4X
- YIOjCjbYQYH8UJhsKPw5I7b5fOMEhUYOPv5mpmOf63CiMAx067a/mUMdNi04HoXgdR
- 6e+XbvQ1SrQgyXhPAV3Qw1LeKB9kKetEd8unUs68sJqSurrDV7EuUYbGukxoIP5HuF
- LLhBr8s0dfz/yb3BuCtBadSAX8FvPHvTxiu5C8NQkIlLpDsFoJoIbHwsE9zp3epPFF
- enqrYz+ySwZfuR+tMZcUq/JoLrqqF4fROdnBFpuaA/me3jY3T/OSKHFq5cONdJdXD8
- xFNPxhF9N+jqw==
+ b=oe3Oiwg1amesbzWqqHTDea6RGFDwuUs/X1YDHg5FhNM86gUkGTtHn7NsvaKu+3c78
+ L7F4RZA8U+rqb83VXS2moLOO3633YtBlwvwiWUoyu/VTuJHB9Nx7YmSbd4auFdUzl6
+ f/uFr7T4kWtC7yv1civ09eV8Gl05LXFhqDpHbiIfElmMU96jJwIE8OPm3khNN3Qys3
+ /Of3/MSijAGyP1yZYGyH798DrwwdykZXX1PDz5mgoknZrOk1QTIkqy1MtG4tnEMnpj
+ o3ROEEZpyNzJUMmwZ9/4bbdx8+PNlqK3h3oVSs4u+getwaexDQ2hzPgeWoEa7Z9Vb9
+ jf9J7jU7dXqUg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Eric Huang <jinhuieric.huang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Sasha Levin <sashal@kernel.org>, Felix.Kuehling@amd.com,
+Cc: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
+ Philip Yang <Philip.Yang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 459/642] drm/amdkfd: fix missing L2 cache info in
- topology
-Date: Mon,  5 May 2025 18:11:15 -0400
-Message-Id: <20250505221419.2672473-459-sashal@kernel.org>
+ bob.zhou@amd.com, Hawking.Zhang@amd.com, tao.zhou1@amd.com,
+ kevinyang.wang@amd.com, xiang.liu@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 460/642] drm/amdgpu: Set snoop bit for SDMA for
+ MI series
+Date: Mon,  5 May 2025 18:11:16 -0400
+Message-Id: <20250505221419.2672473-460-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,65 +67,366 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Eric Huang <jinhuieric.huang@amd.com>
+From: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
 
-[ Upstream commit 5ffd56822a7159917306d99f18fd15dfd7288f20 ]
+[ Upstream commit 3394b1f76d3f8adf695ceed350a5dae49003eb37 ]
 
-In some ASICs L2 cache info may miss in kfd topology,
-because the first bitmap may be empty, that means
-the first cu may be inactive, so to find the first
-active cu will solve the issue.
+SDMA writes has to probe invalidate RW lines. Set snoop bit in mmhub for
+this to happen.
 
-v2: Only find the first active cu in the first xcc
+v2: Missed a few mmhub_v9_4. Added now.
+v3: Calculate hub offset once since it doesn't change inside the loop
+    Modified function names based on review comments.
 
-Signed-off-by: Eric Huang <jinhuieric.huang@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Acked-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
+Reviewed-by: Philip Yang <Philip.Yang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/mmhub_v1_7.c       | 25 ++++++++++
+ drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c       | 27 +++++++++++
+ drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c       | 31 ++++++++++++
+ .../asic_reg/mmhub/mmhub_9_4_1_offset.h       | 32 +++++++++++++
+ .../asic_reg/mmhub/mmhub_9_4_1_sh_mask.h      | 48 +++++++++++++++++++
+ 5 files changed, 163 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-index 334c576a75b14..98317eda2cdb4 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-@@ -1683,17 +1683,32 @@ static int fill_in_l2_l3_pcache(struct kfd_cache_properties **props_ext,
- 				int cache_type, unsigned int cu_processor_id,
- 				struct kfd_node *knode)
- {
--	unsigned int cu_sibling_map_mask;
-+	unsigned int cu_sibling_map_mask = 0;
- 	int first_active_cu;
- 	int i, j, k, xcc, start, end;
- 	int num_xcc = NUM_XCC(knode->xcc_mask);
- 	struct kfd_cache_properties *pcache = NULL;
- 	enum amdgpu_memory_partition mode;
- 	struct amdgpu_device *adev = knode->adev;
-+	bool found = false;
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_7.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_7.c
+index 9689e2b5d4e51..2adee2b94c37d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_7.c
++++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_7.c
+@@ -172,6 +172,30 @@ static void mmhub_v1_7_init_tlb_regs(struct amdgpu_device *adev)
+ 	WREG32_SOC15(MMHUB, 0, regMC_VM_MX_L1_TLB_CNTL, tmp);
+ }
  
- 	start = ffs(knode->xcc_mask) - 1;
- 	end = start + num_xcc;
--	cu_sibling_map_mask = cu_info->bitmap[start][0][0];
++/* Set snoop bit for SDMA so that SDMA writes probe-invalidates RW lines */
++static void mmhub_v1_7_init_snoop_override_regs(struct amdgpu_device *adev)
++{
++	uint32_t tmp;
++	int i;
++	uint32_t distance = regDAGB1_WRCLI_GPU_SNOOP_OVERRIDE -
++			    regDAGB0_WRCLI_GPU_SNOOP_OVERRIDE;
 +
-+	/* To find the bitmap in the first active cu in the first
-+	 * xcc, it is based on the assumption that evrey xcc must
-+	 * have at least one active cu.
-+	 */
-+	for (i = 0; i < gfx_info->max_shader_engines && !found; i++) {
-+		for (j = 0; j < gfx_info->max_sh_per_se && !found; j++) {
-+			if (cu_info->bitmap[start][i % 4][j % 4]) {
-+				cu_sibling_map_mask =
-+					cu_info->bitmap[start][i % 4][j % 4];
-+				found = true;
-+			}
-+		}
++	for (i = 0; i < 5; i++) { /* DAGB instances */
++		tmp = RREG32_SOC15_OFFSET(MMHUB, 0,
++			regDAGB0_WRCLI_GPU_SNOOP_OVERRIDE, i * distance);
++		tmp |= (1 << 15); /* SDMA client is BIT15 */
++		WREG32_SOC15_OFFSET(MMHUB, 0,
++			regDAGB0_WRCLI_GPU_SNOOP_OVERRIDE, i * distance, tmp);
++
++		tmp = RREG32_SOC15_OFFSET(MMHUB, 0,
++			regDAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE, i * distance);
++		tmp |= (1 << 15);
++		WREG32_SOC15_OFFSET(MMHUB, 0,
++			regDAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE, i * distance, tmp);
 +	}
 +
- 	cu_sibling_map_mask &=
- 		((1 << pcache_info[cache_type].num_cu_shared) - 1);
- 	first_active_cu = ffs(cu_sibling_map_mask);
++}
++
+ static void mmhub_v1_7_init_cache_regs(struct amdgpu_device *adev)
+ {
+ 	uint32_t tmp;
+@@ -337,6 +361,7 @@ static int mmhub_v1_7_gart_enable(struct amdgpu_device *adev)
+ 	mmhub_v1_7_init_system_aperture_regs(adev);
+ 	mmhub_v1_7_init_tlb_regs(adev);
+ 	mmhub_v1_7_init_cache_regs(adev);
++	mmhub_v1_7_init_snoop_override_regs(adev);
+ 
+ 	mmhub_v1_7_enable_system_domain(adev);
+ 	mmhub_v1_7_disable_identity_aperture(adev);
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
+index e646e5cef0a2e..ce013a715b864 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
++++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
+@@ -213,6 +213,32 @@ static void mmhub_v1_8_init_tlb_regs(struct amdgpu_device *adev)
+ 	}
+ }
+ 
++/* Set snoop bit for SDMA so that SDMA writes probe-invalidates RW lines */
++static void mmhub_v1_8_init_snoop_override_regs(struct amdgpu_device *adev)
++{
++	uint32_t tmp, inst_mask;
++	int i, j;
++	uint32_t distance = regDAGB1_WRCLI_GPU_SNOOP_OVERRIDE -
++			    regDAGB0_WRCLI_GPU_SNOOP_OVERRIDE;
++
++	inst_mask = adev->aid_mask;
++	for_each_inst(i, inst_mask) {
++		for (j = 0; j < 5; j++) { /* DAGB instances */
++			tmp = RREG32_SOC15_OFFSET(MMHUB, i,
++				regDAGB0_WRCLI_GPU_SNOOP_OVERRIDE, j * distance);
++			tmp |= (1 << 15); /* SDMA client is BIT15 */
++			WREG32_SOC15_OFFSET(MMHUB, i,
++				regDAGB0_WRCLI_GPU_SNOOP_OVERRIDE, j * distance, tmp);
++
++			tmp = RREG32_SOC15_OFFSET(MMHUB, i,
++				regDAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE, j * distance);
++			tmp |= (1 << 15);
++			WREG32_SOC15_OFFSET(MMHUB, i,
++				regDAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE, j * distance, tmp);
++		}
++	}
++}
++
+ static void mmhub_v1_8_init_cache_regs(struct amdgpu_device *adev)
+ {
+ 	uint32_t tmp, inst_mask;
+@@ -418,6 +444,7 @@ static int mmhub_v1_8_gart_enable(struct amdgpu_device *adev)
+ 	mmhub_v1_8_init_system_aperture_regs(adev);
+ 	mmhub_v1_8_init_tlb_regs(adev);
+ 	mmhub_v1_8_init_cache_regs(adev);
++	mmhub_v1_8_init_snoop_override_regs(adev);
+ 
+ 	mmhub_v1_8_enable_system_domain(adev);
+ 	mmhub_v1_8_disable_identity_aperture(adev);
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c
+index ff1b58e446892..fe0710b55c3ac 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c
++++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c
+@@ -198,6 +198,36 @@ static void mmhub_v9_4_init_tlb_regs(struct amdgpu_device *adev, int hubid)
+ 			    hubid * MMHUB_INSTANCE_REGISTER_OFFSET, tmp);
+ }
+ 
++/* Set snoop bit for SDMA so that SDMA writes probe-invalidates RW lines */
++static void mmhub_v9_4_init_snoop_override_regs(struct amdgpu_device *adev, int hubid)
++{
++	uint32_t tmp;
++	int i;
++	uint32_t distance = mmDAGB1_WRCLI_GPU_SNOOP_OVERRIDE -
++			    mmDAGB0_WRCLI_GPU_SNOOP_OVERRIDE;
++	uint32_t huboffset = hubid * MMHUB_INSTANCE_REGISTER_OFFSET;
++
++	for (i = 0; i < 5 - (2 * hubid); i++) {
++		/* DAGB instances 0 to 4 are in hub0 and 5 to 7 are in hub1 */
++		tmp = RREG32_SOC15_OFFSET(MMHUB, 0,
++			mmDAGB0_WRCLI_GPU_SNOOP_OVERRIDE,
++			huboffset + i * distance);
++		tmp |= (1 << 15); /* SDMA client is BIT15 */
++		WREG32_SOC15_OFFSET(MMHUB, 0,
++			mmDAGB0_WRCLI_GPU_SNOOP_OVERRIDE,
++			huboffset + i * distance, tmp);
++
++		tmp = RREG32_SOC15_OFFSET(MMHUB, 0,
++			mmDAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE,
++			huboffset + i * distance);
++		tmp |= (1 << 15);
++		WREG32_SOC15_OFFSET(MMHUB, 0,
++			mmDAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE,
++			huboffset + i * distance, tmp);
++	}
++
++}
++
+ static void mmhub_v9_4_init_cache_regs(struct amdgpu_device *adev, int hubid)
+ {
+ 	uint32_t tmp;
+@@ -392,6 +422,7 @@ static int mmhub_v9_4_gart_enable(struct amdgpu_device *adev)
+ 		if (!amdgpu_sriov_vf(adev))
+ 			mmhub_v9_4_init_cache_regs(adev, i);
+ 
++		mmhub_v9_4_init_snoop_override_regs(adev, i);
+ 		mmhub_v9_4_enable_system_domain(adev, i);
+ 		if (!amdgpu_sriov_vf(adev))
+ 			mmhub_v9_4_disable_identity_aperture(adev, i);
+diff --git a/drivers/gpu/drm/amd/include/asic_reg/mmhub/mmhub_9_4_1_offset.h b/drivers/gpu/drm/amd/include/asic_reg/mmhub/mmhub_9_4_1_offset.h
+index c488d4a50cf46..b2252deabc17a 100644
+--- a/drivers/gpu/drm/amd/include/asic_reg/mmhub/mmhub_9_4_1_offset.h
++++ b/drivers/gpu/drm/amd/include/asic_reg/mmhub/mmhub_9_4_1_offset.h
+@@ -203,6 +203,10 @@
+ #define mmDAGB0_WR_DATA_CREDIT_BASE_IDX                                                                1
+ #define mmDAGB0_WR_MISC_CREDIT                                                                         0x0058
+ #define mmDAGB0_WR_MISC_CREDIT_BASE_IDX                                                                1
++#define mmDAGB0_WRCLI_GPU_SNOOP_OVERRIDE                                                               0x005b
++#define mmDAGB0_WRCLI_GPU_SNOOP_OVERRIDE_BASE_IDX                                                      1
++#define mmDAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE                                                         0x005c
++#define mmDAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE_BASE_IDX                                                1
+ #define mmDAGB0_WRCLI_ASK_PENDING                                                                      0x005d
+ #define mmDAGB0_WRCLI_ASK_PENDING_BASE_IDX                                                             1
+ #define mmDAGB0_WRCLI_GO_PENDING                                                                       0x005e
+@@ -455,6 +459,10 @@
+ #define mmDAGB1_WR_DATA_CREDIT_BASE_IDX                                                                1
+ #define mmDAGB1_WR_MISC_CREDIT                                                                         0x00d8
+ #define mmDAGB1_WR_MISC_CREDIT_BASE_IDX                                                                1
++#define mmDAGB1_WRCLI_GPU_SNOOP_OVERRIDE                                                               0x00db
++#define mmDAGB1_WRCLI_GPU_SNOOP_OVERRIDE_BASE_IDX                                                      1
++#define mmDAGB1_WRCLI_GPU_SNOOP_OVERRIDE_VALUE                                                         0x00dc
++#define mmDAGB1_WRCLI_GPU_SNOOP_OVERRIDE_VALUE_BASE_IDX                                                1
+ #define mmDAGB1_WRCLI_ASK_PENDING                                                                      0x00dd
+ #define mmDAGB1_WRCLI_ASK_PENDING_BASE_IDX                                                             1
+ #define mmDAGB1_WRCLI_GO_PENDING                                                                       0x00de
+@@ -707,6 +715,10 @@
+ #define mmDAGB2_WR_DATA_CREDIT_BASE_IDX                                                                1
+ #define mmDAGB2_WR_MISC_CREDIT                                                                         0x0158
+ #define mmDAGB2_WR_MISC_CREDIT_BASE_IDX                                                                1
++#define mmDAGB2_WRCLI_GPU_SNOOP_OVERRIDE                                                               0x015b
++#define mmDAGB2_WRCLI_GPU_SNOOP_OVERRIDE_BASE_IDX                                                      1
++#define mmDAGB2_WRCLI_GPU_SNOOP_OVERRIDE_VALUE                                                         0x015c
++#define mmDAGB2_WRCLI_GPU_SNOOP_OVERRIDE_VALUE_BASE_IDX                                                1
+ #define mmDAGB2_WRCLI_ASK_PENDING                                                                      0x015d
+ #define mmDAGB2_WRCLI_ASK_PENDING_BASE_IDX                                                             1
+ #define mmDAGB2_WRCLI_GO_PENDING                                                                       0x015e
+@@ -959,6 +971,10 @@
+ #define mmDAGB3_WR_DATA_CREDIT_BASE_IDX                                                                1
+ #define mmDAGB3_WR_MISC_CREDIT                                                                         0x01d8
+ #define mmDAGB3_WR_MISC_CREDIT_BASE_IDX                                                                1
++#define mmDAGB3_WRCLI_GPU_SNOOP_OVERRIDE                                                               0x01db
++#define mmDAGB3_WRCLI_GPU_SNOOP_OVERRIDE_BASE_IDX                                                      1
++#define mmDAGB3_WRCLI_GPU_SNOOP_OVERRIDE_VALUE                                                         0x01dc
++#define mmDAGB3_WRCLI_GPU_SNOOP_OVERRIDE_VALUE_BASE_IDX                                                1
+ #define mmDAGB3_WRCLI_ASK_PENDING                                                                      0x01dd
+ #define mmDAGB3_WRCLI_ASK_PENDING_BASE_IDX                                                             1
+ #define mmDAGB3_WRCLI_GO_PENDING                                                                       0x01de
+@@ -1211,6 +1227,10 @@
+ #define mmDAGB4_WR_DATA_CREDIT_BASE_IDX                                                                1
+ #define mmDAGB4_WR_MISC_CREDIT                                                                         0x0258
+ #define mmDAGB4_WR_MISC_CREDIT_BASE_IDX                                                                1
++#define mmDAGB4_WRCLI_GPU_SNOOP_OVERRIDE                                                               0x025b
++#define mmDAGB4_WRCLI_GPU_SNOOP_OVERRIDE_BASE_IDX                                                      1
++#define mmDAGB4_WRCLI_GPU_SNOOP_OVERRIDE_VALUE                                                         0x025c
++#define mmDAGB4_WRCLI_GPU_SNOOP_OVERRIDE_VALUE_BASE_IDX                                                1
+ #define mmDAGB4_WRCLI_ASK_PENDING                                                                      0x025d
+ #define mmDAGB4_WRCLI_ASK_PENDING_BASE_IDX                                                             1
+ #define mmDAGB4_WRCLI_GO_PENDING                                                                       0x025e
+@@ -4793,6 +4813,10 @@
+ #define mmDAGB5_WR_DATA_CREDIT_BASE_IDX                                                                1
+ #define mmDAGB5_WR_MISC_CREDIT                                                                         0x3058
+ #define mmDAGB5_WR_MISC_CREDIT_BASE_IDX                                                                1
++#define mmDAGB5_WRCLI_GPU_SNOOP_OVERRIDE                                                               0x305b
++#define mmDAGB5_WRCLI_GPU_SNOOP_OVERRIDE_BASE_IDX                                                      1
++#define mmDAGB5_WRCLI_GPU_SNOOP_OVERRIDE_VALUE                                                         0x305c
++#define mmDAGB5_WRCLI_GPU_SNOOP_OVERRIDE_VALUE_BASE_IDX                                                1
+ #define mmDAGB5_WRCLI_ASK_PENDING                                                                      0x305d
+ #define mmDAGB5_WRCLI_ASK_PENDING_BASE_IDX                                                             1
+ #define mmDAGB5_WRCLI_GO_PENDING                                                                       0x305e
+@@ -5045,6 +5069,10 @@
+ #define mmDAGB6_WR_DATA_CREDIT_BASE_IDX                                                                1
+ #define mmDAGB6_WR_MISC_CREDIT                                                                         0x30d8
+ #define mmDAGB6_WR_MISC_CREDIT_BASE_IDX                                                                1
++#define mmDAGB6_WRCLI_GPU_SNOOP_OVERRIDE                                                               0x30db
++#define mmDAGB6_WRCLI_GPU_SNOOP_OVERRIDE_BASE_IDX                                                      1
++#define mmDAGB6_WRCLI_GPU_SNOOP_OVERRIDE_VALUE                                                         0x30dc
++#define mmDAGB6_WRCLI_GPU_SNOOP_OVERRIDE_VALUE_BASE_IDX                                                1
+ #define mmDAGB6_WRCLI_ASK_PENDING                                                                      0x30dd
+ #define mmDAGB6_WRCLI_ASK_PENDING_BASE_IDX                                                             1
+ #define mmDAGB6_WRCLI_GO_PENDING                                                                       0x30de
+@@ -5297,6 +5325,10 @@
+ #define mmDAGB7_WR_DATA_CREDIT_BASE_IDX                                                                1
+ #define mmDAGB7_WR_MISC_CREDIT                                                                         0x3158
+ #define mmDAGB7_WR_MISC_CREDIT_BASE_IDX                                                                1
++#define mmDAGB7_WRCLI_GPU_SNOOP_OVERRIDE                                                               0x315b
++#define mmDAGB7_WRCLI_GPU_SNOOP_OVERRIDE_BASE_IDX                                                      1
++#define mmDAGB7_WRCLI_GPU_SNOOP_OVERRIDE_VALUE                                                         0x315c
++#define mmDAGB7_WRCLI_GPU_SNOOP_OVERRIDE_VALUE_BASE_IDX                                                1
+ #define mmDAGB7_WRCLI_ASK_PENDING                                                                      0x315d
+ #define mmDAGB7_WRCLI_ASK_PENDING_BASE_IDX                                                             1
+ #define mmDAGB7_WRCLI_GO_PENDING                                                                       0x315e
+diff --git a/drivers/gpu/drm/amd/include/asic_reg/mmhub/mmhub_9_4_1_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/mmhub/mmhub_9_4_1_sh_mask.h
+index 2969fbf282b7d..5069d2fd467f2 100644
+--- a/drivers/gpu/drm/amd/include/asic_reg/mmhub/mmhub_9_4_1_sh_mask.h
++++ b/drivers/gpu/drm/amd/include/asic_reg/mmhub/mmhub_9_4_1_sh_mask.h
+@@ -1532,6 +1532,12 @@
+ //DAGB0_WRCLI_DBUS_GO_PENDING
+ #define DAGB0_WRCLI_DBUS_GO_PENDING__BUSY__SHIFT                                                              0x0
+ #define DAGB0_WRCLI_DBUS_GO_PENDING__BUSY_MASK                                                                0xFFFFFFFFL
++//DAGB0_WRCLI_GPU_SNOOP_OVERRIDE
++#define DAGB0_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE__SHIFT                                                         0x0
++#define DAGB0_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE_MASK                                                           0xFFFFFFFFL
++//DAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE
++#define DAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE__SHIFT                                                   0x0
++#define DAGB0_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE_MASK                                                     0xFFFFFFFFL
+ //DAGB0_DAGB_DLY
+ #define DAGB0_DAGB_DLY__DLY__SHIFT                                                                            0x0
+ #define DAGB0_DAGB_DLY__CLI__SHIFT                                                                            0x8
+@@ -3207,6 +3213,12 @@
+ //DAGB1_WRCLI_DBUS_GO_PENDING
+ #define DAGB1_WRCLI_DBUS_GO_PENDING__BUSY__SHIFT                                                              0x0
+ #define DAGB1_WRCLI_DBUS_GO_PENDING__BUSY_MASK                                                                0xFFFFFFFFL
++//DAGB1_WRCLI_GPU_SNOOP_OVERRIDE
++#define DAGB1_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE__SHIFT                                                         0x0
++#define DAGB1_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE_MASK                                                           0xFFFFFFFFL
++//DAGB1_WRCLI_GPU_SNOOP_OVERRIDE_VALUE
++#define DAGB1_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE__SHIFT                                                   0x0
++#define DAGB1_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE_MASK                                                     0xFFFFFFFFL
+ //DAGB1_DAGB_DLY
+ #define DAGB1_DAGB_DLY__DLY__SHIFT                                                                            0x0
+ #define DAGB1_DAGB_DLY__CLI__SHIFT                                                                            0x8
+@@ -4882,6 +4894,12 @@
+ //DAGB2_WRCLI_DBUS_GO_PENDING
+ #define DAGB2_WRCLI_DBUS_GO_PENDING__BUSY__SHIFT                                                              0x0
+ #define DAGB2_WRCLI_DBUS_GO_PENDING__BUSY_MASK                                                                0xFFFFFFFFL
++//DAGB2_WRCLI_GPU_SNOOP_OVERRIDE
++#define DAGB2_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE__SHIFT                                                         0x0
++#define DAGB2_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE_MASK                                                           0xFFFFFFFFL
++//DAGB2_WRCLI_GPU_SNOOP_OVERRIDE_VALUE
++#define DAGB2_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE__SHIFT                                                   0x0
++#define DAGB2_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE_MASK                                                     0xFFFFFFFFL
+ //DAGB2_DAGB_DLY
+ #define DAGB2_DAGB_DLY__DLY__SHIFT                                                                            0x0
+ #define DAGB2_DAGB_DLY__CLI__SHIFT                                                                            0x8
+@@ -6557,6 +6575,12 @@
+ //DAGB3_WRCLI_DBUS_GO_PENDING
+ #define DAGB3_WRCLI_DBUS_GO_PENDING__BUSY__SHIFT                                                              0x0
+ #define DAGB3_WRCLI_DBUS_GO_PENDING__BUSY_MASK                                                                0xFFFFFFFFL
++//DAGB3_WRCLI_GPU_SNOOP_OVERRIDE
++#define DAGB3_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE__SHIFT                                                         0x0
++#define DAGB3_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE_MASK                                                           0xFFFFFFFFL
++//DAGB3_WRCLI_GPU_SNOOP_OVERRIDE_VALUE
++#define DAGB3_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE__SHIFT                                                   0x0
++#define DAGB3_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE_MASK                                                     0xFFFFFFFFL
+ //DAGB3_DAGB_DLY
+ #define DAGB3_DAGB_DLY__DLY__SHIFT                                                                            0x0
+ #define DAGB3_DAGB_DLY__CLI__SHIFT                                                                            0x8
+@@ -8232,6 +8256,12 @@
+ //DAGB4_WRCLI_DBUS_GO_PENDING
+ #define DAGB4_WRCLI_DBUS_GO_PENDING__BUSY__SHIFT                                                              0x0
+ #define DAGB4_WRCLI_DBUS_GO_PENDING__BUSY_MASK                                                                0xFFFFFFFFL
++//DAGB4_WRCLI_GPU_SNOOP_OVERRIDE
++#define DAGB4_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE__SHIFT                                                         0x0
++#define DAGB4_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE_MASK                                                           0xFFFFFFFFL
++//DAGB4_WRCLI_GPU_SNOOP_OVERRIDE_VALUE
++#define DAGB4_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE__SHIFT                                                   0x0
++#define DAGB4_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE_MASK                                                     0xFFFFFFFFL
+ //DAGB4_DAGB_DLY
+ #define DAGB4_DAGB_DLY__DLY__SHIFT                                                                            0x0
+ #define DAGB4_DAGB_DLY__CLI__SHIFT                                                                            0x8
+@@ -28737,6 +28767,12 @@
+ //DAGB5_WRCLI_DBUS_GO_PENDING
+ #define DAGB5_WRCLI_DBUS_GO_PENDING__BUSY__SHIFT                                                              0x0
+ #define DAGB5_WRCLI_DBUS_GO_PENDING__BUSY_MASK                                                                0xFFFFFFFFL
++//DAGB5_WRCLI_GPU_SNOOP_OVERRIDE
++#define DAGB5_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE__SHIFT                                                         0x0
++#define DAGB5_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE_MASK                                                           0xFFFFFFFFL
++//DAGB5_WRCLI_GPU_SNOOP_OVERRIDE_VALUE
++#define DAGB5_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE__SHIFT                                                   0x0
++#define DAGB5_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE_MASK                                                     0xFFFFFFFFL
+ //DAGB5_DAGB_DLY
+ #define DAGB5_DAGB_DLY__DLY__SHIFT                                                                            0x0
+ #define DAGB5_DAGB_DLY__CLI__SHIFT                                                                            0x8
+@@ -30412,6 +30448,12 @@
+ //DAGB6_WRCLI_DBUS_GO_PENDING
+ #define DAGB6_WRCLI_DBUS_GO_PENDING__BUSY__SHIFT                                                              0x0
+ #define DAGB6_WRCLI_DBUS_GO_PENDING__BUSY_MASK                                                                0xFFFFFFFFL
++//DAGB6_WRCLI_GPU_SNOOP_OVERRIDE
++#define DAGB6_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE__SHIFT                                                         0x0
++#define DAGB6_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE_MASK                                                           0xFFFFFFFFL
++//DAGB6_WRCLI_GPU_SNOOP_OVERRIDE_VALUE
++#define DAGB6_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE__SHIFT                                                   0x0
++#define DAGB6_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE_MASK                                                     0xFFFFFFFFL
+ //DAGB6_DAGB_DLY
+ #define DAGB6_DAGB_DLY__DLY__SHIFT                                                                            0x0
+ #define DAGB6_DAGB_DLY__CLI__SHIFT                                                                            0x8
+@@ -32087,6 +32129,12 @@
+ //DAGB7_WRCLI_DBUS_GO_PENDING
+ #define DAGB7_WRCLI_DBUS_GO_PENDING__BUSY__SHIFT                                                              0x0
+ #define DAGB7_WRCLI_DBUS_GO_PENDING__BUSY_MASK                                                                0xFFFFFFFFL
++//DAGB7_WRCLI_GPU_SNOOP_OVERRIDE
++#define DAGB7_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE__SHIFT                                                         0x0
++#define DAGB7_WRCLI_GPU_SNOOP_OVERRIDE__ENABLE_MASK                                                           0xFFFFFFFFL
++//DAGB7_WRCLI_GPU_SNOOP_OVERRIDE_VALUE
++#define DAGB7_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE__SHIFT                                                   0x0
++#define DAGB7_WRCLI_GPU_SNOOP_OVERRIDE_VALUE__ENABLE_MASK                                                     0xFFFFFFFFL
+ //DAGB7_DAGB_DLY
+ #define DAGB7_DAGB_DLY__DLY__SHIFT                                                                            0x0
+ #define DAGB7_DAGB_DLY__CLI__SHIFT                                                                            0x8
 -- 
 2.39.5
 
