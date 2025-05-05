@@ -2,138 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2C0AA9553
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 16:18:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFA2AA959E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 16:23:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D92C10E2AC;
-	Mon,  5 May 2025 14:18:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53DF510E32C;
+	Mon,  5 May 2025 14:23:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="b4PAbizK";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="OmFc+L4H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 971B810E2AC
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 14:18:55 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 545D8SBR013428
- for <dri-devel@lists.freedesktop.org>; Mon, 5 May 2025 14:18:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 4OMp8lVlfqOS6nQjtVYiy+vsTT7GaERnrIvMt0I4OI8=; b=b4PAbizKQdgKo4Sz
- hAnB7gq3XzspJ7yxkI0rAfW/7gt8MI6H80NV0PqEJqNV3uxySOCpIdYv4a0kcI2M
- g1H+XyC3/zZ8nd+XzuT6p7yv5WQH3G5GZtwy8+MHRWRMP7nTsg1OhRLVB8Ao2Q2x
- LkOtxTrcjQC+ePkmFGRmr3CN7it78qUDiXOhLLNJydEezJTaB/wbSUgoAEn3EOEG
- rKFYA+c7uVYVYrRyokY177Tx7LL2A80L42El0vWjD1xeGlYr1oHgT2qD08MrheoD
- BeqGEQ6MFyy3CrqaZ4pB2puT0olee4bxczYriQ4HokKGlV5XmOK/jOHNeDjjVuKv
- NniVyQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46dcakm4x1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 14:18:55 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7c3c8f8ab79so192537885a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 07:18:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746454734; x=1747059534;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4OMp8lVlfqOS6nQjtVYiy+vsTT7GaERnrIvMt0I4OI8=;
- b=TNf7RhOAsPE4HNgdxkrbAkEuZEdtvagy32sPiNWG334NAz3Pu+YhN6WDCfTIliFFCv
- vI0yezLHAO6nmdldW9GtnwpGIcI+/ZD4RB9+gE34prPs5W+aH+wuLgR9T4cORphH+1cV
- 4+vvqAophQKL7LsVDFQDmX6nJVO3JNFkCnEi/4VXqu3bX2I7DA9JMfM+KAuRmW/Sv5aT
- lUxAKQVRkUQSM5/8DaL5M/RaeMYnDCIzVupjkOTF3UdKJFw9meaad8R95BEvBcoHNORy
- CgHJvEuh+rwSgxAVQj8uzNcUvj2jjZUxKSITmoiWiTzOQCK3jh3PV3t7UQw0yXjudVkR
- wqFw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXihYALKP/WeMVseykedlmFql67y0Fk4Ct9FXF89C4A9YvcQb7AO4xPXkBizO+OtmKLZ003I+QjkWA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5K2CWIQoc6nS2ExC+g5y7VZCNrdbk9foO6X101p4uMznPrwwE
- vTWkUS8/WMoIjbFv78wl6N1P7dHS8CUivMxJOWhmlc2JzmyM0qrthMZA1UuIBIg1loYcuSvz6Bk
- ZYUxI+/kSgNk8DL63otVxYoNrKW+9AVBowkIB9lknbwLHS3O8jhNcTN1QVTHUF1xNtUQ=
-X-Gm-Gg: ASbGnctKxS357/MCrxSuBJD4Ytp1zHi4yX7/hiUwyHnD/6i6s5x274zrLe6K15/6ujA
- JvbzqqvYwd3Jr9a0Ai4IxNZW/QIP3dvQCyNQzfKE9HlvCogjV1BMtj0fgOtHywfvnQQrrGgqMSM
- OOz2EYkUnbtzS2JrByaUNyXnZa9HAbNFL7Ih7R1VHiTXSHivY/0P9yWUNpATZ3e8fc6C5yexe1B
- O7ErFfPqh000xVM7n84sPETxxlz/jA55HgNCxeq0Tj3qyN84qiJv2RMR6prSF+AQFRlstI+MIBk
- oL9Mv9XD5OWpaC13SGvW/Re0cwE5gurUivkG3uKdzCGQnawWOZs7TB7Ly8KHm5LOvt9/yuqxP7x
- LL3yxQecp/6djOpfWAjkJ02F1LJzkBJ1hOzCKdJch9nDH02oEOI4tf8TMn8aTJuQPVA0V
-X-Received: by 2002:a05:620a:1a0e:b0:7c5:e283:7d0a with SMTP id
- af79cd13be357-7cadfe15ab6mr1528029985a.30.1746454733838; 
- Mon, 05 May 2025 07:18:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHxLIuDmlMk0BDjjG/jcKroZx3ooAtnxfCFD86oCFhHuF1R3mpWcw+w7OoB3Ift4T6LrXoRzw==
-X-Received: by 2002:a05:620a:1a0e:b0:7c5:e283:7d0a with SMTP id
- af79cd13be357-7cadfe15ab6mr1528024685a.30.1746454733441; 
- Mon, 05 May 2025 07:18:53 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:671:42db:147e:6740:cd7c:7688?
- (2001-14bb-671-42db-147e-6740-cd7c-7688.rev.dnainternet.fi.
- [2001:14bb:671:42db:147e:6740:cd7c:7688])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ea94f2043sm1707308e87.179.2025.05.05.07.18.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 May 2025 07:18:52 -0700 (PDT)
-Message-ID: <4a186d4f-9966-4569-bee2-77e237cf0c54@oss.qualcomm.com>
-Date: Mon, 5 May 2025 17:18:49 +0300
+Received: from m16.mail.163.com (unknown [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EA27210E2FE
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 14:23:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:
+ Content-Type; bh=3y/rMwTX7/q52MQT8W3rwgpcVh3Foflvbog5MQz9n0g=;
+ b=OmFc+L4HoEYxoBsF6wnygtoYUbwLHIeKHfkYNv4jtJ0nlrCx6eZTJAbTC/u02f
+ zKjD67G+EoazxT6TvxPwv7Pp4+BqUET7olojlO8aGm3BRZzvXumLTqjqshCw+7EJ
+ uchm2e2qeQzNbQYNvlRzlqhvASGSYkeDYV2NuiQCU8Fjw=
+Received: from [192.168.124.17] (unknown [])
+ by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id
+ _____wA3kieyyRhoQoOrEg--.36304S2; 
+ Mon, 05 May 2025 22:22:43 +0800 (CST)
+Message-ID: <a681cfd8-0c8c-4ffe-9f42-f0e54ee2539d@163.com>
+Date: Mon, 5 May 2025 22:22:43 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] Various dt-bindings fixes
-To: Rob Herring <robh@kernel.org>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Robert Foss <rfoss@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Wesley Cheng <quic_wcheng@quicinc.com>,
- Christian Marangi <ansuelsmth@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Rohit Agarwal <quic_rohiagar@quicinc.com>,
- Kyle Deng <quic_chunkaid@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-usb@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20250306-topic-dt_bindings_fixups-v1-0-0c84aceb0ef9@oss.qualcomm.com>
- <174637445759.1385605.15383087742490646226.b4-ty@oss.qualcomm.com>
- <CAL_JsqKr8Xd8uxFzE0YJTyD+V6N++VV8SX-GB5Xt0_BKkeoGUQ@mail.gmail.com>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <CAL_JsqKr8Xd8uxFzE0YJTyD+V6N++VV8SX-GB5Xt0_BKkeoGUQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/shmem-helper: Import dmabuf without mapping its
+ sg_table
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sean Paul <sean@poorly.run>,
+ Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250501064324.398650-1-oushixiong1025@163.com>
+ <71ec7bd1-be90-462e-8a07-e56fccae4096@suse.de>
+ <8e4f60ec-caa8-431a-88f8-aee8183d96e5@amd.com>
+From: oushixiong <oushixiong1025@163.com>
+In-Reply-To: <8e4f60ec-caa8-431a-88f8-aee8183d96e5@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDEzNyBTYWx0ZWRfX9C24T9/jjq9z
- pACZB8sRWs6KNEXJW71LOr7bHeQJCoc4ediO1nWTSHjxgjyYSk/2Wu9FO7g73wkpDnDZfGRNqhn
- cPq4Gm3eUg62bAuTbljsbfax2EdZ6763JOmxZ2EIw4DVlW4bKMYNYd1kY1UKcOdng4F5CG6OGrp
- iWPsxI5uHcN6Uf930MLiYH6kgb95nTDJlBoESTtKeQqBvJYMquwhL/5bnJvM/zJGIUwkaGthBEh
- bQr9tKAYrQnucopaHggeNguMEQW/sY9IeZOSsgfD1a3vXbifYv1cABDrx8fc9tZnaoyjt/YeZqF
- hP4TIbEOFSTkrbcnokyWV60RXl66heVJgspMJmcP7Lal2fqdv3lfiHl2bvJBqEWq3d70dvZaoIV
- dwwUvb4128WxM6bmMOGxjBAR/uClf+tlU8xoG3/NfrVr0X1JtvNVpRmYYHbbnOspRo2zyNEs
-X-Proofpoint-ORIG-GUID: 07dmglPCZ31c1hQ9zY8pTawE3VSOzl1m
-X-Authority-Analysis: v=2.4 cv=JtvxrN4C c=1 sm=1 tr=0 ts=6818c8cf cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=e5mUnYsNAAAA:8 a=gEfo2CItAAAA:8 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=Y8Lu5Vov3j2QtJBI0v0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=Vxmtnl_E_bksehYqCbjh:22 a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-GUID: 07dmglPCZ31c1hQ9zY8pTawE3VSOzl1m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-05_06,2025-05-05_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 bulkscore=0 spamscore=0 phishscore=0
- lowpriorityscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999 clxscore=1015
- malwarescore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2504070000 definitions=main-2505050137
+X-CM-TRANSID: _____wA3kieyyRhoQoOrEg--.36304S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Gw1ftrWxZF43AF4xWr1Dtrb_yoW3Kw1rpF
+ s8AFWUKrW5tryqgrZ7ZF1vva4Ygw48Kr1Iqry3J3yY9F1ktFnFyF1Fkr98uFW7AryUGr1F
+ qr1UCFWfGryYyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UOa9-UUUUU=
+X-Originating-IP: [113.246.126.51]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYxBED2gYnjclMAABs1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,38 +67,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/05/2025 14:56, Rob Herring wrote:
-> On Sun, May 4, 2025 at 11:13 AM Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
->>
->>
->> On Thu, 06 Mar 2025 19:11:12 +0100, Konrad Dybcio wrote:
->>> A set of not quite related bindings warnings fixes.
->>>
->>>
->>
->> Applied, thanks!
->>
->> [02/11] dt-bindings: display: msm: sm8350-mdss: Describe the CPU-CFG icc path
->>          https://gitlab.freedesktop.org/lumag/msm/-/commit/60b8d3a2365a
-> 
-> And now there's a warning in linux-next:
-> 
-> /builds/robherring/linux-dt/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.example.dtb:
-> display-subsystem@ae00000 (qcom,sm8350-mdss): interconnect-names:
-> ['mdp0-mem', 'mdp1-mem'] is too short
->          from schema $id:
-> http://devicetree.org/schemas/display/msm/qcom,sm8350-mdss.yaml#
-> /builds/robherring/linux-dt/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.example.dtb:
-> display-subsystem@ae00000 (qcom,sm8350-mdss): interconnects:
-> [[4294967295, 7, 0, 4294967295, 1, 0], [4294967295, 8, 0, 4294967295,
-> 1, 0]] is too short
->          from schema $id:
-> http://devicetree.org/schemas/display/msm/qcom,sm8350-mdss.yaml#
+Hi Christian,
 
-I've sent a patch fixing the issue, 
-https://lore.kernel.org/linux-arm-msm/20250505-sm8350-fix-example-v1-1-36d5d9ccba66@oss.qualcomm.com/
+My patch is based on linux-next, so this patch is not based on the 
+latest code. Then, I'd like to ask which patch resolved the issue with 
+sg-tables?
 
--- 
-With best wishes
-Dmitry
+
+Thanks and Regards,
+
+Shixiong.
+
+
+在 2025/5/5 19:25, Christian König 写道:
+> Hi Thomas & Shixiong,
+>
+> first of all the patch is still based on outdated code. For example the cache_sgt_mapping member is already removed in drm-misc-next.
+>
+> So if I'm not completely mistaken the issue is already resolved upstream.
+>
+> Regards,
+> Christian.
+>
+> On 5/5/25 13:12, Thomas Zimmermann wrote:
+>> (cc'ing Christian)
+>>
+>> Hi,
+>>
+>> I don't feel qualified to fully review this patch.
+>>
+>> It would be good to have the issue with sg-tables solved, but I dislike the dedicated initializer macros. So my question is if this has any drawbacks. Or could we make this available and the default for all shmem-based drivers?
+>>
+>> Best regards
+>> Thomas
+>>
+>> Am 01.05.25 um 08:43 schrieb oushixiong1025@163.com:
+>>> From: Shixiong Ou <oushixiong@kylinos.cn>
+>>>
+>>> [WHY]
+>>> 1. Drivers using DRM_GEM_SHADOW_PLANE_HELPER_FUNCS and
+>>>      DRM_GEM_SHMEM_DRIVER_OPS (e.g., udl, ast) do not require
+>>>      sg_table import.
+>>>      They only need dma_buf_vmap() to access the shared buffer's
+>>>      kernel virtual address.
+>>>
+>>> 2. On certain Aspeed-based boards, a dma_mask of 0xffff_ffff may
+>>>      trigger SWIOTLB during dmabuf import. However, IO_TLB_SEGSIZE
+>>>      restricts the maximum DMA streaming mapping memory, resulting in
+>>>      errors like:
+>>>
+>>>      ast 0000:07:00.0: swiotlb buffer is full (sz: 3145728 bytes), total 32768 (slots), used 0 (slots)
+>>>
+>>> [HOW]
+>>> Provide a gem_prime_import implementation without sg_table mapping
+>>> to avoid issues (e.g., "swiotlb buffer is full"). Drivers that do not
+>>> require sg_table can adopt this.
+>>>
+>>> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+>>> ---
+>>>    drivers/gpu/drm/drm_gem_shmem_helper.c | 95 ++++++++++++++++++++++++++
+>>>    include/drm/drm_gem_shmem_helper.h     | 24 +++++++
+>>>    2 files changed, 119 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> index d99dee67353a..9e41e350ff6f 100644
+>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> @@ -39,6 +39,7 @@ MODULE_IMPORT_NS("DMA_BUF");
+>>>    static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+>>>        .free = drm_gem_shmem_object_free,
+>>>        .print_info = drm_gem_shmem_object_print_info,
+>>> +    .export = drm_gem_shmem_object_prime_export,
+>>>        .pin = drm_gem_shmem_object_pin,
+>>>        .unpin = drm_gem_shmem_object_unpin,
+>>>        .get_sg_table = drm_gem_shmem_object_get_sg_table,
+>>> @@ -799,6 +800,100 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>>>    }
+>>>    EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
+>>>    +const struct dma_buf_ops drm_gem_shmem_prime_dmabuf_ops =  {
+>>> +    .cache_sgt_mapping = true,
+>>> +    .attach = drm_gem_map_attach,
+>>> +    .detach = drm_gem_map_detach,
+>>> +    .map_dma_buf = drm_gem_map_dma_buf,
+>>> +    .unmap_dma_buf = drm_gem_unmap_dma_buf,
+>>> +    .release = drm_gem_dmabuf_release,
+>>> +    .mmap = drm_gem_dmabuf_mmap,
+>>> +    .vmap = drm_gem_dmabuf_vmap,
+>>> +    .vunmap = drm_gem_dmabuf_vunmap,
+>>> +};
+>>> +
+>>> +/**
+>>> + * drm_gem_shmem_prime_export - implementation of the export callback
+>>> + * @shmem: shmem GEM object
+>>> + */
+>>> +struct dma_buf *drm_gem_shmem_prime_export(struct drm_gem_shmem_object *shmem,
+>>> +                       int flags)
+>>> +{
+>>> +    struct drm_gem_object *obj = &shmem->base;
+>>> +    struct drm_device *dev = obj->dev;
+>>> +    struct dma_buf_export_info exp_info = {
+>>> +        .exp_name = KBUILD_MODNAME, /* white lie for debug */
+>>> +        .owner = dev->driver->fops->owner,
+>>> +        .ops = &drm_gem_shmem_prime_dmabuf_ops,
+>>> +        .size = obj->size,
+>>> +        .flags = flags,
+>>> +        .priv = obj,
+>>> +        .resv = obj->resv,
+>>> +    };
+>>> +
+>>> +    return drm_gem_dmabuf_export(dev, &exp_info);
+>>> +}
+>>> +
+>>> +/**
+>>> + * drm_gem_shmem_prime_import - Import dmabuf without mapping its sg_table
+>>> + * @dev: Device to import into
+>>> + * @dma_buf: dma-buf object to import
+>>> + *
+>>> + * Drivers that use the shmem helpers but also wants to import dmabuf without
+>>> + * mapping its sg_table can use this as their &drm_driver.gem_prime_import
+>>> + * implementation.
+>>> + */
+>>> +struct drm_gem_object *drm_gem_shmem_prime_import(struct drm_device *dev,
+>>> +                          struct dma_buf *dma_buf)
+>>> +{
+>>> +    struct dma_buf_attachment *attach;
+>>> +    struct drm_gem_shmem_object *shmem;
+>>> +    size_t size;
+>>> +    int ret;
+>>> +
+>>> +    if (dma_buf->ops == &drm_gem_shmem_prime_dmabuf_ops) {
+>>> +        struct drm_gem_object *obj;
+>>> +
+>>> +        obj = dma_buf->priv;
+>>> +        if (obj->dev == dev) {
+>>> +            /*
+>>> +             * Importing dmabuf exported from our own gem increases
+>>> +             * refcount on gem itself instead of f_count of dmabuf.
+>>> +             */
+>>> +            drm_gem_object_get(obj);
+>>> +            return obj;
+>>> +        }
+>>> +    }
+>>> +
+>>> +    attach = dma_buf_attach(dma_buf, dev->dev);
+>>> +    if (IS_ERR(attach))
+>>> +        return ERR_CAST(attach);
+>>> +
+>>> +    get_dma_buf(dma_buf);
+>>> +
+>>> +    size = PAGE_ALIGN(attach->dmabuf->size);
+>>> +
+>>> +    shmem = __drm_gem_shmem_create(dev, size, true, NULL);
+>>> +    if (IS_ERR(shmem)) {
+>>> +        ret = PTR_ERR(shmem);
+>>> +        goto fail_detach;
+>>> +    }
+>>> +
+>>> +    drm_dbg_prime(dev, "size = %zu\n", size);
+>>> +
+>>> +    shmem->base.import_attach = attach;
+>>> +    shmem->base.resv = dma_buf->resv;
+>>> +
+>>> +    return &shmem->base;
+>>> +
+>>> +fail_detach:
+>>> +    dma_buf_detach(dma_buf, attach);
+>>> +    dma_buf_put(dma_buf);
+>>> +
+>>> +    return ERR_PTR(ret);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import);
+>>> +
+>>>    MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
+>>>    MODULE_IMPORT_NS("DMA_BUF");
+>>>    MODULE_LICENSE("GPL v2");
+>>> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+>>> index cef5a6b5a4d6..78ef91593a8e 100644
+>>> --- a/include/drm/drm_gem_shmem_helper.h
+>>> +++ b/include/drm/drm_gem_shmem_helper.h
+>>> @@ -110,6 +110,8 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+>>>    void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+>>>                  struct iosys_map *map);
+>>>    int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma);
+>>> +struct dma_buf *drm_gem_shmem_prime_export(struct drm_gem_shmem_object *shmem,
+>>> +                          int flags);
+>>>      int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem);
+>>>    void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem);
+>>> @@ -168,6 +170,18 @@ static inline void drm_gem_shmem_object_print_info(struct drm_printer *p, unsign
+>>>        drm_gem_shmem_print_info(shmem, p, indent);
+>>>    }
+>>>    +/**
+>>> + * drm_gem_shmem_object_prime_export - GEM object function for export()
+>>> + * @obj: GEM object
+>>> + *
+>>> + */
+>>> +static inline struct dma_buf *drm_gem_shmem_object_prime_export(struct drm_gem_object *obj,
+>>> +                                int flags)
+>>> +{
+>>> +    struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+>>> +
+>>> +    return drm_gem_shmem_prime_export(shmem, flags);
+>>> +}
+>>>    /**
+>>>     * drm_gem_shmem_object_pin - GEM object function for drm_gem_shmem_pin()
+>>>     * @obj: GEM object
+>>> @@ -276,6 +290,8 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>>>                        struct sg_table *sgt);
+>>>    int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>>>                      struct drm_mode_create_dumb *args);
+>>> +struct drm_gem_object *drm_gem_shmem_prime_import(struct drm_device *dev,
+>>> +                          struct dma_buf *buf);
+>>>      /**
+>>>     * DRM_GEM_SHMEM_DRIVER_OPS - Default shmem GEM operations
+>>> @@ -287,4 +303,12 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>>>        .gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table, \
+>>>        .dumb_create           = drm_gem_shmem_dumb_create
+>>>    +/**
+>>> + * This macro provides a shmem GEM operations that implementate a simple
+>>> + * gem_prime_import.
+>>> + */
+>>> +#define DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS \
+>>> +    .gem_prime_import    = drm_gem_shmem_prime_import, \
+>>> +    .dumb_create        = drm_gem_shmem_dumb_create
+>>> +
+>>>    #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
+
