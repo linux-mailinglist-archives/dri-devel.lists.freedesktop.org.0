@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8A1AAA348
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C2BAAA34C
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC96610E5F4;
-	Mon,  5 May 2025 23:12:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA8310E5F6;
+	Mon,  5 May 2025 23:12:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S9cqElo+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hj/9Wlgj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5669610E5F3;
- Mon,  5 May 2025 23:12:07 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C05FD10E5F5;
+ Mon,  5 May 2025 23:12:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7DCEC4A422;
- Mon,  5 May 2025 23:12:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF5BC4CEEE;
- Mon,  5 May 2025 23:12:05 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6061BA4D3A1;
+ Mon,  5 May 2025 23:06:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFA57C4CEE4;
+ Mon,  5 May 2025 23:12:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746486727;
- bh=KIxa7bKrdNc9vhKHrc8LdMUtM53Ut/YsRCoVGbdw118=;
+ s=k20201202; t=1746486730;
+ bh=vh9+QMtTfFQtALxE6B+h1YKZ4lOs8NdgSXIifjjRR1M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=S9cqElo+x3wcTnt4Hu/lL5js5u/R7Tge8aXQQ2+XtTDnvAdVXgn3dlgvX9cFtcRTu
- f2oa2BxL5gnyIwRdLhvz/aKcAoAIsz1gqNb7j7r4YShwhZTsNuCGOkaOpzNnjTkrrh
- i+vc68GUdgVELQ2/NEs2brZ5r/tM12tgjlfZgAdo0aml9vjUjSdQfbAA5nMgFkWfdG
- voe0QIWVRVkEJ+csHmxpEgBB9pNzt0fL9e/zJQUW/jnypGVHKkTlUHSPMPKPNArKGL
- 8nO+2XkDWB5/EddQ/F/vFgCMA+PShffooJrDwuw5t++7MrA3HCnldprh3ty+GK92yp
- 2mCojyPIux1Qw==
+ b=Hj/9WlgjyTtro4PPwEfP4yrfGBMIk5OCVwvr6Cq9hdb8FJk7IkGLv2V4gJFS0qotm
+ 4zbThTrKQUm12Hwj9CqYOEVqO0TyeaZwv0XP2FerSNUcrU2YPUkJtL6JkgVxblZ+88
+ a6EoeT3L584EpT6nj1XSw+m3iDM5XAortKXkviRVLWtcQ8hqCYLr31j0WvNfW0UlS1
+ z+FriybuLLX37AfFUzphL82BlclFLLbcd61LCaAQVa/C7NemyRes8gdBwp31fX3yq+
+ on7VYWXa4vhZYZ3G6Z2YC4C9m69GSxfEgJeKHZnsW77qfH2c0/GDTvRdv+u6nSXAcp
+ LYEny9IgKsN0Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shiwu Zhang <shiwu.zhang@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- lijo.lazar@amd.com, sunil.khatri@amd.com, le.ma@amd.com,
- YiPeng.Chai@amd.com, gerry@linux.alibaba.com, candice.li@amd.com,
- Feifei.Xu@amd.com, kevinyang.wang@amd.com, amd-gfx@lists.freedesktop.org,
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Sasha Levin <sashal@kernel.org>,
+ sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, mario.limonciello@amd.com, alex.hung@amd.com,
+ chiahsuan.chung@amd.com, sunil.khatri@amd.com, aurabindo.pillai@amd.com,
+ Yilin.Chen@amd.com, mwen@igalia.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 172/212] drm/amdgpu: enlarge the VBIOS binary size
- limit
-Date: Mon,  5 May 2025 19:05:44 -0400
-Message-Id: <20250505230624.2692522-172-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 173/212] drm/amd/display/dm: drop hw_support check
+ in amdgpu_dm_i2c_xfer()
+Date: Mon,  5 May 2025 19:05:45 -0400
+Message-Id: <20250505230624.2692522-173-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505230624.2692522-1-sashal@kernel.org>
 References: <20250505230624.2692522-1-sashal@kernel.org>
@@ -67,34 +67,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shiwu Zhang <shiwu.zhang@amd.com>
+From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit 667b96134c9e206aebe40985650bf478935cbe04 ]
+[ Upstream commit 33da70bd1e115d7d73f45fb1c09f5ecc448f3f13 ]
 
-Some chips have a larger VBIOS file so raise the size limit to support
-the flashing tool.
+DC supports SW i2c as well.  Drop the check.
 
-Signed-off-by: Shiwu Zhang <shiwu.zhang@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index a176b1da03bd3..ae6643c8ade6c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -43,7 +43,7 @@
- #include "amdgpu_securedisplay.h"
- #include "amdgpu_atomfirmware.h"
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 7dee02e8ba6fa..4666bbd5483f0 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7281,7 +7281,7 @@ static int amdgpu_dm_i2c_xfer(struct i2c_adapter *i2c_adap,
+ 	int i;
+ 	int result = -EIO;
  
--#define AMD_VBIOS_FILE_MAX_SIZE_B      (1024*1024*3)
-+#define AMD_VBIOS_FILE_MAX_SIZE_B      (1024*1024*16)
+-	if (!ddc_service->ddc_pin || !ddc_service->ddc_pin->hw_info.hw_supported)
++	if (!ddc_service->ddc_pin)
+ 		return result;
  
- static int psp_sysfs_init(struct amdgpu_device *adev);
- static void psp_sysfs_fini(struct amdgpu_device *adev);
+ 	cmd.payloads = kcalloc(num, sizeof(struct i2c_payload), GFP_KERNEL);
 -- 
 2.39.5
 
