@@ -2,76 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AC4AA89CE
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 00:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A45AA8A19
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 02:15:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 403AF10E128;
-	Sun,  4 May 2025 22:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D21F510E147;
+	Mon,  5 May 2025 00:15:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="QJOjlb0Q";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jY9I134T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com
- [209.85.215.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0051010E12E
- for <dri-devel@lists.freedesktop.org>; Sun,  4 May 2025 22:42:51 +0000 (UTC)
-Received: by mail-pg1-f202.google.com with SMTP id
- 41be03b00d2f7-af5156fbe79so4555536a12.1
- for <dri-devel@lists.freedesktop.org>; Sun, 04 May 2025 15:42:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1746398571; x=1747003371;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=9Q5KpTdXI+QcIWJN1gYN37H9e/eysRgF4+FGk0oCPDY=;
- b=QJOjlb0QNSzgiSJN/bkc7fYhm+imDFSz2EHA24uIGY3Awa9BoQo9VaYBGsGZeCymwG
- i5m3homQp9GHYK97w09RAiuLPWduW7h58a3sqOEkd4YA/0vHSGjz3KJG7UVZ/UlY4/8u
- 3OJa0nc16l1tZJWkOWFQOo9Y9WFwcWs+xSzFhS+0iyuOs4rGqGBrRnu37SmoxuOuQngl
- WgqaeqYanGQVnroeFoMcACYQsqrZUDH+xQGALfyxBAXr3yJR0wBxyuWSaj1EqUJdV9cy
- M46wbwHVnLRo4JXdTpbdqKXqx0fR4Zg8z0q+lGtEoU144AhInI/whfndRkrVSdjmfMFE
- 5MMA==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7AF10E147
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 00:14:58 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 544NCNqq025500
+ for <dri-devel@lists.freedesktop.org>; Mon, 5 May 2025 00:14:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=l90h0HGpLRpkB0qNvwdUHZ
+ hYMuIvBrbptPLn9QIs7xg=; b=jY9I134TbSePusW2ZUmNzl90f6cO3f74Ixjv7u
+ yI8bgMxgl8HLcl+s5jrsf9P7q0Rab5hFw2FFPoNeVXpTCFeb8dR5E5U0yhJsjIyo
+ qYG/mrCSNLGTZxnmuoYIgmE60zUR9jQnxpiCUV9Mq6qmp212qr0TcHPoKE03rpvk
+ Y15L65dvlVGWfAZZxo6merFAtgYPrrvPWM/uCIyDIz6pj0QuLQHWb/UU/oA25F92
+ vt14aSTRPPFP434gsloK2g4wsGhdTcqLytE/Jj/mJ/Nu+b2uVv6gzQMi32CLwkvw
+ xCrvJS0TZFFay7A7v5yrhJJ6Egdc/GaRAiK+8Wo3ekXC1J4Q==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46dcakjhh1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 00:14:57 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7c95e424b62so888291885a.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 May 2025 17:14:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746398571; x=1747003371;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9Q5KpTdXI+QcIWJN1gYN37H9e/eysRgF4+FGk0oCPDY=;
- b=TvHNTZtPeBnnJhYVwmTHYWSfOYdAW0WZqQxUhKPN+WS0AHu9QMMkaxi/mm/ApqZwyR
- XP20dJMqnXchXW614N/qIfANVWXHrlVFD6GUbil34EBzYGX1qGvbdx5QyJ4YYZk+gO0d
- /ZhNNpcCOjWFA4kSqSg9xnBc+RUHzZ5nYnyFGctxbBDF3T9X5vgFHAgrkDVy7uZm4tFx
- Uwdm/JlHMTceX6uXB3jbotrHhtKA4NkwJNHyatbzKFAyTO7QamZOKUzqYH/qAheDLxNQ
- 33aG0uabBm5uCLvIlSe44etL9znAaakwalz5Zondbd2mlNPHtoimzjmNmKZFYQST2Z+f
- qtbQ==
+ d=1e100.net; s=20230601; t=1746404096; x=1747008896;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=l90h0HGpLRpkB0qNvwdUHZhYMuIvBrbptPLn9QIs7xg=;
+ b=Xh4Ng+q45P4Dejc9iJokv5v+NMQOvw873SOCOHiIFBNxxd+RP6fVOcsfzJ2gfZDp9F
+ 6I5fMR4qj6vEuifsq0PCV+HMJb+UaIoRXxv+FeAEMSVga8znJKKMDnYaggKJ6yxANZ4e
+ 7YrGfYqpiM9lxVnZousPZ71QD+wM7Awh0fI6hSvKv1h4inLJeLLTiUKWrPrlPX1Ha2QZ
+ ACkDEXUJv2P6AloECjCsqFV0zqZozFJlwm5Q5HIBvx9O2omKHv+FAmEEeT5q6/X1b6PV
+ CAG2pKmp3xeoje08xOJvgkIV/dyZcegaRsAlirIwkaNiZUtlxxPfho2IfGQIUe/ZhH1J
+ SGMA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVwHZyci9cDv/B2ZryIvjOgr6enX/s/hSZV6jokNwfwmY2+AgL2dX5draaP4pATpvTNdIP7GI/XFU0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzmKCYQ5uNj7LmCVl7w43WXE1+MG2Pddjn9uBToFQEoVQUM+rVs
- J7OK+PoYRDPSar2lZuWasLGlW7Px+IlugOcxnwKIGOoseiBf8xMPE+GB8it9wk10U4YpCsB+MDt
- U9qdG00gjlkQJfA==
-X-Google-Smtp-Source: AGHT+IHikmnfaHjMsH9xIJ86W1nJvjdXlDz4p94mIH61NtbN6AjKjbT6Vxufz9cEgsCz12wzM0YalIKynYHnj10=
-X-Received: from pjbqn5.prod.google.com ([2002:a17:90b:3d45:b0:2fc:2b96:2d4b])
- (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:3c4a:b0:305:2d27:7ca7 with SMTP id
- 98e67ed59e1d1-30a6199e001mr9009960a91.16.1746398571608; 
- Sun, 04 May 2025 15:42:51 -0700 (PDT)
-Date: Sun,  4 May 2025 22:41:42 +0000
-In-Reply-To: <20250504224149.1033867-1-tjmercier@google.com>
-Mime-Version: 1.0
-References: <20250504224149.1033867-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.49.0.906.g1f30a19c02-goog
-Message-ID: <20250504224149.1033867-7-tjmercier@google.com>
-Subject: [RFC PATCH v2 6/6] RFC: dma-buf: Remove DMA-BUF statistics
-From: "T.J. Mercier" <tjmercier@google.com>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
- skhan@linuxfoundation.org, song@kernel.org, alexei.starovoitov@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, android-mm@google.com, simona@ffwll.ch, 
- corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
- jolsa@kernel.org, mykolal@fb.com, "T.J. Mercier" <tjmercier@google.com>
-Content-Type: text/plain; charset="UTF-8"
+ AJvYcCU+x3TaftV6cAfU/d2ahAm398vSMCODvfwofsYvZ6otrETEI/PPT71raP+Y8qLIyCOEpvnvzZnly+o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzZVf0JoWtwzRuzzC/fVJgNcGVWSbO3lN1J797LB6ai8et4q5n7
+ jNnrOTiOWMyYPAsqLscEnCR4en+0I2BZXGdbrcqnuMRKd0W1du+dK6SgdJrGX8z0JAyOyMKFVKN
+ V23k5vkJH0jpjgJCLUq3+WgY4rC2jW4Xr5FKdW72CrqIIdNV+a/mhqIn4eb7tJSzxS94=
+X-Gm-Gg: ASbGncvEYuku1kKfvoeuhj7Et+8B1Rf4zil5Ix0YBl1P7QT2cP2LzbC/a7nrM2pRTKF
+ JBGAnCmg2z8O0GZhWSZcBgM83QqdU3lZ1ZefugM1omGdkYeggSrGxOuU9Nv2wYOlicnZawtz3mO
+ DjLnoo6J5pcchz0O2++27B6qiEcW658JxgmjaYcvqz7Eh/RhtkhexKL9olvb8zBUai13uQn+OUS
+ GagAP79l7Qfl0/PeHeJtT1k2+OKp5dhpxk+vvRH/VeXe5GTBaDWy8ZqlM59l9JbS+NnOHpLZzaR
+ 2f23sjoR5Nccp7EniB+/w8ADY611dvxlMeq4G6PggVSe3H1wW/uicogXzbAa06GJK7fkbQj2ta6
+ GfTexvJjh5xhMsmieJkgtdWyz
+X-Received: by 2002:a05:620a:404e:b0:7c2:f39d:d0e0 with SMTP id
+ af79cd13be357-7cace970621mr2280185685a.3.1746404096367; 
+ Sun, 04 May 2025 17:14:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHtGJXxyiZuVoheTixj01E/WidOroFmG3EK+TLgG2+eb1c8BMLiBCNLo1GSEwRMtdW96uybvQ==
+X-Received: by 2002:a05:620a:404e:b0:7c2:f39d:d0e0 with SMTP id
+ af79cd13be357-7cace970621mr2280182385a.3.1746404095994; 
+ Sun, 04 May 2025 17:14:55 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54ea94ce656sm1454066e87.105.2025.05.04.17.14.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 May 2025 17:14:53 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v5 00/13] drm/msm/hdmi: rework and fix the HPD even generation
+Date: Mon, 05 May 2025 03:14:44 +0300
+Message-Id: <20250505-fd-hdmi-hpd-v5-0-48541f76318c@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPQCGGgC/22Qy07DMBBFf6XymgnGr4Su+A/Ewo9JbUHiYoeoU
+ dV/Z9KqgggWXtzFOXN9z6xiSVjZfndmBedUUx4p6Icd89GOB4QUKDPBheJaCOgDxDAkiMcAKDv
+ TBXTGImdEHAv26XS1vb5R7kseYIoF7d0huZFccK2FbFrTCQlPQLapLI2zZanxPc8vH2m0JTe5H
+ FZpTHXKZbk2nMWq/r/MLICDl9wF13rtW/ztWdvM8gc2dHkDS4I7o7Q1yrtg5B9Y3WFN/Z+3sCL
+ YCKG06TB0bb+BL7dhCn5+0brTbR3mbEXweaC/73dDHR7pwYiniYDLN4Gi1WOWAQAA
+X-Change-ID: 20240522-fd-hdmi-hpd-e3868deb6ae0
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Konrad Dybcio <konradybcio@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2844;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=7Pino99IS4gxmEVNtT1+Fg674jvsTFh8QsSqJonlwOc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoGAL7k34CTyL+GciS47k4GgyjUDHX+AiePEWZZ
+ PZu+mKeY1aJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaBgC+wAKCRCLPIo+Aiko
+ 1d7DCACkX6diSixrEFcrvdjBBsobYTaNgNHevK3bgBqUR79f2pfonOim2y8lJLX9Fg9goVbj1qW
+ al7hSm6nEwi6XSkld5cDVhg4U2y6DgZDOVwGUtre+qLRAx/Cb84RPUhUmpYsZyn2EEDke7sgoNl
+ nSqNbc5I+gGdXVKsL2NUyZ1EwLtwKsivS+5gt3TvZvhwsSWdi8iFuXAAVICpIhMq0RHH+qLm/pJ
+ Yb3ZFzWt8++wR9qcVZRjufl6hFe8/zHs0PcHaHLqtjtC7y2Qt6mTlATiNLn3ijqIRVgYB5eWZw8
+ C829W9kv/t0e/7vdGOcCuEBrjBLc+Vy/WiUfCSOYEL0XhMA+
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDAwMCBTYWx0ZWRfX1RjOfgIYs/uB
+ 5yOvZQpSrrtlOt9Or6j3alg1F1lgVQqJdDTFVFF/hZV95/duqYqx1lPjfuPWam67rh2lkMIe81c
+ uNRsQY8ClNSpD1MFsmx22CuzKUAaTQOwjfMG3rI3/rSptyPitprFJHSsr1o82AknaQIHtgBVNSg
+ bDsEfcOqv62+GqcVtg9N/dXUqb8AomA0igJMVi0CwvpW+N8aowfglEFoe1QhEPxt2iCnH/PrPHy
+ opyNvI+L2FwtJjSSfJXELWFbSIVNmseDgmVrWaTXXduIYG0rTckfKrL63tDNbV9bwYDIn5Dhaxu
+ WRi4n+vmEcr3H6teOYYLQ6QcGoXhbZxcZK7urvG3ofAFiG3mHd05GEGeSg5yzfATPPBxfzsg4KJ
+ s+YSx543NbLA2ABP9B9IRcA0BrgeL+6/VXsLHkYnfaJbvpgrmjNzp9vTppHb3Prd3OLxy4Y5
+X-Proofpoint-ORIG-GUID: Y-X5V8NissBq4BIvxyHCuSVh49klEOpj
+X-Authority-Analysis: v=2.4 cv=JtvxrN4C c=1 sm=1 tr=0 ts=68180301 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=LpQP-O61AAAA:8 a=KKAkSRfTAAAA:8
+ a=EUspDBNiAAAA:8 a=xeEy2NUaHwTvFDDSPagA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=pioyyrs4ZptJ924tMmac:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: Y-X5V8NissBq4BIvxyHCuSVh49klEOpj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-04_09,2025-04-30_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 bulkscore=0 spamscore=0 phishscore=0
+ lowpriorityscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999 clxscore=1015
+ malwarescore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2504070000 definitions=main-2505050000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,425 +155,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I think Android is probably the only remaining user of the dmabuf sysfs
-files. The BPF infrastructure added earlier in this series will allow us
-to get the same information much more cheaply.
+The MSM HDMI driver is plagued with the long-standing bug. If HDMI cable
+is disconnected, in most of the cases cable reconnection will not be
+detected properly. We have been carrying the patch from [1] in our
+integration tree for ages. The time has come to fix the long-standing
+bug and implement proper HPD handling.
 
-This patch is a RFC because I'd like to keep this for at least one more
-longterm stable release (6.18?) before actually removing it so that we
-can have one longterm stable kernel version that supports both options
-to facilitate a transition from the sysfs files to a BPF program.
+This series was tested on msm8996 and apq8064 boards. Previously HPD
+handling sometimes could trigger in the CRTC event handling, however I
+can no longer reproduce it now.
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
+[1] https://lore.kernel.org/linux-arm-msm/20171027105732.19235-2-architt@codeaurora.org/
+
 ---
- .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  24 ---
- Documentation/driver-api/dma-buf.rst          |   5 -
- drivers/dma-buf/Kconfig                       |  15 --
- drivers/dma-buf/Makefile                      |   1 -
- drivers/dma-buf/dma-buf-sysfs-stats.c         | 202 ------------------
- drivers/dma-buf/dma-buf-sysfs-stats.h         |  35 ---
- drivers/dma-buf/dma-buf.c                     |  18 --
- 7 files changed, 300 deletions(-)
- delete mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
- delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
- delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
+Changes in v5:
+- Dropped hpd-gpio patches (to prevent ABI break, Krzysztof)
+- Link to v4: https://lore.kernel.org/r/20250209-fd-hdmi-hpd-v4-0-6224568ed87f@linaro.org
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-deleted file mode 100644
-index 5d3bc997dc64..000000000000
---- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-+++ /dev/null
-@@ -1,24 +0,0 @@
--What:		/sys/kernel/dmabuf/buffers
--Date:		May 2021
--KernelVersion:	v5.13
--Contact:	Hridya Valsaraju <hridya@google.com>
--Description:	The /sys/kernel/dmabuf/buffers directory contains a
--		snapshot of the internal state of every DMA-BUF.
--		/sys/kernel/dmabuf/buffers/<inode_number> will contain the
--		statistics for the DMA-BUF with the unique inode number
--		<inode_number>
--Users:		kernel memory tuning/debugging tools
--
--What:		/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
--Date:		May 2021
--KernelVersion:	v5.13
--Contact:	Hridya Valsaraju <hridya@google.com>
--Description:	This file is read-only and contains the name of the exporter of
--		the DMA-BUF.
--
--What:		/sys/kernel/dmabuf/buffers/<inode_number>/size
--Date:		May 2021
--KernelVersion:	v5.13
--Contact:	Hridya Valsaraju <hridya@google.com>
--Description:	This file is read-only and specifies the size of the DMA-BUF in
--		bytes.
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index 29abf1eebf9f..2f36c21d9948 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -125,11 +125,6 @@ Implicit Fence Poll Support
- .. kernel-doc:: drivers/dma-buf/dma-buf.c
-    :doc: implicit fence polling
- 
--DMA-BUF statistics
--~~~~~~~~~~~~~~~~~~
--.. kernel-doc:: drivers/dma-buf/dma-buf-sysfs-stats.c
--   :doc: overview
--
- DMA Buffer ioctls
- ~~~~~~~~~~~~~~~~~
- 
-diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-index fee04fdb0822..03e38c0d1fff 100644
---- a/drivers/dma-buf/Kconfig
-+++ b/drivers/dma-buf/Kconfig
-@@ -76,21 +76,6 @@ menuconfig DMABUF_HEAPS
- 	  allows userspace to allocate dma-bufs that can be shared
- 	  between drivers.
- 
--menuconfig DMABUF_SYSFS_STATS
--	bool "DMA-BUF sysfs statistics (DEPRECATED)"
--	depends on DMA_SHARED_BUFFER
--	help
--	   Choose this option to enable DMA-BUF sysfs statistics
--	   in location /sys/kernel/dmabuf/buffers.
--
--	   /sys/kernel/dmabuf/buffers/<inode_number> will contain
--	   statistics for the DMA-BUF with the unique inode number
--	   <inode_number>.
--
--	   This option is deprecated and should sooner or later be removed.
--	   Android is the only user of this and it turned out that this resulted
--	   in quite some performance problems.
--
- source "drivers/dma-buf/heaps/Kconfig"
- 
- endmenu
-diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-index 70ec901edf2c..8ab2bfecb1c9 100644
---- a/drivers/dma-buf/Makefile
-+++ b/drivers/dma-buf/Makefile
-@@ -6,7 +6,6 @@ obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
- obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
- obj-$(CONFIG_SW_SYNC)		+= sw_sync.o sync_debug.o
- obj-$(CONFIG_UDMABUF)		+= udmabuf.o
--obj-$(CONFIG_DMABUF_SYSFS_STATS) += dma-buf-sysfs-stats.o
- 
- dmabuf_selftests-y := \
- 	selftest.o \
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-deleted file mode 100644
-index b5b62e40ccc1..000000000000
---- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-+++ /dev/null
-@@ -1,202 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * DMA-BUF sysfs statistics.
-- *
-- * Copyright (C) 2021 Google LLC.
-- */
--
--#include <linux/dma-buf.h>
--#include <linux/dma-resv.h>
--#include <linux/kobject.h>
--#include <linux/printk.h>
--#include <linux/slab.h>
--#include <linux/sysfs.h>
--
--#include "dma-buf-sysfs-stats.h"
--
--#define to_dma_buf_entry_from_kobj(x) container_of(x, struct dma_buf_sysfs_entry, kobj)
--
--/**
-- * DOC: overview
-- *
-- * ``/sys/kernel/debug/dma_buf/bufinfo`` provides an overview of every DMA-BUF
-- * in the system. However, since debugfs is not safe to be mounted in
-- * production, procfs and sysfs can be used to gather DMA-BUF statistics on
-- * production systems.
-- *
-- * The ``/proc/<pid>/fdinfo/<fd>`` files in procfs can be used to gather
-- * information about DMA-BUF fds. Detailed documentation about the interface
-- * is present in Documentation/filesystems/proc.rst.
-- *
-- * Unfortunately, the existing procfs interfaces can only provide information
-- * about the DMA-BUFs for which processes hold fds or have the buffers mmapped
-- * into their address space. This necessitated the creation of the DMA-BUF sysfs
-- * statistics interface to provide per-buffer information on production systems.
-- *
-- * The interface at ``/sys/kernel/dmabuf/buffers`` exposes information about
-- * every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
-- *
-- * The following stats are exposed by the interface:
-- *
-- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
-- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
-- *
-- * The information in the interface can also be used to derive per-exporter
-- * statistics. The data from the interface can be gathered on error conditions
-- * or other important events to provide a snapshot of DMA-BUF usage.
-- * It can also be collected periodically by telemetry to monitor various metrics.
-- *
-- * Detailed documentation about the interface is present in
-- * Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers.
-- */
--
--struct dma_buf_stats_attribute {
--	struct attribute attr;
--	ssize_t (*show)(struct dma_buf *dmabuf,
--			struct dma_buf_stats_attribute *attr, char *buf);
--};
--#define to_dma_buf_stats_attr(x) container_of(x, struct dma_buf_stats_attribute, attr)
--
--static ssize_t dma_buf_stats_attribute_show(struct kobject *kobj,
--					    struct attribute *attr,
--					    char *buf)
--{
--	struct dma_buf_stats_attribute *attribute;
--	struct dma_buf_sysfs_entry *sysfs_entry;
--	struct dma_buf *dmabuf;
--
--	attribute = to_dma_buf_stats_attr(attr);
--	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
--	dmabuf = sysfs_entry->dmabuf;
--
--	if (!dmabuf || !attribute->show)
--		return -EIO;
--
--	return attribute->show(dmabuf, attribute, buf);
--}
--
--static const struct sysfs_ops dma_buf_stats_sysfs_ops = {
--	.show = dma_buf_stats_attribute_show,
--};
--
--static ssize_t exporter_name_show(struct dma_buf *dmabuf,
--				  struct dma_buf_stats_attribute *attr,
--				  char *buf)
--{
--	return sysfs_emit(buf, "%s\n", dmabuf->exp_name);
--}
--
--static ssize_t size_show(struct dma_buf *dmabuf,
--			 struct dma_buf_stats_attribute *attr,
--			 char *buf)
--{
--	return sysfs_emit(buf, "%zu\n", dmabuf->size);
--}
--
--static struct dma_buf_stats_attribute exporter_name_attribute =
--	__ATTR_RO(exporter_name);
--static struct dma_buf_stats_attribute size_attribute = __ATTR_RO(size);
--
--static struct attribute *dma_buf_stats_default_attrs[] = {
--	&exporter_name_attribute.attr,
--	&size_attribute.attr,
--	NULL,
--};
--ATTRIBUTE_GROUPS(dma_buf_stats_default);
--
--static void dma_buf_sysfs_release(struct kobject *kobj)
--{
--	struct dma_buf_sysfs_entry *sysfs_entry;
--
--	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
--	kfree(sysfs_entry);
--}
--
--static const struct kobj_type dma_buf_ktype = {
--	.sysfs_ops = &dma_buf_stats_sysfs_ops,
--	.release = dma_buf_sysfs_release,
--	.default_groups = dma_buf_stats_default_groups,
--};
--
--void dma_buf_stats_teardown(struct dma_buf *dmabuf)
--{
--	struct dma_buf_sysfs_entry *sysfs_entry;
--
--	sysfs_entry = dmabuf->sysfs_entry;
--	if (!sysfs_entry)
--		return;
--
--	kobject_del(&sysfs_entry->kobj);
--	kobject_put(&sysfs_entry->kobj);
--}
--
--
--/* Statistics files do not need to send uevents. */
--static int dmabuf_sysfs_uevent_filter(const struct kobject *kobj)
--{
--	return 0;
--}
--
--static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops = {
--	.filter = dmabuf_sysfs_uevent_filter,
--};
--
--static struct kset *dma_buf_stats_kset;
--static struct kset *dma_buf_per_buffer_stats_kset;
--int dma_buf_init_sysfs_statistics(void)
--{
--	dma_buf_stats_kset = kset_create_and_add("dmabuf",
--						 &dmabuf_sysfs_no_uevent_ops,
--						 kernel_kobj);
--	if (!dma_buf_stats_kset)
--		return -ENOMEM;
--
--	dma_buf_per_buffer_stats_kset = kset_create_and_add("buffers",
--							    &dmabuf_sysfs_no_uevent_ops,
--							    &dma_buf_stats_kset->kobj);
--	if (!dma_buf_per_buffer_stats_kset) {
--		kset_unregister(dma_buf_stats_kset);
--		return -ENOMEM;
--	}
--
--	return 0;
--}
--
--void dma_buf_uninit_sysfs_statistics(void)
--{
--	kset_unregister(dma_buf_per_buffer_stats_kset);
--	kset_unregister(dma_buf_stats_kset);
--}
--
--int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
--{
--	struct dma_buf_sysfs_entry *sysfs_entry;
--	int ret;
--
--	if (!dmabuf->exp_name) {
--		pr_err("exporter name must not be empty if stats needed\n");
--		return -EINVAL;
--	}
--
--	sysfs_entry = kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
--	if (!sysfs_entry)
--		return -ENOMEM;
--
--	sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
--	sysfs_entry->dmabuf = dmabuf;
--
--	dmabuf->sysfs_entry = sysfs_entry;
--
--	/* create the directory for buffer stats */
--	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
--				   "%lu", file_inode(file)->i_ino);
--	if (ret)
--		goto err_sysfs_dmabuf;
--
--	return 0;
--
--err_sysfs_dmabuf:
--	kobject_put(&sysfs_entry->kobj);
--	dmabuf->sysfs_entry = NULL;
--	return ret;
--}
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-buf-sysfs-stats.h
-deleted file mode 100644
-index 7a8a995b75ba..000000000000
---- a/drivers/dma-buf/dma-buf-sysfs-stats.h
-+++ /dev/null
-@@ -1,35 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * DMA-BUF sysfs statistics.
-- *
-- * Copyright (C) 2021 Google LLC.
-- */
--
--#ifndef _DMA_BUF_SYSFS_STATS_H
--#define _DMA_BUF_SYSFS_STATS_H
--
--#ifdef CONFIG_DMABUF_SYSFS_STATS
--
--int dma_buf_init_sysfs_statistics(void);
--void dma_buf_uninit_sysfs_statistics(void);
--
--int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
--
--void dma_buf_stats_teardown(struct dma_buf *dmabuf);
--#else
--
--static inline int dma_buf_init_sysfs_statistics(void)
--{
--	return 0;
--}
--
--static inline void dma_buf_uninit_sysfs_statistics(void) {}
--
--static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
--{
--	return 0;
--}
--
--static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
--#endif
--#endif // _DMA_BUF_SYSFS_STATS_H
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 7260bdd77c75..adc6a0c96641 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -31,8 +31,6 @@
- #include <uapi/linux/dma-buf.h>
- #include <uapi/linux/magic.h>
- 
--#include "dma-buf-sysfs-stats.h"
--
- static inline int is_dma_buf_file(struct file *);
- 
- DEFINE_MUTEX(dmabuf_list_mutex);
-@@ -88,7 +86,6 @@ static void dma_buf_release(struct dentry *dentry)
- 	 */
- 	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
- 
--	dma_buf_stats_teardown(dmabuf);
- 	dmabuf->ops->release(dmabuf);
- 
- 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
-@@ -671,10 +668,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 		dmabuf->resv = resv;
- 	}
- 
--	ret = dma_buf_stats_setup(dmabuf, file);
--	if (ret)
--		goto err_dmabuf;
--
- 	file->private_data = dmabuf;
- 	file->f_path.dentry->d_fsdata = dmabuf;
- 	dmabuf->file = file;
-@@ -683,10 +676,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	return dmabuf;
- 
--err_dmabuf:
--	if (!resv)
--		dma_resv_fini(dmabuf->resv);
--	kfree(dmabuf);
- err_file:
- 	fput(file);
- err_module:
-@@ -1717,12 +1706,6 @@ static inline void dma_buf_uninit_debugfs(void)
- 
- static int __init dma_buf_init(void)
- {
--	int ret;
--
--	ret = dma_buf_init_sysfs_statistics();
--	if (ret)
--		return ret;
--
- 	dma_buf_mnt = kern_mount(&dma_buf_fs_type);
- 	if (IS_ERR(dma_buf_mnt))
- 		return PTR_ERR(dma_buf_mnt);
-@@ -1736,6 +1719,5 @@ static void __exit dma_buf_deinit(void)
- {
- 	dma_buf_uninit_debugfs();
- 	kern_unmount(dma_buf_mnt);
--	dma_buf_uninit_sysfs_statistics();
- }
- __exitcall(dma_buf_deinit);
+Changes in v4:
+- Added bindings patches. Dropped hpd-gpios from the IFC6410 board DT.
+- Fixed checkpatch.pl warning about non-const string arrays.
+- Rebased on top of linux-next and the MSM HDMI patchset.
+- Link to v3: https://lore.kernel.org/r/20240623-fd-hdmi-hpd-v3-0-8645a64cbd63@linaro.org
+
+Changes in v3:
+- Rebase on top of linux-next
+- Dropped the patches that were replaced by the HDMI Connector
+  framework
+- Picked up the mode_set -> atomic_pre_enable patch
+- Link to v2: https://lore.kernel.org/r/20240522-fd-hdmi-hpd-v2-0-c30bdb7c5c7e@linaro.org
+
+---
+Dmitry Baryshkov (13):
+      dt-bindings: display/msm/hdmi: drop obsolete GPIOs from schema
+      drm/msm/hdmi: convert clock and regulator arrays to const arrays
+      drm/msm/hdmi: move the alt_iface clock to the hpd list
+      drm/msm/hdmi: simplify extp clock handling
+      drm/msm/hdmi: drop clock frequency assignment
+      drm/msm/hdmi: switch to clk_bulk API
+      drm/msm/hdmi: switch to pm_runtime_resume_and_get()
+      drm/msm/hdmi: add runtime PM calls to DDC transfer function
+      drm/msm/hdmi: implement proper runtime PM handling
+      drm/msm/hdmi: rename hpd_clks to pwr_clks
+      drm/msm/hdmi: expand the HDMI_CFG macro
+      drm/msm/hdmi: ensure that HDMI is up if HPD is requested
+      drm/msm/hdmi: wire in hpd_enable/hpd_disable bridge ops
+
+ .../devicetree/bindings/display/msm/hdmi.yaml      |  15 ---
+ drivers/gpu/drm/msm/hdmi/hdmi.c                    | 133 ++++++++++-----------
+ drivers/gpu/drm/msm/hdmi/hdmi.h                    |  26 ++--
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c             |  55 ++++-----
+ drivers/gpu/drm/msm/hdmi/hdmi_hpd.c                |  89 ++++----------
+ drivers/gpu/drm/msm/hdmi/hdmi_i2c.c                |  14 ++-
+ drivers/gpu/drm/msm/hdmi/hdmi_phy.c                |   6 +-
+ 7 files changed, 135 insertions(+), 203 deletions(-)
+---
+base-commit: db76003ade5953d4a83c2bdc6e15c2d1c33e7350
+change-id: 20240522-fd-hdmi-hpd-e3868deb6ae0
+
+Best regards,
 -- 
-2.49.0.906.g1f30a19c02-goog
+Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
