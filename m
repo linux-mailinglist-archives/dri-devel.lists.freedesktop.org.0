@@ -2,162 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EAEAAA91E3
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 13:18:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36154AA91FD
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 13:25:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD5710E3CB;
-	Mon,  5 May 2025 11:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8339B10E3D0;
+	Mon,  5 May 2025 11:25:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="uLL/Ku2K";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="CK0+CLYy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2053.outbound.protection.outlook.com [40.107.96.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 469CD10E3CB
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 11:18:30 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2087.outbound.protection.outlook.com [40.107.220.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E7E210E3D0
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 11:25:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G0UEA/OeqevVMbArVdHJNNML4TkN8FUCyO+gGBbEbxpeGBteFnHknEVfHVPTQYX6RBXFi0dBhRnvKR1WO3nWds1CaMpRsHdZAa4sWk/3pbCougiXwHcUlFqG5L9c+TEmTAqIobX8OVnj2whwIdX+zAArehvSGhXK1P3YygHSstnOYcXfsY+RTsw3DB3Gr92x9asQnA0R84ibd5l0XGNwBT/v8kxuBgsUhji+88y51EY2MGqNSlWgKw4pyR61LSxf8rDAMOAPq9y6BSOp0pugvUlBu1TwI1iwAONnxGLzCqssYx4m/Bck0g27qX9VwEYrJSUsLmWybkVSV2uKVsUAhQ==
+ b=aPWwEXngIZh/W6sXhCF1cT2EAuy3d09ZcdVp/hUCQV+LkmZt2AxKjVlI8wzNU9ZsSER9YfgFhtT5LDQRliVwZMMnLUU5eAfJSKoaQBaMkfe9sviJz/9LVA+7OFlAhnT9m7wQf2oRwj47kDsFW/EhTfqVJyPXiPgvW7r9ndTVkW+sL0toHwfbJ+KRAKZq6xOF4dKWVfjWuQgyW3e9QX8xCIWgyOoO9atuICmgJP4hOYAaKi5R3bNUAAlopS3YkdWJyQtxaFcvE50N15O3oFt3ETtR07ONxp1NXUOxzkbbuR7U2VtX8NT0Eazm/oKNP6QV6IaR5qO46cG4ikf4yzRcKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H8fyopZSxIBm25jEiJW8R+RIWxrb5yfw8UDcEFJ3KKs=;
- b=M4p/3cdPLrY1WayHXdDzHcEmKtuMO4oBdzs0XtTej6RZlyvy7OytsGpIIU5Nnu1geeBlE6UG9SK3/UmyPy7K4e+vFNVnafkzCoP2RlrvWfKjjA33En3Cdwmk9NLLbbDW92okifJpbQXIXM0fi9lOgLA5DPnxhdheLU3E1jN7Q7foH2QB+Hbkd46xPz27n1Y+brkmGGE0Bb3dE6gAbuYc3Qhe15/wLeoHr6q49a2QKvQw94uz2llWPwNJyMOf6l30S2qQ7NFuVpbgva6xYBndahDeRJMhSi/1+ktvViDH8PB+44aqdFTE8Yk1f+O7DSVqullBsndkXHHYr2Qx47HXzg==
+ bh=FwHzybobdljY26EWpIbjJVvOUSuUlgJOImLxl/59jHA=;
+ b=ruuD26lzQef/llaJQT6JfMcd3xyCg/BjWQVV846cUzVkF12rN3HFRLRmstmyKsp9DTYfgLHMKOz56LaW2v4iz6ZkFBUtCsY+z3bDdzuYJThJUHeAoP5/nMpMRUYofZ9JH4CGttxlEQvQHQqmZdypj+ZO/Li6uals9PHiX+6F1V/JbbVyOclkigT19UIvW7gjUwxlUWO1sXk5RQy2Wbq4LNZNQLu+seFXoSGeOGWhnNOBnbj9K0NEeHfykpHyX9YTxjfZvn7yl6zIokapsosrU4BM+o46E8Xtr2jZgtKhu+xQ680iAyuePKyAek+O+lhPiNodEqVpI1zYsCpoHjT1oA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H8fyopZSxIBm25jEiJW8R+RIWxrb5yfw8UDcEFJ3KKs=;
- b=uLL/Ku2KOgY8PEzwBGsDKwwwKSYkA75RXw3AnDSi0C6oJtu0yhZCmdaEFmmV/1a+yzZQrbpNtljhF0ah1dYoTEIwr9rbE7Uov0pfeQnABeOnVYn6qF41Fw9pUSF5AxlKCHMtC5YTRI8JL6z11+CPKU2i2vO5F3+QzPZmVZaXE/o=
+ bh=FwHzybobdljY26EWpIbjJVvOUSuUlgJOImLxl/59jHA=;
+ b=CK0+CLYyswihEBpSD0aBpfVkIqbOMiiJvmB/JWD65iOpQeDLmDOlz7oi58ZURk6gSKna347UD/4YrZfhW7whbNBuY+wpUOg6u5BuNCm0QnnPRsEPj5pew0iafkwdGRIK/zz65yvTcQ1834g1iiNSdXXrS05Mw9po8RZHrjDuKrw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS4PR12MB9611.namprd12.prod.outlook.com (2603:10b6:8:277::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.23; Mon, 5 May
- 2025 11:18:26 +0000
+ by LV2PR12MB5848.namprd12.prod.outlook.com (2603:10b6:408:173::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Mon, 5 May
+ 2025 11:25:11 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Mon, 5 May 2025
- 11:18:26 +0000
-Message-ID: <9b19ec16-468e-43b9-94a7-770e1defdca7@amd.com>
-Date: Mon, 5 May 2025 13:18:17 +0200
+ 11:25:11 +0000
+Message-ID: <8e4f60ec-caa8-431a-88f8-aee8183d96e5@amd.com>
+Date: Mon, 5 May 2025 13:25:06 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 6/6] RFC: dma-buf: Remove DMA-BUF statistics
-To: "T.J. Mercier" <tjmercier@google.com>, sumit.semwal@linaro.org,
- ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, skhan@linuxfoundation.org, song@kernel.org,
- alexei.starovoitov@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-doc@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, android-mm@google.com, simona@ffwll.ch,
- corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev,
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
- jolsa@kernel.org, mykolal@fb.com
-References: <20250504224149.1033867-1-tjmercier@google.com>
- <20250504224149.1033867-7-tjmercier@google.com>
+Subject: Re: [PATCH 1/3] drm/shmem-helper: Import dmabuf without mapping its
+ sg_table
+To: Thomas Zimmermann <tzimmermann@suse.de>, oushixiong1025@163.com,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sean Paul <sean@poorly.run>,
+ Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250501064324.398650-1-oushixiong1025@163.com>
+ <71ec7bd1-be90-462e-8a07-e56fccae4096@suse.de>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250504224149.1033867-7-tjmercier@google.com>
+In-Reply-To: <71ec7bd1-be90-462e-8a07-e56fccae4096@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0146.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR4P281CA0247.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f5::10) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS4PR12MB9611:EE_
-X-MS-Office365-Filtering-Correlation-Id: f71ec533-0216-45f7-1137-08dd8bc68e35
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|LV2PR12MB5848:EE_
+X-MS-Office365-Filtering-Correlation-Id: e07e2c2b-9659-4ba1-1d98-08dd8bc77f81
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|1800799024|7416014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L1lVY2d3NTZ2RVpMTlJQUjE1Wm5ZeVkxK2ZiZGJFcUpRcjVzRXl2WnF6SzEr?=
- =?utf-8?B?aUJEek0xUUwwTC9GL1ZaNXdvaU9uajBWazQwUURDaEVOa0tTakhIV1FWTFVp?=
- =?utf-8?B?VDljcG1xZE9tNzJSdCtjdzdNOUVDcGpDaFRJWlJ0TWdVdDd5ald4dk96emxD?=
- =?utf-8?B?R1ZWNkxkZUhCMDVqaXFvVGpQbkExMWJMQ1RFR1ptMjJBdEdva2RlTXNwOU9T?=
- =?utf-8?B?VWhPeWQwOUd1WmFlOU5LVlRKMkFJYWpBWjBYU1RSZHgraTBTaU8xTE9sbEdE?=
- =?utf-8?B?K2ZPbXRCZllDVlJKZzNLSDVYWVp0aUc0bVBSY2FOR2xUMFRoaXN0R1lKRDhL?=
- =?utf-8?B?bFozTThzZjhnMVEzeGhmZEIwUUVrNDkyMlhPMk0xQ2I1ckYvR1o2SWg4MEdI?=
- =?utf-8?B?b25ydmlyWkhlWDBsY3FIeUtHcW9nZHNOY3ZiZXRZZHR3eXVhbmVVZElhYzJN?=
- =?utf-8?B?MTdmeUNNUDNIaVF0REtEQTdXZjlFbW1sL29rR3lHYlVYNk1PRDVxNkxrRjl4?=
- =?utf-8?B?TEduMjhtQ1lhaHczczhIM3JtRG0yMXhROHFWUjRSL3JaSXRzQ2dJV2NLMElS?=
- =?utf-8?B?a1ZKbk80ZHJzdG1ta1VYbThIaGpmblhMKzA4LzlpdVQzTy9xbTFibFh2VURa?=
- =?utf-8?B?bk42N3FYMEhhaXh4OEd6QmpLNE01eGgzcjF2VXljU09Ga3kxRU5QS2czb0xa?=
- =?utf-8?B?N29VMHdXdzJjRFhGZW91c1N2SmxlYzJaWldtc2ZBaU9TVnQzalZWeWxtK0xk?=
- =?utf-8?B?bzlUNitUVnBBUzQ1ZGJUQSsvbmhGb0xZZTRkRGdlRTR2REFHaGszNWhIYmFO?=
- =?utf-8?B?MC9Vd2RJK09sL0dJZVdvNCt4L1FBOXp1SzZYcS9LcGdKNEt6WnNOOWg0b2hH?=
- =?utf-8?B?VDl5MmNsdzVrcGhNb1A5VUZkTDg1TVdubXl3ZVNVOTROT1ljQmRqUVJaYzNr?=
- =?utf-8?B?aFhxQldESE9ERHBjQlcra3Bpazh1M0R4L1JXbjBIM2RIQnpDdTRENUJ0NFIw?=
- =?utf-8?B?cXlOUmhaem50ZEhzTm1YWC80cWM5Wi9DeEQzYWdmaEpsK0hjOFJIajAwb0xz?=
- =?utf-8?B?MlpOWkJ3bkpITWVldDhsWVZlckJ0VDc0a3gydVkvL3lYZU9wdEcrRmZncHFt?=
- =?utf-8?B?bEhzWkZ2alFLcCtSN1lEZW1EN1lvVWc5d0daSUZ3VWtiaVFBd3U0cGRvK3do?=
- =?utf-8?B?MFRmNEFaNVRGejNEaS9uYTZPbXBHbjN2NlhtUDlFSE13VlMwSDJWTWZ4S1RJ?=
- =?utf-8?B?azh0OGVHN2lCK0ozbDg0ZVhJVGFZZFZQVkw0dTlRVjRzT2NMMnBRQlRnNS9S?=
- =?utf-8?B?dHhyOWNNbGlGNHJvK3VzRHNmNjZ5cEd1a3hqNmw3dzVtU1RhSC9BcHI2TGND?=
- =?utf-8?B?UjRhZ1NGTmJwRnk2TGVWV3M5RHZCUDRhMlpCYjA3Q2podWFzSXlNckhFYmF6?=
- =?utf-8?B?TmJPMnh1QjFtUVpIVlJ0Rk93Nzl0cFdLZG9kWnMyL25rYnVxbVBNcVc5Q2g1?=
- =?utf-8?B?d2NwTW9uaU9JUFAvUzBBTTFVdEVtRHVHZXZoWXovWm1ISXM3eEVlYitsZVlJ?=
- =?utf-8?B?eC92M3lpTlliU0FjWXNQS2lVNmQ0MDBjSE5SNHN0QzY1aXl2QzNOdVJ0dU5m?=
- =?utf-8?B?K084RTRFSW5tYTdKT3lQc3VhU2UydU1sMEhQUEhwRFRBL2NDQWdnc05wZDE5?=
- =?utf-8?B?SlZBRms0L29HbjNxZmdibUk4RzRIV1lHdFRhVk5JODFEeEJWcGllRVEyMVRv?=
- =?utf-8?B?UEg0dXY3b2thNFA5bTVOOTlIWTAyRWowLzcvejRJYXY2WjdRMzdHZjRIeW9m?=
- =?utf-8?B?Y2FvSFVuazY4N2MwMHUzQ3EvQzNHTVJOWVNPNGFNOENRNGRGVHZwUmxMRVhJ?=
- =?utf-8?B?aStsWFo1Nmw4UXQyOFU5MFBnMGovVkhVUHBTalk0eTNqekExNThuSTF4NmpT?=
- =?utf-8?Q?CKepHwQfgUw=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cVRqMmNZbjZuTG5qejVCL2hVdUUvUUlGQ3d0SFNjdFI0cGJYNURSTWlKSStt?=
+ =?utf-8?B?eGZERDRTSE5TRzRYaGJjVEpNNVZza0E1Q3dITkNyaWdrRjY5cDU3MVd2VlNz?=
+ =?utf-8?B?S05WSjhoakxiem9vdHVMeEVWUFhnQkhRVEx6OXh0NzN6MDhOOGd1Y2EyWnJt?=
+ =?utf-8?B?OGZ5OEtOVnIrbFVudVB3Y1ZCM251LzlpeXZRMjJjUmVmYVpPTytrVXo4dEpY?=
+ =?utf-8?B?azJPcEJDWkNxSkZvMC9BcTFkTm5FT3F6YjZETm5IbHVwc25Qd01vb2Zsb0s2?=
+ =?utf-8?B?clhobDRlUkNHZUFwVUR1dmVQZk5EaG53YVJwQjZmKzEvei9ZeFJTWWw0elNC?=
+ =?utf-8?B?WUVSa2F2bmJOQnJsMzNUK0RQMytvVWhxbGpCTE9vdFl1cVdyb29XUlhMcUxn?=
+ =?utf-8?B?ZGxaRy81amFvNlBZeFRvMDBvNWxNL1FPZ0UvZnRKVmRUOEZNbE9pbGdURXFV?=
+ =?utf-8?B?bjJWaFJZeGJqT0NkQTdHTE4xN1BYOVZHbkNIR1JCMlBxWUVhamVjQXJWeExY?=
+ =?utf-8?B?VGUzMTZMcXl6NjFtSU1ZanFVd01tdk15RWp4Q3o0ekJXZkw2ZEN2QURTWlNV?=
+ =?utf-8?B?dXRraGp3RXc5Vm00RUVGVlhpNUtCV1FNSHdqRDVEMDcxQVlkM2syTkE1V1VZ?=
+ =?utf-8?B?MkwweVA4bVJONnhHK2hya1p3ZGNlcHJvcEhLNm8xSm1lREVSWGNkcklxVWFl?=
+ =?utf-8?B?ckVtNzdKb0t3bjBUN0pFVHdnSGZuVDdEejJ3Mk12REs1eDlYMFV4eXJnVmsz?=
+ =?utf-8?B?TUREQjMzU3NEVFZCNnl1WGgvcG1sL3ordldNWHh3b0xwanF1cW94VjRiWlRp?=
+ =?utf-8?B?YklpeVZiMUczMmpKenVDeVlmb3p1L2kxbk9yeWxxV2xoSlU5ZzlMVTVxN2NN?=
+ =?utf-8?B?YUpsRGRFclpCbkNlTGZJNCs3QjZNaW9tZExqR2krdUVvMU9DaHZwYks4YnZn?=
+ =?utf-8?B?Z0NsWk1qQXk0bWZhL0g4V3pVd3NqQmNqempIakVKNkd6b2M1WUNvbXZJM2U4?=
+ =?utf-8?B?LzNTdTFJaU1JVVVHdEl4a3FXbkFKVERXU3g4VzlxcGtNL0ZDdTZFZVo4akR1?=
+ =?utf-8?B?MFBwVjc3RzlkMENoT1c5Wlpac3pVNlV2Z25nV2JsNkJ2S2d1dXhjdTBQVUNE?=
+ =?utf-8?B?cHl6N0xTQlpDQUJjMEV0VnFIcmJKNWlpcCtFZ0UvN0E4WmxzbFVzY2tURTFS?=
+ =?utf-8?B?YktybkNvOFFSMHF6ZzV0b251N25rY1k4WlV4UktITEZkb3Q0ejc4OGREamYx?=
+ =?utf-8?B?WHc0c1g3eGsvQmpYWlAxaXlUTTJrdU5vcGtYeTlhRjZFZEkvZTNZcGsySTY5?=
+ =?utf-8?B?U0pJbmVrQ1ZoeWphMTdlNVZXWEFQMmU4ZmtlNVppR1VLLzdEMVd4cmhXSTFp?=
+ =?utf-8?B?N21KYW5FR2Rkd3pvZURQUCt1U3llOHlFMXN0cDVTb0RDajluWHBKOG14MFpH?=
+ =?utf-8?B?QXNUU1pNYmFFVFh5eUQxLzhNbEJETXJYQjZNOTY4UzlIbGFVM2FUeTlOSG1H?=
+ =?utf-8?B?MVM3bGZQSk5tYklCVFRwOVIvVy9ObGJVNXZsKzd0cDljV2k0Z0tVYUpPVkZh?=
+ =?utf-8?B?RWJ0dE9hVnJzWkhPcTJCZkR0aDI5WWJGZDdpaE9pVElBSU84YUNRY1BkUVVi?=
+ =?utf-8?B?MG9vd0JHTWFhK1VqSVFhKzRsTDBYT0tkYi8zc3BJcHpieGdpVjhTMTZwdU84?=
+ =?utf-8?B?NHNoNi9pNnlZb1BGeUk4OHdkVWI0eVp5cjM0M3ZHZmJEVnRQQ24vRUhwUzd3?=
+ =?utf-8?B?SG95N2ZCT1Azb0hrR3FNbWYyMWNUSFh0NE53dVVXU2FjTUpzdWNFSk9BR0hu?=
+ =?utf-8?B?YkdBeHJ0ZGhFeFE4ZkVZVERGZVZTaklMYVpod2I1a2taVFYrRzBGeTlHczVX?=
+ =?utf-8?B?ZC95Sk4xWlhKT3JQeXBSeG92TWtNeW54bG5NMXQxdzM5MmFYWnFnTUExOXBQ?=
+ =?utf-8?Q?fywHd/avIlo=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7416014)(7053199007); DIR:OUT;
- SFP:1101; 
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFRkOW9rTUNDcW05MEFER0djRVpISHBWcUkzblYrNjhIR1lLNm5XRUFhbGxL?=
- =?utf-8?B?aDFSTnE2ZDB5VjJObktMUG9BalJzQlY3YTd6eDEwSWZYRHZUbE5mTWszbjY4?=
- =?utf-8?B?anBCY1ZwMUZ6MGFSQVBiK2JEaHpuWWw5clhheUhSQjJ6dndjTXpVS0JRaVg0?=
- =?utf-8?B?cGRSS1JwOWF2Y0VLSUhlY056bThqYTZBQnhPdzFMV1JBckY4OUxmbTdBb0I1?=
- =?utf-8?B?SlhCZE5YM3BVdkl6UVpRemZZN1o3Um1TZGJzKzhiSUhFYjAzVzZldHByYnlF?=
- =?utf-8?B?TDdCTUVJY0lya285aWovanlOUFNsWUR0MDVoMjJRV0c5eVlFRytXWVU0NUdX?=
- =?utf-8?B?cTh6THlKdUlvOHF5Q09Cdk9PMWpNV05ZbnpnelJkYzFlZXJaeFo4MXVNMzdp?=
- =?utf-8?B?c3BCTE5FdmRKc0tsdWNBTTBIakwwNEp2VlM3Yi9IVkg1YkJiUWlwRTFRYm1K?=
- =?utf-8?B?a2M4c001dWVBY2J0REQyWlo1K2o5M1YveHdpN0FaY3NvTS9NY3FGS01ITVBN?=
- =?utf-8?B?OCtRRVdMcW5RUG5xZ2Zqb1dySU9EeWdYV2lNMjVxTm9PWGJ5dGxVT3BSTFEx?=
- =?utf-8?B?S3Bja21Qa3ZLcW9VcFkzQjl2dVdTVEZUSFZDUnlNY1VkcWsvVzZqV21OV29F?=
- =?utf-8?B?Z2I0aXREMUxYQ0NKWW93eTVza09uZHB2SVRKejBpUGpBUEkrQlpSczcxK1JZ?=
- =?utf-8?B?Smw3WEc2ZGpQeVRqNmp2cU1qNkxic3JJZTh6cGtDWEVVb1lsejk5VXJUdmJW?=
- =?utf-8?B?dEtvNENueTV0a0FWN3ZuR3BmeHdsTEVjMUFzeDVNZ0FMOWhHSXdCZ1cvbXdq?=
- =?utf-8?B?QzlWSzIyRnA4L3FtQ0UydkE1Q2ZhWEZUWTMrMHlKRUgrd3NMNlo4SUo3Tjhv?=
- =?utf-8?B?M244eERjWm02dTRnOW1vMVZkRWVxaVd6c2g5dTEzTzFvcHhpcmg3NVE4RXNH?=
- =?utf-8?B?WTV0MmYrSXhuSmNkTFRHdWV0aEFBc0haL2JBM1VyZXRPME03bndocitLYTZi?=
- =?utf-8?B?L1ZueU5reTFwbUloWHk2c0Y3QUZxOFhwN0VPd25TTnMvZ0ZFQzArVXNXNkx6?=
- =?utf-8?B?OVpSWlZ4aGNGMm80SGYxVW1jLzRBc1pDT1U5VlVFMVY5TXVtUG5jUklScUZV?=
- =?utf-8?B?RHB6SlZUbE9Hc1Jrekx3RFpONjBFd21SNmpFNVRmNUZyRFowRnUyM1JuOCtU?=
- =?utf-8?B?Zi9LMHhXVmtFd0p3ZXVpaGpNc01BUFVCMW9HWDlDNzk1c0h3Q3c3d1RWRkZj?=
- =?utf-8?B?cG5DSVFlNEE4Qks4b1BLQXc4WFZXeTRpQWFzYWdUbWpBc0lHcmFIblZ1ZFV5?=
- =?utf-8?B?Sklma0UzWkptaEk2SkpBcUJWUmV1UEI2OHkxZjY5cVh1bjJOaTBxdTM0SlAz?=
- =?utf-8?B?eE1sNXNTTXB3YmEvRGNGb2llSTBKSGUwaHpFQ011akNHNkoxMitKTzhEOUFK?=
- =?utf-8?B?aWV1SEUyakdyMnJqa0FkRzJ5ZS8veG5VcEJTamRLUnBVNTc5eitERlBmbkpq?=
- =?utf-8?B?cDNWeksyWWpyN3NzbHp0WVQ3bFNqRkQ0TDVWSVA3aGJvUXZnQ2NEVzY3Wlpi?=
- =?utf-8?B?K0R0Y0N2OWcybGxGQ3dNM3FDL1k2TjhjUk9HNG1RVytNQ1oyVEFxMmJtUHFM?=
- =?utf-8?B?emdsckRCQWV0WXJQRk5ETDM2VUc0K0o5MStaeWxwbXVxbndGT0Z1Y2ZxZ25a?=
- =?utf-8?B?b0xWV1J1RGhrT2FDQlJQWWRDeUd6M1VDQnpZbUFJTnFqMVdrZHlIVTZOdEdX?=
- =?utf-8?B?aGtaM0I3c2dsSmFHSDBKU1dmeG1RbnB1L3pkU3FkL0pVSmpnaW5OdC9qaG9q?=
- =?utf-8?B?MnF0amNmWUd6dU9JeGxmalBiV3hpcWZhdTFFcFBZUzJqUlkvNW8xVC85eXJl?=
- =?utf-8?B?djk2dHZaZTBZcll6aFhnN3M2QkdOMTArdzBmVHRoOGlGaThyVnBiZHdQWGND?=
- =?utf-8?B?MXc0UWdwckFEVnFtOUtzak1pQ0N3Z0V5Wm04a2RIbUNDWll5a2JKZE91V0ky?=
- =?utf-8?B?THhialJOMDY2d1JWNWdYYVVNRno2WTI4VHo3SUNlTzdxa2lhbTNRU2EvWmNK?=
- =?utf-8?B?aUMxMG5TSCtVb25TcTVFMnFrZ3oyUG9leXdlUTRaeHlWaTR5Rm5yamtPZ1RU?=
- =?utf-8?Q?Mi8w=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eEQzZ09KM2F5Z1NvOWUwalNCUTU2d0J6VFoySHUrQXdVa0RlS1pCOGVYcElx?=
+ =?utf-8?B?QWhRdHh2MWlRNzdnUmRIMnBaMkFBYkN5SkFQc2JyTkNBRjNPUm9ZQk5Wd1A4?=
+ =?utf-8?B?T1dQQzlsMklkcE5VaHpORXFocE0rUXpEaDF1dmMyZUJJVW9VWEZhMU4zN0Y2?=
+ =?utf-8?B?L1ZCa0tuQkZHM3c1Vm1naGFOSDZOalFXbzhta3RWait3d1dFZkR5QzJuSlov?=
+ =?utf-8?B?cU5QditPVFF0NlRBVlphbTM3NDl0dklWa2pxczZjL0ZqcFRDdDcwZ0NyV05s?=
+ =?utf-8?B?Si8yQmdvbTh1UC9jeEV5TEVtVTZITzBXYk5KWlZocTZBMmtpMExaNG9rLzFm?=
+ =?utf-8?B?cVBDc1BRK0xLZmlSWEhUSmZtRlRzSmxvYVZOeVFlQzJ2WUhTTVROSU5RVzBx?=
+ =?utf-8?B?dXNCTWpkZTVXaHBrSHl3NEE2UUxwOHhzdjVkODRHbUozL292ZW8vTFdWVk1z?=
+ =?utf-8?B?NERTMHBQdHdTZnF0VGVTVmxnV2dSQm43ZFZIazZnNFUyZTVRSGR1ZkkyN2dT?=
+ =?utf-8?B?Rk4veDFYMThWRmNmazhNUGxYaDhjRklPSHNlSzFFY3BvcGZBTVhMT3dpQ1dK?=
+ =?utf-8?B?V1JvRitZKzhDV0o1LzJ1ajUvOFdkTGlSbEw5WGE3YmdzN1FGSG1JMjJaNTZ6?=
+ =?utf-8?B?V3p2Y2xDZnFMZ1k2ZzlFbkwzS29FNW8vYVRveklBWDZ6dEJrcXJvTklPQ3RS?=
+ =?utf-8?B?dHBReDRxRVhMdnhrcm1ScVBCdGx0aEJHK2syUk9mdzAwKzRlT2ZDRDB3Z2xD?=
+ =?utf-8?B?cE1yRjZ0RFRydnJMVEo5TElJMTNmRE05SjMycUJyb2dyY1lGUDNEbHBaajdG?=
+ =?utf-8?B?WUxiZ1FIVHlFMGhDR3lvYStuS2F4QitKdWFIUWx3YzJkYUtiN2hWcjRBRTdD?=
+ =?utf-8?B?cm5JSlV0K2JNQnZyT3c3bjJFdjlMMG94TERJMllqL0JHdDRGY2NUN3p0V1ZM?=
+ =?utf-8?B?M2xoZVQyeEhMSzhtTFlmLzNPM05nZkVhSk1mVlRpbVdGN1ZJSFp3aHU2S1dL?=
+ =?utf-8?B?UVFGdDVGck9jbHEwa2FXdUJIdEFaK09yNnp4Rkg1VW9tWE55SFJwRDBlL1Bj?=
+ =?utf-8?B?RFJ6MnhCMEZUT3V2THROWlFXdTd6QVo1Z1d1N1N4WmN2cnJlWEpjeUlCZzFx?=
+ =?utf-8?B?NEUwWjhadDRZOEpIN2Uzc21YRTVMMVo3V2RXYTdma3grSy9EV1M3WkJCUCtC?=
+ =?utf-8?B?ektZemhuM0ZYOVhFZmxIdGM4aXZVV1A2MHlQUWlqQUxlcjV4d0paaDFLQTU5?=
+ =?utf-8?B?RHBDYXp0QzYycjBBdmRpbUwwK2JZOWdUZjBCbHJPamptQ2xQcEp2SEJhOXlv?=
+ =?utf-8?B?VXk1K3ROV3ViNnU5VTJhaFdSOTYvb0crKzdzN3ZFQXlhUlFiTDhHM3I5Wnds?=
+ =?utf-8?B?UjRNZEtkQVRod3czdG9LVFg3YWs5dUppdjB4Y2t0TlNYc0ZWaGJtVmJ4cXFD?=
+ =?utf-8?B?UFlnZ2V2S2NndUJScFpBcDlUeUhPUU12OWNJblNUeHM0K3lFZ1Mybzd0d3hU?=
+ =?utf-8?B?SVVKN2IzanEzSkRqdmRHK1ZMemN5RWJsUTdYWlh2bmlRSmo4dWM1eFQ4aDRv?=
+ =?utf-8?B?VXZmUU9XS2hXS0RrWG9rNWwxR1Rrc0FEUEVNZytaWEJHQVBBRnJaenBicWpy?=
+ =?utf-8?B?MDBRRmt1WVlONEtpTEcwK2JabmJ0aTFGTHZKamFhMXhpK1pIbTI4dldzWkV0?=
+ =?utf-8?B?SnlFbHJZNmNrV0JjQ2thU3Y5czQ4d08xTHRmOFRJRk5lMjg3WDF5d2UvRGlN?=
+ =?utf-8?B?ZWsvWDJzQSt1RmEzL1ZmTld4cXMwRWN6aXdqN0RyOUMrOWFvaVpBaFJhekR0?=
+ =?utf-8?B?SUhGd2dXbG4xRTRBdllWZjlyOXhoamxqcnhSRHZ4SXlZME5hS1dJaG92amhN?=
+ =?utf-8?B?Z2N3SVhJT2FPTjF0alFpZXNGd2VHaGFtSHBOS2JCVVQ1M0RkYmdQRkFnQU94?=
+ =?utf-8?B?cE53OUkxdVoyak5DMXZkendKNnJYWnZwcXRPNFNGV0xZTUo4VzM4QUV2c09B?=
+ =?utf-8?B?Z1hyc2h5SXhsSDhUYm9kcTVxRmNtbmVNYlJTM0tkT3lxWlFCclFwbFp5OTlG?=
+ =?utf-8?B?Tm9MdDhBM1Q1eE9USkNlWG5CejZKUmJTQVJFeERiVmoyWjNCVGVNbEkvY08r?=
+ =?utf-8?Q?clLs=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f71ec533-0216-45f7-1137-08dd8bc68e35
+X-MS-Exchange-CrossTenant-Network-Message-Id: e07e2c2b-9659-4ba1-1d98-08dd8bc77f81
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 11:18:26.3771 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 11:25:11.3416 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3NOvA3H46febVT8+6PqBPgw7+7BU+taJUcnW3GJ9r5vfEpRv88uClqdg8EUFh/pP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9611
+X-MS-Exchange-CrossTenant-UserPrincipalName: RL6LwQNXIvdIxZs0CyA48wQfttabL+jHI2+ilVDqyTPKmU7+aVUfw0o64HnMto9a
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5848
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,430 +167,216 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/5/25 00:41, T.J. Mercier wrote:
-> I think Android is probably the only remaining user of the dmabuf sysfs
-> files. The BPF infrastructure added earlier in this series will allow us
-> to get the same information much more cheaply.
+Hi Thomas & Shixiong,
+
+first of all the patch is still based on outdated code. For example the cache_sgt_mapping member is already removed in drm-misc-next.
+
+So if I'm not completely mistaken the issue is already resolved upstream.
+
+Regards,
+Christian.
+
+On 5/5/25 13:12, Thomas Zimmermann wrote:
+> (cc'ing Christian)
 > 
-> This patch is a RFC because I'd like to keep this for at least one more
-> longterm stable release (6.18?) before actually removing it so that we
-> can have one longterm stable kernel version that supports both options
-> to facilitate a transition from the sysfs files to a BPF program.
-
-Sounds like a plan to me.
-
+> Hi,
 > 
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-
-Acked-by: Christian König <christian.koenig@amd.com>
-
-> ---
->  .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  24 ---
->  Documentation/driver-api/dma-buf.rst          |   5 -
->  drivers/dma-buf/Kconfig                       |  15 --
->  drivers/dma-buf/Makefile                      |   1 -
->  drivers/dma-buf/dma-buf-sysfs-stats.c         | 202 ------------------
->  drivers/dma-buf/dma-buf-sysfs-stats.h         |  35 ---
->  drivers/dma-buf/dma-buf.c                     |  18 --
->  7 files changed, 300 deletions(-)
->  delete mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
->  delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
->  delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
+> I don't feel qualified to fully review this patch.
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> deleted file mode 100644
-> index 5d3bc997dc64..000000000000
-> --- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> +++ /dev/null
-> @@ -1,24 +0,0 @@
-> -What:		/sys/kernel/dmabuf/buffers
-> -Date:		May 2021
-> -KernelVersion:	v5.13
-> -Contact:	Hridya Valsaraju <hridya@google.com>
-> -Description:	The /sys/kernel/dmabuf/buffers directory contains a
-> -		snapshot of the internal state of every DMA-BUF.
-> -		/sys/kernel/dmabuf/buffers/<inode_number> will contain the
-> -		statistics for the DMA-BUF with the unique inode number
-> -		<inode_number>
-> -Users:		kernel memory tuning/debugging tools
-> -
-> -What:		/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
-> -Date:		May 2021
-> -KernelVersion:	v5.13
-> -Contact:	Hridya Valsaraju <hridya@google.com>
-> -Description:	This file is read-only and contains the name of the exporter of
-> -		the DMA-BUF.
-> -
-> -What:		/sys/kernel/dmabuf/buffers/<inode_number>/size
-> -Date:		May 2021
-> -KernelVersion:	v5.13
-> -Contact:	Hridya Valsaraju <hridya@google.com>
-> -Description:	This file is read-only and specifies the size of the DMA-BUF in
-> -		bytes.
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> index 29abf1eebf9f..2f36c21d9948 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -125,11 +125,6 @@ Implicit Fence Poll Support
->  .. kernel-doc:: drivers/dma-buf/dma-buf.c
->     :doc: implicit fence polling
->  
-> -DMA-BUF statistics
-> -~~~~~~~~~~~~~~~~~~
-> -.. kernel-doc:: drivers/dma-buf/dma-buf-sysfs-stats.c
-> -   :doc: overview
-> -
->  DMA Buffer ioctls
->  ~~~~~~~~~~~~~~~~~
->  
-> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-> index fee04fdb0822..03e38c0d1fff 100644
-> --- a/drivers/dma-buf/Kconfig
-> +++ b/drivers/dma-buf/Kconfig
-> @@ -76,21 +76,6 @@ menuconfig DMABUF_HEAPS
->  	  allows userspace to allocate dma-bufs that can be shared
->  	  between drivers.
->  
-> -menuconfig DMABUF_SYSFS_STATS
-> -	bool "DMA-BUF sysfs statistics (DEPRECATED)"
-> -	depends on DMA_SHARED_BUFFER
-> -	help
-> -	   Choose this option to enable DMA-BUF sysfs statistics
-> -	   in location /sys/kernel/dmabuf/buffers.
-> -
-> -	   /sys/kernel/dmabuf/buffers/<inode_number> will contain
-> -	   statistics for the DMA-BUF with the unique inode number
-> -	   <inode_number>.
-> -
-> -	   This option is deprecated and should sooner or later be removed.
-> -	   Android is the only user of this and it turned out that this resulted
-> -	   in quite some performance problems.
-> -
->  source "drivers/dma-buf/heaps/Kconfig"
->  
->  endmenu
-> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> index 70ec901edf2c..8ab2bfecb1c9 100644
-> --- a/drivers/dma-buf/Makefile
-> +++ b/drivers/dma-buf/Makefile
-> @@ -6,7 +6,6 @@ obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
->  obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
->  obj-$(CONFIG_SW_SYNC)		+= sw_sync.o sync_debug.o
->  obj-$(CONFIG_UDMABUF)		+= udmabuf.o
-> -obj-$(CONFIG_DMABUF_SYSFS_STATS) += dma-buf-sysfs-stats.o
->  
->  dmabuf_selftests-y := \
->  	selftest.o \
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> deleted file mode 100644
-> index b5b62e40ccc1..000000000000
-> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> +++ /dev/null
-> @@ -1,202 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0-only
-> -/*
-> - * DMA-BUF sysfs statistics.
-> - *
-> - * Copyright (C) 2021 Google LLC.
-> - */
-> -
-> -#include <linux/dma-buf.h>
-> -#include <linux/dma-resv.h>
-> -#include <linux/kobject.h>
-> -#include <linux/printk.h>
-> -#include <linux/slab.h>
-> -#include <linux/sysfs.h>
-> -
-> -#include "dma-buf-sysfs-stats.h"
-> -
-> -#define to_dma_buf_entry_from_kobj(x) container_of(x, struct dma_buf_sysfs_entry, kobj)
-> -
-> -/**
-> - * DOC: overview
-> - *
-> - * ``/sys/kernel/debug/dma_buf/bufinfo`` provides an overview of every DMA-BUF
-> - * in the system. However, since debugfs is not safe to be mounted in
-> - * production, procfs and sysfs can be used to gather DMA-BUF statistics on
-> - * production systems.
-> - *
-> - * The ``/proc/<pid>/fdinfo/<fd>`` files in procfs can be used to gather
-> - * information about DMA-BUF fds. Detailed documentation about the interface
-> - * is present in Documentation/filesystems/proc.rst.
-> - *
-> - * Unfortunately, the existing procfs interfaces can only provide information
-> - * about the DMA-BUFs for which processes hold fds or have the buffers mmapped
-> - * into their address space. This necessitated the creation of the DMA-BUF sysfs
-> - * statistics interface to provide per-buffer information on production systems.
-> - *
-> - * The interface at ``/sys/kernel/dmabuf/buffers`` exposes information about
-> - * every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
-> - *
-> - * The following stats are exposed by the interface:
-> - *
-> - * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
-> - * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
-> - *
-> - * The information in the interface can also be used to derive per-exporter
-> - * statistics. The data from the interface can be gathered on error conditions
-> - * or other important events to provide a snapshot of DMA-BUF usage.
-> - * It can also be collected periodically by telemetry to monitor various metrics.
-> - *
-> - * Detailed documentation about the interface is present in
-> - * Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers.
-> - */
-> -
-> -struct dma_buf_stats_attribute {
-> -	struct attribute attr;
-> -	ssize_t (*show)(struct dma_buf *dmabuf,
-> -			struct dma_buf_stats_attribute *attr, char *buf);
-> -};
-> -#define to_dma_buf_stats_attr(x) container_of(x, struct dma_buf_stats_attribute, attr)
-> -
-> -static ssize_t dma_buf_stats_attribute_show(struct kobject *kobj,
-> -					    struct attribute *attr,
-> -					    char *buf)
-> -{
-> -	struct dma_buf_stats_attribute *attribute;
-> -	struct dma_buf_sysfs_entry *sysfs_entry;
-> -	struct dma_buf *dmabuf;
-> -
-> -	attribute = to_dma_buf_stats_attr(attr);
-> -	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
-> -	dmabuf = sysfs_entry->dmabuf;
-> -
-> -	if (!dmabuf || !attribute->show)
-> -		return -EIO;
-> -
-> -	return attribute->show(dmabuf, attribute, buf);
-> -}
-> -
-> -static const struct sysfs_ops dma_buf_stats_sysfs_ops = {
-> -	.show = dma_buf_stats_attribute_show,
-> -};
-> -
-> -static ssize_t exporter_name_show(struct dma_buf *dmabuf,
-> -				  struct dma_buf_stats_attribute *attr,
-> -				  char *buf)
-> -{
-> -	return sysfs_emit(buf, "%s\n", dmabuf->exp_name);
-> -}
-> -
-> -static ssize_t size_show(struct dma_buf *dmabuf,
-> -			 struct dma_buf_stats_attribute *attr,
-> -			 char *buf)
-> -{
-> -	return sysfs_emit(buf, "%zu\n", dmabuf->size);
-> -}
-> -
-> -static struct dma_buf_stats_attribute exporter_name_attribute =
-> -	__ATTR_RO(exporter_name);
-> -static struct dma_buf_stats_attribute size_attribute = __ATTR_RO(size);
-> -
-> -static struct attribute *dma_buf_stats_default_attrs[] = {
-> -	&exporter_name_attribute.attr,
-> -	&size_attribute.attr,
-> -	NULL,
-> -};
-> -ATTRIBUTE_GROUPS(dma_buf_stats_default);
-> -
-> -static void dma_buf_sysfs_release(struct kobject *kobj)
-> -{
-> -	struct dma_buf_sysfs_entry *sysfs_entry;
-> -
-> -	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
-> -	kfree(sysfs_entry);
-> -}
-> -
-> -static const struct kobj_type dma_buf_ktype = {
-> -	.sysfs_ops = &dma_buf_stats_sysfs_ops,
-> -	.release = dma_buf_sysfs_release,
-> -	.default_groups = dma_buf_stats_default_groups,
-> -};
-> -
-> -void dma_buf_stats_teardown(struct dma_buf *dmabuf)
-> -{
-> -	struct dma_buf_sysfs_entry *sysfs_entry;
-> -
-> -	sysfs_entry = dmabuf->sysfs_entry;
-> -	if (!sysfs_entry)
-> -		return;
-> -
-> -	kobject_del(&sysfs_entry->kobj);
-> -	kobject_put(&sysfs_entry->kobj);
-> -}
-> -
-> -
-> -/* Statistics files do not need to send uevents. */
-> -static int dmabuf_sysfs_uevent_filter(const struct kobject *kobj)
-> -{
-> -	return 0;
-> -}
-> -
-> -static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops = {
-> -	.filter = dmabuf_sysfs_uevent_filter,
-> -};
-> -
-> -static struct kset *dma_buf_stats_kset;
-> -static struct kset *dma_buf_per_buffer_stats_kset;
-> -int dma_buf_init_sysfs_statistics(void)
-> -{
-> -	dma_buf_stats_kset = kset_create_and_add("dmabuf",
-> -						 &dmabuf_sysfs_no_uevent_ops,
-> -						 kernel_kobj);
-> -	if (!dma_buf_stats_kset)
-> -		return -ENOMEM;
-> -
-> -	dma_buf_per_buffer_stats_kset = kset_create_and_add("buffers",
-> -							    &dmabuf_sysfs_no_uevent_ops,
-> -							    &dma_buf_stats_kset->kobj);
-> -	if (!dma_buf_per_buffer_stats_kset) {
-> -		kset_unregister(dma_buf_stats_kset);
-> -		return -ENOMEM;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -void dma_buf_uninit_sysfs_statistics(void)
-> -{
-> -	kset_unregister(dma_buf_per_buffer_stats_kset);
-> -	kset_unregister(dma_buf_stats_kset);
-> -}
-> -
-> -int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
-> -{
-> -	struct dma_buf_sysfs_entry *sysfs_entry;
-> -	int ret;
-> -
-> -	if (!dmabuf->exp_name) {
-> -		pr_err("exporter name must not be empty if stats needed\n");
-> -		return -EINVAL;
-> -	}
-> -
-> -	sysfs_entry = kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
-> -	if (!sysfs_entry)
-> -		return -ENOMEM;
-> -
-> -	sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
-> -	sysfs_entry->dmabuf = dmabuf;
-> -
-> -	dmabuf->sysfs_entry = sysfs_entry;
-> -
-> -	/* create the directory for buffer stats */
-> -	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
-> -				   "%lu", file_inode(file)->i_ino);
-> -	if (ret)
-> -		goto err_sysfs_dmabuf;
-> -
-> -	return 0;
-> -
-> -err_sysfs_dmabuf:
-> -	kobject_put(&sysfs_entry->kobj);
-> -	dmabuf->sysfs_entry = NULL;
-> -	return ret;
-> -}
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> deleted file mode 100644
-> index 7a8a995b75ba..000000000000
-> --- a/drivers/dma-buf/dma-buf-sysfs-stats.h
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0-only */
-> -/*
-> - * DMA-BUF sysfs statistics.
-> - *
-> - * Copyright (C) 2021 Google LLC.
-> - */
-> -
-> -#ifndef _DMA_BUF_SYSFS_STATS_H
-> -#define _DMA_BUF_SYSFS_STATS_H
-> -
-> -#ifdef CONFIG_DMABUF_SYSFS_STATS
-> -
-> -int dma_buf_init_sysfs_statistics(void);
-> -void dma_buf_uninit_sysfs_statistics(void);
-> -
-> -int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
-> -
-> -void dma_buf_stats_teardown(struct dma_buf *dmabuf);
-> -#else
-> -
-> -static inline int dma_buf_init_sysfs_statistics(void)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline void dma_buf_uninit_sysfs_statistics(void) {}
-> -
-> -static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
-> -#endif
-> -#endif // _DMA_BUF_SYSFS_STATS_H
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 7260bdd77c75..adc6a0c96641 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -31,8 +31,6 @@
->  #include <uapi/linux/dma-buf.h>
->  #include <uapi/linux/magic.h>
->  
-> -#include "dma-buf-sysfs-stats.h"
-> -
->  static inline int is_dma_buf_file(struct file *);
->  
->  DEFINE_MUTEX(dmabuf_list_mutex);
-> @@ -88,7 +86,6 @@ static void dma_buf_release(struct dentry *dentry)
->  	 */
->  	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
->  
-> -	dma_buf_stats_teardown(dmabuf);
->  	dmabuf->ops->release(dmabuf);
->  
->  	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
-> @@ -671,10 +668,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  		dmabuf->resv = resv;
->  	}
->  
-> -	ret = dma_buf_stats_setup(dmabuf, file);
-> -	if (ret)
-> -		goto err_dmabuf;
-> -
->  	file->private_data = dmabuf;
->  	file->f_path.dentry->d_fsdata = dmabuf;
->  	dmabuf->file = file;
-> @@ -683,10 +676,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  
->  	return dmabuf;
->  
-> -err_dmabuf:
-> -	if (!resv)
-> -		dma_resv_fini(dmabuf->resv);
-> -	kfree(dmabuf);
->  err_file:
->  	fput(file);
->  err_module:
-> @@ -1717,12 +1706,6 @@ static inline void dma_buf_uninit_debugfs(void)
->  
->  static int __init dma_buf_init(void)
->  {
-> -	int ret;
-> -
-> -	ret = dma_buf_init_sysfs_statistics();
-> -	if (ret)
-> -		return ret;
-> -
->  	dma_buf_mnt = kern_mount(&dma_buf_fs_type);
->  	if (IS_ERR(dma_buf_mnt))
->  		return PTR_ERR(dma_buf_mnt);
-> @@ -1736,6 +1719,5 @@ static void __exit dma_buf_deinit(void)
->  {
->  	dma_buf_uninit_debugfs();
->  	kern_unmount(dma_buf_mnt);
-> -	dma_buf_uninit_sysfs_statistics();
->  }
->  __exitcall(dma_buf_deinit);
+> It would be good to have the issue with sg-tables solved, but I dislike the dedicated initializer macros. So my question is if this has any drawbacks. Or could we make this available and the default for all shmem-based drivers?
+> 
+> Best regards
+> Thomas
+> 
+> Am 01.05.25 um 08:43 schrieb oushixiong1025@163.com:
+>> From: Shixiong Ou <oushixiong@kylinos.cn>
+>>
+>> [WHY]
+>> 1. Drivers using DRM_GEM_SHADOW_PLANE_HELPER_FUNCS and
+>>     DRM_GEM_SHMEM_DRIVER_OPS (e.g., udl, ast) do not require
+>>     sg_table import.
+>>     They only need dma_buf_vmap() to access the shared buffer's
+>>     kernel virtual address.
+>>
+>> 2. On certain Aspeed-based boards, a dma_mask of 0xffff_ffff may
+>>     trigger SWIOTLB during dmabuf import. However, IO_TLB_SEGSIZE
+>>     restricts the maximum DMA streaming mapping memory, resulting in
+>>     errors like:
+>>
+>>     ast 0000:07:00.0: swiotlb buffer is full (sz: 3145728 bytes), total 32768 (slots), used 0 (slots)
+>>
+>> [HOW]
+>> Provide a gem_prime_import implementation without sg_table mapping
+>> to avoid issues (e.g., "swiotlb buffer is full"). Drivers that do not
+>> require sg_table can adopt this.
+>>
+>> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+>> ---
+>>   drivers/gpu/drm/drm_gem_shmem_helper.c | 95 ++++++++++++++++++++++++++
+>>   include/drm/drm_gem_shmem_helper.h     | 24 +++++++
+>>   2 files changed, 119 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> index d99dee67353a..9e41e350ff6f 100644
+>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> @@ -39,6 +39,7 @@ MODULE_IMPORT_NS("DMA_BUF");
+>>   static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+>>       .free = drm_gem_shmem_object_free,
+>>       .print_info = drm_gem_shmem_object_print_info,
+>> +    .export = drm_gem_shmem_object_prime_export,
+>>       .pin = drm_gem_shmem_object_pin,
+>>       .unpin = drm_gem_shmem_object_unpin,
+>>       .get_sg_table = drm_gem_shmem_object_get_sg_table,
+>> @@ -799,6 +800,100 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>>   }
+>>   EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
+>>   +const struct dma_buf_ops drm_gem_shmem_prime_dmabuf_ops =  {
+>> +    .cache_sgt_mapping = true,
+>> +    .attach = drm_gem_map_attach,
+>> +    .detach = drm_gem_map_detach,
+>> +    .map_dma_buf = drm_gem_map_dma_buf,
+>> +    .unmap_dma_buf = drm_gem_unmap_dma_buf,
+>> +    .release = drm_gem_dmabuf_release,
+>> +    .mmap = drm_gem_dmabuf_mmap,
+>> +    .vmap = drm_gem_dmabuf_vmap,
+>> +    .vunmap = drm_gem_dmabuf_vunmap,
+>> +};
+>> +
+>> +/**
+>> + * drm_gem_shmem_prime_export - implementation of the export callback
+>> + * @shmem: shmem GEM object
+>> + */
+>> +struct dma_buf *drm_gem_shmem_prime_export(struct drm_gem_shmem_object *shmem,
+>> +                       int flags)
+>> +{
+>> +    struct drm_gem_object *obj = &shmem->base;
+>> +    struct drm_device *dev = obj->dev;
+>> +    struct dma_buf_export_info exp_info = {
+>> +        .exp_name = KBUILD_MODNAME, /* white lie for debug */
+>> +        .owner = dev->driver->fops->owner,
+>> +        .ops = &drm_gem_shmem_prime_dmabuf_ops,
+>> +        .size = obj->size,
+>> +        .flags = flags,
+>> +        .priv = obj,
+>> +        .resv = obj->resv,
+>> +    };
+>> +
+>> +    return drm_gem_dmabuf_export(dev, &exp_info);
+>> +}
+>> +
+>> +/**
+>> + * drm_gem_shmem_prime_import - Import dmabuf without mapping its sg_table
+>> + * @dev: Device to import into
+>> + * @dma_buf: dma-buf object to import
+>> + *
+>> + * Drivers that use the shmem helpers but also wants to import dmabuf without
+>> + * mapping its sg_table can use this as their &drm_driver.gem_prime_import
+>> + * implementation.
+>> + */
+>> +struct drm_gem_object *drm_gem_shmem_prime_import(struct drm_device *dev,
+>> +                          struct dma_buf *dma_buf)
+>> +{
+>> +    struct dma_buf_attachment *attach;
+>> +    struct drm_gem_shmem_object *shmem;
+>> +    size_t size;
+>> +    int ret;
+>> +
+>> +    if (dma_buf->ops == &drm_gem_shmem_prime_dmabuf_ops) {
+>> +        struct drm_gem_object *obj;
+>> +
+>> +        obj = dma_buf->priv;
+>> +        if (obj->dev == dev) {
+>> +            /*
+>> +             * Importing dmabuf exported from our own gem increases
+>> +             * refcount on gem itself instead of f_count of dmabuf.
+>> +             */
+>> +            drm_gem_object_get(obj);
+>> +            return obj;
+>> +        }
+>> +    }
+>> +
+>> +    attach = dma_buf_attach(dma_buf, dev->dev);
+>> +    if (IS_ERR(attach))
+>> +        return ERR_CAST(attach);
+>> +
+>> +    get_dma_buf(dma_buf);
+>> +
+>> +    size = PAGE_ALIGN(attach->dmabuf->size);
+>> +
+>> +    shmem = __drm_gem_shmem_create(dev, size, true, NULL);
+>> +    if (IS_ERR(shmem)) {
+>> +        ret = PTR_ERR(shmem);
+>> +        goto fail_detach;
+>> +    }
+>> +
+>> +    drm_dbg_prime(dev, "size = %zu\n", size);
+>> +
+>> +    shmem->base.import_attach = attach;
+>> +    shmem->base.resv = dma_buf->resv;
+>> +
+>> +    return &shmem->base;
+>> +
+>> +fail_detach:
+>> +    dma_buf_detach(dma_buf, attach);
+>> +    dma_buf_put(dma_buf);
+>> +
+>> +    return ERR_PTR(ret);
+>> +}
+>> +EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import);
+>> +
+>>   MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
+>>   MODULE_IMPORT_NS("DMA_BUF");
+>>   MODULE_LICENSE("GPL v2");
+>> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+>> index cef5a6b5a4d6..78ef91593a8e 100644
+>> --- a/include/drm/drm_gem_shmem_helper.h
+>> +++ b/include/drm/drm_gem_shmem_helper.h
+>> @@ -110,6 +110,8 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+>>   void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+>>                 struct iosys_map *map);
+>>   int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma);
+>> +struct dma_buf *drm_gem_shmem_prime_export(struct drm_gem_shmem_object *shmem,
+>> +                          int flags);
+>>     int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem);
+>>   void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem);
+>> @@ -168,6 +170,18 @@ static inline void drm_gem_shmem_object_print_info(struct drm_printer *p, unsign
+>>       drm_gem_shmem_print_info(shmem, p, indent);
+>>   }
+>>   +/**
+>> + * drm_gem_shmem_object_prime_export - GEM object function for export()
+>> + * @obj: GEM object
+>> + *
+>> + */
+>> +static inline struct dma_buf *drm_gem_shmem_object_prime_export(struct drm_gem_object *obj,
+>> +                                int flags)
+>> +{
+>> +    struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+>> +
+>> +    return drm_gem_shmem_prime_export(shmem, flags);
+>> +}
+>>   /**
+>>    * drm_gem_shmem_object_pin - GEM object function for drm_gem_shmem_pin()
+>>    * @obj: GEM object
+>> @@ -276,6 +290,8 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>>                       struct sg_table *sgt);
+>>   int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>>                     struct drm_mode_create_dumb *args);
+>> +struct drm_gem_object *drm_gem_shmem_prime_import(struct drm_device *dev,
+>> +                          struct dma_buf *buf);
+>>     /**
+>>    * DRM_GEM_SHMEM_DRIVER_OPS - Default shmem GEM operations
+>> @@ -287,4 +303,12 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>>       .gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table, \
+>>       .dumb_create           = drm_gem_shmem_dumb_create
+>>   +/**
+>> + * This macro provides a shmem GEM operations that implementate a simple
+>> + * gem_prime_import.
+>> + */
+>> +#define DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS \
+>> +    .gem_prime_import    = drm_gem_shmem_prime_import, \
+>> +    .dumb_create        = drm_gem_shmem_dumb_create
+>> +
+>>   #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
+> 
 
