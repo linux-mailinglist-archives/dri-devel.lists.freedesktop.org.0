@@ -2,55 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59837AA8E31
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 10:26:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884C3AA8EB3
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 11:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53BEC10E0D9;
-	Mon,  5 May 2025 08:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8249110E374;
+	Mon,  5 May 2025 09:00:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="EqsgzOBI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VmWLvjUi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB25F10E291
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 08:26:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID;
- bh=79u0OVf8LkWKmm3Wdou6FM0hujmZjDHVeYn1Q2NENsw=; b=EqsgzOBIrGjPuFoBjKNtkB308w
- VTwCJi+SJq3zdiiMnB0g/cGN/OfXfz5oX/LxhKDV5Aqw6BGKKn/omiK9PJtN6WdV0rhjCj+gAatKr
- xSiyKBYAagXWW4JtDEWQf55eutefx2YZ5YLRuA6tSsJv6+C1pEzMk+bgCzc0hTfVXmKfz0OoTbN7f
- +0r5DekvMq0MYaohIUjW9LY0b3qwI+V2i2/nvzDvJ232eeDzPtqWrHGF1cJd25OpbsbVRYedbyNOL
- cFk9IVPb6nbOsGrDEm+n87CAg0vkwSLZCRPdirkOIkn0Izc2B+crQtTpEtezTcm/G4wm+Cy7xC2ap
- s712kSyQ==;
-Received: from i53875a1d.versanet.de ([83.135.90.29]
- helo=localhost.localdomain)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1uBr9g-0001Ho-BB; Mon, 05 May 2025 10:26:28 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Andy Yan <andyshrk@163.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, conor+dt@kernel.org, krzk+dt@kernel.org,
- robh@kernel.org, hjc@rock-chips.com, mripard@kernel.org,
- neil.armstrong@linaro.org, dmitry.baryshkov@oss.qualcomm.com,
- knaerzche@gmail.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: (subset) [PATCH v4 0/7] Convert inno hdmi to drm bridge
-Date: Mon,  5 May 2025 10:26:15 +0200
-Message-ID: <174643357077.1204535.10688043941921762631.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250422070455.432666-1-andyshrk@163.com>
-References: <20250422070455.432666-1-andyshrk@163.com>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80E1A10E291
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 08:59:59 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-43cf58eea0fso16986045e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 01:59:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1746435597; x=1747040397; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6RkMkpBzcyjYKHLAajmFVhljeyOe8/zIRKVfPqj3cNg=;
+ b=VmWLvjUiOyVZhIsp4wgZI+fGNtmIRs3xIxwRGMESDgahfCkmCg/QleRXFQqiq4dsI9
+ 4PIavHSAVwqfJo4+Gi74R3qF6j9+zRy0MAzPh7EImbYjPBfgtzahzVBHN2OEdexiUllI
+ pnwPHjuOLpIw02CIyJbfUo1JSOL/IKE+agJP47y3w41ZpdvF2dCvUH5rrpmHnh31O8hv
+ q3eNORLS8mw7DqDz6Fw+ngSn6gjp0gu0NvagSeB/wPcjM3xvhegyseguz9OvMJnSmSpf
+ 2lteRKGZ+SU9Pz+QQo/1T/BHxoxlFqih3UyFM23epiiH9mqSw+k9Wuj7lAt3DJ9ZIZiS
+ MsQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746435597; x=1747040397;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6RkMkpBzcyjYKHLAajmFVhljeyOe8/zIRKVfPqj3cNg=;
+ b=My4eKroD6AczwY1b00xA+l9np7FF86jn+Aj4XrvH8vwXl7alCE+ZFOsDyoYFoF6W0+
+ 7GMseO5D1j5mb4pkagKl9fpGObjIzrTv76l0rqh1YK9qV+DoUbLVvdu3yspGqGRbeYJA
+ eKNej3MB4MgEDS+KR5yRC9ageGpIHgGgfR67sHhXQE0CorThZVlRPsHP6k3vvs26mq/K
+ vMBPrpjOZVeennpGEH4qHcMxfhj7PVSfbgm9SlxEG8PtKQQ1xIyd83T8ypisWu5dOaog
+ 85jd166ayb8dmsnj8fblJBu2zSrhrT6ddqccCsVA+W3QMh6mndLH1l/+UCqg414ht7zX
+ oXqw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWr4Yv4+fXaUiNtT29GFzvnWMu9W3gKgJ3yKOG5b0s2FZDhRMO6EeZHm8AESDdMghS30jElbXG4/us=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzfJ6kmnv+ULZbWQxTMJ1uUnsRx29Jzr6WI2trqXSEEAaOFPaif
+ U4ccnrkPspLP3E6IDXhBYTj2SKnnMNjF9wHrAvtDnK/PYRMumIR8M9liaugzr9c=
+X-Gm-Gg: ASbGncsEsiL0cudxt7cKhZ4MevA9leqCStKvbIhK54z0hEwWoRTPlSG2WR5KYgeswZC
+ 2Hw3NIpDRhhVJmEj1+gdQSMadnh8w3az4jgCzdapREGGSuOXKL5PwwVA9rujv+6D+SMpe2ITPcd
+ gTm47yVxOYzGnI2lul1BssnmYbVR1AsP0HHOUbfL0XimgIhA0yjuqMsi812IsxMmf19zdQDrqJB
+ iO0bSU3ncJ/27pQaAeM81iy7D2YB5LlnjhA/6nyd/wXqIHSSSOkae0UiEIzrpfxmHJmSPSo6dan
+ LERM/YcRKtGxmPCBLYMj7APO4WVlVPlY32feGfhxf/HDHGLi6KZ0GPl7CTcSNYj+7Vjpnj97zQg
+ M+8Z0
+X-Google-Smtp-Source: AGHT+IGz03kxWiSqV9ePHTaEbXPJFvgSx8RYWlEikxqBVx5QFRHF98Oz1fX+szduVQOs2J05BoLuWw==
+X-Received: by 2002:a05:600c:1987:b0:43d:49eb:963f with SMTP id
+ 5b1f17b1804b1-441bbf33b31mr92931135e9.24.1746435597433; 
+ Mon, 05 May 2025 01:59:57 -0700 (PDT)
+Received: from [127.0.1.1] (adsl-186.37.6.163.tellas.gr. [37.6.163.186])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-441b2b28045sm170432475e9.35.2025.05.05.01.59.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 May 2025 01:59:57 -0700 (PDT)
+From: Manos Pitsidianakis <manos.pitsidianakis@linaro.org>
+Subject: [PATCH 0/3] virtgpu: fix memory leak on device removal
+Date: Mon, 05 May 2025 11:59:13 +0300
+Message-Id: <20250505-virtgpu-queue-cleanup-v1-v1-0-810923da2b1e@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOF9GGgC/x2MQQqAIBAAvyJ7biEND/aV6GC21UKYaUoQ/T2JO
+ c1h5oFEkSlBLx6IVDjx4avIRoDbrF8Jea4OqlW6rWDheK0h45kpE7qdrM8Bi8SuM8oY7eykF6h
+ 5iLTw/a+H8X0/UBzqqWoAAAA=
+X-Change-ID: 20250505-virtgpu-queue-cleanup-v1-3392995cab5f
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Chia-I Wu <olvaffe@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Simona Vetter <simona@ffwll.ch>
+Cc: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, dri-devel@lists.freedesktop.org, 
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Manos Pitsidianakis <manos.pitsidianakis@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1478;
+ i=manos.pitsidianakis@linaro.org; h=from:subject:message-id;
+ bh=sjhErN8ONkfCqIGOTbBvg7YELbUIF3vZ82Dti970nCg=;
+ b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0VCYlFLUy9aQU5Bd0FLQVhjcHgzQi9mZ
+ 25RQWNzbVlnQm9HSDRMNVJZZVc0VW84d0ZUemw5MXpVb3UwRGxLCk5JT21sQmpCc1p4aGJUdU01
+ Z2VKQWpNRUFBRUtBQjBXSVFUTVhCdE9SS0JXODRkd0hSQjNLY2R3ZjM0SjBBVUMKYUJoK0N3QUt
+ DUkIzS2Nkd2YzNEowSGkzRC85aHdCZ2NOR3RsNHJGVDFPa0NxMDlLRDc0aU1FYW5Ec0J0eUlaMQ
+ p0OTVJK2hVVmFsL3UyZDYydTgwZUFObzRYMmdKb3V6enRPSjRtMUUyYW9JWWt5Mzl5cW82QTJqV
+ XJKQXBCQ21WCm1ld1cwQ2NmNVpaS0VaYy9jUU8raFExalgxbC9xclA0MGRERDBWdWhHY2NEQkpl
+ QkJ5QTRIZFlqS1RIZDUzYlMKVHBKZ256ZFFBWVlkT214U2J3em5RT0FhbEV0RmJqUk1SU01QZjB
+ LWkJ2T09wTGprOEhUQktMQURRVTVqMW93dQpTYzlXRFU4dy9uS3hCTU90ZmdraElTUTc0emlKRW
+ ZGdjRTd29BMVFsM0NaZ213TTRDdkg0dXZFZ25nQnIxakVFCm96WGVlRFZHcFdJaURCT1ZUdnRud
+ zM2YUdPOTl4SUFrVmMwV1BFV3lKVk1QcUlCd0FXRWF3Vlh0SFVMY25jb0oKWUJ5YXVCUS9JdEd0
+ R2hBNzhvcDFpZXNkRTZXajJHbUtYd3pRNjFNeG4rWTlOWHordE4wNE0xK3V3UmJ3bkFUUgo0RjF
+ tRGF1MnRUa3ZCcld0NXR4L2VpMGtwRGJka3Z4bXllWVRMaWFHQm9CUEY1QmJQckxmbW00d3FVcl
+ VqY0x3CnNnVGR5emZGRzBsYlhSS1RGcm9OUUZtWmVGNkJzemJJQmZtSWFGUndBNVNYTnVURXdze
+ ExlakhsSFFia0dheWwKRjg5RHNabG5JZG1hNU1XTWNnNWJtMXR4dG05NGNyejhLbElERXorSXZG
+ Y3JwK1UwVXYyK3ZramMvWlpXS1AwTwp5c2xVVWs5SG9DbWpVODJhd0s0NEdGaW00SEcxVTZON3J
+ kcWtGZ2RtUS8zcGJtQmlUaVVuc0xMM1FCZWdvVS9RCjk2STlOZz09Cj04MU4vCi0tLS0tRU5EIF
+ BHUCBNRVNTQUdFLS0tLS0K
+X-Developer-Key: i=manos.pitsidianakis@linaro.org; a=openpgp;
+ fpr=7C721DF9DB3CC7182311C0BF68BC211D47B421E1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,26 +121,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When a VIRTIO GPU device is removed, it cleans up any command buffers
+that the VIRTIO frontend has responded to. It however ignores commands
+that have yet to be replied to, which still reside in the avail rings of
+the virt queues. This leaks two type of objects:
 
-On Tue, 22 Apr 2025 15:04:39 +0800, Andy Yan wrote:
-> When preparing to convert the current inno hdmi driver into a
-> bridge driver, I found that there are several issues currently
-> existing with it:
-> 
-> 1. When the system starts up, the first time it reads the EDID, it
->    will fail. This is because RK3036 HDMI DDC bus requires it's PHY's
->    reference clock to be enabled first before normal DDC communication
->    can be carried out.
-> 
-> [...]
+- VIRTIO command buffers
+- Fences
 
-Applied, thanks!
+Furthermore, if the virtio config has num_capsets > 0, the capsets field
+of the device is also leaked.
 
-[5/7] ARM: dts: rockchip: Add ref clk for hdmi
-      commit: cdc602ad064009470b1c40af51d4a8cd804eaaf9
-[6/7] Revert "ARM: dts: rockchip: drop grf reference from rk3036 hdmi"
-      commit: dd6c77864aa69ba1079998c590b552e35649d51b
+These memory leaks are reported by:
 
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+- /sys/kernel/debug/kmemleak
+- slab debug options "BUG virtio-gpu-vbufs: Objects remaining in
+  virtio-gpu-vbufs on __kmem_cache_shutdown()"
+- drm:drm_mm_takedown "Memory manager not clean during takedown."
+
+This patch series adds cleanup logic in virtio_gpu_deinit(), after
+calling virtio_reset_device(), to free any such allocations.
+
+Signed-off-by: Manos Pitsidianakis <manos.pitsidianakis@linaro.org>
+---
+Manos Pitsidianakis (3):
+      virtgpu: add virtio_gpu_queue_cleanup()
+      virtgpu: add virtio_gpu_fence_cleanup()
+      virtgpu: deallocate capsets on device deinit
+
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  2 ++
+ drivers/gpu/drm/virtio/virtgpu_fence.c | 12 ++++++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c   |  6 ++++
+ drivers/gpu/drm/virtio/virtgpu_vq.c    | 55 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 75 insertions(+)
+---
+base-commit: ad10b82c2bcac7f87ac6eaecfca33378b43425ee
+change-id: 20250505-virtgpu-queue-cleanup-v1-3392995cab5f
+
+--
+γαῖα πυρί μιχθήτω
+
