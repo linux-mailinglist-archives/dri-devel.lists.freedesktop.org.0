@@ -2,82 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02945AA990A
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 18:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B12AA99D0
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 18:56:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4F9310E320;
-	Mon,  5 May 2025 16:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA10310E2ED;
+	Mon,  5 May 2025 16:56:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="rdKIZjaU";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Isu8W6XX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF9C810E320
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 16:34:02 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-43cfe808908so116255e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 09:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1746462841; x=1747067641;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Cp9xG8IzZ6A+sCM3e//b/xF89Qt5DTbc6K0sQ70LgNM=;
- b=rdKIZjaUlZdl4mx7om9pD9uAggY8rPOs8UpL7XD08Kq/TXgyD4CLHbCb3lVbCH6VHu
- f7Qe/4MPG/tTFuE635jSABciCtITC6mwHoPFLltdKwOUCusfaiXMPRVixO9naczxUm8a
- MRkw9di58+jfHFloYyUEIq6umSQWGLlNURrVE2C2zrmZuQur3m/6jjdUjPiPp4ecg5Du
- ZUXrbRNmMkC8j4ZTLIzYw4jTtRt+VqFrkrYi6bjFKGLOiNvs6lEoTUIsTOo9bAXKMCaj
- 73hY9jidOaSbORpHpS0bT5Avw/T/39KYH/2Ue3tmZV4TDnsMjpvDJq/cPdMNTXqy/JJ4
- k8Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746462841; x=1747067641;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Cp9xG8IzZ6A+sCM3e//b/xF89Qt5DTbc6K0sQ70LgNM=;
- b=wnOQtokP//D/UucvS5RG3Kd8AgEkXVeaK4XDZ0eR+seonaZUFhxSZj0iKMMaGyUPMQ
- VJbzpU5JsHsKIQWXHWOMDAAJaT2AqAhX9SGgF78sZx7Ez769sBlWiuwbmNFdIXYj6WMZ
- A7bVTnwOwdRSzsz9fezDfiJhEmneK3vILwY263IJ6b1V610T8xaMeud7D9Ew2NZaRJ4H
- +91xBjYW7hqp5+h599jqtVZLXtBaWLIpSA+n22aNNFzRGJ1wYZ2Wh7UWJfDto0SmCpvS
- HKYh9Q9zaDvbCKPhErDVX1Ljr/Tr41elHg2OrvI/95pSuaZcNZXzk3ytyRjUUtXkj26P
- tnfw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU4YLVCHgvYTceEdp9mtRVl+oSP1SjRO1uOB7e7ttuOXJ/Z7iXDmJUdIwVpqQtzohwzerbJ687B4Eg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyF3/C+fCyfUQwoQc6jDUiSDccT7fSf8ch/dmnGfmGgjIkzT6Zr
- NRNl0euB6LgVE+7tKI/B+3TUVP6c60OsJO6LK67FJ6PaQIRFzUKZAiaSdqEDfuXVV/I4Khel6/U
- DqW5hFco5eOnPVrXMauBMHUTmauSmovSSWFdL
-X-Gm-Gg: ASbGncuMbyHTR78L6jluw75NJVeSVetirEwwcawBxONoTDaC+bFod2a79sHG7857XsD
- Q3tPJTN9+2rcbhg3u6q6GB02DRv2bys2MgEm49O3DRM8RtGogLrSirm7UgMpWB4JTZK5WFd7SqJ
- c+282NYDMhz8/2mjDdNtti
-X-Google-Smtp-Source: AGHT+IGQyGO5uVSmpnPnkE3FDZ4KT+CnyY7gWk8P1H5yWIU1LA4t6+ZiezZ9eO866m7rRnEE4b46YYgj28ToiihwpHE=
-X-Received: by 2002:a05:600c:3b82:b0:439:9434:1b6c with SMTP id
- 5b1f17b1804b1-441cf9b141dmr171795e9.3.1746462840937; Mon, 05 May 2025
- 09:34:00 -0700 (PDT)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2070.outbound.protection.outlook.com [40.107.94.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3C2710E00F
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 16:56:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=F/0E+HuLstuS6RrQXF64eJK/xz+1FVCX9xIswmEtvB2JgrkBMBIqTAmuUAswzlDJf9zZMIT9UejcH9sJvFxqUUblSoeTI4MUBiXclz7/2rb8iDZEXJiZEcQ2bdsdU1uuLObHXC8une0Wb/XPudbNel3R7IbQYUOUUVkUfTuUn2kPhNfCvRKVSTvLcDiI9vS4wEJeINtTnBNo9cBacFmwl6VLOlXZoHqxK5kHHbA31uCCsJLcND+m4FL2HK+egaJSHO1ZopRpJS9uEiAnQgj4ud4msrDSdkUketZDd+LdUHSJVAwnycI3ArFCDJpTiiPrFUsaHfQulxtNh3uqp32nYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LzyBkPKE0EC+UTLfhDrWVo1AK/4DlynTS2l/Nmc3IzE=;
+ b=RWv0TIVzoAXXiWZCXSmLom8Z8Ti7cNudIrr/9EAu7Dvs7Vm2V+icWmZ1082o0yPgelrFwULCBU/rmmXsMy2GbgJQxu1xF2EwYDwk8bv7t0Xgjf4mkwhsRRghTpLMipW0KzCfClkTlyODkgmjtl5Z8EXh0f6oo645qCaMAOfKjahTPhaUBl9SWPPEHMmhPkpB6j0XyQOWMf8yLt/HnroKsEr9jrolMsXg2R/k2vaUBPCrdryCRmYNltH1Jmr2JY+zCydqC7lS5V2BSwc6aQW6h4TXVtloEFkQBVAvVkSl8ZVZENQGxf7CMF2FSsQJMytMYpsUyDI4A4jvTK4F22rBTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LzyBkPKE0EC+UTLfhDrWVo1AK/4DlynTS2l/Nmc3IzE=;
+ b=Isu8W6XXZAtQglK4V7InSciehqVnoikjouL0X20luGasGWi5C+QTYxuZqXiG/c8z7hei4N7WE0fbuqjqSvMtLBAFwt9qIGJTHG0DWt6OSAUFU5thT7eTn7FJBrz07QJBBdk49J4mKJ/xyjQ9pnv9x2nJqvOaqBUmiO3K56nSzJc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by BL3PR12MB6572.namprd12.prod.outlook.com (2603:10b6:208:38f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.29; Mon, 5 May
+ 2025 16:56:11 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062%5]) with mapi id 15.20.8699.026; Mon, 5 May 2025
+ 16:56:11 +0000
+Message-ID: <0a7cf86d-9504-4ce4-9769-24c4e0c26fdf@amd.com>
+Date: Mon, 5 May 2025 12:56:07 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: backlight: Clarify `actual_brightness`
+To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
+ lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com
+Cc: Lennart Poettering <lennart@poettering.net>,
+ richard.purdie@linuxfoundation.org, dri-devel@lists.freedesktop.org
+References: <20250415192101.2033518-1-superm1@kernel.org>
+Content-Language: en-US
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20250415192101.2033518-1-superm1@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQXPR0101CA0059.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:14::36) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-References: <20250504224149.1033867-1-tjmercier@google.com>
- <20250504224149.1033867-3-tjmercier@google.com>
- <26ca8ddf-0d78-462f-a47d-a1128b2e058f@amd.com>
-In-Reply-To: <26ca8ddf-0d78-462f-a47d-a1128b2e058f@amd.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Mon, 5 May 2025 09:33:48 -0700
-X-Gm-Features: ATxdqUHRGgaUPb2TsqMguMaRajHe7gmAlhGQ8JWKvVw_IFJV369f1ssTaaa65I4
-Message-ID: <CABdmKX2iNk22h-KxUr4yvZO80yeRRjMfoC7yjiZ-aR_f1k402g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] bpf: Add dmabuf iterator
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: sumit.semwal@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
- andrii@kernel.org, martin.lau@linux.dev, skhan@linuxfoundation.org, 
- song@kernel.org, alexei.starovoitov@gmail.com, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
- simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
- jolsa@kernel.org, mykolal@fb.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|BL3PR12MB6572:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a0d4f57-9ea3-4a56-eea5-08dd8bf5bcf2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Sk9rdGFLck9mdUp5Y2gvdHcrSVRteTZYci9iRlNobUk3RnZVdEZYSTBGNDJY?=
+ =?utf-8?B?VkVSLzR5dVBacWhYa1JGa0pCRjh6T0tnWWlHdnFBeVBWMElZRGlUNVI0aVNY?=
+ =?utf-8?B?emM3ZUl6OW85b3NiTzE1empVSkpzdGpTMUVJTlhDcEMyakhrWXZRV3dnd2Vl?=
+ =?utf-8?B?NE40bEhOQmtBa1orbVZkQlduSXFob1pIUXluMGdMY3gvSFIwdVBlY2paRmNZ?=
+ =?utf-8?B?eU9NdThXTklldXAzZTh5TGptQnk5UHZLcWF0UisxZTNuekVnZjhjUndKOTNS?=
+ =?utf-8?B?bW41K2xqNW9peUZJZmd4aWdObFB5MWg5SzF2NnBpQzRNZ0o4VlJnU25Rd0dj?=
+ =?utf-8?B?a2dwdThFempPd2pNUXNERUY2cHNBbW9hOVhvYTVSVmg2QVB0MEl6eDdvVkpF?=
+ =?utf-8?B?aUpCS1UxakYyNUZXNnp6V21WdVNwbzlCQWI5UFZlVjJoSU5HRmY5RHZtZWpQ?=
+ =?utf-8?B?SnFEeVQvOERsL3VNUmNWeVIrR1ZMR2I1bTBpeWNrQ05jd3gzZVc1YXZqcVh0?=
+ =?utf-8?B?bHVpSW92MVdjVjd3eUR2U0YrNnFPcHVyVHpDRmw1MU91bUdQeTVrUlVjU216?=
+ =?utf-8?B?RG5oU0ZqVFhCZzNIbzE2T0ZqM0g2UzN2Tm01b0tCenNDR1JMN24rdzBtb1RC?=
+ =?utf-8?B?UGlLL0IwYnRvVUtYV05EWjBCNkJ2THFYWjlwcjNnR2xMTTNubjg3TGpqU1Zh?=
+ =?utf-8?B?aHd5S1BQcXhtTExsci94ZVErZDNPZzNQaGVSdlRkMjJhNUV3QXVsOVNwZnNL?=
+ =?utf-8?B?Y1NrdnJ3TmJwZTNrdFB0bVZrWlRGalM1ZUp6M2dnT1UxeUZUamsvbnBvQ2kr?=
+ =?utf-8?B?dkZTVXFtbnZwT3dkMXdvVmtPNW5yUDhIR25mQS9INDZFdmIrNDJ3WTUvYkNq?=
+ =?utf-8?B?N25LM3ZLY2loa1pITjhlYTR3TW52Z3hWTEN1RVFuWWlTaVlIZVY2VXFlNXVl?=
+ =?utf-8?B?MktQQ0wzUjlEZy9ud0NYMG1OdytGc3Bpayt2UHFpRjZORll1d3RRQnFhRUo4?=
+ =?utf-8?B?N1A4OXgzVUY4RW9FTEpqMXNzYUJOWW5mbGpWWlQyQ1dwK3lwQmYxbFBBaU82?=
+ =?utf-8?B?TUdzRy8wcGdlUlFrTGlGcUE3T1hQN1VMWXhqZFM1c2JpelRJMU1BaUxEQ2VS?=
+ =?utf-8?B?V2liSHJEQktibTRLVm5LUWlnZ0d2akR6OXFFbFJaV0hQZjY3Z1JXRjFPUWRk?=
+ =?utf-8?B?MHhUTW1ZeUhwQjl5bXF3WXJBZVJKNDdqTjN2TUhrcXFQTGpQNHdveFRReDZF?=
+ =?utf-8?B?Y3BtaGN5Skp4eE12eHBzTG9HN3FQQ0ljR0NXRFpSSTV1M0VIcE52d2xBMk4y?=
+ =?utf-8?B?RTFjZ3k1UHI5ZndPaGhEZmNldHc2YWp0MFlwK2QveFNQU2NOQnRBREU0Vm9L?=
+ =?utf-8?B?MVZmTkNDQ3JVMnJpbEZvelBWN3BHcmVyWkNmVGNBZVlhZzVqc1hSbG1GRVFu?=
+ =?utf-8?B?WDNJWmJFcW5HSWxGNnBXK2xtMXErR0RtTFZqdGRoWFo0dFFkT2ZPbXd3U3Qz?=
+ =?utf-8?B?TTIrbDlQTHg2cDE2b3BxWWswL20zL2hydTB2N3pDZVplVmw1MjNKOTRoa3F0?=
+ =?utf-8?B?L2tTOEJWYUxpRlF2WThMdnY5UkpvY2x2VytlSCtLOVVCNy9QQ1p5aUI0aXVs?=
+ =?utf-8?B?TWZ5QVZZL2lKT21RUlNIS0tDTnJuM1V0b21BMVpYSklqODBVNlRzMEFXY0Vq?=
+ =?utf-8?B?TGd5enh0QzlxUDMrb2tCRmVZbVB0VEFpY3pKUytjTU5obVhQOEx4Z1BjRzJ6?=
+ =?utf-8?B?MXB3MGcxLzNzb0ZicGM4NFRzbHBhWWlZSWtTZ05EYmJrd3VxTmNtWWVxaGt5?=
+ =?utf-8?B?bm8rUFBQR1JleXdRb0llVU0zRVRvYUFkejcyQjF2NkxRd2orMG9NeTdESE4y?=
+ =?utf-8?B?NVJiQ2NOT2NqVWN3TkVNRDdxdDZOMmN1K1l0ZUFXbDFWTGJSb0ZXNXJ6dkZv?=
+ =?utf-8?Q?m1ktrJ3vGOs=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a0x6TzNYTTR0ejRkZ2I3ZFcxSmlrUE80b2ZzQnJOaWNsbWx5eGdNVWJWUU1O?=
+ =?utf-8?B?aGxRSmw5dk5pZHdXQUNpWW1mTXpRd0MzTDlNVHNpanF3ZjhkSFdwUHdMYzE1?=
+ =?utf-8?B?TkFrdWZQQW1wL1pGWUV6SEpnbklBRmh6WnNXS084QzYzcVdYOUtHcUlQeVA0?=
+ =?utf-8?B?WWkzaThQUmFLd3NqNG1WRjIzMHg2MDNWeFYvME9MaHNQUWNzcEVBMUE2d2pD?=
+ =?utf-8?B?YnB4TXhSdXpyVWc1VjV6OUJuWG8xd0t3KzBhR3JobEZDZkNta0pkVW1jSFVu?=
+ =?utf-8?B?V1hZZGdxR3NrRmVRRmY2WHUwekg4dFc4NWVkZkJqSFl1TWhIOElpSGt0bFkr?=
+ =?utf-8?B?c2ZvcnF0NkFyc0Z5NFRWNHhmWmZXWDVqNnhkT0pGZFFOVi9QYWx1SUhyeTMy?=
+ =?utf-8?B?UnM0bTdqK3dRZXJEOE5OeVQwc3BnbnV1Y05vcm4vVmJ4M3FJa0NuUkhRa3d6?=
+ =?utf-8?B?TWt1RmJqN2I3NFRxTXhQY1JVQXc5VDQ1OFBlZHlDUHFVamZiZ0VsVlczdmk0?=
+ =?utf-8?B?TlhteDBDTXJsb04wR1BIN1hHZnF6YWszeTVpcjZ2TEd5MnFodkIyWDRQeW1D?=
+ =?utf-8?B?V05TY1d5cWtDb3BCRjR0WUx2UHRSbzZjdWtYT0w4KzVOcmlPd3BLemx6cTcy?=
+ =?utf-8?B?R0xxcTBIZmYyNFVkRDI3ZGxYR0tycGhGTUErSVhiTXhRNDg1Z1AranYxdWJU?=
+ =?utf-8?B?bGdaM28ydUk2VXo0MzFRREpkRnllQ09TUmQvMXg3S2NLMFBTWU5aS3B3Q3ZZ?=
+ =?utf-8?B?OUhoU2tLaERORjQ2SDZ2VGViNlY0RjVlc0lhYTNzdmI3RVE0OXJvUWx1TW5j?=
+ =?utf-8?B?Q0x4TXdHSlo5dmRBZTQ2OGxsSEt1QXJ3eDBlK2hyL0NBajJuazYzUFVEYXRV?=
+ =?utf-8?B?Vll2Smc2K2xRUnlpMWQyY1Q5TUo4VWlpTXNSNGdRNm5MTVZhcGRnNW1ZSEhp?=
+ =?utf-8?B?bitNTEdRK1ZhME9XZU9xckhnaUovNm11YVQveFAydDh0bmE2NEUxaGNxMDhy?=
+ =?utf-8?B?VUU3d2JZYUxDNHd4dHgxSm42Z3ZobG1SUFR0N0FDb3Z4Uk12dGsyR1RFUk1Y?=
+ =?utf-8?B?SkphYmlNSFN6a1lZTHFXMDFxdGlZN1FqclBJL1IzTFZXcStwWVU5TVVPRWZm?=
+ =?utf-8?B?UnV3VGpJeDMvWVJFK0YzSW1ucnNid0VjK0t0d0ZOdW9qWkR4M2RwdmNGOFJB?=
+ =?utf-8?B?bnJqVnBQTHVWQVhDVkMrdHR2Y1Btb3FnVzlBbHJxUEtaWm02bkdnTThIK2F3?=
+ =?utf-8?B?UDEzYzE5WlZKcFJobk14UlJxZU9WYzllZ3NkU0lPS2hqTkd1NlI1bWo1ak9i?=
+ =?utf-8?B?WWFwSk5zSmtvU3V0WW53SWhnL2hHRFBKUGpWaW1xZXo3amNUcHVQT3EvRmFH?=
+ =?utf-8?B?NVRINWJWZWlZUzBFZGtjMmFEWjVDVFlJalFpaklpd3NhMThLaDVva1hnaHFj?=
+ =?utf-8?B?Tk5laTFEeXZCRktRazZTWTVXVFZqVkNsVVVMakNmcU5saGdaT0ZoWUJmMWtN?=
+ =?utf-8?B?cDhMZ2dMb3N5TldNdjA1YXZOZS9vSmcxN21Md0R2TGJZbUZqZTF6MVVKUk1K?=
+ =?utf-8?B?Z0NaQmZPczRSdUpnK3RHR1c0QzhxSTdzb0tnb1lEeHR0VjEvN1FIZ2ZMdHc5?=
+ =?utf-8?B?cTdwOWlpWUFlbHRaeW5JTXZOcnlXcFdvaE5Dd2d0VHoyQkVuRWhPcWlZa0lh?=
+ =?utf-8?B?VXY1blcxaDBEa2h6Sy9ORlRXa01YQVgxSFVSUGdKVVVHc2RHMjdKTCtCbU1Q?=
+ =?utf-8?B?WlQ2N1pMVk5IWE9xM1dyNmxMcHBZbDZyeUVZNFE2UURrcHR1WU1tQ1NqeUk2?=
+ =?utf-8?B?ZVBuWXAxdEZ3Nng4cmdkV3VRWDFLV24yYTNtaVduZzhHTE5NdlArUDBwK2Ft?=
+ =?utf-8?B?cUx3WENxbHVTYlZsRUd0Yk5zN3hHVmVvbFZONVN1NVFlcm5sbkh1WHBKVWpH?=
+ =?utf-8?B?N1FJWjd6dFFkeFIreW5qa2hVanhLaGQ3TGdMcjdvdW11RG5CSGVIa0cwQmo3?=
+ =?utf-8?B?SGsxc012NWpZWmk0dW41Nmw1RGlEcDJTZ1F0SWJjcUltR3pvbXZDWmZyS05t?=
+ =?utf-8?B?Zzh5VzE2SFhreDYrL2ZFd0hRRHRuMWdQL0VxL0hLL0VRVGo4NWFkNjkxQ2xU?=
+ =?utf-8?Q?uUjQODSt0CZ1HcOp5weKPmNEF?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a0d4f57-9ea3-4a56-eea5-08dd8bf5bcf2
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 16:56:11.3898 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VQ4P1F+kvx00GYMLqpCzcxvSL2qCc3dq9Wxyk8Jg6BfMQ1pL3n1+K/t3XkgGvDzM6IEbN6CUVWcrcIcZVzcisg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6572
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,222 +163,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 5, 2025 at 4:17=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
-ig@amd.com> wrote:
->
-> On 5/5/25 00:41, T.J. Mercier wrote:
-> > The dmabuf iterator traverses the list of all DMA buffers.
-> >
-> > DMA buffers are refcounted through their associated struct file. A
-> > reference is taken on each buffer as the list is iterated to ensure eac=
-h
-> > buffer persists for the duration of the bpf program execution without
-> > holding the list mutex.
-> >
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > ---
-> >  kernel/bpf/Makefile      |   3 +
-> >  kernel/bpf/dmabuf_iter.c | 134 +++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 137 insertions(+)
-> >  create mode 100644 kernel/bpf/dmabuf_iter.c
-> >
-> > diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
-> > index 70502f038b92..3a335c50e6e3 100644
-> > --- a/kernel/bpf/Makefile
-> > +++ b/kernel/bpf/Makefile
-> > @@ -53,6 +53,9 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
-> >  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
-> >  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
-> >  obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
-> > +ifeq ($(CONFIG_DMA_SHARED_BUFFER),y)
-> > +obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
-> > +endif
-> >
-> >  CFLAGS_REMOVE_percpu_freelist.o =3D $(CC_FLAGS_FTRACE)
-> >  CFLAGS_REMOVE_bpf_lru_list.o =3D $(CC_FLAGS_FTRACE)
-> > diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
-> > new file mode 100644
-> > index 000000000000..968762e11f73
-> > --- /dev/null
-> > +++ b/kernel/bpf/dmabuf_iter.c
-> > @@ -0,0 +1,134 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/* Copyright (c) 2025 Google LLC */
-> > +#include <linux/bpf.h>
-> > +#include <linux/btf_ids.h>
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/seq_file.h>
-> > +
-> > +BTF_ID_LIST_SINGLE(bpf_dmabuf_btf_id, struct, dma_buf)
-> > +DEFINE_BPF_ITER_FUNC(dmabuf, struct bpf_iter_meta *meta, struct dma_bu=
-f *dmabuf)
-> > +
-> > +static struct dma_buf *get_next_dmabuf(struct dma_buf *dmabuf)
-> > +{
-> > +     struct dma_buf *ret =3D NULL;
-> > +
-> > +     /*
-> > +      * Look for the first/next buffer we can obtain a reference to.
-> > +      *
-> > +      * The list mutex does not protect a dmabuf's refcount, so it can=
- be
-> > +      * zeroed while we are iterating. We cannot call get_dma_buf() si=
-nce the
-> > +      * caller of this program may not already own a reference to the =
-buffer.
-> > +      */
-> > +     mutex_lock(&dmabuf_list_mutex);
-> > +     if (dmabuf) {
->
-> That looks like you try to mangle the start and next functionality in jus=
-t one function.
->
-> I would just inline that into the dmabuf_iter_seq_start() and dmabuf_iter=
-_seq_next() functions.
 
-Primarily this is to share between the open coded iterator (next
-patch) and this normal iterator since I didn't want to duplicate the
-same list traversal code across both of them.
->
->
-> > +             dma_buf_put(dmabuf);
-> > +             list_for_each_entry_continue(dmabuf, &dmabuf_list, list_n=
-ode) {
->
-> That you can put the DMA-buf and then still uses it in list_for_each_entr=
-y_continue() only works because the mutex is locked in the destroy path.
 
-Yup, this was deliberate.
->
->
-> I strongly suggest to just put those two functions into drivers/dma-buf/d=
-ma-buf.c right next to the __dma_buf_debugfs_list_add() and __dma_buf_debug=
-fs_list_del() functions.
+On 2025-04-15 15:20, Mario Limonciello wrote:
+> From: Mario Limonciello <mario.limonciello@amd.com>
+> 
+> Currently userspace software systemd treats `brightness` and
+> `actual_brightness` identically due to a bug found in an out of tree
+> driver.
+> 
+> This however causes problems for in-tree drivers that use brightness
+> to report user requested `brightness` and `actual_brightness` to report
+> what the hardware actually has programmed.
+> 
+> Clarify the documentation to match the behavior described in commit
+> 6ca017658b1f9 ("[PATCH] backlight: Backlight Class Improvements").
+> 
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Lennart Poettering <lennart@poettering.net>
+> Cc: richard.purdie@linuxfoundation.org
+> Link: https://github.com/systemd/systemd/pull/36881
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+> v2:
+>  * Add more explanation
 
-By two functions, you mean a get_first_dmabuf(void) and a
-get_next_dmabuf(struct dma_buf*)? To make the dma_buf_put() call a
-little less scary since all the mutex ops are right there?
->
->
-> Apart from those style suggestions looks good to me from the technical si=
-de, but I'm not an expert for the BPF stuff.
->
-> Regards,
-> Christian.
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
-Thanks for your comments and reviews!
+Harry
 
-> > +                     if (file_ref_get(&dmabuf->file->f_ref)) {
-> > +                             ret =3D dmabuf;
-> > +                             break;
-> > +                     }
-> > +             }
-> > +     } else {
-> > +             list_for_each_entry(dmabuf, &dmabuf_list, list_node) {
-> > +                     if (file_ref_get(&dmabuf->file->f_ref)) {
-> > +                             ret =3D dmabuf;
-> > +                             break;
-> > +                     }
-> > +             }
-> > +     }
-> > +     mutex_unlock(&dmabuf_list_mutex);
-> > +     return ret;
-> > +}
-> > +
-> > +static void *dmabuf_iter_seq_start(struct seq_file *seq, loff_t *pos)
-> > +{
-> > +     if (*pos)
-> > +             return NULL;
-> > +
-> > +     return get_next_dmabuf(NULL);
-> > +}
-> > +
-> > +static void *dmabuf_iter_seq_next(struct seq_file *seq, void *v, loff_=
-t *pos)
-> > +{
-> > +     struct dma_buf *dmabuf =3D v;
-> > +
-> > +     ++*pos;
-> > +
-> > +     return get_next_dmabuf(dmabuf);
-> > +}
-> > +
-> > +struct bpf_iter__dmabuf {
-> > +     __bpf_md_ptr(struct bpf_iter_meta *, meta);
-> > +     __bpf_md_ptr(struct dma_buf *, dmabuf);
-> > +};
-> > +
-> > +static int __dmabuf_seq_show(struct seq_file *seq, void *v, bool in_st=
-op)
-> > +{
-> > +     struct bpf_iter_meta meta =3D {
-> > +             .seq =3D seq,
-> > +     };
-> > +     struct bpf_iter__dmabuf ctx =3D {
-> > +             .meta =3D &meta,
-> > +             .dmabuf =3D v,
-> > +     };
-> > +     struct bpf_prog *prog =3D bpf_iter_get_info(&meta, in_stop);
-> > +
-> > +     if (prog)
-> > +             return bpf_iter_run_prog(prog, &ctx);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int dmabuf_iter_seq_show(struct seq_file *seq, void *v)
-> > +{
-> > +     return __dmabuf_seq_show(seq, v, false);
-> > +}
-> > +
-> > +static void dmabuf_iter_seq_stop(struct seq_file *seq, void *v)
-> > +{
-> > +     struct dma_buf *dmabuf =3D v;
-> > +
-> > +     if (dmabuf)
-> > +             dma_buf_put(dmabuf);
-> > +}
-> > +
-> > +static const struct seq_operations dmabuf_iter_seq_ops =3D {
-> > +     .start  =3D dmabuf_iter_seq_start,
-> > +     .next   =3D dmabuf_iter_seq_next,
-> > +     .stop   =3D dmabuf_iter_seq_stop,
-> > +     .show   =3D dmabuf_iter_seq_show,
-> > +};
-> > +
-> > +static void bpf_iter_dmabuf_show_fdinfo(const struct bpf_iter_aux_info=
- *aux,
-> > +                                     struct seq_file *seq)
-> > +{
-> > +     seq_puts(seq, "dmabuf iter\n");
-> > +}
-> > +
-> > +static const struct bpf_iter_seq_info dmabuf_iter_seq_info =3D {
-> > +     .seq_ops                =3D &dmabuf_iter_seq_ops,
-> > +     .init_seq_private       =3D NULL,
-> > +     .fini_seq_private       =3D NULL,
-> > +     .seq_priv_size          =3D 0,
-> > +};
-> > +
-> > +static struct bpf_iter_reg bpf_dmabuf_reg_info =3D {
-> > +     .target                 =3D "dmabuf",
-> > +     .feature                =3D BPF_ITER_RESCHED,
-> > +     .show_fdinfo            =3D bpf_iter_dmabuf_show_fdinfo,
-> > +     .ctx_arg_info_size      =3D 1,
-> > +     .ctx_arg_info           =3D {
-> > +             { offsetof(struct bpf_iter__dmabuf, dmabuf),
-> > +               PTR_TO_BTF_ID_OR_NULL },
-> > +     },
-> > +     .seq_info               =3D &dmabuf_iter_seq_info,
-> > +};
-> > +
-> > +static int __init dmabuf_iter_init(void)
-> > +{
-> > +     bpf_dmabuf_reg_info.ctx_arg_info[0].btf_id =3D bpf_dmabuf_btf_id[=
-0];
-> > +     return bpf_iter_reg_target(&bpf_dmabuf_reg_info);
-> > +}
-> > +
-> > +late_initcall(dmabuf_iter_init);
->
+> ---
+>  Documentation/ABI/stable/sysfs-class-backlight | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/ABI/stable/sysfs-class-backlight b/Documentation/ABI/stable/sysfs-class-backlight
+> index 6102d6bebdf9a..40b8c46b95b28 100644
+> --- a/Documentation/ABI/stable/sysfs-class-backlight
+> +++ b/Documentation/ABI/stable/sysfs-class-backlight
+> @@ -26,7 +26,12 @@ Date:		March 2006
+>  KernelVersion:	2.6.17
+>  Contact:	Richard Purdie <rpurdie@rpsys.net>
+>  Description:
+> -		Show the actual brightness by querying the hardware.
+> +		Show the actual brightness by querying the hardware. Due
+> +		to implementation differences in hardware this may not
+> +		match the value in 'brightness'. For example some hardware
+> +		may treat blanking differently or have custom power saving
+> +		features. Userspace should generally use the values in
+> +		'brightness' to make decisions.
+>  Users:		HAL
+>  
+>  What:		/sys/class/backlight/<backlight>/max_brightness
+
