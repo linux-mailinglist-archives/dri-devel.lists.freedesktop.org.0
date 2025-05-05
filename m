@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCF0AAA0AF
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D756AAA0B0
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:38:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF51B10E4F5;
-	Mon,  5 May 2025 22:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 813E310E4A4;
+	Mon,  5 May 2025 22:38:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AmTj0zgv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lGzf1NzN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4426D10E4F5;
- Mon,  5 May 2025 22:38:13 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4773F10E4F1;
+ Mon,  5 May 2025 22:38:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DB854A4CF6E;
- Mon,  5 May 2025 22:32:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00E2DC4CEF1;
- Mon,  5 May 2025 22:38:10 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 79DF64A489;
+ Mon,  5 May 2025 22:38:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A528AC4CEE4;
+ Mon,  5 May 2025 22:38:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484692;
- bh=iBWhV5CuJOIPXHIt9qKCHprpvJOEyFDNns6Oue+GIqA=;
+ s=k20201202; t=1746484694;
+ bh=kpuzWk60oqHn9WGOBuexBhO59/wtaS7eIae24p/EROk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AmTj0zgvao64tIZyAPu6uOzwalQeyAqpDBBUmjWnnQYsW3tFsgx0Q/DVici6eNm7T
- AQyzF8ZeEvohpylmfmsMWc+vp+jBeoEPrCtctiTk4NwoXQB4NxAgZ3Q2XqjwD0CrFY
- lrmWD0nzt8qb2y95modXQqD+2Muk7y4W2tMdO8qRh4c3Ael3preKhZJ7wE4o5MgTbm
- o118Waf7J+WVkMyMqjljrcd6zbonKRZhkMarzuHTT2JRz+TWjz5l5ZG8QXxQyVCf/c
- n2Yu+UmCyCs9FYN6dXZAkXlK/uH/0D+2IRIRaLPqDgKAXWe5ybBK6E4bhDyeIeshCl
- RKfc0mNkXXzdQ==
+ b=lGzf1NzNGFN2m5ZdTno0AO+sIDHuttmojQipx7KKuDKau+FRKoz4u4c2/Ea8kunxN
+ AoPGYMU2g8v/AUrKr+ezZ7ayj0ezvQJx11b7MI8zLyY+/iq9VzihSZk3t+NxGqO9Q9
+ HUYtIO9JDRwM8pqYVIvxS7mu0/iKMmQi9Ur15NuyRAmYx7o650wFZ6JzzpYp8yHlkM
+ LerLbjSY4BBeyE5pyHoz5FnBwDTZfKbWsJLdJw11/4Xw5b2CtsvYcRm73+xkqQwYNv
+ 5MOXVlg+gA3FVPtcBOFwpSwtWEVQtNR8axmWYku54tClbHu8Asbndkk9TZEzSkLCvr
+ X90Vg5HH7/WyA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Sasha Levin <sashal@kernel.org>,
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 610/642] drm/xe/sa: Always call
- drm_suballoc_manager_fini()
-Date: Mon,  5 May 2025 18:13:46 -0400
-Message-Id: <20250505221419.2672473-610-sashal@kernel.org>
+ Matt Roper <matthew.d.roper@intel.com>,
+ =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>,
+ Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 611/642] drm/xe/vf: Perform early GT MMIO
+ initialization to read GMDID
+Date: Mon,  5 May 2025 18:13:47 -0400
+Message-Id: <20250505221419.2672473-611-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
@@ -67,47 +70,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-[ Upstream commit 9cd3f4efc870463f17f6c29114c61fb6bfcaa291 ]
+[ Upstream commit 13265fe7426ec9ba5aa86baab913417ca361e8a4 ]
 
-After successful call to drm_suballoc_manager_init() we should
-make sure to call drm_suballoc_manager_fini() as it may include
-some cleanup code even if we didn't start using it for real.
+VFs need to communicate with the GuC to obtain the GMDID value
+and existing GuC functions used for that assume that the GT has
+it's MMIO members already setup. However, due to recent refactoring
+the gt->mmio is initialized later, and any attempt by the VF to use
+xe_mmio_read|write() from GuC functions will lead to NPD crash due
+to unset MMIO register address:
 
-As we can abort init() early due to kvzalloc() failure, we should
-either explicitly call drm_suballoc_manager_fini() or, even better,
-postpone drm_suballoc_manager_init() once we finish all other
-preparation steps, so we can rely on fini() that will do cleanup.
+[] xe 0000:00:02.1: [drm] Running in SR-IOV VF mode
+[] xe 0000:00:02.1: [drm] GT0: sending H2G MMIO 0x5507
+[] BUG: unable to handle page fault for address: 0000000000190240
+
+Since we are already tweaking the id and type of the primary GT to
+mimic it's a Media GT before initializing the GuC communication,
+we can also call xe_gt_mmio_init() to perform early setup of the
+gt->mmio which will make those GuC functions work again.
 
 Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241220194205.995-2-michal.wajdeczko@intel.com
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
+Reviewed-by: Piotr Piórkowski <piotr.piorkowski@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250114211347.1083-1-michal.wajdeczko@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_sa.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/xe/xe_pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_sa.c b/drivers/gpu/drm/xe/xe_sa.c
-index e055bed7ae555..4e7aba445ebc8 100644
---- a/drivers/gpu/drm/xe/xe_sa.c
-+++ b/drivers/gpu/drm/xe/xe_sa.c
-@@ -57,8 +57,6 @@ struct xe_sa_manager *xe_sa_bo_manager_init(struct xe_tile *tile, u32 size, u32
- 	}
- 	sa_manager->bo = bo;
- 	sa_manager->is_iomem = bo->vmap.is_iomem;
--
--	drm_suballoc_manager_init(&sa_manager->base, managed_size, align);
- 	sa_manager->gpu_addr = xe_bo_ggtt_addr(bo);
+diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
+index 9b8813a518d72..d92b2e5885b98 100644
+--- a/drivers/gpu/drm/xe/xe_pci.c
++++ b/drivers/gpu/drm/xe/xe_pci.c
+@@ -490,6 +490,7 @@ static void read_gmdid(struct xe_device *xe, enum xe_gmdid_type type, u32 *ver,
+ 			gt->info.type = XE_GT_TYPE_MAIN;
+ 		}
  
- 	if (bo->vmap.is_iomem) {
-@@ -72,6 +70,7 @@ struct xe_sa_manager *xe_sa_bo_manager_init(struct xe_tile *tile, u32 size, u32
- 		memset(sa_manager->cpu_ptr, 0, bo->ttm.base.size);
- 	}
++		xe_gt_mmio_init(gt);
+ 		xe_guc_comm_init_early(&gt->uc.guc);
  
-+	drm_suballoc_manager_init(&sa_manager->base, managed_size, align);
- 	ret = drmm_add_action_or_reset(&xe->drm, xe_sa_bo_manager_fini,
- 				       sa_manager);
- 	if (ret)
+ 		/* Don't bother with GMDID if failed to negotiate the GuC ABI */
 -- 
 2.39.5
 
