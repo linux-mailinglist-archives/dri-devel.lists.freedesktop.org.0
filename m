@@ -2,47 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D212AAA037
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C34BAAA03C
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:32:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4D9210E4BF;
-	Mon,  5 May 2025 22:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDAF10E4C1;
+	Mon,  5 May 2025 22:32:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V31yJiRv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hIrYgpn7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67D6310E4B9;
- Mon,  5 May 2025 22:32:44 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB82B10E4C0;
+ Mon,  5 May 2025 22:32:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0F3E461129;
- Mon,  5 May 2025 22:32:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C497C4CEE4;
- Mon,  5 May 2025 22:32:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 146AC5C5529;
+ Mon,  5 May 2025 22:30:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97ED2C4CEEE;
+ Mon,  5 May 2025 22:32:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484363;
- bh=am3K3pkTtZNAXymooUv/C/WzV2jM/xN9MVKfp93cxuI=;
+ s=k20201202; t=1746484369;
+ bh=WhObNx/UgZPNUHn7lDsfgoqh+dAqU8HeTGp0/MvtNw4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V31yJiRvNM4cI7yBRIiRMH2cGcHc+d7Nrxto84wBm77kBXTEKeEWIUbgjwA+dY4RQ
- +/KBA5ut/uq955tcaE6fQn72w54RnANW7RUzjUTOWyLR52OVrers16HtWshrcrXtZG
- w0jip/+EARvVvjT2gxUnWK74dTnrNFs0ZI3wDn1IbMf2twr/eXsURNyGuAaNV2wbZm
- QKT8KUpTMgljkpI0sVGh6HQOKGWLms+hi5OIuHHiS9LolZdyjS71NXjlRPFHKPgflS
- R7Qqmx35Dbk/A/M/cmIYEtSs4U0E6qycSphv4R7trNURx+wDVu5QJijnY8TyB10hZS
- txf8ZAuqFRJGg==
+ b=hIrYgpn7e2T/pwk5T3pzG4TB/h6Vdd3f/y1XmN38OmFal92vku3kuBjQGb0X8XBnK
+ cqmUsqCicouOcVQ0OZrYaWCcZejSNPM6y7HKIvHmWCV4ZRaBtdC2Ctx+TVSwqfcGSU
+ 5zg4Lx/i36PRBP5UGN1pOxvSvR1R9NzFwPb8yF9usQed4Ash1YWJWA7YfwY1ghNYfh
+ 4JDUdBEGW+PMn9uvAZZb7ozCyVuGSKI6Nafd+YDMwfl2tjOqgPVngcZ4jW2AGh8jA+
+ FH5CJRGOKXNE7YRXXf4XOJ9m+xtc0ZCCpNUMPVlNNqzbybL3VJVbLWL0hIaHIIkLHx
+ 6Intd4HrAWxXw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Asad Kamal <asad.kamal@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+Cc: Martin Tsai <Martin.Tsai@amd.com>, Anthony Koo <anthony.koo@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- kenneth.feng@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, Hawking.Zhang@amd.com, kevinyang.wang@amd.com,
- Jesse.zhang@amd.com, amd-gfx@lists.freedesktop.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, siqueira@igalia.com,
+ aurabindo.pillai@amd.com, dennis.chan@amd.com, mwen@igalia.com,
+ Kaitlyn.Tse@amd.com, george.shen@amd.com, Wayne.Lin@amd.com,
+ Gabe.Teeger@amd.com, Cruise.Hung@amd.com, jack.chang@amd.com,
+ jerry.zuo@amd.com, zaeem.mohamed@amd.com, duncan.ma@amd.com,
+ Zhongwei.Zhang@amd.com, chiahsuan.chung@amd.com,
+ nicholas.kazlauskas@amd.com, Syed.Hassan@amd.com, dillon.varone@amd.com,
+ aric.cyr@amd.com, Ovidiu.Bunea@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 465/642] drm/amd/pm: Skip P2S load for SMU
- v13.0.12
-Date: Mon,  5 May 2025 18:11:21 -0400
-Message-Id: <20250505221419.2672473-465-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 466/642] drm/amd/display: Support multiple
+ options during psr entry.
+Date: Mon,  5 May 2025 18:11:22 -0400
+Message-Id: <20250505221419.2672473-466-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -66,36 +73,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Asad Kamal <asad.kamal@amd.com>
+From: Martin Tsai <Martin.Tsai@amd.com>
 
-[ Upstream commit 1fb85819d629676f1d53f40c3fffa25a33a881e4 ]
+[ Upstream commit 3a5fa55455db6a11248a25f24570c365f9246144 ]
 
-Skip P2S table load for SMU v13.0.12
+[WHY]
+Some panels may not handle idle pattern properly during PSR entry.
 
-Signed-off-by: Asad Kamal <asad.kamal@amd.com>
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+[HOW]
+Add a condition to allow multiple options on power down
+sequence during PSR1 entry.
+
+Reviewed-by: Anthony Koo <anthony.koo@amd.com>
+Signed-off-by: Martin Tsai <Martin.Tsai@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dc_types.h       | 7 +++++++
+ drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c   | 4 ++++
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h | 6 ++++++
+ 3 files changed, 17 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
-index da7bd9227afeb..5f2a824918e3b 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
-@@ -450,8 +450,9 @@ static int smu_v13_0_6_init_microcode(struct smu_context *smu)
- 	int var = (adev->pdev->device & 0xF);
- 	char ucode_prefix[15];
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_types.h b/drivers/gpu/drm/amd/display/dc/dc_types.h
+index 0c2aa91f0a111..e60898c2df01a 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_types.h
+@@ -1033,6 +1033,13 @@ struct psr_settings {
+ 	unsigned int psr_sdp_transmit_line_num_deadline;
+ 	uint8_t force_ffu_mode;
+ 	unsigned int psr_power_opt;
++
++	/**
++	 * Some panels cannot handle idle pattern during PSR entry.
++	 * To power down phy before disable stream to avoid sending
++	 * idle pattern.
++	 */
++	uint8_t power_down_phy_before_disable_stream;
+ };
  
--	/* No need to load P2S tables in IOV mode */
--	if (amdgpu_sriov_vf(adev))
-+	/* No need to load P2S tables in IOV mode or for smu v13.0.12 */
-+	if (amdgpu_sriov_vf(adev) ||
-+	    (amdgpu_ip_version(smu->adev, MP1_HWIP, 0) == IP_VERSION(13, 0, 12)))
- 		return 0;
+ enum replay_coasting_vtotal_type {
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
+index 88c75c243bf8a..ff3b8244ba3d0 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
+@@ -418,6 +418,10 @@ static bool dmub_psr_copy_settings(struct dmub_psr *dmub,
+ 	copy_settings_data->relock_delay_frame_cnt = 0;
+ 	if (link->dpcd_caps.sink_dev_id == DP_BRANCH_DEVICE_ID_001CF8)
+ 		copy_settings_data->relock_delay_frame_cnt = 2;
++
++	copy_settings_data->power_down_phy_before_disable_stream =
++		link->psr_settings.power_down_phy_before_disable_stream;
++
+ 	copy_settings_data->dsc_slice_height = psr_context->dsc_slice_height;
  
- 	if (!(adev->flags & AMD_IS_APU)) {
+ 	dc_wake_and_execute_dmub_cmd(dc, &cmd, DM_DMUB_WAIT_TYPE_WAIT);
+diff --git a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+index d0fe324cb5371..8cf89aed024b7 100644
+--- a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
++++ b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+@@ -3118,6 +3118,12 @@ struct dmub_cmd_psr_copy_settings_data {
+ 	 * Some panels request main link off before xth vertical line
+ 	 */
+ 	uint16_t poweroff_before_vertical_line;
++	/**
++	 * Some panels cannot handle idle pattern during PSR entry.
++	 * To power down phy before disable stream to avoid sending
++	 * idle pattern.
++	 */
++	uint8_t power_down_phy_before_disable_stream;
+ };
+ 
+ /**
 -- 
 2.39.5
 
