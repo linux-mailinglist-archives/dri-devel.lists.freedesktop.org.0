@@ -2,89 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6472AA907C
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 12:00:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3BCAA9085
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 12:02:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 496E310E314;
-	Mon,  5 May 2025 10:00:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F81110E32A;
+	Mon,  5 May 2025 10:02:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yIQI3bJI";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Pr5Ovneq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com
- [209.85.161.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1937310E04E
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 10:00:26 +0000 (UTC)
-Received: by mail-oo1-f53.google.com with SMTP id
- 006d021491bc7-604ad0347f5so982004eaf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 03:00:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746439226; x=1747044026; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qUO+n2qCCkVBKkF0xc34yA7zFKP1PRXVjAuF6gNjM7w=;
- b=yIQI3bJIIPKsugW10xOr3pZvw/4h//1GzH57/AbkjQmZn9oB3mp0VHPHJdmwjIDTEQ
- vlNCAy/7vabRiiEhlLpvwxcb51Zt00sd8gc8HD5ASPonwwjjVZczJkPR5cmEHAJ2tEe/
- gMKMjazcaIIFLJhoDPdhMbaHZ6jtORvSy3dVZuzmTJ8IDUKpHCl2jVEpeFcm1efqKgo6
- 60gO8k/d87VnXFndQTwA+W4zEHdhrXq9WPCPman4nXqKUCqqJE1AZETpX08MG5jod50c
- PuAk1yRhifX+FBchRgIZTlZXYMBW3EZfKLuxazzg8cyPHgfyK9nJ8ULHRrgxdXctvZPL
- wpKw==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8B6B10E32A
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 10:02:44 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 544NHltg017230
+ for <dri-devel@lists.freedesktop.org>; Mon, 5 May 2025 10:02:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=/9fYSq5DweCt0c/mKdUYu4zF
+ 2w/AfXBHNdWtUjJsnQE=; b=Pr5Ovneqtq/III50Kuv4i44I4PfmNM4qEPTCqgeW
+ 2MZSh/b5Mjc5oNqAzl10w9BJwm9CzrB/vf6fUEdCtZwD6RDJM1kyoLkcOVg8DdPJ
+ O4oftrZklUGUjpBPguK9FBGPc824v543r30vi7PsGTamSJUsFpW04UDxIWO2CXoU
+ CdcK8tWfAY8j5DHQsxxSihY10/MHpK8ylhfZcFDcrQ3maKfeIhxS6DUijW7EfmWX
+ tAkWpT7Gxs2JzY2DkB6Maz3l92h1VIdbS7m11lMJ3hHXevr6hco7cKPEyT7uGtDh
+ 6cVgc3qHOSq5KITO2YSPaF5lWc7cZYZZUG1R0fvh1tfwmg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46dd3n3kt5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 10:02:43 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7c793d573b2so114376385a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 03:02:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746439226; x=1747044026;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qUO+n2qCCkVBKkF0xc34yA7zFKP1PRXVjAuF6gNjM7w=;
- b=gZMyVPRsLZhqGoaYJV9GgQFLZ+UDkeOVOauQSVOrBpAdpFso7K9FdviL4Ld+5Yv9H2
- zvcBScBA81aog2m8NwlZgpw/vl90MlR42hFrUT7GOj13TH8n6bnISq8PJSvLA4GACKR2
- IQcJPg/LKlafGBtozgdp2J0Aj58uFIdp+ZJccDU1Jf5p1V27IjUvtfQCe6eXiSkLde6c
- HY+BVc8g+9i8vFRySQaAi2D1PDe2dSLBA2M8zrr9TrtTjNv6rqGjH3pHVGSFXvJSNCW7
- 4l2WUXHVbtXju6Ovhn9vnaLbQvrA+i1gcI0OKUil5MLAQOwfit0Cv4o9cuaEYqEa+Aoo
- sZVA==
+ d=1e100.net; s=20230601; t=1746439352; x=1747044152;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/9fYSq5DweCt0c/mKdUYu4zF2w/AfXBHNdWtUjJsnQE=;
+ b=bRM4uca54/LVL0+cdnHAKRTNH4XuTRSCPrMP50SKk6e2ldTNI2KQzOYLuEHaDJAwox
+ M9VC5FHoQp2xYKPXcapDnZ6ceSw9TQTJ5dVOU0XzyDgcVC0fwKZweWEUfnPCCrnV4aV1
+ clfgl+Ya+MBa4eTkTWVY6pEkTJhRariYulUmQSoEMSUMijNlb0FvH5M1+pbxFg+6+dfw
+ sH+Bx/uonocJXsn1acVStow6CGqB6AJ/6mjzdHQq8IS+G8n4yjLL9Ff8KYD7cDczoCdl
+ xo/lhM5sEEYTiKdFhXJfytUT44pXCOOtAwhAFiT6sLNHdbTlxTFm2DIlR4o5bKKeEqUl
+ js1A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUt5fSkDdH0OOvBPsIqFye5hRA4N9VnKlLvTrTVrCA3NsUIcZLYEXWNJEAedTQNQ06vx+rlwTWLHeg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0zt3CctzY5PtBXHFhIdvGpB6R5X9McrX4boCxf99pUUbsqxoB
- ufv/HCLYk3kRuJqWwD/PtS+6HX5EKElFJLlLK7tf4Nx5sc60KrZhE7yBunx+GsyEHGBcmcZNQTM
- xF8XYp9w7gMuT1Z21M/TbdoTVehvkvTybDlVu+Q==
-X-Gm-Gg: ASbGncvWnqa6utnDKRlBEeXay1weyn7XejjVAUvdyp5Ccg3B8HLJFdmJrnnuOqaFJPd
- rI/jrLY6CXLSy4J2texgh1tGadeFL4NIEsX92DwHCJ55UuygLMcxYkEAsW4/QK4rN1szf0BtBrL
- 8eoiskmHnkwxF+hG6wK/MxMbs=
-X-Google-Smtp-Source: AGHT+IEfTkbjK5JWEDIXSUVf0w92h26obU5oYSgxTn7TbvfY+I0Zkozng+KfK0iBSmGp52i/r+Q8MQct9dxWARB5Up4=
-X-Received: by 2002:a05:6870:972c:b0:2d5:230f:b34d with SMTP id
- 586e51a60fabf-2dae82cc070mr3868126fac.1.1746439225695; Mon, 05 May 2025
- 03:00:25 -0700 (PDT)
+ AJvYcCXwRXjIXMyNxNOL5zNLytWuYX1y8/FdWUHicJ7EtZvYccDSG+crW3SWGvarxhi0/oVofR/3WXVxNn8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxFTwIz6PZD4jvVAlTjp3XMsC2kGyvx6ghWBnwVHKBej/gdcezj
+ qPoWV4YhVAegQFxinTGvuDd/pcOmPXjdtuVpgDiXpsaB7QbSJYpan9mpO3he/czPVcPYXOMf/4t
+ Cvyn1ona/GDkQo2pg4JkLTtNWr8Oa9neLqGWNWsU0dN1czKN1dMSmPIeJWwn+2WaEa6s=
+X-Gm-Gg: ASbGncvcHa6mBvhqpi4ZbSAW5g/CphGI6SeJiUagRTBD60guK1aUyU5i3rbWtiYsBu6
+ 6T89kOP6iwzoAb/16SEE4XQlspa9Rrpj9Cgds6WxhCcnsysCIayMGfTdG1iGmqn7l04e4IlAZHz
+ 3l3u/wLXeQCuLPwZT1FlZpPY5h4U8Wq9FL7/nxO6YdpiaU8A6ytvWBLb0Q1qUHztwPRcsrjJX+T
+ 8RP/POsh0dmrpkdUnSP20+SsPe1vuHeKkoxG24ibRDLLFmwFUBB69Pb6VpWb94+2esjwQNSKXSi
+ 2X51QRTtYLnABG5df3MdjaLgyRDT0CaazvTlWCUEKBuDnOROE7+nnJ+GFfyiPAdHpBWtErp6Ywk
+ =
+X-Received: by 2002:a05:620a:271a:b0:7c8:e67b:8076 with SMTP id
+ af79cd13be357-7cadfed7d3amr1246673185a.50.1746439352347; 
+ Mon, 05 May 2025 03:02:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHqWph76clESWo+RRt5n+cffHDapDxsmW2FMxzwgdEB/oc5DR9lfIjFKZY2YWluhdW3xKhUNA==
+X-Received: by 2002:a05:620a:271a:b0:7c8:e67b:8076 with SMTP id
+ af79cd13be357-7cadfed7d3amr1246669085a.50.1746439351979; 
+ Mon, 05 May 2025 03:02:31 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3202b18e4aesm16561471fa.113.2025.05.05.03.02.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 May 2025 03:02:31 -0700 (PDT)
+Date: Mon, 5 May 2025 13:02:29 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ayushi Makhija <quic_amakhija@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, robdclark@gmail.com, sean@poorly.run,
+ marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
+ robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, quic_abhinavk@quicinc.com,
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
+ quic_jesszhan@quicinc.com, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v6 07/11] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI
+ to DP bridge nodes
+Message-ID: <grwlmrgi5cfv3jtuki57ug7gsqykpwdf2to2l7di6glfxtb7vz@6id6cpfkrbuh>
+References: <20250505094245.2660750-1-quic_amakhija@quicinc.com>
+ <20250505094245.2660750-3-quic_amakhija@quicinc.com>
 MIME-Version: 1.0
-References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
- <20250502100049.1746335-11-jens.wiklander@linaro.org>
- <43e85d6a-ef99-4d61-910e-1d62814fd9ed@arm.com>
-In-Reply-To: <43e85d6a-ef99-4d61-910e-1d62814fd9ed@arm.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Mon, 5 May 2025 12:00:12 +0200
-X-Gm-Features: ATxdqUFPin2MFa6t0S3tPjOQfIF3WcjTWu_QNb2z1h_FFrZyFMNu2bu0GEdtH9Y
-Message-ID: <CAHUa44GC-HRUNGkta-EfMD00VzPBvqcVqU4Zj7kvW8CPnahdMg@mail.gmail.com>
-Subject: Re: [PATCH v8 10/14] dma-contiguous: export
- dma_contiguous_default_area
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, 
- Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
- Rouven Czerwinski <rouven.czerwinski@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, iommu@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250505094245.2660750-3-quic_amakhija@quicinc.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDA5NSBTYWx0ZWRfX2NgFHnNOYobF
+ 4420An4C2UooSlHUkYCryBuefl957fN4bWaJCTWmH/OllBf0DMVC6FaNFNHvTdQumgc5P59TzvU
+ 7ojc6hl2o1VGW7o8VpJVNphUIopLC+QCozBoWN2qYzUgav63PY3LBzXqwSsum24Lea2oDQoxoRo
+ ZfYfLSDZ1dArFI0aB2vPJU6R2wHls2qLmpmsIhOTtocgOI25qjawO77gSIZbQQIQsy/7oUAt8cv
+ AyOUaaTAdSpKc3pj+s4e6c8hKH6o+RPv9U8k/d0tdvYPijn56DbwMn5BqCeljIkfyzCQZ1xGlTH
+ DA71zodBpYa5PvcMdFAJWBqbyKtHpBVSDbmeztLxlbQ9l+T3lYf+FfCiheBiy75i6AT2JSN/1tG
+ FLc6d9PCl5Kux6YQ6OpzEH4rHnT3Z8IS3M7/tnRUsoNK6pI06D3nO9uQKfVrS2kYlcUeiBwQ
+X-Proofpoint-GUID: Qp4yCyhMgGp5XfeajXI0UrP75gbmlON1
+X-Proofpoint-ORIG-GUID: Qp4yCyhMgGp5XfeajXI0UrP75gbmlON1
+X-Authority-Analysis: v=2.4 cv=UNDdHDfy c=1 sm=1 tr=0 ts=68188cc3 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=NFKUjzz3svuqp3DBVBsA:9
+ a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-05_04,2025-04-30_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 adultscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0
+ mlxscore=0 phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ malwarescore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505050095
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,47 +132,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, May 05, 2025 at 03:12:41PM +0530, Ayushi Makhija wrote:
+> Add anx7625 DSI to DP bridge device nodes.
+> 
+> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 183 +++++++++++++++++++++
+>  1 file changed, 183 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+> index 175f8b1e3b2d..de14f3ea8835 100644
+> --- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+> @@ -28,6 +28,15 @@ chosen {
+>  		stdout-path = "serial0:115200n8";
+>  	};
+>  
+> +	vph_pwr: vph-pwr-regulator {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vph_pwr";
+> +		regulator-min-microvolt = <12000000>;
+> +		regulator-max-microvolt = <12000000>;
 
-On Fri, May 2, 2025 at 3:11=E2=80=AFPM Robin Murphy <robin.murphy@arm.com> =
-wrote:
->
-> On 02/05/2025 10:59 am, Jens Wiklander wrote:
-> > Export the global variable dma_contiguous_default_area so
-> > dev_get_cma_area() can be called a module.
->
-> What dma_map_ops implementation is in a module? Without any other
-> context, I can't help thinking this smells of something sketchy.
+12 V, if my eyes don't deceive me.
 
-I see that you found the rest of the patch set
-https://lore.kernel.org/lkml/20250502100049.1746335-1-jens.wiklander@linaro=
-.org/
+> +		regulator-always-on;
+> +		regulator-boot-on;
+> +	};
+> +
 
-Thanks,
-Jens
+[...]
 
+> +
+> +			bridge@58 {
+> +				compatible = "analogix,anx7625";
+> +				reg = <0x58>;
+> +				interrupts-extended = <&io_expander 2 IRQ_TYPE_EDGE_FALLING>;
+> +				enable-gpios = <&io_expander 1 GPIO_ACTIVE_HIGH>;
+> +				reset-gpios = <&io_expander 0 GPIO_ACTIVE_HIGH>;
+> +				vdd10-supply = <&vph_pwr>;
+> +				vdd18-supply = <&vph_pwr>;
+> +				vdd33-supply = <&vph_pwr>;
 
->
-> Thanks,
-> Robin.
->
-> > Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Cc: Robin Murphy <robin.murphy@arm.com>
-> > Cc: iommu@lists.linux.dev
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >   kernel/dma/contiguous.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-> > index 8df0dfaaca18..eb361794a9c5 100644
-> > --- a/kernel/dma/contiguous.c
-> > +++ b/kernel/dma/contiguous.c
-> > @@ -53,6 +53,7 @@
-> >   #endif
-> >
-> >   struct cma *dma_contiguous_default_area;
-> > +EXPORT_SYMBOL(dma_contiguous_default_area);
-> >
-> >   /*
-> >    * Default global CMA area size can be defined in kernel's .config.
+Here you are saying that 1.0V, 1.8V and 3.3V pins are powered on by 12V
+supply. I wonder how the board doesn't trigger all fire alarms in the
+building.
+
+> +
+
+-- 
+With best wishes
+Dmitry
