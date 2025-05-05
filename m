@@ -2,51 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874C6AA9F55
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195AEAA9F61
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:23:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5DDF10E459;
-	Mon,  5 May 2025 22:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7133610E45D;
+	Mon,  5 May 2025 22:23:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Nu+wlemy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rdrU2hym";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38DC010E459;
- Mon,  5 May 2025 22:22:28 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBF4010E45A;
+ Mon,  5 May 2025 22:23:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D747B61F1F;
- Mon,  5 May 2025 22:21:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E77D1C4CEE4;
- Mon,  5 May 2025 22:22:24 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5255AA4CCF1;
+ Mon,  5 May 2025 22:17:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 536B9C4CEEE;
+ Mon,  5 May 2025 22:23:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746483747;
- bh=1JONFQvlJ4ztdQKRMCgvxbAm0vyafQXEy0jtAPYXM0Q=;
+ s=k20201202; t=1746483788;
+ bh=AUW5EpzAd3bq0+nh/OQ/CaHQWulpocToOjeDS59maBQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Nu+wlemyQUehfNW8rGM5zNmvfGNPaWQiJtf8vqW5VQluBIMjAC3aqt015dlzUi90L
- uIxZb0BC1D+lYa0+1Bf0Y0vIVOBTMcQG6D1IGxUdCBfN51CsDh0Ugzrxa0RhN3H9WJ
- h3+6i2/A265710AWVJro+Fr/7fheJ3Zm2505CUTYQzNG10Jt/aZvOPF97D1fc2LRGg
- 8FskH9ny7HWPKrXp/v2u2Vp4JaFHEwz8mJK4w+9x69To9fXRIpEFJwZMf4AqfsrLXw
- JVqaag0bTvWxgkPtD8hWFPuxeD1xxAGVa1rfdKxDpP7zQJs+WGFbkwdpFxhfHWbH/l
- 8bPMvu3p2gv4A==
+ b=rdrU2hymyj8csBWhTIu7f5sTUrVqoT6UfM6/8VkRS5dCgHk1Ny4dnTd+23HxFncgr
+ kOWqinu7L4PooSQ2J9pQEa3Zl8GL9ic+7/CwdQeiMR5lWzYPoQ7VDIOKZqTP5WXYEg
+ nf0EFRstUlmvxFQFkR/El/TF1Bbimiu1Hebj3nUYk8JENa2kEi2W/chp41fB9Xcp67
+ XoFqHtXNCxxXAcS+bay0eQ2Gb/8sUVJYahmSzbQred41D/7rvLr9YEFWP+DdLodo++
+ elEwHgBItUw9RgHvNsnr9pFe/uE9+O8R7bYQ1Mr52jskuM/UX1f0roHkN3YbdSsvu4
+ wJy+bZZeqBVPw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Leon Huang <Leon.Huang1@amd.com>, Robin Chen <robin.chen@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, wenjing.liu@amd.com,
- zaeem.mohamed@amd.com, anthony.koo@amd.com, Kaitlyn.Tse@amd.com,
- joshua.aberback@amd.com, alex.hung@amd.com, Sungjoon.Kim@amd.com,
- muyuan.yang@amd.com, michael.strauss@amd.com, xi.liu@amd.com,
+Cc: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
+ Amber Lin <Amber.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Sasha Levin <sashal@kernel.org>, Felix.Kuehling@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 198/642] drm/amd/display: Fix incorrect DPCD
- configs while Replay/PSR switch
-Date: Mon,  5 May 2025 18:06:54 -0400
-Message-Id: <20250505221419.2672473-198-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 218/642] drm/amdkfd: Set per-process flags only
+ once for gfx9/10/11/12
+Date: Mon,  5 May 2025 18:07:14 -0400
+Message-Id: <20250505221419.2672473-218-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -70,78 +65,290 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leon Huang <Leon.Huang1@amd.com>
+From: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
 
-[ Upstream commit 0d9cabc8f591ea1cd97c071b853b75b155c13259 ]
+[ Upstream commit 61972cd93af70738a6ad7f93e17cc7f68a01e182 ]
 
-[Why]
-When switching between PSR/Replay,
-the DPCD config of previous mode is not cleared,
-resulting in unexpected behavior in TCON.
+Define set_cache_memory_policy() for these asics and move all static
+changes from update_qpd() which is called each time a queue is created
+to set_cache_memory_policy() which is called once during process
+initialization
 
-[How]
-Initialize the DPCD in setup function
-
-Reviewed-by: Robin Chen <robin.chen@amd.com>
-Signed-off-by: Leon Huang <Leon.Huang1@amd.com>
-Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
+Reviewed-by: Amber Lin <Amber.Lin@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../link/protocols/link_edp_panel_control.c   | 25 ++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+ .../amd/amdkfd/kfd_device_queue_manager_v10.c | 41 +++++++++++--------
+ .../amd/amdkfd/kfd_device_queue_manager_v11.c | 41 +++++++++++--------
+ .../amd/amdkfd/kfd_device_queue_manager_v12.c | 41 +++++++++++--------
+ .../amd/amdkfd/kfd_device_queue_manager_v9.c  | 36 +++++++++++++++-
+ 4 files changed, 107 insertions(+), 52 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
-index e0e3bb8653595..1e4adbc764ea6 100644
---- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
-@@ -675,6 +675,18 @@ bool edp_setup_psr(struct dc_link *link,
- 	if (!link)
- 		return false;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v10.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v10.c
+index 245a90dfc2f6b..b5f5f141353b5 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v10.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v10.c
+@@ -31,10 +31,17 @@ static int update_qpd_v10(struct device_queue_manager *dqm,
+ 			 struct qcm_process_device *qpd);
+ static void init_sdma_vm_v10(struct device_queue_manager *dqm, struct queue *q,
+ 			    struct qcm_process_device *qpd);
++static bool set_cache_memory_policy_v10(struct device_queue_manager *dqm,
++				   struct qcm_process_device *qpd,
++				   enum cache_policy default_policy,
++				   enum cache_policy alternate_policy,
++				   void __user *alternate_aperture_base,
++				   uint64_t alternate_aperture_size);
  
-+	//Clear PSR cfg
-+	memset(&psr_configuration, 0, sizeof(psr_configuration));
-+	dm_helpers_dp_write_dpcd(
-+		link->ctx,
-+		link,
-+		DP_PSR_EN_CFG,
-+		&psr_configuration.raw,
-+		sizeof(psr_configuration.raw));
-+
-+	if (link->psr_settings.psr_version == DC_PSR_VERSION_UNSUPPORTED)
-+		return false;
-+
- 	dc = link->ctx->dc;
- 	dmcu = dc->res_pool->dmcu;
- 	psr = dc->res_pool->psr;
-@@ -685,9 +697,6 @@ bool edp_setup_psr(struct dc_link *link,
- 	if (!dc_get_edp_link_panel_inst(dc, link, &panel_inst))
- 		return false;
+ void device_queue_manager_init_v10(
+ 	struct device_queue_manager_asic_ops *asic_ops)
+ {
++	asic_ops->set_cache_memory_policy = set_cache_memory_policy_v10;
+ 	asic_ops->update_qpd = update_qpd_v10;
+ 	asic_ops->init_sdma_vm = init_sdma_vm_v10;
+ 	asic_ops->mqd_manager_init = mqd_manager_init_v10;
+@@ -49,27 +56,27 @@ static uint32_t compute_sh_mem_bases_64bit(struct kfd_process_device *pdd)
+ 		private_base;
+ }
  
+-static int update_qpd_v10(struct device_queue_manager *dqm,
+-			 struct qcm_process_device *qpd)
++static bool set_cache_memory_policy_v10(struct device_queue_manager *dqm,
++				   struct qcm_process_device *qpd,
++				   enum cache_policy default_policy,
++				   enum cache_policy alternate_policy,
++				   void __user *alternate_aperture_base,
++				   uint64_t alternate_aperture_size)
+ {
+-	struct kfd_process_device *pdd;
 -
--	memset(&psr_configuration, 0, sizeof(psr_configuration));
+-	pdd = qpd_to_pdd(qpd);
 -
- 	psr_configuration.bits.ENABLE                    = 1;
- 	psr_configuration.bits.CRC_VERIFICATION          = 1;
- 	psr_configuration.bits.FRAME_CAPTURE_INDICATION  =
-@@ -950,6 +959,16 @@ bool edp_setup_replay(struct dc_link *link, const struct dc_stream_state *stream
- 	if (!link)
- 		return false;
+-	/* check if sh_mem_config register already configured */
+-	if (qpd->sh_mem_config == 0) {
+-		qpd->sh_mem_config =
+-			(SH_MEM_ALIGNMENT_MODE_UNALIGNED <<
+-				SH_MEM_CONFIG__ALIGNMENT_MODE__SHIFT) |
+-			(3 << SH_MEM_CONFIG__INITIAL_INST_PREFETCH__SHIFT);
+-		qpd->sh_mem_ape1_limit = 0;
+-		qpd->sh_mem_ape1_base = 0;
+-	}
+-
+-	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(pdd);
++	qpd->sh_mem_config = (SH_MEM_ALIGNMENT_MODE_UNALIGNED <<
++			      SH_MEM_CONFIG__ALIGNMENT_MODE__SHIFT) |
++			      (3 << SH_MEM_CONFIG__INITIAL_INST_PREFETCH__SHIFT);
++	qpd->sh_mem_ape1_limit = 0;
++	qpd->sh_mem_ape1_base = 0;
++	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(qpd_to_pdd(qpd));
  
-+	//Clear Replay config
-+	dm_helpers_dp_write_dpcd(link->ctx, link,
-+		DP_SINK_PR_ENABLE_AND_CONFIGURATION,
-+		(uint8_t *)&(replay_config.raw), sizeof(uint8_t));
-+
-+	if (!(link->replay_settings.config.replay_supported))
-+		return false;
-+
-+	link->replay_settings.config.replay_error_status.raw = 0;
-+
- 	dc = link->ctx->dc;
+ 	pr_debug("sh_mem_bases 0x%X\n", qpd->sh_mem_bases);
++	return true;
++}
  
- 	replay = dc->res_pool->replay;
++static int update_qpd_v10(struct device_queue_manager *dqm,
++			 struct qcm_process_device *qpd)
++{
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v11.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v11.c
+index 2e129da7acb43..f436878d0d621 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v11.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v11.c
+@@ -30,10 +30,17 @@ static int update_qpd_v11(struct device_queue_manager *dqm,
+ 			 struct qcm_process_device *qpd);
+ static void init_sdma_vm_v11(struct device_queue_manager *dqm, struct queue *q,
+ 			    struct qcm_process_device *qpd);
++static bool set_cache_memory_policy_v11(struct device_queue_manager *dqm,
++				   struct qcm_process_device *qpd,
++				   enum cache_policy default_policy,
++				   enum cache_policy alternate_policy,
++				   void __user *alternate_aperture_base,
++				   uint64_t alternate_aperture_size);
+ 
+ void device_queue_manager_init_v11(
+ 	struct device_queue_manager_asic_ops *asic_ops)
+ {
++	asic_ops->set_cache_memory_policy = set_cache_memory_policy_v11;
+ 	asic_ops->update_qpd = update_qpd_v11;
+ 	asic_ops->init_sdma_vm = init_sdma_vm_v11;
+ 	asic_ops->mqd_manager_init = mqd_manager_init_v11;
+@@ -48,28 +55,28 @@ static uint32_t compute_sh_mem_bases_64bit(struct kfd_process_device *pdd)
+ 		private_base;
+ }
+ 
+-static int update_qpd_v11(struct device_queue_manager *dqm,
+-			 struct qcm_process_device *qpd)
++static bool set_cache_memory_policy_v11(struct device_queue_manager *dqm,
++				   struct qcm_process_device *qpd,
++				   enum cache_policy default_policy,
++				   enum cache_policy alternate_policy,
++				   void __user *alternate_aperture_base,
++				   uint64_t alternate_aperture_size)
+ {
+-	struct kfd_process_device *pdd;
+-
+-	pdd = qpd_to_pdd(qpd);
+-
+-	/* check if sh_mem_config register already configured */
+-	if (qpd->sh_mem_config == 0) {
+-		qpd->sh_mem_config =
+-			(SH_MEM_ALIGNMENT_MODE_UNALIGNED <<
+-				SH_MEM_CONFIG__ALIGNMENT_MODE__SHIFT) |
+-			(3 << SH_MEM_CONFIG__INITIAL_INST_PREFETCH__SHIFT);
+-
+-		qpd->sh_mem_ape1_limit = 0;
+-		qpd->sh_mem_ape1_base = 0;
+-	}
++	qpd->sh_mem_config = (SH_MEM_ALIGNMENT_MODE_UNALIGNED <<
++			      SH_MEM_CONFIG__ALIGNMENT_MODE__SHIFT) |
++			      (3 << SH_MEM_CONFIG__INITIAL_INST_PREFETCH__SHIFT);
+ 
+-	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(pdd);
++	qpd->sh_mem_ape1_limit = 0;
++	qpd->sh_mem_ape1_base = 0;
++	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(qpd_to_pdd(qpd));
+ 
+ 	pr_debug("sh_mem_bases 0x%X\n", qpd->sh_mem_bases);
++	return true;
++}
+ 
++static int update_qpd_v11(struct device_queue_manager *dqm,
++			 struct qcm_process_device *qpd)
++{
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v12.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v12.c
+index 4f3295b29dfb1..62ca1c8fcbaf9 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v12.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v12.c
+@@ -30,10 +30,17 @@ static int update_qpd_v12(struct device_queue_manager *dqm,
+ 			 struct qcm_process_device *qpd);
+ static void init_sdma_vm_v12(struct device_queue_manager *dqm, struct queue *q,
+ 			    struct qcm_process_device *qpd);
++static bool set_cache_memory_policy_v12(struct device_queue_manager *dqm,
++				   struct qcm_process_device *qpd,
++				   enum cache_policy default_policy,
++				   enum cache_policy alternate_policy,
++				   void __user *alternate_aperture_base,
++				   uint64_t alternate_aperture_size);
+ 
+ void device_queue_manager_init_v12(
+ 	struct device_queue_manager_asic_ops *asic_ops)
+ {
++	asic_ops->set_cache_memory_policy = set_cache_memory_policy_v12;
+ 	asic_ops->update_qpd = update_qpd_v12;
+ 	asic_ops->init_sdma_vm = init_sdma_vm_v12;
+ 	asic_ops->mqd_manager_init = mqd_manager_init_v12;
+@@ -48,28 +55,28 @@ static uint32_t compute_sh_mem_bases_64bit(struct kfd_process_device *pdd)
+ 		private_base;
+ }
+ 
+-static int update_qpd_v12(struct device_queue_manager *dqm,
+-			 struct qcm_process_device *qpd)
++static bool set_cache_memory_policy_v12(struct device_queue_manager *dqm,
++				   struct qcm_process_device *qpd,
++				   enum cache_policy default_policy,
++				   enum cache_policy alternate_policy,
++				   void __user *alternate_aperture_base,
++				   uint64_t alternate_aperture_size)
+ {
+-	struct kfd_process_device *pdd;
+-
+-	pdd = qpd_to_pdd(qpd);
+-
+-	/* check if sh_mem_config register already configured */
+-	if (qpd->sh_mem_config == 0) {
+-		qpd->sh_mem_config =
+-			(SH_MEM_ALIGNMENT_MODE_UNALIGNED <<
+-				SH_MEM_CONFIG__ALIGNMENT_MODE__SHIFT) |
+-			(3 << SH_MEM_CONFIG__INITIAL_INST_PREFETCH__SHIFT);
+-
+-		qpd->sh_mem_ape1_limit = 0;
+-		qpd->sh_mem_ape1_base = 0;
+-	}
++	qpd->sh_mem_config = (SH_MEM_ALIGNMENT_MODE_UNALIGNED <<
++			      SH_MEM_CONFIG__ALIGNMENT_MODE__SHIFT) |
++			      (3 << SH_MEM_CONFIG__INITIAL_INST_PREFETCH__SHIFT);
+ 
+-	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(pdd);
++	qpd->sh_mem_ape1_limit = 0;
++	qpd->sh_mem_ape1_base = 0;
++	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(qpd_to_pdd(qpd));
+ 
+ 	pr_debug("sh_mem_bases 0x%X\n", qpd->sh_mem_bases);
++	return true;
++}
+ 
++static int update_qpd_v12(struct device_queue_manager *dqm,
++			 struct qcm_process_device *qpd)
++{
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v9.c
+index 67137e674f1d0..c734eb9b505f8 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v9.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v9.c
+@@ -30,10 +30,17 @@ static int update_qpd_v9(struct device_queue_manager *dqm,
+ 			 struct qcm_process_device *qpd);
+ static void init_sdma_vm_v9(struct device_queue_manager *dqm, struct queue *q,
+ 			    struct qcm_process_device *qpd);
++static bool set_cache_memory_policy_v9(struct device_queue_manager *dqm,
++				   struct qcm_process_device *qpd,
++				   enum cache_policy default_policy,
++				   enum cache_policy alternate_policy,
++				   void __user *alternate_aperture_base,
++				   uint64_t alternate_aperture_size);
+ 
+ void device_queue_manager_init_v9(
+ 	struct device_queue_manager_asic_ops *asic_ops)
+ {
++	asic_ops->set_cache_memory_policy = set_cache_memory_policy_v9;
+ 	asic_ops->update_qpd = update_qpd_v9;
+ 	asic_ops->init_sdma_vm = init_sdma_vm_v9;
+ 	asic_ops->mqd_manager_init = mqd_manager_init_v9;
+@@ -48,10 +55,37 @@ static uint32_t compute_sh_mem_bases_64bit(struct kfd_process_device *pdd)
+ 		private_base;
+ }
+ 
++static bool set_cache_memory_policy_v9(struct device_queue_manager *dqm,
++				   struct qcm_process_device *qpd,
++				   enum cache_policy default_policy,
++				   enum cache_policy alternate_policy,
++				   void __user *alternate_aperture_base,
++				   uint64_t alternate_aperture_size)
++{
++	qpd->sh_mem_config = SH_MEM_ALIGNMENT_MODE_UNALIGNED <<
++				SH_MEM_CONFIG__ALIGNMENT_MODE__SHIFT;
++
++	if (dqm->dev->kfd->noretry)
++		qpd->sh_mem_config |= 1 << SH_MEM_CONFIG__RETRY_DISABLE__SHIFT;
++
++	if (KFD_GC_VERSION(dqm->dev->kfd) == IP_VERSION(9, 4, 3) ||
++		KFD_GC_VERSION(dqm->dev->kfd) == IP_VERSION(9, 4, 4) ||
++		KFD_GC_VERSION(dqm->dev->kfd) == IP_VERSION(9, 5, 0))
++		qpd->sh_mem_config |= (1 << SH_MEM_CONFIG__F8_MODE__SHIFT);
++
++	qpd->sh_mem_ape1_limit = 0;
++	qpd->sh_mem_ape1_base = 0;
++	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(qpd_to_pdd(qpd));
++
++	pr_debug("sh_mem_bases 0x%X sh_mem_config 0x%X\n", qpd->sh_mem_bases,
++		 qpd->sh_mem_config);
++	return true;
++}
++
+ static int update_qpd_v9(struct device_queue_manager *dqm,
+ 			 struct qcm_process_device *qpd)
+ {
+-	struct kfd_process_device *pdd;
++	struct kfd_process_device *pdd = qpd_to_pdd(qpd);
+ 
+ 	pdd = qpd_to_pdd(qpd);
+ 
 -- 
 2.39.5
 
