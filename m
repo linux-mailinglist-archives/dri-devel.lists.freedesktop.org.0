@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BF0AAA014
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E71AAA015
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:31:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B3C210E4B3;
-	Mon,  5 May 2025 22:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 137F210E4AC;
+	Mon,  5 May 2025 22:31:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="enyEOaBG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CUo/5T3S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 701D410E4A6
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:31:33 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEB8A10E4A4;
+ Mon,  5 May 2025 22:31:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E4C9B629C6;
- Mon,  5 May 2025 22:31:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E77EC4CEEE;
- Mon,  5 May 2025 22:31:31 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4DDC0A4CD1D;
+ Mon,  5 May 2025 22:26:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42A23C4CEED;
+ Mon,  5 May 2025 22:31:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484292;
- bh=Qk1eyKnX5OztIuXD3gcVb1g5PJcA+op3VmGa+6UqilU=;
+ s=k20201202; t=1746484295;
+ bh=/XviaWuuRCkEJe3Qn1xC+r9oxfkBTCfyMpPOiM9mVG0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=enyEOaBGzJZFWxnO/t/H8oKwnYMtc6Q+/RFT5LZHc3H5hjx4xtPfgkwIHf8vxrJdM
- 2xpywsbw7lVfPCJIARqZjvqvAae5xXDJ+1sH6e6na8cE7UbsaVvzxu/WK+1dvMEVWW
- Y3t5rP476yI9H5IuJwwVON927JWgcqNNQfu5D0gKMU30oNrRTpIEQpR5sXqKVVquET
- +ZpJlBzBEpWBeyPoYq3HDHSDVNJkhrXH4flwF900YGzeCn4Sw3jDWI0gkPq1rYjma+
- puJRJeq6yfdQPtTq1LNj3+00TH7ekWg+sFBC9YSRrmR8nd3s2y43lEaad2gIiqHtqm
- ObVUp6kjJyJ2w==
+ b=CUo/5T3Sh1msZLSBxNF1R78e11cQcOo4h7q/rhXmEX1znE9Jx7JXsKiGm1FE6d9ZJ
+ e5qt28M26p0F8XTHliIi34kfHVYMeR7bqz7HwlBByI8/gcSw1kvvjJO1x5VcROw5D8
+ URvd/+JmKnsGu2ZMdk/Mqhjo+IvWugdKkBez1Z065y6c3Ure4QGchDyEsrmuvngYIE
+ MG9dMV3y1uG44HkOTFwQ/Aq13lxbg6lDKURWzghV1wS5MNIzjdGHEJ7SdgafsDFGsU
+ /ie8Bh98dVzrHI41hWU/HMj63GKUo6XtnGLFYehPZtSECCEfH4aR5c2Le1lzPOvbGf
+ 2Q3mnUd7ks4kw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Lizhi Hou <lizhi.hou@amd.com>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Sasha Levin <sashal@kernel.org>, min.ma@amd.com, ogabbay@kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 439/642] accel/amdxdna: Refactor hardware context
- destroy routine
-Date: Mon,  5 May 2025 18:10:55 -0400
-Message-Id: <20250505221419.2672473-439-sashal@kernel.org>
+Cc: Xin Wang <x.wang@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Fei Yang <fei.yang@intel.com>, Shuicheng Lin <shuicheng.lin@intel.com>,
+ Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, airlied@gmail.com, simona@ffwll.ch,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 441/642] drm/xe/debugfs: fixed the return value
+ of wedged_mode_set
+Date: Mon,  5 May 2025 18:10:57 -0400
+Message-Id: <20250505221419.2672473-441-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -63,134 +65,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lizhi Hou <lizhi.hou@amd.com>
+From: Xin Wang <x.wang@intel.com>
 
-[ Upstream commit 4fd6ca90fc7f509977585d39885f21b2911123f3 ]
+[ Upstream commit 6884d2051011f4db9e2f0b85709c79a8ced13bd6 ]
 
-It is required by firmware to wait up to 2 seconds for pending commands
-before sending the destroy hardware context command. After 2 seconds
-wait, if there are still pending commands, driver needs to cancel them.
+It is generally expected that the write() function should return a
+positive value indicating the number of bytes written or a negative
+error code if an error occurs. Returning 0 is unusual and can lead
+to unexpected behavior.
 
-So the context destroy steps need to be:
-  1. Stop drm scheduler. (drm_sched_entity_destroy)
-  2. Wait up to 2 seconds for pending commands.
-  3. Destroy hardware context and cancel the rest pending requests.
-  4. Wait all jobs associated with the hwctx are freed.
-  5. Free job resources.
+When the user program writes the same value to wedged_mode twice in
+a row, a lockup will occur, because the value expected to be
+returned by the write() function inside the program should be equal
+to the actual written value instead of 0.
 
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250124173536.148676-1-lizhi.hou@amd.com
+To reproduce the issue:
+echo 1 > /sys/kernel/debug/dri/0/wedged_mode
+echo 1 > /sys/kernel/debug/dri/0/wedged_mode   <- lockup here
+
+Signed-off-by: Xin Wang <x.wang@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Fei Yang <fei.yang@intel.com>
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250213223615.2327367-1-x.wang@intel.com
+Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/accel/amdxdna/aie2_ctx.c    | 29 ++++++++++++++++-------------
- drivers/accel/amdxdna/amdxdna_ctx.c |  2 ++
- drivers/accel/amdxdna/amdxdna_ctx.h |  3 +++
- 3 files changed, 21 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/xe/xe_debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
-index 5f43db02b2404..92c768b0c9a03 100644
---- a/drivers/accel/amdxdna/aie2_ctx.c
-+++ b/drivers/accel/amdxdna/aie2_ctx.c
-@@ -34,6 +34,8 @@ static void aie2_job_release(struct kref *ref)
+diff --git a/drivers/gpu/drm/xe/xe_debugfs.c b/drivers/gpu/drm/xe/xe_debugfs.c
+index 492b4877433f1..6bfdd3a9913fd 100644
+--- a/drivers/gpu/drm/xe/xe_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_debugfs.c
+@@ -166,7 +166,7 @@ static ssize_t wedged_mode_set(struct file *f, const char __user *ubuf,
+ 		return -EINVAL;
  
- 	job = container_of(ref, struct amdxdna_sched_job, refcnt);
- 	amdxdna_sched_job_cleanup(job);
-+	atomic64_inc(&job->hwctx->job_free_cnt);
-+	wake_up(&job->hwctx->priv->job_free_wq);
- 	if (job->out_fence)
- 		dma_fence_put(job->out_fence);
- 	kfree(job);
-@@ -134,7 +136,8 @@ static void aie2_hwctx_wait_for_idle(struct amdxdna_hwctx *hwctx)
- 	if (!fence)
- 		return;
+ 	if (xe->wedged.mode == wedged_mode)
+-		return 0;
++		return size;
  
--	dma_fence_wait(fence, false);
-+	/* Wait up to 2 seconds for fw to finish all pending requests */
-+	dma_fence_wait_timeout(fence, false, msecs_to_jiffies(2000));
- 	dma_fence_put(fence);
- }
+ 	xe->wedged.mode = wedged_mode;
  
-@@ -616,6 +619,7 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
- 	hwctx->status = HWCTX_STAT_INIT;
- 	ndev = xdna->dev_handle;
- 	ndev->hwctx_num++;
-+	init_waitqueue_head(&priv->job_free_wq);
- 
- 	XDNA_DBG(xdna, "hwctx %s init completed", hwctx->name);
- 
-@@ -652,25 +656,23 @@ void aie2_hwctx_fini(struct amdxdna_hwctx *hwctx)
- 	xdna = hwctx->client->xdna;
- 	ndev = xdna->dev_handle;
- 	ndev->hwctx_num--;
--	drm_sched_wqueue_stop(&hwctx->priv->sched);
- 
--	/* Now, scheduler will not send command to device. */
-+	XDNA_DBG(xdna, "%s sequence number %lld", hwctx->name, hwctx->priv->seq);
-+	drm_sched_entity_destroy(&hwctx->priv->entity);
-+
-+	aie2_hwctx_wait_for_idle(hwctx);
-+
-+	/* Request fw to destroy hwctx and cancel the rest pending requests */
- 	aie2_release_resource(hwctx);
- 
--	/*
--	 * All submitted commands are aborted.
--	 * Restart scheduler queues to cleanup jobs. The amdxdna_sched_job_run()
--	 * will return NODEV if it is called.
--	 */
--	drm_sched_wqueue_start(&hwctx->priv->sched);
-+	/* Wait for all submitted jobs to be completed or canceled */
-+	wait_event(hwctx->priv->job_free_wq,
-+		   atomic64_read(&hwctx->job_submit_cnt) ==
-+		   atomic64_read(&hwctx->job_free_cnt));
- 
--	aie2_hwctx_wait_for_idle(hwctx);
--	drm_sched_entity_destroy(&hwctx->priv->entity);
- 	drm_sched_fini(&hwctx->priv->sched);
- 	aie2_ctx_syncobj_destroy(hwctx);
- 
--	XDNA_DBG(xdna, "%s sequence number %lld", hwctx->name, hwctx->priv->seq);
--
- 	for (idx = 0; idx < ARRAY_SIZE(hwctx->priv->cmd_buf); idx++)
- 		drm_gem_object_put(to_gobj(hwctx->priv->cmd_buf[idx]));
- 	amdxdna_gem_unpin(hwctx->priv->heap);
-@@ -879,6 +881,7 @@ int aie2_cmd_submit(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job,
- 	drm_gem_unlock_reservations(job->bos, job->bo_cnt, &acquire_ctx);
- 
- 	aie2_job_put(job);
-+	atomic64_inc(&hwctx->job_submit_cnt);
- 
- 	return 0;
- 
-diff --git a/drivers/accel/amdxdna/amdxdna_ctx.c b/drivers/accel/amdxdna/amdxdna_ctx.c
-index d11b1c83d9c3b..43442b9e273b3 100644
---- a/drivers/accel/amdxdna/amdxdna_ctx.c
-+++ b/drivers/accel/amdxdna/amdxdna_ctx.c
-@@ -220,6 +220,8 @@ int amdxdna_drm_create_hwctx_ioctl(struct drm_device *dev, void *data, struct dr
- 	args->syncobj_handle = hwctx->syncobj_hdl;
- 	mutex_unlock(&xdna->dev_lock);
- 
-+	atomic64_set(&hwctx->job_submit_cnt, 0);
-+	atomic64_set(&hwctx->job_free_cnt, 0);
- 	XDNA_DBG(xdna, "PID %d create HW context %d, ret %d", client->pid, args->handle, ret);
- 	drm_dev_exit(idx);
- 	return 0;
-diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h b/drivers/accel/amdxdna/amdxdna_ctx.h
-index 80b0304193ec3..f0a4a8586d858 100644
---- a/drivers/accel/amdxdna/amdxdna_ctx.h
-+++ b/drivers/accel/amdxdna/amdxdna_ctx.h
-@@ -87,6 +87,9 @@ struct amdxdna_hwctx {
- 	struct amdxdna_qos_info		     qos;
- 	struct amdxdna_hwctx_param_config_cu *cus;
- 	u32				syncobj_hdl;
-+
-+	atomic64_t			job_submit_cnt;
-+	atomic64_t			job_free_cnt ____cacheline_aligned_in_smp;
- };
- 
- #define drm_job_to_xdna_job(j) \
 -- 
 2.39.5
 
