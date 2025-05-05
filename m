@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCE3AAA00C
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:31:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5058AAA012
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:31:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9834A10E4A5;
-	Mon,  5 May 2025 22:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8387D10E4A9;
+	Mon,  5 May 2025 22:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EXSvnC8G";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RkMEL8R8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68A5510E4A4;
- Mon,  5 May 2025 22:31:05 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D069510E4A7;
+ Mon,  5 May 2025 22:31:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 39EEBA4CD51;
- Mon,  5 May 2025 22:25:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43441C4CEED;
- Mon,  5 May 2025 22:31:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1DFFD5C5513;
+ Mon,  5 May 2025 22:29:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A366AC4CEED;
+ Mon,  5 May 2025 22:31:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484264;
- bh=kadxP6WANXnFgGHhpgdEJ1JC4CJv8Ro89kYhIKY7X9g=;
+ s=k20201202; t=1746484288;
+ bh=ZBwHAHoci1CN5jPJYMM0igKKNuqHeRDs1uAY+YiLzuo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EXSvnC8GHe5Dz2wRbxXRQc5U/bCCs8sKGBPGP/kzz1am2ZZSn/NPk0MRYnyxzA1Ue
- UQVpryQrnlhTDl22357u+neG/gtxZJUSUlblvhNAPZVPeFCNq8Hf57tO1Cx3aWqrRN
- M7HWZ/pEi3e9ij7NO4dSj+HFiPCGGpnCvzJlZrBaOPFT0/+sq3Hl5AInbC1FybACue
- ES2jE6QBiK2G8HUBGC58GhCaHBlU+fagxJAHgtTFUyVhiCM/xFpmtSNvhPtr5h377V
- h8IXtpT7TK2qqXrup/3zlq/Vqn0sjuoFKDZ+kiFqAXRe8j/5tp1kh+Wlwlex8HFUH+
- ngfAXggh4G9DQ==
+ b=RkMEL8R8sX8ktq1tB4tHzqGgQtb6Gz+2oSYHZ7cHwFM3KzJeA4N+o+9shuuiaVZkb
+ CLlef+sm67iQgt3ByfrYAy75fQSu2P/XMkME3cn/sMcmH5Lt/glVXR7XzYM1OUSklm
+ NeUX4Sy26h4WB0vAlbmx8YgK2mij5Oi/3aAuLc812Z8uzP6pEuS7FqMjBGCaJwXmd7
+ +N86bWSS0+wW5ZX8fl4UvB0MluSeIof9v18ZvrWQorm3qOcYonhSD/n6lnTWZ2LMeF
+ LiiSfT7h5j5O3g2JwdwovM/fsKrNFVEprcI5oWbO1hk0EWKw7AflAIi9h0GkUZ1AF1
+ Wd9mG2x7tevvA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>,
- Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 421/642] drm/xe/pf: Release all VFs configs on
- device removal
-Date: Mon,  5 May 2025 18:10:37 -0400
-Message-Id: <20250505221419.2672473-421-sashal@kernel.org>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ Sasha Levin <sashal@kernel.org>, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 436/642] drm/xe: Stop ignoring errors from
+ xe_ttm_stolen_mgr_init()
+Date: Mon,  5 May 2025 18:10:52 -0400
+Message-Id: <20250505221419.2672473-436-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
@@ -67,119 +66,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+From: Lucas De Marchi <lucas.demarchi@intel.com>
 
-[ Upstream commit 611160b02a40ce3f60ab94eea85b394dca1cafd2 ]
+[ Upstream commit ff57025c358603555f1e0ae0d50282a460433594 ]
 
-If we try to manually provision VFs using debugfs and then we
-try to unload the driver, we will see complains like:
+Make sure to differentiate normal behavior, e.g. there's no stolen, from
+allocation errors or failure to initialize lower layers.
 
- [ ] Memory manager not clean during takedown.
- [ ] RIP: 0010:drm_mm_takedown+0x3f/0x100
- [ ] [drm:drm_mm_takedown] *ERROR* node [fedff000 + 00001000]: inserted at
-      drm_mm_insert_node_in_range+0x2bd/0x520
-      xe_ggtt_node_insert+0x52/0x90 [xe]
-      pf_provision_vf_ggtt+0x1fa/0xac0 [xe]
-      xe_gt_sriov_pf_config_set_ggtt+0x79/0x7a0 [xe]
-      ggtt_set+0x53/0x80 [xe]
-      simple_attr_write_xsigned.isra.0+0xd2/0x150
-      simple_attr_write+0x14/0x30
-      debugfs_attr_write+0x4e/0x80
-
- [ ] xe 0000:00:02.0: [drm] *ERROR* GT0: GUC ID manager unclean (1/65535)
- [ ] xe 0000:00:02.0: [drm] GT0:      total 65535
- [ ] xe 0000:00:02.0: [drm] GT0:      used 1
- [ ] xe 0000:00:02.0: [drm] GT0:      range 65534..65534 (1)
-
- [ ] xe 0000:00:02.0: [drm] *ERROR* GT0: GuC doorbells manager unclean (1/256)
- [ ] xe 0000:00:02.0: [drm] GT0:      count: 256
- [ ] xe 0000:00:02.0: [drm] GT0:      available range: 1..255 (255)
- [ ] xe 0000:00:02.0: [drm] GT0:      available total: 255
- [ ] xe 0000:00:02.0: [drm] GT0:      reserved range: 0..0 (1)
- [ ] xe 0000:00:02.0: [drm] GT0:      reserved total: 1
-
-This could be easily fixed by adding config release action.
-
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
-Reviewed-by: Piotr Piórkowski <piotr.piorkowski@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250211155034.1028-1-michal.wajdeczko@intel.com
+Reviewed-by: Francois Dugast <francois.dugast@intel.com>
+Reviewed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250213192909.996148-5-lucas.demarchi@intel.com
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_gt_sriov_pf.c        |  6 +++++
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 29 ++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h |  1 +
- 3 files changed, 36 insertions(+)
+ drivers/gpu/drm/xe/xe_device.c         |  4 +++-
+ drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c | 17 +++++++++--------
+ drivers/gpu/drm/xe/xe_ttm_stolen_mgr.h |  2 +-
+ 3 files changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf.c
-index 6f906c8e8108b..b80930a6bc1a2 100644
---- a/drivers/gpu/drm/xe/xe_gt_sriov_pf.c
-+++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf.c
-@@ -78,6 +78,12 @@ int xe_gt_sriov_pf_init_early(struct xe_gt *gt)
-  */
- int xe_gt_sriov_pf_init(struct xe_gt *gt)
- {
-+	int err;
-+
-+	err = xe_gt_sriov_pf_config_init(gt);
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index 4e1839b483a00..e22f29ac96631 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -722,7 +722,9 @@ int xe_device_probe(struct xe_device *xe)
+ 	}
+ 
+ 	/* Allocate and map stolen after potential VRAM resize */
+-	xe_ttm_stolen_mgr_init(xe);
++	err = xe_ttm_stolen_mgr_init(xe);
 +	if (err)
 +		return err;
-+
- 	return xe_gt_sriov_pf_migration_init(gt);
+ 
+ 	/*
+ 	 * Now that GT is initialized (TTM in particular),
+diff --git a/drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c b/drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c
+index d414421f8c131..d9c9d2547aadf 100644
+--- a/drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c
++++ b/drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c
+@@ -207,17 +207,16 @@ static u64 detect_stolen(struct xe_device *xe, struct xe_ttm_stolen_mgr *mgr)
+ #endif
  }
  
-diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-index 4bd255adfb401..aaca54b40091f 100644
---- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-+++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-@@ -2320,6 +2320,35 @@ int xe_gt_sriov_pf_config_restore(struct xe_gt *gt, unsigned int vfid,
- 	return err;
+-void xe_ttm_stolen_mgr_init(struct xe_device *xe)
++int xe_ttm_stolen_mgr_init(struct xe_device *xe)
+ {
+-	struct xe_ttm_stolen_mgr *mgr = drmm_kzalloc(&xe->drm, sizeof(*mgr), GFP_KERNEL);
+ 	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
++	struct xe_ttm_stolen_mgr *mgr;
+ 	u64 stolen_size, io_size;
+ 	int err;
+ 
+-	if (!mgr) {
+-		drm_dbg_kms(&xe->drm, "Stolen mgr init failed\n");
+-		return;
+-	}
++	mgr = drmm_kzalloc(&xe->drm, sizeof(*mgr), GFP_KERNEL);
++	if (!mgr)
++		return -ENOMEM;
+ 
+ 	if (IS_SRIOV_VF(xe))
+ 		stolen_size = 0;
+@@ -230,7 +229,7 @@ void xe_ttm_stolen_mgr_init(struct xe_device *xe)
+ 
+ 	if (!stolen_size) {
+ 		drm_dbg_kms(&xe->drm, "No stolen memory support\n");
+-		return;
++		return 0;
+ 	}
+ 
+ 	/*
+@@ -246,7 +245,7 @@ void xe_ttm_stolen_mgr_init(struct xe_device *xe)
+ 				     io_size, PAGE_SIZE);
+ 	if (err) {
+ 		drm_dbg_kms(&xe->drm, "Stolen mgr init failed: %i\n", err);
+-		return;
++		return err;
+ 	}
+ 
+ 	drm_dbg_kms(&xe->drm, "Initialized stolen memory support with %llu bytes\n",
+@@ -254,6 +253,8 @@ void xe_ttm_stolen_mgr_init(struct xe_device *xe)
+ 
+ 	if (io_size)
+ 		mgr->mapping = devm_ioremap_wc(&pdev->dev, mgr->io_base, io_size);
++
++	return 0;
  }
  
-+static void fini_config(void *arg)
-+{
-+	struct xe_gt *gt = arg;
-+	struct xe_device *xe = gt_to_xe(gt);
-+	unsigned int n, total_vfs = xe_sriov_pf_get_totalvfs(xe);
-+
-+	mutex_lock(xe_gt_sriov_pf_master_mutex(gt));
-+	for (n = 1; n <= total_vfs; n++)
-+		pf_release_vf_config(gt, n);
-+	mutex_unlock(xe_gt_sriov_pf_master_mutex(gt));
-+}
-+
-+/**
-+ * xe_gt_sriov_pf_config_init - Initialize SR-IOV configuration data.
-+ * @gt: the &xe_gt
-+ *
-+ * This function can only be called on PF.
-+ *
-+ * Return: 0 on success or a negative error code on failure.
-+ */
-+int xe_gt_sriov_pf_config_init(struct xe_gt *gt)
-+{
-+	struct xe_device *xe = gt_to_xe(gt);
-+
-+	xe_gt_assert(gt, IS_SRIOV_PF(xe));
-+
-+	return devm_add_action_or_reset(xe->drm.dev, fini_config, gt);
-+}
-+
- /**
-  * xe_gt_sriov_pf_config_restart - Restart SR-IOV configurations after a GT reset.
-  * @gt: the &xe_gt
-diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-index f894e9d4abba2..513e6512a575b 100644
---- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-+++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-@@ -63,6 +63,7 @@ int xe_gt_sriov_pf_config_restore(struct xe_gt *gt, unsigned int vfid,
+ u64 xe_ttm_stolen_io_offset(struct xe_bo *bo, u32 offset)
+diff --git a/drivers/gpu/drm/xe/xe_ttm_stolen_mgr.h b/drivers/gpu/drm/xe/xe_ttm_stolen_mgr.h
+index 1777245ff8101..8e877d1e839bd 100644
+--- a/drivers/gpu/drm/xe/xe_ttm_stolen_mgr.h
++++ b/drivers/gpu/drm/xe/xe_ttm_stolen_mgr.h
+@@ -12,7 +12,7 @@ struct ttm_resource;
+ struct xe_bo;
+ struct xe_device;
  
- bool xe_gt_sriov_pf_config_is_empty(struct xe_gt *gt, unsigned int vfid);
- 
-+int xe_gt_sriov_pf_config_init(struct xe_gt *gt);
- void xe_gt_sriov_pf_config_restart(struct xe_gt *gt);
- 
- int xe_gt_sriov_pf_config_print_ggtt(struct xe_gt *gt, struct drm_printer *p);
+-void xe_ttm_stolen_mgr_init(struct xe_device *xe);
++int xe_ttm_stolen_mgr_init(struct xe_device *xe);
+ int xe_ttm_stolen_io_mem_reserve(struct xe_device *xe, struct ttm_resource *mem);
+ bool xe_ttm_stolen_cpu_access_needs_ggtt(struct xe_device *xe);
+ u64 xe_ttm_stolen_io_offset(struct xe_bo *bo, u32 offset);
 -- 
 2.39.5
 
