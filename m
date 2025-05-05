@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF603AA9F68
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:23:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3038AAA9F6E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:23:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E5B10E45E;
-	Mon,  5 May 2025 22:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C42FD10E464;
+	Mon,  5 May 2025 22:23:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QVOvBsAt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RN9+Bjy0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E6710E45F;
- Mon,  5 May 2025 22:23:13 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC8810E461;
+ Mon,  5 May 2025 22:23:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DB5C5A4CCF1;
- Mon,  5 May 2025 22:17:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC830C4CEEF;
- Mon,  5 May 2025 22:23:10 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 7AA3061F1F;
+ Mon,  5 May 2025 22:22:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E936C4CEED;
+ Mon,  5 May 2025 22:23:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746483792;
- bh=HBJx4tgknO3q8nVzeQsulOIFELLP0vgjGMS2diT3WdE=;
+ s=k20201202; t=1746483795;
+ bh=BkhcAlPlBh84hHlB+fG4PpMxy+yV46nOJg864LsmRAg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QVOvBsAt+aAdgVxkzlP8RQD4kgq4ANBF6B9PneC80f6TQT1KC9CRZXG9v1Pz+m+vb
- 2w8yU/HiKBGZjs6ea5kCOeH00S2ftfXYNOagqh2yATvHkc0KG5ZpKlmRt2vzK0vGrF
- SuLNONJtgvERuX5B/51TVC/z2ESJwmRuO4rcx5Ce5FO5aFwzc900LfQ5h/qQJ5DIbE
- JJGiASrw4k0+KHLqltV6qr+ClYfHLiT8pXREd9JZ72w0IPaogx2Qkp/R2nF7LSz7Nr
- 6PL6IcgjLtZ7bb54b1I0hCWHtR6oUTDGB6lyRlK4aDLhACgbtqb3OXskUTP1Z7rAxt
- YV6U8/Jedsfnw==
+ b=RN9+Bjy0FByy9WrrjnidYQWVDKExvJzqEiKNMamje+KWCaEKkxIBWbH11YkbDatdu
+ gmvLQbeWe44pbHW01dPGq7JUm54lBt5G0uC+YDX8CEoOp3I6kEIliCkqQDBU4UjYtn
+ lN/bPnNsq/uTpQVR7T/NjdQ7r4QtRpPv+LI493oyEmgBF66tx4rQpK+UcHQ+UGQo5m
+ 7cFf3/C/GOaLBlA2M1bGhIFVJbHMAz0/kKPxG9kKrs8t6K14PzilqtxaDwfw6A4cFm
+ mDmDb2gn1LfPqU6a3wRoc0WAirHD5EQ2iJkhng/gmLRMIKntnrpqE3fiRCSWZkBIrX
+ PyYyZBlwFeFXw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Sierra <alex.sierra@amd.com>,
- Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
- Amber Lin <Amber.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, Felix.Kuehling@amd.com,
+Cc: Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 220/642] drm/amdkfd: clear F8_MODE for gfx950
-Date: Mon,  5 May 2025 18:07:16 -0400
-Message-Id: <20250505221419.2672473-220-sashal@kernel.org>
+ ganglxie@amd.com, Stanley.Yang@amd.com, lijo.lazar@amd.com,
+ candice.li@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 221/642] drm/amdgpu: increase RAS bad page
+ threshold
+Date: Mon,  5 May 2025 18:07:17 -0400
+Message-Id: <20250505221419.2672473-221-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,35 +66,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Sierra <alex.sierra@amd.com>
+From: Tao Zhou <tao.zhou1@amd.com>
 
-[ Upstream commit 59228c6631f902fa826dc61321ab377ba8aadec5 ]
+[ Upstream commit 334dc5fcc3f177823115ec4e075259997c16d4a7 ]
 
-Default F8_MODE should be OCP format on gfx950.
+For default policy, driver will issue an RMA event when the number of
+bad pages is greater than 8 physical rows, rather than reaches 8
+physical rows, don't rely on threshold configurable parameters in
+default mode.
 
-Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-Reviewed-by: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
-Signed-off-by: Amber Lin <Amber.Lin@amd.com>
+Signed-off-by: Tao Zhou <tao.zhou1@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v9.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v9.c
-index c734eb9b505f8..3264509408bc8 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v9.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_v9.c
-@@ -98,8 +98,7 @@ static int update_qpd_v9(struct device_queue_manager *dqm,
- 			qpd->sh_mem_config |= 1 << SH_MEM_CONFIG__RETRY_DISABLE__SHIFT;
- 
- 		if (KFD_GC_VERSION(dqm->dev->kfd) == IP_VERSION(9, 4, 3) ||
--		    KFD_GC_VERSION(dqm->dev->kfd) == IP_VERSION(9, 4, 4) ||
--		    KFD_GC_VERSION(dqm->dev->kfd) == IP_VERSION(9, 5, 0))
-+		    KFD_GC_VERSION(dqm->dev->kfd) == IP_VERSION(9, 4, 4))
- 			qpd->sh_mem_config |=
- 				(1 << SH_MEM_CONFIG__F8_MODE__SHIFT);
- 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c
+index 52c16bfeccaad..12ffe4a963d31 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c
+@@ -748,7 +748,7 @@ amdgpu_ras_eeprom_update_header(struct amdgpu_ras_eeprom_control *control)
+ 	/* Modify the header if it exceeds.
+ 	 */
+ 	if (amdgpu_bad_page_threshold != 0 &&
+-	    control->ras_num_bad_pages >= ras->bad_page_cnt_threshold) {
++	    control->ras_num_bad_pages > ras->bad_page_cnt_threshold) {
+ 		dev_warn(adev->dev,
+ 			"Saved bad pages %d reaches threshold value %d\n",
+ 			control->ras_num_bad_pages, ras->bad_page_cnt_threshold);
+@@ -806,7 +806,7 @@ amdgpu_ras_eeprom_update_header(struct amdgpu_ras_eeprom_control *control)
+ 	 */
+ 	if (amdgpu_bad_page_threshold != 0 &&
+ 	    control->tbl_hdr.version == RAS_TABLE_VER_V2_1 &&
+-	    control->ras_num_bad_pages < ras->bad_page_cnt_threshold)
++	    control->ras_num_bad_pages <= ras->bad_page_cnt_threshold)
+ 		control->tbl_rai.health_percent = ((ras->bad_page_cnt_threshold -
+ 						   control->ras_num_bad_pages) * 100) /
+ 						   ras->bad_page_cnt_threshold;
+@@ -1451,7 +1451,7 @@ int amdgpu_ras_eeprom_check(struct amdgpu_ras_eeprom_control *control)
+ 				  res);
+ 			return -EINVAL;
+ 		}
+-		if (ras->bad_page_cnt_threshold > control->ras_num_bad_pages) {
++		if (ras->bad_page_cnt_threshold >= control->ras_num_bad_pages) {
+ 			/* This means that, the threshold was increased since
+ 			 * the last time the system was booted, and now,
+ 			 * ras->bad_page_cnt_threshold - control->num_recs > 0,
 -- 
 2.39.5
 
