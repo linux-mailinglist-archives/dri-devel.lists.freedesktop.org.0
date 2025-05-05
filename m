@@ -2,108 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2D4AA9E24
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 23:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6681AA9E37
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 23:37:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31BA610E135;
-	Mon,  5 May 2025 21:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D8F210E323;
+	Mon,  5 May 2025 21:37:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="YBXsDe1r";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="WluRtubD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66EDB10E135;
- Mon,  5 May 2025 21:28:52 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 545KTvD1016273;
- Mon, 5 May 2025 21:28:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 6fbWtZrFp1kkYuOkSQk8CYkFh3yOINoeD9GEadRdKg0=; b=YBXsDe1r2MEnuvCk
- stuxZvV8nWs02iyRxILkdh/87YBMt7mL8X7YRPdhR6IoZO7U44uLLDov5bhXv9DI
- tLVvBUkBe4W9jfqJFDykgHaTLRA97DsmQoV1WZhUA/QWIAS1rGmmZsvErlQbQRCe
- Xhu8kPQ/DushQUl0Rw1dUrBGodXIo0gdSHpZ4jKziH5jI4TpMyMktniAMuSLfzt+
- eIQbTrpXkGMvTCns28JxZRmnEPD9OZubz0rfWgFuJigdfdl/RatF5aYZEzhQbum5
- 7pZ0ZyydRemGEmQm2QVgY8B9rkF2IJ8qfN+tRd5gzc19DeTqjEzNW3hEg96+JW8C
- 9cW7Gw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46dbc5da9x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 May 2025 21:28:43 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 545LSgNw007225
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 5 May 2025 21:28:42 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 5 May 2025
- 14:28:41 -0700
-Message-ID: <65710c50-9bfc-42e8-afad-ac01c7f96a9e@quicinc.com>
-Date: Mon, 5 May 2025 14:28:39 -0700
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2043.outbound.protection.outlook.com [40.107.93.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C21B410E33C;
+ Mon,  5 May 2025 21:37:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BFjoTf1msKL9P0h+IvEkOEx1aD/i6vqwkoLD4roH34fWMF5J0hOMI2AB7ndFGFvGIE2EsVWLUTD9rW7yax0gNQeDwycoJLdqv1oovjtT0JXFDpw0PItF/f1UoAW9AjnonzCTVAL5lBR4LYnI7mmsuTntjU3h4AlKvudpTUK3dytfVwbvpfsHzCVK8+ChaXpzMiBkx/Yf3TpUDiKLJlwlUfCH8HUYkEmDsS7XacsGdxUsdmZNxZCKphibFsQnoWZoCQyHdB/mBrrHGv12ybGp6wwFE29cmZTxAjBN3PMd8KJrNFoeHmqOVNUWb+CfN/ppgTp6tR8rvuYA8dVm7r3r4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jDB0vJj8LO3XLS5sZ/SZHEgalNjewOcWMXc32cvBkEk=;
+ b=jloW6ZmgFjQds3cdXxkKTfm7KYwK3aLOEcJ0N675pltxQCum/hDDA7UbH2LqzB+weFl7ovMPBUVumsxuVemVzwUzHckDYQtfL3fUa4JhrEsUAKnHeHVvwVIeWHAUWe287a8p7mlpDWbGHMa2D71zF0ou0HnwKJ9RP2CJbQEBmHxVQzB2Gb+PvCNzyt+6URr5O63ixxArxRwT7ijUVphBcYhPzCXVr0lZ7gfFLpOoIwDFZy3iEybvou/RlgTKooRBcfsiJBpsGDu7vOef6flYW8IngU6H5ui9MeEQBSAKb1I/5jWPeb25zJbtaSqK07ztslCh+4Ex+HXlR3nCNZvHHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jDB0vJj8LO3XLS5sZ/SZHEgalNjewOcWMXc32cvBkEk=;
+ b=WluRtubDIwrvRVeM7vsYvqbP39i0FRIGgtBaDO/4ZZQbQx2MuhquUZ3ACiHUBEfvc+2AwW+Q4Ggahv7emZ24JIsA1Rj0cJZv8gvfF9TLaYuh/OJ5ikCGhxrNH1xy8cLUPzmioV+uhqjEVB0qEDgRDAzOzkFJ42VlKk28AtGyjHu+I1vF3celOu6lNtaVKNcn1HCEHbxHZI9tFHvnNgAq6bgCDzdxmflGzNMa3avgPdKIyRJFM5S9gLMb0+sE0dpP4uu0wRnJJHLC4HG9l1+Sr0TWDEsJs7pIa+xVR1ayP3ficeBuRuMVERrxjsSFp146GzvuZWmhDJrMZqxIeH+7zw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by CH3PR12MB7547.namprd12.prod.outlook.com (2603:10b6:610:147::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.22; Mon, 5 May
+ 2025 21:37:24 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.8699.021; Mon, 5 May 2025
+ 21:37:24 +0000
+Message-ID: <c1d417f2-8340-496b-bdab-0ae54d0b499d@nvidia.com>
+Date: Mon, 5 May 2025 17:37:20 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 19/24] drm/msm/dsi: Add support for SM8750
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>
-CC: Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Jonathan Marek
- <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, "Stephen
- Boyd" <sboyd@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Rob Clark
- <robdclark@chromium.org>, <linux-clk@vger.kernel.org>, Srinivas Kandagatla
- <srini@kernel.org>
-References: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
- <20250430-b4-sm8750-display-v5-19-8cab30c3e4df@linaro.org>
- <hobn3fq647z54q6uqrooapokipr4zoxfb3tztg46lwzcsof3jd@5bwn34r2v7ks>
+Subject: Re: [PATCH v2 6/7] docs: nova-core: Document basics of the Falcon
+To: Bagas Sanjaya <bagasdotme@gmail.com>, linux-kernel@vger.kernel.org,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alexandre Courbot <acourbot@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+ Shirish Baskaran <sbaskaran@nvidia.com>, Alistair Popple
+ <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Ben Skeggs <bskeggs@nvidia.com>, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250503040802.1411285-1-joelagnelf@nvidia.com>
+ <20250503040802.1411285-7-joelagnelf@nvidia.com> <aBg7CUoAo1xyYlo8@archie.me>
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <hobn3fq647z54q6uqrooapokipr4zoxfb3tztg46lwzcsof3jd@5bwn34r2v7ks>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <aBg7CUoAo1xyYlo8@archie.me>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ATCruRLFzklvcy0jp1Cm81-oXR_9k4HK
-X-Authority-Analysis: v=2.4 cv=O7Y5vA9W c=1 sm=1 tr=0 ts=68192d8b cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=e5mUnYsNAAAA:8
- a=KKAkSRfTAAAA:8 a=jzqiswS_J5jijFRD548A:9 a=QEXdDO2ut3YA:10
- a=Vxmtnl_E_bksehYqCbjh:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: ATCruRLFzklvcy0jp1Cm81-oXR_9k4HK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDIwMyBTYWx0ZWRfX6kTy4LFAd+Yg
- d5Uujajwhbhy3AlW1fYpyK2ioT63kN5cHDF0lMfLVeacnF7GSva7mVUH5Trjdiy58hMdUn9kIM1
- EjLtdSfSR+aR4Iw6cUalLYvTFffGzmBHGdXk1yN1ynQilzfE9otl9brVOjrjglpK70x+pi+YMSg
- /mjGjdREra1Afih99QNk0ApPukCfP2I1B4Igb3mbLtMMAYA55openn8u7tS7F0PRmOFmlf4dY/T
- 3KzB3Pl/H+OGpxrmy4SJoxEkbxuYFk+A3TRXvYWJrrtV4g21vScPMGu1vdkUnR6vWy3Zno9hgXN
- MHzbDWwse5ZLM63rHYhaiMILOHhsd0GD/Ze26N15cMcguiOUq+EBYZ+VPDQUWT+0aogBmL/CxVN
- qoU2OpAaQYCm21FVZylUPbXWqrrpLYtLtHJ7euQnynaC1/i3VeQ/2jluffHqv2fGDercUezH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-05_09,2025-05-05_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
- clxscore=1011 priorityscore=1501 adultscore=0 phishscore=0 bulkscore=0
- impostorscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505050203
+X-ClientProxiedBy: MN0PR04CA0010.namprd04.prod.outlook.com
+ (2603:10b6:208:52d::25) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|CH3PR12MB7547:EE_
+X-MS-Office365-Filtering-Correlation-Id: ebba5f8f-6576-4e8d-6790-08dd8c1d05eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RHM1cUFhTXJrS211TkM5eDNQcVRoWmdRWEt3UENaNytMRFFBczNqTnJpSGtI?=
+ =?utf-8?B?dE5JOTY2Kysrb041d3pmN3dSdXA0bytrMFE1L1N2S2JXeUNCWSs3cFYxYngv?=
+ =?utf-8?B?clgvalVRNklvbGpodXc2TmN0UG4rcy9rUDgzbzZWaTBvUlVBZWtzWXZYdDFY?=
+ =?utf-8?B?Tzg4Z1NZdjJCVWx3bGR3bVVHazB3M3BiaVJIWFJDVVFQZk94RGxHOW5SNW5w?=
+ =?utf-8?B?dUtrMVk4L2lnQUpIY2FMaGlxTHd5VDRNYWdLNTQ3cTZpUTdaS2pFOEwxVDcy?=
+ =?utf-8?B?UkQrNUxuUUltMWFiVWxUMkhkVE51ajF2WnBxczNCWXpqMGpObW5kRWVNTCtt?=
+ =?utf-8?B?R0xWSVlYMlUzZkYwdzNKNTBRMG9LemZVUDVSVDRTN25nZWR0QnJJR0RCRGoz?=
+ =?utf-8?B?MmxIUmlManpiSDYwdTJBcG5sRzB6cnFPa1Z2a0QrbHFzSGM1VmhkeEIyTjc1?=
+ =?utf-8?B?WTNTczk5Yk4xdlZTeS9Fb0dqNEt4QitYcnhOL0lLT01nK0krSWRXcU9ZVmFN?=
+ =?utf-8?B?VjVaZ1NVajRwOU8xS3h4aUhHMGNscDRremE0S0VQRG14WS90WTBUeUcyRGcv?=
+ =?utf-8?B?ZGtHRFdyTHZCOXVwNHViblpHRG4zK1BONXdZR3VBWktIK2FFRG9uRG5EaFhL?=
+ =?utf-8?B?SFRZSElkRER5T1ptc3BGanFuWEprVW9rSlQrWXh5dThJVjJiRS8zTExWYVFC?=
+ =?utf-8?B?UkNURTEzdjFwUVZFVG9FQ2FIMGxRWW9jNkRxK292bWFwdGRDTGs2SjltV2ZC?=
+ =?utf-8?B?VWF2OURzcnFGbWJqTHdUZFpodGJsUXJ5UndSQzMrV0lrQytWdmhRWXZyREpm?=
+ =?utf-8?B?S09vY0kwN3UzZWlXdzJFYVhiaUJYNElZK3lsWmhGZnBhSXZmOWZtaTlXRy9w?=
+ =?utf-8?B?NHRNRFpHNkU1bi9IbU9FOFFxeXF3bkpETFpvMjJ4clJwUG5BeCt6TG1HTk9U?=
+ =?utf-8?B?anhNRU16Ylk0Mzg5bzF0RGlFaHlBT005ZmtFL3p5aXpJaldhcDQzWHV6SjYz?=
+ =?utf-8?B?YTJ4RGdmNi9Yb3d5WXZlS1RvblV2eCtwME1kUUNvZ1R6RGZNMlV1V1Nxbzhv?=
+ =?utf-8?B?S0hBTGxyRHY3ZWNBOTRsZ3hlWVUrcXQwWnhmVExLU1pyNE9SUEtQTEJWTno3?=
+ =?utf-8?B?bHdNNzE4TEQwM0lmZEdHcnFXRHlWZjBMWE1TbEtieWFoZXNMa21jZG9rZTQ0?=
+ =?utf-8?B?am9pN21yWWhwbkJXcEdtY3Myazg5eFc4Yll2T0hNZGsxcDAyTXZTNnRDbjhr?=
+ =?utf-8?B?SmtIdVdGMUJkKzloRDg4RVV4MGdOMk45S2hvaVZZV2dURnFET2lYUmhwQnlS?=
+ =?utf-8?B?dWtURjNOVWZQMlhkdU9TRmlMSUF6YzF0VU80MTZoMnQ0QjZ1TWJ2emZXQUt1?=
+ =?utf-8?B?Y25MVFEyWEJZS0YzdjJJZ3AyZ2JhNHRMNGFpOHJFQjBiRFBRQkgrZGFOQUdS?=
+ =?utf-8?B?azFhSXorUm1jKzdlbmZvZjNjNTJ1RTg2TlhmRmY3RjlkcHlEMnp6WmdMUzhp?=
+ =?utf-8?B?cFVlbklyeTJRc21RODNKYVQ3eXlzTXIyekVibVJGVjlQdTdlRlEyNmxsc2dE?=
+ =?utf-8?B?Q1ZWOURKeEsyV3ZtR0J6MWU5M1dPcWZ6YXQrUUduOXhzTEZMR2JncEg3YmZv?=
+ =?utf-8?B?L1ZwbXJuUlFxRTN3ZStJaThLTVVNS3VQWTREdE9mRzJ4OERrY01ZY3B2dmhy?=
+ =?utf-8?B?UWx1TTBRL1c1dXZiMURUWCs3b2dQSEtIU20xRktGU1J1TE10WHBYZldveUNW?=
+ =?utf-8?B?N09HMmZGU1VNVFNWRFkvQXNnTmJKazNaVXRWbmJGTDVKM0JNN1VXenZQd2Nw?=
+ =?utf-8?B?NkppQis0S3p4MzJBVzZtZHYraWpFRklDK2NFQXdjUldKQ1cyWmY5VW9Sc0FM?=
+ =?utf-8?B?THNmN3hIalM5eXBNQ3FaOUMyUnptblF4cEorZ1UyTEtkRTJibnZGUEZ0bzZo?=
+ =?utf-8?Q?Xf2fz1LdUOY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a0NFNC9JK1NqamUvcUVhQktORlM3REpPME8zU0VEaTVSR0ZGR3lRQ1BsTGxQ?=
+ =?utf-8?B?Uld2dVBtVHNwS21hdG5Dak9zZ1R1U3NHQ2lJN2hGNktpWkMvNUhyZW52NVZJ?=
+ =?utf-8?B?U2p6WnZtR0ZnMDAvRUtSR3FUSzUxM1VnVnB0LzFWdlh3R3ZVY1pTaVhxSUNk?=
+ =?utf-8?B?Z3NjcjdKb1ZDY09iYmNGZEdqU0g4RG84WlJUVHJ1cERZNHZiZWMyL29oUG9W?=
+ =?utf-8?B?OEl4Q1JpR3Z2ZmZuejJZL1dkcll5Ung0MlUwSytPckFCV3dpRm1RczViNlFW?=
+ =?utf-8?B?T3RoN0lDdDFpeDRzNGk3dmNqMUZyaFFaWEhTWDFIcFQ0T0tOUFYydC9sdk5B?=
+ =?utf-8?B?Wk5hNkZoNlBKYllHVmlIRkhMbTJCODlJWTA2cEFqd3hSS2xxVks3RW1scllF?=
+ =?utf-8?B?K3pFN2puMFRxZW9GZnlHOEZMMDhyYXBMRFVBYTBYbC9qaXBFU0RkcHQzYThS?=
+ =?utf-8?B?NUVhcGRsOUNqTE5aeStkbjM2TkdLVHlTWVBCNFRldHVTb1E2cS9nUnB2TWxP?=
+ =?utf-8?B?c2s1Tk1SYTJKdGhIbTdkYnhGeUtNTjZNQlR0d2pabGtTUGhuYjB5d3hkZUNQ?=
+ =?utf-8?B?bkhaNHVhb0xsYjRyUCt4S013YkpLTnYyREl3N013ajZqa3ZNSThkUkVVY2hu?=
+ =?utf-8?B?Tm5DQ1VyejlNbG5NbGhnbjM2MFljdGoxYXE1Q2lhc0lOclRnOGU0b082VGxs?=
+ =?utf-8?B?OHFESzlNL2Y5VWRkSG9uUURLNTcvQWpKK1h2MnV6WDZQUSs1SzBnY01zQXlx?=
+ =?utf-8?B?ZkFyUUE4N1NSYXY5SkkrNWpDVzNsRW44cWxIcmNqaUpRK1hGZStYc201dzVT?=
+ =?utf-8?B?Tmt2NmthTmtHUzUxSTA3OU1pUVRFcDZORVAxNGQrRTcrMTJhR3J2RUJnVWhX?=
+ =?utf-8?B?ZGhlaVBRenB4SU1temxoclNKMDJOa0o0ZE1ybHR0dVhvV3VKQ0c2dW9kVjV0?=
+ =?utf-8?B?NU9MelhWNVhKZ1BHZGZlZFZvQnBDc1diaWZReHJGamhwMG1KT2Y4ZFlCQ2dj?=
+ =?utf-8?B?cG5tZGNJRWVhcjgyR3lybk5rM0Rsd1RuRVAybzZJWVpEeWN2WEl1TWx3bFMw?=
+ =?utf-8?B?d0EzbXQ5MnEzVGI4T0h6SEUzMXhjSU9zVkVQRUFMVmdvc2kzMm9WUXJMbml0?=
+ =?utf-8?B?WkJTaWVKMHB5MW54dTlZbldkT09FV1ppL05VQlN3ejhaMkNwS1JSYWhjclVT?=
+ =?utf-8?B?WXQxT2ZMMFA3UlNNZ0JXNHdsZzQ5TUozUkVGQUFjejQ3NjNDQmpyYXFOT2I1?=
+ =?utf-8?B?T3Bta3dJY0tPNGRDQTNvM2hMV3c3UmwzL0c1ZWo1ZkN2enVUNHZVWXhobGI3?=
+ =?utf-8?B?RlJpZmlCdW44T09wdE5ZdjkzdzY2dnJJVDZudTVVOHpMeXZCU0RxMzk5TUI5?=
+ =?utf-8?B?K2VHSk05U2RicnJNWW9aTU1ROC9DbUd3VGx6eGllbVlVd2doRWhDUHZVUGRR?=
+ =?utf-8?B?Zk13ZzBONzRFaHJ4M21QY3VQL3Z2Z2UvaUdvUlJEUStIRTZ3bHpDRUhsc1dE?=
+ =?utf-8?B?enZ5NWF2VktteERBSnNpUXVkUE90bmxMdFBuRWRydmZ0UmJVL2d6WWVRVS9x?=
+ =?utf-8?B?NXFWNUxNSFBabjFTMUlBOXhQRS9ZckJMLytESHR2ZU5xNzhNZjhKMmhSc1I5?=
+ =?utf-8?B?QnNHK01ESVVhOTZwUG1YMEwyNnF5bTVJR2wxTStiRFFQU1g1VE84RktTZmhX?=
+ =?utf-8?B?Y1ZEQUlka01IZ3pjT2NVblg2RjB0c1Nyb2FVQVFUWCs1QUlneXQ5VnpaUFBO?=
+ =?utf-8?B?MmdadkpMbWZSSGIrbWtMcExrMEd4YkhLWEFaWnA1MGxmMDlrY1RxUFJyT0ZI?=
+ =?utf-8?B?R01ZajIvZld1dXllckxnUC9YMTVSK01sZU9NY0FVejNlZXJaUFA2THV2ck5j?=
+ =?utf-8?B?ZFNoQlNZYWZqN3NEUUMrdS81SUxSd0lVcnRYeXhIVitMWlU5S1hiRnVCNnBn?=
+ =?utf-8?B?OHR2QWlwTlNNVDI3c05zM1ZUNmVCNUM0NzBpMUlwdXFoTlk2TDgrZWgycGJa?=
+ =?utf-8?B?ZkI3ZWd3WXU0UHVIdndtTzFveDRpd3hvNmt3b1ZXQU9lK3NUamtVRnhnY1hR?=
+ =?utf-8?B?SEI1MVFXSjdZL0U4aVVFWHJXV2NTRjdpVzVURlY3QzNDait0ajhCRUo2d3lT?=
+ =?utf-8?Q?eRK5gu4tL49AAwRwweVHDLLVz?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebba5f8f-6576-4e8d-6790-08dd8c1d05eb
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 21:37:24.1348 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3sBtGaOszZoBSxKDOQFixRR4G/m9erKvkhTKSiZyjeoZrp3bqfHh2XSdIfvx9i5e6idSDXoF7mpVsgk1QCsEsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7547
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,229 +175,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 5/5/2025 5:35 AM, Dmitry Baryshkov wrote:
-> On Wed, Apr 30, 2025 at 03:00:49PM +0200, Krzysztof Kozlowski wrote:
->> Add support for DSI on Qualcomm SM8750 SoC with notable difference:
->>
->> DSI PHY PLLs, the parents of pixel and byte clocks, cannot be used as
->> parents before DSI PHY is configured, the PLLs are prepared and their
->> initial rate is set.  Therefore assigned-clock-parents are not working
->> here and driver is responsible for reparenting clocks with proper
->> procedure: see dsi_clk_init_6g_v2_9().
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Changes in v5:
->> 1. Only reparent byte and pixel clocks while PLLs is prepared. Setting
->>     rate works fine with earlier DISP CC patch for enabling their parents
->>     during rate change.
->>
->> Changes in v3:
->> 1. Drop 'struct msm_dsi_config sm8750_dsi_cfg' and use sm8650 one.
->>
->> SM8750 DSI PHY also needs Dmitry's patch:
->> https://patchwork.freedesktop.org/patch/542000/?series=119177&rev=1
->> (or some other way of correct early setting of the DSI PHY PLL rate)
->> ---
->>   drivers/gpu/drm/msm/dsi/dsi.h      |  2 +
->>   drivers/gpu/drm/msm/dsi/dsi_cfg.c  | 14 +++++++
->>   drivers/gpu/drm/msm/dsi/dsi_cfg.h  |  1 +
->>   drivers/gpu/drm/msm/dsi/dsi_host.c | 81 ++++++++++++++++++++++++++++++++++++++
->>   4 files changed, 98 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
->> index 87496db203d6c7582eadcb74e94eb56a219df292..93c028a122f3a59b1632da76472e0a3e781c6ae8 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi.h
->> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
->> @@ -98,6 +98,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi);
->>   int msm_dsi_runtime_suspend(struct device *dev);
->>   int msm_dsi_runtime_resume(struct device *dev);
->>   int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host);
->> +int dsi_link_clk_set_rate_6g_v2_9(struct msm_dsi_host *msm_host);
->>   int dsi_link_clk_set_rate_v2(struct msm_dsi_host *msm_host);
->>   int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host);
->>   int dsi_link_clk_enable_v2(struct msm_dsi_host *msm_host);
->> @@ -115,6 +116,7 @@ int dsi_dma_base_get_6g(struct msm_dsi_host *msm_host, uint64_t *iova);
->>   int dsi_dma_base_get_v2(struct msm_dsi_host *msm_host, uint64_t *iova);
->>   int dsi_clk_init_v2(struct msm_dsi_host *msm_host);
->>   int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host);
->> +int dsi_clk_init_6g_v2_9(struct msm_dsi_host *msm_host);
->>   int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
->>   int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
->>   void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
->> index 7754dcec33d06e3d6eb8a9d55e53f24af073adb9..7f8a8de0897a579a525b466fd01bbcd95454c614 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
->> @@ -257,6 +257,18 @@ static const struct msm_dsi_host_cfg_ops msm_dsi_6g_v2_host_ops = {
->>   	.calc_clk_rate = dsi_calc_clk_rate_6g,
->>   };
->>   
->> +static const struct msm_dsi_host_cfg_ops msm_dsi_6g_v2_9_host_ops = {
->> +	.link_clk_set_rate = dsi_link_clk_set_rate_6g_v2_9,
->> +	.link_clk_enable = dsi_link_clk_enable_6g,
->> +	.link_clk_disable = dsi_link_clk_disable_6g,
->> +	.clk_init_ver = dsi_clk_init_6g_v2_9,
->> +	.tx_buf_alloc = dsi_tx_buf_alloc_6g,
->> +	.tx_buf_get = dsi_tx_buf_get_6g,
->> +	.tx_buf_put = dsi_tx_buf_put_6g,
->> +	.dma_base_get = dsi_dma_base_get_6g,
->> +	.calc_clk_rate = dsi_calc_clk_rate_6g,
->> +};
+On 5/5/2025 12:14 AM, Bagas Sanjaya wrote:
+> On Sat, May 03, 2025 at 12:07:58AM -0400, Joel Fernandes wrote:
+>> +Conceptual diagram (not exact) of the Falcon and its memory subsystem is as follows:
 >> +
->>   static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
->>   	{MSM_DSI_VER_MAJOR_V2, MSM_DSI_V2_VER_MINOR_8064,
->>   		&apq8064_dsi_cfg, &msm_dsi_v2_host_ops},
->> @@ -300,6 +312,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
->>   		&sm8550_dsi_cfg, &msm_dsi_6g_v2_host_ops},
->>   	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_8_0,
->>   		&sm8650_dsi_cfg, &msm_dsi_6g_v2_host_ops},
->> +	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_9_0,
->> +		&sm8650_dsi_cfg, &msm_dsi_6g_v2_9_host_ops},
->>   };
->>   
->>   const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
->> index 120cb65164c1ba1deb9acb513e5f073bd560c496..859c279afbb0377d16f8406f3e6b083640aff5a1 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
->> @@ -30,6 +30,7 @@
->>   #define MSM_DSI_6G_VER_MINOR_V2_6_0	0x20060000
->>   #define MSM_DSI_6G_VER_MINOR_V2_7_0	0x20070000
->>   #define MSM_DSI_6G_VER_MINOR_V2_8_0	0x20080000
->> +#define MSM_DSI_6G_VER_MINOR_V2_9_0	0x20090000
->>   
->>   #define MSM_DSI_V2_VER_MINOR_8064	0x0
->>   
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> index 4d75529c0e858160761f5eb55db65e5d7565c27b..694ed95897d49c477726a2b0bec1099e75a3ce21 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> @@ -119,6 +119,15 @@ struct msm_dsi_host {
->>   	struct clk *pixel_clk;
->>   	struct clk *byte_intf_clk;
->>   
->> +	/*
->> +	 * Clocks which needs to be properly parented between DISPCC and DSI PHY
->> +	 * PLL:
->> +	 */
->> +	struct clk *byte_src_clk;
->> +	struct clk *pixel_src_clk;
->> +	struct clk *dsi_pll_byte_clk;
->> +	struct clk *dsi_pll_pixel_clk;
->> +
->>   	unsigned long byte_clk_rate;
->>   	unsigned long byte_intf_clk_rate;
->>   	unsigned long pixel_clk_rate;
->> @@ -269,6 +278,38 @@ int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host)
->>   	return ret;
->>   }
->>   
->> +int dsi_clk_init_6g_v2_9(struct msm_dsi_host *msm_host)
->> +{
->> +	struct device *dev = &msm_host->pdev->dev;
->> +	int ret;
->> +
->> +	ret = dsi_clk_init_6g_v2(msm_host);
->> +	if (ret)
->> +		return ret;
->> +
->> +	msm_host->byte_src_clk = devm_clk_get(dev, "byte_src");
->> +	if (IS_ERR(msm_host->byte_src_clk))
->> +		return dev_err_probe(dev, PTR_ERR(msm_host->byte_src_clk),
->> +				     "can't get byte_src clock\n");
->> +
->> +	msm_host->dsi_pll_byte_clk = devm_clk_get(dev, "dsi_pll_byte");
->> +	if (IS_ERR(msm_host->dsi_pll_byte_clk))
->> +		return dev_err_probe(dev, PTR_ERR(msm_host->dsi_pll_byte_clk),
->> +				     "can't get dsi_pll_byte clock\n");
->> +
->> +	msm_host->pixel_src_clk = devm_clk_get(dev, "pixel_src");
->> +	if (IS_ERR(msm_host->pixel_src_clk))
->> +		return dev_err_probe(dev, PTR_ERR(msm_host->pixel_src_clk),
->> +				     "can't get pixel_src clock\n");
->> +
->> +	msm_host->dsi_pll_pixel_clk = devm_clk_get(dev, "dsi_pll_pixel");
->> +	if (IS_ERR(msm_host->dsi_pll_pixel_clk))
->> +		return dev_err_probe(dev, PTR_ERR(msm_host->dsi_pll_pixel_clk),
->> +				     "can't get dsi_pll_pixel clock\n");
->> +
->> +	return 0;
->> +}
->> +
->>   static int dsi_clk_init(struct msm_dsi_host *msm_host)
->>   {
->>   	struct platform_device *pdev = msm_host->pdev;
->> @@ -370,6 +411,46 @@ int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
->>   	return 0;
->>   }
->>   
->> +int dsi_link_clk_set_rate_6g_v2_9(struct msm_dsi_host *msm_host)
->> +{
->> +	struct device *dev = &msm_host->pdev->dev;
->> +	int ret;
->> +
->> +	/*
->> +	 * DSI PHY PLLs have to be enabled to allow reparenting to them and
->> +	 * setting the rates of pixel/byte clocks.
->> +	 */
+>> +           External Memory (Framebuffer / System DRAM)
+[...]
 > 
-> According to the docs this should be handled by the
-> CLK_OPS_PARENT_ENABLE flag. Please correct me if I'm wrong.
+> Wrap the diagram in literal code block. Also, note that it can look messy in
+> htmldocs output with certain fonts due to box drawing characters. Consider using
+> ASCII constructs (dashes and vertical bars) instead.
 > 
+Done, thanks.
 
-I am also interested to know that if we are indeed setting 
-CLK_OPS_PARENT_ENABLE flag, do we need this logic in the dsi driver.
-
-If CLK_OPS_PARENT_ENABLE flag is not working as expected, shouldnt this 
-be something fixed on the clk fwk side?
-
-Thanks
-
-Abhinav
-
->> +	ret = clk_prepare_enable(msm_host->dsi_pll_byte_clk);
->> +	if (ret) {
->> +		dev_err(dev, "Failed to enable dsi_pll_byte: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	ret = clk_prepare_enable(msm_host->dsi_pll_pixel_clk);
-> 
-> And this.
-> 
->> +	if (ret) {
->> +		dev_err(dev, "Failed to enable dsi_pll_byte: %d\n", ret);
->> +		goto out_disable_byte_clk;
->> +	}
->> +
->> +	ret = clk_set_parent(msm_host->byte_src_clk, msm_host->dsi_pll_byte_clk);
->> +	if (ret)
->> +		dev_err(dev, "Failed to parent byte_src -> dsi_pll_byte: %d\n", ret);
->> +
->> +	ret = clk_set_parent(msm_host->pixel_src_clk, msm_host->dsi_pll_pixel_clk);
->> +	if (ret)
->> +		dev_err(dev, "Failed to parent pixel_src -> dsi_pll_pixel: %d\n", ret);
->> +
->> +	clk_disable_unprepare(msm_host->dsi_pll_pixel_clk);
->> +	clk_disable_unprepare(msm_host->dsi_pll_byte_clk);
->> +
->> +	return dsi_link_clk_set_rate_6g(msm_host);
->> +
->> +out_disable_byte_clk:
->> +	clk_disable_unprepare(msm_host->dsi_pll_byte_clk);
->> +
->> +	return ret;
->> +}
->> +
->>   int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host)
->>   {
->>   	int ret;
->>
->> -- 
->> 2.45.2
->>
-> 
+ - Joel
 
