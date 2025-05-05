@@ -2,50 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FABAAA180
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A43AAA185
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:49:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4AC810E54A;
-	Mon,  5 May 2025 22:48:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66CD810E54B;
+	Mon,  5 May 2025 22:48:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TChQ+91U";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aMbHx3Bf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A99F310E4F7;
- Mon,  5 May 2025 22:48:13 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90AFB10E54B;
+ Mon,  5 May 2025 22:48:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 389CB629C1;
- Mon,  5 May 2025 22:47:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B13F8C4CEE4;
- Mon,  5 May 2025 22:48:10 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id B991149D63;
+ Mon,  5 May 2025 22:48:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09EBDC4CEF1;
+ Mon,  5 May 2025 22:48:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485292;
- bh=2gj39A3TJv/FRCdouiOH4XPaP1noapFKSqMjh5lbozI=;
+ s=k20201202; t=1746485338;
+ bh=481MeWMj+cVJvQa2lmFDWC+y3q6Ng+pvrM0i1634QHw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TChQ+91UuMlH/VgfCFmOABM40/Bq6Qvq7398fqv0Ct8apcgBsqPbcXxj6//5SivAI
- PkZ1s5Ec/WDXPeAQMl4Mx0neod2WL1TbdARhoLrMNAbE7pzv2rtXgwk9Z8JTDUYBdw
- 69Ralg7vVXgpz31QfR29GkclDg7MndmcC++yZhYMqGnCWYTHV94aA0LMYguV3drbEC
- H+lUkhqIBZcGmcjvbTW5DxmQvWTmGuZFavULnEergNl9QtHozLT20QdeJ7JnBq86o7
- Ed+hK/NYyt2nvUqs6NWw3scA5DmpMpxenzMd1/9BiFaTNbTnvgGHAepC07e651W1CN
- imvhOz+gLToOQ==
+ b=aMbHx3BfoXcqdmk6hmfbud33gFVjGjKYz2A6pMDiH5Eb2vkFgBfUNJgNYIoM2xIfj
+ qAPY1caxYro9dTzypd1zsQqgaPPKB8mrTKizfuMxtGZbQZdtwUKcFiaK6kxu3OLxBy
+ DVkPWF2XXmHzXQwovXRLCjj/e0TpH5DxFnkSTKc+qc2w2Zz535yYBngYlqveRSR8UW
+ O9Mb4bnkCTYjRB+OdcvUOIN18k/lxG1unrVk+B1vIGZbm5eZdbVvE/nDAMgAbGtx5D
+ RnA7N84MlQGAcBMcXhjEC15z7gKaZ3BCVb76izoZ/TjqktqOwk4eHuj4hLbZ8TLEQv
+ KPhCY+eKsLaww==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: "Assadian, Navid" <navid.assadian@amd.com>,
- Joshua Aberback <joshua.aberback@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, Samson.Tam@amd.com, jun.lei@amd.com,
- alex.hung@amd.com, wenjing.liu@amd.com, Relja.Vojvodic@amd.com,
- rodrigo.siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 254/486] drm/amd/display: Fix mismatch type
- comparison
-Date: Mon,  5 May 2025 18:35:30 -0400
-Message-Id: <20250505223922.2682012-254-sashal@kernel.org>
+Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>, Sasha Levin <sashal@kernel.org>,
+ lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 275/486] drm/xe/oa: Ensure that polled read
+ returns latest data
+Date: Mon,  5 May 2025 18:35:51 -0400
+Message-Id: <20250505223922.2682012-275-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -69,52 +65,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Assadian, Navid" <navid.assadian@amd.com>
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 
-[ Upstream commit 26873260d394b1e33cdd720154aedf0af95327f9 ]
+[ Upstream commit 98c9d27ab30aa9c6451d3a34e6e297171f273e51 ]
 
-The mismatch type comparison/assignment may cause data loss. Since the
-values are always non-negative, it is safe to use unsigned variables to
-resolve the mismatch.
+In polled mode, user calls poll() for read data to be available before
+performing a read(). In the duration between these 2 calls, there may be
+new data available in the OA buffer. To ensure user reads all available
+data, check for latest data in the OA buffer in polled read.
 
-Signed-off-by: Navid Assadian <navid.assadian@amd.com>
-Reviewed-by: Joshua Aberback <joshua.aberback@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250212010255.1423343-1-umesh.nerlige.ramappa@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/spl/dc_spl.c       | 4 ++--
- drivers/gpu/drm/amd/display/dc/spl/dc_spl_types.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/xe_oa.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/spl/dc_spl.c b/drivers/gpu/drm/amd/display/dc/spl/dc_spl.c
-index 014e8a296f0c7..54c7d6aecf51c 100644
---- a/drivers/gpu/drm/amd/display/dc/spl/dc_spl.c
-+++ b/drivers/gpu/drm/amd/display/dc/spl/dc_spl.c
-@@ -875,8 +875,8 @@ static bool spl_get_optimal_number_of_taps(
- 	  bool *enable_isharp)
- {
- 	int num_part_y, num_part_c;
--	int max_taps_y, max_taps_c;
--	int min_taps_y, min_taps_c;
-+	unsigned int max_taps_y, max_taps_c;
-+	unsigned int min_taps_y, min_taps_c;
- 	enum lb_memory_config lb_config;
- 	bool skip_easf = false;
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/spl/dc_spl_types.h b/drivers/gpu/drm/amd/display/dc/spl/dc_spl_types.h
-index 2a74ff5fdfdbc..a2c28949ec47f 100644
---- a/drivers/gpu/drm/amd/display/dc/spl/dc_spl_types.h
-+++ b/drivers/gpu/drm/amd/display/dc/spl/dc_spl_types.h
-@@ -479,7 +479,7 @@ struct spl_sharpness_range {
- };
- struct adaptive_sharpness {
- 	bool enable;
--	int sharpness_level;
-+	unsigned int sharpness_level;
- 	struct spl_sharpness_range sharpness_range;
- };
- enum linear_light_scaling	{	// convert it in translation logic
+diff --git a/drivers/gpu/drm/xe/xe_oa.c b/drivers/gpu/drm/xe/xe_oa.c
+index 448766033690c..d306ed0a04434 100644
+--- a/drivers/gpu/drm/xe/xe_oa.c
++++ b/drivers/gpu/drm/xe/xe_oa.c
+@@ -535,6 +535,7 @@ static ssize_t xe_oa_read(struct file *file, char __user *buf,
+ 			mutex_unlock(&stream->stream_lock);
+ 		} while (!offset && !ret);
+ 	} else {
++		xe_oa_buffer_check_unlocked(stream);
+ 		mutex_lock(&stream->stream_lock);
+ 		ret = __xe_oa_read(stream, buf, count, &offset);
+ 		mutex_unlock(&stream->stream_lock);
 -- 
 2.39.5
 
