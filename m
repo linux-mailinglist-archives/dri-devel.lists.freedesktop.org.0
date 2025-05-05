@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E6CAAA297
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D62AAA29F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:02:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51D4410E5B8;
-	Mon,  5 May 2025 23:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41C0D10E5BF;
+	Mon,  5 May 2025 23:02:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="adHDJEVT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="btRdZ39R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C74BA10E5B8;
- Mon,  5 May 2025 23:01:45 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4097110E5BE;
+ Mon,  5 May 2025 23:02:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 69662A4D2D5;
- Mon,  5 May 2025 22:56:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79A7CC4CEE4;
- Mon,  5 May 2025 23:01:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 88C545C5B5B;
+ Mon,  5 May 2025 23:00:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 514D2C4CEEE;
+ Mon,  5 May 2025 23:02:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746486104;
- bh=pD5kfYiJdtuvkaUD/3HrDrFCvRj1sBU4MPXQsYiRKlo=;
+ s=k20201202; t=1746486162;
+ bh=wU0dJgQrN6llgCDacv/lF1XNbrIqJWn+Wj7cXZyNsmI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=adHDJEVTcLv8Viw74x0KzbiMwiwjIdRBUkC2iSYqziyLP8BeGUgdE83xQS/y69OAm
- GlIWF+RDjrXDsgZJ99BhvdnmtunOBOkLGKU6DDSASkKxROe4iwtC6ypakqsedDMyg1
- m4eXmO6/XtPlYn7mQnA8BkxTrUamsAp5911XcuaRZOLcNl1Ydo+FkCCP9WHfYyDdWq
- 5a2X/i80Axzd5j9Yxtefg2UBH8PIBrggKrgG+S8yDiUK2fFqt56CFFMDojCB9lXCIU
- wMUyufG/4+y/Robz/FeX6BtM2IZZpsWfJnOU2I0+dVWl0ZvMWiZ8rDnKY29/mXaCZ2
- F51pzgYENusKg==
+ b=btRdZ39RowItPcG1IjdkuG3ViimP0mqo30qhK3Ix0SKcJw/i/EB2JzBMhNQEH/Hve
+ w2clRGsEQvlcUNpQyZr016nJudQ8ovn17izfxUeAg93d2WY1svkcqohCuI9xtk1LMe
+ NjSQwLpt/2jHM61iXOlmZW2hixt34aL5pmSaPW1jzytAsnVpSIueKHaFvoaPmhJJ3n
+ TWmPqEhpUvU4dbRDIFNvYBJri0TqaaheeTQpeLy1ByMF0paACjFjJ68U5cKTPKdkLp
+ ebhudl3LyAKoeMiom9RdpsJ0mbXw6WcxNAC+J/UpKiGsANZxnwO336UxKMDrg7diPl
+ +QO05lR08xtwg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Charlene Liu <Charlene.Liu@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
- Zaeem Mohamed <zaeem.mohamed@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
+Cc: Harry VanZyllDeJong <hvanzyll@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Roman Li <roman.li@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, jun.lei@amd.com, rostrows@amd.com,
- Daniel.Sa@amd.com, alex.hung@amd.com, Syed.Hassan@amd.com,
- martin.leung@amd.com, Wayne.Lin@amd.com, amd-gfx@lists.freedesktop.org,
+ airlied@gmail.com, simona@ffwll.ch, alex.hung@amd.com,
+ michael.strauss@amd.com, george.shen@amd.com, PeiChen.Huang@amd.com,
+ Ausef.Yousof@amd.com, Cruise.Hung@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 156/294] drm/amd/display: fix dcn4x init failed
-Date: Mon,  5 May 2025 18:54:16 -0400
-Message-Id: <20250505225634.2688578-156-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 185/294] drm/amd/display: Add support for
+ disconnected eDP streams
+Date: Mon,  5 May 2025 18:54:45 -0400
+Message-Id: <20250505225634.2688578-185-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
 References: <20250505225634.2688578-1-sashal@kernel.org>
@@ -68,94 +68,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Charlene Liu <Charlene.Liu@amd.com>
+From: Harry VanZyllDeJong <hvanzyll@amd.com>
 
-[ Upstream commit 23ef388a84c72b0614a6c10f866ffeac7e807719 ]
+[ Upstream commit 6571bef25fe48c642f7a69ccf7c3198b317c136a ]
 
-[why]
-failed due to cmdtable not created.
-switch atombios cmdtable as default.
+[Why]
+eDP may not be connected to the GPU on driver start causing
+fail enumeration.
 
-Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
-Signed-off-by: Charlene Liu <Charlene.Liu@amd.com>
-Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+[How]
+Move the virtual signal type check before the eDP connector
+signal check.
+
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Signed-off-by: Harry VanZyllDeJong <hvanzyll@amd.com>
+Signed-off-by: Roman Li <roman.li@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/bios/command_table2.c     | 9 ---------
- .../gpu/drm/amd/display/dc/bios/command_table_helper2.c  | 3 +--
- 2 files changed, 1 insertion(+), 11 deletions(-)
+ .../gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/command_table2.c b/drivers/gpu/drm/amd/display/dc/bios/command_table2.c
-index ab0adabf9dd4c..7dc84b62eb0ac 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/command_table2.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/command_table2.c
-@@ -101,7 +101,6 @@ static void init_dig_encoder_control(struct bios_parser *bp)
- 		bp->cmd_tbl.dig_encoder_control = encoder_control_digx_v1_5;
- 		break;
- 	default:
--		dm_output_to_console("Don't have dig_encoder_control for v%d\n", version);
- 		bp->cmd_tbl.dig_encoder_control = encoder_control_fallback;
- 		break;
- 	}
-@@ -237,7 +236,6 @@ static void init_transmitter_control(struct bios_parser *bp)
- 		bp->cmd_tbl.transmitter_control = transmitter_control_v1_7;
- 		break;
- 	default:
--		dm_output_to_console("Don't have transmitter_control for v%d\n", crev);
- 		bp->cmd_tbl.transmitter_control = transmitter_control_fallback;
- 		break;
- 	}
-@@ -407,8 +405,6 @@ static void init_set_pixel_clock(struct bios_parser *bp)
- 		bp->cmd_tbl.set_pixel_clock = set_pixel_clock_v7;
- 		break;
- 	default:
--		dm_output_to_console("Don't have set_pixel_clock for v%d\n",
--			 BIOS_CMD_TABLE_PARA_REVISION(setpixelclock));
- 		bp->cmd_tbl.set_pixel_clock = set_pixel_clock_fallback;
- 		break;
- 	}
-@@ -553,7 +549,6 @@ static void init_set_crtc_timing(struct bios_parser *bp)
- 			set_crtc_using_dtd_timing_v3;
- 		break;
- 	default:
--		dm_output_to_console("Don't have set_crtc_timing for v%d\n", dtd_version);
- 		bp->cmd_tbl.set_crtc_timing = NULL;
- 		break;
- 	}
-@@ -670,8 +665,6 @@ static void init_enable_crtc(struct bios_parser *bp)
- 		bp->cmd_tbl.enable_crtc = enable_crtc_v1;
- 		break;
- 	default:
--		dm_output_to_console("Don't have enable_crtc for v%d\n",
--			 BIOS_CMD_TABLE_PARA_REVISION(enablecrtc));
- 		bp->cmd_tbl.enable_crtc = NULL;
- 		break;
- 	}
-@@ -863,8 +856,6 @@ static void init_set_dce_clock(struct bios_parser *bp)
- 		bp->cmd_tbl.set_dce_clock = set_dce_clock_v2_1;
- 		break;
- 	default:
--		dm_output_to_console("Don't have set_dce_clock for v%d\n",
--			 BIOS_CMD_TABLE_PARA_REVISION(setdceclock));
- 		bp->cmd_tbl.set_dce_clock = NULL;
- 		break;
- 	}
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/command_table_helper2.c b/drivers/gpu/drm/amd/display/dc/bios/command_table_helper2.c
-index 8538f13e01bfb..8ff139a6b85db 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/command_table_helper2.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/command_table_helper2.c
-@@ -84,8 +84,7 @@ bool dal_bios_parser_init_cmd_tbl_helper2(
- 		return true;
- 
- 	default:
--		/* Unsupported DCE */
--		BREAK_TO_DEBUGGER();
-+		*h = dal_cmd_tbl_helper_dce112_get_table2();
- 		return false;
- 	}
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+index 1e621eae9b7da..adf0ef8b70e4b 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+@@ -920,6 +920,9 @@ bool link_decide_link_settings(struct dc_stream_state *stream,
+ 		 * TODO: add MST specific link training routine
+ 		 */
+ 		decide_mst_link_settings(link, link_setting);
++	} else if (stream->signal == SIGNAL_TYPE_VIRTUAL) {
++		link_setting->lane_count = LANE_COUNT_FOUR;
++		link_setting->link_rate = LINK_RATE_HIGH3;
+ 	} else if (link->connector_signal == SIGNAL_TYPE_EDP) {
+ 		/* enable edp link optimization for DSC eDP case */
+ 		if (stream->timing.flags.DSC) {
 -- 
 2.39.5
 
