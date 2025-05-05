@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74477AAA12B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCE9AAA12D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:44:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B377910E521;
-	Mon,  5 May 2025 22:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8593A10E524;
+	Mon,  5 May 2025 22:44:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="odUNH7Or";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hw7nsilh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A32C10E13A;
- Mon,  5 May 2025 22:44:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 125AB10E523;
+ Mon,  5 May 2025 22:44:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 30CBBA4D06F;
- Mon,  5 May 2025 22:39:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD522C4CEE4;
- Mon,  5 May 2025 22:44:40 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9CA09A4D04F;
+ Mon,  5 May 2025 22:39:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7A64C4CEF9;
+ Mon,  5 May 2025 22:44:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485083;
- bh=r4owExykd1gb7SwgvHpNEzM1cVWmLdXMaFCUsw2L4bc=;
+ s=k20201202; t=1746485086;
+ bh=SiZIssIutDQbFCY8o8RcEQfIALaoj/xPA6klpsRAGBI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=odUNH7OrAQUrM5AlY5our0p9JnfaV1CMJSMimooHN5wFegjTWETOGerYZ2L69A2Wj
- LuTjxaoGYdXlp3gEjQM7LviVWATWOCFJRD+uH280l5ett5PpyPztZsyftDGLagUh6d
- OGIgQOIRDQ5T7Z+c9glOXrkeGOhrf4JgL1kHaQtB1LyGVmzqYBt0kcUiyK/9uKmmLW
- AtjYrCtcRfYPfweHxG6HEs9K8USl+XGOzMajgQD9w/e4mNWGv1hzKx5gU9klko5sYP
- KqOl8eOKtAIcD1tkfUA8OpHtWvbNVxwjlY5L9Eo/akx8dtpRxKU3Keh/KaDOoh/K1Y
- 3cZ2uBBn9FqaQ==
+ b=hw7nsilh2Vox3qX9vAlZtN4BdVrp7cYWgQpKVCdTirjvMCkU1tLAadnUhKPhVpZqN
+ NgibrQ60sX4jii0iP3zSVksWDA5ed62KwOonH7ydtYzzhqPEPddK6clWVc92VGlkuU
+ igPbm8QnMtSY7yoZBp9fcYIb4N2XOpi8FbfHV34ppjgddQUsByNQ/6pHargw7r93lt
+ YJxWfkxfcrP5KLoxZDsip0V4le2tW5hgMpGFRkGsCRJEf2DqpsNAiD+x8W4TNA9+Ng
+ htipYdprcSFtF97Y3z05/RoWhp0ViJrcbJ8UakR5syF3COiGbZmOraqHiiBsLhRxL3
+ h9DWIQUPv31qw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Charlene Liu <Charlene.Liu@amd.com>, Ovidiu Bunea <ovidiu.bunea@amd.com>,
+Cc: Zhikai Zhai <zhikai.zhai@amd.com>, Charlene Liu <charlene.liu@amd.com>,
  Tom Chung <chiahsuan.chung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, alex.hung@amd.com,
- hamzamahfooz@linux.microsoft.com, Jing.Zhou@amd.com, alvin.lee2@amd.com,
- jerry.zuo@amd.com, Kaitlyn.Tse@amd.com, ryanseto@amd.com,
- martin.tsai@amd.com, yi-lchen@amd.com, tjakobi@math.uni-bielefeld.de,
- Sungjoon.Kim@amd.com, michael.strauss@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, Austin.Zheng@amd.com, aric.cyr@amd.com,
+ alvin.lee2@amd.com, rodrigo.siqueira@amd.com, alex.hung@amd.com,
+ srinivasan.shanmugam@amd.com, rostrows@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 156/486] drm/amd/display: remove minimum Dispclk
- and apply oem panel timing.
-Date: Mon,  5 May 2025 18:33:52 -0400
-Message-Id: <20250505223922.2682012-156-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 157/486] drm/amd/display: calculate the remain
+ segments for all pipes
+Date: Mon,  5 May 2025 18:33:53 -0400
+Message-Id: <20250505223922.2682012-157-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -71,68 +69,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Charlene Liu <Charlene.Liu@amd.com>
+From: Zhikai Zhai <zhikai.zhai@amd.com>
 
-[ Upstream commit 756e58e83e89d372b94269c0cde61fe55da76947 ]
+[ Upstream commit d3069feecdb5542604d29b59acfd1fd213bad95b ]
 
-[why & how]
-1. apply oem panel timing (not only on OLED)
-2. remove MIN_DPP_DISP_CLK request in driver.
+[WHY]
+In some cases the remain de-tile buffer segments will be greater
+than zero if we don't add the non-top pipe to calculate, at
+this time the override de-tile buffer size will be valid and used.
+But it makes the de-tile buffer segments used finally for all of pipes
+exceed the maximum.
 
-This fix will apply for dcn31x but not
-sync with DML's output.
+[HOW]
+Add the non-top pipe to calculate the remain de-tile buffer segments.
+Don't set override size to use the average according to pipe count
+if the value exceed the maximum.
 
-Reviewed-by: Ovidiu Bunea <ovidiu.bunea@amd.com>
-Signed-off-by: Charlene Liu <Charlene.Liu@amd.com>
+Reviewed-by: Charlene Liu <charlene.liu@amd.com>
+Signed-off-by: Zhikai Zhai <zhikai.zhai@amd.com>
 Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c | 2 --
- drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c | 2 --
- drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c      | 3 ++-
- 3 files changed, 2 insertions(+), 5 deletions(-)
+ .../dc/resource/dcn315/dcn315_resource.c      | 42 +++++++++----------
+ 1 file changed, 20 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-index 827b24b3442ad..e4d22f74f9869 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-@@ -194,8 +194,6 @@ static void dcn315_update_clocks(struct clk_mgr *clk_mgr_base,
- 	// workaround: Limit dppclk to 100Mhz to avoid lower eDP panel switch to plus 4K monitor underflow.
- 	if (new_clocks->dppclk_khz < MIN_DPP_DISP_CLK)
- 		new_clocks->dppclk_khz = MIN_DPP_DISP_CLK;
--	if (new_clocks->dispclk_khz < MIN_DPP_DISP_CLK)
--		new_clocks->dispclk_khz = MIN_DPP_DISP_CLK;
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c
+index f2ce687c0e03c..9cb72805b8d1a 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c
+@@ -1699,7 +1699,7 @@ static int dcn315_populate_dml_pipes_from_context(
+ 		pipes[pipe_cnt].dout.dsc_input_bpc = 0;
+ 		DC_FP_START();
+ 		dcn31_zero_pipe_dcc_fraction(pipes, pipe_cnt);
+-		if (pixel_rate_crb && !pipe->top_pipe && !pipe->prev_odm_pipe) {
++		if (pixel_rate_crb) {
+ 			int bpp = source_format_to_bpp(pipes[pipe_cnt].pipe.src.source_format);
+ 			/* Ceil to crb segment size */
+ 			int approx_det_segs_required_for_pstate = dcn_get_approx_det_segs_required_for_pstate(
+@@ -1756,28 +1756,26 @@ static int dcn315_populate_dml_pipes_from_context(
+ 				continue;
+ 			}
  
- 	if (should_set_clock(safe_to_lower, new_clocks->dppclk_khz, clk_mgr->base.clks.dppclk_khz)) {
- 		if (clk_mgr->base.clks.dppclk_khz > new_clocks->dppclk_khz)
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c
-index 37c39756fece4..49efea0c8fcff 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c
-@@ -201,8 +201,6 @@ static void dcn316_update_clocks(struct clk_mgr *clk_mgr_base,
- 	// workaround: Limit dppclk to 100Mhz to avoid lower eDP panel switch to plus 4K monitor underflow.
- 	if (new_clocks->dppclk_khz < 100000)
- 		new_clocks->dppclk_khz = 100000;
--	if (new_clocks->dispclk_khz < 100000)
--		new_clocks->dispclk_khz = 100000;
- 
- 	if (should_set_clock(safe_to_lower, new_clocks->dppclk_khz, clk_mgr->base.clks.dppclk_khz)) {
- 		if (clk_mgr->base.clks.dppclk_khz > new_clocks->dppclk_khz)
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-index 4fbed0298adfa..297f313794e49 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-@@ -1064,7 +1064,8 @@ void dce110_edp_backlight_control(
- 			DC_LOG_DC("edp_receiver_ready_T9 skipped\n");
- 	}
- 
--	if (!enable && link->dpcd_sink_ext_caps.bits.oled) {
-+	if (!enable) {
-+		/*follow oem panel config's requirement*/
- 		pre_T11_delay += link->panel_config.pps.extra_pre_t11_ms;
- 		msleep(pre_T11_delay);
+-			if (!pipe->top_pipe && !pipe->prev_odm_pipe) {
+-				bool split_required = pipe->stream->timing.pix_clk_100hz >= dcn_get_max_non_odm_pix_rate_100hz(&dc->dml.soc)
+-						|| (pipe->plane_state && pipe->plane_state->src_rect.width > 5120);
+-
+-				if (remaining_det_segs > MIN_RESERVED_DET_SEGS && crb_pipes != 0)
+-					pipes[pipe_cnt].pipe.src.det_size_override += (remaining_det_segs - MIN_RESERVED_DET_SEGS) / crb_pipes +
+-							(crb_idx < (remaining_det_segs - MIN_RESERVED_DET_SEGS) % crb_pipes ? 1 : 0);
+-				if (pipes[pipe_cnt].pipe.src.det_size_override > 2 * DCN3_15_MAX_DET_SEGS) {
+-					/* Clamp to 2 pipe split max det segments */
+-					remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override - 2 * (DCN3_15_MAX_DET_SEGS);
+-					pipes[pipe_cnt].pipe.src.det_size_override = 2 * DCN3_15_MAX_DET_SEGS;
+-				}
+-				if (pipes[pipe_cnt].pipe.src.det_size_override > DCN3_15_MAX_DET_SEGS || split_required) {
+-					/* If we are splitting we must have an even number of segments */
+-					remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override % 2;
+-					pipes[pipe_cnt].pipe.src.det_size_override -= pipes[pipe_cnt].pipe.src.det_size_override % 2;
+-				}
+-				/* Convert segments into size for DML use */
+-				pipes[pipe_cnt].pipe.src.det_size_override *= DCN3_15_CRB_SEGMENT_SIZE_KB;
+-
+-				crb_idx++;
++			bool split_required = pipe->stream->timing.pix_clk_100hz >= dcn_get_max_non_odm_pix_rate_100hz(&dc->dml.soc)
++					|| (pipe->plane_state && pipe->plane_state->src_rect.width > 5120);
++
++			if (remaining_det_segs > MIN_RESERVED_DET_SEGS && crb_pipes != 0)
++				pipes[pipe_cnt].pipe.src.det_size_override += (remaining_det_segs - MIN_RESERVED_DET_SEGS) / crb_pipes +
++						(crb_idx < (remaining_det_segs - MIN_RESERVED_DET_SEGS) % crb_pipes ? 1 : 0);
++			if (pipes[pipe_cnt].pipe.src.det_size_override > 2 * DCN3_15_MAX_DET_SEGS) {
++				/* Clamp to 2 pipe split max det segments */
++				remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override - 2 * (DCN3_15_MAX_DET_SEGS);
++				pipes[pipe_cnt].pipe.src.det_size_override = 2 * DCN3_15_MAX_DET_SEGS;
++			}
++			if (pipes[pipe_cnt].pipe.src.det_size_override > DCN3_15_MAX_DET_SEGS || split_required) {
++				/* If we are splitting we must have an even number of segments */
++				remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override % 2;
++				pipes[pipe_cnt].pipe.src.det_size_override -= pipes[pipe_cnt].pipe.src.det_size_override % 2;
+ 			}
++			/* Convert segments into size for DML use */
++			pipes[pipe_cnt].pipe.src.det_size_override *= DCN3_15_CRB_SEGMENT_SIZE_KB;
++
++			crb_idx++;
+ 			pipe_cnt++;
+ 		}
  	}
 -- 
 2.39.5
