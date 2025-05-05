@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D70AA9AB2
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 19:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9506FAA9AB3
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 19:33:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7296A10E427;
-	Mon,  5 May 2025 17:33:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64D0210E42C;
+	Mon,  5 May 2025 17:33:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cjgKnVJP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AcSYv9qL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73D7D10E427;
- Mon,  5 May 2025 17:33:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D7C210E42A;
+ Mon,  5 May 2025 17:33:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 15B10A4C50C;
- Mon,  5 May 2025 17:28:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5F8C4CEEF;
- Mon,  5 May 2025 17:33:43 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 024ECA4C50C;
+ Mon,  5 May 2025 17:28:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AAA8C4CEF3;
+ Mon,  5 May 2025 17:33:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746466425;
- bh=HO4xbozyJMxD8zWDiEa6K7DNK6Y9m2+KGX7iMwR0BG8=;
+ s=k20201202; t=1746466427;
+ bh=LUr5khTFmeDi+Ua8+P5dJsfAbjq9HmURsDGnKrGJrGs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=cjgKnVJP0NxiQCgS6ccr3g74jbnfVKX0mTAvbsKWVRSt6PQysSLcS5butKG4L7m2F
- 6Oub0oiPzut5fTdG46vAY2WAuZxhIEF/Eyy6Tm/rIxD7eeVIt90PET0KsFzUDGEnQh
- 0WqCViVLWP7dte+LJ0o6F/grx5fSZWeQ2Nsoi9IJPpegyGs4LAaoL1CO/fdaoo1kdh
- TFOrUU9RdioVa24/jtOYDN5uoaOhJbE9i6frd19kFvXdgftQX2pUOnORRw6wqUWPlT
- ESs6fESX5/BLjC+JrXSkBCT08qccM3VCY4PNayCKnpePVEmQKAAljViFV+lUQv2Lwl
- o77ZJwMZW4rJQ==
+ b=AcSYv9qL9QxetukxyT6UauCSZR//wxaHjcUeh7lWEJWAJWkanBFIoA0xfl8gf+m4r
+ KPNQHMa2e4B/YDfkKnejR5MU4B8lTMMYsQqf+u9/p2QYP3oWMXbtobj7VXdC5L5lsV
+ U66FtwjO74jyrC0wp5UUWKbetuRTiPiJf8tOifjVCSI1HwkD9QJmtIImFjrIQa1dIg
+ 2CqRReU3xQK1tQA1ykeMghhaK/H5+mFcaAJm2yeiGhD8Z1GxE0Mo92+WBxcmBlA1TB
+ aLA72+9SDzAFAvh1AkhcMHZZFVeN2jq8JI4XvNYt4pzCXyhB591p39tObsq8gs1VB9
+ 8epbkG/IPMSAg==
 From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 05 May 2025 13:33:22 -0400
-Subject: [PATCH v7 08/10] net: add symlinks to ref_tracker_dir for netns
+Date: Mon, 05 May 2025 13:33:23 -0400
+Subject: [PATCH v7 09/10] i915: add ref_tracker_dir symlinks for each tracker
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250505-reftrack-dbgfs-v7-8-f78c5d97bcca@kernel.org>
+Message-Id: <20250505-reftrack-dbgfs-v7-9-f78c5d97bcca@kernel.org>
 References: <20250505-reftrack-dbgfs-v7-0-f78c5d97bcca@kernel.org>
 In-Reply-To: <20250505-reftrack-dbgfs-v7-0-f78c5d97bcca@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -56,20 +56,20 @@ Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
  Jeff Layton <jlayton@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1849; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=HO4xbozyJMxD8zWDiEa6K7DNK6Y9m2+KGX7iMwR0BG8=;
- b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBoGPZmYwQ+Q/CJWoKPdkB67+whcmC/OacHNJ4dH
- Vy/dKshE4KJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaBj2ZgAKCRAADmhBGVaC
- FbcVD/4k7jRscq+utxi9aI9kyxYHiT6RAVH+tCM0GODchSU6e7OAYwQx0wlLnBnIqPUE+10Czg0
- za/opTFwdgl/7gTqRI67Twc3TCLp7nZWoMq+/THh1vl6J7/sLLql48sGWm/QgB2mthqXJMCU0X9
- EF07MMZxvwPWuNqnGDdWms5LDntZe9bpyrerkXLuxPU+p9J6wZfV0Gt4d5kAvlewV7c40k665/O
- kLSONvE6xtX9tgEfvoJQ37oOYKem3u2RAJ7JctRJ3/fb7J1lfdAnwsx2leGYFADFAkS4ojGzIRC
- bOj8wjCwGT8zfst0hH6knOW6opu1pBXv8qkQX5Xy75EZoQ7eJFrGGr3TQ+NFPc4g/gkALcOUnTg
- XmGvAyaX3xTm7DZ8tDs5/PXvbmSHIz73pDkxbXcE7e6vOH7MUY9PU1H0slC3ELjFV2QyA4inEUp
- UZRqqZ95EWbXxLJ7ibj+GsHP+Ye2rYtFTtyzXXEqfNt2HSyvgr4wtm79x4llbHHtWGXUS8fMwYE
- MryL3SkeSxpTqbBDzIcV87VaG+ATrGKH12Ahsr1dORSzVHVZGex8LdggYYrvf9EcVcBRKZ7eaid
- l+uCziEFJ1lfW3tzAxrHYxR48BqPTfht9tNTeFBPBprurPPKLbXwhLHuThpA0K1eZO0HbxT3ezp
- KJtA+xOhEQwc4/Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1485; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=LUr5khTFmeDi+Ua8+P5dJsfAbjq9HmURsDGnKrGJrGs=;
+ b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBoGPZmWmFz1ESaZFMQZZ6Qr0A+Q8I2qE3VNQO5z
+ 5egiMFJBtKJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaBj2ZgAKCRAADmhBGVaC
+ FexjD/9hLcEg6DYxJ4wVEmKQpEYCCS5MFN450o/uGUbvLOPL65lanJhTpwz4tBupWcVyfavCrhP
+ Tt/c7fyR36PQ+beppoY8fiXHWm59g7o7mt5I0ryBFicV3nacxZ6tfr0s4q+07zDZJ1DHh+eMr6T
+ IpDtC67gA/XH12NPlwtelMR+NlLt0oNAJLgutDhgpy4vhBPFG5UgJz/H0k83pfyWPb2tR1qIn3z
+ VdQovvR54XulStcp2feTuKmAEdiACBohQ8YXwdTSATF0eMezfqoaIOwSRSzSqEHQq0IgC8d/eAq
+ xzGFdFuzMlS2PoXSdi61Ryh36uDryiFrRmNQR8klFVeetl5/o3oaM3zzq7c+DTcDWjNqcUudbiG
+ /1evAnet8XPTtR/rJdupyhDC1qoTAKKLtxy37FbOhBYPKtkTCiMd4Wj/Qe5g7PDgum53Sz5tM1T
+ T/sAtJKLIG5gHO+Ym/cElPz5awUx5eeFON+rlVufu6Uc/HwL9ZmPxE4c4+XelbL45TbWO3WLzyh
+ lAVCKcl8ThPheW2laaGu6k0Ctxu69Bh/jJ3YEChT2shXDNEFmXeT/WiqTLoGDEiJ+C8mXRFLcw4
+ SMze8aBLpL7uwg2yGyaDW+VskVR/r7JogFdA1gQgfZ3h/zWdFD0QQRlQHTzpXxhiq5M+b0QXIom
+ oJHlLwY+nW2sqcg==
 X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
  fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,65 +87,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After assigning the inode number to the namespace, use it to create a
-unique name for each netns refcount tracker with the ns.inum and
-net_cookie values in it, and register a symlink to the debugfs file for
-it.
-
-init_net is registered before the ref_tracker dir is created, so add a
-late_initcall() to register its files and symlinks.
+Now that there is the ability to create a symlink for each tracker, do
+so for the i915 entries.
 
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- net/core/net_namespace.c | 30 +++++++++++++++++++++++++++++-
- 1 file changed, 29 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/intel_runtime_pm.c | 1 +
+ drivers/gpu/drm/i915/intel_wakeref.c    | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
-index 008de9675ea98fa8c18628b2f1c3aee7f3ebc9c6..1c5e0289f0f0b37c61852d95d4e11a8c12a868f3 100644
---- a/net/core/net_namespace.c
-+++ b/net/core/net_namespace.c
-@@ -763,12 +763,40 @@ struct net *get_net_ns_by_pid(pid_t pid)
- }
- EXPORT_SYMBOL_GPL(get_net_ns_by_pid);
- 
-+#ifdef CONFIG_NET_NS_REFCNT_TRACKER
-+static void net_ns_net_debugfs(struct net *net)
-+{
-+	ref_tracker_dir_symlink(&net->refcnt_tracker, "netns--%lx-%u-refcnt",
-+				net->net_cookie, net->ns.inum);
-+	ref_tracker_dir_symlink(&net->notrefcnt_tracker, "netns-%lx-%u-notrefcnt",
-+				net->net_cookie, net->ns.inum);
-+}
-+
-+static int __init init_net_debugfs(void)
-+{
-+	ref_tracker_dir_debugfs(&init_net.refcnt_tracker);
-+	ref_tracker_dir_debugfs(&init_net.notrefcnt_tracker);
-+	net_ns_net_debugfs(&init_net);
-+	return 0;
-+}
-+late_initcall(init_net_debugfs);
-+#else
-+static void net_ns_net_debugfs(struct net *net)
-+{
-+}
-+#endif
-+
- static __net_init int net_ns_net_init(struct net *net)
+diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+index 3fdab3b44c08cea16ac2f73aafc2bea2ffbb19e7..94315e952ead9be276298fb2a0200d102005a0c1 100644
+--- a/drivers/gpu/drm/i915/intel_runtime_pm.c
++++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+@@ -61,6 +61,7 @@ static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
  {
-+	int ret;
-+
- #ifdef CONFIG_NET_NS
- 	net->ns.ops = &netns_operations;
- #endif
--	return ns_alloc_inum(&net->ns);
-+	ret = ns_alloc_inum(&net->ns);
-+	if (!ret)
-+		net_ns_net_debugfs(net);
-+	return ret;
+ 	ref_tracker_dir_init(&rpm->debug, INTEL_REFTRACK_DEAD_COUNT,
+ 			     "intel_runtime_pm", dev_name(rpm->kdev));
++	ref_tracker_dir_symlink(&rpm->debug, "intel_runtime_pm-%s", dev_name(rpm->kdev));
  }
  
- static __net_exit void net_ns_net_exit(struct net *net)
+ static intel_wakeref_t
+diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
+index 5269e64c58a49884f5d712557546272bfdeb8417..2e0498b3fa7947f994de1339d4d2bed93de1a795 100644
+--- a/drivers/gpu/drm/i915/intel_wakeref.c
++++ b/drivers/gpu/drm/i915/intel_wakeref.c
+@@ -115,6 +115,7 @@ void __intel_wakeref_init(struct intel_wakeref *wf,
+ 
+ #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
+ 	ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, "intel_wakeref", name);
++	ref_tracker_dir_symlink(&wf->debug, "intel_wakeref-%s", name);
+ #endif
+ }
+ 
 
 -- 
 2.49.0
