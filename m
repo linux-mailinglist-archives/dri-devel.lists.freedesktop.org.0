@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D47AAA3A7
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9559EAAA3A8
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:18:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B5F10E610;
-	Mon,  5 May 2025 23:18:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0755E10E5E6;
+	Mon,  5 May 2025 23:18:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GHi01gUd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cKwxxp1y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66BBB10E5E6
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:18:15 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D433710E5E6
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:18:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DF1D7629C3;
- Mon,  5 May 2025 23:17:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39888C4CEED;
- Mon,  5 May 2025 23:18:12 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 27CB15C51A5;
+ Mon,  5 May 2025 23:15:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1982C4CEEF;
+ Mon,  5 May 2025 23:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746487094;
- bh=1oiwZ7k+nRilmKzcV9sWrVdAFE7uspjwuesfxdz7kJA=;
+ s=k20201202; t=1746487096;
+ bh=O1AXRcVzO+bLHxqo7eor34N1+WCsiJkmsH6UzahIF4U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GHi01gUdJLORnYZTjOeW5Kl9b8FjW8p40CB+1i2pazJAUkcuUVArEqKqu9pPoKwbs
- TUVZpp12Zo8h6AFMv9t9FpBU1t+P5i3ZWhrJ1p6RfJIvq+/J9PaWXTT8QbLfnh+9E2
- 6lXYbMHzvxsDjzHR12R6ndA/aRlZvy44f6MzJnflFr7ERsWjKkqn6WkeyRLLQhQ+LY
- +Sn8TdRxL9UrQySw1v0y5pVg97AHnaG9xrg9iU8LNMNrm9HqwXXbzlXwxFrowMzK5P
- VHyw8TBJViUaGPr/+wQhFOLgpjXBTJ0Kwblx8V941Kn6GEFAF0dAzRbGnkZKf9CQ/V
- KZju0/Q0+WHgQ==
+ b=cKwxxp1yY8IcZPlFo31HKzPDwC5ykz/cUZ/Av/cMXPYL+86DyAWa8q/ioe1FqaoQ+
+ NcGul8NTpG+Hm6bd49cktHQNPQp6oFrSoJhCL5O0kMGE1rIIY33mszWmdA/22iOrYV
+ v76HuHH6XLTPYF08s+u0FpIDneCN2buVErQWFb8rYDgvi/s0+YqGSzBTUvul9Z3nki
+ jzVF1BKIYLumAsWqMMU85vp8Ry/KBYBDWaJout0cHcFPMq0yfH2Uq2CZQsLZ04WU6C
+ NyLgD6S1MLTgxSe5EsmyZqfFlhroGwR8T0GF4YkvSMr6k6Y4jKe24v6/8T8inIDIpa
+ L4eIwO6CFg3xQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Simona Vetter <simona.vetter@ffwll.ch>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Simon Ser <contact@emersion.fr>, Manasi Navare <navaremanasi@google.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Simona Vetter <simona.vetter@intel.com>, Sasha Levin <sashal@kernel.org>,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 152/153] drm/atomic: clarify the rules around
- drm_atomic_state->allow_modeset
-Date: Mon,  5 May 2025 19:13:19 -0400
-Message-Id: <20250505231320.2695319-152-sashal@kernel.org>
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.15 153/153] drm: Add valid clones check
+Date: Mon,  5 May 2025 19:13:20 -0400
+Message-Id: <20250505231320.2695319-153-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505231320.2695319-1-sashal@kernel.org>
 References: <20250505231320.2695319-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.181
@@ -73,85 +65,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Simona Vetter <simona.vetter@ffwll.ch>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
 
-[ Upstream commit c5e3306a424b52e38ad2c28c7f3399fcd03e383d ]
+[ Upstream commit 41b4b11da02157c7474caf41d56baae0e941d01a ]
 
-msm is automagically upgrading normal commits to full modesets, and
-that's a big no-no:
+Check that all encoders attached to a given CRTC are valid
+possible_clones of each other.
 
-- for one this results in full on->off->on transitions on all these
-  crtc, at least if you're using the usual helpers. Which seems to be
-  the case, and is breaking uapi
-
-- further even if the ctm change itself would not result in flicker,
-  this can hide modesets for other reasons. Which again breaks the
-  uapi
-
-v2: I forgot the case of adding unrelated crtc state. Add that case
-and link to the existing kerneldoc explainers. This has come up in an
-irc discussion with Manasi and Ville about intel's bigjoiner mode.
-Also cc everyone involved in the msm irc discussion, more people
-joined after I sent out v1.
-
-v3: Wording polish from Pekka and Thomas
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Manasi Navare <navaremanasi@google.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Simona Vetter <simona.vetter@intel.com>
-Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250108172417.160831-1-simona.vetter@ffwll.ch
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241216-concurrent-wb-v4-3-fe220297a7f0@quicinc.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/drm/drm_atomic.h | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 1701c2128a5cb..1b8dd160c51f9 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -353,8 +353,27 @@ struct drm_atomic_state {
- 	 *
- 	 * Allow full modeset. This is used by the ATOMIC IOCTL handler to
- 	 * implement the DRM_MODE_ATOMIC_ALLOW_MODESET flag. Drivers should
--	 * never consult this flag, instead looking at the output of
--	 * drm_atomic_crtc_needs_modeset().
-+	 * generally not consult this flag, but instead look at the output of
-+	 * drm_atomic_crtc_needs_modeset(). The detailed rules are:
-+	 *
-+	 * - Drivers must not consult @allow_modeset in the atomic commit path.
-+	 *   Use drm_atomic_crtc_needs_modeset() instead.
-+	 *
-+	 * - Drivers must consult @allow_modeset before adding unrelated struct
-+	 *   drm_crtc_state to this commit by calling
-+	 *   drm_atomic_get_crtc_state(). See also the warning in the
-+	 *   documentation for that function.
-+	 *
-+	 * - Drivers must never change this flag, it is under the exclusive
-+	 *   control of userspace.
-+	 *
-+	 * - Drivers may consult @allow_modeset in the atomic check path, if
-+	 *   they have the choice between an optimal hardware configuration
-+	 *   which requires a modeset, and a less optimal configuration which
-+	 *   can be committed without a modeset. An example would be suboptimal
-+	 *   scanout FIFO allocation resulting in increased idle power
-+	 *   consumption. This allows userspace to avoid flickering and delays
-+	 *   for the normal composition loop at reasonable cost.
- 	 */
- 	bool allow_modeset : 1;
- 	/**
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index bd01d925769db..db3c58013c00d 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -563,6 +563,30 @@ mode_valid(struct drm_atomic_state *state)
+ 	return 0;
+ }
+ 
++static int drm_atomic_check_valid_clones(struct drm_atomic_state *state,
++					 struct drm_crtc *crtc)
++{
++	struct drm_encoder *drm_enc;
++	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
++									  crtc);
++
++	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
++		if (!drm_enc->possible_clones) {
++			DRM_DEBUG("enc%d possible_clones is 0\n", drm_enc->base.id);
++			continue;
++		}
++
++		if ((crtc_state->encoder_mask & drm_enc->possible_clones) !=
++		    crtc_state->encoder_mask) {
++			DRM_DEBUG("crtc%d failed valid clone check for mask 0x%x\n",
++				  crtc->base.id, crtc_state->encoder_mask);
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
+ /**
+  * drm_atomic_helper_check_modeset - validate state object for modeset changes
+  * @dev: DRM device
+@@ -729,6 +753,10 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+ 		ret = drm_atomic_add_affected_planes(state, crtc);
+ 		if (ret != 0)
+ 			return ret;
++
++		ret = drm_atomic_check_valid_clones(state, crtc);
++		if (ret != 0)
++			return ret;
+ 	}
+ 
+ 	/*
 -- 
 2.39.5
 
