@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C34BAAA03C
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A9BAAA03E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDAF10E4C1;
-	Mon,  5 May 2025 22:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A71210E4C3;
+	Mon,  5 May 2025 22:32:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hIrYgpn7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o6sf7gwT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB82B10E4C0;
- Mon,  5 May 2025 22:32:50 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCEB810E4C0;
+ Mon,  5 May 2025 22:32:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 146AC5C5529;
- Mon,  5 May 2025 22:30:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97ED2C4CEEE;
- Mon,  5 May 2025 22:32:46 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 5045061F1B;
+ Mon,  5 May 2025 22:32:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EAF6C4CEE4;
+ Mon,  5 May 2025 22:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484369;
- bh=WhObNx/UgZPNUHn7lDsfgoqh+dAqU8HeTGp0/MvtNw4=;
+ s=k20201202; t=1746484373;
+ bh=sjcG5owB5DdTH8YS9RUliRnJZhFLk2r+YY/+DrBCN/4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hIrYgpn7e2T/pwk5T3pzG4TB/h6Vdd3f/y1XmN38OmFal92vku3kuBjQGb0X8XBnK
- cqmUsqCicouOcVQ0OZrYaWCcZejSNPM6y7HKIvHmWCV4ZRaBtdC2Ctx+TVSwqfcGSU
- 5zg4Lx/i36PRBP5UGN1pOxvSvR1R9NzFwPb8yF9usQed4Ash1YWJWA7YfwY1ghNYfh
- 4JDUdBEGW+PMn9uvAZZb7ozCyVuGSKI6Nafd+YDMwfl2tjOqgPVngcZ4jW2AGh8jA+
- FH5CJRGOKXNE7YRXXf4XOJ9m+xtc0ZCCpNUMPVlNNqzbybL3VJVbLWL0hIaHIIkLHx
- 6Intd4HrAWxXw==
+ b=o6sf7gwT3W6p1UJHdcMst/+K2bAlDhjO4Qkm2xaG+/Li35FeXsgDJQMhUb/s1IuTW
+ d+n8Igf6VWCmc96+eiA4zgwt14VGunu9R60iRNoh6UTM/1jyHGecTC+c2n0b0QCbGi
+ UD8VmoUknQQ2rPVyvjDfBIqxVr0WaN1i1mSnBSbxgLOxaUKW4effy6wW0ampURWQq8
+ j4zCVUwrviJAJFM0ChdjWGlX4TLQV4wN/480zBFCDDjVPJBdsKZ1dQKPb/ypWmpt9T
+ cW0GL3z/sZkxNrhEIQaWN9ecBJJ1/eW21iiuxeF814+6q3TaQwoWWVaKi+1zOPYqg+
+ /QPJ3s3lo1NaA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Martin Tsai <Martin.Tsai@amd.com>, Anthony Koo <anthony.koo@amd.com>,
+Cc: Brandon Syu <Brandon.Syu@amd.com>, Charlene Liu <charlene.liu@amd.com>,
  Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, siqueira@igalia.com,
- aurabindo.pillai@amd.com, dennis.chan@amd.com, mwen@igalia.com,
- Kaitlyn.Tse@amd.com, george.shen@amd.com, Wayne.Lin@amd.com,
- Gabe.Teeger@amd.com, Cruise.Hung@amd.com, jack.chang@amd.com,
- jerry.zuo@amd.com, zaeem.mohamed@amd.com, duncan.ma@amd.com,
- Zhongwei.Zhang@amd.com, chiahsuan.chung@amd.com,
- nicholas.kazlauskas@amd.com, Syed.Hassan@amd.com, dillon.varone@amd.com,
- aric.cyr@amd.com, Ovidiu.Bunea@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 466/642] drm/amd/display: Support multiple
- options during psr entry.
-Date: Mon,  5 May 2025 18:11:22 -0400
-Message-Id: <20250505221419.2672473-466-sashal@kernel.org>
+ airlied@gmail.com, simona@ffwll.ch, Charlene.Liu@amd.com,
+ alvin.lee2@amd.com, jerry.zuo@amd.com, chiahsuan.chung@amd.com,
+ Kaitlyn.Tse@amd.com, Ovidiu.Bunea@amd.com, ryanseto@amd.com,
+ martin.tsai@amd.com, yi-lchen@amd.com, tjakobi@math.uni-bielefeld.de,
+ Sungjoon.Kim@amd.com, michael.strauss@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 467/642] Revert "drm/amd/display: Exit idle
+ optimizations before attempt to access PHY"
+Date: Mon,  5 May 2025 18:11:23 -0400
+Message-Id: <20250505221419.2672473-467-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -73,79 +70,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Tsai <Martin.Tsai@amd.com>
+From: Brandon Syu <Brandon.Syu@amd.com>
 
-[ Upstream commit 3a5fa55455db6a11248a25f24570c365f9246144 ]
+[ Upstream commit be704e5ef4bd66dee9bb3f876964327e3a247d31 ]
 
-[WHY]
-Some panels may not handle idle pattern properly during PSR entry.
+This reverts commit de612738e9771bd66aeb20044486c457c512f684.
 
-[HOW]
-Add a condition to allow multiple options on power down
-sequence during PSR1 entry.
+Reason to revert: screen flashes or gray screen appeared half of the
+screen after resume from S4/S5.
 
-Reviewed-by: Anthony Koo <anthony.koo@amd.com>
-Signed-off-by: Martin Tsai <Martin.Tsai@amd.com>
+Reviewed-by: Charlene Liu <charlene.liu@amd.com>
+Signed-off-by: Brandon Syu <Brandon.Syu@amd.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dc_types.h       | 7 +++++++
- drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c   | 4 ++++
- drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h | 6 ++++++
- 3 files changed, 17 insertions(+)
+ drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_types.h b/drivers/gpu/drm/amd/display/dc/dc_types.h
-index 0c2aa91f0a111..e60898c2df01a 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_types.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc_types.h
-@@ -1033,6 +1033,13 @@ struct psr_settings {
- 	unsigned int psr_sdp_transmit_line_num_deadline;
- 	uint8_t force_ffu_mode;
- 	unsigned int psr_power_opt;
-+
-+	/**
-+	 * Some panels cannot handle idle pattern during PSR entry.
-+	 * To power down phy before disable stream to avoid sending
-+	 * idle pattern.
-+	 */
-+	uint8_t power_down_phy_before_disable_stream;
- };
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+index 94ceccfc04982..2f5f3e749a1ab 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+@@ -1889,7 +1889,6 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
+ 	bool can_apply_edp_fast_boot = false;
+ 	bool can_apply_seamless_boot = false;
+ 	bool keep_edp_vdd_on = false;
+-	struct dc_bios *dcb = dc->ctx->dc_bios;
+ 	DC_LOGGER_INIT();
  
- enum replay_coasting_vtotal_type {
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-index 88c75c243bf8a..ff3b8244ba3d0 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-@@ -418,6 +418,10 @@ static bool dmub_psr_copy_settings(struct dmub_psr *dmub,
- 	copy_settings_data->relock_delay_frame_cnt = 0;
- 	if (link->dpcd_caps.sink_dev_id == DP_BRANCH_DEVICE_ID_001CF8)
- 		copy_settings_data->relock_delay_frame_cnt = 2;
-+
-+	copy_settings_data->power_down_phy_before_disable_stream =
-+		link->psr_settings.power_down_phy_before_disable_stream;
-+
- 	copy_settings_data->dsc_slice_height = psr_context->dsc_slice_height;
  
- 	dc_wake_and_execute_dmub_cmd(dc, &cmd, DM_DMUB_WAIT_TYPE_WAIT);
-diff --git a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-index d0fe324cb5371..8cf89aed024b7 100644
---- a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-+++ b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-@@ -3118,6 +3118,12 @@ struct dmub_cmd_psr_copy_settings_data {
- 	 * Some panels request main link off before xth vertical line
- 	 */
- 	uint16_t poweroff_before_vertical_line;
-+	/**
-+	 * Some panels cannot handle idle pattern during PSR entry.
-+	 * To power down phy before disable stream to avoid sending
-+	 * idle pattern.
-+	 */
-+	uint8_t power_down_phy_before_disable_stream;
- };
+@@ -1966,8 +1965,6 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
+ 			hws->funcs.edp_backlight_control(edp_link_with_sink, false);
+ 		}
+ 		/*resume from S3, no vbios posting, no need to power down again*/
+-		if (dcb && dcb->funcs && !dcb->funcs->is_accelerated_mode(dcb))
+-			clk_mgr_exit_optimized_pwr_state(dc, dc->clk_mgr);
  
- /**
+ 		power_down_all_hw_blocks(dc);
+ 
+@@ -1980,8 +1977,6 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
+ 		disable_vga_and_power_gate_all_controllers(dc);
+ 		if (edp_link_with_sink && !keep_edp_vdd_on)
+ 			dc->hwss.edp_power_control(edp_link_with_sink, false);
+-		if (dcb && dcb->funcs && !dcb->funcs->is_accelerated_mode(dcb))
+-			clk_mgr_optimize_pwr_state(dc, dc->clk_mgr);
+ 	}
+ 	bios_set_scratch_acc_mode_change(dc->ctx->dc_bios, 1);
+ }
 -- 
 2.39.5
 
