@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E5AAA9FE5
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0423AA9FE8
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:29:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58E1410E497;
-	Mon,  5 May 2025 22:29:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1AE10E494;
+	Mon,  5 May 2025 22:29:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h4VXfLA4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Xpncj2PL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2529810E495;
- Mon,  5 May 2025 22:29:23 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 241D210E494;
+ Mon,  5 May 2025 22:29:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 57C2843691;
- Mon,  5 May 2025 22:29:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD17C4CEED;
- Mon,  5 May 2025 22:29:21 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C2C00629C8;
+ Mon,  5 May 2025 22:28:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33E50C4CEEE;
+ Mon,  5 May 2025 22:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484162;
- bh=9MDdimvpyVuizF6v+LsY4x+G/eT4yF+NtSq6Tll17AQ=;
+ s=k20201202; t=1746484166;
+ bh=CJqtGRIu7fkrant3moOP0oGqadAAgLUL0H9FjJ68rXU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h4VXfLA4/2wM53s44F9ev9TJXcCnG3KlRF7VHApDOn8+cNxZqZgZHIyfgh47g17ha
- yJEGJ8I1k3mpT4uDkSFUUCSvB0f0c95etIKGjRhO0Z5MGISScm67C26oWn0dT1Xg5E
- spmRdzZZhXapBPYpLvMIvy+D3iq5NTiAQ0k0egg7OCR34Wyt010I9eariZ7kaQiAKI
- oOx0ukCwshlNTXhbu/wD6AKbaVtfAFVe379C+K+XnxD0OoObHjpPYSRcNrsKKSXUpK
- exjkYMuj7NiDsJ9wPPCwgjPEGmgDvEzeiL8Rg8NoWjaTKua22YkbpiPVRvtf0pTbxl
- +P9jL0Ekc2qbg==
+ b=Xpncj2PLd+m8OstQNJm3RPFR9zJ2zwlq9ivMzD6DOtBZUHDN8C6XJyotm5seeKWWv
+ bKfIv0FqqzMfMFvi6ga4ddBDxrNm65dQJMux8f2LKAJ59aWGZIX3cnm9Hg7uieaiha
+ fw1h0YG7aBM1hlCdQmsGMMc63cJf6HRTFrgRgPHr1xrjgDBxG2L8NZL+kNfjqiwz5I
+ XXnrZObTrz0/OIwOjD5ScqqN464t812X+VWbgOxv5i4GNx8h7DgaCWMRiUP5uSRuUj
+ 5nttz0wEB3v60uDiMBu+slUSbedBXejmI9DZFpuK4ts554oZcHCrG8Uj385XnSVrJB
+ RTwqHXa9JNLEQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Lijo Lazar <lijo.lazar@amd.com>, Asad Kamal <asad.kamal@amd.com>,
+Cc: Harry VanZyllDeJong <hvanzyll@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Roman Li <roman.li@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- kenneth.feng@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, sunil.khatri@amd.com, boyuan.zhang@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 383/642] drm/amd/pm: Fetch current power limit
- from PMFW
-Date: Mon,  5 May 2025 18:09:59 -0400
-Message-Id: <20250505221419.2672473-383-sashal@kernel.org>
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, alex.hung@amd.com,
+ michael.strauss@amd.com, george.shen@amd.com, PeiChen.Huang@amd.com,
+ Ausef.Yousof@amd.com, Cruise.Hung@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 384/642] drm/amd/display: Add support for
+ disconnected eDP streams
+Date: Mon,  5 May 2025 18:10:00 -0400
+Message-Id: <20250505221419.2672473-384-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,33 +68,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lijo Lazar <lijo.lazar@amd.com>
+From: Harry VanZyllDeJong <hvanzyll@amd.com>
 
-[ Upstream commit b2a9e562dfa156bd53e62ce571f3f8f65d243f14 ]
+[ Upstream commit 6571bef25fe48c642f7a69ccf7c3198b317c136a ]
 
-On SMU v13.0.12, always query the firmware to get the current power
-limit as it could be updated through other means also.
+[Why]
+eDP may not be connected to the GPU on driver start causing
+fail enumeration.
 
-Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
-Reviewed-by: Asad Kamal <asad.kamal@amd.com>
+[How]
+Move the virtual signal type check before the eDP connector
+signal check.
+
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Signed-off-by: Harry VanZyllDeJong <hvanzyll@amd.com>
+Signed-off-by: Roman Li <roman.li@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../drm/amd/display/dc/link/protocols/link_dp_capability.c  | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-index ed9dac00ebfb1..f3f5b7dd15ccc 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-@@ -2802,6 +2802,7 @@ int smu_get_power_limit(void *handle,
- 			switch (amdgpu_ip_version(adev, MP1_HWIP, 0)) {
- 			case IP_VERSION(13, 0, 2):
- 			case IP_VERSION(13, 0, 6):
-+			case IP_VERSION(13, 0, 12):
- 			case IP_VERSION(13, 0, 14):
- 			case IP_VERSION(11, 0, 7):
- 			case IP_VERSION(11, 0, 11):
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+index 6d7131369f00b..28843e9882d39 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+@@ -945,6 +945,9 @@ bool link_decide_link_settings(struct dc_stream_state *stream,
+ 		 * TODO: add MST specific link training routine
+ 		 */
+ 		decide_mst_link_settings(link, link_setting);
++	} else if (stream->signal == SIGNAL_TYPE_VIRTUAL) {
++		link_setting->lane_count = LANE_COUNT_FOUR;
++		link_setting->link_rate = LINK_RATE_HIGH3;
+ 	} else if (link->connector_signal == SIGNAL_TYPE_EDP) {
+ 		/* enable edp link optimization for DSC eDP case */
+ 		if (stream->timing.flags.DSC) {
+@@ -967,9 +970,6 @@ bool link_decide_link_settings(struct dc_stream_state *stream,
+ 		} else {
+ 			edp_decide_link_settings(link, link_setting, req_bw);
+ 		}
+-	} else if (stream->signal == SIGNAL_TYPE_VIRTUAL) {
+-		link_setting->lane_count = LANE_COUNT_FOUR;
+-		link_setting->link_rate = LINK_RATE_HIGH3;
+ 	} else {
+ 		decide_dp_link_settings(link, link_setting, req_bw);
+ 	}
 -- 
 2.39.5
 
