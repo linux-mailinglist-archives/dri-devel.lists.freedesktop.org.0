@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC8DAAA342
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:12:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E2BAAA345
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:12:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BFE110E5F0;
-	Mon,  5 May 2025 23:12:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6EA10E5F1;
+	Mon,  5 May 2025 23:12:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ulz3lqEd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T8qtR0Bl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AEED10E5ED;
- Mon,  5 May 2025 23:12:00 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D858310E5F1;
+ Mon,  5 May 2025 23:12:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 812FD5C00B3;
- Mon,  5 May 2025 23:09:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E9E6C4CEED;
- Mon,  5 May 2025 23:11:57 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 44FCC629C8;
+ Mon,  5 May 2025 23:11:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA2FEC4CEE4;
+ Mon,  5 May 2025 23:12:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746486719;
- bh=TbJ6vTwCvQR/FzOhw+PeOhkfU5Pj1/ek0z5v8QzODss=;
+ s=k20201202; t=1746486723;
+ bh=AMwLWthvcdugZ3TXGjcMNadjnyvWlIX+BQB+Vy2/rJk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ulz3lqEdrEhB2NSyb/5i2Fnt0dSe7jEvtv/zI0fYX8DJjnflbZTnLwTeyYEuclIW7
- BQnccJ2LySKcU9d883FM6ubiYIj6O9OD5vZHkfVsrGFBKk4eVs/UNf0f92Ot68KC+L
- WL1cQ2HwsZFZtwn2QktgrKqgRa/pM0hUYHQk3KyVQ1A5+GudZ9Tq1qMSdyrl0TgIKA
- 6kvAog2rG94tHef22nvKUBJfi1aaXJfby4kI/enn6u519C2hFsCksS7OwlssXj2xGF
- P5z9pYFIWeiAhmEIxhwB8Z4WQY/ebYK/CwHgYMPhooBnqHqK05/gUkFIemGapU97lC
- SKfhLEv2IWpSg==
+ b=T8qtR0Bl1t2hee7hLUAWAW1O00ZyBtafB33BQFPJ98tQyWFoX0bFJ7E4pebPZRwnY
+ j47xcAUYiABYlLwT3uTwH2hytKRNmuwbEQSP+IjxdFpa2+Vb6bI6PyItf9ScEduecU
+ bznFBhRrAgePh/vni/gPOcDswgLVZ+CO4nYEpFCc7P30T6366YM8g1iNSTVPbTCj3y
+ d4yJrizmUQW/TH/lf3dpE2etr/0TZxuT59S+bXV9Zzuwjx8cqFZ/7qpumFFwPbCfsi
+ DcmFzhwAOGlMoZWsZNrFiDIehJiZtPYqaQoVKwADK+ykWBtone4ofzTA9+1lCfoANM
+ Cz2nKkdrQdcZg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jiang Liu <gerry@linux.alibaba.com>, Lijo Lazar <lijo.lazar@amd.com>,
+Cc: Tom Chung <chiahsuan.chung@amd.com>, Roman Li <roman.li@amd.com>,
+ Zaeem Mohamed <zaeem.mohamed@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- Hawking.Zhang@amd.com, sunil.khatri@amd.com, le.ma@amd.com,
- candice.li@amd.com, YiPeng.Chai@amd.com, Feifei.Xu@amd.com,
- kevinyang.wang@amd.com, amd-gfx@lists.freedesktop.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, siqueira@igalia.com, alex.hung@amd.com,
+ alvin.lee2@amd.com, aurabindo.pillai@amd.com, Austin.Zheng@amd.com,
+ Ilya.Bakoulin@amd.com, mario.limonciello@amd.com, Wayne.Lin@amd.com,
+ Josip.Pavic@amd.com, dillon.varone@amd.com, wenjing.liu@amd.com,
+ linux@treblig.org, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 170/212] drm/amdgpu: reset psp->cmd to NULL after
- releasing the buffer
-Date: Mon,  5 May 2025 19:05:42 -0400
-Message-Id: <20250505230624.2692522-170-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 171/212] drm/amd/display: Initial psr_version with
+ correct setting
+Date: Mon,  5 May 2025 19:05:43 -0400
+Message-Id: <20250505230624.2692522-171-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505230624.2692522-1-sashal@kernel.org>
 References: <20250505230624.2692522-1-sashal@kernel.org>
@@ -67,43 +71,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jiang Liu <gerry@linux.alibaba.com>
+From: Tom Chung <chiahsuan.chung@amd.com>
 
-[ Upstream commit e92f3f94cad24154fd3baae30c6dfb918492278d ]
+[ Upstream commit d8c782cac5007e68e7484d420168f12d3490def6 ]
 
-Reset psp->cmd to NULL after releasing the buffer in function psp_sw_fini().
+[Why & How]
+The initial setting for psr_version is not correct while
+create a virtual link.
 
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
-Signed-off-by: Jiang Liu <gerry@linux.alibaba.com>
+The default psr_version should be DC_PSR_VERSION_UNSUPPORTED.
+
+Reviewed-by: Roman Li <roman.li@amd.com>
+Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index f8740ad08af41..a176b1da03bd3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -484,7 +484,6 @@ static int psp_sw_fini(void *handle)
- {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 	struct psp_context *psp = &adev->psp;
--	struct psp_gfx_cmd_resp *cmd = psp->cmd;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 2721842af8067..10672bb90a029 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -267,6 +267,7 @@ static bool create_links(
+ 		link->link_id.type = OBJECT_TYPE_CONNECTOR;
+ 		link->link_id.id = CONNECTOR_ID_VIRTUAL;
+ 		link->link_id.enum_id = ENUM_ID_1;
++		link->psr_settings.psr_version = DC_PSR_VERSION_UNSUPPORTED;
+ 		link->link_enc = kzalloc(sizeof(*link->link_enc), GFP_KERNEL);
  
- 	psp_memory_training_fini(psp);
- 	if (psp->sos_fw) {
-@@ -511,8 +510,8 @@ static int psp_sw_fini(void *handle)
- 	    adev->ip_versions[MP0_HWIP][0] == IP_VERSION(11, 0, 7))
- 		psp_sysfs_fini(adev);
- 
--	kfree(cmd);
--	cmd = NULL;
-+	kfree(psp->cmd);
-+	psp->cmd = NULL;
- 
- 	psp_free_shared_bufs(psp);
- 
+ 		if (!link->link_enc) {
 -- 
 2.39.5
 
