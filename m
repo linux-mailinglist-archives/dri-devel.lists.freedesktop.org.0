@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC738AAA0A2
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94EB5AAA0A4
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01CA710E4EA;
-	Mon,  5 May 2025 22:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 048EE10E4EB;
+	Mon,  5 May 2025 22:37:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EPsYuB37";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SzNJ28bV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB2CF10E4E9;
- Mon,  5 May 2025 22:37:45 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFDE810E4EB;
+ Mon,  5 May 2025 22:37:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1F0655C594E;
- Mon,  5 May 2025 22:35:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1424C4CEED;
- Mon,  5 May 2025 22:37:43 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id DE16C447F3;
+ Mon,  5 May 2025 22:37:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04371C4CEED;
+ Mon,  5 May 2025 22:37:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484665;
- bh=8X9ddNDbU0jcoiFuiqpuu0HcacA5iDHnbRDAr8bUjsE=;
+ s=k20201202; t=1746484669;
+ bh=gFi6sHJ6tPLpA0YfCiCoQ4kFfd40G6cmYkYcUli5dVY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EPsYuB37rImoTlqeEiI5aTjbXng9ezT+1xAqRKpUOyI02fu3PnsIdDXhy0EQvZ0+X
- KwVRMnLZcJqkf4prtrtKJxHCRNJKY/0OqVLU6ALVkjvkVpcE4gvSptoDUQjtubj8/I
- JeklYRyH+wtA0LOs8yEJHJVTySgIHNI5dqCK+JIFYg/yAWxBMAMO/7cYYBbz8NsTRO
- ANfxLKg+s8My1wzxbl+fVkfZnz03QJa7yAUJdHaFwXX+SmZ+dqPtaz7TafP1mVOG/g
- sKpNQE2vV4EaxrIVHxZ3lZQJnjvx54iVU21QhDxpRS9J9nXxkAE2wbY61cz5aVAc0q
- WId/Dkv2dJzoQ==
+ b=SzNJ28bVsmbegV0D5v2iEuU5uJzEApCOWDT/B1DBCNMv9F3UqBPn+AEDTgAA9bfB7
+ K59vcmK4eq4sdS7nHfwGo2vQQfZYsLhJJNDO6xNMmhgFiOwIQat85kc8ZKPX3hTyUc
+ wxJ80aPPjtXJCJ2niT3+0sBbmPFKcbRl3BW8o5UmoANdx3WXJW76nA/H1qSwu4zE0J
+ XYhplWuuLZ4/AnGnh680nr1RE20WGW2XMkwPwW/0CUBMTmp9YZ1qAMDuH9bg02vDya
+ UzXS9dqMbjxCxWrcIizyiW/e9dUv//7I7Q/fpNy6YjdgU+cz2/FfqwO1Z5NZZdWScQ
+ VNtworCnMOizw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
  =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
+ Stuart Summers <stuart.summers@intel.com>, Sasha Levin <sashal@kernel.org>,
+ lucas.demarchi@intel.com, rodrigo.vivi@intel.com, airlied@gmail.com,
+ simona@ffwll.ch, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 594/642] drm/xe/pf: Reset GuC VF config when
- unprovisioning critical resource
-Date: Mon,  5 May 2025 18:13:30 -0400
-Message-Id: <20250505221419.2672473-594-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 597/642] drm/xe/pf: Move VFs reprovisioning to
+ worker
+Date: Mon,  5 May 2025 18:13:33 -0400
+Message-Id: <20250505221419.2672473-597-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -69,107 +71,140 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-[ Upstream commit 33f17e2cbd930a2a00eb007d9b241b6db010a880 ]
+[ Upstream commit a4d1c5d0b99b75263a5626d2e52d569db3844b33 ]
 
-GuC firmware counts received VF configuration KLVs and may start
-validation of the complete VF config even if some resources where
-unprovisioned in the meantime, leading to unexpected errors like:
-
- $ echo 1 | sudo tee /sys/kernel/debug/dri/0000:00:02.0/gt0/vf1/contexts_quota
- $ echo 0 | sudo tee /sys/kernel/debug/dri/0000:00:02.0/gt0/vf1/contexts_quota
- $ echo 1 | sudo tee /sys/kernel/debug/dri/0000:00:02.0/gt0/vf1/doorbells_quota
- $ echo 0 | sudo tee /sys/kernel/debug/dri/0000:00:02.0/gt0/vf1/doorbells_quota
- $ echo 1 | sudo tee /sys/kernel/debug/dri/0000:00:02.0/gt0/vf1/ggtt_quota
- tee: '/sys/kernel/debug/dri/0000:00:02.0/gt0/vf1/ggtt_quota': Input/output error
-
-To mitigate this problem trigger explicit VF config reset after
-unprovisioning any of the critical resources (GGTT, context or
-doorbell IDs) that GuC is monitoring.
+Since the GuC is reset during GT reset, we need to re-send the
+entire SR-IOV provisioning configuration to the GuC. But since
+this whole configuration is protected by the PF master mutex and
+we can't avoid making allocations under this mutex (like during
+LMEM provisioning), we can't do this reprovisioning from gt-reset
+path if we want to be reclaim-safe. Move VFs reprovisioning to a
+async worker that we will start from the gt-reset path.
 
 Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Michał Winiarski <michal.winiarski@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250129195947.764-3-michal.wajdeczko@intel.com
+Reviewed-by: Stuart Summers <stuart.summers@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250125215505.720-1-michal.wajdeczko@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 37 +++++++++++++++++++---
- 1 file changed, 33 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/xe/xe_gt_sriov_pf.c       | 43 +++++++++++++++++++++--
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h | 10 ++++++
+ 2 files changed, 51 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-index aaca54b40091f..27f309e3a76e6 100644
---- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-+++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-@@ -336,6 +336,26 @@ static int pf_push_full_vf_config(struct xe_gt *gt, unsigned int vfid)
- 	return err;
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf.c
+index b80930a6bc1a2..c08efca6420e7 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf.c
+@@ -15,7 +15,11 @@
+ #include "xe_gt_sriov_pf_helpers.h"
+ #include "xe_gt_sriov_pf_migration.h"
+ #include "xe_gt_sriov_pf_service.h"
++#include "xe_gt_sriov_printk.h"
+ #include "xe_mmio.h"
++#include "xe_pm.h"
++
++static void pf_worker_restart_func(struct work_struct *w);
+ 
+ /*
+  * VF's metadata is maintained in the flexible array where:
+@@ -41,6 +45,11 @@ static int pf_alloc_metadata(struct xe_gt *gt)
+ 	return 0;
  }
  
-+static int pf_push_vf_cfg(struct xe_gt *gt, unsigned int vfid, bool reset)
++static void pf_init_workers(struct xe_gt *gt)
 +{
-+	int err = 0;
-+
-+	xe_gt_assert(gt, vfid);
-+	lockdep_assert_held(xe_gt_sriov_pf_master_mutex(gt));
-+
-+	if (reset)
-+		err = pf_send_vf_cfg_reset(gt, vfid);
-+	if (!err)
-+		err = pf_push_full_vf_config(gt, vfid);
-+
-+	return err;
++	INIT_WORK(&gt->sriov.pf.workers.restart, pf_worker_restart_func);
 +}
 +
-+static int pf_refresh_vf_cfg(struct xe_gt *gt, unsigned int vfid)
+ /**
+  * xe_gt_sriov_pf_init_early - Prepare SR-IOV PF data structures on PF.
+  * @gt: the &xe_gt to initialize
+@@ -65,6 +74,8 @@ int xe_gt_sriov_pf_init_early(struct xe_gt *gt)
+ 	if (err)
+ 		return err;
+ 
++	pf_init_workers(gt);
++
+ 	return 0;
+ }
+ 
+@@ -161,6 +172,35 @@ void xe_gt_sriov_pf_sanitize_hw(struct xe_gt *gt, unsigned int vfid)
+ 	pf_clear_vf_scratch_regs(gt, vfid);
+ }
+ 
++static void pf_restart(struct xe_gt *gt)
 +{
-+	return pf_push_vf_cfg(gt, vfid, true);
++	struct xe_device *xe = gt_to_xe(gt);
++
++	xe_pm_runtime_get(xe);
++	xe_gt_sriov_pf_config_restart(gt);
++	xe_gt_sriov_pf_control_restart(gt);
++	xe_pm_runtime_put(xe);
++
++	xe_gt_sriov_dbg(gt, "restart completed\n");
 +}
 +
- static u64 pf_get_ggtt_alignment(struct xe_gt *gt)
++static void pf_worker_restart_func(struct work_struct *w)
++{
++	struct xe_gt *gt = container_of(w, typeof(*gt), sriov.pf.workers.restart);
++
++	pf_restart(gt);
++}
++
++static void pf_queue_restart(struct xe_gt *gt)
++{
++	struct xe_device *xe = gt_to_xe(gt);
++
++	xe_gt_assert(gt, IS_SRIOV_PF(xe));
++
++	if (!queue_work(xe->sriov.wq, &gt->sriov.pf.workers.restart))
++		xe_gt_sriov_dbg(gt, "restart already in queue!\n");
++}
++
+ /**
+  * xe_gt_sriov_pf_restart - Restart SR-IOV support after a GT reset.
+  * @gt: the &xe_gt
+@@ -169,6 +209,5 @@ void xe_gt_sriov_pf_sanitize_hw(struct xe_gt *gt, unsigned int vfid)
+  */
+ void xe_gt_sriov_pf_restart(struct xe_gt *gt)
  {
- 	struct xe_device *xe = gt_to_xe(gt);
-@@ -432,6 +452,10 @@ static int pf_provision_vf_ggtt(struct xe_gt *gt, unsigned int vfid, u64 size)
- 			return err;
+-	xe_gt_sriov_pf_config_restart(gt);
+-	xe_gt_sriov_pf_control_restart(gt);
++	pf_queue_restart(gt);
+ }
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h
+index 0426b1a77069a..a64a6835ad656 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h
+@@ -35,8 +35,17 @@ struct xe_gt_sriov_metadata {
+ 	struct xe_gt_sriov_state_snapshot snapshot;
+ };
  
- 		pf_release_vf_config_ggtt(gt, config);
++/**
++ * struct xe_gt_sriov_pf_workers - GT level workers used by the PF.
++ */
++struct xe_gt_sriov_pf_workers {
++	/** @restart: worker that executes actions post GT reset */
++	struct work_struct restart;
++};
 +
-+		err = pf_refresh_vf_cfg(gt, vfid);
-+		if (unlikely(err))
-+			return err;
- 	}
- 	xe_gt_assert(gt, !xe_ggtt_node_allocated(config->ggtt_region));
- 
-@@ -757,6 +781,10 @@ static int pf_provision_vf_ctxs(struct xe_gt *gt, unsigned int vfid, u32 num_ctx
- 			return ret;
- 
- 		pf_release_config_ctxs(gt, config);
-+
-+		ret = pf_refresh_vf_cfg(gt, vfid);
-+		if (unlikely(ret))
-+			return ret;
- 	}
- 
- 	if (!num_ctxs)
-@@ -1054,6 +1082,10 @@ static int pf_provision_vf_dbs(struct xe_gt *gt, unsigned int vfid, u32 num_dbs)
- 			return ret;
- 
- 		pf_release_config_dbs(gt, config);
-+
-+		ret = pf_refresh_vf_cfg(gt, vfid);
-+		if (unlikely(ret))
-+			return ret;
- 	}
- 
- 	if (!num_dbs)
-@@ -2085,10 +2117,7 @@ int xe_gt_sriov_pf_config_push(struct xe_gt *gt, unsigned int vfid, bool refresh
- 	xe_gt_assert(gt, vfid);
- 
- 	mutex_lock(xe_gt_sriov_pf_master_mutex(gt));
--	if (refresh)
--		err = pf_send_vf_cfg_reset(gt, vfid);
--	if (!err)
--		err = pf_push_full_vf_config(gt, vfid);
-+	err = pf_push_vf_cfg(gt, vfid, refresh);
- 	mutex_unlock(xe_gt_sriov_pf_master_mutex(gt));
- 
- 	if (unlikely(err)) {
+ /**
+  * struct xe_gt_sriov_pf - GT level PF virtualization data.
++ * @workers: workers data.
+  * @service: service data.
+  * @control: control data.
+  * @policy: policy data.
+@@ -45,6 +54,7 @@ struct xe_gt_sriov_metadata {
+  * @vfs: metadata for all VFs.
+  */
+ struct xe_gt_sriov_pf {
++	struct xe_gt_sriov_pf_workers workers;
+ 	struct xe_gt_sriov_pf_service service;
+ 	struct xe_gt_sriov_pf_control control;
+ 	struct xe_gt_sriov_pf_policy policy;
 -- 
 2.39.5
 
