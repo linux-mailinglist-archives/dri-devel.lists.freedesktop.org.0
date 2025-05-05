@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA1CAAA1A7
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:50:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C19AAA1AA
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E562510E558;
-	Mon,  5 May 2025 22:50:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02D2910E557;
+	Mon,  5 May 2025 22:50:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wgy7cuhw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pbeXP0Lh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A53610E558;
- Mon,  5 May 2025 22:50:08 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FEA210E55A;
+ Mon,  5 May 2025 22:50:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C5677A4D161;
- Mon,  5 May 2025 22:44:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19B0C4CEED;
- Mon,  5 May 2025 22:50:04 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 31CF649E6A;
+ Mon,  5 May 2025 22:50:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75D6DC4CEE4;
+ Mon,  5 May 2025 22:50:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485407;
- bh=TmMziUAO7Ca/u8ecyVo8LJZtOW71FIb95pElB9+CaSA=;
+ s=k20201202; t=1746485410;
+ bh=LrDTYJPPikt2CZU7xFsXv7FLYT+5gZ9WRCubtv94W7g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Wgy7cuhwyWy5mEIJydT180q+bg1t7TcbNaILhZa8XHcj8rzFr6Wv6H/GcmP9ZQ1b9
- 8PUVlplCSzo4o+sfGfzln6senT5/UxiggoGrL+4xkcSv5XRCD2S6wKQ0JBnRI95LmV
- ONMq/6DPnWgCAQNsoW0+9XVK03JABZgjSIPzVQOedoy/8JI/LlbDpvZ0lawUze02Rf
- 8RNsZ7OEy0j1aUh2d32dtDxjn0UeqALqtzrtndHK+hJxW+yu/W3T/7C4hEWbEeOFAG
- dPiHfDJvOdwXJuupRBZ6CiUACd+K1KWH2K/F/GScn+IH3H1B0WBzMEttKHtbqjxbtJ
- Hc6P2FD+Idnqw==
+ b=pbeXP0LhqNa/Ths8V33RA7pBXelUCeQt3l89zE9hlmG06IWwdld17W5in1WojB1qe
+ qV8meR6oLTgcoZxoi2bjyovc3oAcvHrJYQeqjI9h/K0lcWrpcgYBdQJWbaXtHU/Ldf
+ 5+yMSjTdyKs0GFHq8Dwl0BQSalwNf8cfOEH2axOCSvk7BFrgS5jPWPczbPXc/MMbSS
+ /T0Y9zI4H5z7+Q2WEGDe7CJOeSYIfVYY1yNs23R8N9KFZQcRRRchOty7gCkEykZL4s
+ dzS8wbsshZeuMHpTUO7OVAtGZ4TkzZzjQl9vnf1pQE/ezEm8aA+9Xd9Uqvpnm1ka+r
+ h83oR+Wj10R/w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: George Shen <george.shen@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+Cc: Leo Zeng <Leo.Zeng@amd.com>, Dillon Varone <dillon.varone@amd.com>,
  Roman Li <roman.li@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, wayne.lin@amd.com, Gabe.Teeger@amd.com,
- michael.strauss@amd.com, Hansen.Dsouza@amd.com, robin.chen@amd.com,
- Cruise.Hung@amd.com, ryanseto@amd.com, alex.hung@amd.com,
- PeiChen.Huang@amd.com, Ausef.Yousof@amd.com, amd-gfx@lists.freedesktop.org,
+ austin.zheng@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
+ sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, alex.hung@amd.com, Aric.Cyr@amd.com, alvin.lee2@amd.com,
+ siqueira@igalia.com, wenjing.liu@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 303/486] drm/amd/display: Read LTTPR ALPM caps
- during link cap retrieval
-Date: Mon,  5 May 2025 18:36:19 -0400
-Message-Id: <20250505223922.2682012-303-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 304/486] Revert "drm/amd/display: Request HW
+ cursor on DCN3.2 with SubVP"
+Date: Mon,  5 May 2025 18:36:20 -0400
+Message-Id: <20250505223922.2682012-304-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -69,90 +68,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: George Shen <george.shen@amd.com>
+From: Leo Zeng <Leo.Zeng@amd.com>
 
-[ Upstream commit de84d580126eb2214937df755cfec5ef0901479e ]
+[ Upstream commit 8ae6dfc0b61b170cf13832d4cfe2a0c744e621a7 ]
 
-[Why]
-The latest DP spec requires the DP TX to read DPCD F0000h through F0009h
-when detecting LTTPR capabilities for the first time.
+This reverts commit 13437c91606c9232c747475e202fe3827cd53264.
 
-[How]
-Update LTTPR cap retrieval to read up to F0009h (two more bytes than the
-previous F0007h), and store the LTTPR ALPM capabilities.
+Reason to revert: idle power regression found in testing.
 
-Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
-Signed-off-by: George Shen <george.shen@amd.com>
+Reviewed-by: Dillon Varone <dillon.varone@amd.com>
+Signed-off-by: Leo Zeng <Leo.Zeng@amd.com>
 Signed-off-by: Roman Li <roman.li@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dc_dp_types.h         | 12 ++++++++++++
- .../display/dc/link/protocols/link_dp_capability.c   |  6 +++++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
-index 41bd95e9177a4..223c3d55544b2 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
-@@ -959,6 +959,14 @@ union dp_128b_132b_supported_lttpr_link_rates {
- 	uint8_t raw;
- };
- 
-+union dp_alpm_lttpr_cap {
-+	struct {
-+		uint8_t AUX_LESS_ALPM_SUPPORTED	:1;
-+		uint8_t RESERVED				:7;
-+	} bits;
-+	uint8_t raw;
-+};
-+
- union dp_sink_video_fallback_formats {
- 	struct {
- 		uint8_t dp_1024x768_60Hz_24bpp_support	:1;
-@@ -1103,6 +1111,7 @@ struct dc_lttpr_caps {
- 	uint8_t max_ext_timeout;
- 	union dp_main_link_channel_coding_lttpr_cap main_link_channel_coding;
- 	union dp_128b_132b_supported_lttpr_link_rates supported_128b_132b_rates;
-+	union dp_alpm_lttpr_cap alpm;
- 	uint8_t aux_rd_interval[MAX_REPEATER_CNT - 1];
- };
- 
-@@ -1352,6 +1361,9 @@ struct dp_trace {
- #ifndef DPCD_MAX_UNCOMPRESSED_PIXEL_RATE_CAP
- #define DPCD_MAX_UNCOMPRESSED_PIXEL_RATE_CAP    0x221c
- #endif
-+#ifndef DP_LTTPR_ALPM_CAPABILITIES
-+#define DP_LTTPR_ALPM_CAPABILITIES              0xF0009
-+#endif
- #ifndef DP_REPEATER_CONFIGURATION_AND_STATUS_SIZE
- #define DP_REPEATER_CONFIGURATION_AND_STATUS_SIZE	0x50
- #endif
-diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-index d9a1e1a599674..842636c7922b4 100644
---- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-@@ -1495,7 +1495,7 @@ static bool dpcd_read_sink_ext_caps(struct dc_link *link)
- 
- enum dc_status dp_retrieve_lttpr_cap(struct dc_link *link)
- {
--	uint8_t lttpr_dpcd_data[8] = {0};
-+	uint8_t lttpr_dpcd_data[10] = {0};
- 	enum dc_status status;
- 	bool is_lttpr_present;
- 
-@@ -1545,6 +1545,10 @@ enum dc_status dp_retrieve_lttpr_cap(struct dc_link *link)
- 			lttpr_dpcd_data[DP_PHY_REPEATER_128B132B_RATES -
- 							DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV];
- 
-+	link->dpcd_caps.lttpr_caps.alpm.raw =
-+			lttpr_dpcd_data[DP_LTTPR_ALPM_CAPABILITIES -
-+							DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV];
-+
- 	/* If this chip cap is set, at least one retimer must exist in the chain
- 	 * Override count to 1 if we receive a known bad count (0 or an invalid value) */
- 	if ((link->chip_caps & EXT_DISPLAY_PATH_CAPS__DP_FIXED_VS_EN) &&
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+index 56dda686e2992..6f490d8d7038c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+@@ -626,7 +626,6 @@ static bool dcn32_assign_subvp_pipe(struct dc *dc,
+ 		 * - Not TMZ surface
+ 		 */
+ 		if (pipe->plane_state && !pipe->top_pipe && !pipe->prev_odm_pipe && !dcn32_is_center_timing(pipe) &&
+-				!pipe->stream->hw_cursor_req &&
+ 				!(pipe->stream->timing.pix_clk_100hz / 10000 > DCN3_2_MAX_SUBVP_PIXEL_RATE_MHZ) &&
+ 				(!dcn32_is_psr_capable(pipe) || (context->stream_count == 1 && dc->caps.dmub_caps.subvp_psr)) &&
+ 				dc_state_get_pipe_subvp_type(context, pipe) == SUBVP_NONE &&
 -- 
 2.39.5
 
