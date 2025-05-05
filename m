@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7909AAAA3ED
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:22:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71090AAA3EE
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:22:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB8EB10E623;
-	Mon,  5 May 2025 23:21:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D30F010E624;
+	Mon,  5 May 2025 23:22:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JN5DZ096";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D8T4pYfT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C755010E623
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:21:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09C9F10E624
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:22:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 04FB044766;
- Mon,  5 May 2025 23:21:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0224C4CEEF;
- Mon,  5 May 2025 23:21:57 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 3C535436EE;
+ Mon,  5 May 2025 23:21:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB351C4CEED;
+ Mon,  5 May 2025 23:21:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746487318;
- bh=Ri+uoAYihEtW5+8ixH8UW6Kg4Ak/15ZETE//xeGI+vo=;
+ s=k20201202; t=1746487320;
+ bh=T7EMemMyTU2IT4FDrEcyhH1Vkm79OdN/MGy0fEqQJRw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JN5DZ096esX8Ul5MhAlFjBccs26kgNM6ArDUmRgmZMyrsIrQGoQ0uEPC70dBunhes
- MkdeHr5YaFqIU720OJQ1CbhD0th93FTq6Ma4TIKprHN4Nnook/ISHyLwzENetoy4rK
- YeoBoGXyCWb914Jc3gKxqSgX28g6SbKk4ony5aiUXBeFymylTPhLTM1dk4N8hC8KRp
- o4yACMPdU1XVFCmBCHLovv+4K3VeKW7A7EvFSuNxDDvdoXJpXuivdkQqLs1qdzuuxC
- QLKqgQEbiBfn+1LwWMrzIq1E/olYbQCtc0/n9KO3o23XzcKXi9NPfhn+dXP4OfSDm9
- hRqOTlVnAt7hw==
+ b=D8T4pYfTe7x/axMCcRxFSFL5QitGI/VwpGO8qtP6G44ksBVduG67gayF2yQkWQrvx
+ AyawY9sOL0wQl8yShEabakqGQjBss/DAff4yK/N7LzdeX1Kx1RJ1fUODHYnV4+nN/J
+ EVGNDi1Or5XUFCxsoUwYMGusSkHmZByHxMV8ZA+KMNScLYTdGPZQxaiHrT2karx5HN
+ +P6/XF6bgERpTxpw0H1iDPixk0ZR8WSNON69VsSPlwEqmtdNFNRsqsICKd0xB6nt0g
+ R1HerTdkQLeduEInM7Omh8/3OQXwvSvHoPzPfS8SRVgIwKUnr3iAATUnzjCH9esm8R
+ 4xyrlBFvAiBkg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shixiong Ou <oushixiong@kylinos.cn>, Helge Deller <deller@gmx.de>,
- Sasha Levin <sashal@kernel.org>, timur@kernel.org,
+Cc: Zsolt Kajtar <soci@c64.rulez.org>, Helge Deller <deller@gmx.de>,
+ Sasha Levin <sashal@kernel.org>, simona@ffwll.ch,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 03/79] fbdev: fsl-diu-fb: add missing
- device_remove_file()
-Date: Mon,  5 May 2025 19:20:35 -0400
-Message-Id: <20250505232151.2698893-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 04/79] fbdev: core: tileblit: Implement missing
+ margin clearing for tileblit
+Date: Mon,  5 May 2025 19:20:36 -0400
+Message-Id: <20250505232151.2698893-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505232151.2698893-1-sashal@kernel.org>
 References: <20250505232151.2698893-1-sashal@kernel.org>
@@ -63,31 +63,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+From: Zsolt Kajtar <soci@c64.rulez.org>
 
-[ Upstream commit 86d16cd12efa547ed43d16ba7a782c1251c80ea8 ]
+[ Upstream commit 76d3ca89981354e1f85a3e0ad9ac4217d351cc72 ]
 
-Call device_remove_file() when driver remove.
+I was wondering why there's garbage at the bottom of the screen when
+tile blitting is used with an odd mode like 1080, 600 or 200. Sure there's
+only space for half a tile but the same area is clean when the buffer
+is bitmap.
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+Then later I found that it's supposed to be cleaned but that's not
+implemented. So I took what's in bitblit and adapted it for tileblit.
+
+This implementation was tested for both the horizontal and vertical case,
+and now does the same as what's done for bitmap buffers.
+
+If anyone is interested to reproduce the problem then I could bet that'd
+be on a S3 or Ark. Just set up a mode with an odd line count and make
+sure that the virtual size covers the complete tile at the bottom. E.g.
+for 600 lines that's 608 virtual lines for a 16 tall tile. Then the
+bottom area should be cleaned.
+
+For the right side it's more difficult as there the drivers won't let an
+odd size happen, unless the code is modified. But once it reports back a
+few pixel columns short then fbcon won't use the last column. With the
+patch that column is now clean.
+
+Btw. the virtual size should be rounded up by the driver for both axes
+(not only the horizontal) so that it's dividable by the tile size.
+That's a driver bug but correcting it is not in scope for this patch.
+
+Implement missing margin clearing for tileblit
+
+Signed-off-by: Zsolt Kajtar <soci@c64.rulez.org>
 Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/fsl-diu-fb.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/video/fbdev/core/tileblit.c | 37 ++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
-index d4c2a6b3839ec..3dc399704adc1 100644
---- a/drivers/video/fbdev/fsl-diu-fb.c
-+++ b/drivers/video/fbdev/fsl-diu-fb.c
-@@ -1828,6 +1828,7 @@ static int fsl_diu_remove(struct platform_device *pdev)
- 	int i;
+diff --git a/drivers/video/fbdev/core/tileblit.c b/drivers/video/fbdev/core/tileblit.c
+index adff8d6ffe6f9..64c60fcb92d75 100644
+--- a/drivers/video/fbdev/core/tileblit.c
++++ b/drivers/video/fbdev/core/tileblit.c
+@@ -77,7 +77,42 @@ static void tile_putcs(struct vc_data *vc, struct fb_info *info,
+ static void tile_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 			       int color, int bottom_only)
+ {
+-	return;
++	unsigned int cw = vc->vc_font.width;
++	unsigned int ch = vc->vc_font.height;
++	unsigned int rw = info->var.xres - (vc->vc_cols*cw);
++	unsigned int bh = info->var.yres - (vc->vc_rows*ch);
++	unsigned int rs = info->var.xres - rw;
++	unsigned int bs = info->var.yres - bh;
++	unsigned int vwt = info->var.xres_virtual / cw;
++	unsigned int vht = info->var.yres_virtual / ch;
++	struct fb_tilerect rect;
++
++	rect.index = vc->vc_video_erase_char &
++		((vc->vc_hi_font_mask) ? 0x1ff : 0xff);
++	rect.fg = color;
++	rect.bg = color;
++
++	if ((int) rw > 0 && !bottom_only) {
++		rect.sx = (info->var.xoffset + rs + cw - 1) / cw;
++		rect.sy = 0;
++		rect.width = (rw + cw - 1) / cw;
++		rect.height = vht;
++		if (rect.width + rect.sx > vwt)
++			rect.width = vwt - rect.sx;
++		if (rect.sx < vwt)
++			info->tileops->fb_tilefill(info, &rect);
++	}
++
++	if ((int) bh > 0) {
++		rect.sx = info->var.xoffset / cw;
++		rect.sy = (info->var.yoffset + bs) / ch;
++		rect.width = rs / cw;
++		rect.height = (bh + ch - 1) / ch;
++		if (rect.height + rect.sy > vht)
++			rect.height = vht - rect.sy;
++		if (rect.sy < vht)
++			info->tileops->fb_tilefill(info, &rect);
++	}
+ }
  
- 	data = dev_get_drvdata(&pdev->dev);
-+	device_remove_file(&pdev->dev, &data->dev_attr);
- 	disable_lcdc(&data->fsl_diu_info[0]);
- 
- 	free_irq(data->irq, data->diu_reg);
+ static void tile_cursor(struct vc_data *vc, struct fb_info *info, int mode,
 -- 
 2.39.5
 
