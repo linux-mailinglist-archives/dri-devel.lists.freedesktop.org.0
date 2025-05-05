@@ -2,56 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7691DAAA0C4
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2213CAAA0C5
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:38:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4BD410E503;
-	Mon,  5 May 2025 22:38:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C34A10E0E6;
+	Mon,  5 May 2025 22:38:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TjVWBrcG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NHyV6H2U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90F0910E503
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:38:44 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D22CE10E0E6
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:38:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 32392A4CF83;
- Mon,  5 May 2025 22:33:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB8C3C4CEEE;
- Mon,  5 May 2025 22:38:41 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 104F949D27;
+ Mon,  5 May 2025 22:38:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 055E9C4CEE4;
+ Mon,  5 May 2025 22:38:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484723;
- bh=UCniFifRyOgWkiIOjJhH5XF41uttbGOwqSC2QXJWxvg=;
+ s=k20201202; t=1746484725;
+ bh=i5KDcsJRxpsGRgzCsGV1PrbgVlBZ7u+DRvn7a7HomWM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TjVWBrcGazZLdJIIdnAORgzYGg7Pa70h3jVsoftIwO2YddFeBC76F3q0Tg0Ofb2Oz
- hdBwBIxixQQrgvBK31HPSBW2a200iwlbj7ALbD2tRRVohuG+3tv5TQMpO5dfMTC/hk
- iBFLyqrSeI4z2UlRBZ7fgDa3IKvy8jE8TCla6ZsFSpuyZ6/pQcm6ZDmfzZXpspHtn7
- M+mDYinDkLllpXUS9ohn9UE2wrfCSHg81E/ljqb5GpqEKZm7CQf60CBuj54bP/tDVD
- lWXdP7haBM329A101vd5kiQ/3XyPiOIGsptA8IK2CU7StKURjDmxSbRFV9BBnr8nyV
- AabMod9vUxQ1g==
+ b=NHyV6H2UO8LHJQJjY68pePli1ytYI1qvZWUBV5bnLCF7ct+kJK1uW9YXzmxjsXK9M
+ g7toQd2zJ0cDFxlaO5C4YCeJHH5dVnyfVoYJNG2QY4MHARNWleJXUIXKoZ1MH3B/Ck
+ YiswfIHbLp+6UTUiVevsad5CrRswEvL6FryfXIib+Crt44XrsTWoAguK35C8AavgHX
+ 1WbG/TvJXH8QHyWuB+BsZeJPJgRZjvjsnin0dS2b02D1u5d0pFEWTqAGZc+KRISAxW
+ C52YIF/X7/iG4mkRP/bDGINKblInDayUUdd5aV2tx4g+nM5rMMcTKBGad/1Y4/jWD/
+ RkF5CZCAOLPCQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andyshrk@163.com>,
- Anusha Srivatsa <asrivats@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 6.14 628/642] drm/gem: Internally test import_attach
- for imported objects
-Date: Mon,  5 May 2025 18:14:04 -0400
-Message-Id: <20250505221419.2672473-628-sashal@kernel.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Eric Auger <eauger@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Sasha Levin <sashal@kernel.org>, airlied@redhat.com, kraxel@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ simona@ffwll.ch, jasowang@redhat.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.14 629/642] virtgpu: don't reset on shutdown
+Date: Mon,  5 May 2025 18:14:05 -0400
+Message-Id: <20250505221419.2672473-629-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
@@ -71,61 +65,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+From: "Michael S. Tsirkin" <mst@redhat.com>
 
-[ Upstream commit 8260731ccad0451207b45844bb66eb161a209218 ]
+[ Upstream commit 183a08715af1491d381b4e22efd61578fbe05fa5 ]
 
-Test struct drm_gem_object.import_attach to detect imported objects.
+It looks like GPUs are used after shutdown is invoked.
+Thus, breaking virtio gpu in the shutdown callback is not a good idea -
+guest hangs attempting to finish console drawing, with these warnings:
 
-During object clenanup, the dma_buf field might be NULL. Testing it in
-an object's free callback then incorrectly does a cleanup as for native
-objects. Happens for calls to drm_mode_destroy_dumb_ioctl() that
-clears the dma_buf field in drm_gem_object_exported_dma_buf_free().
+[   20.504464] WARNING: CPU: 0 PID: 568 at drivers/gpu/drm/virtio/virtgpu_vq.c:358 virtio_gpu_queue_ctrl_sgs+0x236/0x290 [virtio_gpu]
+[   20.505685] Modules linked in: nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set nf_tables nfnetlink vfat fat intel_rapl_msr intel_rapl_common intel_uncore_frequency_common nfit libnvdimm kvm_intel kvm rapl iTCO_wdt iTCO_vendor_support virtio_gpu virtio_dma_buf pcspkr drm_shmem_helper i2c_i801 drm_kms_helper lpc_ich i2c_smbus virtio_balloon joydev drm fuse xfs libcrc32c ahci libahci crct10dif_pclmul crc32_pclmul crc32c_intel libata virtio_net ghash_clmulni_intel net_failover virtio_blk failover serio_raw dm_mirror dm_region_hash dm_log dm_mod
+[   20.511847] CPU: 0 PID: 568 Comm: kworker/0:3 Kdump: loaded Tainted: G        W         -------  ---  5.14.0-578.6675_1757216455.el9.x86_64 #1
+[   20.513157] Hardware name: Red Hat KVM/RHEL, BIOS edk2-20241117-3.el9 11/17/2024
+[   20.513918] Workqueue: events drm_fb_helper_damage_work [drm_kms_helper]
+[   20.514626] RIP: 0010:virtio_gpu_queue_ctrl_sgs+0x236/0x290 [virtio_gpu]
+[   20.515332] Code: 00 00 48 85 c0 74 0c 48 8b 78 08 48 89 ee e8 51 50 00 00 65 ff 0d 42 e3 74 3f 0f 85 69 ff ff ff 0f 1f 44 00 00 e9 5f ff ff ff <0f> 0b e9 3f ff ff ff 48 83 3c 24 00 74 0e 49 8b 7f 40 48 85 ff 74
+[   20.517272] RSP: 0018:ff34f0a8c0787ad8 EFLAGS: 00010282
+[   20.517820] RAX: 00000000fffffffb RBX: 0000000000000000 RCX: 0000000000000820
+[   20.518565] RDX: 0000000000000000 RSI: ff34f0a8c0787be0 RDI: ff218bef03a26300
+[   20.519308] RBP: ff218bef03a26300 R08: 0000000000000001 R09: ff218bef07224360
+[   20.520059] R10: 0000000000008dc0 R11: 0000000000000002 R12: ff218bef02630028
+[   20.520806] R13: ff218bef0263fb48 R14: ff218bef00cb8000 R15: ff218bef07224360
+[   20.521555] FS:  0000000000000000(0000) GS:ff218bef7ba00000(0000) knlGS:0000000000000000
+[   20.522397] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   20.522996] CR2: 000055ac4f7871c0 CR3: 000000010b9f2002 CR4: 0000000000771ef0
+[   20.523740] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   20.524477] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+[   20.525223] PKRU: 55555554
+[   20.525515] Call Trace:
+[   20.525777]  <TASK>
+[   20.526003]  ? show_trace_log_lvl+0x1c4/0x2df
+[   20.526464]  ? show_trace_log_lvl+0x1c4/0x2df
+[   20.526925]  ? virtio_gpu_queue_fenced_ctrl_buffer+0x82/0x2c0 [virtio_gpu]
+[   20.527643]  ? virtio_gpu_queue_ctrl_sgs+0x236/0x290 [virtio_gpu]
+[   20.528282]  ? __warn+0x7e/0xd0
+[   20.528621]  ? virtio_gpu_queue_ctrl_sgs+0x236/0x290 [virtio_gpu]
+[   20.529256]  ? report_bug+0x100/0x140
+[   20.529643]  ? handle_bug+0x3c/0x70
+[   20.530010]  ? exc_invalid_op+0x14/0x70
+[   20.530421]  ? asm_exc_invalid_op+0x16/0x20
+[   20.530862]  ? virtio_gpu_queue_ctrl_sgs+0x236/0x290 [virtio_gpu]
+[   20.531506]  ? virtio_gpu_queue_ctrl_sgs+0x174/0x290 [virtio_gpu]
+[   20.532148]  virtio_gpu_queue_fenced_ctrl_buffer+0x82/0x2c0 [virtio_gpu]
+[   20.532843]  virtio_gpu_primary_plane_update+0x3e2/0x460 [virtio_gpu]
+[   20.533520]  drm_atomic_helper_commit_planes+0x108/0x320 [drm_kms_helper]
+[   20.534233]  drm_atomic_helper_commit_tail+0x45/0x80 [drm_kms_helper]
+[   20.534914]  commit_tail+0xd2/0x130 [drm_kms_helper]
+[   20.535446]  drm_atomic_helper_commit+0x11b/0x140 [drm_kms_helper]
+[   20.536097]  drm_atomic_commit+0xa4/0xe0 [drm]
+[   20.536588]  ? __pfx___drm_printfn_info+0x10/0x10 [drm]
+[   20.537162]  drm_atomic_helper_dirtyfb+0x192/0x270 [drm_kms_helper]
+[   20.537823]  drm_fbdev_shmem_helper_fb_dirty+0x43/0xa0 [drm_shmem_helper]
+[   20.538536]  drm_fb_helper_damage_work+0x87/0x160 [drm_kms_helper]
+[   20.539188]  process_one_work+0x194/0x380
+[   20.539612]  worker_thread+0x2fe/0x410
+[   20.540007]  ? __pfx_worker_thread+0x10/0x10
+[   20.540456]  kthread+0xdd/0x100
+[   20.540791]  ? __pfx_kthread+0x10/0x10
+[   20.541190]  ret_from_fork+0x29/0x50
+[   20.541566]  </TASK>
+[   20.541802] ---[ end trace 0000000000000000 ]---
 
-v3:
-- only test for import_attach (Boris)
-v2:
-- use import_attach.dmabuf instead of dma_buf (Christian)
+It looks like the shutdown is called in the middle of console drawing, so
+we should either wait for it to finish, or let drm handle the shutdown.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
-Reported-by: Andy Yan <andyshrk@163.com>
-Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
-Tested-by: Andy Yan <andyshrk@163.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-Link: https://lore.kernel.org/r/20250416065820.26076-1-tzimmermann@suse.de
+This patch implements this second option:
+
+Add an option for drivers to bypass the common break+reset handling.
+As DRM is careful to flush/synchronize outstanding buffers, it looks like
+GPU can just have a NOP there.
+
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Tested-by: Eric Auger <eric.auger@redhat.com>
+Fixes: 8bd2fa086a04 ("virtio: break and reset virtio devices on device_shutdown()")
+Cc: Eric Auger <eauger@redhat.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <8490dbeb6f79ed039e6c11d121002618972538a3.1744293540.git.mst@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/drm/drm_gem.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.c | 9 +++++++++
+ drivers/virtio/virtio.c              | 6 ++++++
+ include/linux/virtio.h               | 3 +++
+ 3 files changed, 18 insertions(+)
 
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 2bf893eabb4b2..bcd54020d6ba5 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -585,8 +585,7 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
-  */
- static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
- {
--	/* The dma-buf's priv field points to the original GEM object. */
--	return obj->dma_buf && (obj->dma_buf->priv != obj);
-+	return !!obj->import_attach;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index 6a67c6297d583..8719b778a1ff0 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -125,6 +125,14 @@ static void virtio_gpu_remove(struct virtio_device *vdev)
+ 	drm_dev_put(dev);
  }
  
- #ifdef CONFIG_LOCKDEP
++static void virtio_gpu_shutdown(struct virtio_device *vdev)
++{
++	/*
++	 * drm does its own synchronization on shutdown.
++	 * Do nothing here, opt out of device reset.
++	 */
++}
++
+ static void virtio_gpu_config_changed(struct virtio_device *vdev)
+ {
+ 	struct drm_device *dev = vdev->priv;
+@@ -159,6 +167,7 @@ static struct virtio_driver virtio_gpu_driver = {
+ 	.id_table = id_table,
+ 	.probe = virtio_gpu_probe,
+ 	.remove = virtio_gpu_remove,
++	.shutdown = virtio_gpu_shutdown,
+ 	.config_changed = virtio_gpu_config_changed
+ };
+ 
+diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+index 150753c3b5782..95d5d7993e5b1 100644
+--- a/drivers/virtio/virtio.c
++++ b/drivers/virtio/virtio.c
+@@ -407,6 +407,12 @@ static void virtio_dev_shutdown(struct device *_d)
+ 	if (!drv)
+ 		return;
+ 
++	/* If the driver has its own shutdown method, use that. */
++	if (drv->shutdown) {
++		drv->shutdown(dev);
++		return;
++	}
++
+ 	/*
+ 	 * Some devices get wedged if you kick them after they are
+ 	 * reset. Mark all vqs as broken to make sure we don't.
+diff --git a/include/linux/virtio.h b/include/linux/virtio.h
+index 4d16c13d0df58..64cb4b04be7ad 100644
+--- a/include/linux/virtio.h
++++ b/include/linux/virtio.h
+@@ -220,6 +220,8 @@ size_t virtio_max_dma_size(const struct virtio_device *vdev);
+  *    occurs.
+  * @reset_done: optional function to call after transport specific reset
+  *    operation has finished.
++ * @shutdown: synchronize with the device on shutdown. If provided, replaces
++ *    the virtio core implementation.
+  */
+ struct virtio_driver {
+ 	struct device_driver driver;
+@@ -237,6 +239,7 @@ struct virtio_driver {
+ 	int (*restore)(struct virtio_device *dev);
+ 	int (*reset_prepare)(struct virtio_device *dev);
+ 	int (*reset_done)(struct virtio_device *dev);
++	void (*shutdown)(struct virtio_device *dev);
+ };
+ 
+ #define drv_to_virtio(__drv)	container_of_const(__drv, struct virtio_driver, driver)
 -- 
 2.39.5
 
