@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71090AAA3EE
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BA4AAA404
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:23:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D30F010E624;
-	Mon,  5 May 2025 23:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 272BC10E626;
+	Mon,  5 May 2025 23:23:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D8T4pYfT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WadDTc1F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09C9F10E624
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:22:01 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49FD010E626
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:23:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3C535436EE;
- Mon,  5 May 2025 23:21:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB351C4CEED;
- Mon,  5 May 2025 23:21:59 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id DDB75A4D430;
+ Mon,  5 May 2025 23:17:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9ADCC4CEEF;
+ Mon,  5 May 2025 23:22:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746487320;
- bh=T7EMemMyTU2IT4FDrEcyhH1Vkm79OdN/MGy0fEqQJRw=;
+ s=k20201202; t=1746487381;
+ bh=9Ys7afrd71WE0czUqk3Z040B9YIQFITKH1LoDScPqSY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=D8T4pYfTe7x/axMCcRxFSFL5QitGI/VwpGO8qtP6G44ksBVduG67gayF2yQkWQrvx
- AyawY9sOL0wQl8yShEabakqGQjBss/DAff4yK/N7LzdeX1Kx1RJ1fUODHYnV4+nN/J
- EVGNDi1Or5XUFCxsoUwYMGusSkHmZByHxMV8ZA+KMNScLYTdGPZQxaiHrT2karx5HN
- +P6/XF6bgERpTxpw0H1iDPixk0ZR8WSNON69VsSPlwEqmtdNFNRsqsICKd0xB6nt0g
- R1HerTdkQLeduEInM7Omh8/3OQXwvSvHoPzPfS8SRVgIwKUnr3iAATUnzjCH9esm8R
- 4xyrlBFvAiBkg==
+ b=WadDTc1FHKj8phqxJF8gW8he8WUQcICY5lML9v5OPUh1pGXqQkV0DWWGD1NidrCMj
+ DQQYKcRr4CBHPBqtvWl5lMbePb4nvSaMJ22K9VDswSygsHwbuIAdqnO9GHs4todV5m
+ 7tLXyZZhuBY5HEUFVSMgFFkqZ0QZJBw2NUfUsbNz3h1ASnv2Vsc4ARSaf95ysMRykC
+ jWK0Kg0fPrwal7pgL+RGRw59KoJy0plCwiffY2xkhF9Qf/ZTGfDqWm7xym5WwsSVwC
+ fuinfwwXgwuwyPZuLRLAmu5c7hvAUXd5ISkBbxZpSsyxWuvfPhebsw8+OTXXnD5hUq
+ kP1VUMXckXJ4w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zsolt Kajtar <soci@c64.rulez.org>, Helge Deller <deller@gmx.de>,
- Sasha Levin <sashal@kernel.org>, simona@ffwll.ch,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 04/79] fbdev: core: tileblit: Implement missing
- margin clearing for tileblit
-Date: Mon,  5 May 2025 19:20:36 -0400
-Message-Id: <20250505232151.2698893-4-sashal@kernel.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, p.zabel@pengutronix.de, airlied@gmail.com,
+ simona@ffwll.ch, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.4 39/79] drm/mediatek: mtk_dpi: Add checks for
+ reg_h_fre_con existence
+Date: Mon,  5 May 2025 19:21:11 -0400
+Message-Id: <20250505232151.2698893-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505232151.2698893-1-sashal@kernel.org>
 References: <20250505232151.2698893-1-sashal@kernel.org>
@@ -63,93 +65,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zsolt Kajtar <soci@c64.rulez.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-[ Upstream commit 76d3ca89981354e1f85a3e0ad9ac4217d351cc72 ]
+[ Upstream commit 8c9da7cd0bbcc90ab444454fecf535320456a312 ]
 
-I was wondering why there's garbage at the bottom of the screen when
-tile blitting is used with an odd mode like 1080, 600 or 200. Sure there's
-only space for half a tile but the same area is clean when the buffer
-is bitmap.
+In preparation for adding support for newer DPI instances which
+do support direct-pin but do not have any H_FRE_CON register,
+like the one found in MT8195 and MT8188, add a branch to check
+if the reg_h_fre_con variable was declared in the mtk_dpi_conf
+structure for the probed SoC DPI version.
 
-Then later I found that it's supposed to be cleaned but that's not
-implemented. So I took what's in bitblit and adapted it for tileblit.
+As a note, this is useful specifically only for cases in which
+the support_direct_pin variable is true, so mt8195-dpintf is
+not affected by any issue.
 
-This implementation was tested for both the horizontal and vertical case,
-and now does the same as what's done for bitmap buffers.
-
-If anyone is interested to reproduce the problem then I could bet that'd
-be on a S3 or Ark. Just set up a mode with an odd line count and make
-sure that the virtual size covers the complete tile at the bottom. E.g.
-for 600 lines that's 608 virtual lines for a 16 tall tile. Then the
-bottom area should be cleaned.
-
-For the right side it's more difficult as there the drivers won't let an
-odd size happen, unless the code is modified. But once it reports back a
-few pixel columns short then fbcon won't use the last column. With the
-patch that column is now clean.
-
-Btw. the virtual size should be rounded up by the driver for both axes
-(not only the horizontal) so that it's dividable by the tile size.
-That's a driver bug but correcting it is not in scope for this patch.
-
-Implement missing margin clearing for tileblit
-
-Signed-off-by: Zsolt Kajtar <soci@c64.rulez.org>
-Signed-off-by: Helge Deller <deller@gmx.de>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Link: https://patchwork.kernel.org/project/dri-devel/patch/20250217154836.108895-6-angelogioacchino.delregno@collabora.com/
+Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/core/tileblit.c | 37 ++++++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/tileblit.c b/drivers/video/fbdev/core/tileblit.c
-index adff8d6ffe6f9..64c60fcb92d75 100644
---- a/drivers/video/fbdev/core/tileblit.c
-+++ b/drivers/video/fbdev/core/tileblit.c
-@@ -77,7 +77,42 @@ static void tile_putcs(struct vc_data *vc, struct fb_info *info,
- static void tile_clear_margins(struct vc_data *vc, struct fb_info *info,
- 			       int color, int bottom_only)
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index 191e0cec004b4..6d105e8aae459 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -337,12 +337,13 @@ static void mtk_dpi_config_swap_input(struct mtk_dpi *dpi, bool enable)
+ 
+ static void mtk_dpi_config_2n_h_fre(struct mtk_dpi *dpi)
  {
--	return;
-+	unsigned int cw = vc->vc_font.width;
-+	unsigned int ch = vc->vc_font.height;
-+	unsigned int rw = info->var.xres - (vc->vc_cols*cw);
-+	unsigned int bh = info->var.yres - (vc->vc_rows*ch);
-+	unsigned int rs = info->var.xres - rw;
-+	unsigned int bs = info->var.yres - bh;
-+	unsigned int vwt = info->var.xres_virtual / cw;
-+	unsigned int vht = info->var.yres_virtual / ch;
-+	struct fb_tilerect rect;
-+
-+	rect.index = vc->vc_video_erase_char &
-+		((vc->vc_hi_font_mask) ? 0x1ff : 0xff);
-+	rect.fg = color;
-+	rect.bg = color;
-+
-+	if ((int) rw > 0 && !bottom_only) {
-+		rect.sx = (info->var.xoffset + rs + cw - 1) / cw;
-+		rect.sy = 0;
-+		rect.width = (rw + cw - 1) / cw;
-+		rect.height = vht;
-+		if (rect.width + rect.sx > vwt)
-+			rect.width = vwt - rect.sx;
-+		if (rect.sx < vwt)
-+			info->tileops->fb_tilefill(info, &rect);
-+	}
-+
-+	if ((int) bh > 0) {
-+		rect.sx = info->var.xoffset / cw;
-+		rect.sy = (info->var.yoffset + bs) / ch;
-+		rect.width = rs / cw;
-+		rect.height = (bh + ch - 1) / ch;
-+		if (rect.height + rect.sy > vht)
-+			rect.height = vht - rect.sy;
-+		if (rect.sy < vht)
-+			info->tileops->fb_tilefill(info, &rect);
-+	}
+-	mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, H_FRE_2N, H_FRE_2N);
++	if (dpi->conf->reg_h_fre_con)
++		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, H_FRE_2N, H_FRE_2N);
  }
  
- static void tile_cursor(struct vc_data *vc, struct fb_info *info, int mode,
+ static void mtk_dpi_config_disable_edge(struct mtk_dpi *dpi)
+ {
+-	if (dpi->conf->edge_sel_en)
++	if (dpi->conf->edge_sel_en && dpi->conf->reg_h_fre_con)
+ 		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0, EDGE_SEL_EN);
+ }
+ 
 -- 
 2.39.5
 
