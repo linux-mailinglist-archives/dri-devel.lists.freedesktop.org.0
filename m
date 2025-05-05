@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC15CAAA031
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:32:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88EC2AAA035
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:32:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12C0F10E4B6;
-	Mon,  5 May 2025 22:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E159910E4BC;
+	Mon,  5 May 2025 22:32:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C3eXXpsb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bxotl+Cx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFA4210E4B6;
- Mon,  5 May 2025 22:32:38 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E69B10E4B9;
+ Mon,  5 May 2025 22:32:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 520A8A4CDE5;
- Mon,  5 May 2025 22:27:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3CA8C4CEE4;
- Mon,  5 May 2025 22:32:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E5EFE5C55C5;
+ Mon,  5 May 2025 22:30:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E41C3C4CEE4;
+ Mon,  5 May 2025 22:32:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484357;
- bh=5xFZxXsa3z2FbEwTNIIJcagFR1fve397uQSS9+L3Qsg=;
+ s=k20201202; t=1746484360;
+ bh=eJzNfnN3jGhOzCWCY+HCLm6FOF8VBEZD9BO5A5izIkU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C3eXXpsbyLLQ0CafWYhAPK/fdIb6fIAk3VfbrIyOH/HpKfxn4y3MgS5/PiwvczTwV
- GLrl3UeRWox6txsGWS0R9ESL6+kNftXDXRAAhGO1vNEaAR9BAxcVjDxWxC2ayB/av2
- qHnJMHNdxgOyx9UOPrnYTJdmvzzaUGrQoVamhy6vtfCz3nQhBW8ExOa7JhyFc7wpuG
- wCQPN7X+q524chINUedT44m/lw37YhOunN564PxTbRhJVwciyk8A7FguSUZW2GYlih
- 9VIC0nFe4wiOw0Thys5TGfnnlJIt0AslUWhQ5gGR7ZnOb6OkaIv9Tft0G92D0+dNbr
- H3ympe16a0K6g==
+ b=bxotl+Cxo2bOYfgbCfEVcuoe5w3AdY5+h2KGiFK5ASVicVuq6DF7ynN+TgDJv9IY7
+ 8xqMICXsSqsjo4gS11SoAvDn3TEjsd5QA4jnvnZnN7GNFCK0n/LkFsm3XkyZ4S0M1E
+ kooVRCWkR1ed2IEr29dOyaJmmZGXw9qXpdPNWwXqBaeu3GJiaceCOZ3bLMrkMJkWDa
+ XMBv02H5umy0ANiEa1uJX0ICF3TGtPgPvnr6Uw9G7IESzx9ygFBcCUNJ8PQ82w1yXI
+ ZpMKn0HhXIggcUbzmQdB4lDnj/ydKn1PZ6TqPRPH6RvR4DWrCBiddn2vF4IsaGkQ3q
+ bizqBSECmHufA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ilya Bakoulin <Ilya.Bakoulin@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
+Cc: Jiang Liu <gerry@linux.alibaba.com>, Lijo Lazar <lijo.lazar@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, chiahsuan.chung@amd.com,
- meenakshikumar.somasundaram@amd.com, michael.strauss@amd.com,
- PeiChen.Huang@amd.com, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ Hawking.Zhang@amd.com, sunil.khatri@amd.com, candice.li@amd.com,
+ le.ma@amd.com, YiPeng.Chai@amd.com, Feifei.Xu@amd.com,
+ kevinyang.wang@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 463/642] drm/amd/display: Don't try AUX
- transactions on disconnected link
-Date: Mon,  5 May 2025 18:11:19 -0400
-Message-Id: <20250505221419.2672473-463-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 464/642] drm/amdgpu: reset psp->cmd to NULL after
+ releasing the buffer
+Date: Mon,  5 May 2025 18:11:20 -0400
+Message-Id: <20250505221419.2672473-464-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -69,55 +67,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ilya Bakoulin <Ilya.Bakoulin@amd.com>
+From: Jiang Liu <gerry@linux.alibaba.com>
 
-[ Upstream commit e8bffa52e0253cfd689813a620e64521256bc712 ]
+[ Upstream commit e92f3f94cad24154fd3baae30c6dfb918492278d ]
 
-[Why]
-Setting link DPMS off in response to HPD disconnect creates AUX
-transactions on a link that is supposed to be disconnected. This can
-cause issues in some cases when the sink re-asserts HPD and expects
-source to re-enable the link.
+Reset psp->cmd to NULL after releasing the buffer in function psp_sw_fini().
 
-[How]
-Avoid AUX transactions on disconnected link.
-
-Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
-Signed-off-by: Ilya Bakoulin <Ilya.Bakoulin@amd.com>
-Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Jiang Liu <gerry@linux.alibaba.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/link/protocols/link_dp_phy.c   | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_phy.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_phy.c
-index 2c73ac87cd665..c27ffec5d84fb 100644
---- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_phy.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_phy.c
-@@ -75,7 +75,8 @@ void dp_disable_link_phy(struct dc_link *link,
- 	struct dc  *dc = link->ctx->dc;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index e5fc80ed06eae..665cc277cdc05 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -533,7 +533,6 @@ static int psp_sw_fini(struct amdgpu_ip_block *ip_block)
+ {
+ 	struct amdgpu_device *adev = ip_block->adev;
+ 	struct psp_context *psp = &adev->psp;
+-	struct psp_gfx_cmd_resp *cmd = psp->cmd;
  
- 	if (!link->wa_flags.dp_keep_receiver_powered &&
--		!link->skip_implict_edp_power_control)
-+			!link->skip_implict_edp_power_control &&
-+			link->type != dc_connection_none)
- 		dpcd_write_rx_power_ctrl(link, false);
+ 	psp_memory_training_fini(psp);
  
- 	dc->hwss.disable_link_output(link, link_res, signal);
-@@ -163,8 +164,9 @@ enum dc_status dp_set_fec_ready(struct dc_link *link, const struct link_resource
- 	} else {
- 		if (link->fec_state == dc_link_fec_ready) {
- 			fec_config = 0;
--			core_link_write_dpcd(link, DP_FEC_CONFIGURATION,
--				&fec_config, sizeof(fec_config));
-+			if (link->type != dc_connection_none)
-+				core_link_write_dpcd(link, DP_FEC_CONFIGURATION,
-+					&fec_config, sizeof(fec_config));
+@@ -543,8 +542,8 @@ static int psp_sw_fini(struct amdgpu_ip_block *ip_block)
+ 	amdgpu_ucode_release(&psp->cap_fw);
+ 	amdgpu_ucode_release(&psp->toc_fw);
  
- 			link_enc->funcs->fec_set_ready(link_enc, false);
- 			link->fec_state = dc_link_fec_not_ready;
+-	kfree(cmd);
+-	cmd = NULL;
++	kfree(psp->cmd);
++	psp->cmd = NULL;
+ 
+ 	psp_free_shared_bufs(psp);
+ 
 -- 
 2.39.5
 
