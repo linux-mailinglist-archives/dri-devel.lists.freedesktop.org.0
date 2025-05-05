@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B26AAA0BD
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0591AAA0BF
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:38:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B152210E4FF;
-	Mon,  5 May 2025 22:38:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E621510E504;
+	Mon,  5 May 2025 22:38:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gvM1cW+1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qBLvJQh1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BDC510E4FF
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:38:29 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4A6D10E507
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:38:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4429C629C9;
- Mon,  5 May 2025 22:37:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 097FDC4CEEF;
- Mon,  5 May 2025 22:38:27 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 748ABA4CF83;
+ Mon,  5 May 2025 22:33:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DE33C4CEED;
+ Mon,  5 May 2025 22:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484708;
- bh=HlSzp+yEa0DoVAu3CNxQX9WBoBXnANNxvrF+hMxFmdo=;
+ s=k20201202; t=1746484710;
+ bh=iczV1HlI/2jffBDU8pp3h5oTO12sKfPrCJaQ6eo9G8s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gvM1cW+1d5Wh5g+tJC+IUvLnD6/QhnHaCx4ooNLvM+FgWQ/Q5fvFvR5ygyvmvyMDY
- uAPXaHK9T66iRu4G1yrC6it7/FJC5RopNdM5OvDiw2c3HJAp6GV+Lp4DFGP8Io04j4
- PNU+KNCf0aW1rOl3KFBWRyje3n5RszQdERxuBLQal0wIWfUHs8mWD/qLijCxSZc7Y/
- EKnH6Fdnx0tyr7rBER44qnfyFZj0CMlcNRVGIK5bHhUZ3l58GCzwqjBpZ09ZwHGdVx
- m4dmyAUD8ShTb4cVWt5x3IvcZOBY4D42LaWXxRRMEZpTxaZVMsMJGUjaUcGnKEcl/S
- qvtpSzWRS6dww==
+ b=qBLvJQh17K3tWJQ2CJMT3owIop34cYBWEygdwvV/YMTKAH+Di19KcvvAABIIP9sgG
+ v/KfYHhpNvfL3oQ2RIbXvSAT3Fp1knZm7zoYoGPn3KFmJOqKPaXNiXbIs+Dw7T0QBR
+ 6ZN7I28bnFKdCt/QYn5zNAHvqatUh4EyXh5NNINo3pjF2+BHlgQxP1mt/0fHIRnAJS
+ KMA9F39r2d8HdRKaIlkQyV3lHE2BOqCgTvqmVIobb0rf3OvPPdlAx8zDURpRhkYdrL
+ lyf6EEOX3Y3SYiOTx3c0cFatk5t2ZMocRx6hYnOSoxe/ZZVAgkbjdsPbllw6pBmP5V
+ j0HrIrtcf06EQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Karol Wachowski <karol.wachowski@intel.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Sasha Levin <sashal@kernel.org>, ogabbay@kernel.org,
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 620/642] accel/ivpu: Separate DB ID and CMDQ ID
- allocations from CMDQ allocation
-Date: Mon,  5 May 2025 18:13:56 -0400
-Message-Id: <20250505221419.2672473-620-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 621/642] drm: Add valid clones check
+Date: Mon,  5 May 2025 18:13:57 -0400
+Message-Id: <20250505221419.2672473-621-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,158 +65,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Karol Wachowski <karol.wachowski@intel.com>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
 
-[ Upstream commit 950942b4813f8c44dbec683fdb140cf4a238516b ]
+[ Upstream commit 41b4b11da02157c7474caf41d56baae0e941d01a ]
 
-Move doorbell ID and command queue ID XArray allocations from command
-queue memory allocation function. This will allow ID allocations to be
-done without the need for actual memory allocation.
+Check that all encoders attached to a given CRTC are valid
+possible_clones of each other.
 
-Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
-Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250107173238.381120-2-maciej.falkowski@linux.intel.com
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241216-concurrent-wb-v4-3-fe220297a7f0@quicinc.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/accel/ivpu/ivpu_job.c | 88 +++++++++++++++++++++++++----------
- 1 file changed, 64 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 7149312f16e19..98e53cb38ecd3 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -83,23 +83,9 @@ static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv)
- 	if (!cmdq)
- 		return NULL;
- 
--	ret = xa_alloc_cyclic(&vdev->db_xa, &cmdq->db_id, NULL, vdev->db_limit, &vdev->db_next,
--			      GFP_KERNEL);
--	if (ret < 0) {
--		ivpu_err(vdev, "Failed to allocate doorbell id: %d\n", ret);
--		goto err_free_cmdq;
--	}
--
--	ret = xa_alloc_cyclic(&file_priv->cmdq_xa, &cmdq->id, cmdq, file_priv->cmdq_limit,
--			      &file_priv->cmdq_id_next, GFP_KERNEL);
--	if (ret < 0) {
--		ivpu_err(vdev, "Failed to allocate command queue id: %d\n", ret);
--		goto err_erase_db_xa;
--	}
--
- 	cmdq->mem = ivpu_bo_create_global(vdev, SZ_4K, DRM_IVPU_BO_WC | DRM_IVPU_BO_MAPPABLE);
- 	if (!cmdq->mem)
--		goto err_erase_cmdq_xa;
-+		goto err_free_cmdq;
- 
- 	ret = ivpu_preemption_buffers_create(vdev, file_priv, cmdq);
- 	if (ret)
-@@ -107,10 +93,6 @@ static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv)
- 
- 	return cmdq;
- 
--err_erase_cmdq_xa:
--	xa_erase(&file_priv->cmdq_xa, cmdq->id);
--err_erase_db_xa:
--	xa_erase(&vdev->db_xa, cmdq->db_id);
- err_free_cmdq:
- 	kfree(cmdq);
- 	return NULL;
-@@ -233,30 +215,88 @@ static int ivpu_cmdq_fini(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cm
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 32902f77f00dd..40e4e1b6c9110 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -574,6 +574,30 @@ mode_valid(struct drm_atomic_state *state)
  	return 0;
  }
  
-+static int ivpu_db_id_alloc(struct ivpu_device *vdev, u32 *db_id)
++static int drm_atomic_check_valid_clones(struct drm_atomic_state *state,
++					 struct drm_crtc *crtc)
 +{
-+	int ret;
-+	u32 id;
++	struct drm_encoder *drm_enc;
++	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
++									  crtc);
 +
-+	ret = xa_alloc_cyclic(&vdev->db_xa, &id, NULL, vdev->db_limit, &vdev->db_next, GFP_KERNEL);
-+	if (ret < 0)
-+		return ret;
++	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
++		if (!drm_enc->possible_clones) {
++			DRM_DEBUG("enc%d possible_clones is 0\n", drm_enc->base.id);
++			continue;
++		}
 +
-+	*db_id = id;
++		if ((crtc_state->encoder_mask & drm_enc->possible_clones) !=
++		    crtc_state->encoder_mask) {
++			DRM_DEBUG("crtc%d failed valid clone check for mask 0x%x\n",
++				  crtc->base.id, crtc_state->encoder_mask);
++			return -EINVAL;
++		}
++	}
++
 +	return 0;
 +}
 +
-+static int ivpu_cmdq_id_alloc(struct ivpu_file_priv *file_priv, u32 *cmdq_id)
-+{
-+	int ret;
-+	u32 id;
+ /**
+  * drm_atomic_helper_check_modeset - validate state object for modeset changes
+  * @dev: DRM device
+@@ -745,6 +769,10 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+ 		ret = drm_atomic_add_affected_planes(state, crtc);
+ 		if (ret != 0)
+ 			return ret;
 +
-+	ret = xa_alloc_cyclic(&file_priv->cmdq_xa, &id, NULL, file_priv->cmdq_limit,
-+			      &file_priv->cmdq_id_next, GFP_KERNEL);
-+	if (ret < 0)
-+		return ret;
-+
-+	*cmdq_id = id;
-+	return 0;
-+}
-+
- static struct ivpu_cmdq *ivpu_cmdq_acquire(struct ivpu_file_priv *file_priv, u8 priority)
- {
-+	struct ivpu_device *vdev = file_priv->vdev;
- 	struct ivpu_cmdq *cmdq;
--	unsigned long cmdq_id;
-+	unsigned long id;
- 	int ret;
- 
- 	lockdep_assert_held(&file_priv->lock);
- 
--	xa_for_each(&file_priv->cmdq_xa, cmdq_id, cmdq)
-+	xa_for_each(&file_priv->cmdq_xa, id, cmdq)
- 		if (cmdq->priority == priority)
- 			break;
- 
- 	if (!cmdq) {
- 		cmdq = ivpu_cmdq_alloc(file_priv);
--		if (!cmdq)
-+		if (!cmdq) {
-+			ivpu_err(vdev, "Failed to allocate command queue\n");
- 			return NULL;
-+		}
-+
-+		ret = ivpu_db_id_alloc(vdev, &cmdq->db_id);
-+		if (ret) {
-+			ivpu_err(file_priv->vdev, "Failed to allocate doorbell ID: %d\n", ret);
-+			goto err_free_cmdq;
-+		}
-+
-+		ret = ivpu_cmdq_id_alloc(file_priv, &cmdq->id);
-+		if (ret) {
-+			ivpu_err(vdev, "Failed to allocate command queue ID: %d\n", ret);
-+			goto err_erase_db_id;
-+		}
-+
- 		cmdq->priority = priority;
-+		ret = xa_err(xa_store(&file_priv->cmdq_xa, cmdq->id, cmdq, GFP_KERNEL));
-+		if (ret) {
-+			ivpu_err(vdev, "Failed to store command queue in cmdq_xa: %d\n", ret);
-+			goto err_erase_cmdq_id;
-+		}
++		ret = drm_atomic_check_valid_clones(state, crtc);
++		if (ret != 0)
++			return ret;
  	}
  
- 	ret = ivpu_cmdq_init(file_priv, cmdq, priority);
--	if (ret)
--		return NULL;
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to initialize command queue: %d\n", ret);
-+		goto err_free_cmdq;
-+	}
- 
- 	return cmdq;
-+
-+err_erase_cmdq_id:
-+	xa_erase(&file_priv->cmdq_xa, cmdq->id);
-+err_erase_db_id:
-+	xa_erase(&vdev->db_xa, cmdq->db_id);
-+err_free_cmdq:
-+	ivpu_cmdq_free(file_priv, cmdq);
-+	return NULL;
- }
- 
- void ivpu_cmdq_release_all_locked(struct ivpu_file_priv *file_priv)
+ 	/*
 -- 
 2.39.5
 
