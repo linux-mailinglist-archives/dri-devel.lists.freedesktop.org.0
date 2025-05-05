@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0ECAAA051
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 046A8AAA055
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:33:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E61210E4CE;
-	Mon,  5 May 2025 22:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0EA10E4D3;
+	Mon,  5 May 2025 22:33:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vr/yDJhB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kOEgn2QE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5429B10E4CE;
- Mon,  5 May 2025 22:33:44 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C50B10E4D2;
+ Mon,  5 May 2025 22:33:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8021C5C5717;
- Mon,  5 May 2025 22:31:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D49C4CEED;
- Mon,  5 May 2025 22:33:40 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2A5E2A4CE36;
+ Mon,  5 May 2025 22:28:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8495C4CEE4;
+ Mon,  5 May 2025 22:33:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484423;
- bh=FhclLGWzK85HJ6Ozo0Lv6Z24S9nYh6StXcO62cH3zAw=;
+ s=k20201202; t=1746484426;
+ bh=LQuPVeC3fJNuEY74H0m/1+/IkO53Xpzz+TKlzgBh4l4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Vr/yDJhB/V7jJPDk7jzwH/bH1geFIUOzu/Yk9PW8TzGRPRjIqpvjIExIBl087xwjn
- UvzRCekb/6S4vqblvRrYyqQBg/wKa5l+zLql0V6GmGupmH+sKPLMLP/ClKF95TmeJL
- YuGW5IVfH99OVHmlLmHqfshnrFh/g+vLZ9X3avPJVHcxcLNaTlh6vwCV7NRU0hwTaB
- UBjACxIb3TIwNQNOYstzAb4/yq5lMJlZXp3/efLr8MQOnpdzgDOSTdWiP48FxNGutb
- GIWPDPFdcPgsSMrlfBH0P65yBln3gID55JqIe2hKzE+BQ2yR4nzVVXfB5g543lyLK3
- yOaUFsmjIHxCQ==
+ b=kOEgn2QEpPusdi0/oFjwqL8e/DRbj1x9vkq44gcAy3sxV0Gh+lLO5WJUxPpRV2bdl
+ AXtJbRyHImKOw5CLRsCcmpHvGlWFha2VDGxhhcU+zHWD4ZTw912NLqrIiAYUj+gzq+
+ UQyCjBAxsN/CKYJlihg1Ev4FVaIT8w2dur/mS0pWGG2Xuame9QE3VIR3CUPpNQAYPh
+ 8+Tvv+JCZ+3NMOzuu2qeTwSipQpbR6H1mpa8rsGyAgBOvYUlCXbAsKYnOam1Qj4ddJ
+ ws10PAVo4ZYmWwxnknib2SVtSRIEtdVwCmHWjalSCNAWNAZ0N0eyRwdPROh3VSQVxE
+ PfalV0zpqKTiQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Victor Skvortsov <victor.skvortsov@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
+Cc: Jiang Liu <gerry@linux.alibaba.com>,
+ Shuo Liu <shuox.liu@linux.alibaba.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- tao.zhou1@amd.com, kevinyang.wang@amd.com, YiPeng.Chai@amd.com,
- lijo.lazar@amd.com, ganglxie@amd.com, zhigang.luo@amd.com,
- Yunxiang.Li@amd.com, Jack.Xiao@amd.com, mtodorovac69@gmail.com,
- lincao12@amd.com, Tony.Yi@amd.com, Vignesh.Chander@amd.com,
- shaoyun.liu@amd.com, Emily.Deng@amd.com, srinivasan.shanmugam@amd.com,
+ sunil.khatri@amd.com, lijo.lazar@amd.com, david.rosca@amd.com,
+ Prike.Liang@amd.com, asad.kamal@amd.com, sonjiang@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 474/642] drm/amdgpu: Skip err_count sysfs
- creation on VF unsupported RAS blocks
-Date: Mon,  5 May 2025 18:11:30 -0400
-Message-Id: <20250505221419.2672473-474-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 475/642] amdgpu/soc15: enable asic reset for dGPU
+ in case of suspend abort
+Date: Mon,  5 May 2025 18:11:31 -0400
+Message-Id: <20250505221419.2672473-475-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -70,81 +68,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Victor Skvortsov <victor.skvortsov@amd.com>
+From: Jiang Liu <gerry@linux.alibaba.com>
 
-[ Upstream commit 04893397766a2b2f1bc7fe5c6414e4c0846ed171 ]
+[ Upstream commit 38e8ca3e4b6de1c6e49d0140264cfc8d314a5f70 ]
 
-VFs are not able to query error counts for all RAS blocks. Rather than
-returning error for queries on these blocks, skip sysfs the creation
-all together.
+When GPU suspend is aborted, do the same for dGPU as APU to reset
+soc15 asic. Otherwise it may cause following errors:
+[  547.229463] amdgpu 0001:81:00.0: [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring kiq_0.2.1.0 test failed (-110)
 
-Signed-off-by: Victor Skvortsov <victor.skvortsov@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+[  555.126827] amdgpu 0000:0a:00.0: [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring kiq_0.2.1.0 test failed (-110)
+[  555.126901] [drm:amdgpu_gfx_enable_kcq [amdgpu]] *ERROR* KCQ enable failed
+[  555.126957] [drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume of IP block <gfx_v9_4_3> failed -110
+[  555.126959] amdgpu 0000:0a:00.0: amdgpu: amdgpu_device_ip_resume failed (-110).
+[  555.126965] PM: dpm_run_callback(): pci_pm_resume+0x0/0xe0 returns -110
+[  555.126966] PM: Device 0000:0a:00.0 failed to resume async: error -110
+
+This fix has been tested on Mi308X.
+
+Signed-off-by: Jiang Liu <gerry@linux.alibaba.com>
+Tested-by: Shuo Liu <shuox.liu@linux.alibaba.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Link: https://lore.kernel.org/r/2462b4b12eb9d025e82525178d568cbaa4c223ff.1736739303.git.gerry@linux.alibaba.com
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c  |  3 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c | 17 ++++++++++++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h |  2 ++
- 3 files changed, 21 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/soc15.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index f0924aa3f4e48..0c338dcdde48a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -1864,6 +1864,9 @@ int amdgpu_ras_sysfs_create(struct amdgpu_device *adev,
- 	if (!obj || obj->attr_inuse)
- 		return -EINVAL;
- 
-+	if (amdgpu_sriov_vf(adev) && !amdgpu_virt_ras_telemetry_block_en(adev, head->block))
-+		return 0;
-+
- 	get_obj(obj);
- 
- 	snprintf(obj->fs_data.sysfs_name, sizeof(obj->fs_data.sysfs_name),
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-index 13e5709ea1caa..e6f0152e5b087 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-@@ -1247,7 +1247,8 @@ amdgpu_ras_block_to_sriov(struct amdgpu_device *adev, enum amdgpu_ras_block bloc
- 	case AMDGPU_RAS_BLOCK__MPIO:
- 		return RAS_TELEMETRY_GPU_BLOCK_MPIO;
- 	default:
--		dev_err(adev->dev, "Unsupported SRIOV RAS telemetry block 0x%x\n", block);
-+		DRM_WARN_ONCE("Unsupported SRIOV RAS telemetry block 0x%x\n",
-+			      block);
- 		return RAS_TELEMETRY_GPU_BLOCK_COUNT;
- 	}
- }
-@@ -1332,3 +1333,17 @@ int amdgpu_virt_ras_telemetry_post_reset(struct amdgpu_device *adev)
- 
- 	return 0;
- }
-+
-+bool amdgpu_virt_ras_telemetry_block_en(struct amdgpu_device *adev,
-+					enum amdgpu_ras_block block)
-+{
-+	enum amd_sriov_ras_telemetry_gpu_block sriov_block;
-+
-+	sriov_block = amdgpu_ras_block_to_sriov(adev, block);
-+
-+	if (sriov_block >= RAS_TELEMETRY_GPU_BLOCK_COUNT ||
-+	    !amdgpu_sriov_ras_telemetry_block_en(adev, sriov_block))
-+		return false;
-+
-+	return true;
-+}
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
-index 0ca73343a7689..0f3ccae5c1ab3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h
-@@ -407,4 +407,6 @@ bool amdgpu_virt_get_ras_capability(struct amdgpu_device *adev);
- int amdgpu_virt_req_ras_err_count(struct amdgpu_device *adev, enum amdgpu_ras_block block,
- 				  struct ras_err_data *err_data);
- int amdgpu_virt_ras_telemetry_post_reset(struct amdgpu_device *adev);
-+bool amdgpu_virt_ras_telemetry_block_en(struct amdgpu_device *adev,
-+					enum amdgpu_ras_block block);
- #endif
+diff --git a/drivers/gpu/drm/amd/amdgpu/soc15.c b/drivers/gpu/drm/amd/amdgpu/soc15.c
+index e98fb3fa36a88..6e09613de8cd2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/soc15.c
++++ b/drivers/gpu/drm/amd/amdgpu/soc15.c
+@@ -604,12 +604,10 @@ soc15_asic_reset_method(struct amdgpu_device *adev)
+ static bool soc15_need_reset_on_resume(struct amdgpu_device *adev)
+ {
+ 	/* Will reset for the following suspend abort cases.
+-	 * 1) Only reset on APU side, dGPU hasn't checked yet.
+-	 * 2) S3 suspend aborted in the normal S3 suspend or
+-	 *    performing pm core test.
++	 * 1) S3 suspend aborted in the normal S3 suspend
++	 * 2) S3 suspend aborted in performing pm core test.
+ 	 */
+-	if (adev->flags & AMD_IS_APU && adev->in_s3 &&
+-			!pm_resume_via_firmware())
++	if (adev->in_s3 && !pm_resume_via_firmware())
+ 		return true;
+ 	else
+ 		return false;
 -- 
 2.39.5
 
