@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA8CAAA232
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88037AAA233
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:56:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A0A710E59A;
-	Mon,  5 May 2025 22:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E661310E59B;
+	Mon,  5 May 2025 22:56:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kmOSFkrg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WBb25xl1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7714010E598;
- Mon,  5 May 2025 22:56:19 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E05910E59B;
+ Mon,  5 May 2025 22:56:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A8C3D4A164;
- Mon,  5 May 2025 22:56:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7FFBC4CEE4;
- Mon,  5 May 2025 22:56:17 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E6D015C5970;
+ Mon,  5 May 2025 22:54:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F2BAC4CEED;
+ Mon,  5 May 2025 22:56:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485779;
- bh=0WlM3M273eukAcoWZ4glCnJUCRC1U7yZ6IfN33uD3Sc=;
+ s=k20201202; t=1746485780;
+ bh=ixfi30/lcflrPfhhbOcBX3S3YAtPFBIpsD7l18WacgA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kmOSFkrgvFXvieK0cqBHazs+1AWyDiI/vg117ldHXx7Re2ubMwAHP4daVdNBx4RqJ
- YWH5V3/lOZ+lW360xarryhsif1gimce8gi99bF2A1lLEwzz825FM0pREjX9AXTWviV
- 9+pVxYNrsSTF7oMRVOGVOacw3IY43LKsjhP/PUNBM6INwWhOM1kcF1QwfX7t9RHyAh
- UUo6sNF8IAPJTN3rJZaxPKSnnPh1K3c03Td6QZcFneXhrhPShYMDmrOAYU8J3NdDXI
- Sj+VwbQA5DOHMe72wGnuwyK1Ep1UxZGOfDR8HCc60O+bWyLU7lVe4Kc462hkW6AkUU
- m+sPMH5L9prEg==
+ b=WBb25xl1PwhPlkZYFdUAtgZPCNQXgE5pmJEwtoYag+55+p8wcexJRHUokA+wme9Nf
+ 6fZkIG9G38sJoj7vLERVfQuMZmU6LGLDLn/uvkjbw7h1JmVfFQaUwHQr18Npupb6Tu
+ mQ9wOp4bl/vhJqzr/FPJx2G07uxHuIccnzQSLFw8NycavTVq2ZBTeek62hpUex1Ssr
+ bfcX5brCzS9k7D1733RAFClND0DMMYGXNH+HHrP13eNshpLQTGUIBft+oeEu5f+EQr
+ mJwFSxOYe1FSxR7RdW1OSNxfhP54lxrCax1x9m757KIGlv1BiAjn/lqEUVEdQWmIK6
+ 1//XXNKC/FMyg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Sasha Levin <sashal@kernel.org>,
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+Cc: Oak Zeng <oak.zeng@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
  rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch,
  intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 480/486] drm/xe/sa: Always call
- drm_suballoc_manager_fini()
-Date: Mon,  5 May 2025 18:39:16 -0400
-Message-Id: <20250505223922.2682012-480-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 481/486] drm/xe: Reject BO eviction if BO is
+ bound to current VM
+Date: Mon,  5 May 2025 18:39:17 -0400
+Message-Id: <20250505223922.2682012-481-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.26
@@ -65,49 +66,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+From: Oak Zeng <oak.zeng@intel.com>
 
-[ Upstream commit 9cd3f4efc870463f17f6c29114c61fb6bfcaa291 ]
+[ Upstream commit 0af944f0e3082ff517958b1cea76fb9b8cb379dd ]
 
-After successful call to drm_suballoc_manager_init() we should
-make sure to call drm_suballoc_manager_fini() as it may include
-some cleanup code even if we didn't start using it for real.
+This is a follow up fix for
+https://patchwork.freedesktop.org/patch/msgid/20241203021929.1919730-1-oak.zeng@intel.com
+The overall goal is to fail vm_bind when there is memory pressure. See more
+details in the commit message of above patch. Abbove patch fixes the issue
+when user pass in a vm_id parameter during gem_create. If user doesn't pass
+in a vm_id during gem_create, above patch doesn't help.
 
-As we can abort init() early due to kvzalloc() failure, we should
-either explicitly call drm_suballoc_manager_fini() or, even better,
-postpone drm_suballoc_manager_init() once we finish all other
-preparation steps, so we can rely on fini() that will do cleanup.
+This patch further reject BO eviction (which could be triggered by bo validation)
+if BO is bound to the current VM. vm_bind could fail due to the eviction failure.
+The BO to VM reverse mapping structure is used to determine whether BO is bound
+to VM.
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241220194205.995-2-michal.wajdeczko@intel.com
+v2:
+Move vm_bo definition from function scope to if(evict) clause (Thomas)
+Further constraint the condition by adding ctx->resv (Thomas)
+Add a short comment describe the change.
+
+Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Oak Zeng <oak.zeng@intel.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250110210137.3181576-1-oak.zeng@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_sa.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/xe/xe_bo.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_sa.c b/drivers/gpu/drm/xe/xe_sa.c
-index fe2cb2a96f788..1d42547590067 100644
---- a/drivers/gpu/drm/xe/xe_sa.c
-+++ b/drivers/gpu/drm/xe/xe_sa.c
-@@ -57,8 +57,6 @@ struct xe_sa_manager *xe_sa_bo_manager_init(struct xe_tile *tile, u32 size, u32
- 	}
- 	sa_manager->bo = bo;
- 	sa_manager->is_iomem = bo->vmap.is_iomem;
--
--	drm_suballoc_manager_init(&sa_manager->base, managed_size, align);
- 	sa_manager->gpu_addr = xe_bo_ggtt_addr(bo);
- 
- 	if (bo->vmap.is_iomem) {
-@@ -72,6 +70,7 @@ struct xe_sa_manager *xe_sa_bo_manager_init(struct xe_tile *tile, u32 size, u32
- 		memset(sa_manager->cpu_ptr, 0, bo->ttm.base.size);
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index 35a8242a9f541..8acc4640f0a28 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -702,6 +702,21 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+ 		goto out;
  	}
  
-+	drm_suballoc_manager_init(&sa_manager->base, managed_size, align);
- 	ret = drmm_add_action_or_reset(&xe->drm, xe_sa_bo_manager_fini,
- 				       sa_manager);
- 	if (ret)
++	/* Reject BO eviction if BO is bound to current VM. */
++	if (evict && ctx->resv) {
++		struct drm_gpuvm_bo *vm_bo;
++
++		drm_gem_for_each_gpuvm_bo(vm_bo, &bo->ttm.base) {
++			struct xe_vm *vm = gpuvm_to_vm(vm_bo->vm);
++
++			if (xe_vm_resv(vm) == ctx->resv &&
++			    xe_vm_in_preempt_fence_mode(vm)) {
++				ret = -EBUSY;
++				goto out;
++			}
++		}
++	}
++
+ 	/*
+ 	 * Failed multi-hop where the old_mem is still marked as
+ 	 * TTM_PL_FLAG_TEMPORARY, should just be a dummy move.
 -- 
 2.39.5
 
