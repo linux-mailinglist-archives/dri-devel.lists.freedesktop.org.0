@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75E1AAA14B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:46:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E529DAAA14E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:46:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 298EE10E52E;
-	Mon,  5 May 2025 22:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C0B610E52B;
+	Mon,  5 May 2025 22:46:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gSduMmtc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AxM5ChGv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4B310E52E
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:46:00 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B62710E52B;
+ Mon,  5 May 2025 22:46:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E5B7E5C5970;
- Mon,  5 May 2025 22:43:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EE82C4CEEF;
- Mon,  5 May 2025 22:45:58 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 98E79A4CF99;
+ Mon,  5 May 2025 22:40:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A567EC4CEE4;
+ Mon,  5 May 2025 22:46:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485159;
- bh=HFyMkUdmp2i1AmcNJKN5YO27sA9goBlPK62HQOiBW00=;
+ s=k20201202; t=1746485166;
+ bh=qM4WJnGHM1m1fsGvJCRhq94cX/P+bapNYT6XAdoDPVs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gSduMmtcpMferoCCI3uRF++TuHEq6/GBMqYsiYopuvpCYnc8FekLsSPA4WLkduIHW
- VDPheD1LDV57k14SZaHK8C6byHkQkmdVAbpt0nBAl+qC7O8jn3cZWtTM8y47ht6rt7
- ESsYg560cateYOrsVS/3uBUj2IvjxzpjfTsf5ww5eIXOSV4e1hJRp2suKfK/2JduZ3
- hU1ANlqBH3IGQYLlja6Z1utXv7IIsNEJnsjaUVgO7pT3TSI7YIiLLrH2NeFvgUBAP2
- CSajfN0vytK5AneDgNaxXf0jBN4UGt2ipqejHBT/2xFPHmQtPRnk+AQBDZQ5lUvbBA
- 21ES6uu69H5ZQ==
+ b=AxM5ChGvRH3pgLaGJcESJIGNuaz4oDXK6phtpI2fkhJy0UEb2m4VWBZGGRdzsR2co
+ 0VaZMRgoNPgGc3LKoMrnzjKR/h0B94qEfqPMu3867GM1GGMvxXMKUMML+Z+XBWNS5x
+ h4+ABjXfdJOCbNxfNw0TINq7J/15wZN0P4+EmrOxACeOj1eNEhuv1zhUe6+Qpc/tzx
+ dJX+JaZ+DLcVCDMsf1vbyk28GIBcYQiFNZSIZkGYr00UxtVlHRFQrot96EKwbSihZ+
+ 2SWCUG4ar8TsOtyOpPNs96eZROk9Zblc7CtWhhWfWqJhLRYZ1Yen+WcNeCXpTFxoe7
+ u1QQaoJMnoFaQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Anusha Srivatsa <asrivats@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.12 192/486] drm/gem: Test for imported GEM buffers
- with helper
-Date: Mon,  5 May 2025 18:34:28 -0400
-Message-Id: <20250505223922.2682012-192-sashal@kernel.org>
+Cc: Victor Lu <victorchengchi.lu@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ Hawking.Zhang@amd.com, tao.zhou1@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 196/486] drm/amdgpu: Do not program AGP BAR regs
+ under SRIOV in gfxhub_v1_0.c
+Date: Mon,  5 May 2025 18:34:32 -0400
+Message-Id: <20250505223922.2682012-196-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.26
@@ -68,83 +65,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+From: Victor Lu <victorchengchi.lu@amd.com>
 
-[ Upstream commit b57aa47d39e94dc47403a745e2024664e544078c ]
+[ Upstream commit 057fef20b8401110a7bc1c2fe9d804a8a0bf0d24 ]
 
-Add drm_gem_is_imported() that tests if a GEM object's buffer has
-been imported. Update the GEM code accordingly.
+SRIOV VF does not have write access to AGP BAR regs.
+Skip the writes to avoid a dmesg warning.
 
-GEM code usually tests for imports if import_attach has been set
-in struct drm_gem_object. But attaching a dma-buf on import requires
-a DMA-capable importer device, which is not the case for many serial
-busses like USB or I2C. The new helper tests if a GEM object's dma-buf
-has been created from the GEM object.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Anusha Srivatsa <asrivats@redhat.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250226172457.217725-2-tzimmermann@suse.de
+Signed-off-by: Victor Lu <victorchengchi.lu@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_gem.c |  4 ++--
- include/drm/drm_gem.h     | 14 ++++++++++++++
- 2 files changed, 16 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 149b8e25da5bb..426d0867882df 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -322,7 +322,7 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
- 		return -ENOENT;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
+index 0e3ddea7b8e0f..a7bfc9f41d0e3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
+@@ -92,12 +92,12 @@ static void gfxhub_v1_0_init_system_aperture_regs(struct amdgpu_device *adev)
+ {
+ 	uint64_t value;
  
- 	/* Don't allow imported objects to be mapped */
--	if (obj->import_attach) {
-+	if (drm_gem_is_imported(obj)) {
- 		ret = -EINVAL;
- 		goto out;
- 	}
-@@ -1152,7 +1152,7 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
- 			  drm_vma_node_start(&obj->vma_node));
- 	drm_printf_indent(p, indent, "size=%zu\n", obj->size);
- 	drm_printf_indent(p, indent, "imported=%s\n",
--			  str_yes_no(obj->import_attach));
-+			  str_yes_no(drm_gem_is_imported(obj)));
- 
- 	if (obj->funcs->print_info)
- 		obj->funcs->print_info(p, indent, obj);
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index d8b86df2ec0da..70c0f8c83629d 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -35,6 +35,7 @@
-  */
- 
- #include <linux/kref.h>
-+#include <linux/dma-buf.h>
- #include <linux/dma-resv.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-@@ -570,6 +571,19 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
- 	return (obj->handle_count > 1) || obj->dma_buf;
- }
- 
-+/**
-+ * drm_gem_is_imported() - Tests if GEM object's buffer has been imported
-+ * @obj: the GEM object
-+ *
-+ * Returns:
-+ * True if the GEM object's buffer has been imported, false otherwise
-+ */
-+static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
-+{
-+	/* The dma-buf's priv field points to the original GEM object. */
-+	return obj->dma_buf && (obj->dma_buf->priv != obj);
-+}
+-	/* Program the AGP BAR */
+-	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BASE, 0);
+-	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BOT, adev->gmc.agp_start >> 24);
+-	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_TOP, adev->gmc.agp_end >> 24);
+-
+ 	if (!amdgpu_sriov_vf(adev) || adev->asic_type <= CHIP_VEGA10) {
++		/* Program the AGP BAR */
++		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BASE, 0);
++		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BOT, adev->gmc.agp_start >> 24);
++		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_TOP, adev->gmc.agp_end >> 24);
 +
- #ifdef CONFIG_LOCKDEP
- /**
-  * drm_gem_gpuva_set_lock() - Set the lock protecting accesses to the gpuva list.
+ 		/* Program the system aperture low logical page number. */
+ 		WREG32_SOC15_RLC(GC, 0, mmMC_VM_SYSTEM_APERTURE_LOW_ADDR,
+ 			min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18);
 -- 
 2.39.5
 
