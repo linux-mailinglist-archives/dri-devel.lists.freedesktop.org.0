@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0198CAAA06A
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9F6AAA06C
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:34:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1194510E4E3;
-	Mon,  5 May 2025 22:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBD210E4E0;
+	Mon,  5 May 2025 22:34:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="owspGIS/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ReUULI9B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 997E910E4E3;
- Mon,  5 May 2025 22:34:20 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9361210E4E5;
+ Mon,  5 May 2025 22:34:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 349CBA4CC01;
- Mon,  5 May 2025 22:28:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28060C4CEED;
- Mon,  5 May 2025 22:34:18 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id C5E294A386;
+ Mon,  5 May 2025 22:34:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FB6EC4CEE4;
+ Mon,  5 May 2025 22:34:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484459;
- bh=a2czUlsCVEntuKFZnGczC/M4K8j+fsa0mkMpdl8Ybu8=;
+ s=k20201202; t=1746484463;
+ bh=+Z8nJzgkLEk+MN5GftpCIrHT+MEi2c7T5NzxCRthY1A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=owspGIS/WJE3dBGsenwmPSQo+94ty0JURXo3g8wqj7jKY/X7l6Zq6a1IfOvVzLkoU
- ht57Edp/e95PzqAvBFmPy7H+D4+0gr2/lAKozspH3VA+U7vtnrUUxAFSROneH7lPq2
- haDk5Sf+mKBm2L3RnLkO6LnMNj7kNieV6fnOcNPY8HoRgsuThDl1CFkd9BpHoeKe3N
- cxlqgqDFb/Ex6Tyfn8nDYomllZYn/fzr4J53Ua82n1Ev3ecG1ZoDU7zdtznWh4hVVJ
- pJ2mNKGBa3/y0sLWOQOCylD69VlTuE84Y/kezIqGPAKfC96p3R/VB2Ku6ulS1Ntoqz
- 5ky3TyzCn+3oA==
+ b=ReUULI9BpFCyHW+VwzKUz8gLq0TSlz7XEzrO1CLyKT1c9DT5qSvJcSZcQFmLKebEZ
+ RNyKjaTxzzZXKvYmeN1ldzci8g+MunZKDBS12WZqjU7mJEb41ZSQAxMXN8B0wWdQG4
+ eH+wKIqlW9/+3ScEItZ2j7rD3vD3flTTPImFT4eQLnmWQu2OMxT3/3Lmzvl1iPqVJ3
+ mhNMNEeLjB0mijDfxd7b5wOvaFcMjE+hpRG7bDfxbSUuzQpNOSrrVYPOUxMvoBg3at
+ 1s57OUkxvkz8QuUhlwTiVkA0SyVCbl59fTPBQcaaAXdIw352rmlo4ndAWxVRB/aICe
+ XMdYiHfpxio8Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Alex Deucher <alexander.deucher@amd.com>,
  Harry Wentland <harry.wentland@amd.com>, Sasha Levin <sashal@kernel.org>,
  sunpeng.li@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, roman.li@amd.com, srinivasan.shanmugam@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 483/642] drm/amd/display/dc: enable oem i2c
- support for DCE 12.x
-Date: Mon,  5 May 2025 18:11:39 -0400
-Message-Id: <20250505221419.2672473-483-sashal@kernel.org>
+ simona@ffwll.ch, mario.limonciello@amd.com, alex.hung@amd.com,
+ chiahsuan.chung@amd.com, sunil.khatri@amd.com, aurabindo.pillai@amd.com,
+ Yilin.Chen@amd.com, mwen@igalia.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 484/642] drm/amd/display/dm: drop hw_support
+ check in amdgpu_dm_i2c_xfer()
+Date: Mon,  5 May 2025 18:11:40 -0400
+Message-Id: <20250505221419.2672473-484-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -67,66 +69,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit 2ed83f2cc41e8f7ced1c0610ec2b0821c5522ed5 ]
+[ Upstream commit 33da70bd1e115d7d73f45fb1c09f5ecc448f3f13 ]
 
-Use the value pulled from the vbios just like newer chips.
+DC supports SW i2c as well.  Drop the check.
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../dc/resource/dce120/dce120_resource.c        | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dce120/dce120_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dce120/dce120_resource.c
-index c63c596234333..eb1e158d34361 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dce120/dce120_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dce120/dce120_resource.c
-@@ -67,6 +67,7 @@
- #include "reg_helper.h"
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index d51dbac3235ca..5f25fe7721c17 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8394,7 +8394,7 @@ static int amdgpu_dm_i2c_xfer(struct i2c_adapter *i2c_adap,
+ 	int i;
+ 	int result = -EIO;
  
- #include "dce100/dce100_resource.h"
-+#include "link.h"
+-	if (!ddc_service->ddc_pin || !ddc_service->ddc_pin->hw_info.hw_supported)
++	if (!ddc_service->ddc_pin)
+ 		return result;
  
- #ifndef mmDP0_DP_DPHY_INTERNAL_CTRL
- 	#define mmDP0_DP_DPHY_INTERNAL_CTRL		0x210f
-@@ -659,6 +660,12 @@ static void dce120_resource_destruct(struct dce110_resource_pool *pool)
- 
- 	if (pool->base.dmcu != NULL)
- 		dce_dmcu_destroy(&pool->base.dmcu);
-+
-+	if (pool->base.oem_device != NULL) {
-+		struct dc *dc = pool->base.oem_device->ctx->dc;
-+
-+		dc->link_srv->destroy_ddc_service(&pool->base.oem_device);
-+	}
- }
- 
- static void read_dce_straps(
-@@ -1054,6 +1061,7 @@ static bool dce120_resource_construct(
- 	struct dc *dc,
- 	struct dce110_resource_pool *pool)
- {
-+	struct ddc_service_init_data ddc_init_data = {0};
- 	unsigned int i;
- 	int j;
- 	struct dc_context *ctx = dc->ctx;
-@@ -1257,6 +1265,15 @@ static bool dce120_resource_construct(
- 
- 	bw_calcs_data_update_from_pplib(dc);
- 
-+	if (dc->ctx->dc_bios->fw_info.oem_i2c_present) {
-+		ddc_init_data.ctx = dc->ctx;
-+		ddc_init_data.link = NULL;
-+		ddc_init_data.id.id = dc->ctx->dc_bios->fw_info.oem_i2c_obj_id;
-+		ddc_init_data.id.enum_id = 0;
-+		ddc_init_data.id.type = OBJECT_TYPE_GENERIC;
-+		pool->base.oem_device = dc->link_srv->create_ddc_service(&ddc_init_data);
-+	}
-+
- 	return true;
- 
- irqs_create_fail:
+ 	cmd.payloads = kcalloc(num, sizeof(struct i2c_payload), GFP_KERNEL);
 -- 
 2.39.5
 
