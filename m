@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629F4AAA268
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79790AAA26C
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:59:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6E1E10E5A9;
-	Mon,  5 May 2025 22:59:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9E5010E5AD;
+	Mon,  5 May 2025 22:59:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QcRfWfAR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="akuCe4FU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A40410E5A9;
- Mon,  5 May 2025 22:59:36 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF1310E5AA;
+ Mon,  5 May 2025 22:59:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2687EA4D2BE;
- Mon,  5 May 2025 22:54:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0897EC4CEE4;
- Mon,  5 May 2025 22:59:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C41105C5B62;
+ Mon,  5 May 2025 22:57:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEBAEC4CEEF;
+ Mon,  5 May 2025 22:59:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485975;
- bh=3Pgg6N8w4Jx0oH1uw1uu9uMOcDKdmoACmzq5HC9hKbQ=;
+ s=k20201202; t=1746485979;
+ bh=TghLYy3tw75un8ZZnDmu4bdbeNos3GdnefPwQ3e2oz0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QcRfWfARsBXpu224uzVD4VnZHyg7LME5XBQ62WWCpPU0RoDNhqcRVrY1d2yMcAsag
- u4sRgYA+2eVJk7Tq1qS7F+FZ0gJxGSdX/pXDFkR7SEWDSd3q2Id0JWwywm1SWkaLME
- Ii90V5w4oOoST5UXvhBhsI+v4vjxJo9IEoyWII/rl43uuY4La6UsMhYMs0qzifQa1Q
- OrWhSY41iiyFe7GwKkdGPez34qquBBCS8Er3frDwGS/eAxl0xaRp+hwrv2uIaB5oBu
- s8n3ST/eeBmqssN55Tt7RDudgXmX/SWQtTqAFz/989AbdmJlNLLatQyd1rbDYgymSU
- haGNaY37cOySw==
+ b=akuCe4FUYlB+C5oqvT7rFmfxfsIoHokPyrM16jRUmP/KiM1VlrThz8FVtCEhLlGkD
+ KWFQ6KVe82ithGGRzmalFtNVT4dR35MFJFtSNNg6i49oWf5XEVnoXgc8/Aj62EMbsL
+ z81B3+/93llw8nJSsFJ0XscKxAVBu2bmK0F8maBck7BTyTL4xZwFOm81jV1vHtS+DW
+ PoYJ3S2MqmUSWYAMZKPN4hZiMKYUI1R7EhC+jCActmI+TdqB9au5B7DlJ5O/Ls5+vA
+ uLrLLqu6j3ZCFX/ZatR39y+7mRftxBYTRzS8w8A6xiDzN0BYqbcnrsESB4iSjtXcZu
+ LJXxAolgz2Hgw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zhikai Zhai <zhikai.zhai@amd.com>, Charlene Liu <charlene.liu@amd.com>,
+Cc: Leon Huang <Leon.Huang1@amd.com>, Robin Chen <robin.chen@amd.com>,
  Tom Chung <chiahsuan.chung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 094/294] drm/amd/display: calculate the remain
- segments for all pipes
-Date: Mon,  5 May 2025 18:53:14 -0400
-Message-Id: <20250505225634.2688578-94-sashal@kernel.org>
+ airlied@gmail.com, simona@ffwll.ch, wenjing.liu@amd.com,
+ Kaitlyn.Tse@amd.com, anthony.koo@amd.com, jerry.zuo@amd.com,
+ joshua.aberback@amd.com, jack.chang@amd.com, muyuan.yang@amd.com,
+ Sungjoon.Kim@amd.com, michael.strauss@amd.com, xi.liu@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 095/294] drm/amd/display: Fix incorrect DPCD
+ configs while Replay/PSR switch
+Date: Mon,  5 May 2025 18:53:15 -0400
+Message-Id: <20250505225634.2688578-95-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
 References: <20250505225634.2688578-1-sashal@kernel.org>
@@ -67,93 +70,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zhikai Zhai <zhikai.zhai@amd.com>
+From: Leon Huang <Leon.Huang1@amd.com>
 
-[ Upstream commit d3069feecdb5542604d29b59acfd1fd213bad95b ]
+[ Upstream commit 0d9cabc8f591ea1cd97c071b853b75b155c13259 ]
 
-[WHY]
-In some cases the remain de-tile buffer segments will be greater
-than zero if we don't add the non-top pipe to calculate, at
-this time the override de-tile buffer size will be valid and used.
-But it makes the de-tile buffer segments used finally for all of pipes
-exceed the maximum.
+[Why]
+When switching between PSR/Replay,
+the DPCD config of previous mode is not cleared,
+resulting in unexpected behavior in TCON.
 
-[HOW]
-Add the non-top pipe to calculate the remain de-tile buffer segments.
-Don't set override size to use the average according to pipe count
-if the value exceed the maximum.
+[How]
+Initialize the DPCD in setup function
 
-Reviewed-by: Charlene Liu <charlene.liu@amd.com>
-Signed-off-by: Zhikai Zhai <zhikai.zhai@amd.com>
+Reviewed-by: Robin Chen <robin.chen@amd.com>
+Signed-off-by: Leon Huang <Leon.Huang1@amd.com>
 Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/display/dc/dcn315/dcn315_resource.c   | 42 +++++++++----------
- 1 file changed, 20 insertions(+), 22 deletions(-)
+ .../link/protocols/link_edp_panel_control.c   | 25 ++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
-index 597fa0364a3a9..d1601d61f05ad 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
-@@ -1692,7 +1692,7 @@ static int dcn315_populate_dml_pipes_from_context(
- 		pipes[pipe_cnt].dout.dsc_input_bpc = 0;
- 		DC_FP_START();
- 		dcn31_zero_pipe_dcc_fraction(pipes, pipe_cnt);
--		if (pixel_rate_crb && !pipe->top_pipe && !pipe->prev_odm_pipe) {
-+		if (pixel_rate_crb) {
- 			int bpp = source_format_to_bpp(pipes[pipe_cnt].pipe.src.source_format);
- 			/* Ceil to crb segment size */
- 			int approx_det_segs_required_for_pstate = dcn_get_approx_det_segs_required_for_pstate(
-@@ -1749,28 +1749,26 @@ static int dcn315_populate_dml_pipes_from_context(
- 				continue;
- 			}
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
+index 13104d000b9e0..d4d92da153ece 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
+@@ -662,6 +662,18 @@ bool edp_setup_psr(struct dc_link *link,
+ 	if (!link)
+ 		return false;
  
--			if (!pipe->top_pipe && !pipe->prev_odm_pipe) {
--				bool split_required = pipe->stream->timing.pix_clk_100hz >= dcn_get_max_non_odm_pix_rate_100hz(&dc->dml.soc)
--						|| (pipe->plane_state && pipe->plane_state->src_rect.width > 5120);
--
--				if (remaining_det_segs > MIN_RESERVED_DET_SEGS && crb_pipes != 0)
--					pipes[pipe_cnt].pipe.src.det_size_override += (remaining_det_segs - MIN_RESERVED_DET_SEGS) / crb_pipes +
--							(crb_idx < (remaining_det_segs - MIN_RESERVED_DET_SEGS) % crb_pipes ? 1 : 0);
--				if (pipes[pipe_cnt].pipe.src.det_size_override > 2 * DCN3_15_MAX_DET_SEGS) {
--					/* Clamp to 2 pipe split max det segments */
--					remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override - 2 * (DCN3_15_MAX_DET_SEGS);
--					pipes[pipe_cnt].pipe.src.det_size_override = 2 * DCN3_15_MAX_DET_SEGS;
--				}
--				if (pipes[pipe_cnt].pipe.src.det_size_override > DCN3_15_MAX_DET_SEGS || split_required) {
--					/* If we are splitting we must have an even number of segments */
--					remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override % 2;
--					pipes[pipe_cnt].pipe.src.det_size_override -= pipes[pipe_cnt].pipe.src.det_size_override % 2;
--				}
--				/* Convert segments into size for DML use */
--				pipes[pipe_cnt].pipe.src.det_size_override *= DCN3_15_CRB_SEGMENT_SIZE_KB;
--
--				crb_idx++;
-+			bool split_required = pipe->stream->timing.pix_clk_100hz >= dcn_get_max_non_odm_pix_rate_100hz(&dc->dml.soc)
-+					|| (pipe->plane_state && pipe->plane_state->src_rect.width > 5120);
++	//Clear PSR cfg
++	memset(&psr_configuration, 0, sizeof(psr_configuration));
++	dm_helpers_dp_write_dpcd(
++		link->ctx,
++		link,
++		DP_PSR_EN_CFG,
++		&psr_configuration.raw,
++		sizeof(psr_configuration.raw));
 +
-+			if (remaining_det_segs > MIN_RESERVED_DET_SEGS && crb_pipes != 0)
-+				pipes[pipe_cnt].pipe.src.det_size_override += (remaining_det_segs - MIN_RESERVED_DET_SEGS) / crb_pipes +
-+						(crb_idx < (remaining_det_segs - MIN_RESERVED_DET_SEGS) % crb_pipes ? 1 : 0);
-+			if (pipes[pipe_cnt].pipe.src.det_size_override > 2 * DCN3_15_MAX_DET_SEGS) {
-+				/* Clamp to 2 pipe split max det segments */
-+				remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override - 2 * (DCN3_15_MAX_DET_SEGS);
-+				pipes[pipe_cnt].pipe.src.det_size_override = 2 * DCN3_15_MAX_DET_SEGS;
-+			}
-+			if (pipes[pipe_cnt].pipe.src.det_size_override > DCN3_15_MAX_DET_SEGS || split_required) {
-+				/* If we are splitting we must have an even number of segments */
-+				remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override % 2;
-+				pipes[pipe_cnt].pipe.src.det_size_override -= pipes[pipe_cnt].pipe.src.det_size_override % 2;
- 			}
-+			/* Convert segments into size for DML use */
-+			pipes[pipe_cnt].pipe.src.det_size_override *= DCN3_15_CRB_SEGMENT_SIZE_KB;
++	if (link->psr_settings.psr_version == DC_PSR_VERSION_UNSUPPORTED)
++		return false;
 +
-+			crb_idx++;
- 			pipe_cnt++;
- 		}
- 	}
+ 	dc = link->ctx->dc;
+ 	dmcu = dc->res_pool->dmcu;
+ 	psr = dc->res_pool->psr;
+@@ -672,9 +684,6 @@ bool edp_setup_psr(struct dc_link *link,
+ 	if (!dc_get_edp_link_panel_inst(dc, link, &panel_inst))
+ 		return false;
+ 
+-
+-	memset(&psr_configuration, 0, sizeof(psr_configuration));
+-
+ 	psr_configuration.bits.ENABLE                    = 1;
+ 	psr_configuration.bits.CRC_VERIFICATION          = 1;
+ 	psr_configuration.bits.FRAME_CAPTURE_INDICATION  =
+@@ -938,6 +947,16 @@ bool edp_setup_replay(struct dc_link *link, const struct dc_stream_state *stream
+ 	if (!link)
+ 		return false;
+ 
++	//Clear Replay config
++	dm_helpers_dp_write_dpcd(link->ctx, link,
++		DP_SINK_PR_ENABLE_AND_CONFIGURATION,
++		(uint8_t *)&(replay_config.raw), sizeof(uint8_t));
++
++	if (!(link->replay_settings.config.replay_supported))
++		return false;
++
++	link->replay_settings.config.replay_error_status.raw = 0;
++
+ 	dc = link->ctx->dc;
+ 
+ 	replay = dc->res_pool->replay;
 -- 
 2.39.5
 
