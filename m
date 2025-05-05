@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C30AAA26F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:00:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EACAAA278
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:00:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F0A010E5AB;
-	Mon,  5 May 2025 23:00:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36ED510E5B0;
+	Mon,  5 May 2025 23:00:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DzttG6m7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="n1U912O0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFD6110E5AB;
- Mon,  5 May 2025 22:59:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43AAF10E5B0
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:00:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 141974A6F0;
- Mon,  5 May 2025 22:59:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57973C4CEED;
- Mon,  5 May 2025 22:59:58 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 74D4144447;
+ Mon,  5 May 2025 23:00:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82E0EC4CEED;
+ Mon,  5 May 2025 23:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485999;
- bh=i+oFuAW3w4b1ZyQqnQEdDTnDSi0IIkuIWsUl2oFwU40=;
+ s=k20201202; t=1746486022;
+ bh=ZchkXoDyD7r8OEYD1u42HjJUEz45xF48xeTC4e2IYxo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DzttG6m7zSeriKt0jdJ+ZVZoS0Zj66RIkCvFi3d4Z3rJ+BDLGVhzJsOrakQxRywy5
- MZsgMZ6He4rQNCpGIsai5ajB/y1KLsm9zI4Fnem31Aaicvqy2dmW3Iaga3GdV40qbw
- uWMIkL8k8rGDlCiNJ/+56uAxYqdmIHz0gIR0U2tJoJ3GteK5G11KC7TtyddcGMCHa8
- uFKl1V8utk8QxHb7Vx8P9IX3ZKWEWH3j2LFB62MKMo6AflUSek4XF2OFlKpTjyIYeF
- U6fOiKTb5kR0iyrpRZkNPGHQcqeIv+4gxFL7SpbsY9hTBFiWYJI5rb/04s4jmT2USr
- EHOih5Zve7o5Q==
+ b=n1U912O05HaJXatmkLPBFgNMpwPNbNeAhOzB0etgjrtR307hY2v2quGHAViILiKYX
+ RpSPrqjnPHgkGA8Gb04rwFyZVcZuesI0W5nVkqAbH8P6AZGznl7CR6x/hx9dBGCU4A
+ VLvXN37DwzspZ5dTTtIHteIPCjByKCPxoMKiwflgC8txMaaFvhOhuWobpo6GizcQ4l
+ 2gJSoC2xUiuqUFhLk/W9nAWC3MHFpI49yanIC4JZadJkyILTdpIXUi3KvkChfS4/63
+ Hb99yrzvw+hB3v2wiE2pttxI/njipAzxvocEAb8mk7aQVy/XScHT/R3/FlLazEPx3N
+ TU50fjZ8pnF4g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
- Amber Lin <Amber.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, Felix.Kuehling@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 103/294] drm/amdkfd: Set per-process flags only
- once cik/vi
-Date: Mon,  5 May 2025 18:53:23 -0400
-Message-Id: <20250505225634.2688578-103-sashal@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Anusha Srivatsa <asrivats@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 6.6 115/294] drm/gem: Test for imported GEM buffers
+ with helper
+Date: Mon,  5 May 2025 18:53:35 -0400
+Message-Id: <20250505225634.2688578-115-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
 References: <20250505225634.2688578-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.89
@@ -65,299 +68,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit 289e68503a4533b014f8447e2af28ad44c92c221 ]
+[ Upstream commit b57aa47d39e94dc47403a745e2024664e544078c ]
 
-Set per-process static sh_mem config only once during process
-initialization. Move all static changes from update_qpd() which is
-called each time a queue is created to set_cache_memory_policy() which
-is called once during process initialization.
+Add drm_gem_is_imported() that tests if a GEM object's buffer has
+been imported. Update the GEM code accordingly.
 
-set_cache_memory_policy() is currently defined only for cik and vi
-family. So this commit only focuses on these two. A separate commit will
-address other asics.
+GEM code usually tests for imports if import_attach has been set
+in struct drm_gem_object. But attaching a dma-buf on import requires
+a DMA-capable importer device, which is not the case for many serial
+busses like USB or I2C. The new helper tests if a GEM object's dma-buf
+has been created from the GEM object.
 
-Signed-off-by: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
-Reviewed-by: Amber Lin <Amber.Lin@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Anusha Srivatsa <asrivats@redhat.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250226172457.217725-2-tzimmermann@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/amdkfd/kfd_device_queue_manager.c | 39 +---------
- .../amd/amdkfd/kfd_device_queue_manager_cik.c | 69 ++++++++++++------
- .../amd/amdkfd/kfd_device_queue_manager_vi.c  | 71 ++++++++++++-------
- 3 files changed, 94 insertions(+), 85 deletions(-)
+ drivers/gpu/drm/drm_gem.c |  4 ++--
+ include/drm/drm_gem.h     | 14 ++++++++++++++
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index 4d9a406925e18..fd4a75073364c 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -2147,14 +2147,6 @@ static int destroy_queue_cpsch(struct device_queue_manager *dqm,
- 	return retval;
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 44a948b80ee14..deb93f78ce344 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -322,7 +322,7 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+ 		return -ENOENT;
+ 
+ 	/* Don't allow imported objects to be mapped */
+-	if (obj->import_attach) {
++	if (drm_gem_is_imported(obj)) {
+ 		ret = -EINVAL;
+ 		goto out;
+ 	}
+@@ -1155,7 +1155,7 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
+ 			  drm_vma_node_start(&obj->vma_node));
+ 	drm_printf_indent(p, indent, "size=%zu\n", obj->size);
+ 	drm_printf_indent(p, indent, "imported=%s\n",
+-			  str_yes_no(obj->import_attach));
++			  str_yes_no(drm_gem_is_imported(obj)));
+ 
+ 	if (obj->funcs->print_info)
+ 		obj->funcs->print_info(p, indent, obj);
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index 7c2ec139c464a..fbfccb96dd17b 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -35,6 +35,7 @@
+  */
+ 
+ #include <linux/kref.h>
++#include <linux/dma-buf.h>
+ #include <linux/dma-resv.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+@@ -557,6 +558,19 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
+ 	return (obj->handle_count > 1) || obj->dma_buf;
  }
  
--/*
-- * Low bits must be 0000/FFFF as required by HW, high bits must be 0 to
-- * stay in user mode.
-- */
--#define APE1_FIXED_BITS_MASK 0xFFFF80000000FFFFULL
--/* APE1 limit is inclusive and 64K aligned. */
--#define APE1_LIMIT_ALIGNMENT 0xFFFF
--
- static bool set_cache_memory_policy(struct device_queue_manager *dqm,
- 				   struct qcm_process_device *qpd,
- 				   enum cache_policy default_policy,
-@@ -2169,34 +2161,6 @@ static bool set_cache_memory_policy(struct device_queue_manager *dqm,
- 
- 	dqm_lock(dqm);
- 
--	if (alternate_aperture_size == 0) {
--		/* base > limit disables APE1 */
--		qpd->sh_mem_ape1_base = 1;
--		qpd->sh_mem_ape1_limit = 0;
--	} else {
--		/*
--		 * In FSA64, APE1_Base[63:0] = { 16{SH_MEM_APE1_BASE[31]},
--		 *			SH_MEM_APE1_BASE[31:0], 0x0000 }
--		 * APE1_Limit[63:0] = { 16{SH_MEM_APE1_LIMIT[31]},
--		 *			SH_MEM_APE1_LIMIT[31:0], 0xFFFF }
--		 * Verify that the base and size parameters can be
--		 * represented in this format and convert them.
--		 * Additionally restrict APE1 to user-mode addresses.
--		 */
--
--		uint64_t base = (uintptr_t)alternate_aperture_base;
--		uint64_t limit = base + alternate_aperture_size - 1;
--
--		if (limit <= base || (base & APE1_FIXED_BITS_MASK) != 0 ||
--		   (limit & APE1_FIXED_BITS_MASK) != APE1_LIMIT_ALIGNMENT) {
--			retval = false;
--			goto out;
--		}
--
--		qpd->sh_mem_ape1_base = base >> 16;
--		qpd->sh_mem_ape1_limit = limit >> 16;
--	}
--
- 	retval = dqm->asic_ops.set_cache_memory_policy(
- 			dqm,
- 			qpd,
-@@ -2205,6 +2169,9 @@ static bool set_cache_memory_policy(struct device_queue_manager *dqm,
- 			alternate_aperture_base,
- 			alternate_aperture_size);
- 
-+	if (retval)
-+		goto out;
-+
- 	if ((dqm->sched_policy == KFD_SCHED_POLICY_NO_HWS) && (qpd->vmid != 0))
- 		program_sh_mem_settings(dqm, qpd);
- 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_cik.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_cik.c
-index d4d95c7f2e5d4..32bedef912b3b 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_cik.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_cik.c
-@@ -27,6 +27,14 @@
- #include "oss/oss_2_4_sh_mask.h"
- #include "gca/gfx_7_2_sh_mask.h"
- 
-+/*
-+ * Low bits must be 0000/FFFF as required by HW, high bits must be 0 to
-+ * stay in user mode.
++/**
++ * drm_gem_is_imported() - Tests if GEM object's buffer has been imported
++ * @obj: the GEM object
++ *
++ * Returns:
++ * True if the GEM object's buffer has been imported, false otherwise
 + */
-+#define APE1_FIXED_BITS_MASK 0xFFFF80000000FFFFULL
-+/* APE1 limit is inclusive and 64K aligned. */
-+#define APE1_LIMIT_ALIGNMENT 0xFFFF
-+
- static bool set_cache_memory_policy_cik(struct device_queue_manager *dqm,
- 				   struct qcm_process_device *qpd,
- 				   enum cache_policy default_policy,
-@@ -84,6 +92,36 @@ static bool set_cache_memory_policy_cik(struct device_queue_manager *dqm,
- {
- 	uint32_t default_mtype;
- 	uint32_t ape1_mtype;
-+	unsigned int temp;
-+	bool retval = true;
-+
-+	if (alternate_aperture_size == 0) {
-+		/* base > limit disables APE1 */
-+		qpd->sh_mem_ape1_base = 1;
-+		qpd->sh_mem_ape1_limit = 0;
-+	} else {
-+		/*
-+		 * In FSA64, APE1_Base[63:0] = { 16{SH_MEM_APE1_BASE[31]},
-+		 *			SH_MEM_APE1_BASE[31:0], 0x0000 }
-+		 * APE1_Limit[63:0] = { 16{SH_MEM_APE1_LIMIT[31]},
-+		 *			SH_MEM_APE1_LIMIT[31:0], 0xFFFF }
-+		 * Verify that the base and size parameters can be
-+		 * represented in this format and convert them.
-+		 * Additionally restrict APE1 to user-mode addresses.
-+		 */
-+
-+		uint64_t base = (uintptr_t)alternate_aperture_base;
-+		uint64_t limit = base + alternate_aperture_size - 1;
-+
-+		if (limit <= base || (base & APE1_FIXED_BITS_MASK) != 0 ||
-+		   (limit & APE1_FIXED_BITS_MASK) != APE1_LIMIT_ALIGNMENT) {
-+			retval = false;
-+			goto out;
-+		}
-+
-+		qpd->sh_mem_ape1_base = base >> 16;
-+		qpd->sh_mem_ape1_limit = limit >> 16;
-+	}
- 
- 	default_mtype = (default_policy == cache_policy_coherent) ?
- 			MTYPE_NONCACHED :
-@@ -97,37 +135,22 @@ static bool set_cache_memory_policy_cik(struct device_queue_manager *dqm,
- 			| ALIGNMENT_MODE(SH_MEM_ALIGNMENT_MODE_UNALIGNED)
- 			| DEFAULT_MTYPE(default_mtype)
- 			| APE1_MTYPE(ape1_mtype);
--
--	return true;
--}
--
--static int update_qpd_cik(struct device_queue_manager *dqm,
--			  struct qcm_process_device *qpd)
--{
--	struct kfd_process_device *pdd;
--	unsigned int temp;
--
--	pdd = qpd_to_pdd(qpd);
--
--	/* check if sh_mem_config register already configured */
--	if (qpd->sh_mem_config == 0) {
--		qpd->sh_mem_config =
--			ALIGNMENT_MODE(SH_MEM_ALIGNMENT_MODE_UNALIGNED) |
--			DEFAULT_MTYPE(MTYPE_NONCACHED) |
--			APE1_MTYPE(MTYPE_NONCACHED);
--		qpd->sh_mem_ape1_limit = 0;
--		qpd->sh_mem_ape1_base = 0;
--	}
--
- 	/* On dGPU we're always in GPUVM64 addressing mode with 64-bit
- 	 * aperture addresses.
- 	 */
--	temp = get_sh_mem_bases_nybble_64(pdd);
-+	temp = get_sh_mem_bases_nybble_64(qpd_to_pdd(qpd));
- 	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(temp);
- 
- 	pr_debug("is32bit process: %d sh_mem_bases nybble: 0x%X and register 0x%X\n",
- 		qpd->pqm->process->is_32bit_user_mode, temp, qpd->sh_mem_bases);
- 
-+out:
-+	return retval;
++static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
++{
++	/* The dma-buf's priv field points to the original GEM object. */
++	return obj->dma_buf && (obj->dma_buf->priv != obj);
 +}
 +
-+static int update_qpd_cik(struct device_queue_manager *dqm,
-+			  struct qcm_process_device *qpd)
-+{
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_vi.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_vi.c
-index b291ee0fab943..320518f418903 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_vi.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager_vi.c
-@@ -27,6 +27,14 @@
- #include "gca/gfx_8_0_sh_mask.h"
- #include "oss/oss_3_0_sh_mask.h"
- 
-+/*
-+ * Low bits must be 0000/FFFF as required by HW, high bits must be 0 to
-+ * stay in user mode.
-+ */
-+#define APE1_FIXED_BITS_MASK 0xFFFF80000000FFFFULL
-+/* APE1 limit is inclusive and 64K aligned. */
-+#define APE1_LIMIT_ALIGNMENT 0xFFFF
-+
- static bool set_cache_memory_policy_vi(struct device_queue_manager *dqm,
- 				       struct qcm_process_device *qpd,
- 				       enum cache_policy default_policy,
-@@ -85,6 +93,36 @@ static bool set_cache_memory_policy_vi(struct device_queue_manager *dqm,
- {
- 	uint32_t default_mtype;
- 	uint32_t ape1_mtype;
-+	unsigned int temp;
-+	bool retval = true;
-+
-+	if (alternate_aperture_size == 0) {
-+		/* base > limit disables APE1 */
-+		qpd->sh_mem_ape1_base = 1;
-+		qpd->sh_mem_ape1_limit = 0;
-+	} else {
-+		/*
-+		 * In FSA64, APE1_Base[63:0] = { 16{SH_MEM_APE1_BASE[31]},
-+		 *			SH_MEM_APE1_BASE[31:0], 0x0000 }
-+		 * APE1_Limit[63:0] = { 16{SH_MEM_APE1_LIMIT[31]},
-+		 *			SH_MEM_APE1_LIMIT[31:0], 0xFFFF }
-+		 * Verify that the base and size parameters can be
-+		 * represented in this format and convert them.
-+		 * Additionally restrict APE1 to user-mode addresses.
-+		 */
-+
-+		uint64_t base = (uintptr_t)alternate_aperture_base;
-+		uint64_t limit = base + alternate_aperture_size - 1;
-+
-+		if (limit <= base || (base & APE1_FIXED_BITS_MASK) != 0 ||
-+		   (limit & APE1_FIXED_BITS_MASK) != APE1_LIMIT_ALIGNMENT) {
-+			retval = false;
-+			goto out;
-+		}
-+
-+		qpd->sh_mem_ape1_base = base >> 16;
-+		qpd->sh_mem_ape1_limit = limit >> 16;
-+	}
- 
- 	default_mtype = (default_policy == cache_policy_coherent) ?
- 			MTYPE_UC :
-@@ -100,40 +138,21 @@ static bool set_cache_memory_policy_vi(struct device_queue_manager *dqm,
- 			default_mtype << SH_MEM_CONFIG__DEFAULT_MTYPE__SHIFT |
- 			ape1_mtype << SH_MEM_CONFIG__APE1_MTYPE__SHIFT;
- 
--	return true;
--}
--
--static int update_qpd_vi(struct device_queue_manager *dqm,
--			 struct qcm_process_device *qpd)
--{
--	struct kfd_process_device *pdd;
--	unsigned int temp;
--
--	pdd = qpd_to_pdd(qpd);
--
--	/* check if sh_mem_config register already configured */
--	if (qpd->sh_mem_config == 0) {
--		qpd->sh_mem_config =
--				SH_MEM_ALIGNMENT_MODE_UNALIGNED <<
--					SH_MEM_CONFIG__ALIGNMENT_MODE__SHIFT |
--				MTYPE_UC <<
--					SH_MEM_CONFIG__DEFAULT_MTYPE__SHIFT |
--				MTYPE_UC <<
--					SH_MEM_CONFIG__APE1_MTYPE__SHIFT;
--
--		qpd->sh_mem_ape1_limit = 0;
--		qpd->sh_mem_ape1_base = 0;
--	}
--
- 	/* On dGPU we're always in GPUVM64 addressing mode with 64-bit
- 	 * aperture addresses.
- 	 */
--	temp = get_sh_mem_bases_nybble_64(pdd);
-+	temp = get_sh_mem_bases_nybble_64(qpd_to_pdd(qpd));
- 	qpd->sh_mem_bases = compute_sh_mem_bases_64bit(temp);
- 
- 	pr_debug("sh_mem_bases nybble: 0x%X and register 0x%X\n",
- 		temp, qpd->sh_mem_bases);
-+out:
-+	return retval;
-+}
- 
-+static int update_qpd_vi(struct device_queue_manager *dqm,
-+			 struct qcm_process_device *qpd)
-+{
- 	return 0;
- }
- 
+ #ifdef CONFIG_LOCKDEP
+ /**
+  * drm_gem_gpuva_set_lock() - Set the lock protecting accesses to the gpuva list.
 -- 
 2.39.5
 
