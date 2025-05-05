@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD225AAA30E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FEA7AAA319
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:09:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B77D10E5B5;
-	Mon,  5 May 2025 23:08:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64F9A10E5A0;
+	Mon,  5 May 2025 23:09:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CDGuCnNL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zi5EvHR7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A065810E5A3;
- Mon,  5 May 2025 23:08:41 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 714BE10E5A0;
+ Mon,  5 May 2025 23:09:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D8FA75C5B7D;
- Mon,  5 May 2025 23:06:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28253C4CEE4;
- Mon,  5 May 2025 23:08:39 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id EE8F6629C3;
+ Mon,  5 May 2025 23:08:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3862EC4CEED;
+ Mon,  5 May 2025 23:09:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746486520;
- bh=EuB5NR2gHM8CNjROZJazBrCfPXq6HWcrHpmCAuliOP0=;
+ s=k20201202; t=1746486561;
+ bh=xR8HItLqSKPUB0KcBnM9Bg8bJlEv0YqN9bUXCQUdFI4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CDGuCnNLbYNfgHpaBjSjfLljhg0C8UxoQWsms3J/lO6M3UBl0ajHDaga8vDQpDDfi
- GjHGQm6vWKRsrEhWoHVGUKiA5pCEbUkcjoB/eRzLSs9IiajkyC4gXWvDkp3z0zn4ni
- xMpQK/wiD3FMxmgIip1KrokNcl0lo4Xt1xiQ0GqOhaOLQ2t1PcuyNp4N/Md+BPfKRp
- 0iNdqA8hJYk7+yFSDE+SWXSkLi6hBPUPXRD+NuFNSoFxg8PHCZURhN28W1TlwR5AGm
- 3z0bV6jGL+BJK6xjrSaiGh4kSp2qt3P969v5yGkQYQInwlYUrRDHhttxdSc4vVqILT
- CtzINi72Mq31g==
+ b=Zi5EvHR7guJtfavszqJAzRrVp3xnvvV3dNlXG1K8PBrlvpKr2JEvZ0mxDvkUfgsiB
+ +w4bLSj2/mJZuDQvTIUIGhvBBmG6Au0lxUpwtwmJttY9a1StO3ZwW/MqOTpXD5UAom
+ mLTRWqS98mVoW6f2sRh8vfU/rLbhhmZcJcYw+i8tqyp4DFfzOENiz6PIhwjDJ7t7ar
+ +OoR4niYyv/LgnFIQNaE3hBcACxcUJrTJUm2+2Nb65556ICayYIov7fasOdFYQETQL
+ APvIoszdO5UysrSSGp24+gSBludqRQltPKXv70uAb4jd0kZU7w07T3KIEIqeCYACV/
+ dU2CM8gZggxJg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zhikai Zhai <zhikai.zhai@amd.com>, Charlene Liu <charlene.liu@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
+Cc: Victor Lu <victorchengchi.lu@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ tao.zhou1@amd.com, Hawking.Zhang@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 073/212] drm/amd/display: calculate the remain
- segments for all pipes
-Date: Mon,  5 May 2025 19:04:05 -0400
-Message-Id: <20250505230624.2692522-73-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 092/212] drm/amdgpu: Do not program AGP BAR regs
+ under SRIOV in gfxhub_v1_0.c
+Date: Mon,  5 May 2025 19:04:24 -0400
+Message-Id: <20250505230624.2692522-92-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505230624.2692522-1-sashal@kernel.org>
 References: <20250505230624.2692522-1-sashal@kernel.org>
@@ -67,93 +65,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zhikai Zhai <zhikai.zhai@amd.com>
+From: Victor Lu <victorchengchi.lu@amd.com>
 
-[ Upstream commit d3069feecdb5542604d29b59acfd1fd213bad95b ]
+[ Upstream commit 057fef20b8401110a7bc1c2fe9d804a8a0bf0d24 ]
 
-[WHY]
-In some cases the remain de-tile buffer segments will be greater
-than zero if we don't add the non-top pipe to calculate, at
-this time the override de-tile buffer size will be valid and used.
-But it makes the de-tile buffer segments used finally for all of pipes
-exceed the maximum.
+SRIOV VF does not have write access to AGP BAR regs.
+Skip the writes to avoid a dmesg warning.
 
-[HOW]
-Add the non-top pipe to calculate the remain de-tile buffer segments.
-Don't set override size to use the average according to pipe count
-if the value exceed the maximum.
-
-Reviewed-by: Charlene Liu <charlene.liu@amd.com>
-Signed-off-by: Zhikai Zhai <zhikai.zhai@amd.com>
-Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Victor Lu <victorchengchi.lu@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/display/dc/dcn315/dcn315_resource.c   | 42 +++++++++----------
- 1 file changed, 20 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
-index 958170fbfece7..9d643c79afea6 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
-@@ -1717,7 +1717,7 @@ static int dcn315_populate_dml_pipes_from_context(
- 		pipes[pipe_cnt].dout.dsc_input_bpc = 0;
- 		DC_FP_START();
- 		dcn31_zero_pipe_dcc_fraction(pipes, pipe_cnt);
--		if (pixel_rate_crb && !pipe->top_pipe && !pipe->prev_odm_pipe) {
-+		if (pixel_rate_crb) {
- 			int bpp = source_format_to_bpp(pipes[pipe_cnt].pipe.src.source_format);
- 			/* Ceil to crb segment size */
- 			int approx_det_segs_required_for_pstate = dcn_get_approx_det_segs_required_for_pstate(
-@@ -1768,28 +1768,26 @@ static int dcn315_populate_dml_pipes_from_context(
- 				continue;
- 			}
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
+index ec4d5e15b766a..de74686cb1dbd 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
+@@ -92,12 +92,12 @@ static void gfxhub_v1_0_init_system_aperture_regs(struct amdgpu_device *adev)
+ {
+ 	uint64_t value;
  
--			if (!pipe->top_pipe && !pipe->prev_odm_pipe) {
--				bool split_required = pipe->stream->timing.pix_clk_100hz >= dcn_get_max_non_odm_pix_rate_100hz(&dc->dml.soc)
--						|| (pipe->plane_state && pipe->plane_state->src_rect.width > 5120);
+-	/* Program the AGP BAR */
+-	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BASE, 0);
+-	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BOT, adev->gmc.agp_start >> 24);
+-	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_TOP, adev->gmc.agp_end >> 24);
 -
--				if (remaining_det_segs > MIN_RESERVED_DET_SEGS && crb_pipes != 0)
--					pipes[pipe_cnt].pipe.src.det_size_override += (remaining_det_segs - MIN_RESERVED_DET_SEGS) / crb_pipes +
--							(crb_idx < (remaining_det_segs - MIN_RESERVED_DET_SEGS) % crb_pipes ? 1 : 0);
--				if (pipes[pipe_cnt].pipe.src.det_size_override > 2 * DCN3_15_MAX_DET_SEGS) {
--					/* Clamp to 2 pipe split max det segments */
--					remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override - 2 * (DCN3_15_MAX_DET_SEGS);
--					pipes[pipe_cnt].pipe.src.det_size_override = 2 * DCN3_15_MAX_DET_SEGS;
--				}
--				if (pipes[pipe_cnt].pipe.src.det_size_override > DCN3_15_MAX_DET_SEGS || split_required) {
--					/* If we are splitting we must have an even number of segments */
--					remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override % 2;
--					pipes[pipe_cnt].pipe.src.det_size_override -= pipes[pipe_cnt].pipe.src.det_size_override % 2;
--				}
--				/* Convert segments into size for DML use */
--				pipes[pipe_cnt].pipe.src.det_size_override *= DCN3_15_CRB_SEGMENT_SIZE_KB;
--
--				crb_idx++;
-+			bool split_required = pipe->stream->timing.pix_clk_100hz >= dcn_get_max_non_odm_pix_rate_100hz(&dc->dml.soc)
-+					|| (pipe->plane_state && pipe->plane_state->src_rect.width > 5120);
+ 	if (!amdgpu_sriov_vf(adev) || adev->asic_type <= CHIP_VEGA10) {
++		/* Program the AGP BAR */
++		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BASE, 0);
++		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BOT, adev->gmc.agp_start >> 24);
++		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_TOP, adev->gmc.agp_end >> 24);
 +
-+			if (remaining_det_segs > MIN_RESERVED_DET_SEGS && crb_pipes != 0)
-+				pipes[pipe_cnt].pipe.src.det_size_override += (remaining_det_segs - MIN_RESERVED_DET_SEGS) / crb_pipes +
-+						(crb_idx < (remaining_det_segs - MIN_RESERVED_DET_SEGS) % crb_pipes ? 1 : 0);
-+			if (pipes[pipe_cnt].pipe.src.det_size_override > 2 * DCN3_15_MAX_DET_SEGS) {
-+				/* Clamp to 2 pipe split max det segments */
-+				remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override - 2 * (DCN3_15_MAX_DET_SEGS);
-+				pipes[pipe_cnt].pipe.src.det_size_override = 2 * DCN3_15_MAX_DET_SEGS;
-+			}
-+			if (pipes[pipe_cnt].pipe.src.det_size_override > DCN3_15_MAX_DET_SEGS || split_required) {
-+				/* If we are splitting we must have an even number of segments */
-+				remaining_det_segs += pipes[pipe_cnt].pipe.src.det_size_override % 2;
-+				pipes[pipe_cnt].pipe.src.det_size_override -= pipes[pipe_cnt].pipe.src.det_size_override % 2;
- 			}
-+			/* Convert segments into size for DML use */
-+			pipes[pipe_cnt].pipe.src.det_size_override *= DCN3_15_CRB_SEGMENT_SIZE_KB;
-+
-+			crb_idx++;
- 			pipe_cnt++;
- 		}
- 	}
+ 		/* Program the system aperture low logical page number. */
+ 		WREG32_SOC15_RLC(GC, 0, mmMC_VM_SYSTEM_APERTURE_LOW_ADDR,
+ 			min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18);
 -- 
 2.39.5
 
