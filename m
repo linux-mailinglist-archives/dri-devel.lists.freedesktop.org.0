@@ -2,159 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F7CAA9768
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 17:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA19AA9770
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 17:25:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13BE310E402;
-	Mon,  5 May 2025 15:23:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4239E10E0D3;
+	Mon,  5 May 2025 15:25:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YkU3GgVE";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="WLWUFqpv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2079.outbound.protection.outlook.com [40.107.220.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F6B710E413
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 15:23:52 +0000 (UTC)
+ (mail-co1nam11on2075.outbound.protection.outlook.com [40.107.220.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 179AB10E0D3;
+ Mon,  5 May 2025 15:25:10 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mpsOVCQftZuBo4vUfljxFPcI8UlgolQQjqYcudxzuwyIFHGN9fdne1ftg5uXBV0ss+oBojyLwMpbAzfZAG1rJkfhdqtNBYODn+Ge0DOfWgCUdFGL8oXqrHhaq1aKeX9mQDPqM5zqovNE4uCfplw1AYPPu96dPPBlv49MpiiXQNJkg8s32jGVP1K7QFE1JGzpba5o7Kn3w+1UFYDmTI/r9dH4RFIf2qKKmLVRKJNqYiNZg+jDGmvN5h1+ZDjFcReHbzqAvJoO8EsTab3hF9+AfVILHuxClkVUNZNmeAEuJ9JtHl0nHKYqWgfq8lDcUQ7EhYH8jbkBBBJTm3NqM/uE9g==
+ b=DjwOYPlcFyRHKFO49Bgsmx03jL3gqrRhUolXXguISxmwf5nw4lmBH6ih1VNH2HivTf4OgsoU8WpPHZ/jwYTSH016yVSLQcbx4Ij1u6b5yC8PTMq0LBIzTDaAD2VCvC3ewXivaQuPt/a/JP0uV0JIvXNaJzE0Lu6z9PvTq1JSR8z2VdEAy9VuGdIEkBsnZqqOs83nukzHRbIdleeIDoAhuy3y5mzVMIM29Jjku1Lfa71wa/WtlVIVs2bIyHUixPDt00pKREh0JCFi0q7Xrp8c9jLugNzXscf3UAyzDdqzTLLTLuFMLGbDwEcSsHNik8cWdscmN+j7r90cg0kxwrChbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QLrkA9DO6zI8Hje+GNGtU9d1vPo2vxI94+XiVlGQVUQ=;
- b=TMw6dntWRopnLmrIrCfO2aAPFQZ4o4PycAGl4leGG4Y4lc1PBgrbNElHcCCh96itrWFLWgla6taNW8P+mJP+5ghVembjycJrwRSX3WIzvSLxAoqZknxKSBY0e7O01PiKWOj2ST6+xb/f8B5ZoHerwGqIPtq/BRkgUjvXYnLzO/dfzt3jSqH0xj3ns1WaAo96o6G+iIEXhVL50PaDDXsWlAmihS5r48htUAM6j46x+x7034lDJjTGXlYJUsd/bA1KuOs1AECexSJpAkoaQiiC66BFomHUDJJTr/fLgPcD+dGw0vnbY010rOr6iWtwnj0dbPxcJv3zpT1ArMOXZwuQww==
+ bh=j4uyUFZAfHy/2u7tNlEh3d2HCnEnYNa71lFBCJgYKMs=;
+ b=GPW6U/vvmFNZwQTOY0ErNNo+KAWEn7cnhKdX8xDY7l8hetylJDQwiaOZiPi80oJOb/mj+1HlvU6vp+c9K8P/7Qh0ETrFmiUulx78mn7khQHJURG35I8hg56lyZ/GuMwCtk3CTzMLA4J5pBXKLPuPSEQcXkKPdh4HjV72tP99gp5CKABlbkv+wzkmZ7HqF8FEvh2MaCF7M991ek4cTYg84+bjCZEIYUkuPTamUfN7jEdMWJTTBTUUACl7vbbA7JeA6+tq6+rNtvAm4jHjQlCD4j7+mP9CBPnCc7G7VuUFo8Bb/huq4uZ5/+F8S0xC/gC642eq+5kbwiXntSPNrCSZ+Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QLrkA9DO6zI8Hje+GNGtU9d1vPo2vxI94+XiVlGQVUQ=;
- b=YkU3GgVEdvYbAGqPx7V0k06XU8aJtIuive7+4hVXVrRKVc7TnQI/78lo6MktBFu2VAVgAxi7y64RER4cuS7ZyAQRBWf7/XAt+Uwi1QhIKpvhmNEk5GiyFPd0sd/3u1Isj/rXmLwZtQZLyy8d/g4ri8OQYghx0wuKv10snpjl7ME=
+ bh=j4uyUFZAfHy/2u7tNlEh3d2HCnEnYNa71lFBCJgYKMs=;
+ b=WLWUFqpvNzxn24Gpg6KTO0VLk6GtodsiBfmQkhl5sAd3RLDrFIMhJW5GBCzQS0UE+TWyj8Du31Wc/bFBuZW9DZkedSpbQbNyVKFK6nGZ60PilDQ6K4018ex6l4mzDEgCR2ClintQeiCco9QvxzwY7SMxiSG927ndcc+EfnUdJOjCuaRwF8y92xnv4fgv8PLb+29fhVXYiFZVQk7XGAorYmjUxxhS1pzD6l6n7PNsHA6Jbx0tOEiCoT5p1dCAeWbUxRkz9E3esxbjimgYsHB5yksSMPQoSlzZtRbM2bAAF6ClPpMjpNW4Slq6ZXE0xTdXJCx0bzYqJf3VEM3mexfLwg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ0PR12MB5663.namprd12.prod.outlook.com (2603:10b6:a03:42a::18)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by SJ1PR12MB6361.namprd12.prod.outlook.com (2603:10b6:a03:455::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Mon, 5 May
- 2025 15:23:47 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Mon, 5 May 2025
- 15:23:47 +0000
-Message-ID: <c9321d5f-7f3f-43d8-86dd-1a8a0fa4acca@amd.com>
-Date: Mon, 5 May 2025 17:23:40 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Mon, 5 May
+ 2025 15:25:05 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.8699.021; Mon, 5 May 2025
+ 15:25:05 +0000
+Message-ID: <ce197acc-8b66-4a6c-85aa-3318666d80d3@nvidia.com>
+Date: Mon, 5 May 2025 11:25:02 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/shmem-helper: Import dmabuf without mapping its
- sg_table
-To: oushixiong <oushixiong1025@163.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sean Paul <sean@poorly.run>,
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250501064324.398650-1-oushixiong1025@163.com>
- <71ec7bd1-be90-462e-8a07-e56fccae4096@suse.de>
- <8e4f60ec-caa8-431a-88f8-aee8183d96e5@amd.com>
- <a681cfd8-0c8c-4ffe-9f42-f0e54ee2539d@163.com>
- <58fb9a49-4f4f-48f6-ad98-8be27ef0c0f7@amd.com>
- <5c91c6ba-0532-4daf-be14-1a9fb077ee47@163.com>
+Subject: Re: [PATCH v2 17/21] rust: num: Add an upward alignment helper for
+ usize
+To: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20250501-nova-frts-v2-0-b4a137175337@nvidia.com>
+ <20250501-nova-frts-v2-17-b4a137175337@nvidia.com>
+ <D9LEQ1U1PLO8.3N22GRY380ZM3@nvidia.com>
+ <d6962ea3-282d-437c-b3cf-ce701d514558@nvidia.com>
+ <D9M5K55GTN6S.1X827WU0Z50UM@nvidia.com>
+ <112d971f-20c8-4598-86c9-6822d9c24001@nvidia.com>
+ <D9MLOQC5G7XH.3GTUIRCCN8X70@nvidia.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <5c91c6ba-0532-4daf-be14-1a9fb077ee47@163.com>
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <D9MLOQC5G7XH.3GTUIRCCN8X70@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR13CA0024.namprd13.prod.outlook.com
- (2603:10b6:208:160::37) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BLAPR03CA0114.namprd03.prod.outlook.com
+ (2603:10b6:208:32a::29) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB5663:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6a3b0c5-1ff9-466c-6980-08dd8be8d47f
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|SJ1PR12MB6361:EE_
+X-MS-Office365-Filtering-Correlation-Id: 34ab275e-907d-441b-9a68-08dd8be90341
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MFcvM2luZlVZUVRCZEhCOXJYWEZOZUVVLzVaU2JHZVBoRU95SFl2YWFWOVhW?=
- =?utf-8?B?OGJZWk9uVjdOWktYZS93U3c4VUFGSDNPQ2NyeVhacC84RWhWOTMwRnNzTnZ2?=
- =?utf-8?B?dldneEJlREd3Q0dsOVhYVytrai9UVnFFRkRtSzFxZTB3bnRydEVUb0Evckox?=
- =?utf-8?B?REREWHlqOS8yc2JpV2JYdEtRMXZyelIrMFg3SWxqb1lTWFN1NXVLcE9PODIy?=
- =?utf-8?B?RVNja1g3YkFlaFg4L1dwdW93MGNMZk1lNTd0elJIQmpwcWVYaks1UHEzaHZs?=
- =?utf-8?B?WWltMlluUE96U0cyd3lnakcvdmJVMVJXSTBwWjk5d3BQejdaZXA2UEJtK2w2?=
- =?utf-8?B?cGVpczRMODV6MWRMZTNuYlpBNlVDcXFudjZtKzNiaDFHWjZUcnJuSEg2Mm11?=
- =?utf-8?B?a0pHdjNEME1IM1QwSmQxOWJJN240QkJSc1ErSHcvL3BVdlM5RlBwMjNxL1VP?=
- =?utf-8?B?cnJSUGpOQ1g4U2lqMFh1M0xZRHZzcEhUckZSWHZNbVMrYUliNVhPbnlyUTBT?=
- =?utf-8?B?dFhEYlM2QjFsVnlSOTczelVCNTc0allzTkx0NU04SFBCaEV3YTBZTjM0UG1m?=
- =?utf-8?B?c1p6WXd2Z0xIRjR5elRHZDNWd0YzN2ZQRTN6WkltK3l4VmpIVEhTaklLcHVp?=
- =?utf-8?B?eTF5Y0NldzBJQjJzZXF4MWZqcFZHSVo3cGRWODU2RXA5UFFkYXczNTUyWHor?=
- =?utf-8?B?ZUU3SkhqSW9HMVZXVC9YV3hDdEJVVnlaeTZhU1hQdmJiaklWa2QyUGVVMzRF?=
- =?utf-8?B?NmVJTWd0TVhuN0Q2djkzNjFoc0J0SXNHdWg4VCsyc09TVHBESDVtVGtRTWtT?=
- =?utf-8?B?ME9xTytPaEVtTFRXaEpINVRlMm1ZOVA0bnNodHo3STFGWmViaVpRYngrd2tJ?=
- =?utf-8?B?aFRzbmV2VFY4UndPQTNXaW5YbXBJVFhBdzdKQ3ZhWVlMYzJPc3poMXBlMHVM?=
- =?utf-8?B?ZDI2amM4ZU5SaGtEeXZOUlkvUHZrWDhmQzlFVEpuNGxTbWp6RFRLOFlyTnpS?=
- =?utf-8?B?cVFNdmd3S09RVnpVLzBLRnU2cnd2TjVXbnNYb0FKNjNMdHpRVERySUNCaFVF?=
- =?utf-8?B?WU5nS1FsSW91a0lmbDZnK0c2T0t5VS9wZmZKRDRRRk44UjQ0Rjd0ZVhuSGpX?=
- =?utf-8?B?WkhEQ0czTzU0V3l2d2JLQVd5cWxHQ2dCaUF6TDY3c1c4YTlSZTNyQXVYYUo2?=
- =?utf-8?B?Q003SmljWWFXbjhmaTNjOFNhL3FMZSs0bHNuWStsazMrN1RscHB0Rm1GYnM4?=
- =?utf-8?B?dnRaOTVuOU1VZk5VbisyRll5MTFmK0ZaaXkwdEZ3UlBMT1JrVnFKbThqdVhO?=
- =?utf-8?B?K0hSaDlFdFBRNEpTbzRialBNOEZNUnc4RmdZVVZyeUxkWXErM2s4NUsxc2VB?=
- =?utf-8?B?NTZ6M0R6b3ZCNElZdTZJMnBaYi9oa1NNcjBsSU1DU2h2SlZOMytyMWRpdVBO?=
- =?utf-8?B?OW1LcmovTEpnM1dTeDdQZG9qSUtSSldVV1hlQnZpelZZMlUvQlkraDVmVG80?=
- =?utf-8?B?NzRWVm1sV2hKbXRSWDZtbDMyYUloSHhkOWtrWkxkS3lDc1RMZFQwQjhIUXFs?=
- =?utf-8?B?a0pzTzFZMXZXQTVNWnV0SUF4cDUvTldxeVJ6REozUkpZcGFXVDd3S3N5aXJY?=
- =?utf-8?B?ZnkrU3BYc2JwRkFFV1NMaVltbzFwRytFejgvcHhSRHZQL3lOWlNwUkpRdWxn?=
- =?utf-8?B?WDJpRUhrMENRK0RWMTdzM0ZVYnRyMWVscDB5NXlXWkVJYlFFUFp6dkJXQ3FT?=
- =?utf-8?B?MXdSZHBnOWwrUm5IZ1ZPa3NsNWdQVHY0RmZEcy9sRUlsWUNWakFTK1RUMXdl?=
- =?utf-8?Q?RR9Va4TNISSQT4FOGVXoGc127vTlTIB1RxcvU=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|366016|7416014|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MDhMWWJVcGJIRndoUkVWUmhHL2NzQTJJVlRLUkVoUVVYMEhhakZpZmtOL1cx?=
+ =?utf-8?B?NExBTURsWlE3ZDBUbnhVaUs0ZlRRci9ybnI5akxLc3VmSys5N0liOHlucmQy?=
+ =?utf-8?B?b2Jzb05VL1JVaFR5UUFXZ1UzdW1oU0tTZ25CSzE1eHBXZTdUelQzcjQvY09q?=
+ =?utf-8?B?SHhsUHh4NkNCYXNxSHVCNlJoSzFIcTZndWVSeGJsbnhvd3lJSDd6bkxLTE44?=
+ =?utf-8?B?ekJJbnlSZTIxR01GMU9nL3Z4aU9HcE9xQmYzVnA5M1RRRG1PVmY4eW9RdG92?=
+ =?utf-8?B?TG95UXVlcjJrK3dmN3R3cmI4M2dYTWZ5aEs3SUgzRDJlMlg0V2d2OGcxSWtR?=
+ =?utf-8?B?UHFTQXYycnY4TmJyeEFXRVN5Q0dGNkhIUHJTUTlwUHg0cUFGb2lmL0p5c0pi?=
+ =?utf-8?B?U3B0bEEyaUx2Slg3dFlzRExaVnFiTVFESU44VVdpR0FHWE1ybys4OVZoMVdn?=
+ =?utf-8?B?MllpZVFlRnRWdWpUMXBNUTJoSkRBU1p1RG5kSHl4OS9EME1wQ0lQOGl2ejVn?=
+ =?utf-8?B?WS9uY1l1TFRtcmc4TnprRWlQK1l0WFdZZjVOd2JCTXJvUGZUZTZ5QjlFMXYx?=
+ =?utf-8?B?UEVpY2tyTVRiRHZMdHQ0NkFQcjZ4d05PUU11SFlERWU5SGJvZkNmRGVYNWRB?=
+ =?utf-8?B?ZGZhSW16cWF2OWFvYzBENVZYZzM3dkxiM3BVUEFYRW5iWEJEa2xaQ2IyYnJz?=
+ =?utf-8?B?dlBld2Y1bHFORjh6WEZGQzJldUtvRXVpVXVsTThEWHlLSWdFV1V0dHhJZUNo?=
+ =?utf-8?B?Mjg4M0JLaWR0MzZPaGFadnhDMXA5WFUzODJBWk9mQ0prT1VMUG1uMVpnNnhN?=
+ =?utf-8?B?R0dodVFCczhqZzVrbjBBY0ZlSkdPS1ZHOHN3Yk4rL3lZeGRuaXR1WThkRiti?=
+ =?utf-8?B?QWVOOUt3dnl5NmpVTGVjb29lRUdid1pzRElvSm5XWkplM0c3bjYyVUdDUXh6?=
+ =?utf-8?B?Nzc4TGQvMXh5MzNIR0Yza2h3OGQvQ0wwUS9SR3RVcU14ZnhObmhJQlFEVm0x?=
+ =?utf-8?B?Tm5HSzlhTG54UEpWZ04wQWpITE56OFJJRlhoeUh2c2Q1RHlLM2trenFJWkpD?=
+ =?utf-8?B?SjlmTDNDaFRGQ0JGYlZRSCtianJGaUpwM3BlTGxQUzd6U05MU2NPVXVrdU9H?=
+ =?utf-8?B?cm1CMDlBNVhPb1RZbmx4VGJxZEFHRGcxMGJJamF5VlZDbTN2blJyeTZJZ3lo?=
+ =?utf-8?B?OVNSL3R1VUNtNE51TEpibFRwNDEyL0NMSXcva2lYK2VIU08vTUU1cVBMb2xh?=
+ =?utf-8?B?djBQM2tGc0Q4VVE4dGlhTmdDK1l5R2VZYTZCakRDL24xRXd4VzRKdmNrNDBs?=
+ =?utf-8?B?WUc4ZGl3Z2lib0xFL2tCQ0JQdG81eFB4bmh2d01uVHVIcXc3YTIvRGo3S3VP?=
+ =?utf-8?B?TDNpZUZ3VDlyeUU5S0svejIybEdvaWJUc1FWaFV3eGJMSVFMWmZsV2dEYVZF?=
+ =?utf-8?B?WWVGRWdEWnNkVDdlOHRRZ3RYRFlFK1MzeHU4dlVxTVhEWWtpbUhENFA0Sk1r?=
+ =?utf-8?B?dlJtdVpJSjFBS1JFaS9oNW02WjBjTkduL1ViOTYrV0NDSjhuUWJjdm9ZN3Rj?=
+ =?utf-8?B?V2ZVNnFNVVFPdFNVanluY2FVcjlyNkt4V3lwOGY3S0N5REpDbjB2NUtLcUkw?=
+ =?utf-8?B?cGduWDBpaUtFbTRmL2RiVytCQUlBaTJjS1RNZy80enc4OXFwN0xacWszSUxq?=
+ =?utf-8?B?OHVGd3kvN1ZUazFDQVNXL29rSElDQmxad0RMYlI3SzN1UHduNUR5RWYrN3Vj?=
+ =?utf-8?B?MHZRNmNsMTMxN042czhDTTI2MWpIQXhkaTdQdVpob0pVSlZ0ZHFyQ3B2VlJN?=
+ =?utf-8?B?SThNM2FRT05Jc0dlK1NKdW5LUm14NGxnSWx4cCtpejVmbGxGbmRHMEFJRU10?=
+ =?utf-8?B?bmRyQmU3cDNkaGNGRzNadm4xcEU0aFltTlFadFYyZkdhWnNVU3I4QnJveGQv?=
+ =?utf-8?B?YXdqeGVxYThWVEdLTU4yK3lsVWJEc2QvclExYkFPOHNMUTBGci9hanFWMmE1?=
+ =?utf-8?B?V0h0NHFxRHhRPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(7416014)(1800799024)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHU4QmdkdVZIQWRKUDdjb0ZhMEVQWFRTdFlISXc1YmVkbVVZSUxUNi9nQmRU?=
- =?utf-8?B?aksrODVBbUhFcnRaajRaSDZFMFkwTnpLajdCNzF4WUdTUWFqK0R4dFUyZTdi?=
- =?utf-8?B?a3ptbTYxYmRGKzhRemwzMTArS2s4RFpnR3E4QUh1U3dBaFYvdGhjQUtoOE10?=
- =?utf-8?B?K2gxY05UbzBaQ0JTWSs3cEVUKzYzSlVCZ0ZHM1gxTEhFeXp0RE96aTJBOW5B?=
- =?utf-8?B?aEREVGhlZ0hrS3RhanpaZytlMHc4OTNvZGhYdzdZZnRISDVublkva203Zjgw?=
- =?utf-8?B?UkhremtBblNpTGU2VkJ2N2ZWUkd5UTU4RU8yZkNmUGJWVzdtZlZobGdPLzlj?=
- =?utf-8?B?cmFUVzBtWFN0dG1RcFo2Rm8yVGMzejZLQUlhMGV0V1RQYUNRb01YQWh5bnBz?=
- =?utf-8?B?SHl6YlVSd2JZbHFtRTJlUXluYzBCZjZjS2V1NTFXQVZGSHJmeS9PblNVU1Ez?=
- =?utf-8?B?VHJOQ3o0SHpzWkpiZENWYThEbEs3dDVQbTR3ZkFpTlZHRDNtdWZtblNTRlBl?=
- =?utf-8?B?bTVTb2dKY2hyOGFaRzZrOUF0VHkrY2t5amlzVkxtNHZ4dlFHSWRxZHl5V05C?=
- =?utf-8?B?bFlXVVJxZUp5d1lMbFVueDZ5ZXM0VUgvdjhHbUNMZTV4Szc5M2JEZEErRE5C?=
- =?utf-8?B?TXROV1dpcG5iTWZGMFgxZEorbGJZR3Njd3NYZkx5aFB2aVJNaXZSaGlUejkz?=
- =?utf-8?B?RFZaekpTUmJPWlJQcTlTN3lKT2hjeUhoQkZzVWlwcUU4UGdjRjMrOHJMbEQ4?=
- =?utf-8?B?Tms5Vi9PemJlNmtKU21lUmtiS2doc3NScmltSkRHc2M5d2JJa1N4OFhMRHpx?=
- =?utf-8?B?eUtEck5wTEoxdytmUGQveXkzYU1ZbnpzeXd4N2daQklCaG5VZW9DUTJ4WWh5?=
- =?utf-8?B?d3JBVTF3aDBQKzYzWjlmTFJzTDdKYXMvRkF0b3pGQnE4SW4yenR1YmlLek1m?=
- =?utf-8?B?UFY2bHFPYWs5MjNYM3FaTHZOUEtmaENJNFhOU2w1cmZQSjRjL1paM2pvTkZL?=
- =?utf-8?B?cXd4S2FpOUFvTmlVYXBqODA5M2loK2F5cXlmb0hiUzFHRUt0a1Z4cFl0R0xj?=
- =?utf-8?B?S3p1Y2xUQ3JJOE53akFoZjVGZHMxTFcrcDlBeVJkZ1EvYkUwbHN4aE5BL3NC?=
- =?utf-8?B?OUpldVFTSzErNDBTeTJBZ3lUc2hjTStoRllRZ2p6WTNyWGhMODRBa1RqaXBF?=
- =?utf-8?B?U0xNV3Z0T3NpdjVGSGlITkpjZGFZakhtajhRcURacEtTWCtuYUJkbytoeStR?=
- =?utf-8?B?WUp1bnlrWENvblZtNGU1NWxqMFdaYzBNR2VsQ0pOTmRMN3lvWVBFWENkaXlo?=
- =?utf-8?B?R1RpY0IwcEdhN1VjSTdETFJzODNXL2VMU0dLUmxtVGNzRWFuZyswY2lrakZw?=
- =?utf-8?B?RDhyV3o3R3N5djd6ZnMzMlVsVVdVaTIwMW9OU09NMnJCUzdMWHlrSDkwS1Uz?=
- =?utf-8?B?U01uTjdSOUZTSU1KR2M2NlhnYzkxQ0NOVUc4YjNsWkl0dGxiVmRLSkVJZjFi?=
- =?utf-8?B?T1lFNyt4M3NXNHdldFJmWFpyc21FYlU0ZkxTa2FoaXA1ZisxYkZyUUl3RWtY?=
- =?utf-8?B?K2hGZU0zWVV6Sml1SFRDdmtzQ3k2OXNoMDFUMVJIamVQRklzWUkvMEpOdENy?=
- =?utf-8?B?V0NNU3QrZ2Q0bGk4YUVqQVkzRUF5QjAwRC8wb29yWVh0a3ZzR1N5bjF6WTBZ?=
- =?utf-8?B?L2VYM1J1VFVuV3hpbUNCVWFrUW5MSkJFUHczMytIcGkyOVlvdWlienNNb2Fp?=
- =?utf-8?B?SDllSFQ1eGRQUE5LU21uL09wMGw1dG1qVlpvYjFIRTVBaVN1RmJnbitxYStQ?=
- =?utf-8?B?RSt5N1h6dHVHVVRvNGI0US8rK1IrdFlnenZNUUJSZjliZTUxUTJyemV5NW9y?=
- =?utf-8?B?WFJ1QUtLUmZ3YXN5OWxJUVNpZi8xczNqYkkzTFlIKzBReTFuZ1FDNDh6bGxi?=
- =?utf-8?B?cG9yZ3dqNUUxRmI3M1RJU2d2OWdvbVVnVHFtTVIrNWZ2aXFKWXlROUpxSzlT?=
- =?utf-8?B?YlU3Mmx4WVJWaWhZeGtkSGlhTnM2Vm01SUt3NTk3aExrVE5TenErQUhBQ0tp?=
- =?utf-8?B?Rlp0aE8yZ1hlK3NOSXdvYkVWRXZoRkRheDZlWXMxTHYwd3JUWDhsL3FSa1lZ?=
- =?utf-8?Q?uBYOFtccc2NTu1mpyWrqY1VMk?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6a3b0c5-1ff9-466c-6980-08dd8be8d47f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?akUwM3J1ZmRVemRBOWNYYTFZVUF1UkJKMVhSUGpuSkRDUEVpcTFjRmNrU2JF?=
+ =?utf-8?B?TG1QRW9nd3hsMHFYaGYyZXpBWGNCcE51VUhvWnEzcXhWRzlFa2JVaS84NGdN?=
+ =?utf-8?B?RkMwOU1YeFhYenJaY0pkcUg0Y0U0ZWx5c1lpMnFUT21WM2hvT0Q4azFsa3VL?=
+ =?utf-8?B?ejUxR09FcGFRQkZsV3ZNNk1DbUVqQkoxVU1uSnV4VDZuaUhXYmE1YVVoamFF?=
+ =?utf-8?B?V1ROVDVDaUV2OHdMOWRPSjNBejdGZkJWWks3b1JESE5rTzFFbG5pVkI2SHZB?=
+ =?utf-8?B?R0JlcDR1TUV2K3J3VTYrMTI5VWtJbnVUM2FMczJGZU9qa1JBWGZpWk1HamdS?=
+ =?utf-8?B?c29iNE9VcENiYVE3eER3L3BWTXR0Z0M3R3FoY3lHdFNKb3lLaUloeDRFYUp1?=
+ =?utf-8?B?Ny8xK0c1d1l5MmFqWnFnUmd1a1pBaU9heXAxVWN0eTBpcG5pOXNHS3gvOVBE?=
+ =?utf-8?B?Z051d0dOTVZXamFMWnBEOVI3ZkpYNGdrVjNENUg0TEZUWjYrTU4vWWplTmdV?=
+ =?utf-8?B?UTgydlAvMThqNmFmVmFzNDFoSVA1ai9mT0YrY0VWTnhyQVg4SHdEUGltdjlW?=
+ =?utf-8?B?cWNjNnFvaXl5enZ2NS9WM1p5c3AwdFdFZVJZdlM4NnpzT296TTFzSmhTdC9t?=
+ =?utf-8?B?WlN3TURTam8rMGN3Y041UDNtRFZLMVlvWHdGWi8xZDBWWlFMVFVSdURnU3Q0?=
+ =?utf-8?B?enlZRDdBQlNoWmtoZGxZZ0ZRemJXSmVTUnJYcmVTMXh5UjJhU3ZEQmhCWFAv?=
+ =?utf-8?B?dllUbksxd0daSEx3R2UwMi9SWS9vRmlOdDdpQnpiQlBlZXo5bkJmK3pacW1p?=
+ =?utf-8?B?YjZDMzRNUHpIZ2RRUGtRKzBtckRWMlFMRTVnYkV1R1Bkcks0dDQ2QytOQito?=
+ =?utf-8?B?ei8rNnlndm1XUmdTQkwvMTI0d3FncXBub2M4RW56cGhlSHI5OG03a0RiK0c5?=
+ =?utf-8?B?RUZJVlN2RXRYQlE4Mit1T2VCSXljMDBPdC9Ua2Y4aGxUdFBHZnF5VTNLbVBJ?=
+ =?utf-8?B?Y09TZHRWenExalhMeEJtS1F6dFhGSHJFMkkvMXdINkFjdGhZbjdjV2lpc3lI?=
+ =?utf-8?B?cllvVVdKWmlHOEc0RHdkaDRrZ3kyVG9lSmxEdVJFaFYxRFI0aDR0ZU1qNW5L?=
+ =?utf-8?B?a0I2dithWGFWN3BqYmtNMVdiT1NGa0tad3k3cWJ1enY0YWxFQm8wN2dDSE5Y?=
+ =?utf-8?B?bmVnN3ZEcDFLUTNJc0kzUUtVNzhtbTVHYUZiSWVOOXEyMWpKWmpLZ3doUzNL?=
+ =?utf-8?B?cWZxWXFIaHI2RzJYUlpJajlLcTFFQWp2RHB5eTkrbGY4WU5hM1MwUnNQL3oz?=
+ =?utf-8?B?ZVk0QU0zVmFkV015K2ZMam5aWG1RaGtlS2FHWlJwRTNDNzdkZWlUR2ExUDlV?=
+ =?utf-8?B?Ly9qV0hSQ0J4SjZmYUI4ZWZTYVJBaGhrMTgrdFN4RFpheVUraHE3a2tndUV3?=
+ =?utf-8?B?akZsSXNRWnUyUVV1S0lUY3BCRmd4T3ZCcjNqamloMCszZWxMcHJTQmhCaTJ3?=
+ =?utf-8?B?K2l0N0pJWE4yZjIxQkFpcVE5RW5ManY5MWVyRnEvUnJhWW1BL3VSUDA0bzdO?=
+ =?utf-8?B?N3NDQ3JLeXlOSjhRYXVZTWdIWnhsUU8xSXJoT2E1ZEp1WUE5ZVMxTFhtbVZV?=
+ =?utf-8?B?VUtKWnR6TysrdmZQclAyWmZCaFJqa2IyL2FPbmhzOWdzWEg0WkI1MmdVSkpD?=
+ =?utf-8?B?bnpFOXpNc0pOaXFOdFUyeWY5QXZMdzNrN1ZDeHdaOFdzN0x0dERjdkVTVmdP?=
+ =?utf-8?B?SElFTVRMRHhMWVpEbUxYT2o2WnppbC9rMWJ5UUptMWZadDBQQmVPMXYvb1cv?=
+ =?utf-8?B?QU5RSVhQNk5GNUhNdmJYZ2xiMXFhMWxrRDc3SHpPVCtzSmlHcVUwS2FiZEV1?=
+ =?utf-8?B?WmRpWDJaZDdRQ3JFWThlaU1MK0lmLzNKenc1MElrdk9VOTg1SG9kMGVpYjJV?=
+ =?utf-8?B?ZjhLNEpwL0Rtdm1UaFFJUkRBK0JLNU9wcDBqUjRDN1JGTmQ1bFcxcGdkb21V?=
+ =?utf-8?B?UXNXZFBrZXlMSHpGVGlqYkVXZ0lBK2xrSlJnclllMlIxQjJDcHZ5RzBteVlK?=
+ =?utf-8?B?cXhiam90RGlvOWlQbkFKUEYrL25FV2FHdG9TQ0Z0SXJrMEVLdERyQlpKQWJy?=
+ =?utf-8?Q?QC0DliJEUvJdqM0w9uJ+wqgyF?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34ab275e-907d-441b-9a68-08dd8be90341
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 15:23:47.2458 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 15:25:05.6514 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nJWJFDqzctNJ+i2rMtt4nN7F24zc5TA6/sGvx5KG4SaMYx5QvfkFI8STEEg6tbME
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5663
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZR35woHs0+GTnAVEL61uhOw5+KvixpYy+EXAEg+UxmvVvPo6G+iv7aCBXHiwaNbMnoOYnlRWsAbcIZlVg6CNXw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6361
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,278 +183,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Shixiong,
+Hello, Alexandre,
 
-could also be that I didn't fully got what you try to do here.
-
-Between which drivers and implementations are the BOs shared exactly?
-
-You could also just rebase your patches on drm-misc-next and send them out again and I can take another look.
-
-Regards,
-Christian.
-
-On 5/5/25 17:11, oushixiong wrote:
-> Hi Christian,
-> 
-> I don't see strong relevance between my patch and the patches you're referring to.
-> Because the drm_gem_prime_import() function imports sg_table by default, my patch provides an alternative
-> import callback implementation for SHMEM-based drivers that differs from drm_gem_prime_import().
-> drm_gem_shmem_prime_import_sg_table() doesn't need to call dma_buf_map_attachment_unlocked() to import sg_table.
-> 
-> Alternatively, I might not have fully understood the patches you mentioned.
-> 
-> 
-> Thanks and Regards,
-> 
-> Shixiong.
-> 
-> 在 2025/5/5 22:32, Christian König 写道:
->> Hi Shixiong,
+On 5/3/2025 10:37 AM, Alexandre Courbot wrote:
+> On Sat May 3, 2025 at 12:02 PM JST, Joel Fernandes wrote:
 >>
->> for drm changes please base your patches on drm-misc-next or drm-next.
 >>
->> That is probably fixed by this one here:
->>
->> commit b72f66f22c0e39ae6684c43fead774c13db24e73
->> Author: Christian König <christian.koenig@amd.com>
->> Date:   Tue Feb 11 17:20:53 2025 +0100
->>
->>      dma-buf: drop caching of sg_tables
->>           That was purely for the transition from static to dynamic dma-buf
->>      handling and can be removed again now.
->>           Signed-off-by: Christian König <christian.koenig@amd.com>
->>      Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
->>      Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>      Link: https://patchwork.freedesktop.org/patch/msgid/20250211163109.12200-5-christian.koenig@amd.com
->>
->> After this patch SG tables where only created when necessary.
->>
->> Regards,
->> Christian.
->>
->> On 5/5/25 16:22, oushixiong wrote:
->>> Hi Christian,
->>>
->>> My patch is based on linux-next, so this patch is not based on the latest code. Then, I'd like to ask which patch resolved the issue with sg-tables?
->>>
->>>
->>> Thanks and Regards,
->>>
->>> Shixiong.
->>>
->>>
->>> 在 2025/5/5 19:25, Christian König 写道:
->>>> Hi Thomas & Shixiong,
+>> On 5/2/2025 9:59 PM, Alexandre Courbot wrote:
+>>>> pub trait AlignUp {
+>>>>     fn align_up(self, alignment: Self) -> Self;
+>>>> }
 >>>>
->>>> first of all the patch is still based on outdated code. For example the cache_sgt_mapping member is already removed in drm-misc-next.
+>>>> macro_rules! align_up_impl {
+>>>>     ($($t:ty),+) => {
+>>>>         $(
+>>>>             impl AlignUp for $t {
+>>>>                 fn align_up(self, alignment: Self) -> Self {
+>>>>                     (self + alignment - 1) & !(alignment - 1)
+>>>>                 }
+>>>>             }
+>>>>         )+
+>>>>     }
+>>>> }
 >>>>
->>>> So if I'm not completely mistaken the issue is already resolved upstream.
+>>>> align_up_impl!(usize, u8, u16, u32, u64, u128);
 >>>>
->>>> Regards,
->>>> Christian.
+>>>> Or, we can even combine the 2 approaches. Use macros for the "impl Alignable"
+>>>> and use generics on the Alignable trait.
 >>>>
->>>> On 5/5/25 13:12, Thomas Zimmermann wrote:
->>>>> (cc'ing Christian)
->>>>>
->>>>> Hi,
->>>>>
->>>>> I don't feel qualified to fully review this patch.
->>>>>
->>>>> It would be good to have the issue with sg-tables solved, but I dislike the dedicated initializer macros. So my question is if this has any drawbacks. Or could we make this available and the default for all shmem-based drivers?
->>>>>
->>>>> Best regards
->>>>> Thomas
->>>>>
->>>>> Am 01.05.25 um 08:43 schrieb oushixiong1025@163.com:
->>>>>> From: Shixiong Ou <oushixiong@kylinos.cn>
->>>>>>
->>>>>> [WHY]
->>>>>> 1. Drivers using DRM_GEM_SHADOW_PLANE_HELPER_FUNCS and
->>>>>>       DRM_GEM_SHMEM_DRIVER_OPS (e.g., udl, ast) do not require
->>>>>>       sg_table import.
->>>>>>       They only need dma_buf_vmap() to access the shared buffer's
->>>>>>       kernel virtual address.
->>>>>>
->>>>>> 2. On certain Aspeed-based boards, a dma_mask of 0xffff_ffff may
->>>>>>       trigger SWIOTLB during dmabuf import. However, IO_TLB_SEGSIZE
->>>>>>       restricts the maximum DMA streaming mapping memory, resulting in
->>>>>>       errors like:
->>>>>>
->>>>>>       ast 0000:07:00.0: swiotlb buffer is full (sz: 3145728 bytes), total 32768 (slots), used 0 (slots)
->>>>>>
->>>>>> [HOW]
->>>>>> Provide a gem_prime_import implementation without sg_table mapping
->>>>>> to avoid issues (e.g., "swiotlb buffer is full"). Drivers that do not
->>>>>> require sg_table can adopt this.
->>>>>>
->>>>>> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
->>>>>> ---
->>>>>>     drivers/gpu/drm/drm_gem_shmem_helper.c | 95 ++++++++++++++++++++++++++
->>>>>>     include/drm/drm_gem_shmem_helper.h     | 24 +++++++
->>>>>>     2 files changed, 119 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>>> index d99dee67353a..9e41e350ff6f 100644
->>>>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>>> @@ -39,6 +39,7 @@ MODULE_IMPORT_NS("DMA_BUF");
->>>>>>     static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
->>>>>>         .free = drm_gem_shmem_object_free,
->>>>>>         .print_info = drm_gem_shmem_object_print_info,
->>>>>> +    .export = drm_gem_shmem_object_prime_export,
->>>>>>         .pin = drm_gem_shmem_object_pin,
->>>>>>         .unpin = drm_gem_shmem_object_unpin,
->>>>>>         .get_sg_table = drm_gem_shmem_object_get_sg_table,
->>>>>> @@ -799,6 +800,100 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
->>>>>>     }
->>>>>>     EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
->>>>>>     +const struct dma_buf_ops drm_gem_shmem_prime_dmabuf_ops =  {
->>>>>> +    .cache_sgt_mapping = true,
->>>>>> +    .attach = drm_gem_map_attach,
->>>>>> +    .detach = drm_gem_map_detach,
->>>>>> +    .map_dma_buf = drm_gem_map_dma_buf,
->>>>>> +    .unmap_dma_buf = drm_gem_unmap_dma_buf,
->>>>>> +    .release = drm_gem_dmabuf_release,
->>>>>> +    .mmap = drm_gem_dmabuf_mmap,
->>>>>> +    .vmap = drm_gem_dmabuf_vmap,
->>>>>> +    .vunmap = drm_gem_dmabuf_vunmap,
->>>>>> +};
->>>>>> +
->>>>>> +/**
->>>>>> + * drm_gem_shmem_prime_export - implementation of the export callback
->>>>>> + * @shmem: shmem GEM object
->>>>>> + */
->>>>>> +struct dma_buf *drm_gem_shmem_prime_export(struct drm_gem_shmem_object *shmem,
->>>>>> +                       int flags)
->>>>>> +{
->>>>>> +    struct drm_gem_object *obj = &shmem->base;
->>>>>> +    struct drm_device *dev = obj->dev;
->>>>>> +    struct dma_buf_export_info exp_info = {
->>>>>> +        .exp_name = KBUILD_MODNAME, /* white lie for debug */
->>>>>> +        .owner = dev->driver->fops->owner,
->>>>>> +        .ops = &drm_gem_shmem_prime_dmabuf_ops,
->>>>>> +        .size = obj->size,
->>>>>> +        .flags = flags,
->>>>>> +        .priv = obj,
->>>>>> +        .resv = obj->resv,
->>>>>> +    };
->>>>>> +
->>>>>> +    return drm_gem_dmabuf_export(dev, &exp_info);
->>>>>> +}
->>>>>> +
->>>>>> +/**
->>>>>> + * drm_gem_shmem_prime_import - Import dmabuf without mapping its sg_table
->>>>>> + * @dev: Device to import into
->>>>>> + * @dma_buf: dma-buf object to import
->>>>>> + *
->>>>>> + * Drivers that use the shmem helpers but also wants to import dmabuf without
->>>>>> + * mapping its sg_table can use this as their &drm_driver.gem_prime_import
->>>>>> + * implementation.
->>>>>> + */
->>>>>> +struct drm_gem_object *drm_gem_shmem_prime_import(struct drm_device *dev,
->>>>>> +                          struct dma_buf *dma_buf)
->>>>>> +{
->>>>>> +    struct dma_buf_attachment *attach;
->>>>>> +    struct drm_gem_shmem_object *shmem;
->>>>>> +    size_t size;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    if (dma_buf->ops == &drm_gem_shmem_prime_dmabuf_ops) {
->>>>>> +        struct drm_gem_object *obj;
->>>>>> +
->>>>>> +        obj = dma_buf->priv;
->>>>>> +        if (obj->dev == dev) {
->>>>>> +            /*
->>>>>> +             * Importing dmabuf exported from our own gem increases
->>>>>> +             * refcount on gem itself instead of f_count of dmabuf.
->>>>>> +             */
->>>>>> +            drm_gem_object_get(obj);
->>>>>> +            return obj;
->>>>>> +        }
->>>>>> +    }
->>>>>> +
->>>>>> +    attach = dma_buf_attach(dma_buf, dev->dev);
->>>>>> +    if (IS_ERR(attach))
->>>>>> +        return ERR_CAST(attach);
->>>>>> +
->>>>>> +    get_dma_buf(dma_buf);
->>>>>> +
->>>>>> +    size = PAGE_ALIGN(attach->dmabuf->size);
->>>>>> +
->>>>>> +    shmem = __drm_gem_shmem_create(dev, size, true, NULL);
->>>>>> +    if (IS_ERR(shmem)) {
->>>>>> +        ret = PTR_ERR(shmem);
->>>>>> +        goto fail_detach;
->>>>>> +    }
->>>>>> +
->>>>>> +    drm_dbg_prime(dev, "size = %zu\n", size);
->>>>>> +
->>>>>> +    shmem->base.import_attach = attach;
->>>>>> +    shmem->base.resv = dma_buf->resv;
->>>>>> +
->>>>>> +    return &shmem->base;
->>>>>> +
->>>>>> +fail_detach:
->>>>>> +    dma_buf_detach(dma_buf, attach);
->>>>>> +    dma_buf_put(dma_buf);
->>>>>> +
->>>>>> +    return ERR_PTR(ret);
->>>>>> +}
->>>>>> +EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import);
->>>>>> +
->>>>>>     MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
->>>>>>     MODULE_IMPORT_NS("DMA_BUF");
->>>>>>     MODULE_LICENSE("GPL v2");
->>>>>> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
->>>>>> index cef5a6b5a4d6..78ef91593a8e 100644
->>>>>> --- a/include/drm/drm_gem_shmem_helper.h
->>>>>> +++ b/include/drm/drm_gem_shmem_helper.h
->>>>>> @@ -110,6 +110,8 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
->>>>>>     void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
->>>>>>                   struct iosys_map *map);
->>>>>>     int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma);
->>>>>> +struct dma_buf *drm_gem_shmem_prime_export(struct drm_gem_shmem_object *shmem,
->>>>>> +                          int flags);
->>>>>>       int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem);
->>>>>>     void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem);
->>>>>> @@ -168,6 +170,18 @@ static inline void drm_gem_shmem_object_print_info(struct drm_printer *p, unsign
->>>>>>         drm_gem_shmem_print_info(shmem, p, indent);
->>>>>>     }
->>>>>>     +/**
->>>>>> + * drm_gem_shmem_object_prime_export - GEM object function for export()
->>>>>> + * @obj: GEM object
->>>>>> + *
->>>>>> + */
->>>>>> +static inline struct dma_buf *drm_gem_shmem_object_prime_export(struct drm_gem_object *obj,
->>>>>> +                                int flags)
->>>>>> +{
->>>>>> +    struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
->>>>>> +
->>>>>> +    return drm_gem_shmem_prime_export(shmem, flags);
->>>>>> +}
->>>>>>     /**
->>>>>>      * drm_gem_shmem_object_pin - GEM object function for drm_gem_shmem_pin()
->>>>>>      * @obj: GEM object
->>>>>> @@ -276,6 +290,8 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
->>>>>>                         struct sg_table *sgt);
->>>>>>     int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
->>>>>>                       struct drm_mode_create_dumb *args);
->>>>>> +struct drm_gem_object *drm_gem_shmem_prime_import(struct drm_device *dev,
->>>>>> +                          struct dma_buf *buf);
->>>>>>       /**
->>>>>>      * DRM_GEM_SHMEM_DRIVER_OPS - Default shmem GEM operations
->>>>>> @@ -287,4 +303,12 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
->>>>>>         .gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table, \
->>>>>>         .dumb_create           = drm_gem_shmem_dumb_create
->>>>>>     +/**
->>>>>> + * This macro provides a shmem GEM operations that implementate a simple
->>>>>> + * gem_prime_import.
->>>>>> + */
->>>>>> +#define DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS \
->>>>>> +    .gem_prime_import    = drm_gem_shmem_prime_import, \
->>>>>> +    .dumb_create        = drm_gem_shmem_dumb_create
->>>>>> +
->>>>>>     #endif /* __DRM_GEM_SHMEM_HELPER_H__ */
+>>>> macro_rules! impl_alignable {
+>>>>     ($($t:ty),+) => {
+>>>>         $(
+>>>>             impl Alignable for $t {}
+>>>>         )+
+>>>>     };
+>>>> }
+>>>>
+>>>> impl_alignable!(usize, u8, u16, u32, u64, u128);
+>>>>
+>>>> pub trait AlignUp {
+>>>>     fn align_up(self, alignment: Self) -> Self;
+>>>> }
+>>>>
+>>>> impl<T> AlignUp for T
+>>>> where
+>>>>     T: Alignable,
+>>>> {
+>>>>     fn align_up(self, alignment: Self) -> Self {
+>>>>         let one = T::from(1u8);
+>>>>         (self + alignment - one) & !(alignment - one)
+>>>>     }
+>>>> }
+>>>>
+>>>> Thoughts?
+>>> I think that's the correct way to do it and am fully on board with this
+>>> approach.
+>>>
+>>> The only thing this doesn't solve is that it doesn't provide `const`
+>>> functions. But maybe for that purpose we can use a single macro that
+>>> nicely panics at build-time should an overflow occur.
+>>
+>> Great, thanks. I split the traits as follows and it is cleaner and works. I will
+>> look into the build-time overflow check and the returning of Result change on
+>> Monday. Let me know if any objections.
 > 
+> Looking good IMHO, apart maybe from the names of the `BitOps` and
+> `Unsigned` traits that are not super descriptive and don't need to be
+> split for the moment anyway.
+
+Sounds good, actually I already switched to keeping them in one trait
+"Unsigned". I agree that is cleaner (see below).
+
+> Actually it may be a good idea to move this into its own patch/series so
+> it gets more attention as this is starting to look like the `num` or
+> `num_integer` crates and we might be well-advised to take more
+> inspiration from them in order to avoid reinventing the wheel. It is
+> basically asking the question "how do we want to extend the integer
+> types in a useful way for the kernel", so it's actually pretty important
+> that we get our answer right. :)
+
+I am not sure if we want to split the series for a simple change like this,
+because then the whole series gets blocked? It may also be better to pair the
+user of the function with the function itself IMHO since the function is also
+quite small. I am also Ok with keeping the original patch in the series and
+extending on that in the future (with just usize) to not block the series.
+
+Regarding for the full blown num module, I looked over the weekend and its
+actually a bunch of modules working together, with dozens of numeric APIs, so I
+am not sure if we should pull everything or try to copy parts of it. The R4l
+guidelines have something to say here. A good approach IMO is to just do it
+incrementally, like I'm doing with this patch.
+
+I think defining a "Unsigned" trait does make sense, and then for future
+expansion, it can be expanded on in the new num module?
+
+> 
+> To address our immediate needs of an `align_up`, it just occurred to me
+> that we could simply use the `next_multiple_of` method, at least
+> temporarily. It is implemented with a modulo and will therefore probably
+> result in less efficient code than a version optimized for powers of
+> two, but it will do the trick until we figure out how we want to extend
+> the primitive types for the kernel, which is really what this patch is
+> about - we will also need an `align_down` for instance, and I don't know
+> of a standard library equivalent for it...
+
+Why do we want to trade off for "less efficient code"? :) I think that's worse
+than the original change (before this series) I had which had no function call
+at all, but hardcoded the expression at the call site. The suggestion is also
+less desirable than having a local helper in the vbios module itself. I am not
+much a fan of the idea "lets call this temporarily and have sub optimal code"
+when the alternative is to just do it in-place, in-module, or via a num module
+extension :)
+
+> 
+>> I added the #[inline] and hopefully that
+>> gives similar benefits to const that you're seeking:
+> 
+> A `const` version is still going to be needed, `#[inline]` encourages the
+> compiler to try and inline the function, but AFAIK it doesn't allow use
+> in const context.
+
+Right, so for the vbios use case there is no use of a const function. The only
+reason I added it is because there were other functions at the time which were
+used (by the now dropped timer module). I suggest let us add the const function
+once there is a user of it, I also don't know right how to do it. Like if I use
+generics for the const fn, I get this:
+
+const fn align_up_unsigned<T: Unsigned>(value: T, alignment: T) -> T {
+    let one = T::from(1u8);
+    (value + alignment - one) & !(alignment - one)
+}
+
+error[E0658]: cannot call conditionally-const method `<T as Add>::add` in
+constant functions
+
+I tried to do this with macros as well, but no luck. If you can share a macro, I
+can incorporate it into the patch.
+
+I can respin this patch again on conclusion of the discussion, but any guidance
+from rust-for-linux folks is also much appreciated. Below is currently the patch
+that I am considering so far (without the const function and Result changes).
+
+// num.rs
+//! Numerical and binary utilities for primitive types.
+
+/// A trait providing alignment operations for `usize`.
+use core::ops::{Add, BitAnd, BitOr, Not, Sub};
+
+/// Traits for unsigned integers
+pub trait Unsigned:
+    Copy
+    + BitAnd<Output = Self>
+    + BitOr<Output = Self>
+    + Not<Output = Self>
+    + Add<Output = Self>
+    + Sub<Output = Self>
+    + From<u8>
+{
+}
+
+macro_rules! unsigned_trait_impl {
+    ($($t:ty),+) => {
+        $(
+            impl Unsigned for $t {}
+        )+
+    };
+}
+unsigned_trait_impl!(usize, u8, u16, u32, u64, u128);
+
+/// Trait for unsigned integer alignment
+pub trait UnsignedAlign {
+    /// Implement upward power-of-2 alignment for unsigned ints
+    fn align_up(self, alignment: Self) -> Self;
+}
+
+impl<T> UnsignedAlign for T
+where
+    T: Unsigned,
+{
+    #[inline]
+    fn align_up(self, alignment: Self) -> Self {
+        let one = T::from(1u8);
+        (self + alignment - one) & !(alignment - one)
+    }
+}
+
+Thanks.
 
