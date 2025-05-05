@@ -2,54 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29809AAA170
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 479ECAAA173
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:47:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0187810E540;
-	Mon,  5 May 2025 22:47:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9878010E545;
+	Mon,  5 May 2025 22:47:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LUoshxnS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="su/4tt43";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F310010E540;
- Mon,  5 May 2025 22:47:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C04310E546;
+ Mon,  5 May 2025 22:47:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7EFED629C1;
- Mon,  5 May 2025 22:47:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92DF6C4CEED;
- Mon,  5 May 2025 22:47:31 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id A6A47629C2;
+ Mon,  5 May 2025 22:47:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E89A4C4CEE4;
+ Mon,  5 May 2025 22:47:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485253;
- bh=jIhSum4+a6VmsFbYcJTxe1fbt8iNZlAUy3+yev6QYro=;
+ s=k20201202; t=1746485263;
+ bh=kPtgYJ1ylrGPtrzBL0qY+5FRkGigw4idpT1KKc/S+MU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LUoshxnSBbJYYxVqXyQ9UjsHUb8OavG5ae3ju2kLhBGpSYpRQIgnOv3RA74PQti9E
- f+xC+skDrjbmocqSFzUuchzpSXwDiZbtxaN6kLE/YKxjnBfijlWCFKLEqpSEKX1PDI
- CBo/AMdbOqnvaVbhLQ9Bmi2HlJq31jh16eJWAxYiv3GSx/s68QpCcs56NFhoUonqeQ
- JCtfDnTUrPwqP57hKxYN5YD8vhwC5gyJucrHiVWuiR4DET1PZyWKEjZ2NlhxD+Rm8S
- pEukfK+aWP9YMbSTXgJ6Tiiy7bUEoVRj+/8u0HUrZ3saXgOOVgLtvxcZisahsFrt+u
- ihOomzAVmvPlw==
+ b=su/4tt433OBO4ppA2zdB6X/1gE6MWkcZg9k1czP1k6+Q/icQ9h4SpxPTpH36Q7+Lj
+ KDaqrgComQbxTThP7C4HaV3Z7sc/KKqRMv7cJazR3zHr8rOQIgNYOEQKLyLzW0NoOa
+ XcbOHj/774OWabM7fVHKRgeBm4KVce3/XEfRkMotfxvMcIAl5n3QC7WXQ/hlNoliCm
+ bG04+53UdbeF0k2ssXc2W+KVB6lC3MQceVAvOsEvtZanajtvWPbsnkRDXiQd0IsNES
+ q6r9a3NXoaV8iiUzfUiYq7dyb4OHvdCva9elH+Rfy2C/6pjhfY18rkhTPe0RdXEaEz
+ t5Fk9yAtCeTkA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>,
- =?UTF-8?q?Micha=C5=82=20Wajdeczko?= <michal.wajdeczko@intel.com>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>,
- Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
+Cc: Philip Yang <Philip.Yang@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Felix.Kuehling@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 237/486] drm/xe/pf: Create a link between PF and
- VF devices
-Date: Mon,  5 May 2025 18:35:13 -0400
-Message-Id: <20250505223922.2682012-237-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 241/486] drm/amdkfd: KFD release_work possible
+ circular locking
+Date: Mon,  5 May 2025 18:35:17 -0400
+Message-Id: <20250505223922.2682012-241-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.26
@@ -69,115 +65,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+From: Philip Yang <Philip.Yang@amd.com>
 
-[ Upstream commit 8c0aff7d92e2be25717669eb65a81a89740a24f2 ]
+[ Upstream commit 1b9366c601039d60546794c63fbb83ce8e53b978 ]
 
-When both PF and VF devices are enabled on the host, they
-resume simultaneously during system resume.
+If waiting for gpu reset done in KFD release_work, thers is WARNING:
+possible circular locking dependency detected
 
-However, the PF must finish provisioning the VF before any
-VFs can successfully resume.
+  #2  kfd_create_process
+        kfd_process_mutex
+          flush kfd release work
 
-Establish a parent-child device link between the PF and VF
-devices to ensure the correct order of resumption.
+  #1  kfd release work
+        wait for amdgpu reset work
 
-V4 -> V5:
-- Added missing break in the error condition.
-V3 -> V4:
-- Made xe_pci_pf_get_vf_dev() as a static function and updated
-  input parameter types.
-- Updated xe_sriov_warn() to xe_sriov_abort() when VF device
-  cannot be found.
-V2 -> V3:
-- Added function documentation for xe_pci_pf_get_vf_dev().
-- Added assertion if not called from PF.
-V1 -> V2:
-- Added a helper function to get VF pci_dev.
-- Updated xe_sriov_notice() to xe_sriov_warn() if vf pci_dev
-  is not found.
+  #0  amdgpu_device_gpu_reset
+        kgd2kfd_pre_reset
+          kfd_process_mutex
 
-Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
-Cc: Michał Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Michał Winiarski <michal.winiarski@intel.com>
-Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
-Reviewed-by: Piotr Piorkowski <piotr.piorkowski@intel.com>
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250224102807.11065-2-satyanarayana.k.v.p@intel.com
+  Possible unsafe locking scenario:
+
+        CPU0                    CPU1
+        ----                    ----
+   lock((work_completion)(&p->release_work));
+                  lock((wq_completion)kfd_process_wq);
+                  lock((work_completion)(&p->release_work));
+   lock((wq_completion)amdgpu-reset-dev);
+
+To fix this, KFD create process move flush release work outside
+kfd_process_mutex.
+
+Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_pci_sriov.c | 51 +++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_pci_sriov.c b/drivers/gpu/drm/xe/xe_pci_sriov.c
-index aaceee748287e..09ee8a06fe2ed 100644
---- a/drivers/gpu/drm/xe/xe_pci_sriov.c
-+++ b/drivers/gpu/drm/xe/xe_pci_sriov.c
-@@ -62,6 +62,55 @@ static void pf_reset_vfs(struct xe_device *xe, unsigned int num_vfs)
- 			xe_gt_sriov_pf_control_trigger_flr(gt, n);
- }
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+index 0ec8b457494bd..45923da7709fd 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+@@ -842,6 +842,14 @@ struct kfd_process *kfd_create_process(struct task_struct *thread)
+ 		return ERR_PTR(-EINVAL);
+ 	}
  
-+static struct pci_dev *xe_pci_pf_get_vf_dev(struct xe_device *xe, unsigned int vf_id)
-+{
-+	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
-+
-+	xe_assert(xe, IS_SRIOV_PF(xe));
-+
-+	/* caller must use pci_dev_put() */
-+	return pci_get_domain_bus_and_slot(pci_domain_nr(pdev->bus),
-+			pdev->bus->number,
-+			pci_iov_virtfn_devfn(pdev, vf_id));
-+}
-+
-+static void pf_link_vfs(struct xe_device *xe, int num_vfs)
-+{
-+	struct pci_dev *pdev_pf = to_pci_dev(xe->drm.dev);
-+	struct device_link *link;
-+	struct pci_dev *pdev_vf;
-+	unsigned int n;
-+
-+	/*
-+	 * When both PF and VF devices are enabled on the host, during system
-+	 * resume they are resuming in parallel.
-+	 *
-+	 * But PF has to complete the provision of VF first to allow any VFs to
-+	 * successfully resume.
-+	 *
-+	 * Create a parent-child device link between PF and VF devices that will
-+	 * enforce correct resume order.
++	/* If the process just called exec(3), it is possible that the
++	 * cleanup of the kfd_process (following the release of the mm
++	 * of the old process image) is still in the cleanup work queue.
++	 * Make sure to drain any job before trying to recreate any
++	 * resource for this process.
 +	 */
-+	for (n = 1; n <= num_vfs; n++) {
-+		pdev_vf = xe_pci_pf_get_vf_dev(xe, n - 1);
++	flush_workqueue(kfd_process_wq);
 +
-+		/* unlikely, something weird is happening, abort */
-+		if (!pdev_vf) {
-+			xe_sriov_err(xe, "Cannot find VF%u device, aborting link%s creation!\n",
-+				     n, str_plural(num_vfs));
-+			break;
-+		}
-+
-+		link = device_link_add(&pdev_vf->dev, &pdev_pf->dev,
-+				       DL_FLAG_AUTOREMOVE_CONSUMER);
-+		/* unlikely and harmless, continue with other VFs */
-+		if (!link)
-+			xe_sriov_notice(xe, "Failed linking VF%u\n", n);
-+
-+		pci_dev_put(pdev_vf);
-+	}
-+}
-+
- static int pf_enable_vfs(struct xe_device *xe, int num_vfs)
- {
- 	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
-@@ -92,6 +141,8 @@ static int pf_enable_vfs(struct xe_device *xe, int num_vfs)
- 	if (err < 0)
- 		goto failed;
- 
-+	pf_link_vfs(xe, num_vfs);
-+
- 	xe_sriov_info(xe, "Enabled %u of %u VF%s\n",
- 		      num_vfs, total_vfs, str_plural(total_vfs));
- 	return num_vfs;
+ 	/*
+ 	 * take kfd processes mutex before starting of process creation
+ 	 * so there won't be a case where two threads of the same process
+@@ -860,14 +868,6 @@ struct kfd_process *kfd_create_process(struct task_struct *thread)
+ 	if (process) {
+ 		pr_debug("Process already found\n");
+ 	} else {
+-		/* If the process just called exec(3), it is possible that the
+-		 * cleanup of the kfd_process (following the release of the mm
+-		 * of the old process image) is still in the cleanup work queue.
+-		 * Make sure to drain any job before trying to recreate any
+-		 * resource for this process.
+-		 */
+-		flush_workqueue(kfd_process_wq);
+-
+ 		process = create_process(thread);
+ 		if (IS_ERR(process))
+ 			goto out;
 -- 
 2.39.5
 
