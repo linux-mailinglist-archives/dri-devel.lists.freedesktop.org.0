@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A92ECAAA15F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB061AAA165
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:47:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1262110E53C;
-	Mon,  5 May 2025 22:46:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4077710E53D;
+	Mon,  5 May 2025 22:47:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q5UFGFBH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SVC1focn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5788D10E53C;
- Mon,  5 May 2025 22:46:29 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E75410E53D
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:47:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EEEF5A4CF58;
- Mon,  5 May 2025 22:41:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B60EEC4CEE4;
- Mon,  5 May 2025 22:46:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E5F405C0687;
+ Mon,  5 May 2025 22:44:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20A59C4CEEF;
+ Mon,  5 May 2025 22:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485188;
- bh=hyYq7nG/l+zyzsAhvhImcu2vMyON/1WJ1gYYCv70Kmk=;
+ s=k20201202; t=1746485219;
+ bh=xUeYcQ19WA4YDx8LAq/eonv8hTGDCBs6kyGHFjgYn2w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q5UFGFBHjNt5Vz4pxHkGLXH6ClT28qUZSdJ2thDIVoF2T3mD2hAO7XyTGqB3fb/YU
- QH/Dg/54R+gGhSAV2Wr6OvaMCfrco/QhzyU7FqwjdQTdse+DJpI2sYXkuwkH/rSQeU
- +E+Is9v5zr5ApwAcneO7iyWcrVDdTVdwKhYYnv6bSgvvHRCkkYgxYvt7Yc2PsnYuqw
- UIhoM+985y6XVj3mWaxUERJEoJY48B7tIo1itOyqQMbmHkrKFEqDZNR7ufGATHVeTa
- GK8NPnwG3XqC/20kEGPODj2yImzEtDgI5G+cA0B7/CEX+AZiP37CkdkIdwCwB5Ro4j
- Q0xHpSATLrPWQ==
+ b=SVC1focnSfOqZWvnrLY1O0YZC8D4IY1SU8ksD8H684bbhCRyy5IPBMpeg2C38QAAh
+ IZLjkYtagQ0ocTV0ALnJCy15ic8tw+BMmN4ScNYrHRmXngoZvCg4vZtQduOxf3+fmK
+ JAE8cM5/pxAH5HyPs4MP1ChzKOPxL0/utJwucl0OaBzv+XAAx71v9yKqGCCWvmR++l
+ hH4COtgQDvclWYJBLFSgnQlcwFlZ7Mn1Q4zIQtiLFtoZJgOFDi5F4rr0RL/a+dLOcX
+ 6iRlAOUaQ0nxrVFH939r1iEv0DwRXfbi/vZYDcZ3Ln01RNiNW1Qgd1pfITBCqwB8vr
+ EiIUF794Belyg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Aric Cyr <Aric.Cyr@amd.com>, Aric Cyr <aric.cyr@amd.com>,
- Wayne Lin <wayne.lin@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, austin.zheng@amd.com, jun.lei@amd.com,
- siqueira@igalia.com, alex.hung@amd.com, alvin.lee2@amd.com,
- aurabindo.pillai@amd.com, Ilya.Bakoulin@amd.com, mario.limonciello@amd.com,
- Wayne.Lin@amd.com, Josip.Pavic@amd.com, dillon.varone@amd.com,
- wenjing.liu@amd.com, linux@treblig.org, Leo.Zeng@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 201/486] drm/amd/display: Request HW cursor on
- DCN3.2 with SubVP
-Date: Mon,  5 May 2025 18:34:37 -0400
-Message-Id: <20250505223922.2682012-201-sashal@kernel.org>
+Cc: Andy Yan <andy.yan@rock-chips.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Heiko Stuebner <heiko@sntech.de>, Sasha Levin <sashal@kernel.org>,
+ hjc@rock-chips.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.12 217/486] drm/rockchip: vop2: Add uv swap for
+ cluster window
+Date: Mon,  5 May 2025 18:34:53 -0400
+Message-Id: <20250505223922.2682012-217-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -70,57 +68,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aric Cyr <Aric.Cyr@amd.com>
+From: Andy Yan <andy.yan@rock-chips.com>
 
-[ Upstream commit b74f46f3ce1e5f6336645f1e9ff47c56d5dfdef1 ]
+[ Upstream commit e7aae9f6d762139f8d2b86db03793ae0ab3dd802 ]
 
-[why]
-When SubVP is active the HW cursor size is limited to 64x64, and
-anything larger will force composition which is bad for gaming on
-DCN3.2 if the game uses a larger cursor.
+The Cluster windows of upcoming VOP on rk3576 also support
+linear YUV support, we need to set uv swap bit for it.
 
-[how]
-If HW cursor is requested, typically by a fullscreen game, do not
-enable SubVP so that up to 256x256 cursor sizes are available for
-DCN3.2.
+As the VOP2_WIN_UV_SWA register defined on rk3568/rk3588 is
+0xffffffff, so this register will not be touched on these
+two platforms.
 
-Reviewed-by: Aric Cyr <aric.cyr@amd.com>
-Signed-off-by: Aric Cyr <Aric.Cyr@amd.com>
-Signed-off-by: Wayne Lin <wayne.lin@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
+Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250303034436.192400-4-andyshrk@163.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c             | 3 ++-
- drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 216b525bd75e7..762bf04efe7ed 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -4734,7 +4734,8 @@ static bool full_update_required(struct dc *dc,
- 			stream_update->lut3d_func ||
- 			stream_update->pending_test_pattern ||
- 			stream_update->crtc_timing_adjust ||
--			stream_update->scaler_sharpener_update))
-+			stream_update->scaler_sharpener_update ||
-+			stream_update->hw_cursor_req))
- 		return true;
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 5880d87fe6b3a..2aab2a0956788 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1432,10 +1432,8 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
  
- 	if (stream) {
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-index 6f490d8d7038c..56dda686e2992 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-@@ -626,6 +626,7 @@ static bool dcn32_assign_subvp_pipe(struct dc *dc,
- 		 * - Not TMZ surface
- 		 */
- 		if (pipe->plane_state && !pipe->top_pipe && !pipe->prev_odm_pipe && !dcn32_is_center_timing(pipe) &&
-+				!pipe->stream->hw_cursor_req &&
- 				!(pipe->stream->timing.pix_clk_100hz / 10000 > DCN3_2_MAX_SUBVP_PIXEL_RATE_MHZ) &&
- 				(!dcn32_is_psr_capable(pipe) || (context->stream_count == 1 && dc->caps.dmub_caps.subvp_psr)) &&
- 				dc_state_get_pipe_subvp_type(context, pipe) == SUBVP_NONE &&
+ 	rb_swap = vop2_win_rb_swap(fb->format->format);
+ 	vop2_win_write(win, VOP2_WIN_RB_SWAP, rb_swap);
+-	if (!vop2_cluster_window(win)) {
+-		uv_swap = vop2_win_uv_swap(fb->format->format);
+-		vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
+-	}
++	uv_swap = vop2_win_uv_swap(fb->format->format);
++	vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
+ 
+ 	if (fb->format->is_yuv) {
+ 		vop2_win_write(win, VOP2_WIN_UV_VIR, DIV_ROUND_UP(fb->pitches[1], 4));
 -- 
 2.39.5
 
