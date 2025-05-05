@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9C7AAA016
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3A6AAA01A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:31:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDBBF10E4AA;
-	Mon,  5 May 2025 22:31:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE6910E4AB;
+	Mon,  5 May 2025 22:31:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PrQ2to7P";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sgftdVMn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01DA210E4A6;
- Mon,  5 May 2025 22:31:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 277B510E4AB;
+ Mon,  5 May 2025 22:31:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 498BE5C551E;
- Mon,  5 May 2025 22:29:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0309EC4CEEF;
- Mon,  5 May 2025 22:31:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6F3675C5523;
+ Mon,  5 May 2025 22:29:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC5E6C4CEED;
+ Mon,  5 May 2025 22:31:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484297;
- bh=t6TI3iTTL62UNxvk9YqXnix3T6orGKEhqzk2cWclT6Q=;
+ s=k20201202; t=1746484315;
+ bh=0+x/1ba+TCL1sFEC6TM5FPJpMZfBZBascbItQHc6Fe0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PrQ2to7PMohRHB3p1L4lzgzZcIjc10GZDjD3cDz6Oqox7hcsFUE1ecFjw/mTWRlTd
- jPEVthJMi/ARMoLXVJq931UtKE5+40DjXZiNjGwPplw7XgDxtdAhd7cTzRgp2ZhUwS
- x3IJ7syeHE33o9T3Z3QSgnbyBP5+FbrTSiI6ngzls8Ad0tVnuLwXtq3bqI/1TH5IA2
- yMXXCOEwzElIlGngbg0m1SfbchZlbohyoHDkW1klTKBqcxIDRZw/wU4fHKOylw2Jwr
- A1X0RgDUHePoY+eGEsmHwmEVOUel1+gqtgJ/X2P5rNuonSVmIESdvHhIQ8/zpxwXSV
- I1RIAGkP2zOOg==
+ b=sgftdVMnM5Lz40NihVmPIJ9hkH3xpIQHWB0+2H4ivyTILFQCiRBwpuVydaPJHL1wk
+ XxNQvCmXMrd0H1irgtF1ubhQhNkq3rR0U/XyXhItyt02Ihqc+THG+tG2fJQxWdwrab
+ yx0f8pNVqgHykiFUWBCtVkWahauBg+p91XZe831fwJ7Zb0nnUAhdW5qwZKZMPVmYw+
+ kNXc2iIQZ/e5AnpWDRD3mid5o5udE7HSeXUMsGIpN9jbIMb6zeQgJH9itODs6De1sx
+ iIv88fUft87syUHwp064yUogo23F8czYExy1UfXVkpxWLgolo4/IQIZ0QgFU+a1wph
+ LCGG1BMSZiT8Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sasha Levin <sashal@kernel.org>,
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, Imre Deak <imre.deak@intel.com>,
+ Sasha Levin <sashal@kernel.org>, jani.nikula@linux.intel.com,
  lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 442/642] drm/xe/debugfs: Add missing
- xe_pm_runtime_put in wedge_mode_set
-Date: Mon,  5 May 2025 18:10:58 -0400
-Message-Id: <20250505221419.2672473-442-sashal@kernel.org>
+ airlied@gmail.com, simona@ffwll.ch, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 449/642] drm/xe/display: Remove hpd cancel work
+ sync from runtime pm path
+Date: Mon,  5 May 2025 18:11:05 -0400
+Message-Id: <20250505221419.2672473-449-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,34 +65,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shuicheng Lin <shuicheng.lin@intel.com>
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-[ Upstream commit b31e668d3111b100d16fd7db8db335328ce8c6d5 ]
+[ Upstream commit 1ed591582b7b894d2f7e7ab5cef2e9b0b6fef12b ]
 
-xe_pm_runtime_put is missed in the failure path.
+This function will synchronously cancel and wait for many display
+work queue items, which might try to take the runtime pm reference
+causing a bad deadlock. So, remove it from the runtime_pm suspend patch.
 
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250213230322.1180621-1-shuicheng.lin@intel.com
+Reported-by: Imre Deak <imre.deak@intel.com>
+Reviewed-by: Imre Deak <imre.deak@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250212192447.402715-1-rodrigo.vivi@intel.com
 Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_debugfs.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/xe/display/xe_display.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_debugfs.c b/drivers/gpu/drm/xe/xe_debugfs.c
-index 6bfdd3a9913fd..92e6fa8fe3a17 100644
---- a/drivers/gpu/drm/xe/xe_debugfs.c
-+++ b/drivers/gpu/drm/xe/xe_debugfs.c
-@@ -175,6 +175,7 @@ static ssize_t wedged_mode_set(struct file *f, const char __user *ubuf,
- 		ret = xe_guc_ads_scheduler_policy_toggle_reset(&gt->uc.guc.ads);
- 		if (ret) {
- 			xe_gt_err(gt, "Failed to update GuC ADS scheduler policy. GuC may still cause engine reset even with wedged_mode=2\n");
-+			xe_pm_runtime_put(xe);
- 			return -EIO;
- 		}
- 	}
+diff --git a/drivers/gpu/drm/xe/display/xe_display.c b/drivers/gpu/drm/xe/display/xe_display.c
+index b3921dbc52ff6..b735e30953cee 100644
+--- a/drivers/gpu/drm/xe/display/xe_display.c
++++ b/drivers/gpu/drm/xe/display/xe_display.c
+@@ -346,7 +346,8 @@ static void __xe_display_pm_suspend(struct xe_device *xe, bool runtime)
+ 
+ 	xe_display_flush_cleanup_work(xe);
+ 
+-	intel_hpd_cancel_work(xe);
++	if (!runtime)
++		intel_hpd_cancel_work(xe);
+ 
+ 	if (!runtime && has_display(xe)) {
+ 		intel_display_driver_suspend_access(display);
 -- 
 2.39.5
 
