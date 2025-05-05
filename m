@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE1EAA9F99
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:25:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADEA1AA9F9D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:25:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDD6E10E47D;
-	Mon,  5 May 2025 22:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1119C10E47B;
+	Mon,  5 May 2025 22:25:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UngfIZz5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="avGwnBK1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1483210E47B;
- Mon,  5 May 2025 22:24:59 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6715610E47B
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:25:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B3A68629C1;
- Mon,  5 May 2025 22:24:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FD06C4CEE4;
- Mon,  5 May 2025 22:24:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id ADA1E5C5AC5;
+ Mon,  5 May 2025 22:23:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B94DC4CEEE;
+ Mon,  5 May 2025 22:25:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746483898;
- bh=EpvfOA+AkGS6tM3bdG+sQj3qVbOD4uG5pj05WyaXprA=;
+ s=k20201202; t=1746483931;
+ bh=J/ZfUGAWSxYgnt+Ej+Rch9WEZL26/ShHVQWe9Nd3TWw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UngfIZz5i/I52/s44Isv15oGUPGcpGYm0IKztv1HIJ7QR3N3SdTelfzcStJYfX9LX
- PTNXLSidr7grahFOZusnQwONuWhZ6sNHTPTzIJ6ufRMbEXK0UPM7qw6+Kplr39wR2k
- rRjLCc1AE+S+Da5tV8VwhO77QI9Nr87gdiXRybAQD1o87Jq8RQxQANlVVZM0jfPYxW
- h8u6dYYkt1fabZ9mvi000XbX6vlAk/al6WKUAomdkE99A3kWatPGUnTPWnny+3i1Py
- FL+zp5rVKabEfaAlewdQDuAJp7ROFkJQaFDWsKeGQY+VsKdvxRLj/Oroqs/4rzDdR1
- UgPMHfNn6fmRw==
+ b=avGwnBK1tfDUrRSMlomB03YEQTQ2GHzNpztGWXPjsNGV3WNUroBxyZgL2LjEF9bCI
+ lvaDKFDo1ucBIICpe1KFNK6x14gKmEmxgfSuBzLTJ1J0O/J5bZLr0WQRnKwpV57SV5
+ 9nWWS0eZ5hE+UOzJworEAGX/LmvZIhy7MghmHsa+qhZZ1k+XZWgSg3bTvUAl1uwjjx
+ HieVsqRasjDb6V/zN4rtIQGUDlLykVBEmtKlhxEb4HTM7MlZ+FKRHDMCOvH6W57QFp
+ C45C0d9ZAXlI9duPyFP1y6GEvQX/S41rZgJxZUeTk199cQcX+UVjfV1Fsgt/5s3Km6
+ ulaMWbVirctJQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sasha Levin <sashal@kernel.org>,
- robdclark@gmail.com, lumag@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- marijn.suijten@somainline.org, trabarni@gmail.com, konradybcio@kernel.org,
- arnd@arndb.de, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 260/642] drm/msm/dpu: Set possible clones for all
- encoders
-Date: Mon,  5 May 2025 18:07:56 -0400
-Message-Id: <20250505221419.2672473-260-sashal@kernel.org>
+Cc: Andy Yan <andy.yan@rock-chips.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Heiko Stuebner <heiko@sntech.de>, Sasha Levin <sashal@kernel.org>,
+ hjc@rock-chips.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.14 275/642] drm/rockchip: vop2: Add uv swap for
+ cluster window
+Date: Mon,  5 May 2025 18:08:11 -0400
+Message-Id: <20250505221419.2672473-275-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -67,108 +68,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
+From: Andy Yan <andy.yan@rock-chips.com>
 
-[ Upstream commit e8cd8224a30798b65e05b26de284e1702b22ba5e ]
+[ Upstream commit e7aae9f6d762139f8d2b86db03793ae0ab3dd802 ]
 
-Set writeback encoders as possible clones for DSI encoders and vice
-versa.
+The Cluster windows of upcoming VOP on rk3576 also support
+linear YUV support, we need to set uv swap bit for it.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-Patchwork: https://patchwork.freedesktop.org/patch/637498/
-Link: https://lore.kernel.org/r/20250214-concurrent-wb-v6-14-a44c293cf422@quicinc.com
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+As the VOP2_WIN_UV_SWA register defined on rk3568/rk3588 is
+0xffffffff, so this register will not be touched on these
+two platforms.
+
+Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
+Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250303034436.192400-4-andyshrk@163.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 32 +++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  2 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  7 +++--
- 3 files changed, 39 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 7b56da24711e4..eca9c7d4ec6f5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2539,6 +2539,38 @@ static int dpu_encoder_virt_add_phys_encs(
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 17a98845fd31b..64029237358d8 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1547,10 +1547,8 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
  
-+/**
-+ * dpu_encoder_get_clones - Calculate the possible_clones for DPU encoder
-+ * @drm_enc:        DRM encoder pointer
-+ * Returns:         possible_clones mask
-+ */
-+uint32_t dpu_encoder_get_clones(struct drm_encoder *drm_enc)
-+{
-+	struct drm_encoder *curr;
-+	int type = drm_enc->encoder_type;
-+	uint32_t clone_mask = drm_encoder_mask(drm_enc);
-+
-+	/*
-+	 * Set writeback as possible clones of real-time DSI encoders and vice
-+	 * versa
-+	 *
-+	 * Writeback encoders can't be clones of each other and DSI
-+	 * encoders can't be clones of each other.
-+	 *
-+	 * TODO: Add DP encoders as valid possible clones for writeback encoders
-+	 * (and vice versa) once concurrent writeback has been validated for DP
-+	 */
-+	drm_for_each_encoder(curr, drm_enc->dev) {
-+		if ((type == DRM_MODE_ENCODER_VIRTUAL &&
-+		    curr->encoder_type == DRM_MODE_ENCODER_DSI) ||
-+		    (type == DRM_MODE_ENCODER_DSI &&
-+		    curr->encoder_type == DRM_MODE_ENCODER_VIRTUAL))
-+			clone_mask |= drm_encoder_mask(curr);
-+	}
-+
-+	return clone_mask;
-+}
-+
- static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
- 				 struct dpu_kms *dpu_kms,
- 				 struct msm_display_info *disp_info)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index da133ee4701a3..751be231ee7b1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -60,6 +60,8 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder);
+ 	rb_swap = vop2_win_rb_swap(fb->format->format);
+ 	vop2_win_write(win, VOP2_WIN_RB_SWAP, rb_swap);
+-	if (!vop2_cluster_window(win)) {
+-		uv_swap = vop2_win_uv_swap(fb->format->format);
+-		vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
+-	}
++	uv_swap = vop2_win_uv_swap(fb->format->format);
++	vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
  
- void dpu_encoder_virt_runtime_resume(struct drm_encoder *encoder);
- 
-+uint32_t dpu_encoder_get_clones(struct drm_encoder *drm_enc);
-+
- struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
- 		int drm_enc_mode,
- 		struct msm_display_info *disp_info);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 8741dc6fc8ddc..b8f4ebba8ac28 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -2,7 +2,7 @@
- /*
-  * Copyright (C) 2013 Red Hat
-  * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
-- * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-  *
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
-@@ -834,8 +834,11 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
- 		return ret;
- 
- 	num_encoders = 0;
--	drm_for_each_encoder(encoder, dev)
-+	drm_for_each_encoder(encoder, dev) {
- 		num_encoders++;
-+		if (catalog->cwb_count > 0)
-+			encoder->possible_clones = dpu_encoder_get_clones(encoder);
-+	}
- 
- 	max_crtc_count = min(catalog->mixer_count, num_encoders);
- 
+ 	if (fb->format->is_yuv) {
+ 		vop2_win_write(win, VOP2_WIN_UV_VIR, DIV_ROUND_UP(fb->pitches[1], 4));
 -- 
 2.39.5
 
