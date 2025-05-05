@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2912BAAA16F
+	by mail.lfdr.de (Postfix) with ESMTPS id 29809AAA170
 	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:47:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3608710E544;
-	Mon,  5 May 2025 22:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0187810E540;
+	Mon,  5 May 2025 22:47:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jUTXCooE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LUoshxnS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 459AD10E540;
- Mon,  5 May 2025 22:47:32 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F310010E540;
+ Mon,  5 May 2025 22:47:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D784FA4D0A0;
- Mon,  5 May 2025 22:42:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D92C4CEEF;
- Mon,  5 May 2025 22:47:29 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 7EFED629C1;
+ Mon,  5 May 2025 22:47:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92DF6C4CEED;
+ Mon,  5 May 2025 22:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485251;
- bh=W46LSlL8PNcCg/BgoRCw2sj0WkVz49Qmr0jlJ6VpNFg=;
+ s=k20201202; t=1746485253;
+ bh=jIhSum4+a6VmsFbYcJTxe1fbt8iNZlAUy3+yev6QYro=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jUTXCooEf3zQTEsG/QY0k3fG3qJu0OQe/hSRJt2h63nkkOKXwJ6+8Y1XyklNNgOoe
- lyMq8S+yobVLaXIh7npMfGFy2f+JauNVpVYAPMn0Eme/G4zyRTZpQLdxSa4raKwPha
- VYsqmZoowqaw5+jht7AgeNHkXTTNcuS+ejhG9B7dGJTvZBAGN69SulhZ4tRpB5SpjR
- Uf3bMxSSOTawXRcuK6AUwBd5nmHwt9SqOg3nSl7IKRjYAVzXUMkku7Tu6lWLECFGxW
- /x1eQ9Fx5ou1vFKkvIFt3W59ENgxazsjoii0rB4OU+bxe+RsmUEFPDVi26/jAW3P4/
- 4ZnG3YVCjeBrQ==
+ b=LUoshxnSBbJYYxVqXyQ9UjsHUb8OavG5ae3ju2kLhBGpSYpRQIgnOv3RA74PQti9E
+ f+xC+skDrjbmocqSFzUuchzpSXwDiZbtxaN6kLE/YKxjnBfijlWCFKLEqpSEKX1PDI
+ CBo/AMdbOqnvaVbhLQ9Bmi2HlJq31jh16eJWAxYiv3GSx/s68QpCcs56NFhoUonqeQ
+ JCtfDnTUrPwqP57hKxYN5YD8vhwC5gyJucrHiVWuiR4DET1PZyWKEjZ2NlhxD+Rm8S
+ pEukfK+aWP9YMbSTXgJ6Tiiy7bUEoVRj+/8u0HUrZ3saXgOOVgLtvxcZisahsFrt+u
+ ihOomzAVmvPlw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,10 +41,10 @@ Cc: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>,
  thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
  airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 236/486] drm/xe/vf: Retry sending MMIO request to
- GUC on timeout error
-Date: Mon,  5 May 2025 18:35:12 -0400
-Message-Id: <20250505223922.2682012-236-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 237/486] drm/xe/pf: Create a link between PF and
+ VF devices
+Date: Mon,  5 May 2025 18:35:13 -0400
+Message-Id: <20250505223922.2682012-237-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -71,19 +71,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
 
-[ Upstream commit ba757a65d2a28d46a8ccf50538f4f05036983f1b ]
+[ Upstream commit 8c0aff7d92e2be25717669eb65a81a89740a24f2 ]
 
-Add support to allow retrying the sending of MMIO requests
-from the VF to the GUC in the event of an error. During the
-suspend/resume process, VFs begin resuming only after the PF has
-resumed. Although the PF resumes, the GUC reset and provisioning
-occur later in a separate worker process.
+When both PF and VF devices are enabled on the host, they
+resume simultaneously during system resume.
 
-When there are a large number of VFs, some may attempt to resume
-before the PF has completed its provisioning. Therefore, if a
-MMIO request from a VF fails during this period, we will retry
-sending the request up to GUC_RESET_VF_STATE_RETRY_MAX times,
-which is set to a maximum of 10 attempts.
+However, the PF must finish provisioning the VF before any
+VFs can successfully resume.
+
+Establish a parent-child device link between the PF and VF
+devices to ensure the correct order of resumption.
+
+V4 -> V5:
+- Added missing break in the error condition.
+V3 -> V4:
+- Made xe_pci_pf_get_vf_dev() as a static function and updated
+  input parameter types.
+- Updated xe_sriov_warn() to xe_sriov_abort() when VF device
+  cannot be found.
+V2 -> V3:
+- Added function documentation for xe_pci_pf_get_vf_dev().
+- Added assertion if not called from PF.
+V1 -> V2:
+- Added a helper function to get VF pci_dev.
+- Updated xe_sriov_notice() to xe_sriov_warn() if vf pci_dev
+  is not found.
 
 Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
 Cc: Michał Wajdeczko <michal.wajdeczko@intel.com>
@@ -91,37 +103,81 @@ Cc: Michał Winiarski <michal.winiarski@intel.com>
 Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
 Reviewed-by: Piotr Piorkowski <piotr.piorkowski@intel.com>
 Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250224102807.11065-3-satyanarayana.k.v.p@intel.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20250224102807.11065-2-satyanarayana.k.v.p@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_gt_sriov_vf.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/xe/xe_pci_sriov.c | 51 +++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_vf.c b/drivers/gpu/drm/xe/xe_gt_sriov_vf.c
-index f982d6f9f218d..7ddbfeaf494ac 100644
---- a/drivers/gpu/drm/xe/xe_gt_sriov_vf.c
-+++ b/drivers/gpu/drm/xe/xe_gt_sriov_vf.c
-@@ -46,12 +46,19 @@ static int guc_action_vf_reset(struct xe_guc *guc)
- 	return ret > 0 ? -EPROTO : ret;
+diff --git a/drivers/gpu/drm/xe/xe_pci_sriov.c b/drivers/gpu/drm/xe/xe_pci_sriov.c
+index aaceee748287e..09ee8a06fe2ed 100644
+--- a/drivers/gpu/drm/xe/xe_pci_sriov.c
++++ b/drivers/gpu/drm/xe/xe_pci_sriov.c
+@@ -62,6 +62,55 @@ static void pf_reset_vfs(struct xe_device *xe, unsigned int num_vfs)
+ 			xe_gt_sriov_pf_control_trigger_flr(gt, n);
  }
  
-+#define GUC_RESET_VF_STATE_RETRY_MAX	10
- static int vf_reset_guc_state(struct xe_gt *gt)
- {
-+	unsigned int retry = GUC_RESET_VF_STATE_RETRY_MAX;
- 	struct xe_guc *guc = &gt->uc.guc;
- 	int err;
- 
--	err = guc_action_vf_reset(guc);
-+	do {
-+		err = guc_action_vf_reset(guc);
-+		if (!err || err != -ETIMEDOUT)
-+			break;
-+	} while (--retry);
++static struct pci_dev *xe_pci_pf_get_vf_dev(struct xe_device *xe, unsigned int vf_id)
++{
++	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
 +
- 	if (unlikely(err))
- 		xe_gt_sriov_err(gt, "Failed to reset GuC state (%pe)\n", ERR_PTR(err));
- 	return err;
++	xe_assert(xe, IS_SRIOV_PF(xe));
++
++	/* caller must use pci_dev_put() */
++	return pci_get_domain_bus_and_slot(pci_domain_nr(pdev->bus),
++			pdev->bus->number,
++			pci_iov_virtfn_devfn(pdev, vf_id));
++}
++
++static void pf_link_vfs(struct xe_device *xe, int num_vfs)
++{
++	struct pci_dev *pdev_pf = to_pci_dev(xe->drm.dev);
++	struct device_link *link;
++	struct pci_dev *pdev_vf;
++	unsigned int n;
++
++	/*
++	 * When both PF and VF devices are enabled on the host, during system
++	 * resume they are resuming in parallel.
++	 *
++	 * But PF has to complete the provision of VF first to allow any VFs to
++	 * successfully resume.
++	 *
++	 * Create a parent-child device link between PF and VF devices that will
++	 * enforce correct resume order.
++	 */
++	for (n = 1; n <= num_vfs; n++) {
++		pdev_vf = xe_pci_pf_get_vf_dev(xe, n - 1);
++
++		/* unlikely, something weird is happening, abort */
++		if (!pdev_vf) {
++			xe_sriov_err(xe, "Cannot find VF%u device, aborting link%s creation!\n",
++				     n, str_plural(num_vfs));
++			break;
++		}
++
++		link = device_link_add(&pdev_vf->dev, &pdev_pf->dev,
++				       DL_FLAG_AUTOREMOVE_CONSUMER);
++		/* unlikely and harmless, continue with other VFs */
++		if (!link)
++			xe_sriov_notice(xe, "Failed linking VF%u\n", n);
++
++		pci_dev_put(pdev_vf);
++	}
++}
++
+ static int pf_enable_vfs(struct xe_device *xe, int num_vfs)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
+@@ -92,6 +141,8 @@ static int pf_enable_vfs(struct xe_device *xe, int num_vfs)
+ 	if (err < 0)
+ 		goto failed;
+ 
++	pf_link_vfs(xe, num_vfs);
++
+ 	xe_sriov_info(xe, "Enabled %u of %u VF%s\n",
+ 		      num_vfs, total_vfs, str_plural(total_vfs));
+ 	return num_vfs;
 -- 
 2.39.5
 
