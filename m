@@ -2,172 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA19AA9770
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 17:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF2AAA9791
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 17:30:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4239E10E0D3;
-	Mon,  5 May 2025 15:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACB810E321;
+	Mon,  5 May 2025 15:30:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="WLWUFqpv";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="loCa23km";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2075.outbound.protection.outlook.com [40.107.220.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 179AB10E0D3;
- Mon,  5 May 2025 15:25:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DjwOYPlcFyRHKFO49Bgsmx03jL3gqrRhUolXXguISxmwf5nw4lmBH6ih1VNH2HivTf4OgsoU8WpPHZ/jwYTSH016yVSLQcbx4Ij1u6b5yC8PTMq0LBIzTDaAD2VCvC3ewXivaQuPt/a/JP0uV0JIvXNaJzE0Lu6z9PvTq1JSR8z2VdEAy9VuGdIEkBsnZqqOs83nukzHRbIdleeIDoAhuy3y5mzVMIM29Jjku1Lfa71wa/WtlVIVs2bIyHUixPDt00pKREh0JCFi0q7Xrp8c9jLugNzXscf3UAyzDdqzTLLTLuFMLGbDwEcSsHNik8cWdscmN+j7r90cg0kxwrChbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j4uyUFZAfHy/2u7tNlEh3d2HCnEnYNa71lFBCJgYKMs=;
- b=GPW6U/vvmFNZwQTOY0ErNNo+KAWEn7cnhKdX8xDY7l8hetylJDQwiaOZiPi80oJOb/mj+1HlvU6vp+c9K8P/7Qh0ETrFmiUulx78mn7khQHJURG35I8hg56lyZ/GuMwCtk3CTzMLA4J5pBXKLPuPSEQcXkKPdh4HjV72tP99gp5CKABlbkv+wzkmZ7HqF8FEvh2MaCF7M991ek4cTYg84+bjCZEIYUkuPTamUfN7jEdMWJTTBTUUACl7vbbA7JeA6+tq6+rNtvAm4jHjQlCD4j7+mP9CBPnCc7G7VuUFo8Bb/huq4uZ5/+F8S0xC/gC642eq+5kbwiXntSPNrCSZ+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j4uyUFZAfHy/2u7tNlEh3d2HCnEnYNa71lFBCJgYKMs=;
- b=WLWUFqpvNzxn24Gpg6KTO0VLk6GtodsiBfmQkhl5sAd3RLDrFIMhJW5GBCzQS0UE+TWyj8Du31Wc/bFBuZW9DZkedSpbQbNyVKFK6nGZ60PilDQ6K4018ex6l4mzDEgCR2ClintQeiCco9QvxzwY7SMxiSG927ndcc+EfnUdJOjCuaRwF8y92xnv4fgv8PLb+29fhVXYiFZVQk7XGAorYmjUxxhS1pzD6l6n7PNsHA6Jbx0tOEiCoT5p1dCAeWbUxRkz9E3esxbjimgYsHB5yksSMPQoSlzZtRbM2bAAF6ClPpMjpNW4Slq6ZXE0xTdXJCx0bzYqJf3VEM3mexfLwg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by SJ1PR12MB6361.namprd12.prod.outlook.com (2603:10b6:a03:455::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Mon, 5 May
- 2025 15:25:05 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.8699.021; Mon, 5 May 2025
- 15:25:05 +0000
-Message-ID: <ce197acc-8b66-4a6c-85aa-3318666d80d3@nvidia.com>
-Date: Mon, 5 May 2025 11:25:02 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B261710E2A1
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 15:30:26 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E461289;
+ Mon,  5 May 2025 17:30:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1746459011;
+ bh=iVQWhaoZPi0VqNZxukEtId63UEg7pyAvuws6hkZFMYo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=loCa23km3IC9EfU0vwE8McXcQrFqUMX/XxE3Yc6QVAUGtzMSj9dte+rURLgK5gqH0
+ 3wDvXiyXr69mOwnEHtD/YZs9xWi5RtEKqjzIn6umwFF5STLSQf2hGfESKUkzRGsJ84
+ qwrpbfP/F5VkJXj28CnT06Z79aRhs3DUdbAGMyp8=
+Message-ID: <a1cf67da-a0cb-46c5-b22b-10ecca8ab383@ideasonboard.com>
+Date: Mon, 5 May 2025 18:30:16 +0300
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 17/21] rust: num: Add an upward alignment helper for
- usize
-To: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Subject: Re: [PATCH v1] drm/bridge: cdns-dsi: Replace deprecated
+ UNIVERSAL_DEV_PM_OPS()
+To: Vitor Soares <ivitro@gmail.com>
+Cc: Vitor Soares <vitor.soares@toradex.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ Jayesh Choudhary <j-choudhary@ti.com>, stable@vger.kernel.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20250501-nova-frts-v2-0-b4a137175337@nvidia.com>
- <20250501-nova-frts-v2-17-b4a137175337@nvidia.com>
- <D9LEQ1U1PLO8.3N22GRY380ZM3@nvidia.com>
- <d6962ea3-282d-437c-b3cf-ce701d514558@nvidia.com>
- <D9M5K55GTN6S.1X827WU0Z50UM@nvidia.com>
- <112d971f-20c8-4598-86c9-6822d9c24001@nvidia.com>
- <D9MLOQC5G7XH.3GTUIRCCN8X70@nvidia.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250428094048.1459620-1-ivitro@gmail.com>
+ <fbde0659-78f3-46e4-98cf-d832f765a18b@ideasonboard.com>
+ <ec35d40dcd06ddbcfc0409ffa01aaee22c601716.camel@gmail.com>
 Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <D9MLOQC5G7XH.3GTUIRCCN8X70@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BLAPR03CA0114.namprd03.prod.outlook.com
- (2603:10b6:208:32a::29) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|SJ1PR12MB6361:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34ab275e-907d-441b-9a68-08dd8be90341
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|366016|7416014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MDhMWWJVcGJIRndoUkVWUmhHL2NzQTJJVlRLUkVoUVVYMEhhakZpZmtOL1cx?=
- =?utf-8?B?NExBTURsWlE3ZDBUbnhVaUs0ZlRRci9ybnI5akxLc3VmSys5N0liOHlucmQy?=
- =?utf-8?B?b2Jzb05VL1JVaFR5UUFXZ1UzdW1oU0tTZ25CSzE1eHBXZTdUelQzcjQvY09q?=
- =?utf-8?B?SHhsUHh4NkNCYXNxSHVCNlJoSzFIcTZndWVSeGJsbnhvd3lJSDd6bkxLTE44?=
- =?utf-8?B?ekJJbnlSZTIxR01GMU9nL3Z4aU9HcE9xQmYzVnA5M1RRRG1PVmY4eW9RdG92?=
- =?utf-8?B?TG95UXVlcjJrK3dmN3R3cmI4M2dYTWZ5aEs3SUgzRDJlMlg0V2d2OGcxSWtR?=
- =?utf-8?B?UHFTQXYycnY4TmJyeEFXRVN5Q0dGNkhIUHJTUTlwUHg0cUFGb2lmL0p5c0pi?=
- =?utf-8?B?U3B0bEEyaUx2Slg3dFlzRExaVnFiTVFESU44VVdpR0FHWE1ybys4OVZoMVdn?=
- =?utf-8?B?MllpZVFlRnRWdWpUMXBNUTJoSkRBU1p1RG5kSHl4OS9EME1wQ0lQOGl2ejVn?=
- =?utf-8?B?WS9uY1l1TFRtcmc4TnprRWlQK1l0WFdZZjVOd2JCTXJvUGZUZTZ5QjlFMXYx?=
- =?utf-8?B?UEVpY2tyTVRiRHZMdHQ0NkFQcjZ4d05PUU11SFlERWU5SGJvZkNmRGVYNWRB?=
- =?utf-8?B?ZGZhSW16cWF2OWFvYzBENVZYZzM3dkxiM3BVUEFYRW5iWEJEa2xaQ2IyYnJz?=
- =?utf-8?B?dlBld2Y1bHFORjh6WEZGQzJldUtvRXVpVXVsTThEWHlLSWdFV1V0dHhJZUNo?=
- =?utf-8?B?Mjg4M0JLaWR0MzZPaGFadnhDMXA5WFUzODJBWk9mQ0prT1VMUG1uMVpnNnhN?=
- =?utf-8?B?R0dodVFCczhqZzVrbjBBY0ZlSkdPS1ZHOHN3Yk4rL3lZeGRuaXR1WThkRiti?=
- =?utf-8?B?QWVOOUt3dnl5NmpVTGVjb29lRUdid1pzRElvSm5XWkplM0c3bjYyVUdDUXh6?=
- =?utf-8?B?Nzc4TGQvMXh5MzNIR0Yza2h3OGQvQ0wwUS9SR3RVcU14ZnhObmhJQlFEVm0x?=
- =?utf-8?B?Tm5HSzlhTG54UEpWZ04wQWpITE56OFJJRlhoeUh2c2Q1RHlLM2trenFJWkpD?=
- =?utf-8?B?SjlmTDNDaFRGQ0JGYlZRSCtianJGaUpwM3BlTGxQUzd6U05MU2NPVXVrdU9H?=
- =?utf-8?B?cm1CMDlBNVhPb1RZbmx4VGJxZEFHRGcxMGJJamF5VlZDbTN2blJyeTZJZ3lo?=
- =?utf-8?B?OVNSL3R1VUNtNE51TEpibFRwNDEyL0NMSXcva2lYK2VIU08vTUU1cVBMb2xh?=
- =?utf-8?B?djBQM2tGc0Q4VVE4dGlhTmdDK1l5R2VZYTZCakRDL24xRXd4VzRKdmNrNDBs?=
- =?utf-8?B?WUc4ZGl3Z2lib0xFL2tCQ0JQdG81eFB4bmh2d01uVHVIcXc3YTIvRGo3S3VP?=
- =?utf-8?B?TDNpZUZ3VDlyeUU5S0svejIybEdvaWJUc1FWaFV3eGJMSVFMWmZsV2dEYVZF?=
- =?utf-8?B?WWVGRWdEWnNkVDdlOHRRZ3RYRFlFK1MzeHU4dlVxTVhEWWtpbUhENFA0Sk1r?=
- =?utf-8?B?dlJtdVpJSjFBS1JFaS9oNW02WjBjTkduL1ViOTYrV0NDSjhuUWJjdm9ZN3Rj?=
- =?utf-8?B?V2ZVNnFNVVFPdFNVanluY2FVcjlyNkt4V3lwOGY3S0N5REpDbjB2NUtLcUkw?=
- =?utf-8?B?cGduWDBpaUtFbTRmL2RiVytCQUlBaTJjS1RNZy80enc4OXFwN0xacWszSUxq?=
- =?utf-8?B?OHVGd3kvN1ZUazFDQVNXL29rSElDQmxad0RMYlI3SzN1UHduNUR5RWYrN3Vj?=
- =?utf-8?B?MHZRNmNsMTMxN042czhDTTI2MWpIQXhkaTdQdVpob0pVSlZ0ZHFyQ3B2VlJN?=
- =?utf-8?B?SThNM2FRT05Jc0dlK1NKdW5LUm14NGxnSWx4cCtpejVmbGxGbmRHMEFJRU10?=
- =?utf-8?B?bmRyQmU3cDNkaGNGRzNadm4xcEU0aFltTlFadFYyZkdhWnNVU3I4QnJveGQv?=
- =?utf-8?B?YXdqeGVxYThWVEdLTU4yK3lsVWJEc2QvclExYkFPOHNMUTBGci9hanFWMmE1?=
- =?utf-8?B?V0h0NHFxRHhRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(7416014)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?akUwM3J1ZmRVemRBOWNYYTFZVUF1UkJKMVhSUGpuSkRDUEVpcTFjRmNrU2JF?=
- =?utf-8?B?TG1QRW9nd3hsMHFYaGYyZXpBWGNCcE51VUhvWnEzcXhWRzlFa2JVaS84NGdN?=
- =?utf-8?B?RkMwOU1YeFhYenJaY0pkcUg0Y0U0ZWx5c1lpMnFUT21WM2hvT0Q4azFsa3VL?=
- =?utf-8?B?ejUxR09FcGFRQkZsV3ZNNk1DbUVqQkoxVU1uSnV4VDZuaUhXYmE1YVVoamFF?=
- =?utf-8?B?V1ROVDVDaUV2OHdMOWRPSjNBejdGZkJWWks3b1JESE5rTzFFbG5pVkI2SHZB?=
- =?utf-8?B?R0JlcDR1TUV2K3J3VTYrMTI5VWtJbnVUM2FMczJGZU9qa1JBWGZpWk1HamdS?=
- =?utf-8?B?c29iNE9VcENiYVE3eER3L3BWTXR0Z0M3R3FoY3lHdFNKb3lLaUloeDRFYUp1?=
- =?utf-8?B?Ny8xK0c1d1l5MmFqWnFnUmd1a1pBaU9heXAxVWN0eTBpcG5pOXNHS3gvOVBE?=
- =?utf-8?B?Z051d0dOTVZXamFMWnBEOVI3ZkpYNGdrVjNENUg0TEZUWjYrTU4vWWplTmdV?=
- =?utf-8?B?UTgydlAvMThqNmFmVmFzNDFoSVA1ai9mT0YrY0VWTnhyQVg4SHdEUGltdjlW?=
- =?utf-8?B?cWNjNnFvaXl5enZ2NS9WM1p5c3AwdFdFZVJZdlM4NnpzT296TTFzSmhTdC9t?=
- =?utf-8?B?WlN3TURTam8rMGN3Y041UDNtRFZLMVlvWHdGWi8xZDBWWlFMVFVSdURnU3Q0?=
- =?utf-8?B?enlZRDdBQlNoWmtoZGxZZ0ZRemJXSmVTUnJYcmVTMXh5UjJhU3ZEQmhCWFAv?=
- =?utf-8?B?dllUbksxd0daSEx3R2UwMi9SWS9vRmlOdDdpQnpiQlBlZXo5bkJmK3pacW1p?=
- =?utf-8?B?YjZDMzRNUHpIZ2RRUGtRKzBtckRWMlFMRTVnYkV1R1Bkcks0dDQ2QytOQito?=
- =?utf-8?B?ei8rNnlndm1XUmdTQkwvMTI0d3FncXBub2M4RW56cGhlSHI5OG03a0RiK0c5?=
- =?utf-8?B?RUZJVlN2RXRYQlE4Mit1T2VCSXljMDBPdC9Ua2Y4aGxUdFBHZnF5VTNLbVBJ?=
- =?utf-8?B?Y09TZHRWenExalhMeEJtS1F6dFhGSHJFMkkvMXdINkFjdGhZbjdjV2lpc3lI?=
- =?utf-8?B?cllvVVdKWmlHOEc0RHdkaDRrZ3kyVG9lSmxEdVJFaFYxRFI0aDR0ZU1qNW5L?=
- =?utf-8?B?a0I2dithWGFWN3BqYmtNMVdiT1NGa0tad3k3cWJ1enY0YWxFQm8wN2dDSE5Y?=
- =?utf-8?B?bmVnN3ZEcDFLUTNJc0kzUUtVNzhtbTVHYUZiSWVOOXEyMWpKWmpLZ3doUzNL?=
- =?utf-8?B?cWZxWXFIaHI2RzJYUlpJajlLcTFFQWp2RHB5eTkrbGY4WU5hM1MwUnNQL3oz?=
- =?utf-8?B?ZVk0QU0zVmFkV015K2ZMam5aWG1RaGtlS2FHWlJwRTNDNzdkZWlUR2ExUDlV?=
- =?utf-8?B?Ly9qV0hSQ0J4SjZmYUI4ZWZTYVJBaGhrMTgrdFN4RFpheVUraHE3a2tndUV3?=
- =?utf-8?B?akZsSXNRWnUyUVV1S0lUY3BCRmd4T3ZCcjNqamloMCszZWxMcHJTQmhCaTJ3?=
- =?utf-8?B?K2l0N0pJWE4yZjIxQkFpcVE5RW5ManY5MWVyRnEvUnJhWW1BL3VSUDA0bzdO?=
- =?utf-8?B?N3NDQ3JLeXlOSjhRYXVZTWdIWnhsUU8xSXJoT2E1ZEp1WUE5ZVMxTFhtbVZV?=
- =?utf-8?B?VUtKWnR6TysrdmZQclAyWmZCaFJqa2IyL2FPbmhzOWdzWEg0WkI1MmdVSkpD?=
- =?utf-8?B?bnpFOXpNc0pOaXFOdFUyeWY5QXZMdzNrN1ZDeHdaOFdzN0x0dERjdkVTVmdP?=
- =?utf-8?B?SElFTVRMRHhMWVpEbUxYT2o2WnppbC9rMWJ5UUptMWZadDBQQmVPMXYvb1cv?=
- =?utf-8?B?QU5RSVhQNk5GNUhNdmJYZ2xiMXFhMWxrRDc3SHpPVCtzSmlHcVUwS2FiZEV1?=
- =?utf-8?B?WmRpWDJaZDdRQ3JFWThlaU1MK0lmLzNKenc1MElrdk9VOTg1SG9kMGVpYjJV?=
- =?utf-8?B?ZjhLNEpwL0Rtdm1UaFFJUkRBK0JLNU9wcDBqUjRDN1JGTmQ1bFcxcGdkb21V?=
- =?utf-8?B?UXNXZFBrZXlMSHpGVGlqYkVXZ0lBK2xrSlJnclllMlIxQjJDcHZ5RzBteVlK?=
- =?utf-8?B?cXhiam90RGlvOWlQbkFKUEYrL25FV2FHdG9TQ0Z0SXJrMEVLdERyQlpKQWJy?=
- =?utf-8?Q?QC0DliJEUvJdqM0w9uJ+wqgyF?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34ab275e-907d-441b-9a68-08dd8be90341
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 15:25:05.6514 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZR35woHs0+GTnAVEL61uhOw5+KvixpYy+EXAEg+UxmvVvPo6G+iv7aCBXHiwaNbMnoOYnlRWsAbcIZlVg6CNXw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6361
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <ec35d40dcd06ddbcfc0409ffa01aaee22c601716.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,190 +110,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello, Alexandre,
+Hi,
 
-On 5/3/2025 10:37 AM, Alexandre Courbot wrote:
-> On Sat May 3, 2025 at 12:02 PM JST, Joel Fernandes wrote:
+On 05/05/2025 17:45, Vitor Soares wrote:
+> On Tue, 2025-04-29 at 09:32 +0300, Tomi Valkeinen wrote:
+>> Hi,
 >>
->>
->> On 5/2/2025 9:59 PM, Alexandre Courbot wrote:
->>>> pub trait AlignUp {
->>>>     fn align_up(self, alignment: Self) -> Self;
->>>> }
->>>>
->>>> macro_rules! align_up_impl {
->>>>     ($($t:ty),+) => {
->>>>         $(
->>>>             impl AlignUp for $t {
->>>>                 fn align_up(self, alignment: Self) -> Self {
->>>>                     (self + alignment - 1) & !(alignment - 1)
->>>>                 }
->>>>             }
->>>>         )+
->>>>     }
->>>> }
->>>>
->>>> align_up_impl!(usize, u8, u16, u32, u64, u128);
->>>>
->>>> Or, we can even combine the 2 approaches. Use macros for the "impl Alignable"
->>>> and use generics on the Alignable trait.
->>>>
->>>> macro_rules! impl_alignable {
->>>>     ($($t:ty),+) => {
->>>>         $(
->>>>             impl Alignable for $t {}
->>>>         )+
->>>>     };
->>>> }
->>>>
->>>> impl_alignable!(usize, u8, u16, u32, u64, u128);
->>>>
->>>> pub trait AlignUp {
->>>>     fn align_up(self, alignment: Self) -> Self;
->>>> }
->>>>
->>>> impl<T> AlignUp for T
->>>> where
->>>>     T: Alignable,
->>>> {
->>>>     fn align_up(self, alignment: Self) -> Self {
->>>>         let one = T::from(1u8);
->>>>         (self + alignment - one) & !(alignment - one)
->>>>     }
->>>> }
->>>>
->>>> Thoughts?
->>> I think that's the correct way to do it and am fully on board with this
->>> approach.
+>> On 28/04/2025 12:40, Vitor Soares wrote:
+>>> From: Vitor Soares <vitor.soares@toradex.com>
 >>>
->>> The only thing this doesn't solve is that it doesn't provide `const`
->>> functions. But maybe for that purpose we can use a single macro that
->>> nicely panics at build-time should an overflow occur.
+>>> The deprecated UNIVERSAL_DEV_PM_OPS() macro uses the provided callbacks
+>>> for both runtime PM and system sleep. This causes the DSI clocks to be
+>>> disabled twice: once during runtime suspend and again during system
+>>> suspend, resulting in a WARN message from the clock framework when
+>>> attempting to disable already-disabled clocks.
+>>>
+>>> [   84.384540] clk:231:5 already disabled
+>>> [   84.388314] WARNING: CPU: 2 PID: 531 at /drivers/clk/clk.c:1181
+>>> clk_core_disable+0xa4/0xac
+>>> ...
+>>> [   84.579183] Call trace:
+>>> [   84.581624]  clk_core_disable+0xa4/0xac
+>>> [   84.585457]  clk_disable+0x30/0x4c
+>>> [   84.588857]  cdns_dsi_suspend+0x20/0x58 [cdns_dsi]
+>>> [   84.593651]  pm_generic_suspend+0x2c/0x44
+>>> [   84.597661]  ti_sci_pd_suspend+0xbc/0x15c
+>>> [   84.601670]  dpm_run_callback+0x8c/0x14c
+>>> [   84.605588]  __device_suspend+0x1a0/0x56c
+>>> [   84.609594]  dpm_suspend+0x17c/0x21c
+>>> [   84.613165]  dpm_suspend_start+0xa0/0xa8
+>>> [   84.617083]  suspend_devices_and_enter+0x12c/0x634
+>>> [   84.621872]  pm_suspend+0x1fc/0x368
+>>>
+>>> To address this issue, replace UNIVERSAL_DEV_PM_OPS() with
+>>> DEFINE_RUNTIME_DEV_PM_OPS(), which avoids redundant suspend/resume calls
+>>> by checking if the device is already runtime suspended.
+>>>
+>>> Cc: <stable@vger.kernel.org> # 6.1.x
+>>> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
+>>> Signed-off-by: Vitor Soares <vitor.soares@toradex.com>
+>>> ---
+>>>    drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 10 +++++-----
+>>>    1 file changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>>> b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>>> index b022dd6e6b6e..62179e55e032 100644
+>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>>> @@ -1258,7 +1258,7 @@ static const struct mipi_dsi_host_ops cdns_dsi_ops = {
+>>>          .transfer = cdns_dsi_transfer,
+>>>    };
+>>>    
+>>> -static int __maybe_unused cdns_dsi_resume(struct device *dev)
+>>> +static int cdns_dsi_resume(struct device *dev)
+>>>    {
+>>>          struct cdns_dsi *dsi = dev_get_drvdata(dev);
+>>>    
+>>> @@ -1269,7 +1269,7 @@ static int __maybe_unused cdns_dsi_resume(struct
+>>> device *dev)
+>>>          return 0;
+>>>    }
+>>>    
+>>> -static int __maybe_unused cdns_dsi_suspend(struct device *dev)
+>>> +static int cdns_dsi_suspend(struct device *dev)
+>>>    {
+>>>          struct cdns_dsi *dsi = dev_get_drvdata(dev);
+>>>    
+>>> @@ -1279,8 +1279,8 @@ static int __maybe_unused cdns_dsi_suspend(struct
+>>> device *dev)
+>>>          return 0;
+>>>    }
+>>>    
+>>> -static UNIVERSAL_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend,
+>>> cdns_dsi_resume,
+>>> -                           NULL);
+>>> +static DEFINE_RUNTIME_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend,
+>>> +                                cdns_dsi_resume, NULL);
 >>
->> Great, thanks. I split the traits as follows and it is cleaner and works. I will
->> look into the build-time overflow check and the returning of Result change on
->> Monday. Let me know if any objections.
+>> I'm not sure if this, or the UNIVERSAL_DEV_PM_OPS, is right here. When
+>> the system is suspended, the bridge drivers will get a call to the
+>> *_disable() hook, which then disables the device. If the bridge driver
+>> would additionally do something in its system suspend hook, it would
+>> conflict with normal disable path.
+>>
+>> I think bridges/panels should only deal with runtime PM.
+>>
+>>    Tomi
+>>
 > 
-> Looking good IMHO, apart maybe from the names of the `BitOps` and
-> `Unsigned` traits that are not super descriptive and don't need to be
-> split for the moment anyway.
-
-Sounds good, actually I already switched to keeping them in one trait
-"Unsigned". I agree that is cleaner (see below).
-
-> Actually it may be a good idea to move this into its own patch/series so
-> it gets more attention as this is starting to look like the `num` or
-> `num_integer` crates and we might be well-advised to take more
-> inspiration from them in order to avoid reinventing the wheel. It is
-> basically asking the question "how do we want to extend the integer
-> types in a useful way for the kernel", so it's actually pretty important
-> that we get our answer right. :)
-
-I am not sure if we want to split the series for a simple change like this,
-because then the whole series gets blocked? It may also be better to pair the
-user of the function with the function itself IMHO since the function is also
-quite small. I am also Ok with keeping the original patch in the series and
-extending on that in the future (with just usize) to not block the series.
-
-Regarding for the full blown num module, I looked over the weekend and its
-actually a bunch of modules working together, with dozens of numeric APIs, so I
-am not sure if we should pull everything or try to copy parts of it. The R4l
-guidelines have something to say here. A good approach IMO is to just do it
-incrementally, like I'm doing with this patch.
-
-I think defining a "Unsigned" trait does make sense, and then for future
-expansion, it can be expanded on in the new num module?
-
+> In the proposed change, we make use of pm_runtime_force_suspend() during
+> system-wide suspend. If the device is already suspended, this call is a
+> no-op and disables runtime PM to prevent spurious wakeups during the
+> suspend period. Otherwise, it triggers the device’s runtime_suspend()
+> callback.
 > 
-> To address our immediate needs of an `align_up`, it just occurred to me
-> that we could simply use the `next_multiple_of` method, at least
-> temporarily. It is implemented with a modulo and will therefore probably
-> result in less efficient code than a version optimized for powers of
-> two, but it will do the trick until we figure out how we want to extend
-> the primitive types for the kernel, which is really what this patch is
-> about - we will also need an `align_down` for instance, and I don't know
-> of a standard library equivalent for it...
+> I briefly reviewed other bridge drivers, and those that implement runtime
+> PM appear to follow a similar approach, relying solely on runtime PM
+> callbacks and using pm_runtime_force_suspend()/resume() to handle
+> system-wide transitions.
 
-Why do we want to trade off for "less efficient code"? :) I think that's worse
-than the original change (before this series) I had which had no function call
-at all, but hardcoded the expression at the call site. The suggestion is also
-less desirable than having a local helper in the vbios module itself. I am not
-much a fan of the idea "lets call this temporarily and have sub optimal code"
-when the alternative is to just do it in-place, in-module, or via a num module
-extension :)
+Yes, I see such a solution in some of the bridge and panel drivers. I'm 
+probably missing something here, as I don't think it's correct.
 
-> 
->> I added the #[inline] and hopefully that
->> gives similar benefits to const that you're seeking:
-> 
-> A `const` version is still going to be needed, `#[inline]` encourages the
-> compiler to try and inline the function, but AFAIK it doesn't allow use
-> in const context.
+Why do we need to set the system suspend/resume hooks? What is the 
+scenario where those will be called, and the 
+pm_runtime_force_suspend()/resume() do something that's not already done 
+via the normal DRM pipeline enable/disable?
 
-Right, so for the vbios use case there is no use of a const function. The only
-reason I added it is because there were other functions at the time which were
-used (by the now dropped timer module). I suggest let us add the const function
-once there is a user of it, I also don't know right how to do it. Like if I use
-generics for the const fn, I get this:
-
-const fn align_up_unsigned<T: Unsigned>(value: T, alignment: T) -> T {
-    let one = T::from(1u8);
-    (value + alignment - one) & !(alignment - one)
-}
-
-error[E0658]: cannot call conditionally-const method `<T as Add>::add` in
-constant functions
-
-I tried to do this with macros as well, but no luck. If you can share a macro, I
-can incorporate it into the patch.
-
-I can respin this patch again on conclusion of the discussion, but any guidance
-from rust-for-linux folks is also much appreciated. Below is currently the patch
-that I am considering so far (without the const function and Result changes).
-
-// num.rs
-//! Numerical and binary utilities for primitive types.
-
-/// A trait providing alignment operations for `usize`.
-use core::ops::{Add, BitAnd, BitOr, Not, Sub};
-
-/// Traits for unsigned integers
-pub trait Unsigned:
-    Copy
-    + BitAnd<Output = Self>
-    + BitOr<Output = Self>
-    + Not<Output = Self>
-    + Add<Output = Self>
-    + Sub<Output = Self>
-    + From<u8>
-{
-}
-
-macro_rules! unsigned_trait_impl {
-    ($($t:ty),+) => {
-        $(
-            impl Unsigned for $t {}
-        )+
-    };
-}
-unsigned_trait_impl!(usize, u8, u16, u32, u64, u128);
-
-/// Trait for unsigned integer alignment
-pub trait UnsignedAlign {
-    /// Implement upward power-of-2 alignment for unsigned ints
-    fn align_up(self, alignment: Self) -> Self;
-}
-
-impl<T> UnsignedAlign for T
-where
-    T: Unsigned,
-{
-    #[inline]
-    fn align_up(self, alignment: Self) -> Self {
-        let one = T::from(1u8);
-        (self + alignment - one) & !(alignment - one)
-    }
-}
-
-Thanks.
+  Tomi
 
