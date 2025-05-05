@@ -2,46 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B31AA9F7F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAC2AA9F82
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:24:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1649C10E46E;
-	Mon,  5 May 2025 22:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE9710E471;
+	Mon,  5 May 2025 22:24:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bZhEVazT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iZFpC/2Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7674510E470;
- Mon,  5 May 2025 22:24:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7151E10E471;
+ Mon,  5 May 2025 22:24:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 149ADA4CCF7;
- Mon,  5 May 2025 22:18:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17D33C4CEE4;
- Mon,  5 May 2025 22:24:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B8A2F5C5AB5;
+ Mon,  5 May 2025 22:21:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83FEEC4CEE4;
+ Mon,  5 May 2025 22:24:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746483849;
- bh=Ld3pKOgFN8CKZPNvrJcEJx12Xz3TyuwsxI61Z8Vrn7A=;
+ s=k20201202; t=1746483853;
+ bh=egpS6UJh7Lj/3mue8VnA4+D1vCiFYuhsAHYgQT7/KU8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bZhEVazT+/r0+6nSU2G9fbU+Y9TZPyR4nWrjBNia328LuXEXjW2teoikwYY3ZoJqo
- qsLznRMoiohFOPd6/qxSmISs9goWvs6t0Lhlcl3PQdwuJsPpuLu2SMResFyMO1TnDb
- pBTI9kqrRfH/iy276ySZf+b92Ci70MfjlBTxv0V9kxMeFuCTLlpiaJQZdqNsAp4tM3
- TcvqZzMvSRgh53b/tdWL/aVZ0i5E0CpBblVQCsIDGfxCuwnFHL1hs2sTYeZtxCY/tc
- cd++q9qpGQjw4uM6FI8NSOEBHag7/52dQqJM2CNQwBFUJUVRFECcOMefzNQFWvJFYf
- PDVm1tlsPhGow==
+ b=iZFpC/2ZOslDgdSVekTb0YYTR8rHrxR+mAdpi7/4PwbgqvIthLbp3Ox8GNF7heDbd
+ YIgVmu7VKLfcPkKP53C0z8+kkD5hwnXaBIqBVL4/LD6y4V6Y99PstcNRspYuFynppr
+ OcB22ezD+essir+NGx+a0gMQdY7puOeMm3zlvBybJFRlRzSBPWAEHHiM/r68eI+yma
+ IGN+78kfhBeeltKKZpqpNyklb24VWNLRHomoGPyiM8WwV15KlGCtWEY4v87MIfGzSu
+ l1ppbn1uiEh4JaghblAj9qozIQr0hs62zg5+h355LauMHjrR4bDaeG3PfNJwXbyD7/
+ GBNk10ZkkfFBw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alexandre Demers <alexandre.f.demers@gmail.com>,
+Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Dillon Varone <dillon.varone@amd.com>, Wayne Lin <wayne.lin@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, boyuan.zhang@amd.com, amd-gfx@lists.freedesktop.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, zaeem.mohamed@amd.com,
+ Hansen.Dsouza@amd.com, Cruise.Hung@amd.com, joshua.aberback@amd.com,
+ duncan.ma@amd.com, PeiChen.Huang@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 248/642] drm/amdgpu: add dce_v6_0_soft_reset() to
- DCE6
-Date: Mon,  5 May 2025 18:07:44 -0400
-Message-Id: <20250505221419.2672473-248-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 249/642] drm/amd/display: Ensure DMCUB idle
+ before reset on DCN31/DCN35
+Date: Mon,  5 May 2025 18:07:45 -0400
+Message-Id: <20250505221419.2672473-249-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,96 +69,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alexandre Demers <alexandre.f.demers@gmail.com>
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 
-[ Upstream commit ab23db6d08efdda5d13d01a66c593d0e57f8917f ]
+[ Upstream commit c707ea82c79dbd1d295ec94cc6529a5248c77757 ]
 
-DCE6 was missing soft reset, but it was easily identifiable under radeon.
-This should be it, pretty much as it is done under DCE8 and DCE10.
+[Why]
+If we soft reset before halt finishes and there are outstanding
+memory transactions then the memory interface may produce unexpected
+results, such as out of order transactions when the firmware next runs.
 
-Signed-off-by: Alexandre Demers <alexandre.f.demers@gmail.com>
+These can manifest as random or unexpected load/store violations.
+
+[How]
+Increase the timeout before soft reset to ensure the DMCUB has quiesced.
+This is effectively 1s maximum based on experimentation.
+
+Use the enable bit check on DCN31 like we're doing on DCN35 and reorder
+the reset writes to follow the HW programming guide.
+
+Ensure we're reading SCRATCH7 instead of SCRATCH8 for the HALT code.
+No current versions of DMCUB firmware use the SCRATCH8 boot bit to
+dynamically switch where the HALT code goes to maintain backwards
+compatibility with PSP.
+
+Reviewed-by: Dillon Varone <dillon.varone@amd.com>
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Signed-off-by: Wayne Lin <wayne.lin@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c | 53 ++++++++++++++++++++++++++-
- 1 file changed, 51 insertions(+), 2 deletions(-)
+ .../gpu/drm/amd/display/dmub/src/dmub_dcn31.c   | 17 +++++++++++------
+ .../gpu/drm/amd/display/dmub/src/dmub_dcn35.c   |  4 ++--
+ 2 files changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-index 915804a6a1d7d..ed5e06b677df1 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-@@ -370,13 +370,41 @@ static u32 dce_v6_0_hpd_get_gpio_reg(struct amdgpu_device *adev)
- 	return mmDC_GPIO_HPD_A;
- }
- 
-+static bool dce_v6_0_is_display_hung(struct amdgpu_device *adev)
-+{
-+	u32 crtc_hung = 0;
-+	u32 crtc_status[6];
-+	u32 i, j, tmp;
-+
-+	for (i = 0; i < adev->mode_info.num_crtc; i++) {
-+		if (RREG32(mmCRTC_CONTROL + crtc_offsets[i]) & CRTC_CONTROL__CRTC_MASTER_EN_MASK) {
-+			crtc_status[i] = RREG32(mmCRTC_STATUS_HV_COUNT + crtc_offsets[i]);
-+			crtc_hung |= (1 << i);
-+		}
-+	}
-+
-+	for (j = 0; j < 10; j++) {
-+		for (i = 0; i < adev->mode_info.num_crtc; i++) {
-+			if (crtc_hung & (1 << i)) {
-+				tmp = RREG32(mmCRTC_STATUS_HV_COUNT + crtc_offsets[i]);
-+				if (tmp != crtc_status[i])
-+					crtc_hung &= ~(1 << i);
-+			}
-+		}
-+		if (crtc_hung == 0)
-+			return false;
-+		udelay(100);
-+	}
-+
-+	return true;
-+}
-+
- static void dce_v6_0_set_vga_render_state(struct amdgpu_device *adev,
- 					  bool render)
+diff --git a/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.c b/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.c
+index d9f31b191c693..1a68b5782cac6 100644
+--- a/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.c
++++ b/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.c
+@@ -83,8 +83,8 @@ static inline void dmub_dcn31_translate_addr(const union dmub_addr *addr_in,
+ void dmub_dcn31_reset(struct dmub_srv *dmub)
  {
- 	if (!render)
- 		WREG32(mmVGA_RENDER_CONTROL,
- 			RREG32(mmVGA_RENDER_CONTROL) & VGA_VSTATUS_CNTL);
--
- }
+ 	union dmub_gpint_data_register cmd;
+-	const uint32_t timeout = 100;
+-	uint32_t in_reset, scratch, i, pwait_mode;
++	const uint32_t timeout = 100000;
++	uint32_t in_reset, is_enabled, scratch, i, pwait_mode;
  
- static int dce_v6_0_get_num_crtc(struct amdgpu_device *adev)
-@@ -2872,7 +2900,28 @@ static bool dce_v6_0_is_idle(void *handle)
+ 	REG_GET(DMCUB_CNTL2, DMCUB_SOFT_RESET, &in_reset);
  
- static int dce_v6_0_soft_reset(struct amdgpu_ip_block *ip_block)
- {
--	DRM_INFO("xxxx: dce_v6_0_soft_reset --- no impl!!\n");
-+	u32 srbm_soft_reset = 0, tmp;
-+	struct amdgpu_device *adev = ip_block->adev;
+@@ -108,7 +108,7 @@ void dmub_dcn31_reset(struct dmub_srv *dmub)
+ 		}
+ 
+ 		for (i = 0; i < timeout; ++i) {
+-			scratch = dmub->hw_funcs.get_gpint_response(dmub);
++			scratch = REG_READ(DMCUB_SCRATCH7);
+ 			if (scratch == DMUB_GPINT__STOP_FW_RESPONSE)
+ 				break;
+ 
+@@ -125,9 +125,14 @@ void dmub_dcn31_reset(struct dmub_srv *dmub)
+ 		/* Force reset in case we timed out, DMCUB is likely hung. */
+ 	}
+ 
+-	REG_UPDATE(DMCUB_CNTL2, DMCUB_SOFT_RESET, 1);
+-	REG_UPDATE(DMCUB_CNTL, DMCUB_ENABLE, 0);
+-	REG_UPDATE(MMHUBBUB_SOFT_RESET, DMUIF_SOFT_RESET, 1);
++	REG_GET(DMCUB_CNTL, DMCUB_ENABLE, &is_enabled);
 +
-+	if (dce_v6_0_is_display_hung(adev))
-+		srbm_soft_reset |= SRBM_SOFT_RESET__SOFT_RESET_DC_MASK;
-+
-+	if (srbm_soft_reset) {
-+		tmp = RREG32(mmSRBM_SOFT_RESET);
-+		tmp |= srbm_soft_reset;
-+		dev_info(adev->dev, "SRBM_SOFT_RESET=0x%08X\n", tmp);
-+		WREG32(mmSRBM_SOFT_RESET, tmp);
-+		tmp = RREG32(mmSRBM_SOFT_RESET);
-+
-+		udelay(50);
-+
-+		tmp &= ~srbm_soft_reset;
-+		WREG32(mmSRBM_SOFT_RESET, tmp);
-+		tmp = RREG32(mmSRBM_SOFT_RESET);
-+
-+		/* Wait a little for things to settle down */
-+		udelay(50);
++	if (is_enabled) {
++		REG_UPDATE(DMCUB_CNTL2, DMCUB_SOFT_RESET, 1);
++		REG_UPDATE(MMHUBBUB_SOFT_RESET, DMUIF_SOFT_RESET, 1);
++		REG_UPDATE(DMCUB_CNTL, DMCUB_ENABLE, 0);
 +	}
- 	return 0;
- }
++
+ 	REG_WRITE(DMCUB_INBOX1_RPTR, 0);
+ 	REG_WRITE(DMCUB_INBOX1_WPTR, 0);
+ 	REG_WRITE(DMCUB_OUTBOX1_RPTR, 0);
+diff --git a/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c b/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c
+index e5e77bd3c31ea..01d013a12b947 100644
+--- a/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c
++++ b/drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c
+@@ -88,7 +88,7 @@ static inline void dmub_dcn35_translate_addr(const union dmub_addr *addr_in,
+ void dmub_dcn35_reset(struct dmub_srv *dmub)
+ {
+ 	union dmub_gpint_data_register cmd;
+-	const uint32_t timeout = 100;
++	const uint32_t timeout = 100000;
+ 	uint32_t in_reset, is_enabled, scratch, i, pwait_mode;
+ 
+ 	REG_GET(DMCUB_CNTL2, DMCUB_SOFT_RESET, &in_reset);
+@@ -113,7 +113,7 @@ void dmub_dcn35_reset(struct dmub_srv *dmub)
+ 		}
+ 
+ 		for (i = 0; i < timeout; ++i) {
+-			scratch = dmub->hw_funcs.get_gpint_response(dmub);
++			scratch = REG_READ(DMCUB_SCRATCH7);
+ 			if (scratch == DMUB_GPINT__STOP_FW_RESPONSE)
+ 				break;
  
 -- 
 2.39.5
