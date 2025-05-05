@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F34AAA16D
+	by mail.lfdr.de (Postfix) with ESMTPS id 2912BAAA16F
 	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:47:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40E3810E53E;
-	Mon,  5 May 2025 22:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3608710E544;
+	Mon,  5 May 2025 22:47:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kH2BLxit";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jUTXCooE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D347210E53F
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:47:15 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 459AD10E540;
+ Mon,  5 May 2025 22:47:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0DF3343EAF;
- Mon,  5 May 2025 22:47:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39445C4CEED;
- Mon,  5 May 2025 22:47:14 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D784FA4D0A0;
+ Mon,  5 May 2025 22:42:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D92C4CEEF;
+ Mon,  5 May 2025 22:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485235;
- bh=98FQmpAUpXuvUdgOGxz4jofi+Xev3uvncrd6eCdYIKQ=;
+ s=k20201202; t=1746485251;
+ bh=W46LSlL8PNcCg/BgoRCw2sj0WkVz49Qmr0jlJ6VpNFg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kH2BLxitkNWyzr4GTSJl7wA2DqXLO67aUykwirWEr3Aio+uedQWA2XyDiiZZre599
- zIXffCE5NdjsoMkNXmdU2Bn2b9HINYQcobY+ZoEvw+jo81Wpzl/bocRBJLoiqXvLOM
- vXj51X/CFb7/MpQx+rOXHqmnQkARwBgTkN+kxrfM82/dvdRGpQjJW8Z8FYuU6hX7u3
- hvtMRx5DQYvlaA2a/VkBRNVc+nTHB6GPZEw8jEx10S18V+9hCO5+Q2Pp1AzJ6loiAT
- vBX21qluFG4UBgZrx/BuTT+PxTt0V3a+Sfhlpzue+pn5wK+YshppHdofOTkVA3wItL
- GQ7G7Hlhmo+jw==
+ b=jUTXCooEf3zQTEsG/QY0k3fG3qJu0OQe/hSRJt2h63nkkOKXwJ6+8Y1XyklNNgOoe
+ lyMq8S+yobVLaXIh7npMfGFy2f+JauNVpVYAPMn0Eme/G4zyRTZpQLdxSa4raKwPha
+ VYsqmZoowqaw5+jht7AgeNHkXTTNcuS+ejhG9B7dGJTvZBAGN69SulhZ4tRpB5SpjR
+ Uf3bMxSSOTawXRcuK6AUwBd5nmHwt9SqOg3nSl7IKRjYAVzXUMkku7Tu6lWLECFGxW
+ /x1eQ9Fx5ou1vFKkvIFt3W59ENgxazsjoii0rB4OU+bxe+RsmUEFPDVi26/jAW3P4/
+ 4ZnG3YVCjeBrQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Sasha Levin <sashal@kernel.org>, p.zabel@pengutronix.de, airlied@gmail.com,
- simona@ffwll.ch, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 226/486] drm/mediatek: mtk_dpi: Add checks for
- reg_h_fre_con existence
-Date: Mon,  5 May 2025 18:35:02 -0400
-Message-Id: <20250505223922.2682012-226-sashal@kernel.org>
+Cc: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>,
+ =?UTF-8?q?Micha=C5=82=20Wajdeczko?= <michal.wajdeczko@intel.com>,
+ =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>,
+ Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 236/486] drm/xe/vf: Retry sending MMIO request to
+ GUC on timeout error
+Date: Mon,  5 May 2025 18:35:12 -0400
+Message-Id: <20250505223922.2682012-236-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.26
@@ -65,49 +69,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+From: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
 
-[ Upstream commit 8c9da7cd0bbcc90ab444454fecf535320456a312 ]
+[ Upstream commit ba757a65d2a28d46a8ccf50538f4f05036983f1b ]
 
-In preparation for adding support for newer DPI instances which
-do support direct-pin but do not have any H_FRE_CON register,
-like the one found in MT8195 and MT8188, add a branch to check
-if the reg_h_fre_con variable was declared in the mtk_dpi_conf
-structure for the probed SoC DPI version.
+Add support to allow retrying the sending of MMIO requests
+from the VF to the GUC in the event of an error. During the
+suspend/resume process, VFs begin resuming only after the PF has
+resumed. Although the PF resumes, the GUC reset and provisioning
+occur later in a separate worker process.
 
-As a note, this is useful specifically only for cases in which
-the support_direct_pin variable is true, so mt8195-dpintf is
-not affected by any issue.
+When there are a large number of VFs, some may attempt to resume
+before the PF has completed its provisioning. Therefore, if a
+MMIO request from a VF fails during this period, we will retry
+sending the request up to GUC_RESET_VF_STATE_RETRY_MAX times,
+which is set to a maximum of 10 attempts.
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Link: https://patchwork.kernel.org/project/dri-devel/patch/20250217154836.108895-6-angelogioacchino.delregno@collabora.com/
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+Cc: Michał Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Michał Winiarski <michal.winiarski@intel.com>
+Cc: Piotr Piórkowski <piotr.piorkowski@intel.com>
+Reviewed-by: Piotr Piorkowski <piotr.piorkowski@intel.com>
+Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250224102807.11065-3-satyanarayana.k.v.p@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/xe/xe_gt_sriov_vf.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 9c11d3158324c..20a50180d4d49 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -410,12 +410,13 @@ static void mtk_dpi_config_swap_input(struct mtk_dpi *dpi, bool enable)
- 
- static void mtk_dpi_config_2n_h_fre(struct mtk_dpi *dpi)
- {
--	mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, H_FRE_2N, H_FRE_2N);
-+	if (dpi->conf->reg_h_fre_con)
-+		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, H_FRE_2N, H_FRE_2N);
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_vf.c b/drivers/gpu/drm/xe/xe_gt_sriov_vf.c
+index f982d6f9f218d..7ddbfeaf494ac 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_vf.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_vf.c
+@@ -46,12 +46,19 @@ static int guc_action_vf_reset(struct xe_guc *guc)
+ 	return ret > 0 ? -EPROTO : ret;
  }
  
- static void mtk_dpi_config_disable_edge(struct mtk_dpi *dpi)
++#define GUC_RESET_VF_STATE_RETRY_MAX	10
+ static int vf_reset_guc_state(struct xe_gt *gt)
  {
--	if (dpi->conf->edge_sel_en)
-+	if (dpi->conf->edge_sel_en && dpi->conf->reg_h_fre_con)
- 		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0, EDGE_SEL_EN);
- }
++	unsigned int retry = GUC_RESET_VF_STATE_RETRY_MAX;
+ 	struct xe_guc *guc = &gt->uc.guc;
+ 	int err;
  
+-	err = guc_action_vf_reset(guc);
++	do {
++		err = guc_action_vf_reset(guc);
++		if (!err || err != -ETIMEDOUT)
++			break;
++	} while (--retry);
++
+ 	if (unlikely(err))
+ 		xe_gt_sriov_err(gt, "Failed to reset GuC state (%pe)\n", ERR_PTR(err));
+ 	return err;
 -- 
 2.39.5
 
