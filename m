@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C63EAAA0B2
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58BCAAA0B4
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:38:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D22010E4F9;
-	Mon,  5 May 2025 22:38:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E140310E4F3;
+	Mon,  5 May 2025 22:38:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h3yvhDkD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EI24fnyq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49E5C10E4F9;
- Mon,  5 May 2025 22:38:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BAEE10E4FB;
+ Mon,  5 May 2025 22:38:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DF5D2A4CF96;
- Mon,  5 May 2025 22:32:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D480C4CEF3;
- Mon,  5 May 2025 22:38:16 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id A12DFA4CF59;
+ Mon,  5 May 2025 22:32:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCBA9C4CEE4;
+ Mon,  5 May 2025 22:38:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484697;
- bh=kCcwV+upM/EsDanwO1m5XKR3rnDhiox1GbU6MMiCAxE=;
+ s=k20201202; t=1746484699;
+ bh=0jJpeiHnYWgIFgKj0qEsk+AkW9DP3GPJTJhyg3HrpxI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h3yvhDkDXr8IjItRv3DW1ebgf75Rgcb96N2YFviLpJ2Ljc/PNOFnx5afqH7Qik50L
- D/6wivUxWNM6NhcYTPPkpuoyOdj1HESy1ufnpCb92lHWykkIlcNA2Kef0gS5vtcnNx
- afRCzU5cqz0IA8TcC25qtftOxs9QAiUgaPoBUHyDKOk+/BRM5D8TVlwwlqTkf2qpfD
- e6ZBhO5LvRfYlfOkSo6eEUyPBpnxZTHqASvru6qcyLFg8eu2/MxlMTtbThEqbeCkHZ
- LGm8T+vz9OnLUXl/kjfFX2lUEzMkqOlGD9UYuTl6WCZm1xoi9qR5jRXKKn3li3KVhY
- Vg/NqAoySFxMA==
+ b=EI24fnyq0MMWtHxf2gBvFP6xSFH0KDQr4fHyZkp9qk0rewZmUNlLN4qG7KS85xrFH
+ kAkLemgL4teSgt5+xSnICIWWgfdZqmnlURzV9DbLIqVZwcQWJJezB4oXTVdmkQ68vS
+ U9P55Li4+/HRZ4ta5neTbVTYnM45E627rctKzEajBQt+Cu5hX5NF8gDZF+YkFojsri
+ 3VCazVpAXfK712ZV9QxFk0Izfcv/mMAOA+WTxVg4DKCmJtMY52akr+f5CvxiPtSO3E
+ yfMUDE9HW8ab5KxldhEF0R2fTTPbd2Y/iI2c3ytRwD0ZALyiWiSVcJiYLE6K5obqZF
+ DTPZv90rMumSw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: John Harrison <John.C.Harrison@Intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sasha Levin <sashal@kernel.org>,
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 613/642] drm/xe/guc: Drop error messages about
- missing GuC logs
-Date: Mon,  5 May 2025 18:13:49 -0400
-Message-Id: <20250505221419.2672473-613-sashal@kernel.org>
+Cc: Oak Zeng <oak.zeng@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Sasha Levin <sashal@kernel.org>, lucas.demarchi@intel.com,
+ rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 614/642] drm/xe: Reject BO eviction if BO is
+ bound to current VM
+Date: Mon,  5 May 2025 18:13:50 -0400
+Message-Id: <20250505221419.2672473-614-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
@@ -65,55 +66,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+From: Oak Zeng <oak.zeng@intel.com>
 
-[ Upstream commit 174e9ce0daf6af791386e96e76e743eb59e8a401 ]
+[ Upstream commit 0af944f0e3082ff517958b1cea76fb9b8cb379dd ]
 
-The GuC log snapshot code would complain loudly if there was no GuC
-log to take a snapshot of or if the snapshot alloc failed. Originally,
-this code was only called on demand when a user (or developer)
-explicitly requested a dump of the log. Hence an error message was
-useful.
+This is a follow up fix for
+https://patchwork.freedesktop.org/patch/msgid/20241203021929.1919730-1-oak.zeng@intel.com
+The overall goal is to fail vm_bind when there is memory pressure. See more
+details in the commit message of above patch. Abbove patch fixes the issue
+when user pass in a vm_id parameter during gem_create. If user doesn't pass
+in a vm_id during gem_create, above patch doesn't help.
 
-However, it is now part of the general devcoredump file and is called
-for any GPU hang. Most people don't care about GuC logs and GPU hangs
-do not generally mean a kernel/GuC bug. More importantly, there are
-valid situations where there is no GuC log, e.g. SRIOV VFs.
+This patch further reject BO eviction (which could be triggered by bo validation)
+if BO is bound to the current VM. vm_bind could fail due to the eviction failure.
+The BO to VM reverse mapping structure is used to determine whether BO is bound
+to VM.
 
-So drop the error message.
+v2:
+Move vm_bo definition from function scope to if(evict) clause (Thomas)
+Further constraint the condition by adding ctx->resv (Thomas)
+Add a short comment describe the change.
 
-Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/3958
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250113194405.2033085-1-John.C.Harrison@Intel.com
+Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Oak Zeng <oak.zeng@intel.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250110210137.3181576-1-oak.zeng@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_guc_log.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/xe/xe_bo.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_log.c b/drivers/gpu/drm/xe/xe_guc_log.c
-index 0ca3056d8bd3f..80514a446ba28 100644
---- a/drivers/gpu/drm/xe/xe_guc_log.c
-+++ b/drivers/gpu/drm/xe/xe_guc_log.c
-@@ -149,16 +149,12 @@ struct xe_guc_log_snapshot *xe_guc_log_snapshot_capture(struct xe_guc_log *log,
- 	size_t remain;
- 	int i;
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index d1eb87cb178bd..2070aa12059ce 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -713,6 +713,21 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+ 		goto out;
+ 	}
  
--	if (!log->bo) {
--		xe_gt_err(gt, "GuC log buffer not allocated\n");
-+	if (!log->bo)
- 		return NULL;
--	}
- 
- 	snapshot = xe_guc_log_snapshot_alloc(log, atomic);
--	if (!snapshot) {
--		xe_gt_err(gt, "GuC log snapshot not allocated\n");
-+	if (!snapshot)
- 		return NULL;
--	}
- 
- 	remain = snapshot->size;
- 	for (i = 0; i < snapshot->num_chunks; i++) {
++	/* Reject BO eviction if BO is bound to current VM. */
++	if (evict && ctx->resv) {
++		struct drm_gpuvm_bo *vm_bo;
++
++		drm_gem_for_each_gpuvm_bo(vm_bo, &bo->ttm.base) {
++			struct xe_vm *vm = gpuvm_to_vm(vm_bo->vm);
++
++			if (xe_vm_resv(vm) == ctx->resv &&
++			    xe_vm_in_preempt_fence_mode(vm)) {
++				ret = -EBUSY;
++				goto out;
++			}
++		}
++	}
++
+ 	/*
+ 	 * Failed multi-hop where the old_mem is still marked as
+ 	 * TTM_PL_FLAG_TEMPORARY, should just be a dummy move.
 -- 
 2.39.5
 
