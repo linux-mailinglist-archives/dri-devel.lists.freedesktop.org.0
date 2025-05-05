@@ -2,88 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AD5AA8A36
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 02:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F34AA8A6E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 02:55:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B008E10E27B;
-	Mon,  5 May 2025 00:15:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBFBF10E055;
+	Mon,  5 May 2025 00:55:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="lHuhT8N0";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="B9QjX2PV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 573C810E236
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 00:15:31 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 544MSS9v011474
- for <dri-devel@lists.freedesktop.org>; Mon, 5 May 2025 00:15:31 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75F6810E055
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 00:55:52 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 544Nxshj025212
+ for <dri-devel@lists.freedesktop.org>; Mon, 5 May 2025 00:55:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- WKq/kT9g+DsNZXb0KT7/tMrmhMgiNcjrVqoX/ddWVuw=; b=lHuhT8N0IpzXrWhj
- qzyJ2So0umzKv7CWy9gtumN6Zh86h5S30Cg+mK4beZ/BVZMFa0LGcdC1Rlh03Rhm
- A+Y5FNkzOJa93xox7oshmytcGAD7JP4Mo2IwS66smZQ7Jwow3m4qSqnjNJyx7GhJ
- YFauxb5yGsHIDvznsuzf1G37sSnTtzxfXkZ2anFomQVWFm8C3u5Y7H7asQwTkQ2Z
- HsHuOTOlmkeN9LG8A0YHBANvMG/JCbwrTcaXqctwZgn08hAmXHWt4ol9zjSKWNHK
- 7660FJZzUVCnnGhC2EfYz/r1Fnsm45jPyxMPuDHl8iEB7urN3qB+34cxageN4Tcn
- nQg7Ew==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46dbwfjj62-1
+ bScMRW/t/S7USpvl8/Meg4mWuCwC1biGFJfQYK3oMHw=; b=B9QjX2PV9v3su2oR
+ Qz6Pmc11VsUlu7mHg3jkjzPPtZwgAk7MIeImGSDS7wmaIiaYk2aQcCNx+x+QrZxe
+ eCld8VOJ3yVVzkQWnEmtObXhk8QntuDYyJX7yXHz5rS/yLiAv9hNicN0udVMWfBc
+ 6vmk0kCpZ5M1Z/IUrW6Wzs7ifqodPbeAsgvMaYsziRNoN3xvNUUpoqf1RWxOQ/9K
+ VUgExHscnNKrsWKVPZfqHCojoYNAj8POUE6pnQ6EX13ZnZM1/fOH07NJ8NZxtkmX
+ 0GvhawBdYR0XIwa2kXDofsvBi69Fqe1gociwgldwt8qBrronl96Lli8blthvqgre
+ zLFIFg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46d9ep2s57-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 00:15:30 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4768a1420b6so76151051cf.1
- for <dri-devel@lists.freedesktop.org>; Sun, 04 May 2025 17:15:30 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 00:55:51 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c5cd0f8961so884126885a.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 May 2025 17:55:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746404129; x=1747008929;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1746406550; x=1747011350;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WKq/kT9g+DsNZXb0KT7/tMrmhMgiNcjrVqoX/ddWVuw=;
- b=RsqyOwIecw7pEtwe4hhtdZcCDMmmnu9uFG57fjF7TGZT4fx2mzcGnHYNbhVneLk+b6
- shF+ADd1NZho8j08HYU2XMAwocJnyW/Xl9hHfkUy7mORZeej5SeLx4BXAUFNfNPcKCGI
- aqs5jg51ISkkQ9PBJ0V/cU3y60+S2cQrfJcPUOv0cVnkQloKxSkpGxq3IR2UUXpDwJu2
- 1DGRSkjIFMR2aJnPsTr2Cb5x4M3ouIyFfZZ341UfJS2sF+Nb3Tc3InLTi8BxVbf7KZH2
- gDW5j+hgO8wR/zaQl5OsBlYeeW0KnejH7TTINRmjpQzaE6lcHlK9yerCusVKwme3ZWHR
- M3gg==
+ bh=bScMRW/t/S7USpvl8/Meg4mWuCwC1biGFJfQYK3oMHw=;
+ b=EYYeiuTdsvZ6dOJrb62by5qRz/P0Mrd78weNLrdcZyuwf/IJezwzQRcIcAqlEoLIxn
+ uXKOOeA7+QKC7KDfNayGKZzBxhgOLYOgvel8q6a2AGju/6N4rSsMQTO5zVVgn9ugRaTv
+ w+tmqnF6YpaYZpZKGTCnGTmo0DZOXj+XEj3u4eytJiG6Rxq/nvwSY24MbLzOh+o+kweM
+ iQIaeq5o7sQ/8/lptwalgAKopLjE59qEU56fsUHBZmhT/Cn05CXUELnTw7fMCArX60Y9
+ has+g6OqDTwaBKanzDnIi+Edh6z+zGIr8WF3sVKqsipIYO/dkoCaboouOz5SLvHJU35j
+ 0DZg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW8XEAQPBUNVoRuQlNOIl7yRtPoNy1rqg7d8UuHKozEk0aeE8wXgSmYpcxe1d0mEWIWvuqmXUPUyjQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxSPSbk5cDZQAVDzygWNrNTq6TIbcKYAknIr7UYWJWGSjQ697Ry
- f4Gjg8hYadLVzXaUA4FYyx+/gvn8d26m7nVNmlXbgXjCd54KhKXG1+i9YERpmGjUwlrIDAUQl35
- e6a7YuDAyljRjmzzdc3WyinzF2eo9KonENhjwd52hunn7of63LHDOksU8u+D0ZhnXJBo=
-X-Gm-Gg: ASbGncurcC93SDsMNKCh4SMaaO6dz4sUnEKH2UdDJGLl6EMgLORQ13GIKBRVadAT2+A
- yB8wbQMq/tFAyUIPXhX8JjFzZAC5c1ordp07I3202On8mxVGHnGX+DbXcWac9NH1mjEFXn7E0Gs
- Y0OKSTWz6Jh85RVgaCaoHRHno8gZoukzzIvBb2nCj2OcKLrFZp9Ft8wJXzEjI/Knfdjjk0z7DlS
- VFVtsmI0PSLxD3SmThNTyWFkj27k8D+GhI9mKEIZRwi2ZOnTog08aIWYx7v2BSSH/3onlfd4Mvq
- Uo3zZhiPYDitBhfxzIguel//2+ef4ktjEIA/VCT83RrWc/kuhe4XsdNRShp/0yrECiSiEOSYkD/
- gxJCjGmiwltrF2y6yPhaWdGvi
-X-Received: by 2002:a05:622a:1101:b0:476:afd2:5b5e with SMTP id
- d75a77b69052e-48d5c072eb3mr105036841cf.13.1746404129019; 
- Sun, 04 May 2025 17:15:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHp/OhsqgAG8SJaelWw/DfK2Sdqi7I0XDMO57EtM6QoFMTFIiepxIj9H3pi7rYjCKkFGpknVA==
-X-Received: by 2002:a05:622a:1101:b0:476:afd2:5b5e with SMTP id
- d75a77b69052e-48d5c072eb3mr105036461cf.13.1746404128675; 
- Sun, 04 May 2025 17:15:28 -0700 (PDT)
+ AJvYcCXQSrg/UALPqT4A+LcYmipwaD6UPTTdzFmXYCnRyuDwcaHskO9dVOhiSL7BEweK0PevhPspyfYgS1M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgvwgqguJs1UEsLvR56FuA8wozDb8ZppV3IERKsbQM8FA6ZdDc
+ OzwpMKQjaZhkBhutzb7orqHa+r3xGIjnLp2zUMcoRn8qr2mM/1x4SDkVJA8TpK9NhrrNsXvIp4+
+ d8UKwkHaYpWrLFm0RdiqAI9EBoDbqzRSWW0irDtL7i9cYGn/ipKu9LCIvyvyEqe4e+vQ=
+X-Gm-Gg: ASbGnctHHgaPjQKWBGlXjn56yUmj9bf7AP0yMi3NCSQWmxjh9VJeE5a/2uzcEVN8yVu
+ w3K4VBdtzEjRANrCMjhEp6NKGQFwP5eA0X3Fgb9ZtfXsNvDWasqZ3P+2A1lV33k9f/2LzejDLnl
+ XrRGEddlatmFNS75n1HfGDdDXdpHU1fSq4Ue7L7p7X6zR0pNUfT3G9PPouXEiHzA9+D45Qvc5wr
+ CZKkowGnBBer14tW0yIPkjMHZlibliphsyY1PvhBaQ2o1TiMMe3bMoKTI06GTl0LzNbJ4CU5V1q
+ 8tj4eGP4NEt8g7BlXODttzgFW2CqzML73ufdZnnaVzT5qMRotXn/G6oZzfIVAvyddUV5MgYkQoo
+ 9ey+vnghWjKTo57ry3FW7G3tX
+X-Received: by 2002:a05:620a:288f:b0:7c5:9c13:2858 with SMTP id
+ af79cd13be357-7cae39e4d94mr562788885a.0.1746406549835; 
+ Sun, 04 May 2025 17:55:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGR1BnB1bqJFNML5KMH4T4Sx/W6dCdj2CMTT7+fkvXjPRs+15OY5IAA/zDDkF5eHXUukTln3A==
+X-Received: by 2002:a05:620a:288f:b0:7c5:9c13:2858 with SMTP id
+ af79cd13be357-7cae39e4d94mr562787485a.0.1746406549425; 
+ Sun, 04 May 2025 17:55:49 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ea94ce656sm1454066e87.105.2025.05.04.17.15.23
+ 2adb3069b0e04-54ea94ee07asm1501118e87.118.2025.05.04.17.55.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 May 2025 17:15:24 -0700 (PDT)
+ Sun, 04 May 2025 17:55:48 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 05 May 2025 03:14:56 +0300
-Subject: [PATCH v5 12/13] drm/msm/hdmi: ensure that HDMI is up if HPD is
- requested
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250505-fd-hdmi-hpd-v5-12-48541f76318c@oss.qualcomm.com>
-References: <20250505-fd-hdmi-hpd-v5-0-48541f76318c@oss.qualcomm.com>
-In-Reply-To: <20250505-fd-hdmi-hpd-v5-0-48541f76318c@oss.qualcomm.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Sean Paul <sean@poorly.run>,
@@ -99,42 +90,52 @@ To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH v5 13/13] drm/msm/hdmi: wire in hpd_enable/hpd_disable
+ bridge ops
+Date: Mon,  5 May 2025 03:55:47 +0300
+Message-Id: <20250505-fd-hdmi-hpd-v5-13-48541f76318c@oss.qualcomm.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250505-fd-hdmi-hpd-v5-0-48541f76318c@oss.qualcomm.com>
+References: <20250505-fd-hdmi-hpd-v5-0-48541f76318c@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3985;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4345;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=pJMJhJs0UAB/ZtDoYbq6HHPuMctlMC/J56x/3ZZQZmw=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoGAL9ltAr7WIgRdaYsly84l2U9p1Mkv0qRemKG
- VIzqb4aVIKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaBgC/QAKCRCLPIo+Aiko
- 1RA+CACSefjj1PpWQEvfYkqg7JtJJa0X1TdSZiQO09nfDMqSPYfWz/ASkUmG4t1PV4zHcx5aOjy
- iCoYcQWcbGfRbbVIBwG/P09LhdRzNv4qZH/Y3TLB2TxJER7d+vAgpWZJ82G9stzKWJpeDDJ5HlN
- XM2vUJXLo+iwTNeVf0pf6ID2Zz7G22ezGbF1rZ/eNZTvx+C9MmJ110v2XSOc/IeyWg7EVjlZIB2
- /6UiJykd+FvNCWLn1wmoj7TbJlfsXBo4LxyACOwienD3/M7KyGdA1T+W69jnsAA2jazDSwyO5oz
- R3QYXW0ihyh7XCKH7VYXGGYgA4Q1Bew1NYoCy/mldxveus6C
+ bh=SzYbiSJHs1yMPXj6OmRiDQC/Js3KF24ybXscune0PUw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoGAuq8oeBoszbBJhsuHgaf/J9Vn91t4s2pFa0L
+ KQP44Y9ZyeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaBgLqgAKCRCLPIo+Aiko
+ 1QeeCACVtDaCnd61a6+aWoQBYA37uOTTFipnJMx09Bimgk5R2wDPo3W5QQ9KQblYw/JuXRrS6NT
+ 3aI52WYS5+oANdWEfOynFa8FsoAVcef2bIl8BdPgY94UnlS8qrPjC8C6tgbFrnXOSJPGTY6KIIo
+ +Zjizl/URZ6sL+KZaRISQ1ADm4DGNVZrqopTlz9P/zSWFEHT2UTb5hDS2ai8l+0qopAbDeS/vrz
+ JJI8jqTUHbUwMJsI5B1n/XEgyuzvdgLm+5tZ7RBSK4tY0fZ35pYkpF508xGDG+L269aLDALkxmN
+ OeVPWNQoA1xEI+khIRrkdkbqQmwpqUoXD9p2sM53CqDpTTQd
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-ORIG-GUID: O8FW41POS4irWvO_g-Yekz1j8EILc-NT
-X-Proofpoint-GUID: O8FW41POS4irWvO_g-Yekz1j8EILc-NT
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDAwMCBTYWx0ZWRfX+2ig+/zmAK2j
- Mw+2GHZ0VN+UDUxfQILePMGUGSUSnsLSWvyZUzY2c+ebkbX96sLaZHVQx0G09nBkTqtTzSFWey/
- UbEMfM+aN9LqPElB1POuSjX+bxjZo/AoBfys34kUmwm2KKOba6T6tAQULp0WsLjoQEGgC3y6z9I
- e37rHVYVZxDyaXVw9dQtjtVblkcrdxzLLs1MWqD4kOJ84JglVx4jdrQhLSWeigJvd3t5PdiML+l
- fmRyWb6E9Wgscx4PWDI1VYd3Mjivi7uSMp/61bjQ36uooP3GNSxC5qAhduhneYRYPUNG3/B4WY6
- DAnbFlRmSuvVLnwMMZXTXvkucDpGusdvyKQgNTDB5R3NZqokFAvRvgZHe8A/USxiS63hKmBZ8YG
- Ha8bWQRv7UC4T31Bn47vlJn5YMGInWmKpbXlw7QYY94CqaBC+9jrsagxnY7If3NR0BtfKKHV
-X-Authority-Analysis: v=2.4 cv=AfqxH2XG c=1 sm=1 tr=0 ts=68180322 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=YSH6xZ7kgCKePGnQ2WoA:9
- a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22 a=cvBusfyB2V15izCimMoJ:22
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=EOUG00ZC c=1 sm=1 tr=0 ts=68180c97 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=6oMmD3cprD66TWOKKWcA:9
+ a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
  a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: ZZCJSThB8ryXpsB_WCE5K1OAfY4ETbvH
+X-Proofpoint-GUID: ZZCJSThB8ryXpsB_WCE5K1OAfY4ETbvH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDAwNyBTYWx0ZWRfX292JazsyMcXc
+ Hc/c+I9n+1elrRkH1TMp2EHQu2BTG8n8SrQjBe81aXGJhxl3m3Hg/y1UcGL5sqMX3GQurkxZrC2
+ g0CSQ5i7C+TzOP55cdsLq+4nzENE+bVhbIa/JJMtaLD2ZeX5PXwOpPOcY5IijcC6RIoTYIV9cRA
+ ebVe8MMP6EonnMzEuyL0Z2G4VeOrCAAnpK8tpAc9Y2mLgrNjEYN816e+x/yzJzzU/86jj6c2dEX
+ cJXPNVxIEWT91l555smUpwjgc/7OgKmRZqJjW0Py6QlSAJ0VL0bvtuud4jYisKAnVaOZbc7TsNO
+ EtGyB5KC4zdaebL1D4plf++flHocKARcG4ajsAz9wj9VnDO1gVQt09ZO3bTJL1QuB2hzfnhL0vZ
+ Z2ec9MVYzIP6SHUwL15ffNtX4WaMvVLGN3LEuIeSadPyKAAzo/oNBtI1pc3eHfzATSuLzU3M
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-04_09,2025-04-30_01,2025-02-21_01
+ definitions=2025-05-05_01,2025-04-30_01,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 priorityscore=1501 phishscore=0 impostorscore=0
- mlxscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0 mlxlogscore=999
- spamscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505050000
+ adultscore=0 clxscore=1015 impostorscore=0 spamscore=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2504070000 definitions=main-2505050007
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,115 +151,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-The HDMI block needs to be enabled to properly generate HPD events. Make
-sure it is not turned off in the disable paths if HPD delivery is enabled.
-
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/hdmi/hdmi.c        | 1 +
- drivers/gpu/drm/msm/hdmi/hdmi.h        | 2 ++
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 8 +++++++-
- drivers/gpu/drm/msm/hdmi/hdmi_hpd.c    | 9 ++++++++-
- 4 files changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 3d10fe6f8545198365a047b2f5652081703101aa..5355cfd391c5cc3053f771dd03e24dfde16733bf 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -293,6 +293,7 @@ static int msm_hdmi_dev_probe(struct platform_device *pdev)
- 	hdmi->pdev = pdev;
- 	hdmi->config = config;
- 	spin_lock_init(&hdmi->reg_lock);
-+	mutex_init(&hdmi->state_mutex);
- 
- 	ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, 0, NULL, &hdmi->next_bridge);
- 	if (ret && ret != -ENODEV)
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-index fb64652162b6c5e6e2fe3357b89c40e2a28aa47e..e488ee31cc865b4eee9d486d978217c00f7816bf 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-@@ -41,6 +41,8 @@ struct hdmi {
- 
- 	/* video state: */
- 	bool power_on;
-+	bool hpd_enabled;
-+	struct mutex state_mutex; /* protects two booleans */
- 	unsigned long int pixclock;
- 
- 	void __iomem *mmio;
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index 665c5e1323d09513621429a6f184fb89bae0a37d..8ff0079abc801448e96b73ebea4730edea55ea6c 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -302,11 +302,13 @@ static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
- 
- 	msm_hdmi_set_timings(hdmi, &crtc_state->adjusted_mode);
- 
-+	mutex_lock(&hdmi->state_mutex);
- 	if (!hdmi->power_on) {
- 		msm_hdmi_phy_resource_enable(phy);
- 		msm_hdmi_power_on(bridge);
- 		hdmi->power_on = true;
- 	}
-+	mutex_unlock(&hdmi->state_mutex);
- 
- 	if (connector->display_info.is_hdmi)
- 		msm_hdmi_audio_update(hdmi);
-@@ -332,7 +334,10 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
- 		msm_hdmi_hdcp_off(hdmi->hdcp_ctrl);
- 
- 	DBG("power down");
--	msm_hdmi_set_mode(hdmi, false);
-+
-+	/* Keep the HDMI enabled if the HPD is enabled */
-+	mutex_lock(&hdmi->state_mutex);
-+	msm_hdmi_set_mode(hdmi, hdmi->hpd_enabled);
- 
- 	msm_hdmi_phy_powerdown(phy);
- 
-@@ -343,6 +348,7 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
- 			msm_hdmi_audio_update(hdmi);
- 		msm_hdmi_phy_resource_disable(phy);
- 	}
-+	mutex_unlock(&hdmi->state_mutex);
- }
- 
- static void msm_hdmi_set_timings(struct hdmi *hdmi,
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-index a42ed26a5b7c7d916d543aa2920754347903062a..e03d0ca230e64d7675534074d6e14587815119b6 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-@@ -76,10 +76,14 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
- 	if (ret)
- 		return ret;
- 
-+	mutex_lock(&hdmi->state_mutex);
- 	msm_hdmi_set_mode(hdmi, false);
- 	msm_hdmi_phy_reset(hdmi);
- 	msm_hdmi_set_mode(hdmi, true);
- 
-+	hdmi->hpd_enabled = true;
-+	mutex_unlock(&hdmi->state_mutex);
-+
- 	hdmi_write(hdmi, REG_HDMI_USEC_REFTIMER, 0x0001001b);
- 
- 	/* enable HPD events: */
-@@ -109,7 +113,10 @@ void msm_hdmi_hpd_disable(struct hdmi *hdmi)
- 	/* Disable HPD interrupt */
- 	hdmi_write(hdmi, REG_HDMI_HPD_INT_CTRL, 0);
- 
--	msm_hdmi_set_mode(hdmi, false);
-+	mutex_lock(&hdmi->state_mutex);
-+	hdmi->hpd_enabled = false;
-+	msm_hdmi_set_mode(hdmi, hdmi->power_on);
-+	mutex_unlock(&hdmi->state_mutex);
- 
- 	pm_runtime_put(dev);
- }
-
--- 
-2.39.5
-
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>=0D
+=0D
+The HDMI driver already has msm_hdmi_hpd_enable() and=0D
+msm_hdmi_hpd_disable() functions. Wire them into the=0D
+msm_hdmi_bridge_funcs, so that HPD  can be enabled and disabled=0D
+dynamically rather than always having HPD events generation enabled.=0D
+=0D
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>=0D
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>=0D
+---=0D
+ drivers/gpu/drm/msm/hdmi/hdmi.c        |  9 ---------=0D
+ drivers/gpu/drm/msm/hdmi/hdmi.h        |  4 ++--=0D
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c |  2 ++=0D
+ drivers/gpu/drm/msm/hdmi/hdmi_hpd.c    | 12 ++++++------=0D
+ 4 files changed, 10 insertions(+), 17 deletions(-)=0D
+=0D
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdm=
+i.c=0D
+index 5355cfd391c5cc3053f771dd03e24dfde16733bf..2fd388b892dcb3d83cf57b4616b=
+7a65f9ff674d1 100644=0D
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c=0D
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c=0D
+@@ -200,12 +200,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,=0D
+ 		goto fail;=0D
+ 	}=0D
+ =0D
+-	ret =3D msm_hdmi_hpd_enable(hdmi->bridge);=0D
+-	if (ret < 0) {=0D
+-		DRM_DEV_ERROR(&hdmi->pdev->dev, "failed to enable HPD: %d\n", ret);=0D
+-		goto fail;=0D
+-	}=0D
+-=0D
+ 	return 0;=0D
+ =0D
+ fail:=0D
+@@ -261,9 +255,6 @@ static void msm_hdmi_unbind(struct device *dev, struct =
+device *master,=0D
+ 	struct msm_drm_private *priv =3D dev_get_drvdata(master);=0D
+ =0D
+ 	if (priv->hdmi) {=0D
+-		if (priv->hdmi->bridge)=0D
+-			msm_hdmi_hpd_disable(priv->hdmi);=0D
+-=0D
+ 		msm_hdmi_destroy(priv->hdmi);=0D
+ 		priv->hdmi =3D NULL;=0D
+ 	}=0D
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdm=
+i.h=0D
+index e488ee31cc865b4eee9d486d978217c00f7816bf..d5e572d10d6a14b866f13c3a0d6=
+63cc6ae435ef5 100644=0D
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.h=0D
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.h=0D
+@@ -216,8 +216,8 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi);=0D
+ void msm_hdmi_hpd_irq(struct drm_bridge *bridge);=0D
+ enum drm_connector_status msm_hdmi_bridge_detect(=0D
+ 		struct drm_bridge *bridge);=0D
+-int msm_hdmi_hpd_enable(struct drm_bridge *bridge);=0D
+-void msm_hdmi_hpd_disable(struct hdmi *hdmi);=0D
++void msm_hdmi_hpd_enable(struct drm_bridge *bridge);=0D
++void msm_hdmi_hpd_disable(struct drm_bridge *bridge);=0D
+ =0D
+ /*=0D
+  * i2c adapter for ddc:=0D
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/h=
+dmi/hdmi_bridge.c=0D
+index 8ff0079abc801448e96b73ebea4730edea55ea6c..53a7ce8cc7bc7b6278eae2cbc42=
+c3fda8d697f6d 100644=0D
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c=0D
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c=0D
+@@ -459,6 +459,8 @@ static const struct drm_bridge_funcs msm_hdmi_bridge_fu=
+ncs =3D {=0D
+ 	.atomic_post_disable =3D msm_hdmi_bridge_atomic_post_disable,=0D
+ 	.edid_read =3D msm_hdmi_bridge_edid_read,=0D
+ 	.detect =3D msm_hdmi_bridge_detect,=0D
++	.hpd_enable =3D msm_hdmi_hpd_enable,=0D
++	.hpd_disable =3D msm_hdmi_hpd_disable,=0D
+ 	.hdmi_tmds_char_rate_valid =3D msm_hdmi_bridge_tmds_char_rate_valid,=0D
+ 	.hdmi_clear_infoframe =3D msm_hdmi_bridge_clear_infoframe,=0D
+ 	.hdmi_write_infoframe =3D msm_hdmi_bridge_write_infoframe,=0D
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi=
+/hdmi_hpd.c=0D
+index e03d0ca230e64d7675534074d6e14587815119b6..407e6c449ee0d84628e4cae9dd4=
+3c1b1f2c0090f 100644=0D
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c=0D
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c=0D
+@@ -60,7 +60,7 @@ static void msm_hdmi_phy_reset(struct hdmi *hdmi)=0D
+ 	}=0D
+ }=0D
+ =0D
+-int msm_hdmi_hpd_enable(struct drm_bridge *bridge)=0D
++void msm_hdmi_hpd_enable(struct drm_bridge *bridge)=0D
+ {=0D
+ 	struct hdmi_bridge *hdmi_bridge =3D to_hdmi_bridge(bridge);=0D
+ 	struct hdmi *hdmi =3D hdmi_bridge->hdmi;=0D
+@@ -73,8 +73,8 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)=0D
+ 		gpiod_set_value_cansleep(hdmi->hpd_gpiod, 1);=0D
+ =0D
+ 	ret =3D pm_runtime_resume_and_get(dev);=0D
+-	if (ret)=0D
+-		return ret;=0D
++	if (WARN_ON(ret))=0D
++		return;=0D
+ =0D
+ 	mutex_lock(&hdmi->state_mutex);=0D
+ 	msm_hdmi_set_mode(hdmi, false);=0D
+@@ -102,12 +102,12 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)=0D
+ 	hdmi_write(hdmi, REG_HDMI_HPD_CTRL,=0D
+ 			HDMI_HPD_CTRL_ENABLE | hpd_ctrl);=0D
+ 	spin_unlock_irqrestore(&hdmi->reg_lock, flags);=0D
+-=0D
+-	return 0;=0D
+ }=0D
+ =0D
+-void msm_hdmi_hpd_disable(struct hdmi *hdmi)=0D
++void msm_hdmi_hpd_disable(struct drm_bridge *bridge)=0D
+ {=0D
++	struct hdmi_bridge *hdmi_bridge =3D to_hdmi_bridge(bridge);=0D
++	struct hdmi *hdmi =3D hdmi_bridge->hdmi;=0D
+ 	struct device *dev =3D &hdmi->pdev->dev;=0D
+ =0D
+ 	/* Disable HPD interrupt */=0D
+=0D
+-- =0D
+2.39.5=0D
+=0D
