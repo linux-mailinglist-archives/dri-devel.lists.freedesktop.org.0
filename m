@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C00AAA1E0
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1E8AAA1E3
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:52:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D4C10E576;
-	Mon,  5 May 2025 22:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A40C710E57A;
+	Mon,  5 May 2025 22:52:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cLI17ZQ7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LlroInC5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA2810E575;
- Mon,  5 May 2025 22:52:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5105510E57A;
+ Mon,  5 May 2025 22:52:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 78B1B446E8;
- Mon,  5 May 2025 22:52:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F7D7C4CEE4;
- Mon,  5 May 2025 22:52:36 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 822114A415;
+ Mon,  5 May 2025 22:52:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42868C4CEED;
+ Mon,  5 May 2025 22:52:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485559;
- bh=okfQ0p2BkEh19Ojv1U+9vH9B+4z3vlhl41JYyyWl/RM=;
+ s=k20201202; t=1746485562;
+ bh=II0+gCSOLa6r7EPGRSZL2qEFTLnBnuZXoGZUfo9fuTM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cLI17ZQ72Yb8rbmTc922eXCL6KhWzCVZQ7XaO5gK/GXWMICW2wCjvB3vXFaiHMngP
- 5MIsB2qOtzQYtAHZT+dDYqRjBo267TTz/MmGpGMELXNt7Ix0z/1UEsn8f3BxweQTQk
- wXvVibEyod/0TXV1ZcFS5jDq97a6SPDBouJZGsZWhNAj7ELj6PXp2z/yw3X6xSmS10
- EJ/aaQl68BaWpAPNDriPv5f2FICmxxgoJdDRoXYQdNsp5IH2719nXDtvPwJyh4t6rD
- 5uG6/0LPhFGQqcB1q+0S/WS4DHtVNPfRI9BF6UfK0Ya4VRpI1WeP2PFC627XnHQaz8
- SsqtQ/5R3rs6A==
+ b=LlroInC5WsNlndcM5WxUh0xA02gSwCVK1a/Z2TzXVRp4TfMFnbt6b/Hu0C9gTFKXN
+ CUBThKoLK9pJDuvZDKDt701g7PSZoZNdJpf5tv3FDRnYylRQVaWPWyS08ri5C4g23e
+ kzz4D3r5k3L30NNX7gzPW6607/4sytx9GfvmpByOHhTA+81+zKbywkj6qYmSTrThy0
+ YH56ZJakL3HkIrFAjF42Nm7Kpma7qCC7FBwc7+jBss5SfNtRDmdsYHYaFqM+KCrrWr
+ m/TMk5V8ziHuzJ62wLER52K4HIPfMNe0zM2utq/6ywxISFzVEbvL2Bo4seX8II7CWs
+ 97OTT0H9TDAYw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Brandon Syu <Brandon.Syu@amd.com>, Charlene Liu <charlene.liu@amd.com>,
- Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+Cc: George Shen <george.shen@amd.com>,
+ Michael Strauss <michael.strauss@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, Zaeem Mohamed <zaeem.mohamed@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, Charlene.Liu@amd.com,
- alvin.lee2@amd.com, chiahsuan.chung@amd.com, jerry.zuo@amd.com,
- Kaitlyn.Tse@amd.com, Ovidiu.Bunea@amd.com, ryanseto@amd.com,
- martin.tsai@amd.com, yi-lchen@amd.com, tjakobi@math.uni-bielefeld.de,
- Sungjoon.Kim@amd.com, michael.strauss@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 368/486] Revert "drm/amd/display: Exit idle
- optimizations before attempt to access PHY"
-Date: Mon,  5 May 2025 18:37:24 -0400
-Message-Id: <20250505223922.2682012-368-sashal@kernel.org>
+ airlied@gmail.com, simona@ffwll.ch, meenakshikumar.somasundaram@amd.com,
+ PeiChen.Huang@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 369/486] drm/amd/display: Update CR AUX RD
+ interval interpretation
+Date: Mon,  5 May 2025 18:37:25 -0400
+Message-Id: <20250505223922.2682012-369-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -70,55 +69,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Brandon Syu <Brandon.Syu@amd.com>
+From: George Shen <george.shen@amd.com>
 
-[ Upstream commit be704e5ef4bd66dee9bb3f876964327e3a247d31 ]
+[ Upstream commit 6a7fde433231c18164c117592d3e18ced648ad58 ]
 
-This reverts commit de612738e9771bd66aeb20044486c457c512f684.
+[Why]
+DP spec updated to have the CR AUX RD interval match the EQ AUX RD
+interval interpretation of DPCD 0000Eh/0220Eh for 8b/10b non-LTTPR mode
+and LTTPR transparent mode cases.
 
-Reason to revert: screen flashes or gray screen appeared half of the
-screen after resume from S4/S5.
+[How]
+Update interpretation of DPCD 0000Eh/0220Eh for CR AUX RD interval
+during 8b/10b link training.
 
-Reviewed-by: Charlene Liu <charlene.liu@amd.com>
-Signed-off-by: Brandon Syu <Brandon.Syu@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
+Reviewed-by: Michael Strauss <michael.strauss@amd.com>
+Reviewed-by: Wenjing Liu <wenjing.liu@amd.com>
+Signed-off-by: George Shen <george.shen@amd.com>
+Signed-off-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c | 5 -----
- 1 file changed, 5 deletions(-)
+ .../display/dc/link/protocols/link_dp_training_8b_10b.c    | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-index 297f313794e49..809c556f4e7de 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-@@ -1890,7 +1890,6 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
- 	bool can_apply_edp_fast_boot = false;
- 	bool can_apply_seamless_boot = false;
- 	bool keep_edp_vdd_on = false;
--	struct dc_bios *dcb = dc->ctx->dc_bios;
- 	DC_LOGGER_INIT();
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training_8b_10b.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training_8b_10b.c
+index 3bdce32a85e3c..ae95ec48e5721 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training_8b_10b.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training_8b_10b.c
+@@ -36,7 +36,8 @@
+ 	link->ctx->logger
  
- 
-@@ -1967,8 +1966,6 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
- 			hws->funcs.edp_backlight_control(edp_link_with_sink, false);
- 		}
- 		/*resume from S3, no vbios posting, no need to power down again*/
--		if (dcb && dcb->funcs && !dcb->funcs->is_accelerated_mode(dcb))
--			clk_mgr_exit_optimized_pwr_state(dc, dc->clk_mgr);
- 
- 		power_down_all_hw_blocks(dc);
- 
-@@ -1981,8 +1978,6 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
- 		disable_vga_and_power_gate_all_controllers(dc);
- 		if (edp_link_with_sink && !keep_edp_vdd_on)
- 			dc->hwss.edp_power_control(edp_link_with_sink, false);
--		if (dcb && dcb->funcs && !dcb->funcs->is_accelerated_mode(dcb))
--			clk_mgr_optimize_pwr_state(dc, dc->clk_mgr);
+ static int32_t get_cr_training_aux_rd_interval(struct dc_link *link,
+-		const struct dc_link_settings *link_settings)
++		const struct dc_link_settings *link_settings,
++		enum lttpr_mode lttpr_mode)
+ {
+ 	union training_aux_rd_interval training_rd_interval;
+ 	uint32_t wait_in_micro_secs = 100;
+@@ -49,6 +50,8 @@ static int32_t get_cr_training_aux_rd_interval(struct dc_link *link,
+ 				DP_TRAINING_AUX_RD_INTERVAL,
+ 				(uint8_t *)&training_rd_interval,
+ 				sizeof(training_rd_interval));
++		if (lttpr_mode != LTTPR_MODE_NON_TRANSPARENT)
++			wait_in_micro_secs = 400;
+ 		if (training_rd_interval.bits.TRAINIG_AUX_RD_INTERVAL)
+ 			wait_in_micro_secs = training_rd_interval.bits.TRAINIG_AUX_RD_INTERVAL * 4000;
  	}
- 	bios_set_scratch_acc_mode_change(dc->ctx->dc_bios, 1);
+@@ -110,7 +113,6 @@ void decide_8b_10b_training_settings(
+ 	 */
+ 	lt_settings->link_settings.link_spread = link->dp_ss_off ?
+ 			LINK_SPREAD_DISABLED : LINK_SPREAD_05_DOWNSPREAD_30KHZ;
+-	lt_settings->cr_pattern_time = get_cr_training_aux_rd_interval(link, link_setting);
+ 	lt_settings->eq_pattern_time = get_eq_training_aux_rd_interval(link, link_setting);
+ 	lt_settings->pattern_for_cr = decide_cr_training_pattern(link_setting);
+ 	lt_settings->pattern_for_eq = decide_eq_training_pattern(link, link_setting);
+@@ -119,6 +121,7 @@ void decide_8b_10b_training_settings(
+ 	lt_settings->disallow_per_lane_settings = true;
+ 	lt_settings->always_match_dpcd_with_hw_lane_settings = true;
+ 	lt_settings->lttpr_mode = dp_decide_8b_10b_lttpr_mode(link);
++	lt_settings->cr_pattern_time = get_cr_training_aux_rd_interval(link, link_setting, lt_settings->lttpr_mode);
+ 	dp_hw_to_dpcd_lane_settings(lt_settings, lt_settings->hw_lane_settings, lt_settings->dpcd_lane_settings);
  }
+ 
 -- 
 2.39.5
 
