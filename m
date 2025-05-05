@@ -2,151 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499C4AA9D18
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 22:22:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2D4AA9E24
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 23:28:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B143510E434;
-	Mon,  5 May 2025 20:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31BA610E135;
+	Mon,  5 May 2025 21:28:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="RuXklaL2";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="YBXsDe1r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2069.outbound.protection.outlook.com [40.107.92.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8B1410E434
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 20:22:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a2N3i4PRmniqJ1zuQXV7zVbE8KCnQnD45Od/6NhO7QnGdOIidcVPYBpMBPanTaHOobeIDWzFOOEIXJNhpj4sfWGStCEwgqGWyKQH/xILqiU6yRix1bZ1vHIXU651paNYBjrNRuIVSiMQdrBx27oAktxcS/IAOyc/Vq+OFYaGVL9LT4i99mWUfn/WPZtUdSv1J7+GSfFpl/FYM8XaJTmoIQrJWUC59nSZEeFRmqrADt/h7gTTEC2c9esFJYK1HJ7JSOps2sqb9q3vMxDrsY/zmOQ5QI4qQYOANdeCCVBGfhwS2BX5ueyxcYEWmJU/wVXGbcKk9bxaCJkvYWk/io/8oA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/q2VyFr+ppKDQ652EVnycPgh+RJp++7ULf6uH/0BjU4=;
- b=DU9CGl5yrRntL07jDlieX1BDu3V14o0OddycAFvMPCj0pddalariV06iSKxny9ahwRMPRaWTokSEebvhT/RB6D22YPbA2nRev7LY/lrvkFdwMS0oFkKKCAbr7GBnpKdr+fwAaHlYM3sqpiHFmKATboIg4OQ2xVYlIiGYNU73d76sPALJk12MpE0TbRJbstJu8xLiKIavLXAjGwDz4/tz8hd4rRVRORuuXTc61TWibQ0Bfs1j6Lrzx8mjg0ubBGuByAYJphFTqFQ7+fgN3YfKDpuL9oAtG4XISEsIxIELQ5/pRfWO7+B9JeVO6xPUC8FUdNh4q/Oa5sOZTiFx2I74eQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/q2VyFr+ppKDQ652EVnycPgh+RJp++7ULf6uH/0BjU4=;
- b=RuXklaL2RD+juFZdtRVe9O5+K0dk/+BBnSK2h/ISPaYJjknrvTXS8N15s21JimOF2gYNlQAz82WyjY8thRTFhsaF/VHUTKtFmhFv1nQhc0mnAnlPU/6f13NqudelQ1Py9E5HHD7Iqk+kZ9WaBUvpk9uiHupnxT99WveyO6HxN/s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS7PR12MB6095.namprd12.prod.outlook.com (2603:10b6:8:9c::19) by
- DM4PR12MB6397.namprd12.prod.outlook.com (2603:10b6:8:b4::10) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8699.19; Mon, 5 May 2025 20:22:17 +0000
-Received: from DS7PR12MB6095.namprd12.prod.outlook.com
- ([fe80::c48a:6eaf:96b0:8405]) by DS7PR12MB6095.namprd12.prod.outlook.com
- ([fe80::c48a:6eaf:96b0:8405%3]) with mapi id 15.20.8699.022; Mon, 5 May 2025
- 20:22:17 +0000
-Message-ID: <1f0a3a95-9dbf-4456-aa6f-f9ef49a560d8@amd.com>
-Date: Mon, 5 May 2025 15:22:15 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/dp: Fix Write_Status_Update_Request AUX request format
-To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org
-Cc: ville.syrjala@linux.intel.com, jani.nikula@intel.com,
- harry.wentland@amd.com, stable@vger.kernel.org
-References: <20250427095053.875064-1-Wayne.Lin@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20250427095053.875064-1-Wayne.Lin@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA1P222CA0146.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c2::28) To DS7PR12MB6095.namprd12.prod.outlook.com
- (2603:10b6:8:9c::19)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66EDB10E135;
+ Mon,  5 May 2025 21:28:52 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 545KTvD1016273;
+ Mon, 5 May 2025 21:28:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 6fbWtZrFp1kkYuOkSQk8CYkFh3yOINoeD9GEadRdKg0=; b=YBXsDe1r2MEnuvCk
+ stuxZvV8nWs02iyRxILkdh/87YBMt7mL8X7YRPdhR6IoZO7U44uLLDov5bhXv9DI
+ tLVvBUkBe4W9jfqJFDykgHaTLRA97DsmQoV1WZhUA/QWIAS1rGmmZsvErlQbQRCe
+ Xhu8kPQ/DushQUl0Rw1dUrBGodXIo0gdSHpZ4jKziH5jI4TpMyMktniAMuSLfzt+
+ eIQbTrpXkGMvTCns28JxZRmnEPD9OZubz0rfWgFuJigdfdl/RatF5aYZEzhQbum5
+ 7pZ0ZyydRemGEmQm2QVgY8B9rkF2IJ8qfN+tRd5gzc19DeTqjEzNW3hEg96+JW8C
+ 9cW7Gw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46dbc5da9x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 May 2025 21:28:43 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 545LSgNw007225
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 5 May 2025 21:28:42 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 5 May 2025
+ 14:28:41 -0700
+Message-ID: <65710c50-9bfc-42e8-afad-ac01c7f96a9e@quicinc.com>
+Date: Mon, 5 May 2025 14:28:39 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB6095:EE_|DM4PR12MB6397:EE_
-X-MS-Office365-Filtering-Correlation-Id: b967afbb-0f37-4e3f-3540-08dd8c1287e0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?S3lKZUgveVJ0NXNjN0xlcTNGQ3VxNy8weTNwYkZlVXNOVTN5VnhiaVN2Lzh4?=
- =?utf-8?B?UmNFUjdMRXhPbkN4cVZBYi9lUC9wMFZIeTdpZThjWTBrTmtMTFJYaWpqL2Nn?=
- =?utf-8?B?ZEl6dERPL1dwSDF0cFBHRGYrWTBCUWdMclkxSG44WUtqYWNNbjRlNmhHTjQ3?=
- =?utf-8?B?Z2crVThRejBWQS8yby9rbjRQd1dyTGNpdTlBak5mbWpXV1huSHVsQ1J1M0tB?=
- =?utf-8?B?STRjS01NLzhjbjd3djd3eklUUUwwdTUxSFhTWFNubzNUU3JtS00yUzRUM1kz?=
- =?utf-8?B?Wkg0SElCZ2lWTzRJSFFuOWp3aFZtQXJsUWZQalR5bDFmUWJhejIzM2MzdU9u?=
- =?utf-8?B?UUlwSkRDaHNWTmFlc1puWG9yaytwVmhPNEVrVXFqaGhiNHZ1Z0MwTWZtMm9Y?=
- =?utf-8?B?ajlRS0xUM2VuTzFjdjJ6T2ZGRzRZVjU0bkdQdnQ1Tm16YUFEeno2ZUJUYWQ3?=
- =?utf-8?B?aGc5d3piQ04vVEZjMDhjNXU5eU5jamd6Um5oYUdoMXFQd2t0dW4rUnV0OTB0?=
- =?utf-8?B?N1dvQVU2L1k2aEgwK1grN3NFWXAzL0VNNVJxM01rOWxJdkRDMkF4YmYyNE5F?=
- =?utf-8?B?ZzFXaTZxKzlkdEFmT2dCdHB2Y2Y3dmZpcCszaEg0T3ltZ0RZYkh0M05HZXRo?=
- =?utf-8?B?ZUNXWlRCcWlQa2lXaHp3S1VLU1ZQVFhlTEhHb1ZBaVRnL3BVb1FlcG5BWEFi?=
- =?utf-8?B?ZlUwMDlCZUgrTUxWcTl6Y1Q0VVZEUncvT3ZTMDJrbG82NE1IcVMvOXAzVE9G?=
- =?utf-8?B?ek9RWTRROFhZNVJOZGw5RE93YnNSLzFZc1d5RFVjVHZhNkYzWC9PM3pSZ3A1?=
- =?utf-8?B?a3NFckdPenNCTzc5bGVXNHVrdE4yUFF3Um9CdUIwUi84emZxdWQvNGRsQ3lG?=
- =?utf-8?B?NzVWUlVFUU81blFXN2RVS3hpanVCYXlkcWsxNlcya3d6YVRVNkE1Si9lTU5v?=
- =?utf-8?B?NGpnSmJWSjJFaGM4Y1hVQlJvYUhvZHBCREMvMEkwOHlsTWw5clErYUJIODdE?=
- =?utf-8?B?enUyRkFLQzdEWGxQeWV0SnFSOStTNStsYmNTYmpHR1kzLzZwdTJTeFk1ZDRT?=
- =?utf-8?B?MXoyLzlFZ1hnR1QxT0V1L2M0eXNXa3lMOFU5bGpkTVV2Yjc3alRLZzhsR0pv?=
- =?utf-8?B?Q0tkZVovd3hPMG5hTHM4bUhFN0J4THUrNnE2TldhSThDUnB2TjM5REUrT0lu?=
- =?utf-8?B?V053eldEeUhCZmJnRk1wc2kxNWpYKzhuZjJwYm96cEkrL0VpaEpGdWR2MUU5?=
- =?utf-8?B?R1BJTmo4L09NZXhRd216ZUFhRkhtbjZXVVYrTThEVHJPN2dYVmkwTTRTbDlH?=
- =?utf-8?B?V1FYcGZIQ054cmxLOHF1MDRzUFRNOWx3TTVjbWRXQmV4Q3JSUUdSV25XTFVU?=
- =?utf-8?B?YUFQL254RnhUTnY1a2M1K0ZzNFMveUZBRFZqUUliNlNGbmsvc3FaWUU5d1A1?=
- =?utf-8?B?SHZvNmN0R2d5NU41NjBxMWsvR0xYcG1rcDlOVys3Wk1odEtMOWFOeXA4eDJM?=
- =?utf-8?B?T0J4cHRWcWpYd2dqTE9Jdi9ZUnFnd21udlptbFoxa09kekpWY1o5b1VPMFc2?=
- =?utf-8?B?dHhPZmpFOWJEZVQ3ZEc0enZYdnJSOFptWHFHd0o3bTFIKzJSclFVSGpyYW03?=
- =?utf-8?B?bXY4UW11Y0FQSi9tbkUvc25NOU84WkVHRUVmZ012YnpxaUxBRXBMTHhqekFG?=
- =?utf-8?B?NDFFMUNaYUdIaEttcnlrTG90VnpEZTNRT1dyNk8yUDJaV3YzRXdabUJTV0Q4?=
- =?utf-8?B?d1B4VUc3RTg1RHV5dG05UGVjTkFzWGlDeWJVMUttZWZLcTVVSndpQU1CVFJH?=
- =?utf-8?B?SnN2cTJtMVJkQ0JlREJFMFlBSG1iczlFNm4rVHFhMnIyVXRralpRLzhFdHFG?=
- =?utf-8?B?b3BQS01ONFJzVjdTUTNWaDQxK3Z0WGpvRFY0Tlp2bHpZMnZpYTdRcENKZFRa?=
- =?utf-8?Q?zsAy2td0rIo=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR12MB6095.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a1hZS0t3K2R1a1lCMlZQU3poaGc5cGpVRXBvUG9VOE1QZlYwVXhmaWV1aC9o?=
- =?utf-8?B?RythTFFmdWRqL0ZML1lCQTZOSHBTVnE1eUxNQk5UdFdjZUozK0lkSGNTUzlz?=
- =?utf-8?B?c3dVb251b3VGSitWaWRpZUVLRVIvZ2c0MjlVWkFUMGhFOHp4NzZxZm14eVJi?=
- =?utf-8?B?VWxZa0JNN3VNNy93YU9BSVlUK1Brclp6Szk0S2JyQnhhbTZCUndhU29VR1NK?=
- =?utf-8?B?ckNqL3YvSWxrZzk5cTZ2Vk9pRjgwblcwM25WaFlkSmRnZGVZcU9PbTRTMFNS?=
- =?utf-8?B?ZnhaYTdvWnJYL1BWR2dmZ0xYOGw5RVpBTmhOdk9VQlBXUEo2YUhHYnZ3L3pV?=
- =?utf-8?B?QWJuQkQ1QTFhV1pCMnFua3lCYnF3MG4wZ1FMZUxUOHpIbTBCSVNBZDBaais3?=
- =?utf-8?B?YVkyeStlQjdxMUoyY2NzbWU4b1JMQ3BxREdmMEkwKytkcUkyWThab0ZUWC9H?=
- =?utf-8?B?VXdaR2pYc2p5Yms1Y2huQ2RYSmNzVTF1VFlKcnZXZ3QyTkl6RHVpSjB0NURz?=
- =?utf-8?B?eXJvcmdtREhlRG9CVTNOaVZNcCs5dlptYUpwVVFkV2hZcnZPekNQWnlMSUZw?=
- =?utf-8?B?a015L0lUQ2xpNUdlZ0hncTV5NWNGeHZpZ2FJa1VFbllMNitZMkhSVmQ3Zncv?=
- =?utf-8?B?UERCODB3bU54SDFGc1VoWGpObFV5Y1Q4c0pHWFpoRFMvTm8xNU1xNDdyVkow?=
- =?utf-8?B?SG1SZ01YcW9henhyZDE5c3p2U0JnbkY5RXYrR1lPSytiTXQ5MTdqRVN6Q3hh?=
- =?utf-8?B?ZTJPTVVTL3hJTmVmLzJrdUc4VkhKQ1hXUExlSVdhNFBMdFI1MjdsenFQT1M3?=
- =?utf-8?B?clBxSS9PKzAzRXE0OU1OR0ZSS2NXcHpJWStTMmhGcGIxOWl6WGFESWJUNjNz?=
- =?utf-8?B?T0NMZENiRE5MVVluQkhRTXJMQnN5aGE3aEF4MEttU2NjYmZ3aU8yRVdNd0ND?=
- =?utf-8?B?ODBnNHBrSlBoV3ZHQXFuUmNLdmZWQ1VrSTR6dlpuZGRaMC9sM00rMUR5TjZh?=
- =?utf-8?B?cnBSNUY0K3BpL3N1c0h2elFkN2VVM1UyTW1NWWpLUVorbjFEYjNuVmg5YnM1?=
- =?utf-8?B?cDZjVGhoNTlPMkZzM3A5emNYazVPcWtNUmtiVjVrMk5tc2JJY1FOQjVHcmNx?=
- =?utf-8?B?SlhkazBtMjhjdkxtWjJEVmI0YkNWQ2lGWUY3L2JiOUliRVMzNTRrSDd5L1BK?=
- =?utf-8?B?a1gyaDRCbkFZWENJODUyMjJHM2JVaU9rTSt4bkhUZUFzOGZyQjZKM2xtMUhz?=
- =?utf-8?B?NFFjS2hmdEdRSFVhZ1hHNHQwem8zbHRCZFM4Yi9NdnpvM21idWJvY1krSGxr?=
- =?utf-8?B?RStIMzYxN3E5bHdmY0E1VUhIcW5LMVh0M0ZJQjc2WlU3eXQvVjRJUy9oeGlQ?=
- =?utf-8?B?K0k2ZXdnd2hZczRlT2lscFVWeEpHcmVxT3RrSWI1b2hlRnhLOEtMN3hJTStF?=
- =?utf-8?B?L0F1Z3dadzFVOGZjZStOR3U4b295Ui8yQVVtSlBhS1Nla3pvd09raE1LVjF0?=
- =?utf-8?B?ZkYvNkpLbjNleE5WUjdPdlZOQ3dnQUg1UmRnNUFOUmFHL0FZbCtodlNZY1hL?=
- =?utf-8?B?dWNEaTNUZ3ZOaDNqUGhTRmt0bk1jSU5DT0t6dzk1a2VHdHRseGxmemlxbXY3?=
- =?utf-8?B?eEg3anNXRDgwcUM1WHI5QnNSQ0Vsd29vUytmM0pQWm1LOEtiejB6dkEwYnNI?=
- =?utf-8?B?TmdEdkRBR2VVTERqcDNGRVN3Uzgrd09Id3FFMnJjdTUyUUtVdjVvYUR4ZEF0?=
- =?utf-8?B?R2YwaXIxdmRRbFViUW00aC80YnMxdGJJcDVuVVdlKzNiMkR3czgyUzZTRkhF?=
- =?utf-8?B?c0cyeXlHNUpJaHp1UFo3OUUyd09LSkJWMjF2Wm1seEZhMXFkZ0d5RkZFeGhX?=
- =?utf-8?B?Qm94M2t6czU0TVUwSGpTV3ZpN21zaVpwRDExa1dpdEFmdmRVdjUwNWFVNG82?=
- =?utf-8?B?bVdnUkNZUS9nMGdGeitTd0psdjJDZUx5MVRyUG5PdisxcE5YMytWTFZHbEE5?=
- =?utf-8?B?bk42TVFXa0cvZFNvdVBRaFh5UGh0dEduS2tuTDRZTkw4WU1oTUhjcUtXcU5o?=
- =?utf-8?B?Q04wRU1JWjZ4R3JkUjUzNkNna3pwTVArKy9DMy9qQ1FaZVdtWWtyWnNBbURI?=
- =?utf-8?Q?Vs3fK/kwoKrTkVHucaPLaTOZN?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b967afbb-0f37-4e3f-3540-08dd8c1287e0
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6095.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 20:22:17.5671 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O2ykeM7IeGeh8sdqLFZi1CesrQgHPBrGJv1265vUF33vVUm+8zUtLNJNY7BVNZ7VAyoQv1WqKUE0iwDIaZDjfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6397
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 19/24] drm/msm/dsi: Add support for SM8750
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+CC: Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, Jonathan Marek
+ <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, "Stephen
+ Boyd" <sboyd@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Rob Clark
+ <robdclark@chromium.org>, <linux-clk@vger.kernel.org>, Srinivas Kandagatla
+ <srini@kernel.org>
+References: <20250430-b4-sm8750-display-v5-0-8cab30c3e4df@linaro.org>
+ <20250430-b4-sm8750-display-v5-19-8cab30c3e4df@linaro.org>
+ <hobn3fq647z54q6uqrooapokipr4zoxfb3tztg46lwzcsof3jd@5bwn34r2v7ks>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <hobn3fq647z54q6uqrooapokipr4zoxfb3tztg46lwzcsof3jd@5bwn34r2v7ks>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ATCruRLFzklvcy0jp1Cm81-oXR_9k4HK
+X-Authority-Analysis: v=2.4 cv=O7Y5vA9W c=1 sm=1 tr=0 ts=68192d8b cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=e5mUnYsNAAAA:8
+ a=KKAkSRfTAAAA:8 a=jzqiswS_J5jijFRD548A:9 a=QEXdDO2ut3YA:10
+ a=Vxmtnl_E_bksehYqCbjh:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: ATCruRLFzklvcy0jp1Cm81-oXR_9k4HK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDIwMyBTYWx0ZWRfX6kTy4LFAd+Yg
+ d5Uujajwhbhy3AlW1fYpyK2ioT63kN5cHDF0lMfLVeacnF7GSva7mVUH5Trjdiy58hMdUn9kIM1
+ EjLtdSfSR+aR4Iw6cUalLYvTFffGzmBHGdXk1yN1ynQilzfE9otl9brVOjrjglpK70x+pi+YMSg
+ /mjGjdREra1Afih99QNk0ApPukCfP2I1B4Igb3mbLtMMAYA55openn8u7tS7F0PRmOFmlf4dY/T
+ 3KzB3Pl/H+OGpxrmy4SJoxEkbxuYFk+A3TRXvYWJrrtV4g21vScPMGu1vdkUnR6vWy3Zno9hgXN
+ MHzbDWwse5ZLM63rHYhaiMILOHhsd0GD/Ze26N15cMcguiOUq+EBYZ+VPDQUWT+0aogBmL/CxVN
+ qoU2OpAaQYCm21FVZylUPbXWqrrpLYtLtHJ7euQnynaC1/i3VeQ/2jluffHqv2fGDercUezH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-05_09,2025-05-05_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
+ clxscore=1011 priorityscore=1501 adultscore=0 phishscore=0 bulkscore=0
+ impostorscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505050203
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,161 +119,231 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/27/2025 4:50 AM, Wayne Lin wrote:
-> [Why]
-> Notice AUX request format of I2C-over-AUX with
-> Write_Status_Update_Request flag set is incorrect. It should
-> be address only request without length and data like:
-> "SYNC->COM3:0 (= 0110)|0000-> 0000|0000->
-> 0|7-bit I2C address (the same as the last)-> STOP->".
-> 
-> [How]
-> Refer to DP v2.1 Table 2-178, correct the
-> Write_Status_Update_Request to be address only request.
-> 
-> Note that we might receive 0 returned by aux->transfer() when
-> receive reply I2C_ACK|AUX_ACK of Write_Status_Update_Request
-> transaction. Which indicating all data bytes get written.
-> We should avoid to return 0 bytes get transferred under this
-> case.
-> 
-> Fixes: 68ec2a2a2481 ("drm/dp: Use I2C_WRITE_STATUS_UPDATE to drain partial I2C_WRITE requests")
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Mario Limonciello <mario.limonciello@amd.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> ---
->   drivers/gpu/drm/display/drm_dp_helper.c | 45 +++++++++++++++++++++----
->   1 file changed, 38 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index 57828f2b7b5a..0c8cba7ed875 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -1857,6 +1857,12 @@ static u32 drm_dp_i2c_functionality(struct i2c_adapter *adapter)
->   	       I2C_FUNC_10BIT_ADDR;
->   }
->   
-> +static inline bool
-> +drm_dp_i2c_msg_is_write_status_update(struct drm_dp_aux_msg *msg)
-> +{
-> +	return ((msg->request & ~DP_AUX_I2C_MOT) == DP_AUX_I2C_WRITE_STATUS_UPDATE);
-> +}
-> +
->   static void drm_dp_i2c_msg_write_status_update(struct drm_dp_aux_msg *msg)
->   {
->   	/*
-> @@ -1965,6 +1971,7 @@ MODULE_PARM_DESC(dp_aux_i2c_speed_khz,
->   static int drm_dp_i2c_do_msg(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
->   {
->   	unsigned int retry, defer_i2c;
-> +	struct drm_dp_aux_msg orig_msg = *msg;
->   	int ret;
->   	/*
->   	 * DP1.2 sections 2.7.7.1.5.6.1 and 2.7.7.1.6.6.1: A DP Source device
-> @@ -1976,6 +1983,12 @@ static int drm_dp_i2c_do_msg(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
->   	int max_retries = max(7, drm_dp_i2c_retry_count(msg, dp_aux_i2c_speed_khz));
->   
->   	for (retry = 0, defer_i2c = 0; retry < (max_retries + defer_i2c); retry++) {
-> +		if (drm_dp_i2c_msg_is_write_status_update(msg)) {
-> +			/* Address only transaction */
-> +			msg->buffer = NULL;
-> +			msg->size = 0;
-> +		}
-> +
->   		ret = aux->transfer(aux, msg);
->   		if (ret < 0) {
->   			if (ret == -EBUSY)
-> @@ -1993,7 +2006,7 @@ static int drm_dp_i2c_do_msg(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
->   			else
->   				drm_dbg_kms(aux->drm_dev, "%s: transaction failed: %d\n",
->   					    aux->name, ret);
-> -			return ret;
-> +			goto out;
->   		}
->   
->   
-> @@ -2008,7 +2021,8 @@ static int drm_dp_i2c_do_msg(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
->   		case DP_AUX_NATIVE_REPLY_NACK:
->   			drm_dbg_kms(aux->drm_dev, "%s: native nack (result=%d, size=%zu)\n",
->   				    aux->name, ret, msg->size);
-> -			return -EREMOTEIO;
-> +			ret = -EREMOTEIO;
-> +			goto out;
->   
->   		case DP_AUX_NATIVE_REPLY_DEFER:
->   			drm_dbg_kms(aux->drm_dev, "%s: native defer\n", aux->name);
-> @@ -2027,24 +2041,35 @@ static int drm_dp_i2c_do_msg(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
->   		default:
->   			drm_err(aux->drm_dev, "%s: invalid native reply %#04x\n",
->   				aux->name, msg->reply);
-> -			return -EREMOTEIO;
-> +			ret = -EREMOTEIO;
-> +			goto out;
->   		}
->   
->   		switch (msg->reply & DP_AUX_I2C_REPLY_MASK) {
->   		case DP_AUX_I2C_REPLY_ACK:
-> +			/*
-> +			 * When I2C write firstly get defer and get ack after
-> +			 * retries by wirte_status_update, we have to return
-> +			 * all data bytes get transferred instead of 0.
-> +			 */
-> +			if (drm_dp_i2c_msg_is_write_status_update(msg) && ret == 0)
-> +				ret = orig_msg.size;
-> +
->   			/*
->   			 * Both native ACK and I2C ACK replies received. We
->   			 * can assume the transfer was successful.
->   			 */
->   			if (ret != msg->size)
->   				drm_dp_i2c_msg_write_status_update(msg);
-> -			return ret;
-> +
-> +			goto out;
->   
->   		case DP_AUX_I2C_REPLY_NACK:
->   			drm_dbg_kms(aux->drm_dev, "%s: I2C nack (result=%d, size=%zu)\n",
->   				    aux->name, ret, msg->size);
->   			aux->i2c_nack_count++;
-> -			return -EREMOTEIO;
-> +			ret = -EREMOTEIO;
-> +			goto out;
->   
->   		case DP_AUX_I2C_REPLY_DEFER:
->   			drm_dbg_kms(aux->drm_dev, "%s: I2C defer\n", aux->name);
-> @@ -2063,12 +2088,18 @@ static int drm_dp_i2c_do_msg(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
->   		default:
->   			drm_err(aux->drm_dev, "%s: invalid I2C reply %#04x\n",
->   				aux->name, msg->reply);
-> -			return -EREMOTEIO;
-> +			ret = -EREMOTEIO;
-> +			goto out;
->   		}
->   	}
->   
->   	drm_dbg_kms(aux->drm_dev, "%s: Too many retries, giving up\n", aux->name);
-> -	return -EREMOTEIO;
-> +	ret = -EREMOTEIO;
-> +out:
-> +	/* In case we change original msg by Write_Status_Update*/
 
-As there are multiple cases that jump to the "out" label, would it be 
-clearer to use:
 
-if (drm_dp_i2c_msg_is_write_status_update(msg)) {
-   	msg->buffer = orig_msg.buffer;
-   	msg->size = orig_msg.size;
-}
+On 5/5/2025 5:35 AM, Dmitry Baryshkov wrote:
+> On Wed, Apr 30, 2025 at 03:00:49PM +0200, Krzysztof Kozlowski wrote:
+>> Add support for DSI on Qualcomm SM8750 SoC with notable difference:
+>>
+>> DSI PHY PLLs, the parents of pixel and byte clocks, cannot be used as
+>> parents before DSI PHY is configured, the PLLs are prepared and their
+>> initial rate is set.  Therefore assigned-clock-parents are not working
+>> here and driver is responsible for reparenting clocks with proper
+>> procedure: see dsi_clk_init_6g_v2_9().
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>
+>> ---
+>>
+>> Changes in v5:
+>> 1. Only reparent byte and pixel clocks while PLLs is prepared. Setting
+>>     rate works fine with earlier DISP CC patch for enabling their parents
+>>     during rate change.
+>>
+>> Changes in v3:
+>> 1. Drop 'struct msm_dsi_config sm8750_dsi_cfg' and use sm8650 one.
+>>
+>> SM8750 DSI PHY also needs Dmitry's patch:
+>> https://patchwork.freedesktop.org/patch/542000/?series=119177&rev=1
+>> (or some other way of correct early setting of the DSI PHY PLL rate)
+>> ---
+>>   drivers/gpu/drm/msm/dsi/dsi.h      |  2 +
+>>   drivers/gpu/drm/msm/dsi/dsi_cfg.c  | 14 +++++++
+>>   drivers/gpu/drm/msm/dsi/dsi_cfg.h  |  1 +
+>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 81 ++++++++++++++++++++++++++++++++++++++
+>>   4 files changed, 98 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+>> index 87496db203d6c7582eadcb74e94eb56a219df292..93c028a122f3a59b1632da76472e0a3e781c6ae8 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+>> @@ -98,6 +98,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi);
+>>   int msm_dsi_runtime_suspend(struct device *dev);
+>>   int msm_dsi_runtime_resume(struct device *dev);
+>>   int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host);
+>> +int dsi_link_clk_set_rate_6g_v2_9(struct msm_dsi_host *msm_host);
+>>   int dsi_link_clk_set_rate_v2(struct msm_dsi_host *msm_host);
+>>   int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host);
+>>   int dsi_link_clk_enable_v2(struct msm_dsi_host *msm_host);
+>> @@ -115,6 +116,7 @@ int dsi_dma_base_get_6g(struct msm_dsi_host *msm_host, uint64_t *iova);
+>>   int dsi_dma_base_get_v2(struct msm_dsi_host *msm_host, uint64_t *iova);
+>>   int dsi_clk_init_v2(struct msm_dsi_host *msm_host);
+>>   int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host);
+>> +int dsi_clk_init_6g_v2_9(struct msm_dsi_host *msm_host);
+>>   int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
+>>   int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
+>>   void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+>> index 7754dcec33d06e3d6eb8a9d55e53f24af073adb9..7f8a8de0897a579a525b466fd01bbcd95454c614 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+>> @@ -257,6 +257,18 @@ static const struct msm_dsi_host_cfg_ops msm_dsi_6g_v2_host_ops = {
+>>   	.calc_clk_rate = dsi_calc_clk_rate_6g,
+>>   };
+>>   
+>> +static const struct msm_dsi_host_cfg_ops msm_dsi_6g_v2_9_host_ops = {
+>> +	.link_clk_set_rate = dsi_link_clk_set_rate_6g_v2_9,
+>> +	.link_clk_enable = dsi_link_clk_enable_6g,
+>> +	.link_clk_disable = dsi_link_clk_disable_6g,
+>> +	.clk_init_ver = dsi_clk_init_6g_v2_9,
+>> +	.tx_buf_alloc = dsi_tx_buf_alloc_6g,
+>> +	.tx_buf_get = dsi_tx_buf_get_6g,
+>> +	.tx_buf_put = dsi_tx_buf_put_6g,
+>> +	.dma_base_get = dsi_dma_base_get_6g,
+>> +	.calc_clk_rate = dsi_calc_clk_rate_6g,
+>> +};
+>> +
+>>   static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
+>>   	{MSM_DSI_VER_MAJOR_V2, MSM_DSI_V2_VER_MINOR_8064,
+>>   		&apq8064_dsi_cfg, &msm_dsi_v2_host_ops},
+>> @@ -300,6 +312,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
+>>   		&sm8550_dsi_cfg, &msm_dsi_6g_v2_host_ops},
+>>   	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_8_0,
+>>   		&sm8650_dsi_cfg, &msm_dsi_6g_v2_host_ops},
+>> +	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_9_0,
+>> +		&sm8650_dsi_cfg, &msm_dsi_6g_v2_9_host_ops},
+>>   };
+>>   
+>>   const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+>> index 120cb65164c1ba1deb9acb513e5f073bd560c496..859c279afbb0377d16f8406f3e6b083640aff5a1 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+>> @@ -30,6 +30,7 @@
+>>   #define MSM_DSI_6G_VER_MINOR_V2_6_0	0x20060000
+>>   #define MSM_DSI_6G_VER_MINOR_V2_7_0	0x20070000
+>>   #define MSM_DSI_6G_VER_MINOR_V2_8_0	0x20080000
+>> +#define MSM_DSI_6G_VER_MINOR_V2_9_0	0x20090000
+>>   
+>>   #define MSM_DSI_V2_VER_MINOR_8064	0x0
+>>   
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> index 4d75529c0e858160761f5eb55db65e5d7565c27b..694ed95897d49c477726a2b0bec1099e75a3ce21 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> @@ -119,6 +119,15 @@ struct msm_dsi_host {
+>>   	struct clk *pixel_clk;
+>>   	struct clk *byte_intf_clk;
+>>   
+>> +	/*
+>> +	 * Clocks which needs to be properly parented between DISPCC and DSI PHY
+>> +	 * PLL:
+>> +	 */
+>> +	struct clk *byte_src_clk;
+>> +	struct clk *pixel_src_clk;
+>> +	struct clk *dsi_pll_byte_clk;
+>> +	struct clk *dsi_pll_pixel_clk;
+>> +
+>>   	unsigned long byte_clk_rate;
+>>   	unsigned long byte_intf_clk_rate;
+>>   	unsigned long pixel_clk_rate;
+>> @@ -269,6 +278,38 @@ int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host)
+>>   	return ret;
+>>   }
+>>   
+>> +int dsi_clk_init_6g_v2_9(struct msm_dsi_host *msm_host)
+>> +{
+>> +	struct device *dev = &msm_host->pdev->dev;
+>> +	int ret;
+>> +
+>> +	ret = dsi_clk_init_6g_v2(msm_host);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	msm_host->byte_src_clk = devm_clk_get(dev, "byte_src");
+>> +	if (IS_ERR(msm_host->byte_src_clk))
+>> +		return dev_err_probe(dev, PTR_ERR(msm_host->byte_src_clk),
+>> +				     "can't get byte_src clock\n");
+>> +
+>> +	msm_host->dsi_pll_byte_clk = devm_clk_get(dev, "dsi_pll_byte");
+>> +	if (IS_ERR(msm_host->dsi_pll_byte_clk))
+>> +		return dev_err_probe(dev, PTR_ERR(msm_host->dsi_pll_byte_clk),
+>> +				     "can't get dsi_pll_byte clock\n");
+>> +
+>> +	msm_host->pixel_src_clk = devm_clk_get(dev, "pixel_src");
+>> +	if (IS_ERR(msm_host->pixel_src_clk))
+>> +		return dev_err_probe(dev, PTR_ERR(msm_host->pixel_src_clk),
+>> +				     "can't get pixel_src clock\n");
+>> +
+>> +	msm_host->dsi_pll_pixel_clk = devm_clk_get(dev, "dsi_pll_pixel");
+>> +	if (IS_ERR(msm_host->dsi_pll_pixel_clk))
+>> +		return dev_err_probe(dev, PTR_ERR(msm_host->dsi_pll_pixel_clk),
+>> +				     "can't get dsi_pll_pixel clock\n");
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   static int dsi_clk_init(struct msm_dsi_host *msm_host)
+>>   {
+>>   	struct platform_device *pdev = msm_host->pdev;
+>> @@ -370,6 +411,46 @@ int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
+>>   	return 0;
+>>   }
+>>   
+>> +int dsi_link_clk_set_rate_6g_v2_9(struct msm_dsi_host *msm_host)
+>> +{
+>> +	struct device *dev = &msm_host->pdev->dev;
+>> +	int ret;
+>> +
+>> +	/*
+>> +	 * DSI PHY PLLs have to be enabled to allow reparenting to them and
+>> +	 * setting the rates of pixel/byte clocks.
+>> +	 */
+> 
+> According to the docs this should be handled by the
+> CLK_OPS_PARENT_ENABLE flag. Please correct me if I'm wrong.
+> 
 
-return ret;
+I am also interested to know that if we are indeed setting 
+CLK_OPS_PARENT_ENABLE flag, do we need this logic in the dsi driver.
 
-> +	msg->buffer = orig_msg.buffer;
-> +	msg->size = orig_msg.size;
-> +	return ret;
->   }
->   
->   static void drm_dp_i2c_msg_set_request(struct drm_dp_aux_msg *msg,
+If CLK_OPS_PARENT_ENABLE flag is not working as expected, shouldnt this 
+be something fixed on the clk fwk side?
+
+Thanks
+
+Abhinav
+
+>> +	ret = clk_prepare_enable(msm_host->dsi_pll_byte_clk);
+>> +	if (ret) {
+>> +		dev_err(dev, "Failed to enable dsi_pll_byte: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	ret = clk_prepare_enable(msm_host->dsi_pll_pixel_clk);
+> 
+> And this.
+> 
+>> +	if (ret) {
+>> +		dev_err(dev, "Failed to enable dsi_pll_byte: %d\n", ret);
+>> +		goto out_disable_byte_clk;
+>> +	}
+>> +
+>> +	ret = clk_set_parent(msm_host->byte_src_clk, msm_host->dsi_pll_byte_clk);
+>> +	if (ret)
+>> +		dev_err(dev, "Failed to parent byte_src -> dsi_pll_byte: %d\n", ret);
+>> +
+>> +	ret = clk_set_parent(msm_host->pixel_src_clk, msm_host->dsi_pll_pixel_clk);
+>> +	if (ret)
+>> +		dev_err(dev, "Failed to parent pixel_src -> dsi_pll_pixel: %d\n", ret);
+>> +
+>> +	clk_disable_unprepare(msm_host->dsi_pll_pixel_clk);
+>> +	clk_disable_unprepare(msm_host->dsi_pll_byte_clk);
+>> +
+>> +	return dsi_link_clk_set_rate_6g(msm_host);
+>> +
+>> +out_disable_byte_clk:
+>> +	clk_disable_unprepare(msm_host->dsi_pll_byte_clk);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>>   int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host)
+>>   {
+>>   	int ret;
+>>
+>> -- 
+>> 2.45.2
+>>
+> 
 
