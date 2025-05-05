@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B9DAAA25E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73C2AAA264
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63C5D10E5A5;
-	Mon,  5 May 2025 22:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E20710E5A6;
+	Mon,  5 May 2025 22:59:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cNKtk8dz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c4eGLx0z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8CB10E5A4;
- Mon,  5 May 2025 22:59:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1B4B10E5A6;
+ Mon,  5 May 2025 22:59:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 255AF629CA;
- Mon,  5 May 2025 22:58:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B025C4CEED;
- Mon,  5 May 2025 22:59:00 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 479D7629CA;
+ Mon,  5 May 2025 22:59:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7117C4CEE4;
+ Mon,  5 May 2025 22:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485941;
- bh=aEOiUgIuu7Kie0+Or+rmoC0Kx+xYFuZlz52OcX6F43g=;
+ s=k20201202; t=1746485972;
+ bh=sggkn5Buws6iQxZ0z5gA8d/UmGBYOyuOaEJ/3vTAaBs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cNKtk8dz5W15r7qp41wy0Q0cLI83yr1dmCzPXLlOKOzsIUgdatS1SxJle+qB+QAzj
- DSUHiPgKhDsM7O8tjnsR/pJbzf7HC9eiJatIvolAGC3khh7Q5eJ9butdaUfREH+rPW
- yQzAuxYwH1uthbteMbkHJTPRefduYIxQmbTAH/XLmrBvioz721lRcdEazIUK1m2TWp
- VSUj1GiXl0kd8nqUUpZSX6VrSd6kxCppRcsUJOX4rXiY0Zis+l3/AI5iFTaZKF7C4h
- MBVbKiqKYzhDv0cMHMGI4ot/kBcv1xYpNt6n+xG1r/flYyvEj1JrcDRFv3XWrvCIqm
- VjaGb+8eS0ZIw==
+ b=c4eGLx0zUEZJqpsqlUH/hPm9GBaYAq7xOW4pAhjGwDQZWkUONoieiA4aoYDSYIAIm
+ 6/XD+xnnRlCBjcnxJxU7N9/JJ7Mzl5fHRhEdxBBoFZYhx+pdG/wP/tHfH2h+qPl2eK
+ J9sNE/KHeKYVLJzHH/VYQIq3sBskyL4+A+HGzOIvOcokJrNcsjSEI/+2eszUU5Glzj
+ 23XfDIB5POCDJCzbnnTD0yWJQlJ4u4h93cSr+c70ui5JXlY7UYGmDwCUnLl/KiV9km
+ Lz4+j8keZNJknJUdyGrf8Asoray+AxWIDV+UTcaK+xbzHQa43fFhxlxuiUHA9t6SUh
+ Jc49okJTWEqCA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: David Rosca <david.rosca@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Ruijing Dong <ruijing.dong@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, boyuan.zhang@amd.com, tim.huang@amd.com,
- yifan1.zhang@amd.com, amd-gfx@lists.freedesktop.org,
+Cc: Charlene Liu <Charlene.Liu@amd.com>, Ovidiu Bunea <ovidiu.bunea@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, alex.hung@amd.com, chris.park@amd.com,
+ Jing.Zhou@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 076/294] drm/amdgpu: Update SRIOV video codec caps
-Date: Mon,  5 May 2025 18:52:56 -0400
-Message-Id: <20250505225634.2688578-76-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 093/294] drm/amd/display: remove minimum Dispclk
+ and apply oem panel timing.
+Date: Mon,  5 May 2025 18:53:13 -0400
+Message-Id: <20250505225634.2688578-93-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
 References: <20250505225634.2688578-1-sashal@kernel.org>
@@ -66,89 +68,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Rosca <david.rosca@amd.com>
+From: Charlene Liu <Charlene.Liu@amd.com>
 
-[ Upstream commit 19478f2011f8b53dee401c91423c4e0b73753e4f ]
+[ Upstream commit 756e58e83e89d372b94269c0cde61fe55da76947 ]
 
-There have been multiple fixes to the video caps that are missing for
-SRIOV. Update the SRIOV caps with correct values.
+[why & how]
+1. apply oem panel timing (not only on OLED)
+2. remove MIN_DPP_DISP_CLK request in driver.
 
-Signed-off-by: David Rosca <david.rosca@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Reviewed-by: Ruijing Dong <ruijing.dong@amd.com>
+This fix will apply for dcn31x but not
+sync with DML's output.
+
+Reviewed-by: Ovidiu Bunea <ovidiu.bunea@amd.com>
+Signed-off-by: Charlene Liu <Charlene.Liu@amd.com>
+Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/nv.c    | 16 ++++++++--------
- drivers/gpu/drm/amd/amdgpu/soc21.c | 10 ++--------
- 2 files changed, 10 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c | 2 --
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c | 2 --
+ drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c    | 3 ++-
+ 3 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/nv.c b/drivers/gpu/drm/amd/amdgpu/nv.c
-index 7910c463ae385..82709e692f4cc 100644
---- a/drivers/gpu/drm/amd/amdgpu/nv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/nv.c
-@@ -142,23 +142,23 @@ static struct amdgpu_video_codec_info sriov_sc_video_codecs_encode_array[] = {
- };
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
+index ebeb969ee180b..327776eeb9f3e 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
+@@ -194,8 +194,6 @@ static void dcn315_update_clocks(struct clk_mgr *clk_mgr_base,
+ 	// workaround: Limit dppclk to 100Mhz to avoid lower eDP panel switch to plus 4K monitor underflow.
+ 	if (new_clocks->dppclk_khz < MIN_DPP_DISP_CLK)
+ 		new_clocks->dppclk_khz = MIN_DPP_DISP_CLK;
+-	if (new_clocks->dispclk_khz < MIN_DPP_DISP_CLK)
+-		new_clocks->dispclk_khz = MIN_DPP_DISP_CLK;
  
- static struct amdgpu_video_codec_info sriov_sc_video_codecs_decode_array_vcn0[] = {
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 4096, 4096, 3)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 4096, 4096, 5)},
-+	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 1920, 1088, 3)},
-+	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 1920, 1088, 5)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 4096, 4096, 52)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VC1, 4096, 4096, 4)},
-+	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VC1, 1920, 1088, 4)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_HEVC, 8192, 4352, 186)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_JPEG, 4096, 4096, 0)},
-+	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_JPEG, 16384, 16384, 0)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VP9, 8192, 4352, 0)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_AV1, 8192, 4352, 0)},
- };
+ 	if (should_set_clock(safe_to_lower, new_clocks->dppclk_khz, clk_mgr->base.clks.dppclk_khz)) {
+ 		if (clk_mgr->base.clks.dppclk_khz > new_clocks->dppclk_khz)
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c
+index 6f1785715dfb7..f95e5e767eb1a 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c
+@@ -201,8 +201,6 @@ static void dcn316_update_clocks(struct clk_mgr *clk_mgr_base,
+ 	// workaround: Limit dppclk to 100Mhz to avoid lower eDP panel switch to plus 4K monitor underflow.
+ 	if (new_clocks->dppclk_khz < 100000)
+ 		new_clocks->dppclk_khz = 100000;
+-	if (new_clocks->dispclk_khz < 100000)
+-		new_clocks->dispclk_khz = 100000;
  
- static struct amdgpu_video_codec_info sriov_sc_video_codecs_decode_array_vcn1[] = {
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 4096, 4096, 3)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 4096, 4096, 5)},
-+	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 1920, 1088, 3)},
-+	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 1920, 1088, 5)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 4096, 4096, 52)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VC1, 4096, 4096, 4)},
-+	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VC1, 1920, 1088, 4)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_HEVC, 8192, 4352, 186)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_JPEG, 4096, 4096, 0)},
-+	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_JPEG, 16384, 16384, 0)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VP9, 8192, 4352, 0)},
- };
+ 	if (should_set_clock(safe_to_lower, new_clocks->dppclk_khz, clk_mgr->base.clks.dppclk_khz)) {
+ 		if (clk_mgr->base.clks.dppclk_khz > new_clocks->dppclk_khz)
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+index 7b5c1498941dd..d389eeb264a79 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+@@ -1066,7 +1066,8 @@ void dce110_edp_backlight_control(
+ 			DC_LOG_DC("edp_receiver_ready_T9 skipped\n");
+ 	}
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/soc21.c b/drivers/gpu/drm/amd/amdgpu/soc21.c
-index 4712ffc0a482c..7819f5d584f59 100644
---- a/drivers/gpu/drm/amd/amdgpu/soc21.c
-+++ b/drivers/gpu/drm/amd/amdgpu/soc21.c
-@@ -117,23 +117,17 @@ static struct amdgpu_video_codecs sriov_vcn_4_0_0_video_codecs_encode_vcn1 = {
- };
- 
- static struct amdgpu_video_codec_info sriov_vcn_4_0_0_video_codecs_decode_array_vcn0[] = {
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 4096, 4096, 3)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 4096, 4096, 5)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 4096, 4096, 52)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VC1, 4096, 4096, 4)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_HEVC, 8192, 4352, 186)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_JPEG, 4096, 4096, 0)},
-+	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_JPEG, 16384, 16384, 0)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VP9, 8192, 4352, 0)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_AV1, 8192, 4352, 0)},
- };
- 
- static struct amdgpu_video_codec_info sriov_vcn_4_0_0_video_codecs_decode_array_vcn1[] = {
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 4096, 4096, 3)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 4096, 4096, 5)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 4096, 4096, 52)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VC1, 4096, 4096, 4)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_HEVC, 8192, 4352, 186)},
--	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_JPEG, 4096, 4096, 0)},
-+	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_JPEG, 16384, 16384, 0)},
- 	{codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VP9, 8192, 4352, 0)},
- };
- 
+-	if (!enable && link->dpcd_sink_ext_caps.bits.oled) {
++	if (!enable) {
++		/*follow oem panel config's requirement*/
+ 		pre_T11_delay += link->panel_config.pps.extra_pre_t11_ms;
+ 		msleep(pre_T11_delay);
+ 	}
 -- 
 2.39.5
 
