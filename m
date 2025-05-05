@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A5CAA9F79
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:24:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97972AA9F7D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:24:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8229B10E46B;
-	Mon,  5 May 2025 22:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCD4710E46D;
+	Mon,  5 May 2025 22:24:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IRQxWFDa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nL3xPGlA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60D2A10E467;
- Mon,  5 May 2025 22:24:01 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D919110E469;
+ Mon,  5 May 2025 22:24:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 92EE845161;
- Mon,  5 May 2025 22:23:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0699C4CEEE;
- Mon,  5 May 2025 22:23:59 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 7CBE4A4CCF3;
+ Mon,  5 May 2025 22:18:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2EDC4CEEE;
+ Mon,  5 May 2025 22:24:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746483841;
- bh=qM4WJnGHM1m1fsGvJCRhq94cX/P+bapNYT6XAdoDPVs=;
+ s=k20201202; t=1746483846;
+ bh=x11mW6LLxkPY69nFvys0J8U5iF/dViBEqwt9cs3nL7I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IRQxWFDaeiz0LKD/V5mWSaQf0kEXTrpd7we7T+iUc650PL3PfnBF/G980L/EgCSfn
- gCziogBiQDUhXH6dBLezRmCN87Yw2GX04wnQJnWcVfC4p6FXtEEn/y24lKKR3qb92b
- INDjZXkE6o1wHEqFu8W30cfgmYC/0HDUrsQGJ7RCiJjCZ1izx5oiAOU83TUOYfXy3q
- 7ZIGpLseYVQCcT1o4CEikKrk6fVXDoFB2ENpgIGWyGaBjNCLhNgj0aipyRIm68qj1o
- R54/3FfdSYwt33uJfdo7zFWUh6xeLl5hZClzdbqQgSl0Sx9lQb00yFikSJ6Lr+16t6
- jZE01u1TJdMxQ==
+ b=nL3xPGlA5LxZl3S/Y4CG/ayLwiXrW4DUjMOsw5jPK9SjvhL2/y7Qawx6d/qAEjy7w
+ Q7xtqhnTOQAlFf04PrRN/naaJ+esjMei9/QzReLKLaRRjATQGm9cMcQIRccZSsz1dE
+ waps7m/ua2QFboyEgp0A+TyPT4gV2jhwoYSSObbMkZ5V4hcCSqOuSSmBTUn595wCxa
+ nhl9TCHIKy2xPu48/dPMTRR51RdoUTX0bj2bY0FpeIubr8SGvR6V9VQMIdu0G5w+Nt
+ mcxKffrND2QWLazmM8nxlo5CX6gBY+cn8yVTd4HT64/V6WG4gS9uNeW5klNf1QBMw3
+ m7/VTaT0V/0LQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Victor Lu <victorchengchi.lu@amd.com>,
+Cc: Lijo Lazar <lijo.lazar@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- Hawking.Zhang@amd.com, tao.zhou1@amd.com, amd-gfx@lists.freedesktop.org,
+ Boyuan.Zhang@amd.com, sonny.jiang@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 246/642] drm/amdgpu: Do not program AGP BAR regs
- under SRIOV in gfxhub_v1_0.c
-Date: Mon,  5 May 2025 18:07:42 -0400
-Message-Id: <20250505221419.2672473-246-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 247/642] drm/amdgpu: Reinit FW shared flags on
+ VCN v5.0.1
+Date: Mon,  5 May 2025 18:07:43 -0400
+Message-Id: <20250505221419.2672473-247-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,43 +65,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Victor Lu <victorchengchi.lu@amd.com>
+From: Lijo Lazar <lijo.lazar@amd.com>
 
-[ Upstream commit 057fef20b8401110a7bc1c2fe9d804a8a0bf0d24 ]
+[ Upstream commit 6ef5ccaad76d907d4257f20de992f89c0f7a7f8e ]
 
-SRIOV VF does not have write access to AGP BAR regs.
-Skip the writes to avoid a dmesg warning.
+After a full device reset, shared memory region will clear out and it's
+not possible to reliably save the region in case of RAS errors.
+Reinitialize the flags if required.
 
-Signed-off-by: Victor Lu <victorchengchi.lu@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c | 28 ++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
-index 0e3ddea7b8e0f..a7bfc9f41d0e3 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
-@@ -92,12 +92,12 @@ static void gfxhub_v1_0_init_system_aperture_regs(struct amdgpu_device *adev)
- {
- 	uint64_t value;
+diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
+index 8b0b3739a5377..cdbc10d7c9fb7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
++++ b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
+@@ -65,6 +65,22 @@ static int vcn_v5_0_1_early_init(struct amdgpu_ip_block *ip_block)
+ 	return amdgpu_vcn_early_init(adev);
+ }
  
--	/* Program the AGP BAR */
--	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BASE, 0);
--	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BOT, adev->gmc.agp_start >> 24);
--	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_TOP, adev->gmc.agp_end >> 24);
--
- 	if (!amdgpu_sriov_vf(adev) || adev->asic_type <= CHIP_VEGA10) {
-+		/* Program the AGP BAR */
-+		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BASE, 0);
-+		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BOT, adev->gmc.agp_start >> 24);
-+		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_TOP, adev->gmc.agp_end >> 24);
++static void vcn_v5_0_1_fw_shared_init(struct amdgpu_device *adev, int inst_idx)
++{
++	struct amdgpu_vcn5_fw_shared *fw_shared;
 +
- 		/* Program the system aperture low logical page number. */
- 		WREG32_SOC15_RLC(GC, 0, mmMC_VM_SYSTEM_APERTURE_LOW_ADDR,
- 			min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18);
++	fw_shared = adev->vcn.inst[inst_idx].fw_shared.cpu_addr;
++
++	if (fw_shared->sq.is_enabled)
++		return;
++	fw_shared->present_flag_0 =
++		cpu_to_le32(AMDGPU_FW_SHARED_FLAG_0_UNIFIED_QUEUE);
++	fw_shared->sq.is_enabled = 1;
++
++	if (amdgpu_vcnfw_log)
++		amdgpu_vcn_fwlog_init(&adev->vcn.inst[inst_idx]);
++}
++
+ /**
+  * vcn_v5_0_1_sw_init - sw init for VCN block
+  *
+@@ -95,8 +111,6 @@ static int vcn_v5_0_1_sw_init(struct amdgpu_ip_block *ip_block)
+ 		return r;
+ 
+ 	for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
+-		volatile struct amdgpu_vcn5_fw_shared *fw_shared;
+-
+ 		vcn_inst = GET_INST(VCN, i);
+ 
+ 		ring = &adev->vcn.inst[i].ring_enc[0];
+@@ -111,12 +125,7 @@ static int vcn_v5_0_1_sw_init(struct amdgpu_ip_block *ip_block)
+ 		if (r)
+ 			return r;
+ 
+-		fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
+-		fw_shared->present_flag_0 = cpu_to_le32(AMDGPU_FW_SHARED_FLAG_0_UNIFIED_QUEUE);
+-		fw_shared->sq.is_enabled = true;
+-
+-		if (amdgpu_vcnfw_log)
+-			amdgpu_vcn_fwlog_init(&adev->vcn.inst[i]);
++		vcn_v5_0_1_fw_shared_init(adev, i);
+ 	}
+ 
+ 	/* TODO: Add queue reset mask when FW fully supports it */
+@@ -188,6 +197,9 @@ static int vcn_v5_0_1_hw_init(struct amdgpu_ip_block *ip_block)
+ 				 9 * vcn_inst),
+ 				adev->vcn.inst[i].aid_id);
+ 
++		/* Re-init fw_shared, if required */
++		vcn_v5_0_1_fw_shared_init(adev, i);
++
+ 		r = amdgpu_ring_test_helper(ring);
+ 		if (r)
+ 			return r;
 -- 
 2.39.5
 
