@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6591AAA3E7
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:21:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74171AAA3EA
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:21:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0299F10E620;
-	Mon,  5 May 2025 23:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBBC010E621;
+	Mon,  5 May 2025 23:21:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NGxQBh6q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O5j1bCSz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B682A10E620
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:21:40 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1CC10E621
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:21:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 58873629CA;
- Mon,  5 May 2025 23:21:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 907C5C4CEF7;
- Mon,  5 May 2025 23:21:38 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 864A744598;
+ Mon,  5 May 2025 23:21:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28E36C4CEE4;
+ Mon,  5 May 2025 23:21:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746487299;
- bh=nMax0lR7nSV7ZcdvbX3dQfW/zDJ5IN2hV1tGg5hqYrc=;
+ s=k20201202; t=1746487309;
+ bh=VL5H2FW0sIWc1ybX28SpZkjySUj9Zblq9JKHOzk4tWU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NGxQBh6qYKMk5MXcOkVF5ApxAmqRC61VJDwvT2uXzegzxLbYrxJwQc7RDQJQl04Up
- jcmZsaFrx6jz9gZhOJFWzIs8Wjcn8jah1saHS1KyAEp0t22VM6PouVEmIBt2N6T3xn
- Uj+oWoS/MqhiACk8aCQ17m4wIJHfPNnTTBMGTMkNZopKDFYg5neJJ8URJ2P1/RvWiX
- 57V+qSA8IMVptWfiXNLcnopvtSzfunYWKCOZz4cMGKmExRuptq1LBCxfS31RRIkA5m
- C1+oWuBU6J/Gm5ZLEQNLRugnfg6Av8URZY733c8hv7oTpEHN5U+1AcOilvF/JEcvot
- DFpn/bIv1lsoA==
+ b=O5j1bCSzZ1WVf/iAhsTjY54cCMBf3M++m4ffkTaDKbzY7TWPqp1GpH/wJS1hKVYN+
+ K0dKi8oRpDDVdlISw/PSAwNIPOOt0Bjcvpal2+gbk9Rv/fuW3229QfhjnocTUqvSxw
+ P22RplrUm+58ST0aIoYZz7ab8aOMfQmy2eQJWduOTA6PvoXJU+3TUNyLar1Su9TZHC
+ 1eEGxBMFHTk2a6ipXoyKgzu9VfxNKvYz8CM1/FV5lPEVlXiAE2s3IyBQUP/TvJXb3Z
+ AoPlYQKzUpkK9qPqggC03KeCCWllkDkQg20W30NHO9tKr/qxqHQ8KOR+9b1tlxhfnS
+ mNWSkTPzfHw9w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Jocelyn Falempe <jfalempe@redhat.com>, Sasha Levin <sashal@kernel.org>,
- airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 107/114] drm/ast: Find VBIOS mode from regular
- display size
-Date: Mon,  5 May 2025 19:18:10 -0400
-Message-Id: <20250505231817.2697367-107-sashal@kernel.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ Simon Ser <contact@emersion.fr>, Manasi Navare <navaremanasi@google.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Simona Vetter <simona.vetter@intel.com>, Sasha Levin <sashal@kernel.org>,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.10 113/114] drm/atomic: clarify the rules around
+ drm_atomic_state->allow_modeset
+Date: Mon,  5 May 2025 19:18:16 -0400
+Message-Id: <20250505231817.2697367-113-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505231817.2697367-1-sashal@kernel.org>
 References: <20250505231817.2697367-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.10.237
@@ -64,87 +73,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+From: Simona Vetter <simona.vetter@ffwll.ch>
 
-[ Upstream commit c81202906b5cd56db403e95db3d29c9dfc8c74c1 ]
+[ Upstream commit c5e3306a424b52e38ad2c28c7f3399fcd03e383d ]
 
-The ast driver looks up supplied display modes from an internal list of
-display modes supported by the VBIOS.
+msm is automagically upgrading normal commits to full modesets, and
+that's a big no-no:
 
-Do not use the crtc_-prefixed display values from struct drm_display_mode
-for looking up the VBIOS mode. The fields contain raw values that the
-driver programs to hardware. They are affected by display settings like
-double-scan or interlace.
+- for one this results in full on->off->on transitions on all these
+  crtc, at least if you're using the usual helpers. Which seems to be
+  the case, and is breaking uapi
 
-Instead use the regular vdisplay and hdisplay fields for lookup. As the
-programmed values can now differ from the values used for lookup, set
-struct drm_display_mode.crtc_vdisplay and .crtc_hdisplay from the VBIOS
-mode.
+- further even if the ctm change itself would not result in flicker,
+  this can hide modesets for other reasons. Which again breaks the
+  uapi
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250131092257.115596-9-tzimmermann@suse.de
+v2: I forgot the case of adding unrelated crtc state. Add that case
+and link to the existing kerneldoc explainers. This has come up in an
+irc discussion with Manasi and Ville about intel's bigjoiner mode.
+Also cc everyone involved in the msm irc discussion, more people
+joined after I sent out v1.
+
+v3: Wording polish from Pekka and Thomas
+
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Manasi Navare <navaremanasi@google.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Simona Vetter <simona.vetter@intel.com>
+Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250108172417.160831-1-simona.vetter@ffwll.ch
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/ast/ast_mode.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ include/drm/drm_atomic.h | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index d27f2840b9555..9c8595a986098 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -104,7 +104,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 		return false;
- 	}
- 
--	switch (mode->crtc_hdisplay) {
-+	switch (mode->hdisplay) {
- 	case 640:
- 		vbios_mode->enh_table = &res_640x480[refresh_rate_index];
- 		break;
-@@ -115,7 +115,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 		vbios_mode->enh_table = &res_1024x768[refresh_rate_index];
- 		break;
- 	case 1280:
--		if (mode->crtc_vdisplay == 800)
-+		if (mode->vdisplay == 800)
- 			vbios_mode->enh_table = &res_1280x800[refresh_rate_index];
- 		else
- 			vbios_mode->enh_table = &res_1280x1024[refresh_rate_index];
-@@ -127,7 +127,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 		vbios_mode->enh_table = &res_1440x900[refresh_rate_index];
- 		break;
- 	case 1600:
--		if (mode->crtc_vdisplay == 900)
-+		if (mode->vdisplay == 900)
- 			vbios_mode->enh_table = &res_1600x900[refresh_rate_index];
- 		else
- 			vbios_mode->enh_table = &res_1600x1200[refresh_rate_index];
-@@ -136,7 +136,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 		vbios_mode->enh_table = &res_1680x1050[refresh_rate_index];
- 		break;
- 	case 1920:
--		if (mode->crtc_vdisplay == 1080)
-+		if (mode->vdisplay == 1080)
- 			vbios_mode->enh_table = &res_1920x1080[refresh_rate_index];
- 		else
- 			vbios_mode->enh_table = &res_1920x1200[refresh_rate_index];
-@@ -180,6 +180,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 	hborder = (vbios_mode->enh_table->flags & HBorder) ? 8 : 0;
- 	vborder = (vbios_mode->enh_table->flags & VBorder) ? 8 : 0;
- 
-+	adjusted_mode->crtc_hdisplay = vbios_mode->enh_table->hde;
- 	adjusted_mode->crtc_htotal = vbios_mode->enh_table->ht;
- 	adjusted_mode->crtc_hblank_start = vbios_mode->enh_table->hde + hborder;
- 	adjusted_mode->crtc_hblank_end = vbios_mode->enh_table->ht - hborder;
-@@ -189,6 +190,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 					 vbios_mode->enh_table->hfp +
- 					 vbios_mode->enh_table->hsync);
- 
-+	adjusted_mode->crtc_vdisplay = vbios_mode->enh_table->vde;
- 	adjusted_mode->crtc_vtotal = vbios_mode->enh_table->vt;
- 	adjusted_mode->crtc_vblank_start = vbios_mode->enh_table->vde + vborder;
- 	adjusted_mode->crtc_vblank_end = vbios_mode->enh_table->vt - vborder;
+diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+index d07c851d255b5..4a245d79ba6b4 100644
+--- a/include/drm/drm_atomic.h
++++ b/include/drm/drm_atomic.h
+@@ -332,8 +332,27 @@ struct drm_atomic_state {
+ 	 *
+ 	 * Allow full modeset. This is used by the ATOMIC IOCTL handler to
+ 	 * implement the DRM_MODE_ATOMIC_ALLOW_MODESET flag. Drivers should
+-	 * never consult this flag, instead looking at the output of
+-	 * drm_atomic_crtc_needs_modeset().
++	 * generally not consult this flag, but instead look at the output of
++	 * drm_atomic_crtc_needs_modeset(). The detailed rules are:
++	 *
++	 * - Drivers must not consult @allow_modeset in the atomic commit path.
++	 *   Use drm_atomic_crtc_needs_modeset() instead.
++	 *
++	 * - Drivers must consult @allow_modeset before adding unrelated struct
++	 *   drm_crtc_state to this commit by calling
++	 *   drm_atomic_get_crtc_state(). See also the warning in the
++	 *   documentation for that function.
++	 *
++	 * - Drivers must never change this flag, it is under the exclusive
++	 *   control of userspace.
++	 *
++	 * - Drivers may consult @allow_modeset in the atomic check path, if
++	 *   they have the choice between an optimal hardware configuration
++	 *   which requires a modeset, and a less optimal configuration which
++	 *   can be committed without a modeset. An example would be suboptimal
++	 *   scanout FIFO allocation resulting in increased idle power
++	 *   consumption. This allows userspace to avoid flickering and delays
++	 *   for the normal composition loop at reasonable cost.
+ 	 */
+ 	bool allow_modeset : 1;
+ 	bool legacy_cursor_update : 1;
 -- 
 2.39.5
 
