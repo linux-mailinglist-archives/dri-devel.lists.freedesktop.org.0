@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622D4AAA37C
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F67AAA382
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:16:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7946810E602;
-	Mon,  5 May 2025 23:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9AFA10E601;
+	Mon,  5 May 2025 23:16:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N8vArT4S";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MG72koGQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B639010E602;
- Mon,  5 May 2025 23:15:33 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56ABE10E601
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:15:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6746F629CB;
- Mon,  5 May 2025 23:15:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB06EC4CEE4;
- Mon,  5 May 2025 23:15:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id EA5635C5B75;
+ Mon,  5 May 2025 23:13:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 787C2C4CEED;
+ Mon,  5 May 2025 23:15:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746486932;
- bh=QJfy7XoR3GgHAWIN+riRyxgwzioOkcUWXnWokSKqXwI=;
+ s=k20201202; t=1746486954;
+ bh=n+WcpgTdYvcRSBPw43R7b05A4ZbCqYfL3djMTnnT/Iw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N8vArT4S0/rT/EEA/A5IyqX17q0rBo06GRGAHCiz9AK7SdH8R50Aau6xnt+gz6oc3
- HQa/vkAqJMmojnoOHyM8oaEpis1DI6owVv62+faozXyR8guL7kkD8i+IIodE7hPH63
- Y5ZevwereXDhcqo9+YhL18k6YKqz2cqgLnMhHswIVZQVXzWhB93FUV/oL9pcoqKw4P
- YM8SivlaW3Yv14xrJZO+qDnVmIvGzN2/Iw/1kRRk2SnvqKUbZOVGimXlzTKO1//5qD
- HLCxyJXWO0UURV8t58yTsJ/O8NTT67+kr6S55xR6pSBhIhhSh8qsXUBH3KrxUcXCPd
- cwGy2/vBvVD3Q==
+ b=MG72koGQ6SowhUfTjvfvDvmsNDl6gIZMUuWQYMt2Hk9UEyZqsqF8xIjATFv1WKjLO
+ hoNMPInDVA4AFuo6e1Il8AOSSYxdSNKjGgws2YfpvH3UFWN6YRVWaonSYoRvwa36D8
+ V4vwRgxvMv/2VsTB15yAJLDKwKXKDDMAj4nESHhS2zNLFmTUGsfCjOlhnAnvO4wV8K
+ iwmdg6/F1NxSQS+m2hK2qBMXL33k6TVZeXrMPB+vEzp7KkBYoTUxOnfP6VyNjvwRD1
+ k1NOsOHMO6Dlehj30xHK7xVgv0nd1RiHkz/3wEFdEVFB6+9gpCyWG4MRhhmrthM0Fs
+ /A/T+P4Qzx5Hw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Victor Lu <victorchengchi.lu@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- tao.zhou1@amd.com, Hawking.Zhang@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 066/153] drm/amdgpu: Do not program AGP BAR regs
- under SRIOV in gfxhub_v1_0.c
-Date: Mon,  5 May 2025 19:11:53 -0400
-Message-Id: <20250505231320.2695319-66-sashal@kernel.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, p.zabel@pengutronix.de, airlied@gmail.com,
+ simona@ffwll.ch, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.15 077/153] drm/mediatek: mtk_dpi: Add checks for
+ reg_h_fre_con existence
+Date: Mon,  5 May 2025 19:12:04 -0400
+Message-Id: <20250505231320.2695319-77-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505231320.2695319-1-sashal@kernel.org>
 References: <20250505231320.2695319-1-sashal@kernel.org>
@@ -65,43 +65,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Victor Lu <victorchengchi.lu@amd.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-[ Upstream commit 057fef20b8401110a7bc1c2fe9d804a8a0bf0d24 ]
+[ Upstream commit 8c9da7cd0bbcc90ab444454fecf535320456a312 ]
 
-SRIOV VF does not have write access to AGP BAR regs.
-Skip the writes to avoid a dmesg warning.
+In preparation for adding support for newer DPI instances which
+do support direct-pin but do not have any H_FRE_CON register,
+like the one found in MT8195 and MT8188, add a branch to check
+if the reg_h_fre_con variable was declared in the mtk_dpi_conf
+structure for the probed SoC DPI version.
 
-Signed-off-by: Victor Lu <victorchengchi.lu@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+As a note, this is useful specifically only for cases in which
+the support_direct_pin variable is true, so mt8195-dpintf is
+not affected by any issue.
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Link: https://patchwork.kernel.org/project/dri-devel/patch/20250217154836.108895-6-angelogioacchino.delregno@collabora.com/
+Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
-index f51fd0688eca7..9b881d8413b14 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c
-@@ -92,12 +92,12 @@ static void gfxhub_v1_0_init_system_aperture_regs(struct amdgpu_device *adev)
- {
- 	uint64_t value;
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index 9518672dc21b3..3f39109b69154 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -346,12 +346,13 @@ static void mtk_dpi_config_swap_input(struct mtk_dpi *dpi, bool enable)
  
--	/* Program the AGP BAR */
--	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BASE, 0);
--	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BOT, adev->gmc.agp_start >> 24);
--	WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_TOP, adev->gmc.agp_end >> 24);
--
- 	if (!amdgpu_sriov_vf(adev) || adev->asic_type <= CHIP_VEGA10) {
-+		/* Program the AGP BAR */
-+		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BASE, 0);
-+		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_BOT, adev->gmc.agp_start >> 24);
-+		WREG32_SOC15_RLC(GC, 0, mmMC_VM_AGP_TOP, adev->gmc.agp_end >> 24);
-+
- 		/* Program the system aperture low logical page number. */
- 		WREG32_SOC15_RLC(GC, 0, mmMC_VM_SYSTEM_APERTURE_LOW_ADDR,
- 			min(adev->gmc.fb_start, adev->gmc.agp_start) >> 18);
+ static void mtk_dpi_config_2n_h_fre(struct mtk_dpi *dpi)
+ {
+-	mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, H_FRE_2N, H_FRE_2N);
++	if (dpi->conf->reg_h_fre_con)
++		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, H_FRE_2N, H_FRE_2N);
+ }
+ 
+ static void mtk_dpi_config_disable_edge(struct mtk_dpi *dpi)
+ {
+-	if (dpi->conf->edge_sel_en)
++	if (dpi->conf->edge_sel_en && dpi->conf->reg_h_fre_con)
+ 		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0, EDGE_SEL_EN);
+ }
+ 
 -- 
 2.39.5
 
