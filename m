@@ -2,90 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13377AA9CDD
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 21:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86778AA9CB7
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 21:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 872EB10E2AF;
-	Mon,  5 May 2025 19:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC1810E10B;
+	Mon,  5 May 2025 19:39:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WVNXOdad";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ob+JNcsR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C9E410E2AF
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 19:55:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1746474925;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LBKtBovMcMCHZw2F5Nui/RJk5y6N+HwnbrN+FsMW2qw=;
- b=WVNXOdadt6zq7/y8b8Qc1phgyQJzwer6GH6zC21CQ4qSWBRrD7Ke2vE8uPZZaEQlzJzl2o
- iG60ou2GKjRPQM1Dbb7lX2GFvFcG7cgKrKsmuhURFKS01TknjZqYCWvhi2tsxHTP2j406M
- Ygl6EdcJAnzwgIknVsxnEwbHYhn3tQ8=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-563-kFkArkW6PpaQxU8iKM0H1A-1; Mon, 05 May 2025 15:55:24 -0400
-X-MC-Unique: kFkArkW6PpaQxU8iKM0H1A-1
-X-Mimecast-MFC-AGG-ID: kFkArkW6PpaQxU8iKM0H1A_1746474924
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-708b2494592so79207937b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 12:55:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746474924; x=1747079724;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LBKtBovMcMCHZw2F5Nui/RJk5y6N+HwnbrN+FsMW2qw=;
- b=ONzmN6G92YqSBuIlUvy3E6bH5qYvEo3x3NiHveH96P6X9WqeUWi5JWOBhVr80/IYMB
- 6GjIjC4W23kJbuIcYhkKQ5Ke7zGMPu0zHlgIBGZOeBCk7XUTYlpDAz2CI68S57hbzUT2
- 66HpS/h3mSfhheCGLDhZhxpI0UsqJ1z3Hw6PMLn3M8BpcoQWGWm5Ex9UuAcDEbKDy1pV
- TbG8syi/+J59RBPi7lFS/qOz57RqiRdbdSfLkong2uo6WwWuMT99j19QOtArFZ5gOIOJ
- 51qL7IEQ4LI0+TtH24LDHKhGeVEzZIrQkcCht2P2o0VI81NWuYApSrwkm5zGNq6vv2C3
- ZC0w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEzB7Bz3e+Qc8u3rgNmp0YdqlWzq5jU/K6I1y+m5Q1KKh7QA7ZTLj+o7tbsQ4x0GUcvwtyEiYyOiY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyjSbxSmA9Fk5z6dTVG9cgJnpVYxHfXpX3CrXsIPMIMCh7zGsNi
- Fe8I7QjeEejzD6Ye2vWH5NDpKGTN76z8mYchjpSC4y4qU2+cFiASHv+qmIM3+9DhgePYx/JOl5i
- B3+1yzB7ojKkMYX4SD1I1gU/EyRoXiC8LUJBi10l0FfxK/OMacOU2mTIP4XI37ve80HfXYGrRAi
- MApqz/J4w0e/fPh+D6ShiE3o+U/Co+Rd3EhO2qcNG9
-X-Gm-Gg: ASbGnctVF/D1CsUjQEmyqIbYIudFkhNmHkSbeo+paZMS9q4vJsY2wcQmEiTF7duEBhE
- RQRwAXWduOr6il5S8uzmenDBvHCHfoUJ0VP6i9WXtQ1vRrVY4b2ruc89yXv1pqOOo10U=
-X-Received: by 2002:a05:690c:881:b0:706:cafa:3ec6 with SMTP id
- 00721157ae682-70919c12145mr7091097b3.6.1746474923694; 
- Mon, 05 May 2025 12:55:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHr4CV9166Ui9q80oPCztSTG4BeetxkPZj4kDnQ76X46gDccjhn6H7gVQQrZdD6uVBP7hzoTk3HIDKr8mmOiMU=
-X-Received: by 2002:a05:690c:881:b0:706:cafa:3ec6 with SMTP id
- 00721157ae682-70919c12145mr7090727b3.6.1746474923289; Mon, 05 May 2025
- 12:55:23 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0356A10E10B
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 19:38:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1746473937; x=1778009937;
+ h=from:to:subject:date:message-id:references:in-reply-to:
+ content-transfer-encoding:mime-version;
+ bh=Oiwk437bemw6IOiHkdt9v86ckF70do1Nm3xvJi/YbpU=;
+ b=Ob+JNcsRm0Jxz9YO3qmkUrOrR4BjK2nADs0y4vQMme+8NpQtHPyLhUol
+ cWa8QeTOlPlncOuOAM5igya6tsj+DKBNDvv7k1pdaBzwPgFvycTlDrM5N
+ sGdwIWVLViuwm3gaZh0lQ4/8Pe2JrZtRDQ4XOkvogH8V37Pg+aoXqpwpG
+ stXaVv+9p05UU7+gclIHkdESafJpkJbbvPe1kknJhQMtWxcoxp1K7YUqi
+ pr/WzWqnTNq74ofNJgJLSC0IWBvwb8gKdbCwue6FLn6ytIptCzz1yKYnT
+ VS3lcX2FRsQkbrhv7jKzrOTshEFLxSjGRTaLOWaSdkz7JIaX7iy3VV36S w==;
+X-CSE-ConnectionGUID: PA7AqrfWT0qJ67YlZjneBw==
+X-CSE-MsgGUID: OQXofLYgRE6LjhG9o8Uv0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="73494627"
+X-IronPort-AV: E=Sophos;i="6.15,264,1739865600"; d="scan'208";a="73494627"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2025 12:38:56 -0700
+X-CSE-ConnectionGUID: WYrbxI+5TqqEg3Z0h4W/+g==
+X-CSE-MsgGUID: uv5QjrJLQGyrq7+KAB8Apw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,264,1739865600"; d="scan'208";a="135082174"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2025 12:38:56 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Mon, 5 May 2025 12:38:54 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Mon, 5 May 2025 12:38:54 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.171)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 5 May 2025 12:38:54 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JF5BcYj0J0Gu9OiwmD0npK/qH6fQRaS9YjgYzmOve/tiCNMXV8cq9a94q8+uEM1IRVtGTVDL40Ac/b1a7IvB/6ySoP0KpRfnvnXAKoCCGYmCbMSk9HTvQjbqqgrUHJBcuEvFh3puEVfzQaoebozEJShiLX7tuc0qsx17VBZrmXynLPryrORm6F68AUDNuECwQqvpgfKSco26D7mEKm5/xESiSC2/PTqDNjMqFVFPncqXPOmFtboqcoUCBnbh0EH8mVGAeKWh1Mk7mnUcq+10WDc6mrIN/THvtTWSlrenbjIAbtvJnnPunQ99fxly5IHptRS59tVPgUBISsQxpRV2dQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Oiwk437bemw6IOiHkdt9v86ckF70do1Nm3xvJi/YbpU=;
+ b=h9X+OE4f+24EYIZzQHr/AcZ/THEAJxVsdAf7ezthOlwVnrnQke8VfI4sWh5xQ5zkbCd7lWrNoUipd5I56nFu/5otpBW4YnemswUBhqUd5qR3LTNzcqwmsHH1VCp7HMxG96UdoOIjUHV0nz6xkBKXV+/Hn/GFpy7SoZ6pI7WkQpDHwYqgnUBYOwY7/DMhtPb+jWQ3dTuxcoZJu9egdDTwzMLvc4xCFmkHueevdp4mewjA3nOCfcmrqol6de1nGoGjFA82Dq9g3AvDqiJobgzEX6hOG/kE/0PrXVp9ZlOxXdRZ3/YlYPpqyjzAcfRFJBSeEVi7P/RnghNm3RIkqKYbRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from PH8PR11MB6879.namprd11.prod.outlook.com (2603:10b6:510:229::22)
+ by MW3PR11MB4716.namprd11.prod.outlook.com (2603:10b6:303:53::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Mon, 5 May
+ 2025 19:38:52 +0000
+Received: from PH8PR11MB6879.namprd11.prod.outlook.com
+ ([fe80::bd3d:59f2:9d29:346]) by PH8PR11MB6879.namprd11.prod.outlook.com
+ ([fe80::bd3d:59f2:9d29:346%7]) with mapi id 15.20.8699.022; Mon, 5 May 2025
+ 19:38:52 +0000
+From: "Kim, Dongwon" <dongwon.kim@intel.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, Akihiko Odaki
+ <akihiko.odaki@daynix.com>
+Subject: RE: [RFC PATCH 0/2] Virtio-GPU suspend and resume
+Thread-Topic: [RFC PATCH 0/2] Virtio-GPU suspend and resume
+Thread-Index: AQHbveDGUI4ch9Wax0+wshHtMZeSmrPEbDcg
+Date: Mon, 5 May 2025 19:38:52 +0000
+Message-ID: <PH8PR11MB6879A6238EAD527704B8C994FA8E2@PH8PR11MB6879.namprd11.prod.outlook.com>
+References: <20250418232949.1032604-1-dongwon.kim@intel.com>
+ <7f334c99-fe86-4e53-86d6-e8473c76ff3e@collabora.com>
+In-Reply-To: <7f334c99-fe86-4e53-86d6-e8473c76ff3e@collabora.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH8PR11MB6879:EE_|MW3PR11MB4716:EE_
+x-ms-office365-filtering-correlation-id: f76220ed-75fa-459f-f7f7-08dd8c0c773a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?TDljSUFvWlhTbmtHRDZKTnQzT05LTFdHeis0YWNsNjRkUWFVT0dZS0o1ZHpK?=
+ =?utf-8?B?ckdCcHlwc1hDdVE2UWl3cnkrQlkzSm5Tdk84RWZURWIxemJVT2F0ZTNXaVJ2?=
+ =?utf-8?B?Tlc3MFRreEx3aGJOelBqb21rcUtvSm85ZWdqSG5SRUEwSkMzWDd1dUVQOEtv?=
+ =?utf-8?B?djJ2MjJobFA0aVNnejVCMXFYdkZSWmpnSXJTZGMvYnVJYnVvNzh6OGtJSzNR?=
+ =?utf-8?B?YXlXcy9XRU53Mmg3blhXVnFzeEtielhzSE41Zi9uOHhUNXVmVCsrU3l0Y1Fk?=
+ =?utf-8?B?bEFQUTBOYVNEYjNIdlgyNjBlSzlUMDhMYnlRcy9pTmpSZVJmYWx0YXcyaUgx?=
+ =?utf-8?B?bXEwbG5mN09SR0dpdnF4eGFVc2prcGtITWdka3czMXhKMjRFcDhFcFJXdFpH?=
+ =?utf-8?B?T2xwdklhOGg0anRORzU0QWgxMU50bTk3VEhkZWlEa09VOStaUE9VZU50cFZv?=
+ =?utf-8?B?TkdYSlJnTTFXUWRZN21ja05hMWRrWkJzWGs5b2kwcjlkVkJiUE9PSzQ1ejZO?=
+ =?utf-8?B?clhITUdXc3FqTExRaUhRR2lBV3ZYR2htMzltS1hpK1FybzdsSlFkZnFJVGRo?=
+ =?utf-8?B?SVp6WWZlWmlyNkRLRDQxeGxZSEV1aVBEQnZudElTYmpnYWl2MVJDNFZHYUY3?=
+ =?utf-8?B?WnFLR21URkdmSFdGRHlVU1J0SE5aRmpieWxaN3hveDc5V2thcVdJYVRiTlZy?=
+ =?utf-8?B?YTNXTExBM05nSVR4Y0oyajZRYVhldGtzWlYvV3J2QjM2L3ZsMlA2TXROcU1L?=
+ =?utf-8?B?NFFMV3BSUlZxbGx3a2Q5VGN1REt6RUdQdk5DRmZmSUFZaEVOM0IzNHV0cFJU?=
+ =?utf-8?B?b1daVldXV3B5dmxzMCt5Mi9PMHhjWmlyamhrQkVFVXY3d2x1dU9PUG45QUc3?=
+ =?utf-8?B?RlFNMlFweUVlMC9RSUM0ekxEUDJQODFjQWZzdVhzQ2k4blp1WVdNbVEzYXVC?=
+ =?utf-8?B?RFVKYXRIY0EzUmpSSG9JRGZicXB4UHFHTzN2RFdqazJyUkkrd0owWWxXZm45?=
+ =?utf-8?B?VnQvSmNMd2dhU29FcktGNG1PMFc4dEZ6Z2Nld0J6RlNOMTdGcURIRXNBUnkz?=
+ =?utf-8?B?bUEyU3gvVWlNaGdWWFlNcXJYUjJQR2pSQjFRVEtjdWtuMXFSckF5YnB0Wnp2?=
+ =?utf-8?B?bENzamsxaFl4dG9FR2pGWGRZNlBFVGZJSTN5TWZSMEdZL0NYdWdNNi9tUnBu?=
+ =?utf-8?B?SWVUSHJPOGNxV3dnS3lyRVdIYW82OHpCaFpWZ0tUTVNlL1ZpVmdBZHVqc0My?=
+ =?utf-8?B?eHlVNUwyeW1YQlpDTTY1cUJnamREbmV0Ri9GTGVVWGxoWUlGa3h5NEhEd1hO?=
+ =?utf-8?B?Z1NPdWZnZ3R2ZTNPYWJ4cXNQRXBFb01BakpSa2xjVDcxdWpmdHZrV1gxSFEx?=
+ =?utf-8?B?V3QySDFCTkgyRCtkYURZSkdCYWZabnhROHUzN2pQeEY1Z2tNL1JmNU1uL1pn?=
+ =?utf-8?B?WmdJbVBONGh6S1BIaU1TN3dHL3Urdnp6aVk1MVpJUVNBTHlWV0c4VjVaalRl?=
+ =?utf-8?B?MDUxOGNXSWx0NHQxTEJvcDRWNzNIQWFTSkRISWRkUm9iT044aTZscmFwOWhG?=
+ =?utf-8?B?WVl6QnFOY2JSbFRFK3JCWExOSUVnZGVmUmQ5WERJMUtIM0R5UFhsWDZ6VHJa?=
+ =?utf-8?B?cEpWQzV1TnRuc0hDNUdCOWQxVUh6QjVrdENHV1gzbVdCV2lFWDd1aHh6L1hn?=
+ =?utf-8?B?TUcwVFlWakdnRTNidDhiczdOWTdsZWVEMDB1V0JyazBRbkd2eGJ3eDFveWdw?=
+ =?utf-8?B?YnZCVzdEdTU5dk1NWGRLZzNvRXF4QzVXRENCZkcwdFdTKzFCWFhGdlZjUW01?=
+ =?utf-8?B?KzFEQ3dtVUtWUWRqUFMzZ0tPVUU5ZnpDNlhiOEdxeUVyTVNTWitGSUpCN2dz?=
+ =?utf-8?B?cXVwSlhTSFc5SlppUFgycG9NQ2lqTWs5Y3ZxY0gzNEtkQmtVUHYyWWM5T2xV?=
+ =?utf-8?Q?/BRJ7akWRTI=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR11MB6879.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aHE4UnFXOWhYditXV2p6Y3VoR3pCd2RsQi9pTnRjMUJEWlBOUklVZE1BOEFq?=
+ =?utf-8?B?Wll4NG81L0ZjN3NKQnR0YUNkWmMxUXZlak9UdmU1a2lEUFN6aG5pd2t5NXJm?=
+ =?utf-8?B?QzZYQXdpUlV0aW9aWjY3QjNZcnArNExJcFhVTUlwVlNSV1NmOGd5dlplTmdH?=
+ =?utf-8?B?d1p4WlVjMENTSkd6RElUM0tZbVBNT2JBMExOTU1qdTVsVGU4OTIxdjd0bUQ5?=
+ =?utf-8?B?eEpSSTBpb0xKbERqMVRMWEllYldOeEl1K1ZnVlU3cVd4dytUdzBSSTRwbmJK?=
+ =?utf-8?B?c2JEQ2pteFR3V1NEUFFUNC9LVGw3MGJyRGpnamVDWGVMWFFsZ2Y3VlFrM2lB?=
+ =?utf-8?B?eXNmQUNYUUlIM3JIejdmdXdxTFlmVHMrMytJampQMHZTTFdiZVpEMW50MkZa?=
+ =?utf-8?B?WU9Db2g0UE1RM2loRHJVbWVuRHRuc3dHc3pWM3p2TXNYNmcvOUVQa0k0bFI5?=
+ =?utf-8?B?TUhoRG9mVERNMnFxV29MMmpBS3JhZzRBbVBaSDJNWlprOUtaN2NBdi9BbkdH?=
+ =?utf-8?B?QWE2bE9qK3gyNmdxdUoweU1ubG83ejV5aGJHRmtscGY0NmhwYmkybHNSOElh?=
+ =?utf-8?B?cDJKYUpHSi9UbmZlRjVHNGQ3QWZSUm1GYm5hcWUzZHhNOHJLREhjSStVRW5m?=
+ =?utf-8?B?T0RaNERJLzNsRWpydDRRR0lkOGNLanp5VWZmQUt4bmNkREJ5MXpTVHhiRnFQ?=
+ =?utf-8?B?RkZRK3FXYXBVM1NGeURvcVd0Vkdqb0FOMlA4U3dISW1vdUZHM2p2d2ZYV3Rv?=
+ =?utf-8?B?L1lSSzJ5ZVUyclBIai90Z3hUTVFFWW9CaVU2UHN4R3dRZURRWGdrdnFIbFFw?=
+ =?utf-8?B?UmdwWmtFZURyOEFhUm5OaFdEUjVrajU5dzBHZjQwVVZManVuOTdycTBlUTVp?=
+ =?utf-8?B?YXJJK3FLVTIwcU11Rm9BMU9IZ1ZZNkFhTzZQNHlnNEpTd3R6aFgveE1jNG9H?=
+ =?utf-8?B?R3dwb3VqUTgvTDJiTElOaUU1akJGTFN1d0R6cThpK2NEOUNvOXhDSjJYbWpp?=
+ =?utf-8?B?enczUmprbERQcVEyU0N5SmhodENsY09FVnpLbFJCaXpGdlNOQ0tnNk1aaW9w?=
+ =?utf-8?B?ZUNRa0cwbnI0WVY2cUhhZU9mczNlVEE2Um92Y1ZvVFIvMklRN3N5dkJmZVRJ?=
+ =?utf-8?B?bFpCWUxjd2ZDK3gxUmxGN1k1N2Z1ZUlIdVViZ1pIdzY0Y1J1YW1RekhuVHZi?=
+ =?utf-8?B?Y2RCU0wweDNDa2t5YkVZY2xnWlhXYXQzNWFEb1lXNGRVQko0MHdhNTI1YnJy?=
+ =?utf-8?B?QTlnY2xVN1dRTDB5bnFlWjBRNmc3U1dxOW5pMHdFeGV2UmRXZXlWc1daczJJ?=
+ =?utf-8?B?QkVmU1FiOUxjYnFaQ1IrQWZHN0RMb0hEUmc2bGtNOC9FM2JGS096MEQ3ODFH?=
+ =?utf-8?B?RExrOGRob1MrUWlUNno4eXFLQ0VOOG9qOGUvcnZRS0FaSEVIYi9tWk5ORnlu?=
+ =?utf-8?B?RGlBMmYzN2hHTHFJZnB2WDlIS0ZUT0t1cHJzRWI1OG5UaDcrbkg3YWdBdGp0?=
+ =?utf-8?B?TzU5YWI4V3U1dC9sc00ramtjM0N3Tmd1NHZCcFhLbmVqRnNnVFZMSEMxLzhr?=
+ =?utf-8?B?MWJFVDgxWVNUZlpIMUNNZmFtalBOZWZsYkNQOGZ0RFg3azBkMG5TanF2cXND?=
+ =?utf-8?B?ZU5VLzl3aHpKOCtnc1V1SnFlTUhHeWFLazdoR05OSWRjSExDL1UwRFVmbUR3?=
+ =?utf-8?B?Zi8wRFJIQmxDenRhRW56MTJ4UTN6M1Zhb1JISWYxQ0EzVVdFaTZpdkNEb0FE?=
+ =?utf-8?B?TWUwY2NLYVYySU1wcmEwMURHV0RaQkgxVEtsOW5oZ3NVWjZQUDFpUzh2NWpN?=
+ =?utf-8?B?THJHc1l1UXZQMXBFN3k3ZzFWV081a2pvQmJwd1ZTanNHNE14cjlDMmxFRndF?=
+ =?utf-8?B?WEd5UE04bC9hdWt5eEN2Z3lzTTROZUJFWTBEemU2UG5DRmJPcGd4YjRxSngw?=
+ =?utf-8?B?ZXVnWWM0REdiVmlXYkxoTWc1cnJuMmN3bnRxZ2h6SmhuTThiVnlpUGtJUVlR?=
+ =?utf-8?B?aTZ2c0cxTE5qeGhCRGI5TmVyQVRwRWtQZmpQMCs1a09MWkFzYXhTRjd6dVRj?=
+ =?utf-8?B?eHlHOWo0dFpER1R3VUsrNFd2VllLQnZZWDloUHN2ZUhIcG13VXNwUnUrc0wx?=
+ =?utf-8?Q?PDeiWa7naFpoQtLLoklVJiwdw?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com>
- <20250331-b4-panel-refcounting-v4-2-dad50c60c6c9@redhat.com>
- <87y0vkw8ll.fsf@intel.com>
- <20250429-benign-sidewinder-of-defense-6dd4d8@houat>
- <87o6wfwcef.fsf@intel.com> <20250505-slim-bizarre-marten-a674ac@houat>
-In-Reply-To: <20250505-slim-bizarre-marten-a674ac@houat>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Mon, 5 May 2025 14:52:07 -0400
-X-Gm-Features: ATxdqUHsoNLqWH2T9QbOvAavQNjmD5707eJCaw1cnJd5mRTt9zYr2lWpR4TTCb8
-Message-ID: <CAN9Xe3RLazpAXdxxJmyF2QAShDtMSgdoxMdo6ecdYd7aZiP9kA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] drm/panel: Add refcount support
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: sYfYfu_1Go6tNmyhcT_JZxxay0t1cUPc2bsw6mu2FXs_1746474924
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000698622063468e12c"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6879.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f76220ed-75fa-459f-f7f7-08dd8c0c773a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2025 19:38:52.4098 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GrT3D3C8LC75Pc9DWGeXfiG7ZtMpJIXqDfr4f01Wjd7Jf6liKjEdCTjTeHygfF14Gc1pCjGLotIXTf77f2zvYg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4716
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,476 +198,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000698622063468e12c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, May 5, 2025 at 2:54=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
-rote:
-
-> Hi Jani,
->
-> On Tue, Apr 29, 2025 at 12:22:00PM +0300, Jani Nikula wrote:
-> > On Tue, 29 Apr 2025, Maxime Ripard <mripard@kernel.org> wrote:
-> > > Hi Jani,
-> > >
-> > > On Mon, Apr 28, 2025 at 07:31:50PM +0300, Jani Nikula wrote:
-> > >> On Mon, 31 Mar 2025, Anusha Srivatsa <asrivats@redhat.com> wrote:
-> > >> > Allocate panel via reference counting. Add _get() and _put() helpe=
-r
-> > >> > functions to ensure panel allocations are refcounted. Avoid use
-> after
-> > >> > free by ensuring panel pointer is valid and can be usable till the
-> last
-> > >> > reference is put.
-> > >> >
-> > >> > Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > >> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> > >> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> > >> >
-> > >> > ---
-> > >> > v4: Add refcounting documentation in this patch (Maxime)
-> > >> >
-> > >> > v3: Add include in this patch (Luca)
-> > >> >
-> > >> > v2: Export drm_panel_put/get() (Maxime)
-> > >> > - Change commit log with better workding (Luca, Maxime)
-> > >> > - Change drm_panel_put() to return void (Luca)
-> > >> > - Code Cleanups - add return in documentation, replace bridge to
-> > >> > panel (Luca)
-> > >> > ---
-> > >> >  drivers/gpu/drm/drm_panel.c | 64
-> ++++++++++++++++++++++++++++++++++++++++++++-
-> > >> >  include/drm/drm_panel.h     | 19 ++++++++++++++
-> > >> >  2 files changed, 82 insertions(+), 1 deletion(-)
-> > >> >
-> > >> > diff --git a/drivers/gpu/drm/drm_panel.c
-> b/drivers/gpu/drm/drm_panel.c
-> > >> > index
-> bdeab5710ee324dc1742fbc77582250960556308..7b17531d85a4dc3031709919564d2e4=
-d8332f748
-> 100644
-> > >> > --- a/drivers/gpu/drm/drm_panel.c
-> > >> > +++ b/drivers/gpu/drm/drm_panel.c
-> > >> > @@ -355,24 +355,86 @@ struct drm_panel *of_drm_find_panel(const
-> struct device_node *np)
-> > >> >  }
-> > >> >  EXPORT_SYMBOL(of_drm_find_panel);
-> > >> >
-> > >> > +static void __drm_panel_free(struct kref *kref)
-> > >> > +{
-> > >> > +        struct drm_panel *panel =3D container_of(kref, struct
-> drm_panel, refcount);
-> > >> > +
-> > >> > +        kfree(panel->container);
-> > >> > +}
-> > >> > +
-> > >> > +/**
-> > >> > + * drm_panel_get - Acquire a panel reference
-> > >> > + * @panel: DRM panel
-> > >> > + *
-> > >> > + * This function increments the panel's refcount.
-> > >> > + * Returns:
-> > >> > + * Pointer to @panel
-> > >> > + */
-> > >> > +struct drm_panel *drm_panel_get(struct drm_panel *panel)
-> > >> > +{
-> > >> > +        if (!panel)
-> > >> > +                return panel;
-> > >> > +
-> > >> > +        kref_get(&panel->refcount);
-> > >> > +
-> > >> > +        return panel;
-> > >> > +}
-> > >> > +EXPORT_SYMBOL(drm_panel_get);
-> > >> > +
-> > >> > +/**
-> > >> > + * drm_panel_put - Release a panel reference
-> > >> > + * @panel: DRM panel
-> > >> > + *
-> > >> > + * This function decrements the panel's reference count and frees
-> the
-> > >> > + * object if the reference count drops to zero.
-> > >> > + */
-> > >> > +void drm_panel_put(struct drm_panel *panel)
-> > >> > +{
-> > >> > +        if (panel)
-> > >> > +                kref_put(&panel->refcount, __drm_panel_free);
-> > >> > +}
-> > >> > +EXPORT_SYMBOL(drm_panel_put);
-> > >> > +
-> > >> > +/**
-> > >> > + * drm_panel_put_void - wrapper to drm_panel_put() taking a void
-> pointer
-> > >> > + *
-> > >> > + * @data: pointer to @struct drm_panel, cast to a void pointer
-> > >> > + *
-> > >> > + * Wrapper of drm_panel_put() to be used when a function taking a
-> void
-> > >> > + * pointer is needed, for example as a devm action.
-> > >> > + */
-> > >> > +static void drm_panel_put_void(void *data)
-> > >> > +{
-> > >> > +        struct drm_panel *panel =3D (struct drm_panel *)data;
-> > >> > +
-> > >> > +        drm_panel_put(panel);
-> > >> > +}
-> > >> > +
-> > >> >  void *__devm_drm_panel_alloc(struct device *dev, size_t size,
-> size_t offset,
-> > >> >                               const struct drm_panel_funcs *funcs,
-> > >> >                               int connector_type)
-> > >> >  {
-> > >> >          void *container;
-> > >> >          struct drm_panel *panel;
-> > >> > +        int err;
-> > >> >
-> > >> >          if (!funcs) {
-> > >> >                  dev_warn(dev, "Missing funcs pointer\n");
-> > >> >                  return ERR_PTR(-EINVAL);
-> > >> >          }
-> > >> >
-> > >> > -        container =3D devm_kzalloc(dev, size, GFP_KERNEL);
-> > >> > +        container =3D kzalloc(size, GFP_KERNEL);
-> > >> >          if (!container)
-> > >> >                  return ERR_PTR(-ENOMEM);
-> > >> >
-> > >> >          panel =3D container + offset;
-> > >> > +        panel->container =3D container;
-> > >> >          panel->funcs =3D funcs;
-> > >> > +        kref_init(&panel->refcount);
-> > >>
-> > >> Hi Anusha, this should be done in drm_panel_init() instead.
-> > >>
-> > >> There are many users of drm_panel that don't use
-> devm_drm_panel_alloc()
-> > >> but allocate separately, and call drm_panel_init() only.
-> > >
-> > > That wouldn't really work, because then drivers would have allocated
-> the
-> > > panel with devm_kzalloc and thus the structure would be freed when th=
-e
-> > > device is removed, no matter the reference counting state.
-> > >
-> > >> They'll all have refcount set to 0 instead of 1 like kref_init() doe=
-s.
-> > >>
-> > >> This means all subsequent get/put pairs on such panels will lead to
-> > >> __drm_panel_free() being called! But through a lucky coincidence, th=
-at
-> > >> will be a nop because panel->container is also not initialized...
-> > >>
-> > >> I'm sorry to say, the drm refcounting interface is quite broken for
-> such
-> > >> use cases.
-> > >
-> > > The plan is to convert all panel drivers to that function, and Anusha
-> > > already sent series to do. It still needs a bit of work, but it shoul=
-d
-> > > land soon-ish.
-> > >
-> > > For the transitional period though, it's not clear to me what you thi=
-nk
-> > > is broken at the moment, and / or what should be fixed.
-> > >
-> > > Would you prefer an explicit check on container not being 0, with a
-> > > comment?
-> >
-> > I'm looking at what it would take to add drm_panel support to i915 so
-> > that you could have drm_panel_followers on it. There are gaps of course=
-,
-> > but initially it would mean allocating and freeing drm_panel ourselves,
-> > not via devm_drm_panel_alloc() nor devm_kzalloc(), because none of the
-> > other stuff is allocated that way. drm_panel would just sit as a
-> > sub-struct inside struct intel_panel, which is a sub-struct of struct
-> > intel_connector, which has its own allocation...
->
-> I'm not entirely sure why you would need to allocate it from i915? The
-> drm_panel structure is only meant to be allocated by panel drivers, and
-> afaik no panel interface controller is allocating it.
->
-> > But basically in its current state, the refcounting would not be
-> > reliable for that use case. I guess with panel->container being NULL
-> > nothing happens, but the idea that the refcount drops back to 0 after a
-> > get/put is a bit scary.
-> >
-> > Anyway, I think there should be no harm in moving the kref init to
-> > drm_panel_init(), right?
->
-> I mean, there is because the plan so far was to remove drm_panel_init() :=
-)
->
->
-Jani,
-the series that converts all drivers to use the new API:
-https://patchwork.freedesktop.org/series/147082/
-https://patchwork.freedesktop.org/series/147157/
-https://patchwork.freedesktop.org/series/147246/
-
-not landed yet but these are WIP. Still trying to understand your point
-though... not sure what is broken.
-
-
-Anusha
-
-> Maxime
->
-
---000000000000698622063468e12c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 5, =
-2025 at 2:54=E2=80=AFAM Maxime Ripard &lt;<a href=3D"mailto:mripard@kernel.=
-org">mripard@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">Hi Jani,<br>
-<br>
-On Tue, Apr 29, 2025 at 12:22:00PM +0300, Jani Nikula wrote:<br>
-&gt; On Tue, 29 Apr 2025, Maxime Ripard &lt;<a href=3D"mailto:mripard@kerne=
-l.org" target=3D"_blank">mripard@kernel.org</a>&gt; wrote:<br>
-&gt; &gt; Hi Jani,<br>
-&gt; &gt;<br>
-&gt; &gt; On Mon, Apr 28, 2025 at 07:31:50PM +0300, Jani Nikula wrote:<br>
-&gt; &gt;&gt; On Mon, 31 Mar 2025, Anusha Srivatsa &lt;<a href=3D"mailto:as=
-rivats@redhat.com" target=3D"_blank">asrivats@redhat.com</a>&gt; wrote:<br>
-&gt; &gt;&gt; &gt; Allocate panel via reference counting. Add _get() and _p=
-ut() helper<br>
-&gt; &gt;&gt; &gt; functions to ensure panel allocations are refcounted. Av=
-oid use after<br>
-&gt; &gt;&gt; &gt; free by ensuring panel pointer is valid and can be usabl=
-e till the last<br>
-&gt; &gt;&gt; &gt; reference is put.<br>
-&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt; Reviewed-by: Luca Ceresoli &lt;<a href=3D"mailto:luca.ce=
-resoli@bootlin.com" target=3D"_blank">luca.ceresoli@bootlin.com</a>&gt;<br>
-&gt; &gt;&gt; &gt; Reviewed-by: Maxime Ripard &lt;<a href=3D"mailto:mripard=
-@kernel.org" target=3D"_blank">mripard@kernel.org</a>&gt;<br>
-&gt; &gt;&gt; &gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"mailto:asr=
-ivats@redhat.com" target=3D"_blank">asrivats@redhat.com</a>&gt;<br>
-&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt; ---<br>
-&gt; &gt;&gt; &gt; v4: Add refcounting documentation in this patch (Maxime)=
-<br>
-&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt; v3: Add include in this patch (Luca)<br>
-&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt; v2: Export drm_panel_put/get() (Maxime)<br>
-&gt; &gt;&gt; &gt; - Change commit log with better workding (Luca, Maxime)<=
-br>
-&gt; &gt;&gt; &gt; - Change drm_panel_put() to return void (Luca)<br>
-&gt; &gt;&gt; &gt; - Code Cleanups - add return in documentation, replace b=
-ridge to<br>
-&gt; &gt;&gt; &gt; panel (Luca)<br>
-&gt; &gt;&gt; &gt; ---<br>
-&gt; &gt;&gt; &gt;=C2=A0 drivers/gpu/drm/drm_panel.c | 64 +++++++++++++++++=
-+++++++++++++++++++++++++++-<br>
-&gt; &gt;&gt; &gt;=C2=A0 include/drm/drm_panel.h=C2=A0 =C2=A0 =C2=A0| 19 ++=
-++++++++++++<br>
-&gt; &gt;&gt; &gt;=C2=A0 2 files changed, 82 insertions(+), 1 deletion(-)<b=
-r>
-&gt; &gt;&gt; &gt;<br>
-&gt; &gt;&gt; &gt; diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/d=
-rm/drm_panel.c<br>
-&gt; &gt;&gt; &gt; index bdeab5710ee324dc1742fbc77582250960556308..7b17531d=
-85a4dc3031709919564d2e4d8332f748 100644<br>
-&gt; &gt;&gt; &gt; --- a/drivers/gpu/drm/drm_panel.c<br>
-&gt; &gt;&gt; &gt; +++ b/drivers/gpu/drm/drm_panel.c<br>
-&gt; &gt;&gt; &gt; @@ -355,24 +355,86 @@ struct drm_panel *of_drm_find_pane=
-l(const struct device_node *np)<br>
-&gt; &gt;&gt; &gt;=C2=A0 }<br>
-&gt; &gt;&gt; &gt;=C2=A0 EXPORT_SYMBOL(of_drm_find_panel);<br>
-&gt; &gt;&gt; &gt;=C2=A0 <br>
-&gt; &gt;&gt; &gt; +static void __drm_panel_free(struct kref *kref)<br>
-&gt; &gt;&gt; &gt; +{<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_panel *panel =3D=
- container_of(kref, struct drm_panel, refcount);<br>
-&gt; &gt;&gt; &gt; +<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kfree(panel-&gt;container);=
-<br>
-&gt; &gt;&gt; &gt; +}<br>
-&gt; &gt;&gt; &gt; +<br>
-&gt; &gt;&gt; &gt; +/**<br>
-&gt; &gt;&gt; &gt; + * drm_panel_get - Acquire a panel reference<br>
-&gt; &gt;&gt; &gt; + * @panel: DRM panel<br>
-&gt; &gt;&gt; &gt; + *<br>
-&gt; &gt;&gt; &gt; + * This function increments the panel&#39;s refcount.<b=
-r>
-&gt; &gt;&gt; &gt; + * Returns:<br>
-&gt; &gt;&gt; &gt; + * Pointer to @panel<br>
-&gt; &gt;&gt; &gt; + */<br>
-&gt; &gt;&gt; &gt; +struct drm_panel *drm_panel_get(struct drm_panel *panel=
-)<br>
-&gt; &gt;&gt; &gt; +{<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!panel)<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- return panel;<br>
-&gt; &gt;&gt; &gt; +<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kref_get(&amp;panel-&gt;ref=
-count);<br>
-&gt; &gt;&gt; &gt; +<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return panel;<br>
-&gt; &gt;&gt; &gt; +}<br>
-&gt; &gt;&gt; &gt; +EXPORT_SYMBOL(drm_panel_get);<br>
-&gt; &gt;&gt; &gt; +<br>
-&gt; &gt;&gt; &gt; +/**<br>
-&gt; &gt;&gt; &gt; + * drm_panel_put - Release a panel reference<br>
-&gt; &gt;&gt; &gt; + * @panel: DRM panel<br>
-&gt; &gt;&gt; &gt; + *<br>
-&gt; &gt;&gt; &gt; + * This function decrements the panel&#39;s reference c=
-ount and frees the<br>
-&gt; &gt;&gt; &gt; + * object if the reference count drops to zero.<br>
-&gt; &gt;&gt; &gt; + */<br>
-&gt; &gt;&gt; &gt; +void drm_panel_put(struct drm_panel *panel)<br>
-&gt; &gt;&gt; &gt; +{<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (panel)<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- kref_put(&amp;panel-&gt;refcount, __drm_panel_free);<br>
-&gt; &gt;&gt; &gt; +}<br>
-&gt; &gt;&gt; &gt; +EXPORT_SYMBOL(drm_panel_put);<br>
-&gt; &gt;&gt; &gt; +<br>
-&gt; &gt;&gt; &gt; +/**<br>
-&gt; &gt;&gt; &gt; + * drm_panel_put_void - wrapper to drm_panel_put() taki=
-ng a void pointer<br>
-&gt; &gt;&gt; &gt; + *<br>
-&gt; &gt;&gt; &gt; + * @data: pointer to @struct drm_panel, cast to a void =
-pointer<br>
-&gt; &gt;&gt; &gt; + *<br>
-&gt; &gt;&gt; &gt; + * Wrapper of drm_panel_put() to be used when a functio=
-n taking a void<br>
-&gt; &gt;&gt; &gt; + * pointer is needed, for example as a devm action.<br>
-&gt; &gt;&gt; &gt; + */<br>
-&gt; &gt;&gt; &gt; +static void drm_panel_put_void(void *data)<br>
-&gt; &gt;&gt; &gt; +{<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_panel *panel =3D=
- (struct drm_panel *)data;<br>
-&gt; &gt;&gt; &gt; +<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_panel_put(panel);<br>
-&gt; &gt;&gt; &gt; +}<br>
-&gt; &gt;&gt; &gt; +<br>
-&gt; &gt;&gt; &gt;=C2=A0 void *__devm_drm_panel_alloc(struct device *dev, s=
-ize_t size, size_t offset,<br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const struct drm_pan=
-el_funcs *funcs,<br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int connector_type)<=
-br>
-&gt; &gt;&gt; &gt;=C2=A0 {<br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *container;<br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_panel *pane=
-l;<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 int err;<br>
-&gt; &gt;&gt; &gt;=C2=A0 <br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!funcs) {<br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 dev_warn(dev, &quot;Missing funcs pointer\n&quot;);<br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 return ERR_PTR(-EINVAL);<br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt;&gt; &gt;=C2=A0 <br>
-&gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 container =3D devm_kzalloc(=
-dev, size, GFP_KERNEL);<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 container =3D kzalloc(size,=
- GFP_KERNEL);<br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!container)<br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 return ERR_PTR(-ENOMEM);<br>
-&gt; &gt;&gt; &gt;=C2=A0 <br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panel =3D container + =
-offset;<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 panel-&gt;container =3D con=
-tainer;<br>
-&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panel-&gt;funcs =3D fu=
-ncs;<br>
-&gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kref_init(&amp;panel-&gt;re=
-fcount);<br>
-&gt; &gt;&gt; <br>
-&gt; &gt;&gt; Hi Anusha, this should be done in drm_panel_init() instead.<b=
-r>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; There are many users of drm_panel that don&#39;t use devm_drm=
-_panel_alloc()<br>
-&gt; &gt;&gt; but allocate separately, and call drm_panel_init() only.<br>
-&gt; &gt;<br>
-&gt; &gt; That wouldn&#39;t really work, because then drivers would have al=
-located the<br>
-&gt; &gt; panel with devm_kzalloc and thus the structure would be freed whe=
-n the<br>
-&gt; &gt; device is removed, no matter the reference counting state.<br>
-&gt; &gt;<br>
-&gt; &gt;&gt; They&#39;ll all have refcount set to 0 instead of 1 like kref=
-_init() does.<br>
-&gt; &gt;&gt; <br>
-&gt; &gt;&gt; This means all subsequent get/put pairs on such panels will l=
-ead to<br>
-&gt; &gt;&gt; __drm_panel_free() being called! But through a lucky coincide=
-nce, that<br>
-&gt; &gt;&gt; will be a nop because panel-&gt;container is also not initial=
-ized...<br>
-&gt; &gt;&gt; <br>
-&gt; &gt;&gt; I&#39;m sorry to say, the drm refcounting interface is quite =
-broken for such<br>
-&gt; &gt;&gt; use cases.<br>
-&gt; &gt;<br>
-&gt; &gt; The plan is to convert all panel drivers to that function, and An=
-usha<br>
-&gt; &gt; already sent series to do. It still needs a bit of work, but it s=
-hould<br>
-&gt; &gt; land soon-ish.<br>
-&gt; &gt;<br>
-&gt; &gt; For the transitional period though, it&#39;s not clear to me what=
- you think<br>
-&gt; &gt; is broken at the moment, and / or what should be fixed.<br>
-&gt; &gt;<br>
-&gt; &gt; Would you prefer an explicit check on container not being 0, with=
- a<br>
-&gt; &gt; comment?<br>
-&gt; <br>
-&gt; I&#39;m looking at what it would take to add drm_panel support to i915=
- so<br>
-&gt; that you could have drm_panel_followers on it. There are gaps of cours=
-e,<br>
-&gt; but initially it would mean allocating and freeing drm_panel ourselves=
-,<br>
-&gt; not via devm_drm_panel_alloc() nor devm_kzalloc(), because none of the=
-<br>
-&gt; other stuff is allocated that way. drm_panel would just sit as a<br>
-&gt; sub-struct inside struct intel_panel, which is a sub-struct of struct<=
-br>
-&gt; intel_connector, which has its own allocation...<br>
-<br>
-I&#39;m not entirely sure why you would need to allocate it from i915? The<=
-br>
-drm_panel structure is only meant to be allocated by panel drivers, and<br>
-afaik no panel interface controller is allocating it.<br>
-<br>
-&gt; But basically in its current state, the refcounting would not be<br>
-&gt; reliable for that use case. I guess with panel-&gt;container being NUL=
-L<br>
-&gt; nothing happens, but the idea that the refcount drops back to 0 after =
-a<br>
-&gt; get/put is a bit scary.<br>
-&gt; <br>
-&gt; Anyway, I think there should be no harm in moving the kref init to<br>
-&gt; drm_panel_init(), right?<br>
-<br>
-I mean, there is because the plan so far was to remove drm_panel_init() :)<=
-br>
-<br></blockquote><div><br></div><div>Jani,</div><div>the series that conver=
-ts all drivers to use the new API:</div><div><a href=3D"https://patchwork.f=
-reedesktop.org/series/147082/">https://patchwork.freedesktop.org/series/147=
-082/</a></div><div><a href=3D"https://patchwork.freedesktop.org/series/1471=
-57/">https://patchwork.freedesktop.org/series/147157/</a></div><div><a href=
-=3D"https://patchwork.freedesktop.org/series/147246/">https://patchwork.fre=
-edesktop.org/series/147246/</a></div><div><br></div><div>not landed yet but=
- these are WIP. Still trying to understand your point though... not sure wh=
-at is broken.</div><div><br></div><div><br></div><div>Anusha</div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">
-Maxime<br>
-</blockquote></div></div>
-
---000000000000698622063468e12c--
-
+SGkgRG1pdHJ5LA0KDQo+IFN1YmplY3Q6IFJlOiBbUkZDIFBBVENIIDAvMl0gVmlydGlvLUdQVSBz
+dXNwZW5kIGFuZCByZXN1bWUNCj4gDQo+IE9uIDQvMTkvMjUgMDI6MjksIGRvbmd3b24ua2ltQGlu
+dGVsLmNvbSB3cm90ZToNCj4gPiBGcm9tOiBEb25nd29uIEtpbSA8ZG9uZ3dvbi5raW1AaW50ZWwu
+Y29tPg0KPiA+DQo+ID4gVGhpcyBwYXRjaCBzZXJpZXMgaW50cm9kdWNlcyBhIGZyZWV6ZSBhbmQg
+cmVzdG9yZSBtZWNoYW5pc20gZm9yIHRoZQ0KPiA+IHZpcnRpby1ncHUgZHJpdmVyOg0KPiA+DQo+
+ID4gRmlyc3QgcGF0Y2ggYWRkcyBgdmlydGdwdV9mcmVlemVgIGFuZCBgdmlydGdwdV9yZXN0b3Jl
+YCBmdW5jdGlvbnMuDQo+ID4gVGhlc2UgZnVuY3Rpb25zIGhhbmRsZSB0aGUgZGVsZXRpb24gb2Yg
+dmlydGlvIHF1ZXVlcyBiZWZvcmUgc3VzcGVuc2lvbg0KPiA+IGFuZCB0aGVpciByZWNyZWF0aW9u
+IGR1cmluZyB0aGUgcmVzdG9yYXRpb24gcHJvY2Vzcy4NCj4gPg0KPiA+IFNlY29uZCBwYXRjaCBp
+bXBsZW1lbnRzIGEgbWVjaGFuaXNtIGZvciByZXN0b3JpbmcgYHZpcnRpb19ncHVfb2JqZWN0YA0K
+PiBpbnN0YW5jZXMuDQo+ID4gVGhpcyBpcyBuZWNlc3NhcnkgYmVjYXVzZSB0aGUgaG9zdCAoUUVN
+VSkgZGVsZXRlcyBhbGwgYXNzb2NpYXRlZA0KPiA+IHJlc291cmNlcyBkdXJpbmcgdGhlIHZpcnRp
+by1ncHUgcmVzZXQsIHdoaWNoIG9jY3VycyBhcyBwYXJ0IG9mIHRoZSByZXN0b3JhdGlvbg0KPiBw
+cm9jZXNzLg0KPiA+DQo+ID4gVGhlc2UgY2hhbmdlcyBlbnN1cmUgdGhhdCB0aGUgdmlydGlvLWdw
+dSBkcml2ZXIgY2FuIHByb3Blcmx5IGhhbmRsZQ0KPiA+IHN1c3BlbmQgYW5kIHJlc3VtZSBzY2Vu
+YXJpb3Mgd2l0aG91dCByZXNvdXJjZSBsb3NzLg0KPiANCj4gUmVzZXR0aW5nIEdQVSBieSBRRU1V
+IG9uIHN1c3BlbmQgc291bmRzIGxpa2UgYSB3cm9uZyBiZWhhdmlvdXIuIEFyZSB5b3UNCj4gdGFs
+a2luZyBhYm91dCB1cHN0cmVhbSBRRU1VPw0KPiANCj4gQ291bGQgeW91IHBsZWFzZSBwb2ludCBh
+dCB0aGUgUUVNVSBjb2RlIHdoZXJlIGl0IGhhbmRsZXMgdmlydGlvLWdwdQ0KPiBzdXNwZW5kL3Jl
+c3VtZT8gRG9uJ3Qgc2VlIHdoZXJlIGl0IGhhcHBlbnMuDQoNCltLaW0sIERvbmd3b25dIFNvIEkg
+YW0gdXNpbmcgVWJ1bnR1IGd1ZXN0IGFuZCB3aGVuZXZlciBJIHN1c3BlbmQgdGhlbiByZXN1bWUs
+IEkgc2VlIA0Kc3RhdGljIHZvaWQgdmlydGlvX2dwdV9yZXNldF9iaCh2b2lkICpvcGFxdWUpIGlz
+IGJlaW5nIGNhbGxlZC4gSXQgaXMgcHJvYmFibHkgdHJpZ2dlcmVkDQpieSB2aXJ0aW8gbGF5ZXIg
+YnV0IEkgZGlkbid0IGxvb2sgaW50byBpdC4gQ2hlY2sgdGhlIHZpZGVvIHBsZWFzZToNCihodHRw
+czovL2RyaXZlLmdvb2dsZS5jb20vZmlsZS9kLzFEX0pGOUN6Z0NqelFaM1JjTEFhTm5VT1JxR2oy
+NF9JOS92aWV3P3VzcD1zaGFyaW5nKQ0KDQo+IA0KPiBJIHRyaWVkIHRvIGFwcGx5IHlvdXIga2Vy
+bmVsIHBhdGNoZXMgYW5kIHRoZW4gc3VzcGVuZC9yZXN1bWUgZ3Vlc3Qga2VybmVsLCBpdA0KPiBk
+b2Vzbid0IHdvcms6DQo+IA0KPiB2aXJ0aW9fZ3B1X3RyYW5zZmVyX3RvX2hvc3RfMmQ6IG5vIGJh
+Y2tpbmcgc3RvcmFnZSAyDQo+IFsgICAyMi45MDk0NTRdIFtkcm06dmlydGlvX2dwdV9kZXF1ZXVl
+X2N0cmxfZnVuY10gKkVSUk9SKiByZXNwb25zZQ0KPiAweDEyMDAgKGNvbW1hbmQgMHgxMDUpDQo+
+IHZpcnRpb19ncHVfdHJhbnNmZXJfdG9faG9zdF8yZDogbm8gYmFja2luZyBzdG9yYWdlIDINCj4g
+WyAgIDIzLjE2OTEzOF0gW2RybTp2aXJ0aW9fZ3B1X2RlcXVldWVfY3RybF9mdW5jXSAqRVJST1Iq
+IHJlc3BvbnNlDQo+IDB4MTIwMCAoY29tbWFuZCAweDEwNSkNCg0KW0tpbSwgRG9uZ3dvbl0gSSB3
+aWxsIGNoZWNrIHlvdXIgZmFpbGluZyBjYXNlIG1vcmUgY2xvc2VseS4gQXMgeW91IGtub3csIHdl
+IHVzZSB2aXJ0aW8tZ3B1IGRldmljZQ0Kb25seSBmb3IgZGlzcGxheSBkZXZpY2UsIHdoaWNoIG1l
+YW5zIEkgdGVzdGVkIHRoaXMgaW4gdGhhdCBzcGVjaWZpYyBlbnZpcm9ubWVudA0KYWx0aG91Z2gg
+SSB0aG91Z2h0IGl0IGlzIGdlbmVyaWMgZW5vdWdoLi4uDQoNCj4gDQo+IENjOiArQWxleCBCZW5u
+w6llICtBa2loaWtvIE9kYWtpDQo+IA0KPiAtLQ0KPiBCZXN0IHJlZ2FyZHMsDQo+IERtaXRyeQ0K
+DQpbS2ltLCBEb25nd29uXSBUaGFua3MhDQo=
