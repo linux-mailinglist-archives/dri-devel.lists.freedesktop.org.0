@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FD2AAA089
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:36:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A95CAAA08A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:36:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60F4B10E4E6;
-	Mon,  5 May 2025 22:36:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA5310E4E7;
+	Mon,  5 May 2025 22:36:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IAL5jiSh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G85lwjPX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4833910E4E1;
- Mon,  5 May 2025 22:36:03 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99A5310E4E7
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:36:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D7A15A4CEA8;
- Mon,  5 May 2025 22:30:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BEA0C4CEEF;
- Mon,  5 May 2025 22:36:00 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 0C4C0629C8;
+ Mon,  5 May 2025 22:35:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0D0FC4CEF2;
+ Mon,  5 May 2025 22:36:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484562;
- bh=F973BCTRSrl66uFyaTkGbQP5pwTjAHxZzTa3RasnXYU=;
+ s=k20201202; t=1746484568;
+ bh=4WfFbFjcaanBR0u3Vi8013gCJwg8jWqxRkdGc3InMBw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IAL5jiShD1jcoT9NJeWEkRHNGDEhJGshphEFvLPE18TbeZ+RorTjxlKy1alBHDKFq
- wUU66NfQCjGdm0FflVZGGiJJekR7NI+szq+SJKBvV7Jk8eSRZGH9OrgRVhchGdTP9z
- R0KIU31RD0fVUMCj3OwBdDcEqy+xnd/MsUzfNi1IC5ZP9XIUJ3z4/C/8VY4xImzKLq
- AohA9l+StxIqvExexq3mx/FkkYvO5J0XVtTdA3ffw9CKQrZPLbMMIYNfraEntzl9wY
- oLO52wmA5y9HEuPNudmFEKseyL7Iankf46TXnHrX5TvtvWPd/jjsor0MJerMtpZQ7Y
- ZNYlSU9ZrL9gw==
+ b=G85lwjPXfVnOpgt3/ioobduSENsASCyGRlYGe1vs615n7fQ8N+mW49i2NksKAImaB
+ 0EIPOA4j2ydGrcYjGsAnShWx2P6yk2AtCBEUnc8HbEKqx9nJi5HUTOYiRZexKMDN7A
+ MMzQvRPO50px87Fcgc+HVx42lisRRn6W8zVdXVshmhN99862dsJR6JxVgn+unA+vzx
+ QuhSnC/xQ6Z3H89rcMspTVRqGF1dke+eqKB/i6iY/qDyVtamfBVSIc7vDhvrTUMJOk
+ Tgkt8HAgcHMQtUAh0QTSpKkreSJPSR4s0WNMs6mAgYzjUCRSVgWEvsbT70+U6QZG+O
+ L49U/kIrFGflQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Sasha Levin <sashal@kernel.org>, thomas.hellstrom@linux.intel.com,
- airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 538/642] drm/xe: Fix PVC RPe and RPa information
-Date: Mon,  5 May 2025 18:12:34 -0400
-Message-Id: <20250505221419.2672473-538-sashal@kernel.org>
+Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ FUKAUMI Naoki <naoki@radxa.com>, Heiko Stuebner <heiko@sntech.de>,
+ Sasha Levin <sashal@kernel.org>, hjc@rock-chips.com,
+ andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.14 542/642] drm/rockchip: vop2: Improve display
+ modes handling on RK3588 HDMI0
+Date: Mon,  5 May 2025 18:12:38 -0400
+Message-Id: <20250505221419.2672473-542-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,70 +67,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-[ Upstream commit 8a734b9359cfa1bdb805f5ca23e20bd99dd18a0a ]
+[ Upstream commit 2c1268e7aad0819f38e56134bbc2095fd95fde1b ]
 
-A simple lazy buggy copy and paste of the PVC comment has brought
-the attention to the incorrect masks of the PVC register for RPa
-and RPe. So, let's fix them all.
+The RK3588 specific implementation is currently quite limited in terms
+of handling the full range of display modes supported by the connected
+screens, e.g. 2560x1440@75Hz, 2048x1152@60Hz, 1024x768@60Hz are just a
+few of them.
 
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Reviewed-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250109195219.658557-1-rodrigo.vivi@intel.com
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Additionally, it doesn't cope well with non-integer refresh rates like
+59.94, 29.97, 23.98, etc.
+
+Make use of HDMI0 PHY PLL as a more accurate DCLK source to handle
+all display modes up to 4K@60Hz.
+
+Tested-by: FUKAUMI Naoki <naoki@radxa.com>
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250204-vop2-hdmi0-disp-modes-v3-3-d71c6a196e58@collabora.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_guc_pc.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 34 ++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_pc.c b/drivers/gpu/drm/xe/xe_guc_pc.c
-index f382f5d53ca8b..2276d85926fcb 100644
---- a/drivers/gpu/drm/xe/xe_guc_pc.c
-+++ b/drivers/gpu/drm/xe/xe_guc_pc.c
-@@ -371,16 +371,17 @@ static void tgl_update_rpa_value(struct xe_guc_pc *pc)
- 	u32 reg;
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 64029237358d8..bcbd498823928 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -159,6 +159,7 @@ struct vop2_video_port {
+ 	struct drm_crtc crtc;
+ 	struct vop2 *vop2;
+ 	struct clk *dclk;
++	struct clk *dclk_src;
+ 	unsigned int id;
+ 	const struct vop2_video_port_data *data;
  
- 	/*
--	 * For PVC we still need to use fused RP1 as the approximation for RPe
--	 * For other platforms than PVC we get the resolved RPe directly from
-+	 * For PVC we still need to use fused RP0 as the approximation for RPa
-+	 * For other platforms than PVC we get the resolved RPa directly from
- 	 * PCODE at a different register
- 	 */
--	if (xe->info.platform == XE_PVC)
-+	if (xe->info.platform == XE_PVC) {
- 		reg = xe_mmio_read32(&gt->mmio, PVC_RP_STATE_CAP);
--	else
-+		pc->rpa_freq = REG_FIELD_GET(RP0_MASK, reg) * GT_FREQUENCY_MULTIPLIER;
-+	} else {
- 		reg = xe_mmio_read32(&gt->mmio, FREQ_INFO_REC);
--
--	pc->rpa_freq = REG_FIELD_GET(RPA_MASK, reg) * GT_FREQUENCY_MULTIPLIER;
-+		pc->rpa_freq = REG_FIELD_GET(RPA_MASK, reg) * GT_FREQUENCY_MULTIPLIER;
+@@ -214,6 +215,7 @@ struct vop2 {
+ 	struct clk *hclk;
+ 	struct clk *aclk;
+ 	struct clk *pclk;
++	struct clk *pll_hdmiphy0;
+ 
+ 	/* optional internal rgb encoder */
+ 	struct rockchip_rgb *rgb;
+@@ -222,6 +224,8 @@ struct vop2 {
+ 	struct vop2_win win[];
+ };
+ 
++#define VOP2_MAX_DCLK_RATE		600000000
++
+ #define vop2_output_if_is_hdmi(x)	((x) == ROCKCHIP_VOP2_EP_HDMI0 || \
+ 					 (x) == ROCKCHIP_VOP2_EP_HDMI1)
+ 
+@@ -1155,6 +1159,9 @@ static void vop2_crtc_atomic_disable(struct drm_crtc *crtc,
+ 
+ 	vop2_crtc_disable_irq(vp, VP_INT_DSP_HOLD_VALID);
+ 
++	if (vp->dclk_src)
++		clk_set_parent(vp->dclk, vp->dclk_src);
++
+ 	clk_disable_unprepare(vp->dclk);
+ 
+ 	vop2->enable_count--;
+@@ -2257,6 +2264,27 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+ 
+ 	vop2_vp_write(vp, RK3568_VP_MIPI_CTRL, 0);
+ 
++	/*
++	 * Switch to HDMI PHY PLL as DCLK source for display modes up
++	 * to 4K@60Hz, if available, otherwise keep using the system CRU.
++	 */
++	if (vop2->pll_hdmiphy0 && clock <= VOP2_MAX_DCLK_RATE) {
++		drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
++			struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
++
++			if (rkencoder->crtc_endpoint_id == ROCKCHIP_VOP2_EP_HDMI0) {
++				if (!vp->dclk_src)
++					vp->dclk_src = clk_get_parent(vp->dclk);
++
++				ret = clk_set_parent(vp->dclk, vop2->pll_hdmiphy0);
++				if (ret < 0)
++					drm_warn(vop2->drm,
++						 "Could not switch to HDMI0 PHY PLL: %d\n", ret);
++				break;
++			}
++		}
 +	}
- }
++
+ 	clk_set_rate(vp->dclk, clock);
  
- static void tgl_update_rpe_value(struct xe_guc_pc *pc)
-@@ -394,12 +395,13 @@ static void tgl_update_rpe_value(struct xe_guc_pc *pc)
- 	 * For other platforms than PVC we get the resolved RPe directly from
- 	 * PCODE at a different register
- 	 */
--	if (xe->info.platform == XE_PVC)
-+	if (xe->info.platform == XE_PVC) {
- 		reg = xe_mmio_read32(&gt->mmio, PVC_RP_STATE_CAP);
--	else
-+		pc->rpe_freq = REG_FIELD_GET(RP1_MASK, reg) * GT_FREQUENCY_MULTIPLIER;
-+	} else {
- 		reg = xe_mmio_read32(&gt->mmio, FREQ_INFO_REC);
--
--	pc->rpe_freq = REG_FIELD_GET(RPE_MASK, reg) * GT_FREQUENCY_MULTIPLIER;
-+		pc->rpe_freq = REG_FIELD_GET(RPE_MASK, reg) * GT_FREQUENCY_MULTIPLIER;
+ 	vop2_post_config(crtc);
+@@ -3697,6 +3725,12 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+ 		return PTR_ERR(vop2->pclk);
+ 	}
+ 
++	vop2->pll_hdmiphy0 = devm_clk_get_optional(vop2->dev, "pll_hdmiphy0");
++	if (IS_ERR(vop2->pll_hdmiphy0)) {
++		drm_err(vop2->drm, "failed to get pll_hdmiphy0\n");
++		return PTR_ERR(vop2->pll_hdmiphy0);
 +	}
- }
- 
- static void pc_update_rp_values(struct xe_guc_pc *pc)
++
+ 	vop2->irq = platform_get_irq(pdev, 0);
+ 	if (vop2->irq < 0) {
+ 		drm_err(vop2->drm, "cannot find irq for vop2\n");
 -- 
 2.39.5
 
