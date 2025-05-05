@@ -2,55 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC92AA9FE3
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E5AAA9FE5
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:29:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C70310E492;
-	Mon,  5 May 2025 22:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58E1410E497;
+	Mon,  5 May 2025 22:29:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G4DVXrb8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h4VXfLA4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDC310E48C;
- Mon,  5 May 2025 22:29:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2529810E495;
+ Mon,  5 May 2025 22:29:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3C47C43F0F;
- Mon,  5 May 2025 22:29:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CA31C4CEEE;
- Mon,  5 May 2025 22:29:17 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 57C2843691;
+ Mon,  5 May 2025 22:29:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD17C4CEED;
+ Mon,  5 May 2025 22:29:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484158;
- bh=0rY6USwdH/BbMFJeP4DFM3Cbs9aUeKCtF98Za21TGq8=;
+ s=k20201202; t=1746484162;
+ bh=9MDdimvpyVuizF6v+LsY4x+G/eT4yF+NtSq6Tll17AQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=G4DVXrb8fMMegn6uH7SzHtL4s6Qnmcr34TTV2YwOnUWsSmR4RhW8dcM1d6JkBYXm7
- nTgpas9KwBMPbduU/57VjjO/1eQvExgAw0Xx0pzLxTM+CqJW7MXKRV5kEwMjampcqD
- KgcMFJVqyV7rqAovmUC8Tx5+D3MgpOvYhsxS3h3LxXFfUWw3Hdmx+siq+sWkjDay6F
- +gaenyNTTGjQBqR2evYwNAOYpVOntJ8v9j8jWgzeksFIoxv1rdfGiH0uSCWMfMdMFr
- N9gy6d63xjIvBAiBp6JJr+PZSR5mPya/BTykZR+fSVdlPHn8TNfi7h9ZvM1tXq3zp3
- kA9EotkVpwznA==
+ b=h4VXfLA4/2wM53s44F9ev9TJXcCnG3KlRF7VHApDOn8+cNxZqZgZHIyfgh47g17ha
+ yJEGJ8I1k3mpT4uDkSFUUCSvB0f0c95etIKGjRhO0Z5MGISScm67C26oWn0dT1Xg5E
+ spmRdzZZhXapBPYpLvMIvy+D3iq5NTiAQ0k0egg7OCR34Wyt010I9eariZ7kaQiAKI
+ oOx0ukCwshlNTXhbu/wD6AKbaVtfAFVe379C+K+XnxD0OoObHjpPYSRcNrsKKSXUpK
+ exjkYMuj7NiDsJ9wPPCwgjPEGmgDvEzeiL8Rg8NoWjaTKua22YkbpiPVRvtf0pTbxl
+ +P9jL0Ekc2qbg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Marcin Bernatowicz <marcin.bernatowicz@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Satyanarayana K V P <satyanarayana.k.v.p@intel.com>,
- Sasha Levin <sashal@kernel.org>, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 381/642] drm/xe/client: Skip show_run_ticks if
- unable to read timestamp
-Date: Mon,  5 May 2025 18:09:57 -0400
-Message-Id: <20250505221419.2672473-381-sashal@kernel.org>
+Cc: Lijo Lazar <lijo.lazar@amd.com>, Asad Kamal <asad.kamal@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ kenneth.feng@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, sunil.khatri@amd.com, boyuan.zhang@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 383/642] drm/amd/pm: Fetch current power limit
+ from PMFW
+Date: Mon,  5 May 2025 18:09:59 -0400
+Message-Id: <20250505221419.2672473-383-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
@@ -70,46 +65,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marcin Bernatowicz <marcin.bernatowicz@linux.intel.com>
+From: Lijo Lazar <lijo.lazar@amd.com>
 
-[ Upstream commit 94030a1d3283251778411cf74553607a65260f78 ]
+[ Upstream commit b2a9e562dfa156bd53e62ce571f3f8f65d243f14 ]
 
-RING_TIMESTAMP registers are inaccessible in VF mode.
-Without drm-total-cycles-*, other keys provide little value.
-Skip all optional "run_ticks" keys in this case.
+On SMU v13.0.12, always query the firmware to get the current power
+limit as it could be updated through other means also.
 
-Signed-off-by: Marcin Bernatowicz <marcin.bernatowicz@linux.intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Michał Winiarski <michal.winiarski@intel.com>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Reviewed-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250205191644.2550879-3-marcin.bernatowicz@linux.intel.com
+Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
+Reviewed-by: Asad Kamal <asad.kamal@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_drm_client.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_drm_client.c b/drivers/gpu/drm/xe/xe_drm_client.c
-index 2d4874d2b9225..31f688e953d7b 100644
---- a/drivers/gpu/drm/xe/xe_drm_client.c
-+++ b/drivers/gpu/drm/xe/xe_drm_client.c
-@@ -324,6 +324,14 @@ static void show_run_ticks(struct drm_printer *p, struct drm_file *file)
- 	u64 gpu_timestamp;
- 	unsigned int fw_ref;
- 
-+	/*
-+	 * RING_TIMESTAMP registers are inaccessible in VF mode.
-+	 * Without drm-total-cycles-*, other keys provide little value.
-+	 * Show all or none of the optional "run_ticks" keys in this case.
-+	 */
-+	if (IS_SRIOV_VF(xe))
-+		return;
-+
- 	/*
- 	 * Wait for any exec queue going away: their cycles will get updated on
- 	 * context switch out, so wait for that to happen
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+index ed9dac00ebfb1..f3f5b7dd15ccc 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+@@ -2802,6 +2802,7 @@ int smu_get_power_limit(void *handle,
+ 			switch (amdgpu_ip_version(adev, MP1_HWIP, 0)) {
+ 			case IP_VERSION(13, 0, 2):
+ 			case IP_VERSION(13, 0, 6):
++			case IP_VERSION(13, 0, 12):
+ 			case IP_VERSION(13, 0, 14):
+ 			case IP_VERSION(11, 0, 7):
+ 			case IP_VERSION(11, 0, 11):
 -- 
 2.39.5
 
