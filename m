@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B4DAAA2E3
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76607AAA2E6
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 01:06:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1EB110E5D5;
-	Mon,  5 May 2025 23:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D558910E5D6;
+	Mon,  5 May 2025 23:06:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KsGDBRcX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kraXVoNO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD1F10E5D5
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:06:09 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 638C210E5D6
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 23:06:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9485F43B0F;
- Mon,  5 May 2025 23:06:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DD12C4CEEF;
- Mon,  5 May 2025 23:06:07 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 027EBA4D328;
+ Mon,  5 May 2025 23:00:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EBDFC4CEE4;
+ Mon,  5 May 2025 23:06:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746486369;
- bh=ZzlkLV6bGsWUlKi8pMT/sDQcez3HbCFLJUcDhrtzXvU=;
+ s=k20201202; t=1746486377;
+ bh=93cAwYNrBhIobUYALRIN+aixfXZiY+QQPC4xzf6ndok=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KsGDBRcXaGbNgEnOtHUM+Hnsq5SuO18jCC8JKRpGOpgMc15yIh7A5IA1dnPm+nsJD
- glHysEvWHhSxRJ+eUGbtNQAGEUs6M3tNFYDE77gY9pMiOyt4aL1e9ykJ1u7G5vaynJ
- 0Ig/LNyi2i6W2N0nSHMK7V9XaVy/ihTvYkU+2mKFksRaDPfhK7awfXD+NQYId/2ixn
- B4EoDYI5SRk0i57AVXao1Knhi5pxOzXR081I3HMmPXyIJKh2NZu9pCWUVTlEAr7Rn3
- n3OmaXohrc8RW1OChob5qwUddSvHTAPq0uWANuuev2zTKY8tWQEhTOF1BSiR7LZ0HF
- GO3xTeDukUmQg==
+ b=kraXVoNOISee1WRfrr0ckycZjpfuecQUfUUUlr0IBKrMEBs44mJ1GFsqXZy2rWfR9
+ t8BINZVWTnBCMgmOgpjgdyPdGGvN6hRb281xuKqyiHDK0CGcDqlfrS8D83svUKNbZx
+ Fz51KO41woR+vjXgiWFjtBurmUsL/YCCl6vohzrAtCQc6ADnAHXZ+74Iq5widznAFz
+ ZCuSJXn8TqnG8xkAnTlfnaR9BgZ5wEmyTN0kdqlJCwiYX+sqXBcYOzkLVK1oTFb5wO
+ ySHmBvrVPnq9KKRJCKaBKn3h4j6uaOoc9y4EJ6Ygk6K3zYZBoW7dSJ/VYg50dIXtbj
+ DAOvu9kLG72XA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Youssef Samir <quic_yabdulra@quicinc.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Lizhi Hou <lizhi.hou@amd.com>,
- Sasha Levin <sashal@kernel.org>, jeff.hugo@oss.qualcomm.com,
- ogabbay@kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 287/294] accel/qaic: Mask out SR-IOV PCI resources
-Date: Mon,  5 May 2025 18:56:27 -0400
-Message-Id: <20250505225634.2688578-287-sashal@kernel.org>
+Cc: Olivier Moysan <olivier.moysan@foss.st.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, broonie@kernel.org,
+ stefan.ekenberg@axis.com, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 291/294] drm: bridge: adv7511: fill stream
+ capabilities
+Date: Mon,  5 May 2025 18:56:31 -0400
+Message-Id: <20250505225634.2688578-291-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
 References: <20250505225634.2688578-1-sashal@kernel.org>
@@ -64,40 +67,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Youssef Samir <quic_yabdulra@quicinc.com>
+From: Olivier Moysan <olivier.moysan@foss.st.com>
 
-[ Upstream commit 8685520474bfc0fe4be83c3cbfe3fb3e1ca1514a ]
+[ Upstream commit c852646f12d4cd5b4f19eeec2976c5d98c0382f8 ]
 
-During the initialization of the qaic device, pci_select_bars() is
-used to fetch a bitmask of the BARs exposed by the device. On devices
-that have Virtual Functions capabilities, the bitmask includes SR-IOV
-BARs.
+Set no_i2s_capture and no_spdif_capture flags in hdmi_codec_pdata structure
+to report that the ADV7511 HDMI bridge does not support i2s or spdif audio
+capture.
 
-Use a mask to filter out SR-IOV BARs if they exist.
-
-Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250117170943.2643280-6-quic_jhugo@quicinc.com
+Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250108170356.413063-2-olivier.moysan@foss.st.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/accel/qaic/qaic_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index b5de82e6eb4d5..e69bfb30b44e0 100644
---- a/drivers/accel/qaic/qaic_drv.c
-+++ b/drivers/accel/qaic/qaic_drv.c
-@@ -400,7 +400,7 @@ static int init_pci(struct qaic_device *qdev, struct pci_dev *pdev)
- 	int bars;
- 	int ret;
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+index 8f786592143b6..24e1e11acf697 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+@@ -244,7 +244,9 @@ static const struct hdmi_codec_pdata codec_data = {
+ 	.ops = &adv7511_codec_ops,
+ 	.max_i2s_channels = 2,
+ 	.i2s = 1,
++	.no_i2s_capture = 1,
+ 	.spdif = 1,
++	.no_spdif_capture = 1,
+ };
  
--	bars = pci_select_bars(pdev, IORESOURCE_MEM);
-+	bars = pci_select_bars(pdev, IORESOURCE_MEM) & 0x3f;
- 
- 	/* make sure the device has the expected BARs */
- 	if (bars != (BIT(0) | BIT(2) | BIT(4))) {
+ int adv7511_audio_init(struct device *dev, struct adv7511 *adv7511)
 -- 
 2.39.5
 
