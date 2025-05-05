@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFECCAAA0CA
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CB2AAA0CC
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 152DD10E505;
-	Mon,  5 May 2025 22:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4995310E508;
+	Mon,  5 May 2025 22:39:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="foHrwPcv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C43vr9Gf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBE4610E505;
- Mon,  5 May 2025 22:39:07 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C374310E508;
+ Mon,  5 May 2025 22:39:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 93B82A4CF2F;
- Mon,  5 May 2025 22:33:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 137E2C4CEE4;
- Mon,  5 May 2025 22:39:03 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 29FA2629C9;
+ Mon,  5 May 2025 22:38:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FAB3C4CEEF;
+ Mon,  5 May 2025 22:39:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746484746;
- bh=PwWSdU0v4ac350M24sNgCGAuAFFzNWKlDyW/Vpiq864=;
+ s=k20201202; t=1746484748;
+ bh=LjC4SSuqVjn22E0rvV5yJGbrdl+kUvZEuyA1XYwpiaA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=foHrwPcvuR1z6J1IHfls//0gjk7JsLigB2BXRVTpUD9Jqi/RcAgyAFst5sl66X1J+
- bHs6iYjZ+qRBYhlEpKKJDgiu1D8VH2iDbwV9kzYOyMHbqjOPZL5zp1q/aXi8phq5oI
- d6IC/+GlYrMrqOtqaQb5nG6mzlfUumJUcgEgNBbtJ3vtAsEfUm1CgWIc131koct7TX
- 0KQVKaW8vIyQxkmlE+qZD+9UPV3Uuik+CDvaAcNQ7Ojs4FN8kroU72uBvyeP9AMVIN
- 1Clk+7mLy+aBQS6BHXywSl/Nd6UttcEm1Mo+ZguYCzMVQllSZH/URiFDe/vXjXaeVr
- wdl53EF4YAgNg==
+ b=C43vr9GfumZUCYZTNN4HOAu2D9DillqVNO4CgeuqnvLt+Ka4/Rh7Oavr7JYUL3WLG
+ QlZ4NylqiSfdtEzLTcq/GODMT/nJU+GsrQdk6fHX3okZO2dLUVXc5Inzi5YJrgT6ap
+ afujyG5Vp8TXq+/b09ictM4Ssr2tQm3WSQGl7dvwizSZrqHFUZeKrlgQsG9O2LDek7
+ rMWOISR0tksVJ/riCDg/EjayMrAUs4kv2kDTNi8DKf4vh2zl2PHeWvd9MyMSFcMw6l
+ lfzkFmUGqW4YtzKFOFuHi7567NeuXkt0Vz6VP3dfFITp8GGR9wQJFeQlVTbu6mRGx/
+ lqwuI1g9NBXdA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ovidiu Bunea <Ovidiu.Bunea@amd.com>, Charlene Liu <charlene.liu@amd.com>,
- Roman Li <roman.li@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Xiaogang Chen <xiaogang.chen@amd.com>,
+ Felix Kuehling <felix.kuehling@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, Charlene.Liu@amd.com,
- alvin.lee2@amd.com, chiahsuan.chung@amd.com, jerry.zuo@amd.com,
- alex.hung@amd.com, Kaitlyn.Tse@amd.com, ryanseto@amd.com,
- martin.tsai@amd.com, yi-lchen@amd.com, tjakobi@math.uni-bielefeld.de,
- Sungjoon.Kim@amd.com, michael.strauss@amd.com, Brandon.Syu@amd.com,
+ Felix.Kuehling@amd.com, airlied@gmail.com, simona@ffwll.ch,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 637/642] drm/amd/display: Exit idle optimizations
- before accessing PHY
-Date: Mon,  5 May 2025 18:14:13 -0400
-Message-Id: <20250505221419.2672473-637-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 638/642] drm/amdkfd: Fix error handling for
+ missing PASID in 'kfd_process_device_init_vm'
+Date: Mon,  5 May 2025 18:14:14 -0400
+Message-Id: <20250505221419.2672473-638-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
@@ -70,57 +68,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ovidiu Bunea <Ovidiu.Bunea@amd.com>
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-[ Upstream commit c488967488d7eff7b9c527d5469c424c15377502 ]
+[ Upstream commit 2b04d04de956b44cc140d45cf8ebccfb378ce3bf ]
 
-[why & how]
-By default, DCN HW is in idle optimized state which does not allow access
-to PHY registers. If BIOS powers up the DCN, it is fine because they will
-power up everything. Only exit idle optimized state when not taking control
-from VBIOS.
+In the kfd_process_device_init_vm function, a valid error code is now
+returned when the associated Process Address Space ID (PASID) is not
+present.
 
-Fixes: be704e5ef4bd ("Revert "drm/amd/display: Exit idle optimizations before attempt to access PHY"")
-Reviewed-by: Charlene Liu <charlene.liu@amd.com>
-Signed-off-by: Ovidiu Bunea <Ovidiu.Bunea@amd.com>
-Signed-off-by: Roman Li <roman.li@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+If the address space virtual memory (avm) does not have an associated
+PASID, the function sets the ret variable to -EINVAL before proceeding
+to the error handling section. This ensures that the calling function,
+such as kfd_ioctl_acquire_vm, can appropriately handle the error,
+thereby preventing any issues during virtual memory initialization.
+
+Fixes the below:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:1694 kfd_process_device_init_vm()
+warn: missing error code 'ret'
+
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c
+    1647 int kfd_process_device_init_vm(struct kfd_process_device *pdd,
+    1648                                struct file *drm_file)
+    1649 {
+    ...
+    1690
+    1691         if (unlikely(!avm->pasid)) {
+    1692                 dev_warn(pdd->dev->adev->dev, "WARN: vm %p has no pasid associated",
+    1693                                  avm);
+--> 1694                 goto err_get_pasid;
+
+ret = -EINVAL?
+
+    1695         }
+
+Fixes: 8544374c0f82 ("drm/amdkfd: Have kfd driver use same PASID values from graphic driver")
+Reported by: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Xiaogang Chen <xiaogang.chen@amd.com>
+Cc: Felix Kuehling <felix.kuehling@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-index 2f5f3e749a1ab..94ceccfc04982 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-@@ -1889,6 +1889,7 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
- 	bool can_apply_edp_fast_boot = false;
- 	bool can_apply_seamless_boot = false;
- 	bool keep_edp_vdd_on = false;
-+	struct dc_bios *dcb = dc->ctx->dc_bios;
- 	DC_LOGGER_INIT();
- 
- 
-@@ -1965,6 +1966,8 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
- 			hws->funcs.edp_backlight_control(edp_link_with_sink, false);
- 		}
- 		/*resume from S3, no vbios posting, no need to power down again*/
-+		if (dcb && dcb->funcs && !dcb->funcs->is_accelerated_mode(dcb))
-+			clk_mgr_exit_optimized_pwr_state(dc, dc->clk_mgr);
- 
- 		power_down_all_hw_blocks(dc);
- 
-@@ -1977,6 +1980,8 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
- 		disable_vga_and_power_gate_all_controllers(dc);
- 		if (edp_link_with_sink && !keep_edp_vdd_on)
- 			dc->hwss.edp_power_control(edp_link_with_sink, false);
-+		if (dcb && dcb->funcs && !dcb->funcs->is_accelerated_mode(dcb))
-+			clk_mgr_optimize_pwr_state(dc, dc->clk_mgr);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+index a7e0a16dac47b..3f411922534b3 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+@@ -1711,6 +1711,7 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
+ 	if (unlikely(!avm->pasid)) {
+ 		dev_warn(pdd->dev->adev->dev, "WARN: vm %p has no pasid associated",
+ 				 avm);
++		ret = -EINVAL;
+ 		goto err_get_pasid;
  	}
- 	bios_set_scratch_acc_mode_change(dc->ctx->dc_bios, 1);
- }
+ 
 -- 
 2.39.5
 
