@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C93AA9F2B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92846AA9F2E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:20:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD1E110E44B;
-	Mon,  5 May 2025 22:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED6E110E44F;
+	Mon,  5 May 2025 22:20:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UTFANOD8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ahg1zw4+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A25910E44A;
- Mon,  5 May 2025 22:20:27 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4460410E44E;
+ Mon,  5 May 2025 22:20:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 98A2A40C1F;
- Mon,  5 May 2025 22:20:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58B49C4CEE4;
- Mon,  5 May 2025 22:20:25 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C58BD629C5;
+ Mon,  5 May 2025 22:19:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A093C4CEE4;
+ Mon,  5 May 2025 22:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746483627;
- bh=EM0ILPP7mXHqTdXxiwX27XnkHVulfn1y7F26dBKcZV0=;
+ s=k20201202; t=1746483630;
+ bh=PPRDvtIczSslBwfyR2epLHudR5J53ZWkgJPhIEpURBk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UTFANOD8uefd07aw0gR2ppJeDJ0sJWO7Hka6Cv+ZKkiPNFq0TPrzc5WBvHtSFgkFp
- ZBcKWDsIsp3D5kaXnqx8FqgR2lMJwZW4h0pIc4wO8JwqCgA8spiqV/aQNrDS9MDrcU
- 2n2t3utc2i1wgxeiIpUO7HrGu+zomT5k1l8Uk9vx6iQ/dh4/iJXUM7hG0QIB4UxRbO
- e81uEhbQ5uPjITdISzUUBYFLGmgwryxBxSKcKNgsrW5bIBGpBKq4FzK9jDNV8EJeK4
- 20tcCGUNbDvvxRHkFgkEFx4Aw0i9vkCBMoayQZoRsipahZ8z/AQ7T9RrWKqDxpAWuo
- 1NusysTn8p7/g==
+ b=ahg1zw4+O3DDy0Wh3VfnE/wr4kUAY1DjY/cp2iQWKIeRp3C3FHVe1wj3/hjxB5dzE
+ oCC6TD6tFP99s8KkZXTLSdBNaiy24Jq6s1vxrY0wXlnqjnDZBTD2+SIpskNEmKF7rc
+ Hbx13l2Slrol4hMQdFq0tUrzb2ZoTYDGwrnqgyfYSB1Qh1RXbrW9OYoP042HAw//BU
+ hFydvZWJM8Em6bbBKOeccb2vX2WeCL4+rtN1XSfm81rOs+Xffm9kd4JgLkyEjW5gog
+ mR0cygKuMDOZQriyYrEEjFiRrqZ+Oy/xJ7e6H2zL0FgS52ohLsZSUu+yda62DB1a5V
+ ASbOfMtd04MAA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Alex Deucher <alexander.deucher@amd.com>,
  Mukul Joshi <mukul.joshi@amd.com>, Sasha Levin <sashal@kernel.org>,
  christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sunil.khatri@amd.com, Hawking.Zhang@amd.com, vitaly.prosyak@amd.com,
- jesse.zhang@amd.com, srinivasan.shanmugam@amd.com, Likun.Gao@amd.com,
- Jack.Xiao@amd.com, marek.olsak@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 150/642] drm/amdgpu/gfx12: don't read registers
+ sunil.khatri@amd.com, vitaly.prosyak@amd.com, tim.huang@amd.com,
+ srinivasan.shanmugam@amd.com, Jesse.zhang@amd.com, Prike.Liang@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 151/642] drm/amdgpu/gfx11: don't read registers
  in mqd init
-Date: Mon,  5 May 2025 18:06:06 -0400
-Message-Id: <20250505221419.2672473-150-sashal@kernel.org>
+Date: Mon,  5 May 2025 18:06:07 -0400
+Message-Id: <20250505221419.2672473-151-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -69,7 +68,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit fc3c139cf0432b79fd08e23100a559ee51cd0be4 ]
+[ Upstream commit e27b36ea6ba5f29e91fcfb375ea29503708fcf43 ]
 
 Just use the default values.  There's not need to
 get the value from hardware and it could cause problems
@@ -79,22 +78,22 @@ Reviewed-by: Mukul Joshi <mukul.joshi@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c | 48 ++++++++++++++++++--------
- 1 file changed, 33 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c | 47 ++++++++++++++++++--------
+ 1 file changed, 32 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
-index 0c08785099f32..2ec900d50d7f8 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c
-@@ -52,6 +52,24 @@
- 
- #define RLCG_UCODE_LOADING_START_ADDRESS	0x00002000L
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+index f1f53c7687410..e050c2e4ea734 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+@@ -64,6 +64,23 @@
+ #define regPC_CONFIG_CNTL_1		0x194d
+ #define regPC_CONFIG_CNTL_1_BASE_IDX	1
  
 +#define regCP_GFX_MQD_CONTROL_DEFAULT                                             0x00000100
 +#define regCP_GFX_HQD_VMID_DEFAULT                                                0x00000000
 +#define regCP_GFX_HQD_QUEUE_PRIORITY_DEFAULT                                      0x00000000
 +#define regCP_GFX_HQD_QUANTUM_DEFAULT                                             0x00000a01
-+#define regCP_GFX_HQD_CNTL_DEFAULT                                                0x00f00000
++#define regCP_GFX_HQD_CNTL_DEFAULT                                                0x00a00000
 +#define regCP_RB_DOORBELL_CONTROL_DEFAULT                                         0x00000000
 +#define regCP_GFX_HQD_RPTR_DEFAULT                                                0x00000000
 +
@@ -107,11 +106,19 @@ index 0c08785099f32..2ec900d50d7f8 100644
 +#define regCP_HQD_PERSISTENT_STATE_DEFAULT                                        0x0be05501
 +#define regCP_HQD_IB_CONTROL_DEFAULT                                              0x00300000
 +
-+
- MODULE_FIRMWARE("amdgpu/gc_12_0_0_pfp.bin");
- MODULE_FIRMWARE("amdgpu/gc_12_0_0_me.bin");
- MODULE_FIRMWARE("amdgpu/gc_12_0_0_mec.bin");
-@@ -2891,25 +2909,25 @@ static int gfx_v12_0_gfx_mqd_init(struct amdgpu_device *adev, void *m,
+ MODULE_FIRMWARE("amdgpu/gc_11_0_0_pfp.bin");
+ MODULE_FIRMWARE("amdgpu/gc_11_0_0_me.bin");
+ MODULE_FIRMWARE("amdgpu/gc_11_0_0_mec.bin");
+@@ -3958,7 +3975,7 @@ static void gfx_v11_0_gfx_mqd_set_priority(struct amdgpu_device *adev,
+ 	if (prop->hqd_pipe_priority == AMDGPU_GFX_PIPE_PRIO_HIGH)
+ 		priority = 1;
+ 
+-	tmp = RREG32_SOC15(GC, 0, regCP_GFX_HQD_QUEUE_PRIORITY);
++	tmp = regCP_GFX_HQD_QUEUE_PRIORITY_DEFAULT;
+ 	tmp = REG_SET_FIELD(tmp, CP_GFX_HQD_QUEUE_PRIORITY, PRIORITY_LEVEL, priority);
+ 	mqd->cp_gfx_hqd_queue_priority = tmp;
+ }
+@@ -3980,14 +3997,14 @@ static int gfx_v11_0_gfx_mqd_init(struct amdgpu_device *adev, void *m,
  	mqd->cp_mqd_base_addr_hi = upper_32_bits(prop->mqd_gpu_addr);
  
  	/* set up mqd control */
@@ -128,12 +135,8 @@ index 0c08785099f32..2ec900d50d7f8 100644
  	tmp = REG_SET_FIELD(tmp, CP_GFX_HQD_VMID, VMID, 0);
  	mqd->cp_gfx_hqd_vmid = 0;
  
- 	/* set up default queue priority level
- 	 * 0x0 = low priority, 0x1 = high priority */
--	tmp = RREG32_SOC15(GC, 0, regCP_GFX_HQD_QUEUE_PRIORITY);
-+	tmp = regCP_GFX_HQD_QUEUE_PRIORITY_DEFAULT;
- 	tmp = REG_SET_FIELD(tmp, CP_GFX_HQD_QUEUE_PRIORITY, PRIORITY_LEVEL, 0);
- 	mqd->cp_gfx_hqd_queue_priority = tmp;
+@@ -3995,7 +4012,7 @@ static int gfx_v11_0_gfx_mqd_init(struct amdgpu_device *adev, void *m,
+ 	gfx_v11_0_gfx_mqd_set_priority(adev, mqd, prop);
  
  	/* set up time quantum */
 -	tmp = RREG32_SOC15(GC, 0, regCP_GFX_HQD_QUANTUM);
@@ -141,7 +144,7 @@ index 0c08785099f32..2ec900d50d7f8 100644
  	tmp = REG_SET_FIELD(tmp, CP_GFX_HQD_QUANTUM, QUANTUM_EN, 1);
  	mqd->cp_gfx_hqd_quantum = tmp;
  
-@@ -2931,7 +2949,7 @@ static int gfx_v12_0_gfx_mqd_init(struct amdgpu_device *adev, void *m,
+@@ -4017,7 +4034,7 @@ static int gfx_v11_0_gfx_mqd_init(struct amdgpu_device *adev, void *m,
  
  	/* set up the gfx_hqd_control, similar as CP_RB0_CNTL */
  	rb_bufsz = order_base_2(prop->queue_size / 4) - 1;
@@ -150,7 +153,7 @@ index 0c08785099f32..2ec900d50d7f8 100644
  	tmp = REG_SET_FIELD(tmp, CP_GFX_HQD_CNTL, RB_BUFSZ, rb_bufsz);
  	tmp = REG_SET_FIELD(tmp, CP_GFX_HQD_CNTL, RB_BLKSZ, rb_bufsz - 2);
  #ifdef __BIG_ENDIAN
-@@ -2940,7 +2958,7 @@ static int gfx_v12_0_gfx_mqd_init(struct amdgpu_device *adev, void *m,
+@@ -4026,7 +4043,7 @@ static int gfx_v11_0_gfx_mqd_init(struct amdgpu_device *adev, void *m,
  	mqd->cp_gfx_hqd_cntl = tmp;
  
  	/* set up cp_doorbell_control */
@@ -159,7 +162,7 @@ index 0c08785099f32..2ec900d50d7f8 100644
  	if (prop->use_doorbell) {
  		tmp = REG_SET_FIELD(tmp, CP_RB_DOORBELL_CONTROL,
  				    DOORBELL_OFFSET, prop->doorbell_index);
-@@ -2952,7 +2970,7 @@ static int gfx_v12_0_gfx_mqd_init(struct amdgpu_device *adev, void *m,
+@@ -4038,7 +4055,7 @@ static int gfx_v11_0_gfx_mqd_init(struct amdgpu_device *adev, void *m,
  	mqd->cp_rb_doorbell_control = tmp;
  
  	/* reset read and write pointers, similar to CP_RB0_WPTR/_RPTR */
@@ -168,14 +171,14 @@ index 0c08785099f32..2ec900d50d7f8 100644
  
  	/* active the queue */
  	mqd->cp_gfx_hqd_active = 1;
-@@ -3047,14 +3065,14 @@ static int gfx_v12_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
+@@ -4124,14 +4141,14 @@ static int gfx_v11_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
  	mqd->cp_hqd_eop_base_addr_hi = upper_32_bits(eop_base_addr);
  
  	/* set the EOP size, register value is 2^(EOP_SIZE+1) dwords */
 -	tmp = RREG32_SOC15(GC, 0, regCP_HQD_EOP_CONTROL);
 +	tmp = regCP_HQD_EOP_CONTROL_DEFAULT;
  	tmp = REG_SET_FIELD(tmp, CP_HQD_EOP_CONTROL, EOP_SIZE,
- 			(order_base_2(GFX12_MEC_HPD_SIZE / 4) - 1));
+ 			(order_base_2(GFX11_MEC_HPD_SIZE / 4) - 1));
  
  	mqd->cp_hqd_eop_control = tmp;
  
@@ -185,7 +188,7 @@ index 0c08785099f32..2ec900d50d7f8 100644
  
  	if (prop->use_doorbell) {
  		tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_DOORBELL_CONTROL,
-@@ -3083,7 +3101,7 @@ static int gfx_v12_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
+@@ -4160,7 +4177,7 @@ static int gfx_v11_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
  	mqd->cp_mqd_base_addr_hi = upper_32_bits(prop->mqd_gpu_addr);
  
  	/* set MQD vmid to 0 */
@@ -194,7 +197,7 @@ index 0c08785099f32..2ec900d50d7f8 100644
  	tmp = REG_SET_FIELD(tmp, CP_MQD_CONTROL, VMID, 0);
  	mqd->cp_mqd_control = tmp;
  
-@@ -3093,7 +3111,7 @@ static int gfx_v12_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
+@@ -4170,7 +4187,7 @@ static int gfx_v11_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
  	mqd->cp_hqd_pq_base_hi = upper_32_bits(hqd_gpu_addr);
  
  	/* set up the HQD, this is similar to CP_RB0_CNTL */
@@ -203,7 +206,7 @@ index 0c08785099f32..2ec900d50d7f8 100644
  	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, QUEUE_SIZE,
  			    (order_base_2(prop->queue_size / 4) - 1));
  	tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_CONTROL, RPTR_BLOCK_SIZE,
-@@ -3118,7 +3136,7 @@ static int gfx_v12_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
+@@ -4196,7 +4213,7 @@ static int gfx_v11_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
  	tmp = 0;
  	/* enable the doorbell if requested */
  	if (prop->use_doorbell) {
@@ -212,7 +215,7 @@ index 0c08785099f32..2ec900d50d7f8 100644
  		tmp = REG_SET_FIELD(tmp, CP_HQD_PQ_DOORBELL_CONTROL,
  				DOORBELL_OFFSET, prop->doorbell_index);
  
-@@ -3133,17 +3151,17 @@ static int gfx_v12_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
+@@ -4211,17 +4228,17 @@ static int gfx_v11_0_compute_mqd_init(struct amdgpu_device *adev, void *m,
  	mqd->cp_hqd_pq_doorbell_control = tmp;
  
  	/* reset read and write pointers, similar to CP_RB0_WPTR/_RPTR */
