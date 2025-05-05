@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB061AAA165
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F34AAA16D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:47:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4077710E53D;
-	Mon,  5 May 2025 22:47:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40E3810E53E;
+	Mon,  5 May 2025 22:47:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SVC1focn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kH2BLxit";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E75410E53D
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:47:00 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D347210E53F
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:47:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E5F405C0687;
- Mon,  5 May 2025 22:44:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20A59C4CEEF;
- Mon,  5 May 2025 22:46:58 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0DF3343EAF;
+ Mon,  5 May 2025 22:47:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39445C4CEED;
+ Mon,  5 May 2025 22:47:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485219;
- bh=xUeYcQ19WA4YDx8LAq/eonv8hTGDCBs6kyGHFjgYn2w=;
+ s=k20201202; t=1746485235;
+ bh=98FQmpAUpXuvUdgOGxz4jofi+Xev3uvncrd6eCdYIKQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SVC1focnSfOqZWvnrLY1O0YZC8D4IY1SU8ksD8H684bbhCRyy5IPBMpeg2C38QAAh
- IZLjkYtagQ0ocTV0ALnJCy15ic8tw+BMmN4ScNYrHRmXngoZvCg4vZtQduOxf3+fmK
- JAE8cM5/pxAH5HyPs4MP1ChzKOPxL0/utJwucl0OaBzv+XAAx71v9yKqGCCWvmR++l
- hH4COtgQDvclWYJBLFSgnQlcwFlZ7Mn1Q4zIQtiLFtoZJgOFDi5F4rr0RL/a+dLOcX
- 6iRlAOUaQ0nxrVFH939r1iEv0DwRXfbi/vZYDcZ3Ln01RNiNW1Qgd1pfITBCqwB8vr
- EiIUF794Belyg==
+ b=kH2BLxitkNWyzr4GTSJl7wA2DqXLO67aUykwirWEr3Aio+uedQWA2XyDiiZZre599
+ zIXffCE5NdjsoMkNXmdU2Bn2b9HINYQcobY+ZoEvw+jo81Wpzl/bocRBJLoiqXvLOM
+ vXj51X/CFb7/MpQx+rOXHqmnQkARwBgTkN+kxrfM82/dvdRGpQjJW8Z8FYuU6hX7u3
+ hvtMRx5DQYvlaA2a/VkBRNVc+nTHB6GPZEw8jEx10S18V+9hCO5+Q2Pp1AzJ6loiAT
+ vBX21qluFG4UBgZrx/BuTT+PxTt0V3a+Sfhlpzue+pn5wK+YshppHdofOTkVA3wItL
+ GQ7G7Hlhmo+jw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Andy Yan <andy.yan@rock-chips.com>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Heiko Stuebner <heiko@sntech.de>, Sasha Levin <sashal@kernel.org>,
- hjc@rock-chips.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 217/486] drm/rockchip: vop2: Add uv swap for
- cluster window
-Date: Mon,  5 May 2025 18:34:53 -0400
-Message-Id: <20250505223922.2682012-217-sashal@kernel.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, p.zabel@pengutronix.de, airlied@gmail.com,
+ simona@ffwll.ch, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.12 226/486] drm/mediatek: mtk_dpi: Add checks for
+ reg_h_fre_con existence
+Date: Mon,  5 May 2025 18:35:02 -0400
+Message-Id: <20250505223922.2682012-226-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -68,44 +65,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-[ Upstream commit e7aae9f6d762139f8d2b86db03793ae0ab3dd802 ]
+[ Upstream commit 8c9da7cd0bbcc90ab444454fecf535320456a312 ]
 
-The Cluster windows of upcoming VOP on rk3576 also support
-linear YUV support, we need to set uv swap bit for it.
+In preparation for adding support for newer DPI instances which
+do support direct-pin but do not have any H_FRE_CON register,
+like the one found in MT8195 and MT8188, add a branch to check
+if the reg_h_fre_con variable was declared in the mtk_dpi_conf
+structure for the probed SoC DPI version.
 
-As the VOP2_WIN_UV_SWA register defined on rk3568/rk3588 is
-0xffffffff, so this register will not be touched on these
-two platforms.
+As a note, this is useful specifically only for cases in which
+the support_direct_pin variable is true, so mt8195-dpintf is
+not affected by any issue.
 
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
-Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250303034436.192400-4-andyshrk@163.com
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Link: https://patchwork.kernel.org/project/dri-devel/patch/20250217154836.108895-6-angelogioacchino.delregno@collabora.com/
+Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 5880d87fe6b3a..2aab2a0956788 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1432,10 +1432,8 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index 9c11d3158324c..20a50180d4d49 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -410,12 +410,13 @@ static void mtk_dpi_config_swap_input(struct mtk_dpi *dpi, bool enable)
  
- 	rb_swap = vop2_win_rb_swap(fb->format->format);
- 	vop2_win_write(win, VOP2_WIN_RB_SWAP, rb_swap);
--	if (!vop2_cluster_window(win)) {
--		uv_swap = vop2_win_uv_swap(fb->format->format);
--		vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
--	}
-+	uv_swap = vop2_win_uv_swap(fb->format->format);
-+	vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
+ static void mtk_dpi_config_2n_h_fre(struct mtk_dpi *dpi)
+ {
+-	mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, H_FRE_2N, H_FRE_2N);
++	if (dpi->conf->reg_h_fre_con)
++		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, H_FRE_2N, H_FRE_2N);
+ }
  
- 	if (fb->format->is_yuv) {
- 		vop2_win_write(win, VOP2_WIN_UV_VIR, DIV_ROUND_UP(fb->pitches[1], 4));
+ static void mtk_dpi_config_disable_edge(struct mtk_dpi *dpi)
+ {
+-	if (dpi->conf->edge_sel_en)
++	if (dpi->conf->edge_sel_en && dpi->conf->reg_h_fre_con)
+ 		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0, EDGE_SEL_EN);
+ }
+ 
 -- 
 2.39.5
 
