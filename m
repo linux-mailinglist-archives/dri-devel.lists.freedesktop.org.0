@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3034AAA237
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84D7AAA238
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:56:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06B7910E594;
-	Mon,  5 May 2025 22:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0811010E595;
+	Mon,  5 May 2025 22:56:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nXeMpFG3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X7C3d2ya";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10AE910E5A0
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA76A10E594
  for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:56:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 52E585C5B2B;
- Mon,  5 May 2025 22:54:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10585C4CEED;
- Mon,  5 May 2025 22:56:24 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 286FF437C4;
+ Mon,  5 May 2025 22:56:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90182C4CEF4;
+ Mon,  5 May 2025 22:56:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746485786;
- bh=/FZSzGvvXFvyjUQqlRnoJZJp2TxUajuFUp//+i3ALVs=;
+ s=k20201202; t=1746485787;
+ bh=iczV1HlI/2jffBDU8pp3h5oTO12sKfPrCJaQ6eo9G8s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nXeMpFG3R/HU2Mp0s/VUaUOPCMg4NSpLf6aRs0F5x3earTMfVRegMWtoK3Gf+fw+W
- HPoD1sCTI8st5VJ7r/ZgxbMYTvhrpXpImAzmgwhgi5a09LFrx5XZIr5Sklbt+CPNIc
- u2G8P/NpHc18EKTfjrBat034wXUFcYGsceLWpVhVVlmcVQH8ZsNoQhrGc6O2RZ8fUB
- kWh3CR3/h47qoOutI1AhTloqt5Q7ABBsROs0KD11xE07bcvKuxfHwg20rAIpfL9B09
- euz/2qo7LoAXb9brTb2lhMbyJEEaYWmtc/RCiyHatZ4qcoRh3dlCMKCVLvsnnAvPai
- v6XmgruSRUIGQ==
+ b=X7C3d2yamEobr/I0PlrQIfavdV5Hc7A4jgw5wV02Bgn4YJTJUkYiVGrToOeeKnFxx
+ R+yZ4Y4ddktKsVyqfHLczEp5/Zq4ldNu2Y3ImuJe9P455H9NiEEMTfn90GjsfIb7rV
+ Zl/aBFc6VYGRYIzbpTkG2wbvObtFMMCgS1QDNVOFU4Yzb9w34NNrMflOq/QXuf4aFM
+ /Htkiy76kO8tCSlWFvsruBbClDHk1N8ehVk3JhetYKhqBLPRSTpcBKEVEw3GwCTRie
+ w18jGlctTBubFldtYDSzachHFm8l/6czy8aDzAgCGM+TyBZY/qWxPqi9r/ip4f7eoP
+ qW7e9BoY9JGGQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 484/486] drm/panel-edp: Add Starry 116KHD024006
-Date: Mon,  5 May 2025 18:39:20 -0400
-Message-Id: <20250505223922.2682012-484-sashal@kernel.org>
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 485/486] drm: Add valid clones check
+Date: Mon,  5 May 2025 18:39:21 -0400
+Message-Id: <20250505223922.2682012-485-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -64,55 +65,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Douglas Anderson <dianders@chromium.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
 
-[ Upstream commit 749b5b279e5636cdcef51e15d67b77162cca6caa ]
+[ Upstream commit 41b4b11da02157c7474caf41d56baae0e941d01a ]
 
-We have a few reports of sc7180-trogdor-pompom devices that have a
-panel in them that IDs as STA 0x0004 and has the following raw EDID:
+Check that all encoders attached to a given CRTC are valid
+possible_clones of each other.
 
-  00 ff ff ff ff ff ff 00  4e 81 04 00 00 00 00 00
-  10 20 01 04 a5 1a 0e 78  0a dc dd 96 5b 5b 91 28
-  1f 52 54 00 00 00 01 01  01 01 01 01 01 01 01 01
-  01 01 01 01 01 01 8e 1c  56 a0 50 00 1e 30 28 20
-  55 00 00 90 10 00 00 18  00 00 00 00 00 00 00 00
-  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
-  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 fe
-  00 31 31 36 4b 48 44 30  32 34 30 30 36 0a 00 e6
-
-We've been unable to locate a datasheet for this panel and our partner
-has not been responsive, but all Starry eDP datasheets that we can
-find agree on the same timing (delay_100_500_e200) so it should be
-safe to use that here instead of the super conservative timings. We'll
-still go a little extra conservative and allow `hpd_absent` of 200
-instead of 100 because that won't add any real-world delay in most
-cases.
-
-We'll associate the string from the EDID ("116KHD024006") with this
-panel. Given that the ID is the suspicious value of 0x0004 it seems
-likely that Starry doesn't always update their IDs but the string will
-still work to differentiate if we ever need to in the future.
-
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250109142853.1.Ibcc3009933fd19507cc9c713ad0c99c7a9e4fe17@changeid
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241216-concurrent-wb-v4-3-fe220297a7f0@quicinc.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/drm_atomic_helper.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 767e47a2b0c14..663af985d1b38 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1983,6 +1983,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x153a, &delay_200_500_e50, "LQ140T1JH01"),
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x154c, &delay_200_500_p2e100, "LQ116M1JW10"),
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 32902f77f00dd..40e4e1b6c9110 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -574,6 +574,30 @@ mode_valid(struct drm_atomic_state *state)
+ 	return 0;
+ }
  
-+	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0004, &delay_200_500_e200, "116KHD024006"),
- 	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081116HHD028001-51D"),
++static int drm_atomic_check_valid_clones(struct drm_atomic_state *state,
++					 struct drm_crtc *crtc)
++{
++	struct drm_encoder *drm_enc;
++	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
++									  crtc);
++
++	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
++		if (!drm_enc->possible_clones) {
++			DRM_DEBUG("enc%d possible_clones is 0\n", drm_enc->base.id);
++			continue;
++		}
++
++		if ((crtc_state->encoder_mask & drm_enc->possible_clones) !=
++		    crtc_state->encoder_mask) {
++			DRM_DEBUG("crtc%d failed valid clone check for mask 0x%x\n",
++				  crtc->base.id, crtc_state->encoder_mask);
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
+ /**
+  * drm_atomic_helper_check_modeset - validate state object for modeset changes
+  * @dev: DRM device
+@@ -745,6 +769,10 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+ 		ret = drm_atomic_add_affected_planes(state, crtc);
+ 		if (ret != 0)
+ 			return ret;
++
++		ret = drm_atomic_check_valid_clones(state, crtc);
++		if (ret != 0)
++			return ret;
+ 	}
  
- 	{ /* sentinal */ }
+ 	/*
 -- 
 2.39.5
 
