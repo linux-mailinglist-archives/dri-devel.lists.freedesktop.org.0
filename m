@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989C8AA9F72
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:23:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E69AA9F75
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:23:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4DEE10E46A;
-	Mon,  5 May 2025 22:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D3810E05A;
+	Mon,  5 May 2025 22:23:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q4o9Y3Ci";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cm8LNfUp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B07B010E46A;
- Mon,  5 May 2025 22:23:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 606C510E05A
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 22:23:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4FD59A4BAF6;
- Mon,  5 May 2025 22:18:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F094C4CEE4;
- Mon,  5 May 2025 22:23:36 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E6B0AA4CCF5;
+ Mon,  5 May 2025 22:18:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B56E3C4CEED;
+ Mon,  5 May 2025 22:23:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746483817;
- bh=cYgAGWyxk03GJQKmaNwFChbrqq9o9Ns3i/Fj53+ylZM=;
+ s=k20201202; t=1746483832;
+ bh=26/odUkey/X+bTC+KqJYPkWtonnW+CCXpcrZT16N65M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=q4o9Y3Ci3CdmaWLKRFmugQs5E0aqx0SBK/tJUn0NtRZPzTCSH04stlpYqOAMKR0iF
- jT1wraMAJOBTtXnBesCCq3tb3/Oh4pGRYYOTDmU0o1KlpiH37raMXALsgsZxDthzt7
- 4Di49mN43Eb2tuRHzox78IGV9/nTCxin06IijR13vKsiZ+ZtaxGdzeRFkpW2zdhRvx
- 66WhaX8PS4wjTHFgNk1mOQ9UK9s7n5VRQ43qC7Zf5/mgmIUhquzSYBqkZbyofMdbow
- tQXbwfIqOKPPE8trsy4klpzPfcQMSrCpDpEkz4K00prL0PWojZBjtsPEMtyUWHcbFS
- 8va9m0jU6jIKA==
+ b=Cm8LNfUpy6l6H2psnQRq9/jjwWToHsmAtJioKUlDYYDiq2KEYYtgS6flMVxQT9Gfn
+ ONxjybJX2UoX6yaIW2luRFVMe09b1+bjaKNZ40PpcHw7DD8dTeNB3P8ig1kHiJsEWs
+ 0z2cz2Vb5DrDyw4Bt0TgOYXp8rNBnGxiIrnff+hxFpIp5oJrYmVdiPrQh3fEX1D/JE
+ AU7WrEp4vIxs8cMYothWApz/DZ5H03eNcwe28c7KW4zSF/uKHP3MEjzg3Dei2G5AsZ
+ 6QTJIuYvUSMQJDtidZJc9NxbZ6dBavmyqoA/ehggfimN0QLGBV4iHS1mewjQJ0JHxf
+ c4hltJ30857EQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Stuart Summers <stuart.summers@intel.com>, Sasha Levin <sashal@kernel.org>,
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.14 232/642] drm/xe: Retry BO allocation
-Date: Mon,  5 May 2025 18:07:28 -0400
-Message-Id: <20250505221419.2672473-232-sashal@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Anusha Srivatsa <asrivats@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 6.14 241/642] drm/gem: Test for imported GEM buffers
+ with helper
+Date: Mon,  5 May 2025 18:07:37 -0400
+Message-Id: <20250505221419.2672473-241-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
@@ -65,59 +68,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Brost <matthew.brost@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit 1d724a2f1b2c3f0cba4975784a808482e0631adf ]
+[ Upstream commit b57aa47d39e94dc47403a745e2024664e544078c ]
 
-TTM doesn't support fair eviction via WW locking, this mitigated in by
-using retry loops in exec and preempt rebind worker. Extend this retry
-loop to BO allocation. Once TTM supports fair eviction this patch can be
-reverted.
+Add drm_gem_is_imported() that tests if a GEM object's buffer has
+been imported. Update the GEM code accordingly.
 
-v4:
- - Keep line break (Stuart)
+GEM code usually tests for imports if import_attach has been set
+in struct drm_gem_object. But attaching a dma-buf on import requires
+a DMA-capable importer device, which is not the case for many serial
+busses like USB or I2C. The new helper tests if a GEM object's dma-buf
+has been created from the GEM object.
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Reviewed-by: Stuart Summers <stuart.summers@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250306012657.3505757-2-matthew.brost@intel.com
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Anusha Srivatsa <asrivats@redhat.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250226172457.217725-2-tzimmermann@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_bo.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/drm_gem.c |  4 ++--
+ include/drm/drm_gem.h     | 14 ++++++++++++++
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-index 3f5391d416d46..d1eb87cb178bd 100644
---- a/drivers/gpu/drm/xe/xe_bo.c
-+++ b/drivers/gpu/drm/xe/xe_bo.c
-@@ -2142,6 +2142,7 @@ int xe_gem_create_ioctl(struct drm_device *dev, void *data,
- 	struct xe_file *xef = to_xe_file(file);
- 	struct drm_xe_gem_create *args = data;
- 	struct xe_vm *vm = NULL;
-+	ktime_t end = 0;
- 	struct xe_bo *bo;
- 	unsigned int bo_flags;
- 	u32 handle;
-@@ -2214,6 +2215,10 @@ int xe_gem_create_ioctl(struct drm_device *dev, void *data,
- 		vm = xe_vm_lookup(xef, args->vm_id);
- 		if (XE_IOCTL_DBG(xe, !vm))
- 			return -ENOENT;
-+	}
-+
-+retry:
-+	if (vm) {
- 		err = xe_vm_lock(vm, true);
- 		if (err)
- 			goto out_vm;
-@@ -2227,6 +2232,8 @@ int xe_gem_create_ioctl(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index ee811764c3df4..c6240bab3fa55 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -348,7 +348,7 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+ 		return -ENOENT;
  
- 	if (IS_ERR(bo)) {
- 		err = PTR_ERR(bo);
-+		if (xe_vm_validate_should_retry(NULL, err, &end))
-+			goto retry;
- 		goto out_vm;
+ 	/* Don't allow imported objects to be mapped */
+-	if (obj->import_attach) {
++	if (drm_gem_is_imported(obj)) {
+ 		ret = -EINVAL;
+ 		goto out;
  	}
+@@ -1178,7 +1178,7 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
+ 			  drm_vma_node_start(&obj->vma_node));
+ 	drm_printf_indent(p, indent, "size=%zu\n", obj->size);
+ 	drm_printf_indent(p, indent, "imported=%s\n",
+-			  str_yes_no(obj->import_attach));
++			  str_yes_no(drm_gem_is_imported(obj)));
  
+ 	if (obj->funcs->print_info)
+ 		obj->funcs->print_info(p, indent, obj);
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index fdae947682cd0..2bf893eabb4b2 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -35,6 +35,7 @@
+  */
+ 
+ #include <linux/kref.h>
++#include <linux/dma-buf.h>
+ #include <linux/dma-resv.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+@@ -575,6 +576,19 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
+ 	return (obj->handle_count > 1) || obj->dma_buf;
+ }
+ 
++/**
++ * drm_gem_is_imported() - Tests if GEM object's buffer has been imported
++ * @obj: the GEM object
++ *
++ * Returns:
++ * True if the GEM object's buffer has been imported, false otherwise
++ */
++static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
++{
++	/* The dma-buf's priv field points to the original GEM object. */
++	return obj->dma_buf && (obj->dma_buf->priv != obj);
++}
++
+ #ifdef CONFIG_LOCKDEP
+ /**
+  * drm_gem_gpuva_set_lock() - Set the lock protecting accesses to the gpuva list.
 -- 
 2.39.5
 
