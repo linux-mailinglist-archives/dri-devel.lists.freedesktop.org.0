@@ -2,58 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBEFAA9EEC
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:16:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE93EAA9EED
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 00:16:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66EF910E442;
-	Mon,  5 May 2025 22:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F2E10E443;
+	Mon,  5 May 2025 22:16:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nus+e6/z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O7NYeMnd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73D3F10E43B;
- Mon,  5 May 2025 22:16:31 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 498CC10E437;
+ Mon,  5 May 2025 22:16:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id F0C22A4CC29;
- Mon,  5 May 2025 22:11:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA178C4CEE4;
- Mon,  5 May 2025 22:16:27 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7BDF94377A;
+ Mon,  5 May 2025 22:16:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9EFFC4CEED;
+ Mon,  5 May 2025 22:16:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746483390;
- bh=WM5Bt1/8kI3k0/qcvdULGqRf6SUq9+KsJasU795ApL0=;
+ s=k20201202; t=1746483392;
+ bh=ILjGPL7YznZaK7LmROiSM/ALmSuwjcbwF7zDM1o8V0o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nus+e6/zQLYK59oDFfVXBeP9YdXfkPRIqegT7ZrWsCSBUTZUPJLxq9ypGPNU+T5sf
- A+7rwhcVEfuJcfxPOK/MmR+NF//XP5XTX9Wj/JEcSBlQXz9bkY3PAMLETuV/KZi0AD
- x4k2kHikmVWXKSQuUP3PW0KCKUAsHuKpKBG6oXPRRzxOdn+RDp9jEEm6Fseqc6/dtV
- GEN2yagIO0R80dH6atncZEWWPulG3Xp7vyIdx+KAa+I04WTOeXEpON3K/FsZ3Oxp/J
- xoUh4oDbs6RuoJgWO98K7YfBIwL9YekDfelQa6LUKnDONSYzbmJisUBqM24mAoB6op
- Xw5SLc+kl7ivQ==
+ b=O7NYeMndXtRemY9s35K1KQmwslz7N9fvMiP0jhxsw3aHFG7nYGeeoL1y/UrUgxgTS
+ SjP77MEy2JFZvi841Swd52CrJzvOUrcYQqa1afCx1R6H+gSOWJPX4V5g0rR7mg9FXQ
+ yhjK82Dgr4WszTJWU4Q6z22oJKRXMHP9gisGm7vClp/RmHf1P+jWR/xkz2z84JpYVY
+ XKWot4JeDplywFov+N6YTP0lsmRf37RAsOGJLh+MVCYJm3MryC8U983oFEojs7A23D
+ 6c1EIy81fuhmM1vBG0IipLyWI8fVwMDaYP0f2y2wIbRJU/7FzXCvX9J8/VuaR34egw
+ uN9SAq69tr9cw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+Cc: Jonathan Kim <jonathan.kim@amd.com>, Lancelot Six <lancelot.six@amd.com>,
+ Harish Kasiviswanathan <harish.kasiviswanathan@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, airlied@gmail.com, simona@ffwll.ch,
- sumit.semwal@linaro.org, pierre-eric.pelloux-prayer@amd.com,
- Arunpravin.PaneerSelvam@amd.com, David.Wu3@amd.com,
- pvmohammedanees2003@gmail.com, Yunxiang.Li@amd.com,
- tvrtko.ursulin@igalia.com, Jack.Xiao@amd.com, Hawking.Zhang@amd.com,
- Jiadong.Zhu@amd.com, mukul.joshi@amd.com, shaoyun.liu@amd.com,
- chongli2@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.14 061/642] drm/amdgpu: use GFP_NOWAIT for memory
- allocations
-Date: Mon,  5 May 2025 18:04:37 -0400
-Message-Id: <20250505221419.2672473-61-sashal@kernel.org>
+ Felix.Kuehling@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.14 062/642] drm/amdkfd: set precise mem ops caps to
+ disabled for gfx 11 and 12
+Date: Mon,  5 May 2025 18:04:38 -0400
+Message-Id: <20250505221419.2672473-62-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
@@ -73,269 +66,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian König <christian.koenig@amd.com>
+From: Jonathan Kim <jonathan.kim@amd.com>
 
-[ Upstream commit 16590745b571c07869ef8958e0bbe44ab6f08d1f ]
+[ Upstream commit f82d27dcff939d3cbecbc60e1b71e2518c37e81d ]
 
-In the critical submission path memory allocations can't wait for
-reclaim since that can potentially wait for submissions to finish.
+Clause instructions with precise memory enabled currently hang the
+shader so set capabilities flag to disabled since it's unsafe to use
+for debugging.
 
-Finally clean that up and mark most memory allocations in the critical
-path with GFP_NOWAIT. The only exception left is the dma_fence_array()
-used when no VMID is available, but that will be cleaned up later on.
-
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Acked-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
+Tested-by: Lancelot Six <lancelot.six@amd.com>
+Reviewed-by: Harish Kasiviswanathan <harish.kasiviswanathan@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  8 ++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c         | 18 +++++++++++-------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c        | 11 +++++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c        |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c       | 11 ++++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h       |  3 ++-
- 6 files changed, 32 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 1e998f972c308..70224b9f54f2f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -499,7 +499,7 @@ static int vm_update_pds(struct amdgpu_vm *vm, struct amdgpu_sync *sync)
- 	if (ret)
- 		return ret;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+index 62a9a9ccf9bb6..334c576a75b14 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+@@ -2006,10 +2006,6 @@ static void kfd_topology_set_capabilities(struct kfd_topology_device *dev)
+ 		dev->node_props.debug_prop |= HSA_DBG_WATCH_ADDR_MASK_LO_BIT_GFX10 |
+ 					HSA_DBG_WATCH_ADDR_MASK_HI_BIT;
  
--	return amdgpu_sync_fence(sync, vm->last_update);
-+	return amdgpu_sync_fence(sync, vm->last_update, GFP_KERNEL);
- }
- 
- static uint64_t get_pte_flags(struct amdgpu_device *adev, struct kgd_mem *mem)
-@@ -1263,7 +1263,7 @@ static int unmap_bo_from_gpuvm(struct kgd_mem *mem,
- 
- 	(void)amdgpu_vm_clear_freed(adev, vm, &bo_va->last_pt_update);
- 
--	(void)amdgpu_sync_fence(sync, bo_va->last_pt_update);
-+	(void)amdgpu_sync_fence(sync, bo_va->last_pt_update, GFP_KERNEL);
- 
- 	return 0;
- }
-@@ -1287,7 +1287,7 @@ static int update_gpuvm_pte(struct kgd_mem *mem,
- 		return ret;
- 	}
- 
--	return amdgpu_sync_fence(sync, bo_va->last_pt_update);
-+	return amdgpu_sync_fence(sync, bo_va->last_pt_update, GFP_KERNEL);
- }
- 
- static int map_bo_to_gpuvm(struct kgd_mem *mem,
-@@ -2969,7 +2969,7 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence __rcu *
- 		}
- 		dma_resv_for_each_fence(&cursor, bo->tbo.base.resv,
- 					DMA_RESV_USAGE_KERNEL, fence) {
--			ret = amdgpu_sync_fence(&sync_obj, fence);
-+			ret = amdgpu_sync_fence(&sync_obj, fence, GFP_KERNEL);
- 			if (ret) {
- 				pr_debug("Memory eviction: Sync BO fence failed. Try again\n");
- 				goto validate_map_fail;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 5cc5f59e30184..4a5b406601fa2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -428,7 +428,7 @@ static int amdgpu_cs_p2_dependencies(struct amdgpu_cs_parser *p,
- 			dma_fence_put(old);
- 		}
- 
--		r = amdgpu_sync_fence(&p->sync, fence);
-+		r = amdgpu_sync_fence(&p->sync, fence, GFP_KERNEL);
- 		dma_fence_put(fence);
- 		if (r)
- 			return r;
-@@ -450,7 +450,7 @@ static int amdgpu_syncobj_lookup_and_add(struct amdgpu_cs_parser *p,
- 		return r;
- 	}
- 
--	r = amdgpu_sync_fence(&p->sync, fence);
-+	r = amdgpu_sync_fence(&p->sync, fence, GFP_KERNEL);
- 	dma_fence_put(fence);
- 	return r;
- }
-@@ -1124,7 +1124,8 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 	if (r)
- 		return r;
- 
--	r = amdgpu_sync_fence(&p->sync, fpriv->prt_va->last_pt_update);
-+	r = amdgpu_sync_fence(&p->sync, fpriv->prt_va->last_pt_update,
-+			      GFP_KERNEL);
- 	if (r)
- 		return r;
- 
-@@ -1135,7 +1136,8 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 		if (r)
- 			return r;
- 
--		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update);
-+		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update,
-+				      GFP_KERNEL);
- 		if (r)
- 			return r;
- 	}
-@@ -1154,7 +1156,8 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 		if (r)
- 			return r;
- 
--		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update);
-+		r = amdgpu_sync_fence(&p->sync, bo_va->last_pt_update,
-+				      GFP_KERNEL);
- 		if (r)
- 			return r;
- 	}
-@@ -1167,7 +1170,7 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
- 	if (r)
- 		return r;
- 
--	r = amdgpu_sync_fence(&p->sync, vm->last_update);
-+	r = amdgpu_sync_fence(&p->sync, vm->last_update, GFP_KERNEL);
- 	if (r)
- 		return r;
- 
-@@ -1248,7 +1251,8 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_parser *p)
- 			continue;
- 		}
- 
--		r = amdgpu_sync_fence(&p->gang_leader->explicit_sync, fence);
-+		r = amdgpu_sync_fence(&p->gang_leader->explicit_sync, fence,
-+				      GFP_KERNEL);
- 		dma_fence_put(fence);
- 		if (r)
- 			return r;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-index 9008b7388e897..92ab821afc06a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-@@ -209,7 +209,7 @@ static int amdgpu_vmid_grab_idle(struct amdgpu_ring *ring,
- 		return 0;
- 	}
- 
--	fences = kmalloc_array(id_mgr->num_ids, sizeof(void *), GFP_KERNEL);
-+	fences = kmalloc_array(id_mgr->num_ids, sizeof(void *), GFP_NOWAIT);
- 	if (!fences)
- 		return -ENOMEM;
- 
-@@ -313,7 +313,8 @@ static int amdgpu_vmid_grab_reserved(struct amdgpu_vm *vm,
- 	/* Good we can use this VMID. Remember this submission as
- 	* user of the VMID.
- 	*/
--	r = amdgpu_sync_fence(&(*id)->active, &job->base.s_fence->finished);
-+	r = amdgpu_sync_fence(&(*id)->active, &job->base.s_fence->finished,
-+			      GFP_NOWAIT);
- 	if (r)
- 		return r;
- 
-@@ -372,7 +373,8 @@ static int amdgpu_vmid_grab_used(struct amdgpu_vm *vm,
- 		 * user of the VMID.
- 		 */
- 		r = amdgpu_sync_fence(&(*id)->active,
--				      &job->base.s_fence->finished);
-+				      &job->base.s_fence->finished,
-+				      GFP_NOWAIT);
- 		if (r)
- 			return r;
- 
-@@ -424,7 +426,8 @@ int amdgpu_vmid_grab(struct amdgpu_vm *vm, struct amdgpu_ring *ring,
- 
- 			/* Remember this submission as user of the VMID */
- 			r = amdgpu_sync_fence(&id->active,
--					      &job->base.s_fence->finished);
-+					      &job->base.s_fence->finished,
-+					      GFP_NOWAIT);
- 			if (r)
- 				goto error;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-index 6fa20980a0b15..e4251d0691c9c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-@@ -1335,14 +1335,14 @@ int amdgpu_mes_ctx_map_meta_data(struct amdgpu_device *adev,
- 		DRM_ERROR("failed to do vm_bo_update on meta data\n");
- 		goto error_del_bo_va;
- 	}
--	amdgpu_sync_fence(&sync, bo_va->last_pt_update);
-+	amdgpu_sync_fence(&sync, bo_va->last_pt_update, GFP_KERNEL);
- 
- 	r = amdgpu_vm_update_pdes(adev, vm, false);
- 	if (r) {
- 		DRM_ERROR("failed to update pdes on meta data\n");
- 		goto error_del_bo_va;
- 	}
--	amdgpu_sync_fence(&sync, vm->last_update);
-+	amdgpu_sync_fence(&sync, vm->last_update, GFP_KERNEL);
- 
- 	amdgpu_sync_wait(&sync, false);
- 	drm_exec_fini(&exec);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-index d75715b3f1870..34fc742fda91d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-@@ -152,7 +152,8 @@ static bool amdgpu_sync_add_later(struct amdgpu_sync *sync, struct dma_fence *f)
-  *
-  * Add the fence to the sync object.
-  */
--int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f)
-+int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f,
-+		      gfp_t flags)
- {
- 	struct amdgpu_sync_entry *e;
- 
-@@ -162,7 +163,7 @@ int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f)
- 	if (amdgpu_sync_add_later(sync, f))
- 		return 0;
- 
--	e = kmem_cache_alloc(amdgpu_sync_slab, GFP_KERNEL);
-+	e = kmem_cache_alloc(amdgpu_sync_slab, flags);
- 	if (!e)
- 		return -ENOMEM;
- 
-@@ -249,7 +250,7 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
- 			struct dma_fence *tmp = dma_fence_chain_contained(f);
- 
- 			if (amdgpu_sync_test_fence(adev, mode, owner, tmp)) {
--				r = amdgpu_sync_fence(sync, f);
-+				r = amdgpu_sync_fence(sync, f, GFP_KERNEL);
- 				dma_fence_put(f);
- 				if (r)
- 					return r;
-@@ -281,7 +282,7 @@ int amdgpu_sync_kfd(struct amdgpu_sync *sync, struct dma_resv *resv)
- 		if (fence_owner != AMDGPU_FENCE_OWNER_KFD)
- 			continue;
- 
--		r = amdgpu_sync_fence(sync, f);
-+		r = amdgpu_sync_fence(sync, f, GFP_KERNEL);
- 		if (r)
- 			break;
- 	}
-@@ -388,7 +389,7 @@ int amdgpu_sync_clone(struct amdgpu_sync *source, struct amdgpu_sync *clone)
- 	hash_for_each_safe(source->fences, i, tmp, e, node) {
- 		f = e->fence;
- 		if (!dma_fence_is_signaled(f)) {
--			r = amdgpu_sync_fence(clone, f);
-+			r = amdgpu_sync_fence(clone, f, GFP_KERNEL);
- 			if (r)
- 				return r;
- 		} else {
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
-index a91a8eaf808b1..51eb4382c91eb 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
-@@ -47,7 +47,8 @@ struct amdgpu_sync {
- };
- 
- void amdgpu_sync_create(struct amdgpu_sync *sync);
--int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f);
-+int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f,
-+		      gfp_t flags);
- int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
- 		     struct dma_resv *resv, enum amdgpu_sync_mode mode,
- 		     void *owner);
+-		if (KFD_GC_VERSION(dev->gpu) >= IP_VERSION(11, 0, 0))
+-			dev->node_props.capability |=
+-				HSA_CAP_TRAP_DEBUG_PRECISE_MEMORY_OPERATIONS_SUPPORTED;
+-
+ 		if (KFD_GC_VERSION(dev->gpu) >= IP_VERSION(12, 0, 0))
+ 			dev->node_props.capability |=
+ 				HSA_CAP_TRAP_DEBUG_PRECISE_ALU_OPERATIONS_SUPPORTED;
 -- 
 2.39.5
 
