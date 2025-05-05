@@ -2,186 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EF3AA9296
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 13:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D83FAA92BA
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 14:10:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B672510E3DF;
-	Mon,  5 May 2025 11:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 356E310E294;
+	Mon,  5 May 2025 12:10:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IzwHVUWj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gFd/e8hY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55BE310E3D2
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 11:59:07 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 545Boiu5031014
- for <dri-devel@lists.freedesktop.org>; Mon, 5 May 2025 11:59:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Fc5osDce5Ixp5n1NZs7mSFVdO0qDnEBm9TZBSOSJaog=; b=IzwHVUWjTSN2aTmN
- 0IPLo//J+Zxdxh8FtBA8UKJ7kvNC6g+mk1Nyx6JgENgjB7iSAWdxaJe0sbw/06Yx
- rI0moqbfIK7VFeEzrfag5tOCxAtPLGtRISnnrU3EugHQbuhuTQ1mLn3Qo9ujWUvy
- fLWLGqdXGl1rq9M9oukIM0trKrsS9nx9J8rSek+aOFY11cmZ7bwh/xlxKMwI8ME0
- XZwDaJgrzDkUw3ksftk4vxB6U2C162O2dy0nV66qHrYinprt9IRxBdaiAyl1MUWx
- BJ6yPf5iJzQmpNkxalDBL/TejWUfJFCxnAFOX2Jvul5ILCohX2ayaf4tIxsw5iUu
- QL/3Aw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46dbc5c05k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 11:59:06 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7caee990721so29323085a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 04:59:06 -0700 (PDT)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
+ [209.85.160.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE86F10E294
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 12:10:24 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id
+ 586e51a60fabf-2c769da02b0so3429332fac.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 05:10:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1746447024; x=1747051824; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xf1P+9z9XiJdCaUpuTBjGVfwsl02CsdlqTVjlTuR+ug=;
+ b=gFd/e8hYgzLieVC8Z7czqn1T3vWZHrY97I1QxXHLaAto1jX7dx+gP0pMKljFh/vY2t
+ +7a3uE0HuuDTs7YhP8SM9k4LocJLtintfgbEx08w6JAFzJLD71ysvYamxs0y7WZbJ+J0
+ zD4KedNfes0qv3BjFqMQWlGd9+AskFGQBIo7svUkzrx8gkot7zIqauqs5ba08kqKpO65
+ OMyB3zWWr9vRlInqJVzhP6Jw4/c6n6m1k2b694XgcRiNMpqkHv77qAxp/bBkreA44YGK
+ /Sai5iKKQ/RALeDuWQ91haYg3G/3OUDAPq9ievePECJqsSYRnmiOLVH4MmRembmtIWiN
+ bz0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746446345; x=1747051145;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Fc5osDce5Ixp5n1NZs7mSFVdO0qDnEBm9TZBSOSJaog=;
- b=I/eL/TNvB/hSybWuTt57vgUA7rxJ/zsIHcz0BHW64a/1kIk5e6rq+QdozmopJM+TgW
- cmo6gsCWx+ezcoF8RK7/Kzu6/YH2s4DHjppSGZwawx2n9HMyAnvH3+IP/1/NS4V44AUz
- mUvNS7GLKKvJlZFPiqZaTU5tOxAemI0gzmJlAPZuJQZTz8Y9et2N38dAMb4EzJavj4gw
- oxAutMGQE7l5blmLUVXX+O8ZiBNS61R2oADfRUwqZQe/lvBL6aQys+rOJLhMAEygCEJi
- oa4OG9dJZOyyeZPFTqgn6nYi+mp0rT5En4A0pLXehWVWoyCqVMT7xvuiHA0FL17WBmW6
- ALrQ==
+ d=1e100.net; s=20230601; t=1746447024; x=1747051824;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xf1P+9z9XiJdCaUpuTBjGVfwsl02CsdlqTVjlTuR+ug=;
+ b=FQPcChsvez0onP6lUiEMxD6W0FrzfIni83PXGN5VBAE7z8C8veqANT8QXQk52IMbPx
+ +TSs+DPJSIbSv4b0BlXlO/7nlfcxN7MzX4tIoQBWci89w6+vdi/LrXuXpFJCAUZakSi+
+ 8nMNVlSZqZ3iT7IuCnDKNd6if35zMwKskMtzxFsFFA88XEjCxid/hsUWNHwuW0syzjss
+ 0THKHeslGPeFIyMueL6OP8VLY1qVNAuOmlWKdhS4wTbFJsy9K0C0UOd82ZO8fGNc0mTl
+ f8snBJDFwIYe1B4pc3qhibMsdNS1VappPKAbW6Tu8Wqn1/Gy+e6a858JYj4OFwvjElez
+ iDBg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUn34iG7FX3kWmvG+tCJ4NOfb72qMRz+ZAAzZHvh1EBY9jvvaOqlc06rxN2cpKsNqTC/NeC5qolen4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqyGo0nciIHykYBLapxqMZ3eUb6+qAK606slZw5MagIHN7sv6K
- YqetImZlidJv9spqFBSXTRVEWD/74s5+xCURdLSAHcsQDOh5nqN2vLjPt5KOxqNSSGEVZYfa+F8
- pmD0Y34NtmjpR/GS9KFZyJWoxCJxJ4CT27+lWXVSDdfgOJvlYk6S5wZNDZ0N7jApBJQ0=
-X-Gm-Gg: ASbGnctdv8sdVOw9XaT4a3CmSoepelkfqNjT1A8hfAK/+KO2BaWgFKDjz+0nAIj/XN4
- hdTNKpjisvAdbI/5bw5ATTn9iMRQsvW0W14pC3Q/jOA6H7F3wl4mTlgVPTz2iFdomljARLHeuVG
- 0PDtvYkDNmcpGlR2wxWAjfSJiCgw/Ji0hVovXK8Bhv3Ph7JzuKYmU3jswlvpzq0zHl594Wic6jQ
- gWrONMnGVip7Zu7jrCreD196Gc7IF7LVN7WtlMPk+a08/4ResL+BQTCj4NSUDJQM9p1NMQAYUUO
- /D7fAyklfJlntpNeKCz3DepXrenwEouQ9APiARhK9xjgz6GnzQaUaVSdiVNHfGByHRog7bYfxJR
- LLwhKvtcl5RYlqTZMCnInzbBXafVmWOvFMTiqP7G3sslzSwX/YeEhSQpA6M0CUm/QNHly
-X-Received: by 2002:a05:620a:4001:b0:7c5:9a37:c418 with SMTP id
- af79cd13be357-7cae3b1604amr1093375385a.51.1746446344985; 
- Mon, 05 May 2025 04:59:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHxsMcGBcuXzdzsMZLmfG4jCCth/aIBhqNnJlAxtHNCdoHctJUXgi2+jH+zw6iGwmYPEzBLZg==
-X-Received: by 2002:a05:620a:4001:b0:7c5:9a37:c418 with SMTP id
- af79cd13be357-7cae3b1604amr1093364085a.51.1746446344392; 
- Mon, 05 May 2025 04:59:04 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:671:42db:aca9:2ffd:84bc:ddc5?
- (2001-14bb-671-42db-aca9-2ffd-84bc-ddc5.rev.dnainternet.fi.
- [2001:14bb:671:42db:aca9:2ffd:84bc:ddc5])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ea94c8d40sm1695574e87.98.2025.05.05.04.58.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 May 2025 04:59:03 -0700 (PDT)
-Message-ID: <9afd098c-edd3-44fa-8efe-99f2e9c9a525@oss.qualcomm.com>
-Date: Mon, 5 May 2025 14:58:58 +0300
+ AJvYcCWtnxdccAUYkIzM4lsEx00lxd12q5lxNdFi6qFVahmWBIV94gHb5BhOULCPexL6sJ5hy2B6Fst7RC4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwIN6qEsVtGgieTe1sFmkvkH1mPnhEEX0BsAqsWPRTThc7Ieiwg
+ eLp69rUclIZddoMTHyzv4C1oxxuCu6zrMtfR9w07FJBsSXWVrMIvXK189016lirWHsXaVXSw+TQ
+ RhCf2XbI/IWzCVZVDgfy7yje/eejvcek4vyx7Ew==
+X-Gm-Gg: ASbGnctUzjU8q6VwDizHGRSHwq4jlBXZoZyCDNm6KRWDBQxczo212T9mHzL9J4c53cd
+ O97haSJky4lPg1Zeo8w8RuA5Q5tDKRqfkcEm9vajTuvwnNGqvVMhY7NX3BDajWWRQlL3JRXrNLw
+ YrYBTbYs8lthQ5ycR1mN3LeSA=
+X-Google-Smtp-Source: AGHT+IGrfUH9MPAdQwNS2twFxhlagwaLPCfCXznz+rgBdFwPjZ3ioiuEo3A9Gk0YdclatuJ1Za+bseaIMHaboEvs7gU=
+X-Received: by 2002:a05:6870:7196:b0:2d5:230f:b352 with SMTP id
+ 586e51a60fabf-2dae8619680mr3755206fac.27.1746447023762; Mon, 05 May 2025
+ 05:10:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH v2 00/34] drm: convert all bridges to
- devm_drm_bridge_alloc()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Inki Dae <inki.dae@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Alim Akhtar <alim.akhtar@samsung.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa
- <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Adam Ford <aford173@gmail.com>,
- Adrien Grassein <adrien.grassein@gmail.com>,
- Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>,
+References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
+ <20250502100049.1746335-2-jens.wiklander@linaro.org>
+ <6236d3cb-fbf2-4a41-a84a-276aa8079b9a@arm.com>
+In-Reply-To: <6236d3cb-fbf2-4a41-a84a-276aa8079b9a@arm.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Mon, 5 May 2025 14:10:11 +0200
+X-Gm-Features: ATxdqUFEAD2cD1D5jQOZdhIhdxiPr-7TKi7md7xZJRysmAHd6QQOFGSu_VWfcD0
+Message-ID: <CAHUa44EhdHZofZHRWQ8SJUn4OcAuMwzxxdfjhLQuXQXx4KEaUA@mail.gmail.com>
+Subject: Re: [PATCH v8 01/14] tee: tee_device_alloc(): copy dma_mask from
+ parent device
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Christoph Fritz <chf.fritz@googlemail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Guenter Roeck <groeck@chromium.org>, Heiko Stuebner <heiko@sntech.de>,
- Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Jesse Van Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Liu Ying <victor.liu@nxp.com>,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Phong LE <ple@baylibre.com>,
- Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>,
- Sui Jingfeng <sui.jingfeng@linux.dev>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Vitalii Mordan <mordan@ispras.ru>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan
- <yuanhsinte@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- Aradhya Bhatia <a-bhatia1@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Ian Ray <ian.ray@ge.com>, Martyn Welch <martyn.welch@collabora.co.uk>,
- Peter Senna Tschudin <peter.senna@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Herve Codina
- <herve.codina@bootlin.com>, Linus Walleij <linus.walleij@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Rob Clark <robdclark@gmail.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <174591887152.961603.7706063017853945511.b4-ty@bootlin.com>
- <832a9db0-cf8a-4d35-8a98-08053fbd6723@bootlin.com>
- <20250430-arrogant-marmoset-of-justice-92ced3@houat>
- <20250505130648.22ec8716@booty>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20250505130648.22ec8716@booty>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: rLHVbODIDq-skfP0CJlphHXaB_Zl021O
-X-Authority-Analysis: v=2.4 cv=O7Y5vA9W c=1 sm=1 tr=0 ts=6818a80a cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=P-IC7800AAAA:8 a=H8qqLt0gxxJlsNWwv3EA:9
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-ORIG-GUID: rLHVbODIDq-skfP0CJlphHXaB_Zl021O
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDExNCBTYWx0ZWRfX7fhsOxBmEKI0
- KYSK1VbPC+23NF55EVXF7rk1JyC1YwdzhHEx7d7xZ4N/ZwszgmkVIjyIkEQHCPSp+QqVUX6QO7F
- rnQch7QMM0SbwR9gWCmcKYla/labfLLcakr16DZzFWTpYcp+yFYhQHw6PuqjBm+FL2H86wZgoii
- RLlTnuQLLmOT/GMBU2Qls9oeg8+UToVQI/JsblWjlhB3RDOIb5Y6095B5fN4uUBbKUIEknoL2q2
- clR8KFkPObzL4Bnam3Oa2dht5gqyAjK4lMZveiQl7fFoFNxw0EtpRFllDbopTdMBfJDAYhdDlMZ
- w2JWBxkvhA8Qg8kFt+Dw3IofI3DULp13xE0sLIlRlKQ1rXrxKsrsIgH8Jv2T5S0Qx1oqMo1+VEh
- M/a5HDD3V9xXzb60iKjlaGa7bxl3I4s5TRefPNnqVQkSkKROHZZvqAR7j7LiLLbGfTuKg1Hp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-05_05,2025-04-30_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
- clxscore=1015 priorityscore=1501 adultscore=0 phishscore=0 bulkscore=0
- impostorscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505050114
+ azarrabi@qti.qualcomm.com, 
+ Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+ Rouven Czerwinski <rouven.czerwinski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -197,37 +99,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/05/2025 14:06, Luca Ceresoli wrote:
-> Inki, Kyungmin, Seung-Woo, Alim,
-> 
-> On Wed, 30 Apr 2025 10:08:14 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
-> 
->> Inki, Kyungmin, Seung-Woo, sorry for the mishap. Do you agree with the
->> following patch, and it going through drm-misc?
->>
->> https://lore.kernel.org/dri-devel/20250424-drm-bridge-convert-to-alloc-api-v2-14-8f91a404d86b@bootlin.com/
->>
->> If not, we'll revert.
-> 
-> Did you have a chance to have a look at the patch mentioned by Maxime?
-> 
-> It was applied to drm-misc-next by mistake. Not your mistake of course,
-> but now it's there so if you don't reply anything it will have to be
-> reverted, and then sent again to go through all the review process to
-> be hopefully re-applied in the future.
-> 
-> If you agree with keeping it in drm-misc-next, that would be less noise
-> for everybody.
-> 
-> I'm going to send v3 very soon, so it would be good to decide what to
-> do before that.
+Hi,
 
-For the record: even though I'm not happy with msm-related patches going 
-through drm-misc without additional ack from our side, I think reverting 
-those and reapplying them later will create a bigger mess. So, I'm fine 
-with keeping drm/msm/* bridged patches in.
+On Fri, May 2, 2025 at 3:36=E2=80=AFPM Robin Murphy <robin.murphy@arm.com> =
+wrote:
+>
+> On 02/05/2025 10:59 am, Jens Wiklander wrote:
+> > If a parent device is supplied to tee_device_alloc(), copy the dma_mask
+> > field into the new device. This avoids future warnings when mapping a
+> > DMA-buf for the device.
+>
+> That also sounds dodgy. If the parent device is the hardware device
+> physically performing the DMA, then that is the device which should be
+> passed to the DMA API. Trying to copy random bits of one device's
+> configuration to another device and hoping it will work is not robust -
+> not only is DMA-relevant information all over the place, including in
+> archdata and/or bus/IOMMU driver-private data, but it can also opens up
+> a whole can of subtle lifecycle issues...
 
--- 
-With best wishes
-Dmitry
+We have a reference to the parent device until the teedev goes away.
+The dma_maks needed by tee_shm_register_fd() in
+https://lore.kernel.org/lkml/20250502100049.1746335-9-jens.wiklander@linaro=
+.org/
+to be able to extract the PA from a DMA-buf allocated from another DMA
+heap. We can drop this patch and support for unrelated DMA heaps in
+tee_shm_register_fd() without losing critical features from the patch
+set if we can't handle dma_mask in this way.
+
+>
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > Reviewed-by: Sumit Garg <sumit.garg@kernel.org>
+> > ---
+> >   drivers/tee/tee_core.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> > index d113679b1e2d..685afcaa3ea1 100644
+> > --- a/drivers/tee/tee_core.c
+> > +++ b/drivers/tee/tee_core.c
+> > @@ -922,6 +922,8 @@ struct tee_device *tee_device_alloc(const struct te=
+e_desc *teedesc,
+> >       teedev->dev.class =3D &tee_class;
+> >       teedev->dev.release =3D tee_release_device;
+> >       teedev->dev.parent =3D dev;
+> > +     if (dev)
+> > +             teedev->dev.dma_mask =3D dev->dma_mask;
+>
+> ...for instance, I don't see any obvious guarantee that "dev" can't go
+> away during the lifetime of "teedev" and leave this pointer dangling.
+
+A successful call to tee_device_alloc() must be followed by a call to
+tee_device_register() or tee_device_unregister(). The former calls
+cdev_device_add(), which results in a call to device_add() and an
+increased reference to teedev->dev.parent, "dev" in question.
+
+Thanks,
+Jens
+
+>
+> Thanks,
+> Robin.
+>
+> >
+> >       teedev->dev.devt =3D MKDEV(MAJOR(tee_devt), teedev->id);
+> >
