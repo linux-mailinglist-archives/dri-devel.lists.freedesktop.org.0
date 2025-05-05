@@ -2,153 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961E1AA9B77
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 20:23:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97F7AA9BC5
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 20:43:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AADF910E117;
-	Mon,  5 May 2025 18:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC38610E118;
+	Mon,  5 May 2025 18:43:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bRNhQpvx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QFCwcvG/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2070.outbound.protection.outlook.com [40.107.220.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CAC810E117;
- Mon,  5 May 2025 18:22:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uwNHBzbf7PK5phhZXli7nauuFSnfeQLc/jr6dUxE+ffpe6035KzqLUJv1nbcx7PFOiuQdGnmweQ7bZejObmtLTgp5SqEPiiF1QX5m8FP9MTQvTPIQjev3lu+xNg/loz5P8bglgvjpDSDtsvck+VIZb3Po9xLXzyxfgXXuDdUSvmoEau41UN8fkcMSZZzhgYnmLp8d+lEKVEcr24ZAvCpbx4rdvK8sA3GVPFXRhIJCQk19+MPSwQIBERbNutGdl/e0sISENxHD5UbihdRTtUwVAEpORDqxkXCu/pSJaWSK+fWunqRxclgXc8VO7QSh/F3dg3n8OoVVgw9zLy5bhIhOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/+qNbdrct+4EmfQOSJkdiJ2VVO8NMT6y/UG2g0cItyU=;
- b=sHdt+2b7XsBeenZbxQIgIMNCM3gPccOMK5KEioAwiXzIL3/2hNGERAmfpifptvyPb2T2sLApBdZjrLnXcfD5M6PkyMOWx5Hid2QNx9uPLJX8vXk8rZ1F8mdHsUkO+bPC30kfmDiR7Smw1y3CpYqZIjocTm9RjFNNawo5g3xksVjDHO7RUrAotc5ZAouw61NpS9utEIf3nWp+PCK8pS0N2p6S6f8VdDvZAZ/g/h1vWrBgqOO7eBIKbBwEH1BNYgjhMBvaNpGjsHrso9yw9rVCFW+stCquHwNU6KEe8HNnsr73MIAXr0CjYoiO2W5uZwbzfhJOdbEtbZ0uvXpyBZQpSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/+qNbdrct+4EmfQOSJkdiJ2VVO8NMT6y/UG2g0cItyU=;
- b=bRNhQpvx7l2B3/uyAlNPqRNZgGNAQz4IHjRxGosyLyY3c2Hj5UiRwqMcT+po0R4f9lPW2UI+GnCJ1mcYFBWmXBBxhu24heDvSEBcJ2+Xt1bdN11WL4r7EqJAQUnQ+wyIi4RiOIfZ3CbJnd09NrIMjcfdTry8AiJdebdcdaQrfMM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by SA3PR12MB7784.namprd12.prod.outlook.com (2603:10b6:806:317::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Mon, 5 May
- 2025 18:22:54 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%5]) with mapi id 15.20.8699.024; Mon, 5 May 2025
- 18:22:54 +0000
-Message-ID: <198c0271-1c50-413c-a4d6-f61262796874@amd.com>
-Date: Mon, 5 May 2025 12:22:51 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: Don't check for NULL divisor in fixpt
- code
-To: Harry Wentland <harry.wentland@amd.com>, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>
-References: <20250428213401.752738-1-harry.wentland@amd.com>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <20250428213401.752738-1-harry.wentland@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQXPR0101CA0061.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:14::38) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09D9910E118
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 18:43:46 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-7398d65476eso3836466b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 11:43:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1746470626; x=1747075426; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yQzbmjudt+hJvG7n8NMoirGU7KRPkcRToJ0JJSw35CU=;
+ b=QFCwcvG/98NH9VeYrQbuatk5f4AwtnCA4symFldm5KwNZFPefF7BXoe7nZruV15wBR
+ gOuhjRapgCcftw7SVhDnb/8BpgFjdxSCQ8KRAA7Py/U2NdDUVCGR9QfK6tL44yzClLBU
+ /DMmUqgNuY4uTQfkAsOIdNMAPU6MmCQYv0yL8pLJGkhClTZUD0FuRYj0K/dg6uHauD0x
+ 2WTB/LTgcVcBhMholoxoi80GUIdvhBMfa9MrlNmbhmnt4ZENVz5h0sK65c6zUCbzMkdB
+ EZZij+vwl7/BiKkwdIN5eNfyspcyn13T8W7/CBWvXJV7c4YIBz8wcsNiiuX+KGUtt+uf
+ 6/9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746470626; x=1747075426;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yQzbmjudt+hJvG7n8NMoirGU7KRPkcRToJ0JJSw35CU=;
+ b=jhuL7qKrSSJozqjy7U8QPkMkG8o3FhBL6LfYY5keBbkE55fUkUdn9bb/ztvbWqSiBc
+ X9mZYIK4TZ97U7BRm2+/91z28MWw1xb8qc9zo/b8+J2u9Xal37Zv9biMvhw/fo8XLHEX
+ dStdCtKly2vWX0l8mj4AtcCPkNYEtyhVsOOxl4IDn3mxoBMBUqqw6OHSrjomroD2HDEL
+ yNGS5DAIQWosoOs29lJr9FXoh3bhqdg5nmN5/2QLkHu6lfkkyRLiBApm2fP7LgzMmUU9
+ +A5aLMyuCH0yEq5U28E7AYxyK0Ld5tPMJBmHU9tGwp+WhrQH11mWI0/YuZuvVxjlWNrg
+ 0fIQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWG46yU3qan9HGh4PewqGJ62jmcgypuN3NljVcRjXy6G9kGljFm3ra6GMlXd0mZ4BG9ks61gwtALAA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxeazse5USLVgPNBrhMV+jbBD0tVXkbSFXpyKdO2cATJ/bt8ZxR
+ cxpqbDSOxvdSy44sg476KS6PfiBf0RCH9u9RT3C9ECZKaDuw1CMY
+X-Gm-Gg: ASbGncs6CxOrrGgjN+C6Xy7T6Uel3ZxUVeMPqgg1zocuioCIJuJlylBsazOg7MeqFHD
+ 6WF5SRI4CZEbhovTR72BJv4Uk+FKU8793ac0N2dBoD9rvaLU7XA7OvewFPcEpNTafwfZ+ssHN03
+ uz0RVbRBCFad4CYb6ispgTlfFG/+SNagxXtng1kjxPOsEcCiwo9Zl+3CKNC3ZPBYEnQaR0lKnbf
+ 5jhwIbJfJppxJjy2Z9hmfRUKG7zkjqIS4vtBV+ZDRY7yMokVoQ8hx9OQ0QLHWYgyYllqYxK2A1b
+ xZL87TUYR4+JZCZaDVlIPlvMgT3BZmqi1ZCrV0Rg1Fu1s8ecKZrUvXuY4gdLs73rC2mCfw==
+X-Google-Smtp-Source: AGHT+IGMBauXSP9NfIaQaM7+UUg7ZcaSiDMXtLxYknxQzEukhYbTe1ekmAy1F/1+blL1smz9X2PsTg==
+X-Received: by 2002:a05:6a00:1308:b0:73d:f9d2:9c64 with SMTP id
+ d2e1a72fcca58-74090eb4df2mr813280b3a.10.1746470625673; 
+ Mon, 05 May 2025 11:43:45 -0700 (PDT)
+Received: from vaxr-ASUSPRO-D840MB-M840MB..
+ ([2001:288:7001:2703:afa:5db4:54e4:f59c])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7405902167csm7433788b3a.98.2025.05.05.11.43.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 May 2025 11:43:45 -0700 (PDT)
+From: I Hsin Cheng <richard120310@gmail.com>
+To: neil.armstrong@linaro.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, khilman@baylibre.com,
+ jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+ christophe.jaillet@wanadoo.fr, skhan@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ I Hsin Cheng <richard120310@gmail.com>
+Subject: [PATCH v2] drm/meson: Use 1000ULL when operating with mode->clock
+Date: Tue,  6 May 2025 02:43:38 +0800
+Message-ID: <20250505184338.678540-1-richard120310@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|SA3PR12MB7784:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1fa4c7a8-b4e9-42fb-0592-08dd8c01da58
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dzIxdFRFUkxrWktsVmlrNlI4WGgwTUEzak1VeWh1VEI4dHBuZkJTQW84VGYv?=
- =?utf-8?B?dExvdTl2SmJITkF3RkMzNVg4Zm9UTmpGMVg3VmZpSGhIVE5DbWVST0VuQ0dq?=
- =?utf-8?B?TVZLcU9ESEkwdUNHNTFKdmhUTnlvOVFwNkw4MktMUDVXRXFhUGp1TTZ2bC9t?=
- =?utf-8?B?ckdkMFRSQXhUckZmeTBMUmRmWW5PZjA3dDRtYjY5eWVYSWsybUxEUmhiOHR2?=
- =?utf-8?B?bUQ4WjBodGdSUFphc0IvQnNIWmF3aGxHRHJqYzRjZEVtNmdNdFlabkVwZHEr?=
- =?utf-8?B?Y2RoWnJab0Fhb1ZTajlhWXA5aDB0b1p1OS9aNXlkTmp2a09PVUNUM2s0bXB2?=
- =?utf-8?B?cHVTS2w2NzV5Y01kZ0lDaHdHcUZyOEhmYUxnNjhOOTdoRXA1bGJxYnR3b0N4?=
- =?utf-8?B?S0pMakx4TnpRWmI5VCtjZC8rZEFGTjhZK2tvbUVhQ1NQbUhjRzNIU2Y1cEVn?=
- =?utf-8?B?dFkxYW5lZWYrWFhxYXVSbUlxUklhNzVuM0JMVTB0SFlKOEY2NmxXamRSbk5O?=
- =?utf-8?B?YWtISHZXSFp2anBJeGRaNmhvL0RNVTkwT2NaV08xZnN6Y2RLVnVxK0FRTEdY?=
- =?utf-8?B?Q3lISmprNko5QWxjVjJ4SXluUjBQcGcrdlVLT1kzU2YxeFZmUWRFRmhZVzVm?=
- =?utf-8?B?ZVRjUjR1UGVOWXlwb1BRTFVYWHk2YXlrV2NjTVJTL2dZWWMwR2xzWEhkeDFE?=
- =?utf-8?B?QXU3RzVVQnQzYmp2aHl5cFFqZmRaeENIUWJZeGVNeE5vd1ZXZ0Q3U2NsR2gw?=
- =?utf-8?B?aEZpK0VSdktzWlN1VHF2aVp4Y1FSVkl6Q0h4bkxSbXFGK21YNmxoejBZUDhP?=
- =?utf-8?B?UjR3T0lQMUcvRjdrZmRZaEtYZ0dMeGpaZjkveEVHaVduRDJPZTV6bVBXLzlX?=
- =?utf-8?B?N1g2RlZsT0UrWjI4SXNZeW5JVm0vNHRQY3pZNTZIdldTRkhyaVNSbElOYkxp?=
- =?utf-8?B?MEhOalNjMTlBSUdXQ1plV1Ewek9ZMCtKL1NZSGNLVnkyQmEwc2dhMm9USVIr?=
- =?utf-8?B?WlJ6UFR4QkI4ZGhsTWJqWWV6ZFMrK2JRUjBmNThaV204OThQODdWOXJDa29j?=
- =?utf-8?B?SDVEdTRCQU9qYWlFanlZK2VraCtJN0VZaHZvTGVJWkMvVUZKVTBQQ0hHNG5w?=
- =?utf-8?B?L1BPL293RHJDK0RNZE1SMUtkYmpYMWNZZGRaYnBncFo5NVF0TmpHenJ1QnZE?=
- =?utf-8?B?bkc1WnpLTHJuYTZtS1N6WHBMR1BuZW1DOU5pd3g1UkFaNE10cTVtZ1gza0gv?=
- =?utf-8?B?cEFBd0QzRGdDVjYyTXkrOFdBSVdVRzVTSFBHVVJlbHZ3WXBiT1lRMDlFYjVF?=
- =?utf-8?B?SS9LcnV2Rk96N0hNUklhZWh2dlBIRlhublZMdXB6L1VRNWZ0dDZqNEcvbWZp?=
- =?utf-8?B?OW5obXlHYWdnUWN0Yk9Vb3RId0JMNHhaR05JZkhkeG1peXZ2Z0V0TGxUTG1S?=
- =?utf-8?B?QnRaZTVkNkhtcFRrcWdwZk1VUE9UNFBpSmw3Lys1TnJhQUpleE1GVFhlVjdY?=
- =?utf-8?B?WkFvQ1ZFUGdXVXo4U3ArYjQwUTVaaGg4MjFPQmNsTVFXMGtEcWNBQzNrVDVs?=
- =?utf-8?B?cW9haDAvc1VLWngxQWJ0RmhHSjRxQVZMcTQvcFBURjNxZElMdG9yRXdZZUtu?=
- =?utf-8?B?OHZzVEI1ckc3RW13d0kzOXFzTHlqY2VpY1FDSlBuOG1MRUEzSnZRYVJzN3dz?=
- =?utf-8?B?YjBualNOM1lJYW0wcU4vVmpxVFVMVmljVnJDU0xrd25YaEVvanlyUVJjNHdz?=
- =?utf-8?B?YTRUaVY5VVlCU2dPL3ZoODNDblBheHdub05SUUcwalQ4U1pJbXM0N0ZBakg4?=
- =?utf-8?B?cXlUTUs5bXBEdGcxL0NoYlhzTW5HS3d5K3o2cGc5OFI2YkVWOFRiZXlLVzJk?=
- =?utf-8?B?NE80MG53RWNlcmFYSkxnUzNqT2tmTXp1SkNzT0tuQjQrcnVMNWYyRi9xMVdR?=
- =?utf-8?Q?lzamKyTV1aY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eVNWRnFJQWxJKzYrMml5dlNMa1VZOXkwZ2NwOEJudkZ6cVpqeEhvK0swejBX?=
- =?utf-8?B?RE93SEtLNVVoUmova1czR04wTnJpSmJLaUFVeEFMcmhZZGFHaGZnT21pL2hH?=
- =?utf-8?B?ZWZjcEs2Rmc4RGUrNkx3SitSNk1HVTAzZnM0UjgzUStVMytoYzBpM3ZDM1kz?=
- =?utf-8?B?QXlOUm5VK3ZEM0JrL05DM3ZaYm5ZRkZoUnhwK3VtVms3K0FQRFBzckFEeVBu?=
- =?utf-8?B?WXhqK05aNVpFQ3B2NXRiZGRiV0MxeGhLSSt3ZnlQT2pCOVY2VUF4dUYwSFJY?=
- =?utf-8?B?VjFBcm04TGlYS3NmWG95V3JITk9xVEZKQjdYRU5ldXhJRUwzZFczdGhWb1RP?=
- =?utf-8?B?SDZoN2pqSGpLUEdFa2Q1NjEzTldSTnMzcHM2U1diK1R4aHRJU0I0dHFkWmlo?=
- =?utf-8?B?cFZZTXY5R0o0QW5LMnBVdmJUWE9sM1ZZQVlGZk50QjZXaEZEU1dZTTZZb28v?=
- =?utf-8?B?bkdKV3ptWFRNbnlaSU5Xem1CdHpIcTN4VENVd0x2NjlGTEJtWUErUlMvS3Nn?=
- =?utf-8?B?ZTg3STV3eDkyL0NNZFVwYWlGOERGS3ZNNkJHOGJqV3YwbDA5R3U1NlFLeFNB?=
- =?utf-8?B?T2pKRTVIc1YrbmZMSk96VGdHU29xbFJJZGUrODdlaFBJSmRQNXdWMllHeWI0?=
- =?utf-8?B?S051RlVyampDQmZYb2pBWnphbjRMZnVJM2djYXpzZlRWSjFsVkZlcW1XZ3dC?=
- =?utf-8?B?VlROaC8wRGZGemJqQUdTSWhEM21aQWlWSUhYaStQbXlaeGpVamZZL3lVSDBw?=
- =?utf-8?B?elVSMm1mVVFhdnRTNkRPNWQwSGMrVVFVU1d5Vkh2Y3BKZUJOVFhaL0pDVUdh?=
- =?utf-8?B?amNqM3ltTkdYQnV2R2ordVM3VmwyNm1heGV5bjVqYlVOM2tWcUR2YzNaOEts?=
- =?utf-8?B?dmFHbXU0YWllNVZCK0RGbXRUM1VnTGFFV3B2aHJ4RmZXVC9tYmhCMHgyd3N4?=
- =?utf-8?B?VDZmMjZCRk9OTW5RL2l1QU5YL0N5Qmw4VkVzMXBCbXJ2ck9jVi9WRFJwNHBV?=
- =?utf-8?B?aW9zODYwYkhxMWpQeWh4M0dIMGhFREVSMlpjNWdjRXZXWWt5S09NTUNLUnZO?=
- =?utf-8?B?Tmd4L3dUTjdyRUJkU2NQUmE3bmhqTGZZeFE0d2doZFBhMnBUcmpWR1hvUkV2?=
- =?utf-8?B?SUwyTGYrcEFQdEowWDBJcUtEQ2dkT1RXUnBoMnBuWWdHdjBEbi9RVmUyUHJH?=
- =?utf-8?B?M09DL0RzdzY5RVFCTUNyZkkzUHgvYzl3eUhRMmRSNVM5Rk5ENWJRTkQvaS85?=
- =?utf-8?B?QmlNS2JFZWN3cnFLdUV4cEZvTEV0Zi9DTjJoTnFhNExGRmVpOU5DNDZiOUo5?=
- =?utf-8?B?V3JFMUhNVlJYRk9ENnFobUQxcWVYTkNpSkM4ZkdJNnoxR2gvVG9ZNjQ3SnBY?=
- =?utf-8?B?a2VJSXk3NUcralZBUWFFTlUzU0lhODlxYXNFSms1VUdiT1N1bzEwOEVOQ1hB?=
- =?utf-8?B?L1lIQWpGUVoyZXZoYlhYQ1BKUStuU2dnVUVENWVwbjZNWEZYL2ZuZS9Ybllm?=
- =?utf-8?B?UHlHZTJFdWsxRFBTUy8vQUVNZjdBaWNvN3JyY1hyTUdmZ1RZZzFuUGVVdjJ2?=
- =?utf-8?B?ZjQ5dnQ3NEFYV2tDa00xVnVLWXIxU1EybzFIZUt2S1FkbVQwVXdzZDk5K253?=
- =?utf-8?B?eFZzeEZCOWhrS1g3MkVXb0cvNVZ4Q2JGRE1JdXJTYVZVcTVTMDBrUVprdndK?=
- =?utf-8?B?WTN6SUJpOURFS21zRm9rZjBRMmFhRDdhejVGUVJlRFlQc0FBMHQ1bXg4ZmVk?=
- =?utf-8?B?SmJDajhOTjlhM0dyQlRPZjI3OVRqVjV2SnBwQTVtWVFNc0FDcVZHZ0tqRXJV?=
- =?utf-8?B?K244M1lqb3lDSkZGYStlTzdVOURGOGZDbzRwQjNYTEk5NFl4VHIzUVdRTTlI?=
- =?utf-8?B?a3FCSWVOZHZBVUludHhKZXpoL0tteERpVWVSa21ueWhRTmpVRWtyU1E2aUJI?=
- =?utf-8?B?SW0rOUREdkY0bEIzWHRqRkh4akVhZW12UmxKNEtGUHJYYVNoZXZ4YXJxNGtT?=
- =?utf-8?B?QUt1ekh3dHRlWnRoSmhFTHQwUzZQc2tsZzdCVUFsSXozdEJJRkJJZHduQS9s?=
- =?utf-8?B?QlY5YVF4RWVsMVU2UVBpWkl3dnZLTmpNV2FsUHM4MVJrRTBDUjRyL1M4eVZz?=
- =?utf-8?Q?5N4poqxBQXNto8eneiEdiGo9q?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fa4c7a8-b4e9-42fb-0592-08dd8c01da58
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 18:22:54.4509 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lu69JKkr15B3b/Yw4WZsuAFl4WdLc0TNgs2aKvGUtgRXCa9UqSjZH5RcIR+PJBHUS7X1PM1jN6pELTh7dDCrhQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7784
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,70 +91,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alex Hung <alex.hung@amd.com>
+Coverity scan reported the usage of "mode->clock * 1000" may lead to
+integer overflow. Use "1000ULL" instead of "1000"
+when utilizing it to avoid potential integer overflow issue.
 
-On 4/28/25 15:34, Harry Wentland wrote:
-> [Why]
-> We check for a NULL divisor but don't act on it.
-> This check does nothing other than throw a warning.
-> It does confuse static checkers though:
-> See https://lkml.org/lkml/2025/4/26/371
-> 
-> [How]
-> Drop the ASSERTs in both DC and SPL variants.
-> 
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> ---
->   drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c   | 5 -----
->   drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c | 4 ----
->   2 files changed, 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c b/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c
-> index 88d3f9d7dd55..452206b5095e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c
-> +++ b/drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c
-> @@ -51,8 +51,6 @@ static inline unsigned long long complete_integer_division_u64(
->   {
->   	unsigned long long result;
->   
-> -	ASSERT(divisor);
-> -
->   	result = div64_u64_rem(dividend, divisor, remainder);
->   
->   	return result;
-> @@ -213,9 +211,6 @@ struct fixed31_32 dc_fixpt_recip(struct fixed31_32 arg)
->   	 * @note
->   	 * Good idea to use Newton's method
->   	 */
-> -
-> -	ASSERT(arg.value);
-> -
->   	return dc_fixpt_from_fraction(
->   		dc_fixpt_one.value,
->   		arg.value);
-> diff --git a/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c b/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c
-> index 52d97918a3bd..ebf0287417e0 100644
-> --- a/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c
-> +++ b/drivers/gpu/drm/amd/display/dc/sspl/spl_fixpt31_32.c
-> @@ -29,8 +29,6 @@ static inline unsigned long long spl_complete_integer_division_u64(
->   {
->   	unsigned long long result;
->   
-> -	SPL_ASSERT(divisor);
-> -
->   	result = spl_div64_u64_rem(dividend, divisor, remainder);
->   
->   	return result;
-> @@ -196,8 +194,6 @@ struct spl_fixed31_32 spl_fixpt_recip(struct spl_fixed31_32 arg)
->   	 * Good idea to use Newton's method
->   	 */
->   
-> -	SPL_ASSERT(arg.value);
-> -
->   	return spl_fixpt_from_fraction(
->   		spl_fixpt_one.value,
->   		arg.value);
+Link: https://scan5.scan.coverity.com/#/project-view/10074/10063?selectedIssue=1646759
+Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+---
+Changelog:
+
+v1 -> v2:
+	- Use 1000ULL instead of casting the type of "mode->clock"
+	- Refine commit title and message
+	- Fix the issue for the evaluation inside drm_mode_status
+	  meson_encoder_hdmi_mode_valid() as well
+
+Christophe,
+Thanks for your review and your suggestion, I think I should add a tag
+for you,too, but I'm not sure what should I add, if you would be so kind
+please let me know how should I tag you in the patch.
+
+Best regards,
+I Hsin Cheng
+---
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+index 7752d8ac85f0..c08fa93e50a3 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
++++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+@@ -75,7 +75,7 @@ static void meson_encoder_hdmi_set_vclk(struct meson_encoder_hdmi *encoder_hdmi,
+ 	unsigned long long venc_freq;
+ 	unsigned long long hdmi_freq;
+ 
+-	vclk_freq = mode->clock * 1000;
++	vclk_freq = mode->clock * 1000ULL;
+ 
+ 	/* For 420, pixel clock is half unlike venc clock */
+ 	if (encoder_hdmi->output_bus_fmt == MEDIA_BUS_FMT_UYYVYY8_0_5X24)
+@@ -123,7 +123,7 @@ static enum drm_mode_status meson_encoder_hdmi_mode_valid(struct drm_bridge *bri
+ 	struct meson_encoder_hdmi *encoder_hdmi = bridge_to_meson_encoder_hdmi(bridge);
+ 	struct meson_drm *priv = encoder_hdmi->priv;
+ 	bool is_hdmi2_sink = display_info->hdmi.scdc.supported;
+-	unsigned long long clock = mode->clock * 1000;
++	unsigned long long clock = mode->clock * 1000ULL;
+ 	unsigned long long phy_freq;
+ 	unsigned long long vclk_freq;
+ 	unsigned long long venc_freq;
+-- 
+2.43.0
 
