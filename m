@@ -2,94 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92568AA9179
-	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 13:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584E2AA918F
+	for <lists+dri-devel@lfdr.de>; Mon,  5 May 2025 13:08:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA4FF10E3B4;
-	Mon,  5 May 2025 11:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60EF910E010;
+	Mon,  5 May 2025 11:08:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UbfkzcaD";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="c1N+M7j0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0782910E0F8
- for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 11:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1746442824;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=12227oQcClANdsmAr+zYH4cNE2cunVLZjHCM4d8y22g=;
- b=UbfkzcaDyRtvqKNZnxBud0T+l/DC4A8NxRVB/HJK3r3G0b7QKMSnbQ6N1+DVZErUtxz5As
- SR8Om0qpwcO/T5QZOTjzDWZZiKXkA5awkINksNdCBl6qoDetLAtoNkLpyio2PUqStnomCv
- 1JF/pX7F2DMkzq4u9fLNRWurKAtldvM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-626-dHvmJvZKMBazJlDiJb8ckw-1; Mon, 05 May 2025 07:00:23 -0400
-X-MC-Unique: dHvmJvZKMBazJlDiJb8ckw-1
-X-Mimecast-MFC-AGG-ID: dHvmJvZKMBazJlDiJb8ckw_1746442822
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3912e4e2033so971521f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 04:00:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746442822; x=1747047622;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gYZVyBXjALhKKXNyoTTAghH2Cljj5vQ2jFdSmpambSs=;
- b=jIthunAshcKrXlQYC2wvnl5ZaLYb+bP9uXfuf+GhzOvUOlnFwaxzLkt2zR72CjtcSP
- uC/K4rnHOvUsoNNkHVYoWh32bt+q6vKKi1gWVPppFAimuojofwm2WVr8pvUACVshxmoU
- EQxeRj6F0vAZpxE9yOChvbr1K+BoEvI3Udzchybx/L2Rm7i521Zyoe1We38KadgSk52L
- PbvDJ76X+LRiR/tzddcDE8a6sy/S1CbSX3hPNQOO3DfRbnHo/IGSbSU2FMJHwMrSB0B7
- L9xLATkGxwJ2AYHHOM74bqTRGx/me/DCtMxnmlfaItU08xfmrnLnzsYIUUR/yhU5el6r
- /0Ag==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8H5MktIfIg6G3ZR3aisPxqMdYgms+MhM8gnt1hdo1T1Y9Gn9WoELMIfnKJru2h1W6A8mL9YGd2Ok=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyu/+g/G4NC7ryBzK+oSw4TYpp+q34ZJD7Fb7BuMng5sbXjtZ56
- VLpG3S0U9Jw2dA8GCcTVZLpEvE952J9S+Bc27BwdywZ5R73Z8TWqyMwW5dS/2Pn4fMUweasEGjv
- +yAuHjzONGhoJgUfNtC7O8Y/+X40dm+z1JdGPv0JP1LgRD4PNPF2zjH1S5NR7EL10Ww==
-X-Gm-Gg: ASbGncsDELboZ0eutex75txOxGmZGB1tBqou9RxiP0h6UURc+e8O6zJnJmhh0+/Gich
- o9yzYfYgKXPaWlFfl4Hsh4LeZ6jTCjh0+obXaLg4r7q506B6/NhkXUbZiI06a5FU8aw4XqndU+P
- Tj8qS2o9rA+IUvfP+oSbQumhxytIEXD8I5pB3U2RTXnJVqep/ijLubIG9XOqJnds+EkeH7QnKtS
- WSiDDaDqw4obLzlzRpPVpWxMnB4P6/g1+f2fd+lqlHbZ356bd0UXybfa6jrufWPrKcxkXcA8f08
- JRRURwvSwDQc+XX+ixfZx/aiCP6PiOcllJZefo7IVg==
-X-Received: by 2002:a05:6000:178f:b0:39c:16a0:fee4 with SMTP id
- ffacd0b85a97d-3a09fd88901mr5903271f8f.27.1746442821962; 
- Mon, 05 May 2025 04:00:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFGBxRsfJq3WL/X8i0OkbQ6itau/ggn7k4p8e3Vj8ihS5socMSRfYRyDLKwDFZM/ivQvZNUfA==
-X-Received: by 2002:a05:6000:178f:b0:39c:16a0:fee4 with SMTP id
- ffacd0b85a97d-3a09fd88901mr5903250f8f.27.1746442821629; 
- Mon, 05 May 2025 04:00:21 -0700 (PDT)
-Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a099ae7a55sm9913932f8f.45.2025.05.05.04.00.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 May 2025 04:00:21 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Marcus Folkesson
- <marcus.folkesson@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, David
- Lechner <david@lechnology.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/sitronix: move tiny Sitronix drivers to their
- own subdir
-In-Reply-To: <29c139fe-337d-4cd2-944b-8e26080a326f@suse.de>
-References: <20250503-sitronix-v2-1-5efbed896be2@gmail.com>
- <27a5f519-de87-4fab-b465-bb89ae5b988b@suse.de>
- <87r013wgoy.fsf@minerva.mail-host-address-is-not-set>
- <29c139fe-337d-4cd2-944b-8e26080a326f@suse.de>
-Date: Mon, 05 May 2025 13:00:19 +0200
-Message-ID: <87o6w7wce4.fsf@minerva.mail-host-address-is-not-set>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2047.outbound.protection.outlook.com [40.107.92.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7789110E010
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 May 2025 11:08:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nPyylmjwRU6e9p8JxDJgbKGdY6iJUWaoAVx1JlzqsG9zSVLwvR70vJtKHxuWSUCUR8CaoRRpfrxhIg6KCcIsj8NmTf8Dqok3IQ2a9KFAhYOgTuxSt84pAd98owgGgTVd7SpQDevwXPPsgvn/+opsjXhAjAJCy/xOV3AQjDF6K2ca1Y0s4+gGBFs38GSvDiVUQET6n7Kz6c+qy133KRAovjLpc7ZXoRQuO2Xz4Bc6B0VmHPV3XIvYmWVLW6tdIcCXmGcmrPz9SC0yQ6vfT41i6X9l0dfg69jI6bbl1zylilrpE3nxHtPwf/HP2zGUKx+ZBHcCrvDSTLKIfYW6ngyM6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jBk8W6PoKBOqdptd8eUmw/fuF6/cXXSYZtLnoa69mWI=;
+ b=aPRZLuSQ2u8xUS2eacZZraFonDRN+Z0H2HmGYl6SsmZQvJuK7UAcqhSNNJ4Lp42snxckvSYSd1vJ9/UE/KBzqTuEfgkg/b6xFSBeSnS/ono2HexMfKJ66a5dkrUcBERtZdV6763QuiwGhbIDU3QAKo0Yz13S1H6gNi01KacFlvOYORRs0yOws09WAg59EnVUSNTcdEPbnDc90Lwawq7RJ4GF4xJ/30MfodmRyIYv0yMO7A/dd9BuQV/YuTHscWypLhCCWoEb32PNYVefFWMiSOXi5QfVqMJBKezxdJ0MlWbqiyeUqVmb85AYW5TSXVmuWdkAFOdrA5z2FnUB4ifoTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jBk8W6PoKBOqdptd8eUmw/fuF6/cXXSYZtLnoa69mWI=;
+ b=c1N+M7j0FDTnhhfLKhLFBm2J9dKXaw2R8TnPvIZuY4pnAhseB0owjPCsXcsTBcj7Kqk0Z2EXvKsL8h0gUPJIp4qYIsRLH6YIMmUMjaC6f47HoNfDJqZe9Qq1+eNrl44CsXaodU88FYBxCEZAmBPtC1HsoQ1LPLxzUwD+Osq7QrE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN2PR12MB4143.namprd12.prod.outlook.com (2603:10b6:208:1d0::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.29; Mon, 5 May
+ 2025 11:08:17 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Mon, 5 May 2025
+ 11:08:15 +0000
+Message-ID: <4ecda12a-aa29-43e5-8f3a-2d8b9bd2e852@amd.com>
+Date: Mon, 5 May 2025 13:08:04 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] dma-buf: Rename and expose debugfs symbols
+To: "T.J. Mercier" <tjmercier@google.com>, sumit.semwal@linaro.org,
+ ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+ martin.lau@linux.dev, skhan@linuxfoundation.org, song@kernel.org,
+ alexei.starovoitov@gmail.com
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, android-mm@google.com, simona@ffwll.ch,
+ corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev,
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
+ jolsa@kernel.org, mykolal@fb.com
+References: <20250504224149.1033867-1-tjmercier@google.com>
+ <20250504224149.1033867-2-tjmercier@google.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250504224149.1033867-2-tjmercier@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0125.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: FUqjmwLaxOx_E0d3ZjQ4wp1CzIoV1XxWZ4cVbIWNPbc_1746442822
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4143:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2f73f23-ed6c-435b-ab7b-08dd8bc521b7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|7416014|1800799024|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WnFaMEw0R0tPcWtHV0ZINlZiejZzUklxRFR1Nm1PbmgvVzJZZ3hLekZEbEZj?=
+ =?utf-8?B?WTJOQWZoT1lPNHZDcDZYNFBFTlpid01pR09velB5UWhFV2ZMNDFkYmZ5QS9V?=
+ =?utf-8?B?UWJ3Q0loNEFyNk9kdmZVdm1ZOVk0SitNRXdlL2NpYjhOUXFxSGpHZ0s5OGR2?=
+ =?utf-8?B?MUhFL2NzcVpiRHNmSzNhZGFSajYxb1pDSUF3UGp3Q2MxWkRMOWdERDRmQjdt?=
+ =?utf-8?B?aVI4bXNoSUtNZUNLSnZzcXNJMWZxOU40SHcvTUZwL25PQk5pUm5sUCtWVkJM?=
+ =?utf-8?B?TmY0b3lyekZsUU92WWV6bEpSZnRXZTBWd2E1MWNpQjlQazZrUmNId05ERERT?=
+ =?utf-8?B?WC9OWXNsSGt1eTNvZTlDeDJXZElINVhnVUxwQzJuSVErcllLcUMxN2ROT1Ir?=
+ =?utf-8?B?bVVSS0c0bUhXK2hrK0I3RExtYnowUi9GWWtJOWdOZFFJb1l3d0dJY1EvZzRt?=
+ =?utf-8?B?WTNDcXJhQWlodlZiVzBCSzlrYS9EQVdKLzlScklUV1MxaEVMYU9LNEd4UHRB?=
+ =?utf-8?B?T1VkeGNRTmdQaW5iUFBneW5MQ3dUdG52dmE5aHQyZ0puZzhBNi9ubk9YbmJO?=
+ =?utf-8?B?STdYbHM2aWU0MkZxRUhKMnBIV3FCMXF6cWEycEk2eE1QTDhuYUFaNEJRVU5B?=
+ =?utf-8?B?dVJJYVVXMkVCcFRvMTcvN0M0cGliejBOSXZrK3NTdmVQWUh3YU1RdWNDb2tn?=
+ =?utf-8?B?T0FIUlZjRTFJdkhLTkVLM0NkUERvdjQxbWd0MmRpRXVkMEtqTlA3OUJTRVpz?=
+ =?utf-8?B?cGZhVnd5Mmw3L01CMWs1NCtmbExnTC9HVjJiK0NFVy92UVZoU3J3V1dlVVAz?=
+ =?utf-8?B?U0pWUE8xa2xVRkc2QUphV2ludXRKVDAxYTVaSEh1dm9KVFBhekdnSExDWnNs?=
+ =?utf-8?B?UHVSOWpyRHorQ1RNQk1IZzJ0alcweFoxTmpqMzhGZlBIcTB1T0h0azVLb2k5?=
+ =?utf-8?B?Qy9xa25kMXozdDhOSVB0bmZLRlF4eUtvcHhJei9RNitNUTZpeU9YYzEyVXhF?=
+ =?utf-8?B?QTM0bDVXOE5hOEdFVDlyRVVpQ3RiQis5MGRrbkhVZzVnZ1BtRkxwVzNvSXpx?=
+ =?utf-8?B?eVRDT3J4ajJuK2p1OUQ2Y2VuWDNUYWFVbVVRK21MOFdPeHZiTE1YQkFBMmh0?=
+ =?utf-8?B?Tk1lckZZL0VaNEUvTnFpTzVoaFJrZHR3b2VLNkUvMmxkOEVLSERvMGREVTA5?=
+ =?utf-8?B?ZllYRmk4Y09VNk1DYzI1ZkVoZStzLzFQMHZ4VHAzMnpaaVYrQkdnUkVVN2d2?=
+ =?utf-8?B?RW5yRUNSNjFlUERPNU93cGZEcThsUFk1TjdaZllyczViMVRsS3hHVWEwRmRL?=
+ =?utf-8?B?aGN3eDJmZ3RpWUFtWXc5d2J4RkhzK1M5ZVdEa1dqUE5DZTY5RVNURVROWmtz?=
+ =?utf-8?B?K0xTKzZrZzZkVXZFaUZPSkxzNjYzN0g2UDAxUDkycVl3NU9MZVVUTFExbEh5?=
+ =?utf-8?B?bXoxblU0R3hwWHR4QUtWS21WclNiVXcvOCt6bEdPMnpMZkxWZzMvU0RzY281?=
+ =?utf-8?B?SU45Q2hOOUVoMWV3U0ZydWRpUCtLemNhUWcwSzRjamFqaEh6N2FneTRFMGND?=
+ =?utf-8?B?YXN2NDhlMUFXKy9rL3pWU3hNaEFFWEprSFlyVG15N3dEVnVuVk9MNG1WbmJw?=
+ =?utf-8?B?WXJOdUdBcWlwaXJ3YUI0OGVUSHBLOVBCMW5HRUs0L0tTMUFlK3h6UG1NSWsy?=
+ =?utf-8?B?MlowdzFWZmVWeEtqblBDbktjRmVnbGpXZ0VuNXdiNW8yYmZlcjcvM09iNUtn?=
+ =?utf-8?B?TGRnb0ZSbERNYWt6Zm8xVW9tUy9NVEIwVzZsSEZIckN0V3pNcG02c0prdUt2?=
+ =?utf-8?B?RTZPZmkzd2FVSTVaTWFyV0ZWN1ZKMGFEdzBqU3BxYWtGWVFvMVZnTnVwMFM4?=
+ =?utf-8?B?NjhSZUszMWRsRFNiWnpmb1J4WHV3SkkwWVIxUUZMczBFT2p6TTdaWVRHZEpK?=
+ =?utf-8?Q?REpNtp4ta54=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(1800799024)(376014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TXdYRkZEU3krUzNJcFBIaExIVkpHS0NHeXlqczhkcEhVSVJsS1Q3OTJXWm9y?=
+ =?utf-8?B?d3FMVjZuNFl3OE5FVXh4bE1GV0JDbEJmUVNjT2FZcTNIcEd5Z1lPQ2gwcFFi?=
+ =?utf-8?B?WG82ZFkxNWtCOGhjQnNGaW5tRU9keU9KS2JhNkpWZlB2RVdOenU1MzBTTU9P?=
+ =?utf-8?B?ZzBqMVV4b3BjODlmTzVBQk9ES2JEVkR1eFg5dWpiamhMNzBtQ3BCamdoMkdu?=
+ =?utf-8?B?dDJPRFgxWVJGSHNGazZaVGpsNFlQR2wzYmhzWEZoQUJUcmxYSXcyRnJyMUVn?=
+ =?utf-8?B?bFJOWHdOVG5JNUdyMUNSZW5jZlFqYktOTjk0Uk5FNDJCOEJQZ0daSXlWTENL?=
+ =?utf-8?B?Q284azBBbDhZbWhjM1RrTFZqMG5WamJiVWU4WGtZY1ZlWVR5Uy83WXZSZXd3?=
+ =?utf-8?B?dm8wVW5iQlNmakpRTFRzcnRVN3lKUENCNGlXZmQ4cFJVTkl5L1NhN1NWaTdm?=
+ =?utf-8?B?aHQ3S1kyUWE5Mm9PeS9ySG9PS2Q0ejllOWIwRzB5RlI5Wm11b0swRHprdkhr?=
+ =?utf-8?B?UXRDZ0FORkNVU1E5YjJBdm9NbTV2TWtXeFZJeFN3YmZiRWhjMS96U2VxRHU3?=
+ =?utf-8?B?eXRGbFlvT0FqaTF2WUozZXc0M1o4a0hkYVFjd1QwYnN5Tm1JM1NMbHVrNk5W?=
+ =?utf-8?B?UDh3ajFrZWJwU3Jnd3JLTFpUVzhGZXEvUnJ6enhuaHB3RmIvUVFHc1FicG9B?=
+ =?utf-8?B?V21oRTZUY0NSRTdmbDI2WEZITE9PU05GU0xib05YclpITUxHM1l4QTd5aXcy?=
+ =?utf-8?B?QWMwQVRhU3NBaWR5YVNmb0xhdExKbkczcTFDd2N6SjZsWG9iZ3FYci9kdktF?=
+ =?utf-8?B?UHpQbWNhZkZHOFFKQkF2Q3NDOGR1cEo5M05yaDhBOEduWjd0cmpwVnU5b21i?=
+ =?utf-8?B?c3BleElqZXhzbTR0eDZ1TkpydzIvckZGTFVGb0xlV0VZTzloaFhyUHJ5YnFh?=
+ =?utf-8?B?LzMza3dlNDhYa200ZFhCM3NGb1N6Nkhsd1FFUjFmTkhzMTRva280cEdNajBZ?=
+ =?utf-8?B?T1RabDBKbDFZVzV1M2h3L2tiVUZON2dNbk1UaGNTMVd6a3pJZWJNNFBMTC84?=
+ =?utf-8?B?R2ZpSHgxN1FSMHM3WWN6UFpCMUpHS09tYTRKWU5UcXN1cXN6eXZlUk1wMVMz?=
+ =?utf-8?B?NzRQb1Mvbzc1aHdqaDk3MSt1QmRsMkZEdGNodS9Jdmx4VnlLNkhnemVQcUM2?=
+ =?utf-8?B?Z0JDUEJJRkdiaS9GOFEvaFhVTS9FVkl2aG9wR2ZkUjM4bXZDdjdKZGMrL3JZ?=
+ =?utf-8?B?cnhQY0UzUlBFV0VPMkdxcDFPVWZCTFlWbkxkVlhpVGtpancwNUY4VXRkZVpT?=
+ =?utf-8?B?bGJuMGdBYUZTeVBjempjZ3d4c2FoSE5HK1ZZdDNwZkVNZkdLREZsb05OQUxu?=
+ =?utf-8?B?MHdRbXlKWkJDMHVqTDR0RHZpQmh6VkpUSk0vNmlFREVjUHZ1RXZoSnpidjc3?=
+ =?utf-8?B?SGlZMDdVOExrbkpBS3ZTQUNKMEJWSlpTT0xnMmdDNTVtQ1hlbHlQaGU3R0I4?=
+ =?utf-8?B?ZURJcUFRNG43Um1GZFR3bEdzS2Qvd1BFWEJ0a3RxOVFYZUVwbENmSVJ3TjdU?=
+ =?utf-8?B?Um1jYTNMU0R3NE1ZYmt6VTkrSVpqcllLUzYzZisyVlNXMlpUWUJEVUdkNi80?=
+ =?utf-8?B?K0ZBWmNpS3cxZWFjb3UydDVOQzFXS1lITnNTNzFHNDh2Yk5idWdIeVlIK2lT?=
+ =?utf-8?B?RlhveGJZd2JGd0xsYk10UjVPcTh6cDVEdC9Rb054MjFQNE04R2paL2VQaGR4?=
+ =?utf-8?B?MUVnN0dRMFg3bUY3aDMzTnJsTjdsa1p4RUQza1VwU0V1emJMRkd1VGdwZWpX?=
+ =?utf-8?B?bEN3dXVxdnlRZTVzbkpwVk1pMDZtcTFZVTc0Wm9IbW9vNnVRWHRjd2ZXWFRz?=
+ =?utf-8?B?Tm9HSzFSUUh2dHMvNVRwOHR2Q2lLOGJndnpNN3loaDZqSVBocHA1YzJUb2JW?=
+ =?utf-8?B?cmw0NGpQdE80MDA5SmUrV2Uwa0JzVzhmZkFVMHM0a1lEZ05JZ2ZETzNvVUx3?=
+ =?utf-8?B?WHU1MnJPMjkzN0JhMCtxV0JOUzZCKy9WWWJUTFBBK0JJMFFiTkdSZlJVUTV4?=
+ =?utf-8?B?aTc5aWF2SEpSN2VsOExZQm81ZVo5L1FOZnVjQ1ErTGpDWk92cWgvNk5lZDdm?=
+ =?utf-8?Q?wxLlwKr8r5sg3bo3yBKWSb8ea?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2f73f23-ed6c-435b-ab7b-08dd8bc521b7
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 11:08:14.9245 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uy/FXkiDud55Z64ZXAyD/s37S6E+fTUxbI9XS7I4ii2nEVvWpCcqEacpMEvGa99o
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4143
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,65 +173,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On 5/5/25 00:41, T.J. Mercier wrote:
+> Expose the debugfs list and mutex so they are usable for the creation of
+> a BPF iterator for dmabufs without the need for CONFIG_DEBUG_FS. Rename
+> the symbols so it's clear debugfs is not required, and that the list
+> contains dmabufs and not some other type.
+> 
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
 
-> Hi Javier, Marcus
->
-> Am 05.05.25 um 11:27 schrieb Javier Martinez Canillas:
->> Thomas Zimmermann <tzimmermann@suse.de> writes:
->>
->> Hello Thomas,
->>
->>> Hi,
->>>
->>> there's one major issue here. You must not change the Kconfig symbols o=
-r
->>> you'll break kernel updates for a lot of people. So those TINYDRM_* mus=
-t
->>> remain as is.
->>>
->> I disagree. The https://docs.kernel.org/admin-guide/abi.html document
->> explictly states that Kconfig symbols are not an ABI, and userspace
->> should not rely on these not changing over time.
->
-> To summarize our discussion on irc [1]: changing the symbols is ok, but=
-=20
-> we should make it compatible to ease the transition. To do so, the new=20
-> Kconfig file can still contain the old Kconfig symbol and the new one=20
-> defaults to it. Something like this:
->
-> config TINYDRM_ST7586
->  =C2=A0 tristate
->  =C2=A0 default n
->
-> config DRM_ST7586
->  =C2=A0 tristate "bla bla"
->  =C2=A0 ...
->  =C2=A0 default TINYDRM_ST7586
->
-> Doing 'make olddefconfig' or a similar make command sets the new symbol=
-=20
-> from the pre-existing one. After a few releases the old symbol can be=20
-> removed.
->
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-That makes sense to me, yes. I'm not against making the life of distro
-maintainers easier. We can then drop these transition symbols after a
-few kernel releases.
-
-> Best regards
-> Thomas
->
->
-> [1]=20
-> https://people.freedesktop.org/~cbrill/dri-log/?channel=3Ddri-devel&highl=
-ight_names=3D&date=3D2025-05-05&show_html=3Dtrue
->
-
---=20
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> ---
+> v2: Make the DMA buffer list independent of CONFIG_DEBUG_FS per Christian König
+>  drivers/dma-buf/dma-buf.c | 40 +++++++++++++++------------------------
+>  include/linux/dma-buf.h   |  6 ++++--
+>  2 files changed, 19 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 5baa83b85515..7260bdd77c75 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -35,35 +35,25 @@
+>  
+>  static inline int is_dma_buf_file(struct file *);
+>  
+> -#if IS_ENABLED(CONFIG_DEBUG_FS)
+> -static DEFINE_MUTEX(debugfs_list_mutex);
+> -static LIST_HEAD(debugfs_list);
+> +DEFINE_MUTEX(dmabuf_list_mutex);
+> +LIST_HEAD(dmabuf_list);
+>  
+> -static void __dma_buf_debugfs_list_add(struct dma_buf *dmabuf)
+> +static void __dma_buf_list_add(struct dma_buf *dmabuf)
+>  {
+> -	mutex_lock(&debugfs_list_mutex);
+> -	list_add(&dmabuf->list_node, &debugfs_list);
+> -	mutex_unlock(&debugfs_list_mutex);
+> +	mutex_lock(&dmabuf_list_mutex);
+> +	list_add(&dmabuf->list_node, &dmabuf_list);
+> +	mutex_unlock(&dmabuf_list_mutex);
+>  }
+>  
+> -static void __dma_buf_debugfs_list_del(struct dma_buf *dmabuf)
+> +static void __dma_buf_list_del(struct dma_buf *dmabuf)
+>  {
+>  	if (!dmabuf)
+>  		return;
+>  
+> -	mutex_lock(&debugfs_list_mutex);
+> +	mutex_lock(&dmabuf_list_mutex);
+>  	list_del(&dmabuf->list_node);
+> -	mutex_unlock(&debugfs_list_mutex);
+> +	mutex_unlock(&dmabuf_list_mutex);
+>  }
+> -#else
+> -static void __dma_buf_debugfs_list_add(struct dma_buf *dmabuf)
+> -{
+> -}
+> -
+> -static void __dma_buf_debugfs_list_del(struct dma_buf *dmabuf)
+> -{
+> -}
+> -#endif
+>  
+>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+>  {
+> @@ -115,7 +105,7 @@ static int dma_buf_file_release(struct inode *inode, struct file *file)
+>  	if (!is_dma_buf_file(file))
+>  		return -EINVAL;
+>  
+> -	__dma_buf_debugfs_list_del(file->private_data);
+> +	__dma_buf_list_del(file->private_data);
+>  
+>  	return 0;
+>  }
+> @@ -689,7 +679,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>  	file->f_path.dentry->d_fsdata = dmabuf;
+>  	dmabuf->file = file;
+>  
+> -	__dma_buf_debugfs_list_add(dmabuf);
+> +	__dma_buf_list_add(dmabuf);
+>  
+>  	return dmabuf;
+>  
+> @@ -1630,7 +1620,7 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  	size_t size = 0;
+>  	int ret;
+>  
+> -	ret = mutex_lock_interruptible(&debugfs_list_mutex);
+> +	ret = mutex_lock_interruptible(&dmabuf_list_mutex);
+>  
+>  	if (ret)
+>  		return ret;
+> @@ -1639,7 +1629,7 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  	seq_printf(s, "%-8s\t%-8s\t%-8s\t%-8s\texp_name\t%-8s\tname\n",
+>  		   "size", "flags", "mode", "count", "ino");
+>  
+> -	list_for_each_entry(buf_obj, &debugfs_list, list_node) {
+> +	list_for_each_entry(buf_obj, &dmabuf_list, list_node) {
+>  
+>  		ret = dma_resv_lock_interruptible(buf_obj->resv, NULL);
+>  		if (ret)
+> @@ -1676,11 +1666,11 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  
+>  	seq_printf(s, "\nTotal %d objects, %zu bytes\n", count, size);
+>  
+> -	mutex_unlock(&debugfs_list_mutex);
+> +	mutex_unlock(&dmabuf_list_mutex);
+>  	return 0;
+>  
+>  error_unlock:
+> -	mutex_unlock(&debugfs_list_mutex);
+> +	mutex_unlock(&dmabuf_list_mutex);
+>  	return ret;
+>  }
+>  
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 36216d28d8bd..ebcd208272bf 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -18,6 +18,7 @@
+>  #include <linux/err.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/list.h>
+> +#include <linux/mutex.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/fs.h>
+>  #include <linux/dma-fence.h>
+> @@ -370,10 +371,8 @@ struct dma_buf {
+>  	 */
+>  	struct module *owner;
+>  
+> -#if IS_ENABLED(CONFIG_DEBUG_FS)
+>  	/** @list_node: node for dma_buf accounting and debugging. */
+>  	struct list_head list_node;
+> -#endif
+>  
+>  	/** @priv: exporter specific private data for this buffer object. */
+>  	void *priv;
+> @@ -556,6 +555,9 @@ struct dma_buf_export_info {
+>  	struct dma_buf_export_info name = { .exp_name = KBUILD_MODNAME, \
+>  					 .owner = THIS_MODULE }
+>  
+> +extern struct list_head dmabuf_list;
+> +extern struct mutex dmabuf_list_mutex;
+> +
+>  /**
+>   * get_dma_buf - convenience wrapper for get_file.
+>   * @dmabuf:	[in]	pointer to dma_buf
 
