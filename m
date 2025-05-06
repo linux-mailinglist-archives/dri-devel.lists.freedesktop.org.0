@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDD8AABD2B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 10:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758EBAABDCC
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 10:52:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3E9210E200;
-	Tue,  6 May 2025 08:28:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RyLGBYPq";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BC0A10E58C;
+	Tue,  6 May 2025 08:52:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C68D310E200
- for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 08:28:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1746520115;
- bh=aKexJcbDf7RX3F6f/GBWM3WTi6g2qAawNgd8dqWrYnk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RyLGBYPq8471eD7UwJB9vj9G6r0qqaxS65kOUFBDqw4QGrLM+TnxnFTJN+X5G8rCB
- jpTZttf+CjjWZ+4e2eHvWo6HmZUhunROKFqnYnCkSfjMJaqPtNdVao1Hwjtzgp+FYx
- 8OCxe0CdGaD2rNtlSQMHryGzRCQpSJzGETCwxwXmScintUXPD0wFiIRuf8NYGxW0CQ
- IFobyEtwrMLHWKwYZQTImV1iwTvsEV/l1ObZuo/rkVWicL3HoUlBIn2TO5aUw7BmI1
- 1CscvnNxDbjzOIyl4dnmkLvTI7sTUJMprgVoLAtmJv7Ns1sZxVONyQnX4KtKStkHpN
- sGxLjhXmUp6og==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 720E217E09BE;
- Tue,  6 May 2025 10:28:34 +0200 (CEST)
-Message-ID: <65012c1f-9888-4231-8e7f-c96b7f09053a@collabora.com>
-Date: Tue, 6 May 2025 10:28:33 +0200
+X-Greylist: delayed 331 seconds by postgrey-1.36 at gabe;
+ Tue, 06 May 2025 08:52:52 UTC
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D57910E58C;
+ Tue,  6 May 2025 08:52:52 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id B25F4404A1;
+ Tue,  6 May 2025 10:47:14 +0200 (CEST)
+Date: Tue, 6 May 2025 10:47:13 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <lumag@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 1/8] drm/msm/dpu: don't overwrite CTL_MERGE_3D_ACTIVE
+ register
+Message-ID: <wykubtbdukui3lmqraq2yklu3obeutcczuw24idhslyaunyb2e@iandx2xswmu6>
+References: <20250307-dpu-active-ctl-v3-0-5d20655f10ca@linaro.org>
+ <20250307-dpu-active-ctl-v3-1-5d20655f10ca@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] drm/panfrost: Add support for Mali on the MT8370
- SoC
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20250502-mt8370-enable-gpu-v5-0-98e247b30151@collabora.com>
- <20250502-mt8370-enable-gpu-v5-2-98e247b30151@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250502-mt8370-enable-gpu-v5-2-98e247b30151@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250307-dpu-active-ctl-v3-1-5d20655f10ca@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,24 +55,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 02/05/25 14:17, Louis-Alexis Eyraud ha scritto:
-> Add a compatible for the MediaTek MT8370 SoC, with an integrated ARM
-> Mali G57 MC2 GPU (Valhall-JM, dual core), with new platform data for
-> its support in the panfrost driver.
-> It uses the same data as MT8186 for the power management features to
-> describe power supplies, pm_domains and enablement (one regulator, two
-> power domains) but also sets the FORCE_AARCH64_PGTABLE flag in the GPU
-> configuration quirks bitfield to enable AARCH64 4K page table format
-> mode.
-> As MT8186 and MT8370 SoC have different GPU architecture (Mali G52 2EE
-> MC2 for MT8186), making them not compatible, and this mode is only
-> enabled for Mediatek SoC that are Mali G57 based (compatible with
-> mediatek,mali-mt8188 or mediatek,mali-8192), having specific platform
-> data allows to set this flag for MT8370 without modifying MT8186
-> configuration and behaviour.
+On 2025-03-07 08:24:49, Dmitry Baryshkov wrote:
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
-> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+> In case of complex pipelines (e.g. the forthcoming quad-pipe) the DPU
+> might use more that one MERGE_3D block for a single output.  Follow the
+> pattern and extend the CTL_MERGE_3D_ACTIVE active register instead of
+> simply writing new value there. Currently at most one MERGE_3D block is
+> being used, so this has no impact on existing targets.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Too late now that this patch has already been merged, but good to
+track for posterity: it'd be nice if the commit message mentions that
+dpu_hw_ctl_reset_intf_cfg_v1() already takes this approach, and only unsets the
+merge_3d bit provided in dpu_hw_intf_cfg, and doesn't clear the whole register
+to zero :)
 
+- Marijn
 
+> 
+> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> index 411a7cf088eb72f856940c09b0af9e108ccade4b..cef3bfaa4af82ebc55fb8cf76adef3075c7d73e3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> @@ -563,6 +563,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+>  	u32 wb_active = 0;
+>  	u32 cwb_active = 0;
+>  	u32 mode_sel = 0;
+> +	u32 merge_3d_active = 0;
+>  
+>  	/* CTL_TOP[31:28] carries group_id to collate CTL paths
+>  	 * per VM. Explicitly disable it until VM support is
+> @@ -578,6 +579,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+>  	wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
+>  	cwb_active = DPU_REG_READ(c, CTL_CWB_ACTIVE);
+>  	dsc_active = DPU_REG_READ(c, CTL_DSC_ACTIVE);
+> +	merge_3d_active = DPU_REG_READ(c, CTL_MERGE_3D_ACTIVE);
+>  
+>  	if (cfg->intf)
+>  		intf_active |= BIT(cfg->intf - INTF_0);
+> @@ -591,15 +593,15 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+>  	if (cfg->dsc)
+>  		dsc_active |= cfg->dsc;
+>  
+> +	if (cfg->merge_3d)
+> +		merge_3d_active |= BIT(cfg->merge_3d - MERGE_3D_0);
+> +
+>  	DPU_REG_WRITE(c, CTL_TOP, mode_sel);
+>  	DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
+>  	DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
+>  	DPU_REG_WRITE(c, CTL_CWB_ACTIVE, cwb_active);
+>  	DPU_REG_WRITE(c, CTL_DSC_ACTIVE, dsc_active);
+> -
+> -	if (cfg->merge_3d)
+> -		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+> -			      BIT(cfg->merge_3d - MERGE_3D_0));
+> +	DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE, merge_3d_active);
+>  
+>  	if (cfg->cdm)
+>  		DPU_REG_WRITE(c, CTL_CDM_ACTIVE, cfg->cdm);
+> 
+> -- 
+> 2.39.5
+> 
