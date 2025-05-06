@@ -2,67 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318B1AAC7AD
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 16:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A56AAC7BD
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 16:21:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 100AA10E6A6;
-	Tue,  6 May 2025 14:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F55910E6A4;
+	Tue,  6 May 2025 14:21:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Ymkwu2JG";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hfiepgVx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A885110E6A4;
- Tue,  6 May 2025 14:18:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=o20N3MxrSOV7spfYb/r4DQ5/n1bgOpTcrwhNxeoTnXs=; b=Ymkwu2JG0S2GSw4YuSX2ASBfsI
- io1hQd0v95Irl3cdENAMHb9bjlw6lZ5hC8vi/mXm8rYHHzP/EvHnZYnuouopezx/iMEJIInZqz/is
- 5Srj5Vd/98NvSHcw7+WXQ0BDnGm0/3yPUw1b83HWdAjI3SFi5nCMFd8HjFSOSh+kGCnZzvcdwMT/H
- PnglxZ5UxD/sG+JjVsuW+iQQX2o6sHNRxQrSPSCVKncIkpnJsafsuYmgwIPton6ckKjwuoFmKGgb4
- 6MmkbshIYFMkhRjFYWPDrI825xdoS9WFazMVbiC2OAW/qJ2p3Ti3bcRwd+Xgur+ljwr118CGRprjw
- VjxJ1aig==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uCJ4F-004Ecw-B8; Tue, 06 May 2025 16:18:18 +0200
-Message-ID: <41d87d5e-62a4-4b2a-a626-a90caed50877@igalia.com>
-Date: Tue, 6 May 2025 15:18:17 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3F8110E6A4
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 14:21:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1746541284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ra8dT+u0znMisKaFww4zDPkxUuk3oLrk2DWOA7MbbUg=;
+ b=hfiepgVx17D6jTK9WIdm50KBFjsVkDGpmS4mTLW90msnqbfutLsyUzCdpPa7bNKHZzxVB2
+ s893VRbfTuX6cQ2gPBiQmtzsRykqpThlJvZB+c6c9EHBPFB6IB26K8eimmi2X/angTjNd/
+ oVJns1/twe1a3pnxFeCz8w7zIX2K4QQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-163-C7rjoN0DP6OeCDKhkKXQCw-1; Tue, 06 May 2025 10:21:16 -0400
+X-MC-Unique: C7rjoN0DP6OeCDKhkKXQCw-1
+X-Mimecast-MFC-AGG-ID: C7rjoN0DP6OeCDKhkKXQCw_1746541274
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-43cf44b66f7so32411915e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 07:21:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746541274; x=1747146074;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ra8dT+u0znMisKaFww4zDPkxUuk3oLrk2DWOA7MbbUg=;
+ b=Ewfc1V8jNz4Wh6fooDAl7fPERG9oiPjHyXAdDWzRNmq+l2eVxpAVI3YeXmMILH/KNi
+ KxoAXslpzwAAhWF5uY99OovzJCsiId7TmNqEJlxHvf/YpICwT4rospu5oSwI6eWslq8r
+ LFBwa90are2m1eLvVkdrwi8BCF8s99wnhOcBHLmRkZs7Vo1DHKIozLzDDdz4ciymsrXw
+ Z3x7yTKbqCp+Fizgazay7j2HgjaqGKFVFxHloo2Qgy/M7p2grRXqS8zk9tRhPq7fCgki
+ Ei40tes4JHYSbCySAsdnJwXQpcgrMnsCZ63XEyHJzHN5c6bjuuLJmMSqlXJbXuXHQ9Jr
+ VDag==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXSshvGuvDkOr062XWS+gjvg7X61jlzEw2USHD0+vfOpSUYJnjmsZ8Fj/pI9fDBRQQ2xWW3uQpBZCw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxbj0YWJs84XLefCD0Ukbif55GnszmAat7cj48CMTexUWQNRo85
+ rBGGAGr13TPb3ymB5EtTaTf5cUkXY42xk7k4qSgvguY0Epvez60QejLBy/bVzE3CZFfHWZQQWGK
+ QadmAN28XDcRX4jMSAtHmeKCjRbwP6WgNAjNB/7wK0H0a9OgPuLaq+m6WbEaRDJRkSQ==
+X-Gm-Gg: ASbGncsWibj35jRew+zqKaH9t6uvb5+uYuBa/uW7kyx4JSoAKWNx/CDmBsMsRaNHHh0
+ yVg2CRdLmLFpQELy60uYUIaj7Pcuc8QDfknqQRgCgrkomQ3HN6yPmKIlTHTjYs0jqMzfOzJ7h3y
+ ajQ8s2bIZjcjj3Wgq8AUxBOP3inQu9ndHtnu9jdw4cDYoCFsYIAxbUUIaP3Sb0XhRiIWr/AW1k/
+ Lw+xMLDe8TVJkjwlazA5ccE2BhFhAm8sKYKQr0hQcdx4NQ56wLbXF3v6prCKO6SlvCpb62k1IYP
+ 0ooJ39wr1utWkfGWFALuiOftOfm0Qv30sIB0bq+a5yUZiKAWZYs=
+X-Received: by 2002:a05:600c:3e14:b0:43c:fceb:91a with SMTP id
+ 5b1f17b1804b1-441d0fccc42mr27860405e9.11.1746541274436; 
+ Tue, 06 May 2025 07:21:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGcl3pdRwGtR90YF92Wz2k29+8QkFp4HNoMWwAPK/gnK9MygK9LLY/Q0xnpACkC8ozFWRpQJg==
+X-Received: by 2002:a05:600c:3e14:b0:43c:fceb:91a with SMTP id
+ 5b1f17b1804b1-441d0fccc42mr27860085e9.11.1746541274068; 
+ Tue, 06 May 2025 07:21:14 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ef9e:3e6f:fd9c:5630?
+ ([2a01:e0a:c:37e0:ef9e:3e6f:fd9c:5630])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-441b2b28732sm215496895e9.37.2025.05.06.07.21.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 May 2025 07:21:13 -0700 (PDT)
+Message-ID: <9876f066-d01d-41fb-ab6c-e474986dfec1@redhat.com>
+Date: Tue, 6 May 2025 16:21:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] drm/sched: Always free the job after the timeout
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
- <20250503-sched-skip-reset-v1-2-ed0d6701a3fe@igalia.com>
- <3fe178ec-9c16-4abc-b302-64f0077d8af4@igalia.com>
- <af650a53-0625-41f3-876c-006a807ad801@igalia.com>
- <7d1e7571-8fde-40e2-8ce9-a956389ea2c0@igalia.com>
- <dcfb1d4a-9a07-4d72-a93d-e12720b99172@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <dcfb1d4a-9a07-4d72-a93d-e12720b99172@igalia.com>
+Subject: Re: [PATCH] MAINTAINERS: Add entries for drm_panic, drm_panic_qr_code
+ and drm_log
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250506133143.156447-1-jfalempe@redhat.com>
+ <87tt5xvob0.fsf@intel.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <87tt5xvob0.fsf@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: dMa6nQke7ZNRPJHDfi-vbXbzSSbf3fFVHCh9CkOcDM4_1746541274
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,94 +108,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 06/05/2025 14:38, Maíra Canal wrote:
-> Hi Tvrtko,
-> 
-> On 06/05/25 10:28, Tvrtko Ursulin wrote:
+On 06/05/2025 15:52, Jani Nikula wrote:
+> On Tue, 06 May 2025, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>> Add myself and Javier as maintainer for drm_panic, drm_panic_qr_code
+>> and drm_log.
 >>
->> On 06/05/2025 13:46, Maíra Canal wrote:
->>> Hi Tvrtko,
->>>
->>> Thanks for your review!
->>>
->>> On 06/05/25 08:49, Tvrtko Ursulin wrote:
->>>>
->>>> On 03/05/2025 21:59, Maíra Canal wrote:
->>>>> Currently, if we add the assertions presented in this commit to the 
->>>>> mock
->>>>> scheduler, we will see the following output:
->>>>>
->>>>> [15:47:08] ============== [PASSED] drm_sched_basic_tests 
->>>>> ==============
->>>>> [15:47:08] ======== drm_sched_basic_timeout_tests (1 subtest) 
->>>>> =========
->>>>> [15:47:08] # drm_sched_basic_timeout: ASSERTION FAILED at drivers/ 
->>>>> gpu/ drm/scheduler/tests/tests_basic.c:246
->>>>> [15:47:08] Expected list_empty(&sched->job_list) to be true, but is 
->>>>> false
->>>>> [15:47:08] [FAILED] drm_sched_basic_timeout
->>>>> [15:47:08] # module: drm_sched_tests
->>>>>
->>>>> This occurs because `mock_sched_timedout_job()` doesn't properly 
->>>>> handle
->>>>> the hang. From the DRM sched documentation, `drm_sched_stop()` and
->>>>> `drm_sched_start()` are typically used for reset recovery. If these
->>>>> functions are not used, the offending job won't be freed and should be
->>>>> freed by the caller.
->>>>>
->>>>> Currently, the mock scheduler doesn't use the functions provided by 
->>>>> the
->>>>> API, nor does it handle the freeing of the job. As a result, the 
->>>>> job isn't
->>>>> removed from the job list.
->>>>
->>>> For the record the job does gets freed via the kunit managed 
->>>> allocation.
->>>
->>> Sorry, I didn't express myself correctly. Indeed, it is. I meant that
->>> the DRM scheduler didn't free the job.
->>>
->>>>
->>>> It was a design choice for this test to be a *strict* unit test 
->>>> which tests only a _single_ thing. And that is that the 
->>>> timedout_job() hook gets called. As such the hook was implemented to 
->>>> satisfy that single requirement only.
->>>>
->>>
->>> What do you think about checking that `sched->job_list` won't be empty?
->>>
->>> I wanted to add such assertion to make sure that the behavior of the
->>> timeout won't change in future (e.g. a patch makes a change that calls
->>> `free_job()` for the guilty job at timeout). Does it make sense to you?
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> ---
+>>   MAINTAINERS | 28 ++++++++++++++++++++++++++++
+>>   1 file changed, 28 insertions(+)
 >>
->> Where would that assert be?
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 38df6b159a3b..df3abdcf1767 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -8177,6 +8177,34 @@ F:	drivers/gpu/drm/drm_panel.c
+>>   F:	drivers/gpu/drm/panel/
+>>   F:	include/drm/drm_panel.h
+>>   
+>> +DRM PANIC
+>> +M:	Jocelyn Falempe <jfalempe@redhat.com>
+>> +M:	Javier Martinez Canillas <javierm@redhat.com>
+>> +L:	dri-devel@lists.freedesktop.org
+>> +S:	Supported
+>> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>> +F:	drivers/gpu/drm/drm_draw.c
+>> +F:	drivers/gpu/drm/drm_draw_internal.h
+>> +F:	drivers/gpu/drm/drm_panic*.c
+>> +F:	include/drm/drm_panic*
+>> +
+>> +DRM PANIC QR CODE
+>> +M:	Jocelyn Falempe <jfalempe@redhat.com>
+>> +M:	Javier Martinez Canillas <javierm@redhat.com>
+>> +L:	dri-devel@lists.freedesktop.org
+>> +L:	rust-for-linux@vger.kernel.org
+>> +S:	Supported
+>> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>> +F:	drivers/gpu/drm/drm_panic_qr.rs
+>> +
+>> +DRM LOG
+>> +M:	Jocelyn Falempe <jfalempe@redhat.com>
+>> +M:	Javier Martinez Canillas <javierm@redhat.com>
+>> +L:	dri-devel@lists.freedesktop.org
+>> +S:	Supported
+>> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>> +F:	drivers/gpu/drm/clients/drm_log.c
+>> +
+> 
+> MAINTAINERS is supposed to be sorted. See commit 80e62bc8487b
+> ("MAINTAINERS: re-sort all entries and fields").
+
+Sure, I will move the "DRM LOG" block just before "DRM PANEL DRIVERS"
+The rest should be already sorted correctly.
+
+Thanks,
+
+-- 
+
+Jocelyn
+> 
+> BR,
+> Jani.
+> 
+> 
+>>   DRM PRIVACY-SCREEN CLASS
+>>   M:	Hans de Goede <hdegoede@redhat.com>
+>>   L:	dri-devel@lists.freedesktop.org
 >>
+>> base-commit: 258aebf100540d36aba910f545d4d5ddf4ecaf0b
 > 
-> I believe it would be in the same place as this patch assertions, but
-> instead of `KUNIT_ASSERT_TRUE(test, list_empty(&sched->job_list));`, it
-> would be `KUNIT_ASSERT_FALSE(test, list_empty(&sched->job_list));`.
-> 
-> But I don't feel strongly about it. I can drop the patch if you believe
-> it's a better option.
-
-I don't mind this patch, I was just explaining how the current test was 
-deliberately testing a single thing. But we can change it to test more, 
-that's fine.
-
-In this case it would go from testing that the timeout callback fires to 
-testing the callback fires and something else happens.
-
-Key is to define the "something else" part so it is not timing sensitive.
-
-The drm_sched_stop+delay+drm_sched_start approach would perhaps work if 
-you would signal the job with an errno set before drm_sched_stop?
-
-Then it would hit the "free_guilty" path in drm_sched_stop and wouldn't 
-be timing sensitive. As long as there aren't any locking considerations 
-I am missing. That could then safely have the two list_empty asserts.
-
-Regards,
-
-Tvrtko
 
