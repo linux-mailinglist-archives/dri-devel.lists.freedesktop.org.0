@@ -2,36 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B525EAAC486
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 14:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD56AAC47A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 14:46:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 831DC10E686;
-	Tue,  6 May 2025 12:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78C0410E681;
+	Tue,  6 May 2025 12:46:46 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ntS7GNWp";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 397 seconds by postgrey-1.36 at gabe;
- Tue, 06 May 2025 12:49:00 UTC
-Received: from lechuck.jsg.id.au (jsg.id.au [193.114.144.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F2110E686;
- Tue,  6 May 2025 12:49:00 +0000 (UTC)
-Received: from largo.jsg.id.au (largo.jsg.id.au [192.168.1.44])
- by lechuck.jsg.id.au (OpenSMTPD) with ESMTPS id d7ae1c5c
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 6 May 2025 22:42:18 +1000 (AEST)
-Received: from localhost (largo.jsg.id.au [local])
- by largo.jsg.id.au (OpenSMTPD) with ESMTPA id f8bfef88;
- Tue, 6 May 2025 22:42:18 +1000 (AEST)
-Date: Tue, 6 May 2025 22:42:18 +1000
-From: Jonathan Gray <jsg@jsg.id.au>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/pxp: fix non-optimised !CONFIG_DRM_I915_PXP build
-Message-ID: <aBoDqgR_uxbK7SjU@largo.jsg.id.au>
-References: <20241103110230.11035-1-jsg@jsg.id.au> <87msieghk7.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3792A10E088;
+ Tue,  6 May 2025 12:46:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Pl+EPUnSQkqyciIYg1OVy6LXFcGaPGKvziXnvfkIK6o=; b=ntS7GNWpK8OSdVQvIxY47iGuX5
+ pFvXn5EKJLHt5c7knujSdALuFhFJjDLWCqZwT/HDyMW9tRx5ThnZq7XzbPGa3qolmVVHrzee4v4WM
+ apZzPC0e6X6hP0VTyWDGdvoVQ4EeqH8r9W0SikjGdcMoHp1RTDDWpvxhBYZmpAEJjF46ND/eVajUH
+ 0+cmYmV5yVY1GaKOGB4VLa5nWPp7kBCTtJKrJxONt4NB0hyjC7iOht5d7TCogRmeY8qR0WwKULSdG
+ TRe9GjL92HR0dpJKWMuNfR1OOmeKJmw9xb5Oge3d+dX2Xf+UrDXs99yoEMgiIW7f3No021sR6OKed
+ 9xcGbbFA==;
+Received: from [189.7.87.163] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uCHdB-004CWM-J1; Tue, 06 May 2025 14:46:15 +0200
+Message-ID: <af650a53-0625-41f3-876c-006a807ad801@igalia.com>
+Date: Tue, 6 May 2025 09:46:06 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87msieghk7.fsf@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/8] drm/sched: Always free the job after the timeout
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+ <20250503-sched-skip-reset-v1-2-ed0d6701a3fe@igalia.com>
+ <3fe178ec-9c16-4abc-b302-64f0077d8af4@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <3fe178ec-9c16-4abc-b302-64f0077d8af4@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,63 +75,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 05, 2024 at 11:23:36AM +0200, Jani Nikula wrote:
-> On Sun, 03 Nov 2024, Jonathan Gray <jsg@jsg.id.au> wrote:
-> > intel_pxp_gsccs_is_ready_for_sessions() is gated by CONFIG_DRM_I915_PXP
-> > but called from intel_pxp.c which isn't.  Provide a fallback inline
-> > function to fix the non-optimised build.
-> >
-> > Fixes: 99afb7cc8c44 ("drm/i915/pxp: Add ARB session creation and cleanup")
-> > Signed-off-by: Jonathan Gray <jsg@jsg.id.au>
-> 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Hi Tvrtko,
 
-equivalent patch was merged and now queued for stable
-7e21ea8149a0 ("drm/i915/pxp: fix undefined reference to `intel_pxp_gsccs_is_ready_for_sessions'")
+Thanks for your review!
+
+On 06/05/25 08:49, Tvrtko Ursulin wrote:
+> 
+> On 03/05/2025 21:59, Maíra Canal wrote:
+>> Currently, if we add the assertions presented in this commit to the mock
+>> scheduler, we will see the following output:
+>>
+>> [15:47:08] ============== [PASSED] drm_sched_basic_tests ==============
+>> [15:47:08] ======== drm_sched_basic_timeout_tests (1 subtest) =========
+>> [15:47:08] # drm_sched_basic_timeout: ASSERTION FAILED at drivers/gpu/ 
+>> drm/scheduler/tests/tests_basic.c:246
+>> [15:47:08] Expected list_empty(&sched->job_list) to be true, but is false
+>> [15:47:08] [FAILED] drm_sched_basic_timeout
+>> [15:47:08] # module: drm_sched_tests
+>>
+>> This occurs because `mock_sched_timedout_job()` doesn't properly handle
+>> the hang. From the DRM sched documentation, `drm_sched_stop()` and
+>> `drm_sched_start()` are typically used for reset recovery. If these
+>> functions are not used, the offending job won't be freed and should be
+>> freed by the caller.
+>>
+>> Currently, the mock scheduler doesn't use the functions provided by the
+>> API, nor does it handle the freeing of the job. As a result, the job 
+>> isn't
+>> removed from the job list.
+> 
+> For the record the job does gets freed via the kunit managed allocation.
+
+Sorry, I didn't express myself correctly. Indeed, it is. I meant that
+the DRM scheduler didn't free the job.
 
 > 
-> > ---
-> >  drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-> > index 9aae779c4da3..b93488e99685 100644
-> > --- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-> > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-> > @@ -16,26 +16,30 @@ struct intel_pxp;
-> >  #define GSC_PENDING_RETRY_PAUSE_MS 50
-> >  #define GSCFW_MAX_ROUND_TRIP_LATENCY_MS (GSC_HECI_REPLY_LATENCY_MS + \
-> >  					 (GSC_PENDING_RETRY_MAXCOUNT * GSC_PENDING_RETRY_PAUSE_MS))
-> >  
-> >  #ifdef CONFIG_DRM_I915_PXP
-> >  void intel_pxp_gsccs_fini(struct intel_pxp *pxp);
-> >  int intel_pxp_gsccs_init(struct intel_pxp *pxp);
-> > +bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp);
-> >  
-> >  int intel_pxp_gsccs_create_session(struct intel_pxp *pxp, int arb_session_id);
-> >  void intel_pxp_gsccs_end_arb_fw_session(struct intel_pxp *pxp, u32 arb_session_id);
-> >  
-> >  #else
-> >  static inline void intel_pxp_gsccs_fini(struct intel_pxp *pxp)
-> >  {
-> >  }
-> >  
-> >  static inline int intel_pxp_gsccs_init(struct intel_pxp *pxp)
-> >  {
-> >  	return 0;
-> >  }
-> >  
-> > -#endif
-> > +static inline bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp)
-> > +{
-> > +	return false;
-> > +}
-> >  
-> > -bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp);
-> > +#endif
-> >  
-> >  #endif /*__INTEL_PXP_GSCCS_H__ */
+> It was a design choice for this test to be a *strict* unit test which 
+> tests only a _single_ thing. And that is that the timedout_job() hook 
+> gets called. As such the hook was implemented to satisfy that single 
+> requirement only.
 > 
-> -- 
-> Jani Nikula, Intel
+
+What do you think about checking that `sched->job_list` won't be empty?
+
+I wanted to add such assertion to make sure that the behavior of the
+timeout won't change in future (e.g. a patch makes a change that calls
+`free_job()` for the guilty job at timeout). Does it make sense to you?
+
+> But I also do not oppose making it test multiple things in one test per se.
 > 
+>> This commit mocks a GPU reset by stopping the scheduler affected by the
+>> reset, waiting a couple of microseconds to mimic a hardware reset, and
+>> then restart the affected scheduler.
+>>
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 10 ++++++++++
+>>   drivers/gpu/drm/scheduler/tests/tests_basic.c    |  3 +++
+>>   2 files changed, 13 insertions(+)
+>>
+
+[...]
+
+>> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/ 
+>> gpu/drm/scheduler/tests/tests_basic.c
+>> index 
+>> 7230057e0594c6246f02608f07fcb1f8d738ac75..8f960f0fd31d0af7873f410ceba2d636f58a5474 100644
+>> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>> @@ -241,6 +241,9 @@ static void drm_sched_basic_timeout(struct kunit 
+>> *test)
+>>               job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+>>               DRM_MOCK_SCHED_JOB_TIMEDOUT);
+>> +    KUNIT_ASSERT_TRUE(test, list_empty(&sched->job_list));
+> 
+> Hmm I think this assert could be racy because it appears to rely on the 
+> free worker to run and cleanup the "finished" job in the window between 
+> drm_mock_sched_job_wait_finished() (or drm_sched_start(), depends how 
+> you look at it) and here. Am I missing something?
+
+ From what I understand, the job is freed by the timeout worker [1] after
+`drm_sched_stop()` marked the job as guilty.
+
+Therefore, if the timeout was called (and we asserted that through
+`job->flags`), we can be sure that the job was freed.
+
+[1] 
+https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/scheduler/sched_main.c#L568
+
+Best Regards,
+- Maíra
+
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>> +    KUNIT_ASSERT_TRUE(test, list_empty(&sched->done_list));
+>  > +>       drm_mock_sched_entity_free(entity);
+>>   }
+>>
+> 
+
