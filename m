@@ -2,119 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299D3AAC302
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 13:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC76AAC30C
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 13:49:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB6010E06B;
-	Tue,  6 May 2025 11:46:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4DAA10E243;
+	Tue,  6 May 2025 11:49:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ROg1zKja";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iMriznvV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 776BA10E06B
- for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 11:46:24 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5468cveb025258
- for <dri-devel@lists.freedesktop.org>; Tue, 6 May 2025 11:46:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=pM/k7VZ0DPmfvoZBwKH+duw5
- ejJ6t4FYOhQrJPC39U8=; b=ROg1zKjavNmDzxmYXBNBQ5TPpVgV1ioEXhhMl5h2
- Ihs+EfXMVUhDSpGNwAc8ZsqSejoIugw1hCB1v1xhCMsYMrQseAhVDxSw//mx8U2D
- rf0EwRp5haHPbwVaNaOu7zXoeAVVyk1Kl2aiAi0kAe3Mvtj9kxvpdBWxRTX6Hol0
- Q8zoW5s0QoxQ5aZpE/0Iwo/YufKitNuYw6yCjtoOtRHPhamUtlpMnJz/6+ekT/IN
- 1XiV9tLKid6duJUIiBDy8LrYHE92lhHMt46OH+tW/lRDxiUjxGiKBOhFBuqyBMJ0
- yVjZgo1s+90kAxEoC2x9ZNn7u7wP4l5YZ5UUh5Rh+uyXGw==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46f5sv24qa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 11:46:23 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6f50edda19eso72206796d6.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 04:46:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746531982; x=1747136782;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pM/k7VZ0DPmfvoZBwKH+duw5ejJ6t4FYOhQrJPC39U8=;
- b=ZeSVF9br+rhibbHHKohFJm624YkPbA2LDcce64kGOO4SQQEwVOD+kQlMl6phs9l+2r
- ihL8gaHMVWZz2ondeR8AkQ4Mxqw2Hia0HaW+WSrJAU7WYaMeiqigsRERmaUWrkyXHfnO
- FbtRTTnLXSmBt70H336PnLnbuKKkzmB01vYt0tKy6y7K3sc/W//aEVbcPRrwL5jbtRiB
- W1GewM3usukrkFLjW4pCVvf0QY7p9agvQgYL1cpwfnhE2lu2VjGQjrk9QZ/qzUxbV6Dy
- h/CYWOGsrOtaJjgr8GsSOa2XaLPs++XVFFseEV/257zupIW+eOJRzfP2eJRzIacV9StU
- ZoSw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU47Lh0bIDfd3mexFNIPpIR1QVRpoyvF/3Z1FipkHzXb7iQhWYNaN3LAeAVhIDs/aPf040j5r2nQlE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YySHqcV3C9sgzGKUWUyQwDLIl444jvGSphSl/gXintcigCtXezw
- H4mmjcqAC58jjOfk43jFQlZvAAuSnFKkN4IiWASrexaP2q3JUam9eX84J8aayWzKSFvJCgQkzx0
- YWn0hIxEKEqKn2JBfMVSq9fbJzqHTsN1nxMapZb4ucemopCRXdJQTvLLFJkpJNMEITyk=
-X-Gm-Gg: ASbGncu1Dr0cajT77a0uA/NDEiqFC9IBG5gHuUeDSnpMpOQ1XFnmgjo7u7omiruL10m
- za0F0pQunrQqiplACa+J4N3IBCm+ULHwzTG8A6b4k5t5L+2queaVGbJkqLhIZWfqewhqx6DV33N
- M7wiszGypF4NaQ22lAONbXWh0kk7ErZeeZw1c9B37re3Oz2Sz2hE2OwWyk9/Vc9JoxD7vIQchGf
- zDffdTLxbJOrGbt7Nv7xIDeyNrJ7Ur6DPBd7TF59h7dJG3Ux6VjipoNd13XJbby0n0t5G8GZ6ka
- MVLeWFc5dFe68k9FigpdtDc+3McWA7jZ8YQA82B7ayhh824TSiSop/gCASxXj9x2Cm04rASVeF8
- =
-X-Received: by 2002:a05:6214:5185:b0:6f2:c94f:8cfe with SMTP id
- 6a1803df08f44-6f528c78260mr198564626d6.23.1746531982184; 
- Tue, 06 May 2025 04:46:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEo+jwcJ8B4vTiAbFf+LKzKPh9yaNuoDVGPZUsl4foyk5srXhNVyQcj9XIQhoKxGHCXdQhZtw==
-X-Received: by 2002:a05:6214:5185:b0:6f2:c94f:8cfe with SMTP id
- 6a1803df08f44-6f528c78260mr198564006d6.23.1746531981560; 
- Tue, 06 May 2025 04:46:21 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-320290176c0sm20464171fa.42.2025.05.06.04.46.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 May 2025 04:46:20 -0700 (PDT)
-Date: Tue, 6 May 2025 14:46:19 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
- Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
- Viken Dadhaniya <quic_vdadhani@quicinc.com>,
- Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <qizkfszruwcny7f3g3i7cjst342s6ma62k5sgc6pg6yfoti7b3@fo2ssj7jvff2>
-References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
- <20250506111844.1726-3-quic_jseerapu@quicinc.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD45B10E229;
+ Tue,  6 May 2025 11:49:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=3nUJeKu5hc5iq3UUI3PLIEAN55A3Qspo0XQ9EIuePlc=; b=iMriznvV4puYwKi3gUMz8BR2eR
+ WZH1ys49sVdiifcVpn7pZiOR14mjDH/q7mIJGUkAzzhFll36ix+B3zhOleYKT6FuYx9Bu+PTZFG1I
+ TcmRKKZjyrS02CWvjSpvtRT8ExMrCplmA/NWc4gYgJgl58/Gymr3tdd0gubbPAVM+rZyi34/wT7bE
+ kHhaqeFcHNZW7djFNBFvQlgCASzYnCJ0Bg+2yduEOhVsyqoMxSN/nmGiNTLDPSOuWKt6myE8uLxof
+ XTqwSJSuhLGfiqwQFDoHmHUykh5APxtqIp2UKCWHkX+pDUBqOVniotqzDwSYM8AdYdpBvWvpBhvlg
+ DTcdzPFA==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uCGk8-004BBl-Cm; Tue, 06 May 2025 13:49:21 +0200
+Message-ID: <3fe178ec-9c16-4abc-b302-64f0077d8af4@igalia.com>
+Date: Tue, 6 May 2025 12:49:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250506111844.1726-3-quic_jseerapu@quicinc.com>
-X-Proofpoint-GUID: GnnS3kiXKDhqhad2M_04HT93wPOY9KAR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDExMiBTYWx0ZWRfXwCSJ6E/93DPs
- Efn9lWUG8PHp/ywWVo443dSEltyWa9ILphsA374MFgQZKyrQlGJoHbNqPUF+dTOzL7Lnx2TSZPp
- e1Ad3DhPz5yX1Q8t4M2kq68E3JTSCG+GZ6nGi2Jj6ss5D7CAQE/b5Mtgmp1yGzp7oDWd9e6ClZ9
- 93vYxtWHcKVVxDNScX+T6MLW4w7wHL0CPHRjYYG0vjRulPM44jxTTkVTxaeQ/pJTgyreFfEihas
- PzzqJlvBjIfJ4LP5drPiT0StgqAMgrCq5kJiDiy+wiS6pb535L2K+rWX4w/gwuxDe2Msx6a4xA5
- AXMXbOGQOUdKu4lalKSzH/JP/FgRYLfNP3hakocByJCwWckCTrROu8rbvC0y3WQSrGuqQ9OcQ3W
- hMVF+ggV9y3Y+B7lgdF5nrhA8ijibhmYssUy9l9hTpyjhEk+Blrg/v54uE3tX1OiBJJgpPbU
-X-Authority-Analysis: v=2.4 cv=cOXgskeN c=1 sm=1 tr=0 ts=6819f68f cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=_K02diu8yncocTwFoz8A:9 a=CjuIK1q_8ugA:10
- a=iYH6xdkBrDN1Jqds4HTS:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: GnnS3kiXKDhqhad2M_04HT93wPOY9KAR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-06_05,2025-05-05_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 bulkscore=0
- mlxlogscore=999 adultscore=0 impostorscore=0 malwarescore=0 spamscore=0
- phishscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2504070000 definitions=main-2505060112
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/8] drm/sched: Always free the job after the timeout
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+ <20250503-sched-skip-reset-v1-2-ed0d6701a3fe@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250503-sched-skip-reset-v1-2-ed0d6701a3fe@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,526 +74,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 06, 2025 at 04:48:44PM +0530, Jyothi Kumar Seerapu wrote:
-> The I2C driver gets an interrupt upon transfer completion.
-> When handling multiple messages in a single transfer, this
-> results in N interrupts for N messages, leading to significant
-> software interrupt latency.
-> 
-> To mitigate this latency, utilize Block Event Interrupt (BEI)
-> mechanism. Enabling BEI instructs the hardware to prevent interrupt
-> generation and BEI is disabled when an interrupt is necessary.
-> 
-> Large I2C transfer can be divided into chunks of 8 messages internally.
-> Interrupts are not expected for the first 7 message completions, only
-> the last message triggers an interrupt, indicating the completion of
-> 8 messages. This BEI mechanism enhances overall transfer efficiency.
 
-Why do you need this complexity? Is it possible to set the
-DMA_PREP_INTERRUPT flag on the last message in the transfer?
+On 03/05/2025 21:59, Maíra Canal wrote:
+> Currently, if we add the assertions presented in this commit to the mock
+> scheduler, we will see the following output:
+> 
+> [15:47:08] ============== [PASSED] drm_sched_basic_tests ==============
+> [15:47:08] ======== drm_sched_basic_timeout_tests (1 subtest) =========
+> [15:47:08] # drm_sched_basic_timeout: ASSERTION FAILED at drivers/gpu/drm/scheduler/tests/tests_basic.c:246
+> [15:47:08] Expected list_empty(&sched->job_list) to be true, but is false
+> [15:47:08] [FAILED] drm_sched_basic_timeout
+> [15:47:08] # module: drm_sched_tests
+> 
+> This occurs because `mock_sched_timedout_job()` doesn't properly handle
+> the hang. From the DRM sched documentation, `drm_sched_stop()` and
+> `drm_sched_start()` are typically used for reset recovery. If these
+> functions are not used, the offending job won't be freed and should be
+> freed by the caller.
+> 
+> Currently, the mock scheduler doesn't use the functions provided by the
+> API, nor does it handle the freeing of the job. As a result, the job isn't
+> removed from the job list.
 
+For the record the job does gets freed via the kunit managed allocation.
+
+It was a design choice for this test to be a *strict* unit test which 
+tests only a _single_ thing. And that is that the timedout_job() hook 
+gets called. As such the hook was implemented to satisfy that single 
+requirement only.
+
+But I also do not oppose making it test multiple things in one test per se.
+
+> This commit mocks a GPU reset by stopping the scheduler affected by the
+> reset, waiting a couple of microseconds to mimic a hardware reset, and
+> then restart the affected scheduler.
 > 
-> This optimization reduces transfer time from 168 ms to 48 ms for a
-> series of 200 I2C write messages in a single transfer, with a
-> clock frequency support of 100 kHz.
-> 
-> BEI optimizations are currently implemented for I2C write transfers only,
-> as there is no use case for multiple I2C read messages in a single transfer
-> at this time.
-> 
-> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
-> v5 -> v6:
->   - Instead of using bei_flag, moved the logic to use with DMA
->     supported flags like DMA_PREP_INTERRUPT.
->   - Additional parameter comments removed from geni_i2c_gpi_multi_desc_unmap
->     function documentation.
->    
-> v4 -> v5:
->   - Block event interrupt flag naming changed from flags to bei_flag.
->   - Documentation added for "struct geni_i2c_dev".
+>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 10 ++++++++++
+>   drivers/gpu/drm/scheduler/tests/tests_basic.c    |  3 +++
+>   2 files changed, 13 insertions(+)
 > 
-> v3 -> v4:
->   - API's added for Block event interrupt with multi descriptor support for
->     I2C is moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
->   - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
->     I2C driver.
->   - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
->     struct geni_i2c_dev.
-> 
-> v2 -> v3:
->    - In i2c_gpi_cb_result function, moved the logic of
->     "!is_tx_multi_xfer" to else.
->    - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
->    - Updated commit description
-> 
-> v1 -> v2:
->    - Moved gi2c_gpi_xfer->msg_idx_cnt to separate local variable.
->    - Updated goto labels for error scenarios in geni_i2c_gpi function
->    - memset tx_multi_xfer to 0.
->    - Removed passing current msg index to geni_i2c_gpi
->    - Fixed kernel test robot reported compilation issues.
-> 
-> 
->  drivers/i2c/busses/i2c-qcom-geni.c | 307 ++++++++++++++++++++++++++---
->  1 file changed, 280 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-> index 515a784c951c..e390cf5b4ddc 100644
-> --- a/drivers/i2c/busses/i2c-qcom-geni.c
-> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
-> @@ -78,6 +78,62 @@ enum geni_i2c_err_code {
->  #define XFER_TIMEOUT		HZ
->  #define RST_TIMEOUT		HZ
->  
-> +#define QCOM_I2C_GPI_MAX_NUM_MSGS		16
-> +#define QCOM_I2C_GPI_NUM_MSGS_PER_IRQ		8
-> +#define QCOM_I2C_MIN_NUM_OF_MSGS_MULTI_DESC	2
+> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> index f999c8859cf7adb8f06fc8a37969656dd3249fa7..e9af202d84bd55ea5cc048215e39f5407bc84458 100644
+> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> @@ -1,6 +1,8 @@
+>   // SPDX-License-Identifier: GPL-2.0
+>   /* Copyright (c) 2025 Valve Corporation */
+>   
+> +#include <linux/delay.h>
 > +
-> +/**
-> + * struct geni_i2c_gpi_multi_desc_xfer - Used for multi transfer support
-> + *
-> + * @msg_idx_cnt: message index for the transfer
-> + * @buf_idx: dma buffer index
-> + * @unmap_msg_cnt: unmapped transfer index
-> + * @freed_msg_cnt: freed transfer index
-> + * @irq_cnt: received interrupt count
-> + * @irq_msg_cnt: transfer message count for the received irqs
-> + * @dma_buf: virtual addresses of the buffers
-> + * @dma_addr: dma addresses of the buffers
-> + */
-> +struct geni_i2c_gpi_multi_desc_xfer {
-> +	u32 msg_idx_cnt;
-> +	u32 buf_idx;
-> +	u32 unmap_msg_cnt;
-> +	u32 freed_msg_cnt;
-> +	u32 irq_cnt;
-> +	u32 irq_msg_cnt;
-> +	void *dma_buf[QCOM_I2C_GPI_MAX_NUM_MSGS];
-> +	dma_addr_t dma_addr[QCOM_I2C_GPI_MAX_NUM_MSGS];
-> +};
+>   #include "sched_tests.h"
+>   
+>   /*
+> @@ -203,10 +205,18 @@ static struct dma_fence *mock_sched_run_job(struct drm_sched_job *sched_job)
+>   static enum drm_gpu_sched_stat
+>   mock_sched_timedout_job(struct drm_sched_job *sched_job)
+>   {
+> +	struct drm_mock_scheduler *sched =
+> +		drm_sched_to_mock_sched(sched_job->sched);
+>   	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
+>   
+>   	job->flags |= DRM_MOCK_SCHED_JOB_TIMEDOUT;
+>   
+> +	drm_sched_stop(&sched->base, &job->base);
 > +
-> +/**
-> + * struct geni_i2c_dev - I2C Geni device specific structure
-> + *
-> + * @se: geni serial engine
-> + * @tx_wm: Tx watermark level
-> + * @irq: i2c serial engine interrupt
-> + * @err: specifies error codes in i2c transfer failures
-> + * @adap: i2c geni adapter
-> + * @done: completion variable
-> + * @cur: pointer to the i2c_msg mentioning current i2c message in use
-> + * @cur_wr: variable used for i2c write opertions
-> + * @cur_rd: variable used for i2c read operations
-> + * @lock: spinlock variable used for synchronization
-> + * @core_clk: pointer to clk
-> + * @clk_freq_out: contains the i2c clock frequency
-> + * @clk_fld: pointer to geni_i2c_clk_fld
-> + * @suspended: flag used for system supend status
-> + * @dma_buf: virtual address of the buffer
-> + * @xfer_len: holds length for the dma operation
-> + * @dma_addr: dma address of the buffer
-> + * @tx_c: Tx dma channel
-> + * @rx_c: Rx dma channel
-> + * @gpi_mode: GPI DMA mode of operation
-> + * @abort_done: true for marking i2c abort transfer
-> + * @is_tx_multi_desc_xfer: true for i2c multi transfer support
-> + * @num_msgs: number of i2c messages in a transfer
-> + * @tx_irq_cnt: flag used for tx irq count in i2c multi transfer
-> + * @i2c_multi_desc_config: used for multi transfer support
-> + */
+> +	usleep_range(200, 500);
 
-Unrelated. Documentation should go to a separate patch.
+msleep(10) or something to make it seem less like the actual numbers are 
+relevant?
 
->  struct geni_i2c_dev {
->  	struct geni_se se;
->  	u32 tx_wm;
-> @@ -100,6 +156,10 @@ struct geni_i2c_dev {
->  	struct dma_chan *rx_c;
->  	bool gpi_mode;
->  	bool abort_done;
-> +	bool is_tx_multi_desc_xfer;
-> +	u32 num_msgs;
-> +	u32 tx_irq_cnt;
-> +	struct geni_i2c_gpi_multi_desc_xfer i2c_multi_desc_config;
->  };
->  
->  struct geni_i2c_desc {
-> @@ -500,6 +560,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->  static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
->  {
->  	struct geni_i2c_dev *gi2c = cb;
-> +	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer;
+ > +> +	drm_sched_start(&sched->base, 0);
+> +
+>   	return DRM_GPU_SCHED_STAT_NOMINAL;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> index 7230057e0594c6246f02608f07fcb1f8d738ac75..8f960f0fd31d0af7873f410ceba2d636f58a5474 100644
+> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> @@ -241,6 +241,9 @@ static void drm_sched_basic_timeout(struct kunit *test)
+>   			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+>   			DRM_MOCK_SCHED_JOB_TIMEDOUT);
+>   
+> +	KUNIT_ASSERT_TRUE(test, list_empty(&sched->job_list));
 
-Define it in the corresponding chunk.
+Hmm I think this assert could be racy because it appears to rely on the 
+free worker to run and cleanup the "finished" job in the window between 
+drm_mock_sched_job_wait_finished() (or drm_sched_start(), depends how 
+you look at it) and here. Am I missing something?
 
->  
->  	if (result->result != DMA_TRANS_NOERROR) {
->  		dev_err(gi2c->se.dev, "DMA txn failed:%d\n", result->result);
-> @@ -508,7 +569,22 @@ static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
->  		dev_dbg(gi2c->se.dev, "DMA xfer has pending: %d\n", result->residue);
->  	}
->  
-> -	complete(&gi2c->done);
-> +	if (!gi2c->is_tx_multi_desc_xfer) {
-> +		complete(&gi2c->done);
-> +	} else {
-> +		tx_multi_xfer = &gi2c->i2c_multi_desc_config;
-> +
-> +		/*
-> +		 * Send Completion for last message or multiple of
-> +		 * QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
-> +		 */
-> +		if ((tx_multi_xfer->irq_msg_cnt == gi2c->num_msgs - 1) ||
-> +		    (!((tx_multi_xfer->irq_msg_cnt + 1) % QCOM_I2C_GPI_NUM_MSGS_PER_IRQ))) {
-> +			tx_multi_xfer->irq_cnt++;
-> +			complete(&gi2c->done);
-> +		}
-> +		tx_multi_xfer->irq_msg_cnt++;
-> +	}
->  }
->  
->  static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-> @@ -526,38 +602,140 @@ static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->  	}
->  }
->  
-> -static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-> +/**
-> + * geni_i2c_gpi_multi_desc_unmap() - unmaps the buffers post multi message TX transfers
-> + * @gi2c: i2c dev handle
-> + * @msgs: i2c messages array
-> + * @peripheral: pointer to gpi_i2c_config
-> + */
-> +static void geni_i2c_gpi_multi_desc_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
-> +					  struct gpi_i2c_config *peripheral)
-> +{
-> +	u32 msg_xfer_cnt, wr_idx = 0;
-> +	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer = &gi2c->i2c_multi_desc_config;
-> +
-> +	/*
-> +	 * In error case, need to unmap all messages based on the msg_idx_cnt.
-> +	 * Non-error case unmap all the processed messages.
-> +	 */
-> +	if (gi2c->err)
-> +		msg_xfer_cnt = tx_multi_xfer->msg_idx_cnt;
-> +	else
-> +		msg_xfer_cnt = tx_multi_xfer->irq_cnt * QCOM_I2C_GPI_NUM_MSGS_PER_IRQ;
-> +
-> +	/* Unmap the processed DMA buffers based on the received interrupt count */
-> +	for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; tx_multi_xfer->unmap_msg_cnt++) {
-> +		if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs)
-> +			break;
-> +		wr_idx = tx_multi_xfer->unmap_msg_cnt % QCOM_I2C_GPI_MAX_NUM_MSGS;
-> +		geni_i2c_gpi_unmap(gi2c, &msgs[tx_multi_xfer->unmap_msg_cnt],
-> +				   tx_multi_xfer->dma_buf[wr_idx],
-> +				   tx_multi_xfer->dma_addr[wr_idx],
-> +				   NULL, (dma_addr_t)NULL);
-> +		tx_multi_xfer->freed_msg_cnt++;
-> +	}
-> +}
-> +
-> +/**
-> + * geni_i2c_gpi_multi_xfer_timeout_handler() - Handle multi message transfer timeout
-> + * @dev: pointer to the corresponding dev node
-> + * @multi_xfer: pointer to the geni_i2c_gpi_multi_desc_xfer
-> + * @num_xfers: total number of transfers
-> + * @transfer_timeout_msecs: transfer timeout value
-> + * @transfer_comp: completion object of the transfer
-> + *
-> + * This function is used to wait for the processed transfers based on
-> + * the interrupts generated upon transfer completion.
-> + * Return: On success returns 0, otherwise return error code (-ETIMEDOUT)
-> + */
-> +static int geni_i2c_gpi_multi_xfer_timeout_handler(struct device *dev,
-> +						   struct geni_i2c_gpi_multi_desc_xfer *multi_xfer,
-> +						   u32 num_xfers, u32 transfer_timeout_msecs,
-> +						   struct completion *transfer_comp)
-> +{
-> +	int i;
-> +	u32 max_irq_cnt, time_left;
-> +
-> +	max_irq_cnt = num_xfers / QCOM_I2C_GPI_NUM_MSGS_PER_IRQ;
-> +	if (num_xfers % QCOM_I2C_GPI_NUM_MSGS_PER_IRQ)
-> +		max_irq_cnt++;
-> +
-> +	/*
-> +	 * Wait for the interrupts of the processed transfers in multiple
-> +	 * of 8 and for the last transfer. If the hardware is fast and
-> +	 * already processed all the transfers then no need to wait.
-> +	 */
-> +	for (i = 0; i < max_irq_cnt; i++) {
-> +		reinit_completion(transfer_comp);
-> +		if (max_irq_cnt != multi_xfer->irq_cnt) {
-> +			time_left = wait_for_completion_timeout(transfer_comp,
-> +								transfer_timeout_msecs);
-> +			if (!time_left) {
-> +				dev_err(dev, "%s: Transfer timeout\n", __func__);
-> +				return -ETIMEDOUT;
-> +			}
-> +		}
-> +		if (num_xfers > multi_xfer->msg_idx_cnt)
-> +			return 0;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
->  			struct dma_slave_config *config, dma_addr_t *dma_addr_p,
->  			void **buf, unsigned int op, struct dma_chan *dma_chan)
->  {
->  	struct gpi_i2c_config *peripheral;
-> -	unsigned int flags;
->  	void *dma_buf;
->  	dma_addr_t addr;
->  	enum dma_data_direction map_dirn;
->  	enum dma_transfer_direction dma_dirn;
->  	struct dma_async_tx_descriptor *desc;
->  	int ret;
-> +	struct geni_i2c_gpi_multi_desc_xfer *gi2c_gpi_xfer;
-> +	dma_cookie_t cookie;
-> +	u32 msg_idx;
->  
->  	peripheral = config->peripheral_config;
-> -
-> -	dma_buf = i2c_get_dma_safe_msg_buf(msg, 1);
-> -	if (!dma_buf)
-> -		return -ENOMEM;
-> +	gi2c_gpi_xfer = &gi2c->i2c_multi_desc_config;
-> +	dma_buf = gi2c_gpi_xfer->dma_buf[gi2c_gpi_xfer->buf_idx];
-> +	addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
-> +	msg_idx = gi2c_gpi_xfer->msg_idx_cnt;
-> +
-> +	dma_buf = i2c_get_dma_safe_msg_buf(&msgs[msg_idx], 1);
-> +	if (!dma_buf) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
->  
->  	if (op == I2C_WRITE)
->  		map_dirn = DMA_TO_DEVICE;
->  	else
->  		map_dirn = DMA_FROM_DEVICE;
->  
-> -	addr = dma_map_single(gi2c->se.dev->parent, dma_buf, msg->len, map_dirn);
-> +	addr = dma_map_single(gi2c->se.dev->parent, dma_buf,
-> +			      msgs[msg_idx].len, map_dirn);
->  	if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
-> -		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-> -		return -ENOMEM;
-> +		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	if (gi2c->is_tx_multi_desc_xfer) {
-> +		if (((msg_idx + 1) % QCOM_I2C_GPI_NUM_MSGS_PER_IRQ))
-> +			peripheral->dma_flags = DMA_CTRL_ACK;
-> +		else
-> +			peripheral->dma_flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
-> +
-> +		/* BEI bit to be cleared for last TRE */
-> +		if (msg_idx == gi2c->num_msgs - 1)
-> +			peripheral->dma_flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
-> +	} else {
-> +		peripheral->dma_flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
+Regards,
 
-No-no-no. There is no need to set peripheral->dma_flags.
+Tvrtko
 
->  	}
->  
->  	/* set the length as message for rx txn */
-> -	peripheral->rx_len = msg->len;
-> +	peripheral->rx_len = msgs[msg_idx].len;
->  	peripheral->op = op;
->  
->  	ret = dmaengine_slave_config(dma_chan, config);
-> @@ -568,14 +746,14 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->  
->  	peripheral->set_config = 0;
->  	peripheral->multi_msg = true;
-> -	flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
->  
->  	if (op == I2C_WRITE)
->  		dma_dirn = DMA_MEM_TO_DEV;
->  	else
->  		dma_dirn = DMA_DEV_TO_MEM;
->  
-> -	desc = dmaengine_prep_slave_single(dma_chan, addr, msg->len, dma_dirn, flags);
-> +	desc = dmaengine_prep_slave_single(dma_chan, addr, msgs[msg_idx].len,
-> +					   dma_dirn, peripheral->dma_flags);
->  	if (!desc) {
->  		dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
->  		ret = -EIO;
-> @@ -585,15 +763,48 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->  	desc->callback_result = i2c_gpi_cb_result;
->  	desc->callback_param = gi2c;
->  
-> -	dmaengine_submit(desc);
-> -	*buf = dma_buf;
-> -	*dma_addr_p = addr;
-> +	if (!((msgs[msg_idx].flags & I2C_M_RD) && op == I2C_WRITE)) {
-> +		gi2c_gpi_xfer->msg_idx_cnt++;
-> +		gi2c_gpi_xfer->buf_idx = (msg_idx + 1) % QCOM_I2C_GPI_MAX_NUM_MSGS;
-> +	}
-> +	cookie = dmaengine_submit(desc);
-> +	if (dma_submit_error(cookie)) {
-> +		dev_err(gi2c->se.dev,
-> +			"%s: dmaengine_submit failed (%d)\n", __func__, cookie);
-> +		ret = -EINVAL;
-> +		goto err_config;
-> +	}
->  
-> +	if (gi2c->is_tx_multi_desc_xfer) {
-> +		dma_async_issue_pending(gi2c->tx_c);
-> +		if ((msg_idx == (gi2c->num_msgs - 1)) ||
-> +		    (gi2c_gpi_xfer->msg_idx_cnt >=
-> +		     QCOM_I2C_GPI_MAX_NUM_MSGS + gi2c_gpi_xfer->freed_msg_cnt)) {
-> +			ret = geni_i2c_gpi_multi_xfer_timeout_handler(gi2c->se.dev, gi2c_gpi_xfer,
-> +								      gi2c->num_msgs, XFER_TIMEOUT,
-> +								      &gi2c->done);
-> +			if (ret) {
-> +				dev_err(gi2c->se.dev,
-> +					"I2C multi write msg transfer timeout: %d\n",
-> +					ret);
-> +				gi2c->err = ret;
-> +				goto err_config;
-> +			}
-> +		}
-> +	} else {
-> +		/* Non multi descriptor message transfer */
-> +		*buf = dma_buf;
-> +		*dma_addr_p = addr;
-> +	}
->  	return 0;
->  
->  err_config:
-> -	dma_unmap_single(gi2c->se.dev->parent, addr, msg->len, map_dirn);
-> -	i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-> +	dma_unmap_single(gi2c->se.dev->parent, addr,
-> +			 msgs[msg_idx].len, map_dirn);
-> +	i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
-> +
-> +out:
-> +	gi2c->err = ret;
->  	return ret;
->  }
->  
-> @@ -605,6 +816,7 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  	unsigned long time_left;
->  	dma_addr_t tx_addr, rx_addr;
->  	void *tx_buf = NULL, *rx_buf = NULL;
-> +	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer;
->  	const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
->  
->  	config.peripheral_config = &peripheral;
-> @@ -618,6 +830,33 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  	peripheral.set_config = 1;
->  	peripheral.multi_msg = false;
->  
-> +	gi2c->num_msgs = num;
-> +	gi2c->is_tx_multi_desc_xfer = false;
-> +	gi2c->tx_irq_cnt = 0;
-> +
-> +	tx_multi_xfer = &gi2c->i2c_multi_desc_config;
-> +	memset(tx_multi_xfer, 0, sizeof(struct geni_i2c_gpi_multi_desc_xfer));
-> +
-> +	/*
-> +	 * If number of write messages are two and higher then
-> +	 * configure hardware for multi descriptor transfers with BEI.
-> +	 */
-> +	if (num >= QCOM_I2C_MIN_NUM_OF_MSGS_MULTI_DESC) {
-> +		gi2c->is_tx_multi_desc_xfer = true;
-> +		for (i = 0; i < num; i++) {
-> +			if (msgs[i].flags & I2C_M_RD) {
-> +				/*
-> +				 * Multi descriptor transfer with BEI
-> +				 * support is enabled for write transfers.
-> +				 * TODO: Add BEI optimization support for
-> +				 * read transfers later.
-> +				 */
-> +				gi2c->is_tx_multi_desc_xfer = false;
-> +				break;
-> +			}
-> +		}
-> +	}
-> +
->  	for (i = 0; i < num; i++) {
->  		gi2c->cur = &msgs[i];
->  		gi2c->err = 0;
-> @@ -628,14 +867,16 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  			peripheral.stretch = 1;
->  
->  		peripheral.addr = msgs[i].addr;
-> +		if (i > 0 && (!(msgs[i].flags & I2C_M_RD)))
-> +			peripheral.multi_msg = false;
->  
-> -		ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-> +		ret =  geni_i2c_gpi(gi2c, msgs, &config,
->  				    &tx_addr, &tx_buf, I2C_WRITE, gi2c->tx_c);
-
-Can't you just pass the flag to set DMA_PREP_INTERRUPT for the last
-message here and on the next geni_i2c_gpi() call?
-
->  		if (ret)
->  			goto err;
->  
->  		if (msgs[i].flags & I2C_M_RD) {
-> -			ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-> +			ret =  geni_i2c_gpi(gi2c, msgs, &config,
->  					    &rx_addr, &rx_buf, I2C_READ, gi2c->rx_c);
->  			if (ret)
->  				goto err;
-> @@ -643,18 +884,26 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  			dma_async_issue_pending(gi2c->rx_c);
->  		}
->  
-> -		dma_async_issue_pending(gi2c->tx_c);
-> -
-> -		time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-> -		if (!time_left)
-> -			gi2c->err = -ETIMEDOUT;
-> +		if (!gi2c->is_tx_multi_desc_xfer) {
-> +			dma_async_issue_pending(gi2c->tx_c);
-> +			time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-> +			if (!time_left) {
-> +				dev_err(gi2c->se.dev, "%s:I2C timeout\n", __func__);
-> +				gi2c->err = -ETIMEDOUT;
-> +			}
-> +		}
->  
->  		if (gi2c->err) {
->  			ret = gi2c->err;
->  			goto err;
->  		}
->  
-> -		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-> +		if (!gi2c->is_tx_multi_desc_xfer) {
-> +			geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-> +		} else if (gi2c->tx_irq_cnt != tx_multi_xfer->irq_cnt) {
-> +			gi2c->tx_irq_cnt = tx_multi_xfer->irq_cnt;
-> +			geni_i2c_gpi_multi_desc_unmap(gi2c, msgs, &peripheral);
-> +		}
->  	}
->  
->  	return num;
-> @@ -663,7 +912,11 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->  	dev_err(gi2c->se.dev, "GPI transfer failed: %d\n", ret);
->  	dmaengine_terminate_sync(gi2c->rx_c);
->  	dmaengine_terminate_sync(gi2c->tx_c);
-> -	geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-> +	if (gi2c->is_tx_multi_desc_xfer)
-> +		geni_i2c_gpi_multi_desc_unmap(gi2c, msgs, &peripheral);
-> +	else
-> +		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-> +
->  	return ret;
->  }
->  
-> -- 
-> 2.17.1
+> +	KUNIT_ASSERT_TRUE(test, list_empty(&sched->done_list));
+ > +>   	drm_mock_sched_entity_free(entity);
+>   }
+>   
 > 
 
--- 
-With best wishes
-Dmitry
