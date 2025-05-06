@@ -2,91 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE0FAAA70C
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 02:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0D0AAA802
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 02:45:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB61710E12B;
-	Tue,  6 May 2025 00:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDCAB10E4A6;
+	Tue,  6 May 2025 00:45:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A/MbJv49";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Zp+seyqp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49B8E10E12B
- for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 00:24:53 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-43d0618746bso34150255e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 17:24:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746491092; x=1747095892; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=alMo7B+Sr/59Du5rvegXFc8Zcs/QVVYNwTJ/hgL1bz8=;
- b=A/MbJv49yMGX7Udx9sZCJnsrmyhVivMil9ByysUDL+JM6VvGlFRqI0+X6AD+zY4irl
- KPxqN7CMPahuB5etojAKKfmIOUuD5Anrbr/0X3bL5/eh0f2ZHUFsNtbWq2DGo0YXu5q3
- V9rDq+mwkYFJkk6S1N+4JnUzIR2uffnMPUV624RHnyNZByFKkVkkzzm3eyTYlLz9Fcij
- vSl7tqRzDJ+tF/ZsmS+tAlKg3XKWj9LTfGiazPPyfu0g5OEMk+ZICQXIbAhe6khmpP7+
- T7WAMnRbXcNOJx8gND8OO4vF3HzI3VBZS1xkJKiM+Ws2Y7hCOSpxMcbDLUArwgBpPcu5
- QfxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746491092; x=1747095892;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=alMo7B+Sr/59Du5rvegXFc8Zcs/QVVYNwTJ/hgL1bz8=;
- b=FeG6yBrgJ3WqmOKqd3yIyLpHOPaxbhMK86gqBMndIl86f0AlxRjoAF5WJ6IM9qvoVT
- HZKYLb7xeX+rRy59nU5BjWVsGdFogxt9dmdw9qBh9+CEU+dAe33OEosDFW/YkuwpPTef
- Sy+Y88zEqwQNkkWRwB8a+tM6BRdxE4xYCsg4V6r1nennTChcJZFWFhy3AsgPLIw6bEgr
- L+Oyvn9TNWzdfS9fNLkqszJevFZW/QjVRGw9yBvPGnKiV6jy1EAjjPhKU5jtWcO6/4s6
- nLQDtxJW/pFg9BoQcuPwFPuS3wdPaMXQRKopViq2Fvv96XT/n4MgopuHjYco7aCOQacS
- Abdw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVidubh2HZZUqXr5ReuCZqlE1KYaC706JnqFTckdPo5kWudTKRdb1ePKDutLgw2xxSaJx0fakgD91Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxP+6i9zKJbWB+JEy6xHJR7XvhrYwE70yUQHIY4UYXLWdPb1BJd
- FjqdxePRNSEnYeZ1cag/Ya/T8jxYhCOjI1dP3+YXAIuJhTu3ou4OOEyhDZ25WH2AzHKelMrIOJy
- pLxmWFieOzddOFPUBYo6G8EywNII=
-X-Gm-Gg: ASbGncv0r3Ie6tXIDcyCBzkO765Zvl4uy8ZHcM6MqsL4Apfjo2p//oEWSeRXLOfU/Mv
- QJk1yh2hsbbsf9kPdbdBM29E/7nnq2lCLsXIkRYUCmdEj5kUmEtt1JPgnUlDeP41N6uRPE7ITCA
- QomCyh+2kVg/fPDSgAHXqc3SphqQ3PEFWfXjMGj3vMSRmZRzv/KQ==
-X-Google-Smtp-Source: AGHT+IFpisAarDVCqmL4SQ9gwYM4+gMG4oHDBZFnZvyt5pgd5IHINbs0VFd1mFStWTTZZvgPPgIuW+AiPJw4Ajhtqw8=
-X-Received: by 2002:a05:6000:2289:b0:391:4095:49b7 with SMTP id
- ffacd0b85a97d-3a09fd89e32mr6735387f8f.25.1746491091758; Mon, 05 May 2025
- 17:24:51 -0700 (PDT)
+X-Greylist: delayed 451 seconds by postgrey-1.36 at gabe;
+ Tue, 06 May 2025 00:45:40 UTC
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
+ [95.215.58.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAAF210E4A6
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 00:45:40 +0000 (UTC)
+Date: Mon, 5 May 2025 17:37:51 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1746491876;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=M07/lP+pXzvLKJ6uRYjE6pVpy0jyE1Nr96MIfImu5yo=;
+ b=Zp+seyqpmpxE6ZLjPBDYQUu3UlszR3XLBaWYn68BioqvHFuUitbsK5SpB+OVkUNtKKTAnp
+ TW66J3b7O9mIVW1ddaY3Ekd7sKNTVesPbtjvZucLxh6MGdk/DeXoKxZtLMEJ1gUEuOTBho
+ /LvH68sHxgYGAp4JbatDZkshM7WUIDI=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Dave Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, tj@kernel.org, 
+ christian.koenig@amd.com, Johannes Weiner <hannes@cmpxchg.org>, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
+ Waiman Long <longman@redhat.com>, simona@ffwll.ch
+Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
+Message-ID: <xa5d2zjyihtihuqu4zd63fqnwxwx57ss7rrfpiiubki3cxib25@kkgn26b2xcso>
+References: <20250502034046.1625896-1-airlied@gmail.com>
 MIME-Version: 1.0
-References: <20250504224149.1033867-1-tjmercier@google.com>
- <20250504224149.1033867-3-tjmercier@google.com>
- <26ca8ddf-0d78-462f-a47d-a1128b2e058f@amd.com>
- <CABdmKX2iNk22h-KxUr4yvZO80yeRRjMfoC7yjiZ-aR_f1k402g@mail.gmail.com>
- <ec43f447-095e-4baf-8610-8279b565f162@amd.com>
- <CABdmKX2Tpv8vpDDZ+wcdrWuijfC1wkNhJQxVSC9trPkzBLN4tA@mail.gmail.com>
-In-Reply-To: <CABdmKX2Tpv8vpDDZ+wcdrWuijfC1wkNhJQxVSC9trPkzBLN4tA@mail.gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Mon, 5 May 2025 17:24:40 -0700
-X-Gm-Features: ATxdqUHDB7Y3bq86ORp3ezfiMZIn0_EShKe0qk7UMyPGPboNnGF9l2fKY3gc3nw
-Message-ID: <CAADnVQLqv-ZpoQEhk2UwvSZorSLcjgF7qLD76oHguH5-GcSXxA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] bpf: Add dmabuf iterator
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <martin.lau@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>,
- Song Liu <song@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, 
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- bpf <bpf@vger.kernel.org>, 
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- android-mm@google.com, simona@ffwll.ch, 
- Jonathan Corbet <corbet@lwn.net>, Eduard <eddyz87@gmail.com>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
- Jiri Olsa <jolsa@kernel.org>, Mykola Lysenko <mykolal@fb.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250502034046.1625896-1-airlied@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,13 +60,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 5, 2025 at 10:08=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
- wrote:
->
->
-> Sounds good, will do. Thanks.
+On Fri, May 02, 2025 at 01:35:59PM +1000, Dave Airlie wrote:
+> Hey all,
+> 
+> This is my second attempt at adding the initial simple memcg/ttm
+> integration.
+> 
+> This varies from the first attempt in two major ways:
+> 
+> 1. Instead of using __GFP_ACCOUNT and direct calling kmem charges
+> for pool memory, and directly hitting the GPU statistic,
 
-looks like the majority of the code will be touching various bpf bits,
-so let's route the first 5 patches via bpf-next.
-When you respin, please mention [PATCH bpf-next] in the subject,
-so that CI can pick it up.
+Why was the first attempt abandoned? What was the issue with the above
+approach?
+
+> Waiman
+> suggested I just do what the network socket stuff did, which looks
+> simpler. So this adds two new memcg apis that wrap accounting.
+> The pages no longer get assigned the memcg, it's owned by the
+> larger BO object which makes more sense.
+
+The issue with this approach is that this new stat is only exposed in
+memcg. For networking, there are interfaces like /proc/net/sockstat and
+/proc/net/protocols which expose system wide network memory usage. I
+think we should expose this new "memory used by gpus" at the system
+level possibly through /proc/meminfo.
+
+> 
+> 2. Christian suggested moving it up a layer to avoid the pool business,
+> this was a bit tricky, since I want the gfp flags, but I think it only
+> needs some of them and it should work. One other big difference is that
+> I aligned it with the dmem interaction, where it tries to get space in
+> the memcg before it has even allocated any pages,
+
+I don't understand the memcg reference in the above statement. Dmem is a
+separate cgroup controller orthogonal to memcg.
+
+> I'm not 100% sure
+> this is how things should be done, but it was easier, so please let 
+> me know if it is wrong.
+> 
+> This still doesn't do anything with evictions except ignore them,
+> and I've some follows up on the old thread to discuss more on them.
+> 
+> Dave.
+> 
