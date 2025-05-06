@@ -2,66 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFBFAAC68E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 15:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76E3AAC701
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 15:53:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 644248995F;
-	Tue,  6 May 2025 13:38:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04FBF10E697;
+	Tue,  6 May 2025 13:53:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NDcgMUlq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N00Fu3Gx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D48678995F;
- Tue,  6 May 2025 13:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=mMIOXhBxW+azxH7nxRYC4c5TM+ucrQ3oi00s9ILGAF4=; b=NDcgMUlqHFWwUswf9XeTbm53tA
- 6p9yQYZuUqHDbtXB3Rfue+LdEjDEC33ELRjwtnfIeQIzBWzGfiG97AA6BQj3uOYY0MZpFqJ1TEuQW
- PrVi0uiRqBNJfnukMZvTc5FTcZZIlpyKv45jOOL2T1CRqN4X+qCC/jG/KU8WVqhpg7HKjqa8+vjJI
- pI9/pgpeH852wjqhzAFPprgpu24EJTuSp023rhNBNTuJNbBveE3KALAzUM5YoRxYcUB87iHiX6NOw
- jaObeadgDyp1tdi4xr6fPQe1y/iIvNZpx6jedY6DwoM1o1PRzuUgEXd/mGdWdAKY/gLRHcmPmN05/
- 7ZyUJxkg==;
-Received: from [189.7.87.163] (helo=[192.168.0.7])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uCIRw-004DqA-RU; Tue, 06 May 2025 15:38:43 +0200
-Message-ID: <dcfb1d4a-9a07-4d72-a93d-e12720b99172@igalia.com>
-Date: Tue, 6 May 2025 10:38:35 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA77910E6AA
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 13:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1746539581; x=1778075581;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=doBlcIkAGp9cJeKf4hCj5NkGHK+v0DTsswbEiCYjK44=;
+ b=N00Fu3GxyUUsCjR5TLpcsXby7gUu23kq6GZTaTnAmIHXBo3JzwdtXXDp
+ /j1IUXbVTt9FCV+i2/4V0W+BQ4tRoWnqcS+49Ky3+6lOfBy1+0v9TzMA5
+ rK4Orl8jDm1cDEEyh8t6Q9nac+vEx9u2ocINGCSkdbeT27n0iqUWoAgF6
+ DschUhNbhGprKQfdX1u5Ol4w1QjKuGPFTfkgbusyS5Qn+CDMvHPWOimFE
+ /+VbWdh7XB9R2iczxlj2m+UFMpxle1EvnSew2IMB0EoM7rpGXt7KIiKUM
+ mYj04XIVctI8u8eUBKJycbwhqLOiM3T1caWn1AzWSe2VR+JFOmDkN8oIM w==;
+X-CSE-ConnectionGUID: uIQ8f+2TTSa959BkX+qYiA==
+X-CSE-MsgGUID: Rw8KHZTSSb21fOTox/zwjA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58867037"
+X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; d="scan'208";a="58867037"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2025 06:52:59 -0700
+X-CSE-ConnectionGUID: 4oSb292TTJ65oXyNxraLWQ==
+X-CSE-MsgGUID: RGkFFAy2T1al+PF4saJVKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; d="scan'208";a="136570123"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.221])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2025 06:52:54 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH] MAINTAINERS: Add entries for drm_panic,
+ drm_panic_qr_code and drm_log
+In-Reply-To: <20250506133143.156447-1-jfalempe@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250506133143.156447-1-jfalempe@redhat.com>
+Date: Tue, 06 May 2025 16:52:51 +0300
+Message-ID: <87tt5xvob0.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] drm/sched: Always free the job after the timeout
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
- <20250503-sched-skip-reset-v1-2-ed0d6701a3fe@igalia.com>
- <3fe178ec-9c16-4abc-b302-64f0077d8af4@igalia.com>
- <af650a53-0625-41f3-876c-006a807ad801@igalia.com>
- <7d1e7571-8fde-40e2-8ce9-a956389ea2c0@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <7d1e7571-8fde-40e2-8ce9-a956389ea2c0@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,69 +74,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+On Tue, 06 May 2025, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+> Add myself and Javier as maintainer for drm_panic, drm_panic_qr_code
+> and drm_log.
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>  MAINTAINERS | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 38df6b159a3b..df3abdcf1767 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8177,6 +8177,34 @@ F:	drivers/gpu/drm/drm_panel.c
+>  F:	drivers/gpu/drm/panel/
+>  F:	include/drm/drm_panel.h
+>  
+> +DRM PANIC
+> +M:	Jocelyn Falempe <jfalempe@redhat.com>
+> +M:	Javier Martinez Canillas <javierm@redhat.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Supported
+> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +F:	drivers/gpu/drm/drm_draw.c
+> +F:	drivers/gpu/drm/drm_draw_internal.h
+> +F:	drivers/gpu/drm/drm_panic*.c
+> +F:	include/drm/drm_panic*
+> +
+> +DRM PANIC QR CODE
+> +M:	Jocelyn Falempe <jfalempe@redhat.com>
+> +M:	Javier Martinez Canillas <javierm@redhat.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +L:	rust-for-linux@vger.kernel.org
+> +S:	Supported
+> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +F:	drivers/gpu/drm/drm_panic_qr.rs
+> +
+> +DRM LOG
+> +M:	Jocelyn Falempe <jfalempe@redhat.com>
+> +M:	Javier Martinez Canillas <javierm@redhat.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Supported
+> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +F:	drivers/gpu/drm/clients/drm_log.c
+> +
 
-On 06/05/25 10:28, Tvrtko Ursulin wrote:
-> 
-> On 06/05/2025 13:46, Maíra Canal wrote:
->> Hi Tvrtko,
->>
->> Thanks for your review!
->>
->> On 06/05/25 08:49, Tvrtko Ursulin wrote:
->>>
->>> On 03/05/2025 21:59, Maíra Canal wrote:
->>>> Currently, if we add the assertions presented in this commit to the 
->>>> mock
->>>> scheduler, we will see the following output:
->>>>
->>>> [15:47:08] ============== [PASSED] drm_sched_basic_tests ==============
->>>> [15:47:08] ======== drm_sched_basic_timeout_tests (1 subtest) =========
->>>> [15:47:08] # drm_sched_basic_timeout: ASSERTION FAILED at drivers/ 
->>>> gpu/ drm/scheduler/tests/tests_basic.c:246
->>>> [15:47:08] Expected list_empty(&sched->job_list) to be true, but is 
->>>> false
->>>> [15:47:08] [FAILED] drm_sched_basic_timeout
->>>> [15:47:08] # module: drm_sched_tests
->>>>
->>>> This occurs because `mock_sched_timedout_job()` doesn't properly handle
->>>> the hang. From the DRM sched documentation, `drm_sched_stop()` and
->>>> `drm_sched_start()` are typically used for reset recovery. If these
->>>> functions are not used, the offending job won't be freed and should be
->>>> freed by the caller.
->>>>
->>>> Currently, the mock scheduler doesn't use the functions provided by the
->>>> API, nor does it handle the freeing of the job. As a result, the job 
->>>> isn't
->>>> removed from the job list.
->>>
->>> For the record the job does gets freed via the kunit managed allocation.
->>
->> Sorry, I didn't express myself correctly. Indeed, it is. I meant that
->> the DRM scheduler didn't free the job.
->>
->>>
->>> It was a design choice for this test to be a *strict* unit test which 
->>> tests only a _single_ thing. And that is that the timedout_job() hook 
->>> gets called. As such the hook was implemented to satisfy that single 
->>> requirement only.
->>>
->>
->> What do you think about checking that `sched->job_list` won't be empty?
->>
->> I wanted to add such assertion to make sure that the behavior of the
->> timeout won't change in future (e.g. a patch makes a change that calls
->> `free_job()` for the guilty job at timeout). Does it make sense to you?
-> 
-> Where would that assert be?
-> 
+MAINTAINERS is supposed to be sorted. See commit 80e62bc8487b
+("MAINTAINERS: re-sort all entries and fields").
 
-I believe it would be in the same place as this patch assertions, but
-instead of `KUNIT_ASSERT_TRUE(test, list_empty(&sched->job_list));`, it
-would be `KUNIT_ASSERT_FALSE(test, list_empty(&sched->job_list));`.
+BR,
+Jani.
 
-But I don't feel strongly about it. I can drop the patch if you believe
-it's a better option.
 
-Best Regards,
-- Maíra
+>  DRM PRIVACY-SCREEN CLASS
+>  M:	Hans de Goede <hdegoede@redhat.com>
+>  L:	dri-devel@lists.freedesktop.org
+>
+> base-commit: 258aebf100540d36aba910f545d4d5ddf4ecaf0b
+
+-- 
+Jani Nikula, Intel
