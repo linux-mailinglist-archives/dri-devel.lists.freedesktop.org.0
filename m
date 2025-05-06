@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B2CAAB94F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 08:55:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCA8AAB95F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 08:56:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 068D810E55D;
-	Tue,  6 May 2025 06:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 962DA10E1CA;
+	Tue,  6 May 2025 06:56:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AL9rdBUU";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PsdL7a5g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0F5410E1CA
- for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 06:55:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D66310E1CA
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 06:56:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1746514498;
- bh=nrkTI1dtM+WwFCGzBvosSQ3soD/yxe2Tp6eXOwg3j/M=;
+ s=mail; t=1746514569;
+ bh=a+I9Q2/IDUgbzScxa83+l03FoiQJZNFZzGWX2jYHBPU=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=AL9rdBUUXQv0Oi9RIrle4b87b87egDvKTvo1u++JUgX93WfMUTSMbPMRKg83ex5MB
- bpluDFyzMa99YgAgz7Ba1JtmrywEjRiC9u9g7opoGQt9hGvlt5uG/wepfK3EbxcxWE
- E6ZGJaAjXX2z1zWiKifCUKV7VRA9hqazm245ho/3UkjIONv5eRoMGYyes5xEK2shP5
- szLgUgd4zHoClLAeCutQlmy650AaaMCIp6i2j/q1qcSct2on/iVomMToB3EjehgPnf
- P0KSRwiAQkb1VRSl3esHMweqBRN1TBn/NIu7hRwIykSji5+XW4ZjjJUFYfBrJh3v4E
- v76BobNSlONIg==
+ b=PsdL7a5gUWBzzj6WHLi3LyT0i9xpO9CmDUMSbHVeti3/BE3fyzc45zzcVAEAjJs/f
+ w4an1X5v7zaZd9TYCeWd3lLs5Mv3w0GReBIIR7oCwrwLLynqRlhBDDS+megOFU12gV
+ 2/XFo/Hz/ZCWqLT4eDF3TdodNWkUAr9zINM/2S45QeQHlUx1Yl1RzCpgi32dZBuKdu
+ oFC06VocPHy/EKIHOrqtcMYntH2JhTURtMcO2aXo1DozOJrY03honB4GP43PEs+2z3
+ WHu5jRP28I9gqM76+OMgtutLkA7XKedzPA96yFXE1v4FPBA5SoR/ajWSzvOuxy4n3L
+ qxyB+zbcggBzg==
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 66CE517E0630;
- Tue,  6 May 2025 08:54:58 +0200 (CEST)
-Date: Tue, 6 May 2025 08:54:53 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9988217E0630;
+ Tue,  6 May 2025 08:56:08 +0200 (CEST)
+Date: Tue, 6 May 2025 08:56:03 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -41,11 +41,11 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH 1/3] drm/panfrost: Add BO labelling to Panfrost
-Message-ID: <20250506085453.0fbb5a02@collabora.com>
-In-Reply-To: <20250424022138.709303-2-adrian.larumbe@collabora.com>
+Subject: Re: [PATCH 2/3] drm/panfrost: Add driver IOCTL for setting BO labels
+Message-ID: <20250506085603.49eb803b@collabora.com>
+In-Reply-To: <20250424022138.709303-3-adrian.larumbe@collabora.com>
 References: <20250424022138.709303-1-adrian.larumbe@collabora.com>
- <20250424022138.709303-2-adrian.larumbe@collabora.com>
+ <20250424022138.709303-3-adrian.larumbe@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -66,111 +66,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Apr 2025 03:21:30 +0100
+On Thu, 24 Apr 2025 03:21:31 +0100
 Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-> Unlike in Panthor, from where this change is based on, there is no need
-> to support tagging of BO's other than UM-exposed ones, so all strings
-> can be freed with kfree().
->=20
-> This commit is done in preparation of a following one that will allow
-> UM to set BO labels through a new ioctl().
+> Allow UM to label a BO for which it possesses a DRM handle.
 >=20
 > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
 > ---
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 19 +++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.h | 16 ++++++++++++++++
->  2 files changed, 35 insertions(+)
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 44 ++++++++++++++++++++++++-
+>  drivers/gpu/drm/panfrost/panfrost_gem.h |  2 ++
+>  include/uapi/drm/panfrost_drm.h         | 20 +++++++++++
+>  3 files changed, 65 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_gem.c
-> index 963f04ba2de6..a7a29974d8b1 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -1,6 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> =20
-> +#include <linux/cleanup.h>
->  #include <linux/err.h>
->  #include <linux/slab.h>
->  #include <linux/dma-buf.h>
-> @@ -35,6 +36,9 @@ static void panfrost_gem_free_object(struct drm_gem_obj=
-ect *obj)
->  	 */
->  	WARN_ON_ONCE(!list_empty(&bo->mappings.list));
-> =20
-> +	kfree(bo->label.str);
-> +	mutex_destroy(&bo->label.lock);
-> +
->  	if (bo->sgts) {
->  		int i;
->  		int n_sgt =3D bo->base.base.size / SZ_2M;
-> @@ -260,6 +264,7 @@ struct drm_gem_object *panfrost_gem_create_object(str=
-uct drm_device *dev, size_t
->  	mutex_init(&obj->mappings.lock);
->  	obj->base.base.funcs =3D &panfrost_gem_funcs;
->  	obj->base.map_wc =3D !pfdev->coherent;
-> +	mutex_init(&obj->label.lock);
-> =20
->  	return &obj->base.base;
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_drv.c
+> index b87f83e94eda..b0ab76d67e96 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -495,6 +495,46 @@ static int panfrost_ioctl_madvise(struct drm_device =
+*dev, void *data,
+>  	return ret;
 >  }
-> @@ -302,3 +307,17 @@ panfrost_gem_prime_import_sg_table(struct drm_device=
- *dev,
 > =20
->  	return obj;
->  }
-> +
-> +void
-> +panfrost_gem_set_label(struct drm_gem_object *obj, const char *label)
+> +static int panfrost_ioctl_set_label_bo(struct drm_device *ddev, void *da=
+ta,
+> +				       struct drm_file *file)
 > +{
-> +	struct panfrost_gem_object *bo =3D to_panfrost_bo(obj);
-> +	const char *old_label;
+> +	struct drm_panfrost_set_label_bo *args =3D data;
+> +	struct drm_gem_object *obj;
+> +	const char *label =3D NULL;
+> +	int ret =3D 0;
 > +
-> +	scoped_guard(mutex, &bo->label.lock) {
-> +		old_label =3D bo->label.str;
-> +		bo->label.str =3D label;
+> +	if (args->pad)
+> +		return -EINVAL;
+> +
+> +	obj =3D drm_gem_object_lookup(file, args->handle);
+> +	if (!obj)
+> +		return -ENOENT;
+> +
+> +	if (args->label) {
+> +		label =3D strndup_user((const char __user *)(uintptr_t)args->label,
+> +				     PANFROST_BO_LABEL_MAXLEN);
+> +		if (IS_ERR(label)) {
+> +			ret =3D PTR_ERR(label);
+> +			if (ret =3D=3D -EINVAL)
+> +				ret =3D -E2BIG;
+> +			goto err_put_obj;
+> +		}
 > +	}
 > +
-> +	kfree(old_label);
+> +	/*
+> +	 * We treat passing a label of length 0 and passing a NULL label
+> +	 * differently, because even though they might seem conceptually
+> +	 * similar, future uses of the BO label might expect a different
+> +	 * behaviour in each case.
+> +	 */
+> +	panfrost_gem_set_label(obj, label);
+> +
+> +err_put_obj:
+> +	drm_gem_object_put(obj);
+> +
+> +	return ret;
 > +}
+> +
+>  int panfrost_unstable_ioctl_check(void)
+>  {
+>  	if (!unstable_ioctls)
+> @@ -561,6 +601,7 @@ static const struct drm_ioctl_desc panfrost_drm_drive=
+r_ioctls[] =3D {
+>  	PANFROST_IOCTL(PERFCNT_ENABLE,	perfcnt_enable,	DRM_RENDER_ALLOW),
+>  	PANFROST_IOCTL(PERFCNT_DUMP,	perfcnt_dump,	DRM_RENDER_ALLOW),
+>  	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
+> +	PANFROST_IOCTL(SET_LABEL_BO,	set_label_bo,	DRM_RENDER_ALLOW),
+>  };
+> =20
+>  static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
+> @@ -625,6 +666,7 @@ static const struct file_operations panfrost_drm_driv=
+er_fops =3D {
+>   * - 1.2 - adds AFBC_FEATURES query
+>   * - 1.3 - adds JD_REQ_CYCLE_COUNT job requirement for SUBMIT
+>   *       - adds SYSTEM_TIMESTAMP and SYSTEM_TIMESTAMP_FREQUENCY queries
+> + * - 1.4 - adds SET_LABEL_BO
+>   */
+>  static const struct drm_driver panfrost_drm_driver =3D {
+>  	.driver_features	=3D DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
+> @@ -637,7 +679,7 @@ static const struct drm_driver panfrost_drm_driver =
+=3D {
+>  	.name			=3D "panfrost",
+>  	.desc			=3D "panfrost DRM",
+>  	.major			=3D 1,
+> -	.minor			=3D 3,
+> +	.minor			=3D 4,
+> =20
+>  	.gem_create_object	=3D panfrost_gem_create_object,
+>  	.gem_prime_import_sg_table =3D panfrost_gem_prime_import_sg_table,
 > diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/pa=
 nfrost/panfrost_gem.h
-> index 7516b7ecf7fe..c0be2934f229 100644
+> index c0be2934f229..842e025b9bdc 100644
 > --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
 > +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> @@ -41,6 +41,20 @@ struct panfrost_gem_object {
->  	 */
->  	size_t heap_rss_size;
+> @@ -9,6 +9,8 @@
 > =20
-> +	/**
-> +	 * @label: BO tagging fields. The label can be assigned within the
-> +	 * driver itself or through a specific IOCTL.
-> +	 */
-> +	struct {
-> +		/**
-> +		 * @label.str: Pointer to NULL-terminated string,
-> +		 */
-> +		const char *str;
+>  struct panfrost_mmu;
+> =20
+> +#define PANFROST_BO_LABEL_MAXLEN	4096
 > +
-> +		/** @lock.str: Protects access to the @label.str field. */
-> +		struct mutex lock;
-> +	} label;
-
-Can we do as we did in panthor, and put those fields in the debugfs
-field.
-
-> +
->  	bool noexec		:1;
->  	bool is_heap		:1;
+>  struct panfrost_gem_object {
+>  	struct drm_gem_shmem_object base;
+>  	struct sg_table *sgts;
+> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_=
+drm.h
+> index 568724be6628..b0445c5e514d 100644
+> --- a/include/uapi/drm/panfrost_drm.h
+> +++ b/include/uapi/drm/panfrost_drm.h
+> @@ -21,6 +21,7 @@ extern "C" {
+>  #define DRM_PANFROST_PERFCNT_ENABLE		0x06
+>  #define DRM_PANFROST_PERFCNT_DUMP		0x07
+>  #define DRM_PANFROST_MADVISE			0x08
+> +#define DRM_PANFROST_SET_LABEL_BO		0x09
+> =20
+>  #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFRO=
+ST_SUBMIT, struct drm_panfrost_submit)
+>  #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFR=
+OST_WAIT_BO, struct drm_panfrost_wait_bo)
+> @@ -29,6 +30,7 @@ extern "C" {
+>  #define DRM_IOCTL_PANFROST_GET_PARAM		DRM_IOWR(DRM_COMMAND_BASE + DRM_PA=
+NFROST_GET_PARAM, struct drm_panfrost_get_param)
+>  #define DRM_IOCTL_PANFROST_GET_BO_OFFSET	DRM_IOWR(DRM_COMMAND_BASE + DRM=
+_PANFROST_GET_BO_OFFSET, struct drm_panfrost_get_bo_offset)
+>  #define DRM_IOCTL_PANFROST_MADVISE		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANF=
+ROST_MADVISE, struct drm_panfrost_madvise)
+> +#define DRM_IOCTL_PANFROST_SET_LABEL_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM=
+_PANFROST_SET_LABEL_BO, struct drm_panfrost_set_label_bo)
+> =20
+>  /*
+>   * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls module
+> @@ -227,6 +229,24 @@ struct drm_panfrost_madvise {
+>  	__u32 retained;       /* out, whether backing store still exists */
 >  };
-> @@ -89,4 +103,6 @@ void panfrost_gem_teardown_mappings_locked(struct panf=
-rost_gem_object *bo);
->  int panfrost_gem_shrinker_init(struct drm_device *dev);
->  void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
 > =20
-> +void panfrost_gem_set_label(struct drm_gem_object *obj, const char *labe=
-l);
+> +/**
+> + * struct drm_panfrost_set_label_bo - ioctl argument for labelling Panfr=
+ost BOs.
+> + */
+> +struct drm_panfrost_set_label_bo {
+> +	/** @handle: Handle of the buffer object to label. */
+> +	__u32 handle;
 > +
->  #endif /* __PANFROST_GEM_H__ */
+> +	/**  @pad: MBZ. */
+> +	__u32 pad;
+> +
+> +	/**
+> +	 * @label: User pointer to a NUL-terminated string
+> +	 *
+> +	 * Length cannot be greater than 4096
+> +	 */
+> +	__u64 label;
+> +};
+> +
+>  /* Definitions for coredump decoding in user space */
+>  #define PANFROSTDUMP_MAJOR 1
+>  #define PANFROSTDUMP_MINOR 0
 
