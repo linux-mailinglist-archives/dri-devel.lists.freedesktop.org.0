@@ -2,86 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56179AAB91C
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 08:50:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B2CAAB94F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 08:55:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D077C10E198;
-	Tue,  6 May 2025 06:50:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 068D810E55D;
+	Tue,  6 May 2025 06:55:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WT/Ctj3o";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AL9rdBUU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
- [209.85.210.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 049BE10E198
- for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 06:50:34 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id
- 46e09a7af769-7301c227512so3705423a34.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 May 2025 23:50:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746514231; x=1747119031; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=P+rnsBrnSg8rRMbhF6ZzJCKOKKucd9+x+mvQiH4XndI=;
- b=WT/Ctj3ouSqMlcBhWfJ5igcfp4be2zZu09haxVY3w5uRmX9PTI/WEZ9ygqdFCVNnmt
- neCFYnVkoOkqKB99L8awdEXz/uFT5yet+rzMw+MWWTLY0+NGylhkliCfF6YKC2SX0MpP
- 2x0gFJU3XjjdwTZSbBgyXa1YoaXfarN8bB0y7umwk8mgXMRbV4IrZKHntI0CvXDaQ/Z4
- Bh2oHNCsrwLQvneoj3RFvnEIX0A2qlP7AtEo8/QK2vpW5tOUXRJukV7iLTazSLrJdy2n
- yvqDKFW7MRmo9c+vY3uXbnOXvIB/dfTwZeBeK4xwKgzDvi3T2ery7N0ny6Elvhl/TNcu
- nBnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746514231; x=1747119031;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=P+rnsBrnSg8rRMbhF6ZzJCKOKKucd9+x+mvQiH4XndI=;
- b=ugbIH7xb5FMXyqiOdnQqkqknBuf8asJt2lGaTOcW7DbF7lA30IgwrN0tgLMisvKC0l
- l+7PkVoXtZnGy8NT30fqbSX7i6E3bQuVYXTDwBg5q2tmT8cesgVPpGHata5eAOUYSGh2
- fAaLnK7jAIxlFBvRHn0kB/YEwcETWJ7Ci2Xe75Ft6U/LPQCi+PotdNb+9Q4acmuvIIUo
- X71/7Dvd1r7jRwOZY4ljlhvwhLDjGpUA8fEd7rs3nKSje7RgsQsACDC2qrC1uhZGbz7l
- CJ9Pp5hafrT833R2q5ayyIA7FOsb+zLnwdIZg+3nWGDtsnDznU8up7HrDZ9/5/zlrd84
- MRng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVyvlnOTnpn3UGtNowqbkcrUCZk54TZV2J24IjEh7erRga9p8TQ5xc7xXB526APWqHTIcbrdmVC8jE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxjVpwXUHpeaYGPrg1WgdcpJant+rrvMCZb5mAuXAsgWNo8BvAc
- RidSO84lzNOW69a6mSaFjzugSaeG4xDqoWZSvzCzRrNXKVHQN3u9JhcL4b2Td3BxCj4hC7e5jDC
- KtRgn3e9xP2zOlfpHfTrw8SHcAbZtV9nLuSM9DQ==
-X-Gm-Gg: ASbGnct/OnWTEqn27oSqMZtZReN+1MsMmqJUloS9fUP7ooufNe0nxhZk21JA+sfCRHO
- Pra9GtQhTidw/conOv+fiBpthKIdKD/GnKE1wr69gM/i4+cote/Fe2GBJbQZiGH/jsFrcxwVpiP
- R2vTnqxhAW2uGiCaU0pifn59A=
-X-Google-Smtp-Source: AGHT+IHNm5GVjhXN3B45lmCfKthx/G+NZUk5+CRKyT+Ba0DNEGI76r0X6+RqWLQrptXlWXRbeCBTBu5IP8WF2QNe6QA=
-X-Received: by 2002:a05:6870:a1a3:b0:2d4:e8fd:7ffb with SMTP id
- 586e51a60fabf-2db3ccf9c7emr900510fac.1.1746514231320; Mon, 05 May 2025
- 23:50:31 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0F5410E1CA
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 06:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1746514498;
+ bh=nrkTI1dtM+WwFCGzBvosSQ3soD/yxe2Tp6eXOwg3j/M=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=AL9rdBUUXQv0Oi9RIrle4b87b87egDvKTvo1u++JUgX93WfMUTSMbPMRKg83ex5MB
+ bpluDFyzMa99YgAgz7Ba1JtmrywEjRiC9u9g7opoGQt9hGvlt5uG/wepfK3EbxcxWE
+ E6ZGJaAjXX2z1zWiKifCUKV7VRA9hqazm245ho/3UkjIONv5eRoMGYyes5xEK2shP5
+ szLgUgd4zHoClLAeCutQlmy650AaaMCIp6i2j/q1qcSct2on/iVomMToB3EjehgPnf
+ P0KSRwiAQkb1VRSl3esHMweqBRN1TBn/NIu7hRwIykSji5+XW4ZjjJUFYfBrJh3v4E
+ v76BobNSlONIg==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 66CE517E0630;
+ Tue,  6 May 2025 08:54:58 +0200 (CEST)
+Date: Tue, 6 May 2025 08:54:53 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com, Rob Herring <robh@kernel.org>, Steven Price
+ <steven.price@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH 1/3] drm/panfrost: Add BO labelling to Panfrost
+Message-ID: <20250506085453.0fbb5a02@collabora.com>
+In-Reply-To: <20250424022138.709303-2-adrian.larumbe@collabora.com>
+References: <20250424022138.709303-1-adrian.larumbe@collabora.com>
+ <20250424022138.709303-2-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
- <20250502100049.1746335-7-jens.wiklander@linaro.org>
- <6a33e85f-6b60-4260-993d-974dd29cf8e6@arm.com>
-In-Reply-To: <6a33e85f-6b60-4260-993d-974dd29cf8e6@arm.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Tue, 6 May 2025 08:50:20 +0200
-X-Gm-Features: ATxdqUHZrVfop0JU0rG-vcdbXQsIPujzLICkuywbLk5p8m1md7a0mES_eJcPprM
-Message-ID: <CAHUa44EQV5O+KZbE19-d-Z6Wu=HAQuGQmZe+mXZRpmdvRDbmSA@mail.gmail.com>
-Subject: Re: [PATCH v8 06/14] tee: implement protected DMA-heap
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, 
- Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
- Rouven Czerwinski <rouven.czerwinski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,104 +66,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, 24 Apr 2025 03:21:30 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-On Fri, May 2, 2025 at 3:59=E2=80=AFPM Robin Murphy <robin.murphy@arm.com> =
-wrote:
->
-> On 02/05/2025 10:59 am, Jens Wiklander wrote:
-> > Implement DMA heap for protected DMA-buf allocation in the TEE
-> > subsystem.
-> >
-> > Restricted memory refers to memory buffers behind a hardware enforced
-> > firewall. It is not accessible to the kernel during normal circumstance=
-s
-> > but rather only accessible to certain hardware IPs or CPUs executing in
-> > higher or differently privileged mode than the kernel itself. This
-> > interface allows to allocate and manage such protected memory buffers
-> > via interaction with a TEE implementation.
-> >
-> > The protected memory is allocated for a specific use-case, like Secure
-> > Video Playback, Trusted UI, or Secure Video Recording where certain
-> > hardware devices can access the memory.
-> >
-> > The DMA-heaps are enabled explicitly by the TEE backend driver. The TEE
-> > backend drivers needs to implement protected memory pool to manage the
-> > protected memory.
->
-> [...]> +static struct sg_table *
-> > +tee_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-> > +                  enum dma_data_direction direction)
-> > +{
-> > +     struct tee_heap_attachment *a =3D attachment->priv;
-> > +     int ret;
-> > +
-> > +     ret =3D dma_map_sgtable(attachment->dev, &a->table, direction,
-> > +                           DMA_ATTR_SKIP_CPU_SYNC);
->
-> If the memory is inaccessible to the kernel, what does this DMA mapping
-> even mean? What happens when it tries to perform cache maintenance or
-> bounce-buffering on inaccessible memory (which presumably doesn't even
-> have a VA if it's not usable as normal kernel memory)?
+> Unlike in Panthor, from where this change is based on, there is no need
+> to support tagging of BO's other than UM-exposed ones, so all strings
+> can be freed with kfree().
+>=20
+> This commit is done in preparation of a following one that will allow
+> UM to set BO labels through a new ioctl().
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_gem.c | 19 +++++++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_gem.h | 16 ++++++++++++++++
+>  2 files changed, 35 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_gem.c
+> index 963f04ba2de6..a7a29974d8b1 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+> =20
+> +#include <linux/cleanup.h>
+>  #include <linux/err.h>
+>  #include <linux/slab.h>
+>  #include <linux/dma-buf.h>
+> @@ -35,6 +36,9 @@ static void panfrost_gem_free_object(struct drm_gem_obj=
+ect *obj)
+>  	 */
+>  	WARN_ON_ONCE(!list_empty(&bo->mappings.list));
+> =20
+> +	kfree(bo->label.str);
+> +	mutex_destroy(&bo->label.lock);
+> +
+>  	if (bo->sgts) {
+>  		int i;
+>  		int n_sgt =3D bo->base.base.size / SZ_2M;
+> @@ -260,6 +264,7 @@ struct drm_gem_object *panfrost_gem_create_object(str=
+uct drm_device *dev, size_t
+>  	mutex_init(&obj->mappings.lock);
+>  	obj->base.base.funcs =3D &panfrost_gem_funcs;
+>  	obj->base.map_wc =3D !pfdev->coherent;
+> +	mutex_init(&obj->label.lock);
+> =20
+>  	return &obj->base.base;
+>  }
+> @@ -302,3 +307,17 @@ panfrost_gem_prime_import_sg_table(struct drm_device=
+ *dev,
+> =20
+>  	return obj;
+>  }
+> +
+> +void
+> +panfrost_gem_set_label(struct drm_gem_object *obj, const char *label)
+> +{
+> +	struct panfrost_gem_object *bo =3D to_panfrost_bo(obj);
+> +	const char *old_label;
+> +
+> +	scoped_guard(mutex, &bo->label.lock) {
+> +		old_label =3D bo->label.str;
+> +		bo->label.str =3D label;
+> +	}
+> +
+> +	kfree(old_label);
+> +}
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/pa=
+nfrost/panfrost_gem.h
+> index 7516b7ecf7fe..c0be2934f229 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+> @@ -41,6 +41,20 @@ struct panfrost_gem_object {
+>  	 */
+>  	size_t heap_rss_size;
+> =20
+> +	/**
+> +	 * @label: BO tagging fields. The label can be assigned within the
+> +	 * driver itself or through a specific IOCTL.
+> +	 */
+> +	struct {
+> +		/**
+> +		 * @label.str: Pointer to NULL-terminated string,
+> +		 */
+> +		const char *str;
+> +
+> +		/** @lock.str: Protects access to the @label.str field. */
+> +		struct mutex lock;
+> +	} label;
 
-Doesn't DMA_ATTR_SKIP_CPU_SYNC say that the kernel shouldn't perform
-cache maintenance on the buffer since it's already in the device
-domain? The device is expected to be permitted to access the memory.
+Can we do as we did in panthor, and put those fields in the debugfs
+field.
 
->
-> If we're simply housekeeping the TEE's resources on its behalf, and
-> giving it back some token to tell it which resource to go do its thing
-> with, then that's really not "DMA" as far as the kernel is concerned.
+> +
+>  	bool noexec		:1;
+>  	bool is_heap		:1;
+>  };
+> @@ -89,4 +103,6 @@ void panfrost_gem_teardown_mappings_locked(struct panf=
+rost_gem_object *bo);
+>  int panfrost_gem_shrinker_init(struct drm_device *dev);
+>  void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
+> =20
+> +void panfrost_gem_set_label(struct drm_gem_object *obj, const char *labe=
+l);
+> +
+>  #endif /* __PANFROST_GEM_H__ */
 
-These buffers are supposed to be passed to devices that might be under
-only partial control of the kernel.
-
->
-> [...]
-> > +static int protmem_pool_op_static_alloc(struct tee_protmem_pool *pool,
-> > +                                     struct sg_table *sgt, size_t size=
-,
-> > +                                     size_t *offs)
-> > +{
-> > +     struct tee_protmem_static_pool *stp =3D to_protmem_static_pool(po=
-ol);
-> > +     phys_addr_t pa;
-> > +     int ret;
-> > +
-> > +     pa =3D gen_pool_alloc(stp->gen_pool, size);
-> > +     if (!pa)
-> > +             return -ENOMEM;
-> > +
-> > +     ret =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
-> > +     if (ret) {
-> > +             gen_pool_free(stp->gen_pool, pa, size);
-> > +             return ret;
-> > +     }
-> > +
-> > +     sg_set_page(sgt->sgl, phys_to_page(pa), size, 0);
->
-> Where does "pa" come from here (i.e. what's the provenance of the
-> initial "paddr" passed to tee_protmem_static_pool_alloc())? In general
-> we can't call {phys,pfn}_to_page() an arbitrary addresses without
-> checking pfn_valid() first. A bogus address might even crash
-> __pfn_to_page() itself under CONFIG_SPARSEMEM.
-
-That's a good point. Would it be enough to check the address with
-pfn_valid() in tee_protmem_static_pool_alloc()?
-
-I expect that the memory is normally carved out of DDR and made secure
-or protected in a platform-specific way, either at boot with a static
-carveout or dynamically after boot.
-
-Thanks,
-Jens
-
-
->
-> Thanks,
-> Robin.
->
-> > +     *offs =3D pa - stp->pa_base;
-> > +
-> > +     return 0;
-> > +}
