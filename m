@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47253AAC900
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 17:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBDAAAC90A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 17:04:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 910C110E6E0;
-	Tue,  6 May 2025 15:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65BBC10E6B9;
+	Tue,  6 May 2025 15:04:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TczUgbZn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GkpSQQcI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C15E10E6E0;
- Tue,  6 May 2025 15:02:47 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-2ff6ce72844so549758a91.2; 
- Tue, 06 May 2025 08:02:47 -0700 (PDT)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+ [209.85.215.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F6CE10E6B5;
+ Tue,  6 May 2025 15:04:28 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id
+ 41be03b00d2f7-b0459668101so369448a12.2; 
+ Tue, 06 May 2025 08:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746543767; x=1747148567; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746543868; x=1747148668; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vktEqjsuV79dKuAmz5AcIDcSZ1EaHWsuQpXRAcNjy50=;
- b=TczUgbZnb7E+exo19daw2UHrzXoyDUllSVPXAhZlOvllSqy/zmpsu/CqdmFa3WRHFk
- GtwnDgOZQ0iAkAUUEA1zXxtqz0YzO9JX4rE8kD2/f1qcsL4+JpfzTRxiXq66WsS5IBJE
- 1XlrI8wvXqlhDJuW1tl6TAI8ILtHszUpBfbekzmqd6jKwakP2HxkrqfxMJOz61Yar1GY
- YSArwPBD9VgLQ2zEkxJ1oE/odwuWP86fZQzMgOJKZhwuVNoB+zFJv7dczlM5gWTjSbZh
- fsKI3FFe5Mx0CFDX3YUagw2rMiVOQldQcNFkMDdoifvt4goo3QwVBp2+ZNyndqxxsaPP
- VYNw==
+ bh=q4N5L0OBe3ScafzL36/5ps8MdmhuELISisHME8PJ2jE=;
+ b=GkpSQQcIwgE3XFacPDFbqOSw1K6hiawhrUcobEOlraWRn18gJ6yFuDNs5APZDh3BH7
+ p4J4ANILnUKjtsYOiCFqP26Cc2kOaa5W9YWgfDYAwSsuMUYnJYsgPcMeTERUmHqVJqNS
+ TgnqUiHAF0dBRPB3QC/mj4NCN7Ttx7rzA+mL11LH7TkQThmzVZxH3sw58G1Q8jHKmDN3
+ hODE8vG/SIpMQzWnjAZdPBLBypTeLBivKxsp6XU/S425s+mSn8OijhlF0hf+3VFwRsMA
+ riwzAhpYiD0qrXLjjtOiHqZmON2Vkl8DUcvFQ+kwAX5sYXNaPpU5E2ID0m4NSm+pdk4T
+ 0C9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746543767; x=1747148567;
+ d=1e100.net; s=20230601; t=1746543868; x=1747148668;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vktEqjsuV79dKuAmz5AcIDcSZ1EaHWsuQpXRAcNjy50=;
- b=pLufKjLEH0VVZZfK//sydlV/h7Y0xnL0w/w8Vy0ISVs/SQ/c9LcgYG2Z8WcAOUKRT/
- tXQIqVw0gsBHm/MuynLS8l1CpqjXI4nNRegSAP0rEwqZmGQqr6k7v0r0sJZQUCXNpwqD
- SMF4pDih2ijbmUeMWlMOYPdxt3+lrP1KM5iS97kyd2NlWRrxcNCJaIFhzsvLHEoLBomg
- YdkBVbeZIReLoccaawGioc4sX82T/qmoz6tusGXlCi+T/iR/QHWkXktNYDtktqOLiv7U
- 7K/1nMK2Pm5gJt0kV/tlv4ejcH4+3Bg4e7A7qo6/7fugvC2L+mxEHwDTlTNsC6/lXMgA
- AyBQ==
+ bh=q4N5L0OBe3ScafzL36/5ps8MdmhuELISisHME8PJ2jE=;
+ b=VfthY1OMvh7rnbX9u7EgXW+S98iTpJKPt6bl1b62SVoAZeMFDIO4TYFIz9x0/9HzA2
+ 3UfBVNlowLZ/csuBfVN+QQpFWkIYil1k0GhIRp6a2TS3WOGJTpdBrnkJoy3A0KjGaXVy
+ KLqqo8iU3xqv4k3V7JiMGvWhbayzVTbnBNFHsULkEx64RwnzeEYBk8EowzlnqDZOFRCI
+ FsKU8l5sOoE71IG4TlI0EY60rG5rfYPjzC30b2WYarqViQ/R/LkF7AC6+WYUyhq1uE/W
+ JZm0iLHYc4vF8hNnI/qtPPPZ4oxQpELWDjRAOM44HlflGA/LO4z5ei5HCHZ9u+xkSIzv
+ ASKA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUXlsYhDLMEQqjOFEZVZafuLVX3M5F53TXz0axRhtjECdzIUtmjlaI4jdrnlWZECwU516bSXSu2@lists.freedesktop.org,
- AJvYcCVPw4+i87Om7sIV606UA9LpNoUGpZb8GfRUyI2so+hJCKFBLbUnqi+G6HOMg6ggyokt+fTM+jgTh9rM@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxEmq4ZfJ+RrDoMNuu+ZIGugCtkz44lN95LQUZf0zIWNeKPo4vF
- YUyj5wbf3sSXd+9jtrqXGO6KUyY0QJMUYhd7M3Rv9VJPYXy6eUkiZirEKouEELG/q7+2iP0k5By
- 1T4TcKrZOw+1dX4FPksfrYeYnjIMK1Q==
-X-Gm-Gg: ASbGncsithAs/X1p8p6a/kJPOLpNJKmUJrezCfassBNe3TW8M5YT2z0K5/Q3HnZO03V
- zEjncPz2cA7BTOEmrdlBMJJZCTSzhHDc8YlZfSRUFUo+isZv/ll6cwQljorHCyvWTj+pGYxcORL
- aOtnJE1gx/9aBrTSyUxQGVKw==
-X-Google-Smtp-Source: AGHT+IHZJQerd5lYSgmKXFBIMwEXybKqQi7T2CP9X5INnCGIYqT3c4QEYnsAvtwWrnxL4AncipR/8wXzDf9JUdFle5I=
-X-Received: by 2002:a17:90b:4d07:b0:306:b6ae:4d7a with SMTP id
- 98e67ed59e1d1-30a4e69f90dmr9231704a91.3.1746543766820; Tue, 06 May 2025
- 08:02:46 -0700 (PDT)
+ AJvYcCX7upjdla52O3Jx23efb6iT/sOm6Bi2D/a1YvIkRdAqk/Shd82LR4vV1133648QJRYjwBGw4S96@lists.freedesktop.org,
+ AJvYcCXWQG9Eg38BpECh6DCZkhXna43iBHUSdY58Bh2vQNw+OijAu8IJrnDevejph3akNRrGEP4YpcbpzkJC@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyMoPTsE/iEA0g9DVCEkCUn0Oj1pS5Qlj/zuGLA32YQ44oVOMvN
+ nuj+gqY7iI2HO+zpHoJslIFKScjzexerTlplaBRVRs2R1hZo5anvd6XqcE6IBKlvHkEEkMRYJbf
+ iwqanIaMzFe4UvL0xWjMABlQWA1E=
+X-Gm-Gg: ASbGncvXyAjhPRQvwdUFjlgP/MDziVxE2S6ZPZYWBXiNf+wes9jg7jnNtsJY/a1zRvq
+ 87jXRUpqcRlAQGp/F3Hb4xTUCBr5v7UGIX8HLeA6Jyy/VsoCeB2URg4DQyl4cuKUTKsfZ1bbWga
+ 64h3Zmm3pK8hqzy2ehJeLu6Q==
+X-Google-Smtp-Source: AGHT+IEwhGFD8IpYiUNhIRLVGumkHh+0GyHsr9sLU3ivDsfBTh2hkFmQUsf7kNoEKGjP7WIXJpifuA65WP3UfME/oGg=
+X-Received: by 2002:a17:90a:2c83:b0:30a:9935:bea8 with SMTP id
+ 98e67ed59e1d1-30a9935c11fmr469594a91.8.1746543867772; Tue, 06 May 2025
+ 08:04:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250505225634.2688578-1-sashal@kernel.org>
- <20250505225634.2688578-229-sashal@kernel.org>
-In-Reply-To: <20250505225634.2688578-229-sashal@kernel.org>
+References: <20250505223922.2682012-1-sashal@kernel.org>
+ <20250505223922.2682012-376-sashal@kernel.org>
+In-Reply-To: <20250505223922.2682012-376-sashal@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 6 May 2025 11:02:34 -0400
-X-Gm-Features: ATxdqUEpmmNKQiGhMbisn4FhardjqBOJI2VMqCRzuJwevOedc0cvX0fCONYxO10
-Message-ID: <CADnq5_OGPGwbKfFSP6BpNAhtOXnZ+L3Vmga9TxLDAAub=bu9JA@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 6.6 229/294] drm/amd/display/dc: enable oem i2c
+Date: Tue, 6 May 2025 11:04:16 -0400
+X-Gm-Features: ATxdqUH3rURebALiwxQAtHGTZB9JcLWKbXWjGIu3U-Z3H9ymj5qHKILAnoy8wd0
+Message-ID: <CADnq5_PTVy-gTr=xWnTULQfUsBYY9WbyL1yZ45ew+OPHpO8xdA@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 6.12 376/486] drm/amd/display/dc: enable oem i2c
  support for DCE 12.x
 To: Sasha Levin <sashal@kernel.org>
 Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
  Alex Deucher <alexander.deucher@amd.com>,
  Harry Wentland <harry.wentland@amd.com>, sunpeng.li@amd.com, 
  christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+ roman.li@amd.com, srinivasan.shanmugam@amd.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,7 +90,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 5, 2025 at 7:04=E2=80=AFPM Sasha Levin <sashal@kernel.org> wrot=
+On Mon, May 5, 2025 at 6:53=E2=80=AFPM Sasha Levin <sashal@kernel.org> wrot=
 e:
 >
 > From: Alex Deucher <alexander.deucher@amd.com>
@@ -102,20 +103,20 @@ e:
 > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 > Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-This is a new feature not a bug fix and this change only makes sense
-with the other changes in kernel 6.15.
+This is not a bug fix.  It's only applicable as part of a new feature
+that was added in 6.15.
 
 Alex
 
 > ---
->  .../drm/amd/display/dc/dce120/dce120_resource.c | 17 +++++++++++++++++
+>  .../dc/resource/dce120/dce120_resource.c        | 17 +++++++++++++++++
 >  1 file changed, 17 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c b/dr=
-ivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
-> index 18c5a86d2d614..21f10fd8e7025 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
+> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dce120/dce120_resour=
+ce.c b/drivers/gpu/drm/amd/display/dc/resource/dce120/dce120_resource.c
+> index 621825a51f46e..a2ab6776b8855 100644
+> --- a/drivers/gpu/drm/amd/display/dc/resource/dce120/dce120_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/resource/dce120/dce120_resource.c
 > @@ -67,6 +67,7 @@
 >  #include "reg_helper.h"
 >
