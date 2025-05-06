@@ -2,138 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031CAAABB5F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 09:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4A4AABB82
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 09:42:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60D1C10E042;
-	Tue,  6 May 2025 07:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90CDA10E06F;
+	Tue,  6 May 2025 07:42:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SkMO06yo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J6odBsss";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SkMO06yo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J6odBsss";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SgEbaNn8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C454110E042
- for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 07:39:45 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 929981F394;
- Tue,  6 May 2025 07:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1746517177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ehkdWJ3YE419DK32pcGDu4hccVQUEQyIl3HFAkVAK9A=;
- b=SkMO06yoach6wLGwv+m29h4epdrHbnuEUjxt3MMGeBwNjEQMefXO2wrKWt9IKp0cbJ3kEJ
- NGwOrUSFhnAQYKYEkpSWxNsa4a6TZRnwxhr2q8CWy6dSlcuLnhQhV9858ZW+lRT6lCjSGz
- T3F3COVb2vtENSdJFE1pBrkNRipBdR0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1746517177;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ehkdWJ3YE419DK32pcGDu4hccVQUEQyIl3HFAkVAK9A=;
- b=J6odBsssK3RtaI9VQnBx2yRbe5nOASXuMAzGT0Cz8GUoSCZTRBI4t+XlkdmaU/EDHsEfW+
- TaQGX4fKK6a7hfDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1746517177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ehkdWJ3YE419DK32pcGDu4hccVQUEQyIl3HFAkVAK9A=;
- b=SkMO06yoach6wLGwv+m29h4epdrHbnuEUjxt3MMGeBwNjEQMefXO2wrKWt9IKp0cbJ3kEJ
- NGwOrUSFhnAQYKYEkpSWxNsa4a6TZRnwxhr2q8CWy6dSlcuLnhQhV9858ZW+lRT6lCjSGz
- T3F3COVb2vtENSdJFE1pBrkNRipBdR0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1746517177;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ehkdWJ3YE419DK32pcGDu4hccVQUEQyIl3HFAkVAK9A=;
- b=J6odBsssK3RtaI9VQnBx2yRbe5nOASXuMAzGT0Cz8GUoSCZTRBI4t+XlkdmaU/EDHsEfW+
- TaQGX4fKK6a7hfDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DE3D137CF;
- Tue,  6 May 2025 07:39:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id YdmYDbm8GWgATAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 06 May 2025 07:39:37 +0000
-Message-ID: <e8b91c26-77e4-41a6-ab32-b0ef1bb7962c@suse.de>
-Date: Tue, 6 May 2025 09:39:36 +0200
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FC8610E06F
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 07:42:38 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-43cebe06e9eso32929415e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 00:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1746517356; x=1747122156; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=Vh83Cr86myKpT/xxvxdNHA88dLzEPKe/Vq3zERRKRoI=;
+ b=SgEbaNn8RjkW87BG3RV9AOb9SPWsC/ebEOlppBwPAyItk7mxfWh+hH8qZ6w/VG/F3R
+ WpenSH2A/11F7LHM8LKeaOBdSVI2snTpOn41xk6IrzHKKD3U06YdgywtE3+WQlKhu65e
+ AUEKESz5ZTLs1bQvCHcRZiZ+gVCPetBdi0EPSk7K4Oc5XvmKGLocwsxRP5FXZ44XiY8m
+ EJw3FCyQZYOcMhovuVeTvH8Lb/32p7mmlQUyWVKBtwruW+QdytL2hTV/qarnVKoD6+44
+ xyGfC0u5n3ixc+gL/xcYg8XFD7x6AVPSsGSch4hZFvjhq0fbeaUbORKTshW3kBZAKBV9
+ mlXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746517356; x=1747122156;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Vh83Cr86myKpT/xxvxdNHA88dLzEPKe/Vq3zERRKRoI=;
+ b=wo16dCIUpnxsTNiHDKeFr/gWmnczNNNlDCnWxXlkDCrY5SDshqrU7/Ml9lKiRNUAzR
+ qPXwM5eiOTbQY/sXjx5liU2YPQxnzk340Pc/EcVHmH/gpVs32vDYDIFMa8AXzd2LN4Mu
+ N7jLYJSnW8s4QArbTNcGZp1fXwE8DBD0oaU11gRBY48CD7Gt8hD63UmcgDxGlAllUV8Z
+ BQuhmYH3MEcyYqtmM0XCORXqHve4F2U1tMctZlltNvV7+PhOJcwopufsW33P5qPrm9zR
+ Zapn/jDpKFWYA2cwNh2+Ld03ei2Wtfwp4vh9UQD3cNheMhlyNIzN8nuqdpFHE6/nX3rm
+ swUw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWNB2Qb8nC7eO6Vdsm4WSdXvI2npFKd+eaBRcA1Ai3S1kADED0LOZ6owIEpxih6aAzpRTlwNojE88E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YydM95qyiL2IkRllrIpg6uaZlqIpMwNDy26OE3lVThu70326qz/
+ xJyn01CDrgUyipSIYcoKIKNSpfeOmZ3X1FANAki9L5+klITwIhzgD4e8Br7OCwY=
+X-Gm-Gg: ASbGnctJ6ikLRJyFIpyiiNRPz4iaJzdB9axPoacAvjbHOQxKjp3dpu5OueUm/8f0hbC
+ JfTwTv6dCH/GkllizXpHw9VipTYfoQsob+yHOCoC86VDLBKY6BleMJRCdKdYNmjj5pZ2helKWgs
+ QwTtfl6RIffE9dcMDiDKjpVH9el48+8KJUn1DTFXKq1MA3+vie0hZnM0OJWPGOPxc1dYrXcBpKV
+ d6NZ8KeKykms72cBSY/R4whsGgvyxiPmv6wRCIVi4mJAYwP5uzcioW6W3pxUTHbDIk2hU4S9gUo
+ ANk+YMIYznb34Hstjo3vpL2/8s6PNYucPqTNhqX3H2WqAh/N/4PE+YkLb7xPL7no5fl8aZDHh67
+ ihKq7yld+lSQVL3ptnw4oLd7Asn62
+X-Google-Smtp-Source: AGHT+IE7lA05hqmzBtHBX0KgbjWpLd4PA2JGm5RJ1Hk27fXzxfMHd8z0NDIazoFMjl4M7chYqanXHA==
+X-Received: by 2002:a05:600c:1d0d:b0:43d:26e3:f2f6 with SMTP id
+ 5b1f17b1804b1-441d04f3a09mr14783115e9.5.1746517356603; 
+ Tue, 06 May 2025 00:42:36 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:127a:7a9e:6ba7:152f?
+ ([2a01:e0a:3d9:2080:127a:7a9e:6ba7:152f])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a099b0f09dsm12842019f8f.63.2025.05.06.00.42.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 May 2025 00:42:36 -0700 (PDT)
+Message-ID: <d9594641-a6aa-40e9-b8fd-b6002000e490@linaro.org>
+Date: Tue, 6 May 2025 09:42:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/gem: Internally test import_attach for imported
- objects
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: simona@ffwll.ch, airlied@gmail.com, asrivats@redhat.com,
- andyshrk@163.com, christian.koenig@amd.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250416065820.26076-1-tzimmermann@suse.de>
- <Z_96e7Lv-sEDUS6U@phenom.ffwll.local> <aBHoRTdsdOLFhzfg@phenom.ffwll.local>
- <20250505092949.1124657d@collabora.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250505092949.1124657d@collabora.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2] drm/panel: simple: Update timings for AUO G101EVN010
+To: Kevin Baker <kevinb@ventureresearch.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Gonzalez <alex.gonzalez@digi.com>, Thierry Reding <treding@nvidia.com>,
+ Rob Herring <robh@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <dbd8e1bc-bc23-4240-b6b1-321ac6f5ed68@linaro.org>
+ <20250505170256.1385113-1-kevinb@ventureresearch.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250505170256.1385113-1-kevinb@ventureresearch.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[13]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,redhat.com,163.com,amd.com,kernel.org,linux.intel.com,lists.freedesktop.org,linaro.org,vger.kernel.org,lists.linaro.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email, suse.de:mid, suse.de:email,
- linaro.org:email, imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,75 +121,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On 05/05/2025 19:02, Kevin Baker wrote:
+> Switch to panel timings based on datasheet for the AUO G101EVN01.0
+> LVDS panel. Default timings were tested on the panel.
+> 
+> Previous mode-based timings resulted in horizontal display shift.
+> 
+> Signed-off-by: Kevin Baker <kevinb@ventureresearch.com>
+> Fixes: 4fb86404a977 ("drm/panel: simple: Add AUO G101EVN010 panel support")
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 25 +++++++++++++------------
+>   1 file changed, 13 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index df718c4a86cb..c79dc8581054 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -1026,27 +1026,28 @@ static const struct panel_desc auo_g070vvn01 = {
+>   	},
+>   };
+>   
+> -static const struct drm_display_mode auo_g101evn010_mode = {
+> -	.clock = 68930,
+> -	.hdisplay = 1280,
+> -	.hsync_start = 1280 + 82,
+> -	.hsync_end = 1280 + 82 + 2,
+> -	.htotal = 1280 + 82 + 2 + 84,
+> -	.vdisplay = 800,
+> -	.vsync_start = 800 + 8,
+> -	.vsync_end = 800 + 8 + 2,
+> -	.vtotal = 800 + 8 + 2 + 6,
+> +static const struct display_timing auo_g101evn010_timing = {
+> +	.pixelclock = { 64000000, 68930000, 85000000 },
+> +	.hactive = { 1280, 1280, 1280 },
+> +	.hfront_porch = { 8, 64, 256 },
+> +	.hback_porch = { 8, 64, 256 },
+> +	.hsync_len = { 40, 168, 767 },
+> +	.vactive = { 800, 800, 800 },
+> +	.vfront_porch = { 4, 8, 100 },
+> +	.vback_porch = { 4, 8, 100 },
+> +	.vsync_len = { 8, 16, 223 },
+>   };
+>   
+>   static const struct panel_desc auo_g101evn010 = {
+> -	.modes = &auo_g101evn010_mode,
+> -	.num_modes = 1,
+> +	.timings = &auo_g101evn010_timing,
+> +	.num_timings = 1,
+>   	.bpc = 6,
+>   	.size = {
+>   		.width = 216,
+>   		.height = 135,
+>   	},
+>   	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>   };
+>   
 
-Am 05.05.25 um 09:29 schrieb Boris Brezillon:
-> On Wed, 30 Apr 2025 11:07:17 +0200
-> Simona Vetter <simona.vetter@ffwll.ch> wrote:
->
->> On Wed, Apr 16, 2025 at 11:38:03AM +0200, Simona Vetter wrote:
->>> On Wed, Apr 16, 2025 at 08:57:45AM +0200, Thomas Zimmermann wrote:
->>>> Test struct drm_gem_object.import_attach to detect imported objects.
->>>>
->>>> During object clenanup, the dma_buf field might be NULL. Testing it in
->>>> an object's free callback then incorrectly does a cleanup as for native
->>>> objects. Happens for calls to drm_mode_destroy_dumb_ioctl() that
->>>> clears the dma_buf field in drm_gem_object_exported_dma_buf_free().
->>>>
->>>> v3:
->>>> - only test for import_attach (Boris)
->>>> v2:
->>>> - use import_attach.dmabuf instead of dma_buf (Christian)
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
->>>> Reported-by: Andy Yan <andyshrk@163.com>
->>>> Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
->>>> Tested-by: Andy Yan <andyshrk@163.com>
->>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Cc: Anusha Srivatsa <asrivats@redhat.com>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>> Cc: Maxime Ripard <mripard@kernel.org>
->>>> Cc: David Airlie <airlied@gmail.com>
->>>> Cc: Simona Vetter <simona@ffwll.ch>
->>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>>> Cc: "Christian König" <christian.koenig@amd.com>
->>>> Cc: dri-devel@lists.freedesktop.org
->>>> Cc: linux-media@vger.kernel.org
->>>> Cc: linaro-mm-sig@lists.linaro.org
->>> Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
->> Also quick doc request: We do have a bit of overview documentation for
->> prime here about specifically this lifetime fun, and why there's a chain
->> of references and hence a distinction between imported foreign dma-buf and
->> re-imported native dma-buf:
->>
->> https://dri.freedesktop.org/docs/drm/gpu/drm-mm.html#reference-counting-for-gem-drivers
->>
->> I think it would be good to augment this with more links to functions
->> (like this one recently added and fixed in this patch here) and struct
->> members to that overview. And maybe also link from key function and struct
->> functions back to that overview doc. Otherwise I think the next person
->> will get confused by this rather tricky code again and break a corner
->> cases.
-> BTW, could we also backmerge 6.15-rc5 into drm-misc-next so the fix is
-> also present in drm-misc-next?
-
-drm-misc-next is now at -rc5
-
-Best regards
-Thomas
-
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
