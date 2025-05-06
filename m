@@ -2,64 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236D4AACACB
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 18:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E34AACABC
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 18:20:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0498510E700;
-	Tue,  6 May 2025 16:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87DA010E362;
+	Tue,  6 May 2025 16:20:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="fwDG+IVO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gO3uWIy4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9147D10E700
- for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 16:22:21 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250506161422euoutp01a6dd37708928f2dbb6b6c917ceaa5068~8-DWBtOAN0659306593euoutp01T
- for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 16:14:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250506161422euoutp01a6dd37708928f2dbb6b6c917ceaa5068~8-DWBtOAN0659306593euoutp01T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1746548062;
- bh=OE2cRkTkOYpXuv15aHxMbiUvH5dQCxlOg8WtuJAV98g=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fwDG+IVOUQuksj/nnZ5kfvb8hJFr3/FJGwAi5D1Yy0RZ18P29wk5DM4ph/mU3B6ac
- sMHCyuo4Jn0Zneq/ulIIwoSIK1jmEreJXmrbsM9DOz1j9Co62dSZnsoRbet5eIlvHE
- aK1e85TSHOGvWns7zeVnENHS3Lm24S9VgwuuA9Uc=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250506161421eucas1p1e51a0891fe56863c1e927609b842d6de~8-DVkn8Am1862718627eucas1p1v;
- Tue,  6 May 2025 16:14:21 +0000 (GMT)
-Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250506161421eusmtip2f63d10d07d7f41de33bdffeecaa72288~8-DVEAWPM0367703677eusmtip2C;
- Tue,  6 May 2025 16:14:21 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Gerd Hoffmann
- <kraxel@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>, Gurchetan Singh <gurchetansingh@chromium.org>,
- Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 2/3] udmabuf: use sgtable-based scatterlist wrappers
-Date: Tue,  6 May 2025 18:13:45 +0200
-Message-Id: <20250506161346.1211105-3-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250506161346.1211105-1-m.szyprowski@samsung.com>
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD61610E362
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 16:20:10 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-43ce70f9afbso51710835e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 09:20:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1746548409; x=1747153209; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=k3qc17DEFxTpF4iC04L3bgB11KvKUfwQcfBGjcC6vpU=;
+ b=gO3uWIy41E7GiyCuTr1CqQbVsQjvrHeLDTuGlHeOWS/XxD9HOu+mlfPRjV+yoNehCo
+ MvS2OJSQH8VrCpM+hmoZUtTugrfYl/ljR41XuIpFeqnsV2ek1dilfDpiXGbL4+Wm78xJ
+ kdD2/h4BTgThRbPhQj52fYHSwq2rKqBznlvdhrxoAQrSgoSGt0ko5c6ax6hdYyneWaFz
+ OalOBjnvlhav0k9IdBmQm9coWwX02dMxBjk5FNCpjE8TkLH9nTJhj7bczvfN1yYUWK81
+ FwWJ8KtslzZcXWAMdKleVwG6Tj5YpiL+wpCNq8m0QnXxUvVt9BAfnynpx7TaXCtME0NV
+ 6Htg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746548409; x=1747153209;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=k3qc17DEFxTpF4iC04L3bgB11KvKUfwQcfBGjcC6vpU=;
+ b=bVZcr9RBO1xEjF2WGzNHY5jWgO29alQ4daBKzEVU/5L0lGzzr3Vv1+Z75JvKa1vdej
+ noutV6YoRcszBA0EqrdCLIMg91va+JceGuNf58h0p9DvQVqhgSkljx1WtBLFDmc2vzj2
+ X1kxMsJ/uZgNSJRO6I7dbb9gTZwirPh/a9mXcsJHIi+4aE3SpIQywAekmhEwqP4ks7X8
+ 84dfh7SyX6eS21jPLDspYUUKEAD+m9VcHTj3Ns48H/Bz1qkRupBRXTFylNtouhAHkCZM
+ gf3Pmz/4qJxFG/8D34ViD4nw+50ApJD89z1omglSpbOL6L/3W4wTsNASqEa7bdImUO8D
+ x2Bg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUni4G6XZkECHaS/x/u2z6spEGLwtobfBVPqqhhPPJTMWtuy2OYJf21j5aA2Q8dtMPGjIvzXT/rT2Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzyi8VxYh5QtwvIqht3MYZayLz/se9VX/WnKMb5GUL3sYAXrniV
+ EM2VEcXfAITbB66Cqn7kfNqubTXcmuChQptISXZ2Tr0t6Cl39jDp
+X-Gm-Gg: ASbGnctvb/ztqug/XC7J6ev17VFsq+wWJBBuipk3558lD55vFw/P/8JI3z5ogcV6net
+ F+MRBuaDMZWheNQwzAO+hZ8mib4dSgaCdNSGZiC9tIXC/LqS5Ko4vl9SRNHoVioVal0ZvxxrbVC
+ OhJbQOPFj7b4CFq7UnDRyUuVI+N9qljNkXkDF4HXJnONotqxGpzPU/HNicNswGCGWOb5Jzr1BSX
+ /3yxNbwbi8ta2jq8G1xd80T/7B8cxERG5cncJoNyCImS0aWVYI5wTiTNhL4NMB8x7Uk3/ZYHYqE
+ 9T8BmPbCAUA1s9RVbohG2uQfdSZWRwS/k7V1liXNtg==
+X-Google-Smtp-Source: AGHT+IEl9AAm++w6tszNiHiWfiBZgIN92Q256sIYVAF0+OGgNQafoTkoaDQDck7lPyH/qHfgISwETw==
+X-Received: by 2002:a05:600c:4e48:b0:43d:98e7:38dc with SMTP id
+ 5b1f17b1804b1-441c48aa36bmr109604715e9.5.1746548408780; 
+ Tue, 06 May 2025 09:20:08 -0700 (PDT)
+Received: from localhost ([194.120.133.25])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-441d11b4c1dsm19852075e9.0.2025.05.06.09.20.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 May 2025 09:20:08 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/display: remove redundant ternary operator
+Date: Tue,  6 May 2025 17:19:57 +0100
+Message-ID: <20250506161957.149194-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250506161421eucas1p1e51a0891fe56863c1e927609b842d6de
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250506161421eucas1p1e51a0891fe56863c1e927609b842d6de
-X-EPHeader: CA
-X-CMS-RootMailID: 20250506161421eucas1p1e51a0891fe56863c1e927609b842d6de
-References: <20250506161346.1211105-1-m.szyprowski@samsung.com>
- <CGME20250506161421eucas1p1e51a0891fe56863c1e927609b842d6de@eucas1p1.samsung.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,40 +89,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use common wrappers operating directly on the struct sg_table objects to
-fix incorrect use of statterlists sync calls. dma_sync_sg_for_*()
-functions have to be called with the number of elements originally passed
-to dma_map_sg_*() function, not the one returned in sgtable's nents.
+The ternary operator is checking if ret is less than zero inside an
+if block that also checks if ret is less than zero. Since the nested
+ternary statement is always true then the -EIO return is never
+executed and can be removed.
 
-Fixes: 1ffe09590121 ("udmabuf: fix dma-buf cpu access")
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/dma-buf/udmabuf.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 7eee3eb47a8e..c9d0c68d2fcb 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -264,8 +264,7 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
- 			ubuf->sg = NULL;
- 		}
- 	} else {
--		dma_sync_sg_for_cpu(dev, ubuf->sg->sgl, ubuf->sg->nents,
--				    direction);
-+		dma_sync_sgtable_for_cpu(dev, ubuf->sg, direction);
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index 56c7e3318f01..155b4baf6ab5 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -4192,7 +4192,7 @@ drm_edp_backlight_probe_state(struct drm_dp_aux *aux, struct drm_edp_backlight_i
+ 	if (ret < 0) {
+ 		drm_dbg_kms(aux->drm_dev, "%s: Failed to read backlight mode: %d\n",
+ 			    aux->name, ret);
+-		return ret < 0 ? ret : -EIO;
++		return ret;
  	}
  
- 	return ret;
-@@ -280,7 +279,7 @@ static int end_cpu_udmabuf(struct dma_buf *buf,
- 	if (!ubuf->sg)
- 		return -EINVAL;
- 
--	dma_sync_sg_for_device(dev, ubuf->sg->sgl, ubuf->sg->nents, direction);
-+	dma_sync_sgtable_for_device(dev, ubuf->sg, direction);
- 	return 0;
- }
- 
+ 	*current_mode = (mode_reg & DP_EDP_BACKLIGHT_CONTROL_MODE_MASK);
 -- 
-2.34.1
+2.49.0
 
