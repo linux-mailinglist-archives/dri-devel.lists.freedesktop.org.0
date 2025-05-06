@@ -2,64 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F299AAC2B5
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 13:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44FDAAC2B7
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 13:32:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 420A810E665;
-	Tue,  6 May 2025 11:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56A0410E667;
+	Tue,  6 May 2025 11:32:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nhNaH0bH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KTvKmk9K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75E5910E65E;
- Tue,  6 May 2025 11:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=jWax/7UjKOTXSjxDDCNFk6s+HaIdKBbx9TwvhLVsDn4=; b=nhNaH0bHa0YFAC4xJCXjsmGA5n
- +h/G0Ng9RWI2g+wlQi5Ys3+r1gvqVugqAqSkBe2t5pm7cEqVFb5F4cgf6WTvFKu8bVbL4L4UYLDHU
- dOjnNTRHO+05QW34blajjQC515+0ahSlWIK6RvntxPLws9DMxmzsYhnDfA39icD23uyw/soy6zaQv
- wsYeyLEWoL/rTIFxmx5b+9j6DGXoZ8osmjQd/nM8taxGcn17DBlPpsEXgVSzBj/EXGqbCDfKwYG4c
- 1i/HRebBMkm4ZNn3Oz/DfROO0VeRCx5Z9NjJvVYNObTJhFCaj1Dkk0aqBf1DAwOGq3YCvIq+dWQUT
- 01rCGXrQ==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uCGTO-004Anm-8a; Tue, 06 May 2025 13:32:03 +0200
-Message-ID: <f48aa17a-3135-4480-b396-2e2077a7d2aa@igalia.com>
-Date: Tue, 6 May 2025 12:32:02 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ED6D10E660
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 11:32:34 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 546AdVLw015747
+ for <dri-devel@lists.freedesktop.org>; Tue, 6 May 2025 11:32:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=fwl7sL+33/f+eH9L4tdGLHOE
+ I3/YzHIvUjaSA4mATTQ=; b=KTvKmk9K+OE0l3LiE+I2xJI5LLXAXDQORpHxQXel
+ CDhBIsjrUo7truGbI7eoVJ9L5pKyt/BsNcA5ye6UKiUe5vfdT0ybVmrjQE/9rYrg
+ 7+PMrAJ5Ar/zsZGyNAmkkDiU9eJnuuPleQ+PTMcRvI+F8VWBkDLdkGp879GxVJzg
+ Bf0/ChKVzesdbW+zHFjKL8Kx2cT3JVfCRpre2aGhDNN1U0BZZYBBCIlJcBBChpx3
+ D4MQ5dN6D5UJViMSwg2PMa44dBNc9UoDQRyJydVJ8ouLc4IuO5QvkiJzWIC7z3Tl
+ c1cWLYeW019GLMkF7fugxOLzFAy/bnn9ROWNO9Xb9L6lyA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46fguug4jh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 11:32:33 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7c5cd0f8961so1204630285a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 04:32:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746531152; x=1747135952;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fwl7sL+33/f+eH9L4tdGLHOEI3/YzHIvUjaSA4mATTQ=;
+ b=fnSgcL8ghPN9XiB3kIyUOHjUO6o/XsvsVgbRSlXmIH4OxOAWANO8s/N6rQ1/9VDXah
+ dqLxNybJlLav5A9CjmE/mNiOYcltS4qYGkaL7yIUG3qyQgIqMIfT2rxzORjyqDnKY5iz
+ XZJlONWXFH747ZMnSKA5nA+4DhUyxsWGW+H6/osfB7t/CSrcdiVXIObp6k7+15kQW7+/
+ 129pCYkxjgGIvfk/9rRZEaH066LVCbIKdWvCt/WCzjLbkqzWpQQl4G6SXTaPaVq3ia5D
+ V5PU3uSoccDt1MAIwfxrfolhUBMtCTFyqtqfg2L5UeBLxJADBPbWKRUv/9ETXNbzzgy7
+ KGDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX8qs2q9R56bo+cPDwT4L5eiEaqoqs4JZXPPCLXKp2muh+c11ZbUrYspMO2+Vb0L7mPr3vm0hOZyf4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyAi05++uB7LLA+rSiG1OHpER8MGir2OHME71Q02XxgFo6nrZdG
+ sNVTYqol9w9Y8FqVIyZtABBq9MPhM0UWS4N0xqglFutglC/pExKTI51Z+rDdPzoS1Dj1EBnJFob
+ VuAt8P1tW3z3QPFdAbVv77ReuJinI6bpCdJIg7RzWRMhFEUR7u95QB69pa9Tec4Fjyzk=
+X-Gm-Gg: ASbGncv1gqjZLUL35wk/i8h42nKxFu1KCyMvDxYm3+j7wD9SSwP1bD/+RT9QhVRpkOK
+ eYG5FoZvXJ9VLvfS0ksJLkUWa+7n75E4Pl04oTKvA/zi4U3r4od91qq52lw50VNi4Ih/CZidmHM
+ hxrD1ZzlDH5m5OHLVTMHJUtJ4lpSeQO+iUhpWhhvYIj5ryQAqt8LQuTdCoRJIKlpIjb5lALMXSG
+ ML35zY4w9FYxtq5EkmGFBHoPBvgeBZrFsDuWyo9LlLkGuI9/cLdIQ/drATg9hp+LQveqVqrSRVo
+ nKA+RxZ2U4E1cYw9zmgp0Au3kqsZX9AmWgJXDCjLEPpbyUWk/zo8K81/U2a8lsI6u95T5lLUaNU
+ =
+X-Received: by 2002:a05:620a:170a:b0:7c5:4d2e:4d2d with SMTP id
+ af79cd13be357-7cae3b0ca45mr1565853985a.50.1746531152638; 
+ Tue, 06 May 2025 04:32:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGh5sYkZSzYvTbugryEFcZleW6v/iZDEThUuz+Ah7LtSsuWl3cmvTZ0zKAiaQcydSJfq0ywvQ==
+X-Received: by 2002:a05:620a:170a:b0:7c5:4d2e:4d2d with SMTP id
+ af79cd13be357-7cae3b0ca45mr1565849285a.50.1746531152291; 
+ Tue, 06 May 2025 04:32:32 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54ea94c0897sm2039490e87.83.2025.05.06.04.32.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 May 2025 04:32:31 -0700 (PDT)
+Date: Tue, 6 May 2025 14:32:29 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+Cc: Vinod Koul <vkoul@kernel.org>,
+ Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+ Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
+Subject: Re: [PATCH v6 1/2] dmaengine: qcom: gpi: Add GPI Block event
+ interrupt support
+Message-ID: <ze5y6llgo2qx4nvilaqcmkam5ywqa76d6uetn34iblz4nefpeu@ozbgzwbyd54u>
+References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
+ <20250506111844.1726-2-quic_jseerapu@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep
- on running
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
- <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250506111844.1726-2-quic_jseerapu@quicinc.com>
+X-Authority-Analysis: v=2.4 cv=UJPdHDfy c=1 sm=1 tr=0 ts=6819f351 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=QOsQMPsNCkuRs1RMv08A:9 a=CjuIK1q_8ugA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: 0sB8eX8K_d6qtHuYuzdh6gMD-O39sxhb
+X-Proofpoint-GUID: 0sB8eX8K_d6qtHuYuzdh6gMD-O39sxhb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDExMCBTYWx0ZWRfX+sFS0h1mHtT/
+ DbC22a1IUhSVnyQ3qB5YTbU6m4C3t+CgS0KfxkVnjWP8QRCXquD4FG6XE49SEu+nuik8e+4Mu7l
+ DjoUuWTT7Y6P2vbTLfZqIVNLKkYSFeS8U6dbueUFHP4CU728mN5XcqsNZ8Cpg+HS+2V/l+ISdfz
+ 0qSH0Yy3ga1xWe65W3GvH4/dFFHIAZmyvMyxEEO9QA2KTWv9W33kFdN77B0YW588dTrdtU8wZSL
+ Whiq5KDsVpuY6Q8Y030hIWHSJBOc72kNRvO7Y68Ht7FKJr0wD9dEVOfMhZ+gm8qqQalRRDcrz/s
+ nWGpI4ntZqfGXRLPneV1ks+qoqY+wPnyexAUB05RMDiXKsUl3xsJqVDaNwUh3d23w8lxZYtQ88B
+ ONggjMTo5oCLciiZ0Udq29kpNGvt6utuLzv1fvD3AXuJaCi95Z990+kT5sBD6E6TCi/IVYpW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-06_05,2025-05-05_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 clxscore=1015 phishscore=0 spamscore=0
+ impostorscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0 bulkscore=0
+ malwarescore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2504070000 definitions=main-2505060110
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,122 +130,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 03/05/2025 21:59, Maíra Canal wrote:
-> When the DRM scheduler times out, it's possible that the GPU isn't hung;
-> instead, a job may still be running, and there may be no valid reason to
-> reset the hardware. This can occur in two situations:
+On Tue, May 06, 2025 at 04:48:43PM +0530, Jyothi Kumar Seerapu wrote:
+> GSI hardware generates an interrupt for each transfer completion.
+> For multiple messages within a single transfer, this results in
+> N interrupts for N messages, leading to significant software
+> interrupt latency.
 > 
->    1. The GPU exposes some mechanism that ensures the GPU is still making
->       progress. By checking this mechanism, we can safely skip the reset,
->       rearm the timeout, and allow the job to continue running until
->       completion. This is the case for v3d and Etnaviv.
->    2. TDR has fired before the IRQ that signals the fence. Consequently,
->       the job actually finishes, but it triggers a timeout before signaling
->       the completion fence.
+> To mitigate this latency, utilize Block Event Interrupt (BEI) mechanism.
+> Enabling BEI instructs the GSI hardware to prevent interrupt generation
+> and BEI is disabled when an interrupt is necessary.
 > 
-> These two scenarios are problematic because we remove the job from the
-> `sched->pending_list` before calling `sched->ops->timedout_job()`. This
-> means that when the job finally signals completion (e.g. in the IRQ
-> handler), the scheduler won't call `sched->ops->free_job()`. As a result,
-> the job and its resources won't be freed, leading to a memory leak.
+> When using BEI, consider splitting a single multi-message transfer into
+> chunks of 8 messages internally and so interrupts are not expected for
+> the first 7 message completions, only the last message triggers
+> an interrupt, indicating the completion of 8 messages.
 > 
-> To resolve this issue, we create a new `drm_gpu_sched_stat` that allows a
-> driver to skip the reset. This new status will indicate that the job
-> should be reinserted into the pending list, and the driver will still
-> signal its completion.
-
-Since this is de facto what drivers do today I agree it makes sense to 
-formalise handling for it in the scheduler itself.
-
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-Some minor comments below.
-
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> This BEI mechanism enhances overall transfer efficiency.
+> 
+> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
 > ---
->   drivers/gpu/drm/scheduler/sched_main.c | 14 ++++++++++++++
->   include/drm/gpu_scheduler.h            |  2 ++
->   2 files changed, 16 insertions(+)
+> v5 ->v6:
+>   - For updating the block event interrupt bit, instead of relying on
+>     bei_flag, decision check is moved with DMA_PREP_INTERRUPT flag.
+>  
+> v4 -> v5:
+>   - BEI flag naming changed from flags to bei_flag.
+>   - QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
+>     file, and Block event interrupt support is checked with bei_flag.
 > 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 829579c41c6b5d8b2abce5ad373c7017469b7680..68ca827d77e32187a034309f881135dbc639a9b4 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -568,6 +568,17 @@ static void drm_sched_job_timedout(struct work_struct *work)
->   			job->sched->ops->free_job(job);
->   			sched->free_guilty = false;
->   		}
+> v3 -> v4:
+>   - API's added for Block event interrupt with multi descriptor support for
+>     I2C is moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
+>   - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
+>     I2C driver.
+> 
+> v2-> v3:
+>    - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
+>    - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
+>    - Added documentation for newly added changes in "qcom-gpi-dma.h" file
+>    - Updated commit description.
+> 
+> v1 -> v2:
+>    - Changed dma_addr type from array of pointers to array.
+>    - To support BEI functionality with the TRE size of 64 defined in GPI driver,
+>      updated QCOM_GPI_MAX_NUM_MSGS to 16 and NUM_MSGS_PER_IRQ to 4.
+> 
+>  drivers/dma/qcom/gpi.c           | 3 +++
+>  include/linux/dma/qcom-gpi-dma.h | 2 ++
+>  2 files changed, 5 insertions(+)
+> 
+> diff --git a/drivers/dma/qcom/gpi.c b/drivers/dma/qcom/gpi.c
+> index b1f0001cc99c..7e511f54166a 100644
+> --- a/drivers/dma/qcom/gpi.c
+> +++ b/drivers/dma/qcom/gpi.c
+> @@ -1695,6 +1695,9 @@ static int gpi_create_i2c_tre(struct gchan *chan, struct gpi_desc *desc,
+>  
+>  		tre->dword[3] = u32_encode_bits(TRE_TYPE_DMA, TRE_FLAGS_TYPE);
+>  		tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_IEOT);
 > +
-> +		/*
-> +		 * If the driver indicated that the GPU is still running and wants to skip
-> +		 * the reset, reinsert the job back into the pending list and realarm the
+> +		if (!(i2c->dma_flags & DMA_PREP_INTERRUPT))
+> +			tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_BEI);
+>  	}
+>  
+>  	for (i = 0; i < tre_idx; i++)
+> diff --git a/include/linux/dma/qcom-gpi-dma.h b/include/linux/dma/qcom-gpi-dma.h
+> index 6680dd1a43c6..ebac0d3edff2 100644
+> --- a/include/linux/dma/qcom-gpi-dma.h
+> +++ b/include/linux/dma/qcom-gpi-dma.h
+> @@ -65,6 +65,7 @@ enum i2c_op {
+>   * @rx_len: receive length for buffer
+>   * @op: i2c cmd
+>   * @muli-msg: is part of multi i2c r-w msgs
+> + * @dma_flags: Flags indicating DMA capabilities
+>   */
+>  struct gpi_i2c_config {
+>  	u8 set_config;
+> @@ -78,6 +79,7 @@ struct gpi_i2c_config {
+>  	u32 rx_len;
+>  	enum i2c_op op;
+>  	bool multi_msg;
+> +	unsigned int dma_flags;
 
-re-arm
+Why do you need extra field instead of using
+dma_async_tx_descriptor.flags?
 
-> +		 * timeout.
-> +		 */
-> +		if (status == DRM_GPU_SCHED_STAT_RUNNING) {
-> +			spin_lock(&sched->job_list_lock);
-> +			list_add(&job->list, &sched->pending_list);
-> +			spin_unlock(&sched->job_list_lock);
-> +		}
->   	} else {
->   		spin_unlock(&sched->job_list_lock);
->   	}
-> @@ -590,6 +601,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
->    * This function is typically used for reset recovery (see the docu of
->    * drm_sched_backend_ops.timedout_job() for details). Do not call it for
->    * scheduler teardown, i.e., before calling drm_sched_fini().
-> + *
-> + * As it's used for reset recovery, drm_sched_stop() shouldn't be called
-> + * if the scheduler skipped the timeout (DRM_SCHED_STAT_RUNNING).
-
-s/scheduler/driver/ ?
-
->    */
->   void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
->   {
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 1a7e377d4cbb4fc12ed93c548b236970217945e8..fe9043b6d43141bee831b5fc16b927202a507d51 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -389,11 +389,13 @@ struct drm_sched_job {
->    * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
->    * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
->    * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
-> + * @DRM_GPU_SCHED_STAT_RUNNING: GPU is still running, so skip the reset.
-
-s/GPU/job/ ?
-
->    */
->   enum drm_gpu_sched_stat {
->   	DRM_GPU_SCHED_STAT_NONE,
->   	DRM_GPU_SCHED_STAT_NOMINAL,
->   	DRM_GPU_SCHED_STAT_ENODEV,
-> +	DRM_GPU_SCHED_STAT_RUNNING,
-
-I am wondering if we could make it more obvious what is the difference 
-between "nominal" and "running" and from whose point of view should 
-those statuses be considered.
-
-So far we have "nominal" which means scheduler/hardware is working fine 
-but the job may or may have not been cancelled. With "running" we kind 
-of split it into two sub-statuses and it would be nice for that to be 
-intuitively visible from the naming. But I struggle to suggest an 
-elegant name while preserving nominal as is.
-
-Thinking out loud here - perhaps that is pointing towards an alternative 
-that instead of a new status, a new helper to re-insert the single job 
-(like drm_sched_resubmit_job(sched, job)) would fit better? Although it 
-would be more churn.
-
-Regards,
-
-Tvrtko
-
->   };
->   
->   /**
+>  };
+>  
+>  #endif /* QCOM_GPI_DMA_H */
+> -- 
+> 2.17.1
 > 
 
+-- 
+With best wishes
+Dmitry
