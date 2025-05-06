@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AEDAAC9D3
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 17:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C153AAC9D6
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 17:48:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44E1910E6EA;
-	Tue,  6 May 2025 15:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB4A610E6E5;
+	Tue,  6 May 2025 15:48:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hiUN0Bbv";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FSaGlqy7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7FAC10E6EA
- for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 15:47:52 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-306b6ae4fb3so6317326a91.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 08:47:52 -0700 (PDT)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C25DF10E6E5
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 15:48:00 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id
+ 41be03b00d2f7-b0b2ce7cc81so5271223a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 08:48:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746546472; x=1747151272; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1746546480; x=1747151280; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=EAZqwoIR5WgNwGU/xBD+IG2xOYwT2VXmbD6p9oxdt2c=;
- b=hiUN0BbvE+5MMrOESy0KPhaI2zBMciURZm8Vo+7j4iL0ScxdXhZihjypGzch0ty+ct
- m4AX5nT0xD9WWTkgE/PJCiXlIc3+/VHjvxcr5/D6C4Ew39k2QaODmUwEGJC/HiFDLIFj
- IEWHawgbxAqgZsk0qsfOTW8FlhBWi2PD3vNCz5bB4BMagSqol8wIELmh8E1aSOs8gJDX
- UvNFsfF9DeUeee7xKpsBe18QTMTdb1eRImvhTNEROx1ZCjGdZB8eOajG/O92pkWS1WWC
- CWbUEQW9LJX2KGVxjrTHwWfenhB3Rl090rseVJ8cHSJ+F8qHXKTHmYbxst1ZKVlmTHvC
- w6ig==
+ :reply-to; bh=kxt4igjGW7kIkwK3pM9gIy1N3ytZL+6O3l4DQKM/gJw=;
+ b=FSaGlqy74GSRh6fLUKmbnUc+U8QJJ73JdvaoaMyBfdWEVelFAMVpsT/1Zc3Lv8W/iQ
+ bRvtv/8NhW6gcCup79dvM8+uB8JsTQO5DYw9z9IegyJEY9BL7xhE2xQgJSZ6ASqLFkhN
+ IR6N5cZLlg//kwtpXyRX1FR3oo+9EWgjcwTQLY6THbwFuE92HQqu2IRDoPLt+XPdfMOL
+ QIoqMV/UbgGalo12Zslfy+aCIrPsdOqw1YBOPXaiHwEztWwE9J+oJl2hGUfyCM/NMUQM
+ gQoaX55l5yhMNSETdSpO1oszL8VF3k/IFazyooUAlHIBU2xuKAkU5BB+wT1cnLnBWSGR
+ /KEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746546472; x=1747151272;
+ d=1e100.net; s=20230601; t=1746546480; x=1747151280;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EAZqwoIR5WgNwGU/xBD+IG2xOYwT2VXmbD6p9oxdt2c=;
- b=Uz7w+pBvrT9KOEwYwGbrDPtQdTKiM4I7woXJMb2rLmZy45vBMAtqEElCnv8eAEF55m
- r1mizJDq8OpoTAhWDQhNH3Fcy35/Ju/i4/QXb7QH0QwwmzL+GbjqML/Mbgwt4kdMYH7H
- 4H2mYMiR2N6l1g8bjp9mV9hPQS2wqDJUf+1LOoy3vKQvHjg8kJGQeN6AWamas+Jd6HE2
- onfi+V/2dMjsXU1yNHCTP0fz/KOcBm+qVaVCH8ECd2XzoApz48Xxg5nq4DZEq7w8mAFJ
- yY+2J4bJU+h8aWI6Zxh3V419crMcjlWpzYmlL4lGjhWr1DDUXmmX2nu1RWq71DtznBnB
- u67A==
+ bh=kxt4igjGW7kIkwK3pM9gIy1N3ytZL+6O3l4DQKM/gJw=;
+ b=I6DfLyXtY73U0o/gj/p3Lq6wllemNS/iAAfz+OF1LtmIzAr7a5Z5fTQoBPqMMDSpLq
+ lWnl1AeY9nKKwd5PZIMVrUW22zzE93n+BIOup+F4yPD6PCjQmyEu22zxaF6w0mQQ/L6q
+ rWrOq/UBS8m7cVHwEZEUaTxenqgQDcvRnD7RlbcUFTwMUMGmTA/4oFEJLX2PuTObY91S
+ fjVb8K+6sarrFp1Bkz0XvdPHTTYL44pCOyq4wKJ+V3mKIKCp8D8f4a0M/SwkfWEWlHyH
+ X+2wfIU/UpMQIKZNSDTKaml3DF65W8RB1ADFaOv+WfREF9IRe6sluD7WSUz2UbwXNspx
+ rA9A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX49OKbFRG0zBgcPTKyLkzPG+ZNFYo5KEWX6YABnW1u6emVai4bSmDGioyNdRIBAvV1EW4Ejt/k+jM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YybkY98KFPDL9FIebTIpf+zzmye+soHnGHESWmYwdGmYw4jBu4G
- PPt9NnBcLQS1Q628V/jn4wxHAscajpep6kmRsHlUr8S/2ZeRLCWhD7Uh8yY+V58=
-X-Gm-Gg: ASbGnctjjavs1TBiwOfWe1REP0aEnTK7X6tXESSl1OrFHk2nq4qvu+n1uiZ6yq/RmCn
- MGYt/gv/VTJJBcU2YUNpgaTCK/A+hE1U/Z/lw3e9wFzCo19qcumO32aOTVgTyYIQ6s7kuZ+nJwP
- 0saXUylDJmkmqygo9o3qkLx7fyN3RzdMGaRIsHWDzlzIn7o85gWQGoCyjQ45/6t6M3qRIHKsYJr
- FdvyHD/sdwhFlz1uM7zjto0MRk8/59eHAeCiyBQAUdUwW71lkFVlc50+qacy5ww2wdxLAnSH018
- e8E8U1gmPHZHbw4l0pEUDT2E3wlyEr3MGStgew==
-X-Google-Smtp-Source: AGHT+IFnRgAer2YqJDKDG8WSftGtJ1rR+zxfOuhlRqYyJ424rX57bTivAhXqIy4syKRnXc5Ylo86Kw==
-X-Received: by 2002:a17:90b:2e0b:b0:309:f53c:b0a0 with SMTP id
- 98e67ed59e1d1-30a7c0c8b02mr5742205a91.24.1746546472392; 
- Tue, 06 May 2025 08:47:52 -0700 (PDT)
+ AJvYcCUMPHy8I1wO7FCs1iVgap6Snc3TloDHrJ584qGD0vG8O5wNODWwUcDdKkftDaCVKy2lhKYh+7msdw4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzgrdYfwZgUf7q/8FCTwNItJKDkBMw5vqsqhSahoQ+5rDaqqkx
+ C7hqAQmiFq1V4CLr1oiEMfcJ0xuQY0ErWJk/EbOfGXpBifNT/wgP9ZCNUWay9mU=
+X-Gm-Gg: ASbGncuDEqO6M6Jyr50pzxBcsB/Z3TG9Fgw19to5RcR20koeqcwtzDWs1HnfncWQEke
+ yw68DQXhx2b25wQIE63bxkZPaOfjg9J/loToXQqh+P+iy6UwC7D9nlngAWbvxk269gVmSB+oaLG
+ GigvSDy5RlYpe6tkdxZ2JRSPIl/mUagNLuYIlXdIZXyghLiYggjQjWteQYVdcChl4hvOxRy3mFK
+ FYgnAmffhlpKiMFjASgPovDqpPt208hcWHUCaZqW16AL3KyFW1xACn3iYYj7Z13R6c+9DpOzDar
+ CVuNt8Bh4hvNOPHMgXG6ie4P8ImEw+1XnXeerw==
+X-Google-Smtp-Source: AGHT+IGb9+FnWo9267p0fx9BjNEIUzoXBumtQrk1tj78WuYav0rpIxj/FofGZuV9inH/1ziOSB8zHw==
+X-Received: by 2002:a17:90b:3d50:b0:309:f407:5ad1 with SMTP id
+ 98e67ed59e1d1-30a6198dbf4mr18334411a91.14.1746546480278; 
+ Tue, 06 May 2025 08:48:00 -0700 (PDT)
 Received: from [127.0.1.1] ([112.65.12.170]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-30a4748e83bsm11495999a91.22.2025.05.06.08.47.44
+ 98e67ed59e1d1-30a4748e83bsm11495999a91.22.2025.05.06.08.47.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 May 2025 08:47:51 -0700 (PDT)
+ Tue, 06 May 2025 08:47:59 -0700 (PDT)
 From: Jun Nie <jun.nie@linaro.org>
-Date: Tue, 06 May 2025 23:47:31 +0800
-Subject: [PATCH v9 01/14] drm/atomic-helper: Add crtc check before checking
- plane
+Date: Tue, 06 May 2025 23:47:32 +0800
+Subject: [PATCH v9 02/14] drm/msm/dpu: check every pipe per capability
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250506-quad-pipe-upstream-v9-1-f7b273a8cc80@linaro.org>
+Message-Id: <20250506-quad-pipe-upstream-v9-2-f7b273a8cc80@linaro.org>
 References: <20250506-quad-pipe-upstream-v9-0-f7b273a8cc80@linaro.org>
 In-Reply-To: <20250506-quad-pipe-upstream-v9-0-f7b273a8cc80@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -81,11 +80,11 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Jun Nie <jun.nie@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746546456; l=1629;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746546456; l=4444;
  i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=e+MxQIILmTfaUEYG8mRcW6giFJAkMzchKGmqQw3Zq2A=;
- b=zpOMrRtqL6iX2AnAGqg8NxcePk05uQNGAMoOqxpNJZAmmvq/T93PJYpj5MEkzyl0Fs18ufdNZ
- mXIzLx/KpGwAtrE8yNGE6pJr71Tx85cXy5Pz8Ck0WGp71qZ5JT8CS0t
+ bh=p/aL3lRyLhuiXRZaetD8VgLDL3qdvShcJvN5F//fxjo=;
+ b=Eu02LrLr8B5tRbqz0tapuLHeVERr3KGsTPNNfTOCcvbI4dFAlxSJJiul1hzEsT4Uk/acHRoPe
+ qL/UUJrq7RDBHQEHEyKnsXHUTKXLIq/A+4kVnxZBQHfMoqEBBWwmY9X
 X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
  pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,53 +102,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some display controller support flexible CRTC and DMA, such as the display
-controllers in snapdragon SoCs. CRTC can be implemented with several mixers
-in parallel, and plane fetching can be implemented with several DMA under
-umberala of a virtual drm plane.
+The capability stored in sblk and pipe_hw_caps is checked only for
+SSPP of the first pipe in the pair with current implementation. That
+of the 2nd pipe, r_pipe, is not checked and may violate hardware
+capability. Move requirement check to dpu_plane_atomic_check_pipe()
+for the check of every pipe.
 
-The mixer number is decided per panel resolution and clock rate constrain
-first, which happens in CRTC side. Then plane is split per mixer number
-and configure DMA accordingly.
-
-To support such forthcoming usage case, CRTC checking shall happen before
-checking plane. Add the checking in the drm_atomic_helper_check_modeset().
-
+Fixes: ("dbbf57dfd04e6 drm/msm/dpu: split dpu_plane_atomic_check()")
 Signed-off-by: Jun Nie <jun.nie@linaro.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 71 ++++++++++++++++---------------
+ 1 file changed, 36 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 5302ab3248985d3e0a47e40fd3deb7ad0d9f775b..5bca4c9683838c38574c8cb7c0bc9d57960314fe 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -816,6 +816,25 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
- 			return ret;
- 	}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index af3e541f60c303eb5212524e877129359b5ca98c..aeb90c287245d6aaa18b9f280d1e628ee6ed74f5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -729,12 +729,40 @@ static int dpu_plane_check_inline_rotation(struct dpu_plane *pdpu,
+ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
+ 		struct dpu_sw_pipe *pipe,
+ 		struct dpu_sw_pipe_cfg *pipe_cfg,
+-		const struct msm_format *fmt,
+-		const struct drm_display_mode *mode)
++		const struct drm_display_mode *mode,
++		struct drm_plane_state *new_plane_state)
+ {
+ 	uint32_t min_src_size;
+ 	struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
+ 	int ret;
++	const struct msm_format *fmt;
++	uint32_t supported_rotations;
++	const struct dpu_sspp_cfg *pipe_hw_caps;
++	const struct dpu_sspp_sub_blks *sblk;
++
++	pipe_hw_caps = pipe->sspp->cap;
++	sblk = pipe->sspp->cap->sblk;
++
++	/*
++	 * We already have verified scaling against platform limitations.
++	 * Now check if the SSPP supports scaling at all.
++	 */
++	if (!sblk->scaler_blk.len &&
++	    ((drm_rect_width(&new_plane_state->src) >> 16 !=
++	      drm_rect_width(&new_plane_state->dst)) ||
++	     (drm_rect_height(&new_plane_state->src) >> 16 !=
++	      drm_rect_height(&new_plane_state->dst))))
++		return -ERANGE;
++
++	fmt = msm_framebuffer_format(new_plane_state->fb);
++
++	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0;
++
++	if (pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION))
++		supported_rotations |= DRM_MODE_ROTATE_90;
++
++	pipe_cfg->rotation = drm_rotation_simplify(new_plane_state->rotation,
++						   supported_rotations);
  
-+	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-+		const struct drm_crtc_helper_funcs *funcs;
-+
-+		funcs = crtc->helper_private;
-+
-+		if (!funcs || !funcs->atomic_check)
-+			continue;
-+
-+		ret = funcs->atomic_check(crtc, state);
-+		if (ret) {
-+			drm_dbg_atomic(crtc->dev,
-+				       "[CRTC:%d:%s] atomic driver check failed\n",
-+				       crtc->base.id, crtc->name);
-+			return ret;
-+		}
-+	}
-+
-+
-+
- 	ret = mode_valid(state);
+ 	min_src_size = MSM_FORMAT_IS_YUV(fmt) ? 2 : 1;
+ 
+@@ -923,47 +951,20 @@ static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
+ 	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
+ 	struct dpu_sw_pipe *pipe = &pstate->pipe;
+ 	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+-	const struct msm_format *fmt;
+ 	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+ 	struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+-	uint32_t supported_rotations;
+-	const struct dpu_sspp_cfg *pipe_hw_caps;
+-	const struct dpu_sspp_sub_blks *sblk;
+ 	int ret = 0;
+ 
+-	pipe_hw_caps = pipe->sspp->cap;
+-	sblk = pipe->sspp->cap->sblk;
+-
+-	/*
+-	 * We already have verified scaling against platform limitations.
+-	 * Now check if the SSPP supports scaling at all.
+-	 */
+-	if (!sblk->scaler_blk.len &&
+-	    ((drm_rect_width(&new_plane_state->src) >> 16 !=
+-	      drm_rect_width(&new_plane_state->dst)) ||
+-	     (drm_rect_height(&new_plane_state->src) >> 16 !=
+-	      drm_rect_height(&new_plane_state->dst))))
+-		return -ERANGE;
+-
+-	fmt = msm_framebuffer_format(new_plane_state->fb);
+-
+-	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0;
+-
+-	if (pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION))
+-		supported_rotations |= DRM_MODE_ROTATE_90;
+-
+-	pipe_cfg->rotation = drm_rotation_simplify(new_plane_state->rotation,
+-						   supported_rotations);
+-	r_pipe_cfg->rotation = pipe_cfg->rotation;
+-
+-	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt,
+-					  &crtc_state->adjusted_mode);
++	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg,
++					  &crtc_state->adjusted_mode,
++					  new_plane_state);
  	if (ret)
  		return ret;
+ 
+ 	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
+-		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg, fmt,
+-						  &crtc_state->adjusted_mode);
++		ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg,
++						  &crtc_state->adjusted_mode,
++						  new_plane_state);
+ 		if (ret)
+ 			return ret;
+ 	}
 
 -- 
 2.34.1
