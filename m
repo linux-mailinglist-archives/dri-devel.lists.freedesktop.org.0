@@ -2,121 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E588AAC337
-	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 13:59:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD14AAC351
+	for <lists+dri-devel@lfdr.de>; Tue,  6 May 2025 14:03:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB95010E24E;
-	Tue,  6 May 2025 11:59:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 831A710E229;
+	Tue,  6 May 2025 12:03:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="F12eTmWI";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ICslfVjY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69A7510E24E
- for <dri-devel@lists.freedesktop.org>; Tue,  6 May 2025 11:59:44 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54686vGi020658
- for <dri-devel@lists.freedesktop.org>; Tue, 6 May 2025 11:59:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- zTFgJlZ2gHYRDvXHM37MJXTgO7TLxZmzMBTuRE9JWIc=; b=F12eTmWIEWnIgUS1
- PD0qx2+dd5Kefug6QxnbWU1E6NUsR8+mB/0QHmPxMYoPm3eQqCMgYAUBOsudAbO8
- gSFfqRmf1LA8L7c1/NllbEruaV9tJCrmII3NzxP2KPsw7hF1VZqOwDwF57Oj84cL
- 4WIv5oTzSZr0FQ5XioDDANP4I/9zCgOyQSW8E9iGrHB7YclAijKblVdYypi8mesS
- 6aPEbSHX6NaIcBj+1cPkUHNE72JrThJv0IKDbzhpKb3rqsFopDeFNgMaXCCMJ9mW
- +X2VoP49dcHy1w3lGRCqAqXwnN0Z1AeeEexVb3q3DDhLCyyprAaZnVoj17XSbcj4
- vzkq5g==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46dbwfqcg8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 11:59:43 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7c790dc38b4so965856185a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 04:59:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746532782; x=1747137582;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zTFgJlZ2gHYRDvXHM37MJXTgO7TLxZmzMBTuRE9JWIc=;
- b=K1Bkq8gPcTp6J9/ndUSUi7FlqjdjjznslmhRIN7sgjG8iEgqNz5BUm9DLXCIxJnp3H
- j2vhFa5NTyKWvsY76yb/Qh9Lc1cjXUTsK8Td7v3ECMwwgdLQAMQ1sWBdFiUTh29HZnvi
- w1pEtiPA5dn8195xFLWKc+kjW26CPM7OYqc39WJ1dQCfIS3tgDm5u/WKBUROBHHNUkNf
- MeMf3U1qubbgcD5osMRt+XXz38KnhNjJ3FL1Y0FjCOz9E08HaMPreEVpmFjqW7hYernR
- 1scxE65aKGNTE9fitRqlv4pvqRySoAntsNXmny1Pf21LPC8191etQx/Dt3FI7ESV7OTa
- f2Mw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVE7B7ahnybyBUZPLQdnNL6M4v1AM5Hmn3EV5qVcxmGU+3ygFGdMbV5vB1rHsXQUitMGtfyHJhZhcg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhPOKU1OiZWxn8EsAbOXFQgwHsHiWsIG5XDIJCIlnRJV9gzKYz
- eZCKEme0nAUEVw0ey2vU8KEfaEXmzXYTJhN+wSwJVM68yX46Xh0YNiEEv82AD6B6mp+ISbjKN1v
- sVb0TjUxJRm6PxWS5jtOZOY0ZjTWQ7i7kh/RLon4I1LRx+NsYOdov6q5S8qrp7aOHbts=
-X-Gm-Gg: ASbGnctmkH79I6MX5TsjGjF9dXaIC5nLoVMX1+naQUSkDEADf3vvj1urMaBInQurv1q
- dqUGN5jkMR4YwIj56G0Xne7MZqQ+71/+zp56A5q6VjYFpM9dSMuzJpFlkLadRWmsKGsbwChP9bo
- FCfYUNXTRuWNH1cg6Hh2nTQrGHaOoykOQxZ7zjl4XkFu5f9c6k0IldFuNS08GkM+9LngL8ah/Kt
- epDBhhyg2+1NE3V+J8WsdAEgZGjWAzd4VBN6aQ4l5K/C8vTtoRF4i3qATon/JwUOnacKR3SJ7gD
- FLkc/IwAoQsD29v7O82Gf6AE74JeI0br6e67rbipCYVULeaFDTbBS4lSy0tHPlrSFHpIJyGGJdo
- =
-X-Received: by 2002:a05:620a:198c:b0:7c0:5b5d:c82b with SMTP id
- af79cd13be357-7caf058fe93mr520904185a.28.1746532782579; 
- Tue, 06 May 2025 04:59:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGd94CFYawEurg0hfZfGtdKWHF+uRpesgha+HGKI333mbLlDZRfu9bTDIzajHzBOws8ZH1XeA==
-X-Received: by 2002:a05:620a:198c:b0:7c0:5b5d:c82b with SMTP id
- af79cd13be357-7caf058fe93mr520901085a.28.1746532782235; 
- Tue, 06 May 2025 04:59:42 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ea94b1b4fsm2079645e87.31.2025.05.06.04.59.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 May 2025 04:59:41 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Kevin Baker <kevinb@ventureresearch.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alex Gonzalez <alex.gonzalez@digi.com>,
- Thierry Reding <treding@nvidia.com>, Rob Herring <robh@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250505170256.1385113-1-kevinb@ventureresearch.com>
-References: <dbd8e1bc-bc23-4240-b6b1-321ac6f5ed68@linaro.org>
- <20250505170256.1385113-1-kevinb@ventureresearch.com>
-Subject: Re: [PATCH v2] drm/panel: simple: Update timings for AUO
- G101EVN010
-Message-Id: <174653278110.2517250.15843200835087426912.b4-ty@oss.qualcomm.com>
-Date: Tue, 06 May 2025 14:59:41 +0300
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F299610E229;
+ Tue,  6 May 2025 12:03:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=zmHjDtAPSKLY7VVCiItOxGAeQNqxiAmle60Kr1rf/pY=; b=ICslfVjY1yVIDvnNa1dD1cM8a9
+ UOI/RSKcSLTEGq7qKNxlSFpp1QGZPV2WULxBj6jgZBPMQFoJ/MqaYyibwNW428lULjIQZ7kC3icNe
+ CLYqSnoPrFmazWhCJhWg4P8DrpZ6rKqtv9buwdSC+EZ7XZba7ci4pLv37F6DKW6mgMvv6VVdKUq8W
+ m4BO47lWlpsAu6Lf9NtUH2WmfopqTwfjvk6f4FqPI/HN+sO2UhuooFmb4r6DnV3D71yuP1TaBFgv4
+ xETWdM5xOK/bQqs9tG4V1IuzsiM7UpJDwGUqIjLKFal4BnsXAxjzE2pOMUC+PSjg8TyFkVvZvTWhi
+ gZAQubRw==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uCGxR-004BVJ-CJ; Tue, 06 May 2025 14:03:07 +0200
+Message-ID: <7cc3cc3d-7f67-4c69-bccb-32133e1d7cba@igalia.com>
+Date: Tue, 6 May 2025 13:03:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: zfI_9RFZD6OjUwbidLBei4wUctV4FBFz
-X-Proofpoint-GUID: zfI_9RFZD6OjUwbidLBei4wUctV4FBFz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDExNSBTYWx0ZWRfX047buTLgc7jv
- njYyCUmAgUfT5KGzRipPcuDmDYc7RZzYJmvsh87QWXRIg2olu2EYkKVLL2zI6OkvZglNRRz9gtf
- I9IU3L0T9wGFyzVwRDLtiYTLkw/f+7HEKXBYaEs4unOCziYyqY+Eyjs1WuDNN3NBzbQ0fcnNH6l
- XnUMhzbEOn/11bivTDMKEZCwjDUtEW/Mql0j0xvq+sLyw6xo0kehrscJQdZ82HG4ZXkjPwG1YoC
- nWue1jZGiXeJeogc0OKAAHDDk0aKDG3CL6wNImgETNUlLL2/ZmQzQXRF60iszAkc0yPLtd+w42I
- E+4Cf7k1uAhxM4mE+coriULqnHfInIxD+aM9iw6lXoVY2wPez68fn4jIoSSEwkSwAOjeEPptRqb
- 27+mRDGlZc2GX2U94f+0X9oPmnpDlOfv0tMbEShJQFBkizrEY4n0qgwpgqnimzw+tsw/ySJc
-X-Authority-Analysis: v=2.4 cv=AfqxH2XG c=1 sm=1 tr=0 ts=6819f9af cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=H2HuHbmjnKnfmXjmLfEA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-06_05,2025-05-05_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 priorityscore=1501 phishscore=0 impostorscore=0
- mlxscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0 mlxlogscore=851
- spamscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505060115
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/8] drm/sched: Reduce scheduler's timeout for timeout
+ tests
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+ <20250503-sched-skip-reset-v1-3-ed0d6701a3fe@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250503-sched-skip-reset-v1-3-ed0d6701a3fe@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,22 +75,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 05 May 2025 12:02:56 -0500, Kevin Baker wrote:
-> Switch to panel timings based on datasheet for the AUO G101EVN01.0
-> LVDS panel. Default timings were tested on the panel.
+
+On 03/05/2025 21:59, Maíra Canal wrote:
+> As more KUnit tests are introduced to evaluate the basic capabilities of
+> the `timedout_job()` hook, the test suite will continue to increase in
+> duration. To reduce the overall running time of the test suite, decrease
+> the scheduler's timeout for the timeout tests.
 > 
-> Previous mode-based timings resulted in horizontal display shift.
+> Before this commit:
 > 
+> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring, 10.387s building, 5.229s running
 > 
+> After this commit:
+> 
+> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s building, 4.037s running
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   drivers/gpu/drm/scheduler/tests/tests_basic.c | 10 ++++++----
+>   1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> index 8f960f0fd31d0af7873f410ceba2d636f58a5474..00c691cb3c306f609684f554f17fcb54ba74cb95 100644
+> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> @@ -5,6 +5,8 @@
+>   
+>   #include "sched_tests.h"
+>   
+> +#define MOCK_TIMEOUT (HZ / 5)
+> +
+>   /*
+>    * DRM scheduler basic tests should check the basic functional correctness of
+>    * the scheduler, including some very light smoke testing. More targeted tests,
+> @@ -28,7 +30,7 @@ static void drm_sched_basic_exit(struct kunit *test)
+>   
+>   static int drm_sched_timeout_init(struct kunit *test)
+>   {
+> -	test->priv = drm_mock_sched_new(test, HZ);
+> +	test->priv = drm_mock_sched_new(test, MOCK_TIMEOUT);
+>   
+>   	return 0;
+>   }
+> @@ -224,17 +226,17 @@ static void drm_sched_basic_timeout(struct kunit *test)
+>   
+>   	drm_mock_sched_job_submit(job);
+>   
+> -	done = drm_mock_sched_job_wait_scheduled(job, HZ);
+> +	done = drm_mock_sched_job_wait_scheduled(job, MOCK_TIMEOUT);
 
-Applied to drm-misc-next, thanks!
+This wait is accounting for the fact sched->wq needs to run and call 
+->run_job() before job will become scheduled. It is not related to 
+timeout handling. I was going for a safe value and I think decreasing it 
+will not speed up the test but may cause sporadic failures.
 
-[1/1] drm/panel: simple: Update timings for AUO G101EVN010
-      commit: d5d283d45c85e774b64100137f34e7d55bfbe45e
+>   	KUNIT_ASSERT_TRUE(test, done);
+>   
+> -	done = drm_mock_sched_job_wait_finished(job, HZ / 2);
+> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT / 2);
+>   	KUNIT_ASSERT_FALSE(test, done);
+>   
+>   	KUNIT_ASSERT_EQ(test,
+>   			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+>   			0);
+>   
+> -	done = drm_mock_sched_job_wait_finished(job, HZ);
+> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
+>   	KUNIT_ASSERT_FALSE(test, done);
 
-Best regards,
--- 
-With best wishes
-Dmitry
+Above two are related to timeout handling and should be safe to change.
 
+With HZ / 5 first assert could have a false negative if timeout work 
+would run, but later than 100ms (HZ / 5 / 2). And the second a false 
+negative if it fails to run in 300ms (HZ / 5 / 2 + HZ / 5). Neither 
+failure sounds likely in the kunit environment so, again, I think those 
+two are okay to speed up.
+
+Regards,
+
+Tvrtko
+
+>   
+>   	KUNIT_ASSERT_EQ(test,
+> 
 
