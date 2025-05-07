@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F0FAAE86B
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 20:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BD4AAE865
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 20:07:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 794E010E1F4;
-	Wed,  7 May 2025 18:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6176C10E14F;
+	Wed,  7 May 2025 18:06:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="s8ztvkVO";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="L3CNQJ3y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1BF10E1DD
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 18:07:11 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 547I6Ymj1446487
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 718B910E14F
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 18:06:58 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 547I6ZZR1594640
  (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 May 2025 13:06:34 -0500
+ Wed, 7 May 2025 13:06:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1746641194;
- bh=NVe4a+S5FD4l79SJhGfpOjn4VnAuMASZshHPHhAg66s=;
- h=From:To:CC:Subject:Date;
- b=s8ztvkVO9b+DjRaJsiPipKMq1rNpIAwkiZ76GGJ+Be7rvGeFkGUiP1sr5S/ni+AjY
- 5HEH0E6quR5Cqa8b7LfxbQyhSGN+v8wFZVd3ZHOayY/ef3ywu3ZJpS43aLS1itw//H
- Lq3qtbUUYDvQnk8300eAAo2Sw8WKtFPMQ+A/uVg8=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 547I6Y55115176
+ s=ti-com-17Q1; t=1746641195;
+ bh=0+UCHzmZyl1chqLqX2QUWcfk6t5klutwQR47DtTuYJM=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=L3CNQJ3y927oYg9doFlxj/w4vMt39TQj07e8CQqdpjfSGUd+tu14j4I81HF1XqwkJ
+ LQVFPfPmq1uYqUO3mMPueWW8wKSAT8QXGtggSWM+nzhnMp+UyNM9JSg8eEQqcE7Z+c
+ kD9IPNWVkJe7dhgJ6bd3pbgXZ7d32evcBEk8LP70=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 547I6Zb1012470
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 7 May 2025 13:06:34 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ Wed, 7 May 2025 13:06:35 -0500
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 7
- May 2025 13:06:33 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ May 2025 13:06:34 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 7 May 2025 13:06:33 -0500
+ Frontend Transport; Wed, 7 May 2025 13:06:34 -0500
 Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 547I6WY2035911;
- Wed, 7 May 2025 13:06:32 -0500
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 547I6XJA086337;
+ Wed, 7 May 2025 13:06:34 -0500
 From: Devarsh Thakkar <devarsht@ti.com>
 To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
  <airlied@gmail.com>, <maarten.lankhorst@linux.intel.com>,
@@ -51,10 +51,13 @@ To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
 CC: <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
  <s-jain1@ti.com>, <r-donadkar@ti.com>, <j-choudhary@ti.com>,
  <h-shenoy@ti.com>, <devarsht@ti.com>
-Subject: [PATCH v6 0/3] Add support for AM62L DSS
-Date: Wed, 7 May 2025 23:36:28 +0530
-Message-ID: <20250507180631.874930-1-devarsht@ti.com>
+Subject: [PATCH v6 1/3] dt-bindings: display: ti,
+ am65x-dss: Add support for AM62L DSS
+Date: Wed, 7 May 2025 23:36:29 +0530
+Message-ID: <20250507180631.874930-2-devarsht@ti.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20250507180631.874930-1-devarsht@ti.com>
+References: <20250507180631.874930-1-devarsht@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -74,74 +77,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for DSS subsystem present in TI's AM62L SoC
-which supports single display pipeline with DPI output which
-is also routed to DSI Tx controller within the SoC.
+The DSS controller on TI's AM62L SoC is an update from that on TI's
+AM625/AM65x/AM62A7 SoC. The AM62L DSS [1] only supports a single display
+pipeline using a single overlay manager, single video port and a single
+video lite pipeline which does not support scaling.
 
-Change Log:
-V6: 
-- Move hw_id indexing logic to skip uninstantiated planes to
-  internal functions dealing with relevant registers
+The output of video port is routed to SoC boundary via DPI interface and
+the DPI signals from the video port are also routed to DSI Tx controller
+present within the SoC.
 
-V5:
-- Use hw_id instead of index for places where it was missed
-  so that we pick correct base address for vid region
+[1]: Section 11.7 (Display Subsystem and Peripherals)
+Link : https://www.ti.com/lit/pdf/sprujb4
 
-V4:
-- Update vid_info struct to keep hw_id and instantiate
-  only for actually existing pipes
-
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Reviewed-by: Jayesh Choudhary <j-choudhary@ti.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+---
+V6: No change
+V5: No change
+V4: No change
 V3:
-- Make generic infra to support truncated K3 DSS IP's
-- Remove AM62A updates from AM62L DT binding updates
+- Remove AM62A references as suggested
+- Add Reviewed-by
 
-V2:
-- Fix incorrect format of compatible string (comma instead of
-  hyphen) for AM62L SoC
-- Use separate register space and helper functions for AM62L
-  due to minor differences in register offset/bit position differences
-  for first plane
+V2: 
+- Add Reviewed-by
+- s/ti,am62l,dss/ti,am62l-dss
+ .../bindings/display/ti/ti,am65x-dss.yaml     | 21 ++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-Rangediff:
-V5->V6:
-- https://gist.github.com/devarsht/f64b00754794d22e57ac18ec09a7b019
-
-V4->V5:
-- https://gist.github.com/devarsht/a0e6aa7b1c19f47facd0058962e3c3c2
-
-V3->V4:
-- https://gist.github.com/devarsht/1e75c9e1ac0cdfc01703a0776e31e782
-
-V2->V3:
-- https://gist.github.com/devarsht/24fa8dd2986861efa431352d19ebbb41
-
-V1->V2
-- https://gist.github.com/devarsht/11d47f25ca9fea6976e6284330ddf443
-
-Links to previous versions:
-V5: https://lore.kernel.org/all/20250429143656.3252877-1-devarsht@ti.com/
-V4: https://lore.kernel.org/all/20250326145736.3659670-1-devarsht@ti.com/
-V3: https://lore.kernel.org/all/20250306132914.1469387-1-devarsht@ti.com/
-V2: https://lore.kernel.org/all/20250204061552.3720261-1-devarsht@ti.com/
-V1: https://lore.kernel.org/all/20241231090432.3649158-1-devarsht@ti.com/
-
-Test logs:
-https://gist.github.com/devarsht/09a5d64a507b7ccc096e857f122eda70
-
-Devarsh Thakkar (3):
-  dt-bindings: display: ti,am65x-dss: Add support for AM62L DSS
-  drm/tidss: Update infrastructure to support K3 DSS cut-down versions
-  drm/tidss: Add support for AM62L display subsystem
-
- .../bindings/display/ti/ti,am65x-dss.yaml     |  21 +-
- drivers/gpu/drm/tidss/tidss_crtc.c            |   4 +-
- drivers/gpu/drm/tidss/tidss_dispc.c           | 197 ++++++++++++++----
- drivers/gpu/drm/tidss/tidss_dispc.h           |  13 +-
- drivers/gpu/drm/tidss/tidss_drv.c             |   1 +
- drivers/gpu/drm/tidss/tidss_kms.c             |   2 +-
- drivers/gpu/drm/tidss/tidss_plane.c           |   2 +-
- 7 files changed, 192 insertions(+), 48 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+index 31c4ffcb599c..a5b13cb7bc73 100644
+--- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
++++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+@@ -12,18 +12,25 @@ maintainers:
+   - Tomi Valkeinen <tomi.valkeinen@ti.com>
+ 
+ description: |
+-  The AM625 and AM65x TI Keystone Display SubSystem with two output
++  The AM625 and AM65x TI Keystone Display SubSystem has two output
+   ports and two video planes. In AM65x DSS, the first video port
+   supports 1 OLDI TX and in AM625 DSS, the first video port output is
+   internally routed to 2 OLDI TXes. The second video port supports DPI
+   format. The first plane is full video plane with all features and the
+   second is a "lite plane" without scaling support.
++  The AM62L display subsystem has a single output port which supports DPI
++  format but it only supports single video "lite plane" which does not support
++  scaling. The output port is routed to SoC boundary via DPI interface and same
++  DPI signals are also routed internally to DSI Tx controller present within the
++  SoC. Due to clocking limitations only one of the interface i.e. either DSI or
++  DPI can be used at once.
+ 
+ properties:
+   compatible:
+     enum:
+       - ti,am625-dss
+       - ti,am62a7-dss
++      - ti,am62l-dss
+       - ti,am65x-dss
+ 
+   reg:
+@@ -91,6 +98,8 @@ properties:
+           For AM625 DSS, the internal DPI output port node from video
+           port 1.
+           For AM62A7 DSS, the port is tied off inside the SoC.
++          For AM62L DSS, the DSS DPI output port node from video port 1
++          or DSI Tx controller node connected to video port 1.
+ 
+       port@1:
+         $ref: /schemas/graph.yaml#/properties/port
+@@ -123,6 +132,16 @@ allOf:
+         ports:
+           properties:
+             port@0: false
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,am62l-dss
++    then:
++      properties:
++        ports:
++          properties:
++            port@1: false
+ 
+ required:
+   - compatible
 -- 
 2.39.1
 
