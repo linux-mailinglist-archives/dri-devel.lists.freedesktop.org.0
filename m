@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9ACAAD8A4
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 09:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB42AAD928
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 09:55:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE67210E163;
-	Wed,  7 May 2025 07:45:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99C7410E75C;
+	Wed,  7 May 2025 07:55:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W6y4niVW";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hhhWy9pX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF87B10E163
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 07:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746603903; x=1778139903;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=iu1EOTLAhb020bpCSuvHHrgL15BOnipScV+aaqIQksM=;
- b=W6y4niVWsDPISM1qMWqgbLNusPqGfYEWogo1MTjlkou7f9JiHZByrKE2
- 9I3TCJlk3zVBr0LnbVs/v9ubrl+0rwp1O2ICsDfVKEQ5oXexhXdpdVxCs
- BVO7SpujnM2MyjZRmN5bsRxdMkH+TEsGnrCzVxtXN6yuGVRHz458YksWG
- i53M7s0KYlIcJZBPE710P+tCZNInw5JPsteipGcz/cMMc0U2EhkpTt7yl
- rPUWnkevr2XXmrtfZMo3nXMYRXNo4occRza5VLKQZZlYsW7o1DcPH1WW4
- S3PlJ3TakVEdyduFzDAxfEUAW+9nhF5ls37R2Sq3hiHyjG2nW9YkSBfQu w==;
-X-CSE-ConnectionGUID: lpX/GN5fRhe6wdgFpz00Rw==
-X-CSE-MsgGUID: FeNQeGzoSYa0LaumVt+ihg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="52133186"
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; d="scan'208";a="52133186"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2025 00:45:02 -0700
-X-CSE-ConnectionGUID: k/FupIOJSfuvz0pC7u2qRw==
-X-CSE-MsgGUID: nVYJ+ab8SVqxndgaV2iasA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; d="scan'208";a="135875085"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
- by fmviesa007.fm.intel.com with ESMTP; 07 May 2025 00:44:52 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uCZSU-0007LR-02;
- Wed, 07 May 2025 07:44:50 +0000
-Date: Wed, 7 May 2025 15:44:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marcus Folkesson <marcus.folkesson@gmail.com>,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A50810E75C
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 07:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1746604545;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JQX/5m+jQ3v0Hngdb0F2esP3jDYn3gk1n+QUBzrPG4A=;
+ b=hhhWy9pXmeOopmi3LGm+mx3o2QZ+Mh6/EklPwsX5cIJbB+pQ+SOXEQiBXdhti/QkPsdaXR
+ mfIBIJ4535ChCgRxLbGZhrWmTGn15OkPj2tVbrVviZVS/6j5EJnFGQ0j2h7g8q/hNlYYWZ
+ XqYMXPsL2kckGS2ufLLruacSWV10qW8=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-283-TxKFw1hAPPmQqrYRWraNSg-1; Wed,
+ 07 May 2025 03:55:42 -0400
+X-MC-Unique: TxKFw1hAPPmQqrYRWraNSg-1
+X-Mimecast-MFC-AGG-ID: TxKFw1hAPPmQqrYRWraNSg_1746604540
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 043D51800370; Wed,  7 May 2025 07:55:40 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.45.226.157])
+ by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id A04531953B82; Wed,  7 May 2025 07:55:35 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- David Lechner <david@lechnology.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: Re: [PATCH] drm/sitronix: move tiny Sitronix drivers to their own
- subdir
-Message-ID: <202505071503.faytuvgs-lkp@intel.com>
-References: <20250428-sitronix-v1-1-4e7cc0a8195a@gmail.com>
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, jani.nikula@linux.intel.com,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH v2] MAINTAINERS: Add entries for drm_panic,
+ drm_panic_qr_code and drm_log
+Date: Wed,  7 May 2025 09:51:47 +0200
+Message-ID: <20250507075529.263355-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250428-sitronix-v1-1-4e7cc0a8195a@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,43 +73,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marcus,
+Add myself and Javier as maintainer for drm_panic, drm_panic_qr_code
+and drm_log.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
 
-[auto build test WARNING on ef6517ac5cf971cfeaccea4238d9da7e2425b8b1]
+v2:
+ * move DRM LOG to keep the entries sorted (Jani Nikula)
+ 
+ MAINTAINERS | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcus-Folkesson/drm-sitronix-move-tiny-Sitronix-drivers-to-their-own-subdir/20250428-144721
-base:   ef6517ac5cf971cfeaccea4238d9da7e2425b8b1
-patch link:    https://lore.kernel.org/r/20250428-sitronix-v1-1-4e7cc0a8195a%40gmail.com
-patch subject: [PATCH] drm/sitronix: move tiny Sitronix drivers to their own subdir
-config: m68k-randconfig-r121-20250429 (https://download.01.org/0day-ci/archive/20250507/202505071503.faytuvgs-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071503.faytuvgs-lkp@intel.com/reproduce)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 38df6b159a3b..1ecb04e0ddfd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8166,6 +8166,14 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/scheduler/
+ F:	include/drm/gpu_scheduler.h
+ 
++DRM LOG
++M:	Jocelyn Falempe <jfalempe@redhat.com>
++M:	Javier Martinez Canillas <javierm@redhat.com>
++L:	dri-devel@lists.freedesktop.org
++S:	Supported
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	drivers/gpu/drm/clients/drm_log.c
++
+ DRM PANEL DRIVERS
+ M:	Neil Armstrong <neil.armstrong@linaro.org>
+ R:	Jessica Zhang <quic_jesszhan@quicinc.com>
+@@ -8177,6 +8185,26 @@ F:	drivers/gpu/drm/drm_panel.c
+ F:	drivers/gpu/drm/panel/
+ F:	include/drm/drm_panel.h
+ 
++DRM PANIC
++M:	Jocelyn Falempe <jfalempe@redhat.com>
++M:	Javier Martinez Canillas <javierm@redhat.com>
++L:	dri-devel@lists.freedesktop.org
++S:	Supported
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	drivers/gpu/drm/drm_draw.c
++F:	drivers/gpu/drm/drm_draw_internal.h
++F:	drivers/gpu/drm/drm_panic*.c
++F:	include/drm/drm_panic*
++
++DRM PANIC QR CODE
++M:	Jocelyn Falempe <jfalempe@redhat.com>
++M:	Javier Martinez Canillas <javierm@redhat.com>
++L:	dri-devel@lists.freedesktop.org
++L:	rust-for-linux@vger.kernel.org
++S:	Supported
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	drivers/gpu/drm/drm_panic_qr.rs
++
+ DRM PRIVACY-SCREEN CLASS
+ M:	Hans de Goede <hdegoede@redhat.com>
+ L:	dri-devel@lists.freedesktop.org
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071503.faytuvgs-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/sitronix/st7571-i2c.c:965:26: sparse: sparse: symbol 'st7571_config' was not declared. Should it be static?
-
-vim +/st7571_config +965 drivers/gpu/drm/sitronix/st7571-i2c.c
-
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  964  
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23 @965  struct st7571_panel_data st7571_config = {
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  966  	.init = st7571_lcd_init,
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  967  	.constraints = {
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  968  		.min_nlines = 1,
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  969  		.max_nlines = 128,
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  970  		.min_ncols = 128,
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  971  		.max_ncols = 128,
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  972  		.support_grayscale = true,
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  973  	},
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  974  };
-4b35f0f41ee2950 drivers/gpu/drm/tiny/st7571-i2c.c Marcus Folkesson 2025-04-23  975  
-
+base-commit: 258aebf100540d36aba910f545d4d5ddf4ecaf0b
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.49.0
+
