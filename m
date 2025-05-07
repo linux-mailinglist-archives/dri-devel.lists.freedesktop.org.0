@@ -2,52 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB562AADBD2
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 11:48:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78181AADC22
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 12:04:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41CC010E785;
-	Wed,  7 May 2025 09:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6387810E173;
+	Wed,  7 May 2025 10:04:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="K+2KUERz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H4G3eW3P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDC4510E783
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 09:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=BQHLC
- DBcHCYndNzTVgQbrhtOcaXMaNx6k06Orz9q5NA=; b=K+2KUERzEgO++ms1vsTju
- wBYuziRKwapSjl+wg55bW+p4sF2FMlSHStVNsC+oCr5zWGJa7oLKNWiCO7A92ra/
- geB3lozL5JsheedfrIjWZ4+RI5PJT6U58z4EFpFuLecarRwudxHrkczimza+PeYL
- +PKDFA5hdSpQ7PTwiOek3E=
-Received: from localhost.localdomain (unknown [])
- by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id
- _____wCn0Sw2LBtoPOJREw--.58097S4; 
- Wed, 07 May 2025 17:47:39 +0800 (CST)
-From: oushixiong1025@163.com
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sean Paul <sean@poorly.run>,
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH v3 3/3] drm/udl: use DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS
-Date: Wed,  7 May 2025 17:47:28 +0800
-Message-Id: <20250507094728.603302-3-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250507094728.603302-1-oushixiong1025@163.com>
-References: <20250507094728.603302-1-oushixiong1025@163.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8CCA10E091;
+ Wed,  7 May 2025 10:04:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1746612253; x=1778148253;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=sZ+DCx9Gh68SB+Pf/udrSMg0HhA+/2KMuYFbIKxKEKM=;
+ b=H4G3eW3P2E9zJQGanqR7a2vRteH8N6YSlffXK/Qz7B5/au908ICm6Maj
+ CRqDTias0lkODX+wxSfil6S9z9W5CCczmmDG8R5mMlYmTFlY7AuvzDAFa
+ yCorFQh2cMW+q0Tj40S8VlUe8xrgFfjw5PkSnlMUQCGOF6G4/RbMBZBkG
+ Nqzyauqx8X3vbZjoLcLGZ4xn+haN44O3Fl8eg8elsAsXSVtfK8k1wt7Qf
+ WViqAQoLYGlH+Lik03fcBSczvdqrbLT2yR840k7W0aFETZHW5bsgHR9E1
+ 4q8AjiOG5JRpv2LIhBLi4xVmwKXjymEInb33mu9h+cdqGiUgsnr+blZfJ Q==;
+X-CSE-ConnectionGUID: lLmYiE/5RSGx1Dc17DDG3A==
+X-CSE-MsgGUID: S/2dFoxIR1KVIR/PIYXDVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="52148009"
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; d="scan'208";a="52148009"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2025 03:04:12 -0700
+X-CSE-ConnectionGUID: 9SUiBLR1QnKIwcFHAxqI8w==
+X-CSE-MsgGUID: lEe6xJ8pTyO7rSxlMZBh3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; d="scan'208";a="136841552"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by orviesa008.jf.intel.com with ESMTP; 07 May 2025 03:04:05 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uCbdC-0007Yo-1X;
+ Wed, 07 May 2025 10:04:02 +0000
+Date: Wed, 7 May 2025 18:03:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, wayland-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, alex.hung@amd.com, leo.liu@amd.com,
+ ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
+ contact@emersion.fr, mwen@igalia.com, jadahl@redhat.com,
+ sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com,
+ aleixpol@kde.org, xaver.hugl@gmail.com, victoria@system76.com,
+ daniel@ffwll.ch, uma.shankar@intel.com, quic_naseer@quicinc.com,
+ quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH V9 15/43] drm/vkms: Add kunit tests for linear and sRGB
+ LUTs
+Message-ID: <202505071750.LFUxqdSH-lkp@intel.com>
+References: <20250430011115.223996-16-alex.hung@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wCn0Sw2LBtoPOJREw--.58097S4
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZFWDtrWrArykJF13Xw4fZrb_yoW3urb_CF
- WftwsrWFZ8u34Dur1xAFW5Ary293s5uFs7WF4Utasayw4xJw4UuryIvr4vv3WUKF4rCF9x
- J397XrsxAr4kCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8YsjUUUUUU==
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXAZGD2gbJDqw1AAAsa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250430011115.223996-16-alex.hung@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,29 +82,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+Hi Alex,
 
-Import dmabuf without mapping its sg_table to avoid issues likes:
-   udl 2-1.4:1.0: swiotlb buffer is full (sz: 2097152 bytes), total 65536 (slots), used 1 (slots)
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
----
- drivers/gpu/drm/udl/udl_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on next-20250507]
+[cannot apply to linus/master v6.15-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index 1922988625eb..cbfdcb75f1f2 100644
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -57,7 +57,7 @@ static const struct drm_driver driver = {
- 
- 	/* GEM hooks */
- 	.fops = &udl_driver_fops,
--	DRM_GEM_SHMEM_DRIVER_OPS,
-+	DRM_GEM_SHMEM_DRIVER_OPS_FOR_VMAP,
- 	DRM_FBDEV_SHMEM_DRIVER_OPS,
- 
- 	.name = DRIVER_NAME,
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Hung/drm-Add-helper-for-conversion-from-signed-magnitude/20250430-092409
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250430011115.223996-16-alex.hung%40amd.com
+patch subject: [PATCH V9 15/43] drm/vkms: Add kunit tests for linear and sRGB LUTs
+config: x86_64-randconfig-073-20250502 (https://download.01.org/0day-ci/archive/20250507/202505071750.LFUxqdSH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071750.LFUxqdSH-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071750.LFUxqdSH-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/tests/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+>> ERROR: modpost: "srgb_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
+>> ERROR: modpost: "srgb_inv_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
+>> ERROR: modpost: "linear_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
+
 -- 
-2.17.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
