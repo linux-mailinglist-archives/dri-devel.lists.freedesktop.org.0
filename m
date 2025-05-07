@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB42AAD928
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 09:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92799AAD940
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 09:59:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99C7410E75C;
-	Wed,  7 May 2025 07:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3D2010E760;
+	Wed,  7 May 2025 07:59:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hhhWy9pX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fCiXWS+F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A50810E75C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 07:55:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1746604545;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=JQX/5m+jQ3v0Hngdb0F2esP3jDYn3gk1n+QUBzrPG4A=;
- b=hhhWy9pXmeOopmi3LGm+mx3o2QZ+Mh6/EklPwsX5cIJbB+pQ+SOXEQiBXdhti/QkPsdaXR
- mfIBIJ4535ChCgRxLbGZhrWmTGn15OkPj2tVbrVviZVS/6j5EJnFGQ0j2h7g8q/hNlYYWZ
- XqYMXPsL2kckGS2ufLLruacSWV10qW8=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-283-TxKFw1hAPPmQqrYRWraNSg-1; Wed,
- 07 May 2025 03:55:42 -0400
-X-MC-Unique: TxKFw1hAPPmQqrYRWraNSg-1
-X-Mimecast-MFC-AGG-ID: TxKFw1hAPPmQqrYRWraNSg_1746604540
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 043D51800370; Wed,  7 May 2025 07:55:40 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.45.226.157])
- by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id A04531953B82; Wed,  7 May 2025 07:55:35 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, jani.nikula@linux.intel.com,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v2] MAINTAINERS: Add entries for drm_panic,
- drm_panic_qr_code and drm_log
-Date: Wed,  7 May 2025 09:51:47 +0200
-Message-ID: <20250507075529.263355-1-jfalempe@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB7010E760
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 07:59:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1746604742; x=1778140742;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pc9ZnpfpNAW8KOYgspYmh8RTXqehB+edtu1UuEUhwVw=;
+ b=fCiXWS+FphLuH8p/ardWVmN2K3rxql3v/YdeJx+Fq1jA2jEuJVuzwJ5b
+ u2koIiC1v/lPvXqohzgK37EI1o3nv0zrPidkHejXl+vAPk5VLSkijocKk
+ 8VAotCr0rHqFOcpu4Jnzx1/lR5aDNUd9jvOtKGSA4LPnA0Q9fine+k+5w
+ n7/TrARTDFxQ3UKxN4MV9x9LN1VauU/FSumOputJ79C62P6oWnZjOQalX
+ VQnV7m4x9JyQkvqV9er4jBF2ggU1YwFNnd5aJIXNgulnsg/EmBF6vvk8W
+ 7zVG4dFn+jQ+7/4Uc1nNobWJn5bnohV35YoirKwoYseeLoFvq+TmxVeqM w==;
+X-CSE-ConnectionGUID: TzayU4HXRpqAmRFv3AIkXw==
+X-CSE-MsgGUID: SOKbghTdS/uS0DfOOmxKvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="51969525"
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; d="scan'208";a="51969525"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2025 00:59:01 -0700
+X-CSE-ConnectionGUID: qCHCQ2hDQBu1dMXhuqOWpw==
+X-CSE-MsgGUID: HwB8VYUgR8ivGlALf/bRSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; d="scan'208";a="159175157"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+ by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 00:58:58 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uCZg6-0007Mz-26;
+ Wed, 07 May 2025 07:58:54 +0000
+Date: Wed, 7 May 2025 15:58:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+ Jens Wiklander <jens.wiklander@linaro.org>,
+ Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+Subject: Re: [PATCH v4 08/11] tee: add Qualcomm TEE driver
+Message-ID: <202505071540.hAeEOUWt-lkp@intel.com>
+References: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-8-6a143640a6cb@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-8-6a143640a6cb@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,67 +81,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add myself and Javier as maintainer for drm_panic, drm_panic_qr_code
-and drm_log.
+Hi Amirreza,
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
----
+kernel test robot noticed the following build warnings:
 
-v2:
- * move DRM LOG to keep the entries sorted (Jani Nikula)
- 
- MAINTAINERS | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+[auto build test WARNING on 33035b665157558254b3c21c3f049fd728e72368]
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 38df6b159a3b..1ecb04e0ddfd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8166,6 +8166,14 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	drivers/gpu/drm/scheduler/
- F:	include/drm/gpu_scheduler.h
- 
-+DRM LOG
-+M:	Jocelyn Falempe <jfalempe@redhat.com>
-+M:	Javier Martinez Canillas <javierm@redhat.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	drivers/gpu/drm/clients/drm_log.c
-+
- DRM PANEL DRIVERS
- M:	Neil Armstrong <neil.armstrong@linaro.org>
- R:	Jessica Zhang <quic_jesszhan@quicinc.com>
-@@ -8177,6 +8185,26 @@ F:	drivers/gpu/drm/drm_panel.c
- F:	drivers/gpu/drm/panel/
- F:	include/drm/drm_panel.h
- 
-+DRM PANIC
-+M:	Jocelyn Falempe <jfalempe@redhat.com>
-+M:	Javier Martinez Canillas <javierm@redhat.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	drivers/gpu/drm/drm_draw.c
-+F:	drivers/gpu/drm/drm_draw_internal.h
-+F:	drivers/gpu/drm/drm_panic*.c
-+F:	include/drm/drm_panic*
-+
-+DRM PANIC QR CODE
-+M:	Jocelyn Falempe <jfalempe@redhat.com>
-+M:	Javier Martinez Canillas <javierm@redhat.com>
-+L:	dri-devel@lists.freedesktop.org
-+L:	rust-for-linux@vger.kernel.org
-+S:	Supported
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	drivers/gpu/drm/drm_panic_qr.rs
-+
- DRM PRIVACY-SCREEN CLASS
- M:	Hans de Goede <hdegoede@redhat.com>
- L:	dri-devel@lists.freedesktop.org
+url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250429-140908
+base:   33035b665157558254b3c21c3f049fd728e72368
+patch link:    https://lore.kernel.org/r/20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-8-6a143640a6cb%40oss.qualcomm.com
+patch subject: [PATCH v4 08/11] tee: add Qualcomm TEE driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250507/202505071540.hAeEOUWt-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071540.hAeEOUWt-lkp@intel.com/reproduce)
 
-base-commit: 258aebf100540d36aba910f545d4d5ddf4ecaf0b
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071540.hAeEOUWt-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/tee/qcomtee/async.c:101 function parameter 'async_msg' not described in 'async_release'
+>> Warning: drivers/tee/qcomtee/async.c:101 Excess function parameter 'msg' description in 'async_release'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_AUX_HPD_BRIDGE
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && DRM_BRIDGE [=n] && OF [=y]
+   Selected by [m]:
+   - UCSI_HUAWEI_GAOKUN [=m] && USB_SUPPORT [=y] && TYPEC [=m] && TYPEC_UCSI [=m] && EC_HUAWEI_GAOKUN [=m]
+
 -- 
-2.49.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
