@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0821AAE1FB
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 16:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14399AAE20D
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 16:09:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB60010E7FF;
-	Wed,  7 May 2025 14:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C31810E805;
+	Wed,  7 May 2025 14:09:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="cQ01P2au";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="GewfoMbs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AAF210E7FF
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 14:08:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KBB+WjVzByVFW+uRxe/1Yd1RcKwEfDRO1TW7gfbiVwU=; b=cQ01P2auP0r6SeVcSFIx3vrNUk
- 5ydNj5/KYM4yU7mAbGqoBHUuIEGMQoO7wDEauD/ve9zwHj23DCdxRfMngrQcIH80dDTamG+VywcZB
- bC2IobKK6c4ViajaojgqzsMadQRdkOC4h0/by1qFBU0Vzecqktg3989YACQTHf10JewEWzuTgBzy0
- lkNym0Ys4v5wb8AxbjNaWWrIaiaSJq7PK2bkk9498ijs8D0xcf3waU5RstRpDJuMJFS007EnC2Abn
- HkZWztr5UpQsF9qqDFn5JE+RO+R482/TC2uJNY4nT+0hOn47PkCafCtYAi50cQqVgWCl7A5OJk3xE
- qqZQVomQ==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uCfNR-004kHV-DI; Wed, 07 May 2025 16:07:58 +0200
-Message-ID: <33cf57f2-230d-4bab-bab9-848b5ace9dfc@igalia.com>
-Date: Wed, 7 May 2025 15:07:57 +0100
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9F3710E809
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 14:09:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1746626966; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=fRFR6xVYITrrR8EKdtrMboNYI5ezJWLvzZU9AZES7TcuKbFOmO73oXL15cTV+IJFZCgua9fFnbJSB4Kd7zBu5HMNmkWXz6QwZfJr3Lr9kWvfJxwjtfPZmo1EtJg9msz8DaV+J8g7gdWSzQg2ZhA7AKkjgBzoFUhTTMKFVQro//A=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1746626966;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=ZHTEAWq+RVWJtSuBqZj0ZEc3/IiBPlP1oeDUs0p9nk8=; 
+ b=g/UfMvyMRyfXu5Y1GMokovKCanFAxsBRAJ5GIBrT4t/7G3yDE5qCxOJG67LKmLiJb2+2BVuT7h7Ul9Tobzr/gKukdb8BjZpAuXKhabSZRam32yHmCp9beQ5u4qHeXPeRBMzOd96GalERklQAEhXVDxjnuifSvkdNMMa8Hyh25sk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746626965; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=ZHTEAWq+RVWJtSuBqZj0ZEc3/IiBPlP1oeDUs0p9nk8=;
+ b=GewfoMbsdc9I2EgSsdj03vWMjGkM05EeAFYWBgeYlhtMdVa+IRTdIiAFtMbWCEwy
+ F4SrpbJo+LdheikmV+eBH6xobqk+UWcOcQA8faWTJwIWghPB66ubYAkMEWYSZrShMZW
+ 00DQP54cWOWtkFds661DndusCHr3uEWh7mqXoeoQ=
+Received: by mx.zohomail.com with SMTPS id 1746626962793223.03537125249852;
+ Wed, 7 May 2025 07:09:22 -0700 (PDT)
+Date: Wed, 7 May 2025 15:09:18 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ kernel@collabora.com, Rob Herring <robh@kernel.org>, 
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 3/3] drm/panfrost: show device-wide list of DRM GEM
+ objects over DebugFS
+Message-ID: <j6grx63nycziqsapmsn6puba6q2tmpsknkwtiwcfwq5afcdvpv@67jrzgx3d4iz>
+References: <20250424022138.709303-1-adrian.larumbe@collabora.com>
+ <20250424022138.709303-4-adrian.larumbe@collabora.com>
+ <20250506090418.3c8242b0@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/4] Some (drm_sched_|dma_)fence lifetime issues
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
- <phasta@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20250418164246.72426-1-tvrtko.ursulin@igalia.com>
- <29b27ae3-de56-475d-ae85-fd593a011ea3@amd.com>
- <e4acf86d-ff22-423d-9769-80316fa96cb5@igalia.com>
- <ff76a94e-97cd-4d19-a02b-cf2a1fc00ac8@amd.com>
- <67a89aac-5eb6-46d2-b456-32e9f3e72f09@igalia.com>
- <67697ca1-e18e-4f9e-a315-43957e71dbef@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <67697ca1-e18e-4f9e-a315-43957e71dbef@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250506090418.3c8242b0@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,115 +75,408 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 06.05.2025 09:04, Boris Brezillon wrote:
+> On Thu, 24 Apr 2025 03:21:32 +0100
+> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+>
+> > This change is essentially a Panfrost port of commit a3707f53eb3f
+> > ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS").
+> >
+> > The DebugFS file is almost the same as in Panthor, minus the GEM object
+> > usage flags, since Panfrost has no kernel-only BO's.
+> >
+> > Two additional GEM state flags which are displayed but aren't relevant
+> > to Panthor are 'Purged' and 'Purgeable', since Panfrost implements an
+> > explicit shrinker and a madvise ioctl to flag objects as reclaimable.
+> >
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panfrost/panfrost_device.c |   4 +
+> >  drivers/gpu/drm/panfrost/panfrost_device.h |  11 ++
+> >  drivers/gpu/drm/panfrost/panfrost_drv.c    |  37 ++++++
+> >  drivers/gpu/drm/panfrost/panfrost_gem.c    | 137 +++++++++++++++++++++
+> >  drivers/gpu/drm/panfrost/panfrost_gem.h    |  58 +++++++++
+> >  5 files changed, 247 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> > index a45e4addcc19..7ba140aaf59d 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> > @@ -209,6 +209,10 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+> >
+> >  	spin_lock_init(&pfdev->cycle_counter.lock);
+> >
+> > +#ifdef CONFIG_DEBUG_FS
+> > +	mutex_init(&pfdev->gems.lock);
+> > +	INIT_LIST_HEAD(&pfdev->gems.node);
+> > +#endif
+> >  	err = panfrost_clk_init(pfdev);
+> >  	if (err) {
+> >  		dev_err(pfdev->dev, "clk init failed %d\n", err);
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> > index ad95f2ed31d9..395272a79306 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> > @@ -161,6 +161,17 @@ struct panfrost_device {
+> >  		atomic_t use_count;
+> >  		spinlock_t lock;
+> >  	} cycle_counter;
+> > +
+> > +	#ifdef CONFIG_DEBUG_FS
+>
+> Drop the tab.
 
-On 07/05/2025 13:54, Christian König wrote:
-> On 5/7/25 14:28, Tvrtko Ursulin wrote:
->>
->> On 28/04/2025 14:15, Christian König wrote:
->>> On 4/24/25 09:07, Tvrtko Ursulin wrote:
->>>>
->>>> On 23/04/2025 14:12, Christian König wrote:
->>>>> On 4/18/25 18:42, Tvrtko Ursulin wrote:
->>>>>> Hi all,
->>>>>>
->>>>>> Recently I mentioned to Danilo about some fence lifetime issues so here is a
->>>>>> rough series, more than anything intended to start the discussion.
->>>>>>
->>>>>> Most of the problem statement can be found in the first patch but to briefly
->>>>>> summarise - because sched fence can outlive the scheduler, we can trivially
->>>>>> engineer an use after free with xe and possibly other drivers. All that is
->>>>>> needed is to convert a syncobj into a sync file behind drivers back, and I don't
->>>>>> see what the driver can do about it.
->>>>>
->>>>>
->>>>> Yeah that topic again :) The problem here is that this is not a bug, it is a feature!
->>>>>
->>>>> IIRC it was Alex who pointed that issue out on the very first fence patch set, and we already discussed what to do back then.
->>>>>
->>>>> The problem with grabbing module references for fences is that you get trivially into circle references and so basically always preventing the module from unloading.
->>>>
->>>> Where "always" is only "while there are active objects from that module", no?
->>>
->>>
->>> The problem is that dma_fences stay around after they are signaled. And basically all drivers keep some dma_fence around for their resource management. E.g. amdgpu for the VMIDs.
->>>
->>> This means that some dma_fence is referenced by the module and the module referenced by some dma_fence. E.g. you are never able to unload the module.
->>
->> Are you thinking truly never or for as long someone has a reference?
-> 
-> Truly never. It's simply a circle dependency you can never break up.
-> 
-> In other words the module references the fence and the fence references the module.
+Done.
+>
+> > +	/** @gems: Device-wide list of GEM objects owned by at least one file. */
+> > +	struct {
+> > +		/** @gems.lock: Protects the device-wide list of GEM objects. */
+> > +		struct mutex lock;
+> > +
+> > +		/** @node: Used to keep track of all the device's DRM objects */
+> > +		struct list_head node;
+> > +	} gems;
+> > +#endif
+>
+> I would probably also put those in a panfrost_device_debugfs struct.
+>  };
 
-Past fences being signaled? How?
+I think in the case of Panthor we left them outside of a specific structure, but I think it's a good idea.
 
->> For example while userspace has a reference to dma_fence via sync_file fence owning module would not unloadable. One would have to terminate the process, which granted wouldn't be easy to see which process prevents the unload, before driver could be unloaded.
->>
->> For the foreign fences kept around in kernel space, that would be solvable by some periodic house keeping at worst.
->>
->> Also, about the use cases for module unload. Since you and Brost especially seem to be expressing a hard no to module references, what are the use cases you are concerned about?
->>
->>>>> The decision was made to postpone this and live with the potential use after free on module unload until somebody has time to fix it. Well that was +10 years ago :)
->>>>>
->>>>> I discussed this with Sima again last year and we came to the conclusion that the easiest way forward would be to decouple the dma_fence implementation from the driver or component issuing the fence.
->>>>>
->>>>> I then came up with the following steps to allow this:
->>>>> 1. Decouple the lock used for protecting the dma_fence callback list from the caller.
->>>>> 2. Stop calling enable_signaling with the lock held.
->>>>> 3. Nuke all those kmem_cache implementations and force drivers to always allocate fences using kvmalloc().
->>>>> 4. Nuke the release callback (or maybe move it directly after signaling) and set fence->ops to NULL after signaling the fence.
->>>>>
->>>>> I already send patches out for #1 and #2, but don't have enough time to actually finish the work.
->>>>>
->>>>> If you want take a look at nuking all those kmem_cache implementations for allocating the fence memory. I think that can be completed completely separate to everything else.
->>>>
->>>> So enabling dma fence "revoke" so to say.
->>>>
->>>> Just to check we are on the same page, it is not just about the module references, but also use after frees which can happen even if module is still loaded but any memory reachable via dma fence entry points has been freed.
->>>
->>>
->>> Yeah, that came much later when people started to use the scheduler dynamically. Basically the sched pointer in the drm_sched_fence implementation becomes invalid as soon as the fence signals.
->>>
->>>>
->>>> In that case, as Matt has already asked, if you could dig up your unfinished work it would be interesting to see.
->>>
->>>
->>> This is what I already send out: https://gitlab.freedesktop.org/ckoenig/linux-drm/-/commits/dma-fence-rework-enable-signaling
->>>
->>> A bunch of the cleanup patches in that branch have already been applied, only the last one is missing IIRC.
->>>
->>> And here is a WIP patch to decouple the lock I wrote halve a year ago or so: https://gitlab.freedesktop.org/ckoenig/linux-drm/-/commits/dma-fence-rework-locking
->>
->> Thanks!
->>
->> My concern here is that to me it appears the whole premise is to leave fences dangling in memory and somehow make them safe to be accessed by importers.
-> 
-> As soon as you unload the last module using it the fences will automatically be released. So I don't see the problem.
-> 
->> For starters this can create permanent memory leaks. Or at least for the same window of duration as would the exporters be not unloadable with the reference counting alternative. So we would not a strong argument for why poorly bound memory leaks are better than poorly bound unloadable modules.
-> 
-> When the module unloads it drops the reference to the fences ultimately freeing them.
-> 
-> The only issue is that modules can both reference their own as well a foreign fences. So what can happen is that you have module A which references fences A1, A2 and B1 and module B which references B1, B2 and A2.
-> 
-> Now you can't unload either module first because they cross reference their fences and unloading one would leave the other module with fences which can't be released without crashing.
-> 
-> So what we need to have is that the dma_fence framework guarantees that you don't need the fence->ops nor the fence->lock pointer any more after the fence signaled.
+> >  struct panfrost_mmu {
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > index b0ab76d67e96..12dd9f311984 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > @@ -13,6 +13,7 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/pm_runtime.h>
+> >  #include <drm/panfrost_drm.h>
+> > +#include <drm/drm_debugfs.h>
+> >  #include <drm/drm_drv.h>
+> >  #include <drm/drm_ioctl.h>
+> >  #include <drm/drm_syncobj.h>
+> > @@ -153,6 +154,8 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
+> >  		ret = -EINVAL;
+> >  	}
+> >
+> > +	panfrost_gem_debugfs_init_bo(bo);
+> >
+> > This is the only place where you call panfrost_gem_debugfs_init_bo(),
+> > so why not calling panfrost_gem_debugfs_bo_add() at the end of
+> > panfrost_gem_create() instead, and drop the initialised field (and
+> > panfrost_gem_debugfs_init_bo() helper).
 
-With this option it would mean guarding all entry points with the 
-embedded lock or you had in mind something different? Going simply by 
-the signaled bit looks impossible to be safe.
+Done.
 
->> It is also a question how to "revoke" fences safely (race free). It sounds hard to me. It does not seem you got to this last problem in the above branches so I don't know if you had some elegant ideas for that.
->>
->> Maybe first to ask if anyone is aware of a precedent where something in the kernel already uses this design pattern?
-> 
-> Of hand I don't know of any, but the problem sounds rather common to me.
+> > +
+> >  out:
+> >  	drm_gem_object_put(&bo->base.base);
+> >  	return ret;
+> > @@ -659,6 +662,37 @@ static const struct file_operations panfrost_drm_driver_fops = {
+> >  	.show_fdinfo = drm_show_fdinfo,
+> >  };
+> >
+> > +#ifdef CONFIG_DEBUG_FS
+> > +static int panthor_gems_show(struct seq_file *m, void *data)
+> > +{
+> > +	struct drm_info_node *node = m->private;
+> > +	struct drm_device *dev = node->minor->dev;
+> > +	struct panfrost_device *pfdev = dev->dev_private;
+> > +
+> > +	panfrost_gem_debugfs_print_bos(pfdev, m);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static struct drm_info_list panthor_debugfs_list[] = {
+> > +	{"gems", panthor_gems_show, 0, NULL},
+> > +};
+> > +
+> > +static int panthor_gems_debugfs_init(struct drm_minor *minor)
+> > +{
+> > +	drm_debugfs_create_files(panthor_debugfs_list,
+> > +				 ARRAY_SIZE(panthor_debugfs_list),
+> > +				 minor->debugfs_root, minor);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void panfrost_debugfs_init(struct drm_minor *minor)
+> > +{
+> > +	panthor_gems_debugfs_init(minor);
+> > +}
+> > +#endif
+> > +
+> >  /*
+> >   * Panfrost driver version:
+> >   * - 1.0 - initial interface
+> > @@ -683,6 +717,9 @@ static const struct drm_driver panfrost_drm_driver = {
+> >
+> >  	.gem_create_object	= panfrost_gem_create_object,
+> >  	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
+> > +#ifdef CONFIG_DEBUG_FS
+> > +	.debugfs_init = panfrost_debugfs_init,
+> > +#endif
+> >  };
+> >
+> >  static int panfrost_probe(struct platform_device *pdev)
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> > index a7a29974d8b1..8a0fd1abd05c 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> > @@ -12,6 +12,38 @@
+> >  #include "panfrost_gem.h"
+> >  #include "panfrost_mmu.h"
+> >
+> > +#ifdef CONFIG_DEBUG_FS
+> > +static void panfrost_gem_debugfs_bo_add(struct panfrost_device *ptdev,
+> > +					struct panfrost_gem_object *bo)
+> > +{
+> > +	INIT_LIST_HEAD(&bo->debugfs.node);
+>
+> There's no point calling INIT_LIST_HEAD() if you're calling
+> list_add_tail() immediately after.
 
-Uf I don't know. Feels very atypical to me but I would be very glad to 
-be told otherwise.
+Deleted.
 
-Regards,
+> > +
+> > +	bo->debugfs.creator.tgid = current->group_leader->pid;
+> > +	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
+> > +
+> > +	mutex_lock(&ptdev->gems.lock);
+> > +	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
+> > +	mutex_unlock(&ptdev->gems.lock);
+> > +}
+> > +
+> > +static void panfrost_gem_debugfs_bo_rm(struct panfrost_gem_object *bo)
+> > +{
+> > +	struct panfrost_device *ptdev = bo->base.base.dev->dev_private;
+> > +
+> > +	if (list_empty(&bo->debugfs.node))
+> > +		return;
+> > +
+> > +	mutex_lock(&ptdev->gems.lock);
+> > +	list_del_init(&bo->debugfs.node);
+> > +	mutex_unlock(&ptdev->gems.lock);
+> > +}
+> > +#else
+> > +static void panfrost_gem_debugfs_bo_add(struct panfrost_device *ptdev,
+> > +					struct panfrost_gem_object *bo)
+> > +{}
+> > +static void panfrost_gem_debugfs_bo_rm(struct panfrost_gem_object *bo) {}
+> > +#endif
+> > +
+> >  /* Called DRM core on the last userspace/kernel unreference of the
+> >   * BO.
+> >   */
+> > @@ -36,6 +68,7 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+> >  	 */
+> >  	WARN_ON_ONCE(!list_empty(&bo->mappings.list));
+> >
+> > +	panfrost_gem_debugfs_bo_rm(bo);
+> >  	kfree(bo->label.str);
+> >  	mutex_destroy(&bo->label.lock);
+> >
+> > @@ -266,6 +299,8 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
+> >  	obj->base.map_wc = !pfdev->coherent;
+> >  	mutex_init(&obj->label.lock);
+> >
+> > +	panfrost_gem_debugfs_bo_add(pfdev, obj);
+> > +
+> >  	return &obj->base.base;
+> >  }
+> >
+> > @@ -321,3 +356,105 @@ panfrost_gem_set_label(struct drm_gem_object *obj, const char *label)
+> >
+> >  	kfree(old_label);
+> >  }
+> > +
+> > +#ifdef CONFIG_DEBUG_FS
+> > +struct gem_size_totals {
+> > +	size_t size;
+> > +	size_t resident;
+> > +	size_t reclaimable;
+> > +};
+> > +
+> > +struct flag_def {
+> > +	u32 flag;
+> > +	const char *name;
+> > +};
+> > +
+> > +static void panfrost_gem_debugfs_print_flag_names(struct seq_file *m)
+> > +{
+> > +	int len;
+> > +	int i;
+> > +
+> > +	static const struct flag_def gem_state_flags_names[] = {
+> > +		{PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED, "imported"},
+> > +		{PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED, "exported"},
+> > +		{PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED, "purged"},
+> > +		{PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE, "purgeable"},
+> > +	};
+> > +
+> > +	seq_puts(m, "GEM state flags: ");
+> > +	for (i = 0, len = ARRAY_SIZE(gem_state_flags_names); i < len; i++) {
+> > +		seq_printf(m, "%s (0x%x)%s", gem_state_flags_names[i].name,
+> > +			   gem_state_flags_names[i].flag, (i < len - 1) ? ", " : "\n\n");
+> > +	}
+> > +}
+> > +
+> > +static void panfrost_gem_debugfs_bo_print(struct panfrost_gem_object *bo,
+> > +					  struct seq_file *m,
+> > +					  struct gem_size_totals *totals)
+> > +{
+> > +	unsigned int refcount = kref_read(&bo->base.base.refcount);
+> > +	char creator_info[32] = {};
+> > +	size_t resident_size;
+> > +	u32 gem_state_flags = 0;
+> > +
+> > +	/* Skip BOs being destroyed. */
+> > +	if (!refcount)
+> > +		return;
+> > +
+> > +	resident_size = bo->base.pages ? bo->base.base.size : 0;
+> > +
+> > +	snprintf(creator_info, sizeof(creator_info),
+> > +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
+> > +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd0x%-16lx",
+> > +		   creator_info,
+> > +		   bo->base.base.name,
+> > +		   refcount,
+> > +		   bo->base.base.size,
+> > +		   resident_size,
+> > +		   drm_vma_node_start(&bo->base.base.vma_node));
+> > +
+> > +	if (bo->base.base.import_attach)
+> > +		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
+> > +	if (bo->base.base.dma_buf)
+> > +		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
+> > +
+> > +	if (bo->base.madv < 0)
+> > +		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED;
+> > +	else if (bo->base.madv > 0)
+> > +		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE;
+> > +
+> > +	seq_printf(m, "0x%-10x", gem_state_flags);
+> > +
+> > +	scoped_guard(mutex, &bo->label.lock) {
+> > +		seq_printf(m, "%s\n", bo->label.str ? : "");
+> > +	}
+> > +
+> > +	totals->size += bo->base.base.size;
+> > +	totals->resident += resident_size;
+> > +	if (bo->base.madv > 0)
+> > +		totals->reclaimable += resident_size;
+> > +}
+> > +
+> > +void panfrost_gem_debugfs_print_bos(struct panfrost_device *ptdev,
+> > +				    struct seq_file *m)
+> > +{
+> > +	struct gem_size_totals totals = {0};
+> > +	struct panfrost_gem_object *bo;
+> > +
+> > +	panfrost_gem_debugfs_print_flag_names(m);
+> > +
+> > +	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset       state       label\n");
+> > +	seq_puts(m, "-----------------------------------------------------------------------------------------------------------------------------------\n");
+> > +
+> > +	scoped_guard(mutex, &ptdev->gems.lock) {
+> > +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+> > +			if (bo->debugfs.initialised)
+> > +				panfrost_gem_debugfs_bo_print(bo, m, &totals);
+> > +		}
+> > +	}
+> > +
+> > +	seq_puts(m, "===================================================================================================================================\n");
+> > +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
+> > +		   totals.size, totals.resident, totals.reclaimable);
+> > +}
+> > +#endif
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+> > index 842e025b9bdc..bc60e0d74da9 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+> > @@ -8,9 +8,50 @@
+> >  #include <drm/drm_mm.h>
+> >
+> >  struct panfrost_mmu;
+> > +struct panfrost_device;
+> >
+> >  #define PANFROST_BO_LABEL_MAXLEN	4096
+> >
+> > +enum panfrost_debugfs_gem_state_flags {
+> > +	/** @PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported. */
+> > +	PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED = BIT(0),
+> > +
+> > +	/** @PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported. */
+> > +	PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED = BIT(1),
+> > +
+> > +	/** @PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED: GEM BO was reclaimed by the shrinker. */
+> > +	PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED = BIT(2),
+> > +
+> > +	/**
+> > +	 * @PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE: GEM BO pages were marked as no longer
+> > +	 * needed by UM and can be reclaimed by the shrinker.
+> > +	 */
+> > +	PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE = BIT(3),
+> > +};
+> > +
+> > +/**
+> > + * struct panfrost_gem_debugfs - GEM object's DebugFS list information
+> > + */
+> > +struct panfrost_gem_debugfs {
+> > +	/**
+> > +	 * @node: Node used to insert the object in the device-wide list of
+> > +	 * GEM objects, to display information about it through a DebugFS file.
+> > +	 */
+> > +	struct list_head node;
+> > +
+> > +	/** @creator: Information about the UM process which created the GEM. */
+> > +	struct {
+> > +		/** @creator.process_name: Group leader name in owning thread's process */
+> > +		char process_name[TASK_COMM_LEN];
+> > +
+> > +		/** @creator.tgid: PID of the thread's group leader within its process */
+> > +		pid_t tgid;
+> > +	} creator;
+> > +
+> > +	/** @initialised: GEM object is ready to be displayed in DebugFS file. */
+> > +	bool initialised;
+> > +};
+> > +
+> >  struct panfrost_gem_object {
+> >  	struct drm_gem_shmem_object base;
+> >  	struct sg_table *sgts;
+> > @@ -59,6 +100,10 @@ struct panfrost_gem_object {
+> >
+> >  	bool noexec		:1;
+> >  	bool is_heap		:1;
+> > +
+> > +#ifdef CONFIG_DEBUG_FS
+> > +	struct panfrost_gem_debugfs debugfs;
+> > +#endif
+> >  };
+> >
+> >  struct panfrost_gem_mapping {
+> > @@ -107,4 +152,17 @@ void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
+> >
+> >  void panfrost_gem_set_label(struct drm_gem_object *obj, const char *label);
+> >
+> > +#ifdef CONFIG_DEBUG_FS
+> > +void panfrost_gem_debugfs_print_bos(struct panfrost_device *pfdev,
+> > +				    struct seq_file *m);
+> > +static inline void
+> > +panfrost_gem_debugfs_init_bo(struct panfrost_gem_object *bo)
+> > +{
+> > +	bo->debugfs.initialised = true;
+> > +}
+> > +#else
+> > +static inline void
+> > +panfrost_gem_debugfs_init_bo(struct panfrost_gem_object *bo) {};
+> > +#endif
+> > +
+> >  #endif /* __PANFROST_GEM_H__ */
 
-Tvrtko
 
+Adrian Larumbe
