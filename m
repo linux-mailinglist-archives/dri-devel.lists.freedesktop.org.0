@@ -2,115 +2,186 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFE8AAEDE0
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 23:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC43EAAEDF2
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 23:38:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5970110E28F;
-	Wed,  7 May 2025 21:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3BD810E1CE;
+	Wed,  7 May 2025 21:38:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MAAqfIMx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lJNLBinf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD16210E1C7
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 21:24:46 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 547BE75X019006
- for <dri-devel@lists.freedesktop.org>; Wed, 7 May 2025 21:24:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=Yr3o+GPqvA0++Om8f862Y7z+
- HVP6SVMxvLd+HrwRncU=; b=MAAqfIMxuHYJYdUYpVdHhZJCUZLtl55kOtK1QEhk
- mFb7plCZbr/aiP15YAaRJ6VohldJ5PCA0vbc8LL0z1q/COgSe4q+erJdB3Th3i34
- jmhUdCmNc6udYtr9XphCY2pFDTxG7T6dskBDH2va0LB+KW0n0rsnUXX2HGdiMe3q
- GAi1RDCd3K3to0EShdPUFm5gQO7SZEvECXh7Wcy6+7RqXlR/Vz1HJjARnUuiZ6cE
- MiDcmIte5qK1KQhkEcj8ZP2J511sa2UsutB3Q0uCZNEKZcyDoZazRLq+9hmoE7Cr
- QpV2X07IhMUTS5hcJ6+ytSDne0RmpKZmARphcPn97N+QrQ==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46f5wg70d1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 21:24:45 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7c791987cf6so56350685a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 14:24:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746653085; x=1747257885;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Yr3o+GPqvA0++Om8f862Y7z+HVP6SVMxvLd+HrwRncU=;
- b=rbsnub9KGyxba4BMzofkOLaM1w7CfjvQQqrY1iHHLcE/Vf7Al+VE73zACTqNqcJnp/
- PGXyZQlpaqvTCpWftQ/dkfRT1ssr0Ff6RXNxPeoa532gaFadXeBXURSGktam6Ku8E8W1
- qYLaOqq1Akq0/JhGkPQW8U2GSx7ZoGqnOhOsnmxdARVXa2J/nYbdVjg249D3AsJmGfGy
- 9XgyyhcAj5MXU3jhYIB00Lmr/vb5u8WU+y8QnclZNxsqZW9sI2o3wpj6yUCSaIz/wFYU
- zDRWPog2ACKLSFX4uEJ4HUqgJeuJctY8nR0OGwdd7wrKzVHkAaIHUlFX3+BlyCGpr2tG
- ghNQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9XKj74oSc/xCTRdcJclHn8tSa+TaWRwRbqmUZnTnd/sRluDBkB6USbtEQPn41ikDyofccXJDVcOU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx5SRbrkmliIstX2vj6pb7e/O3l3oc+8/MBLbpJRBGOih5xKSB2
- qqOgm3BmyQIqr6PYFbQm43FAtAnRGWu6wSS3F1MR1EVZ5pnsT5KUfNEOkoh9alx231cYdRJBdTD
- NpQl/aQoEUhfj0vN6HliN0F1YcsMWgnfbd4pmJlT3M3AqhBPFP+l+1qe+yQV8OJn4lAA=
-X-Gm-Gg: ASbGncsHooUDZJ/qwg/L5D3e0fGVDv9bLiCse5fg98Ua9WKM33GuE5N8R4I2ThZ/z55
- 7UPiQ4EyUtEoZ93oMQVK7qZMaPabpY+Wn1kM2NFVxowYHZyDihDLi7UlLXYlKqkFYkS3jMFOsB3
- j4GXZqFx1D5Za+bE/20/TZyKJxUineKtNd+nRxAuiUFR+R46IOHqFutEd5+VjRBt0hADLPYkYNF
- QcP8lSto2mIW5/nzzaNRzBisiz6sUXe7eIotkHcwNswsYd9Vo7YOSYWvTiY+G7k/4pNRruSCX5I
- l0cSQ68qXOKww061Nc3PGeGkekz1I+nSNxu0xeZu03kfIArP3MDwAIdlpPB7AoS4D/gGwpbPJG8
- =
-X-Received: by 2002:a05:620a:408a:b0:7c5:dccb:fceb with SMTP id
- af79cd13be357-7ccf9ea54b5mr141179485a.56.1746653084969; 
- Wed, 07 May 2025 14:24:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGV+4FNkfuTlk4HKwK7ViJWDaszxk32pmkR7zSWKKmrIlnWNomLRPlCCNIKifiYiqB/AQHVsA==
-X-Received: by 2002:a05:620a:408a:b0:7c5:dccb:fceb with SMTP id
- af79cd13be357-7ccf9ea54b5mr141174785a.56.1746653084505; 
- Wed, 07 May 2025 14:24:44 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3202ad90896sm23728941fa.101.2025.05.07.14.24.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 May 2025 14:24:43 -0700 (PDT)
-Date: Thu, 8 May 2025 00:24:41 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH] drm/msm: mdss: use devres version of interface to
- populate children devices
-Message-ID: <xmpb6zrbnx2jcfjthkafj6viptkugowo7qdfxlg7vdfh3mqlua@2tcbsd4f3dtv>
-References: <20250507193538.2140862-1-vladimir.zapolskiy@linaro.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93D7710E1C7;
+ Wed,  7 May 2025 21:38:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1746653915; x=1778189915;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=fKhc3Ry7nlO65Rz5YbGMgsyLDmcr92/Tt94agkDRQsI=;
+ b=lJNLBinfYDKDMzoxeWm8hxoiuOhJX/EieLyHRG8jGF263biRO5Y/3f0o
+ ED7/lN3kY7CMfCMdFtNeFFMa2jgs7eys7C6jIXb/cxnH01vm4lAN40Q7w
+ Y3idF7cmzwiVM2q7RaVaRp5xz7k2gjJsN74kTmNfURQjXZjgw9npqRPfU
+ 1QPK1I/7MA0fY2E8ALNuNn049fRrHymj3Awo+PtXNow4uESTG27ULF/Vt
+ n5NM7jY9mcfT0D0gPwe8IbsmOBqu1jw48KK/ZNmSrk/+HhyOfSKzVL7jB
+ kuyV/WI7tlBI7hFyeLcKpnwuMAO/+GoOupzjZsikvBDmARdxO6GAaJsZL g==;
+X-CSE-ConnectionGUID: w+k9HqzTRQeTzjFuP+BWEw==
+X-CSE-MsgGUID: 9UC3LCc8S1KAOlGEORxqoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48425874"
+X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; d="scan'208";a="48425874"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2025 14:38:35 -0700
+X-CSE-ConnectionGUID: OM2hDFc2S+26/8CGlYcMLQ==
+X-CSE-MsgGUID: +hR+7P2+TtmynfH7HDhdsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; d="scan'208";a="137083291"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2025 14:38:32 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 7 May 2025 14:38:32 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Wed, 7 May 2025 14:38:32 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 7 May 2025 14:38:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n8sRv6xhrMrZH4f/XLm+csXvO9ougqEe3hUBuRWQmvM/+207AIlGPdUJNyIQ/S8GCx87WxZhXGW6Wz30JqrBmyZrGjtgSeB7YzjpjEzFA6YH1NlBvMD5E3dqyRJMOdfJNxJWcqPjC1YMMd4wz/m3FX7trqkDbuHPTPoWlVst9rkNGEd45QLvI/enWvlvJ5NaKamJshaX9qqgqlXBU19eDSG5FGBWE5JVGsWFhAmb5EanFiyCYAOzj0JEkuwsl/jc6M8s6EtTALfPts8XBGrzEjdxGUf2TyEpaCNimg1ldhm3zRVkBt/KwHFXNu+yZfcH3/2+q5XaUHCwiVpWN/pw4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Pomhwbk9SQ3pPFNJ+aiPQuU16GMrOZ+p37izbik4lLE=;
+ b=bm4NmGm/v98+zB33y7cLIUwbs/W7u1OtkrB9hZUgSx1YDR173+zQyeKmqsAe1jNKkYWgoqiIq9dH55g7B3rmfiUAeXODZqs9bHTGlJlOFEzx5M+LxhsAXTWRUpKFnl7FQu/69Un9hQxxomdbxXERwVlYW5bFY+/6vhrE+yvAtiWdnPCce3IrsPYRQ1vZcchHqqjalid8Rat63fAIMMICCQR/iMjtBTBNucEnhG9/DT9w9jI+RI8zvBn4E4JdUVCCQY47rxDT1vT7PzJSxCoW9QX0DoXMusa1QA1FhADuayGGrk2nhldkVLmy27grfJgJK832pDu60BjA95evGa08yQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB7605.namprd11.prod.outlook.com (2603:10b6:510:277::5)
+ by PH0PR11MB7543.namprd11.prod.outlook.com (2603:10b6:510:26c::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Wed, 7 May
+ 2025 21:38:29 +0000
+Received: from PH7PR11MB7605.namprd11.prod.outlook.com
+ ([fe80::d720:25db:67bb:6f50]) by PH7PR11MB7605.namprd11.prod.outlook.com
+ ([fe80::d720:25db:67bb:6f50%6]) with mapi id 15.20.8699.012; Wed, 7 May 2025
+ 21:38:28 +0000
+Message-ID: <8a5be8fc-a624-4bf9-926c-c7317f966717@intel.com>
+Date: Wed, 7 May 2025 14:38:29 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 3/9] drm/xe/late_bind_fw: Introducing late_bind_fw
+To: Badal Nilawar <badal.nilawar@intel.com>, <intel-xe@lists.freedesktop.org>, 
+ <dri-devel@lists.freedesktop.org>
+CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
+ <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>
+References: <20250429160956.1014376-1-badal.nilawar@intel.com>
+ <20250429160956.1014376-4-badal.nilawar@intel.com>
+Content-Language: en-US
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+In-Reply-To: <20250429160956.1014376-4-badal.nilawar@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ2PR07CA0019.namprd07.prod.outlook.com
+ (2603:10b6:a03:505::21) To PH7PR11MB7605.namprd11.prod.outlook.com
+ (2603:10b6:510:277::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250507193538.2140862-1-vladimir.zapolskiy@linaro.org>
-X-Proofpoint-ORIG-GUID: ZBK-B6sIFpq-v8sVP6po3Lcg-7gCAPs1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDE5NyBTYWx0ZWRfX+SfHm6ir2ON1
- sFtRuV+qyirVu8V6a9Z3cMW0vG1x+wBzVEgMPpdrLfIhxul2Z1VmIdQ3VEYJ5xb+qU23vTyU9F6
- lTg5U6KurSbouhFOmt56mXadQ/TTGMHn6EwnPW3/ZBS1l+PY3QxDxgxY3Ry6gvSawJ9/5iKnqrc
- l9iw/iVsKn9KeMgKxVoSixYwEgqo1jKgDMDxjki5fbssZZYXO9xwyz6USIY+1siyWvc99vjmB4Z
- X16v4jxuTsJ1519scjnLl6tkvFIEIMhPLmUVTvyFAHLlf21iU2+6QlfhbQ4Z2kiGsnFbej3pOcP
- bC4iO0rn0kT8ym0vwnWNXh7t4ATqHf+uFFD6NCKgQzSUrOCKt6smHZ4kZeLUUnBmnDllAFMJ6rw
- HPqAEvybNETTt+EwIU5DxXRHuGimtjVKVnE15bxfWdpTxcf0cqDPKHWu3EQjcvpNdpfp+Xbj
-X-Authority-Analysis: v=2.4 cv=dPemmPZb c=1 sm=1 tr=0 ts=681bcf9d cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8 a=-t1pgZ-jyF7rHdee9YQA:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: ZBK-B6sIFpq-v8sVP6po3Lcg-7gCAPs1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-07_07,2025-05-07_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501 impostorscore=0
- suspectscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0
- mlxscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505070197
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7605:EE_|PH0PR11MB7543:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72a0de57-b0b5-4907-ad25-08dd8daf8152
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UVhFa1ZRU0htZjJwaFhZVTJHV1h0UXhsTytuS1FKSHBNbHIwNU4yMGs4QWpi?=
+ =?utf-8?B?ZzFMeW1ZYkdOR1ZTNHYwUXBKclNKT0Y2eU5uMTExb2lQZmF5bi82WDJuSEpm?=
+ =?utf-8?B?S2czMUZaSG1Fc1VmZm1ycW5zWEZSUHlLYjB1Y3RwNXdxdHlwcm9vSDZNQXQz?=
+ =?utf-8?B?M25XTGMyMnNKRWU5QVRWS1hNRm9nZjhNZTM1VFM5d1lacFRaKzNtZDJxWmxi?=
+ =?utf-8?B?VjY4SE9vMWFTY0o2YUdBOE1oV3ZwNmQ1eExDNFQyY3ZOUGtVbG5uTGRZSWg3?=
+ =?utf-8?B?eWxHTWpYTUVkQU4xMHpROU9wZXN5MEhxMWl5akNFbUdDRU95WkZNYzZ5ZU9a?=
+ =?utf-8?B?QzNFOGNLcGRwTnB0aGphREpuekhleWpmOWJ6emhIY1dKL2hrUEViaEVLQkcx?=
+ =?utf-8?B?UXBxcVQ3K0VXajNGdGhyVERhUzRIVVN0NTI5UkdING84WmV1VkJRdm9tc3Ns?=
+ =?utf-8?B?Tm50ZVJFNVJEQWhDdmh4QmlvYjlXYXhzQmJpWDVLTktucW9NZjdHK3hiTHZQ?=
+ =?utf-8?B?cEYzbVJVTXRJa0ZtbDVIMFRSUmZOdkg3NnBuMUNyK2ZKVEhKTThUQmdSWVFm?=
+ =?utf-8?B?cEFaSWcrVzVRQ25NY0tTdFluMGF1ZC82bGsvS0w3RDl0SnNoZThUTS9qZy9L?=
+ =?utf-8?B?ZEM1Nk5HdDltVTgxcEhMTTAxN0p2cTlna3Flalh3WnRQNW8rTjcraWQveXFD?=
+ =?utf-8?B?blZpc2VVdzlTam1LME5jUUFtVS82RlZYWnhOSWQ3T2RYblJTMmVDOVMyY2x1?=
+ =?utf-8?B?TGp2MUZUSjF5bkllc3RnR1pqc0xMQ1YxbjNLSGdmYUxQbmF5SnBOWFY2YTk5?=
+ =?utf-8?B?dlFwSVZvMUhzalNIQUlrcUZwbWg4RFhJbVFHbWowNzhmUVlSSlV6aVduejRD?=
+ =?utf-8?B?aVB1Z3hTUmM4R044WGQySmFyTlZ5YmtXZXFVV1JZc3k3SnVyZDFMMmkvVW82?=
+ =?utf-8?B?MzloNWNtVFhuUkpOY3crTm5rR0JTUG5Kem9jT2JEbUEySHgxdUROZzZCVzJj?=
+ =?utf-8?B?Y3h6UkVpSEFIOWduVWlIbllHWEo1b09OdmVTWGxhaXJhYmtzK3R2R0d5dGFu?=
+ =?utf-8?B?YzJZZ3B2eHl6QXJLWHBxMDBhS1FBK3BtdlFsYUc4MEROeFVScU5ZNnBuMEhZ?=
+ =?utf-8?B?NWhlQUZCMzhBZ0w4TFFKalcxeHZsalRvNGhJOFhqZGlGSmN4RTMzbEc1LzVy?=
+ =?utf-8?B?MDBJSUNKdUxpbHBncWltQkRiZHZOcFJFZWFiRG16SzlzTGovb0JwTlhMUjlt?=
+ =?utf-8?B?K1ZMbFc1cEIyOExxODBEbDFtd2pJcFh6OEFoWkVKRFZsckpoeXBDb3lURXE1?=
+ =?utf-8?B?OVRPamMrMVI1bkJDR2lRQ3FRSHBGd3M3ZjRuQ05jQ2R4RzVtSWNFWWVRWjlu?=
+ =?utf-8?B?MFpKcU9hVXk0aHB4ajBteUpvcU43T2lMaUlxTDd3ZkRtQmltVU5uWEYyMXZU?=
+ =?utf-8?B?SE1CYllYSEFWUlcrKzc0UThTNGZiT29pSzIrcENFK3RVOFk5b1N3dTZYUHhH?=
+ =?utf-8?B?dWRGU0FMQU0zbDB0dW1NandNVUQ1Yk55ZkVwS25ncFhmeHpudjB5UmJGK21H?=
+ =?utf-8?B?VDYyTDFXMjVQK1l2cG5XbTgyTVVUOTBER1dTZkRKRWRUaUt1OWhaQWhDSHdk?=
+ =?utf-8?B?VVRNNnZ1bVRGTGJYLzM5NlBwaktkVE13Yi9hdkZVby84eFlPWGFySHo1Y2VQ?=
+ =?utf-8?B?UUlYVCs0dHpzNlBuU0tEbVN6SmZnZDlwMDMrMFhpZU9PR2FHVFVXU053aVBw?=
+ =?utf-8?B?Sjh3Tk5XVlREeE5EVlkrd2J2QUVZR200ZmtPMUhib2I4NXoxZHJ6cTZpQ2kw?=
+ =?utf-8?B?SjF1LzM3YjBONnBZTk5aMGUzZkZDVXVTNTdrdzJSUGV5NHd4WENTYTJtVXNx?=
+ =?utf-8?B?MlJCYVFVcE5rckRyTFZydFZldTlxYnJJd1RyTUx3dmhwMFE9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB7605.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NkdCUVpSZTBWc2J6blp3aUMrM2dKczN3N1BHamYvaGRUeEo0bEZUeGcyZjl0?=
+ =?utf-8?B?cGJzQ0Fwc2x5QnAxNVRmMit1VG5ja1lwWTVKWmk3c1RISlBpb1RXcHJick9r?=
+ =?utf-8?B?ai8zZ3NLeXllNkQ5VHJXVEZrNnphQWMvZ0hiUmZlRGhzQVJYbFVrdnlPYjRK?=
+ =?utf-8?B?aEw0aWVWbVFEMCs0Ym5vcHdoS3F3aFVpUmtNVjZrY2ErV3hlSE1jdXZNQWFq?=
+ =?utf-8?B?dkoramdQb0t5RUkxbnVnQ2QvNGxwVjE2WEtFWVczOHcrOHArTVZpdmJxSWV2?=
+ =?utf-8?B?ZHVhRVpta0NNRlFSSEIyaUJvOVBJOFhmTGFZN3c5UTlDdjFGWEVqNGFoVHBG?=
+ =?utf-8?B?ZWx4a3JaQXBCTUx0ckF0OGplUGVYRXI5VCs5ZzZmU29CbDJqSFhQU1NqMWow?=
+ =?utf-8?B?L3Z6Z1pQWGJ3ZzB1K09ieEt3RXhLZm92cVc3SXZ6aXBkWENZOUdKb0RTZkRi?=
+ =?utf-8?B?RE9lZ1RtQktPKzdNTU5jMVBVQ1NZMHg1V1ZqOVlPWE9OY04zUHRML29nc0Mv?=
+ =?utf-8?B?SWk3MTRFL3ZNN2wvNWkwMk5jZFpMR0pPT3VPK3I4eFJzZW1lVVhSaWpWUlJy?=
+ =?utf-8?B?S2gvcFVRSEtkTEF6V3FINDMvMFVjOVltcDRNREFnWmtFMWRML2dJcENUZEdy?=
+ =?utf-8?B?NFhRWUdXV1RYcjJYcGpGLzl1TGtOcHQ2ckMrb3NmU2w2RFFxMVJ1QlZPdS9y?=
+ =?utf-8?B?RUNiMU1malNJOGJmeFQzbDQ3UGM1UlY1Nk5pbTYxSFhtMDcxaVVUakNndVJF?=
+ =?utf-8?B?THVNUjNxaURWcHdjZHdpV0lrRXlEN1J1blh2a1pnYXBKaXUxUWVXRUc1WnB5?=
+ =?utf-8?B?cmZjUENwV1ozSkUwZXQyeTh6czBMMDdiZWVZdlpneWNWWE5DckRWbGttTE02?=
+ =?utf-8?B?ZmFHUStNL1BZVUgwdVdJTENWcEZ1U05vaWljMndHT3pOTCszS2QrR0xPVHdm?=
+ =?utf-8?B?WUV6Nys4WllSMXM2VkdxNHFIam9BY0lGb2kxb1ZUSEpyb1A2WjRUM3QyL3F1?=
+ =?utf-8?B?cnhQS01jR1BCT1ByNmU3UTVteFl1TUQzbVRoelNCd2NNeTJQekJhSmxxbHB1?=
+ =?utf-8?B?SnVyQm1YbWhpNmlmcWFhdnE2UEhwVGszU2VQdE1hcjR5RUl3L1NoMzFxeERM?=
+ =?utf-8?B?OVVsa2lxQ3pQRjBqT3o4QVpuQ1lhVEJoTmJZK3gvNDFnK0pXZUhBWENKdGU5?=
+ =?utf-8?B?ajQ5QUFEY2grZXVRdjAxYXlhZGtNK0FXVitWOU9MS0Z5NHZwTGV1SzVFZ29Z?=
+ =?utf-8?B?cVpKWnMwalhjRCsxZE00SW1uay83dlN6L0RueVVDQ1BrN3hYbHRxa0pCUEhF?=
+ =?utf-8?B?empLL3EyaEhZeWJ3WlhlT2J0UDNobG9NZGpkVGNBMEl2TDVpa1FjWVZEL1la?=
+ =?utf-8?B?QUdRTDNkaFFlV0I4Z2RPV2tsUUhnZEZvSTlZblFRY3pzUFRRSFR1T1RSQW5h?=
+ =?utf-8?B?WUp4OFdQamhsZ3hrcmMyazUvR2tEZVlHWEs4YzVUeUFvSWJtcFNxR2Vab2xH?=
+ =?utf-8?B?b20vc3lpb2FsR3RieThhSVVVNHlNS3d0OVEzeitkRUZWNVdJV255OEtzMzRl?=
+ =?utf-8?B?L1hVUlFkQloyeHlNSjFhazB2OHlXaElWTG5WbnVxQmozc0Z5dExGQlczdUVO?=
+ =?utf-8?B?clNpR0tiZ3MwL3pKR0ZyU0doR2l1dkV3Szdpc2NLTFVIcmFaYW9wZUZnQ1Vu?=
+ =?utf-8?B?VnNKVnRqSWxCVG5GbGEzbHBLQldMT2wvYWpyZHcydHdzMEpSTWQ4dEF4SUVV?=
+ =?utf-8?B?QkpTMWZJYkJ2bHNtdkFPZDVXKy9BQ1BjRkVnelkyWXlaOStTRkVIUVdtSXZa?=
+ =?utf-8?B?dXh3U0lDUThmZCtYVS9Dd0pld3RXRGhIZGhjV1dHK21VUkxpbnh1QUdBNEFS?=
+ =?utf-8?B?ZEhmTjN5bFJGWlVTV3N4bTdVYVNwMmVLd0RYRTdoOUw4d0xHY0piSmZ0dTUr?=
+ =?utf-8?B?OU8vYlRCNWtFNE1rU3JkYlY1Ujh6YVdQdGk4WEdFQ3htRG0yNUJPNU9rVXVo?=
+ =?utf-8?B?bnJQVUVhQ29RQ2VpVHhFUmtsUDJ5aE9RaUxsSHU3bmlBM1ZhdFQrSjkzV2dw?=
+ =?utf-8?B?d1lBaUFzUkN3YVVBTHU5QzQzMTBZMmh3MEVCeTZDem93RU1nczc4Y3k0eDRQ?=
+ =?utf-8?B?eFVnTDBrUFZVN3lIaDFoMFN6UDNhelFnNHZGN3pJWjg4cDJtNkUxVFFqTUh1?=
+ =?utf-8?Q?zJ4C0pRTCrY46zvUTpUkGUk=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72a0de57-b0b5-4907-ad25-08dd8daf8152
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7605.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2025 21:38:28.6924 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QsCpXS6o39HpYGWH7+wtDSuAvf7l9fr2vVv/P3vYg2T0q4pGKY8p+1hC08GbCYkO9mK/XzxoIEbs0cC4ACyAtbiCvTYyQ6xbQgDkzAWtY7c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7543
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,46 +197,368 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 07, 2025 at 10:35:38PM +0300, Vladimir Zapolskiy wrote:
-> Trivial change, there is a managed device resource version of
-> of_platform_populate(), and its usage simplifies the code a bit.
-> 
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+
+
+On 4/29/2025 9:09 AM, Badal Nilawar wrote:
+> Introducing late_bind_fw to enable firmware loading for the devices,
+> such as the fan controller and voltage regulator, during the driver probe.
+> Typically, firmware for these devices are part of IFWI flash image but
+> can be replaced at probe after OEM tuning.
+
+This description does not fully match what's happening in the patch, as 
+the main thing happening is the addition of the mei component.
+
+>
+> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 > ---
->  drivers/gpu/drm/msm/msm_mdss.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> index dcb49fd30402..116e8f93f8c8 100644
-> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> @@ -550,7 +550,7 @@ static int mdss_probe(struct platform_device *pdev)
->  	 * Populate the children devices, find the MDP5/DPU node, and then add
->  	 * the interfaces to our components list.
->  	 */
-> -	ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
-> +	ret = devm_of_platform_populate(dev);
->  	if (ret) {
->  		DRM_DEV_ERROR(dev, "failed to populate children devices\n");
->  		msm_mdss_destroy(mdss);
-> @@ -564,8 +564,6 @@ static void mdss_remove(struct platform_device *pdev)
->  {
->  	struct msm_mdss *mdss = platform_get_drvdata(pdev);
->  
-> -	of_platform_depopulate(&pdev->dev);
-> -
->  	msm_mdss_destroy(mdss);
+>   drivers/gpu/drm/xe/Kconfig                 |   1 +
+>   drivers/gpu/drm/xe/Makefile                |   1 +
+>   drivers/gpu/drm/xe/xe_device.c             |   3 +
+>   drivers/gpu/drm/xe/xe_device_types.h       |   4 +
+>   drivers/gpu/drm/xe/xe_late_bind_fw.c       | 104 +++++++++++++++++++++
+>   drivers/gpu/drm/xe/xe_late_bind_fw.h       |  16 ++++
+>   drivers/gpu/drm/xe/xe_late_bind_fw_types.h |  95 +++++++++++++++++++
+>   7 files changed, 224 insertions(+)
+>   create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw.c
+>   create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw.h
+>   create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw_types.h
+>
+> diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
+> index 9bce047901b2..a8cc1876a24f 100644
+> --- a/drivers/gpu/drm/xe/Kconfig
+> +++ b/drivers/gpu/drm/xe/Kconfig
+> @@ -44,6 +44,7 @@ config DRM_XE
+>   	select WANT_DEV_COREDUMP
+>   	select AUXILIARY_BUS
+>   	select HMM_MIRROR
+> +	select INTEL_MEI_LATE_BIND
 
-Unfortunately this means that the child devices will still exist after
-destroying the MDSS (IRQ domain, etc). So, it seems it can not land as
-is.
+I'm not sure this is enough to guarantee that late bind will work. This 
+selects the component, but the MEI_GSC child driver also needs to be 
+built for the component to bind into it on dGPU. We can't select 
+INTEL_MEI_GSC from here because that depends on the graphics driver, so 
+we'd go circular. For other components (PXP, HDCP, SW proxy) what we did 
+was notify the distros that they needed to enable the new config for the 
+feature to work instead of selecting it from the Kconfig.
 
->  }
->  
-> -- 
-> 2.45.2
-> 
+>   	help
+>   	  Experimental driver for Intel Xe series GPUs
+>   
+> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+> index c5d6681645ed..6de291a21965 100644
+> --- a/drivers/gpu/drm/xe/Makefile
+> +++ b/drivers/gpu/drm/xe/Makefile
+> @@ -76,6 +76,7 @@ xe-y += xe_bb.o \
+>   	xe_hw_fence.o \
+>   	xe_irq.o \
+>   	xe_lrc.o \
+> +	xe_late_bind_fw.o \
+>   	xe_migrate.o \
+>   	xe_mmio.o \
+>   	xe_mocs.o \
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index 75e753e0a682..86a7b7065122 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -42,6 +42,7 @@
+>   #include "xe_hw_engine_group.h"
+>   #include "xe_hwmon.h"
+>   #include "xe_irq.h"
+> +#include "xe_late_bind_fw.h"
+>   #include "xe_memirq.h"
+>   #include "xe_mmio.h"
+>   #include "xe_module.h"
+> @@ -889,6 +890,8 @@ int xe_device_probe(struct xe_device *xe)
+>   	if (err)
+>   		return err;
+>   
+> +	xe_late_bind_init(&xe->late_bind);
+> +
+>   	err = xe_oa_init(xe);
+>   	if (err)
+>   		return err;
+> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+> index 495bc00ebed4..57b63cc9b8ac 100644
+> --- a/drivers/gpu/drm/xe/xe_device_types.h
+> +++ b/drivers/gpu/drm/xe/xe_device_types.h
+> @@ -16,6 +16,7 @@
+>   #include "xe_devcoredump_types.h"
+>   #include "xe_heci_gsc.h"
+>   #include "xe_lmtt_types.h"
+> +#include "xe_late_bind_fw_types.h"
+>   #include "xe_memirq_types.h"
+>   #include "xe_oa_types.h"
+>   #include "xe_platform_types.h"
+> @@ -543,6 +544,9 @@ struct xe_device {
+>   	/** @heci_gsc: graphics security controller */
+>   	struct xe_heci_gsc heci_gsc;
+>   
+> +	/** @late_bind: xe mei late bind interface */
+> +	struct xe_late_bind late_bind;
+> +
+>   	/** @oa: oa observation subsystem */
+>   	struct xe_oa oa;
+>   
+> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c b/drivers/gpu/drm/xe/xe_late_bind_fw.c
+> new file mode 100644
+> index 000000000000..7981fc500a78
+> --- /dev/null
+> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
+> @@ -0,0 +1,104 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2024 Intel Corporation
 
--- 
-With best wishes
-Dmitry
+2025?
+
+> + */
+> +
+> +#include <linux/component.h>
+> +#include <linux/delay.h>
+> +
+> +#include <drm/drm_managed.h>
+> +#include <drm/intel/i915_component.h>
+> +#include <drm/intel/xe_late_bind_mei_interface.h>
+> +#include <drm/drm_print.h>
+> +
+> +#include "xe_device.h"
+> +#include "xe_late_bind_fw.h"
+> +
+> +static struct xe_device *
+> +late_bind_to_xe(struct xe_late_bind *late_bind)
+> +{
+> +	return container_of(late_bind, struct xe_device, late_bind);
+> +}
+> +
+> +static int xe_late_bind_component_bind(struct device *xe_kdev,
+> +				       struct device *mei_kdev, void *data)
+> +{
+> +	struct xe_device *xe = kdev_to_xe_device(xe_kdev);
+> +	struct xe_late_bind *late_bind = &xe->late_bind;
+> +	struct xe_late_bind_component *component;
+> +
+> +	component = drmm_kzalloc(&xe->drm, sizeof(*component), GFP_KERNEL);
+
+The component is unbound and re-bound on every suspend/resume, so if you 
+do allocs in the bind function without freeing them in the unbind you'll 
+keep the old allocations around. Why do you need this to be dynamically 
+allocated to begin with?
+
+> +
+> +	mutex_lock(&late_bind->mutex);
+> +	component->mei_dev = mei_kdev;
+> +	component->ops = data;
+> +	mutex_unlock(&late_bind->mutex);
+
+This is a local variable right now, so locking around it doesn't do 
+anything.
+
+> +
+> +	late_bind->component = component;
+
+This assignment instead you might want to protect.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static void xe_late_bind_component_unbind(struct device *xe_kdev,
+> +					  struct device *mei_kdev, void *data)
+> +{
+> +	struct xe_device *xe = kdev_to_xe_device(xe_kdev);
+> +	struct xe_late_bind *late_bind = &xe->late_bind;
+> +
+> +	mutex_lock(&late_bind->mutex);
+> +	late_bind->component = NULL;
+> +	mutex_unlock(&late_bind->mutex);
+> +}
+> +
+> +static const struct component_ops xe_late_bind_component_ops = {
+> +	.bind   = xe_late_bind_component_bind,
+> +	.unbind = xe_late_bind_component_unbind,
+> +};
+> +
+> +/**
+> + * xe_late_bind_init() - add xe mei late binding component
+> + *
+> + * Return: 0 if the initialization was successful, a negative errno otherwise.
+> + */
+> +int xe_late_bind_init(struct xe_late_bind *late_bind)
+> +{
+> +	struct xe_device *xe = late_bind_to_xe(late_bind);
+> +	int err;
+> +
+> +	if (xe->info.platform != XE_BATTLEMAGE)
+> +		return 0;
+> +
+> +	mutex_init(&late_bind->mutex);
+> +
+> +	if (!IS_ENABLED(CONFIG_INTEL_MEI_LATE_BIND)) {
+
+also need INTEL_MEI_GSC for BMG as mentioned above
+
+> +		drm_info(&xe->drm, "Can't init xe mei late bind missing mei component\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	err = component_add_typed(xe->drm.dev, &xe_late_bind_component_ops,
+> +				  I915_COMPONENT_LATE_BIND);
+> +	if (err < 0) {
+> +		drm_info(&xe->drm, "Failed to add mei late bind component (%pe)\n", ERR_PTR(err));
+> +		return err;
+> +	}
+> +
+> +	late_bind->component_added = true;
+> +
+> +	/* the component must be removed before unload, so can't use drmm for cleanup */
+
+this has now changed (see 8e1ddfada453 ("drivers: base: devres: Allow to 
+release group on device release") ), so you can use a devm action here.
+
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * xe_late_bind_remove() - remove the xe mei late binding component
+> + */
+> +void xe_late_bind_remove(struct xe_late_bind *late_bind)
+> +{
+> +	struct xe_device *xe = late_bind_to_xe(late_bind);
+> +
+> +	if (!late_bind->component_added)
+> +		return;
+> +
+> +	component_del(xe->drm.dev, &xe_late_bind_component_ops);
+> +	late_bind->component_added = false;
+> +}
+> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.h b/drivers/gpu/drm/xe/xe_late_bind_fw.h
+> new file mode 100644
+> index 000000000000..21299de54b47
+> --- /dev/null
+> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.h
+> @@ -0,0 +1,16 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2025 Intel Corporation
+> + */
+> +
+> +#ifndef _XE_LATE_BIND_FW_H_
+> +#define _XE_LATE_BIND_FW_H_
+> +
+> +#include <linux/types.h>
+> +
+> +struct xe_late_bind;
+> +
+> +int xe_late_bind_init(struct xe_late_bind *late_bind);
+> +void xe_late_bind_remove(struct xe_late_bind *late_bind);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
+> new file mode 100644
+> index 000000000000..ea11061ce556
+> --- /dev/null
+> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
+> @@ -0,0 +1,95 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2025 Intel Corporation
+> + */
+> +
+> +#ifndef _XE_MEI_LATE_BIND_TYPES_H_
+> +#define _XE_MEI_LATE_BIND_TYPES_H_
+> +
+> +#include <linux/iosys-map.h>
+> +#include <linux/mutex.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/types.h>
+> +#include <linux/workqueue.h>
+> +
+> +#define MAX_PAYLOAD_SIZE (1024 * 4)
+> +
+> +struct xe_bo;
+> +struct xe_late_bind_component;
+> +
+> +/**
+> + * xe_late_bind_fw_type - enum to determine late binding fw type
+> + */
+> +enum xe_late_bind_type {
+> +	CSC_LATE_BINDING_TYPE_FAN_CONTROL = 1,
+> +	CSC_LATE_BINDING_TYPE_VOLTAGE_REGULATOR
+> +};
+> +
+> +/**
+> + * Late Binding flags
+> + */
+> +enum csc_late_binding_flags {
+> +	/** Persistent across warm reset */
+> +	CSC_LATE_BINDING_FLAGS_IS_PERSISTENT = 0x1
+> +};
+> +
+> +/**
+> + * xe_late_bind_fw_id - enum to determine late binding fw index
+> + */
+> +enum xe_late_bind_fw_id {
+> +	FAN_CONTROL_ID = 0,
+> +	VOLTAGE_REGULATOR_ID,
+> +	MAX_ID
+> +};
+> +
+> +/**
+> + * struct xe_late_bind_fw
+> + */
+> +struct xe_late_bind_fw {
+> +	/** @late_bind_fw.valid */
+> +	bool valid;
+> +
+> +	/** @late_bind_fw.id */
+> +	u32 id;
+> +
+> +	/** @late_bind_fw.blob_path: late binding fw blob path */
+> +	char blob_path[PATH_MAX];
+> +
+> +	/** @late_bind_fw.type */
+> +	u32  type;
+> +
+> +	/** @late_bind_fw.type */
+> +	u32  flags;
+> +
+> +	/** @late_bind_fw.payload: to store the late binding blob */
+> +	u8  payload[MAX_PAYLOAD_SIZE];
+> +
+> +	/** @late_bind_fw.payload_size: late binding blob payload_size */
+> +	size_t payload_size;
+> +
+> +	/** @late_bind_fw.work: worker to upload latebind blob */
+> +	struct work_struct work;
+> +};
+> +
+> +/**
+> + * struct xe_late_bind
+> + */
+> +struct xe_late_bind {
+> +	/** @late_bind.component: struct for communication with mei component */
+> +	struct xe_late_bind_component *component;
+> +
+> +	/** @late_bind.component_added: whether the component has been added */
+> +	bool component_added;
+> +
+> +	/** @late_bind.wq: workqueue to submit request to download late bind blob */
+> +	struct workqueue_struct *wq;
+> +
+> +	/** @late_bind.mutex: protects the component binding and usage */
+> +	struct mutex mutex;
+> +
+> +	/** @late_bind.late_bind_fw: late binding firmwares */
+> +	struct xe_late_bind_fw late_bind_fw[MAX_ID];
+> +
+> +};
+> +
+
+A lot of the variables/enums in this file are unused in this patch. Can 
+you move the additions to the patch in which they're actually used?
+
+Daniele
+
+> +#endif
+
