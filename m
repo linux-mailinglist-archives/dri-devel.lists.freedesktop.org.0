@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604DDAAE184
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 15:54:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA593AAE183
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 15:54:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4095910E7EB;
-	Wed,  7 May 2025 13:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F324710E7E7;
+	Wed,  7 May 2025 13:54:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BO048B37";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cpqDxWam";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
  [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AA1D10E7E7
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 13:54:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16E5B10E7E7
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 13:54:40 +0000 (UTC)
 Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-43cf848528aso52888845e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 06:54:39 -0700 (PDT)
+ 5b1f17b1804b1-43edecbfb46so40368875e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 06:54:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1746626078; x=1747230878; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4CLDDw3iRecFGyTKD2O7T3Am46FTDBUmOiKBnmX0j90=;
- b=BO048B37lXA5jT3p0CXxYTZSrXkL+jBjPb4/Hk8cg39ja+OOeHOgydMXgujy2G2b9A
- YXRce21Dn6XLVzYjt9YM3X8ehJYy8GnU79v3seyuaGzUvcOKBv9MwwSlbg38EJ2T0DDH
- 3bELbZ/JrKpGffSGtFOl9SIvj5P5psbZQxilMD0aYMZ3uBqeJzIg/YqUSJvOBbV/j2u8
- X/u3aUgETZSGXeGb0v5h3Snr+CnxzRwosd31BdEOWpDgS+EMMQxUg0Ci1liACRAusW3z
- lDoZznIw0OEtWchG0IETlSaa2Sp5vsJn1/Qrl/qJ2xm682jyybaTpmooUXXuxIewhSLI
- sK6A==
+ bh=2MkRDDVrUtc0KB2is6UusZZfxeTr1FdTVUC/swDQDIw=;
+ b=cpqDxWamj/bXNa1dSlDTHFcw6LZy8WliSxqyDbQOLVay4CyL+RBd1Ry4P2kCfWfAk5
+ s4OoPfa9b2eS7CHacmVD5aWQqR5ZjWrG3miuNVdDF6k6etmUg6TutOvpuLtewgOa0qgF
+ LTZXooJnnlb3Rb0LzUZ5YCPcXfpFSDVj/9uDInF2j7iGxwMm1YLmz2oiyJU1OekDNpyz
+ 6A0E/4pvP7oyGl6Qph17Lu62sQ6n4WlLPXIW7jjWtzZDab+dEkf98b7JIG2KSIjRB9ai
+ VJLmMfgfgrqmLIM5uA8mKSTRxRGzNk/VEQZmwUcvIXi34omgde9BD86yfLZz7i1GJW/2
+ 6zQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1746626078; x=1747230878;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4CLDDw3iRecFGyTKD2O7T3Am46FTDBUmOiKBnmX0j90=;
- b=RevXebpnv6CtKzjl2TZDlG3lRN+PfP9TattQBjXCZrYnnHCwsi0hnwzW3eoFZo/oAm
- qJQBqZ33kxfDvPG4EkXVLggSlKW4V3ROx8YJ+dfJSZItbOjnErnkvvDJHXeXnsdNnFs3
- 0WPCL3ziOtagLUK/PDpIOv8LHAuBvFMSLWL++gt8MLWftXjK9iHDs7skxaneAsJ6HBsZ
- vM5ZPq74KGFPY8ujB0xpUej6+rCzvuz9vexPIoV9V5LLv8ztUcEaA3d5fCNLlMLDUJ58
- LJc7wXwGq4uBubYZXmhSqwwxbmlG0TNmLx2vtA/y8MQqM0MFfODwkNgxPLqhhHXKJCUn
- 3Sqg==
+ bh=2MkRDDVrUtc0KB2is6UusZZfxeTr1FdTVUC/swDQDIw=;
+ b=MgrlGVswVOX84HJrlcWypZoLK4hhJ7ayikdSN8mXK0KdLkWXa5UQ7g302+PtIFI/9y
+ 3QpmSUwLglJ30Rdb+z4RIariXkUljkblNqFpQonIStjQpreNiYA8j5G24WUIU7x/1y2j
+ 4TXhyxmJAx4ezu3NIjSxnIWU4XRqvAT8k8g+a6SygnJNFS/C8EUMDUoKxN4p3czbQ7Ot
+ Uq04tsdqVGLWLyjgOqMprLxvXwT8wh8qF2bGHsJ6YFNdU3l1DhKstKTrvFCwEIaHsrn5
+ dm8ho1ByP6anvwiCwj6QjOPWHNRPdFU89luYmH/e9PWpb1L9zBYP2G/44VcbTeijiO2x
+ 3sTA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUqEqXInJaFdp0kXnSyjP6+9pS+cuZ+X2sqiTuhKyyPbjGIuxlV+kEdCuf1JZTB+SL+ZjouHKsk2Zg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLBfORBFNIYdrwRYPd2jHq3BfAW97eSEQMlsyRdONA4j/9Aolo
- oeWLxNJ2bVTH/7P3zgHJkU54S8dO0GXPBxkWC/rSsqBJ/1qItGKd
-X-Gm-Gg: ASbGnct48u7SxA6axUBKdLfQfTDabpjdwEnjLGYDisIRQJnI9m31QOpqcfGoqQqakZK
- FtEMlKyqMWWjs7zESEa6M2lr1RLb6JYiHic9wDW3TSHDna+mrfXGocNA/vPjv3JAAaA1spJCwsj
- HmYzHoYAaUy4s2qwHW8YSC4Pehiw+lsf5rfTrwC+byAvoYbEtXEjuT+z+PbWbZR/ym9cPkly2BB
- ++tgEGdFEKplWt+8rKqb6p9DqRMJXZ7Cne8kILX3RYVK/7FT0HEq2F5MPOLtvaWgp5c0lA7t8Cb
- +OEZFQO4ntLocEdEQaCqMYwAWn0iQiVkQczNUdSnnQ==
-X-Google-Smtp-Source: AGHT+IEwVv3Fx75TQ5iAihOC7ukq0rscqGxtB4HeRaI3ouywLzCu+EqsghviNNr75GgBCiVQbdX+Og==
-X-Received: by 2002:a05:600c:3483:b0:43c:f470:7605 with SMTP id
- 5b1f17b1804b1-441d44c36b1mr30636505e9.12.1746626077519; 
- Wed, 07 May 2025 06:54:37 -0700 (PDT)
+ AJvYcCVGIyBaIY54oueW3rLEWWd8s3CYnb/dWuFDb73F2BY6ABldp2gChY7BIUa3VaFxVEAXbH470BK/qSo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQ5ukf+TqCLMj5R8wl85CUuOtqU8ZtA6AB0Iwjfi6DVMHtwnpX
+ dl+I3fbSDqjV0AUEt/x2Xl4csX87DWgb/chg/lW+u6khOYqXjYSj
+X-Gm-Gg: ASbGncu3gv3eXD9FhZ5JgHZSk0KUsuBRf8888maiENXLl5sh37sFqKhkjSs+qlwC0U1
+ 7P3EHiGmucMW846MW3qn/XsyZkUQhcFqjmPHguPD2rTxYywj8MZDnJug7KoX1s/mP3JngumpdhK
+ uv71JiRot5BnynN0SP1GuAZl8e800u233obI19f9cGoG88AEZdGTv0a15RW+XPprEtO+Bab9Dw1
+ nuhydpNYHANQTvzJ9lFVxI7N2a1yEU3EWAeMNA5FpsG3R4rhoS02jdad9gP7pF/uBFiFxf1o4UP
+ eU46saC/sj3OiGpD4JM8YUuUEpfkyXABlE0gv9ck4Q==
+X-Google-Smtp-Source: AGHT+IEX+qrYo9ITH8mXMYtldqCBqVZL/Ke5qyt7rws1ge4wMJ5oq1GeQ0TjMBONGIsGpHvOqOSlpQ==
+X-Received: by 2002:a05:600c:4eca:b0:43d:563:6fef with SMTP id
+ 5b1f17b1804b1-441d44dcd83mr24889185e9.21.1746626078427; 
+ Wed, 07 May 2025 06:54:38 -0700 (PDT)
 Received: from fedora.. ([94.73.35.165]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-442cd32f1eesm1894295e9.9.2025.05.07.06.54.36
+ 5b1f17b1804b1-442cd32f1eesm1894295e9.9.2025.05.07.06.54.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 May 2025 06:54:36 -0700 (PDT)
+ Wed, 07 May 2025 06:54:38 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -67,9 +67,10 @@ Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v5 02/16] drm/vkms: Add and remove VKMS instances via configfs
-Date: Wed,  7 May 2025 15:54:17 +0200
-Message-ID: <20250507135431.53907-3-jose.exposito89@gmail.com>
+Subject: [PATCH v5 03/16] drm/vkms: Allow to configure multiple planes via
+ configfs
+Date: Wed,  7 May 2025 15:54:18 +0200
+Message-ID: <20250507135431.53907-4-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250507135431.53907-1-jose.exposito89@gmail.com>
 References: <20250507135431.53907-1-jose.exposito89@gmail.com>
@@ -93,319 +94,175 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Allow to create, enable, disable and destroy VKMS instances using
-configfs.
-
-For the moment, it is not possible to add pipeline items, so trying to
-enable the device will fail printing an informative error to the log.
+Create a default subgroup at /config/vkms/planes to allow to create as
+many planes as required.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Co-developed-by: José Expósito <jose.exposito89@gmail.com>
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- Documentation/gpu/vkms.rst           |  32 +++++
- drivers/gpu/drm/vkms/Kconfig         |   1 +
- drivers/gpu/drm/vkms/Makefile        |   3 +-
- drivers/gpu/drm/vkms/vkms_configfs.c | 172 +++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_configfs.h |   8 ++
- drivers/gpu/drm/vkms/vkms_drv.c      |   7 ++
- 6 files changed, 222 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
- create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.h
+ Documentation/gpu/vkms.rst           | 16 ++++-
+ drivers/gpu/drm/vkms/vkms_configfs.c | 88 ++++++++++++++++++++++++++++
+ 2 files changed, 103 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index ba04ac7c2167..423bdf86b5b1 100644
+index 423bdf86b5b1..bf23d0da33fe 100644
 --- a/Documentation/gpu/vkms.rst
 +++ b/Documentation/gpu/vkms.rst
-@@ -51,6 +51,38 @@ To disable the driver, use ::
+@@ -71,6 +71,19 @@ By default, the instance is disabled::
+   cat /config/vkms/my-vkms/enabled
+   0
  
-   sudo modprobe -r vkms
++And directories are created for each configurable item of the display pipeline::
++
++  tree /config/vkms/my-vkms
++  ├── enabled
++  └── planes
++
++To add items to the display pipeline, create one or more directories under the
++available paths.
++
++Start by creating one or more planes::
++
++  sudo mkdir /config/vkms/my-vkms/planes/plane0
++
+ Once you are done configuring the VKMS instance, enable it::
  
-+Configuring With Configfs
-+=========================
-+
-+It is possible to create and configure multiple VKMS instances via configfs.
-+
-+Start by mounting configfs and loading VKMS::
-+
-+  sudo mount -t configfs none /config
-+  sudo modprobe vkms
-+
-+Once VKMS is loaded, ``/config/vkms`` is created automatically. Each directory
-+under ``/config/vkms`` represents a VKMS instance, create a new one::
-+
-+  sudo mkdir /config/vkms/my-vkms
-+
-+By default, the instance is disabled::
-+
-+  cat /config/vkms/my-vkms/enabled
-+  0
-+
-+Once you are done configuring the VKMS instance, enable it::
-+
-+  echo "1" | sudo tee /config/vkms/my-vkms/enabled
-+
-+Finally, you can remove the VKMS instance disabling it::
-+
-+  echo "0" | sudo tee /config/vkms/my-vkms/enabled
-+
-+And removing the top level directory::
-+
-+  sudo rmdir /config/vkms/my-vkms
-+
+   echo "1" | sudo tee /config/vkms/my-vkms/enabled
+@@ -79,8 +92,9 @@ Finally, you can remove the VKMS instance disabling it::
+ 
+   echo "0" | sudo tee /config/vkms/my-vkms/enabled
+ 
+-And removing the top level directory::
++And removing the top level directory and its subdirectories::
+ 
++  sudo rmdir /config/vkms/my-vkms/planes/*
+   sudo rmdir /config/vkms/my-vkms
+ 
  Testing With IGT
- ================
- 
-diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
-index 3c02f928ffe6..3977bbb99f7d 100644
---- a/drivers/gpu/drm/vkms/Kconfig
-+++ b/drivers/gpu/drm/vkms/Kconfig
-@@ -7,6 +7,7 @@ config DRM_VKMS
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_SHMEM_HELPER
- 	select CRC32
-+	select CONFIGFS_FS
- 	default n
- 	help
- 	  Virtual Kernel Mode-Setting (VKMS) is used for testing or for
-diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-index d657865e573f..939991fc8233 100644
---- a/drivers/gpu/drm/vkms/Makefile
-+++ b/drivers/gpu/drm/vkms/Makefile
-@@ -8,7 +8,8 @@ vkms-y := \
- 	vkms_composer.o \
- 	vkms_writeback.o \
- 	vkms_connector.o \
--	vkms_config.o
-+	vkms_config.o \
-+	vkms_configfs.o
- 
- obj-$(CONFIG_DRM_VKMS) += vkms.o
- obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += tests/
 diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-new file mode 100644
-index 000000000000..ee186952971b
---- /dev/null
+index ee186952971b..a7c705e00e4c 100644
+--- a/drivers/gpu/drm/vkms/vkms_configfs.c
 +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -0,0 +1,172 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+#include <linux/cleanup.h>
-+#include <linux/configfs.h>
-+#include <linux/mutex.h>
-+#include <linux/slab.h>
-+
-+#include "vkms_drv.h"
-+#include "vkms_config.h"
-+#include "vkms_configfs.h"
-+
-+/* To avoid registering configfs more than once or unregistering on error */
-+static bool is_configfs_registered;
-+
+@@ -16,6 +16,7 @@ static bool is_configfs_registered;
+  *
+  * @group: Top level configuration group that represents a VKMS device.
+  * Initialized when a new directory is created under "/config/vkms/"
++ * @planes_group: Default subgroup of @group at "/config/vkms/planes"
+  * @lock: Lock used to project concurrent access to the configuration attributes
+  * @config: Protected by @lock. Configuration of the VKMS device
+  * @enabled: Protected by @lock. The device is created or destroyed when this
+@@ -23,16 +24,99 @@ static bool is_configfs_registered;
+  */
+ struct vkms_configfs_device {
+ 	struct config_group group;
++	struct config_group planes_group;
+ 
+ 	struct mutex lock;
+ 	struct vkms_config *config;
+ 	bool enabled;
+ };
+ 
 +/**
-+ * struct vkms_configfs_device - Configfs representation of a VKMS device
++ * struct vkms_configfs_plane - Configfs representation of a plane
 + *
-+ * @group: Top level configuration group that represents a VKMS device.
-+ * Initialized when a new directory is created under "/config/vkms/"
-+ * @lock: Lock used to project concurrent access to the configuration attributes
-+ * @config: Protected by @lock. Configuration of the VKMS device
-+ * @enabled: Protected by @lock. The device is created or destroyed when this
-+ * option changes
++ * @group: Top level configuration group that represents a plane.
++ * Initialized when a new directory is created under "/config/vkms/planes"
++ * @dev: The vkms_configfs_device this plane belongs to
++ * @config: Configuration of the VKMS plane
 + */
-+struct vkms_configfs_device {
++struct vkms_configfs_plane {
 +	struct config_group group;
-+
-+	struct mutex lock;
-+	struct vkms_config *config;
-+	bool enabled;
++	struct vkms_configfs_device *dev;
++	struct vkms_config_plane *config;
 +};
 +
-+#define device_item_to_vkms_configfs_device(item) \
-+	container_of(to_config_group((item)), struct vkms_configfs_device, \
-+		     group)
+ #define device_item_to_vkms_configfs_device(item) \
+ 	container_of(to_config_group((item)), struct vkms_configfs_device, \
+ 		     group)
+ 
++#define child_group_to_vkms_configfs_device(group) \
++	device_item_to_vkms_configfs_device((&(group)->cg_item)->ci_parent)
 +
-+static ssize_t device_enabled_show(struct config_item *item, char *page)
++#define plane_item_to_vkms_configfs_plane(item) \
++	container_of(to_config_group((item)), struct vkms_configfs_plane, group)
++
++static void plane_release(struct config_item *item)
 +{
-+	struct vkms_configfs_device *dev;
-+	bool enabled;
++	struct vkms_configfs_plane *plane;
++	struct mutex *lock;
 +
-+	dev = device_item_to_vkms_configfs_device(item);
++	plane = plane_item_to_vkms_configfs_plane(item);
++	lock = &plane->dev->lock;
 +
-+	scoped_guard(mutex, &dev->lock)
-+		enabled = dev->enabled;
-+
-+	return sprintf(page, "%d\n", enabled);
++	scoped_guard(mutex, lock) {
++		vkms_config_destroy_plane(plane->config);
++		kfree(plane);
++	}
 +}
 +
-+static ssize_t device_enabled_store(struct config_item *item, const char *page,
-+				    size_t count)
++static struct configfs_item_operations plane_item_operations = {
++	.release	= &plane_release,
++};
++
++static const struct config_item_type plane_item_type = {
++	.ct_item_ops	= &plane_item_operations,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct config_group *make_plane_group(struct config_group *group,
++					     const char *name)
 +{
 +	struct vkms_configfs_device *dev;
-+	bool enabled;
-+	int ret = 0;
++	struct vkms_configfs_plane *plane;
 +
-+	dev = device_item_to_vkms_configfs_device(item);
-+
-+	if (kstrtobool(page, &enabled))
-+		return -EINVAL;
++	dev = child_group_to_vkms_configfs_device(group);
 +
 +	scoped_guard(mutex, &dev->lock) {
-+		if (!dev->enabled && enabled) {
-+			if (!vkms_config_is_valid(dev->config))
-+				return -EINVAL;
++		if (dev->enabled)
++			return ERR_PTR(-EBUSY);
 +
-+			ret = vkms_create(dev->config);
-+			if (ret)
-+				return ret;
-+		} else if (dev->enabled && !enabled) {
-+			vkms_destroy(dev->config);
++		plane = kzalloc(sizeof(*plane), GFP_KERNEL);
++		if (!plane)
++			return ERR_PTR(-ENOMEM);
++
++		plane->dev = dev;
++
++		plane->config = vkms_config_create_plane(dev->config);
++		if (IS_ERR(plane->config)) {
++			kfree(plane);
++			return ERR_CAST(plane->config);
 +		}
 +
-+		dev->enabled = enabled;
++		config_group_init_type_name(&plane->group, name, &plane_item_type);
 +	}
 +
-+	return (ssize_t)count;
++	return &plane->group;
 +}
 +
-+CONFIGFS_ATTR(device_, enabled);
-+
-+static struct configfs_attribute *device_item_attrs[] = {
-+	&device_attr_enabled,
-+	NULL,
++static struct configfs_group_operations planes_group_operations = {
++	.make_group	= &make_plane_group,
 +};
 +
-+static void device_release(struct config_item *item)
-+{
-+	struct vkms_configfs_device *dev;
-+
-+	dev = device_item_to_vkms_configfs_device(item);
-+
-+	if (dev->enabled)
-+		vkms_destroy(dev->config);
-+
-+	mutex_destroy(&dev->lock);
-+	vkms_config_destroy(dev->config);
-+	kfree(dev);
-+}
-+
-+static struct configfs_item_operations device_item_operations = {
-+	.release	= &device_release,
-+};
-+
-+static const struct config_item_type device_item_type = {
-+	.ct_attrs	= device_item_attrs,
-+	.ct_item_ops	= &device_item_operations,
++static const struct config_item_type plane_group_type = {
++	.ct_group_ops	= &planes_group_operations,
 +	.ct_owner	= THIS_MODULE,
 +};
 +
-+static struct config_group *make_device_group(struct config_group *group,
-+					      const char *name)
-+{
-+	struct vkms_configfs_device *dev;
-+
-+	if (strcmp(name, DEFAULT_DEVICE_NAME) == 0)
-+		return ERR_PTR(-EINVAL);
-+
-+	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-+	if (!dev)
-+		return ERR_PTR(-ENOMEM);
-+
-+	dev->config = vkms_config_create(name);
-+	if (IS_ERR(dev->config)) {
-+		kfree(dev);
-+		return ERR_CAST(dev->config);
-+	}
-+
-+	config_group_init_type_name(&dev->group, name, &device_item_type);
-+	mutex_init(&dev->lock);
-+
-+	return &dev->group;
-+}
-+
-+static struct configfs_group_operations device_group_ops = {
-+	.make_group = &make_device_group,
-+};
-+
-+static const struct config_item_type device_group_type = {
-+	.ct_group_ops	= &device_group_ops,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
-+static struct configfs_subsystem vkms_subsys = {
-+	.su_group = {
-+		.cg_item = {
-+			.ci_name = "vkms",
-+			.ci_type = &device_group_type,
-+		},
-+	},
-+	.su_mutex = __MUTEX_INITIALIZER(vkms_subsys.su_mutex),
-+};
-+
-+int vkms_configfs_register(void)
-+{
-+	int ret;
-+
-+	if (is_configfs_registered)
-+		return 0;
-+
-+	config_group_init(&vkms_subsys.su_group);
-+	ret = configfs_register_subsystem(&vkms_subsys);
-+
-+	is_configfs_registered = ret == 0;
-+
-+	return ret;
-+}
-+
-+void vkms_configfs_unregister(void)
-+{
-+	if (is_configfs_registered)
-+		configfs_unregister_subsystem(&vkms_subsys);
-+}
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.h b/drivers/gpu/drm/vkms/vkms_configfs.h
-new file mode 100644
-index 000000000000..e9020b0043db
---- /dev/null
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+#ifndef _VKMS_CONFIGFS_H_
-+#define _VKMS_CONFIGFS_H_
-+
-+int vkms_configfs_register(void);
-+void vkms_configfs_unregister(void);
-+
-+#endif /* _VKMS_CONFIGFS_H_ */
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 23817c7b997e..5bcfbcb6c0c5 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -28,6 +28,7 @@
- #include <drm/drm_vblank.h>
- 
- #include "vkms_config.h"
-+#include "vkms_configfs.h"
- #include "vkms_drv.h"
- 
- #define DRIVER_NAME	"vkms"
-@@ -214,6 +215,10 @@ static int __init vkms_init(void)
- 	int ret;
- 	struct vkms_config *config;
- 
-+	ret = vkms_configfs_register();
-+	if (ret)
-+		return ret;
-+
- 	config = vkms_config_default_create(enable_cursor, enable_writeback, enable_overlay);
- 	if (IS_ERR(config))
- 		return PTR_ERR(config);
-@@ -250,6 +255,8 @@ void vkms_destroy(struct vkms_config *config)
- 
- static void __exit vkms_exit(void)
+ static ssize_t device_enabled_show(struct config_item *item, char *page)
  {
-+	vkms_configfs_unregister();
+ 	struct vkms_configfs_device *dev;
+@@ -128,6 +212,10 @@ static struct config_group *make_device_group(struct config_group *group,
+ 	config_group_init_type_name(&dev->group, name, &device_item_type);
+ 	mutex_init(&dev->lock);
+ 
++	config_group_init_type_name(&dev->planes_group, "planes",
++				    &plane_group_type);
++	configfs_add_default_group(&dev->planes_group, &dev->group);
 +
- 	if (!default_config)
- 		return;
+ 	return &dev->group;
+ }
  
 -- 
 2.49.0
