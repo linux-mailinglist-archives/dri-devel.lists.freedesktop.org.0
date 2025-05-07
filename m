@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D943FAAECE0
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 22:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CEBCAAECE6
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 22:22:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0A4910E8A9;
-	Wed,  7 May 2025 20:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F00210E8AE;
+	Wed,  7 May 2025 20:22:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q/uKRJlT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KH6tRSuj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
- [209.85.210.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7139910E8A6
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 20:22:40 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id
- 46e09a7af769-72b82c8230aso95669a34.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 13:22:40 -0700 (PDT)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2825810E8A8
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 20:22:41 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id
+ 46e09a7af769-72c47631b4cso135858a34.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 13:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1746649360; x=1747254160; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RPj3FTwSrOy9EqQq/nrdWdKgDoZV00cUqzATiabesYI=;
- b=Q/uKRJlTpWfrJKCrxDRDEaul8QdvyH1CuKt0hMhIvjdusi2p6ThdvyVgD+XQ7lSjGg
- 3QKsRg09kUrsBpzGbpVOj/ulVpSHVdlJt7bro5UNS+hkGK3jvdq5bCWxl6cG2v2RshjG
- h3hFnN5tdiOmrgiWnR9oDiiCI5DGWJASUu/LT/Hg9zMSvNBW96U02umt2onhCmcUXT3j
- vZp/19JhZ5melVtZFnk/uW7piTxlnBfbgAsgXxZFHGCxmHlJqPP/oNl/GIItsfEZU62g
- d+SHQi/ijH1VZcbMYnaKPaTmRmoY07cke7g3tOdzre80zg0lWMD/3aqcyJu/Gk/4RdcS
- QWNA==
+ bh=CStNfNX+Qe9CAKa9kWGR0bBTgEey43qr4WYZEcf8hj0=;
+ b=KH6tRSujLBi7KUDZy7IJOKL/Mzb3PuvntP2PjCd9bCuilzTawGsi3CjstLusSCwgrO
+ aYyXff9PfnyR6y5bDZH+68pwA7cVVxgyrlue5E7QxqRhhf7JV+aeQIjZIuUIvDxGxijc
+ kh9bES2cpfGodA7bIewTlfAK6aZabiqglBVkXaJU83B9Vj+ynMHdzrbDuVcAIT7Dx+bS
+ Mo2yeAxnDtML4vzdrtQfbjg1wf6TgDinoG5gr7tbnp0V1NE2qEaxDBKDhX4MhfTdEDYe
+ qfLjMT13rO1tYgfLyiWFx4nyybGssARKI2uSsm0uMjCEXGZOwSnLH9Qq+6vSniSKzZ6t
+ ZbBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1746649360; x=1747254160;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RPj3FTwSrOy9EqQq/nrdWdKgDoZV00cUqzATiabesYI=;
- b=ToCG04v1XOR2tVPSVHxkMEkskVZ9uczRO00eHT+XBWwV49GIjgLGujBQElrjqbooXC
- Yr8J3fSybsRlW9uGsEjyakugFUgwZOjkm4OxS5d/0Xxm8hdUrP6sehLVbdH31JTezsDA
- xKWiu+t9+B2BDe4693ieeL/hp6Ln/eWt0i/Fts3qpj27LFcsNXCwBvyokQkUTtt4y8Cv
- XFa8FOmlL4xlW6KowUYdqX85yCFcjGEabAyNCA6pG4eR2XfjsHOsOpWhnnH9ssW5ge9D
- fEaxaNtntYgkauAcQwVE54lOrUxrP/baU/wkqBLYT5V79jPWYNSIkyI+nn57eBfJxC5x
- Vq8g==
+ bh=CStNfNX+Qe9CAKa9kWGR0bBTgEey43qr4WYZEcf8hj0=;
+ b=YmoW/ckAciHqg/bLNCsA/KxIjmREAxxkr4rxiw5Wy8s+xOcm1rgEcncszNm9qFRSqU
+ /MF/79yPSX6iBKJ78EI6guQLFwLEjE9j6qFBIa+v9x8+t5PJt3NYHBDwZAmBNZDQI5PY
+ zk7yjXy2TSiOzlC1wjvbg16A0zcmmzkBLdGKQCQyP0hWFaqjNgOQPyQpCLAd/DgI8xMJ
+ Qz7TaSwmrgA+6AbZly5gQAa581F3PE5R5IooaU3T7uLX7xX4TrwytAYW///drS9ZVfcY
+ L8XvRf024+g1z5hJhHDorlGBoE2BBxi9nt742F2pe4suYnRU50JacGbdw9yCCQ49oeIv
+ /+mg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUvLLVOtXAnq3Y4usiPU+bUh3W/G5ngoM+EkzLvbAVBBREG1uUUzLIbGt38bDuUi3exGW3iza+8Pa0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5PwLe2JRambrbCunhFJYIxPO1+1OpMkI/I7GhJE9moGS52vp5
- zzgtLPI0vMcV+e+WA61YRgFjfPOWwk+V4Iv24f3CLr+dstbO2MvnOuaVyw==
-X-Gm-Gg: ASbGnct7Ikl7vCzQctUbuNLrK37XN56MQNT+njDeJPtwlCSKKmiX/siW5BtW5eMg9zB
- R63B/B/j6lwdbsfqcJ8AZt9Ra78mttnfy0o8unOI4ocNFL09QLbzYR0Jud/UT4RnscIwAP6VE0k
- IRkCNPV0Cp8sDtn6aYO7B+0YDk7MLIqnDeA2z87IyEL2IWihvuPn0prD1WuiEwqZZ1Cod4j03w1
- SlXVlnVy9RhfbTDM1xgt3OhQtd9/ckzAXE9twu7DuItBPqTL0ZhAuP3fjGjm9JLb1FnldeMLPP/
- YI5X78P6YAP08Q9eSvbpeHD5zz/kSaBSYaDgcQGdxTrIIqYzwqCHIS/N62DK
-X-Google-Smtp-Source: AGHT+IEQwmN+1OPKx+ExT0H0gstwaIAT4meGGbZXVI6b4Kwtw9G6/+vEj9eQFHV8s+c0s/9Df/IAFQ==
-X-Received: by 2002:a05:6830:6202:b0:72b:7cc8:422 with SMTP id
- 46e09a7af769-73210b15634mr3494887a34.20.1746649359658; 
- Wed, 07 May 2025 13:22:39 -0700 (PDT)
+ AJvYcCX5XfDjtU/2p1vooTLm73N2a4KLbYG9lBdZV0Y077lOOaI631rjqcLrJ27W/euyz9C42oChx7aX35E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxO7m4NJfEw7w9vlLbcbsDjgw2yedl42cJPUjOQOEMJJCRmzRtN
+ T7ldvnQBL86AoUGYZLaCZg7Y/JrjhetdO+JnJI2xbB1mZjI/l74r
+X-Gm-Gg: ASbGncsB4A5eldEeDKdDmd5IJpyzY7vVJGqdelisQ0SEtS4/wp48INAwo/0cWjbNvE+
+ fQpeYZvK6plCNPLRcNQmXhovMsbSyApaC9WI5MT3MyWd4GjaZgm6iS53139j21Rbp3XjEGqXcVL
+ bcYXmkt+EjGtMz/2y0k5PGAwzswqQWFMwSe35RomuaD8pRy5QsVe4JXuvQBpFSw0xoFtYqeacDX
+ LpZAwQxPLskPqFA3wKsr3ETO38sGtZbbT172tkSiVovsymeq0ZWO0C3bkDKO7p2DqEsjwvV/3jK
+ 90SakLWXNzS60yJ00/mzlL6g21Y0exOViTMGUdrW3LmsyZkYUC35UwGGu8Rv
+X-Google-Smtp-Source: AGHT+IHU/L1zNpnFPbQN5H7v31jrky1fO0rvKzweVlqImDkjzQ6zRsRlAWp/aFFj145iJs3SabcqmA==
+X-Received: by 2002:a05:6830:4410:b0:72b:9cc7:25c4 with SMTP id
+ 46e09a7af769-7321c9bc300mr462737a34.22.1746649360382; 
+ Wed, 07 May 2025 13:22:40 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf:e46c:46ba:cecd:a52c])
  by smtp.gmail.com with ESMTPSA id
  46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 May 2025 13:22:39 -0700 (PDT)
+ Wed, 07 May 2025 13:22:40 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -69,10 +69,10 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  airlied@gmail.com, mripard@kernel.org, samuel@sholland.org,
  jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
  krzk+dt@kernel.org, robh@kernel.org
-Subject: [PATCH V9 16/24] dt-bindings: display: sun4i: Add compatible strings
- for H616 TCON TOP
-Date: Wed,  7 May 2025 15:19:35 -0500
-Message-ID: <20250507201943.330111-17-macroalpha82@gmail.com>
+Subject: [PATCH V9 17/24] dt-bindings: sram: sunxi-sram: Add H616 SRAM C
+ compatible
+Date: Wed,  7 May 2025 15:19:36 -0500
+Message-ID: <20250507201943.330111-18-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250507201943.330111-1-macroalpha82@gmail.com>
 References: <20250507201943.330111-1-macroalpha82@gmail.com>
@@ -95,38 +95,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add compatible string for allwinner,sun50i-h616-tcon-top with a
-fallback string of allwinner,sun50i-h6-tcon-top.
+Add a compatible string for the H616 SRAM C region which is
+functionally similar to the A64 SRAM C region.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- .../display/allwinner,sun8i-r40-tcon-top.yaml       | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ .../bindings/sram/allwinner,sun4i-a10-system-control.yaml     | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-index 7d849c4095a3..80f1e49f5b7a 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-@@ -39,10 +39,15 @@ properties:
-     const: 1
+diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
+index a7236f7db4ec..976d3320c803 100644
+--- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
++++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
+@@ -102,7 +102,9 @@ patternProperties:
+                       - allwinner,sun7i-a20-sram-d
+                   - const: allwinner,sun4i-a10-sram-d
+               - items:
+-                  - const: allwinner,sun50i-h6-sram-c
++                  - enum:
++                      - allwinner,sun50i-h6-sram-c
++                      - allwinner,sun50i-h616-sram-c
+                   - const: allwinner,sun50i-a64-sram-c
  
-   compatible:
--    enum:
--      - allwinner,sun8i-r40-tcon-top
--      - allwinner,sun20i-d1-tcon-top
--      - allwinner,sun50i-h6-tcon-top
-+    oneOf:
-+      - enum:
-+          - allwinner,sun8i-r40-tcon-top
-+          - allwinner,sun20i-d1-tcon-top
-+          - allwinner,sun50i-h6-tcon-top
-+      - items:
-+          - enum:
-+              - allwinner,sun50i-h616-tcon-top
-+          - const: allwinner,sun50i-h6-tcon-top
- 
-   reg:
-     maxItems: 1
+ required:
 -- 
 2.43.0
 
