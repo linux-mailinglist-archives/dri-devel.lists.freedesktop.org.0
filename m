@@ -2,66 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6321AADFB7
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 14:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52872AADFCB
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 14:53:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8355D10E7AA;
-	Wed,  7 May 2025 12:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD3610E7A6;
+	Wed,  7 May 2025 12:53:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="h/GDQuni";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OMfaLJUD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A25110E7A6;
- Wed,  7 May 2025 12:50:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ip1zXUrqqSu5lcQmVxHITUWFtmtmbAKx9Kj0qOR2u7Q=; b=h/GDQuni15pANFwLs5qYWNdW6b
- fJ4spShFarTwtUG2OK7nr9LaogF5J+W9yNwrhJ3FoVJTV9myDySI8emUgBT++zu4bh2s6LrnDSQ2Z
- EgQQ2ZMzy0gQr3YrbR5VnKO0vf6LBRX0uv8SXrwruEs19w9WeGCvTWyQ44GNv6KyXFm0dcroEcL7E
- 80IWM8J8jUscYlWi+JnfMVKdc2SIQSQDjlGOb1DCTY40n9vD39eEh/RAYAUNhHljRo+pb6KGUBFYR
- fL0ittsO7ohJL5KwDws62ld3S7O1F7QtCTX3I38NuzIWj7zE/QDvzvNgZ0l/Fta+pB2usxLzTf/hm
- Ke+beALw==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uCeAY-004i80-OM; Wed, 07 May 2025 14:50:34 +0200
-Message-ID: <95daf571-fa56-4e49-9c45-adb3932aecdb@igalia.com>
-Date: Wed, 7 May 2025 13:50:33 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7A6510E7A6
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 12:53:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id EC585629D5;
+ Wed,  7 May 2025 12:53:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1640C4CEE7;
+ Wed,  7 May 2025 12:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1746622391;
+ bh=im10zCPO48DJVksV0r0nTYWoHjvZi8pKqsbOdSPnI58=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OMfaLJUD9Ygyo0cTN4iwPP+0E+c5nPnoxz1KeP/YcUUFrLae7FrribbCy0tCLU/KG
+ /8wfJceYEZ9Vp9S4Er0xYCyYGWirlcpNAmsa4vxh5/CESwZCrat3ritG7fLzoefLy5
+ AGVFS+rtCtaPxt1OPZMjl7PyEVUFNR9g+NLvdgiuuQ9du+UStu9guAKi7HknZHWBsM
+ XGV3jwrcOoMa2uO2vkjx/KGcbCLQk1obRfRBmTRk4lxPTQGh2M1jKNrEqDx313R4MA
+ qjNMIfQaBoNdNwTmrLF9JM94fwr93ky3ZnTroaMnYXAyJb7SH+ZZ0Jnu82MVKcaWO/
+ XA9geYEFtG8AQ==
+Date: Wed, 7 May 2025 18:23:01 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Rouven Czerwinski <rouven.czerwinski@linaro.org>
+Subject: Re: [PATCH v8 07/14] tee: refactor params_from_user()
+Message-ID: <aBtXrbZ6DByMl6b4@sumit-X1>
+References: <20250502100049.1746335-1-jens.wiklander@linaro.org>
+ <20250502100049.1746335-8-jens.wiklander@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep
- on running
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
- <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
- <f48aa17a-3135-4480-b396-2e2077a7d2aa@igalia.com>
- <4020cf8b-3524-46c9-a082-adaf4c1797c2@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <4020cf8b-3524-46c9-a082-adaf4c1797c2@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250502100049.1746335-8-jens.wiklander@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,112 +71,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 07/05/2025 13:33, Maíra Canal wrote:
-> Hi Tvrtko,
+On Fri, May 02, 2025 at 11:59:21AM +0200, Jens Wiklander wrote:
+> Break out the memref handling into a separate helper function.
+> No change in behavior.
 > 
-> Thanks for the review!
-> 
-> On 06/05/25 08:32, Tvrtko Ursulin wrote:
->>
->> On 03/05/2025 21:59, Maíra Canal wrote:
->>> When the DRM scheduler times out, it's possible that the GPU isn't hung;
->>> instead, a job may still be running, and there may be no valid reason to
->>> reset the hardware. This can occur in two situations:
->>>
->>>    1. The GPU exposes some mechanism that ensures the GPU is still 
->>> making
->>>       progress. By checking this mechanism, we can safely skip the 
->>> reset,
->>>       rearm the timeout, and allow the job to continue running until
->>>       completion. This is the case for v3d and Etnaviv.
->>>    2. TDR has fired before the IRQ that signals the fence. Consequently,
->>>       the job actually finishes, but it triggers a timeout before 
->>> signaling
->>>       the completion fence.
->>>
->>> These two scenarios are problematic because we remove the job from the
->>> `sched->pending_list` before calling `sched->ops->timedout_job()`. This
->>> means that when the job finally signals completion (e.g. in the IRQ
->>> handler), the scheduler won't call `sched->ops->free_job()`. As a 
->>> result,
->>> the job and its resources won't be freed, leading to a memory leak.
->>>
->>> To resolve this issue, we create a new `drm_gpu_sched_stat` that 
->>> allows a
->>> driver to skip the reset. This new status will indicate that the job
->>> should be reinserted into the pending list, and the driver will still
->>> signal its completion.
->>
-> 
-> [...]
-> 
->>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>> index 
->>> 1a7e377d4cbb4fc12ed93c548b236970217945e8..fe9043b6d43141bee831b5fc16b927202a507d51 100644
->>> --- a/include/drm/gpu_scheduler.h
->>> +++ b/include/drm/gpu_scheduler.h
->>> @@ -389,11 +389,13 @@ struct drm_sched_job {
->>>    * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
->>>    * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
->>>    * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
->>> + * @DRM_GPU_SCHED_STAT_RUNNING: GPU is still running, so skip the 
->>> reset.
->>
->> s/GPU/job/ ?
->>
->>>    */
->>>   enum drm_gpu_sched_stat {
->>>       DRM_GPU_SCHED_STAT_NONE,
->>>       DRM_GPU_SCHED_STAT_NOMINAL,
->>>       DRM_GPU_SCHED_STAT_ENODEV,
->>> +    DRM_GPU_SCHED_STAT_RUNNING,
->>
->> I am wondering if we could make it more obvious what is the difference 
->> between "nominal" and "running" and from whose point of view should 
->> those statuses be considered.
->  > > So far we have "nominal" which means scheduler/hardware is working 
-> fine
->> but the job may or may have not been cancelled. With "running" we kind 
->> of split it into two sub-statuses and it would be nice for that to be 
->> intuitively visible from the naming. But I struggle to suggest an 
->> elegant name while preserving nominal as is.
-> 
-> I was thinking: how about changing DRM_GPU_SCHED_STAT_NOMINAL to
-> DRM_GPU_SCHED_STAT_RESET (the hardware is fine, but we reset it)?
-> 
-> Then, when we skip the reset, we would have DRM_GPU_SCHED_STAT_NOMINAL
-> (which means the hardware is fine and we didn't reset it).
-> 
-> I'm open to other suggestions.
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/tee/tee_core.c | 94 ++++++++++++++++++++++++------------------
+>  1 file changed, 54 insertions(+), 40 deletions(-)
 
-DRM_GPU_SCHED_STAT_RESET sounds like a good name and seems to paint a 
-consistent story between running - reset - enodev.
+Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 
->> Thinking out loud here - perhaps that is pointing towards an 
->> alternative that instead of a new status, a new helper to re-insert 
->> the single job (like drm_sched_resubmit_job(sched, job)) would fit 
->> better? Although it would be more churn.
->>
+-Sumit
+
 > 
-> Although your solution might be more elegant, I'm worried that such a
-> function could be used improperly by new users (e.g. being called in
-> contexts other than `timedout_job()`).
-
-We could call it drm_sched_untimedout_job(). </humour>
-
-> I'd prefer to have a new status as it'll be use solely for
-> `timedout_job()` (making it harder for users to use it inappropriately).
-> With the addition of Matthew's feedback (calling
-> `drm_sched_run_free_queue()` after adding the job to the pending list),
-> I think it makes even more sense to keep it inside the timeout function.
+> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> index 685afcaa3ea1..820e394b9054 100644
+> --- a/drivers/tee/tee_core.c
+> +++ b/drivers/tee/tee_core.c
+> @@ -353,6 +353,55 @@ tee_ioctl_shm_register(struct tee_context *ctx,
+>  	return ret;
+>  }
+>  
+> +static int param_from_user_memref(struct tee_context *ctx,
+> +				  struct tee_param_memref *memref,
+> +				  struct tee_ioctl_param *ip)
+> +{
+> +	struct tee_shm *shm;
+> +
+> +	/*
+> +	 * If a NULL pointer is passed to a TA in the TEE,
+> +	 * the ip.c IOCTL parameters is set to TEE_MEMREF_NULL
+> +	 * indicating a NULL memory reference.
+> +	 */
+> +	if (ip->c != TEE_MEMREF_NULL) {
+> +		/*
+> +		 * If we fail to get a pointer to a shared
+> +		 * memory object (and increase the ref count)
+> +		 * from an identifier we return an error. All
+> +		 * pointers that has been added in params have
+> +		 * an increased ref count. It's the callers
+> +		 * responibility to do tee_shm_put() on all
+> +		 * resolved pointers.
+> +		 */
+> +		shm = tee_shm_get_from_id(ctx, ip->c);
+> +		if (IS_ERR(shm))
+> +			return PTR_ERR(shm);
+> +
+> +		/*
+> +		 * Ensure offset + size does not overflow
+> +		 * offset and does not overflow the size of
+> +		 * the referred shared memory object.
+> +		 */
+> +		if ((ip->a + ip->b) < ip->a ||
+> +		    (ip->a + ip->b) > shm->size) {
+> +			tee_shm_put(shm);
+> +			return -EINVAL;
+> +		}
+> +	} else if (ctx->cap_memref_null) {
+> +		/* Pass NULL pointer to OP-TEE */
+> +		shm = NULL;
+> +	} else {
+> +		return -EINVAL;
+> +	}
+> +
+> +	memref->shm_offs = ip->a;
+> +	memref->size = ip->b;
+> +	memref->shm = shm;
+> +
+> +	return 0;
+> +}
+> +
+>  static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+>  			    size_t num_params,
+>  			    struct tee_ioctl_param __user *uparams)
+> @@ -360,8 +409,8 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+>  	size_t n;
+>  
+>  	for (n = 0; n < num_params; n++) {
+> -		struct tee_shm *shm;
+>  		struct tee_ioctl_param ip;
+> +		int rc;
+>  
+>  		if (copy_from_user(&ip, uparams + n, sizeof(ip)))
+>  			return -EFAULT;
+> @@ -384,45 +433,10 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> -			/*
+> -			 * If a NULL pointer is passed to a TA in the TEE,
+> -			 * the ip.c IOCTL parameters is set to TEE_MEMREF_NULL
+> -			 * indicating a NULL memory reference.
+> -			 */
+> -			if (ip.c != TEE_MEMREF_NULL) {
+> -				/*
+> -				 * If we fail to get a pointer to a shared
+> -				 * memory object (and increase the ref count)
+> -				 * from an identifier we return an error. All
+> -				 * pointers that has been added in params have
+> -				 * an increased ref count. It's the callers
+> -				 * responibility to do tee_shm_put() on all
+> -				 * resolved pointers.
+> -				 */
+> -				shm = tee_shm_get_from_id(ctx, ip.c);
+> -				if (IS_ERR(shm))
+> -					return PTR_ERR(shm);
+> -
+> -				/*
+> -				 * Ensure offset + size does not overflow
+> -				 * offset and does not overflow the size of
+> -				 * the referred shared memory object.
+> -				 */
+> -				if ((ip.a + ip.b) < ip.a ||
+> -				    (ip.a + ip.b) > shm->size) {
+> -					tee_shm_put(shm);
+> -					return -EINVAL;
+> -				}
+> -			} else if (ctx->cap_memref_null) {
+> -				/* Pass NULL pointer to OP-TEE */
+> -				shm = NULL;
+> -			} else {
+> -				return -EINVAL;
+> -			}
+> -
+> -			params[n].u.memref.shm_offs = ip.a;
+> -			params[n].u.memref.size = ip.b;
+> -			params[n].u.memref.shm = shm;
+> +			rc = param_from_user_memref(ctx, &params[n].u.memref,
+> +						    &ip);
+> +			if (rc)
+> +				return rc;
+>  			break;
+>  		default:
+>  			/* Unknown attribute */
+> -- 
+> 2.43.0
 > 
-> I hope others can chime in and give their opinions about your idea.
-
-Yeah - Philipp - Danilo - what do you prefer? Third enum with or a new 
-helper?
-
-Regards,
-
-Tvrtko
-
