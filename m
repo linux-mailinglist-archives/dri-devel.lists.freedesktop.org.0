@@ -2,125 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21A0AAE644
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 18:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52C9AAE658
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 18:18:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49E7710E856;
-	Wed,  7 May 2025 16:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59A8588BE3;
+	Wed,  7 May 2025 16:18:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4NEqO1x1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hoEIdNOQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D1E10E856
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 16:15:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NLZR2vFspxeLqRqQDYA2o6Mbh8955PKEX18Q2apYI0JCcMrkfRsz2/t6d92HJub+vOkc3fRuYQpWXPMcaokMjNx1Hnbjjz4gWSKUPhZIsg4hX78OZ/4V8Z1gvvFp9x4xSicTxFwNHpgjOC45RddlX8ypzyRqI7ichRZF4IBlTYFhR0Y9zjuqsYEkjNs2sJceLtiTOUS/3Y5lbKvNtrldOsDD7SvvO8LyI+kbozgDbxm//EsKqwdC8N1QwvrSmjfqYcnUPjesVNCKpBF5zpsSMwJqi9GUJbner1lTQCo3rGqnrgFWhfndrbZvmd5jYjkBnYGqLJgT0nNLSXGY7MwdQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r+RtdtV45O4u79mPxv0VzLDF8nbC11mt7k40eShmkG8=;
- b=tiJ33ILGnhU2DljbePDL9o0sjH06kxXRcINzQm1PGgrZ3PtonxAgH/o7ByEnTTgqZYrWAYOjwVJil8J+e/DqBprW5o0nx6C7dazcr4da8yBS3HX3uQeP7nyQgji0R9T+ii5nlkjsx2FmPaazSrqU+5gX0lu1DqB5uPLR7D9EpLSE8lX6A+MLqQFCoTDHdD3y+C0gzKjSYEnr0SSSBDEApM/hTGRHqvWVazlopBTHbiYv4aI+dlo9RKDQxEhrPwwK9K1r0W/S3J+Je+T4EMu7ct3O3VARoyIIwlrBSebjHgYFliX0b8iR9k8rxEs793crb3zFGCIpSLx4GA3zODTvPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r+RtdtV45O4u79mPxv0VzLDF8nbC11mt7k40eShmkG8=;
- b=4NEqO1x1CNIew6Baj5LdKCU4BkdkOnDcPbCWc3EfCAK8vq0P/afAq421Bb0mDVAAhDBDpmyzYW0ffCug+2hXH/cQChj75NZfgrohgNE3j78VGRYZFOmWIv9NjrGkaZ1AfsazoxZ6Anuz8EM/iA/+Cdptr+Pfe+l0JUGw3BGYnQk=
-Received: from SJ0PR05CA0134.namprd05.prod.outlook.com (2603:10b6:a03:33d::19)
- by CY5PR12MB6525.namprd12.prod.outlook.com (2603:10b6:930:32::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.32; Wed, 7 May
- 2025 16:15:07 +0000
-Received: from SJ5PEPF0000020A.namprd05.prod.outlook.com
- (2603:10b6:a03:33d:cafe::5e) by SJ0PR05CA0134.outlook.office365.com
- (2603:10b6:a03:33d::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.24 via Frontend Transport; Wed,
- 7 May 2025 16:15:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF0000020A.mail.protection.outlook.com (10.167.244.43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8722.18 via Frontend Transport; Wed, 7 May 2025 16:15:05 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 7 May
- 2025 11:15:05 -0500
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 7 May 2025 11:15:04 -0500
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <jacek.lawrynowicz@linux.intel.com>, <dri-devel@lists.freedesktop.org>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <min.ma@amd.com>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
- <king.tam@amd.com>, <mario.limonciello@amd.com>
-Subject: [PATCH V1] accel/amdxdna: Support submit commands without arguments
-Date: Wed, 7 May 2025 09:15:00 -0700
-Message-ID: <20250507161500.2339701-1-lizhi.hou@amd.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B1A810E85D
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 16:18:09 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-43cf257158fso362195e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 09:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1746634688; x=1747239488; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QLwXANYlBMuT5zBgPtCmkgb03VQz6RsgVfqDgCYAJRc=;
+ b=hoEIdNOQEB5Xp7o3YpnvMUsVlI7AfeGdg+BpzZK0rvheEVC7KuJXIRRpL8W1o3bcJ0
+ 8U4GOfCoSVB3OBQKEU+Djmayc9yY+h/wqi5an2/U1PSHLSvIqx1eieuRZU7E8Us47EAH
+ 0j9oMY/68FZ8qNrexshuvygkHj3sSfhIB0swIzdJ+BPzqsFRaiz/ST3ths81d+BGyCv3
+ aBDA3SNdpEgT2sPGw+8j9uFmvAzLSSwJH8cw3S0tsNHTn2Bkn/oOZGe2osrvqt5Nl2r3
+ MXzfgHLhUkD/zcHp1JdCIwmPtt5sLMO9u9Ll7CDJ9HUsr6kgY4rqJHBm+J/fE7ckdglz
+ aEZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746634688; x=1747239488;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QLwXANYlBMuT5zBgPtCmkgb03VQz6RsgVfqDgCYAJRc=;
+ b=ift99SLFMdWOoSi2DfTujDo+9dfxwKh5/lhXu1Rciqsk3JBKeQdqmYpC8JFiOoBHQ/
+ zv1zS5fXZh8jDpDNbuoY9XBvSDrktBsDE+TDfuMOxXKbb54l3bZSoTvG+sEm+WJie4RP
+ pNPQdylK8TObHCFtq5nW+CDQgIhLYlPhTiGqyHW56h0R7UvHbyEM9eSpb6c8rA/IjjLH
+ 9eSwwr/MXSbmJX1VB+2hlrzQxjZZ0ks4+DUjKF67czaktILMypw67XOJmUdBenImoCAW
+ FrcX2dZ5sVBE8L2Qyf6th2K2RYaiov1nFxtIX6vZJbFkPKRPNK8XlbcF3/FHFcBbujsZ
+ w6Uw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXpV8N5K1L2dKNABtlGt3VIgt++1mzCtwBNi2A4/o1Murl+p+84xtjHkwCW1E5/geAIDCIfz3/cV2Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyxi3Aj71EKW1MuLFDjUyWT0Kp+87fR7rQAR0A+BKDZVfZoMVKj
+ Gwa9M4f/OLvGPv5mT1jz6uOClYEaK3Wxgi04UbQ8cDOqBtlZwWs8
+X-Gm-Gg: ASbGncvCkPnp3KqdHuIAeOgRQMYCEvVr+awyBT9Wn5Ob1321sV1xF8Dno29wbhFWLTl
+ 6WdaoCycayiY8fp08tZ26sHb4YsVreChLXuxS3oj6xSDPGqTBMsHxM3Gmz/uFajYuvnA3tNlztI
+ 16w7eqmmAc7VT8iQqSzGUsnOBfuzjX6/OnVKD/CeJkNLqwcKtqRBV4xIsXgbcKnfElBbqLouxVf
+ 0N3ClkKRmx4+uKRNs9nTPpByzApSrq//LZqaBpu3a5UWLKkmV1NKnO3v8nf3Ni4dapxXX0kMb3R
+ vf4mMTV9NK7iuXclYtN+rIzVTHIPHZ6whqqDrA==
+X-Google-Smtp-Source: AGHT+IGO760xUJ8iPqAn0f79DygSqXBUJ/ZZmnoLl1Z2maNtSt1vZwHF9eAu1qOC7q4f+S+J1wt9XA==
+X-Received: by 2002:a05:600c:3b9d:b0:43d:b3:f95 with SMTP id
+ 5b1f17b1804b1-441d44e03b7mr26435415e9.28.1746634687421; 
+ Wed, 07 May 2025 09:18:07 -0700 (PDT)
+Received: from vitor-nb.. ([2001:8a0:e602:d900:beb4:8333:a918:524e])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-442cd3af2c8sm5801425e9.31.2025.05.07.09.18.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 May 2025 09:18:06 -0700 (PDT)
+From: Vitor Soares <ivitro@gmail.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Vitor Soares <vitor.soares@toradex.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ Jayesh Choudhary <j-choudhary@ti.com>, ivitro@gmail.com,
+ stable@vger.kernel.org
+Subject: [PATCH v2] drm/bridge: cdns-dsi: Replace deprecated
+ UNIVERSAL_DEV_PM_OPS()
+Date: Wed,  7 May 2025 17:17:59 +0100
+Message-Id: <20250507161800.527464-1-ivitro@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB04.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF0000020A:EE_|CY5PR12MB6525:EE_
-X-MS-Office365-Filtering-Correlation-Id: 439388e2-93f9-4057-c525-08dd8d825484
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9/DyiNhh9oqX6krfjGttfGRzTAQL8IXbv83F4vbPxvexbDbhvSSyCffeGFyH?=
- =?us-ascii?Q?TCOwCqDJyrl9bFpYkA5NgKgTPrYmENBbaJxq6ckmQB9gGjhsM6WGpd2mX8Yg?=
- =?us-ascii?Q?rh2uQrRQKyS042AkuJY85XbruNKzacCRXLZrkBCa7yO3I1xyqbTL1K0qAGGY?=
- =?us-ascii?Q?BCXyoY++JKNXi2sMScslRYVyYwxG/PHGX4pJ3Eb1Gj+bceVCFi9hLtHviN5v?=
- =?us-ascii?Q?wKkjInL4QtgE4J90T60xwY80a3gJ2c+8xmqd/d76tP1Fh5rH1iBJ3oP031z0?=
- =?us-ascii?Q?njC9cIMg+vqNfdB8laXGuydiVe7075alp4HHuqoGcVZxvHpkFnIOYpn/QhaK?=
- =?us-ascii?Q?e5c17RCz29kOkHZYbdqS2+HvEc0rWkXXWDJL9KB0vRFN3n+D2KusW6jCAGDz?=
- =?us-ascii?Q?q/V4hL9utX1pf9IEcR9iwKq4O+xrmmAfZVPORxJDsPEv+gqPPKEh4FWyhGMD?=
- =?us-ascii?Q?xM7MWWoRnmQbjpuLmC/KYWmqrfcXjXoj+fUP+m6JyldX1gAXJ9zy5NRH/+3Y?=
- =?us-ascii?Q?CXFstil7G+QQ2ezh8MiKf+wll3GfhMdR96iQPi7G8tjoUmJUGE1lOQG2QhUE?=
- =?us-ascii?Q?kzt5369fMRuChoA5WWI+OXQhMx/HTFgx3KOE/lkjBbVcZrojc+ZvGXlOat/b?=
- =?us-ascii?Q?jBhU2nBTszun1/xhWqLhMmOxyhei/tTNkqw05wH96IQW+TcMluHOPoZTyhon?=
- =?us-ascii?Q?6FutiFJeiWdfg/cBsh0mVDwSNKir7yOo6g6dc8dQR3RrqaDOeFIimmeIFBuk?=
- =?us-ascii?Q?lbLvKmiRYxg6YTZymlXu4UWL/GleET96deOTZXZAaQRUQ3U8E82AZ6ZKbL/p?=
- =?us-ascii?Q?6MAWzCvxIDexM+YxhkHh35tFGR287Auy5D2ZB0U66vDvUwskcErr/zgkRLR4?=
- =?us-ascii?Q?bFjvmh7jgXioPpCL3AuAFSGx1i5KaVTFCkxic0FDGk4tazHdtXYIFNuTVU/x?=
- =?us-ascii?Q?uz+NmYGnTSzKHLKziOIcRlue57MTtlbkrU3blEuO5SL7JLa/jP3NfO2b7uPP?=
- =?us-ascii?Q?BShzhLWF5fTiBJq81oma3QJHzCEwmcWY5D8ifC86upmyzvb6HBcdIgrA4zWi?=
- =?us-ascii?Q?uZjbPhZe/56ApDYAZzi72ig0bG0EeVPnKii7nqaRw2rPT9NnX+jWcUBe3a0S?=
- =?us-ascii?Q?d8jecfzfBh+KibuoFJ298ZrPuXvRQtWPpDHAx29eOkNLDDNmCm67X2Y6RTvq?=
- =?us-ascii?Q?POJiRQii2F9rW9oSCSv0C23lA4s/bDWYrGVUqQRT1d8zY4S8j82mhdQvs7+x?=
- =?us-ascii?Q?g/sDFRs+LfZDm9GhTUW+aI98XtWaVrKSGq0VrufsnRS08R93O7qaV1n+s24S?=
- =?us-ascii?Q?m7FkkCqFvG3BXRyKgC/78xaRDO59VrOtKdGufoTM1bLC8qjgqo4mW6k6S5xu?=
- =?us-ascii?Q?9PhXH3L8YotVDAn7o1AOoKxHUCQ/nROb4AheGTrzi2WGdd6sMLea9KIR6kP/?=
- =?us-ascii?Q?HnixsCk4JAfvQ26bNyhEkIpSNNOD0MAP2ffIN/QtqhpHt5aNqbCJPJ9F1cXO?=
- =?us-ascii?Q?ltOXxzwkTiWu0KizCmWClfKzab/fX4IZ14TU?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2025 16:15:05.8929 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 439388e2-93f9-4057-c525-08dd8d825484
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF0000020A.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6525
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,58 +97,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The latest userspace runtime allows generating commands which do not
-have any argument. Remove the corresponding check in driver IOCTL to
-enable this use case.
+From: Vitor Soares <vitor.soares@toradex.com>
 
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+The deprecated UNIVERSAL_DEV_PM_OPS() macro uses the provided callbacks
+for both runtime PM and system sleep. This causes the DSI clocks to be
+disabled twice: once during runtime suspend and again during system
+suspend, resulting in a WARN message from the clock framework when
+attempting to disable already-disabled clocks.
+
+[   84.384540] clk:231:5 already disabled
+[   84.388314] WARNING: CPU: 2 PID: 531 at /drivers/clk/clk.c:1181 clk_core_disable+0xa4/0xac
+...
+[   84.579183] Call trace:
+[   84.581624]  clk_core_disable+0xa4/0xac
+[   84.585457]  clk_disable+0x30/0x4c
+[   84.588857]  cdns_dsi_suspend+0x20/0x58 [cdns_dsi]
+[   84.593651]  pm_generic_suspend+0x2c/0x44
+[   84.597661]  ti_sci_pd_suspend+0xbc/0x15c
+[   84.601670]  dpm_run_callback+0x8c/0x14c
+[   84.605588]  __device_suspend+0x1a0/0x56c
+[   84.609594]  dpm_suspend+0x17c/0x21c
+[   84.613165]  dpm_suspend_start+0xa0/0xa8
+[   84.617083]  suspend_devices_and_enter+0x12c/0x634
+[   84.621872]  pm_suspend+0x1fc/0x368
+
+To address this issue, replace UNIVERSAL_DEV_PM_OPS() with
+SET_RUNTIME_PM_OPS(), enabling suspend/resume handling through the
+_enable()/_disable() hooks managed by the DRM framework for both
+runtime and system-wide PM.
+
+Cc: <stable@vger.kernel.org> # 6.1.x
+Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
+Signed-off-by: Vitor Soares <vitor.soares@toradex.com>
 ---
- drivers/accel/amdxdna/amdxdna_ctx.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+v1 -> v2
+ - Rely only on SET_RUNTIME_PM_OPS() for the PM.
 
-diff --git a/drivers/accel/amdxdna/amdxdna_ctx.c b/drivers/accel/amdxdna/amdxdna_ctx.c
-index 43442b9e273b..be073224bd69 100644
---- a/drivers/accel/amdxdna/amdxdna_ctx.c
-+++ b/drivers/accel/amdxdna/amdxdna_ctx.c
-@@ -496,11 +496,11 @@ static int amdxdna_drm_submit_execbuf(struct amdxdna_client *client,
- 				      struct amdxdna_drm_exec_cmd *args)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+index b022dd6e6b6e..5a31783fe856 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+@@ -1258,7 +1258,7 @@ static const struct mipi_dsi_host_ops cdns_dsi_ops = {
+ 	.transfer = cdns_dsi_transfer,
+ };
+ 
+-static int __maybe_unused cdns_dsi_resume(struct device *dev)
++static int cdns_dsi_resume(struct device *dev)
  {
- 	struct amdxdna_dev *xdna = client->xdna;
--	u32 *arg_bo_hdls;
-+	u32 *arg_bo_hdls = NULL;
- 	u32 cmd_bo_hdl;
- 	int ret;
+ 	struct cdns_dsi *dsi = dev_get_drvdata(dev);
  
--	if (!args->arg_count || args->arg_count > MAX_ARG_COUNT) {
-+	if (args->arg_count > MAX_ARG_COUNT) {
- 		XDNA_ERR(xdna, "Invalid arg bo count %d", args->arg_count);
- 		return -EINVAL;
- 	}
-@@ -512,14 +512,16 @@ static int amdxdna_drm_submit_execbuf(struct amdxdna_client *client,
- 	}
+@@ -1269,7 +1269,7 @@ static int __maybe_unused cdns_dsi_resume(struct device *dev)
+ 	return 0;
+ }
  
- 	cmd_bo_hdl = (u32)args->cmd_handles;
--	arg_bo_hdls = kcalloc(args->arg_count, sizeof(u32), GFP_KERNEL);
--	if (!arg_bo_hdls)
--		return -ENOMEM;
--	ret = copy_from_user(arg_bo_hdls, u64_to_user_ptr(args->args),
--			     args->arg_count * sizeof(u32));
--	if (ret) {
--		ret = -EFAULT;
--		goto free_cmd_bo_hdls;
-+	if (args->arg_count) {
-+		arg_bo_hdls = kcalloc(args->arg_count, sizeof(u32), GFP_KERNEL);
-+		if (!arg_bo_hdls)
-+			return -ENOMEM;
-+		ret = copy_from_user(arg_bo_hdls, u64_to_user_ptr(args->args),
-+				     args->arg_count * sizeof(u32));
-+		if (ret) {
-+			ret = -EFAULT;
-+			goto free_cmd_bo_hdls;
-+		}
- 	}
+-static int __maybe_unused cdns_dsi_suspend(struct device *dev)
++static int cdns_dsi_suspend(struct device *dev)
+ {
+ 	struct cdns_dsi *dsi = dev_get_drvdata(dev);
  
- 	ret = amdxdna_cmd_submit(client, cmd_bo_hdl, arg_bo_hdls,
+@@ -1279,8 +1279,9 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static UNIVERSAL_DEV_PM_OPS(cdns_dsi_pm_ops, cdns_dsi_suspend, cdns_dsi_resume,
+-			    NULL);
++static const struct dev_pm_ops cdns_dsi_pm_ops = {
++	SET_RUNTIME_PM_OPS(cdns_dsi_suspend, cdns_dsi_resume, NULL)
++};
+ 
+ static int cdns_dsi_drm_probe(struct platform_device *pdev)
+ {
 -- 
 2.34.1
 
