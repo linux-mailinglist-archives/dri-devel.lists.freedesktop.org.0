@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D024BAAECEF
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 22:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E11AAECE4
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 22:22:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E491F10E8B5;
-	Wed,  7 May 2025 20:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4DB910E8AD;
+	Wed,  7 May 2025 20:22:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mf8SLFP6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mFccSIjD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
- [209.85.210.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4487D10E8A6
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 20:22:38 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id
- 46e09a7af769-7302a769534so142902a34.1
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
+ [209.85.210.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 073E410E8A6
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 20:22:39 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id
+ 46e09a7af769-72c173211feso67535a34.1
  for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 13:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746649357; x=1747254157; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746649358; x=1747254158; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9sbHd8gUlvuYnzn7gA8PnML99Gdixf1hIAz0N6qS0P4=;
- b=mf8SLFP6EeEzFwRJwEqONXKDzCN65OixDkcte+JOlR4r4MuCPDbV40t6rl2wgxUt32
- piDpKFp8h7v8QjoOgvbMbj7RxJn5wrePEu64fO+PGsjGFGiUi8cMjzvEIZCBL+r8yyLF
- Gq9FbXlj8sJLRcvqvtPgKR3wfohozoIyNnOMS2XwVROOa45mhAsDIXyYxh1ArUs/+Jlx
- QfAxvFFcYBwKbLlQCU0e+teEeqqoxAYmwmEyElBq+xM8EQj8gnB6rAI4PXqySHvKAgaq
- WxodrEHZsycuVRseIiBV4qWcSHbzDE9lr3hnZopMm3Wwlv+3yQK9dTSuqNGZIvIIq6NA
- Is7A==
+ bh=8mIGvJTufAsSoppe4rs7rmEWLnBgi1PHvYLOO81jKxw=;
+ b=mFccSIjDrfK/JA/whuAuXf3qt+JB3ZbXcbu4s6DwRiT7YrXr7z70cnR1QfWa37cfpI
+ xZeDjwwWSb2Qx/IN675hk43fya94wTIQuhkAdMtLV0BA/SG6sndufUL5US0e50StiCU6
+ tj34X5B8WNu1+D2W8U1i636RR3WhpXOkushrLiWaIJ5OMirXL6T4UY1rcjN6SYpcX/WO
+ D4BeTZ4srEslUR2Bvyt3d/t5qp4rocm1mZ1dCiXrCfL5TQoyQaLkJeaJu5wItKlmMq4y
+ vDrT5zees6Uflk3FqRMdiAV9sCDl0S8NsGdeM7kBIH9rnfQaI7ezZqXDq3HBmB2Zynon
+ kIoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746649357; x=1747254157;
+ d=1e100.net; s=20230601; t=1746649358; x=1747254158;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9sbHd8gUlvuYnzn7gA8PnML99Gdixf1hIAz0N6qS0P4=;
- b=m27h252FCt2fpxcgogrJkl5cs1DaIvePbrhnJeegu/QR9KEqqt1lnT/7TYmICqDqo6
- y1MJHcBbpp+cEPyjXiT5Jp8c+PzpHPwNSzD5lrHLogxoErKoELfg1BfXF85Xxi/WolpQ
- Fh9iBoZ7iHlYUWdC0Plq9enqc8mmT5aAGHvdGpvH8IYrjlve1JkifVa/qNy/ukS/EVme
- prb21q9rWPp6zMMOUT2Ecfa3pp0xNNoOpgz6aI6Lb0p4HChZT03ebglm+2iwnxAmBR1X
- G7i+RbU3g4q3wILMdSu5hE9VUYLhGP++wyKZlaG0OTeWp76LCV1aX+rZJ0coAgSd+M21
- 4HnA==
+ bh=8mIGvJTufAsSoppe4rs7rmEWLnBgi1PHvYLOO81jKxw=;
+ b=MVMUOJWfb5szSo+k7IEYqxu0qUV6Lzj1N0A12nvA21VfvHE/IUFb5Asb/bRMWUNhG4
+ TCkjAH49Gjq6/GklOspQZcCKyzGrEgwrGBfrhbd0gAYPclWd12w6WGiAScZq5hs7iL/c
+ Pwe4QF0WPvKKB6+RX6jUSh36qjKquiSLaaSzbZEVx8yDOqIUg1lEBuf+yd4sqHq9nzpy
+ eDe7+cLSSo5o3siCIlG1W2bHKj/7U23G3JH6pNVD+2aZyUfuUU8I5wwnUjwxFIYEFntH
+ +F/Bxzvo0DRQfHQevP2GsBeuoRy70cPug7t1uiz+BdimiU14Sjf4jciN86rZgM3QUucU
+ EQlQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVeZ/Ke2fjhsvf3Dz0sK8iXZNn2sm50CmEjDixUpformpZmRFvyelqjy5w18kgXdHEXfPZUFtAZr90=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzGyf2FHLULVQcyQ5N15f8quzmooata0MQpdfDxd0SbsHRGOG/E
- ZrD0Yy46K3aUrpgcyMrYb3UN20q3RQ4PSbobo+xLdij8rq4MhiUD
-X-Gm-Gg: ASbGncvwTDNGJf/xB6fo8i1axZ5xCZSVMaYBvpf/7F32keHG2j+yMoH30KwBvJpAUa0
- aqBRT+gPG5ccUsVqPyPbn12fQrKEChTVwSFtDA+gkwlgRvaieo5ejXE1V06ttMutsB9EnlI9bh9
- 3mqfzhI3xBhWYcayLqgbIjrlSZdCL/PS0vOgN1k6YPBmBiC9SozA/d+G9nDfFR26o5fWKENTYSE
- ejteyirRkV2Tehove3tyU3ZsSWRLJiKKy39y9fYx2ZbVlb3ZN6pKmYzgreoQLz65/y/PG5M4+Mz
- LBwkgPAtaUlmt/o72TEA6KMEIpex5zdTFRl9OP9nZti5/TkE0pePFXreTbNP
-X-Google-Smtp-Source: AGHT+IGe5N0nyCvS6qJkMbvSVFVtMjpTu1pefglJ9Uyewgv0lTh7SnRx1w9QVAtXhBd2yib+n33BeA==
-X-Received: by 2002:a05:6830:368d:b0:72b:9506:8db1 with SMTP id
- 46e09a7af769-73210a6952cmr3059070a34.4.1746649357459; 
- Wed, 07 May 2025 13:22:37 -0700 (PDT)
+ AJvYcCVOK1Y9xfjZ/XRJJqiv/WkciR4JiLBJeWW+ENHL+W6PewwM81HVB++iUfXWmF33AfJwV6Ujt8cuZ0g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx2tRf5KgPvzVhVXB0zbokXQcJ/vMlj6bxEh4qmhUCXbgWwmJQH
+ v0YK2BqTFoG9/+Zk9k4Kup6WoSIbPoRk2NYjz23act2C0+rwF5+L
+X-Gm-Gg: ASbGncud7uARQp6QfM4VPM7T9GIuI8nlm9tkZxlUqg7qR4PTWzfaROLRW5rY/PdQvQC
+ ADxkqBzAw46ayI5Xm4ioYhCgdcasLVh6akxbOZkmTzK9jtM0pXw6YQ6Dmg+4p6mZ2IYJDmiXlcG
+ isMKi9dq9Ndu1eZ8kBzZHc7j0nxxiWS4tgyPLc0nT1GSWVQerMu3Q+2YIlAKeL8724ciqoBIxyX
+ r2y+jSGR25G8eMHHZXYebMK8SSmtcpILP/OeStLwo8PO5aKSY7PrRbnLbvSGO1ZtjLuQ/E+trqL
+ HVZNbpavNy5V3SZK2Ag8mQlHH7Nv3aOgs/BwJse67UQAibZA8Q8dccXqjjKl
+X-Google-Smtp-Source: AGHT+IHcSoKFAVM889xXWDRRESTkmKZwmdTzBlBWvS9Mz85bqYtY6rkC9bb+3ND5pNYa+fTL+SOn3Q==
+X-Received: by 2002:a05:6830:d83:b0:72b:8a8b:e032 with SMTP id
+ 46e09a7af769-73210a6eae5mr3335106a34.2.1746649358256; 
+ Wed, 07 May 2025 13:22:38 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf:e46c:46ba:cecd:a52c])
  by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.36
+ 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 07 May 2025 13:22:37 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
@@ -69,10 +69,10 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  airlied@gmail.com, mripard@kernel.org, samuel@sholland.org,
  jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
  krzk+dt@kernel.org, robh@kernel.org
-Subject: [PATCH V9 13/24] drm: sun4i: de33: mixer: add mixer configuration for
- the H616
-Date: Wed,  7 May 2025 15:19:32 -0500
-Message-ID: <20250507201943.330111-14-macroalpha82@gmail.com>
+Subject: [PATCH V9 14/24] dt-bindings: allwinner: Add TCON_TOP and TCON_LCD
+ clock/reset defines
+Date: Wed,  7 May 2025 15:19:33 -0500
+Message-ID: <20250507201943.330111-15-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250507201943.330111-1-macroalpha82@gmail.com>
 References: <20250507201943.330111-1-macroalpha82@gmail.com>
@@ -95,55 +95,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-The H616 (and related SoC packages sharing the same die) carry the new
-DE33 display engine.
+The Allwinner H700 exposes RGB and LVDS pins as well as a HDMI
+connector. This requires additional clocks for the TCON_TOP and clock
+and resets for the TCON_LCD LCD controllers to be defined as per the
+T507 datasheet (which shares the same die).
 
-Add the mixer configuration and a compatible string for the H616 to the
-mixer.
-
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
-Changelog v7..v8:
-- Separate DE33 support and H616 enablement in the mixer.
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ include/dt-bindings/clock/sun8i-tcon-top.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 0d4695132dae..f774b693634d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -799,6 +799,17 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
- 	.vi_num		= 1,
- };
+diff --git a/include/dt-bindings/clock/sun8i-tcon-top.h b/include/dt-bindings/clock/sun8i-tcon-top.h
+index 25164d767835..2a12d047d2e1 100644
+--- a/include/dt-bindings/clock/sun8i-tcon-top.h
++++ b/include/dt-bindings/clock/sun8i-tcon-top.h
+@@ -7,5 +7,7 @@
+ #define CLK_TCON_TOP_TV0	0
+ #define CLK_TCON_TOP_TV1	1
+ #define CLK_TCON_TOP_DSI	2
++#define CLK_TCON_TOP_LCD0	3
++#define CLK_TCON_TOP_LCD1	4
  
-+static const struct sun8i_mixer_cfg sun50i_h616_mixer0_cfg = {
-+	.ccsc		= CCSC_MIXER0_LAYOUT,
-+	.de_type	= sun8i_mixer_de33,
-+	.mod_rate	= 600000000,
-+	.scaler_mask	= 0xf,
-+	.scanline_yuv	= 4096,
-+	.ui_num		= 3,
-+	.vi_num		= 1,
-+	.map		= {0, 6, 7, 8},
-+};
-+
- static const struct of_device_id sun8i_mixer_of_table[] = {
- 	{
- 		.compatible = "allwinner,sun8i-a83t-de2-mixer-0",
-@@ -844,6 +855,10 @@ static const struct of_device_id sun8i_mixer_of_table[] = {
- 		.compatible = "allwinner,sun50i-h6-de3-mixer-0",
- 		.data = &sun50i_h6_mixer0_cfg,
- 	},
-+	{
-+		.compatible = "allwinner,sun50i-h616-de33-mixer-0",
-+		.data = &sun50i_h616_mixer0_cfg,
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun8i_mixer_of_table);
+ #endif /* _DT_BINDINGS_CLOCK_SUN8I_TCON_TOP_H_ */
 -- 
 2.43.0
 
