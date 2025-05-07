@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E0BAADF22
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 14:29:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E127DAADF40
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 14:34:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033E110E7A0;
-	Wed,  7 May 2025 12:29:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 309A210E7A2;
+	Wed,  7 May 2025 12:34:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="oM0f7iPF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="skuRotTM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 314A610E79C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 12:28:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3728C10E79F;
+ Wed,  7 May 2025 12:34:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,34 +22,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=NS+5DrDYsTCplkoAfG3qv9O0ZLX7R93xzYUf4AlIYMo=; b=oM0f7iPF0pmXh/FQ4x8LrHtMY1
- Gf2EJkRkHMLNiEzT3dDOuGHodqoi2PVe4nDH1rK+uSJR+L0pQ7lhTgDuT688RxhojpSRbl58KXY9r
- AARf7Fin9I28+4kCdrfT061tFJ8+SXwWNJxK68dPhj5c1QUe6coyBuHWmiZ0CoC5j7e5BoSiLcfOY
- tuipc4f0RJr5xegSF0MdfRWJeSf1AYirXObhOqx0QMh2LzC4ezRt7MqT72IA09EbXX/UnkQ/Y/A91
- EyhTRgaSA9c8zu43cdI/C4W7kxpvznvWT3I1wmszs4LWU7zm4KQpm2kV6QUJQCkCllP7/UZOOzKpm
- JBh7UaMQ==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
+ bh=Vxm9OpDLFXAaknT13AU4WZpNG64LBN+vhB12lfO44sU=; b=skuRotTMaZskRqgD0xxhUU4lEz
+ q5x6GV1Z2uqd+3vZYTNZv6uT5dDMAVLancmvarYVasVuH1og7IYvkdcrnQLja99V2ZLMrx5oUF4MT
+ xPDaMao/QlIXGoH99mOgbfBKmP5oNTnzMXPinLxvE3/rNDf44FwoUyU9IRorac4bw67naRAGvSmH9
+ n10NAoMQB+LFv4M813dZCSROraAb9BQQf71qPh057uwFt2TbkM8pHXqv6RXkAzqHwqfcBLTYQSmKD
+ mz+y/7PkXre33RxtYUM+JhhNqqqijTiQcQNgKv9V9IfQMt/rPnv7ayXs2Yw+B+vFzf+DUionKkRGF
+ vBWYfviA==;
+Received: from [189.7.87.163] (helo=[192.168.0.7])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uCdpW-004haS-Lq; Wed, 07 May 2025 14:28:50 +0200
-Message-ID: <67a89aac-5eb6-46d2-b456-32e9f3e72f09@igalia.com>
-Date: Wed, 7 May 2025 13:28:49 +0100
+ id 1uCduE-004hi1-IW; Wed, 07 May 2025 14:33:42 +0200
+Message-ID: <4020cf8b-3524-46c9-a082-adaf4c1797c2@igalia.com>
+Date: Wed, 7 May 2025 09:33:31 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/4] Some (drm_sched_|dma_)fence lifetime issues
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
+Subject: Re: [PATCH 1/8] drm/sched: Allow drivers to skip the reset and keep
+ on running
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <mwen@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
- <phasta@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20250418164246.72426-1-tvrtko.ursulin@igalia.com>
- <29b27ae3-de56-475d-ae85-fd593a011ea3@amd.com>
- <e4acf86d-ff22-423d-9769-80316fa96cb5@igalia.com>
- <ff76a94e-97cd-4d19-a02b-cf2a1fc00ac8@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <ff76a94e-97cd-4d19-a02b-cf2a1fc00ac8@amd.com>
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+ <20250503-sched-skip-reset-v1-1-ed0d6701a3fe@igalia.com>
+ <f48aa17a-3135-4480-b396-2e2077a7d2aa@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <f48aa17a-3135-4480-b396-2e2077a7d2aa@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,102 +76,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Tvrtko,
 
-On 28/04/2025 14:15, Christian König wrote:
-> On 4/24/25 09:07, Tvrtko Ursulin wrote:
+Thanks for the review!
+
+On 06/05/25 08:32, Tvrtko Ursulin wrote:
+> 
+> On 03/05/2025 21:59, Maíra Canal wrote:
+>> When the DRM scheduler times out, it's possible that the GPU isn't hung;
+>> instead, a job may still be running, and there may be no valid reason to
+>> reset the hardware. This can occur in two situations:
 >>
->> On 23/04/2025 14:12, Christian König wrote:
->>> On 4/18/25 18:42, Tvrtko Ursulin wrote:
->>>> Hi all,
->>>>
->>>> Recently I mentioned to Danilo about some fence lifetime issues so here is a
->>>> rough series, more than anything intended to start the discussion.
->>>>
->>>> Most of the problem statement can be found in the first patch but to briefly
->>>> summarise - because sched fence can outlive the scheduler, we can trivially
->>>> engineer an use after free with xe and possibly other drivers. All that is
->>>> needed is to convert a syncobj into a sync file behind drivers back, and I don't
->>>> see what the driver can do about it.
->>>
->>>
->>> Yeah that topic again :) The problem here is that this is not a bug, it is a feature!
->>>
->>> IIRC it was Alex who pointed that issue out on the very first fence patch set, and we already discussed what to do back then.
->>>
->>> The problem with grabbing module references for fences is that you get trivially into circle references and so basically always preventing the module from unloading.
+>>    1. The GPU exposes some mechanism that ensures the GPU is still making
+>>       progress. By checking this mechanism, we can safely skip the reset,
+>>       rearm the timeout, and allow the job to continue running until
+>>       completion. This is the case for v3d and Etnaviv.
+>>    2. TDR has fired before the IRQ that signals the fence. Consequently,
+>>       the job actually finishes, but it triggers a timeout before 
+>> signaling
+>>       the completion fence.
 >>
->> Where "always" is only "while there are active objects from that module", no?
-> 
-> 
-> The problem is that dma_fences stay around after they are signaled. And basically all drivers keep some dma_fence around for their resource management. E.g. amdgpu for the VMIDs.
-> 
-> This means that some dma_fence is referenced by the module and the module referenced by some dma_fence. E.g. you are never able to unload the module.
-
-Are you thinking truly never or for as long someone has a reference?
-
-For example while userspace has a reference to dma_fence via sync_file 
-fence owning module would not unloadable. One would have to terminate 
-the process, which granted wouldn't be easy to see which process 
-prevents the unload, before driver could be unloaded.
-
-For the foreign fences kept around in kernel space, that would be 
-solvable by some periodic house keeping at worst.
-
-Also, about the use cases for module unload. Since you and Brost 
-especially seem to be expressing a hard no to module references, what 
-are the use cases you are concerned about?
-
->>> The decision was made to postpone this and live with the potential use after free on module unload until somebody has time to fix it. Well that was +10 years ago :)
->>>
->>> I discussed this with Sima again last year and we came to the conclusion that the easiest way forward would be to decouple the dma_fence implementation from the driver or component issuing the fence.
->>>
->>> I then came up with the following steps to allow this:
->>> 1. Decouple the lock used for protecting the dma_fence callback list from the caller.
->>> 2. Stop calling enable_signaling with the lock held.
->>> 3. Nuke all those kmem_cache implementations and force drivers to always allocate fences using kvmalloc().
->>> 4. Nuke the release callback (or maybe move it directly after signaling) and set fence->ops to NULL after signaling the fence.
->>>
->>> I already send patches out for #1 and #2, but don't have enough time to actually finish the work.
->>>
->>> If you want take a look at nuking all those kmem_cache implementations for allocating the fence memory. I think that can be completed completely separate to everything else.
+>> These two scenarios are problematic because we remove the job from the
+>> `sched->pending_list` before calling `sched->ops->timedout_job()`. This
+>> means that when the job finally signals completion (e.g. in the IRQ
+>> handler), the scheduler won't call `sched->ops->free_job()`. As a result,
+>> the job and its resources won't be freed, leading to a memory leak.
 >>
->> So enabling dma fence "revoke" so to say.
+>> To resolve this issue, we create a new `drm_gpu_sched_stat` that allows a
+>> driver to skip the reset. This new status will indicate that the job
+>> should be reinserted into the pending list, and the driver will still
+>> signal its completion.
+> 
+
+[...]
+
+>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>> index 
+>> 1a7e377d4cbb4fc12ed93c548b236970217945e8..fe9043b6d43141bee831b5fc16b927202a507d51 100644
+>> --- a/include/drm/gpu_scheduler.h
+>> +++ b/include/drm/gpu_scheduler.h
+>> @@ -389,11 +389,13 @@ struct drm_sched_job {
+>>    * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
+>>    * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
+>>    * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
+>> + * @DRM_GPU_SCHED_STAT_RUNNING: GPU is still running, so skip the reset.
+> 
+> s/GPU/job/ ?
+> 
+>>    */
+>>   enum drm_gpu_sched_stat {
+>>       DRM_GPU_SCHED_STAT_NONE,
+>>       DRM_GPU_SCHED_STAT_NOMINAL,
+>>       DRM_GPU_SCHED_STAT_ENODEV,
+>> +    DRM_GPU_SCHED_STAT_RUNNING,
+> 
+> I am wondering if we could make it more obvious what is the difference 
+> between "nominal" and "running" and from whose point of view should 
+> those statuses be considered.
+ > > So far we have "nominal" which means scheduler/hardware is working 
+fine
+> but the job may or may have not been cancelled. With "running" we kind 
+> of split it into two sub-statuses and it would be nice for that to be 
+> intuitively visible from the naming. But I struggle to suggest an 
+> elegant name while preserving nominal as is.
+
+I was thinking: how about changing DRM_GPU_SCHED_STAT_NOMINAL to
+DRM_GPU_SCHED_STAT_RESET (the hardware is fine, but we reset it)?
+
+Then, when we skip the reset, we would have DRM_GPU_SCHED_STAT_NOMINAL
+(which means the hardware is fine and we didn't reset it).
+
+I'm open to other suggestions.
+
+> 
+> Thinking out loud here - perhaps that is pointing towards an alternative 
+> that instead of a new status, a new helper to re-insert the single job 
+> (like drm_sched_resubmit_job(sched, job)) would fit better? Although it 
+> would be more churn.
+> 
+
+Although your solution might be more elegant, I'm worried that such a
+function could be used improperly by new users (e.g. being called in
+contexts other than `timedout_job()`).
+
+I'd prefer to have a new status as it'll be use solely for
+`timedout_job()` (making it harder for users to use it inappropriately).
+With the addition of Matthew's feedback (calling
+`drm_sched_run_free_queue()` after adding the job to the pending list),
+I think it makes even more sense to keep it inside the timeout function.
+
+I hope others can chime in and give their opinions about your idea.
+
+Best Regards,
+- Maíra
+
+> Regards,
+> 
+> Tvrtko
+> 
+>>   };
+>>   /**
 >>
->> Just to check we are on the same page, it is not just about the module references, but also use after frees which can happen even if module is still loaded but any memory reachable via dma fence entry points has been freed.
 > 
-> 
-> Yeah, that came much later when people started to use the scheduler dynamically. Basically the sched pointer in the drm_sched_fence implementation becomes invalid as soon as the fence signals.
-> 
->>
->> In that case, as Matt has already asked, if you could dig up your unfinished work it would be interesting to see.
-> 
-> 
-> This is what I already send out: https://gitlab.freedesktop.org/ckoenig/linux-drm/-/commits/dma-fence-rework-enable-signaling
-> 
-> A bunch of the cleanup patches in that branch have already been applied, only the last one is missing IIRC.
-> 
-> And here is a WIP patch to decouple the lock I wrote halve a year ago or so: https://gitlab.freedesktop.org/ckoenig/linux-drm/-/commits/dma-fence-rework-locking
-
-Thanks!
-
-My concern here is that to me it appears the whole premise is to leave 
-fences dangling in memory and somehow make them safe to be accessed by 
-importers.
-
-For starters this can create permanent memory leaks. Or at least for the 
-same window of duration as would the exporters be not unloadable with 
-the reference counting alternative. So we would not a strong argument 
-for why poorly bound memory leaks are better than poorly bound 
-unloadable modules.
-
-It is also a question how to "revoke" fences safely (race free). It 
-sounds hard to me. It does not seem you got to this last problem in the 
-above branches so I don't know if you had some elegant ideas for that.
-
-Maybe first to ask if anyone is aware of a precedent where something in 
-the kernel already uses this design pattern?
-
-Regards,
-
-Tvrtko
 
