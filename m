@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF68AAECDE
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 22:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC6DAAECE2
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 22:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6A110E8A4;
-	Wed,  7 May 2025 20:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FECD10E8AC;
+	Wed,  7 May 2025 20:22:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QLNabxNp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NOHybiq7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFFC210E89B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 20:22:35 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- 46e09a7af769-72bceb93f2fso782080a34.0
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 13:22:35 -0700 (PDT)
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+ [209.85.210.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7FC810E89B
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 20:22:36 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id
+ 46e09a7af769-72bceb93f2fso782090a34.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 13:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746649355; x=1747254155; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746649356; x=1747254156; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QHElNaXE3LEW3PDqEvXaDUnvuob14iBVgPt+yqm3W/M=;
- b=QLNabxNpzGXWCjYe9jZCFethIWbJVD+OhBFHXD29UQvlYyeLKRiyo37t5EZMp22DyT
- AJfmQhq1gV2F8ybw0crlmX1taG8/ZQprpiEVJd5McWK/2vFOclTUqH2y7AyZVk4HmBD3
- p8E8pPXY5uUdI+9x70ge9lGsCBfCtaypXRjlh5AsowizjStdZjvbnLfs5swASkhcKV8b
- 2Db46zPXZw9Q3SOxp0CkbsxJKakYAB5390dQmNIixrwYLhDDkVQrgNe8E8ogovdsQJYC
- yAbCV7k7m9wNNUFe1cBfF3IK/hnRqvHnG0FaNghjydXlXvL99yjWYVvtWy0OK+892vMJ
- 3A1Q==
+ bh=DOnjdA/K9t8YFoMyvpC9mBKsBSMkiqJxTGJB4LzuHbI=;
+ b=NOHybiq75VqTGievYISZgmyMA2RBnSUQMsFm+ej7VRL2n6XgNfsTTu88Z2XCjXJ4fB
+ qNMYvAj5kybMK8nfuuv8l3HP0HkHSNGMtW9vZVkfh3OCfFNMFa8rwslvA5W3g/E1hZ5s
+ GJxyd08lvpWSBRB4nhLULHUUZF4dEJvJIM1RKxIn/K5ZjighvaZi0uHXjVwZzOOy+D6+
+ T4pHiFdyHlsa/eYn0mNQm7/fHex5RV3utnmW3jFeCBCa0u5jRFc79OfOtKhE7XUkYN4X
+ +keS0Qtc+lGa6jgFAP0+VBNUYNBswcz/P8DUkyuyTk54rzBwq6iV0zZFYAPCDcf5eBuD
+ /pYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746649355; x=1747254155;
+ d=1e100.net; s=20230601; t=1746649356; x=1747254156;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QHElNaXE3LEW3PDqEvXaDUnvuob14iBVgPt+yqm3W/M=;
- b=fDw/u6NoDJPpIBmw1UYWFVlo6wvSLGxwcN0OefRZfanROiMV4dLFDuoEnGreW0VcIj
- XhFOaVKZXON+hMqY8g3l/b1m918rtrJLeWXyV4kxf7/znQ8t22dhC4SevrzCBw8PWVIx
- s3Dgg25fDnjsjrYnTMMAwhfjgOtDFqLT4Jq1l5zxqLLiVNHZOvZzrYBy3XRq5ZhYuBV6
- Lqvhcxcjlr06R45EObOeDDd/hVBNfLm4615p+kHp7lFcieCFdD1/L99Qrx/iZr8S4SyL
- u6le9IBvo2BFVSm+f6fRCY3XZCiE4MWTp9/99PdjX5A4pnV0VgUkrvA4EM3vPkcn0qkX
- iE5w==
+ bh=DOnjdA/K9t8YFoMyvpC9mBKsBSMkiqJxTGJB4LzuHbI=;
+ b=WyYnqjsU0OjozgmeaVHIm31sWsUXacEhUZxJNRNTyNKkLgcM+JlFXwP5ydEzw9fj2k
+ 9BrBQMlAfVZOpLPRq4kWvkeMVVvQEaLeYmUKr6zjQyzRdDi+4IiTUoYM0sNl9uno+mnc
+ S0hvKOSrSRKr57RQ5Urys/Axr83OjotYGMokKZqyXcW45GeVxJ5Or1qCPIxi30TOSos1
+ TdqxwzQhvnhlO3qH8piXGIXnY58p7C0XHS9Aub/tQK2vnCU6W+w1RH/2HVnEyfM7RTRQ
+ ax4qDDYlOUiC4hlEjtzYEaj7jX2e8pLQU9Vt4cbVoH/mVnAoJZ12Ap6G5hmARnuOTEc7
+ hjGw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUpHmlOVSiKRJ0zP/Lo88FZHIdkU2NE0LJ0zR5KllFQh17znGvuYPcJoeoy26HZ4GbikyfXDICIT6w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyIroptD9NGoAyTHtWdYAjOAoLBxEHp4UtGK1/2omPZVim2tab3
- bPKjJwreH9xjdK967qL7CAo9WZGTe32fPssZ475gX3RsEZSLR2e5
-X-Gm-Gg: ASbGnctMANjZR+ozu5pN9Z9knRWoTP/MdutGL+WaqmHTX5DaYIheksVqKHBGSc38n1m
- yui/2DZAeYo6iQ0ouY0sfQMVYUW38Ytki2Jf2RaGRz5mF5DiGSQlV0X3RcJ6XRYK8T7AMtpFiqi
- nw00W16xgEQhrRFu/1oThsYksIlhP7mMImmsO4hXXKLIvYfyBuygttiJ0snUAKKdhjfwNXy3x7v
- jiPuFb1spH3UBjjpPaAGErpshD/i+9qvt3OzRic3oV4zFADGH7vs+2W9yfQQBIxriBG3B9qv/sR
- E+XbM4lWFJRfkqe0OT2mcrzx73+ScecqBi7gL0cvk9Ri7Uo1OM/sc/uEPsFK
-X-Google-Smtp-Source: AGHT+IE6odboNkW58fCeUX14Z/mIvgc1rzNqO9suS76MYTky2niUs9LOJQzjbW6M5IVh5uu++8EYIQ==
-X-Received: by 2002:a9d:7995:0:b0:72a:48d1:7fca with SMTP id
- 46e09a7af769-7321b395cf5mr517632a34.4.1746649355188; 
+ AJvYcCWDIBaPu06dsw0nzncaH56iIgdXy1VwW8YVkIf2HPP6RWLTkSYtqfzzT1plD9KlDtBT47+WjfCqAHM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzT2ZTt3hIGfX1mVpZT/62DAdLOinHQX2UiS8QthN9N8Hil1acd
+ hal47DiGvwR0ZpsrD4PVWdD8KETMVN5fYCpgmPpLpCfYYZE/yAhD
+X-Gm-Gg: ASbGncuRSPi9KeNy+BVnaMDxBgf4ud3egpqN+uZQEP+N6D15RaGGGjIslXPTIh2MAOs
+ gt7nMFJXOcdogtbn6Aq8NYoYfjdtTwVmJsyJI+dRgoKCDCsKX+qnxFrUeYNTUeIhtC8BsvZXGdI
+ NaTshjVQnAqS0nTa5GPwPjloTZ9VIf6d1LkP4lDdLRnaU+IC9k3uEa/7J6DlKrbHtXznPuuoQ8F
+ 84SrNQnl9283e5Fb3InfO6OraaohmRQBVL1a2lMSQFzRoTIjg5yEdl321k/eOPzkSo8m2uKfW2Z
+ xRY5QJlmY+zGpOHGli/mFN14zW4siafQAWkwerSLZeSjkJy0Nb2pU82n55/u
+X-Google-Smtp-Source: AGHT+IGhdN7iQduVHwjpHb/fdju1Q9acMOat+8tQez4g/T+ucKmAnspCZWL5Wcod8/fm0yG7hchEvA==
+X-Received: by 2002:a05:6830:33f8:b0:72a:b2a:476 with SMTP id
+ 46e09a7af769-7321b364c5dmr525805a34.3.1746649355944; 
  Wed, 07 May 2025 13:22:35 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf:e46c:46ba:cecd:a52c])
  by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.34
+ 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 May 2025 13:22:34 -0700 (PDT)
+ Wed, 07 May 2025 13:22:35 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -69,10 +69,10 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  airlied@gmail.com, mripard@kernel.org, samuel@sholland.org,
  jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
  krzk+dt@kernel.org, robh@kernel.org
-Subject: [PATCH V9 10/24] clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33)
- support
-Date: Wed,  7 May 2025 15:19:29 -0500
-Message-ID: <20250507201943.330111-11-macroalpha82@gmail.com>
+Subject: [PATCH V9 11/24] drm: sun4i: de33: vi_scaler: add Display Engine 3.3
+ (DE33) support
+Date: Wed,  7 May 2025 15:19:30 -0500
+Message-ID: <20250507201943.330111-12-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250507201943.330111-1-macroalpha82@gmail.com>
 References: <20250507201943.330111-1-macroalpha82@gmail.com>
@@ -95,94 +95,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-The DE33 is a newer version of the Allwinner Display Engine IP block,
-found in the H616, H618, H700 and T507 SoCs. DE2 and DE3 are already
-supported by the mainline driver.
+The vi_scaler appears to be used in preference to the ui_scaler module
+for hardware video scaling in the DE33.
 
-The DE33 in the H616 has mixer0 and writeback units. The clocks
-and resets required are identical to the H3 and H5 respectively, so use
-those existing structs for the H616 description.
+Enable support for this scaler.
 
-There are two additional 32-bit registers (at offsets 0x24 and 0x28)
-which require clearing and setting respectively to bring up the
-hardware. The function of these registers is currently unknown, and the
-values are taken from the out-of-tree driver.
-
-Add the required clock description struct and compatible string to the
-DE2 driver.
-
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
-Changelog v2..v3:
-- Lowercase hex value
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c  | 20 ++++++++++++++++----
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.c |  4 +++-
+ 2 files changed, 19 insertions(+), 5 deletions(-)
 
-Changelog v2..v3:
-- Correct #include for writel()
-
-Changelog v4..v5:
-- Whitespace fix
----
- drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-index f2aa71206bc2..a6cd0f988859 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-@@ -5,6 +5,7 @@
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index 7a21d32ff1e4..3eefdb710dee 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -94,12 +94,24 @@ static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+ 		hscale = state->src_w / state->crtc_w;
+ 		vscale = state->src_h / state->crtc_h;
  
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
-+#include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-@@ -239,6 +240,16 @@ static const struct sunxi_ccu_desc sun50i_h5_de2_clk_desc = {
- 	.num_resets	= ARRAY_SIZE(sun50i_h5_de2_resets),
- };
- 
-+static const struct sunxi_ccu_desc sun50i_h616_de33_clk_desc = {
-+	.ccu_clks	= sun8i_de2_ccu_clks,
-+	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
-+
-+	.hw_clks	= &sun8i_h3_de2_hw_clks,
-+
-+	.resets		= sun50i_h5_de2_resets,
-+	.num_resets	= ARRAY_SIZE(sun50i_h5_de2_resets),
-+};
-+
- static int sunxi_de2_clk_probe(struct platform_device *pdev)
- {
- 	struct clk *bus_clk, *mod_clk;
-@@ -291,6 +302,16 @@ static int sunxi_de2_clk_probe(struct platform_device *pdev)
- 		goto err_disable_mod_clk;
+-		sun8i_ui_scaler_setup(mixer, channel, src_w, src_h, dst_w,
+-				      dst_h, hscale, vscale, hphase, vphase);
+-		sun8i_ui_scaler_enable(mixer, channel, true);
++		if (mixer->cfg->de_type == sun8i_mixer_de33) {
++			sun8i_vi_scaler_setup(mixer, channel, src_w, src_h,
++					      dst_w, dst_h, hscale, vscale,
++					      hphase, vphase,
++					      state->fb->format);
++			sun8i_vi_scaler_enable(mixer, channel, true);
++		} else {
++			sun8i_ui_scaler_setup(mixer, channel, src_w, src_h,
++					      dst_w, dst_h, hscale, vscale,
++					      hphase, vphase);
++			sun8i_ui_scaler_enable(mixer, channel, true);
++		}
+ 	} else {
+ 		DRM_DEBUG_DRIVER("HW scaling is not needed\n");
+-		sun8i_ui_scaler_enable(mixer, channel, false);
++		if (mixer->cfg->de_type == sun8i_mixer_de33)
++			sun8i_vi_scaler_enable(mixer, channel, false);
++		else
++			sun8i_ui_scaler_enable(mixer, channel, false);
  	}
  
-+	/*
-+	 * The DE33 requires these additional (unknown) registers set
-+	 * during initialisation.
-+	 */
-+	if (of_device_is_compatible(pdev->dev.of_node,
-+				    "allwinner,sun50i-h616-de33-clk")) {
-+		writel(0, reg + 0x24);
-+		writel(0x0000a980, reg + 0x28);
-+	}
-+
- 	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, ccu_desc);
- 	if (ret)
- 		goto err_assert_reset;
-@@ -335,6 +356,10 @@ static const struct of_device_id sunxi_de2_clk_ids[] = {
- 		.compatible = "allwinner,sun50i-h6-de3-clk",
- 		.data = &sun50i_h5_de2_clk_desc,
- 	},
-+	{
-+		.compatible = "allwinner,sun50i-h616-de33-clk",
-+		.data = &sun50i_h616_de33_clk_desc,
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sunxi_de2_clk_ids);
+ 	/* Set base coordinates */
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
+index ad87ab395803..6839fd5ab602 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_scaler.c
+@@ -835,7 +835,9 @@ static const u32 bicubic4coefftab32[480] = {
+ 
+ static u32 sun8i_vi_scaler_base(struct sun8i_mixer *mixer, int channel)
+ {
+-	if (mixer->cfg->de_type == sun8i_mixer_de3)
++	if (mixer->cfg->de_type == sun8i_mixer_de33)
++		return sun8i_channel_base(mixer, channel) + 0x3000;
++	else if (mixer->cfg->de_type == sun8i_mixer_de3)
+ 		return DE3_VI_SCALER_UNIT_BASE +
+ 		       DE3_VI_SCALER_UNIT_SIZE * channel;
+ 	else
 -- 
 2.43.0
 
