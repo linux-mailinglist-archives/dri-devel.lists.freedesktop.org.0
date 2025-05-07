@@ -2,75 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C117DAAE3F6
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 17:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3AEAAE48C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 17:24:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 443C510E824;
-	Wed,  7 May 2025 15:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99C8A10E836;
+	Wed,  7 May 2025 15:23:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Gp/FByOw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KQ1ktLVD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0995D10E829;
- Wed,  7 May 2025 15:10:45 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-30ab2041731so1000a91.2; 
- Wed, 07 May 2025 08:10:45 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53DE510E834
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 15:23:56 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-ad1d1f57a01so529233266b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 08:23:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746630644; x=1747235444; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Rr7SlBb+Mxic3W0vjBKAoi3hgA/5VfbFQVNl/yBWl2M=;
- b=Gp/FByOw5lTnUSH6O94DLce2+RaUCnwnD/kGNxit2lFajHV8cHg+NBYGlOCklyGl94
- 9lhGC3AtuC4Gimneg5IHT6M59PF/iVYy/AHYSZETjIYUBVixQz8mc296cMjS4yiBagKs
- gCPW6qlbL1wRqdye9JCq+h+IfHDquTgSgYBZh/Dt3vb+zkgT0mSnewFKqIntMAKrPVyH
- xiPJDiElHj94QGhPnPCJZmz28PefupgbysCST9JTAHtArr1gHUZLXQMkZVdKwXMHBGNi
- FgpPWhf59vZZMk+A8cHvOb7M2vd+lLFDOM8KkAa9ngoLQPjGMEuG+XQyZ2wHPDCCiH2S
- dyuA==
+ d=gmail.com; s=20230601; t=1746631434; x=1747236234; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bu+V95WZmuevBWrYtl8nXKNY0WPBNalcqPNhN8Y1Gbc=;
+ b=KQ1ktLVDfz9n6QtJ3Lt63wwn8t54jdDkx1p5villZViRJQ8EwJsz2iAsfNHmdzgkdC
+ iapWGwabdRNa73PckxzSnKo3ZJXznLmRAgRJGt7+9RPKzKbpppCYL3J3ysBPoWJ+TXSx
+ /tPXm2t5QR+JUkNHPtg4hTtFxFVFITjgMrbiDPBKEnNaR4VTuSbpP31Q1TXfCDU4Q3sm
+ 8NwnMTGbocs5q8rxbTSSWylsNU5kL12RHgCeJADUUZjToRl9+9bLXc9qUUvmOvGW8xkH
+ 4Zqyr4LuFVnpbdiSYHKM4oUCU1H5dw/Sh97aJHu8TMLlzfg21CeH/QB2gSYxPylsh1oo
+ H4kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746630644; x=1747235444;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Rr7SlBb+Mxic3W0vjBKAoi3hgA/5VfbFQVNl/yBWl2M=;
- b=o0GDIUhNY5jpG6c/V80NlvcPLc4+vzxFQVuBW9UNsUomKorQ4LhuPVM0PLbWxPdiG+
- TPBDIHUlv4+bXVboU3LOyDNZXFNYhvXo4D1iuYH3IbpP2RBiTdpEU7TXcO+pGxu9WlU2
- qOE+Lk7kG1fKzXzzyrWLNOpfigVQX6Vd5m6KHFm1uIjlfsYw3fSF6dA41I7cJSaUIyGe
- MLWaZBJIN3CbLt0lofeleNQAyBjbzao0yTPI//thAt21EHUrLFutq36HNjG9OgR5dvrY
- 1XHz0afb9WXXPgmWtsBGtEFnScVLMu+8UmxRBC6GXWLp1TqPFXz6dNHq3x5hifxrId1J
- aK6w==
+ d=1e100.net; s=20230601; t=1746631434; x=1747236234;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Bu+V95WZmuevBWrYtl8nXKNY0WPBNalcqPNhN8Y1Gbc=;
+ b=gSZq6NgLWcUJgt4+WX4fgd97K6yiRAciL2Eql5cfaXCtA4fF5bqSWV2iDgOosrWaYw
+ ceLnb7drT1UmvkPd37++g9B46g1ieaRDNdmYbVHNIYU/GXLedV6so0p1hXL4IyhAUwUe
+ kuEk6N5yAAlWT9uiFhUhvsYjZlDSC8GmfiPVk4C3NYVey5yK/arHuSpR4lgbexdq9wX0
+ sTWGUpm9dWdhtJ5S7n4ygrds1vXhrb7Cj9e00hBVLW4MkDAt52kywr6XXDrBtig0vhTv
+ 3sGMsaE3eNh0YozB3sW2lil0YQ4x9PSpQIUBycalV/xs+iPgufzIzeHQdihsFpPcTmaM
+ OiZw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVBm6EQvj15f/7zYhJ2mSLjRa7EB6AH/8FwwP9efKwXlIHzymyZy4PRWQ9nWfcvtN2PX/KKnfXy@lists.freedesktop.org,
- AJvYcCX/TidrIu0eClTAJHMQPijrtfwQRf6Z51TKe8dVkNaPZQMvfT2SBz+aw/uDjC8q/+tsJjrt1noLaDQu@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFWhGTC9X/FJ859yuEDZpjBmylz+orexurREU/hUUE9pgRQjzq
- eDFzggHMJkUSdVVLxlp0PSxVALFjU2gg6CKQft0/bv/Y+g/jJPK6KwlFcJGo0rO6nHiOFlqSj9t
- lkanuwOZCD7r/D1BHksY2hJnCsQk=
-X-Gm-Gg: ASbGncuWvBPaU2CFU7rxQT9QdnQEnH26ORcN/Vq8tkQuMpI9rYaHHTOYA44W1J5/Dtk
- 5B6bJoU7tSxMmGLlpX5jc+pyJI/vQ6z45BIWL/KacHTU7obXHVPfLew10Xx1G9+pgDsnQGtgEvv
- Emr9KJcp3GfdQPxhrXkLorHg==
-X-Google-Smtp-Source: AGHT+IHs751kgovWTS/yqPwWIwj5rYGwaenWwA5o/tymdJxAfSymJ3o5v+LKLXXv/sRdy8BfgThzhohaNXNRvPfXyxM=
-X-Received: by 2002:a17:90b:3882:b0:30a:a51c:5f48 with SMTP id
- 98e67ed59e1d1-30aac26b85fmr2036308a91.8.1746630644306; Wed, 07 May 2025
- 08:10:44 -0700 (PDT)
+ AJvYcCWcH4Nr/kkochowKjf5Jz4FfLMVSEYtczl8T1M2TCmWKC2l8nbqgfStn3N60KX2vdWVE/DdtBk1LaA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwH/80T1cFiKTMpUYmxufBjcase8ZwBHmA3NYJ9abgZkfWZeR0v
+ ONUN1w53c1MA/tomBGdBAPFm1eldTH6k8sF7KnooFgfXc/XCFpwk
+X-Gm-Gg: ASbGnctVAYlDmyZj0LUSmnDwjXzWMJVJR/H8NCKTJsaczckxMqDJS1MSLgQMYTrERLS
+ 761NFWnoiifXsdZd/op7PCCo9ZM8dRbj0SGw8nZfdoa0OvdCkLgtAue7tFvlI7vpa5QXw8A8Nfs
+ bbARPWW3HLOfIhnH08wIAvUr5dIXXuchhLpF6Veey5cV6FjcKbVfl84N36mfb26BtvjvfGGH3+a
+ /YEi6XtjNhGXqbJtXu1OpHaeA0Z/hLXsGt+4ZyQNwtnQpxm+UumrzuumdGgX4Qn31XkJA/mxuuX
+ quzmSiRP5GV4UimBEioWDIdWGo5xgEmDvhe/WkPiQyYX/06laMpYC9Ijz2E4BsflE2hyP8u+cgz
+ UsPgiL8AJpjVnFDzxJxY68TC0NHI=
+X-Google-Smtp-Source: AGHT+IGjfHXnrpEUYevTUWlZNdlZY2K76cUxolllBKTvZC9lPWbiy+bz6X7MHwmtyPjAegiT6kqLtg==
+X-Received: by 2002:a5d:5887:0:b0:3a0:9fe1:c298 with SMTP id
+ ffacd0b85a97d-3a0b4a161b7mr3182648f8f.18.1746630987926; 
+ Wed, 07 May 2025 08:16:27 -0700 (PDT)
+Received: from orome (p200300e41f281b00f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f28:1b00:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a099b0f125sm17160004f8f.72.2025.05.07.08.16.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 May 2025 08:16:26 -0700 (PDT)
+Date: Wed, 7 May 2025 17:16:24 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: webgeek1234@gmail.com
+Cc: Mikko Perttunen <mperttunen@nvidia.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Thierry Reding <treding@nvidia.com>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v2] drm/tegra: Assign plane type before registration
+Message-ID: <6nnklsiik7cwgmul2ygy7zayenybarmikfgl2hogryo7r2vtd3@vgksl6swjrxm>
+References: <20250421-tegra-drm-primary-v2-1-7f740c4c2121@gmail.com>
 MIME-Version: 1.0
-References: <20250507002425.93421-1-linux@treblig.org>
- <20250507002425.93421-4-linux@treblig.org>
-In-Reply-To: <20250507002425.93421-4-linux@treblig.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 7 May 2025 11:10:32 -0400
-X-Gm-Features: ATxdqUE3O2iczVjE8Eax_qzR85S_kXa9idjGqD3mrYnEK2wwEG3f3vkjlSdNm00
-Message-ID: <CADnq5_PPpDSY8o6Ru7nrE1q=xaboKJDjG7WiUhDdX8G9Kz00eQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/amd/pm/smu13: Remove unused smu_v3 functions
-To: linux@treblig.org
-Cc: alexander.deucher@amd.com, kenneth.feng@amd.com, christian.koenig@amd.com, 
- airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yzkzi6i556e7c47u"
+Content-Disposition: inline
+In-Reply-To: <20250421-tegra-drm-primary-v2-1-7f740c4c2121@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,207 +94,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied the series.  Thanks!
 
-Alex
+--yzkzi6i556e7c47u
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] drm/tegra: Assign plane type before registration
+MIME-Version: 1.0
 
-On Tue, May 6, 2025 at 8:33=E2=80=AFPM <linux@treblig.org> wrote:
->
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->
-> smu_v13_0_display_clock_voltage_request() and
-> smu_v13_0_set_min_deep_sleep_dcefclk() were added in 2020 by
-> commit c05d1c401572 ("drm/amd/swsmu: add aldebaran smu13 ip support (v3)"=
-)
-> but have remained unused.
->
-> Remove them.
->
-> smu_v13_0_display_clock_voltage_request() was the only user
-> of smu_v13_0_set_hard_freq_limited_range().  Remove it.
->
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+On Mon, Apr 21, 2025 at 11:13:05AM -0500, Aaron Kling via B4 Relay wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> Changes to a plane's type after it has been registered aren't propagated
+> to userspace automatically. This could possibly be achieved by updating
+> the property, but since we can already determine which type this should
+> be before the registration, passing in the right type from the start is
+> a much better solution.
+>=20
+> Suggested-by: Aaron Kling <webgeek1234@gmail.com>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> Cc: stable@vger.kernel.org
+> Fixes: 473079549f27 ("drm/tegra: dc: Add Tegra186 support")
+> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 > ---
->  drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h  |  12 ---
->  .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c    | 101 ------------------
->  2 files changed, 113 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h b/drivers/gpu/d=
-rm/amd/pm/swsmu/inc/smu_v13_0.h
-> index cd03caffe317..6f74783472e5 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h
-> @@ -183,13 +183,6 @@ int smu_v13_0_disable_thermal_alert(struct smu_conte=
-xt *smu);
->
->  int smu_v13_0_get_gfx_vdd(struct smu_context *smu, uint32_t *value);
->
-> -int smu_v13_0_set_min_deep_sleep_dcefclk(struct smu_context *smu, uint32=
-_t clk);
-> -
-> -int
-> -smu_v13_0_display_clock_voltage_request(struct smu_context *smu,
-> -                                       struct pp_display_clock_request
-> -                                       *clock_req);
-> -
->  uint32_t
->  smu_v13_0_get_fan_control_mode(struct smu_context *smu);
->
-> @@ -226,11 +219,6 @@ int smu_v13_0_get_dpm_ultimate_freq(struct smu_conte=
-xt *smu, enum smu_clk_type c
->  int smu_v13_0_set_soft_freq_limited_range(struct smu_context *smu, enum =
-smu_clk_type clk_type,
->                                           uint32_t min, uint32_t max, boo=
-l automatic);
->
-> -int smu_v13_0_set_hard_freq_limited_range(struct smu_context *smu,
-> -                                         enum smu_clk_type clk_type,
-> -                                         uint32_t min,
-> -                                         uint32_t max);
-> -
->  int smu_v13_0_set_performance_level(struct smu_context *smu,
->                                     enum amd_dpm_forced_level level);
->
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c b/drivers/gpu=
-/drm/amd/pm/swsmu/smu13/smu_v13_0.c
-> index ba5a9012dbd5..03242f65e262 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
-> @@ -709,18 +709,6 @@ int smu_v13_0_notify_memory_pool_location(struct smu=
-_context *smu)
->         return ret;
->  }
->
-> -int smu_v13_0_set_min_deep_sleep_dcefclk(struct smu_context *smu, uint32=
-_t clk)
-> -{
-> -       int ret;
-> -
-> -       ret =3D smu_cmn_send_smc_msg_with_param(smu,
-> -                                             SMU_MSG_SetMinDeepSleepDcef=
-clk, clk, NULL);
-> -       if (ret)
-> -               dev_err(smu->adev->dev, "SMU13 attempt to set divider for=
- DCEFCLK Failed!");
-> -
-> -       return ret;
-> -}
-> -
->  int smu_v13_0_set_driver_table_location(struct smu_context *smu)
->  {
->         struct smu_table *driver_table =3D &smu->smu_table.driver_table;
-> @@ -1073,56 +1061,6 @@ int smu_v13_0_get_gfx_vdd(struct smu_context *smu,=
- uint32_t *value)
->
->  }
->
-> -int
-> -smu_v13_0_display_clock_voltage_request(struct smu_context *smu,
-> -                                       struct pp_display_clock_request
-> -                                       *clock_req)
-> -{
-> -       enum amd_pp_clock_type clk_type =3D clock_req->clock_type;
-> -       int ret =3D 0;
-> -       enum smu_clk_type clk_select =3D 0;
-> -       uint32_t clk_freq =3D clock_req->clock_freq_in_khz / 1000;
-> -
-> -       if (smu_cmn_feature_is_enabled(smu, SMU_FEATURE_DPM_DCEFCLK_BIT) =
-||
-> -           smu_cmn_feature_is_enabled(smu, SMU_FEATURE_DPM_UCLK_BIT)) {
-> -               switch (clk_type) {
-> -               case amd_pp_dcef_clock:
-> -                       clk_select =3D SMU_DCEFCLK;
-> -                       break;
-> -               case amd_pp_disp_clock:
-> -                       clk_select =3D SMU_DISPCLK;
-> -                       break;
-> -               case amd_pp_pixel_clock:
-> -                       clk_select =3D SMU_PIXCLK;
-> -                       break;
-> -               case amd_pp_phy_clock:
-> -                       clk_select =3D SMU_PHYCLK;
-> -                       break;
-> -               case amd_pp_mem_clock:
-> -                       clk_select =3D SMU_UCLK;
-> -                       break;
-> -               default:
-> -                       dev_info(smu->adev->dev, "[%s] Invalid Clock Type=
-!", __func__);
-> -                       ret =3D -EINVAL;
-> -                       break;
-> -               }
-> -
-> -               if (ret)
-> -                       goto failed;
-> -
-> -               if (clk_select =3D=3D SMU_UCLK && smu->disable_uclk_switc=
-h)
-> -                       return 0;
-> -
-> -               ret =3D smu_v13_0_set_hard_freq_limited_range(smu, clk_se=
-lect, clk_freq, 0);
-> -
-> -               if (clk_select =3D=3D SMU_UCLK)
-> -                       smu->hard_min_uclk_req_from_dal =3D clk_freq;
-> -       }
-> -
-> -failed:
-> -       return ret;
-> -}
-> -
->  uint32_t smu_v13_0_get_fan_control_mode(struct smu_context *smu)
->  {
->         if (!smu_cmn_feature_is_enabled(smu, SMU_FEATURE_FAN_CONTROL_BIT)=
-)
-> @@ -1647,45 +1585,6 @@ int smu_v13_0_set_soft_freq_limited_range(struct s=
-mu_context *smu,
->         return ret;
->  }
->
-> -int smu_v13_0_set_hard_freq_limited_range(struct smu_context *smu,
-> -                                         enum smu_clk_type clk_type,
-> -                                         uint32_t min,
-> -                                         uint32_t max)
-> -{
-> -       int ret =3D 0, clk_id =3D 0;
-> -       uint32_t param;
-> -
-> -       if (min <=3D 0 && max <=3D 0)
-> -               return -EINVAL;
-> -
-> -       if (!smu_cmn_clk_dpm_is_enabled(smu, clk_type))
-> -               return 0;
-> -
-> -       clk_id =3D smu_cmn_to_asic_specific_index(smu,
-> -                                               CMN2ASIC_MAPPING_CLK,
-> -                                               clk_type);
-> -       if (clk_id < 0)
-> -               return clk_id;
-> -
-> -       if (max > 0) {
-> -               param =3D (uint32_t)((clk_id << 16) | (max & 0xffff));
-> -               ret =3D smu_cmn_send_smc_msg_with_param(smu, SMU_MSG_SetH=
-ardMaxByFreq,
-> -                                                     param, NULL);
-> -               if (ret)
-> -                       return ret;
-> -       }
-> -
-> -       if (min > 0) {
-> -               param =3D (uint32_t)((clk_id << 16) | (min & 0xffff));
-> -               ret =3D smu_cmn_send_smc_msg_with_param(smu, SMU_MSG_SetH=
-ardMinByFreq,
-> -                                                     param, NULL);
-> -               if (ret)
-> -                       return ret;
-> -       }
-> -
-> -       return ret;
-> -}
-> -
->  int smu_v13_0_set_performance_level(struct smu_context *smu,
->                                     enum amd_dpm_forced_level level)
->  {
-> --
-> 2.49.0
->
+> Changes in v2:
+> - Fixed signoff in commit message
+> - Added fixes to commit message
+> - Link to v1: https://lore.kernel.org/r/20250419-tegra-drm-primary-v1-1-b=
+91054fb413f@gmail.com
+> ---
+>  drivers/gpu/drm/tegra/dc.c  | 12 ++++++++----
+>  drivers/gpu/drm/tegra/hub.c |  4 ++--
+>  drivers/gpu/drm/tegra/hub.h |  3 ++-
+>  3 files changed, 12 insertions(+), 7 deletions(-)
+
+Applied to drm-misc-next, thanks.
+
+Thierry
+
+--yzkzi6i556e7c47u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmgbeUgACgkQ3SOs138+
+s6E8shAAimUEuugWp3icnj7eXRj2vOg3BUz/p6I7LDUlHLc1/oumW7zSeXpRUMpb
+o9tfQ7CDoApO3BOBxWjJh1g5Me8nKoQwWxANkJ0O/QGqYcKOdNaeeeHLjN3veQEe
+E/LfkIpFTEuSIV56GypmQUjp10+lgU/BcgKu3uw8lEoHJdR8RYZqdtjpRRT3ey8D
+pNMFQJ6CgruF5VqVSS1Z1xcE7hBTuLnqJmZ1w1v+r2klt3uiivpxE8zbOOiHjyoR
+XERgg+wWM5MLVjRvPdkdNOXlOMO85quLmr8WeV0SE6plBOSQAETgqATj4BchuBkc
+cvN1pYwtghCKLD/Z9xikAxxfh+p+W87+bZY4TUdr7QzQ62S7SyHKwye0ORtUdZnC
+XP0+fHXVb2qOmSpGVtlP53MWGbLCVsy1vjb1sg1N/J5CIHprgTeGRWJVCqgUPjZS
+jQLrKV3Y54MDV4XAA5HpzmbaFhABZ1H/PdAy08mwPsc/shHbD+p/6m26NR0elNRS
+CaDicCDmX6oIE3sEYRBjKNcAkW9DqDrJWIaNH+qDpywO/JVa4Khb2W0CNyw4UY74
+qY+YttsGD2/M6Ym3/yZRQ5zzgVn81nkD38RHIFQUvhgt0Moarp9zDMeBKBlHzjeG
+L8A+IW7WldrGcxMDWkmXArTyZeSbkpnDGisHNvr/CbZ7PH9AsTg=
+=NqSH
+-----END PGP SIGNATURE-----
+
+--yzkzi6i556e7c47u--
