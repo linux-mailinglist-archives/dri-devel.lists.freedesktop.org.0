@@ -2,70 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92799AAD940
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 09:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1EDAAAD978
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 10:04:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3D2010E760;
-	Wed,  7 May 2025 07:59:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBBCC10E762;
+	Wed,  7 May 2025 08:04:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fCiXWS+F";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BVWPEPzy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB7010E760
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 07:59:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746604742; x=1778140742;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pc9ZnpfpNAW8KOYgspYmh8RTXqehB+edtu1UuEUhwVw=;
- b=fCiXWS+FphLuH8p/ardWVmN2K3rxql3v/YdeJx+Fq1jA2jEuJVuzwJ5b
- u2koIiC1v/lPvXqohzgK37EI1o3nv0zrPidkHejXl+vAPk5VLSkijocKk
- 8VAotCr0rHqFOcpu4Jnzx1/lR5aDNUd9jvOtKGSA4LPnA0Q9fine+k+5w
- n7/TrARTDFxQ3UKxN4MV9x9LN1VauU/FSumOputJ79C62P6oWnZjOQalX
- VQnV7m4x9JyQkvqV9er4jBF2ggU1YwFNnd5aJIXNgulnsg/EmBF6vvk8W
- 7zVG4dFn+jQ+7/4Uc1nNobWJn5bnohV35YoirKwoYseeLoFvq+TmxVeqM w==;
-X-CSE-ConnectionGUID: TzayU4HXRpqAmRFv3AIkXw==
-X-CSE-MsgGUID: SOKbghTdS/uS0DfOOmxKvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="51969525"
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; d="scan'208";a="51969525"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2025 00:59:01 -0700
-X-CSE-ConnectionGUID: qCHCQ2hDQBu1dMXhuqOWpw==
-X-CSE-MsgGUID: HwB8VYUgR8ivGlALf/bRSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; d="scan'208";a="159175157"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 00:58:58 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uCZg6-0007Mz-26;
- Wed, 07 May 2025 07:58:54 +0000
-Date: Wed, 7 May 2025 15:58:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
- Jens Wiklander <jens.wiklander@linaro.org>,
- Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
- Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-Subject: Re: [PATCH v4 08/11] tee: add Qualcomm TEE driver
-Message-ID: <202505071540.hAeEOUWt-lkp@intel.com>
-References: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-8-6a143640a6cb@oss.qualcomm.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D6F10E762
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 08:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1746605047;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1L9rKyoo5gafZgxfVF9TUdVkYjAT0uCnIxL4ynrWXso=;
+ b=BVWPEPzyeoIFjXbkH067CNb9ncRLfGXpnqZcxH3n1t4JTWuad0J27q34eQdvBamtjjmegp
+ GOfNvjozZOVVW78+QoChXSehtR0zynxjLr0/tZ6eyP4sfcghdK1cOE7U0aKNWbjuoQLkVd
+ sEVdYn9pnxBYDKbJnt8YFph5oWhWqSs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-595-UDENzQYlPsSbXoXg3ZGkOA-1; Wed, 07 May 2025 04:04:06 -0400
+X-MC-Unique: UDENzQYlPsSbXoXg3ZGkOA-1
+X-Mimecast-MFC-AGG-ID: UDENzQYlPsSbXoXg3ZGkOA_1746605045
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-43ced8c2eb7so50665065e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 01:04:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746605045; x=1747209845;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1L9rKyoo5gafZgxfVF9TUdVkYjAT0uCnIxL4ynrWXso=;
+ b=ira1KlYayLh7aLKKJWrBj7ZZcMZYZ3nAjAZ70IvPihA2Bkw4IMN7BADIe3QfWfFw1I
+ 3OcBk++KODrEBNuufAjCNqu6QHBjyvJX9JPdWgE/xzkPaG8qblsKJnUHXnt33MKGwt1Y
+ cF+RuGyedU/cIAbtDvZu1zfWiUG9RAea4Lz6DvuiJd6CrRpdCHccT1SqwcYAXOxO0uHf
+ 2lU4nWJWbTsQa3cPMX4Tc0OcKN3UE1bKKUGA07TJUY8Wd/J8EbB0XHo5zOP2559pR09t
+ CdiZwpySkzB4dj+fEkzuj1AGCvDwUkFA9dhHQKbLn8jlaCiUil2dBkNgOINdg0dma/f3
+ UFUQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX5F4hm3QUB8QtG08YZNR1x8h4iJ2lSQMZZ9SXOEsRVnmjui+VuM1rh0QFaAWWc6jOQdx0SATJBsgk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzyo/2TpR98ubG9vNRExYmb3gTEWYpnI/iJu+tXdmB14UmC0OiO
+ y23gK6bUV/wO1pDT4Z7zlmslnTU3CxorJF6563XGRTNq7nCQEzRMbetBlgUbzfvCN8NwTqQWx60
+ dLgjLB3N0seA0K3D97T4OfXYUf13rxMdXkCPjxFUVuFdESA3uAYY63Y7PlCboxV79SQ==
+X-Gm-Gg: ASbGncvX37JJUVnCC/QgMY/I51AYcr7VL5HquXH4VY9QA5BbzxuHP9GA9Hz8qgScBmM
+ EB89E9leC1CoAXFSV7pgDQHhotSAzGH+yxlfzpTCpm6ZgMpDsIbH3T9OUFhLtIMEtCZkvkv9My6
+ jtUuZqDgVeC8oEftx/DalWNt43YqC4rcrAVpIf464w6gPgsn1dvElq46CtpukuZDf0KZlxBk5bF
+ GCdaV2wtb77pBocvM8T448LVHXiOmKtjB74g/W29jnpSiO3+Ga3LpY6tXlSxJ0TKvMXUOEZ/bVD
+ opyLhkmRIUtqtQQTUYN5TzAmJd7QDetdTjfJjiqxxFP4z/8JPtLgYxmOPmWKT4RIsQr28A==
+X-Received: by 2002:a05:600c:5295:b0:441:b076:fcdf with SMTP id
+ 5b1f17b1804b1-441d44b5e6emr16208285e9.8.1746605045112; 
+ Wed, 07 May 2025 01:04:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE4wUqpShq9lUTv4LL8emvVajX8S6/zH0VVVy1lkz3Elvmc01LNJD4SZDrIMl3WfO7xuH02lQ==
+X-Received: by 2002:a05:600c:5295:b0:441:b076:fcdf with SMTP id
+ 5b1f17b1804b1-441d44b5e6emr16208005e9.8.1746605044738; 
+ Wed, 07 May 2025 01:04:04 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-441d43d07fbsm21881185e9.10.2025.05.07.01.04.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 May 2025 01:04:04 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ jani.nikula@linux.intel.com, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v2] MAINTAINERS: Add entries for drm_panic,
+ drm_panic_qr_code and drm_log
+In-Reply-To: <20250507075529.263355-1-jfalempe@redhat.com>
+References: <20250507075529.263355-1-jfalempe@redhat.com>
+Date: Wed, 07 May 2025 10:04:02 +0200
+Message-ID: <877c2s26fh.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-8-6a143640a6cb@oss.qualcomm.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: fmsHIYn3YkN_CSSjVdV-lGKY6hf56eP2RdIAZBJjI14_1746605045
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,36 +101,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Amirreza,
+Jocelyn Falempe <jfalempe@redhat.com> writes:
 
-kernel test robot noticed the following build warnings:
+Hello Jocelyn,
 
-[auto build test WARNING on 33035b665157558254b3c21c3f049fd728e72368]
+> Add myself and Javier as maintainer for drm_panic, drm_panic_qr_code
+> and drm_log.
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250429-140908
-base:   33035b665157558254b3c21c3f049fd728e72368
-patch link:    https://lore.kernel.org/r/20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-8-6a143640a6cb%40oss.qualcomm.com
-patch subject: [PATCH v4 08/11] tee: add Qualcomm TEE driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250507/202505071540.hAeEOUWt-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071540.hAeEOUWt-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071540.hAeEOUWt-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/tee/qcomtee/async.c:101 function parameter 'async_msg' not described in 'async_release'
->> Warning: drivers/tee/qcomtee/async.c:101 Excess function parameter 'msg' description in 'async_release'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_AUX_HPD_BRIDGE
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && DRM_BRIDGE [=n] && OF [=y]
-   Selected by [m]:
-   - UCSI_HUAWEI_GAOKUN [=m] && USB_SUPPORT [=y] && TYPEC [=m] && TYPEC_UCSI [=m] && EC_HUAWEI_GAOKUN [=m]
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
