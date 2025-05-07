@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A9BAAE187
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 15:54:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604DDAAE184
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 15:54:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E7F910E7FA;
-	Wed,  7 May 2025 13:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4095910E7EB;
+	Wed,  7 May 2025 13:54:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c+wU8IKa";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BO048B37";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05094890D2
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 13:54:37 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-43cf848528aso52888605e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 06:54:37 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AA1D10E7E7
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 13:54:39 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-43cf848528aso52888845e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 06:54:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746626076; x=1747230876; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746626078; x=1747230878; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8NPtwIJHLj3TQvXijdYLwA2OCGkSxKtnzx80mLMYtA0=;
- b=c+wU8IKaX+kA5vtFVbLAyZPp1namPXMb2xFvbyt8XHDh6RxQGuQnEPTA90FqI6jf4R
- SOY6SXwV767F78dqG1trS5Nxi2rwEqFPs0gXWyC+1CQUtSdNUhmTC2bA9lYbwI1z7sbo
- KYjnCsXtoajixMKJ3CzigVjsBgT74nmVveIZx5FPP2UaJBfuEzNkJWy0xUQ/LUVeE3lZ
- ta1gHhguIUdUMf2gdHCLoFzdOhCYWFk7CnP4UYdb/oADmag1D2qqVWij3YxWKeuPD/oZ
- C8RIOYq6AZmMD0N3XWTEiMUmy71ER4AjfByzyPLPk7Azb3p7ZOyIl4K/wO+NF6hAk8da
- XbPw==
+ bh=4CLDDw3iRecFGyTKD2O7T3Am46FTDBUmOiKBnmX0j90=;
+ b=BO048B37lXA5jT3p0CXxYTZSrXkL+jBjPb4/Hk8cg39ja+OOeHOgydMXgujy2G2b9A
+ YXRce21Dn6XLVzYjt9YM3X8ehJYy8GnU79v3seyuaGzUvcOKBv9MwwSlbg38EJ2T0DDH
+ 3bELbZ/JrKpGffSGtFOl9SIvj5P5psbZQxilMD0aYMZ3uBqeJzIg/YqUSJvOBbV/j2u8
+ X/u3aUgETZSGXeGb0v5h3Snr+CnxzRwosd31BdEOWpDgS+EMMQxUg0Ci1liACRAusW3z
+ lDoZznIw0OEtWchG0IETlSaa2Sp5vsJn1/Qrl/qJ2xm682jyybaTpmooUXXuxIewhSLI
+ sK6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746626076; x=1747230876;
+ d=1e100.net; s=20230601; t=1746626078; x=1747230878;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8NPtwIJHLj3TQvXijdYLwA2OCGkSxKtnzx80mLMYtA0=;
- b=mf43HoKbLmY/RMLb5rSkGmKqGOyUQ+Hm+bYpDZucdD8Or5S1x3+a5+AH+t1CCmwEcd
- OevHhbD2BSOdLnVchztqy5Ha4rTWXTnPAagDOeh6KEBCZ9HLEiLG8Sugn3k1rL/Vcxaq
- o/DqCEqlLLR+fSdPV3/e1pt4KdemjfoLsVKiQ4VR9TbNhXfR7L42nGz+tgcJkz04uJkE
- rvmL0MJ9Dcgbv53xTooasBl3Jut45JdDIbzszB94qSaIutsCzbPo3LEQs+nZPT1svcpt
- rg4jN7dCW0f4S2Rwt/Xa+6+Y77umcKhqln4Q/xfcQjwovCZQvVzH31yl5rI4gMvOwg7q
- BR5Q==
+ bh=4CLDDw3iRecFGyTKD2O7T3Am46FTDBUmOiKBnmX0j90=;
+ b=RevXebpnv6CtKzjl2TZDlG3lRN+PfP9TattQBjXCZrYnnHCwsi0hnwzW3eoFZo/oAm
+ qJQBqZ33kxfDvPG4EkXVLggSlKW4V3ROx8YJ+dfJSZItbOjnErnkvvDJHXeXnsdNnFs3
+ 0WPCL3ziOtagLUK/PDpIOv8LHAuBvFMSLWL++gt8MLWftXjK9iHDs7skxaneAsJ6HBsZ
+ vM5ZPq74KGFPY8ujB0xpUej6+rCzvuz9vexPIoV9V5LLv8ztUcEaA3d5fCNLlMLDUJ58
+ LJc7wXwGq4uBubYZXmhSqwwxbmlG0TNmLx2vtA/y8MQqM0MFfODwkNgxPLqhhHXKJCUn
+ 3Sqg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUUynP0LfZEfYqvUehSJC/fb772nrw7Elk6mhXQJDQ2zG6JsN9fQpandAKODCw1zAb0N9AIx1ArN9o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxtZs61QHHkk6cCccgnuXBh/8mi6TkWDEVRjJKnUo8rhbUnEPZ/
- YpnVfAe7IlITZ3rNi9tm0T6OtaPSm39lPaTr8HPNx3zHuDYFSjif6LpCAt4o
-X-Gm-Gg: ASbGncsqMSbVpNkrzOQcwstTkcKn4fNgaAdxQHs1dXDTW0T4oBWdXb25OuUadS4+16W
- Bksbly6Sc3kagsaaIRUpKfeaZ0/rXhw9FCUpXkScIEZC8s7tdfbl513Ut/G2oo4v80DBfSPhG7S
- 8RLs/Qst0JipqOFxXpz7n3B5c1WN6Rxtn8KHp8XsBF6ILbJ0g8KtgyZQ6nED+1uLTyzrqPm2rxa
- kaR1gF7u/8pA/6NqjnfOPKZ86o0tcBnu4DMq7RisxnTSeZT0PemJ/gEb/WXijHpzpEzJwgWmUHs
- OL3WFGW4IRoF7+QQKmkdminugFm1VRYqWOd1ZADRHQ==
-X-Google-Smtp-Source: AGHT+IEfmPBJDkQT4D/MvLcBOELc+mm/2hp0Cx6VyNjVr+QGxE66AppcyN93pmqNQP3ScgoUD3Mr7w==
-X-Received: by 2002:a05:600c:8289:b0:441:b00d:e9d1 with SMTP id
- 5b1f17b1804b1-441d44bbf50mr33147135e9.2.1746626076352; 
- Wed, 07 May 2025 06:54:36 -0700 (PDT)
+ AJvYcCUqEqXInJaFdp0kXnSyjP6+9pS+cuZ+X2sqiTuhKyyPbjGIuxlV+kEdCuf1JZTB+SL+ZjouHKsk2Zg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLBfORBFNIYdrwRYPd2jHq3BfAW97eSEQMlsyRdONA4j/9Aolo
+ oeWLxNJ2bVTH/7P3zgHJkU54S8dO0GXPBxkWC/rSsqBJ/1qItGKd
+X-Gm-Gg: ASbGnct48u7SxA6axUBKdLfQfTDabpjdwEnjLGYDisIRQJnI9m31QOpqcfGoqQqakZK
+ FtEMlKyqMWWjs7zESEa6M2lr1RLb6JYiHic9wDW3TSHDna+mrfXGocNA/vPjv3JAAaA1spJCwsj
+ HmYzHoYAaUy4s2qwHW8YSC4Pehiw+lsf5rfTrwC+byAvoYbEtXEjuT+z+PbWbZR/ym9cPkly2BB
+ ++tgEGdFEKplWt+8rKqb6p9DqRMJXZ7Cne8kILX3RYVK/7FT0HEq2F5MPOLtvaWgp5c0lA7t8Cb
+ +OEZFQO4ntLocEdEQaCqMYwAWn0iQiVkQczNUdSnnQ==
+X-Google-Smtp-Source: AGHT+IEwVv3Fx75TQ5iAihOC7ukq0rscqGxtB4HeRaI3ouywLzCu+EqsghviNNr75GgBCiVQbdX+Og==
+X-Received: by 2002:a05:600c:3483:b0:43c:f470:7605 with SMTP id
+ 5b1f17b1804b1-441d44c36b1mr30636505e9.12.1746626077519; 
+ Wed, 07 May 2025 06:54:37 -0700 (PDT)
 Received: from fedora.. ([94.73.35.165]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-442cd32f1eesm1894295e9.9.2025.05.07.06.54.35
+ 5b1f17b1804b1-442cd32f1eesm1894295e9.9.2025.05.07.06.54.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 May 2025 06:54:35 -0700 (PDT)
+ Wed, 07 May 2025 06:54:36 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -67,9 +67,9 @@ Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v5 01/16] drm/vkms: Expose device creation and destruction
-Date: Wed,  7 May 2025 15:54:16 +0200
-Message-ID: <20250507135431.53907-2-jose.exposito89@gmail.com>
+Subject: [PATCH v5 02/16] drm/vkms: Add and remove VKMS instances via configfs
+Date: Wed,  7 May 2025 15:54:17 +0200
+Message-ID: <20250507135431.53907-3-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250507135431.53907-1-jose.exposito89@gmail.com>
 References: <20250507135431.53907-1-jose.exposito89@gmail.com>
@@ -91,71 +91,322 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for configfs support, expose vkms_create() and
-vkms_destroy().
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+
+Allow to create, enable, disable and destroy VKMS instances using
+configfs.
+
+For the moment, it is not possible to add pipeline items, so trying to
+enable the device will fail printing an informative error to the log.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Co-developed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Co-developed-by: José Expósito <jose.exposito89@gmail.com>
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c |  4 ++--
- drivers/gpu/drm/vkms/vkms_drv.h | 20 ++++++++++++++++++++
- 2 files changed, 22 insertions(+), 2 deletions(-)
+ Documentation/gpu/vkms.rst           |  32 +++++
+ drivers/gpu/drm/vkms/Kconfig         |   1 +
+ drivers/gpu/drm/vkms/Makefile        |   3 +-
+ drivers/gpu/drm/vkms/vkms_configfs.c | 172 +++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_configfs.h |   8 ++
+ drivers/gpu/drm/vkms/vkms_drv.c      |   7 ++
+ 6 files changed, 222 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.h
 
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index ba04ac7c2167..423bdf86b5b1 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -51,6 +51,38 @@ To disable the driver, use ::
+ 
+   sudo modprobe -r vkms
+ 
++Configuring With Configfs
++=========================
++
++It is possible to create and configure multiple VKMS instances via configfs.
++
++Start by mounting configfs and loading VKMS::
++
++  sudo mount -t configfs none /config
++  sudo modprobe vkms
++
++Once VKMS is loaded, ``/config/vkms`` is created automatically. Each directory
++under ``/config/vkms`` represents a VKMS instance, create a new one::
++
++  sudo mkdir /config/vkms/my-vkms
++
++By default, the instance is disabled::
++
++  cat /config/vkms/my-vkms/enabled
++  0
++
++Once you are done configuring the VKMS instance, enable it::
++
++  echo "1" | sudo tee /config/vkms/my-vkms/enabled
++
++Finally, you can remove the VKMS instance disabling it::
++
++  echo "0" | sudo tee /config/vkms/my-vkms/enabled
++
++And removing the top level directory::
++
++  sudo rmdir /config/vkms/my-vkms
++
+ Testing With IGT
+ ================
+ 
+diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
+index 3c02f928ffe6..3977bbb99f7d 100644
+--- a/drivers/gpu/drm/vkms/Kconfig
++++ b/drivers/gpu/drm/vkms/Kconfig
+@@ -7,6 +7,7 @@ config DRM_VKMS
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_SHMEM_HELPER
+ 	select CRC32
++	select CONFIGFS_FS
+ 	default n
+ 	help
+ 	  Virtual Kernel Mode-Setting (VKMS) is used for testing or for
+diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+index d657865e573f..939991fc8233 100644
+--- a/drivers/gpu/drm/vkms/Makefile
++++ b/drivers/gpu/drm/vkms/Makefile
+@@ -8,7 +8,8 @@ vkms-y := \
+ 	vkms_composer.o \
+ 	vkms_writeback.o \
+ 	vkms_connector.o \
+-	vkms_config.o
++	vkms_config.o \
++	vkms_configfs.o
+ 
+ obj-$(CONFIG_DRM_VKMS) += vkms.o
+ obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += tests/
+diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+new file mode 100644
+index 000000000000..ee186952971b
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+@@ -0,0 +1,172 @@
++// SPDX-License-Identifier: GPL-2.0+
++#include <linux/cleanup.h>
++#include <linux/configfs.h>
++#include <linux/mutex.h>
++#include <linux/slab.h>
++
++#include "vkms_drv.h"
++#include "vkms_config.h"
++#include "vkms_configfs.h"
++
++/* To avoid registering configfs more than once or unregistering on error */
++static bool is_configfs_registered;
++
++/**
++ * struct vkms_configfs_device - Configfs representation of a VKMS device
++ *
++ * @group: Top level configuration group that represents a VKMS device.
++ * Initialized when a new directory is created under "/config/vkms/"
++ * @lock: Lock used to project concurrent access to the configuration attributes
++ * @config: Protected by @lock. Configuration of the VKMS device
++ * @enabled: Protected by @lock. The device is created or destroyed when this
++ * option changes
++ */
++struct vkms_configfs_device {
++	struct config_group group;
++
++	struct mutex lock;
++	struct vkms_config *config;
++	bool enabled;
++};
++
++#define device_item_to_vkms_configfs_device(item) \
++	container_of(to_config_group((item)), struct vkms_configfs_device, \
++		     group)
++
++static ssize_t device_enabled_show(struct config_item *item, char *page)
++{
++	struct vkms_configfs_device *dev;
++	bool enabled;
++
++	dev = device_item_to_vkms_configfs_device(item);
++
++	scoped_guard(mutex, &dev->lock)
++		enabled = dev->enabled;
++
++	return sprintf(page, "%d\n", enabled);
++}
++
++static ssize_t device_enabled_store(struct config_item *item, const char *page,
++				    size_t count)
++{
++	struct vkms_configfs_device *dev;
++	bool enabled;
++	int ret = 0;
++
++	dev = device_item_to_vkms_configfs_device(item);
++
++	if (kstrtobool(page, &enabled))
++		return -EINVAL;
++
++	scoped_guard(mutex, &dev->lock) {
++		if (!dev->enabled && enabled) {
++			if (!vkms_config_is_valid(dev->config))
++				return -EINVAL;
++
++			ret = vkms_create(dev->config);
++			if (ret)
++				return ret;
++		} else if (dev->enabled && !enabled) {
++			vkms_destroy(dev->config);
++		}
++
++		dev->enabled = enabled;
++	}
++
++	return (ssize_t)count;
++}
++
++CONFIGFS_ATTR(device_, enabled);
++
++static struct configfs_attribute *device_item_attrs[] = {
++	&device_attr_enabled,
++	NULL,
++};
++
++static void device_release(struct config_item *item)
++{
++	struct vkms_configfs_device *dev;
++
++	dev = device_item_to_vkms_configfs_device(item);
++
++	if (dev->enabled)
++		vkms_destroy(dev->config);
++
++	mutex_destroy(&dev->lock);
++	vkms_config_destroy(dev->config);
++	kfree(dev);
++}
++
++static struct configfs_item_operations device_item_operations = {
++	.release	= &device_release,
++};
++
++static const struct config_item_type device_item_type = {
++	.ct_attrs	= device_item_attrs,
++	.ct_item_ops	= &device_item_operations,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct config_group *make_device_group(struct config_group *group,
++					      const char *name)
++{
++	struct vkms_configfs_device *dev;
++
++	if (strcmp(name, DEFAULT_DEVICE_NAME) == 0)
++		return ERR_PTR(-EINVAL);
++
++	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
++	if (!dev)
++		return ERR_PTR(-ENOMEM);
++
++	dev->config = vkms_config_create(name);
++	if (IS_ERR(dev->config)) {
++		kfree(dev);
++		return ERR_CAST(dev->config);
++	}
++
++	config_group_init_type_name(&dev->group, name, &device_item_type);
++	mutex_init(&dev->lock);
++
++	return &dev->group;
++}
++
++static struct configfs_group_operations device_group_ops = {
++	.make_group = &make_device_group,
++};
++
++static const struct config_item_type device_group_type = {
++	.ct_group_ops	= &device_group_ops,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct configfs_subsystem vkms_subsys = {
++	.su_group = {
++		.cg_item = {
++			.ci_name = "vkms",
++			.ci_type = &device_group_type,
++		},
++	},
++	.su_mutex = __MUTEX_INITIALIZER(vkms_subsys.su_mutex),
++};
++
++int vkms_configfs_register(void)
++{
++	int ret;
++
++	if (is_configfs_registered)
++		return 0;
++
++	config_group_init(&vkms_subsys.su_group);
++	ret = configfs_register_subsystem(&vkms_subsys);
++
++	is_configfs_registered = ret == 0;
++
++	return ret;
++}
++
++void vkms_configfs_unregister(void)
++{
++	if (is_configfs_registered)
++		configfs_unregister_subsystem(&vkms_subsys);
++}
+diff --git a/drivers/gpu/drm/vkms/vkms_configfs.h b/drivers/gpu/drm/vkms/vkms_configfs.h
+new file mode 100644
+index 000000000000..e9020b0043db
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/vkms_configfs.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++#ifndef _VKMS_CONFIGFS_H_
++#define _VKMS_CONFIGFS_H_
++
++int vkms_configfs_register(void);
++void vkms_configfs_unregister(void);
++
++#endif /* _VKMS_CONFIGFS_H_ */
 diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index a24d1655f7b8..23817c7b997e 100644
+index 23817c7b997e..5bcfbcb6c0c5 100644
 --- a/drivers/gpu/drm/vkms/vkms_drv.c
 +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -146,7 +146,7 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
- 	return vkms_output_init(vkmsdev);
- }
+@@ -28,6 +28,7 @@
+ #include <drm/drm_vblank.h>
  
--static int vkms_create(struct vkms_config *config)
-+int vkms_create(struct vkms_config *config)
- {
+ #include "vkms_config.h"
++#include "vkms_configfs.h"
+ #include "vkms_drv.h"
+ 
+ #define DRIVER_NAME	"vkms"
+@@ -214,6 +215,10 @@ static int __init vkms_init(void)
  	int ret;
- 	struct platform_device *pdev;
-@@ -229,7 +229,7 @@ static int __init vkms_init(void)
- 	return 0;
- }
+ 	struct vkms_config *config;
  
--static void vkms_destroy(struct vkms_config *config)
-+void vkms_destroy(struct vkms_config *config)
++	ret = vkms_configfs_register();
++	if (ret)
++		return ret;
++
+ 	config = vkms_config_default_create(enable_cursor, enable_writeback, enable_overlay);
+ 	if (IS_ERR(config))
+ 		return PTR_ERR(config);
+@@ -250,6 +255,8 @@ void vkms_destroy(struct vkms_config *config)
+ 
+ static void __exit vkms_exit(void)
  {
- 	struct platform_device *pdev;
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index a74a7fc3a056..2ad8e3da3b7b 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -223,6 +223,26 @@ struct vkms_device {
- #define to_vkms_plane_state(target)\
- 	container_of(target, struct vkms_plane_state, base.base)
- 
-+/**
-+ * vkms_create() - Create a device from a configuration
-+ * @config: Config used to configure the new device
-+ *
-+ * A pointer to the created vkms_device is stored in @config
-+ *
-+ * Returns:
-+ * 0 on success or an error.
-+ */
-+int vkms_create(struct vkms_config *config);
++	vkms_configfs_unregister();
 +
-+/**
-+ * vkms_destroy() - Destroy a device
-+ * @config: Config from which the device was created
-+ *
-+ * The device is completely removed, but the @config is not freed. It can be
-+ * reused or destroyed with vkms_config_destroy().
-+ */
-+void vkms_destroy(struct vkms_config *config);
-+
- /**
-  * vkms_crtc_init() - Initialize a CRTC for VKMS
-  * @dev: DRM device associated with the VKMS buffer
+ 	if (!default_config)
+ 		return;
+ 
 -- 
 2.49.0
 
