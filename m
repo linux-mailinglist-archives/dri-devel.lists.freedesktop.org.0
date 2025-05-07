@@ -2,79 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837D8AAE834
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 19:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F0FAAE86B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 20:07:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B191810E86C;
-	Wed,  7 May 2025 17:52:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 794E010E1F4;
+	Wed,  7 May 2025 18:07:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="PMmzeKPB";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="s8ztvkVO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD6410E86C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 17:52:43 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-6ecfbf8fa76so2348816d6.0
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 10:52:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1746640363; x=1747245163;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=uwbbKB2TGYLFE4veY3gGLDIpfEXqZNhneox5iaSq2IE=;
- b=PMmzeKPBWmM3XU96L9BDWhzLsvSurbHapYMwIPRs0nT7j/GtKZ16pfQK4vVXoUCtLd
- cmTa31RggBpyM5IIXlhXKzzR4YctlbQLrIBn3aoXE2le4sEsjGzi/yyGJOd5/m2TbNUA
- /csjg6J9njn+4Ng74clgwYIQDwcv1kBysaIBuhU7m+V/Db6Edtwjahp0RWzd1EFFaMRU
- NWa8/zu7u5DWT9ojd8clRzGQG/w4hmq0zzJR0tSacz5vrpdAi6OSjZX5NZLCor+wJTyM
- 00pdY/IYSlMLPLiBmpSpvEJu6to+okJ5lthGbn/wHah8rklwlxqFrL1yH1mSJtqMkepa
- 4OwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746640363; x=1747245163;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uwbbKB2TGYLFE4veY3gGLDIpfEXqZNhneox5iaSq2IE=;
- b=FDmv6OoCkvJr1/59pnxH8/4Lwj251ctx8QhlB/KC5vmHJGv9g6gOvo6Hl72nnfLcwY
- SQpy2GZdxFFOmJRlF1d8VlVpN3NcoA6NyeClWHlD2TYwTmO+djqMFgt9jty7xX0uxIYA
- dj5QGWnAFJWRXRb7/vqjqK1zImb5TYwfo++gnoTIC2s/33vt4Htfc/CDACyo6cXZ5TJx
- Pbaqdd3eLf0HrT5gYOfIo+/MAUglZ6Jg2IBkqgoPy3LntmTWXTX7WXAphIJvDwv/VGuM
- 5TUGqmH2WzG+BmBZkIn38+In0VP+2o6vhSuIxIhTefCjlcuwdKQMfw8rKYexKSpCaP+R
- yr2w==
-X-Gm-Message-State: AOJu0YyfGuwW/u5g+QVQirqkBSYc/qsnDEjbsrE8e99qNw/JGUBtCRK+
- 7FwPPvG/9TVgLHDwMS3cfFkSyS4R31D40+2glp9rCVmSUmWkO4usNIep1cIL+l0=
-X-Gm-Gg: ASbGncuFrvKlfNUDFQ6EBTaHL85LKF9X6RYVYgyv7RmnsoBn7kgDc4qdW1x33802PBv
- /5KdG8qL9GY8KPo6ZHT/jQIfs2liogLFQ1GNic6voCuKjpJcIsOTp41FlRIAu9ZXdJz3UXQeNrB
- E1m+1nIX0ltYCKEEqGxpIHtVbtyT3K+jZbEoNri2aUj61/G4zZz3gTYVCV/yx8nfoArtSUNfkvL
- jl+qZbaTWUnS+tCSWNhWE2+3lIIVGfiFowG0ZsvKOjiGS7Jpk5PMUt389W1PU67ywySR7XMLKoE
- rOWuZ6+nMJwfHTXKAQ1jEGEkzHuzzhZmkMBJ0Aw=
-X-Google-Smtp-Source: AGHT+IHH43mAJ6j8NHoQHgd5dHvkco+AvBLpBXk7z7HjmDWyyxQSxP0kD/YiwHsD4miO14w1gFKHwg==
-X-Received: by 2002:ad4:5ca5:0:b0:6d8:99cf:d2e3 with SMTP id
- 6a1803df08f44-6f542a55c59mr57521136d6.22.1746640363017; 
- Wed, 07 May 2025 10:52:43 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:365a:60ff:fe62:ff29])
- by smtp.gmail.com with UTF8SMTPSA id
- 6a1803df08f44-6f542647e0esm17019576d6.30.2025.05.07.10.52.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 May 2025 10:52:42 -0700 (PDT)
-Date: Wed, 7 May 2025 13:52:38 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Dave Airlie <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, tj@kernel.org,
- christian.koenig@amd.com, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org,
- Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: Re: [rfc] drm/ttm/memcg: simplest initial memcg/ttm integration (v2)
-Message-ID: <20250507175238.GB276050@cmpxchg.org>
-References: <20250502034046.1625896-1-airlied@gmail.com>
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1BF10E1DD
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 18:07:11 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 547I6Ymj1446487
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 7 May 2025 13:06:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1746641194;
+ bh=NVe4a+S5FD4l79SJhGfpOjn4VnAuMASZshHPHhAg66s=;
+ h=From:To:CC:Subject:Date;
+ b=s8ztvkVO9b+DjRaJsiPipKMq1rNpIAwkiZ76GGJ+Be7rvGeFkGUiP1sr5S/ni+AjY
+ 5HEH0E6quR5Cqa8b7LfxbQyhSGN+v8wFZVd3ZHOayY/ef3ywu3ZJpS43aLS1itw//H
+ Lq3qtbUUYDvQnk8300eAAo2Sw8WKtFPMQ+A/uVg8=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 547I6Y55115176
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 7 May 2025 13:06:34 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 7
+ May 2025 13:06:33 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 7 May 2025 13:06:33 -0500
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 547I6WY2035911;
+ Wed, 7 May 2025 13:06:32 -0500
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <airlied@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>,
+ <dri-devel@lists.freedesktop.org>, <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
+ <s-jain1@ti.com>, <r-donadkar@ti.com>, <j-choudhary@ti.com>,
+ <h-shenoy@ti.com>, <devarsht@ti.com>
+Subject: [PATCH v6 0/3] Add support for AM62L DSS
+Date: Wed, 7 May 2025 23:36:28 +0530
+Message-ID: <20250507180631.874930-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250502034046.1625896-1-airlied@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,37 +74,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Dave,
+This adds support for DSS subsystem present in TI's AM62L SoC
+which supports single display pipeline with DPI output which
+is also routed to DSI Tx controller within the SoC.
 
-On Fri, May 02, 2025 at 01:35:59PM +1000, Dave Airlie wrote:
-> Hey all,
-> 
-> This is my second attempt at adding the initial simple memcg/ttm
-> integration.
-> 
-> This varies from the first attempt in two major ways:
-> 
-> 1. Instead of using __GFP_ACCOUNT and direct calling kmem charges
-> for pool memory, and directly hitting the GPU statistic, Waiman
-> suggested I just do what the network socket stuff did, which looks
-> simpler. So this adds two new memcg apis that wrap accounting.
-> The pages no longer get assigned the memcg, it's owned by the
-> larger BO object which makes more sense.
+Change Log:
+V6: 
+- Move hw_id indexing logic to skip uninstantiated planes to
+  internal functions dealing with relevant registers
 
-Unfortunately, this was bad advice :(
+V5:
+- Use hw_id instead of index for places where it was missed
+  so that we pick correct base address for vid region
 
-Naked-charging like this is quite awkward from the memcg side. It
-requires consumer-specific charge paths in the memcg code, adds stat
-counters that are memcg-only with no system-wide equivalent, and it's
-difficult for the memcg maintainers to keep track of the link between
-what's in the counter and the actual physical memory that is supposed
-to be tracked.
+V4:
+- Update vid_info struct to keep hw_id and instantiate
+  only for actually existing pipes
 
-The network and a few others like it are rather begrudging exceptions
-because they do not have a suitable page context or otherwise didn't
-fit the charging scheme. They're not good examples to follow if it can
-at all be avoided.
+V3:
+- Make generic infra to support truncated K3 DSS IP's
+- Remove AM62A updates from AM62L DT binding updates
 
-__GFP_ACCOUNT and an enum node_stat_item is the much preferred way. I
-have no objections to exports if you need to charge and account memory
-from a module.
+V2:
+- Fix incorrect format of compatible string (comma instead of
+  hyphen) for AM62L SoC
+- Use separate register space and helper functions for AM62L
+  due to minor differences in register offset/bit position differences
+  for first plane
+
+Rangediff:
+V5->V6:
+- https://gist.github.com/devarsht/f64b00754794d22e57ac18ec09a7b019
+
+V4->V5:
+- https://gist.github.com/devarsht/a0e6aa7b1c19f47facd0058962e3c3c2
+
+V3->V4:
+- https://gist.github.com/devarsht/1e75c9e1ac0cdfc01703a0776e31e782
+
+V2->V3:
+- https://gist.github.com/devarsht/24fa8dd2986861efa431352d19ebbb41
+
+V1->V2
+- https://gist.github.com/devarsht/11d47f25ca9fea6976e6284330ddf443
+
+Links to previous versions:
+V5: https://lore.kernel.org/all/20250429143656.3252877-1-devarsht@ti.com/
+V4: https://lore.kernel.org/all/20250326145736.3659670-1-devarsht@ti.com/
+V3: https://lore.kernel.org/all/20250306132914.1469387-1-devarsht@ti.com/
+V2: https://lore.kernel.org/all/20250204061552.3720261-1-devarsht@ti.com/
+V1: https://lore.kernel.org/all/20241231090432.3649158-1-devarsht@ti.com/
+
+Test logs:
+https://gist.github.com/devarsht/09a5d64a507b7ccc096e857f122eda70
+
+Devarsh Thakkar (3):
+  dt-bindings: display: ti,am65x-dss: Add support for AM62L DSS
+  drm/tidss: Update infrastructure to support K3 DSS cut-down versions
+  drm/tidss: Add support for AM62L display subsystem
+
+ .../bindings/display/ti/ti,am65x-dss.yaml     |  21 +-
+ drivers/gpu/drm/tidss/tidss_crtc.c            |   4 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c           | 197 ++++++++++++++----
+ drivers/gpu/drm/tidss/tidss_dispc.h           |  13 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |   1 +
+ drivers/gpu/drm/tidss/tidss_kms.c             |   2 +-
+ drivers/gpu/drm/tidss/tidss_plane.c           |   2 +-
+ 7 files changed, 192 insertions(+), 48 deletions(-)
+
+-- 
+2.39.1
+
