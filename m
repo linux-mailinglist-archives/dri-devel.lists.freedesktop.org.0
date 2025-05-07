@@ -2,64 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14399AAE20D
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 16:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B30AAE21F
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 16:12:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C31810E805;
-	Wed,  7 May 2025 14:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A94510E80C;
+	Wed,  7 May 2025 14:12:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="GewfoMbs";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="n+WSKwfI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9F3710E809
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 14:09:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1746626966; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=fRFR6xVYITrrR8EKdtrMboNYI5ezJWLvzZU9AZES7TcuKbFOmO73oXL15cTV+IJFZCgua9fFnbJSB4Kd7zBu5HMNmkWXz6QwZfJr3Lr9kWvfJxwjtfPZmo1EtJg9msz8DaV+J8g7gdWSzQg2ZhA7AKkjgBzoFUhTTMKFVQro//A=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1746626966;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=ZHTEAWq+RVWJtSuBqZj0ZEc3/IiBPlP1oeDUs0p9nk8=; 
- b=g/UfMvyMRyfXu5Y1GMokovKCanFAxsBRAJ5GIBrT4t/7G3yDE5qCxOJG67LKmLiJb2+2BVuT7h7Ul9Tobzr/gKukdb8BjZpAuXKhabSZRam32yHmCp9beQ5u4qHeXPeRBMzOd96GalERklQAEhXVDxjnuifSvkdNMMa8Hyh25sk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746626965; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=ZHTEAWq+RVWJtSuBqZj0ZEc3/IiBPlP1oeDUs0p9nk8=;
- b=GewfoMbsdc9I2EgSsdj03vWMjGkM05EeAFYWBgeYlhtMdVa+IRTdIiAFtMbWCEwy
- F4SrpbJo+LdheikmV+eBH6xobqk+UWcOcQA8faWTJwIWghPB66ubYAkMEWYSZrShMZW
- 00DQP54cWOWtkFds661DndusCHr3uEWh7mqXoeoQ=
-Received: by mx.zohomail.com with SMTPS id 1746626962793223.03537125249852;
- Wed, 7 May 2025 07:09:22 -0700 (PDT)
-Date: Wed, 7 May 2025 15:09:18 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- kernel@collabora.com, Rob Herring <robh@kernel.org>, 
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 3/3] drm/panfrost: show device-wide list of DRM GEM
- objects over DebugFS
-Message-ID: <j6grx63nycziqsapmsn6puba6q2tmpsknkwtiwcfwq5afcdvpv@67jrzgx3d4iz>
-References: <20250424022138.709303-1-adrian.larumbe@collabora.com>
- <20250424022138.709303-4-adrian.larumbe@collabora.com>
- <20250506090418.3c8242b0@collabora.com>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2065.outbound.protection.outlook.com [40.107.92.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDF7210E800;
+ Wed,  7 May 2025 14:12:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kKnewoPC5K5Zrnq9HWA4d1nPp/xorplfSu1CwbEAFI1VAEcGnH+0PlC5sHT1LlHWqpvFv5g6Svo9AZGqFTdQj28hbww7842YXon7F540GCerDj8EHfvr8BFbbiA3lJEsPyGA+jrYIrv1pkowsA1ZL56p7XcVXJBtDl9WirEoxVdbFeHStYfbobzQuR6ZcY85JxjqVpnoN7K8gSLQx/RNK7TISIRxeBVt5O0bHlO2HiKCcR97K0Svw75cbbiusnurJuVa59EO9DxQlCB2XHEZxlDi9y2dGVve1bc3U/oe92PPDEZ70FCiVbHWisk9NGDc07BzDpcSIcKZcWsblw71jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kmwfPeoelHsTumPpFLrBckGhFhAPls7i7W+dYfes86E=;
+ b=IwknFeZzxn5so0sxOZrELN2gCMdfJY7zbIUAbldeJvkaG6eHKO4BVTS/opSd8P2FNB4ut0kPP0g+Rk5yhHHy5CivwSewyBbl4cAp6QfeDs60I4/sPQ7O9aCx8n6v6D3DzHuqeRYsIKpxonTjblKbRCPw/nOriwsUHgQh2J0R8sEkwAZP0d10bZLsax1xWXeo+kPrwn/3T3dqw745HPSfw7AsCq/z4zK3jVl8KHhpcZoj7ZiUbkHeVbpsS8OMqCg+DGjPlcdJfIJfu3yMmhHjJzD/wqUD4tfIJ6rH9ADLhvOkSVECXEhrlMTtcHL9YHUO+Z3IFaT8eeE5p45uoqqypg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kmwfPeoelHsTumPpFLrBckGhFhAPls7i7W+dYfes86E=;
+ b=n+WSKwfIc2uALYV2fdF3cou0dU9ftMJEBmQB44tZknf2qAhpdLo8ex1Y6VbHDOt5OI4PhJjL5lKF9OnUM68Qo2kdpmnoa+A4KLSjcG4u1CxD/sshgQ/kTmb91GiJss06xt1NcV4/ObS0CgQXDhovzyr0cZdx3pM7xCXeOlYaUaJMG1jcyIyKM8dPVEfZmITv2u16Bpv7uBK3mOrCB/yK8oRByabtKd1EPjN6uBe2Z3wdeJYXc+xyT7/2MzrAd2cXASBelDRM7OP39dmK9yROuqHaHVLbAhcqVRySPaE8+B5pjI6oCjArge+IPw8lJHAe8QY1wQ/bDmBPNyIFXxxfZg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DM4PR12MB7742.namprd12.prod.outlook.com (2603:10b6:8:102::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Wed, 7 May
+ 2025 14:12:02 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8699.026; Wed, 7 May 2025
+ 14:12:02 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 07 May 2025 23:11:59 +0900
+Message-Id: <D9PZN1E5H5I4.WXP8OB3ANJ02@nvidia.com>
+Cc: "John Hubbard" <jhubbard@nvidia.com>, "Ben Skeggs" <bskeggs@nvidia.com>,
+ "Timur Tabi" <ttabi@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v2 17/21] rust: num: Add an upward alignment helper for
+ usize
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <benno.lossin@proton.me>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "Danilo Krummrich" <dakr@kernel.org>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Jonathan Corbet"
+ <corbet@lwn.net>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250501-nova-frts-v2-0-b4a137175337@nvidia.com>
+ <20250501-nova-frts-v2-17-b4a137175337@nvidia.com>
+ <D9LEQ1U1PLO8.3N22GRY380ZM3@nvidia.com>
+ <d6962ea3-282d-437c-b3cf-ce701d514558@nvidia.com>
+ <D9M5K55GTN6S.1X827WU0Z50UM@nvidia.com>
+ <112d971f-20c8-4598-86c9-6822d9c24001@nvidia.com>
+ <D9MLOQC5G7XH.3GTUIRCCN8X70@nvidia.com>
+ <ce197acc-8b66-4a6c-85aa-3318666d80d3@nvidia.com>
+In-Reply-To: <ce197acc-8b66-4a6c-85aa-3318666d80d3@nvidia.com>
+X-ClientProxiedBy: TYCP286CA0229.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c7::8) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250506090418.3c8242b0@collabora.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DM4PR12MB7742:EE_
+X-MS-Office365-Filtering-Correlation-Id: 714bd876-d538-48fa-9be2-08dd8d71236c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|7416014|366016|1800799024|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eTQyc29zZE5pOEtnRVh5M1pFMnJwNkJWSnY4M2w0dFFUcnN0aGlBZ0Y3VXlK?=
+ =?utf-8?B?VmYwcTlpSDJoQ3M3MXpLSWc1RXkrNTJaU3F0RVRKeFZzam1kRVlETkd5TGpl?=
+ =?utf-8?B?VWdJcHd3Z2dkWDVyOG1qYXB5YWZHNEhxS2tNTTVRRnFrQVI0NGozSEIrd3N6?=
+ =?utf-8?B?S1d2RFhUZTBkaEg5aEhhakdmU0ZhNnNQcGs0dXQzWkN5aFNuaWNIbFpkM3JR?=
+ =?utf-8?B?RXJNZ2dvTjZkZlVYaEVlRExWRWtVZDNsZDlEdTA3RkgzaTlQWEM0VnRsVlFG?=
+ =?utf-8?B?L1VyZGEySGhHQzZNVnJKbEZKblhWcEdvT2FZeTk2bTVzY042Uno5dlhXS20w?=
+ =?utf-8?B?TW5TU1B6U2EzNmp6cXdvQW11QWJlTTN3NUNEQ21SeUJTVjNJZmRmTEU1THBj?=
+ =?utf-8?B?Y1BTU0hpYWxZTncvRmtsY0ZRdmNjRFVMQkVTVXhkRDRtWDA2MVNTRkd2eFVz?=
+ =?utf-8?B?eWk2WWlpRUphdG1VbFBRNlNEYm1YcndwU2QvL3RKSkN0T2srd3pxdGludXF5?=
+ =?utf-8?B?SUlJZFZSdUcvNTZUWDB2SEY1bE5TRHpCME9WUW1QWmxOK1pjT0JuTzBIcnp0?=
+ =?utf-8?B?aUxJa1Q4aldMaUF2MXlGajRTTnVrY3BVR3hGREhzQktYdWpvT05VOE1waGR4?=
+ =?utf-8?B?Nm5VdVhtQU5RbXluYmpyLzgwVk5zU0s3dEFwMnlQSnZueFUrM1ZwbW91SHFW?=
+ =?utf-8?B?YzIrVStGNVhuWXFBUHI2Mi9FbXBVdVNKenFhVnFpSEZxQ1VvMWltZFovMklx?=
+ =?utf-8?B?bG1GR29ISFIvN0ZDWFdNV0taSVZIa25WZXBoOHpkUFpQcnNMeUoyM0c2UEV4?=
+ =?utf-8?B?Z2tONzRHOXNnb3V0dU9WbCtHZ1lPcXFSTUtwK0dqMkpTNW9RWFVpc212enE2?=
+ =?utf-8?B?S1dTVWRpWVFWbG1CWHdnaVQ0cDA0cVVPanNoRTh6Ui9zZndMdW9FRVBMaURj?=
+ =?utf-8?B?MndORGtjVmR1aitKejdTdmVxc2lTSTBWVkVQQlBIaXlsMFJVMEN0SEYxdnVU?=
+ =?utf-8?B?YlhWd2s4N2kwaVNnTll2c0xMeVhqd21xczU4NlRNTnFUek9nTlp2RzNEcjRl?=
+ =?utf-8?B?MDhzRXZkM3JMckcwcUhJUHN3U0NBbUZFWDNuQjFCRjh6QmtRWVlBNVBPbEUw?=
+ =?utf-8?B?cnM5b3MrRkl0VUlPSEpnc1Ywb25EK2lGYVl3ZG5mTENVbmZYOVFveWhNTTg1?=
+ =?utf-8?B?MjJXQkVvZEI2SERWTkxCYVd2NUFMTVl6TzNCbVo5R044TzFVREZpamVubFRX?=
+ =?utf-8?B?bDhpY3dHbFBQd01HVkFKelZsbFE5eWlNZVovWnZlMk5yMkd2RnI2WG1jQUFj?=
+ =?utf-8?B?SCttS0Z1MDRPUkZwb1MyUTExSFdweGJBWHNpZ1NhRVllSmJHYWVpQndOZGsw?=
+ =?utf-8?B?UTI5cmhJci9rT24yRTZxMlcrSXZGOGxTVWMxenB4VkptdGRSdTFCQ0hwM1JI?=
+ =?utf-8?B?N3NZTWJtbU55QlJKZ0QzUlpRc2ZISG92am1oTGJZSkcyZWNKYUR0YmE0Y3E1?=
+ =?utf-8?B?WUEvSG1ub3JBWTFwT1ppSmZJb3JQRzVGOFdlUTkxNEE5YzFNNjlaa1Jka2JJ?=
+ =?utf-8?B?dHhqNjRDUXBiNUJEaXpWd3UzMVVlZzZDVWlxd2F5cTFHenJrRWxaWlJWN1J2?=
+ =?utf-8?B?eGtjSzhuZzExOUtjVmFqeFcrRUxkUjBHU0s2ajg0bVk3VktUOEE0dyt5anpV?=
+ =?utf-8?B?SWtLSFhxeVNmV1JKV1ZpTnlzN2hqa3Z3a0xXTXUybHFTUVBwTVhDeDN6blJQ?=
+ =?utf-8?B?UWc5cXgzYlBxallTQWJyM0FHRGQ5SWlSclA4MGttYU9pMzBMWG1sY2loZy95?=
+ =?utf-8?B?RTF1WkVGU2RQTk1yYUxORGh4SjRZWGZmaGhEMnZWcy9aK0JrYUdMaFZpaTVZ?=
+ =?utf-8?B?eVdxUnZZY3BjS2dDQ3Q1WnFOQlg4NDAybXh0bVR0TEw3aDZONWlRS3NJRFRL?=
+ =?utf-8?B?cnpzNTJ0RmdMK2xTMWFuY2h2RkFzRldRWjFSUGhZNTg0WHAyUGdTelFqZkxy?=
+ =?utf-8?B?T3EvdmJKYkpBPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(7416014)(366016)(1800799024)(376014)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QU1WeXA3WUt6N2NkV25kWE9ieTNTb1ozWWhvLzJqb09vVzdOdWpKYjY5dkFv?=
+ =?utf-8?B?STBVSnRXZml1R3laaDdFK0g0d3owaEpsUmlXZ3M4eDJrc2M3QTZhSm9PQjNH?=
+ =?utf-8?B?eFdvZGlZSkVydzYzZSs3RzF6WVBHL29xNlJwNXVHVWgzaFlwNDVVZGJnRWhV?=
+ =?utf-8?B?M0tJVE5XYjA3djliYUxJMUoydW11YmN2Q1hFbkRZait2R0xja0hDT21XVFhB?=
+ =?utf-8?B?cHgveWd3SFp3ZmRuQ0VmamlodllvUWJGa040VWY0QzVRT2VGNW9xbnZrM2hR?=
+ =?utf-8?B?dTRCdC93UFlZNXNZU1RLWHg4N1JpWEV0dTZvdGpCbTZ2Z3lsbVFDM0RMZEhL?=
+ =?utf-8?B?OU81UThiRmZ2K1REdHZMcU5nTkJyNmNxTWNCZ0luV2svNVU5Ulg2MHgybUY4?=
+ =?utf-8?B?QkdSWGZvZDcyVFBFSWN5WjJkZTRCWmdLMXRIc3JqTHI2aTBkV1ZHbE5tazNJ?=
+ =?utf-8?B?M29qYnp4cnk1WXpaZituMXhlQ1VnMHZtcXMyRHR6V1FMaEVwY0tzR0d2Y1Zk?=
+ =?utf-8?B?WGREM1pZNStjaGFOSVcyZEpSRHdRQzgrVk9vbkdMQ2xYV3l5dGZvOGd3SDZm?=
+ =?utf-8?B?cGg3TGFlQUlLcjBLNENqUEcvYVZTbytXWVEyYnRZV0lXdC8rQnBLZXZnM0tO?=
+ =?utf-8?B?UWNqaUpmYU9GbkhaUUtIdzRNakZMV1ZHaUJsd0dZTDI0N0doblVjZ3BzdUt4?=
+ =?utf-8?B?MGtNeUlEa3F5Mm5Td3VUY3pqWTkyTzd2MjloVkRaSDZseEZMaHg1WFhrb01k?=
+ =?utf-8?B?ODBmUVF2VllOVVN2VzN3QmZNZ2x5SWMyNUhXakU4Qm95ZXAxeWNNK3hBTitD?=
+ =?utf-8?B?SFViY0U2amZBZWhsQWQwcHAxdlAyd3VmOFRjamJsL3EzWUlKUXNNNVN3cncy?=
+ =?utf-8?B?a21DL0Q0SmtEd1VRMzJqTXVHYVpEc3NCanlOTDU5dmpocUFaRmIyNk1pM3c3?=
+ =?utf-8?B?NWxGaGJoL3dWbmhDeVprd0lBbjlDclRNcUxQcm8wVVVETi9Cb2pjNEgwM3J2?=
+ =?utf-8?B?N2QrWTQ4Z0dvTGlsQ0EzNjVhdXNHN1pJMHBLODB4d25aNUdBdk5lakt1YmVG?=
+ =?utf-8?B?M0tvY010ZkpqWUlLQWg1eW5yV2Q3UlFWWEVMMkl2NnFkeENNSGtDbnVqZjJ1?=
+ =?utf-8?B?K2E0dWpCVXN0YS9XQml1aU9kclhGZzBUTi8zRXF0aUxIb0hFeDlIbEM1QWh4?=
+ =?utf-8?B?dEx6WUJXWUtqc2kwV3ZhM1NCUG9CVmF2L0p4TU81OUZZR1BmK1o3eE91Sml3?=
+ =?utf-8?B?b25ETEtrTytEL0g4UEJuR1NUTTlwNWk0M0x4YitBZUZFUko5bDQvYjhmTFY3?=
+ =?utf-8?B?eHdaN1NsYVpkVDBjdlRqdVppZjNtTVlacDJuZDZQU1VWY2RWY2J6TzhWeUZj?=
+ =?utf-8?B?NWwrWHpwQWRRQTZMcEl6bStQelhmWXlaY05WbWEvUzNyWjlJOFdQbDFGeVBl?=
+ =?utf-8?B?WmF4WjJoYmg4MHlTZUtpd1RkNnBkNFlIUDRvSGhuVVBkbHZMZXpMMmx1V3Ra?=
+ =?utf-8?B?M3pEV2tjcVVxcDNCVmJEU01VMDFQMFdON2hQanFMUXVtRGwzeXlnMHlvSGJY?=
+ =?utf-8?B?N01ib2FzNmtGTVYzYWVEZzFSR3VsVXlJTHJSTGJvSFY1U1Y3STBLUHo4RU1H?=
+ =?utf-8?B?NWNoNWEybXFyVGFPSkgwcXBRK0VweTVlMGFDWnROcU5nOS9PNXNibEVQSEtm?=
+ =?utf-8?B?M3BHUFJIMmtkMmg1L1djTXA1R1dtR2JkWmJSdmVlYiszWkFPMUlScDlkOEhr?=
+ =?utf-8?B?OUJnS0s1b2tWaWVoL1dJS080UTVpWWw1SVlNb2kzSDBndFE4VCtielBnMnFL?=
+ =?utf-8?B?NmtYZGRmQjV3Vm1NM2hNeHprck0xMXkzZ1RhSzNhekpzV2NaZ1F3VEo3K0o1?=
+ =?utf-8?B?NUg5SWtmLzh6RXJNQkM3TCtWVkJGOGhITHVpT0lLRHlZSnMySTlaZEQzWmdN?=
+ =?utf-8?B?Nlg5R2VDSmhHVDJoejV6MzJGalBvTHZITURJOVhQQjNDVzMxYithRWlaSzM4?=
+ =?utf-8?B?TGEyc3pYaHh6UHh1czRuRnIyZk5LUnJmdFo5bE9VNW9sSmExNll5U0pjTGxq?=
+ =?utf-8?B?ejZHM3RQa2Z4akRzeklPYm1YM1YrKzhvUkNYdkI4QWphT01tMERzbFhwdlpN?=
+ =?utf-8?B?U09qSFVROUdmeW5JeEJVRkwrWmtaalJRNi9iWU9WeHZPNEJmemRtOUpqOXZa?=
+ =?utf-8?Q?WuChYC7bTqYA22rDd7a493lQ+yEKMD/UXpg/ILmhhmZl?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 714bd876-d538-48fa-9be2-08dd8d71236c
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2025 14:12:02.3348 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AdnutZnXDl3iaPSn5TjgJVfW+KsIyhqArXIWojWYzlKPhyFR1FZtsSh/WUu61J8TPGoN7oRzjr+YSuTxhRucNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7742
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,408 +186,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06.05.2025 09:04, Boris Brezillon wrote:
-> On Thu, 24 Apr 2025 03:21:32 +0100
-> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+On Tue May 6, 2025 at 12:25 AM JST, Joel Fernandes wrote:
+>> Actually it may be a good idea to move this into its own patch/series so
+>> it gets more attention as this is starting to look like the `num` or
+>> `num_integer` crates and we might be well-advised to take more
+>> inspiration from them in order to avoid reinventing the wheel. It is
+>> basically asking the question "how do we want to extend the integer
+>> types in a useful way for the kernel", so it's actually pretty important
+>> that we get our answer right. :)
 >
-> > This change is essentially a Panfrost port of commit a3707f53eb3f
-> > ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS").
-> >
-> > The DebugFS file is almost the same as in Panthor, minus the GEM object
-> > usage flags, since Panfrost has no kernel-only BO's.
-> >
-> > Two additional GEM state flags which are displayed but aren't relevant
-> > to Panthor are 'Purged' and 'Purgeable', since Panfrost implements an
-> > explicit shrinker and a madvise ioctl to flag objects as reclaimable.
-> >
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> > ---
-> >  drivers/gpu/drm/panfrost/panfrost_device.c |   4 +
-> >  drivers/gpu/drm/panfrost/panfrost_device.h |  11 ++
-> >  drivers/gpu/drm/panfrost/panfrost_drv.c    |  37 ++++++
-> >  drivers/gpu/drm/panfrost/panfrost_gem.c    | 137 +++++++++++++++++++++
-> >  drivers/gpu/drm/panfrost/panfrost_gem.h    |  58 +++++++++
-> >  5 files changed, 247 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> > index a45e4addcc19..7ba140aaf59d 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> > @@ -209,6 +209,10 @@ int panfrost_device_init(struct panfrost_device *pfdev)
-> >
-> >  	spin_lock_init(&pfdev->cycle_counter.lock);
-> >
-> > +#ifdef CONFIG_DEBUG_FS
-> > +	mutex_init(&pfdev->gems.lock);
-> > +	INIT_LIST_HEAD(&pfdev->gems.node);
-> > +#endif
-> >  	err = panfrost_clk_init(pfdev);
-> >  	if (err) {
-> >  		dev_err(pfdev->dev, "clk init failed %d\n", err);
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> > index ad95f2ed31d9..395272a79306 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> > @@ -161,6 +161,17 @@ struct panfrost_device {
-> >  		atomic_t use_count;
-> >  		spinlock_t lock;
-> >  	} cycle_counter;
-> > +
-> > +	#ifdef CONFIG_DEBUG_FS
+> I am not sure if we want to split the series for a simple change like thi=
+s,
+> because then the whole series gets blocked? It may also be better to pair=
+ the
+> user of the function with the function itself IMHO since the function is =
+also
+> quite small. I am also Ok with keeping the original patch in the series a=
+nd
+> extending on that in the future (with just usize) to not block the series=
+.
 >
-> Drop the tab.
-
-Done.
+> Regarding for the full blown num module, I looked over the weekend and it=
+s
+> actually a bunch of modules working together, with dozens of numeric APIs=
+, so I
+> am not sure if we should pull everything or try to copy parts of it. The =
+R4l
+> guidelines have something to say here. A good approach IMO is to just do =
+it
+> incrementally, like I'm doing with this patch.
 >
-> > +	/** @gems: Device-wide list of GEM objects owned by at least one file. */
-> > +	struct {
-> > +		/** @gems.lock: Protects the device-wide list of GEM objects. */
-> > +		struct mutex lock;
-> > +
-> > +		/** @node: Used to keep track of all the device's DRM objects */
-> > +		struct list_head node;
-> > +	} gems;
-> > +#endif
+> I think defining a "Unsigned" trait does make sense, and then for future
+> expansion, it can be expanded on in the new num module?
+
+Yeah maybe I was looking too far ahead. This can definitely grow
+gradually.
+
+>> To address our immediate needs of an `align_up`, it just occurred to me
+>> that we could simply use the `next_multiple_of` method, at least
+>> temporarily. It is implemented with a modulo and will therefore probably
+>> result in less efficient code than a version optimized for powers of
+>> two, but it will do the trick until we figure out how we want to extend
+>> the primitive types for the kernel, which is really what this patch is
+>> about - we will also need an `align_down` for instance, and I don't know
+>> of a standard library equivalent for it...
 >
-> I would probably also put those in a panfrost_device_debugfs struct.
->  };
+> Why do we want to trade off for "less efficient code"? :) I think that's =
+worse
+> than the original change (before this series) I had which had no function=
+ call
+> at all, but hardcoded the expression at the call site. The suggestion is =
+also
+> less desirable than having a local helper in the vbios module itself. I a=
+m not
+> much a fan of the idea "lets call this temporarily and have sub optimal c=
+ode"
+> when the alternative is to just do it in-place, in-module, or via a num m=
+odule
+> extension :)
 
-I think in the case of Panthor we left them outside of a specific structure, but I think it's a good idea.
+`next_multiple_of` has the benefit of returning the correct result even
+for non-powers of 2, but at the same time trying to align to something
+that is not a power of 2 is probably a defect in the code itself. ^_^;
 
-> >  struct panfrost_mmu {
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > index b0ab76d67e96..12dd9f311984 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > @@ -13,6 +13,7 @@
-> >  #include <linux/platform_device.h>
-> >  #include <linux/pm_runtime.h>
-> >  #include <drm/panfrost_drm.h>
-> > +#include <drm/drm_debugfs.h>
-> >  #include <drm/drm_drv.h>
-> >  #include <drm/drm_ioctl.h>
-> >  #include <drm/drm_syncobj.h>
-> > @@ -153,6 +154,8 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
-> >  		ret = -EINVAL;
-> >  	}
-> >
-> > +	panfrost_gem_debugfs_init_bo(bo);
-> >
-> > This is the only place where you call panfrost_gem_debugfs_init_bo(),
-> > so why not calling panfrost_gem_debugfs_bo_add() at the end of
-> > panfrost_gem_create() instead, and drop the initialised field (and
-> > panfrost_gem_debugfs_init_bo() helper).
+Another reason for not using it is to have things properly named, so
+agreed that an extension trait with the functionality we need, with a
+name that clearly carries our intent and implemented as efficiently as
+the C equivalent is better than reusing standard library methods that
+happen to provide the correct result.
 
-Done.
-
-> > +
-> >  out:
-> >  	drm_gem_object_put(&bo->base.base);
-> >  	return ret;
-> > @@ -659,6 +662,37 @@ static const struct file_operations panfrost_drm_driver_fops = {
-> >  	.show_fdinfo = drm_show_fdinfo,
-> >  };
-> >
-> > +#ifdef CONFIG_DEBUG_FS
-> > +static int panthor_gems_show(struct seq_file *m, void *data)
-> > +{
-> > +	struct drm_info_node *node = m->private;
-> > +	struct drm_device *dev = node->minor->dev;
-> > +	struct panfrost_device *pfdev = dev->dev_private;
-> > +
-> > +	panfrost_gem_debugfs_print_bos(pfdev, m);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static struct drm_info_list panthor_debugfs_list[] = {
-> > +	{"gems", panthor_gems_show, 0, NULL},
-> > +};
-> > +
-> > +static int panthor_gems_debugfs_init(struct drm_minor *minor)
-> > +{
-> > +	drm_debugfs_create_files(panthor_debugfs_list,
-> > +				 ARRAY_SIZE(panthor_debugfs_list),
-> > +				 minor->debugfs_root, minor);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void panfrost_debugfs_init(struct drm_minor *minor)
-> > +{
-> > +	panthor_gems_debugfs_init(minor);
-> > +}
-> > +#endif
-> > +
-> >  /*
-> >   * Panfrost driver version:
-> >   * - 1.0 - initial interface
-> > @@ -683,6 +717,9 @@ static const struct drm_driver panfrost_drm_driver = {
-> >
-> >  	.gem_create_object	= panfrost_gem_create_object,
-> >  	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
-> > +#ifdef CONFIG_DEBUG_FS
-> > +	.debugfs_init = panfrost_debugfs_init,
-> > +#endif
-> >  };
-> >
-> >  static int panfrost_probe(struct platform_device *pdev)
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> > index a7a29974d8b1..8a0fd1abd05c 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> > @@ -12,6 +12,38 @@
-> >  #include "panfrost_gem.h"
-> >  #include "panfrost_mmu.h"
-> >
-> > +#ifdef CONFIG_DEBUG_FS
-> > +static void panfrost_gem_debugfs_bo_add(struct panfrost_device *ptdev,
-> > +					struct panfrost_gem_object *bo)
-> > +{
-> > +	INIT_LIST_HEAD(&bo->debugfs.node);
+>>> I added the #[inline] and hopefully that
+>>> gives similar benefits to const that you're seeking:
+>>=20
+>> A `const` version is still going to be needed, `#[inline]` encourages th=
+e
+>> compiler to try and inline the function, but AFAIK it doesn't allow use
+>> in const context.
 >
-> There's no point calling INIT_LIST_HEAD() if you're calling
-> list_add_tail() immediately after.
+> Right, so for the vbios use case there is no use of a const function. The=
+ only
+> reason I added it is because there were other functions at the time which=
+ were
+> used (by the now dropped timer module). I suggest let us add the const fu=
+nction
+> once there is a user of it, I also don't know right how to do it. Like if=
+ I use
+> generics for the const fn, I get this:
+>
+> const fn align_up_unsigned<T: Unsigned>(value: T, alignment: T) -> T {
+>     let one =3D T::from(1u8);
+>     (value + alignment - one) & !(alignment - one)
+> }
+>
+> error[E0658]: cannot call conditionally-const method `<T as Add>::add` in
+> constant functions
 
-Deleted.
+Interesting, I would expect that to fail but "conditionally-const"?
+After looking that up is appears we can constraint a generic type
+against a const trait, but that feature is still experimental and not
+enabled in the kernel. So agreed, let's consider that later.
 
-> > +
-> > +	bo->debugfs.creator.tgid = current->group_leader->pid;
-> > +	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
-> > +
-> > +	mutex_lock(&ptdev->gems.lock);
-> > +	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
-> > +	mutex_unlock(&ptdev->gems.lock);
-> > +}
-> > +
-> > +static void panfrost_gem_debugfs_bo_rm(struct panfrost_gem_object *bo)
-> > +{
-> > +	struct panfrost_device *ptdev = bo->base.base.dev->dev_private;
-> > +
-> > +	if (list_empty(&bo->debugfs.node))
-> > +		return;
-> > +
-> > +	mutex_lock(&ptdev->gems.lock);
-> > +	list_del_init(&bo->debugfs.node);
-> > +	mutex_unlock(&ptdev->gems.lock);
-> > +}
-> > +#else
-> > +static void panfrost_gem_debugfs_bo_add(struct panfrost_device *ptdev,
-> > +					struct panfrost_gem_object *bo)
-> > +{}
-> > +static void panfrost_gem_debugfs_bo_rm(struct panfrost_gem_object *bo) {}
-> > +#endif
-> > +
-> >  /* Called DRM core on the last userspace/kernel unreference of the
-> >   * BO.
-> >   */
-> > @@ -36,6 +68,7 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
-> >  	 */
-> >  	WARN_ON_ONCE(!list_empty(&bo->mappings.list));
-> >
-> > +	panfrost_gem_debugfs_bo_rm(bo);
-> >  	kfree(bo->label.str);
-> >  	mutex_destroy(&bo->label.lock);
-> >
-> > @@ -266,6 +299,8 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
-> >  	obj->base.map_wc = !pfdev->coherent;
-> >  	mutex_init(&obj->label.lock);
-> >
-> > +	panfrost_gem_debugfs_bo_add(pfdev, obj);
-> > +
-> >  	return &obj->base.base;
-> >  }
-> >
-> > @@ -321,3 +356,105 @@ panfrost_gem_set_label(struct drm_gem_object *obj, const char *label)
-> >
-> >  	kfree(old_label);
-> >  }
-> > +
-> > +#ifdef CONFIG_DEBUG_FS
-> > +struct gem_size_totals {
-> > +	size_t size;
-> > +	size_t resident;
-> > +	size_t reclaimable;
-> > +};
-> > +
-> > +struct flag_def {
-> > +	u32 flag;
-> > +	const char *name;
-> > +};
-> > +
-> > +static void panfrost_gem_debugfs_print_flag_names(struct seq_file *m)
-> > +{
-> > +	int len;
-> > +	int i;
-> > +
-> > +	static const struct flag_def gem_state_flags_names[] = {
-> > +		{PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED, "imported"},
-> > +		{PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED, "exported"},
-> > +		{PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED, "purged"},
-> > +		{PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE, "purgeable"},
-> > +	};
-> > +
-> > +	seq_puts(m, "GEM state flags: ");
-> > +	for (i = 0, len = ARRAY_SIZE(gem_state_flags_names); i < len; i++) {
-> > +		seq_printf(m, "%s (0x%x)%s", gem_state_flags_names[i].name,
-> > +			   gem_state_flags_names[i].flag, (i < len - 1) ? ", " : "\n\n");
-> > +	}
-> > +}
-> > +
-> > +static void panfrost_gem_debugfs_bo_print(struct panfrost_gem_object *bo,
-> > +					  struct seq_file *m,
-> > +					  struct gem_size_totals *totals)
-> > +{
-> > +	unsigned int refcount = kref_read(&bo->base.base.refcount);
-> > +	char creator_info[32] = {};
-> > +	size_t resident_size;
-> > +	u32 gem_state_flags = 0;
-> > +
-> > +	/* Skip BOs being destroyed. */
-> > +	if (!refcount)
-> > +		return;
-> > +
-> > +	resident_size = bo->base.pages ? bo->base.base.size : 0;
-> > +
-> > +	snprintf(creator_info, sizeof(creator_info),
-> > +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
-> > +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd0x%-16lx",
-> > +		   creator_info,
-> > +		   bo->base.base.name,
-> > +		   refcount,
-> > +		   bo->base.base.size,
-> > +		   resident_size,
-> > +		   drm_vma_node_start(&bo->base.base.vma_node));
-> > +
-> > +	if (bo->base.base.import_attach)
-> > +		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
-> > +	if (bo->base.base.dma_buf)
-> > +		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
-> > +
-> > +	if (bo->base.madv < 0)
-> > +		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED;
-> > +	else if (bo->base.madv > 0)
-> > +		gem_state_flags |= PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE;
-> > +
-> > +	seq_printf(m, "0x%-10x", gem_state_flags);
-> > +
-> > +	scoped_guard(mutex, &bo->label.lock) {
-> > +		seq_printf(m, "%s\n", bo->label.str ? : "");
-> > +	}
-> > +
-> > +	totals->size += bo->base.base.size;
-> > +	totals->resident += resident_size;
-> > +	if (bo->base.madv > 0)
-> > +		totals->reclaimable += resident_size;
-> > +}
-> > +
-> > +void panfrost_gem_debugfs_print_bos(struct panfrost_device *ptdev,
-> > +				    struct seq_file *m)
-> > +{
-> > +	struct gem_size_totals totals = {0};
-> > +	struct panfrost_gem_object *bo;
-> > +
-> > +	panfrost_gem_debugfs_print_flag_names(m);
-> > +
-> > +	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset       state       label\n");
-> > +	seq_puts(m, "-----------------------------------------------------------------------------------------------------------------------------------\n");
-> > +
-> > +	scoped_guard(mutex, &ptdev->gems.lock) {
-> > +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
-> > +			if (bo->debugfs.initialised)
-> > +				panfrost_gem_debugfs_bo_print(bo, m, &totals);
-> > +		}
-> > +	}
-> > +
-> > +	seq_puts(m, "===================================================================================================================================\n");
-> > +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
-> > +		   totals.size, totals.resident, totals.reclaimable);
-> > +}
-> > +#endif
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> > index 842e025b9bdc..bc60e0d74da9 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> > @@ -8,9 +8,50 @@
-> >  #include <drm/drm_mm.h>
-> >
-> >  struct panfrost_mmu;
-> > +struct panfrost_device;
-> >
-> >  #define PANFROST_BO_LABEL_MAXLEN	4096
-> >
-> > +enum panfrost_debugfs_gem_state_flags {
-> > +	/** @PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported. */
-> > +	PANFROST_DEBUGFS_GEM_STATE_FLAG_IMPORTED = BIT(0),
-> > +
-> > +	/** @PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported. */
-> > +	PANFROST_DEBUGFS_GEM_STATE_FLAG_EXPORTED = BIT(1),
-> > +
-> > +	/** @PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED: GEM BO was reclaimed by the shrinker. */
-> > +	PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGED = BIT(2),
-> > +
-> > +	/**
-> > +	 * @PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE: GEM BO pages were marked as no longer
-> > +	 * needed by UM and can be reclaimed by the shrinker.
-> > +	 */
-> > +	PANFROST_DEBUGFS_GEM_STATE_FLAG_PURGEABLE = BIT(3),
-> > +};
-> > +
-> > +/**
-> > + * struct panfrost_gem_debugfs - GEM object's DebugFS list information
-> > + */
-> > +struct panfrost_gem_debugfs {
-> > +	/**
-> > +	 * @node: Node used to insert the object in the device-wide list of
-> > +	 * GEM objects, to display information about it through a DebugFS file.
-> > +	 */
-> > +	struct list_head node;
-> > +
-> > +	/** @creator: Information about the UM process which created the GEM. */
-> > +	struct {
-> > +		/** @creator.process_name: Group leader name in owning thread's process */
-> > +		char process_name[TASK_COMM_LEN];
-> > +
-> > +		/** @creator.tgid: PID of the thread's group leader within its process */
-> > +		pid_t tgid;
-> > +	} creator;
-> > +
-> > +	/** @initialised: GEM object is ready to be displayed in DebugFS file. */
-> > +	bool initialised;
-> > +};
-> > +
-> >  struct panfrost_gem_object {
-> >  	struct drm_gem_shmem_object base;
-> >  	struct sg_table *sgts;
-> > @@ -59,6 +100,10 @@ struct panfrost_gem_object {
-> >
-> >  	bool noexec		:1;
-> >  	bool is_heap		:1;
-> > +
-> > +#ifdef CONFIG_DEBUG_FS
-> > +	struct panfrost_gem_debugfs debugfs;
-> > +#endif
-> >  };
-> >
-> >  struct panfrost_gem_mapping {
-> > @@ -107,4 +152,17 @@ void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
-> >
-> >  void panfrost_gem_set_label(struct drm_gem_object *obj, const char *label);
-> >
-> > +#ifdef CONFIG_DEBUG_FS
-> > +void panfrost_gem_debugfs_print_bos(struct panfrost_device *pfdev,
-> > +				    struct seq_file *m);
-> > +static inline void
-> > +panfrost_gem_debugfs_init_bo(struct panfrost_gem_object *bo)
-> > +{
-> > +	bo->debugfs.initialised = true;
-> > +}
-> > +#else
-> > +static inline void
-> > +panfrost_gem_debugfs_init_bo(struct panfrost_gem_object *bo) {};
-> > +#endif
-> > +
-> >  #endif /* __PANFROST_GEM_H__ */
-
-
-Adrian Larumbe
