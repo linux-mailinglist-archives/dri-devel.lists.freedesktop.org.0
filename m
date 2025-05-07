@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F300AADBCF
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 11:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB562AADBD2
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 11:48:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42FE489FEA;
-	Wed,  7 May 2025 09:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41CC010E785;
+	Wed,  7 May 2025 09:48:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="qYFaAZNn";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="K+2KUERz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C356810E783
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 09:48:10 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDC4510E783
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 09:48:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=0ZHhP
- /CxGZHtKdJH/7NAAa54AxeBo79z1P920bna1RY=; b=qYFaAZNn7gF6GtNGTi/mA
- Q9m7Nr2KMEhoJGG3GVN3cHH7RjGo7DumsufzB7b8gdwAFN7FaKA8/q1uBjsxmGnJ
- 5d7KI1kIEON54EAUIY/OcaEdopSZFIhOjff8aGUe6+WR0VHGx9j3y6dLyVGdV4zq
- WH0s2FqKW3pHb9xHoQBU/M=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=BQHLC
+ DBcHCYndNzTVgQbrhtOcaXMaNx6k06Orz9q5NA=; b=K+2KUERzEgO++ms1vsTju
+ wBYuziRKwapSjl+wg55bW+p4sF2FMlSHStVNsC+oCr5zWGJa7oLKNWiCO7A92ra/
+ geB3lozL5JsheedfrIjWZ4+RI5PJT6U58z4EFpFuLecarRwudxHrkczimza+PeYL
+ +PKDFA5hdSpQ7PTwiOek3E=
 Received: from localhost.localdomain (unknown [])
  by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id
- _____wCn0Sw2LBtoPOJREw--.58097S3; 
- Wed, 07 May 2025 17:47:38 +0800 (CST)
+ _____wCn0Sw2LBtoPOJREw--.58097S4; 
+ Wed, 07 May 2025 17:47:39 +0800 (CST)
 From: oushixiong1025@163.com
 To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -33,21 +33,21 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Simona Vetter <simona@ffwll.ch>, Sean Paul <sean@poorly.run>,
  Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH v3 2/3] drm/ast: use DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS
-Date: Wed,  7 May 2025 17:47:27 +0800
-Message-Id: <20250507094728.603302-2-oushixiong1025@163.com>
+Subject: [PATCH v3 3/3] drm/udl: use DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS
+Date: Wed,  7 May 2025 17:47:28 +0800
+Message-Id: <20250507094728.603302-3-oushixiong1025@163.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250507094728.603302-1-oushixiong1025@163.com>
 References: <20250507094728.603302-1-oushixiong1025@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wCn0Sw2LBtoPOJREw--.58097S3
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZFWfCrWfKr15Gw4rXw1fZwb_yoW3uFgEkF
- 10qan3XFWDua4Duw1Iyay5ZryIvr1UurWfJF1Utasxtw47Jr4UZ3409r4jvF1j9F4xZF90
- yw1xWF45AFsakjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8b_-PUUUUU==
+X-CM-TRANSID: _____wCn0Sw2LBtoPOJREw--.58097S4
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZFWDtrWrArykJF13Xw4fZrb_yoW3urb_CF
+ WftwsrWFZ8u34Dur1xAFW5Ary293s5uFs7WF4Utasayw4xJw4UuryIvr4vv3WUKF4rCF9x
+ J397XrsxAr4kCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8YsjUUUUUU==
 X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXQxGD2gbJmF-zwAAsc
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXAZGD2gbJDqw1AAAsa
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,26 +66,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Shixiong Ou <oushixiong@kylinos.cn>
 
 Import dmabuf without mapping its sg_table to avoid issues likes:
-  ast 0000:07:00.0: swiotlb buffer is full (sz: 3145728 bytes), total 32768 (slots), used 0 (slots)
+   udl 2-1.4:1.0: swiotlb buffer is full (sz: 2097152 bytes), total 65536 (slots), used 1 (slots)
 
 Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 ---
- drivers/gpu/drm/ast/ast_drv.c | 2 +-
+ drivers/gpu/drm/udl/udl_drv.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 6fbf62a99c48..b626660e1fd7 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -64,7 +64,7 @@ static const struct drm_driver ast_driver = {
- 	.minor = DRIVER_MINOR,
- 	.patchlevel = DRIVER_PATCHLEVEL,
+diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+index 1922988625eb..cbfdcb75f1f2 100644
+--- a/drivers/gpu/drm/udl/udl_drv.c
++++ b/drivers/gpu/drm/udl/udl_drv.c
+@@ -57,7 +57,7 @@ static const struct drm_driver driver = {
  
+ 	/* GEM hooks */
+ 	.fops = &udl_driver_fops,
 -	DRM_GEM_SHMEM_DRIVER_OPS,
 +	DRM_GEM_SHMEM_DRIVER_OPS_FOR_VMAP,
  	DRM_FBDEV_SHMEM_DRIVER_OPS,
- };
  
+ 	.name = DRIVER_NAME,
 -- 
 2.17.1
 
