@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6D7AAECD5
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 22:22:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8649CAAECD2
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 22:22:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7536F10E89E;
-	Wed,  7 May 2025 20:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D251710E89C;
+	Wed,  7 May 2025 20:22:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MLImaZ4X";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZO1n1tf6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 541B710E892
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64DCC10E89A
  for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 20:22:31 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- 46e09a7af769-72c3b863b8eso141785a34.2
+Received: by mail-ot1-f47.google.com with SMTP id
+ 46e09a7af769-72c47631b4cso135753a34.1
  for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 13:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746649348; x=1747254148; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746649349; x=1747254149; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2wCsPI37yI3kW2PZlC399eWtWxNv3NVwnKhYRGNZB4g=;
- b=MLImaZ4XYJuas+dHphv7KX66dwuaPmu1Mg0akd1rKhei0xR9iQitLF7VF/Dwjn3stw
- v+yoBlN3/qvbXpKNn5FDgS8h7ygTFYsB9kxlPXp4MKBnLyxu92IbiJ3HAli0lGOChSD0
- UwqNGM3hfhyxkPt94Lo7nK6K8AShjfeUpwZ0hRXmCH5qPjltRhefCuzIIEN37pzSp8jG
- a+OBhgtu73/WN6syqwrfDdTvllPdjGpEXAnrxH7r3FXsb5Tj5XxL2IFOY0cPCMpBASJ4
- uJKiQyYL4+CVt9KpDFXwBxzMTNtailWqjHODbR7EkdyihPzMgrfwDEjadnWo0xg8lFn6
- r+zw==
+ bh=uejrNc06iTAs+YLZjBRvSkO6o5dbouRkykrkJDTloTk=;
+ b=ZO1n1tf6NG9fTU20oq5RDMgMdGL+0JUtmOQWeo8SX/SiJ/0jBnJtSU5WbjWRunB/jk
+ RGFZfY0op+5q/OEHNh2OLxzs2wYr60LKaGXhz82F7Z9dK+jfRSvwD2Wz5cQ3BlVHsOH2
+ SRDn+qmnc8DMMS4EEHl0bVUQYhxRKq6q8D0SWh27j93g7tXn0wxpLXtQkt/ZX1mSzwtd
+ cSCHGi7dRlObLBAOgxfs3U2ni4xQ37trY7UcuOIME0p69z5sNB8p77uMRCNknuKqk2VO
+ JGAoFCgpRT/ZuMyUEK88rkZtcfKztLw5VUj32EapWV3db0IVepuPpd+xgN5Zc41hzhRc
+ ArKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746649348; x=1747254148;
+ d=1e100.net; s=20230601; t=1746649349; x=1747254149;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2wCsPI37yI3kW2PZlC399eWtWxNv3NVwnKhYRGNZB4g=;
- b=MDQTCbrH0+jfOm0Y7jYrVk7OLSdYUAJ/sNOc0Nqp/sgt/gy55HL1x4qYm70NukLvs7
- Qf1AmRCxAr9yNqp+mY1hasrhpBiaeRxyF2WFnLDbJVNS8zZunB0kszs5ksbqxAwoM4oX
- xhYNg3VR9rfSCbjBwULPTs6x23VEReohv0ZEUPMoe+mb1BFnz/QO1hWQ7NRf+N3RkKZ5
- tpbw3VMubKukRPCjD+Qt6MIIjmzrwzCeRluDF62BJ3d2Knyo9hZWZblh5qrE7wQf5F3X
- aQnc/FjhcdvRcwziyUrKJ/bv+O4cpeG7Cx4BgnQLa8Ilj+5pqg9+pyrhAMJ58CcUz7Pk
- 5cmA==
+ bh=uejrNc06iTAs+YLZjBRvSkO6o5dbouRkykrkJDTloTk=;
+ b=fvWtoRuiGe5pLDbTpePoZ9odvmvs1oNksQospMKVJUcUGtP4BMmFLtjcYizjZNLkB7
+ MjVs/ruANTBfFxvOb4+WLEVC7Maql4aGzcDK+MXlXXYRWT6YN6NvQl8A+/K4qtX7bnvW
+ fuiUS+3bS3jZLS0u10grlTo04Lab6ItgMmETIokIrI2svKhLAwKhLZmkabx2WRNfNtMm
+ 5SQiF3boBRIV6VXfAatHKZL93yapffgqAKjozFq8Z5rh1KnMGYPw4QK4RDCzDk/WW2Lq
+ YTHl+a7pvZySO17H6KT11nDVLClldp+UvPt3KXKQrU8d2AJ1O5HugrzrrPN1SLlY4u1E
+ WCuw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX17UKMifUc0SYheACwMQdxuwvGvC2uggiKlLC1oQRFY44Q24yixKabJQspwTC7hyPk0BIE6DS/uz8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz6kUV3BUbpBGrBTGvDY2Ts2xOmN7Iy5ZhQWM5Lk79zdYIAkUyx
- qPsApKRewyQlybrFU5Xq87yMHOlTTeuNBsG1o+Z+ZxV3fyGsQYaC
-X-Gm-Gg: ASbGncsZL4RZTGD24IZEWOZiSgiNSD6Xmju88JFk3EK4rnIYO7wMAY++rUlQV8hPo2f
- YWXIsNG2HIIXi/MB6OOwturulqTnYlb5iK8nS/xf7v0do2FT6GTRZOHM6WEkVvb92sJv1Vjddiv
- xj/DiQ4eBEcu3W3D3tHkv5wUDlakqYMu6RnUIFJ4/TP5cWLffYsBg8UXmI3byKjLRgLctvADkYh
- +7SuoNffS2OeYe6aiOyvg+RfeIxJm/rWcPRZPB2m5pa4UUBkCkm0hLeE+i/or9uiQcW6QPzA54i
- prHPbGPP9PZ463l3W/vGG5McjBG8PDCeG4eKQAivNV0Opi6hCLUje6ir54V+
-X-Google-Smtp-Source: AGHT+IFytOVfXojJmCR6jJHFmx4KGJn78CqT1+wKBNfjDiJd69/px5acPIOn7PhMAV+YoSaRnITWVQ==
-X-Received: by 2002:a05:6830:370f:b0:72b:9fb2:2abd with SMTP id
- 46e09a7af769-7321c97d487mr523435a34.20.1746649348140; 
+ AJvYcCV/Bc6SUHtD6jPv9Ty+XodTcxtsFrRXUGlpn5lKPj7pep/noTQTTwQSzEqVn2vXeNzZB2T6wuuHEus=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzEbVAr23Nw0mdO1GoC0IsOnIOSyqnAq+2ZB/Ulq7VI4/HoJVN6
+ mgW1H5uAF4vRLzPrsp/SsaxWL6b+A2OggLKkKnfyI8rMoC7b41lj
+X-Gm-Gg: ASbGnctzlhYJqItBos507ODiM8RS1Zt07cR6UOR5oP9wzTdahs3qAxaDQDCiohJAFAQ
+ MLCtWksM2L3Tgctg4BeSMd57tISUpVFDRNJqsqFWRtxnUvAmkC05RBsHIPq/+MQ6+pLF36mePpG
+ CIskaApVDL4FTg7G776RYrGdNOHhfwSFOq7YS53lN2BYYMPBimkYBGBoEPfFejuBS/B7bT455h+
+ 8mg5o4kgN1br/LUX1HagMANRE8ikbPBo95yAv1NYY/9FTF1/Aw+gipNgqdjIP6cwIIbZE2/8/aR
+ WtBUG/1HKHhknxBUMycrq66rHCPvhCYhnUU8v0CjCZxU5Qd5Qk4JgAc3geUygQ4U4fcoPKY=
+X-Google-Smtp-Source: AGHT+IFJzZAXCyZXw0QWeomPprmm2P68wLAv+/7r9VxtEI/Sd4+CGxIKlA//Tnd+huAraTUCYejlBQ==
+X-Received: by 2002:a05:6830:3749:b0:731:cac7:3634 with SMTP id
+ 46e09a7af769-7321c341618mr506386a34.3.1746649348955; 
  Wed, 07 May 2025 13:22:28 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf:e46c:46ba:cecd:a52c])
  by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.27
+ 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 May 2025 13:22:27 -0700 (PDT)
+ Wed, 07 May 2025 13:22:28 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -69,9 +69,9 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  airlied@gmail.com, mripard@kernel.org, samuel@sholland.org,
  jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
  krzk+dt@kernel.org, robh@kernel.org
-Subject: [PATCH V9 01/24] dt-bindings: clock: sun50i-h616-ccu: Add LVDS reset
-Date: Wed,  7 May 2025 15:19:20 -0500
-Message-ID: <20250507201943.330111-2-macroalpha82@gmail.com>
+Subject: [PATCH V9 02/24] clk: sunxi-ng: h616: Add LVDS reset for LCD TCON
+Date: Wed,  7 May 2025 15:19:21 -0500
+Message-ID: <20250507201943.330111-3-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250507201943.330111-1-macroalpha82@gmail.com>
 References: <20250507201943.330111-1-macroalpha82@gmail.com>
@@ -94,25 +94,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add the required LVDS reset binding for the LCD TCON.
+Add the required LVDS reset for the LCD TCON. Note that while this
+reset is exposed for the T507, H616, and H700 only the H700 has
+an LCD controller.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 ---
- include/dt-bindings/reset/sun50i-h616-ccu.h | 1 +
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/include/dt-bindings/reset/sun50i-h616-ccu.h b/include/dt-bindings/reset/sun50i-h616-ccu.h
-index 81b1eba2a7f7..ba626f7015b5 100644
---- a/include/dt-bindings/reset/sun50i-h616-ccu.h
-+++ b/include/dt-bindings/reset/sun50i-h616-ccu.h
-@@ -69,5 +69,6 @@
- #define RST_BUS_GPADC		60
- #define RST_BUS_TCON_LCD0	61
- #define RST_BUS_TCON_LCD1	62
-+#define RST_BUS_LVDS		63
- 
- #endif /* _DT_BINDINGS_RESET_SUN50I_H616_H_ */
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+index daa462c7d477..955c614830fa 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+@@ -1094,6 +1094,7 @@ static const struct ccu_reset_map sun50i_h616_ccu_resets[] = {
+ 	[RST_BUS_TCON_LCD1]	= { 0xb7c, BIT(17) },
+ 	[RST_BUS_TCON_TV0]	= { 0xb9c, BIT(16) },
+ 	[RST_BUS_TCON_TV1]	= { 0xb9c, BIT(17) },
++	[RST_BUS_LVDS]		= { 0xbac, BIT(16) },
+ 	[RST_BUS_TVE_TOP]	= { 0xbbc, BIT(16) },
+ 	[RST_BUS_TVE0]		= { 0xbbc, BIT(17) },
+ 	[RST_BUS_HDCP]		= { 0xc4c, BIT(16) },
 -- 
 2.43.0
 
