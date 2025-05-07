@@ -2,65 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DD9AADD2B
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 13:22:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E68AADD70
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 13:34:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 518A410E390;
-	Wed,  7 May 2025 11:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96FB910E193;
+	Wed,  7 May 2025 11:34:37 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YB9ktX2U";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 488D710E788;
- Wed,  7 May 2025 11:22:06 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-43cfebc343dso45904275e9.2; 
- Wed, 07 May 2025 04:22:06 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD90710E181;
+ Wed,  7 May 2025 11:34:36 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-30f30200b51so69090161fa.3; 
+ Wed, 07 May 2025 04:34:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1746617675; x=1747222475; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jan/G1jQO8QSF9VgW6ZR8MQYcfJJl6I5cqB21kUF2ik=;
+ b=YB9ktX2Uy67O22sxG+QP7XvH6DBNJMT8YTGx7+W1ifSgo5Rjm5PLPezomwjRBsobwM
+ 2F5sWI2vLS23lppwCkWv3SnEgwbTKf+J41I4zH5T39WLcPHrDoMEQfiETnDmMkv6pGgj
+ Hfbc/t6Xtz07tDhVvyZcRAUeV/YdvjPDBtpgDaDsoI/z43TtueSv08UDJgT+2YPglfLN
+ yGKaJ5srNV1LNgBXDuLJYaPfcgK/PN9Ku56jixGyLPEgTLUK1MQliz985hesoUrHTZW1
+ 6IXKwlByzlV3Z/4PCMWuIe1L424wR3piqQvQwnVA50H8tvmUeOglTgKdDkM6lJNqeqbk
+ pZPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746616925; x=1747221725;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZWC9bs3J+fotQKN+Pvu1nWrnqjUtpAFHf8gyq7Cydsg=;
- b=k8VRgzetAcXnZQRrxvQeSTEpNyWNaXzPwcxXLKLMR79zNKe7BQOsdRyok1ZRgnOKKo
- 4r8tq97rqLCtyNdeHImw+drN4BxGlmxq0WIB0axK3j/EL7q0+wq8xsVHnoFQndNrxTmK
- Os32lqZIx7DCbqy9ZWPzzMPn4/oSJv9XhrduJKjFqHxryRYENISJ9uZMa/ekUt+Hvxo+
- WI886z5Hvutu+XURVQgB0HT5KKiKR0Telk29FJvyueORIr1QVWTNQqnOiGDgr2g+gwnq
- FyFqwpbwAoR+uH4+i0FiqmKAndj96rsAlshqfOiCAXBZA+7XTjYwsmppqKhXHHnsJ5Jt
- 0jZw==
+ d=1e100.net; s=20230601; t=1746617675; x=1747222475;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jan/G1jQO8QSF9VgW6ZR8MQYcfJJl6I5cqB21kUF2ik=;
+ b=VofVkXSr0dUphUHIHcVLeUcaodB+1oPR8rLp40TxPFIeEKvN/OJ2lm/DA1XfqdwKox
+ AtN6KltfJSYmXWKCYk/dH1NORj2pQOA93AbDSdunUQROo3Hd6Vs4bJJO2+ejSqq6h9y3
+ 7IZPdrIWMPL4TmiO8xjMFdbhteiZoIRL98ZYvqNKvTjkP9JH4rZOgZx6/wGCF0OF2zKY
+ KhKW3T/vBkiHORdYtchDi4bygCFeoHwN0J6KMqPg5l44CBl7mypZmbgIOHUw1CqaW3ep
+ 22PaXIWZ223EnUP4VZRZp9bWM/3Eoa1Jy64L+qKfIeUzDLRq28nKs/mKUavWfvv+2Wtq
+ IGTA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVHP4eypqr2QvdweVrbYjWkT9tUpD29reYMo+NtJbIxH6E4BrSCDwuVdgAS8ehPmXyjxZVGiwK8sg==@lists.freedesktop.org,
- AJvYcCW0Ki3MW/eEJ5SxTIBJcWw8kmxhVVEM6Gx93tnUs3gTydhApN4OWgQtuW6pVCf5P98m7yCe/rwH7Co=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxmD7I+/ANlDu7X7di87Xpy8e+TQ7Dlv3cUN7lL8mPlkx/e4fMo
- OjxxhmUgou1ZX4BIZEVi0O1+9p5DdjYIDOIdTgw1/HOdrY06VEkujjxnXA==
-X-Gm-Gg: ASbGncsk+M8SwOO7ujcQhUuDIRmHakKvxNAQGOzTYjpCWIAdmWyK+2ny8suqp+wbrG3
- krqVfr86yI0iCcAQcqL35UGZxP9cCZiYv0w2Kn4SbqKNkFFFaJMo9mFrM+yUzyZf4Avq7cUsCd6
- eWsULY6MBzquj3LV48dR8KnuRhxLwbFFtMH+NdsbFxyIi4HDzss1h3p+T03/YY0tEVJaHietInp
- 0+zfIT0TWXFw8OFyU1nkvoJwdR7edAxuXFDOerEGelF84LjyWoqz72PpyrOZ6u3FgMHflPg9XM6
- 8JvpczQD67xwLFF1R7pprNmF/DsaLKD7VaOMXecx2fAh35sIkcyDdSx0weDFLzloDGFXnAXYDwu
- 3wQ==
-X-Google-Smtp-Source: AGHT+IGRWvY8rXW6dhn155ZAXsXvmGuf7LheNdjj6dzmGatIJg0UzjRGoVu2EsyA9CH4JuUihSF83g==
-X-Received: by 2002:a05:600c:35cf:b0:43b:cc42:c54f with SMTP id
- 5b1f17b1804b1-441d44c4642mr21809675e9.14.1746616924512; 
- Wed, 07 May 2025 04:22:04 -0700 (PDT)
-Received: from ramallet.home (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-441d43a802csm28373955e9.39.2025.05.07.04.22.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 May 2025 04:22:04 -0700 (PDT)
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-To: linux-kernel@vger.kernel.org
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/etnaviv: Fix flush sequence logic
-Date: Wed,  7 May 2025 13:21:30 +0200
-Message-ID: <20250507112131.3686966-1-tomeu@tomeuvizoso.net>
-X-Mailer: git-send-email 2.49.0
+ AJvYcCW0dvYZFrSyRi1N6bzdm9LL6FMjMsWJ9N5GhOYIJkIRQH1WzdpkM9e46m2gAtahROLy/nheVMzpDw==@lists.freedesktop.org,
+ AJvYcCWrJ995fYV0mvrsR8b2pIMQjTLXp8iHM7D27XoqnGdm5sEiOc8WUKvP9iJrV/OiftA1ZJ8v2Llibiw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1iRNZHjNQPhu6swz8Kal0oO6LQdUeEwyuTJ5xjnnc/b3E2Tn/
+ eD0BSCQ1q7nlHMR2yUcw/6XWtNsdIzwjsEXPJg392FTpaYp6py04O1uLZ+tvn0czOIIpLbZRb/n
+ 0S2LQeOWqhYStRngons4r5ybtiSI=
+X-Gm-Gg: ASbGncvGgdXQPjShC7FFEHCjnTJLP3eH7ztNljuW1KDUCIjcj8nTtQiAXP/3aOtCjzv
+ QeTbl1ncjFfrqXwbht8U4DtjJAhsMVuhaqzouP1CXYowhvksKUuJ0FV+duRYJBYALxpbXMiu6Gm
+ r043iv4kyUNNm3WjslAZp055dBKaECFO6npAm2IyjQsnR53ATuDKhVxQ==
+X-Google-Smtp-Source: AGHT+IG7oYllQDERw2pyvJWmXVrE12zrrXKaUEIUOHTWAMUs72mMelYAuwrsPoTFhtZ/3Wy5Zk6JHEvDerw2HFlQK2c=
+X-Received: by 2002:a05:651c:3136:b0:30b:b956:53c2 with SMTP id
+ 38308e7fff4ca-326ad1ba97amr10036641fa.11.1746617674951; Wed, 07 May 2025
+ 04:34:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250507112131.3686966-1-tomeu@tomeuvizoso.net>
+In-Reply-To: <20250507112131.3686966-1-tomeu@tomeuvizoso.net>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 7 May 2025 08:34:23 -0300
+X-Gm-Features: ATxdqUF6JkkRipTIVERvqlVRf3tIXAdsBzMHDW0_XZtQPGtanxPvgGhL3Es3bl0
+Message-ID: <CAOMZO5CK11wByq3BL9XZgvfFv1_kp94CNFMYDaEJ=WxcEFATJQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Fix flush sequence logic
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: linux-kernel@vger.kernel.org, Lucas Stach <l.stach@pengutronix.de>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,38 +88,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We should be comparing the last submitted sequence number with that of
-the address space we may be switching to.
+Hi Tomeu,
 
-And we should be using the latter as the last submitted sequence number
-afterwards.
+On Wed, May 7, 2025 at 8:22=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.net>=
+ wrote:
+>
+> We should be comparing the last submitted sequence number with that of
+> the address space we may be switching to.
+>
+> And we should be using the latter as the last submitted sequence number
+> afterwards.
+>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
----
- drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-index b13a17276d07..865b07b14b38 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-@@ -347,7 +347,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 	u32 link_target, link_dwords;
- 	bool switch_context = gpu->exec_state != exec_state;
- 	bool switch_mmu_context = gpu->mmu_context != mmu_context;
--	unsigned int new_flush_seq = READ_ONCE(gpu->mmu_context->flush_seq);
-+	unsigned int new_flush_seq = READ_ONCE(mmu_context->flush_seq);
- 	bool need_flush = switch_mmu_context || gpu->flush_seq != new_flush_seq;
- 	bool has_blt = !!(gpu->identity.minor_features5 &
- 			  chipMinorFeatures5_BLT_ENGINE);
-@@ -399,6 +399,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 			struct etnaviv_iommu_context *old_context = gpu->mmu_context;
- 
- 			gpu->mmu_context = etnaviv_iommu_context_get(mmu_context);
-+			gpu->flush_seq = new_flush_seq;
- 			etnaviv_iommu_context_put(old_context);
- 		}
- 
--- 
-2.49.0
-
+Does this need a Fixes tag?
