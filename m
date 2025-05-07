@@ -2,47 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A13AAE1F4
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 16:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0821AAE1FB
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 16:08:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D357F10E7F7;
-	Wed,  7 May 2025 14:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB60010E7FF;
+	Wed,  7 May 2025 14:08:06 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="cQ01P2au";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B97B910E7F7
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 14:07:05 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6F09339;
- Wed,  7 May 2025 07:06:54 -0700 (PDT)
-Received: from [10.57.20.214] (unknown [10.57.20.214])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB1AF3F5A1;
- Wed,  7 May 2025 07:07:00 -0700 (PDT)
-Message-ID: <2b85071a-e3e7-4cfc-a471-e81e463b7c37@arm.com>
-Date: Wed, 7 May 2025 15:06:58 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AAF210E7FF
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 14:08:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KBB+WjVzByVFW+uRxe/1Yd1RcKwEfDRO1TW7gfbiVwU=; b=cQ01P2auP0r6SeVcSFIx3vrNUk
+ 5ydNj5/KYM4yU7mAbGqoBHUuIEGMQoO7wDEauD/ve9zwHj23DCdxRfMngrQcIH80dDTamG+VywcZB
+ bC2IobKK6c4ViajaojgqzsMadQRdkOC4h0/by1qFBU0Vzecqktg3989YACQTHf10JewEWzuTgBzy0
+ lkNym0Ys4v5wb8AxbjNaWWrIaiaSJq7PK2bkk9498ijs8D0xcf3waU5RstRpDJuMJFS007EnC2Abn
+ HkZWztr5UpQsF9qqDFn5JE+RO+R482/TC2uJNY4nT+0hOn47PkCafCtYAi50cQqVgWCl7A5OJk3xE
+ qqZQVomQ==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uCfNR-004kHV-DI; Wed, 07 May 2025 16:07:58 +0200
+Message-ID: <33cf57f2-230d-4bab-bab9-848b5ace9dfc@igalia.com>
+Date: Wed, 7 May 2025 15:07:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] drm/panfrost: Add support for Mali on the MT8370
- SoC
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20250502-mt8370-enable-gpu-v5-0-98e247b30151@collabora.com>
- <20250502-mt8370-enable-gpu-v5-2-98e247b30151@collabora.com>
-From: Steven Price <steven.price@arm.com>
+Subject: Re: [RFC 0/4] Some (drm_sched_|dma_)fence lifetime issues
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
+ <phasta@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20250418164246.72426-1-tvrtko.ursulin@igalia.com>
+ <29b27ae3-de56-475d-ae85-fd593a011ea3@amd.com>
+ <e4acf86d-ff22-423d-9769-80316fa96cb5@igalia.com>
+ <ff76a94e-97cd-4d19-a02b-cf2a1fc00ac8@amd.com>
+ <67a89aac-5eb6-46d2-b456-32e9f3e72f09@igalia.com>
+ <67697ca1-e18e-4f9e-a315-43957e71dbef@amd.com>
 Content-Language: en-GB
-In-Reply-To: <20250502-mt8370-enable-gpu-v5-2-98e247b30151@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <67697ca1-e18e-4f9e-a315-43957e71dbef@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,84 +69,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/05/2025 13:17, Louis-Alexis Eyraud wrote:
-> Add a compatible for the MediaTek MT8370 SoC, with an integrated ARM
-> Mali G57 MC2 GPU (Valhall-JM, dual core), with new platform data for
-> its support in the panfrost driver.
-> It uses the same data as MT8186 for the power management features to
-> describe power supplies, pm_domains and enablement (one regulator, two
-> power domains) but also sets the FORCE_AARCH64_PGTABLE flag in the GPU
-> configuration quirks bitfield to enable AARCH64 4K page table format
-> mode.
-> As MT8186 and MT8370 SoC have different GPU architecture (Mali G52 2EE
-> MC2 for MT8186), making them not compatible, and this mode is only
-> enabled for Mediatek SoC that are Mali G57 based (compatible with
-> mediatek,mali-mt8188 or mediatek,mali-8192), having specific platform
-> data allows to set this flag for MT8370 without modifying MT8186
-> configuration and behaviour.
+
+On 07/05/2025 13:54, Christian König wrote:
+> On 5/7/25 14:28, Tvrtko Ursulin wrote:
+>>
+>> On 28/04/2025 14:15, Christian König wrote:
+>>> On 4/24/25 09:07, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 23/04/2025 14:12, Christian König wrote:
+>>>>> On 4/18/25 18:42, Tvrtko Ursulin wrote:
+>>>>>> Hi all,
+>>>>>>
+>>>>>> Recently I mentioned to Danilo about some fence lifetime issues so here is a
+>>>>>> rough series, more than anything intended to start the discussion.
+>>>>>>
+>>>>>> Most of the problem statement can be found in the first patch but to briefly
+>>>>>> summarise - because sched fence can outlive the scheduler, we can trivially
+>>>>>> engineer an use after free with xe and possibly other drivers. All that is
+>>>>>> needed is to convert a syncobj into a sync file behind drivers back, and I don't
+>>>>>> see what the driver can do about it.
+>>>>>
+>>>>>
+>>>>> Yeah that topic again :) The problem here is that this is not a bug, it is a feature!
+>>>>>
+>>>>> IIRC it was Alex who pointed that issue out on the very first fence patch set, and we already discussed what to do back then.
+>>>>>
+>>>>> The problem with grabbing module references for fences is that you get trivially into circle references and so basically always preventing the module from unloading.
+>>>>
+>>>> Where "always" is only "while there are active objects from that module", no?
+>>>
+>>>
+>>> The problem is that dma_fences stay around after they are signaled. And basically all drivers keep some dma_fence around for their resource management. E.g. amdgpu for the VMIDs.
+>>>
+>>> This means that some dma_fence is referenced by the module and the module referenced by some dma_fence. E.g. you are never able to unload the module.
+>>
+>> Are you thinking truly never or for as long someone has a reference?
 > 
-> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-
-With one minor comment fixed below:
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+> Truly never. It's simply a circle dependency you can never break up.
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index f1ec3b02f15a0029d20c7d81046ded59854e885c..8e0a1ae6940c73b7b60233950ae3abdfa843cc8e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -846,6 +846,16 @@ static const struct panfrost_compatible mediatek_mt8192_data = {
->  	.gpu_quirks = BIT(GPU_QUIRK_FORCE_AARCH64_PGTABLE),
->  };
->  
-> +/* MT8370 uses the same power domains and power supplies as MT8186 */
+> In other words the module references the fence and the fence references the module.
 
-This comment is not correct - you've got the power domains of MT8186, 
-but the supplies of MT8183. The comment doesn't actually add much so you 
-could just drop it.
+Past fences being signaled? How?
 
-If you're feeling adventurous then one option here is to actually clean 
-up the mediatek entries a little. Instead of referring to particular 
-part numbers we could have:
-
-static const char * const mediatek_2_pm_domains[] = { "core0", "core1" };
-static const char * const mediatek_3_pm_domains[] = { "core0", "core1", "core2" };
-static const char * const mediatek_5_pm_domains[] = { "core0", "core1", "core2",
-                                                      "core3", "core4" };
-
-Or even just have the mediatek_5_domains[] array (dropping the '5' in
-the name) and not use ARRAY_SIZE().
-
-Equally the supplies arrays could be renamed. We have the one with 
-"sram" for legacy and everything else uses {"mali", NULL} but we have 
-two definitions for it (mt8183_b and mt8192).
-
-Thanks,
-Steve
-
-> +static const struct panfrost_compatible mediatek_mt8370_data = {
-> +	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
-> +	.supply_names = mediatek_mt8183_b_supplies,
-> +	.num_pm_domains = ARRAY_SIZE(mediatek_mt8186_pm_domains),
-> +	.pm_domain_names = mediatek_mt8186_pm_domains,
-> +	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
-> +	.gpu_quirks = BIT(GPU_QUIRK_FORCE_AARCH64_PGTABLE),
-> +};
-> +
->  static const struct of_device_id dt_match[] = {
->  	/* Set first to probe before the generic compatibles */
->  	{ .compatible = "amlogic,meson-gxm-mali",
-> @@ -868,6 +878,7 @@ static const struct of_device_id dt_match[] = {
->  	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
->  	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
->  	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
-> +	{ .compatible = "mediatek,mt8370-mali", .data = &mediatek_mt8370_data },
->  	{ .compatible = "allwinner,sun50i-h616-mali", .data = &allwinner_h616_data },
->  	{}
->  };
+>> For example while userspace has a reference to dma_fence via sync_file fence owning module would not unloadable. One would have to terminate the process, which granted wouldn't be easy to see which process prevents the unload, before driver could be unloaded.
+>>
+>> For the foreign fences kept around in kernel space, that would be solvable by some periodic house keeping at worst.
+>>
+>> Also, about the use cases for module unload. Since you and Brost especially seem to be expressing a hard no to module references, what are the use cases you are concerned about?
+>>
+>>>>> The decision was made to postpone this and live with the potential use after free on module unload until somebody has time to fix it. Well that was +10 years ago :)
+>>>>>
+>>>>> I discussed this with Sima again last year and we came to the conclusion that the easiest way forward would be to decouple the dma_fence implementation from the driver or component issuing the fence.
+>>>>>
+>>>>> I then came up with the following steps to allow this:
+>>>>> 1. Decouple the lock used for protecting the dma_fence callback list from the caller.
+>>>>> 2. Stop calling enable_signaling with the lock held.
+>>>>> 3. Nuke all those kmem_cache implementations and force drivers to always allocate fences using kvmalloc().
+>>>>> 4. Nuke the release callback (or maybe move it directly after signaling) and set fence->ops to NULL after signaling the fence.
+>>>>>
+>>>>> I already send patches out for #1 and #2, but don't have enough time to actually finish the work.
+>>>>>
+>>>>> If you want take a look at nuking all those kmem_cache implementations for allocating the fence memory. I think that can be completed completely separate to everything else.
+>>>>
+>>>> So enabling dma fence "revoke" so to say.
+>>>>
+>>>> Just to check we are on the same page, it is not just about the module references, but also use after frees which can happen even if module is still loaded but any memory reachable via dma fence entry points has been freed.
+>>>
+>>>
+>>> Yeah, that came much later when people started to use the scheduler dynamically. Basically the sched pointer in the drm_sched_fence implementation becomes invalid as soon as the fence signals.
+>>>
+>>>>
+>>>> In that case, as Matt has already asked, if you could dig up your unfinished work it would be interesting to see.
+>>>
+>>>
+>>> This is what I already send out: https://gitlab.freedesktop.org/ckoenig/linux-drm/-/commits/dma-fence-rework-enable-signaling
+>>>
+>>> A bunch of the cleanup patches in that branch have already been applied, only the last one is missing IIRC.
+>>>
+>>> And here is a WIP patch to decouple the lock I wrote halve a year ago or so: https://gitlab.freedesktop.org/ckoenig/linux-drm/-/commits/dma-fence-rework-locking
+>>
+>> Thanks!
+>>
+>> My concern here is that to me it appears the whole premise is to leave fences dangling in memory and somehow make them safe to be accessed by importers.
 > 
+> As soon as you unload the last module using it the fences will automatically be released. So I don't see the problem.
+> 
+>> For starters this can create permanent memory leaks. Or at least for the same window of duration as would the exporters be not unloadable with the reference counting alternative. So we would not a strong argument for why poorly bound memory leaks are better than poorly bound unloadable modules.
+> 
+> When the module unloads it drops the reference to the fences ultimately freeing them.
+> 
+> The only issue is that modules can both reference their own as well a foreign fences. So what can happen is that you have module A which references fences A1, A2 and B1 and module B which references B1, B2 and A2.
+> 
+> Now you can't unload either module first because they cross reference their fences and unloading one would leave the other module with fences which can't be released without crashing.
+> 
+> So what we need to have is that the dma_fence framework guarantees that you don't need the fence->ops nor the fence->lock pointer any more after the fence signaled.
+
+With this option it would mean guarding all entry points with the 
+embedded lock or you had in mind something different? Going simply by 
+the signaled bit looks impossible to be safe.
+
+>> It is also a question how to "revoke" fences safely (race free). It sounds hard to me. It does not seem you got to this last problem in the above branches so I don't know if you had some elegant ideas for that.
+>>
+>> Maybe first to ask if anyone is aware of a precedent where something in the kernel already uses this design pattern?
+> 
+> Of hand I don't know of any, but the problem sounds rather common to me.
+
+Uf I don't know. Feels very atypical to me but I would be very glad to 
+be told otherwise.
+
+Regards,
+
+Tvrtko
 
