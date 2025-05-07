@@ -2,126 +2,181 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81238AAD2DA
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 03:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E8DAAD315
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 04:09:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19C1F10E0BE;
-	Wed,  7 May 2025 01:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59DF610E086;
+	Wed,  7 May 2025 02:09:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mD0bk4J6";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="ezU5YX80";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2649310E107
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 01:39:01 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5471Hw2U000352
- for <dri-devel@lists.freedesktop.org>; Wed, 7 May 2025 01:39:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=xJb4l81gLxVtbnO33WMQZY
- 0Ply/PgwMVRCSnIJyQAk0=; b=mD0bk4J6M3fBthNER+0vsgQ7yeERnBPITKpnxc
- LX8BD792olZcRMpkLlChCNVe0oS3qNrb4gjSlFp22wexk4ow4R3RWZ7EZC2Jr1ln
- +WV5Qd77pte7Sm2h4i+8uNM5RK/Im+xjVxJmfUbtZG5Ld/jgXRI5kuiPHG5AXF2Y
- RU4G44+VLqVbnCzI99xhV9mCsp9m5jvXk/nA3EouabXawHZBA1h5top/TtnUCFmZ
- 8cve+S0SYSDDw/lNAx57nSM66iFMbhQpLsZDumU1meWztNgn2AApaBdfAsWRLdfS
- vtsrI4W9OQtTO6bZdj4AuK+7uIyPWQyfvOpAGHlEY/YyHtUg==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46e0xsyvjj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 01:39:00 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-30870e7e4fcso360382a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 May 2025 18:39:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746581939; x=1747186739;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xJb4l81gLxVtbnO33WMQZY0Ply/PgwMVRCSnIJyQAk0=;
- b=gZgbrGtRn/7ACr+BRQK3mQWN/bZRTq7OKQeo1DhIJhwOSN9n9SWXtEzWZRO73H81+N
- 7UMGmRKPW0CI0yKR/vrlILA1BkvoZMWd24xcQUjyonDFv4bsprIgRjbwevqCCL5Cfb9p
- na/GSJ4vkXE9/CmTzTn1a6Bm7TjSeVk7wL5ZHLIXusnxrl008PlElBP6WnuL2pH3HJ27
- +BYqAGOJX2qQq2WnqEbD3C4k00oUZdguEtW0WnFqa03/PatHtpa1Z7t7gb/vLa/ZNJq/
- ptaJfO1IqLZZCRNtIsmUGYJR/jV5eyvs2/lbxtEtOyPbd1750Md+e/JqISYuI2LAylpG
- RJLQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVtAnhEpM1XFz9gz4ufc/Iob8NEA6oVjCc4wfhzVvi7llSstm98OvvgprPlRJowgpHZLuLqIZoMecs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhKB8V/n+7qc3UPS60//5Xd42VuZ/wNqY/EkAJPkckr/w8iAUl
- bnKWvb3N/MfMsetMSGQ/CvQ+d2JX1PCwFTxO0eJ08JrGv5KiMH76FU6+7QzqjS7COlytqpCkaI3
- ajVLbWbYBcafoyAzUrnWkcRGGAnTCk4xW/eupYQFLJR+M3nkVrX71iwakd4NnqlCNTjA=
-X-Gm-Gg: ASbGncvIlaXamzcTBGT9LjR8sCZl2HK9U8OePdi/Qd51HTqEoEkXWybuniDMHWJzdv3
- HkA939NyE3hnERt/m82UWtCOXc3gAuJPVYrezVppyfUj/GvkylKLUoTSi+skaMOFvK4deAsB1vq
- Y9GYx4BgDVzuNfkYobJTFSHSaHz6AorYTvk5j3pmQhjoLrsPKBTfJd92yq5iF/WE063DhPWGOai
- LFJHfmTEDyNtoBzpvCL0geVSBTovSZthuLAHVMXK8RSldjpm+RuboG+Vld4Z3b1ku0Ws1SL6qLK
- Si3amOeqVilLaowjmXdrQkMDBXcLVPmRHwCm7b+ha5IrHltWeXAqb5x4SVwdAk22P8qcW1v0
-X-Received: by 2002:a17:90b:3882:b0:2fa:1d9f:c80 with SMTP id
- 98e67ed59e1d1-30aa8829f58mr2741422a91.17.1746581938797; 
- Tue, 06 May 2025 18:38:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IERRWBCq/3Fv/iADq8toXTnhp9BQEp/zTraf2or0O+po9BaMVmPLO7tXKsIt+rjdY0Vv6vB1w==
-X-Received: by 2002:a17:90b:3882:b0:2fa:1d9f:c80 with SMTP id
- 98e67ed59e1d1-30aa8829f58mr2741387a91.17.1746581938310; 
- Tue, 06 May 2025 18:38:58 -0700 (PDT)
-Received: from jesszhan-linux.qualcomm.com (i-global254.qualcomm.com.
- [199.106.103.254]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-30aaec0599asm591417a91.25.2025.05.06.18.38.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 May 2025 18:38:57 -0700 (PDT)
-From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Date: Tue, 06 May 2025 18:38:39 -0700
-Subject: [PATCH v2] drm/msm/dpu: Filter modes based on adjusted mode clock
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Received: from DU2PR03CU002.outbound.protection.outlook.com
+ (mail-northeuropeazon11012048.outbound.protection.outlook.com [52.101.66.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6583110E008;
+ Wed,  7 May 2025 02:09:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qvpct39xItn2Fl0mg069IL9drsU0KnozqaudfpQaWfA7BQSYKCBNUJq/F7qODfxKe8IBTj94c7K7UtJpSqiWXLNZHU0/7wx6OiiEb0psYPvuVkLmeeUYnmUue0IChc1jMxHdAeLolIGWtWfzNTP6tiSrgWXx66HtpJ5YkVnK/9IX3LdIk0IJ2h30MZMzVxAuKFKQVH5gH0xBwFhVtMgV2llvbFHEzHp6OI5if83hbfkRHaYTipbCdUPiWGDzoIee9BNk+76gKuDZmYET05Kwbv4fpGDTeXRtomVpONHELKlkD63SSrkVrvFker/nrNwa5AVXVOowEhmXMUBtDjNMVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2oPZDP7TEfq1v3QC18bv8n5+lCOSiLnfRAk3Eyz89Ps=;
+ b=s66lJlCAxAujtbMgPXhTET960mXnJe+jXPzWx1VkSNc8yNlVFDDSO3kdCBXUX4hzv9pBCef5OLY74dRs9uXfgNGdD7XGQYwQ7RbSA30zx+2OpNCBdp6r0Us3UjdWPvV7qghdQHq9lBWXkSZFc75RmBZeE3c8kAGPvx+tvH1YNIjVDEWDjL5shB71qI+ImAjCTjQAVAyQpqARb0XHokwthfxQzMiW5eXSbUbOlEQJyJMYG2qU2gk3lpopvzD37m4vqV2lgGk4hgaoZ3w3Edd7kWqdaXRFcqBZ5e9mGhNLCfp5HsI5l07YThHDU1Qxi/bRWwg7suVJvQMMkW60/kgVsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2oPZDP7TEfq1v3QC18bv8n5+lCOSiLnfRAk3Eyz89Ps=;
+ b=ezU5YX80JIBw+rxgN/zmmd5LD2B03AE1+/oNXNgWO96I8Vre/dqNkQQnpm9N/aVcQ++14iwO0FePlxhOO1uMq3ZbsWbatjUYIs5zepRbmX5l2a1joEvJ7TaIx6EneCoSNsBfTm+wy6nRaayr4t+2NfePiHAfpmLGBkMbEIJttAusj9KGx4UWw8G9en/vJ0186FKlE4OW8EewFQ5rijpWAqhO9eGEx/E4ictfW6g5tuIiCTLsDCdBCKycRVO8EB9IITi//EPqE06e6hYyvZUbwOWUT5q2lgg8GNjwiLsdC3A7EnTpUPy0FEui8KCaEgcJzUisUyrYk1/QgSL9MYTe0A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DUZPR04MB9871.eurprd04.prod.outlook.com (2603:10a6:10:4b1::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Wed, 7 May
+ 2025 02:09:26 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8699.026; Wed, 7 May 2025
+ 02:09:26 +0000
+Message-ID: <a1abf31a-7a4a-4f8d-bf48-6b826aa01197@nxp.com>
+Date: Wed, 7 May 2025 10:10:53 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 30/34] drm/bridge: imx8qxp-pixel-combiner: convert to
+ devm_drm_bridge_alloc() API
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa
+ <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>,
+ Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+ <20250424-drm-bridge-convert-to-alloc-api-v2-30-8f91a404d86b@bootlin.com>
+ <553d62ed-976a-4e17-9678-cdc3d40ce4a7@nxp.com>
+ <20250430112944.1b39caab@booty>
+ <f71d18d2-4271-4bb9-b54f-0e5a585778f3@nxp.com>
+ <20250506224720.5cbcf3e1@booty>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20250506224720.5cbcf3e1@booty>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250506-filter-modes-v2-1-c20a0b7aa241@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAJ65GmgC/x3MTQ5AMBBA4avIrDVpigpXEQs/UyZBZUaESO+uL
- L/Few8IMqFAnTzAeJKQ3yJMmsAwd9uEisZoMNoUutBWOVoOZLX6EUUNVvd5lpnSVg5isjM6uv5
- d00bPJIfn+7uHEF70eMc+bQAAAA==
-X-Change-ID: 20250506-filter-modes-c60b4332769f
-To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-X-Mailer: b4 0.15-dev-64971
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746581937; l=5037;
- i=jessica.zhang@oss.qualcomm.com; s=20230329; h=from:subject:message-id;
- bh=i/ku+CPf0IQ7tP94Th2ABAub87lMFc774SfyOIKlD04=;
- b=wIuGhfFQ2fzfVwV1xLYq/D2FFPES8xC9/NhLPw75hk05s/dCDokiQPz/QodpvpoMIeWjsjzTv
- ruLBZwL8CfWANLUzmagYEerbwwMK3nnOAVcCFwo+irtuEuR5Sp+i6SL
-X-Developer-Key: i=jessica.zhang@oss.qualcomm.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Proofpoint-GUID: 6eYL_v7BG3IY4l-jkCoi9cJzLGeLE3nR
-X-Proofpoint-ORIG-GUID: 6eYL_v7BG3IY4l-jkCoi9cJzLGeLE3nR
-X-Authority-Analysis: v=2.4 cv=bdprUPPB c=1 sm=1 tr=0 ts=681ab9b4 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=P-IC7800AAAA:8 a=VwQbUJbxAAAA:8
- a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=cJ-axxLsUDFOzgZI02IA:9
- a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22 a=d3PnA9EDa4IxuAV0gXij:22
- a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDAxMyBTYWx0ZWRfXytLZpHaDs8x+
- aX9JjGtbSP3FQMA5Yts7aOYIyjGmR3SASN0tUL/fQDRRU8zY+vrygzVLkBxqqJ4DOrcRowukDeD
- ZBav1oe2mLAglLOwEFVkIHbWfe0TFYX02vrVFAgdHugNVXye8b73TNR5Gya6UwJxVjeGmq9qEE6
- RaunCj7cvr3EMDUtUwq1JGdh9bghcZrJzHWOBDnXzXaHTY5WOB0gt/CfBb3I5U+V6cvdRevivYU
- oovPs0J0mapxhih8PieMUaYc+ki8enV9qdp8lWTbmuu5RNt/v7T4xduky4tkFWF6aEQfpEd2rwo
- 6CTVW+CEYmDmkIYpQ3b8Qudh2VCEW7utX7cWsg7V5kRe+8cYv97mUuQS+PRdKJYk2rYPawHK82y
- mudoT6++lz3n8Annxz8RyXfjszPYICuAr7zR3XsuNrsd6hIafAndEEqDjJfMOOO1iaa+UCAV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-07_01,2025-05-06_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 malwarescore=0
- clxscore=1011 phishscore=0 adultscore=0 spamscore=0 impostorscore=0
- mlxlogscore=999 mlxscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2504070000 definitions=main-2505070013
+X-ClientProxiedBy: SI2PR02CA0003.apcprd02.prod.outlook.com
+ (2603:1096:4:194::13) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DUZPR04MB9871:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7d10060-12c8-4876-c928-08dd8d0c311f
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OURvVytqemkvWkZ3dlVuYUFCeDM1bDliSFlqR1dvekM3bXZwNG4wanhjQXBY?=
+ =?utf-8?B?UTBQeVAwWWMzb1c5ZHJnWUgwWndJaDJPQXNqVHA0YzFRNi9ydEg4UUU5bWV2?=
+ =?utf-8?B?R0lWNFdtWjIrMlh3TTNqM0RpUEl1UC9IdDkxMXJrWnMwNmwwRzB3ZzdNOGQy?=
+ =?utf-8?B?OVg5bThQcktqSW1EbDNsVWdRdm1FenhuM2E1bTQ3MXZzaTBnZXlub0FvK0tN?=
+ =?utf-8?B?MXBFOXJPcy8rZjhRU09paHJURzlZQVQ4aVo1dFl2cXpGZ2grdk1PUmVmZlRP?=
+ =?utf-8?B?YzVpVlBhcHJwQUhvU3puT3VKMFQ4ZEdHTzVMZ0ZzQlFxV01tTXdaVkZxeE9D?=
+ =?utf-8?B?QnMxTnI4QXJuOVFidXl2T3RPcHRsQ2hob2oxRTJycHJXT2t2emZ6eHdYWWdO?=
+ =?utf-8?B?Y3JnTCtrWVZwRGhlTVJjVFdGTEJXeUwvY3ZQek5XTEExUmwxM1loVk9jMXB6?=
+ =?utf-8?B?dDhTc2I4QUVKbjFoM3ZwcDkzWThhN2lmNmZhNm1HbngzUzZlMnF4Z290M3F5?=
+ =?utf-8?B?K3hzZjQxMDV5S0R2Q2ExaHd2SUJNT3JJeHFtRVd5ZUhaS2RVRXRkRnhYeVE5?=
+ =?utf-8?B?VGZ1cm1aTHpUdFFVekIwL2xuT0hwbmEzUUlzVHlvK1NXLzdScyt1NnpvSi90?=
+ =?utf-8?B?eVBCQmpDeEt4VEVGOGlZcFlyWFF6SGgxWkk0dklPYkp6MC9veERnalk0OTdi?=
+ =?utf-8?B?OW9PM1NBWUFoS3lEVCt2d3dMekYrekV0S2grazdLS0pBYVFGWERxM2lLU2V6?=
+ =?utf-8?B?RTR2K2RLazN3d1VmR1FYWGZ3VUs5L0NsZkRzRHp2MmNzaUpycVRnaFpMY3Ji?=
+ =?utf-8?B?SUVMMkgwUkV4V3lMVDduOVI5UWZydWRUWHNPOEQ3RkdUOWNla3J1WDNUVXI2?=
+ =?utf-8?B?bjUwVVJRMk8zdDNTcndYUzdOVlRIaHpCSS9uYmMxd1d6c1ZDY1pwVFlXR3pS?=
+ =?utf-8?B?UERmeEVQOVJyQlBvaGNwckdhTk5IS0hqMXlaOXhRSnZ6ZzZ3TmtZWVZiN09E?=
+ =?utf-8?B?SHhxSFRoRExUOHgvbWN6YW90aDhZWHZpdThQNjNZT3lsQ2lYaUFpVFdsMTYx?=
+ =?utf-8?B?cWgwNVo3Mk55djEzZVVJVmxqVEdGMTNlR3MyQmJ5dEdOMjlsUmRuVDcrdGdP?=
+ =?utf-8?B?OU9sZml0REhmdTU3ancxL3NoYTF6a0RJa0YxUm8yN0RDTVE5MEZlZ3FZOGlP?=
+ =?utf-8?B?VG90ZUg3M3BScGRaWTltckNBYTlNUmRXYUIxOWdwRVdWM2UybmNkOGlWVWZl?=
+ =?utf-8?B?UUNlaVFMcUFIdDF2M1A0NnduS2wvMkptMDU0QVVjelZqaHBTZTRORHdhWlFm?=
+ =?utf-8?B?OWsvQm1QU2NEeHpWby9NbVk5dTRGYm5aS1RhdVk1cDczVDRNYVMxdW9aN1Bi?=
+ =?utf-8?B?R0VUZ0tYdzRMVE1zcmhZZ3RPUURqdWZDQm9XVHF3c1lwbGRUMjRUaHlJM21I?=
+ =?utf-8?B?YTc1bTJ5aFREMFRsK0xUTHJmRFZCMUpsc21BMjhGbzFDeEtWZ0JQTFhPTDV4?=
+ =?utf-8?B?aFZEdEZTbHRqbG1ycnEvNTEzbklDTVZyaEhSVHNDVjZEWGptL3hRM2pyL2xr?=
+ =?utf-8?B?WGlReSt4NW9IbnJjTnZPVFMrNk1Camt3VjdSMnQ0RldzZmQwQ2FGL0pHcnlw?=
+ =?utf-8?B?NHFnMnV1Q1lLVlZvdVFrSEJOWXNQMlBxN3hGOWU1ZUR3d3NNVjNtRmlOVll2?=
+ =?utf-8?B?M1hWbXQ5c0ViU3VEUXMwRHZwWWhpQVE1SndCVjFRTmpVdGEwY3U2aHhBeUxs?=
+ =?utf-8?B?VGZHcXAwbzV4Z0RCYWwrdVBwRXVtV0huektMQVBnYmp3Y1VRNCsyWmhvMFNh?=
+ =?utf-8?B?M3hnWWJrSlM0QTgxRGp0cUlFdUJZWi9lL0xCaHVXNGFwOXZtUUhPZVZIbWRQ?=
+ =?utf-8?B?OXpySmd2dk1xTURmbTBEb0Fwem1FSHh2OFpwRW1mUFZFb1RmTUhiQWptdUxS?=
+ =?utf-8?Q?zEHK4LgEj8I=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M2NqZmozMjdtVnBvZVBFQlAyeTVOUFJZemlndHc0MlcydDg2VmthOTBiYlAv?=
+ =?utf-8?B?SFpwdjRNMld6eXhOUk5MODhrSnRYd1Ewc1Q2dnR2dUxiSUFSamJha3U5Zy9u?=
+ =?utf-8?B?UHB2K01jYUR4S3AzOFJ5MDFwMVhDbWthQ1ZjdE8yd21LYzhod2NCYnd4dHpU?=
+ =?utf-8?B?ZUtBN0VwU0l5WWZFTUJHc0Z1UDB4YzNmNStuL0hkdFlXam1VMkNFaDBsSEJu?=
+ =?utf-8?B?aTFYNG5UUWN1NWptRUY1NjQvdlRaL2xML0I1ZklqUmpEMWkrNzBjRDArbzlo?=
+ =?utf-8?B?Q09JbnZ1cWN4R2NBREFJU1hCY0dJeFU0b2pyZC8xVTNwTnljYUlQZFliWk9I?=
+ =?utf-8?B?OXlpYUJNaUw4Uk5TbXpMWG0yb09LSktWa0s4clFDT3d1TVBEdDRLWTZ1SzBD?=
+ =?utf-8?B?ZjNUY0tNdEFsTE1XL2FUemV5YWswbVpsK0daaytpZFdpQlNYVHJiWVE3ZTZl?=
+ =?utf-8?B?SkJIenV1UjdxV2lVdGo3UmhkaWhYekMvcjFRaDNidFpMQ0gyUWRzTTN3YTZj?=
+ =?utf-8?B?RlJMUnBQMzA1T2JNaVNmVXhGT21WL3FUM0NRbldwNkNPNzdPd1VBaE1GQU11?=
+ =?utf-8?B?c0NtQSsxZDYwclYvUWg0a09SZHJlQnNXWlZ3RjZ5ZmsyUVdxVmtOanFJUE1S?=
+ =?utf-8?B?YlFPdVcrcVZ3clFrT2p5NUR1Q0c3VnRzODFOTGgrczZ6UzZ2NXIwbS82cmdJ?=
+ =?utf-8?B?TnlraFBjc3NmckVlVmVkaEhBODYrcjBIaTJqSEcrYXUyQVN1QmhqdndEbWFZ?=
+ =?utf-8?B?ZE9YUmVZWFFMaFI4cUozK3B4Ym5hcm5pcFRMVGZoQ0gxRXhsR1dHSFF4UWRo?=
+ =?utf-8?B?VmhnUnQ1cnNMb2JPVm41S3lzRFp1R1RDcXNINWFSSTdmdDlDVVM1Q2lXeVhO?=
+ =?utf-8?B?WjFScjlTVUhsOStpOTY1UjNoSi9xMFFHSEs3RUpoSFRNdGxoRjZuNG9FM1Na?=
+ =?utf-8?B?bUVtSnJtbG40NE5HSEx2WTdmWkhJck93TDFFNytXcmNjcTlPa041ZEtXbXYw?=
+ =?utf-8?B?TlREQi92Sys1a2g3MVF0SExteGNrZDJPVS9sb2tsQWsyWFJOTVhDeThlVkpl?=
+ =?utf-8?B?QU9TOVFqYkhTekE2STZsUkJIeEJqWVM3aWVOOWNudENXU1R1VUxzU2R3NmR2?=
+ =?utf-8?B?dFBnT1dXUWlqVHVkNXg2VmZWS2hkbzhRdlpuMlU0b09PV1lZNll5V2FhSFdz?=
+ =?utf-8?B?RUg4Ukh1WG5JSXdjMlZ1SE5aVllzdzljazRNRnFOS2RuaGJuR3MzWExIWitT?=
+ =?utf-8?B?bm1iOUtuTnRmbkxYUlIxV1BzMVBYOU1uVnRIUUdkbGRNR0NTOWl2R0xvMWZV?=
+ =?utf-8?B?dW5LZGJEOTJybG5QSEo4KzFEcVBNV2N0aWdVRHloUkU5R0xPM1h1ZjJxckYv?=
+ =?utf-8?B?R1NNUDRKTTdLZ1NpeTUxZDdZQTBYRzVmeUp3V2JyUUxmNmN5YlUxVUhGcnRZ?=
+ =?utf-8?B?NTRMUlJlcmxJNzVLaXdKWmhPZVFqOXpqVEJKeHhmRWd3b25SeDd1TzBxN3p3?=
+ =?utf-8?B?aTY1d0RBTDdtL1dtNWlXOUt1V2ZOZjJUczB6STN6cUdwUXhVMlRNaXB3cEll?=
+ =?utf-8?B?T2x1aXVxY09wT3l1RTJ2cUw4Yk1OOUxaamkwcm9sd3pqL1RrRlpEQmV1TmxR?=
+ =?utf-8?B?bGxsaEs3TE1iNEdtc0NvRlhTZ1JESlArcmpIMHJ2QnBILzA1dkhpdWZ3U1pJ?=
+ =?utf-8?B?VFhMeU0yK1BmWEhIRDF3SXh3cXFKTlUvcmMwaUJyc3AvMVBtQjBzZnlkNkNi?=
+ =?utf-8?B?VlBRSkN1Q0Vrdm9STzdXc21SMXN5VkRLb0JPNDd5M1V4N2N5TU4yb2dPRW5F?=
+ =?utf-8?B?Zzl6VjRRdWJJZlJLMjRVbWZzcmZXWDJ5aWFFclpLRElHK01OaFo2c2FJSjBM?=
+ =?utf-8?B?OHZjU1RKUHIrZ1p5ZTM2MndJT2pFTHFTM2VlK0N0NVpqWXlrVXNWclBidU5y?=
+ =?utf-8?B?UGRodnRtaGVBSHBjdFF1amhGZlN0dkpMYjI2a3lselFWZHpMWWMxOXVIRlVo?=
+ =?utf-8?B?eW1CYmhxaklucFdlbVljLzJOaHU1dHRIS3hRK1pJRENPVGlkNmFROGU4UDBE?=
+ =?utf-8?B?L05TZjZFZ2IrNFFHcjREK1VYalFkNkc3MTVkcHgrNDRXTHFuZ0lBVFF0MlpT?=
+ =?utf-8?Q?xWijsSiQRplhPTw3v4LGwYjwb?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7d10060-12c8-4876-c928-08dd8d0c311f
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2025 02:09:26.1872 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jW1yPPGdkKuB0qZoM53x1eWti5AAqMOfcwX+wpUSHs6taltSTO8DoNMC4HDEaWXVAR8uRUY8pB7XoSoK0QD+zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9871
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,146 +192,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Filter out modes that have a clock rate greater than the max core clock
-rate when adjusted for the perf clock factor
+On 05/07/2025, Luca Ceresoli wrote:
+> Hello Liu,
 
-This is especially important for chipsets such as QCS615 that have lower
-limits for the MDP max core clock.
+Hi Luca,
 
-Since the core CRTC clock is at least the mode clock (adjusted for the
-perf clock factor) [1], the modes supported by the driver should be less
-than the max core clock rate.
+> 
+> thanks for your further feedback.
+> 
+> On Tue, 6 May 2025 10:24:18 +0800
+> Liu Ying <victor.liu@nxp.com> wrote:
+> 
+>> On 04/30/2025, Luca Ceresoli wrote:
+>>> Hello Liu,  
+>>
+>> Hi Luca,
+>>
+>>>
+>>> On Tue, 29 Apr 2025 10:10:55 +0800
+>>> Liu Ying <victor.liu@nxp.com> wrote:
+>>>   
+>>>> Hi,
+>>>>
+>>>> On 04/25/2025, Luca Ceresoli wrote:  
+>>>>> This is the new API for allocating DRM bridges.
+>>>>>
+>>>>> This driver embeds an array of channels in the main struct, and each
+>>>>> channel embeds a drm_bridge. This prevents dynamic, refcount-based
+>>>>> deallocation of the bridges.
+>>>>>
+>>>>> To make the new, dynamic bridge allocation possible:
+>>>>>
+>>>>>  * change the array of channels into an array of channel pointers
+>>>>>  * allocate each channel using devm_drm_bridge_alloc()
+>>>>>  * adapt the code wherever using the channels
+>>>>>
+>>>>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>  
+>>>
+>>> [...]
+>>>   
+>>>>> @@ -345,8 +351,8 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
+>>>>>  free_child:
+>>>>>  	of_node_put(child);
+>>>>>  
+>>>>> -	if (i == 1 && pc->ch[0].next_bridge)
+>>>>> -		drm_bridge_remove(&pc->ch[0].bridge);
+>>>>> +	if (i == 1 && pc->ch[0]->next_bridge)    
+>>>>
+>>>> Since this patch makes pc->ch[0] and pc->ch[1] be allocated separately,
+>>>> pc->ch[0] could be NULL if channel0 is not available, hence a NULL pointer
+>>>> dereference here...  
+>>>
+>>> See below for this.
+>>>   
+>>>>> +		drm_bridge_remove(&pc->ch[0]->bridge);
+>>>>>  
+>>>>>  	pm_runtime_disable(dev);
+>>>>>  	return ret;
+>>>>> @@ -359,7 +365,7 @@ static void imx8qxp_pc_bridge_remove(struct platform_device *pdev)
+>>>>>  	int i;
+>>>>>  
+>>>>>  	for (i = 0; i < 2; i++) {
+>>>>> -		ch = &pc->ch[i];
+>>>>> +		ch = pc->ch[i];
+>>>>>  
+>>>>>  		if (!ch->is_available)    
+>>>>
+>>>> ...and here too.  
+>>>
+>>> This is indeed a bug, I should have checked the pointer for being
+>>> non-NULL.
+>>>
+>>> Looking at that more closely, I think the is_available flag can be
+>>> entirely removed now. The allocation itself (ch != NULL) now is
+>>> equivalent. Do you think my reasoning is correct?
+>>>
+>>> Ouch! After writing the previous paragraph I realized you proposed this
+>>> a few lines below! OK, removing is_available. :)
+>>>
+>>> [...]
+>>>   
+>>>> On top of this patch series, this issue doesn't happen if I apply the below
+>>>> change:  
+>>>
+>>> [...]
+>>>   
+>>>> @@ -351,7 +349,7 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
+>>>>  free_child:
+>>>>         of_node_put(child);
+>>>>  
+>>>> -       if (i == 1 && pc->ch[0]->next_bridge)
+>>>> +       if (i == 1 && pc->ch[0])
+>>>>                 drm_bridge_remove(&pc->ch[0]->bridge);  
+>>>
+>>> Unrelated to this patch, but as I looked at it more in depth now, I'm
+>>> not sure this whole logic is robust, even in the original code.
+>>>
+>>> The 'i == 1' check here seems to mean "if some error happened when
+>>> handling channel@1, that means channel@0 was successfully initialized,
+>>> so let's clean up channel 0".
+>>>
+>>> However my understanding of the bindings is that device tree is allowed
+>>> to have the channel@1 node before the channel@0 node (or even channel@1
+>>> without channel@0, but that's less problematic here).
+>>>
+>>> In such case (channel@1 before channel@0), this would happen:
+>>>
+>>>  1. alloc and init ch[1], all OK
+>>>  2. alloc and init ch[0], an error happens
+>>>     (e.g. of_graph_get_remote_node() fails)
+>>>
+>>> So we'd reach the free_child: label, and we should call
+>>> drm_bridge_remove() for ch[1]->bridge, but there's no code to do that.
+>>>
+>>> To be robust in such a case, I think both channels need to be checked
+>>> independently, as the status of one does not imply the status of the
+>>> other. E.g.:
+>>>
+>>>   for (i = 0; i < 2; i++)
+>>>       if (pc->ch[i] && pc->ch[i]->next_bridge)
+>>>           drm_bridge_remove(&pc->ch[i]->bridge);
+>>>
+>>> (which is similar to what .remove() does after the changes discussed in
+>>> this thread, and which I have queued for v3)
+>>>
+>>> What's your opinion? Do you think I missed anything?  
+>>
+>> The pixel combiner DT node would be added in imx8-ss-dc{0,1}.dtsi, please
+>> see the case for imx8-ss-dc0.dtsi introduced by an in-flight patch[1].  As
+>> channel@{0,1} child nodes always exist(DT overlay cannot effectively delete
+>> any of them) and channel@0 always comes first, there is no problematic case.
+> 
+> I'm not questioning what existing and future dts files (will) contain,
+> and surely I don't see a good reason someone would write channel@1
+> before channel@0.
+> 
+> My point is:
+> 
+>  - the bindings _allow_ channel1 before channel@0
+>  - the error management code after the free_child label won't work
+>    correctly if channel1 is before channel@0 in the device tree
+> 
+> IOW the driver is not robust against all legal device tree descriptions,
+> and it could be easily made robust using the example code in my
+> previous e-mail (quoted a few lines above).
+> 
+> If you agree about this I'll be happy to send a patch doing that change.
+> If you think I'm wrong, I won't fight a battle. This topic is
+> orthogonal to the change I'm introducing in this patch, and I can
+> continue the conversion independently from this discussion.
 
-[1] https://elixir.bootlin.com/linux/v6.12.4/source/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c#L83
+I don't think it is necessary to do that change for now.  When someone
+really comes across this issue, we may make the error management code
+robust.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
----
-Changes in v2:
-- *crtc_clock -> *mode_clock (Dmitry)
-- Changed adjusted_mode_clk check to use multiplication (Dmitry)
-- Switch from quic_* email to OSS email
-- Link to v1: https://lore.kernel.org/lkml/20241212-filter-mode-clock-v1-1-f4441988d6aa@quicinc.com/
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 35 ++++++++++++++++++---------
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  3 +++
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 12 +++++++++
- 3 files changed, 39 insertions(+), 11 deletions(-)
+> 
+>>> Thanks for taking the time to dig into this!  
+>>
+>> After looking into this patch and patch 31(though I've already provided my A-b)
+>> more closely, I think the imx8qxp_pc and imx8{qm,qxp}_ldb main structures
+>> should have the same life time with the embedded DRM bridges, because for
+>> example the clk_apb clock in struct imx8qxp_pc would be accessed by the
+>> imx8qxp_pc_bridge_mode_set DRM bridge callback.  But, IIUC, your patches extend
+>> the life time for the embedded channel/bridge structures only, but not for the
+>> main structures.  What do you think ?
+> 
+> I see you concern, but I'm sure the change I'm introducing is not
+> creating the problem you are concerned about.
+> 
+> The key aspect is that my patch is merely changing the lifetime of the
+> _allocation_ of the drm_bridge, not its usage. On drm_bridge_remove()
+> the bridge is removed from its encoder chain and it is completely not
+> reachable, both before and after my patch. With my patch it is not
+> freed immediately, but it's just a piece of "wasted" memory that is
+> still allocated until elsewhere in the kernel there are pointers to it,
+> to avoid use-after-free.
+> 
+> With this explanation, do you think my patch is correct (after fixing
+> the bug we already discussed of course)?
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-index 0fb5789c60d0..13cc658065c5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-@@ -31,6 +31,26 @@ enum dpu_perf_mode {
- 	DPU_PERF_MODE_MAX
- };
- 
-+/**
-+ * dpu_core_perf_adjusted_mode_clk - Adjust given mode clock rate according to
-+ *   the perf clock factor.
-+ * @crtc_clk_rate - Unadjusted mode clock rate
-+ * @perf_cfg: performance configuration
-+ */
-+u64 dpu_core_perf_adjusted_mode_clk(u64 mode_clk_rate,
-+				    const struct dpu_perf_cfg *perf_cfg)
-+{
-+	u32 clk_factor;
-+
-+	clk_factor = perf_cfg->clk_inefficiency_factor;
-+	if (clk_factor) {
-+		mode_clk_rate *= clk_factor;
-+		do_div(mode_clk_rate, 100);
-+	}
-+
-+	return mode_clk_rate;
-+}
-+
- /**
-  * _dpu_core_perf_calc_bw() - to calculate BW per crtc
-  * @perf_cfg: performance configuration
-@@ -75,28 +95,21 @@ static u64 _dpu_core_perf_calc_clk(const struct dpu_perf_cfg *perf_cfg,
- 	struct drm_plane *plane;
- 	struct dpu_plane_state *pstate;
- 	struct drm_display_mode *mode;
--	u64 crtc_clk;
--	u32 clk_factor;
-+	u64 mode_clk;
- 
- 	mode = &state->adjusted_mode;
- 
--	crtc_clk = (u64)mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
-+	mode_clk = (u64)mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
- 
- 	drm_atomic_crtc_for_each_plane(plane, crtc) {
- 		pstate = to_dpu_plane_state(plane->state);
- 		if (!pstate)
- 			continue;
- 
--		crtc_clk = max(pstate->plane_clk, crtc_clk);
--	}
--
--	clk_factor = perf_cfg->clk_inefficiency_factor;
--	if (clk_factor) {
--		crtc_clk *= clk_factor;
--		do_div(crtc_clk, 100);
-+		mode_clk = max(pstate->plane_clk, mode_clk);
- 	}
- 
--	return crtc_clk;
-+	return dpu_core_perf_adjusted_mode_clk(mode_clk, perf_cfg);
- }
- 
- static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-index d2f21d34e501..3740bc97422c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-@@ -54,6 +54,9 @@ struct dpu_core_perf {
- 	u32 fix_core_ab_vote;
- };
- 
-+u64 dpu_core_perf_adjusted_mode_clk(u64 clk_rate,
-+				    const struct dpu_perf_cfg *perf_cfg);
-+
- int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
- 		struct drm_crtc_state *state);
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 0714936d8835..5e3c34fed63b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1501,6 +1501,7 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
- 						const struct drm_display_mode *mode)
- {
- 	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
-+	u64 adjusted_mode_clk;
- 
- 	/* if there is no 3d_mux block we cannot merge LMs so we cannot
- 	 * split the large layer into 2 LMs, filter out such modes
-@@ -1508,6 +1509,17 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
- 	if (!dpu_kms->catalog->caps->has_3d_merge &&
- 	    mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
- 		return MODE_BAD_HVALUE;
-+
-+	adjusted_mode_clk = dpu_core_perf_adjusted_mode_clk(mode->clock,
-+							    dpu_kms->perf.perf_cfg);
-+
-+	/*
-+	 * The given mode, adjusted for the perf clock factor, should not exceed
-+	 * the max core clock rate
-+	 */
-+	if (dpu_kms->perf.max_core_clk_rate < adjusted_mode_clk * 1000)
-+		return MODE_CLOCK_HIGH;
-+
- 	/*
- 	 * max crtc width is equal to the max mixer width * 2 and max height is 4K
- 	 */
+I tend to say your patch is not correct because we'll eventually make sure
+that removing a bridge module is safe when doing atomic commit, which means
+the main structures should have the same life time with the DRM bridges.
 
----
-base-commit: db76003ade5953d4a83c2bdc6e15c2d1c33e7350
-change-id: 20250506-filter-modes-c60b4332769f
+> 
+> Best regards,
+> Luca
+> 
 
-Best regards,
 -- 
-Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-
+Regards,
+Liu Ying
