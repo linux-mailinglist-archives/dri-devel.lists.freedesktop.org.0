@@ -2,64 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5BBAAEDAB
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 23:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFE8AAEDE0
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 23:24:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBC210E1B0;
-	Wed,  7 May 2025 21:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5970110E28F;
+	Wed,  7 May 2025 21:24:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="btuMuu7u";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MAAqfIMx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74BB110E1B0
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 21:13:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 45BC249E98
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 21:13:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28FD9C4AF0B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 21:13:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746652431;
- bh=FOhorxvdZmF3UNv1K8W2H1jGJQvtIe7mLPYFtgtvSW0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=btuMuu7uLieKmDGVlybQW7zSorwTv9xmX+kalsU9Xr7S/lzf/Mof3PEelM6L+MDrK
- VWsZkYPSeotdCrnfUbs9JYo0eQK1hQWnRkWUbimQo1XPKH4v+u6tNDIOZabeBYCaoE
- qb1SqW3nxnPB4iDRmUDrM16yCo3SCcAfZDCZzitzi6dMbXv0rZY+Ob7MvSR7fxhkPF
- 0e9KTa45FBKB+rBgNes8YlDJIn50BgcY2LH+JsqzZPf7VW0xaG7nJ6WAREX7h6LOIc
- L5l0H0AHLdbVS4KNj04bnfVb399Hi3TgTqQ5HJFQbBGXbnLNwCMyIV0B+IdpdFvvLO
- QfU0HgzPQbNqA==
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-5f861d16622so530979a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 14:13:51 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD16210E1C7
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 21:24:46 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 547BE75X019006
+ for <dri-devel@lists.freedesktop.org>; Wed, 7 May 2025 21:24:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=Yr3o+GPqvA0++Om8f862Y7z+
+ HVP6SVMxvLd+HrwRncU=; b=MAAqfIMxuHYJYdUYpVdHhZJCUZLtl55kOtK1QEhk
+ mFb7plCZbr/aiP15YAaRJ6VohldJ5PCA0vbc8LL0z1q/COgSe4q+erJdB3Th3i34
+ jmhUdCmNc6udYtr9XphCY2pFDTxG7T6dskBDH2va0LB+KW0n0rsnUXX2HGdiMe3q
+ GAi1RDCd3K3to0EShdPUFm5gQO7SZEvECXh7Wcy6+7RqXlR/Vz1HJjARnUuiZ6cE
+ MiDcmIte5qK1KQhkEcj8ZP2J511sa2UsutB3Q0uCZNEKZcyDoZazRLq+9hmoE7Cr
+ QpV2X07IhMUTS5hcJ6+ytSDne0RmpKZmARphcPn97N+QrQ==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46f5wg70d1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 21:24:45 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c791987cf6so56350685a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 14:24:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746653085; x=1747257885;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Yr3o+GPqvA0++Om8f862Y7z+HVP6SVMxvLd+HrwRncU=;
+ b=rbsnub9KGyxba4BMzofkOLaM1w7CfjvQQqrY1iHHLcE/Vf7Al+VE73zACTqNqcJnp/
+ PGXyZQlpaqvTCpWftQ/dkfRT1ssr0Ff6RXNxPeoa532gaFadXeBXURSGktam6Ku8E8W1
+ qYLaOqq1Akq0/JhGkPQW8U2GSx7ZoGqnOhOsnmxdARVXa2J/nYbdVjg249D3AsJmGfGy
+ 9XgyyhcAj5MXU3jhYIB00Lmr/vb5u8WU+y8QnclZNxsqZW9sI2o3wpj6yUCSaIz/wFYU
+ zDRWPog2ACKLSFX4uEJ4HUqgJeuJctY8nR0OGwdd7wrKzVHkAaIHUlFX3+BlyCGpr2tG
+ ghNQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6EykaHWkElHrjkNMvGpKZ9XWZhrdV8IK52VxulTU6hCQrRUdiwEp15jPrjV09sqAQvw6WgXo2o0I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzOLgEVZePEQGoregnCnUNWPh7Z63rfvAu51HmfOU4+Qa5d/+wA
- gS0w4KukhgELhEAirVfaESrMObyFStAKYdgNrms+668BUGBXOMHSUFhrdj166R4FqFuMzMMjHUd
- rdQeOQNO24tF8MSwKOKbZp+/MjQ==
-X-Google-Smtp-Source: AGHT+IGy/AslGdF1MwNhYOl0MOFlrYH+HeNbtvQP6c32M4CYMagN9EZk7pk8+/lEW3ChlPpDUlN2iBCbhpBAEvvyfTY=
-X-Received: by 2002:a05:6402:510b:b0:5ee:497:d4f3 with SMTP id
- 4fb4d7f45d1cf-5fbe9fa80ffmr4380732a12.33.1746652429740; Wed, 07 May 2025
- 14:13:49 -0700 (PDT)
+ AJvYcCV9XKj74oSc/xCTRdcJclHn8tSa+TaWRwRbqmUZnTnd/sRluDBkB6USbtEQPn41ikDyofccXJDVcOU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx5SRbrkmliIstX2vj6pb7e/O3l3oc+8/MBLbpJRBGOih5xKSB2
+ qqOgm3BmyQIqr6PYFbQm43FAtAnRGWu6wSS3F1MR1EVZ5pnsT5KUfNEOkoh9alx231cYdRJBdTD
+ NpQl/aQoEUhfj0vN6HliN0F1YcsMWgnfbd4pmJlT3M3AqhBPFP+l+1qe+yQV8OJn4lAA=
+X-Gm-Gg: ASbGncsHooUDZJ/qwg/L5D3e0fGVDv9bLiCse5fg98Ua9WKM33GuE5N8R4I2ThZ/z55
+ 7UPiQ4EyUtEoZ93oMQVK7qZMaPabpY+Wn1kM2NFVxowYHZyDihDLi7UlLXYlKqkFYkS3jMFOsB3
+ j4GXZqFx1D5Za+bE/20/TZyKJxUineKtNd+nRxAuiUFR+R46IOHqFutEd5+VjRBt0hADLPYkYNF
+ QcP8lSto2mIW5/nzzaNRzBisiz6sUXe7eIotkHcwNswsYd9Vo7YOSYWvTiY+G7k/4pNRruSCX5I
+ l0cSQ68qXOKww061Nc3PGeGkekz1I+nSNxu0xeZu03kfIArP3MDwAIdlpPB7AoS4D/gGwpbPJG8
+ =
+X-Received: by 2002:a05:620a:408a:b0:7c5:dccb:fceb with SMTP id
+ af79cd13be357-7ccf9ea54b5mr141179485a.56.1746653084969; 
+ Wed, 07 May 2025 14:24:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGV+4FNkfuTlk4HKwK7ViJWDaszxk32pmkR7zSWKKmrIlnWNomLRPlCCNIKifiYiqB/AQHVsA==
+X-Received: by 2002:a05:620a:408a:b0:7c5:dccb:fceb with SMTP id
+ af79cd13be357-7ccf9ea54b5mr141174785a.56.1746653084505; 
+ Wed, 07 May 2025 14:24:44 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3202ad90896sm23728941fa.101.2025.05.07.14.24.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 May 2025 14:24:43 -0700 (PDT)
+Date: Thu, 8 May 2025 00:24:41 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH] drm/msm: mdss: use devres version of interface to
+ populate children devices
+Message-ID: <xmpb6zrbnx2jcfjthkafj6viptkugowo7qdfxlg7vdfh3mqlua@2tcbsd4f3dtv>
+References: <20250507193538.2140862-1-vladimir.zapolskiy@linaro.org>
 MIME-Version: 1.0
-References: <20250507201943.330111-1-macroalpha82@gmail.com>
-In-Reply-To: <20250507201943.330111-1-macroalpha82@gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 7 May 2025 16:13:38 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+gtVi1XG7b2g+n-H=fDrkZRqVA0wNSAA5-Ot7EXqG2QA@mail.gmail.com>
-X-Gm-Features: ATxdqUGfERVR08MJzfUs6EpZ2bPDiTaMnXmVepdJ-U9hQFvKGPhrVmDCJuHz-wU
-Message-ID: <CAL_Jsq+gtVi1XG7b2g+n-H=fDrkZRqVA0wNSAA5-Ot7EXqG2QA@mail.gmail.com>
-Subject: Re: [PATCH V9 00/24] drm: sun4i: add Display Engine 3.3 (DE33) support
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, ryan@testtoast.com, macromorgan@hotmail.com, 
- p.zabel@pengutronix.de, tzimmermann@suse.de, 
- maarten.lankhorst@linux.intel.com, simona@ffwll.ch, airlied@gmail.com, 
- mripard@kernel.org, samuel@sholland.org, jernej.skrabec@gmail.com, 
- wens@csie.org, conor+dt@kernel.org, krzk+dt@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250507193538.2140862-1-vladimir.zapolskiy@linaro.org>
+X-Proofpoint-ORIG-GUID: ZBK-B6sIFpq-v8sVP6po3Lcg-7gCAPs1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDE5NyBTYWx0ZWRfX+SfHm6ir2ON1
+ sFtRuV+qyirVu8V6a9Z3cMW0vG1x+wBzVEgMPpdrLfIhxul2Z1VmIdQ3VEYJ5xb+qU23vTyU9F6
+ lTg5U6KurSbouhFOmt56mXadQ/TTGMHn6EwnPW3/ZBS1l+PY3QxDxgxY3Ry6gvSawJ9/5iKnqrc
+ l9iw/iVsKn9KeMgKxVoSixYwEgqo1jKgDMDxjki5fbssZZYXO9xwyz6USIY+1siyWvc99vjmB4Z
+ X16v4jxuTsJ1519scjnLl6tkvFIEIMhPLmUVTvyFAHLlf21iU2+6QlfhbQ4Z2kiGsnFbej3pOcP
+ bC4iO0rn0kT8ym0vwnWNXh7t4ATqHf+uFFD6NCKgQzSUrOCKt6smHZ4kZeLUUnBmnDllAFMJ6rw
+ HPqAEvybNETTt+EwIU5DxXRHuGimtjVKVnE15bxfWdpTxcf0cqDPKHWu3EQjcvpNdpfp+Xbj
+X-Authority-Analysis: v=2.4 cv=dPemmPZb c=1 sm=1 tr=0 ts=681bcf9d cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8 a=-t1pgZ-jyF7rHdee9YQA:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: ZBK-B6sIFpq-v8sVP6po3Lcg-7gCAPs1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-07_07,2025-05-07_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501 impostorscore=0
+ suspectscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ mlxscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505070197
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,67 +126,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 7, 2025 at 3:22=E2=80=AFPM Chris Morgan <macroalpha82@gmail.com=
-> wrote:
->
-> From: Chris Morgan <macromorgan@hotmail.com>
->
-> I've spoken with Ryan and he agreed to let me take over this series to
-> get the display engine working on the Allwinner H616. I've taken his
-> previous patch series for Display Engine 3.3 and combined it with the
-> LCD controller patch series. I've also fixed a few additional bugs and
-> made some changes to the device tree bindings.
->
-> Changes since V8:
->  - Combined the DE33 [1] series and the LCD [2] series to better track
->    all patches necessary to output to an LCD display for the Allwinner
->    H700.
->  - Added a required LVDS reset as requested here [3].
->  - Added compatible strings with a fallback for
->    allwinner,sun50i-h616-display-engine, allwinner,sun50i-h616-tcon-top,
->    and allwinner,sun50i-h616-sram-c.
->  - Added binding documentation for the LCD controller.
->  - Renamed the de3_sram device tree node to de33_sram.
->  - Corrected the LVDS reset for the LCD controller binding.
->  - Removed the PWM pins from the pincontroller bindings, as PWM is not
->    yet supported.
->  - Reordered the patches so that a binding or a device tree node is not
->    referenced before it is defined.
->
-> [1] https://lore.kernel.org/linux-sunxi/20250310092345.31708-1-ryan@testt=
-oast.com/
-> [2] https://lore.kernel.org/linux-sunxi/20250216092827.15444-1-ryan@testt=
-oast.com/
-> [3] https://lore.kernel.org/linux-sunxi/38669808.XM6RcZxFsP@jernej-laptop=
-/
->
-> Chris Morgan (24):
->   dt-bindings: clock: sun50i-h616-ccu: Add LVDS reset
->   clk: sunxi-ng: h616: Add LVDS reset for LCD TCON
->   drm: sun4i: de2/de3: add mixer version enum
->   drm: sun4i: de2/de3: refactor mixer initialisation
->   drm: sun4i: de2/de3: add generic blender register reference function
->   drm: sun4i: de2/de3: use generic register reference function for layer
->     configuration
->   dt-bindings: allwinner: add H616 DE33 bus binding
->   dt-bindings: allwinner: add H616 DE33 clock binding
->   dt-bindings: allwinner: add H616 DE33 mixer binding
->   clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support
->   drm: sun4i: de33: vi_scaler: add Display Engine 3.3 (DE33) support
->   drm: sun4i: de33: mixer: add Display Engine 3.3 (DE33) support
->   drm: sun4i: de33: mixer: add mixer configuration for the H616
->   dt-bindings: allwinner: Add TCON_TOP and TCON_LCD clock/reset defines
->   dt-bindings: display: sun4i: Add compatible strings for H616 DE
->   dt-bindings: display: sun4i: Add compatible strings for H616 TCON TOP
->   dt-bindings: sram: sunxi-sram: Add H616 SRAM C compatible
->   dt-bindings: display: Add R40 and H616 display engine compatibles
->   drm/sun4i: tcon: Add support for R40 LCD
->   arm64: dts: allwinner: h616: add display engine, bus and mixer nodes
->   arm64: dts: allwinner: h616: Add TCON nodes to H616 DTSI
->   arm64: dts: allwinner: h616: add LCD and LVDS pins
->   arm64: dts: allwinner: rg35xx: Add GPIO backlight control
->   arm64: dts: allwinner: rg35xx: Enable LCD output
+On Wed, May 07, 2025 at 10:35:38PM +0300, Vladimir Zapolskiy wrote:
+> Trivial change, there is a managed device resource version of
+> of_platform_populate(), and its usage simplifies the code a bit.
+> 
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/msm_mdss.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> index dcb49fd30402..116e8f93f8c8 100644
+> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -550,7 +550,7 @@ static int mdss_probe(struct platform_device *pdev)
+>  	 * Populate the children devices, find the MDP5/DPU node, and then add
+>  	 * the interfaces to our components list.
+>  	 */
+> -	ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
+> +	ret = devm_of_platform_populate(dev);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(dev, "failed to populate children devices\n");
+>  		msm_mdss_destroy(mdss);
+> @@ -564,8 +564,6 @@ static void mdss_remove(struct platform_device *pdev)
+>  {
+>  	struct msm_mdss *mdss = platform_get_drvdata(pdev);
+>  
+> -	of_platform_depopulate(&pdev->dev);
+> -
+>  	msm_mdss_destroy(mdss);
 
-What's the base for this series? It didn't apply for me (using b4).
+Unfortunately this means that the child devices will still exist after
+destroying the MDSS (IRQ domain, etc). So, it seems it can not land as
+is.
 
-Rob
+>  }
+>  
+> -- 
+> 2.45.2
+> 
+
+-- 
+With best wishes
+Dmitry
