@@ -2,189 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86555AAD39B
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 04:51:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD36CAAD450
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 06:02:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0535C10E73F;
-	Wed,  7 May 2025 02:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 992EC10E13F;
+	Wed,  7 May 2025 04:02:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JK4KKQeO";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="M1gDInb5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 870D810E73F
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 02:51:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746586281; x=1778122281;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=zZ3iF+IRe9TwbsQcFlcRHZ7sYqm+nQgP8sucM9IAHmg=;
- b=JK4KKQeO5BmtQ+wv0DzVnSMyCpxCJVHggKJsr5WwLVoTfaqyqc/ojjSt
- 78htvUUVN6NyaRk7qdFLC+JoWNvUS+akBc6+O+bpRW/aVDD6CsKLMafmM
- kcUz9t8TtWL8jZGSXtal3EWpoQMBQKNaG39ozxUttlRPxNGE03V/1v7uO
- kuevHXjGCRp1Ub/4pVcgAgvjiwyKjj+DAVGJGnyJGciHI/TB731XQfFuD
- Ny3vTF2c7/SI197LYcrIEFxxZqfDo0C6nu60R5iQE6R9uE0bazsKTXWMs
- 1Uir1KXrdSMsNAKUz3GrQUrUF97uEwW/DOmD6bK1bsVHGVJWAIbIN6Jyt g==;
-X-CSE-ConnectionGUID: EM7uNU5eTEClKET89PSyzg==
-X-CSE-MsgGUID: LsbZ53USS5qTMpgyUJoYVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48372389"
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; d="scan'208";a="48372389"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2025 19:51:18 -0700
-X-CSE-ConnectionGUID: asuRUJjzRzaqqCCUEATPkQ==
-X-CSE-MsgGUID: rj3nKIuVTeSXuj8cos39bw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; d="scan'208";a="136204521"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2025 19:51:18 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Tue, 6 May 2025 19:51:17 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 6 May 2025 19:51:17 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 6 May 2025 19:51:16 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VEOfbD/l/x8vbXHRtTMHE6itAf5wSX4Q5cG7rV6NuH9yMcW7LTOdXBseYbPGC6tQAdms8yt1kX3FkbSjlUAHb27BAQ3jKNXaKn3x143/+cOB3UqTFALSyQ2FQSy0l5/WzQYFcO9j3SC09eMnn3aaNcVqN5s1pUNCRy+AR3+JPTqmThBiPNznWSaclJ2MpBOcTLxpPP8oOGYuS3u4yEyu1jF9QDRjpExrmjk2zw63AdoTeIV4d3v3gMMuwglZv+hwSCfVOIZBHDJ5qlBlIFB2JFGtp0G30TH5Cjian0IPGoDApPbdnRfOYdkaYTBzYqbNf8rusMi+ef2V6gUYGoaPGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zZ3iF+IRe9TwbsQcFlcRHZ7sYqm+nQgP8sucM9IAHmg=;
- b=n4qbj0WYWS/4G/ZTBx/Z5PRw9iCtClslSF35+kMuBD5kZlQoUPs3QIJyhy4WhHBjwRYUwFGBV3e4S6+6Lk/QUAR0lFXqsJh74o4ahi9Di29me4KgoFtS+zgYhCTi+gn8MdibA9u7b1F/LcNl4mwmweolu2ZZajSSMqoOOdEdHHQvegNUE0xngskxJkRKOE76mU5iUBPldkI+bK1IxSydv8x6/u8H7+hAJ61KKQHvN4CljuiU+D/bdadSUDLaNBri6dDfKzrnn9zevvA9six9OVjpTBk943YN5PT+RJEBcjgC/u5O19CHjzlN6AG20vcWpTe4HWUQUs6Nn2BTCj7Neg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
- by LV8PR11MB8678.namprd11.prod.outlook.com (2603:10b6:408:20b::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.22; Wed, 7 May
- 2025 02:51:10 +0000
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.8722.020; Wed, 7 May 2025
- 02:51:10 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: RE: [PATCH] drm/virtio: Fix NULL pointer deref in
- virtgpu_dma_buf_free_obj()
-Thread-Topic: [PATCH] drm/virtio: Fix NULL pointer deref in
- virtgpu_dma_buf_free_obj()
-Thread-Index: AQHbuvBvn8oBNjQZAEq5SdK5DwiZdLPEPGsAgAG6SYA=
-Date: Wed, 7 May 2025 02:51:10 +0000
-Message-ID: <IA0PR11MB718590309CEFD76B9B9D35D3F888A@IA0PR11MB7185.namprd11.prod.outlook.com>
-References: <20250501232419.180337-1-vivek.kasireddy@intel.com>
- <ba724d8e-f2e2-49e7-88ac-4b0ae5b49e4d@collabora.com>
-In-Reply-To: <ba724d8e-f2e2-49e7-88ac-4b0ae5b49e4d@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|LV8PR11MB8678:EE_
-x-ms-office365-filtering-correlation-id: d79d553a-9896-4908-787e-08dd8d1205f8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?bXMvSXlTOWo4dXR5aVNXS1FNTjRJQ2cyOUJhaEN3NUwvR0NMK1EzQXVvakNz?=
- =?utf-8?B?eXZwdFRvMmhxUElQc1I0dS9nU0JyNXdWWFVsNkxVdlFWblZ3K1laMTdlQzda?=
- =?utf-8?B?T0l6eGwxdGNhcm8vZ2g2emFXeVpuYnFiZnBTQWwwM0I1K2NSN3NFbVAvSi9r?=
- =?utf-8?B?UDc3QVBHOWd4UWhBYWp6cDVqSjJFMUcrRVBKVVA4UzViK0FNV0xxY0lrQWVx?=
- =?utf-8?B?TEJMcGxpMlJKY1dwamw4VjBIK29wQVhiZ1JLY2xBMU44Tis1TjlXb1NQMHlv?=
- =?utf-8?B?SDdrYkJLSk5SOWIzbS9YSmxnUkZuV1lWcHRlU0Vsc1JLeE9tVzJYOGtZNnFu?=
- =?utf-8?B?MlhmYlZicHFFNVFRMHF4RGxTOE13cUZoOGZDZ05BTTJPVk82RXFOamJqRHky?=
- =?utf-8?B?OUgzRTY0TXFUTFlGa3JvNEkzNTloYUUyVW90QkJiSE5IK2R1RFZ0cTAvc0lF?=
- =?utf-8?B?VUZPWUkwRmhqbGgzVlU3Q0lHRFVJWlBzV21hc2xpeTIxbDd3YWQxQ3RWQ2Za?=
- =?utf-8?B?WjZQNDJCR2E2N3J0eFNvQkxib0JNckdHVjk0ZjR5aXVtTHpISjY2QXVDeFFV?=
- =?utf-8?B?TDQ4WDJ4aUpCVU0vd1BzbjJvVWJqeCtaK2RzcStkRHF5dWtUUlgxM1JSc09Y?=
- =?utf-8?B?TDNwZm1jZGdHN3hHM1ZyWmNWbGRnOWU0Q0dZbUZUbnB1aUg2K3lobGY0aDFh?=
- =?utf-8?B?U25MMWdCeFVIWlpzSmp6WU9lYkx3WExaYWsvWGl5Vk9wMzdwWUNoK0llSzBB?=
- =?utf-8?B?ZStHVkhyTGV1QVl0MWRVWjhxQkp3eU03M25kYTFLQkYzRmowVE5hNFJsalJQ?=
- =?utf-8?B?UmlFR0lFbUdIbWU1TS92VEVJdXJhSGh2alhlM2g1QmVXcDk3U0VKUDJoQ213?=
- =?utf-8?B?ejZkMGJtNTJvRmVSZytCVFYwVDBnOGpITnNjSWZUNG1ZS2JFNHlwNEJqNGti?=
- =?utf-8?B?VkhPT1FGQmpVKzU1UGRUMWZqRW52ZWpPQnlYUkV1UDQ1S0VXUDVQUldZcG9N?=
- =?utf-8?B?SkJYb1psZGxLaHQ3bjdXRFg3Y092bE5KcXVjUmwwaUd1WForeDRzWVJkNjF6?=
- =?utf-8?B?ckI3dEJVOTgwcmtEQWZQYXZZMVB6QUNZd21zeUJSelozSVRPczY3UE9ONTdV?=
- =?utf-8?B?ZTQ2VGZrUm8rZ0VqR29VQ3dvVFhpVHVORGw1cElzeFNrMGttRTFOOGRkMVNR?=
- =?utf-8?B?ZWk0TU5LU1A3aVhBYUlJcE9hNEkySElQRDdFQzFqd3ZpYVJHaCtHdm1uY1Ri?=
- =?utf-8?B?ZmFxYXdHQzFBV0d1K0ZOaEtTT0xyWXdhTVppR2U5c2d5eTBQbGFJVHZDSkIy?=
- =?utf-8?B?bGtjK20zRXNzb0RxSmtsZEpDZFN4QXV0bXArbjEyMW1OeThWRkFYRno3cHFt?=
- =?utf-8?B?TkYvT2dYdG9KTHZSV25iUTdBZzF6d0J5L3NsUm10cE9IcnNocjJhQy9ZaVVI?=
- =?utf-8?B?Y2FKZmZrWkNYK2F2ZjZKTmZlNC8rRTBnUFhrcU8yMEpRZmtHQUxHdXJvUjMv?=
- =?utf-8?B?REhwRTlhT2p1Tm8xUDRHWnN0Rm1NSHY0ZTFnSWdMVG5PT3hsdjVRUjNOMlRj?=
- =?utf-8?B?cWVVaTBUMlZjODZFRkQrZk9PWU1iTmhGU3NGaTVQRFFqT0luQnhaVXB6UWNW?=
- =?utf-8?B?THVhVlFUS2FScTI0VzUwNTFUR2M5ZldSNXFEUCtHUVAzMHV2REt1UEdlL2Yw?=
- =?utf-8?B?OHZacnN1R3ZNZU52SEpiR3ZtSUFYVVdlZnFZT1dpaXdqbXdiendzRlUzU0Zt?=
- =?utf-8?B?NTdERGF4TlE3dUhzZU42SEpWY2pjYlFiS1VTMklQMFBtdzBvNE4vZDI4ajBY?=
- =?utf-8?B?T3BLV2w3VFdxdmZEeFhUWGYxMysraG5lTFBUUEhBVXJUeU52ZEVtQi9WZXkz?=
- =?utf-8?B?amZlVm1CeEVRTUIzOGdscFBvQUFKYlZTN0MzWlQxcHRLQWVkcm9NTzFUK0F2?=
- =?utf-8?B?OWFHeFlWNVA1ZTdmVEJFdlBJcHpkWjFnMEIzdFJaS1Y2WUdxbEJFYWlieEhs?=
- =?utf-8?B?LzVKT003TzZ3PT0=?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZlMvNzlXVThHUjJCWWMzTjdIcVRBSk9ya0RCcE84aEludkhrang2Z2U0SUxH?=
- =?utf-8?B?cXU2Zy9oZnMwdHhNOU1pNzIwNHNwbHV0cExRcmNWaUhmVFRxOW0vTndKeHoy?=
- =?utf-8?B?bU1JWDcvSDJIRHhibW4zSUM5NElIOURWNmZBbWowZ3hoWjl0YkF5SUJjRlhu?=
- =?utf-8?B?TUNSWDVPanMycWMyOER5NGZiUzBINkRheTMraUw3K25rZzB5YzloMVpMQ05q?=
- =?utf-8?B?WUw4S2U1MU05QU94WHJndTVObHFhdERkZnQ3QmFiaUNoSS9BSDl1Q2NvYU8x?=
- =?utf-8?B?UEdGQllPNXVmVUJsZFRTcXVDdEo3ZitKRVNOdVN6UmVrWTE5clcrWjVCelp5?=
- =?utf-8?B?ZXZKRXFldk8xQ1QrckFKeW5hK0J5ZWNxWHRmd1pZODhyRVE1WjN1YWg0Uml1?=
- =?utf-8?B?eFhMdGVzaitFSmpoOHJKcDRYM0lHc0w4M2xPb2FaWmZKWkpnaXowejZ6ZERP?=
- =?utf-8?B?cm05UmhlS0s2Sk0wdEFrL2kwNVovYVNVamxzRjluSmhzbHhsWEdkRTJOdmxB?=
- =?utf-8?B?RlhIVXJKQVdjSHlidmRCdG0zMU9UeWxXd3orYVd1M3N3Sk1jRVEySy9qNXpR?=
- =?utf-8?B?V0o3TmRhVkVoYlBNZVQ2bnRrNTVvRVZVTnpERXRJQmFyamlrYVZDWEh1WnlQ?=
- =?utf-8?B?SG9kL01XVFBKZnJLb28xS2c4U0xBNmFqd3pOM0pBZEdnZE5nNm9KOUlxNW4w?=
- =?utf-8?B?dkthc2FwbTJLcU1ESUlJM0l2Z0VCeDl3YkN2M3dqZlJZbklROHVPYm94WXVP?=
- =?utf-8?B?TlhQQ21TYWFVVjNBcEdPSFpPZzVZbzlsdWRZdEkvVTMyTUFaZHBDWW4vMkhP?=
- =?utf-8?B?dTZuTzBVREh0TzNBdlQ2aFZNMWhpQUZGd1djTWx3bm5EUGFWMk9RM09RWVZw?=
- =?utf-8?B?ZmdqRGFMZFlHZ1F4a2crTFNNeTEzTWJmQk1lVzFsZTZ1SVAwSEM4WFIwR2hW?=
- =?utf-8?B?U2djbEhiUzhjNmx1NmVQNDRCbWJ4NzlLMW9LMmdGOWdBNHRuWUh0YU9qOU4x?=
- =?utf-8?B?cmpoRGJxdG4xYWQxYjlDUmI2MXJWcUppbXNReU15amNEOFBwblJ5eGNHK0dZ?=
- =?utf-8?B?Y3lGMjgrUU1XQ1VtL01GSitJcTBhcWtRVWk5d3NPeHZlY2pKdVJnUmVQbGk3?=
- =?utf-8?B?SzRZZ2FqT2JraDNmOGxEU2NDbDlQd3lpMjdZbHd1Q2R6TThMS2djUGlJUGpz?=
- =?utf-8?B?T2NOQXd5K0ZEV05IN1dZMnY2MFdnU0lLS0VGRlB0QWdpRmlQcVBWYlJTSHFQ?=
- =?utf-8?B?WjRRa1dtNkRxUlhxRHpwVU1NWE80c0Q5dHNvUi9FcWpjNHJkYkFHeTZYV0pp?=
- =?utf-8?B?Y1YrMUNKQkhoQytYVUNUTUdoMUR5bHpkMUg0VThKcDJCL3U3eElEYlN0Wlo1?=
- =?utf-8?B?ZTRuaCt1UzIyVVA0MFJ4OWJ2OWlEMVFiVGNodWQ3MXZwV2puTUtxNUhUTDRO?=
- =?utf-8?B?MVdMbldyYnNmOEU1RDBGVVJMR1g5WVJUM3g0amFBUklvTmUvUUJvblZ1OXNo?=
- =?utf-8?B?cStMS3IvU09NUVRDQmRFWlBOZy85eDhWYVgzM2YxVy9Ib1FwR05oSGZieW1p?=
- =?utf-8?B?cGNsOGdwa3FBUFFFY1BROTZRM2o2TGxmTENaM0pNMUFBQTNHZi9nTmZFM2VD?=
- =?utf-8?B?NmZRc0ZvTnE5YXRTdW5xdGxkUW14Z1RaV2drV25lcGZxMnVtN01DNzVVMlNo?=
- =?utf-8?B?MmRRN2tRcVVQb1dzS1ZTVHh0VWRGZ1FHZGtxUXg3SVVsSk00WDk4VU9iT3dr?=
- =?utf-8?B?ZlRDMlRxNHhkY2IwSXQwWEt5MFFPbmZPZ0VmN3BhZ3Q1WFlxU0F0TkVGejlh?=
- =?utf-8?B?Qy9JUE1md1BrazZLSkVKYUlQL21VQjVQNXBBYjljbFBJWmxmQjBkb0xyUEhJ?=
- =?utf-8?B?UGIzU2s5enlOUlJGS3BZMkZDWE5XTU5mTFEzSTBIUmdYMlkxaWxkNEJTRFpW?=
- =?utf-8?B?ZmRhSFhqZzFqNkhHeFdYaGp0TmFXcTc5L3RIUWtqRmhwazk0SW9jQVYwRVZE?=
- =?utf-8?B?Q0Z0alZjU1NOeVc5Qnp4dFRmcHJhK3JiS010T2locnF5VDZGUFBXSCswNHZr?=
- =?utf-8?B?eTZxTlM0U1VOV05kWGU3RGc0K1FXbHpZWjcwVTk5ZlhFQTREMGUwR3pSN2pE?=
- =?utf-8?Q?KVF2pgShrwMzsfRd6lgArh60x?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d79d553a-9896-4908-787e-08dd8d1205f8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2025 02:51:10.5512 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sKDWMiOYI7VEfNPA2eY+y/eoPwoJoTaX6spzvXn6tfx7E/fEcb95U2jq3T2HT4moVvcxFG/XZvLI9KOankQqG9eV05DS0cM5cSDid4nU7FQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8678
-X-OriginatorOrg: intel.com
+X-Greylist: delayed 397 seconds by postgrey-1.36 at gabe;
+ Wed, 07 May 2025 04:02:20 UTC
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D58EB10E13F
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 04:02:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+ s=altu2504; t=1746590537;
+ bh=Tj5P6TtcgSVDpS1T+ZWu4nBhzWiNoYxJkl3RNDQY6IA=;
+ h=From:To:Subject:Date:Message-Id;
+ b=M1gDInb51vF9YEaq0Dsm6HbSNt58BYsc8eb3buBM4IaR/cRy0hgEA7Jy6ZolbzDGQ
+ NnGvV5dIMKN3uthNd0mV9LL29rIb1nyyTnx+WvKn7+CuyRVn9qmImadnumwXadZfQJ
+ y+EK6qC2guoaOifQluwlAAd1DOwJ9Sa60lTouWcM=
+X-QQ-mid: esmtpgz14t1746589918t6bb1e88a
+X-QQ-Originating-IP: BKJhp3IJF7PmAJk32cxPsmEjd1tieTKgIMel2vtjp74=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Wed, 07 May 2025 11:51:56 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 3187435413464874817
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Subject: [PATCH] drm/rockchip: cdn-dp: Convert to drm bridge
+Date: Wed,  7 May 2025 11:51:48 +0800
+Message-Id: <20250507035148.415-1-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+X-QQ-XMAILINFO: OOkIcXXGmR+0iDU7G/HfeFOX5sf4jL1QXIhre20J1JTUrHoFBEBdr/Fr
+ TnsgpKigLy20CXMpgXZHP/F8WVNfUCWeTxPhVyt6bS2W41X2EZ34GuoH5jHo5JKdiWHm2Kk
+ BCjFa7eA4zn6Fxmgy+Oety4D1Zw+urIGqPI2tcVH10lsRAvUEdK8Jop5+SxUqf0KyMk4Kru
+ qdg0WyDSKsKqhNULuqUG06OSUQwxw/KRmBEGNejGFzsNCX4R1R0Tu3oid92G+GZmvpPFJwf
+ l53IY/lWvOi5bryooepVmmKYyYc0L01qkOjpp4Q/fDoBvU6S8cMYHlSwF3cc30EDrlsIY2n
+ XqfrZjb0304Vb8DMCvzTnQzVhfyNJsetQ1ldX5LBm/O2C9EQN/4vhaGpJarCky25Owclwbm
+ hwFV8G5KuhMeWiLQMSFp7VZkkutMXTa0/RKlcJ3IxwAJr4MuwTtdbQ7+qRjwa2hsv0dr4as
+ anz5ceiQFiiOTxfzvNWJRhgM6xdNr0mzj4gFeG5VXPmXKOaMyH59K9qYtqa/LuHrnwL6FSA
+ fTenQGhwFmm5f84lK0cXH8H6oA+vmUjk8Pk1chUVMbDhPQ1SyJd6bQbHQMWCn2oWiALt/A0
+ af4pQcW/Q0M++40Y8M7Qjk46bVVWuGbSq2eMx3oQvMKeHq2S1ndSVqYy81jYSwcwwuiqG+h
+ ERBVntubLQTOnHODBwGvxNaTDVDVKRJuwcVEPvwjgqo9G/joY9fr6sbRa/HFzGYPs6jmRn3
+ RswiDFIlbBnDT1a2lrimlO+JZCpweaJ5laKomrpftBoHmwbPJNYBmwmU3lEnq2n/vELTrBv
+ cMjkjJMcCzq7rh8GzHzyN9XZQU9PNJ98JdxV9dhzNQhgmm+cAnr2Q+JsBPrIeAKzpFM0YFn
+ baZO2SS+2+2+Gd/X0S/bZK5KwjcdToQB1JTxjFU75lYAWbFsc6dNR2PDq3tPEwNjLuaz+5H
+ fI9xaZGsc1iDwPVcs7KjCPXANTcB6vLhM63E9OZyCF041/KW6ekPzMESPCMQO4ExPMxVFSE
+ FaZW0b8Tuw1okhYCpNxiNUYj1DnciiUYFVrnzx2g==
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,50 +80,384 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRG1pdHJ5LA0KDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0hdIGRybS92aXJ0aW86IEZpeCBOVUxM
-IHBvaW50ZXIgZGVyZWYgaW4NCj4gdmlydGdwdV9kbWFfYnVmX2ZyZWVfb2JqKCkNCj4gDQo+IE9u
-IDUvMi8yNSAwMjoyNCwgVml2ZWsgS2FzaXJlZGR5IHdyb3RlOg0KPiA+IFRoZXJlIGlzIGEgY2hh
-bmNlIHRoYXQgb2JqLT5kbWFfYnVmIHdvdWxkIGJlIE5VTEwgYnkgdGhlIHRpbWUNCj4gPiB2aXJ0
-Z3B1X2RtYV9idWZfZnJlZV9vYmooKSBpcyBjYWxsZWQuIFRoaXMgY2FuIGhhcHBlbiBmb3IgaW1w
-b3J0ZWQNCj4gPiBwcmltZSBvYmplY3RzLCB3aGVuIGRybV9nZW1fb2JqZWN0X2V4cG9ydGVkX2Rt
-YV9idWZfZnJlZSgpIGdldHMNCj4gY2FsbGVkDQo+ID4gb24gdGhlbSBiZWZvcmUgZHJtX2dlbV9v
-YmplY3RfZnJlZSgpLiBUaGlzIGlzIGJlY2F1c2UNCj4gPiBkcm1fZ2VtX29iamVjdF9leHBvcnRl
-ZF9kbWFfYnVmX2ZyZWUoKSBleHBsaWNpdGx5IHNldHMNCj4gPiBvYmotPmRtYV9idWYgdG8gTlVM
-TC4NCj4gPg0KPiA+IFRoZXJlZm9yZSwgZml4IHRoaXMgaXNzdWUgYnkgc3RvcmluZyB0aGUgZG1h
-X2J1ZiBwb2ludGVyIGluIHRoZQ0KPiA+IHZpcnRpb19ncHVfb2JqZWN0IGluc3RhbmNlIGFuZCB1
-c2luZyBpdCBpbiB2aXJ0Z3B1X2RtYV9idWZfZnJlZV9vYmouDQo+ID4gVGhpcyBzdG9yZWQgcG9p
-bnRlciBpcyBndWFyYW50ZWVkIHRvIGJlIHZhbGlkIHVudGlsIHRoZSBvYmplY3QgaXMNCj4gPiBm
-cmVlZCBhcyB3ZSB0b29rIGEgcmVmZXJlbmNlIG9uIGl0IGluIHZpcnRncHVfZ2VtX3ByaW1lX2lt
-cG9ydCgpLg0KPiA+DQo+ID4gRml4ZXM6IDQxNWNiNDU4OTVmNCAoImRybS92aXJ0aW86IFVzZSBk
-bWFfYnVmIGZyb20gR0VNIG9iamVjdA0KPiA+IGluc3RhbmNlIikNCj4gPiBDYzogRG1pdHJ5IE9z
-aXBlbmtvIDxkbWl0cnkub3NpcGVua29AY29sbGFib3JhLmNvbT4NCj4gPiBDYzogVGhvbWFzIFpp
-bW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+ID4gU2lnbmVkLW9mZi1ieTogVml2ZWsg
-S2FzaXJlZGR5IDx2aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2
-ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmggICB8IDEgKw0KPiA+ICBkcml2ZXJzL2dw
-dS9kcm0vdmlydGlvL3ZpcnRncHVfcHJpbWUuYyB8IDMgKystDQo+ID4gIDIgZmlsZXMgY2hhbmdl
-ZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2Rydi5oDQo+ID4gYi9kcml2ZXJzL2dwdS9k
-cm0vdmlydGlvL3ZpcnRncHVfZHJ2LmgNCj4gPiBpbmRleCBmMTc2NjBhNzFhM2UuLmY3ZGVmOGI0
-MjA2OCAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2
-LmgNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmgNCj4gPiBA
-QCAtODgsNiArODgsNyBAQCBzdHJ1Y3QgdmlydGlvX2dwdV9vYmplY3RfcGFyYW1zIHsNCj4gPg0K
-PiA+ICBzdHJ1Y3QgdmlydGlvX2dwdV9vYmplY3Qgew0KPiA+ICAJc3RydWN0IGRybV9nZW1fc2ht
-ZW1fb2JqZWN0IGJhc2U7DQo+ID4gKwlzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1ZjsNCj4gPiAgCXN0
-cnVjdCBzZ190YWJsZSAqc2d0Ow0KPiA+ICAJdWludDMyX3QgaHdfcmVzX2hhbmRsZTsNCj4gPiAg
-CWJvb2wgZHVtYjsNCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0
-Z3B1X3ByaW1lLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9wcmltZS5j
-DQo+ID4gaW5kZXggMTExOGEwMjUwMjc5Li43MjJjZGU1ZTJkODYgMTAwNjQ0DQo+ID4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3ByaW1lLmMNCj4gPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfcHJpbWUuYw0KPiA+IEBAIC0yMDYsNyArMjA2LDcgQEAg
-c3RhdGljIHZvaWQgdmlydGdwdV9kbWFfYnVmX2ZyZWVfb2JqKHN0cnVjdA0KPiBkcm1fZ2VtX29i
-amVjdCAqb2JqKQ0KPiA+ICAJc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiA9IG9iai0+
-ZGV2LT5kZXZfcHJpdmF0ZTsNCj4gPg0KPiA+ICAJaWYgKGRybV9nZW1faXNfaW1wb3J0ZWQob2Jq
-KSkgew0KPiA+IC0JCXN0cnVjdCBkbWFfYnVmICpkbWFidWYgPSBvYmotPmRtYV9idWY7DQo+ID4g
-KwkJc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiA9IGJvLT5kbWFfYnVmOw0KPiANCj4gZHJtX2dlbV9p
-c19pbXBvcnRlZCgpIGNoZWNrcyB3aGV0aGVyIG9iai0+ZG1hX2J1ZiBpcyBOVUxMLCBoZW5jZQ0K
-PiBkcm1fZ2VtX2lzX2ltcG9ydGVkKCkgY2FuJ3QgYmUgdXNlZCBoZXJlIHRvbz8NClVubGVzcyBJ
-IGFtIG1pc3Npbmcgc29tZXRoaW5nLCBpdCBsb29rcyBsaWtlIGRybV9nZW1faXNfaW1wb3J0ZWQo
-KSBkb2VzDQpub3Qgc2VlbSB0byBjaGVjayBvYmotPmRtYV9idWY6DQoNCnN0YXRpYyBpbmxpbmUg
-Ym9vbCBkcm1fZ2VtX2lzX2ltcG9ydGVkKGNvbnN0IHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2Jq
-KQ0Kew0KICAgICAgICByZXR1cm4gISFvYmotPmltcG9ydF9hdHRhY2g7DQp9DQoNClRoYW5rcywN
-ClZpdmVrDQoNCj4gDQo+IC0tDQo+IEJlc3QgcmVnYXJkcywNCj4gRG1pdHJ5DQo=
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+
+Convert it to drm bridge driver, it will be convenient for us to
+migrate the connector part to the display driver later.
+
+Tested with RK3399 EVB IND board.
+
+Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+---
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 163 +++++++++++++------------
+ drivers/gpu/drm/rockchip/cdn-dp-core.h |   5 +-
+ 2 files changed, 86 insertions(+), 82 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index 292c31de18f1..bc70dae8ff72 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -25,9 +25,9 @@
+ #include "cdn-dp-core.h"
+ #include "cdn-dp-reg.h"
+ 
+-static inline struct cdn_dp_device *connector_to_dp(struct drm_connector *connector)
++static inline struct cdn_dp_device *bridge_to_dp(struct drm_bridge *bridge)
+ {
+-	return container_of(connector, struct cdn_dp_device, connector);
++	return container_of(bridge, struct cdn_dp_device, bridge);
+ }
+ 
+ static inline struct cdn_dp_device *encoder_to_dp(struct drm_encoder *encoder)
+@@ -231,9 +231,9 @@ static bool cdn_dp_check_sink_connection(struct cdn_dp_device *dp)
+ }
+ 
+ static enum drm_connector_status
+-cdn_dp_connector_detect(struct drm_connector *connector, bool force)
++cdn_dp_bridge_detect(struct drm_bridge *bridge)
+ {
+-	struct cdn_dp_device *dp = connector_to_dp(connector);
++	struct cdn_dp_device *dp = bridge_to_dp(bridge);
+ 	enum drm_connector_status status = connector_status_disconnected;
+ 
+ 	mutex_lock(&dp->lock);
+@@ -244,41 +244,26 @@ cdn_dp_connector_detect(struct drm_connector *connector, bool force)
+ 	return status;
+ }
+ 
+-static void cdn_dp_connector_destroy(struct drm_connector *connector)
++static const struct drm_edid *
++cdn_dp_connector_edid_read(struct drm_bridge *bridge, struct drm_connector *connector)
+ {
+-	drm_connector_unregister(connector);
+-	drm_connector_cleanup(connector);
+-}
+-
+-static const struct drm_connector_funcs cdn_dp_atomic_connector_funcs = {
+-	.detect = cdn_dp_connector_detect,
+-	.destroy = cdn_dp_connector_destroy,
+-	.fill_modes = drm_helper_probe_single_connector_modes,
+-	.reset = drm_atomic_helper_connector_reset,
+-	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+-};
+-
+-static int cdn_dp_connector_get_modes(struct drm_connector *connector)
+-{
+-	struct cdn_dp_device *dp = connector_to_dp(connector);
+-	int ret = 0;
++	struct cdn_dp_device *dp = bridge_to_dp(bridge);
++	const struct drm_edid *drm_edid;
+ 
+ 	mutex_lock(&dp->lock);
+-
+-	ret = drm_edid_connector_add_modes(connector);
+-
++	drm_edid = drm_edid_read_custom(dp->connector,
++					cdn_dp_get_edid_block, dp);
+ 	mutex_unlock(&dp->lock);
+ 
+-	return ret;
++	return drm_edid;
+ }
+ 
+ static enum drm_mode_status
+-cdn_dp_connector_mode_valid(struct drm_connector *connector,
+-			    const struct drm_display_mode *mode)
++cdn_dp_bridge_mode_valid(struct drm_bridge *bridge,
++			 const struct drm_display_info *display_info,
++			 const struct drm_display_mode *mode)
+ {
+-	struct cdn_dp_device *dp = connector_to_dp(connector);
+-	struct drm_display_info *display_info = &dp->connector.display_info;
++	struct cdn_dp_device *dp = bridge_to_dp(bridge);
+ 	u32 requested, actual, rate, sink_max, source_max = 0;
+ 	u8 lanes, bpc;
+ 
+@@ -323,11 +308,6 @@ cdn_dp_connector_mode_valid(struct drm_connector *connector,
+ 	return MODE_OK;
+ }
+ 
+-static struct drm_connector_helper_funcs cdn_dp_connector_helper_funcs = {
+-	.get_modes = cdn_dp_connector_get_modes,
+-	.mode_valid = cdn_dp_connector_mode_valid,
+-};
+-
+ static int cdn_dp_firmware_init(struct cdn_dp_device *dp)
+ {
+ 	int ret;
+@@ -360,7 +340,7 @@ static int cdn_dp_firmware_init(struct cdn_dp_device *dp)
+ 
+ static int cdn_dp_get_sink_capability(struct cdn_dp_device *dp)
+ {
+-	const struct drm_display_info *info = &dp->connector.display_info;
++	const struct drm_display_info *info = &dp->connector->display_info;
+ 	int ret;
+ 
+ 	if (!cdn_dp_check_sink_connection(dp))
+@@ -374,9 +354,9 @@ static int cdn_dp_get_sink_capability(struct cdn_dp_device *dp)
+ 	}
+ 
+ 	drm_edid_free(dp->drm_edid);
+-	dp->drm_edid = drm_edid_read_custom(&dp->connector,
++	dp->drm_edid = drm_edid_read_custom(dp->connector,
+ 					    cdn_dp_get_edid_block, dp);
+-	drm_edid_connector_update(&dp->connector, dp->drm_edid);
++	drm_edid_connector_update(dp->connector, dp->drm_edid);
+ 
+ 	dp->sink_has_audio = info->has_audio;
+ 
+@@ -416,11 +396,11 @@ static int cdn_dp_enable_phy(struct cdn_dp_device *dp, struct cdn_dp_port *port)
+ 		goto err_power_on;
+ 	}
+ 
+-	ret = extcon_get_property(port->extcon, EXTCON_DISP_DP,
+-				  EXTCON_PROP_USB_TYPEC_POLARITY, &property);
+-	if (ret) {
+-		DRM_DEV_ERROR(dp->dev, "get property failed\n");
+-		goto err_power_on;
++		ret = extcon_get_property(port->extcon, EXTCON_DISP_DP,
++					EXTCON_PROP_USB_TYPEC_POLARITY, &property);
++		if (ret) {
++			DRM_DEV_ERROR(dp->dev, "get property failed\n");
++			goto err_power_on;
+ 	}
+ 
+ 	port->lanes = cdn_dp_get_port_lanes(port);
+@@ -551,7 +531,7 @@ static void cdn_dp_encoder_mode_set(struct drm_encoder *encoder,
+ 				    struct drm_display_mode *adjusted)
+ {
+ 	struct cdn_dp_device *dp = encoder_to_dp(encoder);
+-	struct drm_display_info *display_info = &dp->connector.display_info;
++	struct drm_display_info *display_info = &dp->connector->display_info;
+ 	struct video_info *video = &dp->video_info;
+ 
+ 	switch (display_info->bpc) {
+@@ -599,12 +579,12 @@ static void cdn_dp_audio_handle_plugged_change(struct cdn_dp_device *dp,
+ 		dp->plugged_cb(dp->codec_dev, plugged);
+ }
+ 
+-static void cdn_dp_encoder_enable(struct drm_encoder *encoder)
++static void cdn_dp_bridge_atomic_enable(struct drm_bridge *bridge, struct drm_atomic_state *state)
+ {
+-	struct cdn_dp_device *dp = encoder_to_dp(encoder);
++	struct cdn_dp_device *dp = bridge_to_dp(bridge);
+ 	int ret, val;
+ 
+-	ret = drm_of_encoder_active_endpoint_id(dp->dev->of_node, encoder);
++	ret = drm_of_encoder_active_endpoint_id(dp->dev->of_node, &dp->encoder.encoder);
+ 	if (ret < 0) {
+ 		DRM_DEV_ERROR(dp->dev, "Could not get vop id, %d", ret);
+ 		return;
+@@ -625,7 +605,7 @@ static void cdn_dp_encoder_enable(struct drm_encoder *encoder)
+ 
+ 	ret = cdn_dp_enable(dp);
+ 	if (ret) {
+-		DRM_DEV_ERROR(dp->dev, "Failed to enable encoder %d\n",
++		DRM_DEV_ERROR(dp->dev, "Failed to enable bridge %d\n",
+ 			      ret);
+ 		goto out;
+ 	}
+@@ -661,9 +641,9 @@ static void cdn_dp_encoder_enable(struct drm_encoder *encoder)
+ 	mutex_unlock(&dp->lock);
+ }
+ 
+-static void cdn_dp_encoder_disable(struct drm_encoder *encoder)
++static void cdn_dp_bridge_atomic_disable(struct drm_bridge *bridge, struct drm_atomic_state *state)
+ {
+-	struct cdn_dp_device *dp = encoder_to_dp(encoder);
++	struct cdn_dp_device *dp = bridge_to_dp(bridge);
+ 	int ret;
+ 
+ 	mutex_lock(&dp->lock);
+@@ -672,7 +652,7 @@ static void cdn_dp_encoder_disable(struct drm_encoder *encoder)
+ 	if (dp->active) {
+ 		ret = cdn_dp_disable(dp);
+ 		if (ret) {
+-			DRM_DEV_ERROR(dp->dev, "Failed to disable encoder %d\n",
++			DRM_DEV_ERROR(dp->dev, "Failed to disable bridge %d\n",
+ 				      ret);
+ 		}
+ 	}
+@@ -703,13 +683,31 @@ static int cdn_dp_encoder_atomic_check(struct drm_encoder *encoder,
+ 	return 0;
+ }
+ 
++static void cdn_dp_hpd_notify(struct drm_bridge *bridge,
++			   enum drm_connector_status status)
++{
++	struct cdn_dp_device *dp = bridge_to_dp(bridge);
++
++	schedule_work(&dp->event_work);
++}
++
+ static const struct drm_encoder_helper_funcs cdn_dp_encoder_helper_funcs = {
+ 	.mode_set = cdn_dp_encoder_mode_set,
+-	.enable = cdn_dp_encoder_enable,
+-	.disable = cdn_dp_encoder_disable,
+ 	.atomic_check = cdn_dp_encoder_atomic_check,
+ };
+ 
++static const struct drm_bridge_funcs cdn_dp_bridge_funcs = {
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset = drm_atomic_helper_bridge_reset,
++	.detect = cdn_dp_bridge_detect,
++	.edid_read = cdn_dp_connector_edid_read,
++	.atomic_enable = cdn_dp_bridge_atomic_enable,
++	.atomic_disable = cdn_dp_bridge_atomic_disable,
++	.mode_valid = cdn_dp_bridge_mode_valid,
++	.hpd_notify = cdn_dp_hpd_notify,
++};
++
+ static int cdn_dp_parse_dt(struct cdn_dp_device *dp)
+ {
+ 	struct device *dev = dp->dev;
+@@ -859,7 +857,7 @@ static int cdn_dp_audio_get_eld(struct device *dev, void *data,
+ {
+ 	struct cdn_dp_device *dp = dev_get_drvdata(dev);
+ 
+-	memcpy(buf, dp->connector.eld, min(sizeof(dp->connector.eld), len));
++	memcpy(buf, dp->connector->eld, min(sizeof(dp->connector->eld), len));
+ 
+ 	return 0;
+ }
+@@ -1006,7 +1004,6 @@ static void cdn_dp_pd_event_work(struct work_struct *work)
+ 
+ out:
+ 	mutex_unlock(&dp->lock);
+-	drm_connector_helper_hpd_irq_event(&dp->connector);
+ }
+ 
+ static int cdn_dp_pd_event(struct notifier_block *nb,
+@@ -1030,7 +1027,6 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct cdn_dp_device *dp = dev_get_drvdata(dev);
+ 	struct drm_encoder *encoder;
+-	struct drm_connector *connector;
+ 	struct cdn_dp_port *port;
+ 	struct drm_device *drm_dev = data;
+ 	int ret, i;
+@@ -1053,6 +1049,15 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
+ 							     dev->of_node);
+ 	DRM_DEBUG_KMS("possible_crtcs = 0x%x\n", encoder->possible_crtcs);
+ 
++	/*
++	 * If we failed to find the CRTC(s) which this encoder is
++	 * supposed to be connected to, it's because the CRTC has
++	 * not been registered yet. Defer probing, and hope that
++	 * the required CRTC is added later.
++	 */
++	if (encoder->possible_crtcs == 0)
++		return -EPROBE_DEFER;
++
+ 	ret = drm_simple_encoder_init(drm_dev, encoder,
+ 				      DRM_MODE_ENCODER_TMDS);
+ 	if (ret) {
+@@ -1062,26 +1067,31 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	drm_encoder_helper_add(encoder, &cdn_dp_encoder_helper_funcs);
+ 
+-	connector = &dp->connector;
+-	connector->polled = DRM_CONNECTOR_POLL_HPD;
+-	connector->dpms = DRM_MODE_DPMS_OFF;
++	dp->bridge.driver_private = dp;
++	dp->bridge.funcs = &cdn_dp_bridge_funcs;
++	dp->bridge.ops = DRM_BRIDGE_OP_DETECT |
++			   DRM_BRIDGE_OP_EDID |
++			   DRM_BRIDGE_OP_HPD;
++	dp->bridge.of_node = dp->dev->of_node;
++	dp->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+ 
+-	ret = drm_connector_init(drm_dev, connector,
+-				 &cdn_dp_atomic_connector_funcs,
+-				 DRM_MODE_CONNECTOR_DisplayPort);
+-	if (ret) {
+-		DRM_ERROR("failed to initialize connector with drm\n");
+-		goto err_free_encoder;
+-	}
++	ret = devm_drm_bridge_add(dev, &dp->bridge);
++	if (ret)
++		return ret;
+ 
+-	drm_connector_helper_add(connector, &cdn_dp_connector_helper_funcs);
++	ret = drm_bridge_attach(encoder, &dp->bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++	if (ret)
++		return ret;
+ 
+-	ret = drm_connector_attach_encoder(connector, encoder);
+-	if (ret) {
+-		DRM_ERROR("failed to attach connector and encoder\n");
+-		goto err_free_connector;
++	dp->connector = drm_bridge_connector_init(drm_dev, encoder);
++	if (IS_ERR(dp->connector)) {
++		ret = PTR_ERR(dp->connector);
++		dev_err(dp->dev, "failed to init bridge connector: %d\n", ret);
++		return ret;
+ 	}
+ 
++	drm_connector_attach_encoder(dp->connector, encoder);
++
+ 	for (i = 0; i < dp->ports; i++) {
+ 		port = dp->port[i];
+ 
+@@ -1092,7 +1102,7 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
+ 		if (ret) {
+ 			DRM_DEV_ERROR(dev,
+ 				      "register EXTCON_DISP_DP notifier err\n");
+-			goto err_free_connector;
++			return ret;
+ 		}
+ 	}
+ 
+@@ -1101,24 +1111,15 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
+ 	schedule_work(&dp->event_work);
+ 
+ 	return 0;
+-
+-err_free_connector:
+-	drm_connector_cleanup(connector);
+-err_free_encoder:
+-	drm_encoder_cleanup(encoder);
+-	return ret;
+ }
+ 
+ static void cdn_dp_unbind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct cdn_dp_device *dp = dev_get_drvdata(dev);
+ 	struct drm_encoder *encoder = &dp->encoder.encoder;
+-	struct drm_connector *connector = &dp->connector;
+ 
+ 	cancel_work_sync(&dp->event_work);
+-	cdn_dp_encoder_disable(encoder);
+ 	encoder->funcs->destroy(encoder);
+-	connector->funcs->destroy(connector);
+ 
+ 	pm_runtime_disable(dev);
+ 	if (dp->fw_loaded)
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.h b/drivers/gpu/drm/rockchip/cdn-dp-core.h
+index 17498f576ce7..d2778f7a5b31 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.h
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.h
+@@ -8,6 +8,8 @@
+ #define _CDN_DP_CORE_H
+ 
+ #include <drm/display/drm_dp_helper.h>
++#include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_probe_helper.h>
+ #include <sound/hdmi-codec.h>
+@@ -65,7 +67,8 @@ struct cdn_dp_port {
+ struct cdn_dp_device {
+ 	struct device *dev;
+ 	struct drm_device *drm_dev;
+-	struct drm_connector connector;
++	struct drm_bridge bridge;
++	struct drm_connector *connector;
+ 	struct rockchip_encoder encoder;
+ 	struct drm_display_mode mode;
+ 	struct platform_device *audio_pdev;
+-- 
+2.49.0
+
