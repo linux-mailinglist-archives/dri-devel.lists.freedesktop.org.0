@@ -2,80 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15224AAEC3A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 21:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67053AAEC49
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 21:39:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24B8610E1C9;
-	Wed,  7 May 2025 19:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B751E10E1B1;
+	Wed,  7 May 2025 19:39:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qHnAscmp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IpNghWlK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2235B10E1C9
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 19:35:43 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-5499af0cecdso30533e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 12:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746646541; x=1747251341; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mBGWEaSSPZ+Q97XJTP872I0ALcCOso1Sz1JLgKAI3qc=;
- b=qHnAscmppi5wR6ajT+fpk2jRHZIRunfcPGPF8O7T6yhiZytUX04vhAutbdhycVg2Wp
- c1UrrYAhxsVL7GOix7Ka9qF9ftjQemiFp4ivCU0ZZ0NlbK+l4RYTChjOLa8uH6PwiM7Y
- zqmNbosprlDApWJgr6G3vT8ePqzP0ZVnxLRjZl0Yx3zSS9kCFTvGZ98nkjor0ZxASkde
- o+ZkSmCrcV9Mqd67TTed04XWeHJIM/78zyIYdKkYd7QLGbXBnyth99KMl1FQkgY986Q5
- V+gTDeNBllTT+e8Ao4663USrImR187t67w8RMjbzU6EYxY9oEzXw9RTMlX3gUsV32nd6
- xokA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746646541; x=1747251341;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mBGWEaSSPZ+Q97XJTP872I0ALcCOso1Sz1JLgKAI3qc=;
- b=SZ2UGdgTr1wbL+WH4/GkjeUfsqCTDR2d1d3K7AvIRFTOhlEGYd2dUsSYOHE64aF30k
- VkmvX84qy1jaeX6pj1tQLEzNuNL7eJYeh/+h9vPXja5gwBFFamqqy78c/57ek2SNOXq6
- L3DL0zmPB8HinJsyCApML7W9FktazMjLLrGsWAiLkh9DhrG0CMPTjToC/ageSZJdqEfg
- I4wIixiqX14z4j1zihEn9y2ZV4lLbJGvcY5hDcuT3TbNXiBfRjtw7t3gUgsAS69M/wPo
- epwyh4+CdrQ3m0AptjSODKRHt9bPrRvu+1POPrb900Dyz1cNhZ2nPdaUWrE/9DyfFl67
- 3PYg==
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6D710E1B1;
+ Wed,  7 May 2025 19:39:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 93EDCA4DCC2;
+ Wed,  7 May 2025 19:39:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38DBAC4AF0C;
+ Wed,  7 May 2025 19:39:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1746646757;
+ bh=Vj9qOb5V3uxpmd9UqB7cYHTOrTQy5HFXlYEkJmL+5+E=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=IpNghWlKls3jjaaEFPFkYL42YYvTdZEdW59H4+K1InQZFesjCDQ2NS5yLN6DJ4qQr
+ 3aEatFPFtdEOCpJ3gWYcCHdx+7JpKw+jX+q6zSIBMIqz2tWSLuSgvZcNjTnx8VzOwZ
+ qoFgSmTFyJEMUdWKw9UlFMG81CIjwaCSoXGe0VGbzNRQ+hMmggzqcQCEWWN8Ug4lOg
+ U5QWbwtI2lC57yIuxHbe4l5BSBU94Z2VtCuhXv0o0i5FVG2NFZyxyNYAiQ+OBDv4X2
+ mBLC3lHDXJxTxcIoQGynFkHIfz4ak8A+/Voa2TZnb5+VWCKnhJ4iSXHBlGICLM9Xoq
+ +0u0UdRrkvhqw==
+Received: by mail-oa1-f53.google.com with SMTP id
+ 586e51a60fabf-2cca475546fso185745fac.1; 
+ Wed, 07 May 2025 12:39:17 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCU1PEHmyYC/sThZDOHvtGifgUY7Mht10EIJVoDbfbXHrwswdx7lVudb2dVHMs3gbEzoF123/dU4Ejw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwY2gJyt/xi3ZGRxO6W7lQjy0E8F9DWNKh95sslKm8yzspFUKUF
- 1pmaUPZlgaJ04KXbvhTzDXdr0ZunpZUJYoVOo4ThUsmNgRp0ExKmkwasAn9+B2E=
-X-Gm-Gg: ASbGnctv296jON+Hl2cnNDvwrAsfsmsm579rEoxLbbOtJktr+300emwQ3ObJn4kO5DJ
- 0M3ePwgh9TJT4XvIBJUDk1bwE/AU1eC2D84x0vM5y3ScAvRtaLzTVOzpB6czJNWr6GB/hbjlyOw
- Y3czTPSnNu0U5yIVDCgPeu7ZJbG5B4XlShlbi1hH9YMUi6NoKHAgZ7l2aQD/JMPc98nElV3wUuQ
- DkOmbJCWHDURjoCN44Puuiow5iPwnnPWbBdPuKIzUC1MjmwntBMiYOqRm2HlkDG8Wz0LhR51OYE
- DXYWPc/fDeQB3GBZM3137CRbPkOdZwqFHXfjkDu4UmyQjKLhA8zBIZBf+KCsISPc/u7eabqfXqX
- nJ3cBdt3HzCgHKXBQ3zT2W0Dqhnn2Ww==
-X-Google-Smtp-Source: AGHT+IHtds5bXFRbjMaPBJlpofIW978QDvrZvNl3nQjdXjulUScc7U1SYUPoyT7fCQI/v3vFhasjCw==
-X-Received: by 2002:a05:6512:3c86:b0:54b:117b:bdba with SMTP id
- 2adb3069b0e04-54fb965209amr591699e87.16.1746646541125; 
- Wed, 07 May 2025 12:35:41 -0700 (PDT)
-Received: from localhost.localdomain (88-112-131-206.elisa-laajakaista.fi.
- [88.112.131.206]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ea94ee00fsm2432066e87.120.2025.05.07.12.35.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 May 2025 12:35:40 -0700 (PDT)
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH] drm/msm: mdss: use devres version of interface to populate
- children devices
-Date: Wed,  7 May 2025 22:35:38 +0300
-Message-ID: <20250507193538.2140862-1-vladimir.zapolskiy@linaro.org>
-X-Mailer: git-send-email 2.45.2
+ AJvYcCUcNUnOUpXuf1u6EzOuGl5RgHsGTtlOTg6I7qB5r29UjlhEBcCUj1CJ/TffqLz342cBcKauM9SSSQW6@lists.freedesktop.org,
+ AJvYcCXYlBbh8nRZnU+pH01HJCtyupajb1/CaupeutF4lNN+xIFXSSkG8pkXR/CxftkA4OaotlCtQcf9@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz2ptVCEwwcO3a4b/RQmard03iaAbOHdMU+RRjbzwWwJQVVMk5p
+ RMvgyjV82kCEPk4AN2NrqTQtqJfSwkB0cYoy6fTvvLsKWxBJDIa//DVdxHUbCbQcTppuLFNhfvC
+ ZPDOcaoku3ec+3jc+A706iuIJpR4=
+X-Google-Smtp-Source: AGHT+IGo/W4JOA+eogKjcZX0SbjnfgMZPqFNNbTthgE5/frrNaxzGLSk/pg5gWwpOI6EYLJKtSZD+5ed0ZRsjc4fNfM=
+X-Received: by 2002:a05:6870:458e:b0:2b7:d3d2:ba53 with SMTP id
+ 586e51a60fabf-2db5be3985amr2628749fac.12.1746646756509; Wed, 07 May 2025
+ 12:39:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250501211734.2434369-1-superm1@kernel.org>
+ <20250501211734.2434369-3-superm1@kernel.org>
+ <CAJZ5v0jwO9nv+mnuHy7fbdf4rNW1VW-zLp611ywppzFt3vzy1w@mail.gmail.com>
+ <98d527c6-a185-40f9-8ce3-46f5d7a67e81@kernel.org>
+In-Reply-To: <98d527c6-a185-40f9-8ce3-46f5d7a67e81@kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 7 May 2025 21:39:05 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0i=9fpg2YxJhd+2rAx1gkqaquoExHvgMiFefn6YqVieOA@mail.gmail.com>
+X-Gm-Features: ATxdqUGguP0YKc2QUBS1pUWeH6IHkczf8OMk4tYV33yVjmY5Obs12eo-MvEh4X0
+Message-ID: <CAJZ5v0i=9fpg2YxJhd+2rAx1gkqaquoExHvgMiFefn6YqVieOA@mail.gmail.com>
+Subject: Re: [RFC 2/2] drm/amd: Use suspend and hibernate post freeze
+ notifications
+To: Mario Limonciello <superm1@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
+ "open list:HIBERNATION (aka Software Suspend,
+ aka swsusp)" <linux-pm@vger.kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,36 +82,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Trivial change, there is a managed device resource version of
-of_platform_populate(), and its usage simplifies the code a bit.
+On Wed, May 7, 2025 at 9:17=E2=80=AFPM Mario Limonciello <superm1@kernel.or=
+g> wrote:
+>
+> On 5/7/2025 2:14 PM, Rafael J. Wysocki wrote:
+> > On Thu, May 1, 2025 at 11:17=E2=80=AFPM Mario Limonciello <superm1@kern=
+el.org> wrote:
+> >>
+> >> From: Mario Limonciello <mario.limonciello@amd.com>
+> >>
+> >> commit 2965e6355dcd ("drm/amd: Add Suspend/Hibernate notification
+> >> callback support") introduced a VRAM eviction earlier in the PM
+> >> sequences when swap was still available for evicting to. This helped
+> >> to fix a number of memory pressure related bugs but also exposed a
+> >> new one.
+> >>
+> >> If a userspace process is actively using the GPU when suspend starts
+> >> then a deadlock could occur.
+> >>
+> >> Instead of going off the prepare notifier, use the PM notifiers that
+> >> occur after processes have been frozen to do evictions.
+> >>
+> >> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4178
+> >> Fixes: 2965e6355dcd ("drm/amd: Add Suspend/Hibernate notification call=
+back support")
+> >> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> >> ---
+> >>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++--
+> >>   1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_device.c
+> >> index 7f354cd532dc1..cad311b9fd834 100644
+> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> >> @@ -4917,10 +4917,10 @@ static int amdgpu_device_pm_notifier(struct no=
+tifier_block *nb, unsigned long mo
+> >>          int r;
+> >>
+> >>          switch (mode) {
+> >> -       case PM_HIBERNATION_PREPARE:
+> >> +       case PM_HIBERNATION_POST_FREEZE:
+> >>                  adev->in_s4 =3D true;
+> >>                  fallthrough;
+> >> -       case PM_SUSPEND_PREPARE:
+> >> +       case PM_SUSPEND_POST_FREEZE:
+> >>                  r =3D amdgpu_device_evict_resources(adev);
+> >>                  /*
+> >>                   * This is considered non-fatal at this time because
+> >> --
+> >
+> > Why do you need a notifier for this?
+> >
+> > It looks like this could be done from amdgpu_device_prepare(), but if
+> > there is a reason why it cannot be done from there, it should be
+> > mentioned in the changelog.
+>
+> It's actually done in amdgpu_device_prepare() "as well" already, but the
+> reason that it's being done earlier is because swap still needs to be
+> available, especially with heavy memory fragmentation.
 
-Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
----
- drivers/gpu/drm/msm/msm_mdss.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Swap should be still available when amdgpu_device_prepare() runs.
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index dcb49fd30402..116e8f93f8c8 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -550,7 +550,7 @@ static int mdss_probe(struct platform_device *pdev)
- 	 * Populate the children devices, find the MDP5/DPU node, and then add
- 	 * the interfaces to our components list.
- 	 */
--	ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
-+	ret = devm_of_platform_populate(dev);
- 	if (ret) {
- 		DRM_DEV_ERROR(dev, "failed to populate children devices\n");
- 		msm_mdss_destroy(mdss);
-@@ -564,8 +564,6 @@ static void mdss_remove(struct platform_device *pdev)
- {
- 	struct msm_mdss *mdss = platform_get_drvdata(pdev);
- 
--	of_platform_depopulate(&pdev->dev);
--
- 	msm_mdss_destroy(mdss);
- }
- 
--- 
-2.45.2
+> I'll add more detail about this to the commit for the next spin if
+> you're relatively happy with the new notifier from the first patch.
 
+I need to have a look at it, but adding it for just one user seems a
+bit over the top.  I'd prefer to avoid doing this.
