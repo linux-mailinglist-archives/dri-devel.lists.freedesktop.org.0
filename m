@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78181AADC22
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 12:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D084AADC56
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 12:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6387810E173;
-	Wed,  7 May 2025 10:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3763010E781;
+	Wed,  7 May 2025 10:16:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H4G3eW3P";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="OXelZtoO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8CCA10E091;
- Wed,  7 May 2025 10:04:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746612253; x=1778148253;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=sZ+DCx9Gh68SB+Pf/udrSMg0HhA+/2KMuYFbIKxKEKM=;
- b=H4G3eW3P2E9zJQGanqR7a2vRteH8N6YSlffXK/Qz7B5/au908ICm6Maj
- CRqDTias0lkODX+wxSfil6S9z9W5CCczmmDG8R5mMlYmTFlY7AuvzDAFa
- yCorFQh2cMW+q0Tj40S8VlUe8xrgFfjw5PkSnlMUQCGOF6G4/RbMBZBkG
- Nqzyauqx8X3vbZjoLcLGZ4xn+haN44O3Fl8eg8elsAsXSVtfK8k1wt7Qf
- WViqAQoLYGlH+Lik03fcBSczvdqrbLT2yR840k7W0aFETZHW5bsgHR9E1
- 4q8AjiOG5JRpv2LIhBLi4xVmwKXjymEInb33mu9h+cdqGiUgsnr+blZfJ Q==;
-X-CSE-ConnectionGUID: lLmYiE/5RSGx1Dc17DDG3A==
-X-CSE-MsgGUID: S/2dFoxIR1KVIR/PIYXDVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="52148009"
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; d="scan'208";a="52148009"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2025 03:04:12 -0700
-X-CSE-ConnectionGUID: 9SUiBLR1QnKIwcFHAxqI8w==
-X-CSE-MsgGUID: lEe6xJ8pTyO7rSxlMZBh3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; d="scan'208";a="136841552"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
- by orviesa008.jf.intel.com with ESMTP; 07 May 2025 03:04:05 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uCbdC-0007Yo-1X;
- Wed, 07 May 2025 10:04:02 +0000
-Date: Wed, 7 May 2025 18:03:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, wayland-devel@lists.freedesktop.org,
- harry.wentland@amd.com, alex.hung@amd.com, leo.liu@amd.com,
- ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
- contact@emersion.fr, mwen@igalia.com, jadahl@redhat.com,
- sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com,
- aleixpol@kde.org, xaver.hugl@gmail.com, victoria@system76.com,
- daniel@ffwll.ch, uma.shankar@intel.com, quic_naseer@quicinc.com,
- quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
- marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
- chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com,
- Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH V9 15/43] drm/vkms: Add kunit tests for linear and sRGB
- LUTs
-Message-ID: <202505071750.LFUxqdSH-lkp@intel.com>
-References: <20250430011115.223996-16-alex.hung@amd.com>
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1E710E781
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 10:16:13 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 547AFwKh1482916
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 7 May 2025 05:15:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1746612958;
+ bh=MSoKZLDtkshAQiH9jnNrWiWdA3sNLQE3PRL9Jx3E6hQ=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=OXelZtoOtf0UShakv84/pHsvPpibNLdx3CWDgOBsXz2ctR7m43AzdUklY5I76O7JE
+ 6LPyiJwSboj2yqmGIfD7CfpcHzoRE8uXRZ7pXwRG2+SuLyaYQUkifthflGaA80fSB1
+ 6A3lSiLU/Omf8YX5rCt995yFhRXuD8bM5XZskjKc=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 547AFwq7020259
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 7 May 2025 05:15:58 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 7
+ May 2025 05:15:57 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 7 May 2025 05:15:57 -0500
+Received: from [10.24.72.182] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
+ [10.24.72.182])
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 547AFq2r105573;
+ Wed, 7 May 2025 05:15:53 -0500
+Message-ID: <68f0c5ef-ac51-4652-b829-2bc56c5a75c8@ti.com>
+Date: Wed, 7 May 2025 15:45:52 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250430011115.223996-16-alex.hung@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/bridge: ti-sn65dsi86: Use HPD in a DP use case
+To: Max Krummenacher <max.oss.09@gmail.com>, Doug Anderson
+ <dianders@chromium.org>
+CC: <max.krummenacher@toradex.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20250501074805.3069311-1-max.oss.09@gmail.com>
+ <CAD=FV=W=NjbM9ZXLw7gH-_4CnpU7QU=sKCVQVxgmgP-Qpt-3hg@mail.gmail.com>
+ <aBo8elFPYgPleK5n@toolbox>
+Content-Language: en-US
+From: Jayesh Choudhary <j-choudhary@ti.com>
+In-Reply-To: <aBo8elFPYgPleK5n@toolbox>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,41 +82,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
+Hello Max,
 
-kernel test robot noticed the following build errors:
+On 06/05/25 22:14, Max Krummenacher wrote:
+> On Thu, May 01, 2025 at 08:38:15PM -0700, Doug Anderson wrote:
+>> Hi,
+>>
+>> On Thu, May 1, 2025 at 12:48 AM <max.oss.09@gmail.com> wrote:
+>>>
+>>> From: Max Krummenacher <max.krummenacher@toradex.com>
+>>>
+>>> The bridge driver currently disables handling the hot plug input and
+>>> relies on a always connected eDP panel with fixed delays when the
+>>> panel is ready.
+>>
+>> Not entirely correct. In some cases we don't have fixed delays and
+>> instead use a GPIO for HPD. That GPIO gets routed to the eDP panel
+>> code.
+> 
+> Will reword in a v2
+> 
+>>
+>>
+>>> If one uses the bridge for a regular display port monitor this
+>>> assumption is no longer true.
+>>> If used with a display port monitor change to keep the hot plug
+>>> detection functionality enabled and change to have the bridge working
+>>> during runtime suspend to be able to detect the connection state.
+>>>
+>>> Note that if HPD_DISABLE is set the HPD bit always returns connected
+>>> independent of the actual state of the hot plug pin. Thus
+>>> currently bridge->detect() always returns connected.
+>>
+>> If that's true, it feels like this needs:
+>>
+>> Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge
+>> connector operations for DP")
+>>
+>> ...and it would be nice to get Laurent to confirm. Seems weird that he
+>> wouldn't have noticed that.
+> 
+> I retested by adding a print in ti_sn_bridge_detect().
+> With the HPD_DISABLE bit set the HPD_DEBOUNCED_STATE is always true
+> resulting in reporting always connected.
+> 
+> When one does not set the HPD_DISABLE bit and is in runtime suspend
+> (i.e. detect() enables the bridge with its call to
+> pm_runtime_get_sync() ) then the HPD_DEBOUNCED_STATE is only set
+> after the debounce time. As it is immediately read here detect()
+> always reports disconnected.
+> 
 
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on next-20250507]
-[cannot apply to linus/master v6.15-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I have same observations on my end.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Hung/drm-Add-helper-for-conversion-from-signed-magnitude/20250430-092409
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250430011115.223996-16-alex.hung%40amd.com
-patch subject: [PATCH V9 15/43] drm/vkms: Add kunit tests for linear and sRGB LUTs
-config: x86_64-randconfig-073-20250502 (https://download.01.org/0day-ci/archive/20250507/202505071750.LFUxqdSH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071750.LFUxqdSH-lkp@intel.com/reproduce)
+>>
+>>
+>>> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+>>>
+>>> ---
+>>>
+>>>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 13 +++++++++++--
+>>>   1 file changed, 11 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>>> index 01d456b955ab..c7496bf142d1 100644
+>>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>>> @@ -333,9 +333,11 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
+>>>           * If HPD somehow makes sense on some future panel we'll have to
+>>>           * change this to be conditional on someone specifying that HPD should
+>>>           * be used.
+>>> +        * Only disable HDP if used for eDP.
+>>>           */
+>>> -       regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
+>>> -                          HPD_DISABLE);
+>>> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_eDP)
+>>> +               regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
+>>> +                                  HPD_DISABLE, HPD_DISABLE);
+>>>
+>>>          pdata->comms_enabled = true;
+>>>
+>>> @@ -357,6 +359,10 @@ static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
+>>>          struct ti_sn65dsi86 *pdata = dev_get_drvdata(dev);
+>>>          int ret;
+>>>
+>>> +       if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort &&
+>>> +           pdata->comms_enabled)
+>>> +               return 0;
+>>> +
+>>
+>> I don't understand this part of the patch. You're basically making
+>> suspend/resume a no-op for the DP case? I don't think that's right...
+> 
+> That is what I wanted to do as nothing else worked ...
+> Probably there are better solutions.
+> 
+>>
+>> First, I don't _think_ you need it, right? ...since "detect" is
+>> already grabbing the pm_runtime reference this shouldn't be needed
+>> from a correctness point of view.
+> 
+> Correct, it shouldn't. However if the bridge is coming out of
+> powerup/reset then we have to wait the debounce time time to get the
+> current state of HPD. The bridge starts with disconnected and only
+> sets connected after it seen has the HPD pin at '1' for the debounce
+> time.
+> 
+> Adding a 400ms sleep would fix that.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071750.LFUxqdSH-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+While adding this delay fixes the detect issue, it could lead to other
+problems.
+Detect hook is called every 10 sec and considering that, 400ms is a
+considerable amount of time. And it could cause performance issues like
+frame drops and glitches in display.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/tests/slub_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
->> ERROR: modpost: "srgb_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
->> ERROR: modpost: "srgb_inv_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
->> ERROR: modpost: "linear_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
+For 1920x1080@60fps resolution, when I run weston application, I see
+around ~24 frames being dropped every 10 sec with visual glitch in
+display. This seems consistent with 400ms delay for 60fps or 16.67ms per
+frame (24*16.67ms).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+root@j784s4-evm:~# weston-simple-egl
+libEGL warning: MESA-LOADER: failed to open tidss: 
+/usr/lib/dri/tidss_dri.so: cannot open shared object file: No such file 
+or directory (search paths /usr/lib/dri, suffix _dri)
+
+276 frames in 5 seconds: 55.200001 fps
+301 frames in 5 seconds: 60.200001 fps
+277 frames in 5 seconds: 55.400002 fps
+301 frames in 5 seconds: 60.200001 fps
+277 frames in 5 seconds: 55.400002 fps
+301 frames in 5 seconds: 60.200001 fps
+277 frames in 5 seconds: 55.400002 fps
+301 frames in 5 seconds: 60.200001 fps
+277 frames in 5 seconds: 55.400002 fps
+301 frames in 5 seconds: 60.200001 fps
+277 frames in 5 seconds: 55.400002 fps
+301 frames in 5 seconds: 60.200001 fps
+278 frames in 5 seconds: 55.599998 fps
+^Csimple-egl exiting
+root@j784s4-evm:~#
+
+>>
+>> Second, if you're looking to eventually make the interrupt work, I
+>> don't think this is the right first step. I think in previous
+>> discussions about this it was agreed that if we wanted the interrupt
+>> to work then we should just do a "pm_runtime_get_sync()" before
+>> enabling the interrupt and then a "pm_runtime_put()" after disabling
+>> it. That'll keep things from suspending.
+> 
+> The HW I use doesn't has the interrupt pin connected. So for me that is
+> out of scope but should of course work.
+> 
+>>
+>> Does that sound correct, or did I goof up on anything?
+> 
+> If I remove disabling suspend/resume and fix detect() to report the
+> 'correct' HPD state in both runtime pm states I now get another issue
+> after disconnecting and then reconnecting the monitor:
+> 
+> [   50.035964] ti_sn65dsi86 3-002c: [drm:ti_sn_bridge_atomic_enable [ti_sn65dsi86]] *ERROR* Can't read lane count (-110); assuming 4
+> [   50.212976] ti_sn65dsi86 3-002c: [drm:ti_sn_bridge_atomic_enable [ti_sn65dsi86]] *ERROR* Can't read eDP rev (-110), assuming 1.1
+> [   50.389802] ti_sn65dsi86 3-002c: [drm:ti_sn_bridge_atomic_enable [ti_sn65dsi86]] *ERROR* Can't read max rate (-110); assuming 5.4 GHz
+> [   50.686572] ti_sn65dsi86 3-002c: [drm:ti_sn_bridge_atomic_enable [ti_sn65dsi86]] *ERROR* Link training failed, link is off (-5)
+> 
+> monitor stays black without signals.
+> 
+> So it seems the bridges internal state is not completely restored by
+> the current code. Looking into that now.
+> 
+
+I have seen such link training failures occasionally when the
+display connector is not connected but the state is not reflected
+correctly.
+Maybe it could be attributed to long polling duration???
+Are you observing it even on re-runs?
+
+
+>> -Doug
+> 
+> Regards
+> Max
+
+
+Warm Regards,
+Jayesh
