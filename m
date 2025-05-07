@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50E0AAECCF
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 22:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDD8AAECD7
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 22:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77A3110E89A;
-	Wed,  7 May 2025 20:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E87610E89F;
+	Wed,  7 May 2025 20:22:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XL02wCEm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PDMoa9lL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
- [209.85.210.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73B0310E892
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 20:22:31 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id
- 46e09a7af769-731e277a6b0so188872a34.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 13:22:31 -0700 (PDT)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
+ [209.85.210.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30EB710E89A
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 20:22:32 +0000 (UTC)
+Received: by mail-ot1-f50.google.com with SMTP id
+ 46e09a7af769-72c09f8369cso98915a34.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 13:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746649350; x=1747254150; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746649351; x=1747254151; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6ECm4vsoW+32S8jcl8nf2NLWmke5G4xraIMQjtb0TqM=;
- b=XL02wCEmfnsfaWoItkfioD7TVQEp4vrzEw3HcpHnYaC1W6EYiEGAEP0jXE4dG+emff
- ebJ/auW9r/9y7h3+sHpB9rwNGXte2Z38V1155oKCVvwOUnEcio3eRTaM2rugWQNN0DdC
- PPmMuP5Hr4vmDo+X3la/lBBVSuorwNxKgIs9liPJxIPzoVxjj937wYtZQbCWxhLz+adx
- MTPVrth9SePpRb8zW5HKs2f8jCzUcbzGwm+8oo0A6xGW1IZVdBCRyFr/jmnfaXVjnnqH
- 4NsI7PNm1hNdzHfeUlR9B8QO6N6BcEcPTG4z27oHm0F2HYDEd0Cc8YoKxwNNA9XKEo9v
- xMNg==
+ bh=d6UX68KruPGnR61q1oninfcr4e5yK5hNeU8tagVAmo0=;
+ b=PDMoa9lLlE+2denUYKNyaxdXCFRgZ8G7JclC5m6lxJb/k2LvwC+wUm46HgsrCfOb0V
+ 4ng1uh4LUlyud3+0AvvlKB5/hvQqWRC6SA5B84K710tUnlhGWxf6O80wbszG4EenuHZL
+ IQjanNvHm5HdeOTU54eQsUgh21AhaBhqALjrWhrAeVpCLkaA04vsR2vw8yy70b/Z5o4+
+ hpiB6NadjajuM4HRMPhzrXqlgBuQlECZ5TP7e+d6e8B5C/jpKM104hMMJ0NehfQ7wqBy
+ MNI8z7tE0XLVefQT0POX4o6Eaa3oXnvJzIE6g0wYoUZEAs5JMsJ3DAhrL4BU2zMBBIC4
+ XbRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746649350; x=1747254150;
+ d=1e100.net; s=20230601; t=1746649351; x=1747254151;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6ECm4vsoW+32S8jcl8nf2NLWmke5G4xraIMQjtb0TqM=;
- b=JXWkJtIfDT/+cR+7ChrT/OPbjvZO+uaCEvmB+eqmALLtbPfZVt0G0BRy3W7yxQqvHv
- PTfKsEeZa69DDQuyqu9JbKVn0u8xwqyM1Z3fDUcJ2Pw0YCqe/Gm1AwlNPCLOgUF4Nc++
- YVc1eZ7hAH4u1ooOoJQRRBsKtLAbi1epYRlKakD3mW+YDMfUiQMI4mhK4kEwZddmdT8q
- Ih/uAJEYr0/h8hItoi0hw7smEhmTx5gevJ7BYxpmNhmC0N53x5hWecJqj1PfzMvBXNqS
- AbiX8zsoe99k/gKsYagJtIR8pKrpszeiOxODPyMjbaNJh+J6f8SbNZ1AexutP01d2hkk
- SNgg==
+ bh=d6UX68KruPGnR61q1oninfcr4e5yK5hNeU8tagVAmo0=;
+ b=b5fWKpUizWrS8C/1wSbxdY1izCt+3H6xaa1RHrfGSFmpti65/slyrLloaO9yYs1pLb
+ 68/dPRq4XYkrR8FyMv99KchkiobZ7BUyBYFUi52xDWnXx9GcVKvK1ZqcAa4gAd1zT7Zr
+ Ou9JmnX4vbiXpDHu0y5hS35i9XAhdWlfR0w4EG8CBy9buSAEZa/kZvje57QeF2PaGfLt
+ BRcC9JsvWjABm7Zk0QNt6iepk/Ma6ntLR4ZRji+6f5nRDJwflo4htlkZSYfBKAoeYQig
+ s85AHKbFLatVLYefBBFMvJxgydX6gCBoQ5MqaFPWeRW04u5mIxCanhXOfCWRmhidU8/G
+ kjEQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWeQ2z/FicDxRN6kBlRQ2fuVCZGqKJ5VbmayVI5CL/LP4I41nbNJ5prWJ7/Zs4WpwSFUt2bkjEZ/gM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7gl4fII61vmVrOcw1F/dHU57Gpltht/p/9KbkG8NonZJpsFSG
- C4ynPDdYuwbxPF+KcHNkry+aeL+vEZVz49eGLJnRZ63ArA+SWjIP
-X-Gm-Gg: ASbGncsijVYjOQxjkihhbZmyKJEXnqe9iFyVJ8QRtGYNW6eJDZcz+kU8JyDXr/jWKaI
- eKTmE27spRvygVZ2FfBXBvzEozINyprn4YOJFDVd96pnnlG0dxOudyvfmzummgAB3/fzqrz/Tfp
- CrgG0loTUfCBKxT5YQPfA1KAvwvbvZqPoSp00ryvRYGbI4N96/S/LqLXqk2Qul450tjNlZvaOkG
- B23ezt9bLIz/SRxmqiRVQl81bnQkxl77woL7G1kqzfELoY3uR+cBMgcuaEcCEdFZVpGU3pemuYv
- VGFM6n7GEoAA1XTMBmqH1wrJ9Ndprs7mvZaSjSPmvDIky6PHuETQxhskXxx39Q3EVzZOTas=
-X-Google-Smtp-Source: AGHT+IFNYiTe2ivxn2BpZru44Mz+Cbpuh5GShVyQbiTzaZin9SYSI0N+J6lKKB11hGqcKOTRI24Jlw==
-X-Received: by 2002:a05:6830:3c8c:b0:72b:9bac:c044 with SMTP id
- 46e09a7af769-7321b9dc5dcmr559263a34.0.1746649350502; 
- Wed, 07 May 2025 13:22:30 -0700 (PDT)
+ AJvYcCW2k+juMakDHgk0DCtFuW8EJnDBwU9cVj5D5fL3WWLFx363X5ekldlfo6gKayqA/IMUxNlmsl1gbLU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx10j/ZlIY3YotaWbJi43+2i9u2E9BHslMTN0SogMl6dcFFfTVp
+ pyG0uoWQmrj0+xbSM8cU7YMIT3BK40DUO6inqnnX1j8p0rDJnCwM
+X-Gm-Gg: ASbGncuUUzRgt+DCUkKzeQRbXYPOuTxYBguI7tqqj0E10mymSSYrXG+az9JkPKFuq8Z
+ 2BN+cLcwD6C3LBWRfu+JaZ0x57PJQqRJmTw1JdFeqHY0PqGv83b3Hfp6v0BU8aSb4hJvGRB5RMp
+ E4sQxoznoIjnp5DulzfARqAv1B9isSNMoGEUWeAppmfvTmpsS4iK7t1QovmmIFkJk6inRWL5/MD
+ iAXzb8gXNBh+L3INVu1Fm0qcdwOxp4Cmhz7U8ecrGu/r4fCbRrcU52bAciXBXDIhBo0SQ6UgAuS
+ 4BuxodSQhoZ01R4Z7/i51EtXMDEnXobTddibrfts5s5yyzKYY3vChdmrezNt3GcsAMH53Ok=
+X-Google-Smtp-Source: AGHT+IGPGpn615U0r/Oli0xmd+gPDn6qmrBYBvqajhJLToKFTwGprcGZAZPK+hG5gePgwhRtCLZmSw==
+X-Received: by 2002:a05:6830:6216:b0:72c:3235:3b99 with SMTP id
+ 46e09a7af769-73210b11cb2mr3068146a34.19.1746649351312; 
+ Wed, 07 May 2025 13:22:31 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:fb0:1bcf:e46c:46ba:cecd:a52c])
  by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.29
+ 46e09a7af769-732109df2dcsm725945a34.9.2025.05.07.13.22.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 07 May 2025 13:22:30 -0700 (PDT)
 From: Chris Morgan <macroalpha82@gmail.com>
@@ -68,11 +68,11 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  tzimmermann@suse.de, maarten.lankhorst@linux.intel.com, simona@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, samuel@sholland.org,
  jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org,
- Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH V9 04/24] drm: sun4i: de2/de3: refactor mixer initialisation
-Date: Wed,  7 May 2025 15:19:23 -0500
-Message-ID: <20250507201943.330111-5-macroalpha82@gmail.com>
+ krzk+dt@kernel.org, robh@kernel.org
+Subject: [PATCH V9 05/24] drm: sun4i: de2/de3: add generic blender register
+ reference function
+Date: Wed,  7 May 2025 15:19:24 -0500
+Message-ID: <20250507201943.330111-6-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250507201943.330111-1-macroalpha82@gmail.com>
 References: <20250507201943.330111-1-macroalpha82@gmail.com>
@@ -95,132 +95,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Now that the DE variant can be selected by enum, take the oppportunity
-to factor out some common initialisation code to a separate function.
+The DE2 and DE3 engines have a blender register range within the
+mixer engine register map, whereas the DE33 separates this out into
+a separate display group.
+
+Prepare for this by adding a function to look the blender reference up,
+with a subsequent patch to add a conditional based on the DE type.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 ---
-Changelog v1..v2:
-- Combine base register allocation and initialisation in
-  sun8i_mixer_init
-- Whitespace fix
+ drivers/gpu/drm/sun4i/sun8i_mixer.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Changelog v4..v5:
-- Remove trailing whitespace
-
-Changelog v7..v8:
-- Remove CSC configuration changes (logically better placed with future
-  YUV support) making this the first patch in the series.
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 64 +++++++++++++++--------------
- 1 file changed, 34 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 2252bef19597..41815b42d6d2 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -425,6 +425,38 @@ static int sun8i_mixer_of_get_id(struct device_node *node)
- 	return of_ep.id;
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+index 7fe5ce20082a..43c413052a22 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+@@ -217,6 +217,12 @@ sun8i_blender_base(struct sun8i_mixer *mixer)
+ 	return mixer->cfg->de_type == sun8i_mixer_de3 ? DE3_BLD_BASE : DE2_BLD_BASE;
  }
  
-+static void sun8i_mixer_init(struct sun8i_mixer *mixer)
++static inline struct regmap *
++sun8i_blender_regmap(struct sun8i_mixer *mixer)
 +{
-+	unsigned int base = sun8i_blender_base(mixer);
-+	int plane_cnt, i;
-+
-+	/* Enable the mixer */
-+	regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_CTL,
-+		     SUN8I_MIXER_GLOBAL_CTL_RT_EN);
-+
-+	/* Set background color to black */
-+	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
-+		     SUN8I_MIXER_BLEND_COLOR_BLACK);
-+
-+	/*
-+	 * Set fill color of bottom plane to black. Generally not needed
-+	 * except when VI plane is at bottom (zpos = 0) and enabled.
-+	 */
-+	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
-+		     SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
-+	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0),
-+		     SUN8I_MIXER_BLEND_COLOR_BLACK);
-+
-+	plane_cnt = mixer->cfg->vi_num + mixer->cfg->ui_num;
-+	for (i = 0; i < plane_cnt; i++)
-+		regmap_write(mixer->engine.regs,
-+			     SUN8I_MIXER_BLEND_MODE(base, i),
-+			     SUN8I_MIXER_BLEND_MODE_DEF);
-+
-+	regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
-+			   SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
++	return mixer->engine.regs;
 +}
 +
- static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 			      void *data)
+ static inline u32
+ sun8i_channel_base(struct sun8i_mixer *mixer, int channel)
  {
-@@ -433,8 +465,6 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	struct sun4i_drv *drv = drm->dev_private;
- 	struct sun8i_mixer *mixer;
- 	void __iomem *regs;
--	unsigned int base;
--	int plane_cnt;
- 	int i, ret;
- 
- 	/*
-@@ -534,8 +564,6 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 
- 	list_add_tail(&mixer->engine.list, &drv->engine_list);
- 
--	base = sun8i_blender_base(mixer);
--
- 	/* Reset registers and disable unused sub-engines */
- 	if (mixer->cfg->de_type == sun8i_mixer_de3) {
- 		for (i = 0; i < DE3_MIXER_UNIT_SIZE; i += 4)
-@@ -551,7 +579,7 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 		regmap_write(mixer->engine.regs, SUN50I_MIXER_FMT_EN, 0);
- 		regmap_write(mixer->engine.regs, SUN50I_MIXER_CDC0_EN, 0);
- 		regmap_write(mixer->engine.regs, SUN50I_MIXER_CDC1_EN, 0);
--	} else {
-+	} else if (mixer->cfg->de_type == sun8i_mixer_de2) {
- 		for (i = 0; i < DE2_MIXER_UNIT_SIZE; i += 4)
- 			regmap_write(mixer->engine.regs, i, 0);
- 
-@@ -564,31 +592,7 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 		regmap_write(mixer->engine.regs, SUN8I_MIXER_DCSC_EN, 0);
- 	}
- 
--	/* Enable the mixer */
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_GLOBAL_CTL,
--		     SUN8I_MIXER_GLOBAL_CTL_RT_EN);
--
--	/* Set background color to black */
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
--		     SUN8I_MIXER_BLEND_COLOR_BLACK);
--
--	/*
--	 * Set fill color of bottom plane to black. Generally not needed
--	 * except when VI plane is at bottom (zpos = 0) and enabled.
--	 */
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
--		     SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
--	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0),
--		     SUN8I_MIXER_BLEND_COLOR_BLACK);
--
--	plane_cnt = mixer->cfg->vi_num + mixer->cfg->ui_num;
--	for (i = 0; i < plane_cnt; i++)
--		regmap_write(mixer->engine.regs,
--			     SUN8I_MIXER_BLEND_MODE(base, i),
--			     SUN8I_MIXER_BLEND_MODE_DEF);
--
--	regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
--			   SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
-+	sun8i_mixer_init(mixer);
- 
- 	return 0;
- 
 -- 
 2.43.0
 
