@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B889AAADFF8
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 15:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBDAAAE004
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 15:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31C4210E189;
-	Wed,  7 May 2025 13:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A57B10E7B1;
+	Wed,  7 May 2025 13:05:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="Lrq8f5y+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uatWKlfe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C7010E189
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 13:01:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1746622872; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Jmqa16Ur1k4TGVJwJ5Jr8bMd1zvpF+OpjhDa4DYiFav4Q7TYH/MP3VSQ53yCKCk9bMTGbZNpJgrT1x336sGtK7YEz6iiKlzmMO6bh0zvOaw/HUEddB9zk4pQlEsUsCnaMArJ6IkTS+//YsHrFQz4L4s1Y0ZHolA51eMLG20ro1Q=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1746622872;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=etfGEeB3wptSXvn0rn+APnfJAEebY6f8wB2UE6uH6e0=; 
- b=D+ctraB+1aTmoS+w7Vj/g3ZFHSkNn1UXq3l8/m5FWtfSuz92hi85qiBL4HT96dPPrhlltjnZogr7LdIFcUYAuTi7hxIb85tqNAQ8SpL+KRNMDuFCiacDBhmFwDApyONSeMDp+H/dPp+ODvyKstUZ8fUfhCIyw/dfVBvevPB94yw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746622872; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=etfGEeB3wptSXvn0rn+APnfJAEebY6f8wB2UE6uH6e0=;
- b=Lrq8f5y+ge4GZJdiBf+KeQCF3kz5NnNKj/swliG1NeNLFxbG5rmF5lm6i8F/1//9
- c1uI0yP/v0jE3WqvNZXETJ38V3RjRUc7tlfamf+i4taQaVA4hlDRUhAusgHsKjIPmdd
- aP6+KvUIAbdig7Es0eIWIYtMo/9zbaO3UpZzM80M=
-Received: by mx.zohomail.com with SMTPS id 1746622869837706.1113122905474;
- Wed, 7 May 2025 06:01:09 -0700 (PDT)
-Date: Wed, 7 May 2025 14:01:04 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- kernel@collabora.com, Rob Herring <robh@kernel.org>, 
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH 1/3] drm/panfrost: Add BO labelling to Panfrost
-Message-ID: <3mdoa5wslxmpp4jsjhtwgdkqqqjcovudy3ge45lye2i4eiruby@hpxkzhulpdvs>
-References: <20250424022138.709303-1-adrian.larumbe@collabora.com>
- <20250424022138.709303-2-adrian.larumbe@collabora.com>
- <20250506085453.0fbb5a02@collabora.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A886D10E192;
+ Wed,  7 May 2025 13:05:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id EA6B05C5BCB;
+ Wed,  7 May 2025 13:02:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA24C4CEE7;
+ Wed,  7 May 2025 13:05:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1746623112;
+ bh=cOphO8kdIIdjDJfxtzOIl/hmgUWGRqUT9UT27a8b/EE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uatWKlfenxOYO4eAFxV9xnzAZqD7v38oUoRy++yzo2iZcwvmcwFUVYDPdsfw2lyZH
+ 8FDJJxHGP5FVcjaZrNDHBDX6+dFGcMGi3ap85yRyVZjVspJe0MvmtoBCCSs2u2yd5D
+ f6N6Trmhb3Wpe1wfDYpvLIeulX+XS2XYOqi2HC8KD36hnSqtDz40QvPt9laljO8sF5
+ vz4F1PbarwAVh/tH/5MeYTa6xJRwNw0ksEHeLQ4W3qv9bwX6PHeljLpkOEdv29WZXF
+ RUxPX1XvuB0Yne8z8ZWe4EwKm+PvtH5KD3eQsrhFDcPlZj5g4AIQ69B85Itj1kLUYB
+ ilD7NjcAbOkjw==
+Date: Wed, 7 May 2025 15:05:07 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>, 
+ Gustavo Sousa <gustavo.sousa@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, 
+ Gnattu OC <gnattuoc@me.com>, Nitin Gote <nitin.r.gote@intel.com>, 
+ Ranu Maurya <ranu.maurya@intel.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ Angus Chen <angus.chen@intel.com>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>, 
+ Yu Jiaoliang <yujiaoliang@vivo.com>,
+ Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] drm/i915/gt: Remove const from struct i915_wa list
+ allocation
+Message-ID: <yafhn4afqcwki3mbcozixqa2xqcd5d7crbn6guyb5zlxt3z7h6@riboytoxpcp4>
+References: <20250426061357.work.749-kees@kernel.org>
+ <874iy8y0nz.fsf@intel.com> <202504301356.CB1EEC719@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250506085453.0fbb5a02@collabora.com>
+In-Reply-To: <202504301356.CB1EEC719@keescook>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,109 +74,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06.05.2025 08:54, Boris Brezillon wrote:
-> On Thu, 24 Apr 2025 03:21:30 +0100
-> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
->
-> > Unlike in Panthor, from where this change is based on, there is no need
-> > to support tagging of BO's other than UM-exposed ones, so all strings
-> > can be freed with kfree().
-> >
-> > This commit is done in preparation of a following one that will allow
-> > UM to set BO labels through a new ioctl().
-> >
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> > ---
-> >  drivers/gpu/drm/panfrost/panfrost_gem.c | 19 +++++++++++++++++++
-> >  drivers/gpu/drm/panfrost/panfrost_gem.h | 16 ++++++++++++++++
-> >  2 files changed, 35 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> > index 963f04ba2de6..a7a29974d8b1 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> > @@ -1,6 +1,7 @@
-> >  // SPDX-License-Identifier: GPL-2.0
-> >  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> >
-> > +#include <linux/cleanup.h>
-> >  #include <linux/err.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/dma-buf.h>
-> > @@ -35,6 +36,9 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
-> >  	 */
-> >  	WARN_ON_ONCE(!list_empty(&bo->mappings.list));
-> >
-> > +	kfree(bo->label.str);
-> > +	mutex_destroy(&bo->label.lock);
-> > +
-> >  	if (bo->sgts) {
-> >  		int i;
-> >  		int n_sgt = bo->base.base.size / SZ_2M;
-> > @@ -260,6 +264,7 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
-> >  	mutex_init(&obj->mappings.lock);
-> >  	obj->base.base.funcs = &panfrost_gem_funcs;
-> >  	obj->base.map_wc = !pfdev->coherent;
-> > +	mutex_init(&obj->label.lock);
-> >
-> >  	return &obj->base.base;
-> >  }
-> > @@ -302,3 +307,17 @@ panfrost_gem_prime_import_sg_table(struct drm_device *dev,
-> >
-> >  	return obj;
-> >  }
-> > +
-> > +void
-> > +panfrost_gem_set_label(struct drm_gem_object *obj, const char *label)
-> > +{
-> > +	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
-> > +	const char *old_label;
-> > +
-> > +	scoped_guard(mutex, &bo->label.lock) {
-> > +		old_label = bo->label.str;
-> > +		bo->label.str = label;
-> > +	}
-> > +
-> > +	kfree(old_label);
-> > +}
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> > index 7516b7ecf7fe..c0be2934f229 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> > @@ -41,6 +41,20 @@ struct panfrost_gem_object {
-> >  	 */
-> >  	size_t heap_rss_size;
-> >
-> > +	/**
-> > +	 * @label: BO tagging fields. The label can be assigned within the
-> > +	 * driver itself or through a specific IOCTL.
-> > +	 */
-> > +	struct {
-> > +		/**
-> > +		 * @label.str: Pointer to NULL-terminated string,
-> > +		 */
-> > +		const char *str;
-> > +
-> > +		/** @lock.str: Protects access to the @label.str field. */
-> > +		struct mutex lock;
-> > +	} label;
->
-> Can we do as we did in panthor, and put those fields in the debugfs
-> field.
+Hi,
 
-BO labelling fields must be present outside of DebugFS builds.
+On Wed, Apr 30, 2025 at 01:56:51PM -0700, Kees Cook wrote:
+> On Mon, Apr 28, 2025 at 02:40:16PM +0300, Jani Nikula wrote:
+> > On Fri, 25 Apr 2025, Kees Cook <kees@kernel.org> wrote:
+> > > In preparation for making the kmalloc family of allocators type aware,
+> > > we need to make sure that the returned type from the allocation matches
+> > > the type of the variable being assigned. (Before, the allocator would
+> > > always return "void *", which can be implicitly cast to any pointer type.)
+> > >
+> > > The assigned type is "struct i915_wa *". The returned type, while
+> > > technically matching, will be const qualified. As there is no general
+> > > way to remove const qualifiers, adjust the allocation type to match
+> > > the assignment.
+> > >
+> > > Signed-off-by: Kees Cook <kees@kernel.org>
 
-> +
->  	bool noexec		:1;
->  	bool is_heap		:1;
->  };
-> @@ -89,4 +103,6 @@ void panfrost_gem_teardown_mappings_locked(struct panfrost_gem_object *bo);
->  int panfrost_gem_shrinker_init(struct drm_device *dev);
->  void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
->
-> +void panfrost_gem_set_label(struct drm_gem_object *obj, const char *label);
-> +
->  #endif /* __PANFROST_GEM_H__ */
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
+...
 
-Adrian Larumbe
+> > for merging via whichever tree you find best; please let us know if you
+> > want us to pick this up via drm-intel.
+> 
+> I was figuring each subsystem would want these individually, so please
+> take this via drm-intel. (Or I can take it if you'd rather not.)
+
+Because I don't see this patch applied anywhere, and, given the
+file changed, I am merging it in drm-intel-gt-next.
+
+Andi
