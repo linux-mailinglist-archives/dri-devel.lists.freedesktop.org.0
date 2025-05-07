@@ -2,61 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504C4AAEA03
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 20:50:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA01DAAEB45
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 21:05:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F89A10E87E;
-	Wed,  7 May 2025 18:50:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9013110E1BB;
+	Wed,  7 May 2025 19:05:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QDyVncBg";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iNgXu4BQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5687410E0A4;
- Wed,  7 May 2025 18:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746643821; x=1778179821;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=hbTrkzuYgO0WIqOmrvzwc4BtyIbqvhMrSb9YlRWkvSY=;
- b=QDyVncBgQ2ZBt70XfSR/0WJwNMBjhgUkN2A0ZP2wpQkoQK/bjpCDB5Bn
- 7fBEv5210Us115GWrIQvSL+OVqw5WqHpknGHde+PzZ2kvttXKywtTUv1C
- loVvmf6Fk0LjsfhJg9OXJlm266ImQ3/suPLOZCrCpOJqEaz8lDgmIuRwY
- 64iJEZNvJULSpQf1yNuMSm5sYzGL/iPYz5I/bsuRw0linxPu/k/OFXo1R
- G6rBvmGogw24dmfT+z8uD3bictovTKCgw0r1z/nS0N/1Ku2dV3+tGJVTH
- y5FaHmCiZDTHZPj8X16jxEE4xVmHz2lZvhHDUge5x77rwUUwt36LTg4f0 g==;
-X-CSE-ConnectionGUID: eSQu7infR2eg9OrcVxiwKg==
-X-CSE-MsgGUID: LSuHlU0KTQOamCqENYQPrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48299895"
-X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; d="scan'208";a="48299895"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2025 11:50:20 -0700
-X-CSE-ConnectionGUID: MGUaRgehRGOh8mHxlWn5tw==
-X-CSE-MsgGUID: d8kI+zQxTl2R2src4j+DgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; d="scan'208";a="135753385"
-Received: from dut4036ptlh.fm.intel.com ([10.105.8.54])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2025 11:50:20 -0700
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, shuicheng.lin@intel.com,
- dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
- michal.mrozek@intel.com, raag.jadav@intel.com, john.c.harrison@intel.com,
- ivan.briano@intel.com, matthew.auld@intel.com, dafna.hirschfeld@intel.com
-Subject: [PATCH v25 5/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Date: Wed,  7 May 2025 18:50:16 +0000
-Message-ID: <20250507185017.251360-6-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250507185017.251360-1-jonathan.cavitt@intel.com>
-References: <20250507185017.251360-1-jonathan.cavitt@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42FC210E1BB
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 19:05:26 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 547DdLJk014527
+ for <dri-devel@lists.freedesktop.org>; Wed, 7 May 2025 19:05:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ +SHDmPRfAeDjssx8L+cu2l7LCPnVp2BGSEPoSn2MUB8=; b=iNgXu4BQN8U92D6D
+ Lxf9aOjh+Vb2zIhmTz2xMpMRID9F5WtGLTuDNmZ0fWZjsLoOVBpVJJGGA3AyVm8N
+ i5S6rbAo6tcwUIBENLofOj26VB0thosM8mqr1BtAZQ/bG6wW4mvKa3jkjkiD2FHN
+ dCcI5OA3/Z+D0ToO88pqAq/lWKPC/Tqs43y06TrgeaHC2XRwkTGasAQAW79t8qbO
+ DBRZRY5h/xL0PtidAbmVSy8GepBaUYkjv3tdj66Xo/hTuA9/oCsf8Tj6VInE81k6
+ I8WSpylLhlVdpshdngSxHx45/y8XddFVgDKGXTNrLzRLWO8czpUMB6GXh2FH7+ot
+ 4bDrGg==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46g0kh2e3b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 19:05:23 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-6f543e296e8so419926d6.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 12:05:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746644723; x=1747249523;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+SHDmPRfAeDjssx8L+cu2l7LCPnVp2BGSEPoSn2MUB8=;
+ b=HH1e3stVlTOWdCaLv2Q/KrSvQhJWjgcX+fuZqctkJ4vgvIqm9QENkPxAEMZpTJkN8A
+ 20gxIxnS/6PCwW4kuTTv3+F6KfO+kwM+ZMYzcDTBp7POKKxQqUbcRb99qGTv0J4WSsdt
+ CxPvSsAOknfnxpD87t3cJh36WXul3FEVVvtCuiPFP5n701or8J5+lqtK4iOEY3ZyNJ3W
+ bSTWu0a0hXjOi88dAVKpdjapY9kj5TJKlFa2zdT3pnDfoSdeUiUqE6rACqCGqGCTPekS
+ /8ESAV0oanDXdZW1IdCN9W3dg6xqXUCzQgkbcBiBt8H/sEaWoDiYMYev0XonfpjLHxdi
+ g7/g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVA5vMlx6mdWh/0ewpfL5Ojk6aYqOVKlIlp5h5wq5vY9wR8gVRQGrRLYTUCjQEHpJX9+63iXJxVK9E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwqGBPSyymsc8XMP8aGcJXu2pnszt5ggVTqcXOVCwaCXK6wZfq3
+ UuA35/jW74nvp61Z2b5PFmFMM/SFdUH82dQCKGnxwnvRKqDGEdDcTAXVwh7WPh7qcqhsCgmuNby
+ 1Q68ucBQ/kHE5yVg4DMysstL+wcabQCAMuIFrp5x7hs/qQmuffr9XkF3bmPEx1PKIokQ=
+X-Gm-Gg: ASbGncsI9/WuKhWr44DAurpSBRZRvASrHIC/TT6V+f0AUCWYj8DNH0MrMhGnsygqRZS
+ g4hojeefyZxYMguamf0d/gPTFk+YjWOXtJ+V8mvZPrvkaHN8BGJgXXjsrf9+vew1WlVsD3RTTB5
+ 6ur6xmBNGGm9+rDqN56UIyOb4VsCg6/QdiF8o9UpG8dDtuqIsIT2pD8UYoVS2nsCut2RHVjszU2
+ uEMxmsAWlE6CpS/cc6hPG6cKW9YM1WgRW5CJwrGfO3HxJ8pauvHPgIhQu6ngz/rkV7ONEFHAxiC
+ lpEoNr6ecTnDXacCvMEIwH/ns1aKcyUfke0q4JQPrvLIWvAm2nzFIxyGoC6zqZfqoBQ=
+X-Received: by 2002:a05:620a:318f:b0:7c5:6fee:246f with SMTP id
+ af79cd13be357-7caf73734camr275203085a.1.1746644722772; 
+ Wed, 07 May 2025 12:05:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHi8oUmL4ldGmEKyWAOMA5TwxCGWZERQSSET3xMoBXXRc5YWp0bJOTj+IEY5QkdrpAQaT3HLg==
+X-Received: by 2002:a05:620a:318f:b0:7c5:6fee:246f with SMTP id
+ af79cd13be357-7caf73734camr275200185a.1.1746644722249; 
+ Wed, 07 May 2025 12:05:22 -0700 (PDT)
+Received: from [192.168.65.139] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ad189147329sm949542466b.1.2025.05.07.12.05.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 May 2025 12:05:21 -0700 (PDT)
+Message-ID: <e307c4aa-1dae-4d48-ae79-36923372c8e0@oss.qualcomm.com>
+Date: Wed, 7 May 2025 21:05:19 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm/adreno: Remove MODULE_FIRMWARE()'s
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20250507154723.275987-1-robdclark@gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250507154723.275987-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDE3MyBTYWx0ZWRfX0mpYeP9hSmLc
+ vPSpwNNDQdaMk92LN8ZPEWbzb96CCnI2MzLyvlW6Rtq237YxW9UsVffLQeVm/9npT09fWXMlIj2
+ rdaeYPSP3mClemEJUsBtjxBCWKHVKkblmhgdPQvtyUstbunQCj6CPh6FmPPk4ZAXPQbaK9nF976
+ fVAF9KtD/4YDV9KF6+DJLiZPlCud48V71fuyhx5WuatL/kfBz2tXJ8dW8mvulFj4Wrl80xTZdSO
+ tcSYXqMjSyQxmjHkYsf01QJJ8poahgae4iovsxCIAORJVTYt1eWvhQUdmV+WL+2f2daTxaTct09
+ t4m6z1glOSQFnRKGzLnw2QH0Y9q+lOpJ1J9723Q9QEv4+uk+HvzWt28b0OJMf5wJi9RoVyX/ssF
+ ntvtWQKDitx38XGAmKCrb4lcPXeflxUqXeY6Lj42A9BZyjC9kyCUQu2B4EacdWEId2E+LnvL
+X-Authority-Analysis: v=2.4 cv=PNUP+eqC c=1 sm=1 tr=0 ts=681baef3 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8
+ a=O4ZBKxZU-tJ0OIaaHa0A:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
+ a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-ORIG-GUID: 7sngxZJ5dtr_V3dWdftQmrg32ghv9RXl
+X-Proofpoint-GUID: 7sngxZJ5dtr_V3dWdftQmrg32ghv9RXl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-07_06,2025-05-06_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 mlxlogscore=917 malwarescore=0 spamscore=0
+ clxscore=1015 impostorscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
+ adultscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505070173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,235 +129,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to request a list of observed faults
-from a specified VM.
+On 5/7/25 5:47 PM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> The driver handles the case where gpu fw is not in the initrd.  OTOH it
+> doesn't always handle the case where _some_ fw is in the initrd, but
+> others are not.  In particular the zap fw tends to be signed with an OEM
+> specific key, so the paths/names differ across devices with the same
+> SoC/GPU, so we cannot sanely list them with MODULE_FIRMWARE().
+> 
+> So MODULE_FIRMWARE() just ends up causing problems without actually
+> solving anything.  Remove them!
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
 
-v2:
-- Only allow querying of failed pagefaults (Matt Brost)
+it's probably the best decision to avoid all the mess..
 
-v3:
-- Remove unnecessary size parameter from helper function, as it
-  is a property of the arguments. (jcavitt)
-- Remove unnecessary copy_from_user (Jainxun)
-- Set address_precision to 1 (Jainxun)
-- Report max size instead of dynamic size for memory allocation
-  purposes.  Total memory usage is reported separately.
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-v4:
-- Return int from xe_vm_get_property_size (Shuicheng)
-- Fix memory leak (Shuicheng)
-- Remove unnecessary size variable (jcavitt)
-
-v5:
-- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
-- Update fill_property_pfs to eliminate need for kzalloc (Jianxun)
-
-v6:
-- Repair and move fill_faults break condition (Dan Carpenter)
-- Free vm after use (jcavitt)
-- Combine assertions (jcavitt)
-- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
-- Remove return mask from fill_faults, as return is already -EFAULT or 0
-  (jcavitt)
-
-v7:
-- Revert back to using xe_vm_get_property_ioctl
-- Apply better copy_to_user logic (jcavitt)
-
-v8:
-- Fix and clean up error value handling in ioctl (jcavitt)
-- Reapply return mask for fill_faults (jcavitt)
-
-v9:
-- Future-proof size logic for zero-size properties (jcavitt)
-- Add access and fault types (Jianxun)
-- Remove address type (Jianxun)
-
-v10:
-- Remove unnecessary switch case logic (Raag)
-- Compress size get, size validation, and property fill functions into a
-  single helper function (jcavitt)
-- Assert valid size (jcavitt)
-
-v11:
-- Remove unnecessary else condition
-- Correct backwards helper function size logic (jcavitt)
-
-v12:
-- Use size_t instead of int (Raag)
-
-v13:
-- Remove engine class and instance (Ivan)
-
-v14:
-- Map access type, fault type, and fault level to user macros (Matt
-  Brost, Ivan)
-
-v15:
-- Remove unnecessary size assertion (jcavitt)
-
-v16:
-- Nit fixes (Matt Brost)
-
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Shuicheng Lin <shuicheng.lin@intel.com>
-Acked-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Jainxun Zhang <jianxun.zhang@intel.com>
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-Cc: Raag Jadav <raag.jadav@intel.com>
-Cc: Ivan Briano <ivan.briano@intel.com>
----
- drivers/gpu/drm/xe/xe_device.c |   2 +
- drivers/gpu/drm/xe/xe_vm.c     | 108 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h     |   2 +
- 3 files changed, 112 insertions(+)
-
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 75e753e0a682..319768733504 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -196,6 +196,8 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(XE_WAIT_USER_FENCE, xe_wait_user_fence_ioctl,
- 			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
-+			  DRM_RENDER_ALLOW),
- };
- 
- static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index fb753d35728d..755f45c9af71 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3599,6 +3599,114 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	return err;
- }
- 
-+/*
-+ * Map access type, fault type, and fault level from current bspec
-+ * specification to user spec abstraction.  The current mapping is
-+ * 1-to-1, but if there is ever a hardware change, we will need
-+ * this abstraction layer to maintain API stability through the
-+ * hardware change.
-+ */
-+static u8 xe_to_user_access_type(u8 access_type)
-+{
-+	return access_type;
-+}
-+
-+static u8 xe_to_user_fault_type(u8 fault_type)
-+{
-+	return fault_type;
-+}
-+
-+static u8 xe_to_user_fault_level(u8 fault_level)
-+{
-+	return fault_level;
-+}
-+
-+static int fill_faults(struct xe_vm *vm,
-+		       struct drm_xe_vm_get_property *args)
-+{
-+	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->data);
-+	struct xe_vm_fault store = { 0 };
-+	struct xe_vm_fault_entry *entry;
-+	int ret = 0, i = 0, count, entry_size;
-+
-+	entry_size = sizeof(struct xe_vm_fault);
-+	count = args->size / entry_size;
-+
-+	spin_lock(&vm->faults.lock);
-+	list_for_each_entry(entry, &vm->faults.list, list) {
-+		if (i++ == count)
-+			break;
-+
-+		memset(&store, 0, entry_size);
-+
-+		store.address = entry->address;
-+		store.address_precision = entry->address_precision;
-+
-+		store.access_type = xe_to_user_access_type(entry->access_type);
-+		store.fault_type = xe_to_user_fault_type(entry->fault_type);
-+		store.fault_level = xe_to_user_fault_level(entry->fault_level);
-+
-+		ret = copy_to_user(usr_ptr, &store, entry_size);
-+		if (ret)
-+			break;
-+
-+		usr_ptr++;
-+	}
-+	spin_unlock(&vm->faults.lock);
-+
-+	return ret ? -EFAULT : 0;
-+}
-+
-+static int xe_vm_get_property_helper(struct xe_vm *vm,
-+				     struct drm_xe_vm_get_property *args)
-+{
-+	size_t size;
-+
-+	switch (args->property) {
-+	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-+		spin_lock(&vm->faults.lock);
-+		size = size_mul(sizeof(struct xe_vm_fault), vm->faults.len);
-+		spin_unlock(&vm->faults.lock);
-+
-+		if (args->size)
-+			/*
-+			 * Number of faults may increase between calls to
-+			 * xe_vm_get_property_ioctl, so just report the
-+			 * number of faults the user requests if it's less
-+			 * than or equal to the number of faults in the VM
-+			 * fault array.
-+			 */
-+			return args->size <= size ? fill_faults(vm, args) : -EINVAL;
-+
-+		args->size = size;
-+		return 0;
-+	}
-+	return -EINVAL;
-+}
-+
-+int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
-+			     struct drm_file *file)
-+{
-+	struct xe_device *xe = to_xe_device(drm);
-+	struct xe_file *xef = to_xe_file(file);
-+	struct drm_xe_vm_get_property *args = data;
-+	struct xe_vm *vm;
-+	int ret = 0;
-+
-+	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1] ||
-+			     args->reserved[2]))
-+		return -EINVAL;
-+
-+	vm = xe_vm_lookup(xef, args->vm_id);
-+	if (XE_IOCTL_DBG(xe, !vm))
-+		return -ENOENT;
-+
-+	ret = xe_vm_get_property_helper(vm, args);
-+
-+	xe_vm_put(vm);
-+	return ret;
-+}
-+
- /**
-  * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
-  * @vm: VM to bind the BO to
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 9bd7e93824da..63ec22458e04 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -196,6 +196,8 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file);
- int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file);
-+int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
-+			     struct drm_file *file);
- 
- void xe_vm_close_and_put(struct xe_vm *vm);
- 
--- 
-2.43.0
-
+Konrad
