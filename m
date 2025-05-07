@@ -2,155 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95888AADFD1
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 14:54:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B34AADFE8
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 14:58:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0E610E7A9;
-	Wed,  7 May 2025 12:54:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8938910E7AD;
+	Wed,  7 May 2025 12:58:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TrIiV7fy";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fM4HhE3r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2059.outbound.protection.outlook.com [40.107.93.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 672EA10E7A9
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 12:54:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=axZeecIi70NnvT61JDphqEGMkqM6yiXMmR0lKNAoa1cfrM/WtxoZ0oakqY/DGI1A4B3ki1pBFjoQHuB8HvUP6m7yZjdS5DixWjdmFfai0UUt/6/8E6kCZhxaZoA3/LFXxKpwvCe7bj3/Ka0nhcXySCQm6NrEYMwydZrngzYC5+dNdgvX+LmHExLQBTnoGG3Ch138aQJT7bLvHOk7O77rbTS9l+YWN5LpKFFg+vd8OdRbyBd6lHxOhdkR66bgbODPBp2wAKBYUAPPvLHWdJgxgzv2XlOBAWZhPw0B0/FMlxNaKzUm4FNibHnGcVDaxYo5cMYb2GC9dF/OMHqOIgvVYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OZmkKTQYykc4sQLaMameXISYzp3WlV2XZHv0iJEhbNo=;
- b=xOzYkxmqnTNRnGVxrLn/kbszw633+YA8Ce1T7AeSY/7p3eCDphxMI5m2uEAo7jpfra40zEGh879J9or5mVHGldJyatC0zvAInlJrEl/0Y4LhEdu/+ZH2MjOkqm/S3C5whKQl9vAOglz2wnitVR3hzFJ9d6iyRpTK9UoG9NS0rWqiS/cZVL5pLAvr+iXLKK8XGeJKiMO/bAw1UkI7zv/isp4Q8xhxpAfTfp4EXRV1sT2gDMU6EJxlRsd9S35aDgq1Hk5xG6NLBvb3R/xNfNKCGXMASSCkdMBa7AK729zNYMWclTvzpaxwoE8vbkxKVoeNR9vQOXaALBubrcdnGcC5Ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OZmkKTQYykc4sQLaMameXISYzp3WlV2XZHv0iJEhbNo=;
- b=TrIiV7fyxk5xMV2Bm0WY5UHs5gjtlz/5lGZ+/r/P0HxV+EkRmWrEFKls8DQafPdcbH5GIamPNHI9qrmQBmDHXQjHelxHUCKgPzHRB9MZHWlanaR78NcSp67q5hE6DTzfzyzvfNXD29TPoLl+vFMilXdj/HY704w32+iCrFlRmg4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB5686.namprd12.prod.outlook.com (2603:10b6:510:13d::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.21; Wed, 7 May
- 2025 12:54:32 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Wed, 7 May 2025
- 12:54:32 +0000
-Message-ID: <67697ca1-e18e-4f9e-a315-43957e71dbef@amd.com>
-Date: Wed, 7 May 2025 14:54:19 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/4] Some (drm_sched_|dma_)fence lifetime issues
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
- <phasta@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20250418164246.72426-1-tvrtko.ursulin@igalia.com>
- <29b27ae3-de56-475d-ae85-fd593a011ea3@amd.com>
- <e4acf86d-ff22-423d-9769-80316fa96cb5@igalia.com>
- <ff76a94e-97cd-4d19-a02b-cf2a1fc00ac8@amd.com>
- <67a89aac-5eb6-46d2-b456-32e9f3e72f09@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <67a89aac-5eb6-46d2-b456-32e9f3e72f09@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR01CA0058.prod.exchangelabs.com (2603:10b6:208:23f::27)
- To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2088A10E7AD;
+ Wed,  7 May 2025 12:58:19 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 547A8W4M009112;
+ Wed, 7 May 2025 12:58:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ xF+cHM9YchG/d6uxqOT4xkfIqHaWygeEpG9xNO/SoYg=; b=fM4HhE3rjTI6vgKq
+ RovSRDh2S6OdesGL6BVSkoQzvAzfIxFEi5uqEOqLbbpHAVW5H90b3NM3etVw6tNs
+ cutU5HeqKZI4ARfz7vNoH8E8yB91X6d+m7eHmIGIsA+jTaXaXUWa1vprkBd2dgiN
+ MCT1MDJaUPm0W2ESc/AXek8n4FfV/D6aJSsCBCpT3L2bFAm/h1I0j7iPfg/XtQDA
+ M57dV3O9eBlpHPx4TpqnGNKQEZTEs/JTOUm5upVjYvgxU3c1bF0QCzmfHpHpetoQ
+ eM10kDr7GHnLjSO2zTdUHappNb8sJp6Fcx0ki4X23OnM0N7Z+2fvbbU9sZc1cwrS
+ jCmjpw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46g5gh8esu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 May 2025 12:58:07 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 547Cw6b7009442
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 7 May 2025 12:58:06 GMT
+Received: from [10.206.97.61] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 7 May 2025
+ 05:57:58 -0700
+Message-ID: <bd136800-8ef5-4597-b918-41b9f97db14f@quicinc.com>
+Date: Wed, 7 May 2025 18:27:54 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB5686:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7b4e4f8-c73c-40ad-c88b-08dd8d664fde
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MUFreUVYT2RtOU1NNkRiVkZ6NWVkeXBNcVcrbGxvTnVaTzliM2N0dk1VWFNL?=
- =?utf-8?B?aS94NS9VaFdNR3dvTmxBd0FIMHV1NlUrRHM2TU1HZDY0RHlGYWlHbDFIUkpn?=
- =?utf-8?B?cUhOd2ZIVUJMZFZ1K0NlcXNidnRFQzBFM2YyekRSSzVnV3JGRTRLc2w1WjNo?=
- =?utf-8?B?cmFWNUwxZVBHanVMYk94T1dWNkUvVnZrSThZQ2xkRHFzaHp3TTQraFJ0cXlY?=
- =?utf-8?B?dXg1L1ZwVzFkRElzNUxtRmc1K2JuN1lmdktDMlIwSHBGV0JoeVI5NHI5QnhV?=
- =?utf-8?B?T04wZlZJdDZQQk5hUmJ4NE1ZN2p4R05VRllhK3Zacy9KU2Q1V2VCM09FY0g2?=
- =?utf-8?B?ckE1V3hGOVVDdU9zRW9Va25jalluS25iK0hoQnA1U2o1UmJyb1dsOCtHcTdq?=
- =?utf-8?B?YnJNMnpEWmdhN2lMV2JSY08ybkpFeXZzejVPYjkxZi9kRFcvQUVvMHAxMmtY?=
- =?utf-8?B?MXowME9YS3JBTzYxUUlJTlRYMkM4NU85ZTZLNjNKME4vZUo4c1V6b0ZWbVVi?=
- =?utf-8?B?YmRvK3ZGVzRSYlhDbUlrdUI0bnF0eWRQTmo0Q2NjV2Z1clgvYzBRdHAxVjF0?=
- =?utf-8?B?MU1LelVNZGllV0g4OUFIaTUxTEZCakpiRUVid09SbnRZbFRjK0RKZUVUVEdj?=
- =?utf-8?B?eGdDOEdaN1ZjbGJGYmZJMTdwcTFVWVI4YWYvTElSL2JhS1N3aUQ3akhsZWRl?=
- =?utf-8?B?elJMNC9tMWxyOFhVRVlSSkVXaWF1V25neEpQd1JUbHVyejJuMFZHV1h5L1lq?=
- =?utf-8?B?Tmxxa2dLdUF6U252UDF6ZjFzUjFPN2Zyc2M4SEh3NU5jREE5clRQTWt6WkNF?=
- =?utf-8?B?WStzZkp0Qm1sYUNaRDEreXJSSW1vNDl5ZkNOMmJuZFlzNkhMeFJ2ZzY5SFBq?=
- =?utf-8?B?UWs3SDhuOWo0aTltalBKbEtTaGJpYU9xcGVDUWYyZ0dWK295cStvTllsZ3lp?=
- =?utf-8?B?T2xmb0tJcis3ellSOWxYalFSbGgvWXMrMHZ5bUpJUmtFcEJpenpRUktiZmg3?=
- =?utf-8?B?V2ZHUTFvQkJwenVZZVVpSCtqNFNRc1dRRitqMytqMUVMY2s1aVVmQzM2YUx5?=
- =?utf-8?B?OGovcitCMExrNllqK3I1RUJlMlVBdFBJclNDNzUrWGhiT2gwMFJ0QnR1NCtr?=
- =?utf-8?B?bm1PcFRkaytsRFV1Qjh0TjFTSXhtSmpVZEg1NG5TME5Odis0cUR6TURlVUxy?=
- =?utf-8?B?K0lRcDd5VUhnbjFrUlpiREhRWWtFckczUXc0T1RHL1NyR01tZGsyWEQ0NG01?=
- =?utf-8?B?Z3lqUWlnaEdBaElPYXE4V1hua0JoaWEwa2hHdjBGQXRmMUZUSjhyQnZjUlAy?=
- =?utf-8?B?U01QVkc1c2o3ZWltK3V1U0d0RHFrQ1dhRDFQMmFsbjZleXhab0JsVFBJUHAz?=
- =?utf-8?B?WmllUURvVmVRcTVzR016RzNhem5IMklWbytoRXg0UjJIOHg5M1dCYktTTm4x?=
- =?utf-8?B?REVISXVwSXQ1OVJyZHBObnBRMGZreDdJYW9Nc2hudVJ0Zmtvam5aODloTjZ6?=
- =?utf-8?B?V0VvVU1jK01IZnJzdUp5NHRDT2FLWURJRWF2VXhUWTIySS9wRGFJN3R1RnFq?=
- =?utf-8?B?ZFVLRXY1L0hXREtWWXB5ZUo1ZENpOEY2bU9GSG56K0tjQ2VsSHdjSk1kOGpE?=
- =?utf-8?B?bU84OUtOT09mRkNnL1l1MjB1UmhzMkczWTM1ZEU5Um5GVk1wTklmc0ZhWGFz?=
- =?utf-8?B?eVJTcElpdFRROC9ScXRQUkUxV2taaGVEKzdPdEtpM2M1ZjQ1QTFsQ2V3RXQ3?=
- =?utf-8?B?enJoMTZJamFlK2lYVHhFd1dmUHZ6cisvUkhFQmtHV0tDdXB6bXdiMGZHeDZx?=
- =?utf-8?Q?5RQTAIKGjn15P5giPzfW1CSVWTa7wVEcjKfNQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?anFuRmVsald5ZDFta3BpM3dWcmxkczNEU0N2eXJTRkt3RlFnWmZOQUhtSjA5?=
- =?utf-8?B?QUN6WUh6dy94TjJCT2hKV2ZCZUluS09UbVpSbGxEYTgrcFU4VElXWElmcWEr?=
- =?utf-8?B?VlJmdEFUS1pBc2Z0WTY5d0tQeU9jK1crM3JqRDRFZDBrWnNncWs5UzNIaVB4?=
- =?utf-8?B?dU1KU1RXa0lrMGhoYWlvZ2UyNm5sWXUxVHVJN0xabmxjNHRid240Nk5oWld5?=
- =?utf-8?B?N1NFQXdQSjJVbGwvSmNCbC9xZGdvcmFkY2xKc0xQMW1tbCswOW4ybzQyYXIr?=
- =?utf-8?B?TzJtMU1SYjVzSUtlMCtWWWpucHFaTnN2UzB0bjhuanNaRzFEV2E3aFNsQlZ1?=
- =?utf-8?B?YXllTEtVOXV6TEZkMWI5M2tJa0l3c28wc296THFudkpwMFFtMGF2bmU5MlN4?=
- =?utf-8?B?aGx3Ynd2VXIvOTZlQml5QjdEZVA4NmNTdHc5SG9ZNVlUc1l2QVhISnYyWG5t?=
- =?utf-8?B?RTMySnB2S1ViNFJZak9leldPbVBWbXdWT0NNVXUzRURGRFN4NUMyQmVxNjli?=
- =?utf-8?B?NjNFSmtnZ0NVVHd2S1VVbTVUa1d6QnMybXlYcExYMkM1RWl5WllOYlZ1SE8y?=
- =?utf-8?B?RDcrZGg1RDJCRXJIK3YrSnduNWlQd0FwMklzMmQvay9vYkt6SXkxNXJGS0Qr?=
- =?utf-8?B?aUFOVlR1eDBJK0g0cERPVTlraWFhcXpuUmtGUEQ1NWpjK2U5UisrWHVMWDY4?=
- =?utf-8?B?elhoQnI1amdiYUV4YWVQamhyc1poS2dvZjN0VXB3Tk04akNoMTlLcEtZMWpO?=
- =?utf-8?B?ZWUvc3hkb1VOWGh3bFpROVJBMTlWUjE4dnhjS2ptTzZERktBT3RNckJKZkVD?=
- =?utf-8?B?c1B4ekhIWXJvcWtqVWFKb3VsR1JCQmtQTXNZaVZ3Q282SkxlV2RHQ1VVbnRn?=
- =?utf-8?B?T2NEWlUyOHJrWUUxL3dkYmpuYURQOC9zWWhkTlBaaVpHTzhqVC9kVHhDY3hT?=
- =?utf-8?B?V3c4akNWcnE1STBIcXY4NG03WGpjbFhtMVJqbDcwaVJybkRrNkkyemw1WmdJ?=
- =?utf-8?B?ODg0VTRDUXlCcTVYMEFBOWRDZVdmTTdyc0srdlQ5VUdiNEtxVTVKY2U5VDBT?=
- =?utf-8?B?S3p1Q1Z0cnBieDJQN2RKbHcyYmtDRlhLSmhUOUpIWll6SDh2c2xKYXBYaHc3?=
- =?utf-8?B?c0U4di9QMWpNMHRMMzBqT0R5Z256VGkyMnNvQlZKU3cyWXNjb0lTZ2tKRnFX?=
- =?utf-8?B?QmxDK2dyOWJibk12YkJ5WGZpV0tmYWMxNHpWOC92SjlBT1VlWFM4bzhJK0oy?=
- =?utf-8?B?NDR2ZkZiTnU0WlRKYmtONjhZQlVZb1dLaFZjZXRFWjkvYk5ZRUV5NXVTSjNw?=
- =?utf-8?B?aXA3VmpPR292WXZYQUNXeG04azBmOGt5RUsycHZtcy82ektlMTYwNHRrNE1s?=
- =?utf-8?B?UEV4bGVOKzRGNGphWWpERUo5dVFvVWJXZm9vWXd0UXgxd0VUWTdQRXhkaGpO?=
- =?utf-8?B?MCsrZW5wUlZzNGZFWndWOWZuZTF6SEFmWk1ORCtiUWkweXVoMmVEcDVacS95?=
- =?utf-8?B?UHpLYUQ5TE1lRytEYmxtTkpmdTVPa29qenVIRkgrMytTZUlFVU50NzFWaU5s?=
- =?utf-8?B?SmdKb0k5YUdvQVhDUEpzQk9WUGo4cmtRa29NRVU1bEFsRlkwV0U5WHRzbGt4?=
- =?utf-8?B?b1ZZUWQza3JuTDRGNGhRT3pQQ0JJUkxCdWFMdUtiY3gxRE5PenNzbUVkMFQ0?=
- =?utf-8?B?eDVKS2Z4RFVVQ2V6dmsyT01Bd0V5Y21VMGc3R01VN3lLMzlYUzVoWHB6T0ll?=
- =?utf-8?B?MVltS3BrYUtKVnVxZ3hKZlBXaFNVODZPY1o5YmMxd2M5WkZnRjdVbDcxZllB?=
- =?utf-8?B?bWMzTFVvMkZKVitNaDlEQ1Nyd2pGaVlkdFFhVFVlNS8yODBMZkdYcFo3SlNP?=
- =?utf-8?B?alhlSlBNbFpjOWZ2MWw1MXM1c2RkdE80VTNNcjlVckJmRmZvTXFrVUR3SnBM?=
- =?utf-8?B?NHdGNFhBaWpaT2VuM3J6eFlLWS9NUXZDQWxDamQrRmdHRTJYU1dXVERMeGxj?=
- =?utf-8?B?cWg0d3lJdEo0ME9Rc01UT3FGdFlSRXAvQnFCc3g0Vll2K2lhMy82R202b0xu?=
- =?utf-8?B?cm9XSlozTkdxMnJyN3FiTzNsMmo4RGc0UGxjYUJXTCtZeTBBckloOGxwMThp?=
- =?utf-8?Q?9gYEx3RDhozEjzvonUx7SkOfH?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7b4e4f8-c73c-40ad-c88b-08dd8d664fde
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2025 12:54:32.4147 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LMb2TSRW+D4vNV6dcbQ+PfV0AeBdM0kwgx5/drnEgK1YDNIvp2ZxGzIfGWzO7X6V
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5686
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 07/11] arm64: dts: qcom: sa8775p-ride: add anx7625 DSI
+ to DP bridge nodes
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <marijn.suijten@somainline.org>,
+ <andersson@kernel.org>, <robh@kernel.org>, <robh+dt@kernel.org>,
+ <krzk+dt@kernel.org>, <konradybcio@kernel.org>, <conor+dt@kernel.org>,
+ <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
+ <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <quic_abhinavk@quicinc.com>, <quic_rajeevny@quicinc.com>,
+ <quic_vproddut@quicinc.com>, <quic_jesszhan@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20250505094245.2660750-1-quic_amakhija@quicinc.com>
+ <20250505094245.2660750-3-quic_amakhija@quicinc.com>
+ <grwlmrgi5cfv3jtuki57ug7gsqykpwdf2to2l7di6glfxtb7vz@6id6cpfkrbuh>
+ <88b139c4-0a35-4c9e-9993-573fede29b71@quicinc.com>
+ <ip2phi56u4yof376t5a5mqhvo3x4oo4blcnirwc6w7eancpm7i@ofcgyfcxdmre>
+Content-Language: en-US
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
+In-Reply-To: <ip2phi56u4yof376t5a5mqhvo3x4oo4blcnirwc6w7eancpm7i@ofcgyfcxdmre>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: OPbtRutEhhwqmylcl9sGmNFyMmVkwavI
+X-Authority-Analysis: v=2.4 cv=TqPmhCXh c=1 sm=1 tr=0 ts=681b58df cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=NEAV23lmAAAA:8
+ a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=G6BfOUuto9JBWjMmyeYA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDEyMiBTYWx0ZWRfX/V6kIFbeakdJ
+ aDRFF9zCSxC1ASGhT+a8JlCqcMoDMvkPxNNmITI5KPisfu6lx02d936s78YEeA+VEfJaM8VBZwf
+ jSavOARuAqzQ3MNltqfYDBrA0GI8zLFfWhK8rwOfIuik0rP1nIBLj7OxYkDy2cO53VRS8kDIGTS
+ MEB69tgPOxsnkbIE4WcaQi0MOwYPoaAxWcJF8k0VwQisLKcPdpbnG64L12bfG1n7Y2FLyR9W8f4
+ 9M7N1h2HO7x9DYR5NoCGO60lkYdJqSB02ZASyU4cTwctMd02gq+W1ilfz+nD4BVoN73GKt2ovDy
+ 8LKcnl3Aqdj4lVajnV5rMxaVeUye/Aq0FKke4DKmbDKiAvAthOVKaN/XN68C3vU7viF4XL1BPyO
+ KJ9thIrF3oKwak0zo/e1rfrFKViYnWNxQLv7lw3lXqtN3xBFizLL73NSAQ923jlOblYgJYVU
+X-Proofpoint-ORIG-GUID: OPbtRutEhhwqmylcl9sGmNFyMmVkwavI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-07_04,2025-05-06_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 mlxscore=0 mlxlogscore=999 spamscore=0
+ priorityscore=1501 phishscore=0 suspectscore=0 impostorscore=0 clxscore=1015
+ lowpriorityscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505070122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,110 +116,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/7/25 14:28, Tvrtko Ursulin wrote:
-> 
-> On 28/04/2025 14:15, Christian König wrote:
->> On 4/24/25 09:07, Tvrtko Ursulin wrote:
+On 5/6/2025 5:58 PM, Dmitry Baryshkov wrote:
+> On Tue, May 06, 2025 at 05:42:50PM +0530, Ayushi Makhija wrote:
+>> Hi Dmitry,
+>>
+>> On 5/5/2025 3:32 PM, Dmitry Baryshkov wrote:
+>>> On Mon, May 05, 2025 at 03:12:41PM +0530, Ayushi Makhija wrote:
+>>>> Add anx7625 DSI to DP bridge device nodes.
+>>>>
+>>>> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
+>>>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>> ---
+>>>>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 183 +++++++++++++++++++++
+>>>>  1 file changed, 183 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+>>>> index 175f8b1e3b2d..de14f3ea8835 100644
+>>>> --- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+>>>> +++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
+>>>> @@ -28,6 +28,15 @@ chosen {
+>>>>  		stdout-path = "serial0:115200n8";
+>>>>  	};
+>>>>  
+>>>> +	vph_pwr: vph-pwr-regulator {
+>>>> +		compatible = "regulator-fixed";
+>>>> +		regulator-name = "vph_pwr";
+>>>> +		regulator-min-microvolt = <12000000>;
+>>>> +		regulator-max-microvolt = <12000000>;
 >>>
->>> On 23/04/2025 14:12, Christian König wrote:
->>>> On 4/18/25 18:42, Tvrtko Ursulin wrote:
->>>>> Hi all,
->>>>>
->>>>> Recently I mentioned to Danilo about some fence lifetime issues so here is a
->>>>> rough series, more than anything intended to start the discussion.
->>>>>
->>>>> Most of the problem statement can be found in the first patch but to briefly
->>>>> summarise - because sched fence can outlive the scheduler, we can trivially
->>>>> engineer an use after free with xe and possibly other drivers. All that is
->>>>> needed is to convert a syncobj into a sync file behind drivers back, and I don't
->>>>> see what the driver can do about it.
->>>>
->>>>
->>>> Yeah that topic again :) The problem here is that this is not a bug, it is a feature!
->>>>
->>>> IIRC it was Alex who pointed that issue out on the very first fence patch set, and we already discussed what to do back then.
->>>>
->>>> The problem with grabbing module references for fences is that you get trivially into circle references and so basically always preventing the module from unloading.
->>>
->>> Where "always" is only "while there are active objects from that module", no?
+>>> 12 V, if my eyes don't deceive me.
 >>
->>
->> The problem is that dma_fences stay around after they are signaled. And basically all drivers keep some dma_fence around for their resource management. E.g. amdgpu for the VMIDs.
->>
->> This means that some dma_fence is referenced by the module and the module referenced by some dma_fence. E.g. you are never able to unload the module.
-> 
-> Are you thinking truly never or for as long someone has a reference?
-
-Truly never. It's simply a circle dependency you can never break up.
-
-In other words the module references the fence and the fence references the module.
-
-> 
-> For example while userspace has a reference to dma_fence via sync_file fence owning module would not unloadable. One would have to terminate the process, which granted wouldn't be easy to see which process prevents the unload, before driver could be unloaded.
-> 
-> For the foreign fences kept around in kernel space, that would be solvable by some periodic house keeping at worst.
-> 
-> Also, about the use cases for module unload. Since you and Brost especially seem to be expressing a hard no to module references, what are the use cases you are concerned about?
-> 
->>>> The decision was made to postpone this and live with the potential use after free on module unload until somebody has time to fix it. Well that was +10 years ago :)
->>>>
->>>> I discussed this with Sima again last year and we came to the conclusion that the easiest way forward would be to decouple the dma_fence implementation from the driver or component issuing the fence.
->>>>
->>>> I then came up with the following steps to allow this:
->>>> 1. Decouple the lock used for protecting the dma_fence callback list from the caller.
->>>> 2. Stop calling enable_signaling with the lock held.
->>>> 3. Nuke all those kmem_cache implementations and force drivers to always allocate fences using kvmalloc().
->>>> 4. Nuke the release callback (or maybe move it directly after signaling) and set fence->ops to NULL after signaling the fence.
->>>>
->>>> I already send patches out for #1 and #2, but don't have enough time to actually finish the work.
->>>>
->>>> If you want take a look at nuking all those kmem_cache implementations for allocating the fence memory. I think that can be completed completely separate to everything else.
->>>
->>> So enabling dma fence "revoke" so to say.
->>>
->>> Just to check we are on the same page, it is not just about the module references, but also use after frees which can happen even if module is still loaded but any memory reachable via dma fence entry points has been freed.
->>
->>
->> Yeah, that came much later when people started to use the scheduler dynamically. Basically the sched pointer in the drm_sched_fence implementation becomes invalid as soon as the fence signals.
+>> Yes, it's 12V. According to the chipset's power grid, the VPH rail is rated at 12 volts.
+>> That's significantly higher than what we typically see on mobile platforms. I guess,
+>> this is due to the SA8775P Ride SX being designed for automotive applications, where higher voltage levels are required.
 >>
 >>>
->>> In that case, as Matt has already asked, if you could dig up your unfinished work it would be interesting to see.
+>>>> +		regulator-always-on;
+>>>> +		regulator-boot-on;
+>>>> +	};
+>>>> +
+>>>
+>>> [...]
+>>>
+>>>> +
+>>>> +			bridge@58 {
+>>>> +				compatible = "analogix,anx7625";
+>>>> +				reg = <0x58>;
+>>>> +				interrupts-extended = <&io_expander 2 IRQ_TYPE_EDGE_FALLING>;
+>>>> +				enable-gpios = <&io_expander 1 GPIO_ACTIVE_HIGH>;
+>>>> +				reset-gpios = <&io_expander 0 GPIO_ACTIVE_HIGH>;
+>>>> +				vdd10-supply = <&vph_pwr>;
+>>>> +				vdd18-supply = <&vph_pwr>;
+>>>> +				vdd33-supply = <&vph_pwr>;
+>>>
+>>> Here you are saying that 1.0V, 1.8V and 3.3V pins are powered on by 12V
+>>> supply. I wonder how the board doesn't trigger all fire alarms in the
+>>> building.
+>>>
 >>
+>> Let me try to explain the connections from the schematics.
 >>
->> This is what I already send out: https://gitlab.freedesktop.org/ckoenig/linux-drm/-/commits/dma-fence-rework-enable-signaling
+>> In the SA8775P RIDE SX platform, the ANX bridge supplies are connected from the below sources:
 >>
->> A bunch of the cleanup patches in that branch have already been applied, only the last one is missing IIRC.
->>
->> And here is a WIP patch to decouple the lock I wrote halve a year ago or so: https://gitlab.freedesktop.org/ckoenig/linux-drm/-/commits/dma-fence-rework-locking
+>> 1) AVDD1P8 is sourced from the `VREG_1P8` of the backplane card.
+>> 2) AVDD3P0 is sourced from the `VREG_3P0` of the backplane card.
+>> 3) AVDD1P0 is sourced from the TPS74801 LDO voltage regulator that has `VREG_1P8` connected to
+>>    VIN & EN lines, and `VREG_3P0` connected to BIAS line.
+>>  
+>> The `VREG_1P8` is sourced from a buck converter TPS54618CQRTERQ1 that is using 
+>> `VREG_5P0` as VIN and EN_VR1P8_M3P3 as EN signal. 
+>> Where the `EN_VR1P8_M3P3` is an output signal from SAK-TC397XX-256F300S BD micro-controller.
+>>  
+>> Similarly, the `VREG_1P3` and `VREG_5P0` are sourced from another buck converter LM5143QRWGRQ1
+>> that is using `VREG_12P0` as VIN and `EN_VR5P0_M3P3` as EN signal.
+>> Where the EN_VR5P0_M3P3 is an output from the same micro-controller.
+>>  
+>> Combining above details, all three ANX bridge supplies are getting enabled by `VREG_12P0` supply,
+>> `EN_VR1P8_M3P3` and `EN_VR5P0_M3P3` signals once the SOC is out of reset.
+>>  
+>> The `VREG_12P0` is directly sourced from `VBATT_IN`.
+>>  
+>> Since, there is no SW control for ANX bridge supplies and they are getting enabled
+>> once the SOC is out of reset, I have used vph-pwr-regulator dummy regulator.
+>> I am not sure if it's the right way to handle above scenario. Please let me know if there is other way to do the same.
 > 
-> Thanks!
-> 
-> My concern here is that to me it appears the whole premise is to leave fences dangling in memory and somehow make them safe to be accessed by importers.
-
-As soon as you unload the last module using it the fences will automatically be released. So I don't see the problem.
-
-> For starters this can create permanent memory leaks. Or at least for the same window of duration as would the exporters be not unloadable with the reference counting alternative. So we would not a strong argument for why poorly bound memory leaks are better than poorly bound unloadable modules.
-
-When the module unloads it drops the reference to the fences ultimately freeing them.
-
-The only issue is that modules can both reference their own as well a foreign fences. So what can happen is that you have module A which references fences A1, A2 and B1 and module B which references B1, B2 and A2.
-
-Now you can't unload either module first because they cross reference their fences and unloading one would leave the other module with fences which can't be released without crashing.
-
-So what we need to have is that the dma_fence framework guarantees that you don't need the fence->ops nor the fence->lock pointer any more after the fence signaled.
-
-> It is also a question how to "revoke" fences safely (race free). It sounds hard to me. It does not seem you got to this last problem in the above branches so I don't know if you had some elegant ideas for that.
-> 
-> Maybe first to ask if anyone is aware of a precedent where something in the kernel already uses this design pattern?
-
-Of hand I don't know of any, but the problem sounds rather common to me.
-
-Regards,
-Christian.
-
-> 
-> Regards,
-> 
-> Tvrtko
+> Add these regulators as fixed ones, describing the power grid. Consult
+> other board files if you are unsure. RB3, RB5, HDKs - all these boards
+> have fixed-regulators for the grid.
 > 
 
+Hi Dmirty,
+
+After referring the RB3, RB5, HDKs boards example for fixed regulator.
+
+1) Reference 1 (qrb5165-rb5.dts file) (https://github.com/torvalds/linux/blob/master/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts)
+
+In qrb5165-rb5.dts file, If we refer the fixed regulator of lt9611_1v2
+
+lt9611_1v2: lt9611-vdd12-regulator {
+                compatible = "regulator-fixed";
+                regulator-name = "LT9611_1V2";
+                vin-supply = <&vdc_3v3>;
+                regulator-min-microvolt = <1200000>;
+                regulator-max-microvolt = <1200000>;
+        };
+
+Here we can see the vin-supply is vdc_3v3, which is itself is a fixed-regulator.
+
+vdc_3v3: vdc-3v3-regulator {
+                compatible = "regulator-fixed";
+                regulator-name = "VDC_3V3";
+                vin-supply = <&vreg_l11c_3p3>;
+                regulator-min-microvolt = <3300000>;
+                regulator-max-microvolt = <3300000>;
+                regulator-always-on;
+        };
+
+Then vin-supply for vdc_3v3 is vreg_l11c_3p3, Which is a RPMH regulator.
+
+ vreg_l11c_3p3: ldo11 {
+                        regulator-name = "vreg_l11c_3p3";
+                        regulator-min-microvolt = <3296000>;
+                        regulator-max-microvolt = <3296000>;
+                        regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+                        regulator-always-on;
+                };
+
+Do we need to do the same for our vdd10-supply , vdd18-supply and vdd33-supply of anx7625 bridge supplies ?
+
+Example for vdd18-supply (AVDD1P8) (Anx7625 vdd18-supply)
+
+vreg_1p8 : vreg-vdd18-regulator {
+	 compatible = "regulator-fixed";
+	 regulator-name = "vreg_1p8";
+	 vin-supply = <&vreg_5p0>;
+	 regulator-min-microvolt = <1800000>;
+	 regulator-max-microvolt = <1800000>;
+};
+
+Here vreg_1p8 is using vreg_5p0 as vin-supply.
+
+vreg_5p0 : vreg-5p0-regulator {
+	 compatible = "regulator-fixed";
+	 regulator-name = "vreg_5p0";
+	 vin-supply = <&vreg_12p0>;
+	 regulator-min-microvolt = <5000000>;
+	 regulator-max-microvolt = <5000000>;
+};
+
+Here vreg_5p0 is using vreg_12p0 as vin-supply.
+
+vreg_12p0: vreg-12p0-regulator {
+	 compatible = "regulator-fixed";
+	 regulator-name = "vreg_12p0";
+	 regulator-min-microvolt = <12000000>;
+	 regulator-max-microvolt = <12000000>;
+};
+
+2) Reference 2 (qcs6490-rb3gen2.dts) (https://github.com/torvalds/linux/blob/master/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts)
+
+Or In qcs6490-rb3gen2.dts file, If we refer the fixed regulator of lt9611_1v2
+
+lt9611_1v2: lt9611-vdd12-regulator {
+                compatible = "regulator-fixed";
+                regulator-name = "LT9611_1V2";
+
+                regulator-min-microvolt = <1200000>;
+                regulator-max-microvolt = <1200000>;
+ };
+
+There is not any vin-supply here.
+
+Example for vdd18-supply (AVDD1P8) (Anx7625 vdd18-supply)
+
+vreg_1p8 : vreg-vdd18-regulator {
+	 compatible = "regulator-fixed";
+	 regulator-name = "vreg_1p8";
+	 regulator-min-microvolt = <1800000>;
+	 regulator-max-microvolt = <1800000>;
+};
+
+Let me know, Which way we need to define the our anx7625 bridge supplies.
+
+Thanks,
+Ayushi
