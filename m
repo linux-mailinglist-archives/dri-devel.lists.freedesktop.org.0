@@ -2,81 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C01DAAE193
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 15:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A13AAE1F4
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 16:07:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C122110E808;
-	Wed,  7 May 2025 13:54:57 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kF7wqTqh";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D357F10E7F7;
+	Wed,  7 May 2025 14:07:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A39010E7F6
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 13:54:56 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-43ce71582e9so47554645e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 06:54:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746626095; x=1747230895; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CWH4UBR5sUqGo9LtpqRAJPm/Evlyrb/fSWQLAWS3kVY=;
- b=kF7wqTqhLknt/WoUOwxgAZzpRR1Ia5yghUKmdWqT5FjZv2g0EYBi4APpYzcYcjfEWu
- RKPflZCRLfeBbbQZoip54XSzx8cYA8Y8Hm9ZQlfF7BYw05HJOsohdMKS0gzbzAkjXcem
- pBg8YEAF/XXw89SkumybgHnwyScVDejI8j3tDhRAqqdhBMrokburVGlZebi7PZ/5lEwb
- GkLriQ6LFz1bx7XjbfQ61ToosLOd9m/NhTf2lSKGkoYmgT9CtE0g4UlRDdbzcbIzvHaH
- DSW0IZkD1PO86ysryZZuD7Q6y+dcvBEiePqIIMLoY+Ec4pgFpYhKiTX4mlmkPsakJARc
- JF3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746626095; x=1747230895;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CWH4UBR5sUqGo9LtpqRAJPm/Evlyrb/fSWQLAWS3kVY=;
- b=IdNhR7XkgDkCZgCeIoG57VcAjTseFmWD21hp6UVqVxUDN6Z2pMUxlkQneXkYUkTaRt
- Ubf8bwk1T5Zf22+KJe83+MkF90hxA1dizeDcCFxXcd4NZR7f+m5ra63Tlmb3+Wc0k+YE
- mBWBPxMUxF7Qhbay4eGFOfAPPLqEK0+V7+IcqSBCmV7NGpZ8JL/U/CQa+ETzk7r5yuhe
- is6AaUiVS2mNS82uN4cEvJloIG778r9P5AxvVoTWyiKu716u1l4tGkVpQJS8dKJMg2yo
- 8SJMQjDuNKuC217CljlZHt0r7xKAC5pwSkx5GR/ZiN68Sw5tlU11QnOT5JqHOkXxbY9U
- rMaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWUbQ9d9Et12jKQvcEUt0Q+0NGgeTg5vRShVvthgSJFh//FP6FaU0Gwxv27rCj8hC3RPCEb1vm47wQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHM5hpJoZGKacnEQ1vN3NQtRwqQk0wjf9zVksB1pgHcMjnObPW
- M1CwnXim3nvsLo6i7Czkuusc2Du5T+4bEcUc9nTrL5Tkzrcox9D5
-X-Gm-Gg: ASbGncs/CdyGgCc3EHUfxzRC6rrAYrxFOTdWIWMwy+zskA+f4yrkgbbXVEJIj5ZCRea
- 8w550dsNuZi+c8lPbKCHkNCcfbk/rHMILo1ViObe2YuW9vzBlwCmyTpyXfSEvwT7GrJLy1sSQTR
- TtXkfZcGEvM9cdPFVF3274II5hHgz5iBMnl6S+mHPORj+SpUs65NqbsikVynZVn7WDyrLs0+AE8
- 9y385+lt6Yn8BhczZ79RdllZh9wCi51/odzqOk5v1R6d9FtJPVD2eLJWUVNDnAyAv1oqiUkViwQ
- JmPkYVp09DVU+Sb5PJQM2tF7v+wOrCBZHXWryiZwRw==
-X-Google-Smtp-Source: AGHT+IF80fmLVPbtDN3yjIpualYTNgWYYcwvkaJ7VTuW/EM6ksm+G1Qlmrwr48Na58FQ8fjTwc/qvg==
-X-Received: by 2002:a05:600c:5307:b0:43d:585f:ebf5 with SMTP id
- 5b1f17b1804b1-441d44bc56emr27403975e9.1.1746626094564; 
- Wed, 07 May 2025 06:54:54 -0700 (PDT)
-Received: from fedora.. ([94.73.35.165]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-442cd32f1eesm1894295e9.9.2025.05.07.06.54.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 May 2025 06:54:53 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: louis.chauvet@bootlin.com
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v5 16/16] drm/vkms: Allow to configure connector status via
- configfs
-Date: Wed,  7 May 2025 15:54:31 +0200
-Message-ID: <20250507135431.53907-17-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250507135431.53907-1-jose.exposito89@gmail.com>
-References: <20250507135431.53907-1-jose.exposito89@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B97B910E7F7
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 14:07:05 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6F09339;
+ Wed,  7 May 2025 07:06:54 -0700 (PDT)
+Received: from [10.57.20.214] (unknown [10.57.20.214])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB1AF3F5A1;
+ Wed,  7 May 2025 07:07:00 -0700 (PDT)
+Message-ID: <2b85071a-e3e7-4cfc-a471-e81e463b7c37@arm.com>
+Date: Wed, 7 May 2025 15:06:58 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] drm/panfrost: Add support for Mali on the MT8370
+ SoC
+To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20250502-mt8370-enable-gpu-v5-0-98e247b30151@collabora.com>
+ <20250502-mt8370-enable-gpu-v5-2-98e247b30151@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250502-mt8370-enable-gpu-v5-2-98e247b30151@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,144 +58,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a connector is created, add a `status` file to allow to update the
-connector status to:
+On 02/05/2025 13:17, Louis-Alexis Eyraud wrote:
+> Add a compatible for the MediaTek MT8370 SoC, with an integrated ARM
+> Mali G57 MC2 GPU (Valhall-JM, dual core), with new platform data for
+> its support in the panfrost driver.
+> It uses the same data as MT8186 for the power management features to
+> describe power supplies, pm_domains and enablement (one regulator, two
+> power domains) but also sets the FORCE_AARCH64_PGTABLE flag in the GPU
+> configuration quirks bitfield to enable AARCH64 4K page table format
+> mode.
+> As MT8186 and MT8370 SoC have different GPU architecture (Mali G52 2EE
+> MC2 for MT8186), making them not compatible, and this mode is only
+> enabled for Mediatek SoC that are Mali G57 based (compatible with
+> mediatek,mali-mt8188 or mediatek,mali-8192), having specific platform
+> data allows to set this flag for MT8370 without modifying MT8186
+> configuration and behaviour.
+> 
+> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
 
- - 1 connector_status_connected
- - 2 connector_status_disconnected
- - 3 connector_status_unknown
+With one minor comment fixed below:
 
-If the device is enabled, updating the status hot-plug or unplugs the
-connector.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- Documentation/gpu/vkms.rst            |  5 +++
- drivers/gpu/drm/vkms/vkms_configfs.c  | 48 +++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_connector.c |  7 ++++
- drivers/gpu/drm/vkms/vkms_connector.h |  6 ++++
- 4 files changed, 66 insertions(+)
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index f1ec3b02f15a0029d20c7d81046ded59854e885c..8e0a1ae6940c73b7b60233950ae3abdfa843cc8e 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -846,6 +846,16 @@ static const struct panfrost_compatible mediatek_mt8192_data = {
+>  	.gpu_quirks = BIT(GPU_QUIRK_FORCE_AARCH64_PGTABLE),
+>  };
+>  
+> +/* MT8370 uses the same power domains and power supplies as MT8186 */
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index c551241fe873..7c54099b1dc6 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -108,6 +108,11 @@ Last but not least, create one or more connectors::
- 
-   sudo mkdir /config/vkms/my-vkms/connectors/connector0
- 
-+Connectors have 1 configurable attribute:
-+
-+- status: Connection status: 1 connected, 2 disconnected, 3 unknown (same values
-+  as those exposed by the "status" property of a connector)
-+
- To finish the configuration, link the different pipeline items::
- 
-   sudo ln -s /config/vkms/my-vkms/crtcs/crtc0 /config/vkms/my-vkms/planes/plane0/possible_crtcs
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 8e90acbebd6a..07ab794e1052 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -7,6 +7,7 @@
- #include "vkms_drv.h"
- #include "vkms_config.h"
- #include "vkms_configfs.h"
-+#include "vkms_connector.h"
- 
- /* To avoid registering configfs more than once or unregistering on error */
- static bool is_configfs_registered;
-@@ -512,6 +513,52 @@ static const struct config_item_type encoder_group_type = {
- 	.ct_owner	= THIS_MODULE,
- };
- 
-+static ssize_t connector_status_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_connector *connector;
-+	enum drm_connector_status status;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	scoped_guard(mutex, &connector->dev->lock)
-+		status = vkms_config_connector_get_status(connector->config);
-+
-+	return sprintf(page, "%u", status);
-+}
-+
-+static ssize_t connector_status_store(struct config_item *item,
-+				      const char *page, size_t count)
-+{
-+	struct vkms_configfs_connector *connector;
-+	enum drm_connector_status status;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	if (kstrtouint(page, 10, &status))
-+		return -EINVAL;
-+
-+	if (status != connector_status_connected &&
-+	    status != connector_status_disconnected &&
-+	    status != connector_status_unknown)
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		vkms_config_connector_set_status(connector->config, status);
-+
-+		if (connector->dev->enabled)
-+			vkms_trigger_connector_hotplug(connector->dev->config->dev);
-+	}
-+
-+	return (ssize_t)count;
-+}
-+
-+CONFIGFS_ATTR(connector_, status);
-+
-+static struct configfs_attribute *connector_item_attrs[] = {
-+	&connector_attr_status,
-+	NULL,
-+};
-+
- static void connector_release(struct config_item *item)
- {
- 	struct vkms_configfs_connector *connector;
-@@ -531,6 +578,7 @@ static struct configfs_item_operations connector_item_operations = {
- };
- 
- static const struct config_item_type connector_item_type = {
-+	.ct_attrs	= connector_item_attrs,
- 	.ct_item_ops	= &connector_item_operations,
- 	.ct_owner	= THIS_MODULE,
- };
-diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
-index 89fa8d9d739b..b0a6b212d3f4 100644
---- a/drivers/gpu/drm/vkms/vkms_connector.c
-+++ b/drivers/gpu/drm/vkms/vkms_connector.c
-@@ -87,3 +87,10 @@ struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev)
- 
- 	return connector;
- }
-+
-+void vkms_trigger_connector_hotplug(struct vkms_device *vkmsdev)
-+{
-+	struct drm_device *dev = &vkmsdev->drm;
-+
-+	drm_kms_helper_hotplug_event(dev);
-+}
-diff --git a/drivers/gpu/drm/vkms/vkms_connector.h b/drivers/gpu/drm/vkms/vkms_connector.h
-index 90f835f70b3b..35f2adf97e32 100644
---- a/drivers/gpu/drm/vkms/vkms_connector.h
-+++ b/drivers/gpu/drm/vkms/vkms_connector.h
-@@ -26,4 +26,10 @@ struct vkms_connector {
-  */
- struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev);
- 
-+/**
-+ * struct vkms_device *vkmsdev() - Update the device's connectors status
-+ * @vkmsdev: VKMS device to update
-+ */
-+void vkms_trigger_connector_hotplug(struct vkms_device *vkmsdev);
-+
- #endif /* _VKMS_CONNECTOR_H_ */
--- 
-2.49.0
+This comment is not correct - you've got the power domains of MT8186, 
+but the supplies of MT8183. The comment doesn't actually add much so you 
+could just drop it.
+
+If you're feeling adventurous then one option here is to actually clean 
+up the mediatek entries a little. Instead of referring to particular 
+part numbers we could have:
+
+static const char * const mediatek_2_pm_domains[] = { "core0", "core1" };
+static const char * const mediatek_3_pm_domains[] = { "core0", "core1", "core2" };
+static const char * const mediatek_5_pm_domains[] = { "core0", "core1", "core2",
+                                                      "core3", "core4" };
+
+Or even just have the mediatek_5_domains[] array (dropping the '5' in
+the name) and not use ARRAY_SIZE().
+
+Equally the supplies arrays could be renamed. We have the one with 
+"sram" for legacy and everything else uses {"mali", NULL} but we have 
+two definitions for it (mt8183_b and mt8192).
+
+Thanks,
+Steve
+
+> +static const struct panfrost_compatible mediatek_mt8370_data = {
+> +	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
+> +	.supply_names = mediatek_mt8183_b_supplies,
+> +	.num_pm_domains = ARRAY_SIZE(mediatek_mt8186_pm_domains),
+> +	.pm_domain_names = mediatek_mt8186_pm_domains,
+> +	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
+> +	.gpu_quirks = BIT(GPU_QUIRK_FORCE_AARCH64_PGTABLE),
+> +};
+> +
+>  static const struct of_device_id dt_match[] = {
+>  	/* Set first to probe before the generic compatibles */
+>  	{ .compatible = "amlogic,meson-gxm-mali",
+> @@ -868,6 +878,7 @@ static const struct of_device_id dt_match[] = {
+>  	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
+>  	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
+>  	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
+> +	{ .compatible = "mediatek,mt8370-mali", .data = &mediatek_mt8370_data },
+>  	{ .compatible = "allwinner,sun50i-h616-mali", .data = &allwinner_h616_data },
+>  	{}
+>  };
+> 
 
