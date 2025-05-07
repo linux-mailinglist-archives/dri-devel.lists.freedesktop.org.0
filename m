@@ -2,66 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37D7AAE351
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 16:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F169EAAE350
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 16:42:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1DDA10E810;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8247F10E80F;
 	Wed,  7 May 2025 14:42:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="guZjK6sM";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="qxHfdzrL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D7E110E811
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 14:42:46 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250507144242euoutp02e09620485249c027dfb1c4b6559492c5~9Rcl06FX50433904339euoutp02e
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 14:42:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250507144242euoutp02e09620485249c027dfb1c4b6559492c5~9Rcl06FX50433904339euoutp02e
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4552510E819
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 14:42:47 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250507144243euoutp01ff1bb295232b8518d3167471bcd7406b~9Rcm6akbS0094100941euoutp01u
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 14:42:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20250507144243euoutp01ff1bb295232b8518d3167471bcd7406b~9Rcm6akbS0094100941euoutp01u
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1746628962;
- bh=DbGys0US7skwcuhdvdVwOVZSicDyfO1yb004QE26BKw=;
- h=From:To:Cc:Subject:Date:References:From;
- b=guZjK6sMfp3Due0zdoki94a/Dg56CJlCqj03/DvPwtpLQo3/Xya1JZ1n/zmT5mEIS
- 7t4BjTrPEt1HLXZGXz6lFwhgJYwGIjXjQpkxuTcSlhABw38myQzDZFIyVLUQIwqQKo
- jjbzMLV514rdjP4BgIf/ih2wEXpfN8Y81dPqf7yY=
+ s=mail20170921; t=1746628963;
+ bh=34R7cvqohrkjem3KZ8Do3QII04UQFGDnVLXvAbb0TTQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=qxHfdzrLNiqK+s2D0ewAC4E5e7veKqxvSE7DL5EKK6t5vTjknIMZaheK1VNuC7v48
+ ITU0s4jONjilEtP3kC7FRiOev2H9+C8n8ZujKNGTin4DaAy2g7OO0nPNC07HwGtnHn
+ BHZ87BORDiEHGUtfxUyC5I1yn75nnYM3YdcKbwWY=
 Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250507144241eucas1p14542a410069bfe5bc010996ee74b9695~9RcldqLTR0872208722eucas1p1q;
- Wed,  7 May 2025 14:42:41 +0000 (GMT)
+ 20250507144242eucas1p183cb5456d7caacc02d60e33c4878a84d~9RcmqWM__1893918939eucas1p1O;
+ Wed,  7 May 2025 14:42:42 +0000 (GMT)
 Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250507144240eusmtip204f7fa06fe1ac4f0301c67cd939a4fd8~9RcktY56O2360223602eusmtip2f;
- Wed,  7 May 2025 14:42:40 +0000 (GMT)
+ 20250507144242eusmtip28e8268df9b948d8f2057ea2720b97455~9RcmFkT1N3184031840eusmtip2M;
+ Wed,  7 May 2025 14:42:42 +0000 (GMT)
 From: Marek Szyprowski <m.szyprowski@samsung.com>
 To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Tomasz Figa
- <tfiga@chromium.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sergey
- Senozhatsky <senozhatsky@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Gerd Hoffmann <kraxel@redhat.com>, Vivek Kasireddy
- <vivek.kasireddy@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, Gurchetan
- Singh <gurchetansingh@chromium.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v2 0/3] media: fix incorrect use of dma_sync_sg_*() calls
-Date: Wed,  7 May 2025 16:42:00 +0200
-Message-Id: <20250507144203.2081756-1-m.szyprowski@samsung.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, Sumit
+ Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Robin Murphy <robin.murphy@arm.com>, stable@vger.kernel.org
+Subject: [PATCH v2 2/3] udmabuf: use sgtable-based scatterlist wrappers
+Date: Wed,  7 May 2025 16:42:02 +0200
+Message-Id: <20250507144203.2081756-3-m.szyprowski@samsung.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250507144203.2081756-1-m.szyprowski@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250507144241eucas1p14542a410069bfe5bc010996ee74b9695
+X-CMS-MailID: 20250507144242eucas1p183cb5456d7caacc02d60e33c4878a84d
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250507144241eucas1p14542a410069bfe5bc010996ee74b9695
+X-RootMTR: 20250507144242eucas1p183cb5456d7caacc02d60e33c4878a84d
 X-EPHeader: CA
-X-CMS-RootMailID: 20250507144241eucas1p14542a410069bfe5bc010996ee74b9695
-References: <CGME20250507144241eucas1p14542a410069bfe5bc010996ee74b9695@eucas1p1.samsung.com>
+X-CMS-RootMailID: 20250507144242eucas1p183cb5456d7caacc02d60e33c4878a84d
+References: <20250507144203.2081756-1-m.szyprowski@samsung.com>
+ <CGME20250507144242eucas1p183cb5456d7caacc02d60e33c4878a84d@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,35 +75,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear All,
+Use common wrappers operating directly on the struct sg_table objects to
+fix incorrect use of scatterlists sync calls. dma_sync_sg_for_*()
+functions have to be called with the number of elements originally passed
+to dma_map_sg_*() function, not the one returned in sgtable's nents.
 
-This patchset fixes the incorrect use of dma_sync_sg_*() calls in
-media and related drivers. They are replaced with much safer
-dma_sync_sgtable_*() variants, which take care of passing the proper
-number of elements for the sync operation.
+Fixes: 1ffe09590121 ("udmabuf: fix dma-buf cpu access")
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ drivers/dma-buf/udmabuf.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Best regards
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
-
-Change log:
--v2: fixes typos and added cc: stable
-
-
-Patch summary:
-
-Marek Szyprowski (3):
-  media: videobuf2: use sgtable-based scatterlist wrappers
-  udmabuf: use sgtable-based scatterlist wrappers
-  media: omap3isp: use sgtable-based scatterlist wrappers
-
- drivers/dma-buf/udmabuf.c                         | 5 ++---
- drivers/media/common/videobuf2/videobuf2-dma-sg.c | 4 ++--
- drivers/media/platform/ti/omap3isp/ispccdc.c      | 8 ++++----
- drivers/media/platform/ti/omap3isp/ispstat.c      | 6 ++----
- 4 files changed, 10 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 7eee3eb47a8e..c9d0c68d2fcb 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -264,8 +264,7 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
+ 			ubuf->sg = NULL;
+ 		}
+ 	} else {
+-		dma_sync_sg_for_cpu(dev, ubuf->sg->sgl, ubuf->sg->nents,
+-				    direction);
++		dma_sync_sgtable_for_cpu(dev, ubuf->sg, direction);
+ 	}
+ 
+ 	return ret;
+@@ -280,7 +279,7 @@ static int end_cpu_udmabuf(struct dma_buf *buf,
+ 	if (!ubuf->sg)
+ 		return -EINVAL;
+ 
+-	dma_sync_sg_for_device(dev, ubuf->sg->sgl, ubuf->sg->nents, direction);
++	dma_sync_sgtable_for_device(dev, ubuf->sg, direction);
+ 	return 0;
+ }
+ 
 -- 
 2.34.1
 
