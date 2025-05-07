@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF89AADED1
-	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 14:18:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E0BAADF22
+	for <lists+dri-devel@lfdr.de>; Wed,  7 May 2025 14:29:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E4CD10E78A;
-	Wed,  7 May 2025 12:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 033E110E7A0;
+	Wed,  7 May 2025 12:29:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="CalMWjbE";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="oM0f7iPF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3DBA10E79B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 12:18:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1746620286; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KtTHTt1Tjx7DRmxnUa9DJHsNAEMmV461KJtLIp8tKBOc4i5L/JXgNwgIn4g0iXQkpS1GX7cSbvrWaJENuOlQZi8G4MsT8kWJOtKPwLDHEXnVDv/PTWjYKqZc8x9R4P5ftVpbYE5Gq7Lage4Nvaa9YTU99sJHHefE6QncryCKx2g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1746620286;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=nZ7VTUUkmW3UEk+ji4BAHEasrORLr0NrzBoKdLXASRo=; 
- b=HFxz19i0bshOjnSTzZih/URhXWJ/4+pjSQrrS565sSf4rUL2W0e7Opvee+sn0EMC/7a2AHldIIiLKKCYpTnQA/rPzOJR64rStQuJTYJGe/39Znd2cP08j92o8Y5OxZDthNvU7vz6DQw2gtopgauSW4BbsBekWOj2NOulq1py2J8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746620286; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=nZ7VTUUkmW3UEk+ji4BAHEasrORLr0NrzBoKdLXASRo=;
- b=CalMWjbEBD6V/6fivu+afK14IPeSN9qjWclnu+r1Ke4Thcfnaf06l0V26R1DKDrx
- s9vc55TEUOv/zi+Mw7MbclZOmrIusONGfuTUgilhJNkQTEbrnEuHj8x8NKjijfHjuMS
- wZheagKjM4feZMKMQQ6JLKEqtk3/N8Wt8QEi9Lbg=
-Received: by mx.zohomail.com with SMTPS id 17466202814781023.8071911712406;
- Wed, 7 May 2025 05:18:01 -0700 (PDT)
-Message-ID: <bfb05572-7596-40b9-b12d-a501f7c62689@collabora.com>
-Date: Wed, 7 May 2025 15:17:58 +0300
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 314A610E79C
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 May 2025 12:28:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=NS+5DrDYsTCplkoAfG3qv9O0ZLX7R93xzYUf4AlIYMo=; b=oM0f7iPF0pmXh/FQ4x8LrHtMY1
+ Gf2EJkRkHMLNiEzT3dDOuGHodqoi2PVe4nDH1rK+uSJR+L0pQ7lhTgDuT688RxhojpSRbl58KXY9r
+ AARf7Fin9I28+4kCdrfT061tFJ8+SXwWNJxK68dPhj5c1QUe6coyBuHWmiZ0CoC5j7e5BoSiLcfOY
+ tuipc4f0RJr5xegSF0MdfRWJeSf1AYirXObhOqx0QMh2LzC4ezRt7MqT72IA09EbXX/UnkQ/Y/A91
+ EyhTRgaSA9c8zu43cdI/C4W7kxpvznvWT3I1wmszs4LWU7zm4KQpm2kV6QUJQCkCllP7/UZOOzKpm
+ JBh7UaMQ==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uCdpW-004haS-Lq; Wed, 07 May 2025 14:28:50 +0200
+Message-ID: <67a89aac-5eb6-46d2-b456-32e9f3e72f09@igalia.com>
+Date: Wed, 7 May 2025 13:28:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/virtio: Fix NULL pointer deref in
- virtgpu_dma_buf_free_obj()
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-References: <20250501232419.180337-1-vivek.kasireddy@intel.com>
- <ba724d8e-f2e2-49e7-88ac-4b0ae5b49e4d@collabora.com>
- <IA0PR11MB718590309CEFD76B9B9D35D3F888A@IA0PR11MB7185.namprd11.prod.outlook.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <IA0PR11MB718590309CEFD76B9B9D35D3F888A@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Subject: Re: [RFC 0/4] Some (drm_sched_|dma_)fence lifetime issues
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
+ <phasta@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20250418164246.72426-1-tvrtko.ursulin@igalia.com>
+ <29b27ae3-de56-475d-ae85-fd593a011ea3@amd.com>
+ <e4acf86d-ff22-423d-9769-80316fa96cb5@igalia.com>
+ <ff76a94e-97cd-4d19-a02b-cf2a1fc00ac8@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <ff76a94e-97cd-4d19-a02b-cf2a1fc00ac8@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,78 +67,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/7/25 05:51, Kasireddy, Vivek wrote:
-> Hi Dmitry,
-> 
->> Subject: Re: [PATCH] drm/virtio: Fix NULL pointer deref in
->> virtgpu_dma_buf_free_obj()
+
+On 28/04/2025 14:15, Christian König wrote:
+> On 4/24/25 09:07, Tvrtko Ursulin wrote:
 >>
->> On 5/2/25 02:24, Vivek Kasireddy wrote:
->>> There is a chance that obj->dma_buf would be NULL by the time
->>> virtgpu_dma_buf_free_obj() is called. This can happen for imported
->>> prime objects, when drm_gem_object_exported_dma_buf_free() gets
->> called
->>> on them before drm_gem_object_free(). This is because
->>> drm_gem_object_exported_dma_buf_free() explicitly sets
->>> obj->dma_buf to NULL.
+>> On 23/04/2025 14:12, Christian König wrote:
+>>> On 4/18/25 18:42, Tvrtko Ursulin wrote:
+>>>> Hi all,
+>>>>
+>>>> Recently I mentioned to Danilo about some fence lifetime issues so here is a
+>>>> rough series, more than anything intended to start the discussion.
+>>>>
+>>>> Most of the problem statement can be found in the first patch but to briefly
+>>>> summarise - because sched fence can outlive the scheduler, we can trivially
+>>>> engineer an use after free with xe and possibly other drivers. All that is
+>>>> needed is to convert a syncobj into a sync file behind drivers back, and I don't
+>>>> see what the driver can do about it.
 >>>
->>> Therefore, fix this issue by storing the dma_buf pointer in the
->>> virtio_gpu_object instance and using it in virtgpu_dma_buf_free_obj.
->>> This stored pointer is guaranteed to be valid until the object is
->>> freed as we took a reference on it in virtgpu_gem_prime_import().
 >>>
->>> Fixes: 415cb45895f4 ("drm/virtio: Use dma_buf from GEM object
->>> instance")
->>> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
->>> ---
->>>  drivers/gpu/drm/virtio/virtgpu_drv.h   | 1 +
->>>  drivers/gpu/drm/virtio/virtgpu_prime.c | 3 ++-
->>>  2 files changed, 3 insertions(+), 1 deletion(-)
+>>> Yeah that topic again :) The problem here is that this is not a bug, it is a feature!
 >>>
->>> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h
->>> b/drivers/gpu/drm/virtio/virtgpu_drv.h
->>> index f17660a71a3e..f7def8b42068 100644
->>> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
->>> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
->>> @@ -88,6 +88,7 @@ struct virtio_gpu_object_params {
+>>> IIRC it was Alex who pointed that issue out on the very first fence patch set, and we already discussed what to do back then.
 >>>
->>>  struct virtio_gpu_object {
->>>  	struct drm_gem_shmem_object base;
->>> +	struct dma_buf *dma_buf;
->>>  	struct sg_table *sgt;
->>>  	uint32_t hw_res_handle;
->>>  	bool dumb;
->>> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c
->>> b/drivers/gpu/drm/virtio/virtgpu_prime.c
->>> index 1118a0250279..722cde5e2d86 100644
->>> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
->>> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
->>> @@ -206,7 +206,7 @@ static void virtgpu_dma_buf_free_obj(struct
->> drm_gem_object *obj)
->>>  	struct virtio_gpu_device *vgdev = obj->dev->dev_private;
->>>
->>>  	if (drm_gem_is_imported(obj)) {
->>> -		struct dma_buf *dmabuf = obj->dma_buf;
->>> +		struct dma_buf *dmabuf = bo->dma_buf;
+>>> The problem with grabbing module references for fences is that you get trivially into circle references and so basically always preventing the module from unloading.
 >>
->> drm_gem_is_imported() checks whether obj->dma_buf is NULL, hence
->> drm_gem_is_imported() can't be used here too?
-> Unless I am missing something, it looks like drm_gem_is_imported() does
-> not seem to check obj->dma_buf:
+>> Where "always" is only "while there are active objects from that module", no?
 > 
-> static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
-> {
->         return !!obj->import_attach;
-> }
+> 
+> The problem is that dma_fences stay around after they are signaled. And basically all drivers keep some dma_fence around for their resource management. E.g. amdgpu for the VMIDs.
+> 
+> This means that some dma_fence is referenced by the module and the module referenced by some dma_fence. E.g. you are never able to unload the module.
 
-Indeed, it was changed a month ago by [1].
-Then the patch looks okay, thanks. Will merge soon.
+Are you thinking truly never or for as long someone has a reference?
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8260731ccad0451207b45844bb66eb161a209218
+For example while userspace has a reference to dma_fence via sync_file 
+fence owning module would not unloadable. One would have to terminate 
+the process, which granted wouldn't be easy to see which process 
+prevents the unload, before driver could be unloaded.
 
--- 
-Best regards,
-Dmitry
+For the foreign fences kept around in kernel space, that would be 
+solvable by some periodic house keeping at worst.
+
+Also, about the use cases for module unload. Since you and Brost 
+especially seem to be expressing a hard no to module references, what 
+are the use cases you are concerned about?
+
+>>> The decision was made to postpone this and live with the potential use after free on module unload until somebody has time to fix it. Well that was +10 years ago :)
+>>>
+>>> I discussed this with Sima again last year and we came to the conclusion that the easiest way forward would be to decouple the dma_fence implementation from the driver or component issuing the fence.
+>>>
+>>> I then came up with the following steps to allow this:
+>>> 1. Decouple the lock used for protecting the dma_fence callback list from the caller.
+>>> 2. Stop calling enable_signaling with the lock held.
+>>> 3. Nuke all those kmem_cache implementations and force drivers to always allocate fences using kvmalloc().
+>>> 4. Nuke the release callback (or maybe move it directly after signaling) and set fence->ops to NULL after signaling the fence.
+>>>
+>>> I already send patches out for #1 and #2, but don't have enough time to actually finish the work.
+>>>
+>>> If you want take a look at nuking all those kmem_cache implementations for allocating the fence memory. I think that can be completed completely separate to everything else.
+>>
+>> So enabling dma fence "revoke" so to say.
+>>
+>> Just to check we are on the same page, it is not just about the module references, but also use after frees which can happen even if module is still loaded but any memory reachable via dma fence entry points has been freed.
+> 
+> 
+> Yeah, that came much later when people started to use the scheduler dynamically. Basically the sched pointer in the drm_sched_fence implementation becomes invalid as soon as the fence signals.
+> 
+>>
+>> In that case, as Matt has already asked, if you could dig up your unfinished work it would be interesting to see.
+> 
+> 
+> This is what I already send out: https://gitlab.freedesktop.org/ckoenig/linux-drm/-/commits/dma-fence-rework-enable-signaling
+> 
+> A bunch of the cleanup patches in that branch have already been applied, only the last one is missing IIRC.
+> 
+> And here is a WIP patch to decouple the lock I wrote halve a year ago or so: https://gitlab.freedesktop.org/ckoenig/linux-drm/-/commits/dma-fence-rework-locking
+
+Thanks!
+
+My concern here is that to me it appears the whole premise is to leave 
+fences dangling in memory and somehow make them safe to be accessed by 
+importers.
+
+For starters this can create permanent memory leaks. Or at least for the 
+same window of duration as would the exporters be not unloadable with 
+the reference counting alternative. So we would not a strong argument 
+for why poorly bound memory leaks are better than poorly bound 
+unloadable modules.
+
+It is also a question how to "revoke" fences safely (race free). It 
+sounds hard to me. It does not seem you got to this last problem in the 
+above branches so I don't know if you had some elegant ideas for that.
+
+Maybe first to ask if anyone is aware of a precedent where something in 
+the kernel already uses this design pattern?
+
+Regards,
+
+Tvrtko
+
