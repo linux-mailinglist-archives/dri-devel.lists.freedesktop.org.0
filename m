@@ -2,101 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D606AAF482
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 09:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB5BAAF4A5
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 09:26:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 220DB10E16C;
-	Thu,  8 May 2025 07:16:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D85810E8CB;
+	Thu,  8 May 2025 07:26:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C2iKUczB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cytNPQ0V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79BCD10E16C
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 07:16:36 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C7C110E8CB
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 07:26:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6D793A4D9F5;
- Thu,  8 May 2025 07:16:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2EF9C4CEEB;
- Thu,  8 May 2025 07:16:27 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 09B4F629E3;
+ Thu,  8 May 2025 07:26:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26533C4CEEB;
+ Thu,  8 May 2025 07:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746688592;
- bh=qetcnJ/bVlm8Wp3j6cJtVSuUtHSiJ8n35hJdXby+9Cw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=C2iKUczBk55G28etcgq9KHU9b7FV5UUeEnM1OUAwpbZSaB6fxjGx25S0imvc69ugs
- P/j+/1zMpDKkoiuGDwm1x25T7QwP/T2almaEsRxsGkbwHJz8gGkk61eNjjEyCl7+qw
- AiZw0qAKOMV2Gf8u4atylY/STShTt8X3oyUNR62Z/DW9ylA8LJXnvqLC+FLTukiHoH
- cGh91qDKTtwgxiuuhDHTKM4w26TUsjWdyL4pz+rxlLgjB7MS2RRvNr+9EtXGXE7BaB
- I3of5s8rTOnR0v6WeBGegV+72JmQyuRtnWt9eZ1Cl71I1/DMCco6fvKkx8MDdNtv8T
- rH78ZYfXE0Esw==
-Message-ID: <a3ef7af4-3c6a-4bc6-912b-5819393dcd6a@kernel.org>
-Date: Thu, 8 May 2025 09:16:25 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dt-bindings: display: rockchip: Convert
- cdn-dp-rockchip.txt to yaml
-To: Chaoyi Chen <kernel@airkyi.com>, Sandy Huang <hjc@rock-chips.com>,
- Heiko Stuebner <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250508064304.670-1-kernel@airkyi.com>
- <20250508064304.670-3-kernel@airkyi.com>
+ s=k20201202; t=1746689186;
+ bh=lDVhoE3V2KBUKc6XkA3MZUxna2iMhYxYrxfM8q0Hm0w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cytNPQ0VyKQFqKkF0zNpjCyBrU/cPfvXhhlh6V3+EYdpgk0AGJKMDFRooHr6Gys6F
+ 4y5cUTxbdIvf0AV+VPyHFVca+7Azp8k43cJqOUZE7J750oLYwgr2TngpFFg6N5MdBq
+ FIrkmB55/C3HDIbszl+qXOrL2szdf+LcGtLIqijM/5IBaJvK1QsFfzOAqNZvq9juIQ
+ l+8tPFmzylgsQHLW0i74lBD05UWKCpt2IGHEAaU4Y1k2ncDh9q3yjYQO+sp2zYBpmu
+ s5TMJfWF/AlAKnnG2c06/Sps4kHZ2/Dc63SJwVNUd0oVa+YK5Lua8Bi1q4+BwQ5og1
+ dfajrgZDfaBjg==
+Date: Thu, 8 May 2025 09:26:24 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250508064304.670-3-kernel@airkyi.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, ryan@testtoast.com, macromorgan@hotmail.com, 
+ p.zabel@pengutronix.de, tzimmermann@suse.de, maarten.lankhorst@linux.intel.com,
+ simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org, samuel@sholland.org, 
+ jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
+ krzk+dt@kernel.org, robh@kernel.org
+Subject: Re: [PATCH V9 00/24] drm: sun4i: add Display Engine 3.3 (DE33) support
+Message-ID: <20250508-foxhound-of-interesting-drizzle-34adae@kuoka>
+References: <20250507201943.330111-1-macroalpha82@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250507201943.330111-1-macroalpha82@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,191 +61,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/05/2025 08:43, Chaoyi Chen wrote:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+On Wed, May 07, 2025 at 03:19:19PM GMT, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> Convert cdn-dp-rockchip.txt to yaml.
+> I've spoken with Ryan and he agreed to let me take over this series to
+> get the display engine working on the Allwinner H616. I've taken his
+> previous patch series for Display Engine 3.3 and combined it with the
+> LCD controller patch series. I've also fixed a few additional bugs and
+> made some changes to the device tree bindings.
 > 
-> Tested with:
-> 
-> 1. make ARCH=arm64 dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
-> 
-> 2. make ARCH=arm64 dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
+> Changes since V8:
+>  - Combined the DE33 [1] series and the LCD [2] series to better track
+>    all patches necessary to output to an LCD display for the Allwinner
+>    H700.
 
-Drop. You do not have to embed in commit msg standard makefile targets.
-We all know how to use it. You do not do it for C files, do you?
+You have here three or four different subsystems. This does not make it
+easier, but it makes it a huge patchbomb with unspecific or complex
+base.
 
-> 
-> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> ---
-
-...
-
-> -	};
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
-> new file mode 100644
-> index 000000000000..ed68b48a6743
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
-
-Filename matching compatible.
-
-> @@ -0,0 +1,148 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,cdn-dp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Rockchip RK3399 specific extensions to the CDN Display Port
-> +
-> +maintainers:
-> +  - Andy Yan <andy.yan@rock-chip.com>
-> +  - Heiko Stuebner <heiko@sntech.de>
-> +  - Sandy Huang <hjc@rock-chips.com>
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: rockchip,rk3399-cdn-dp
-> +
-> +  reg:
-> +    description:
-> +      CDN DP core register
-
-Missing constraints. Drop description.
-
-Just look at other bindings.
-
-> +
-> +  assigned-clock-rates: true
-> +  assigned-clocks: true
-
-Drop these two
-
-> +
-> +  clocks:
-> +    minItems: 4
-
-No, look at other bindings.
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: core-clk
-> +      - const: pclk
-> +      - const: spdif
-> +      - const: grf
-> +
-> +  extcon:
-> +    description:
-> +      Phandle to the extcon device providing the cable state for the DP phy.
-
-Missing type, unless you could not add a type because of conflicts? This
-should be really fixed...
-
-
-> +
-> +  interrupts:
-> +    maxItems: 1
-
-and here is maxItems. Why in other places you put minItems?
-
-> +
-> +  phys:
-> +    minItems: 1
-> +    maxItems: 2
-
-Why is this flexible? It wasn't in original binding and you must
-document all the changes done to the binding in commit msg.
-
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Input of the CDN DP
-> +        properties:
-> +          endpoint@0:
-> +            description: Connection to the VOPB
-> +          endpoint@1:
-> +            description: Connection to the VOPL
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Output of the CDN DP
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    minItems: 4
-
-No, look at other bindings.
-
-> +
-> +  reset-names:
-> +    items:
-> +      - const: spdif
-> +      - const: dptx
-> +      - const: apb
-> +      - const: core
-> +
-> +  rockchip,grf:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      This SoC makes use of GRF regs.
-
-For what? You did not say anything useful above, so instead explain the
-purpose.
-
-> +
-> +  "#sound-dai-cells":
-> +    const: 1
-
-Missing dai-common ref, unless this is not a DAI?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - phys
-> +  - ports
-> +  - resets
-> +  - reset-names
-> +  - rockchip,grf
-> +
-> +unevaluatedProperties: false
-
-Where is any $ref? additionalProperties instead or add proper ref
-
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/rk3399-cru.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/rk3399-power.h>
-> +    cdn_dp: dp@fec00000 {
-
-Drop unused label
-
-> +        compatible = "rockchip,rk3399-cdn-dp";
-> +        reg = <0x0 0xfec00000 0x0 0x100000>;
-> +        assigned-clocks = <&cru SCLK_DP_CORE>;
-> +        assigned-clock-rates = <100000000>;
-> +        interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cru SCLK_DP_CORE>, <&cru PCLK_DP_CTRL>, <&cru SCLK_SPDIF_REC_DPTX>,
-> +                <&cru PCLK_VIO_GRF>;
-
+Such combination makes no sense, because anyway it will have to be split
+per subsystem. You just know made it difficult for maintainers to review
+and apply, because they cannot apply entire set.
 
 Best regards,
 Krzysztof
+
