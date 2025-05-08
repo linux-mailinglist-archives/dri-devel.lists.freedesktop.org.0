@@ -2,69 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03C1AAF3D7
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 08:38:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB87AAF3FB
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 08:44:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 673D010E8AF;
-	Thu,  8 May 2025 06:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45C1910E8C1;
+	Thu,  8 May 2025 06:44:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="BrDU9UwY";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="fxXpi/Y5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E02A210E8AF
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 06:38:03 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id
- d75a77b69052e-4774ce422easo6901761cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 May 2025 23:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1746686283; x=1747291083;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OeUWZlXhqMjN0+VbPG5w98gG2BE6Xlz6DNigcIg/m1w=;
- b=BrDU9UwY/sit/rOTzBrF/BAn2MzoDVAONDdm4Kl5bU3kTCy9fDUDZJNSLX4M3JC2WV
- jHlddnJDV+TfvGTu/EAtj3RgDLR4a9U832/8DwWJuthhDXKLsSJhhiVrTGMZqGNbgU9E
- 0cGxf9kfMH2oE7T9cCD6BNMWLyDPKKBxcibjVqkt72GKhkems0M0qqm2yBQiWUPhiyAx
- 7FJhtPyHvxhh7CSs4K+a+NoO7JqI5sy3Rt2vlpQjD3b2F3isEgNWhrXLmK72Q3iDPQIc
- pqAAbFHtdkgDspXsl8WEFjMBTYB+4mWNN8IZLHwKoqodDRS+OWaWXcKkXElwOCy8vFjr
- IIUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746686283; x=1747291083;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OeUWZlXhqMjN0+VbPG5w98gG2BE6Xlz6DNigcIg/m1w=;
- b=wMWh4EeBSgG6G8nK+aFjvHrn+56GGgUTjPocqx4odzASv91fIZUzN6Fi+MotBgkqiA
- OA5Ia4n+Qeq6iJlEI1VVUxnbgfF55Mb0yqmkvzC76v4QnbN1bkPiTpDGdauToilpV3y9
- ImZzn96xmG32npfiw1V8KTS1aDnoivffCResVyM7AFaA9kU7noKMXTJtfabAPdyrwdvB
- wULjSIxc2U7s2kzM9sOg805KcDQe0W5JhjFduummKss2Tj0vcrpuc8m7QWwopyGYEeI+
- eBW1MjSRosXpZ1WOmZu7KB2UEhcIGr9xJ8w9dtjclmjNkwUUmlg/gV5UvTdCbwENiIUL
- qhdw==
-X-Gm-Message-State: AOJu0Ywl/bQRP9lPbfwdBWbNkfYmNHjf83kRuhDcR8EjgPO8qYAq4t7I
- J2DBSTMeU6NyMIusd2ithwcPvt9/064vVXlzJB6TlzKBpz5BG774xgnbx9N/pofjOnmUOgE4SFh
- xwJlZVpk5gDndJ3nwTTs9TSGYTPzoR1lKMy6U2A==
-X-Gm-Gg: ASbGncv+QYCWOMXZykv0lRQYblIiZkOA48Gwp9WLUf/fu+67SY6UZRHcZFiS3M2sGdk
- ycHm+cYES6Xj/NpAuuSEmW8ymN2mTMnDPt/8CPUH+rKevs22GX/tpsGsgcdfqyD82X+7rixmHfF
- GpHhLIA5dusQxPVa0ZXhCs0w==
-X-Google-Smtp-Source: AGHT+IFueGQnpyz2oEGmr9uCKxN2BB55YnMagjxHXKsBYNu2CCuPWwj7XPCKY4sf1PkySb/tUjReRP2Uxco1va1ISZE=
-X-Received: by 2002:ad4:574c:0:b0:6e4:3eb1:2bde with SMTP id
- 6a1803df08f44-6f542a4cc6fmr101332156d6.19.1746686283014; Wed, 07 May 2025
- 23:38:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250501091315.247788-2-robert.mader@collabora.com>
-In-Reply-To: <20250501091315.247788-2-robert.mader@collabora.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 8 May 2025 09:37:51 +0300
-X-Gm-Features: ATxdqUGHnFUMguiJlFqtnopDIgyCfci6Upo-vCS9UsHTOQyhoJz_Ccf-D96T6f0
-Message-ID: <CAPj87rOL6ZnE0bmj1XffP+RJWEgivq1+xWnOk8g3O1oNarj_6Q@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: drm_fourcc: add 10/12/16bit software decoder
- YCbCr formats
-To: Robert Mader <robert.mader@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, tomi.valkeinen@ideasonboard.com
-Content-Type: text/plain; charset="UTF-8"
+X-Greylist: delayed 96669 seconds by postgrey-1.36 at gabe;
+ Thu, 08 May 2025 06:44:14 UTC
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.67.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D41B210E8BF
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 06:44:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+ s=altu2504; t=1746686610;
+ bh=0pI2iREWW5cC2LwJLtCoMOYZhwY83h/z7B9+8q2WvaM=;
+ h=From:To:Subject:Date:Message-Id;
+ b=fxXpi/Y5mrjF84OdY3lEuMy2DsWSyvmGZ9xajslWgM+oAfiuAtOb9/FaVyPRZXU3i
+ B4awaS/VoRGgwCWFohqwr8Ez6DmG6Ctjml33QCmeoLknRvaPJPl4DUQD5NhWLR2y9G
+ y0LNDZr3mT0bxpl1gmh6gXHYCIBwXOPz/Ij0Jh3k=
+X-QQ-mid: esmtpsz18t1746686608t123d24cd
+X-QQ-Originating-IP: Lb7KIkQyY8JilwbOns5Cl43BA/5Z8/J56hf/m1H92DY=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Thu, 08 May 2025 14:43:26 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 4859509138922957751
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Convert Rockchip CDN DP binding to yaml
+Date: Thu,  8 May 2025 14:43:02 +0800
+Message-Id: <20250508064304.670-1-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+X-QQ-XMAILINFO: N3IC8um5pMyYiUTB++F8KmGWAz7BbvjjiJvjkp/Emlsn4bb47X4/ZJQi
+ 3s93gkfxyyqyBFPaHO95ETcR+vn67It2LfIX0jXKOXkXWHipQnUY61PNk7v42XfLt2bUInW
+ b1CJIGt+gHy+SoabkJiwrra6tQkkj42SpsbbS03vIQR40QiBW1GVfYGJAosQekfFzr+CwRg
+ YwMqWTEMVM4z3suCQIV+m4DDk3oSPaviOUbZJ1dFHZFydMyGXoh3+7d5aTHitLvAonE8QgF
+ jeIEGebHMXzzEwvZ2qy3xzcsPYmyCbRBaWUDR/wovsrryAiK1OwxaGgyEjmpSNJL9dxQPQA
+ XIulur70ImXupPMIfD4g/cvF6SxuWkZPkIQkIn9rynumJIkXcJc6mHYGoz/qOuQHDdQ7SbN
+ F+CPCIanHXerXlwJOJhajxzhhBnPhbKASftNDzq9ZD4JfIfYape0q0ezZ8Ar9nrYrucZ/4a
+ 3FwGKtAOVO01z2DpkBTgYShC8gJm4yzBkVDzRRnIlqQwpjht0zILw6So2G0RqS8mSz7aYIK
+ 0ZXduco+VDbsd63wAHnLfiO659D6971lm00O1i7vpHIvVZ0rFXSEA76N/gJCjGUBk66yU16
+ h0hKvIeFpl7ilnJ24FNO8J7buPsBUNIPooKHKJmAWWLOAxB/iUPGGVcchiLR0YPtt1a2tG6
+ bUMR4pcsQhe+Pw4KCVpde0oz4eccAOhnEQg2MDPF6m4Q7lW0mcXPAJSpr/gfICE0bHHRA7R
+ BnaKLEyJ+IWakDzca2dX0+tz15yetBk95GlTAx58Emd25MrQ9rda/6yHJQrE3wS22Sy6+ZI
+ SRWByavJ1v1Z/xKQNObNDN5Oht3I7KmAwqiz0IhA9mpdPExOZZ4rzZe1BAYvukfHNXUxz7F
+ e2tfrMTeBn6x31JRJjWXREaL5MK6BBQqdCtwtXoCzkeA7QsaqWvgFrbT/Vh4XCcYyRgX8cW
+ VoHl3OzAjNz5v0Q==
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,39 +83,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey there,
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-On Thu, 1 May 2025 at 12:22, Robert Mader <robert.mader@collabora.com> wrote:
-> Unlike formats typically used by hardware decoders the 10/12bit formats
-> use a LSB alignment. In order to allow fast implementations in GL
-> and Vulkan the padding must contain only zeros, so the float
-> representation can be calculated by multiplying with 2^6=64 or 2^4=16
-> respectively.
+This series convert cdn-dp-rockchip.txt to yaml.
 
-[...]
+PATCH 1 try to improve coding style on the existing rk3399 cdn-dp
+node.
+PATCH 2 try to convert cdn-dp-rockchip.txt to yaml.
 
-> +/*
-> + * 3 plane YCbCr LSB aligned
-> + * In order to use these formats in a similar fashion to MSB aligned ones
-> + * implementation can multiply the values by 2^6=64.
-> + * index 0 = Y plane, [15:0] x:Y [6:10] little endian
-> + * index 1 = Cr plane, [15:0] x:Cr [6:10] little endian
-> + * index 2 = Cb plane, [15:0] x:Cb [6:10] little endian
-> + */
-> +#define DRM_FORMAT_S010        fourcc_code('S', '0', '1', '0') /* 2x2 subsampled Cb (1) and Cr (2) planes 10 bits per channel */
-> +#define DRM_FORMAT_S210        fourcc_code('S', '2', '1', '0') /* 2x1 subsampled Cb (1) and Cr (2) planes 10 bits per channel */
-> +#define DRM_FORMAT_S410        fourcc_code('S', '4', '1', '0') /* non-subsampled Cb (1) and Cr (2) planes 10 bits per channel */
+Tested with:
 
-The format spec here (and for the others) forgets to mention that the
-X channel MBZ. In every other channel, X denotes 'may contain
-arbitrary nonsense so don't read it, and feel free to write whatever
-to it'. I think you might want to write this out as 'Z:Y' or something
-instead of 'x:Y'. But honestly I'd expect people to still get this
-wrong and fill it with all sorts of fun values.
+1. make ARCH=arm64 dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
 
-Otherwise this looks good to me though; thanks for typing it up. A
-VKMS implementation would be really nice for this if you've got the
-time.
+2. make ARCH=arm64 dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
 
-Cheers,
-Daniel
+
+Chaoyi Chen (2):
+  arm64: dts: rockchip: Improve coding style for rk3399 cdn_dp
+  dt-bindings: display: rockchip: Convert cdn-dp-rockchip.txt to yaml
+
+ .../display/rockchip/cdn-dp-rockchip.txt      |  74 ---------
+ .../display/rockchip/rockchip,cdn-dp.yaml     | 148 ++++++++++++++++++
+ arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  10 +-
+ 3 files changed, 157 insertions(+), 75 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/rockchip/cdn-dp-rockchip.txt
+ create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
+
+--
+2.49.0
+
