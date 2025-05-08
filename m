@@ -2,89 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A54AAF66C
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 11:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B368AAF676
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 11:13:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25DD410E371;
-	Thu,  8 May 2025 09:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86C3F10E1DE;
+	Thu,  8 May 2025 09:13:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LqLYdqOh";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="gJ/JbHnh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2AF210E371
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 09:12:58 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-5fbf534f8dbso1048742a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 08 May 2025 02:12:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746695577; x=1747300377; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=9dp1vstYqz3mDBq4CkJf4LU45gaqxJrhVS+uXqNfvYk=;
- b=LqLYdqOhdQEjRGAIG0IorIUExRj5bBbPZ67ReRViMBgTwHwQOf6G5H7akeVYPg/Pml
- oQv6l4omFZ9OFX5t1JcmOm/joPDkh7V9dtyX9yj54sR2qXsdEo6+09HCDmfANrQzuUIE
- p6bpXFtCClfrP42IScp0imoT8DIKQvKyzusqmvpgSSLWABweOfxwHKEgyt20Njwm0jIZ
- /d4BlAD60FZ5Rjf9cpbJ5UFG7lELmkQ52JEguzGnN5T5mu74gBfJLJEWKAcaRdOps6FV
- MXoJnLQdWaLJCqQENfLWfCZJ0UV4y9DIL/D2LcY1n7h4qEqbZHyNN8br7MiYbmOcdII3
- 5f4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746695577; x=1747300377;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9dp1vstYqz3mDBq4CkJf4LU45gaqxJrhVS+uXqNfvYk=;
- b=DK69U5F1zcQ+1Y/EK1aq3STaVO1IwX7+z3ynDm1TbGgGGxuUamK2wdLto38BOCztV9
- Anesg0nfmWAXNf6wlLUV6fOlM1yuoUbfO5su9PIbcmlmjVV1HPSrFugU1E5LqQBMZEIv
- xMzwAtPMUuN1legOMnOyz+6uXU/dUOw9mPnQ/TKLSuIIjPMRMLN2qulFZUzKbYtYs6h+
- tESBviJY+jdba0TKtdYsULA1r+hSC6fmbBpJUixNzU08AUNfWw2NhUzrG92Vil8kloXA
- Ii3k/ayXw/jrd4+jKFJXQVJyAncbKKyIweB3BFqqzBl9xhwvdqwBJzSkvGJF5xaEEYRM
- zGjw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVA24QU1akovcIDmAWnN3ydw/6OWolY7wKzHgVh/3sjj0JWWsOjvVZM9lbatY2frP0SQPW5RG/+BrE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz9QSQtypB+AKKLsQPiacbHAi9LPGFODTiLTEHzEgi3k4v3m6Yc
- 5OtrDmUrn1KrInykZm5FktODWy0cort/my9KA7Mp1BhPTqE7KOqM
-X-Gm-Gg: ASbGnctg/BDaJQJ7c3/EDan6BwOQnqeYXK3ox84X5ox0fwo/nEzDSJ3VAFMuGqdKYvJ
- AWDa4JsL3Jg+K2Ydjx1PyoQd/lt/5m6zRnDvltmAeiziL3eYAbZJqiIAlfftmjFgcwKB4z5SOR3
- z8ybkKCpWpReXMNZULOp9t2G5N49kKnGubC33GgzfDANHWv0hHKm9SC1S5QrpdNw0VcLdJaVGLE
- W67avZFLMsk4DVIPXAeWeWhLjEsPuBdqG1AIAPXo758pTUAEvkULtq59+NCiQiqrzJxgxEJnW8E
- ErdG9m6sdnpROkOsWZDHG97ic9Wiqw1sz2Yiu3ZLMYGSoN23BAnDUdLhwgRz5NTs9KyDEtBFAXX
- CEdJwNmFegQc4kzYRP0u6tnz2Y/0=
-X-Google-Smtp-Source: AGHT+IGKlsVS9Aggzopar0EguhK232leccJ6N51EzyZlx36/ZSXJN9uVC7qPM4dsor1ubnH6vieEUw==
-X-Received: by 2002:a05:6402:2809:b0:5fc:348a:e21 with SMTP id
- 4fb4d7f45d1cf-5fc348a34a1mr2057037a12.31.1746695577114; 
- Thu, 08 May 2025 02:12:57 -0700 (PDT)
-Received: from orome (p200300e41f281b00f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f28:1b00:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5fbb4ceb417sm3893637a12.60.2025.05.08.02.12.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 May 2025 02:12:55 -0700 (PDT)
-Date: Thu, 8 May 2025 11:12:54 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Mark Zhang <markz@nvidia.com>, Dave Airlie <airlied@redhat.com>, 
- Terje Bergstrom <tbergstrom@nvidia.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- "biju.das.au" <biju.das.au@gmail.com>, 
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] drm/tegra: rgb: Fix the unbound reference count
-Message-ID: <lqbli5eryxnl52bvncg543zkqqbteheixhcb4nmxljx6nozhay@nli5n47oelft>
-References: <20250205112137.36055-1-biju.das.jz@bp.renesas.com>
- <a3gzox3ajhvatfmld5ny2lulmp325ycnukksusfbtldg37nqp3@jb4qajtuzczb>
- <TY3PR01MB11346CB37650B2F888CFC6DE48688A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72D5410E1DE;
+ Thu,  8 May 2025 09:13:48 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4ZtRJT2S05z9st4;
+ Thu,  8 May 2025 11:13:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1746695625; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fSaQ2U9dW1z6yZyF5dUSbdQvElX9UoQjbIz44faGFp4=;
+ b=gJ/JbHnhScbQ4Qk0oLgM+A7P95WHA3lTu44PlG/MGylK4qssRALzG8tg3nn6ymiLnRl3kU
+ 8fUflr1Bvx/gFqoMy+xZ+b1mB2fMrXNODojdEA0I0UYxMzHOPXsDZm7oYztDLOqVvPeM5A
+ 8Ih/Gl6V7AkDRmZr+bc0EMhAjCChnTyIrtZ8HfQqUOl0Jngt/dD3jgfa/jZtXuvhty0M1C
+ EUc1uIUn1NKfJdxOdCgKsVpuY2g5kDZz3gh/h/57EQ9mUe43waNj6batdScEw/DGyqbkyl
+ HRRaIjFJc87NoNpZTyPur6g6oiyccnaRufAN18rVDsI0k0iLVieYMruiTAGePw==
+Message-ID: <3b64a3e0659dbfa2c5f819f40f9f0624309d24ed.camel@mailbox.org>
+Subject: Re: [PATCH 4/4] drm/nouveau: Check dma_fence in canonical way
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
+ Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>, Danilo
+ Krummrich <dakr@kernel.org>,  David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org
+Date: Thu, 08 May 2025 11:13:39 +0200
+In-Reply-To: <9793bfc7-5309-4e19-a0e4-5e298720aa9e@amd.com>
+References: <20250424130254.42046-2-phasta@kernel.org>
+ <20250424130254.42046-6-phasta@kernel.org>
+ <9793bfc7-5309-4e19-a0e4-5e298720aa9e@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="72qnzxkycxla5eor"
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB11346CB37650B2F888CFC6DE48688A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+X-MBO-RS-ID: 2f653366805965cb815
+X-MBO-RS-META: 9rdhgij9nsbopajeda3zjr5fzy3oh5ip
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,98 +67,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---72qnzxkycxla5eor
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/tegra: rgb: Fix the unbound reference count
-MIME-Version: 1.0
-
-On Wed, May 07, 2025 at 04:10:07PM +0000, Biju Das wrote:
-> Hi Thierry,
+On Mon, 2025-04-28 at 16:45 +0200, Christian K=C3=B6nig wrote:
+> On 4/24/25 15:02, Philipp Stanner wrote:
+> > In nouveau_fence_done(), a fence is checked for being signaled by
+> > manually evaluating the base fence's bits. This can be done in a
+> > canonical manner through dma_fence_is_signaled().
+> >=20
+> > Replace the bit-check with dma_fence_is_signaled().
+> >=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
 >=20
-> > -----Original Message-----
-> > From: Thierry Reding <thierry.reding@gmail.com>
-> > Sent: 07 May 2025 17:00
-> > To: Biju Das <biju.das.jz@bp.renesas.com>
-> > Subject: Re: [PATCH] drm/tegra: rgb: Fix the unbound reference count
-> >=20
-> > On Wed, Feb 05, 2025 at 11:21:35AM +0000, Biju Das wrote:
-> > > The of_get_child_by_name() increments the refcount in
-> > > tegra_dc_rgb_probe, but the driver does not decrement the refcount
-> > > during unbind. Fix the unbound reference count using devm_add_action_=
-or_reset() helper.
-> > >
-> > > Fixes: d8f4a9eda006 ("drm: Add NVIDIA Tegra20 support")
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  drivers/gpu/drm/tegra/rgb.c | 14 +++++++++++++-
-> > >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-> > > index 1e8ec50b759e..2065157daab3 100644
-> > > --- a/drivers/gpu/drm/tegra/rgb.c
-> > > +++ b/drivers/gpu/drm/tegra/rgb.c
-> > > @@ -200,6 +200,11 @@ static const struct drm_encoder_helper_funcs teg=
-ra_rgb_encoder_helper_funcs =3D {
-> > >  	.atomic_check =3D tegra_rgb_encoder_atomic_check,  };
-> > >
-> > > +static void tegra_dc_of_node_put(void *data) {
-> > > +	of_node_put(data);
-> > > +}
-> > > +
-> > >  int tegra_dc_rgb_probe(struct tegra_dc *dc)  {
-> > >  	struct device_node *np;
-> > > @@ -207,7 +212,14 @@ int tegra_dc_rgb_probe(struct tegra_dc *dc)
-> > >  	int err;
-> > >
-> > >  	np =3D of_get_child_by_name(dc->dev->of_node, "rgb");
-> > > -	if (!np || !of_device_is_available(np))
-> > > +	if (!np)
-> > > +		return -ENODEV;
-> > > +
-> > > +	err =3D devm_add_action_or_reset(dc->dev, tegra_dc_of_node_put,
-> > > +dc->dev);
-> >=20
-> > Actually, I think this needs to be:
-> >=20
-> >   err =3D devm_add_action_or_reset(dc->dev, tegra_dc_of_node_put, np);
-> >=20
-> > otherwise tegra_dc_of_node_put() would attempt to call of_node_put() on
-> > dc->dev, which won't work, or rather cause corruption of some sort.
-> >=20
-> > Shout if you disagree.
 >=20
-> I agree, is it something you can do while applying or you want me to send=
- v2?
-> Please let me know.
+> I think the bit check was used here as fast path optimization because
+> we later call dma_fence_is_signaled() anyway.
 
-It's already done, thanks for confirming and for the patch.
+That fast path optimization effectively saves one JMP instruction to
+the function.
 
-Thierry
+I'm increasingly of the opinion that we shall work towards all DRM
+users only ever using infrastructure through officially documented API
+functions, without touching internal data structures.
 
---72qnzxkycxla5eor
-Content-Type: application/pgp-signature; name="signature.asc"
+> Feel free to add my acked-by, but honestly what nouveau does here
+> looks rather suspicious to me.
 
------BEGIN PGP SIGNATURE-----
+:)
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmgcdZYACgkQ3SOs138+
-s6EIghAAnYd6socF/Wj9gjVWp0eaVoJqHClj8WN/mrPAskJ39aZVMYsTi+Vt7DmK
-Kz6RHFBCvGL465K9DenItSWa7+wSqz7SrxLAT4pc5PpHRs1AlSeY9aeBhCMMQ/Sd
-ivx+3ycn1MjeYyRxmRfUzNFtv4q8K9A9AAyuhg5fI/lLZuMBwnV43d6/iYygNW7C
-VQ6Jl/LV7gphu4pxvPJwnyOyfOS9P7vsC9a0lssMxWMJ39oJH/WuvgX+CpYsyDLU
-+BhyfQcfjD4GG5fHTcQia5IUutt3MnGYPpsRL9A6ZmxGGkHjCU9T1l8G1kADAoCz
-xeDg0QEs0ycWCKCU7XeaOc6AlQYyJg7wZQmRa1+yqQ8a9WkrlXd+K/gTu5nlJ2yG
-JCEIkPRCjfKKsGDP+nmH9zOsVWgGeRHSpN0i75aF5a0n4PMV3NvRRRLjBMwONnX2
-E1iBcnmXuoOL+sr+vDPS00eUqI/F0Yzl7CUmIiotK1tg+58A075aYZn1WXOePIq+
-+2WTTWm/QOe9iFQxW0mjNXP0DlBM7AWHqgLD4xMfChJGMBnjbMHGoCCdXJlZTgeR
-VSW/SWviIpAriG2wrUEukq6khinVZRmLHVfo6cTTAnk6RvRrPTGrr3vOy1Kt1y/f
-IG/+dLxsyPVHT9Ju9LFx2mssmO/Ky5lGUe6hN5mnGSObk8+WvY0=
-=1Kba
------END PGP SIGNATURE-----
 
---72qnzxkycxla5eor--
+P.
+
+>=20
+> Regards,
+> Christian.
+>=20
+> > ---
+> > =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
+> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > index fb9811938c82..d5654e26d5bc 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > @@ -253,7 +253,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
+> > =C2=A0	struct nouveau_channel *chan;
+> > =C2=A0	unsigned long flags;
+> > =C2=A0
+> > -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence-
+> > >base.flags))
+> > +	if (dma_fence_is_signaled(&fence->base))
+> > =C2=A0		return true;
+> > =C2=A0
+> > =C2=A0	spin_lock_irqsave(&fctx->lock, flags);
+>=20
+
