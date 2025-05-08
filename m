@@ -2,81 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC54AB045F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 22:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39B8AB04D2
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 22:42:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3F0810E205;
-	Thu,  8 May 2025 20:12:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AACE710E0DC;
+	Thu,  8 May 2025 20:42:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P1CKPDk+";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="FYqdMSKS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 122FD10E0DC;
- Thu,  8 May 2025 20:12:43 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id
- 41be03b00d2f7-b2001aafc3cso75343a12.2; 
- Thu, 08 May 2025 13:12:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746735162; x=1747339962; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FMf96FXuSnX5qhllALH1Rp7ykWLVVc//J13jd72kjmw=;
- b=P1CKPDk+ymMpSEnGDOZO2hDIjKSzGdZ2pHLSxyyUx2aQprRy7jq8ETMw2JIp63p0rz
- /MrfKO5i9kt7reBnB1/91xJd4U9bpkd0hD7RceaFd5Zl6ieoPut60t+IvlW2begKjOD+
- yBO14gHu07ix0fTSL46Iu3+0J+legXhews8s6mMv9lkQk1sbU+b7HELa0H0VcsisfwdN
- 7jC+JaIb9akyehIvDKVsD+dNzAiiMvdKfAfrrV8/TjnP8LbA685J9RWyRYiaTsRS15hN
- 8F5W74RCPleIMWCLWhi0sVsXBbsTr7J3dj2HVQJlUiWvK8URSAaqXnetf9yUjPK3MUml
- 3Qdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746735162; x=1747339962;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FMf96FXuSnX5qhllALH1Rp7ykWLVVc//J13jd72kjmw=;
- b=dun6i4rgNZjjxQz4JTqFMDeJKHmADmJiEV2E1ZflIGF6KFdYNwhHXIgCZv3TeGrpMg
- V3H4RB0PLB4gtIOp8k+pAst242/LJmG0kPU0wbBF0Ux+8/uCeoU+I6WP/W4yVYS26XQN
- 7myFLggLoeYz5LhBF5icEFwbErjzFHz6eoArSZ6nMuJzVG6HzNjmRR3Pv60otSlZHMcJ
- Y0icBhA520U3qkbCx8DjE+y1hlQvpr3t5BeO4qK7QwLtv6xaAZWGwNqRmBnb9Vn0Dche
- gbw97ea9ecE4VBN9lILbMvwVgkuRU1ctzUkr51DjcVjnuCjak9spDMk4pIS4oEECYF5f
- Y2yQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVDa9h4gMOfbH5X7mL2F4gZtbvaEI4nrELenka7JudAuJna1aZ2iMpqPfJHBqQu7abHWsDvtJQo3BA=@lists.freedesktop.org,
- AJvYcCXSdQmg4epE1eZI0laSJacEGO+nTzTgFd1U0C6eQPYO6hjxz/WNuzll+tTnhVb98PO9Y53fRTWyjCBT@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxaWKtIDqjF4y63CaWmP6rlpaoHzMOtOZ0yQU3T5HerbMfEaggW
- K59+Z+42xqplPVE9XGzymt+Sl/MJOIoP7vY1eQ2/D5yXLNdckz02X/YR2NCwfc9IgHxHdIguj5u
- JjvHynJuoPQrJVuNaDQbEkkor7Yw=
-X-Gm-Gg: ASbGncvt97oEac1b0NYeIsa/z0FR+r1F5Tc1dpEyI8zYShdUhPVqca/MqqfsGPbuY1J
- sX0gG5+6VxsvKc8vWi6n1G/Y87Jnf08xi3S0VdnHZOULKO/J1OTIkJrCGyLgCBJgFKRzi4/3l+A
- 8W+wdO1f0B+5L1RK7aYw3ttA==
-X-Google-Smtp-Source: AGHT+IH6e7+ed1G549/Z8OklJ1akRAitkFCuoHZTNQf9ToGv6/llgXkTnKyiPfQLlz+Ew6c4JK4FwZ+5NaQf2W/o6dQ=
-X-Received: by 2002:a17:90b:3e83:b0:30a:a50a:8c93 with SMTP id
- 98e67ed59e1d1-30c3d674dadmr436380a91.7.1746735162384; Thu, 08 May 2025
- 13:12:42 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0396210E0DC;
+ Thu,  8 May 2025 20:42:48 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 548D4vEg002336;
+ Thu, 8 May 2025 20:42:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 6XH1kUFCdQFPpnMvt+cv4nkpDWV0J/KTTGqM0CbPTwQ=; b=FYqdMSKSBIA/Aegm
+ p/6ugsnc7pL1aF+8BfkRcVQSLO5+nKMdWeye8ZBhGv9dXOlTys5mJcX6SzvMbpTS
+ g7Ioq+xrqj+HtNj3eZOiaee1Hmj1HCiZlWoVvmHYm9kG3nopfTDHIH4cebAHmmtP
+ OqTZ+KdAOkOdpnA1aV7L8dYL8FNsJYnnuPsojaSTmlo9PY0ng+868wwAgIxTLhiE
+ LfuSJowLGqiRvR251afU70+OMdDntMrtJBYo/SesDHKe1pcmtrqheRXFEgQKBNm8
+ ilXmaz+0PfxIKybUNBPUvmBV/RRin0QBU937lyh6kuv0tJn/WGAx2mZaVBZARn9k
+ sNdAZg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnp5agcj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 May 2025 20:42:41 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 548Kge02007408
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 8 May 2025 20:42:40 GMT
+Received: from [10.134.71.99] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 8 May 2025
+ 13:42:40 -0700
+Message-ID: <0dace5ee-8c81-4181-ae0d-7f317b7f5ac9@quicinc.com>
+Date: Thu, 8 May 2025 13:42:39 -0700
 MIME-Version: 1.0
-References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
- <20250508-topic-ubwc_central-v1-1-035c4c5cbe50@oss.qualcomm.com>
-In-Reply-To: <20250508-topic-ubwc_central-v1-1-035c4c5cbe50@oss.qualcomm.com>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Thu, 8 May 2025 16:12:31 -0400
-X-Gm-Features: ATxdqUHnQejBvfmedAIjJ-kKl1wBYL5mqv2oNp-sfYWhNCI_Ftp14XuxAX2kJ04
-Message-ID: <CACu1E7H6FGm0npQnG+M3Jzn9RSL9CYkkDg3rtH+=on4_caPTZQ@mail.gmail.com>
-Subject: Re: [PATCH RFT 01/14] soc: qcom: Add UBWC config provider
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, 
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 09/14] drm/msm/dpu: split PIPES_PER_STAGE definition
+ per plane and mixer
+To: Jun Nie <jun.nie@linaro.org>, Rob Clark <robdclark@gmail.com>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <lumag@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20250506-quad-pipe-upstream-v9-0-f7b273a8cc80@linaro.org>
+ <20250506-quad-pipe-upstream-v9-9-f7b273a8cc80@linaro.org>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20250506-quad-pipe-upstream-v9-9-f7b273a8cc80@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=XL0wSRhE c=1 sm=1 tr=0 ts=681d1741 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=e5mUnYsNAAAA:8
+ a=KKAkSRfTAAAA:8 a=0uiON693c8ldkTsWMEsA:9 a=QEXdDO2ut3YA:10
+ a=Vxmtnl_E_bksehYqCbjh:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: gfZKLkJVt65LZDovBHCZSh7YwLTgzYTI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA4MDE4NiBTYWx0ZWRfXw1At4TWHfvvr
+ /SH8ZehCvWzg96+l4NGiM8OBTs5Sl2B9NFpYz090QRh136QXwUovQ+o7+LmTbDZU0yBdmRlvour
+ VUpHiFUjIUlPggDzAm3jglhvG3Q/tPskdc6jhvH+nYKw8hAigJvUVTr1ioM4dqK/b1Tqzq/zfR4
+ Gvd7b3dzfDby4vHHFqFQEulaN04zI4dQ6xFQLOfSyIR5d/af7ttkrU0diPGbkuQl1giWYuP/3UQ
+ GxbWwRhdQppbVhW9Xa0dNuyvw68t/KQfxi2vtcvZlaM+TCxIhItcAQ2sjZ9fdUeSxTXRRRbIWCN
+ Wnz9a6NHPu2PwBjtdCA7MfHZtPB3dTcQlA7DPnnuO5cLnFveRABGZ1MZ/5RLiIyDs0XYDdgNeNN
+ Ao/AHUzTPbNBpnkTe65TGgs+Bf2LKgeRL+V9PC3w9BkYGtFfVmbQknH84ylRx0IRipxAf3sg
+X-Proofpoint-ORIG-GUID: gfZKLkJVt65LZDovBHCZSh7YwLTgzYTI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-08_06,2025-05-08_04,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0
+ mlxlogscore=999 malwarescore=0 adultscore=0 priorityscore=1501 bulkscore=0
+ spamscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505080186
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,366 +110,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 8, 2025 at 2:13=E2=80=AFPM Konrad Dybcio <konradybcio@kernel.or=
-g> wrote:
->
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->
-> Add a file that will serve as a single source of truth for UBWC
-> configuration data for various multimedia blocks.
->
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+
+
+On 5/6/2025 8:47 AM, Jun Nie wrote:
+> The stage contains configuration for a mixer pair. Currently the plane
+> supports just one stage and 2 pipes. Quad-pipe support will require
+> handling 2 stages and 4 pipes at the same time. In preparation for that
+> add a separate define, PIPES_PER_PLANE, to denote number of pipes that
+> can be used by the plane.
+> 
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Hi Jun,
+
+I think the comment from v7 about propogating the PIPES_PER_PLANE change 
+to _dpu_plane_color_fill() got dropped in this version [1].
+
+Also, any reason PIPES_PER_STAGE was kept for 
+dpu_plane_danger_signal_ctrl()?
+
+Thanks,
+
+Jessica Zhang
+
+[1] 
+https://patchwork.freedesktop.org/patch/640534/?series=139762&rev=6#comment_1171802
+
 > ---
->  drivers/soc/qcom/Kconfig       |   8 ++
->  drivers/soc/qcom/Makefile      |   1 +
->  drivers/soc/qcom/ubwc_config.c | 255 +++++++++++++++++++++++++++++++++++=
-++++++
->  include/linux/soc/qcom/ubwc.h  |  31 +++++
->  4 files changed, 295 insertions(+)
->
-> diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
-> index 58e63cf0036ba8554e4082da5184a620ca807a9e..2caadbbcf8307ff94f5afbdd1=
-481e5e5e291749f 100644
-> --- a/drivers/soc/qcom/Kconfig
-> +++ b/drivers/soc/qcom/Kconfig
-> @@ -296,3 +296,11 @@ config QCOM_PBS
->           PBS trigger event to the PBS RAM.
->
->  endmenu
-> +
-> +config QCOM_UBWC_CONFIG
-> +       tristate
-> +       help
-> +         Most Qualcomm SoCs feature a number of Universal Bandwidth Comp=
-ression
-> +         (UBWC) engines across various IP blocks, which need to be initi=
-alized
-> +         with coherent configuration data. This module functions as a si=
-ngle
-> +         source of truth for that information.
-> diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
-> index acbca2ab5cc2a9ab3dce1ff38efd048ba2fab31e..b7f1d2a5736748b8772c090fd=
-24462fa91f321c6 100644
-> --- a/drivers/soc/qcom/Makefile
-> +++ b/drivers/soc/qcom/Makefile
-> @@ -39,3 +39,4 @@ obj-$(CONFIG_QCOM_ICC_BWMON)  +=3D icc-bwmon.o
->  qcom_ice-objs                  +=3D ice.o
->  obj-$(CONFIG_QCOM_INLINE_CRYPTO_ENGINE)        +=3D qcom_ice.o
->  obj-$(CONFIG_QCOM_PBS) +=3D      qcom-pbs.o
-> +obj-$(CONFIG_QCOM_UBWC_CONFIG) +=3D ubwc_config.o
-> diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_confi=
-g.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..3f81fb2aab284dc9a5bcf53e5=
-d638aaba44b6f2d
-> --- /dev/null
-> +++ b/drivers/soc/qcom/ubwc_config.c
-> @@ -0,0 +1,255 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> + */
-> +
-> +#include <linux/debugfs.h>
-> +#include <linux/io.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_address.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include <linux/soc/qcom/ubwc.h>
-> +
-> +static const struct qcom_ubwc_cfg_data msm8937_data =3D {
-> +       .ubwc_enc_version =3D UBWC_1_0,
-> +       .ubwc_dec_version =3D UBWC_1_0,
-> +       .highest_bank_bit =3D 1,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data msm8998_data =3D {
-> +       .ubwc_enc_version =3D UBWC_1_0,
-> +       .ubwc_dec_version =3D UBWC_1_0,
-> +       .highest_bank_bit =3D 2,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data qcm2290_data =3D {
-> +       /* no UBWC */
-> +       .highest_bank_bit =3D 2,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sa8775p_data =3D {
-> +       .ubwc_enc_version =3D UBWC_4_0,
-> +       .ubwc_dec_version =3D UBWC_4_0,
-> +       .ubwc_swizzle =3D 4,
-> +       .ubwc_bank_spread =3D true,
-> +       .highest_bank_bit =3D 0,
-> +       .macrotile_mode =3D true,
-> +       .mdss_reg_bus_bw =3D 74000,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sar2130p_data =3D {
-> +       .ubwc_enc_version =3D UBWC_3_0, /* 4.0.2 in hw */
-> +       .ubwc_dec_version =3D UBWC_4_3,
-> +       .ubwc_swizzle =3D 6,
-> +       .ubwc_bank_spread =3D true,
-> +       .highest_bank_bit =3D 0,
-> +       .macrotile_mode =3D true,
-> +       .mdss_reg_bus_bw =3D 74000,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sc7180_data =3D {
-> +       .ubwc_enc_version =3D UBWC_2_0,
-> +       .ubwc_dec_version =3D UBWC_2_0,
-> +       .ubwc_swizzle =3D 6,
-> +       .ubwc_bank_spread =3D true,
-> +       .highest_bank_bit =3D 1,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sc7280_data =3D {
-> +       .ubwc_enc_version =3D UBWC_3_0,
-> +       .ubwc_dec_version =3D UBWC_4_0,
-> +       .ubwc_swizzle =3D 6,
-> +       .ubwc_bank_spread =3D true,
-> +       .highest_bank_bit =3D 1,
-> +       .macrotile_mode =3D true,
-> +       .mdss_reg_bus_bw =3D 74000,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sc8180x_data =3D {
-> +       .ubwc_enc_version =3D UBWC_3_0,
-> +       .ubwc_dec_version =3D UBWC_3_0,
-> +       .highest_bank_bit =3D 3,
-> +       .macrotile_mode =3D true,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sc8280xp_data =3D {
-> +       .ubwc_enc_version =3D UBWC_4_0,
-> +       .ubwc_dec_version =3D UBWC_4_0,
-> +       .ubwc_swizzle =3D 6,
-> +       .ubwc_bank_spread =3D true,
-> +       .highest_bank_bit =3D 3,
-> +       .macrotile_mode =3D true,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sdm670_data =3D {
-> +       .ubwc_enc_version =3D UBWC_2_0,
-> +       .ubwc_dec_version =3D UBWC_2_0,
-> +       .highest_bank_bit =3D 1,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sdm845_data =3D {
-> +       .ubwc_enc_version =3D UBWC_2_0,
-> +       .ubwc_dec_version =3D UBWC_2_0,
-> +       .highest_bank_bit =3D 2,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sm6115_data =3D {
-> +       .ubwc_enc_version =3D UBWC_1_0,
-> +       .ubwc_dec_version =3D UBWC_2_0,
-> +       .ubwc_swizzle =3D 7,
-> +       .ubwc_bank_spread =3D true,
-> +       .highest_bank_bit =3D 1,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sm6125_data =3D {
-> +       .ubwc_enc_version =3D UBWC_1_0,
-> +       .ubwc_dec_version =3D UBWC_3_0,
-> +       .ubwc_swizzle =3D 1,
-> +       .highest_bank_bit =3D 1,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sm6150_data =3D {
-> +       .ubwc_enc_version =3D UBWC_2_0,
-> +       .ubwc_dec_version =3D UBWC_2_0,
-> +       .highest_bank_bit =3D 1,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sm6350_data =3D {
-> +       .ubwc_enc_version =3D UBWC_2_0,
-> +       .ubwc_dec_version =3D UBWC_2_0,
-> +       .ubwc_swizzle =3D 6,
-> +       .ubwc_bank_spread =3D true,
-> +       .highest_bank_bit =3D 1,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sm7150_data =3D {
-> +       .ubwc_enc_version =3D UBWC_2_0,
-> +       .ubwc_dec_version =3D UBWC_2_0,
-> +       .highest_bank_bit =3D 1,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sm8150_data =3D {
-> +       .ubwc_enc_version =3D UBWC_3_0,
-> +       .ubwc_dec_version =3D UBWC_3_0,
-> +       .highest_bank_bit =3D 2,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sm8250_data =3D {
-> +       .ubwc_enc_version =3D UBWC_4_0,
-> +       .ubwc_dec_version =3D UBWC_4_0,
-> +       .ubwc_swizzle =3D 6,
-> +       .ubwc_bank_spread =3D true,
-> +       /* TODO: highest_bank_bit =3D 2 for LP_DDR4 */
-> +       .highest_bank_bit =3D 3,
-> +       .macrotile_mode =3D true,
-> +       .mdss_reg_bus_bw =3D 76800,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sm8350_data =3D {
-> +       .ubwc_enc_version =3D UBWC_4_0,
-> +       .ubwc_dec_version =3D UBWC_4_0,
-> +       .ubwc_swizzle =3D 6,
-> +       .ubwc_bank_spread =3D true,
-> +       /* TODO: highest_bank_bit =3D 2 for LP_DDR4 */
-> +       .highest_bank_bit =3D 3,
-> +       .macrotile_mode =3D true,
-> +       .mdss_reg_bus_bw =3D 74000,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data sm8550_data =3D {
-> +       .ubwc_enc_version =3D UBWC_4_0,
-> +       .ubwc_dec_version =3D UBWC_4_3,
-> +       .ubwc_swizzle =3D 6,
-> +       .ubwc_bank_spread =3D true,
-> +       /* TODO: highest_bank_bit =3D 2 for LP_DDR4 */
-> +       .highest_bank_bit =3D 3,
-> +       .macrotile_mode =3D true,
-> +       .mdss_reg_bus_bw =3D 57000,
-> +};
-> +
-> +static const struct qcom_ubwc_cfg_data x1e80100_data =3D {
-> +       .ubwc_enc_version =3D UBWC_4_0,
-> +       .ubwc_dec_version =3D UBWC_4_3,
-> +       .ubwc_swizzle =3D 6,
-> +       .ubwc_bank_spread =3D true,
-> +       /* TODO: highest_bank_bit =3D 2 for LP_DDR4 */
-> +       .highest_bank_bit =3D 3,
-> +       .macrotile_mode =3D true,
-> +       /* TODO: Add mdss_reg_bus_bw with real value */
-> +};
-> +
-> +static const struct of_device_id qcom_ubwc_configs[] __maybe_unused =3D =
-{
-> +       { .compatible =3D "qcom,apq8096", .data =3D &msm8998_data },
-> +       { .compatible =3D "qcom,msm8917", .data =3D &msm8937_data },
-> +       { .compatible =3D "qcom,msm8937", .data =3D &msm8937_data },
-> +       { .compatible =3D "qcom,msm8953", .data =3D &msm8937_data },
-> +       { .compatible =3D "qcom,msm8956", .data =3D &msm8937_data },
-> +       { .compatible =3D "qcom,msm8976", .data =3D &msm8937_data },
-> +       { .compatible =3D "qcom,msm8996", .data =3D &msm8998_data },
-> +       { .compatible =3D "qcom,msm8998", .data =3D &msm8998_data },
-> +       { .compatible =3D "qcom,qcm2290", .data =3D &qcm2290_data, },
-> +       { .compatible =3D "qcom,qcm6490", .data =3D &sc7280_data, },
-> +       { .compatible =3D "qcom,sa8155p", .data =3D &sm8150_data, },
-> +       { .compatible =3D "qcom,sa8540p", .data =3D &sc8280xp_data, },
-> +       { .compatible =3D "qcom,sa8775p", .data =3D &sa8775p_data, },
-> +       { .compatible =3D "qcom,sc7180", .data =3D &sc7180_data },
-> +       { .compatible =3D "qcom,sc7280", .data =3D &sc7280_data, },
-> +       { .compatible =3D "qcom,sc8180x", .data =3D &sc8180x_data, },
-> +       { .compatible =3D "qcom,sc8280xp", .data =3D &sc8280xp_data, },
-> +       { .compatible =3D "qcom,sdm630", .data =3D &msm8937_data },
-> +       { .compatible =3D "qcom,sdm636", .data =3D &msm8937_data },
-> +       { .compatible =3D "qcom,sdm660", .data =3D &msm8937_data },
-> +       { .compatible =3D "qcom,sdm670", .data =3D &sdm670_data, },
-> +       { .compatible =3D "qcom,sdm845", .data =3D &sdm845_data, },
-> +       { .compatible =3D "qcom,sm4250", .data =3D &sm6115_data, },
-> +       { .compatible =3D "qcom,sm6115", .data =3D &sm6115_data, },
-> +       { .compatible =3D "qcom,sm6125", .data =3D &sm6125_data, },
-> +       { .compatible =3D "qcom,sm6150", .data =3D &sm6150_data, },
-> +       { .compatible =3D "qcom,sm6350", .data =3D &sm6350_data, },
-> +       { .compatible =3D "qcom,sm6375", .data =3D &sm6350_data, },
-> +       { .compatible =3D "qcom,sm7125", .data =3D &sc7180_data },
-> +       { .compatible =3D "qcom,sm7150", .data =3D &sm7150_data, },
-> +       { .compatible =3D "qcom,sm8150", .data =3D &sm8150_data, },
-> +       { .compatible =3D "qcom,sm8250", .data =3D &sm8250_data, },
-> +       { .compatible =3D "qcom,sm8350", .data =3D &sm8350_data, },
-> +       { .compatible =3D "qcom,sm8450", .data =3D &sm8350_data, },
-> +       { .compatible =3D "qcom,sm8550", .data =3D &sm8550_data, },
-> +       { .compatible =3D "qcom,sm8650", .data =3D &sm8550_data, },
-> +       { .compatible =3D "qcom,x1e80100", .data =3D &x1e80100_data, },
-> +       { .compatible =3D "qcom,x1p42100", .data =3D &x1e80100_data, },
-> +       { }
-> +};
-> +
-> +const struct qcom_ubwc_cfg_data *qcom_ubwc_config_get_data(void)
-> +{
-> +       const struct of_device_id *match;
-> +       struct device_node *root;
-> +
-> +       root =3D of_find_node_by_path("/");
-> +       if (!root)
-> +               return ERR_PTR(-ENODEV);
-> +
-> +       match =3D of_match_node(qcom_ubwc_configs, root);
-> +       of_node_put(root);
-> +       if (!match) {
-> +               pr_err("Couldn't find UBWC config data for this platform!=
-\n");
-> +               return ERR_PTR(-EINVAL);
-> +       }
-> +
-> +       return match->data;
-> +}
-> diff --git a/include/linux/soc/qcom/ubwc.h b/include/linux/soc/qcom/ubwc.=
-h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..450106e6aea06f9f752bb7312=
-ec3074e375eee4d
-> --- /dev/null
-> +++ b/include/linux/soc/qcom/ubwc.h
-> @@ -0,0 +1,31 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2018, The Linux Foundation
-> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> + */
-> +
-> +#ifndef __QCOM_UBWC_H__
-> +#define __QCOM_UBWC_H__
-> +
-> +#include <linux/types.h>
-> +
-> +struct qcom_ubwc_cfg_data {
-> +       u32 ubwc_enc_version;
-> +       /* Can be read from MDSS_BASE + 0x58 */
-> +       u32 ubwc_dec_version;
-> +       u32 ubwc_swizzle;
-> +       int highest_bank_bit;
-> +       bool ubwc_bank_spread;
-> +       bool macrotile_mode;
-> +       u32 mdss_reg_bus_bw;
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 ++--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 14 +++++++-------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h   |  4 ++--
+>   4 files changed, 12 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 6338603bf8be9fcc4324b098d5d69d20235cdbae..d710b4eec7ad946a4cf74d6ac5f4db90e8dcf1fd 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -463,7 +463,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+>   		if (pstate->stage == DPU_STAGE_BASE && format->alpha_enable)
+>   			bg_alpha_enable = true;
+>   
+> -		for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +		for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   			if (!pstate->pipe[i].sspp)
+>   				continue;
+>   			set_bit(pstate->pipe[i].sspp->idx, fetch_active);
+> @@ -1272,7 +1272,7 @@ static int dpu_crtc_reassign_planes(struct drm_crtc *crtc, struct drm_crtc_state
+>   	return ret;
+>   }
+>   
+> -#define MAX_CHANNELS_PER_CRTC 2
+> +#define MAX_CHANNELS_PER_CRTC PIPES_PER_PLANE
+>   #define MAX_HDISPLAY_SPLIT 1080
+>   
+>   static struct msm_display_topology dpu_crtc_get_topology(
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> index 8d820cd1b5545d247515763039b341184e814e32..b0ed41108a32158c0bc3be2e25fc229b218fd6c5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> @@ -34,6 +34,7 @@
+>   #define DPU_MAX_PLANES			4
+>   #endif
+>   
+> +#define PIPES_PER_PLANE			2
+>   #define PIPES_PER_STAGE			2
+>   #ifndef DPU_MAX_DE_CURVES
+>   #define DPU_MAX_DE_CURVES		3
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 4cb81a6a692be51d342d9a6f322b632e5fd07b2c..ea7e3fdf52f726737941ad33218a843dca17280b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1078,7 +1078,7 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
+>   		 * resources are freed by dpu_crtc_assign_plane_resources(),
+>   		 * but clean them here.
+>   		 */
+> -		for (i = 0; i < PIPES_PER_STAGE; i++)
+> +		for (i = 0; i < PIPES_PER_PLANE; i++)
+>   			pstate->pipe[i].sspp = NULL;
+>   
+>   		return 0;
+> @@ -1129,7 +1129,7 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+>   	pipe_cfg = &pstate->pipe_cfg[0];
+>   	r_pipe_cfg = &pstate->pipe_cfg[1];
+>   
+> -	for (i = 0; i < PIPES_PER_STAGE; i++)
+> +	for (i = 0; i < PIPES_PER_PLANE; i++)
+>   		pstate->pipe[i].sspp = NULL;
+>   
+>   	if (!plane_state->fb)
+> @@ -1240,7 +1240,7 @@ void dpu_plane_flush(struct drm_plane *plane)
+>   		/* force 100% alpha */
+>   		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
+>   	else {
+> -		for (i = 0; i < PIPES_PER_STAGE; i++)
+> +		for (i = 0; i < PIPES_PER_PLANE; i++)
+>   			dpu_plane_flush_csc(pdpu, &pstate->pipe[i]);
+>   	}
+>   
+> @@ -1363,7 +1363,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane,
+>   			&fmt->pixel_format, MSM_FORMAT_IS_UBWC(fmt));
+>   
+>   	/* move the assignment here, to ease handling to another pairs later */
+> -	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +	for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   		if (!pstate->pipe[i].sspp)
+>   			continue;
+>   		dpu_plane_sspp_update_pipe(plane, &pstate->pipe[i],
+> @@ -1377,7 +1377,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane,
+>   
+>   	pstate->plane_fetch_bw = 0;
+>   	pstate->plane_clk = 0;
+> -	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +	for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   		if (!pstate->pipe[i].sspp)
+>   			continue;
+>   		pstate->plane_fetch_bw += _dpu_plane_calc_bw(pdpu->catalog, fmt,
+> @@ -1396,7 +1396,7 @@ static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+>   	struct dpu_sw_pipe *pipe;
+>   	int i;
+>   
+> -	for (i = 0; i < PIPES_PER_STAGE; i += 1) {
+> +	for (i = 0; i < PIPES_PER_PLANE; i += 1) {
+>   		pipe = &pstate->pipe[i];
+>   		if (!pipe->sspp)
+>   			continue;
+> @@ -1518,7 +1518,7 @@ static void dpu_plane_atomic_print_state(struct drm_printer *p,
+>   
+>   	drm_printf(p, "\tstage=%d\n", pstate->stage);
+>   
+> -	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +	for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   		pipe = &pstate->pipe[i];
+>   		if (!pipe->sspp)
+>   			continue;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> index 052fd046e8463855b16b30389c2efc67c0c15281..18ff5ec2603ed63ce45f530ced3407d3b70c737b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> @@ -33,8 +33,8 @@
+>   struct dpu_plane_state {
+>   	struct drm_plane_state base;
+>   	struct msm_gem_address_space *aspace;
+> -	struct dpu_sw_pipe pipe[PIPES_PER_STAGE];
+> -	struct dpu_sw_pipe_cfg pipe_cfg[PIPES_PER_STAGE];
+> +	struct dpu_sw_pipe pipe[PIPES_PER_PLANE];
+> +	struct dpu_sw_pipe_cfg pipe_cfg[PIPES_PER_PLANE];
+>   	enum dpu_stage stage;
+>   	bool needs_qos_remap;
+>   	bool pending;
+> 
 
-This doesn't really seem relevant to UBWC?
-
-> +};
-
-The comments should be copied over from the Adreno struct. That was
-the main way the meaning of most of these was documented and you're
-deleting it here.
-
-> +
-> +#define UBWC_1_0 0x10000000
-> +#define UBWC_2_0 0x20000000
-> +#define UBWC_3_0 0x30000000
-> +#define UBWC_4_0 0x40000000
-> +#define UBWC_4_3 0x40030000
-> +
-> +const struct qcom_ubwc_cfg_data *qcom_ubwc_config_get_data(void);
-> +
-> +#endif /* __QCOM_UBWC_H__ */
->
-> --
-> 2.49.0
->
