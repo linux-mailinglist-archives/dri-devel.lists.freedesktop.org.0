@@ -2,120 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB48AAF856
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 12:47:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DECBAAF857
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 12:49:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B86F10E36B;
-	Thu,  8 May 2025 10:47:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 932F110E37A;
+	Thu,  8 May 2025 10:49:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Gv/Kb+64";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="wZr01VNe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="57DKInVe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wZr01VNe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="57DKInVe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A53010E37A
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 10:47:38 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5484X16C023383
- for <dri-devel@lists.freedesktop.org>; Thu, 8 May 2025 10:47:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=DJLcczpvmaxUKxKji1M3aDjS
- LMp22wqvdaaWQcNcABU=; b=Gv/Kb+648EnqCkbT8oiSS/nnHx4/i6ee1pUgaNmQ
- FnUjCk/UAGVjGYH+VGq/D25g+DQq0qKGlcFyPwANejgQf8y2UpnO8/UgdIKBKLS1
- aNytjGviDAntLa98J128KzbAgX0nDDcuJKdVacTi4UbTMa+c9gYx8ac6c43JnapP
- KozT/27PhRry8eHLRrBG2B90VDf1lG0SvYLz2qY+R8mAQBuFFBu/Uhoxlh20tF3s
- dWlzP2EdfoLOwoF7dLiuIQM/wLZ51WSrniBRSogGH/tKt3XWmyTbJOAaocLoJYIt
- NwWM4ZCfcXW1BbLRm//hlmW5SyCgvTk2Pu2lMwPzxU+VdQ==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnp811xp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 08 May 2025 10:47:32 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6f4b72d4ba0so17232266d6.3
- for <dri-devel@lists.freedesktop.org>; Thu, 08 May 2025 03:47:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746701251; x=1747306051;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DJLcczpvmaxUKxKji1M3aDjSLMp22wqvdaaWQcNcABU=;
- b=QlvkM8ufjZgoFEHOXkr0dHKwLsJI2zywQmzCaH4DoNgWo1g5MwgIDjbXT3D8EkdmeO
- crEwKCxG3gNfhL3kQyTsWqKWCt5K3NYjOuFQhrNSygHdqkg0MSHnKqLxG5m9UZZexOCV
- u4DLKPf+4oPU7kdYvKopruNTjft5aA99qkM8BaQYCLriOLYN6vO22w8QwKX0v0H5kI1k
- g3w9hghHZC0Q613ChL+lNDfeq44fKBXmIJgBZzhKL5FsARuBV33Fj9f5uo+BZ//GpabF
- 47zc+3X8GWuVOuaeCgC8abJRCcHwnagaMq2hnuu7PRafIrOj6hzfBtX9cBH/7LJAPQPH
- Wq3A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXev1qfjZDBiaCoXhcXFL1UFoBUBgFegD7FS972Wmu6oYm7P8mmq4Rai6wExmxWISOd7Ycfc9X09+Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzF59LYZ3nUHyeV7mJNeRDgj2LOLfZQ+zpxi1Gemr3u2+RVMv/u
- syW7bVoDiubRa+A7yqvgeH17DC0LgSwwaSikxIe956m/spqbRVrxQOx3wXgQgIalmxqtGsRclXp
- tv9Pvsr2dVG3A5DoyoUa0pxfY2Ol3gZ8nXmd/JFUYHPKaUwCf2G4kqceukHEYtpTuts8=
-X-Gm-Gg: ASbGnctVOWb8CWxCJR5pdhyfo6yuekM5Sdmhv0SNVTx1B0xigSKexEPBcwMOugRFaii
- LkuAhBji7wF0MYh+47flxyQ9Uqg4bV8iWtqH/3jIHgRdIhCQMJLf2P26EfsUdrwusK/za53EPpG
- YaKiAc9M03RwC8VDJO9uAtht4Lsw/YGEsXpMz1sn3ZHcjC7Aq58yVU/5J/5IecQvCbmbzWOByAs
- a5BHXiIc+sgT9SFVby+Tleub4OtADcqZ65glyyh2K1g0aB8gwX4kMNZ+jgYz3c3LdEwo5PPomLk
- FNe0Q1I271Tfxadv9HRXU9wLK5LdGwWokzS6s4DYBU5vNrX1JDoCmWLEjpyEprWbla/LecRuW5Y
- =
-X-Received: by 2002:a05:6214:2405:b0:6e8:9bcd:bba6 with SMTP id
- 6a1803df08f44-6f5429e1f20mr112740536d6.7.1746701251165; 
- Thu, 08 May 2025 03:47:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEHl4JUcuFrO/9rVeQzXi9JZCdORJB3CJB1i85DoLPVXTX/Y5q6n8b+WwBx6so7vshDBnZtiA==
-X-Received: by 2002:a05:6214:2405:b0:6e8:9bcd:bba6 with SMTP id
- 6a1803df08f44-6f5429e1f20mr112740036d6.7.1746701250806; 
- Thu, 08 May 2025 03:47:30 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54ea94f21a8sm2573813e87.197.2025.05.08.03.47.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 May 2025 03:47:29 -0700 (PDT)
-Date: Thu, 8 May 2025 13:47:28 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CBB510E384
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 10:49:43 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id AC33B21219;
+ Thu,  8 May 2025 10:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1746701381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rEDtSPqmcaAiObTqSUkBjuTD2dmWmIBBt0G08h1Ks7I=;
+ b=wZr01VNeLo4gKbnx3FjFCPqcz+o/fzSDd6rFL8jeSlOVMwjmgKAQjzzmLvXtRiavzKlBRA
+ A/vtvPcJoCTN0koE61eHWRKXrFNfvz2BW6obwwiZkDkGkEZyZOhjvGkKqYn49dnT4fhoGd
+ ANcpSnRmnCkaJdzS21YOmeyELG+ZAQU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1746701381;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rEDtSPqmcaAiObTqSUkBjuTD2dmWmIBBt0G08h1Ks7I=;
+ b=57DKInVeQuzVNn7bOlRFvU2eNjc4ahKNeJneCdrBdDANLmMOsaDi/xbckEfmZW0neRyNn4
+ +/10P7Jmw1xaQyBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1746701381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rEDtSPqmcaAiObTqSUkBjuTD2dmWmIBBt0G08h1Ks7I=;
+ b=wZr01VNeLo4gKbnx3FjFCPqcz+o/fzSDd6rFL8jeSlOVMwjmgKAQjzzmLvXtRiavzKlBRA
+ A/vtvPcJoCTN0koE61eHWRKXrFNfvz2BW6obwwiZkDkGkEZyZOhjvGkKqYn49dnT4fhoGd
+ ANcpSnRmnCkaJdzS21YOmeyELG+ZAQU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1746701381;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rEDtSPqmcaAiObTqSUkBjuTD2dmWmIBBt0G08h1Ks7I=;
+ b=57DKInVeQuzVNn7bOlRFvU2eNjc4ahKNeJneCdrBdDANLmMOsaDi/xbckEfmZW0neRyNn4
+ +/10P7Jmw1xaQyBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3EF7613687;
+ Thu,  8 May 2025 10:49:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id nv6xDUWMHGgFCgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 08 May 2025 10:49:41 +0000
+Date: Thu, 8 May 2025 12:49:39 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 01/14] drm/atomic-helper: Add crtc check before
- checking plane
-Message-ID: <b5kl5whmagpxn4saimkj4qloowh73xggehdh5rnl6lmjvqf65j@esycoi7w2nmp>
-References: <20250506-quad-pipe-upstream-v9-0-f7b273a8cc80@linaro.org>
- <20250506-quad-pipe-upstream-v9-1-f7b273a8cc80@linaro.org>
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20250508104939.GA76697@2a02-2454-fd5e-fd00-c110-cbf2-6528-c5be.dyn6.pyur.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250506-quad-pipe-upstream-v9-1-f7b273a8cc80@linaro.org>
-X-Authority-Analysis: v=2.4 cv=M7xNKzws c=1 sm=1 tr=0 ts=681c8bc4 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8 a=EgBjQOAtpNY6-goZWe0A:9 a=CjuIK1q_8ugA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: 6wYFPX74vBkOBljQWxzTQ5szfDgzMO8W
-X-Proofpoint-GUID: 6wYFPX74vBkOBljQWxzTQ5szfDgzMO8W
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA4MDA5MyBTYWx0ZWRfX+LKNB/szzOpG
- FmNx1W7vTqg74Bn5Un3l0k0oBzkkV5P8QT2Wed/14ngwSk4/xaTeJNHSkz56Ucu3CPLleL927ce
- nBZDL5vCpriTTOrs2U0Oo1rmlStkVRmZIdjhRZcoDgZWrZDaVS6fUcPf83GSkb+EycO0xKoABDy
- Yq1LoAcoy76Fo6JuEtJjx3d8X9Mj+n4JhUfJhmoAY5+xxZd6TkntvzhzZkrzwAsr8CX+40fqTQt
- JfDjGXZUbkn3I1FOHqKtcASbuzV3RYlyotkFvmGb9OTkfMAPnVUjPOh/D0gxT/5Xx5jyaxRQ/oI
- e+Y5JPWQKcnnzCFtbpR1T5livc6+njoFswkAKTOcbVSxQh/Bc79qU07cVUccr2pG9e9R6UyXIEk
- 2Xra2ZVEU7qVbP9V1zOr4awbyaTm7QJIL1SSAoDdnrjyaa/r7+lHXZAvb/rWi+rTYN5RHpty
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-08_03,2025-05-07_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
- spamscore=0 mlxlogscore=999 bulkscore=0 impostorscore=0 clxscore=1015
- suspectscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505080093
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ MISSING_XM_UA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,73 +119,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 06, 2025 at 11:47:31PM +0800, Jun Nie wrote:
-> Some display controller support flexible CRTC and DMA, such as the display
-> controllers in snapdragon SoCs. CRTC can be implemented with several mixers
-> in parallel, and plane fetching can be implemented with several DMA under
-> umberala of a virtual drm plane.
-> 
-> The mixer number is decided per panel resolution and clock rate constrain
-> first, which happens in CRTC side. Then plane is split per mixer number
-> and configure DMA accordingly.
+Hi Dave, Sima,
 
-Here you are describing a behaviour of one particular driver as a reason
-to change the framework.
+here's the drm-misc-fixes PR for this week.
 
-> 
-> To support such forthcoming usage case, CRTC checking shall happen before
-> checking plane. Add the checking in the drm_atomic_helper_check_modeset().
+Best regards
+Thomas
 
-So, now drivers will get two calls to atomic_check(), one coming in
-circumstances which were not expected by the drivers before. Are you
-sure that this won't break anything?
+drm-misc-fixes-2025-05-08:
+Short summary of fixes pull:
 
-> 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 5302ab3248985d3e0a47e40fd3deb7ad0d9f775b..5bca4c9683838c38574c8cb7c0bc9d57960314fe 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -816,6 +816,25 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
->  			return ret;
->  	}
->  
-> +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-> +		const struct drm_crtc_helper_funcs *funcs;
-> +
-> +		funcs = crtc->helper_private;
-> +
-> +		if (!funcs || !funcs->atomic_check)
-> +			continue;
-> +
-> +		ret = funcs->atomic_check(crtc, state);
-> +		if (ret) {
-> +			drm_dbg_atomic(crtc->dev,
-> +				       "[CRTC:%d:%s] atomic driver check failed\n",
-> +				       crtc->base.id, crtc->name);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +
-> +
+drm:
+- Fix overflow when generating wedged event
 
-Too many empty lines. But the main quesiton is: why are you calling it
-before mode_valid()? According to your description a better place would
-be in drm_atomic_helper_check_planes().
+ivpu:
+- Increate timeouts
+- Fix deadlock in cmdq ioctl
+- Unlock mutices in correct order
 
->  	ret = mode_valid(state);
->  	if (ret)
->  		return ret;
-> 
-> -- 
-> 2.34.1
-> 
+panel:
+- simple: Fix timings for AUO G101EVN010
+
+ttm:
+- Fix documentation
+- Remove struct ttm_backup
+
+v3d:
+- Avoid memory leak in job handling
+The following changes since commit 1a8bc0fe8039e1e57f68c4a588f0403d98bfeb1f:
+
+  drm/mipi-dbi: Fix blanking for non-16 bit formats (2025-04-29 17:29:49 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-05-08
+
+for you to fetch changes up to 7c6fa1797a725732981f2d77711c867166737719:
+
+  drm/panel: simple: Update timings for AUO G101EVN010 (2025-05-06 13:58:46 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+drm:
+- Fix overflow when generating wedged event
+
+ivpu:
+- Increate timeouts
+- Fix deadlock in cmdq ioctl
+- Unlock mutices in correct order
+
+panel:
+- simple: Fix timings for AUO G101EVN010
+
+ttm:
+- Fix documentation
+- Remove struct ttm_backup
+
+v3d:
+- Avoid memory leak in job handling
+
+----------------------------------------------------------------
+Feng Jiang (1):
+      drm: Fix potential overflow issue in event_string array
+
+Jacek Lawrynowicz (2):
+      accel/ivpu: Increase state dump msg timeout
+      accel/ivpu: Fix pm related deadlocks in cmdq ioctls
+
+Karol Wachowski (1):
+      accel/ivpu: Correct mutex unlock order in job submission
+
+Kevin Baker (1):
+      drm/panel: simple: Update timings for AUO G101EVN010
+
+Maíra Canal (1):
+      drm/v3d: Add job to pending list if the reset was skipped
+
+Thomas Hellström (2):
+      drm/ttm: Fix ttm_backup kerneldoc
+      drm/ttm: Remove the struct ttm_backup abstraction
+
+ drivers/accel/ivpu/ivpu_hw.c         |  2 +-
+ drivers/accel/ivpu/ivpu_job.c        | 35 ++++++++++++++++++++--------
+ drivers/gpu/drm/drm_drv.c            |  2 +-
+ drivers/gpu/drm/panel/panel-simple.c | 25 ++++++++++----------
+ drivers/gpu/drm/ttm/ttm_backup.c     | 44 ++++++++++--------------------------
+ drivers/gpu/drm/ttm/ttm_pool.c       |  6 ++---
+ drivers/gpu/drm/ttm/ttm_tt.c         |  2 +-
+ drivers/gpu/drm/v3d/v3d_sched.c      | 28 +++++++++++++++++------
+ include/drm/ttm/ttm_backup.h         | 18 +++++++--------
+ include/drm/ttm/ttm_tt.h             |  2 +-
+ 10 files changed, 86 insertions(+), 78 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
