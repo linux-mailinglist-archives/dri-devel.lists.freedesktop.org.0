@@ -2,99 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075E9AB05A4
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 23:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37813AB0613
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 00:51:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6C310E21E;
-	Thu,  8 May 2025 21:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59B3F10E218;
+	Thu,  8 May 2025 22:51:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gHJsfWaz";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hnMgmQSV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4605C10E21B
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 21:58:00 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 548DANSQ009407;
- Thu, 8 May 2025 21:57:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- H/c5wCC4PrD7yepboyL8e/nVX96kBpmeUZLIKejenvw=; b=gHJsfWazSTBVC9So
- XXTN/CX9hKe3AJTFywel/GQf2r/nnmGoNTfOb1zDmvUzO4VmaLA38qUJOYhXEtrf
- xeTaIRzToWkDVwsteOKH51vnUpokd6J1CwWu7UrU7HWvYOxptr7SUpPJ2qAmwyNu
- uZidNX/DVdQdD8Z4uqOZW6FVTgGsK+XBIYFJ74L9P6XrD+eIglll0ZCXs0JyGavP
- zIHsK+uYHnl5QSVusCeeRf/nRjMMjnobK4En4dHskJKFAxbdSnM2HdMn7/50NzCp
- TO9liEJw71aXfn2zvphZIZFpXcuXTj5ev2oM+ivOP1rw4k0PyNuGUjee6S3362Nz
- q+8dHA==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnpetkm4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 May 2025 21:57:43 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 548LvgYE018928
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 8 May 2025 21:57:42 GMT
-Received: from [10.71.109.79] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 8 May 2025
- 14:57:41 -0700
-Message-ID: <0e87c261-08f9-4a4a-9916-0487a6dbc737@quicinc.com>
-Date: Thu, 8 May 2025 14:57:41 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BFD610E218
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 22:51:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1746744689;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ojRDnaHeKK44/BIZPFihn6ZwKdGyzL0S5kzxmPKIbyw=;
+ b=hnMgmQSV3iHHnQAatkSNDUNFToeoBqfj5f/d4/8twdQlAgxBCUpG97crcCixfywuHH3X8E
+ l6R7P2iew+j1dfqpBprZ/6XaAcQsoymOk5sKlL81brFEqGhA1d2OaYgUrUaH7o4jDDYWPu
+ tbAjpnT/zdVwlx9mdVCXtUz2wTwk5MU=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-571-2DoOe0VxMI2fmsPxmCrseg-1; Thu, 08 May 2025 18:51:27 -0400
+X-MC-Unique: 2DoOe0VxMI2fmsPxmCrseg-1
+X-Mimecast-MFC-AGG-ID: 2DoOe0VxMI2fmsPxmCrseg_1746744687
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-707d49f9c3bso22762157b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 May 2025 15:51:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746744687; x=1747349487;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ojRDnaHeKK44/BIZPFihn6ZwKdGyzL0S5kzxmPKIbyw=;
+ b=PMPaDS6dg19HulvUXc6tnuZSPH9laVd2JziC1f+eqioRi9wXNCRq9Eo/McHecrHh7R
+ rQbnyAsOt5pxgH+LHzQgHNp5+dhAH8phN7G+5g81b98VmwYkDZtT0Dt3vsoEMxscv8xI
+ gWAN+nCqZ6jhEEezfJ3BK3GnrNZ7JNbufyPeKm/se/yfUxjMUaPlZ3bCKzvXAK9ZcZ2q
+ aTicO/m/j9moqtLPEWa5F21qW4ytmhfhlRhiP3AKD1tEAe5R7mHkFXsw53BlI/sSrEFu
+ 0JcrUDIr6VSWizGvR8OK+xb6e8osPj94F2KC+nnB8p/VzXFyZ3sLhBxcoAvUcpLzIB3f
+ ygfg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUciQBFx89I7AQvawoPw7y8oHPa9K5oKD0o0kRyQ++Iu61ZKUDPys1oMqVl4IwGTA1LOUaZ5Tfcn+Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzph/axHIV8XRi0vkBhhoWNEgRHcqZVpEhIO70/8xa50+1bMlvG
+ rX0sg1HpZu50nVYdE/JTA3ooM8QUAc0fCTh/5b+7I8Tx+dtDHUqpI/xsnkFZQRhVYMNuWqyAiS9
+ PVvchEOFxiQ/hmKkzKu2W8XMW/J3qqv8UPBnbrfRTEx4JQIWrNF2VD1IooJoBeLeer4y4axIln/
+ 9E6ZADQQwYq6igBeYu9EB+LKMUQxLYlSwIAkMOrgKK
+X-Gm-Gg: ASbGncsdWB8z4L04CwaCyBQOptUYC5kddf/wjFR526dirS/1yXMtAPYzRtNI7Y2s+8W
+ TvNqVsQjkg71VsllNyoD+UxyNVpE5KCqY5ZI4VRQ0UhoQ64kIdgWrWKNrgSjCvtdmQJY=
+X-Received: by 2002:a05:690c:7404:b0:6fe:aa66:5d75 with SMTP id
+ 00721157ae682-70a3fa258eamr18646357b3.10.1746744686989; 
+ Thu, 08 May 2025 15:51:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFUuFVIKR3q/D/tgkn3xMBCQmzHTBvIRISdRKEDIiY/JrtAUcS1SUjjH56VknswD6aUvV2KimwUdeTOh8a8WsQ=
+X-Received: by 2002:a05:690c:7404:b0:6fe:aa66:5d75 with SMTP id
+ 00721157ae682-70a3fa258eamr18646167b3.10.1746744686595; Thu, 08 May 2025
+ 15:51:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/panel: visionox-rm69299: support the variant
- found in the SHIFT6mq
-To: <neil.armstrong@linaro.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, Casey Connolly <casey.connolly@linaro.org>,
- Caleb Connolly <caleb@connolly.tech>
-References: <20250507-topic-misc-shift6-panel-v1-0-64e8e98ff285@linaro.org>
- <20250507-topic-misc-shift6-panel-v1-2-64e8e98ff285@linaro.org>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20250507-topic-misc-shift6-panel-v1-2-64e8e98ff285@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA4MDE5OSBTYWx0ZWRfX1qo6NbDvhgTe
- plEFjl75U5frDWFk6ByLNwBExKfM2WpsSRdjnBQQAHxDfYDk5prvrL3LPyRxmUcKkIYn9o4eJyz
- XL4Umd3GxU+0cZA/6PCi3oRMi8Nc0O4HEN7ygINM/8h9CetH7XIede+ttUPM5gBwJoJJvJhngnE
- 7uJpdGW/5qr+dmTevotfiFMzWTmEfs35aLO7RNswBS6ocMHk1LWfJuA3k8XU/EymDYuGgULJsgn
- eZJVmHlXXbOf4RmXEQuCH13MsD2Hj0RJ2qluVJSzbbp6j+wwvVFv2DegDWngKAxUvsQuHCP19yj
- nQTM6sGCG+R89UTntYAgoqunzWPHnyIfOd1eCG0Xc3Ay5mxIdZOYTGqqgFhMiJyer6MngAUZHRQ
- QZOIX7Rag1c/91U83U+cQWhpaWQkL10kZkDtLtBKnszAz+sGbenCAgwTGe/BIAPuamYOhu+L
-X-Proofpoint-ORIG-GUID: MJI1OBZinirfW_UzLPA5iWJ6iG03nh2Z
-X-Proofpoint-GUID: MJI1OBZinirfW_UzLPA5iWJ6iG03nh2Z
-X-Authority-Analysis: v=2.4 cv=Yt4PR5YX c=1 sm=1 tr=0 ts=681d28d7 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=kuvCIlgCnUscDMFZ:21 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
- a=KKAkSRfTAAAA:8 a=NsWeV797_Utf8EiLlUcA:9 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-08_07,2025-05-08_04,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 mlxscore=0 adultscore=0 spamscore=0 impostorscore=0
- phishscore=0 lowpriorityscore=0 mlxlogscore=999 suspectscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2504070000 definitions=main-2505080199
+References: <20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com>
+ <20250331-b4-panel-refcounting-v4-2-dad50c60c6c9@redhat.com>
+ <87y0vkw8ll.fsf@intel.com>
+ <20250429-benign-sidewinder-of-defense-6dd4d8@houat>
+ <87o6wfwcef.fsf@intel.com> <20250505-slim-bizarre-marten-a674ac@houat>
+ <CAN9Xe3RLazpAXdxxJmyF2QAShDtMSgdoxMdo6ecdYd7aZiP9kA@mail.gmail.com>
+ <874ixvtbxy.fsf@intel.com>
+In-Reply-To: <874ixvtbxy.fsf@intel.com>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Thu, 8 May 2025 17:48:07 -0400
+X-Gm-Features: AX0GCFvyDT3AgQ9Jb3SsimJmQ_l1ECIxZ89XUxHX72xHqh7GrQQ8ZG3HyhsRuEU
+Message-ID: <CAN9Xe3TaoGziuFi-MW44J3G70UBRh7KHgExrph+ROnqdVncQzw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] drm/panel: Add refcount support
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: cHu8SwaA3aPHwWVnLHLAPQuPKnQIC1cfzuV4iLPmAhc_1746744687
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000008ee65f0634a7b0ec"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,321 +103,621 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--0000000000008ee65f0634a7b0ec
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, May 8, 2025 at 10:27=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
+l.com>
+wrote:
 
-On 5/7/2025 2:43 AM, neil.armstrong@linaro.org wrote:
-> From: Caleb Connolly <caleb@connolly.tech>
-> 
-> Add support for another variant of the rm69299 panel. This panel is
-> 1080x2160 and is found in the shift-axolotl (SHIFT6mq).
-> 
-> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-> [narmstrong: removed cosmetic changes, fixed to apply, use enums to select mode]
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->   drivers/gpu/drm/panel/panel-visionox-rm69299.c | 221 ++++++++++++++++++++++---
->   1 file changed, 195 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> index be3a9797fbced5222b313cf83f8078b919e2c219..26a79ab517723f23b7dc333235b81de264b5f30a 100644
-> --- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> @@ -5,6 +5,7 @@
->   
->   #include <linux/delay.h>
->   #include <linux/module.h>
-> +#include <linux/property.h>
->   #include <linux/mod_devicetable.h>
->   #include <linux/gpio/consumer.h>
->   #include <linux/regulator/consumer.h>
-> @@ -15,11 +16,17 @@
->   #include <drm/drm_modes.h>
->   #include <drm/drm_panel.h>
->   
-> +enum visionox_rm69299_modes {
-> +	VISIONOX_RM69299_MODE_1080X2248_60HZ = 0,
-> +	VISIONOX_RM69299_MODE_1080X2160_60HZ
-> +};
-> +
->   struct visionox_rm69299 {
->   	struct drm_panel panel;
->   	struct regulator_bulk_data supplies[2];
->   	struct gpio_desc *reset_gpio;
->   	struct mipi_dsi_device *dsi;
-> +	enum visionox_rm69299_modes mode;
->   };
->   
->   static inline struct visionox_rm69299 *panel_to_ctx(struct drm_panel *panel)
-> @@ -81,10 +88,123 @@ static int visionox_rm69299_unprepare(struct drm_panel *panel)
->   	return ret;
->   }
->   
-> +#define VISIONOX_RM69299_SHIFT_INIT_SEQ_LEN 432
-> +
-> +static const u8 visionox_rm69299_1080x2248_60hz_init_seq[VISIONOX_RM69299_SHIFT_INIT_SEQ_LEN][2] = {
+> On Mon, 05 May 2025, Anusha Srivatsa <asrivats@redhat.com> wrote:
+> > On Mon, May 5, 2025 at 2:54=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
+g> wrote:
+> >
+> >> Hi Jani,
+> >>
+> >> On Tue, Apr 29, 2025 at 12:22:00PM +0300, Jani Nikula wrote:
+> >> > On Tue, 29 Apr 2025, Maxime Ripard <mripard@kernel.org> wrote:
+> >> > > Hi Jani,
+> >> > >
+> >> > > On Mon, Apr 28, 2025 at 07:31:50PM +0300, Jani Nikula wrote:
+> >> > >> On Mon, 31 Mar 2025, Anusha Srivatsa <asrivats@redhat.com> wrote:
+> >> > >> > Allocate panel via reference counting. Add _get() and _put()
+> helper
+> >> > >> > functions to ensure panel allocations are refcounted. Avoid use
+> >> after
+> >> > >> > free by ensuring panel pointer is valid and can be usable till
+> the
+> >> last
+> >> > >> > reference is put.
+> >> > >> >
+> >> > >> > Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> >> > >> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> >> > >> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> >> > >> >
+> >> > >> > ---
+> >> > >> > v4: Add refcounting documentation in this patch (Maxime)
+> >> > >> >
+> >> > >> > v3: Add include in this patch (Luca)
+> >> > >> >
+> >> > >> > v2: Export drm_panel_put/get() (Maxime)
+> >> > >> > - Change commit log with better workding (Luca, Maxime)
+> >> > >> > - Change drm_panel_put() to return void (Luca)
+> >> > >> > - Code Cleanups - add return in documentation, replace bridge t=
+o
+> >> > >> > panel (Luca)
+> >> > >> > ---
+> >> > >> >  drivers/gpu/drm/drm_panel.c | 64
+> >> ++++++++++++++++++++++++++++++++++++++++++++-
+> >> > >> >  include/drm/drm_panel.h     | 19 ++++++++++++++
+> >> > >> >  2 files changed, 82 insertions(+), 1 deletion(-)
+> >> > >> >
+> >> > >> > diff --git a/drivers/gpu/drm/drm_panel.c
+> >> b/drivers/gpu/drm/drm_panel.c
+> >> > >> > index
+> >>
+> bdeab5710ee324dc1742fbc77582250960556308..7b17531d85a4dc3031709919564d2e4=
+d8332f748
+> >> 100644
+> >> > >> > --- a/drivers/gpu/drm/drm_panel.c
+> >> > >> > +++ b/drivers/gpu/drm/drm_panel.c
+> >> > >> > @@ -355,24 +355,86 @@ struct drm_panel *of_drm_find_panel(const
+> >> struct device_node *np)
+> >> > >> >  }
+> >> > >> >  EXPORT_SYMBOL(of_drm_find_panel);
+> >> > >> >
+> >> > >> > +static void __drm_panel_free(struct kref *kref)
+> >> > >> > +{
+> >> > >> > +        struct drm_panel *panel =3D container_of(kref, struct
+> >> drm_panel, refcount);
+> >> > >> > +
+> >> > >> > +        kfree(panel->container);
+> >> > >> > +}
+> >> > >> > +
+> >> > >> > +/**
+> >> > >> > + * drm_panel_get - Acquire a panel reference
+> >> > >> > + * @panel: DRM panel
+> >> > >> > + *
+> >> > >> > + * This function increments the panel's refcount.
+> >> > >> > + * Returns:
+> >> > >> > + * Pointer to @panel
+> >> > >> > + */
+> >> > >> > +struct drm_panel *drm_panel_get(struct drm_panel *panel)
+> >> > >> > +{
+> >> > >> > +        if (!panel)
+> >> > >> > +                return panel;
+> >> > >> > +
+> >> > >> > +        kref_get(&panel->refcount);
+> >> > >> > +
+> >> > >> > +        return panel;
+> >> > >> > +}
+> >> > >> > +EXPORT_SYMBOL(drm_panel_get);
+> >> > >> > +
+> >> > >> > +/**
+> >> > >> > + * drm_panel_put - Release a panel reference
+> >> > >> > + * @panel: DRM panel
+> >> > >> > + *
+> >> > >> > + * This function decrements the panel's reference count and
+> frees
+> >> the
+> >> > >> > + * object if the reference count drops to zero.
+> >> > >> > + */
+> >> > >> > +void drm_panel_put(struct drm_panel *panel)
+> >> > >> > +{
+> >> > >> > +        if (panel)
+> >> > >> > +                kref_put(&panel->refcount, __drm_panel_free);
+> >> > >> > +}
+> >> > >> > +EXPORT_SYMBOL(drm_panel_put);
+> >> > >> > +
+> >> > >> > +/**
+> >> > >> > + * drm_panel_put_void - wrapper to drm_panel_put() taking a vo=
+id
+> >> pointer
+> >> > >> > + *
+> >> > >> > + * @data: pointer to @struct drm_panel, cast to a void pointer
+> >> > >> > + *
+> >> > >> > + * Wrapper of drm_panel_put() to be used when a function takin=
+g
+> a
+> >> void
+> >> > >> > + * pointer is needed, for example as a devm action.
+> >> > >> > + */
+> >> > >> > +static void drm_panel_put_void(void *data)
+> >> > >> > +{
+> >> > >> > +        struct drm_panel *panel =3D (struct drm_panel *)data;
+> >> > >> > +
+> >> > >> > +        drm_panel_put(panel);
+> >> > >> > +}
+> >> > >> > +
+> >> > >> >  void *__devm_drm_panel_alloc(struct device *dev, size_t size,
+> >> size_t offset,
+> >> > >> >                               const struct drm_panel_funcs
+> *funcs,
+> >> > >> >                               int connector_type)
+> >> > >> >  {
+> >> > >> >          void *container;
+> >> > >> >          struct drm_panel *panel;
+> >> > >> > +        int err;
+> >> > >> >
+> >> > >> >          if (!funcs) {
+> >> > >> >                  dev_warn(dev, "Missing funcs pointer\n");
+> >> > >> >                  return ERR_PTR(-EINVAL);
+> >> > >> >          }
+> >> > >> >
+> >> > >> > -        container =3D devm_kzalloc(dev, size, GFP_KERNEL);
+> >> > >> > +        container =3D kzalloc(size, GFP_KERNEL);
+> >> > >> >          if (!container)
+> >> > >> >                  return ERR_PTR(-ENOMEM);
+> >> > >> >
+> >> > >> >          panel =3D container + offset;
+> >> > >> > +        panel->container =3D container;
+> >> > >> >          panel->funcs =3D funcs;
+> >> > >> > +        kref_init(&panel->refcount);
+> >> > >>
+> >> > >> Hi Anusha, this should be done in drm_panel_init() instead.
+> >> > >>
+> >> > >> There are many users of drm_panel that don't use
+> >> devm_drm_panel_alloc()
+> >> > >> but allocate separately, and call drm_panel_init() only.
+> >> > >
+> >> > > That wouldn't really work, because then drivers would have allocat=
+ed
+> >> the
+> >> > > panel with devm_kzalloc and thus the structure would be freed when
+> the
+> >> > > device is removed, no matter the reference counting state.
+> >> > >
+> >> > >> They'll all have refcount set to 0 instead of 1 like kref_init()
+> does.
+> >> > >>
+> >> > >> This means all subsequent get/put pairs on such panels will lead =
+to
+> >> > >> __drm_panel_free() being called! But through a lucky coincidence,
+> that
+> >> > >> will be a nop because panel->container is also not initialized...
+> >> > >>
+> >> > >> I'm sorry to say, the drm refcounting interface is quite broken f=
+or
+> >> such
+> >> > >> use cases.
+> >> > >
+> >> > > The plan is to convert all panel drivers to that function, and
+> Anusha
+> >> > > already sent series to do. It still needs a bit of work, but it
+> should
+> >> > > land soon-ish.
+> >> > >
+> >> > > For the transitional period though, it's not clear to me what you
+> think
+> >> > > is broken at the moment, and / or what should be fixed.
+> >> > >
+> >> > > Would you prefer an explicit check on container not being 0, with =
+a
+> >> > > comment?
+> >> >
+> >> > I'm looking at what it would take to add drm_panel support to i915 s=
+o
+> >> > that you could have drm_panel_followers on it. There are gaps of
+> course,
+> >> > but initially it would mean allocating and freeing drm_panel
+> ourselves,
+> >> > not via devm_drm_panel_alloc() nor devm_kzalloc(), because none of t=
+he
+> >> > other stuff is allocated that way. drm_panel would just sit as a
+> >> > sub-struct inside struct intel_panel, which is a sub-struct of struc=
+t
+> >> > intel_connector, which has its own allocation...
+> >>
+> >> I'm not entirely sure why you would need to allocate it from i915? The
+> >> drm_panel structure is only meant to be allocated by panel drivers, an=
+d
+> >> afaik no panel interface controller is allocating it.
+>
+> I'm looking into a use case involving drm_panel_follower, which requires
+> a drm_panel. I don't really need any of the other stuff in drm_panel.
+>
+> And basically you'd have one drm_panel per connector that is connected
+> to a panel, within the same driver.
+>
+> >> > But basically in its current state, the refcounting would not be
+> >> > reliable for that use case. I guess with panel->container being NULL
+> >> > nothing happens, but the idea that the refcount drops back to 0 afte=
+r
+> a
+> >> > get/put is a bit scary.
+> >> >
+> >> > Anyway, I think there should be no harm in moving the kref init to
+> >> > drm_panel_init(), right?
+> >>
+> >> I mean, there is because the plan so far was to remove drm_panel_init(=
+)
+> :)
+>
+> The problem with that is that it forces a certain type of allocation of
+> drm_panel. devm_drm_panel_alloc() allows embedding drm_panel inside
+> another struct, but that's inflexible for our use case, where we'd
+> probably like to embed it inside something that's already allocated as
+> part of something else.
+>
+> Jani,
+will intel_connector_init() be one of the code points where this will be
+inflexible?
 
-Hi Neil,
+Anusha
 
-I see this being used for the 1080x2160 mode, but the name here seems to 
-imply that this is the init sequence for 1080x2248. Was that intended?
+> I mean devm_drm_panel_alloc() is great, but please don't make its use
+> mandatory!
+>
+> > Jani,
+> > the series that converts all drivers to use the new API:
+> > https://patchwork.freedesktop.org/series/147082/
+> > https://patchwork.freedesktop.org/series/147157/
+> > https://patchwork.freedesktop.org/series/147246/
+> >
+> > not landed yet but these are WIP. Still trying to understand your point
+> > though... not sure what is broken.
+>
+> Nothing upstream is broken per se, but if you allocated drm_panel
+> directly yourself, initialized it with drm_panel_init(), its refcount
+> would initially be 0, not 1, and each subsequent get/put on it would
+> call __drm_panel_free().
+>
+> Even that doesn't break stuff, because by luck panel->container is also
+> NULL in this case.
+>
+>
+> BR,
+> Jani.
+>
+> --
+> Jani Nikula, Intel
+>
+>
 
-> +	{ 0xFE, 0x40 }, { 0x05, 0x04 }, { 0x06, 0x08 }, { 0x08, 0x04 },
-> +	{ 0x09, 0x08 }, { 0x0A, 0x07 }, { 0x0B, 0xCC }, { 0x0C, 0x07 },
-> +	{ 0x0D, 0x90 }, { 0x0F, 0x87 }, { 0x20, 0x8D }, { 0x21, 0x8D },
-> +	{ 0x24, 0x05 }, { 0x26, 0x05 }, { 0x28, 0x05 }, { 0x2A, 0x05 },
-> +	{ 0x2D, 0x28 }, { 0x2F, 0x28 }, { 0x30, 0x32 }, { 0x31, 0x32 },
-> +	{ 0x37, 0x80 }, { 0x38, 0x30 }, { 0x39, 0xA8 }, { 0x46, 0x48 },
-> +	{ 0x47, 0x48 }, { 0x6B, 0x10 }, { 0x6F, 0x02 }, { 0x74, 0x2B },
-> +	{ 0x80, 0x1A }, { 0xFE, 0x40 }, { 0x93, 0x10 }, { 0x16, 0x00 },
-> +	{ 0x85, 0x07 }, { 0x84, 0x01 }, { 0x86, 0x0F }, { 0x87, 0x05 },
-> +	{ 0x8C, 0x00 }, { 0x88, 0x2E }, { 0x89, 0x2E }, { 0x8B, 0x09 },
-> +	{ 0x95, 0x00 }, { 0x91, 0x00 }, { 0x90, 0x00 }, { 0x8D, 0xD0 },
-> +	{ 0x8A, 0x03 }, { 0xFE, 0xA0 }, { 0x13, 0x00 }, { 0x33, 0x00 },
-> +	{ 0x0B, 0x33 }, { 0x36, 0x1E }, { 0x31, 0x88 }, { 0x32, 0x88 },
-> +	{ 0x37, 0xF1 }, { 0xFE, 0x50 }, { 0x00, 0x00 }, { 0x01, 0x00 },
-> +	{ 0x02, 0x00 }, { 0x03, 0xE9 }, { 0x04, 0x00 }, { 0x05, 0xF6 },
-> +	{ 0x06, 0x01 }, { 0x07, 0x2C }, { 0x08, 0x01 }, { 0x09, 0x62 },
-> +	{ 0x0A, 0x01 }, { 0x0B, 0x98 }, { 0x0C, 0x01 }, { 0x0D, 0xBF },
-> +	{ 0x0E, 0x01 }, { 0x0F, 0xF6 }, { 0x10, 0x02 }, { 0x11, 0x24 },
-> +	{ 0x12, 0x02 }, { 0x13, 0x4E }, { 0x14, 0x02 }, { 0x15, 0x70 },
-> +	{ 0x16, 0x02 }, { 0x17, 0xAF }, { 0x18, 0x02 }, { 0x19, 0xE2 },
-> +	{ 0x1A, 0x03 }, { 0x1B, 0x1F }, { 0x1C, 0x03 }, { 0x1D, 0x52 },
-> +	{ 0x1E, 0x03 }, { 0x1F, 0x82 }, { 0x20, 0x03 }, { 0x21, 0xB6 },
-> +	{ 0x22, 0x03 }, { 0x23, 0xF0 }, { 0x24, 0x04 }, { 0x25, 0x1F },
-> +	{ 0x26, 0x04 }, { 0x27, 0x37 }, { 0x28, 0x04 }, { 0x29, 0x59 },
-> +	{ 0x2A, 0x04 }, { 0x2B, 0x68 }, { 0x30, 0x04 }, { 0x31, 0x85 },
-> +	{ 0x32, 0x04 }, { 0x33, 0xA2 }, { 0x34, 0x04 }, { 0x35, 0xBC },
-> +	{ 0x36, 0x04 }, { 0x37, 0xD8 }, { 0x38, 0x04 }, { 0x39, 0xF4 },
-> +	{ 0x3A, 0x05 }, { 0x3B, 0x0E }, { 0x40, 0x05 }, { 0x41, 0x13 },
-> +	{ 0x42, 0x05 }, { 0x43, 0x1F }, { 0x44, 0x05 }, { 0x45, 0x1F },
-> +	{ 0x46, 0x00 }, { 0x47, 0x00 }, { 0x48, 0x01 }, { 0x49, 0x43 },
-> +	{ 0x4A, 0x01 }, { 0x4B, 0x4C }, { 0x4C, 0x01 }, { 0x4D, 0x6F },
-> +	{ 0x4E, 0x01 }, { 0x4F, 0x92 }, { 0x50, 0x01 }, { 0x51, 0xB5 },
-> +	{ 0x52, 0x01 }, { 0x53, 0xD4 }, { 0x58, 0x02 }, { 0x59, 0x06 },
-> +	{ 0x5A, 0x02 }, { 0x5B, 0x33 }, { 0x5C, 0x02 }, { 0x5D, 0x59 },
-> +	{ 0x5E, 0x02 }, { 0x5F, 0x7D }, { 0x60, 0x02 }, { 0x61, 0xBD },
-> +	{ 0x62, 0x02 }, { 0x63, 0xF7 }, { 0x64, 0x03 }, { 0x65, 0x31 },
-> +	{ 0x66, 0x03 }, { 0x67, 0x63 }, { 0x68, 0x03 }, { 0x69, 0x9D },
-> +	{ 0x6A, 0x03 }, { 0x6B, 0xD2 }, { 0x6C, 0x04 }, { 0x6D, 0x05 },
-> +	{ 0x6E, 0x04 }, { 0x6F, 0x38 }, { 0x70, 0x04 }, { 0x71, 0x51 },
-> +	{ 0x72, 0x04 }, { 0x73, 0x70 }, { 0x74, 0x04 }, { 0x75, 0x85 },
-> +	{ 0x76, 0x04 }, { 0x77, 0xA1 }, { 0x78, 0x04 }, { 0x79, 0xC0 },
-> +	{ 0x7A, 0x04 }, { 0x7B, 0xD8 }, { 0x7C, 0x04 }, { 0x7D, 0xF2 },
-> +	{ 0x7E, 0x05 }, { 0x7F, 0x10 }, { 0x80, 0x05 }, { 0x81, 0x21 },
-> +	{ 0x82, 0x05 }, { 0x83, 0x2E }, { 0x84, 0x05 }, { 0x85, 0x3A },
-> +	{ 0x86, 0x05 }, { 0x87, 0x3E }, { 0x88, 0x00 }, { 0x89, 0x00 },
-> +	{ 0x8A, 0x01 }, { 0x8B, 0x86 }, { 0x8C, 0x01 }, { 0x8D, 0x8F },
-> +	{ 0x8E, 0x01 }, { 0x8F, 0xB3 }, { 0x90, 0x01 }, { 0x91, 0xD7 },
-> +	{ 0x92, 0x01 }, { 0x93, 0xFB }, { 0x94, 0x02 }, { 0x95, 0x18 },
-> +	{ 0x96, 0x02 }, { 0x97, 0x4F }, { 0x98, 0x02 }, { 0x99, 0x7E },
-> +	{ 0x9A, 0x02 }, { 0x9B, 0xA6 }, { 0x9C, 0x02 }, { 0x9D, 0xCF },
-> +	{ 0x9E, 0x03 }, { 0x9F, 0x14 }, { 0xA4, 0x03 }, { 0xA5, 0x52 },
-> +	{ 0xA6, 0x03 }, { 0xA7, 0x93 }, { 0xAC, 0x03 }, { 0xAD, 0xCF },
-> +	{ 0xAE, 0x04 }, { 0xAF, 0x08 }, { 0xB0, 0x04 }, { 0xB1, 0x42 },
-> +	{ 0xB2, 0x04 }, { 0xB3, 0x7F }, { 0xB4, 0x04 }, { 0xB5, 0xB4 },
-> +	{ 0xB6, 0x04 }, { 0xB7, 0xCC }, { 0xB8, 0x04 }, { 0xB9, 0xF2 },
-> +	{ 0xBA, 0x05 }, { 0xBB, 0x0C }, { 0xBC, 0x05 }, { 0xBD, 0x26 },
-> +	{ 0xBE, 0x05 }, { 0xBF, 0x4B }, { 0xC0, 0x05 }, { 0xC1, 0x64 },
-> +	{ 0xC2, 0x05 }, { 0xC3, 0x83 }, { 0xC4, 0x05 }, { 0xC5, 0xA1 },
-> +	{ 0xC6, 0x05 }, { 0xC7, 0xBA }, { 0xC8, 0x05 }, { 0xC9, 0xC4 },
-> +	{ 0xCA, 0x05 }, { 0xCB, 0xD5 }, { 0xCC, 0x05 }, { 0xCD, 0xD5 },
-> +	{ 0xCE, 0x00 }, { 0xCF, 0xCE }, { 0xD0, 0x00 }, { 0xD1, 0xDB },
-> +	{ 0xD2, 0x01 }, { 0xD3, 0x32 }, { 0xD4, 0x01 }, { 0xD5, 0x3B },
-> +	{ 0xD6, 0x01 }, { 0xD7, 0x74 }, { 0xD8, 0x01 }, { 0xD9, 0x7D },
-> +	{ 0xFE, 0x60 }, { 0x00, 0xCC }, { 0x01, 0x0F }, { 0x02, 0xFF },
-> +	{ 0x03, 0x01 }, { 0x04, 0x00 }, { 0x05, 0x02 }, { 0x06, 0x00 },
-> +	{ 0x07, 0x00 }, { 0x09, 0xC4 }, { 0x0A, 0x00 }, { 0x0B, 0x04 },
-> +	{ 0x0C, 0x01 }, { 0x0D, 0x00 }, { 0x0E, 0x04 }, { 0x0F, 0x00 },
-> +	{ 0x10, 0x71 }, { 0x12, 0xC4 }, { 0x13, 0x00 }, { 0x14, 0x04 },
-> +	{ 0x15, 0x01 }, { 0x16, 0x00 }, { 0x17, 0x06 }, { 0x18, 0x00 },
-> +	{ 0x19, 0x71 }, { 0x1B, 0xC4 }, { 0x1C, 0x00 }, { 0x1D, 0x02 },
-> +	{ 0x1E, 0x00 }, { 0x1F, 0x00 }, { 0x20, 0x08 }, { 0x21, 0x66 },
-> +	{ 0x22, 0xB4 }, { 0x24, 0xC4 }, { 0x25, 0x00 }, { 0x26, 0x02 },
-> +	{ 0x27, 0x00 }, { 0x28, 0x00 }, { 0x29, 0x07 }, { 0x2A, 0x66 },
-> +	{ 0x2B, 0xB4 }, { 0x2F, 0xC4 }, { 0x30, 0x00 }, { 0x31, 0x04 },
-> +	{ 0x32, 0x01 }, { 0x33, 0x00 }, { 0x34, 0x03 }, { 0x35, 0x00 },
-> +	{ 0x36, 0x71 }, { 0x38, 0xC4 }, { 0x39, 0x00 }, { 0x3A, 0x04 },
-> +	{ 0x3B, 0x01 }, { 0x3D, 0x00 }, { 0x3F, 0x05 }, { 0x40, 0x00 },
-> +	{ 0x41, 0x71 }, { 0x83, 0xCE }, { 0x84, 0x02 }, { 0x85, 0x20 },
-> +	{ 0x86, 0xDC }, { 0x87, 0x00 }, { 0x88, 0x04 }, { 0x89, 0x00 },
-> +	{ 0x8A, 0xBB }, { 0x8B, 0x80 }, { 0xC7, 0x0E }, { 0xC8, 0x05 },
-> +	{ 0xC9, 0x1F }, { 0xCA, 0x06 }, { 0xCB, 0x00 }, { 0xCC, 0x03 },
-> +	{ 0xCD, 0x04 }, { 0xCE, 0x1F }, { 0xCF, 0x1F }, { 0xD0, 0x1F },
-> +	{ 0xD1, 0x1F }, { 0xD2, 0x1F }, { 0xD3, 0x1F }, { 0xD4, 0x1F },
-> +	{ 0xD5, 0x1F }, { 0xD6, 0x1F }, { 0xD7, 0x17 }, { 0xD8, 0x1F },
-> +	{ 0xD9, 0x16 }, { 0xDA, 0x1F }, { 0xDB, 0x0E }, { 0xDC, 0x01 },
-> +	{ 0xDD, 0x1F }, { 0xDE, 0x02 }, { 0xDF, 0x00 }, { 0xE0, 0x03 },
-> +	{ 0xE1, 0x04 }, { 0xE2, 0x1F }, { 0xE3, 0x1F }, { 0xE4, 0x1F },
-> +	{ 0xE5, 0x1F }, { 0xE6, 0x1F }, { 0xE7, 0x1F }, { 0xE8, 0x1F },
-> +	{ 0xE9, 0x1F }, { 0xEA, 0x1F }, { 0xEB, 0x17 }, { 0xEC, 0x1F },
-> +	{ 0xED, 0x16 }, { 0xEE, 0x1F }, { 0xEF, 0x03 }, { 0xFE, 0x70 },
-> +	{ 0x5A, 0x0B }, { 0x5B, 0x0B }, { 0x5C, 0x55 }, { 0x5D, 0x24 },
-> +	{ 0xFE, 0x90 }, { 0x12, 0x24 }, { 0x13, 0x49 }, { 0x14, 0x92 },
-> +	{ 0x15, 0x86 }, { 0x16, 0x61 }, { 0x17, 0x18 }, { 0x18, 0x24 },
-> +	{ 0x19, 0x49 }, { 0x1A, 0x92 }, { 0x1B, 0x86 }, { 0x1C, 0x61 },
-> +	{ 0x1D, 0x18 }, { 0x1E, 0x24 }, { 0x1F, 0x49 }, { 0x20, 0x92 },
-> +	{ 0x21, 0x86 }, { 0x22, 0x61 }, { 0x23, 0x18 }, { 0xFE, 0x40 },
-> +	{ 0x0E, 0x10 }, { 0xFE, 0xA0 }, { 0x04, 0x80 }, { 0x16, 0x00 },
-> +	{ 0x26, 0x10 }, { 0x2F, 0x37 }, { 0xFE, 0xD0 }, { 0x06, 0x0F },
-> +	{ 0x4B, 0x00 }, { 0x56, 0x4A }, { 0xFE, 0x00 }, { 0xC2, 0x09 },
-> +	{ 0x35, 0x00 }, { 0xFE, 0x70 }, { 0x7D, 0x61 }, { 0x7F, 0x00 },
-> +	{ 0x7E, 0x4E }, { 0x52, 0x2C }, { 0x49, 0x00 }, { 0x4A, 0x00 },
-> +	{ 0x4B, 0x00 }, { 0x4C, 0x00 }, { 0x4D, 0xE8 }, { 0x4E, 0x25 },
-> +	{ 0x4F, 0x6E }, { 0x50, 0xAE }, { 0x51, 0x2F }, { 0xAD, 0xF4 },
-> +	{ 0xAE, 0x8F }, { 0xAF, 0x00 }, { 0xB0, 0x54 }, { 0xB1, 0x3A },
-> +	{ 0xB2, 0x00 }, { 0xB3, 0x00 }, { 0xB4, 0x00 }, { 0xB5, 0x00 },
-> +	{ 0xB6, 0x18 }, { 0xB7, 0x30 }, { 0xB8, 0x4A }, { 0xB9, 0x98 },
-> +	{ 0xBA, 0x30 }, { 0xBB, 0x60 }, { 0xBC, 0x50 }, { 0xBD, 0x00 },
-> +	{ 0xBE, 0x00 }, { 0xBF, 0x39 }, { 0xFE, 0x00 }, { 0x51, 0x66 },
-> +};
-> +
->   static int visionox_rm69299_prepare(struct drm_panel *panel)
->   {
->   	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
-> -	int ret;
-> +	int ret, i;
->   
->   	ret = visionox_rm69299_power_on(ctx);
->   	if (ret < 0)
-> @@ -92,28 +212,48 @@ static int visionox_rm69299_prepare(struct drm_panel *panel)
->   
->   	ctx->dsi->mode_flags |= MIPI_DSI_MODE_LPM;
->   
-> -	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]) { 0xfe, 0x00 }, 2);
-> -	if (ret < 0) {
-> -		dev_err(ctx->panel.dev, "cmd set tx 0 failed, ret = %d\n", ret);
-> -		goto power_off;
-> -	}
-> -
-> -	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]) { 0xc2, 0x08 }, 2);
-> -	if (ret < 0) {
-> -		dev_err(ctx->panel.dev, "cmd set tx 1 failed, ret = %d\n", ret);
-> -		goto power_off;
-> -	}
-> -
-> -	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]) { 0x35, 0x00 }, 2);
-> -	if (ret < 0) {
-> -		dev_err(ctx->panel.dev, "cmd set tx 2 failed, ret = %d\n", ret);
-> -		goto power_off;
-> -	}
-> -
-> -	ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]) { 0x51, 0xff }, 2);
-> -	if (ret < 0) {
-> -		dev_err(ctx->panel.dev, "cmd set tx 3 failed, ret = %d\n", ret);
-> -		goto power_off;
-> +	if (ctx->mode == VISIONOX_RM69299_MODE_1080X2160_60HZ) {
-> +		for (i = 0; i < VISIONOX_RM69299_SHIFT_INIT_SEQ_LEN; i++) {
-> +			ret = mipi_dsi_dcs_write_buffer(ctx->dsi,
+--0000000000008ee65f0634a7b0ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Any reason for not using mipi_dsi_dcs_write_buffer_multi() here?
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 8, =
+2025 at 10:27=E2=80=AFAM Jani Nikula &lt;<a href=3D"mailto:jani.nikula@linu=
+x.intel.com">jani.nikula@linux.intel.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">On Mon, 05 May 2025, Anusha Srivats=
+a &lt;<a href=3D"mailto:asrivats@redhat.com" target=3D"_blank">asrivats@red=
+hat.com</a>&gt; wrote:<br>
+&gt; On Mon, May 5, 2025 at 2:54=E2=80=AFAM Maxime Ripard &lt;<a href=3D"ma=
+ilto:mripard@kernel.org" target=3D"_blank">mripard@kernel.org</a>&gt; wrote=
+:<br>
+&gt;<br>
+&gt;&gt; Hi Jani,<br>
+&gt;&gt;<br>
+&gt;&gt; On Tue, Apr 29, 2025 at 12:22:00PM +0300, Jani Nikula wrote:<br>
+&gt;&gt; &gt; On Tue, 29 Apr 2025, Maxime Ripard &lt;<a href=3D"mailto:mrip=
+ard@kernel.org" target=3D"_blank">mripard@kernel.org</a>&gt; wrote:<br>
+&gt;&gt; &gt; &gt; Hi Jani,<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; On Mon, Apr 28, 2025 at 07:31:50PM +0300, Jani Nikula wr=
+ote:<br>
+&gt;&gt; &gt; &gt;&gt; On Mon, 31 Mar 2025, Anusha Srivatsa &lt;<a href=3D"=
+mailto:asrivats@redhat.com" target=3D"_blank">asrivats@redhat.com</a>&gt; w=
+rote:<br>
+&gt;&gt; &gt; &gt;&gt; &gt; Allocate panel via reference counting. Add _get=
+() and _put() helper<br>
+&gt;&gt; &gt; &gt;&gt; &gt; functions to ensure panel allocations are refco=
+unted. Avoid use<br>
+&gt;&gt; after<br>
+&gt;&gt; &gt; &gt;&gt; &gt; free by ensuring panel pointer is valid and can=
+ be usable till the<br>
+&gt;&gt; last<br>
+&gt;&gt; &gt; &gt;&gt; &gt; reference is put.<br>
+&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; Reviewed-by: Luca Ceresoli &lt;<a href=3D"mailt=
+o:luca.ceresoli@bootlin.com" target=3D"_blank">luca.ceresoli@bootlin.com</a=
+>&gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; Reviewed-by: Maxime Ripard &lt;<a href=3D"mailt=
+o:mripard@kernel.org" target=3D"_blank">mripard@kernel.org</a>&gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"m=
+ailto:asrivats@redhat.com" target=3D"_blank">asrivats@redhat.com</a>&gt;<br=
+>
+&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; ---<br>
+&gt;&gt; &gt; &gt;&gt; &gt; v4: Add refcounting documentation in this patch=
+ (Maxime)<br>
+&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; v3: Add include in this patch (Luca)<br>
+&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; v2: Export drm_panel_put/get() (Maxime)<br>
+&gt;&gt; &gt; &gt;&gt; &gt; - Change commit log with better workding (Luca,=
+ Maxime)<br>
+&gt;&gt; &gt; &gt;&gt; &gt; - Change drm_panel_put() to return void (Luca)<=
+br>
+&gt;&gt; &gt; &gt;&gt; &gt; - Code Cleanups - add return in documentation, =
+replace bridge to<br>
+&gt;&gt; &gt; &gt;&gt; &gt; panel (Luca)<br>
+&gt;&gt; &gt; &gt;&gt; &gt; ---<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 drivers/gpu/drm/drm_panel.c | 64<br>
+&gt;&gt; ++++++++++++++++++++++++++++++++++++++++++++-<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 include/drm/drm_panel.h=C2=A0 =C2=A0 =C2=
+=A0| 19 ++++++++++++++<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 2 files changed, 82 insertions(+), 1 dele=
+tion(-)<br>
+&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; diff --git a/drivers/gpu/drm/drm_panel.c<br>
+&gt;&gt; b/drivers/gpu/drm/drm_panel.c<br>
+&gt;&gt; &gt; &gt;&gt; &gt; index<br>
+&gt;&gt; bdeab5710ee324dc1742fbc77582250960556308..7b17531d85a4dc3031709919=
+564d2e4d8332f748<br>
+&gt;&gt; 100644<br>
+&gt;&gt; &gt; &gt;&gt; &gt; --- a/drivers/gpu/drm/drm_panel.c<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +++ b/drivers/gpu/drm/drm_panel.c<br>
+&gt;&gt; &gt; &gt;&gt; &gt; @@ -355,24 +355,86 @@ struct drm_panel *of_drm_=
+find_panel(const<br>
+&gt;&gt; struct device_node *np)<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 }<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 EXPORT_SYMBOL(of_drm_find_panel);<br>
+&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +static void __drm_panel_free(struct kref *kref=
+)<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +{<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_panel *=
+panel =3D container_of(kref, struct<br>
+&gt;&gt; drm_panel, refcount);<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kfree(panel-&gt;co=
+ntainer);<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +}<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +/**<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * drm_panel_get - Acquire a panel reference<b=
+r>
+&gt;&gt; &gt; &gt;&gt; &gt; + * @panel: DRM panel<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + *<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * This function increments the panel&#39;s re=
+fcount.<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * Returns:<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * Pointer to @panel<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + */<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +struct drm_panel *drm_panel_get(struct drm_pan=
+el *panel)<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +{<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!panel)<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 return panel;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kref_get(&amp;pane=
+l-&gt;refcount);<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return panel;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +}<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +EXPORT_SYMBOL(drm_panel_get);<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +/**<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * drm_panel_put - Release a panel reference<b=
+r>
+&gt;&gt; &gt; &gt;&gt; &gt; + * @panel: DRM panel<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + *<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * This function decrements the panel&#39;s re=
+ference count and frees<br>
+&gt;&gt; the<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * object if the reference count drops to zero=
+.<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + */<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +void drm_panel_put(struct drm_panel *panel)<br=
+>
+&gt;&gt; &gt; &gt;&gt; &gt; +{<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (panel)<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 kref_put(&amp;panel-&gt;refcount, __drm_panel_free);<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +}<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +EXPORT_SYMBOL(drm_panel_put);<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +/**<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * drm_panel_put_void - wrapper to drm_panel_p=
+ut() taking a void<br>
+&gt;&gt; pointer<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + *<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * @data: pointer to @struct drm_panel, cast t=
+o a void pointer<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + *<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * Wrapper of drm_panel_put() to be used when =
+a function taking a<br>
+&gt;&gt; void<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + * pointer is needed, for example as a devm ac=
+tion.<br>
+&gt;&gt; &gt; &gt;&gt; &gt; + */<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +static void drm_panel_put_void(void *data)<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +{<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_panel *=
+panel =3D (struct drm_panel *)data;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_panel_put(pane=
+l);<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +}<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 void *__devm_drm_panel_alloc(struct devic=
+e *dev, size_t size,<br>
+&gt;&gt; size_t offset,<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const struct=
+ drm_panel_funcs *funcs,<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int connecto=
+r_type)<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 {<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *contain=
+er;<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_pa=
+nel *panel;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 int err;<br>
+&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!funcs) {=
+<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 dev_warn(dev, &quot;Missing funcs pointer\n&quot;);<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 return ERR_PTR(-EINVAL);<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 container =3D devm=
+_kzalloc(dev, size, GFP_KERNEL);<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 container =3D kzal=
+loc(size, GFP_KERNEL);<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!containe=
+r)<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 return ERR_PTR(-ENOMEM);<br>
+&gt;&gt; &gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panel =3D con=
+tainer + offset;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 panel-&gt;containe=
+r =3D container;<br>
+&gt;&gt; &gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panel-&gt;fun=
+cs =3D funcs;<br>
+&gt;&gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kref_init(&amp;pan=
+el-&gt;refcount);<br>
+&gt;&gt; &gt; &gt;&gt;<br>
+&gt;&gt; &gt; &gt;&gt; Hi Anusha, this should be done in drm_panel_init() i=
+nstead.<br>
+&gt;&gt; &gt; &gt;&gt;<br>
+&gt;&gt; &gt; &gt;&gt; There are many users of drm_panel that don&#39;t use=
+<br>
+&gt;&gt; devm_drm_panel_alloc()<br>
+&gt;&gt; &gt; &gt;&gt; but allocate separately, and call drm_panel_init() o=
+nly.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; That wouldn&#39;t really work, because then drivers woul=
+d have allocated<br>
+&gt;&gt; the<br>
+&gt;&gt; &gt; &gt; panel with devm_kzalloc and thus the structure would be =
+freed when the<br>
+&gt;&gt; &gt; &gt; device is removed, no matter the reference counting stat=
+e.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt;&gt; They&#39;ll all have refcount set to 0 instead of 1 =
+like kref_init() does.<br>
+&gt;&gt; &gt; &gt;&gt;<br>
+&gt;&gt; &gt; &gt;&gt; This means all subsequent get/put pairs on such pane=
+ls will lead to<br>
+&gt;&gt; &gt; &gt;&gt; __drm_panel_free() being called! But through a lucky=
+ coincidence, that<br>
+&gt;&gt; &gt; &gt;&gt; will be a nop because panel-&gt;container is also no=
+t initialized...<br>
+&gt;&gt; &gt; &gt;&gt;<br>
+&gt;&gt; &gt; &gt;&gt; I&#39;m sorry to say, the drm refcounting interface =
+is quite broken for<br>
+&gt;&gt; such<br>
+&gt;&gt; &gt; &gt;&gt; use cases.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; The plan is to convert all panel drivers to that functio=
+n, and Anusha<br>
+&gt;&gt; &gt; &gt; already sent series to do. It still needs a bit of work,=
+ but it should<br>
+&gt;&gt; &gt; &gt; land soon-ish.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; For the transitional period though, it&#39;s not clear t=
+o me what you think<br>
+&gt;&gt; &gt; &gt; is broken at the moment, and / or what should be fixed.<=
+br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; Would you prefer an explicit check on container not bein=
+g 0, with a<br>
+&gt;&gt; &gt; &gt; comment?<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; I&#39;m looking at what it would take to add drm_panel suppor=
+t to i915 so<br>
+&gt;&gt; &gt; that you could have drm_panel_followers on it. There are gaps=
+ of course,<br>
+&gt;&gt; &gt; but initially it would mean allocating and freeing drm_panel =
+ourselves,<br>
+&gt;&gt; &gt; not via devm_drm_panel_alloc() nor devm_kzalloc(), because no=
+ne of the<br>
+&gt;&gt; &gt; other stuff is allocated that way. drm_panel would just sit a=
+s a<br>
+&gt;&gt; &gt; sub-struct inside struct intel_panel, which is a sub-struct o=
+f struct<br>
+&gt;&gt; &gt; intel_connector, which has its own allocation...<br>
+&gt;&gt;<br>
+&gt;&gt; I&#39;m not entirely sure why you would need to allocate it from i=
+915? The<br>
+&gt;&gt; drm_panel structure is only meant to be allocated by panel drivers=
+, and<br>
+&gt;&gt; afaik no panel interface controller is allocating it.<br>
+<br>
+I&#39;m looking into a use case involving drm_panel_follower, which require=
+s<br>
+a drm_panel. I don&#39;t really need any of the other stuff in drm_panel.<b=
+r>
+<br>
+And basically you&#39;d have one drm_panel per connector that is connected<=
+br>
+to a panel, within the same driver.<br>
+<br>
+&gt;&gt; &gt; But basically in its current state, the refcounting would not=
+ be<br>
+&gt;&gt; &gt; reliable for that use case. I guess with panel-&gt;container =
+being NULL<br>
+&gt;&gt; &gt; nothing happens, but the idea that the refcount drops back to=
+ 0 after a<br>
+&gt;&gt; &gt; get/put is a bit scary.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Anyway, I think there should be no harm in moving the kref in=
+it to<br>
+&gt;&gt; &gt; drm_panel_init(), right?<br>
+&gt;&gt;<br>
+&gt;&gt; I mean, there is because the plan so far was to remove drm_panel_i=
+nit() :)<br>
+<br>
+The problem with that is that it forces a certain type of allocation of<br>
+drm_panel. devm_drm_panel_alloc() allows embedding drm_panel inside<br>
+another struct, but that&#39;s inflexible for our use case, where we&#39;d<=
+br>
+probably like to embed it inside something that&#39;s already allocated as<=
+br>
+part of something else.<br>
+<br></blockquote><div>Jani,=C2=A0</div><div>will intel_connector_init() be =
+one of the code points where this will be inflexible?</div><div><br></div><=
+div>Anusha</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+I mean devm_drm_panel_alloc() is great, but please don&#39;t make its use<b=
+r>
+mandatory!<br>
+<br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; Jan=
+i,<br>
+&gt; the series that converts all drivers to use the new API:<br>
+&gt; <a href=3D"https://patchwork.freedesktop.org/series/147082/" rel=3D"no=
+referrer" target=3D"_blank">https://patchwork.freedesktop.org/series/147082=
+/</a><br>
+&gt; <a href=3D"https://patchwork.freedesktop.org/series/147157/" rel=3D"no=
+referrer" target=3D"_blank">https://patchwork.freedesktop.org/series/147157=
+/</a><br>
+&gt; <a href=3D"https://patchwork.freedesktop.org/series/147246/" rel=3D"no=
+referrer" target=3D"_blank">https://patchwork.freedesktop.org/series/147246=
+/</a><br>
+&gt;<br>
+&gt; not landed yet but these are WIP. Still trying to understand your poin=
+t<br>
+&gt; though... not sure what is broken.<br>
+<br>
+Nothing upstream is broken per se, but if you allocated drm_panel<br>
+directly yourself, initialized it with drm_panel_init(), its refcount<br>
+would initially be 0, not 1, and each subsequent get/put on it would<br>
+call __drm_panel_free().<br>
+<br>
+Even that doesn&#39;t break stuff, because by luck panel-&gt;container is a=
+lso<br>
+NULL in this case.<br>
+<br>
+<br>
+BR,<br>
+Jani.<br>
+<br>
+-- <br>
+Jani Nikula, Intel<br>
+<br>
+</blockquote></div></div>
 
-Thanks,
-
-Jessica Zhang
-
-> +				visionox_rm69299_1080x2248_60hz_init_seq[i], 2);
-> +			if (ret < 0) {
-> +				dev_err(ctx->panel.dev,
-> +					"cmd set tx 0 failed, ret = %d\n", ret);
-> +				return ret;
-> +			}
-> +		}
-> +	} else {
-> +		ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0xfe, 0x00 },
-> +						2);
-> +		if (ret < 0) {
-> +			dev_err(ctx->panel.dev,
-> +				"cmd set tx 0 failed, ret = %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0xc2, 0x08 },
-> +						2);
-> +		if (ret < 0) {
-> +			dev_err(ctx->panel.dev,
-> +				"cmd set tx 1 failed, ret = %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0x35, 0x00 },
-> +						2);
-> +		if (ret < 0) {
-> +			dev_err(ctx->panel.dev,
-> +				"cmd set tx 2 failed, ret = %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		ret = mipi_dsi_dcs_write_buffer(ctx->dsi, (u8[]){ 0x51, 0xff },
-> +						2);
-> +		if (ret < 0) {
-> +			dev_err(ctx->panel.dev,
-> +				"cmd set tx 3 failed, ret = %d\n", ret);
-> +			return ret;
-> +		}
->   	}
->   
->   	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_EXIT_SLEEP_MODE, NULL, 0);
-> @@ -154,14 +294,38 @@ static const struct drm_display_mode visionox_rm69299_1080x2248_60hz = {
->   	.flags = 0,
->   };
->   
-> +static const struct drm_display_mode visionox_rm69299_1080x2160_60hz = {
-> +	.clock = 158695,
-> +	.hdisplay = 1080,
-> +	.hsync_start = 1080 + 26,
-> +	.hsync_end = 1080 + 26 + 2,
-> +	.htotal = 1080 + 26 + 2 + 36,
-> +	.vdisplay = 2160,
-> +	.vsync_start = 2160 + 8,
-> +	.vsync_end = 2160 + 8 + 4,
-> +	.vtotal = 2160 + 8 + 4 + 4,
-> +	.flags = 0,
-> +};
-> +
->   static int visionox_rm69299_get_modes(struct drm_panel *panel,
->   				      struct drm_connector *connector)
->   {
->   	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
-> +	const struct drm_display_mode *panel_mode;
->   	struct drm_display_mode *mode;
->   
-> -	mode = drm_mode_duplicate(connector->dev,
-> -				  &visionox_rm69299_1080x2248_60hz);
-> +	switch (ctx->mode) {
-> +	case VISIONOX_RM69299_MODE_1080X2248_60HZ:
-> +		panel_mode = &visionox_rm69299_1080x2248_60hz;
-> +		break;
-> +	case VISIONOX_RM69299_MODE_1080X2160_60HZ:
-> +		panel_mode = &visionox_rm69299_1080x2160_60hz;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	mode = drm_mode_duplicate(connector->dev, panel_mode);
->   	if (!mode) {
->   		dev_err(ctx->panel.dev, "failed to create a new display mode\n");
->   		return 0;
-> @@ -191,6 +355,8 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
->   	if (!ctx)
->   		return -ENOMEM;
->   
-> +	ctx->mode = (enum visionox_rm69299_modes)device_get_match_data(dev);
-> +
->   	mipi_dsi_set_drvdata(dsi, ctx);
->   
->   	ctx->dsi = dsi;
-> @@ -240,7 +406,10 @@ static void visionox_rm69299_remove(struct mipi_dsi_device *dsi)
->   }
->   
->   static const struct of_device_id visionox_rm69299_of_match[] = {
-> -	{ .compatible = "visionox,rm69299-1080p-display", },
-> +	{ .compatible = "visionox,rm69299-1080p-display",
-> +	  .data = (void *)VISIONOX_RM69299_MODE_1080X2248_60HZ },
-> +	{ .compatible = "visionox,rm69299-shift",
-> +	  .data = (void *)VISIONOX_RM69299_MODE_1080X2160_60HZ },
->   	{ /* sentinel */ }
->   };
->   MODULE_DEVICE_TABLE(of, visionox_rm69299_of_match);
-> 
+--0000000000008ee65f0634a7b0ec--
 
