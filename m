@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159CBAB0036
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 18:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE0AAB003A
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 18:20:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A21810E936;
-	Thu,  8 May 2025 16:19:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8FB10E939;
+	Thu,  8 May 2025 16:20:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="IgJaFNNE";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GC0Q4R4U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D72B510E936;
- Thu,  8 May 2025 16:19:51 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5489cTF0013054;
- Thu, 8 May 2025 16:19:47 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A135210E939;
+ Thu,  8 May 2025 16:20:00 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 548Dg1SV008709;
+ Thu, 8 May 2025 16:19:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Yxd/K+pZqCUFrXf9xr2Yw5EoV6zmboGoRme6ruKpUG8=; b=IgJaFNNEm7dPHsFq
- OTSQ0iOHRuIqCtRRBt3uWvMHRPkacPTQon7nG898QfKCsFX+QJpxW5tHRvui8/8N
- qADZb2wBoc8mg/zlZFTF0xko9l/ZIYD9GSeu4hSuowOs7RzPqmciSvcLJooGBevj
- d0ayBIUWgwoZ1kQGntYCXruTj/mg76tJHeZT2CRT1WnVInbHWlC7RehziroM4/+U
- bHapDaZUvzfMBqmz8J1d4TXAcwsrVSlrC9+WlBXmrg+6/aOONyxM4XgJq4VOX3S/
- 2s/BXlPAwJXQHzTSeL29vl3i3a+v7OiEMX5KlWM9+3AVM2Ey8nehlWhvaU7Y6ji3
- X6c+0w==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ c+YxeEgy/0njEoRBvcuzAAKLhzbxA4ZgdKXmQftvI6s=; b=GC0Q4R4UXegJElWb
+ xp6mX43tNL9t/wi9qhBQuaq8l4gG1RRzPFeam1RXzLdJw08Ni3fc1c+1IOIuegHJ
+ VFkgYRQAY/tZHMWMl/mR9Q86MzkBpsS9WAZPV4Okj3mR2r1YnEzFneY/95GZfwU2
+ PeFTIDHLtPUymH/+420u86MmRxBOySzLc4FonHzWs1ukoj5X1jW5TcukJKgCqgDV
+ CV1XG1/cyswxOpQJOj0VxvvfekR7RD4s9tpCz48iDafCf9UWcsQiTa6SlxYfXEIb
+ jt9mqYZ2qv0F2WRtZhCwoRVs2cyfPXaaLbVOGD6+twPJfZ31DYol7xjY5LuA1Hr0
+ ZRZasw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gt52s3ff-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnp59xks-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 May 2025 16:19:47 +0000 (GMT)
+ Thu, 08 May 2025 16:19:53 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 548GJkhc016679
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 548GJqhq032560
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 8 May 2025 16:19:46 GMT
+ Thu, 8 May 2025 16:19:52 GMT
 Received: from [10.213.111.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 8 May 2025
- 09:19:40 -0700
+ 09:19:46 -0700
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Date: Thu, 8 May 2025 21:49:19 +0530
-Subject: [PATCH v3 1/3] dt-bindings: display/msm/gmu: Add Adreno 623 GMU
+Date: Thu, 8 May 2025 21:49:20 +0530
+Subject: [PATCH v3 2/3] arm64: dts: qcom: qcs8300: Add gpu and gmu nodes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250508-a623-gpu-support-v3-1-3cb31799d44e@quicinc.com>
+Message-ID: <20250508-a623-gpu-support-v3-2-3cb31799d44e@quicinc.com>
 References: <20250508-a623-gpu-support-v3-0-3cb31799d44e@quicinc.com>
 In-Reply-To: <20250508-a623-gpu-support-v3-0-3cb31799d44e@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
@@ -65,14 +65,13 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
 CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <devicetree@vger.kernel.org>, Jie Zhang <quic_jiezh@quicinc.com>, "Akhil P
- Oommen" <quic_akhilpo@quicinc.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>
+ Oommen" <quic_akhilpo@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746721173; l=1898;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746721173; l=3418;
  i=quic_akhilpo@quicinc.com; s=20240726; h=from:subject:message-id;
- bh=VoAfYHkAmPVpXM4uz7NgbSLR6zpbCmPQYNPA788LYUA=;
- b=WzpO8z+ETKwGLeTzQx4Mhf9tuY2feOm3Q6AJGT+1kWopNuMnUGnj1XcsQKvsJomozWRgncGhC
- B1TGLp1CsjkC4xDlwnZPA6DgymQRmkh4+jHocqFPB/A9qOMKma/I187
+ bh=U9LN1k/PoYST/y5hup9fuhUPNbh152ddfDme30oCAZs=;
+ b=WO5SLA3ioYR1TwL+iIh0Jn68zPVSTiWqI603hWzIWWe7jT7erW/Jx+1my4sSizMHwKHTvW+nW
+ dfrggqUn5DmCgNCc3tc3BvARx6ZaPkFpXCiFiQLIiCL+9TX2bkYX1ku
 X-Developer-Key: i=quic_akhilpo@quicinc.com; a=ed25519;
  pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
 X-Originating-IP: [10.80.80.8]
@@ -81,27 +80,26 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA4MDE0MiBTYWx0ZWRfX6JgPuIRZ6ywI
- JbYchejsQIi+K1sSbbSyJBXxMmDmEyFcD8QmQznGQYh9upcciOXifm2QqPd28g+hju4EXIVACSI
- 8xwnJ832vBwAZ/hOayucrx7gOW2ZtUahonx1HOcYmZ70mU92QHQUqzIvddW6HaLCF0sUJs1K1il
- uc2XNk4s0KBO2fQcdbQDoa1MCQ+LYvABnzRa63I5COeIrU2RFxYXR6ZsRVX2QYHm8JPcSzB7A+L
- ZV5JBSYxsZIh9d06/I9Gw2Eb7BceCWuQNQOEMviKB2KmwoNtoIri3UP/0MrHxfBVR13s+ozTxgi
- 9JLcFLPPpr2nReF8a203Jj6QnMkMstm32PopIxkJ4nUfM5Q+dnH8FADzhhnsy/VjYw291QRE8Ze
- H5spWRZSXc3lf9HK+FmsYPMCJAeIWCKVW6GHojbv0gZVdYIX8CJTdDk3fhygZKCE33fXUxhL
-X-Authority-Analysis: v=2.4 cv=LKFmQIW9 c=1 sm=1 tr=0 ts=681cd9a3 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=Lu2Symdc c=1 sm=1 tr=0 ts=681cd9a9 cx=c_pps
  a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=KKAkSRfTAAAA:8 a=lg8D87i0TRp2Yfz5Kl8A:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: V3jz_spu3fZTNRauxjqASELss9oJXI7f
-X-Proofpoint-GUID: V3jz_spu3fZTNRauxjqASELss9oJXI7f
+ a=DOBxdMOjXtw3fjWlhrYA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: ik_QgGe1OFntlbErbes4Qj5pGmXahse1
+X-Proofpoint-ORIG-GUID: ik_QgGe1OFntlbErbes4Qj5pGmXahse1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA4MDE0MiBTYWx0ZWRfXw9/WJoZTRzO/
+ ATOj5AmeKNmbnG/pcU1WlBC+D+xmeOmbSk5opElN69iR2wQ6yTwktg90N3jLND9mG56WYPs9xoh
+ 9iBm4elyEUpdzUyoUVMeWNR+NPGFf7wmFBlDSK5+4MPYfOsGJt/DyY/gRuLJuCrTlHj1n1blMFJ
+ +kpxn0z+wDUz8FXdHctp0hyZSotW2LoqYOgUXbolzT8Entl72vHBcSWrSAwSc42c42yCzw1MHzj
+ xbTc/s5D3AN9NgsLbLgbyd3vetIWi4abqeII4+XHymzkU67IrwK8lZS3uJI/DKxbmyMIsk683S3
+ mWiL5Wi3RWUHjUEwaIxlxP3eihA+SQ/a4rsdrXwFDOiSwm67u2pSUuIO8eBjG9xgK/dqEY2VM2l
+ UHK/JRX0Lwu/5eu/pGku+ykVqRda1cNgLBtCkhi3hlKeemg0+i52ixskYtCKGZz11MqvTmZG
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-08_05,2025-05-08_02,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 clxscore=1015 lowpriorityscore=0 suspectscore=0
- malwarescore=0 mlxscore=0 bulkscore=0 spamscore=0 phishscore=0 adultscore=0
- priorityscore=1501 impostorscore=0 classifier=spam authscore=0 authtc=n/a
+ phishscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=791
+ priorityscore=1501 suspectscore=0 clxscore=1015 adultscore=0 malwarescore=0
+ spamscore=0 impostorscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a
  authcc= route=outbound adjust=0 reason=mlx scancount=1
  engine=8.19.0-2504070000 definitions=main-2505080142
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,60 +119,116 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jie Zhang <quic_jiezh@quicinc.com>
 
-Document Adreno 623 GMU in the dt-binding specification.
+Add gpu and gmu nodes for qcs8300 chipset.
 
 Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
 Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../devicetree/bindings/display/msm/gmu.yaml       | 34 ++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs8300.dtsi | 91 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-index 4392aa7a4ffe2492d69a21e067be1f42e00016d8..afc1879357440c137cadeb2d9a74ae8459570a25 100644
---- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-@@ -124,6 +124,40 @@ allOf:
-           contains:
-             enum:
-               - qcom,adreno-gmu-623.0
-+    then:
-+      properties:
-+        reg:
-+          items:
-+            - description: Core GMU registers
-+            - description: Resource controller registers
-+            - description: GMU PDC registers
-+        reg-names:
-+          items:
-+            - const: gmu
-+            - const: rscc
-+            - const: gmu_pdc
-+        clocks:
-+          items:
-+            - description: GMU clock
-+            - description: GPU CX clock
-+            - description: GPU AXI clock
-+            - description: GPU MEMNOC clock
-+            - description: GPU AHB clock
-+            - description: GPU HUB CX clock
-+        clock-names:
-+          items:
-+            - const: gmu
-+            - const: cxo
-+            - const: axi
-+            - const: memnoc
-+            - const: ahb
-+            - const: hub
+diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
+index 40771b062e8d7010dd93d7cc7b3db73cfa16bfdb..1dbccb9a0c75366aa6986b6adb4feb6164ee8845 100644
+--- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
+@@ -2660,6 +2660,97 @@ serdes0: phy@8909000 {
+ 			status = "disabled";
+ 		};
+ 
++		gpu: gpu@3d00000 {
++			compatible = "qcom,adreno-623.0", "qcom,adreno";
++			reg = <0x0 0x03d00000 0x0 0x40000>,
++			      <0x0 0x03d9e000 0x0 0x1000>,
++			      <0x0 0x03d61000 0x0 0x800>;
++			reg-names = "kgsl_3d0_reg_memory",
++				    "cx_mem",
++				    "cx_dbgc";
++			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
++			iommus = <&adreno_smmu 0 0xc00>,
++				 <&adreno_smmu 1 0xc00>;
++			operating-points-v2 = <&gpu_opp_table>;
++			qcom,gmu = <&gmu>;
++			interconnects = <&gem_noc MASTER_GFX3D QCOM_ICC_TAG_ALWAYS
++					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
++			interconnect-names = "gfx-mem";
++			#cooling-cells = <2>;
 +
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-               - qcom,adreno-gmu-635.0
-               - qcom,adreno-gmu-660.1
-               - qcom,adreno-gmu-663.0
++			status = "disabled";
++
++			gpu_zap_shader: zap-shader {
++				memory-region = <&gpu_microcode_mem>;
++			};
++
++			gpu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-877000000 {
++					opp-hz = /bits/ 64 <877000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
++					opp-peak-kBps = <12484375>;
++				};
++
++				opp-780000000 {
++					opp-hz = /bits/ 64 <780000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
++					opp-peak-kBps = <10687500>;
++				};
++
++				opp-599000000 {
++					opp-hz = /bits/ 64 <599000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
++					opp-peak-kBps = <8171875>;
++				};
++
++				opp-479000000 {
++					opp-hz = /bits/ 64 <479000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
++					opp-peak-kBps = <5285156>;
++				};
++			};
++		};
++
++		gmu: gmu@3d6a000 {
++			compatible = "qcom,adreno-gmu-623.0", "qcom,adreno-gmu";
++			reg = <0x0 0x03d6a000 0x0 0x34000>,
++			      <0x0 0x03de0000 0x0 0x10000>,
++			      <0x0 0x0b290000 0x0 0x10000>;
++			reg-names = "gmu", "rscc", "gmu_pdc";
++			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hfi", "gmu";
++			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
++				 <&gpucc GPU_CC_CXO_CLK>,
++				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
++				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++				 <&gpucc GPU_CC_AHB_CLK>,
++				 <&gpucc GPU_CC_HUB_CX_INT_CLK>;
++			clock-names = "gmu",
++				      "cxo",
++				      "axi",
++				      "memnoc",
++				      "ahb",
++				      "hub";
++			power-domains = <&gpucc GPU_CC_CX_GDSC>,
++					<&gpucc GPU_CC_GX_GDSC>;
++			power-domain-names = "cx",
++					     "gx";
++			iommus = <&adreno_smmu 5 0xc00>;
++			operating-points-v2 = <&gmu_opp_table>;
++
++			gmu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-500000000 {
++					opp-hz = /bits/ 64 <500000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
++				};
++			};
++		};
++
+ 		gpucc: clock-controller@3d90000 {
+ 			compatible = "qcom,qcs8300-gpucc";
+ 			reg = <0x0 0x03d90000 0x0 0xa000>;
 
 -- 
 2.48.1
