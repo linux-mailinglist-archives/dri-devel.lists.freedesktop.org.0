@@ -2,77 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C095BAB0285
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 20:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EACBBAB02A5
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 20:25:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F3C210E95F;
-	Thu,  8 May 2025 18:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B86110E956;
+	Thu,  8 May 2025 18:25:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="SFZ+8LQe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Dyej77jL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com
- [209.85.215.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DFDB10E962
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 18:20:59 +0000 (UTC)
-Received: by mail-pg1-f201.google.com with SMTP id
- 41be03b00d2f7-b0e0c573531so852261a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 08 May 2025 11:20:59 -0700 (PDT)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2884A10E954;
+ Thu,  8 May 2025 18:25:30 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-309e54e469cso169883a91.1; 
+ Thu, 08 May 2025 11:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1746728459; x=1747333259;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=xwIypK5vgpXyk6FLaHSI0wGc7MjNUvnJWQjPoxqkKIA=;
- b=SFZ+8LQeRayqDajLTghwPA/XpkMn2tbX3zm/2aWqKGG5wvvv8ogbKAGTprcUFZiRf+
- BN33nE2gzhFcDdIqrasMJ3eaDWZnX2ryTySuwnHzIAL1ib8dR/arY4t53I0Z/Mz6Xsza
- HnnbD8IjSOqxFDawlQk2Lq3bqwpgFO/NQhR4f9Q9zvwAXf2IvRkTygIi3uM3D0nW3O2K
- CPzmWcTdyKjufAh80VFg3UyOgCUXAMpWQVLFeGimtE6CWdQth/FUrvw+9WjdEua47y4u
- msb0sMW9r7vu2kPHJ/bsSKeGhXbrbzvYrgboh3VgATsFspxQXV5PvG0Sd8WWnnfla2TC
- hdXw==
+ d=gmail.com; s=20230601; t=1746728729; x=1747333529; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=waEbCrslf02j0euz1Hyel1xKxpuwwD71wy+gaLfyWXA=;
+ b=Dyej77jLtR+ZBhPWBEgO5Ut2u4TzrV7s8N+mw/3f40a+tbBYL4FXhEOlWXsIXIAWS2
+ VK/xXwY9dq0Lqa58ezammpf+yoWj6pbWz/jyqU0RFlJMWu+eGSX+i0geZfAISK3j7rsI
+ 8XPEQ5NLtpEixiezb8pNFdR24VJM9Jfj/49NIxNLENZWIZzv/tHHwILCUmGS0RC+mLcG
+ RO+a4J7nWC8GjBg1SbVnbFtKY4bmPNvHocLGSvGfBvcAnDfjzKmJUz5FrDDwCgGPL9Wt
+ ddwxfrbyJxpHJFlyIE77LKG057SpaHcXtpDgofxvtI0fl7CWqjD5VnenVdYGAU/pJeA+
+ fHew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746728459; x=1747333259;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xwIypK5vgpXyk6FLaHSI0wGc7MjNUvnJWQjPoxqkKIA=;
- b=jaBtiiqW032sGR241Vd+RmiQjj2erFIuHI1HVhw3V8DfNvfIGtOEBU6J5/4Qr/OsXM
- z0MfyfH0FEVNv99t+zEjpNDkiNlEbfhzVMaZkG+LVG3uyTY5lD/CMMaJAJAZTJKbtDeO
- qt9j1ohAT4Oj6ApIMo7/YMkmAg5tflS2F/GLzXOZoTLMIl+0a70BTkL4t19oyjQ3Jeb2
- 0TWKE9Y52f69x7irsHHAyl6qp6Xn0o7+dmx89g0hZ8p048n+w4cWkG6bVZD6vu9AG1E8
- +XIShsyKLexbY6JbfCVB7FFceXyWWrOLwAcpyazMAvx3XtTl73OOgdhfJWwe78HOIFSI
- 6k/w==
+ d=1e100.net; s=20230601; t=1746728729; x=1747333529;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=waEbCrslf02j0euz1Hyel1xKxpuwwD71wy+gaLfyWXA=;
+ b=GhQkCDbFGIlJnmEnHxQcrGcSh+fZg0EUm2vxcRDhNZLVpVnWDGYKsoJfe5kJf/FN+Y
+ 5hsV3S3yS2mzJEbtRrrjKSv8mOE9T+rBxe4FvMRvwix30c3NfBOWYDtuE56gYwS2XS+l
+ YdvPolNi79JcEzZaV6e4400yaaVSFXpPvRG14kNsBeW+QE9b7ka6x+/dd4A6zrNOeIC2
+ oVJaKUZtN3FSdwLnWgrUupEXueqMLgCvBzlgXbkj86Mpdnt5oTVnOow5cFVw8filc/3h
+ 0yQ8iHsMhHIAtSsyIkNFytoQt2v7rXN2P14gAO6mfQm8tr5eo48W0GtWwFaPllVeWJXH
+ /PyQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4bhkjao6tiaQ6Uv/x3auHtPKhCr5Cn+o5ayw1ky09V0nXOngJcMo+WLVBIJCzaAr+ClJRMj2WZO4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7Fd/0q5e/H3PCfZBaVI+nO0M5sWAlwEq++hkxokiIgC57Slhr
- rxdO6wIC9SFsi7YRTQHTjPC/cRIAT/2B0QPqw961WxpO2ivjWdZVfdbe2HX/6xP4A89yw/4bc8j
- m5VmvzK9Y9EEhzw==
-X-Google-Smtp-Source: AGHT+IGvJN4Vf2zfwtQtEd6XAvfzgu0CadIvXXytUhhkeOpqjgTD22SYjtYy4WpZC8iuj5HW0VjxdaEkwL11DBo=
-X-Received: from pjf8.prod.google.com ([2002:a17:90b:3f08:b0:30a:8830:9f6b])
- (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:2d06:b0:2ee:edae:780 with SMTP id
- 98e67ed59e1d1-30c3d2e2e67mr883580a91.15.1746728458769; 
- Thu, 08 May 2025 11:20:58 -0700 (PDT)
-Date: Thu,  8 May 2025 18:20:24 +0000
-In-Reply-To: <20250508182025.2961555-1-tjmercier@google.com>
-Mime-Version: 1.0
-References: <20250508182025.2961555-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.49.0.1015.ga840276032-goog
-Message-ID: <20250508182025.2961555-6-tjmercier@google.com>
-Subject: [PATCH bpf-next v4 5/5] selftests/bpf: Add test for open coded
- dmabuf_iter
-From: "T.J. Mercier" <tjmercier@google.com>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
- skhan@linuxfoundation.org, alexei.starovoitov@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
- simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
- jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org, song@kernel.org, 
- "T.J. Mercier" <tjmercier@google.com>
+ AJvYcCWhtvEqCFqyUasMGOTlrGD8lW5ehevQcYx/Rp0/nBlbBDaxxs6yYlyKcjzj5E5tGIhvbmMTQc9vH6YN@lists.freedesktop.org,
+ AJvYcCXMlkFyxqyNPnfrW8Q1MjZsX7vLrs1YQL6xFM33jYOuEOSqgi0cv/Id94jEJsJfk2VpPmMrcSsuU50=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3w199KDz1ZGuttfL9/s8YvoaTl1s8gCIUSVl5DhGaAg2hdBJ+
+ ecKEL4C+QpLEgZH9CzdXuT56wV64Myp+nP4WmEEYQAhlFjm+PdH7sdwXvmcs9RprY0tzpsH9xvV
+ L4aAta2GOfYCJ71hjj7nwxxs8+0Y=
+X-Gm-Gg: ASbGncvxJmVxzQVF7P0k2yaR8eO3g5awARVAbOOZD7a73JfZsy2q4MyWcyCgLk437nX
+ vub14rCCv5oRWr86uB0MzHsBgFh90QpR6fkbDGVuNbDiG5LWvKm3OZ89PbpQaQsNCPyAbahqRpU
+ r2OTqWUY5a9lnHPp1bi606dA==
+X-Google-Smtp-Source: AGHT+IHm+1k+jR7TnUT8ZSpFd7U5tcrz5KJivMD+5bDfj/leop0E5igVUwVXpDEwEgoS20vzCAfVm+cD5wr/rcq2wGs=
+X-Received: by 2002:a17:90b:3812:b0:2ff:4be6:c5e2 with SMTP id
+ 98e67ed59e1d1-30c3d669070mr276315a91.7.1746728729571; Thu, 08 May 2025
+ 11:25:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
+ <20250508-topic-ubwc_central-v1-7-035c4c5cbe50@oss.qualcomm.com>
+In-Reply-To: <20250508-topic-ubwc_central-v1-7-035c4c5cbe50@oss.qualcomm.com>
+From: Connor Abbott <cwabbott0@gmail.com>
+Date: Thu, 8 May 2025 14:25:18 -0400
+X-Gm-Features: ATxdqUGGKzILlDDNdGb-69ow4qakqzEaJcVTZgzzDN8Bbo3FXuGdXfNDVeMIZAU
+Message-ID: <CACu1E7H9_EkGFkjL1MRU9M-_YFHnPb5v9SxDg6fXm0m-imzC2Q@mail.gmail.com>
+Subject: Re: [PATCH RFT 07/14] drm/msm/a6xx: Resolve the meaning of UBWC_MODE
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,208 +92,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the same test buffers as the traditional iterator and a new BPF map
-to verify the test buffers can be found with the open coded dmabuf
-iterator.
+On Thu, May 8, 2025 at 2:14=E2=80=AFPM Konrad Dybcio <konradybcio@kernel.or=
+g> wrote:
+>
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>
+> This bit is set iff the UBWC version is 1.0. That notably does not
+> include QCM2290's "no UBWC".
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- .../testing/selftests/bpf/bpf_experimental.h  |  5 ++
- .../selftests/bpf/prog_tests/dmabuf_iter.c    | 52 +++++++++++++++----
- .../testing/selftests/bpf/progs/dmabuf_iter.c | 38 ++++++++++++++
- 3 files changed, 86 insertions(+), 9 deletions(-)
+While this is technically true, AFAIK the only difference between UBWC
+1.0 and 2.0 is that newer UBWC disables level 1 bank swizzling, which
+is why I originally wrote it this way. There's a bit of redundancy
+between the UBWC version and ubwc_swizzle bit 0.
 
-diff --git a/tools/testing/selftests/bpf/bpf_experimental.h b/tools/testing/selftests/bpf/bpf_experimental.h
-index 6535c8ae3c46..5e512a1d09d1 100644
---- a/tools/testing/selftests/bpf/bpf_experimental.h
-+++ b/tools/testing/selftests/bpf/bpf_experimental.h
-@@ -591,4 +591,9 @@ extern int bpf_iter_kmem_cache_new(struct bpf_iter_kmem_cache *it) __weak __ksym
- extern struct kmem_cache *bpf_iter_kmem_cache_next(struct bpf_iter_kmem_cache *it) __weak __ksym;
- extern void bpf_iter_kmem_cache_destroy(struct bpf_iter_kmem_cache *it) __weak __ksym;
- 
-+struct bpf_iter_dmabuf;
-+extern int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it) __weak __ksym;
-+extern struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it) __weak __ksym;
-+extern void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it) __weak __ksym;
-+
- #endif
-diff --git a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c b/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-index 35745f4ce0f8..c8230a080ef3 100644
---- a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-+++ b/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-@@ -26,10 +26,11 @@ static int sysheap_dmabuf;
- static const char sysheap_test_buffer_name[DMA_BUF_NAME_LEN] = "sysheap_test_buffer_for_iter";
- static size_t sysheap_test_buffer_size;
- 
--static int create_udmabuf(void)
-+static int create_udmabuf(int map_fd)
- {
- 	struct udmabuf_create create;
- 	int dev_udmabuf;
-+	bool f = false;
- 
- 	udmabuf_test_buffer_size = 10 * getpagesize();
- 
-@@ -63,10 +64,10 @@ static int create_udmabuf(void)
- 	if (!ASSERT_OK(ioctl(udmabuf, DMA_BUF_SET_NAME_B, udmabuf_test_buffer_name), "name"))
- 		return 1;
- 
--	return 0;
-+	return bpf_map_update_elem(map_fd, udmabuf_test_buffer_name, &f, BPF_ANY);
- }
- 
--static int create_sys_heap_dmabuf(void)
-+static int create_sys_heap_dmabuf(int map_fd)
- {
- 	sysheap_test_buffer_size = 20 * getpagesize();
- 
-@@ -77,6 +78,7 @@ static int create_sys_heap_dmabuf(void)
- 		.heap_flags = 0,
- 	};
- 	int heap_fd, ret;
-+	bool f = false;
- 
- 	if (!ASSERT_LE(sizeof(sysheap_test_buffer_name), DMA_BUF_NAME_LEN, "NAMETOOLONG"))
- 		return 1;
-@@ -95,18 +97,18 @@ static int create_sys_heap_dmabuf(void)
- 	if (!ASSERT_OK(ioctl(sysheap_dmabuf, DMA_BUF_SET_NAME_B, sysheap_test_buffer_name), "name"))
- 		return 1;
- 
--	return 0;
-+	return bpf_map_update_elem(map_fd, sysheap_test_buffer_name, &f, BPF_ANY);
- }
- 
--static int create_test_buffers(void)
-+static int create_test_buffers(int map_fd)
- {
- 	int ret;
- 
--	ret = create_udmabuf();
-+	ret = create_udmabuf(map_fd);
- 	if (ret)
- 		return ret;
- 
--	return create_sys_heap_dmabuf();
-+	return create_sys_heap_dmabuf(map_fd);
- }
- 
- static void destroy_test_buffers(void)
-@@ -187,17 +189,46 @@ static void subtest_dmabuf_iter_check_default_iter(struct dmabuf_iter *skel)
- 	close(iter_fd);
- }
- 
-+static void subtest_dmabuf_iter_check_open_coded(struct dmabuf_iter *skel, int map_fd)
-+{
-+	LIBBPF_OPTS(bpf_test_run_opts, topts);
-+	char key[DMA_BUF_NAME_LEN];
-+	int err, fd;
-+	bool found;
-+
-+	/* No need to attach it, just run it directly */
-+	fd = bpf_program__fd(skel->progs.iter_dmabuf_for_each);
-+
-+	err = bpf_prog_test_run_opts(fd, &topts);
-+	if (!ASSERT_OK(err, "test_run_opts err"))
-+		return;
-+	if (!ASSERT_OK(topts.retval, "test_run_opts retval"))
-+		return;
-+
-+	if (!ASSERT_OK(bpf_map_get_next_key(map_fd, NULL, key), "get next key"))
-+		return;
-+
-+	do {
-+		ASSERT_OK(bpf_map_lookup_elem(map_fd, key, &found), "lookup");
-+		ASSERT_TRUE(found, "found test buffer");
-+	} while (bpf_map_get_next_key(map_fd, key, key));
-+}
-+
- void test_dmabuf_iter(void)
- {
- 	struct dmabuf_iter *skel = NULL;
-+	int iter_fd, map_fd;
- 	char buf[256];
--	int iter_fd;
- 
- 	skel = dmabuf_iter__open_and_load();
- 	if (!ASSERT_OK_PTR(skel, "dmabuf_iter__open_and_load"))
- 		return;
- 
--	if (!ASSERT_OK(create_test_buffers(), "create_buffers"))
-+	map_fd = bpf_map__fd(skel->maps.testbuf_hash);
-+	if (!ASSERT_OK_FD(map_fd, "map_fd"))
-+		goto destroy_skel;
-+
-+	if (!ASSERT_OK(create_test_buffers(map_fd), "create_buffers"))
- 		goto destroy;
- 
- 	if (!ASSERT_OK(dmabuf_iter__attach(skel), "skel_attach"))
-@@ -215,10 +246,13 @@ void test_dmabuf_iter(void)
- 
- 	if (test__start_subtest("default_iter"))
- 		subtest_dmabuf_iter_check_default_iter(skel);
-+	if (test__start_subtest("open_coded"))
-+		subtest_dmabuf_iter_check_open_coded(skel, map_fd);
- 
- 	close(iter_fd);
- 
- destroy:
- 	destroy_test_buffers();
-+destroy_skel:
- 	dmabuf_iter__destroy(skel);
- }
-diff --git a/tools/testing/selftests/bpf/progs/dmabuf_iter.c b/tools/testing/selftests/bpf/progs/dmabuf_iter.c
-index d654b4f64cfa..cfdcf4b1c636 100644
---- a/tools/testing/selftests/bpf/progs/dmabuf_iter.c
-+++ b/tools/testing/selftests/bpf/progs/dmabuf_iter.c
-@@ -9,6 +9,13 @@
- 
- char _license[] SEC("license") = "GPL";
- 
-+struct {
-+	__uint(type, BPF_MAP_TYPE_HASH);
-+	__uint(key_size, DMA_BUF_NAME_LEN);
-+	__type(value, bool);
-+	__uint(max_entries, 5);
-+} testbuf_hash SEC(".maps");
-+
- /*
-  * Fields output by this iterator are delimited by newlines. Convert any
-  * newlines in user-provided printed strings to spaces.
-@@ -51,3 +58,34 @@ int dmabuf_collector(struct bpf_iter__dmabuf *ctx)
- 	BPF_SEQ_PRINTF(seq, "%lu\n%llu\n%s\n%s\n", inode, size, name, exporter);
- 	return 0;
- }
-+
-+SEC("syscall")
-+int iter_dmabuf_for_each(const void *ctx)
-+{
-+	struct dma_buf *d;
-+
-+	bpf_for_each(dmabuf, d) {
-+		char name[DMA_BUF_NAME_LEN];
-+		const char *pname;
-+		bool *found;
-+
-+		if (bpf_core_read(&pname, sizeof(pname), &d->name))
-+			return 1;
-+
-+		/* Buffers are not required to be named */
-+		if (!pname)
-+			continue;
-+
-+		if (bpf_probe_read_kernel(name, sizeof(name), pname))
-+			return 1;
-+
-+		found = bpf_map_lookup_elem(&testbuf_hash, name);
-+		if (found) {
-+			bool t = true;
-+
-+			bpf_map_update_elem(&testbuf_hash, name, &t, BPF_EXIST);
-+		}
-+	}
-+
-+	return 0;
-+}
--- 
-2.49.0.1015.ga840276032-goog
+Connor
 
+>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
+adreno/a6xx_gpu.c
+> index e1eab0906b6c460528da82a94a285ef181e0b479..d47726ea8818a9660eadd52d9=
+7dde1489a884684 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -663,10 +663,10 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gp=
+u)
+>         u8 uavflagprd_inv =3D adreno_is_a650_family(adreno_gpu) || adreno=
+_is_a7xx(adreno_gpu) ? 2 : 0;
+>         const struct qcom_ubwc_cfg_data *cfg =3D adreno_gpu->common_ubwc_=
+cfg;
+>         u32 hbb =3D adreno_gpu->ubwc_config.highest_bank_bit;
+> +       bool ubwc_mode =3D cfg->ubwc_enc_version =3D=3D UBWC_1_0;
+>         bool amsbc =3D cfg->ubwc_enc_version >=3D UBWC_3_0;
+>         u32 hbb_hi =3D hbb >> 2;
+>         u32 hbb_lo =3D hbb & 3;
+> -       u32 ubwc_mode =3D adreno_gpu->ubwc_config.ubwc_swizzle & 1;
+>         u32 level2_swizzling_dis =3D !(adreno_gpu->ubwc_config.ubwc_swizz=
+le & 2);
+>
+>         gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL,
+>
+> --
+> 2.49.0
+>
