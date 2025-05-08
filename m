@@ -2,67 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA42CAAFCE9
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 16:27:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 146F9AAFD2E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 16:35:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B112010E1D9;
-	Thu,  8 May 2025 14:27:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 754EC10E3A7;
+	Thu,  8 May 2025 14:35:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XVp5Fvc/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yk3iel9v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65B6610E3B0
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 14:27:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746714448; x=1778250448;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=kbAM4QD7gVOvVtJMaQ5P/9fwrgos1J3zcUB/8eme5jI=;
- b=XVp5Fvc/wFN5cyodnVszXzba8ikfVs5ge/ggtWGF6nDtBj2bXWLo9bFa
- S5S+UzCSeLMfEboABS5ZSoJpZHlJk+1VzkpqBiorfBNd14NKRzjmTME4L
- 2GDJJ91IwnEjJe82YhnPT9nzhcKvxwNAHmuYeSGp9ISERSnoYgehI2Cmr
- kXMV7EGotVjYfGMSAUhefDrSrsVCNJfvjYiVzJcXM/3432+/eFFVh4rnV
- Nnne13wsVYD8bNL6oIFAcd4pgJ4kB0iqNFDmG3aTNdO//0Lvo493+fWCC
- CARGYDoT8IvV+/or+p3wU2K950XoJ/zTM6kvtfXej0udOwJJ0rUh8Rb1V g==;
-X-CSE-ConnectionGUID: idHPvXPBRey8fxbiyOkCtA==
-X-CSE-MsgGUID: +JQ7zWwIQRK/Mn+WweLiAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="58710856"
-X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; d="scan'208";a="58710856"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2025 07:27:27 -0700
-X-CSE-ConnectionGUID: wgTvTDRjQcKkVioN/GNJDg==
-X-CSE-MsgGUID: 1JmDS+WjTPKIyxZFg7LG5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; d="scan'208";a="136021864"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2025 07:27:25 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Anusha Srivatsa <asrivats@redhat.com>, Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v4 2/4] drm/panel: Add refcount support
-In-Reply-To: <CAN9Xe3RLazpAXdxxJmyF2QAShDtMSgdoxMdo6ecdYd7aZiP9kA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250331-b4-panel-refcounting-v4-0-dad50c60c6c9@redhat.com>
- <20250331-b4-panel-refcounting-v4-2-dad50c60c6c9@redhat.com>
- <87y0vkw8ll.fsf@intel.com>
- <20250429-benign-sidewinder-of-defense-6dd4d8@houat>
- <87o6wfwcef.fsf@intel.com> <20250505-slim-bizarre-marten-a674ac@houat>
- <CAN9Xe3RLazpAXdxxJmyF2QAShDtMSgdoxMdo6ecdYd7aZiP9kA@mail.gmail.com>
-Date: Thu, 08 May 2025 17:27:21 +0300
-Message-ID: <874ixvtbxy.fsf@intel.com>
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E02410E3AF
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 14:34:58 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-3a0b28d9251so161500f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 May 2025 07:34:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1746714896; x=1747319696; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1dn6QKLYPM5/ncrpI5DcFlLN8TipCwy7tClQS2gE2ZU=;
+ b=yk3iel9vq8mg7sunVZNZ/CJJuesQq8Iual2+S6kI8SUQ4jcpeJYF6wFqo9g5T+GTfH
+ ee5AA/zK9QHSjL9wAEGxeaNjxSIM6SUUCkM+A5qKgIHHyWz/PZ036JMHhJaWU+85Db+5
+ WeSI2L6CdkTcJZMZQiyL6BlWHBqcJya1fkLm/X0o8zeNWLd+44aE17TSZ6mP0Kv6J7+M
+ eizZu4+BgQk0rSh7fY3J2LWJ/kPQdhEGCqr8bMx5B+E7+qI58+97asYk79+g4KPNJVk8
+ 36jM21MmeU4cpM8AdjxyGm/cy062c5LvC+coH2wTDM0DQgTIPB6tCEgX8Ec+Ei18Hj5X
+ 8XlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746714896; x=1747319696;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1dn6QKLYPM5/ncrpI5DcFlLN8TipCwy7tClQS2gE2ZU=;
+ b=tmykxvRufw/zT6BSKBuePU4MhC3QgKJ/Z9I3EwOfz2HBsb4nNxyfvKQlOzcAd0jgpg
+ AJceMfkx7rzjdPzJpuabrzls9BsUyedvJz22rs0OcxKUEV/NbPydf1xTiWHMv8wOCbNv
+ KJ7pVvuuOY/EDIOk/XUdovlKSkzmxuPG5ewBLT88Rhm2wRn6Frw+qkAVvxQWXpfDkIQZ
+ ICS/kely7uVjvVc/lWej44/lNLVJsdAUvvtK3QkERonyDNX65pxeb5lTyF9OEsyPbfNA
+ h4Db6W+kP4m3txlDZlN+oeEaLpGYJUIlMh1078K1vt0lgQtAslJHjkPmdmFUjhU3j3bu
+ QJzQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWPYaTl5C3s0Lu8QgZb1enabPMJBJ3SvDWDRlJ2X0/IOFwQx6gNj2xvU0eMCLtG9bByBeNt77gs+/Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1ks5GmiIVcJ7K1w+shtjLTdaoXGy6Qx/juoFMRaA4NZL6ov9p
+ HxLa3xrLyhZAyEMY5xreEIIKSXZwEa3SlOzaw0oRwJHGItLP0UAsQnzau80rQRo=
+X-Gm-Gg: ASbGncvxGt9506GLTwpRp9MVq/7SXU6AprVmuBNfWAzusejTjgD4YXCnyHXTsFvZ92x
+ 8Zv73Y88i6mGHOxcDgi95Ga/vf2q3COg32zOuvPGErxkS7B04BVzAOfvM8QZ3mEhwDZXHiMH7X7
+ yts1Fqd2X32Oj+H1iUpfFuDUvrLsY+LRZxw55yIBPtgSaWp8TWTHoDFejtRv7tahwcVkPD3nYjr
+ +ANdpUi1QjNS+JiwKoRg83chuRnhxvFChkXk1KkPgFk7mMPY5K5C0zFWdaLVdxjwojniGm0au4u
+ MveN5TnS8+YqalQu0b8BUAT5RQGOTEcD+zomjHzXySO8TcwVaKH/H6rsX1Y=
+X-Google-Smtp-Source: AGHT+IHA+hPr3mhv/F1H4c6+v/AsLKidYl9hpKYtAPH7hY0Gqe3OHwNwzvvzE6kBPm+xaVLCRn5HEQ==
+X-Received: by 2002:a5d:64c3:0:b0:39c:1ef4:b0d1 with SMTP id
+ ffacd0b85a97d-3a0b4a37433mr2404238f8f.10.1746714896517; 
+ Thu, 08 May 2025 07:34:56 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.207.88])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a1f58ec98dsm149861f8f.25.2025.05.08.07.34.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 May 2025 07:34:55 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 0/2] drm/panel: Add Novatek NT37801 panel driver
+Date: Thu, 08 May 2025 16:34:46 +0200
+Message-Id: <20250508-sm8750-display-panel-v2-0-3ca072e3d1fa@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAbBHGgC/22OwQ6CMAyGX4X0bM2YDJGT72E4jFG1CWy4IYEQ3
+ t0J8WZ6+tp8f/8FAnmmAGWygKeRAzsbQR4SME9tH4TcRAYppBKZzDB0xVkJbDj0rZ6x15ZazOs
+ 8N9rUSogUotp7uvO0xd6qnT293jF92JdQ60BoXNfxUCaWpgF/H+ArPDkMzs9brTHdjO0e53+DM
+ UWBpGp1uhRZIY25tmy1d0fnH1Ct6/oBGZ/a6OoAAAA=
+X-Change-ID: 20250424-sm8750-display-panel-6b66cacb5001
+To: Krzysztof Kozlowski <krzk@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1045;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=S6xk8gQHC3YLD1Jam8QnKSHYbugR68dS8H5Eedxi4bY=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoHMEJa33Z+nUqmz4wKoOvuYq/TylQ4sRlbGrx2
+ Yu96KngTi+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaBzBCQAKCRDBN2bmhouD
+ 19M5D/4z9hi2LhjQbhcJnqmm/BjjE1e7i4YDrLnFxvhgvQ+vnchI6lAdp9Hsd00g8jxMCslhUy3
+ z+xlvqRqqWFdJy777zYRIud0ZGmy2ZqK8Y7D7Djkw5jDTCspSMjVv9D0mjEVrlZ2SwZL+tGTowt
+ tmKZJEyQ/8VABaZZ2RpK6i09helfVuAcISfJz5rIg8nkzoV1RtAm1B6UlsJG8S31dxKdO6z2KP7
+ d04muqAxlecKOpmDlUNeQtaBU5w58uDXWkB319alc5yhKsIzA6qu84HxlhuVJ7+8qKjZKDCktG1
+ 4IPTI0TEMBC1wykTNqvJjH2CUKJOe1EXDFDi2SiMRgmANT8l/4x5ozY9j4KhH+iw2vGdZhlqYHV
+ UD+JExShPiGOf862itpFLacXwrLjO5p/7pOJfEQUeNxP+9KvMpehLhG5Xn1xx5YjESvS/8tPkyI
+ pTiqdiCsWwfUy8ys3+snBkq6R+iX6vAs9FGHzhleLUQ/yq3gUzuwU2S+1h17JuVuuKlGpp6ngep
+ qiWm3XVatIeGilN0Hgf0X2ZxAu0p/j1XI/pOlIML8it82+y6dz9fCoImxMTdwUhGL7ZdGqCOWWy
+ ZuR3/JYRL7k4r703ObYgOoHNsLG4S1T2Hun6jFNq/MGb+0UfR7nVgURIrdngnE88sZhTE0e2yKg
+ NE06Q0c4Cr9S2Kw==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,237 +115,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 05 May 2025, Anusha Srivatsa <asrivats@redhat.com> wrote:
-> On Mon, May 5, 2025 at 2:54=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
->
->> Hi Jani,
->>
->> On Tue, Apr 29, 2025 at 12:22:00PM +0300, Jani Nikula wrote:
->> > On Tue, 29 Apr 2025, Maxime Ripard <mripard@kernel.org> wrote:
->> > > Hi Jani,
->> > >
->> > > On Mon, Apr 28, 2025 at 07:31:50PM +0300, Jani Nikula wrote:
->> > >> On Mon, 31 Mar 2025, Anusha Srivatsa <asrivats@redhat.com> wrote:
->> > >> > Allocate panel via reference counting. Add _get() and _put() help=
-er
->> > >> > functions to ensure panel allocations are refcounted. Avoid use
->> after
->> > >> > free by ensuring panel pointer is valid and can be usable till the
->> last
->> > >> > reference is put.
->> > >> >
->> > >> > Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->> > >> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
->> > >> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
->> > >> >
->> > >> > ---
->> > >> > v4: Add refcounting documentation in this patch (Maxime)
->> > >> >
->> > >> > v3: Add include in this patch (Luca)
->> > >> >
->> > >> > v2: Export drm_panel_put/get() (Maxime)
->> > >> > - Change commit log with better workding (Luca, Maxime)
->> > >> > - Change drm_panel_put() to return void (Luca)
->> > >> > - Code Cleanups - add return in documentation, replace bridge to
->> > >> > panel (Luca)
->> > >> > ---
->> > >> >  drivers/gpu/drm/drm_panel.c | 64
->> ++++++++++++++++++++++++++++++++++++++++++++-
->> > >> >  include/drm/drm_panel.h     | 19 ++++++++++++++
->> > >> >  2 files changed, 82 insertions(+), 1 deletion(-)
->> > >> >
->> > >> > diff --git a/drivers/gpu/drm/drm_panel.c
->> b/drivers/gpu/drm/drm_panel.c
->> > >> > index
->> bdeab5710ee324dc1742fbc77582250960556308..7b17531d85a4dc3031709919564d2e=
-4d8332f748
->> 100644
->> > >> > --- a/drivers/gpu/drm/drm_panel.c
->> > >> > +++ b/drivers/gpu/drm/drm_panel.c
->> > >> > @@ -355,24 +355,86 @@ struct drm_panel *of_drm_find_panel(const
->> struct device_node *np)
->> > >> >  }
->> > >> >  EXPORT_SYMBOL(of_drm_find_panel);
->> > >> >
->> > >> > +static void __drm_panel_free(struct kref *kref)
->> > >> > +{
->> > >> > +        struct drm_panel *panel =3D container_of(kref, struct
->> drm_panel, refcount);
->> > >> > +
->> > >> > +        kfree(panel->container);
->> > >> > +}
->> > >> > +
->> > >> > +/**
->> > >> > + * drm_panel_get - Acquire a panel reference
->> > >> > + * @panel: DRM panel
->> > >> > + *
->> > >> > + * This function increments the panel's refcount.
->> > >> > + * Returns:
->> > >> > + * Pointer to @panel
->> > >> > + */
->> > >> > +struct drm_panel *drm_panel_get(struct drm_panel *panel)
->> > >> > +{
->> > >> > +        if (!panel)
->> > >> > +                return panel;
->> > >> > +
->> > >> > +        kref_get(&panel->refcount);
->> > >> > +
->> > >> > +        return panel;
->> > >> > +}
->> > >> > +EXPORT_SYMBOL(drm_panel_get);
->> > >> > +
->> > >> > +/**
->> > >> > + * drm_panel_put - Release a panel reference
->> > >> > + * @panel: DRM panel
->> > >> > + *
->> > >> > + * This function decrements the panel's reference count and frees
->> the
->> > >> > + * object if the reference count drops to zero.
->> > >> > + */
->> > >> > +void drm_panel_put(struct drm_panel *panel)
->> > >> > +{
->> > >> > +        if (panel)
->> > >> > +                kref_put(&panel->refcount, __drm_panel_free);
->> > >> > +}
->> > >> > +EXPORT_SYMBOL(drm_panel_put);
->> > >> > +
->> > >> > +/**
->> > >> > + * drm_panel_put_void - wrapper to drm_panel_put() taking a void
->> pointer
->> > >> > + *
->> > >> > + * @data: pointer to @struct drm_panel, cast to a void pointer
->> > >> > + *
->> > >> > + * Wrapper of drm_panel_put() to be used when a function taking a
->> void
->> > >> > + * pointer is needed, for example as a devm action.
->> > >> > + */
->> > >> > +static void drm_panel_put_void(void *data)
->> > >> > +{
->> > >> > +        struct drm_panel *panel =3D (struct drm_panel *)data;
->> > >> > +
->> > >> > +        drm_panel_put(panel);
->> > >> > +}
->> > >> > +
->> > >> >  void *__devm_drm_panel_alloc(struct device *dev, size_t size,
->> size_t offset,
->> > >> >                               const struct drm_panel_funcs *funcs,
->> > >> >                               int connector_type)
->> > >> >  {
->> > >> >          void *container;
->> > >> >          struct drm_panel *panel;
->> > >> > +        int err;
->> > >> >
->> > >> >          if (!funcs) {
->> > >> >                  dev_warn(dev, "Missing funcs pointer\n");
->> > >> >                  return ERR_PTR(-EINVAL);
->> > >> >          }
->> > >> >
->> > >> > -        container =3D devm_kzalloc(dev, size, GFP_KERNEL);
->> > >> > +        container =3D kzalloc(size, GFP_KERNEL);
->> > >> >          if (!container)
->> > >> >                  return ERR_PTR(-ENOMEM);
->> > >> >
->> > >> >          panel =3D container + offset;
->> > >> > +        panel->container =3D container;
->> > >> >          panel->funcs =3D funcs;
->> > >> > +        kref_init(&panel->refcount);
->> > >>
->> > >> Hi Anusha, this should be done in drm_panel_init() instead.
->> > >>
->> > >> There are many users of drm_panel that don't use
->> devm_drm_panel_alloc()
->> > >> but allocate separately, and call drm_panel_init() only.
->> > >
->> > > That wouldn't really work, because then drivers would have allocated
->> the
->> > > panel with devm_kzalloc and thus the structure would be freed when t=
-he
->> > > device is removed, no matter the reference counting state.
->> > >
->> > >> They'll all have refcount set to 0 instead of 1 like kref_init() do=
-es.
->> > >>
->> > >> This means all subsequent get/put pairs on such panels will lead to
->> > >> __drm_panel_free() being called! But through a lucky coincidence, t=
-hat
->> > >> will be a nop because panel->container is also not initialized...
->> > >>
->> > >> I'm sorry to say, the drm refcounting interface is quite broken for
->> such
->> > >> use cases.
->> > >
->> > > The plan is to convert all panel drivers to that function, and Anusha
->> > > already sent series to do. It still needs a bit of work, but it shou=
-ld
->> > > land soon-ish.
->> > >
->> > > For the transitional period though, it's not clear to me what you th=
-ink
->> > > is broken at the moment, and / or what should be fixed.
->> > >
->> > > Would you prefer an explicit check on container not being 0, with a
->> > > comment?
->> >
->> > I'm looking at what it would take to add drm_panel support to i915 so
->> > that you could have drm_panel_followers on it. There are gaps of cours=
-e,
->> > but initially it would mean allocating and freeing drm_panel ourselves,
->> > not via devm_drm_panel_alloc() nor devm_kzalloc(), because none of the
->> > other stuff is allocated that way. drm_panel would just sit as a
->> > sub-struct inside struct intel_panel, which is a sub-struct of struct
->> > intel_connector, which has its own allocation...
->>
->> I'm not entirely sure why you would need to allocate it from i915? The
->> drm_panel structure is only meant to be allocated by panel drivers, and
->> afaik no panel interface controller is allocating it.
+Changes in v2:
+- Use devm_drm_panel_alloc (Neil)
+- Add novatek_nt37801_switch_page (Linus)
+- Add Rb tags
+- Link to v1: https://lore.kernel.org/r/20250505-sm8750-display-panel-v1-0-e5b5398482cc@linaro.org
 
-I'm looking into a use case involving drm_panel_follower, which requires
-a drm_panel. I don't really need any of the other stuff in drm_panel.
+Add driver for the Novatek NT37801 or NT37810 AMOLED DSI panel, used on
+Qualcomm MTP8750 board (SM8750).
 
-And basically you'd have one drm_panel per connector that is connected
-to a panel, within the same driver.
+Best regards,
+Krzysztof
 
->> > But basically in its current state, the refcounting would not be
->> > reliable for that use case. I guess with panel->container being NULL
->> > nothing happens, but the idea that the refcount drops back to 0 after a
->> > get/put is a bit scary.
->> >
->> > Anyway, I think there should be no harm in moving the kref init to
->> > drm_panel_init(), right?
->>
->> I mean, there is because the plan so far was to remove drm_panel_init() =
-:)
+---
+Krzysztof Kozlowski (2):
+      dt-bindings: display: panel: Add Novatek NT37801
+      drm/panel: Add Novatek NT37801 panel driver
 
-The problem with that is that it forces a certain type of allocation of
-drm_panel. devm_drm_panel_alloc() allows embedding drm_panel inside
-another struct, but that's inflexible for our use case, where we'd
-probably like to embed it inside something that's already allocated as
-part of something else.
+ .../bindings/display/panel/novatek,nt37801.yaml    |  69 +++++
+ MAINTAINERS                                        |   6 +
+ drivers/gpu/drm/panel/Kconfig                      |  10 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-novatek-nt37801.c      | 340 +++++++++++++++++++++
+ 5 files changed, 426 insertions(+)
+---
+base-commit: 0273d02b2f84f645e8b8ab317722931eb96f6130
+change-id: 20250424-sm8750-display-panel-6b66cacb5001
 
-I mean devm_drm_panel_alloc() is great, but please don't make its use
-mandatory!
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> Jani,
-> the series that converts all drivers to use the new API:
-> https://patchwork.freedesktop.org/series/147082/
-> https://patchwork.freedesktop.org/series/147157/
-> https://patchwork.freedesktop.org/series/147246/
->
-> not landed yet but these are WIP. Still trying to understand your point
-> though... not sure what is broken.
-
-Nothing upstream is broken per se, but if you allocated drm_panel
-directly yourself, initialized it with drm_panel_init(), its refcount
-would initially be 0, not 1, and each subsequent get/put on it would
-call __drm_panel_free().
-
-Even that doesn't break stuff, because by luck panel->container is also
-NULL in this case.
-
-
-BR,
-Jani.
-
---=20
-Jani Nikula, Intel
