@@ -2,46 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42922AAF835
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 12:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF71AAF83E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 12:44:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97FFC10E0B1;
-	Thu,  8 May 2025 10:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE1F10E1D0;
+	Thu,  8 May 2025 10:44:56 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xvjc6BH0";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E9E5010E0B1
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 10:42:49 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08547106F;
- Thu,  8 May 2025 03:42:39 -0700 (PDT)
-Received: from [10.1.38.30] (e122027.cambridge.arm.com [10.1.38.30])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 901BE3F5A1;
- Thu,  8 May 2025 03:42:47 -0700 (PDT)
-Message-ID: <9c0b95c8-bf2d-4689-ac1f-ccacba826060@arm.com>
-Date: Thu, 8 May 2025 11:42:46 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/panfrost: show device-wide list of DRM GEM
- objects over DebugFS
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD30510E1D0
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 10:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1746701093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kg0VQN380cNy38+THmalJtzeh1gOYnZWm93pCjMLjOk=;
+ b=Xvjc6BH0Ysranwamgiu5GoLNm219axZo9KsY/Hxm/gkqmFutB/hbJ5fxlIpfT6nzExKJW0
+ m+M2TgjXhXOMEruI3gjtTAIwyEhhE75vuOI9iQCINzKTzFcvxs6QfZTB53R8PXLDxRCAkz
+ N3/WsoWyiR/w+ZzJEyQtA0oAK+SP1DE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-653-vof06KW8PViUnyl4S4QTSQ-1; Thu, 08 May 2025 06:44:50 -0400
+X-MC-Unique: vof06KW8PViUnyl4S4QTSQ-1
+X-Mimecast-MFC-AGG-ID: vof06KW8PViUnyl4S4QTSQ_1746701089
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-43d733063cdso7103565e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 May 2025 03:44:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746701089; x=1747305889;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kg0VQN380cNy38+THmalJtzeh1gOYnZWm93pCjMLjOk=;
+ b=aoR8rVhZCHw51AHNPSRHHh8MpT2VCKZ02JYw4OS+2xRX2Xbo5vf4avLCRRz4u6JVBe
+ ZMAfhi04T4ojNanZr1K6iU2fQu5mG1/PVyE29eLlcKdWnfcXSj+5Vu2KybNCO3cYrvNm
+ DVei/THDyIHMU9b0VcZwS4umJReWCwA76N0xqe8W53TO7MoU/bqmHF3l2DsqttzH5RYc
+ P9aLhBVKSiw2LzCTOs323YHCeiP+LZvft5vaM8GLlsAfAok1ydSsKsOw42e0HgMHe5uF
+ HPYjNiCD6FYR6B94GXhl3F9slKLdd0Zngl8aS2nlf5L7kelLsQ/Y86xThKWeRO2N6LMj
+ c/dg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUQ40sIUJGCBdIkpAbg3lE93tjDncuis6ihXCU0ZrhMofHgx3MCIT+sFyxd9F+sAH0xOSgfs2nFnqg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwKAvnAXHusqCImfINw4y/Buv3b7t58RYQIAiD+rDkn/5PNN9+Q
+ UkgXG2UwjAv+dFPSI4Yx8WR7rcxBH0OxlQg6vEMYo731F5V5Re+0atkSRWn2hi79hSK434pZqxH
+ 17PHa5MoYTBR2N3NjreHxl4G2IROoGipBoc8roDpSVOY8/+6jt6qM4c2omrhvlCQQ+Q==
+X-Gm-Gg: ASbGnctywlZW3WWD6sl6VgWwp6lI/g0ILYQZUamgiEmE4Cj8SW+SaQd0+5UzYJaJXFu
+ LA46NjT6JgworKgKsRhDZunhOgIPgQGvcYPqvvvpXnkUyMNeEmD092B2lPznCqqKLlDXm4Y2YKK
+ 6EouYdx5iOzhcNZ1xLgYh6Ah0I6Q0RJZAIX1u7mMF8U/oKldaLouHZcHOsXqCdaREzprziR9ptQ
+ LNHIRBKB+FRL5gkel6LKeCX9bSGoRxkbjdesIaQ/gS85vntMkZFht1DwfG/yvH3LYqbN84qt0Op
+ iUgztUejxRq9bHFaZAROD5/oqRqmuqmnGTJmzYg76gCbhe/JCW3VyCjb76Cf8d9X4wEy1w==
+X-Received: by 2002:a05:600c:5027:b0:43c:f64c:44a4 with SMTP id
+ 5b1f17b1804b1-441d44c41a5mr60707255e9.8.1746701089369; 
+ Thu, 08 May 2025 03:44:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFKWHQImK0mQVYX3JJhEVaBoNakORu3NGB6ausgRqlBfk0NSvqhDkPdCLTMr4AX1Nn44y4TLQ==
+X-Received: by 2002:a05:600c:5027:b0:43c:f64c:44a4 with SMTP id
+ 5b1f17b1804b1-441d44c41a5mr60706975e9.8.1746701089048; 
+ Thu, 08 May 2025 03:44:49 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-442d14e6d74sm23818755e9.21.2025.05.08.03.44.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 May 2025 03:44:48 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Philipp Stanner <phasta@mailbox.org>, Philipp Stanner
+ <phasta@kernel.org>, Dave Airlie <airlied@redhat.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
+ Arnd Bergmann <arnd@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ Niklas Schnelle <schnelle@linux.ibm.com>, Jeff Johnson
+ <jeff.johnson@oss.qualcomm.com>
+Cc: virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250507160713.1363985-1-adrian.larumbe@collabora.com>
- <20250507160713.1363985-4-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250507160713.1363985-4-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] drm/cirrus: Use non-hybrid PCI devres API
+In-Reply-To: <6d46103afab9fc8e843e5681226f7db34a4ca57d.camel@mailbox.org>
+References: <20250417094009.29297-2-phasta@kernel.org>
+ <87frhzc1a9.fsf@minerva.mail-host-address-is-not-set>
+ <6d46103afab9fc8e843e5681226f7db34a4ca57d.camel@mailbox.org>
+Date: Thu, 08 May 2025 12:44:46 +0200
+Message-ID: <87a57ns7oh.fsf@minerva.mail-host-address-is-not-set>
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: yX8xbxG7LhnkRe-BRRmfU_x6lhWIgfq2WhXGZAh58O8_1746701089
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,84 +106,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/05/2025 17:07, Adrián Larumbe wrote:
-> This change is essentially a Panfrost port of commit a3707f53eb3f
-> ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS").
-> 
-> The DebugFS file is almost the same as in Panthor, minus the GEM object
-> usage flags, since Panfrost has no kernel-only BO's.
-> 
-> Two additional GEM state flags which are displayed but aren't relevant
-> to Panthor are 'Purged' and 'Purgeable', since Panfrost implements an
-> explicit shrinker and a madvise ioctl to flag objects as reclaimable.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Philipp Stanner <phasta@mailbox.org> writes:
 
-Minor point, but you've used "ptdev" rather than "pfdev" several times 
-in this patch - it would be good to avoid this.
+Hello Philipp,
 
-I'm also seeing a splat when running this, see below. I haven't got my 
-head around how this is happening, but I see it when glmark quits at the 
-end of the test.
+> On Tue, 2025-04-22 at 23:51 +0200, Javier Martinez Canillas wrote:
+>> Philipp Stanner <phasta@kernel.org> writes:
+>> 
+>> Hello Philipp,
+>> 
+>> > cirrus enables its PCI device with pcim_enable_device(). This,
+>> > implicitly, switches the function pci_request_regions() into
+>> > managed
+>> > mode, where it becomes a devres function.
+>> > 
+>> > The PCI subsystem wants to remove this hybrid nature from its
+>> > interfaces. To do so, users of the aforementioned combination of
+>> > functions must be ported to non-hybrid functions.
+>> > 
+>> > Replace the call to sometimes-managed pci_request_regions() with
+>> > one to
+>> > the always-managed pcim_request_all_regions().
+>> > 
+>> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>> > ---
+>> 
+>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>> 
+>
+> Who's in charge of applying this? Any objections with me just putting
+> it into drm-misc-next?
+>
 
-Steve
+Sure, go ahead.
 
-[  399.505066] Unable to handle kernel NULL pointer dereference at virtual address 00000004 when write
-[  399.515519] [00000004] *pgd=00000000
-[  399.519541] Internal error: Oops: 805 [#1] SMP ARM
-[  399.524896] Modules linked in: panfrost gpu_sched drm_shmem_helper
-[  399.531817] CPU: 1 UID: 1000 PID: 316 Comm: glmark2-es2-drm Not tainted 6.15.0-rc5-00731-g9cc5b4d7da27 #1 NONE 
-[  399.543098] Hardware name: Rockchip (Device Tree)
-[  399.548350] PC is at panfrost_gem_free_object+0x8c/0x160 [panfrost]
-[  399.555371] LR is at trace_contention_end+0x4c/0xfc
-[  399.560822] pc : [<bf01a384>]    lr : [<c03d0170>]    psr: 60010013
-[  399.567823] sp : f22b1df8  ip : c2163e00  fp : c4b15800
-[  399.573658] r10: 00000009  r9 : c5f94c40  r8 : c4b15850
-[  399.579492] r7 : c4b15884  r6 : c7813614  r5 : c5f94f30  r4 : c7813400
-[  399.586784] r3 : 00000000  r2 : 00000000  r1 : 00000000  r0 : c5f94f30
-[  399.594075] Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-[  399.602048] Control: 10c5387d  Table: 06c6c06a  DAC: 00000051
-[  399.608465] Register r0 information: slab kmalloc-1k start c5f94c00 pointer offset 816 size 1024
-[  399.618296] Register r1 information: NULL pointer
-[  399.623551] Register r2 information: NULL pointer
-[  399.628804] Register r3 information: NULL pointer
-[  399.634057] Register r4 information: slab kmalloc-1k start c7813400 pointer offset 0 size 1024
-[  399.643690] Register r5 information: slab kmalloc-1k start c5f94c00 pointer offset 816 size 1024
-[  399.653517] Register r6 information: slab kmalloc-1k start c7813400 pointer offset 532 size 1024
-[  399.663344] Register r7 information: slab kmalloc-1k start c4b15800 pointer offset 132 size 1024
-[  399.673171] Register r8 information: slab kmalloc-1k start c4b15800 pointer offset 80 size 1024
-[  399.682901] Register r9 information: slab kmalloc-1k start c5f94c00 pointer offset 64 size 1024
-[  399.692631] Register r10 information: non-paged memory
-[  399.698370] Register r11 information: slab kmalloc-1k start c4b15800 pointer offset 0 size 1024
-[  399.708101] Register r12 information: non-slab/vmalloc memory
-[  399.714521] Process glmark2-es2-drm (pid: 316, stack limit = 0x178bc4ea)
-[  399.722009] Stack: (0xf22b1df8 to 0xf22b2000)
-[  399.726874] 1de0:                                                       00000000 c4b15884
-[  399.736012] 1e00: c7813400 c4b15800 00000007 c4b15884 c4b15850 c6815000 00000009 c0bb3824
-[  399.745150] 1e20: 00000000 40086409 c7860800 c15fd008 00000008 c0bb588c c6815630 0000013c
-[  399.754288] 1e40: 0000e280 00000000 c1b35650 b235e000 f22b1f5c 00000008 f22b1e74 bec37550
-[  399.763426] 1e60: c6815630 c694ea00 c0bb47cc 00000051 00000000 00000007 00000000 00000000
-[  399.772564] 1e80: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[  399.781701] 1ea0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[  399.790839] 1ec0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[  399.799977] 1ee0: 00000000 00000000 00000000 00000000 00000000 356cc46f 00000000 40086409
-[  399.809115] 1f00: c694ea00 c03000c0 bec37550 c694ea00 c6815000 00000006 c4bf9b70 c058d694
-[  399.818253] 1f20: b2b47000 f22b1f50 00000001 c03002f0 00000000 c5f60900 00000000 b235e000
-[  399.827391] 1f40: 007e9000 c053d874 f22b1f50 00000001 f22b1f50 f22b1f50 004e0b14 c5f60940
-[  399.836528] 1f60: b235e000 b2b46fff c4abec0c b09e3000 b2bcffff 00000000 00000000 356cc46f
-[  399.845666] 1f80: 00000003 004e6b40 bec37550 40086409 00000036 c03002f0 c6815000 00000036
-[  399.854805] 1fa0: 01cb32a0 c03000c0 004e6b40 bec37550 00000006 40086409 bec37550 00000007
-[  399.863943] 1fc0: 004e6b40 bec37550 40086409 00000036 00000000 00000000 01cb2da0 01cb32a0
-[  399.873080] 1fe0: b6e4b08c bec37534 b6e3442f b6bb8f98 60010030 00000006 00000000 00000000
-[  399.882216] Call trace: 
-[  399.882222]  panfrost_gem_free_object [panfrost] from drm_gem_handle_delete+0x84/0xb0
-[  399.893813]  drm_gem_handle_delete from drm_ioctl+0x2b8/0x4f4
-[  399.900237]  drm_ioctl from sys_ioctl+0x428/0xe30
-[  399.905496]  sys_ioctl from ret_fast_syscall+0x0/0x1c
-[  399.911141] Exception stack(0xf22b1fa8 to 0xf22b1ff0)
-[  399.916783] 1fa0:                   004e6b40 bec37550 00000006 40086409 bec37550 00000007
-[  399.925922] 1fc0: 004e6b40 bec37550 40086409 00000036 00000000 00000000 01cb2da0 01cb32a0
-[  399.935058] 1fe0: b6e4b08c bec37534 b6e3442f b6bb8f98
-[  399.940702] Code: eb0018fa e5943218 e5942214 e1a00005 (e5823004) 
-[  399.947532] ---[ end trace 0000000000000000 ]---
+> P.
+>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
