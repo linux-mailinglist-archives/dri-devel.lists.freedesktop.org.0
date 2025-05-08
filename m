@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15589AB0379
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 21:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0D8AB03A8
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 21:26:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5953610E012;
-	Thu,  8 May 2025 19:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D103610E963;
+	Thu,  8 May 2025 19:26:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L9YoCfWz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C4qP5bow";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BAF710E012;
- Thu,  8 May 2025 19:16:33 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-308218fed40so124773a91.0; 
- Thu, 08 May 2025 12:16:33 -0700 (PDT)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EAD410E21C;
+ Thu,  8 May 2025 19:26:15 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-30a892f8124so165753a91.3; 
+ Thu, 08 May 2025 12:26:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746731789; x=1747336589; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746732375; x=1747337175; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=84mPmcLjjmYTudDd8CpbhvwzXUd0/qgapgzE5Qn/8Po=;
- b=L9YoCfWzUvgZaQEiELmu5jyd4xJuTl4g9WZR7SN7Ft/RfRHdgOJRBpPDwJ8GHsWg8B
- +gIkn+MUpYetZ1swxp3CpFZz8b+oGb3fjmvRlj+n2WOWBWaAW25Joqv4khsIIgKMXqKl
- CUFldvZRMxd8tAD0xSWIDF40FDUik2pBDQeRlGiNQciWSkh1EowFPjN2eFbqTyNXgt0R
- cCQbvkrs2SJ1yGaDQWSKeTxtfmoR0+v/YYpHmzKBdurNQ3ds3Fm625LIZHNxoiX9Twx2
- DqSQxu6+dfiVf//xwqazpxHeyTJBjpvadIWCu7Nbmd1jKnuMNSC4qB4wiv0QOD0vo6Us
- tq2A==
+ bh=0hKru1L8dMScGzoC6BZyI54uV4RakPZMb8WHsDI441M=;
+ b=C4qP5bowNmk1rkwarVwKPSVJaD7GSK2yhvaVadux1wicnFfrgPiEH9RyUBsQAyBTgg
+ N2jVtgeF9T06kQknkIDm0XH64fbOsu/TTDX3M3xyjSwgyHNPlFa9v684294fjfGxLm0j
+ L9TuGTIjaAI5mVSE7Q9TIdPShjg6xtrrlf5CpYcOlzJwQZM5EvfGmNYGhEWZr/ZvYuV2
+ baB5hXoQQENey+rifA0qPg3detF9t0JFkoR3MDnYCsNIVGHLGTtf8wK5yQU0UXp/C7nF
+ pLdCTa5kqmzQNuuXWy3smzGzp7Jyi8+7clSTy+fn+CMa1u/g/rY7Do1GsT7Skf1EgHMk
+ 6a0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746731789; x=1747336589;
+ d=1e100.net; s=20230601; t=1746732375; x=1747337175;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=84mPmcLjjmYTudDd8CpbhvwzXUd0/qgapgzE5Qn/8Po=;
- b=AvoFozxp4jOp024fRrILVxZ1zfubxcxbTjs9yjd6p+SofJTweXCo/0aKRVzytJQgDe
- KVmpnCvJ1+Xt+kHpbkeYsIIN1aZHKjy5+B+L/+m5RymuijUwHcdB//vaCIFDoAfGrO25
- ZtN2oxDzMb7W9R9e3WDKEjizaCQs/UodjDdmo4bdoNzTGMcKdiDOhsLg+3LW9JPUGqFN
- XeK+1OYsq9Xa8rfVIRmC/4TNarX7yH5Lqv6H0gaboNCoYLzYGhK9srVIUNjvTMfrPrT1
- epMD1HrM8Hmxn4fMsyTTn0qcEQjZutbuKGuzU8/MzURIF7YqhbhVxO7eRLjTJpCih86B
- sKbA==
+ bh=0hKru1L8dMScGzoC6BZyI54uV4RakPZMb8WHsDI441M=;
+ b=sn9pKCs1MWt9Rb8v5NHTItSRzlugUczTWa5FMwyPNe4u/NGSa/inLIhM+5KbypLHpa
+ saawYcQtmoCjteo9ffgOekO2yQNYjVPTZT6HGb7fUxBTrTOqxNMO0du7ihCnsEY+DXTf
+ a2dZ/58SY8XrH8BuFvrENLiunuiXe6Wayfmv8LLq5sO0CcpoDZel3LoeqjHcZU5Yvl4L
+ 9A6Nzw2GGO38Y/OWozH8EDjofltgIW4c9pfIf6yrMoOvxLh2SZxgWYVWS8NXNuv42mLf
+ K4cKG3A+Tj2Jk8uRsFQCgkExsAOcWvFucnzcjOcnEMXodImOgiYWE30ZjL3gRfQ1w/an
+ bTpA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUcuK+B97DSak6YT6441GNVb0jCEazD3OlNms8PobmOrG/66g74i/4ld1hV+MLTF2pATmaLD4uSVgUr@lists.freedesktop.org,
- AJvYcCXx/oeFQFPUMcE/dolv68cg2ZuHi3JiJlCvuSx8p3qHfI22tsPua1sAwuyo0sMhrdVo1mMYfwo/Ogc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwYvuCQGNIBmYaK1Cnb+abwCgX+Z6t1Ni03u57zgRyN57mFXwDJ
- k9RVQrcqe8iEOUKxEqBIOFShNEayvkaa8EzWk90sI2jyN04LdrBP/K9ybAQBjczw8epBch7J6Kd
- WKw5E4E5iIfajDRWgz572ufpORO4=
-X-Gm-Gg: ASbGnctuVb+sGRZMPZXzttpR411qMF2UETAMSdpeEeTAh0vmLj5fzf0FqOu7m8WD4UK
- 94XLaG0AxKmslTxlRFGZKxPZmlLFDYsXSH9ng9btphLvdWMt8z9rfrlCuf9TfB/0Zt03dqiiJtw
- jFO5GTRyiZO15P4Zs2R8Jh2A==
-X-Google-Smtp-Source: AGHT+IFnJI/dGTw42zeAnFybyVqbxMj3ucJwVN3oeKoPAG/l010GL4Y+78qpZJpzYGlUpVf8RbqJGDcVWc6cKAm0TLY=
-X-Received: by 2002:a17:90b:1b4a:b0:305:5f31:6c63 with SMTP id
- 98e67ed59e1d1-30c3d65e755mr383705a91.6.1746731789590; Thu, 08 May 2025
- 12:16:29 -0700 (PDT)
+ AJvYcCUv+0BSs4JJt+K1TPay+3wL2QpmcgwJxribkw2VTzh8NwTCBu7iXQq27X60vL0/ytXmr/fBwVp39LM=@lists.freedesktop.org,
+ AJvYcCV8m8BBwN+qdtwaKrnPLBYYqMfwoWMw+yTrjoXKFOI/W60QZU1PQe9/tB9A38byaRrAwOoBduUICQT7@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzsG2FjGGEuCw4rG0RurRKokgqJZt8lUVQfjljKN8HLAfTXLYzZ
+ zwVWHdicAWju8KPkHM1+lpCliKgbHPPlb46Z84GrzpBv5FunJNATUIW/1WFgtuOr0xDTXXu1e54
+ dwk/ipfBZz9itELafAcbVgdoZptQ=
+X-Gm-Gg: ASbGncuHYr9wEm4z/7bCQ9DutWLdIw1UjwQtPI8Z78hNo/Bj0Xy3qtbe1NemXIXrnWp
+ R0xwfbUx4xLoFJxj34x94Tyir6RUE5J146qouDO8n5Jj2SedUL9mup8K4QOBNHhIhemTFiUp4W4
+ ocw8yxbYfDmO3Nh4R0txs0fg==
+X-Google-Smtp-Source: AGHT+IGSpiN7eaDH3O4Uokp10YbmchAx5slpcUK4Ki93gIDNWaqoAmMgsVOGKoMSaAoqs8hgzbmH4KVxaKA8k0N96h4=
+X-Received: by 2002:a17:90b:3e83:b0:30a:a50a:8c93 with SMTP id
+ 98e67ed59e1d1-30c3d674dadmr365318a91.7.1746732375030; Thu, 08 May 2025
+ 12:26:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
- <20250508-topic-ubwc_central-v1-5-035c4c5cbe50@oss.qualcomm.com>
-In-Reply-To: <20250508-topic-ubwc_central-v1-5-035c4c5cbe50@oss.qualcomm.com>
+ <20250508-topic-ubwc_central-v1-13-035c4c5cbe50@oss.qualcomm.com>
+In-Reply-To: <20250508-topic-ubwc_central-v1-13-035c4c5cbe50@oss.qualcomm.com>
 From: Connor Abbott <cwabbott0@gmail.com>
-Date: Thu, 8 May 2025 15:16:18 -0400
-X-Gm-Features: ATxdqUGiqWT_DWApTY9ymoO6UH-6KDlDJuxswDFXWcGSKrN_vB9pf1QCaLL_Oto
-Message-ID: <CACu1E7GrdS3m0fLcnOW+v-nkzRveXrzVw9PzSb01duYx1aifSQ@mail.gmail.com>
-Subject: Re: [PATCH RFT 05/14] drm/msm/a6xx: Resolve the meaning of AMSBC
+Date: Thu, 8 May 2025 15:26:04 -0400
+X-Gm-Features: ATxdqUECrHAxamM6cf9DmM-j_slTE2IU4QDuio4QvANymnYvV5oJYBJ2BHROTFg
+Message-ID: <CACu1E7E9yU-cygZxBqVypP7aFkXJCNTfXA2uqdvU84mi9T51Xg@mail.gmail.com>
+Subject: Re: [PATCH RFT 13/14] drm/msm/a6xx: Drop cfg->ubwc_swizzle override
 To: Konrad Dybcio <konradybcio@kernel.org>
 Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -92,105 +92,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 8, 2025 at 2:13=E2=80=AFPM Konrad Dybcio <konradybcio@kernel.or=
+On Thu, May 8, 2025 at 2:14=E2=80=AFPM Konrad Dybcio <konradybcio@kernel.or=
 g> wrote:
 >
 > From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 >
-> The bit must be set to 1 if the UBWC encoder version is >=3D 3.0, drop it
-> as a separate field.
+> On A663 (SA8775P) the value matches exactly.
+>
+> On A610, the value matches on SM6115, but is different on SM6125. That
+> turns out not to be a problem, as the bits that differ aren't even
+> interpreted.
 
-For these sorts of things, it's probably best to add a helper to the
-common ubwc config header. Other blocks also have bits for enabling
-AMSBC and similar things that also need to be set based on the UBWC
-version.
+This is definitely going to break userspace, because the kernel
+doesn't expose the UBWC version, instead exposing just the swizzle and
+userspace expects that it sets the right value for older UBWC versions
+before it became configurable (0x7 for UBWC 1.0 and 0x6 for 2.0-3.0).
+It looks like the data for SM6125 is just wrong.
 
 Connor
 
 >
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
 adreno/a6xx_gpu.c
-> index 89eb725f0950f3679d6214366cfbd22d5bcf4bc7..5fe0e8e72930320282a856e1f=
-f77994865360854 100644
+> index 28ba0cddd7d222b0a287c7c3a111e123a73b1d39..d96f8cec854a36a77896d39b8=
+8c320c29c787edd 100644
 > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -617,21 +617,16 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu =
+> @@ -597,13 +597,10 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu =
 *gpu)
 >
->         if (adreno_is_a621(gpu)) {
->                 gpu->ubwc_config.highest_bank_bit =3D 0;
-> -               gpu->ubwc_config.amsbc =3D 1;
->                 gpu->ubwc_config.uavflagprd_inv =3D 2;
+>         *cfg =3D *common_cfg;
+>
+> -       cfg->ubwc_swizzle =3D 0x6;
+>         cfg->highest_bank_bit =3D 2;
+>
+> -       if (adreno_is_a610(gpu)) {
+> +       if (adreno_is_a610(gpu))
+>                 cfg->highest_bank_bit =3D 0;
+> -               cfg->ubwc_swizzle =3D 0x7;
+> -       }
+>
+>         if (adreno_is_a618(gpu))
+>                 cfg->highest_bank_bit =3D 1;
+> @@ -630,10 +627,8 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *=
+gpu)
+>                 cfg->highest_bank_bit =3D 3;
 >         }
 >
->         if (adreno_is_a623(gpu)) {
->                 gpu->ubwc_config.highest_bank_bit =3D 3;
-> -               gpu->ubwc_config.amsbc =3D 1;
->                 gpu->ubwc_config.rgb565_predicator =3D 1;
->                 gpu->ubwc_config.uavflagprd_inv =3D 2;
->                 gpu->ubwc_config.macrotile_mode =3D 1;
->         }
+> -       if (adreno_is_a663(gpu)) {
+> +       if (adreno_is_a663(gpu))
+>                 cfg->highest_bank_bit =3D 0;
+> -               cfg->ubwc_swizzle =3D 0x4;
+> -       }
 >
-> -       if (adreno_is_a640_family(gpu))
-> -               gpu->ubwc_config.amsbc =3D 1;
-> -
->         if (adreno_is_a680(gpu))
->                 gpu->ubwc_config.macrotile_mode =3D 1;
->
-> @@ -642,7 +637,6 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *g=
-pu)
->             adreno_is_a740_family(gpu)) {
->                 /* TODO: get ddr type from bootloader and use 2 for LPDDR=
-4 */
->                 gpu->ubwc_config.highest_bank_bit =3D 3;
-> -               gpu->ubwc_config.amsbc =3D 1;
->                 gpu->ubwc_config.rgb565_predicator =3D 1;
->                 gpu->ubwc_config.uavflagprd_inv =3D 2;
->                 gpu->ubwc_config.macrotile_mode =3D 1;
-> @@ -650,7 +644,6 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *g=
-pu)
->
->         if (adreno_is_a663(gpu)) {
->                 gpu->ubwc_config.highest_bank_bit =3D 0;
-> -               gpu->ubwc_config.amsbc =3D 1;
->                 gpu->ubwc_config.rgb565_predicator =3D 1;
->                 gpu->ubwc_config.uavflagprd_inv =3D 2;
->                 gpu->ubwc_config.macrotile_mode =3D 1;
-> @@ -659,7 +652,6 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *g=
-pu)
->
->         if (adreno_is_7c3(gpu)) {
->                 gpu->ubwc_config.highest_bank_bit =3D 1;
-> -               gpu->ubwc_config.amsbc =3D 1;
->                 gpu->ubwc_config.uavflagprd_inv =3D 2;
->                 gpu->ubwc_config.macrotile_mode =3D 1;
->         }
-> @@ -675,7 +667,9 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *g=
-pu)
->  static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
->  {
->         struct adreno_gpu *adreno_gpu =3D to_adreno_gpu(gpu);
-> +       const struct qcom_ubwc_cfg_data *cfg =3D adreno_gpu->common_ubwc_=
-cfg;
->         u32 hbb =3D adreno_gpu->ubwc_config.highest_bank_bit;
-> +       bool amsbc =3D cfg->ubwc_enc_version >=3D UBWC_3_0;
->         u32 hbb_hi =3D hbb >> 2;
->         u32 hbb_lo =3D hbb & 3;
->         u32 ubwc_mode =3D adreno_gpu->ubwc_config.ubwc_swizzle & 1;
-> @@ -684,7 +678,7 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
->         gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL,
->                   level2_swizzling_dis << 12 |
->                   adreno_gpu->ubwc_config.rgb565_predicator << 11 |
-> -                 hbb_hi << 10 | adreno_gpu->ubwc_config.amsbc << 4 |
-> +                 hbb_hi << 10 | amsbc << 4 |
->                   adreno_gpu->ubwc_config.min_acc_len << 3 |
->                   hbb_lo << 1 | ubwc_mode);
->
+>         if (adreno_is_7c3(gpu))
+>                 cfg->highest_bank_bit =3D 1;
 >
 > --
 > 2.49.0
