@@ -2,54 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3049FAAFDFB
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 16:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B89AAFE2C
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 17:04:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7A110E1F5;
-	Thu,  8 May 2025 14:58:57 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MTEP5tt7";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF19610E930;
+	Thu,  8 May 2025 15:04:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B43F10E1F5
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 14:58:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 78CBC60008;
- Thu,  8 May 2025 14:58:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD4B7C4CEE7;
- Thu,  8 May 2025 14:58:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746716335;
- bh=fEgNDPZrZNRyp3TGc3Har21nplk6tkcYVw2UUifqo54=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MTEP5tt7dNliBCcHOOehxob60rSum9Pbopo0WW8zhGJmIR/skT0dHEUbjSMHOa5j5
- nkrWCrmrU/vpJtrphT12athhSc/LYItlxYymDwk+M5ZxWaGk+8rFa14ff0K9y1n0YF
- qxVAL1MK8Ve0cCk+iMok9KexF8KxRC17H7APMHEkKTCmfDVUAMkoCMfTPO07V9d+BQ
- NOIpvydqdoc6f+Ep2kiPZ7XWFBnRzNHJRKzcQ4EBKhDCdRC+dbEBz2l7oswsHNdDUf
- HjjBVNycYgbbL26y5K8EK2OmUg5CwcGMcrIq6gjE6fPDEDqTrwicHmACD6MVBoEatu
- toDiCKh04/HbA==
-Date: Thu, 8 May 2025 15:58:50 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: display: panel: convert truly,nt35597.txt
- to dt-schema
-Message-ID: <20250508-pointing-trench-90eb0fca2136@spud>
-References: <20250507-topic-misc-truly-nt35597-yaml-v1-1-bc719ad8dfff@linaro.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A42FF10E930;
+ Thu,  8 May 2025 15:04:31 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 91085106F;
+ Thu,  8 May 2025 08:04:20 -0700 (PDT)
+Received: from [10.57.21.179] (unknown [10.57.21.179])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8CB1B3F58B;
+ Thu,  8 May 2025 08:04:27 -0700 (PDT)
+Message-ID: <6e2fec36-8631-4ba6-8b66-d8b7c8cba5f6@arm.com>
+Date: Thu, 8 May 2025 16:04:25 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/C3efKQmUrRpGzA/"
-Content-Disposition: inline
-In-Reply-To: <20250507-topic-misc-truly-nt35597-yaml-v1-1-bc719ad8dfff@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 8/8] drm/panfrost: Use DRM_GPU_SCHED_STAT_RUNNING to skip
+ the reset
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com>
+ <20250503-sched-skip-reset-v1-8-ed0d6701a3fe@igalia.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250503-sched-skip-reset-v1-8-ed0d6701a3fe@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,32 +61,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 03/05/2025 21:59, Maíra Canal wrote:
+> Panfrost can skip the reset if TDR has fired before the IRQ handler.
+> Currently, since Panfrost doesn't take any action on these scenarios, the
+> job is being leaked, considering that `free_job()` won't be called.
+> 
+> To avoid such leaks, use the DRM_GPU_SCHED_STAT_RUNNING status to skip the
+> reset and rearm the timer.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 
---/C3efKQmUrRpGzA/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-On Wed, May 07, 2025 at 11:19:21AM +0200, Neil Armstrong wrote:
-> Convert the Truly NT35597 2K display panel bindings to dt-schema.
->=20
-> The vdispp-supply & vdispn-supply are not marked as required since
-> in practice they are not defined in sdm845-mtp.dts which is the
-> only used of these bindings.
->=20
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 5657106c2f7d0a0ca6162850767f58f3200cce13..2948d5c02115544a0e0babffd850f1506152849d 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -751,11 +751,11 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+>  	int js = panfrost_job_get_slot(job);
+>  
+>  	/*
+> -	 * If the GPU managed to complete this jobs fence, the timeout is
+> -	 * spurious. Bail out.
+> +	 * If the GPU managed to complete this jobs fence, TDR has fired before
+> +	 * IRQ and the timeout is spurious. Bail out.
+>  	 */
+>  	if (dma_fence_is_signaled(job->done_fence))
+> -		return DRM_GPU_SCHED_STAT_NOMINAL;
+> +		return DRM_GPU_SCHED_STAT_RUNNING;
+>  
+>  	/*
+>  	 * Panfrost IRQ handler may take a long time to process an interrupt
+> @@ -770,7 +770,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+>  
+>  	if (dma_fence_is_signaled(job->done_fence)) {
+>  		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
+> -		return DRM_GPU_SCHED_STAT_NOMINAL;
+> +		return DRM_GPU_SCHED_STAT_RUNNING;
+>  	}
+>  
+>  	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
+> 
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
---/C3efKQmUrRpGzA/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaBzGqgAKCRB4tDGHoIJi
-0plcAP9PfwMqhB1ZBVYPcbM9C6x4f7ivdciqlQXAntONfN3cCgD9FRtCjp4Vm2hY
-Bvgvm2z2A8grzWSWgajDMBmWwPo94Ag=
-=gzfj
------END PGP SIGNATURE-----
-
---/C3efKQmUrRpGzA/--
