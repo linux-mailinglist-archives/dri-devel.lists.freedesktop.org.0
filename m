@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F748AAF8E6
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 13:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63341AAF904
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 13:48:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCA7210E8CF;
-	Thu,  8 May 2025 11:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A84BD10E0A6;
+	Thu,  8 May 2025 11:47:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LoRdmsw+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Bu/fgmsx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EABCC10E38C;
- Thu,  8 May 2025 11:41:35 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA9D10E0A6;
+ Thu,  8 May 2025 11:47:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746704499; x=1778240499;
+ t=1746704878; x=1778240878;
  h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=HpZl3De/WJ7qCnhM+MYOLLICWp81+XLGEfKwZdx81uI=;
- b=LoRdmsw+7SBAiMlVnc53rxdmXLWXRfNqD2sxXbo+3gN3Jbu5hkZPl4bS
- WzZHJAMkrymoG5y4S1x98IHQyx+7qmrLOQTbTAxWBBE5z1P/lPAb3OoC7
- l4gvTRRS9MfcYD8tY8lQ+xtoq8dc59Tl4Ipo6PArctGTBIfi+4C6RjTWZ
- gOo5BXrGqttJSSILf1jfXKp4/kZhvscA16qsG8YGyxZ7DRmhsFIpNPV3V
- fovCNPWuipr/mrhhKLHo78JuNfYu/E2E1zRdy/yKRp3Kuen8J1MNhxtW1
- 336jFKXOWF6sDwk22dSDYjFDta48KpFXTaRre/3IG5PEdTYp6q2LK6lRt g==;
-X-CSE-ConnectionGUID: azYQoU81REq+y8Od+M+Rzw==
-X-CSE-MsgGUID: H8ZvQ20ES8uVscqc0goNrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="51141805"
-X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; d="scan'208";a="51141805"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2025 04:41:35 -0700
-X-CSE-ConnectionGUID: eFE6Vxf5RuqxWvMiVB/wHA==
-X-CSE-MsgGUID: /48hXi71S9u0HDV3l0z4aQ==
+ message-id:mime-version:content-transfer-encoding;
+ bh=ktSu32T2vHDtU3TaWxfNGQltXSfzb7pVbd9YNQ7yOL0=;
+ b=Bu/fgmsxkkkvG2T8Yyo0bjWmktSVSw6+3cU62HI8yHbHfEwprUKYfymc
+ gWpbDVUFOsmSb16NS2bR09i20XadECAI+S/YdZOZYc1yEzUcaoLWkbKdK
+ R8wuAoO4H4Tr1h/zyY8ZdMP4wIrtzBtttuJ78K1Mk3IaKh+lqCa7ytU5H
+ hrswkk3fhp1ltJx/WLAZzht+EsMTwVb/VP2UVCnah4OXwCtEAR7Xls82J
+ nBt6O+A3YpT+ZjXDYlKvI9vrC2tTwN6TI9gtoNeww7hJ3xNcVI7Vwu35c
+ MbTHJwPw20QR1an32opBTzggDkBHUZx+X6DLBNUF/SmPPLXyPf7mrWDCm w==;
+X-CSE-ConnectionGUID: dDaWvcE+R321etNkB9Prhg==
+X-CSE-MsgGUID: U7nY39qaTA232SpWXoZotQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59833151"
+X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; d="scan'208";a="59833151"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2025 04:47:58 -0700
+X-CSE-ConnectionGUID: 7EcPh2urQiWsjZERFjUnUw==
+X-CSE-MsgGUID: +5TkUEutSgiSUu8e2uFOTQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; d="scan'208";a="167205856"
+X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; d="scan'208";a="140308286"
 Received: from unknown (HELO localhost) ([10.237.66.160])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2025 04:41:30 -0700
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2025 04:47:54 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Melissa Wen <mwen@igalia.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch
+To: Melissa Wen <mwen@igalia.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
 Cc: amd-gfx@lists.freedesktop.org, Alex Hung <alex.hung@amd.com>, Mario
  Limonciello <mario.limonciello@amd.com>, Rodrigo Siqueira
  <siqueira@igalia.com>, Michel Daenzer <michel.daenzer@mailbox.org>,
  dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: Re: [PATCH v2 11/14] drm/amd/display: create a function to fill
- dc_sink with edid data
-In-Reply-To: <20250507001712.120215-12-mwen@igalia.com>
+Subject: Re: [PATCH v2 12/14] drm/edid: introduce a helper that compares
+ edid data from two drm_edid
+In-Reply-To: <20250507001712.120215-13-mwen@igalia.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20250507001712.120215-1-mwen@igalia.com>
- <20250507001712.120215-12-mwen@igalia.com>
-Date: Thu, 08 May 2025 14:41:27 +0300
-Message-ID: <87plgjtjmg.fsf@intel.com>
+ <20250507001712.120215-13-mwen@igalia.com>
+Date: Thu, 08 May 2025 14:47:47 +0300
+Message-ID: <87msbntjbw.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,66 +75,104 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Tue, 06 May 2025, Melissa Wen <mwen@igalia.com> wrote:
-> From: Rodrigo Siqueira <siqueira@igalia.com>
+> AMD driver has a function used to compare if two edid are the same; this
+> is useful to some of the link detection algorithms implemented by
+> amdgpu.=C2=A0Since the amdgpu function can be helpful for other drivers, =
+this
+         ^
+
+Theres's a non-breaking space in there I think.
+
+> commit abstracts the AMD function to make it available at the DRM level
+> by wrapping existent drm_edid_eq().
 >
-> As part of the effort of stopping using raw edid, this commit move the
-> copy of the edid in DC to a dedicated function that will allow the usage
-> of drm_edid in the next steps.
+> v2:
+> - rename drm_edid_eq to drm_edid_eq_buf (jani)
+> - add NULL checks (jani)
 >
+> Co-developed-by: Rodrigo Siqueira <siqueira@igalia.com>
 > Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
-> Co-developer--by: Melissa Wen <mwen@igalia.com>
 > Signed-off-by: Melissa Wen <mwen@igalia.com>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c      | 8 ++++++++
->  drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h      | 2 ++
->  drivers/gpu/drm/amd/display/dc/link/link_detection.c | 3 +--
->  3 files changed, 11 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/drm_edid.c | 24 +++++++++++++++++++++---
+>  include/drm/drm_edid.h     |  2 ++
+>  2 files changed, 23 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
-> index fab873b091f5..39fcaa16a14a 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
-> @@ -17,3 +17,11 @@ bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
->         return (memcmp(old_edid->raw_edid,
->                        new_edid->raw_edid, new_edid->length) == 0);
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 6e4cffd467f1..079042ccbc41 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1820,8 +1820,8 @@ static bool edid_block_is_zero(const void *edid)
+>  	return mem_is_zero(edid, EDID_LENGTH);
 >  }
+>=20=20
+> -static bool drm_edid_eq(const struct drm_edid *drm_edid,
+> -			const void *raw_edid, size_t raw_edid_size)
+> +static bool drm_edid_eq_buf(const struct drm_edid *drm_edid,
+> +			    const void *raw_edid, size_t raw_edid_size)
+>  {
+>  	bool edid1_present =3D drm_edid && drm_edid->edid && drm_edid->size;
+>  	bool edid2_present =3D raw_edid && raw_edid_size;
+> @@ -6918,7 +6918,7 @@ static int _drm_edid_connector_property_update(stru=
+ct drm_connector *connector,
+>  		const void *old_edid =3D connector->edid_blob_ptr->data;
+>  		size_t old_edid_size =3D connector->edid_blob_ptr->length;
+>=20=20
+> -		if (old_edid && !drm_edid_eq(drm_edid, old_edid, old_edid_size)) {
+> +		if (old_edid && !drm_edid_eq_buf(drm_edid, old_edid, old_edid_size)) {
+>  			connector->epoch_counter++;
+>  			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] EDID changed, epoch counter %llu\=
+n",
+>  				    connector->base.id, connector->name,
+> @@ -7523,3 +7523,21 @@ bool drm_edid_is_digital(const struct drm_edid *dr=
+m_edid)
+>  		drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL;
+>  }
+>  EXPORT_SYMBOL(drm_edid_is_digital);
 > +
-> +void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
-> +			     const void *edid,
-> +			     int len)
+> +/**
+> + * drm_edid_edid_eq - Check if EDIDs are equal
+> + *
+> + * @drm_edid_old: old drm_edid to compare edid
+> + * @drm_edid_new: new drm_edid to compare edid
+
+Comments still refer to old/new, please run kernel-doc.
+
+> + *
+> + * Return true if EDIDs are equal.
+> + */
+> +bool drm_edid_eq(const struct drm_edid *drm_edid_1,
+> +		 const struct drm_edid *drm_edid_2)
 > +{
-> +	memmove(dc_sink->dc_edid.raw_edid, (const uint8_t *) edid, len);
-
-Superfluous cast.
-
-> +	dc_sink->dc_edid.length = len;
+> +	const void *edid_1 =3D drm_edid_1 ? drm_edid_1->edid : NULL;
+> +	size_t edid_1_size =3D drm_edid_1 ? drm_edid_1->size : 0;
+> +
+> +	return drm_edid_eq_buf(drm_edid_2, edid_1, edid_1_size);
 > +}
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-> index 7e3b1177bc8a..f42cd5bbc730 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-> @@ -7,5 +7,7 @@
->  
->  bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
->  			  struct dc_sink *current_sink);
-> +void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
-> +			     const void *edid, int len);
->  
->  #endif /* __DC_EDID_H__ */
-> diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> index e748721f31e4..978d2b4a4d29 100644
-> --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> @@ -1410,8 +1410,7 @@ struct dc_sink *link_add_remote_sink(
->  	if (!dc_sink)
->  		return NULL;
->  
-> -	memmove(dc_sink->dc_edid.raw_edid, (const uint8_t *) edid, len);
-> -	dc_sink->dc_edid.length = len;
-> +	dc_edid_copy_edid_to_dc(dc_sink, edid, len);
->  
->  	if (!link_add_remote_sink_helper(
->  			link,
+> +EXPORT_SYMBOL(drm_edid_eq);
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index ceb522c4f4c2..c0e49c4a32e9 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -472,6 +472,8 @@ int drm_edid_connector_update(struct drm_connector *c=
+onnector,
+>  			      const struct drm_edid *edid);
+>  int drm_edid_connector_add_modes(struct drm_connector *connector);
+>  bool drm_edid_is_digital(const struct drm_edid *drm_edid);
+> +bool drm_edid_eq(const struct drm_edid *drm_edid_first,
+> +			 const struct drm_edid *drm_edid_second);
 
--- 
+Nitpick, parameter names in the declaration differ from the ones in the
+definition.
+
+With the above fixed,
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+
+>  void drm_edid_get_product_id(const struct drm_edid *drm_edid,
+>  			     struct drm_edid_product_id *id);
+>  void drm_edid_print_product_id(struct drm_printer *p,
+
+--=20
 Jani Nikula, Intel
