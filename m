@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB87AAF3FB
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 08:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030B3AAF3F9
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 08:44:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45C1910E8C1;
-	Thu,  8 May 2025 06:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0594D10E8BF;
+	Thu,  8 May 2025 06:44:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="fxXpi/Y5";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="EIBFFjXc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 96669 seconds by postgrey-1.36 at gabe;
- Thu, 08 May 2025 06:44:14 UTC
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.67.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D41B210E8BF
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 06:44:14 +0000 (UTC)
+X-Greylist: delayed 96370 seconds by postgrey-1.36 at gabe;
+ Thu, 08 May 2025 06:44:16 UTC
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D19D510E8C0
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 06:44:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1746686610;
- bh=0pI2iREWW5cC2LwJLtCoMOYZhwY83h/z7B9+8q2WvaM=;
+ s=altu2504; t=1746686614;
+ bh=QyDFhO8OtjpTCJbTfPuoHwFDRMlY45kLnroWzhMw0+o=;
  h=From:To:Subject:Date:Message-Id;
- b=fxXpi/Y5mrjF84OdY3lEuMy2DsWSyvmGZ9xajslWgM+oAfiuAtOb9/FaVyPRZXU3i
- B4awaS/VoRGgwCWFohqwr8Ez6DmG6Ctjml33QCmeoLknRvaPJPl4DUQD5NhWLR2y9G
- y0LNDZr3mT0bxpl1gmh6gXHYCIBwXOPz/Ij0Jh3k=
-X-QQ-mid: esmtpsz18t1746686608t123d24cd
-X-QQ-Originating-IP: Lb7KIkQyY8JilwbOns5Cl43BA/5Z8/J56hf/m1H92DY=
+ b=EIBFFjXcS1XhvSE80uXG9ACdOd1Elnc6pazPCFetlfV1srzr2i5Pp2jHvYO85xQ2o
+ g2+Gn9I25Sv4trSTf4HSVZosb3BAY08/G5CXxC+71niwt3Vm9WS9Z82NMpiIi9GSDM
+ drJA8tOiWy0FQUUgG2XO3ss7g2Or8RoP3k0XRpck=
+X-QQ-mid: esmtpsz18t1746686612te3481210
+X-QQ-Originating-IP: zbzDiNl3M4Ey2lstqT3s4mpmSf/C2+GYcEOzllnANXk=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 08 May 2025 14:43:26 +0800 (CST)
+ id ; Thu, 08 May 2025 14:43:29 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 4859509138922957751
+X-BIZMAIL-ID: 997468467344160860
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
  Andy Yan <andy.yan@rock-chips.com>,
@@ -45,28 +45,31 @@ Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
  Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] Convert Rockchip CDN DP binding to yaml
-Date: Thu,  8 May 2025 14:43:02 +0800
-Message-Id: <20250508064304.670-1-kernel@airkyi.com>
+Subject: [PATCH 1/2] arm64: dts: rockchip: Improve coding style for rk3399
+ cdn_dp
+Date: Thu,  8 May 2025 14:43:03 +0800
+Message-Id: <20250508064304.670-2-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20250508064304.670-1-kernel@airkyi.com>
+References: <20250508064304.670-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpsz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: N3IC8um5pMyYiUTB++F8KmGWAz7BbvjjiJvjkp/Emlsn4bb47X4/ZJQi
- 3s93gkfxyyqyBFPaHO95ETcR+vn67It2LfIX0jXKOXkXWHipQnUY61PNk7v42XfLt2bUInW
- b1CJIGt+gHy+SoabkJiwrra6tQkkj42SpsbbS03vIQR40QiBW1GVfYGJAosQekfFzr+CwRg
- YwMqWTEMVM4z3suCQIV+m4DDk3oSPaviOUbZJ1dFHZFydMyGXoh3+7d5aTHitLvAonE8QgF
- jeIEGebHMXzzEwvZ2qy3xzcsPYmyCbRBaWUDR/wovsrryAiK1OwxaGgyEjmpSNJL9dxQPQA
- XIulur70ImXupPMIfD4g/cvF6SxuWkZPkIQkIn9rynumJIkXcJc6mHYGoz/qOuQHDdQ7SbN
- F+CPCIanHXerXlwJOJhajxzhhBnPhbKASftNDzq9ZD4JfIfYape0q0ezZ8Ar9nrYrucZ/4a
- 3FwGKtAOVO01z2DpkBTgYShC8gJm4yzBkVDzRRnIlqQwpjht0zILw6So2G0RqS8mSz7aYIK
- 0ZXduco+VDbsd63wAHnLfiO659D6971lm00O1i7vpHIvVZ0rFXSEA76N/gJCjGUBk66yU16
- h0hKvIeFpl7ilnJ24FNO8J7buPsBUNIPooKHKJmAWWLOAxB/iUPGGVcchiLR0YPtt1a2tG6
- bUMR4pcsQhe+Pw4KCVpde0oz4eccAOhnEQg2MDPF6m4Q7lW0mcXPAJSpr/gfICE0bHHRA7R
- BnaKLEyJ+IWakDzca2dX0+tz15yetBk95GlTAx58Emd25MrQ9rda/6yHJQrE3wS22Sy6+ZI
- SRWByavJ1v1Z/xKQNObNDN5Oht3I7KmAwqiz0IhA9mpdPExOZZ4rzZe1BAYvukfHNXUxz7F
- e2tfrMTeBn6x31JRJjWXREaL5MK6BBQqdCtwtXoCzkeA7QsaqWvgFrbT/Vh4XCcYyRgX8cW
- VoHl3OzAjNz5v0Q==
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-XMAILINFO: NVonmnRjmRvhk4OsFKw7WpSYgKXhGQbz491Ofm8wDKqRVhLXcKB2Xsld
+ U4atBlTofTVism+iTU7osQX0oL9yKD6p2JveJeCfi1xd0oecpbKs2fWSVj7ePNBUk8QmbKE
+ jHIEw96lC2OcEljmS3kpskRXoLJvzuo1F+kC7BOsyQHK8gkDmYWPctaid2cUO8Q7eGRucMO
+ 2KxDn8B267ZS6vMl3RByBH4u8wo++u2xUYcYj4cJzpuuZdm8XSx0ACPx1AYelNMivQIHotm
+ w66GIUli/LjYYzYY7SspiX85ulFhVqAYXQsZY/gB9UY4u5OQyg6VwvIwMGkQf6gAdRyYsX/
+ 3DGGDjQCVT5Dy8F6XcZK8NCfsMmdahPw5VHYSvLi9Sn8qj5LsZ0FGu1gma2vBfUtWFruHPl
+ /IxoJYf29GkmsnOp9z0uZsXXRxIWvhfDqVXMN+Tfs4A0vscRGYjpaN603roetxaXiA9cwgC
+ rnqXHJzdpO4LNfDmPaKTN9fgSk0YkiKPJPDkYLTMaRLRvMBwK4qnhsyTP88HRWtnTVNMzGs
+ 0mhciMl7ttyxEcotEVoL87QlTjhtTuYJwk3KAWjKJC+H2lvg/Fkl5n0F9SqiIWFlg4A7XvE
+ BQ0T/V1tEqpyQ+PfGOpkPut8LLaBiKcwEEFNqUGNROG24kiAKY3GJ72sjy6Yv6b6XbYISa9
+ b09F0zj45gW7Z0hjBSGlM8djRRKJSuNhHNvQ8C7P42kYGdEErc1FoWF9ovtMFp1YxajPRqI
+ 3LX4YvRNJGUnoDbkLsLbE1Wym+2nEC63Ipk/Vv7PZxjB9JUX0ReKHPYXwf6u6isjrChPwHb
+ yngR7mC3QO29rmJ0lcaytxGI0F22TQekVy1/w8xpjr/jdlhZCgdBr6ki1I+QKcLHu/GavVn
+ AdaoN9IvXFTb/BtGNqQB5Kws/5nLP+i0paaoYBkm3K9uWMV4jVkJgvxN12AW1StGBFSbNA/
+ FHzJIWUfPkUrkV6qbRpzVKJFU
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,30 +88,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-This series convert cdn-dp-rockchip.txt to yaml.
+Let's make the ports nodes of cdn_dp in the same style as the other
+display interface, and match the style of ports's yaml.
 
-PATCH 1 try to improve coding style on the existing rk3399 cdn-dp
-node.
-PATCH 2 try to convert cdn-dp-rockchip.txt to yaml.
+Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+---
+ arch/arm64/boot/dts/rockchip/rk3399-base.dtsi | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Tested with:
-
-1. make ARCH=arm64 dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
-
-2. make ARCH=arm64 dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
-
-
-Chaoyi Chen (2):
-  arm64: dts: rockchip: Improve coding style for rk3399 cdn_dp
-  dt-bindings: display: rockchip: Convert cdn-dp-rockchip.txt to yaml
-
- .../display/rockchip/cdn-dp-rockchip.txt      |  74 ---------
- .../display/rockchip/rockchip,cdn-dp.yaml     | 148 ++++++++++++++++++
- arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  10 +-
- 3 files changed, 157 insertions(+), 75 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/rockchip/cdn-dp-rockchip.txt
- create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
-
---
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+index 9d5f5b083e3c..e340b6df7445 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+@@ -618,7 +618,11 @@ cdn_dp: dp@fec00000 {
+ 		status = "disabled";
+ 
+ 		ports {
+-			dp_in: port {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			dp_in: port@0 {
++				reg = <0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+@@ -632,6 +636,10 @@ dp_in_vopl: endpoint@1 {
+ 					remote-endpoint = <&vopl_out_dp>;
+ 				};
+ 			};
++
++			dp_out: port@1 {
++				reg = <1>;
++			};
+ 		};
+ 	};
+ 
+-- 
 2.49.0
 
