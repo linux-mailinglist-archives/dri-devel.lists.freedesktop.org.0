@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63B0AAFA2B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 14:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E90FAAFA30
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 14:39:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9DF810E180;
-	Thu,  8 May 2025 12:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F136A10E3A6;
+	Thu,  8 May 2025 12:39:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yh8gl7GI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I00wu3tS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A17310E180
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 12:38:52 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-30db1bc464dso8729421fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 May 2025 05:38:52 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C495510E3A8
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 12:39:21 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-54afb5fcebaso1234215e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 May 2025 05:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746707930; x=1747312730; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1746707960; x=1747312760; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ym/GGePTtcR6pPbHuXLLIC6Kw58vqtqImYgRJwNLr5w=;
- b=yh8gl7GItuwac9hhgQu/rSYrYyynvvXStgfOh/o6buZd0i5ztKXlMWR7maVO0QrAlT
- yT1oF46Aj/duJwopCxsIucHFSsHeuXOlhof1fnciQ3Q2RRLLC/YGMysWDisGa/Hd9aVu
- dRIt/ALovtlcUy44OYq6V1FT16GWECNAqesBtJHgB6OTUS4iaDV0WT/fNGJJphYLK6SV
- HQam9bZdKvOrYE0FUnA78s2Vi3wARrQ+DyXBT1Ckidw4jiKR78yxPAaauXIbS66WcUUG
- bGf/80sCLCYFnxgeczReu97l3CWpU80VDd3QpO/LywmN/kEvfhZnRqfpKnGltIg2I2b8
- nhBw==
+ bh=fxy4oDHF1pn8d+iuTx13+tfCW8RZDyCkPpV0oh3yr24=;
+ b=I00wu3tSz74n77cDsQZhmngcFUh9PT2ZDRO0R0znIb7aAgAlg9Xbc1kWHn5+S1i+Ib
+ usTZsZROb3+JjaxzHGbHch8Tny6t0nqwdKlLo2uyoNNxhA1V2f9XgZDnrWKuN/LJq0N7
+ Uk5ztW+Bif0Dge/+jBYAjP1ugYK44J0Jqbg/RA9GxopTYcpc7K5FQcenshaop3+cw6+d
+ hmmxI+MFygpGwp7bh4ytVIOqhEtIcogxKLKhX7hLvZFhgNEzQsYGTwVPzBwaPsij3+lV
+ Nzo/AtRkSefC16G65oSNYnxn9WpLfESSg+unbNON9E5BuSwirY7iLh7qiv3DSDiBbKwK
+ v4dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746707930; x=1747312730;
+ d=1e100.net; s=20230601; t=1746707960; x=1747312760;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ym/GGePTtcR6pPbHuXLLIC6Kw58vqtqImYgRJwNLr5w=;
- b=wbO52w0OLj9zMkafZyc7z/pfy9j0dy52mpvW7Yl67Ye0fT8RlSNfwUbWWSbwp7CkRk
- k1ptmM+S3KCryA60ayso+EqDM+n6ogjJZA3gRY5wpm6w6ow1P80yeu87Cq6x0J1VYgle
- zu/LS8ARQQn3vlSWveXvim21AUe8oYb+/9CX1dALYAyuGTS0NBha0yksm1Z3sUenpcog
- Q5wX5SDMRwcTDbsYryjtkyTT5D751QXidhndjk5l/mTkOHlRVHFUghJ1i4kvYTbOXsgU
- 6wgITjOfKgBYuv4tiCCDtzwjenmxSiI0wW/UKej94GsifEoZidnhze8esKm9jxK2k1lJ
- C8FQ==
+ bh=fxy4oDHF1pn8d+iuTx13+tfCW8RZDyCkPpV0oh3yr24=;
+ b=dnDwebiXe6pkUDrUkOerqMvwh2+l66mjd4jNEW9PUfsu90+2OR4IBMkWqoWrVJP5m6
+ l3DTMF9lVaNanl5JI//2FcD8MVy7MD/fdNFLBoIpl1x135U8nGmSpBasfjjIdxWcF9Ti
+ pwzVZ/Ft2PD+j2xpOvrZhy7mSm3pIz7aOhtTnAm1dyLxHgwAU9gGF0mv9S4MV6z9f+0T
+ hZsPvpOoHhz2I5kLUB5YAUa+VAJ6jcwivaZivmhkPNJ9zI+wbwGoVLbMxWZ+VUdpFHLX
+ 3LhgJAoj+QuUZ/2ehrh3YqNbYmk20odZNzBps0C2s4pEr55KPzwWPTd2M79/4cnVPZrr
+ SwnA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXuGJ4bLo2SN60pmJaz92OFnpQJUaoHKbpu3sYcASkOf23reqAKGakWNSfumvMfixIoDin8fVaFY94=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyCq7+jMLUBmut9GvpPih6iB1AmlwCfdnQKPEBTL0aOhsLtf1kJ
- Liclya8ZY56VmMeKgNkFFi7nJSuCj+jZ1H/RsjhWz36bPoyJUDmLgSKmsV44tEwV/Islv/RQxuP
- kX/aCM/rP4SE+ogRBYvA+9G5/WF+A1tV9mzeEHg==
-X-Gm-Gg: ASbGncsAg9pLduQgP2rPE8wncCV032FEkBhnFv0745Ids3TmxusU5YzTM/v/Lk/uGSK
- zNi4S/m2/ZFUEd8+9Vau0LuSZhIq7Uc7815SKk3aDmGWNkZOxeXMyh+mTadn4MpAJP9W04RsapU
- 7gC28D6CN5BDw+H2XNuuZCwA==
-X-Google-Smtp-Source: AGHT+IGJqMyrmkCUIQDg8PE9y89S4un8Sptn+ne9CkBnqLfvsuKGyDCGNoAKWRWwcnckQHjTgl6OjpG8jsiCqQsITZg=
-X-Received: by 2002:a2e:b893:0:b0:30b:d543:5a71 with SMTP id
- 38308e7fff4ca-326ad17460dmr28868011fa.1.1746707930459; Thu, 08 May 2025
- 05:38:50 -0700 (PDT)
+ AJvYcCVxwtx5hxef/0y87rMCD970YPEl3W6hpk6q+7EMRSINE2/AtKCD8K1wRzyxfmiEC9WUGoRncWy9mcc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw27lkHAWBMY2uUFpIPXEmO6i4KUirCNd7TKsuP/FQHuUbUohFl
+ Jl7crXNOEZZ0V6YkwSZb2bwEn+lL0ZxM8B66UP/HIjtKjcvuaZ0THIDvt+oOkntUxszam4y2TVR
+ nWCI3dfN7K/Qn98I/eKvNlVZhRcYoXOna/AX0ag==
+X-Gm-Gg: ASbGncvccAa/7zBZCXJw9rKVniRvvd1pGYxCId8Eo6EgKhlVhqv6OPkJY2MGlzuJ/2g
+ 9Vk0ez7my6lLHuOAGCuO34bVcCFjTZU7nlRw8AbcjCyuVbNOvC/ZxWPSwlayzsHqPOmY/7cyiCz
+ 1kaG5p23ZQThsEQ+7Ks+9VVDoOXaUfl9bV
+X-Google-Smtp-Source: AGHT+IGGrMdIbK+l8vxSoUfLVyEvO0Z3NdZDVB36nn2Anll0m3eQKniQ9zV0PNvk8wEmAkWUY6p2JaDvTo9TjiBiOgs=
+X-Received: by 2002:a05:6512:3da9:b0:549:66c9:d0d9 with SMTP id
+ 2adb3069b0e04-54fb95b8cf9mr2506333e87.53.1746707959903; Thu, 08 May 2025
+ 05:39:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250506092718.106088-1-clamor95@gmail.com>
- <20250506092718.106088-2-clamor95@gmail.com>
-In-Reply-To: <20250506092718.106088-2-clamor95@gmail.com>
+ <20250506092718.106088-3-clamor95@gmail.com>
+In-Reply-To: <20250506092718.106088-3-clamor95@gmail.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 8 May 2025 14:38:39 +0200
-X-Gm-Features: ATxdqUHd6nS8kMJuc0f8MXMDIRZHhCR46AYmqFnKzqCQqTYWz7YZni31Y68Ocio
-Message-ID: <CACRpkdZCv2RV1ioXsuJnLHsiErbrfv5jjzvPWMire94+OznY2g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: panel: Document Renesas
- R61307 based DSI panel
+Date: Thu, 8 May 2025 14:39:07 +0200
+X-Gm-Features: ATxdqUFbxZHQaqT_16mFZM1zpCqWLrcrUnDz75se3Y3SyvtShCLzKride0am1Uc
+Message-ID: <CACRpkdaOiFUPf8fTGZk0RR9=oVni0DEaYqdUziZRLUr5mZjtnw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] drm: panel: Add support for Renesas R61307 based
+ MIPI DSI panel
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
@@ -99,10 +99,13 @@ m> wrote:
 > R61307 is liquid crystal driver for high-definition amorphous silicon
 > (a-Si) panels and is ideal for tablets and smartphones.
 >
+> Supported compatibles are:
+> - hit,tx13d100vm0eaa
+> - koe,tx13d100vm0eaa
+>
 > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-I see you have gone the extra mile and deduced the underlying
-display controller, excellent work.
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
