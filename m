@@ -2,81 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0D8AB03A8
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 21:26:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96C8AB03C7
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 21:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D103610E963;
-	Thu,  8 May 2025 19:26:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D6D010E21C;
+	Thu,  8 May 2025 19:41:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C4qP5bow";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="1HGFrFrr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EAD410E21C;
- Thu,  8 May 2025 19:26:15 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-30a892f8124so165753a91.3; 
- Thu, 08 May 2025 12:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746732375; x=1747337175; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0hKru1L8dMScGzoC6BZyI54uV4RakPZMb8WHsDI441M=;
- b=C4qP5bowNmk1rkwarVwKPSVJaD7GSK2yhvaVadux1wicnFfrgPiEH9RyUBsQAyBTgg
- N2jVtgeF9T06kQknkIDm0XH64fbOsu/TTDX3M3xyjSwgyHNPlFa9v684294fjfGxLm0j
- L9TuGTIjaAI5mVSE7Q9TIdPShjg6xtrrlf5CpYcOlzJwQZM5EvfGmNYGhEWZr/ZvYuV2
- baB5hXoQQENey+rifA0qPg3detF9t0JFkoR3MDnYCsNIVGHLGTtf8wK5yQU0UXp/C7nF
- pLdCTa5kqmzQNuuXWy3smzGzp7Jyi8+7clSTy+fn+CMa1u/g/rY7Do1GsT7Skf1EgHMk
- 6a0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746732375; x=1747337175;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0hKru1L8dMScGzoC6BZyI54uV4RakPZMb8WHsDI441M=;
- b=sn9pKCs1MWt9Rb8v5NHTItSRzlugUczTWa5FMwyPNe4u/NGSa/inLIhM+5KbypLHpa
- saawYcQtmoCjteo9ffgOekO2yQNYjVPTZT6HGb7fUxBTrTOqxNMO0du7ihCnsEY+DXTf
- a2dZ/58SY8XrH8BuFvrENLiunuiXe6Wayfmv8LLq5sO0CcpoDZel3LoeqjHcZU5Yvl4L
- 9A6Nzw2GGO38Y/OWozH8EDjofltgIW4c9pfIf6yrMoOvxLh2SZxgWYVWS8NXNuv42mLf
- K4cKG3A+Tj2Jk8uRsFQCgkExsAOcWvFucnzcjOcnEMXodImOgiYWE30ZjL3gRfQ1w/an
- bTpA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUv+0BSs4JJt+K1TPay+3wL2QpmcgwJxribkw2VTzh8NwTCBu7iXQq27X60vL0/ytXmr/fBwVp39LM=@lists.freedesktop.org,
- AJvYcCV8m8BBwN+qdtwaKrnPLBYYqMfwoWMw+yTrjoXKFOI/W60QZU1PQe9/tB9A38byaRrAwOoBduUICQT7@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsG2FjGGEuCw4rG0RurRKokgqJZt8lUVQfjljKN8HLAfTXLYzZ
- zwVWHdicAWju8KPkHM1+lpCliKgbHPPlb46Z84GrzpBv5FunJNATUIW/1WFgtuOr0xDTXXu1e54
- dwk/ipfBZz9itELafAcbVgdoZptQ=
-X-Gm-Gg: ASbGncuHYr9wEm4z/7bCQ9DutWLdIw1UjwQtPI8Z78hNo/Bj0Xy3qtbe1NemXIXrnWp
- R0xwfbUx4xLoFJxj34x94Tyir6RUE5J146qouDO8n5Jj2SedUL9mup8K4QOBNHhIhemTFiUp4W4
- ocw8yxbYfDmO3Nh4R0txs0fg==
-X-Google-Smtp-Source: AGHT+IGSpiN7eaDH3O4Uokp10YbmchAx5slpcUK4Ki93gIDNWaqoAmMgsVOGKoMSaAoqs8hgzbmH4KVxaKA8k0N96h4=
-X-Received: by 2002:a17:90b:3e83:b0:30a:a50a:8c93 with SMTP id
- 98e67ed59e1d1-30c3d674dadmr365318a91.7.1746732375030; Thu, 08 May 2025
- 12:26:15 -0700 (PDT)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2043.outbound.protection.outlook.com [40.107.223.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F58E10E972;
+ Thu,  8 May 2025 19:41:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rbvAbl7LGFJyHyJ2TPoxHCVxdqHsojEFwyUltz5OjGnr0wg4PigBXQRRx8P2s8wsSyJyItbW2F6RQfKA6Bu7IHsagdrI4OXDZrXadOvDX/zvL6DcVn39pVQEPtan6BvSeKqiOaeQQtSzCmfKxTHTVP53Opir67PqTud3gpj8kCKEx/xiDKMdojB+J7fdH1HTPgop/sG6mmiiuc95xvhwoBL8Exwh8872YlEC1ibwKUXGp1McMaJ6bFzHKV392HD8H2E6CBoKcmEfWNZ0WWdxlVeKk50QY+iLdSgfoennfPJdwyNUM9NCLxaEFowtxAPamxnrE/esL9GkE8iqjV4hhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bYcBo3NMDV5HjpvotO4H1C1GTkAsOBNIUepbNddapys=;
+ b=Bxs+N19+B9wfwfthve8SCTDy5+4xUf0Nf57/m1O7YvHTFp2foXHVhMpw3zsYx/0BaxTxYaKANwDDvO53AjHEkR0CsqWshxYKkYvf9UkIKzjl5/XpfOPrNFJLMF5PkCKBY9JE2BStHEq011fmXDPgEQenZIBSsZkt+naLaGI0rM0NJtTNw8eWLQ4tjjBN7cMc8KbZ86tTgaQkCT3J21PsIo26S4NYkBFlcf+rRXS0ZtOKDJzQDkM2rj5QT9Waw1UQwym2hLv14qFQW6ckMknG/xMeVdEgQJ8zXciXygz4AZ91nqYQWInPuhsHgfTPZ9HOhR/9FUWCweqVQaiRCiPj5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bYcBo3NMDV5HjpvotO4H1C1GTkAsOBNIUepbNddapys=;
+ b=1HGFrFrr6Q4TUvrcdHo171zBX4Zqi2ic9d3d+Xm7UH/QY0CSxDrd8du56u2oZUqoFmqq+1hleWa/w6HLF211czJqO/JISgru+JsBdgJHaCzcmApn2Wa4dYDSu/M3012fkOzVdcG4Z9H5aQUxYnzqgaFgfQfGOMm8o/QCFjc/3ao=
+Received: from SN4PR0501CA0124.namprd05.prod.outlook.com
+ (2603:10b6:803:42::41) by SJ2PR12MB8737.namprd12.prod.outlook.com
+ (2603:10b6:a03:545::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Thu, 8 May
+ 2025 19:41:23 +0000
+Received: from SN1PEPF000252A0.namprd05.prod.outlook.com
+ (2603:10b6:803:42:cafe::94) by SN4PR0501CA0124.outlook.office365.com
+ (2603:10b6:803:42::41) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8722.18 via Frontend Transport; Thu,
+ 8 May 2025 19:41:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF000252A0.mail.protection.outlook.com (10.167.242.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8722.18 via Frontend Transport; Thu, 8 May 2025 19:41:21 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 8 May
+ 2025 14:41:20 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <simona.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu drm-fixes-6.15
+Date: Thu, 8 May 2025 15:41:02 -0400
+Message-ID: <20250508194102.3242372-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
- <20250508-topic-ubwc_central-v1-13-035c4c5cbe50@oss.qualcomm.com>
-In-Reply-To: <20250508-topic-ubwc_central-v1-13-035c4c5cbe50@oss.qualcomm.com>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Thu, 8 May 2025 15:26:04 -0400
-X-Gm-Features: ATxdqUECrHAxamM6cf9DmM-j_slTE2IU4QDuio4QvANymnYvV5oJYBJ2BHROTFg
-Message-ID: <CACu1E7E9yU-cygZxBqVypP7aFkXJCNTfXA2uqdvU84mi9T51Xg@mail.gmail.com>
-Subject: Re: [PATCH RFT 13/14] drm/msm/a6xx: Drop cfg->ubwc_swizzle override
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, 
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000252A0:EE_|SJ2PR12MB8737:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a98b633-24f3-4056-23ca-08dd8e684f67
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|36860700013|1800799024|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Yd2z2D9thbelKTa48KXH1YnesJ3EQxawKUsw4F7lcaeISi5uoke5TfMeVbrS?=
+ =?us-ascii?Q?86MT1f8IT0SUmFuMfBfE2v7ZvSsUWwvd2FtQEKFYD0WB+IUWb5MGMiqolqO2?=
+ =?us-ascii?Q?5PjpO0U+C7f1JqK9nsDC0Gglg1BbF9ZSCkvViiTd6VnZnqfvIAAfB0mAupTh?=
+ =?us-ascii?Q?3WO34zqhHxSBuB2DEZFsPVRIaBMJfgVHIOBk+XldV2l/Dv3N4GrSZAz6S54L?=
+ =?us-ascii?Q?fAi/BhNZNQEMDvSX1MGypkF7NiF7DY0JK0+JOMR54zNL0K5CsqgpDw3rVQfp?=
+ =?us-ascii?Q?1QzCyeSaL/u02w7mYlgBWnDvhNE5gYEyP9xWUqh4zUNmXjNtxhwnJE5gebOn?=
+ =?us-ascii?Q?u7pyGhPSn8GAt5voo4/1k66JcDKo9ejiMGscxlu+U8Xu8SAfVDm5S2k69LtA?=
+ =?us-ascii?Q?KMfiYdLwsaJrupEAt7AdZPYqpaA0XGq2HRW0Z5TlZm+Wqc+2cMUuTHwv0eop?=
+ =?us-ascii?Q?SxY8XHcSIjpGDLQzeLaOPvqGXt7xSA81zhFOPBKWw1xcmQtCt8Pbspu1WqZe?=
+ =?us-ascii?Q?OHL+TvNf02Mn/kKVVpdPnv4ArP6MZBHuouMI0uGhoz36mSwNnBxPTSf6q7lS?=
+ =?us-ascii?Q?9W1jFVmjiWoRs3kFA8YMiRUv5bFn1leO0+hRkyfiGxz3ESmfK1/zdlL4//gr?=
+ =?us-ascii?Q?hdHQBKwqoTRkkaNdAyqPBZavSKg7PX851vPLeWdTdB8FGJuifX5zs2cg5oBX?=
+ =?us-ascii?Q?GhhKRjX8o5ZnxonXfBnrtLS1RaRDZnF03MZLX1sFkFhu9YU5Z5T6mW1bG7kJ?=
+ =?us-ascii?Q?E17r9z4rFU9654uNCyT84WQ75xzJrkSYnvEiOqrpMQCAAc3oyAGSQiKpl2Jz?=
+ =?us-ascii?Q?Cw5/OeDfLzQfj3UNU/KiE3SZl+PopSRI+/bf5slL7qxhpN2IDM9v/NiA+Uxm?=
+ =?us-ascii?Q?tS5Xd1FQipr4noq588169DWMDIM10HU/luVeUlsMhbAkwUMbQ9z5eIOF9WSA?=
+ =?us-ascii?Q?jRtTAGnZuPQdpynEIYJbyVIJwWeHywVscf6XqV1aHLaZ4/p/a65IWfCEBIFv?=
+ =?us-ascii?Q?7uauKVqFLvzf3EiLDwSo0FTx4fEoWQUM6izEKsMyk1gK+iizxscm0Ldo6010?=
+ =?us-ascii?Q?1spLCRFNrBBFFYWW/2vfPpr4F6KRpTkq1ZoIPMP95Uc66oZ/SslJxVUzmYK7?=
+ =?us-ascii?Q?evIwfM/wHXzcgdN41avSscrnnyyCs0aPWii2U1PA8DFSqTkMUlC3lDmIlhly?=
+ =?us-ascii?Q?T/8GA1qyDQWzZnP8iV3Yc7GngMCdJcCGyPlFeMrCguiiYLj8aoWJ9qHxnM8O?=
+ =?us-ascii?Q?SLHVrcX296G3A6MdjBpfEuObSGbdJkU5aEWzY+OWNsC7ecI/N8Sr1RDpwe49?=
+ =?us-ascii?Q?LPEhw0zK07rTPb5DysJcprlix6rgAB5QXfpc7OAuF3ftM1f+2RwkPHZVZkWZ?=
+ =?us-ascii?Q?N+knEFsMSphSLkZSo4e3GKgfM4Lpk53rmRaZFYxsY2Y2B7wzH0ne24fa+OsP?=
+ =?us-ascii?Q?239/rsXUSq8L63dCShPKZQd0YhilBA5FXNWl4nfJqdNtawe+mUUZPA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 19:41:21.5640 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a98b633-24f3-4056-23ca-08dd8e684f67
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF000252A0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8737
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,67 +131,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 8, 2025 at 2:14=E2=80=AFPM Konrad Dybcio <konradybcio@kernel.or=
-g> wrote:
->
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->
-> On A663 (SA8775P) the value matches exactly.
->
-> On A610, the value matches on SM6115, but is different on SM6125. That
-> turns out not to be a problem, as the bits that differ aren't even
-> interpreted.
+Hi Dave, Simona,
 
-This is definitely going to break userspace, because the kernel
-doesn't expose the UBWC version, instead exposing just the swizzle and
-userspace expects that it sets the right value for older UBWC versions
-before it became configurable (0x7 for UBWC 1.0 and 0x6 for 2.0-3.0).
-It looks like the data for SM6125 is just wrong.
+Fixes for 6.15.
 
-Connor
+The following changes since commit 92a09c47464d040866cf2b4cd052bc60555185fb:
 
->
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
-adreno/a6xx_gpu.c
-> index 28ba0cddd7d222b0a287c7c3a111e123a73b1d39..d96f8cec854a36a77896d39b8=
-8c320c29c787edd 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -597,13 +597,10 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu =
-*gpu)
->
->         *cfg =3D *common_cfg;
->
-> -       cfg->ubwc_swizzle =3D 0x6;
->         cfg->highest_bank_bit =3D 2;
->
-> -       if (adreno_is_a610(gpu)) {
-> +       if (adreno_is_a610(gpu))
->                 cfg->highest_bank_bit =3D 0;
-> -               cfg->ubwc_swizzle =3D 0x7;
-> -       }
->
->         if (adreno_is_a618(gpu))
->                 cfg->highest_bank_bit =3D 1;
-> @@ -630,10 +627,8 @@ static int a6xx_calc_ubwc_config(struct adreno_gpu *=
-gpu)
->                 cfg->highest_bank_bit =3D 3;
->         }
->
-> -       if (adreno_is_a663(gpu)) {
-> +       if (adreno_is_a663(gpu))
->                 cfg->highest_bank_bit =3D 0;
-> -               cfg->ubwc_swizzle =3D 0x4;
-> -       }
->
->         if (adreno_is_7c3(gpu))
->                 cfg->highest_bank_bit =3D 1;
->
-> --
-> 2.49.0
->
+  Linux 6.15-rc5 (2025-05-04 13:55:04 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.15-2025-05-08
+
+for you to fetch changes up to 5a11a2767731139bf87e667331aa2209e33a1d19:
+
+  drm/amdgpu/hdp7: use memcfg register to post the write for HDP flush (2025-05-08 11:48:12 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.15-2025-05-08:
+
+amdgpu:
+- DC FP fixes
+- Freesync fix
+- DMUB AUX fixes
+- VCN fix
+- Hibernation fixes
+- HDP fixes
+
+----------------------------------------------------------------
+Alex Deucher (7):
+      Revert "drm/amd: Stop evicting resources on APUs in suspend"
+      drm/amdgpu: fix pm notifier handling
+      drm/amdgpu/hdp4: use memcfg register to post the write for HDP flush
+      drm/amdgpu/hdp5: use memcfg register to post the write for HDP flush
+      drm/amdgpu/hdp5.2: use memcfg register to post the write for HDP flush
+      drm/amdgpu/hdp6: use memcfg register to post the write for HDP flush
+      drm/amdgpu/hdp7: use memcfg register to post the write for HDP flush
+
+Alex Hung (1):
+      drm/amd/display: Remove unnecessary DC_FP_START/DC_FP_END
+
+Aurabindo Pillai (1):
+      drm/amd/display: more liberal vmin/vmax update for freesync
+
+Austin Zheng (1):
+      drm/amd/display: Call FP Protect Before Mode Programming/Mode Support
+
+Roman Li (1):
+      drm/amd/display: Fix invalid context error in dml helper
+
+Ruijing Dong (1):
+      drm/amdgpu/vcn: using separate VCN1_AON_SOC offset
+
+Wayne Lin (5):
+      drm/amd/display: Shift DMUB AUX reply command if necessary
+      drm/amd/display: Fix the checking condition in dmub aux handling
+      drm/amd/display: Remove incorrect checking in dmub aux handler
+      drm/amd/display: Copy AUX read reply data whenever length > 0
+      drm/amd/display: Fix wrong handling for AUX_DEFER case
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  2 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           | 18 -----------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 29 +++++------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 10 +-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.h            |  1 -
+ drivers/gpu/drm/amd/amdgpu/hdp_v4_0.c              |  7 ++++-
+ drivers/gpu/drm/amd/amdgpu/hdp_v5_0.c              |  7 ++++-
+ drivers/gpu/drm/amd/amdgpu/hdp_v5_2.c              | 12 +++++++-
+ drivers/gpu/drm/amd/amdgpu/hdp_v6_0.c              |  7 ++++-
+ drivers/gpu/drm/amd/amdgpu/hdp_v7_0.c              |  7 ++++-
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c              |  1 +
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c              |  1 +
+ drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c              |  1 +
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c              |  4 ++-
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c            |  1 +
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c            |  1 +
+ drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c            |  3 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 36 ++++++++++------------
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 28 ++++++++++++++---
+ .../drm/amd/display/dc/dml2/dml21/dml21_wrapper.c  |  8 ++---
+ .../amd/display/dc/dml2/dml2_translation_helper.c  | 14 +++------
+ .../amd/display/dc/resource/dcn32/dcn32_resource.c |  6 ----
+ 22 files changed, 103 insertions(+), 101 deletions(-)
