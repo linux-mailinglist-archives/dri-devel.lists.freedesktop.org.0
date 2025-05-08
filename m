@@ -2,63 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F29AB0BBF
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 09:33:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A260AAB0BC9
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 09:33:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED42910E9BD;
-	Fri,  9 May 2025 07:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2516C10E9D0;
+	Fri,  9 May 2025 07:33:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="d+d+GykK";
+	dkim=pass (2048-bit key; unprotected) header.d=mt.com header.i=@mt.com header.b="oecok5gB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Thu, 08 May 2025 08:38:39 UTC
-Received: from mail-m1973194.qiye.163.com (mail-m1973194.qiye.163.com
- [220.197.31.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74C9C10E1FE
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 08:38:39 +0000 (UTC)
-Received: from [127.0.0.1] (gy-adaptive-ssl-proxy-2-entmail-virt205.gy.ntes
- [58.22.7.114]) by smtp.qiye.163.com (Hmail) with ESMTP id 145d7c840;
- Thu, 8 May 2025 16:33:22 +0800 (GMT+08:00)
-Message-ID: <f040a52e-51a8-4cea-afc1-7b3de259b067@rock-chips.com>
-Date: Thu, 8 May 2025 16:33:13 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dt-bindings: display: rockchip: Convert
- cdn-dp-rockchip.txt to yaml
-To: Krzysztof Kozlowski <krzk@kernel.org>, Chaoyi Chen <kernel@airkyi.com>,
- Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250508064304.670-1-kernel@airkyi.com>
- <20250508064304.670-3-kernel@airkyi.com>
- <a3ef7af4-3c6a-4bc6-912b-5819393dcd6a@kernel.org>
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <a3ef7af4-3c6a-4bc6-912b-5819393dcd6a@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from OSPPR02CU001.outbound.protection.outlook.com
+ (mail-norwayeastazon11013054.outbound.protection.outlook.com [40.107.159.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 093D610E1CC
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 13:06:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ffCo3YAdAM5hCzW+0pYqx03XK0Ae28jUQAYVvYd0zC4wMIdd8XXrFkx2kj1ghHfn/sDJCAZrIBcUrzzJLt7EVydvj6jsLw8ROa9RTjF/LNh6PFY43HwebFHNwH936kGQFKv4VgKpc0BGsk7NKIHuEKnYf9DPlti0FobVflBK4OHI07mbs8q8SsxI7nUL2uth+NM/7cEnJWdKfTQUAP6IJQe7kTC7ixEQnJ7K0fKFta+VC3o+t3qerbHLQnYxAUHlu7PRvqzEFzAW2BKXkCuCgEcyoSh7/vBGxoYssSUDewwWPjdh0A+J7eJJ7Db6PACKlgHYojrZOoGampOmALrFPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D6hEccL6HiR7eyGIqBcyl2E98fOhlcxvHaAuAy2FE4o=;
+ b=VdzXat2tx0YJv7irjN5KnjBxoD/Iv187Uu8fLj18S6nhWBlnxq1T/og9VhrYPhqhKlPu8dR0JwNIeKwU8mY7WLyzKWi/8jYyT31IHa9gV9ji1i/lMN1tfNSQudMslBvkWgNIPAlfVmG41u8YV3661EXyT5tYxa9487aNaAfPptsLgaJH7Dik30p4L5ALnVf6OA1x+TblIOTX3UJcfAqmLKyNj0vSu/x7Mj4dNNGKqO5tgqGr/ANOf814Thk8F7n2i4mHSPZMo2I6wSkEualLKEyAybyMmdGSANW3yRzUHkv5pQM6W7yf2Tvi5jDikyyHh4+DhKSK+7It3cPQZ4llkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
+ header.d=mt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D6hEccL6HiR7eyGIqBcyl2E98fOhlcxvHaAuAy2FE4o=;
+ b=oecok5gBWy8H+urELq8Sfe0lP6JizyQCQa8aKCZ/lDwzWUCWk7XRAupT2OJnyBmr6Zy+JKhsAIfycqqQzAquBmavwyNRyoWPNb+o3zTiWbrm2uV4MECjJiVo+PmYVkYwvFG0ZxiptKa5DS9v4H6C1cq8njMQxAdZoAXHMy27cV6RXjl7y8BMy1MIFAi++dhW9G9Mh+pcyXK1J1ZJMg0feasMqYwzRDHXGSmYnD+xlSsuSj4DS0/JfpRNdPiAXjgFNwJ/vaKtUzE8K2VRx3+DymyAxopxB8hnzO/NO8A9CxXGwVazwjjro619Fv3TxHmTcKjMhDcl/aNnsg6xLETPyw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mt.com;
+Received: from DB6PR03MB3062.eurprd03.prod.outlook.com (2603:10a6:6:36::19) by
+ DBAPR03MB6439.eurprd03.prod.outlook.com (2603:10a6:10:199::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8699.21; Thu, 8 May 2025 13:06:32 +0000
+Received: from DB6PR03MB3062.eurprd03.prod.outlook.com
+ ([fe80::b201:e423:f29:53b]) by DB6PR03MB3062.eurprd03.prod.outlook.com
+ ([fe80::b201:e423:f29:53b%4]) with mapi id 15.20.8678.033; Thu, 8 May 2025
+ 13:06:32 +0000
+From: Markus Burri <markus.burri@mt.com>
+To: linux-kernel@vger.kernel.org
+Cc: Markus Burri <markus.burri@mt.com>,
+ Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+ "Oliver O'Halloran" <oohall@gmail.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Naveen N Rao <naveen@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Nuno Sa <nuno.sa@analog.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+ Markus Burri <markus.burri@bbv.ch>
+Subject: [PATCH v4 0/6] Fix potential out-of-bounds error in some drivers
+Date: Thu,  8 May 2025 15:06:06 +0200
+Message-Id: <20250508130612.82270-1-markus.burri@mt.com>
+X-Mailer: git-send-email 2.39.5
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUIfSlYaQx5OTh8fSh5MHUhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a96af0721d103abkunm145d7c840
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MEk6Mio4QjJJKw4SPwIOOQJN
- Nk4aFANVSlVKTE9NTUJISUtCSktJVTMWGhIXVRgTGhQCElUYEx4VOwkUGBBWGBMSCwhVGBQWRVlX
- WRILWUFZTkNVSUlVTFVKSk9ZV1kIAVlBTUlMTTcG
-DKIM-Signature: a=rsa-sha256;
- b=d+d+GykKLO20BqAKyXobUAllLDcMm1FBKpufSoAaZTPmGMx0GkA+ZvMb4smItqg+JwLtrMyeuewWSNTfjKfuI4Xhnxf/j+yt27JadVLZBfsLhKDXvcEL9bBMicizb6paOsRCdizeMBKEmZtWX8ObSkpopPJMXNSMG99yzVMUGJE=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=Mpt0+g9c8cV/2h8BIvqsNb1JBcnr6Rbu0rfrAIyuOb0=;
- h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain
+X-ClientProxiedBy: MI1P293CA0020.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:3::18) To DB6PR03MB3062.eurprd03.prod.outlook.com
+ (2603:10a6:6:36::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB6PR03MB3062:EE_|DBAPR03MB6439:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3467c20e-bc98-47c1-7f94-08dd8e31272d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|7416014|376014|52116014|1800799024|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?r1nQFFE4MGlxjrpUOEUIk9D58BhMaVfcP7iZwYKP2xxfrqnYNBmWeYvIIZ1u?=
+ =?us-ascii?Q?PO6045/2Rimboh2q8fBNLJHTEwGQrzIQmSytq6ugSBhr0uW2fV88itVr9Nit?=
+ =?us-ascii?Q?CvbsvUxWWE8/MF5I0zhldJrM9LzLEE50/cPdPsjWNbw+pLY6wKyJksjhRx09?=
+ =?us-ascii?Q?r3PLA6Kr02FsWOKqaUJOGQkjzDLP/+8E75P4zGA4cd49hpMw7r9wKSOnbV46?=
+ =?us-ascii?Q?gyEHHd17hWXV3q0Y2y1lYrbXWv9LrtsVYXn7JeJYolsqXpKOZLZ8PdOywgb1?=
+ =?us-ascii?Q?kw/OUXwWAFIetWWFWOLOJflTUH02Gf4/zz47+ChSAIjuwxByIyeq6kywscsX?=
+ =?us-ascii?Q?/1BaP13TXRjoH+N9tnmRINIxoHKHCg38LdLwywu7aJ8qjVTjaOsYXS8p1NOp?=
+ =?us-ascii?Q?GIAijrBg+2VZvvHCrf1qRvFAVbwa6be+Czu1734mopqKH+XImDok4P/Hf9qb?=
+ =?us-ascii?Q?AvTyYntkXYzpoPvSmr21NhW3II5JfOr2NHSe41ts1x0B8GYcdkemq6CTgxy+?=
+ =?us-ascii?Q?MFrV4uvlvnh8Ka0AAZYbRoQnyDj5ZblB0rkqTP4SdXyE3C3tL6M+rViWZJyc?=
+ =?us-ascii?Q?fdgMpzzdkPqSaXPk4U6Y/dLjCxITglw38lvP1zKBhGWbIht4+lAusKcsT1y7?=
+ =?us-ascii?Q?1qS927BR5J8KDvUuJy/yrEkAsaPmelJLN92Y/iZlaX/mjK6ilxXjZq6figSY?=
+ =?us-ascii?Q?GnOLmVP4uoDFuevuIeQ3AcikFIc+0cuZ6UCyIcfEYkmIupkm01tl4OhIJfHP?=
+ =?us-ascii?Q?28fLjjXjxfEhty7lcpoYDoS+fytrwLQAa/wPnFwArp79zuxUkxtUEBTGAHwO?=
+ =?us-ascii?Q?Fnfa7QBLAgv6z7iheFwTGtk+1TOCp44rzoX+c3v+dgQqER28TRk7axfka4pS?=
+ =?us-ascii?Q?heF7ZtF60n0HzurkLeOuB9JS2+1Oti8hp6TonrKqYFX602eqGg3t8vMO5d9i?=
+ =?us-ascii?Q?aNejh5SLOXkLIqLXXt/EebUcn93qAPzJgBh359sLcoCDeEg2G5EUqbnPuIPW?=
+ =?us-ascii?Q?v6i/5z91iVjOGLbxwA9fJThaXl+NiXIaLPN47NUpe/HURA48IP4VblUidJEH?=
+ =?us-ascii?Q?o9Bys8w87hVAC5FGqeb1MdBbyqGGkKjT/v1yY16Uiq5C39c6q4XsVBjy/oCb?=
+ =?us-ascii?Q?rHB3bHeql7T/zCEgPZsCK4IVKxE8sTll+Ajop1Jq5yeF8Cyg9AKePssuda0J?=
+ =?us-ascii?Q?kQ8T0PI5bcL3nwDKjKhRXkh5p4xvCU1n3sMqCrUlSD0nEsigKT7/LuqWwKF4?=
+ =?us-ascii?Q?mb1TCvTafu1CRaM97YV2OjH7bRRvKfYWV1MMxLD2eiIBfQ59OWDCDyVujr8j?=
+ =?us-ascii?Q?8QHD1Of9QSJBoj3HuezI73Q/rsUbqI+en0/wcu2K0DItdIA2DMLKhZwSrlGI?=
+ =?us-ascii?Q?AuxgaUbWBMqQMBU7xq8eD8GQ4zEb8X8TNrJEKywEvJnN3k117Vv5EnT5Ixwc?=
+ =?us-ascii?Q?ok0guqH0Kkl1cwlhb733dcm++MFQgWHD15QSJttOY1fDgnL+jxQaLg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB6PR03MB3062.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?j7eTDj7baio8H7fE3UviJotx3bFAFgoQvCJy+eqq6Jb4PiLG2XHjPwqc217a?=
+ =?us-ascii?Q?A3YhbdWRpY5EpA0UnDFrE56fMLG4rlYp5eL/eNvjft2camzhAKJFYxrNZj1J?=
+ =?us-ascii?Q?wE9FT1k5sMyYscUJ7GFZgJkDgPaCEMTmr2eIss6qwJf9TBtvxQyFJx5ks+hc?=
+ =?us-ascii?Q?J95ZsZmK1aq5fAvk2ivke4MDFgzE0EN3tqkpcOLhNz2SmT5ToG8cKq/nTxvz?=
+ =?us-ascii?Q?igaB8yaheUt0cNcYjb72bekVUtt6NLFXTqzQIDV4gZgL0UEDPsMlLu960XGo?=
+ =?us-ascii?Q?XvVNfjZ+trOd/D0CbYC96KI/DR5q0jRlJ+DlgYrCtueSNYgGNtaqe6AC9O73?=
+ =?us-ascii?Q?bolCtAe8f6han+Nl0bhj0Iq5Pb0YLLOWIsv2lKAe/rpfmgPs0HS3xdYfdBTd?=
+ =?us-ascii?Q?1/jgtpSDpQItyoruAkX0aOk/BMIa+IwHVSDRx7mZ9ESw4HDP5P2tyG0iBZu6?=
+ =?us-ascii?Q?RO+2MzmAjMycFZY9Q1upbXKtjlbkslKk8KeqkiHgz5UMDDqk+6dhhWmbL5jv?=
+ =?us-ascii?Q?DpDuUuhq+buR6Wvohex0xaj14bcgS5JmPqbdtgEXsoDzZAXnE9Imt70Op94J?=
+ =?us-ascii?Q?yVrzNQQdsCiDn5Ir9ZzisJ2/MK8MwIwOgovKPCl7/+2vBIUhvjN/rjwkJRgk?=
+ =?us-ascii?Q?KjZ/fbsm+vfoW9fp9WT94U/RCzJwR83/TVRy51ea/QFj7oTygKvWQ2Jt8vNa?=
+ =?us-ascii?Q?Su9yq8jUbQ9liAT5lOQB5kO+/IDmW+o2RZpGZw/x7mfU4PsWK3bjQTJD3uY7?=
+ =?us-ascii?Q?TbTrDl/2qsI8XoB9Dc5xQCX+l2FTjWG4ynkVZ7CKlfM2pIFpdcWfoxgKKhW/?=
+ =?us-ascii?Q?lVWCC0FmNzx17NvNdMk/IebLZiKPrqjY5plaEFAIjyQrPMI/jYXziIN5Nxro?=
+ =?us-ascii?Q?wtzIG/ohfy4H+X9pdsO2LycL/xeW8Yg0+aPnx1LY+NiG7RV84vPZpxND8KnH?=
+ =?us-ascii?Q?rR8HQlNFMmRo09iO/2TolU+we8aLogqE5xrNZqxZ+KW0MBuiKDxZy+tonatM?=
+ =?us-ascii?Q?Rba9zqR3vnjx1N0gMDOXAzf/8FBTAKdOHaz1Ofr8O0+6szPpFGnjwvK2OWQu?=
+ =?us-ascii?Q?MeaizXWykRLYvuaNrIEdVEE4Sjtjdqx+ZkQhnztZ/mn5A95FN+XE7+rX9hlz?=
+ =?us-ascii?Q?hW6S+kUCawz4blLjwu7ZjEzA8nNMnBB7nJQdjKQtPTGOyb58MKKljD7Zo7bf?=
+ =?us-ascii?Q?zVLF1vhWzvTXhHXsUFi9FbmbbbV4lqZwxO+6N8HXZUNwfLq5KjP9IFQSlwrI?=
+ =?us-ascii?Q?2sP9SJ1CCwcZshblZyPoL/rTiYLDti+zsYCOSvzIfyhdhgBfk4fQhvLxiPBz?=
+ =?us-ascii?Q?IMdfsRfL7IKJipKx3Qvkd+9k8DsjNTlrKV9L50Am5zpgvERO+A+X86vyZSbC?=
+ =?us-ascii?Q?EBDQKScA7fd8aERD/FT1FWacbPJjLdmHFsfZ+WfuKJm6h4+q2QX3j1eB9nzC?=
+ =?us-ascii?Q?Mvuv7JIi4lZY+rbVZzp7Rv6ItFmFEAv8viCFVdEDvpGSw3x3PH5CmJpgqQlv?=
+ =?us-ascii?Q?eXQC49EWHQqE3DRZdeOcu9Irm5aeMWj39O5q8wzSVcyzpAq2VD8a2uVI2hLu?=
+ =?us-ascii?Q?JTHIAM0FBAReljxiyHnpkIxWaSmEHv3ElD01pgu6?=
+X-OriginatorOrg: mt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3467c20e-bc98-47c1-7f94-08dd8e31272d
+X-MS-Exchange-CrossTenant-AuthSource: DB6PR03MB3062.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 13:06:32.0742 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zbyPbVaA+1pN2BWb2HGQnGUFF1At4GBFzn6ms7m9v7OUfBoHtNcPbhdsDva7scS1F6pmDkB7qfKPdmVt6KrUEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR03MB6439
 X-Mailman-Approved-At: Fri, 09 May 2025 07:33:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,218 +159,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+Several drivers are using debugfs and follow the same pattern.
 
-On 2025/5/8 15:16, Krzysztof Kozlowski wrote:
-> On 08/05/2025 08:43, Chaoyi Chen wrote:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> Convert cdn-dp-rockchip.txt to yaml.
->>
->> Tested with:
->>
->> 1. make ARCH=arm64 dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
->>
->> 2. make ARCH=arm64 dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
-> Drop. You do not have to embed in commit msg standard makefile targets.
-> We all know how to use it. You do not do it for C files, do you?
+A buffer is created on the stack with a limited size to copy the given data
+from user space. The copy is performed using simple_write_to_buffer.
+This function limits the input according to the specified buffer size, but
+it does not write a string terminator if the buffer is truncated.
+Therefore, the driver adds this zero terminator afterward.
+Unfortunately, the original buffer size is used as an index, which can lead
+to an out-of-bounds error.
 
-Will drop it on v2.
+This patch set fixes this issue in all the drivers I have detected so far.
+The fix is to return an error in case of an unexpectedly long buffer being
+received and to use the effective written size for the zero terminator for 
+consistency.
 
+Changes in V4:
+* Revert the decrement of accepted size by one character
+* Added patches for drivers with the same pattern
 
->
->> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> ---
-> ...
->
->> -	};
->> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
->> new file mode 100644
->> index 000000000000..ed68b48a6743
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,cdn-dp.yaml
-> Filename matching compatible.
+Changes in V3:
+* Decrement accepted size by one character according to feedback
 
-Will change it in v2.
+Changes in V2:
+* Use effective written size as index instead of original size
 
+---
+[V3] https://lore.kernel.org/lkml/20250505203830.5117-1-markus.burri@mt.com/
+[V2] https://lore.kernel.org/lkml/20250505045346.29647-1-markus.burri@mt.com/
+[V1] https://lore.kernel.org/lkml/20250501063240.25295-1-markus.burri@mt.com/
 
->
->> @@ -0,0 +1,148 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,cdn-dp.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Rockchip RK3399 specific extensions to the CDN Display Port
->> +
->> +maintainers:
->> +  - Andy Yan <andy.yan@rock-chip.com>
->> +  - Heiko Stuebner <heiko@sntech.de>
->> +  - Sandy Huang <hjc@rock-chips.com>
->> +
->> +properties:
->> +  compatible:
->> +    items:
->> +      - const: rockchip,rk3399-cdn-dp
->> +
->> +  reg:
->> +    description:
->> +      CDN DP core register
-> Missing constraints. Drop description.
->
-> Just look at other bindings.
+Markus Burri (6):
+  iio: backend: fix out-of-bound write
+  accel/ivpu: Use effective buffer size for zero terminator
+  iio: fix potential out-of-bound write
+  gpio: fix potential out-of-bound write
+  powerpc/eeh: fix potential OoB
+  powerpc/eeh-powernv: fix potential OoB
 
-Will fix in v2.
+ arch/powerpc/kernel/eeh.c                    |  7 ++++++-
+ arch/powerpc/platforms/powernv/eeh-powernv.c |  7 ++++++-
+ drivers/accel/ivpu/ivpu_debugfs.c            |  2 +-
+ drivers/gpio/gpio-virtuser.c                 | 12 ++++++++++--
+ drivers/iio/industrialio-backend.c           |  5 ++++-
+ drivers/iio/industrialio-core.c              |  5 ++++-
+ 6 files changed, 31 insertions(+), 7 deletions(-)
 
 
->
->> +
->> +  assigned-clock-rates: true
->> +  assigned-clocks: true
-> Drop these two
->
->> +
->> +  clocks:
->> +    minItems: 4
-> No, look at other bindings.
-
-Will fix in v2.
-
-
->
->> +
->> +  clock-names:
->> +    items:
->> +      - const: core-clk
->> +      - const: pclk
->> +      - const: spdif
->> +      - const: grf
->> +
->> +  extcon:
->> +    description:
->> +      Phandle to the extcon device providing the cable state for the DP phy.
-> Missing type, unless you could not add a type because of conflicts? This
-> should be really fixed...
-
-Will add refs in v2.
-
-
->
->
->> +
->> +  interrupts:
->> +    maxItems: 1
-> and here is maxItems. Why in other places you put minItems?
-
-Sorry for that,  I misunderstood the meaning of those filed. Will fix in v2.
-
-
->
->> +
->> +  phys:
->> +    minItems: 1
->> +    maxItems: 2
-> Why is this flexible? It wasn't in original binding and you must
-> document all the changes done to the binding in commit msg.
-
-I think the original binding had this. I will fix this in v2 and add 
-more description.
-
-
->
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Input of the CDN DP
->> +        properties:
->> +          endpoint@0:
->> +            description: Connection to the VOPB
->> +          endpoint@1:
->> +            description: Connection to the VOPL
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Output of the CDN DP
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  resets:
->> +    minItems: 4
-> No, look at other bindings.
-
-Will fix in v2.
-
-
->
->> +
->> +  reset-names:
->> +    items:
->> +      - const: spdif
->> +      - const: dptx
->> +      - const: apb
->> +      - const: core
->> +
->> +  rockchip,grf:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description:
->> +      This SoC makes use of GRF regs.
-> For what? You did not say anything useful above, so instead explain the
-> purpose.
-
-Will add more description in v2.
-
-
->
->> +
->> +  "#sound-dai-cells":
->> +    const: 1
-> Missing dai-common ref, unless this is not a DAI?
-
-Will add dai-common.yaml ref in v2.
-
-
->
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - clock-names
->> +  - interrupts
->> +  - phys
->> +  - ports
->> +  - resets
->> +  - reset-names
->> +  - rockchip,grf
->> +
->> +unevaluatedProperties: false
-> Where is any $ref? additionalProperties instead or add proper ref
-
-Will fix in v2.
-
-
->
->
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/rk3399-cru.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/power/rk3399-power.h>
->> +    cdn_dp: dp@fec00000 {
-> Drop unused label
-
-Will drop it in v2.
-
-
-Thanks for you fast reply!
-
+base-commit: b4432656b36e5cc1d50a1f2dc15357543add530e
+-- 
+2.39.5
