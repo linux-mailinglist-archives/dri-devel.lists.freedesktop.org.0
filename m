@@ -2,104 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CB1AAF392
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 08:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5FFAAF3A1
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 08:21:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E958010E36F;
-	Thu,  8 May 2025 06:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE2710E895;
+	Thu,  8 May 2025 06:21:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UiFEZStG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EAZyX9+7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 028DE10E32E;
- Thu,  8 May 2025 06:18:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A740E629EC;
- Thu,  8 May 2025 06:18:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A936C4CEEE;
- Thu,  8 May 2025 06:18:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746685116;
- bh=4qi/P67+uIyVReLfU5vjCz6ajupbpcjoxwPILqTAti4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UiFEZStGiIcWzwH57Q4Z5xVbDrbOdjIpEJB0bMIQyEOzawyELYmi7tHEErn0dPQv2
- dlxony58CRNFXVyO5ZIFM4SQZjbPjynGDXkkbEXNE3XtBUKHuXHWWL/Tt05g480fUf
- g5DBy8B89p+nZbYj/mYy5tgePS2f5xhK9mwgrjDwtVu0gZpMNdwJJ5BQKMr4Kn/lyN
- JDABKLlcdp/UFIAwuB0oSy988GOu0AH7tc5LKP/kwT8dTHQS2G0lGorZfvAU3Ipg6p
- edQZrzz5WVop/J/j+yeQwHU00KKuMpLZO0LktdaEMV+4iZn7uEcA5QId3hxEUmusDM
- UyVtnT8ZBmw0A==
-Message-ID: <f7941d74-3856-4bd9-95db-0b7f09eb07fd@kernel.org>
-Date: Thu, 8 May 2025 08:18:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] dt-bindings: display/msm: add stream 1 pixel clock
- binding
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D3E410E88D;
+ Thu,  8 May 2025 06:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1746685290; x=1778221290;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=369fNYmztQjOk16YQ3+hBiFn3BvnOwUqdHf/qFeRDi0=;
+ b=EAZyX9+7Sq/YnmtWfw1aUPKpa/LYtK8zjx96jpugvq0gv6j0l8CQZ93I
+ 4J0A7Y/zHcaAgAIQI8ZA13WbVU62T9KGeKrNi5DgN4DD90UBjOQwiZcwY
+ H79//XxF8i+P/7TFC7n6Bicj4dj3ITvS+x4SC2UaWB/fei4oCthuLzi2p
+ +yMkNb82GpjrIWy41aAH3WZVn2JCkL5AGfjAv+Ga2Np52kvsKYxEhJBlX
+ RZlhWHoEpYcg7sGh0YreMD2dzrWxGwoh7IQvglMsvwom6kdksesSrN1lk
+ WxRIqCgq7aozvdU3gPdAUEtZ6Pqgtop4QV1vbm+lGH40V90AIM11VaCH/ w==;
+X-CSE-ConnectionGUID: jz7enB7KRhK+58S0E6K/yQ==
+X-CSE-MsgGUID: q5J+joHeQKeH2Bdw28tiqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="51108636"
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; d="scan'208";a="51108636"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2025 23:21:29 -0700
+X-CSE-ConnectionGUID: zej2lHO/SkeetEj6U7vnWQ==
+X-CSE-MsgGUID: VUqObYIvQM2qhhPgQYIYVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; d="scan'208";a="136129312"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.132])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2025 23:21:25 -0700
+Date: Thu, 8 May 2025 09:21:22 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Mahadevan <quic_mahap@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com>
- <20241202-dp_mst_bindings-v1-3-9a9a43b0624a@quicinc.com>
- <39f8e20a-e8c3-4625-abb1-9f35f416705d@kernel.org>
- <50820e7b-b302-4f7f-baf9-778f3db6cfff@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <50820e7b-b302-4f7f-baf9-778f3db6cfff@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <aBxNYp0IviE23zy-@jlahtine-mobl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,144 +76,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/04/2025 04:46, Abhinav Kumar wrote:
-> Hi Krzysztof
-> 
-> On 12/3/2024 12:04 AM, Krzysztof Kozlowski wrote:
->> On 03/12/2024 04:31, Abhinav Kumar wrote:
->>> On some chipsets the display port controller can support more
->>
->> Which chipsets?
->>
-> 
->  From the current list of chipsets which support DP, the following can 
-> support more than one stream.
-> 
-> qcom,sa8775p-dp
-> qcom,sc7280-dp
-> qcom,sc8180x-dp
-> qcom,sc8280xp-dp
-> qcom,sm8350-dp
-> qcom,sm8650-dp
-> qcom,sm8550-dp
-> qcom,sm8450-dp
-> qcom,sm8250-dp
-> qcom,sm8150-dp
-> 
-> So do you also want all of these to be added in the same if block as
-> qcom,sa8775p-dp?
+Hi Dave & Sima,
 
-That was talk in 2024. Entire context is gone if you reply after three
-months. I do not have even that emails in my inbox anymore.
+Here goes the drm-intel-gt-next PR towards 6.16. No new features, just fixes.
 
-Probably I expected commit msg to mention at least some, so everyone
-knows which chipsets are affected here and one can verify the statements
-from commit msg.
+SLPC wait boost fix for DG1/DG2, engine reset fix for HSW.
+Move to usleep_range for <20ms timeouts and fix splats on early probe
+errors.
 
-> 
->>> than one pixel stream (multi-stream transport). To support MST
->>> on such chipsets, add the binding for stream 1 pixel clock for
->>> display port controller. Since this mode is not supported on all
->>> chipsets, add exception rules and min/max items to clearly mark
->>> which chipsets support only SST mode (single stream) and which ones
->>> support MST.
->>>
->>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>> ---
->>>   .../bindings/display/msm/dp-controller.yaml        | 32 ++++++++++++++++++++++
->>>   .../bindings/display/msm/qcom,sa8775p-mdss.yaml    |  9 ++++--
->>>   2 files changed, 38 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>> index 9fe2bf0484d8..650d19e58277 100644
->>> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>> @@ -50,30 +50,38 @@ properties:
->>>       maxItems: 1
->>>   
->>>     clocks:
->>> +    minItems: 5
->>>       items:
->>>         - description: AHB clock to enable register access
->>>         - description: Display Port AUX clock
->>>         - description: Display Port Link clock
->>>         - description: Link interface clock between DP and PHY
->>>         - description: Display Port stream 0 Pixel clock
->>> +      - description: Display Port stream 1 Pixel clock
->>>   
->>>     clock-names:
->>> +    minItems: 5
->>>       items:
->>>         - const: core_iface
->>>         - const: core_aux
->>>         - const: ctrl_link
->>>         - const: ctrl_link_iface
->>>         - const: stream_pixel
->>> +      - const: stream_1_pixel
->>>   
->>>     assigned-clocks:
->>> +    minItems: 2
->>>       items:
->>>         - description: link clock source
->>>         - description: stream 0 pixel clock source
->>> +      - description: stream 1 pixel clock source
->>>   
->>>     assigned-clock-parents:
->>> +    minItems: 2
->>>       items:
->>>         - description: Link clock PLL output provided by PHY block
->>>         - description: Stream 0 pixel clock PLL output provided by PHY block
->>> +      - description: Stream 1 pixel clock PLL output provided by PHY block
->>>   
->>>     phys:
->>>       maxItems: 1
->>> @@ -175,6 +183,30 @@ allOf:
->>>         required:
->>>           - "#sound-dai-cells"
->>>   
->>
->> Missing if: narrowing this to 5 items for other devices.
->>
-> 
-> OR would an else be better?
+The rest is usual cleanups and improvements to selftests.
 
-Usually not, although depends how this binding is written.
+Regards, Joonas
 
+***
 
-> 
-> +    else:
-> +      properties:
-> +        clocks:
-> +          maxItems: 5
-> +        clock-names:
-> +          items:
-> +            - const: core_iface
-> +            - const: core_aux
-> +            - const: ctrl_link
-> +            - const: ctrl_link_iface
-> +            - const: stream_pixel
-> 
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            enum:
->>> +              - qcom,sa8775p-dp
->>> +
->>> +    then:
->>> +      properties:
->>> +        clocks:
->>
->> Missing minItems, otherwise it is pointless.
->>
-> 
-> I thought that since I have already specified the minItems as 5
-> in the clocks in the section above, I need to specify only the maxItems 
-> here?
+drm-intel-gt-next-2025-05-08-1:
 
-No, you need explicit constraints here.
+Driver Changes:
 
+- Fix SLPC wait boosting reference counting to avoid getting stuck on non-boost
+  frequency on power saving profile on DG1/DG2 (Vinay)
+- Add 20ms delay to engine reset for robustness on HSW (Nitin)
 
+- Use proper sleeping functions for timeouts shorter than 20ms (Andi)
+- Fix fence not released on early probe errors for HuC (Janusz)
 
-Best regards,
-Krzysztof
+- Remove const from struct i915_wa list allocation (Kees)
+- Apply SPDX license format where missing and use single-line format (Andi)
+- Whitespace fixes (Dan, Andi)
+- Selftest improvements (Mikolaj, Badal, Sk,
+
+The following changes since commit bfef148f3680e6b9d28e7fca46d9520f80c5e50e:
+
+  drm/i915: Increase I915_PARAM_MMAP_GTT_VERSION version to indicate support for partial mmaps (2025-03-11 07:04:51 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2025-05-08-1
+
+for you to fetch changes up to b2602a84ff85926be8d1fb7186128976c9f76c3f:
+
+  drm/i915/gt: Remove const from struct i915_wa list allocation (2025-05-07 12:34:59 +0200)
+
+----------------------------------------------------------------
+Driver Changes:
+
+- Fix SLPC wait boosting reference counting to avoid getting stuck on non-boost
+  frequency on power saving profile on DG1/DG2 (Vinay)
+- Add 20ms delay to engine reset for robustness on HSW (Nitin)
+
+- Use proper sleeping functions for timeouts shorter than 20ms (Andi)
+- Fix fence not released on early probe errors for HuC (Janusz)
+
+- Remove const from struct i915_wa list allocation (Kees)
+- Apply SPDX license format where missing and use single-line format (Andi)
+- Whitespace fixes (Dan, Andi)
+- Selftest improvements (Mikolaj, Badal, Sk,
+
+----------------------------------------------------------------
+Andi Shyti (4):
+      drm/i915/gt: Fix SPDX license format
+      drm/i915/gt: Remove trailing blank lines
+      drm/i915/gt: Use proper sleeping functions for timeouts shorter than 20ms
+      drm/i915/gem: Convert SPDX headers to single-line format
+
+Badal Nilawar (1):
+      drm/i915: Disable RPG during live selftest
+
+Dan Carpenter (1):
+      drm/i915/gsc: delete a stray tab in intel_gsc_fw_get_binary_info()
+
+Janusz Krzysztofik (1):
+      drm/i915/huc: Fix fence not released on early probe errors
+
+Kees Cook (1):
+      drm/i915/gt: Remove const from struct i915_wa list allocation
+
+Mikolaj Wasiak (2):
+      i915/selftest/igt_mmap: let mmap tests run in kthread
+      i915/gt/selftests: Disable lrc_timestamp test
+
+Nitin Gote (1):
+      drm/i915/gt: Add delay to let engine resumes properly
+
+Sk Anirban (1):
+      drm/i915/selftests: Refactor RC6 power measurement and error handling
+
+Vinay Belgaumkar (1):
+      drm/i915/slpc: Balance the inc/dec for num_waiters
+
+ drivers/gpu/drm/i915/gem/i915_gem_busy.c           |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.c        |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.h        |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c        |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h        |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context_types.h  |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c         |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c       |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ioctls.h         |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.h           |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c         |  1 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h         |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c          |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c           |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c             |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pm.h             |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c       |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_throttle.c       |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_tiling.c         |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c        |  5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c           |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gemfs.c              |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gemfs.h              |  3 +-
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 14 +++++-
+ drivers/gpu/drm/i915/gt/intel_gtt.c                |  1 -
+ drivers/gpu/drm/i915/gt/intel_lrc.c                |  1 -
+ drivers/gpu/drm/i915/gt/intel_mocs.c               |  1 -
+ drivers/gpu/drm/i915/gt/intel_rc6.c                | 19 ++------
+ drivers/gpu/drm/i915/gt/intel_ring_submission.c    |  8 +++-
+ drivers/gpu/drm/i915/gt/intel_rps.c                | 14 ++++--
+ drivers/gpu/drm/i915/gt/intel_wopcm.h              |  3 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_lrc.c             |  9 ++++
+ drivers/gpu/drm/i915/gt/selftest_rc6.c             | 54 +++++++++++++++-------
+ drivers/gpu/drm/i915/gt/selftest_tlb.c             |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c          |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c             | 11 ++---
+ drivers/gpu/drm/i915/gt/uc/intel_huc.h             |  1 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c              |  1 +
+ drivers/gpu/drm/i915/selftests/i915_selftest.c     | 18 ++++++++
+ 46 files changed, 140 insertions(+), 108 deletions(-)
