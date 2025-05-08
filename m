@@ -2,69 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4EAAAFDE6
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 16:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3049FAAFDFB
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 16:58:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C794A10E92D;
-	Thu,  8 May 2025 14:56:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7A110E1F5;
+	Thu,  8 May 2025 14:58:57 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MTEP5tt7";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4A4B10E92D;
- Thu,  8 May 2025 14:56:32 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-3a064a3e143so606401f8f.3; 
- Thu, 08 May 2025 07:56:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746716191; x=1747320991;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PAXhugNVBzhAs5NSGlFV7iMObTrBcT1YtpJjyksIfZQ=;
- b=qH6xCJA7hJ3xvkaH2xvplpc9GWb7tdFCBNyA7/+i46ygaExnGsZDE4IBhPp8pLCxad
- bhwKgSbM3+rGa0HoH1VfoyxGVaZaXMivh+BirY3JcUIlx+k2SBP+DJJBwmrfoUDvfXbI
- 8K5ySCqFEAUPhJXyytTO7AhLJLhy3Sd+zp0JhjHcCy85b3z/3QQQqYkXBSyw6sG/yv4Y
- ExcBYpFIsBv6A8H54HxVYmsrTO1EKB3UnTBQz9QxBOnivJkJTXNZydLXFRocpHkAHmZN
- ak6cSHXEAm8zbJhG82fByQeYXhyCJu83Pa1AjG68VODzb70JfssYQ9j75WHeJbMEUpKE
- OqFA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVXyyxtJrqL+6zamxs+Rc9MjLcAnMnOavqr+8ZLDvJ6yRbh3QzJzzoNLKHNmmvmKzQIg1uUD3tWYac=@lists.freedesktop.org,
- AJvYcCX/FOg0+qZITo2it1qrFny+gXrQsi7MA5/Ds1o+MMn5auaoDIO19yitUvoF70O/5J6IpJE1TfIk1w==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHtiUR4NIXBwtgjjz0mhdbP+f9E5bz9tzjtk6MSS21Uv1Z0WJM
- L1QE76r29f73x7F7yp5YaFZcsekrHNbUkkob9COcFAuI+gHPlA2Y
-X-Gm-Gg: ASbGncvE3P4yqO5XeSQFn39L/a+dK6PFn0/+ZNEeDaeDzcyYYaoRKNuQVUFwSDYvdcH
- kquobdQM+umXNdZBZZ5q2lRQZJuxrcpLE8FXoJ0WCBXeV/0+njBtkBjX4rjZDed/A76Wxx8dswQ
- 2z+GDOJusv52AIr8Av2vwH+HgJfnkxhSDU8KOlpJY8mFZGnwGyqpfTuFCyUJNU2fiDAixpXYDmg
- 9SBxzEVtK+uuZOtWkeDb7acOLc1CdAxgBs9R0rbOxWHqTH7PUnN8GUAA9KYHvdwI0grBgB//lrJ
- vAkMP4ZzamEKAE//r85dNNAivvZswv2oMiJLzYA4ZZyGM2ra17cCMyyjC7nUoK29rwU3Xe+gStF
- 8MRcfIiSrh41g
-X-Google-Smtp-Source: AGHT+IF269wFqFSm/Gi0kxASaxcdFYL/XYvfXmeP4TxCmAIkirqSrOd0grvMy+PpSaQMMRGOulPk+g==
-X-Received: by 2002:a05:6000:40e1:b0:38f:2678:d790 with SMTP id
- ffacd0b85a97d-3a0ba0b9c09mr3141852f8f.33.1746716191050; 
- Thu, 08 May 2025 07:56:31 -0700 (PDT)
-Received: from ramallet.home (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a1f58f2fc4sm205018f8f.56.2025.05.08.07.56.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 May 2025 07:56:30 -0700 (PDT)
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-To: linux-kernel@vger.kernel.org
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B43F10E1F5
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 14:58:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 78CBC60008;
+ Thu,  8 May 2025 14:58:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD4B7C4CEE7;
+ Thu,  8 May 2025 14:58:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1746716335;
+ bh=fEgNDPZrZNRyp3TGc3Har21nplk6tkcYVw2UUifqo54=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MTEP5tt7dNliBCcHOOehxob60rSum9Pbopo0WW8zhGJmIR/skT0dHEUbjSMHOa5j5
+ nkrWCrmrU/vpJtrphT12athhSc/LYItlxYymDwk+M5ZxWaGk+8rFa14ff0K9y1n0YF
+ qxVAL1MK8Ve0cCk+iMok9KexF8KxRC17H7APMHEkKTCmfDVUAMkoCMfTPO07V9d+BQ
+ NOIpvydqdoc6f+Ep2kiPZ7XWFBnRzNHJRKzcQ4EBKhDCdRC+dbEBz2l7oswsHNdDUf
+ HjjBVNycYgbbL26y5K8EK2OmUg5CwcGMcrIq6gjE6fPDEDqTrwicHmACD6MVBoEatu
+ toDiCKh04/HbA==
+Date: Thu, 8 May 2025 15:58:50 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/etnaviv: Fix flush sequence logic
-Date: Thu,  8 May 2025 16:56:24 +0200
-Message-ID: <20250508145624.4154317-1-tomeu@tomeuvizoso.net>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250507112131.3686966-1-tomeu@tomeuvizoso.net>
-References: <20250507112131.3686966-1-tomeu@tomeuvizoso.net>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: display: panel: convert truly,nt35597.txt
+ to dt-schema
+Message-ID: <20250508-pointing-trench-90eb0fca2136@spud>
+References: <20250507-topic-misc-truly-nt35597-yaml-v1-1-bc719ad8dfff@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/C3efKQmUrRpGzA/"
+Content-Disposition: inline
+In-Reply-To: <20250507-topic-misc-truly-nt35597-yaml-v1-1-bc719ad8dfff@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,28 +65,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We should be comparing the last submitted sequence number with that of
-the address space we may be switching to.
 
-Fixes: 27b67278e007 ("drm/etnaviv: rework MMU handling")
-Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
----
- drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--/C3efKQmUrRpGzA/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-index b13a17276d07..88385dc3b30d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-@@ -347,7 +347,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 	u32 link_target, link_dwords;
- 	bool switch_context = gpu->exec_state != exec_state;
- 	bool switch_mmu_context = gpu->mmu_context != mmu_context;
--	unsigned int new_flush_seq = READ_ONCE(gpu->mmu_context->flush_seq);
-+	unsigned int new_flush_seq = READ_ONCE(mmu_context->flush_seq);
- 	bool need_flush = switch_mmu_context || gpu->flush_seq != new_flush_seq;
- 	bool has_blt = !!(gpu->identity.minor_features5 &
- 			  chipMinorFeatures5_BLT_ENGINE);
--- 
-2.49.0
+On Wed, May 07, 2025 at 11:19:21AM +0200, Neil Armstrong wrote:
+> Convert the Truly NT35597 2K display panel bindings to dt-schema.
+>=20
+> The vdispp-supply & vdispn-supply are not marked as required since
+> in practice they are not defined in sdm845-mtp.dts which is the
+> only used of these bindings.
+>=20
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+--/C3efKQmUrRpGzA/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaBzGqgAKCRB4tDGHoIJi
+0plcAP9PfwMqhB1ZBVYPcbM9C6x4f7ivdciqlQXAntONfN3cCgD9FRtCjp4Vm2hY
+Bvgvm2z2A8grzWSWgajDMBmWwPo94Ag=
+=gzfj
+-----END PGP SIGNATURE-----
+
+--/C3efKQmUrRpGzA/--
