@@ -2,82 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CACAB0310
-	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 20:41:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D5FAB033F
+	for <lists+dri-devel@lfdr.de>; Thu,  8 May 2025 20:51:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A101F10E962;
-	Thu,  8 May 2025 18:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8572010E957;
+	Thu,  8 May 2025 18:51:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bdz2hXpV";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="PSkj8yB9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
- [209.85.166.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5532810E967;
- Thu,  8 May 2025 18:41:31 +0000 (UTC)
-Received: by mail-il1-f170.google.com with SMTP id
- e9e14a558f8ab-3da73df6c4eso9042135ab.0; 
- Thu, 08 May 2025 11:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746729685; x=1747334485; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yIIIefdaY9sYKEAXeUQFab1kLTouIAql70z4Rrnnjfg=;
- b=bdz2hXpV5WK/fmWAes4phYo49k3qCy4M2CcHMRJx+5bPLmhcHoCZTTTYox6/jseRL0
- 5KP+kCq78mgYL+c37xwDszaYS9Ilf+K+8swH9tucnfD/2hb/vdgLmVWfu/5YdJPTrO1B
- BrFt3V6sIRUgHVkWgDXXiXesVx6QpxH/wPqZbXmBIqbOyN7h2mayJ99BCSvHuiAzspy6
- ryC6uF71AYY0ihEXTouhELZ8hvEQtUKgkudND/uKQS/oISa0Irl10yc32H6VrC52rIFH
- lSeCGFOhgK4k+ICXPkUo2/G3jMYoWr8T6A7clRvH8Y3NIVguRVZSNAxjhqTEzwfDxFaW
- nUew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746729685; x=1747334485;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yIIIefdaY9sYKEAXeUQFab1kLTouIAql70z4Rrnnjfg=;
- b=QqUf7nr5NtEcMxW4ozS9UhUGvaE0EuD2bIEGoiAvpE+pvfxcd4HFIzArXnu3CB0K17
- q0ZLGvS1UjIpy0XQUXfkEJA83m/ClROoMz/d0k9BQ8F9fOMw5I+E9rs47KgtVfT/IrNG
- zAm0rCF1mICSMZBOZSQwIGHaevGQLuxg2RSlpKFA8jXizMRtFGa2I7/mU/vZFbFGhtTi
- wZR82rypnlG+pyE8qihv9p0CTVaGlEpQ8XznmeYzTpVmO8bk0NuxypXpLH2kQM1/TDIz
- TtbEvoj1OJEesMAqpXuE5qyBYQACJGbHkH83yDvH+lSwHbjviSJJ+QpA5VM85zdNHGAw
- 967g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWfzvyaUHgMnupeVnd3+mcBg9r9v8HfSZtgYA1CT8601zQvQPkDhC/da2rISH7/ed4hp0SBfFG28Do=@lists.freedesktop.org,
- AJvYcCWvd0vE4RYK5k1VtOOkL7xG7tLbjpqURRSCOg0Y2q5tanZ9thn8DDPio8A2vTN6uhFMp+Aow6unZraS@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzogz3JpmZU2bkaPZPC7LtP4V66v0bEyip0NrckHlmNSF8trzai
- BUisxSxEDFeP5CiGoxA5KTOI15vkI8hrG592koFBV5o3DEmR4ohCdxnT7EzMuXobD3zRyDEtzvH
- PUaP/a43w/Sw8YeWQ71D4A578O5s=
-X-Gm-Gg: ASbGnct8pvQ0iAKpeRRktFDpDSJK0mFHHHWKxhRCWYLHy9/oy7rtfZZYcw01KTEK5N9
- 2vN0GR04o6CU4mMLIvWNSEzzI3EuaBaJy5Yp9h1AWLMDXuu/xwD894Zr8t0uMIiQLr59b8D2TLE
- bPP7oJAQvGLannJM2RcLt9AZlTViMV8D/8UbaHNQRK/JoCSdqsayA=
-X-Google-Smtp-Source: AGHT+IEnu1L6F7VfV0Ubjw5sm0H1uMFjC+BmvIneeK2e24BLLnOMQ238GCHU+ApH04ZY1S2AcpFqb+ZwprrQ5Xvp1Oc=
-X-Received: by 2002:a05:6e02:1809:b0:3d8:19e8:e738 with SMTP id
- e9e14a558f8ab-3da7e20cfd3mr7774505ab.17.1746729684889; Thu, 08 May 2025
- 11:41:24 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C562610E957;
+ Thu,  8 May 2025 18:51:52 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 548D1gl0008543;
+ Thu, 8 May 2025 18:51:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ nAhTFtF9g1tx91/xJc7I9vKl5NCFCa2Z5q1ubiwoD20=; b=PSkj8yB9bLqz9qnR
+ f7DrS/wwDqZuB9UiS+dPypNJjA9XuT3Cx51pxU+KABY6R948UdFRPfxmJL7oIMqs
+ R+Aj+fNWUkc07ZJW9nSljXjCs80xtknLiF9RNxn3rxF7YgJUrAP+2cgP3K7u40iG
+ BPOMh38mmZ1GrB1T/MUFLg18M9KWlYPFo/v5roYYTWi6PjqGO1pjO1FBh+V0GM2E
+ VufwkbnPoxUYf3ay2dGZZJsys99wlBBy5/R21M8D2Wwe+3lg+LzTFtsTKC9YWDpx
+ ePef6wrnsF6mJuDctht92mG+LOhM60I8QHbVsBonaA2OPQwXsIMhTiXmRyq7T1y2
+ l3qo7Q==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnp5aa5n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 May 2025 18:51:46 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 548IpaYe020383
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 8 May 2025 18:51:36 GMT
+Received: from [10.134.71.99] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 8 May 2025
+ 11:51:36 -0700
+Message-ID: <e2a326b1-4a14-4a2a-b72a-988854351f6a@quicinc.com>
+Date: Thu, 8 May 2025 11:51:35 -0700
 MIME-Version: 1.0
-References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
- <20250508-topic-ubwc_central-v1-4-035c4c5cbe50@oss.qualcomm.com>
-In-Reply-To: <20250508-topic-ubwc_central-v1-4-035c4c5cbe50@oss.qualcomm.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 8 May 2025 11:41:12 -0700
-X-Gm-Features: ATxdqUGX42iaxTvC7pe_iBnJYk6Ho2xV2KhxTzfU1hlmmWDCQoDzombs5VYi5E8
-Message-ID: <CAF6AEGtcoMZ+WiW5_BA4NFpLZsoOrDbkY4xyvENGoS2FQVwQxw@mail.gmail.com>
-Subject: Re: [PATCH RFT 04/14] drm/msm/a6xx: Get a handle to the common UBWC
- config
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 12/14] drm/msm/dpu: support SSPP assignment for
+ quad-pipe case
+To: Jun Nie <jun.nie@linaro.org>, Rob Clark <robdclark@gmail.com>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <lumag@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20250506-quad-pipe-upstream-v9-0-f7b273a8cc80@linaro.org>
+ <20250506-quad-pipe-upstream-v9-12-f7b273a8cc80@linaro.org>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20250506-quad-pipe-upstream-v9-12-f7b273a8cc80@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=Lu2Symdc c=1 sm=1 tr=0 ts=681cfd42 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=sWKEhP36mHoA:10
+ a=KKAkSRfTAAAA:8 a=-8mmxbYOZCIPUL7Q3dcA:9 a=QEXdDO2ut3YA:10
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: MAOm37N2AeoJ7Rf56QukW8ll2AYrT7fd
+X-Proofpoint-ORIG-GUID: MAOm37N2AeoJ7Rf56QukW8ll2AYrT7fd
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA4MDE2OCBTYWx0ZWRfX7G/MeYojYmmW
+ RoLQjaHj08nE5yy4phHW1OvPRnoenqpI3CvVGA+nugKGRogcux+WWHVHp3qpul4CYFDy2zBropb
+ LRP1h0dWemB12cxpLEmRvzpO4k7VRocMPhITx3BcZqyKmkROnfrWtz1YQM2f2iPKMZO0i/KBWnv
+ bfmVXseo4hOCH5Ox5KE+H34gPlrU5PqI6RmIUZbBWsMoM1+IqkPbQj4+JaErWOG2pwfJiqUtyIe
+ 1XnjA5zU64TZp394cPnyz94QWUjIgdRSFfA7FI7oN6NllNncq7b3hchpQ/IYhqMImoI/bDJUCtb
+ XV/T1gnMlygGxbywHZtDISZwa270sbgl9itxdKc+2Y3weBAISySeCstbz3QmlTWaHqDid9xYFbT
+ WZuPKGutgLwrrwbTmISipabrShPe55UtdPcK+3YsyimcuvPl9ZEqUdwJ7HTcvLZ2fBPzGsVK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-08_06,2025-05-08_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 suspectscore=0 clxscore=1015 adultscore=0 malwarescore=0
+ spamscore=0 impostorscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2504070000 definitions=main-2505080168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,123 +110,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 8, 2025 at 11:13=E2=80=AFAM Konrad Dybcio <konradybcio@kernel.o=
-rg> wrote:
->
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->
-> Start the great despaghettification by getting a pointer to the common
-> UBWC configuration, which houses e.g. UBWC versions that we need to
-> make decisions.
->
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+
+
+On 5/6/2025 8:47 AM, Jun Nie wrote:
+> Currently, SSPPs are assigned to a maximum of two pipes. However,
+> quad-pipe usage scenarios require four pipes and involve configuring
+> two stages. In quad-pipe case, the first two pipes share a set of
+> mixer configurations and enable multi-rect mode when certain
+> conditions are met. The same applies to the subsequent two pipes.
+> 
+> Assign SSPPs to the pipes in each stage using a unified method and
+> to loop the stages accordingly.
+> 
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 16 ++++++++++++++--
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  6 ++++++
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h |  3 +++
->  3 files changed, 23 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
-adreno/a6xx_gpu.c
-> index b161b5cd991fc645dfcd69754b82be9691775ffe..89eb725f0950f3679d6214366=
-cfbd22d5bcf4bc7 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -585,8 +585,13 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
->         gpu_write(gpu, REG_A6XX_CP_PROTECT(protect->count_max - 1), prote=
-ct->regs[i]);
->  }
->
-> -static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
-> +static int a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
->  {
-> +       /* Inherit the common config and make some necessary fixups */
-> +       gpu->common_ubwc_cfg =3D qcom_ubwc_config_get_data();
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 68 +++++++++++++++++++------------
+>   1 file changed, 42 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index ea7e3fdf52f726737941ad33218a843dca17280b..de3f52d743e1d1f11ae8721a316b9872d4139069 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1112,11 +1112,10 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+>   	struct dpu_rm_sspp_requirements reqs;
+>   	struct dpu_plane_state *pstate;
+>   	struct dpu_sw_pipe *pipe;
+> -	struct dpu_sw_pipe *r_pipe;
+>   	struct dpu_sw_pipe_cfg *pipe_cfg;
+> -	struct dpu_sw_pipe_cfg *r_pipe_cfg;
+> +	struct dpu_plane *pdpu = to_dpu_plane(plane);
+>   	const struct msm_format *fmt;
+> -	int i;
+> +	int i, num_lm, stage_id, num_stages;
+>   
+>   	if (plane_state->crtc)
+>   		crtc_state = drm_atomic_get_new_crtc_state(state,
+> @@ -1124,11 +1123,6 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+>   
+>   	pstate = to_dpu_plane_state(plane_state);
+>   
+> -	pipe = &pstate->pipe[0];
+> -	r_pipe = &pstate->pipe[1];
+> -	pipe_cfg = &pstate->pipe_cfg[0];
+> -	r_pipe_cfg = &pstate->pipe_cfg[1];
+> -
+>   	for (i = 0; i < PIPES_PER_PLANE; i++)
+>   		pstate->pipe[i].sspp = NULL;
+>   
+> @@ -1142,24 +1136,46 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+>   
+>   	reqs.rot90 = drm_rotation_90_or_270(plane_state->rotation);
+>   
+> -	pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> -	if (!pipe->sspp)
+> -		return -ENODEV;
+> -
+> -	if (!dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
+> -					      pipe->sspp,
+> -					      msm_framebuffer_format(plane_state->fb),
+> -					      dpu_kms->catalog->caps->max_linewidth)) {
+> -		/* multirect is not possible, use two SSPP blocks */
+> -		r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> -		if (!r_pipe->sspp)
+> -			return -ENODEV;
+> -
+> -		pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> -		pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> -
+> -		r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> -		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> +	num_lm = dpu_crtc_get_num_lm(crtc_state);
 
-This does look a bit funny given the devm_kzalloc() below.. I guess
-just so that the ptr is never NULL?
+Hi Jun,
 
-BR,
--R
+I think there might be some patch ordering issue here since 
+`dpu_crtc_get_num_lm()` is only declared/defined in the next patch. This 
+will break compilation upon partial application of the series.
 
-> +       if (IS_ERR(gpu->common_ubwc_cfg))
-> +               return -EINVAL;
+Also, can you rebase this on top of the latest msm-next? The changes 
+here will conflict with commit 3ed12a36 ("drm/msm/dpu: allow sharing 
+SSPP between planes").
+
+Thanks,
+
+Jessica Zhang
+
+> +	num_stages = (num_lm + 1) / 2;
+> +	for (stage_id = 0; stage_id < num_stages; stage_id++) {
+> +		for (i = stage_id * PIPES_PER_STAGE; i < (stage_id + 1) * PIPES_PER_STAGE; i++) {
+> +			struct dpu_sw_pipe *r_pipe;
+> +			struct dpu_sw_pipe_cfg *r_pipe_cfg;
 > +
->         gpu->ubwc_config.rgb565_predicator =3D 0;
->         gpu->ubwc_config.uavflagprd_inv =3D 0;
->         gpu->ubwc_config.min_acc_len =3D 0;
-> @@ -663,6 +668,8 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *=
-gpu)
->                 gpu->ubwc_config.highest_bank_bit =3D 1;
->                 gpu->ubwc_config.min_acc_len =3D 1;
->         }
+> +			pipe = &pstate->pipe[i];
+> +			pipe_cfg = &pstate->pipe_cfg[i];
 > +
-> +       return 0;
->  }
->
->  static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
-> @@ -2540,7 +2547,12 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *d=
-ev)
->                 msm_mmu_set_fault_handler(gpu->aspace->mmu, gpu,
->                                 a6xx_fault_handler);
->
-> -       a6xx_calc_ubwc_config(adreno_gpu);
-> +       ret =3D a6xx_calc_ubwc_config(adreno_gpu);
-> +       if (ret) {
-> +               a6xx_destroy(&(a6xx_gpu->base.base));
-> +               return ERR_PTR(ret);
-> +       }
+> +			if (drm_rect_width(&pipe_cfg->src_rect) == 0)
+> +				break;
 > +
->         /* Set up the preemption specific bits and pieces for each ringbu=
-ffer */
->         a6xx_preempt_init(gpu);
->
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/ms=
-m/adreno/adreno_gpu.c
-> index 2348ffb35f7eb73a26da47881901d9111dca1ad9..b7f7eb8dcb272394dce8ed1e6=
-8310a394c1734a9 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -1149,6 +1149,12 @@ int adreno_gpu_init(struct drm_device *drm, struct=
- platform_device *pdev,
->                 speedbin =3D 0xffff;
->         adreno_gpu->speedbin =3D (uint16_t) (0xffff & speedbin);
->
-> +       adreno_gpu->common_ubwc_cfg =3D devm_kzalloc(dev,
-> +                                                  sizeof(*adreno_gpu->co=
-mmon_ubwc_cfg),
-> +                                                  GFP_KERNEL);
-> +       if (!adreno_gpu->common_ubwc_cfg)
-> +               return -ENOMEM;
+> +			pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
+> +			if (!pipe->sspp)
+> +				return -ENODEV;
 > +
->         gpu_name =3D devm_kasprintf(dev, GFP_KERNEL, "%"ADRENO_CHIPID_FMT=
-,
->                         ADRENO_CHIPID_ARGS(config->chip_id));
->         if (!gpu_name)
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/ms=
-m/adreno/adreno_gpu.h
-> index a8f4bf416e64fadbd1c61c991db13d539581e324..06be95d3efaee94e4107a484a=
-d3132e0a6a9ea46 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -12,6 +12,8 @@
->  #include <linux/firmware.h>
->  #include <linux/iopoll.h>
->
-> +#include <linux/soc/qcom/ubwc.h>
+> +			r_pipe = &pstate->pipe[i + 1];
+> +			r_pipe_cfg = &pstate->pipe_cfg[i + 1];
 > +
->  #include "msm_gpu.h"
->
->  #include "adreno_common.xml.h"
-> @@ -243,6 +245,7 @@ struct adreno_gpu {
->                  */
->                 u32 macrotile_mode;
->         } ubwc_config;
-> +       const struct qcom_ubwc_cfg_data *common_ubwc_cfg;
->
->         /*
->          * Register offsets are different between some GPUs.
->
-> --
-> 2.49.0
->
+> +			/*
+> +			 * If current pipe is the first pipe in pipe pair, check
+> +			 * multi-rect opportunity for the 2nd pipe in the pair.
+> +			 * SSPP multi-rect mode cross mixer pairs is not supported.
+> +			 */
+> +			if ((i % PIPES_PER_STAGE == 0) &&
+> +			    drm_rect_width(&r_pipe_cfg->src_rect) != 0 &&
+> +			    dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
+> +							      pipe->sspp,
+> +							      msm_framebuffer_format(plane_state->fb),
+> +							      dpu_kms->catalog->caps->max_linewidth)) {
+> +				i++;
+> +			} else {
+> +				/* multirect is not possible, use two SSPP blocks */
+> +				pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> +				pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> +				DPU_DEBUG_PLANE(pdpu, "allocating sspp_%d for pipe %d.\n",
+> +						pipe->sspp->idx - SSPP_NONE, i);
+> +			}
+> +		}
+>   	}
+>   
+>   	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
+> 
+
