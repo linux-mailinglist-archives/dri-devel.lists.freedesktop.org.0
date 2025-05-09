@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0D6AB1B69
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 19:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDF4AB1B6F
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 19:14:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2113E10E11F;
-	Fri,  9 May 2025 17:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A71F10E297;
+	Fri,  9 May 2025 17:14:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="UQOFNQo7";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="VY8xMlw3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC1410E11F
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 17:13:39 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-43ef83a6bfaso1225e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 10:13:39 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED47910E297
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 17:14:09 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-43d5f10e1aaso2435e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 10:14:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1746810818; x=1747415618;
+ d=google.com; s=20230601; t=1746810848; x=1747415648;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4VaVuUlmTBwUGFLDmqnTpZ1Y04NZbtvxnB5A69BImEI=;
- b=UQOFNQo72bhU75XuJooe6baP95Ax9R3DV96UbQdSvBRSop5aLQf4aknXHUBmweYiFh
- DteI/lk9cunMvcqef9l9g5MNlGMqOY9zvM8dEsRBafI5N1TMRlkglXqztDRNaKde4DB/
- ZPfYSv1QXWoMzhE9QHpNUgxva4EP9BTrLWY+F8HWSwE1lm6vTsJGx4tx7V8t1o1XNSG+
- b4nsbmAf/z5HRae5m822+wHHu3J67jhyPEpj5kLrxPTDKc0hfKjVdjtAJZlapvNj6zF7
- YcJhM7jekO6mcJVh06Qgb/mzrWaboP+6q6oTw6QjJ0wWoP3gYrzDPgPY0ynHmWLrLfcB
- Uqlw==
+ bh=smM82pNC+KSoX+27bEVUeyoSpZ4hnMM+We8D5KWbT6U=;
+ b=VY8xMlw3ORF9a6VMnD2RJ+cZ8mWpHi+4+n7FwC1R3alJA28cpBhmy8Z7UkcgDCD0Nz
+ ND7qAgGkzNcs/4pqcUh814tx5cn7dV/dQxjJ8cHlSdro+fXCppJYNBsdzYspd+7rH2ou
+ awZXjoX22a2gGKRRkNPSFKo2imeb+wqJLmft+wegiuGjE4ayMYLEP0sWUNBC+RsPiPiK
+ LX0En5QVYfG4abRgZ8siM5PWf0nc5j3T1YFmS58JMkRnPK1ZM54gITvMiahHEnOWAv3h
+ 688mCXGQIoj5O4KvMcDun6JQnZ7MeqAcyoJL5iRH38juYi57j7ISYJtkGF1K/trfSxOy
+ sfYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746810818; x=1747415618;
+ d=1e100.net; s=20230601; t=1746810848; x=1747415648;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4VaVuUlmTBwUGFLDmqnTpZ1Y04NZbtvxnB5A69BImEI=;
- b=HzgxtvxTTvvWAKoFeqHrUegdBNyVdjEj407xaGc/TvuPbrGuLoMrUKx8fAIOYoF9h8
- szl5sAKml8Z2X3ruX3di4BtwnMRaci8OR7zapDy6+c6asRI0/aSidsHlMwzveT/zXuVT
- H0JnhbF6Bt/zLUdiKUdkSp8BTBCCPYs6xtlM6xr3bqiIp8NTmxMNa4IQzo5ufYQc6g3O
- OPHT2SRrmgCJ0XRYlvVTTgu8u5zB2iKlBFX5eBp6bYNkRrKPBOmDwP0BvLfG+B34r+sz
- pI/zRiUeSF8qdCKw4bJoKOEhCv85wKMIHMkk3EhkcPx4eCURnMtb+PWLX61FAY27iaqg
- upXQ==
+ bh=smM82pNC+KSoX+27bEVUeyoSpZ4hnMM+We8D5KWbT6U=;
+ b=w2g+qtxV/2KP8UpL0cA3YGfMZPnIKn9/oOaB+mtI0uvoDsLPQZ6E1ncVld5nrA/lYb
+ NB8QfURGYMtvBE7q0Y7iZaKPUJ9syFRMWivVQHuibLq73vodQE9t1+kSZFNtM2ZpDncX
+ seY0ZbfXjWcTMH7EO/ZufWh41uag8T0qbOsCZucxF+9wCGrrCwCisHKvCXN/qoPrv3Y7
+ j1rYhhc2JrjV5x9kwDLWKQQ6y8zaytXZwIbVN5IJvq8pnYBiSbqQe/7f86nG5Fet/6qp
+ Xj5og8ZdjQXyzKiFqizSwI/xFJxSUUVLJkZec6cpzwEHjXlsnfMt9xK9cLH1QhgIDdhV
+ MKTg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUz/7fWfzT47STo6YzU+jVxH+Br/UduDup4HHe56hu/t8AYlRYh2HCBHCM/tgbWZmh099DJQhgV55Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzgIRAvvn6iYV7i59xcQVYks4dVyqnPVsDQbFcHBRpwUO+HVQqc
- yt/riEX9kcSF2SlbgLnFIxpBeFZS54SBvbCR3Tnb7W9+pH/AmurcyxsfGJNrLRrn3o8coX1WWI2
- wF+6pjhJaD7IbM7hjkVUVCrsQEZQgpuNE2CvE
-X-Gm-Gg: ASbGncteKBpxiTLMm0wB3MF421fNuBOkoxHbf9miJ7iMsqPrcdgS0CyE1+uYXCTwXUH
- wNolFTYrdhbDz0ldGRNoHTFRbaefdC7ZnF6+Yb/hssENoQ5ySaY28TKLrgp7y05IDACJRX9i3sd
- 35MXG/pJDd7cEga5NtvW1Z
-X-Google-Smtp-Source: AGHT+IGT/ZF46/GjI2YJV8SislyLWmjgR7bh1R7xJkwAOUVe7U8oq9t1ZWPW+aXIicMtdoBOVsn4uE7XK6SJT8ETH7c=
-X-Received: by 2002:a05:600c:3789:b0:439:9434:1b6c with SMTP id
- 5b1f17b1804b1-442d7c2cb4dmr1036775e9.3.1746810817854; Fri, 09 May 2025
- 10:13:37 -0700 (PDT)
+ AJvYcCUdnbsJtoWCJyAxa+mEifGXfdHKjbY8jH3aNkcfh5eZQOf6q+SS/gZ0M2C//aa/76VDE9BABZDQk0Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx38OeD7PYRjdnkMy7dKgddw0q3Z1bre7LASLySVZCGNe93f4PY
+ rWxzU90tTbKq1MGBhmmbJGnPQkYcUJCAFe9G2KNUK4vg4WHUItkK1hd3itmQKcgOEcPkUsVFFX1
+ +RoKLXypRRFuYCVkKWT2oiiXNhic3aVaIMjQ2
+X-Gm-Gg: ASbGncsfdEjjX6Yjiu1z19fMKjhsdfkpgMBLS8UbtT5cNa1JXA6nHJL/HSQbkZIw1SP
+ cdy7SC5lDsE0EZ9yuFVobHZRTMP1KBMMh8JRqmNfqzr6k8rljVgX6an7/RD/1Ux02PZy55cr7o5
+ w/T1cXbfdSA6T/9DgOsVxf
+X-Google-Smtp-Source: AGHT+IH40mARNMU/tf7BP0uCdyGA5liGBuBykAAd7c4WUrmrx1q7itlR5BUHqvu/mY8+HZhP0nMjqB2T+rpZhsONAQE=
+X-Received: by 2002:a05:600c:1ca1:b0:439:8d84:32ff with SMTP id
+ 5b1f17b1804b1-442d7c36971mr1213425e9.3.1746810848319; Fri, 09 May 2025
+ 10:14:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250508182025.2961555-1-tjmercier@google.com>
- <20250508182025.2961555-4-tjmercier@google.com>
- <CAPhsuW613T4biUPER9zR9DdQA_wscN4-i3vV4efoOKUZ7pkTeA@mail.gmail.com>
-In-Reply-To: <CAPhsuW613T4biUPER9zR9DdQA_wscN4-i3vV4efoOKUZ7pkTeA@mail.gmail.com>
+ <20250508182025.2961555-5-tjmercier@google.com>
+ <CAPhsuW6z90sErDTA97_MN2=QKHc96Ge3HwGD1ZoMYj6Sh7GYVA@mail.gmail.com>
+In-Reply-To: <CAPhsuW6z90sErDTA97_MN2=QKHc96Ge3HwGD1ZoMYj6Sh7GYVA@mail.gmail.com>
 From: "T.J. Mercier" <tjmercier@google.com>
-Date: Fri, 9 May 2025 10:13:26 -0700
-X-Gm-Features: AX0GCFsAmjlDFEArBqLUnLS1jyLR63E5yA91kW0eDQ-Z7yMddq7EqrFUgFenMYg
-Message-ID: <CABdmKX0t-ng2WJPUdjXUgtbyNks4vcp3rVNbQOGPNFRF5kTQGQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v4 3/5] bpf: Add open coded dmabuf iterator
+Date: Fri, 9 May 2025 10:13:56 -0700
+X-Gm-Features: AX0GCFu8BoOcyJCPnA7QXYP7Ly2ZIBuYiyNl-jSbUErDvQFnq_Cx4tGRHuAx2Fg
+Message-ID: <CABdmKX1A0Ard1yoV9SAV4jZfrD3tvMz2cftcuFPhQgkAKDk58w@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v4 4/5] selftests/bpf: Add test for dmabuf_iter
 To: Song Liu <song@kernel.org>
 Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
  daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
@@ -93,59 +93,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 8, 2025 at 5:28=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+On Thu, May 8, 2025 at 5:36=E2=80=AFPM Song Liu <song@kernel.org> wrote:
 >
 > On Thu, May 8, 2025 at 11:20=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
 m> wrote:
-> >
-> > This open coded iterator allows for more flexibility when creating BPF
-> > programs. It can support output in formats other than text. With an ope=
-n
-> > coded iterator, a single BPF program can traverse multiple kernel data
-> > structures (now including dmabufs), allowing for more efficient analysi=
-s
-> > of kernel data compared to multiple reads from procfs, sysfs, or
-> > multiple traditional BPF iterator invocations.
-> >
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
->
-> Acked-by: Song Liu <song@kernel.org>
->
-> With one nitpick below:
->
-> > ---
-> >  kernel/bpf/dmabuf_iter.c | 47 ++++++++++++++++++++++++++++++++++++++++
-> >  kernel/bpf/helpers.c     |  5 +++++
-> >  2 files changed, 52 insertions(+)
-> >
-> > diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
-> > index 96b4ba7f0b2c..8049bdbc9efc 100644
-> > --- a/kernel/bpf/dmabuf_iter.c
-> > +++ b/kernel/bpf/dmabuf_iter.c
-> > @@ -100,3 +100,50 @@ static int __init dmabuf_iter_init(void)
-> >  }
-> >
-> >  late_initcall(dmabuf_iter_init);
-> > +
-> > +struct bpf_iter_dmabuf {
-> > +       /* opaque iterator state; having __u64 here allows to preserve =
-correct
-> > +        * alignment requirements in vmlinux.h, generated from BTF
-> > +        */
->
-> nit: comment style.
-
-Added a leading /*
-
-(This is copied from task_iter.c, which currently has the same style.)
-
-
-> > +       __u64 __opaque[1];
-> > +} __aligned(8);
-> > +
-> > +/* Non-opaque version of bpf_iter_dmabuf */
-> > +struct bpf_iter_dmabuf_kern {
-> > +       struct dma_buf *dmabuf;
-> > +} __aligned(8);
-> > +
 > [...]
+> > diff --git a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c b/too=
+ls/testing/selftests/bpf/prog_tests/dmabuf_iter.c
+> > new file mode 100644
+> > index 000000000000..35745f4ce0f8
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
+> > @@ -0,0 +1,224 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/* Copyright (c) 2025 Google */
+> > +
+> > +#include <test_progs.h>
+> > +#include <bpf/libbpf.h>
+> > +#include <bpf/btf.h>
+> > +#include "dmabuf_iter.skel.h"
+> > +
+> > +#include <fcntl.h>
+> > +#include <stdbool.h>
+> > +#include <stdio.h>
+> > +#include <stdlib.h>
+> > +#include <string.h>
+> > +#include <sys/ioctl.h>
+> > +#include <sys/mman.h>
+> > +#include <unistd.h>
+> > +
+> > +#include <linux/dma-buf.h>
+> > +#include <linux/dma-heap.h>
+> > +#include <linux/udmabuf.h>
+> > +
+> > +static int memfd, udmabuf;
+>
+> Global fds are weird. AFAICT, we don't really need them
+> to be global? If we really need them to be global, please
+> initialize them to -1, just in case we close(0) by accident.
+
+Hmm, no we don't really need them to be global but I didn't really
+want to pass all these variables around to all the setup and test
+functions. The fd lifetimes are nearly the whole program lifetime
+anyways, and just need to exist without actually being used for
+anything. I'll add the -1 initialization as you suggest. If udmabuf
+creation failed, we would have done a close(0) in
+destroy_test_buffers() on the sysheap_dmabuf fd.
+
+
+> > +static const char udmabuf_test_buffer_name[DMA_BUF_NAME_LEN] =3D "udma=
+buf_test_buffer_for_iter";
+> > +static size_t udmabuf_test_buffer_size;
+> > +static int sysheap_dmabuf;
+> > +static const char sysheap_test_buffer_name[DMA_BUF_NAME_LEN] =3D "sysh=
+eap_test_buffer_for_iter";
+> > +static size_t sysheap_test_buffer_size;
