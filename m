@@ -2,60 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C03AB23A8
-	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 13:45:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E869EAB23A5
+	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 13:45:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54C3F10E0EA;
-	Sat, 10 May 2025 11:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B826910E0DF;
+	Sat, 10 May 2025 11:45:20 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=att.net header.i=@att.net header.b="OBb962fV";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49206.qiye.163.com (mail-m49206.qiye.163.com
- [45.254.49.206])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1723A10E9E9
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 09:32:22 +0000 (UTC)
-Received: from [127.0.0.1] (gy-adaptive-ssl-proxy-2-entmail-virt205.gy.ntes
- [58.22.7.114]) by smtp.qiye.163.com (Hmail) with ESMTP id 1481670b2;
- Fri, 9 May 2025 17:32:13 +0800 (GMT+08:00)
-Message-ID: <2f4e031c-25d1-4e2b-ad03-36e27d3d364d@rock-chips.com>
-Date: Fri, 9 May 2025 17:32:02 +0800
+Received: from sonic314-23.consmr.mail.ne1.yahoo.com
+ (sonic314-23.consmr.mail.ne1.yahoo.com [66.163.189.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C03E110EA43
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 13:39:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=att.net; s=s1024;
+ t=1746797966; bh=ADmfeXbYVrDzo/rDXY++W/kzpel6AyNdpSR2cnvzbrE=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References:From:Subject:Reply-To;
+ b=OBb962fV59hAR6O6eDXAxNSOJ4Kq+QivSA7yiWU6kPRrjPbhzNofe2rSgnzskFPNR+WBjaO8YSBY0lpA5sGa2b0WdyJgWgfWTRpLZAejSxbw4E2HoGSuTDTQinWxsjDPYjo88Koxsd3qXqaKo67Y9etjOj5NvLw8jIw1LXNCX1c=
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1746797966; bh=I9EoVNqvMyKBD+pwvaLDg+XogrgtnZxmmaYbpEB/7uF=;
+ h=X-Sonic-MF:Date:From:Subject:To:From:Subject;
+ b=owhmv4g952urCg/CeEEPmD4p2cWBJ4bE+tx5Iv3mBAZA1wuQC50Yn0dk1Z6x4EBSQW98kzZhoJQ8tfWh4uuxogNXWIdsQ4aILv4MP5Ye8x9WYbqzqeARK7zKekW/8jBn7afcmJPUR2FCpOgonSPjeOw0sfZMSaiodqy6r3zvv9xjR5IEjj1EZAG8g+umxXtg94EE8yqbiAWDhZE5M2zmWSTuaCXZAMaFREPQZjTGe541ty/8SNCBi1w8vekSXK2iuw7ecQ8hwdas3C0JFDmwDwhAVhA2AFallGr/1sZpwYSwm87cEm5O9p++UdPGkHdymIwXK6EKVVkw8k1vHgqJGg==
+X-YMail-OSG: UMy7_HAVM1nP1jJKVUfKSATPwLlxyXbjdCqqETxwj2ha7Ug2swiO8e1Rc61gTAp
+ zkfyhAPQIpH0DgCBndY4jdNepwbURrQtoEVEvxrPRTpGrULNll6A2U5AdaviNiyCsRZuFzCCLTx7
+ ZGHCuycseGGJ.KEQPBPeKo12io4HiIftiHXIFAnYC2Q0lEek7QELLI8x7xZBHsCYPkNUdm4O_jqe
+ 1MbA7.quHvLmBuDUKfUorVGP52uDHLIWGUQ2GhreICsV7z0wBC_TT2rdR7jPJInZ73GQkfUq4iVw
+ WhXCa8Fa6eiIEkYftQiwON440MXVOMJR8g.nUZx1IAuUwgYdC6hogOGHPD80EMlWG9E8Aj64NKRJ
+ ZQGlupDxCqpJ6_P1eHKK1cVf8QQ4op0EzVlZ5wGlTXx33U1w.yziulli3Ru99PYjMMRg_udHUQMT
+ smkoImYjSe6IRoqxYOsICRsGmtAX3A8lXZqYp8QXieb24vi23YV9lsyv_z_1bInXowx.w9l75CGq
+ K_CcgfAWU7RRMCyWG8_ayPCXii6oNlaZ1EN8s1V6F4RBPyz_sphBT0J7.4lgNmSOQp2n61t69fcG
+ DPyZyskZG1OGzbLEG1bOhpw79tKuHYQ1lCy_NPgm1VJYwlMjeEFDp53jlbRim4bcAPlJ6h9qCrJD
+ H0PRzCWxXCo2tbDQOAgsHgw_cn7d9F4yQN2Z2fPrl0MsZ231naHZn6.zFS4yNU3l41wQ0R0aYwXf
+ 11Kg35OQe7XM.22UqhPNN..YFHa_fGjuIf45Orc2OdQRn1IRgoEj0KGdNu0I14.tdS79Eyfe6_rG
+ E9ZirCqIRiIQAm7J2bXhd5o.u8CrbLvieC_.YdjCRFOVFYw7FPFfmCOJQfA3qRw_WAQL9VfgyoNg
+ bnizYs_biOy96GpVp8EDjzH925KgI9hZR2kfcNwOBslZFMoZ.FHO4Q71Lr0TopL.3hGO9NtcPaCG
+ kvoX_uwV8N4_yTyjJ0qPHO49k7T9089cLVb.1fcV5Bb7F2ehrnx2fep8mt_tE.e7PxljYUwQeJBN
+ d_gOri4raoYJXps19LTcsVga.BZPHZ2Fdykw5AiK.YZBDePu6nh9Q4Sk4EOPmTmuQFOw8ABvXlnR
+ lRHVchbArM0SL46M_08cwNCwyXRsElaN85ZSmXz6ub9gnXXS1CfeWI7785uhz7vDG08ILsgQvfwA
+ tymuI2uSJjo.kllpnhbkqMij.O11EELwQKrwNHkRQ6y7wEkhA.QAvf3UamIrWBZuaLolPqBgqe6I
+ Jto8RQNgtXTRIMuL.75FCx3BjFAKH5fef1uYmp6HNn3RDhD18b_Pq_lOd1DtvPk4UZLiL6oxeFP4
+ iAMKccvaAn4h8PgO.rXvcaacTK7GGXT_4fDH3nf5hlL4KAvE1ut_Qyg1MTlTVHJieCy8VjSsV79X
+ P3yKeheJUF2eHf2XIXKErMnGuf3uf1nq8_iublaaYhREvx9RF0pistU1cqxgRxHIvDjOs.Fda4Ms
+ vZLLROAMnNIYWovh1mB6e8JT0nIkZb3nS8kMGCu.s9vD0Kdv1qNfxro5v7Odu59CYi5be1NmKHue
+ 70bkf0QEP4NwoBFveeJgVU9POoHEC8iEBB01euGLbtcYRa1MsGg567jqGZuQWUkBWnwv1O56PCgr
+ 8oMX_30R1CHHz1eZSLIAxfnhFbhjhOcTuxa8obsdeMZ4cvf2F0iG5lIrjZCVf_E7QOrh8fa_GIzK
+ 9lIXcU5zVkyslU3M53GHwNh1F0x5GTHlSCcKbFIJz5p0RbqD4NkBt47gZOwvCr0xLgfVQmBbdmUY
+ Xrb9b_JBeAAa_0t1ZNQWXR__0En4VGWGHvlmcI5oxZo0rh_rEVQnkt4Z08zgmDFI_UV09gZMMsiW
+ T5xqgu4ho46YS3lXvbMIO6g7YPWL8N3mXw9J4vOG7oHrV_59C6P.27eVgSmtEAXQsomcyJn5UYn8
+ wgGXzHA1IzNRGe5dDTgSngEv9JrzR2jDzhvB2eOm5ROTi_XvLRcY_sIHlUtjSvzheAHO31kLwlof
+ 2zsEURw9peWY0zFFRIhRsvMx9mg7n7an5XnKB0pOEbXcNhSM_WVTwAk3pnPLdO25UvKnSvYU8TLr
+ ioOF7Vu4.ut34JEnPN_cU4LnWKEWq8k3w_1YdB8z7nAaTjUrHG3smFx4b9kM.Bc8oQrUA2PucTj_
+ kru5KtGwOOLcxde5p3zPgliBCUVGLlR2iL1x_KTKjX5Q7t4EebOUU67rLdlPViGcFhSGG9Ug4kQm
+ tL2xLZSked7QMZ0.fTyhppagua7M.xYkdn1D2rdqIrcrK8A--
+X-Sonic-MF: <pheonix.sja@att.net>
+X-Sonic-ID: 0748ea28-60fc-4af5-9c14-aa8e6350f1c3
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic314.consmr.mail.ne1.yahoo.com with HTTP; Fri, 9 May 2025 13:39:26 +0000
+Received: by hermes--production-ne1-9495dc4d7-l887h (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID ca033b468cc0a5842ccbac3d44678853; 
+ Fri, 09 May 2025 13:39:22 +0000 (UTC)
+Date: Fri, 09 May 2025 09:39:16 -0400
+From: Steven J Abner <pheonix.sja@att.net>
+Subject: Re: Kernels >= 6.3 disable video output
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Message-Id: <GXXZVS.Q1GIIU1M9VBL1@att.net>
+In-Reply-To: <CADnq5_Pk41iOvibFSjt7+Wjj=FXWR--XMt+OCqmkWWveLfU_ig@mail.gmail.com>
+References: <6DWYVS.BXJ4YUZ0KN5B3.ref@att.net> <6DWYVS.BXJ4YUZ0KN5B3@att.net>
+ <CADnq5_Pk41iOvibFSjt7+Wjj=FXWR--XMt+OCqmkWWveLfU_ig@mail.gmail.com>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] dt-bindings: display: rockchip: Convert
- cdn-dp-rockchip.txt to yaml
-To: Krzysztof Kozlowski <krzk@kernel.org>, Chaoyi Chen <kernel@airkyi.com>,
- Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250509070247.868-1-kernel@airkyi.com>
- <20250509070247.868-3-kernel@airkyi.com>
- <ccf4b15a-8399-4a7f-ae40-d01d0975921c@kernel.org>
- <5a4f6229-1450-4c96-bfac-5257f66b2ddf@rock-chips.com>
- <5c0a3b62-cf4f-46ec-b0e2-7d78ac499cb5@kernel.org>
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <5c0a3b62-cf4f-46ec-b0e2-7d78ac499cb5@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQh8dHlYZS05KH0IfGB4eSkxWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a96b4635efa03abkunm1481670b2
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NSo6MDo5QjJJMwEWAQ4uCy8o
- LzUKCVZVSlVKTE9NTENISk9LSk5KVTMWGhIXVRgTGhQCElUYEx4VOwkUGBBWGBMSCwhVGBQWRVlX
- WRILWUFZTkNVSUlVTFVKSk9ZV1kIAVlBSElLQzcG
-DKIM-Signature: a=rsa-sha256;
- b=ASkDftnQLy66Ocju57vFIMbVp4bL9Dv2+YDTqq6ZomPhnJVLuM1V09jRMVOrMp+aqV2pPtZi4F57RYg2yNz1Be3J39EYdsQqqYk2nCSEEkFxf1VkVi6aRMtx92JJ1EFm1H8O7dDah9SLZk76tyxBqhFvgv+rY5m3gWYXBh6Tqn8=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=vb9RNpQ9nn8CaEP5Dac/qXM6STSUoM5kUgGizmVamZ0=;
- h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii; format=flowed
 X-Mailman-Approved-At: Sat, 10 May 2025 11:45:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,68 +90,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+On Fri, May 9 2025 at 01:11:17 PM +0000, Alex Deucher 
+<alexdeucher@gmail.com> wrote:
+> What display(s) are you using and how are they connected?  Can you 
+> bisect?
 
-On 2025/5/9 17:21, Krzysztof Kozlowski wrote:
-> On 09/05/2025 09:34, Chaoyi Chen wrote:
->> Hi Krzysztof,
->>
->> On 2025/5/9 15:11, Krzysztof Kozlowski wrote:
->>> On 09/05/2025 09:02, Chaoyi Chen wrote:
->>>> +
->>>> +  clock-names:
->>>> +    items:
->>>> +      - const: core-clk
->>>> +      - const: pclk
->>>> +      - const: spdif
->>>> +      - const: grf
->>>> +
->>>> +  extcon:
->>>> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->>>> +    description:
->>>> +      Phandle to the extcon device providing the cable state for the DP PHY.
->>>> +
->>>> +  interrupts:
->>>> +    maxItems: 1
->>>> +
->>>> +  phys:
->>>> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->>> Just phandle. If this is an array (but why?), you need maxItems for
->>> outer and inner dimensions.
-> Uh, sorry, that was supposed to be under extcon.
+Not sure the question, but it's a tv thru HDMI.
 
-Oh, this also applies to extcon. Each extcon is used to indicate the 
-status of the PHY.
+Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 16384 x 16384
+DisplayPort-0 disconnected primary (normal left inverted right x axis y 
+axis)
+HDMI-A-0 connected 1920x1080+0+0 (normal left inverted right x axis y 
+axis) 575mm x 323mm
+   1920x1080 60.00*+ 60.00 50.00 59.94 30.00 25.00 24.00 29.97 23.98
+
+And hopefully to verify, 3 OSs run fine: Ubuntu/Elementary 5.4, PearlOS 
+5.15, and LFS 5.15 thru 6.2.16. 6.3 and above has 70% fail rate with 
+firmware built in to kernel, no fail if no firmware. Mainline 6.8 was 
+on PearlOS.
+Steve
 
 
->
->> I think it could be phandle or phandle-array. Since the RK3399 DP has
-> Here it is obviously not needed, that's a dtschema type.
-
-Do you mean that there is no need to explicitly specify something like 
-"$ref: /schemas/types.yaml#/definitions/phandle" ?
-
-
-
->
->> two PHYs, if we put in two PHYs here, the driver will pick one PHY port
->> that is already plugged into the DP for output. If we fill in only one
->> PHY here, then output is only allowed on the corresponding PHY.
->>
->> Will add restrictions and add more descriptions in v3.
->>
->>
->>>> +    description:
->>>> +      Phandle to the PHY device for DP output.
-> You need to list the items with description iinstead.
-
-Okay, will fix in v3.
-
-
->
->
->
-> Best regards,
-> Krzysztof
->
->
