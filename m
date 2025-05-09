@@ -2,124 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EF8AB1951
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 17:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537CBAB1958
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 17:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF0610EAAA;
-	Fri,  9 May 2025 15:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8615310EA85;
+	Fri,  9 May 2025 15:54:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RtiMTzwy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ThrL/NgU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB5F10EA85
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 15:52:31 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 549CT6vZ002336
- for <dri-devel@lists.freedesktop.org>; Fri, 9 May 2025 15:52:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- OgpdIMOzRk6f6Ol3Oo2lwgI+bdt0V38jDJzDqsqNV2I=; b=RtiMTzwybNjNSW9c
- hufGWZfhosdUtfaaQQpgabcB9SXAXgjLDCwLxsSwvX2vNoWCHBJpoUPQsndrBofM
- Xkgxc3VJEJI2fKbS01gbsjT1nF+vUg8TR66RfujbvDP1cnAQ1E75gAAIF48wfBA2
- yN9KLaOl+SI4YRLqesP07oxJRzYlHmgN+56B38so4tS79n5UF8/OInK0ZttWCnSl
- uk9Fqn8uVbDYwc9a+sRM0qSNyg55INx2dw+ZRirlA/1YlSHsPTcnJNGaRzfcY6d+
- EXqc/NlBWno0PBEQzkMf6Q9oH+VZa0wtxxmyOtaNanf7cJJ7Db/2fro3BmnCAT2h
- qxWTmQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnp5d4ex-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 15:52:30 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7c54788bdf7so9044485a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 08:52:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746805950; x=1747410750;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OgpdIMOzRk6f6Ol3Oo2lwgI+bdt0V38jDJzDqsqNV2I=;
- b=I9aNfyg+GgXZphFStbj38qbqHdISDUNxe2vqxbGHJ+jsJQ+bvrdc5Yk737mpG7i4CA
- ChwKV/zBy1N/SOQSUp3xJZ8spgVoxS+w9m595JYe/YKi5t4Ec4nGF9xxxZ93EVjgJoJK
- N7+m7sSD5aiBLK+GcIHkk/7QRENCcTJzph/v4BtlXolJchHGOF+d6XH9ye+Lj3XkoPLc
- EA5rX8O21kk7wYQEe/0HZJBnDdNe/LF797H2MF0G2HEzNSlbdhBs3cqc1rjojxxMgioh
- TSpJVR2fjEyGSo7DAkt6TaMlvRR6f4/MViAIe1qAGv+SQ7388ov2NHqczLeJ+HXbCoYh
- 0/XA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0ci62mwxAvsE43uihFAXyFajYv30JzvHSrznOKwTHqLC3NLFNRWbN+x5rzg8+WbHdwGTkFaoWjtU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy0Y1p8K+PJ9HNqJ9UyWJ4fJgcMz9F+ceQTw2AqlDc9j/+BnNBa
- 39phvqSmTTOjHlLISHcrRNwEEJ0KKYQ0dFvwopEFSybTPwKQOgjxx21Zv2zno9giMTt1OZJmTxs
- qiXudDoRBFV9Mgovm4TMIsKk4cu9OCkJhlzqTSuTAjJSyofF2y+htH/GADaMku5kqzr4=
-X-Gm-Gg: ASbGncvOJauhFcRBMI/rR3FJAJwXtETExannbjCNVgwNv4ZYuaBgB6ItjS4CmVhigPi
- XRKdTt2e7wb9qcdWtGlHMhmoJu5MlJZwBt1jIh84kEIs/ZWRjzEmjH2u683SFXypSY7tTAuUj3q
- BImjTisebTk5nyY+KlQu8as5Vwy4/M7bXlcASu8C+NPe+P6KNTCnwWo3iWLqRDayfsRbwefd3k1
- 6ok7RlEpqsNOAI8aZkfqDNLMGFRLlZUt/pwzU1V0hI+H8uf+MNPCReaYO5vNSsFAm2l3mkWjEZV
- E+K4LTPLwvjI2cFh7lc0AK0NN3DB6+EC4z8+HQPQBz7HHt0nv/Nmg9EjRSg4VdXYH3A=
-X-Received: by 2002:a05:620a:290b:b0:7c5:e283:7d0f with SMTP id
- af79cd13be357-7cd01108cb6mr239886685a.8.1746805949848; 
- Fri, 09 May 2025 08:52:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF6vSB51mdOZghOfvmG4yP63LfVUtSo1UHFOlSG6Oe5suFemWAMe5tcTQ95NoXx3vY6htX1hw==
-X-Received: by 2002:a05:620a:290b:b0:7c5:e283:7d0f with SMTP id
- af79cd13be357-7cd01108cb6mr239885385a.8.1746805949419; 
- Fri, 09 May 2025 08:52:29 -0700 (PDT)
-Received: from [192.168.65.105] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ad2197bd37dsm166816666b.124.2025.05.09.08.52.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 May 2025 08:52:28 -0700 (PDT)
-Message-ID: <9010219f-a3f1-4869-84b3-b4f6c5e9f05f@oss.qualcomm.com>
-Date: Fri, 9 May 2025 17:52:26 +0200
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 430B710EA7D;
+ Fri,  9 May 2025 15:54:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id E3BFCA4C610;
+ Fri,  9 May 2025 15:54:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4871C4CEEF;
+ Fri,  9 May 2025 15:54:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1746806066;
+ bh=8ghmJZjkT+kMpamh0TbHiZN5SjGR0bvWExcS3pJiWGg=;
+ h=From:Subject:Date:To:Cc:From;
+ b=ThrL/NgUC60IghmNzajhR98nXzaYBy+WQylewpz22jFBQ0d4fz49eDlm3W/fP8jpZ
+ 5z+8LI+R4G68FPzJyJmaIam/kFVBv+UxE3vC3wYnn1fzw5NLUrcJuTpBcfZ6/hN50a
+ 9xlEKSFvjqvEq1Hip44F6bmFMMCs9cw6g61h6at500HuX1QcKHM+XV62jUJZBaDecv
+ WtZ+LkOkezgsMHrR2FxK6EfAkif5LRN9R2dfT+4hw+G1TW5Bd5zS86RSxx0qFPNiMn
+ 5jvq1j/BsFrQV2/lstqB6XT9zCfhfoSQxlMOpgax/2PzEnuOYLIlmEK/PuS2pXkc/K
+ iG8jF05kZF05w==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v9 00/10] ref_tracker: add ability to register a debugfs
+ file for a ref_tracker_dir
+Date: Fri, 09 May 2025 11:53:36 -0400
+Message-Id: <20250509-reftrack-dbgfs-v9-0-8ab888a4524d@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 13/14] drm/msm/a6xx: Drop cfg->ubwc_swizzle override
-To: Connor Abbott <cwabbott0@gmail.com>
-Cc: Konrad Dybcio <konradybcio@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
- <20250508-topic-ubwc_central-v1-13-035c4c5cbe50@oss.qualcomm.com>
- <CACu1E7E9yU-cygZxBqVypP7aFkXJCNTfXA2uqdvU84mi9T51Xg@mail.gmail.com>
- <5f5e512c-ae0e-43aa-856f-06820ac4b147@oss.qualcomm.com>
- <dedbfb2f-012a-404f-87d1-2f3cd04b0e74@oss.qualcomm.com>
- <CACu1E7EfgPFcSgGA5TkAVqpO=K2G1AjNVbRij60TknCx5PcoqA@mail.gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <CACu1E7EfgPFcSgGA5TkAVqpO=K2G1AjNVbRij60TknCx5PcoqA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=XL0wSRhE c=1 sm=1 tr=0 ts=681e24be cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
- a=0-j0KOu8P3_yQaFSRvsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-GUID: qm9uvGDt_e1sajqsWZEHf7UbHDuqQ_cz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDE1NiBTYWx0ZWRfX6iZLS2bNYmIj
- L6k48jDx9kBVN9yGY334sfmEclWZjoOC6mlpLCHOg5P8pcbFKxdSVCgl2YwPAhlUBFfX+FnrVc8
- ox0gYmpckASG/0AaJ9HxBAGq5b6orcyWskVmIBg6jjPdLy5yMc3ldEF72/5+/fg4gsiBNPFVQMX
- 1W8UQk8srGW7ZUgW8Pax1hhM+NDb1XH1ndCrANLP+olmqJWNP7lcMuqk68xRUrTFiM1okOo8niV
- quFMHhux718TGIUWoF+GYILWKVIv70oH1l0up9HGyzKQ7AzdHc6G2ye4II7yE17i6pF726XCNzg
- m4eK4fXUAaoZ+FTha+V1GJSg4iaLJ1Nzs4F0G/pv55cOukAGcN8l8tiTUjuIhmPh8LPjWkKGy98
- Mc/y7qPQdndoT7ug+aqPFruhvuUpQ2Bf8+1oJfXPKyKzq75OcwzVWRrtFBGHw9oKKt4XMwAr
-X-Proofpoint-ORIG-GUID: qm9uvGDt_e1sajqsWZEHf7UbHDuqQ_cz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-09_06,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0
- mlxlogscore=999 malwarescore=0 adultscore=0 priorityscore=1501 bulkscore=0
- spamscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505090156
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAlHmgC/2XQzUrEMBQF4FcZsjaS3+bGle8hLvLbKSPtkA5FG
+ fru3g6I0UtWJ+E7kHNna2lTWdnL6c5a2aZ1WmYM/unE0jnMY+FTxsyUUFYYqXkr9dZCuvAcx7p
+ y7QYXtdBF1cAQXfF9+nwUvr1jPk/rbWlfj/5NHrc/VeZ/1Sa54FVoCxa0UkK/Xkqby8fz0kZ2d
+ G2q95Z4hT5KSCbELJWqxOveO+I1+qSl9UZBghqJN70H4g16m4JNDry3xhBvO6+ot+hlijFX/Dz
+ ETPzQeS2IH9DD4JLyoeKOgXj36/EQ7479HSSbvYspUQ+9p/sB+kE4J13WMXr44/d9/wZqaWvdb
+ QIAAA==
+X-Change-ID: 20250413-reftrack-dbgfs-3767b303e2fa
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, 
+ Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ Jeff Layton <jlayton@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ Jani Nikula <jani.nikula@intel.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3867; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=8ghmJZjkT+kMpamh0TbHiZN5SjGR0bvWExcS3pJiWGg=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoHiUqqVnEi1rMDJuEJLSpDayIBxzBNiaTNfqc8
+ bcemNOYp6qJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaB4lKgAKCRAADmhBGVaC
+ FXQLEACN2MZ1L+j6XswyMaJBsf8xxPlYNp/sJ7K9+J9utauwCnI+KLiYFt60XD7vSkXh3g4/1Dn
+ sTTwFSbbI5zM5OiFS26Jk/4QHW8TSp6b2Mprib7HceYl8DV/FZWFPSAF+CikREPdAAiFeuDrQvz
+ 54NnPR84QuhAi/da7q8czhl8IWb9EM7/I8nLQnNkmj26L7s0NOROakjqSiRmLYl6c8lxpztTnHJ
+ qFTHyZnncx8xw7xlb052v3J+mHS6cy9jSUmEBS+Blhrf3RxNQhH3etMcMFWIbR/ryPpnxD/oa8B
+ gHbEbP/GAZC0wFX5i5ppzuGvkTGhAbDjJJtbc+VcAp0BKAjPPd3yE8WEddhscMi59WvWJn6SGwt
+ mR38T52303COGiaMqoARN3R1BBHbx9kVbjAd6cNmVbi45gNYx/7wpKEHtj2JNM6q+uOOn4CMYKg
+ d6/7pmq+79SrwcLv+Kzqdap36lJt05qeE4MtT+2eqkfqFoZUKoJxNWTycTs9qiC3t2hopHDKeZb
+ ESjc6A0QdxFz60yCPHoTUXU6vSXRtIQLpaX3GKXbN/VMuQ0xAeUff+oFZlFPxp18GPU1RYqjwjx
+ NWsEH128CrkEvz/ecScOhezWV2SoKi0nyKy9SGWXapc+ey3C+xdGfwBT1XmS3v0rW4wc3/cOU++
+ L5LrGuST51FVLeg==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,39 +95,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/9/25 4:48 PM, Connor Abbott wrote:
-> On Fri, May 9, 2025 at 9:37 AM Konrad Dybcio
-> <konrad.dybcio@oss.qualcomm.com> wrote:
->>
->> On 5/9/25 3:17 PM, Konrad Dybcio wrote:
->>> On 5/8/25 9:26 PM, Connor Abbott wrote:
->>>> On Thu, May 8, 2025 at 2:14 PM Konrad Dybcio <konradybcio@kernel.org> wrote:
->>>>>
->>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>>>
->>>>> On A663 (SA8775P) the value matches exactly.
->>>>>
->>>>> On A610, the value matches on SM6115, but is different on SM6125. That
->>>>> turns out not to be a problem, as the bits that differ aren't even
->>>>> interpreted.
->>>>
->>>> This is definitely going to break userspace, because the kernel
->>>> doesn't expose the UBWC version, instead exposing just the swizzle and
->>>> userspace expects that it sets the right value for older UBWC versions
->>>> before it became configurable (0x7 for UBWC 1.0 and 0x6 for 2.0-3.0).
->>>> It looks like the data for SM6125 is just wrong.
->>>
->>> Oh that's sad.. I'll drop this commit
->>
->> Wait uh, we have this data in the common config.. why would it break
->> userspace?
->>
->> Konrad
-> 
-> As you said in the commit message SM6125 has ubwc_swizzle = 1 which
-> seems wrong to me (it should be 7), it just didn't matter before that
-> it was wrong. You should probably just fix that.
+This one just fixes a typo in the ref_tracker_dir_init() kerneldoc
+header. I'm only resending so the CI will pick it up.
 
-Oh so you meant that the 6125's value would break userspace - gotcha
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v9:
+- fix typo in ref_tracker_dir_init() kerneldoc header
+- Link to v8: https://lore.kernel.org/r/20250507-reftrack-dbgfs-v8-0-607717d3bb98@kernel.org
 
-Konrad
+Changes in v8:
+- fix up compiler warnings that the KTR warned about
+- ensure builds with CONFIG_DEBUG_FS=n and CONFIG_REF_TRACKER=y work
+- Link to v7: https://lore.kernel.org/r/20250505-reftrack-dbgfs-v7-0-f78c5d97bcca@kernel.org
+
+Changes in v7:
+- include net->net_cookie in netns symlink name
+- add __ostream_printf to ref_tracker_dir_symlink() stub function
+- remove unneeded #include of seq_file.h
+- Link to v6: https://lore.kernel.org/r/20250430-reftrack-dbgfs-v6-0-867c29aff03a@kernel.org
+
+Changes in v6:
+- clean up kerneldoc comment for ref_tracker_dir_debugfs()
+- add missing stub function for ref_tracker_dir_symlink()
+- temporary __maybe_unused on ref_tracker_dir_seq_print() to silence compiler warning
+- Link to v5: https://lore.kernel.org/r/20250428-reftrack-dbgfs-v5-0-1cbbdf2038bd@kernel.org
+
+Changes in v5:
+- add class string to each ref_tracker_dir
+- auto-register debugfs file for every tracker in ref_tracker_dir_init
+- add function to allow adding a symlink for each tracker
+- add patches to create symlinks for netns's and i915 entries
+- change output format to print class@%p instead of name@%p
+- eliminate the name field in ref_tracker_dir
+- fix off-by-one bug when NULL terminating name string
+- Link to v4: https://lore.kernel.org/r/20250418-reftrack-dbgfs-v4-0-5ca5c7899544@kernel.org
+
+Changes in v4:
+- Drop patch to widen ref_tracker_dir_.name, use NAME_MAX+1 (256) instead since this only affects dentry name
+- Link to v3: https://lore.kernel.org/r/20250417-reftrack-dbgfs-v3-0-c3159428c8fb@kernel.org
+
+Changes in v3:
+- don't overwrite dir->name in ref_tracker_dir_debugfs
+- define REF_TRACKER_NAMESZ and use it when setting name
+- Link to v2: https://lore.kernel.org/r/20250415-reftrack-dbgfs-v2-0-b18c4abd122f@kernel.org
+
+Changes in v2:
+- Add patch to do %pK -> %p conversion in ref_tracker.c
+- Pass in output function to pr_ostream() instead of if statement
+- Widen ref_tracker_dir.name to 64 bytes to accomodate unique names
+- Eliminate error handling with debugfs manipulation
+- Incorporate pointer value into netdev name
+- Link to v1: https://lore.kernel.org/r/20250414-reftrack-dbgfs-v1-0-f03585832203@kernel.org
+
+---
+Jeff Layton (10):
+      ref_tracker: don't use %pK in pr_ostream() output
+      ref_tracker: add a top level debugfs directory for ref_tracker
+      ref_tracker: have callers pass output function to pr_ostream()
+      ref_tracker: add a static classname string to each ref_tracker_dir
+      ref_tracker: allow pr_ostream() to print directly to a seq_file
+      ref_tracker: automatically register a file in debugfs for a ref_tracker_dir
+      ref_tracker: add a way to create a symlink to the ref_tracker_dir debugfs file
+      net: add symlinks to ref_tracker_dir for netns
+      i915: add ref_tracker_dir symlinks for each tracker
+      ref_tracker: eliminate the ref_tracker_dir name field
+
+ drivers/gpu/drm/display/drm_dp_tunnel.c |   2 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.c |   4 +-
+ drivers/gpu/drm/i915/intel_wakeref.c    |   3 +-
+ include/linux/ref_tracker.h             |  58 +++++++++-
+ lib/ref_tracker.c                       | 190 +++++++++++++++++++++++++++++---
+ net/core/dev.c                          |   2 +-
+ net/core/net_namespace.c                |  34 +++++-
+ 7 files changed, 267 insertions(+), 26 deletions(-)
+---
+base-commit: 5bc1018675ec28a8a60d83b378d8c3991faa5a27
+change-id: 20250413-reftrack-dbgfs-3767b303e2fa
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
