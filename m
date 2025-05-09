@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFC1AB1608
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 15:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E1CAB160D
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 15:56:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09CCC10EA5E;
-	Fri,  9 May 2025 13:56:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B157810EA61;
+	Fri,  9 May 2025 13:56:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FzGpe0qL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fLnuqHsF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B99CD10EA5B;
- Fri,  9 May 2025 13:56:33 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A81F943B67;
- Fri,  9 May 2025 13:56:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB85C10EA5F;
+ Fri,  9 May 2025 13:56:36 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A867A43B5C;
+ Fri,  9 May 2025 13:56:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1746798992;
+ t=1746798995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Yt1taznpShq1t237z645Qr8mHGKFK9bfr6SZ3mXBRSQ=;
- b=FzGpe0qLSE3x0F8BLOS2AYmc5YsoK0tx4PgVtH1SfirG0/yzrjSG8g+VvzF2QDF3NY7ZU/
- juhME5m4wbumD+9c11yNl2Zbfp6/P4gHiqAR3itxy05wa2btd7ink0PR0PfKuXn6MB3Lcy
- fgINOXpX1zlXIHvEIQtvJLAXq9sFOmoljCPHhD5yh4ugQC4MWAUk7LppJrtNi9BH50Xhrw
- fh7a7HU8OFOdbKmqYDcVIFS+z2jJmRxnnhwnX0+//A4LUYN6V/JPIGbyk+ug0m+aTtZkT+
- SD3NsjlaL81+JJsHRegaeI1Cy4qXHp2JAm1I6r47Uz40HKsQl9leguNWGgib2Q==
+ bh=ovm6LFCEU6u/vAeHaFCp1xRU21VlYlfHIc92sjuJU6g=;
+ b=fLnuqHsFN9rm849PKo/bJdWsFupCwBca2Bl0fR9UuCjoqJ1JsvP294G/Vt6h3orbuVXD+E
+ 52LL7lE31nkzANag8HG7nBYZoJrNlNPorIkzwlyeMLkVaxdkekl/f9ux9zfYJkBy4CHQjE
+ Vghqz0Fmpw47FtafbKZFDU2rt5UooR6ZvQxe/+8ij6pFhrDw2h/meaDnSxSCQgZm1lcoio
+ XM0/QKVI2h6fL9DIH5TpjUdzDFYahdFWtXUE53iTOdB1uHMcJQFpKQiyq9JNOMBX74bnCe
+ HmfE3V7k3UwkD+wFdKKsBSXc9cvj5Es8toA2kGkA0WzZjXGyX3j7cyhaT2iExA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 May 2025 15:53:32 +0200
-Subject: [PATCH v3 06/22] drm/bridge: nxp-ptn3460: convert to
+Date: Fri, 09 May 2025 15:53:33 +0200
+Subject: [PATCH v3 07/22] drm/bridge: sii902x: convert to
  devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250509-drm-bridge-convert-to-alloc-api-v3-6-b8bc1f16d7aa@bootlin.com>
+Message-Id: <20250509-drm-bridge-convert-to-alloc-api-v3-7-b8bc1f16d7aa@bootlin.com>
 References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
 In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -91,36 +91,34 @@ This is the new API for allocating DRM bridges.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/nxp-ptn3460.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/sii902x.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-index 25d7c415478b14ef634bff4185a8dd8e866be0c6..7acb11f16dc19e87a84cc765b1cebef158662c00 100644
---- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
-+++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-@@ -261,10 +261,10 @@ static int ptn3460_probe(struct i2c_client *client)
- 	struct drm_bridge *panel_bridge;
- 	int ret;
+diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+index 6de61d9fe06487856e8b3c32db3c8d8c25633fd8..882973e900628c0d972d32cd4ff3588432daa8e9 100644
+--- a/drivers/gpu/drm/bridge/sii902x.c
++++ b/drivers/gpu/drm/bridge/sii902x.c
+@@ -1135,7 +1135,6 @@ static int sii902x_init(struct sii902x *sii902x)
+ 	if (ret)
+ 		goto err_unreg_audio;
  
--	ptn_bridge = devm_kzalloc(dev, sizeof(*ptn_bridge), GFP_KERNEL);
--	if (!ptn_bridge) {
--		return -ENOMEM;
--	}
-+	ptn_bridge = devm_drm_bridge_alloc(dev, struct ptn3460_bridge, bridge,
-+					   &ptn3460_bridge_funcs);
-+	if (IS_ERR(ptn_bridge))
-+		return PTR_ERR(ptn_bridge);
- 
- 	panel_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
- 	if (IS_ERR(panel_bridge))
-@@ -300,7 +300,6 @@ static int ptn3460_probe(struct i2c_client *client)
- 		return ret;
+-	sii902x->bridge.funcs = &sii902x_bridge_funcs;
+ 	sii902x->bridge.of_node = dev->of_node;
+ 	sii902x->bridge.timings = &default_sii902x_timings;
+ 	sii902x->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
+@@ -1170,9 +1169,9 @@ static int sii902x_probe(struct i2c_client *client)
+ 		return -EIO;
  	}
  
--	ptn_bridge->bridge.funcs = &ptn3460_bridge_funcs;
- 	ptn_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
- 	ptn_bridge->bridge.type = DRM_MODE_CONNECTOR_LVDS;
- 	ptn_bridge->bridge.of_node = dev->of_node;
+-	sii902x = devm_kzalloc(dev, sizeof(*sii902x), GFP_KERNEL);
+-	if (!sii902x)
+-		return -ENOMEM;
++	sii902x = devm_drm_bridge_alloc(dev, struct sii902x, bridge, &sii902x_bridge_funcs);
++	if (IS_ERR(sii902x))
++		return PTR_ERR(sii902x);
+ 
+ 	sii902x->i2c = client;
+ 	sii902x->regmap = devm_regmap_init_i2c(client, &sii902x_regmap_config);
 
 -- 
 2.49.0
