@@ -2,68 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE4DAB1A90
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 18:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1F4AB1A82
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 18:31:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 539DA10EA82;
-	Fri,  9 May 2025 16:34:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TnxVfTSj";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD5710EAC6;
+	Fri,  9 May 2025 16:31:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF9010EA82
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 16:34:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1746808454; x=1778344454;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=wpGjb75UGNI5SN/+un5W0Q7nrSwwQCwyXAhHTWzF7Jc=;
- b=TnxVfTSjghvoXC05tlQkUNu5X5fBJVsf77u1ygk4ZmXFiHtu/eR2Tou4
- 1Tz6IhfeqwTpNb0T5jHIobvH1MmdhWPxAw8Va2DmpBSfWSuTwkVaN1+3H
- oE6DCV5fmNWJte1yiVSWzTM6VsXtK422htNFvXSFEEcak+y64f0WRuoVa
- 8jwMnl0CeiNNeOmIzEjIvrdCO4MQYHcnPVCQs48p1lpAaYzI5Q6XOBq2C
- ab81VBmwQ2oYV7hLbLbZt8wocmv+t00laLw8VYd0I4C0RWHiEQr/GmTn7
- 7PAExiCqSNjI1hG8wPwtbw8hEMu2KhJK5k7pjNy+YIFiUIwB3cf2cLuJo g==;
-X-CSE-ConnectionGUID: TUKd5M/eT1yLghK6QryDdA==
-X-CSE-MsgGUID: lqdfc7RBTaevZiPF+olgmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="52298067"
-X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; d="scan'208";a="52298067"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2025 09:34:14 -0700
-X-CSE-ConnectionGUID: qFZqHKY6TKC22AE4ddjwoQ==
-X-CSE-MsgGUID: CW04MrzJTdexiH1jBKMEbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; d="scan'208";a="141622357"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by orviesa004.jf.intel.com with ESMTP; 09 May 2025 09:34:09 -0700
-Date: Sat, 10 May 2025 00:28:48 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- jgg@nvidia.com, vivek.kasireddy@intel.com, dan.j.williams@intel.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-Message-ID: <aB4tQHmHzHooDeTE@yilunxu-OptiPlex-7050>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
- <371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
- <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
- <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
- <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3C40710EABE
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 16:31:46 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9E2B6175D;
+ Fri,  9 May 2025 09:31:34 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 54A303F5A1;
+ Fri,  9 May 2025 09:31:43 -0700 (PDT)
+Date: Fri, 9 May 2025 17:31:40 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Chris Morgan <macroalpha82@gmail.com>, <linux-sunxi@lists.linux.dev>,
+ <devicetree@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <ryan@testtoast.com>, <macromorgan@hotmail.com>, <p.zabel@pengutronix.de>,
+ <tzimmermann@suse.de>, <maarten.lankhorst@linux.intel.com>,
+ <simona@ffwll.ch>, <airlied@gmail.com>, <mripard@kernel.org>,
+ <samuel@sholland.org>, <jernej.skrabec@gmail.com>, <conor+dt@kernel.org>,
+ <krzk+dt@kernel.org>, <robh@kernel.org>
+Subject: Re: [PATCH V9 02/24] clk: sunxi-ng: h616: Add LVDS reset for LCD TCON
+Message-ID: <20250509173140.26611141@donnerap.manchester.arm.com>
+In-Reply-To: <CAGb2v65ZhA3_pdgbq9aVdy-0rQcTNfrHoE_AvJxOvin0a6tnMA@mail.gmail.com>
+References: <20250507201943.330111-1-macroalpha82@gmail.com>
+ <20250507201943.330111-3-macroalpha82@gmail.com>
+ <20250509151448.3191a3d8@donnerap.manchester.arm.com>
+ <CAGb2v65ZhA3_pdgbq9aVdy-0rQcTNfrHoE_AvJxOvin0a6tnMA@mail.gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,45 +56,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 09, 2025 at 07:12:46PM +0800, Xu Yilun wrote:
-> On Fri, May 09, 2025 at 01:04:58PM +1000, Alexey Kardashevskiy wrote:
-> > Ping?
-> 
-> Sorry for late reply from vacation.
-> 
-> > Also, since there is pushback on 01/12 "dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI", what is the plan now? Thanks,
-> 
-> As disscussed in the thread, this kAPI is not well considered but IIUC
-> the concept of "importer mapping" is still valid. We need more
-> investigation about all the needs - P2P, CC memory, private bus
-> channel, and work out a formal API.
-> 
-> However in last few months I'm focusing on high level TIO flow - TSM
-> framework, IOMMUFD based bind/unbind, so no much progress here and is
-> still using this temporary kAPI. But as long as "importer mapping" is
-> alive, the dmabuf fd for KVM is still valid and we could enable TIO
-> based on that.
+On Fri, 9 May 2025 23:29:50 +0900
+Chen-Yu Tsai <wens@csie.org> wrote:
 
-Oh I forgot to mention I moved the dmabuf creation from VFIO to IOMMUFD
-recently, the IOCTL is against iommufd_device. According to Jason's
-opinion [1], TSM bind/unbind should be called against iommufd_device,
-then I need to do the same for dmabuf.  This is because Intel TDX
-Connect enforces a specific operation sequence between TSM unbind & MMIO
-unmap:
+> On Fri, May 9, 2025 at 11:14=E2=80=AFPM Andre Przywara <andre.przywara@ar=
+m.com> wrote:
+> >
+> > On Wed,  7 May 2025 15:19:21 -0500
+> > Chris Morgan <macroalpha82@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > despite the slightly ill fate of this series, I was wondering if we cou=
+ld
+> > get the non-controversial clock parts for instance already merged, to
+> > reduce the number of patches and mitigate the churn with dependencies? =
+=20
+>=20
+> Sure. Are we expecting any of the DT bits to go in this cycle?
+> If not I won't have to split the DT header patch on a separate
+> branch.
 
-  1. STOP TDI via TDISP message STOP_INTERFACE
-  2. Private MMIO unmap from Secure EPT
-  3. Trusted Device Context Table cleanup for the TDI
-  4. TDI ownership reclaim and metadata free
+I don't think so, the DT wouldn't make much sense on its own anyway. But
+I guess it would help if the bindings / binding headers would go in
+already?
 
-That makes TSM unbind & dmabuf closely correlated and should be managed
-by the same kernel component.
+Cheers,
+Andre
 
-IIUC, the suggested flow is VFIO receives a CC capable flag and propagate
-to IOMMUFD, which means VFIO hand over device's MMIO management & CC
-management to IOMMUFD.
+>=20
+> > > From: Chris Morgan <macromorgan@hotmail.com>
+> > >
+> > > Add the required LVDS reset for the LCD TCON. Note that while this
+> > > reset is exposed for the T507, H616, and H700 only the H700 has
+> > > an LCD controller.
+> > >
+> > > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > > Signed-off-by: Ryan Walklin <ryan@testtoast.com> =20
+> >
+> > Matches the T507 manual:
+> >
+> > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> >
+> > Cheers,
+> > Andre
+> > =20
+> > > ---
+> > >  drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sun=
+xi-ng/ccu-sun50i-h616.c
+> > > index daa462c7d477..955c614830fa 100644
+> > > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> > > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> > > @@ -1094,6 +1094,7 @@ static const struct ccu_reset_map sun50i_h616_c=
+cu_resets[] =3D {
+> > >       [RST_BUS_TCON_LCD1]     =3D { 0xb7c, BIT(17) },
+> > >       [RST_BUS_TCON_TV0]      =3D { 0xb9c, BIT(16) },
+> > >       [RST_BUS_TCON_TV1]      =3D { 0xb9c, BIT(17) },
+> > > +     [RST_BUS_LVDS]          =3D { 0xbac, BIT(16) },
+> > >       [RST_BUS_TVE_TOP]       =3D { 0xbbc, BIT(16) },
+> > >       [RST_BUS_TVE0]          =3D { 0xbbc, BIT(17) },
+> > >       [RST_BUS_HDCP]          =3D { 0xc4c, BIT(16) }, =20
+> >
+> > =20
+>=20
 
-[1]: https://lore.kernel.org/all/20250306182614.GF354403@ziepe.ca/
-
-Thanks,
-Yilun
