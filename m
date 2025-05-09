@@ -2,76 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D28CAB1643
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 15:57:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73941AB16C4
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 16:05:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0947B10EA6C;
-	Fri,  9 May 2025 13:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8004310EA47;
+	Fri,  9 May 2025 14:05:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oC4jIVad";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LWCcVoDC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A10010EA56;
- Fri,  9 May 2025 13:57:23 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C5D1B43B67;
- Fri,  9 May 2025 13:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1746799042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d90bdozVEDl17jgP/30NkcxJUSIJ4T84xVCf6HbGeUs=;
- b=oC4jIVadhL3OVUuZQHMzblGENFNnp2JxECtht7zSQrYJ4U/3R6u9zOmCvzfwW9snQQ1lFe
- a6Zm7dfqnpH0AmpUxEpTLuh7hBe8tTIv7itfJlbzjrW2KAUZIMmELfY9t+ANbn5FsU9xT1
- 6fJKT68jMunkzO0x5aObyt2WHsMqNn/8TGbWxs1Py0LlTnlqoVzbxJ8iOXpDeTDwoB8742
- UL96robWxijxmxcsKbHT0d6GIpgqZ24R+8m2xUlMhf1KNIGGRN2Z8dkn8DKC/Mx/7VF91M
- wBUVhXjFzpki4cu1UFVgHt6E9voiQDvB7B8+xmPWeJ2dzKssT4PfW1f1ITvsbQ==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 May 2025 15:53:48 +0200
-Subject: [PATCH v3 22/22] drm/todo: add entry to remove devm_drm_put_bridge()
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DAA210E26F;
+ Fri,  9 May 2025 14:05:28 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id
+ 41be03b00d2f7-b2000b439e1so170843a12.3; 
+ Fri, 09 May 2025 07:05:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1746799528; x=1747404328; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tj/JEekejafSkdrc0ZEEyBzbst7sUCcOveZxNZ3IVjk=;
+ b=LWCcVoDCCYIvJ3mIJKNvpz81TCBM0zldgCBWEdPIX26RkXpU3Xlv4in8ShGU4lwCua
+ X6+6/x6/453XjqzOEDFpA7qZxMGRDHyN1YMyMT8b2kfJQ/OTtXuDViqnK+kBVmdiYHK3
+ vXphVa+IpBVwZPT4Ai/8vn3ihGUStGkcXzz2BeAogy0q8D/4OvYYLCBuYHcs7ytUCOqX
+ xh3oUOZFKS4y5HXS5zKKVru9UkNGnlrax5AXFt/pjIcIpy7fQe8Zqe9FDwPbJZLgjZpS
+ M4tZit/aV2m/YjhPyKRE12uGWxI+aUMFlOC7fCMUZbssxe24FjSwXRX6BPoO1AOTZvVH
+ i8Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746799528; x=1747404328;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tj/JEekejafSkdrc0ZEEyBzbst7sUCcOveZxNZ3IVjk=;
+ b=b3S6NqR1yJdY8ElzT/O7Cz+27JGTkc+UKHWLFMqgo5gEppOyJTS56ubJ5nfC5GUHCy
+ +YEmnGQqjPwPytV9BGyKme8MJBU3U/S9Rm9D3Zk9LISbrqzh4hE7I6Q0FTnfVi8ml93Q
+ RvRRBhKVmYN34oY8lHqb1y7gbm+5wS/XMMhWY7I4G+PdDhEjmK1tZymhsBxdxSVLJxeX
+ RoxPmDyPsSFabl3pQbobgJJ2477gKKZjYf8lDNNFSgMEBZXpPWaex2f/BuwHt5Ipsu0W
+ C5Df2uvZZfpW0CDQ301B81Uj3ckvHxSefDLaFrYOq+gdbSR8ng2yxGNp7/kjwKigMIsm
+ WKHA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUh+QxZPhAvSXeM6x55xU27QVKdxa1BQa6b7peP7aoZRtqxQQLfjd2RZCPUd6fWqypFKUsH72EVnYU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUvmz0xMyKwl1KmAK4phLbNAg24GCp6jmcjNgoxyDjQTzpsEfH
+ 7sc5fM3odQ0dVJuRKPAVgsKvS5YeNW8q4TKEul/R9q8rUBC3d0Fo9yoj08Fe4ZSFt1sE95mJpxm
+ VfSl/TGKvH1o2RKWYi4Dlu/AilSHG7jQq
+X-Gm-Gg: ASbGncsVfgcx/woblYV5mzR+y6mTabBzDvRtwZ6kbrBJI9VgX51j3mDpg8EniDzrA1X
+ O5xqWTeNQp/D007qHY1Sd05dnhAvfAGt3HVtWCc5VIdjeWh1ee31YYYoqkFyE5U7Y8kBnL48Plf
+ I5QRsHgvpBRciXgykH8XXuH7XSRWXlJ9VO
+X-Google-Smtp-Source: AGHT+IGBDacbIba5I17P6ztMwdd8boFi6c6n07TgfMBDBWYjLr5WvD7JVZytWA9xZDsQsgAVbb7cSV2zt9HVrBDIjP4=
+X-Received: by 2002:a17:902:cccc:b0:22e:6a2a:6b65 with SMTP id
+ d9443c01a7336-22fc91a211cmr18289905ad.14.1746799527687; Fri, 09 May 2025
+ 07:05:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250509-drm-bridge-convert-to-alloc-api-v3-22-b8bc1f16d7aa@bootlin.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Douglas Anderson <dianders@chromium.org>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
- Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Jonathan Corbet <corbet@lwn.net>, 
- linux-doc@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedvtdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedupdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnu
- higqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtoheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvth
-X-GND-Sasl: luca.ceresoli@bootlin.com
+References: <6DWYVS.BXJ4YUZ0KN5B3.ref@att.net> <6DWYVS.BXJ4YUZ0KN5B3@att.net>
+ <CADnq5_Pk41iOvibFSjt7+Wjj=FXWR--XMt+OCqmkWWveLfU_ig@mail.gmail.com>
+ <GXXZVS.Q1GIIU1M9VBL1@att.net>
+In-Reply-To: <GXXZVS.Q1GIIU1M9VBL1@att.net>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 9 May 2025 10:05:16 -0400
+X-Gm-Features: ATxdqUEkwV40gs6yoO7wUREMnfW1MRLZbnxuFd4nqhMqrNi53NYOa5qfW1rd5zA
+Message-ID: <CADnq5_NvoPfgTxOxjBCc-iGR7k8w7oR7VKkXQtWga8VP7vBViQ@mail.gmail.com>
+Subject: Re: Kernels >= 6.3 disable video output
+To: Steven J Abner <pheonix.sja@att.net>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,50 +84,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_drm_put_bridge() is a temporary workaround waiting for the panel
-bridge lifetime rework. Add a TODO entry to not forget it must be removed
-after such rework.
+On Fri, May 9, 2025 at 9:39=E2=80=AFAM Steven J Abner <pheonix.sja@att.net>=
+ wrote:
+>
+> On Fri, May 9 2025 at 01:11:17 PM +0000, Alex Deucher
+> <alexdeucher@gmail.com> wrote:
+> > What display(s) are you using and how are they connected?  Can you
+> > bisect?
+>
+> Not sure the question, but it's a tv thru HDMI.
+>
+> Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 16384 x 16384
+> DisplayPort-0 disconnected primary (normal left inverted right x axis y
+> axis)
+> HDMI-A-0 connected 1920x1080+0+0 (normal left inverted right x axis y
+> axis) 575mm x 323mm
+>    1920x1080 60.00*+ 60.00 50.00 59.94 30.00 25.00 24.00 29.97 23.98
+>
+> And hopefully to verify, 3 OSs run fine: Ubuntu/Elementary 5.4, PearlOS
+> 5.15, and LFS 5.15 thru 6.2.16. 6.3 and above has 70% fail rate with
+> firmware built in to kernel, no fail if no firmware. Mainline 6.8 was
+> on PearlOS.
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Is it specific to that particular TV or can you reproduce the problem
+on other HDMI connected displays?  Can you narrow down where it broke?
+ E.g., if 6.2.16 works, but 6.2.17 is broken, can you use git to
+bisect between 6.2.16 and 6.2.17 to identify the commit which broke
+it?
 
----
-
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-
-This patch was added in v3
----
- Documentation/gpu/todo.rst | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index c57777a24e03d91b1ffe04365f7356f2d938befd..be8637da3fe950ddcb65cdcf626bc4b4e6b0fa26 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -515,6 +515,21 @@ Contact: Douglas Anderson <dianders@chromium.org>
- 
- Level: Starter
- 
-+Remove devm_drm_put_bridge()
-+----------------------------
-+
-+Due to how the panel bridge handles the drm_bridge object lifetime, special
-+care must be taken to dispose of the drm_bridge object when the
-+panel_bridge is removed. This is currently managed using
-+devm_drm_put_bridge(), but that is an unsafe, temporary workaround. To fix
-+that, the DRM panel lifetime needs to be reworked. After the rework is
-+done, remove devm_drm_put_bridge() and the TODO in
-+drm_panel_bridge_remove().
-+
-+Contact: Maxime Ripard <mripard@kernel.org>,
-+         Luca Ceresoli <luca.ceresoli@bootlin.com>
-+
-+Level: Intermediate
- 
- Core refactorings
- =================
-
--- 
-2.49.0
-
+Alex
