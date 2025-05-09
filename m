@@ -2,71 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F58DAB1F78
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 23:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E214AB1FBB
+	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 00:13:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8FD10EB01;
-	Fri,  9 May 2025 21:59:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2017010E06E;
+	Fri,  9 May 2025 22:13:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GP2JHmkH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IYKV3aNs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF40B10EB01
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:58:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B513B10E0BF
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 22:13:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 932BCA4D4CC
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:58:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC3E2C4AF0C
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:58:54 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B3429A4D4E7;
+ Fri,  9 May 2025 22:13:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 862ABC4CEEE;
+ Fri,  9 May 2025 22:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746827935;
- bh=bod7OgH9FMLNk7FKdLh8z63aV2T+h8TH6ReCA7jp2gc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=GP2JHmkHqZVSr+nu2crQWjues0U90e8i3Ya914vkXMQIl53Xt374D30l8Nocq3q1w
- 4vv16J/RpNVizNh0xqEHsrxtYURtqTJBqU8ToXF60C06jGI7aPY/imBTJCTYV9ecEI
- IyW9iIDRaPJDx+Rpw4tep1hStJTboWEJSu8eLp6L5nARY6Z4tQeq12IM5LSDCKKW1s
- KmwWKQ2ziUtniPX3N2pTCsxLcSReBf67ZkuDv4TSD7xtQvwSG/RJLvAYEylZRU/elu
- tTpPGRZk1g3UFgfUbucXxPK8dGvPCYeM9C7odJk9FL2nEK/hQxLzAABaAvQ1+Gjld6
- XzkpTaTXrlE7w==
-Received: by mail-qt1-f170.google.com with SMTP id
- d75a77b69052e-476ab588f32so39898441cf.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 14:58:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXKeLFtwDNWazhd5NL22kvwzlCjuqGPvKO6xrDuj7SVZGEcBFd5IcaCghjYWPkMDJ4OuYKc5HH8khY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1Am0Wr2p0mRULbqzgr85gm24bg/dTnrO2k4Gns2QbXWcceiI3
- zPWmCdqBbfWPbQSKKq3AMDv9q3XD9wgSxrmyJugB9EbsFBXu1fgZFC9ZJBfJTXki3MdMilLP80+
- 4pU6NZSUn2Ert5FgoeZi55zLFWRQ=
-X-Google-Smtp-Source: AGHT+IEgw/OIWDWXmJWHEkTR/5DcaJ04lcLlTsKykO84AozF3RympSmmA4dzDH25HCRL4W/HlqroK6FilrCD1i+wCWA=
-X-Received: by 2002:ad4:5cc7:0:b0:6d4:238e:35b0 with SMTP id
- 6a1803df08f44-6f6e47bd8a3mr77458376d6.17.1746827933963; Fri, 09 May 2025
- 14:58:53 -0700 (PDT)
+ s=k20201202; t=1746828816;
+ bh=JEtojtxozBeZKb4L4slRczK0pe/giC0x9qDchrNk1q8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=IYKV3aNsMm0whQPXKjXlBEOn2trCbtazdDfHlO5yPtdyE5J3GweuFhzrUbr7Snoww
+ qqZF7RYOoIR380q1jSD71Ck0351FOW3wBU334Ik2Q8iw6QLTEG3x62c0dOEubnlHGU
+ uDwQ2z3vTuJcEfDVgiuuK7uYNS+RlyuRpoFTmbRRkVTsb++SFB42yPStgJALge6Uh1
+ iF8eehmqqX8IawRvuD2N01tJxqP6opnaPgKie0o23LHTLxL8bziAXGZWya9r08SVRj
+ YaudW4inWVVWlif6YhdroDU16ct+tjyIvqBrqpaI4K+X8q6bXBgXXjr35mKh6wnh0W
+ 8QSTtY9VxavPA==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Rajendra Nayak <quic_rjendra@quicinc.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Konrad Dybcio <konradybcio@kernel.org>, Amit Kucheria <amitk@kernel.org>,
+ Thara Gopinath <thara.gopinath@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Wesley Cheng <quic_wcheng@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+ Lee Jones <lee@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Alex Elder <elder@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>,
+ Bart Van Assche <bvanassche@acm.org>, Andy Gross <agross@kernel.org>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Georgi Djakov <djakov@kernel.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
+ Sibi Sankar <quic_sibis@quicinc.com>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Imran Shaik <quic_imrashai@quicinc.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Kees Cook <kees@kernel.org>,
+ Tony Luck <tony.luck@intel.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ David Wronek <david@mainlining.org>, Jens Reidel <adrian@mainlining.org>,
+ Danila Tikhonov <danila@jiaxyga.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-mmc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+ linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org, linux@mainlining.org,
+ ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: (subset) [PATCH 17/33] dt-bindings: nvmem: qfprom: Add the SM7150
+ compatible
+Date: Fri,  9 May 2025 17:13:23 -0500
+Message-ID: <174682880484.49052.7211478690993150122.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250422213137.80366-1-danila@jiaxyga.com>
+References: <20250422213137.80366-1-danila@jiaxyga.com>
 MIME-Version: 1.0
-References: <20250508182025.2961555-1-tjmercier@google.com>
- <20250508182025.2961555-6-tjmercier@google.com>
- <CAPhsuW5WOmyfPqBc_Hn7ApGWP_2uz_cJwyaDWF_VwiHJu9s_1A@mail.gmail.com>
- <CABdmKX2h5cGjNbJshGkQ+2XJ7eOnM+VfbmVr5Pj5c0qfxQA-qg@mail.gmail.com>
-In-Reply-To: <CABdmKX2h5cGjNbJshGkQ+2XJ7eOnM+VfbmVr5Pj5c0qfxQA-qg@mail.gmail.com>
-From: Song Liu <song@kernel.org>
-Date: Fri, 9 May 2025 14:58:42 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW7BM=X06Tr+HURsCbD8LwAO=Fdu+ZfKDy6RNK=UNNC1Rg@mail.gmail.com>
-X-Gm-Features: ATxdqUHtjHO0cnNYi6P788wo4nENW6QfEqucHX0SCFZlWpdcEK8f_Ki_Hjh7ovQ
-Message-ID: <CAPhsuW7BM=X06Tr+HURsCbD8LwAO=Fdu+ZfKDy6RNK=UNNC1Rg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v4 5/5] selftests/bpf: Add test for open coded
- dmabuf_iter
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
- skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
- simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
- jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,82 +116,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 9, 2025 at 2:43=E2=80=AFPM T.J. Mercier <tjmercier@google.com> =
-wrote:
->
-[...]
-> >
-> > Personally, I would prefer we just merge all the logic of
-> > create_udmabuf() and create_sys_heap_dmabuf()
-> > into create_test_buffers().
->
-> That's a lot of different stuff to put in one place. How about
-> returning file descriptors from the buffer create functions while
-> having them clean up after themselves:
 
-I do like this version better. Some nitpicks though.
+On Wed, 23 Apr 2025 00:31:21 +0300, Danila Tikhonov wrote:
+> Document QFPROM compatible for SM7150.
+> 
+> 
 
->
-> -static int memfd, udmabuf;
-> +static int udmabuf;
+Applied, thanks!
 
-About this, and ...
+[31/33] dt-bindings: arm: qcom: Add SM7150 Google Pixel 4a
+        commit: bd4718d97d308fdc20ddcd471444b3e398ce877d
 
->  static const char udmabuf_test_buffer_name[DMA_BUF_NAME_LEN] =3D
-> "udmabuf_test_buffer_for_iter";
->  static size_t udmabuf_test_buffer_size;
->  static int sysheap_dmabuf;
->  static const char sysheap_test_buffer_name[DMA_BUF_NAME_LEN] =3D
-> "sysheap_test_buffer_for_iter";
->  static size_t sysheap_test_buffer_size;
->
-> -static int create_udmabuf(int map_fd)
-> +static int create_udmabuf(void)
->  {
->         struct udmabuf_create create;
-> -       int dev_udmabuf;
-> -       bool f =3D false;
-> +       int dev_udmabuf, memfd, udmabuf;
-.. here.
-
-It is not ideal to have a global udmabuf and a local udmabuf.
-If we want the global version, let's rename the local one.
-
-[...]
-
->
->  static int create_test_buffers(int map_fd)
->  {
-> -       int ret;
-> +       bool f =3D false;
-> +
-> +       udmabuf =3D create_udmabuf();
-> +       sysheap_dmabuf =3D create_sys_heap_dmabuf();
->
-> -       ret =3D create_udmabuf(map_fd);
-> -       if (ret)
-> -               return ret;
-> +       if (udmabuf < 0 || sysheap_dmabuf < 0)
-> +               return -1;
-
-We also need destroy_test_buffers() on the error path here,
-or at the caller.
-
->
-> -       return create_sys_heap_dmabuf(map_fd);
-> +       return bpf_map_update_elem(map_fd, udmabuf_test_buffer_name,
-> &f, BPF_ANY) ||
-> +              bpf_map_update_elem(map_fd, sysheap_test_buffer_name,
-> &f, BPF_ANY);
->  }
->
->  static void destroy_test_buffers(void)
->  {
->         close(udmabuf);
-> -       close(memfd);
->         close(sysheap_dmabuf);
-
-For the two global fds, let's reset them to -1 right after close().
-
-Thanks,
-Song
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
