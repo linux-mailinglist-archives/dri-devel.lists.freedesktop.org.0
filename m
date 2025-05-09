@@ -2,164 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7E0AB07DD
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 04:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A543AAB0849
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 05:05:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BA9710E08C;
-	Fri,  9 May 2025 02:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90F5B10E046;
+	Fri,  9 May 2025 03:05:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BjqpG/ns";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 300C010E08C
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 02:22:47 +0000 (UTC)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
- by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5491auCe009035;
- Thu, 8 May 2025 19:22:33 -0700
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2044.outbound.protection.outlook.com [104.47.55.44])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46dee3ep1q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 May 2025 19:22:32 -0700 (PDT)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2085.outbound.protection.outlook.com [40.107.92.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B15B610E037
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 03:05:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MT2jZ+cYjVpKke4Tpw6mAi+hIdeNYeyw7JFoNmdJi3vZtuat40dGVz5AQvZSXwWMeDypg6groOk5nr6fXwFKy8oCpf3fDHBariCMa6RLruVD4WSrYc/BxEofFn8d74V/L4ScoBhRo5r3lJrDlqjytMEgmC59Jjlo24kMrkG83qiLD51orlMrFVubAh/OAaT1Q4Jq00hYSC9UF0N0IZW08Wta5VojVNsqEBuSVptJB3GmD5mHJKavgcJQGEdGBtv01eKsJEO/vkl74kcs3A2+kM4SqWWeTuJ0xPP+Oo1wYQcZplMOWo39YBmaDokD4rqtgy2awZMUFU9kaXioCB1+3g==
+ b=gXmFcoGXIt96+QLsz3rc00D4xzvfJqikdVfNA5ikWdHxACqIv/++TMPGTbyAbolmFkZ1YzU94+wxpJOPPwTUrO185ylSe9Y2pc0fRE79m+4TSKSyn3tweVUSeB6wE8VJX9ZfGPMD3I9qqO9YyLZpfNYQ6ymyRHbMYmtPB31ldF/auuXWELgymlvLvaxVnEeqoQ1/8tONONvCkvzETMSWCWRhy2ZudVSS/qf/qGgBm1V/ktRMX2Bb9CnPjlATnEbs8RUHm/X8QgdvGviMIBH2NneErmyY9+nyHan8aWxr9ZgShnFUasw6BbUMTYeBafzrqiYMCkZxOGfo6g0Tmdm4BA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nquZu8StwxLh11s8bzPsKtO/Gk+SMMxvQfexFl/T9Ug=;
- b=IeOIWclTttbgBXciE0fTf9lJ8EPhi8xY0QE0XsV+aeMADDx9jddwowoVGBpX8+uEbkAhRzPKUp5ZB5I+kyFT77c2gstH8oHQPC/wd2Xvc24Ik0a2lmW3Gy3fs+OmowE7kfVaRKktrdAMI6iDk9jQruRwmzvdrfqgz53EPASlZqgKbzlptUrV9hgOkr3qyPFTAmKxKK8wWZJl16lHgtROI/ilSkfFgoCS4JdH+Kjv3ASXvSNMwpDAYg7TR3SBOErxMXs/L21VGwRk+Gltub+sznlmvXU+rHDHNhv+n+Z/LoDm58Y30CpwO/xLv4VM/wkhMVl6bCCjXUtdqZ8paiETxA==
+ bh=z6D9m6gYVJw1Jh0St1UBZhuYgcmXVN4N5nvF4MBx1RA=;
+ b=MQd48K2pLZJLzCmNZmqZ+kvotbJW0PaUyNZ6C+N67DMLkKeWX0Q6rSck0+wsUVKCUpQw5iDEZgE7yM3CcyjjvJxjBnGw8j7VDimlgry5uJZ4pC+9r6DPjRnIQP9l+/ykspcGwenqUYeNULiq/7fHJHOarifEeWz/EUSg2T4FfA77kvOFOdzTcE94raggUWeNZgbchza+WTaf24vMQetrhJjYzjQ4TP66jR0m4oXhSF39OUFB2VjDvUnpL/kwkXO3uJ5uwGg5rrNk+NGQ3GUuhSo4HPRZ6UU5xqpHBJH1V/OGB8xrz/wQ6/DBEzK+SZvVxK91xpathOqvYHqsgT9Pjg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from BYAPR11MB3832.namprd11.prod.outlook.com (2603:10b6:a03:ff::18)
- by MN2PR11MB4680.namprd11.prod.outlook.com (2603:10b6:208:26d::12)
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z6D9m6gYVJw1Jh0St1UBZhuYgcmXVN4N5nvF4MBx1RA=;
+ b=BjqpG/nsJKGUAHAnpqD8rzOZBs577o49RBj0PzNox6zFDGaCTRf7M7odCssNaw405IarqFCzT5tuMvnjtYg3bPA75nGG0YHoCebxRlfo48s9qh4dKPa1g3uem5u2z7Pa5uCPmzQap5KViUxttscNbceE1vjgoxkQj14ViujFMf4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH3PR12MB9194.namprd12.prod.outlook.com (2603:10b6:610:19f::7)
+ by MW4PR12MB7240.namprd12.prod.outlook.com (2603:10b6:303:226::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.21; Fri, 9 May
- 2025 02:22:26 +0000
-Received: from BYAPR11MB3832.namprd11.prod.outlook.com
- ([fe80::83ab:15a8:cce6:b531]) by BYAPR11MB3832.namprd11.prod.outlook.com
- ([fe80::83ab:15a8:cce6:b531%7]) with mapi id 15.20.8722.020; Fri, 9 May 2025
- 02:22:25 +0000
-From: Zhi Yang <Zhi.Yang@eng.windriver.com>
-To: stable@vger.kernel.org, zack.rusin@broadcom.com
-Cc: xiangyu.chen@windriver.com, zhe.he@windriver.com,
- bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
- maaz.mombasawala@broadcom.com, martin.krastev@broadcom.com,
- linux-graphics-maintainer@vmware.com, sroland@vmware.com,
- airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
- christian.koenig@amd.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 5.10.y] drm/vmwgfx: Fix a deadlock in dma buf fence polling
-Date: Fri,  9 May 2025 10:22:08 +0800
-Message-Id: <20250509022208.3027108-1-Zhi.Yang@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
+ 2025 03:05:08 +0000
+Received: from CH3PR12MB9194.namprd12.prod.outlook.com
+ ([fe80::53fb:bf76:727f:d00f]) by CH3PR12MB9194.namprd12.prod.outlook.com
+ ([fe80::53fb:bf76:727f:d00f%5]) with mapi id 15.20.8722.021; Fri, 9 May 2025
+ 03:05:07 +0000
+Message-ID: <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
+Date: Fri, 9 May 2025 13:04:58 +1000
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
+From: Alexey Kardashevskiy <aik@amd.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
+ alex.williamson@redhat.com, jgg@nvidia.com, vivek.kasireddy@intel.com,
+ dan.j.williams@intel.com
+Cc: yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+ zhenzhong.duan@intel.com, tao1.su@intel.com
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
+ <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
+Content-Language: en-US
+In-Reply-To: <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCPR01CA0131.jpnprd01.prod.outlook.com
- (2603:1096:400:26d::19) To BYAPR11MB3832.namprd11.prod.outlook.com
- (2603:10b6:a03:ff::18)
+X-ClientProxiedBy: SYBPR01CA0094.ausprd01.prod.outlook.com
+ (2603:10c6:10:3::34) To CH3PR12MB9194.namprd12.prod.outlook.com
+ (2603:10b6:610:19f::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3832:EE_|MN2PR11MB4680:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed6f2ef7-ea34-49de-172b-08dd8ea0566e
+X-MS-TrafficTypeDiagnostic: CH3PR12MB9194:EE_|MW4PR12MB7240:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc87f1de-4a9a-4991-1781-08dd8ea64da8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|52116014|7416014|1800799024|366016|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ixYj37VkPBCNlBPuGf3cxMo/dF/uex1EL/qd60HEZWoGFnXSLXDyLlZ4Yd14?=
- =?us-ascii?Q?jtIORj8MQvzxwcci4FySlgNvjSgtIK9ftOziQLCZoy6+DGgBs0+p9UbRGCOi?=
- =?us-ascii?Q?vZfoUAs1W0KgSp2VhihKJkbD6Fy1B/l288tI+hsG4NlBLqK5bSzX43GamMjE?=
- =?us-ascii?Q?0OICDJEA3A9/zDwqRuTqnXDzBdaF87igHpV0u5iRrGTmkuNTh0f7N84j2mhz?=
- =?us-ascii?Q?3vwYcN8AgNIljWRmEXPZm4McLj/hKBu44E3FnrZ8dr4CNtDZJSieVg1esckE?=
- =?us-ascii?Q?KV3UEDSlEFZKl+weFz6DGy0eNcLr82oTy3zB5ZnfNMQieNWr7o/102Sy2tw5?=
- =?us-ascii?Q?t5CjgncJz7ypAJPysxBS71gceqsIsRN8+oT65dDWSwNOWDl3NYFo290kgQ71?=
- =?us-ascii?Q?eOHxmP/oUMeSb/5h22pmDPpRm6xRUEZo+GycbWwueTZc26eRXLLquXbJx+jw?=
- =?us-ascii?Q?dJOHG+EDay1d01ppQPUwEL2xkmff3ABwqICdFG4XWErXQY0Yxi02acoGOtgk?=
- =?us-ascii?Q?MwCA3z4kzxd67Gp6O7BRvAvWvPJnYSrTnGSZ+IWXlG/QZJBfpHN8kGbh2Uu6?=
- =?us-ascii?Q?FqegUbP5xeL03NmiufZlgLvVkwSnjPpX3DyFE3gkMStFkBXVGjynS+FiaxyI?=
- =?us-ascii?Q?rlSM+taX7M1RaBiApiD0piIWWLMZfwh/na/JQQIFoJ8YVx+C5ye0zdG/2LVx?=
- =?us-ascii?Q?WRzE+Ee3rnFQ9Dzjhu6gt2oewifQ2dWqdK9IZwZu2oXMaFcLj4eF4grcWN33?=
- =?us-ascii?Q?xV1NezGvo3Ra2YWS0qejvGRURJINKCQCxrPk6hViUsPT3rN25Y6Woobzq6Pl?=
- =?us-ascii?Q?VTtrDijqRa4osVja+Y5sXlAYBXUPr7g+amr2Y+bqGztxO5ITPbOTlUa5zbhJ?=
- =?us-ascii?Q?eOFK/m179asIcZDoiEBnOmZIapqKDo7QtWHp/Upx7/f43J39eboSInSZyWwL?=
- =?us-ascii?Q?7Zgm7WmNhr68I1sNqMgKl6BYbarYH7b+G15gnsmU4+f+VYxTkD8zTiZahzY7?=
- =?us-ascii?Q?c9S3KjAkYhlLQvEkJWkBgcYhgDxcM/RnOtFSV7iWhH7nqa2jzHkeWAWhDAoo?=
- =?us-ascii?Q?RG9zDXL9w25vfkHdt5DQfc/+txeUhxzbRnkcaz+8xKo4AWV1HYyBfvYWAD3k?=
- =?us-ascii?Q?3fjyHV/ws7UCuZqpZOIPrYKpdSLNnGvoifv8HKR8T1FLeSAzjHbzWwsrodAd?=
- =?us-ascii?Q?ysfGPcg5rVkhfRytJxktl9dY5CaXWv4UDh/CeAmB0dchSivdze3krm3sJxdE?=
- =?us-ascii?Q?AE9jifFceBgZG5iihP/Jmlxgt7aw/tkNr9P+PT3UFrkcuipcoAXk6EzVPsDl?=
- =?us-ascii?Q?RwH8yFvnXYcHX1vKpGsfhliKAh21Z3CWqi/q5vhoxwa+UULKIbgP5u8Z1wms?=
- =?us-ascii?Q?fKEkDmiOO+pstxgO+E2VNmrjxk+gQR7ma9LIor/cyptwNg5ADyXz1RosSp36?=
- =?us-ascii?Q?rIdR0mkkJxY=3D?=
+ ARA:13230040|7416014|376014|366016|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UmtYUkNjYjJzNWlRenFpQ1dXdVpDZHRYMXB3Tm5HRjYwTXNTQzU3OXZMRjBk?=
+ =?utf-8?B?bklRTnBTVVExOUtvWkp1WVg3ajUxdUJaQlRTd2RuTGFsOWRLbVgxUXNrVmhq?=
+ =?utf-8?B?dDYxY2doeVdqV0lXREErcXhrcFpGN2ltL2JxTW45ZUNya3VwR083KzVGdlBW?=
+ =?utf-8?B?VzdHbVA1WDlPekU5d2xWb3RWRHBlZHZBMHhvdTM4dkpsK0lNQVFvTlA5aFFK?=
+ =?utf-8?B?ZDhHZXJXbnRHNHRyTFc5aUk1V0YvdFA2RDUrYmtvV1JGQ1FVTm1tekdzWDZw?=
+ =?utf-8?B?R3VyL2hhTFgxVExDVHd0dWliZTNISjJZUGFUdW5nek9DSWZSczJ4NExvd2g5?=
+ =?utf-8?B?ZDBkbUF0M0NuelZNRlpTWXVUeVVtcElUS0pBeTk3NEluREx2eXlaNmEvalNI?=
+ =?utf-8?B?d1RsVkIzcjFheVE4N3p0MTIwNzNJRFlmNThVcGIwZXFoNzBSMm1pOThOcFhj?=
+ =?utf-8?B?d0U5V2I2a2pGYzFWRDJCbDA2V1dnaTM1RitWcHd1aW9CdGwvbmp5SnF4VVE1?=
+ =?utf-8?B?cGFJc3NiRllleW4wTElBUm9nZDlNSVJtYjk1em1HSGs2NWMvd0pPaFJCTmJY?=
+ =?utf-8?B?MGpFODhMVVBUWStBSEF0c29aR21RQ2RxakFrQ0wvNmcwNXlhaEVJWkZ5dWxJ?=
+ =?utf-8?B?a3d3VWxQVmtPRmpFcERYVlFyeTBLRnVpWGJmc1lzR1JSQ1FORzVlanluTFRt?=
+ =?utf-8?B?VHFsMGJCeUh0UWV3NEN5UmYzZFo3dEYzcGZKU3k5dmNIaVlPTS9waVdlcVFz?=
+ =?utf-8?B?aXNNZTFOaUY1bFBVWjBYZlBoWENTK3pLM0U2RjMrSHg0Tm5TRnhIQVJxeWVW?=
+ =?utf-8?B?UFYxZXo5VVZYeXdRSjk1T0tsWnhkR2FoVENKMEU2YWVwQjRFOWhUVXNlZjM1?=
+ =?utf-8?B?NU9VTDhvOFRZd3NpVExpY3c3YmRETTdibm5Xb255S2V4UDFrM2YrWGh5a3Zk?=
+ =?utf-8?B?blcxeVBYNHJGQ2pBUzBSSVBDcXQ0RHFueUNVTC9nQ1A1Mk5VdFVsMGIzWDJN?=
+ =?utf-8?B?dTI1TFBvUEJqVzUzQkJTUEhjK1c1RXFoVnRMZU85ZU0xVHp2djNjWFVPcVJW?=
+ =?utf-8?B?WlU5eFJiRFBwMGgwUzRSUVd3NWRpajBhOGxydnJIcHliMklJU01BcmRSNFNy?=
+ =?utf-8?B?bmVCSnVOYkRQQURMWGp4a1o5cGlQVGJXOUJoWGNEaEJyY2E0THVBbS9EM2ha?=
+ =?utf-8?B?TFdYVUIyTzl4WUFEQ2ZJbGMrU3c2YWJYVFNMMnM3NmIxdzJabUhiTDFLN21U?=
+ =?utf-8?B?TmduN1Z4TUR6V0JzVGpHejJWeElvRDFjbWxhbnBLVVJYcUYrempaYU5pakQ3?=
+ =?utf-8?B?WkhIOFJJZXhORXVXNHRHZGpoTE5HSitKZ0hqT2ZBRjZVMFZ4R2Q1cGFqYVpE?=
+ =?utf-8?B?WGprUW1xM0pNMnRibkxXVzQydTUzUlIwY2RMYVV1MlRic1hJWTdvOThMbHdn?=
+ =?utf-8?B?NDVYUzhWRTRON3htQWY3VnlXSlVpckhTV2lPeHhSSzhueTRienJBQjhWQlZx?=
+ =?utf-8?B?cnM3L3d2bmxrUW8vTjRRSmJFWUpKR2tmYVRya0dMb0NXc0pvZEJkUGJVVkJy?=
+ =?utf-8?B?UTdEU2lnR3BVZDRoOTNKU3Z0Ykl2Zm5sMkk1WnI3YnYzQVZiaFdNS3ZaNzRq?=
+ =?utf-8?B?eUVLSVVsam40L1Zmc1hnUmlvMG1MTXUzQXYvSDB2Ymhxb2tCYlVDZVltc2h5?=
+ =?utf-8?B?bFA5dHc1WjltTml1ZFkyVGxpelB3UE1ZMzdqbm5mNG9SWWpiZGUyTDIybm1P?=
+ =?utf-8?B?ZnY4S0xaaEFNK3ZKZzdIeU1XMlNCVnE1aVlMcm5kRVpYdXhkV3JGUnpwOUNT?=
+ =?utf-8?B?YVVoNmw2SHZNemRTTFpQMW1URkU2WXd3KzlFQkp5d2FmYXJ1a2crejhHd0lI?=
+ =?utf-8?B?RXFYSDUvQUJWZGdiN0JIbzNrTUYwN3lhY0tRc09SVUlDMlljb1R6UFRWQVpE?=
+ =?utf-8?B?SkNQY2g2a21DWjZJVmhyNDRET0pBT2haU1hKZUF2VlppdGFVU1c5RmhyUnNh?=
+ =?utf-8?Q?fjbQ7axZCqkg+hq2QqtdLMAECF8jZ4=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB3832.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(52116014)(7416014)(1800799024)(366016)(7053199007)(38350700014);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB9194.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?31Q9JVrtUiueGmmaW9oFV4Hp/F+qXt9Q+UKKsgLwmcII4bFV3bbJGbUQg+xU?=
- =?us-ascii?Q?oYUdSVc5HJvrNwfjgenrxoZNOmIPBeLTF3SwguHosE+IGxK9jSW+/N6T/EG6?=
- =?us-ascii?Q?r2N5Jn1BPQQS3ubtzQt6d2HGEev3KqFrk9qAquFcJYCZrwSMka/TG5iGZWi8?=
- =?us-ascii?Q?1XK+5BGDI0WqheNRbdY7h3g/j+JgjcsQuF6wwIhrUOtXnvwIPADssBTndmxT?=
- =?us-ascii?Q?BQD+8OnIFtyB1RU6Tb7bRMEoqt5DsAnGFVhXdmzEeJmImVPnPdmUQ4+q6dqy?=
- =?us-ascii?Q?omTooGXjX5BrTsl2us7CNVjGjTYFrzP5qN/6RtuqgSQ0DUJPUajAB8tOrRFr?=
- =?us-ascii?Q?ropY3V29eY/iqzw5cXzSjfX75a1a1RZAJuh/Uam2vvGX6fGppNVvDqZazitQ?=
- =?us-ascii?Q?H5muSoX7zbUUNzmmFCgDE0ON/b4ftLwx3k/ipzlnw61ursGtLttjwZWb50Vb?=
- =?us-ascii?Q?lI4WCUqXfpKVyLPuLkj3Cdh+iNr7pN7KSb0jKiQ3hL01RqX0FGa23SAiHa6z?=
- =?us-ascii?Q?bsvpr8MV1RbzGShL3lDS9FeMLO+9nquhcJNlPV7WNPOkjmqgwi+cfihyQnpz?=
- =?us-ascii?Q?7ajFFqqYK8uOHOoP4oD6VczDHhbeyekrNCxu/Jo3PO8Oe14VZt7o5k5kaWF8?=
- =?us-ascii?Q?0rwypwptv+GlPsCmsr4ssyJl7XyvA80o50b5cU2nrQV0IoQbPEisAHMabZHf?=
- =?us-ascii?Q?oou1yRMclFCcnd9iNOoz9wpA/Fhv3aBrEw2IaIIyAXLg2dKa4j9P5EiMYgsb?=
- =?us-ascii?Q?m9w/ZZ+GPz/O/BBB1mVm73h6bwrSCMjZnxR02/NwfhE8g28NwonnwxBWojRL?=
- =?us-ascii?Q?CQBAup0w4y8hVEtrNcgzgGcrK496amrKJ0otyJy/chSpR95eBoaTW1GryOh0?=
- =?us-ascii?Q?9LsivYweVWsNV+FAffQhV33pWNeksFTZPqFU/0UxNKVaJCdQr3AWrZqAArdx?=
- =?us-ascii?Q?+/2effAo6BvrYochW7XZpjMyd6NT4kgkhT8888+gKsa14dNpMKWSvV04EcGc?=
- =?us-ascii?Q?03XHC4OmvRhpF5E+XlSkRjUblUfUyyWkoxeSmPy7QOUw7Z2qE2vwFaLdsKgi?=
- =?us-ascii?Q?ezo4e8cmLsK8upxAMVmMP3f97zyncbQC7oquWgwC+/8u0nFtLkGFrabIaP8G?=
- =?us-ascii?Q?baBTEAFEhgSdu7/cWqk5hAymQPzh7WlvD0lUEtR3bHOBdA5s3mjQ1cO+xCZl?=
- =?us-ascii?Q?U5bc2q0z1aTn73sErGnjkK6i6t7o0JUKAbBDkKUajmSxqidZ7FEH0ti1aDZX?=
- =?us-ascii?Q?UphYhZ1dt7Nd3du6BgoBuEfW3Xe+hCD9R+0Fcgl/gnxI2zmdoqNO/0FOFkTS?=
- =?us-ascii?Q?0IoKG3cvXaBIBnveINnUsNkMT3yVWAcsoDZmgUirK6WM+FXJ+LZCWCz3kc/Y?=
- =?us-ascii?Q?/HnjhYeOP640ZCV4E/QkNx7FVLf3tY0FAi6PC7FYHuyh17cqfY+NCK+EVBbM?=
- =?us-ascii?Q?M8m4tSdI2Nxfw+gLSe7oVqc7jPkkPhJ1kY/9SzqhRhgkN2v/SqW4xAsuJiEb?=
- =?us-ascii?Q?ENqcI8W+WyI3yckDgY+XdhbGG7KNM68mVeiMvHJn3Om8TdhJki9jKpRvjTbv?=
- =?us-ascii?Q?Y02SX3dpfnk3O5g3afTaRy06GUwm7xjrkJgpII8E?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed6f2ef7-ea34-49de-172b-08dd8ea0566e
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3832.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a29BQnZWdzh5OEx3OEpDZzcrbjVTcVR6QUl6dStsM0dtbEdsSGVCZEV5elFJ?=
+ =?utf-8?B?ZCt3bWNoVnhNcWkxT3lteU5LVWlpWUFxTjB2U1RTSWFrc1dDYVQ1SHRwOURJ?=
+ =?utf-8?B?YUhTdTNJNCsxZ29yN3BrMW16QkovMFgyU1VQN2VKNHFKNnZvZEwyNTgvQkdw?=
+ =?utf-8?B?QXN2aEk4aWwrbm96TFlieDlIOFZTcVdiOHBPZ2IxVDNwWFRQVzhBbGpFTCt2?=
+ =?utf-8?B?VmF6cGRkNDUvR1ZCNWh1SldyZHpHUGhrZXhFS0dSa2R2UGd1WTJ0bVZlZWZ1?=
+ =?utf-8?B?c0dRQ3YvOHphL0RVdnB3b3RpYjcyYTZxNmFqcFRjUzc4eFV6SGVLSDk0L3Qw?=
+ =?utf-8?B?MlhtZ1lNS0N5VGd4TCs5TkZRQWJnZmhBTTlnb2l3ZjNTOG9TZHlFYmt5Rmdi?=
+ =?utf-8?B?Nmp3UUpWbjFoZCtFZ002ZlhlLzJCMTdVZ2hOa241Y0pKY09KYms2c3FxZVpz?=
+ =?utf-8?B?eS90MStYUTJSb2RYNm1lcVFiZklJVUZRQ3pZTUFYY1RGOWNKcHhVemV1cjhO?=
+ =?utf-8?B?aHBZelJMV3dkRHF4ZzRob0hjNmMyY3prcE5OdzBhTW10YzJ0Y1hjNkdMd2Qw?=
+ =?utf-8?B?V28wZ01aS3NiOHYrOHRoc0ZDbzRlVENLNEhOZzdRWW9uekFuYk1IT0dFVjNM?=
+ =?utf-8?B?VjY0ZVBUWGl3eW9aS1k3LzA2OXVMcWNZQkdEd2ZmU2l6aGlCYW55RHkxc1JG?=
+ =?utf-8?B?MncydUZaNnBOYWxnZEFUbTJRdndEUkFlay9kWUIwdGpnRHVxbzhaU0kyOVFF?=
+ =?utf-8?B?a3ozLzJpbXlhMkJtMnRsOUFuTmVRemlFdlpJOVBjRHlmWHNmSHE5RXl3emUx?=
+ =?utf-8?B?blZMdThiZ01EZ1VIRUJDSGpMSmZ2dzdyRkdnb01jbGNXN0cyZ0FseG1NaWtq?=
+ =?utf-8?B?WGVSOTBFc0tHb0tvZ2YxQVhoNmF1Ty9mNWkyRVdUbGRpRVhreFhCMCtkanBB?=
+ =?utf-8?B?MkQ4TFlZb0dzYXcrRG10V3MrT0FDOEM2a1BieGNmZ2NyazdlZGZwck9BeTc5?=
+ =?utf-8?B?WUw3NmdtUFl0ZUNjQkdKeGtVSmxhZkJCdktRN0RPWlNYRThCT3Z3a2RYVXgz?=
+ =?utf-8?B?WFd1Wk5Fb2hvL2QzNm55ZXVQcVFta0MvZWxoNUhJODZEaGxDbjh4MjNYT2w3?=
+ =?utf-8?B?MitBdnhlWDJCMENYNzdLblF1Yk11cWd2TEFWdHplM2lPZ3ZMSlI2ck14OUNE?=
+ =?utf-8?B?Q0dIaS9hdE5wREUwRGVrRG1TeW1CUE40aWkrMjlWSmxSR2hvS1NEQ2pDd1BP?=
+ =?utf-8?B?TExTV1RTNGZTZzduNkx4ditadytyekFJNjY5azkrR0oxRnN0Q0FJTGNLWWE4?=
+ =?utf-8?B?K2F2ZC9tN3VxZVViOUZCQVMrQXdiMVk0REwyZm8vWXhIZGlZUWRxUzRka25o?=
+ =?utf-8?B?YzRXRXpiei91REsvTUZMRDdIUDNZY3VBaUZhVU1RQWlMUkdBYlNQVUNJaHJT?=
+ =?utf-8?B?b01TRGl3WWE0MUs5K3lFZGFXeDNyWDZKdUdrYWNnT0NVOVdrVldiTG45cGNH?=
+ =?utf-8?B?S21mb3dIUkNXZTkyd2gwZXVzaWVmbXphRkNTQTZVL05pQUdPMmhCeE5uV1F4?=
+ =?utf-8?B?U1pLWWlycm5mNmZpek83MFRsd0ZrRTdHTHRYeEs5MmthU2tDZHZmVmpHOE10?=
+ =?utf-8?B?LzFLaWd0SW1HTTBtdC9DdmsxRzMrOVZ4S25vNU5RbTd4dC83QVdPSUNsVzZ4?=
+ =?utf-8?B?N3ZBNXNjZlovK0hPbW9rZVhXdXVOR0hIOHdxUWJaSFBGdWwrTkFRRW5lVEx0?=
+ =?utf-8?B?SFowenRFdkxoeXhRN0NOM1Z5cHdtclJoZU9kMFpaRzJjWno2Yldab01pdFRs?=
+ =?utf-8?B?NTlySmczZXFYWnIrMXU5MzRUb1VzcTdjRC9GNmJvSUcvTG1kcTdxZm5WMDdY?=
+ =?utf-8?B?MmMySUwvaW0yUWFQdkdjY0s0YkUvOU4vdGJ5WmIyd1dYRzFqclBUN0V3SlRq?=
+ =?utf-8?B?R3hkODk2cXdCd1lxY1hKQktZUFBCRDhXSGtLR3ZzdDRIMXlmVG1PWjA1U0c2?=
+ =?utf-8?B?OGJmTmtjalgzcFl1MWhxMVBqT0ZWQ3NWT0dYT2NiZkdYRWtxQ3FyVUdWeWty?=
+ =?utf-8?B?ZDhMQlRuYTUySDc3dURUdENDVk92MmlOQVJjWjdoMGN0V1UycDV3WnNBcnE3?=
+ =?utf-8?Q?DQ6KTkIny1qb1DzwJDwL8PKhZ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc87f1de-4a9a-4991-1781-08dd8ea64da8
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9194.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2025 02:22:25.7225 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2025 03:05:07.8139 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NbAVyAD3CcyX+ERJKfF+qBMDMpUvE1NOxIKDd9ZLHAX7ZzVgA1A65m2Is3ps9O3SY+W1G1sH4p1sgxBIAyl3mg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4680
-X-Proofpoint-ORIG-GUID: PK_AmuhlCypCEG43kqYq1OshMkyomDu7
-X-Authority-Analysis: v=2.4 cv=Pd3/hjhd c=1 sm=1 tr=0 ts=681d66e8 cx=c_pps
- a=t4e0UQJdoJrPmzgCWb9hsw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10
- a=e5mUnYsNAAAA:8 a=Q-fNiiVtAAAA:8 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8
- a=azflqpau20-cq16KAhMA:9 a=Vxmtnl_E_bksehYqCbjh:22 a=FdTzh2GWekK77mhwV6Dw:22
- a=Omh45SbU8xzqK50xPoZQ:22
-X-Proofpoint-GUID: PK_AmuhlCypCEG43kqYq1OshMkyomDu7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDAyMSBTYWx0ZWRfX9aOdUK2Ia/RH
- deCJApwQA4GF0Iv+plke671upnLiwAoosRf7pOTpSOeJ72SyaTRVvX7a95cj/X0NpKn17f9FfWf
- OFFjhFezGA5YpHJeVhnYcpPVnFaVnLL0NRRl9HyCT5xCDdWyNeYBb08+1tgUgr08XUW3GHY586g
- h4dwYAnQAkFL6uO7FurTZUkyNts5TNO/hisnzvA8vXV3boe/8qWtGTky0YRhq7UsXQb5CEOoPmg
- JzCP8V9s4LH4oD1f+ueMs0M9z5JJRpRGAU9sSvzj3ZyKb+Rf4rzlnQZCUsRfPyxQACYo7/GO/Gi
- zGmFc5onb442Hqnqp2yyDIndALbpCI2QyhF/dvAnQnRyXmqnpoJ5usliYX813eisKHCsXWkGJUm
- GNZf8kO7pXykajLgnTP+8j59OijKSorcu0V00EeBWqwervYGRhHhk83PTPm1UXJaXuR8c33d
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-09_01,2025-05-08_04,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 mlxscore=0 suspectscore=0 spamscore=0 malwarescore=0
- impostorscore=0 clxscore=1011 mlxlogscore=999 phishscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
- definitions=main-2505090021
+X-MS-Exchange-CrossTenant-UserPrincipalName: gsC1U9eQOfSwnXQ1lg+YEF5n/rS5oLXzWf/LENWLApeunS3YS+tv/REgP63f6Ft8FMjFAjq4sSulnafVCzdmhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7240
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,111 +173,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack Rusin <zack.rusin@broadcom.com>
+Ping?
+Also, since there is pushback on 01/12 "dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI", what is the plan now? Thanks,
 
-commit e58337100721f3cc0c7424a18730e4f39844934f upstream.
 
-Introduce a version of the fence ops that on release doesn't remove
-the fence from the pending list, and thus doesn't require a lock to
-fix poll->fence wait->fence unref deadlocks.
+On 29/4/25 17:50, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 29/4/25 16:48, Alexey Kardashevskiy wrote:
+>> On 8/1/25 01:27, Xu Yilun wrote:
+>>> This series is based on an earlier kvm-coco-queue version (v6.12-rc2)
+>>
+>> Has this been pushed somewhere public? The patchset does not apply on top of v6.12-rc2, for example (I fixed locally).
+>> Also, is there somewhere a QEMU tree using this? I am trying to use this new DMA_BUF feature and this require quite some not so obvious plumbing. Thanks,
+> 
+> 
+> More to the point, to make it work, QEMU needs to register VFIO MMIO BAR with KVM_SET_USER_MEMORY_REGION2 which passes slot->guest_memfd to KVM which essentially comes from VFIORegion->mmaps[0].mem->ram_block->guest_memfd. But since you disabled mmap for private MMIO, there is no MR which QEMU would even try registering as KVM memslot and there are many ways to fix it. I took a shortcut and reenabled mmap() but wonder what exactly you did. Makes sense? Thanks,
 
-vmwgfx overwrites the wait callback to iterate over the list of all
-fences and update their status, to do that it holds a lock to prevent
-the list modifcations from other threads. The fence destroy callback
-both deletes the fence and removes it from the list of pending
-fences, for which it holds a lock.
+> 
+> 
+>>
+>>> which includes all basic TDX patches.
+>>>
+>>> The series is to start the early stage discussion of the private MMIO
+>>> handling for Coco-VM, which is part of the Private Device
+>>> Assignment (aka TEE-IO, TIO) enabling. There are already some
+>>> disscusion about the context of TIO:
+>>>
+>>> https://lore.kernel.org/linux-coco/173343739517.1074769.13134786548545925484.stgit@dwillia2-xfh.jf.intel.com/
+>>> https://lore.kernel.org/all/20240823132137.336874-1-aik@amd.com/
+>>>
+>>> Private MMIOs are resources owned by Private assigned devices. Like
+>>> private memory, they are also not intended to be accessed by host, only
+>>> accessible by Coco-VM via some secondary MMUs (e.g. Secure EPT). This
+>>> series is for KVM to map these MMIO resources without firstly mapping
+>>> into the host. For this purpose, This series uses the FD based MMIO
+>>> resources for secure mapping, and the dma-buf is chosen as the FD based
+>>> backend, just like guest_memfd for private memory. Patch 6 in this
+>>> series has more detailed description.
+>>>
+>>>
+>>> Patch 1 changes dma-buf core, expose a new kAPI for importers to get
+>>> dma-buf's PFN without DMA mapping. KVM could use this kAPI to build
+>>> GPA -> HPA mapping in KVM MMU.
+>>>
+>>> Patch 2-4 are from Jason & Vivek, allow vfio-pci to export MMIO
+>>> resources as dma-buf. The original series are for native P2P DMA and
+>>> focus on p2p DMA mapping opens. I removed these p2p DMA mapping code
+>>> just to focus the early stage discussion of private MMIO. The original
+>>> series:
+>>>
+>>> https://lore.kernel.org/all/0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com/
+>>> https://lore.kernel.org/kvm/20240624065552.1572580-1-vivek.kasireddy@intel.com/
+>>>
+>>> Patch 5 is the implementation of get_pfn() callback for vfio dma-buf
+>>> exporter.
+>>>
+>>> Patch 6-7 is about KVM supports the private MMIO memory slot backed by
+>>> vfio dma-buf.
+>>>
+>>> Patch 8-10 is about how KVM verifies the user provided dma-buf fd
+>>> eligible for private MMIO slot.
+>>>
+>>> Patch 11-12 is the example of how KVM TDX setup the Secure EPT for
+>>> private MMIO.
+>>>
+>>>
+>>> TODOs:
+>>>
+>>> - Follow up the evolving of original VFIO dma-buf series.
+>>> - Follow up the evolving of basic TDX patches.
+>>>
+>>>
+>>> Vivek Kasireddy (3):
+>>>    vfio: Export vfio device get and put registration helpers
+>>>    vfio/pci: Share the core device pointer while invoking feature
+>>>      functions
+>>>    vfio/pci: Allow MMIO regions to be exported through dma-buf
+>>>
+>>> Xu Yilun (9):
+>>>    dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI
+>>>    vfio/pci: Support get_pfn() callback for dma-buf
+>>>    KVM: Support vfio_dmabuf backed MMIO region
+>>>    KVM: x86/mmu: Handle page fault for vfio_dmabuf backed MMIO
+>>>    vfio/pci: Create host unaccessible dma-buf for private device
+>>>    vfio/pci: Export vfio dma-buf specific info for importers
+>>>    KVM: vfio_dmabuf: Fetch VFIO specific dma-buf data for sanity check
+>>>    KVM: x86/mmu: Export kvm_is_mmio_pfn()
+>>>    KVM: TDX: Implement TDX specific private MMIO map/unmap for SEPT
+>>>
+>>>   Documentation/virt/kvm/api.rst     |   7 +
+>>>   arch/x86/include/asm/tdx.h         |   3 +
+>>>   arch/x86/kvm/mmu.h                 |   1 +
+>>>   arch/x86/kvm/mmu/mmu.c             |  25 ++-
+>>>   arch/x86/kvm/mmu/spte.c            |   3 +-
+>>>   arch/x86/kvm/vmx/tdx.c             |  57 +++++-
+>>>   arch/x86/virt/vmx/tdx/tdx.c        |  52 ++++++
+>>>   arch/x86/virt/vmx/tdx/tdx.h        |   3 +
+>>>   drivers/dma-buf/dma-buf.c          |  90 ++++++++--
+>>>   drivers/vfio/device_cdev.c         |   9 +-
+>>>   drivers/vfio/pci/Makefile          |   1 +
+>>>   drivers/vfio/pci/dma_buf.c         | 273 +++++++++++++++++++++++++++++
+>>>   drivers/vfio/pci/vfio_pci_config.c |  22 ++-
+>>>   drivers/vfio/pci/vfio_pci_core.c   |  64 +++++--
+>>>   drivers/vfio/pci/vfio_pci_priv.h   |  27 +++
+>>>   drivers/vfio/pci/vfio_pci_rdwr.c   |   3 +
+>>>   drivers/vfio/vfio_main.c           |   2 +
+>>>   include/linux/dma-buf.h            |  13 ++
+>>>   include/linux/kvm_host.h           |  25 ++-
+>>>   include/linux/vfio.h               |  22 +++
+>>>   include/linux/vfio_pci_core.h      |   1 +
+>>>   include/uapi/linux/kvm.h           |   1 +
+>>>   include/uapi/linux/vfio.h          |  34 +++-
+>>>   virt/kvm/Kconfig                   |   6 +
+>>>   virt/kvm/Makefile.kvm              |   1 +
+>>>   virt/kvm/kvm_main.c                |  32 +++-
+>>>   virt/kvm/kvm_mm.h                  |  19 ++
+>>>   virt/kvm/vfio_dmabuf.c             | 151 ++++++++++++++++
+>>>   28 files changed, 896 insertions(+), 51 deletions(-)
+>>>   create mode 100644 drivers/vfio/pci/dma_buf.c
+>>>   create mode 100644 virt/kvm/vfio_dmabuf.c
+>>>
+>>
+> 
 
-dma buf polling cb unrefs a fence after it's been signaled: so the poll
-calls the wait, which signals the fences, which are being destroyed.
-The destruction tries to acquire the lock on the pending fences list
-which it can never get because it's held by the wait from which it
-was called.
-
-Old bug, but not a lot of userspace apps were using dma-buf polling
-interfaces. Fix those, in particular this fixes KDE stalls/deadlock.
-
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: 2298e804e96e ("drm/vmwgfx: rework to new fence interface, v2")
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.2+
-Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240722184313.181318-2-zack.rusin@broadcom.com
-[Minor context change fixed]
-Signed-off-by: Zhi Yang <Zhi.Yang@windriver.com>
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
-Build test passed.
----
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-index 6bacdb7583df..0505f87d13c0 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -32,7 +32,6 @@
- #define VMW_FENCE_WRAP (1 << 31)
- 
- struct vmw_fence_manager {
--	int num_fence_objects;
- 	struct vmw_private *dev_priv;
- 	spinlock_t lock;
- 	struct list_head fence_list;
-@@ -113,13 +112,13 @@ static void vmw_fence_obj_destroy(struct dma_fence *f)
- {
- 	struct vmw_fence_obj *fence =
- 		container_of(f, struct vmw_fence_obj, base);
--
- 	struct vmw_fence_manager *fman = fman_from_fence(fence);
- 
--	spin_lock(&fman->lock);
--	list_del_init(&fence->head);
--	--fman->num_fence_objects;
--	spin_unlock(&fman->lock);
-+	if (!list_empty(&fence->head)) {
-+		spin_lock(&fman->lock);
-+		list_del_init(&fence->head);
-+		spin_unlock(&fman->lock);
-+	}
- 	fence->destroy(fence);
- }
- 
-@@ -250,7 +249,6 @@ static const struct dma_fence_ops vmw_fence_ops = {
- 	.release = vmw_fence_obj_destroy,
- };
- 
--
- /**
-  * Execute signal actions on fences recently signaled.
-  * This is done from a workqueue so we don't have to execute
-@@ -353,7 +351,6 @@ static int vmw_fence_obj_init(struct vmw_fence_manager *fman,
- 		goto out_unlock;
- 	}
- 	list_add_tail(&fence->head, &fman->fence_list);
--	++fman->num_fence_objects;
- 
- out_unlock:
- 	spin_unlock(&fman->lock);
-@@ -402,7 +399,7 @@ static bool vmw_fence_goal_new_locked(struct vmw_fence_manager *fman,
- {
- 	u32 goal_seqno;
- 	u32 *fifo_mem;
--	struct vmw_fence_obj *fence;
-+	struct vmw_fence_obj *fence, *next_fence;
- 
- 	if (likely(!fman->seqno_valid))
- 		return false;
-@@ -413,7 +410,7 @@ static bool vmw_fence_goal_new_locked(struct vmw_fence_manager *fman,
- 		return false;
- 
- 	fman->seqno_valid = false;
--	list_for_each_entry(fence, &fman->fence_list, head) {
-+	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
- 		if (!list_empty(&fence->seq_passed_actions)) {
- 			fman->seqno_valid = true;
- 			vmw_mmio_write(fence->base.seqno,
 -- 
-2.34.1
+Alexey
 
