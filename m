@@ -2,24 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2F9AB23A7
-	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 13:45:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C03AB23A8
+	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 13:45:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 352E410E0E3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54C3F10E0EA;
 	Sat, 10 May 2025 11:45:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Fri, 09 May 2025 07:40:10 UTC
-Received: from mail-m49248.qiye.163.com (mail-m49248.qiye.163.com
- [45.254.49.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 158CC10E9CC
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 07:40:09 +0000 (UTC)
-Received: from [127.0.0.1] (gy-adaptive-ssl-proxy-1-entmail-virt204.gy.ntes
- [58.22.7.114]) by smtp.qiye.163.com (Hmail) with ESMTP id 147cae3e8;
- Fri, 9 May 2025 15:34:58 +0800 (GMT+08:00)
-Message-ID: <5a4f6229-1450-4c96-bfac-5257f66b2ddf@rock-chips.com>
-Date: Fri, 9 May 2025 15:34:47 +0800
+Received: from mail-m49206.qiye.163.com (mail-m49206.qiye.163.com
+ [45.254.49.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1723A10E9E9
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 09:32:22 +0000 (UTC)
+Received: from [127.0.0.1] (gy-adaptive-ssl-proxy-2-entmail-virt205.gy.ntes
+ [58.22.7.114]) by smtp.qiye.163.com (Hmail) with ESMTP id 1481670b2;
+ Fri, 9 May 2025 17:32:13 +0800 (GMT+08:00)
+Message-ID: <2f4e031c-25d1-4e2b-ad03-36e27d3d364d@rock-chips.com>
+Date: Fri, 9 May 2025 17:32:02 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 2/2] dt-bindings: display: rockchip: Convert
@@ -38,23 +36,25 @@ Cc: Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
 References: <20250509070247.868-1-kernel@airkyi.com>
  <20250509070247.868-3-kernel@airkyi.com>
  <ccf4b15a-8399-4a7f-ae40-d01d0975921c@kernel.org>
+ <5a4f6229-1450-4c96-bfac-5257f66b2ddf@rock-chips.com>
+ <5c0a3b62-cf4f-46ec-b0e2-7d78ac499cb5@kernel.org>
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <ccf4b15a-8399-4a7f-ae40-d01d0975921c@kernel.org>
+In-Reply-To: <5c0a3b62-cf4f-46ec-b0e2-7d78ac499cb5@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUkfGVYYSUxJHhgdSBhLShpWFRQJFh
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQh8dHlYZS05KH0IfGB4eSkxWFRQJFh
  oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
  hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a96b3f8063203abkunm147cae3e8
+X-HM-Tid: 0a96b4635efa03abkunm1481670b2
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6M1E6Kgw*HDJWFQI4FToPDCIW
- Fx0aCUhVSlVKTE9NTExNSktPQkhMVTMWGhIXVRgTGhQCElUYEx4VOwkUGBBWGBMSCwhVGBQWRVlX
- WRILWUFZTkNVSUlVTFVKSk9ZV1kIAVlBSEJOTzcG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NSo6MDo5QjJJMwEWAQ4uCy8o
+ LzUKCVZVSlVKTE9NTENISk9LSk5KVTMWGhIXVRgTGhQCElUYEx4VOwkUGBBWGBMSCwhVGBQWRVlX
+ WRILWUFZTkNVSUlVTFVKSk9ZV1kIAVlBSElLQzcG
 DKIM-Signature: a=rsa-sha256;
- b=hJ7NikvuDJyHiU7TZoYgd87OzKAxhsDgv4cKFeiFgwAnYpwpLeSMndEsG6yjBhRVE4W7w8ioYZpdvRBjJX0LT/gbPHUp9B3ZkZA+9kh6jciL3KWKe7lrhHOr8J8qyQdAE0rM7L+7JAmxljZqr+wVdMoLy7f0nS6OQxx/RUC+BZE=;
+ b=ASkDftnQLy66Ocju57vFIMbVp4bL9Dv2+YDTqq6ZomPhnJVLuM1V09jRMVOrMp+aqV2pPtZi4F57RYg2yNz1Be3J39EYdsQqqYk2nCSEEkFxf1VkVi6aRMtx92JJ1EFm1H8O7dDah9SLZk76tyxBqhFvgv+rY5m3gWYXBh6Tqn8=;
  s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=BQYBVB8p8nqMgWuckxW3aKVVBX+ixBeiwRuXnWXYxag=;
+ bh=vb9RNpQ9nn8CaEP5Dac/qXM6STSUoM5kUgGizmVamZ0=;
  h=date:mime-version:subject:message-id:from;
 X-Mailman-Approved-At: Sat, 10 May 2025 11:45:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,101 +74,63 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Krzysztof,
 
-On 2025/5/9 15:11, Krzysztof Kozlowski wrote:
-> On 09/05/2025 09:02, Chaoyi Chen wrote:
->> +
->> +  clock-names:
->> +    items:
->> +      - const: core-clk
->> +      - const: pclk
->> +      - const: spdif
->> +      - const: grf
->> +
->> +  extcon:
->> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->> +    description:
->> +      Phandle to the extcon device providing the cable state for the DP PHY.
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  phys:
->> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> Just phandle. If this is an array (but why?), you need maxItems for
-> outer and inner dimensions.
+On 2025/5/9 17:21, Krzysztof Kozlowski wrote:
+> On 09/05/2025 09:34, Chaoyi Chen wrote:
+>> Hi Krzysztof,
+>>
+>> On 2025/5/9 15:11, Krzysztof Kozlowski wrote:
+>>> On 09/05/2025 09:02, Chaoyi Chen wrote:
+>>>> +
+>>>> +  clock-names:
+>>>> +    items:
+>>>> +      - const: core-clk
+>>>> +      - const: pclk
+>>>> +      - const: spdif
+>>>> +      - const: grf
+>>>> +
+>>>> +  extcon:
+>>>> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+>>>> +    description:
+>>>> +      Phandle to the extcon device providing the cable state for the DP PHY.
+>>>> +
+>>>> +  interrupts:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +  phys:
+>>>> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+>>> Just phandle. If this is an array (but why?), you need maxItems for
+>>> outer and inner dimensions.
+> Uh, sorry, that was supposed to be under extcon.
 
-I think it could be phandle or phandle-array. Since the RK3399 DP has 
-two PHYs, if we put in two PHYs here, the driver will pick one PHY port 
-that is already plugged into the DP for output. If we fill in only one 
-PHY here, then output is only allowed on the corresponding PHY.
-
-Will add restrictions and add more descriptions in v3.
+Oh, this also applies to extcon. Each extcon is used to indicate the 
+status of the PHY.
 
 
 >
->> +    description:
->> +      Phandle to the PHY device for DP output.
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Input of the CDN DP
->> +        properties:
->> +          endpoint@0:
->> +            description: Connection to the VOPB
->> +          endpoint@1:
->> +            description: Connection to the VOPL
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Output of the CDN DP
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  resets:
->> +    maxItems: 4
->> +
->> +  reset-names:
->> +    items:
->> +      - const: spdif
->> +      - const: dptx
->> +      - const: apb
->> +      - const: core
->> +
->> +  rockchip,grf:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description:
->> +      Phandle to GRF register to control HPD.
->> +
->> +  "#sound-dai-cells":
->> +    const: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - clock-names
->> +  - interrupts
->> +  - phys
->> +  - ports
->> +  - resets
->> +  - reset-names
->> +  - rockchip,grf
->> +
->> +additionalProperties: false
-> Well, if you added dai-common $ref then this could have stayed as
-> unevaluatedProperties, so you will allow names for the DAI as well.
+>> I think it could be phandle or phandle-array. Since the RK3399 DP has
+> Here it is obviously not needed, that's a dtschema type.
 
-Thanks for your clarification. Will fix in v3.
+Do you mean that there is no need to explicitly specify something like 
+"$ref: /schemas/types.yaml#/definitions/phandle" ?
 
 
+
+>
+>> two PHYs, if we put in two PHYs here, the driver will pick one PHY port
+>> that is already plugged into the DP for output. If we fill in only one
+>> PHY here, then output is only allowed on the corresponding PHY.
+>>
+>> Will add restrictions and add more descriptions in v3.
+>>
+>>
+>>>> +    description:
+>>>> +      Phandle to the PHY device for DP output.
+> You need to list the items with description iinstead.
+
+Okay, will fix in v3.
+
+
+>
 >
 >
 > Best regards,
