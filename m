@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2684AB1895
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 17:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDFFAB189C
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 17:34:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C96310EA64;
-	Fri,  9 May 2025 15:34:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 170BD10EA74;
+	Fri,  9 May 2025 15:34:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ZzqhQC/f";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="diHmqWgm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5E1410EA64;
- Fri,  9 May 2025 15:34:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3384E10EA6B;
+ Fri,  9 May 2025 15:34:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=1vhPhUpo7XYOjEiM3EN6oBLXztk5z+K99Cobporw1Bc=; b=ZzqhQC/fia/9vdAn8j3+3NrHA+
- nBX68px/1RI5OPFyT18OXnxmea9OW4YVEaJHpTq5RrIonySM0BNxyMy4emD5s4PPBcAAVbN7ArENH
- NsIfI9jzZwfXJHaheDLqwFr15LUK/ZyGEuanX8fHm0ZANfkJd17/jBbs0bXW3vBACf+vFSmPr6hTS
- nbbPnKF4nCDP2l2oRio/ujhg2u6QK5QtG1HuldL8hqkFcMk09d75siQIsvTNFgTVpjmwTDnECf2wM
- lYPhMJ4IUcjJkCcG6bbK4EqAWaejdGz2qEbl94Gce6deUoBz2JBxvvhmgum4CT3iOYRpz3gSoyoUZ
- ++VGjhig==;
+ bh=nVt6X40HP3wrlexk4+/pWTXCDCJf11yiDiei9QiLl8A=; b=diHmqWgmFxuyfpykb0bpbBByAM
+ T8FOTSwk+HAtipb+oiE9qF1BiTFxkkyFy3/bSkVQhZP4JxFMhxLbCc7u6c59aNfT0B1INptIUVoqh
+ QNHCmEtiTF0b06Crf9lRYFd9O4y6hi+XPeK3kg7FJlueFiRL3PSPc8QZzrbLAKjaIfid+tFNc/ZAt
+ DO3E1HMHR+UYgG65cuFMhwhHtDhpNqEKXCJXrowDA6Pa6jH8YaTj+DwAwYXb4ne6+/biY6kGaDk5Z
+ VUfUlATIVbD91mH8RXgAuBSJRTLMh80AeANWt1M+EKJ6YKh0dmKu93XVrOk8wSBZ+2nZeUb2I2bIU
+ PZt7SATA==;
 Received: from [81.79.92.254] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uDPfH-005oEO-Bl; Fri, 09 May 2025 17:34:08 +0200
+ id 1uDPfI-005oES-55; Fri, 09 May 2025 17:34:08 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Sumit Semwal <sumit.semwal@linaro.org>,
@@ -43,9 +43,9 @@ Cc: Sumit Semwal <sumit.semwal@linaro.org>,
  intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
  kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [RFC v2 02/13] dma-fence: Change signature of __dma_fence_is_later
-Date: Fri,  9 May 2025 16:33:41 +0100
-Message-ID: <20250509153352.7187-3-tvrtko.ursulin@igalia.com>
+Subject: [RFC v2 03/13] dma-fence: Use a flag for 64-bit seqnos
+Date: Fri,  9 May 2025 16:33:42 +0100
+Message-ID: <20250509153352.7187-4-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250509153352.7187-1-tvrtko.ursulin@igalia.com>
 References: <20250509153352.7187-1-tvrtko.ursulin@igalia.com>
@@ -67,133 +67,114 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 With the goal of reducing the need for drivers to touch (and dereference)
-fence->ops, we change the prototype of __dma_fence_is_later() to take
-fence instead of fence->ops.
+fence->ops, we move the 64-bit seqnos flag from struct dma_fence_ops to
+the fence->flags.
+
+Drivers which were setting this flag are changed to use new
+dma_fence_init64() instead of dma_fence_init().
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- drivers/dma-buf/dma-fence-chain.c |  2 +-
- drivers/dma-buf/sw_sync.c         |  2 +-
- drivers/gpu/drm/xe/xe_hw_fence.c  |  2 +-
- drivers/gpu/drm/xe/xe_sched_job.c | 14 ++++++++------
- include/linux/dma-fence.h         |  9 ++++-----
- 5 files changed, 15 insertions(+), 14 deletions(-)
+ drivers/dma-buf/dma-fence-chain.c                | 5 ++---
+ drivers/dma-buf/dma-fence.c                      | 9 +++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c | 5 ++---
+ include/linux/dma-fence.h                        | 6 +++++-
+ 4 files changed, 18 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-index 9663ba1bb6ac..90424f23fd73 100644
+index 90424f23fd73..a8a90acf4f34 100644
 --- a/drivers/dma-buf/dma-fence-chain.c
 +++ b/drivers/dma-buf/dma-fence-chain.c
-@@ -252,7 +252,7 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
- 	chain->prev_seqno = 0;
- 
- 	/* Try to reuse the context of the previous chain node. */
--	if (prev_chain && __dma_fence_is_later(seqno, prev->seqno, prev->ops)) {
-+	if (prev_chain && __dma_fence_is_later(prev, seqno, prev->seqno)) {
- 		context = prev->context;
- 		chain->prev_seqno = prev->seqno;
- 	} else {
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 4f27ee93a00c..3c20f1d31cf5 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -170,7 +170,7 @@ static bool timeline_fence_signaled(struct dma_fence *fence)
- {
- 	struct sync_timeline *parent = dma_fence_parent(fence);
- 
--	return !__dma_fence_is_later(fence->seqno, parent->value, fence->ops);
-+	return !__dma_fence_is_later(fence, fence->seqno, parent->value);
+@@ -218,7 +218,6 @@ static void dma_fence_chain_set_deadline(struct dma_fence *fence,
  }
  
- static void timeline_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
-index 0b4f12be3692..03eb8c6d1616 100644
---- a/drivers/gpu/drm/xe/xe_hw_fence.c
-+++ b/drivers/gpu/drm/xe/xe_hw_fence.c
-@@ -165,7 +165,7 @@ static bool xe_hw_fence_signaled(struct dma_fence *dma_fence)
- 	u32 seqno = xe_map_rd(xe, &fence->seqno_map, 0, u32);
+ const struct dma_fence_ops dma_fence_chain_ops = {
+-	.use_64bit_seqno = true,
+ 	.get_driver_name = dma_fence_chain_get_driver_name,
+ 	.get_timeline_name = dma_fence_chain_get_timeline_name,
+ 	.enable_signaling = dma_fence_chain_enable_signaling,
+@@ -262,8 +261,8 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+ 			seqno = max(prev->seqno, seqno);
+ 	}
  
- 	return dma_fence->error ||
--		!__dma_fence_is_later(dma_fence->seqno, seqno, dma_fence->ops);
-+		!__dma_fence_is_later(dma_fence, dma_fence->seqno, seqno);
- }
- 
- static bool xe_hw_fence_enable_signaling(struct dma_fence *dma_fence)
-diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
-index 1905ca590965..f0a6ce610948 100644
---- a/drivers/gpu/drm/xe/xe_sched_job.c
-+++ b/drivers/gpu/drm/xe/xe_sched_job.c
-@@ -216,15 +216,17 @@ void xe_sched_job_set_error(struct xe_sched_job *job, int error)
- 
- bool xe_sched_job_started(struct xe_sched_job *job)
- {
-+	struct dma_fence *fence = dma_fence_chain_contained(job->fence);
- 	struct xe_lrc *lrc = job->q->lrc[0];
- 
--	return !__dma_fence_is_later(xe_sched_job_lrc_seqno(job),
--				     xe_lrc_start_seqno(lrc),
--				     dma_fence_chain_contained(job->fence)->ops);
-+	return !__dma_fence_is_later(fence,
-+				     xe_sched_job_lrc_seqno(job),
-+				     xe_lrc_start_seqno(lrc));
- }
- 
- bool xe_sched_job_completed(struct xe_sched_job *job)
- {
-+	struct dma_fence *fence = dma_fence_chain_contained(job->fence);
- 	struct xe_lrc *lrc = job->q->lrc[0];
+-	dma_fence_init(&chain->base, &dma_fence_chain_ops,
+-		       &chain->lock, context, seqno);
++	dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
++			 context, seqno);
  
  	/*
-@@ -232,9 +234,9 @@ bool xe_sched_job_completed(struct xe_sched_job *job)
- 	 * parallel handshake is done.
- 	 */
- 
--	return !__dma_fence_is_later(xe_sched_job_lrc_seqno(job),
--				     xe_lrc_seqno(lrc),
--				     dma_fence_chain_contained(job->fence)->ops);
-+	return !__dma_fence_is_later(fence,
-+				     xe_sched_job_lrc_seqno(job),
-+				     xe_lrc_seqno(lrc));
+ 	 * Chaining dma_fence_chain container together is only allowed through
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index f0cdd3e99d36..33661658f684 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -1023,3 +1023,12 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+ 	trace_dma_fence_init(fence);
+ }
+ EXPORT_SYMBOL(dma_fence_init);
++
++void
++dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
++		 spinlock_t *lock, u64 context, u64 seqno)
++{
++	dma_fence_init(fence, ops, lock, context, seqno);
++	__set_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags);
++}
++EXPORT_SYMBOL(dma_fence_init64);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+index 51cddfa3f1e8..5d26797356a3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+@@ -71,7 +71,6 @@ static void amdgpu_tlb_fence_work(struct work_struct *work)
  }
  
- void xe_sched_job_arm(struct xe_sched_job *job)
+ static const struct dma_fence_ops amdgpu_tlb_fence_ops = {
+-	.use_64bit_seqno = true,
+ 	.get_driver_name = amdgpu_tlb_fence_get_driver_name,
+ 	.get_timeline_name = amdgpu_tlb_fence_get_timeline_name
+ };
+@@ -101,8 +100,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
+ 	INIT_WORK(&f->work, amdgpu_tlb_fence_work);
+ 	spin_lock_init(&f->lock);
+ 
+-	dma_fence_init(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
+-		       vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
++	dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
++			 vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
+ 
+ 	/* TODO: We probably need a separate wq here */
+ 	dma_fence_get(&f->base);
 diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index b12776883d14..48b5202c531d 100644
+index 48b5202c531d..ac6535716dbe 100644
 --- a/include/linux/dma-fence.h
 +++ b/include/linux/dma-fence.h
-@@ -441,21 +441,20 @@ dma_fence_is_signaled(struct dma_fence *fence)
+@@ -97,6 +97,7 @@ struct dma_fence {
+ };
  
- /**
-  * __dma_fence_is_later - return if f1 is chronologically later than f2
-+ * @fence: fence in whose context to do the comparison
-  * @f1: the first fence's seqno
-  * @f2: the second fence's seqno from the same context
-- * @ops: dma_fence_ops associated with the seqno
-  *
-  * Returns true if f1 is chronologically later than f2. Both fences must be
-  * from the same context, since a seqno is not common across contexts.
-  */
--static inline bool __dma_fence_is_later(u64 f1, u64 f2,
--					const struct dma_fence_ops *ops)
-+static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
- {
- 	/* This is for backward compatibility with drivers which can only handle
+ enum dma_fence_flag_bits {
++	DMA_FENCE_FLAG_SEQNO64_BIT,
+ 	DMA_FENCE_FLAG_SIGNALED_BIT,
+ 	DMA_FENCE_FLAG_TIMESTAMP_BIT,
+ 	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+@@ -262,6 +263,9 @@ struct dma_fence_ops {
+ void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+ 		    spinlock_t *lock, u64 context, u64 seqno);
+ 
++void dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
++		      spinlock_t *lock, u64 context, u64 seqno);
++
+ void dma_fence_release(struct kref *kref);
+ void dma_fence_free(struct dma_fence *fence);
+ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
+@@ -454,7 +458,7 @@ static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
  	 * 32bit sequence numbers. Use a 64bit compare when the driver says to
  	 * do so.
  	 */
--	if (ops->use_64bit_seqno)
-+	if (fence->ops->use_64bit_seqno)
+-	if (fence->ops->use_64bit_seqno)
++	if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
  		return f1 > f2;
  
  	return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
-@@ -475,7 +474,7 @@ static inline bool dma_fence_is_later(struct dma_fence *f1,
- 	if (WARN_ON(f1->context != f2->context))
- 		return false;
- 
--	return __dma_fence_is_later(f1->seqno, f2->seqno, f1->ops);
-+	return __dma_fence_is_later(f1, f1->seqno, f2->seqno);
- }
- 
- /**
 -- 
 2.48.0
 
