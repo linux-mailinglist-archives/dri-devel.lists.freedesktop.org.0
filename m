@@ -2,100 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DD1AB0E0A
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 11:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86EE4AB0EC3
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 11:21:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B71810E9DD;
-	Fri,  9 May 2025 08:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F04CC10E9E2;
+	Fri,  9 May 2025 09:21:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vIRoVPcV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tXgxC1bV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12ED610E9DD
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 08:59:52 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-43cfebc343dso12901515e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 01:59:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746781190; x=1747385990; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=DfmCayRUwr3gSafmTaOxUqOuvcGOwzom1+h8hbh2uFI=;
- b=vIRoVPcVNtjdZ9wd1GkDgDQfNUKJNVFGp7KcZcZGXZ1DS5CZrXTTcV0c9XQFGTZUUf
- IgQT7Tl1iUvbtyj1jlKEb0rTiuZ6ZVRcDEJIvrgnVG1Tb0fhaimtyKkyWxUFgXLD4SJ+
- H0ago8ChO4JXyFg5DDcg+aF6M5xZ+yGI+BF6q6lEw1GGIy/e7WpOt7eSVbqu90uBa7+8
- w4I0Tb5RnjwhxJBW/j1AHUeihW9t9LFZAQV+rCJblJeeFIyD/0qtX1xoPSpHXYMy+SV+
- KmT6xPkvJqYulnRoIxwBIrjcmXoB1iS0VtCDaWY1HMYkSy26SePPiTmX8RN//ZbY1D0+
- 1MCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746781190; x=1747385990;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DfmCayRUwr3gSafmTaOxUqOuvcGOwzom1+h8hbh2uFI=;
- b=dmvfd/1j3ex8kL7zQzfZQYpRK8bKN6EXPaCbR62+FsHtzu5tJUOmNj39A/37UoO6W6
- WG46uxtgF9PWzTIZwjJTUAIZdHQkDMxg4aDOuaBxRcXWvG7bSlpIzJziH8ccjWk+njEG
- KgMlzHat+KRWkQsd2Oh8kI7lGlShcaSTUcniLvmzqb4zWIGtMS7tk49mjUdVY9JqqGME
- Pll6PzETNuYc/AKo7g0DONF+1pxExanFdF5et2/czV5Nj1AC2+MWQKHjQ779D1j3zvKp
- xD0n/X8A2mBXCqk5XSze5CJWf4YjC3KC6kg5zCFHlfqGZiZyaREbDptYgNjB7Mz66PA9
- H69A==
-X-Gm-Message-State: AOJu0YxqeBKM/u2DFwZvFzPQwtIJRLo+3PEXi/gEnNpXMV1DppGmNkyB
- QQeliYkWqlz9bs5RN3WY2ouLrHjWgcOVmqnZQn5MdoRBx+SOSSH5HBncaIxjCw0=
-X-Gm-Gg: ASbGncunykmEOyeZLeFsVemJfGH63BxE3qasQi6chi3CI9+ccN5L9V5BCsTCws1EwPY
- 0hA7XI8wV6iW1Js1U/uEn74uksvdATvOp5MXP1/QqCOcYiox1+5xYhu7/jg59n1sL7xQUT7u9oZ
- sE7/fxYWmELd325Vr7KJbb5LnYRmBMkuCaXcgX5LMj/NiBClbpdJ1JTxXlfQDoU5ze2tML9ST61
- FB5qY+n/mwAHZd8cpFQxqxJDeq26XY+E5jy+UrwhcyIpsQVsShyuq6WDATyi2YH4+wQlfJ7XlBD
- i7sivdRr0I9tWKQTMU2n7XMsNhAj8Qmtu0camwwBZzwTWu1PSmVbnF8pvf7BpQ==
-X-Google-Smtp-Source: AGHT+IE7qtjLG+dHf/JB33gMcHmOc55oJ6Skmmte2kAyic0c68/mzJS1hOHbv0dTCDDLFx2FxomgiA==
-X-Received: by 2002:a05:600c:6814:b0:43c:fbba:41ba with SMTP id
- 5b1f17b1804b1-442d6ddec51mr17382075e9.28.1746781190474; 
- Fri, 09 May 2025 01:59:50 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-442d67df639sm22369115e9.13.2025.05.09.01.59.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 May 2025 01:59:50 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 09 May 2025 10:59:44 +0200
-Subject: [PATCH v2 6/6] drm/panel: visionox-rm69299: support the variant
- found in the SHIFT6mq
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2C4F10E9E4
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 09:21:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id AA426452B3;
+ Fri,  9 May 2025 09:21:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A3A1C4CEE4;
+ Fri,  9 May 2025 09:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1746782498;
+ bh=YAiCFXDrUR9QpZfn6PRjLwyLkYo2hhAiphrjnSdS4GU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tXgxC1bVlKrgf8eGnuIC+stZBZLpvZEKl18Xr3q6+owfm4xWrKvnBz1wGG2+aoySQ
+ DYm3QfirHRPe9BS66Il5sjgFiewUl4+jPSUm83wEgtp8b2Iabo+FRRaBCOaLiredZt
+ 9boEel/8mlE9oGBu/Zq/zTZDBU2f23p90bs+wzez4mjnFgTyCP17pihMIdztxWUJC/
+ DuHv7Jcx7h0WJ1IZ8tCjGn1zlM18niw3ryiWbybf8sRzMD59pQPXtl6PV0+86tKayE
+ 1BGWT2KFPkxIXmh+c6hh8fgjn/Ok+E3bUhRsVKNbPD6OE4vxOtZIhXMY8JsnKtrNF1
+ GcndGsDqZuSpg==
+Message-ID: <5c0a3b62-cf4f-46ec-b0e2-7d78ac499cb5@kernel.org>
+Date: Fri, 9 May 2025 11:21:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] dt-bindings: display: rockchip: Convert
+ cdn-dp-rockchip.txt to yaml
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>, Chaoyi Chen
+ <kernel@airkyi.com>, Sandy Huang <hjc@rock-chips.com>,
+ Heiko Stuebner <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250509070247.868-1-kernel@airkyi.com>
+ <20250509070247.868-3-kernel@airkyi.com>
+ <ccf4b15a-8399-4a7f-ae40-d01d0975921c@kernel.org>
+ <5a4f6229-1450-4c96-bfac-5257f66b2ddf@rock-chips.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <5a4f6229-1450-4c96-bfac-5257f66b2ddf@rock-chips.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250509-topic-misc-shift6-panel-v2-6-c2c2d52abd51@linaro.org>
-References: <20250509-topic-misc-shift6-panel-v2-0-c2c2d52abd51@linaro.org>
-In-Reply-To: <20250509-topic-misc-shift6-panel-v2-0-c2c2d52abd51@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Casey Connolly <casey.connolly@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Caleb Connolly <caleb@connolly.tech>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9721;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=k0xSNLGIrpZBoG7rAiHsU8lvzVIj0T+xUF5s6G0C46c=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBoHcP/sM9IVoVCzuWEjIB2l0Y08ZaQP3sfLq/UiBh0
- zwqvGTeJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaB3D/wAKCRB33NvayMhJ0bRzD/
- 94jzDx24tJTK5Zlb3cf9TTJqVc2ggiAVlraNfFfNCK23Te7nFGMK0Yj2Ih6/3YeucdGnqFVMYDEAG1
- ub7vJdPNJL2CFUHq0T7a9ckqZxAEdfwDw0zAVExDciqw3owVQjWmSBtRsg2HVVVQQqAtq9opJEt8R/
- gus1oGzf20y4Xr/7UqNLwLosGUPbV00RvvCYBD1ZU/xjE0OCguSlw2PNlJuNsQVJ+C4t00KIepDzDa
- mInEeAQmo/ICZJ5N6CJchw/5gQEz6fbkDqt+BgCgeU57HHjoR9AgJm5qf4R/7WYwBC3WoxHx2JB3sJ
- g9CVX4WFiW9xZucuR0VtWd4eHQMKX4GsTRNygUNgVxKvzclzYx6pQd+QMelwy1PQ7K/LIzIQO6C7VW
- lq6JeI2jkvd44ZGyZ++TBpie+AFfKPOXgrXC22Qrd86HAbxOsV1mVRKqOMrPYizJ+corEPXsQGBrgD
- A8soYZAZ3cAw48jiDC/VsjrYxBxb4nt6xQKH4qaSJuxK68lUkkIyNbSeZKt2xGp8dHptK8WoqfK2EN
- H2gsFFumw/oSjp4me3DKWUYPjfqA84k3gTonxZZ2bWJSW9aqRCHUENkU/4st2gF1NbNWAlZ81EpCWh
- jjFJ9D+zICUJhRby+J8yPVurUexyq2yxcecjayRFfp9f9+bCjPR56KWvkpfA==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,179 +114,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Caleb Connolly <caleb@connolly.tech>
+On 09/05/2025 09:34, Chaoyi Chen wrote:
+> Hi Krzysztof,
+> 
+> On 2025/5/9 15:11, Krzysztof Kozlowski wrote:
+>> On 09/05/2025 09:02, Chaoyi Chen wrote:
+>>> +
+>>> +  clock-names:
+>>> +    items:
+>>> +      - const: core-clk
+>>> +      - const: pclk
+>>> +      - const: spdif
+>>> +      - const: grf
+>>> +
+>>> +  extcon:
+>>> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+>>> +    description:
+>>> +      Phandle to the extcon device providing the cable state for the DP PHY.
+>>> +
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>> +  phys:
+>>> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+>> Just phandle. If this is an array (but why?), you need maxItems for
+>> outer and inner dimensions.
 
-Add support for another variant of the rm69299 panel. This panel is
-1080x2160 and is found in the shift-axolotl (SHIFT6mq).
+Uh, sorry, that was supposed to be under extcon.
 
-Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-[narmstrong: moved to panel_desc]
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- drivers/gpu/drm/panel/panel-visionox-rm69299.c | 132 +++++++++++++++++++++++++
- 1 file changed, 132 insertions(+)
+> 
+> I think it could be phandle or phandle-array. Since the RK3399 DP has 
 
-diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-index fda1caa9052dd1c61c2dc23934d5faa8a52a6e31..f0791ce499409d353b65b9d1d84efce5b01a7d41 100644
---- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-@@ -39,6 +39,117 @@ static const u8 visionox_rm69299_1080x2248_60hz_init_seq[][2] = {
- 	{ 0xfe, 0x00 }, { 0xc2, 0x08 }, { 0x35, 0x00 }, { 0x51, 0xff },
- };
- 
-+static const u8 visionox_rm69299_1080x2160_60hz_init_seq[][2] = {
-+	{ 0xfe, 0x40 }, { 0x05, 0x04 }, { 0x06, 0x08 }, { 0x08, 0x04 },
-+	{ 0x09, 0x08 }, { 0x0a, 0x07 }, { 0x0b, 0xcc }, { 0x0c, 0x07 },
-+	{ 0x0d, 0x90 }, { 0x0f, 0x87 }, { 0x20, 0x8d }, { 0x21, 0x8d },
-+	{ 0x24, 0x05 }, { 0x26, 0x05 }, { 0x28, 0x05 }, { 0x2a, 0x05 },
-+	{ 0x2d, 0x28 }, { 0x2f, 0x28 }, { 0x30, 0x32 }, { 0x31, 0x32 },
-+	{ 0x37, 0x80 }, { 0x38, 0x30 }, { 0x39, 0xa8 }, { 0x46, 0x48 },
-+	{ 0x47, 0x48 }, { 0x6b, 0x10 }, { 0x6f, 0x02 }, { 0x74, 0x2b },
-+	{ 0x80, 0x1a }, { 0xfe, 0x40 }, { 0x93, 0x10 }, { 0x16, 0x00 },
-+	{ 0x85, 0x07 }, { 0x84, 0x01 }, { 0x86, 0x0f }, { 0x87, 0x05 },
-+	{ 0x8c, 0x00 }, { 0x88, 0x2e }, { 0x89, 0x2e }, { 0x8b, 0x09 },
-+	{ 0x95, 0x00 }, { 0x91, 0x00 }, { 0x90, 0x00 }, { 0x8d, 0xd0 },
-+	{ 0x8a, 0x03 }, { 0xfe, 0xa0 }, { 0x13, 0x00 }, { 0x33, 0x00 },
-+	{ 0x0b, 0x33 }, { 0x36, 0x1e }, { 0x31, 0x88 }, { 0x32, 0x88 },
-+	{ 0x37, 0xf1 }, { 0xfe, 0x50 }, { 0x00, 0x00 }, { 0x01, 0x00 },
-+	{ 0x02, 0x00 }, { 0x03, 0xe9 }, { 0x04, 0x00 }, { 0x05, 0xf6 },
-+	{ 0x06, 0x01 }, { 0x07, 0x2c }, { 0x08, 0x01 }, { 0x09, 0x62 },
-+	{ 0x0a, 0x01 }, { 0x0b, 0x98 }, { 0x0c, 0x01 }, { 0x0d, 0xbf },
-+	{ 0x0e, 0x01 }, { 0x0f, 0xf6 }, { 0x10, 0x02 }, { 0x11, 0x24 },
-+	{ 0x12, 0x02 }, { 0x13, 0x4e }, { 0x14, 0x02 }, { 0x15, 0x70 },
-+	{ 0x16, 0x02 }, { 0x17, 0xaf }, { 0x18, 0x02 }, { 0x19, 0xe2 },
-+	{ 0x1a, 0x03 }, { 0x1b, 0x1f }, { 0x1c, 0x03 }, { 0x1d, 0x52 },
-+	{ 0x1e, 0x03 }, { 0x1f, 0x82 }, { 0x20, 0x03 }, { 0x21, 0xb6 },
-+	{ 0x22, 0x03 }, { 0x23, 0xf0 }, { 0x24, 0x04 }, { 0x25, 0x1f },
-+	{ 0x26, 0x04 }, { 0x27, 0x37 }, { 0x28, 0x04 }, { 0x29, 0x59 },
-+	{ 0x2a, 0x04 }, { 0x2b, 0x68 }, { 0x30, 0x04 }, { 0x31, 0x85 },
-+	{ 0x32, 0x04 }, { 0x33, 0xa2 }, { 0x34, 0x04 }, { 0x35, 0xbc },
-+	{ 0x36, 0x04 }, { 0x37, 0xd8 }, { 0x38, 0x04 }, { 0x39, 0xf4 },
-+	{ 0x3a, 0x05 }, { 0x3b, 0x0e }, { 0x40, 0x05 }, { 0x41, 0x13 },
-+	{ 0x42, 0x05 }, { 0x43, 0x1f }, { 0x44, 0x05 }, { 0x45, 0x1f },
-+	{ 0x46, 0x00 }, { 0x47, 0x00 }, { 0x48, 0x01 }, { 0x49, 0x43 },
-+	{ 0x4a, 0x01 }, { 0x4b, 0x4c }, { 0x4c, 0x01 }, { 0x4d, 0x6f },
-+	{ 0x4e, 0x01 }, { 0x4f, 0x92 }, { 0x50, 0x01 }, { 0x51, 0xb5 },
-+	{ 0x52, 0x01 }, { 0x53, 0xd4 }, { 0x58, 0x02 }, { 0x59, 0x06 },
-+	{ 0x5a, 0x02 }, { 0x5b, 0x33 }, { 0x5c, 0x02 }, { 0x5d, 0x59 },
-+	{ 0x5e, 0x02 }, { 0x5f, 0x7d }, { 0x60, 0x02 }, { 0x61, 0xbd },
-+	{ 0x62, 0x02 }, { 0x63, 0xf7 }, { 0x64, 0x03 }, { 0x65, 0x31 },
-+	{ 0x66, 0x03 }, { 0x67, 0x63 }, { 0x68, 0x03 }, { 0x69, 0x9d },
-+	{ 0x6a, 0x03 }, { 0x6b, 0xd2 }, { 0x6c, 0x04 }, { 0x6d, 0x05 },
-+	{ 0x6e, 0x04 }, { 0x6f, 0x38 }, { 0x70, 0x04 }, { 0x71, 0x51 },
-+	{ 0x72, 0x04 }, { 0x73, 0x70 }, { 0x74, 0x04 }, { 0x75, 0x85 },
-+	{ 0x76, 0x04 }, { 0x77, 0xa1 }, { 0x78, 0x04 }, { 0x79, 0xc0 },
-+	{ 0x7a, 0x04 }, { 0x7b, 0xd8 }, { 0x7c, 0x04 }, { 0x7d, 0xf2 },
-+	{ 0x7e, 0x05 }, { 0x7f, 0x10 }, { 0x80, 0x05 }, { 0x81, 0x21 },
-+	{ 0x82, 0x05 }, { 0x83, 0x2e }, { 0x84, 0x05 }, { 0x85, 0x3a },
-+	{ 0x86, 0x05 }, { 0x87, 0x3e }, { 0x88, 0x00 }, { 0x89, 0x00 },
-+	{ 0x8a, 0x01 }, { 0x8b, 0x86 }, { 0x8c, 0x01 }, { 0x8d, 0x8f },
-+	{ 0x8e, 0x01 }, { 0x8f, 0xb3 }, { 0x90, 0x01 }, { 0x91, 0xd7 },
-+	{ 0x92, 0x01 }, { 0x93, 0xfb }, { 0x94, 0x02 }, { 0x95, 0x18 },
-+	{ 0x96, 0x02 }, { 0x97, 0x4f }, { 0x98, 0x02 }, { 0x99, 0x7e },
-+	{ 0x9a, 0x02 }, { 0x9b, 0xa6 }, { 0x9c, 0x02 }, { 0x9d, 0xcf },
-+	{ 0x9e, 0x03 }, { 0x9f, 0x14 }, { 0xa4, 0x03 }, { 0xa5, 0x52 },
-+	{ 0xa6, 0x03 }, { 0xa7, 0x93 }, { 0xac, 0x03 }, { 0xad, 0xcf },
-+	{ 0xae, 0x04 }, { 0xaf, 0x08 }, { 0xb0, 0x04 }, { 0xb1, 0x42 },
-+	{ 0xb2, 0x04 }, { 0xb3, 0x7f }, { 0xb4, 0x04 }, { 0xb5, 0xb4 },
-+	{ 0xb6, 0x04 }, { 0xb7, 0xcc }, { 0xb8, 0x04 }, { 0xb9, 0xf2 },
-+	{ 0xba, 0x05 }, { 0xbb, 0x0c }, { 0xbc, 0x05 }, { 0xbd, 0x26 },
-+	{ 0xbe, 0x05 }, { 0xbf, 0x4b }, { 0xc0, 0x05 }, { 0xc1, 0x64 },
-+	{ 0xc2, 0x05 }, { 0xc3, 0x83 }, { 0xc4, 0x05 }, { 0xc5, 0xa1 },
-+	{ 0xc6, 0x05 }, { 0xc7, 0xba }, { 0xc8, 0x05 }, { 0xc9, 0xc4 },
-+	{ 0xca, 0x05 }, { 0xcb, 0xd5 }, { 0xcc, 0x05 }, { 0xcd, 0xd5 },
-+	{ 0xce, 0x00 }, { 0xcf, 0xce }, { 0xd0, 0x00 }, { 0xd1, 0xdb },
-+	{ 0xd2, 0x01 }, { 0xd3, 0x32 }, { 0xd4, 0x01 }, { 0xd5, 0x3b },
-+	{ 0xd6, 0x01 }, { 0xd7, 0x74 }, { 0xd8, 0x01 }, { 0xd9, 0x7d },
-+	{ 0xfe, 0x60 }, { 0x00, 0xcc }, { 0x01, 0x0f }, { 0x02, 0xff },
-+	{ 0x03, 0x01 }, { 0x04, 0x00 }, { 0x05, 0x02 }, { 0x06, 0x00 },
-+	{ 0x07, 0x00 }, { 0x09, 0xc4 }, { 0x0a, 0x00 }, { 0x0b, 0x04 },
-+	{ 0x0c, 0x01 }, { 0x0d, 0x00 }, { 0x0e, 0x04 }, { 0x0f, 0x00 },
-+	{ 0x10, 0x71 }, { 0x12, 0xc4 }, { 0x13, 0x00 }, { 0x14, 0x04 },
-+	{ 0x15, 0x01 }, { 0x16, 0x00 }, { 0x17, 0x06 }, { 0x18, 0x00 },
-+	{ 0x19, 0x71 }, { 0x1b, 0xc4 }, { 0x1c, 0x00 }, { 0x1d, 0x02 },
-+	{ 0x1e, 0x00 }, { 0x1f, 0x00 }, { 0x20, 0x08 }, { 0x21, 0x66 },
-+	{ 0x22, 0xb4 }, { 0x24, 0xc4 }, { 0x25, 0x00 }, { 0x26, 0x02 },
-+	{ 0x27, 0x00 }, { 0x28, 0x00 }, { 0x29, 0x07 }, { 0x2a, 0x66 },
-+	{ 0x2b, 0xb4 }, { 0x2f, 0xc4 }, { 0x30, 0x00 }, { 0x31, 0x04 },
-+	{ 0x32, 0x01 }, { 0x33, 0x00 }, { 0x34, 0x03 }, { 0x35, 0x00 },
-+	{ 0x36, 0x71 }, { 0x38, 0xc4 }, { 0x39, 0x00 }, { 0x3a, 0x04 },
-+	{ 0x3b, 0x01 }, { 0x3d, 0x00 }, { 0x3f, 0x05 }, { 0x40, 0x00 },
-+	{ 0x41, 0x71 }, { 0x83, 0xce }, { 0x84, 0x02 }, { 0x85, 0x20 },
-+	{ 0x86, 0xdc }, { 0x87, 0x00 }, { 0x88, 0x04 }, { 0x89, 0x00 },
-+	{ 0x8a, 0xbb }, { 0x8b, 0x80 }, { 0xc7, 0x0e }, { 0xc8, 0x05 },
-+	{ 0xc9, 0x1f }, { 0xca, 0x06 }, { 0xcb, 0x00 }, { 0xcc, 0x03 },
-+	{ 0xcd, 0x04 }, { 0xce, 0x1f }, { 0xcf, 0x1f }, { 0xd0, 0x1f },
-+	{ 0xd1, 0x1f }, { 0xd2, 0x1f }, { 0xd3, 0x1f }, { 0xd4, 0x1f },
-+	{ 0xd5, 0x1f }, { 0xd6, 0x1f }, { 0xd7, 0x17 }, { 0xd8, 0x1f },
-+	{ 0xd9, 0x16 }, { 0xda, 0x1f }, { 0xdb, 0x0e }, { 0xdc, 0x01 },
-+	{ 0xdd, 0x1f }, { 0xde, 0x02 }, { 0xdf, 0x00 }, { 0xe0, 0x03 },
-+	{ 0xe1, 0x04 }, { 0xe2, 0x1f }, { 0xe3, 0x1f }, { 0xe4, 0x1f },
-+	{ 0xe5, 0x1f }, { 0xe6, 0x1f }, { 0xe7, 0x1f }, { 0xe8, 0x1f },
-+	{ 0xe9, 0x1f }, { 0xea, 0x1f }, { 0xeb, 0x17 }, { 0xec, 0x1f },
-+	{ 0xed, 0x16 }, { 0xee, 0x1f }, { 0xef, 0x03 }, { 0xfe, 0x70 },
-+	{ 0x5a, 0x0b }, { 0x5b, 0x0b }, { 0x5c, 0x55 }, { 0x5d, 0x24 },
-+	{ 0xfe, 0x90 }, { 0x12, 0x24 }, { 0x13, 0x49 }, { 0x14, 0x92 },
-+	{ 0x15, 0x86 }, { 0x16, 0x61 }, { 0x17, 0x18 }, { 0x18, 0x24 },
-+	{ 0x19, 0x49 }, { 0x1a, 0x92 }, { 0x1b, 0x86 }, { 0x1c, 0x61 },
-+	{ 0x1d, 0x18 }, { 0x1e, 0x24 }, { 0x1f, 0x49 }, { 0x20, 0x92 },
-+	{ 0x21, 0x86 }, { 0x22, 0x61 }, { 0x23, 0x18 }, { 0xfe, 0x40 },
-+	{ 0x0e, 0x10 }, { 0xfe, 0xa0 }, { 0x04, 0x80 }, { 0x16, 0x00 },
-+	{ 0x26, 0x10 }, { 0x2f, 0x37 }, { 0xfe, 0xd0 }, { 0x06, 0x0f },
-+	{ 0x4b, 0x00 }, { 0x56, 0x4a }, { 0xfe, 0x00 }, { 0xc2, 0x09 },
-+	{ 0x35, 0x00 }, { 0xfe, 0x70 }, { 0x7d, 0x61 }, { 0x7f, 0x00 },
-+	{ 0x7e, 0x4e }, { 0x52, 0x2c }, { 0x49, 0x00 }, { 0x4a, 0x00 },
-+	{ 0x4b, 0x00 }, { 0x4c, 0x00 }, { 0x4d, 0xe8 }, { 0x4e, 0x25 },
-+	{ 0x4f, 0x6e }, { 0x50, 0xae }, { 0x51, 0x2f }, { 0xad, 0xf4 },
-+	{ 0xae, 0x8f }, { 0xaf, 0x00 }, { 0xb0, 0x54 }, { 0xb1, 0x3a },
-+	{ 0xb2, 0x00 }, { 0xb3, 0x00 }, { 0xb4, 0x00 }, { 0xb5, 0x00 },
-+	{ 0xb6, 0x18 }, { 0xb7, 0x30 }, { 0xb8, 0x4a }, { 0xb9, 0x98 },
-+	{ 0xba, 0x30 }, { 0xbb, 0x60 }, { 0xbc, 0x50 }, { 0xbd, 0x00 },
-+	{ 0xbe, 0x00 }, { 0xbf, 0x39 }, { 0xfe, 0x00 }, { 0x51, 0x66 },
-+};
-+
- static inline struct visionox_rm69299 *panel_to_ctx(struct drm_panel *panel)
- {
- 	return container_of(panel, struct visionox_rm69299, panel);
-@@ -135,6 +246,19 @@ static const struct drm_display_mode visionox_rm69299_1080x2248_60hz = {
- 	.flags = 0,
- };
- 
-+static const struct drm_display_mode visionox_rm69299_1080x2160_60hz = {
-+	.clock = 158695,
-+	.hdisplay = 1080,
-+	.hsync_start = 1080 + 26,
-+	.hsync_end = 1080 + 26 + 2,
-+	.htotal = 1080 + 26 + 2 + 36,
-+	.vdisplay = 2160,
-+	.vsync_start = 2160 + 8,
-+	.vsync_end = 2160 + 8 + 4,
-+	.vtotal = 2160 + 8 + 4 + 4,
-+	.flags = 0,
-+};
-+
- static int visionox_rm69299_get_modes(struct drm_panel *panel,
- 				      struct drm_connector *connector)
- {
-@@ -225,9 +349,17 @@ const struct visionox_rm69299_panel_desc visionox_rm69299_1080p_display_desc = {
- 	.init_seq_len = ARRAY_SIZE(visionox_rm69299_1080x2248_60hz_init_seq),
- };
- 
-+const struct visionox_rm69299_panel_desc visionox_rm69299_shift_desc = {
-+	.mode = &visionox_rm69299_1080x2160_60hz,
-+	.init_seq = (const u8 *)visionox_rm69299_1080x2160_60hz_init_seq,
-+	.init_seq_len = ARRAY_SIZE(visionox_rm69299_1080x2160_60hz_init_seq),
-+};
-+
- static const struct of_device_id visionox_rm69299_of_match[] = {
- 	{ .compatible = "visionox,rm69299-1080p-display",
- 	  .data = &visionox_rm69299_1080p_display_desc },
-+	{ .compatible = "visionox,rm69299-shift",
-+	  .data = &visionox_rm69299_shift_desc },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, visionox_rm69299_of_match);
+Here it is obviously not needed, that's a dtschema type.
 
--- 
-2.34.1
+> two PHYs, if we put in two PHYs here, the driver will pick one PHY port 
+> that is already plugged into the DP for output. If we fill in only one 
+> PHY here, then output is only allowed on the corresponding PHY.
+> 
+> Will add restrictions and add more descriptions in v3.
+> 
+> 
+>>
+>>> +    description:
+>>> +      Phandle to the PHY device for DP output.
 
+You need to list the items with description iinstead.
+
+
+
+Best regards,
+Krzysztof
