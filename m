@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B1DAB1EA2
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 23:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A807EAB1EB7
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 23:08:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED17110EAF5;
-	Fri,  9 May 2025 21:00:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A64C910EAD0;
+	Fri,  9 May 2025 21:08:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AyGrc0L1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="djAyCWRA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0394610EAF6
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:00:54 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6F5C10EAD0
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1746824454;
+ s=mimecast20190719; t=1746824902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GxeeDi1H5MJB3Qfb+8ddZTQgXdj+sj14UlmauzFXdmw=;
- b=AyGrc0L1YzSA7iV7OZYcL81eXahi0TVNQ9ltj7ub121kg8Ct26kk9E9z5tcOWtVz9Oi0Br
- B5ysO3FhFTKeuu7uFJ8IipoSdQZVN0MdozzX287zL+cbyJhwHdEANX7QIb58of771B/yOm
- I9TOc7u4D5TebPJgVh0ctXIg+yviknA=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UARxfep1PUV/zClZnWhEuROkgNfsuVtcWX+qYwdPZ6U=;
+ b=djAyCWRA5mCpasRGSfyLIndTC5J/BpmOZh8Z1O3PSAQyv2zms8js1meNt5KRBN4M81A2i+
+ 1ppVQwkZWCedycTWQwDF4WMxd0a6L9hvV3Le8smS7dRVMFcaLFXZZxdGdcDxVfBFBLZMZI
+ U0EBl83+4zCfSUhfbFqzEtAfvC+oPGw=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-656-g6f7DAqVNI2dhzOQGNVR9A-1; Fri, 09 May 2025 17:00:50 -0400
-X-MC-Unique: g6f7DAqVNI2dhzOQGNVR9A-1
-X-Mimecast-MFC-AGG-ID: g6f7DAqVNI2dhzOQGNVR9A_1746824450
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-703d7a66d77so40641587b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 14:00:50 -0700 (PDT)
+ us-mta-637-bQY56hfiNXeWYskUSFzbsw-1; Fri, 09 May 2025 17:08:19 -0400
+X-MC-Unique: bQY56hfiNXeWYskUSFzbsw-1
+X-Mimecast-MFC-AGG-ID: bQY56hfiNXeWYskUSFzbsw_1746824899
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-70a5434825cso481337b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 14:08:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746824450; x=1747429250;
+ d=1e100.net; s=20230601; t=1746824899; x=1747429699;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=GxeeDi1H5MJB3Qfb+8ddZTQgXdj+sj14UlmauzFXdmw=;
- b=jYNt97WOE0UteEBnXnfC6iLcYkbUlq+uQBjo4Q9Ytxle46y+DEMRV2z85Y3o2JHYGl
- aLNt0qoRWJNF/FOb79Y28xWREQL42hn589Rx5Y6t2UlBaJQ/jblcPxM4/iDU6biAd/Up
- eSaSLCFahddujdHB3dn7zePZ1FOGoGrJfHz0G90dcpHWC6ojGCVgQwlNCzwuPOcUUzoE
- nJHkNn7/P3/089Dvuj0JCNEw6Mn/D3hrFeO/rXONA2tLSGrVm8Ji3ZdvMCPhh4C4lrwK
- GVf2oAaIaCvGp3/AkPJJKD4A/euZOVU0LOp4lEjDjS2TZx7bztJ/KLE8PxbDCmYT6Fn5
- tu1g==
+ bh=UARxfep1PUV/zClZnWhEuROkgNfsuVtcWX+qYwdPZ6U=;
+ b=ra/clz/7Zwf1mO5C3sfk0NMEydY6xtRPaqDgg0OmY1yVdTNPUw0l57Jk6sS0xgKSdK
+ +nga/TsHtVGr9DDJ8BD4sXZ7/0jw5oaEJ36YyVyrxbBnzreKlicC+8k8KeK2oyErqcLA
+ FU7umqIzdmD++rGkTUzaLjAtd1x/aPt2cLak52+4fDc3fCDWZtQfH+lFUmTns0DmUdzx
+ F7RBDTr8xmTf3jEIMNO6XT1w0ajJWerU3DXMVYdJYPZsEA+ismRmk0GP15fT0C6X0S6d
+ VFMe6q6rlFyqzveN79TM1JM+EB1VZejWOBFvfx4J4Gk27FSMMLR7Uqhm/tvb8IN1QycC
+ TWng==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWNRigatYKc2jGAmm02hF8qeIKPOwxr3IUmGweYhT3sT48ft4DfvhNVSZPncqfPnANOqaRjcLPzbUs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxxsPKRTbcHrOrIqDiIKzX13xSvFClAupe+vLVYVyBGPesW4KA0
- HehBsuXv0R52mjyrab+t5oqYS2zqmO4fbZ7Ccfl0dF/H3He7zDz43J0V6+VZ8XVQLKX2xQLxMtW
- urNSpTtEPq9BuDQk2ElXKvwkRjsQzltq7jKIJLgYT4r68StSkpCEhJc1XpEbNViwv7HjUmSYZxB
- SnKXyyklGIspjivyPfqXesrccYB9MdZRWpnsJ0kKUo
-X-Gm-Gg: ASbGncsTFOJALsWDo5Wh1wcklTCV5Hl67/UZwalWL8973dIsglFnejJO8Iga12ji5zv
- JOEo8wmsoYlXLrMGBFwvzPibLcv00zzPSKR+K0mzzpevHVQvyq7Q+YacV70KgkkkW/hI=
-X-Received: by 2002:a05:690c:4a13:b0:6f9:4c00:53ae with SMTP id
- 00721157ae682-70a3fe639a7mr66359777b3.8.1746824449927; 
- Fri, 09 May 2025 14:00:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFu4gFpdDMPdqrm3koI5DF4B/M2VVfyv/zoOi8I1BG0UWxlvYeEw87dshOpo9AfvNFUdksvtnpxYysUb+Askfc=
-X-Received: by 2002:a05:690c:4a13:b0:6f9:4c00:53ae with SMTP id
- 00721157ae682-70a3fe639a7mr66359047b3.8.1746824449542; Fri, 09 May 2025
- 14:00:49 -0700 (PDT)
+ AJvYcCVbl2VhfZIAFPna8zJ19p8eAZKC87qTacZZRCMJ8jpvvAeKxwCoZjgOfOT9QNch1gc0DHrNtnNENX0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUmfOfVlAsOM5YRnGoz81tJYBWifAuxD2C23R5wjEVGa7+AVYS
+ mumei31oTKMVxVkaxFGhNI+YAeROW2hYn4Yj4xlcYvVn5h3bbfxkpBOwgWbdXZR+F4QY9e1tYRJ
+ ZcDwuLhhgfDb9xBwpXSgDTokKA1RYtDtcAGIYAIbM8Pk9cTP0tXgTp7u+mNivTl8Zli8zmiDcTM
+ 6RUuovgLriTJbEWb5iq06Fm8K7tVmuXQFPsTBEBxBR
+X-Gm-Gg: ASbGnctDqX4/8RpVAOH4Yb0vPKun20uL61VjY4Zubyfrr79mh2sUiTZi6DSbGcKmeUl
+ 8qd5pXtT0K0KJge/29dSqWMdkWl5AgtsZGrdfTPl5Bvxfbkis06BnE6FEu6T+NFPKc0c=
+X-Received: by 2002:a05:690c:4b86:b0:709:17e4:4d27 with SMTP id
+ 00721157ae682-70a3fb1b0d4mr72899357b3.23.1746824899188; 
+ Fri, 09 May 2025 14:08:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHn2FbaiLJXpVMMYm1aD0LOc9R+oNCYF/mnEu4LufMPN7kBGGag7OLXUOJQHJrLtVspAzjldLH45fn1NMpmGrs=
+X-Received: by 2002:a05:690c:4b86:b0:709:17e4:4d27 with SMTP id
+ 00721157ae682-70a3fb1b0d4mr72898667b3.23.1746824898685; Fri, 09 May 2025
+ 14:08:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
- <20250509-drm-bridge-convert-to-alloc-api-v3-6-b8bc1f16d7aa@bootlin.com>
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-6-b8bc1f16d7aa@bootlin.com>
+ <20250509-drm-bridge-convert-to-alloc-api-v3-7-b8bc1f16d7aa@bootlin.com>
+In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-7-b8bc1f16d7aa@bootlin.com>
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Fri, 9 May 2025 15:57:30 -0400
-X-Gm-Features: AX0GCFsXRmzCU1YWdcE7qOGXX4MM5M9X_-TsxuZaGU2s0VoAZtFUNeQly9oXeMk
-Message-ID: <CAN9Xe3QkjfNqezBOV1CpvfiCGJZ89on=EHWHcE1oB6z_vjTUjg@mail.gmail.com>
-Subject: Re: [PATCH v3 06/22] drm/bridge: nxp-ptn3460: convert to
+Date: Fri, 9 May 2025 16:04:59 -0400
+X-Gm-Features: AX0GCFvKuUu9e22S9SVXkS9UEWDKB4E-n7gr-L0jB9G_tZfdMvVpNCP3CNKnqws
+Message-ID: <CAN9Xe3QDpw67hcONcA+8hSGA8e4n1vA=czpuDcNU8J6tz-BVCg@mail.gmail.com>
+Subject: Re: [PATCH v3 07/22] drm/bridge: sii902x: convert to
  devm_drm_bridge_alloc() API
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -97,9 +97,9 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
  linux-stm32@st-md-mailman.stormreply.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: vY57oxDEDREQizpKflB-KnKk-UbDxbG5t9goI45I4Ho_1746824450
+X-Mimecast-MFC-PROC-ID: -wu1NQ-bV-VP9mZp0-_RLjX663yR9wFAMpDfscSbm1Q_1746824899
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000ccdd1f0634ba42b2"
+Content-Type: multipart/alternative; boundary="0000000000009240c00634ba5de6"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,7 +115,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000ccdd1f0634ba42b2
+--0000000000009240c00634ba5de6
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -127,54 +127,56 @@ wrote:
 >
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > ---
->  drivers/gpu/drm/bridge/nxp-ptn3460.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/bridge/sii902x.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c
-> b/drivers/gpu/drm/bridge/nxp-ptn3460.c
+> diff --git a/drivers/gpu/drm/bridge/sii902x.c
+> b/drivers/gpu/drm/bridge/sii902x.c
 > index
-> 25d7c415478b14ef634bff4185a8dd8e866be0c6..7acb11f16dc19e87a84cc765b1cebef=
-158662c00
+> 6de61d9fe06487856e8b3c32db3c8d8c25633fd8..882973e900628c0d972d32cd4ff3588=
+432daa8e9
 > 100644
-> --- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
-> +++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-> @@ -261,10 +261,10 @@ static int ptn3460_probe(struct i2c_client *client)
->         struct drm_bridge *panel_bridge;
->         int ret;
+> --- a/drivers/gpu/drm/bridge/sii902x.c
+> +++ b/drivers/gpu/drm/bridge/sii902x.c
+> @@ -1135,7 +1135,6 @@ static int sii902x_init(struct sii902x *sii902x)
+>         if (ret)
+>                 goto err_unreg_audio;
 >
-> -       ptn_bridge =3D devm_kzalloc(dev, sizeof(*ptn_bridge), GFP_KERNEL)=
+> -       sii902x->bridge.funcs =3D &sii902x_bridge_funcs;
+>         sii902x->bridge.of_node =3D dev->of_node;
+>         sii902x->bridge.timings =3D &default_sii902x_timings;
+>         sii902x->bridge.ops =3D DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID=
 ;
-> -       if (!ptn_bridge) {
-> -               return -ENOMEM;
-> -       }
-> +       ptn_bridge =3D devm_drm_bridge_alloc(dev, struct ptn3460_bridge,
-> bridge,
-> +                                          &ptn3460_bridge_funcs);
-> +       if (IS_ERR(ptn_bridge))
-> +               return PTR_ERR(ptn_bridge);
->
->         panel_bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
->         if (IS_ERR(panel_bridge))
-> @@ -300,7 +300,6 @@ static int ptn3460_probe(struct i2c_client *client)
->                 return ret;
+> @@ -1170,9 +1169,9 @@ static int sii902x_probe(struct i2c_client *client)
+>                 return -EIO;
 >         }
 >
-> -       ptn_bridge->bridge.funcs =3D &ptn3460_bridge_funcs;
->         ptn_bridge->bridge.ops =3D DRM_BRIDGE_OP_EDID;
->         ptn_bridge->bridge.type =3D DRM_MODE_CONNECTOR_LVDS;
->         ptn_bridge->bridge.of_node =3D dev->of_node;
+> -       sii902x =3D devm_kzalloc(dev, sizeof(*sii902x), GFP_KERNEL);
+> -       if (!sii902x)
+> -               return -ENOMEM;
+> +       sii902x =3D devm_drm_bridge_alloc(dev, struct sii902x, bridge,
+> &sii902x_bridge_funcs);
+> +       if (IS_ERR(sii902x))
+> +               return PTR_ERR(sii902x);
 >
+>         sii902x->i2c =3D client;
+>         sii902x->regmap =3D devm_regmap_init_i2c(client,
+> &sii902x_regmap_config);
 >
-Looks good to me!
+> --
+
+
 Reviewed-by: Anusha Srivatsa <asrivats@redhat.com>
 
+Thanks,
+Anusha
 
-> --
+>
 > 2.49.0
 >
 >
 
---000000000000ccdd1f0634ba42b2
+--0000000000009240c00634ba5de6
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -189,58 +191,55 @@ d rgb(204,204,204);padding-left:1ex">This is the new API for allocating DRM=
 Signed-off-by: Luca Ceresoli &lt;<a href=3D"mailto:luca.ceresoli@bootlin.co=
 m" target=3D"_blank">luca.ceresoli@bootlin.com</a>&gt;<br>
 ---<br>
-=C2=A0drivers/gpu/drm/bridge/nxp-ptn3460.c | 9 ++++-----<br>
-=C2=A01 file changed, 4 insertions(+), 5 deletions(-)<br>
+=C2=A0drivers/gpu/drm/bridge/sii902x.c | 7 +++----<br>
+=C2=A01 file changed, 3 insertions(+), 4 deletions(-)<br>
 <br>
-diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/=
-nxp-ptn3460.c<br>
-index 25d7c415478b14ef634bff4185a8dd8e866be0c6..7acb11f16dc19e87a84cc765b1c=
-ebef158662c00 100644<br>
---- a/drivers/gpu/drm/bridge/nxp-ptn3460.c<br>
-+++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c<br>
-@@ -261,10 +261,10 @@ static int ptn3460_probe(struct i2c_client *client)<b=
+diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii9=
+02x.c<br>
+index 6de61d9fe06487856e8b3c32db3c8d8c25633fd8..882973e900628c0d972d32cd4ff=
+3588432daa8e9 100644<br>
+--- a/drivers/gpu/drm/bridge/sii902x.c<br>
++++ b/drivers/gpu/drm/bridge/sii902x.c<br>
+@@ -1135,7 +1135,6 @@ static int sii902x_init(struct sii902x *sii902x)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err_unreg_audi=
+o;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sii902x-&gt;bridge.funcs =3D &amp;sii902x_bridg=
+e_funcs;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sii902x-&gt;bridge.of_node =3D dev-&gt;of_node;=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sii902x-&gt;bridge.timings =3D &amp;default_sii=
+902x_timings;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sii902x-&gt;bridge.ops =3D DRM_BRIDGE_OP_DETECT=
+ | DRM_BRIDGE_OP_EDID;<br>
+@@ -1170,9 +1169,9 @@ static int sii902x_probe(struct i2c_client *client)<b=
 r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_bridge *panel_bridge;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ptn_bridge =3D devm_kzalloc(dev, sizeof(*ptn_br=
-idge), GFP_KERNEL);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!ptn_bridge) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ptn_bridge =3D devm_drm_bridge_alloc(dev, struc=
-t ptn3460_bridge, bridge,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
-amp;ptn3460_bridge_funcs);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(ptn_bridge))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR(ptn_=
-bridge);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 panel_bridge =3D devm_drm_of_get_bridge(dev, de=
-v-&gt;of_node, 0, 0);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (IS_ERR(panel_bridge))<br>
-@@ -300,7 +300,6 @@ static int ptn3460_probe(struct i2c_client *client)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EIO;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 <br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ptn_bridge-&gt;bridge.funcs =3D &amp;ptn3460_br=
-idge_funcs;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptn_bridge-&gt;bridge.ops =3D DRM_BRIDGE_OP_EDI=
-D;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptn_bridge-&gt;bridge.type =3D DRM_MODE_CONNECT=
-OR_LVDS;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptn_bridge-&gt;bridge.of_node =3D dev-&gt;of_no=
-de;<br>
-<br></blockquote><div><br></div><div>Looks good to me!</div><div>Reviewed-b=
-y: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.com">asrivats@redh=
-at.com</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">
--- <br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sii902x =3D devm_kzalloc(dev, sizeof(*sii902x),=
+ GFP_KERNEL);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!sii902x)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0sii902x =3D devm_drm_bridge_alloc(dev, struct s=
+ii902x, bridge, &amp;sii902x_bridge_funcs);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(sii902x))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR(sii9=
+02x);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sii902x-&gt;i2c =3D client;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sii902x-&gt;regmap =3D devm_regmap_init_i2c(cli=
+ent, &amp;sii902x_regmap_config);<br>
+<br>
+--</blockquote><div><br></div><div>Reviewed-by: Anusha Srivatsa &lt;<a href=
+=3D"mailto:asrivats@redhat.com">asrivats@redhat.com</a>&gt;</div><div><br><=
+/div><div>Thanks,</div><div>Anusha=C2=A0</div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex"> <br>
 2.49.0<br>
 <br>
 </blockquote></div></div>
 
---000000000000ccdd1f0634ba42b2--
+--0000000000009240c00634ba5de6--
 
