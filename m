@@ -2,82 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33346AB1394
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 14:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C12AB139D
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 14:39:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A48310EA36;
-	Fri,  9 May 2025 12:37:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAD810E971;
+	Fri,  9 May 2025 12:39:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YhRNtL3o";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KnLUUF76";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABD8910EA36
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 12:37:57 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5498mVCg012159
- for <dri-devel@lists.freedesktop.org>; Fri, 9 May 2025 12:37:52 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17EC810E971
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 12:39:48 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 549Aq2FM025122
+ for <dri-devel@lists.freedesktop.org>; Fri, 9 May 2025 12:39:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- YwvPt4t2OCvE2vssyY5oxLacKQywQ7VxFJ+NInkStNc=; b=YhRNtL3oZAzp5W3F
- V3D+oiMMj8Pde3XmMUhdSm/s7MFF6zNsmrAc53Zik9Z0M+8bUI1X/6vu6juDC42r
- 9sQI6Nfv/zrFzaT+iNcTWkHBEJSO1S5wTtqE/5IViUs4f2uCFGFO+tDje756za/g
- p9XWTPwwvAhsgIDVvMIa2rhJyv+qjUzHUgaHjjiEwAi4UBscS2TEZ7LTGOEn9Rvq
- MPX4pJBFQ24Jm1pL5VAqc3HScS6xUEYwUeIJ1bzTa/gYJ/YkrANbx3EIFu6AWQA0
- 33QAMN12pTWmXhk+dLiEoEMfC8O5YJ0/yHjCK/+eEuoVHOBLwXgTDuYB3GjdXWBG
- NAIuig==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gt52uv0n-1
+ 4G1RV5OSQbBgLbkxXdEz6RKY+uaAPac1V0RoEspl1mc=; b=KnLUUF76t2PuxaRe
+ ypLdVnGyaLLu66zSCesTwxcmWkL0OyupdYnP85RjBJqaRGr3Y9mUdsW+WGmBbHZm
+ wws1I6B3PDr+y9fMgwCJb5FCfEkN8nQux7Ehj8rJ3IQjl32nEaRzJ1u3BprW+mOo
+ V2LS3XUHbvTAglhtFTLVcH+eM19dSORNU1foWMKmfzu+zdhQZ4lLFfcgZg04W8An
+ VlF+ir97v0BI3kxI6xJzWKEvOcamssCsPKrjRjcsQhRPtUyjQ/6hIz+c2c1GtnjE
+ KTum0rXo7u6+h16SjVjI6XOvOhY5pcWGcl6CeIK9gs7SVOyS9JrWusCcMu2UMqgw
+ /aeATA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnp14r3u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 12:37:52 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4766654b0c3so6268341cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 05:37:52 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 12:39:47 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7c54734292aso56715485a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 05:39:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746794271; x=1747399071;
+ d=1e100.net; s=20230601; t=1746794386; x=1747399186;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YwvPt4t2OCvE2vssyY5oxLacKQywQ7VxFJ+NInkStNc=;
- b=iG4PmDAw3QQtQXx3IeMwt6z+01Dn5wZWUgMd3+7/5aNlVEvkPfcxNasO7R4sFIQzgC
- NjIIi/HERJLvFXyAK2aQZiz84ruBjrryCm57tWrKviwMX+mtbny+/ZKx07DfnoJvFVo3
- bn0pBrPCTNlitP+6HOUCSHkxmTtosE3lbT4Dbu0O2k7dyHCNDY37IH4E4zd4xG7+dHoZ
- 0QpOYdz5HFxS9iaj7bMvZ/I6xqBiBOExcjNQXyPAzlJLNW2VxIGyxT4/iXrfYfj7Wtxy
- 8LyJ5AKyFTNpjbV22po3ixgd2aDqW5YIk8yisjBjWDbEhvNzKJibfF1iTXhk74k9XdLb
- l8kw==
+ bh=4G1RV5OSQbBgLbkxXdEz6RKY+uaAPac1V0RoEspl1mc=;
+ b=hpJLTBbnliUp1d4+mXa36C2IX7uOKjane+93SiXxayDfl7UyVdEKKtHDFkLUxWGhNq
+ lUeR+HeECW4asPp4jb3WYh/t0dLEyupTOHuVI23yaWreCAo76AlWO1IkH6gIAyUZM7YI
+ YOPtDlrbnQf/Cl04Gn6Oiuk71rWVB3yRXLuejoVvqKPJI+Qxghj2jY3Dp+EnYswKn7E5
+ 5qKh0wyrbmThJs6bws2o3iVnVKW3uB81ucZ75PdP22s0MfHo95iI5MfzP1ytjGO8plg7
+ A20S3Iy2BRkS1PqwWHUQnwmSDLMjffFcpylyRiRIglayAYa0T7QgDPWP8Lmw1dwrhmQY
+ 08Jg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXnBrj2xVzx3B0ahoRTwrRESsehpgQfj0fYpERMnvkJv2CL/Si8wn5AKL8uorUynDCdeTxB24to6kc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YySWpm9whx7ymix7AvWGKflv77sgaEOGd5I0OPqiSLmJIVK1+Ed
- 97phV0AMcKeh7EkLpVPk7AMs3l8oiCprmCa/eQAajOc/Jceupq6NkNARh0HS8os6oCTBH2N4jQT
- 8NKSoSzuVbYUaQFFqiUmu0UQvY7ZnfMA3/Yufh4Cl/4HSP9tG+uC00Qu84qB2+RBOQYrSxCNvfI
- o=
-X-Gm-Gg: ASbGncuIz1NjDtAZNrp+CmQKXsXfHi2Eoay8efwDYKUb2HkslG7CNuG8dEHXg/evrb+
- gBw7pVd7KCLbKFz3qEmqJ4X3oHeQcGyp9by8B1f0/R+EtndrrjpkkYLqHH5kRc9GosGMFPOrZmC
- 9pQw1+OGbwBZLyp2S0UyliyGx0ViaXi/kbH//+JOAs0L5sa4aDDjatUs0yqTKZ0HoQJ/AWxBuqT
- jxm8Xg9VBNLPc3jnwQAwsM0ljRnqAU/k0xVhYZQT9RAhi3UJhpdUj1MC6hvsvbAttWcOqWxaBUh
- 7d5VZMRPMPOVSjcSGnR2I1Bb9ZfJIIG4QdQG3aGuTUmx2LtqcQF+im4YN/S4ylOLOL4=
-X-Received: by 2002:a05:622a:11d3:b0:471:fef5:ee85 with SMTP id
- d75a77b69052e-4945280295cmr14540181cf.15.1746794270869; 
- Fri, 09 May 2025 05:37:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IERHUVO6nQzP3GMy6DlR9CXLC5BNc67GbK1LwQUmC7YI0zwpgmz8DNyH5I+IjBhgY5B1ZLVmg==
-X-Received: by 2002:a05:622a:11d3:b0:471:fef5:ee85 with SMTP id
- d75a77b69052e-4945280295cmr14540001cf.15.1746794270552; 
- Fri, 09 May 2025 05:37:50 -0700 (PDT)
+ AJvYcCW3PkjTC92ct2XzjXMv/XUpVtNV21NEFPRLwTZ3WCQkQPvAbtVPRLcWrvpp/D9G5tBi1doTGVnPCz4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyDRpHEFr4hiL73Oqo92RoqVWtaXZeAKs9xFPQ6lZ+sgAfkySsg
+ RWRN1AasjpX2Le8dBWQfRm4FUl7BwbdiqFVfTJqzDcIrWaVoTaX2G1A5eBj4F0eUslIlYIk8YYT
+ QEQc6k2yh9yWfMXSanpWzfoQ/Ac/u+i6jpfVcQOnsBz0f8nUUzghlbq7I/Aj2VjjSwbc=
+X-Gm-Gg: ASbGnctjv3KLZVIk9HujgOvI8SkjUFVECzMOtkQFHTS3DN3DCULbMaU/wKW4pZnGnrI
+ Az1ffpTS4aWt7np6te9McfVCaL0F6bNk/cLeQbsabuw+JoU86ct7djyr6N9eQUwZawA/iCInI6W
+ j3tAvql/84QTXoJcug61H5zraW3HIjDTENPEk2A2aAZ25kEpHxsE+s9tbGzQDotA75I15nP9YkE
+ muHex7S+i1vl4TFmXt+Q+6N1g4AIPQMibkz9Rdu4x1e749uhJz5jj7Teg2Rvmew5GmbEyIKMMOC
+ BXbx7YJzQOW8opzJqFGQ1tw687M8Z3PxYKY4VgTafuJrj81/X3ksewrzQihMOqLo1v4=
+X-Received: by 2002:a05:620a:270a:b0:7c0:b106:94ba with SMTP id
+ af79cd13be357-7cd011186f3mr194765085a.7.1746794386269; 
+ Fri, 09 May 2025 05:39:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhQplMN/T2Kquk8OAgFmlti7cmfd722WmVfsRvtwRfluidvoeB7ua1lUBaXYSIjte577KX6w==
+X-Received: by 2002:a05:620a:270a:b0:7c0:b106:94ba with SMTP id
+ af79cd13be357-7cd011186f3mr194762585a.7.1746794385893; 
+ Fri, 09 May 2025 05:39:45 -0700 (PDT)
 Received: from [192.168.65.105] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ad2198532d7sm143701966b.170.2025.05.09.05.37.48
+ a640c23a62f3a-ad219746506sm143082866b.88.2025.05.09.05.39.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 May 2025 05:37:49 -0700 (PDT)
-Message-ID: <1f6fcbed-c7c4-42c2-814b-3834b08c5977@oss.qualcomm.com>
-Date: Fri, 9 May 2025 14:37:47 +0200
+ Fri, 09 May 2025 05:39:45 -0700 (PDT)
+Message-ID: <b374b468-819b-4f5a-9ecc-0926c3696db3@oss.qualcomm.com>
+Date: Fri, 9 May 2025 14:39:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH RFT 07/14] drm/msm/a6xx: Resolve the meaning of UBWC_MODE
-To: Connor Abbott <cwabbott0@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Connor Abbott <cwabbott0@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>
 Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <lumag@kernel.org>,
@@ -89,33 +89,34 @@ Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
 References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
  <20250508-topic-ubwc_central-v1-7-035c4c5cbe50@oss.qualcomm.com>
  <CACu1E7H9_EkGFkjL1MRU9M-_YFHnPb5v9SxDg6fXm0m-imzC2Q@mail.gmail.com>
+ <1f6fcbed-c7c4-42c2-814b-3834b08c5977@oss.qualcomm.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <CACu1E7H9_EkGFkjL1MRU9M-_YFHnPb5v9SxDg6fXm0m-imzC2Q@mail.gmail.com>
+In-Reply-To: <1f6fcbed-c7c4-42c2-814b-3834b08c5977@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDEyMyBTYWx0ZWRfX/pFzmSOBDsza
- /GpiCWk80BfmQHE3hnQjCddRJM+qNsU4u/fI4xBtwIfOXzfzey65LlPEBaewut+850oBn7VOH01
- v5uDd/HGeU4Brx4HZuTQsremvDcMLtdaoaX3LRYTd/yNoGSSE49Nt7DLL9335ornFVuGX1PKcDB
- BQi9RgF+Gpdgzwq4uC8dYupmDiEuMWiUh9KBcjVJbOdxFr9RVP9Pg2oTLrp6Smnn4JU/S/4PhPJ
- H1b3aAAv35BaWDWKC7QjpragOQncHM0MuP3tv6AIbfQbLgYFXeuaJHxKBcZXwTTOatwrtl/GzFt
- fVwtOfuNmtslW5DAlBrNmiAPMMOTjk7/NDfzLBuKrJgMSImMO3WclzkIk9n5IyCIfVGUjwaVmob
- l6P5DiJSl1Nq27WpZtFPwaUBLKjXUe3P+TD0T8qrnrLFHBW9s8zTiIj+ux1LlXvAk/J/3jt/
-X-Authority-Analysis: v=2.4 cv=LKFmQIW9 c=1 sm=1 tr=0 ts=681df720 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDEyMyBTYWx0ZWRfX+CBj4sUDBU5p
+ s579bfdhkbejetB4wAcrzSU+/GOTkyeg4M8SqByb1NYLT6gE8JL+nXHDXVbf8IydMJ4QVbc8MZO
+ wywldB0Ma9UEc11NpPmzSUK+lXcG1xkzoN2Jy0Q7AtEHVQj0gswhftSuptjO78qxZAfhi1qsSPV
+ T78JpW+iUAEpFjQuyFinjCeFQi7O2WuHRzvBEQrSsmTeSKMLoeXEtxx8DZXe/3gm44sAienJ6Wd
+ xeWbN94iULcXPvecr3ZpwEEhLPIkQGkj9F7rJGm6jfU/52zOFhTqlO+aoBvGpM6R1Tu/AvMKLnx
+ lcQoj/DN/BvvUSnIkoJkxPc3KUsGLtOfxHobtUhcssqOB2WwseWZ6fEVmyAcQgzWJ2ZalORsk0n
+ ErAywbsnuDnXFC7TqWZbcZ+KLOqR87R0lQdeX3sERPEm5xm0ReFzc5TzUHfa/YfftQOXLRL9
+X-Proofpoint-GUID: pfRls7qbtqqRFx2r3T_G7ZqsREr7cohi
+X-Proofpoint-ORIG-GUID: pfRls7qbtqqRFx2r3T_G7ZqsREr7cohi
+X-Authority-Analysis: v=2.4 cv=W4o4VQWk c=1 sm=1 tr=0 ts=681df793 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
  a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=hjmfpjirZ_eXqKrHEEEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-ORIG-GUID: CkT6aalFDYt2_UBwkfRwZAGOCPNSRpy3
-X-Proofpoint-GUID: CkT6aalFDYt2_UBwkfRwZAGOCPNSRpy3
+ a=sEJkFV_Ntms1zBwlKkIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-09_05,2025-05-08_04,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=974 clxscore=1015 lowpriorityscore=0 suspectscore=0
- malwarescore=0 mlxscore=0 bulkscore=0 spamscore=0 phishscore=0 adultscore=0
- priorityscore=1501 impostorscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
+ mlxlogscore=956 suspectscore=0 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 mlxscore=0 adultscore=0
+ clxscore=1015 malwarescore=0 impostorscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
  engine=8.19.0-2504070000 definitions=main-2505090123
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -132,19 +133,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/8/25 8:25 PM, Connor Abbott wrote:
-> On Thu, May 8, 2025 at 2:14 PM Konrad Dybcio <konradybcio@kernel.org> wrote:
+On 5/9/25 2:37 PM, Konrad Dybcio wrote:
+> On 5/8/25 8:25 PM, Connor Abbott wrote:
+>> On Thu, May 8, 2025 at 2:14 PM Konrad Dybcio <konradybcio@kernel.org> wrote:
+>>>
+>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>
+>>> This bit is set iff the UBWC version is 1.0. That notably does not
+>>> include QCM2290's "no UBWC".
 >>
->> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>
->> This bit is set iff the UBWC version is 1.0. That notably does not
->> include QCM2290's "no UBWC".
+>> While this is technically true, AFAIK the only difference between UBWC
+>> 1.0 and 2.0 is that newer UBWC disables level 1 bank swizzling, which
+>> is why I originally wrote it this way. There's a bit of redundancy
+>> between the UBWC version and ubwc_swizzle bit 0.
 > 
-> While this is technically true, AFAIK the only difference between UBWC
-> 1.0 and 2.0 is that newer UBWC disables level 1 bank swizzling, which
-> is why I originally wrote it this way. There's a bit of redundancy
-> between the UBWC version and ubwc_swizzle bit 0.
+> It turns out to be a hardware matter
 
-It turns out to be a hardware matter
+Well you just said that.. in any case, i can do either (or both with a
+sanity check)
 
 Konrad
