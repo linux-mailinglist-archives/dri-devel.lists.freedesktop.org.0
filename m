@@ -2,69 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF157AB1F2A
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 23:42:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C64AAB1F33
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 23:43:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4C5710EAFF;
-	Fri,  9 May 2025 21:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8AC10E02F;
+	Fri,  9 May 2025 21:43:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Jucn2dsF";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="DqG9MQPm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3FE010EB00
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:42:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1746826951; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VMGUGMc2VA7dXaFDn98icvQbJGDA45Cvk2SbMdmMorjdfpiEUem9BAceT+MvS5nXTiKJXD+5kdoshfGhKyTolhbdx2f46tDtPEDEbXbmjoPJIX18kFDJ2tmRK1Ugx6oGyKGbRcPfynddbKyyL/ibtqfB7V5fCHGVjtIK7oPXkmk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1746826951;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=owVjo58ul/GnTuZG0UmMNti1i3FStOLBCiI8f4mUzlc=; 
- b=epYErGucFPGTrkSF9PC3xfrnbI7gpmq+sntHtZ4bRPhJxTf/SY2ivg02QhgZAbok7KZ2NHcg1KZptcXeyjKRv+y47RBrObwwQO4qKecHyAm1mb5CVeHxZTooLxyiNcTQJr6tyA3xo7jG97ykKEpzcKIqo0WYTIqgsNxZ1U+rfOY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746826951; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=owVjo58ul/GnTuZG0UmMNti1i3FStOLBCiI8f4mUzlc=;
- b=Jucn2dsFcUL+5iir6UEK3Ud3Yc+5pMcA43ECvIxdupv7UsaufyePfnYa+Q1bFjfj
- GhNOKyc1DbjddSAAgDGiJjfvddFp0/tetQT6T2MK3kXoTT1ZL7AvZphmyeOU3EEVI4r
- kqJM2ikZMQ4bic/RnUW5s/W2w20cCIPoMn/t+oik=
-Received: by mx.zohomail.com with SMTPS id 1746826949914316.9241470000976;
- Fri, 9 May 2025 14:42:29 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.500.181.1.5\))
-Subject: Re: [PATCH 3/4] rust: drm: gem: s/into_gem_obj()/as_gem_obj()/
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20250501183717.2058109-4-lyude@redhat.com>
-Date: Fri, 9 May 2025 18:42:12 -0300
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Asahi Lina <lina@asahilina.net>
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EAE310E02F
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:43:24 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-43cfe808908so19805e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 14:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1746827002; x=1747431802;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fZfju7WUz5Yl04mbuyXvvdOSNmKPyLT8Rq8aUyjFmsM=;
+ b=DqG9MQPmycDfJFM7cpYiVoX0UbKDU7zRvvmxGQWHp5KUPwxY/GZFOpavfJ+0hTH4Oy
+ 2n4r4d12Ju+O5pFSZa7pKSda+PVnwdvSb+0rcpeuMIYjsoTsJGc1oWtYTvUfdZZGx9oO
+ hexaNb7DbQMv1RSGj/j+a60IB8bctuNG2HOp7Xk9PkZiyondqmjfyt7Lyb8fQFKWjz3B
+ 06WQbp9VEAD9mcfhvuZKDZBdi7kYi24hyRLzByFASxxDjj5UycM5SubTQ1HVbn9c6skN
+ qUrU9VMWQIe3PBwJIYIeFCYBBMAahyVVLWYNoJ1IVg4sYy3TW5VcuaxObJuKbaPtYewq
+ 8Akg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746827002; x=1747431802;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fZfju7WUz5Yl04mbuyXvvdOSNmKPyLT8Rq8aUyjFmsM=;
+ b=dq2jvj6MU20ovQ+hZhq76IzfhuKcqyTcwDbZnsHTp1WONh8XJONBk+l4gm84/SXkcp
+ 3utpl00cYubxCtMBd+PrfNy9GwrWkK1DDdr54Tx90nN0LUD7v3awZ2+ZR4ZvUlY0Dvtp
+ Eh5SucmWJgy7c6jwna/qzk9gSUxPq9smpMKhM43QPPz9Mp8+cex0K75NPEWT0RE+6N9N
+ mJxgaOLwAeqacDFPCbM+i1FVwVLYzYSPuV5xzybh2hC4IabcM4miL/X3MshCklJ6qIRZ
+ txcxU/qIzNx7eIWVDIh57PP1ryODXMYW9O1k8TFlfmeBQq+E4nJjLmAhrDdgRtr3Aw3a
+ OGfQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXuq//l9XE2m0RiTMdgQq9LLxAFHyig8MXKSg6vLBeJkQBfcp8uv2iu/3F2hDuI26D+yp4cwmvtmL8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx8oDokTnoJsdFVH1Pmd2c/WDNwzD2Tn6pBnHzkpQgBWm6tGgNw
+ 9iqvBKw40+5FostQKuA1j4BJGIRNGH0U9jj3KSrFiHpUnxCJvTTuhJx0qNoZfE5sIsg/qZQxcEr
+ cCyyXXc3mqrbH9GbwZyUSC6ujzh767pOt3g+Q
+X-Gm-Gg: ASbGncuBKSt07WlN0jvW45jbk6I2x6OGYvZ1X3V6nWgrk9lLAObtkOok5oOEnSzaGCr
+ taA2VbbLn3sEpVLPhkUZEpmSq3WRQTokKPIMNNXtxqrQehnSrebUP+N5KyXZxSRynj5QfPVD1mn
+ o6Vrg1OgwA5aAaB/mMsmtQuBxVpxs1Wcs=
+X-Google-Smtp-Source: AGHT+IEsv5HI2i1ZZ/585hqiXPrI+miXZcW/PcnQi9f4aA5/TPapqTvWiJ8fo1Pxmugr4vWjKMzxQzqUzh4HLjZ9xoE=
+X-Received: by 2002:a05:600c:6058:b0:441:d438:1c1f with SMTP id
+ 5b1f17b1804b1-442e03adbdemr15755e9.7.1746827001461; Fri, 09 May 2025 14:43:21
+ -0700 (PDT)
+MIME-Version: 1.0
+References: <20250508182025.2961555-1-tjmercier@google.com>
+ <20250508182025.2961555-6-tjmercier@google.com>
+ <CAPhsuW5WOmyfPqBc_Hn7ApGWP_2uz_cJwyaDWF_VwiHJu9s_1A@mail.gmail.com>
+In-Reply-To: <CAPhsuW5WOmyfPqBc_Hn7ApGWP_2uz_cJwyaDWF_VwiHJu9s_1A@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Fri, 9 May 2025 14:43:09 -0700
+X-Gm-Features: AX0GCFvkQQHihmvnaG3BMibV3EQ_CyOSSZ1huizs69M9NO065M7pYtXEQ0sH-Zc
+Message-ID: <CABdmKX2h5cGjNbJshGkQ+2XJ7eOnM+VfbmVr5Pj5c0qfxQA-qg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v4 5/5] selftests/bpf: Add test for open coded
+ dmabuf_iter
+To: Song Liu <song@kernel.org>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+ daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+ skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+ simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+ jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <128B16D7-2E18-440E-A2EE-C7194194D7D3@collabora.com>
-References: <20250501183717.2058109-1-lyude@redhat.com>
- <20250501183717.2058109-4-lyude@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.500.181.1.5)
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,114 +94,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude,
+On Fri, May 9, 2025 at 11:46=E2=80=AFAM Song Liu <song@kernel.org> wrote:
+>
+> On Thu, May 8, 2025 at 11:21=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
+m> wrote:
+> >
+> > Use the same test buffers as the traditional iterator and a new BPF map
+> > to verify the test buffers can be found with the open coded dmabuf
+> > iterator.
+>
+> The way we split 4/5 and 5/5 makes the code tricker to follow. I guess
+> the motivation is to back port default iter along to older kernels. But I
+> think we can still make the code cleaner.
+>
+> >
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> [...]
+>
+> >
+> > -static int create_udmabuf(void)
+> > +static int create_udmabuf(int map_fd)
+> >  {
+> >         struct udmabuf_create create;
+> >         int dev_udmabuf;
+> > +       bool f =3D false;
+> >
+> >         udmabuf_test_buffer_size =3D 10 * getpagesize();
+> >
+> > @@ -63,10 +64,10 @@ static int create_udmabuf(void)
+> >         if (!ASSERT_OK(ioctl(udmabuf, DMA_BUF_SET_NAME_B, udmabuf_test_=
+buffer_name), "name"))
+> >                 return 1;
+> >
+> > -       return 0;
+> > +       return bpf_map_update_elem(map_fd, udmabuf_test_buffer_name, &f=
+, BPF_ANY);
+>
+> We don't really need this bpf_map_update_elem() inside
+> create_udmabuf(), right?
+>
+> >  }
+> >
+> > -static int create_sys_heap_dmabuf(void)
+> > +static int create_sys_heap_dmabuf(int map_fd)
+> >  {
+> >         sysheap_test_buffer_size =3D 20 * getpagesize();
+> >
+> > @@ -77,6 +78,7 @@ static int create_sys_heap_dmabuf(void)
+> >                 .heap_flags =3D 0,
+> >         };
+> >         int heap_fd, ret;
+> > +       bool f =3D false;
+> >
+> >         if (!ASSERT_LE(sizeof(sysheap_test_buffer_name), DMA_BUF_NAME_L=
+EN, "NAMETOOLONG"))
+> >                 return 1;
+> > @@ -95,18 +97,18 @@ static int create_sys_heap_dmabuf(void)
+> >         if (!ASSERT_OK(ioctl(sysheap_dmabuf, DMA_BUF_SET_NAME_B, syshea=
+p_test_buffer_name), "name"))
+> >                 return 1;
+> >
+> > -       return 0;
+> > +       return bpf_map_update_elem(map_fd, sysheap_test_buffer_name, &f=
+, BPF_ANY);
+>
+> Same for this bpf_map_update_elem(), we can call this directly from
+> create_test_buffers().
+>
+> >  }
+> >
+> > -static int create_test_buffers(void)
+> > +static int create_test_buffers(int map_fd)
+> >  {
+> >         int ret;
+> >
+> > -       ret =3D create_udmabuf();
+> > +       ret =3D create_udmabuf(map_fd);
+> >         if (ret)
+> >                 return ret;
+> >
+> > -       return create_sys_heap_dmabuf();
+> > +       return create_sys_heap_dmabuf(map_fd);
+>
+> Personally, I would prefer we just merge all the logic of
+> create_udmabuf() and create_sys_heap_dmabuf()
+> into create_test_buffers().
 
-> On 1 May 2025, at 15:33, Lyude Paul <lyude@redhat.com> wrote:
->=20
-> There's a few changes here:
-> * The rename, of course (this should also let us drop the clippy =
-annotation
->  here)
-> * Return *mut bindings::drm_gem_object instead of
->  &Opaque<bindings::drm_gem_object> - the latter doesn't really have =
-any
->  benefit and just results in conversion from the rust type to the C =
-type
->  having to be more verbose than necessary.
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
-> rust/kernel/drm/gem/mod.rs | 21 +++++++--------------
-> 1 file changed, 7 insertions(+), 14 deletions(-)
->=20
-> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-> index f70531889c21f..55b2f1d056c39 100644
-> --- a/rust/kernel/drm/gem/mod.rs
-> +++ b/rust/kernel/drm/gem/mod.rs
-> @@ -42,8 +42,7 @@ pub trait IntoGEMObject: Sized + =
-super::private::Sealed {
->=20
->     /// Returns a reference to the raw `drm_gem_object` structure, =
-which must be valid as long as
->     /// this owning object is valid.
-> -    #[allow(clippy::wrong_self_convention)]
-> -    fn into_gem_obj(&self) -> &Opaque<bindings::drm_gem_object>;
-> +    fn as_gem_obj(&self) -> *mut bindings::drm_gem_object;
->=20
->     /// Converts a pointer to a `struct drm_gem_object` into a =
-reference to `Self`.
->     ///
-> @@ -99,8 +98,8 @@ extern "C" fn close_callback<T: BaseDriverObject<U>, =
-U: BaseObject>(
-> impl<T: DriverObject> IntoGEMObject for Object<T> {
->     type Driver =3D T::Driver;
->=20
-> -    fn into_gem_obj(&self) -> &Opaque<bindings::drm_gem_object> {
-> -        &self.obj
-> +    fn as_gem_obj(&self) -> *mut bindings::drm_gem_object {
-> +        self.obj.get()
->     }
->=20
->     unsafe fn as_ref<'a>(self_ptr: *mut bindings::drm_gem_object) -> =
-&'a Self {
-> @@ -119,7 +118,7 @@ pub trait BaseObject
->     fn size(&self) -> usize {
->         // SAFETY: `self.into_gem_obj()` is guaranteed to be a pointer =
-to a valid `struct
->         // drm_gem_object`.
-> -        unsafe { (*self.into_gem_obj().get()).size }
-> +        unsafe { (*self.as_gem_obj()).size }
->     }
->=20
->     /// Creates a new handle for the object associated with a given =
-`File`
-> @@ -131,11 +130,7 @@ fn create_handle(
->         let mut handle: u32 =3D 0;
->         // SAFETY: The arguments are all valid per the type =
-invariants.
->         to_result(unsafe {
-> -            bindings::drm_gem_handle_create(
-> -                file.as_raw().cast(),
-> -                self.into_gem_obj().get(),
-> -                &mut handle,
-> -            )
-> +            bindings::drm_gem_handle_create(file.as_raw().cast(), =
-self.as_gem_obj(), &mut handle)
->         })?;
->         Ok(handle)
->     }
-> @@ -171,13 +166,11 @@ fn lookup_handle(
->     /// Creates an mmap offset to map the object from userspace.
->     fn create_mmap_offset(&self) -> Result<u64> {
->         // SAFETY: The arguments are valid per the type invariant.
-> -        to_result(unsafe { =
-bindings::drm_gem_create_mmap_offset(self.into_gem_obj().get()) })?;
-> +        to_result(unsafe { =
-bindings::drm_gem_create_mmap_offset(self.as_gem_obj()) })?;
->=20
->         // SAFETY: The arguments are valid per the type invariant.
->         Ok(unsafe {
-> -            bindings::drm_vma_node_offset_addr(ptr::addr_of_mut!(
-> -                (*self.into_gem_obj().get()).vma_node
-> -            ))
-> +            =
-bindings::drm_vma_node_offset_addr(ptr::addr_of_mut!((*self.as_gem_obj()).=
-vma_node))
+That's a lot of different stuff to put in one place. How about
+returning file descriptors from the buffer create functions while
+having them clean up after themselves:
 
-Hmm, I thought we were on a quest to remove addr_of_mut!() in favor of =
-&raw mut?
+-static int memfd, udmabuf;
++static int udmabuf;
+ static const char udmabuf_test_buffer_name[DMA_BUF_NAME_LEN] =3D
+"udmabuf_test_buffer_for_iter";
+ static size_t udmabuf_test_buffer_size;
+ static int sysheap_dmabuf;
+ static const char sysheap_test_buffer_name[DMA_BUF_NAME_LEN] =3D
+"sysheap_test_buffer_for_iter";
+ static size_t sysheap_test_buffer_size;
 
-Anyways, this is again orthogonal to your patch.
+-static int create_udmabuf(int map_fd)
++static int create_udmabuf(void)
+ {
+        struct udmabuf_create create;
+-       int dev_udmabuf;
+-       bool f =3D false;
++       int dev_udmabuf, memfd, udmabuf;
 
->         })
->     }
-> }
-> --=20
-> 2.48.1
->=20
->=20
+        udmabuf_test_buffer_size =3D 10 * getpagesize();
 
-This looks good.
+        if (!ASSERT_LE(sizeof(udmabuf_test_buffer_name),
+DMA_BUF_NAME_LEN, "NAMETOOLONG"))
+-               return 1;
++               return -1;
 
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+        memfd =3D memfd_create("memfd_test", MFD_ALLOW_SEALING);
+        if (!ASSERT_OK_FD(memfd, "memfd_create"))
+-               return 1;
++               return -1;
 
+        if (!ASSERT_OK(ftruncate(memfd, udmabuf_test_buffer_size), "ftrunca=
+te"))
+-               return 1;
++               goto close_memfd;
+
+        if (!ASSERT_OK(fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK), "seal"))
+-               return 1;
++               goto close_memfd;
+
+        dev_udmabuf =3D open("/dev/udmabuf", O_RDONLY);
+        if (!ASSERT_OK_FD(dev_udmabuf, "open udmabuf"))
+-               return 1;
++               goto close_memfd;
+
+        create.memfd =3D memfd;
+        create.flags =3D UDMABUF_FLAGS_CLOEXEC;
+@@ -59,15 +58,21 @@ static int create_udmabuf(int map_fd)
+        udmabuf =3D ioctl(dev_udmabuf, UDMABUF_CREATE, &create);
+        close(dev_udmabuf);
+        if (!ASSERT_OK_FD(udmabuf, "udmabuf_create"))
+-               return 1;
++               goto close_memfd;
+
+        if (!ASSERT_OK(ioctl(udmabuf, DMA_BUF_SET_NAME_B,
+udmabuf_test_buffer_name), "name"))
+-               return 1;
++               goto close_udmabuf;
++
++       return udmabuf;
+
+-       return bpf_map_update_elem(map_fd, udmabuf_test_buffer_name,
+&f, BPF_ANY);
++close_udmabuf:
++       close(udmabuf);
++close_memfd:
++       close(memfd);
++       return -1;
+ }
+
+-static int create_sys_heap_dmabuf(int map_fd)
++static int create_sys_heap_dmabuf(void)
+ {
+        sysheap_test_buffer_size =3D 20 * getpagesize();
+
+@@ -78,43 +83,46 @@ static int create_sys_heap_dmabuf(int map_fd)
+                .heap_flags =3D 0,
+        };
+        int heap_fd, ret;
+-       bool f =3D false;
+
+        if (!ASSERT_LE(sizeof(sysheap_test_buffer_name),
+DMA_BUF_NAME_LEN, "NAMETOOLONG"))
+-               return 1;
++               return -1;
+
+        heap_fd =3D open("/dev/dma_heap/system", O_RDONLY);
+        if (!ASSERT_OK_FD(heap_fd, "open dma heap"))
+-               return 1;
++               return -1;
+
+        ret =3D ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &data);
+        close(heap_fd);
+        if (!ASSERT_OK(ret, "syheap alloc"))
+-               return 1;
++               return -1;
+
+-       sysheap_dmabuf =3D data.fd;
++       if (!ASSERT_OK(ioctl(data.fd, DMA_BUF_SET_NAME_B,
+sysheap_test_buffer_name), "name"))
++               goto close_sysheap_dmabuf;
+
+-       if (!ASSERT_OK(ioctl(sysheap_dmabuf, DMA_BUF_SET_NAME_B,
+sysheap_test_buffer_name), "name"))
+-               return 1;
++       return data.fd;
+
+-       return bpf_map_update_elem(map_fd, sysheap_test_buffer_name,
+&f, BPF_ANY);
++close_sysheap_dmabuf:
++       close(data.fd);
++       return -1;
+ }
+
+ static int create_test_buffers(int map_fd)
+ {
+-       int ret;
++       bool f =3D false;
++
++       udmabuf =3D create_udmabuf();
++       sysheap_dmabuf =3D create_sys_heap_dmabuf();
+
+-       ret =3D create_udmabuf(map_fd);
+-       if (ret)
+-               return ret;
++       if (udmabuf < 0 || sysheap_dmabuf < 0)
++               return -1;
+
+-       return create_sys_heap_dmabuf(map_fd);
++       return bpf_map_update_elem(map_fd, udmabuf_test_buffer_name,
+&f, BPF_ANY) ||
++              bpf_map_update_elem(map_fd, sysheap_test_buffer_name,
+&f, BPF_ANY);
+ }
+
+ static void destroy_test_buffers(void)
+ {
+        close(udmabuf);
+-       close(memfd);
+        close(sysheap_dmabuf);
+ }
