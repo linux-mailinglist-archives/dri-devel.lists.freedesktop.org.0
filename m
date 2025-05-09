@@ -2,109 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31910AB0A41
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 08:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3B2AB0A65
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 08:17:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6277110E9B3;
-	Fri,  9 May 2025 06:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D060710E99F;
+	Fri,  9 May 2025 06:17:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="jnguVLlZ";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="FeQqFw4R";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CBtq85w2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-b7-smtp.messagingengine.com
- (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF7AF10E9B3
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 06:05:33 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal
- [10.202.2.45])
- by mailfhigh.stl.internal (Postfix) with ESMTP id 5F1FC2540165;
- Fri,  9 May 2025 02:05:28 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
- by phl-compute-05.internal (MEProxy); Fri, 09 May 2025 02:05:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1746770728;
- x=1746857128; bh=qZ8PpynMyA3bGCmwcCrTN20BWUQt0buKgTswM5C+T9g=; b=
- jnguVLlZJaMH9cvyUpSiwX94nVTw/gCJ1+aZHXVhyAWhPyP7yJYe4uMAj8lGVIgQ
- RRct8Qm9jEAnBHolU4IIRIo8wGOnFNF4UGpRj8/zko3ha/ovPBefvLGkPQY8M/q4
- y9vwuWs77DF8sG5D10DN5hdOPAStxb9leTp6IpkmfC5+VWZNjcQdUizwYW1eBycQ
- 08IPsfxCEjoSJNbUw/SkwBtSloAJkCDyNN7AlHY3v4/9LxGfJC6+hDJmgke++Vj9
- 1KdpPA4VdCNmvc0eiCfdqoKzZj35zw+qXgA4OtezGvPVcz45WB/lbg1PcYV0uVoZ
- DxrlqsqmnQVV9F0aM//y3w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746770728; x=
- 1746857128; bh=qZ8PpynMyA3bGCmwcCrTN20BWUQt0buKgTswM5C+T9g=; b=F
- eQqFw4RJt5Pnwf9M0+4uwpBt+f8o/vNadtnZnBCch3NrLysDy/b3mgbzXxiL4Gqv
- iT2TSab7F3NPoVVVKXMQpkB/Ug4ciYTpUT4Qd4gYU8r6uGplUEo2oEk560bA4EZh
- caEJ0HcxlRAuCldWUnjarQdAzJ3Kp3CM+x4My3oO7xizXFzJw0AYoW89M4cumCyw
- gimP9/qfdRg2/ZgYzOMyzrw8WVxIxercZFT4eGINN9EcU4BMCN7OiRSCkgeuplD5
- kIjPxaZkMIzVaaXD80qcJ4pbxEXW/KodM1AAhlOAaNUggqIML7LHiGq2UAKmEOzy
- ML7K886wRKRo25ACyQ67g==
-X-ME-Sender: <xms:J5sdaPRYsbI_VBfO7JlcgbY1exAaAs2G14mR33Y50tC1iDRUEwbJOw>
- <xme:J5sdaAw0VEzT0-TcHaSeGXzmI38XcDYv00yP7MdFFADvOWTuwNsceo0D1CMiuJlW0
- B7CuY1Er0rltue0N1o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledukeeiucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
- pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
- gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
- tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
- gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
- fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
- hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
- vdekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegurghnihgvlhdrrghlmhgvih
- gurgestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihl
- lhdrtghhpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtoh
- eprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegrlhgvgidrghgrhihn
- ohhrsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnughrvgifjhgsrghllhgrnhgtvg
- esghhmrghilhdrtghomhdprhgtphhtthhopegsohhquhhnrdhfvghnghesghhmrghilhdr
- tghomhdprhgtphhtthhopehfuhhjihhtrgdrthhomhhonhhorhhisehgmhgrihhlrdgtoh
- hmpdhrtghpthhtoheprghlihgtvghrhihhlhesghhoohhglhgvrdgtohhm
-X-ME-Proxy: <xmx:J5sdaE1JDYETjLgyiECyW0ljfGM_hDj-7fdgBoJBYbi7yhku8AEHPA>
- <xmx:J5sdaPDPYoCj0N0Dmg2dITRziM42lxJWWfsvF0vGGrlOIRnL7q-V4A>
- <xmx:J5sdaIjtZ34cNXzDSi6ReDp0TWWLBexm8jKPfCwJqugvj7l_xW75Yw>
- <xmx:J5sdaDrv7pswzOnn80kNMGP9sKtq36dBscVnu_Oc7ST_E9kgoePbrQ>
- <xmx:KJsdaBlnaKL704IQpL9yXD7Jgzyvy_-qpxKsA4XEGdh4reS-gJXpLFjo>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 3BB071C20069; Fri,  9 May 2025 02:05:27 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B98910E99F
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 06:17:30 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5492E4iM010638;
+ Fri, 9 May 2025 06:17:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ mTdN91+3C9E85S346qQAIZNr9cE1lJKGDCwTd/eqkJw=; b=CBtq85w2IvUz1uCN
+ t/teGqnLeRfW//kgUt714YUz19MZGVieddJqv/iqTVEguwUrlZQ/e+uO0PxxP2oC
+ lpvX8YYSmRUS5CqWtXaL4k2BAMb9i/K4RswoeO+gXZ7DvzRMPot1y6rwqe7Kq7ZE
+ l9JYbcnQa7KZhqNUed7L7ZYdyrS+dV3+muEZRNt4xmuQKL6iYq/U2fT7PgcToP9p
+ hIuN5d7jK2/tHGCTxB1kJ89GQYaRysyHu0S20TM+iXFINAHpIrfZKdXt3ByeUGKp
+ evZnjHnaFUnT94yZU+eZW2/RNS0Lxk9lny4QeUzPPeYodFqjwi8RM0R+NE68OWVp
+ RsiR8w==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnpmkkh6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 May 2025 06:17:24 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5496HOMC021745
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 9 May 2025 06:17:24 GMT
+Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 8 May 2025
+ 23:17:19 -0700
+Message-ID: <756681dd-1db0-4f22-ad51-52714cc9ea05@quicinc.com>
+Date: Fri, 9 May 2025 11:46:44 +0530
 MIME-Version: 1.0
-X-ThreadId: Tfe1d269e5f3a05db
-Date: Fri, 09 May 2025 08:05:06 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andrew Ballance" <andrewjballance@gmail.com>,
- "Danilo Krummrich" <dakr@kernel.org>, "Dave Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- "Benno Lossin" <benno.lossin@proton.me>,
- "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, bhelgaas@google.com,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- "Raag Jadav" <raag.jadav@intel.com>,
- "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>, me@kloenk.dev,
- "FUJITA Tomonori" <fujita.tomonori@gmail.com>, daniel.almeida@collabora.com
-Cc: "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-pci@vger.kernel.org
-Message-Id: <03548041-89f9-41a2-8488-5b234ce11138@app.fastmail.com>
-In-Reply-To: <20250509031524.2604087-5-andrewjballance@gmail.com>
-References: <20250509031524.2604087-1-andrewjballance@gmail.com>
- <20250509031524.2604087-5-andrewjballance@gmail.com>
-Subject: Re: [PATCH 04/11] rust: io: add PortIo
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
+ support
+To: ALOK TIWARI <alok.a.tiwari@oracle.com>, Vinod Koul <vkoul@kernel.org>,
+ Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, Viken Dadhaniya
+ <quic_vdadhani@quicinc.com>, Andi Shyti <andi.shyti@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
+References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
+ <20250506111844.1726-3-quic_jseerapu@quicinc.com>
+ <d15e5b43-f0bd-466a-9a2a-790eb0cf0c48@oracle.com>
+Content-Language: en-US
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+In-Reply-To: <d15e5b43-f0bd-466a-9a2a-790eb0cf0c48@oracle.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=TpjmhCXh c=1 sm=1 tr=0 ts=681d9df4 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
+ a=bWRW0vlhy_Az3oka6d8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: DgiMfVJM8yPKMjCgwDR4_dxjaSGOMDG3
+X-Proofpoint-GUID: DgiMfVJM8yPKMjCgwDR4_dxjaSGOMDG3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDA1OSBTYWx0ZWRfXzpNAl/RNplOP
+ ko10DHq3hygzL4rKmuwNjgxjVFq+5UWbhoWsk+s1TPiIwOuDlp2C1fPPCw7CDvxdc8z7035h+VD
+ Ad9+mikUci6Y5T4agm1w/wsTjNJT/GJhS8KhZz+D2IdqmSL0i4Qtv3Y3nGRPuz2coPAX6R1kXZO
+ o9hkDv6cYDx4D+f+wfGg94xU5sGGi5dVXWXDur3ULDGjmzpkNXBbgFlSYYCN8nSWp9YBEn1RwXw
+ +e/Vo9TmSRf2XAe+kCK7nGknXad/CjYJeEe/g/YbRltVdoIAaWN2821s/xg5EabJzNztIzbB8Ce
+ YuZL+KS0TlU6gUTmyDDmUASFb0sK+uPZ6rziW40Yl9loVGBO1hgtUNRn6Nq23B+q4FCc68cgxLS
+ 5yx0chdZvXFNW1oF9k2/VeG2mkD5hVfR7wQOqi9bl/KuTNdEWn1RUig9DvdTwa3XGU2y/u8X
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-09_02,2025-05-08_04,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ clxscore=1011 adultscore=0 malwarescore=0 mlxlogscore=999 spamscore=0
+ impostorscore=0 mlxscore=0 phishscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2504070000 definitions=main-2505090059
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,36 +109,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 9, 2025, at 05:15, Andrew Ballance wrote:
-> +
-> +#define define_rust_pio_read_helper(name, type)     \
-> +	type rust_helper_##name(unsigned long port) \
-> +	{                                           \
-> +		return name(port);                  \
-> +	}
-> +
-> +#define define_rust_pio_write_helper(name, type)                \
-> +	void rust_helper_##name(type value, unsigned long port) \
-> +	{                                                       \
-> +		name(value, port);                              \
-> +	}
-> +
-> +define_rust_pio_read_helper(inb, u8);
-> +define_rust_pio_read_helper(inw, u16);
-> +define_rust_pio_read_helper(inl, u32);
-> +
-> +define_rust_pio_write_helper(outb, u8);
-> +define_rust_pio_write_helper(outw, u16);
-> +define_rust_pio_write_helper(outl, u32);
 
-These have to be guarded with "#ifdef CONFIG_HAS_PIO", since
-most modern machines no longer support PIO at all, even behind
-PCI.
 
-The option is still enabled by default for a number of
-architectures that normally don't have PIO, but it should
-eventually become optional on pretty much anything but
-x86 and a few 1990s-era workstations that implement x86-style
-on-board devices.
+On 5/7/2025 7:51 AM, ALOK TIWARI wrote:
+> 
+> 
+> On 06-05-2025 16:48, Jyothi Kumar Seerapu wrote:
+>> +/**
+>> + * struct geni_i2c_dev - I2C Geni device specific structure
+>> + *
+>> + * @se: geni serial engine
+>> + * @tx_wm: Tx watermark level
+>> + * @irq: i2c serial engine interrupt
+>> + * @err: specifies error codes in i2c transfer failures
+>> + * @adap: i2c geni adapter
+>> + * @done: completion variable
+>> + * @cur: pointer to the i2c_msg mentioning current i2c message in use
+>> + * @cur_wr: variable used for i2c write opertions
+> 
+> typo opertions -> operations
+Sure, thanks will correct it.
+> 
+>> + * @cur_rd: variable used for i2c read operations
+>> + * @lock: spinlock variable used for synchronization
+>> + * @core_clk: pointer to clk
+>> + * @clk_freq_out: contains the i2c clock frequency
+>> + * @clk_fld: pointer to geni_i2c_clk_fld
+>> + * @suspended: flag used for system supend status
+> 
+> typo supend -> suspend
+sure, will correct it.
+> 
+>> + * @dma_buf: virtual address of the buffer
+>> + * @xfer_len: holds length for the dma operation
+>> + * @dma_addr: dma address of the buffer
+>> + * @tx_c: Tx dma channel
+>> + * @rx_c: Rx dma channel
+>> + * @gpi_mode: GPI DMA mode of operation
+>> + * @abort_done: true for marking i2c abort transfer
+>> + * @is_tx_multi_desc_xfer: true for i2c multi transfer support
+>> + * @num_msgs: number of i2c messages in a transfer
+>> + * @tx_irq_cnt: flag used for tx irq count in i2c multi transfer
+>> + * @i2c_multi_desc_config: used for multi transfer support
+>> + */
+>>   struct geni_i2c_dev {
+>>       struct geni_se se;
+>>       u32 tx_wm;
+>> @@ -100,6 +156,10 @@ struct geni_i2c_dev {
+>>       struct dma_chan *rx_c;
+>>       bool gpi_mode;
+>>       bool abort_done;
+>> +    bool is_tx_multi_desc_xfer;
+>> +    u32 num_msgs;
+>> +    u32 tx_irq_cnt;
+>> +    struct geni_i2c_gpi_multi_desc_xfer i2c_multi_desc_config;
+>>   };
+> 
+> 
+> Thanks,
+> Alok
 
-     Arnd
