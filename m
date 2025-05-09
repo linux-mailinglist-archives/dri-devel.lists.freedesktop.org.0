@@ -2,69 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D12AB0E06
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 10:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BE0AB0E05
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 10:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 256B510E9DE;
-	Fri,  9 May 2025 08:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10C2510E9DC;
+	Fri,  9 May 2025 08:59:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="V3aSc179";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uHfvOhtk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D58310E9DB
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 08:59:49 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-43ce71582e9so13903445e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 01:59:48 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 139AE10E9DB
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 08:59:50 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-3a0b933f214so739281f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 01:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746781187; x=1747385987; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1746781188; x=1747385988; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=iC1XUrhKoAzfRL3DmpwkS9UkFLx2+etmwcGscfV3g9w=;
- b=V3aSc179rf1UJ/roVLdLBNAf4zUjjPb7xqO1HqjriTAtykRhB1A+IH7C7B7kbiifIh
- J/MINEX46h7kFF3kU7HqmWiqFXpVsos2dppTSPwVa/klT3ZUcbvNHknl10MsV9/JwSLI
- XCgp9/zrnpvCFsGO2eyO+W2gGaiNNCVZ59PDArCmEpiM0zU2ww/Fsy0KFEWwWwSHfW6S
- G9DEwvj1JLe5rSeMucsosQZn5TTRKFYzYGB32EZoiw9bjvuELefWJ1tKzQx0QoLQQTww
- YzVqGu3KhQhC6kN6klkR43f3sVq7O/1zCR40ei0PGSEE3/DtOYZRWAfZj7AFKQjVgcCY
- HtIA==
+ :reply-to; bh=ASnQFcWLigUiMmzLp6e/Ns1g9XB4PFwbLTaJMqYMfMM=;
+ b=uHfvOhtkErv5X0tqiyrQj4TvWlfdQDNwVa7Eihz6A9aM8HGVy26AC/nLJkQI54eBIK
+ iUbXOsL5ZANfUyxGIpVGS5B/GrSZlHXkjtA/vZQP8Ykxs7lJiG2DstNjdMS6JeAfMxsM
+ M+sBXIWr+8ri5EfVaOTQwLJsme+k+Pa3LnFYMYzIEsGYJ1o6KdVLRBgk9nEGKb5Gz4ak
+ Ow765g9p0SljGTVGG+Pi6u2Zi6R7QfprY2jKoUZCmMT/2h7SWNS9AXyQbjOOQP8S+K7C
+ JkAP8Jpub/CpXlDi7oKz8g1B6Jy/U8xyPwZrD2dsPEAeuPPQxPwtP9lyHZqfALcjhmcj
+ pFRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746781187; x=1747385987;
+ d=1e100.net; s=20230601; t=1746781188; x=1747385988;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iC1XUrhKoAzfRL3DmpwkS9UkFLx2+etmwcGscfV3g9w=;
- b=l1uLubh+ioVLqbyk4DajCYFBwzTSwkcOR4Z2AQeZpSYt8fWDBsjhnZHbaZkaQhQhlg
- gUyM7KzL27CvFisNphRX6y9FL+G+SRlNLIVajJiH2lUA/fm8fU9gFGukE7yjtFq822UG
- L+zCi47CMcsNpIs2jvPWZfEtYuZkVoG9k3bKx347wiIfhrtD809qYWf7idMA2f5KWDEJ
- ST2Sd9soi2sCd3X7RKT4g6qHDNDj0j0mdpcIbsUlEE5/Pby2rOT/ADrvL13490Xe26cl
- PreAJxZD/C8fFKM1BHbzo4ODDZ57RpkM/qGaSch5z3P0+p4REJ/OQJ6Ri+XYaqVU430N
- n0fA==
-X-Gm-Message-State: AOJu0Yzr9UzfJWTEiq6S5iPh1sdJvt08bsnvZFpBCZvBvLCNLC3HIS7w
- X8930qfY2d9DaZoEA2+p10swpSMX1CmFMBGVx8OGsNw+px76Sd5RPnSlSRezaUE=
-X-Gm-Gg: ASbGncsS89Jitv+uHM1vk2BLWELFglYd0+joozi6psP7e6rLZRHWqaoiLYa7tlvHLYe
- vksDGikOoCvrQB8wNm8CBzMUWl9QH66znmBmYwdH5gdNl0GgLhP17vOpteRhYYiVPm4kb1VZKFE
- R8A9hP+I35ow6PcoZgw1JvWRqA90Ovox+qtsPYzLYqMcXplTly+ds2R3UoiXq9IqRFysSfzMnmv
- psmtFtvdM1sCg6mNef1YNQ42DkBNCRNJ/pX3xevYiPGhYgEhTDRVfB2VqucFFwUcCKNRZJUFluV
- ShVfs7qzh2HDhqs15t2QiwDrOgMW3duk/MSQLy0dj+elgH1aNTO85zltaYJKcw==
-X-Google-Smtp-Source: AGHT+IEwTRbaYhLW+eKsAXK0abPfDBd+lPLDrxQV3TCNwHIkW2G3/B5QrqZiEPvbaIo3GBAyFIokyQ==
-X-Received: by 2002:a05:600c:1d8c:b0:43d:683:8caa with SMTP id
- 5b1f17b1804b1-442d6d64644mr20786345e9.15.1746781187478; 
- Fri, 09 May 2025 01:59:47 -0700 (PDT)
+ bh=ASnQFcWLigUiMmzLp6e/Ns1g9XB4PFwbLTaJMqYMfMM=;
+ b=gzChOTlJRvVXDWne20VSHMQ/lNwiQZx5iVWcmezqgFEpnOudZdCWARByy/kSHfMch3
+ jfCZXM6schTGTOAOiK11I89VsDvsl0hZWCd07/mjQrUoInGkTisjZyV0W5bYiqeivk/Z
+ qTtH6d8O9jR7PcbKF+usNCtcbrhmeo609dMjNQciENHFgRiPARwFAAQIlfyWX4YgqKdD
+ 1HeBzZZ8+BzkjVkFCTUwysbTen8cP8eErvVl73BMleDLfuUUaz6ILP6q5v0HQkZl+RFj
+ GwihuAy/66Lqfn9lHbK9TEMQjO4MZch7LMjGAGMvucD0uP6P2GnGDOPA8V/ZTUzSU1Wy
+ Ch5g==
+X-Gm-Message-State: AOJu0YzcLcZxeeeUw4NWhlu/lmIOyQZtLflko96PeBpYWQF7TAsq/+Ia
+ fdU8QMagwtxh5sOi5y1yntR/O/EWS5Wf0Nz42SiiMlJrE6Ohi2U76GMmDxnNUZkFMct0/ucu3bh
+ M
+X-Gm-Gg: ASbGncuk6Z7E2VAi2R6kXBNpq4LRITfHFBEvn61vY4R5PBecTVn/yzHP5wvNBYyTuas
+ lHjpOhkiMYE9gxqF3rGFWbAj4VFhRoVts4yrDVkx/iGFgUF7aMN4vv74cA07uGGOCGFhtuc06LZ
+ BeIF+Kdl8ZjciWHjHrbhtSBTaP5pDLxiMEt9EtHIQD42oTrrao00RKImlciYy9YrfGtcfrQK3ZC
+ +JBniJAxn70oT4cXLDeEDDDrak7n2Lf1UDPs4bM1bh8MjQ5ctfs62l5pMbHhViV/dOGi0x7KSYo
+ cQqNCz++12Ob/GIl0RtDd3++19E5pPB+SJ+WSMEud5N0cnysPvZ4xBxfbQ2x4Q==
+X-Google-Smtp-Source: AGHT+IFx+LSi2P1gg9frBl/nSRpkctm4QwBWfWv5N/4i2O+LQgr/nmgIxLSi06bFssUOA42kmzpd6A==
+X-Received: by 2002:a05:6000:2485:b0:3a0:af63:c35d with SMTP id
+ ffacd0b85a97d-3a1f64374ecmr1989939f8f.19.1746781188481; 
+ Fri, 09 May 2025 01:59:48 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-442d67df639sm22369115e9.13.2025.05.09.01.59.46
+ 5b1f17b1804b1-442d67df639sm22369115e9.13.2025.05.09.01.59.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 May 2025 01:59:47 -0700 (PDT)
+ Fri, 09 May 2025 01:59:48 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 09 May 2025 10:59:41 +0200
-Subject: [PATCH v2 3/6] drm/panel: visionox-rm69299: switch to _multi variants
+Date: Fri, 09 May 2025 10:59:42 +0200
+Subject: [PATCH v2 4/6] drm/panel: visionox-rm69299: switch to
+ devm_regulator_bulk_get_const()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250509-topic-misc-shift6-panel-v2-3-c2c2d52abd51@linaro.org>
+Message-Id: <20250509-topic-misc-shift6-panel-v2-4-c2c2d52abd51@linaro.org>
 References: <20250509-topic-misc-shift6-panel-v2-0-c2c2d52abd51@linaro.org>
 In-Reply-To: <20250509-topic-misc-shift6-panel-v2-0-c2c2d52abd51@linaro.org>
 To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
@@ -78,20 +80,20 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Casey Connolly <casey.connolly@linaro.org>, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3216;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2466;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=dN37TqGtAW4iOa2jbs7Cudzthti3SyAS+DOD3bmionU=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBoHcP9zSCgk84BclFuLXnIeyWSCLz/kAsnKXNY/oDo
- 1ykb6meJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaB3D/QAKCRB33NvayMhJ0W3WD/
- 9ZwENFWG05mEkF1pJBoOW+iQOVWmZLuZGgU1955waz/OaskZH1WGIVtXYGLXoK191ocla+lX7p77Sg
- 7bMdEFUIxNgBV6JyyQa4AlbruCKX7rj3CcvXRmuQTKFpd8gmHcbEioLhruJ6jaEVzXiEZEbzCVhbvg
- oRtpUtxFf0MXgNLUKOcTK3S5vQDYaAByiyKi8wxtYYy2Wp+lAmz28emu8LnFsM/rD9HGzfSSYJBCIa
- auzZCTnRCvW6MhCbLGSu1TZYiNi4xc+xwFPSHb9uKLwtLBKjci+5gD0Bz2jHpz1bV9y/ieMu4a55o3
- P4L/r2h+MzibJ0wPHsZDiYjlyOGa3MN0angVnI1mG6ea0b+/NPntnLb51ZoDs2OkQ5q4t9jUUzQieV
- YLNsYWzMsKE/GiBLb88VNEa+JS/e4gRL8m2snBJ0tXutTWuA9Z9Kc9CExr1IqKCbRIxT6+zFQLsCgB
- corR5CfVUNFgF0royk2kDYxPl6/E9FgfNcYM2OcGdFPa9byxaUw23pZpqFaKpFY50EFz09kIhvl5m2
- 0d+7htI1NDArTki9K/h3BagXPTxpeLrPIV94nbNdsLgbyWsqWLZdq01lBcZxFRSmwl9BVtAseco8c1
- qk5ei8qhofJ10/JiNptsP2FzxB9LG8knt2XwhLyrQ4p3Zxpui27cDWGI1rIw==
+ bh=wFSO+bW0reZeJiU75auO+mE0Vw0w+a9HRouNJGN1GmI=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBoHcP+ZjUj+MNthAC93tQv3yVpyEM9usXDnu07Lj43
+ mCpk3guJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaB3D/gAKCRB33NvayMhJ0SYTD/
+ 9VRHzPDa8DYPUdooooCuzwmLoXMZnZugd889qT8G8CNT/ZozZGTaiHrOJpsKSK+EknLoqyZJT5aOUS
+ AqWLY6WHZAGqJbOJLRqb8FkkZh1OQl869dnu4BkwAXwc53gHCC5pTmGD/DaOBYERoN1BMUTd50biBX
+ CkdgdQJKrsvt7K3QdW+5VbrxgzjM8aIrrf7DmpPnVgKQNAh5ZlW4OG+YnpTrsF9nr6M7doqweQ8nYa
+ 8NxOTKZjZVnFbtc3feajhdNygqgDFPgNPWE5NSFWXY0qrgUKOXsjD/cS8tcA1f1sOkVKkmYrOPz/4b
+ WsVA+zPgI66uPgYmJ+0mO82IfeaitLKGolj8qwKoX7p+bJCY3d5rpMj0XbhfG834BHWNAEShJgLGnO
+ UW06Uh9IfoqcG33stlgxBhQAupWS79snZWJ8KLHwyhPi7IqgkDae15J11/bmo00aOo7SvTs2W1R5XV
+ B5qcTqFwgYsTvNrXsjl6LAG9MZBcTCcbvSc4ih+7M+yL1nHwhArjcT5KvZIRnMyGch+Edj+WzmKmqk
+ cVmCodLXMqBdghsH3f4N00AN4qKv8Hk6P90LY5XnHbDA22FX/MdFKFcSHZKcup+yEU9ut9HARqWyt9
+ BW/CP3DfhEtcqfG7CoWtpnnfOViR+TEgbPc/yzy67uNCK9D+nYL6OlqrW/+w==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,98 +111,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch to the DSI _multi variants to simplify error handling.
+Switch to devm_regulator_bulk_get_const() to move the supply
+data to const.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/gpu/drm/panel/panel-visionox-rm69299.c | 48 +++++++-------------------
- 1 file changed, 13 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-index 156bca0197481b470fa85b2eab7c979b76e489b6..c3c14150a5546512151fb15c8e9a91269ca21c65 100644
+index c3c14150a5546512151fb15c8e9a91269ca21c65..fe921d5fb1942c47c5b849e827c244d7fbde25a3 100644
 --- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
 +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-@@ -72,30 +72,24 @@ static int visionox_rm69299_power_off(struct visionox_rm69299 *ctx)
+@@ -24,12 +24,17 @@ struct visionox_rm69299_panel_desc {
+ 
+ struct visionox_rm69299 {
+ 	struct drm_panel panel;
+-	struct regulator_bulk_data supplies[2];
++	struct regulator_bulk_data *supplies;
+ 	struct gpio_desc *reset_gpio;
+ 	struct mipi_dsi_device *dsi;
+ 	const struct visionox_rm69299_panel_desc *desc;
+ };
+ 
++static const struct regulator_bulk_data visionox_rm69299_supplies[] = {
++	{ .supply = "vdda", .init_load_uA = 32000 },
++	{ .supply = "vdd3p3", .init_load_uA = 13200 },
++};
++
+ static const u8 visionox_rm69299_1080x2248_60hz_init_seq[][2] = {
+ 	{ 0xfe, 0x00 }, { 0xc2, 0x08 }, { 0x35, 0x00 }, { 0x51, 0xff },
+ };
+@@ -43,7 +48,8 @@ static int visionox_rm69299_power_on(struct visionox_rm69299 *ctx)
+ {
+ 	int ret;
+ 
+-	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
++	ret = regulator_bulk_enable(ARRAY_SIZE(visionox_rm69299_supplies),
++				    ctx->supplies);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -66,7 +72,8 @@ static int visionox_rm69299_power_off(struct visionox_rm69299 *ctx)
+ {
+ 	gpiod_set_value(ctx->reset_gpio, 0);
+ 
+-	return regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
++	return regulator_bulk_disable(ARRAY_SIZE(visionox_rm69299_supplies),
++				      ctx->supplies);
+ }
+ 
  static int visionox_rm69299_unprepare(struct drm_panel *panel)
- {
- 	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
+@@ -172,12 +179,8 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
  
- 	ctx->dsi->mode_flags = 0;
+ 	ctx->dsi = dsi;
  
--	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_SET_DISPLAY_OFF, NULL, 0);
--	if (ret < 0)
--		dev_err(ctx->panel.dev, "set_display_off cmd failed ret = %d\n", ret);
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
- 
- 	/* 120ms delay required here as per DCS spec */
--	msleep(120);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
--	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_ENTER_SLEEP_MODE, NULL, 0);
--	if (ret < 0) {
--		dev_err(ctx->panel.dev, "enter_sleep cmd failed ret = %d\n", ret);
--	}
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
- 
--	ret = visionox_rm69299_power_off(ctx);
+-	ctx->supplies[0].supply = "vdda";
+-	ctx->supplies[0].init_load_uA = 32000;
+-	ctx->supplies[1].supply = "vdd3p3";
+-	ctx->supplies[1].init_load_uA = 13200;
 -
--	return ret;
-+	return visionox_rm69299_power_off(ctx);
- }
+-	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies), ctx->supplies);
++	ret = devm_regulator_bulk_get_const(dev, ARRAY_SIZE(visionox_rm69299_supplies),
++					    visionox_rm69299_supplies, &ctx->supplies);
+ 	if (ret < 0)
+ 		return ret;
  
- static int visionox_rm69299_prepare(struct drm_panel *panel)
- {
- 	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
- 	int ret, i;
- 
- 	ret = visionox_rm69299_power_on(ctx);
-@@ -104,36 +98,20 @@ static int visionox_rm69299_prepare(struct drm_panel *panel)
- 
- 	ctx->dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
--	for (i = 0; i < ctx->desc->init_seq_len; i++) {
--		ret = mipi_dsi_dcs_write_buffer(ctx->dsi, &ctx->desc->init_seq[i * 2], 2);
--		if (ret < 0) {
--			dev_err(ctx->panel.dev,	"cmd tx failed, ret = %d\n", ret);
--			return ret;
--		}
--	}
-+	for (i = 0; i < ctx->desc->init_seq_len; i++)
-+		mipi_dsi_dcs_write_buffer_multi(&dsi_ctx, &ctx->desc->init_seq[i * 2], 2);
- 
--	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_EXIT_SLEEP_MODE, NULL, 0);
--	if (ret < 0) {
--		dev_err(ctx->panel.dev, "exit_sleep_mode cmd failed ret = %d\n", ret);
--		goto power_off;
--	}
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
- 
- 	/* Per DSI spec wait 120ms after sending exit sleep DCS command */
--	msleep(120);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
--	ret = mipi_dsi_dcs_write(ctx->dsi, MIPI_DCS_SET_DISPLAY_ON, NULL, 0);
--	if (ret < 0) {
--		dev_err(ctx->panel.dev, "set_display_on cmd failed ret = %d\n", ret);
--		goto power_off;
--	}
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
- 
- 	/* Per DSI spec wait 120ms after sending set_display_on DCS command */
--	msleep(120);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
--	return 0;
--
--power_off:
--	return ret;
-+	return dsi_ctx.accum_err;
- }
- 
- static const struct drm_display_mode visionox_rm69299_1080x2248_60hz = {
 
 -- 
 2.34.1
