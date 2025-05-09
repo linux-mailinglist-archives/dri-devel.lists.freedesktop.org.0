@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32734AB089F
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 05:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFB8AB08A0
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 05:16:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97C0210E0CE;
-	Fri,  9 May 2025 03:16:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02A5C10E24A;
+	Fri,  9 May 2025 03:16:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l8HXUN5f";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eAuN1RqL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com
- [209.85.161.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6896F10E0CE;
- Fri,  9 May 2025 03:16:09 +0000 (UTC)
-Received: by mail-oo1-f46.google.com with SMTP id
- 006d021491bc7-601ad30bc0cso1791402eaf.0; 
- Thu, 08 May 2025 20:16:09 -0700 (PDT)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com
+ [209.85.161.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE5810E24A;
+ Fri,  9 May 2025 03:16:15 +0000 (UTC)
+Received: by mail-oo1-f41.google.com with SMTP id
+ 006d021491bc7-6066c02cd92so853959eaf.2; 
+ Thu, 08 May 2025 20:16:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746760568; x=1747365368; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sTOwig8lTDkxPKMgyzizdRYq4XG3E64o3g/lB7m6NZU=;
- b=l8HXUN5fyzRVTbCFF8bRpD0SAyw1H1c+TpyN1kw42SP2nxOuGAniqlPfNOQg3IOC/H
- tEVgZ4c5UR4Uv3g+0ukq6rLQMH6/n6DbmTZ8TSRc9ZNIVLsqUx3am7BORc5s0eRLkrG8
- Oo0Ens0NHVkE47hTjGGPW9zwvtR5QauU5lxeW01t8hxUuOaEjoRXGwnkMAL1L+MgZqb0
- QBn7IwuaM5kJ+05CtYsTwkdm4VkysyW/bpd15B4rfI5feyh4FF3Wl0456l6/gKMJULjX
- Ybt4bHMDwjkG3s0mxdz+NguSa+8khjtqE0TTkW+uVtWimfKM1h695xhd0qBvVdzzrk1J
- X2Dw==
+ d=gmail.com; s=20230601; t=1746760574; x=1747365374; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VzpSbe8Z8lqqNkTECrMU1EmRY6ZmbRg52BdLgYzOLME=;
+ b=eAuN1RqLx0beF+PCA2HU2Jsg2s/LjiEwwQVUfEV3WKFozsucOmD2B8z48Px0Mll3zH
+ Cok/lDEdub1Sj0yOegoskq14zlscUVKbLPQph/2lqZ5DV8d/7o9YHqGv86aVQaD9ktX9
+ SMQWyxj3iSr1Wi/EFnAaSsXUl2+J8Tf/LZg5z+tAE0Qm+jQ6WT8HUdm5y1GzriKq/af3
+ M2A6VZjbBH0kflLJrdV77JFc/I3i0abVazwDyUhPhNjSB7v25GowjaKonfViPJ2tlVON
+ kfSDeFmKnKXT0o2nHHUCDLZmQKLfVzIAOg1aOvC/AeXS56QGIDkCJ/zYwbIPyxkMQjr3
+ mf8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746760568; x=1747365368;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sTOwig8lTDkxPKMgyzizdRYq4XG3E64o3g/lB7m6NZU=;
- b=eJ7rb/J0JGAUh6ocVzTOX/4cgmIS8awaEJhEio4WRI7w2qrlJPQ5z2+gX3VWCLDJdR
- fiyUD7oAfjX246OHINjrpAZyqwBCFLPeTvuw+Ak6phTh5n2+IqNFBVhAu6emYZeNBOpS
- JVw4tVDMyIOm1c8k3Ler9EEuuCzktmKjyEiUYwpvwCyr/d3t0XpgkceTwpB+HYwEpfIg
- 9jtQq1U9n2OA1d3MmVkiAc1+m4mcX9peZKD2Ko58mxrmYHX48qvbOD2fgYtaK8Xxlzn5
- +EYQxbOZzRVg19ChLjTaaOzOFuOJbt9uX4vduQIzZ8InPLnyToKe0s5t5dmwASpnzwr9
- n+2A==
+ d=1e100.net; s=20230601; t=1746760574; x=1747365374;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VzpSbe8Z8lqqNkTECrMU1EmRY6ZmbRg52BdLgYzOLME=;
+ b=aSnlcIGphY8A93qxbqUqDbbwBfGmESC0y4bsp4ZkjtqqWw4AwieMVZgIILrTsoKjod
+ OfM02/Ue05SAtV2D4x2K3npy5rVH6UPV2/RUJUsBEdUKu3PqRbn6wfUv6hHMS5Or9YuI
+ J5nAf6/UeYyc5Cav/fBa0Lqe3CbwjeReVwh/J88rqgNe4vlBr0geCGVIcyoG740QkZb9
+ molyPRCj7EY9TeMXpSb8mt1Js/qPrMU3KCzDTrlMHn1ccrxWLwU8CuRsStLp5tuNMBOk
+ 3BxFZgMyYwTyM8KgwxCWyQdSaKin9WEdUUOX2832dQqvOZ8URUNch9Tqd4V76G00As2+
+ bBkA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW4sfjKVxLV4lVkDNskG3LIRm8kym8MSSPG58UXS7uMnu69OXgA6vwP7CaHUgNPu+535frEb5QwGUQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJWytezzQtp/CUIEUCvJvg1z4EpjrLwkYE7MxludQIdHuPfZQW
- mBP8vIoZPgKOgd7i4FaEfGP2a0msQ2r9JHdfHBnJHKi7FEmPIprh
-X-Gm-Gg: ASbGncvWplLuZfRCmC4iHQq75fhpFYGGMijlN/G3HK1MG1y8sJf96XinQ7myNMzw60r
- b1lHVeSNT9aGEiAXh8yblrh3V/8yO4VTCwRLQgo4uYGgNO5zWTGaZAKsFvaBKI9vqbAsCZ4shLJ
- v0IW+L0FCHsoK3ylKPWW4Q3Cjjg4UlR8my6iTCvaLNAGGgm5jF8mn692FY/zK/bYFudzjjPKHib
- mAoHdh9pCSMznEESvlKNgQLBNOPnJDaB2U1nZBazPMScjDS8n18B4hb97/fqdEf3pS+kC8pxem0
- B/dd+AjWi7CFZZN3CPr/J+0cE01U2lsbPOGHt3v31G5kE8X2B9lCUB+YVVa5zVtexG7BL4FeCWw
- TsmtHcHqHZNfR
-X-Google-Smtp-Source: AGHT+IFabaKG5IMI4f6lw/FzmXhfD/qA1aN2NZHwCsMXYiRNwWJ9KzD39S8IFVi2DsYvBD60grQSJw==
-X-Received: by 2002:a05:6820:208c:b0:604:99a6:4e90 with SMTP id
- 006d021491bc7-60868ad8738mr995531eaf.0.1746760568573; 
- Thu, 08 May 2025 20:16:08 -0700 (PDT)
+ AJvYcCUnt4Ck/v/xOCa2FOdTXP8X+jIVCWMDU14EkuKaqVsbmcP0pqWO6X5SKPieecTXi+yfMFi1uwPK1MQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzBWDVT5drzfvUZ5ZfyCYH36GoimdNBr2g2XbmwM/8vuzq7Oolr
+ f94K3SyHKzoXa0igIijYf/NIclyuXdmHlDr6Q8sC9RZVKHRCs0fd
+X-Gm-Gg: ASbGncv27QfW4Z7rgEMCoTH6kaL0jSyoX4S2Zn1j92sQXCBqtn6k5ScH/OH0Jo4kex3
+ 04zjyQHm7PHVs7v7Cg2H5jo+duRIgMpt84tZCmXrBkaDpVznco8qu13W9AD7/K70nKm+7Os25tF
+ u9MU0rs9y0jd0rOZuNKoLfa2uIB2IWQmNdT33rSTuqUgbAm199wk8ES13NsIZbR3ERmqJgqsxWH
+ Ufw6o7BTbzaqIifZ7YKlrdzvGyzNdWMnGic/OAKHSK7qo//fPFbWqByspiWkwVPuaZxzTpBwcNO
+ hyrCMcJ4NOyfVNwKKDmBQnYLA9KeUeP2WA7Lj7UwO2+h3+XLPDlC0Ley8F8aDeNBZOwjn16adaG
+ HrAQFGVTV6xJwjUnPlWEB0iY=
+X-Google-Smtp-Source: AGHT+IFFH6+u2tuJktT4qWtVFvDEDDC7Ik0VgX5ZNR6l9ZlVvHjzs798fSJY2oERA3mEi/uVrYMj5w==
+X-Received: by 2002:a05:6820:3082:b0:607:e57d:fe70 with SMTP id
+ 006d021491bc7-6084b846db4mr1121427eaf.6.1746760574485; 
+ Thu, 08 May 2025 20:16:14 -0700 (PDT)
 Received: from my-computer.lan (c-73-76-29-249.hsd1.tx.comcast.net.
  [73.76.29.249]) by smtp.googlemail.com with ESMTPSA id
- 006d021491bc7-60842b096desm303745eaf.30.2025.05.08.20.16.01
+ 006d021491bc7-60842b096desm303745eaf.30.2025.05.08.20.16.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 May 2025 20:16:07 -0700 (PDT)
+ Thu, 08 May 2025 20:16:14 -0700 (PDT)
 From: Andrew Ballance <andrewjballance@gmail.com>
 To: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
  akpm@linux-foundation.org, ojeda@kernel.org, alex.gaynor@gmail.com,
@@ -74,10 +75,13 @@ To: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
 Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  linux-pci@vger.kernel.org
-Subject: [PATCH 00/11] rust: add support for Port io
-Date: Thu,  8 May 2025 22:15:13 -0500
-Message-ID: <20250509031524.2604087-1-andrewjballance@gmail.com>
+Subject: [PATCH 01/11] rust: helpers: io: use macro to generate io accessor
+ functions
+Date: Thu,  8 May 2025 22:15:14 -0500
+Message-ID: <20250509031524.2604087-2-andrewjballance@gmail.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250509031524.2604087-1-andrewjballance@gmail.com>
+References: <20250509031524.2604087-1-andrewjballance@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,46 +99,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-currently the rust `Io` type maps to the c read{b, w, l, q}/write{b, w, l, q}
-functions and have no support for port io.this is a problem for pci::Bar
-because the pointer returned by pci_iomap is expected to accessed with
-the ioread/iowrite api [0].
+From: Fiona Behrens <me@kloenk.dev>
 
-this patch series splits the `Io` type into `Io`, `PortIo` and `MMIo`.and,
-updates pci::Bar, as suggested in the zulip[1], so that it is generic over
-Io and, a user can optionally give a compile time hint about the type of io. 
+Generate the `rust_helper_read{b,w,l,q}`, `rust_helper_write{b,w,l,q}`
+and the relaxed version using a C macro.
 
-Link: https://docs.kernel.org/6.11/driver-api/pci/pci.html#c.pci_iomap [0]
-Link: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/topic/.60IoRaw.60.20and.20.60usize.60/near/514788730 [1]
+This removes a lot of redundant code and is in preparation for pio
+functions which uses a similar C macro.
 
-Andrew Ballance (6):
-  rust: io: add new Io type
-  rust: io: add from_raw_cookie functions
-  rust: pci: make Bar generic over Io
-  samples: rust: rust_driver_pci: update to use new bar and io api
-  gpu: nova-core: update to use the new bar and io api
-  rust: devres: fix doctest
+Signed-off-by: Fiona Behrens <me@kloenk.dev>
+Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
+---
+ rust/helpers/io.c | 104 +++++++++++++---------------------------------
+ 1 file changed, 28 insertions(+), 76 deletions(-)
 
-Fiona Behrens (5):
-  rust: helpers: io: use macro to generate io accessor functions
-  rust: io: Replace Io with MMIo using IoAccess trait
-  rust: io: implement Debug for IoRaw and add some doctests
-  rust: io: add PortIo
-  io: move PIO_OFFSET to linux/io.h
-
- drivers/gpu/nova-core/driver.rs |   4 +-
- drivers/gpu/nova-core/regs.rs   |   1 +
- include/linux/io.h              |  13 +
- lib/iomap.c                     |  13 -
- rust/helpers/io.c               | 132 +++---
- rust/kernel/devres.rs           |   4 +-
- rust/kernel/io.rs               | 753 +++++++++++++++++++++++++-------
- rust/kernel/pci.rs              |  88 +++-
- samples/rust/rust_driver_pci.rs |   6 +-
- 9 files changed, 731 insertions(+), 283 deletions(-)
-
-
-base-commit: 92a09c47464d040866cf2b4cd052bc60555185fb
+diff --git a/rust/helpers/io.c b/rust/helpers/io.c
+index 15ea187c5466..525af02f209e 100644
+--- a/rust/helpers/io.c
++++ b/rust/helpers/io.c
+@@ -12,90 +12,42 @@ void rust_helper_iounmap(void __iomem *addr)
+ 	iounmap(addr);
+ }
+ 
+-u8 rust_helper_readb(const void __iomem *addr)
+-{
+-	return readb(addr);
+-}
+-
+-u16 rust_helper_readw(const void __iomem *addr)
+-{
+-	return readw(addr);
+-}
+-
+-u32 rust_helper_readl(const void __iomem *addr)
+-{
+-	return readl(addr);
+-}
+-
++#define define_rust_mmio_read_helper(name, type)    \
++	type rust_helper_##name(void __iomem *addr) \
++	{                                           \
++		return name(addr);                  \
++	}
++
++#define define_rust_mmio_write_helper(name, type)               \
++	void rust_helper_##name(type value, void __iomem *addr) \
++	{                                                       \
++		name(value, addr);                              \
++	}
++
++define_rust_mmio_read_helper(readb, u8);
++define_rust_mmio_read_helper(readw, u16);
++define_rust_mmio_read_helper(readl, u32);
+ #ifdef CONFIG_64BIT
+-u64 rust_helper_readq(const void __iomem *addr)
+-{
+-	return readq(addr);
+-}
++define_rust_mmio_read_helper(readq, u64);
+ #endif
+ 
+-void rust_helper_writeb(u8 value, void __iomem *addr)
+-{
+-	writeb(value, addr);
+-}
+-
+-void rust_helper_writew(u16 value, void __iomem *addr)
+-{
+-	writew(value, addr);
+-}
+-
+-void rust_helper_writel(u32 value, void __iomem *addr)
+-{
+-	writel(value, addr);
+-}
+-
++define_rust_mmio_write_helper(writeb, u8);
++define_rust_mmio_write_helper(writew, u16);
++define_rust_mmio_write_helper(writel, u32);
+ #ifdef CONFIG_64BIT
+-void rust_helper_writeq(u64 value, void __iomem *addr)
+-{
+-	writeq(value, addr);
+-}
++define_rust_mmio_write_helper(writeq, u64);
+ #endif
+ 
+-u8 rust_helper_readb_relaxed(const void __iomem *addr)
+-{
+-	return readb_relaxed(addr);
+-}
+-
+-u16 rust_helper_readw_relaxed(const void __iomem *addr)
+-{
+-	return readw_relaxed(addr);
+-}
+-
+-u32 rust_helper_readl_relaxed(const void __iomem *addr)
+-{
+-	return readl_relaxed(addr);
+-}
+-
++define_rust_mmio_read_helper(readb_relaxed, u8);
++define_rust_mmio_read_helper(readw_relaxed, u16);
++define_rust_mmio_read_helper(readl_relaxed, u32);
+ #ifdef CONFIG_64BIT
+-u64 rust_helper_readq_relaxed(const void __iomem *addr)
+-{
+-	return readq_relaxed(addr);
+-}
++define_rust_mmio_read_helper(readq_relaxed, u64);
+ #endif
+ 
+-void rust_helper_writeb_relaxed(u8 value, void __iomem *addr)
+-{
+-	writeb_relaxed(value, addr);
+-}
+-
+-void rust_helper_writew_relaxed(u16 value, void __iomem *addr)
+-{
+-	writew_relaxed(value, addr);
+-}
+-
+-void rust_helper_writel_relaxed(u32 value, void __iomem *addr)
+-{
+-	writel_relaxed(value, addr);
+-}
+-
++define_rust_mmio_write_helper(writeb_relaxed, u8);
++define_rust_mmio_write_helper(writew_relaxed, u16);
++define_rust_mmio_write_helper(writel_relaxed, u32);
+ #ifdef CONFIG_64BIT
+-void rust_helper_writeq_relaxed(u64 value, void __iomem *addr)
+-{
+-	writeq_relaxed(value, addr);
+-}
++define_rust_mmio_write_helper(writeq_relaxed, u64);
+ #endif
 -- 
 2.49.0
 
