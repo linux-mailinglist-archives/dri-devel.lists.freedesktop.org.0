@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404AFAB08AF
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 05:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9508DAB08B0
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 05:17:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CB4A10E27F;
-	Fri,  9 May 2025 03:17:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0367F10E275;
+	Fri,  9 May 2025 03:17:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MjKXjT6H";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hBnm+Jqy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
- [209.85.167.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85A5910E275;
- Fri,  9 May 2025 03:17:06 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id
- 5614622812f47-3f9a7cbc8f1so805889b6e.0; 
- Thu, 08 May 2025 20:17:06 -0700 (PDT)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB2B10E269;
+ Fri,  9 May 2025 03:17:12 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id
+ 46e09a7af769-72fffa03ac6so1321454a34.3; 
+ Thu, 08 May 2025 20:17:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746760626; x=1747365426; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1746760631; x=1747365431; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XgqV+bJH9bwGqYSCW6zT8FRineTcAn4X+KFdTGVLZEw=;
- b=MjKXjT6HcdE6I5/z/kuQ/xBHS9F5VztpthONcL5b4G6fjAoGMG1wZpK8/brObZ7/Te
- gHPeqTGgR6T4vluM+IFFTVhgrmmWm56DjCT2ix34fuNLabd+WtPWcFwi5Ywqsn6GB5qI
- a3RED2YmYDxHCRsO8NnBkh3XWoFjiUXZJZAYUVtWHKCSVrhjdiUNxtBV8zrfSYMqJUV7
- IU2nNYXiZ/R6kuAXYV1YAd5atf8uCiGR7UBrSaOXlTdNKPdVz/Z6Cegsh6Sa/dtxUKJM
- Zfn0zt5shH9vkMZrmbESWuzfRKsfGGIK5IVQG7v2U/Hj3pMM5tLsLEthddwD8e/W66YE
- Q3yQ==
+ bh=opoK+AzPTNKgO/SAmsMVBjeqSr697aHxwJmC1KlGbRc=;
+ b=hBnm+JqyUs5pb2SSseYUoISPu8+SPX1uY4TEQ+b+rdKMJkPbsWr3CZ7msu+DZuEEXu
+ YbKcVi3AJHxCJdBawhzRYDlYmxC/R3SA0lVlQNUQW0qW5QOaCCZNL28yw0I+Ob3tKKn2
+ rKowowNWEbo4V+N3Q1GH1PyM1Te9p8lPaUUfQYybxZ0z1+NZGvIsOOOMA2D/DaOnc/0B
+ RlF1knl4cJR7d/aG6og5LTjC4DBi9l7bkfqD3D39ZOJFyKf+9e+JB2VaiLEjJo2TMzwJ
+ tDHVGTdRV2rGfT7WN5OaxT0jIosD4khuaM4V/M06ScNuf89XK5eokvhXn+addRD6bVRb
+ AlQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746760626; x=1747365426;
+ d=1e100.net; s=20230601; t=1746760631; x=1747365431;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XgqV+bJH9bwGqYSCW6zT8FRineTcAn4X+KFdTGVLZEw=;
- b=TROXe3OrWdiynb6uCbGLevwXanCi/sRzpGfw2TKlxY4LIbyp0gWIYi1FYlFtFKmS0o
- 9oA2TqJ71iEkUgLgWrxDriexNLvgHABcn4yFI4jNJ+0XJV2rERjgSA4+PF22CRZRVl0M
- SvGfSpK3r7qJ3/icJRgyUQu+0YqrDn9jNs9OScjqQGQLKN00jK+AeVy5RDTkZEsLseuV
- NhLHxS82aS48lTBJ2g+N7am5JmvUs16ARmI0ehWgP5RvIL2aY58sYqHrzH0RkSok8qlU
- 7r9sR4QGJwV2mEwiDbaBBhg7v+1w4MjWVzKIcnshd6nVTyeZX35LiU5JszggiTF0kIz8
- O2lQ==
+ bh=opoK+AzPTNKgO/SAmsMVBjeqSr697aHxwJmC1KlGbRc=;
+ b=FGOQulaPPs0i+5Rt0/QXLS9XMd8R7jX+pIZnKi6O/FIdwLFLd49N0sPI3z6LAZ5L8K
+ ajq2Lmw+68lZFgJccBcQ/5zRrOeLw0vdkZTJPdASDjuVxIwtsfBQ5ubyHhPHz9REzSA+
+ CuZiPcV/ivS+SxYBANMx2c84JWKQ6wVDiamcqKiWVSbG/zEt0bQYPRz2O9MZ44qasxPn
+ LSQb3W+G8/w6jSiKTsf+jsSQGsuwh2zuUqSF1SRBTIgKAgGcFjT5+IlBnGpGcrjxwwkx
+ hwMte+gBpmwyZaJwalyh5Dx/8cHa0+scO3sbANFKfRQSZVuBQg33vTPHVn4YsM4ZYohV
+ Fm3A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfA4CxNib9B1b5wT5HbhjRc62Wc+lzjc2ZLt4bvp8K8uhSZ65XYwv25orFuJCn3dseLZw/au1/P0o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx/A/454bBY+ys5IhVYhEBpOu+iMTh3BbseOhUim7oomqWxWk2P
- 3C/ya6aBtqltX3uu5eYGxEEsvUeisf7lDkaGM9BfNnZWNfniLT3t
-X-Gm-Gg: ASbGnctzK+m5am/5O/UCiu+gq1PetXltJ79O0I8tNUKmZ/nfk9RUePW6cVIN+GwzYaq
- hw/9hyGCVu7GzR74EXtF9KeNYpHURdrEsec1yaXB9R4aFanEyfqZ7s4ks7euVo1nXMK3tJqKkqy
- oESMPvijy7edLaOQxzJc6XT4wkwr3glWweL4/nfFlCbuxfhHTVH+/g6Y0g2NGxMD0+0fxEJNhxN
- ArkgJcg16EOl53jlYvcp8EKIgsxs3PyyhMVhq8s4T0osGHp+Kbxr1gO736m1lwpLv25aj6oo3Qn
- mle4q6ySBfEkCaID15i6UgWTHXWc1hBGT9GgiDaw7IkrYYeSfrODh+v3iMYl2KUrv/vsGa/o9Kg
- TwoFce8zdGTfD
-X-Google-Smtp-Source: AGHT+IFW81DiF+olMWJMKxd0X0Haiy6R6/35pkLPuRc9ZALbjLeamffaAjN2DDY5D6gMNu99B3Hc9A==
-X-Received: by 2002:a05:6820:3082:b0:607:e267:7297 with SMTP id
- 006d021491bc7-6084c10184amr1043846eaf.5.1746760625781; 
- Thu, 08 May 2025 20:17:05 -0700 (PDT)
+ AJvYcCXYaoH0RhT4Q2YfXjj+taX2CG2AuIXO4XWSkFOSm30uI3Hm1fDr64OVzZnWovcWpVTxSF+1cRqFtIQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyLCIDgehxeMeAbn6yIiaD9zS+NWQ9CEe5dDpESB0ky0nVyv+T+
+ BK8WSy+qe6E4lu5EuYsy17Wv02TUyqkEWxl4wDZIqsBTFEf5AE2c
+X-Gm-Gg: ASbGnctqrxUHTDvElUQm4+qvmBVBKJYQBLuMrL00tvb3uYBxKsAsDpIEHOi8op85o8+
+ /5rOMSMR6BFbBaageVBDJQHYWwvQUfMG3Q2IuHcy+R1Tqobu7WLaH7KQUw7wET4y6fABHaa4+KM
+ mxVtFsVsM+Riy4m0+/st014hZp9Kf0g3mGu7xN1cotSOE4bg1X7DztbSNORXkiSZmaHmetDbO4/
+ 4UqkgMQUsXxvy88DI6bOY6Cc3IAJwJt69hnSm9iVrrJzhRPra0xUKkF5fVrf2RB/Q5O6tOaNfUg
+ Y2yVjACjHI2HYBiSS4C8KghYrehLbIGOCcsiy9VLKwcM+NSUx53cuLpEn8PJhJcJTeMfTRIXs+h
+ 9zeFQJHU22/HqKmf3m6+jJXY=
+X-Google-Smtp-Source: AGHT+IFr5wDxcxjZ9Q/iUAiLI2ifQ/cRB+9pzvQIRp+QV4tN7rCEAY/Ke6odF2Cy5+AfeYLWPdfhrw==
+X-Received: by 2002:a05:6808:1885:b0:401:e7c0:62bd with SMTP id
+ 5614622812f47-4037fe1e47amr1167787b6e.3.1746760631582; 
+ Thu, 08 May 2025 20:17:11 -0700 (PDT)
 Received: from my-computer.lan (c-73-76-29-249.hsd1.tx.comcast.net.
  [73.76.29.249]) by smtp.googlemail.com with ESMTPSA id
- 006d021491bc7-60842b096desm303745eaf.30.2025.05.08.20.17.00
+ 006d021491bc7-60842b096desm303745eaf.30.2025.05.08.20.17.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 May 2025 20:17:05 -0700 (PDT)
+ Thu, 08 May 2025 20:17:11 -0700 (PDT)
 From: Andrew Ballance <andrewjballance@gmail.com>
 To: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
  akpm@linux-foundation.org, ojeda@kernel.org, alex.gaynor@gmail.com,
@@ -75,9 +75,9 @@ To: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
 Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  linux-pci@vger.kernel.org
-Subject: [PATCH 10/11] gpu: nova-core: update to use the new bar and io api
-Date: Thu,  8 May 2025 22:15:23 -0500
-Message-ID: <20250509031524.2604087-11-andrewjballance@gmail.com>
+Subject: [PATCH 11/11] rust: devres: fix doctest
+Date: Thu,  8 May 2025 22:15:24 -0500
+Message-ID: <20250509031524.2604087-12-andrewjballance@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250509031524.2604087-1-andrewjballance@gmail.com>
 References: <20250509031524.2604087-1-andrewjballance@gmail.com>
@@ -98,48 +98,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-updates nova-core to use the new Io and Bar api.
+fix a doc test to use the new Io api.
 
 Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
 ---
- drivers/gpu/nova-core/driver.rs | 4 ++--
- drivers/gpu/nova-core/regs.rs   | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ rust/kernel/devres.rs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
-index a08fb6599267..42596ee2e07f 100644
---- a/drivers/gpu/nova-core/driver.rs
-+++ b/drivers/gpu/nova-core/driver.rs
-@@ -11,7 +11,7 @@ pub(crate) struct NovaCore {
- }
- 
- const BAR0_SIZE: usize = 8;
--pub(crate) type Bar0 = pci::Bar<BAR0_SIZE>;
-+pub(crate) type Bar0 = pci::MMIoBar<BAR0_SIZE>;
- 
- kernel::pci_device_table!(
-     PCI_TABLE,
-@@ -33,7 +33,7 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> Result<Pin<KBox<Self
-         pdev.enable_device_mem()?;
-         pdev.set_master();
- 
--        let bar = pdev.iomap_region_sized::<BAR0_SIZE>(0, c_str!("nova-core/bar0"))?;
-+        let bar = pdev.iomap_region_sized_hint::<BAR0_SIZE, _>(0, c_str!("nova-core/bar0"))?;
- 
-         let this = KBox::pin_init(
-             try_pin_init!(Self {
-diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
-index b1a25b86ef17..079c3d275a47 100644
---- a/drivers/gpu/nova-core/regs.rs
-+++ b/drivers/gpu/nova-core/regs.rs
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- 
- use crate::driver::Bar0;
-+use kernel::io::IoAccess;
- 
- // TODO
- //
+diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
+index ddb1ce4a78d9..88d145821ca8 100644
+--- a/rust/kernel/devres.rs
++++ b/rust/kernel/devres.rs
+@@ -45,7 +45,7 @@ struct DevresInner<T> {
+ /// # Example
+ ///
+ /// ```no_run
+-/// # use kernel::{bindings, c_str, device::Device, devres::Devres, io::{Io, IoRaw}};
++/// # use kernel::{bindings, c_str, device::Device, devres::Devres, io::{Io, IoRaw, IoAccess}};
+ /// # use core::ops::Deref;
+ ///
+ /// // See also [`pci::Bar`] for a real example.
+@@ -80,7 +80,7 @@ struct DevresInner<T> {
+ ///
+ ///    fn deref(&self) -> &Self::Target {
+ ///         // SAFETY: The memory range stored in `self` has been properly mapped in `Self::new`.
+-///         unsafe { Io::from_raw(&self.0) }
++///         unsafe { Io::from_raw_ref(&self.0) }
+ ///    }
+ /// }
+ /// # fn no_run() -> Result<(), Error> {
 -- 
 2.49.0
 
