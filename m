@@ -2,10 +2,10 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CEFAB1F1E
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 23:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6984BAB1F1F
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 23:37:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7878D10EAFD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D8010EAFB;
 	Fri,  9 May 2025 21:37:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
 	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="T1/40aG5";
@@ -14,7 +14,7 @@ X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97D7710EAFB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99B2F10EAFD
  for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:37:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; t=1746826660; cv=none; 
  d=zohomail.com; s=zohoarc; 
@@ -35,7 +35,7 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746826660;
  b=T1/40aG5XAwBQa9Lngu832NkdWK/kp+55bqU87dAFsnovWg4PPz2ZO/Gki6pxCp5
  E7Tde/p9crMaG0mA577r6TCqJknvHJXibFsTnMAbNmAo9TtviIqmU6AgOBUsgU3qsAP
  dVzyB2gyy6FLHDLkIP7PRd6VCVFNn+S8b9iVSDMM=
-Received: by mx.zohomail.com with SMTPS id 1746826657711256.6976409448082;
+Received: by mx.zohomail.com with SMTPS id 1746826657526648.2870503671119;
  Fri, 9 May 2025 14:37:37 -0700 (PDT)
 Content-Type: text/plain;
 	charset=us-ascii
