@@ -2,122 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16ABAB13BE
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 14:45:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A9CAB1463
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 15:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A80810EA3A;
-	Fri,  9 May 2025 12:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8746510E287;
+	Fri,  9 May 2025 13:08:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UhWVPitU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nJRpLgVk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29FBA10EA37
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 12:45:54 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 549Bt5W9008438
- for <dri-devel@lists.freedesktop.org>; Fri, 9 May 2025 12:45:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- AWQynAaZdyP1BwCe0FmFpLhAGkNvtkQ5JL4l2VsgwRk=; b=UhWVPitUSRA7HncY
- sy/jnNE7ycinfKCQQaQ6408d/qaG0KYj9QsEr7ca75/hdwxTRkkX2Tfd7vqMhGxU
- YNgVocrPrcmv/hMTI3ptSOhqVGqCwQy3lkiDg0/sDj9UZif/OV+PK0W3lASVW0gf
- btSA35yhKCsrlO8fJeOWUQW1t0DnDVzUCreCF42Tp/ypRUNC/601WU0N9qyZ15tk
- 2JtNgtX+LVE+9pXOyd88VYNqNoN4yn6HDT9NDBWck36H3yQERaoRmFLISQ/FFrti
- RfxaozIlBC3ZwsFfXsXj0eWHt1W5n6S52GnDROUnSzRWXCHdoNEnY7rQWshQMk26
- aKcU0w==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnp5cp1x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 12:45:53 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c5841ae28eso48808785a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 05:45:53 -0700 (PDT)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+ [209.85.210.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67FF810E287
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 13:08:54 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id
+ 46e09a7af769-7304efb4b3bso1258372a34.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 06:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1746796134; x=1747400934; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=5Pd/m01PDi5c8NuGiBbVhA117WkSdRT+UArDIp/Z3Jk=;
+ b=nJRpLgVkxWrWgpp+Lb+NAnU3i8mxXuYlltZKiqVQvUWetPsQlhwxkB0yOZXHjs3hHL
+ LtN3arOgMsUaM6/vTAE4B+iZ6chq3Ur6OhE07msIgkRrPGs7oVTJUNwsxzYuBrQtbyS1
+ dxhUGNGNnT0Iqr9uLWzMNRD/JDAbejA5fAQwwYNUPGFxbkjL330bn18SkMqI6uTdh0VB
+ O/1vxtt/2T2XrCaGeh5glmClAyv197xTID8miFo/CQi3F4WP8Rv0hvGm4VPenYd7wacN
+ YJHz0pKj5kjV/L2ItG3Y2Llg0E4lTtlbJj1mlm/5g6j4c+OzfYtCZf0VMEkiAV2XoSI+
+ wMkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746794752; x=1747399552;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AWQynAaZdyP1BwCe0FmFpLhAGkNvtkQ5JL4l2VsgwRk=;
- b=nYNE+EbFc9nxTe/3CbyRPTp4EHuyL+PxM8OiTNUyx+TaSywxMoE7SXyrdTmGWdxQ1/
- sUm1NULOJOMa/ZDrcIx4ACRtrVmtqSRMcgqrTnzWjOLaP51IX6sLrLYCNtsJIrJr8/lf
- 97njYnmAXQcJ0TcaHbjYmMdBEC9xkRQAaTk8Q8si48EPDXL+nipFqRpvbC4Lg7pnj72S
- V/dzizKWoOzZ/YEMEvWUqNSokLyDm0SX+Ye3TUaGhH2AUswMKQT7yxmZqkNLSlVuBcZD
- rmgMCHwGPycjReC4C2exrOP0Nl7FkIXGgmK43qyrXvSTSoDZrr6Mp568xTogh+heqECq
- Cjnw==
+ d=1e100.net; s=20230601; t=1746796134; x=1747400934;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5Pd/m01PDi5c8NuGiBbVhA117WkSdRT+UArDIp/Z3Jk=;
+ b=CrpKp2fKGcStIjFYY6Y6js4IzgK15BMIjpNxs39TGJc6pN2/FAngFE9lxPOT+u3FIY
+ WRk16cz8q+bMatM9iB9rk0MJni61xkgn9kSDetyUFO5p+7vPfvifjxSD488UeXYlBT09
+ CQZxJQso5PM0+qGe5Fszd8+axqgLQZb9emNHR3Ku3TQTp6SOB+7NjCwGAwickiw0vto0
+ BSlMo22nDe2BIU0wldKLThW5Jt2nvn2CmpoM8GgA7qBAW7tUFQ8jIpzaRgNP9O5iwT36
+ kstfMh9ThSJF9eHi4hXmGECvRy51PqjOimSEKB9sJs5+M48xQoFMYxNwIcIkOaC1HaH+
+ Bozw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXZsPDiGjsPtUKTY2DXxi4+YZMcM3rdQXNKVIKdwhB+z1OFk0W8o1cDwghf7V3GQvjftemagkONc+0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyeeg2edUBqGmuSZl6AoqfScqJP6Jd9l3hdcHAh2VlEw0OYzslm
- GjxR06096QspCrBvQzFXtPOxDEj7dpliLAG9ykDwpTPrFasM/8Wn1WeT4h/Lr1I1ruDJjJI0r8x
- EABcvqmMK5rTFxXGRojqtPVWWquh078Hw/cQzvFj5ecWGFF7tIUbpZj2iOhAp7wIv4SU=
-X-Gm-Gg: ASbGnct8r0sEY2nUl43h9zdfdWyG7HVtnJvi5Dld4atA0fBgh3hjqXJnv2amvn+n4bp
- 2OnQ2gcTwoOHofEjZvZO1WVCvrBhrJ9ScEq7C3+oDJ8a4WGC+g90ympJPMUpvBTlgb0fZRJurpH
- 05gBojo7SeFR+mfgja5BNL4iIQhxLrV2OQXcAwrU7Z2dWZkh/CqJuQk0BRLb9Qj47cTAi+V6ZkX
- X+v1AGARxCyOw/914hgdBgO6WesPLMz5d0VYFkhITWyM8bVjJHrnmKkM9Fepx2bgHCcKAH+aoHz
- fXh4e23c1iO7jyTP/5GnOAgfOYAYSy32ihW497P3Z8ddA+DlFMke4+uRjW+xFIxY4W4=
-X-Received: by 2002:a05:620a:1708:b0:7ca:e392:2a1b with SMTP id
- af79cd13be357-7cd01284a67mr201896185a.10.1746794752024; 
- Fri, 09 May 2025 05:45:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF/01j/klFD9hnBlTgtkHmbIC4d1TarpECZjk82ft0PbRbQixnKSn2HYkL9AbA+mBnoAh6gVw==
-X-Received: by 2002:a05:620a:1708:b0:7ca:e392:2a1b with SMTP id
- af79cd13be357-7cd01284a67mr201892785a.10.1746794751615; 
- Fri, 09 May 2025 05:45:51 -0700 (PDT)
-Received: from [192.168.65.105] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ad2197bd525sm145972066b.144.2025.05.09.05.45.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 May 2025 05:45:51 -0700 (PDT)
-Message-ID: <c4921bf8-5eb5-458e-8afa-eeb86d5b5f34@oss.qualcomm.com>
-Date: Fri, 9 May 2025 14:45:48 +0200
+ AJvYcCWfmU22YmKhj6TIJm8BiC/h8ot6XgnaIu2FCeipTbKg6hZQEiXBan1cJMd85/6F5rNUgjmxWA/dLdk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzgM9vLsAFiIEr5zCAcwfLTUeS8eiDdT3LBbE/vabL5A102zgnt
+ cSFTw2MkJsp4FJmvVipC7eAtWIBtRam5ByiFqwxKxY43HVD3em27
+X-Gm-Gg: ASbGncsycSYhgRO1nzqHrBmppUKE4EHwiX1d3XPcanttU2oX7WmT0K79gsjDDgUZt1I
+ 6arWuUfxg1lTN1gY2o+owjbuyTzybO4/dPgSL/i0ShF4XeNN1au/S7Ijx1PEaoFZ2L8bdxITq1C
+ PbqQexGV6g7FkgSzPuBbobGOB9rkDC8sXXoE1M7Q/QVy6m9uM/JvaTpTOqBJBrqUS4cLvpMXwsK
+ 667kZMt/wGAr+vNPFs6doay7CvhHwMrMQd3dIX/WbpAFo5BxVL+G14im0M2rNmO+QCmpQY/8k4+
+ VVhPcNpal4b/J7/VcodIhdpDqknjKNP+YJpkbCLmQtzWSVP6
+X-Google-Smtp-Source: AGHT+IFEqGEU4+gmYrxK27SseVuJ9zHCcIk/byTROyoULXtbOeqxt2NTixyEVGYHAQ9VcKae+xCSqQ==
+X-Received: by 2002:a05:6830:4181:b0:72b:8889:8222 with SMTP id
+ 46e09a7af769-732269fa0d7mr2673118a34.8.1746796133759; 
+ Fri, 09 May 2025 06:08:53 -0700 (PDT)
+Received: from neuromancer. ([2600:1700:fb0:1bcf:a91d:390d:851e:20e4])
+ by smtp.gmail.com with ESMTPSA id
+ 46e09a7af769-732264b143bsm525881a34.20.2025.05.09.06.08.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 May 2025 06:08:53 -0700 (PDT)
+Message-ID: <681dfe65.9d0a0220.1c2d35.592e@mx.google.com>
+X-Google-Original-Message-ID: <aB3-ZLAUO7YThhoF@neuromancer.>
+Date: Fri, 9 May 2025 08:08:52 -0500
+From: Chris Morgan <macroalpha82@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ryan@testtoast.com,
+ macromorgan@hotmail.com, p.zabel@pengutronix.de,
+ tzimmermann@suse.de, maarten.lankhorst@linux.intel.com,
+ simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ samuel@sholland.org, jernej.skrabec@gmail.com, wens@csie.org,
+ conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org
+Subject: Re: [PATCH V9 00/24] drm: sun4i: add Display Engine 3.3 (DE33) support
+References: <20250507201943.330111-1-macroalpha82@gmail.com>
+ <20250508-foxhound-of-interesting-drizzle-34adae@kuoka>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 10/14] drm/msm/a6xx: Stop tracking macrotile_mode
- (again)
-To: Connor Abbott <cwabbott0@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
- <20250508-topic-ubwc_central-v1-10-035c4c5cbe50@oss.qualcomm.com>
- <CACu1E7EFK7dzR=hm-J58jz77pMxn2SoJVrfQvV0RHiESi1mkzA@mail.gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <CACu1E7EFK7dzR=hm-J58jz77pMxn2SoJVrfQvV0RHiESi1mkzA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=Lu2Symdc c=1 sm=1 tr=0 ts=681df901 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=dD46bHw1nIv95-N93oQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: _FOzDRo7Ls3SNi_asSWcpOPZP2JUq48i
-X-Proofpoint-ORIG-GUID: _FOzDRo7Ls3SNi_asSWcpOPZP2JUq48i
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDEyNCBTYWx0ZWRfX1e3a4PwRFkwb
- lWK/e8KS1pRKWshKnMc6AdtmGiGbFYi/iLL4K/7FIR9Uk9l6ioc4l7Rpwa/e2DucEmgfCHlkSpS
- c2aZCF1tld9TdxtXSX+A9N/PZHT5VUkneHOP7WdjmA2PbA72hBYZqdtfZYXHMvpTtlaoVQdkDP4
- oyrKeyask8iNVcq5F4cBmSp+XoWqBFS6VDLzKTJIkeQ8m0uLu0XHFjLrslXO0Sf5X5dqg70T0vs
- V0B0xd1isqEm/vkzEtD4Iz+9n/q0SkGaX/zEOKVQq9qoBWmNtHgvf1oHX4r38PLnqAicFmtjYkY
- KvjpNH37BGSYGsQ4+SRQoAjLAxb8A71Dpqlvd3KDnFFsJIJkFE2o11jDF+s5qyFl2Y6K5ygz3uO
- 2z0AfJRhoUkIooghI9JjPL6LdUH0Oi1Xqp+vWxtEzSZY8izW1GhLLfFhABDTv73NYF/D44+1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-09_05,2025-05-08_04,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
- priorityscore=1501 suspectscore=0 clxscore=1015 adultscore=0 malwarescore=0
- spamscore=0 impostorscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2504070000 definitions=main-2505090124
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250508-foxhound-of-interesting-drizzle-34adae@kuoka>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,35 +94,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/8/25 8:33 PM, Connor Abbott wrote:
-> On Thu, May 8, 2025 at 2:14 PM Konrad Dybcio <konradybcio@kernel.org> wrote:
->>
->> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>
->> SC8180X (A680) and SA8775P (A663) require a write to that register,
->> while other SKUs are fine with the default value. Don't overwrite it
->> needlessly, requiring the developer to read the value back from
->> hardware just to put it in the driver again, introducing much more room
->> for error.
+On Thu, May 08, 2025 at 09:26:24AM +0200, Krzysztof Kozlowski wrote:
+> On Wed, May 07, 2025 at 03:19:19PM GMT, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > I've spoken with Ryan and he agreed to let me take over this series to
+> > get the display engine working on the Allwinner H616. I've taken his
+> > previous patch series for Display Engine 3.3 and combined it with the
+> > LCD controller patch series. I've also fixed a few additional bugs and
+> > made some changes to the device tree bindings.
+> > 
+> > Changes since V8:
+> >  - Combined the DE33 [1] series and the LCD [2] series to better track
+> >    all patches necessary to output to an LCD display for the Allwinner
+> >    H700.
 > 
-> I'm not sure I understand that last sentence. The original reason I
-> always wrote it was that for host image copy we need to know the value
-> of macrotile_mode, so again the value exposed to userspace must match
-> what's set in the HW. We can't read the value from the HW and send it
-> to userspace, because userspace queries this when creating the
-> physical device during device enumeration and we really don't want to
-> spuriously turn on the device then. That means the safest thing is to
-> always program it, guaranteeing that it always matches. Otherwise we
-> just have to hope that the default value matches what we expect it to
-> be.
+> You have here three or four different subsystems. This does not make it
+> easier, but it makes it a huge patchbomb with unspecific or complex
+> base.
 > 
-> I know you're copying this from kgsl, but kgsl doesn't expose the
-> macrotile_mode to userspace. I expect that HIC was added afterwards
-> and only works via hacks there (if it's even supported at all on the
-> relevant SoCs).
+> Such combination makes no sense, because anyway it will have to be split
+> per subsystem. You just know made it difficult for maintainers to review
+> and apply, because they cannot apply entire set.
+> 
+> Best regards,
+> Krzysztof
+> 
 
-Alright, I think I'll include it in the common UBWC config (even though
-it only concerns the GPU), as IIUC it may differ between platforms
-implementing the same GPU SKU
+I apologize, please ignore this series then. I'll break it up more
+among subsystem lines and note that they are all related in the notes.
 
-Konrad
+Thank you.
