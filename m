@@ -2,71 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9B1AB1475
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 15:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD80AB14B4
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 15:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F77710EA3B;
-	Fri,  9 May 2025 13:11:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C51910E0CF;
+	Fri,  9 May 2025 13:17:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MNQpI3Zw";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="lWHmYOaD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ECDB10EA37;
- Fri,  9 May 2025 13:11:30 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-22e696bbc85so3227805ad.2; 
- Fri, 09 May 2025 06:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746796290; x=1747401090; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oOHvQ6cWyFQE2/se2a72nWp+ZhWD1FFqJv3og2HCRio=;
- b=MNQpI3ZwnGs106AB0MZfqSLZZslq3ZhyBpUHoXZG00FbTgGf6ScVh50Kmj7Z1VPzG6
- jIHi6XxAh8ziUWZthj7jdEHiY23zOELoZZ9eFbpLcT/L19xRGouTn8vnfccUNB8mbhta
- qUpxB4OeQh1CgAyj/Q3PsXgbmEfxqP+pPE+GasMwCg+QosPm2YWgOg6bzKySpleWSv/l
- 2tXC3GVZUpxqLgUXJ5iY/0zKitsvdv2Q8wnB5OnBcKi8zx4QSuZfSoXRMA7LRIbK0xpq
- zpfRCWhtSKuh6j/2dexz8lC4cyvM28XcrUaAmU2GLKu8eNp8A8AmVFgVhuJmJoLq96K5
- KmtQ==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60E2A10E0CF
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 13:17:49 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 549BupnG022769
+ for <dri-devel@lists.freedesktop.org>; Fri, 9 May 2025 13:17:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ SKPwnoZ4z7Zq1QPdVARuUad4atOXjNSus5NyMxTgizU=; b=lWHmYOaDVOS64iQx
+ gAimpzphqGRZjeVZBWY4fj/6W2tWL3efI9HtoYbq1lVhmARYW/pB1HLANoqVpYnn
+ AtCEvEQnViELvI1v7t3y/astKCB2e+3OO6fSjgs8SDIrHx3S+yVC4iJGLWMp9Uuw
+ 647S1BnuCRvVuBAHlb3Wo5ElUmdxM5xvOsFxt4HcJhTnHN6OhK3OR2vBFfH5ZlAt
+ nun+a2aOBAhFd05k3wvSNsq/u9ylOrkC0bm8ck/Rswd6sucP7oojzFG6XsXInOhq
+ BdTM+3SzEf3u4sn6q3slL0T8a3Ly2czqt5C8ZPj5JE0CK6UNJlnBgGoLigmUQw/S
+ EZ+Jew==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnp84tpx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 13:17:48 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-476783cbdb8so5454701cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 06:17:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746796290; x=1747401090;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oOHvQ6cWyFQE2/se2a72nWp+ZhWD1FFqJv3og2HCRio=;
- b=BdT+sAp56s/SYxybsfu6B7+aTROI/xskzGQU82Y7x+vQ7WYecGzmKi286I6g2Gkxc7
- DPrv+7tYzaoKbEX09uy12ULsoBz+lZtht+WSd8gkvmzQUCR0V4ZtQu6rtPONR56MD5iB
- PXklGEM3JLahr8yUaBzIggNs3zV9D6I/JhEgI996S0rFQtFRDd3DBjXL6Gdx6ma/x3rw
- MXyKxcWc5EWEBFBffLU5w3r48MzcfQMLJEWjMpT3EzW1oft/uInX0DNYfd9NW6lPM6ER
- 1MQa16F3We4F3+NIqsgHIN0u6iGfCfyDWsm/9ChZcMlgvqP6CtO5s0RAqFYSZRu1e8BF
- MnOw==
+ d=1e100.net; s=20230601; t=1746796667; x=1747401467;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SKPwnoZ4z7Zq1QPdVARuUad4atOXjNSus5NyMxTgizU=;
+ b=F3gbD77Y2SC4uESDl3BFOzzAZrN/MP9kWFr1zg/669xVaYX9PPLESaVcpOAr/XZ44N
+ qaxJNB0TmkvErK8mEe/wRzbOQKeYMKsoPuYDdJ9lvGKQtJU4S7EyhT1L9Da0Fd5TcpqP
+ LYxF8BEc5yUouIadB7CPThApfGtZ0LCPV8T+KZdXe2C1iT8Jaa3AoCVFsOrmhRc10eGp
+ Sf+R173kx+0r0wj4bmNIQnhljijqWZH+Y1SYLEyz53z3SebQq5gcygxd20ea7/NZznSw
+ Rf4Usr/M0WuANwa2pS27tt1/3fLytpoRWsUhQD8OqZnEU1MBhDiu1EaxZq/oYt8xmWqy
+ iNaQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXBfmyjeE0JIJZ23rTmwnYSEFTH8/N37/pNCNGBsV3Fw8/sx2C7lZKYr+VvVg6vvopgG4aULRnMgAw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9SNKJJjW+PDCrTmYbwEoKUu2ypKEyJLvNpxwj0jrtO5vdr1i+
- pa8iSMP0NcWcrnqSdNh202iQDejsHHdcTqdU3nHmqRYlSWD90iS4jW7EnbDL1xe/Q17JekSr9XP
- eH0oXHNX5HxsVVZeBwzWldkzTI/2E9w==
-X-Gm-Gg: ASbGncvbOEHp64bBEW6mfKUv2cxraXOty41BYXwoyQ3Mj7U5FDo+6X9Gsju98bfCC5m
- R62fb1bXEU0Qy2t2BhJS/rD+cIajZsLMKjoa0mX+5/xiWDHSMXzvHN3Ddn16qj2mZOi38PzHNqK
- jXqRMUzRbuRCsV/lL7Ri8Msg==
-X-Google-Smtp-Source: AGHT+IEvLpyqHlQHMTuYhE3RoMY46qruwuie7TWzgOSHltu/l93zwoPj9WRZ43+/FbyGPezGrYof6DCAfd4RDwzTe7s=
-X-Received: by 2002:a17:902:cec1:b0:223:28a8:610b with SMTP id
- d9443c01a7336-22fc91a8f96mr16170835ad.14.1746796289746; Fri, 09 May 2025
- 06:11:29 -0700 (PDT)
+ AJvYcCVsK5Md2fljf6/MUQoSIdcjXUef0nN4M++sEbjH1LxlJ2Zz8z8kcxAqQKOo6C4jiVA6vnzV548ZwwU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyBLS3cGROQPjTECwNZWOw2OMyr6P3vq4XR+eU9/PSSE4xfiKhz
+ CcG8b/G9u5tw1CuW2pVXE8jL0GPWSmdoaWIMyB8LrFywBiFN98xcpf+Ui95HnK8H0uuPRnXFMCj
+ M0Y4+4Eh8Olj8FW/kRdRKW0NZ+nGpr6k79uRhndurxFMKsXO/dDpclnt1qUaBu+65Ceg=
+X-Gm-Gg: ASbGnctguyAOaWwczpJqWi9CONIGrLgsEEnYoz0/VfSBZNTRd+5QdPZGXBru5zRem7J
+ aHFXmCXj1voJvDEzUksoy5CVBrYPOEUrSNp6DmgvgE7zEoGETeWWUV0OkdI+K4X0zeCPr+/XZVv
+ rJli/zgo02uYShRYzGNiN4lmIh7OAP5lDpNPyzd/VkxRvq+JSg759Myz6e7aoz1nUtRHFp2DtGI
+ UVJAp/w4XRr9ZKnj1jeKJ10yVsTBeftZO7X1YLe76S8EZi7iHSDYA3vmKiUsN0vmYVPBdxQpo9F
+ AiNJMow/b2LiJ3UtceSMo4Ms+416kz3Gfiw/OTrcU8haRgJw9CDCy+CdlsyHNryUbeI=
+X-Received: by 2002:a05:620a:40cf:b0:7c7:a574:c0ac with SMTP id
+ af79cd13be357-7cd010d4ea3mr193942385a.3.1746796667391; 
+ Fri, 09 May 2025 06:17:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH+qsfdtZ6DmZdlZShEv27vJFf9u9wNMnx8fyO0XHAbQLPHn8efyDQhYxt7i9+0FpxG4WsvJA==
+X-Received: by 2002:a05:620a:40cf:b0:7c7:a574:c0ac with SMTP id
+ af79cd13be357-7cd010d4ea3mr193940885a.3.1746796666870; 
+ Fri, 09 May 2025 06:17:46 -0700 (PDT)
+Received: from [192.168.65.105] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5fc9cbe4c83sm1414304a12.8.2025.05.09.06.17.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 May 2025 06:17:46 -0700 (PDT)
+Message-ID: <5f5e512c-ae0e-43aa-856f-06820ac4b147@oss.qualcomm.com>
+Date: Fri, 9 May 2025 15:17:44 +0200
 MIME-Version: 1.0
-References: <6DWYVS.BXJ4YUZ0KN5B3.ref@att.net> <6DWYVS.BXJ4YUZ0KN5B3@att.net>
-In-Reply-To: <6DWYVS.BXJ4YUZ0KN5B3@att.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 9 May 2025 09:11:17 -0400
-X-Gm-Features: ATxdqUHF3X-1By-N5_Wsr7y8XOsSl2PZxgOn1hywXhTvGjOyzR59PYf0aU91xuI
-Message-ID: <CADnq5_Pk41iOvibFSjt7+Wjj=FXWR--XMt+OCqmkWWveLfU_ig@mail.gmail.com>
-Subject: Re: Kernels >= 6.3 disable video output
-To: Steven J Abner <pheonix.sja@att.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT 13/14] drm/msm/a6xx: Drop cfg->ubwc_swizzle override
+To: Connor Abbott <cwabbott0@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
+ <20250508-topic-ubwc_central-v1-13-035c4c5cbe50@oss.qualcomm.com>
+ <CACu1E7E9yU-cygZxBqVypP7aFkXJCNTfXA2uqdvU84mi9T51Xg@mail.gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <CACu1E7E9yU-cygZxBqVypP7aFkXJCNTfXA2uqdvU84mi9T51Xg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=M7xNKzws c=1 sm=1 tr=0 ts=681e007c cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=Olu6NZbg64VfH8RIhVIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: QkpJlJ0hdo6y_AVMrRYp8gCwYfSmx3nf
+X-Proofpoint-GUID: QkpJlJ0hdo6y_AVMrRYp8gCwYfSmx3nf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDEzMCBTYWx0ZWRfX3iZiPKntdpJI
+ HAP56pRRuFalvQTTVudbnp+tF6oLa4HWRXG9usyvSDmvPuoRx2guMGSKs6VpHLbh5Xemdb0RRRz
+ iHFIo3/fux7673QhOWQIXOno9y2BPBB2JQqJ/BT8uU06P9AjfG5X+p7KGGsKYMUdKK6F/QFToSE
+ J1OBWmUBBJPHplq5PzFMIAf8OBqfN3eq/D+mmi4mG8LZB8VbmUS3IUSaMvwas6xp/Mthz/NRJlu
+ vpXxxQFVLTZ6QBFor80E4zHtkwSx80qMbgDuXFa3TaAH01iAFVrteIrDNIjUhT6f70cFM1qEumn
+ sun98qYA0eOFoVA2393LJIAUiNesh23LTjo2wjpUpLsvwWGFU9737gRqroAqRDKU/CkoJTyWeJN
+ h2vQ4ft5aSZOE1xpRPkAJR7n1/Yz70DqnIsuuycxdmhDkzOBm6urMnbk+WM1tvTqAeFKhiyV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-09_05,2025-05-08_04,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
+ spamscore=0 mlxlogscore=974 bulkscore=0 impostorscore=0 clxscore=1015
+ suspectscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505090130
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,127 +131,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 9, 2025 at 3:43=E2=80=AFAM Steven J Abner <pheonix.sja@att.net>=
- wrote:
->
->  AMD 2400g, Zen1, 'Raven' firmware, igpu, no card.
-> Code that was added to 6.2.16 to create 6.3 and up, to last tested
-> 6.13.4, breaks the igpu for Ryzen. Kernels with firmware, same as that
-> used on 6.3 and up, works 100% on 5.4 to 6.2.16. This bug is even in a
-> Debian/Ubuntu based OS's Mainline download of 6.8 (only mainline
-> tested). Without using firmware, allowing fbdev drivers to control
-> output to monitor, 6.13.4 works.
->  The bug is that about 70% of the time, with firmware, the output to
-> the monitor is shut off. The monitor displays no input connection. With
-> no monitor the Linux console works the same as monitor connected. Both
-> blanked and displayed have:
->  > [ 0.000000] Linux version 6.13.4 (root@steven-ryzen) (gcc (GCC)
-> 14.2.0, GNU ld (GNU Binutils) 2.44) #1 SMP PREEMPT_DYNAMIC Thu May 8
-> 13:55:46 EDT 2025
->  > [ 0.310823] ACPI: bus type drm_connector registered
->  > [ 0.310837] [drm] amdgpu kernel modesetting enabled.
->  > [ 0.310975] [drm] initializing kernel modesetting (RAVEN
-> 0x1002:0x15DD 0x1002:0x15DD 0xC6).
->  > [ 0.310989] [drm] register mmio base: 0xFC900000
->  > [ 0.310994] [drm] register mmio size: 524288
->  > [ 0.311024] [drm] add ip block number 0 <soc15_common>
->  > [ 0.311029] [drm] add ip block number 1 <gmc_v9_0>
->  > [ 0.311034] [drm] add ip block number 2 <vega10_ih>
->  > [ 0.311039] [drm] add ip block number 3 <psp>
->  > [ 0.311043] [drm] add ip block number 4 <powerplay>
->  > [ 0.311047] [drm] add ip block number 5 <dm>
->  > [ 0.311052] [drm] add ip block number 6 <gfx_v9_0>
->  > [ 0.311057] [drm] add ip block number 7 <sdma_v4_0>
->  > [ 0.311061] [drm] add ip block number 8 <vcn_v1_0>
->  > [ 0.334228] [drm] BIOS signature incorrect 0 0
->  > [ 0.334251] amdgpu 0000:0e:00.0: amdgpu: Fetched VBIOS from ROM BAR
->  > [ 0.334258] amdgpu: ATOM BIOS: 113-RAVEN-113
->  > [ 0.334554] amdgpu 0000:0e:00.0: vgaarb: deactivate vga console
->  > [ 0.334560] amdgpu 0000:0e:00.0: amdgpu: Trusted Memory Zone (TMZ)
-> feature enabled
->  > [ 0.334585] [drm] vm size is 262144 GB, 4 levels, block size is
-> 9-bit, fragment size is 9-bit
->  > [ 0.334596] amdgpu 0000:0e:00.0: amdgpu: VRAM: 2048M
-> 0x000000F400000000 - 0x000000F47FFFFFFF (2048M used)
->  > [ 0.334604] amdgpu 0000:0e:00.0: amdgpu: GART: 1024M
-> 0x0000000000000000 - 0x000000003FFFFFFF
->  > [ 0.334615] [drm] Detected VRAM RAM=3D2048M, BAR=3D2048M
->  > [ 0.334619] [drm] RAM width 128bits DDR4
->  > [ 0.334722] [drm] amdgpu: 2048M of VRAM memory ready
->  > [ 0.334727] [drm] amdgpu: 2923M of GTT memory ready.
->  > [ 0.334742] [drm] GART: num cpu pages 262144, num gpu pages 262144
->  > [ 0.334877] [drm] PCIE GART of 1024M enabled.
->  > [ 0.334881] [drm] PTB located at 0x000000F400A00000
->  > [ 0.335145] amdgpu: hwmgr_sw_init smu backed is smu10_smu
->  > [ 0.335578] [drm] Found VCN firmware Version ENC: 1.15 DEC: 3 VEP: 0
-> Revision: 0
->  > [ 0.356133] amdgpu 0000:0e:00.0: amdgpu: reserve 0x400000 from
-> 0xf47fc00000 for PSP TMR
->  > [ 0.428083] amdgpu 0000:0e:00.0: amdgpu: RAS: optional ras ta ucode
-> is not available
->  > [ 0.434083] amdgpu 0000:0e:00.0: amdgpu: RAP: optional rap ta ucode
-> is not available
->  > [ 0.434090] amdgpu 0000:0e:00.0: amdgpu: SECUREDISPLAY:
-> securedisplay ta ucode is not available
->  > [ 0.434559] [drm] DM_PPLIB: values for F clock
->  > [ 0.434564] [drm] DM_PPLIB: 1633000 in kHz, 4399 in mV
->  > [ 0.434570] [drm] DM_PPLIB: values for DCF clock
->  > [ 0.434574] [drm] DM_PPLIB: 300000 in kHz, 3649 in mV
->  > [ 0.434578] [drm] DM_PPLIB: 600000 in kHz, 4074 in mV
->  > [ 0.434583] [drm] DM_PPLIB: 626000 in kHz, 4250 in mV
->  > [ 0.434587] [drm] DM_PPLIB: 654000 in kHz, 4399 in mV
->  > [ 0.435247] [drm] Display Core v3.2.310 initialized on DCN 1.0
->  > [ 0.504716] [drm] kiq ring mec 2 pipe 1 q 0
->  > [ 0.518487] amdgpu 0000:0e:00.0: amdgpu: SE 1, SH per SE 1, CU per
-> SH 11, active_cu_number 11
->  > [ 0.518497] amdgpu 0000:0e:00.0: amdgpu: ring gfx uses VM inv eng 0
-> on hub 0
->  > [ 0.518503] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.0.0 uses VM inv
-> eng 1 on hub 0
->  > [ 0.518510] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.1.0 uses VM inv
-> eng 4 on hub 0
->  > [ 0.518516] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.2.0 uses VM inv
-> eng 5 on hub 0
->  > [ 0.518523] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.3.0 uses VM inv
-> eng 6 on hub 0
->  > [ 0.518530] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.0.1 uses VM inv
-> eng 7 on hub 0
->  > [ 0.518536] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.1.1 uses VM inv
-> eng 8 on hub 0
->  > [ 0.518543] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.2.1 uses VM inv
-> eng 9 on hub 0
->  > [ 0.518549] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.3.1 uses VM inv
-> eng 10 on hub 0
->  > [ 0.518556] amdgpu 0000:0e:00.0: amdgpu: ring kiq_0.2.1.0 uses VM
-> inv eng 11 on hub 0
->  > [ 0.518562] amdgpu 0000:0e:00.0: amdgpu: ring sdma0 uses VM inv eng
-> 0 on hub 8
->  > [ 0.518569] amdgpu 0000:0e:00.0: amdgpu: ring vcn_dec uses VM inv
-> eng 1 on hub 8
->  > [ 0.518575] amdgpu 0000:0e:00.0: amdgpu: ring vcn_enc0 uses VM inv
-> eng 4 on hub 8
->  > [ 0.518581] amdgpu 0000:0e:00.0: amdgpu: ring vcn_enc1 uses VM inv
-> eng 5 on hub 8
->  > [ 0.518588] amdgpu 0000:0e:00.0: amdgpu: ring jpeg_dec uses VM inv
-> eng 6 on hub 8
->  > [ 0.521453] amdgpu: pp_dpm_get_sclk_od was not implemented.
->  > [ 0.521460] amdgpu: pp_dpm_get_mclk_od was not implemented.
->  > [ 0.521565] amdgpu 0000:0e:00.0: amdgpu: Runtime PM not available
->  > [ 0.521868] [drm] Initialized amdgpu 3.60.0 for 0000:0e:00.0 on
-> minor 0
->  > [ 0.526617] fbcon: amdgpudrmfb (fb0) is primary device
->  > [ 0.595813] Console: switching to colour frame buffer device 240x67
->  > [ 0.628478] amdgpu 0000:0e:00.0: [drm] fb0: amdgpudrmfb frame buffer
-> device
->
->  I have no idea which code to regress to get back to 6.2.16 to make
-> work again. From a quick look, that is the kernels where code was
-> adopting new naming conventions for drivers, among tons of other
-> changes. Think was also the start of PState default of 3, which setting
-> to 1 made no difference, maybe lessened blackout closer to 50%?
-> Please help, I luv my 2400g! 6.1.137 is great and 5.15 is fine too. I
-> still use 5.4 for testing my code too.
+On 5/8/25 9:26 PM, Connor Abbott wrote:
+> On Thu, May 8, 2025 at 2:14 PM Konrad Dybcio <konradybcio@kernel.org> wrote:
+>>
+>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>
+>> On A663 (SA8775P) the value matches exactly.
+>>
+>> On A610, the value matches on SM6115, but is different on SM6125. That
+>> turns out not to be a problem, as the bits that differ aren't even
+>> interpreted.
+> 
+> This is definitely going to break userspace, because the kernel
+> doesn't expose the UBWC version, instead exposing just the swizzle and
+> userspace expects that it sets the right value for older UBWC versions
+> before it became configurable (0x7 for UBWC 1.0 and 0x6 for 2.0-3.0).
+> It looks like the data for SM6125 is just wrong.
 
-What display(s) are you using and how are they connected?  Can you bisect?
+Oh that's sad.. I'll drop this commit
 
-Alex
+Konrad
