@@ -2,79 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CEC6AB1F11
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 23:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4CEFAB1F1E
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 23:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23A4810EAFA;
-	Fri,  9 May 2025 21:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7878D10EAFD;
+	Fri,  9 May 2025 21:37:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iBAV0bf0";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="T1/40aG5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23CA610EAF9
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:29:43 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id
- 41be03b00d2f7-af51596da56so2230649a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 14:29:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746826182; x=1747430982; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=meqvWLOgNDkKrnW/6AikmkhA6lmFYYhW4IJ5f3/mKsw=;
- b=iBAV0bf0+GgEDvPaaZJGZbK6/K7+WyD+zWTFbB4kpXR6oR1SPK1B8r6nrJJk4MpABl
- MRAMkVWTwRQjlJaXxFW8bxSMHhk877VoxT6tF8c5OvCEoBsxr08L3qGqH1O4kADox1lL
- PixMSaHDeW/BARuUCznUsAl53AjoUoPPLjDMKRU2yOzS6wj4gmQ5rDCtirDnpICgqRaI
- gAgsfVVfuZdzlDXHmoHrmD5xhNu9pOA+OS0IVvQLfjg7GgAUz7v4XW0K5qC3C7mqSKiC
- NId1nXk/xnAcnepStQpQs6SfSQTCy1NiFmjG0dVIr5JaMV6eadQPRpogqM8gxvbqzhPT
- UC7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746826182; x=1747430982;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=meqvWLOgNDkKrnW/6AikmkhA6lmFYYhW4IJ5f3/mKsw=;
- b=ektPAC9Vz4vEvfeMDtMtUsj+7N1Af5c/YYAPNTDM6QeJwKyK8N0xkEXvuWFibrgW0f
- zuUqepy5XaQs2sik/y7Rcq7FC7FMp2ueKp+sQNpaliEiLMWbDdoCvCTsO+GczlqOcIt7
- h52QGKsvyF8ftj76A2N3ptFwGtsdr5JKoyiMFjCoSuG8+/AMoSN0vuESK1aUuN7x6L99
- 6dsMOy1b/KRH0bdAvyh7sdooludp/7r30JDhTI07mA/SIMjhZey0WP9g8OdhSGNQ2OAK
- SvNt8C8un3lDljjnGyqR/aGhUQkzcS3GOE/u8N2FK9bPoWxGJC6JwCYCON8iPAxyFTtr
- P2JQ==
-X-Gm-Message-State: AOJu0YzRX10hy833k1vprl3ZzGF7xhLLlVz9buEWIelvlrhFPPlWc+ib
- Nu6hwYyyQfQIyeNEshgEnn3ZodE2/znKXEb65DFdM7phZZgNX1xYi3InOQ==
-X-Gm-Gg: ASbGnctFjyb0WW8J2y7FCEaqVk/byqC1hpuc88qIQBTLP5DFt3u8GyVewUrQlDSGhPH
- 4KXQZPIGPg9PtKYiKlbIk/+gMFff7snbQXDJ+ZyLVgsDVBOFShVeg9cQrR6ZTSG/Jlm4M63MIps
- jXMvEdyJt8w4MLaLC4fM7JbnGNUdo2bPKbbrFygJy/+4xMuLOEg+fazTWXm5owPrlOYq2/R93YK
- IKH95RKQytnP04f6qIxFnTjtKdZJiFfadUFLJZEhSIkO8Cr1QuXeih4DhkfP/PBz/rYa8SL0gwk
- KEYAIyPd5ceRfHiFPd4zvjrBTaGTpk54Kz2b+uFMPIQX+VdaOzbB3QFn7XUOVqD61LGMGaRLUrk
- n7lTdvPUN9igh3Y7O3Ol778xEWr0rFKSXiSaX
-X-Google-Smtp-Source: AGHT+IF+ITeKptIhdcgHoefjVGiD98M1Z4dXIaMfBsSQt0Vu2agyrzMpqT1JrwblQq1fRY7cXkIygw==
-X-Received: by 2002:a17:903:186:b0:224:c46:d162 with SMTP id
- d9443c01a7336-22fc8b3d8b2mr58540265ad.20.1746826181925; 
- Fri, 09 May 2025 14:29:41 -0700 (PDT)
-Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-22fc764a541sm22276735ad.65.2025.05.09.14.29.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 May 2025 14:29:40 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Rob Clark <robdclark@chromium.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97D7710EAFB
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:37:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1746826660; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=WKLU011SkivK0CNI3kcoJf+l62KFY2BaL9IORqjf32F2qaFwW2n+oZkocV/RyAwQllsqiMudkyp0+JyMd6wGRJGmF8hOSYbS0COt0fxW3I6WCPjTGxtAED+ngGBYxZMU/mbBrjA8rbLMsRV9rk8dqpvw4GXQ7dMPS2VQzd0uEjE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1746826660;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=8uQ/Q3BZqWs3AB74fmSdEwMz4hZv89bD/2dhgqYOFcA=; 
+ b=RlRw7YotPSJCKobOTnXOogLGVeSgZdNDHjNWiaX3zvpSkwlNzgsk/jyzxVWHdM0AwbX3rSi7Z8ULF0euyiypZrK+gD22fwa3gtv1/rX5RbhOPUU9oFoNWYlRBNFTwt6bWR0mgU9J1Z5B0w6bSPU3SIcJwBsGFQVHDJS1+eQaCJ8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746826660; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=8uQ/Q3BZqWs3AB74fmSdEwMz4hZv89bD/2dhgqYOFcA=;
+ b=T1/40aG5XAwBQa9Lngu832NkdWK/kp+55bqU87dAFsnovWg4PPz2ZO/Gki6pxCp5
+ E7Tde/p9crMaG0mA577r6TCqJknvHJXibFsTnMAbNmAo9TtviIqmU6AgOBUsgU3qsAP
+ dVzyB2gyy6FLHDLkIP7PRd6VCVFNn+S8b9iVSDMM=
+Received: by mx.zohomail.com with SMTPS id 1746826657711256.6976409448082;
+ Fri, 9 May 2025 14:37:37 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.500.181.1.5\))
+Subject: Re: [PATCH 2/4] rust: drm: gem: Refactor
+ IntoGEMObject::from_gem_obj() to as_ref()
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20250501183717.2058109-3-lyude@redhat.com>
+Date: Fri, 9 May 2025 18:37:20 -0300
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/sched: Fix UAF in drm_sched_fence_get_timeline_name()
-Date: Fri,  9 May 2025 14:29:36 -0700
-Message-ID: <20250509212936.490048-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.49.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Asahi Lina <lina@asahilina.net>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <036A1696-C113-4C71-93AD-D5EA92EA3552@collabora.com>
+References: <20250501183717.2058109-1-lyude@redhat.com>
+ <20250501183717.2058109-3-lyude@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+X-Mailer: Apple Mail (2.3826.500.181.1.5)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,67 +81,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Hi Lyude
 
-The fence can outlive the sched, so it is not safe to dereference the
-sched in drm_sched_fence_get_timeline_name()
+> On 1 May 2025, at 15:33, Lyude Paul <lyude@redhat.com> wrote:
+>=20
+> There's a few issues with this function, mainly:
+>=20
+> * This function -probably- should have been unsafe from the start. =
+Pointers
+>  are not always necessarily valid, but you want a function that does
+>  field-projection for a pointer that can travel outside of the =
+original
+>  struct to be unsafe, at least if I understand properly.
+> * *mut Self is not terribly useful in this context, the majority of =
+uses of
+>  from_gem_obj() grab a *mut Self and then immediately convert it into =
+a
+>  &'a Self. It also goes against the ffi conventions we've set in the =
+rest
+>  of the kernel thus far.
+> * from_gem_obj() also doesn't follow the naming conventions in the =
+rest of
+>  the DRM bindings at the moment, as_ref() would be a better name.
+>=20
+> So, let's:
+>=20
+> * Make from_gem_obj() unsafe
+> * Convert it to return &'a Self
+> * Rename it to as_ref()
+> * Update all call locations
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+> rust/kernel/drm/gem/mod.rs | 67 ++++++++++++++++++++++++--------------
+> 1 file changed, 42 insertions(+), 25 deletions(-)
+>=20
+> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+> index df8f9fdae5c22..f70531889c21f 100644
+> --- a/rust/kernel/drm/gem/mod.rs
+> +++ b/rust/kernel/drm/gem/mod.rs
+> @@ -45,8 +45,12 @@ pub trait IntoGEMObject: Sized + =
+super::private::Sealed {
+>     #[allow(clippy::wrong_self_convention)]
+>     fn into_gem_obj(&self) -> &Opaque<bindings::drm_gem_object>;
+>=20
+> -    /// Converts a pointer to a `struct drm_gem_object` into a =
+pointer to `Self`.
+> -    fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Self;
+> +    /// Converts a pointer to a `struct drm_gem_object` into a =
+reference to `Self`.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// `self_ptr` must be a valid pointer to `Self`.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/scheduler/sched_fence.c |  3 ++-
- include/drm/gpu_scheduler.h             | 11 +++++++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+Must also obey the reference rules. This is a bit obvious but it should
+probably be mentioned regardless.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-index e971528504a5..4e529c3ba6d4 100644
---- a/drivers/gpu/drm/scheduler/sched_fence.c
-+++ b/drivers/gpu/drm/scheduler/sched_fence.c
-@@ -92,7 +92,7 @@ static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
- static const char *drm_sched_fence_get_timeline_name(struct dma_fence *f)
- {
- 	struct drm_sched_fence *fence = to_drm_sched_fence(f);
--	return (const char *)fence->sched->name;
-+	return fence->name;
- }
- 
- static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
-@@ -226,6 +226,7 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
- 	unsigned seq;
- 
- 	fence->sched = entity->rq->sched;
-+	fence->name  = fence->sched->name;
- 	seq = atomic_inc_return(&entity->fence_seq);
- 	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
- 		       &fence->lock, entity->fence_context, seq);
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 0ae108f6fcaf..d830ffe083f1 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -295,6 +295,9 @@ struct drm_sched_fence {
-         /**
-          * @sched: the scheduler instance to which the job having this struct
-          * belongs to.
-+         *
-+         * Some care must be taken as to where the sched is derefed, as the
-+         * fence can outlive the sched.
-          */
- 	struct drm_gpu_scheduler	*sched;
-         /**
-@@ -305,6 +308,14 @@ struct drm_sched_fence {
-          * @owner: job owner for debugging
-          */
- 	void				*owner;
-+
-+	/**
-+	 * @name: the timeline name
-+	 *
-+	 * This comes from the @sched, but since the fence can outlive the
-+	 * sched, we need to keep our own copy.
-+	 */
-+	const char			*name;
- };
- 
- struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
--- 
-2.49.0
+> +    unsafe fn as_ref<'a>(self_ptr: *mut bindings::drm_gem_object) -> =
+&'a Self;
+> }
+>=20
+> /// Trait which must be implemented by drivers using base GEM objects.
+> @@ -63,14 +67,13 @@ extern "C" fn open_callback<T: =
+BaseDriverObject<U>, U: BaseObject>(
+>     let file =3D unsafe {
+>         drm::File::<<<U as IntoGEMObject>::Driver as =
+drm::Driver>::File>::as_ref(raw_file)
+>     };
+> -    let obj =3D
+> -        <<<U as IntoGEMObject>::Driver as drm::Driver>::Object as =
+IntoGEMObject>::from_gem_obj(
+> -            raw_obj,
+> -        );
+> -
+> -    // SAFETY: `from_gem_obj()` returns a valid pointer as long as =
+the type is correct and the
+> -    // `raw_obj` we got is valid.
+> -    match T::open(unsafe { &*obj }, file) {
+> +    // SAFETY: `open_callback` is specified in the AllocOps structure =
+for `Object<T>`, ensuring that
+> +    // `raw_obj` is indeed contained within a `Object<T>`.
+> +    let obj =3D unsafe {
+> +        <<<U as IntoGEMObject>::Driver as drm::Driver>::Object as =
+IntoGEMObject>::as_ref(raw_obj)
+> +    };
 
+Ugh..IMHO we need to have aliases for all of these. This is, of course,
+orthogonal to your patch. Just a nice-to-have for the future :)
+
+> +
+> +    match T::open(obj, file) {
+>         Err(e) =3D> e.to_errno(),
+>         Ok(()) =3D> 0,
+>     }
+> @@ -84,14 +87,13 @@ extern "C" fn close_callback<T: =
+BaseDriverObject<U>, U: BaseObject>(
+>     let file =3D unsafe {
+>         drm::File::<<<U as IntoGEMObject>::Driver as =
+drm::Driver>::File>::as_ref(raw_file)
+>     };
+> -    let obj =3D
+> -        <<<U as IntoGEMObject>::Driver as drm::Driver>::Object as =
+IntoGEMObject>::from_gem_obj(
+> -            raw_obj,
+> -        );
+> -
+> -    // SAFETY: `from_gem_obj()` returns a valid pointer as long as =
+the type is correct and the
+> -    // `raw_obj` we got is valid.
+> -    T::close(unsafe { &*obj }, file);
+> +    // SAFETY: `close_callback` is specified in the AllocOps =
+structure for `Object<T>`, ensuring
+> +    // that `raw_obj` is indeed contained within a `Object<T>`.
+> +    let obj =3D unsafe {
+> +        <<<U as IntoGEMObject>::Driver as drm::Driver>::Object as =
+IntoGEMObject>::as_ref(raw_obj)
+> +    };
+> +
+> +    T::close(obj, file);
+> }
+>=20
+> impl<T: DriverObject> IntoGEMObject for Object<T> {
+> @@ -101,9 +103,10 @@ fn into_gem_obj(&self) -> =
+&Opaque<bindings::drm_gem_object> {
+>         &self.obj
+>     }
+>=20
+> -    fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Self =
+{
+> -        // SAFETY: All of our objects are Object<T>.
+> -        unsafe { crate::container_of!(obj, Object<T>, obj).cast_mut() =
+}
+> +    unsafe fn as_ref<'a>(self_ptr: *mut bindings::drm_gem_object) -> =
+&'a Self {
+> +        // SAFETY: `obj` is guaranteed to be in an `Object<T>` via =
+the safety contract of this
+> +        // function
+> +        unsafe { &*crate::container_of!(self_ptr, Object<T>, obj) }
+>     }
+> }
+>=20
+> @@ -144,11 +147,25 @@ fn lookup_handle(
+>     ) -> Result<ARef<Self>> {
+>         // SAFETY: The arguments are all valid per the type =
+invariants.
+>         let ptr =3D unsafe { =
+bindings::drm_gem_object_lookup(file.as_raw().cast(), handle) };
+> -        let ptr =3D <Self as IntoGEMObject>::from_gem_obj(ptr);
+> -        let ptr =3D NonNull::new(ptr).ok_or(ENOENT)?;
+>=20
+> -        // SAFETY: We take ownership of the reference of =
+`drm_gem_object_lookup()`.
+> -        Ok(unsafe { ARef::from_raw(ptr) })
+> +        // SAFETY:
+> +        // - A `drm::Driver` can only have a single `File` =
+implementation.
+> +        // - `file` uses the same `drm::Driver` as `Self`.
+> +        // - Therefore, we're guaranteed that `ptr` must be a gem =
+object embedded within `Self`.
+> +        // - And we check if the pointer is null befoe calling =
+as_ref(), ensuring that `ptr` is a
+> +        //   valid pointer to an initialized `Self`.
+> +        // XXX: The expect lint here is to workaround
+> +        // https://github.com/rust-lang/rust-clippy/issues/13024
+> +        #[expect(clippy::undocumented_unsafe_blocks)]
+> +        let obj =3D (!ptr.is_null())
+> +            .then(|| unsafe { Self::as_ref(ptr) })
+> +            .ok_or(ENOENT)?;
+> +
+> +        // SAFETY:
+> +        // - We take ownership of the reference of =
+`drm_gem_object_lookup()`.
+> +        // - Our `NonNull` comes from an immutable reference, thus =
+ensuring it is a valid pointer to
+> +        //   `Self`.
+> +        Ok(unsafe { ARef::from_raw(obj.into()) })
+>     }
+>=20
+>     /// Creates an mmap offset to map the object from userspace.
+> --=20
+> 2.48.1
+>=20
+>=20
+
+With the extra safety requirement,
+
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>=
