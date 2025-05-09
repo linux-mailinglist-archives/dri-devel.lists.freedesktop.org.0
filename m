@@ -2,149 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF2DAB0BC1
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 09:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926FAAB0BC0
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 09:33:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10DA010E9C8;
-	Fri,  9 May 2025 07:33:36 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mt.com header.i=@mt.com header.b="Q7iqUnl/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07F0E10E3C3;
+	Fri,  9 May 2025 07:33:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com
- (mail-westeuropeazon11013063.outbound.protection.outlook.com [52.101.72.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CE5610E1CC
- for <dri-devel@lists.freedesktop.org>; Thu,  8 May 2025 13:07:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S7Wti1pL/KCYa5CsEtMV+npD87s/lz/qSX/xvz9lKkfP+rHFEDXV3qN/rdsb1nUIw0wozxl9Tgo7XljZT6i6JckjRMeFsGaeRPYgw0f9g8lTRLn7dUZHHG8UFIJ91LZRYxPOeNtLeZSxzTjynyQfBqnCLPKfnvRVtaW+QWfboINEP4pRHoKTRvqW43xkiX6g5NtdeKumwGoeRysa6LZ+xTMPdOw6/xpzFi2euL0jNitN2C0xtDY+HHi7DuS5SG+j5X6BWlL3djP7JpBH6QOqd419a27yW5h+feHSSiNbkTne4NhUt+QygJHYG1UagFv5D87z6OnJ2e1fQo9rP0yeYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kIGtlYx8sUULB40EzptwYcsfYMEHKtMC/ayoi+9SbU4=;
- b=tKE1wpkxxUZxgO+Dumil5x+2aLqG7Ugb6RTSsViU50gCIO/Y445NZSKyqgExr0JTdBj0rPXyBTvANlFbgKr+XuxE1/gHZixdFKq4wFXy6WnR9jYz/PzDEDS7NbPnBR+QNQN1FApGHmnqLcE8yLRELnzK1LlZNz6cZJSHnDFXKsMnp6Gr2fP9pcjfc8j3Q48E1OD2daXSWfHnPS91gDGShvsmo156v+cVAvmjoDENA8AQRi6U+vFgqxjerzpRWg+ZQqI7RcKeR6zJlaBvHw85oXnhV/3kZ0gwyc1R135ViW9XwYrDJr+9mrwDThJcUkuddUgfWf3z3kcscYbburkcdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kIGtlYx8sUULB40EzptwYcsfYMEHKtMC/ayoi+9SbU4=;
- b=Q7iqUnl/x2EGI+BT/BQDSek6bR+/DuUfnqLEGbMAIYhN4Dgs25FX/m26kAXY94xwwMhzaa7sJ9+e5MQ+a/TMEE+iMGhyymOLPJk3St00fTRqCuRd1Y/YLpGU6FgYbvNDVI16cNf5qyX+gwdfHTpbDQh070gLrhjZWbU0vGlvGJuTFgBMgVWxNK+szLjbM71JvnlLkTVSUe/lxjJ/WKz3L0mmlZWBKhSFOgK0Jps7NTnnZqohaQ3bqe6BJ+0tLRPH/88Y4tGLsaSOsX3yk2PnSAxht2UTFUFn97mvoMjURHS9TdGqgmJSYkVaYaAaTNveI8TXFKpU44KKx316hn7Opg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from DB6PR03MB3062.eurprd03.prod.outlook.com (2603:10a6:6:36::19) by
- DBAPR03MB6439.eurprd03.prod.outlook.com (2603:10a6:10:199::7) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8699.21; Thu, 8 May 2025 13:07:25 +0000
-Received: from DB6PR03MB3062.eurprd03.prod.outlook.com
- ([fe80::b201:e423:f29:53b]) by DB6PR03MB3062.eurprd03.prod.outlook.com
- ([fe80::b201:e423:f29:53b%4]) with mapi id 15.20.8678.033; Thu, 8 May 2025
- 13:07:25 +0000
-From: Markus Burri <markus.burri@mt.com>
-To: linux-kernel@vger.kernel.org
-Cc: Markus Burri <markus.burri@mt.com>,
- Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
- "Oliver O'Halloran" <oohall@gmail.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Nuno Sa <nuno.sa@analog.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
- Markus Burri <markus.burri@bbv.ch>
-Subject: [PATCH v4 6/6] powerpc/eeh-powernv: fix potential OoB
-Date: Thu,  8 May 2025 15:06:12 +0200
-Message-Id: <20250508130612.82270-7-markus.burri@mt.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250508130612.82270-1-markus.burri@mt.com>
-References: <20250508130612.82270-1-markus.burri@mt.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ZR0P278CA0016.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:16::26) To DB6PR03MB3062.eurprd03.prod.outlook.com
- (2603:10a6:6:36::19)
+Received: from sonic311-28.consmr.mail.ne1.yahoo.com
+ (sonic311-28.consmr.mail.ne1.yahoo.com [66.163.188.209])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E808910E226
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 00:08:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=att.net; s=s1024;
+ t=1746749282; bh=yqGTZNCwtWPBMnUUHpjKlNio/QIaDBuQFC307z31YTc=;
+ h=Date:From:Subject:To:Cc:References:From:Subject:Reply-To;
+ b=yLZxiFqc7J8Aq2FENIlSVZrpHb7iwlmTog5nUOB8fOcndHgxyKejOyB8Ev30kgQZtveqA2Vu7iku+BSxZV1yrpQ1qFcTdd6MTKmvcn0oMWK/k+67SJyUBdtnCgAKtH2mz9Qz2G5AVT/RX8B27bqWXFwMkqOpU192JINErqVA2/4=
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1746749282; bh=wxRy/Qqm6CiCDK8KoM6XLf5Wz1n/a/82DD9obhVjgEM=;
+ h=X-Sonic-MF:Date:From:Subject:To:From:Subject;
+ b=PWWfw6SKoW7gEBEHLzaBkKhiUoynTSfbCvV2dXzatQKPjHFsuKBn9mp46xQW+acafbXlhAB5vL8+pVIVjtYlZyZNhEd3CNzZMyJSv9MDbsLTWC9Z11ivPmDPNvFUDHvrsMEcEPAoA0pFgJAedOw3NmXPxF2bdVl7XsOhOtAHRFz0cE5SpUzTUam1vP3clY75NehpfksQ5bQA8ERSS9zbPfagLGuyVBt9XFTzmvO6lq5sr5rgyckeO5xUY8aPsZgwOHA3FkEo7AaN8j/7e469j3PO7hLJdQab3JIuUtrA8w/XMXgP/QKBzT9FP1tcKKh8o+F2pOdcFBYcLHDb8ej1qQ==
+X-YMail-OSG: lufhLMsVM1mvbPkDduOzIotAp0ytWCcfHm5DfQJA3VFoPGykEnv_hSKQLiGI_Zt
+ jxYLVVzynhu65CVFtWiDx1dZJMED4x.BbKQx7LmRGFwQl3e2_uabx9Nttd9AIdbkOQrO3KzXkHFO
+ lFfOp9Z5toP03tKbrJISTzChoRsgllxu2TgUTPQyh8ThuhyUrllXeKkCDfprAbe_1CUpUi9xHcrh
+ kROCoaslLUqqcDsZO24SRhNFieiWG8xWPevMMT7l6eh_8Py.Pr6PvXhSXtdZQQau536on8GCYiyt
+ nQa2uSmPZwGLHlGXpVX651jzSGMHl6WsVAkRDrAJj9QzQIrVTd70GIL4_6MCVsa9vVMYZeHcdWPq
+ df84ra690Tx_m1oqJ.hK7POj5D9Gtidx34COTHthWCPAsIahNoakpRHTGxWeluiTQatJ6yWCw5Jn
+ iTR7lXYLK7WpA8vhN4NYiixG1PB99wYEU3MYkHCD.y9q01BnKXuSz2w40jRPqLxo0A0mRuNsxPjs
+ r0skXp_LMMY6Xum3IaMfvnF6PH7FOtgdA3IDYUQ2LIa5hr3iyu1TS2f93VMfH8_nU0S4zWGS32NN
+ 5iwLKQh9HV8W4uiq8n8Kqx_FU1_6CbN9S2ydDOj1xRjOB3r4Zv3X8PbF8ywP0DtVABAqjWRGNciI
+ BVtdVO55FPUwGBxZ9qPSvQjIe.DMiR5PvFNQ37UPawW9vJjJTCxwqCwUvqjzivuLQixKBZaIFsHX
+ hJf530.IJcPM4j8iotH72azieo2cKJiBnKcDHtNNr_MI.U.CcIAaoYBmURHJO5.p5OxMP8bqBYT2
+ HygYqJN8Bf6_.EGghU.pTgjNqCPUHJ_97RHsMm38Nv2gNVk3kNYYqAh4YIZTs.uNGOgBP5zWo8DK
+ BAY0ZTv4x3YVZk5sxFvSE.z95eJt_bWtob2v4sxE88ttJ.4H7cIfu2874JZB4hKQEDnzg1BKf6bu
+ .ZU7P_Lv6lo7u_nzQStXmJv.LpBiXRrz0VdLRnDEz9eQjl5m3eNHb65JHqc1LqjbfRrbs3vc7vvn
+ PknMPTrYLB9XCw9bHDJh7rVnZc7Z6YOEg1Fv6s0JR.1.j4O1lz_T17lZ4EXdq4Nh1SoJW.uMknEQ
+ .Rf8dWLedxND70Jt9wckjViaUeuXmn0RMNymlgLbzKB4M3QpqkZEsKf7fCjIn5itjPbeUaUugSLT
+ QsJ_nu5Qech5zpOv3eCTFX6.oB6kt8dFSCyYhW4XI2faKH38JltwgAatJbu2wWQ.vgQUecmI4wx8
+ Euq74al8q7LYBNHCzW3lxiCi_lYsbhmyWNgqJI_9JMJ1YXZ2N_g1KMLd_v0m8_4svoYmd0wC87yx
+ 8VFXc4lsnKi2djmw3Fe.SoKuGRrNnNG3ew4XYKs_njZcax2Iyedr7tYusIDkSsfGyFQXfB6ILNzL
+ BYekcnMznelorA5UrlGQPX8PzJLj14rYPzA7Jp8KkUmPGlqOBY66yQ6VYP6knEyutWkHs1a2ukAA
+ H527ZZVgjRD32z4N.a25b_UnEgtmOAs2iS6DWxD9NAOLR2cB3Vz2ZcUn42ob5RiSH0DGZQd3yEG0
+ YH.48qqdyNI8S.Ul25LykzddnoASALs.jZrklWyg.S2_uYWNLG0ccUKxOlSbSh.dJZYdDB3OIQIH
+ 4etvqUajmNL18pRhAusccobOyXhkd7.upXqudq384n3gycxOSsB4L03B3MU6Kah.8ZoGmrWcEt6z
+ TveCVitgDwF55NmpViB0Lg.WWyd.Uh3df0nRxK4LSZuPe3l7KaZfSmpTzVOIPq1be9GBWExELzo8
+ J.XAC_oBZJuL8Kws3tBE5nQBk6CIa0JPJJVokEwjDxRdUF1ao2IDpybOOu86_jfAUvIbxCFlWcFA
+ EcFakXbfFXkmExhavaoShIndu8Jgphq1jYGR7od8hCXxdHzYHG7JoxxmEwbpCZvITjCPma34NT7q
+ SJzqdfszJ_k1YFf4yfGppuGf1dn8m86pob0P7ygVPn6RLcA1A.CJ_1OG1n1s2F0YdrpCptNF6g2.
+ cJkXK3J4rodE.m4Xk4vHxZq5Ds0THQoWdC8GZ5rSa3gpkD6uWyA8jmp_QhQnYS_dMW.pScAxA2F5
+ 4WAUlmPrQVBwTtL4dJmF20Rq0GCEzGhMLUndf_KVMiOkVNumA3u9uJoaaO0u4eDmO2c_h2rko51E
+ 4PApO.RglPGUQoJ4ICZKUvkRmU1U3bZM0utpP2vxHQPT10dNGXWuVn6Mw._W85qajAtESihclC.S
+ rzrnBCLDN6OFaJS_pps7m5DKnwXKg6EgYQRkjYLnEWkAZwlI-
+X-Sonic-MF: <pheonix.sja@att.net>
+X-Sonic-ID: a1e67f17-60d7-4e2f-b237-11c1cf5a15b1
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic311.consmr.mail.ne1.yahoo.com with HTTP; Fri, 9 May 2025 00:08:02 +0000
+Received: by hermes--production-ne1-9495dc4d7-vqkqz (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 38c9ce085f9b2e8376020fe81c218b00; 
+ Fri, 09 May 2025 00:08:00 +0000 (UTC)
+Date: Thu, 08 May 2025 20:07:54 -0400
+From: Steven J Abner <pheonix.sja@att.net>
+Subject: Kernels >= 6.3 disable video output
+To: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Message-Id: <6DWYVS.BXJ4YUZ0KN5B3@att.net>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB6PR03MB3062:EE_|DBAPR03MB6439:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4592d554-f108-446f-0e9d-08dd8e3146ca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|52116014|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7SZaQ8TkhOK4bFFwSqb/uODb5nWsuV9f/qHWg9cmBgUasYN+JQZKVhetcsEX?=
- =?us-ascii?Q?OgPCvFQqRgMVby2JltO01Rtt4czWsDWOXLhyayVpcIAHaXWZ9C5+fXf6HLsf?=
- =?us-ascii?Q?c+WY2BvewlYYvnGrmGFuhcDG7aw7Ic+ZAfjSxLNS6c6TotSD2+kQljcum8MF?=
- =?us-ascii?Q?0V+xl8gYsdjgm0V3cjLDbNOpAcJJQXhWCpmX0rBRYSk228w+7OJcgwEIWCEB?=
- =?us-ascii?Q?Be43PrKyE5/9a+w+y8NiHqbyB78aoFyTtWfXzroFensfVstB4ykL0ZCD+yjk?=
- =?us-ascii?Q?Cy0l0B44WuBptcVxpd4ccsHfafm+8bv/ADMJDmEO+xDXKvRFe+gTlv/fxyNg?=
- =?us-ascii?Q?kyU1JD4ceBCUa25cx3P5vMcLKyQZKhgx0lG/lwCFMvW/jvhhq5AcMnh/9dMr?=
- =?us-ascii?Q?VAD77Fu9IUEe6SFezp7VOaBjnq2MREytUtyFb1Jf2dHnAPea+mY4Gf6MJ+jh?=
- =?us-ascii?Q?gkjp0xniG7+itoQ3QuC8K0qaWl4d+ih/6NvtsYP2pJUeAwLtikHDEfV3Fg7T?=
- =?us-ascii?Q?T1rhWdi5COgM22qKBfyefLtus426jgZ5LJ0/hTrnyo8P+7OU1Z7zdPrfw/kU?=
- =?us-ascii?Q?o99LTx4uz+svIvdoTPFrjUtMbTfyHZfkLPXQh9cO/yeeH4looFqBhKkl4fBF?=
- =?us-ascii?Q?2nCrnxeBYFdt56PQop/2hf1oVuKs5LIbkMPTPUc9ZnG9qDVUz0u9VbU7ROsa?=
- =?us-ascii?Q?bJ3lAtwIODhtar+R3a9QH3yYWVNWYK9itJWW0Z+KiOcR9cdKc2EGx60eSOUH?=
- =?us-ascii?Q?cwTR+uajChs/yX9V5iTieLElZLXjc8D2/EjnMtohRZ2x4boPWFlcs5frHExO?=
- =?us-ascii?Q?js0jOtCGupwUxqrwYmxhKyVxCu5n5Us96bC7JVnWjRTZm2c9y1+ACFF8rX8X?=
- =?us-ascii?Q?6EIxEwxwN3TdrUgBJoirE+/An08bo0i3snTGVKuSXshA71+F95/CdJGVDxMd?=
- =?us-ascii?Q?fFRZQ69zz7cD+lgZ6f8K4M6Msyusa5JF032y14Rv39jsEASeBHCpz7iYoWQP?=
- =?us-ascii?Q?/Y2dgBTOwEBczkClj2Wovc0rBnzazJSkRKw2Q4OlpTKp5mjy0lAz6GsnkXiq?=
- =?us-ascii?Q?MGbOkCgoJViz1ko3GcEgDGOrpI2ivIK8h7GghEMaoEW6quhvuMUk7Bl7n0ug?=
- =?us-ascii?Q?sXAwPDhEHre5qasbousHwt30filCv1OqNlPCfiad9FoFyFnDjBajAicgJ5/7?=
- =?us-ascii?Q?ziUGnsJnGDd09l0Yjz66r7lzK+inDbxlwMrFMA8XmwdnjgzS/v7LdZvg2iJr?=
- =?us-ascii?Q?wEy3H4h6q9xys/pgNo7FeyxgJ19FQ9s7tNdtngYF3kUSO4Zb65gBfMWV433e?=
- =?us-ascii?Q?S9aUTu2c24VCDjPTz/J9HLZCnHhXmXxqtwtKApLS1TL7Cd8pe1dd9zm+JoGb?=
- =?us-ascii?Q?H8bPvBxQEcLP5pCmrIMFm7+BMVkQ67jCnQ6XkXGnJ0WgCVWe64D/9NWGcWkg?=
- =?us-ascii?Q?9JlAFZcLQnQ3yCQVSiMn/a8i00jC9iM6rT34zbVP518+hferqzO9PA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB6PR03MB3062.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?B7lOeTXHGVdKAynQp6Km1nH3pzWBBVYMY4/UdgbSD3N7OyeH01V/wx+OqCps?=
- =?us-ascii?Q?9m7+/H9ItpVv9eVsXT/y9TrmlRDXtzwLDLvND0ncU8dN+yHyWHdoMD4fjwuJ?=
- =?us-ascii?Q?V+7bhPStzAROVxp6+B4z0eHnPIyl2bbJgb7F3REeUKIY8u349XdUxgKQrS7x?=
- =?us-ascii?Q?WnKcYdH7xcKvL4/iYjQ4DA/8uGT+a7ltgIY3JfaVuQDqqLcLNkkk4fTeS8Hh?=
- =?us-ascii?Q?cuMvmxUvcdHmi32aSjO/vNLub7EBCnUalM1nv8WA3atQSe0OgXPmzFg+//YP?=
- =?us-ascii?Q?Z3TtvpcRVHqS2giK8AtuNor/A+q+UE3fJiP62+YF7cZlkuq/N2u0OQ7GxcVH?=
- =?us-ascii?Q?kyczPdXlXG8JTDRsTkF/3cQqQn/ShxxwLEMqtA7F4HJemYP0SLSdGEjNUZyR?=
- =?us-ascii?Q?SE7tNt/dS82Oi/mgbd0gcWX4zef5/te7PCIwQ2Qeu3WfxOBcmR0gJQVhDFqM?=
- =?us-ascii?Q?CGoD49gxDhRVjVdUiXenQdvvFAfhvBMl1Jqf+tNuRIcUE0ZEH633ug9IygQR?=
- =?us-ascii?Q?UXrvofNd7vi+QqxytUMFINZgw2BeVl8CDuJ2TITcEVe7W4KTLKtjqlwz+dAb?=
- =?us-ascii?Q?oTBabSrAekAJ0O+YIaXaSauWaXvDw1kB8HQrxRJ5rkSIejYmPT4pLjM7XXN1?=
- =?us-ascii?Q?dXLJmNN8MHXds3tylkQELJg/4pblGMi2BvTp9fKc5IZDuIeS8l5NJCSuY6JA?=
- =?us-ascii?Q?zHjF0zQjDBof56/LtSPYAiDkf2R5OHS855tlNsiYCQOnb4Fappedhk+l5NPG?=
- =?us-ascii?Q?zsW2EyFb2R8VqP/vxgoV2JCd+cyZSfi/lhxmGzSxRweIUfQ7baKuORlC5Rn2?=
- =?us-ascii?Q?AahsSm5OD2Nx2oDFBytlmBHDyhUxwoN0y6mmwGbNh6pr6qwH5UsGf7vU+5n3?=
- =?us-ascii?Q?u5Ok81g/xK/gjazAXOUix+QJ2KmRE10YocPDqUhYEEZlQeMHsEInze6QAuaO?=
- =?us-ascii?Q?o8nNkoneWrhIgsQ4xbf9AcFoUsf4vY2s5pgX/Ixur1iGI10bkqB18sBRV4Ql?=
- =?us-ascii?Q?z9rfVZb+9DzbW8PFYmctJjpKdhRtas9IJzPpYcIxm5SrNmnkgA3OpbNwklIw?=
- =?us-ascii?Q?yDZq06vdBzRQctoBSU78Hbh6Pqj/8GCQjIP7LvdmiOP69IjsbHZjEqT6mXfI?=
- =?us-ascii?Q?DDK85EqTDG1jiGjlw+Yj1xV5zCmmAh6l0Zd8HC7n12M2Kz09XscSNKUdpCTw?=
- =?us-ascii?Q?GpNIY8mhvNm7XveJh2Trd4cbpxcoHrouyyLeugK+gpgqs2UIKncbZbIvhCTK?=
- =?us-ascii?Q?g4jvnP9SBi2RA7ltsj/35d9zQK6SLPwa2UYMBlgmStlSwyedPiVysp8/Wx7m?=
- =?us-ascii?Q?MhacyK3+xDFTu5K/wSUb1ULmtkPrg1R4VVBb/j/3t8m890DvbcWRR6fl5511?=
- =?us-ascii?Q?hYGcm8QHJ++1dpYw/mLaqD8TgiqwE6yTOXX5BVfzDKnoozVW2iYgqTLSweza?=
- =?us-ascii?Q?iCfG8/8nqvG8ULueC23wEdCTyDYK4O1B6OY8z5WniQKDD/t0mF3A/F5VdIsq?=
- =?us-ascii?Q?k+nyGA2LyzGwY9VKuCk0vbSKqu3ZAgUakpQd1lWbz5d8PFOO2qhXyaL7QTri?=
- =?us-ascii?Q?s1ZLKoK6b5jcKKns4dcgHQjN0pbdX+M4j/xVNxF+?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4592d554-f108-446f-0e9d-08dd8e3146ca
-X-MS-Exchange-CrossTenant-AuthSource: DB6PR03MB3062.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 13:07:24.9767 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WFlEBF3VXZ0KRjyKSd9RbjhGlkA4537GiJQR0F3r4dMKQOPqpKZwkncxN4EeT6TiNIjmmP1362DXzZ0aLelxag==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR03MB6439
+Content-Type: text/plain; charset=us-ascii; format=flowed
+References: <6DWYVS.BXJ4YUZ0KN5B3.ref@att.net>
 X-Mailman-Approved-At: Fri, 09 May 2025 07:33:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -161,41 +85,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The buffer is set to 50 characters. If a caller write more characters,
-count is truncated to the max available space in "simple_write_to_buffer".
-To protect from OoB access, check that the input size fit into buffer and
-add a zero terminator after copy to the end of the copied data.
+ AMD 2400g, Zen1, 'Raven' firmware, igpu, no card.
+Code that was added to 6.2.16 to create 6.3 and up, to last tested 
+6.13.4, breaks the igpu for Ryzen. Kernels with firmware, same as that 
+used on 6.3 and up, works 100% on 5.4 to 6.2.16. This bug is even in a 
+Debian/Ubuntu based OS's Mainline download of 6.8 (only mainline 
+tested). Without using firmware, allowing fbdev drivers to control 
+output to monitor, 6.13.4 works.
+ The bug is that about 70% of the time, with firmware, the output to 
+the monitor is shut off. The monitor displays no input connection. With 
+no monitor the Linux console works the same as monitor connected. Both 
+blanked and displayed have:
+ > [ 0.000000] Linux version 6.13.4 (root@steven-ryzen) (gcc (GCC) 
+14.2.0, GNU ld (GNU Binutils) 2.44) #1 SMP PREEMPT_DYNAMIC Thu May 8 
+13:55:46 EDT 2025
+ > [ 0.310823] ACPI: bus type drm_connector registered
+ > [ 0.310837] [drm] amdgpu kernel modesetting enabled.
+ > [ 0.310975] [drm] initializing kernel modesetting (RAVEN 
+0x1002:0x15DD 0x1002:0x15DD 0xC6).
+ > [ 0.310989] [drm] register mmio base: 0xFC900000
+ > [ 0.310994] [drm] register mmio size: 524288
+ > [ 0.311024] [drm] add ip block number 0 <soc15_common>
+ > [ 0.311029] [drm] add ip block number 1 <gmc_v9_0>
+ > [ 0.311034] [drm] add ip block number 2 <vega10_ih>
+ > [ 0.311039] [drm] add ip block number 3 <psp>
+ > [ 0.311043] [drm] add ip block number 4 <powerplay>
+ > [ 0.311047] [drm] add ip block number 5 <dm>
+ > [ 0.311052] [drm] add ip block number 6 <gfx_v9_0>
+ > [ 0.311057] [drm] add ip block number 7 <sdma_v4_0>
+ > [ 0.311061] [drm] add ip block number 8 <vcn_v1_0>
+ > [ 0.334228] [drm] BIOS signature incorrect 0 0
+ > [ 0.334251] amdgpu 0000:0e:00.0: amdgpu: Fetched VBIOS from ROM BAR
+ > [ 0.334258] amdgpu: ATOM BIOS: 113-RAVEN-113
+ > [ 0.334554] amdgpu 0000:0e:00.0: vgaarb: deactivate vga console
+ > [ 0.334560] amdgpu 0000:0e:00.0: amdgpu: Trusted Memory Zone (TMZ) 
+feature enabled
+ > [ 0.334585] [drm] vm size is 262144 GB, 4 levels, block size is 
+9-bit, fragment size is 9-bit
+ > [ 0.334596] amdgpu 0000:0e:00.0: amdgpu: VRAM: 2048M 
+0x000000F400000000 - 0x000000F47FFFFFFF (2048M used)
+ > [ 0.334604] amdgpu 0000:0e:00.0: amdgpu: GART: 1024M 
+0x0000000000000000 - 0x000000003FFFFFFF
+ > [ 0.334615] [drm] Detected VRAM RAM=2048M, BAR=2048M
+ > [ 0.334619] [drm] RAM width 128bits DDR4
+ > [ 0.334722] [drm] amdgpu: 2048M of VRAM memory ready
+ > [ 0.334727] [drm] amdgpu: 2923M of GTT memory ready.
+ > [ 0.334742] [drm] GART: num cpu pages 262144, num gpu pages 262144
+ > [ 0.334877] [drm] PCIE GART of 1024M enabled.
+ > [ 0.334881] [drm] PTB located at 0x000000F400A00000
+ > [ 0.335145] amdgpu: hwmgr_sw_init smu backed is smu10_smu
+ > [ 0.335578] [drm] Found VCN firmware Version ENC: 1.15 DEC: 3 VEP: 0 
+Revision: 0
+ > [ 0.356133] amdgpu 0000:0e:00.0: amdgpu: reserve 0x400000 from 
+0xf47fc00000 for PSP TMR
+ > [ 0.428083] amdgpu 0000:0e:00.0: amdgpu: RAS: optional ras ta ucode 
+is not available
+ > [ 0.434083] amdgpu 0000:0e:00.0: amdgpu: RAP: optional rap ta ucode 
+is not available
+ > [ 0.434090] amdgpu 0000:0e:00.0: amdgpu: SECUREDISPLAY: 
+securedisplay ta ucode is not available
+ > [ 0.434559] [drm] DM_PPLIB: values for F clock
+ > [ 0.434564] [drm] DM_PPLIB: 1633000 in kHz, 4399 in mV
+ > [ 0.434570] [drm] DM_PPLIB: values for DCF clock
+ > [ 0.434574] [drm] DM_PPLIB: 300000 in kHz, 3649 in mV
+ > [ 0.434578] [drm] DM_PPLIB: 600000 in kHz, 4074 in mV
+ > [ 0.434583] [drm] DM_PPLIB: 626000 in kHz, 4250 in mV
+ > [ 0.434587] [drm] DM_PPLIB: 654000 in kHz, 4399 in mV
+ > [ 0.435247] [drm] Display Core v3.2.310 initialized on DCN 1.0
+ > [ 0.504716] [drm] kiq ring mec 2 pipe 1 q 0
+ > [ 0.518487] amdgpu 0000:0e:00.0: amdgpu: SE 1, SH per SE 1, CU per 
+SH 11, active_cu_number 11
+ > [ 0.518497] amdgpu 0000:0e:00.0: amdgpu: ring gfx uses VM inv eng 0 
+on hub 0
+ > [ 0.518503] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.0.0 uses VM inv 
+eng 1 on hub 0
+ > [ 0.518510] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.1.0 uses VM inv 
+eng 4 on hub 0
+ > [ 0.518516] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.2.0 uses VM inv 
+eng 5 on hub 0
+ > [ 0.518523] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.3.0 uses VM inv 
+eng 6 on hub 0
+ > [ 0.518530] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.0.1 uses VM inv 
+eng 7 on hub 0
+ > [ 0.518536] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.1.1 uses VM inv 
+eng 8 on hub 0
+ > [ 0.518543] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.2.1 uses VM inv 
+eng 9 on hub 0
+ > [ 0.518549] amdgpu 0000:0e:00.0: amdgpu: ring comp_1.3.1 uses VM inv 
+eng 10 on hub 0
+ > [ 0.518556] amdgpu 0000:0e:00.0: amdgpu: ring kiq_0.2.1.0 uses VM 
+inv eng 11 on hub 0
+ > [ 0.518562] amdgpu 0000:0e:00.0: amdgpu: ring sdma0 uses VM inv eng 
+0 on hub 8
+ > [ 0.518569] amdgpu 0000:0e:00.0: amdgpu: ring vcn_dec uses VM inv 
+eng 1 on hub 8
+ > [ 0.518575] amdgpu 0000:0e:00.0: amdgpu: ring vcn_enc0 uses VM inv 
+eng 4 on hub 8
+ > [ 0.518581] amdgpu 0000:0e:00.0: amdgpu: ring vcn_enc1 uses VM inv 
+eng 5 on hub 8
+ > [ 0.518588] amdgpu 0000:0e:00.0: amdgpu: ring jpeg_dec uses VM inv 
+eng 6 on hub 8
+ > [ 0.521453] amdgpu: pp_dpm_get_sclk_od was not implemented.
+ > [ 0.521460] amdgpu: pp_dpm_get_mclk_od was not implemented.
+ > [ 0.521565] amdgpu 0000:0e:00.0: amdgpu: Runtime PM not available
+ > [ 0.521868] [drm] Initialized amdgpu 3.60.0 for 0000:0e:00.0 on 
+minor 0
+ > [ 0.526617] fbcon: amdgpudrmfb (fb0) is primary device
+ > [ 0.595813] Console: switching to colour frame buffer device 240x67
+ > [ 0.628478] amdgpu 0000:0e:00.0: [drm] fb0: amdgpudrmfb frame buffer 
+device
 
-Signed-off-by: Markus Burri <markus.burri@mt.com>
----
- arch/powerpc/platforms/powernv/eeh-powernv.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ I have no idea which code to regress to get back to 6.2.16 to make 
+work again. From a quick look, that is the kernels where code was 
+adopting new naming conventions for drivers, among tons of other 
+changes. Think was also the start of PState default of 3, which setting 
+to 1 made no difference, maybe lessened blackout closer to 50%?
+Please help, I luv my 2400g! 6.1.137 is great and 5.15 is fine too. I 
+still use 5.4 for testing my code too.
+Steve
+PS. please cc me, I'm not on the list referred by fb-dev.
 
-diff --git a/arch/powerpc/platforms/powernv/eeh-powernv.c b/arch/powerpc/platforms/powernv/eeh-powernv.c
-index db3370d1673c..3abee21fdd05 100644
---- a/arch/powerpc/platforms/powernv/eeh-powernv.c
-+++ b/arch/powerpc/platforms/powernv/eeh-powernv.c
-@@ -73,14 +73,19 @@ static ssize_t pnv_eeh_ei_write(struct file *filp,
- 	char buf[50];
- 	int ret;
- 
-+	if (count >= sizeof(buf))
-+		return -EINVAL;
-+
- 	if (!eeh_ops || !eeh_ops->err_inject)
- 		return -ENXIO;
- 
- 	/* Copy over argument buffer */
--	ret = simple_write_to_buffer(buf, sizeof(buf), ppos, user_buf, count);
-+	ret = simple_write_to_buffer(buf, sizeof(buf) - 1, ppos, user_buf, count);
- 	if (!ret)
- 		return -EFAULT;
- 
-+	buf[ret] = '\0';
-+
- 	/* Retrieve parameters */
- 	ret = sscanf(buf, "%x:%x:%x:%lx:%lx",
- 		     &pe_no, &type, &func, &addr, &mask);
--- 
-2.39.5
+
+
+
+
 
