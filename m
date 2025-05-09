@@ -2,68 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F83AB0D69
+	by mail.lfdr.de (Postfix) with ESMTPS id D774FAB0D6D
 	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 10:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3DAC10E9EA;
-	Fri,  9 May 2025 08:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D63C010E977;
+	Fri,  9 May 2025 08:42:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="o26tqfC9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IEVsJ3Xw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X5QcEwMw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4xCMr706";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SN8Xf9GS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="D4YbIjHO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LrfKmvFd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="38pp+9Sh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D50510E2D0
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 08:42:21 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4683110E9DB
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 08:42:31 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E5CD91F457;
- Fri,  9 May 2025 08:42:18 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 35AE621160;
+ Fri,  9 May 2025 08:42:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1746780140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9GnF9uk/wVM48NdSU+dd1m9I35poLfkpdDAdTK8NVq4=;
+ b=SN8Xf9GSDeoraycOSDOJQjA4OhOXPakjhT57eWNYcjQirhBahAocXLQFEuCXXqcjHhsNrf
+ T/YCHsDmI3iH8yT6p50N5v8mcGNxjxl6shbMpiw7WaRjb6U1BvpAUBv6/XFeAaLf+MIoL2
+ iNATzfnWan2NPtjv5EVX4rxgxiL83V8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1746780140;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9GnF9uk/wVM48NdSU+dd1m9I35poLfkpdDAdTK8NVq4=;
+ b=D4YbIjHOf8FZaXLBPXotCqkMJKggInwQozjOCe481zmEJnM7NL8Q+gyN6a6Qjqg0z4cETn
+ BTS9m0pxP1KQtsDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1746780139; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=eFSlM9W1i0/DJlo9ZEkSOSk88bgRBN9IwCmt0T7bgfI=;
- b=o26tqfC9iSlNlipQ9JPR0ynR84K9yGsSdMCmgfu9qyMOCRCx/rd+U3rzjzrv7127PtBIGm
- Hfsva3cm8XwQiDWQcXJoyHL7vU6K7dFbQUoy5QtXWzFebkbiTe2v29+HDuCVSSWz+acPHw
- eoYdN86KwI3B/Io6aysodJC9c51sjNc=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9GnF9uk/wVM48NdSU+dd1m9I35poLfkpdDAdTK8NVq4=;
+ b=LrfKmvFdHGLyWPpaH0lq8oVjaJcZmHEuJ04t7iWzKeuS/UDsXmPQU1QH6ung+C5TtKkKuD
+ DwvSHe5dDA/zuECfFQ9qx4218YWV+/XAxtuERlmVOFv8zhHeSAPWDyouPGnTU7ktuRqqA/
+ aOzJlHb67DNRgT9CNyXJc0craJBFJsw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1746780139;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=eFSlM9W1i0/DJlo9ZEkSOSk88bgRBN9IwCmt0T7bgfI=;
- b=IEVsJ3XwyhwpDr5Jd5pfimGrfyV66opidJ7v2dtw5m9R/LdaSJDOsCAdo5JUpeln2j9817
- FEvK2+H2MhdvXbDA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=X5QcEwMw;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4xCMr706
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1746780138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=eFSlM9W1i0/DJlo9ZEkSOSk88bgRBN9IwCmt0T7bgfI=;
- b=X5QcEwMwzCWev4jt3ccmoPdnxblGB4qvKbVNtAG1dl2bZpjjOFzyw2xdKhvm+UIeKG1v8t
- pM585cr0Wrq/Zk70uQbckoRjPBVB8esU7LvD/kH1xlrXePbMicLTbgRPDxAPHkd4hbgUvP
- 22JUbsMRx0ZY6MhXaCre6yzkyTTsDP8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1746780138;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=eFSlM9W1i0/DJlo9ZEkSOSk88bgRBN9IwCmt0T7bgfI=;
- b=4xCMr7064XAksU9oihMgx93dwIYh6JOZZdvQRgL4822dDV/eCUuoU5KMrwt290CDvB1TC6
- Q6AuxBfFEHqhHfCw==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9GnF9uk/wVM48NdSU+dd1m9I35poLfkpdDAdTK8NVq4=;
+ b=38pp+9ShdpbcZVxOotByGwQIcXHH1bXDyI+i7JLhUIEfzLtu5TDgu8TTHQB+uWU61VULFG
+ iZjT6O5kHpZbbICg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A1B1013931;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB15513A2C;
  Fri,  9 May 2025 08:42:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id tbwdJuq/HWgpXwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id iFowOOq/HWgpXwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 09 May 2025 08:42:18 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, javierm@redhat.com, airlied@redhat.com,
@@ -71,37 +77,30 @@ To: jfalempe@redhat.com, javierm@redhat.com, airlied@redhat.com,
  mripard@kernel.org
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 0/5] drm: Provide helpers for programming gamma ramps and
- palettes
-Date: Fri,  9 May 2025 10:23:14 +0200
-Message-ID: <20250509083911.39018-1-tzimmermann@suse.de>
+Subject: [PATCH 1/5] drm: Add helpers for programming hardware gamma LUTs
+Date: Fri,  9 May 2025 10:23:15 +0200
+Message-ID: <20250509083911.39018-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250509083911.39018-1-tzimmermann@suse.de>
+References: <20250509083911.39018-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: E5CD91F457
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCVD_TLS_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- RCPT_COUNT_SEVEN(0.00)[9];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_COUNT_TWO(0.00)[2];
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+]; FROM_HAS_DN(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
  FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com,linux.intel.com,kernel.org];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.01
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[9]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,49 +116,292 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have a number of drivers that offer simple gamma correction and
-palette modes. Depending on their hardware, the drivers process the
-provided data in similar ways. Unify the functionality in several
-DRM color-management helpers and update the drivers. The new helpers
-can load provided data or generate default data to load.
+Provide helpers that program hardware gamma LUTs. Tha gamma ramp is
+either provided by the driver or generated by the helper.
 
-With the drivers; ast, mgag200 ofdrm and vesadrm; gamma ramps are
-always 8 bit wide. For 24-bit color depth, 8-bit gamma ramps are being
-loaded to hardware as provided. For lower color depths the hardware
-often requires the gamma ramp to be reduced to the number of bits
-per pixel component, which the new helpers can do automatically. The
-exception is ast's hardware, which always uses 8-bit gamma ramps.
+The DRM driver exports the GAMMA_LUT property with a fixed number of
+entries per color component, such as 256 on 8-bit-wide components. The
+entries describe the gamma ramp of each individual component. The new
+helper drm_crtc_load_gamma_888() loads such gamma ramp to hardware. The
+hardware uses each displayed pixel's individial components as indeces
+into the hardware gamma table.
 
-The default gamma ramp uses a factor of 1.0 (as has been the case in
-existing the per-driver implementations). A later update could change
-this to the common value of 2.2 or a system-specific value.
+For color modes with less than 8 bits per color component, the helpers
+drm_crtc_load_gamma_565_from() and drm_crtc_load_gamma_555_from_888()
+interpolate the provided gamma ramp to reduce it to the correct number
+of entries; 5/6/5 for RGB565-like formats and 5/5/5 for RGB1555-like
+formats.
 
-Helpers for palettes either load an 8-bit palette or generate a default
-palette with increasing luminance. The goal for the default is to keep
-the display content visible with black at index 0. A later update could
-possibly load a system-specific default palette.
+If no gamma ramp has been provided, drivers can use the new helper
+drm_crtc_fill_gamma_888() to load a default gamma ramp with 256 entries
+per color component. For color modes with less bits, the new helpers
+drm_crtc_fill_gamma_565() and drm_crtc_fill_gamma_555() are available.
+The default gamma ramp uses a gamma factor of 1. Later patches can
+change this. For PCs, a gamma factor of 2.2 is common.
 
-Thomas Zimmermann (5):
-  drm: Add helpers for programming hardware gamma LUTs
-  drm/ast: Use helpers for programming gamma ramps and palettes
-  drm/mgag200: Use helpers for programming gamma ramps
-  drm/ofdrm: Use helpers for programming gamma ramps
-  drm/vesadrm: Use helpers for programming gamma ramps
+For color modes with palette, drm_crtc_load_palette_8() load an 8-bit
+palette into the hardware. If no palette has been specified,
+drm_crtc_fill_palette_8() load a system-specific default palette. This
+is currently only a grey-scale palette with increasing luminance, but
+later patches can change this. For PCs, a VGA default palette could
+be used.
 
- drivers/gpu/drm/ast/ast_mode.c           |  69 +++++---
- drivers/gpu/drm/drm_color_mgmt.c         | 206 +++++++++++++++++++++++
- drivers/gpu/drm/mgag200/mgag200_drv.h    |   4 +-
- drivers/gpu/drm/mgag200/mgag200_g200er.c |   4 +-
- drivers/gpu/drm/mgag200/mgag200_g200ev.c |   4 +-
- drivers/gpu/drm/mgag200/mgag200_g200se.c |   4 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c   |  78 ++++-----
- drivers/gpu/drm/sysfb/ofdrm.c            |  78 ++++-----
- drivers/gpu/drm/sysfb/vesadrm.c          | 100 ++++-------
- include/drm/drm_color_mgmt.h             |  27 +++
- 10 files changed, 380 insertions(+), 194 deletions(-)
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_color_mgmt.c | 206 +++++++++++++++++++++++++++++++
+ include/drm/drm_color_mgmt.h     |  27 ++++
+ 2 files changed, 233 insertions(+)
 
-
-base-commit: 842c3c276c106040f9b96d72b9df35ed6aed9ae9
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index 3969dc548cff..dd3e06605180 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -630,3 +630,209 @@ int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests)
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_color_lut_check);
++
++/*
++ * Gamma-LUT programming
++ */
++
++/**
++ * drm_crtc_load_gamma_888 - Programs gamma ramp for RGB888-like formats
++ * @crtc: The displaying CRTC
++ * @lut: The gamma ramp to program
++ * @set_gamma: Callback for programming the hardware gamma LUT
++ *
++ * Programs the gamma ramp specified in @lut to hardware. The input gamma
++ * ramp must have 256 entries per color component.
++ */
++void drm_crtc_load_gamma_888(struct drm_crtc *crtc, const struct drm_color_lut *lut,
++			     drm_crtc_set_lut_func set_gamma)
++{
++	unsigned int i;
++
++	for (i = 0; i < 256; ++i)
++		set_gamma(crtc, i, lut[i].red, lut[i].green, lut[i].blue);
++}
++EXPORT_SYMBOL(drm_crtc_load_gamma_888);
++
++/**
++ * drm_crtc_load_gamma_565_from_888 - Programs gamma ramp for RGB565-like formats
++ * @crtc: The displaying CRTC
++ * @lut: The gamma ramp to program
++ * @set_gamma: Callback for programming the hardware gamma LUT
++ *
++ * Programs the gamma ramp specified in @lut to hardware. The input gamma
++ * ramp must have 256 entries per color component. The helper interpolates
++ * the individual color components to reduce the number of entries to 5/6/5.
++ */
++void drm_crtc_load_gamma_565_from_888(struct drm_crtc *crtc, const struct drm_color_lut *lut,
++				      drm_crtc_set_lut_func set_gamma)
++{
++	unsigned int i;
++	u16 r, g, b;
++
++	for (i = 0; i < 32; ++i) {
++		r = lut[i * 8 + i / 4].red;
++		g = lut[i * 4 + i / 16].green;
++		b = lut[i * 8 + i / 4].blue;
++		set_gamma(crtc, i, r, g, b);
++	}
++	/* Green has one more bit, so add padding with 0 for red and blue. */
++	for (i = 32; i < 64; ++i) {
++		g = lut[i * 4 + i / 16].green;
++		set_gamma(crtc, i, 0, g, 0);
++	}
++}
++EXPORT_SYMBOL(drm_crtc_load_gamma_565_from_888);
++
++/**
++ * drm_crtc_load_gamma_555_from_888 - Programs gamma ramp for RGB555-like formats
++ * @crtc: The displaying CRTC
++ * @lut: The gamma ramp to program
++ * @set_gamma: Callback for programming the hardware gamma LUT
++ *
++ * Programs the gamma ramp specified in @lut to hardware. The input gamma
++ * ramp must have 256 entries per color component. The helper interpolates
++ * the individual color components to reduce the number of entries to 5/5/5.
++ */
++void drm_crtc_load_gamma_555_from_888(struct drm_crtc *crtc, const struct drm_color_lut *lut,
++				      drm_crtc_set_lut_func set_gamma)
++{
++	unsigned int i;
++	u16 r, g, b;
++
++	for (i = 0; i < 32; ++i) {
++		r = lut[i * 8 + i / 4].red;
++		g = lut[i * 8 + i / 4].green;
++		b = lut[i * 8 + i / 4].blue;
++		set_gamma(crtc, i, r, g, b);
++	}
++}
++EXPORT_SYMBOL(drm_crtc_load_gamma_555_from_888);
++
++static void fill_gamma_888(struct drm_crtc *crtc, unsigned int i, u16 r, u16 g, u16 b,
++			   drm_crtc_set_lut_func set_gamma)
++{
++	r = (r << 8) | r;
++	g = (g << 8) | g;
++	b = (b << 8) | b;
++
++	set_gamma(crtc, i, r, g, b);
++}
++
++/**
++ * drm_crtc_fill_gamma_888 - Programs a default gamma ramp for RGB888-like formats
++ * @crtc: The displaying CRTC
++ * @set_gamma: Callback for programming the hardware gamma LUT
++ *
++ * Programs a default gamma ramp to hardware.
++ */
++void drm_crtc_fill_gamma_888(struct drm_crtc *crtc, drm_crtc_set_lut_func set_gamma)
++{
++	unsigned int i;
++
++	for (i = 0; i < 256; ++i)
++		fill_gamma_888(crtc, i, i, i, i, set_gamma);
++}
++EXPORT_SYMBOL(drm_crtc_fill_gamma_888);
++
++static void fill_gamma_565(struct drm_crtc *crtc, unsigned int i, u16 r, u16 g, u16 b,
++			   drm_crtc_set_lut_func set_gamma)
++{
++	r = (r << 11) | (r << 6) | (r << 1) | (r >> 4);
++	g = (g << 10) | (g << 4) | (g >> 2);
++	b = (b << 11) | (b << 6) | (b << 1) | (b >> 4);
++
++	set_gamma(crtc, i, r, g, b);
++}
++
++/**
++ * drm_crtc_fill_gamma_565 - Programs a default gamma ramp for RGB565-like formats
++ * @crtc: The displaying CRTC
++ * @set_gamma: Callback for programming the hardware gamma LUT
++ *
++ * Programs a default gamma ramp to hardware.
++ */
++void drm_crtc_fill_gamma_565(struct drm_crtc *crtc, drm_crtc_set_lut_func set_gamma)
++{
++	unsigned int i;
++
++	for (i = 0; i < 32; ++i)
++		fill_gamma_565(crtc, i, i, i, i, set_gamma);
++	/* Green has one more bit, so add padding with 0 for red and blue. */
++	for (i = 32; i < 64; ++i)
++		fill_gamma_565(crtc, i, 0, i, 0, set_gamma);
++}
++EXPORT_SYMBOL(drm_crtc_fill_gamma_565);
++
++static void fill_gamma_555(struct drm_crtc *crtc, unsigned int i, u16 r, u16 g, u16 b,
++			   drm_crtc_set_lut_func set_gamma)
++{
++	r = (r << 11) | (r << 6) | (r << 1) | (r >> 4);
++	g = (g << 11) | (g << 6) | (g << 1) | (g >> 4);
++	b = (b << 11) | (b << 6) | (b << 1) | (r >> 4);
++
++	set_gamma(crtc, i, r, g, b);
++}
++
++/**
++ * drm_crtc_fill_gamma_555 - Programs a default gamma ramp for RGB555-like formats
++ * @crtc: The displaying CRTC
++ * @set_gamma: Callback for programming the hardware gamma LUT
++ *
++ * Programs a default gamma ramp to hardware.
++ */
++void drm_crtc_fill_gamma_555(struct drm_crtc *crtc, drm_crtc_set_lut_func set_gamma)
++{
++	unsigned int i;
++
++	for (i = 0; i < 32; ++i)
++		fill_gamma_555(crtc, i, i, i, i, set_gamma);
++}
++EXPORT_SYMBOL(drm_crtc_fill_gamma_555);
++
++/*
++ * Color-LUT programming
++ */
++
++/**
++ * drm_crtc_load_palette_8 - Programs palette for C8-like formats
++ * @crtc: The displaying CRTC
++ * @lut: The palette to program
++ * @set_palette: Callback for programming the hardware palette
++ *
++ * Programs the palette specified in @lut to hardware. The input palette
++ * must have 256 entries per color component.
++ */
++void drm_crtc_load_palette_8(struct drm_crtc *crtc, const struct drm_color_lut *lut,
++			     drm_crtc_set_lut_func set_palette)
++{
++	unsigned int i;
++
++	for (i = 0; i < 256; ++i)
++		set_palette(crtc, i, lut[i].red, lut[i].green, lut[i].blue);
++}
++EXPORT_SYMBOL(drm_crtc_load_palette_8);
++
++static void fill_palette_8(struct drm_crtc *crtc, unsigned int i,
++			   drm_crtc_set_lut_func set_palette)
++{
++	u16 Y = (i << 8) | i; // relative luminance
++
++	set_palette(crtc, i, Y, Y, Y);
++}
++
++/**
++ * drm_crtc_fill_palette_8 - Programs a default palette for C8-like formats
++ * @crtc: The displaying CRTC
++ * @set_palette: Callback for programming the hardware gamma LUT
++ *
++ * Programs a default palette to hardware.
++ */
++void drm_crtc_fill_palette_8(struct drm_crtc *crtc, drm_crtc_set_lut_func set_palette)
++{
++	unsigned int i;
++
++	for (i = 0; i < 256; ++i)
++		fill_palette_8(crtc, i, set_palette);
++}
++EXPORT_SYMBOL(drm_crtc_fill_palette_8);
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index ed81741036d7..6cb577f6dba6 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -118,4 +118,31 @@ enum drm_color_lut_tests {
+ };
+ 
+ int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests);
++
++/*
++ * Gamma-LUT programming
++ */
++
++typedef void (*drm_crtc_set_lut_func)(struct drm_crtc *, unsigned int, u16, u16, u16);
++
++void drm_crtc_load_gamma_888(struct drm_crtc *crtc, const struct drm_color_lut *lut,
++			     drm_crtc_set_lut_func set_gamma);
++void drm_crtc_load_gamma_565_from_888(struct drm_crtc *crtc, const struct drm_color_lut *lut,
++				      drm_crtc_set_lut_func set_gamma);
++void drm_crtc_load_gamma_555_from_888(struct drm_crtc *crtc, const struct drm_color_lut *lut,
++				      drm_crtc_set_lut_func set_gamma);
++
++void drm_crtc_fill_gamma_888(struct drm_crtc *crtc, drm_crtc_set_lut_func set_gamma);
++void drm_crtc_fill_gamma_565(struct drm_crtc *crtc, drm_crtc_set_lut_func set_gamma);
++void drm_crtc_fill_gamma_555(struct drm_crtc *crtc, drm_crtc_set_lut_func set_gamma);
++
++/*
++ * Color-LUT programming
++ */
++
++void drm_crtc_load_palette_8(struct drm_crtc *crtc, const struct drm_color_lut *lut,
++			     drm_crtc_set_lut_func set_palette);
++
++void drm_crtc_fill_palette_8(struct drm_crtc *crtc, drm_crtc_set_lut_func set_palette);
++
+ #endif
 -- 
 2.49.0
 
