@@ -2,130 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA961AB1DA4
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 22:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B1DAB1EA2
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 23:00:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 940E010EACF;
-	Fri,  9 May 2025 20:03:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED17110EAF5;
+	Fri,  9 May 2025 21:00:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=hotmail.com header.i=@hotmail.com header.b="cvGzHL4A";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AyGrc0L1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10olkn2044.outbound.protection.outlook.com [40.92.41.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE7610EACE
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 20:03:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LLHKsr7Ia5228YKBWb35zyzFM/Kkmh8fjTg/A/ddH6QkOqLHBWZ9rlA/YtA4o7t7+2ViWXnRRsFDlD3kwEMB7O07RmsESnA1v2fkI0NWNw5TOTppR3reFXNCG+OSZRSe09uuTzpKyRaueyPUXpIzimGIdA66sC5W5hHqBfhEjrZbDbPzM1gviCGYKkoZKkvK+1Q5fYPjltlYhvG/O4VLoWcHxvfMF0o5EL+w5eLoA9FsbBeMC5+HDKabG5ONgmfzL/ZJ588APEyUo9X/q3p8FpQqeIPABlrTge8fiFQmDkI3tS2pTrDmtGgrrr6efoLsAfQpMV+2QuuZzefD2BktGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=okxTAMPbtwADR+K7ib7mFovnOeCFa+gscWuxVu/FdH8=;
- b=iC45k5OOXuVvYqhPUhR7Ac8TmOSzVG5VU3ts4HjpBpcLkg/Y5dpx1/AGnJ+nYPvrQQg2+Sgi29+M5o50yL6EhpdOhdL6HiuRvcGJDjJvHFt7VktD0CHZ8XY6cQNZGPLRDPRF5W8Lb+DvWwU+WS+HoqfDV9xA1DfWFEtz53Z1Gg/jgYfi+P21FZcps0piJMMVMxhxB4qpSJnxvBZ0qtVp/a7hazaVyPVs0RJO//6yPjAzY4EvehviMf4Zugi3YqQHQ/94YjINpQgvxkktgtssUx7O2X/v0Rdp46NnRsWTv/5yd9ptCh1Ce9swptZKy7R5Z0FYiL0vKYVOawbwiYVjHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=okxTAMPbtwADR+K7ib7mFovnOeCFa+gscWuxVu/FdH8=;
- b=cvGzHL4AJ0NKRMW5YRnYQ2I+KnQAclnoVjxmIx5gjZlm2+zdEDjNNTRHCZ7vHKlV7LoVMj2f1v5zQTmhIkmtuQbRfxqTh0T0ZTz8wq2RX64jECyMY6rCgAsgBfy+MO9uPI2bvCZjvdDuVzVE5ztARKBLVfp954UsSjdyyWzUdZ6lPRHAYKIt0ifivgFzOohBHbABTG2qliJfMoe4HMjnP/CsJEHIoxbMZrlwfSp3XilGTycGV6hEbiuK2vpo9QhLRBgCtOhs96g7+76bay6wr3RNwm78Yh8BXyDJgsgQOE8BZ1SuvWqWh5UqFD/35To8pwQfJBGacKLjZ24HkQjG/Q==
-Received: from DM6PR19MB3722.namprd19.prod.outlook.com (2603:10b6:5:205::25)
- by PH0PR19MB7319.namprd19.prod.outlook.com (2603:10b6:510:282::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Fri, 9 May
- 2025 20:03:02 +0000
-Received: from DM6PR19MB3722.namprd19.prod.outlook.com
- ([fe80::bcae:8341:5687:fb8c]) by DM6PR19MB3722.namprd19.prod.outlook.com
- ([fe80::bcae:8341:5687:fb8c%2]) with mapi id 15.20.8699.019; Fri, 9 May 2025
- 20:03:02 +0000
-Date: Fri, 9 May 2025 15:02:58 -0500
-From: Chris Morgan <macromorgan@hotmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ryan@testtoast.com, p.zabel@pengutronix.de, tzimmermann@suse.de,
- maarten.lankhorst@linux.intel.com, simona@ffwll.ch,
- airlied@gmail.com, mripard@kernel.org, samuel@sholland.org,
- jernej.skrabec@gmail.com, wens@csie.org, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org
-Subject: Re: [PATCH V9 23/24] arm64: dts: allwinner: rg35xx: Add GPIO
- backlight control
-Message-ID: <DM6PR19MB3722DF3B3733E6409D83370FA58AA@DM6PR19MB3722.namprd19.prod.outlook.com>
-References: <20250507201943.330111-1-macroalpha82@gmail.com>
- <20250507201943.330111-24-macroalpha82@gmail.com>
- <20250509153204.05317413@donnerap.manchester.arm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250509153204.05317413@donnerap.manchester.arm.com>
-X-ClientProxiedBy: DS7PR03CA0301.namprd03.prod.outlook.com (2603:10b6:8:2b::8)
- To DM6PR19MB3722.namprd19.prod.outlook.com
- (2603:10b6:5:205::25)
-X-Microsoft-Original-Message-ID: <aB5fctcWfOHcOfMJ@wintermute.localhost.fail>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0394610EAF6
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 21:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1746824454;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GxeeDi1H5MJB3Qfb+8ddZTQgXdj+sj14UlmauzFXdmw=;
+ b=AyGrc0L1YzSA7iV7OZYcL81eXahi0TVNQ9ltj7ub121kg8Ct26kk9E9z5tcOWtVz9Oi0Br
+ B5ysO3FhFTKeuu7uFJ8IipoSdQZVN0MdozzX287zL+cbyJhwHdEANX7QIb58of771B/yOm
+ I9TOc7u4D5TebPJgVh0ctXIg+yviknA=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-656-g6f7DAqVNI2dhzOQGNVR9A-1; Fri, 09 May 2025 17:00:50 -0400
+X-MC-Unique: g6f7DAqVNI2dhzOQGNVR9A-1
+X-Mimecast-MFC-AGG-ID: g6f7DAqVNI2dhzOQGNVR9A_1746824450
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-703d7a66d77so40641587b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 14:00:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746824450; x=1747429250;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GxeeDi1H5MJB3Qfb+8ddZTQgXdj+sj14UlmauzFXdmw=;
+ b=jYNt97WOE0UteEBnXnfC6iLcYkbUlq+uQBjo4Q9Ytxle46y+DEMRV2z85Y3o2JHYGl
+ aLNt0qoRWJNF/FOb79Y28xWREQL42hn589Rx5Y6t2UlBaJQ/jblcPxM4/iDU6biAd/Up
+ eSaSLCFahddujdHB3dn7zePZ1FOGoGrJfHz0G90dcpHWC6ojGCVgQwlNCzwuPOcUUzoE
+ nJHkNn7/P3/089Dvuj0JCNEw6Mn/D3hrFeO/rXONA2tLSGrVm8Ji3ZdvMCPhh4C4lrwK
+ GVf2oAaIaCvGp3/AkPJJKD4A/euZOVU0LOp4lEjDjS2TZx7bztJ/KLE8PxbDCmYT6Fn5
+ tu1g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWNRigatYKc2jGAmm02hF8qeIKPOwxr3IUmGweYhT3sT48ft4DfvhNVSZPncqfPnANOqaRjcLPzbUs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxxsPKRTbcHrOrIqDiIKzX13xSvFClAupe+vLVYVyBGPesW4KA0
+ HehBsuXv0R52mjyrab+t5oqYS2zqmO4fbZ7Ccfl0dF/H3He7zDz43J0V6+VZ8XVQLKX2xQLxMtW
+ urNSpTtEPq9BuDQk2ElXKvwkRjsQzltq7jKIJLgYT4r68StSkpCEhJc1XpEbNViwv7HjUmSYZxB
+ SnKXyyklGIspjivyPfqXesrccYB9MdZRWpnsJ0kKUo
+X-Gm-Gg: ASbGncsTFOJALsWDo5Wh1wcklTCV5Hl67/UZwalWL8973dIsglFnejJO8Iga12ji5zv
+ JOEo8wmsoYlXLrMGBFwvzPibLcv00zzPSKR+K0mzzpevHVQvyq7Q+YacV70KgkkkW/hI=
+X-Received: by 2002:a05:690c:4a13:b0:6f9:4c00:53ae with SMTP id
+ 00721157ae682-70a3fe639a7mr66359777b3.8.1746824449927; 
+ Fri, 09 May 2025 14:00:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFu4gFpdDMPdqrm3koI5DF4B/M2VVfyv/zoOi8I1BG0UWxlvYeEw87dshOpo9AfvNFUdksvtnpxYysUb+Askfc=
+X-Received: by 2002:a05:690c:4a13:b0:6f9:4c00:53ae with SMTP id
+ 00721157ae682-70a3fe639a7mr66359047b3.8.1746824449542; Fri, 09 May 2025
+ 14:00:49 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR19MB3722:EE_|PH0PR19MB7319:EE_
-X-MS-Office365-Filtering-Correlation-Id: bab5b5be-3d59-4cff-c7a7-08dd8f34802c
-X-MS-Exchange-SLBlob-MailProps: Z68gl6A5j28Dg8hDNbkP9M7l+NSvtbXKG8ea9qcYqfEqnSqNya5nyygahuDJw+zGdaJoAOnu9jslHbFbNkZxkMkfCFyM/3F0S9mSMzGpFWTAhVjYXmcxwVDGOkYTNeyS1yo5/KLTqbIXuBd3RWcQN1NePNwi9cG4uLD2e3UcMfpuMGMO53Yuphtd1hmOUE9QvM07+7VKsfIZFi8u0h4k2J0rRysH1HttFO6d8RwiEiq74HOPedZZKzB0BbBYSAQ0k08+jMuR5zyoGOUp+0iPkPzQ9dcqNRgtoB5+c7PPB7nTCHNc2iGnk+vzbH13Vl+twVaQKviV1Oi7FSOIXKWU0cqTVIuJw0Ht0E/ifQHKsOPX6i+oC6AsDTTc3FHhCiFUk+P6xdwy/OIsNgaDJD9+qObzQgifz27ccZKVVZhKN/191TWvMAyeKIpfciLgaruS8Gwfx3D+auvxvolMUDZWPERbnqcKvtp1FR1jar416Oo4whQdUdUj6I2A2swvVmsNFr6NRzOP1YR+tQNa8UORRLQfQaRHUTcoqCkTOCSYb3qifGmVfg2e36ONFVFKNA0yDoIUNFUTKLcRecVnFRi6M1s8TVoMBq3h95nY77bMvAir5g1KyPCXh+yImoNSWe+iZP11Cf7lVNpUq/TLDDj9JEkMCXnyNM1veeEhQ83LeE5Mbq9yKKH4V8e3YhyxDZIAWuR/hj7vdJT3ij6WoEwbMCNZJObhMXAMixfULt45LXF49nWnfXxu9hd1S+WoIY1Wl3iDz/ASIuhm15Jla336GPxRof+EqwnM+YtP85u/A04IonwzattWvvhELD3UKr8G
-X-Microsoft-Antispam: BCL:0;
- ARA:14566002|6090799003|461199028|5072599009|7092599006|8060799009|19110799006|15080799009|41001999006|440099028|4302099013|3412199025|10035399007|1602099012;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?J4Q+a9xpVK+ziKJx5/UsuAf2iNiU3hQSz8hJsVCQ3gb9e1hDnWe1XXoS5n/V?=
- =?us-ascii?Q?05vrOSQLaDKpC2FRvygrFmi7PRPas3PPCIgkCNkqf3BjgsOANxchoi93YZ44?=
- =?us-ascii?Q?al4oX8qybsDXMqjhMKB9ZLvPM4d83hSWbarYqBT9O9i6uvkKM6+dDTgHRwds?=
- =?us-ascii?Q?Jb7FNtd7Z4U+7TA+vpjxHaGU3bwcP3bgqW0a5p8F4poS7RdmlEgbur3wyLhp?=
- =?us-ascii?Q?vTq0l1qRLuzVQ/RuPwQvx2l+ZoprT1P2xNQ4mwHwbU1ytHO6c4pEgiSKBiLq?=
- =?us-ascii?Q?vDinr9pl08p7ECVYs/lvTTeq611Maz4Sy9oNSMtnv0BGkf5LmwhILy9IxdPV?=
- =?us-ascii?Q?Yj8NQKUAwttiu63kovlglU0SbKExW/ie2OLGLFFYAtalbb1owWCRb/FPTCU9?=
- =?us-ascii?Q?NPPBbLHWGiQNoYVXIc9RPgxnYeUC2j4VhGR4FGB/6RdyUF3W5ps4Hbdu80U8?=
- =?us-ascii?Q?iIxXmPbcwmTXWZpQCLB3CcKwl4HVryGhc1UVEgiuM//YMrHdAlqbe/Cmj9S2?=
- =?us-ascii?Q?5xevIu8cDfvwBFJXY0aUCnVZAE5u07W65FzuP3sCei8SbXFDm9OW+8ZWJMwC?=
- =?us-ascii?Q?b6rUMmvG2wc6xpMxHqPsU9pnST6CPsDoDuUKw0HxcIs9VeET+LSzhWyqTiIz?=
- =?us-ascii?Q?AMTQ9sGSPjuqlRNUQ9yOojjo2KaaTE+lSqyRdpltwPa/YHzPX4rNfSi1QWmH?=
- =?us-ascii?Q?NCZwVK1UMLrzHZiKTUHBXxcOIjjHg/rbPUnIxrwmkF3UCKLjDciSEKsJQCBg?=
- =?us-ascii?Q?AoGkorLQBlSkgtuyEnWQqnG+SQxfWxaQJrdISXsTxiQb1czZldenBosoKMZw?=
- =?us-ascii?Q?BbCLjdCk/Nw8jo3Xb6Ukhhrf06yuF/zMWw7SNND3Y5tn0Dn9m9rDymrPpJCY?=
- =?us-ascii?Q?7qF0/yPIE3BPohgd2xdyE7SGaCntSEAL/s29APSLfxzT1v6BlqJ193ZXZh8X?=
- =?us-ascii?Q?vVhYu09ML5KkrwcxnhrsWbAp1nDKrDDxu9JV4sKpztBQUBW/cj6vPXom0UXq?=
- =?us-ascii?Q?4TXvulOLK+yZZ2NAJA7u8sCdKqWJXMNOHTJEF+TUnnc+ij2vXwi96O6ajaRh?=
- =?us-ascii?Q?Auo3htgiM5sCj3ynbYIiFmH9VfnB3oTL8gIfr8YlwDx93K/ycdtCVV8c5ZMv?=
- =?us-ascii?Q?Qu71X+vwbLHXN3tyxNmfhwPT32PHuksCb+bZKLMaiEbeni7u6CQSK8U+0flt?=
- =?us-ascii?Q?Md4Aiv8BbUPr1lwQ7org5/i1KPPxIlPVZXSJWu1t4S3WhVaVHZ0nKG0Ba5/i?=
- =?us-ascii?Q?G6pb7Te4vunMo+Elgx+vW4ocfJK4Iz2Nm5y0jdJnGB46o7gFzMSRnuUcjZHq?=
- =?us-ascii?Q?C4Iu+/ljenrRCMRVaEmYDsgK7wBQd0fGRorxnBEXaPuhvw=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?o7dOO5+eSup8lH24NghwY410ogaQskgPqKeKP4V/0kWPcmFtOcq/a7Wltk/k?=
- =?us-ascii?Q?Vm2Sh+gKkYKdFYmBYTnEGuHwav5tZznNbzww4bCi6Fp2ZjVRQENmIgvxVJe1?=
- =?us-ascii?Q?ifY2lS7xDN08PCHo8wHRbYeYzUgJ4d1SZcKUeKkHFOsDrp4tFUY6bS8kir8I?=
- =?us-ascii?Q?wNktQ12B1W8EZLqp+uR5gO9aq+2Ctbu/XiZQYh3JDVbkwVjFCb9TPeOr/EwV?=
- =?us-ascii?Q?iMZFU+jAbQEVn2lEgpzSWQcwkg26FBd+1AkCdBt/5f9arvwJHzXx9QukBGOH?=
- =?us-ascii?Q?FQ4Kr8P5rEVReHXhi+FkpkCI7ADtPS+/sKNiHVQXLQwH1GnlsfaC9MrepZ90?=
- =?us-ascii?Q?HzKcr+Odilwa+khh3JyFHSoDHVg2RrY47Z5itU1lZ/wyH72JBYt+/qQ32zmp?=
- =?us-ascii?Q?Leme9WdAciCm/wGiLJJd8xtx7W28n514HsPVCd2oNkIMq9ACHHS6m9I0Etub?=
- =?us-ascii?Q?BDMoLe2ieYTG1UY2o8sydW6P7RJ5UjWu8I1mH7OjAUaT6a7yJ/wJ8NF5n99r?=
- =?us-ascii?Q?Gkt/2mOihq6Tmc+iJhDQRWiRko42K1yk5w5bPa9oIHNBIodJauH4ENU9QyKr?=
- =?us-ascii?Q?kjfENG8HpfcGax+LfrgyCawosTo1ZopsP3lNxz4vShxEwFtZNQiBklmfFlrS?=
- =?us-ascii?Q?o8Scln1gdlfaPlkZ7lpi8f9QQrk0iA3n4D3UWBFFUM6eO96S4bwcMh+KfP8S?=
- =?us-ascii?Q?AhzVeEBcakWUpDANvT4Evit/J9oNl7R30o2E1oTIr+1Qz5t9VaGNssiDw+8G?=
- =?us-ascii?Q?0EHQrScdzl+NVvPqWhDdslthlWGnZ+J40FQJOpE3dlRePPD/hYsym7vFlzgP?=
- =?us-ascii?Q?do9laC1gV5qvN7B37P4hWAzkVlBUO8KyiPXEyIzPTTNRy1cbTbngbU3itCBr?=
- =?us-ascii?Q?KKhsX4Rmp/dEt87edU5EMqMI1n9O9RFQTPeVKMcP6i1NfTg1TyHS0Q6mV/cO?=
- =?us-ascii?Q?CjcsxfAxTEkx2fsQqdnuXVi0TqTzbHK+Zpw2H7w82o7nZD5Bp4xeA+qsMooO?=
- =?us-ascii?Q?lSwE7CH+HK/VKPPTUcF24f5rK+8Vg2F0CABdgIDdFE/mxvcoqbcesVYa6ooB?=
- =?us-ascii?Q?xRq8+Y5O6jqHmQz5OyuCtn1piRNlZLb42sEMBF23mdqcZmOgp+r2T2yVyqfd?=
- =?us-ascii?Q?k5fqATB/S6VkHIad547GS2PGHszIP/Dz1Zo8exZXpd6zIg/AG6KlEqMnXvXB?=
- =?us-ascii?Q?RYQFz1zByqk4TEUlxQSBfKLBuX6hBiyN7waEFUcokOtelyO0FZUmoaXCXE9h?=
- =?us-ascii?Q?NIhDiJEBD/sOlIIrOljAEhQ7dGtt08mkFf0TyELUtAMhPXnuj1m4Aeq6kI39?=
- =?us-ascii?Q?nKdeHCTK/pYGCCtWPEnaR0Jz?=
-X-OriginatorOrg: sct-15-20-7741-18-msonline-outlook-c907d.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: bab5b5be-3d59-4cff-c7a7-08dd8f34802c
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR19MB3722.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2025 20:03:02.3563 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR19MB7319
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+ <20250509-drm-bridge-convert-to-alloc-api-v3-6-b8bc1f16d7aa@bootlin.com>
+In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-6-b8bc1f16d7aa@bootlin.com>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Fri, 9 May 2025 15:57:30 -0400
+X-Gm-Features: AX0GCFsXRmzCU1YWdcE7qOGXX4MM5M9X_-TsxuZaGU2s0VoAZtFUNeQly9oXeMk
+Message-ID: <CAN9Xe3QkjfNqezBOV1CpvfiCGJZ89on=EHWHcE1oB6z_vjTUjg@mail.gmail.com>
+Subject: Re: [PATCH v3 06/22] drm/bridge: nxp-ptn3460: convert to
+ devm_drm_bridge_alloc() API
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson <dianders@chromium.org>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
+ Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ linux-stm32@st-md-mailman.stormreply.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: vY57oxDEDREQizpKflB-KnKk-UbDxbG5t9goI45I4Ho_1746824450
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000ccdd1f0634ba42b2"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,66 +115,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 09, 2025 at 03:32:04PM +0100, Andre Przywara wrote:
-> On Wed,  7 May 2025 15:19:42 -0500
-> Chris Morgan <macroalpha82@gmail.com> wrote:
-> 
-> Hi Chris,
-> 
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> > 
-> > The LCD backlight for this device can be exposed as a simple GPIO-
-> > controlled device. It would be more accurately modelled using PWM to
-> > enable brightness control, however the PWM driver design for the H616 is
-> > not yet upstreamed.
-> 
-> I don't think this is right then: First there should be no notion of a
-> "driver being upstreamed" in a *DT* patch, as "the driver" is a Linux
-> speciality, which the DT itself doesn't care about.
-> And secondly we should not chicken out and go with an interim solution.
-> 
-> So I guess we need to wait for the PWM binding to appear.
-> 
-> Cheers,
-> Andre
+--000000000000ccdd1f0634ba42b2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Okay, so then I can drop the backlight (and might as well drop the
-LCD bindings as well) until the PWM is upstreamed. I just figured
-"something" for now is okay, but we can wait.
+On Fri, May 9, 2025 at 9:56=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootlin=
+.com>
+wrote:
 
-This is the specific series I'm tracking [1]... adding support for the
-H616 would just require a little bit of boilerplate code and a new
-compatible string once that gets upstreamed.
+> This is the new API for allocating DRM bridges.
+>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>  drivers/gpu/drm/bridge/nxp-ptn3460.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c
+> b/drivers/gpu/drm/bridge/nxp-ptn3460.c
+> index
+> 25d7c415478b14ef634bff4185a8dd8e866be0c6..7acb11f16dc19e87a84cc765b1cebef=
+158662c00
+> 100644
+> --- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
+> +++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
+> @@ -261,10 +261,10 @@ static int ptn3460_probe(struct i2c_client *client)
+>         struct drm_bridge *panel_bridge;
+>         int ret;
+>
+> -       ptn_bridge =3D devm_kzalloc(dev, sizeof(*ptn_bridge), GFP_KERNEL)=
+;
+> -       if (!ptn_bridge) {
+> -               return -ENOMEM;
+> -       }
+> +       ptn_bridge =3D devm_drm_bridge_alloc(dev, struct ptn3460_bridge,
+> bridge,
+> +                                          &ptn3460_bridge_funcs);
+> +       if (IS_ERR(ptn_bridge))
+> +               return PTR_ERR(ptn_bridge);
+>
+>         panel_bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+>         if (IS_ERR(panel_bridge))
+> @@ -300,7 +300,6 @@ static int ptn3460_probe(struct i2c_client *client)
+>                 return ret;
+>         }
+>
+> -       ptn_bridge->bridge.funcs =3D &ptn3460_bridge_funcs;
+>         ptn_bridge->bridge.ops =3D DRM_BRIDGE_OP_EDID;
+>         ptn_bridge->bridge.type =3D DRM_MODE_CONNECTOR_LVDS;
+>         ptn_bridge->bridge.of_node =3D dev->of_node;
+>
+>
+Looks good to me!
+Reviewed-by: Anusha Srivatsa <asrivats@redhat.com>
 
-[1] https://lore.kernel.org/linux-sunxi/20250427142500.151925-3-privatesub2@gmail.com/
 
-Thank you,
-Chris
+> --
+> 2.49.0
+>
+>
 
-> 
-> > Add a GPIO backlight node to the DTS.
-> > 
-> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > ---
-> >  .../boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> > index 7e17ca07892d..95f2ae04bd95 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> > @@ -21,6 +21,12 @@ aliases {
-> >  		serial0 = &uart0;
-> >  	};
-> >  
-> > +	backlight: backlight {
-> > +		compatible = "gpio-backlight";
-> > +		gpios = <&pio 3 28 GPIO_ACTIVE_HIGH>; // PD28
-> > +		default-on;
-> > +	};
-> > +
-> >  	battery: battery {
-> >  		compatible = "simple-battery";
-> >  		constant-charge-current-max-microamp = <1024000>;
-> 
+--000000000000ccdd1f0634ba42b2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 9, =
+2025 at 9:56=E2=80=AFAM Luca Ceresoli &lt;<a href=3D"mailto:luca.ceresoli@b=
+ootlin.com">luca.ceresoli@bootlin.com</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">This is the new API for allocating DRM=
+ bridges.<br>
+<br>
+Signed-off-by: Luca Ceresoli &lt;<a href=3D"mailto:luca.ceresoli@bootlin.co=
+m" target=3D"_blank">luca.ceresoli@bootlin.com</a>&gt;<br>
+---<br>
+=C2=A0drivers/gpu/drm/bridge/nxp-ptn3460.c | 9 ++++-----<br>
+=C2=A01 file changed, 4 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/=
+nxp-ptn3460.c<br>
+index 25d7c415478b14ef634bff4185a8dd8e866be0c6..7acb11f16dc19e87a84cc765b1c=
+ebef158662c00 100644<br>
+--- a/drivers/gpu/drm/bridge/nxp-ptn3460.c<br>
++++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c<br>
+@@ -261,10 +261,10 @@ static int ptn3460_probe(struct i2c_client *client)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_bridge *panel_bridge;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0ptn_bridge =3D devm_kzalloc(dev, sizeof(*ptn_br=
+idge), GFP_KERNEL);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!ptn_bridge) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ptn_bridge =3D devm_drm_bridge_alloc(dev, struc=
+t ptn3460_bridge, bridge,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
+amp;ptn3460_bridge_funcs);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(ptn_bridge))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR(ptn_=
+bridge);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 panel_bridge =3D devm_drm_of_get_bridge(dev, de=
+v-&gt;of_node, 0, 0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (IS_ERR(panel_bridge))<br>
+@@ -300,7 +300,6 @@ static int ptn3460_probe(struct i2c_client *client)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0ptn_bridge-&gt;bridge.funcs =3D &amp;ptn3460_br=
+idge_funcs;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptn_bridge-&gt;bridge.ops =3D DRM_BRIDGE_OP_EDI=
+D;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptn_bridge-&gt;bridge.type =3D DRM_MODE_CONNECT=
+OR_LVDS;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptn_bridge-&gt;bridge.of_node =3D dev-&gt;of_no=
+de;<br>
+<br></blockquote><div><br></div><div>Looks good to me!</div><div>Reviewed-b=
+y: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.com">asrivats@redh=
+at.com</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">
+-- <br>
+2.49.0<br>
+<br>
+</blockquote></div></div>
+
+--000000000000ccdd1f0634ba42b2--
+
