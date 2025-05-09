@@ -2,82 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF09AB0887
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 05:08:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32734AB089F
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 05:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD9A10E24B;
-	Fri,  9 May 2025 03:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97C0210E0CE;
+	Fri,  9 May 2025 03:16:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FWxAoh5/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l8HXUN5f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02DD910E24A
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 03:08:42 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-7080dd5fe92so14702817b3.3
- for <dri-devel@lists.freedesktop.org>; Thu, 08 May 2025 20:08:42 -0700 (PDT)
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com
+ [209.85.161.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6896F10E0CE;
+ Fri,  9 May 2025 03:16:09 +0000 (UTC)
+Received: by mail-oo1-f46.google.com with SMTP id
+ 006d021491bc7-601ad30bc0cso1791402eaf.0; 
+ Thu, 08 May 2025 20:16:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1746760122; x=1747364922; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YHI4ppsEzBZRI81Zs2flbGsQenmb6fI0hGNQNfUSqyo=;
- b=FWxAoh5/tiZaqaLTHErUiJS7wYLB3ooM3aPujVaffvHKMr9d504/KZP/tiJnjgrvCP
- byUgKtVdA0gQAe79QYtNeb6brbA4jfWiEOTKa/jlAHmGmbEydizWEfxFAqcBihfGCmnr
- 6yd4s3FC9Eb45c3qi+mlPpB8fbAta7f3c4+er0LhnsoWwJgyMhxus4a5MFbQMwsDqJd1
- aKiv0nH1hQsBfuQUbXYZ0YxKtJueaUZWf0PlsHEaZy9LM+4+MNMHDmW01ez9h9Y8UZvX
- X4iC1Yhl1jSKbz+aPTG5ca2+LTBvg3dPVQymHoBsJrFY3W+IIQJsj3o3QuwV36We3n3g
- vwvA==
+ d=gmail.com; s=20230601; t=1746760568; x=1747365368; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sTOwig8lTDkxPKMgyzizdRYq4XG3E64o3g/lB7m6NZU=;
+ b=l8HXUN5fyzRVTbCFF8bRpD0SAyw1H1c+TpyN1kw42SP2nxOuGAniqlPfNOQg3IOC/H
+ tEVgZ4c5UR4Uv3g+0ukq6rLQMH6/n6DbmTZ8TSRc9ZNIVLsqUx3am7BORc5s0eRLkrG8
+ Oo0Ens0NHVkE47hTjGGPW9zwvtR5QauU5lxeW01t8hxUuOaEjoRXGwnkMAL1L+MgZqb0
+ QBn7IwuaM5kJ+05CtYsTwkdm4VkysyW/bpd15B4rfI5feyh4FF3Wl0456l6/gKMJULjX
+ Ybt4bHMDwjkG3s0mxdz+NguSa+8khjtqE0TTkW+uVtWimfKM1h695xhd0qBvVdzzrk1J
+ X2Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746760122; x=1747364922;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YHI4ppsEzBZRI81Zs2flbGsQenmb6fI0hGNQNfUSqyo=;
- b=nsdEKez2OMU/WIncXybfhturMvdDe8qrVOgEFnhfu4k0MUdOb0KT2cDa3SKd4FJsFm
- icet7MDvQfzK/MEXgEy9YB8Iv5F2Nw89ORPF1BT2moFwxoE3YQjAbTA5TnLZ++ZFXpk+
- DDqETuVn1qaCcsydYbCH8UF8XsFlKcR+UXSLKCdqKYY75d1+UNBgN4xNy9Gh0+zfuJLu
- qujp20HVr4wWpAxa8haaENrUJN9rsYEqUH2VWyu7a9JsA8Y5i3RtC0NJrDNLymHIrfu9
- osEdULFO59GpUaFxYw9XNurKGB65tVGjI4rrbMojFts0W48rxk6t4ApGn55ZBPwX+1WJ
- PwzA==
+ d=1e100.net; s=20230601; t=1746760568; x=1747365368;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sTOwig8lTDkxPKMgyzizdRYq4XG3E64o3g/lB7m6NZU=;
+ b=eJ7rb/J0JGAUh6ocVzTOX/4cgmIS8awaEJhEio4WRI7w2qrlJPQ5z2+gX3VWCLDJdR
+ fiyUD7oAfjX246OHINjrpAZyqwBCFLPeTvuw+Ak6phTh5n2+IqNFBVhAu6emYZeNBOpS
+ JVw4tVDMyIOm1c8k3Ler9EEuuCzktmKjyEiUYwpvwCyr/d3t0XpgkceTwpB+HYwEpfIg
+ 9jtQq1U9n2OA1d3MmVkiAc1+m4mcX9peZKD2Ko58mxrmYHX48qvbOD2fgYtaK8Xxlzn5
+ +EYQxbOZzRVg19ChLjTaaOzOFuOJbt9uX4vduQIzZ8InPLnyToKe0s5t5dmwASpnzwr9
+ n+2A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWt2zoi2+YLFsj1Ck8aPWfQh1B7HBkyrIrNiXcD297kVhz8lvmvynBFMFkdimfDP98AX0sdZw0AdBc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yypca1YtBuMG2QsVO9jjz+MUutcgm1NMEGM/iExtHNzTuMnNaxU
- LfA+k2BMVyHqYihZOLBE7gmFOtZK/KWhedvJSH6TtXizjWMpj2vkxaE76Lzk/YxqRndWowOsnC5
- 6gpl29xJo9LuP7hJyfAvh3mHdrMjQWhfCZTeUZg==
-X-Gm-Gg: ASbGnctHd12K2zx1pcVj1fk/Naf5VOv85JIU0E0GtmA2H+Lk1f4lSSqmE6VsOcs03P5
- p0fPU0DKYfcsBQKg5EJxhYOK3bwmj0jKnNtVeYBbQPuWQE6vB/NnqoGrTvUbZFg+Vth9eDrYVPv
- 2JmoqfgBSUbZUhbL3R0muIVQ==
-X-Google-Smtp-Source: AGHT+IEsXDASIzmYprExBPl4LogRqFg5eDp7hYbmNE7oXZcNevMIZVASWTighCbkXMHiMuOZAJdvbaomhbiURhxQMew=
-X-Received: by 2002:a05:690c:4448:b0:700:a6be:d6b8 with SMTP id
- 00721157ae682-70a3fb5683cmr25884547b3.35.1746760121821; Thu, 08 May 2025
- 20:08:41 -0700 (PDT)
+ AJvYcCW4sfjKVxLV4lVkDNskG3LIRm8kym8MSSPG58UXS7uMnu69OXgA6vwP7CaHUgNPu+535frEb5QwGUQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJWytezzQtp/CUIEUCvJvg1z4EpjrLwkYE7MxludQIdHuPfZQW
+ mBP8vIoZPgKOgd7i4FaEfGP2a0msQ2r9JHdfHBnJHKi7FEmPIprh
+X-Gm-Gg: ASbGncvWplLuZfRCmC4iHQq75fhpFYGGMijlN/G3HK1MG1y8sJf96XinQ7myNMzw60r
+ b1lHVeSNT9aGEiAXh8yblrh3V/8yO4VTCwRLQgo4uYGgNO5zWTGaZAKsFvaBKI9vqbAsCZ4shLJ
+ v0IW+L0FCHsoK3ylKPWW4Q3Cjjg4UlR8my6iTCvaLNAGGgm5jF8mn692FY/zK/bYFudzjjPKHib
+ mAoHdh9pCSMznEESvlKNgQLBNOPnJDaB2U1nZBazPMScjDS8n18B4hb97/fqdEf3pS+kC8pxem0
+ B/dd+AjWi7CFZZN3CPr/J+0cE01U2lsbPOGHt3v31G5kE8X2B9lCUB+YVVa5zVtexG7BL4FeCWw
+ TsmtHcHqHZNfR
+X-Google-Smtp-Source: AGHT+IFabaKG5IMI4f6lw/FzmXhfD/qA1aN2NZHwCsMXYiRNwWJ9KzD39S8IFVi2DsYvBD60grQSJw==
+X-Received: by 2002:a05:6820:208c:b0:604:99a6:4e90 with SMTP id
+ 006d021491bc7-60868ad8738mr995531eaf.0.1746760568573; 
+ Thu, 08 May 2025 20:16:08 -0700 (PDT)
+Received: from my-computer.lan (c-73-76-29-249.hsd1.tx.comcast.net.
+ [73.76.29.249]) by smtp.googlemail.com with ESMTPSA id
+ 006d021491bc7-60842b096desm303745eaf.30.2025.05.08.20.16.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 May 2025 20:16:07 -0700 (PDT)
+From: Andrew Ballance <andrewjballance@gmail.com>
+To: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ akpm@linux-foundation.org, ojeda@kernel.org, alex.gaynor@gmail.com,
+ boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, gregkh@linuxfoundation.org, rafael@kernel.org,
+ bhelgaas@google.com, kwilczynski@kernel.org, raag.jadav@intel.com,
+ andriy.shevchenko@linux.intel.com, arnd@arndb.de, me@kloenk.dev,
+ andrewjballance@gmail.com, fujita.tomonori@gmail.com,
+ daniel.almeida@collabora.com
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Subject: [PATCH 00/11] rust: add support for Port io
+Date: Thu,  8 May 2025 22:15:13 -0500
+Message-ID: <20250509031524.2604087-1-andrewjballance@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250506-quad-pipe-upstream-v9-0-f7b273a8cc80@linaro.org>
- <20250506-quad-pipe-upstream-v9-1-f7b273a8cc80@linaro.org>
- <b5kl5whmagpxn4saimkj4qloowh73xggehdh5rnl6lmjvqf65j@esycoi7w2nmp>
-In-Reply-To: <b5kl5whmagpxn4saimkj4qloowh73xggehdh5rnl6lmjvqf65j@esycoi7w2nmp>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Fri, 9 May 2025 11:08:30 +0800
-X-Gm-Features: AX0GCFvZnKBJWsJdmQ2it9cgVNnwhp-EM2d0BXlFc-71GKNHWB1m0DJqIw5fTRM
-Message-ID: <CABymUCMuiKQwtuYW-HX4bwyTR4awm4scwXTWNzVCEmyQsQ29aA@mail.gmail.com>
-Subject: Re: [PATCH v9 01/14] drm/atomic-helper: Add crtc check before
- checking plane
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,98 +95,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2025=E5=B9=B4=
-5=E6=9C=888=E6=97=A5=E5=91=A8=E5=9B=9B 18:47=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Tue, May 06, 2025 at 11:47:31PM +0800, Jun Nie wrote:
-> > Some display controller support flexible CRTC and DMA, such as the disp=
-lay
-> > controllers in snapdragon SoCs. CRTC can be implemented with several mi=
-xers
-> > in parallel, and plane fetching can be implemented with several DMA und=
-er
-> > umberala of a virtual drm plane.
-> >
-> > The mixer number is decided per panel resolution and clock rate constra=
-in
-> > first, which happens in CRTC side. Then plane is split per mixer number
-> > and configure DMA accordingly.
->
-> Here you are describing a behaviour of one particular driver as a reason
-> to change the framework.
+currently the rust `Io` type maps to the c read{b, w, l, q}/write{b, w, l, q}
+functions and have no support for port io.this is a problem for pci::Bar
+because the pointer returned by pci_iomap is expected to accessed with
+the ioread/iowrite api [0].
 
-Yeah, the specific driver requires a change in framework. Maybe the
-comment is not
-proper?
->
-> >
-> > To support such forthcoming usage case, CRTC checking shall happen befo=
-re
-> > checking plane. Add the checking in the drm_atomic_helper_check_modeset=
-().
->
-> So, now drivers will get two calls to atomic_check(), one coming in
-> circumstances which were not expected by the drivers before. Are you
-> sure that this won't break anything?
+this patch series splits the `Io` type into `Io`, `PortIo` and `MMIo`.and,
+updates pci::Bar, as suggested in the zulip[1], so that it is generic over
+Io and, a user can optionally give a compile time hint about the type of io. 
 
-Yes, it is a concern. Is there any way to limit the change in
-framework to specific
-driver with a flag, such as DRM_FLAG_CHECK_CRTC_BEFORE_PLANE?
->
-> >
-> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > ---
-> >  drivers/gpu/drm/drm_atomic_helper.c | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_=
-atomic_helper.c
-> > index 5302ab3248985d3e0a47e40fd3deb7ad0d9f775b..5bca4c9683838c38574c8cb=
-7c0bc9d57960314fe 100644
-> > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > @@ -816,6 +816,25 @@ drm_atomic_helper_check_modeset(struct drm_device =
-*dev,
-> >                       return ret;
-> >       }
-> >
-> > +     for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-> > +             const struct drm_crtc_helper_funcs *funcs;
-> > +
-> > +             funcs =3D crtc->helper_private;
-> > +
-> > +             if (!funcs || !funcs->atomic_check)
-> > +                     continue;
-> > +
-> > +             ret =3D funcs->atomic_check(crtc, state);
-> > +             if (ret) {
-> > +                     drm_dbg_atomic(crtc->dev,
-> > +                                    "[CRTC:%d:%s] atomic driver check =
-failed\n",
-> > +                                    crtc->base.id, crtc->name);
-> > +                     return ret;
-> > +             }
-> > +     }
-> > +
-> > +
-> > +
->
-> Too many empty lines. But the main quesiton is: why are you calling it
-> before mode_valid()? According to your description a better place would
-> be in drm_atomic_helper_check_planes().
->
-Agree, that's the proper function. Will remove the empty line in next versi=
-on.
+Link: https://docs.kernel.org/6.11/driver-api/pci/pci.html#c.pci_iomap [0]
+Link: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/topic/.60IoRaw.60.20and.20.60usize.60/near/514788730 [1]
 
-> >       ret =3D mode_valid(state);
-> >       if (ret)
-> >               return ret;
-> >
-> > --
-> > 2.34.1
-> >
->
-> --
-> With best wishes
-> Dmitry
->
+Andrew Ballance (6):
+  rust: io: add new Io type
+  rust: io: add from_raw_cookie functions
+  rust: pci: make Bar generic over Io
+  samples: rust: rust_driver_pci: update to use new bar and io api
+  gpu: nova-core: update to use the new bar and io api
+  rust: devres: fix doctest
+
+Fiona Behrens (5):
+  rust: helpers: io: use macro to generate io accessor functions
+  rust: io: Replace Io with MMIo using IoAccess trait
+  rust: io: implement Debug for IoRaw and add some doctests
+  rust: io: add PortIo
+  io: move PIO_OFFSET to linux/io.h
+
+ drivers/gpu/nova-core/driver.rs |   4 +-
+ drivers/gpu/nova-core/regs.rs   |   1 +
+ include/linux/io.h              |  13 +
+ lib/iomap.c                     |  13 -
+ rust/helpers/io.c               | 132 +++---
+ rust/kernel/devres.rs           |   4 +-
+ rust/kernel/io.rs               | 753 +++++++++++++++++++++++++-------
+ rust/kernel/pci.rs              |  88 +++-
+ samples/rust/rust_driver_pci.rs |   6 +-
+ 9 files changed, 731 insertions(+), 283 deletions(-)
+
+
+base-commit: 92a09c47464d040866cf2b4cd052bc60555185fb
+-- 
+2.49.0
+
