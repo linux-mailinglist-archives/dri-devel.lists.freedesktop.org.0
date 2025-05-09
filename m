@@ -2,125 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DBC2AB1B41
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 19:06:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A35AB1B65
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 19:13:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 345CB10EABF;
-	Fri,  9 May 2025 17:05:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3F410E0C2;
+	Fri,  9 May 2025 17:13:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="fa8OpSNk";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ROUV4TZx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4186C10E2D8
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 17:05:55 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 549Bfucb031489
- for <dri-devel@lists.freedesktop.org>; Fri, 9 May 2025 17:05:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- bYZFtTpQ2K5+1pV5SB83yilhOw8IrH8U9j0WoHmd6qg=; b=fa8OpSNk2ZXlXsKe
- XASyk+9t77O0nPWWfpPX3oIH7QD4tWzx26SShdjm5jDHdirNDGKgzJqmfEr3Isiy
- Vo87v3AxkR2wmD1BbYTEuiktxnDvYUgWXgBRV1PwvKAQPyxHm4hypCLiVYqkHJb6
- fQnt/jEAwyp4+RFheRMt1ILP/TMGXv3MADpwe+pPYtmMpmBHc0pzNmu4S7FkZeiY
- vv971hbuON/33iCIixZ4nFFrfomtPm8nHtfYdP+hftVFWELlHR4d9H2knvSCF3zb
- akgC3CkRgqn49bAEh2RRmujymXT3k1iHaDrLR6eMyOCBxFCSxL1WaG9JFGMjrXP6
- fy61Mg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnpgn9bf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 17:05:53 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7c5841ae28eso53914585a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 10:05:53 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7477710E0C2
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 17:13:24 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-43cf3192d8bso1725e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 10:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1746810803; x=1747415603;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fgW/S+IuQhDMqkGx/1B5fC/F8bX0uong/zoW2X+2nEA=;
+ b=ROUV4TZxiwD5KxwXC2tg+B+8490BlnAaANCt3C5ntcuUSFADItS/PZyZXx24KPmuO3
+ 7UryUbl7sziUj6afCMtbw3V3EW7fZr3JRW9k92RxB203SMPfUmKikFtCkj7E1G3IADze
+ jA7emYMxs7q20uiavZjOvB/lNbWVRSDxW76/tf9r4WYdV/kqV+A+256KEDuHeQLrLkmn
+ Q4rM+UJY+gXVl0yV6sTmGbEpjXSCa5A4tz1MYJC7yZ/kcLIpgjyMf7NCzB8RWB6+T8TZ
+ dXc6+ptQ1ibT4OMf4NlKZfBSQhCz528rPXpUVY0H0RnyQxn5sqp/4U5jgoG/cIZkGPi2
+ 6vqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746810353; x=1747415153;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bYZFtTpQ2K5+1pV5SB83yilhOw8IrH8U9j0WoHmd6qg=;
- b=kqgF/n3X405R91tCq6rpsC2ROB+hlJawa0X49yA5ahWjcMyX28q23cZkt7Va69lyIg
- 1vnokyxcZJ8HX7ipL/JqJNhAuDM6Wm724Z58/u1TEgoCY5VjgNIRObhgpLbQtjOSY9r1
- OkLJ1XrTRbtGo04Zqg3K867EnLuOWCY4LHclnYk43s77AFaM3Ac5FLu59e9+VQa0pcYs
- dGguElKO2JwOs/Bm+S+ocgWmRnGVzldEdIkgOX8eyvIWguwpRwvt0Yzk93K9UgiWLwmg
- PlsGmU/PxVEtQREDy6RGH3uLI1YD9/jTeX/hJfNNTPuHi0zWd7IHmCVptecO82Qkswk7
- WeDA==
+ d=1e100.net; s=20230601; t=1746810803; x=1747415603;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fgW/S+IuQhDMqkGx/1B5fC/F8bX0uong/zoW2X+2nEA=;
+ b=b88gtuTZEdYbwVAoWQ7x7buVTxU4YU1ZHB43CKdRqVMHEZIjw7vGDSs6YU9TsuoQRz
+ o/rwBnA8v7LJfyW2rttnM/qDl/Tf1MkorKqEYEUMWD1uheTAoCwAi0Gn2hdq5AAz1Eo/
+ NGTRNHsksCXvn5iXsvPwbsNHEaMvSL9hUBQF8PWOnL5BrXGEzG4xPGK43EIaq4U5tMwc
+ ppohsnuBci9TDdd+wT175FKq3SAy2QMRXp/8PJnzNVXfVOKcU59zPvlbw4cq8Og/2wsC
+ bR3lGZjjZaY7T0T8kM+HP2TLfPKhFOyywHY1vQ5QMyoeXgB9S8I0B2bsE94Gx7ABh29O
+ TopA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVB5OWtt88jcZRDcGbnM0Wv6xVovmPiw7VjKcPUwIVVj5rsLpct7uhg5Aa/NuwtHEQMI0nyUUDUkzU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzsovrVjT2wwYeJknN4qQ6hI2Y3XFZ4Z3uzAvC6VULrQAuFEqR
- yAvV80tIadRCeAe2N1ZMROEGCT9uqpsYxt4p5IYThVGVtJw3c5B3YLAwwX/SspnKPAWNh9/wTk7
- 4wP06yAfkNwoJUNJGB91KVDAgeN3Rew7BLFIjHZ2/1zMAUwewGGb7+eAKOdEwLp7NKRE=
-X-Gm-Gg: ASbGncvapVYsytzKPTZMPiwkeWnfgWhWs9vUA43aXh7YczTj968YEfpUN/ATOjHxfyM
- LlCjFgiKrZzPYOL+dI0Fm1wUcsIMGDD5U6i/CY75r/y31IFiXGlu9Yii22enwVgHd83+/IeCTW4
- 0Ef9x/b6+r5NsGryU33dGc8hkIt5D2/j79wToHHfTZzmSPHy3ecq+vdUbJnxklsAqquyGCK2xiP
- 8VpqF9+jwHZm2Vghr2lvSJnwgYUkWF0bh5tfFPtzQLayqZ8uH1XW+r1UbI41nJ/bL2IAbBXbymU
- 4x3hGFVSaBh0HVkoqU+XUm+2wea1xCqXJ547TszGvELOW6EfGG0vgs6vBtIfRjgvgKs=
-X-Received: by 2002:a05:620a:318e:b0:7c0:9dc9:754b with SMTP id
- af79cd13be357-7cd01138c43mr237840485a.0.1746810352557; 
- Fri, 09 May 2025 10:05:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFbRp4cqQeIx22c94yzN7HcBSLTFgM40PIl1UVIm+gxSUeSDFOZOAzyxFmgxbh2fxCrwm5SDQ==
-X-Received: by 2002:a05:620a:318e:b0:7c0:9dc9:754b with SMTP id
- af79cd13be357-7cd01138c43mr237836785a.0.1746810351945; 
- Fri, 09 May 2025 10:05:51 -0700 (PDT)
-Received: from [192.168.65.105] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ad2192c8ac2sm176736566b.27.2025.05.09.10.05.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 May 2025 10:05:50 -0700 (PDT)
-Message-ID: <249fa3ea-4b0d-475d-8851-5a31795f3b11@oss.qualcomm.com>
-Date: Fri, 9 May 2025 19:05:46 +0200
+ AJvYcCXZxTcF3zddjOWjXMA1JnbNSOVGhtcoLnzkJUTt2R+XGXJMAG8SNCn42E5McbyDJV1DGdXzUSeUMQQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw4dpVOQW94jv5TmFtenDe+pTUq1WRe0RxgQEPvYQpgB8DFPINw
+ BbPCLI/YBq/2NsHWEPlqksqiLh7bdEZIdC1OsrSYPYtkfuPhatbHolCdAVawoPGxC0Rd3P7hZMo
+ 8aI36X30L31w6iq9EF2Q1HhVXgyoHsEqh7Qk4
+X-Gm-Gg: ASbGncuZzOEUEvdbSoNagXz1WlrEVmUZPf2WvItJavaDM2o/LSXyekp/U2HdOqiuuJE
+ PNt85IwgZvAcvDqyozspVZneBmVuZvpS/j3UgzVquwIsd4tY2l6lRz0OzM3HJaWZbwqCfOF0prx
+ oNF4e0ixNt6P2Jjj+sNWDomnjDLf6P3Wc=
+X-Google-Smtp-Source: AGHT+IHGfe/tXiaZqmJana79QrqFFike9FzFdHOfCIOTaVJ+13CLjx45F20TFT7eQCOyZ/XfQXSyYaW53E9ARHmgIFs=
+X-Received: by 2002:a05:600c:3c95:b0:43b:c2cc:5075 with SMTP id
+ 5b1f17b1804b1-442d7c3bfd6mr1645325e9.5.1746810802780; Fri, 09 May 2025
+ 10:13:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/7] drm/msm/a6xx: Increase HFI response timeout
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Maya Matuszczyk <maccraft123mc@gmail.com>,
- Anthony Ruhier <aruhier@mailbox.org>, Dmitry Baryshkov <lumag@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250503-gpu-acd-v6-0-ab1b52866c64@quicinc.com>
- <20250503-gpu-acd-v6-2-ab1b52866c64@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250503-gpu-acd-v6-2-ab1b52866c64@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Ao/u3P9P c=1 sm=1 tr=0 ts=681e35f1 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=pGLkceISAAAA:8 a=b3CbU_ItAAAA:8
- a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=qaMJGrL2tkxVvb42h3kA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=Rv2g8BkzVjQTVhhssdqe:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDE2OSBTYWx0ZWRfX9L7suGogkUCw
- RZk3Twxy/2AqR6isvqIy8YM/NzUUNvg8FrbJ1s2abND8gpdI40XB1OBPq4w6l1TV6+W9l4vKAE+
- hsLNlYkH0soqKpHkvPpbHSIoPt/eaBaf4UvV0u/p7xKh4PKSYGm+dWAQMCD6C6LoTe1a+C4xdyt
- IhAkACYadr2GZFDYFQaE5ns0gWQFsZtaXMVtcR/IuLSXVSYvpWW4i4jX/vAM3G8F5cIUZz44WgE
- fCrCjl+GR8TnYRxe5rLBJ6jN4w7x6ipYUJ8IVegX+HUnnGhlvNw5nIi7j1XNsCiUgTtZaEpJERW
- AdPXkKdxgvR5QEb07D0B28UPhbfku4KxniXzcGOD6F0fr7ogVsBOdEfeSLro8rnwIaE7KbXpF8j
- qj+g7AtJaS5Kb9dcAB6+GtYg12eJOo3Rh5PGHQ2xoaFZcU6ft6pU2+RumUVXevmMMODM6zhi
-X-Proofpoint-GUID: xgBWLCNNarmxA3veWisXuEliqtxdUbHm
-X-Proofpoint-ORIG-GUID: xgBWLCNNarmxA3veWisXuEliqtxdUbHm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-09_06,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0 priorityscore=1501
- spamscore=0 impostorscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505090169
+References: <20250508182025.2961555-1-tjmercier@google.com>
+ <20250508182025.2961555-3-tjmercier@google.com>
+ <CAPhsuW6cTCEwnbfRNX0KDGGs7M+N3xf+EP9FfS5Y_OHyXqs_Qw@mail.gmail.com>
+In-Reply-To: <CAPhsuW6cTCEwnbfRNX0KDGGs7M+N3xf+EP9FfS5Y_OHyXqs_Qw@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Fri, 9 May 2025 10:13:10 -0700
+X-Gm-Features: AX0GCFseXwp9JI9wID6QRkim2g6TRuMaRHnwPleWxRyNB1BiSXAGkZCVkEOBhEc
+Message-ID: <CABdmKX1gxShJu3L11D0-hNMwRArJrzy1UMpuKJY-CSZvAfDh-Q@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v4 2/5] bpf: Add dmabuf iterator
+To: Song Liu <song@kernel.org>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+ daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+ skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+ simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+ jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,16 +93,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/3/25 9:03 AM, Akhil P Oommen wrote:
-> When ACD feature is enabled, it triggers some internal calibrations
-> which result in a pretty long delay during the first HFI perf vote.
-> So, increase the HFI response timeout to match the downstream driver.
-> 
-> Tested-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> Tested-by: Anthony Ruhier <aruhier@mailbox.org>
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
+On Thu, May 8, 2025 at 5:27=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+>
+> On Thu, May 8, 2025 at 11:20=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
+m> wrote:
+> >
+> > The dmabuf iterator traverses the list of all DMA buffers.
+> >
+> > DMA buffers are refcounted through their associated struct file. A
+> > reference is taken on each buffer as the list is iterated to ensure eac=
+h
+> > buffer persists for the duration of the bpf program execution without
+> > holding the list mutex.
+> >
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> Acked-by: Song Liu <song@kernel.org>
+>
+> With one nitpick below.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Thanks!
 
-Konrad
+> > ---
+> [...]
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 8ff4add71f88..7af2ea839f58 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -634,4 +634,6 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct ios=
+ys_map *map);
+> >  void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map);
+> >  int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *ma=
+p);
+> >  void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map =
+*map);
+> > +struct dma_buf *dma_buf_iter_begin(void);
+> > +struct dma_buf *dma_buf_iter_next(struct dma_buf *dmbuf);
+> >  #endif /* __DMA_BUF_H__ */
+> > diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
+> > index 70502f038b92..3a335c50e6e3 100644
+> > --- a/kernel/bpf/Makefile
+> > +++ b/kernel/bpf/Makefile
+> > @@ -53,6 +53,9 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
+> >  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
+> >  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
+> >  obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
+> > +ifeq ($(CONFIG_DMA_SHARED_BUFFER),y)
+> > +obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
+> > +endif
+> >
+> >  CFLAGS_REMOVE_percpu_freelist.o =3D $(CC_FLAGS_FTRACE)
+> >  CFLAGS_REMOVE_bpf_lru_list.o =3D $(CC_FLAGS_FTRACE)
+> > diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
+> > new file mode 100644
+> > index 000000000000..96b4ba7f0b2c
+> > --- /dev/null
+> > +++ b/kernel/bpf/dmabuf_iter.c
+> > @@ -0,0 +1,102 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/* Copyright (c) 2025 Google LLC */
+> > +#include <linux/bpf.h>
+> > +#include <linux/btf_ids.h>
+> > +#include <linux/dma-buf.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/seq_file.h>
+> > +
+> > +BTF_ID_LIST_SINGLE(bpf_dmabuf_btf_id, struct, dma_buf)
+> > +DEFINE_BPF_ITER_FUNC(dmabuf, struct bpf_iter_meta *meta, struct dma_bu=
+f *dmabuf)
+>
+> nit: It is better to move these two lines later, to where they
+> are about to be used.
+
+I've moved them both to just before dmabuf_iter_init() farther down.
