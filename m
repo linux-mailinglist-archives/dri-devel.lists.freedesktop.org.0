@@ -2,75 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52AB8AB117E
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 13:06:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAE26AB1201
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 13:18:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5626310EA17;
-	Fri,  9 May 2025 11:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD1F210EA19;
+	Fri,  9 May 2025 11:18:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZmmSH5ZG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ev8ys5Jd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F80610EA17
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 11:06:27 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-310447fe59aso19860471fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 04:06:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1746788786; x=1747393586; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=t2C4HMX2q+ykrxCLasIqR6WQaMhRrz7zJKiG5kqBRoM=;
- b=ZmmSH5ZGNvMbPo4c+8wIjhSilIW2KSbYGJYRsQ3NkiDyHDh5dkbf4FTEcgybIVIKhq
- YD8pbs2GM+7znp9Pkt5dyQDBcrxymuqWB1AayIZGL3GtzUA2Ddy01vMsMS8WNrydVKE7
- O16MjAlgOj1WZDUKmEZdwkUg7eomcYm6YMQwIayxvUyeih29hDpw6D16VHL4wd+2jRR/
- To9JztqGEfCSh7rcwgEB/P0yW93RCcNcFktAqWiwXJ4vDC9W5S9oamVlcfn0jW4CIEGZ
- EtB430y48WRzPuI25JDHgH4T+lWGHRbtyQJWvLZq70r9PJH8pPsnv7XRqvABlwBTVxtL
- jL1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746788786; x=1747393586;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=t2C4HMX2q+ykrxCLasIqR6WQaMhRrz7zJKiG5kqBRoM=;
- b=N/iU3dsf/pLXI7tLfgW+DvNL+WnITCchmXc4AUDYa05W7VSvX5hPmZACHvaSs9oErO
- dTMQRiO0GrkxfOGYDDyRFVmlER/ZbwKdlGXReuph6DKY4tr8BbKjNPcPHKbbHrDGQxRl
- nCX8opta8/Ce7l18G51uBLLGKg0kCY1zkJZcNZBfn9S0fxj50Ds4hBWqBODc7m6Gi1cK
- wdLgpAu3ib/lQWvaov8jwYw3W1tLEN/jYdzG6n4dlOoFArlvygctkYfaoZWH0RNyRTPA
- I5p/WVtasGaIZf2zcy4gQfXwNxrZlxsvC8e0La+zZJiLTRaq5cc0AeCslMJJpToD3grx
- O68A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/+G3LHnkHYv5HAS5p0bfxXWKxbPF/LwPJxSKCkZNevGPdymNUEjTjsPEWxhJmMnU1jLKUXDhSrNg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyO43DNCsQKRr2un3WUJjMvM4Hklt03PB2dW9Zw0psttEx3+zhu
- eNAlElQmi1p+jiFDsUpcG2sa3VHdSfAcv0GYQfZxv6f0Exc6eUZBfJ9yiyqK7PIT4yMZ3hrLzNr
- ujKo9F3kFEgBS+tINJZo2aX0ko28=
-X-Gm-Gg: ASbGncuTTT2WihQbQ07kY6san85l4imzS6VQmtux/44N1TzOfOWV/H2wqXRCElNciZR
- 2FF/gbstS49OKwaUVcSzOhzrxQWRxP9BF6MB0QqbC0f/deiiJMHzMQJY/aC8YU86PZScortMlk1
- mbdojA5YzmmQFp7KTwyyTzBqyooaFc74Ic6ZRoHx/Fq3I1V03pDP5fxA==
-X-Google-Smtp-Source: AGHT+IHiMtszuL64FRiLenfMWJnjacyFz/EaJ395z0Hb6Q2QJkAv3A/Z9lBNihBKSxG9s8jWhG0EvBQMivIP3Y13B+I=
-X-Received: by 2002:a2e:a10a:0:b0:30d:e104:cd57 with SMTP id
- 38308e7fff4ca-326c469229bmr10665481fa.40.1746788785405; Fri, 09 May 2025
- 04:06:25 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9034F10EA19
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 11:18:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1746789497; x=1778325497;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=aiPaYDwSGvN0K0HQK9CDqTSbttoNGl/6tY2Cm6xaBBs=;
+ b=Ev8ys5JdSXkIXR/sIsM+qRdcJXGuPuAENrgyT5oDS4eliEYGZOQjNRAt
+ NhA2KDIb4KOy1/2VznHv6tvvxlW99oxl6Qj0py7BK6QX66KWPcFN+qwTr
+ KXm7TmP6JNRgI/F6eT4wspQu443Hr9nAkuAjdt7QbT72CrsjAtf6yLj1N
+ niP930dFxfeopCVMPQgOWQufn0yMcBpcu6B/DJvOStEUfg/gw2gVmCjL8
+ er8YdWSbV7INRIUrzMCONjH41LdR+KBFa1XJsHjpMKNwGCy0934nT5+AI
+ XVQGUIi+EVm0+wWlXHCvcZfPNJ4EQMzIcpEpnQJhc4GRsuAMrtu68oqhE A==;
+X-CSE-ConnectionGUID: D6vKFYHGQ1CfcQLc9hXIOA==
+X-CSE-MsgGUID: dpcd6s69TJC2GpaJA7tVZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="52422856"
+X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; d="scan'208";a="52422856"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2025 04:18:11 -0700
+X-CSE-ConnectionGUID: IO0YruilQeCpWzu6FzjjTw==
+X-CSE-MsgGUID: 19XzKC/dT36Fay078oLWsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; d="scan'208";a="136294670"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
+ ([10.239.159.165])
+ by orviesa009.jf.intel.com with ESMTP; 09 May 2025 04:18:06 -0700
+Date: Fri, 9 May 2025 19:12:46 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Alexey Kardashevskiy <aik@amd.com>
+Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ jgg@nvidia.com, vivek.kasireddy@intel.com, dan.j.williams@intel.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+ zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
+Message-ID: <aB3jLmlUKKziwdeG@yilunxu-OptiPlex-7050>
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
+ <4b6dc759-86fd-47a7-a206-66b25a0ccc6d@amd.com>
+ <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
 MIME-Version: 1.0
-References: <20250417103458.2496790-1-festevam@gmail.com>
- <87cyd3c180.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87cyd3c180.fsf@minerva.mail-host-address-is-not-set>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Fri, 9 May 2025 08:06:14 -0300
-X-Gm-Features: ATxdqUGhLIWwN25Ny1sR2sK7ptO4iuCb08bNbX96W5xMiFLLSRewadVWruWN4GA
-Message-ID: <CAOMZO5CghWOyYse2nJjKzAk2tTGXTsag=EYeS+cS6tV6YO+NLw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/tiny: panel-mipi-dbi: Use
- drm_client_setup_with_fourcc()
-To: Javier Martinez Canillas <javierm@redhat.com>, tzimmermann@suse.de
-Cc: simona@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, noralf@tronnes.org, dri-devel@lists.freedesktop.org, 
- Fabio Estevam <festevam@denx.de>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c10bf9c2-e073-479d-ad1c-6796c592d333@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,50 +79,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier and Thomas,
+On Fri, May 09, 2025 at 01:04:58PM +1000, Alexey Kardashevskiy wrote:
+> Ping?
 
-On Tue, Apr 22, 2025 at 6:53=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> Fabio Estevam <festevam@gmail.com> writes:
->
-> Hello Fabio,
->
-> > From: Fabio Estevam <festevam@denx.de>
-> >
-> > Since commit 559358282e5b ("drm/fb-helper: Don't use the preferred dept=
-h
-> > for the BPP default"), RGB565 displays such as the CFAF240320X no longe=
-r
-> > render correctly: colors are distorted and the content is shown twice
-> > horizontally.
-> >
-> > This regression is due to the fbdev emulation layer defaulting to 32 bi=
-ts
-> > per pixel, whereas the display expects 16 bpp (RGB565). As a result, th=
-e
-> > framebuffer data is incorrectly interpreted by the panel.
-> >
-> > Fix the issue by calling drm_client_setup_with_fourcc() with a format
-> > explicitly selected based on the display's bits-per-pixel value. For 16
-> > bpp, use DRM_FORMAT_RGB565; for other values, fall back to the previous
-> > behavior. This ensures that the allocated framebuffer format matches th=
-e
-> > hardware expectations, avoiding color and layout corruption.
-> >
-> > Tested on a CFAF240320X display with an RGB565 configuration, confirmin=
-g
-> > correct colors and layout after applying this patch.
-> >
-> > Cc: stable@vger.kernel.org
-> > Fixes: 559358282e5b ("drm/fb-helper: Don't use the preferred depth for =
-the BPP default")
-> > Signed-off-by: Fabio Estevam <festevam@denx.de>
-> > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > ---
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Sorry for late reply from vacation.
 
-Could you please help apply this fix?
+> Also, since there is pushback on 01/12 "dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI", what is the plan now? Thanks,
 
-Thanks
+As disscussed in the thread, this kAPI is not well considered but IIUC
+the concept of "importer mapping" is still valid. We need more
+investigation about all the needs - P2P, CC memory, private bus
+channel, and work out a formal API.
+
+However in last few months I'm focusing on high level TIO flow - TSM
+framework, IOMMUFD based bind/unbind, so no much progress here and is
+still using this temporary kAPI. But as long as "importer mapping" is
+alive, the dmabuf fd for KVM is still valid and we could enable TIO
+based on that.
+
+> 
+> 
+> On 29/4/25 17:50, Alexey Kardashevskiy wrote:
+> > 
+> > 
+> > On 29/4/25 16:48, Alexey Kardashevskiy wrote:
+> > > On 8/1/25 01:27, Xu Yilun wrote:
+> > > > This series is based on an earlier kvm-coco-queue version (v6.12-rc2)
+> > > 
+> > > Has this been pushed somewhere public? The patchset does not apply on top of v6.12-rc2, for example (I fixed locally).
+
+Sorry, not yet. I'm trying to solve this ... same for the QEMU tree.
+
+> > > Also, is there somewhere a QEMU tree using this? I am trying to use this new DMA_BUF feature and this require quite some not so obvious plumbing. Thanks,
+> > 
+> > 
+> > More to the point, to make it work, QEMU needs to register VFIO MMIO BAR with KVM_SET_USER_MEMORY_REGION2 which passes slot->guest_memfd to KVM which essentially comes from VFIORegion->mmaps[0].mem->ram_block->guest_memfd. But since you disabled mmap for private MMIO, there is no MR which QEMU would even try registering as KVM memslot and there are many ways to fix it. I took a shortcut and reenabled mmap() but wonder what exactly you did. Makes sense? Thanks,
+
+Yes, QEMU needs change. 08/12 "vfio/pci: Create host unaccessible dma-buf for private device“
+adds a new flag VFIO_REGION_INFO_FLAG_PRIVATE to indicate user could
+create dmabuf on this region.
+
+I'm also not very serious about QEMU changes now, just FYI:
+
+I use VFIO_REGION_INFO_FLAG_PRIVATE flag to revive region->mmaps.
+
+int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
+	...
+
++        if (region->flags & VFIO_REGION_INFO_FLAG_PRIVATE) {
++            region->nr_mmaps = 1;
++            region->mmaps = g_new0(VFIOMmap, region->nr_mmaps);
++            region->mmaps[0].offset = 0;
++            region->mmaps[0].size = region->size;
++            region->mmaps[0].dmabuf_fd = -1;
+         }
+
+Then in vfio_region_mmap(), use a new memory_region_init_dmabuf() to populate
+the MR.
+
+int vfio_region_mmap(VFIORegion *region)
+
++        if (use_dmabuf) {
++            /* create vfio dmabuf fd */
++            ret = vfio_create_dmabuf(region->vbasedev, region->nr,
++                                     region->mmaps[i].offset,
++                                     region->mmaps[i].size);
++            if (ret < 0) {
++                goto sub_unmap;
++            }
++
++            region->mmaps[i].dmabuf_fd = ret;
++
++            name = g_strdup_printf("%s dmabuf[%d]",
++                                   memory_region_name(region->mem), i);
++            memory_region_init_dmabuf(&region->mmaps[i].mem,
++                                             memory_region_owner(region->mem),
++                                             name, region->mmaps[i].size,
++                                             region->mmaps[i].dmabuf_fd);
++            g_free(name);
++        } else {
+
+Thanks,
+Yilun
