@@ -2,82 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDF4AB1B6F
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 19:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255F5AB1D47
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 21:29:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A71F10E297;
-	Fri,  9 May 2025 17:14:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE21E10EACB;
+	Fri,  9 May 2025 19:29:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="VY8xMlw3";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EHJ6L2g3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED47910E297
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 17:14:09 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-43d5f10e1aaso2435e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 10:14:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1746810848; x=1747415648;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=smM82pNC+KSoX+27bEVUeyoSpZ4hnMM+We8D5KWbT6U=;
- b=VY8xMlw3ORF9a6VMnD2RJ+cZ8mWpHi+4+n7FwC1R3alJA28cpBhmy8Z7UkcgDCD0Nz
- ND7qAgGkzNcs/4pqcUh814tx5cn7dV/dQxjJ8cHlSdro+fXCppJYNBsdzYspd+7rH2ou
- awZXjoX22a2gGKRRkNPSFKo2imeb+wqJLmft+wegiuGjE4ayMYLEP0sWUNBC+RsPiPiK
- LX0En5QVYfG4abRgZ8siM5PWf0nc5j3T1YFmS58JMkRnPK1ZM54gITvMiahHEnOWAv3h
- 688mCXGQIoj5O4KvMcDun6JQnZ7MeqAcyoJL5iRH38juYi57j7ISYJtkGF1K/trfSxOy
- sfYQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 688D610EACC
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 19:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1746818978;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EeO2G/lhUp0fvXv3rAWysdL6gOIA9pKqHAwh5CmMO38=;
+ b=EHJ6L2g3uJa0k4tM30FnRVYQ0ESRpWoMn94gTSq30SZFFrSzKKuWsxuudKKy5mKSNQXJjU
+ 1KB1hIAWNtYdARIDEvHdldVBFF5QT+RSyVq73O1VZbR6ZJMHsXfJrnpUFP5bQpQD8WCVHa
+ 1rzOCB6WAiLL8++5or48G5BOhm/zH7k=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-5-4aufopaXPIuuegv9iy6V1Q-1; Fri, 09 May 2025 15:29:35 -0400
+X-MC-Unique: 4aufopaXPIuuegv9iy6V1Q-1
+X-Mimecast-MFC-AGG-ID: 4aufopaXPIuuegv9iy6V1Q_1746818974
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-70a2cc313d4so44511447b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 12:29:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1746810848; x=1747415648;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=smM82pNC+KSoX+27bEVUeyoSpZ4hnMM+We8D5KWbT6U=;
- b=w2g+qtxV/2KP8UpL0cA3YGfMZPnIKn9/oOaB+mtI0uvoDsLPQZ6E1ncVld5nrA/lYb
- NB8QfURGYMtvBE7q0Y7iZaKPUJ9syFRMWivVQHuibLq73vodQE9t1+kSZFNtM2ZpDncX
- seY0ZbfXjWcTMH7EO/ZufWh41uag8T0qbOsCZucxF+9wCGrrCwCisHKvCXN/qoPrv3Y7
- j1rYhhc2JrjV5x9kwDLWKQQ6y8zaytXZwIbVN5IJvq8pnYBiSbqQe/7f86nG5Fet/6qp
- Xj5og8ZdjQXyzKiFqizSwI/xFJxSUUVLJkZec6cpzwEHjXlsnfMt9xK9cLH1QhgIDdhV
- MKTg==
+ d=1e100.net; s=20230601; t=1746818974; x=1747423774;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EeO2G/lhUp0fvXv3rAWysdL6gOIA9pKqHAwh5CmMO38=;
+ b=NrY+cp3fm/JGBnCf7oAOtUj3bHQ3JOAZxlImC+AJgghJCAc9kCQmaniqcqEE7SdlAs
+ qXDXRUa7nFF0qF4DbNMxxWv+n1HknkHn2HslFa866sX6c/7HzJzKV7RqeNq7v8xIgL4o
+ 4eg6dG6CQcx0EZi6209E1scCMbVxRPmlVOPue/ua/1GMfoTioQdFlTMQrYbHDXFvbN2F
+ 6vhz69UPKcQN2zzc3sLQ8fNBs8R6BwrUhbXuRrdM5pIRYaPR41935LqE1iSI4afs+5nF
+ mBmRpLgftMuCUS0WZMrz7GsakHjbU61lbEUDXA2Ez7mwCYcOEgOLIB0NFGTojXjxEtXZ
+ 96rw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUdnbsJtoWCJyAxa+mEifGXfdHKjbY8jH3aNkcfh5eZQOf6q+SS/gZ0M2C//aa/76VDE9BABZDQk0Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx38OeD7PYRjdnkMy7dKgddw0q3Z1bre7LASLySVZCGNe93f4PY
- rWxzU90tTbKq1MGBhmmbJGnPQkYcUJCAFe9G2KNUK4vg4WHUItkK1hd3itmQKcgOEcPkUsVFFX1
- +RoKLXypRRFuYCVkKWT2oiiXNhic3aVaIMjQ2
-X-Gm-Gg: ASbGncsfdEjjX6Yjiu1z19fMKjhsdfkpgMBLS8UbtT5cNa1JXA6nHJL/HSQbkZIw1SP
- cdy7SC5lDsE0EZ9yuFVobHZRTMP1KBMMh8JRqmNfqzr6k8rljVgX6an7/RD/1Ux02PZy55cr7o5
- w/T1cXbfdSA6T/9DgOsVxf
-X-Google-Smtp-Source: AGHT+IH40mARNMU/tf7BP0uCdyGA5liGBuBykAAd7c4WUrmrx1q7itlR5BUHqvu/mY8+HZhP0nMjqB2T+rpZhsONAQE=
-X-Received: by 2002:a05:600c:1ca1:b0:439:8d84:32ff with SMTP id
- 5b1f17b1804b1-442d7c36971mr1213425e9.3.1746810848319; Fri, 09 May 2025
- 10:14:08 -0700 (PDT)
+ AJvYcCUO28KguqEwDoCenRVUEW22sMGoLNXW+pnm6Yb5ot0OC4KKo/bCy62kEnASVTopli7kd2p06T9cjx0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/ApSN2BSdv0Syex7CyYu27LTkYXwM8vb5ji+TMpJr6DEMpnDl
+ a580wjwHOqWvBhbh/fOGLNpF0x/GlUASNTrUTS4B/475vs0/WqflFaVUhS2P9itqkvJL07C2C8o
+ E3KwItLmUSU9/syntrMRnjB54sf3pSAptIvZOXd27+zZpDl5rENQUINiEyWAl0M2vtinUajf3xR
+ QSQH8B5LWHBDe2HL771LMLs/dRcPJLjsaYY58/q5jC
+X-Gm-Gg: ASbGncuEZiaRIJ89BO266o3jB4LpCyzn3unLkUfxOoi7Cvv4VLnwm4lh7R7zVcy1Xnh
+ IKbIQbYrx5ZZ/vaUBP9N1LrPVUjj8A15YvBsqSFTV/2wt3r47wDUT7lslSwbhsbWpuHg=
+X-Received: by 2002:a05:6902:e92:b0:e73:71b:72f0 with SMTP id
+ 3f1490d57ef6-e78fdc4e2fcmr6108675276.9.1746818974568; 
+ Fri, 09 May 2025 12:29:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG+7fws5TA4mVh5ocXWRZzFUs/OIGtrMcL76jc2c3ct6B3jN6ukgxli2N8OqVa3oFfcQPsz93peY7PKT/AwuOs=
+X-Received: by 2002:a05:6902:e92:b0:e73:71b:72f0 with SMTP id
+ 3f1490d57ef6-e78fdc4e2fcmr6108614276.9.1746818974149; Fri, 09 May 2025
+ 12:29:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250508182025.2961555-1-tjmercier@google.com>
- <20250508182025.2961555-5-tjmercier@google.com>
- <CAPhsuW6z90sErDTA97_MN2=QKHc96Ge3HwGD1ZoMYj6Sh7GYVA@mail.gmail.com>
-In-Reply-To: <CAPhsuW6z90sErDTA97_MN2=QKHc96Ge3HwGD1ZoMYj6Sh7GYVA@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Fri, 9 May 2025 10:13:56 -0700
-X-Gm-Features: AX0GCFu8BoOcyJCPnA7QXYP7Ly2ZIBuYiyNl-jSbUErDvQFnq_Cx4tGRHuAx2Fg
-Message-ID: <CABdmKX1A0Ard1yoV9SAV4jZfrD3tvMz2cftcuFPhQgkAKDk58w@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v4 4/5] selftests/bpf: Add test for dmabuf_iter
-To: Song Liu <song@kernel.org>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
- skhan@linuxfoundation.org, alexei.starovoitov@gmail.com, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
- simona@ffwll.ch, eddyz87@gmail.com, yonghong.song@linux.dev, 
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
- jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+ <20250509-drm-bridge-convert-to-alloc-api-v3-3-b8bc1f16d7aa@bootlin.com>
+In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-3-b8bc1f16d7aa@bootlin.com>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Fri, 9 May 2025 14:26:14 -0400
+X-Gm-Features: AX0GCFu24hR8J2U03NXjuAhnS6iurt_eMN47OaDzmkhI_jPjCeztvZ2zuh4Tk8Q
+Message-ID: <CAN9Xe3T6WJmjXXLa=Y_qTXc253DG8dCw_u_rr3mYr3Qap==BaQ@mail.gmail.com>
+Subject: Re: [PATCH v3 03/22] drm/bridge: anx7625: convert to
+ devm_drm_bridge_alloc() API
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson <dianders@chromium.org>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
+ Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan <yuanhsinte@chromium.org>, 
+ Jani Nikula <jani.nikula@intel.com>, Pin-yen Lin <treapking@chromium.org>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>, Xin Ji <xji@analogixsemi.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: mFqSGFr1IQBN6NMHzy55tAZwxn0lCcXxz6ZXt41FjrE_1746818974
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000071104f0634b8fc83"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,58 +118,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 8, 2025 at 5:36=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+--00000000000071104f0634b8fc83
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, May 9, 2025 at 9:56=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootlin=
+.com>
+wrote:
+
+> This is the new API for allocating DRM bridges.
 >
-> On Thu, May 8, 2025 at 11:20=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
-m> wrote:
-> [...]
-> > diff --git a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c b/too=
-ls/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-> > new file mode 100644
-> > index 000000000000..35745f4ce0f8
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-> > @@ -0,0 +1,224 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/* Copyright (c) 2025 Google */
-> > +
-> > +#include <test_progs.h>
-> > +#include <bpf/libbpf.h>
-> > +#include <bpf/btf.h>
-> > +#include "dmabuf_iter.skel.h"
-> > +
-> > +#include <fcntl.h>
-> > +#include <stdbool.h>
-> > +#include <stdio.h>
-> > +#include <stdlib.h>
-> > +#include <string.h>
-> > +#include <sys/ioctl.h>
-> > +#include <sys/mman.h>
-> > +#include <unistd.h>
-> > +
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/dma-heap.h>
-> > +#include <linux/udmabuf.h>
-> > +
-> > +static int memfd, udmabuf;
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 >
-> Global fds are weird. AFAICT, we don't really need them
-> to be global? If we really need them to be global, please
-> initialize them to -1, just in case we close(0) by accident.
+> Looks good!
 
-Hmm, no we don't really need them to be global but I didn't really
-want to pass all these variables around to all the setup and test
-functions. The fd lifetimes are nearly the whole program lifetime
-anyways, and just need to exist without actually being used for
-anything. I'll add the -1 initialization as you suggest. If udmabuf
-creation failed, we would have done a close(0) in
-destroy_test_buffers() on the sysheap_dmabuf fd.
+Reviewed-by: Anusha Srivatsa <asrivats@redhat.com>
 
 
-> > +static const char udmabuf_test_buffer_name[DMA_BUF_NAME_LEN] =3D "udma=
-buf_test_buffer_for_iter";
-> > +static size_t udmabuf_test_buffer_size;
-> > +static int sysheap_dmabuf;
-> > +static const char sysheap_test_buffer_name[DMA_BUF_NAME_LEN] =3D "sysh=
-eap_test_buffer_for_iter";
-> > +static size_t sysheap_test_buffer_size;
+> ---
+>
+> Cc: "Rob Herring (Arm)" <robh@kernel.org>
+> Cc: Hsin-Te Yuan <yuanhsinte@chromium.org>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Pin-yen Lin <treapking@chromium.org>
+> Cc: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Cc: Xin Ji <xji@analogixsemi.com>
+> ---
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index
+> 8a9079c2ed5c22565d0733ef899119e347947d21..0ac4a82c5a6e5e665d913674b664905=
+a96c0d8e6
+> 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -2596,7 +2596,6 @@ static int anx7625_link_bridge(struct drm_dp_aux
+> *aux)
+>                 return ret;
+>         }
+>
+> -       platform->bridge.funcs =3D &anx7625_bridge_funcs;
+>         platform->bridge.of_node =3D dev->of_node;
+>         if (!anx7625_of_panel_on_aux_bus(dev))
+>                 platform->bridge.ops |=3D DRM_BRIDGE_OP_EDID;
+> @@ -2630,10 +2629,10 @@ static int anx7625_i2c_probe(struct i2c_client
+> *client)
+>                 return -ENODEV;
+>         }
+>
+> -       platform =3D devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+> -       if (!platform) {
+> +       platform =3D devm_drm_bridge_alloc(dev, struct anx7625_data, brid=
+ge,
+> &anx7625_bridge_funcs);
+> +       if (IS_ERR(platform)) {
+>                 DRM_DEV_ERROR(dev, "fail to allocate driver data\n");
+> -               return -ENOMEM;
+> +               return PTR_ERR(platform);
+>         }
+>
+>         pdata =3D &platform->pdata;
+>
+> --
+> 2.49.0
+>
+>
+
+--00000000000071104f0634b8fc83
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 9, =
+2025 at 9:56=E2=80=AFAM Luca Ceresoli &lt;<a href=3D"mailto:luca.ceresoli@b=
+ootlin.com">luca.ceresoli@bootlin.com</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">This is the new API for allocating DRM=
+ bridges.<br>
+<br>
+Signed-off-by: Luca Ceresoli &lt;<a href=3D"mailto:luca.ceresoli@bootlin.co=
+m" target=3D"_blank">luca.ceresoli@bootlin.com</a>&gt;<br>
+<br></blockquote><div>Looks good!</div><div><br></div><div>Reviewed-by: Anu=
+sha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.com">asrivats@redhat.com=
+</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+---<br>
+<br>
+Cc: &quot;Rob Herring (Arm)&quot; &lt;<a href=3D"mailto:robh@kernel.org" ta=
+rget=3D"_blank">robh@kernel.org</a>&gt;<br>
+Cc: Hsin-Te Yuan &lt;<a href=3D"mailto:yuanhsinte@chromium.org" target=3D"_=
+blank">yuanhsinte@chromium.org</a>&gt;<br>
+Cc: Jani Nikula &lt;<a href=3D"mailto:jani.nikula@intel.com" target=3D"_bla=
+nk">jani.nikula@intel.com</a>&gt;<br>
+Cc: Pin-yen Lin &lt;<a href=3D"mailto:treapking@chromium.org" target=3D"_bl=
+ank">treapking@chromium.org</a>&gt;<br>
+Cc: Sui Jingfeng &lt;<a href=3D"mailto:sui.jingfeng@linux.dev" target=3D"_b=
+lank">sui.jingfeng@linux.dev</a>&gt;<br>
+Cc: Xin Ji &lt;<a href=3D"mailto:xji@analogixsemi.com" target=3D"_blank">xj=
+i@analogixsemi.com</a>&gt;<br>
+---<br>
+=C2=A0drivers/gpu/drm/bridge/analogix/anx7625.c | 7 +++----<br>
+=C2=A01 file changed, 3 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/br=
+idge/analogix/anx7625.c<br>
+index 8a9079c2ed5c22565d0733ef899119e347947d21..0ac4a82c5a6e5e665d913674b66=
+4905a96c0d8e6 100644<br>
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c<br>
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c<br>
+@@ -2596,7 +2596,6 @@ static int anx7625_link_bridge(struct drm_dp_aux *aux=
+)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0platform-&gt;bridge.funcs =3D &amp;anx7625_brid=
+ge_funcs;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 platform-&gt;bridge.of_node =3D dev-&gt;of_node=
+;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!anx7625_of_panel_on_aux_bus(dev))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 platform-&gt;bridge=
+.ops |=3D DRM_BRIDGE_OP_EDID;<br>
+@@ -2630,10 +2629,10 @@ static int anx7625_i2c_probe(struct i2c_client *cli=
+ent)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ENODEV;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0platform =3D devm_kzalloc(dev, sizeof(*platform=
+), GFP_KERNEL);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!platform) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0platform =3D devm_drm_bridge_alloc(dev, struct =
+anx7625_data, bridge, &amp;anx7625_bridge_funcs);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(platform)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_DEV_ERROR(dev, =
+&quot;fail to allocate driver data\n&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR(plat=
+form);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pdata =3D &amp;platform-&gt;pdata;<br>
+<br>
+-- <br>
+2.49.0<br>
+<br>
+</blockquote></div></div>
+
+--00000000000071104f0634b8fc83--
+
