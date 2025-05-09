@@ -2,57 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02DDAB1597
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 15:45:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169FFAB15D2
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 15:52:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D72BC10EA4D;
-	Fri,  9 May 2025 13:45:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68FD610EA48;
+	Fri,  9 May 2025 13:52:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iHMEwdP2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lTzSDYaP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF8D10EA42
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 13:45:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1033B62A1F;
- Fri,  9 May 2025 13:45:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42DC6C4CEEF;
- Fri,  9 May 2025 13:45:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746798331;
- bh=v5Uak0RcmfjhTO5Ysk+NhysPrBjg5pgA9cE1Hgd2gfE=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=iHMEwdP23ywmij2dIw06QIo1o6RyOrSI+/zsCUo5nDKnUyppRzFrGEvOZ5PXwhj/F
- HMaL5F7Jd+nsTV2PeECplWgyg998OJc2hYhu0RYzRRzdUi39Hr7hZ+dEE96nl4KanE
- Mf7qKeRNhFFHkUHpkgMbdpEu8el4vEHEb8cjcLbIVIQgBjPQyzPpQ+gRJkfsrexTkk
- TJUd/vwH+S6QEvA2mxVyMV4q4QIXAlQYHgAU8eek2BOkuGqMFdCL1Cu4Im9S4Y4Asy
- X5ALlmXBPwdgyXhNwqVPVZRU5vJaVnqW2yv3ewUpZm1hFQqcPjfwNokpZNt6FarIvL
- nAxP6/23PbmFg==
-Date: Fri, 09 May 2025 08:45:29 -0500
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
+ [209.85.166.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F06010EA48;
+ Fri,  9 May 2025 13:52:38 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id
+ ca18e2360f4ac-86135ad7b4cso87554539f.1; 
+ Fri, 09 May 2025 06:52:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1746798755; x=1747403555; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PtSH5nI+hYw4K91qiMTbyWnP4++Yt+hkpqevJyQzufo=;
+ b=lTzSDYaP0nqQwpGAv9TU8t2vdDlFlGZAsazcYnATLvvUKXLwakQ9O84pV11cQnZefs
+ 8qsnAsm3Yql0ODC7Z4uG02rIHptK9K1NnqYEPBv+PaKjG1vtNKeyaF+QpZilvJQcL+YU
+ qFujffcrRS3FWQK3NrOLCGo1H8kYtLm28wi2RW9xvi030wqSijhf900AKLOht6xRN8lq
+ aamdVKXneiDjAeUppsK+O/zC9adQecjEmt0ZdZ/OhcFee46kKbq+6GmkYRa5P2DakxJY
+ 2D4yZv0bZNBgP5ZYxFh6WgDiPoZVyNLBKkeNeuxnrY+8TEI50mTPD1AmVNS3I/Ugjou2
+ qJ/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746798755; x=1747403555;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PtSH5nI+hYw4K91qiMTbyWnP4++Yt+hkpqevJyQzufo=;
+ b=EoDe3eSHcF8JficL9sJqU23m3Em2HBDiJ4ekH7KCvIroMbwJwB55XLRwz6ADyDYOY0
+ f2MM/meuYo/NAW0rx1HBIxlMFddHes3HSMUbTcZRCZoX4QIpH/9dhK7mBvSpX76++v/k
+ FLtlCrAoYe5fGrr0fho8F3ARYGNb4q9hSJFckOPVcd0UB/I1T3HyoYhoJljZw0dnbfOl
+ XIG3i31RHgzMk6x+HspgaitZik8xOZIpt0Y24va4AwWhvfCfO+t8Vt5R8X9fmUwY7DDq
+ 5gx/7CF0TSdtAGTbboQCZMvg1k6Mk9Lt4x9zrZlMCR2g39ei1Qayx5v7B8DJjzZAkYOi
+ b05w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVxtLb0Eam2C8Zik/jrLZhnUzL5RI+4CVkEIlBMzpvBcQnYH3SKjLS2ufxAUt554eb2L5NFHB4P6do=@lists.freedesktop.org,
+ AJvYcCWvwc0Qhe3+glEX60kdoLCjV4V9nYhVoWwfA3EoHNfpRol4GV9w6pLF9jekIG95/YwofJSP6eQ0+g3z@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyw7JzF6vDTyjqKiwEjkJ3VoEWS4TxnHZdOMsnnnHwZ37W2kOM/
+ Bddnj4K06ehDP/nfQe2ILXktzz6nTlWlbVAn0ZXR/eSDwnvVuOLu66MB/yaXwqjnPXMnIGHDScf
+ u/lyTp0JDnqQAYLsbI7SHa3+8TpQ=
+X-Gm-Gg: ASbGncs+iFeSbu2ZigSsAb7fa1Ugpg1NcLCkmSNhw9fXwyaGySbHFs79WKdhyTyeyan
+ aPyeOKIleBEEnE1qvzu4F8nSktr9MCyptwQP6rEpbqjH+YVcatux91FLv5rdfykwz0EGRFZEvRA
+ vBpgGeLA9MCt32kv1jxYC8Xg==
+X-Google-Smtp-Source: AGHT+IEtyWkvkWlkFB/0B7z7ZFqlkBdmXeZzAPAxswbI80SdN2p9eTapIvhC18am+K6cf2EQIuo8FKBK2WLzBA1V15k=
+X-Received: by 2002:a05:6e02:1689:b0:3d0:4b3d:75ba with SMTP id
+ e9e14a558f8ab-3da7e1e1b24mr43129255ab.4.1746798755408; Fri, 09 May 2025
+ 06:52:35 -0700 (PDT)
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
- Simona Vetter <simona@ffwll.ch>, Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Sandy Huang <hjc@rock-chips.com>, linux-arm-kernel@lists.infradead.org, 
- Heiko Stuebner <heiko@sntech.de>, Dragan Simic <dsimic@manjaro.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>
-To: Chaoyi Chen <kernel@airkyi.com>
-In-Reply-To: <20250509070247.868-3-kernel@airkyi.com>
-References: <20250509070247.868-1-kernel@airkyi.com>
- <20250509070247.868-3-kernel@airkyi.com>
-Message-Id: <174679832782.3268212.14187145716217204354.robh@kernel.org>
-Subject: Re: [PATCH v2 2/2] dt-bindings: display: rockchip: Convert
- cdn-dp-rockchip.txt to yaml
+References: <20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com>
+ <20250508-topic-ubwc_central-v1-4-035c4c5cbe50@oss.qualcomm.com>
+ <CAF6AEGtcoMZ+WiW5_BA4NFpLZsoOrDbkY4xyvENGoS2FQVwQxw@mail.gmail.com>
+ <5c3d3682-8378-486d-8af1-4b884b81f3d0@oss.qualcomm.com>
+In-Reply-To: <5c3d3682-8378-486d-8af1-4b884b81f3d0@oss.qualcomm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 9 May 2025 06:52:23 -0700
+X-Gm-Features: AX0GCFtkuS-MqVFGx1kw13xZjuTaKSplnt5h27l8JKKLHrytJs4ZlOcxEKTw1KU
+Message-ID: <CAF6AEGvmEP4oGytfsCHYDCtOUDYq68y=vS7fu0jzP+=oajeq9g@mail.gmail.com>
+Subject: Re: [PATCH RFT 04/14] drm/msm/a6xx: Get a handle to the common UBWC
+ config
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,51 +94,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, May 9, 2025 at 5:31=E2=80=AFAM Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+>
+> On 5/8/25 8:41 PM, Rob Clark wrote:
+> > On Thu, May 8, 2025 at 11:13=E2=80=AFAM Konrad Dybcio <konradybcio@kern=
+el.org> wrote:
+> >>
+> >> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >>
+> >> Start the great despaghettification by getting a pointer to the common
+> >> UBWC configuration, which houses e.g. UBWC versions that we need to
+> >> make decisions.
+> >>
+> >> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >> ---
+> >>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 16 ++++++++++++++--
+> >>  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  6 ++++++
+> >>  drivers/gpu/drm/msm/adreno/adreno_gpu.h |  3 +++
+> >>  3 files changed, 23 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/m=
+sm/adreno/a6xx_gpu.c
+> >> index b161b5cd991fc645dfcd69754b82be9691775ffe..89eb725f0950f3679d6214=
+366cfbd22d5bcf4bc7 100644
+> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >> @@ -585,8 +585,13 @@ static void a6xx_set_cp_protect(struct msm_gpu *g=
+pu)
+> >>         gpu_write(gpu, REG_A6XX_CP_PROTECT(protect->count_max - 1), pr=
+otect->regs[i]);
+> >>  }
+> >>
+> >> -static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+> >> +static int a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+> >>  {
+> >> +       /* Inherit the common config and make some necessary fixups */
+> >> +       gpu->common_ubwc_cfg =3D qcom_ubwc_config_get_data();
+> >
+> > This does look a bit funny given the devm_kzalloc() below.. I guess
+> > just so that the ptr is never NULL?
+>
+> Yeah, would you prefer this is changed?
 
-On Fri, 09 May 2025 15:02:47 +0800, Chaoyi Chen wrote:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> 
-> Convert cdn-dp-rockchip.txt to yaml.
-> 
-> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> ---
-> 
-> Changes in v2:
-> - Rename binding file name to match compatible
-> - Add more description about grf/phy/extcon
-> - Fix coding style
-> 
-> 
->  .../display/rockchip/cdn-dp-rockchip.txt      |  74 --------
->  .../rockchip/rockchip,rk3399-cdn-dp.yaml      | 158 ++++++++++++++++++
->  2 files changed, 158 insertions(+), 74 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/cdn-dp-rockchip.txt
->  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-> 
+I think having an all zeros ubwc cfg isn't really going to work
+anyways, so probably drop the kzalloc().  Or if there is a case that
+I'm not thinking of offhand where it makes sense to have an all 0's
+cfg, then add a comment to avoid future head scratching, since
+otherwise it looks like a bug to be fixed.
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3399-cdn-dp.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
- 	 $id: http://devicetree.org/schemas/display/rockchip/rockchip,cdn-dp.yaml
- 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3399-cdn-dp.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250509070247.868-3-kernel@airkyi.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+BR,
+-R
