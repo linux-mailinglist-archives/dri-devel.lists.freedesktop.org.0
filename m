@@ -2,52 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E7DBAB1753
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 16:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C46AAB176B
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 16:30:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA78010E2C4;
-	Fri,  9 May 2025 14:26:53 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mlFaRE7g";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5C3210E02E;
+	Fri,  9 May 2025 14:30:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16CD510E26D
- for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 14:26:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=xcMcmNP1V8nnDAsJC1Qdyo8awocg5tbRjm5hYQIYwCA=; b=mlFaRE7goJIA7a/dtWhjCovRGq
- A+A6iQc8RvBHnZOCzA0XKdfCzoMcwk4G2LzosXd24ED+Z53q2pUrAtpltZJ2/4BYRrrGJr5CV8AbM
- adlbmTJMl0YaAM1Bh9J6zShqOX1OdPK1h8MZPH39ne6BfMrfqDLHYNdRD8O01dET+lgrDAW9AReD4
- CkDp3LnnuN92oSLxm1NvjJuEn+qydL9Xl8p9irqBBRFUu+CFK1i6vJZ4yKBIRyAlI+7ni7/uoQjN4
- CWgQTnGj3Yk1srYMBGR7moMYGw8tW6yTPUROXcCE6W3CICq8kJv58fF0BcfTxkEDD35uvZiAe/9jj
- sGh7VhPA==;
-Received: from [191.204.192.64] (helo=localhost.localdomain)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uDObs-005mcX-BF; Fri, 09 May 2025 16:26:32 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com, Kees Cook <keescook@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH] drm: drm_auth: Convert mutex usage to guard(mutex)
-Date: Fri,  9 May 2025 11:26:27 -0300
-Message-ID: <20250509142627.639419-1-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.49.0
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4C3410E02E
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 May 2025 14:30:08 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-54b10594812so2786190e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 07:30:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1746801006; x=1747405806;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=L6HNDVpBlroLh+j3E6orAQRVPy/hUZu10Ujgmb+3j10=;
+ b=A11SyifQzB7DvSLzZKUDH/jrI1jgT8ZkryWjkB4BQmn4LauZIbBLegFhQPhXYhSz5A
+ vVeOH6bV4DZoPOclHv/laUiAVFhUmQN37WqGxtk8N6AioZCosEEqrvfawl+xZIZYrPQe
+ 2PNhBF79uWEfFn3hgSNvmXyd8WcDNraXHO1lMzNZoDfyvguQ8cX8m8jaUS8JOldgB3In
+ OGU2h2iriMdWN85LmHpbXcauRTXETf55xYfO1axSFCIZc7jkP1JgXcIvMPet6DJFt2yL
+ p2gpeqboEFoLxvgLlFRpnFEDnw7YKAsHw5GFteZrXUHh+DKsG+cEqPFPyR32Oyf9VMnX
+ WTJA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWrRuLyeaP2C7ds2CtmnaNzNy0/53TrRjn8OvdavFY+Mj8UrfazEpYAXBeLYg8Dn7TiFdlFwwkw93o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXDtgJBy7Mu8evAzMUL3uo49HkHX3fE97ntAKDwMUyAsMv8cTv
+ hSVswfqfYbH+tn2KeR4r5pDzmoqHTvLKQ5OE5dkXTZcZlv1mB3JL8GvDISBM
+X-Gm-Gg: ASbGncvS5SLthav4J7ih5FERcKIMqTBHfwN6GXz7W2xuYiT44sADgnPXjsJa6SzDM3d
+ M0bkvWiJS8QFyqF9CbfAbn1ZsFHpgxLK6hD/tj0Uv1fnVoaccOQTbl0HThvL79VBvWNRRb45Hak
+ Bo57CE1pVrg5cURejpzuw0ek3K9XOCJti8EnxNFaZa1KkarGsAIHDemg3EdQOV2Ewr21liKOvxX
+ 47WlL1GViVLu14HfI3p11ESlRp+fvr4VeNqmeAZDBhaPfczSrxedILSjB48tLKZHd55toSPSge0
+ HUfXYt3h8Wol7iM7J13TP6Ms7PdfQT7O3U7qx1CLEiSov2x3nNQQOkKmx8gpCClzjLVncVTk7g=
+ =
+X-Google-Smtp-Source: AGHT+IFkPo0WB8w8xZTtIWuqwDK9m9IZOMX+Ce/F6X4JMUwkzgyJtt+A6zjtF2+NeNh+p/FHHr8OmQ==
+X-Received: by 2002:a05:6512:6703:b0:54a:cc75:6a9d with SMTP id
+ 2adb3069b0e04-54fc67e46e6mr1020307e87.42.1746801005283; 
+ Fri, 09 May 2025 07:30:05 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com.
+ [209.85.208.180]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54fc645cf45sm293497e87.74.2025.05.09.07.30.03
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 May 2025 07:30:03 -0700 (PDT)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-3106217268dso19758551fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 May 2025 07:30:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVJrC8FlE333wZ9Nvf45CPQOIdxR0StNDvR1ugW0S6HZEd+U2zgzzs/NAIffAZOeqkkM/MM+ZdL6zI=@lists.freedesktop.org
+X-Received: by 2002:a2e:a542:0:b0:30b:f15f:1c02 with SMTP id
+ 38308e7fff4ca-326c45a7873mr15824391fa.18.1746801002903; Fri, 09 May 2025
+ 07:30:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250507201943.330111-1-macroalpha82@gmail.com>
+ <20250507201943.330111-3-macroalpha82@gmail.com>
+ <20250509151448.3191a3d8@donnerap.manchester.arm.com>
+In-Reply-To: <20250509151448.3191a3d8@donnerap.manchester.arm.com>
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Fri, 9 May 2025 23:29:50 +0900
+X-Gmail-Original-Message-ID: <CAGb2v65ZhA3_pdgbq9aVdy-0rQcTNfrHoE_AvJxOvin0a6tnMA@mail.gmail.com>
+X-Gm-Features: AX0GCFvJ_vLbDqqJ-IqQuPGDdkvp9YHoqLCtAkJwkmoZo8ZiJNtlDsE7n8dATBw
+Message-ID: <CAGb2v65ZhA3_pdgbq9aVdy-0rQcTNfrHoE_AvJxOvin0a6tnMA@mail.gmail.com>
+Subject: Re: [PATCH V9 02/24] clk: sunxi-ng: h616: Add LVDS reset for LCD TCON
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chris Morgan <macroalpha82@gmail.com>, linux-sunxi@lists.linux.dev, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ ryan@testtoast.com, macromorgan@hotmail.com, p.zabel@pengutronix.de, 
+ tzimmermann@suse.de, maarten.lankhorst@linux.intel.com, simona@ffwll.ch, 
+ airlied@gmail.com, mripard@kernel.org, samuel@sholland.org, 
+ jernej.skrabec@gmail.com, conor+dt@kernel.org, krzk+dt@kernel.org, 
+ robh@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,188 +89,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace open-coded mutex handling with cleanup.h guard(mutex). This
-simplifies the code and removes the "goto unlock" pattern.
+On Fri, May 9, 2025 at 11:14=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+>
+> On Wed,  7 May 2025 15:19:21 -0500
+> Chris Morgan <macroalpha82@gmail.com> wrote:
+>
+> Hi,
+>
+> despite the slightly ill fate of this series, I was wondering if we could
+> get the non-controversial clock parts for instance already merged, to
+> reduce the number of patches and mitigate the churn with dependencies?
 
-Tested with igt tests core_auth and core_setmaster.
+Sure. Are we expecting any of the DT bits to go in this cycle?
+If not I won't have to split the DT header patch on a separate
+branch.
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
+ChenYu
 
-For more information about guard(mutex):
-https://www.kernel.org/doc/html/latest/core-api/cleanup.html
----
- drivers/gpu/drm/drm_auth.c | 64 ++++++++++++++------------------------
- 1 file changed, 23 insertions(+), 41 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 22aa015df387..d6bf605b4b90 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -95,7 +95,7 @@ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
- 	struct drm_auth *auth = data;
- 	int ret = 0;
- 
--	mutex_lock(&dev->master_mutex);
-+	guard(mutex)(&dev->master_mutex);
- 	if (!file_priv->magic) {
- 		ret = idr_alloc(&file_priv->master->magic_map, file_priv,
- 				1, 0, GFP_KERNEL);
-@@ -103,7 +103,6 @@ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
- 			file_priv->magic = ret;
- 	}
- 	auth->magic = file_priv->magic;
--	mutex_unlock(&dev->master_mutex);
- 
- 	drm_dbg_core(dev, "%u\n", auth->magic);
- 
-@@ -118,13 +117,12 @@ int drm_authmagic(struct drm_device *dev, void *data,
- 
- 	drm_dbg_core(dev, "%u\n", auth->magic);
- 
--	mutex_lock(&dev->master_mutex);
-+	guard(mutex)(&dev->master_mutex);
- 	file = idr_find(&file_priv->master->magic_map, auth->magic);
- 	if (file) {
- 		file->authenticated = 1;
- 		idr_replace(&file_priv->master->magic_map, NULL, auth->magic);
- 	}
--	mutex_unlock(&dev->master_mutex);
- 
- 	return file ? 0 : -EINVAL;
- }
-@@ -248,41 +246,33 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
- {
- 	int ret;
- 
--	mutex_lock(&dev->master_mutex);
-+	guard(mutex)(&dev->master_mutex);
- 
- 	ret = drm_master_check_perm(dev, file_priv);
- 	if (ret)
--		goto out_unlock;
-+		return ret;
- 
- 	if (drm_is_current_master_locked(file_priv))
--		goto out_unlock;
-+		return ret;
- 
--	if (dev->master) {
--		ret = -EBUSY;
--		goto out_unlock;
--	}
-+	if (dev->master)
-+		return -EBUSY;
- 
--	if (!file_priv->master) {
--		ret = -EINVAL;
--		goto out_unlock;
--	}
-+	if (!file_priv->master)
-+		return -EINVAL;
- 
--	if (!file_priv->is_master) {
--		ret = drm_new_set_master(dev, file_priv);
--		goto out_unlock;
--	}
-+	if (!file_priv->is_master)
-+		return drm_new_set_master(dev, file_priv);
- 
- 	if (file_priv->master->lessor != NULL) {
- 		drm_dbg_lease(dev,
- 			      "Attempt to set lessee %d as master\n",
- 			      file_priv->master->lessee_id);
--		ret = -EINVAL;
--		goto out_unlock;
-+		return -EINVAL;
- 	}
- 
- 	drm_set_master(dev, file_priv, false);
--out_unlock:
--	mutex_unlock(&dev->master_mutex);
-+
- 	return ret;
- }
- 
-@@ -299,33 +289,27 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
- {
- 	int ret;
- 
--	mutex_lock(&dev->master_mutex);
-+	guard(mutex)(&dev->master_mutex);
- 
- 	ret = drm_master_check_perm(dev, file_priv);
- 	if (ret)
--		goto out_unlock;
-+		return ret;
- 
--	if (!drm_is_current_master_locked(file_priv)) {
--		ret = -EINVAL;
--		goto out_unlock;
--	}
-+	if (!drm_is_current_master_locked(file_priv))
-+		return -EINVAL;
- 
--	if (!dev->master) {
--		ret = -EINVAL;
--		goto out_unlock;
--	}
-+	if (!dev->master)
-+		return -EINVAL;
- 
- 	if (file_priv->master->lessor != NULL) {
- 		drm_dbg_lease(dev,
- 			      "Attempt to drop lessee %d as master\n",
- 			      file_priv->master->lessee_id);
--		ret = -EINVAL;
--		goto out_unlock;
-+		return -EINVAL;
- 	}
- 
- 	drm_drop_master(dev, file_priv);
--out_unlock:
--	mutex_unlock(&dev->master_mutex);
-+
- 	return ret;
- }
- 
-@@ -337,7 +321,7 @@ int drm_master_open(struct drm_file *file_priv)
- 	/* if there is no current master make this fd it, but do not create
- 	 * any master object for render clients
- 	 */
--	mutex_lock(&dev->master_mutex);
-+	guard(mutex)(&dev->master_mutex);
- 	if (!dev->master) {
- 		ret = drm_new_set_master(dev, file_priv);
- 	} else {
-@@ -345,7 +329,6 @@ int drm_master_open(struct drm_file *file_priv)
- 		file_priv->master = drm_master_get(dev->master);
- 		spin_unlock(&file_priv->master_lookup_lock);
- 	}
--	mutex_unlock(&dev->master_mutex);
- 
- 	return ret;
- }
-@@ -355,7 +338,7 @@ void drm_master_release(struct drm_file *file_priv)
- 	struct drm_device *dev = file_priv->minor->dev;
- 	struct drm_master *master;
- 
--	mutex_lock(&dev->master_mutex);
-+	guard(mutex)(&dev->master_mutex);
- 	master = file_priv->master;
- 	if (file_priv->magic)
- 		idr_remove(&file_priv->master->magic_map, file_priv->magic);
-@@ -376,7 +359,6 @@ void drm_master_release(struct drm_file *file_priv)
- 	/* drop the master reference held by the file priv */
- 	if (file_priv->master)
- 		drm_master_put(&file_priv->master);
--	mutex_unlock(&dev->master_mutex);
- }
- 
- /**
--- 
-2.49.0
-
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> >
+> > Add the required LVDS reset for the LCD TCON. Note that while this
+> > reset is exposed for the T507, H616, and H700 only the H700 has
+> > an LCD controller.
+> >
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+>
+> Matches the T507 manual:
+>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+>
+> Cheers,
+> Andre
+>
+> > ---
+> >  drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi=
+-ng/ccu-sun50i-h616.c
+> > index daa462c7d477..955c614830fa 100644
+> > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> > @@ -1094,6 +1094,7 @@ static const struct ccu_reset_map sun50i_h616_ccu=
+_resets[] =3D {
+> >       [RST_BUS_TCON_LCD1]     =3D { 0xb7c, BIT(17) },
+> >       [RST_BUS_TCON_TV0]      =3D { 0xb9c, BIT(16) },
+> >       [RST_BUS_TCON_TV1]      =3D { 0xb9c, BIT(17) },
+> > +     [RST_BUS_LVDS]          =3D { 0xbac, BIT(16) },
+> >       [RST_BUS_TVE_TOP]       =3D { 0xbbc, BIT(16) },
+> >       [RST_BUS_TVE0]          =3D { 0xbbc, BIT(17) },
+> >       [RST_BUS_HDCP]          =3D { 0xc4c, BIT(16) },
+>
+>
