@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A091DAB1633
-	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 15:57:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2F8AB1635
+	for <lists+dri-devel@lfdr.de>; Fri,  9 May 2025 15:57:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0218B10EA62;
-	Fri,  9 May 2025 13:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A1AE10EA6A;
+	Fri,  9 May 2025 13:57:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gr40Nsj/";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="H9d2GFtY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C83F210EA68;
- Fri,  9 May 2025 13:57:08 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8FE0243B50;
- Fri,  9 May 2025 13:57:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C066610EA6A;
+ Fri,  9 May 2025 13:57:11 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B5F4043B67;
+ Fri,  9 May 2025 13:57:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1746799027;
+ t=1746799030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wfk1kaPUb8jTQgYvcZdTdUyZhZFAInoALAL+cRhzIsQ=;
- b=gr40Nsj/K3gt1sHPwjmwgXS8PmCtELSUUoucRIEba5ZLQ2uwuVV8Od6CcVl78pA1e7sceo
- 6KL4Jce/PdY228FDoL8v4DVa5oDvkqBrKDRxV1k0e0bD/kAbZ1v8TYEks9P67tmtnVExGa
- 8rdbKLhKpiVv54mmEkIjv4jXA+hqACO2ypt9jdCLny47Nf4cKKCGCEfwdPQIRdjrEszRkI
- P7+smrGlq8DyVjCOhWlIHWTRfxW9nRivwUo/7iP/oqGnbEnnaN/WejR+Jg6CSwONp0gjSL
- RGhffOyQ1nPeLbcMLMq001MdWX/N5fD+J0Q230rtrOSUrigYYBtMdD6WNcdYdw==
+ bh=PS8lSBx0SgWehq3/+W/jHTYiLDqAvodlyxPqYctHkFA=;
+ b=H9d2GFtYWgoDrwhx0NxqqRoMN7UDjEHOEPB2whIs9XvQYeziYN5s3nv07dUBSVKU0EFnWX
+ mBXz0E5qWPkEMs9pae/VMgkJP/xMgO1zyvKfQpPqyC7VE0q3Gydx18DKv4ikdgq/pTvbXp
+ i8EH98vCniHQyXPDhMKoTWtrEyLVs13n9OaFKo3sJN291iEfooOciLkIJJ5o4Hhr2ymWLV
+ ONc784wWHHgKxJ3vWGB/kSbfJrDjSdvZqqAaS855dU6bUA7WCex1Ra8gi6eoaa/tgb19G4
+ MJodIRbAD1G2Pi6+6lB17UXv4X1w8KJDtexFfAqrq5RQoOPz4d+4o12Rg/ujww==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 May 2025 15:53:43 +0200
-Subject: [PATCH v3 17/22] drm: zynqmp_dp: convert to
+Date: Fri, 09 May 2025 15:53:44 +0200
+Subject: [PATCH v3 18/22] drm/bridge: imx8qxp-pixel-combiner: convert to
  devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250509-drm-bridge-convert-to-alloc-api-v3-17-b8bc1f16d7aa@bootlin.com>
+Message-Id: <20250509-drm-bridge-convert-to-alloc-api-v3-18-b8bc1f16d7aa@bootlin.com>
 References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
 In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -65,14 +65,11 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Michal Simek <michal.simek@amd.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Liu Ying <victor.liu@nxp.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeduieenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedvpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnu
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeduieenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedtpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnu
  higqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtoheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdprhgtphhtthhopegrshhrihhvrghtshesrhgvughhrghtrdgtohhm
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,116 +89,103 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is the new API for allocating DRM bridges.
 
-This driver has a peculiar structure. zynqmp_dpsub.c is the actual driver,
-which delegates to a submodule (zynqmp_dp.c) the allocation of a
-sub-structure embedding the drm_bridge and its initialization, however it
-does not delegate the drm_bridge_add(). Hence, following carefully the code
-flow, it is correct to change the allocation function and .funcs assignment
-in the submodule, while the drm_bridge_add() is not in that submodule.
+This driver embeds an array of channels in the main struct, and each
+channel embeds a drm_bridge. This prevents dynamic, refcount-based
+deallocation of the bridges.
+
+To make the new, dynamic bridge allocation possible:
+
+ * change the array of channels into an array of channel pointers
+ * allocate each channel using devm_drm_bridge_alloc()
+ * adapt the code wherever using the channels
+ * remove the is_available flag, now "ch != NULL" is equivalent
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Michal Simek <michal.simek@amd.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Liu Ying <victor.liu@nxp.com>
 
-Changes in v2:
-- rebased on current drm-misc-next
-- remove the kfree() calls too, as we are converting from kzalloc+kfree,
-  not from devm_kzalloc
+Changes in v3:
+- fix NULL pointer deref in .remove and remove is_available bool
+
+Changes in v2: none
 ---
- drivers/gpu/drm/xlnx/zynqmp_dp.c    | 31 +++++++++++--------------------
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c |  1 -
- 2 files changed, 11 insertions(+), 21 deletions(-)
+ .../gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c    | 27 +++++++++++-----------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 238cbb49963efa6e8cc737d8a6e76250f6531276..02e1feaa611596a24217136ee8ce7f5d2f1900a2 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -2439,9 +2439,9 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
- 	struct zynqmp_dp *dp;
- 	int ret;
+diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+index 1f6fd488e7039e943351006d3373009f0c15cb08..8517b1c953d4e0fb9f5b6dbe25fbaaa63eef2b33 100644
+--- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
++++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+@@ -63,12 +63,11 @@ struct imx8qxp_pc_channel {
+ 	struct drm_bridge *next_bridge;
+ 	struct imx8qxp_pc *pc;
+ 	unsigned int stream_id;
+-	bool is_available;
+ };
  
--	dp = kzalloc(sizeof(*dp), GFP_KERNEL);
--	if (!dp)
--		return -ENOMEM;
-+	dp = devm_drm_bridge_alloc(&pdev->dev, struct zynqmp_dp, bridge, &zynqmp_dp_bridge_funcs);
-+	if (IS_ERR(dp))
-+		return PTR_ERR(dp);
+ struct imx8qxp_pc {
+ 	struct device *dev;
+-	struct imx8qxp_pc_channel ch[2];
++	struct imx8qxp_pc_channel *ch[2];
+ 	struct clk *clk_apb;
+ 	void __iomem *base;
+ };
+@@ -307,7 +306,14 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
+ 			goto free_child;
+ 		}
  
- 	dp->dev = &pdev->dev;
- 	dp->dpsub = dpsub;
-@@ -2454,31 +2454,25 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+-		ch = &pc->ch[i];
++		ch = devm_drm_bridge_alloc(dev, struct imx8qxp_pc_channel, bridge,
++					   &imx8qxp_pc_bridge_funcs);
++		if (IS_ERR(ch)) {
++			ret = PTR_ERR(ch);
++			goto free_child;
++		}
++
++		pc->ch[i] = ch;
+ 		ch->pc = pc;
+ 		ch->stream_id = i;
  
- 	/* Acquire all resources (IOMEM, IRQ and PHYs). */
- 	dp->iomem = devm_platform_ioremap_resource_byname(pdev, "dp");
--	if (IS_ERR(dp->iomem)) {
--		ret = PTR_ERR(dp->iomem);
--		goto err_free;
--	}
-+	if (IS_ERR(dp->iomem))
-+		return PTR_ERR(dp->iomem);
+@@ -333,9 +339,7 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
+ 		of_node_put(remote);
  
- 	dp->irq = platform_get_irq(pdev, 0);
--	if (dp->irq < 0) {
--		ret = dp->irq;
--		goto err_free;
--	}
-+	if (dp->irq < 0)
-+		return dp->irq;
+ 		ch->bridge.driver_private = ch;
+-		ch->bridge.funcs = &imx8qxp_pc_bridge_funcs;
+ 		ch->bridge.of_node = child;
+-		ch->is_available = true;
  
- 	dp->reset = devm_reset_control_get(dp->dev, NULL);
--	if (IS_ERR(dp->reset)) {
--		ret = dev_err_probe(dp->dev, PTR_ERR(dp->reset),
-+	if (IS_ERR(dp->reset))
-+		return dev_err_probe(dp->dev, PTR_ERR(dp->reset),
- 				    "failed to get reset\n");
--		goto err_free;
--	}
+ 		drm_bridge_add(&ch->bridge);
+ 	}
+@@ -345,8 +349,8 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
+ free_child:
+ 	of_node_put(child);
  
- 	ret = zynqmp_dp_reset(dp, true);
- 	if (ret < 0)
--		goto err_free;
-+		return ret;
+-	if (i == 1 && pc->ch[0].next_bridge)
+-		drm_bridge_remove(&pc->ch[0].bridge);
++	if (i == 1 && pc->ch[0]->next_bridge)
++		drm_bridge_remove(&pc->ch[0]->bridge);
  
- 	ret = zynqmp_dp_reset(dp, false);
- 	if (ret < 0)
--		goto err_free;
-+		return ret;
- 
- 	ret = zynqmp_dp_phy_probe(dp);
- 	if (ret)
-@@ -2486,7 +2480,6 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
- 
- 	/* Initialize the bridge. */
- 	bridge = &dp->bridge;
--	bridge->funcs = &zynqmp_dp_bridge_funcs;
- 	bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
- 		    | DRM_BRIDGE_OP_HPD;
- 	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
-@@ -2539,8 +2532,6 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
- 	zynqmp_dp_phy_exit(dp);
- err_reset:
- 	zynqmp_dp_reset(dp, true);
--err_free:
--	kfree(dp);
+ 	pm_runtime_disable(dev);
  	return ret;
- }
+@@ -359,13 +363,10 @@ static void imx8qxp_pc_bridge_remove(struct platform_device *pdev)
+ 	int i;
  
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-index 3a9544b97bc5311f9adeb57c08c837a04b6922fa..2764c4b17c5e49611db8adf41dd09e3134c2d524 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-@@ -180,7 +180,6 @@ static int zynqmp_dpsub_parse_dt(struct zynqmp_dpsub *dpsub)
- void zynqmp_dpsub_release(struct zynqmp_dpsub *dpsub)
- {
- 	kfree(dpsub->disp);
--	kfree(dpsub->dp);
- 	kfree(dpsub);
- }
+ 	for (i = 0; i < 2; i++) {
+-		ch = &pc->ch[i];
+-
+-		if (!ch->is_available)
+-			continue;
++		ch = pc->ch[i];
  
+-		drm_bridge_remove(&ch->bridge);
+-		ch->is_available = false;
++		if (ch)
++			drm_bridge_remove(&ch->bridge);
+ 	}
+ 
+ 	pm_runtime_disable(&pdev->dev);
 
 -- 
 2.49.0
