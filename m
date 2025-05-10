@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F346DAB226B
-	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 10:54:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125ABAB2273
+	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 10:54:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F44B10E1D3;
-	Sat, 10 May 2025 08:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3278510E1DF;
+	Sat, 10 May 2025 08:54:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MAob66vl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nBKXOk3r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D561410E1C0;
- Sat, 10 May 2025 08:54:14 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F38010E1DF;
+ Sat, 10 May 2025 08:54:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F3AC85C4BF4;
- Sat, 10 May 2025 08:51:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 334E6C4CEE2;
- Sat, 10 May 2025 08:54:13 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 5FE9B44612;
+ Sat, 10 May 2025 08:54:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85FC6C4CEE2;
+ Sat, 10 May 2025 08:54:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746867253;
- bh=VVPugc4AJ2qByBMzB3h4W659wViYt/O0bXZYzjWxL4c=;
+ s=k20201202; t=1746867263;
+ bh=lIsmhYDAaOgf3OuGuhP0QGWLf36xuzWpImhTwT43KXY=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=MAob66vlQl9HXRhBBHsn4iW6GslUcHoZUXcQtzD7gPZYWuYHXLfmWCnt2VlRVRL6e
- ndAFoXddcr941x/JBWwzvXYalY8opvkW8JMIcC0mYvnFFS4Lkv6SjmBghF4DQC5u8O
- F8ERWxYIPoUwXwSgEbxQbncBx9DvnhN36Xo6HKL8Rw/zlr91yUbgPVy6EVB+CQjSTd
- tLtCFC5c7uejq5Reunpqmjk6yRPamPRRpgP7MkfI9onismcj+DJZbViwOKoPr7Mj2z
- mPUeEnHaWGDz4DYn3nYk6PovrCkP01jkErgIn77akVkVjV3cGtbbEMwmkhMKuSBcwI
- TJnZC6pUWbqHg==
-Message-ID: <e6c1eb762fc643793a3ba02cc0f79e9e@kernel.org>
-Date: Sat, 10 May 2025 08:54:10 +0000
+ b=nBKXOk3rO27D602FaPS1WeuDSQv0FG67XuyA1GlHSEE66tyj36TpNl8x3ixtmHLxF
+ p/0HTgXlg8SwlM8sBX85dn+aKpNGKfBLbPKS5ilpsAZ20xny6++2F76C1NwQV8jJ9K
+ P71k3yxLu5XMWyfrjRMVUxCPJHL3wmFkPLcY1MnTPrhDk4XnrM3R4022hZDxYxsevB
+ D/Fbu+MdSrUfuL3o+GJoJQkfElhCm1tFdxIAetbULcck5pkUoA+XIXbUFWOPYtl5my
+ 9HtREqZjdmFG7lpiZ5Pxf/pmVJnKHMlE+SXuKMiX0hSPV3WK59Hy7io5mEA8Z8jrQ6
+ TwAvqWQFfvjDw==
+Message-ID: <ef3b22915764e919b2750c2a7b389cbe@kernel.org>
+Date: Sat, 10 May 2025 08:54:19 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 08/22] drm/omap: dss: dpi: convert to
+Subject: Re: [PATCH v3 09/22] drm/omap: dss: dsi: convert to
  devm_drm_bridge_alloc() API
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-8-b8bc1f16d7aa@bootlin.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-8-b8bc1f16d7aa@bootlin.com>
+In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-9-b8bc1f16d7aa@bootlin.com>
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-9-b8bc1f16d7aa@bootlin.com>
 Cc: asahi@lists.linux.dev, chrome-platform@lists.linux.dev,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  imx@lists.linux.dev, linux-amlogic@lists.infradead.org,
@@ -50,18 +50,16 @@ Cc: asahi@lists.linux.dev, chrome-platform@lists.linux.dev,
  "Chun-Kuang
  Hu" <chunkuang.hu@kernel.org>, "David Airlie" <airlied@gmail.com>, "Dmitry
  Baryshkov" <lumag@kernel.org>, "Douglas Anderson" <dianders@chromium.org>,
- "Fabio Estevam" <festevam@gmail.com>, "Helge Deller" <deller@gmx.de>,
- "Hui Pu" <Hui.Pu@gehealthcare.com>, "Jagan
+ "Fabio
+ Estevam" <festevam@gmail.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Jagan
  Teki" <jagan@amarulasolutions.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
  "Jonas
- Karlman" <jonas@kwiboo.se>, "Krzysztof Kozlowski" <krzk@kernel.org>, "Kuninori
- Morimoto" <kuninori.morimoto.gx@renesas.com>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Paul Kocialkowski" <paulk@sys-base.io>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>,
- =?utf-8?b?Um9iIEhlcnJpbmcgKEFybSk=?= <robh@kernel.org>, "Robert
+ Karlman" <jonas@kwiboo.se>, "Krzysztof Kozlowski" <krzk@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime
+ Ripard" <mripard@kernel.org>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Paul Kocialkowski" <paulk@sys-base.io>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Robert
  Foss" <rfoss@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Shawn
  Guo" <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
  Petazzoni" <thomas.petazzoni@bootlin.com>,
@@ -83,7 +81,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 9 May 2025 15:53:34 +0200, Luca Ceresoli wrote:
+On Fri, 9 May 2025 15:53:35 +0200, Luca Ceresoli wrote:
 > This is the new API for allocating DRM bridges.
 > 
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
