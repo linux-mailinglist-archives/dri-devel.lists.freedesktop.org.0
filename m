@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA67AB2232
-	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 10:43:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C07AB2235
+	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 10:44:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5F210E09E;
-	Sat, 10 May 2025 08:43:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05F8810E04F;
+	Sat, 10 May 2025 08:44:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="prhhrjtH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cf25X2Dl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C49910E04F;
- Sat, 10 May 2025 08:43:15 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1507810E04F;
+ Sat, 10 May 2025 08:44:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 52B1D5C4773;
- Sat, 10 May 2025 08:40:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D826C4CEE2;
- Sat, 10 May 2025 08:43:09 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 63302450B0;
+ Sat, 10 May 2025 08:44:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83328C4CEE2;
+ Sat, 10 May 2025 08:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746866589;
- bh=51h4v8E5HX2Z8DyPqAO8YziaTFLpGy++tmZ/wKkW2Gg=;
+ s=k20201202; t=1746866640;
+ bh=iZP0INqkNVJuqSHAtR4h42xNc68rjVjaWzE+UVHVyVQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=prhhrjtHTVZYa3NMgzkMx+yFeyGv1Ej7LXkKMfvn1HLib+GZltXt9dN5b0c8pVobc
- l0CFWH7xTMtVvBfeDBFl4X6BDG0P/7zTIzoGnlc77ycReUUSv6f0NgRhI2cECWcVPf
- T8mI/UBfT7yHnl1ucVKnxSiaz6ZvgjeybFnw5F4W3uiWBHHbBRSJEWx28KADwICKEn
- lEwq9Bb3VNf0SMsbsChFhvDwm4efl+wZ9phFvexc78Mn+urduaxTdOaAv8FiLkhXKV
- 7IEV46qEV2F2DgepGhgs7Iw1LgX/vj7RmbML/FBsbd3npas6/eVE8OvUk0VGHYZAY2
- FilpEGUzfwuqA==
-Date: Sat, 10 May 2025 10:43:04 +0200
+ b=cf25X2DlYFqigNEHaUMVIeSZvZx5mMBMfSzlXZh6IR3yRDGG2JP2se3Xi0GUaRRXC
+ RHAswulPL2o/Pu8CqhMFklkb261bJF7PuKzyTJBFfoQdYMudvn0NQ9MppKC/GoKCMT
+ UxAlc4FeAi19ZF/qEhl2UFsXIhG5PhmX9ubf5wzszMnkQOKxcWJCVDZnJg851wO8U0
+ kTWLIRMy5T1VyNl3f9SWXtOcnJjxbEyqha7GSa79N+AqWLSkNuhVXOE0FS2oMO1JRZ
+ VThrHCnZwR6Rq0g0ELeJB3Pa5IH9mLfbpSLf18puH5eXsNJlQWdWUJPMr/VfA4P9d1
+ m0M5pmefqYnvQ==
+Date: Sat, 10 May 2025 10:43:56 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -57,40 +57,21 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
  linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Manikandan Muralidharan <manikandan.m@microchip.com>, 
- Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
- Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Christoph Fritz <chf.fritz@googlemail.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>, 
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Guenter Roeck <groeck@chromium.org>, 
- Heiko Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>,
- Janne Grunau <j@jannau.net>, 
- Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
- Kevin Hilman <khilman@baylibre.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Liu Ying <victor.liu@nxp.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Phong LE <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Sugar Zhang <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Vitalii Mordan <mordan@ispras.ru>
-Subject: Re: [PATCH v3 02/22] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-Message-ID: <4yeqvg3wnlr2bhb54zutgqpkehrodat5w5x4rr5qjlrc2ts3pz@gr2iosycclpl>
+ freedreno@lists.freedesktop.org, 
+ linux-stm32@st-md-mailman.stormreply.com, "Rob Herring (Arm)" <robh@kernel.org>,
+ Hsin-Te Yuan <yuanhsinte@chromium.org>, Jani Nikula <jani.nikula@intel.com>, 
+ Pin-yen Lin <treapking@chromium.org>, Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Xin Ji <xji@analogixsemi.com>
+Subject: Re: [PATCH v3 03/22] drm/bridge: anx7625: convert to
+ devm_drm_bridge_alloc() API
+Message-ID: <3cccwtayrisa4x6gn4wvmd3unabionun7va3qlh7cmfxf4ukqd@vgwai2ralai7>
 References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
- <20250509-drm-bridge-convert-to-alloc-api-v3-2-b8bc1f16d7aa@bootlin.com>
+ <20250509-drm-bridge-convert-to-alloc-api-v3-3-b8bc1f16d7aa@bootlin.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="mseix42f6fruwdv3"
+ protocol="application/pgp-signature"; boundary="42gmp23z7tcowblp"
 Content-Disposition: inline
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-2-b8bc1f16d7aa@bootlin.com>
+In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-3-b8bc1f16d7aa@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,82 +88,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---mseix42f6fruwdv3
+--42gmp23z7tcowblp
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 02/22] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
+Subject: Re: [PATCH v3 03/22] drm/bridge: anx7625: convert to
+ devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 
-On Fri, May 09, 2025 at 03:53:28PM +0200, Luca Ceresoli wrote:
-> devm_drm_bridge_alloc() is the new API to be used for allocating (and
-> partially initializing) a private driver struct embedding a struct
-> drm_bridge.
+On Fri, May 09, 2025 at 03:53:29PM +0200, Luca Ceresoli wrote:
+> This is the new API for allocating DRM bridges.
 >=20
-> For many drivers having a simple code flow in the probe function, this
-> commit does a mass conversion automatically with the following semantic
-> patch. The changes have been reviewed manually for correctness as well as
-> to find any false positives.
->=20
-> The patch has been applied with the explicit exclusion of bridge/panel.c,
-> handled by a separate patch.
->=20
-> After applying the semantic patch, manually fixed these issues:
->=20
->  - 4 drivers need ERR_CAST() instead of PTR_ERR() as the function calling
->    devm_drm_bridge_alloc() returns a pointer
->  - re-added empty lines and comments that the script had removed but that
->    should stay
->=20
->   @@
->   type T;
->   identifier C;
->   identifier BR;
->   expression DEV;
->   expression FUNCS;
->   @@
->   -T *C;
->   +T *C;
->    ...
->   (
->   -C =3D devm_kzalloc(DEV, ...);
->   -if (!C)
->   -    return -ENOMEM;
->   +C =3D devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
->   +if (IS_ERR(C))
->   +     return PTR_ERR(C);
->   |
->   -C =3D devm_kzalloc(DEV, ...);
->   -if (!C)
->   -    return ERR_PTR(-ENOMEM);
->   +C =3D devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
->   +if (IS_ERR(C))
->   +     return PTR_ERR(C);
->   )
->    ...
->   -C->BR.funcs =3D FUNCS;
->=20
-> Reviewed-by: Manikandan Muralidharan <manikandan.m@microchip.com> # micro=
-chip-lvds.c
-> Reviewed-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
-> Tested-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
 
-Maxime
-
---mseix42f6fruwdv3
+--42gmp23z7tcowblp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaB8RkwAKCRAnX84Zoj2+
-dqBFAX9RE+B2jnCUcuUtKcNCTEZ8xNW143YQNM29MIx0Gy045sZ9DXgGmQ1PKcXr
-ax3IB2MBgKY7iHiKzY5LSG5f4DqrX/bF/QZAFTTE5/6Clb0TVt4RVPOdxBLJPjrA
-ibmLC8e5mA==
-=lhGP
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaB8RzAAKCRAnX84Zoj2+
+dln/AX40pKuqkRhkQVs6JCH/aLBJ1p4FH2jOlqJApLLs496lo7sUBly+1PuPiI35
+tNCYL7gBgKXxlSu1iZTnQQ03NSmiS7pU7xW+Lr1Yp4YkNPcG6zX8UJqs8WwQCQyQ
+xhT5uOOImg==
+=3aXy
 -----END PGP SIGNATURE-----
 
---mseix42f6fruwdv3--
+--42gmp23z7tcowblp--
