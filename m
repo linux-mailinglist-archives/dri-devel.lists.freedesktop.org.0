@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B83AB227F
-	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 10:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F90AB2284
+	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 10:55:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EFFE10E1E0;
-	Sat, 10 May 2025 08:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43DCB10E1F1;
+	Sat, 10 May 2025 08:55:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BGmu8r2v";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WVOW4a8J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7ED010E1C0;
- Sat, 10 May 2025 08:54:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D89810E1F1;
+ Sat, 10 May 2025 08:54:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A5A08614BA;
- Sat, 10 May 2025 08:54:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD0D4C4CEE2;
- Sat, 10 May 2025 08:54:42 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 0D03162A17;
+ Sat, 10 May 2025 08:54:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1116BC4CEE2;
+ Sat, 10 May 2025 08:54:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746867283;
- bh=vvYWB5SwK5y1flfnSPXjO4/RKRc3K+qiUOstKgTTfMc=;
+ s=k20201202; t=1746867298;
+ bh=4vkGWeWrB5qJeRA05ngKUQ3a9wYaykQKSQsySoPOVy8=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=BGmu8r2vmeu5qiSrnPewJ2qyvAJQO4tvODw1+/uM3lWLR4DMGu1vnHwlpNJeUXOJB
- yto5k+SfY9DJZkY5IBBLIByccPXyy/ZswerCMMjOR0W+1ijsrO/F1o0JPjwP7RnPwi
- kbl/Wopm25qydHz0TYHBot/MMl0+p0jhEATcqqNncv3ZamQtbfSrQ2icsY4hAfwynQ
- nquzvdf9Z2c7rRpqv9V6Y5QrE3J9qTXZpY4k05Y2dLXA0RFL1NQPigCUv0l6D/uuE1
- 4Qx1CpK8Znl//ZOVHxR0KlAkm1n8ssYNV6wqenGpnhMlPT1ySXJABagzXCvQtE8vH3
- kCpwp/N9bQmVw==
-Message-ID: <d6c002809f9c851bd5e891be23c08d4f@kernel.org>
-Date: Sat, 10 May 2025 08:54:40 +0000
+ b=WVOW4a8JqlO3E+y5fXdF0Wt7TpzA/IeZHZg3CSK2aFr3Jp140Rn9r9KUB1iVCFsrh
+ 4xsSJHXLVhzy8GUfyUmcubvrtu6f66ltZh3esxqd2Dix/KKASa4P7qvwmx7WhRf8Dk
+ TisNsRSCZql41EszZCX8HO6m/eWbLWfK9XGqne/hK60KolGFA+NuOlDsJA4Xg+TCvU
+ RpO8VGfsIRHhbF3jpS0P494+bYpVyG9B1BWbRqUW5wMn4w6G27pzBfFb+BNKMg6c82
+ o/6E+7Lgd7rVXHwoKdIiAo0tbNcalI0YnXugo+M11E8Y5wYUCrog9oFgejVnu+MS5I
+ mK7NpD4mytzxA==
+Message-ID: <eee8c1382b8fa3034621a4d3bc251c48@kernel.org>
+Date: Sat, 10 May 2025 08:54:55 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 10/22] drm/omap: dss: hdmi4: convert to
+Subject: Re: [PATCH v3 11/22] drm/omap: dss: hdmi5: convert to
  devm_drm_bridge_alloc() API
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-10-b8bc1f16d7aa@bootlin.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-10-b8bc1f16d7aa@bootlin.com>
+In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-11-b8bc1f16d7aa@bootlin.com>
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-11-b8bc1f16d7aa@bootlin.com>
 Cc: asahi@lists.linux.dev, chrome-platform@lists.linux.dev,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  imx@lists.linux.dev, linux-amlogic@lists.infradead.org,
@@ -81,7 +81,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 9 May 2025 15:53:36 +0200, Luca Ceresoli wrote:
+On Fri, 9 May 2025 15:53:37 +0200, Luca Ceresoli wrote:
 > This is the new API for allocating DRM bridges.
 >=20
 > Switching from a non-devm to a devm allocation allows removing the kfree()
