@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD66AB2308
-	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 11:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1319CAB2333
+	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 11:59:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B5810E247;
-	Sat, 10 May 2025 09:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A20210E20D;
+	Sat, 10 May 2025 09:59:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rXWpAKMN";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 909 seconds by postgrey-1.36 at gabe;
- Sat, 10 May 2025 09:46:06 UTC
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC14510E247
- for <dri-devel@lists.freedesktop.org>; Sat, 10 May 2025 09:46:06 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.44])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Zvgc671xyz27hNk;
- Sat, 10 May 2025 17:31:34 +0800 (CST)
-Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
- by mail.maildlp.com (Postfix) with ESMTPS id 7305D140146;
- Sat, 10 May 2025 17:30:48 +0800 (CST)
-Received: from huawei.com (10.175.103.91) by kwepemf100008.china.huawei.com
- (7.202.181.222) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Sat, 10 May
- 2025 17:30:47 +0800
-From: Zeng Heng <zengheng4@huawei.com>
-To: <tzimmermann@suse.de>, <airlied@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mario.kleiner@tuebingen.mpg.de>,
- <airlied@redhat.com>, <mripard@kernel.org>, <simona@ffwll.ch>
-CC: <bobo.shaobowang@huawei.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/vblank: Fix hard lockup in drm_handle_vblank()
-Date: Sat, 10 May 2025 17:47:57 +0800
-Message-ID: <20250510094757.4174662-1-zengheng4@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3075710E20D
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 May 2025 09:59:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 07248A4A467;
+ Sat, 10 May 2025 09:59:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37174C4CEE2;
+ Sat, 10 May 2025 09:59:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1746871161;
+ bh=3DEDo/oT2mSMSaFNL9SAV8nObn2xvcl2tILbp4CvHJo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rXWpAKMNzeCNUPQsBH4RKKdK7l89yw0b+2lxhE6Az1XtHzs5gDI8lrCdav9ZbFlY7
+ fCgQm4MZFA39hJ/owlgQZAUCLqKQ0BXi4fIWheg/x5Vlj5TrHLvq3j2MosBEewj60c
+ itmdtszyhedIyELm76r/dC+GDOfDGoC5LjPAfgGVE234GPxcZxYHlvguA6gdI2UYFL
+ iLfyHAp4jNjaBuGnZzmAeNJffZx7xp8ApgpGKHhxfRsaEmEHDTEe7YaqJLdG7IAWjf
+ D2EmK44ParOoe43q1mi1zkpJ/Bi52RWyNrfkveGzRcljdprHCjuLLvGUKG7OXW5jTY
+ T70o6qew3fsJg==
+Date: Sat, 10 May 2025 11:59:17 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Eric Auger <eric.auger@redhat.com>, David Airlie <airlied@redhat.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux.dev>, 
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/virtio: implement virtio_gpu_shutdown
+Message-ID: <urpxto3fgvwoe4hob2aukggeop4bcsyb7m5wflgru4c3otd6rq@aktopqufgxom>
+References: <20250507082821.2710706-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemf100008.china.huawei.com (7.202.181.222)
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="heio2mtmzyxze2l7"
+Content-Disposition: inline
+In-Reply-To: <20250507082821.2710706-1-kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,103 +63,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When we performed fuzz testing on DRM using syzkaller, we encountered
-the following hard lockup issue:
 
-Kernel panic - not syncing: Hard LOCKUP
-CPU: 3 PID: 0 Comm: swapper/3 Not tainted 6.6.0+ #21
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
-Call Trace:
- <IRQ>
- hrtimer_cancel+0x52/0x70 kernel/time/hrtimer.c:1449
- __disable_vblank drivers/gpu/drm/drm_vblank.c:434 [inline]
- drm_vblank_disable_and_save+0x27f/0x3c0 drivers/gpu/drm/drm_vblank.c:478
- vblank_disable_fn+0x15d/0x1b0 drivers/gpu/drm/drm_vblank.c:495
- call_timer_fn+0x39/0x280 kernel/time/timer.c:1700
- expire_timers+0x22d/0x3c0 kernel/time/timer.c:1751
- __run_timers kernel/time/timer.c:2022 [inline]
- run_timer_softirq+0x315/0x8a0 kernel/time/timer.c:2035
- handle_softirqs+0x195/0x580 kernel/softirq.c:553
- __do_softirq kernel/softirq.c:587 [inline]
- </IRQ>
+--heio2mtmzyxze2l7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/virtio: implement virtio_gpu_shutdown
+MIME-Version: 1.0
 
-This is a deadlock issue as follows:
+Hi,
 
-    CPU3				CPU 7
+On Wed, May 07, 2025 at 10:28:21AM +0200, Gerd Hoffmann wrote:
+> Calling drm_dev_unplug() is the drm way to say the device
+> is gone and can not be accessed any more.
+>=20
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Tested-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virti=
+o/virtgpu_drv.c
+> index e32e680c7197..71c6ccad4b99 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> @@ -130,10 +130,10 @@ static void virtio_gpu_remove(struct virtio_device =
+*vdev)
+> =20
+>  static void virtio_gpu_shutdown(struct virtio_device *vdev)
+>  {
+> -	/*
+> -	 * drm does its own synchronization on shutdown.
+> -	 * Do nothing here, opt out of device reset.
+> -	 */
+> +	struct drm_device *dev =3D vdev->priv;
+> +
+> +	/* stop talking to the device */
+> +	drm_dev_unplug(dev);
 
-vblank_disable_fn()
-  drm_vblank_disable_and_save()
-  spin_lock(vblank_time_lock)
-				hrtimer_interrupt()
-				  vkms_vblank_simulate()
-				    drm_handle_vblank()
-				      // wait for CPU3 to release vblank_time_lock
-				      spin_lock(vblank_time_lock)
-    vkms_disable_vblank()
-      // wait for vblank_hrtimer on CPU7 to finish
-      hrtimer_cancel(vblank_hrtimer)
+I'm not necessarily opposed to using drm_dev_unplug() here, but it's
+still pretty surprising to me. It's typically used in remove, not
+shutdown. The typical helper to use at shutdown is
+drm_atomic_helper_shutdown.
 
-The call of hrtimer_cancel() has hold vblank_time_lock which would prevent
-completion of the hrtimer's callback function.
+So if the latter isn't enough or wrong, we should at least document why.
 
-Therefore, in drm_handle_vblank(), we move the check for the
-vblank->enabled variable to the time when vblank_time_lock() is acquired.
-If the CRTC event has already been canceled, the drm_handle_vblank() will
-be terminated and will no longer attempt to acquire vblank_time_lock.
+Maxime
 
-In the same time, in drm_vblank_disable_and_save(), we set vblank->enabled
-to disable before calling hrtimer_cancel() to avoid endless waiting in
-hrtimer_cancel_wait_running().
+--heio2mtmzyxze2l7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Fixes: 27641c3f003e ("drm/vblank: Add support for precise vblank timestamping.")
-Signed-off-by: Zeng Heng <zengheng4@huawei.com>
----
- drivers/gpu/drm/drm_vblank.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 78958ddf8485..56b80e5ede2a 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -471,6 +471,8 @@ void drm_vblank_disable_and_save(struct drm_device *dev, unsigned int pipe)
- 	if (!vblank->enabled)
- 		goto out;
- 
-+	vblank->enabled = false;
-+
- 	/*
- 	 * Update the count and timestamp to maintain the
- 	 * appearance that the counter has been ticking all along until
-@@ -479,7 +481,6 @@ void drm_vblank_disable_and_save(struct drm_device *dev, unsigned int pipe)
- 	 */
- 	drm_update_vblank_count(dev, pipe, false);
- 	__disable_vblank(dev, pipe);
--	vblank->enabled = false;
- 
- out:
- 	spin_unlock_irqrestore(&dev->vblank_time_lock, irqflags);
-@@ -1932,14 +1933,13 @@ bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe)
- 	 * vblank enable/disable, as this would cause inconsistent
- 	 * or corrupted timestamps and vblank counts.
- 	 */
--	spin_lock(&dev->vblank_time_lock);
--
--	/* Vblank irq handling disabled. Nothing to do. */
--	if (!vblank->enabled) {
--		spin_unlock(&dev->vblank_time_lock);
--		spin_unlock_irqrestore(&dev->event_lock, irqflags);
--		return false;
--	}
-+	do {
-+		/* Vblank irq handling disabled. Nothing to do. */
-+		if (!vblank->enabled) {
-+			spin_unlock_irqrestore(&dev->event_lock, irqflags);
-+			return false;
-+		}
-+	} while (!spin_trylock(&dev->vblank_time_lock));
- 
- 	drm_update_vblank_count(dev, pipe, true);
- 
--- 
-2.25.1
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaB8jcAAKCRAnX84Zoj2+
+duddAYDhtj3E5iLvtJE0ExfR3YSefUln3girrNWJDNmuwHDv700fcFh2eNBGOWJy
+94rqjtoBfRpekvvA/QLKNQlgDgV2cxs7yw1z4vpWWmJ/RQAgNfXyMUxiepy/DCAJ
+GQrxfPQIlw==
+=QWHu
+-----END PGP SIGNATURE-----
 
+--heio2mtmzyxze2l7--
