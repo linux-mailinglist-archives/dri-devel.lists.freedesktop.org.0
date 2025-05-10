@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74F8AB22AA
-	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 10:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BB7AB22B6
+	for <lists+dri-devel@lfdr.de>; Sat, 10 May 2025 10:58:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E29B910E236;
-	Sat, 10 May 2025 08:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 713BF10E23B;
+	Sat, 10 May 2025 08:58:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E/QyRyCj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hn3ETCkg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 836C810E20D;
- Sat, 10 May 2025 08:57:34 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E52BB10E20D;
+ Sat, 10 May 2025 08:58:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4BC2244984;
- Sat, 10 May 2025 08:57:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75D51C4CEE2;
- Sat, 10 May 2025 08:57:33 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2994BA4D7AC;
+ Sat, 10 May 2025 08:58:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FDE7C4CEE2;
+ Sat, 10 May 2025 08:58:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1746867454;
- bh=tC3B6hWsBtkSvoNTvU5ELZanQvPAvCpKhKJcyglbi24=;
+ s=k20201202; t=1746867505;
+ bh=KQZXL+8mSvjE/ffDNqcBTcqjRRAsjW7xKRH4V1Yhz3g=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=E/QyRyCjQphAbk+XXHUyHfDNKmqmLP+fuKyiBUaBSJRMgWKbK/BxB7kKCVlCkUAee
- KhWHZtXMZZK9YSL7YUmJ7wbmISnbxDgtTas6rIsC3ecP9wZ42phK5mWeaVpWo7vTCc
- kQOtHS/RZ/pBNIKo17v9GVx/ObRAldtbTdWtQQ9Lta8JE0EA05s1O1eK9D1/HOAOcS
- spYDNQL96vakm3C6AWadK1lfJHemYZMCEb+7VVpt0SKbwqmW1SZxzs/gbaYNIPU9Mi
- RGQvM14XS5y6lxUNpazE6YnmVhQNJ9V2cyeynUyYhacCXQoMuhVprp98y3ZsoEqUtp
- PYvNgc9vtzD0Q==
-Message-ID: <c264afd17fb81a5c39e4de6eb903d05b@kernel.org>
-Date: Sat, 10 May 2025 08:57:30 +0000
+ b=Hn3ETCkgrLKLiIMOIHgmHZ0GK9SwwrPLV0AORbbNC7iRm8NgjaFFdGZDc4Dtk2Vkb
+ ILpF5jgJemxZm3tBLCXYuylreXKQOedbjrYPf0dX0D8Gwil+GrvA0d/N+MjuTsSPi0
+ pPXGD42cx5PYor7h5EmMwlIF4f95fjfhiVhe/LB/cRGe/t9k+6FmfPtxcc5lPcfE33
+ 53jRp5zSdpPN5PTvZm6DUFfd/lZcF7sQUUw97FMRgTz2HVr2bOvL/wyG6QmRSnCVOS
+ bRBedGbL4x3zcX/cDykTDe+pno5Sl0lYyGXnm97mAT/4Iy50StfDILe1nmNMV8bsfE
+ 2UD6ihELv+fDQ==
+Message-ID: <5573173c96551b51def2ec8806f297be@kernel.org>
+Date: Sat, 10 May 2025 08:58:22 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 17/22] drm: zynqmp_dp: convert to
+Subject: Re: [PATCH v3 12/22] drm/omap: dss: sdi: convert to
  devm_drm_bridge_alloc() API
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-17-b8bc1f16d7aa@bootlin.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-17-b8bc1f16d7aa@bootlin.com>
+In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-12-b8bc1f16d7aa@bootlin.com>
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-12-b8bc1f16d7aa@bootlin.com>
 Cc: asahi@lists.linux.dev, chrome-platform@lists.linux.dev,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  imx@lists.linux.dev, linux-amlogic@lists.infradead.org,
@@ -54,14 +54,14 @@ Cc: asahi@lists.linux.dev, chrome-platform@lists.linux.dev,
  Estevam" <festevam@gmail.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Jagan
  Teki" <jagan@amarulasolutions.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
  "Jonas
- Karlman" <jonas@kwiboo.se>, "Krzysztof Kozlowski" <krzk@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>, "Maarten
+ Karlman" <jonas@kwiboo.se>, "Krzysztof Kozlowski" <krzk@kernel.org>, "Kuninori
+ Morimoto" <kuninori.morimoto.gx@renesas.com>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Maarten
  Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>, "Michal
- Simek" <michal.simek@amd.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Paul Kocialkowski" <paulk@sys-base.io>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Robert
+ "Maxime Ripard" <mripard@kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Paul Kocialkowski" <paulk@sys-base.io>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+ =?utf-8?b?Um9iIEhlcnJpbmcgKEFybSk=?= <robh@kernel.org>, "Robert
  Foss" <rfoss@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Shawn
  Guo" <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
  Petazzoni" <thomas.petazzoni@bootlin.com>,
@@ -83,12 +83,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 9 May 2025 15:53:43 +0200, Luca Ceresoli wrote:
+On Fri, 9 May 2025 15:53:38 +0200, Luca Ceresoli wrote:
 > This is the new API for allocating DRM bridges.
 >=20
-> This driver has a peculiar structure. zynqmp_dpsub.c is the actual driver,
-> which delegates to a submodule (zynqmp_dp.c) the allocation of a
-> sub-structure embedding the drm_bridge and its initialization, however it
+> Switching from a non-devm to a devm allocation allows removing the kfree()
+> in the remove function and in the probe error management code, and as a
+> consequence to simplify the code flow by removing now unnecessary gotos.
 >=20
 > [ ... ]
 
